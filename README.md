@@ -108,7 +108,7 @@ When building a library be careful to also build its dependencies.
 * **HOU_OPT_BUILD_<LibraryIdentifier>_TESTS**: if set, the tests for the corresponding library will be built.
 If unset, the tests will not be built.
 Be careful to build the corresponding library when building the relative tests.
-To build the tests you must have downloaded and built the [gtest library](https://github.com/google/googletest).
+To build the tests you must have downloaded and built the gtest library.
 CMake will try to detect the path to the gtest library and the gtest header files by itself.
 In case it cannot do this, you can manually set **LIB_GOOGLE_TEST** to the path to the library and **LIB_GOOGLE_TEST_INCLUDE_DIR** to the path to the library headers.
 
@@ -116,7 +116,7 @@ In case it cannot do this, you can manually set **LIB_GOOGLE_TEST** to the path 
 If unset, the demo applications will not be built.
 When building the demo applications, pay attention to build all of the Houzi Game Engine libraries.
 
-* **HOU_OPT_BUILD_OPENAL_SOFT**: if set, [OpenALSoft](https://github.com/kcat/openal-soft) will be built and used as the low-level sound library.
+* **HOU_OPT_BUILD_OPENAL_SOFT**: if set, OpenALSoft will be built and used as the low-level sound library.
 If unset, CMake will try to detect the path to an installed OpenAL library implementation and its headers.
 In case it cannot do this, you can manually set **LIB_OPENAL** to the path to the library and **LIB_OPENAL_INCLUDE_DIR** to the path to the library headers.
 When building OpenALSoft, refer to the OpenALSoft documentation for details about the configuration.
@@ -164,7 +164,7 @@ doxygen Doxyfile
 
 
 ## Copyright and license
-The Houzi Game Engine is distributed under the [MIT License](https://github.com/DavideCorradiDev/houzi-game-engine/LICENSE).
+The Houzi Game Engine is distributed under the [MIT License](LICENSE).
 
-Copyright and license information for the third-party libraries used in the Houzi Engine can be found [here](https://github.com/DavideCorradiDev/houzi-game-engine/THIRD-PARTY-LICENSES.md).
+Copyright and license information for the third-party libraries used in the Houzi Engine can be found [here](THIRD-PARTY-LICENSES.md).
 
