@@ -1,0 +1,130 @@
+SET(LIB_VORBIS_OUTPUT_DIR ${CMAKE_BINARY_DIR})
+
+set(VORBIS_PUBLIC_HEADERS
+    ../include/vorbis/codec.h
+    ../include/vorbis/vorbisenc.h
+    ../include/vorbis/vorbisfile.h
+)
+
+set(VORBIS_HEADERS
+    envelope.h
+    lpc.h
+    lsp.h
+    codebook.h
+    misc.h
+    psy.h
+    masking.h
+    os.h
+    mdct.h
+    smallft.h
+    highlevel.h
+    registry.h
+    scales.h
+    window.h
+    lookup.h
+    lookup_data.h
+    codec_internal.h
+    backends.h
+    bitrate.h
+)
+
+set(VORBIS_SOURCES
+    mdct.c
+    smallft.c
+    block.c
+    envelope.c
+    window.c
+    lsp.c
+    lpc.c
+    analysis.c
+    synthesis.c
+    psy.c
+    info.c
+    floor1.c
+    floor0.c
+    res0.c
+    mapping0.c
+    registry.c
+    codebook.c
+    sharedbook.c
+    lookup.c
+    bitrate.c
+)
+
+set(VORBISFILE_SOURCES
+    vorbisfile.c
+)
+
+set(VORBISENC_SOURCES
+    vorbisenc.c
+)
+
+if(MSVC)
+    list(APPEND VORBIS_SOURCES ../win32/vorbis.def)
+    list(APPEND VORBISENC_SOURCES ../win32/vorbisenc.def)
+    list(APPEND VORBISFILE_SOURCES ../win32/vorbisfile.def)
+endif()
+
+if(WIN32)
+    list(APPEND VORBIS_SOURCES vorbisenc.c)
+endif()
+
+include_directories(../include)
+include_directories(.)
+include_directories(${LIB_OGG_SOURCE_DIR}/include)
+
+if (NOT BUILD_FRAMEWORK)
+    add_library(${LIB_VORBIS} STATIC ${VORBIS_HEADERS} ${VORBIS_SOURCES})
+    add_library(${LIB_VORBISENC} STATIC ${VORBISENC_SOURCES})
+    add_library(${LIB_VORBISFILE} STATIC ${VORBISFILE_SOURCES})
+
+    get_version_info(VORBIS_VERSION_INFO "V_LIB_CURRENT" "V_LIB_AGE" "V_LIB_REVISION")
+    set_target_properties(${LIB_VORBIS} PROPERTIES SOVERSION ${VORBIS_VERSION_INFO})
+    get_version_info(VORBISENC_VERSION_INFO "VE_LIB_CURRENT" "VE_LIB_AGE" "VE_LIB_REVISION")
+    set_target_properties(${LIB_VORBISENC} PROPERTIES SOVERSION ${VORBISENC_VERSION_INFO})
+    get_version_info(VORBISFILE_VERSION_INFO "VF_LIB_CURRENT" "VF_LIB_AGE" "VF_LIB_REVISION")
+    set_target_properties(${LIB_VORBISFILE} PROPERTIES SOVERSION ${VORBISFILE_VERSION_INFO})
+
+    SET_TARGET_PROPERTIES(${LIB_VORBIS} PROPERTIES
+      ARCHIVE_OUTPUT_DIRECTORY ${LIB_VORBIS_OUTPUT_DIR}
+      LIBRARY_OUTPUT_DIRECTORY ${LIB_VORBIS_OUTPUT_DIR}
+      RUNTIME_OUTPUT_DIRECTORY ${LIB_VORBIS_OUTPUT_DIR}
+    )
+    SET_TARGET_PROPERTIES(${LIB_VORBISENC} PROPERTIES
+      ARCHIVE_OUTPUT_DIRECTORY ${LIB_VORBIS_OUTPUT_DIR}
+      LIBRARY_OUTPUT_DIRECTORY ${LIB_VORBIS_OUTPUT_DIR}
+      RUNTIME_OUTPUT_DIRECTORY ${LIB_VORBIS_OUTPUT_DIR}
+    )
+    SET_TARGET_PROPERTIES(${LIB_VORBISFILE} PROPERTIES
+      ARCHIVE_OUTPUT_DIRECTORY ${LIB_VORBIS_OUTPUT_DIR}
+      LIBRARY_OUTPUT_DIRECTORY ${LIB_VORBIS_OUTPUT_DIR}
+      RUNTIME_OUTPUT_DIRECTORY ${LIB_VORBIS_OUTPUT_DIR}
+    )
+
+    target_link_libraries(${LIB_VORBIS} ${LIB_OGG})
+    target_link_libraries(${LIB_VORBISENC} ${LIB_OGG} ${LIB_VORBIS})
+    target_link_libraries(${LIB_VORBISFILE} ${LIB_OGG} ${LIB_VORBIS})
+
+    install(FILES ${VORBIS_PUBLIC_HEADERS} DESTINATION ${CMAKE_INSTALL_FULL_INCLUDEDIR}/vorbis)
+
+    install(TARGETS ${LIB_VORBIS}     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} FRAMEWORK DESTINATION ${CMAKE_INSTALL_LIBDIR})
+    install(TARGETS ${LIB_VORBISEND}  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} FRAMEWORK DESTINATION ${CMAKE_INSTALL_LIBDIR})
+    install(TARGETS ${LIB_VORBISFILE} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} FRAMEWORK DESTINATION ${CMAKE_INSTALL_LIBDIR})
+else()
+    if(OPT_BUILD_STATIC)
+      add_library(${LIBVORBIS} STATIC ${VORBIS_PUBLIC_HEADERS} ${VORBIS_HEADERS} ${VORBIS_SOURCES} ${VORBISFILE_SOURCES} ${VORBISENC_SOURCES})
+    else()
+      add_library(${LIBVORBIS} SHARED ${VORBIS_PUBLIC_HEADERS} ${VORBIS_HEADERS} ${VORBIS_SOURCES} ${VORBISFILE_SOURCES} ${VORBISENC_SOURCES})
+    endif()
+    set_target_properties(vorbis PROPERTIES
+        FRAMEWORK TRUE
+        FRAMEWORK_VERSION ${PROJECT_VERSION}
+        MACOSX_FRAMEWORK_IDENTIFIER org.xiph.vorbis
+        MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${PROJECT_VERSION}
+        MACOSX_FRAMEWORK_BUNDLE_VERSION ${PROJECT_VERSION}
+        XCODE_ATTRIBUTE_INSTALL_PATH "@rpath"
+        PUBLIC_HEADER "${VORBIS_PUBLIC_HEADERS}"
+        OUTPUT_NAME Vorbis
+    )
+    target_link_libraries(vorbis ${OGG_LIBRARIES})
+endif()
