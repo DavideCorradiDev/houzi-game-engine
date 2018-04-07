@@ -30,3 +30,16 @@
 *.exe
 *.out
 *.app
+
+# Sub-Folders
+build*/
+html/
+latex/
+
+# Backup files
+*.bak
+
+# Tag files
+tags
+tags.lock
+tags.temp

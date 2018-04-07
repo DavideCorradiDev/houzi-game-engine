@@ -1,0 +1,55 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 3.3)
+MESSAGE(STATUS "--- Configuring target ${LIB_SOIL} ---")
+
+
+
+# Options
+
+
+
+# Output dir
+SET(LIB_SOIL_OUTPUT_DIR ${CMAKE_BINARY_DIR})
+MESSAGE(STATUS "Output dir: ${LIB_SOIL_OUTPUT_DIR}")
+
+
+
+# Definitions
+
+
+
+# Include directories
+INCLUDE_DIRECTORIES(${LIB_SOIL_INCLUDE_DIR}/soil)
+
+
+
+# Source files
+SET(LIB_SOIL_SRC
+  src/soil/image_DXT.c
+  src/soil/image_helper.c
+  src/soil/stb_image_aug.c
+  src/soil/SOIL.c
+)
+
+
+
+# Linked libraries
+IF(WIN32)
+  SET(LIB_SOIL_LIB
+    opengl32
+  )
+ENDIF()
+MESSAGE(STATUS "Linked libs: ${LIB_SOIL_LIB}")
+
+
+# Add targets
+ADD_LIBRARY(${LIB_SOIL} STATIC ${LIB_SOIL_SRC})
+SET_TARGET_PROPERTIES(${LIB_SOIL} PROPERTIES
+  COMPILE_FLAGS "-w"
+  ARCHIVE_OUTPUT_DIRECTORY ${LIB_SOIL_OUTPUT_DIR}
+  LIBRARY_OUTPUT_DIRECTORY ${LIB_SOIL_OUTPUT_DIR}
+  RUNTIME_OUTPUT_DIRECTORY ${LIB_SOIL_OUTPUT_DIR}
+)
+TARGET_LINK_LIBRARIES(${LIB_SOIL} ${LIB_SOIL_LIB})
+
+MESSAGE(STATUS "")
+
