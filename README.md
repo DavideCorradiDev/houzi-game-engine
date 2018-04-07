@@ -150,6 +150,8 @@ mingw32-make
 
 
 ## Documentation
+The documentation for the latest version of the Houzi Game Engine can be found [here](https://davidecorradidev.github.io/houzi-game-engine/).
+
 The documentation can be generated with [Doxygen](http://www.stack.nl/~dimitri/doxygen/).
 Simply run the following command from the project root folder:
 
