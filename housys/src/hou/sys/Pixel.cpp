@@ -24,6 +24,22 @@ uint8_t averageChannels(uint8_t r, uint8_t g, uint8_t b)
 
 }  // namespace
 
+
+
+template <PixelFormat format>
+PixelFormat Pixel<format>::getFormat()
+{
+  return format;
+}
+
+
+
+template <PixelFormat format>
+uint Pixel<format>::getByteCount()
+{
+  return getPixelFormatByteCount(format);
+}
+
 template <PixelFormat format>
 Pixel<format>::Pixel()
   : mChannels()
@@ -409,4 +425,3 @@ INSTANTIATE_CHANNEL_FUNCTIONS(PixelFormat::RGBA, B)
 INSTANTIATE_CHANNEL_FUNCTIONS(PixelFormat::RGBA, A)
 
 }  // namespace hou
-

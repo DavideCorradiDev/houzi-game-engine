@@ -13,13 +13,18 @@ using namespace testing;
 namespace
 {
 
-class TestPixel : public Test {};
-class TestPixelR : public TestPixel {};
-class TestPixelRG : public TestPixel {};
-class TestPixelRGB : public TestPixel {};
-class TestPixelRGBA : public TestPixel {};
+class TestPixel : public Test
+{};
+class TestPixelR : public TestPixel
+{};
+class TestPixelRG : public TestPixel
+{};
+class TestPixelRGB : public TestPixel
+{};
+class TestPixelRGBA : public TestPixel
+{};
 
-}
+}  // namespace
 
 
 
@@ -226,7 +231,6 @@ TEST_F(TestPixelRG, Comparison)
   EXPECT_FALSE(p0 != p1);
   EXPECT_TRUE(p0 != p2);
   EXPECT_TRUE(p0 != p3);
-
 }
 
 
@@ -552,4 +556,3 @@ TEST_F(TestPixelRGBA, OutputStreamOperator)
   const char* outputRef = "{R = 1, G = 2, B = 3, A = 4}";
   HOU_EXPECT_OUTPUT(outputRef, pixel);
 }
-
