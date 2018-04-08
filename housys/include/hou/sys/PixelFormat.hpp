@@ -7,6 +7,8 @@
 
 #include "hou/sys/SysExport.hpp"
 
+#include "hou/cor/BasicTypes.hpp"
+
 #include <iostream>
 
 
@@ -35,24 +37,15 @@ enum class PixelFormat
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, PixelFormat format);
 
-constexpr size_t getPixelFormatByteCount(PixelFormat format)
-{
-  switch(format)
-  {
-    case PixelFormat::R:
-      return 1u;
-    case PixelFormat::RG:
-      return 2u;
-    case PixelFormat::RGB:
-      return 3u;
-    case PixelFormat::RGBA:
-      return 4u;
-    default:
-      return 1u;
-  };
-}
+/** Returns the number of bytes of a pixel with the given format.
+ *
+ *  \param format the PixelFormat.
+ *  \return the number of bytes.
+ */
+constexpr uint getPixelFormatByteCount(PixelFormat format);
 
-}
+}  // namespace hou
+
+#include "hou/sys/PixelFormat.inl"
 
 #endif
-
