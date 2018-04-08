@@ -23,7 +23,7 @@ namespace hou
  *  \tparam format the pixel format.
  */
 template <PixelFormat format>
-class HOU_SYS_API Pixel
+class HOU_SYS_API PixelT
 {
 public:
   /** Retrieves the format of the pixel.
@@ -43,7 +43,7 @@ public:
    *
    *  Initializes all channels to 0.
    */
-  Pixel();
+  PixelT();
 
   /** Channel constructor.
    *
@@ -55,7 +55,7 @@ public:
    */
   template <PixelFormat f = format,
     typename Enable = std::enable_if_t<f == PixelFormat::R>>
-  HOU_SYS_API Pixel(uint8_t r);
+  HOU_SYS_API PixelT(uint8_t r);
 
   /** Channel constructor.
    *
@@ -68,7 +68,7 @@ public:
    */
   template <PixelFormat f = format,
     typename Enable = std::enable_if_t<f == PixelFormat::RG>>
-  HOU_SYS_API Pixel(uint8_t r, uint8_t g);
+  HOU_SYS_API PixelT(uint8_t r, uint8_t g);
 
   /** Channel constructor.
    *
@@ -82,7 +82,7 @@ public:
    */
   template <PixelFormat f = format,
     typename Enable = std::enable_if_t<f == PixelFormat::RGB>>
-  HOU_SYS_API Pixel(uint8_t r, uint8_t g, uint8_t b);
+  HOU_SYS_API PixelT(uint8_t r, uint8_t g, uint8_t b);
 
   /** Channel constructor.
    *
@@ -97,7 +97,7 @@ public:
    */
   template <PixelFormat f = format,
     typename Enable = std::enable_if_t<f == PixelFormat::RGBA>>
-  HOU_SYS_API Pixel(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
+  HOU_SYS_API PixelT(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 
   /** Color constructor.
    *
@@ -109,7 +109,7 @@ public:
    */
   template <PixelFormat f = format,
     typename Enable = std::enable_if_t<f == PixelFormat::RGBA>>
-  HOU_SYS_API Pixel(const Color &c);
+  HOU_SYS_API PixelT(const Color &c);
 
   /** Format conversion constructor.
    *
@@ -132,7 +132,7 @@ public:
    */
   template <PixelFormat otherFormat,
     typename Enable = std::enable_if_t<otherFormat != format>>
-  HOU_SYS_API Pixel(const Pixel<otherFormat> &other);
+  HOU_SYS_API PixelT(const PixelT<otherFormat> &other);
 
   /** Retrieves the value of the red channel of the pixel.
    *
@@ -278,7 +278,7 @@ public:
    *  \param rhs the right operand.
    *  \return the result of the check.
    */
-  friend bool operator==(const Pixel &lhs, const Pixel &rhs)
+  friend bool operator==(const PixelT &lhs, const PixelT &rhs)
   {
     return lhs.mChannels == rhs.mChannels;
   }
@@ -289,7 +289,7 @@ public:
    *  \param rhs the right operand.
    *  \return the result of the check.
    */
-  friend bool operator!=(const Pixel &lhs, const Pixel &rhs)
+  friend bool operator!=(const PixelT &lhs, const PixelT &rhs)
   {
     return lhs.mChannels != rhs.mChannels;
   }
@@ -307,7 +307,7 @@ private:
  */
 template <PixelFormat format>
 HOU_SYS_API std::ostream &operator<<(
-  std::ostream &os, const Pixel<format> &pixel);
+  std::ostream &os, const PixelT<format> &pixel);
 }  // namespace hou
 
 #endif

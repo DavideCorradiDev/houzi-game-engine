@@ -29,7 +29,7 @@ class HOU_SYS_API Image
 public:
   using Size = Vec<uint, dim>;
   using Coordinates = Size;
-  using Pixel = Pixel<fmt>;
+  using Pixel = PixelT<fmt>;
   using PixelCollection = std::vector<Pixel>;
 
   template <size_t otherDim, PixelFormat otherFmt>
@@ -171,7 +171,7 @@ HOU_SYS_API Image2<fmt> jpgReadFile(const std::string& path);
 template <size_t dim, PixelFormat fmt>
 Span<const uint8_t> byteSpan(const Image<dim, fmt>& im);
 template <PixelFormat fmt>
-Span<const Pixel<fmt>> pixelSpan(const Span<const uint8_t>& bytes);
+Span<const PixelT<fmt>> pixelSpan(const Span<const uint8_t>& bytes);
 
 }  // namespace hou
 

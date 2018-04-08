@@ -1070,7 +1070,7 @@ void TextureTemplate<TextureType::Texture3>::setSubImage(
 
 template <TextureType type>
 template <PixelFormat fmt, TextureType t, typename Enable>
-void TextureTemplate<type>::clear(const Pixel<fmt>& pixel)
+void TextureTemplate<type>::clear(const PixelT<fmt>& pixel)
 {
   setImage(Image<fmt>(getSize(), pixel));
 }
@@ -1231,7 +1231,7 @@ void TextureTemplate<type>::generateMipMap()
   template void TextureTemplate<tt>::setSubImage<pf, tt, void>(                \
     const TextureTemplate<tt>::Coordinates&,                                   \
     const TextureTemplate<tt>::Image<pf>&);                                    \
-  template void TextureTemplate<tt>::clear<pf, tt, void>(const Pixel<pf>&);    \
+  template void TextureTemplate<tt>::clear<pf, tt, void>(const PixelT<pf>&);   \
   template TextureTemplate<tt>::Image<pf>                                      \
     TextureTemplate<tt>::getMipMapImage<pf, tt, void>(uint) const;
 

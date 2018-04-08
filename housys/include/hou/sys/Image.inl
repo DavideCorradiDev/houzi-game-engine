@@ -40,11 +40,11 @@ Span<const uint8_t> byteSpan(const Image<dim, fmt>& im)
 
 
 template <PixelFormat fmt>
-Span<const Pixel<fmt>> pixelSpan(const Span<const uint8_t>& bytes)
+Span<const PixelT<fmt>> pixelSpan(const Span<const uint8_t>& bytes)
 {
-  return Span<const Pixel<fmt>>(
-    reinterpret_cast<const Pixel<fmt>*>(bytes.data()),
-    bytes.size() / Pixel<fmt>::getByteCount());
+  return Span<const PixelT<fmt>>(
+    reinterpret_cast<const PixelT<fmt>*>(bytes.data()),
+    bytes.size() / PixelT<fmt>::getByteCount());
 }
 
 }
