@@ -45,8 +45,6 @@ public:
   Image(const Size& size);
   Image(const Size& size, const Pixel& pixel);
   Image(const Size& size, const Span<const Pixel>& pixels);
-  // to be tested
-  Image(const Size& size, const Span<const uint8_t>& bytes);
   // Test conversions with different sizes.
   template <size_t otherDim, PixelFormat otherFmt,
     typename Enable = std::enable_if_t<(otherFmt != fmt || otherDim != dim)
@@ -165,13 +163,6 @@ HOU_SYS_API bool jpgCheckFile(const std::string& path);
  */
 template <PixelFormat fmt>
 HOU_SYS_API Image2<fmt> jpgReadFile(const std::string& path);
-
-
-// Temp, remove these later.
-template <size_t dim, PixelFormat fmt>
-Span<const uint8_t> byteSpan(const Image<dim, fmt>& im);
-template <PixelFormat fmt>
-Span<const PixelT<fmt>> pixelSpan(const Span<const uint8_t>& bytes);
 
 }  // namespace hou
 

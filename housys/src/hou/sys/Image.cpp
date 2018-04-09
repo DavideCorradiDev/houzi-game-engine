@@ -445,15 +445,6 @@ Image<dim, fmt>::Image(const Size& size, const Span<const Pixel>& pixels)
 
 
 template <size_t dim, PixelFormat fmt>
-Image<dim, fmt>::Image(const Size& size, const Span<const uint8_t>& bytes)
-  : Image(size,
-      Span<const Pixel>(reinterpret_cast<const Pixel*>(bytes.data()),
-        bytes.size() / sizeof(Pixel)))
-{}
-
-
-
-template <size_t dim, PixelFormat fmt>
 template <size_t otherDim, PixelFormat otherFmt, typename Enable>
 Image<dim, fmt>::Image(const Image<otherDim, otherFmt>& other)
   : mSize(padVector<dim>(other.getSize(), 1u))
