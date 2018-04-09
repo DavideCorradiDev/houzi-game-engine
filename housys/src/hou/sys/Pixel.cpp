@@ -26,24 +26,24 @@ uint8_t averageChannels(uint8_t r, uint8_t g, uint8_t b)
 
 
 
-template <PixelFormat format>
-PixelFormat PixelT<format>::getFormat()
+template <PixelFormat pf>
+PixelFormat PixelT<pf>::getFormat()
 {
-  return format;
+  return pf;
 }
 
 
 
-template <PixelFormat format>
-uint PixelT<format>::getByteCount()
+template <PixelFormat pf>
+uint PixelT<pf>::getByteCount()
 {
-  return getPixelFormatByteCount(format);
+  return getPixelFormatByteCount(pf);
 }
 
 
 
-template <PixelFormat format>
-PixelT<format>::PixelT()
+template <PixelFormat pf>
+PixelT<pf>::PixelT()
   : mChannels()
 {
   mChannels.fill(0u);
@@ -51,41 +51,41 @@ PixelT<format>::PixelT()
 
 
 
-template <PixelFormat format>
+template <PixelFormat pf>
 template <PixelFormat f, typename Enable>
-PixelT<format>::PixelT(uint8_t r)
+PixelT<pf>::PixelT(uint8_t r)
   : mChannels{r}
 {}
 
 
 
-template <PixelFormat format>
+template <PixelFormat pf>
 template <PixelFormat f, typename Enable>
-PixelT<format>::PixelT(uint8_t r, uint8_t g)
+PixelT<pf>::PixelT(uint8_t r, uint8_t g)
   : mChannels{r, g}
 {}
 
 
 
-template <PixelFormat format>
+template <PixelFormat pf>
 template <PixelFormat f, typename Enable>
-PixelT<format>::PixelT(uint8_t r, uint8_t g, uint8_t b)
+PixelT<pf>::PixelT(uint8_t r, uint8_t g, uint8_t b)
   : mChannels{r, g, b}
 {}
 
 
 
-template <PixelFormat format>
+template <PixelFormat pf>
 template <PixelFormat f, typename Enable>
-PixelT<format>::PixelT(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+PixelT<pf>::PixelT(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
   : mChannels{r, g, b, a}
 {}
 
 
 
-template <PixelFormat format>
+template <PixelFormat pf>
 template <PixelFormat f, typename Enable>
-PixelT<format>::PixelT(const Color& c)
+PixelT<pf>::PixelT(const Color& c)
   : mChannels{c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()}
 {}
 
@@ -191,88 +191,88 @@ PixelT<PixelFormat::RGBA>::PixelT<PixelFormat::RGB, void>(
 
 
 
-template <PixelFormat format>
-uint8_t PixelT<format>::getR() const
+template <PixelFormat pf>
+uint8_t PixelT<pf>::getR() const
 {
   return mChannels[0];
 }
 
 
 
-template <PixelFormat format>
-void PixelT<format>::setR(uint8_t value)
+template <PixelFormat pf>
+void PixelT<pf>::setR(uint8_t value)
 {
   mChannels[0] = value;
 }
 
 
 
-template <PixelFormat format>
+template <PixelFormat pf>
 template <PixelFormat f, typename Enable>
-uint8_t PixelT<format>::getG() const
+uint8_t PixelT<pf>::getG() const
 {
   return mChannels[1];
 }
 
 
 
-template <PixelFormat format>
+template <PixelFormat pf>
 template <PixelFormat f, typename Enable>
-void PixelT<format>::setG(uint8_t value)
+void PixelT<pf>::setG(uint8_t value)
 {
   mChannels[1] = value;
 }
 
 
 
-template <PixelFormat format>
+template <PixelFormat pf>
 template <PixelFormat f, typename Enable>
-uint8_t PixelT<format>::getB() const
+uint8_t PixelT<pf>::getB() const
 {
   return mChannels[2];
 }
 
 
 
-template <PixelFormat format>
+template <PixelFormat pf>
 template <PixelFormat f, typename Enable>
-void PixelT<format>::setB(uint8_t value)
+void PixelT<pf>::setB(uint8_t value)
 {
   mChannels[2] = value;
 }
 
 
 
-template <PixelFormat format>
+template <PixelFormat pf>
 template <PixelFormat f, typename Enable>
-uint8_t PixelT<format>::getA() const
+uint8_t PixelT<pf>::getA() const
 {
   return mChannels[3];
 }
 
 
 
-template <PixelFormat format>
+template <PixelFormat pf>
 template <PixelFormat f, typename Enable>
-void PixelT<format>::setA(uint8_t value)
+void PixelT<pf>::setA(uint8_t value)
 {
   mChannels[3] = value;
 }
 
 
 
-template <PixelFormat format>
+template <PixelFormat pf>
 template <PixelFormat f, typename Enable>
-Color PixelT<format>::getColor() const
+Color PixelT<pf>::getColor() const
 {
   return Color(mChannels[0], mChannels[1], mChannels[2], mChannels[3]);
 }
 
 
 
-template <PixelFormat format>
+template <PixelFormat pf>
 template <PixelFormat f, typename Enable>
-void PixelT<format>::setColor(const Color& c)
+void PixelT<pf>::setColor(const Color& c)
 {
   mChannels[0] = c.getRed();
   mChannels[1] = c.getGreen();
@@ -282,18 +282,18 @@ void PixelT<format>::setColor(const Color& c)
 
 
 
-template <PixelFormat format>
+template <PixelFormat pf>
 template <PixelFormat f, typename Enable>
-void PixelT<format>::set(uint8_t r)
+void PixelT<pf>::set(uint8_t r)
 {
   mChannels[0] = r;
 }
 
 
 
-template <PixelFormat format>
+template <PixelFormat pf>
 template <PixelFormat f, typename Enable>
-void PixelT<format>::set(uint8_t r, uint8_t g)
+void PixelT<pf>::set(uint8_t r, uint8_t g)
 {
   mChannels[0] = r;
   mChannels[1] = g;
@@ -301,9 +301,9 @@ void PixelT<format>::set(uint8_t r, uint8_t g)
 
 
 
-template <PixelFormat format>
+template <PixelFormat pf>
 template <PixelFormat f, typename Enable>
-void PixelT<format>::set(uint8_t r, uint8_t g, uint8_t b)
+void PixelT<pf>::set(uint8_t r, uint8_t g, uint8_t b)
 {
   mChannels[0] = r;
   mChannels[1] = g;
@@ -312,9 +312,9 @@ void PixelT<format>::set(uint8_t r, uint8_t g, uint8_t b)
 
 
 
-template <PixelFormat format>
+template <PixelFormat pf>
 template <PixelFormat f, typename Enable>
-void PixelT<format>::set(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+void PixelT<pf>::set(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 {
   mChannels[0] = r;
   mChannels[1] = g;
