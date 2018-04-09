@@ -13,14 +13,54 @@ using namespace testing;
 namespace
 {
 
+class TestPixelFormat : public Test
+{};
+
+class TestPixelFormatDeathTest : public TestPixelFormat
+{};
+
 class TestPixel : public Test
 {};
+
+template <typename PixelT>
+class TestPixelCommon : public TestPixel
+{};
+
+using PixelTypesCommon = Types<PixelR, PixelRG, PixelRGB, PixelRGBA>;
+
+template <typename PixelT>
+class TestPixelRedChannel : public TestPixel
+{};
+
+using PixelTypesRedChannel = Types<PixelR, PixelRG, PixelRGB, PixelRGBA>;
+
+template <typename PixelT>
+class TestPixelGreenChannel : public TestPixel
+{};
+
+using PixelTypesGreenChannel = Types<PixelRG, PixelRGB, PixelRGBA>;
+
+template <typename PixelT>
+class TestPixelBlueChannel : public TestPixel
+{};
+
+using PixelTypesBlueChannel = Types<PixelRGB, PixelRGBA>;
+
+template <typename PixelT>
+class TestPixelAlphaChannel : public TestPixel
+{};
+
+using PixelTypesAlphaChannel = Types<PixelRGBA>;
+
 class TestPixelR : public TestPixel
 {};
+
 class TestPixelRG : public TestPixel
 {};
+
 class TestPixelRGB : public TestPixel
 {};
+
 class TestPixelRGBA : public TestPixel
 {};
 
@@ -28,16 +68,84 @@ class TestPixelRGBA : public TestPixel
 
 
 
-TEST_F(TestPixelR, GetFormat)
+TYPED_TEST_CASE(TestPixelCommon, PixelTypesCommon);
+TYPED_TEST_CASE(TestPixelRedChannel, PixelTypesRedChannel);
+TYPED_TEST_CASE(TestPixelGreenChannel, PixelTypesGreenChannel);
+TYPED_TEST_CASE(TestPixelBlueChannel, PixelTypesBlueChannel);
+TYPED_TEST_CASE(TestPixelAlphaChannel, PixelTypesAlphaChannel);
+
+
+
+TEST_F(TestPixelFormat, GetPixelFormatByteCount)
 {
-  EXPECT_EQ(PixelFormat::R, PixelR::getFormat());
+  EXPECT_EQ(1u, getPixelFormatByteCount(PixelFormat::R));
+  EXPECT_EQ(2u, getPixelFormatByteCount(PixelFormat::RG));
+  EXPECT_EQ(3u, getPixelFormatByteCount(PixelFormat::RGB));
+  EXPECT_EQ(4u, getPixelFormatByteCount(PixelFormat::RGBA));
 }
 
 
 
-TEST_F(TestPixelR, GetByteCount)
+TEST_F(TestPixelFormatDeathTest, GetPixelFormatByteCountErrorInvalidEnum)
 {
-  EXPECT_EQ(1u, PixelR::getByteCount());
+  int enumVal = 5;
+  HOU_EXPECT_ERROR(getPixelFormatByteCount(PixelFormat(enumVal)),
+    std::logic_error, formatString(getText(CorError::InvalidEnum), enumVal));
+}
+
+
+
+TYPED_TEST(TestPixelCommon, GetByteCount)
+{
+  EXPECT_EQ(
+    getPixelFormatByteCount(TypeParam::getFormat()), TypeParam::getByteCount());
+}
+
+
+
+TYPED_TEST(TestPixelRedChannel, SetR)
+{
+  TypeParam pixel;
+  EXPECT_EQ(0u, pixel.getR());
+  pixel.setR(1u);
+  EXPECT_EQ(1u, pixel.getR());
+}
+
+
+
+TYPED_TEST(TestPixelGreenChannel, SetG)
+{
+  TypeParam pixel;
+  EXPECT_EQ(0u, pixel.getG());
+  pixel.setG(1u);
+  EXPECT_EQ(1u, pixel.getG());
+}
+
+
+
+TYPED_TEST(TestPixelBlueChannel, SetB)
+{
+  TypeParam pixel;
+  EXPECT_EQ(0u, pixel.getB());
+  pixel.setB(1u);
+  EXPECT_EQ(1u, pixel.getB());
+}
+
+
+
+TYPED_TEST(TestPixelAlphaChannel, SetA)
+{
+  TypeParam pixel;
+  EXPECT_EQ(0u, pixel.getA());
+  pixel.setA(1u);
+  EXPECT_EQ(1u, pixel.getA());
+}
+
+
+
+TEST_F(TestPixelR, GetFormat)
+{
+  EXPECT_EQ(PixelFormat::R, PixelR::getFormat());
 }
 
 
@@ -85,15 +193,6 @@ TEST_F(TestPixelR, PixelRGBAConstructor)
 
 
 
-TEST_F(TestPixelR, SetR)
-{
-  PixelR pixel;
-  pixel.setR(1u);
-  EXPECT_EQ(1u, pixel.getR());
-}
-
-
-
 TEST_F(TestPixelR, Set)
 {
   PixelR pixel;
@@ -130,13 +229,6 @@ TEST_F(TestPixelR, OutputStreamOperator)
 TEST_F(TestPixelRG, GetFormat)
 {
   EXPECT_EQ(PixelFormat::RG, PixelRG::getFormat());
-}
-
-
-
-TEST_F(TestPixelRG, GetByteCount)
-{
-  EXPECT_EQ(2u, PixelRG::getByteCount());
 }
 
 
@@ -189,24 +281,6 @@ TEST_F(TestPixelRG, PixelRGBAConstructor)
 
 
 
-TEST_F(TestPixelRG, SetR)
-{
-  PixelRG pixel;
-  pixel.setR(1u);
-  EXPECT_EQ(1u, pixel.getR());
-}
-
-
-
-TEST_F(TestPixelRG, SetG)
-{
-  PixelRG pixel;
-  pixel.setG(1u);
-  EXPECT_EQ(1u, pixel.getG());
-}
-
-
-
 TEST_F(TestPixelRG, Set)
 {
   PixelRG pixel;
@@ -247,13 +321,6 @@ TEST_F(TestPixelRG, OutputStreamOperator)
 TEST_F(TestPixelRGB, GetFormat)
 {
   EXPECT_EQ(PixelFormat::RGB, PixelRGB::getFormat());
-}
-
-
-
-TEST_F(TestPixelRGB, GetByteCount)
-{
-  EXPECT_EQ(3u, PixelRGB::getByteCount());
 }
 
 
@@ -311,33 +378,6 @@ TEST_F(TestPixelRGB, PixelRGBAConstructor)
 
 
 
-TEST_F(TestPixelRGB, SetR)
-{
-  PixelRGB pixel;
-  pixel.setR(1u);
-  EXPECT_EQ(1u, pixel.getR());
-}
-
-
-
-TEST_F(TestPixelRGB, SetG)
-{
-  PixelRGB pixel;
-  pixel.setG(1u);
-  EXPECT_EQ(1u, pixel.getG());
-}
-
-
-
-TEST_F(TestPixelRGB, SetB)
-{
-  PixelRGB pixel;
-  pixel.setB(1u);
-  EXPECT_EQ(1u, pixel.getB());
-}
-
-
-
 TEST_F(TestPixelRGB, Set)
 {
   PixelRGB pixel;
@@ -382,13 +422,6 @@ TEST_F(TestPixelRGB, OutputStreamOperator)
 TEST_F(TestPixelRGBA, GetFormat)
 {
   EXPECT_EQ(PixelFormat::RGBA, PixelRGBA::getFormat());
-}
-
-
-
-TEST_F(TestPixelRGBA, GetByteCount)
-{
-  EXPECT_EQ(4u, PixelRGBA::getByteCount());
 }
 
 
@@ -460,42 +493,6 @@ TEST_F(TestPixelRGBA, PixelRGBConstructor)
   EXPECT_EQ(118u, pxRGBA.getG());
   EXPECT_EQ(93u, pxRGBA.getB());
   EXPECT_EQ(255u, pxRGBA.getA());
-}
-
-
-
-TEST_F(TestPixelRGBA, SetR)
-{
-  PixelRGBA pixel;
-  pixel.setR(1u);
-  EXPECT_EQ(1u, pixel.getR());
-}
-
-
-
-TEST_F(TestPixelRGBA, SetG)
-{
-  PixelRGBA pixel;
-  pixel.setG(1u);
-  EXPECT_EQ(1u, pixel.getG());
-}
-
-
-
-TEST_F(TestPixelRGBA, SetB)
-{
-  PixelRGBA pixel;
-  pixel.setB(1u);
-  EXPECT_EQ(1u, pixel.getB());
-}
-
-
-
-TEST_F(TestPixelRGBA, SetA)
-{
-  PixelRGBA pixel;
-  pixel.setA(1u);
-  EXPECT_EQ(1u, pixel.getA());
 }
 
 
