@@ -40,6 +40,8 @@ uint PixelT<format>::getByteCount()
   return getPixelFormatByteCount(format);
 }
 
+
+
 template <PixelFormat format>
 PixelT<format>::PixelT()
   : mChannels()
@@ -85,6 +87,106 @@ template <PixelFormat format>
 template <PixelFormat f, typename Enable>
 PixelT<format>::PixelT(const Color& c)
   : mChannels{c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()}
+{}
+
+
+
+template <>
+template <>
+PixelT<PixelFormat::R>::PixelT<PixelFormat::RGB, void>(
+  const PixelT<PixelFormat::RGB>& other)
+  : mChannels{averageChannels(other.getR(), other.getG(), other.getB())}
+{}
+
+
+
+template <>
+template <>
+PixelT<PixelFormat::R>::PixelT<PixelFormat::RGBA, void>(
+  const PixelT<PixelFormat::RGBA>& other)
+  : mChannels{averageChannels(other.getR(), other.getG(), other.getB())}
+{}
+
+
+
+template <>
+template <>
+PixelT<PixelFormat::RG>::PixelT<PixelFormat::R, void>(
+  const PixelT<PixelFormat::R>& other)
+  : mChannels{other.getR(), 255u}
+{}
+
+
+
+template <>
+template <>
+PixelT<PixelFormat::RG>::PixelT<PixelFormat::RGB, void>(
+  const PixelT<PixelFormat::RGB>& other)
+  : mChannels{averageChannels(other.getR(), other.getG(), other.getB()), 255u}
+{}
+
+
+
+template <>
+template <>
+PixelT<PixelFormat::RG>::PixelT<PixelFormat::RGBA, void>(
+  const PixelT<PixelFormat::RGBA>& other)
+  : mChannels{
+      averageChannels(other.getR(), other.getG(), other.getB()), other.getA()}
+{}
+
+
+
+template <>
+template <>
+PixelT<PixelFormat::RGB>::PixelT<PixelFormat::R, void>(
+  const PixelT<PixelFormat::R>& other)
+  : mChannels{other.getR(), other.getR(), other.getR()}
+{}
+
+
+
+template <>
+template <>
+PixelT<PixelFormat::RGB>::PixelT<PixelFormat::RG, void>(
+  const PixelT<PixelFormat::RG>& other)
+  : mChannels{other.getR(), other.getR(), other.getR()}
+{}
+
+
+
+template <>
+template <>
+PixelT<PixelFormat::RGB>::PixelT<PixelFormat::RGBA, void>(
+  const PixelT<PixelFormat::RGBA>& other)
+  : mChannels{other.getR(), other.getG(), other.getB()}
+{}
+
+
+
+template <>
+template <>
+PixelT<PixelFormat::RGBA>::PixelT<PixelFormat::R, void>(
+  const PixelT<PixelFormat::R>& other)
+  : mChannels{other.getR(), other.getR(), other.getR(), 255u}
+{}
+
+
+
+template <>
+template <>
+PixelT<PixelFormat::RGBA>::PixelT<PixelFormat::RG, void>(
+  const PixelT<PixelFormat::RG>& other)
+  : mChannels{other.getR(), other.getR(), other.getR(), other.getG()}
+{}
+
+
+
+template <>
+template <>
+PixelT<PixelFormat::RGBA>::PixelT<PixelFormat::RGB, void>(
+  const PixelT<PixelFormat::RGB>& other)
+  : mChannels{other.getR(), other.getG(), other.getB(), 255u}
 {}
 
 
@@ -224,106 +326,6 @@ template <>
 PixelT<PixelFormat::R>::PixelT<PixelFormat::RG, void>(
   const PixelT<PixelFormat::RG>& other)
   : mChannels{other.getR()}
-{}
-
-
-
-template <>
-template <>
-PixelT<PixelFormat::R>::PixelT<PixelFormat::RGB, void>(
-  const PixelT<PixelFormat::RGB>& other)
-  : mChannels{averageChannels(other.getR(), other.getG(), other.getB())}
-{}
-
-
-
-template <>
-template <>
-PixelT<PixelFormat::R>::PixelT<PixelFormat::RGBA, void>(
-  const PixelT<PixelFormat::RGBA>& other)
-  : mChannels{averageChannels(other.getR(), other.getG(), other.getB())}
-{}
-
-
-
-template <>
-template <>
-PixelT<PixelFormat::RG>::PixelT<PixelFormat::R, void>(
-  const PixelT<PixelFormat::R>& other)
-  : mChannels{other.getR(), 255u}
-{}
-
-
-
-template <>
-template <>
-PixelT<PixelFormat::RG>::PixelT<PixelFormat::RGB, void>(
-  const PixelT<PixelFormat::RGB>& other)
-  : mChannels{averageChannels(other.getR(), other.getG(), other.getB()), 255u}
-{}
-
-
-
-template <>
-template <>
-PixelT<PixelFormat::RG>::PixelT<PixelFormat::RGBA, void>(
-  const PixelT<PixelFormat::RGBA>& other)
-  : mChannels{
-      averageChannels(other.getR(), other.getG(), other.getB()), other.getA()}
-{}
-
-
-
-template <>
-template <>
-PixelT<PixelFormat::RGB>::PixelT<PixelFormat::R, void>(
-  const PixelT<PixelFormat::R>& other)
-  : mChannels{other.getR(), other.getR(), other.getR()}
-{}
-
-
-
-template <>
-template <>
-PixelT<PixelFormat::RGB>::PixelT<PixelFormat::RG, void>(
-  const PixelT<PixelFormat::RG>& other)
-  : mChannels{other.getR(), other.getR(), other.getR()}
-{}
-
-
-
-template <>
-template <>
-PixelT<PixelFormat::RGB>::PixelT<PixelFormat::RGBA, void>(
-  const PixelT<PixelFormat::RGBA>& other)
-  : mChannels{other.getR(), other.getG(), other.getB()}
-{}
-
-
-
-template <>
-template <>
-PixelT<PixelFormat::RGBA>::PixelT<PixelFormat::R, void>(
-  const PixelT<PixelFormat::R>& other)
-  : mChannels{other.getR(), other.getR(), other.getR(), 255u}
-{}
-
-
-
-template <>
-template <>
-PixelT<PixelFormat::RGBA>::PixelT<PixelFormat::RG, void>(
-  const PixelT<PixelFormat::RG>& other)
-  : mChannels{other.getR(), other.getR(), other.getR(), other.getG()}
-{}
-
-
-
-template <>
-template <>
-PixelT<PixelFormat::RGBA>::PixelT<PixelFormat::RGB, void>(
-  const PixelT<PixelFormat::RGB>& other)
-  : mChannels{other.getR(), other.getG(), other.getB(), 255u}
 {}
 
 
