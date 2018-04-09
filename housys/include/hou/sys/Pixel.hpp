@@ -7,6 +7,8 @@
 
 #include "hou/sys/SysExport.hpp"
 
+#include "hou/cor/Pragmas.hpp"
+
 #include "hou/sys/Color.hpp"
 #include "hou/sys/PixelFwd.hpp"
 
@@ -14,6 +16,8 @@
 
 namespace hou
 {
+
+HOU_PRAGMA_PACK_PUSH(1)
 
 /** Represents a pixel.
  *
@@ -307,6 +311,8 @@ private:
  */
 template <PixelFormat pf>
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, const PixelT<pf>& pixel);
+
+HOU_PRAGMA_PACK_POP()
 
 }  // namespace hou
 

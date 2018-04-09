@@ -5,7 +5,7 @@
 #include "hou/mth/Rotation2.hpp"
 
 #include "hou/cor/CorUtils.hpp"
-#include "hou/cor/Diagnostics.hpp"
+#include "hou/cor/Pragmas.hpp"
 
 #include "hou/mth/Matrix.hpp"
 #include "hou/mth/MthUtils.hpp"
@@ -153,25 +153,25 @@ template <typename T>
 
 
 
-GCC_DIAGNOSTIC_PUSH()
-GCC_DIAGNOSTIC_IGNORED(-Wfloat-equal)
+HOU_PRAGMA_GCC_DIAGNOSTIC_PUSH()
+HOU_PRAGMA_GCC_DIAGNOSTIC_IGNORED(-Wfloat-equal)
 template <typename T>
   bool operator==(const Rotation2<T>& lhs, const Rotation2<T>& rhs)
 {
   return lhs.getAngle() == rhs.getAngle();
 }
-GCC_DIAGNOSTIC_POP()
+HOU_PRAGMA_GCC_DIAGNOSTIC_POP()
 
 
 
-GCC_DIAGNOSTIC_PUSH()
-GCC_DIAGNOSTIC_IGNORED(-Wfloat-equal)
+HOU_PRAGMA_GCC_DIAGNOSTIC_PUSH()
+HOU_PRAGMA_GCC_DIAGNOSTIC_IGNORED(-Wfloat-equal)
 template <typename T>
   bool operator!=(const Rotation2<T>& lhs, const Rotation2<T>& rhs)
 {
   return lhs.getAngle() != rhs.getAngle();
 }
-GCC_DIAGNOSTIC_POP()
+HOU_PRAGMA_GCC_DIAGNOSTIC_POP()
 
 
 

@@ -103,6 +103,13 @@ TYPED_TEST(TestPixelCommon, GetByteCount)
 
 
 
+TYPED_TEST(TestPixelCommon, NoPadding)
+{
+  EXPECT_EQ(TypeParam::getByteCount(), sizeof(TypeParam));
+}
+
+
+
 TYPED_TEST(TestPixelRedChannel, SetR)
 {
   TypeParam pixel;
