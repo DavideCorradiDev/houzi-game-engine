@@ -57,8 +57,8 @@ public:
   void setPixels(const Span<const Pixel>& pixels);
 
   // Change to get / set?
-  Pixel& getPixel(const Coordinates& coordinates);
   const Pixel& getPixel(const Coordinates& coordinates) const;
+  void setPixel(const Coordinates& coordinates, const Pixel& value);
 
   void clear(const Pixel& pixel);
 

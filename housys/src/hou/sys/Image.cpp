@@ -133,7 +133,7 @@ Image1<fmt> getImageSubImage(
   for(uint x = 0; x < size.x(); ++x)
   {
     Vec1u pos = Vec1u(x);
-    out.getPixel(pos) = in.getPixel(offset + pos);
+    out.setPixel(pos, in.getPixel(offset + pos));
   }
   return out;
 }
@@ -151,7 +151,7 @@ Image2<fmt> getImageSubImage(
     for(uint y = 0; y < size.y(); ++y)
     {
       Vec2u pos = Vec2u(x, y);
-      out.getPixel(pos) = in.getPixel(offset + pos);
+      out.setPixel(pos, in.getPixel(offset + pos));
     }
   }
   return out;
@@ -172,7 +172,7 @@ Image3<fmt> getImageSubImage(
       for(uint z = 0; z < size.z(); ++z)
       {
         Vec3u pos = Vec3u(x, y, z);
-        out.getPixel(pos) = in.getPixel(offset + pos);
+        out.setPixel(pos, in.getPixel(offset + pos));
       }
     }
   }
@@ -190,7 +190,7 @@ void setImageSubImage(
   for(uint x = 0; x < in.getSize().x(); ++x)
   {
     Vec1u pos = Vec1u(x);
-    out.getPixel(offset + pos) = in.getPixel(pos);
+    out.setPixel(offset + pos, in.getPixel(pos));
   }
 }
 
@@ -206,7 +206,7 @@ void setImageSubImage(
     for(uint y = 0; y < in.getSize().y(); ++y)
     {
       Vec2u pos = Vec2u(x, y);
-      out.getPixel(offset + pos) = in.getPixel(pos);
+      out.setPixel(offset + pos, in.getPixel(pos));
     }
   }
 }
@@ -225,7 +225,7 @@ void setImageSubImage(
       for(uint z = 0; z < in.getSize().z(); ++z)
       {
         Vec3u pos = Vec3u(x, y, z);
-        out.getPixel(offset + pos) = in.getPixel(pos);
+        out.setPixel(offset + pos, in.getPixel(pos));
       }
     }
   }
@@ -485,8 +485,8 @@ void Image<dim, fmt>::setPixels(const Span<const Pixel>& pixels)
 
 
 template <size_t dim, PixelFormat fmt>
-typename Image<dim, fmt>::Pixel& Image<dim, fmt>::getPixel(
-  const Coordinates& coordinates)
+const typename Image<dim, fmt>::Pixel& Image<dim, fmt>::getPixel(
+  const Coordinates& coordinates) const
 {
   return mPixels[computePixelIndex(coordinates)];
 }
@@ -494,10 +494,9 @@ typename Image<dim, fmt>::Pixel& Image<dim, fmt>::getPixel(
 
 
 template <size_t dim, PixelFormat fmt>
-const typename Image<dim, fmt>::Pixel& Image<dim, fmt>::getPixel(
-  const Coordinates& coordinates) const
+  void Image<dim, fmt>::setPixel(const Coordinates& coordinates, const Pixel& value)
 {
-  return mPixels[computePixelIndex(coordinates)];
+  mPixels[computePixelIndex(coordinates)] = value;
 }
 
 
