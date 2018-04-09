@@ -4,8 +4,6 @@
 
 #include "hou/sys/PixelFormat.hpp"
 
-#include "hou/cor/Error.hpp"
-
 #define PIXEL_FORMAT_CASE(format, os) \
   case PixelFormat::format:           \
     return (os) << #format

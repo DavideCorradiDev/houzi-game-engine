@@ -246,6 +246,7 @@ int pixelFormatToSoilFormat(PixelFormat fmt)
   case PixelFormat::RGBA:
     return SOIL_LOAD_RGBA;
   default:
+    HOU_LOGIC_ERROR(getText(CorError::InvalidEnum), static_cast<int>(fmt));
     return 0u;
   }
 }

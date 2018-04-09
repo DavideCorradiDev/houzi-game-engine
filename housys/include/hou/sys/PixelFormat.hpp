@@ -8,6 +8,7 @@
 #include "hou/sys/SysExport.hpp"
 
 #include "hou/cor/BasicTypes.hpp"
+#include "hou/cor/Error.hpp"
 
 #include <iostream>
 
