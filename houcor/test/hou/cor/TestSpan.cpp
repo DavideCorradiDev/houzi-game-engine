@@ -35,6 +35,17 @@ private:
 void fillContainer(const Span<int>& buf);
 int sumContainer(const Span<const int>& buf);
 
+struct Obj2Bytes
+{
+  Obj2Bytes(uint8_t a, uint8_t b);
+  uint8_t elements[2];
+};
+
+struct Obj3Bytes
+{
+  uint8_t elements[3];
+};
+
 
 
 Foo::Foo(int value)
@@ -76,6 +87,12 @@ int sumContainer(const Span<const int>& buf)
   }
   return sum;
 }
+
+
+
+Obj2Bytes::Obj2Bytes(uint8_t a, uint8_t b)
+  : elements{a, b}
+{}
 
 }
 
@@ -949,3 +966,54 @@ TEST_F(TestSpan, IsSpan)
   EXPECT_FALSE(isSpan<float>::value);
 }
 
+
+
+TEST_F(TestSpan, ReinterpretSpanLargerOutType)
+{
+  const std::vector<uint8_t> v8{0x01, 0x02, 0x03, 0x04, 0x05, 0x06};
+  Span<const uint8_t> span8Ref(v8);
+  Span<const uint16_t> span8To16 = reinterpretSpan<const uint16_t>(span8Ref);
+
+  EXPECT_EQ(v8.size(), span8Ref.size());
+  EXPECT_EQ(span8Ref.data(), reinterpret_cast<const uint8_t*>(span8To16.data()));
+  EXPECT_EQ(span8Ref.size() / 2, span8To16.size());
+
+  const std::vector<uint16_t> vRef{0x0201, 0x0403, 0x0605};
+  ASSERT_EQ(vRef.size(), span8To16.size());
+  for(size_t i = 0; i < vRef.size(); ++i)
+  {
+    EXPECT_EQ(vRef[i], span8To16[i]);
+  }
+}
+
+
+
+TEST_F(TestSpan, ReinterpretSpanLargerInType)
+{
+  const std::vector<uint16_t> v16{0x0201, 0x0403, 0x0605};
+  Span<const uint16_t> span16Ref(v16);
+  Span<const uint8_t> span16To8 = reinterpretSpan<const uint8_t>(span16Ref);
+
+  EXPECT_EQ(v16.size(), span16Ref.size());
+  EXPECT_EQ(span16Ref.data(), reinterpret_cast<const uint16_t*>(span16To8.data()));
+  EXPECT_EQ(span16Ref.size() * 2, span16To8.size());
+
+  const std::vector<uint8_t> vRef{0x01, 0x02, 0x03, 0x04, 0x05, 0x06};
+  ASSERT_EQ(vRef.size(), span16To8.size());
+  for(size_t i = 0; i < vRef.size(); ++i)
+  {
+    EXPECT_EQ(vRef[i], span16To8[i]);
+  }
+}
+
+
+
+TEST_F(TestSpanDeathTest, ReinterpretSpanErrorIncompatibleSizes)
+{
+  ASSERT_EQ(2u, sizeof(Obj2Bytes));
+  ASSERT_EQ(3u, sizeof(Obj3Bytes));
+  const std::vector<Obj2Bytes> v{
+    Obj2Bytes(1u, 2u), Obj2Bytes(3u, 4u), Obj2Bytes(5u, 6u), Obj2Bytes(7u, 8u)};
+  Span<const Obj2Bytes> span2(v);
+  HOU_EXPECT_PRECONDITION(reinterpretSpan<const Obj3Bytes>(span2));
+}
