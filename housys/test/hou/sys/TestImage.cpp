@@ -470,9 +470,11 @@ TYPED_TEST(TestImage, GetSubImage)
   PixelCollection subPixelsRef(TestFixture::multiplyElements(subImageSize));
   for(size_t i = 0; i < subPixelsRef.size(); ++i)
   {
-    Coordinates subImageCoords = TestFixture::computePixelCoordinates(i, subImageSize);
+    Coordinates subImageCoords
+      = TestFixture::computePixelCoordinates(i, subImageSize);
     Coordinates imageCoords = subImageOffset + subImageCoords;
-    subPixelsRef[i] = pixelsRef[TestFixture::computePixelIndex(imageCoords, imageSize)];
+    subPixelsRef[i]
+      = pixelsRef[TestFixture::computePixelIndex(imageCoords, imageSize)];
   }
 
   TypeParam image(imageSize, pixelsRef);
@@ -523,9 +525,11 @@ TYPED_TEST(TestImage, SetSubImage)
   PixelCollection subPixelsRef(TestFixture::generatePixels(subImageSize));
   for(size_t i = 0; i < subPixelsRef.size(); ++i)
   {
-    Coordinates subImageCoords = TestFixture::computePixelCoordinates(i, subImageSize);
+    Coordinates subImageCoords
+      = TestFixture::computePixelCoordinates(i, subImageSize);
     Coordinates imageCoords = subImageOffset + subImageCoords;
-    pixelsRef[TestFixture::computePixelIndex(imageCoords, imageSize)] = subPixelsRef[i];
+    pixelsRef[TestFixture::computePixelIndex(imageCoords, imageSize)]
+      = subPixelsRef[i];
   }
 
   TypeParam image(imageSize);
@@ -623,8 +627,7 @@ TYPED_TEST(TestImage, OutputStreamOperator)
   TypeParam image(sizeRef, pixelsRef);
 
   std::stringstream ss;
-  ss << "{Size = " << transpose(sizeRef) << ", Pixels = "
-    << pixelsRef << "}";
+  ss << "{Size = " << transpose(sizeRef) << ", Pixels = " << pixelsRef << "}";
 
   HOU_EXPECT_OUTPUT(ss.str().c_str(), image);
 }
@@ -670,8 +673,7 @@ TEST_F(TestImageClassAttributes, GetPixelFormat)
 TEST_F(TestImageConversionConstructor, R2RGBAConstructor)
 {
   Image2R::Size size(2u, 3u);
-  Image2R::PixelCollection pixelsR
-  {
+  Image2R::PixelCollection pixelsR{
     Image2R::Pixel(1u),
     Image2R::Pixel(2u),
     Image2R::Pixel(3u),
@@ -680,8 +682,7 @@ TEST_F(TestImageConversionConstructor, R2RGBAConstructor)
     Image2R::Pixel(6u),
   };
 
-  Image2RGBA::PixelCollection pixelsRGBA
-  {
+  Image2RGBA::PixelCollection pixelsRGBA{
     Image2RGBA::Pixel(1u, 1u, 1u, 255u),
     Image2RGBA::Pixel(2u, 2u, 2u, 255u),
     Image2RGBA::Pixel(3u, 3u, 3u, 255u),
@@ -702,8 +703,7 @@ TEST_F(TestImageConversionConstructor, R2RGBAConstructor)
 TEST_F(TestImageConversionConstructor, RG2RGBAConstructor)
 {
   Image2RG::Size size(2u, 3u);
-  Image2RG::PixelCollection pixelsRG
-  {
+  Image2RG::PixelCollection pixelsRG{
     Image2RG::Pixel(1u, 11u),
     Image2RG::Pixel(2u, 12u),
     Image2RG::Pixel(3u, 13u),
@@ -712,8 +712,7 @@ TEST_F(TestImageConversionConstructor, RG2RGBAConstructor)
     Image2RG::Pixel(6u, 16u),
   };
 
-  Image2RGBA::PixelCollection pixelsRGBA
-  {
+  Image2RGBA::PixelCollection pixelsRGBA{
     Image2RGBA::Pixel(1u, 1u, 1u, 11u),
     Image2RGBA::Pixel(2u, 2u, 2u, 12u),
     Image2RGBA::Pixel(3u, 3u, 3u, 13u),
@@ -734,8 +733,7 @@ TEST_F(TestImageConversionConstructor, RG2RGBAConstructor)
 TEST_F(TestImageConversionConstructor, RGB2RGBAConstructor)
 {
   Image2RGB::Size size(2u, 3u);
-  Image2RGB::PixelCollection pixelsRGB
-  {
+  Image2RGB::PixelCollection pixelsRGB{
     Image2RGB::Pixel(200u, 118u, 93u),
     Image2RGB::Pixel(3u, 12u, 3u),
     Image2RGB::Pixel(5u, 11u, 2u),
@@ -744,8 +742,7 @@ TEST_F(TestImageConversionConstructor, RGB2RGBAConstructor)
     Image2RGB::Pixel(100u, 20u, 0u),
   };
 
-  Image2RGBA::PixelCollection pixelsRGBA
-  {
+  Image2RGBA::PixelCollection pixelsRGBA{
     Image2RGBA::Pixel(200u, 118u, 93u, 255u),
     Image2RGBA::Pixel(3u, 12u, 3u, 255u),
     Image2RGBA::Pixel(5u, 11u, 2u, 255u),
@@ -766,8 +763,7 @@ TEST_F(TestImageConversionConstructor, RGB2RGBAConstructor)
 TEST_F(TestImageConversionConstructor, Image1ToImage2Constructor)
 {
   Image1RGB::Size size(3u);
-  Image1RGBA::PixelCollection pixelsRGBA
-  {
+  Image1RGBA::PixelCollection pixelsRGBA{
     Image1RGBA::Pixel(200u, 118u, 93u, 255u),
     Image1RGBA::Pixel(3u, 12u, 3u, 255u),
     Image1RGBA::Pixel(5u, 11u, 2u, 255u),
@@ -783,8 +779,7 @@ TEST_F(TestImageConversionConstructor, Image1ToImage2Constructor)
 TEST_F(TestImageConversionConstructor, Image1ToImage3Constructor)
 {
   Image1RGB::Size size(3u);
-  Image1RGBA::PixelCollection pixelsRGBA
-  {
+  Image1RGBA::PixelCollection pixelsRGBA{
     Image1RGBA::Pixel(200u, 118u, 93u, 255u),
     Image1RGBA::Pixel(3u, 12u, 3u, 255u),
     Image1RGBA::Pixel(5u, 11u, 2u, 255u),
@@ -800,8 +795,7 @@ TEST_F(TestImageConversionConstructor, Image1ToImage3Constructor)
 TEST_F(TestImageConversionConstructor, Image2ToImage3Constructor)
 {
   Image2RGB::Size size(3u, 2u);
-  Image2RGBA::PixelCollection pixelsRGBA
-  {
+  Image2RGBA::PixelCollection pixelsRGBA{
     Image2RGBA::Pixel(200u, 118u, 93u, 255u),
     Image2RGBA::Pixel(3u, 12u, 3u, 255u),
     Image2RGBA::Pixel(5u, 11u, 2u, 255u),
@@ -820,15 +814,15 @@ TEST_F(TestImageConversionConstructor, Image2ToImage3Constructor)
 TEST_F(TestImageFile, LoadBmpRGBA)
 {
   // Alpha channel in Bmp not supported.
-  Image2RGBA imRef(Vec2u(3u, 2u), std::vector<Image2RGBA::Pixel>
-  {
-    Image2RGBA::Pixel(50u, 100u, 150u, 255u),
-    Image2RGBA::Pixel(150u, 100u, 50u, 255u),
-    Image2RGBA::Pixel(255u, 200u, 50u, 255u),
-    Image2RGBA::Pixel(50u, 100u, 150u, 255u),
-    Image2RGBA::Pixel(0u, 255u, 255u, 255u),
-    Image2RGBA::Pixel(255u, 200u, 50u, 255u),
-  });
+  Image2RGBA imRef(Vec2u(3u, 2u),
+    std::vector<Image2RGBA::Pixel>{
+      Image2RGBA::Pixel(50u, 100u, 150u, 255u),
+      Image2RGBA::Pixel(150u, 100u, 50u, 255u),
+      Image2RGBA::Pixel(255u, 200u, 50u, 255u),
+      Image2RGBA::Pixel(50u, 100u, 150u, 255u),
+      Image2RGBA::Pixel(0u, 255u, 255u, 255u),
+      Image2RGBA::Pixel(255u, 200u, 50u, 255u),
+    });
   Image2RGBA im = bmpReadFile<PixelFormat::RGBA>(testImageBmp);
   EXPECT_EQ(imRef, im);
 }
@@ -837,17 +831,17 @@ TEST_F(TestImageFile, LoadBmpRGBA)
 
 TEST_F(TestImageFileDeathTest, LoadBmpRGBAError)
 {
-  HOU_EXPECT_ERROR(bmpReadFile<PixelFormat::RGBA>(testImagePng)
-    , std::runtime_error
-    , formatString(getText(SysError::ImageBmpRead), testImagePng.c_str()));
+  HOU_EXPECT_ERROR(bmpReadFile<PixelFormat::RGBA>(testImagePng),
+    std::runtime_error,
+    formatString(getText(SysError::ImageBmpRead), testImagePng.c_str()));
 }
 
 
 
 TEST_F(TestImageFile, LoadPngRGBA)
 {
-  Image2RGBA imRef(Vec2u(3u, 2u), std::vector<Image2RGBA::Pixel>
-    {
+  Image2RGBA imRef(Vec2u(3u, 2u),
+    std::vector<Image2RGBA::Pixel>{
       Image2RGBA::Pixel(50u, 100u, 150u, 255u),
       Image2RGBA::Pixel(150u, 100u, 50u, 255u),
       Image2RGBA::Pixel(255u, 200u, 50u, 255u),
@@ -863,17 +857,17 @@ TEST_F(TestImageFile, LoadPngRGBA)
 
 TEST_F(TestImageFileDeathTest, LoadPngRGBAError)
 {
-  HOU_EXPECT_ERROR(pngReadFile<PixelFormat::RGBA>(testImageJpg)
-    , std::runtime_error
-    , formatString(getText(SysError::ImagePngRead), testImageJpg.c_str()));
+  HOU_EXPECT_ERROR(pngReadFile<PixelFormat::RGBA>(testImageJpg),
+    std::runtime_error,
+    formatString(getText(SysError::ImagePngRead), testImageJpg.c_str()));
 }
 
 
 
 TEST_F(TestImageFile, LoadJpgRGBA)
 {
-  Image2RGBA imRef(Vec2u(3u, 2u), std::vector<Image2RGBA::Pixel>
-    {
+  Image2RGBA imRef(Vec2u(3u, 2u),
+    std::vector<Image2RGBA::Pixel>{
       Image2RGBA::Pixel(72u, 86u, 133u, 255u),
       Image2RGBA::Pixel(134u, 111u, 80u, 255u),
       Image2RGBA::Pixel(252u, 204u, 46u, 255u),
@@ -889,9 +883,9 @@ TEST_F(TestImageFile, LoadJpgRGBA)
 
 TEST_F(TestImageFileDeathTest, LoadJpgRGBAError)
 {
-  HOU_EXPECT_ERROR(jpgReadFile<PixelFormat::RGBA>(testImagePng)
-    , std::runtime_error
-    , formatString(getText(SysError::ImageJpgRead), testImagePng.c_str()));
+  HOU_EXPECT_ERROR(jpgReadFile<PixelFormat::RGBA>(testImagePng),
+    std::runtime_error,
+    formatString(getText(SysError::ImageJpgRead), testImagePng.c_str()));
 }
 
 
@@ -915,9 +909,9 @@ TEST_F(TestImageFileDeathTest, SaveBmpErrorRGBA)
   removeDir(savePath);
   Image2RGBA imRef = bmpReadFile<PixelFormat::RGBA>(testImageBmp);
   bmpWriteFile(savePath, imRef);
-  HOU_EXPECT_ERROR(bmpWriteFile<PixelFormat::RGBA>(savePath, imRef)
-    , std::runtime_error, formatString(getText(SysError::ImageBmpWrite)
-    , savePath.c_str()));
+  HOU_EXPECT_ERROR(bmpWriteFile<PixelFormat::RGBA>(savePath, imRef),
+    std::runtime_error,
+    formatString(getText(SysError::ImageBmpWrite), savePath.c_str()));
   EXPECT_TRUE(removeDir(savePath));
 }
 
@@ -926,15 +920,15 @@ TEST_F(TestImageFileDeathTest, SaveBmpErrorRGBA)
 TEST_F(TestImageFile, LoadBmpRGB)
 {
   // Alpha channel in Bmp not supported.
-  Image2RGB imRef(Vec2u(3u, 2u), std::vector<Image2RGB::Pixel>
-  {
-    Image2RGB::Pixel(50u, 100u, 150u),
-    Image2RGB::Pixel(150u, 100u, 50u),
-    Image2RGB::Pixel(255u, 200u, 50u),
-    Image2RGB::Pixel(50u, 100u, 150u),
-    Image2RGB::Pixel(0u, 255u, 255u),
-    Image2RGB::Pixel(255u, 200u, 50u),
-  });
+  Image2RGB imRef(Vec2u(3u, 2u),
+    std::vector<Image2RGB::Pixel>{
+      Image2RGB::Pixel(50u, 100u, 150u),
+      Image2RGB::Pixel(150u, 100u, 50u),
+      Image2RGB::Pixel(255u, 200u, 50u),
+      Image2RGB::Pixel(50u, 100u, 150u),
+      Image2RGB::Pixel(0u, 255u, 255u),
+      Image2RGB::Pixel(255u, 200u, 50u),
+    });
   Image2RGB im = bmpReadFile<PixelFormat::RGB>(testImageBmp);
   EXPECT_EQ(imRef, im);
 }
@@ -943,17 +937,17 @@ TEST_F(TestImageFile, LoadBmpRGB)
 
 TEST_F(TestImageFileDeathTest, LoadBmpRGBError)
 {
-  HOU_EXPECT_ERROR(bmpReadFile<PixelFormat::RGB>(testImagePng)
-    , std::runtime_error
-    , formatString(getText(SysError::ImageBmpRead), testImagePng.c_str()));
+  HOU_EXPECT_ERROR(bmpReadFile<PixelFormat::RGB>(testImagePng),
+    std::runtime_error,
+    formatString(getText(SysError::ImageBmpRead), testImagePng.c_str()));
 }
 
 
 
 TEST_F(TestImageFile, LoadPngRGB)
 {
-  Image2RGB imRef(Vec2u(3u, 2u), std::vector<Image2RGB::Pixel>
-    {
+  Image2RGB imRef(Vec2u(3u, 2u),
+    std::vector<Image2RGB::Pixel>{
       Image2RGB::Pixel(50u, 100u, 150u),
       Image2RGB::Pixel(150u, 100u, 50u),
       Image2RGB::Pixel(255u, 200u, 50u),
@@ -969,17 +963,17 @@ TEST_F(TestImageFile, LoadPngRGB)
 
 TEST_F(TestImageFileDeathTest, LoadPngRGBError)
 {
-  HOU_EXPECT_ERROR(pngReadFile<PixelFormat::RGB>(testImageJpg)
-    , std::runtime_error
-    , formatString(getText(SysError::ImagePngRead), testImageJpg.c_str()));
+  HOU_EXPECT_ERROR(pngReadFile<PixelFormat::RGB>(testImageJpg),
+    std::runtime_error,
+    formatString(getText(SysError::ImagePngRead), testImageJpg.c_str()));
 }
 
 
 
 TEST_F(TestImageFile, LoadJpgRGB)
 {
-  Image2RGB imRef(Vec2u(3u, 2u), std::vector<Image2RGB::Pixel>
-    {
+  Image2RGB imRef(Vec2u(3u, 2u),
+    std::vector<Image2RGB::Pixel>{
       Image2RGB::Pixel(72u, 86u, 133u),
       Image2RGB::Pixel(134u, 111u, 80u),
       Image2RGB::Pixel(252u, 204u, 46u),
@@ -995,9 +989,9 @@ TEST_F(TestImageFile, LoadJpgRGB)
 
 TEST_F(TestImageFileDeathTest, LoadJpgRGBError)
 {
-  HOU_EXPECT_ERROR(jpgReadFile<PixelFormat::RGB>(testImagePng)
-    , std::runtime_error
-    , formatString(getText(SysError::ImageJpgRead), testImagePng.c_str()));
+  HOU_EXPECT_ERROR(jpgReadFile<PixelFormat::RGB>(testImagePng),
+    std::runtime_error,
+    formatString(getText(SysError::ImageJpgRead), testImagePng.c_str()));
 }
 
 
@@ -1005,15 +999,15 @@ TEST_F(TestImageFileDeathTest, LoadJpgRGBError)
 TEST_F(TestImageFile, LoadBmpRG)
 {
   // Alpha channel in Bmp not supported.
-  Image2RG imRef(Vec2u(3u, 2u), std::vector<Image2RG::Pixel>
-  {
-    Image2RG::Pixel(90u, 255u),
-    Image2RG::Pixel(109u, 255u),
-    Image2RG::Pixel(199u, 255u),
-    Image2RG::Pixel(90u, 255u),
-    Image2RG::Pixel(178u, 255u),
-    Image2RG::Pixel(199u, 255u),
-  });
+  Image2RG imRef(Vec2u(3u, 2u),
+    std::vector<Image2RG::Pixel>{
+      Image2RG::Pixel(90u, 255u),
+      Image2RG::Pixel(109u, 255u),
+      Image2RG::Pixel(199u, 255u),
+      Image2RG::Pixel(90u, 255u),
+      Image2RG::Pixel(178u, 255u),
+      Image2RG::Pixel(199u, 255u),
+    });
   Image2RG im = bmpReadFile<PixelFormat::RG>(testImageBmp);
   EXPECT_EQ(imRef, im);
 }
@@ -1022,17 +1016,17 @@ TEST_F(TestImageFile, LoadBmpRG)
 
 TEST_F(TestImageFileDeathTest, LoadBmpRGError)
 {
-  HOU_EXPECT_ERROR(bmpReadFile<PixelFormat::RG>(testImagePng)
-    , std::runtime_error
-    , formatString(getText(SysError::ImageBmpRead), testImagePng.c_str()));
+  HOU_EXPECT_ERROR(bmpReadFile<PixelFormat::RG>(testImagePng),
+    std::runtime_error,
+    formatString(getText(SysError::ImageBmpRead), testImagePng.c_str()));
 }
 
 
 
 TEST_F(TestImageFile, LoadPngRG)
 {
-  Image2RG imRef(Vec2u(3u, 2u), std::vector<Image2RG::Pixel>
-    {
+  Image2RG imRef(Vec2u(3u, 2u),
+    std::vector<Image2RG::Pixel>{
       Image2RG::Pixel(90u, 255u),
       Image2RG::Pixel(109u, 255u),
       Image2RG::Pixel(199u, 255u),
@@ -1048,17 +1042,17 @@ TEST_F(TestImageFile, LoadPngRG)
 
 TEST_F(TestImageFileDeathTest, LoadPngRGError)
 {
-  HOU_EXPECT_ERROR(pngReadFile<PixelFormat::RG>(testImageJpg)
-    , std::runtime_error
-    , formatString(getText(SysError::ImagePngRead), testImageJpg.c_str()));
+  HOU_EXPECT_ERROR(pngReadFile<PixelFormat::RG>(testImageJpg),
+    std::runtime_error,
+    formatString(getText(SysError::ImagePngRead), testImageJpg.c_str()));
 }
 
 
 
 TEST_F(TestImageFile, LoadJpgRG)
 {
-  Image2RG imRef(Vec2u(3u, 2u), std::vector<Image2RG::Pixel>
-    {
+  Image2RG imRef(Vec2u(3u, 2u),
+    std::vector<Image2RG::Pixel>{
       Image2RG::Pixel(87u, 255u),
       Image2RG::Pixel(114u, 255u),
       Image2RG::Pixel(200u, 255u),
@@ -1074,9 +1068,9 @@ TEST_F(TestImageFile, LoadJpgRG)
 
 TEST_F(TestImageFileDeathTest, LoadJpgRGError)
 {
-  HOU_EXPECT_ERROR(jpgReadFile<PixelFormat::RG>(testImagePng)
-    , std::runtime_error
-    , formatString(getText(SysError::ImageJpgRead), testImagePng.c_str()));
+  HOU_EXPECT_ERROR(jpgReadFile<PixelFormat::RG>(testImagePng),
+    std::runtime_error,
+    formatString(getText(SysError::ImageJpgRead), testImagePng.c_str()));
 }
 
 
@@ -1084,15 +1078,15 @@ TEST_F(TestImageFileDeathTest, LoadJpgRGError)
 TEST_F(TestImageFile, LoadBmpR)
 {
   // Alpha channel in Bmp not supported.
-  Image2R imRef(Vec2u(3u, 2u), std::vector<Image2R::Pixel>
-  {
-    Image2R::Pixel(90u),
-    Image2R::Pixel(109u),
-    Image2R::Pixel(199u),
-    Image2R::Pixel(90u),
-    Image2R::Pixel(178u),
-    Image2R::Pixel(199u),
-  });
+  Image2R imRef(Vec2u(3u, 2u),
+    std::vector<Image2R::Pixel>{
+      Image2R::Pixel(90u),
+      Image2R::Pixel(109u),
+      Image2R::Pixel(199u),
+      Image2R::Pixel(90u),
+      Image2R::Pixel(178u),
+      Image2R::Pixel(199u),
+    });
   Image2R im = bmpReadFile<PixelFormat::R>(testImageBmp);
   EXPECT_EQ(imRef, im);
 }
@@ -1101,17 +1095,17 @@ TEST_F(TestImageFile, LoadBmpR)
 
 TEST_F(TestImageFileDeathTest, LoadBmpRError)
 {
-  HOU_EXPECT_ERROR(bmpReadFile<PixelFormat::R>(testImagePng)
-    , std::runtime_error
-    , formatString(getText(SysError::ImageBmpRead), testImagePng.c_str()));
+  HOU_EXPECT_ERROR(bmpReadFile<PixelFormat::R>(testImagePng),
+    std::runtime_error,
+    formatString(getText(SysError::ImageBmpRead), testImagePng.c_str()));
 }
 
 
 
 TEST_F(TestImageFile, LoadPngR)
 {
-  Image2R imRef(Vec2u(3u, 2u), std::vector<Image2R::Pixel>
-    {
+  Image2R imRef(Vec2u(3u, 2u),
+    std::vector<Image2R::Pixel>{
       Image2R::Pixel(90u),
       Image2R::Pixel(109u),
       Image2R::Pixel(199u),
@@ -1127,17 +1121,17 @@ TEST_F(TestImageFile, LoadPngR)
 
 TEST_F(TestImageFileDeathTest, LoadPngRError)
 {
-  HOU_EXPECT_ERROR(pngReadFile<PixelFormat::R>(testImageJpg)
-    , std::runtime_error
-    , formatString(getText(SysError::ImagePngRead), testImageJpg.c_str()));
+  HOU_EXPECT_ERROR(pngReadFile<PixelFormat::R>(testImageJpg),
+    std::runtime_error,
+    formatString(getText(SysError::ImagePngRead), testImageJpg.c_str()));
 }
 
 
 
 TEST_F(TestImageFile, LoadJpgR)
 {
-  Image2R imRef(Vec2u(3u, 2u), std::vector<Image2R::Pixel>
-    {
+  Image2R imRef(Vec2u(3u, 2u),
+    std::vector<Image2R::Pixel>{
       Image2R::Pixel(87u),
       Image2R::Pixel(114u),
       Image2R::Pixel(200u),
@@ -1153,10 +1147,7 @@ TEST_F(TestImageFile, LoadJpgR)
 
 TEST_F(TestImageFileDeathTest, LoadJpgRError)
 {
-  HOU_EXPECT_ERROR(jpgReadFile<PixelFormat::R>(testImagePng)
-    , std::runtime_error
-    , formatString(getText(SysError::ImageJpgRead), testImagePng.c_str()));
+  HOU_EXPECT_ERROR(jpgReadFile<PixelFormat::R>(testImagePng),
+    std::runtime_error,
+    formatString(getText(SysError::ImageJpgRead), testImagePng.c_str()));
 }
-
-
-

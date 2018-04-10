@@ -39,10 +39,11 @@ namespace
 {
 
 template <size_t dim>
-bool elementWiseLowerOrEqual(const Vec<uint, dim>& lhs, const Vec<uint, dim>& rhs);
+bool elementWiseLowerOrEqual(
+  const Vec<uint, dim>& lhs, const Vec<uint, dim>& rhs);
 
 template <size_t dimOut, size_t dimIn>
-  Vec<uint, dimOut> padVector(const Vec<uint, dimIn>& vecIn, uint value);
+Vec<uint, dimOut> padVector(const Vec<uint, dimIn>& vecIn, uint value);
 
 template <PixelFormat fmt>
 Image1<fmt> getImageSubImage(
@@ -110,9 +111,8 @@ bool elementWiseLowerOrEqual(
 
 
 
-
 template <size_t dimOut, size_t dimIn>
-  Vec<uint, dimOut> padVector(const Vec<uint, dimIn>& vecIn, uint value)
+Vec<uint, dimOut> padVector(const Vec<uint, dimIn>& vecIn, uint value)
 {
   Vec<uint, dimOut> vecOut = Vec<uint, dimOut>::filled(value);
   for(size_t i = 0; i < std::min(dimOut, dimIn); ++i)
@@ -178,7 +178,6 @@ Image3<fmt> getImageSubImage(
   }
   return out;
 }
-
 
 
 
@@ -494,7 +493,8 @@ const typename Image<dim, fmt>::Pixel& Image<dim, fmt>::getPixel(
 
 
 template <size_t dim, PixelFormat fmt>
-  void Image<dim, fmt>::setPixel(const Coordinates& coordinates, const Pixel& value)
+void Image<dim, fmt>::setPixel(
+  const Coordinates& coordinates, const Pixel& value)
 {
   mPixels[computePixelIndex(coordinates)] = value;
 }
@@ -510,7 +510,8 @@ void Image<dim, fmt>::clear(const Pixel& pixel)
 
 
 template <size_t dim, PixelFormat fmt>
-Image<dim, fmt> Image<dim, fmt>::getSubImage(const Coordinates& offset, const Size& size)
+Image<dim, fmt> Image<dim, fmt>::getSubImage(
+  const Coordinates& offset, const Size& size)
 {
   return getImageSubImage(*this, offset, size);
 }
@@ -646,11 +647,11 @@ std::ostream& operator<<(std::ostream& os, const Image<dim, fmt>& im)
 
 
 
-#define INSTANTIATE_IMAGE_WITH_DIMENSION(dim)    \
-  INSTANTIATE_IMAGE_BASE(dim, PixelFormat::R)    \
-  INSTANTIATE_IMAGE_BASE(dim, PixelFormat::RG)   \
-  INSTANTIATE_IMAGE_BASE(dim, PixelFormat::RGB)  \
-  INSTANTIATE_IMAGE_BASE(dim, PixelFormat::RGBA) \
+#define INSTANTIATE_IMAGE_WITH_DIMENSION(dim)   \
+  INSTANTIATE_IMAGE_BASE(dim, PixelFormat::R)   \
+  INSTANTIATE_IMAGE_BASE(dim, PixelFormat::RG)  \
+  INSTANTIATE_IMAGE_BASE(dim, PixelFormat::RGB) \
+  INSTANTIATE_IMAGE_BASE(dim, PixelFormat::RGBA)
 
 
 
