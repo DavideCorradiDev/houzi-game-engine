@@ -23,6 +23,13 @@
 namespace hou
 {
 
+/** Represents an image.
+ *
+ *  Note: all possible class insances are already explicitly instantiated and
+ *  exported in the library.
+ *
+ *  \tparam dim the number of dimensions of the image (from 1 to 3).
+ */
 template <size_t dim, PixelFormat fmt>
 class HOU_SYS_API Image
 {
@@ -38,7 +45,7 @@ public:
 public:
   static constexpr size_t getDimensionCount();
   static constexpr PixelFormat getPixelFormat();
-  static constexpr size_t getPixelByteCount();
+  static constexpr uint getPixelByteCount();
 
 public:
   Image();

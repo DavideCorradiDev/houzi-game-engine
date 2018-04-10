@@ -27,22 +27,6 @@ uint8_t averageChannels(uint8_t r, uint8_t g, uint8_t b)
 
 
 template <PixelFormat pf>
-PixelFormat PixelT<pf>::getFormat()
-{
-  return pf;
-}
-
-
-
-template <PixelFormat pf>
-uint PixelT<pf>::getByteCount()
-{
-  return getPixelFormatByteCount(pf);
-}
-
-
-
-template <PixelFormat pf>
 PixelT<pf>::PixelT()
   : mChannels()
 {

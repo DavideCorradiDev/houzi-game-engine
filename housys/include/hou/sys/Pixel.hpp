@@ -34,13 +34,13 @@ public:
    *
    *  \return the format of the pixel.
    */
-  static PixelFormat getFormat();
+  static constexpr PixelFormat getFormat();
 
   /** Retrieves the amount of bytes used by the pixel.
    *
    * \return the amomunt of bytes used by the pixel.
    */
-  static uint getByteCount();
+  static constexpr uint getByteCount();
 
 public:
   /** Default constructor.
@@ -315,5 +315,7 @@ HOU_SYS_API std::ostream& operator<<(std::ostream& os, const PixelT<pf>& pixel);
 HOU_PRAGMA_PACK_POP()
 
 }  // namespace hou
+
+#include "hou/sys/Pixel.inl"
 
 #endif

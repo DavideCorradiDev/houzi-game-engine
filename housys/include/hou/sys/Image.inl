@@ -22,10 +22,9 @@ constexpr PixelFormat Image<dim, fmt>::getPixelFormat()
 
 
 template <size_t dim, PixelFormat fmt>
-constexpr size_t Image<dim, fmt>::getPixelByteCount()
+constexpr uint Image<dim, fmt>::getPixelByteCount()
 {
   return Pixel::getByteCount();
 }
 
-}
-
+}  // namespace hou
