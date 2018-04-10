@@ -104,6 +104,19 @@ public:
    */
   Image(const Size& size, const Span<const Pixel>& pixels);
 
+  /** Pixels move constructor.
+   *
+   *  Creates an image with the given size and pixels.
+   *  Throws if the size of pixels does not coincide the the product of all
+   *  elements of size.
+   *  The collection contains a linear list of pixels.
+   *  Pixels along the first axis must be adjacent in the collection.
+   *
+   *  \param size the size of the image.
+   *  \param pixels the collection of pixels of the image.
+   */
+  Image(const Size& size, PixelCollection&& pixels);
+
   /** Conversion constructor.
    *
    *  Creates an image from an image with a different number of dimensions

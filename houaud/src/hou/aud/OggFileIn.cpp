@@ -6,15 +6,15 @@
 
 #include "hou/aud/AudError.hpp"
 
-#include "hou/cor/Diagnostics.hpp"
 #include "hou/cor/Error.hpp"
+#include "hou/cor/Pragmas.hpp"
 
 #include "hou/sys/SysError.hpp"
 
-GCC_DIAGNOSTIC_PUSH()
-GCC_DIAGNOSTIC_IGNORED(-Wunused-variable)
+HOU_PRAGMA_GCC_DIAGNOSTIC_PUSH()
+HOU_PRAGMA_GCC_DIAGNOSTIC_IGNORED(-Wunused-variable)
 #include <vorbis/vorbisfile.h>
-GCC_DIAGNOSTIC_POP()
+HOU_PRAGMA_GCC_DIAGNOSTIC_POP()
 
 
 namespace hou

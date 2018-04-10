@@ -329,6 +329,46 @@ TYPED_TEST(TestImageDeathTest, PixelsConstructorErrorTooManyPixels)
 
 
 
+TYPED_TEST(TestImage, PixelsMoveConstructor)
+{
+  using Size = typename TypeParam::Size;
+  using PixelCollection = typename TypeParam::PixelCollection;
+
+  Size sizeRef = TestFixture::generateSize();
+  PixelCollection pixelsRef = TestFixture::generatePixels(sizeRef);
+  PixelCollection pixels(pixelsRef);
+  TypeParam image(sizeRef, std::move(pixels));
+
+  EXPECT_EQ(sizeRef, image.getSize());
+  EXPECT_EQ(pixelsRef, image.getPixels());
+}
+
+
+
+TYPED_TEST(TestImageDeathTest, PixelsMoveConstructorErrorTooFewPixels)
+{
+  using Size = typename TypeParam::Size;
+  using PixelCollection = typename TypeParam::PixelCollection;
+
+  Size sizeRef = TestFixture::generateSize();
+  PixelCollection pixelsRef(TestFixture::multiplyElements(sizeRef) - 1u);
+  HOU_EXPECT_PRECONDITION(TypeParam image(sizeRef, std::move(pixelsRef)));
+}
+
+
+
+TYPED_TEST(TestImageDeathTest, PixelsMoveConstructorErrorTooManyPixels)
+{
+  using Size = typename TypeParam::Size;
+  using PixelCollection = typename TypeParam::PixelCollection;
+
+  Size sizeRef = TestFixture::generateSize();
+  PixelCollection pixelsRef(TestFixture::multiplyElements(sizeRef) + 1u);
+  HOU_EXPECT_PRECONDITION(TypeParam image(sizeRef, std::move(pixelsRef)));
+}
+
+
+
 TYPED_TEST(TestImage, SetPixels)
 {
   using Size = typename TypeParam::Size;
