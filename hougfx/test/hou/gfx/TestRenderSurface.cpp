@@ -87,7 +87,7 @@ Image2RGBA generateBlitResultImage(const Vec2u& dstSize, const Recti& dstRect
   {
     for(uint x = dstRect.l(); x < xMax; ++x)
     {
-      imRef.getPixel(Vec2u(x, y)) = Image2RGBA::Pixel(srcColor.getRed(), srcColor.getGreen(), srcColor.getBlue(), srcColor.getAlpha());
+      imRef.setPixel(Vec2u(x, y), Image2RGBA::Pixel(srcColor.getRed(), srcColor.getGreen(), srcColor.getBlue(), srcColor.getAlpha()));
     }
   }
   return imRef;

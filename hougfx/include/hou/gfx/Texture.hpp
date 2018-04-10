@@ -145,7 +145,7 @@ public:
 
   template <PixelFormat fmt, TextureType t = type,
     typename Enable = std::enable_if_t<!isTextureTypeMultisampled(t)>>
-  HOU_GFX_API void clear(const Pixel<fmt>& pixel);
+  HOU_GFX_API void clear(const PixelT<fmt>& pixel);
 
   template <TextureType t = type,
     typename Enable = std::enable_if_t<isTextureTypeMipMapped(t)>>

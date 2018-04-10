@@ -166,6 +166,17 @@ template <typename T>
 
 
 
+template <typename Out, typename In>
+Span<Out> reinterpretSpan(const Span<In>& in)
+{
+  size_t inByteCount = in.size() * sizeof(In);
+  HOU_EXPECT(inByteCount % sizeof(Out) == 0);
+  return Span<Out>(reinterpret_cast<typename Span<Out>::pointer>(in.data()),
+    inByteCount / sizeof(Out));
+}
+
+
+
 namespace prv
 {
 
@@ -275,4 +286,3 @@ template <typename T>
 }
 
 }
-

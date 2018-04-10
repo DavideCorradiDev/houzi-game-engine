@@ -39,10 +39,11 @@ namespace
 {
 
 template <size_t dim>
-bool elementWiseLowerOrEqual(const Vec<uint, dim>& lhs, const Vec<uint, dim>& rhs);
+bool elementWiseLowerOrEqual(
+  const Vec<uint, dim>& lhs, const Vec<uint, dim>& rhs);
 
 template <size_t dimOut, size_t dimIn>
-  Vec<uint, dimOut> padVector(const Vec<uint, dimIn>& vecIn, uint value);
+Vec<uint, dimOut> padVector(const Vec<uint, dimIn>& vecIn, uint value);
 
 template <PixelFormat fmt>
 Image1<fmt> getImageSubImage(
@@ -110,9 +111,8 @@ bool elementWiseLowerOrEqual(
 
 
 
-
 template <size_t dimOut, size_t dimIn>
-  Vec<uint, dimOut> padVector(const Vec<uint, dimIn>& vecIn, uint value)
+Vec<uint, dimOut> padVector(const Vec<uint, dimIn>& vecIn, uint value)
 {
   Vec<uint, dimOut> vecOut = Vec<uint, dimOut>::filled(value);
   for(size_t i = 0; i < std::min(dimOut, dimIn); ++i)
@@ -133,7 +133,7 @@ Image1<fmt> getImageSubImage(
   for(uint x = 0; x < size.x(); ++x)
   {
     Vec1u pos = Vec1u(x);
-    out.getPixel(pos) = in.getPixel(offset + pos);
+    out.setPixel(pos, in.getPixel(offset + pos));
   }
   return out;
 }
@@ -151,7 +151,7 @@ Image2<fmt> getImageSubImage(
     for(uint y = 0; y < size.y(); ++y)
     {
       Vec2u pos = Vec2u(x, y);
-      out.getPixel(pos) = in.getPixel(offset + pos);
+      out.setPixel(pos, in.getPixel(offset + pos));
     }
   }
   return out;
@@ -172,13 +172,12 @@ Image3<fmt> getImageSubImage(
       for(uint z = 0; z < size.z(); ++z)
       {
         Vec3u pos = Vec3u(x, y, z);
-        out.getPixel(pos) = in.getPixel(offset + pos);
+        out.setPixel(pos, in.getPixel(offset + pos));
       }
     }
   }
   return out;
 }
-
 
 
 
@@ -190,7 +189,7 @@ void setImageSubImage(
   for(uint x = 0; x < in.getSize().x(); ++x)
   {
     Vec1u pos = Vec1u(x);
-    out.getPixel(offset + pos) = in.getPixel(pos);
+    out.setPixel(offset + pos, in.getPixel(pos));
   }
 }
 
@@ -206,7 +205,7 @@ void setImageSubImage(
     for(uint y = 0; y < in.getSize().y(); ++y)
     {
       Vec2u pos = Vec2u(x, y);
-      out.getPixel(offset + pos) = in.getPixel(pos);
+      out.setPixel(offset + pos, in.getPixel(pos));
     }
   }
 }
@@ -225,7 +224,7 @@ void setImageSubImage(
       for(uint z = 0; z < in.getSize().z(); ++z)
       {
         Vec3u pos = Vec3u(x, y, z);
-        out.getPixel(offset + pos) = in.getPixel(pos);
+        out.setPixel(offset + pos, in.getPixel(pos));
       }
     }
   }
@@ -246,6 +245,7 @@ int pixelFormatToSoilFormat(PixelFormat fmt)
   case PixelFormat::RGBA:
     return SOIL_LOAD_RGBA;
   default:
+    HOU_LOGIC_ERROR(getText(CorError::InvalidEnum), static_cast<int>(fmt));
     return 0u;
   }
 }
@@ -444,11 +444,12 @@ Image<dim, fmt>::Image(const Size& size, const Span<const Pixel>& pixels)
 
 
 template <size_t dim, PixelFormat fmt>
-Image<dim, fmt>::Image(const Size& size, const Span<const uint8_t>& bytes)
-  : Image(size,
-      Span<const Pixel>(reinterpret_cast<const Pixel*>(bytes.data()),
-        bytes.size() / sizeof(Pixel)))
-{}
+Image<dim, fmt>::Image(const Size& size, PixelCollection&& pixels)
+  : mSize(size)
+  , mPixels(pixels)
+{
+  HOU_EXPECT(mPixels.size() == computePixelCount());
+}
 
 
 
@@ -493,8 +494,8 @@ void Image<dim, fmt>::setPixels(const Span<const Pixel>& pixels)
 
 
 template <size_t dim, PixelFormat fmt>
-typename Image<dim, fmt>::Pixel& Image<dim, fmt>::getPixel(
-  const Coordinates& coordinates)
+const typename Image<dim, fmt>::Pixel& Image<dim, fmt>::getPixel(
+  const Coordinates& coordinates) const
 {
   return mPixels[computePixelIndex(coordinates)];
 }
@@ -502,10 +503,10 @@ typename Image<dim, fmt>::Pixel& Image<dim, fmt>::getPixel(
 
 
 template <size_t dim, PixelFormat fmt>
-const typename Image<dim, fmt>::Pixel& Image<dim, fmt>::getPixel(
-  const Coordinates& coordinates) const
+void Image<dim, fmt>::setPixel(
+  const Coordinates& coordinates, const Pixel& value)
 {
-  return mPixels[computePixelIndex(coordinates)];
+  mPixels[computePixelIndex(coordinates)] = value;
 }
 
 
@@ -519,7 +520,8 @@ void Image<dim, fmt>::clear(const Pixel& pixel)
 
 
 template <size_t dim, PixelFormat fmt>
-Image<dim, fmt> Image<dim, fmt>::getSubImage(const Coordinates& offset, const Size& size)
+Image<dim, fmt> Image<dim, fmt>::getSubImage(
+  const Coordinates& offset, const Size& size)
 {
   return getImageSubImage(*this, offset, size);
 }
@@ -655,11 +657,11 @@ std::ostream& operator<<(std::ostream& os, const Image<dim, fmt>& im)
 
 
 
-#define INSTANTIATE_IMAGE_WITH_DIMENSION(dim)    \
-  INSTANTIATE_IMAGE_BASE(dim, PixelFormat::R)    \
-  INSTANTIATE_IMAGE_BASE(dim, PixelFormat::RG)   \
-  INSTANTIATE_IMAGE_BASE(dim, PixelFormat::RGB)  \
-  INSTANTIATE_IMAGE_BASE(dim, PixelFormat::RGBA) \
+#define INSTANTIATE_IMAGE_WITH_DIMENSION(dim)   \
+  INSTANTIATE_IMAGE_BASE(dim, PixelFormat::R)   \
+  INSTANTIATE_IMAGE_BASE(dim, PixelFormat::RG)  \
+  INSTANTIATE_IMAGE_BASE(dim, PixelFormat::RGB) \
+  INSTANTIATE_IMAGE_BASE(dim, PixelFormat::RGBA)
 
 
 

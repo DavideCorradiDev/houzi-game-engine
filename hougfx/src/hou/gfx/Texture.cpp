@@ -893,7 +893,8 @@ typename TextureTemplate<type>::template Image<fmt>
   std::vector<uint8_t> buffer(computeImageBufferSize(size, fmt));
   gl::getTextureImage(mGlTextureHandle, 0u, pixelFormatToGlPixelFormat(fmt),
     static_cast<GLenum>(toGlType<uint8_t>()), buffer.size(), buffer.data());
-  return Image<fmt>(size, std::move(buffer));
+  return Image<fmt>(size,
+    reinterpretSpan<const typename Image<fmt>::Pixel>(Span<uint8_t>(buffer)));
 }
 
 
@@ -910,7 +911,8 @@ typename TextureTemplate<TextureType::Texture1>::template Image<fmt>
   gl::getTextureSubImage(mGlTextureHandle, offset.x(), 0, 0, size.x(), 1, 1, 0,
     pixelFormatToGlPixelFormat(fmt), static_cast<GLenum>(toGlType<uint8_t>()),
     buffer.size(), buffer.data());
-  return Image<fmt>(size, std::move(buffer));
+  return Image<fmt>(size,
+    reinterpretSpan<const typename Image<fmt>::Pixel>(Span<uint8_t>(buffer)));
 }
 
 
@@ -927,7 +929,8 @@ typename TextureTemplate<TextureType::Texture1Array>::template Image<fmt>
   gl::getTextureSubImage(mGlTextureHandle, offset.x(), offset.y(), 0, size.x(),
     size.y(), 1, 0, pixelFormatToGlPixelFormat(fmt),
     static_cast<GLenum>(toGlType<uint8_t>()), buffer.size(), buffer.data());
-  return Image<fmt>(size, std::move(buffer));
+  return Image<fmt>(size,
+    reinterpretSpan<const typename Image<fmt>::Pixel>(Span<uint8_t>(buffer)));
 }
 
 
@@ -944,7 +947,8 @@ typename TextureTemplate<TextureType::Texture2>::template Image<fmt>
   gl::getTextureSubImage(mGlTextureHandle, offset.x(), offset.y(), 0, size.x(),
     size.y(), 1, 0, pixelFormatToGlPixelFormat(fmt),
     static_cast<GLenum>(toGlType<uint8_t>()), buffer.size(), buffer.data());
-  return Image<fmt>(size, std::move(buffer));
+  return Image<fmt>(size,
+    reinterpretSpan<const typename Image<fmt>::Pixel>(Span<uint8_t>(buffer)));
 }
 
 
@@ -961,7 +965,8 @@ typename TextureTemplate<TextureType::Texture2Array>::template Image<fmt>
   gl::getTextureSubImage(mGlTextureHandle, offset.x(), offset.y(), offset.z(),
     size.x(), size.y(), size.z(), 0, pixelFormatToGlPixelFormat(fmt),
     static_cast<GLenum>(toGlType<uint8_t>()), buffer.size(), buffer.data());
-  return Image<fmt>(size, std::move(buffer));
+  return Image<fmt>(size,
+    reinterpretSpan<const typename Image<fmt>::Pixel>(Span<uint8_t>(buffer)));
 }
 
 
@@ -978,7 +983,8 @@ typename TextureTemplate<TextureType::Texture3>::template Image<fmt>
   gl::getTextureSubImage(mGlTextureHandle, offset.x(), offset.y(), offset.z(),
     size.x(), size.y(), size.z(), 0, pixelFormatToGlPixelFormat(fmt),
     static_cast<GLenum>(toGlType<uint8_t>()), buffer.size(), buffer.data());
-  return Image<fmt>(size, std::move(buffer));
+  return Image<fmt>(size,
+    reinterpretSpan<const typename Image<fmt>::Pixel>(Span<uint8_t>(buffer)));
 }
 
 
@@ -1070,7 +1076,7 @@ void TextureTemplate<TextureType::Texture3>::setSubImage(
 
 template <TextureType type>
 template <PixelFormat fmt, TextureType t, typename Enable>
-void TextureTemplate<type>::clear(const Pixel<fmt>& pixel)
+void TextureTemplate<type>::clear(const PixelT<fmt>& pixel)
 {
   setImage(Image<fmt>(getSize(), pixel));
 }
@@ -1146,7 +1152,8 @@ typename TextureTemplate<type>::template Image<fmt>
   gl::getTextureImage(mGlTextureHandle, mipMapLevel,
     pixelFormatToGlPixelFormat(fmt), static_cast<GLenum>(toGlType<uint8_t>()),
     buffer.size(), buffer.data());
-  return Image<fmt>(mipMapSize, std::move(buffer));
+  return Image<fmt>(mipMapSize,
+    reinterpretSpan<const typename Image<fmt>::Pixel>(Span<uint8_t>(buffer)));
 }
 
 
@@ -1231,7 +1238,7 @@ void TextureTemplate<type>::generateMipMap()
   template void TextureTemplate<tt>::setSubImage<pf, tt, void>(                \
     const TextureTemplate<tt>::Coordinates&,                                   \
     const TextureTemplate<tt>::Image<pf>&);                                    \
-  template void TextureTemplate<tt>::clear<pf, tt, void>(const Pixel<pf>&);    \
+  template void TextureTemplate<tt>::clear<pf, tt, void>(const PixelT<pf>&);   \
   template TextureTemplate<tt>::Image<pf>                                      \
     TextureTemplate<tt>::getMipMapImage<pf, tt, void>(uint) const;
 

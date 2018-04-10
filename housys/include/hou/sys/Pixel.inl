@@ -2,22 +2,23 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license. See license.md for more details.
 
+
+
 namespace hou
 {
 
-template <PixelFormat format>
-constexpr PixelFormat Pixel<format>::getFormat()
+template <PixelFormat pf>
+constexpr PixelFormat PixelT<pf>::getFormat()
 {
-  return format;
+  return pf;
 }
 
 
 
-template <PixelFormat format>
-constexpr size_t Pixel<format>::getByteCount()
+template <PixelFormat pf>
+constexpr uint PixelT<pf>::getByteCount()
 {
-  return getPixelFormatByteCount(format);
+  return getPixelFormatByteCount(pf);
 }
 
-}
-
+}  // namespace hou

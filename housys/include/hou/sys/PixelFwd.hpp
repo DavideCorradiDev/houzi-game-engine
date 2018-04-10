@@ -15,12 +15,12 @@ namespace hou
 {
 
 template <PixelFormat format>
-  class Pixel;
+  class PixelT;
 
-using PixelR = Pixel<PixelFormat::R>;
-using PixelRG = Pixel<PixelFormat::RG>;
-using PixelRGB = Pixel<PixelFormat::RGB>;
-using PixelRGBA = Pixel<PixelFormat::RGBA>;
+using PixelR = PixelT<PixelFormat::R>;
+using PixelRG = PixelT<PixelFormat::RG>;
+using PixelRGB = PixelT<PixelFormat::RGB>;
+using PixelRGBA = PixelT<PixelFormat::RGBA>;
 
 }
 
