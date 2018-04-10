@@ -718,8 +718,6 @@ TYPED_TEST(TestTextureNotMultisampled, GetSubImage)
   Size texSize;
   Size subImageSize;
   Coordinates subImageOffset;
-  ASSERT_EQ(texSize.getSize(), subImageSize.getSize());
-  ASSERT_EQ(texSize.getSize(), subImageOffset.getSize());
   for(size_t i = 0; i < texSize.getSize(); ++i)
   {
     texSize(i) = (i + 1) * 4;
@@ -745,8 +743,6 @@ TYPED_TEST(TestTextureNotMultisampledDeathTest, GetSubImageErrorOverflow)
   Size texSize;
   Size subImageSize;
   Coordinates subImageOffset;
-  ASSERT_EQ(texSize.getSize(), subImageSize.getSize());
-  ASSERT_EQ(texSize.getSize(), subImageOffset.getSize());
   for(size_t i = 0; i < texSize.getSize(); ++i)
   {
     texSize(i) = (i + 1) * 4;
@@ -769,8 +765,6 @@ TYPED_TEST(TestTextureNotMultisampled, SetSubImage)
   Size texSize;
   Size subImageSize;
   Coordinates subImageOffset;
-  ASSERT_EQ(texSize.getSize(), subImageSize.getSize());
-  ASSERT_EQ(texSize.getSize(), subImageOffset.getSize());
   for(size_t i = 0; i < texSize.getSize(); ++i)
   {
     texSize(i) = (i + 1) * 4;
@@ -801,8 +795,6 @@ TYPED_TEST(TestTextureNotMultisampledDeathTest, SetSubImageErrorOverflow)
   Size texSize;
   Size subImageSize;
   Coordinates subImageOffset;
-  ASSERT_EQ(texSize.getSize(), subImageSize.getSize());
-  ASSERT_EQ(texSize.getSize(), subImageOffset.getSize());
   for(size_t i = 0; i < texSize.getSize(); ++i)
   {
     texSize(i) = (i + 1) * 4;

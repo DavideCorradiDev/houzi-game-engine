@@ -45,28 +45,23 @@ public:
   Image(const Size& size);
   Image(const Size& size, const Pixel& pixel);
   Image(const Size& size, const Span<const Pixel>& pixels);
-  // Test conversions with different sizes.
   template <size_t otherDim, PixelFormat otherFmt,
     typename Enable = std::enable_if_t<(otherFmt != fmt || otherDim != dim)
       && (otherDim <= dim)>>
   HOU_SYS_API Image(const Image<otherDim, otherFmt>& other);
 
   const Size& getSize() const;
+
   const PixelCollection& getPixels() const;
-  // To be testsd.
   void setPixels(const Span<const Pixel>& pixels);
 
-  // Change to get / set?
   const Pixel& getPixel(const Coordinates& coordinates) const;
   void setPixel(const Coordinates& coordinates, const Pixel& value);
 
-  void clear(const Pixel& pixel);
-
-  // To be tested.
   Image getSubImage(const Coordinates& offset, const Size& size);
   void setSubImage(const Coordinates& offset, const Image& image);
 
-  // Linear accessor?
+  void clear(const Pixel& pixel);
 
 private:
   size_t computePixelCount() const;
