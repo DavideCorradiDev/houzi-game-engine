@@ -11,7 +11,7 @@
 #include "hou/gfx/MeshDrawMode.hpp"
 #include "hou/gfx/MeshFillMode.hpp"
 #include "hou/gfx/VertexArray.hpp"
-#include "hou/gfx/VertexBuffer.hpp"
+#include "hou/gfx/RenderBuffer.hpp"
 
 #include "hou/cor/BasicTypes.hpp"
 #include "hou/cor/Span.hpp"
@@ -101,7 +101,7 @@ private:
   MeshDrawMode mDrawMode;
   MeshFillMode mFillMode;
   uint mVertexCount;
-  VertexBuffer mVbo;
+  StaticRenderBuffer<VertexType> mVbo;
   VertexArray mVao;
 };
 

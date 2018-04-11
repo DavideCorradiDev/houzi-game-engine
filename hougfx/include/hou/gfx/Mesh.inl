@@ -26,7 +26,7 @@ Mesh<VertexType>::Mesh(MeshDrawMode drawMode, MeshFillMode fillMode,
   , mDrawMode(drawMode)
   , mFillMode(fillMode)
   , mVertexCount(vertices.size())
-  , mVbo(vertices, VertexBufferAttributes::None)
+  , mVbo(vertices)
   , mVao()
 {
   mVao.setVertexData(mVbo, 0u, VertexType::getVertexFormat());
@@ -73,7 +73,7 @@ uint Mesh<VertexType>::getVertexCount() const
 template <typename VertexType>
 std::vector<VertexType> Mesh<VertexType>::getVertices() const
 {
-  return mVbo.getData<VertexType>();
+  return mVbo.getData();
 }
 
 

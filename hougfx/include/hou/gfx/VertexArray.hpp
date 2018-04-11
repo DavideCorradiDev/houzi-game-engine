@@ -17,7 +17,7 @@
 namespace hou
 {
 
-class VertexBuffer;
+class RenderBuffer;
 class VertexFormat;
 
 class HOU_GFX_API VertexArray : public NonCopyable
@@ -35,8 +35,8 @@ public:
   const gl::VertexArrayHandle& getHandle() const;
   bool isBound() const;
   void setVertexData(
-    const VertexBuffer& vb, uint bindingIndex, const VertexFormat& vf);
-  void setElementData(const VertexBuffer& eb);
+    const RenderBuffer& vb, uint bindingIndex, const VertexFormat& vf);
+  void setElementData(const RenderBuffer& eb);
 
 private:
   gl::VertexArrayHandle mHandle;

@@ -2,8 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license. See license.md for more details.
 
-#ifndef HOU_GFX_VERTEX_BUFFER_ATTRIBUTES_HPP
-#define HOU_GFX_VERTEX_BUFFER_ATTRIBUTES_HPP
+#ifndef HOU_GFX_RENDER_BUFFER_ATTRIBUTES_HPP
+#define HOU_GFX_RENDER_BUFFER_ATTRIBUTES_HPP
 
 #include "hou/gfx/GfxExport.hpp"
 
@@ -16,7 +16,7 @@
 namespace hou
 {
 
-enum class VertexBufferAttributes : GLbitfield
+enum class RenderBufferAttributes : GLbitfield
 {
   None = 0,
   DynamicStorage = GL_DYNAMIC_STORAGE_BIT,
@@ -30,7 +30,7 @@ enum class VertexBufferAttributes : GLbitfield
 
 
 template <>
-  struct EnableBitwiseOperators<VertexBufferAttributes>
+  struct EnableBitwiseOperators<RenderBufferAttributes>
 {
   static constexpr bool enable = true;
 };
