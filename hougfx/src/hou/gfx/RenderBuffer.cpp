@@ -23,12 +23,12 @@ void RenderBuffer::unbind(RenderBufferTarget target)
 
 
 
-RenderBuffer::RenderBuffer(uint size, bool dynamicStorage)
+RenderBuffer::RenderBuffer(uint byteCount, bool dynamicStorage)
   : NonCopyable()
   , mHandle(gl::BufferHandle::create())
-  , mByteCount(size)
+  , mByteCount(byteCount)
 {
-  std::vector<uint8_t> data(size, 0u);
+  std::vector<uint8_t> data(byteCount, 0u);
   gl::setBufferStorage(mHandle, static_cast<GLsizei>(data.size()),
     reinterpret_cast<const GLvoid*>(data.data()),
     dynamicStorage ? GL_DYNAMIC_STORAGE_BIT : 0);

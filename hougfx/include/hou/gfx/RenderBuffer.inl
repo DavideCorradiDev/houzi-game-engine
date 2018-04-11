@@ -46,26 +46,28 @@ typename RenderBufferT<T, dynamicStorage>::DataType
 
 
 template <typename T, bool dynamicStorage>
-template <bool ds, typename Enable>
-void RenderBufferT<T, dynamicStorage>::setData(const Span<const T>& data)
+typename RenderBufferT<T, dynamicStorage>::DataType
+  RenderBufferT<T, dynamicStorage>::getSubData(
+    uint offset, uint elementCount) const
 {
-  HOU_EXPECT(data.size() == getSize());
-  setSubData(0u, data);
+  HOU_EXPECT_DEV(getByteCount() % sizeof(T) == 0u);
+  HOU_EXPECT(offset + elementCount <= getSize());
+  typename RenderBufferT<T, dynamicStorage>::DataType dataOut(
+    elementCount, T());
+  gl::getBufferSubData(getHandle(), static_cast<GLintptr>(offset * sizeof(T)),
+    static_cast<uint>(elementCount * sizeof(T)),
+    reinterpret_cast<GLvoid*>(dataOut.data()));
+  return dataOut;
 }
 
 
 
 template <typename T, bool dynamicStorage>
-typename RenderBufferT<T, dynamicStorage>::DataType
-  RenderBufferT<T, dynamicStorage>::getSubData(uint offset, uint size) const
+template <bool ds, typename Enable>
+void RenderBufferT<T, dynamicStorage>::setData(const Span<const T>& data)
 {
-  HOU_EXPECT_DEV(getByteCount() % sizeof(T) == 0u);
-  HOU_EXPECT(offset + size <= getSize());
-  typename RenderBufferT<T, dynamicStorage>::DataType dataOut(size, T());
-  gl::getBufferSubData(getHandle(), static_cast<GLintptr>(offset * sizeof(T)),
-    static_cast<uint>(size * sizeof(T)),
-    reinterpret_cast<GLvoid*>(dataOut.data()));
-  return dataOut;
+  HOU_EXPECT(data.size() == getSize());
+  setSubData(0u, data);
 }
 
 
