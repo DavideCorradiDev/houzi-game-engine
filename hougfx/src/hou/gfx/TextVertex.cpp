@@ -14,19 +14,11 @@ namespace hou
 const VertexFormat& TextVertex::getVertexFormat()
 {
   static constexpr bool mustBeNormalized = true;
-  static const VertexFormat vf
-    ( 0
-    , sizeof(TextVertex)
-    , { VertexAttribFormat
-        ( GlType::Float
-        , TextVertex::sPositionSize
-        , offsetof(TextVertex, mPosition)
-        , !mustBeNormalized)
-      , VertexAttribFormat
-        ( GlType::Float
-        , TextVertex::sTextureCoordinatesSize
-        , offsetof(TextVertex, mTexCoords)
-        , mustBeNormalized)});
+  static const VertexFormat vf(0, sizeof(TextVertex),
+    {VertexAttribFormat(GlType::Float, TextVertex::sPositionSize,
+       offsetof(TextVertex, mPosition), !mustBeNormalized),
+      VertexAttribFormat(GlType::Float, TextVertex::sTextureCoordinatesSize,
+        offsetof(TextVertex, mTexCoords), mustBeNormalized)});
   return vf;
 }
 
@@ -91,7 +83,8 @@ bool operator!=(const TextVertex& lhs, const TextVertex& rhs)
 
 
 
-bool close(const TextVertex& lhs, const TextVertex& rhs, float acc)
+bool close(
+  const TextVertex& lhs, const TextVertex& rhs, TextVertex::ComparisonType acc)
 {
   return close(lhs.getPosition(), rhs.getPosition(), acc)
     && close(lhs.getTextureCoordinates(), rhs.getTextureCoordinates(), acc);
@@ -101,11 +94,9 @@ bool close(const TextVertex& lhs, const TextVertex& rhs, float acc)
 
 std::ostream& operator<<(std::ostream& os, const TextVertex& v)
 {
-  return os
-    << "{Position = " << transpose(v.getPosition())
-    << ", TextureCoordinates = " << transpose(v.getTextureCoordinates())
-    << "}";
+  return os << "{Position = " << transpose(v.getPosition())
+            << ", TextureCoordinates = " << transpose(v.getTextureCoordinates())
+            << "}";
 }
 
-}
-
+}  // namespace hou

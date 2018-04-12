@@ -7,9 +7,9 @@
 
 #include "hou/mth/Transform2.hpp"
 
-#include "hou/gfx/Mesh2.hpp"
 #include "hou/gfx/Renderer2.hpp"
 #include "hou/gfx/RenderTexture.hpp"
+#include "hou/gfx/Vertex2.hpp"
 
 #include "hou/sys/Color.hpp"
 

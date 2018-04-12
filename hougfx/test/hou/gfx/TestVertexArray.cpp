@@ -5,9 +5,9 @@
 #include "hou/Test.hpp"
 #include "hou/gfx/TestGfxBase.hpp"
 
+#include "hou/gfx/RenderBuffer.hpp"
 #include "hou/gfx/VertexArray.hpp"
 #include "hou/gfx/VertexAttribFormat.hpp"
-#include "hou/gfx/VertexBuffer.hpp"
 #include "hou/gfx/VertexFormat.hpp"
 
 
@@ -16,6 +16,8 @@ using namespace hou;
 
 namespace
 {
+
+using FloatBuffer = StaticRenderBuffer<float>;
 
 class TestVertexArray : public TestGfxBase
 {};
@@ -73,8 +75,7 @@ TEST_F(TestVertexArray, MoveConstructor)
 TEST_F(TestVertexArray, SetVertexData)
 {
   VertexArray va;
-  VertexBuffer vb(
-    std::vector<float>{1, 2, 3, 4, 5, 6}, VertexBufferAttributes::None);
+  FloatBuffer vb(std::vector<float>{1, 2, 3, 4, 5, 6});
   VertexFormat vf(0, 3,
     {VertexAttribFormat(GlType::Float, 2, 0, false),
       VertexAttribFormat(GlType::Float, 1, 2, true)});
@@ -87,8 +88,7 @@ TEST_F(TestVertexArray, SetVertexData)
 TEST_F(TestVertexArray, SetVertexDataMaxBindingIndex)
 {
   VertexArray va;
-  VertexBuffer vb(
-    std::vector<float>{1, 2, 3, 4, 5, 6}, VertexBufferAttributes::None);
+  FloatBuffer vb(std::vector<float>{1, 2, 3, 4, 5, 6});
   VertexFormat vf(0, 3,
     {VertexAttribFormat(GlType::Float, 2, 0, false),
       VertexAttribFormat(GlType::Float, 1, 2, true)});
@@ -101,8 +101,7 @@ TEST_F(TestVertexArray, SetVertexDataMaxBindingIndex)
 TEST_F(TestVertexArrayDeathTest, SetVertexDataErrorInvalidBindingIndex)
 {
   VertexArray va;
-  VertexBuffer vb(
-    std::vector<float>{1, 2, 3, 4, 5, 6}, VertexBufferAttributes::None);
+  FloatBuffer vb(std::vector<float>{1, 2, 3, 4, 5, 6});
   VertexFormat vf(0, 3,
     {VertexAttribFormat(GlType::Float, 2, 0, false),
       VertexAttribFormat(GlType::Float, 1, 2, true)});
@@ -115,8 +114,7 @@ TEST_F(TestVertexArrayDeathTest, SetVertexDataErrorInvalidBindingIndex)
 TEST_F(TestVertexArray, SetVertexDataMaxAttribFormats)
 {
   VertexArray va;
-  VertexBuffer vb(
-    std::vector<float>{1, 2, 3, 4, 5, 6}, VertexBufferAttributes::None);
+  FloatBuffer vb(std::vector<float>{1, 2, 3, 4, 5, 6});
   VertexAttribFormat vaf(GlType::Float, 2, 0, false);
   HOU_EXPECT_PRECONDITION(
     va.setVertexData(vb, VertexArray::getMaxBindingIndex(),
@@ -130,6 +128,6 @@ TEST_F(TestVertexArray, SetVertexDataMaxAttribFormats)
 TEST_F(TestVertexArray, SetElementData)
 {
   VertexArray va;
-  VertexBuffer vb(std::vector<float>{0, 1}, VertexBufferAttributes::None);
+  FloatBuffer vb(std::vector<float>{0, 1});
   va.setElementData(vb);
 }

@@ -8,7 +8,7 @@
 #include "hou/gfx/GfxExport.hpp"
 #include "hou/cor/NonCopyable.hpp"
 
-#include "hou/gfx/Mesh2Fwd.hpp"
+#include "hou/gfx/Vertex2.hpp"
 #include "hou/gfx/Mesh2ShaderProgram.hpp"
 #include "hou/gfx/TextShaderProgram.hpp"
 #include "hou/gfx/Texture.hpp"

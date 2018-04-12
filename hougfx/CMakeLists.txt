@@ -40,7 +40,7 @@ SET(LIB_HOUGFX_SRC
   src/hou/gfx/GlyphMetrics.cpp
   src/hou/gfx/GlyphRenderInfo.cpp
   src/hou/gfx/GlType.cpp
-  src/hou/gfx/Mesh2.cpp
+  src/hou/gfx/Mesh.cpp
   src/hou/gfx/Mesh2ShaderProgram.cpp
   src/hou/gfx/MeshDrawMode.cpp
   src/hou/gfx/MeshFillMode.cpp
@@ -64,8 +64,8 @@ SET(LIB_HOUGFX_SRC
   src/hou/gfx/TextureWrapMode.cpp
   src/hou/gfx/VertexArray.cpp
   src/hou/gfx/VertexAttribFormat.cpp
-  src/hou/gfx/VertexBuffer.cpp
-  src/hou/gfx/VertexBufferTarget.cpp
+  src/hou/gfx/RenderBuffer.cpp
+  src/hou/gfx/RenderBufferTarget.cpp
   src/hou/gfx/VertexFormat.cpp
   src/hou/gfx/Vertex2.cpp
 )

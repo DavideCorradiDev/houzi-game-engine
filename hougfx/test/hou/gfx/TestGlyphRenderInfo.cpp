@@ -6,8 +6,8 @@
 #include "hou/gfx/TestGfxBase.hpp"
 
 #include "hou/gfx/GlyphRenderInfo.hpp"
-#include "hou/gfx/Mesh2.hpp"
 #include "hou/gfx/Texture.hpp"
+#include "hou/gfx/Vertex2.hpp"
 
 #include "hou/sys/Image.hpp"
 
