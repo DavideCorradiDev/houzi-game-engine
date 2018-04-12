@@ -6,7 +6,7 @@
 
 #include "hou/gfx/Glyph.hpp"
 #include "hou/gfx/Font.hpp"
-#include "hou/gfx/Mesh2.hpp"
+#include "hou/gfx/Vertex2.hpp"
 #include "hou/gfx/RenderFont.hpp"
 #include "hou/gfx/RenderSurface.hpp"
 #include "hou/gfx/TextureChannelMapping.hpp"

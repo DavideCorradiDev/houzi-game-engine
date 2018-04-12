@@ -11,6 +11,9 @@
 
 #include "hou/mth/Matrix.hpp"
 
+#include "hou/gfx/Mesh.hpp"
+
+
 
 namespace hou
 {
@@ -46,8 +49,6 @@ HOU_GFX_API bool close(const TextVertex& lhs, const TextVertex& rhs,
   float acc = std::numeric_limits<float>::epsilon());
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, const TextVertex& v);
 
-template <typename VertexType>
-class MeshT;
 using TextMesh = MeshT<TextVertex>;
 
 }  // namespace hou

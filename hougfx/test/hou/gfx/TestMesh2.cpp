@@ -9,7 +9,6 @@
 
 #include "hou/sys/Color.hpp"
 
-#include "hou/gfx/Mesh2.hpp"
 #include "hou/gfx/Vertex2.hpp"
 
 using namespace hou;

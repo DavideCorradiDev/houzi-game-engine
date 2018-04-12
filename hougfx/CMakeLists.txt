@@ -41,7 +41,6 @@ SET(LIB_HOUGFX_SRC
   src/hou/gfx/GlyphRenderInfo.cpp
   src/hou/gfx/GlType.cpp
   src/hou/gfx/Mesh.cpp
-  src/hou/gfx/Mesh2.cpp
   src/hou/gfx/Mesh2ShaderProgram.cpp
   src/hou/gfx/MeshDrawMode.cpp
   src/hou/gfx/MeshFillMode.cpp
