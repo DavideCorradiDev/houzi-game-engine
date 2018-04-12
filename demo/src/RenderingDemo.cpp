@@ -1,4 +1,4 @@
-#include "hou/gfx/Mesh2.hpp"
+#include "hou/gfx/Vertex2.hpp"
 #include "hou/gfx/Renderer2.hpp"
 #include "hou/gfx/RenderContext.hpp"
 #include "hou/gfx/RenderWindow.hpp"
