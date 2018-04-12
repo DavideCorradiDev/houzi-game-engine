@@ -37,6 +37,8 @@ public:
   using value_type = float;
 
 public:
+  /** Retrieves the VertexFormat.
+   */
   static const VertexFormat& getVertexFormat();
 
 public:
@@ -96,9 +98,9 @@ private:
   static constexpr size_t sColorSize = 4u;
 
 private:
-  float mPosition[sPositionSize];
-  float mTexCoords[sTextureCoordinatesSize];
-  float mColor[sColorSize];
+  GLfloat mPosition[sPositionSize];
+  GLfloat mTexCoords[sTextureCoordinatesSize];
+  GLfloat mColor[sColorSize];
 };
 
 HOU_PRAGMA_PACK_POP()
