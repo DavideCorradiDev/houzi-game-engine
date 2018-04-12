@@ -30,7 +30,7 @@ VertexFormat::VertexFormat(ptrdiff_t offset, uint stride,
 
 
 VertexFormat::VertexFormat(ptrdiff_t offset, uint stride,
-    std::vector<VertexAttribFormat>&& vertexAttribFormats)
+  std::vector<VertexAttribFormat>&& vertexAttribFormats)
   : mOffset(offset)
   , mStride(stride)
   , mVertexAttribFormats(std::move(vertexAttribFormats))
@@ -62,25 +62,26 @@ const std::vector<VertexAttribFormat>& VertexFormat::getVertexAttribFormats()
 
 
 
-bool operator==(const VertexFormat& l, const VertexFormat& r)
+bool operator==(const VertexFormat& lhs, const VertexFormat& rhs)
 {
-  return l.getOffset() == r.getOffset() && l.getStride() == r.getStride()
-    && l.getVertexAttribFormats() == r.getVertexAttribFormats();
+  return lhs.getOffset() == rhs.getOffset()
+    && lhs.getStride() == rhs.getStride()
+    && lhs.getVertexAttribFormats() == rhs.getVertexAttribFormats();
 }
 
 
 
-bool operator!=(const VertexFormat& l, const VertexFormat& r)
+bool operator!=(const VertexFormat& lhs, const VertexFormat& rhs)
 {
-  return !(l == r);
+  return !(lhs == rhs);
 }
 
 
 
-std::ostream& operator<<(std::ostream& os, const VertexFormat& r)
+std::ostream& operator<<(std::ostream& os, const VertexFormat& vf)
 {
-  return os << "{Offset = " << r.getOffset() << ", Stride = " << r.getStride()
-            << ", VertexAttribFormats = " << r.getVertexAttribFormats() << "}";
+  return os << "{Offset = " << vf.getOffset() << ", Stride = " << vf.getStride()
+            << ", VertexAttribFormats = " << vf.getVertexAttribFormats() << "}";
 }
 
 }  // namespace hou
