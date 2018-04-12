@@ -8,6 +8,7 @@
 #include "hou/gfx/GfxExport.hpp"
 
 #include "hou/cor/BasicTypes.hpp"
+#include "hou/cor/Pragmas.hpp"
 
 #include "hou/mth/Matrix.hpp"
 
@@ -19,6 +20,8 @@ namespace hou
 {
 
 class VertexFormat;
+
+HOU_PRAGMA_PACK_PUSH(1)
 
 class HOU_GFX_API TextVertex
 {
@@ -42,6 +45,8 @@ private:
   float mPosition[sPositionSize];
   float mTexCoords[sTextureCoordinatesSize];
 };
+
+HOU_PRAGMA_PACK_POP()
 
 HOU_GFX_API bool operator==(const TextVertex& lhs, const TextVertex& rhs);
 HOU_GFX_API bool operator!=(const TextVertex& lhs, const TextVertex& rhs);

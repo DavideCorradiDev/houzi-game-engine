@@ -15,8 +15,16 @@ using namespace hou;
 namespace
 {
 
-class TestVertex2 : public Test {};
+class TestVertex2 : public Test
+{};
 
+}  // namespace
+
+
+
+TEST_F(TestVertex2, Size)
+{
+  EXPECT_EQ(8u, sizeof(Vertex2));
 }
 
 
@@ -139,7 +147,6 @@ TEST_F(TestVertex2, OutputStreamOperator)
 {
   Vertex2 v(Vec2f(1.f, 2.f), Vec2f(3.f, 4.f), Color(5u, 6u, 7u, 8u));
   const char* refOutput = "{Position = (1, 2), TextureCoordinates = (3, 4), "
-    "Color = {Red = 5, Green = 6, Blue = 7, Alpha = 8}}";
+                          "Color = {Red = 5, Green = 6, Blue = 7, Alpha = 8}}";
   HOU_EXPECT_OUTPUT(refOutput, v);
 }
-
