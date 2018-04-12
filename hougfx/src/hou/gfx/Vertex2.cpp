@@ -134,7 +134,7 @@ bool operator!=(const Vertex2& lhs, const Vertex2& rhs)
 
 
 
-bool close(const Vertex2& lhs, const Vertex2& rhs, float acc)
+bool close(const Vertex2& lhs, const Vertex2& rhs, Vertex2::ComparisonType acc)
 {
   return lhs.getColor() == rhs.getColor()
     && close(lhs.getPosition(), rhs.getPosition(), acc)

@@ -83,7 +83,8 @@ bool operator!=(const TextVertex& lhs, const TextVertex& rhs)
 
 
 
-bool close(const TextVertex& lhs, const TextVertex& rhs, float acc)
+bool close(
+  const TextVertex& lhs, const TextVertex& rhs, TextVertex::ComparisonType acc)
 {
   return close(lhs.getPosition(), rhs.getPosition(), acc)
     && close(lhs.getTextureCoordinates(), rhs.getTextureCoordinates(), acc);

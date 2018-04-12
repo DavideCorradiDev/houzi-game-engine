@@ -24,7 +24,7 @@ class TestTextVertex : public Test
 
 TEST_F(TestTextVertex, Size)
 {
-  EXPECT_EQ(5u, sizeof(TextVertex));
+  EXPECT_EQ(5u * sizeof(GLfloat), sizeof(TextVertex));
 }
 
 

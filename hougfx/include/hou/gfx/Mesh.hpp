@@ -164,7 +164,8 @@ bool operator!=(const MeshT<T>& lhs, const MeshT<T>& rhs);
  */
 template <typename T>
 bool close(const MeshT<T>& lhs, const MeshT<T>& rhs,
-  typename T::value_type acc = std::numeric_limits<float>::epsilon());
+  typename T::ComparisonType acc
+  = std::numeric_limits<typename T::ComparisonType>::epsilon());
 
 /** Writes the object into a stream.
  *

@@ -34,7 +34,9 @@ HOU_PRAGMA_PACK_PUSH(1)
 class HOU_GFX_API Vertex2
 {
 public:
-  using value_type = float;
+  /** Type to be used as accuracy in close comparison checks for Mesh.
+   */
+  using ComparisonType = float;
 
 public:
   /** Retrieves the VertexFormat.
@@ -129,7 +131,8 @@ HOU_GFX_API bool operator!=(const Vertex2& lhs, const Vertex2& rhs);
  *  \return true if the two objects are equal.
  */
 HOU_GFX_API bool close(const Vertex2& lhs, const Vertex2& rhs,
-  float acc = std::numeric_limits<float>::epsilon());
+  Vertex2::ComparisonType acc
+  = std::numeric_limits<Vertex2::ComparisonType>::epsilon());
 
 /** Writes the object into a stream.
  *

@@ -30,6 +30,11 @@ HOU_PRAGMA_PACK_PUSH(1)
 class HOU_GFX_API TextVertex
 {
 public:
+  /** Type to be used as accuracy in close comparison checks for Mesh.
+   */
+  using ComparisonType = float;
+
+public:
   /** Retrieves the VertexFormat.
    */
   static const VertexFormat& getVertexFormat();
@@ -39,7 +44,8 @@ public:
    */
   TextVertex();
 
-  /** Builds a TextVertex object with the given position and texture coordinates.
+  /** Builds a TextVertex object with the given position and texture
+   * coordinates.
    *
    *  \param position the vertex position.
    *  \param textureCoordinates the vertex texture coordinates.
@@ -105,7 +111,8 @@ HOU_GFX_API bool operator!=(const TextVertex& lhs, const TextVertex& rhs);
  *  \return true if the two objects are equal.
  */
 HOU_GFX_API bool close(const TextVertex& lhs, const TextVertex& rhs,
-  float acc = std::numeric_limits<float>::epsilon());
+  TextVertex::ComparisonType acc
+  = std::numeric_limits<TextVertex::ComparisonType>::epsilon());
 
 /** Writes the object into a stream.
  *

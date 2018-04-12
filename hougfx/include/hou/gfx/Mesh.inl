@@ -48,7 +48,8 @@ bool operator!=(const MeshT<T>& lhs, const MeshT<T>& rhs)
 
 
 template <typename T>
-bool close(const MeshT<T>& lhs, const MeshT<T>& rhs, typename T::value_type acc)
+bool close(
+  const MeshT<T>& lhs, const MeshT<T>& rhs, typename T::ComparisonType acc)
 {
   return lhs.getVertexCount() == rhs.getVertexCount()
     && lhs.getDrawMode() == rhs.getDrawMode()
