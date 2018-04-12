@@ -13,13 +13,12 @@ namespace hou
 {
 
 template <typename VertexType>
-  class Mesh;
+class MeshT;
 
 class Vertex2;
 
-using Mesh2 = Mesh<Vertex2>;
+using Mesh2 = MeshT<Vertex2>;
 
-}
+}  // namespace hou
 
 #endif
-

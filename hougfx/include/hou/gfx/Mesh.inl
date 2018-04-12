@@ -1,93 +1,35 @@
 namespace hou
 {
 
-template <typename VertexType>
-void Mesh<VertexType>::bind(const Mesh& mesh)
-{
-  VertexArray::bind(mesh.mVao);
-}
-
-
-
-template <typename VertexType>
-void Mesh<VertexType>::draw(const Mesh& mesh)
-{
-  bind(mesh);
-  gl::setPolygonMode(GL_FRONT_AND_BACK, static_cast<GLenum>(mesh.mFillMode));
-  gl::drawArrays(static_cast<GLenum>(mesh.mDrawMode), 0, mesh.mVertexCount);
-}
-
-
-
-template <typename VertexType>
-Mesh<VertexType>::Mesh(MeshDrawMode drawMode, MeshFillMode fillMode,
-  const Span<const VertexType>& vertices)
-  : NonCopyable()
-  , mDrawMode(drawMode)
-  , mFillMode(fillMode)
-  , mVertexCount(vertices.size())
+template <typename T>
+MeshT<T>::MeshT(
+  MeshDrawMode drawMode, MeshFillMode fillMode, const Span<const T>& vertices)
+  : Mesh(drawMode, fillMode, vertices.size())
   , mVbo(vertices)
-  , mVao()
 {
-  mVao.setVertexData(mVbo, 0u, VertexType::getVertexFormat());
+  mVao.setVertexData(mVbo, 0u, T::getVertexFormat());
 }
 
 
 
-template <typename VertexType>
-Mesh<VertexType>::Mesh(Mesh&& other)
-  : NonCopyable()
-  , mDrawMode(other.mDrawMode)
-  , mFillMode(other.mFillMode)
-  , mVertexCount(other.mVertexCount)
+template <typename T>
+MeshT<T>::MeshT(MeshT&& other)
+  : Mesh(std::move(other))
   , mVbo(std::move(other.mVbo))
-  , mVao(std::move(other.mVao))
 {}
 
 
 
-template <typename VertexType>
-MeshDrawMode Mesh<VertexType>::getDrawMode() const
-{
-  return mDrawMode;
-}
-
-
-
-template <typename VertexType>
-MeshFillMode Mesh<VertexType>::getFillMode() const
-{
-  return mFillMode;
-}
-
-
-
-template <typename VertexType>
-uint Mesh<VertexType>::getVertexCount() const
-{
-  return mVertexCount;
-}
-
-
-
-template <typename VertexType>
-std::vector<VertexType> Mesh<VertexType>::getVertices() const
+template <typename T>
+typename MeshT<T>::VertexCollectionType MeshT<T>::getVertices() const
 {
   return mVbo.getData();
 }
 
 
 
-template <typename VertexType>
-bool Mesh<VertexType>::isBound() const
-{
-  return mVao.isBound();
-}
-
-
-
-template <typename VertexType>
-bool operator==(const Mesh<VertexType>& lhs, const Mesh<VertexType>& rhs)
+template <typename T>
+bool operator==(const MeshT<T>& lhs, const MeshT<T>& rhs)
 {
   return lhs.getVertexCount() == rhs.getVertexCount()
     && lhs.getDrawMode() == rhs.getDrawMode()
@@ -97,17 +39,16 @@ bool operator==(const Mesh<VertexType>& lhs, const Mesh<VertexType>& rhs)
 
 
 
-template <typename VertexType>
-bool operator!=(const Mesh<VertexType>& lhs, const Mesh<VertexType>& rhs)
+template <typename T>
+bool operator!=(const MeshT<T>& lhs, const MeshT<T>& rhs)
 {
   return !(lhs == rhs);
 }
 
 
 
-template <typename VertexType>
-bool close(const Mesh<VertexType>& lhs, const Mesh<VertexType>& rhs,
-  typename VertexType::value_type acc)
+template <typename T>
+bool close(const MeshT<T>& lhs, const MeshT<T>& rhs, typename T::value_type acc)
 {
   return lhs.getVertexCount() == rhs.getVertexCount()
     && lhs.getDrawMode() == rhs.getDrawMode()
@@ -117,8 +58,8 @@ bool close(const Mesh<VertexType>& lhs, const Mesh<VertexType>& rhs,
 
 
 
-template <typename VertexType>
-std::ostream& operator<<(std::ostream& os, const Mesh<VertexType>& m)
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const MeshT<T>& m)
 {
   return os << "{DrawMode = " << m.getDrawMode()
             << ", FillMode = " << m.getFillMode()

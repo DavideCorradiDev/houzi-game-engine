@@ -178,22 +178,6 @@ TEST_F(TestMesh2, TextureQuad)
 
 
 
-TEST_F(TestMesh2, Binding)
-{
-  Mesh2 m1 = createRectangleMesh2(Vec2f(1.f, 2.f));
-  Mesh2 m2 = createRectangleMesh2(Vec2f(1.f, 2.f));
-  EXPECT_FALSE(m1.isBound());
-  EXPECT_FALSE(m2.isBound());
-  Mesh2::bind(m1);
-  EXPECT_TRUE(m1.isBound());
-  EXPECT_FALSE(m2.isBound());
-  Mesh2::bind(m2);
-  EXPECT_FALSE(m1.isBound());
-  EXPECT_TRUE(m2.isBound());
-}
-
-
-
 TEST_F(TestMesh2, Comparison)
 {
   std::vector<Vertex2> vertices1

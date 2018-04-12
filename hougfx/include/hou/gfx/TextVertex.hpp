@@ -42,15 +42,14 @@ private:
 
 HOU_GFX_API bool operator==(const TextVertex& lhs, const TextVertex& rhs);
 HOU_GFX_API bool operator!=(const TextVertex& lhs, const TextVertex& rhs);
-HOU_GFX_API bool close(const TextVertex& lhs, const TextVertex& rhs
-  , float acc = std::numeric_limits<float>::epsilon());
+HOU_GFX_API bool close(const TextVertex& lhs, const TextVertex& rhs,
+  float acc = std::numeric_limits<float>::epsilon());
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, const TextVertex& v);
 
 template <typename VertexType>
-  class Mesh;
-using TextMesh = Mesh<TextVertex>;
+class MeshT;
+using TextMesh = MeshT<TextVertex>;
 
-}
+}  // namespace hou
 
 #endif
-
