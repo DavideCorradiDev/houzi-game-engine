@@ -2,8 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license. See license.md for more details.
 
-#ifndef HOU_GFX_RENDER_CONTEXT_HPP
-#define HOU_GFX_RENDER_CONTEXT_HPP
+#ifndef HOU_GFX_GRAPHIC_CONTEXT_HPP
+#define HOU_GFX_GRAPHIC_CONTEXT_HPP
 
 #include "hou/cor/NonCopyable.hpp"
 #include "hou/gfx/GfxExport.hpp"
