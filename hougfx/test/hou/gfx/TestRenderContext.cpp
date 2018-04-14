@@ -16,9 +16,10 @@ using namespace hou;
 namespace
 {
 
-class TestRenderContext : public Test {};
+class TestRenderContext : public Test
+{};
 
-}
+}  // namespace
 
 
 
@@ -60,37 +61,45 @@ TEST_F(TestRenderContext, SetCurrent)
     RenderContext::setCurrent(rc2);
     EXPECT_FALSE(rc1.isCurrent());
     EXPECT_TRUE(rc2.isCurrent());
+
+    RenderContext::unsetCurrent(rc2);
+    EXPECT_FALSE(rc1.isCurrent());
+    EXPECT_FALSE(rc2.isCurrent());
   }
   EXPECT_EQ(nullptr, gl::Context::getCurrent());
 }
 
 
 
-TEST_F(TestRenderContext, GetMaxTextureSampleCount)
+TEST_F(TestRenderContext, UnsetCurrentOnDeletion)
 {
-  RenderContext rc;
-  EXPECT_NE(0u, RenderContext::getMaxTextureSampleCount());
-  EXPECT_EQ(static_cast<uint>(gl::getMaxTextureSamples())
-    , RenderContext::getMaxTextureSampleCount());
+  {
+    RenderContext rc;
+    EXPECT_FALSE(rc.isCurrent());
+    RenderContext::setCurrent(rc);
+    EXPECT_TRUE(rc.isCurrent());
+  }
+  EXPECT_EQ(nullptr, gl::Context::getCurrent());
 }
 
 
 
-TEST_F(TestRenderContext, GetMaxTextureSize)
+TEST_F(TestRenderContext, GetRenderingColorBitCount)
 {
-  RenderContext rc;
-  EXPECT_NE(0u, RenderContext::getMaxTextureSize());
-  EXPECT_EQ(static_cast<uint>(gl::getMaxTextureSize())
-    , RenderContext::getMaxTextureSize());
+  EXPECT_EQ(32u, RenderContext::getRenderingColorBitCount());
 }
 
 
 
-TEST_F(TestRenderContext, GetTextureUnitCount)
+TEST_F(TestRenderContext, GetRenderingDepthBitCount)
 {
-  RenderContext rc;
-  EXPECT_NE(0u, RenderContext::getTextureUnitCount());
-  EXPECT_EQ(static_cast<uint>(gl::getMaxTextureImageUnits())
-    , RenderContext::getTextureUnitCount());
+  EXPECT_EQ(32u, RenderContext::getRenderingDepthBitCount());
+}
+
+
+
+TEST_F(TestRenderContext, GetRenderingStencilBitCount)
+{
+  EXPECT_EQ(32u, RenderContext::getRenderingStencilBitCount());
 }
 

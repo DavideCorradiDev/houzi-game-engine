@@ -5,8 +5,8 @@
 #ifndef HOU_GFX_RENDER_CONTEXT_HPP
 #define HOU_GFX_RENDER_CONTEXT_HPP
 
-#include "hou/gfx/GfxExport.hpp"
 #include "hou/cor/NonCopyable.hpp"
+#include "hou/gfx/GfxExport.hpp"
 
 #include "hou/cor/BasicTypes.hpp"
 
@@ -29,34 +29,20 @@ namespace hou
  *  Resources are not shared among contexts.
  *  Even though multiple contexts in multiple threads may exist, it is suggested
  *  to perform all rendering operations in a single thread.
- *  If a RenderContext is destroyed while it is current, there will be no current
- *  RenderContext until another RenderContext is created or set as current.
+ *  If a RenderContext is destroyed while it is current, there will be no
+ * current RenderContext until another RenderContext is created or set as
+ * current.
  */
-class HOU_GFX_API RenderContext
-  : public NonCopyable
+class HOU_GFX_API RenderContext : public NonCopyable
 {
 public:
   /** Sets this as the current context for the current thread.
    */
   static void setCurrent(RenderContext& context);
 
-  /** Gets the maximum number of samples for a multisampled texture.
-   *
-   *  \return the maximum number of samples.
+  /** Unsets the current RenderContext.
    */
-  static uint getMaxTextureSampleCount();
-
-  /** Gets the maximum size for a texture.
-   *
-   *  \return the maximum size for a texture.
-   */
-  static uint getMaxTextureSize();
-
-  /** Gets the number of available texture units.
-   *
-   *  \return the number of available texture units.
-   */
-  static uint getTextureUnitCount();
+  static void unsetCurrent(RenderContext& context);
 
   /** Gets the number of color bits used in rendering.
    *
@@ -105,7 +91,6 @@ private:
   gl::Context mGlContext;
 };
 
-}
+}  // namespace hou
 
 #endif
-

@@ -5,7 +5,6 @@
 #include "hou/gfx/RenderContext.hpp"
 
 #include "hou/gl/GlContextSettings.hpp"
-#include "hou/gl/GlTextureHandle.hpp"
 #include "hou/gl/GlUtils.hpp"
 
 #include "hou/sys/VideoMode.hpp"
@@ -22,23 +21,9 @@ void RenderContext::setCurrent(RenderContext& context)
 
 
 
-uint RenderContext::getMaxTextureSampleCount()
+void RenderContext::unsetCurrent(RenderContext& context)
 {
-  return static_cast<uint>(gl::getMaxTextureSamples());
-}
-
-
-
-uint RenderContext::getMaxTextureSize()
-{
-  return static_cast<uint>(gl::getMaxTextureSize());
-}
-
-
-
-uint RenderContext::getTextureUnitCount()
-{
-  return static_cast<uint>(gl::getMaxTextureImageUnits());
+  gl::Context::unsetCurrent();
 }
 
 
@@ -66,11 +51,13 @@ uint RenderContext::getRenderingStencilBitCount()
 
 RenderContext::RenderContext()
   : mExtensionInitializer()
-  , mDefaultWindow("HouziWindow", VideoMode(Vec2u(0u, 0u)
-    , getRenderingColorBitCount()), WindowStyle::Windowed)
-  , mGlContext(gl::ContextSettings(gl::Version(4u, 5u), gl::ContextProfile::Core
-    , getRenderingDepthBitCount(), getRenderingStencilBitCount(), 0u)
-    , mDefaultWindow)
+  , mDefaultWindow("HouziWindow",
+      VideoMode(Vec2u(0u, 0u), getRenderingColorBitCount()),
+      WindowStyle::Windowed)
+  , mGlContext(
+      gl::ContextSettings(gl::Version(4u, 5u), gl::ContextProfile::Core,
+        getRenderingDepthBitCount(), getRenderingStencilBitCount(), 0u),
+      mDefaultWindow)
 {
   setCurrent(*this);
 
@@ -106,5 +93,4 @@ RenderContext::ExtensionInitializer::ExtensionInitializer()
   gl::initExtensions();
 }
 
-}
-
+}  // namespace hou
