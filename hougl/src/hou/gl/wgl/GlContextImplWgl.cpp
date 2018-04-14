@@ -51,8 +51,8 @@ int choosePixelFormat(
       static_cast<int>(settings.getDepthByteCount() * bitsPerByte),
       WGL_STENCIL_BITS_ARB,
       static_cast<int>(settings.getStencilByteCount() * bitsPerByte),
-      WGL_SAMPLE_BUFFERS_ARB, settings.getAntialiasingLevel() == 0 ? 0 : 1,
-      WGL_SAMPLES_ARB, static_cast<int>(settings.getAntialiasingLevel()),
+      WGL_SAMPLE_BUFFERS_ARB, settings.getSampleCount() == 0 ? 0 : 1,
+      WGL_SAMPLES_ARB, static_cast<int>(settings.getSampleCount()),
       0  // End
     };
 

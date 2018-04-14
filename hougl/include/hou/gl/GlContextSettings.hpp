@@ -24,7 +24,7 @@ class HOU_GL_API ContextSettings
 {
 public:
   ContextSettings(const Version& version, ContextProfile profile,
-    uint depthByteCount, uint stencilByteCount, uint antiAliasingLevel);
+    uint depthByteCount, uint stencilByteCount, uint sampleCount);
 
   const Version& getVersion() const;
   void setVersion(const Version& version);
@@ -34,8 +34,8 @@ public:
   void setDepthByteCount(uint value);
   uint getStencilByteCount() const;
   void setStencilByteCount(uint value);
-  uint getAntialiasingLevel() const;
-  void setAntialiasingLevel(uint value);
+  uint getSampleCount() const;
+  void setSampleCount(uint value);
 
 public:
   static const ContextSettings Default;
@@ -45,7 +45,7 @@ private:
   ContextProfile mProfile;
   uint mDepthByteCount;
   uint mStencilByteCount;
-  uint mAntiAliasingLevel;
+  uint mSampleCount;
 };
 
 HOU_GL_API bool operator==(const ContextSettings& l, const ContextSettings& r);

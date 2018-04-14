@@ -18,7 +18,7 @@ TEST(TestGlContextSettings, Creation)
   EXPECT_EQ(gl::ContextProfile::Core, cs.getProfile());
   EXPECT_EQ(3u, cs.getDepthByteCount());
   EXPECT_EQ(1u, cs.getStencilByteCount());
-  EXPECT_EQ(0u, cs.getAntialiasingLevel());
+  EXPECT_EQ(0u, cs.getSampleCount());
 }
 
 
@@ -40,8 +40,8 @@ TEST(TestGlContextSettings, SettersAndGetters)
   cs.setStencilByteCount(2u);
   EXPECT_EQ(2u, cs.getStencilByteCount());
 
-  cs.setAntialiasingLevel(4u);
-  EXPECT_EQ(4u, cs.getAntialiasingLevel());
+  cs.setSampleCount(4u);
+  EXPECT_EQ(4u, cs.getSampleCount());
 }
 
 

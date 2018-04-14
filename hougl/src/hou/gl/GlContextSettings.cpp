@@ -16,12 +16,12 @@ const ContextSettings ContextSettings::Default
 
 
 ContextSettings::ContextSettings(const Version& version, ContextProfile profile,
-  uint depthByteCount, uint stencilByteCount, uint antiAliasingLevel)
+  uint depthByteCount, uint stencilByteCount, uint sampleCount)
   : mVersion(version)
   , mProfile(profile)
   , mDepthByteCount(depthByteCount)
   , mStencilByteCount(stencilByteCount)
-  , mAntiAliasingLevel(antiAliasingLevel)
+  , mSampleCount(sampleCount)
 {}
 
 
@@ -82,16 +82,16 @@ void ContextSettings::setStencilByteCount(uint value)
 
 
 
-uint ContextSettings::getAntialiasingLevel() const
+uint ContextSettings::getSampleCount() const
 {
-  return mAntiAliasingLevel;
+  return mSampleCount;
 }
 
 
 
-void ContextSettings::setAntialiasingLevel(uint value)
+void ContextSettings::setSampleCount(uint value)
 {
-  mAntiAliasingLevel = value;
+  mSampleCount = value;
 }
 
 
@@ -101,7 +101,7 @@ bool operator==(const ContextSettings& l, const ContextSettings& r)
   return l.getVersion() == r.getVersion() && l.getProfile() == r.getProfile()
     && l.getDepthByteCount() == r.getDepthByteCount()
     && l.getStencilByteCount() == r.getStencilByteCount()
-    && l.getAntialiasingLevel() == r.getAntialiasingLevel();
+    && l.getSampleCount() == r.getSampleCount();
 }
 
 
