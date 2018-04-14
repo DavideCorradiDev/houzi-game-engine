@@ -1,6 +1,6 @@
 #include "hou/gfx/Vertex2.hpp"
 #include "hou/gfx/Renderer2.hpp"
-#include "hou/gfx/RenderContext.hpp"
+#include "hou/gfx/GraphicContext.hpp"
 #include "hou/gfx/RenderWindow.hpp"
 #include "hou/gfx/TextureChannelMapping.hpp"
 
@@ -360,8 +360,8 @@ public:
 
 int main()
 {
-  RenderContext ctx;
-  RenderContext::setCurrent(ctx);
+  GraphicContext ctx;
+  GraphicContext::setCurrent(ctx);
 
   std::string wndTitle(u8"Rendering Demo");
   Vec2u wndSize(800u, 600u);

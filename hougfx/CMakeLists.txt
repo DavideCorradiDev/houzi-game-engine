@@ -44,7 +44,7 @@ SET(LIB_HOUGFX_SRC
   src/hou/gfx/Mesh2ShaderProgram.cpp
   src/hou/gfx/MeshDrawMode.cpp
   src/hou/gfx/MeshFillMode.cpp
-  src/hou/gfx/RenderContext.cpp
+  src/hou/gfx/GraphicContext.cpp
   src/hou/gfx/RenderFont.cpp
   src/hou/gfx/RenderSurface.cpp
   src/hou/gfx/RenderTexture.cpp

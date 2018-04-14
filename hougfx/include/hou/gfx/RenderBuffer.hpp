@@ -30,7 +30,7 @@ namespace hou
 class HOU_GFX_API RenderBuffer : public NonCopyable
 {
 public:
-  /** Binds the RenderBuffer to the current RenderContext.
+  /** Binds the RenderBuffer to the current GraphicContext.
    *
    *  \param buffer the RenderBuffer to be bound.
    *  \param target the target to bound the buffer to.

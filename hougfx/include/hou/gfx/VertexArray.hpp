@@ -25,7 +25,7 @@ class VertexFormat;
 class HOU_GFX_API VertexArray : public NonCopyable
 {
 public:
-  /** Binds the VertexArray to the current RenderContext.
+  /** Binds the VertexArray to the current GraphicContext.
    *
    *  \param vertexArray the VertexArray to be bound.
    */

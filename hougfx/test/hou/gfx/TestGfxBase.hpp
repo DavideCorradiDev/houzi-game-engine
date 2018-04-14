@@ -7,7 +7,7 @@
 
 #include <gtest/gtest.h>
 
-#include "hou/gfx/RenderContext.hpp"
+#include "hou/gfx/GraphicContext.hpp"
 
 
 
@@ -19,7 +19,7 @@ public:
   virtual ~TestGfxBase() = 0;
 
 public:
-  hou::RenderContext mContext;
+  hou::GraphicContext mContext;
 };
 
 #endif

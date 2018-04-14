@@ -9,7 +9,7 @@
 TestGfxBase::TestGfxBase()
   : mContext()
 {
-  hou::RenderContext::setCurrent(mContext);
+  hou::GraphicContext::setCurrent(mContext);
 }
 
 

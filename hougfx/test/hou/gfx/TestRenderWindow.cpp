@@ -42,7 +42,7 @@ TEST_F(TestRenderWindow, CreationWindowed)
   EXPECT_EQ(styleRef, w.getStyle());
   EXPECT_EQ(posRef, w.getClientPosition());
   EXPECT_EQ(sizeRef, w.getClientSize());
-  EXPECT_EQ(RenderContext::getRenderingColorByteCount(), w.getBytesPerPixel());
+  EXPECT_EQ(GraphicContext::getRenderingColorByteCount(), w.getBytesPerPixel());
   EXPECT_EQ(titleRef, w.getTitle());
   EXPECT_EQ(iconRef, w.getIcon());
   EXPECT_FALSE(w.isVisible());
@@ -76,7 +76,7 @@ TEST_F(TestRenderWindow, CreationWindowedMultisampled)
   EXPECT_EQ(styleRef, w.getStyle());
   EXPECT_EQ(posRef, w.getClientPosition());
   EXPECT_EQ(sizeRef, w.getClientSize());
-  EXPECT_EQ(RenderContext::getRenderingColorByteCount(), w.getBytesPerPixel());
+  EXPECT_EQ(GraphicContext::getRenderingColorByteCount(), w.getBytesPerPixel());
   EXPECT_EQ(titleRef, w.getTitle());
   EXPECT_EQ(iconRef, w.getIcon());
   EXPECT_FALSE(w.isVisible());
@@ -110,7 +110,7 @@ TEST_F(TestRenderWindow, CreationFullscreen)
   EXPECT_EQ(styleRef, w.getStyle());
   EXPECT_EQ(posRef, w.getClientPosition());
   EXPECT_EQ(sizeRef, w.getClientSize());
-  EXPECT_EQ(RenderContext::getRenderingColorByteCount(), w.getBytesPerPixel());
+  EXPECT_EQ(GraphicContext::getRenderingColorByteCount(), w.getBytesPerPixel());
   EXPECT_EQ(titleRef, w.getTitle());
   EXPECT_EQ(iconRef, w.getIcon());
   EXPECT_FALSE(w.isVisible());

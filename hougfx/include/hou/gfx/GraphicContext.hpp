@@ -21,24 +21,24 @@ namespace hou
 
 /** Represents the global state of the rendering device.
  *
- * At least one RenderContext must exist when creating rendering objects.
+ * At least one GraphicContext must exist when creating rendering objects.
  * For most applications, it is sufficient to create and set as current a
- * single RenderContext at startup, and destroy it at shutdown. Each thread may
- * have a single current RenderContext. Each RenderContext may be current in a
+ * single GraphicContext at startup, and destroy it at shutdown. Each thread may
+ * have a single current GraphicContext. Each GraphicContext may be current in a
  * single thread. Resources are not shared among contexts. Even though multiple
  * contexts in multiple threads may exist, it is suggested to perform all
- * rendering operations in a single thread. If a RenderContext is destroyed
- * while it is current, there will be nocurrent RenderContext until another
- * RenderContext is created or set as current.
+ * rendering operations in a single thread. If a GraphicContext is destroyed
+ * while it is current, there will be nocurrent GraphicContext until another
+ * GraphicContext is created or set as current.
  */
-class HOU_GFX_API RenderContext : public NonCopyable
+class HOU_GFX_API GraphicContext : public NonCopyable
 {
 public:
   /** Sets this as the current context for the current thread.
    */
-  static void setCurrent(RenderContext& context);
+  static void setCurrent(GraphicContext& context);
 
-  /** Unsets the current RenderContext.
+  /** Unsets the current GraphicContext.
    */
   static void unsetCurrent();
 
@@ -61,14 +61,14 @@ public:
   static uint getRenderingStencilByteCount();
 
 public:
-  /** Creates a RenderContext and sets it as the current RenderContext. */
-  RenderContext();
+  /** Creates a GraphicContext and sets it as the current GraphicContext. */
+  GraphicContext();
 
   /** Move constructor.
    *
-   * \param other the other RenderContext.
+   * \param other the other GraphicContext.
    */
-  RenderContext(RenderContext&& other);
+  GraphicContext(GraphicContext&& other);
 
   /** Checks if this context is current in the current thread.
    *

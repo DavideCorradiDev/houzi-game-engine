@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license. See license.md for more details.
 
-#include "hou/gfx/RenderContext.hpp"
+#include "hou/gfx/GraphicContext.hpp"
 
 #include "hou/gl/GlContextSettings.hpp"
 #include "hou/gl/GlUtils.hpp"
@@ -23,7 +23,7 @@ constexpr const char* defaultWindowName = "HouziHiddenWindow";
 
 
 
-void RenderContext::setCurrent(RenderContext& context)
+void GraphicContext::setCurrent(GraphicContext& context)
 {
   gl::Context::setCurrent(context.mGlContext, context.mDefaultWindow);
   context.onBinding();
@@ -31,35 +31,35 @@ void RenderContext::setCurrent(RenderContext& context)
 
 
 
-void RenderContext::unsetCurrent()
+void GraphicContext::unsetCurrent()
 {
   gl::Context::unsetCurrent();
 }
 
 
 
-uint RenderContext::getRenderingColorByteCount()
+uint GraphicContext::getRenderingColorByteCount()
 {
   return 4u;
 }
 
 
 
-uint RenderContext::getRenderingDepthByteCount()
+uint GraphicContext::getRenderingDepthByteCount()
 {
   return 3u;
 }
 
 
 
-uint RenderContext::getRenderingStencilByteCount()
+uint GraphicContext::getRenderingStencilByteCount()
 {
   return 1u;
 }
 
 
 
-RenderContext::RenderContext()
+GraphicContext::GraphicContext()
   : mExtensionInitializer()
   , mDefaultWindow(defaultWindowName,
       VideoMode(Vec2u::zero(), getRenderingColorByteCount()),
@@ -72,7 +72,7 @@ RenderContext::RenderContext()
 
 
 
-RenderContext::RenderContext(RenderContext&& other)
+GraphicContext::GraphicContext(GraphicContext&& other)
   : mExtensionInitializer()
   , mDefaultWindow(std::move(other.mDefaultWindow))
   , mGlContext(std::move(other.mGlContext))
@@ -80,14 +80,14 @@ RenderContext::RenderContext(RenderContext&& other)
 
 
 
-bool RenderContext::isCurrent() const
+bool GraphicContext::isCurrent() const
 {
   return mGlContext.isCurrent();
 }
 
 
 
-void RenderContext::onBinding()
+void GraphicContext::onBinding()
 {
   // Set texture pack and unpack alignment to 1 so that there is no padding.
   gl::setUnpackAlignment(1);
@@ -103,7 +103,7 @@ void RenderContext::onBinding()
 
 
 
-RenderContext::ExtensionInitializer::ExtensionInitializer()
+GraphicContext::ExtensionInitializer::ExtensionInitializer()
 {
   gl::initExtensions();
 }

@@ -39,7 +39,7 @@ public:
   /** Draws a Mesh object with the current shader and texture.
    *
    *  The draw operation automatically binds the mesh to the current
-   * RenderContext.
+   * GraphicContext.
    *
    *  \param mesh the Mesh to be drawn.
    */
