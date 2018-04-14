@@ -48,7 +48,7 @@ TEST_F(TestRenderContext, SetCurrent)
     RenderContext rc2;
 
     EXPECT_FALSE(rc1.isCurrent());
-    EXPECT_TRUE(rc2.isCurrent());
+    EXPECT_FALSE(rc2.isCurrent());
 
     RenderContext::setCurrent(rc1);
     EXPECT_TRUE(rc1.isCurrent());
@@ -75,6 +75,8 @@ TEST_F(TestRenderContext, UnsetCurrentOnDeletion)
 {
   {
     RenderContext rc;
+    EXPECT_FALSE(rc.isCurrent());
+    RenderContext::setCurrent(rc);
     EXPECT_TRUE(rc.isCurrent());
   }
   EXPECT_EQ(nullptr, gl::Context::getCurrent());

@@ -17,6 +17,7 @@ using namespace hou;
 int main()
 {
   RenderContext ctx;
+  RenderContext::setCurrent(ctx);
   RenderWindow rw(u8"Text Rendering Demo", Vec2u(800u, 600u), 8u
     , WindowStyle::Windowed);
   rw.setVisible(true);

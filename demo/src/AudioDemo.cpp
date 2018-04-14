@@ -37,6 +37,7 @@ using namespace hou;
 int main()
 {
   RenderContext ctx;
+  RenderContext::setCurrent(ctx);
   RenderWindow rw(u8"Sprite benchmark", Vec2u(800u, 600u), 8u, WindowStyle::Windowed);
   rw.setVisible(true);
   rw.setVerticalSyncMode(VerticalSyncMode::Disabled);

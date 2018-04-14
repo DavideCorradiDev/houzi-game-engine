@@ -107,6 +107,7 @@ int main()
 
   // Initialization of objects used for rendering.
   hou::RenderContext ctx;
+  hou::RenderContext::setCurrent(ctx);
   hou::RenderWindow wnd(u8"Input Demo", hou::Vec2s(800u, 600u), 0u
     , hou::WindowStyle::WindowedResizable);
   wnd.setVisible(true);

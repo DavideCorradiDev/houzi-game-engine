@@ -21,17 +21,15 @@ namespace hou
 
 /** Represents the global state of the rendering device.
  *
- *  At least one RenderContext must exist when creating rendering objects.
- *  For most applications, it is sufficient to create a single RenderContext
- *  at startup and destroy it at shutdown.
- *  Each thread may have a single current RenderContext.
- *  Each RenderContext may be current in a single thread.
- *  Resources are not shared among contexts.
- *  Even though multiple contexts in multiple threads may exist, it is suggested
- *  to perform all rendering operations in a single thread.
- *  If a RenderContext is destroyed while it is current, there will be no
- * current RenderContext until another RenderContext is created or set as
- * current.
+ * At least one RenderContext must exist when creating rendering objects.
+ * For most applications, it is sufficient to create and set as current a
+ * single RenderContext at startup, and destroy it at shutdown. Each thread may
+ * have a single current RenderContext. Each RenderContext may be current in a
+ * single thread. Resources are not shared among contexts. Even though multiple
+ * contexts in multiple threads may exist, it is suggested to perform all
+ * rendering operations in a single thread. If a RenderContext is destroyed
+ * while it is current, there will be nocurrent RenderContext until another
+ * RenderContext is created or set as current.
  */
 class HOU_GFX_API RenderContext : public NonCopyable
 {
@@ -46,19 +44,19 @@ public:
 
   /** Gets the number of color bits used in rendering.
    *
-   *  \return the number of color bits.
+   * \return the number of color bits.
    */
   static uint getRenderingColorByteCount();
 
   /** Gets the number of depth bits used in rendering.
    *
-   *  \return the number of depth bits.
+   * \return the number of depth bits.
    */
   static uint getRenderingDepthByteCount();
 
   /** Gets the number of stencil bits used in rendering.
    *
-   *  \return the number of stencil bits.
+   * \return the number of stencil bits.
    */
   static uint getRenderingStencilByteCount();
 
@@ -68,13 +66,13 @@ public:
 
   /** Move constructor.
    *
-   *  \param other the other RenderContext.
+   * \param other the other RenderContext.
    */
   RenderContext(RenderContext&& other);
 
   /** Checks if this context is current in the current thread.
    *
-   *  \return true if this context is current in the current thread.
+   * \return true if this context is current in the current thread.
    */
   bool isCurrent() const;
 
@@ -84,6 +82,11 @@ private:
   public:
     ExtensionInitializer();
   };
+
+private:
+  // This function initializes some context parameters when the context is set
+  // as current.
+  void onBinding();
 
 private:
   ExtensionInitializer mExtensionInitializer;

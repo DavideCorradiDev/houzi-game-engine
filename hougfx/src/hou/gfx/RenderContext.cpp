@@ -26,6 +26,7 @@ constexpr const char* defaultWindowName = "HouziHiddenWindow";
 void RenderContext::setCurrent(RenderContext& context)
 {
   gl::Context::setCurrent(context.mGlContext, context.mDefaultWindow);
+  context.onBinding();
 }
 
 
@@ -67,18 +68,7 @@ RenderContext::RenderContext()
       gl::ContextSettings(gl::Version(4u, 5u), gl::ContextProfile::Core,
         getRenderingDepthByteCount(), getRenderingStencilByteCount(), 0u),
       mDefaultWindow)
-{
-  setCurrent(*this);
-
-  gl::setUnpackAlignment(1);
-  gl::setPackAlignment(1);
-
-  // Multisampled default framebuffer is never used.
-  gl::disableMultisampling();
-
-  gl::enableBlending();
-  gl::setBlending(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-}
+{}
 
 
 
@@ -93,6 +83,22 @@ RenderContext::RenderContext(RenderContext&& other)
 bool RenderContext::isCurrent() const
 {
   return mGlContext.isCurrent();
+}
+
+
+
+void RenderContext::onBinding()
+{
+  // Set texture pack and unpack alignment to 1 so that there is no padding.
+  gl::setUnpackAlignment(1);
+  gl::setPackAlignment(1);
+
+  // Multisampled default framebuffer is never used.
+  gl::disableMultisampling();
+
+  // Enable alpha blending.
+  gl::enableBlending();
+  gl::setBlending(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 

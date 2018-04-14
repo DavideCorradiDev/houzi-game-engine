@@ -361,6 +361,7 @@ public:
 int main()
 {
   RenderContext ctx;
+  RenderContext::setCurrent(ctx);
 
   std::string wndTitle(u8"Rendering Demo");
   Vec2u wndSize(800u, 600u);
