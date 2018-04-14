@@ -26,7 +26,10 @@ constexpr const char* defaultWindowName = "HouziHiddenWindow";
 void GraphicContext::setCurrent(GraphicContext& context)
 {
   gl::Context::setCurrent(context.mGlContext, context.mDefaultWindow);
-  context.onBinding();
+  if(!context.mInitialized)
+  {
+    context.initialize();
+  }
 }
 
 
@@ -68,6 +71,7 @@ GraphicContext::GraphicContext()
       gl::ContextSettings(gl::Version(4u, 5u), gl::ContextProfile::Core,
         getRenderingDepthByteCount(), getRenderingStencilByteCount(), 0u),
       mDefaultWindow)
+  , mInitialized(false)
 {}
 
 
@@ -76,6 +80,7 @@ GraphicContext::GraphicContext(GraphicContext&& other)
   : mExtensionInitializer()
   , mDefaultWindow(std::move(other.mDefaultWindow))
   , mGlContext(std::move(other.mGlContext))
+  , mInitialized(std::move(other.mInitialized))
 {}
 
 
@@ -87,8 +92,10 @@ bool GraphicContext::isCurrent() const
 
 
 
-void GraphicContext::onBinding()
+void GraphicContext::initialize()
 {
+  mInitialized = true;
+
   // Set texture pack and unpack alignment to 1 so that there is no padding.
   gl::setUnpackAlignment(1);
   gl::setPackAlignment(1);

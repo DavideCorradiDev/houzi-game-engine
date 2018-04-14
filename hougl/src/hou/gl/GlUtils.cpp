@@ -4,9 +4,9 @@
 
 #include "hou/gl/GlUtils.hpp"
 
+#include "hou/gl/GlCheck.hpp"
 #include "hou/gl/GlContext.hpp"
 #include "hou/gl/GlContextSettings.hpp"
-#include "hou/gl/GlCheck.hpp"
 #include "hou/gl/GlError.hpp"
 
 #include "hou/mth/Rectangle.hpp"
@@ -15,7 +15,7 @@
 #include "hou/sys/Window.hpp"
 
 #if defined(HOU_SYSTEM_WINDOWS)
-  #include "hou/sys/win/WinError.hpp"
+#include "hou/sys/win/WinError.hpp"
 #endif
 
 #include <mutex>
@@ -27,6 +27,39 @@ namespace hou
 
 namespace gl
 {
+
+namespace
+{
+void enable(GLenum val);
+void disable(GLenum val);
+GLboolean isEnabled(GLenum val);
+
+void enable(GLenum val)
+{
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  glEnable(val);
+  HOU_GL_CHECK_ERROR();
+}
+
+
+
+void disable(GLenum val)
+{
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  glDisable(val);
+  HOU_GL_CHECK_ERROR();
+}
+
+
+
+GLboolean isEnabled(GLenum val)
+{
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  GLboolean retval = glIsEnabled(val);
+  HOU_GL_CHECK_ERROR();
+  return retval;
+}
+}  // namespace
 
 void initExtensions()
 {
@@ -46,13 +79,13 @@ void initExtensions()
 
     // Initialize extenstions through GLAD.
     int gladInitRetval = gladLoadGL();
-    HOU_RUNTIME_CHECK(gladInitRetval != 0
-      , getText(GlError::ExtensionsInitialization), gladInitRetval);
+    HOU_RUNTIME_CHECK(gladInitRetval != 0,
+      getText(GlError::ExtensionsInitialization), gladInitRetval);
 
 #if defined(HOU_SYSTEM_WINDOWS)
     int wglGladInitRetval = gladLoadWGL(GetDC(w.getWindowHandle()));
-    HOU_RUNTIME_CHECK(wglGladInitRetval != 0
-      , getText(GlError::ExtensionsInitialization), wglGladInitRetval);
+    HOU_RUNTIME_CHECK(wglGladInitRetval != 0,
+      getText(GlError::ExtensionsInitialization), wglGladInitRetval);
 #endif
 
     extensionsInitialized = true;
@@ -77,8 +110,8 @@ void setVerticalSyncMode(VerticalSyncMode mode)
 #if defined(HOU_SYSTEM_WINDOWS)
   if(wglSwapIntervalEXT)
   {
-    HOU_WIN_RUNTIME_CHECK(wglSwapIntervalEXT(static_cast<int>(mode)) != 0
-      , getText(GlError::VerticalSyncSet));
+    HOU_WIN_RUNTIME_CHECK(wglSwapIntervalEXT(static_cast<int>(mode)) != 0,
+      getText(GlError::VerticalSyncSet));
   }
 #else
   HOU_LOGIC_ERROR("Unsupported OS");
@@ -125,18 +158,21 @@ void clear(GLenum mask)
 
 void enableBlending()
 {
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  glEnable(GL_BLEND);
-  HOU_GL_CHECK_ERROR();
+  enable(GL_BLEND);
 }
 
 
 
 void disableBlending()
 {
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  glDisable(GL_BLEND);
-  HOU_GL_CHECK_ERROR();
+  disable(GL_BLEND);
+}
+
+
+
+GLboolean isBlendingEnabled()
+{
+  return isEnabled(GL_BLEND);
 }
 
 
@@ -149,20 +185,38 @@ void setBlending(GLenum sfactor, GLenum dfactor)
 }
 
 
+
+GLenum getSourceBlending()
+{
+  return getInteger(GL_BLEND_SRC_ALPHA);
+}
+
+
+
+GLenum getDestinationBlending()
+{
+  return getInteger(GL_BLEND_DST_ALPHA);
+}
+
+
+
 void enableMultisampling()
 {
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  glEnable(GL_MULTISAMPLE);
-  HOU_GL_CHECK_ERROR();
+  enable(GL_MULTISAMPLE);
 }
 
 
 
 void disableMultisampling()
 {
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  glDisable(GL_MULTISAMPLE);
-  HOU_GL_CHECK_ERROR();
+  disable(GL_MULTISAMPLE);
+}
+
+
+
+GLboolean isMultisamplingEnabled()
+{
+  return isEnabled(GL_MULTISAMPLE);
 }
 
 
@@ -251,25 +305,25 @@ GLsizei getPixelSizeBytes(GLenum format)
 {
   switch(format)
   {
-    case GL_RED:
-      return 1u;
-    case GL_RG:
-      return 2u;
-    case GL_RGB:
-    case GL_BGR:
-      return 3u;
-    case GL_RGBA:
-    case GL_BGRA:
-      return 4u;
-    default:
-      return 1u;
+  case GL_RED:
+    return 1u;
+  case GL_RG:
+    return 2u;
+  case GL_RGB:
+  case GL_BGR:
+    return 3u;
+  case GL_RGBA:
+  case GL_BGRA:
+    return 4u;
+  default:
+    return 1u;
   }
 }
 
 
 
-GLsizei computeTextureSizeBytes(GLsizei width, GLsizei height, GLsizei depth
-  , GLenum format)
+GLsizei computeTextureSizeBytes(
+  GLsizei width, GLsizei height, GLsizei depth, GLenum format)
 {
   GLsizei unpackAlignment = static_cast<GLsizei>(gl::getUnpackAlignment());
   GLsizei pixelSize = getPixelSizeBytes(format);
@@ -297,7 +351,6 @@ GLint getInteger(GLenum variable)
   return value;
 }
 
-}
+}  // namespace gl
 
-}
-
+}  // namespace hou

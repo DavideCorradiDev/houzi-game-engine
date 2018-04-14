@@ -7,6 +7,7 @@
 #include "hou/gfx/GraphicContext.hpp"
 
 #include "hou/gl/GlTextureHandle.hpp"
+#include "hou/gl/GlUtils.hpp"
 
 using namespace testing;
 using namespace hou;
@@ -84,6 +85,43 @@ TEST_F(TestGraphicContext, UnsetCurrentOnDeletion)
 
 
 
+TEST_F(TestGraphicContext, DefaultContextParameters)
+{
+  GraphicContext rc;
+  GraphicContext::setCurrent(rc);
+
+  EXPECT_EQ(1, gl::getUnpackAlignment());
+  EXPECT_EQ(1, gl::getPackAlignment());
+
+  EXPECT_FALSE(gl::isMultisamplingEnabled());
+
+  EXPECT_TRUE(gl::isBlendingEnabled());
+  EXPECT_EQ(static_cast<GLenum>(GL_SRC_ALPHA), gl::getSourceBlending());
+  EXPECT_EQ(
+    static_cast<GLenum>(GL_ONE_MINUS_SRC_ALPHA), gl::getDestinationBlending());
+}
+
+
+
+TEST_F(TestGraphicContext, ContextParametersWithContextSwitch)
+{
+  GraphicContext rc1;
+  GraphicContext rc2;
+
+  GraphicContext::setCurrent(rc1);
+  EXPECT_EQ(1, gl::getUnpackAlignment());
+  gl::setUnpackAlignment(4);
+  EXPECT_EQ(4, gl::getUnpackAlignment());
+
+  GraphicContext::setCurrent(rc2);
+  EXPECT_EQ(1, gl::getUnpackAlignment());
+
+  GraphicContext::setCurrent(rc1);
+  EXPECT_EQ(4, gl::getUnpackAlignment());
+}
+
+
+
 TEST_F(TestGraphicContext, GetRenderingColorByteCount)
 {
   EXPECT_EQ(4u, GraphicContext::getRenderingColorByteCount());
@@ -102,4 +140,3 @@ TEST_F(TestGraphicContext, GetRenderingStencilByteCount)
 {
   EXPECT_EQ(1u, GraphicContext::getRenderingStencilByteCount());
 }
-

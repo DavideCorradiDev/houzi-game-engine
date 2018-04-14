@@ -36,10 +36,14 @@ HOU_GL_API void clear(GLenum mask);
 
 HOU_GL_API void enableBlending();
 HOU_GL_API void disableBlending();
+HOU_GL_API GLboolean isBlendingEnabled();
 HOU_GL_API void setBlending(GLenum sfactor, GLenum dfactor);
+HOU_GL_API GLenum getSourceBlending();
+HOU_GL_API GLenum getDestinationBlending();
 
 HOU_GL_API void enableMultisampling();
 HOU_GL_API void disableMultisampling();
+HOU_GL_API GLboolean isMultisamplingEnabled();
 
 HOU_GL_API void setUnpackAlignment(GLint value);
 HOU_GL_API GLint getUnpackAlignment();
@@ -58,8 +62,8 @@ HOU_GL_API GLsizei computeTextureSizeBytes(
 HOU_GL_API void getIntegerv(GLenum variable, GLint* value);
 HOU_GL_API GLint getInteger(GLenum variable);
 
-}
+}  // namespace gl
 
-}
+}  // namespace hou
 
 #endif

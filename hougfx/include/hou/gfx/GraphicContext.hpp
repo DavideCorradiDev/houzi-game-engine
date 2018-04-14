@@ -84,14 +84,17 @@ private:
   };
 
 private:
-  // This function initializes some context parameters when the context is set
-  // as current.
-  void onBinding();
+  // Initializes some context variables when binding the context for the first
+  // time. These variables should only be set the first time to provide a
+  // consistent "clean state" for the context, but should not be set for
+  // subsequent bindings to prevent resetting the state of the context.
+  void initialize();
 
 private:
   ExtensionInitializer mExtensionInitializer;
   Window mDefaultWindow;
   gl::Context mGlContext;
+  bool mInitialized;
 };
 
 }  // namespace hou
