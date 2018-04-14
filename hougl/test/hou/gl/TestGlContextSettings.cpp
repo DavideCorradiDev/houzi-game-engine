@@ -11,8 +11,8 @@ using namespace hou;
 
 TEST(TestGlContextSettings, Creation)
 {
-  gl::ContextSettings cs(gl::Version(4u, 5u)
-    , gl::ContextProfile::Core, 3u, 1u, 0u);
+  gl::ContextSettings cs(
+    gl::Version(4u, 5u), gl::ContextProfile::Core, 3u, 1u, 0u);
 
   EXPECT_EQ(gl::Version(4u, 5u), cs.getVersion());
   EXPECT_EQ(gl::ContextProfile::Core, cs.getProfile());
@@ -25,12 +25,12 @@ TEST(TestGlContextSettings, Creation)
 
 TEST(TestGlContextSettings, SettersAndGetters)
 {
-  gl::ContextSettings cs(gl::Version(4u, 5u)
-    , gl::ContextProfile::Core, 3u, 1u, 0u);
+  gl::ContextSettings cs(
+    gl::Version(4u, 5u), gl::ContextProfile::Core, 3u, 1u, 0u);
 
   cs.setVersion(gl::Version(3u, 4u));
   EXPECT_EQ(gl::Version(3u, 4u), cs.getVersion());
-  
+
   cs.setProfile(gl::ContextProfile::Compatibility);
   EXPECT_EQ(gl::ContextProfile::Compatibility, cs.getProfile());
 
@@ -48,20 +48,20 @@ TEST(TestGlContextSettings, SettersAndGetters)
 
 TEST(TestGlContextSettings, Comparison)
 {
-  gl::ContextSettings cs1(gl::Version(4u, 5u), gl::ContextProfile::Core, 3u, 1u
-    , 0u);
-  gl::ContextSettings cs2(gl::Version(3u, 5u), gl::ContextProfile::Core, 3u, 1u
-    , 0u);
-  gl::ContextSettings cs3(gl::Version(4u, 5u), gl::ContextProfile::Compatibility
-    , 3u, 1u, 0u);
-  gl::ContextSettings cs4(gl::Version(4u, 5u), gl::ContextProfile::Core, 32, 1u
-    , 0u);
-  gl::ContextSettings cs5(gl::Version(4u, 5u), gl::ContextProfile::Core, 3u, 0u
-    , 0u);
-  gl::ContextSettings cs6(gl::Version(4u, 5u), gl::ContextProfile::Core, 3u, 1u
-    , 4u);
-  gl::ContextSettings cs7(gl::Version(4u, 5u), gl::ContextProfile::Core, 3u, 1u
-    , 0u);
+  gl::ContextSettings cs1(
+    gl::Version(4u, 5u), gl::ContextProfile::Core, 3u, 1u, 0u);
+  gl::ContextSettings cs2(
+    gl::Version(3u, 5u), gl::ContextProfile::Core, 3u, 1u, 0u);
+  gl::ContextSettings cs3(
+    gl::Version(4u, 5u), gl::ContextProfile::Compatibility, 3u, 1u, 0u);
+  gl::ContextSettings cs4(
+    gl::Version(4u, 5u), gl::ContextProfile::Core, 32, 1u, 0u);
+  gl::ContextSettings cs5(
+    gl::Version(4u, 5u), gl::ContextProfile::Core, 3u, 0u, 0u);
+  gl::ContextSettings cs6(
+    gl::Version(4u, 5u), gl::ContextProfile::Core, 3u, 1u, 4u);
+  gl::ContextSettings cs7(
+    gl::Version(4u, 5u), gl::ContextProfile::Core, 3u, 1u, 0u);
 
   EXPECT_TRUE(cs1 != cs2);
   EXPECT_TRUE(cs1 != cs3);
@@ -82,8 +82,7 @@ TEST(TestGlContextSettings, Comparison)
 
 TEST(TestGlContextSettings, DefaultSettings)
 {
-  gl::ContextSettings csRef(gl::Version::Default, gl::ContextProfile::Core, 3u
-    , 1u, 0u);
+  gl::ContextSettings csRef(
+    gl::Version::Default, gl::ContextProfile::Core, 3u, 1u, 0u);
   EXPECT_EQ(csRef, gl::ContextSettings::Default);
 }
-

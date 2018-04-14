@@ -10,22 +10,19 @@ namespace hou
 namespace gl
 {
 
-const ContextSettings ContextSettings::Default = ContextSettings
-  (Version::Default, ContextProfile::Core, 3u, 1u, 0u);
+const ContextSettings ContextSettings::Default
+  = ContextSettings(Version::Default, ContextProfile::Core, 3u, 1u, 0u);
 
 
 
-ContextSettings::ContextSettings
-  ( const Version& version
-  , ContextProfile profile
-  , uint depthByteCount
-  , uint stencilByteCount
-  , uint antiAliasingLevel)
+ContextSettings::ContextSettings(const Version& version, ContextProfile profile,
+  uint depthByteCount, uint stencilByteCount, uint antiAliasingLevel)
   : mVersion(version)
   , mProfile(profile)
   , mDepthByteCount(depthByteCount)
   , mStencilByteCount(stencilByteCount)
-  , mAntiAliasingLevel(antiAliasingLevel) {}
+  , mAntiAliasingLevel(antiAliasingLevel)
+{}
 
 
 
@@ -101,8 +98,7 @@ void ContextSettings::setAntialiasingLevel(uint value)
 
 bool operator==(const ContextSettings& l, const ContextSettings& r)
 {
-  return l.getVersion() == r.getVersion()
-    && l.getProfile() == r.getProfile()
+  return l.getVersion() == r.getVersion() && l.getProfile() == r.getProfile()
     && l.getDepthByteCount() == r.getDepthByteCount()
     && l.getStencilByteCount() == r.getStencilByteCount()
     && l.getAntialiasingLevel() == r.getAntialiasingLevel();
@@ -115,7 +111,6 @@ bool operator!=(const ContextSettings& l, const ContextSettings& r)
   return !(l == r);
 }
 
-}
+}  // namespace gl
 
-}
-
+}  // namespace hou

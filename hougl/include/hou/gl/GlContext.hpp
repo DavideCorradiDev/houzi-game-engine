@@ -5,8 +5,8 @@
 #ifndef HOU_GL_GL_CONTEXT_HPP
 #define HOU_GL_GL_CONTEXT_HPP
 
-#include "hou/gl/GlExport.hpp"
 #include "hou/cor/NonCopyable.hpp"
+#include "hou/gl/GlExport.hpp"
 
 #include "hou/gl/GlContextImpl.hpp"
 #include "hou/gl/OpenGl.hpp"
@@ -29,8 +29,7 @@ class ProgramHandle;
 class TextureHandle;
 class VertexArrayHandle;
 
-class HOU_GL_API Context
-  : public NonCopyable
+class HOU_GL_API Context : public NonCopyable
 {
 private:
   class TrackingData
@@ -84,8 +83,8 @@ public:
   static Context* getCurrent();
 
   Context(const ContextSettings& settings, const Window& window);
-  Context(const ContextSettings& settings, const Window& window
-    , const Context& sharedContext);
+  Context(const ContextSettings& settings, const Window& window,
+    const Context& sharedContext);
   Context(Context&& other);
   ~Context();
 
@@ -94,8 +93,8 @@ public:
   bool isCurrent() const;
 
 private:
-  Context(const ContextSettings& settings, const Window& window
-    , const Context* sharedContext);
+  Context(const ContextSettings& settings, const Window& window,
+    const Context* sharedContext);
 
 private:
   thread_local static Context* sCurrentContext;
@@ -107,20 +106,19 @@ private:
   TrackingData mTrackingData;
 
 public:
-  friend HOU_GL_API void bindBuffer(const BufferHandle& buffer
-    , GLenum target);
+  friend HOU_GL_API void bindBuffer(const BufferHandle& buffer, GLenum target);
   friend HOU_GL_API void unbindBuffer(GLenum target);
-  friend HOU_GL_API bool isBufferBound(const BufferHandle& buffer
-    , GLenum target);
+  friend HOU_GL_API bool isBufferBound(
+    const BufferHandle& buffer, GLenum target);
   friend HOU_GL_API bool isBufferBound(GLenum target);
 
   friend HOU_GL_API void bindFramebuffer(const FramebufferHandle& framebuffer);
-  friend HOU_GL_API void bindFramebuffer(const FramebufferHandle& framebuffer
-    , GLenum target);
+  friend HOU_GL_API void bindFramebuffer(
+    const FramebufferHandle& framebuffer, GLenum target);
   friend HOU_GL_API void unbindFramebuffer();
   friend HOU_GL_API void unbindFramebuffer(GLenum target);
-  friend HOU_GL_API bool isFramebufferBound
-    (const FramebufferHandle& framebuffer, GLenum target);
+  friend HOU_GL_API bool isFramebufferBound(
+    const FramebufferHandle& framebuffer, GLenum target);
   friend HOU_GL_API bool isFramebufferBound(GLenum target);
 
   friend HOU_GL_API void bindProgram(const ProgramHandle& program);
@@ -133,11 +131,10 @@ public:
   friend HOU_GL_API bool isTextureBound(const TextureHandle& texture);
   friend HOU_GL_API bool isTextureBound();
 
-  friend HOU_GL_API void bindTexture(const TextureHandle& texture
-    , GLuint unit);
+  friend HOU_GL_API void bindTexture(const TextureHandle& texture, GLuint unit);
   friend HOU_GL_API void unbindTexture(GLuint unit);
-  friend HOU_GL_API bool isTextureBound(const TextureHandle& texture
-    , GLuint unit);
+  friend HOU_GL_API bool isTextureBound(
+    const TextureHandle& texture, GLuint unit);
   friend HOU_GL_API bool isTextureBound(GLuint unit);
 
   friend HOU_GL_API void setActiveTexture(GLuint unit);
@@ -145,16 +142,15 @@ public:
 
   friend HOU_GL_API void bindVertexArray(const VertexArrayHandle& vertexArray);
   friend HOU_GL_API void unbindVertexArray();
-  friend HOU_GL_API bool isVertexArrayBound
-    (const VertexArrayHandle& vertexArray);
+  friend HOU_GL_API bool isVertexArrayBound(
+    const VertexArrayHandle& vertexArray);
   friend HOU_GL_API bool isVertexArrayBound();
 
   friend HOU_GL_API void setViewport(GLint x, GLint y, GLsizei w, GLsizei h);
 };
 
-}
+}  // namespace gl
 
-}
+}  // namespace hou
 
 #endif
-

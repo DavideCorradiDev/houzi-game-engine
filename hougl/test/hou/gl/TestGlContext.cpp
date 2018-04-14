@@ -23,15 +23,16 @@ using namespace hou;
 namespace
 {
 
-class TestGlContext
-  : public testing::Test
+class TestGlContext : public testing::Test
 {
 public:
   static void SetUpTestCase();
 };
 
-class TestGlContextOptimizations : public TestGlContext {};
-class TestGlContextDeathTest : public TestGlContext {};
+class TestGlContextOptimizations : public TestGlContext
+{};
+class TestGlContextDeathTest : public TestGlContext
+{};
 
 
 
@@ -40,7 +41,7 @@ void TestGlContext::SetUpTestCase()
   gl::initExtensions();
 }
 
-}
+}  // namespace
 
 
 
@@ -236,12 +237,11 @@ TEST_F(TestGlContextDeathTest, MakeCurrentError)
   gl::Context::setCurrent(c, w1);
   ASSERT_TRUE(c.isCurrent());
 
-  std::thread t([&c]()
-    {
-      Window w2("Test", VideoMode(Vec2u(10u, 10u), 4u), WindowStyle::Windowed);
-      HOU_EXPECT_ERROR(gl::Context::setCurrent(c, w2), std::runtime_error
-        , getText(GlError::ContextMakeCurrent));
-    });
+  std::thread t([&c]() {
+    Window w2("Test", VideoMode(Vec2u(10u, 10u), 4u), WindowStyle::Windowed);
+    HOU_EXPECT_ERROR(gl::Context::setCurrent(c, w2), std::runtime_error,
+      getText(GlError::ContextMakeCurrent));
+  });
 
   t.join();
 }
@@ -303,4 +303,3 @@ TEST_F(TestGlContextOptimizations, RedundantBinding)
 
 // Failing creation test.
 // Failing destruction test.
-

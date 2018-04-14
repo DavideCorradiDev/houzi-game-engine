@@ -23,12 +23,8 @@ namespace gl
 class HOU_GL_API ContextSettings
 {
 public:
-  ContextSettings
-    ( const Version& version
-    , ContextProfile profile
-    , uint depthByteCount
-    , uint stencilByteCount
-    , uint antiAliasingLevel);
+  ContextSettings(const Version& version, ContextProfile profile,
+    uint depthByteCount, uint stencilByteCount, uint antiAliasingLevel);
 
   const Version& getVersion() const;
   void setVersion(const Version& version);
@@ -52,14 +48,11 @@ private:
   uint mAntiAliasingLevel;
 };
 
-HOU_GL_API bool operator==(const ContextSettings& l
-  , const ContextSettings& r);
-HOU_GL_API bool operator!=(const ContextSettings& l
-  , const ContextSettings& r);
+HOU_GL_API bool operator==(const ContextSettings& l, const ContextSettings& r);
+HOU_GL_API bool operator!=(const ContextSettings& l, const ContextSettings& r);
 
-}
+}  // namespace gl
 
-}
+}  // namespace hou
 
 #endif
-

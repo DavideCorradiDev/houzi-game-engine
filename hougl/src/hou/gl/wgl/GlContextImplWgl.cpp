@@ -4,12 +4,12 @@
 
 #include "hou/gl/GlContextImpl.hpp"
 
-#include "hou/gl/GlError.hpp"
 #include "hou/gl/GlContextSettings.hpp"
+#include "hou/gl/GlError.hpp"
 #include "hou/gl/OpenGl.hpp"
 
-#include "hou/sys/win/WinError.hpp"
 #include "hou/sys/Window.hpp"
+#include "hou/sys/win/WinError.hpp"
 
 
 
@@ -27,15 +27,15 @@ namespace
 
 constexpr uint bitsPerByte = 8u;
 
-int choosePixelFormat(HDC hdc, uint colorByteCount
-  , const ContextSettings& settings);
+int choosePixelFormat(
+  HDC hdc, uint colorByteCount, const ContextSettings& settings);
 void setPixelFormat(HDC hdc, int formatNumber);
 bool hasPixelFormat(HDC hdc);
 
 
 
-int choosePixelFormat(HDC hdc, uint colorByteCount
-  , const ContextSettings& settings)
+int choosePixelFormat(
+  HDC hdc, uint colorByteCount, const ContextSettings& settings)
 {
   HOU_EXPECT_DEV(hdc != nullptr);
 
@@ -43,23 +43,24 @@ int choosePixelFormat(HDC hdc, uint colorByteCount
 
   if(wglChoosePixelFormatARB)
   {
-    const int attributesList[] =
-    {
-      WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
-      WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
-      WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
-      WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
+    const int attributesList[] = {
+      WGL_DRAW_TO_WINDOW_ARB, GL_TRUE, WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
+      WGL_DOUBLE_BUFFER_ARB, GL_TRUE, WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
       WGL_COLOR_BITS_ARB, static_cast<int>(colorByteCount * bitsPerByte),
-      WGL_DEPTH_BITS_ARB, static_cast<int>(settings.getDepthByteCount() * bitsPerByte),
-      WGL_STENCIL_BITS_ARB, static_cast<int>(settings.getStencilByteCount() * bitsPerByte),
+      WGL_DEPTH_BITS_ARB,
+      static_cast<int>(settings.getDepthByteCount() * bitsPerByte),
+      WGL_STENCIL_BITS_ARB,
+      static_cast<int>(settings.getStencilByteCount() * bitsPerByte),
       WGL_SAMPLE_BUFFERS_ARB, settings.getAntialiasingLevel() == 0 ? 0 : 1,
       WGL_SAMPLES_ARB, static_cast<int>(settings.getAntialiasingLevel()),
-      0 // End
+      0  // End
     };
 
     UINT numFormats;
-    HOU_WIN_RUNTIME_CHECK(wglChoosePixelFormatARB(hdc, attributesList, nullptr
-      , 1, &format, &numFormats) != 0, getText(GlError::ContextCreate));
+    HOU_WIN_RUNTIME_CHECK(wglChoosePixelFormatARB(hdc, attributesList, nullptr,
+                            1, &format, &numFormats)
+        != 0,
+      getText(GlError::ContextCreate));
   }
   else
   {
@@ -71,8 +72,10 @@ int choosePixelFormat(HDC hdc, uint colorByteCount
     pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
     pfd.iPixelType = PFD_TYPE_RGBA;
     pfd.cColorBits = static_cast<BYTE>(colorByteCount * bitsPerByte);
-    pfd.cDepthBits = static_cast<BYTE>(settings.getDepthByteCount() * bitsPerByte);
-    pfd.cStencilBits = static_cast<BYTE>(settings.getStencilByteCount() * bitsPerByte);
+    pfd.cDepthBits
+      = static_cast<BYTE>(settings.getDepthByteCount() * bitsPerByte);
+    pfd.cStencilBits
+      = static_cast<BYTE>(settings.getStencilByteCount() * bitsPerByte);
     pfd.cAlphaBits = colorByteCount == 4 ? 1 : 0;
 
     format = ChoosePixelFormat(hdc, &pfd);
@@ -94,10 +97,11 @@ void setPixelFormat(HDC hdc, int formatNumber)
     PIXELFORMATDESCRIPTOR format;
     format.nSize = sizeof(PIXELFORMATDESCRIPTOR);
     format.nVersion = 1;
-    HOU_WIN_RUNTIME_CHECK(DescribePixelFormat(hdc, formatNumber, format.nSize
-      , &format) != 0, getText(GlError::ContextCreate));
-    HOU_WIN_RUNTIME_CHECK(SetPixelFormat(hdc, formatNumber, &format) != 0
-      , getText(GlError::ContextCreate));
+    HOU_WIN_RUNTIME_CHECK(
+      DescribePixelFormat(hdc, formatNumber, format.nSize, &format) != 0,
+      getText(GlError::ContextCreate));
+    HOU_WIN_RUNTIME_CHECK(SetPixelFormat(hdc, formatNumber, &format) != 0,
+      getText(GlError::ContextCreate));
   }
 }
 
@@ -109,7 +113,7 @@ bool hasPixelFormat(HDC hdc)
   return GetPixelFormat(hdc) != 0;
 }
 
-}
+}  // namespace
 
 
 
@@ -120,16 +124,16 @@ void ContextImpl::setCurrent(ContextImpl& context, Window& window)
 
   setPixelFormat(context.mHdc, context.mPixelFormat);
 
-  HOU_WIN_RUNTIME_CHECK(wglMakeCurrent(context.mHdc, context.mHandle) != 0
-    , getText(GlError::ContextMakeCurrent));
+  HOU_WIN_RUNTIME_CHECK(wglMakeCurrent(context.mHdc, context.mHandle) != 0,
+    getText(GlError::ContextMakeCurrent));
 }
 
 
 
 void ContextImpl::unsetCurrent()
 {
-  HOU_WIN_RUNTIME_CHECK(wglMakeCurrent(nullptr, nullptr) != 0
-    , getText(GlError::ContextMakeCurrent));
+  HOU_WIN_RUNTIME_CHECK(wglMakeCurrent(nullptr, nullptr) != 0,
+    getText(GlError::ContextMakeCurrent));
 }
 
 
@@ -153,20 +157,19 @@ ContextImpl::ContextImpl(const ContextSettings& settings, const Window& window,
       ? WGL_CONTEXT_CORE_PROFILE_BIT_ARB
       : WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB;
 
-    int attr[] =
-    {
-      WGL_CONTEXT_MAJOR_VERSION_ARB,
-      static_cast<int>(settings.getVersion().getMajor()),
-      WGL_CONTEXT_MINOR_VERSION_ARB,
-      static_cast<int>(settings.getVersion().getMinor()),
-      WGL_CONTEXT_PROFILE_MASK_ARB,
-      wglProfile,
+    int attr[]
+      = { WGL_CONTEXT_MAJOR_VERSION_ARB,
+          static_cast<int>(settings.getVersion().getMajor()),
+          WGL_CONTEXT_MINOR_VERSION_ARB,
+          static_cast<int>(settings.getVersion().getMinor()),
+          WGL_CONTEXT_PROFILE_MASK_ARB,
+          wglProfile,
 #if defined(HOU_DEBUG)
-      WGL_CONTEXT_FLAGS_ARB,
-      WGL_CONTEXT_DEBUG_BIT_ARB,
+          WGL_CONTEXT_FLAGS_ARB,
+          WGL_CONTEXT_DEBUG_BIT_ARB,
 #endif
-      0 // End
-    };
+          0  // End
+        };
 
     mHandle = wglCreateContextAttribsARB(mHdc, shared, attr);
     HOU_WIN_RUNTIME_CHECK(mHandle != nullptr, getText(GlError::ContextCreate));
@@ -177,8 +180,8 @@ ContextImpl::ContextImpl(const ContextSettings& settings, const Window& window,
     HOU_WIN_RUNTIME_CHECK(mHandle != nullptr, getText(GlError::ContextCreate));
     if(shared != nullptr)
     {
-      HOU_WIN_RUNTIME_CHECK(wglShareLists(shared, mHandle) != 0
-        , getText(GlError::ContextCreate));
+      HOU_WIN_RUNTIME_CHECK(
+        wglShareLists(shared, mHandle) != 0, getText(GlError::ContextCreate));
     }
   }
 
@@ -203,13 +206,13 @@ ContextImpl::~ContextImpl()
 {
   if(mHandle != nullptr)
   {
-    HOU_FATAL_CHECK(wglDeleteContext(mHandle) != 0
-      , getText(GlError::ContextDestroy));
+    HOU_FATAL_CHECK(
+      wglDeleteContext(mHandle) != 0, getText(GlError::ContextDestroy));
   }
 }
 
-}
+}  // namespace prv
 
-}
+}  // namespace gl
 
-}
+}  // namespace hou
