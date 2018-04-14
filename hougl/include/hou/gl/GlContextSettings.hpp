@@ -26,18 +26,18 @@ public:
   ContextSettings
     ( const Version& version
     , ContextProfile profile
-    , uint depthBits
-    , uint stencilBits
+    , uint depthByteCount
+    , uint stencilByteCount
     , uint antiAliasingLevel);
 
   const Version& getVersion() const;
   void setVersion(const Version& version);
   ContextProfile getProfile() const;
   void setProfile(ContextProfile value);
-  uint getDepthBits() const;
-  void setDepthBits(uint value);
-  uint getStencilBits() const;
-  void setStencilBits(uint value);
+  uint getDepthByteCount() const;
+  void setDepthByteCount(uint value);
+  uint getStencilByteCount() const;
+  void setStencilByteCount(uint value);
   uint getAntialiasingLevel() const;
   void setAntialiasingLevel(uint value);
 
@@ -47,8 +47,8 @@ public:
 private:
   Version mVersion;
   ContextProfile mProfile;
-  uint mDepthBits;
-  uint mStencilBits;
+  uint mDepthByteCount;
+  uint mStencilByteCount;
   uint mAntiAliasingLevel;
 };
 

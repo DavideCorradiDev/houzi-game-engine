@@ -11,20 +11,20 @@ namespace gl
 {
 
 const ContextSettings ContextSettings::Default = ContextSettings
-  (Version::Default, ContextProfile::Core, 24u, 8u, 0u);
+  (Version::Default, ContextProfile::Core, 3u, 1u, 0u);
 
 
 
 ContextSettings::ContextSettings
   ( const Version& version
   , ContextProfile profile
-  , uint depthBits
-  , uint stencilBits
+  , uint depthByteCount
+  , uint stencilByteCount
   , uint antiAliasingLevel)
   : mVersion(version)
   , mProfile(profile)
-  , mDepthBits(depthBits)
-  , mStencilBits(stencilBits)
+  , mDepthByteCount(depthByteCount)
+  , mStencilByteCount(stencilByteCount)
   , mAntiAliasingLevel(antiAliasingLevel) {}
 
 
@@ -57,30 +57,30 @@ void ContextSettings::setProfile(ContextProfile value)
 
 
 
-uint ContextSettings::getDepthBits() const
+uint ContextSettings::getDepthByteCount() const
 {
-  return mDepthBits;
+  return mDepthByteCount;
 }
 
 
 
-void ContextSettings::setDepthBits(uint value)
+void ContextSettings::setDepthByteCount(uint value)
 {
-  mDepthBits = value;
+  mDepthByteCount = value;
 }
 
 
 
-uint ContextSettings::getStencilBits() const
+uint ContextSettings::getStencilByteCount() const
 {
-  return mStencilBits;
+  return mStencilByteCount;
 }
 
 
 
-void ContextSettings::setStencilBits(uint value)
+void ContextSettings::setStencilByteCount(uint value)
 {
-  mStencilBits = value;
+  mStencilByteCount = value;
 }
 
 
@@ -103,8 +103,8 @@ bool operator==(const ContextSettings& l, const ContextSettings& r)
 {
   return l.getVersion() == r.getVersion()
     && l.getProfile() == r.getProfile()
-    && l.getDepthBits() == r.getDepthBits()
-    && l.getStencilBits() == r.getStencilBits()
+    && l.getDepthByteCount() == r.getDepthByteCount()
+    && l.getStencilByteCount() == r.getStencilByteCount()
     && l.getAntialiasingLevel() == r.getAntialiasingLevel();
 }
 

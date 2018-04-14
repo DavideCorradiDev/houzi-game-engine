@@ -39,7 +39,7 @@ namespace hou
 RenderWindow::RenderWindow(const std::string& title, const Vec2u& size,
   uint sampleCount, WindowStyle style)
   : Window(title,
-      VideoMode(size, RenderContext::getRenderingColorByteCount() * 8u), style)
+      VideoMode(size, RenderContext::getRenderingColorByteCount()), style)
   , RenderSurface(size, sampleCount)
 {}
 

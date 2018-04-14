@@ -27,14 +27,14 @@ namespace
 
 constexpr uint bitsPerByte = 8u;
 
-int choosePixelFormat(HDC hdc, uint colorBits
+int choosePixelFormat(HDC hdc, uint colorByteCount
   , const ContextSettings& settings);
 void setPixelFormat(HDC hdc, int formatNumber);
 bool hasPixelFormat(HDC hdc);
 
 
 
-int choosePixelFormat(HDC hdc, uint colorBits
+int choosePixelFormat(HDC hdc, uint colorByteCount
   , const ContextSettings& settings)
 {
   HOU_EXPECT_DEV(hdc != nullptr);
@@ -49,9 +49,9 @@ int choosePixelFormat(HDC hdc, uint colorBits
       WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
       WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
       WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
-      WGL_COLOR_BITS_ARB, static_cast<int>(colorBits),
-      WGL_DEPTH_BITS_ARB, static_cast<int>(settings.getDepthBits()),
-      WGL_STENCIL_BITS_ARB, static_cast<int>(settings.getStencilBits()),
+      WGL_COLOR_BITS_ARB, static_cast<int>(colorByteCount * bitsPerByte),
+      WGL_DEPTH_BITS_ARB, static_cast<int>(settings.getDepthByteCount() * bitsPerByte),
+      WGL_STENCIL_BITS_ARB, static_cast<int>(settings.getStencilByteCount() * bitsPerByte),
       WGL_SAMPLE_BUFFERS_ARB, settings.getAntialiasingLevel() == 0 ? 0 : 1,
       WGL_SAMPLES_ARB, static_cast<int>(settings.getAntialiasingLevel()),
       0 // End
@@ -70,10 +70,10 @@ int choosePixelFormat(HDC hdc, uint colorBits
     pfd.iLayerType = PFD_MAIN_PLANE;
     pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
     pfd.iPixelType = PFD_TYPE_RGBA;
-    pfd.cColorBits = static_cast<BYTE>(colorBits);
-    pfd.cDepthBits = static_cast<BYTE>(settings.getDepthBits());
-    pfd.cStencilBits = static_cast<BYTE>(settings.getStencilBits());
-    pfd.cAlphaBits = colorBits == 32 ? 8 : 0;
+    pfd.cColorBits = static_cast<BYTE>(colorByteCount * bitsPerByte);
+    pfd.cDepthBits = static_cast<BYTE>(settings.getDepthByteCount() * bitsPerByte);
+    pfd.cStencilBits = static_cast<BYTE>(settings.getStencilByteCount() * bitsPerByte);
+    pfd.cAlphaBits = colorByteCount == 4 ? 1 : 0;
 
     format = ChoosePixelFormat(hdc, &pfd);
   }
@@ -139,8 +139,7 @@ ContextImpl::ContextImpl(const ContextSettings& settings, const Window& window,
   : NonCopyable()
   , mHandle(nullptr)
   , mHdc(GetDC(window.getWindowHandle()))
-  , mPixelFormat(choosePixelFormat(
-      mHdc, window.getBytesPerPixel() * bitsPerByte, settings))
+  , mPixelFormat(choosePixelFormat(mHdc, window.getBytesPerPixel(), settings))
 {
   HOU_EXPECT(mHdc != nullptr);
 

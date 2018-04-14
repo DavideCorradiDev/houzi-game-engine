@@ -153,7 +153,7 @@ TEST_F(TestVideoMode, OrderingOperators)
 TEST_F(TestVideoMode, OutputStreamOperator)
 {
   VideoMode vm(Vec2u(300u, 400u), 8u);
-  const char* outputRef = "{Resolution = (300, 400), BytesPerPixel = 64}";
+  const char* outputRef = "{Resolution = (300, 400), BytesPerPixel = 8}";
   HOU_EXPECT_OUTPUT(outputRef, vm);
 }
 
