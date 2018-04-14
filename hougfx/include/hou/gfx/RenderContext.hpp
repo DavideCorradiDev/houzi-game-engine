@@ -48,19 +48,19 @@ public:
    *
    *  \return the number of color bits.
    */
-  static uint getRenderingColorBitCount();
+  static uint getRenderingColorByteCount();
 
   /** Gets the number of depth bits used in rendering.
    *
    *  \return the number of depth bits.
    */
-  static uint getRenderingDepthBitCount();
+  static uint getRenderingDepthByteCount();
 
   /** Gets the number of stencil bits used in rendering.
    *
    *  \return the number of stencil bits.
    */
-  static uint getRenderingStencilBitCount();
+  static uint getRenderingStencilByteCount();
 
 public:
   /** Creates a RenderContext and sets it as the current RenderContext. */

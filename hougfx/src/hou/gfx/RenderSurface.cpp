@@ -191,9 +191,9 @@ bool RenderSurface::isCurrentRenderTarget() const
 
 void RenderSurface::buildFramebuffer(const Vec2u& size, uint sampleCount)
 {
-  HOU_ENSURE_DEV(RenderContext::getRenderingColorBitCount() == 32u);
-  HOU_ENSURE_DEV(RenderContext::getRenderingDepthBitCount() == 24u);
-  HOU_ENSURE_DEV(RenderContext::getRenderingStencilBitCount() == 8u);
+  HOU_ENSURE_DEV(RenderContext::getRenderingColorByteCount() == 4u);
+  HOU_ENSURE_DEV(RenderContext::getRenderingDepthByteCount() == 3u);
+  HOU_ENSURE_DEV(RenderContext::getRenderingStencilByteCount() == 1u);
 
   mSampleCount = sampleCount;
   if(sampleCount <= 1)

@@ -75,8 +75,6 @@ TEST_F(TestRenderContext, UnsetCurrentOnDeletion)
 {
   {
     RenderContext rc;
-    EXPECT_FALSE(rc.isCurrent());
-    RenderContext::setCurrent(rc);
     EXPECT_TRUE(rc.isCurrent());
   }
   EXPECT_EQ(nullptr, gl::Context::getCurrent());
@@ -84,22 +82,22 @@ TEST_F(TestRenderContext, UnsetCurrentOnDeletion)
 
 
 
-TEST_F(TestRenderContext, GetRenderingColorBitCount)
+TEST_F(TestRenderContext, GetRenderingColorByteCount)
 {
-  EXPECT_EQ(32u, RenderContext::getRenderingColorBitCount());
+  EXPECT_EQ(4u, RenderContext::getRenderingColorByteCount());
 }
 
 
 
-TEST_F(TestRenderContext, GetRenderingDepthBitCount)
+TEST_F(TestRenderContext, GetRenderingDepthByteCount)
 {
-  EXPECT_EQ(32u, RenderContext::getRenderingDepthBitCount());
+  EXPECT_EQ(3u, RenderContext::getRenderingDepthByteCount());
 }
 
 
 
-TEST_F(TestRenderContext, GetRenderingStencilBitCount)
+TEST_F(TestRenderContext, GetRenderingStencilByteCount)
 {
-  EXPECT_EQ(32u, RenderContext::getRenderingStencilBitCount());
+  EXPECT_EQ(1u, RenderContext::getRenderingStencilByteCount());
 }
 

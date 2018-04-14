@@ -14,6 +14,16 @@
 namespace hou
 {
 
+namespace
+{
+
+constexpr uint bitsPerByte = 8u;
+constexpr char* defaultWindowName = "HouziHiddenWindow";
+
+}
+
+
+
 void RenderContext::setCurrent(RenderContext& context)
 {
   gl::Context::setCurrent(context.mGlContext, context.mDefaultWindow);
@@ -28,35 +38,36 @@ void RenderContext::unsetCurrent(RenderContext& context)
 
 
 
-uint RenderContext::getRenderingColorBitCount()
+uint RenderContext::getRenderingColorByteCount()
 {
-  return 32u;
+  return 4u;
 }
 
 
 
-uint RenderContext::getRenderingDepthBitCount()
+uint RenderContext::getRenderingDepthByteCount()
 {
-  return 24u;
+  return 3u;
 }
 
 
 
-uint RenderContext::getRenderingStencilBitCount()
+uint RenderContext::getRenderingStencilByteCount()
 {
-  return 8u;
+  return 1u;
 }
 
 
 
 RenderContext::RenderContext()
   : mExtensionInitializer()
-  , mDefaultWindow("HouziWindow",
-      VideoMode(Vec2u(0u, 0u), getRenderingColorBitCount()),
+  , mDefaultWindow(defaultWindowName,
+      VideoMode(Vec2u::zero(), getRenderingColorByteCount() * bitsPerByte),
       WindowStyle::Windowed)
   , mGlContext(
       gl::ContextSettings(gl::Version(4u, 5u), gl::ContextProfile::Core,
-        getRenderingDepthBitCount(), getRenderingStencilBitCount(), 0u),
+        getRenderingDepthByteCount() * bitsPerByte,
+        getRenderingStencilByteCount() * bitsPerByte, 0u),
       mDefaultWindow)
 {
   setCurrent(*this);
