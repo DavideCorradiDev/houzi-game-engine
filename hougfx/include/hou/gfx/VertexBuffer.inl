@@ -6,29 +6,29 @@ namespace hou
 {
 
 template <typename T, bool dynamicStorage>
-RenderBufferT<T, dynamicStorage>::RenderBufferT(uint size)
-  : RenderBuffer(size * sizeof(T), dynamicStorage)
+VertexBufferT<T, dynamicStorage>::VertexBufferT(uint size)
+  : VertexBuffer(size * sizeof(T), dynamicStorage)
 {}
 
 
 
 template <typename T, bool dynamicStorage>
-RenderBufferT<T, dynamicStorage>::RenderBufferT(const Span<const T>& data)
-  : RenderBuffer(data.size() * sizeof(T),
+VertexBufferT<T, dynamicStorage>::VertexBufferT(const Span<const T>& data)
+  : VertexBuffer(data.size() * sizeof(T),
       reinterpret_cast<const void*>(data.data()), dynamicStorage)
 {}
 
 
 
 template <typename T, bool dynamicStorage>
-RenderBufferT<T, dynamicStorage>::RenderBufferT(RenderBuffer&& other)
-  : RenderBuffer(std::move(other))
+VertexBufferT<T, dynamicStorage>::VertexBufferT(VertexBuffer&& other)
+  : VertexBuffer(std::move(other))
 {}
 
 
 
 template <typename T, bool dynamicStorage>
-uint RenderBufferT<T, dynamicStorage>::getSize() const
+uint VertexBufferT<T, dynamicStorage>::getSize() const
 {
   HOU_EXPECT_DEV(getByteCount() % sizeof(T) == 0u);
   return getByteCount() / sizeof(T);
@@ -37,8 +37,8 @@ uint RenderBufferT<T, dynamicStorage>::getSize() const
 
 
 template <typename T, bool dynamicStorage>
-typename RenderBufferT<T, dynamicStorage>::DataType
-  RenderBufferT<T, dynamicStorage>::getData() const
+typename VertexBufferT<T, dynamicStorage>::DataType
+  VertexBufferT<T, dynamicStorage>::getData() const
 {
   return getSubData(0u, getSize());
 }
@@ -46,13 +46,13 @@ typename RenderBufferT<T, dynamicStorage>::DataType
 
 
 template <typename T, bool dynamicStorage>
-typename RenderBufferT<T, dynamicStorage>::DataType
-  RenderBufferT<T, dynamicStorage>::getSubData(
+typename VertexBufferT<T, dynamicStorage>::DataType
+  VertexBufferT<T, dynamicStorage>::getSubData(
     uint offset, uint elementCount) const
 {
   HOU_EXPECT_DEV(getByteCount() % sizeof(T) == 0u);
   HOU_EXPECT(offset + elementCount <= getSize());
-  typename RenderBufferT<T, dynamicStorage>::DataType dataOut(
+  typename VertexBufferT<T, dynamicStorage>::DataType dataOut(
     elementCount, T());
   gl::getBufferSubData(getHandle(), static_cast<GLintptr>(offset * sizeof(T)),
     static_cast<uint>(elementCount * sizeof(T)),
@@ -64,7 +64,7 @@ typename RenderBufferT<T, dynamicStorage>::DataType
 
 template <typename T, bool dynamicStorage>
 template <bool ds, typename Enable>
-void RenderBufferT<T, dynamicStorage>::setData(const Span<const T>& data)
+void VertexBufferT<T, dynamicStorage>::setData(const Span<const T>& data)
 {
   HOU_EXPECT(data.size() == getSize());
   setSubData(0u, data);
@@ -74,7 +74,7 @@ void RenderBufferT<T, dynamicStorage>::setData(const Span<const T>& data)
 
 template <typename T, bool dynamicStorage>
 template <bool ds, typename Enable>
-void RenderBufferT<T, dynamicStorage>::setSubData(
+void VertexBufferT<T, dynamicStorage>::setSubData(
   uint offset, const Span<const T>& data)
 {
   HOU_EXPECT_DEV(getByteCount() % sizeof(T) == 0u);

@@ -5,7 +5,7 @@
 #include "hou/Test.hpp"
 #include "hou/gfx/TestGfxBase.hpp"
 
-#include "hou/gfx/RenderBuffer.hpp"
+#include "hou/gfx/VertexBuffer.hpp"
 
 #include "hou/gl/GlError.hpp"
 
@@ -18,70 +18,70 @@ using namespace hou;
 namespace
 {
 
-using IntBuffer = StaticRenderBuffer<int>;
-using FloatBuffer = StaticRenderBuffer<float>;
-using DynamicFloatBuffer = DynamicRenderBuffer<float>;
+using IntBuffer = StaticVertexBuffer<int>;
+using FloatBuffer = StaticVertexBuffer<float>;
+using DynamicFloatBuffer = DynamicVertexBuffer<float>;
 
-class TestRenderBuffer : public TestGfxBase
+class TestVertexBuffer : public TestGfxBase
 {};
 
-class TestRenderBufferDeathTest : public TestRenderBuffer
+class TestVertexBufferDeathTest : public TestVertexBuffer
 {};
 
 }  // namespace
 
 
 
-TEST_F(TestRenderBuffer, Binding)
+TEST_F(TestVertexBuffer, Binding)
 {
   IntBuffer vb1(2u);
   IntBuffer vb2(2u);
 
-  EXPECT_FALSE(vb1.isBound(RenderBufferTarget::Array));
-  EXPECT_FALSE(vb2.isBound(RenderBufferTarget::Array));
-  EXPECT_FALSE(vb1.isBound(RenderBufferTarget::ElementArray));
-  EXPECT_FALSE(vb2.isBound(RenderBufferTarget::ElementArray));
+  EXPECT_FALSE(vb1.isBound(VertexBufferTarget::Array));
+  EXPECT_FALSE(vb2.isBound(VertexBufferTarget::Array));
+  EXPECT_FALSE(vb1.isBound(VertexBufferTarget::ElementArray));
+  EXPECT_FALSE(vb2.isBound(VertexBufferTarget::ElementArray));
 
-  IntBuffer::bind(vb1, RenderBufferTarget::Array);
-  EXPECT_TRUE(vb1.isBound(RenderBufferTarget::Array));
-  EXPECT_FALSE(vb2.isBound(RenderBufferTarget::Array));
-  EXPECT_FALSE(vb1.isBound(RenderBufferTarget::ElementArray));
-  EXPECT_FALSE(vb2.isBound(RenderBufferTarget::ElementArray));
+  IntBuffer::bind(vb1, VertexBufferTarget::Array);
+  EXPECT_TRUE(vb1.isBound(VertexBufferTarget::Array));
+  EXPECT_FALSE(vb2.isBound(VertexBufferTarget::Array));
+  EXPECT_FALSE(vb1.isBound(VertexBufferTarget::ElementArray));
+  EXPECT_FALSE(vb2.isBound(VertexBufferTarget::ElementArray));
 
-  IntBuffer::bind(vb1, RenderBufferTarget::ElementArray);
-  EXPECT_TRUE(vb1.isBound(RenderBufferTarget::Array));
-  EXPECT_FALSE(vb2.isBound(RenderBufferTarget::Array));
-  EXPECT_TRUE(vb1.isBound(RenderBufferTarget::ElementArray));
-  EXPECT_FALSE(vb2.isBound(RenderBufferTarget::ElementArray));
+  IntBuffer::bind(vb1, VertexBufferTarget::ElementArray);
+  EXPECT_TRUE(vb1.isBound(VertexBufferTarget::Array));
+  EXPECT_FALSE(vb2.isBound(VertexBufferTarget::Array));
+  EXPECT_TRUE(vb1.isBound(VertexBufferTarget::ElementArray));
+  EXPECT_FALSE(vb2.isBound(VertexBufferTarget::ElementArray));
 
-  IntBuffer::bind(vb2, RenderBufferTarget::Array);
-  EXPECT_FALSE(vb1.isBound(RenderBufferTarget::Array));
-  EXPECT_TRUE(vb2.isBound(RenderBufferTarget::Array));
-  EXPECT_TRUE(vb1.isBound(RenderBufferTarget::ElementArray));
-  EXPECT_FALSE(vb2.isBound(RenderBufferTarget::ElementArray));
+  IntBuffer::bind(vb2, VertexBufferTarget::Array);
+  EXPECT_FALSE(vb1.isBound(VertexBufferTarget::Array));
+  EXPECT_TRUE(vb2.isBound(VertexBufferTarget::Array));
+  EXPECT_TRUE(vb1.isBound(VertexBufferTarget::ElementArray));
+  EXPECT_FALSE(vb2.isBound(VertexBufferTarget::ElementArray));
 
-  IntBuffer::bind(vb2, RenderBufferTarget::ElementArray);
-  EXPECT_FALSE(vb1.isBound(RenderBufferTarget::Array));
-  EXPECT_TRUE(vb2.isBound(RenderBufferTarget::Array));
-  EXPECT_FALSE(vb1.isBound(RenderBufferTarget::ElementArray));
-  EXPECT_TRUE(vb2.isBound(RenderBufferTarget::ElementArray));
+  IntBuffer::bind(vb2, VertexBufferTarget::ElementArray);
+  EXPECT_FALSE(vb1.isBound(VertexBufferTarget::Array));
+  EXPECT_TRUE(vb2.isBound(VertexBufferTarget::Array));
+  EXPECT_FALSE(vb1.isBound(VertexBufferTarget::ElementArray));
+  EXPECT_TRUE(vb2.isBound(VertexBufferTarget::ElementArray));
 
-  IntBuffer::unbind(RenderBufferTarget::Array);
-  EXPECT_FALSE(vb1.isBound(RenderBufferTarget::Array));
-  EXPECT_FALSE(vb2.isBound(RenderBufferTarget::Array));
-  EXPECT_FALSE(vb1.isBound(RenderBufferTarget::ElementArray));
-  EXPECT_TRUE(vb2.isBound(RenderBufferTarget::ElementArray));
+  IntBuffer::unbind(VertexBufferTarget::Array);
+  EXPECT_FALSE(vb1.isBound(VertexBufferTarget::Array));
+  EXPECT_FALSE(vb2.isBound(VertexBufferTarget::Array));
+  EXPECT_FALSE(vb1.isBound(VertexBufferTarget::ElementArray));
+  EXPECT_TRUE(vb2.isBound(VertexBufferTarget::ElementArray));
 
-  IntBuffer::unbind(RenderBufferTarget::ElementArray);
-  EXPECT_FALSE(vb1.isBound(RenderBufferTarget::Array));
-  EXPECT_FALSE(vb2.isBound(RenderBufferTarget::Array));
-  EXPECT_FALSE(vb1.isBound(RenderBufferTarget::ElementArray));
-  EXPECT_FALSE(vb2.isBound(RenderBufferTarget::ElementArray));
+  IntBuffer::unbind(VertexBufferTarget::ElementArray);
+  EXPECT_FALSE(vb1.isBound(VertexBufferTarget::Array));
+  EXPECT_FALSE(vb2.isBound(VertexBufferTarget::Array));
+  EXPECT_FALSE(vb1.isBound(VertexBufferTarget::ElementArray));
+  EXPECT_FALSE(vb2.isBound(VertexBufferTarget::ElementArray));
 }
 
 
 
-TEST_F(TestRenderBuffer, SizeConstructor)
+TEST_F(TestVertexBuffer, SizeConstructor)
 {
   uint sizeRef = 7u;
   IntBuffer vb(sizeRef);
@@ -94,7 +94,7 @@ TEST_F(TestRenderBuffer, SizeConstructor)
 
 
 
-TEST_F(TestRenderBuffer, DataConstructor)
+TEST_F(TestVertexBuffer, DataConstructor)
 {
   DynamicFloatBuffer::DataType dataRef = {1.f, 2.f, 3.f, 4.f, 5.f};
   FloatBuffer vb(dataRef);
@@ -106,7 +106,7 @@ TEST_F(TestRenderBuffer, DataConstructor)
 
 
 
-TEST_F(TestRenderBuffer, MoveConstructor)
+TEST_F(TestVertexBuffer, MoveConstructor)
 {
   DynamicFloatBuffer::DataType dataRef = {1.f, 2.f, 3.f, 4.f, 5.f};
   FloatBuffer vbDummy(dataRef);
@@ -121,7 +121,7 @@ TEST_F(TestRenderBuffer, MoveConstructor)
 
 
 
-TEST_F(TestRenderBuffer, GetSubData)
+TEST_F(TestVertexBuffer, GetSubData)
 {
   DynamicFloatBuffer::DataType dataRef = {1.f, 2.f, 3.f, 4.f, 5.f};
   DynamicFloatBuffer::DataType subDataRef = {2.f, 3.f};
@@ -131,7 +131,7 @@ TEST_F(TestRenderBuffer, GetSubData)
 
 
 
-TEST_F(TestRenderBuffer, GetSubDataLimit)
+TEST_F(TestVertexBuffer, GetSubDataLimit)
 {
   DynamicFloatBuffer::DataType dataRef = {1.f, 2.f, 3.f, 4.f, 5.f};
   DynamicFloatBuffer::DataType subDataRef = {3.f, 4.f, 5.f};
@@ -142,7 +142,7 @@ TEST_F(TestRenderBuffer, GetSubDataLimit)
 
 
 
-TEST_F(TestRenderBufferDeathTest, GetSubDataErrorOverflow)
+TEST_F(TestVertexBufferDeathTest, GetSubDataErrorOverflow)
 {
   DynamicFloatBuffer::DataType dataRef = {1.f, 2.f, 3.f, 4.f, 5.f};
   FloatBuffer vb(dataRef);
@@ -152,7 +152,7 @@ TEST_F(TestRenderBufferDeathTest, GetSubDataErrorOverflow)
 
 
 
-TEST_F(TestRenderBuffer, SetSubData)
+TEST_F(TestVertexBuffer, SetSubData)
 {
   DynamicFloatBuffer vb(6u);
   EXPECT_EQ(DynamicFloatBuffer::DataType(6u, 0.f), vb.getData());
@@ -166,7 +166,7 @@ TEST_F(TestRenderBuffer, SetSubData)
 
 
 
-TEST_F(TestRenderBuffer, SetSubDataLimit)
+TEST_F(TestVertexBuffer, SetSubDataLimit)
 {
   DynamicFloatBuffer vb(6u);
   EXPECT_EQ(DynamicFloatBuffer::DataType(6u, 0.f), vb.getData());
@@ -185,7 +185,7 @@ TEST_F(TestRenderBuffer, SetSubDataLimit)
 
 
 
-TEST_F(TestRenderBufferDeathTest, SetSubDataErrorOverflow)
+TEST_F(TestVertexBufferDeathTest, SetSubDataErrorOverflow)
 {
   DynamicFloatBuffer vb(6u);
   DynamicFloatBuffer::DataType data(3u, 0.f);
@@ -194,7 +194,7 @@ TEST_F(TestRenderBufferDeathTest, SetSubDataErrorOverflow)
 
 
 
-TEST_F(TestRenderBuffer, SetData)
+TEST_F(TestVertexBuffer, SetData)
 {
   DynamicFloatBuffer vb(3u);
   EXPECT_EQ(DynamicFloatBuffer::DataType(vb.getSize(), 0.f), vb.getData());
@@ -206,7 +206,7 @@ TEST_F(TestRenderBuffer, SetData)
 
 
 
-TEST_F(TestRenderBufferDeathTest, SetDataErrorTooFewElements)
+TEST_F(TestVertexBufferDeathTest, SetDataErrorTooFewElements)
 {
   DynamicFloatBuffer vb(3u);
   DynamicFloatBuffer::DataType data(vb.getSize() - 1u, 0.f);
@@ -215,7 +215,7 @@ TEST_F(TestRenderBufferDeathTest, SetDataErrorTooFewElements)
 
 
 
-TEST_F(TestRenderBufferDeathTest, SetDataErrorTooManyElements)
+TEST_F(TestVertexBufferDeathTest, SetDataErrorTooManyElements)
 {
   DynamicFloatBuffer vb(3u);
   DynamicFloatBuffer::DataType data(vb.getSize() + 1u, 0.f);

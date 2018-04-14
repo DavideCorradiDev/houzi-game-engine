@@ -5,7 +5,7 @@
 #include "hou/Test.hpp"
 #include "hou/gfx/TestGfxBase.hpp"
 
-#include "hou/gfx/RenderBuffer.hpp"
+#include "hou/gfx/VertexBuffer.hpp"
 #include "hou/gfx/VertexArray.hpp"
 #include "hou/gfx/VertexAttribFormat.hpp"
 #include "hou/gfx/VertexFormat.hpp"
@@ -17,7 +17,7 @@ using namespace hou;
 namespace
 {
 
-using FloatBuffer = StaticRenderBuffer<float>;
+using FloatBuffer = StaticVertexBuffer<float>;
 
 class TestVertexArray : public TestGfxBase
 {};

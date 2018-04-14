@@ -13,8 +13,8 @@
 #include "hou/cor/Span.hpp"
 #include "hou/cor/TemplateUtils.hpp"
 
-#include "hou/gfx/RenderBufferFwd.hpp"
-#include "hou/gfx/RenderBufferTarget.hpp"
+#include "hou/gfx/VertexBufferFwd.hpp"
+#include "hou/gfx/VertexBufferTarget.hpp"
 
 #include "hou/gl/GlBufferHandle.hpp"
 
@@ -27,21 +27,21 @@ namespace hou
 
 /** Represents a generic interface for a graphical memory buffer.
  */
-class HOU_GFX_API RenderBuffer : public NonCopyable
+class HOU_GFX_API VertexBuffer : public NonCopyable
 {
 public:
-  /** Binds the RenderBuffer to the current GraphicContext.
+  /** Binds the VertexBuffer to the current GraphicContext.
    *
-   *  \param buffer the RenderBuffer to be bound.
+   *  \param buffer the VertexBuffer to be bound.
    *  \param target the target to bound the buffer to.
    */
-  static void bind(const RenderBuffer& buffer, RenderBufferTarget target);
+  static void bind(const VertexBuffer& buffer, VertexBufferTarget target);
 
-  /** Unbinds the RenderBuffer for the given target, if present.
+  /** Unbinds the VertexBuffer for the given target, if present.
    *
    *  \param target the target.
    */
-  static void unbind(RenderBufferTarget target);
+  static void unbind(VertexBufferTarget target);
 
 public:
   /** Retrieves the reference to the OpenGL buffer.
@@ -50,47 +50,47 @@ public:
    */
   const gl::BufferHandle& getHandle() const;
 
-  /** Checks if this RenderBuffer is bound to the given target.
+  /** Checks if this VertexBuffer is bound to the given target.
    *
    *  \target target the target to check.
    *  \return the result of the check.
    */
-  bool isBound(RenderBufferTarget target) const;
+  bool isBound(VertexBufferTarget target) const;
 
-  /** Returns the number of bytes used by the RenderBuffer.
+  /** Returns the number of bytes used by the VertexBuffer.
    *
-   *  \return the number of bytes used by the RenderBuffer.
+   *  \return the number of bytes used by the VertexBuffer.
    */
   uint getByteCount() const;
 
 protected:
   /** Size constructor.
    *
-   *  Builds a RenderBuffer with the given size.
+   *  Builds a VertexBuffer with the given size.
    *  The buffer is initialized to 0.
    *
    *  \param size the size of the buffer in bytes.
-   *  \param dynamicStorage if true, the RenderBuffer is modifiable, otherwise
+   *  \param dynamicStorage if true, the VertexBuffer is modifiable, otherwise
    * it is not.
    */
-  RenderBuffer(uint byteCount, bool dynamicStorage);
+  VertexBuffer(uint byteCount, bool dynamicStorage);
 
   /** Data constructor
    *
-   *  Builds a RenderBuffer with the given data.
+   *  Builds a VertexBuffer with the given data.
    *
    *  \param byteCount the size of the buffer in bytes.
    *  \param data a pointer to a data buffer.
-   *  \param dynamicStorage if true, the RenderBuffer is modifiable, otherwise
+   *  \param dynamicStorage if true, the VertexBuffer is modifiable, otherwise
    * it is not.
    */
-  RenderBuffer(uint byteCount, const void* data, bool dynamicStorage);
+  VertexBuffer(uint byteCount, const void* data, bool dynamicStorage);
 
   /** Move constructor.
    *
-   *  \param other the other RenderBuffer.
+   *  \param other the other VertexBuffer.
    */
-  RenderBuffer(RenderBuffer&& other);
+  VertexBuffer(VertexBuffer&& other);
 
 private:
   gl::BufferHandle mHandle;
@@ -104,7 +104,7 @@ private:
  *  If false, this is not possible.
  */
 template <typename T, bool dynamicStorage = false>
-class RenderBufferT : public RenderBuffer
+class VertexBufferT : public VertexBuffer
 {
 public:
   /** Type of the objects stored in the buffer. */
@@ -116,26 +116,26 @@ public:
 public:
   /** Size constructor.
    *
-   *  Builds a RenderBuffer with the given number of elements of type T.
+   *  Builds a VertexBuffer with the given number of elements of type T.
    *  The buffer is initialized to 0.
    *
    *  \param size the number of elements composing the buffer.
    */
-  RenderBufferT(uint size);
+  VertexBufferT(uint size);
 
   /** Data constructor.
    *
-   *  Builds a RenderBuffer with the given data.
+   *  Builds a VertexBuffer with the given data.
    *
    *  \param data the data.
    */
-  RenderBufferT(const Span<const T>& data);
+  VertexBufferT(const Span<const T>& data);
 
   /** Move constructor.
    *
-   *  \param other the other RenderBuffer.
+   *  \param other the other VertexBuffer.
    */
-  RenderBufferT(RenderBuffer&& other);
+  VertexBufferT(VertexBuffer&& other);
 
   /** Retrieves the number of elements in the buffer.
    *
@@ -157,7 +157,7 @@ public:
    *  buffer.
    *  \param elementCount the number of elements to read.
    *  \return a collection with elementCount elements taken from the
-   *  RenderBuffer starting from the given offset.
+   *  VertexBuffer starting from the given offset.
    */
   DataType getSubData(uint offset, uint elementCount) const;
 
@@ -176,7 +176,7 @@ public:
    *
    *  This function is defined only for dynamic render buffers.
    *  Throws if offset plus the size of data is greater then the size of the
-   *  RenderBuffer.
+   *  VertexBuffer.
    *
    *  \tparam ds dummy template parameter.
    *  \tparam Enable enabling parameter.
@@ -189,6 +189,6 @@ public:
 
 }  // namespace hou
 
-#include "hou/gfx/RenderBuffer.inl"
+#include "hou/gfx/VertexBuffer.inl"
 
 #endif

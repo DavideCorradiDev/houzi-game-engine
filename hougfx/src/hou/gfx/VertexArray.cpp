@@ -4,7 +4,7 @@
 
 #include "hou/gfx/VertexArray.hpp"
 
-#include "hou/gfx/RenderBuffer.hpp"
+#include "hou/gfx/VertexBuffer.hpp"
 #include "hou/gfx/VertexFormat.hpp"
 
 
@@ -62,7 +62,7 @@ bool VertexArray::isBound() const
 
 
 void VertexArray::setVertexData(
-  const RenderBuffer& vb, uint bindingIndex, const VertexFormat& vf)
+  const VertexBuffer& vb, uint bindingIndex, const VertexFormat& vf)
 {
   HOU_EXPECT(bindingIndex <= getMaxBindingIndex());
 
@@ -86,7 +86,7 @@ void VertexArray::setVertexData(
 
 
 
-void VertexArray::setElementData(const RenderBuffer& eb)
+void VertexArray::setElementData(const VertexBuffer& eb)
 {
   gl::setVertexArrayElementBuffer(mHandle, eb.getHandle());
 }

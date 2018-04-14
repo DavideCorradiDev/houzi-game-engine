@@ -17,7 +17,7 @@
 namespace hou
 {
 
-class RenderBuffer;
+class VertexBuffer;
 class VertexFormat;
 
 /** Represents a VertexArray object.
@@ -35,10 +35,10 @@ public:
    */
   static void unbind();
 
-  /** Retrieves the maximum number of RenderBuffer objects that can be bound to
+  /** Retrieves the maximum number of VertexBuffer objects that can be bound to
    * a single VertexArray object.
    *
-   *  \return the maximum number of RenderBuffer objects that can be bound.
+   *  \return the maximum number of VertexBuffer objects that can be bound.
    */
   static uint getMaxBindingIndex();
 
@@ -65,26 +65,26 @@ public:
    */
   bool isBound() const;
 
-  /** Binds a RenderBuffer as a vertex buffer.
+  /** Binds a VertexBuffer as a vertex buffer.
    *
-   *  The data in the RenderBuffer represents vertex data.
+   *  The data in the VertexBuffer represents vertex data.
    *  Throws if binding index is greater than the maximum binding index.
    *
-   *  \param vb the RenderBuffer to be bound.
+   *  \param vb the VertexBuffer to be bound.
    *  \param bindingIndex the binding index to be used.
    *  \param vf the format of the vertices contained in vb.
    */
   void setVertexData(
-    const RenderBuffer& vb, uint bindingIndex, const VertexFormat& vf);
+    const VertexBuffer& vb, uint bindingIndex, const VertexFormat& vf);
 
-  /** Binds a RenderBuffer as an element buffer.
+  /** Binds a VertexBuffer as an element buffer.
    *
-   *  The data in the RenderBuffer represents indices referring to element of
+   *  The data in the VertexBuffer represents indices referring to element of
    *  the bound vertex buffer.
    *
-   *  \param eb the RenderBuffer to be bound.
+   *  \param eb the VertexBuffer to be bound.
    */
-  void setElementData(const RenderBuffer& eb);
+  void setElementData(const VertexBuffer& eb);
 
 private:
   gl::VertexArrayHandle mHandle;

@@ -2,7 +2,7 @@
 
 #include "hou/gfx/Glyph.hpp"
 #include "hou/gfx/TextureChannelMapping.hpp"
-#include "hou/gfx/RenderBuffer.hpp"
+#include "hou/gfx/VertexBuffer.hpp"
 #include "hou/gfx/VertexArray.hpp"
 #include "hou/gfx/VertexFormat.hpp"
 #include "hou/gfx/TextVertex.hpp"

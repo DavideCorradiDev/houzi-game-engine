@@ -57,7 +57,7 @@ SET(EXE_HOUGFX_TEST_SRC
   hou/gfx/TestVertex2.cpp
   hou/gfx/TestVertexArray.cpp
   hou/gfx/TestVertexAttribFormat.cpp
-  hou/gfx/TestRenderBuffer.cpp
+  hou/gfx/TestVertexBuffer.cpp
   hou/gfx/TestVertexFormat.cpp
 )
 
