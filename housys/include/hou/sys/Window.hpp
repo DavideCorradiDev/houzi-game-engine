@@ -38,7 +38,7 @@ public:
    *
    *  \param title the title of the Window.
    *  \param videoMode the video mode of the Window, specifying its size and
-   *  bits per pixel.
+   *  bytes per pixel.
    *  \param style the style of the Window.
    *  Only one Window can be fullscreen.
    *  If fullscreen mode is specified and videoMode is not a valid fullscreen
@@ -181,11 +181,11 @@ public:
    */
   void setClientSize(const Vec2u& size);
 
-  /** Gets the number of bits per pixel of this Window.
+  /** Gets the number of bytes per pixel of this Window.
    *
-   *  \return the number of bits per pixel of this Window.
+   *  \return the number of bytes per pixel of this Window.
    */
-  uint getBitsPerPixel() const;
+  uint getBytesPerPixel() const;
 
   /** Gets the style of this Window.
    *
@@ -320,7 +320,7 @@ private:
   prv::WindowImpl mImpl;
   uint32_t mUid;
   WindowStyle mStyle;
-  uint mBitsPerPixel;
+  uint mBytesPerPixel;
   std::string mTitle;
   Image2RGBA mIconImage;
 };

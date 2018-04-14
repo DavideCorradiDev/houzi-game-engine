@@ -18,7 +18,7 @@ namespace
 {
 
 constexpr uint bitsPerByte = 8u;
-constexpr char* defaultWindowName = "HouziHiddenWindow";
+constexpr const char* defaultWindowName = "HouziHiddenWindow";
 
 }
 
@@ -31,7 +31,7 @@ void RenderContext::setCurrent(RenderContext& context)
 
 
 
-void RenderContext::unsetCurrent(RenderContext& context)
+void RenderContext::unsetCurrent()
 {
   gl::Context::unsetCurrent();
 }

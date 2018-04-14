@@ -42,7 +42,7 @@ public:
 
   /** Unsets the current RenderContext.
    */
-  static void unsetCurrent(RenderContext& context);
+  static void unsetCurrent();
 
   /** Gets the number of color bits used in rendering.
    *

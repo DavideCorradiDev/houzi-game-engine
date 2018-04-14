@@ -22,8 +22,8 @@ class TestVideoMode : public Test {};
 
 TEST_F(TestVideoMode, Constructor)
 {
-  VideoMode v(Vec2u(1200u, 400u), 64);
-  EXPECT_EQ(64u, v.getBitsPerPixel());
+  VideoMode v(Vec2u(1200u, 400u), 8u);
+  EXPECT_EQ(8u, v.getBytesPerPixel());
   EXPECT_EQ(Vec2u(1200u, 400u), v.getResolution());
 }
 
@@ -51,10 +51,10 @@ TEST_F(TestVideoMode, DesktopModeIsFullscreen)
 
 TEST_F(TestVideoMode, ComparisonOperators)
 {
-  VideoMode v0(Vec2u(640u, 320u), 32u);
-  VideoMode v1(Vec2u(640u, 320u), 32u);
-  VideoMode v2(Vec2u(800u, 320u), 32u);
-  VideoMode v3(Vec2u(640u, 320u), 64u);
+  VideoMode v0(Vec2u(640u, 320u), 4u);
+  VideoMode v1(Vec2u(640u, 320u), 4u);
+  VideoMode v2(Vec2u(800u, 320u), 4u);
+  VideoMode v3(Vec2u(640u, 320u), 8u);
 
   EXPECT_TRUE(v0 == v1);
   EXPECT_FALSE(v0 == v2);
@@ -69,14 +69,14 @@ TEST_F(TestVideoMode, ComparisonOperators)
 
 TEST_F(TestVideoMode, OrderingOperators)
 {
-  VideoMode v0(Vec2u(640u, 320u), 32u);
-  VideoMode v1(Vec2u(640u, 600u), 32u);
-  VideoMode v2(Vec2u(800u, 320u), 32u);
-  VideoMode v3(Vec2u(800u, 600u), 32u);
-  VideoMode v4(Vec2u(640u, 320u), 64u);
-  VideoMode v5(Vec2u(640u, 600u), 64u);
-  VideoMode v6(Vec2u(800u, 320u), 64u);
-  VideoMode v7(Vec2u(800u, 600u), 64u);
+  VideoMode v0(Vec2u(640u, 320u), 4u);
+  VideoMode v1(Vec2u(640u, 600u), 4u);
+  VideoMode v2(Vec2u(800u, 320u), 4u);
+  VideoMode v3(Vec2u(800u, 600u), 4u);
+  VideoMode v4(Vec2u(640u, 320u), 8u);
+  VideoMode v5(Vec2u(640u, 600u), 8u);
+  VideoMode v6(Vec2u(800u, 320u), 8u);
+  VideoMode v7(Vec2u(800u, 600u), 8u);
   VideoMode v8(v0);
 
   EXPECT_TRUE(v0 < v1);
@@ -152,8 +152,8 @@ TEST_F(TestVideoMode, OrderingOperators)
 
 TEST_F(TestVideoMode, OutputStreamOperator)
 {
-  VideoMode vm(Vec2u(300u, 400u), 64u);
-  const char* outputRef = "{Resolution = (300, 400), BitsPerPixel = 64}";
+  VideoMode vm(Vec2u(300u, 400u), 8u);
+  const char* outputRef = "{Resolution = (300, 400), BytesPerPixel = 64}";
   HOU_EXPECT_OUTPUT(outputRef, vm);
 }
 

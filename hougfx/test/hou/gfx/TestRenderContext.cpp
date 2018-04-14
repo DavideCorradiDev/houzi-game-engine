@@ -62,7 +62,7 @@ TEST_F(TestRenderContext, SetCurrent)
     EXPECT_FALSE(rc1.isCurrent());
     EXPECT_TRUE(rc2.isCurrent());
 
-    RenderContext::unsetCurrent(rc2);
+    RenderContext::unsetCurrent();
     EXPECT_FALSE(rc1.isCurrent());
     EXPECT_FALSE(rc2.isCurrent());
   }

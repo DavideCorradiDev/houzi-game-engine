@@ -39,7 +39,7 @@ Window::Window(const std::string& title, const VideoMode& videoMode
   , mImpl(title, videoMode, style)
   , mUid(generateUid())
   , mStyle(style)
-  , mBitsPerPixel(videoMode.getBitsPerPixel())
+  , mBytesPerPixel(videoMode.getBytesPerPixel())
   , mTitle(title)
   , mIconImage()
 {}
@@ -50,7 +50,7 @@ Window::Window(Window&& other)
   : mImpl(std::move(other.mImpl))
   , mUid(std::move(other.mUid))
   , mStyle(std::move(other.mStyle))
-  , mBitsPerPixel(std::move(other.mBitsPerPixel))
+  , mBytesPerPixel(std::move(other.mBytesPerPixel))
   , mTitle(std::move(other.mTitle))
   , mIconImage(std::move(other.mIconImage))
 {}
@@ -179,9 +179,9 @@ void Window::setClientSize(const Vec2u& size)
 
 
 
-uint Window::getBitsPerPixel() const
+uint Window::getBytesPerPixel() const
 {
-  return mBitsPerPixel;
+  return mBytesPerPixel;
 }
 
 

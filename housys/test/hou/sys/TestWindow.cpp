@@ -34,7 +34,7 @@ TEST_F(TestWindow, CreateWindowed)
   Vec2u sizeRef(300u, 600u);
   Vec2u screenSize = VideoMode::getDesktopMode().getResolution();
   Vec2i posRef = static_cast<Vec2i>(screenSize - sizeRef) / 2;
-  uint bbpRef = 32u;
+  uint bbpRef = 4u;
   WindowStyle styleRef = WindowStyle::Windowed;
   Image2RGBA iconRef;
 
@@ -45,7 +45,7 @@ TEST_F(TestWindow, CreateWindowed)
   EXPECT_EQ(titleRef, w.getTitle());
   EXPECT_EQ(posRef, w.getClientPosition());
   EXPECT_EQ(sizeRef, w.getClientSize());
-  EXPECT_EQ(bbpRef, w.getBitsPerPixel());
+  EXPECT_EQ(bbpRef, w.getBytesPerPixel());
   EXPECT_EQ(styleRef, w.getStyle());
   EXPECT_EQ(iconRef, w.getIcon());
   EXPECT_FALSE(w.isVisible());
@@ -61,7 +61,7 @@ TEST_F(TestWindow, CreateWindowedResizable)
   Vec2u sizeRef(300u, 600u);
   Vec2u screenSize = VideoMode::getDesktopMode().getResolution();
   Vec2i posRef = static_cast<Vec2i>(screenSize - sizeRef) / 2;
-  uint bbpRef = 32u;
+  uint bbpRef = 4u;
   WindowStyle styleRef = WindowStyle::WindowedResizable;
   Image2RGBA iconRef;
 
@@ -72,7 +72,7 @@ TEST_F(TestWindow, CreateWindowedResizable)
   EXPECT_EQ(titleRef, w.getTitle());
   EXPECT_EQ(posRef, w.getClientPosition());
   EXPECT_EQ(sizeRef, w.getClientSize());
-  EXPECT_EQ(bbpRef, w.getBitsPerPixel());
+  EXPECT_EQ(bbpRef, w.getBytesPerPixel());
   EXPECT_EQ(styleRef, w.getStyle());
   EXPECT_EQ(iconRef, w.getIcon());
   EXPECT_FALSE(w.isVisible());
@@ -87,7 +87,7 @@ TEST_F(TestWindow, CreateFullscreen)
   std::string titleRef("Window");
   Vec2u sizeRef(VideoMode::getDesktopMode().getResolution());
   Vec2i posRef(0, 0);
-  uint bbpRef(VideoMode::getDesktopMode().getBitsPerPixel());
+  uint bbpRef(VideoMode::getDesktopMode().getBytesPerPixel());
   WindowStyle styleRef = WindowStyle::Fullscreen;
   Image2RGBA iconRef;
 
@@ -100,7 +100,7 @@ TEST_F(TestWindow, CreateFullscreen)
   EXPECT_EQ(posRef, w.getFramePosition());
   EXPECT_EQ(sizeRef, w.getClientSize());
   EXPECT_EQ(sizeRef, w.getFrameSize());
-  EXPECT_EQ(bbpRef, w.getBitsPerPixel());
+  EXPECT_EQ(bbpRef, w.getBytesPerPixel());
   EXPECT_EQ(styleRef, w.getStyle());
   EXPECT_EQ(iconRef, w.getIcon());
   EXPECT_FALSE(w.isVisible());
@@ -163,7 +163,7 @@ TEST_F(TestWindow, MoveConstructor)
   Vec2u sizeRef(300u, 600u);
   Vec2u screenSize = VideoMode::getDesktopMode().getResolution();
   Vec2i posRef = static_cast<Vec2i>(screenSize - sizeRef) / 2;
-  uint bbpRef = 32;
+  uint bbpRef = 4u;
   WindowStyle styleRef = WindowStyle::Windowed;
   Image2RGBA iconRef;
 
@@ -177,7 +177,7 @@ TEST_F(TestWindow, MoveConstructor)
   EXPECT_EQ(titleRef, w.getTitle());
   EXPECT_EQ(posRef, w.getClientPosition());
   EXPECT_EQ(sizeRef, w.getClientSize());
-  EXPECT_EQ(bbpRef, w.getBitsPerPixel());
+  EXPECT_EQ(bbpRef, w.getBytesPerPixel());
   EXPECT_EQ(styleRef, w.getStyle());
   EXPECT_EQ(iconRef, w.getIcon());
   EXPECT_FALSE(w.isVisible());

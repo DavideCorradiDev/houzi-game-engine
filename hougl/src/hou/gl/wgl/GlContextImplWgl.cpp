@@ -25,6 +25,8 @@ namespace prv
 namespace
 {
 
+constexpr uint bitsPerByte = 8u;
+
 int choosePixelFormat(HDC hdc, uint colorBits
   , const ContextSettings& settings);
 void setPixelFormat(HDC hdc, int formatNumber);
@@ -132,12 +134,13 @@ void ContextImpl::unsetCurrent()
 
 
 
-ContextImpl::ContextImpl(const ContextSettings& settings, const Window& window
-  , const ContextImpl* sharedContext)
+ContextImpl::ContextImpl(const ContextSettings& settings, const Window& window,
+  const ContextImpl* sharedContext)
   : NonCopyable()
   , mHandle(nullptr)
   , mHdc(GetDC(window.getWindowHandle()))
-  , mPixelFormat(choosePixelFormat(mHdc, window.getBitsPerPixel(), settings))
+  , mPixelFormat(choosePixelFormat(
+      mHdc, window.getBytesPerPixel() * bitsPerByte, settings))
 {
   HOU_EXPECT(mHdc != nullptr);
 
@@ -211,4 +214,3 @@ ContextImpl::~ContextImpl()
 }
 
 }
-

@@ -40,6 +40,7 @@ namespace prv
 namespace
 {
 
+constexpr uint bitsPerByte = 8u;
 constexpr const wchar_t* houClassName = L"HziWindowClass";
 std::mutex houClassMutex;
 uint windowCount(0);
@@ -113,7 +114,7 @@ void activateFullscreenMode(WindowImpl& window, const VideoMode& videoMode)
   devmode.dmSize = sizeof(DEVMODE);
   devmode.dmPelsWidth = videoMode.getResolution().x();
   devmode.dmPelsHeight = videoMode.getResolution().y();
-  devmode.dmBitsPerPel = videoMode.getBitsPerPixel();
+  devmode.dmBitsPerPel = videoMode.getBytesPerPixel() * bitsPerByte;
   devmode.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT | DM_BITSPERPEL;
   HOU_WIN_ENSURE(ChangeDisplaySettings(&devmode, CDS_FULLSCREEN)
     == DISP_CHANGE_SUCCESSFUL);
