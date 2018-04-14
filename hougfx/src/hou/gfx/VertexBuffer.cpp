@@ -2,28 +2,28 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license. See license.md for more details.
 
-#include "hou/gfx/RenderBuffer.hpp"
+#include "hou/gfx/VertexBuffer.hpp"
 
 
 
 namespace hou
 {
 
-void RenderBuffer::bind(const RenderBuffer& buffer, RenderBufferTarget target)
+void VertexBuffer::bind(const VertexBuffer& buffer, VertexBufferTarget target)
 {
   gl::bindBuffer(buffer.mHandle, static_cast<GLenum>(target));
 }
 
 
 
-void RenderBuffer::unbind(RenderBufferTarget target)
+void VertexBuffer::unbind(VertexBufferTarget target)
 {
   gl::unbindBuffer(static_cast<GLenum>(target));
 }
 
 
 
-RenderBuffer::RenderBuffer(uint byteCount, bool dynamicStorage)
+VertexBuffer::VertexBuffer(uint byteCount, bool dynamicStorage)
   : NonCopyable()
   , mHandle(gl::BufferHandle::create())
   , mByteCount(byteCount)
@@ -36,7 +36,7 @@ RenderBuffer::RenderBuffer(uint byteCount, bool dynamicStorage)
 
 
 
-RenderBuffer::RenderBuffer(uint size, const void* data, bool dynamicStorage)
+VertexBuffer::VertexBuffer(uint size, const void* data, bool dynamicStorage)
   : NonCopyable()
   , mHandle(gl::BufferHandle::create())
   , mByteCount(size)
@@ -48,7 +48,7 @@ RenderBuffer::RenderBuffer(uint size, const void* data, bool dynamicStorage)
 
 
 
-RenderBuffer::RenderBuffer(RenderBuffer&& other)
+VertexBuffer::VertexBuffer(VertexBuffer&& other)
   : NonCopyable()
   , mHandle(std::move(other.mHandle))
   , mByteCount(std::move(other.mByteCount))
@@ -56,21 +56,21 @@ RenderBuffer::RenderBuffer(RenderBuffer&& other)
 
 
 
-const gl::BufferHandle& RenderBuffer::getHandle() const
+const gl::BufferHandle& VertexBuffer::getHandle() const
 {
   return mHandle;
 }
 
 
 
-bool RenderBuffer::isBound(RenderBufferTarget target) const
+bool VertexBuffer::isBound(VertexBufferTarget target) const
 {
   return gl::isBufferBound(mHandle, static_cast<GLenum>(target));
 }
 
 
 
-uint RenderBuffer::getByteCount() const
+uint VertexBuffer::getByteCount() const
 {
   return mByteCount;
 }

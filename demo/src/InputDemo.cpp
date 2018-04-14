@@ -6,7 +6,7 @@
 #include "hou/gfx/Font.hpp"
 #include "hou/gfx/Vertex2.hpp"
 #include "hou/gfx/Renderer2.hpp"
-#include "hou/gfx/RenderContext.hpp"
+#include "hou/gfx/GraphicContext.hpp"
 #include "hou/gfx/RenderWindow.hpp"
 #include "hou/gfx/Texture.hpp"
 
@@ -106,7 +106,8 @@ int main()
   static const hou::Vec2f evSize((800.f - 20.f) / maxEventQueueSize, (800.f - 20.f) / maxEventQueueSize);
 
   // Initialization of objects used for rendering.
-  hou::RenderContext ctx;
+  hou::GraphicContext ctx;
+  hou::GraphicContext::setCurrent(ctx);
   hou::RenderWindow wnd(u8"Input Demo", hou::Vec2s(800u, 600u), 0u
     , hou::WindowStyle::WindowedResizable);
   wnd.setVisible(true);

@@ -44,7 +44,7 @@ SET(EXE_HOUGFX_TEST_SRC
   hou/gfx/TestGlyphRenderInfo.cpp
   hou/gfx/TestMesh.cpp
   hou/gfx/TestMesh2ShaderProgram.cpp
-  hou/gfx/TestRenderContext.cpp
+  hou/gfx/TestGraphicContext.cpp
   hou/gfx/TestRenderSurface.cpp
   hou/gfx/TestRenderTexture.cpp
   hou/gfx/TestRenderWindow.cpp
@@ -57,7 +57,7 @@ SET(EXE_HOUGFX_TEST_SRC
   hou/gfx/TestVertex2.cpp
   hou/gfx/TestVertexArray.cpp
   hou/gfx/TestVertexAttribFormat.cpp
-  hou/gfx/TestRenderBuffer.cpp
+  hou/gfx/TestVertexBuffer.cpp
   hou/gfx/TestVertexFormat.cpp
 )
 

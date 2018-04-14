@@ -6,7 +6,7 @@
 
 #include "hou/gl/GlUtils.hpp"
 
-#include "hou/gfx/RenderContext.hpp"
+#include "hou/gfx/GraphicContext.hpp"
 #include "hou/gfx/RenderTexture.hpp"
 #include "hou/gfx/Texture.hpp"
 
@@ -36,10 +36,10 @@
 namespace hou
 {
 
-RenderWindow::RenderWindow(const std::string& title, const Vec2u& size
-  , uint sampleCount, WindowStyle style)
-  : Window(title, VideoMode(size, RenderContext::getRenderingColorBitCount())
-    , style)
+RenderWindow::RenderWindow(const std::string& title, const Vec2u& size,
+  uint sampleCount, WindowStyle style)
+  : Window(title,
+      VideoMode(size, GraphicContext::getRenderingColorByteCount()), style)
   , RenderSurface(size, sampleCount)
 {}
 
@@ -64,11 +64,9 @@ void RenderWindow::display()
   setDefaultRenderTarget();
 
   Vec2u size = getSize();
-  gl::blitFramebuffer
-    ( 0, 0, size.x(), size.y()
-    , 0, size.y(), size.x(), 0
-    , GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT
-    , GL_NEAREST);
+  gl::blitFramebuffer(0, 0, size.x(), size.y(), 0, size.y(), size.x(), 0,
+    GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
+    GL_NEAREST);
 
   swapBuffers();
 }
@@ -123,5 +121,4 @@ void RenderWindow::setClientRect(const Recti& value)
   RenderSurface::setSize(getClientSize());
 }
 
-}
-
+}  // namespace hou

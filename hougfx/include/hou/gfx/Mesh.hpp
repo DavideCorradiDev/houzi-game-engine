@@ -15,7 +15,7 @@
 
 #include "hou/gfx/MeshDrawMode.hpp"
 #include "hou/gfx/MeshFillMode.hpp"
-#include "hou/gfx/RenderBuffer.hpp"
+#include "hou/gfx/VertexBuffer.hpp"
 #include "hou/gfx/VertexArray.hpp"
 
 #include <iostream>
@@ -39,7 +39,7 @@ public:
   /** Draws a Mesh object with the current shader and texture.
    *
    *  The draw operation automatically binds the mesh to the current
-   * RenderContext.
+   * GraphicContext.
    *
    *  \param mesh the Mesh to be drawn.
    */
@@ -133,7 +133,7 @@ public:
   VertexCollectionType getVertices() const;
 
 private:
-  StaticRenderBuffer<T> mVbo;
+  StaticVertexBuffer<T> mVbo;
 };
 
 

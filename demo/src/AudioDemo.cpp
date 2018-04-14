@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cassert>
 
-#include "hou/gfx/RenderContext.hpp"
+#include "hou/gfx/GraphicContext.hpp"
 #include "hou/gfx/RenderWindow.hpp"
 #include "hou/gfx/Renderer2.hpp"
 #include "hou/gfx/Font.hpp"
@@ -36,7 +36,8 @@ using namespace hou;
 
 int main()
 {
-  RenderContext ctx;
+  GraphicContext ctx;
+  GraphicContext::setCurrent(ctx);
   RenderWindow rw(u8"Sprite benchmark", Vec2u(800u, 600u), 8u, WindowStyle::Windowed);
   rw.setVisible(true);
   rw.setVerticalSyncMode(VerticalSyncMode::Disabled);

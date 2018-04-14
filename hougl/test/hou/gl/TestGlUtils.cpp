@@ -116,3 +116,50 @@ TEST_F(TestGlUtils, BindWindow)
   gl::bindWindow(w);
   EXPECT_TRUE(mContext.isCurrent());
 }
+
+
+
+TEST_F(TestGlUtils, EnableBlending)
+{
+  EXPECT_FALSE(gl::isBlendingEnabled());
+  gl::enableBlending();
+  EXPECT_TRUE(gl::isBlendingEnabled());
+  gl::enableBlending();
+  EXPECT_TRUE(gl::isBlendingEnabled());
+  gl::disableBlending();
+  EXPECT_FALSE(gl::isBlendingEnabled());
+  gl::disableBlending();
+  EXPECT_FALSE(gl::isBlendingEnabled());
+}
+
+
+
+TEST_F(TestGlUtils, GetBlendingFactors)
+{
+  EXPECT_EQ(static_cast<GLenum>(GL_ONE), gl::getSourceBlending());
+  EXPECT_EQ(static_cast<GLenum>(GL_ZERO), gl::getDestinationBlending());
+
+  gl::setBlending(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  EXPECT_EQ(static_cast<GLenum>(GL_SRC_ALPHA), gl::getSourceBlending());
+  EXPECT_EQ(
+    static_cast<GLenum>(GL_ONE_MINUS_SRC_ALPHA), gl::getDestinationBlending());
+
+  gl::setBlending(GL_SRC_COLOR, GL_DST_ALPHA);
+  EXPECT_EQ(static_cast<GLenum>(GL_SRC_COLOR), gl::getSourceBlending());
+  EXPECT_EQ(static_cast<GLenum>(GL_DST_ALPHA), gl::getDestinationBlending());
+}
+
+
+
+TEST_F(TestGlUtils, EnableMultisampling)
+{
+  EXPECT_TRUE(gl::isMultisamplingEnabled());
+  gl::enableMultisampling();
+  EXPECT_TRUE(gl::isMultisamplingEnabled());
+  gl::enableMultisampling();
+  EXPECT_TRUE(gl::isMultisamplingEnabled());
+  gl::disableMultisampling();
+  EXPECT_FALSE(gl::isMultisamplingEnabled());
+  gl::disableMultisampling();
+  EXPECT_FALSE(gl::isMultisamplingEnabled());
+}

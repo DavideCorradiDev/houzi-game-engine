@@ -48,8 +48,8 @@ TEST_F(OldTestTexture2, CreationWithSize)
 
 TEST_F(OldTestTexture2, CreationWithAreaGreaterThanMaxTextureSize)
 {
-  Vec2u size(RenderContext::getMaxTextureSize() / 2u, 3u);
-  ASSERT_GT(size.x() * size.y(), RenderContext::getMaxTextureSize());
+  Vec2u size(GraphicContext::getMaxTextureSize() / 2u, 3u);
+  ASSERT_GT(size.x() * size.y(), GraphicContext::getMaxTextureSize());
   Texture2 tx(size, TextureFormat::RG);
   Image2RGBA imRef(size, Image2RGBA::Pixel(0u, 0u, 0u, 255u));
 
@@ -92,7 +92,7 @@ TEST_F(OldTestTexture2DeathTest, CreationWithSizeNull)
 
 TEST_F(OldTestTexture2DeathTest, CreationWithSizeTooLarge)
 {
-  const uint size = RenderContext::getMaxTextureSize() + 1;
+  const uint size = GraphicContext::getMaxTextureSize() + 1;
   HOU_EXPECT_PRECONDITION(Texture2 tx(Vec2u(size, size)));
   HOU_EXPECT_PRECONDITION(Texture2 tx(Vec2u(1u, size)));
   HOU_EXPECT_PRECONDITION(Texture2 tx(Vec2u(size, 1u)));
@@ -158,7 +158,7 @@ TEST_F(OldTestTexture2DeathTest, CreationWithImageNullSize)
 
 TEST_F(OldTestTexture2DeathTest, CreationWithImageSizeTooLarge)
 {
-  const uint size = RenderContext::getMaxTextureSize() + 1;
+  const uint size = GraphicContext::getMaxTextureSize() + 1;
   Image2RGBA im(Vec2u(size, 1u));
   HOU_EXPECT_PRECONDITION(Texture2 tx(im));
 }
@@ -311,17 +311,17 @@ TEST_F(OldTestTexture2, Binding)
   Texture2::bind(tx, 1u);
   EXPECT_FALSE(tx.isBound(0u));
   EXPECT_TRUE(tx.isBound(1u));
-  EXPECT_FALSE(tx.isBound(RenderContext::getTextureUnitCount() - 1u));
+  EXPECT_FALSE(tx.isBound(GraphicContext::getTextureUnitCount() - 1u));
 
   Texture2::bind(tx, 0u);
   EXPECT_TRUE(tx.isBound(0u));
   EXPECT_TRUE(tx.isBound(1u));
-  EXPECT_FALSE(tx.isBound(RenderContext::getTextureUnitCount() - 1u));
+  EXPECT_FALSE(tx.isBound(GraphicContext::getTextureUnitCount() - 1u));
 
-  Texture2::bind(tx, RenderContext::getTextureUnitCount() - 1u);
+  Texture2::bind(tx, GraphicContext::getTextureUnitCount() - 1u);
   EXPECT_TRUE(tx.isBound(0u));
   EXPECT_TRUE(tx.isBound(1u));
-  EXPECT_TRUE(tx.isBound(RenderContext::getTextureUnitCount() - 1u));
+  EXPECT_TRUE(tx.isBound(GraphicContext::getTextureUnitCount() - 1u));
 }
 
 
@@ -329,7 +329,7 @@ TEST_F(OldTestTexture2, Binding)
 TEST_F(OldTestTexture2DeathTest, BindingErrorInvalidTextureUnit)
 {
   Texture2 tx(pngReadFile<PixelFormat::RGBA>(testImagePng));
-  HOU_EXPECT_PRECONDITION(Texture2::bind(tx, RenderContext::getTextureUnitCount()));
+  HOU_EXPECT_PRECONDITION(Texture2::bind(tx, GraphicContext::getTextureUnitCount()));
 }
 
 

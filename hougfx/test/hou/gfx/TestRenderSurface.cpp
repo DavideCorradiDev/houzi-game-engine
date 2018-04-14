@@ -115,8 +115,7 @@ TEST_F(TestRenderSurface, Creation)
 
 TEST_F(TestRenderSurface, CreationWithAreaGreaterThanMaxTextureSize)
 {
-  Vec2u size(RenderContext::getMaxTextureSize() / 2u, 3u);
-  ASSERT_GT(size.x() * size.y(), RenderContext::getMaxTextureSize());
+  Vec2u size(Texture2::getMaxSize().x(), 2u);
   uint samples = 0u;
   ConcreteRenderSurface rs(size, samples);
 

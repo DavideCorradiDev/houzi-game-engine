@@ -13,11 +13,14 @@
 namespace hou
 {
 
+namespace
+{
+  constexpr uint bitsPerByte = 8u;
+}
+
 // Note:
 // EnumDisplaySettings fails (returns 0) if the second argument is greater than
 // the index of the display's device graphics mode.
-//
-//
 
 VideoMode VideoMode::getDesktopMode()
 {
@@ -26,7 +29,7 @@ VideoMode VideoMode::getDesktopMode()
   // No need to check for error here.
   EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &winMode);
   return VideoMode(Vec2u(winMode.dmPelsWidth, winMode.dmPelsHeight)
-    , winMode.dmBitsPerPel);
+    , winMode.dmBitsPerPel / bitsPerByte);
 }
 
 
@@ -42,7 +45,7 @@ std::vector<VideoMode> VideoMode::createFullscreenModesVector()
   for(int i = 0; EnumDisplaySettings(nullptr, i, &winMode) != 0; ++i)
   {
     VideoMode mode(Vec2u(winMode.dmPelsWidth, winMode.dmPelsHeight)
-      , winMode.dmBitsPerPel);
+      , winMode.dmBitsPerPel / bitsPerByte);
     if(std::find(modes.begin(), modes.end(), mode) == modes.end())
     {
       modes.push_back(mode);

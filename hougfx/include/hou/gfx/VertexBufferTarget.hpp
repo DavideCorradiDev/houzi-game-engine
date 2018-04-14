@@ -16,13 +16,13 @@
 namespace hou
 {
 
-enum class RenderBufferTarget : GLenum
+enum class VertexBufferTarget : GLenum
 {
   Array = GL_ARRAY_BUFFER,
   ElementArray = GL_ELEMENT_ARRAY_BUFFER,
 };
 
-HOU_GFX_API std::ostream& operator<<(std::ostream& os, RenderBufferTarget vbt);
+HOU_GFX_API std::ostream& operator<<(std::ostream& os, VertexBufferTarget vbt);
 
 }
 

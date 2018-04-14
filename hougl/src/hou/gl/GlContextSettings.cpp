@@ -10,22 +10,19 @@ namespace hou
 namespace gl
 {
 
-const ContextSettings ContextSettings::Default = ContextSettings
-  (Version::Default, ContextProfile::Core, 24u, 8u, 0u);
+const ContextSettings ContextSettings::Default
+  = ContextSettings(Version::Default, ContextProfile::Core, 3u, 1u, 0u);
 
 
 
-ContextSettings::ContextSettings
-  ( const Version& version
-  , ContextProfile profile
-  , uint depthBits
-  , uint stencilBits
-  , uint antiAliasingLevel)
+ContextSettings::ContextSettings(const Version& version, ContextProfile profile,
+  uint depthByteCount, uint stencilByteCount, uint sampleCount)
   : mVersion(version)
   , mProfile(profile)
-  , mDepthBits(depthBits)
-  , mStencilBits(stencilBits)
-  , mAntiAliasingLevel(antiAliasingLevel) {}
+  , mDepthByteCount(depthByteCount)
+  , mStencilByteCount(stencilByteCount)
+  , mSampleCount(sampleCount)
+{}
 
 
 
@@ -57,55 +54,54 @@ void ContextSettings::setProfile(ContextProfile value)
 
 
 
-uint ContextSettings::getDepthBits() const
+uint ContextSettings::getDepthByteCount() const
 {
-  return mDepthBits;
+  return mDepthByteCount;
 }
 
 
 
-void ContextSettings::setDepthBits(uint value)
+void ContextSettings::setDepthByteCount(uint value)
 {
-  mDepthBits = value;
+  mDepthByteCount = value;
 }
 
 
 
-uint ContextSettings::getStencilBits() const
+uint ContextSettings::getStencilByteCount() const
 {
-  return mStencilBits;
+  return mStencilByteCount;
 }
 
 
 
-void ContextSettings::setStencilBits(uint value)
+void ContextSettings::setStencilByteCount(uint value)
 {
-  mStencilBits = value;
+  mStencilByteCount = value;
 }
 
 
 
-uint ContextSettings::getAntialiasingLevel() const
+uint ContextSettings::getSampleCount() const
 {
-  return mAntiAliasingLevel;
+  return mSampleCount;
 }
 
 
 
-void ContextSettings::setAntialiasingLevel(uint value)
+void ContextSettings::setSampleCount(uint value)
 {
-  mAntiAliasingLevel = value;
+  mSampleCount = value;
 }
 
 
 
 bool operator==(const ContextSettings& l, const ContextSettings& r)
 {
-  return l.getVersion() == r.getVersion()
-    && l.getProfile() == r.getProfile()
-    && l.getDepthBits() == r.getDepthBits()
-    && l.getStencilBits() == r.getStencilBits()
-    && l.getAntialiasingLevel() == r.getAntialiasingLevel();
+  return l.getVersion() == r.getVersion() && l.getProfile() == r.getProfile()
+    && l.getDepthByteCount() == r.getDepthByteCount()
+    && l.getStencilByteCount() == r.getStencilByteCount()
+    && l.getSampleCount() == r.getSampleCount();
 }
 
 
@@ -115,7 +111,6 @@ bool operator!=(const ContextSettings& l, const ContextSettings& r)
   return !(l == r);
 }
 
-}
+}  // namespace gl
 
-}
-
+}  // namespace hou
