@@ -102,12 +102,12 @@ TEST_F(TestFrameBuffer, Binding)
   FrameBuffer fb1;
   Texture2 tex1(Vec2u(4u, 8u), TextureFormat::RGBA);
   fb1.setColorAttachment(0u, tex1);
-  EXPECT_EQ(FrameBufferStatus::Complete, fb1.getStatus());
+  EXPECT_TRUE(fb1.isComplete());
 
   FrameBuffer fb2;
   Texture2 tex2(Vec2u(4u, 8u), TextureFormat::RGBA);
   fb2.setColorAttachment(0u, tex2);
-  EXPECT_EQ(FrameBufferStatus::Complete, fb2.getStatus());
+  EXPECT_TRUE(fb2.isComplete());
 
   EXPECT_FALSE(fb1.isBound(FrameBufferTarget::Draw));
   EXPECT_FALSE(fb1.isBound(FrameBufferTarget::Read));
@@ -140,12 +140,12 @@ TEST_F(TestFrameBuffer, SpecificBinding)
   FrameBuffer fb1;
   Texture2 tex1(Vec2u(4u, 8u), TextureFormat::RGBA);
   fb1.setColorAttachment(0u, tex1);
-  EXPECT_EQ(FrameBufferStatus::Complete, fb1.getStatus());
+  EXPECT_TRUE(fb1.isComplete());
 
   FrameBuffer fb2;
   Texture2 tex2(Vec2u(4u, 8u), TextureFormat::RGBA);
   fb2.setColorAttachment(0u, tex2);
-  EXPECT_EQ(FrameBufferStatus::Complete, fb2.getStatus());
+  EXPECT_TRUE(fb2.isComplete());
 
   EXPECT_FALSE(fb1.isBound(FrameBufferTarget::Draw));
   EXPECT_FALSE(fb1.isBound(FrameBufferTarget::Read));
@@ -208,7 +208,7 @@ TEST_F(TestFrameBuffer, DefaultConstructor)
   EXPECT_NE(0u, fb.getHandle().getName());
   EXPECT_FALSE(fb.isBound(FrameBufferTarget::Draw));
   EXPECT_FALSE(fb.isBound(FrameBufferTarget::Read));
-  EXPECT_EQ(FrameBufferStatus::IncompleteMissingAttachment, fb.getStatus());
+  EXPECT_FALSE(fb.isComplete());
 }
 
 
@@ -223,7 +223,7 @@ TEST_F(TestFrameBuffer, MoveConstructor)
   EXPECT_EQ(fbName, fb.getHandle().getName());
   EXPECT_FALSE(fb.isBound(FrameBufferTarget::Draw));
   EXPECT_FALSE(fb.isBound(FrameBufferTarget::Read));
-  EXPECT_EQ(FrameBufferStatus::IncompleteMissingAttachment, fb.getStatus());
+  EXPECT_FALSE(fb.isComplete());
 }
 
 
@@ -524,7 +524,7 @@ TEST_F(TestFrameBuffer, StatusColorAttachment)
   Texture2 texRGBA(Vec2u(4u, 8u), TextureFormat::RGBA);
 
   fb.setColorAttachment(0u, texRGBA);
-  EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus());
+  EXPECT_TRUE(fb.isComplete());
 }
 
 
@@ -535,7 +535,7 @@ TEST_F(TestFrameBuffer, StatusDepthAttachment)
   Texture2 texDepth(Vec2u(4u, 8u), TextureFormat::Depth);
 
   fb.setDepthAttachment(texDepth);
-  EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus());
+  EXPECT_TRUE(fb.isComplete());
 }
 
 
@@ -546,7 +546,7 @@ TEST_F(TestFrameBuffer, StatusStencilAttachment)
   Texture2 texStencil(Vec2u(4u, 8u), TextureFormat::Stencil);
 
   fb.setStencilAttachment(texStencil);
-  EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus());
+  EXPECT_TRUE(fb.isComplete());
 }
 
 
@@ -557,7 +557,7 @@ TEST_F(TestFrameBuffer, StatusDepthStencilAttachment)
   Texture2 texDepthStencil(Vec2u(4u, 8u), TextureFormat::DepthStencil);
 
   fb.setDepthStencilAttachment(texDepthStencil);
-  EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus());
+  EXPECT_TRUE(fb.isComplete());
 }
 
 
@@ -570,7 +570,7 @@ TEST_F(TestFrameBuffer, StatusColorDepthStencilAttachment)
 
   fb.setColorAttachment(0u, texRGBA);
   fb.setDepthStencilAttachment(texDepthStencil);
-  EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus());
+  EXPECT_TRUE(fb.isComplete());
 }
 
 
@@ -585,7 +585,7 @@ TEST_F(TestFrameBuffer, StatusColorDepthAndStencilAttachment)
   fb.setColorAttachment(0u, texRGBA);
   fb.setDepthAttachment(texDepth);
   fb.setStencilAttachment(texStencil);
-  EXPECT_EQ(FrameBufferStatus::Unsupported, fb.getStatus());
+  EXPECT_FALSE(fb.isComplete());
 }
 
 
@@ -599,7 +599,7 @@ TEST_F(TestFrameBuffer, StatusMultisampledColorDepthStencilAttachment)
 
   fb.setColorAttachment(0u, texRGBA);
   fb.setDepthStencilAttachment(texDepthStencil);
-  EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus());
+  EXPECT_TRUE(fb.isComplete());
 }
 
 
@@ -615,7 +615,7 @@ TEST_F(
 
   fb.setColorAttachment(0u, texRGBA);
   fb.setDepthStencilAttachment(texDepthStencil);
-  EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus());
+  EXPECT_TRUE(fb.isComplete());
 }
 
 
@@ -631,7 +631,7 @@ TEST_F(TestFrameBuffer,
 
   fb.setColorAttachment(0u, texRGBA);
   fb.setDepthStencilAttachment(texDepthStencil);
-  EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus());
+  EXPECT_TRUE(fb.isComplete());
 }
 
 
@@ -830,8 +830,8 @@ TEST_F(TestFrameBufferDeathTest, BlitErrorIncompleteSourceBuffer)
   Texture2 dstTex(Vec2u(4u, 8u));
   dst.setColorAttachment(0u, dstTex);
 
-  EXPECT_NE(FrameBufferStatus::Complete, src.getStatus());
-  EXPECT_EQ(FrameBufferStatus::Complete, dst.getStatus());
+  EXPECT_FALSE(src.isComplete());
+  EXPECT_TRUE(dst.isComplete());
   HOU_EXPECT_PRECONDITION(
     blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
       FrameBufferBlitMask::Color, FrameBufferBlitFilter::Nearest));
@@ -846,8 +846,8 @@ TEST_F(TestFrameBufferDeathTest, BlitErrorIncompleteDestinationBuffer)
   src.setColorAttachment(0u, srcTex);
   FrameBuffer dst;
 
-  EXPECT_EQ(FrameBufferStatus::Complete, src.getStatus());
-  EXPECT_NE(FrameBufferStatus::Complete, dst.getStatus());
+  EXPECT_TRUE(src.isComplete());
+  EXPECT_FALSE(dst.isComplete());
   HOU_EXPECT_PRECONDITION(
     blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
       FrameBufferBlitMask::Color, FrameBufferBlitFilter::Nearest));
@@ -867,8 +867,8 @@ TEST_F(TestFrameBuffer, BlitSourceMissingColor)
   dst.setColorAttachment(0u, dstTexColor);
   dst.setDepthStencilAttachment(dstTexDS);
 
-  EXPECT_EQ(FrameBufferStatus::Complete, src.getStatus());
-  EXPECT_EQ(FrameBufferStatus::Complete, dst.getStatus());
+  EXPECT_TRUE(src.isComplete());
+  EXPECT_TRUE(dst.isComplete());
 
   blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
     FrameBufferBlitMask::Color, FrameBufferBlitFilter::Nearest);
@@ -889,8 +889,8 @@ TEST_F(TestFrameBuffer, BlitSourceMissingDepthStencil)
   dst.setColorAttachment(0u, dstTexColor);
   dst.setDepthStencilAttachment(dstTexDS);
 
-  EXPECT_EQ(FrameBufferStatus::Complete, src.getStatus());
-  EXPECT_EQ(FrameBufferStatus::Complete, dst.getStatus());
+  EXPECT_TRUE(src.isComplete());
+  EXPECT_TRUE(dst.isComplete());
 
   blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
     FrameBufferBlitMask::Depth, FrameBufferBlitFilter::Nearest);
@@ -913,8 +913,8 @@ TEST_F(TestFrameBuffer, BlitDestinationMissingColor)
   Texture2 dstTexDS(Vec2u(4u, 8u), TextureFormat::DepthStencil);
   dst.setDepthStencilAttachment(dstTexDS);
 
-  EXPECT_EQ(FrameBufferStatus::Complete, src.getStatus());
-  EXPECT_EQ(FrameBufferStatus::Complete, dst.getStatus());
+  EXPECT_TRUE(src.isComplete());
+  EXPECT_TRUE(dst.isComplete());
 
   blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
     FrameBufferBlitMask::Color, FrameBufferBlitFilter::Nearest);
@@ -935,8 +935,8 @@ TEST_F(TestFrameBuffer, BlitDestinationMissingDepthStencil)
   Texture2 dstTexColor(Vec2u(4u, 8u));
   dst.setColorAttachment(0u, dstTexColor);
 
-  EXPECT_EQ(FrameBufferStatus::Complete, src.getStatus());
-  EXPECT_EQ(FrameBufferStatus::Complete, dst.getStatus());
+  EXPECT_TRUE(src.isComplete());
+  EXPECT_TRUE(dst.isComplete());
 
   blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
     FrameBufferBlitMask::Depth, FrameBufferBlitFilter::Nearest);
@@ -957,8 +957,8 @@ TEST_F(TestFrameBuffer, BlitMissingColor)
   Texture2 dstTexDS(Vec2u(4u, 8u), TextureFormat::DepthStencil);
   dst.setDepthStencilAttachment(dstTexDS);
 
-  EXPECT_EQ(FrameBufferStatus::Complete, src.getStatus());
-  EXPECT_EQ(FrameBufferStatus::Complete, dst.getStatus());
+  EXPECT_TRUE(src.isComplete());
+  EXPECT_TRUE(dst.isComplete());
 
   blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
     FrameBufferBlitMask::Color, FrameBufferBlitFilter::Nearest);
@@ -977,8 +977,8 @@ TEST_F(TestFrameBuffer, BlitMissingDepthStencil)
   Texture2 dstTexColor(Vec2u(4u, 8u));
   dst.setColorAttachment(0u, dstTexColor);
 
-  EXPECT_EQ(FrameBufferStatus::Complete, src.getStatus());
-  EXPECT_EQ(FrameBufferStatus::Complete, dst.getStatus());
+  EXPECT_TRUE(src.isComplete());
+  EXPECT_TRUE(dst.isComplete());
 
   blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
     FrameBufferBlitMask::Depth, FrameBufferBlitFilter::Nearest);
@@ -1003,8 +1003,8 @@ TEST_F(TestFrameBufferDeathTest, BlitErrorLinearFilterWithDepthStencilMask)
   dst.setColorAttachment(0u, dstTexColor);
   dst.setDepthStencilAttachment(dstTexDS);
 
-  EXPECT_EQ(FrameBufferStatus::Complete, src.getStatus());
-  EXPECT_EQ(FrameBufferStatus::Complete, dst.getStatus());
+  EXPECT_TRUE(src.isComplete());
+  EXPECT_TRUE(dst.isComplete());
 
   HOU_EXPECT_PRECONDITION(
     blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),

@@ -15,7 +15,7 @@ namespace hou
 
 void FrameBuffer::bind(FrameBuffer& fb)
 {
-  HOU_EXPECT(fb.getStatus() == FrameBufferStatus::Complete);
+  HOU_EXPECT(fb.isComplete());
   gl::bindFramebuffer(fb.getHandle());
 }
 
@@ -30,7 +30,7 @@ void FrameBuffer::unbind()
 
 void FrameBuffer::bind(FrameBuffer& fb, FrameBufferTarget fbt)
 {
-  HOU_EXPECT(fb.getStatus() == FrameBufferStatus::Complete);
+  HOU_EXPECT(fb.isComplete());
   gl::bindFramebuffer(fb.getHandle(), static_cast<GLenum>(fbt));
 }
 
@@ -88,9 +88,9 @@ bool FrameBuffer::isBound(FrameBufferTarget fbt) const
 
 
 
-FrameBufferStatus FrameBuffer::getStatus() const
+bool FrameBuffer::isComplete() const
 {
-  return FrameBufferStatus(gl::getFramebufferStatus(mHandle));
+  return gl::getFramebufferStatus(mHandle) == GL_FRAMEBUFFER_COMPLETE;
 }
 
 
@@ -161,8 +161,7 @@ void blit(const FrameBuffer& src, const Recti& srcRect, FrameBuffer& dst,
   HOU_EXPECT((filter == FrameBufferBlitFilter::Nearest
                || mask == FrameBufferBlitMask::None
                || mask == FrameBufferBlitMask::Color)
-    && src.getStatus() == FrameBufferStatus::Complete
-    && dst.getStatus() == FrameBufferStatus::Complete
+    && src.isComplete() && dst.isComplete()
     && ((!src.hasMultisampleAttachment() && !dst.hasMultisampleAttachment())
          || (std::abs(srcRect.w()) == std::abs(dstRect.w())
               && std::abs(srcRect.h()) == std::abs(srcRect.h()))));

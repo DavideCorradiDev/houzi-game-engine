@@ -42,7 +42,6 @@ SET(LIB_HOUGFX_SRC
   src/hou/gfx/GlType.cpp
   src/hou/gfx/FrameBuffer.cpp
   src/hou/gfx/FrameBufferBlitFilter.cpp
-  src/hou/gfx/FrameBufferStatus.cpp
   src/hou/gfx/FrameBufferTarget.cpp
   src/hou/gfx/Mesh.cpp
   src/hou/gfx/Mesh2ShaderProgram.cpp

@@ -13,7 +13,6 @@
 
 #include "hou/gfx/FrameBufferBlitFilter.hpp"
 #include "hou/gfx/FrameBufferBlitMask.hpp"
-#include "hou/gfx/FrameBufferStatus.hpp"
 #include "hou/gfx/FrameBufferTarget.hpp"
 
 #include "hou/gl/GlFramebufferHandle.hpp"
@@ -28,14 +27,11 @@ class Texture;
 class HOU_GFX_API FrameBuffer : public NonCopyable
 {
 public:
-  // Safe
-  // I could check completeness before binding for safety reasons (otherwise
-  // some error would happen later...).
   static void bind(FrameBuffer& fb);
   static void unbind();
   static void bind(FrameBuffer& fb, FrameBufferTarget fbt);
   static void unbind(FrameBufferTarget fbt);
-  // Safe
+
   static uint getColorAttachmentPointCount();
 
 public:
@@ -45,11 +41,8 @@ public:
   const gl::FramebufferHandle& getHandle() const;
   bool isBound(FrameBufferTarget fbt) const;
 
-  // Safe
-  FrameBufferStatus getStatus() const;
+  bool isComplete() const;
 
-  // must check the mipmapLevel.
-  // must check the attachment point.
   void setColorAttachment(
     uint attachmentPoint, Texture& texture, uint mipMapLevel = 0u);
   void setDepthAttachment(Texture& texture, uint mipMapLevel = 0u);
