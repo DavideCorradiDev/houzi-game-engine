@@ -82,9 +82,9 @@ public:
    */
   FrameBuffer(FrameBuffer&& other);
 
-  /** Retrieves a reference to the OpenGL framebuffer.
+  /** Retrieves a reference to the OpenGL framebuffer handle.
    *
-   *  \return a reference to the OpenGL framebuffer.
+   *  \return a reference to the OpenGL framebuffer handle.
    */
   const gl::FramebufferHandle& getHandle() const;
 

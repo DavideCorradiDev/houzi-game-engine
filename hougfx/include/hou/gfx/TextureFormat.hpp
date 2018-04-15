@@ -16,7 +16,7 @@
 namespace hou
 {
 
-/** Enumeration for the format of a texture. */
+/** Represents the pixel format of a texture. */
 enum class TextureFormat : GLenum
 {
   /** Single channel (red) format. */
@@ -37,9 +37,9 @@ enum class TextureFormat : GLenum
 
 /** Writes a TextureFormat enum into a stream.
  *
- *  \param os the stream.
- *  \param format the TextureFormat enum.
- *  \return a reference to the stream.
+ * \param os the stream.
+ * \param format the TextureFormat enum.
+ * \return a reference to the stream.
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, TextureFormat format);
 
