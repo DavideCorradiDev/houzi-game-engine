@@ -16,9 +16,13 @@
 namespace hou
 {
 
+/** Specifies how to filter when blitting a framebuffer onto another.
+ */
 enum class FrameBufferBlitFilter : GLenum
 {
+  /** Do not filter. */
   Nearest = GL_NEAREST,
+  /** Linear interpolation filter. */
   Linear = GL_LINEAR,
 };
 

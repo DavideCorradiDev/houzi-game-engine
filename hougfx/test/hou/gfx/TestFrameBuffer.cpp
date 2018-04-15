@@ -849,6 +849,30 @@ TEST_F(TestFrameBufferDeathTest, BlitErrorIncompleteDestinationBuffer)
 
 
 
+TEST_F(TestFrameBuffer, BlitNoAttachmentSpecified)
+{
+  FrameBuffer src;
+  Texture2 srcTexColor(Vec2u(4u, 8u));
+  Texture2 srcTexDS(Vec2u(4u, 8u), TextureFormat::DepthStencil);
+  src.setColorAttachment(0u, srcTexColor);
+  src.setDepthStencilAttachment(srcTexDS);
+
+  FrameBuffer dst;
+  Texture2 dstTexColor(Vec2u(4u, 8u));
+  Texture2 dstTexDS(Vec2u(4u, 8u), TextureFormat::DepthStencil);
+  dst.setColorAttachment(0u, dstTexColor);
+  dst.setDepthStencilAttachment(dstTexDS);
+
+  EXPECT_TRUE(src.isComplete());
+  EXPECT_TRUE(dst.isComplete());
+
+  blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
+    FrameBufferBlitMask::None, FrameBufferBlitFilter::Nearest);
+  SUCCEED();
+}
+
+
+
 TEST_F(TestFrameBuffer, BlitSourceMissingColor)
 {
   FrameBuffer src;
