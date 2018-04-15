@@ -7,6 +7,7 @@
 #include "hou/gl/GlCheck.hpp"
 #include "hou/gl/GlContext.hpp"
 #include "hou/gl/GlTextureHandle.hpp"
+#include "hou/gl/GlUtils.hpp"
 
 
 
@@ -263,6 +264,10 @@ void blitFramebuffer(const FramebufferHandle& src, const FramebufferHandle& dst,
   HOU_GL_CHECK_ERROR();
 }
 
+GLint getMaxColorAttachments()
+{
+  return getInteger(GL_MAX_COLOR_ATTACHMENTS);
+}
 
 }  // namespace gl
 

@@ -15,28 +15,30 @@ namespace hou
 
 void FrameBuffer::bind(FrameBuffer& fb)
 {
-  HOU_EXPECT(false);
+  HOU_EXPECT(fb.getStatus() == FrameBufferStatus::Complete);
+  gl::bindFramebuffer(fb.getHandle());
 }
 
 
 
 void FrameBuffer::unbind()
 {
-  HOU_EXPECT(false);
+  gl::unbindFramebuffer();
 }
 
 
 
-void FrameBuffer::bind(FrameBufferTarget fbt)
+void FrameBuffer::bind(FrameBuffer& fb, FrameBufferTarget fbt)
 {
-  HOU_EXPECT(false);
+  HOU_EXPECT(fb.getStatus(fbt) == FrameBufferStatus::Complete);
+  gl::bindFramebuffer(fb.getHandle(), static_cast<GLenum>(fbt));
 }
 
 
 
 void FrameBuffer::unbind(FrameBufferTarget fbt)
 {
-  HOU_EXPECT(false);
+  gl::unbindFramebuffer(static_cast<GLenum>(fbt));
 }
 
 
@@ -58,41 +60,53 @@ void FrameBuffer::blit(const FrameBuffer& src, const Recti& srcRect,
 
 
 
-uint FrameBuffer::getMaxColorAttachmentCount()
+uint FrameBuffer::getColorAttachmentPointCount()
 {
-  HOU_EXPECT(false);
-  return 42u;
+  return static_cast<uint>(gl::getMaxColorAttachments());
 }
 
 
 
 FrameBuffer::FrameBuffer()
+  : NonCopyable()
+  , mHandle(gl::FramebufferHandle::create())
+{}
+
+
+
+FrameBuffer::FrameBuffer(FrameBuffer&& other)
+  : NonCopyable()
+  , mHandle(std::move(other.mHandle))
+{}
+
+
+
+const gl::FramebufferHandle& FrameBuffer::getHandle() const
 {
-  HOU_EXPECT(false);
+  return mHandle;
 }
 
 
 
 bool FrameBuffer::isBound(FrameBufferTarget fbt) const
 {
-  HOU_EXPECT(false);
-  return false;
+  return static_cast<bool>(
+    gl::isFramebufferBound(mHandle, static_cast<GLenum>(fbt)));
 }
 
 
 
 FrameBufferStatus FrameBuffer::getStatus() const
 {
-  HOU_EXPECT(false);
-  return FrameBufferStatus::Undefined;
+  return FrameBufferStatus(gl::getFramebufferStatus(mHandle));
 }
 
 
 
-FrameBufferStatus FrameBuffer::getStatus(FrameBufferTarget) const
+FrameBufferStatus FrameBuffer::getStatus(FrameBufferTarget fbt) const
 {
-  HOU_EXPECT(false);
-  return FrameBufferStatus::Undefined;
+  return FrameBufferStatus(
+    gl::getFramebufferStatus(mHandle, static_cast<GLenum>(fbt)));
 }
 
 
@@ -100,28 +114,44 @@ FrameBufferStatus FrameBuffer::getStatus(FrameBufferTarget) const
 void FrameBuffer::setColorAttachment(
   uint attachmentPoint, Texture& texture, uint mipMapLevel)
 {
-  HOU_EXPECT(false);
+  HOU_EXPECT(attachmentPoint < getColorAttachmentPointCount());
+  HOU_EXPECT(mipMapLevel < texture.getMipMapLevelCount());
+  HOU_EXPECT(texture.getFormat() == TextureFormat::RGBA
+    || texture.getFormat() == TextureFormat::RGB
+    || texture.getFormat() == TextureFormat::RG
+    || texture.getFormat() == TextureFormat::R);
+  gl::setFramebufferColorTexture(mHandle, static_cast<GLuint>(attachmentPoint),
+    texture.getHandle(), static_cast<GLint>(mipMapLevel));
 }
 
 
 
 void FrameBuffer::setDepthAttachment(Texture& texture, uint mipMapLevel)
 {
-  HOU_EXPECT(false);
+  HOU_EXPECT(mipMapLevel < texture.getMipMapLevelCount());
+  HOU_EXPECT(texture.getFormat() == TextureFormat::Depth
+    || texture.getFormat() == TextureFormat::DepthStencil);
+  gl::setFramebufferDepthTexture(mHandle, texture.getHandle(), mipMapLevel);
 }
 
 
 
 void FrameBuffer::setStencilAttachment(Texture& texture, uint mipMapLevel)
 {
-  HOU_EXPECT(false);
+  HOU_EXPECT(mipMapLevel < texture.getMipMapLevelCount());
+  HOU_EXPECT(texture.getFormat() == TextureFormat::Stencil
+    || texture.getFormat() == TextureFormat::DepthStencil);
+  gl::setFramebufferStencilTexture(mHandle, texture.getHandle(), mipMapLevel);
 }
 
 
 
 void FrameBuffer::setDepthStencilAttachment(Texture& texture, uint mipMapLevel)
 {
-  HOU_EXPECT(false);
+  HOU_EXPECT(mipMapLevel < texture.getMipMapLevelCount());
+  HOU_EXPECT(texture.getFormat() == TextureFormat::DepthStencil);
+  gl::setFramebufferDepthStencilTexture(
+    mHandle, texture.getHandle(), mipMapLevel);
 }
 
 }  // namespace hou

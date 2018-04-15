@@ -16,6 +16,8 @@
 #include "hou/gfx/FrameBufferStatus.hpp"
 #include "hou/gfx/FrameBufferTarget.hpp"
 
+#include "hou/gl/GlFramebufferHandle.hpp"
+
 
 
 namespace hou
@@ -31,7 +33,7 @@ public:
   // some error would happen later...).
   static void bind(FrameBuffer& fb);
   static void unbind();
-  static void bind(FrameBufferTarget fbt);
+  static void bind(FrameBuffer& fb, FrameBufferTarget fbt);
   static void unbind(FrameBufferTarget fbt);
 
   // Params:
@@ -56,16 +58,18 @@ public:
 
 
   // Safe
-  static uint getMaxColorAttachmentCount();
+  static uint getColorAttachmentPointCount();
 
 public:
   FrameBuffer();
+  FrameBuffer(FrameBuffer&& other);
 
+  const gl::FramebufferHandle& getHandle() const;
   bool isBound(FrameBufferTarget fbt) const;
 
   // Safe
   FrameBufferStatus getStatus() const;
-  FrameBufferStatus getStatus(FrameBufferTarget) const;
+  FrameBufferStatus getStatus(FrameBufferTarget fbt) const;
 
   // must check the mipmapLevel.
   // must check the attachment point.
@@ -74,6 +78,9 @@ public:
   void setDepthAttachment(Texture& texture, uint mipMapLevel = 0u);
   void setStencilAttachment(Texture& texture, uint mipMapLevel = 0u);
   void setDepthStencilAttachment(Texture& texture, uint mipMapLevel = 0u);
+
+private:
+  gl::FramebufferHandle mHandle;
 };
 
 }  // namespace hou

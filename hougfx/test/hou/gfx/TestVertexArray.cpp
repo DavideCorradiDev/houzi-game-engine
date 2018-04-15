@@ -10,9 +10,9 @@
 #include "hou/gfx/VertexAttribFormat.hpp"
 #include "hou/gfx/VertexFormat.hpp"
 
-
-
 using namespace hou;
+
+
 
 namespace
 {
