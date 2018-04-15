@@ -109,28 +109,28 @@ TEST_F(TestFrameBuffer, Binding)
   fb2.setColorAttachment(0u, tex2);
   EXPECT_TRUE(fb2.isComplete());
 
-  EXPECT_FALSE(fb1.isBound(FrameBufferTarget::Draw));
-  EXPECT_FALSE(fb1.isBound(FrameBufferTarget::Read));
-  EXPECT_FALSE(fb2.isBound(FrameBufferTarget::Draw));
-  EXPECT_FALSE(fb2.isBound(FrameBufferTarget::Read));
+  EXPECT_FALSE(fb1.isBoundToDrawTarget());
+  EXPECT_FALSE(fb1.isBoundToReadTarget());
+  EXPECT_FALSE(fb2.isBoundToDrawTarget());
+  EXPECT_FALSE(fb2.isBoundToReadTarget());
 
   FrameBuffer::bind(fb1);
-  EXPECT_TRUE(fb1.isBound(FrameBufferTarget::Draw));
-  EXPECT_TRUE(fb1.isBound(FrameBufferTarget::Read));
-  EXPECT_FALSE(fb2.isBound(FrameBufferTarget::Draw));
-  EXPECT_FALSE(fb2.isBound(FrameBufferTarget::Read));
+  EXPECT_TRUE(fb1.isBoundToDrawTarget());
+  EXPECT_TRUE(fb1.isBoundToReadTarget());
+  EXPECT_FALSE(fb2.isBoundToDrawTarget());
+  EXPECT_FALSE(fb2.isBoundToReadTarget());
 
   FrameBuffer::bind(fb2);
-  EXPECT_FALSE(fb1.isBound(FrameBufferTarget::Draw));
-  EXPECT_FALSE(fb1.isBound(FrameBufferTarget::Read));
-  EXPECT_TRUE(fb2.isBound(FrameBufferTarget::Draw));
-  EXPECT_TRUE(fb2.isBound(FrameBufferTarget::Read));
+  EXPECT_FALSE(fb1.isBoundToDrawTarget());
+  EXPECT_FALSE(fb1.isBoundToReadTarget());
+  EXPECT_TRUE(fb2.isBoundToDrawTarget());
+  EXPECT_TRUE(fb2.isBoundToReadTarget());
 
   FrameBuffer::unbind();
-  EXPECT_FALSE(fb1.isBound(FrameBufferTarget::Draw));
-  EXPECT_FALSE(fb1.isBound(FrameBufferTarget::Read));
-  EXPECT_FALSE(fb2.isBound(FrameBufferTarget::Draw));
-  EXPECT_FALSE(fb2.isBound(FrameBufferTarget::Read));
+  EXPECT_FALSE(fb1.isBoundToDrawTarget());
+  EXPECT_FALSE(fb1.isBoundToReadTarget());
+  EXPECT_FALSE(fb2.isBoundToDrawTarget());
+  EXPECT_FALSE(fb2.isBoundToReadTarget());
 }
 
 
@@ -147,46 +147,40 @@ TEST_F(TestFrameBuffer, SpecificBinding)
   fb2.setColorAttachment(0u, tex2);
   EXPECT_TRUE(fb2.isComplete());
 
-  EXPECT_FALSE(fb1.isBound(FrameBufferTarget::Draw));
-  EXPECT_FALSE(fb1.isBound(FrameBufferTarget::Read));
-  EXPECT_FALSE(fb2.isBound(FrameBufferTarget::Draw));
-  EXPECT_FALSE(fb2.isBound(FrameBufferTarget::Read));
+  EXPECT_FALSE(fb1.isBoundToDrawTarget());
+  EXPECT_FALSE(fb1.isBoundToReadTarget());
+  EXPECT_FALSE(fb2.isBoundToDrawTarget());
+  EXPECT_FALSE(fb2.isBoundToReadTarget());
 
-  FrameBuffer::bind(fb1, FrameBufferTarget::Draw);
-  EXPECT_TRUE(fb1.isBound(FrameBufferTarget::Draw));
-  EXPECT_FALSE(fb1.isBound(FrameBufferTarget::Read));
-  EXPECT_FALSE(fb2.isBound(FrameBufferTarget::Draw));
-  EXPECT_FALSE(fb2.isBound(FrameBufferTarget::Read));
+  FrameBuffer::bindDrawTarget(fb1);
+  EXPECT_TRUE(fb1.isBoundToDrawTarget());
+  EXPECT_FALSE(fb1.isBoundToReadTarget());
+  EXPECT_FALSE(fb2.isBoundToDrawTarget());
+  EXPECT_FALSE(fb2.isBoundToReadTarget());
 
-  FrameBuffer::bind(fb2, FrameBufferTarget::Read);
-  EXPECT_TRUE(fb1.isBound(FrameBufferTarget::Draw));
-  EXPECT_FALSE(fb1.isBound(FrameBufferTarget::Read));
-  EXPECT_FALSE(fb2.isBound(FrameBufferTarget::Draw));
-  EXPECT_TRUE(fb2.isBound(FrameBufferTarget::Read));
+  FrameBuffer::bindReadTarget(fb2);
+  EXPECT_TRUE(fb1.isBoundToDrawTarget());
+  EXPECT_FALSE(fb1.isBoundToReadTarget());
+  EXPECT_FALSE(fb2.isBoundToDrawTarget());
+  EXPECT_TRUE(fb2.isBoundToReadTarget());
 
-  FrameBuffer::bind(fb2, FrameBufferTarget::Draw);
-  EXPECT_FALSE(fb1.isBound(FrameBufferTarget::Draw));
-  EXPECT_FALSE(fb1.isBound(FrameBufferTarget::Read));
-  EXPECT_TRUE(fb2.isBound(FrameBufferTarget::Draw));
-  EXPECT_TRUE(fb2.isBound(FrameBufferTarget::Read));
+  FrameBuffer::bindDrawTarget(fb2);
+  EXPECT_FALSE(fb1.isBoundToDrawTarget());
+  EXPECT_FALSE(fb1.isBoundToReadTarget());
+  EXPECT_TRUE(fb2.isBoundToDrawTarget());
+  EXPECT_TRUE(fb2.isBoundToReadTarget());
 
-  FrameBuffer::unbind(FrameBufferTarget::Draw);
-  EXPECT_FALSE(fb1.isBound(FrameBufferTarget::Draw));
-  EXPECT_FALSE(fb1.isBound(FrameBufferTarget::Read));
-  EXPECT_FALSE(fb2.isBound(FrameBufferTarget::Draw));
-  EXPECT_TRUE(fb2.isBound(FrameBufferTarget::Read));
+  FrameBuffer::unbindDrawTarget();
+  EXPECT_FALSE(fb1.isBoundToDrawTarget());
+  EXPECT_FALSE(fb1.isBoundToReadTarget());
+  EXPECT_FALSE(fb2.isBoundToDrawTarget());
+  EXPECT_TRUE(fb2.isBoundToReadTarget());
 
-  FrameBuffer::bind(fb1);
-  EXPECT_TRUE(fb1.isBound(FrameBufferTarget::Draw));
-  EXPECT_TRUE(fb1.isBound(FrameBufferTarget::Read));
-  EXPECT_FALSE(fb2.isBound(FrameBufferTarget::Draw));
-  EXPECT_FALSE(fb2.isBound(FrameBufferTarget::Read));
-
-  FrameBuffer::unbind();
-  EXPECT_FALSE(fb1.isBound(FrameBufferTarget::Draw));
-  EXPECT_FALSE(fb1.isBound(FrameBufferTarget::Read));
-  EXPECT_FALSE(fb2.isBound(FrameBufferTarget::Draw));
-  EXPECT_FALSE(fb2.isBound(FrameBufferTarget::Read));
+  FrameBuffer::unbindReadTarget();
+  EXPECT_FALSE(fb1.isBoundToDrawTarget());
+  EXPECT_FALSE(fb1.isBoundToReadTarget());
+  EXPECT_FALSE(fb2.isBoundToDrawTarget());
+  EXPECT_FALSE(fb2.isBoundToReadTarget());
 }
 
 
@@ -195,8 +189,8 @@ TEST_F(TestFrameBufferDeathTest, BindingErrorIncompleteFrameBuffer)
 {
   FrameBuffer fb;
   HOU_EXPECT_PRECONDITION(FrameBuffer::bind(fb));
-  HOU_EXPECT_PRECONDITION(FrameBuffer::bind(fb, FrameBufferTarget::Draw));
-  HOU_EXPECT_PRECONDITION(FrameBuffer::bind(fb, FrameBufferTarget::Read));
+  HOU_EXPECT_PRECONDITION(FrameBuffer::bindDrawTarget(fb));
+  HOU_EXPECT_PRECONDITION(FrameBuffer::bindReadTarget(fb));
 }
 
 
@@ -206,8 +200,8 @@ TEST_F(TestFrameBuffer, DefaultConstructor)
   FrameBuffer fb;
 
   EXPECT_NE(0u, fb.getHandle().getName());
-  EXPECT_FALSE(fb.isBound(FrameBufferTarget::Draw));
-  EXPECT_FALSE(fb.isBound(FrameBufferTarget::Read));
+  EXPECT_FALSE(fb.isBoundToDrawTarget());
+  EXPECT_FALSE(fb.isBoundToReadTarget());
   EXPECT_FALSE(fb.isComplete());
 }
 
@@ -221,8 +215,8 @@ TEST_F(TestFrameBuffer, MoveConstructor)
 
   EXPECT_EQ(0u, fbDummy.getHandle().getName());
   EXPECT_EQ(fbName, fb.getHandle().getName());
-  EXPECT_FALSE(fb.isBound(FrameBufferTarget::Draw));
-  EXPECT_FALSE(fb.isBound(FrameBufferTarget::Read));
+  EXPECT_FALSE(fb.isBoundToDrawTarget());
+  EXPECT_FALSE(fb.isBoundToReadTarget());
   EXPECT_FALSE(fb.isComplete());
 }
 

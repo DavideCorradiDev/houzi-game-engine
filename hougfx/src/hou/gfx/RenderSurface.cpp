@@ -18,14 +18,14 @@ namespace hou
 
 void RenderSurface::setCurrentRenderSource(const RenderSurface& rs)
 {
-  FrameBuffer::bind(rs.mFrameBuffer, FrameBufferTarget::Read);
+  FrameBuffer::bindReadTarget(rs.mFrameBuffer);
 }
 
 
 
 void RenderSurface::setDefaultRenderSource()
 {
-  FrameBuffer::unbind(FrameBufferTarget::Read);
+  FrameBuffer::unbindReadTarget();
 }
 
 
@@ -34,14 +34,14 @@ void RenderSurface::setCurrentRenderTarget(const RenderSurface& rs)
 {
   gl::setViewport(
     rs.mViewport.x(), rs.mViewport.y(), rs.mViewport.w(), rs.mViewport.h());
-  FrameBuffer::bind(rs.mFrameBuffer, FrameBufferTarget::Draw);
+  FrameBuffer::bindDrawTarget(rs.mFrameBuffer);
 }
 
 
 
 void RenderSurface::setDefaultRenderTarget()
 {
-  FrameBuffer::unbind(FrameBufferTarget::Draw);
+  FrameBuffer::unbindDrawTarget();
 }
 
 
@@ -159,14 +159,14 @@ Texture2 RenderSurface::toTexture() const
 
 bool RenderSurface::isCurrentRenderSource() const
 {
-  return mFrameBuffer.isBound(FrameBufferTarget::Read);
+  return mFrameBuffer.isBoundToReadTarget();
 }
 
 
 
 bool RenderSurface::isCurrentRenderTarget() const
 {
-  return mFrameBuffer.isBound(FrameBufferTarget::Draw);
+  return mFrameBuffer.isBoundToDrawTarget();
 }
 
 

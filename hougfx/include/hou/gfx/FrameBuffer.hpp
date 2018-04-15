@@ -13,7 +13,6 @@
 
 #include "hou/gfx/FrameBufferBlitFilter.hpp"
 #include "hou/gfx/FrameBufferBlitMask.hpp"
-#include "hou/gfx/FrameBufferTarget.hpp"
 
 #include "hou/gl/GlFramebufferHandle.hpp"
 
@@ -27,10 +26,12 @@ class Texture;
 class HOU_GFX_API FrameBuffer : public NonCopyable
 {
 public:
+  static void bindDrawTarget(const FrameBuffer& fb);
+  static void bindReadTarget(const FrameBuffer& fb);
   static void bind(const FrameBuffer& fb);
+  static void unbindDrawTarget();
+  static void unbindReadTarget();
   static void unbind();
-  static void bind(const FrameBuffer& fb, FrameBufferTarget fbt);
-  static void unbind(FrameBufferTarget fbt);
 
   static uint getColorAttachmentPointCount();
 
@@ -39,7 +40,9 @@ public:
   FrameBuffer(FrameBuffer&& other);
 
   const gl::FramebufferHandle& getHandle() const;
-  bool isBound(FrameBufferTarget fbt) const;
+
+  bool isBoundToDrawTarget() const;
+  bool isBoundToReadTarget() const;
 
   bool isComplete() const;
 

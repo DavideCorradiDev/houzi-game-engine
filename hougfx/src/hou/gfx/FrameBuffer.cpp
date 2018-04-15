@@ -13,6 +13,22 @@
 namespace hou
 {
 
+void FrameBuffer::bindDrawTarget(const FrameBuffer& fb)
+{
+  HOU_EXPECT(fb.isComplete());
+  gl::bindFramebuffer(fb.getHandle(), GL_DRAW_FRAMEBUFFER);
+}
+
+
+
+void FrameBuffer::bindReadTarget(const FrameBuffer& fb)
+{
+  HOU_EXPECT(fb.isComplete());
+  gl::bindFramebuffer(fb.getHandle(), GL_READ_FRAMEBUFFER);
+}
+
+
+
 void FrameBuffer::bind(const FrameBuffer& fb)
 {
   HOU_EXPECT(fb.isComplete());
@@ -21,24 +37,23 @@ void FrameBuffer::bind(const FrameBuffer& fb)
 
 
 
+void FrameBuffer::unbindDrawTarget()
+{
+  gl::unbindFramebuffer(GL_DRAW_FRAMEBUFFER);
+}
+
+
+
+void FrameBuffer::unbindReadTarget()
+{
+  gl::unbindFramebuffer(GL_READ_FRAMEBUFFER);
+}
+
+
+
 void FrameBuffer::unbind()
 {
   gl::unbindFramebuffer();
-}
-
-
-
-void FrameBuffer::bind(const FrameBuffer& fb, FrameBufferTarget fbt)
-{
-  HOU_EXPECT(fb.isComplete());
-  gl::bindFramebuffer(fb.getHandle(), static_cast<GLenum>(fbt));
-}
-
-
-
-void FrameBuffer::unbind(FrameBufferTarget fbt)
-{
-  gl::unbindFramebuffer(static_cast<GLenum>(fbt));
 }
 
 
@@ -80,10 +95,18 @@ const gl::FramebufferHandle& FrameBuffer::getHandle() const
 
 
 
-bool FrameBuffer::isBound(FrameBufferTarget fbt) const
+bool FrameBuffer::isBoundToDrawTarget() const
 {
   return static_cast<bool>(
-    gl::isFramebufferBound(mHandle, static_cast<GLenum>(fbt)));
+    gl::isFramebufferBound(mHandle, GL_DRAW_FRAMEBUFFER));
+}
+
+
+
+bool FrameBuffer::isBoundToReadTarget() const
+{
+  return static_cast<bool>(
+    gl::isFramebufferBound(mHandle, GL_READ_FRAMEBUFFER));
 }
 
 
