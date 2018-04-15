@@ -51,8 +51,6 @@ HOU_GL_API void setFramebufferDepthStencilTexture(
   const FramebufferHandle& framebuffer, const TextureHandle& texture,
   GLint level);
 HOU_GL_API GLenum getFramebufferStatus(const FramebufferHandle& framebuffer);
-HOU_GL_API GLenum getFramebufferStatus(
-  const FramebufferHandle& framebuffer, GLenum target);
 HOU_GL_API void blitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1,
   GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLenum mask,
   GLenum filter);

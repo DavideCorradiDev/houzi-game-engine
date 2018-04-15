@@ -30,7 +30,7 @@ void FrameBuffer::unbind()
 
 void FrameBuffer::bind(FrameBuffer& fb, FrameBufferTarget fbt)
 {
-  HOU_EXPECT(fb.getStatus(fbt) == FrameBufferStatus::Complete);
+  HOU_EXPECT(fb.getStatus() == FrameBufferStatus::Complete);
   gl::bindFramebuffer(fb.getHandle(), static_cast<GLenum>(fbt));
 }
 
@@ -99,14 +99,6 @@ bool FrameBuffer::isBound(FrameBufferTarget fbt) const
 FrameBufferStatus FrameBuffer::getStatus() const
 {
   return FrameBufferStatus(gl::getFramebufferStatus(mHandle));
-}
-
-
-
-FrameBufferStatus FrameBuffer::getStatus(FrameBufferTarget fbt) const
-{
-  return FrameBufferStatus(
-    gl::getFramebufferStatus(mHandle, static_cast<GLenum>(fbt)));
 }
 
 

@@ -229,17 +229,6 @@ GLenum getFramebufferStatus(const FramebufferHandle& framebuffer)
 
 
 
-GLenum getFramebufferStatus(const FramebufferHandle& framebuffer, GLenum target)
-{
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(framebuffer);
-  GLenum status = glCheckNamedFramebufferStatus(framebuffer.getName(), target);
-  HOU_GL_CHECK_ERROR();
-  return status;
-}
-
-
-
 void blitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1,
   GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLenum mask,
   GLenum filter)

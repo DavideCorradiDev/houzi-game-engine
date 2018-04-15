@@ -69,7 +69,6 @@ public:
 
   // Safe
   FrameBufferStatus getStatus() const;
-  FrameBufferStatus getStatus(FrameBufferTarget fbt) const;
 
   // must check the mipmapLevel.
   // must check the attachment point.

@@ -138,10 +138,6 @@ TEST_F(TestFrameBuffer, DefaultConstructor)
   EXPECT_FALSE(fb.isBound(FrameBufferTarget::Draw));
   EXPECT_FALSE(fb.isBound(FrameBufferTarget::Read));
   EXPECT_EQ(FrameBufferStatus::IncompleteMissingAttachment, fb.getStatus());
-  EXPECT_EQ(FrameBufferStatus::IncompleteMissingAttachment,
-    fb.getStatus(FrameBufferTarget::Draw));
-  EXPECT_EQ(FrameBufferStatus::IncompleteMissingAttachment,
-    fb.getStatus(FrameBufferTarget::Read));
 }
 
 
@@ -157,10 +153,6 @@ TEST_F(TestFrameBuffer, MoveConstructor)
   EXPECT_FALSE(fb.isBound(FrameBufferTarget::Draw));
   EXPECT_FALSE(fb.isBound(FrameBufferTarget::Read));
   EXPECT_EQ(FrameBufferStatus::IncompleteMissingAttachment, fb.getStatus());
-  EXPECT_EQ(FrameBufferStatus::IncompleteMissingAttachment,
-    fb.getStatus(FrameBufferTarget::Draw));
-  EXPECT_EQ(FrameBufferStatus::IncompleteMissingAttachment,
-    fb.getStatus(FrameBufferTarget::Read));
 }
 
 
@@ -462,8 +454,6 @@ TEST_F(TestFrameBuffer, StatusColorAttachment)
 
   fb.setColorAttachment(0u, texRGBA);
   EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus());
-  EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus(FrameBufferTarget::Draw));
-  EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus(FrameBufferTarget::Read));
 }
 
 
@@ -475,8 +465,6 @@ TEST_F(TestFrameBuffer, StatusDepthAttachment)
 
   fb.setDepthAttachment(texDepth);
   EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus());
-  EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus(FrameBufferTarget::Draw));
-  EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus(FrameBufferTarget::Read));
 }
 
 
@@ -488,8 +476,6 @@ TEST_F(TestFrameBuffer, StatusStencilAttachment)
 
   fb.setStencilAttachment(texStencil);
   EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus());
-  EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus(FrameBufferTarget::Draw));
-  EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus(FrameBufferTarget::Read));
 }
 
 
@@ -501,8 +487,6 @@ TEST_F(TestFrameBuffer, StatusDepthStencilAttachment)
 
   fb.setDepthStencilAttachment(texDepthStencil);
   EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus());
-  EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus(FrameBufferTarget::Draw));
-  EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus(FrameBufferTarget::Read));
 }
 
 
@@ -516,8 +500,6 @@ TEST_F(TestFrameBuffer, StatusColorDepthStencilAttachment)
   fb.setColorAttachment(0u, texRGBA);
   fb.setDepthStencilAttachment(texDepthStencil);
   EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus());
-  EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus(FrameBufferTarget::Draw));
-  EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus(FrameBufferTarget::Read));
 }
 
 
@@ -533,8 +515,6 @@ TEST_F(TestFrameBuffer, StatusColorDepthAndStencilAttachment)
   fb.setDepthAttachment(texDepth);
   fb.setStencilAttachment(texStencil);
   EXPECT_EQ(FrameBufferStatus::Unsupported, fb.getStatus());
-  EXPECT_EQ(FrameBufferStatus::Unsupported, fb.getStatus(FrameBufferTarget::Draw));
-  EXPECT_EQ(FrameBufferStatus::Unsupported, fb.getStatus(FrameBufferTarget::Read));
 }
 
 
@@ -549,8 +529,6 @@ TEST_F(TestFrameBuffer, StatusMultisampledColorDepthStencilAttachment)
   fb.setColorAttachment(0u, texRGBA);
   fb.setDepthStencilAttachment(texDepthStencil);
   EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus());
-  EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus(FrameBufferTarget::Draw));
-  EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus(FrameBufferTarget::Read));
 }
 
 
@@ -567,8 +545,6 @@ TEST_F(
   fb.setColorAttachment(0u, texRGBA);
   fb.setDepthStencilAttachment(texDepthStencil);
   EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus());
-  EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus(FrameBufferTarget::Draw));
-  EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus(FrameBufferTarget::Read));
 }
 
 
@@ -585,6 +561,4 @@ TEST_F(TestFrameBuffer,
   fb.setColorAttachment(0u, texRGBA);
   fb.setDepthStencilAttachment(texDepthStencil);
   EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus());
-  EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus(FrameBufferTarget::Draw));
-  EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus(FrameBufferTarget::Read));
 }
