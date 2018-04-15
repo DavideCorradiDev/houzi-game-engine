@@ -41,7 +41,7 @@ Texture2 RenderTexture::toTexture() const
   {
     RenderTexture ssRenderTexture(getSize(), 0u);
     Recti viewport = getDefaultViewport();
-    blit(ssRenderTexture, viewport, viewport);
+    blit(*this, viewport, ssRenderTexture, viewport);
     return ssRenderTexture.toTexture();
   }
   else

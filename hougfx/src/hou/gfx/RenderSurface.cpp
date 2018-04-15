@@ -145,24 +145,6 @@ void RenderSurface::clear(const Color& color)
 
 
 
-void RenderSurface::blit(
-  RenderSurface& dst, const Recti& srcRect, const Recti& dstRect) const
-{
-  HOU_EXPECT(getSampleCount() == dst.getSampleCount()
-    || (std::abs(srcRect.w()) == std::abs(dstRect.w())
-         && std::abs(srcRect.h()) == std::abs(dstRect.h())));
-
-  setCurrentRenderSource(*this);
-  setCurrentRenderTarget(dst);
-
-  gl::blitFramebuffer(srcRect.l(), srcRect.t(), srcRect.r(), srcRect.b(),
-    dstRect.l(), dstRect.t(), dstRect.r(), dstRect.b(),
-    GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
-    GL_NEAREST);
-}
-
-
-
 Texture2 RenderSurface::toTexture() const
 {
   HOU_EXPECT(!isMultisampled());
@@ -217,10 +199,20 @@ void RenderSurface::buildFramebuffer(const Vec2u& size, uint sampleCount)
 
   static constexpr uint attachmentPoint = 0u;
   static constexpr uint mipMapLevel = 0u;
-  mFrameBuffer.setColorAttachment(attachmentPoint, *mColorAttachment, mipMapLevel);
+  mFrameBuffer.setColorAttachment(
+    attachmentPoint, *mColorAttachment, mipMapLevel);
   mFrameBuffer.setDepthStencilAttachment(*mDepthStencilAttachment, mipMapLevel);
 
   HOU_ENSURE_DEV(mFrameBuffer.isComplete());
+}
+
+
+
+void blit(const RenderSurface& src, const Recti& srcRect, RenderSurface& dst,
+  const Recti& dstRect)
+{
+  blit(src.mFrameBuffer, srcRect, dst.mFrameBuffer, dstRect,
+    FrameBufferBlitMask::All, FrameBufferBlitFilter::Nearest);
 }
 
 }  // namespace hou
