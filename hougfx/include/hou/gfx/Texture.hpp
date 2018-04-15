@@ -205,7 +205,7 @@ protected:
 /** Represents a concrete texture type.
  */
 template <TextureType type>
-class HOU_GFX_API TextureTemplate : public Texture
+class HOU_GFX_API TextureT : public Texture
 {
 public:
   /** Type representing the size of the texture. */
@@ -266,7 +266,7 @@ public:
    */
   template <TextureType t = type,
     typename Enable = std::enable_if_t<isTextureTypeMipMapped(t)>>
-  HOU_GFX_API explicit TextureTemplate(const Size& size,
+  HOU_GFX_API explicit TextureT(const Size& size,
     TextureFormat format = TextureFormat::RGBA, uint mipMapLevelCount = 1u);
 
   /** Creates a Texture with the given image, format, and number of mip map
@@ -287,7 +287,7 @@ public:
    */
   template <PixelFormat fmt, TextureType t = type,
     typename Enable = std::enable_if_t<isTextureTypeMipMapped(t)>>
-  HOU_GFX_API explicit TextureTemplate(const Image<fmt>& image,
+  HOU_GFX_API explicit TextureT(const Image<fmt>& image,
     TextureFormat format = TextureFormat::RGBA, uint mipMapLevelCount = 1u);
 
   /** Creates a Texture with the given size, format, and sample specification.
@@ -311,7 +311,7 @@ public:
    */
   template <TextureType t = type,
     typename Enable = std::enable_if_t<isTextureTypeMultisampled(t)>>
-  HOU_GFX_API explicit TextureTemplate(const Size& size,
+  HOU_GFX_API explicit TextureT(const Size& size,
     TextureFormat format = TextureFormat::RGBA, uint sampleCount = 1u,
     bool fixedSampleLocations = true);
 
@@ -319,8 +319,8 @@ public:
    *
    * \param other the other texture.
    */
-  TextureTemplate(TextureTemplate&& other);
-  virtual ~TextureTemplate();
+  TextureT(TextureT&& other);
+  virtual ~TextureT();
 
   /** Retrieves the size of the texture.
    *
@@ -479,7 +479,8 @@ public:
     typename Enable = std::enable_if_t<isTextureTypeMipMapped(t)>>
   HOU_GFX_API Size getMipMapSize(uint mipMapLevel) const;
 
-  /** Retrieves the content of the specified mip map level of the Texture as an Image object.
+  /** Retrieves the content of the specified mip map level of the Texture as an
+   * Image object.
    *
    * \tparam fmt the PixelFormat of the input pixel value.
    *
