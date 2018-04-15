@@ -5,8 +5,9 @@
 #ifndef HOU_GFX_VERTEX_BUFFER_HPP
 #define HOU_GFX_VERTEX_BUFFER_HPP
 
-#include "hou/cor/NonCopyable.hpp"
 #include "hou/gfx/GfxExport.hpp"
+
+#include "hou/cor/NonCopyable.hpp"
 
 #include "hou/cor/BasicTypes.hpp"
 #include "hou/cor/Error.hpp"
