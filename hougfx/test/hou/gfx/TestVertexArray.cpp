@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/Test.hpp"
 #include "hou/gfx/TestGfxBase.hpp"
@@ -10,9 +10,9 @@
 #include "hou/gfx/VertexAttribFormat.hpp"
 #include "hou/gfx/VertexFormat.hpp"
 
-
-
 using namespace hou;
+
+
 
 namespace
 {

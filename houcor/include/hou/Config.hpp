@@ -1,6 +1,6 @@
 // Houzi Multimedia Library
 // Copyright (c) 2016-2017 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #ifndef HOU_CONFIG_HPP
 #define HOU_CONFIG_HPP

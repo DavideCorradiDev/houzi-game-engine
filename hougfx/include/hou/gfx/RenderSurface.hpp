@@ -1,20 +1,18 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #ifndef HOU_GFX_RENDER_SURFACE_HPP
 #define HOU_GFX_RENDER_SURFACE_HPP
 
-#include "hou/gfx/GfxExport.hpp"
 #include "hou/cor/NonCopyable.hpp"
+#include "hou/gfx/GfxExport.hpp"
 
+#include "hou/gfx/FrameBuffer.hpp"
 #include "hou/gfx/Texture.hpp"
 
-#include "hou/gl/GlFramebufferHandle.hpp"
-#include "hou/gl/GlTextureHandle.hpp"
-
-#include "hou/mth/Rectangle.hpp"
 #include "hou/mth/MatrixFwd.hpp"
+#include "hou/mth/Rectangle.hpp"
 
 #include <memory>
 
@@ -27,8 +25,7 @@ class Color;
 
 /** Abstract base class for surfaces that can be rendered onto.
  */
-class HOU_GFX_API RenderSurface
-  : public NonCopyable
+class HOU_GFX_API RenderSurface : public NonCopyable
 {
 public:
   /** Makes this RenderSurface the current render source.
@@ -60,7 +57,8 @@ public:
    *
    *  Throws if the required sample count is larger than the maximum supported.
    *  Throws if the required area of the surface is 0.
-   *  Throws if the required area is larger than the maximum supported texture size.
+   *  Throws if the required area is larger than the maximum supported texture
+   * size.
    *
    *  \param size the size.
    *  \param sampleCount the sample count.
@@ -148,25 +146,6 @@ public:
    */
   void clear(const Color& color);
 
-  /** Blits the RenderSurface onto another RenderSurface.
-   *
-   *  Throws if blitting is performed between two RenderSurface objects with
-   *  different sample count and source and destination rectangles with
-   *  different size.
-   *  Blitting between two RenderSurface objects with different sample count
-   *  but source and destination rectangle with the same size, or with
-   *  source and destination rectangle with same size but different sample count
-   *  is possible.
-   *  If the size of the source and destination rectangle is the same but
-   *  inverted, it counts as the same for the purpose of this check.
-   *
-   *  \param dst the destination RenderSurface.
-   *  \param srcRect the source rectangle of the blit operation.
-   *  \param dstRect the destination rectangle of the blit operation.
-   */
-  void blit(RenderSurface& dst, const Recti& srcRect
-    , const Recti& dstRect) const;
-
   /** Creates a Texture2 from this RenderSurface.
    *
    *  The generated Texture2 has RGBA format.
@@ -189,18 +168,36 @@ public:
    */
   bool isCurrentRenderTarget() const;
 
+  /** Blits the RenderSurface onto another RenderSurface.
+   *
+   *  Throws if blitting is performed between two RenderSurface objects with
+   *  different sample count and source and destination rectangles with
+   *  different size.
+   *  Blitting between two RenderSurface objects with different sample count
+   *  but source and destination rectangle with the same size, or with
+   *  source and destination rectangle with same size but different sample count
+   *  is possible.
+   *  If the size of the source and destination rectangle is the same but
+   *  inverted, it counts as the same for the purpose of this check.
+   *
+   *  \param dst the destination RenderSurface.
+   *  \param srcRect the source rectangle of the blit operation.
+   *  \param dstRect the destination rectangle of the blit operation.
+   */
+  friend HOU_GFX_API void blit(const RenderSurface& src, const Recti& srcRect,
+    RenderSurface& dst, const Recti& dstRect);
+
 private:
   void buildFramebuffer(const Vec2u& size, uint sampleCount);
 
 private:
-  gl::FramebufferHandle mGlFramebufferHandle;
+  FrameBuffer mFrameBuffer;
   std::unique_ptr<Texture> mColorAttachment;
   std::unique_ptr<Texture> mDepthStencilAttachment;
   uint mSampleCount;
   Recti mViewport;
 };
 
-}
+}  // namespace hou
 
 #endif
-

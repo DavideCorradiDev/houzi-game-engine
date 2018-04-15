@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #ifndef HOU_AL_AL_BUFFER_HANDLE_HPP
 #define HOU_AL_AL_BUFFER_HANDLE_HPP

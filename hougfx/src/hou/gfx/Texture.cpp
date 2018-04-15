@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/gfx/Texture.hpp"
 
@@ -21,18 +21,17 @@ namespace
 GLenum pixelFormatToGlPixelFormat(PixelFormat format);
 
 template <TextureType type>
-bool isTextureSizeValid(const typename TextureTemplate<type>::Size& size);
+bool isTextureSizeValid(const typename TextureT<type>::Size& size);
 
 template <TextureType type>
 bool isMipMapLevelCountValid(
-  uint mipMapLevelCount, const typename TextureTemplate<type>::Size& size);
+  uint mipMapLevelCount, const typename TextureT<type>::Size& size);
 
 template <TextureType type>
-uint getMaxMipMapLevelCountForSize(
-  const typename TextureTemplate<type>::Size& size);
+uint getMaxMipMapLevelCountForSize(const typename TextureT<type>::Size& size);
 
 template <TextureType type>
-uint getMipMapRelevantSize(const typename TextureTemplate<type>::Size& size);
+uint getMipMapRelevantSize(const typename TextureT<type>::Size& size);
 
 template <size_t dim>
 size_t computeImageBufferSize(const Vec<uint, dim>& imSize, PixelFormat fmt);
@@ -87,9 +86,9 @@ GLenum pixelFormatToGlPixelFormat(PixelFormat format)
 
 
 template <TextureType type>
-bool isTextureSizeValid(const typename TextureTemplate<type>::Size& size)
+bool isTextureSizeValid(const typename TextureT<type>::Size& size)
 {
-  using Tex = TextureTemplate<type>;
+  using Tex = TextureT<type>;
   typename Tex::Size maxSize = Tex::getMaxSize();
   for(size_t i = 0; i < size.getSize(); ++i)
   {
@@ -105,7 +104,7 @@ bool isTextureSizeValid(const typename TextureTemplate<type>::Size& size)
 
 template <TextureType type>
 bool isMipMapLevelCountValid(
-  uint mipMapLevelCount, const typename TextureTemplate<type>::Size& size)
+  uint mipMapLevelCount, const typename TextureT<type>::Size& size)
 {
   return mipMapLevelCount > 0
     && mipMapLevelCount <= getMaxMipMapLevelCountForSize<type>(size);
@@ -114,8 +113,7 @@ bool isMipMapLevelCountValid(
 
 
 template <TextureType type>
-uint getMaxMipMapLevelCountForSize(
-  const typename TextureTemplate<type>::Size& size)
+uint getMaxMipMapLevelCountForSize(const typename TextureT<type>::Size& size)
 {
   return 1u
     + static_cast<uint>(
@@ -126,7 +124,7 @@ uint getMaxMipMapLevelCountForSize(
 
 template <>
 uint getMipMapRelevantSize<TextureType::Texture1>(
-  const typename TextureTemplate<TextureType::Texture1>::Size& size)
+  const typename TextureT<TextureType::Texture1>::Size& size)
 {
   return size(0);
 }
@@ -135,7 +133,7 @@ uint getMipMapRelevantSize<TextureType::Texture1>(
 
 template <>
 uint getMipMapRelevantSize<TextureType::Texture1Array>(
-  const typename TextureTemplate<TextureType::Texture1Array>::Size& size)
+  const typename TextureT<TextureType::Texture1Array>::Size& size)
 {
   return size(0);
 }
@@ -144,7 +142,7 @@ uint getMipMapRelevantSize<TextureType::Texture1Array>(
 
 template <>
 uint getMipMapRelevantSize<TextureType::Texture2>(
-  const typename TextureTemplate<TextureType::Texture2>::Size& size)
+  const typename TextureT<TextureType::Texture2>::Size& size)
 {
   return std::max(size(0), size(1));
 }
@@ -153,7 +151,7 @@ uint getMipMapRelevantSize<TextureType::Texture2>(
 
 template <>
 uint getMipMapRelevantSize<TextureType::Texture2Array>(
-  const typename TextureTemplate<TextureType::Texture2Array>::Size& size)
+  const typename TextureT<TextureType::Texture2Array>::Size& size)
 {
   return std::max(size(0), size(1));
 }
@@ -162,7 +160,7 @@ uint getMipMapRelevantSize<TextureType::Texture2Array>(
 
 template <>
 uint getMipMapRelevantSize<TextureType::Texture3>(
-  const typename TextureTemplate<TextureType::Texture3>::Size& size)
+  const typename TextureT<TextureType::Texture3>::Size& size)
 {
   return std::max(std::max(size(0), size(1)), size(2));
 }
@@ -171,7 +169,7 @@ uint getMipMapRelevantSize<TextureType::Texture3>(
 
 template <>
 uint getMipMapRelevantSize<TextureType::MultisampleTexture2>(
-  const typename TextureTemplate<TextureType::MultisampleTexture2>::Size&)
+  const typename TextureT<TextureType::MultisampleTexture2>::Size&)
 {
   return 1u;
 }
@@ -180,7 +178,7 @@ uint getMipMapRelevantSize<TextureType::MultisampleTexture2>(
 
 template <>
 uint getMipMapRelevantSize<TextureType::MultisampleTexture2Array>(
-  const typename TextureTemplate<TextureType::MultisampleTexture2Array>::Size&)
+  const typename TextureT<TextureType::MultisampleTexture2Array>::Size&)
 {
   return 1u;
 }
@@ -448,7 +446,7 @@ Vec3u Texture::getSize3() const
 
 
 template <>
-Vec1u TextureTemplate<TextureType::Texture1>::getMaxSize()
+Vec1u TextureT<TextureType::Texture1>::getMaxSize()
 {
   return Vec1u(static_cast<uint>(gl::getMaxTextureSize()));
 }
@@ -456,7 +454,7 @@ Vec1u TextureTemplate<TextureType::Texture1>::getMaxSize()
 
 
 template <>
-Vec2u TextureTemplate<TextureType::Texture1Array>::getMaxSize()
+Vec2u TextureT<TextureType::Texture1Array>::getMaxSize()
 {
   return Vec2u(static_cast<uint>(gl::getMaxTextureSize()),
     static_cast<uint>(gl::getMaxTextureLayers()));
@@ -465,7 +463,7 @@ Vec2u TextureTemplate<TextureType::Texture1Array>::getMaxSize()
 
 
 template <>
-Vec2u TextureTemplate<TextureType::Texture2>::getMaxSize()
+Vec2u TextureT<TextureType::Texture2>::getMaxSize()
 {
   return Vec2u(static_cast<uint>(gl::getMaxTextureSize()),
     static_cast<uint>(gl::getMaxTextureSize()));
@@ -474,7 +472,7 @@ Vec2u TextureTemplate<TextureType::Texture2>::getMaxSize()
 
 
 template <>
-Vec3u TextureTemplate<TextureType::Texture2Array>::getMaxSize()
+Vec3u TextureT<TextureType::Texture2Array>::getMaxSize()
 {
   return Vec3u(static_cast<uint>(gl::getMaxTextureSize()),
     static_cast<uint>(gl::getMaxTextureSize()),
@@ -484,7 +482,7 @@ Vec3u TextureTemplate<TextureType::Texture2Array>::getMaxSize()
 
 
 template <>
-Vec3u TextureTemplate<TextureType::Texture3>::getMaxSize()
+Vec3u TextureT<TextureType::Texture3>::getMaxSize()
 {
   return Vec3u(static_cast<uint>(gl::getMax3dTextureSize()),
     static_cast<uint>(gl::getMax3dTextureSize()),
@@ -494,7 +492,7 @@ Vec3u TextureTemplate<TextureType::Texture3>::getMaxSize()
 
 
 template <>
-Vec2u TextureTemplate<TextureType::MultisampleTexture2>::getMaxSize()
+Vec2u TextureT<TextureType::MultisampleTexture2>::getMaxSize()
 {
   return Vec2u(static_cast<uint>(gl::getMaxTextureSize()),
     static_cast<uint>(gl::getMaxTextureSize()));
@@ -503,7 +501,7 @@ Vec2u TextureTemplate<TextureType::MultisampleTexture2>::getMaxSize()
 
 
 template <>
-Vec3u TextureTemplate<TextureType::MultisampleTexture2Array>::getMaxSize()
+Vec3u TextureT<TextureType::MultisampleTexture2Array>::getMaxSize()
 {
   return Vec3u(static_cast<uint>(gl::getMaxTextureSize()),
     static_cast<uint>(gl::getMaxTextureSize()),
@@ -513,7 +511,7 @@ Vec3u TextureTemplate<TextureType::MultisampleTexture2Array>::getMaxSize()
 
 
 template <TextureType type>
-uint TextureTemplate<type>::getMaxMipMapLevelCount(const Size& size)
+uint TextureT<type>::getMaxMipMapLevelCount(const Size& size)
 {
   return isTextureTypeMipMapped(type)
     ? getMaxMipMapLevelCountForSize<type>(size)
@@ -523,7 +521,7 @@ uint TextureTemplate<type>::getMaxMipMapLevelCount(const Size& size)
 
 
 template <TextureType type>
-uint TextureTemplate<type>::getMaxSampleCount()
+uint TextureT<type>::getMaxSampleCount()
 {
   return isTextureTypeMultisampled(type) ? gl::getMaxTextureSamples() : 1u;
 }
@@ -532,8 +530,8 @@ uint TextureTemplate<type>::getMaxSampleCount()
 
 template <>
 template <>
-TextureTemplate<TextureType::Texture1>::TextureTemplate<TextureType::Texture1,
-  void>(const Size& size, TextureFormat format, uint mipMapLevelCount)
+TextureT<TextureType::Texture1>::TextureT<TextureType::Texture1, void>(
+  const Size& size, TextureFormat format, uint mipMapLevelCount)
   : Texture(TextureType::Texture1, mipMapLevelCount, 1u, true)
 {
   HOU_EXPECT(isTextureSizeValid<TextureType::Texture1>(size)
@@ -547,9 +545,8 @@ TextureTemplate<TextureType::Texture1>::TextureTemplate<TextureType::Texture1,
 
 template <>
 template <>
-TextureTemplate<TextureType::Texture1Array>::TextureTemplate<
-  TextureType::Texture1Array, void>(
-  const Size& size, TextureFormat format, uint mipMapLevelCount)
+TextureT<TextureType::Texture1Array>::TextureT<TextureType::Texture1Array,
+  void>(const Size& size, TextureFormat format, uint mipMapLevelCount)
   : Texture(TextureType::Texture1Array, mipMapLevelCount, 1u, true)
 {
   HOU_EXPECT(isTextureSizeValid<TextureType::Texture1Array>(size)
@@ -564,8 +561,8 @@ TextureTemplate<TextureType::Texture1Array>::TextureTemplate<
 
 template <>
 template <>
-TextureTemplate<TextureType::Texture2>::TextureTemplate<TextureType::Texture2,
-  void>(const Size& size, TextureFormat format, uint mipMapLevelCount)
+TextureT<TextureType::Texture2>::TextureT<TextureType::Texture2, void>(
+  const Size& size, TextureFormat format, uint mipMapLevelCount)
   : Texture(TextureType::Texture2, mipMapLevelCount, 1u, true)
 {
   HOU_EXPECT(isTextureSizeValid<TextureType::Texture2>(size)
@@ -579,9 +576,8 @@ TextureTemplate<TextureType::Texture2>::TextureTemplate<TextureType::Texture2,
 
 template <>
 template <>
-TextureTemplate<TextureType::Texture2Array>::TextureTemplate<
-  TextureType::Texture2Array, void>(
-  const Size& size, TextureFormat format, uint mipMapLevelCount)
+TextureT<TextureType::Texture2Array>::TextureT<TextureType::Texture2Array,
+  void>(const Size& size, TextureFormat format, uint mipMapLevelCount)
   : Texture(TextureType::Texture2Array, mipMapLevelCount, 1u, true)
 {
   HOU_EXPECT(isTextureSizeValid<TextureType::Texture2Array>(size)
@@ -596,8 +592,8 @@ TextureTemplate<TextureType::Texture2Array>::TextureTemplate<
 
 template <>
 template <>
-TextureTemplate<TextureType::Texture3>::TextureTemplate<TextureType::Texture3,
-  void>(const Size& size, TextureFormat format, uint mipMapLevelCount)
+TextureT<TextureType::Texture3>::TextureT<TextureType::Texture3, void>(
+  const Size& size, TextureFormat format, uint mipMapLevelCount)
   : Texture(TextureType::Texture3, mipMapLevelCount, 1u, true)
 {
   HOU_EXPECT(isTextureSizeValid<TextureType::Texture3>(size)
@@ -611,9 +607,9 @@ TextureTemplate<TextureType::Texture3>::TextureTemplate<TextureType::Texture3,
 
 template <TextureType type>
 template <PixelFormat fmt, TextureType t, typename Enable>
-TextureTemplate<type>::TextureTemplate(
+TextureT<type>::TextureT(
   const Image<fmt>& image, TextureFormat format, uint mipMapLevelCount)
-  : TextureTemplate(image.getSize(), format, mipMapLevelCount)
+  : TextureT(image.getSize(), format, mipMapLevelCount)
 {
   setImage(image);
 }
@@ -622,9 +618,8 @@ TextureTemplate<type>::TextureTemplate(
 
 template <>
 template <TextureType t, typename Enable>
-TextureTemplate<TextureType::MultisampleTexture2>::TextureTemplate(
-  const Size& size, TextureFormat format, uint sampleCount,
-  bool fixedSampleLocations)
+TextureT<TextureType::MultisampleTexture2>::TextureT(const Size& size,
+  TextureFormat format, uint sampleCount, bool fixedSampleLocations)
   : Texture(
       TextureType::MultisampleTexture2, 1u, sampleCount, fixedSampleLocations)
 {
@@ -639,9 +634,8 @@ TextureTemplate<TextureType::MultisampleTexture2>::TextureTemplate(
 
 template <>
 template <TextureType t, typename Enable>
-TextureTemplate<TextureType::MultisampleTexture2Array>::TextureTemplate(
-  const Size& size, TextureFormat format, uint sampleCount,
-  bool fixedSampleLocations)
+TextureT<TextureType::MultisampleTexture2Array>::TextureT(const Size& size,
+  TextureFormat format, uint sampleCount, bool fixedSampleLocations)
   : Texture(TextureType::MultisampleTexture2Array, 1u, sampleCount,
       fixedSampleLocations)
 {
@@ -656,21 +650,21 @@ TextureTemplate<TextureType::MultisampleTexture2Array>::TextureTemplate(
 
 
 template <TextureType type>
-TextureTemplate<type>::TextureTemplate(TextureTemplate&& other)
+TextureT<type>::TextureT(TextureT&& other)
   : Texture(std::move(other))
 {}
 
 
 
 template <TextureType type>
-TextureTemplate<type>::~TextureTemplate()
+TextureT<type>::~TextureT()
 {}
 
 
 
 template <>
-typename TextureTemplate<TextureType::Texture1>::Size
-  TextureTemplate<TextureType::Texture1>::getSize() const
+typename TextureT<TextureType::Texture1>::Size
+  TextureT<TextureType::Texture1>::getSize() const
 {
   return getSize1();
 }
@@ -678,8 +672,8 @@ typename TextureTemplate<TextureType::Texture1>::Size
 
 
 template <>
-typename TextureTemplate<TextureType::Texture1Array>::Size
-  TextureTemplate<TextureType::Texture1Array>::getSize() const
+typename TextureT<TextureType::Texture1Array>::Size
+  TextureT<TextureType::Texture1Array>::getSize() const
 {
   return getSize2();
 }
@@ -687,8 +681,8 @@ typename TextureTemplate<TextureType::Texture1Array>::Size
 
 
 template <>
-typename TextureTemplate<TextureType::Texture2>::Size
-  TextureTemplate<TextureType::Texture2>::getSize() const
+typename TextureT<TextureType::Texture2>::Size
+  TextureT<TextureType::Texture2>::getSize() const
 {
   return getSize2();
 }
@@ -696,8 +690,8 @@ typename TextureTemplate<TextureType::Texture2>::Size
 
 
 template <>
-typename TextureTemplate<TextureType::Texture2Array>::Size
-  TextureTemplate<TextureType::Texture2Array>::getSize() const
+typename TextureT<TextureType::Texture2Array>::Size
+  TextureT<TextureType::Texture2Array>::getSize() const
 {
   return getSize3();
 }
@@ -705,8 +699,8 @@ typename TextureTemplate<TextureType::Texture2Array>::Size
 
 
 template <>
-typename TextureTemplate<TextureType::Texture3>::Size
-  TextureTemplate<TextureType::Texture3>::getSize() const
+typename TextureT<TextureType::Texture3>::Size
+  TextureT<TextureType::Texture3>::getSize() const
 {
   return getSize3();
 }
@@ -714,8 +708,8 @@ typename TextureTemplate<TextureType::Texture3>::Size
 
 
 template <>
-typename TextureTemplate<TextureType::MultisampleTexture2>::Size
-  TextureTemplate<TextureType::MultisampleTexture2>::getSize() const
+typename TextureT<TextureType::MultisampleTexture2>::Size
+  TextureT<TextureType::MultisampleTexture2>::getSize() const
 {
   return getSize2();
 }
@@ -723,8 +717,8 @@ typename TextureTemplate<TextureType::MultisampleTexture2>::Size
 
 
 template <>
-typename TextureTemplate<TextureType::MultisampleTexture2Array>::Size
-  TextureTemplate<TextureType::MultisampleTexture2Array>::getSize() const
+typename TextureT<TextureType::MultisampleTexture2Array>::Size
+  TextureT<TextureType::MultisampleTexture2Array>::getSize() const
 {
   return getSize3();
 }
@@ -733,7 +727,7 @@ typename TextureTemplate<TextureType::MultisampleTexture2Array>::Size
 
 template <TextureType type>
 template <TextureType t, typename Enable>
-TextureFilter TextureTemplate<type>::getFilter() const
+TextureFilter TextureT<type>::getFilter() const
 {
   switch(getTextureMinFilter(mGlTextureHandle))
   {
@@ -755,7 +749,7 @@ TextureFilter TextureTemplate<type>::getFilter() const
 
 template <TextureType type>
 template <TextureType t, typename Enable>
-void TextureTemplate<type>::setFilter(TextureFilter filter)
+void TextureT<type>::setFilter(TextureFilter filter)
 {
   switch(filter)
   {
@@ -785,8 +779,8 @@ void TextureTemplate<type>::setFilter(TextureFilter filter)
 
 template <>
 template <TextureType t, typename Enable>
-typename TextureTemplate<TextureType::Texture1>::WrapMode
-  TextureTemplate<TextureType::Texture1>::getWrapMode() const
+typename TextureT<TextureType::Texture1>::WrapMode
+  TextureT<TextureType::Texture1>::getWrapMode() const
 {
   return getTexture1WrapMode(mGlTextureHandle);
 }
@@ -795,8 +789,8 @@ typename TextureTemplate<TextureType::Texture1>::WrapMode
 
 template <>
 template <TextureType t, typename Enable>
-typename TextureTemplate<TextureType::Texture1Array>::WrapMode
-  TextureTemplate<TextureType::Texture1Array>::getWrapMode() const
+typename TextureT<TextureType::Texture1Array>::WrapMode
+  TextureT<TextureType::Texture1Array>::getWrapMode() const
 {
   return getTexture2WrapMode(mGlTextureHandle);
 }
@@ -805,8 +799,8 @@ typename TextureTemplate<TextureType::Texture1Array>::WrapMode
 
 template <>
 template <TextureType t, typename Enable>
-typename TextureTemplate<TextureType::Texture2>::WrapMode
-  TextureTemplate<TextureType::Texture2>::getWrapMode() const
+typename TextureT<TextureType::Texture2>::WrapMode
+  TextureT<TextureType::Texture2>::getWrapMode() const
 {
   return getTexture2WrapMode(mGlTextureHandle);
 }
@@ -815,8 +809,8 @@ typename TextureTemplate<TextureType::Texture2>::WrapMode
 
 template <>
 template <TextureType t, typename Enable>
-typename TextureTemplate<TextureType::Texture2Array>::WrapMode
-  TextureTemplate<TextureType::Texture2Array>::getWrapMode() const
+typename TextureT<TextureType::Texture2Array>::WrapMode
+  TextureT<TextureType::Texture2Array>::getWrapMode() const
 {
   return getTexture3WrapMode(mGlTextureHandle);
 }
@@ -825,8 +819,8 @@ typename TextureTemplate<TextureType::Texture2Array>::WrapMode
 
 template <>
 template <TextureType t, typename Enable>
-typename TextureTemplate<TextureType::Texture3>::WrapMode
-  TextureTemplate<TextureType::Texture3>::getWrapMode() const
+typename TextureT<TextureType::Texture3>::WrapMode
+  TextureT<TextureType::Texture3>::getWrapMode() const
 {
   return getTexture3WrapMode(mGlTextureHandle);
 }
@@ -835,8 +829,7 @@ typename TextureTemplate<TextureType::Texture3>::WrapMode
 
 template <>
 template <TextureType t, typename Enable>
-void TextureTemplate<TextureType::Texture1>::setWrapMode(
-  const WrapMode& wrapMode)
+void TextureT<TextureType::Texture1>::setWrapMode(const WrapMode& wrapMode)
 {
   setTexture1WrapMode(mGlTextureHandle, wrapMode);
 }
@@ -845,8 +838,7 @@ void TextureTemplate<TextureType::Texture1>::setWrapMode(
 
 template <>
 template <TextureType t, typename Enable>
-void TextureTemplate<TextureType::Texture1Array>::setWrapMode(
-  const WrapMode& wrapMode)
+void TextureT<TextureType::Texture1Array>::setWrapMode(const WrapMode& wrapMode)
 {
   setTexture2WrapMode(mGlTextureHandle, wrapMode);
 }
@@ -855,8 +847,7 @@ void TextureTemplate<TextureType::Texture1Array>::setWrapMode(
 
 template <>
 template <TextureType t, typename Enable>
-void TextureTemplate<TextureType::Texture2>::setWrapMode(
-  const WrapMode& wrapMode)
+void TextureT<TextureType::Texture2>::setWrapMode(const WrapMode& wrapMode)
 {
   setTexture2WrapMode(mGlTextureHandle, wrapMode);
 }
@@ -865,8 +856,7 @@ void TextureTemplate<TextureType::Texture2>::setWrapMode(
 
 template <>
 template <TextureType t, typename Enable>
-void TextureTemplate<TextureType::Texture2Array>::setWrapMode(
-  const WrapMode& wrapMode)
+void TextureT<TextureType::Texture2Array>::setWrapMode(const WrapMode& wrapMode)
 {
   setTexture3WrapMode(mGlTextureHandle, wrapMode);
 }
@@ -875,8 +865,7 @@ void TextureTemplate<TextureType::Texture2Array>::setWrapMode(
 
 template <>
 template <TextureType t, typename Enable>
-void TextureTemplate<TextureType::Texture3>::setWrapMode(
-  const WrapMode& wrapMode)
+void TextureT<TextureType::Texture3>::setWrapMode(const WrapMode& wrapMode)
 {
   setTexture3WrapMode(mGlTextureHandle, wrapMode);
 }
@@ -885,8 +874,7 @@ void TextureTemplate<TextureType::Texture3>::setWrapMode(
 
 template <TextureType type>
 template <PixelFormat fmt, TextureType t, typename Enable>
-typename TextureTemplate<type>::template Image<fmt>
-  TextureTemplate<type>::getImage() const
+typename TextureT<type>::template Image<fmt> TextureT<type>::getImage() const
 {
   gl::setUnpackAlignment(1);
   Size size = getSize();
@@ -901,8 +889,8 @@ typename TextureTemplate<type>::template Image<fmt>
 
 template <>
 template <PixelFormat fmt, TextureType t, typename Enable>
-typename TextureTemplate<TextureType::Texture1>::template Image<fmt>
-  TextureTemplate<TextureType::Texture1>::getSubImage(
+typename TextureT<TextureType::Texture1>::template Image<fmt>
+  TextureT<TextureType::Texture1>::getSubImage(
     const Coordinates& offset, const Size& size) const
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + size, getSize()));
@@ -919,8 +907,8 @@ typename TextureTemplate<TextureType::Texture1>::template Image<fmt>
 
 template <>
 template <PixelFormat fmt, TextureType t, typename Enable>
-typename TextureTemplate<TextureType::Texture1Array>::template Image<fmt>
-  TextureTemplate<TextureType::Texture1Array>::getSubImage(
+typename TextureT<TextureType::Texture1Array>::template Image<fmt>
+  TextureT<TextureType::Texture1Array>::getSubImage(
     const Coordinates& offset, const Size& size) const
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + size, getSize()));
@@ -937,8 +925,8 @@ typename TextureTemplate<TextureType::Texture1Array>::template Image<fmt>
 
 template <>
 template <PixelFormat fmt, TextureType t, typename Enable>
-typename TextureTemplate<TextureType::Texture2>::template Image<fmt>
-  TextureTemplate<TextureType::Texture2>::getSubImage(
+typename TextureT<TextureType::Texture2>::template Image<fmt>
+  TextureT<TextureType::Texture2>::getSubImage(
     const Coordinates& offset, const Size& size) const
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + size, getSize()));
@@ -955,8 +943,8 @@ typename TextureTemplate<TextureType::Texture2>::template Image<fmt>
 
 template <>
 template <PixelFormat fmt, TextureType t, typename Enable>
-typename TextureTemplate<TextureType::Texture2Array>::template Image<fmt>
-  TextureTemplate<TextureType::Texture2Array>::getSubImage(
+typename TextureT<TextureType::Texture2Array>::template Image<fmt>
+  TextureT<TextureType::Texture2Array>::getSubImage(
     const Coordinates& offset, const Size& size) const
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + size, getSize()));
@@ -973,8 +961,8 @@ typename TextureTemplate<TextureType::Texture2Array>::template Image<fmt>
 
 template <>
 template <PixelFormat fmt, TextureType t, typename Enable>
-typename TextureTemplate<TextureType::Texture3>::template Image<fmt>
-  TextureTemplate<TextureType::Texture3>::getSubImage(
+typename TextureT<TextureType::Texture3>::template Image<fmt>
+  TextureT<TextureType::Texture3>::getSubImage(
     const Coordinates& offset, const Size& size) const
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + size, getSize()));
@@ -991,7 +979,7 @@ typename TextureTemplate<TextureType::Texture3>::template Image<fmt>
 
 template <TextureType type>
 template <PixelFormat fmt, TextureType t, typename Enable>
-void TextureTemplate<type>::setImage(const Image<fmt>& image)
+void TextureT<type>::setImage(const Image<fmt>& image)
 {
   HOU_EXPECT(image.getSize() == getSize());
   setSubImage<fmt>(Coordinates::zero(), image);
@@ -1001,7 +989,7 @@ void TextureTemplate<type>::setImage(const Image<fmt>& image)
 
 template <>
 template <PixelFormat fmt, TextureType t, typename Enable>
-void TextureTemplate<TextureType::Texture1>::setSubImage(
+void TextureT<TextureType::Texture1>::setSubImage(
   const Coordinates& offset, const Image<fmt>& image)
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + image.getSize(), getSize()));
@@ -1016,7 +1004,7 @@ void TextureTemplate<TextureType::Texture1>::setSubImage(
 
 template <>
 template <PixelFormat fmt, TextureType t, typename Enable>
-void TextureTemplate<TextureType::Texture1Array>::setSubImage(
+void TextureT<TextureType::Texture1Array>::setSubImage(
   const Coordinates& offset, const Image<fmt>& image)
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + image.getSize(), getSize()));
@@ -1031,7 +1019,7 @@ void TextureTemplate<TextureType::Texture1Array>::setSubImage(
 
 template <>
 template <PixelFormat fmt, TextureType t, typename Enable>
-void TextureTemplate<TextureType::Texture2>::setSubImage(
+void TextureT<TextureType::Texture2>::setSubImage(
   const Coordinates& offset, const Image<fmt>& image)
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + image.getSize(), getSize()));
@@ -1046,7 +1034,7 @@ void TextureTemplate<TextureType::Texture2>::setSubImage(
 
 template <>
 template <PixelFormat fmt, TextureType t, typename Enable>
-void TextureTemplate<TextureType::Texture2Array>::setSubImage(
+void TextureT<TextureType::Texture2Array>::setSubImage(
   const Coordinates& offset, const Image<fmt>& image)
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + image.getSize(), getSize()));
@@ -1061,7 +1049,7 @@ void TextureTemplate<TextureType::Texture2Array>::setSubImage(
 
 template <>
 template <PixelFormat fmt, TextureType t, typename Enable>
-void TextureTemplate<TextureType::Texture3>::setSubImage(
+void TextureT<TextureType::Texture3>::setSubImage(
   const Coordinates& offset, const Image<fmt>& image)
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + image.getSize(), getSize()));
@@ -1076,7 +1064,7 @@ void TextureTemplate<TextureType::Texture3>::setSubImage(
 
 template <TextureType type>
 template <PixelFormat fmt, TextureType t, typename Enable>
-void TextureTemplate<type>::clear(const PixelT<fmt>& pixel)
+void TextureT<type>::clear(const PixelT<fmt>& pixel)
 {
   setImage(Image<fmt>(getSize(), pixel));
 }
@@ -1085,8 +1073,8 @@ void TextureTemplate<type>::clear(const PixelT<fmt>& pixel)
 
 template <>
 template <TextureType t, typename Enable>
-typename TextureTemplate<TextureType::Texture1>::Size
-  TextureTemplate<TextureType::Texture1>::getMipMapSize(uint mipMapLevel) const
+typename TextureT<TextureType::Texture1>::Size
+  TextureT<TextureType::Texture1>::getMipMapSize(uint mipMapLevel) const
 {
   HOU_EXPECT(mipMapLevel < mMipMapLevelCount);
   return getTexture1Size(mGlTextureHandle, mipMapLevel);
@@ -1096,9 +1084,8 @@ typename TextureTemplate<TextureType::Texture1>::Size
 
 template <>
 template <TextureType t, typename Enable>
-typename TextureTemplate<TextureType::Texture1Array>::Size
-  TextureTemplate<TextureType::Texture1Array>::getMipMapSize(
-    uint mipMapLevel) const
+typename TextureT<TextureType::Texture1Array>::Size
+  TextureT<TextureType::Texture1Array>::getMipMapSize(uint mipMapLevel) const
 {
   HOU_EXPECT(mipMapLevel < mMipMapLevelCount);
   return getTexture2Size(mGlTextureHandle, mipMapLevel);
@@ -1108,8 +1095,8 @@ typename TextureTemplate<TextureType::Texture1Array>::Size
 
 template <>
 template <TextureType t, typename Enable>
-typename TextureTemplate<TextureType::Texture2>::Size
-  TextureTemplate<TextureType::Texture2>::getMipMapSize(uint mipMapLevel) const
+typename TextureT<TextureType::Texture2>::Size
+  TextureT<TextureType::Texture2>::getMipMapSize(uint mipMapLevel) const
 {
   HOU_EXPECT(mipMapLevel < mMipMapLevelCount);
   return getTexture2Size(mGlTextureHandle, mipMapLevel);
@@ -1119,9 +1106,8 @@ typename TextureTemplate<TextureType::Texture2>::Size
 
 template <>
 template <TextureType t, typename Enable>
-typename TextureTemplate<TextureType::Texture2Array>::Size
-  TextureTemplate<TextureType::Texture2Array>::getMipMapSize(
-    uint mipMapLevel) const
+typename TextureT<TextureType::Texture2Array>::Size
+  TextureT<TextureType::Texture2Array>::getMipMapSize(uint mipMapLevel) const
 {
   HOU_EXPECT(mipMapLevel < mMipMapLevelCount);
   return getTexture3Size(mGlTextureHandle, mipMapLevel);
@@ -1131,8 +1117,8 @@ typename TextureTemplate<TextureType::Texture2Array>::Size
 
 template <>
 template <TextureType t, typename Enable>
-typename TextureTemplate<TextureType::Texture3>::Size
-  TextureTemplate<TextureType::Texture3>::getMipMapSize(uint mipMapLevel) const
+typename TextureT<TextureType::Texture3>::Size
+  TextureT<TextureType::Texture3>::getMipMapSize(uint mipMapLevel) const
 {
   HOU_EXPECT(mipMapLevel < mMipMapLevelCount);
   return getTexture3Size(mGlTextureHandle, mipMapLevel);
@@ -1142,8 +1128,8 @@ typename TextureTemplate<TextureType::Texture3>::Size
 
 template <TextureType type>
 template <PixelFormat fmt, TextureType t, typename Enable>
-typename TextureTemplate<type>::template Image<fmt>
-  TextureTemplate<type>::getMipMapImage(uint mipMapLevel) const
+typename TextureT<type>::template Image<fmt> TextureT<type>::getMipMapImage(
+  uint mipMapLevel) const
 {
   HOU_EXPECT(mipMapLevel < mMipMapLevelCount);
   gl::setUnpackAlignment(1);
@@ -1159,7 +1145,7 @@ typename TextureTemplate<type>::template Image<fmt>
 
 
 template <TextureType type>
-TextureType TextureTemplate<type>::getType() const
+TextureType TextureT<type>::getType() const
 {
   return type;
 }
@@ -1167,7 +1153,7 @@ TextureType TextureTemplate<type>::getType() const
 
 
 template <TextureType type>
-size_t TextureTemplate<type>::getDimensionCount() const
+size_t TextureT<type>::getDimensionCount() const
 {
   return getTextureTypeDimensionCount(type);
 }
@@ -1175,7 +1161,7 @@ size_t TextureTemplate<type>::getDimensionCount() const
 
 
 template <TextureType type>
-bool TextureTemplate<type>::isMipMapped() const
+bool TextureT<type>::isMipMapped() const
 {
   return isTextureTypeMipMapped(type);
 }
@@ -1183,7 +1169,7 @@ bool TextureTemplate<type>::isMipMapped() const
 
 
 template <TextureType type>
-bool TextureTemplate<type>::isMultisampled() const
+bool TextureT<type>::isMultisampled() const
 {
   return isTextureTypeMultisampled(type);
 }
@@ -1191,7 +1177,7 @@ bool TextureTemplate<type>::isMultisampled() const
 
 
 template <TextureType type>
-void TextureTemplate<type>::generateMipMap()
+void TextureT<type>::generateMipMap()
 {
   if(mMipMapLevelCount > 1u)
   {
@@ -1201,46 +1187,43 @@ void TextureTemplate<type>::generateMipMap()
 
 
 
-#define INSTANTIATE_TEXTURE(tt) template class TextureTemplate<tt>;
+#define INSTANTIATE_TEXTURE(tt) template class TextureT<tt>;
 
 
 
-#define INSTANTIATE_TEXTURE_MIP_MAP_FUNCTIONS(tt)                          \
-  template TextureTemplate<tt>::TextureTemplate<tt, void>(                 \
-    const TextureTemplate<tt>::Size&, TextureFormat, uint);                \
-  template typename TextureTemplate<tt>::WrapMode                          \
-    TextureTemplate<tt>::getWrapMode<tt, void>() const;                    \
-  template void TextureTemplate<tt>::setWrapMode<tt, void>(                \
-    const typename TextureTemplate<tt>::WrapMode&);                        \
-  template TextureFilter TextureTemplate<tt>::getFilter<tt, void>() const; \
-  template void TextureTemplate<tt>::setFilter<tt, void>(TextureFilter);   \
-  template TextureTemplate<tt>::Size                                       \
-    TextureTemplate<tt>::getMipMapSize<tt, void>(uint) const;
+#define INSTANTIATE_TEXTURE_MIP_MAP_FUNCTIONS(tt)                   \
+  template TextureT<tt>::TextureT<tt, void>(                        \
+    const TextureT<tt>::Size&, TextureFormat, uint);                \
+  template typename TextureT<tt>::WrapMode                          \
+    TextureT<tt>::getWrapMode<tt, void>() const;                    \
+  template void TextureT<tt>::setWrapMode<tt, void>(                \
+    const typename TextureT<tt>::WrapMode&);                        \
+  template TextureFilter TextureT<tt>::getFilter<tt, void>() const; \
+  template void TextureT<tt>::setFilter<tt, void>(TextureFilter);   \
+  template TextureT<tt>::Size TextureT<tt>::getMipMapSize<tt, void>(uint) const;
 
 
 
-#define INSTANTIATE_TEXTURE_MULTISAMPLE_FUNCTIONS(tt)      \
-  template TextureTemplate<tt>::TextureTemplate<tt, void>( \
-    const TextureTemplate<tt>::Size&, TextureFormat, uint, bool);
+#define INSTANTIATE_TEXTURE_MULTISAMPLE_FUNCTIONS(tt) \
+  template TextureT<tt>::TextureT<tt, void>(          \
+    const TextureT<tt>::Size&, TextureFormat, uint, bool);
 
 
 
 #define INSTANTIATE_TEXTURE_IMAGE_FUNCTIONS_FOR_PIXEL_FORMAT(tt, pf)           \
-  template TextureTemplate<tt>::TextureTemplate<pf, tt, void>(                 \
-    const TextureTemplate<tt>::Image<pf>&, TextureFormat, uint);               \
-  template TextureTemplate<tt>::Image<pf>                                      \
-    TextureTemplate<tt>::getImage<pf, tt, void>() const;                       \
-  template TextureTemplate<tt>::Image<pf> TextureTemplate<tt>::getSubImage<pf, \
-    tt, void>(const TextureTemplate<tt>::Coordinates&,                         \
-    const TextureTemplate<tt>::Size&) const;                                   \
-  template void TextureTemplate<tt>::setImage<pf, tt, void>(                   \
-    const TextureTemplate<tt>::Image<pf>&);                                    \
-  template void TextureTemplate<tt>::setSubImage<pf, tt, void>(                \
-    const TextureTemplate<tt>::Coordinates&,                                   \
-    const TextureTemplate<tt>::Image<pf>&);                                    \
-  template void TextureTemplate<tt>::clear<pf, tt, void>(const PixelT<pf>&);   \
-  template TextureTemplate<tt>::Image<pf>                                      \
-    TextureTemplate<tt>::getMipMapImage<pf, tt, void>(uint) const;
+  template TextureT<tt>::TextureT<pf, tt, void>(                               \
+    const TextureT<tt>::Image<pf>&, TextureFormat, uint);                      \
+  template TextureT<tt>::Image<pf> TextureT<tt>::getImage<pf, tt, void>()      \
+    const;                                                                     \
+  template TextureT<tt>::Image<pf> TextureT<tt>::getSubImage<pf, tt, void>(    \
+    const TextureT<tt>::Coordinates&, const TextureT<tt>::Size&) const;        \
+  template void TextureT<tt>::setImage<pf, tt, void>(                          \
+    const TextureT<tt>::Image<pf>&);                                           \
+  template void TextureT<tt>::setSubImage<pf, tt, void>(                       \
+    const TextureT<tt>::Coordinates&, const TextureT<tt>::Image<pf>&);         \
+  template void TextureT<tt>::clear<pf, tt, void>(const PixelT<pf>&);          \
+  template TextureT<tt>::Image<pf> TextureT<tt>::getMipMapImage<pf, tt, void>( \
+    uint) const;
 
 
 

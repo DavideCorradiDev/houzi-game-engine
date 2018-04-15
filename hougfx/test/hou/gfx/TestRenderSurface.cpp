@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/Test.hpp"
 #include "hou/gfx/TestGfxBase.hpp"
@@ -142,7 +142,7 @@ TEST_F(TestRenderSurface, CreationMultisampled)
   EXPECT_TRUE(rs.isMultisampled());
 
   ConcreteRenderSurface ssrs(size, 0);
-  rs.blit(ssrs, rs.getDefaultViewport(), rs.getDefaultViewport());
+  blit(rs, rs.getDefaultViewport(), ssrs, rs.getDefaultViewport());
   EXPECT_EQ(Texture2(size).getImage<PixelFormat::RGBA>(), ssrs.toTexture().getImage<PixelFormat::RGBA>());
 }
 
@@ -188,7 +188,7 @@ TEST_F(TestRenderSurface, MoveConstructor)
   EXPECT_TRUE(rs2.isMultisampled());
 
   ConcreteRenderSurface ssrs(size, 0);
-  rs2.blit(ssrs, rs2.getDefaultViewport(), rs2.getDefaultViewport());
+  blit(rs2, rs2.getDefaultViewport(), ssrs, rs2.getDefaultViewport());
   EXPECT_EQ(Texture2(size).getImage<PixelFormat::RGBA>(), ssrs.toTexture().getImage<PixelFormat::RGBA>());
 }
 
@@ -315,7 +315,7 @@ TEST_F(TestRenderSurface, BlitFullSize)
 
   Recti blitRect = rsSrc.getDefaultViewport();
   rsSrc.clear(Color::Red);
-  rsSrc.blit(rsDst, blitRect, blitRect);
+  blit(rsSrc, blitRect, rsDst, blitRect);
 
   EXPECT_EQ(rsSrc.toTexture().getImage<PixelFormat::RGBA>(), rsDst.toTexture().getImage<PixelFormat::RGBA>());
 }
@@ -331,7 +331,7 @@ TEST_F(TestRenderSurface, BlitSmallRect)
   Recti blitRect(Vec2i(1, 2), Vec2i(2, 1));
   Color blitCol(3, 5, 8, 9);
   rsSrc.clear(blitCol);
-  rsSrc.blit(rsDst, blitRect, blitRect);
+  blit(rsSrc, blitRect, rsDst, blitRect);
 
   Image2RGBA imRef = generateBlitResultImage(size, blitRect, Color::Transparent
     , blitCol);
@@ -350,7 +350,7 @@ TEST_F(TestRenderSurface, BlitDifferentSourceAndDestinationRect)
   Recti dstRect(Vec2i(0, 1), Vec2i(2, 3));
   Color blitCol(3, 5, 8, 9);
   rsSrc.clear(blitCol);
-  rsSrc.blit(rsDst, srcRect, dstRect);
+  blit(rsSrc, srcRect, rsDst, dstRect);
 
   Image2RGBA imRef = generateBlitResultImage(size, dstRect, Color::Transparent
     , blitCol);
@@ -369,7 +369,7 @@ TEST_F(TestRenderSurface, BlitOverFlowingSourceRect)
   Recti dstRect(Vec2i(0, 0), Vec2i(2, 3));
   Color blitCol(3, 5, 8, 9);
   rsSrc.clear(blitCol);
-  rsSrc.blit(rsDst, srcRect, dstRect);
+  blit(rsSrc, srcRect, rsDst, dstRect);
 
   Image2RGBA imRef = generateBlitResultImage(size, Recti(0, 0, 1, 2)
     , Color::Transparent, blitCol);
@@ -388,7 +388,7 @@ TEST_F(TestRenderSurface, BlitOverFlowingDestinationRect)
   Recti dstRect(Vec2i(2, 2), Vec2i(2, 3));
   Color blitCol(3, 5, 8, 9);
   rsSrc.clear(blitCol);
-  rsSrc.blit(rsDst, srcRect, dstRect);
+  blit(rsSrc, srcRect, rsDst, dstRect);
 
   Image2RGBA imRef = generateBlitResultImage(size, dstRect, Color::Transparent
     , blitCol);
@@ -407,7 +407,7 @@ TEST_F(TestRenderSurface, BlitInvertedSourceRect)
   Recti dstRect(Vec2i(0, 0), Vec2i(2, 3));
   Color blitCol(3, 5, 8, 9);
   rsSrc.clear(blitCol);
-  rsSrc.blit(rsDst, srcRect, dstRect);
+  blit(rsSrc, srcRect, rsDst, dstRect);
 
   Image2RGBA imRef = generateBlitResultImage(size, Recti(0, 0, 2, 1)
     , Color::Transparent, blitCol);
@@ -426,7 +426,7 @@ TEST_F(TestRenderSurface, BlitInvertedDestinationRect)
   Recti dstRect(Vec2i(0, 1), Vec2i(2, -3));
   Color blitCol(3, 5, 8, 9);
   rsSrc.clear(blitCol);
-  rsSrc.blit(rsDst, srcRect, dstRect);
+  blit(rsSrc, srcRect, rsDst, dstRect);
 
   Image2RGBA imRef = generateBlitResultImage(size, Recti(0, 0, 2, 1)
     , Color::Transparent, blitCol);
@@ -445,7 +445,7 @@ TEST_F(TestRenderSurface, BlitDifferentSampleSizeSameRectSize)
   Recti dstRect(Vec2i(0, 0), Vec2i(2, 3));
   Color blitCol(3, 5, 8, 9);
   rsSrc.clear(blitCol);
-  rsSrc.blit(rsDst, srcRect, dstRect);
+  blit(rsSrc, srcRect, rsDst, dstRect);
 
   Image2RGBA imRef = generateBlitResultImage(size, dstRect, Color::Transparent
     , blitCol);
@@ -464,7 +464,7 @@ TEST_F(TestRenderSurface, BlitDifferentSampleSizeSameRectSizeInverted)
   Recti dstRect(Vec2i(0, 4), Vec2i(2, -3));
   Color blitCol(3, 5, 8, 9);
   rsSrc.clear(blitCol);
-  rsSrc.blit(rsDst, srcRect, dstRect);
+  blit(rsSrc, srcRect, rsDst, dstRect);
 
   Image2RGBA imRef = generateBlitResultImage(size, Recti(0, 1, 2, 3)
     , Color::Transparent, blitCol);
@@ -481,7 +481,7 @@ TEST_F(TestRenderSurfaceDeathTest, BlitDifferentSampleSizeDifferentRectSize)
   Recti srcRect(Vec2i(0, 0), Vec2i(2, 3));
   Recti dstRect(Vec2i(0, 0), Vec2i(1, 2));
   rsSrc.clear(Color::Red);
-  HOU_EXPECT_PRECONDITION(rsSrc.blit(rsDst, srcRect, dstRect));
+  HOU_EXPECT_PRECONDITION(blit(rsSrc, srcRect, rsDst, dstRect));
 }
 
 

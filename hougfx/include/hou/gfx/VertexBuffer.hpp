@@ -1,12 +1,13 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
-#ifndef HOU_GFX_RENDER_BUFFER_HPP
-#define HOU_GFX_RENDER_BUFFER_HPP
+#ifndef HOU_GFX_VERTEX_BUFFER_HPP
+#define HOU_GFX_VERTEX_BUFFER_HPP
+
+#include "hou/gfx/GfxExport.hpp"
 
 #include "hou/cor/NonCopyable.hpp"
-#include "hou/gfx/GfxExport.hpp"
 
 #include "hou/cor/BasicTypes.hpp"
 #include "hou/cor/Error.hpp"

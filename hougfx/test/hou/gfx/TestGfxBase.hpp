@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #ifndef TEST_HOU_GFX_TEST_GFX_BASE_HPP
 #define TEST_HOU_GFX_TEST_GFX_BASE_HPP
