@@ -43,23 +43,6 @@ void FrameBuffer::unbind(FrameBufferTarget fbt)
 
 
 
-void FrameBuffer::blit(const Recti& srcRect, const Recti& dstRect,
-  FrameBufferBlitMask mask, FrameBufferBlitFilter filter)
-{
-  HOU_EXPECT(false);
-}
-
-
-
-void FrameBuffer::blit(const FrameBuffer& src, const Recti& srcRect,
-  FrameBuffer& dst, const Recti& dstRect, FrameBufferBlitMask mask,
-  FrameBufferBlitFilter filter)
-{
-  HOU_EXPECT(false);
-}
-
-
-
 uint FrameBuffer::getColorAttachmentPointCount()
 {
   return static_cast<uint>(gl::getMaxColorAttachments());
@@ -70,6 +53,9 @@ uint FrameBuffer::getColorAttachmentPointCount()
 FrameBuffer::FrameBuffer()
   : NonCopyable()
   , mHandle(gl::FramebufferHandle::create())
+  , mHasMultisampleColorAttachment(false)
+  , mHasMultisampleDepthAttachment(false)
+  , mHasMultisampleStencilAttachment(false)
 {}
 
 
@@ -77,6 +63,12 @@ FrameBuffer::FrameBuffer()
 FrameBuffer::FrameBuffer(FrameBuffer&& other)
   : NonCopyable()
   , mHandle(std::move(other.mHandle))
+  , mHasMultisampleColorAttachment(
+      std::move(other.mHasMultisampleColorAttachment))
+  , mHasMultisampleDepthAttachment(
+      std::move(other.mHasMultisampleDepthAttachment))
+  , mHasMultisampleStencilAttachment(
+      std::move(other.mHasMultisampleStencilAttachment))
 {}
 
 
@@ -114,6 +106,7 @@ void FrameBuffer::setColorAttachment(
     || texture.getFormat() == TextureFormat::R);
   gl::setFramebufferColorTexture(mHandle, static_cast<GLuint>(attachmentPoint),
     texture.getHandle(), static_cast<GLint>(mipMapLevel));
+  mHasMultisampleColorAttachment = isTextureTypeMultisampled(texture.getType());
 }
 
 
@@ -124,6 +117,7 @@ void FrameBuffer::setDepthAttachment(Texture& texture, uint mipMapLevel)
   HOU_EXPECT(texture.getFormat() == TextureFormat::Depth
     || texture.getFormat() == TextureFormat::DepthStencil);
   gl::setFramebufferDepthTexture(mHandle, texture.getHandle(), mipMapLevel);
+  mHasMultisampleDepthAttachment = isTextureTypeMultisampled(texture.getType());
 }
 
 
@@ -134,6 +128,8 @@ void FrameBuffer::setStencilAttachment(Texture& texture, uint mipMapLevel)
   HOU_EXPECT(texture.getFormat() == TextureFormat::Stencil
     || texture.getFormat() == TextureFormat::DepthStencil);
   gl::setFramebufferStencilTexture(mHandle, texture.getHandle(), mipMapLevel);
+  mHasMultisampleStencilAttachment
+    = isTextureTypeMultisampled(texture.getType());
 }
 
 
@@ -144,6 +140,37 @@ void FrameBuffer::setDepthStencilAttachment(Texture& texture, uint mipMapLevel)
   HOU_EXPECT(texture.getFormat() == TextureFormat::DepthStencil);
   gl::setFramebufferDepthStencilTexture(
     mHandle, texture.getHandle(), mipMapLevel);
+  mHasMultisampleDepthAttachment = isTextureTypeMultisampled(texture.getType());
+  mHasMultisampleStencilAttachment
+    = isTextureTypeMultisampled(texture.getType());
+}
+
+
+
+bool FrameBuffer::hasMultisampleAttachment() const
+{
+  return mHasMultisampleColorAttachment || mHasMultisampleDepthAttachment
+    || mHasMultisampleStencilAttachment;
+}
+
+
+
+void blit(const FrameBuffer& src, const Recti& srcRect, FrameBuffer& dst,
+  const Recti& dstRect, FrameBufferBlitMask mask, FrameBufferBlitFilter filter)
+{
+  HOU_EXPECT((filter == FrameBufferBlitFilter::Nearest
+               || mask == FrameBufferBlitMask::None
+               || mask == FrameBufferBlitMask::Color)
+    && src.getStatus() == FrameBufferStatus::Complete
+    && dst.getStatus() == FrameBufferStatus::Complete
+    && ((!src.hasMultisampleAttachment() && !dst.hasMultisampleAttachment())
+         || (std::abs(srcRect.w()) == std::abs(dstRect.w())
+              && std::abs(srcRect.h()) == std::abs(srcRect.h()))));
+
+  gl::blitFramebuffer(src.getHandle(), dst.getHandle(), srcRect.l(),
+    srcRect.t(), srcRect.r(), srcRect.b(), dstRect.l(), dstRect.t(),
+    dstRect.r(), dstRect.b(), static_cast<GLbitfield>(mask),
+    static_cast<GLenum>(filter));
 }
 
 }  // namespace hou

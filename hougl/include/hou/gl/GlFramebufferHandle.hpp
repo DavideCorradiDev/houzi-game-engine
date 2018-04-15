@@ -52,12 +52,12 @@ HOU_GL_API void setFramebufferDepthStencilTexture(
   GLint level);
 HOU_GL_API GLenum getFramebufferStatus(const FramebufferHandle& framebuffer);
 HOU_GL_API void blitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1,
-  GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLenum mask,
-  GLenum filter);
+  GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1,
+  GLbitfield mask, GLenum filter);
 HOU_GL_API void blitFramebuffer(const FramebufferHandle& src,
   const FramebufferHandle& dst, GLint srcX0, GLint srcY0, GLint srcX1,
-  GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLenum mask,
-  GLenum filter);
+  GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1,
+  GLbitfield mask, GLenum filter);
 HOU_GL_API GLint getMaxColorAttachments();
 
 }  // namespace gl

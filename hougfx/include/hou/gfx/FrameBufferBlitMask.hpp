@@ -24,12 +24,13 @@ enum class FrameBufferBlitMask : GLenum
   Color = GL_COLOR_BUFFER_BIT,
   Depth = GL_DEPTH_BUFFER_BIT,
   Stencil = GL_STENCIL_BUFFER_BIT,
+  All = GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
 };
 
 }  // namespace hou
 
-template <typename FrameBufferBlitMask>
-struct EnableBitwiseOperators
+template <>
+struct hou::EnableBitwiseOperators<hou::FrameBufferBlitMask>
 {
   static constexpr bool enable = true;
 };

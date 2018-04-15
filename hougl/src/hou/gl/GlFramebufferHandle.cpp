@@ -230,7 +230,7 @@ GLenum getFramebufferStatus(const FramebufferHandle& framebuffer)
 
 
 void blitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1,
-  GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLenum mask,
+  GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask,
   GLenum filter)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
@@ -243,7 +243,7 @@ void blitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1,
 
 void blitFramebuffer(const FramebufferHandle& src, const FramebufferHandle& dst,
   GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0,
-  GLint dstX1, GLint dstY1, GLenum mask, GLenum filter)
+  GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(src);

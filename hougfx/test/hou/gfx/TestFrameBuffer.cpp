@@ -9,6 +9,8 @@
 #include "hou/gfx/FrameBuffer.hpp"
 #include "hou/gfx/Texture.hpp"
 
+#include "hou/sys/Image.hpp"
+
 using namespace hou;
 
 
@@ -21,6 +23,75 @@ class TestFrameBuffer : public TestGfxBase
 
 class TestFrameBufferDeathTest : public TestFrameBuffer
 {};
+
+template <typename SrcTexType, typename DstTexType>
+void testColorBlit(TextureFormat srcFormat,
+  const typename SrcTexType::Size& srcSize, const Recti& srcRect,
+  TextureFormat dstFormat, const typename DstTexType::Size& dstSize,
+  const Recti& dstRect, FrameBufferBlitFilter filter, bool testError = false);
+
+template <typename SrcTexType, typename DstTexType>
+void testColorBlit(TextureFormat srcFormat,
+  const typename SrcTexType::Size& srcSize, const Recti& srcRect,
+  TextureFormat dstFormat, const typename DstTexType::Size& dstSize,
+  const Recti& dstRect, FrameBufferBlitFilter filter, bool testError)
+{
+  using Image = Image2RGBA;
+  using Pixel = PixelRGBA;
+
+  // Build the framebuffers.
+  Color colorRef(2u, 3u, 5u, 7u);
+  Pixel pixelRef(colorRef);
+
+  FrameBuffer srcFb;
+  SrcTexType srcTex(srcSize, srcFormat);
+  srcFb.setColorAttachment(0u, srcTex);
+
+  FrameBuffer::bind(srcFb);
+  gl::setClearColor(colorRef.getRedf(), colorRef.getGreenf(),
+    colorRef.getBluef(), colorRef.getAlphaf());
+  gl::clear(GL_COLOR_BUFFER_BIT);
+  FrameBuffer::unbind();
+
+  FrameBuffer dstFb;
+  DstTexType dstTex(dstSize, dstFormat);
+  dstFb.setColorAttachment(0u, dstTex);
+
+  if(testError)
+  {
+    HOU_EXPECT_PRECONDITION(
+      blit(srcFb, srcRect, dstFb, dstRect, FrameBufferBlitMask::Color, filter));
+  }
+  else
+  {
+    // Blit.
+    blit(srcFb, srcRect, dstFb, dstRect, FrameBufferBlitMask::Color, filter);
+
+    // Create the reference image (the rectangles can assume negative values, so
+    // pay attention to that).
+    Image imageRef(dstSize);
+    Image::Size subImageSize;
+
+    int left = std::min(dstRect.l(), dstRect.r());
+    int right = std::max(dstRect.l(), dstRect.r());
+    int top = std::min(dstRect.t(), dstRect.b());
+    int bottom = std::max(dstRect.t(), dstRect.b());
+    subImageSize.x() = static_cast<int>(dstSize.x()) >= right
+      ? std::abs(dstRect.w())
+      : static_cast<int>(dstSize.x()) - left;
+    subImageSize.y() = static_cast<int>(dstSize.y()) >= bottom
+      ? std::abs(dstRect.h())
+      : static_cast<int>(dstSize.y()) - top;
+    imageRef.setSubImage(Vec2i(left, top), Image(subImageSize, pixelRef));
+
+    // Adjust channels in case the destination format is not RGBA.
+    DstTexType textureRef(imageRef, dstFormat);
+    imageRef = textureRef.template getImage<PixelFormat::RGBA>();
+
+    // Check if the blit was executed as expected
+    EXPECT_EQ(imageRef, dstTex.template getImage<PixelFormat::RGBA>());
+  }
+}
 
 }  // namespace
 
@@ -561,4 +632,391 @@ TEST_F(TestFrameBuffer,
   fb.setColorAttachment(0u, texRGBA);
   fb.setDepthStencilAttachment(texDepthStencil);
   EXPECT_EQ(FrameBufferStatus::Complete, fb.getStatus());
+}
+
+
+
+TEST_F(TestFrameBuffer, HasMultisampleAttachment)
+{
+  Vec2u size(4u, 8u);
+  FrameBuffer fb;
+  Texture2 texColorSS(size, TextureFormat::RGBA);
+  Texture2 texDSSS(size, TextureFormat::DepthStencil);
+  MultisampleTexture2 texColorMS(size, TextureFormat::RGBA);
+  MultisampleTexture2 texDSMS(size, TextureFormat::DepthStencil);
+
+  EXPECT_FALSE(fb.hasMultisampleAttachment());
+  fb.setColorAttachment(0u, texColorSS);
+  EXPECT_FALSE(fb.hasMultisampleAttachment());
+  fb.setDepthStencilAttachment(texDSSS);
+  EXPECT_FALSE(fb.hasMultisampleAttachment());
+  fb.setColorAttachment(0u, texColorMS);
+  EXPECT_TRUE(fb.hasMultisampleAttachment());
+  fb.setColorAttachment(0u, texColorSS);
+  EXPECT_FALSE(fb.hasMultisampleAttachment());
+  fb.setDepthStencilAttachment(texDSMS);
+  EXPECT_TRUE(fb.hasMultisampleAttachment());
+  fb.setDepthStencilAttachment(texDSSS);
+  EXPECT_FALSE(fb.hasMultisampleAttachment());
+  fb.setColorAttachment(0u, texColorMS);
+  fb.setDepthStencilAttachment(texDSMS);
+  EXPECT_TRUE(fb.hasMultisampleAttachment());
+}
+
+
+
+TEST_F(TestFrameBuffer, BlitColorFullImage)
+{
+  Vec2u size(4u, 8u);
+  testColorBlit<Texture2, Texture2>(TextureFormat::RGBA, size,
+    Recti(Vec2u(), size), TextureFormat::RGBA, size, Recti(Vec2u(), size),
+    FrameBufferBlitFilter::Nearest);
+}
+
+
+
+TEST_F(TestFrameBuffer, BlitColorSameRect)
+{
+  Vec2u size(8u, 16u);
+  Recti rect(1u, 2u, 3u, 4u);
+  testColorBlit<Texture2, Texture2>(TextureFormat::RGBA, size, rect,
+    TextureFormat::RGBA, size, rect, FrameBufferBlitFilter::Nearest);
+}
+
+
+
+TEST_F(TestFrameBuffer, BlitColorDifferentTextureSizes)
+{
+  Vec2u size1(4u, 8u);
+  Vec2u size2(8u, 16u);
+  testColorBlit<Texture2, Texture2>(TextureFormat::RGBA, size1,
+    Recti(Vec2u(), size1), TextureFormat::RGBA, size2, Recti(Vec2u(), size1),
+    FrameBufferBlitFilter::Nearest);
+}
+
+
+
+TEST_F(TestFrameBuffer, BlitColorDifferentRects)
+{
+  Vec2u size(8u, 16u);
+  Recti srcRect(1u, 2u, 3u, 4u);
+  Recti dstRect(2u, 1u, 4u, 6u);
+  testColorBlit<Texture2, Texture2>(TextureFormat::RGBA, size, srcRect,
+    TextureFormat::RGBA, size, dstRect, FrameBufferBlitFilter::Nearest);
+}
+
+
+
+TEST_F(TestFrameBuffer, BlitColorOverflowingRect)
+{
+  Vec2u size(8u, 16u);
+  Recti rect(4u, 6u, 6u, 16u);
+  testColorBlit<Texture2, Texture2>(TextureFormat::RGBA, size, rect,
+    TextureFormat::RGBA, size, rect, FrameBufferBlitFilter::Nearest);
+}
+
+
+
+TEST_F(TestFrameBuffer, BlitColorInvertedRect)
+{
+  Vec2u size(8u, 16u);
+  Recti srcRect(1u, 2u, 3u, 4u);
+  Recti dstRect(srcRect.r(), srcRect.b(), -srcRect.w(), -srcRect.h());
+  testColorBlit<Texture2, Texture2>(TextureFormat::RGBA, size, srcRect,
+    TextureFormat::RGBA, size, dstRect, FrameBufferBlitFilter::Nearest);
+}
+
+
+
+TEST_F(TestFrameBuffer, BlitColorLinearFilter)
+{
+  Vec2u size(4u, 8u);
+  testColorBlit<Texture2, Texture2>(TextureFormat::RGBA, size,
+    Recti(Vec2u(), size), TextureFormat::RGBA, size, Recti(Vec2u(), size),
+    FrameBufferBlitFilter::Linear);
+}
+
+
+
+TEST_F(TestFrameBuffer, BlitColorDifferentFormat)
+{
+  Vec2u size(4u, 8u);
+  testColorBlit<Texture2, Texture2>(TextureFormat::RGBA, size,
+    Recti(Vec2u(), size), TextureFormat::RGB, size, Recti(Vec2u(), size),
+    FrameBufferBlitFilter::Linear);
+}
+
+
+
+TEST_F(TestFrameBuffer, BlitColorFullImageMultisample)
+{
+  Vec2u size(4u, 8u);
+  testColorBlit<MultisampleTexture2, Texture2>(TextureFormat::RGBA, size,
+    Recti(Vec2u(), size), TextureFormat::RGBA, size, Recti(Vec2u(), size),
+    FrameBufferBlitFilter::Nearest);
+}
+
+
+
+TEST_F(TestFrameBuffer, BlitColorSameRectMultisample)
+{
+  Vec2u size(8u, 16u);
+  Recti rect(1u, 2u, 3u, 4u);
+  testColorBlit<MultisampleTexture2, Texture2>(TextureFormat::RGBA, size, rect,
+    TextureFormat::RGBA, size, rect, FrameBufferBlitFilter::Nearest);
+}
+
+
+
+TEST_F(TestFrameBuffer, BlitColorDifferentTextureSizesMultisample)
+{
+  Vec2u size1(4u, 8u);
+  Vec2u size2(8u, 16u);
+  testColorBlit<MultisampleTexture2, Texture2>(TextureFormat::RGBA, size1,
+    Recti(Vec2u(), size1), TextureFormat::RGBA, size2, Recti(Vec2u(), size1),
+    FrameBufferBlitFilter::Nearest);
+}
+
+
+
+TEST_F(TestFrameBuffer, BlitColorOverflowingRectMultisample)
+{
+  Vec2u size(8u, 16u);
+  Recti rect(4u, 6u, 6u, 16u);
+  testColorBlit<MultisampleTexture2, Texture2>(TextureFormat::RGBA, size, rect,
+    TextureFormat::RGBA, size, rect, FrameBufferBlitFilter::Nearest);
+}
+
+
+
+TEST_F(TestFrameBuffer, BlitColorInvertedRectMultisample)
+{
+  Vec2u size(8u, 16u);
+  Recti srcRect(1u, 2u, 3u, 4u);
+  Recti dstRect(srcRect.r(), srcRect.b(), -srcRect.w(), -srcRect.h());
+  testColorBlit<MultisampleTexture2, Texture2>(TextureFormat::RGBA, size,
+    srcRect, TextureFormat::RGBA, size, dstRect,
+    FrameBufferBlitFilter::Nearest);
+}
+
+
+
+TEST_F(TestFrameBuffer, BlitColorLinearFilterMultisample)
+{
+  Vec2u size(4u, 8u);
+  testColorBlit<MultisampleTexture2, Texture2>(TextureFormat::RGBA, size,
+    Recti(Vec2u(), size), TextureFormat::RGBA, size, Recti(Vec2u(), size),
+    FrameBufferBlitFilter::Linear);
+}
+
+
+
+TEST_F(TestFrameBufferDeathTest, BlitErrorColorDifferentRectsMultisample)
+{
+  Vec2u size(8u, 16u);
+  Recti srcRect(1u, 2u, 3u, 4u);
+  Recti dstRect(2u, 1u, 4u, 6u);
+  testColorBlit<MultisampleTexture2, Texture2>(TextureFormat::RGBA, size,
+    srcRect, TextureFormat::RGBA, size, dstRect, FrameBufferBlitFilter::Nearest,
+    true);
+}
+
+
+
+TEST_F(TestFrameBufferDeathTest, BlitErrorIncompleteSourceBuffer)
+{
+  FrameBuffer src;
+  FrameBuffer dst;
+  Texture2 dstTex(Vec2u(4u, 8u));
+  dst.setColorAttachment(0u, dstTex);
+
+  EXPECT_NE(FrameBufferStatus::Complete, src.getStatus());
+  EXPECT_EQ(FrameBufferStatus::Complete, dst.getStatus());
+  HOU_EXPECT_PRECONDITION(
+    blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
+      FrameBufferBlitMask::Color, FrameBufferBlitFilter::Nearest));
+}
+
+
+
+TEST_F(TestFrameBufferDeathTest, BlitErrorIncompleteDestinationBuffer)
+{
+  FrameBuffer src;
+  Texture2 srcTex(Vec2u(4u, 8u));
+  src.setColorAttachment(0u, srcTex);
+  FrameBuffer dst;
+
+  EXPECT_EQ(FrameBufferStatus::Complete, src.getStatus());
+  EXPECT_NE(FrameBufferStatus::Complete, dst.getStatus());
+  HOU_EXPECT_PRECONDITION(
+    blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
+      FrameBufferBlitMask::Color, FrameBufferBlitFilter::Nearest));
+}
+
+
+
+TEST_F(TestFrameBuffer, BlitSourceMissingColor)
+{
+  FrameBuffer src;
+  Texture2 srcTexDS(Vec2u(4u, 8u), TextureFormat::DepthStencil);
+  src.setDepthStencilAttachment(srcTexDS);
+
+  FrameBuffer dst;
+  Texture2 dstTexColor(Vec2u(4u, 8u));
+  Texture2 dstTexDS(Vec2u(4u, 8u), TextureFormat::DepthStencil);
+  dst.setColorAttachment(0u, dstTexColor);
+  dst.setDepthStencilAttachment(dstTexDS);
+
+  EXPECT_EQ(FrameBufferStatus::Complete, src.getStatus());
+  EXPECT_EQ(FrameBufferStatus::Complete, dst.getStatus());
+
+  blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
+    FrameBufferBlitMask::Color, FrameBufferBlitFilter::Nearest);
+  SUCCEED();
+}
+
+
+
+TEST_F(TestFrameBuffer, BlitSourceMissingDepthStencil)
+{
+  FrameBuffer src;
+  Texture2 srcTexColor(Vec2u(4u, 8u));
+  src.setColorAttachment(0u, srcTexColor);
+
+  FrameBuffer dst;
+  Texture2 dstTexColor(Vec2u(4u, 8u));
+  Texture2 dstTexDS(Vec2u(4u, 8u), TextureFormat::DepthStencil);
+  dst.setColorAttachment(0u, dstTexColor);
+  dst.setDepthStencilAttachment(dstTexDS);
+
+  EXPECT_EQ(FrameBufferStatus::Complete, src.getStatus());
+  EXPECT_EQ(FrameBufferStatus::Complete, dst.getStatus());
+
+  blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
+    FrameBufferBlitMask::Depth, FrameBufferBlitFilter::Nearest);
+  blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
+    FrameBufferBlitMask::Stencil, FrameBufferBlitFilter::Nearest);
+  SUCCEED();
+}
+
+
+
+TEST_F(TestFrameBuffer, BlitDestinationMissingColor)
+{
+  FrameBuffer src;
+  Texture2 srcTexColor(Vec2u(4u, 8u));
+  Texture2 srcTexDS(Vec2u(4u, 8u), TextureFormat::DepthStencil);
+  src.setColorAttachment(0u, srcTexColor);
+  src.setDepthStencilAttachment(srcTexDS);
+
+  FrameBuffer dst;
+  Texture2 dstTexDS(Vec2u(4u, 8u), TextureFormat::DepthStencil);
+  dst.setDepthStencilAttachment(dstTexDS);
+
+  EXPECT_EQ(FrameBufferStatus::Complete, src.getStatus());
+  EXPECT_EQ(FrameBufferStatus::Complete, dst.getStatus());
+
+  blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
+    FrameBufferBlitMask::Color, FrameBufferBlitFilter::Nearest);
+  SUCCEED();
+}
+
+
+
+TEST_F(TestFrameBuffer, BlitDestinationMissingDepthStencil)
+{
+  FrameBuffer src;
+  Texture2 srcTexColor(Vec2u(4u, 8u));
+  Texture2 srcTexDS(Vec2u(4u, 8u), TextureFormat::DepthStencil);
+  src.setColorAttachment(0u, srcTexColor);
+  src.setDepthStencilAttachment(srcTexDS);
+
+  FrameBuffer dst;
+  Texture2 dstTexColor(Vec2u(4u, 8u));
+  dst.setColorAttachment(0u, dstTexColor);
+
+  EXPECT_EQ(FrameBufferStatus::Complete, src.getStatus());
+  EXPECT_EQ(FrameBufferStatus::Complete, dst.getStatus());
+
+  blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
+    FrameBufferBlitMask::Depth, FrameBufferBlitFilter::Nearest);
+  blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
+    FrameBufferBlitMask::Stencil, FrameBufferBlitFilter::Nearest);
+  SUCCEED();
+}
+
+
+
+TEST_F(TestFrameBuffer, BlitMissingColor)
+{
+  FrameBuffer src;
+  Texture2 srcTexDS(Vec2u(4u, 8u), TextureFormat::DepthStencil);
+  src.setDepthStencilAttachment(srcTexDS);
+
+  FrameBuffer dst;
+  Texture2 dstTexDS(Vec2u(4u, 8u), TextureFormat::DepthStencil);
+  dst.setDepthStencilAttachment(dstTexDS);
+
+  EXPECT_EQ(FrameBufferStatus::Complete, src.getStatus());
+  EXPECT_EQ(FrameBufferStatus::Complete, dst.getStatus());
+
+  blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
+    FrameBufferBlitMask::Color, FrameBufferBlitFilter::Nearest);
+  SUCCEED();
+}
+
+
+
+TEST_F(TestFrameBuffer, BlitMissingDepthStencil)
+{
+  FrameBuffer src;
+  Texture2 srcTexColor(Vec2u(4u, 8u));
+  src.setColorAttachment(0u, srcTexColor);
+
+  FrameBuffer dst;
+  Texture2 dstTexColor(Vec2u(4u, 8u));
+  dst.setColorAttachment(0u, dstTexColor);
+
+  EXPECT_EQ(FrameBufferStatus::Complete, src.getStatus());
+  EXPECT_EQ(FrameBufferStatus::Complete, dst.getStatus());
+
+  blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
+    FrameBufferBlitMask::Depth, FrameBufferBlitFilter::Nearest);
+  blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
+    FrameBufferBlitMask::Stencil, FrameBufferBlitFilter::Nearest);
+  SUCCEED();
+}
+
+
+
+TEST_F(TestFrameBufferDeathTest, BlitErrorLinearFilterWithDepthStencilMask)
+{
+  FrameBuffer src;
+  Texture2 srcTexColor(Vec2u(4u, 8u));
+  Texture2 srcTexDS(Vec2u(4u, 8u), TextureFormat::DepthStencil);
+  src.setColorAttachment(0u, srcTexColor);
+  src.setDepthStencilAttachment(srcTexDS);
+
+  FrameBuffer dst;
+  Texture2 dstTexColor(Vec2u(4u, 8u));
+  Texture2 dstTexDS(Vec2u(4u, 8u), TextureFormat::DepthStencil);
+  dst.setColorAttachment(0u, dstTexColor);
+  dst.setDepthStencilAttachment(dstTexDS);
+
+  EXPECT_EQ(FrameBufferStatus::Complete, src.getStatus());
+  EXPECT_EQ(FrameBufferStatus::Complete, dst.getStatus());
+
+  HOU_EXPECT_PRECONDITION(
+    blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
+      FrameBufferBlitMask::Depth, FrameBufferBlitFilter::Linear));
+  HOU_EXPECT_PRECONDITION(
+    blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
+      FrameBufferBlitMask::Stencil, FrameBufferBlitFilter::Linear));
+  HOU_EXPECT_PRECONDITION(
+    blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
+      FrameBufferBlitMask::Depth | FrameBufferBlitMask::Stencil,
+      FrameBufferBlitFilter::Linear));
+  HOU_EXPECT_PRECONDITION(
+    blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
+      FrameBufferBlitMask::All, FrameBufferBlitFilter::Linear));
 }

@@ -35,28 +35,6 @@ public:
   static void unbind();
   static void bind(FrameBuffer& fb, FrameBufferTarget fbt);
   static void unbind(FrameBufferTarget fbt);
-
-  // Params:
-  // Filter:
-  //  - Nearest.
-  //  - Linear.
-  // Bitmask:
-  //  - Color.
-  //  - Depth.
-  //  - Stencil.
-  // Invalid configs
-  // - Stencil or Depth + linear
-  // - Stencil or Depth + inconsistent depth /stencil format between the two.
-  // - There are some conditions concerning floating point / integers?
-  // - samplex > 0 for both source and dst and rect are not identical...
-  // - dst or src is not complete.
-  static void blit(const Recti& srcRect, const Recti& dstRect,
-    FrameBufferBlitMask mask, FrameBufferBlitFilter filter);
-  static void blit(const FrameBuffer& src, const Recti& srcRect,
-    FrameBuffer& dst, const Recti& dstRect, FrameBufferBlitMask mask,
-    FrameBufferBlitFilter filter);
-
-
   // Safe
   static uint getColorAttachmentPointCount();
 
@@ -78,9 +56,18 @@ public:
   void setStencilAttachment(Texture& texture, uint mipMapLevel = 0u);
   void setDepthStencilAttachment(Texture& texture, uint mipMapLevel = 0u);
 
+  bool hasMultisampleAttachment() const;
+
 private:
   gl::FramebufferHandle mHandle;
+  bool mHasMultisampleColorAttachment;
+  bool mHasMultisampleDepthAttachment;
+  bool mHasMultisampleStencilAttachment;
 };
+
+HOU_GFX_API void blit(const FrameBuffer& src, const Recti& srcRect,
+  FrameBuffer& dst, const Recti& dstRect, FrameBufferBlitMask mask,
+  FrameBufferBlitFilter filter);
 
 }  // namespace hou
 
