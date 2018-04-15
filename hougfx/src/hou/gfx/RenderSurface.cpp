@@ -18,14 +18,14 @@ namespace hou
 
 void RenderSurface::setCurrentRenderSource(const RenderSurface& rs)
 {
-  gl::bindFramebuffer(rs.mGlFramebufferHandle, GL_READ_FRAMEBUFFER);
+  FrameBuffer::bind(rs.mFrameBuffer, FrameBufferTarget::Read);
 }
 
 
 
 void RenderSurface::setDefaultRenderSource()
 {
-  gl::unbindFramebuffer(GL_READ_FRAMEBUFFER);
+  FrameBuffer::unbind(FrameBufferTarget::Read);
 }
 
 
@@ -34,21 +34,21 @@ void RenderSurface::setCurrentRenderTarget(const RenderSurface& rs)
 {
   gl::setViewport(
     rs.mViewport.x(), rs.mViewport.y(), rs.mViewport.w(), rs.mViewport.h());
-  gl::bindFramebuffer(rs.mGlFramebufferHandle, GL_DRAW_FRAMEBUFFER);
+  FrameBuffer::bind(rs.mFrameBuffer, FrameBufferTarget::Draw);
 }
 
 
 
 void RenderSurface::setDefaultRenderTarget()
 {
-  gl::unbindFramebuffer(GL_DRAW_FRAMEBUFFER);
+  FrameBuffer::unbind(FrameBufferTarget::Draw);
 }
 
 
 
 RenderSurface::RenderSurface(const Vec2u& size, uint sampleCount)
   : NonCopyable()
-  , mGlFramebufferHandle(gl::FramebufferHandle::create())
+  , mFrameBuffer()
   , mColorAttachment(nullptr)
   , mDepthStencilAttachment(nullptr)
   , mSampleCount(sampleCount)
@@ -61,7 +61,7 @@ RenderSurface::RenderSurface(const Vec2u& size, uint sampleCount)
 
 RenderSurface::RenderSurface(RenderSurface&& other)
   : NonCopyable()
-  , mGlFramebufferHandle(std::move(other.mGlFramebufferHandle))
+  , mFrameBuffer(std::move(other.mFrameBuffer))
   , mColorAttachment(std::move(other.mColorAttachment))
   , mDepthStencilAttachment(std::move(other.mDepthStencilAttachment))
   , mSampleCount(std::move(other.mSampleCount))
@@ -177,14 +177,14 @@ Texture2 RenderSurface::toTexture() const
 
 bool RenderSurface::isCurrentRenderSource() const
 {
-  return gl::isFramebufferBound(mGlFramebufferHandle, GL_READ_FRAMEBUFFER);
+  return mFrameBuffer.isBound(FrameBufferTarget::Read);
 }
 
 
 
 bool RenderSurface::isCurrentRenderTarget() const
 {
-  return gl::isFramebufferBound(mGlFramebufferHandle, GL_DRAW_FRAMEBUFFER);
+  return mFrameBuffer.isBound(FrameBufferTarget::Draw);
 }
 
 
@@ -215,15 +215,12 @@ void RenderSurface::buildFramebuffer(const Vec2u& size, uint sampleCount)
   HOU_ENSURE_DEV(mColorAttachment != nullptr);
   HOU_ENSURE_DEV(mDepthStencilAttachment != nullptr);
 
-  static constexpr GLint attachment = 0;
-  static constexpr GLint level = 0;
-  gl::setFramebufferColorTexture(
-    mGlFramebufferHandle, attachment, mColorAttachment->getHandle(), level);
-  gl::setFramebufferDepthStencilTexture(
-    mGlFramebufferHandle, mDepthStencilAttachment->getHandle(), level);
+  static constexpr uint attachmentPoint = 0u;
+  static constexpr uint mipMapLevel = 0u;
+  mFrameBuffer.setColorAttachment(attachmentPoint, *mColorAttachment, mipMapLevel);
+  mFrameBuffer.setDepthStencilAttachment(*mDepthStencilAttachment, mipMapLevel);
 
-  HOU_ENSURE_DEV(
-    gl::getFramebufferStatus(mGlFramebufferHandle) == GL_FRAMEBUFFER_COMPLETE);
+  HOU_ENSURE_DEV(mFrameBuffer.isComplete());
 }
 
 }  // namespace hou

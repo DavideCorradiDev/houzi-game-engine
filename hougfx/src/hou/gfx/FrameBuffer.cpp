@@ -13,7 +13,7 @@
 namespace hou
 {
 
-void FrameBuffer::bind(FrameBuffer& fb)
+void FrameBuffer::bind(const FrameBuffer& fb)
 {
   HOU_EXPECT(fb.isComplete());
   gl::bindFramebuffer(fb.getHandle());
@@ -28,7 +28,7 @@ void FrameBuffer::unbind()
 
 
 
-void FrameBuffer::bind(FrameBuffer& fb, FrameBufferTarget fbt)
+void FrameBuffer::bind(const FrameBuffer& fb, FrameBufferTarget fbt)
 {
   HOU_EXPECT(fb.isComplete());
   gl::bindFramebuffer(fb.getHandle(), static_cast<GLenum>(fbt));

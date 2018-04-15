@@ -8,10 +8,8 @@
 #include "hou/gfx/GfxExport.hpp"
 #include "hou/cor/NonCopyable.hpp"
 
+#include "hou/gfx/FrameBuffer.hpp"
 #include "hou/gfx/Texture.hpp"
-
-#include "hou/gl/GlFramebufferHandle.hpp"
-#include "hou/gl/GlTextureHandle.hpp"
 
 #include "hou/mth/Rectangle.hpp"
 #include "hou/mth/MatrixFwd.hpp"
@@ -193,7 +191,7 @@ private:
   void buildFramebuffer(const Vec2u& size, uint sampleCount);
 
 private:
-  gl::FramebufferHandle mGlFramebufferHandle;
+  FrameBuffer mFrameBuffer;
   std::unique_ptr<Texture> mColorAttachment;
   std::unique_ptr<Texture> mDepthStencilAttachment;
   uint mSampleCount;

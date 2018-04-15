@@ -27,9 +27,9 @@ class Texture;
 class HOU_GFX_API FrameBuffer : public NonCopyable
 {
 public:
-  static void bind(FrameBuffer& fb);
+  static void bind(const FrameBuffer& fb);
   static void unbind();
-  static void bind(FrameBuffer& fb, FrameBufferTarget fbt);
+  static void bind(const FrameBuffer& fb, FrameBufferTarget fbt);
   static void unbind(FrameBufferTarget fbt);
 
   static uint getColorAttachmentPointCount();
