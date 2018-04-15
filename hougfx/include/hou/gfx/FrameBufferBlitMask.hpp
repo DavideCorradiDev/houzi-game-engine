@@ -20,6 +20,7 @@ namespace hou
 
 enum class FrameBufferBlitMask : GLenum
 {
+  None = 0,
   Color = GL_COLOR_BUFFER_BIT,
   Depth = GL_DEPTH_BUFFER_BIT,
   Stencil = GL_STENCIL_BUFFER_BIT,
