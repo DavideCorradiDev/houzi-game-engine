@@ -8,7 +8,7 @@
 #include "hou/aud/AudExport.hpp"
 #include "hou/cor/NonCopyable.hpp"
 
-#include "hou/aud/AudioFormat.hpp"
+#include "hou/aud/AudioBufferFormat.hpp"
 #include "hou/aud/AudioStreamIn.hpp"
 
 #include "hou/al/AlBufferHandle.hpp"
@@ -41,8 +41,8 @@ class HOU_AUD_API AudioBuffer : public NonCopyable
 public:
   /** Creates an empty AudioBuffer.
    *
-   *  The buffer is created with one single sample set to 0, Mono16 format, and a
-   *  frequency of 1 sample per second.
+   *  The buffer is created with one single sample set to 0, Mono16 format, and
+   * a frequency of 1 sample per second.
    */
   AudioBuffer();
 
@@ -53,7 +53,7 @@ public:
    *  \param smpRate the sample rate.
    */
   AudioBuffer(
-    const std::vector<uint8_t>& data, AudioFormat format, int smpRate);
+    const std::vector<uint8_t>& data, AudioBufferFormat format, int smpRate);
 
   /** Creates an AudioBuffer object with the data from the given stream.
    *
@@ -77,7 +77,7 @@ public:
    *
    *  \return the audio format of the buffer.
    */
-  AudioFormat getAudioFormat() const;
+  AudioBufferFormat getFormat() const;
 
   /** Gets the number of channels of the buffer, based on its audio format.
    *
@@ -118,7 +118,7 @@ public:
    *  \param smlRate the sample rate.
    */
   void setData(
-    const std::vector<uint8_t>& data, AudioFormat format, int smlRate);
+    const std::vector<uint8_t>& data, AudioBufferFormat format, int smlRate);
 
   /** Sets the buffer data by reading the provided AudioStreamIn)
    *

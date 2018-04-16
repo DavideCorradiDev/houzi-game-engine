@@ -6,8 +6,6 @@
 
 #include "hou/aud/AudioStreamIn.hpp"
 
-#include "hou/al/AlBufferFormat.hpp"
-
 
 
 namespace hou
@@ -21,13 +19,13 @@ static constexpr uint bitsPerByte = 8u;
 
 
 AudioBuffer::AudioBuffer()
-  : AudioBuffer(std::vector<uint8_t>(2u, 0u), AudioFormat::Mono16, 1u)
+  : AudioBuffer(std::vector<uint8_t>(2u, 0u), AudioBufferFormat::Mono16, 1u)
 {}
 
 
 
 AudioBuffer::AudioBuffer(
-  const std::vector<uint8_t>& data, AudioFormat format, int smlRate)
+  const std::vector<uint8_t>& data, AudioBufferFormat format, int smlRate)
   : NonCopyable()
   , mHandle(al::BufferHandle::generate())
 {
@@ -58,10 +56,9 @@ const al::BufferHandle& AudioBuffer::getHandle() const
 
 
 
-AudioFormat AudioBuffer::getAudioFormat() const
+AudioBufferFormat AudioBuffer::getFormat() const
 {
-  return alBufferFormatToAudioFormat(
-    al::getBufferFormatEnum(getChannelCount(), getBytesPerSample()));
+  return getAudioBufferFormatEnum(getChannelCount(), getBytesPerSample());
 }
 
 
@@ -105,10 +102,10 @@ uint AudioBuffer::getSampleCount() const
 
 
 void AudioBuffer::setData(
-  const std::vector<uint8_t>& data, AudioFormat format, int smlRate)
+  const std::vector<uint8_t>& data, AudioBufferFormat format, int smlRate)
 {
   HOU_EXPECT_DEV(sizeof(uint8_t) == 1u);
-  al::setBufferData(mHandle, audioBufferFormatToAlBufferFormat(format),
+  al::setBufferData(mHandle, static_cast<ALenum>(format),
     reinterpret_cast<ALvoid*>(const_cast<uint8_t*>(data.data())),
     static_cast<ALsizei>(data.size()), static_cast<ALsizei>(smlRate));
 }
@@ -122,7 +119,7 @@ void AudioBuffer::setData(NotNull<std::unique_ptr<AudioStreamIn>> audioStream)
   data.resize(audioStream->getByteCount());
   audioStream->read(data);
   HOU_ENSURE(data.size() == audioStream->getReadByteCount());
-  setData(data, audioStream->getAudioFormat(), audioStream->getSampleRate());
+  setData(data, audioStream->getFormat(), audioStream->getSampleRate());
 }
 
 }  // namespace hou

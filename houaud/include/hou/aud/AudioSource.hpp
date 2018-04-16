@@ -68,7 +68,7 @@ public:
   const AudioBuffer* getBuffer() const;
 
   // AudioSourceBase overrides.
-  AudioFormat getAudioFormat() const final;
+  AudioBufferFormat getFormat() const final;
   uint getChannelCount() const final;
   uint getBytesPerSample() const final;
   uint getSampleRate() const final;

@@ -48,8 +48,7 @@ namespace hou
  *  Higher number of buffers and higher buffer size will result in higher
  *  memory consumption, but better sound quality.
  */
-class HOU_AUD_API StreamingAudioSource
-  : public AudioSourceBase
+class HOU_AUD_API StreamingAudioSource : public AudioSourceBase
 {
 public:
   /** Default constructor.
@@ -65,15 +64,15 @@ public:
    *
    *  \param audioStream the audio stream.
    */
-  explicit StreamingAudioSource
-    ( NotNull<std::unique_ptr<AudioStreamIn>> audioStream);
+  explicit StreamingAudioSource(
+    NotNull<std::unique_ptr<AudioStreamIn>> audioStream);
 
   /** Destructor.
    */
   virtual ~StreamingAudioSource();
-  // Note: no move constructor is implemented at the moment because of difficulty
-  // with the streaming thread. The thread should be stopped before copying
-  // data around.
+  // Note: no move constructor is implemented at the moment because of
+  // difficulty with the streaming thread. The thread should be stopped before
+  // copying data around.
 
   /** Sets the stream and transfers ownership to this object.
    *
@@ -108,7 +107,7 @@ public:
   size_t getBufferSampleCount() const;
 
   // AudioSourceBase overrides.
-  AudioFormat getAudioFormat() const final;
+  AudioBufferFormat getFormat() const final;
   uint getChannelCount() const final;
   uint getBytesPerSample() const final;
   uint getSampleRate() const final;
@@ -122,8 +121,8 @@ private:
   public:
     BufferQueue(size_t bufferCount);
     size_t freeBuffers(size_t count);
-    const AudioBuffer& fillBuffer(const std::vector<uint8_t>& data
-      , AudioFormat format, int sampleRate);
+    const AudioBuffer& fillBuffer(const std::vector<uint8_t>& data,
+      AudioBufferFormat format, int sampleRate);
     size_t getFreeBufferCount() const;
     size_t getUsedBufferCount() const;
     size_t getBufferCount() const;
@@ -157,7 +156,6 @@ private:
   size_t mBufferByteCount;
 };
 
-}
+}  // namespace hou
 
 #endif
-

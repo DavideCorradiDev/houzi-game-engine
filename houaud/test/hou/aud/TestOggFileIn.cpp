@@ -85,7 +85,7 @@ TEST_F(TestOggFileIn, PathConstructor)
   EXPECT_EQ(0u, fi.getReadByteCount());
   EXPECT_EQ(0u, fi.getReadElementCount());
   EXPECT_EQ(0, fi.getBytePos());
-  EXPECT_EQ(AudioFormat::Mono16, fi.getAudioFormat());
+  EXPECT_EQ(AudioBufferFormat::Mono16, fi.getFormat());
   EXPECT_EQ(1u, fi.getChannelCount());
   EXPECT_EQ(2u, fi.getBytesPerSample());
   EXPECT_EQ(44100u, fi.getSampleRate());
@@ -172,7 +172,7 @@ TEST_F(TestOggFileIn, MoveConstructor)
   EXPECT_EQ(0u, fi.getReadByteCount());
   EXPECT_EQ(0u, fi.getReadElementCount());
   EXPECT_EQ(0, fi.getBytePos());
-  EXPECT_EQ(AudioFormat::Mono16, fi.getAudioFormat());
+  EXPECT_EQ(AudioBufferFormat::Mono16, fi.getFormat());
   EXPECT_EQ(1u, fi.getChannelCount());
   EXPECT_EQ(2u, fi.getBytesPerSample());
   EXPECT_EQ(44100u, fi.getSampleRate());
@@ -182,15 +182,15 @@ TEST_F(TestOggFileIn, MoveConstructor)
 
 
 
-TEST_F(TestOggFileIn, AudioFormatAttributes)
+TEST_F(TestOggFileIn, AudioBufferFormatAttributes)
 {
   OggFileIn fiMono16(mono16FileName);
   OggFileIn fiStereo16(stereo16FileName);
 
-  EXPECT_EQ(AudioFormat::Mono16, fiMono16.getAudioFormat());
+  EXPECT_EQ(AudioBufferFormat::Mono16, fiMono16.getFormat());
   EXPECT_EQ(1u, fiMono16.getChannelCount());
   EXPECT_EQ(2u, fiMono16.getBytesPerSample());
-  EXPECT_EQ(AudioFormat::Stereo16, fiStereo16.getAudioFormat());
+  EXPECT_EQ(AudioBufferFormat::Stereo16, fiStereo16.getFormat());
   EXPECT_EQ(2u, fiStereo16.getChannelCount());
   EXPECT_EQ(2u, fiStereo16.getBytesPerSample());
 }
@@ -542,7 +542,7 @@ TEST_F(TestOggFileInDeathTest, ReadToInvalidSizeBuffer)
   std::vector<BufferType> buffer(bufferSize, 0u);
 
   OggFileIn fi(mono16FileName);
-  EXPECT_EQ(AudioFormat::Mono16, fi.getAudioFormat());
+  EXPECT_EQ(AudioBufferFormat::Mono16, fi.getFormat());
 
   HOU_EXPECT_ERROR(fi.read(buffer), std::logic_error
     , getText(CorError::Precondition));

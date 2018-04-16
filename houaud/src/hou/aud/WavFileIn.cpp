@@ -228,7 +228,7 @@ void WavFileIn::readMetadata(const std::string& path)
   mElementCount = 0;
 
   // Update internal metadata.
-  setAudioFormat(format.channels, format.bitsPerSample / 8u);
+  setFormat(format.channels, format.bitsPerSample / 8u);
   setSampleRate(format.sampleRate);
 }
 

@@ -7,7 +7,7 @@
 
 #include "hou/aud/AudExport.hpp"
 
-#include "hou/aud/AudioFormat.hpp"
+#include "hou/aud/AudioBufferFormat.hpp"
 #include "hou/aud/AudioSourceState.hpp"
 
 #include "hou/al/AlSourceHandle.hpp"
@@ -90,7 +90,7 @@ public:
    *
    *  \return the audio format.
    */
-  virtual AudioFormat getAudioFormat() const = 0;
+  virtual AudioBufferFormat getFormat() const = 0;
 
   /** Gets the number of channels of the audio source, based on its audio
    * format.

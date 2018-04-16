@@ -106,9 +106,9 @@ size_t StreamingAudioSource::getBufferSampleCount() const
 
 
 
-AudioFormat StreamingAudioSource::getAudioFormat() const
+AudioBufferFormat StreamingAudioSource::getFormat() const
 {
-  return mAudioStream->getAudioFormat();
+  return mAudioStream->getFormat();
 }
 
 
@@ -233,7 +233,7 @@ void StreamingAudioSource::fillBuffers()
     else
     {
       ALuint bufferName = mBufferQueue
-                            .fillBuffer(data, mAudioStream->getAudioFormat(),
+                            .fillBuffer(data, mAudioStream->getFormat(),
                               mAudioStream->getSampleRate())
                             .getHandle()
                             .getName();
@@ -285,7 +285,7 @@ size_t StreamingAudioSource::BufferQueue::freeBuffers(size_t count)
 
 
 const AudioBuffer& StreamingAudioSource::BufferQueue::fillBuffer(
-  const std::vector<uint8_t>& data, AudioFormat format, int sampleRate)
+  const std::vector<uint8_t>& data, AudioBufferFormat format, int sampleRate)
 {
   HOU_EXPECT_DEV(mFreeBufferCount > 0);
   AudioBuffer& buffer = mBuffers[mCurrentIndex];

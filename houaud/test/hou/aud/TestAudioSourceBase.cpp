@@ -5,9 +5,8 @@
 #include "hou/Test.hpp"
 #include "hou/aud/TestAudBase.hpp"
 
+#include "hou/aud/AudioBuffer.hpp"
 #include "hou/aud/AudioSourceBase.hpp"
-
-#include "hou/al/AlBuffer.hpp"
 
 #include "hou/cor/CorError.hpp"
 
@@ -20,31 +19,30 @@ using namespace hou;
 namespace
 {
 
-class TestAudioSourceBase
-  : public TestAudBase
+class TestAudioSourceBase : public TestAudBase
 {
 public:
   TestAudioSourceBase();
 
 public:
-  al::Buffer mBuffer;
+  AudioBuffer mBuffer;
 };
 
 
 
-class TestAudioSourceBaseDeathTest : public TestAudioSourceBase {};
+class TestAudioSourceBaseDeathTest : public TestAudioSourceBase
+{};
 
 
 
-class ConcreteAudioSource
-  : public AudioSourceBase
+class ConcreteAudioSource : public AudioSourceBase
 {
 public:
-  ConcreteAudioSource(const al::Buffer& buffer);
+  ConcreteAudioSource(const AudioBuffer& buffer);
   ConcreteAudioSource(ConcreteAudioSource&& other);
   virtual ~ConcreteAudioSource();
 
-  AudioFormat getAudioFormat() const final;
+  AudioBufferFormat getFormat() const final;
   uint getChannelCount() const final;
   uint getBytesPerSample() const final;
   uint getSampleRate() const final;
@@ -59,7 +57,7 @@ private:
 
 private:
   uint mSampleCount;
-  AudioFormat mAudioFormat;
+  AudioBufferFormat mAudioBufferFormat;
   int mSampleRate;
 };
 
@@ -67,19 +65,18 @@ private:
 
 TestAudioSourceBase::TestAudioSourceBase()
   : TestAudBase()
-  , mBuffer(std::vector<uint8_t>{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-    , al::BufferFormat::Stereo16, 2)
+  , mBuffer(
+      std::vector<uint8_t>{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+      AudioBufferFormat::Stereo16, 2)
 {}
 
 
 
-ConcreteAudioSource::ConcreteAudioSource(const al::Buffer& buffer)
+ConcreteAudioSource::ConcreteAudioSource(const AudioBuffer& buffer)
   : AudioSourceBase()
-  , mSampleCount(buffer.getSize()
-    / (al::getBufferFormatChannels(buffer.getFormat())
-    * al::getBufferFormatBytesPerSample(buffer.getFormat())))
-  , mAudioFormat(alBufferFormatToAudioFormat(buffer.getFormat()))
-  , mSampleRate(buffer.getFrequency())
+  , mSampleCount(buffer.getSampleCount())
+  , mAudioBufferFormat(buffer.getFormat())
+  , mSampleRate(buffer.getSampleRate())
 {
   al::setSourceBuffer(getHandle(), buffer.getHandle().getName());
 }
@@ -89,7 +86,7 @@ ConcreteAudioSource::ConcreteAudioSource(const al::Buffer& buffer)
 ConcreteAudioSource::ConcreteAudioSource(ConcreteAudioSource&& other)
   : AudioSourceBase(std::move(other))
   , mSampleCount(std::move(other.mSampleCount))
-  , mAudioFormat(std::move(other.mAudioFormat))
+  , mAudioBufferFormat(std::move(other.mAudioBufferFormat))
   , mSampleRate(std::move(other.mSampleRate))
 {}
 
@@ -100,23 +97,23 @@ ConcreteAudioSource::~ConcreteAudioSource()
 
 
 
-AudioFormat ConcreteAudioSource::getAudioFormat() const
+AudioBufferFormat ConcreteAudioSource::getFormat() const
 {
-  return mAudioFormat;
+  return mAudioBufferFormat;
 }
 
 
 
 uint ConcreteAudioSource::getChannelCount() const
 {
-  return getAudioFormatChannelCount(mAudioFormat);
+  return getAudioBufferFormatChannelCount(mAudioBufferFormat);
 }
 
 
 
 uint ConcreteAudioSource::getBytesPerSample() const
 {
-  return getAudioFormatBytesPerSample(mAudioFormat);
+  return getAudioBufferFormatBytesPerSample(mAudioBufferFormat);
 }
 
 
@@ -161,7 +158,7 @@ uint ConcreteAudioSource::onGetSamplePos() const
   return AudioSourceBase::onGetSamplePos();
 }
 
-}
+}  // namespace
 
 
 
@@ -169,7 +166,7 @@ TEST_F(TestAudioSourceBase, DefaultConstructor)
 {
   ConcreteAudioSource as(mBuffer);
   EXPECT_EQ(AudioSourceState::Stopped, as.getState());
-  EXPECT_EQ(AudioFormat::Stereo16, as.getAudioFormat());
+  EXPECT_EQ(AudioBufferFormat::Stereo16, as.getFormat());
   EXPECT_EQ(2u, as.getChannelCount());
   EXPECT_EQ(2u, as.getBytesPerSample());
   EXPECT_EQ(2u, as.getSampleRate());
@@ -468,8 +465,8 @@ TEST_F(TestAudioSourceBase, Gain)
 TEST_F(TestAudioSourceBaseDeathTest, InvalidGain)
 {
   ConcreteAudioSource as(mBuffer);
-  HOU_EXPECT_ERROR(as.setGain(-3.f), std::logic_error
-    , getText(CorError::Precondition));
+  HOU_EXPECT_ERROR(
+    as.setGain(-3.f), std::logic_error, getText(CorError::Precondition));
 }
 
 
@@ -486,8 +483,8 @@ TEST_F(TestAudioSourceBase, MaxGain)
 TEST_F(TestAudioSourceBaseDeathTest, InvalidMaxGain)
 {
   ConcreteAudioSource as(mBuffer);
-  HOU_EXPECT_ERROR(as.setMaxGain(-3.f), std::logic_error
-    , getText(CorError::Precondition));
+  HOU_EXPECT_ERROR(
+    as.setMaxGain(-3.f), std::logic_error, getText(CorError::Precondition));
 }
 
 
@@ -504,8 +501,8 @@ TEST_F(TestAudioSourceBase, MinGain)
 TEST_F(TestAudioSourceBaseDeathTest, InvalidMinGain)
 {
   ConcreteAudioSource as(mBuffer);
-  HOU_EXPECT_ERROR(as.setMinGain(-3.f), std::logic_error
-    , getText(CorError::Precondition));
+  HOU_EXPECT_ERROR(
+    as.setMinGain(-3.f), std::logic_error, getText(CorError::Precondition));
 }
 
 
@@ -522,8 +519,8 @@ TEST_F(TestAudioSourceBase, MaxDistance)
 TEST_F(TestAudioSourceBaseDeathTest, InvalidMaxDistance)
 {
   ConcreteAudioSource as(mBuffer);
-  HOU_EXPECT_ERROR(as.setMaxDistance(-3.f), std::logic_error
-    , getText(CorError::Precondition));
+  HOU_EXPECT_ERROR(
+    as.setMaxDistance(-3.f), std::logic_error, getText(CorError::Precondition));
 }
 
 
@@ -540,8 +537,8 @@ TEST_F(TestAudioSourceBase, RolloffFactor)
 TEST_F(TestAudioSourceBaseDeathTest, InvalidRolloffFactor)
 {
   ConcreteAudioSource as(mBuffer);
-  HOU_EXPECT_ERROR(as.setRolloffFactor(-3.f), std::logic_error
-    , getText(CorError::Precondition));
+  HOU_EXPECT_ERROR(as.setRolloffFactor(-3.f), std::logic_error,
+    getText(CorError::Precondition));
 }
 
 
@@ -558,8 +555,8 @@ TEST_F(TestAudioSourceBase, ReferenceDistance)
 TEST_F(TestAudioSourceBaseDeathTest, InvalidReferenceDistance)
 {
   ConcreteAudioSource as(mBuffer);
-  HOU_EXPECT_ERROR(as.setReferenceDistance(-3.f), std::logic_error
-    , getText(CorError::Precondition));
+  HOU_EXPECT_ERROR(as.setReferenceDistance(-3.f), std::logic_error,
+    getText(CorError::Precondition));
 }
 
 
@@ -585,8 +582,8 @@ TEST_F(TestAudioSourceBase, ConeOuterGain)
 TEST_F(TestAudioSourceBaseDeathTest, InvalidConeOuterGain)
 {
   ConcreteAudioSource as(mBuffer);
-  HOU_EXPECT_ERROR(as.setConeOuterGain(-3.f), std::logic_error
-    , getText(CorError::Precondition));
+  HOU_EXPECT_ERROR(as.setConeOuterGain(-3.f), std::logic_error,
+    getText(CorError::Precondition));
 }
 
 
@@ -607,10 +604,10 @@ TEST_F(TestAudioSourceBase, ConeInnerAngle)
 TEST_F(TestAudioSourceBaseDeathTest, InvalidConeInnerAngle)
 {
   ConcreteAudioSource as(mBuffer);
-  HOU_EXPECT_ERROR(as.setConeInnerAngle(-PI_F), std::logic_error
-    , getText(CorError::Precondition));
-  HOU_EXPECT_ERROR(as.setConeInnerAngle(3 * PI_F), std::logic_error
-    , getText(CorError::Precondition));
+  HOU_EXPECT_ERROR(as.setConeInnerAngle(-PI_F), std::logic_error,
+    getText(CorError::Precondition));
+  HOU_EXPECT_ERROR(as.setConeInnerAngle(3 * PI_F), std::logic_error,
+    getText(CorError::Precondition));
 }
 
 
@@ -631,10 +628,10 @@ TEST_F(TestAudioSourceBase, ConeOuterAngle)
 TEST_F(TestAudioSourceBaseDeathTest, InvalidConeOuterAngle)
 {
   ConcreteAudioSource as(mBuffer);
-  HOU_EXPECT_ERROR(as.setConeOuterAngle(-PI_F), std::logic_error
-    , getText(CorError::Precondition));
-  HOU_EXPECT_ERROR(as.setConeOuterAngle(3 * PI_F), std::logic_error
-    , getText(CorError::Precondition));
+  HOU_EXPECT_ERROR(as.setConeOuterAngle(-PI_F), std::logic_error,
+    getText(CorError::Precondition));
+  HOU_EXPECT_ERROR(as.setConeOuterAngle(3 * PI_F), std::logic_error,
+    getText(CorError::Precondition));
 }
 
 
@@ -666,4 +663,3 @@ TEST_F(TestAudioSourceBase, Direction)
   as.setDirection(dirRef);
   HOU_EXPECT_FLOAT_CLOSE(dirRef, as.getDirection());
 }
-

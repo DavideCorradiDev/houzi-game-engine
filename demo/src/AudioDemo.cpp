@@ -16,11 +16,9 @@
 #include "hou/cor/Stopwatch.hpp"
 #include "hou/mth/Transform2.hpp"
 
-#include "hou/al/AlBuffer.hpp"
 #include "hou/al/AlContext.hpp"
 #include "hou/al/AlDevice.hpp"
 #include "hou/al/AlListener.hpp"
-#include "hou/al/AlSource.hpp"
 
 #include "hou/aud/AudioContext.hpp"
 #include "hou/aud/AudioBuffer.hpp"
