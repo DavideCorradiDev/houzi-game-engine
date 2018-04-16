@@ -28,15 +28,14 @@ class AudioBuffer;
  *  destroyed while the AudioSource is still existing, failing to do so will
  *  result in undefined behaviour.
  */
-class HOU_AUD_API AudioSource
-  : public AudioSourceBase
+class HOU_AUD_API AudioSource : public AudioSourceBase
 {
 public:
   /** Buffer constructor.
    *
    *  Creates an AudioSource with the given AudioBuffer.
-   *  If passed nullptr, the AudioSource will not be associated to any buffer and
-   *  will not play any sound.
+   *  If passed nullptr, the AudioSource will not be associated to any buffer
+   * and will not play any sound.
    *
    *  \param buffer pointer to the AudioBuffer.
    */
@@ -54,8 +53,8 @@ public:
 
   /** Sets the AudioBuffer.
    *
-   *  If passed nullptr, the AudioSource will not be associated to any buffer and
-   *  will not play any sound.
+   *  If passed nullptr, the AudioSource will not be associated to any buffer
+   * and will not play any sound.
    *
    *  \param buffer pointer to the AudioBuffer.
    */
@@ -85,7 +84,6 @@ private:
   const AudioBuffer* mBufferRef;
 };
 
-}
+}  // namespace hou
 
 #endif
-

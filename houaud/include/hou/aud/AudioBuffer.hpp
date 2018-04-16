@@ -11,7 +11,7 @@
 #include "hou/aud/AudioFormat.hpp"
 #include "hou/aud/AudioStreamIn.hpp"
 
-#include "hou/al/AlBuffer.hpp"
+#include "hou/al/AlBufferHandle.hpp"
 
 #include "hou/cor/BasicTypes.hpp"
 #include "hou/cor/NotNull.hpp"
@@ -39,10 +39,10 @@ class HOU_AUD_API AudioBuffer
   : public NonCopyable
 {
 public:
-  friend class AudioSource;
-  friend class StreamingAudioSource;
+  /** Creates an empty AudioBuffer.
+   */
+  AudioBuffer();
 
-public:
   /** Creates an AudioBuffer object with the given parameters.
    *
    *  \param data the data.
@@ -62,6 +62,12 @@ public:
    *  \param other the other AudioBuffer.
    */
   AudioBuffer(AudioBuffer&& other);
+
+  /** Gets the OpenAL buffer handle.
+   *
+   *  \return the OpenAL buffer handle.
+   */
+  const al::BufferHandle& getHandle() const;
 
   /** Gets the audio format of the buffer.
    *
@@ -92,13 +98,13 @@ public:
    *
    *  \return the number of bytes in the channel.
    */
-  size_t getByteCount() const;
+  uint getByteCount() const;
 
   /** Gets the number of samples in the buffer for a single channel.
    *
    *  \return the number of samples in the buffer for a single channel.
    */
-  size_t getSampleCount() const;
+  uint getSampleCount() const;
 
   /** Sets the buffer data with the provided values.
    *
@@ -115,7 +121,7 @@ public:
   void setData(NotNull<std::unique_ptr<AudioStreamIn>> audioStream);
 
 private:
-  al::Buffer mAlBuffer;
+  al::BufferHandle mHandle;
 };
 
 }

@@ -122,14 +122,14 @@ private:
   public:
     BufferQueue(size_t bufferCount);
     size_t freeBuffers(size_t count);
-    const al::Buffer& fillBuffer(const std::vector<uint8_t>& data
+    const AudioBuffer& fillBuffer(const std::vector<uint8_t>& data
       , AudioFormat format, int sampleRate);
     size_t getFreeBufferCount() const;
     size_t getUsedBufferCount() const;
     size_t getBufferCount() const;
 
   private:
-    std::vector<al::Buffer> mBuffers;
+    std::vector<AudioBuffer> mBuffers;
     std::queue<size_t> mBufferSampleCounts;
     size_t mFreeBufferCount;
     size_t mCurrentIndex;

@@ -38,11 +38,11 @@ void AudioSource::setBuffer(const AudioBuffer* buffer)
   mBufferRef = buffer;
   if(buffer != nullptr)
   {
-    mAlSource.setBuffer(buffer->mAlBuffer);
+    al::setSourceBuffer(getHandle(), buffer->getHandle().getName());
   }
   else
   {
-    mAlSource.resetBuffer();
+    al::setSourceBuffer(getHandle(), 0);
   }
 }
 
@@ -57,7 +57,8 @@ const AudioBuffer* AudioSource::getBuffer() const
 
 AudioFormat AudioSource::getAudioFormat() const
 {
-  return mBufferRef == nullptr ? AudioFormat::Mono8 : mBufferRef->getAudioFormat();
+  return mBufferRef == nullptr ? AudioFormat::Mono8
+                               : mBufferRef->getAudioFormat();
 }
 
 
@@ -116,5 +117,4 @@ uint AudioSource::onGetSamplePos() const
   return AudioSourceBase::onGetSamplePos();
 }
 
-}
-
+}  // namespace hou

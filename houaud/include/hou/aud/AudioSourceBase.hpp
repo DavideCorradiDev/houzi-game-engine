@@ -10,7 +10,7 @@
 #include "hou/aud/AudioFormat.hpp"
 #include "hou/aud/AudioSourceState.hpp"
 
-#include "hou/al/AlSource.hpp"
+#include "hou/al/AlSourceHandle.hpp"
 
 #include "hou/cor/NonCopyable.hpp"
 #include "hou/cor/StdChrono.hpp"
@@ -24,8 +24,7 @@ namespace hou
 
 /** Parent class for audio sources.
  */
-class HOU_AUD_API AudioSourceBase
-  : public NonCopyable
+class HOU_AUD_API AudioSourceBase : public NonCopyable
 {
 public:
   /** Default constructor.
@@ -41,6 +40,12 @@ public:
   /** Destructor.
    */
   virtual ~AudioSourceBase() = 0;
+
+  /** Gets the OpenAL audio source handle.
+   *
+   *  \return the OpenAL audio source handle.
+   */
+  const al::SourceHandle& getHandle() const;
 
   /** Plays the audio source.
    *
@@ -87,16 +92,18 @@ public:
    */
   virtual AudioFormat getAudioFormat() const = 0;
 
-  /** Gets the number of channels of the audio source, based on its audio format.
+  /** Gets the number of channels of the audio source, based on its audio
+   * format.
    *
    *  \return 1 if the audio format is mono, 2 if the audio format is stereo.
    */
   virtual uint getChannelCount() const = 0;
 
-  /** Gets the number of bytes per sample of the audio stream, based on its audio format.
+  /** Gets the number of bytes per sample of the audio stream, based on its
+   * audio format.
    *
-   *  The number returned is the number of bytes per sample for a single channel.
-   *  \return 1 for 8-bit audio formats, 2 for 16-bit audio formats.
+   *  The number returned is the number of bytes per sample for a single
+   * channel. \return 1 for 8-bit audio formats, 2 for 16-bit audio formats.
    */
   virtual uint getBytesPerSample() const = 0;
 
@@ -118,7 +125,7 @@ public:
    *  \param pos the position.
    */
   template <typename TimeDuration>
-    void setTimePos(TimeDuration pos);
+  void setTimePos(TimeDuration pos);
 
   // void moveTimePos(TimeDuration offset);
 
@@ -371,20 +378,15 @@ protected:
    */
   virtual uint onGetSamplePos() const = 0;
 
-protected:
-  /** The OpenAL audio source.
-   */
-  al::Source mAlSource;
-
 private:
+  al::SourceHandle mHandle;
   uint mRequestedSamplePos;
 };
 
-}
+}  // namespace hou
 
 
 
 #include "hou/aud/AudioSourceBase.inl"
 
 #endif
-
