@@ -17,19 +17,19 @@ namespace hou
 namespace
 {
 
-AudioSourceState alSourceStateToAudioSourceState(al::SourceState state);
+AudioSourceState alSourceStateToAudioSourceState(ALenum state);
 uint normalize(uint value, uint max);
 
-AudioSourceState alSourceStateToAudioSourceState(al::SourceState state)
+AudioSourceState alSourceStateToAudioSourceState(ALenum state)
 {
   switch(state)
   {
-  case al::SourceState::Playing:
+  case AL_PLAYING:
     return AudioSourceState::Playing;
-  case al::SourceState::Paused:
+  case AL_PAUSED:
     return AudioSourceState::Paused;
-  case al::SourceState::Stopped:
-  case al::SourceState::Initial:
+  case AL_INITIAL:
+  case AL_STOPPED:
     return AudioSourceState::Stopped;
   default:
     HOU_LOGIC_ERROR(getText(CorError::InvalidEnum), static_cast<int>(state));
