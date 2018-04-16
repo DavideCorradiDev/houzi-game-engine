@@ -107,7 +107,7 @@ TEST_F(TestAlBuffer, SetData)
 TEST_F(TestAlBuffer, GetFormatMeasures)
 {
   // Note: the implementation might convert the format to a different one.
-  // Bits per sample might change from 8 to 16. Samples will be padded and 
+  // Bits per sample might change from 8 to 16. Samples will then be padded and
   // the size will increase.
   std::vector<uint8_t> data{1, 2, 3, 4};
 

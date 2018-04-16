@@ -33,13 +33,16 @@ namespace hou
  *  save resources.
  *  An AudioBuffer object loads the whole audio data into memory.
  *  For large audio data this might be expensive.
- *  In that case, it is suggested to use audio streams and a StreamingAudioSource.
+ *  In that case, it is suggested to use audio streams and a
+ * StreamingAudioSource.
  */
-class HOU_AUD_API AudioBuffer
-  : public NonCopyable
+class HOU_AUD_API AudioBuffer : public NonCopyable
 {
 public:
   /** Creates an empty AudioBuffer.
+   *
+   *  The buffer is created with one single sample set to 0, Mono16 format, and a
+   *  frequency of 1 sample per second.
    */
   AudioBuffer();
 
@@ -49,7 +52,8 @@ public:
    *  \param format the audio format.
    *  \param smpRate the sample rate.
    */
-  AudioBuffer(const std::vector<uint8_t>& data, AudioFormat format, int smpRate);
+  AudioBuffer(
+    const std::vector<uint8_t>& data, AudioFormat format, int smpRate);
 
   /** Creates an AudioBuffer object with the data from the given stream.
    *
@@ -81,10 +85,11 @@ public:
    */
   uint getChannelCount() const;
 
-  /** Gets the number of bytes per sample of the buffer, based on its audio format.
+  /** Gets the number of bytes per sample of the buffer, based on its audio
+   * format.
    *
-   *  The number returned is the number of bytes per sample for a single channel.
-   *  \return 1 for 8-bit audio formats, 2 for 16-bit audio formats.
+   *  The number returned is the number of bytes per sample for a single
+   * channel. \return 1 for 8-bit audio formats, 2 for 16-bit audio formats.
    */
   uint getBytesPerSample() const;
 
@@ -112,7 +117,8 @@ public:
    *  \param format the audio format.
    *  \param smlRate the sample rate.
    */
-  void setData(const std::vector<uint8_t>& data, AudioFormat format, int smlRate);
+  void setData(
+    const std::vector<uint8_t>& data, AudioFormat format, int smlRate);
 
   /** Sets the buffer data by reading the provided AudioStreamIn)
    *
@@ -124,7 +130,6 @@ private:
   al::BufferHandle mHandle;
 };
 
-}
+}  // namespace hou
 
 #endif
-

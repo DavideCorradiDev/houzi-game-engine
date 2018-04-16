@@ -21,15 +21,15 @@ static constexpr uint bitsPerByte = 8u;
 
 
 AudioBuffer::AudioBuffer()
-  : NonCopyable()
-  , mHandle(al::BufferHandle::generate())
+  : AudioBuffer(std::vector<uint8_t>(2u, 0u), AudioFormat::Mono16, 1u)
 {}
 
 
 
 AudioBuffer::AudioBuffer(
   const std::vector<uint8_t>& data, AudioFormat format, int smlRate)
-  : AudioBuffer()
+  : NonCopyable()
+  , mHandle(al::BufferHandle::generate())
 {
   setData(data, format, smlRate);
 }
@@ -37,7 +37,8 @@ AudioBuffer::AudioBuffer(
 
 
 AudioBuffer::AudioBuffer(NotNull<std::unique_ptr<AudioStreamIn>> audioStream)
-  : AudioBuffer()
+  : NonCopyable()
+  , mHandle(al::BufferHandle::generate())
 {
   setData(std::move(audioStream));
 }
