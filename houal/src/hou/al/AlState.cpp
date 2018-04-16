@@ -14,21 +14,21 @@ namespace hou
 namespace al
 {
 
-void setDistanceModel(DistanceModel value)
+void setDistanceModel(ALenum value)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
-  alDistanceModel(static_cast<ALenum>(value));
+  alDistanceModel(value);
   HOU_AL_CHECK_ERROR();
 }
 
 
 
-DistanceModel getDistanceModel()
+ALenum getDistanceModel()
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   ALint value = alGetInteger(AL_DISTANCE_MODEL);
   HOU_AL_CHECK_ERROR();
-  return static_cast<DistanceModel>(value);
+  return static_cast<ALenum>(value);
 }
 
 
