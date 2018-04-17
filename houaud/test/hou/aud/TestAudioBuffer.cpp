@@ -70,6 +70,26 @@ TEST_F(TestAudioBuffer, DataConstructor)
 
 
 
+TEST_F(TestAudioBuffer, DataMoveConstructor)
+{
+  std::vector<uint8_t> data{1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u};
+  AudioBuffer ab(
+    {1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u}, AudioBufferFormat::Stereo16, 345);
+
+  EXPECT_NE(0u, ab.getHandle().getName());
+  EXPECT_EQ(data.size(), ab.getByteCount());
+  EXPECT_EQ(data.size()
+      / (getAudioBufferFormatChannelCount(ab.getFormat())
+          * getAudioBufferFormatBytesPerSample(ab.getFormat())),
+    ab.getSampleCount());
+  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.getFormat());
+  EXPECT_EQ(2u, ab.getChannelCount());
+  EXPECT_EQ(2u, ab.getBytesPerSample());
+  EXPECT_EQ(345, ab.getSampleRate());
+}
+
+
+
 TEST_F(TestAudioBuffer, StreamConstructor)
 {
   AudioBuffer ab(std::make_unique<WavFileIn>(wavStereo16FileName));
@@ -142,6 +162,36 @@ TEST_F(TestAudioBuffer, SetData)
 
   std::vector<uint8_t> dataRef2{1u, 2u, 3u, 4u, 5u, 6u};
   ab.setData(dataRef2, AudioBufferFormat::Mono16, 228);
+
+  EXPECT_EQ(dataRef2.size(), ab.getByteCount());
+  EXPECT_EQ(
+    dataRef2.size() / getAudioBufferFormatBytesPerSample(ab.getFormat()),
+    ab.getSampleCount());
+  EXPECT_EQ(AudioBufferFormat::Mono16, ab.getFormat());
+  EXPECT_EQ(1u, ab.getChannelCount());
+  EXPECT_EQ(2u, ab.getBytesPerSample());
+  EXPECT_EQ(228, ab.getSampleRate());
+}
+
+
+
+TEST_F(TestAudioBuffer, SetDataWithMove)
+{
+  std::vector<uint8_t> dataRef1{1u, 2u, 3u, 4u};
+  AudioBuffer ab({1u, 2u, 3u, 4u}, AudioBufferFormat::Stereo16, 114);
+
+  EXPECT_EQ(dataRef1.size(), ab.getByteCount());
+  EXPECT_EQ(dataRef1.size()
+      / (getAudioBufferFormatChannelCount(ab.getFormat())
+          * getAudioBufferFormatBytesPerSample(ab.getFormat())),
+    ab.getSampleCount());
+  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.getFormat());
+  EXPECT_EQ(2u, ab.getChannelCount());
+  EXPECT_EQ(2u, ab.getBytesPerSample());
+  EXPECT_EQ(114, ab.getSampleRate());
+
+  std::vector<uint8_t> dataRef2{1u, 2u, 3u, 4u, 5u, 6u};
+  ab.setData({1u, 2u, 3u, 4u, 5u, 6u}, AudioBufferFormat::Mono16, 228);
 
   EXPECT_EQ(dataRef2.size(), ab.getByteCount());
   EXPECT_EQ(

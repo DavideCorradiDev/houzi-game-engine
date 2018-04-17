@@ -15,6 +15,7 @@
 
 #include "hou/cor/BasicTypes.hpp"
 #include "hou/cor/NotNull.hpp"
+#include "hou/cor/Span.hpp"
 
 #include <memory>
 #include <vector>
@@ -53,7 +54,16 @@ public:
    *  \param smpRate the sample rate.
    */
   AudioBuffer(
-    const std::vector<uint8_t>& data, AudioBufferFormat format, int smpRate);
+    const Span<const uint8_t>& data, AudioBufferFormat format, int smpRate);
+
+  /** Creates an AudioBuffer object with the given parameters, moving the data.
+   *
+   *  \param data the data.
+   *  \param format the audio format.
+   *  \param smpRate the sample rate.
+   */
+  AudioBuffer(
+    std::vector<uint8_t>&& data, AudioBufferFormat format, int smpRate);
 
   /** Creates an AudioBuffer object with the data from the given stream.
    *
@@ -118,7 +128,16 @@ public:
    *  \param smlRate the sample rate.
    */
   void setData(
-    const std::vector<uint8_t>& data, AudioBufferFormat format, int smlRate);
+    const Span<const uint8_t>& data, AudioBufferFormat format, int smlRate);
+
+  /** Sets the buffer data with the provided values, moving the data.
+   *
+   *  \param data the data.
+   *  \param format the audio format.
+   *  \param smlRate the sample rate.
+   */
+  void setData(
+    std::vector<uint8_t>&& data, AudioBufferFormat format, int smlRate);
 
   /** Sets the buffer data by reading the provided AudioStreamIn)
    *
