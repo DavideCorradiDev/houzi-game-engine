@@ -67,7 +67,7 @@ int main()
   std::string filename = "houaud/test/data/TestWav-Stereo-16-44100.wav";
   // std::string longFilename = "demo/data/longsound.wav";
   std::string longFilename = "demo/data/test.ogg";
-  AudioBuffer buffer(std::make_unique<WavFileIn>(filename));
+  AudioBuffer buffer = AudioBuffer(WavFileIn(filename));
   AudioSource source(&buffer);
   StreamingAudioSource sas(std::make_unique<OggFileIn>(longFilename));
   sas.setLooping(false);

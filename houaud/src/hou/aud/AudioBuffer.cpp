@@ -41,11 +41,20 @@ AudioBuffer::AudioBuffer(
 
 
 
-AudioBuffer::AudioBuffer(NotNull<std::unique_ptr<AudioStreamIn>> audioStream)
+AudioBuffer::AudioBuffer(AudioStreamIn& audioStream)
   : NonCopyable()
   , mHandle(al::BufferHandle::generate())
 {
-  setData(std::move(audioStream));
+  setData(audioStream);
+}
+
+
+
+AudioBuffer::AudioBuffer(AudioStreamIn&& audioStream)
+  : NonCopyable()
+  , mHandle(al::BufferHandle::generate())
+{
+  setData(audioStream);
 }
 
 
@@ -127,10 +136,18 @@ void AudioBuffer::setData(
 
 
 
-void AudioBuffer::setData(NotNull<std::unique_ptr<AudioStreamIn>> audioStream)
+void AudioBuffer::setData(AudioStreamIn& audioStream)
 {
-  setData(audioStream->readAll<std::vector<uint8_t>>(),
-    audioStream->getFormat(), audioStream->getSampleRate());
+  setData(audioStream.readAll<std::vector<uint8_t>>(), audioStream.getFormat(),
+    audioStream.getSampleRate());
+}
+
+
+
+void AudioBuffer::setData(AudioStreamIn&& audioStream)
+{
+  setData(audioStream.readAll<std::vector<uint8_t>>(), audioStream.getFormat(),
+    audioStream.getSampleRate());
 }
 
 }  // namespace hou

@@ -92,7 +92,9 @@ TEST_F(TestAudioBuffer, DataMoveConstructor)
 
 TEST_F(TestAudioBuffer, StreamConstructor)
 {
-  AudioBuffer ab(std::make_unique<WavFileIn>(wavStereo16FileName));
+  WavFileIn fi(wavStereo16FileName);
+  fi.setSamplePos(12u);
+  AudioBuffer ab(fi);
 
   EXPECT_NE(0u, ab.getHandle().getName());
   EXPECT_EQ(84924u, ab.getByteCount());
@@ -101,16 +103,14 @@ TEST_F(TestAudioBuffer, StreamConstructor)
   EXPECT_EQ(2u, ab.getChannelCount());
   EXPECT_EQ(2u, ab.getBytesPerSample());
   EXPECT_EQ(44100, ab.getSampleRate());
+  EXPECT_EQ(fi.getByteCount(), static_cast<size_t>(fi.getBytePos()));
 }
 
 
 
-TEST_F(TestAudioBuffer, ExistingStreamConstructor)
+TEST_F(TestAudioBuffer, StreamMoveConstructor)
 {
-  std::unique_ptr<WavFileIn> fi
-    = std::make_unique<WavFileIn>(wavStereo16FileName);
-  fi->setSamplePos(12u);
-  AudioBuffer ab(std::move(fi));
+  AudioBuffer ab = AudioBuffer(WavFileIn(wavStereo16FileName));
 
   EXPECT_NE(0u, ab.getHandle().getName());
   EXPECT_EQ(84924u, ab.getByteCount());
@@ -220,7 +220,36 @@ TEST_F(TestAudioBuffer, setDataFromStream)
   EXPECT_EQ(2u, ab.getBytesPerSample());
   EXPECT_EQ(114, ab.getSampleRate());
 
-  ab.setData(std::make_unique<WavFileIn>(wavStereo16FileName));
+  WavFileIn fi(wavStereo16FileName);
+  fi.setSamplePos(4u);
+  ab.setData(fi);
+
+  EXPECT_EQ(84924u, ab.getByteCount());
+  EXPECT_EQ(21231u, ab.getSampleCount());
+  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.getFormat());
+  EXPECT_EQ(2u, ab.getChannelCount());
+  EXPECT_EQ(2u, ab.getBytesPerSample());
+  EXPECT_EQ(44100, ab.getSampleRate());
+}
+
+
+
+TEST_F(TestAudioBuffer, setDataFromStreamWithMove)
+{
+  std::vector<uint8_t> dataRef1{1u, 2u, 3u, 4u};
+  AudioBuffer ab(dataRef1, AudioBufferFormat::Stereo16, 114);
+
+  EXPECT_EQ(dataRef1.size(), ab.getByteCount());
+  EXPECT_EQ(dataRef1.size()
+      / (getAudioBufferFormatChannelCount(ab.getFormat())
+          * getAudioBufferFormatBytesPerSample(ab.getFormat())),
+    ab.getSampleCount());
+  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.getFormat());
+  EXPECT_EQ(2u, ab.getChannelCount());
+  EXPECT_EQ(2u, ab.getBytesPerSample());
+  EXPECT_EQ(114, ab.getSampleRate());
+
+  ab.setData(WavFileIn(wavStereo16FileName));
 
   EXPECT_EQ(84924u, ab.getByteCount());
   EXPECT_EQ(21231u, ab.getSampleCount());

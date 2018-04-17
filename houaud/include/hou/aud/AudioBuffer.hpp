@@ -14,10 +14,8 @@
 #include "hou/al/AlBufferHandle.hpp"
 
 #include "hou/cor/BasicTypes.hpp"
-#include "hou/cor/NotNull.hpp"
 #include "hou/cor/Span.hpp"
 
-#include <memory>
 #include <vector>
 
 
@@ -69,7 +67,13 @@ public:
    *
    *  \param audioStream the audioStream.
    */
-  explicit AudioBuffer(NotNull<std::unique_ptr<AudioStreamIn>> audioStream);
+  explicit AudioBuffer(AudioStreamIn& audioStream);
+
+  /** Creates an AudioBuffer object with the data from the given stream.
+   *
+   *  \param audioStream the audioStream.
+   */
+  explicit AudioBuffer(AudioStreamIn&& audioStream);
 
   /** Move constructor.
    *
@@ -143,7 +147,13 @@ public:
    *
    *  \param audioStream the audio stream.
    */
-  void setData(NotNull<std::unique_ptr<AudioStreamIn>> audioStream);
+  void setData(AudioStreamIn& audioStream);
+
+  /** Sets the buffer data by reading the provided AudioStreamIn)
+   *
+   *  \param audioStream the audio stream.
+   */
+  void setData(AudioStreamIn&& audioStream);
 
 private:
   al::BufferHandle mHandle;
