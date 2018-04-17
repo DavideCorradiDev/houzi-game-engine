@@ -66,6 +66,10 @@ TEST_F(TestGraphicContext, SetCurrent)
     GraphicContext::unsetCurrent();
     EXPECT_FALSE(rc1.isCurrent());
     EXPECT_FALSE(rc2.isCurrent());
+
+    GraphicContext::unsetCurrent();
+    EXPECT_FALSE(rc1.isCurrent());
+    EXPECT_FALSE(rc2.isCurrent());
   }
   EXPECT_EQ(nullptr, gl::Context::getCurrent());
 }

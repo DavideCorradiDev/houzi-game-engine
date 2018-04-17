@@ -39,6 +39,10 @@ public:
    */
   static void setCurrent(AudioContext& context);
 
+  /** Unsets the current AudioContext.
+   */
+  static void unsetCurrent();
+
   /** Gets a list of the names of the available audio devices.
    *
    *  \return a list of the names of the available audio devices.
@@ -67,9 +71,6 @@ public:
    *  \return true if this is the current context.
    */
   bool isCurrent() const;
-
-private:
-  void initialize();
 
 private:
   al::Device mAlDevice;

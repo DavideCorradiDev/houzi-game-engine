@@ -47,7 +47,7 @@ TEST(TestAudioContext, SetCurrent)
     AudioContext ctx2;
 
     EXPECT_FALSE(ctx1.isCurrent());
-    EXPECT_TRUE(ctx2.isCurrent());
+    EXPECT_FALSE(ctx2.isCurrent());
 
     AudioContext::setCurrent(ctx1);
     EXPECT_TRUE(ctx1.isCurrent());
@@ -60,6 +60,14 @@ TEST(TestAudioContext, SetCurrent)
     AudioContext::setCurrent(ctx2);
     EXPECT_FALSE(ctx1.isCurrent());
     EXPECT_TRUE(ctx2.isCurrent());
+
+    AudioContext::unsetCurrent();
+    EXPECT_FALSE(ctx1.isCurrent());
+    EXPECT_FALSE(ctx2.isCurrent());
+
+    AudioContext::unsetCurrent();
+    EXPECT_FALSE(ctx1.isCurrent());
+    EXPECT_FALSE(ctx2.isCurrent());
   }
   EXPECT_EQ(nullptr, al::Context::getCurrent());
 }

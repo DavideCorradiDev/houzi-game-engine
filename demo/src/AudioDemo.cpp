@@ -55,6 +55,7 @@ int main()
   }
 
   AudioContext ac;
+  AudioContext::setCurrent(ac);
 
   ALfloat listenerPos[] = {0.f, 0.f, 0.f};
   ALfloat listenerVel[] = {0.f, 0.f, 0.f};
