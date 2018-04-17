@@ -649,6 +649,36 @@ TEST_F(TestWavFileInDeathTest, ReadToInvalidSizeBuffer)
 
 
 
+TEST_F(TestWavFileIn, ReadAllToVector)
+{
+  WavFileIn fi(mono8FileName);
+  std::vector<uint8_t> fileContent(fi.getByteCount());
+  fi.read(fileContent);
+  fi.setBytePos(0u);
+
+  auto fiContent = fi.readAll<std::vector<uint8_t>>();
+  EXPECT_EQ(fileContent, fiContent);
+  EXPECT_EQ(fileContent.size(), fi.getReadByteCount());
+  EXPECT_EQ(fileContent.size(), static_cast<size_t>(fi.getBytePos()));
+}
+
+
+
+TEST_F(TestWavFileIn, ReadAllToVectorNotFromStart)
+{
+  WavFileIn fi(mono8FileName);
+  std::vector<uint8_t> fileContent(fi.getByteCount());
+  fi.read(fileContent);
+  fi.setBytePos(2u);
+
+  auto fiContent = fi.readAll<std::vector<uint8_t>>();
+  EXPECT_EQ(fileContent, fiContent);
+  EXPECT_EQ(fileContent.size(), fi.getReadByteCount());
+  EXPECT_EQ(fileContent.size(), static_cast<size_t>(fi.getBytePos()));
+}
+
+
+
 TEST_F(TestWavFileIn, Eof)
 {
   WavFileIn fi(mono16FileName);

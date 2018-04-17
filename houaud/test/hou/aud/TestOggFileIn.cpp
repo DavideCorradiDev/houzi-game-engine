@@ -550,6 +550,36 @@ TEST_F(TestOggFileInDeathTest, ReadToInvalidSizeBuffer)
 
 
 
+TEST_F(TestOggFileIn, ReadAllToVector)
+{
+  OggFileIn fi(mono16FileName);
+  std::vector<uint8_t> fileContent(fi.getByteCount());
+  fi.read(fileContent);
+  fi.setBytePos(0u);
+
+  auto fiContent = fi.readAll<std::vector<uint8_t>>();
+  EXPECT_EQ(fileContent, fiContent);
+  EXPECT_EQ(fileContent.size(), fi.getReadByteCount());
+  EXPECT_EQ(fileContent.size(), static_cast<size_t>(fi.getBytePos()));
+}
+
+
+
+TEST_F(TestOggFileIn, ReadAllToVectorNotFromStart)
+{
+  OggFileIn fi(mono16FileName);
+  std::vector<uint8_t> fileContent(fi.getByteCount());
+  fi.read(fileContent);
+  fi.setBytePos(2u);
+
+  auto fiContent = fi.readAll<std::vector<uint8_t>>();
+  EXPECT_EQ(fileContent, fiContent);
+  EXPECT_EQ(fileContent.size(), fi.getReadByteCount());
+  EXPECT_EQ(fileContent.size(), static_cast<size_t>(fi.getBytePos()));
+}
+
+
+
 TEST_F(TestOggFileIn, Eof)
 {
   OggFileIn fi(mono16FileName);

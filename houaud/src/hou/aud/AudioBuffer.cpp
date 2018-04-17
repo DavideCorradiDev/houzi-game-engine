@@ -129,12 +129,8 @@ void AudioBuffer::setData(
 
 void AudioBuffer::setData(NotNull<std::unique_ptr<AudioStreamIn>> audioStream)
 {
-  audioStream->setBytePos(0u);
-  std::vector<uint8_t> data;
-  data.resize(audioStream->getByteCount());
-  audioStream->read(data);
-  HOU_ENSURE(data.size() == audioStream->getReadByteCount());
-  setData(data, audioStream->getFormat(), audioStream->getSampleRate());
+  setData(audioStream->readAll<std::vector<uint8_t>>(),
+    audioStream->getFormat(), audioStream->getSampleRate());
 }
 
 }  // namespace hou
