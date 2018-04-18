@@ -13,6 +13,7 @@ std::unique_ptr<hou::AudioContext> TestAudBase::sContext(nullptr);
 void TestAudBase::SetUpTestCase()
 {
   sContext = std::make_unique<hou::AudioContext>();
+  hou::AudioContext::setCurrent(*sContext);
 }
 
 
@@ -31,4 +32,3 @@ TestAudBase::TestAudBase()
 
 TestAudBase::~TestAudBase()
 {}
-

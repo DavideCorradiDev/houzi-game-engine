@@ -24,9 +24,20 @@ public:
   /** Destructor.
    */
   virtual ~BinaryStreamIn() {};
+
+  /** Reads the whole contents of the stream into memory.
+   *
+   *  \tparam T the container type to return.
+   *
+   *  \return a container containing the whole content of the file.
+   */
+  template <typename T>
+    std::enable_if_t<isContiguousContainer<T>::value, T> readAll();
 };
 
 }
+
+#include "hou/sys/BinaryStreamIn.inl"
 
 #endif
 

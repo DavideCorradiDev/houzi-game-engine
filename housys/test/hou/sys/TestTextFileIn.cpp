@@ -266,6 +266,34 @@ TEST_F(TestTextFileIn, ReadToSpan)
 
 
 
+TEST_F(TestTextFileIn, ReadAllToVector)
+{
+  TextFileIn fi(fileName);
+  auto fiContent = fi.readAll<std::vector<uint8_t>>();
+
+  EXPECT_EQ(fileContent, fiContent);
+  EXPECT_EQ(fileContent.size(), fi.getReadByteCount());
+}
+
+
+
+TEST_F(TestTextFileIn, ReadAllToVectorNotFromStart)
+{
+  TextFileIn fi(fileName);
+
+  std::string buffer(2, 0);
+  EXPECT_EQ(TextFileIn::TextPosition::Start, fi.getTextPos());
+  fi.read(buffer);
+  EXPECT_NE(TextFileIn::TextPosition::Start, fi.getTextPos());
+
+  auto fiContent = fi.readAll<std::vector<uint8_t>>();
+
+  EXPECT_EQ(fileContent, fiContent);
+  EXPECT_EQ(fileContent.size(), fi.getReadByteCount());
+}
+
+
+
 TEST_F(TestTextFileIn, Eof)
 {
   TextFileIn fi(fileName);

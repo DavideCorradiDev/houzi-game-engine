@@ -16,6 +16,13 @@ void AudioContext::setCurrent(AudioContext& context)
 
 
 
+void AudioContext::unsetCurrent()
+{
+  al::Context::unsetCurrent();
+}
+
+
+
 std::vector<std::string> AudioContext::getDeviceNames()
 {
   return al::Device::getDeviceNames();
@@ -28,7 +35,7 @@ AudioContext::AudioContext()
   , mAlDevice()
   , mAlContext(mAlDevice)
 {
-  initialize();
+  alGetError();
 }
 
 
@@ -38,7 +45,7 @@ AudioContext::AudioContext(const std::string& deviceName)
   , mAlDevice(deviceName)
   , mAlContext(mAlDevice)
 {
-  initialize();
+  alGetError();
 }
 
 
@@ -53,14 +60,6 @@ AudioContext::AudioContext(AudioContext&& other)
 bool AudioContext::isCurrent() const
 {
   return mAlContext.isCurrent();
-}
-
-
-
-void AudioContext::initialize()
-{
-  alGetError();
-  setCurrent(*this);
 }
 
 }

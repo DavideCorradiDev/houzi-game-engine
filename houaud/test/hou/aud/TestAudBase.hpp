@@ -13,8 +13,7 @@
 
 
 
-class TestAudBase
-  : public ::testing::Test
+class TestAudBase : public ::testing::Test
 {
 public:
   static void SetUpTestCase();
@@ -29,4 +28,3 @@ public:
 };
 
 #endif
-

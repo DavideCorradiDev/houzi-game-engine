@@ -14,7 +14,7 @@ namespace hou
 EmptyAudioStreamIn::EmptyAudioStreamIn()
   : AudioStreamIn()
 {
-  setAudioFormat(1u, 1u);
+  setFormat(1u, 1u);
   setSampleRate(1u);
 }
 

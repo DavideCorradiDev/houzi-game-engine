@@ -8,15 +8,14 @@
 #include "hou/aud/AudExport.hpp"
 #include "hou/cor/NonCopyable.hpp"
 
-#include "hou/aud/AudioFormat.hpp"
+#include "hou/aud/AudioBufferFormat.hpp"
 #include "hou/aud/AudioStreamIn.hpp"
 
-#include "hou/al/AlBuffer.hpp"
+#include "hou/al/AlBufferHandle.hpp"
 
 #include "hou/cor/BasicTypes.hpp"
-#include "hou/cor/NotNull.hpp"
+#include "hou/cor/Span.hpp"
 
-#include <memory>
 #include <vector>
 
 
@@ -33,29 +32,48 @@ namespace hou
  *  save resources.
  *  An AudioBuffer object loads the whole audio data into memory.
  *  For large audio data this might be expensive.
- *  In that case, it is suggested to use audio streams and a StreamingAudioSource.
+ *  In that case, it is suggested to use audio streams and a
+ * StreamingAudioSource.
  */
-class HOU_AUD_API AudioBuffer
-  : public NonCopyable
+class HOU_AUD_API AudioBuffer : public NonCopyable
 {
 public:
-  friend class AudioSource;
-  friend class StreamingAudioSource;
+  /** Creates an empty AudioBuffer.
+   *
+   *  The buffer is created with one single sample set to 0, Mono16 format, and
+   * a frequency of 1 sample per second.
+   */
+  AudioBuffer();
 
-public:
   /** Creates an AudioBuffer object with the given parameters.
    *
    *  \param data the data.
    *  \param format the audio format.
    *  \param smpRate the sample rate.
    */
-  AudioBuffer(const std::vector<uint8_t>& data, AudioFormat format, int smpRate);
+  AudioBuffer(
+    const Span<const uint8_t>& data, AudioBufferFormat format, int smpRate);
+
+  /** Creates an AudioBuffer object with the given parameters, moving the data.
+   *
+   *  \param data the data.
+   *  \param format the audio format.
+   *  \param smpRate the sample rate.
+   */
+  AudioBuffer(
+    std::vector<uint8_t>&& data, AudioBufferFormat format, int smpRate);
 
   /** Creates an AudioBuffer object with the data from the given stream.
    *
    *  \param audioStream the audioStream.
    */
-  explicit AudioBuffer(NotNull<std::unique_ptr<AudioStreamIn>> audioStream);
+  explicit AudioBuffer(AudioStreamIn& audioStream);
+
+  /** Creates an AudioBuffer object with the data from the given stream.
+   *
+   *  \param audioStream the audioStream.
+   */
+  explicit AudioBuffer(AudioStreamIn&& audioStream);
 
   /** Move constructor.
    *
@@ -63,11 +81,17 @@ public:
    */
   AudioBuffer(AudioBuffer&& other);
 
+  /** Gets the OpenAL buffer handle.
+   *
+   *  \return the OpenAL buffer handle.
+   */
+  const al::BufferHandle& getHandle() const;
+
   /** Gets the audio format of the buffer.
    *
    *  \return the audio format of the buffer.
    */
-  AudioFormat getAudioFormat() const;
+  AudioBufferFormat getFormat() const;
 
   /** Gets the number of channels of the buffer, based on its audio format.
    *
@@ -75,10 +99,11 @@ public:
    */
   uint getChannelCount() const;
 
-  /** Gets the number of bytes per sample of the buffer, based on its audio format.
+  /** Gets the number of bytes per sample of the buffer, based on its audio
+   * format.
    *
-   *  The number returned is the number of bytes per sample for a single channel.
-   *  \return 1 for 8-bit audio formats, 2 for 16-bit audio formats.
+   *  The number returned is the number of bytes per sample for a single
+   * channel. \return 1 for 8-bit audio formats, 2 for 16-bit audio formats.
    */
   uint getBytesPerSample() const;
 
@@ -92,13 +117,13 @@ public:
    *
    *  \return the number of bytes in the channel.
    */
-  size_t getByteCount() const;
+  uint getByteCount() const;
 
   /** Gets the number of samples in the buffer for a single channel.
    *
    *  \return the number of samples in the buffer for a single channel.
    */
-  size_t getSampleCount() const;
+  uint getSampleCount() const;
 
   /** Sets the buffer data with the provided values.
    *
@@ -106,19 +131,34 @@ public:
    *  \param format the audio format.
    *  \param smlRate the sample rate.
    */
-  void setData(const std::vector<uint8_t>& data, AudioFormat format, int smlRate);
+  void setData(
+    const Span<const uint8_t>& data, AudioBufferFormat format, int smlRate);
+
+  /** Sets the buffer data with the provided values, moving the data.
+   *
+   *  \param data the data.
+   *  \param format the audio format.
+   *  \param smlRate the sample rate.
+   */
+  void setData(
+    std::vector<uint8_t>&& data, AudioBufferFormat format, int smlRate);
 
   /** Sets the buffer data by reading the provided AudioStreamIn)
    *
    *  \param audioStream the audio stream.
    */
-  void setData(NotNull<std::unique_ptr<AudioStreamIn>> audioStream);
+  void setData(AudioStreamIn& audioStream);
+
+  /** Sets the buffer data by reading the provided AudioStreamIn)
+   *
+   *  \param audioStream the audio stream.
+   */
+  void setData(AudioStreamIn&& audioStream);
 
 private:
-  al::Buffer mAlBuffer;
+  al::BufferHandle mHandle;
 };
 
-}
+}  // namespace hou
 
 #endif
-

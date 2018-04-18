@@ -11,7 +11,7 @@ namespace hou
 
 AudioStream::AudioStream()
   : BinaryStream()
-  , mFormat(AudioFormat::Mono8)
+  , mFormat(AudioBufferFormat::Mono8)
   , mSampleRate(0u)
 {}
 
@@ -22,7 +22,7 @@ AudioStream::~AudioStream()
 
 
 
-AudioFormat AudioStream::getAudioFormat() const
+AudioBufferFormat AudioStream::getFormat() const
 {
   return mFormat;
 }
@@ -31,14 +31,14 @@ AudioFormat AudioStream::getAudioFormat() const
 
 uint AudioStream::getChannelCount() const
 {
-  return getAudioFormatChannelCount(mFormat);
+  return getAudioBufferFormatChannelCount(mFormat);
 }
 
 
 
 uint AudioStream::getBytesPerSample() const
 {
-  return getAudioFormatBytesPerSample(mFormat);
+  return getAudioBufferFormatBytesPerSample(mFormat);
 }
 
 
@@ -50,9 +50,9 @@ uint AudioStream::getSampleRate() const
 
 
 
-void AudioStream::setAudioFormat(uint channels, uint bytesPerSample)
+void AudioStream::setFormat(uint channels, uint bytesPerSample)
 {
-  mFormat = getAudioFormatEnum(channels, bytesPerSample);
+  mFormat = getAudioBufferFormatEnum(channels, bytesPerSample);
 }
 
 
@@ -62,5 +62,4 @@ void AudioStream::setSampleRate(uint sampleRate)
   mSampleRate = sampleRate;
 }
 
-}
-
+}  // namespace hou

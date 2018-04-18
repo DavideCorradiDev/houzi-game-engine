@@ -37,6 +37,7 @@ INCLUDE_DIRECTORIES(
 SET(EXE_HOUAUD_TEST_SRC
   ${LIB_HOUTEST_SOURCE_DIR}/src/TestMain.cpp
   hou/aud/TestAudBase.cpp
+  hou/aud/TestAudBaseTestSpecificContext.cpp
   hou/aud/TestAudioBuffer.cpp
   hou/aud/TestAudioContext.cpp
   hou/aud/TestAudioSource.cpp
@@ -45,6 +46,7 @@ SET(EXE_HOUAUD_TEST_SRC
   hou/aud/TestEmptyAudioStreamIn.cpp
   hou/aud/TestListener.cpp
   hou/aud/TestOggFileIn.cpp
+  hou/aud/TestSoundModel.cpp
   hou/aud/TestStreamingAudioSource.cpp
   hou/aud/TestWavFileIn.cpp
 )

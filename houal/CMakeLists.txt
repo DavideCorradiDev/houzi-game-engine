@@ -31,8 +31,6 @@ INCLUDE_DIRECTORIES(
 
 # Source files.
 SET(LIB_HOUAL_SRC
-  src/hou/al/AlBuffer.cpp
-  src/hou/al/AlBufferFormat.cpp
   src/hou/al/AlBufferHandle.cpp
   src/hou/al/AlCheck.cpp
   src/hou/al/AlContext.cpp
@@ -40,7 +38,6 @@ SET(LIB_HOUAL_SRC
   src/hou/al/AlError.cpp
   src/hou/al/AlListener.cpp
   src/hou/al/AlObjectHandle.cpp
-  src/hou/al/AlSource.cpp
   src/hou/al/AlSourceHandle.cpp
   src/hou/al/AlState.cpp
 )

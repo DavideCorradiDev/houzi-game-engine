@@ -8,8 +8,6 @@
 #include "hou/al/AlExport.hpp"
 #include "hou/al/AlObjectHandle.hpp"
 
-#include "hou/al/AlSourceState.hpp"
-
 
 
 namespace hou
@@ -68,8 +66,8 @@ HOU_AL_API ALboolean getSourceRelative(const SourceHandle& s);
 HOU_AL_API void setSourceLooping(const SourceHandle& s, ALboolean looping);
 HOU_AL_API ALboolean getSourceLooping(const SourceHandle& s);
 
-HOU_AL_API void setSourceState(const SourceHandle& s, SourceState state);
-HOU_AL_API SourceState getSourceState(const SourceHandle& s);
+HOU_AL_API void setSourceState(const SourceHandle& s, ALenum state);
+HOU_AL_API ALenum getSourceState(const SourceHandle& s);
 HOU_AL_API void playSource(const SourceHandle& s);
 HOU_AL_API void pauseSource(const SourceHandle& s);
 HOU_AL_API void stopSource(const SourceHandle& s);

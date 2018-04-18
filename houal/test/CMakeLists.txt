@@ -37,13 +37,11 @@ INCLUDE_DIRECTORIES(
 SET(EXE_HOUAL_TEST_SRC
   ${LIB_HOUTEST_SOURCE_DIR}/src/TestMain.cpp
   hou/al/TestAlBase.cpp
-  hou/al/TestAlBuffer.cpp
   hou/al/TestAlBufferHandle.cpp
   hou/al/TestAlCheck.cpp
   hou/al/TestAlContext.cpp
   hou/al/TestAlDevice.cpp
   hou/al/TestAlListener.cpp
-  hou/al/TestAlSource.cpp
   hou/al/TestAlSourceHandle.cpp
   hou/al/TestAlState.cpp
 )

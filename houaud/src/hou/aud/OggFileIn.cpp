@@ -205,7 +205,7 @@ void OggFileIn::readMetadata()
 {
   vorbis_info* info = ov_info(mVorbisFile.get(), -1);
   HOU_EXPECT(info != nullptr);
-  setAudioFormat(info->channels, bytesPerSample);
+  setFormat(info->channels, bytesPerSample);
   setSampleRate(info->rate);
   mPcmSize = ov_pcm_total(mVorbisFile.get(), -1);
 }

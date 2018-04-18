@@ -16,11 +16,9 @@
 #include "hou/cor/Stopwatch.hpp"
 #include "hou/mth/Transform2.hpp"
 
-#include "hou/al/AlBuffer.hpp"
 #include "hou/al/AlContext.hpp"
 #include "hou/al/AlDevice.hpp"
 #include "hou/al/AlListener.hpp"
-#include "hou/al/AlSource.hpp"
 
 #include "hou/aud/AudioContext.hpp"
 #include "hou/aud/AudioBuffer.hpp"
@@ -57,6 +55,7 @@ int main()
   }
 
   AudioContext ac;
+  AudioContext::setCurrent(ac);
 
   ALfloat listenerPos[] = {0.f, 0.f, 0.f};
   ALfloat listenerVel[] = {0.f, 0.f, 0.f};
@@ -69,7 +68,7 @@ int main()
   std::string filename = "houaud/test/data/TestWav-Stereo-16-44100.wav";
   // std::string longFilename = "demo/data/longsound.wav";
   std::string longFilename = "demo/data/test.ogg";
-  AudioBuffer buffer(std::make_unique<WavFileIn>(filename));
+  AudioBuffer buffer = AudioBuffer(WavFileIn(filename));
   AudioSource source(&buffer);
   StreamingAudioSource sas(std::make_unique<OggFileIn>(longFilename));
   sas.setLooping(false);

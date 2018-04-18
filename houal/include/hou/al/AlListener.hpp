@@ -29,9 +29,8 @@ HOU_AL_API void getListenerVelocity(ALfloat* value);
 HOU_AL_API void setListenerOrientation(const ALfloat* value);
 HOU_AL_API void getListenerOrientation(ALfloat* value);
 
-}
+}  // namespace al
 
-}
+}  // namespace hou
 
 #endif
-

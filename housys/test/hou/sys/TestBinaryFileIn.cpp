@@ -308,6 +308,31 @@ TEST_F(TestBinaryFileIn, ReadToSpan)
 
 
 
+TEST_F(TestBinaryFileIn, ReadAllToVector)
+{
+  BinaryFileIn fi(fileName);
+  auto fiContent = fi.readAll<std::vector<uint8_t>>();
+
+  EXPECT_EQ(fileContent, fiContent);
+  EXPECT_EQ(fileContent.size(), fi.getReadByteCount());
+  EXPECT_EQ(fileContent.size(), static_cast<size_t>(fi.getBytePos()));
+}
+
+
+
+TEST_F(TestBinaryFileIn, ReadAllToVectorNotFromStart)
+{
+  BinaryFileIn fi(fileName);
+  fi.setBytePos(2u);
+  auto fiContent = fi.readAll<std::vector<uint8_t>>();
+
+  EXPECT_EQ(fileContent, fiContent);
+  EXPECT_EQ(fileContent.size(), fi.getReadByteCount());
+  EXPECT_EQ(fileContent.size(), static_cast<size_t>(fi.getBytePos()));
+}
+
+
+
 TEST_F(TestBinaryFileIn, Eof)
 {
   BinaryFileIn fi(fileName);
