@@ -46,6 +46,7 @@ SET(EXE_HOUAUD_TEST_SRC
   hou/aud/TestEmptyAudioStreamIn.cpp
   hou/aud/TestListener.cpp
   hou/aud/TestOggFileIn.cpp
+  hou/aud/TestSoundModel.cpp
   hou/aud/TestStreamingAudioSource.cpp
   hou/aud/TestWavFileIn.cpp
 )

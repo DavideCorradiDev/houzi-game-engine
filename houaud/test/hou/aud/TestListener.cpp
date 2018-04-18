@@ -7,8 +7,6 @@
 
 #include "hou/aud/Listener.hpp"
 
-#include "hou/cor/CorError.hpp"
-
 #include "hou/mth/Matrix.hpp"
 #include "hou/mth/MthUtils.hpp"
 #include "hou/mth/Rotation3.hpp"
@@ -41,8 +39,7 @@ TEST_F(TestListener, Gain)
 
 TEST_F(TestListenerDeathTest, InvalidGain)
 {
-  HOU_EXPECT_ERROR(
-    Listener::setGain(-1.f), std::logic_error, getText(CorError::Precondition));
+  HOU_EXPECT_PRECONDITION(Listener::setGain(-1.f));
 }
 
 

@@ -2,6 +2,8 @@
 
 #include "hou/al/AlState.hpp"
 
+#include "hou/cor/Error.hpp"
+
 
 
 namespace hou
@@ -33,6 +35,7 @@ float getDopplerFactor()
 
 void setDopplerFactor(float dopplerFactor)
 {
+  HOU_EXPECT(dopplerFactor >= 0.f);
   al::setDopplerFactor(static_cast<ALfloat>(dopplerFactor));
 }
 
@@ -47,6 +50,7 @@ float getSpeedOfSound()
 
 void setSpeedOfSound(float speedOfSound)
 {
+  HOU_EXPECT(speedOfSound > 0.f);
   al::setSpeedOfSound(static_cast<ALfloat>(speedOfSound));
 }
 
