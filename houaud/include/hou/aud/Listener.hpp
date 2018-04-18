@@ -24,6 +24,12 @@ namespace hou
 namespace Listener
 {
 
+/** Gets the gain of the listener.
+ *
+ *  \return the gain of the listener.
+ */
+HOU_AUD_API float getGain();
+
 /** Sets the gain of the listener.
  *
  *  The default value is 1.
@@ -34,11 +40,11 @@ namespace Listener
  */
 HOU_AUD_API void setGain(float gain);
 
-/** Gets the gain of the listener.
+/** Gets the current position of the listener in 3d space.
  *
- *  \return the gain of the listener.
+ *  \return the current position of the listener.
  */
-HOU_AUD_API float getGain();
+HOU_AUD_API Vec3f getPosition();
 
 /** Sets the position of the listener in 3d space.
  *
@@ -48,11 +54,11 @@ HOU_AUD_API float getGain();
  */
 HOU_AUD_API void setPosition(const Vec3f& pos);
 
-/** Gets the current position of the listener in 3d space.
+/** Gets the current linear velocity of the listener.
  *
- *  \return the current position of the listener.
+ *  \return the linear velocity.
  */
-HOU_AUD_API Vec3f getPosition();
+HOU_AUD_API Vec3f getVelocity();
 
 /** Sets the current linear velocity of the listener.
  *
@@ -62,11 +68,11 @@ HOU_AUD_API Vec3f getPosition();
  */
 HOU_AUD_API void setVelocity(const Vec3f& vel);
 
-/** Gets the current linear velocity of the listener.
+/** Gets the orientation of the listener.
  *
- *  \return the linear velocity.
+ *  \return the orientation of the listener.
  */
-HOU_AUD_API Vec3f getVelocity();
+HOU_AUD_API Rot3f getOrientation();
 
 /** Gets the current orientation of the listener.
  *
@@ -78,15 +84,8 @@ HOU_AUD_API Vec3f getVelocity();
  */
 HOU_AUD_API void setOrientation(const Rot3f& ori);
 
-/** Gets the orientation of the listener.
- *
- *  \return the orientation of the listener.
- */
-HOU_AUD_API Rot3f getOrientation();
+}  // namespace Listener
 
-}
-
-}
+}  // namespace hou
 
 #endif
-
