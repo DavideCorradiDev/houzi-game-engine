@@ -1,4 +1,4 @@
-#include "hou/aud/AudioModel.hpp"
+#include "hou/aud/SoundModel.hpp"
 
 #include "hou/al/AlState.hpp"
 
@@ -7,17 +7,17 @@
 namespace hou
 {
 
-namespace AudioModel
+namespace SoundModel
 {
 
-AudioDistanceModel getDistanceModel()
+SoundDistanceModel getDistanceModel()
 {
-  return AudioDistanceModel(al::getDistanceModel());
+  return SoundDistanceModel(al::getDistanceModel());
 }
 
 
 
-void setDistanceModel(AudioDistanceModel model)
+void setDistanceModel(SoundDistanceModel model)
 {
   al::setDistanceModel(static_cast<ALenum>(model));
 }
@@ -50,6 +50,6 @@ void setSpeedOfSound(float speedOfSound)
   al::setSpeedOfSound(static_cast<ALfloat>(speedOfSound));
 }
 
-}  // namespace AudioModel
+}  // namespace SoundModel
 
 }  // namespace hou

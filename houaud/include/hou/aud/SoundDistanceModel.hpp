@@ -2,8 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#ifndef HOU_AUD_AUDIO_DISTANCE_MODEL_HPP
-#define HOU_AUD_AUDIO_DISTANCE_MODEL_HPP
+#ifndef HOU_AUD_SOUND_DISTANCE_MODEL_HPP
+#define HOU_AUD_SOUND_DISTANCE_MODEL_HPP
 
 #include "hou/aud/AudExport.hpp"
 
@@ -18,7 +18,7 @@ namespace hou
 
 /** Enumeration class for sound distance models.
  */
-enum class AudioDistanceModel : ALenum
+enum class SoundDistanceModel : ALenum
 {
   InverseDistance = AL_INVERSE_DISTANCE,
   InverseDistanceClamped = AL_INVERSE_DISTANCE_CLAMPED,
@@ -31,10 +31,10 @@ enum class AudioDistanceModel : ALenum
 /** Writes the object into a stream.
  *
  *  \param os the stream.
- *  \param dm the AudioDistanceModel enum.
+ *  \param dm the SoundDistanceModel enum.
  *  \return a reference to the stream.
  */
-HOU_AUD_API std::ostream& operator<<(std::ostream& os, AudioDistanceModel dm);
+HOU_AUD_API std::ostream& operator<<(std::ostream& os, SoundDistanceModel dm);
 
 }  // namespace hou
 

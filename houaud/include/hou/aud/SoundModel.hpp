@@ -2,23 +2,23 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#ifndef HOU_AUD_AUDIO_MODEL_HPP
-#define HOU_AUD_AUDIO_MODEL_HPP
+#ifndef HOU_AUD_SOUND_MODEL_HPP
+#define HOU_AUD_SOUND_MODEL_HPP
 
 #include "hou/aud/AudExport.hpp"
 
-#include "hou/aud/AudioDistanceModel.hpp"
+#include "hou/aud/SoundDistanceModel.hpp"
 
 
 
 namespace hou
 {
 
-namespace AudioModel
+namespace SoundModel
 {
 
-HOU_AUD_API AudioDistanceModel getDistanceModel();
-HOU_AUD_API void setDistanceModel(AudioDistanceModel model);
+HOU_AUD_API SoundDistanceModel getDistanceModel();
+HOU_AUD_API void setDistanceModel(SoundDistanceModel model);
 
 HOU_AUD_API float getDopplerFactor();
 HOU_AUD_API void setDopplerFactor(float dopplerFactor);
@@ -26,7 +26,7 @@ HOU_AUD_API void setDopplerFactor(float dopplerFactor);
 HOU_AUD_API float getSpeedOfSound();
 HOU_AUD_API void setSpeedOfSound(float speedOfSound);
 
-}  // namespace AudioModel
+}  // namespace SoundModel
 
 }  // namespace hou
 
