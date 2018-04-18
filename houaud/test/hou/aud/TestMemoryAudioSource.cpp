@@ -8,7 +8,7 @@
 #include "hou/aud/AudioBuffer.hpp"
 #include "hou/aud/MemoryAudioSource.hpp"
 
-#include "hou/mth/MthUtils.hpp"
+#include "hou/mth/MathFunctions.hpp"
 
 using namespace hou;
 

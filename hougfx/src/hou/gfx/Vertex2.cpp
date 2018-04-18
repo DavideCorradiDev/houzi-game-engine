@@ -6,7 +6,7 @@
 
 #include "hou/gfx/VertexFormat.hpp"
 
-#include "hou/mth/MthUtils.hpp"
+#include "hou/mth/MathFunctions.hpp"
 #include "hou/mth/Rectangle.hpp"
 
 

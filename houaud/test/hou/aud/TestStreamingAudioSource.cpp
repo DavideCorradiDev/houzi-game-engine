@@ -13,7 +13,7 @@
 
 #include "hou/cor/CorError.hpp"
 
-#include "hou/mth/MthUtils.hpp"
+#include "hou/mth/MathFunctions.hpp"
 
 using namespace hou;
 

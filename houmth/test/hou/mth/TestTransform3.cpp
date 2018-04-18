@@ -4,7 +4,7 @@
 
 #include "hou/Test.hpp"
 
-#include "hou/mth/MthUtils.hpp"
+#include "hou/mth/MathFunctions.hpp"
 #include "hou/mth/Rectangle.hpp"
 #include "hou/mth/Transform3.hpp"
 

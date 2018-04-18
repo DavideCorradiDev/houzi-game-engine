@@ -7,7 +7,7 @@
 #include "hou/sys/VideoMode.hpp"
 
 #include "hou/gl/GlContextSettings.hpp"
-#include "hou/gl/GlUtils.hpp"
+#include "hou/gl/GlFunctions.hpp"
 
 
 

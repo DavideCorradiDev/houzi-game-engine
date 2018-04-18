@@ -5,7 +5,7 @@
 #include "hou/gfx/GraphicContext.hpp"
 
 #include "hou/gl/GlContextSettings.hpp"
-#include "hou/gl/GlUtils.hpp"
+#include "hou/gl/GlFunctions.hpp"
 
 #include "hou/sys/VideoMode.hpp"
 

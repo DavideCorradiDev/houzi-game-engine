@@ -43,6 +43,7 @@ SET(EXE_HOUGL_TEST_SRC
   hou/gl/TestGlContext.cpp
   hou/gl/TestGlContextSettings.cpp
   hou/gl/TestGlFrameBufferHandle.cpp
+  hou/gl/TestGlFunctions.cpp
   hou/gl/TestGlVersion.cpp
   hou/gl/TestGlCheck.cpp
   hou/gl/TestGlObjectHandle.cpp
@@ -50,7 +51,6 @@ SET(EXE_HOUGL_TEST_SRC
   hou/gl/TestGlShaderHandle.cpp
   hou/gl/TestGlShaderSources.cpp
   hou/gl/TestGlTextureHandle.cpp
-  hou/gl/TestGlUtils.cpp
   hou/gl/TestGlVertexArrayHandle.cpp
 )
 

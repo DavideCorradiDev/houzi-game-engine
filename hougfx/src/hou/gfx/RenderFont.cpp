@@ -8,7 +8,7 @@
 #include "hou/gfx/TextVertex.hpp"
 #include "hou/gfx/Mesh.hpp"
 
-#include "hou/gl/GlUtils.hpp"
+#include "hou/gl/GlFunctions.hpp"
 
 #include "hou/mth/Matrix.hpp"
 #include "hou/mth/Rectangle.hpp"

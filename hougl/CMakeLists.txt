@@ -38,11 +38,11 @@ SET(LIB_HOUGL_SRC
   src/hou/gl/GlCheck.cpp
   src/hou/gl/GlError.cpp
   src/hou/gl/GlFramebufferHandle.cpp
+  src/hou/gl/GlFunctions.cpp
   src/hou/gl/GlObjectHandle.cpp
   src/hou/gl/GlProgramHandle.cpp
   src/hou/gl/GlShaderHandle.cpp
   src/hou/gl/GlTextureHandle.cpp
-  src/hou/gl/GlUtils.cpp
   src/hou/gl/GlVersion.cpp
   src/hou/gl/GlVertexArrayHandle.cpp
 )

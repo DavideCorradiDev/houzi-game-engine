@@ -7,7 +7,7 @@
 #include "hou/gfx/GraphicContext.hpp"
 
 #include "hou/gl/GlTextureHandle.hpp"
-#include "hou/gl/GlUtils.hpp"
+#include "hou/gl/GlFunctions.hpp"
 
 using namespace testing;
 using namespace hou;

@@ -38,7 +38,7 @@ SET(LIB_HOUCOR_SRC
   src/hou/cor/CharacterEncodings.cpp
   src/hou/cor/Clock.cpp
   src/hou/cor/CorError.cpp
-  src/hou/cor/CorUtils.cpp
+  src/hou/cor/CoreFunctions.cpp
   src/hou/cor/StdString.cpp
   src/hou/cor/Stopwatch.cpp
   src/hou/cor/UidGenerator.cpp

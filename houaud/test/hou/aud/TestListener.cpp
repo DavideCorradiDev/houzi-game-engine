@@ -8,7 +8,7 @@
 #include "hou/aud/Listener.hpp"
 
 #include "hou/mth/Matrix.hpp"
-#include "hou/mth/MthUtils.hpp"
+#include "hou/mth/MathFunctions.hpp"
 #include "hou/mth/Rotation3.hpp"
 
 using namespace hou;

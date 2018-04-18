@@ -4,7 +4,7 @@
 
 #include "hou/gfx/RenderWindow.hpp"
 
-#include "hou/gl/GlUtils.hpp"
+#include "hou/gl/GlFunctions.hpp"
 
 #include "hou/gfx/GraphicContext.hpp"
 #include "hou/gfx/RenderTexture.hpp"

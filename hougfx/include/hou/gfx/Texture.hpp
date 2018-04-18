@@ -16,7 +16,7 @@
 #include "hou/gfx/TextureWrapMode.hpp"
 
 #include "hou/gl/GlTextureHandle.hpp"
-#include "hou/gl/GlUtils.hpp"
+#include "hou/gl/GlFunctions.hpp"
 
 #include "hou/sys/Image.hpp"
 

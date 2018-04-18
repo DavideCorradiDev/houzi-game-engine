@@ -6,7 +6,7 @@
 
 #include "hou/gl/GlCheck.hpp"
 #include "hou/gl/GlContext.hpp"
-#include "hou/gl/GlUtils.hpp"
+#include "hou/gl/GlFunctions.hpp"
 
 
 

@@ -5,7 +5,7 @@
 #include "hou/gfx/Texture.hpp"
 
 #include "hou/mth/Matrix.hpp"
-#include "hou/mth/MthUtils.hpp"
+#include "hou/mth/MathFunctions.hpp"
 
 #include "hou/gfx/GlType.hpp"
 #include "hou/gfx/TextureChannelMapping.hpp"

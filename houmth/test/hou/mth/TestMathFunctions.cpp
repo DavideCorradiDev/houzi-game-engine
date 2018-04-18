@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/mth/MthUtils.hpp"
+#include "hou/mth/MathFunctions.hpp"
 
 using namespace hou;
 using namespace testing;
@@ -11,27 +11,27 @@ using namespace testing;
 namespace
 {
 
-class TestMathUtils : public Test {};
+class TestMathFunctions : public Test {};
 
 }
 
 
 
-TEST_F(TestMathUtils, PiFloatValue)
+TEST_F(TestMathFunctions, PiFloatValue)
 {
   EXPECT_FLOAT_EQ(3.14159265358979f, PI_F);
 }
 
 
 
-TEST_F(TestMathUtils, PiDoubleValue)
+TEST_F(TestMathFunctions, PiDoubleValue)
 {
   EXPECT_FLOAT_EQ(3.14159265358979, PI_D);
 }
 
 
 
-TEST_F(TestMathUtils, DegRadFloatConversion)
+TEST_F(TestMathFunctions, DegRadFloatConversion)
 {
   EXPECT_FLOAT_EQ(-PI_F * 2.f, degToRad(-360.f));
   EXPECT_FLOAT_EQ(-PI_F, degToRad(-180.f));
@@ -59,7 +59,7 @@ TEST_F(TestMathUtils, DegRadFloatConversion)
 
 
 
-TEST_F(TestMathUtils, DegRadDoubleConversion)
+TEST_F(TestMathFunctions, DegRadDoubleConversion)
 {
   EXPECT_DOUBLE_EQ(-PI_D * 2., degToRad(-360.));
   EXPECT_DOUBLE_EQ(-PI_D, degToRad(-180.));
@@ -87,7 +87,7 @@ TEST_F(TestMathUtils, DegRadDoubleConversion)
 
 
 
-TEST_F(TestMathUtils, LogFloat)
+TEST_F(TestMathFunctions, LogFloat)
 {
   EXPECT_FLOAT_EQ(-3.f, log(0.125f, 2));
   EXPECT_FLOAT_EQ(-2.f, log(0.25f, 2));
@@ -114,7 +114,7 @@ TEST_F(TestMathUtils, LogFloat)
 
 
 
-TEST_F(TestMathUtils, LogDouble)
+TEST_F(TestMathFunctions, LogDouble)
 {
   EXPECT_DOUBLE_EQ(-3., log(0.125, 2));
   EXPECT_DOUBLE_EQ(-2., log(0.25, 2));

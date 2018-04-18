@@ -3,7 +3,7 @@
 #include "hou/cor/CorError.hpp"
 
 #include "hou/mth/Matrix.hpp"
-#include "hou/mth/MthUtils.hpp"
+#include "hou/mth/MathFunctions.hpp"
 #include "hou/mth/Rotation2.hpp"
 
 using namespace hou;

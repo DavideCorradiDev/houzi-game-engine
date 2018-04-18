@@ -9,7 +9,7 @@
 #include "hou/gl/GlContext.hpp"
 #include "hou/gl/GlContextSettings.hpp"
 #include "hou/gl/GlError.hpp"
-#include "hou/gl/GlUtils.hpp"
+#include "hou/gl/GlFunctions.hpp"
 
 #include "hou/sys/VideoMode.hpp"
 #include "hou/sys/Window.hpp"

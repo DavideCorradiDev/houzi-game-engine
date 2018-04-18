@@ -4,7 +4,7 @@
 
 #include "hou/Test.hpp"
 
-#include "hou/cor/CorUtils.hpp"
+#include "hou/cor/CoreFunctions.hpp"
 
 using namespace hou;
 using namespace testing;
@@ -14,13 +14,13 @@ using namespace testing;
 namespace
 {
 
-class TestCorUtils : public Test {};
+class TestCoreFunctions : public Test {};
 
 }
 
 
 
-TEST_F(TestCorUtils, FloatClose)
+TEST_F(TestCoreFunctions, FloatClose)
 {
   float f1 = 1.2345f;
   float f2 = 1.2345f;
@@ -46,7 +46,7 @@ TEST_F(TestCorUtils, FloatClose)
 
 
 
-TEST_F(TestCorUtils, DoubleClose)
+TEST_F(TestCoreFunctions, DoubleClose)
 {
   double f1 = 1.234567891;
   double f2 = 1.234567891;

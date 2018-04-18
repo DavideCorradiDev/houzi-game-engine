@@ -6,7 +6,7 @@
 
 #include "hou/mth/Rotation3.hpp"
 #include "hou/mth/Matrix.hpp"
-#include "hou/mth/MthUtils.hpp"
+#include "hou/mth/MathFunctions.hpp"
 
 using namespace hou;
 using namespace testing;

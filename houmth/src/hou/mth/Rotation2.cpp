@@ -4,11 +4,11 @@
 
 #include "hou/mth/Rotation2.hpp"
 
-#include "hou/cor/CorUtils.hpp"
+#include "hou/cor/CoreFunctions.hpp"
 #include "hou/cor/Pragmas.hpp"
 
 #include "hou/mth/Matrix.hpp"
-#include "hou/mth/MthUtils.hpp"
+#include "hou/mth/MathFunctions.hpp"
 
 
 

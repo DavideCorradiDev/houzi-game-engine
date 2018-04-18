@@ -6,7 +6,7 @@
 #include "hou/gl/TestGlSingleContext.hpp"
 
 #include "hou/gl/GlError.hpp"
-#include "hou/gl/GlUtils.hpp"
+#include "hou/gl/GlFunctions.hpp"
 
 #include "hou/sys/VideoMode.hpp"
 #include "hou/sys/Window.hpp"
@@ -18,16 +18,16 @@ using namespace hou;
 namespace
 {
 
-class TestGlUtils : public TestGlSingleContext
+class TestGlFunctions : public TestGlSingleContext
 {};
-class TestGlUtilsDeathTest : public TestGlUtils
+class TestGlFunctionsDeathTest : public TestGlFunctions
 {};
 
 }  // namespace
 
 
 
-TEST_F(TestGlUtils, VerticalSync)
+TEST_F(TestGlFunctions, VerticalSync)
 {
   gl::setVerticalSyncMode(gl::VerticalSyncMode::Disabled);
   gl::setVerticalSyncMode(gl::VerticalSyncMode::Enabled);
@@ -36,7 +36,7 @@ TEST_F(TestGlUtils, VerticalSync)
 
 
 
-TEST_F(TestGlUtils, UnpackAlignment)
+TEST_F(TestGlFunctions, UnpackAlignment)
 {
   gl::setUnpackAlignment(1);
   EXPECT_EQ(1, gl::getUnpackAlignment());
@@ -46,7 +46,7 @@ TEST_F(TestGlUtils, UnpackAlignment)
 
 
 
-TEST_F(TestGlUtilsDeathTest, InvalidUnpackAlignment)
+TEST_F(TestGlFunctionsDeathTest, InvalidUnpackAlignment)
 {
 #if not defined(HOU_DISABLE_GL_ERROR_CHECKS)
   HOU_EXPECT_ERROR(gl::setUnpackAlignment(3), std::logic_error,
@@ -56,7 +56,7 @@ TEST_F(TestGlUtilsDeathTest, InvalidUnpackAlignment)
 
 
 
-TEST_F(TestGlUtils, PackAlignment)
+TEST_F(TestGlFunctions, PackAlignment)
 {
   gl::setPackAlignment(1);
   EXPECT_EQ(1, gl::getPackAlignment());
@@ -66,7 +66,7 @@ TEST_F(TestGlUtils, PackAlignment)
 
 
 
-TEST_F(TestGlUtilsDeathTest, InvalidPackAlignment)
+TEST_F(TestGlFunctionsDeathTest, InvalidPackAlignment)
 {
 #if not defined(HOU_DISABLE_GL_ERROR_CHECKS)
   HOU_EXPECT_ERROR(
@@ -76,7 +76,7 @@ TEST_F(TestGlUtilsDeathTest, InvalidPackAlignment)
 
 
 
-TEST_F(TestGlUtils, getPixelSizeBytes)
+TEST_F(TestGlFunctions, getPixelSizeBytes)
 {
   EXPECT_EQ(1, gl::getPixelSizeBytes(GL_RED));
   EXPECT_EQ(2, gl::getPixelSizeBytes(GL_RG));
@@ -88,7 +88,7 @@ TEST_F(TestGlUtils, getPixelSizeBytes)
 
 
 
-TEST_F(TestGlUtils, ComputeTextureSizeBytes)
+TEST_F(TestGlFunctions, ComputeTextureSizeBytes)
 {
   gl::setUnpackAlignment(4);
   EXPECT_EQ(48, gl::computeTextureSizeBytes(7, 3, 2, GL_RED));
@@ -109,7 +109,7 @@ TEST_F(TestGlUtils, ComputeTextureSizeBytes)
 
 
 
-TEST_F(TestGlUtils, BindWindow)
+TEST_F(TestGlFunctions, BindWindow)
 {
   ASSERT_TRUE(mContext.isCurrent());
   Window w("Test", VideoMode(Vec2u(40u, 30u), 32u), WindowStyle::Windowed);
@@ -119,7 +119,7 @@ TEST_F(TestGlUtils, BindWindow)
 
 
 
-TEST_F(TestGlUtils, EnableBlending)
+TEST_F(TestGlFunctions, EnableBlending)
 {
   EXPECT_FALSE(gl::isBlendingEnabled());
   gl::enableBlending();
@@ -134,7 +134,7 @@ TEST_F(TestGlUtils, EnableBlending)
 
 
 
-TEST_F(TestGlUtils, GetBlendingFactors)
+TEST_F(TestGlFunctions, GetBlendingFactors)
 {
   EXPECT_EQ(static_cast<GLenum>(GL_ONE), gl::getSourceBlending());
   EXPECT_EQ(static_cast<GLenum>(GL_ZERO), gl::getDestinationBlending());
@@ -151,7 +151,7 @@ TEST_F(TestGlUtils, GetBlendingFactors)
 
 
 
-TEST_F(TestGlUtils, EnableMultisampling)
+TEST_F(TestGlFunctions, EnableMultisampling)
 {
   EXPECT_TRUE(gl::isMultisamplingEnabled());
   gl::enableMultisampling();

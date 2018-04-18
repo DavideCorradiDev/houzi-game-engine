@@ -7,7 +7,7 @@
 #include "hou/gfx/GraphicContext.hpp"
 #include "hou/gfx/Texture.hpp"
 
-#include "hou/gl/GlUtils.hpp"
+#include "hou/gl/GlFunctions.hpp"
 
 #include "hou/sys/Color.hpp"
 

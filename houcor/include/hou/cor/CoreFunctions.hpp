@@ -72,7 +72,7 @@ template <typename Iterator>
 
 
 
-#include "hou/cor/CorUtils.inl"
+#include "hou/cor/CoreFunctions.inl"
 
 #endif
 

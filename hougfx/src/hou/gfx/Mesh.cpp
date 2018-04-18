@@ -4,7 +4,7 @@
 
 #include "hou/gfx/Mesh.hpp"
 
-#include "hou/gl/GlUtils.hpp"
+#include "hou/gl/GlFunctions.hpp"
 
 
 

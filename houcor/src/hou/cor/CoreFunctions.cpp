@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/cor/CorUtils.hpp"
+#include "hou/cor/CoreFunctions.hpp"
 
 #include <cmath>
 

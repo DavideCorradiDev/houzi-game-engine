@@ -67,6 +67,6 @@ T log(T x, int n);
 
 
 
-#include "hou/mth/MthUtils.inl"
+#include "hou/mth/MathFunctions.inl"
 
 #endif

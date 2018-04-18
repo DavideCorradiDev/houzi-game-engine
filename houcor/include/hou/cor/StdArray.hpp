@@ -7,7 +7,7 @@
 
 #include "hou/cor/CorExport.hpp"
 
-#include "hou/cor/CorUtils.hpp"
+#include "hou/cor/CoreFunctions.hpp"
 
 #include <array>
 
