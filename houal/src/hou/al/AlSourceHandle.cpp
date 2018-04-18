@@ -37,6 +37,7 @@ SourceHandle::~SourceHandle()
   if(getName() != 0)
   {
     HOU_AL_CHECK_CONTEXT_EXISTENCE();
+    HOU_AL_CHECK_CONTEXT_OWNERSHIP(*this);
     ALuint name = getName();
     alDeleteSources(1u, &name);
     HOU_AL_CHECK_ERROR();

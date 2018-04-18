@@ -37,6 +37,7 @@ BufferHandle::~BufferHandle()
   if(getName() != 0u)
   {
     HOU_AL_CHECK_CONTEXT_EXISTENCE();
+    HOU_AL_CHECK_CONTEXT_OWNERSHIP(*this);
     ALuint name = getName();
     alDeleteBuffers(1u, &name);
     HOU_AL_CHECK_ERROR();
