@@ -6,7 +6,7 @@
 #define HOU_AUD_STREAMING_AUDIO_SOURCE_HPP
 
 #include "hou/aud/AudExport.hpp"
-#include "hou/aud/AudioSourceBase.hpp"
+#include "hou/aud/AudioSource.hpp"
 
 #include "hou/aud/AudioBuffer.hpp"
 
@@ -48,7 +48,7 @@ namespace hou
  *  Higher number of buffers and higher buffer size will result in higher
  *  memory consumption, but better sound quality.
  */
-class HOU_AUD_API StreamingAudioSource : public AudioSourceBase
+class HOU_AUD_API StreamingAudioSource : public AudioSource
 {
 public:
   /** Default constructor.
@@ -106,7 +106,7 @@ public:
    */
   size_t getBufferSampleCount() const;
 
-  // AudioSourceBase overrides.
+  // AudioSource overrides.
   AudioBufferFormat getFormat() const final;
   uint getChannelCount() const final;
   uint getBytesPerSample() const final;

@@ -32,7 +32,7 @@ StreamingAudioSource::StreamingAudioSource()
 
 StreamingAudioSource::StreamingAudioSource(
   NotNull<std::unique_ptr<AudioStreamIn>> audioStream)
-  : AudioSourceBase()
+  : AudioSource()
   , mThread()
   , mThreadMutex()
   , mAudioStream(std::move(audioStream))
@@ -170,7 +170,7 @@ uint StreamingAudioSource::onGetSamplePos() const
   uint sampleCount = getSampleCount();
   return sampleCount == 0u
     ? 0u
-    : (mSamplePos + AudioSourceBase::onGetSamplePos()) % getSampleCount();
+    : (mSamplePos + AudioSource::onGetSamplePos()) % getSampleCount();
 }
 
 

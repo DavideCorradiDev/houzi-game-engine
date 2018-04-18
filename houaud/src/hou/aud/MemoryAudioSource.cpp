@@ -12,7 +12,7 @@ namespace hou
 {
 
 MemoryAudioSource::MemoryAudioSource(const AudioBuffer* buffer)
-  : AudioSourceBase()
+  : AudioSource()
   , mBufferRef(nullptr)
 {
   setBuffer(buffer);
@@ -21,7 +21,7 @@ MemoryAudioSource::MemoryAudioSource(const AudioBuffer* buffer)
 
 
 MemoryAudioSource::MemoryAudioSource(MemoryAudioSource&& other)
-  : AudioSourceBase(std::move(other))
+  : AudioSource(std::move(other))
   , mBufferRef(std::move(other.mBufferRef))
 {}
 
@@ -93,28 +93,28 @@ uint MemoryAudioSource::getSampleCount() const
 
 void MemoryAudioSource::setLooping(bool looping)
 {
-  AudioSourceBase::setLooping(looping);
+  AudioSource::setLooping(looping);
 }
 
 
 
 bool MemoryAudioSource::isLooping() const
 {
-  return AudioSourceBase::isLooping();
+  return AudioSource::isLooping();
 }
 
 
 
 void MemoryAudioSource::onSetSamplePos(uint pos)
 {
-  AudioSourceBase::onSetSamplePos(pos);
+  AudioSource::onSetSamplePos(pos);
 }
 
 
 
 uint MemoryAudioSource::onGetSamplePos() const
 {
-  return AudioSourceBase::onGetSamplePos();
+  return AudioSource::onGetSamplePos();
 }
 
 }  // namespace hou

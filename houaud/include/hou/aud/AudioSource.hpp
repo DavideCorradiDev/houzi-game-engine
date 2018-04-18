@@ -24,22 +24,22 @@ namespace hou
 
 /** Parent class for audio sources.
  */
-class HOU_AUD_API AudioSourceBase : public NonCopyable
+class HOU_AUD_API AudioSource : public NonCopyable
 {
 public:
   /** Default constructor.
    */
-  AudioSourceBase();
+  AudioSource();
 
   /** Move constructor.
    *
-   *  \param other the other AudioSourceBase.
+   *  \param other the other AudioSource.
    */
-  AudioSourceBase(AudioSourceBase&& other);
+  AudioSource(AudioSource&& other);
 
   /** Destructor.
    */
-  virtual ~AudioSourceBase() = 0;
+  virtual ~AudioSource() = 0;
 
   /** Gets the OpenAL audio source handle.
    *
@@ -387,6 +387,6 @@ private:
 
 
 
-#include "hou/aud/AudioSourceBase.inl"
+#include "hou/aud/AudioSource.inl"
 
 #endif

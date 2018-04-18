@@ -6,7 +6,7 @@
 #define HOU_AUD_AUDIO_SOURCE_HPP
 
 #include "hou/aud/AudExport.hpp"
-#include "hou/aud/AudioSourceBase.hpp"
+#include "hou/aud/AudioSource.hpp"
 
 
 
@@ -30,7 +30,7 @@ class AudioBuffer;
  * not destroyed while the MemoryAudioSource is still existing, failing to do so
  * will result in undefined behaviour.
  */
-class HOU_AUD_API MemoryAudioSource : public AudioSourceBase
+class HOU_AUD_API MemoryAudioSource : public AudioSource
 {
 public:
   /** Buffer constructor.
@@ -69,7 +69,7 @@ public:
    */
   const AudioBuffer* getBuffer() const;
 
-  // AudioSourceBase overrides.
+  // AudioSource overrides.
   AudioBufferFormat getFormat() const final;
   uint getChannelCount() const final;
   uint getBytesPerSample() const final;

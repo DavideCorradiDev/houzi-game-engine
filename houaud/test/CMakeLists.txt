@@ -40,7 +40,7 @@ SET(EXE_HOUAUD_TEST_SRC
   hou/aud/TestAudBaseTestSpecificContext.cpp
   hou/aud/TestAudioBuffer.cpp
   hou/aud/TestAudioContext.cpp
-  hou/aud/TestAudioSourceBase.cpp
+  hou/aud/TestAudioSource.cpp
   hou/aud/TestData.cpp
   hou/aud/TestEmptyAudioStreamIn.cpp
   hou/aud/TestListener.cpp

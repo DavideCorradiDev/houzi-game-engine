@@ -6,7 +6,7 @@ namespace hou
 {
 
 template <typename TimeDuration>
-  void AudioSourceBase::setTimePos(TimeDuration pos)
+  void AudioSource::setTimePos(TimeDuration pos)
 {
   setTimePos(std::chrono::duration_cast<std::chrono::nanoseconds>(pos));
 }
