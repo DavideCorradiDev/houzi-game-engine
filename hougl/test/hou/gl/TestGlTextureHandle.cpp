@@ -185,6 +185,7 @@ TEST_F(TestGlTextureHandleDeathTest, NonSharingContextBinding)
   setNonSharingContextCurrent();
   HOU_EXPECT_ERROR(
     gl::bindTexture(th), std::logic_error, getText(GlError::InvalidOwnership));
+  setContextCurrent();
 }
 
 

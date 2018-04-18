@@ -120,6 +120,7 @@ TextureHandle::TextureHandle(TextureHandle&& other)
 TextureHandle::~TextureHandle()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(*this);
   GLuint name = getName();
   glDeleteTextures(1, &name);
   HOU_GL_CHECK_ERROR();

@@ -67,8 +67,6 @@ ShaderHandle::ShaderHandle(ShaderHandle&& other)
 ShaderHandle::~ShaderHandle()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  // Shaders seem to be peculiar in that an owning context must be current
-  // when they are destroyed.
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(*this);
   glDeleteShader(getName());
   HOU_GL_CHECK_ERROR();

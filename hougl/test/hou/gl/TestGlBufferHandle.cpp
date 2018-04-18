@@ -130,6 +130,7 @@ TEST_F(TestGlBufferHandleDeathTest, NonSharingContextBinding)
   setNonSharingContextCurrent();
   HOU_EXPECT_ERROR(gl::bindBuffer(bh, GL_ARRAY_BUFFER)
     , std::logic_error, getText(GlError::InvalidOwnership));
+  setContextCurrent();
 }
 
 

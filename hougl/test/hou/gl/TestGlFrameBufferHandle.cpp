@@ -67,58 +67,63 @@ TEST_F(TestGlFramebufferHandle, Tracking)
   EXPECT_TRUE(gl::isFramebufferBound(GL_DRAW_FRAMEBUFFER));
   EXPECT_FALSE(gl::isFramebufferBound(GL_READ_FRAMEBUFFER));
 
-  setSharingContextCurrent();
-  gl::FramebufferHandle fbh3 = gl::FramebufferHandle::create();
-  gl::FramebufferHandle fbh4 = gl::FramebufferHandle::create();
+  {
+    setSharingContextCurrent();
+    gl::FramebufferHandle fbh3 = gl::FramebufferHandle::create();
+    gl::FramebufferHandle fbh4 = gl::FramebufferHandle::create();
 
-  EXPECT_EQ(0u, gl::getBoundFramebufferName(GL_DRAW_FRAMEBUFFER));
-  EXPECT_EQ(0u, gl::getBoundFramebufferName(GL_READ_FRAMEBUFFER));
-  EXPECT_FALSE(gl::isFramebufferBound(fbh3, GL_DRAW_FRAMEBUFFER));
-  EXPECT_FALSE(gl::isFramebufferBound(fbh3, GL_READ_FRAMEBUFFER));
-  EXPECT_FALSE(gl::isFramebufferBound(fbh4, GL_DRAW_FRAMEBUFFER));
-  EXPECT_FALSE(gl::isFramebufferBound(fbh4, GL_READ_FRAMEBUFFER));
-  EXPECT_FALSE(gl::isFramebufferBound(GL_DRAW_FRAMEBUFFER));
-  EXPECT_FALSE(gl::isFramebufferBound(GL_READ_FRAMEBUFFER));
+    EXPECT_EQ(0u, gl::getBoundFramebufferName(GL_DRAW_FRAMEBUFFER));
+    EXPECT_EQ(0u, gl::getBoundFramebufferName(GL_READ_FRAMEBUFFER));
+    EXPECT_FALSE(gl::isFramebufferBound(fbh3, GL_DRAW_FRAMEBUFFER));
+    EXPECT_FALSE(gl::isFramebufferBound(fbh3, GL_READ_FRAMEBUFFER));
+    EXPECT_FALSE(gl::isFramebufferBound(fbh4, GL_DRAW_FRAMEBUFFER));
+    EXPECT_FALSE(gl::isFramebufferBound(fbh4, GL_READ_FRAMEBUFFER));
+    EXPECT_FALSE(gl::isFramebufferBound(GL_DRAW_FRAMEBUFFER));
+    EXPECT_FALSE(gl::isFramebufferBound(GL_READ_FRAMEBUFFER));
 
-  gl::bindFramebuffer(fbh4);
-  EXPECT_EQ(fbh4.getName(), gl::getBoundFramebufferName(GL_DRAW_FRAMEBUFFER));
-  EXPECT_EQ(fbh4.getName(), gl::getBoundFramebufferName(GL_READ_FRAMEBUFFER));
-  EXPECT_FALSE(gl::isFramebufferBound(fbh3, GL_DRAW_FRAMEBUFFER));
-  EXPECT_FALSE(gl::isFramebufferBound(fbh3, GL_READ_FRAMEBUFFER));
-  EXPECT_TRUE(gl::isFramebufferBound(fbh4, GL_DRAW_FRAMEBUFFER));
-  EXPECT_TRUE(gl::isFramebufferBound(fbh4, GL_READ_FRAMEBUFFER));
-  EXPECT_TRUE(gl::isFramebufferBound(GL_DRAW_FRAMEBUFFER));
-  EXPECT_TRUE(gl::isFramebufferBound(GL_READ_FRAMEBUFFER));
+    gl::bindFramebuffer(fbh4);
+    EXPECT_EQ(fbh4.getName(), gl::getBoundFramebufferName(GL_DRAW_FRAMEBUFFER));
+    EXPECT_EQ(fbh4.getName(), gl::getBoundFramebufferName(GL_READ_FRAMEBUFFER));
+    EXPECT_FALSE(gl::isFramebufferBound(fbh3, GL_DRAW_FRAMEBUFFER));
+    EXPECT_FALSE(gl::isFramebufferBound(fbh3, GL_READ_FRAMEBUFFER));
+    EXPECT_TRUE(gl::isFramebufferBound(fbh4, GL_DRAW_FRAMEBUFFER));
+    EXPECT_TRUE(gl::isFramebufferBound(fbh4, GL_READ_FRAMEBUFFER));
+    EXPECT_TRUE(gl::isFramebufferBound(GL_DRAW_FRAMEBUFFER));
+    EXPECT_TRUE(gl::isFramebufferBound(GL_READ_FRAMEBUFFER));
 
-  gl::unbindFramebuffer();
-  EXPECT_EQ(0u, gl::getBoundFramebufferName(GL_DRAW_FRAMEBUFFER));
-  EXPECT_EQ(0u, gl::getBoundFramebufferName(GL_READ_FRAMEBUFFER));
-  EXPECT_FALSE(gl::isFramebufferBound(fbh3, GL_DRAW_FRAMEBUFFER));
-  EXPECT_FALSE(gl::isFramebufferBound(fbh3, GL_READ_FRAMEBUFFER));
-  EXPECT_FALSE(gl::isFramebufferBound(fbh4, GL_DRAW_FRAMEBUFFER));
-  EXPECT_FALSE(gl::isFramebufferBound(fbh4, GL_READ_FRAMEBUFFER));
-  EXPECT_FALSE(gl::isFramebufferBound(GL_DRAW_FRAMEBUFFER));
-  EXPECT_FALSE(gl::isFramebufferBound(GL_READ_FRAMEBUFFER));
+    gl::unbindFramebuffer();
+    EXPECT_EQ(0u, gl::getBoundFramebufferName(GL_DRAW_FRAMEBUFFER));
+    EXPECT_EQ(0u, gl::getBoundFramebufferName(GL_READ_FRAMEBUFFER));
+    EXPECT_FALSE(gl::isFramebufferBound(fbh3, GL_DRAW_FRAMEBUFFER));
+    EXPECT_FALSE(gl::isFramebufferBound(fbh3, GL_READ_FRAMEBUFFER));
+    EXPECT_FALSE(gl::isFramebufferBound(fbh4, GL_DRAW_FRAMEBUFFER));
+    EXPECT_FALSE(gl::isFramebufferBound(fbh4, GL_READ_FRAMEBUFFER));
+    EXPECT_FALSE(gl::isFramebufferBound(GL_DRAW_FRAMEBUFFER));
+    EXPECT_FALSE(gl::isFramebufferBound(GL_READ_FRAMEBUFFER));
 
+    setContextCurrent();
+    EXPECT_EQ(fbh1.getName(), gl::getBoundFramebufferName(GL_DRAW_FRAMEBUFFER));
+    EXPECT_EQ(0u, gl::getBoundFramebufferName(GL_READ_FRAMEBUFFER));
+    EXPECT_TRUE(gl::isFramebufferBound(fbh1, GL_DRAW_FRAMEBUFFER));
+    EXPECT_FALSE(gl::isFramebufferBound(fbh1, GL_READ_FRAMEBUFFER));
+    EXPECT_FALSE(gl::isFramebufferBound(fbh2, GL_DRAW_FRAMEBUFFER));
+    EXPECT_FALSE(gl::isFramebufferBound(fbh2, GL_READ_FRAMEBUFFER));
+    EXPECT_TRUE(gl::isFramebufferBound(GL_DRAW_FRAMEBUFFER));
+    EXPECT_FALSE(gl::isFramebufferBound(GL_READ_FRAMEBUFFER));
+
+    gl::unbindFramebuffer(GL_DRAW_FRAMEBUFFER);
+    EXPECT_EQ(0u, gl::getBoundFramebufferName(GL_DRAW_FRAMEBUFFER));
+    EXPECT_EQ(0u, gl::getBoundFramebufferName(GL_READ_FRAMEBUFFER));
+    EXPECT_FALSE(gl::isFramebufferBound(fbh1, GL_DRAW_FRAMEBUFFER));
+    EXPECT_FALSE(gl::isFramebufferBound(fbh1, GL_READ_FRAMEBUFFER));
+    EXPECT_FALSE(gl::isFramebufferBound(fbh2, GL_DRAW_FRAMEBUFFER));
+    EXPECT_FALSE(gl::isFramebufferBound(fbh2, GL_READ_FRAMEBUFFER));
+    EXPECT_FALSE(gl::isFramebufferBound(GL_DRAW_FRAMEBUFFER));
+    EXPECT_FALSE(gl::isFramebufferBound(GL_READ_FRAMEBUFFER));
+
+    setSharingContextCurrent();
+  }
   setContextCurrent();
-  EXPECT_EQ(fbh1.getName(), gl::getBoundFramebufferName(GL_DRAW_FRAMEBUFFER));
-  EXPECT_EQ(0u, gl::getBoundFramebufferName(GL_READ_FRAMEBUFFER));
-  EXPECT_TRUE(gl::isFramebufferBound(fbh1, GL_DRAW_FRAMEBUFFER));
-  EXPECT_FALSE(gl::isFramebufferBound(fbh1, GL_READ_FRAMEBUFFER));
-  EXPECT_FALSE(gl::isFramebufferBound(fbh2, GL_DRAW_FRAMEBUFFER));
-  EXPECT_FALSE(gl::isFramebufferBound(fbh2, GL_READ_FRAMEBUFFER));
-  EXPECT_TRUE(gl::isFramebufferBound(GL_DRAW_FRAMEBUFFER));
-  EXPECT_FALSE(gl::isFramebufferBound(GL_READ_FRAMEBUFFER));
-
-  gl::unbindFramebuffer(GL_DRAW_FRAMEBUFFER);
-  EXPECT_EQ(0u, gl::getBoundFramebufferName(GL_DRAW_FRAMEBUFFER));
-  EXPECT_EQ(0u, gl::getBoundFramebufferName(GL_READ_FRAMEBUFFER));
-  EXPECT_FALSE(gl::isFramebufferBound(fbh1, GL_DRAW_FRAMEBUFFER));
-  EXPECT_FALSE(gl::isFramebufferBound(fbh1, GL_READ_FRAMEBUFFER));
-  EXPECT_FALSE(gl::isFramebufferBound(fbh2, GL_DRAW_FRAMEBUFFER));
-  EXPECT_FALSE(gl::isFramebufferBound(fbh2, GL_READ_FRAMEBUFFER));
-  EXPECT_FALSE(gl::isFramebufferBound(GL_DRAW_FRAMEBUFFER));
-  EXPECT_FALSE(gl::isFramebufferBound(GL_READ_FRAMEBUFFER));
 }
 
 
@@ -133,6 +138,7 @@ TEST_F(TestGlFramebufferHandleDeathTest, SharingContextBinding)
   setSharingContextCurrent();
   HOU_EXPECT_ERROR(gl::bindFramebuffer(fbh, GL_DRAW_FRAMEBUFFER)
     , std::logic_error, getText(GlError::InvalidOwnership));
+  setContextCurrent();
 }
 
 
@@ -147,6 +153,7 @@ TEST_F(TestGlFramebufferHandleDeathTest, NonSharingContextBinding)
   setNonSharingContextCurrent();
   HOU_EXPECT_ERROR(gl::bindFramebuffer(fbh, GL_DRAW_FRAMEBUFFER)
     , std::logic_error, getText(GlError::InvalidOwnership));
+  setContextCurrent();
 }
 
 

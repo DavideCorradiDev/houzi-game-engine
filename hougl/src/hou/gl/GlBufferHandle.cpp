@@ -60,6 +60,7 @@ BufferHandle::BufferHandle(BufferHandle&& other)
 BufferHandle::~BufferHandle()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(*this);
   GLuint name = getName();
   glDeleteBuffers(1, &name);
   HOU_GL_CHECK_ERROR();
