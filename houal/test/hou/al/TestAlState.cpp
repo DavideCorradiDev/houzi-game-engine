@@ -22,9 +22,9 @@ class TestAlState : public TestAlBase {};
 
 TEST_F(TestAlState, SetDistanceModel)
 {
-  EXPECT_EQ(al::DistanceModel::InverseDistanceClamped, al::getDistanceModel());
-  al::setDistanceModel(al::DistanceModel::InverseDistance);
-  EXPECT_EQ(al::DistanceModel::InverseDistance, al::getDistanceModel());
+  EXPECT_EQ(AL_INVERSE_DISTANCE_CLAMPED, al::getDistanceModel());
+  al::setDistanceModel(AL_INVERSE_DISTANCE);
+  EXPECT_EQ(AL_INVERSE_DISTANCE, al::getDistanceModel());
 }
 
 
