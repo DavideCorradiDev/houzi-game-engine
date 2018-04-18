@@ -4,9 +4,6 @@
 
 #include "hou/aud/AudioSourceState.hpp"
 
-#include "hou/cor/CorError.hpp"
-#include "hou/cor/Error.hpp"
-
 #define AUDIO_SOURCE_STATE_CASE(state, os) \
   case AudioSourceState::state:            \
     return (os) << #state

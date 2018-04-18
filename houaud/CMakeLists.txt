@@ -37,8 +37,9 @@ INCLUDE_DIRECTORIES(
 SET(LIB_HOUAUD_SRC
   src/hou/aud/AudError.cpp
   src/hou/aud/AudioBuffer.cpp
-  src/hou/aud/AudioContext.cpp
   src/hou/aud/AudioBufferFormat.cpp
+  src/hou/aud/AudioContext.cpp
+  src/hou/aud/AudioDistanceModel.cpp
   src/hou/aud/AudioSource.cpp
   src/hou/aud/AudioSourceBase.cpp
   src/hou/aud/AudioSourceState.cpp
