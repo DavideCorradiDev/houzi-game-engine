@@ -22,7 +22,7 @@
 
 #include "hou/aud/AudioContext.hpp"
 #include "hou/aud/AudioBuffer.hpp"
-#include "hou/aud/AudioSource.hpp"
+#include "hou/aud/MemoryAudioSource.hpp"
 #include "hou/aud/OggFileIn.hpp"
 #include "hou/aud/StreamingAudioSource.hpp"
 #include "hou/aud/WavFileIn.hpp"
@@ -69,7 +69,7 @@ int main()
   // std::string longFilename = "demo/data/longsound.wav";
   std::string longFilename = "demo/data/test.ogg";
   AudioBuffer buffer = AudioBuffer(WavFileIn(filename));
-  AudioSource source(&buffer);
+  MemoryAudioSource source(&buffer);
   StreamingAudioSource sas(std::make_unique<OggFileIn>(longFilename));
   sas.setLooping(false);
 

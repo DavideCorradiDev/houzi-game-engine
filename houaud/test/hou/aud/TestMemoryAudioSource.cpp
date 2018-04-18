@@ -6,7 +6,7 @@
 #include "hou/aud/TestAudBase.hpp"
 
 #include "hou/aud/AudioBuffer.hpp"
-#include "hou/aud/AudioSource.hpp"
+#include "hou/aud/MemoryAudioSource.hpp"
 
 #include "hou/mth/MthUtils.hpp"
 
@@ -17,11 +17,11 @@ using namespace hou;
 namespace
 {
 
-class TestAudioSource
+class TestMemoryAudioSource
   : public TestAudBase
 {
 public:
-  TestAudioSource();
+  TestMemoryAudioSource();
 
 public:
   AudioBuffer mBuffer;
@@ -29,7 +29,7 @@ public:
 
 
 
-TestAudioSource::TestAudioSource()
+TestMemoryAudioSource::TestMemoryAudioSource()
   : TestAudBase()
   , mBuffer(std::vector<uint8_t>{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
     , AudioBufferFormat::Stereo16, 2)
@@ -39,9 +39,9 @@ TestAudioSource::TestAudioSource()
 
 
 
-TEST_F(TestAudioSource, DefaultConstructor)
+TEST_F(TestMemoryAudioSource, DefaultConstructor)
 {
-  AudioSource as;
+  MemoryAudioSource as;
   EXPECT_EQ(nullptr, as.getBuffer());
   EXPECT_EQ(AudioSourceState::Stopped, as.getState());
   EXPECT_EQ(AudioBufferFormat::Mono8, as.getFormat());
@@ -71,9 +71,9 @@ TEST_F(TestAudioSource, DefaultConstructor)
 
 
 
-TEST_F(TestAudioSource, BufferConstructor)
+TEST_F(TestMemoryAudioSource, BufferConstructor)
 {
-  AudioSource as(&mBuffer);
+  MemoryAudioSource as(&mBuffer);
   EXPECT_EQ(&mBuffer, as.getBuffer());
   EXPECT_EQ(AudioSourceState::Stopped, as.getState());
   EXPECT_EQ(AudioBufferFormat::Stereo16, as.getFormat());
@@ -103,10 +103,10 @@ TEST_F(TestAudioSource, BufferConstructor)
 
 
 
-TEST_F(TestAudioSource, MoveConstructor)
+TEST_F(TestMemoryAudioSource, MoveConstructor)
 {
-  AudioSource asDummy(&mBuffer);
-  AudioSource as(std::move(asDummy));
+  MemoryAudioSource asDummy(&mBuffer);
+  MemoryAudioSource as(std::move(asDummy));
   EXPECT_EQ(&mBuffer, as.getBuffer());
   EXPECT_EQ(AudioSourceState::Stopped, as.getState());
   EXPECT_EQ(AudioBufferFormat::Stereo16, as.getFormat());
@@ -136,9 +136,9 @@ TEST_F(TestAudioSource, MoveConstructor)
 
 
 
-TEST_F(TestAudioSource, SetBufferWhileStopped)
+TEST_F(TestMemoryAudioSource, SetBufferWhileStopped)
 {
-  AudioSource as;
+  MemoryAudioSource as;
   as.setBuffer(&mBuffer);
   EXPECT_EQ(&mBuffer, as.getBuffer());
   EXPECT_EQ(AudioSourceState::Stopped, as.getState());
@@ -146,9 +146,9 @@ TEST_F(TestAudioSource, SetBufferWhileStopped)
 
 
 
-TEST_F(TestAudioSource, SetBufferWhilePlaying)
+TEST_F(TestMemoryAudioSource, SetBufferWhilePlaying)
 {
-  AudioSource as(&mBuffer);
+  MemoryAudioSource as(&mBuffer);
   as.setLooping(true);
   as.play();
   as.setBuffer(nullptr);
@@ -157,9 +157,9 @@ TEST_F(TestAudioSource, SetBufferWhilePlaying)
 
 
 
-TEST_F(TestAudioSource, SetBufferWhilePaused)
+TEST_F(TestMemoryAudioSource, SetBufferWhilePaused)
 {
-  AudioSource as(&mBuffer);
+  MemoryAudioSource as(&mBuffer);
   as.setLooping(true);
   as.play();
   as.pause();
@@ -169,9 +169,9 @@ TEST_F(TestAudioSource, SetBufferWhilePaused)
 
 
 
-TEST_F(TestAudioSource, SetTimePosWhileStopped)
+TEST_F(TestMemoryAudioSource, SetTimePosWhileStopped)
 {
-  AudioSource as(&mBuffer);
+  MemoryAudioSource as(&mBuffer);
   as.setSamplePos(3u);
   EXPECT_EQ(3u, as.getSamplePos());
   EXPECT_EQ(AudioSourceState::Stopped, as.getState());
@@ -179,9 +179,9 @@ TEST_F(TestAudioSource, SetTimePosWhileStopped)
 
 
 
-TEST_F(TestAudioSource, SetTimePosWhilePlaying)
+TEST_F(TestMemoryAudioSource, SetTimePosWhilePlaying)
 {
-  AudioSource as(&mBuffer);
+  MemoryAudioSource as(&mBuffer);
   as.setLooping(true);
   as.play();
   as.setSamplePos(3u);
@@ -190,9 +190,9 @@ TEST_F(TestAudioSource, SetTimePosWhilePlaying)
 
 
 
-TEST_F(TestAudioSource, SetTimePosWhilePaused)
+TEST_F(TestMemoryAudioSource, SetTimePosWhilePaused)
 {
-  AudioSource as(&mBuffer);
+  MemoryAudioSource as(&mBuffer);
   as.setLooping(true);
   as.play();
   as.pause();
@@ -203,18 +203,18 @@ TEST_F(TestAudioSource, SetTimePosWhilePaused)
 
 
 
-TEST_F(TestAudioSource, SetTimePosOverflow)
+TEST_F(TestMemoryAudioSource, SetTimePosOverflow)
 {
-  AudioSource as(&mBuffer);
+  MemoryAudioSource as(&mBuffer);
   as.setSamplePos(6u);
   EXPECT_EQ(2u, as.getSamplePos());
 }
 
 
 
-TEST_F(TestAudioSource, SetTimePosMicroseconds)
+TEST_F(TestMemoryAudioSource, SetTimePosMicroseconds)
 {
-  AudioSource as(&mBuffer);
+  MemoryAudioSource as(&mBuffer);
   EXPECT_EQ(std::chrono::microseconds(0), as.getTimePos());
   EXPECT_EQ(0u, as.getSamplePos());
   as.setTimePos(std::chrono::microseconds(1500000));
@@ -227,9 +227,9 @@ TEST_F(TestAudioSource, SetTimePosMicroseconds)
 
 
 
-TEST_F(TestAudioSource, SetLooping)
+TEST_F(TestMemoryAudioSource, SetLooping)
 {
-  AudioSource as(&mBuffer);
+  MemoryAudioSource as(&mBuffer);
   as.setLooping(true);
   EXPECT_TRUE(as.isLooping());
   as.setLooping(false);
@@ -238,9 +238,9 @@ TEST_F(TestAudioSource, SetLooping)
 
 
 
-TEST_F(TestAudioSource, StopWhileStopped)
+TEST_F(TestMemoryAudioSource, StopWhileStopped)
 {
-  AudioSource as(&mBuffer);
+  MemoryAudioSource as(&mBuffer);
   as.setLooping(true);
   as.setSamplePos(3u);
   as.stop();
@@ -250,9 +250,9 @@ TEST_F(TestAudioSource, StopWhileStopped)
 
 
 
-TEST_F(TestAudioSource, StopWhilePlaying)
+TEST_F(TestMemoryAudioSource, StopWhilePlaying)
 {
-  AudioSource as(&mBuffer);
+  MemoryAudioSource as(&mBuffer);
   as.setLooping(true);
   as.setSamplePos(3u);
   as.play();
@@ -263,9 +263,9 @@ TEST_F(TestAudioSource, StopWhilePlaying)
 
 
 
-TEST_F(TestAudioSource, StopWhilePaused)
+TEST_F(TestMemoryAudioSource, StopWhilePaused)
 {
-  AudioSource as(&mBuffer);
+  MemoryAudioSource as(&mBuffer);
   as.setLooping(true);
   as.setSamplePos(3u);
   as.play();
@@ -277,9 +277,9 @@ TEST_F(TestAudioSource, StopWhilePaused)
 
 
 
-TEST_F(TestAudioSource, PlayWhileStopped)
+TEST_F(TestMemoryAudioSource, PlayWhileStopped)
 {
-  AudioSource as(&mBuffer);
+  MemoryAudioSource as(&mBuffer);
   as.setLooping(true);
   as.play();
   EXPECT_EQ(AudioSourceState::Playing, as.getState());
@@ -287,9 +287,9 @@ TEST_F(TestAudioSource, PlayWhileStopped)
 
 
 
-TEST_F(TestAudioSource, PlayWhilePlaying)
+TEST_F(TestMemoryAudioSource, PlayWhilePlaying)
 {
-  AudioSource as(&mBuffer);
+  MemoryAudioSource as(&mBuffer);
   as.setLooping(true);
   as.play();
   as.play();
@@ -298,9 +298,9 @@ TEST_F(TestAudioSource, PlayWhilePlaying)
 
 
 
-TEST_F(TestAudioSource, PlayWhilePaused)
+TEST_F(TestMemoryAudioSource, PlayWhilePaused)
 {
-  AudioSource as(&mBuffer);
+  MemoryAudioSource as(&mBuffer);
   as.setLooping(true);
   as.play();
   as.pause();
@@ -310,9 +310,9 @@ TEST_F(TestAudioSource, PlayWhilePaused)
 
 
 
-TEST_F(TestAudioSource, PauseWhileStopped)
+TEST_F(TestMemoryAudioSource, PauseWhileStopped)
 {
-  AudioSource as(&mBuffer);
+  MemoryAudioSource as(&mBuffer);
   as.setLooping(true);
   as.setSamplePos(3u);
   as.pause();
@@ -322,9 +322,9 @@ TEST_F(TestAudioSource, PauseWhileStopped)
 
 
 
-TEST_F(TestAudioSource, PauseWhilePlaying)
+TEST_F(TestMemoryAudioSource, PauseWhilePlaying)
 {
-  AudioSource as(&mBuffer);
+  MemoryAudioSource as(&mBuffer);
   as.setLooping(true);
   as.play();
   as.pause();
@@ -333,9 +333,9 @@ TEST_F(TestAudioSource, PauseWhilePlaying)
 
 
 
-TEST_F(TestAudioSource, PauseWhilePaused)
+TEST_F(TestMemoryAudioSource, PauseWhilePaused)
 {
-  AudioSource as(&mBuffer);
+  MemoryAudioSource as(&mBuffer);
   as.setLooping(true);
   as.play();
   as.pause();
@@ -345,9 +345,9 @@ TEST_F(TestAudioSource, PauseWhilePaused)
 
 
 
-TEST_F(TestAudioSource, ReplayWhileStopped)
+TEST_F(TestMemoryAudioSource, ReplayWhileStopped)
 {
-  AudioSource as(&mBuffer);
+  MemoryAudioSource as(&mBuffer);
   as.setLooping(true);
   as.replay();
   EXPECT_EQ(AudioSourceState::Playing, as.getState());
@@ -355,9 +355,9 @@ TEST_F(TestAudioSource, ReplayWhileStopped)
 
 
 
-TEST_F(TestAudioSource, ReplayWhilePlaying)
+TEST_F(TestMemoryAudioSource, ReplayWhilePlaying)
 {
-  AudioSource as(&mBuffer);
+  MemoryAudioSource as(&mBuffer);
   as.setLooping(true);
   as.play();
   as.replay();
@@ -366,9 +366,9 @@ TEST_F(TestAudioSource, ReplayWhilePlaying)
 
 
 
-TEST_F(TestAudioSource, ReplayWhilePaused)
+TEST_F(TestMemoryAudioSource, ReplayWhilePaused)
 {
-  AudioSource as(&mBuffer);
+  MemoryAudioSource as(&mBuffer);
   as.setLooping(true);
   as.play();
   as.pause();
@@ -378,9 +378,9 @@ TEST_F(TestAudioSource, ReplayWhilePaused)
 
 
 
-TEST_F(TestAudioSource, PlayWithoutBuffer)
+TEST_F(TestMemoryAudioSource, PlayWithoutBuffer)
 {
-  AudioSource as;
+  MemoryAudioSource as;
   as.setLooping(true);
   as.play();
   EXPECT_EQ(AudioSourceState::Stopped, as.getState());

@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/aud/AudioSource.hpp"
+#include "hou/aud/MemoryAudioSource.hpp"
 
 #include "hou/aud/AudioBuffer.hpp"
 
@@ -11,7 +11,7 @@
 namespace hou
 {
 
-AudioSource::AudioSource(const AudioBuffer* buffer)
+MemoryAudioSource::MemoryAudioSource(const AudioBuffer* buffer)
   : AudioSourceBase()
   , mBufferRef(nullptr)
 {
@@ -20,19 +20,19 @@ AudioSource::AudioSource(const AudioBuffer* buffer)
 
 
 
-AudioSource::AudioSource(AudioSource&& other)
+MemoryAudioSource::MemoryAudioSource(MemoryAudioSource&& other)
   : AudioSourceBase(std::move(other))
   , mBufferRef(std::move(other.mBufferRef))
 {}
 
 
 
-AudioSource::~AudioSource()
+MemoryAudioSource::~MemoryAudioSource()
 {}
 
 
 
-void AudioSource::setBuffer(const AudioBuffer* buffer)
+void MemoryAudioSource::setBuffer(const AudioBuffer* buffer)
 {
   stop();
   mBufferRef = buffer;
@@ -48,14 +48,14 @@ void AudioSource::setBuffer(const AudioBuffer* buffer)
 
 
 
-const AudioBuffer* AudioSource::getBuffer() const
+const AudioBuffer* MemoryAudioSource::getBuffer() const
 {
   return mBufferRef;
 }
 
 
 
-AudioBufferFormat AudioSource::getFormat() const
+AudioBufferFormat MemoryAudioSource::getFormat() const
 {
   return mBufferRef == nullptr ? AudioBufferFormat::Mono8
                                : mBufferRef->getFormat();
@@ -63,56 +63,56 @@ AudioBufferFormat AudioSource::getFormat() const
 
 
 
-uint AudioSource::getChannelCount() const
+uint MemoryAudioSource::getChannelCount() const
 {
   return mBufferRef == nullptr ? 1u : mBufferRef->getChannelCount();
 }
 
 
 
-uint AudioSource::getBytesPerSample() const
+uint MemoryAudioSource::getBytesPerSample() const
 {
   return mBufferRef == nullptr ? 1u : mBufferRef->getChannelCount();
 }
 
 
 
-uint AudioSource::getSampleRate() const
+uint MemoryAudioSource::getSampleRate() const
 {
   return mBufferRef == nullptr ? 1u : mBufferRef->getSampleRate();
 }
 
 
 
-uint AudioSource::getSampleCount() const
+uint MemoryAudioSource::getSampleCount() const
 {
   return mBufferRef == nullptr ? 0u : mBufferRef->getSampleCount();
 }
 
 
 
-void AudioSource::setLooping(bool looping)
+void MemoryAudioSource::setLooping(bool looping)
 {
   AudioSourceBase::setLooping(looping);
 }
 
 
 
-bool AudioSource::isLooping() const
+bool MemoryAudioSource::isLooping() const
 {
   return AudioSourceBase::isLooping();
 }
 
 
 
-void AudioSource::onSetSamplePos(uint pos)
+void MemoryAudioSource::onSetSamplePos(uint pos)
 {
   AudioSourceBase::onSetSamplePos(pos);
 }
 
 
 
-uint AudioSource::onGetSamplePos() const
+uint MemoryAudioSource::onGetSamplePos() const
 {
   return AudioSourceBase::onGetSamplePos();
 }

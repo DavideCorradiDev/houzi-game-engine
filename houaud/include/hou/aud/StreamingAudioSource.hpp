@@ -30,7 +30,7 @@ namespace hou
  *  This class is suited to play long audio buffers, as the buffer must not be
  *  completely loaded in memory but is rather streamed concurrently in smaller
  *  chunks.
- *  For short audio files, it is suggested to use an AudioSource and an
+ *  For short audio files, it is suggested to use an MemoryAudioSource and an
  *  AudioBuffer, as performance is better and as the AudioBuffer can be shared
  *  by multiple AudioSources.
  *  Each StreamingAudioSource object spawns a thread that takes care of loading
