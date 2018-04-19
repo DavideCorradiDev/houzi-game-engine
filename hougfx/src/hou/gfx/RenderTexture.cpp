@@ -28,13 +28,6 @@ RenderTexture::~RenderTexture()
 
 
 
-void RenderTexture::setSize(const Vec2u& size)
-{
-  RenderSurface::setSize(size);
-}
-
-
-
 Texture2 RenderTexture::toTexture() const
 {
   if(isMultisampled())

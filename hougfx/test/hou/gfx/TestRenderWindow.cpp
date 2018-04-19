@@ -127,19 +127,6 @@ TEST_F(TestRenderWindow, CreationFullscreen)
 
 
 
-TEST_F(TestRenderWindow, SetSize)
-{
-  RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
-
-  Vec2u sizeRef(14u, 17u);
-  w.setSize(sizeRef);
-
-  EXPECT_EQ(sizeRef, w.getClientSize());
-  EXPECT_EQ(sizeRef, w.getSize());
-}
-
-
-
 TEST_F(TestRenderWindow, SetClientRect)
 {
   RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);

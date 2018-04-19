@@ -38,8 +38,8 @@ namespace hou
 
 RenderWindow::RenderWindow(const std::string& title, const Vec2u& size,
   uint sampleCount, WindowStyle style)
-  : Window(title,
-      VideoMode(size, GraphicContext::getRenderingColorByteCount()), style)
+  : Window(title, VideoMode(size, GraphicContext::getRenderingColorByteCount()),
+      style)
   , RenderSurface(size, sampleCount)
 {}
 
@@ -82,14 +82,6 @@ void RenderWindow::setVerticalSyncMode(VerticalSyncMode mode)
 
 
 
-void RenderWindow::setSize(const Vec2u& size)
-{
-  Window::setClientSize(size);
-  RenderSurface::setSize(size);
-}
-
-
-
 Texture2 RenderWindow::toTexture() const
 {
   if(isMultisampled())
@@ -110,7 +102,7 @@ Texture2 RenderWindow::toTexture() const
 void RenderWindow::setFrameRect(const Recti& value)
 {
   Window::setFrameRect(value);
-  RenderSurface::setSize(getClientSize());
+  rebuildFramebufferIfNecessary();
 }
 
 
@@ -118,7 +110,19 @@ void RenderWindow::setFrameRect(const Recti& value)
 void RenderWindow::setClientRect(const Recti& value)
 {
   Window::setClientRect(value);
-  RenderSurface::setSize(getClientSize());
+  rebuildFramebufferIfNecessary();
+}
+
+
+
+void RenderWindow::rebuildFramebufferIfNecessary()
+{
+  Vec2u clientSize = getClientSize();
+  if(clientSize.x() > 0u && clientSize.y() > 0u && getSize() != clientSize)
+  {
+    buildFramebuffer(clientSize, getSampleCount());
+  }
+  HOU_EXPECT_DEV(getSize() == getClientSize());
 }
 
 }  // namespace hou

@@ -107,17 +107,6 @@ public:
    */
   Vec2u getSize() const;
 
-  /** Sets the size of the RenderSurface.
-   *
-   *  After setting the size, the content of the surface is undefined.
-   *  Throws if the required surface area is 0.
-   *  Throws if the required size is larger than
-   *  the maximum supported texture size.
-   *
-   *  \param size the desired size of the render surface.
-   */
-  virtual void setSize(const Vec2u& size) = 0;
-
   /** Checks if the RenderSurface is multisampled.
    *
    *  \return true if the number of samples of the RenderSurface is greater than
@@ -187,7 +176,7 @@ public:
   friend HOU_GFX_API void blit(const RenderSurface& src, const Recti& srcRect,
     RenderSurface& dst, const Recti& dstRect);
 
-private:
+protected:
   void buildFramebuffer(const Vec2u& size, uint sampleCount);
 
 private:

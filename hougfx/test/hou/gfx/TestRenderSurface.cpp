@@ -33,7 +33,6 @@ public:
   ConcreteRenderSurface(ConcreteRenderSurface&& other);
   virtual ~ConcreteRenderSurface();
 
-  void setSize(const Vec2u& size) override;
   Texture2 toTexture() const override;
 };
 
@@ -53,13 +52,6 @@ ConcreteRenderSurface::ConcreteRenderSurface(ConcreteRenderSurface&& other)
 
 ConcreteRenderSurface::~ConcreteRenderSurface()
 {}
-
-
-
-void ConcreteRenderSurface::setSize(const Vec2u& size)
-{
-  RenderSurface::setSize(size);
-}
 
 
 
@@ -218,41 +210,6 @@ TEST_F(TestRenderSurface, NegativeSizeViewport)
   EXPECT_EQ(Recti(Vec2i(0, 0), size), rs.getDefaultViewport());
   EXPECT_EQ(viewport, rs.getViewport());
   EXPECT_EQ(size, rs.getSize());
-}
-
-
-
-TEST_F(TestRenderSurface, Size)
-{
-  Vec2u originalSize(3u, 4u);
-  ConcreteRenderSurface rs(originalSize, 0u);
-  Vec2u size(5u, 2u);
-  rs.setSize(size);
-
-  EXPECT_EQ(Recti(Vec2i(0, 0), size), rs.getDefaultViewport());
-  EXPECT_EQ(Recti(Vec2i(0, 0), originalSize), rs.getViewport());
-  EXPECT_EQ(size, rs.getSize());
-}
-
-
-
-TEST_F(TestRenderSurfaceDeathTest, SetSizeNull)
-{
-  ConcreteRenderSurface rs(Vec2u(3u, 4u), 0u);
-  HOU_EXPECT_PRECONDITION(rs.setSize(Vec2u(0u, 0u)));
-  HOU_EXPECT_PRECONDITION(rs.setSize(Vec2u(1u, 0u)));
-  HOU_EXPECT_PRECONDITION(rs.setSize(Vec2u(0u, 1u)));
-}
-
-
-
-TEST_F(TestRenderSurfaceDeathTest, SetSizeTooLarge)
-{
-  const uint size = gl::getMaxTextureSize() + 1;
-  ConcreteRenderSurface rs(Vec2u(3u, 4u), 0u);
-  HOU_EXPECT_PRECONDITION(rs.setSize(Vec2u(size, size)));
-  HOU_EXPECT_PRECONDITION(rs.setSize(Vec2u(1u, size)));
-  HOU_EXPECT_PRECONDITION(rs.setSize(Vec2u(size, 1u)));
 }
 
 

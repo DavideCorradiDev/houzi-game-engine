@@ -104,13 +104,6 @@ Vec2u RenderSurface::getSize() const
 
 
 
-void RenderSurface::setSize(const Vec2u& size)
-{
-  buildFramebuffer(size, mSampleCount);
-}
-
-
-
 bool RenderSurface::isMultisampled() const
 {
   return mSampleCount > 1u;

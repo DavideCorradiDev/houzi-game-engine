@@ -37,7 +37,6 @@ public:
   virtual ~RenderTexture();
 
   //. RenderSurface overrides.
-  void setSize(const Vec2u& size) override;
   Texture2 toTexture() const override;
 };
 

@@ -57,12 +57,14 @@ public:
   void setVerticalSyncMode(VerticalSyncMode mode);
 
   // RenderSurface Overrides.
-  void setSize(const Vec2u& size) override;
   Texture2 toTexture() const override;
 
   // Window overrides.
   void setFrameRect(const Recti& value) override;
   void setClientRect(const Recti& value) override;
+
+private:
+  void rebuildFramebufferIfNecessary();
 };
 
 }
