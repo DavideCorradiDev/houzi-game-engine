@@ -413,6 +413,144 @@ TEST_F(TestSystemWindow, EventQueueWaitEvent)
 
 
 
+TEST_F(TestSystemWindow, GenerateResizeEventOnSetFrameSize)
+{
+  SystemWindow w(
+    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  EXPECT_TRUE(w.isEventQueueEmpty());
+
+  w.setFrameSize(Vec2u(200u, 400u));
+  WindowEvent eventRef
+    = WindowEvent::resized(w.getClientSize().x(), w.getClientSize().y());
+  EXPECT_FALSE(w.isEventQueueEmpty());
+  EXPECT_EQ(eventRef, w.popEvent());
+  EXPECT_TRUE(w.isEventQueueEmpty());
+}
+
+
+
+TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetFrameSizeWithSameSize)
+{
+  SystemWindow w(
+    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  EXPECT_TRUE(w.isEventQueueEmpty());
+
+  w.setFrameSize(w.getFrameSize());
+  EXPECT_TRUE(w.isEventQueueEmpty());
+}
+
+
+
+TEST_F(TestSystemWindow, GenerateResizeEventOnSetFrameRect)
+{
+  SystemWindow w(
+    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  EXPECT_TRUE(w.isEventQueueEmpty());
+
+  w.setFrameRect(Recti(Vec2i(32, 64), Vec2i(200, 400)));
+  WindowEvent eventRef
+    = WindowEvent::resized(w.getClientSize().x(), w.getClientSize().y());
+  EXPECT_FALSE(w.isEventQueueEmpty());
+  EXPECT_EQ(eventRef, w.popEvent());
+  EXPECT_TRUE(w.isEventQueueEmpty());
+}
+
+
+
+TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetFrameRectWithSameSize)
+{
+  SystemWindow w(
+    "Win", VideoMode(Vec2u(200u, 400u), 32u), WindowStyle::Windowed);
+  EXPECT_TRUE(w.isEventQueueEmpty());
+
+  w.setFrameRect(Recti(Vec2i(32, 64), static_cast<Vec2i>(w.getFrameSize())));
+  EXPECT_TRUE(w.isEventQueueEmpty());
+}
+
+
+
+TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetFramePos)
+{
+  SystemWindow w(
+    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  EXPECT_TRUE(w.isEventQueueEmpty());
+
+  w.setFramePosition(Vec2i(32, 64));
+  EXPECT_TRUE(w.isEventQueueEmpty());
+}
+
+
+
+TEST_F(TestSystemWindow, GenerateResizeEventOnSetClientSize)
+{
+  SystemWindow w(
+    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  EXPECT_TRUE(w.isEventQueueEmpty());
+
+  w.setClientSize(Vec2u(200u, 400u));
+  WindowEvent eventRef
+    = WindowEvent::resized(w.getClientSize().x(), w.getClientSize().y());
+  EXPECT_FALSE(w.isEventQueueEmpty());
+  EXPECT_EQ(eventRef, w.popEvent());
+  EXPECT_TRUE(w.isEventQueueEmpty());
+}
+
+
+
+TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetClientSizeWithSameSize)
+{
+  SystemWindow w(
+    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  EXPECT_TRUE(w.isEventQueueEmpty());
+
+  w.setClientSize(w.getClientSize());
+  EXPECT_TRUE(w.isEventQueueEmpty());
+}
+
+
+
+TEST_F(TestSystemWindow, GenerateResizeEventOnSetClientRect)
+{
+  SystemWindow w(
+    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  EXPECT_TRUE(w.isEventQueueEmpty());
+
+  w.setClientRect(Recti(Vec2i(32, 64), Vec2i(200, 400)));
+  WindowEvent eventRef
+    = WindowEvent::resized(w.getClientSize().x(), w.getClientSize().y());
+  EXPECT_FALSE(w.isEventQueueEmpty());
+  EXPECT_EQ(eventRef, w.popEvent());
+  EXPECT_TRUE(w.isEventQueueEmpty());
+}
+
+
+
+TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetClientRectWithSameSize)
+{
+  SystemWindow w(
+    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  EXPECT_TRUE(w.isEventQueueEmpty());
+
+  w.setClientRect(Recti(Vec2i(32, 64), static_cast<Vec2i>(w.getClientSize())));
+  EXPECT_TRUE(w.isEventQueueEmpty());
+}
+
+
+
+TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetClientPos)
+{
+  SystemWindow w(
+    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  EXPECT_TRUE(w.isEventQueueEmpty());
+
+  w.setClientPosition(Vec2i(32, 64));
+  EXPECT_TRUE(w.isEventQueueEmpty());
+}
+
+// setClientRect with negative values?
+
+
+
 // NOTES:
 // - no test for mouse grabbing.
 // - no test for key repeat.

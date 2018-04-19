@@ -107,30 +107,34 @@ Vec2i Window::getFramePosition() const
 
 Vec2u Window::getFrameSize() const
 {
-  return getFrameRect().getSize();
+  return static_cast<Vec2u>(getFrameRect().getSize());
 }
 
 
 
 void Window::setFrameRect(const Recti& rect)
 {
+  Vec2u oldClientSize = getClientSize();
   mImpl.setFrameRect(rect);
+  Vec2u newClientSize = getClientSize();
+  if(oldClientSize != newClientSize)
+  {
+    pushEvent(WindowEvent::resized(newClientSize.x(), newClientSize.y()));
+  }
 }
 
 
 
 void Window::setFramePosition(const Vec2i& pos)
 {
-  Vec2u size = getFrameSize();
-  setFrameRect(Recti(pos, size));
+  setFrameRect(Recti(pos, static_cast<Vec2i>(getFrameSize())));
 }
 
 
 
 void Window::setFrameSize(const Vec2u& size)
 {
-  Vec2i pos = getFramePosition();
-  setFrameRect(Recti(pos, size));
+  setFrameRect(Recti(getFramePosition(), static_cast<Vec2i>(size)));
 }
 
 
@@ -151,30 +155,34 @@ Vec2i Window::getClientPosition() const
 
 Vec2u Window::getClientSize() const
 {
-  return getClientRect().getSize();
+  return static_cast<Vec2u>(getClientRect().getSize());
 }
 
 
 
 void Window::setClientRect(const Recti& rect)
 {
+  Vec2u oldClientSize = getClientSize();
   mImpl.setClientRect(rect);
+  Vec2u newClientSize = getClientSize();
+  if(oldClientSize != newClientSize)
+  {
+    pushEvent(WindowEvent::resized(newClientSize.x(), newClientSize.y()));
+  }
 }
 
 
 
 void Window::setClientPosition(const Vec2i& pos)
 {
-  Vec2u size = getFrameSize();
-  setClientRect(Recti(pos, size));
+  setClientRect(Recti(pos, static_cast<Vec2i>(getClientSize())));
 }
 
 
 
 void Window::setClientSize(const Vec2u& size)
 {
-  Vec2i pos = getClientPosition();
-  setClientRect(Recti(pos, size));
+  setClientRect(Recti(getClientPosition(), static_cast<Vec2i>(size)));
 }
 
 

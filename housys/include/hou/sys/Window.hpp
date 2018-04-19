@@ -37,7 +37,7 @@ public:
    *  Key repeat is disabled for the window.
    *
    *  \param title the title of the Window.
-   *  \param videoMode the video mode of the Window, specifying its size and
+   *  \param videoMode the video mode of the Window, specifying its client size and
    *  bytes per pixel.
    *  \param style the style of the Window.
    *  Only one Window can be fullscreen.
