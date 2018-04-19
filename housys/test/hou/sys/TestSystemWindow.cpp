@@ -216,6 +216,16 @@ TEST_F(TestSystemWindow, FrameRect)
 
 
 
+TEST_F(TestSystemWindowDeathTest, FrameRectErrorNegativeSize)
+{
+  SystemWindow w(
+    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  HOU_EXPECT_PRECONDITION(w.setFrameRect(Recti(0, 0, -1, 600)));
+  HOU_EXPECT_PRECONDITION(w.setFrameRect(Recti(0, 0, 300, -1)));
+}
+
+
+
 TEST_F(TestSystemWindow, FramePosition)
 {
   SystemWindow w(
@@ -245,6 +255,16 @@ TEST_F(TestSystemWindow, ClientRect)
   Recti refRect = Recti(10, 20, 30, 40);
   w.setClientRect(refRect);
   EXPECT_EQ(refRect, w.getClientRect());
+}
+
+
+
+TEST_F(TestSystemWindowDeathTest, ClientRectErrorNegativeSize)
+{
+  SystemWindow w(
+    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  HOU_EXPECT_PRECONDITION(w.setClientRect(Recti(0, 0, -1, 600)));
+  HOU_EXPECT_PRECONDITION(w.setClientRect(Recti(0, 0, 300, -1)));
 }
 
 

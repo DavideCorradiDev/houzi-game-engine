@@ -114,6 +114,7 @@ Vec2u Window::getFrameSize() const
 
 void Window::setFrameRect(const Recti& rect)
 {
+  HOU_EXPECT(rect.getSize().x() >= 0 && rect.getSize().y() >= 0);
   Vec2u oldClientSize = getClientSize();
   mImpl.setFrameRect(rect);
   Vec2u newClientSize = getClientSize();
@@ -162,6 +163,7 @@ Vec2u Window::getClientSize() const
 
 void Window::setClientRect(const Recti& rect)
 {
+  HOU_EXPECT(rect.getSize().x() >= 0 && rect.getSize().y() >= 0);
   Vec2u oldClientSize = getClientSize();
   mImpl.setClientRect(rect);
   Vec2u newClientSize = getClientSize();
