@@ -19,13 +19,33 @@ namespace hou
 class VideoMode;
 
 /** Window that can be used for rendering.
+ *
+ * Some notes on how the size is handled:
+ * - getFrameSize will return the size of the window including its frame.
+ * - getClientSize will return the size of the window without its frame.
+ * - getSize will return the size of the render surface associated to the
+ * Window.
+ *
+ * getSize will normally return the same value as getClientSize, with the
+ * following exceptions:
+ * - If one of the elements of the client size equals 0, the corresponding
+ * element in the render surface size will be equal to 1. The render surface
+ * must have at least one pixel.
+ * - If the window is resized by dragging its borders, the rendering surface
+ * will be resized accordingly only when popping the resizing event from the
+ * event queue of the window.
+ *
+ * The view port of the render surface will not be adjusted if the size of the
+ * window changes for any reason. It must be adjusted manually. This can
+ * normally be achieved simply by reacting to resizing events from the window
+ * event queue.
  */
 class HOU_GFX_API RenderWindow
   : public Window
   , public RenderSurface
 {
 public:
-  /** Creates a RenderTexutre with the desired title, size, sample count, and
+  /** Creates a RenderWindow with the desired title, size, sample count, and
    *  style.
    *
    *  \param title the window title.
@@ -70,4 +90,3 @@ private:
 }
 
 #endif
-

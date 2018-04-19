@@ -117,12 +117,19 @@ void RenderWindow::setClientRect(const Recti& value)
 
 void RenderWindow::rebuildFramebufferIfNecessary()
 {
-  Vec2u clientSize = getClientSize();
-  if(clientSize.x() > 0u && clientSize.y() > 0u && getSize() != clientSize)
+  Vec2u newSize = getClientSize();
+  if(newSize.x() == 0u)
   {
-    buildFramebuffer(clientSize, getSampleCount());
+    newSize.x() = 1u;
   }
-  HOU_EXPECT_DEV(getSize() == getClientSize());
+  if(newSize.y() == 0u)
+  {
+    newSize.y() = 1u;
+  }
+  if(getSize() != newSize)
+  {
+    buildFramebuffer(newSize, getSampleCount());
+  }
 }
 
 }  // namespace hou
