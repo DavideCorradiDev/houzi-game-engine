@@ -35,9 +35,6 @@ public:
   /** Destructor.
    */
   virtual ~RenderTexture();
-
-  //. RenderSurface overrides.
-  Texture2 toTexture() const override;
 };
 
 }

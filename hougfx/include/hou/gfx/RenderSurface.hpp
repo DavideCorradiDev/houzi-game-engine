@@ -143,7 +143,7 @@ public:
    *
    *  \return the Texture2 create from this RenderSurface.
    */
-  virtual Texture2 toTexture() const = 0;
+  Texture2 toTexture() const;
 
   /** Checks if this RenderSurface is the current render source.
    *

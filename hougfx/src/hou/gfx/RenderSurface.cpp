@@ -140,11 +140,9 @@ void RenderSurface::clear(const Color& color)
 
 Texture2 RenderSurface::toTexture() const
 {
-  HOU_EXPECT(!isMultisampled());
-  setCurrentRenderSource(*this);
-  Vec2u size = getSize();
-  Texture2 tex(size);
-  gl::copyTextureSubImage2d(tex.getHandle(), 0, 0, 0, 0, 0, size.x(), size.y());
+  Texture2 tex(getSize());
+  Recti blitRect(Vec2i::zero(), static_cast<Vec2i>(getSize()));
+  blit(mFrameBuffer, blitRect, tex, blitRect, FrameBufferBlitFilter::Nearest);
   return tex;
 }
 

@@ -26,22 +26,5 @@ RenderTexture::RenderTexture(RenderTexture&& other)
 RenderTexture::~RenderTexture()
 {}
 
-
-
-Texture2 RenderTexture::toTexture() const
-{
-  if(isMultisampled())
-  {
-    RenderTexture ssRenderTexture(getSize(), 0u);
-    Recti viewport = getDefaultViewport();
-    blit(*this, viewport, ssRenderTexture, viewport);
-    return ssRenderTexture.toTexture();
-  }
-  else
-  {
-    return RenderSurface::toTexture();
-  }
-}
-
 }
 

@@ -32,8 +32,6 @@ public:
   ConcreteRenderSurface(const Vec2u& size, uint samples);
   ConcreteRenderSurface(ConcreteRenderSurface&& other);
   virtual ~ConcreteRenderSurface();
-
-  Texture2 toTexture() const override;
 };
 
 
@@ -52,13 +50,6 @@ ConcreteRenderSurface::ConcreteRenderSurface(ConcreteRenderSurface&& other)
 
 ConcreteRenderSurface::~ConcreteRenderSurface()
 {}
-
-
-
-Texture2 ConcreteRenderSurface::toTexture() const
-{
-  return RenderSurface::toTexture();
-}
 
 
 
@@ -443,11 +434,15 @@ TEST_F(TestRenderSurfaceDeathTest, BlitDifferentSampleSizeDifferentRectSize)
 
 
 
-TEST_F(TestRenderSurfaceDeathTest, ToTextureMultisampled)
+TEST_F(TestRenderSurface, ToTextureMultisampled)
 {
   ConcreteRenderSurface rs(Vec2u(3u, 4u), 2u);
-  HOU_EXPECT_ERROR(rs.toTexture(), std::logic_error
-    , getText(CorError::Precondition));
+  Color col(3, 5, 8, 9);
+  rs.clear(col);
+
+  Texture2 tex = rs.toTexture();
+  Image2RGBA imRef(tex.getSize(), PixelRGBA(col));
+  EXPECT_EQ(imRef, tex.getImage<PixelFormat::RGBA>());
 }
 
 

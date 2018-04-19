@@ -82,23 +82,6 @@ void RenderWindow::setVerticalSyncMode(VerticalSyncMode mode)
 
 
 
-Texture2 RenderWindow::toTexture() const
-{
-  if(isMultisampled())
-  {
-    RenderTexture ssRenderTexture(getSize(), 0u);
-    Recti viewport = getDefaultViewport();
-    blit(*this, viewport, ssRenderTexture, viewport);
-    return ssRenderTexture.toTexture();
-  }
-  else
-  {
-    return RenderSurface::toTexture();
-  }
-}
-
-
-
 void RenderWindow::setFrameRect(const Recti& value)
 {
   Window::setFrameRect(value);

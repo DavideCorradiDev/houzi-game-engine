@@ -1038,3 +1038,58 @@ TEST_F(TestFrameBufferDeathTest, BlitErrorLinearFilterWithDepthStencilMask)
     blit(src, Recti(1u, 1u, 1u, 1u), dst, Recti(1u, 1u, 1u, 1u),
       FrameBufferBlitMask::All, FrameBufferBlitFilter::Linear));
 }
+
+
+
+TEST_F(TestFrameBuffer, BlitToTexture)
+{
+  Vec2u sizeRef(4u, 8u);
+  Recti rectRef(Vec2i::zero(), sizeRef);
+
+  FrameBuffer src;
+  Texture2 srcTex(sizeRef);
+  srcTex.clear(PixelRGBA(1u, 2u, 3u, 4u));
+  src.setColorAttachment(0u, srcTex);
+
+  Texture2 dstTex(sizeRef);
+
+  blit(src, rectRef, dstTex, rectRef, FrameBufferBlitFilter::Linear);
+  EXPECT_EQ(
+    srcTex.getImage<PixelFormat::RGBA>(), dstTex.getImage<PixelFormat::RGBA>());
+}
+
+
+
+TEST_F(TestFrameBuffer, BlitFromTexture)
+{
+  Vec2u sizeRef(4u, 8u);
+  Recti rectRef(Vec2i::zero(), sizeRef);
+
+  Texture2 srcTex(sizeRef);
+  srcTex.clear(PixelRGBA(1u, 2u, 3u, 4u));
+
+  FrameBuffer dst;
+  Texture2 dstTex(sizeRef);
+  dst.setColorAttachment(0u, dstTex);
+
+  blit(srcTex, rectRef, dst, rectRef, FrameBufferBlitFilter::Linear);
+  EXPECT_EQ(
+    srcTex.getImage<PixelFormat::RGBA>(), dstTex.getImage<PixelFormat::RGBA>());
+}
+
+
+
+TEST_F(TestFrameBuffer, BlitFromAndToTexture)
+{
+  Vec2u sizeRef(4u, 8u);
+  Recti rectRef(Vec2i::zero(), sizeRef);
+
+  Texture2 srcTex(sizeRef);
+  srcTex.clear(PixelRGBA(1u, 2u, 3u, 4u));
+
+  Texture2 dstTex(sizeRef);
+
+  blit(srcTex, rectRef, dstTex, rectRef, FrameBufferBlitFilter::Linear);
+  EXPECT_EQ(
+    srcTex.getImage<PixelFormat::RGBA>(), dstTex.getImage<PixelFormat::RGBA>());
+}

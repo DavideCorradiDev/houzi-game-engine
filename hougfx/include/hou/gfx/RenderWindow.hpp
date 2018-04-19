@@ -76,9 +76,6 @@ public:
    */
   void setVerticalSyncMode(VerticalSyncMode mode);
 
-  // RenderSurface Overrides.
-  Texture2 toTexture() const override;
-
   // Window overrides.
   void setFrameRect(const Recti& value) override;
   void setClientRect(const Recti& value) override;
