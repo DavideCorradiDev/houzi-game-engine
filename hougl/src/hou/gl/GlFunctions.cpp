@@ -12,7 +12,7 @@
 #include "hou/mth/Rectangle.hpp"
 
 #include "hou/sys/VideoMode.hpp"
-#include "hou/sys/Window.hpp"
+#include "hou/sys/SystemWindow.hpp"
 
 #if defined(HOU_SYSTEM_WINDOWS)
 #include "hou/sys/win/WinError.hpp"
@@ -71,7 +71,7 @@ void initExtensions()
   if(!extensionsInitialized)
   {
     // Create temporary dummy context, needed to call any GL function.
-    Window w("", VideoMode(Vec2u(0u, 0u), 32u), WindowStyle::Windowed);
+    SystemWindow w("", VideoMode(Vec2u(0u, 0u), 32u), WindowStyle::Windowed);
     gl::ContextSettings cs(gl::ContextSettings::Default);
     gl::Context c(cs, w);
     gl::Context::setCurrent(c, w);

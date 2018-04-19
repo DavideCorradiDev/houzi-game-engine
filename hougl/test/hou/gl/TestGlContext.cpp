@@ -12,7 +12,7 @@
 #include "hou/gl/GlFunctions.hpp"
 
 #include "hou/sys/VideoMode.hpp"
-#include "hou/sys/Window.hpp"
+#include "hou/sys/SystemWindow.hpp"
 
 #include <thread>
 
@@ -47,7 +47,7 @@ void TestGlContext::SetUpTestCase()
 
 TEST_F(TestGlContext, Creation)
 {
-  Window w("Test", VideoMode(Vec2u(10u, 10u), 4u), WindowStyle::Windowed);
+  SystemWindow w("Test", VideoMode(Vec2u(10u, 10u), 4u), WindowStyle::Windowed);
   gl::Context c(gl::ContextSettings::Default, w);
 
   EXPECT_NE(0u, c.getUid());
@@ -59,8 +59,8 @@ TEST_F(TestGlContext, Creation)
 
 TEST_F(TestGlContext, SharedCreation)
 {
-  Window w1("Test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
-  Window w2("Test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
+  SystemWindow w1("Test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
+  SystemWindow w2("Test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
   gl::Context c1(gl::ContextSettings::Default, w1);
   gl::Context c2(gl::ContextSettings::Default, w2, c1);
 
@@ -79,7 +79,7 @@ TEST_F(TestGlContext, SharedCreation)
 
 TEST_F(TestGlContext, GetUid)
 {
-  Window w("Test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
+  SystemWindow w("Test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
 
   // Various tests generate contexts. Also, initializing Gl extensions craetes
   // a context. For this reason one may not know beforehand the first context
@@ -99,7 +99,7 @@ TEST_F(TestGlContext, GetUid)
 
 TEST_F(TestGlContext, GetSharingGroupUid)
 {
-  Window w("Test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
+  SystemWindow w("Test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
   gl::Context c1(gl::ContextSettings::Default, w);
   gl::Context c2(gl::ContextSettings::Default, w);
   gl::Context c3(gl::ContextSettings::Default, w, c1);
@@ -149,7 +149,7 @@ TEST_F(TestGlContext, GetSharingGroupUid)
 
 TEST_F(TestGlContext, MoveConstructor)
 {
-  Window w("Test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
+  SystemWindow w("Test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
   gl::Context cDummy(gl::ContextSettings::Default, w);
   gl::Context::setCurrent(cDummy, w);
   ASSERT_EQ(&cDummy, gl::Context::getCurrent());
@@ -167,8 +167,8 @@ TEST_F(TestGlContext, MoveConstructor)
 
 TEST_F(TestGlContext, CurrentGlContext)
 {
-  Window w1("Test", VideoMode(Vec2u(10u, 10u), 4u), WindowStyle::Windowed);
-  Window w2("Test", VideoMode(Vec2u(10u, 10u), 4u), WindowStyle::Windowed);
+  SystemWindow w1("Test", VideoMode(Vec2u(10u, 10u), 4u), WindowStyle::Windowed);
+  SystemWindow w2("Test", VideoMode(Vec2u(10u, 10u), 4u), WindowStyle::Windowed);
   gl::Context c1(gl::ContextSettings::Default, w1);
   gl::Context c2(gl::ContextSettings::Default, w2);
 
@@ -201,8 +201,8 @@ TEST_F(TestGlContext, CurrentGlContext)
 
 TEST_F(TestGlContext, SingleContextMultipleWindows)
 {
-  Window w1("Test", VideoMode(Vec2u(10u, 10u), 4u), WindowStyle::Windowed);
-  Window w2("Test", VideoMode(Vec2u(10u, 10u), 4u), WindowStyle::Windowed);
+  SystemWindow w1("Test", VideoMode(Vec2u(10u, 10u), 4u), WindowStyle::Windowed);
+  SystemWindow w2("Test", VideoMode(Vec2u(10u, 10u), 4u), WindowStyle::Windowed);
   gl::Context c(gl::ContextSettings::Default, w1);
 
   gl::Context::setCurrent(c, w1);
@@ -216,7 +216,7 @@ TEST_F(TestGlContext, SingleContextMultipleWindows)
 
 TEST_F(TestGlContext, MultipleContextsSingleWindow)
 {
-  Window w("Test", VideoMode(Vec2u(10u, 10u), 4u), WindowStyle::Windowed);
+  SystemWindow w("Test", VideoMode(Vec2u(10u, 10u), 4u), WindowStyle::Windowed);
   gl::Context c1(gl::ContextSettings::Default, w);
   gl::Context c2(gl::ContextSettings::Default, w);
 
@@ -231,14 +231,14 @@ TEST_F(TestGlContext, MultipleContextsSingleWindow)
 
 TEST_F(TestGlContextDeathTest, MakeCurrentError)
 {
-  Window w1("Test", VideoMode(Vec2u(10u, 10u), 4u), WindowStyle::Windowed);
+  SystemWindow w1("Test", VideoMode(Vec2u(10u, 10u), 4u), WindowStyle::Windowed);
   gl::Context c(gl::ContextSettings::Default, w1);
 
   gl::Context::setCurrent(c, w1);
   ASSERT_TRUE(c.isCurrent());
 
   std::thread t([&c]() {
-    Window w2("Test", VideoMode(Vec2u(10u, 10u), 4u), WindowStyle::Windowed);
+    SystemWindow w2("Test", VideoMode(Vec2u(10u, 10u), 4u), WindowStyle::Windowed);
     HOU_EXPECT_ERROR(gl::Context::setCurrent(c, w2), std::runtime_error,
       getText(GlError::ContextMakeCurrent));
   });
@@ -252,8 +252,8 @@ TEST_F(TestGlContextOptimizations, RedundantBinding)
 {
   const uint calls = 1000u;
 
-  Window w1("Test", VideoMode(Vec2u(4u, 4u), 4u), WindowStyle::Windowed);
-  Window w2("Test", VideoMode(Vec2u(4u, 4u), 4u), WindowStyle::Windowed);
+  SystemWindow w1("Test", VideoMode(Vec2u(4u, 4u), 4u), WindowStyle::Windowed);
+  SystemWindow w2("Test", VideoMode(Vec2u(4u, 4u), 4u), WindowStyle::Windowed);
   gl::Context c1(gl::ContextSettings::Default, w1);
   gl::Context c2(gl::ContextSettings::Default, w1);
 

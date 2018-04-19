@@ -55,7 +55,7 @@ public:
 
   /** Destructor.
    */
-  virtual ~Window();
+  virtual ~Window() = 0;
 
   /** Gets the OS dependent window handle associated to this Window.
    *
@@ -112,7 +112,7 @@ public:
    *
    *  \param rect the Window frame rectangle.
    */
-  virtual void setFrameRect(const Recti& rect);
+  virtual void setFrameRect(const Recti& rect) = 0;
 
   /** Sets the position of the Window frame.
    *
@@ -162,7 +162,7 @@ public:
    *
    *  \param rect the Window client rectangle.
    */
-  virtual void setClientRect(const Recti& rect);
+  virtual void setClientRect(const Recti& rect) = 0;
 
   /** Sets the position of the Window client.
    *

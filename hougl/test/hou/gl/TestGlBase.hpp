@@ -9,7 +9,7 @@
 
 #include "hou/gl/GlContext.hpp"
 
-#include "hou/sys/Window.hpp"
+#include "hou/sys/SystemWindow.hpp"
 
 
 
@@ -25,7 +25,7 @@ public:
   void setContextCurrent();
 
 protected:
-  hou::Window mWindow;
+  hou::SystemWindow mWindow;
   hou::gl::Context mContext;
 };
 

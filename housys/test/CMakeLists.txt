@@ -47,7 +47,7 @@ SET(EXE_HOUSYS_TEST_SRC
   hou/sys/TestTextFileIn.cpp
   hou/sys/TestTextFileOut.cpp
   hou/sys/TestVideoMode.cpp
-  hou/sys/TestWindow.cpp
+  hou/sys/TestSystemWindow.cpp
   hou/sys/TestWindowEvent.cpp
 )
 

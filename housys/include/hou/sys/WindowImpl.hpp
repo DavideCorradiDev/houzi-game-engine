@@ -42,7 +42,7 @@ public:
   WindowImpl(const std::string& title, const VideoMode& videoMode
     , WindowStyle style);
   WindowImpl(WindowImpl&& other);
-  virtual ~WindowImpl();
+  ~WindowImpl();
 
   WindowHandle getWindowHandle() const;
 

@@ -5,8 +5,8 @@
 #include "hou/Test.hpp"
 #include "hou/sys/TestData.hpp"
 
+#include "hou/sys/SystemWindow.hpp"
 #include "hou/sys/VideoMode.hpp"
-#include "hou/sys/Window.hpp"
 #include "hou/sys/WindowEvent.hpp"
 
 #include "hou/mth/Rectangle.hpp"
@@ -21,16 +21,19 @@ using namespace testing;
 namespace
 {
 
-class TestWindow : public Test {};
-class TestWindowDeathTest : public TestWindow {};
+class TestSystemWindow : public Test
+{};
 
-}
+class TestSystemWindowDeathTest : public TestSystemWindow
+{};
+
+}  // namespace
 
 
 
-TEST_F(TestWindow, CreateWindowed)
+TEST_F(TestSystemWindow, CreateWindowed)
 {
-  std::string titleRef("Window");
+  std::string titleRef("SystemWindow");
   Vec2u sizeRef(300u, 600u);
   Vec2u screenSize = VideoMode::getDesktopMode().getResolution();
   Vec2i posRef = static_cast<Vec2i>(screenSize - sizeRef) / 2;
@@ -38,7 +41,7 @@ TEST_F(TestWindow, CreateWindowed)
   WindowStyle styleRef = WindowStyle::Windowed;
   Image2RGBA iconRef;
 
-  Window w(titleRef, VideoMode(sizeRef, bbpRef), styleRef);
+  SystemWindow w(titleRef, VideoMode(sizeRef, bbpRef), styleRef);
 
   EXPECT_NE(nullptr, w.getWindowHandle());
   EXPECT_NE(0u, w.getUid());
@@ -55,9 +58,9 @@ TEST_F(TestWindow, CreateWindowed)
 
 
 
-TEST_F(TestWindow, CreateWindowedResizable)
+TEST_F(TestSystemWindow, CreateWindowedResizable)
 {
-  std::string titleRef("Window");
+  std::string titleRef("SystemWindow");
   Vec2u sizeRef(300u, 600u);
   Vec2u screenSize = VideoMode::getDesktopMode().getResolution();
   Vec2i posRef = static_cast<Vec2i>(screenSize - sizeRef) / 2;
@@ -65,7 +68,7 @@ TEST_F(TestWindow, CreateWindowedResizable)
   WindowStyle styleRef = WindowStyle::WindowedResizable;
   Image2RGBA iconRef;
 
-  Window w(titleRef, VideoMode(sizeRef, bbpRef), styleRef);
+  SystemWindow w(titleRef, VideoMode(sizeRef, bbpRef), styleRef);
 
   EXPECT_NE(nullptr, w.getWindowHandle());
   EXPECT_NE(0u, w.getUid());
@@ -82,16 +85,16 @@ TEST_F(TestWindow, CreateWindowedResizable)
 
 
 
-TEST_F(TestWindow, CreateFullscreen)
+TEST_F(TestSystemWindow, CreateFullscreen)
 {
-  std::string titleRef("Window");
+  std::string titleRef("SystemWindow");
   Vec2u sizeRef(VideoMode::getDesktopMode().getResolution());
   Vec2i posRef(0, 0);
   uint bbpRef(VideoMode::getDesktopMode().getBytesPerPixel());
   WindowStyle styleRef = WindowStyle::Fullscreen;
   Image2RGBA iconRef;
 
-  Window w(titleRef, VideoMode(sizeRef, bbpRef), styleRef);
+  SystemWindow w(titleRef, VideoMode(sizeRef, bbpRef), styleRef);
 
   EXPECT_NE(nullptr, w.getWindowHandle());
   EXPECT_NE(0u, w.getUid());
@@ -110,37 +113,37 @@ TEST_F(TestWindow, CreateFullscreen)
 
 
 
-TEST_F(TestWindowDeathTest, CreateFullscreenErrorInvalidVideoMode)
+TEST_F(TestSystemWindowDeathTest, CreateFullscreenErrorInvalidVideoMode)
 {
-  HOU_EXPECT_ERROR
-    ( Window w1("Win", VideoMode(Vec2u::zero(), 32), WindowStyle::Fullscreen)
-    , std::logic_error, getText(CorError::Precondition));
+  HOU_EXPECT_ERROR(SystemWindow w1("Win", VideoMode(Vec2u::zero(), 32),
+                     WindowStyle::Fullscreen),
+    std::logic_error, getText(CorError::Precondition));
 }
 
 
 
-TEST_F(TestWindowDeathTest, CreateFullscreenErrorFullscreenWindowAlreadyExisting)
+TEST_F(TestSystemWindowDeathTest,
+  CreateFullscreenErrorFullscreenWindowAlreadyExisting)
 {
-  Window w2("Win", VideoMode::getDesktopMode(), WindowStyle::Fullscreen);
-  HOU_EXPECT_ERROR
-    ( Window w3("Win", VideoMode::getDesktopMode(), WindowStyle::Fullscreen)
-    , std::logic_error, getText(CorError::Precondition));
+  SystemWindow w2("Win", VideoMode::getDesktopMode(), WindowStyle::Fullscreen);
+  HOU_EXPECT_ERROR(SystemWindow w3("Win", VideoMode::getDesktopMode(),
+                     WindowStyle::Fullscreen),
+    std::logic_error, getText(CorError::Precondition));
 }
 
 
 
-TEST_F(TestWindow, CreateWindowMultithreadedEnvironment)
+TEST_F(TestSystemWindow, CreateWindowMultithreadedEnvironment)
 {
   // When creating windows some global system state is modified.
   // This test checks if everything runs fine when multiple threads try to
   // create a window.
-  auto threadFun = []()
-  {
-    Window w("Win", VideoMode(Vec2u::zero(), 0), WindowStyle::Windowed);
+  auto threadFun = []() {
+    SystemWindow w("Win", VideoMode(Vec2u::zero(), 0), WindowStyle::Windowed);
     std::this_thread::sleep_for(std::chrono::milliseconds(2));
   };
 
-  Window w("Win", VideoMode::getDesktopMode(), WindowStyle::Fullscreen);
+  SystemWindow w("Win", VideoMode::getDesktopMode(), WindowStyle::Fullscreen);
 
   std::thread t1(threadFun);
   std::thread t2(threadFun);
@@ -157,9 +160,9 @@ TEST_F(TestWindow, CreateWindowMultithreadedEnvironment)
 
 
 
-TEST_F(TestWindow, MoveConstructor)
+TEST_F(TestSystemWindow, MoveConstructor)
 {
-  std::string titleRef("Window");
+  std::string titleRef("SystemWindow");
   Vec2u sizeRef(300u, 600u);
   Vec2u screenSize = VideoMode::getDesktopMode().getResolution();
   Vec2i posRef = static_cast<Vec2i>(screenSize - sizeRef) / 2;
@@ -167,10 +170,10 @@ TEST_F(TestWindow, MoveConstructor)
   WindowStyle styleRef = WindowStyle::Windowed;
   Image2RGBA iconRef;
 
-  Window wDummy(titleRef, VideoMode(sizeRef, bbpRef), styleRef);
+  SystemWindow wDummy(titleRef, VideoMode(sizeRef, bbpRef), styleRef);
   WindowHandle handleRef = wDummy.getWindowHandle();
 
-  Window w(std::move(wDummy));
+  SystemWindow w(std::move(wDummy));
 
   EXPECT_EQ(handleRef, w.getWindowHandle());
   EXPECT_NE(0u, w.getUid());
@@ -187,23 +190,25 @@ TEST_F(TestWindow, MoveConstructor)
 
 
 
-TEST_F(TestWindow, UidGeneration)
+TEST_F(TestSystemWindow, UidGeneration)
 {
-  Window firstWindow("Win", VideoMode(Vec2u::zero(), 0), WindowStyle::Windowed);
+  SystemWindow firstWindow(
+    "Win", VideoMode(Vec2u::zero(), 0), WindowStyle::Windowed);
   uint32_t firstUid = firstWindow.getUid() + 1u;
 
   for(size_t i = 0; i < 5u; ++i)
   {
-    Window w("Win", VideoMode(Vec2u::zero(), 0), WindowStyle::Windowed);
+    SystemWindow w("Win", VideoMode(Vec2u::zero(), 0), WindowStyle::Windowed);
     EXPECT_EQ(firstUid + i, w.getUid());
   }
 }
 
 
 
-TEST_F(TestWindow, FrameRect)
+TEST_F(TestSystemWindow, FrameRect)
 {
-  Window w("Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  SystemWindow w(
+    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   Recti refRect = Recti(10, 20, 30, 40);
   w.setFrameRect(refRect);
   EXPECT_EQ(refRect, w.getFrameRect());
@@ -211,9 +216,10 @@ TEST_F(TestWindow, FrameRect)
 
 
 
-TEST_F(TestWindow, FramePosition)
+TEST_F(TestSystemWindow, FramePosition)
 {
-  Window w("Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  SystemWindow w(
+    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   Vec2i refPos = Vec2i(30, 40);
   w.setFramePosition(refPos);
   EXPECT_EQ(refPos, w.getFramePosition());
@@ -221,9 +227,10 @@ TEST_F(TestWindow, FramePosition)
 
 
 
-TEST_F(TestWindow, FrameSize)
+TEST_F(TestSystemWindow, FrameSize)
 {
-  Window w("Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  SystemWindow w(
+    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   Vec2u refSize = Vec2u(30u, 40u);
   w.setFrameSize(refSize);
   EXPECT_EQ(refSize, w.getFrameSize());
@@ -231,9 +238,10 @@ TEST_F(TestWindow, FrameSize)
 
 
 
-TEST_F(TestWindow, ClientRect)
+TEST_F(TestSystemWindow, ClientRect)
 {
-  Window w("Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  SystemWindow w(
+    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   Recti refRect = Recti(10, 20, 30, 40);
   w.setClientRect(refRect);
   EXPECT_EQ(refRect, w.getClientRect());
@@ -241,9 +249,10 @@ TEST_F(TestWindow, ClientRect)
 
 
 
-TEST_F(TestWindow, ClientPosition)
+TEST_F(TestSystemWindow, ClientPosition)
 {
-  Window w("Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  SystemWindow w(
+    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   Vec2i refPos = Vec2i(30, 40);
   w.setClientPosition(refPos);
   EXPECT_EQ(refPos, w.getClientPosition());
@@ -251,9 +260,10 @@ TEST_F(TestWindow, ClientPosition)
 
 
 
-TEST_F(TestWindow, ClientSize)
+TEST_F(TestSystemWindow, ClientSize)
 {
-  Window w("Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  SystemWindow w(
+    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   Vec2u refSize = Vec2u(30u, 40u);
   w.setClientSize(refSize);
   EXPECT_EQ(refSize, w.getClientSize());
@@ -261,9 +271,10 @@ TEST_F(TestWindow, ClientSize)
 
 
 
-TEST_F(TestWindow, Title)
+TEST_F(TestSystemWindow, Title)
 {
-  Window w("Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  SystemWindow w(
+    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   std::string refTitle(u8"NewTitle");
   w.setTitle(refTitle);
   EXPECT_EQ(refTitle, w.getTitle());
@@ -271,11 +282,13 @@ TEST_F(TestWindow, Title)
 
 
 
-TEST_F(TestWindow, Icon)
+TEST_F(TestSystemWindow, Icon)
 {
-  Window w("Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  SystemWindow w(
+    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   EXPECT_EQ(Image2RGBA(), w.getIcon());
-  Image2RGBA refIcon(pngReadFile<PixelFormat::RGBA>(getDataDir() + u8"TestImage.png"));
+  Image2RGBA refIcon(
+    pngReadFile<PixelFormat::RGBA>(getDataDir() + u8"TestImage.png"));
   w.setIcon(refIcon);
   EXPECT_EQ(refIcon, w.getIcon());
   w.setSystemIcon();
@@ -284,9 +297,10 @@ TEST_F(TestWindow, Icon)
 
 
 
-TEST_F(TestWindow, Visibility)
+TEST_F(TestSystemWindow, Visibility)
 {
-  Window w("Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  SystemWindow w(
+    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   EXPECT_FALSE(w.isVisible());
 
   w.setVisible(true);
@@ -298,9 +312,10 @@ TEST_F(TestWindow, Visibility)
 
 
 
-TEST_F(TestWindow, CursorGrabbed)
+TEST_F(TestSystemWindow, CursorGrabbed)
 {
-  Window w("Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  SystemWindow w(
+    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   EXPECT_FALSE(w.isMouseCursorGrabbed());
 
   w.setMouseCursorGrabbed(true);
@@ -312,9 +327,10 @@ TEST_F(TestWindow, CursorGrabbed)
 
 
 
-TEST_F(TestWindow, KeyRepeatEnabled)
+TEST_F(TestSystemWindow, KeyRepeatEnabled)
 {
-  Window w("Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  SystemWindow w(
+    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   EXPECT_FALSE(w.isKeyRepeatEnabled());
 
   w.setKeyRepeatEnabled(true);
@@ -326,10 +342,12 @@ TEST_F(TestWindow, KeyRepeatEnabled)
 
 
 
-TEST_F(TestWindow, Focus)
+TEST_F(TestSystemWindow, Focus)
 {
-  Window w1("Win1", VideoMode(Vec2u(640u, 480u), 32u), WindowStyle::Windowed);
-  Window w2("Win2", VideoMode(Vec2u(640u, 480u), 32u), WindowStyle::Windowed);
+  SystemWindow w1(
+    "Win1", VideoMode(Vec2u(640u, 480u), 32u), WindowStyle::Windowed);
+  SystemWindow w2(
+    "Win2", VideoMode(Vec2u(640u, 480u), 32u), WindowStyle::Windowed);
   w1.setVisible(true);
   w2.setVisible(true);
 
@@ -347,9 +365,10 @@ TEST_F(TestWindow, Focus)
 
 
 
-TEST_F(TestWindow, EventQueuePushAndPop)
+TEST_F(TestSystemWindow, EventQueuePushAndPop)
 {
-  Window w("Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  SystemWindow w(
+    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   WindowEvent e1(WindowEvent::closed());
   WindowEvent e2(WindowEvent::focusGained());
   WindowEvent e3(WindowEvent::focusLost());
@@ -372,12 +391,12 @@ TEST_F(TestWindow, EventQueuePushAndPop)
 }
 
 
-TEST_F(TestWindow, EventQueueWaitEvent)
+
+TEST_F(TestSystemWindow, EventQueueWaitEvent)
 {
   WindowEvent evRef = WindowEvent::focusGained();
-  Window w("Win", VideoMode(Vec2u::zero(), 0), WindowStyle::Windowed);
-  auto threadFun = [&evRef, &w]()
-  {
+  SystemWindow w("Win", VideoMode(Vec2u::zero(), 0), WindowStyle::Windowed);
+  auto threadFun = [&evRef, &w]() {
     // This thread will wait for an event, which will be generated by the
     // main thread.
     WindowEvent ev = w.waitEvent();
@@ -399,4 +418,3 @@ TEST_F(TestWindow, EventQueueWaitEvent)
 // - no test for key repeat.
 // - no test for updateEventQueue and translation of system messages to
 //   WindowEvent objects.
-

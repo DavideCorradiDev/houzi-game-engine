@@ -9,7 +9,7 @@
 #include "hou/gl/GlFunctions.hpp"
 
 #include "hou/sys/VideoMode.hpp"
-#include "hou/sys/Window.hpp"
+#include "hou/sys/SystemWindow.hpp"
 
 using namespace hou;
 
@@ -112,7 +112,7 @@ TEST_F(TestGlFunctions, ComputeTextureSizeBytes)
 TEST_F(TestGlFunctions, BindWindow)
 {
   ASSERT_TRUE(mContext.isCurrent());
-  Window w("Test", VideoMode(Vec2u(40u, 30u), 32u), WindowStyle::Windowed);
+  SystemWindow w("Test", VideoMode(Vec2u(40u, 30u), 32u), WindowStyle::Windowed);
   gl::bindWindow(w);
   EXPECT_TRUE(mContext.isCurrent());
 }

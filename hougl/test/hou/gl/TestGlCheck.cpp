@@ -130,7 +130,7 @@ TEST_F(TestGlCheckDeathTest, GlContextExistenceMacro)
 
 TEST_F(TestGlCheck, GlContextOwnershipSharedFunction)
 {
-  Window w("test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
+  SystemWindow w("test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
   gl::Context c1(gl::ContextSettings::Default, w);
   gl::Context c2(gl::ContextSettings::Default, w, c1);
   gl::Context c3(gl::ContextSettings::Default, w);
@@ -160,7 +160,7 @@ TEST_F(TestGlCheck, GlContextOwnershipSharedFunction)
 
 TEST_F(TestGlCheckDeathTest, GlContextOwnershipSharedFunction)
 {
-  Window w("test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
+  SystemWindow w("test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
   gl::Context c1(gl::ContextSettings::Default, w);
   gl::Context c2(gl::ContextSettings::Default, w, c1);
   gl::Context c3(gl::ContextSettings::Default, w);
@@ -197,7 +197,7 @@ TEST_F(TestGlCheckDeathTest, GlContextOwnershipSharedFunction)
 
 TEST_F(TestGlCheck, GlContextOwnershipSharedMacro)
 {
-  Window w("test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
+  SystemWindow w("test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
   gl::Context c1(gl::ContextSettings::Default, w);
   gl::Context c2(gl::ContextSettings::Default, w, c1);
   gl::Context c3(gl::ContextSettings::Default, w);
@@ -227,7 +227,7 @@ TEST_F(TestGlCheck, GlContextOwnershipSharedMacro)
 
 TEST_F(TestGlCheckDeathTest, GlContextOwnershipSharedMacro)
 {
-  Window w("test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
+  SystemWindow w("test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
   gl::Context c1(gl::ContextSettings::Default, w);
   gl::Context c2(gl::ContextSettings::Default, w, c1);
   gl::Context c3(gl::ContextSettings::Default, w);
@@ -280,7 +280,7 @@ TEST_F(TestGlCheckDeathTest, GlContextOwnershipSharedMacro)
 
 TEST_F(TestGlCheck, GlContextOwnershipNonSharedFunction)
 {
-  Window w("test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
+  SystemWindow w("test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
   gl::Context c1(gl::ContextSettings::Default, w);
   gl::Context c2(gl::ContextSettings::Default, w, c1);
   gl::Context c3(gl::ContextSettings::Default, w);
@@ -308,7 +308,7 @@ TEST_F(TestGlCheck, GlContextOwnershipNonSharedFunction)
 
 TEST_F(TestGlCheckDeathTest, GlContextOwnershipNonSharedFunction)
 {
-  Window w("test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
+  SystemWindow w("test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
   gl::Context c1(gl::ContextSettings::Default, w);
   gl::Context c2(gl::ContextSettings::Default, w, c1);
   gl::Context c3(gl::ContextSettings::Default, w);
@@ -351,7 +351,7 @@ TEST_F(TestGlCheckDeathTest, GlContextOwnershipNonSharedFunction)
 
 TEST_F(TestGlCheck, GlContextOwnershipNonSharedMacro)
 {
-  Window w("test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
+  SystemWindow w("test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
   gl::Context c1(gl::ContextSettings::Default, w);
   gl::Context c2(gl::ContextSettings::Default, w, c1);
   gl::Context c3(gl::ContextSettings::Default, w);
@@ -379,7 +379,7 @@ TEST_F(TestGlCheck, GlContextOwnershipNonSharedMacro)
 
 TEST_F(TestGlCheckDeathTest, GlContextOwnershipNonSharedMacro)
 {
-  Window w("test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
+  SystemWindow w("test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
   gl::Context c1(gl::ContextSettings::Default, w);
   gl::Context c2(gl::ContextSettings::Default, w, c1);
   gl::Context c3(gl::ContextSettings::Default, w);
