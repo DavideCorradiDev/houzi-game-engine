@@ -22,6 +22,7 @@ int main()
     , WindowStyle::WindowedResizable, 8u);
   rw.setVisible(true);
   Trans2f proj = Trans2f::orthographicProjection(rw.getViewport());
+  Mesh2ShaderProgram m2Rnd;
   Renderer2 rnd;
   Mesh2 fpsRect = createRectangleMesh2(Vec2f(128.f, 32.f));
   std::vector<uint> fontSizes{0, 2, 4, 8, 16, 32, 64};
@@ -166,7 +167,7 @@ int main()
       Font& fontToRender = printChinese ? chineseFont : font;
       rnd.draw(rw, textToRender, fontToRender, Color::White, proj * textTrans);
     }
-    rnd.draw(rw, fpsRect, Color::Black, proj);
+    m2Rnd.draw(rw, fpsRect, Color::Black, proj);
     rnd.draw(rw, toString(1.f / std::chrono::duration_cast<std::chrono::duration<float>>(timePerFrame).count()), font, Color::White, proj * textTrans);
     rw.display();
   }

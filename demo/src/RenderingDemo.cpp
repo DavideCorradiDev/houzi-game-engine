@@ -60,7 +60,7 @@ public:
   DrawableShape(const Texture2& texture);
 
   virtual Mesh2 generateMesh() const = 0;
-  void draw(RenderSurface& rt, Renderer2& renderer, const Trans2f& t) const;
+  void draw(RenderSurface& rt, Mesh2ShaderProgram& renderer, const Trans2f& t) const;
 
   void handleInput();
 
@@ -92,7 +92,7 @@ DrawableShape::DrawableShape(const Texture2& texture)
 
 
 
-void DrawableShape::draw(RenderSurface& rt, Renderer2& renderer, const Trans2f& t) const
+void DrawableShape::draw(RenderSurface& rt, Mesh2ShaderProgram& renderer, const Trans2f& t) const
 {
   if(mDrawWithTexture)
   {
@@ -371,7 +371,7 @@ int main()
     std::make_unique<RenderWindow>(wndTitle, wndSize, wndStyle, wndSamples));
   wnd->setVisible(true);
 
-  Renderer2 mr;
+  Mesh2ShaderProgram m2rend;
 
   Texture2 shapeTex = Texture2(pngReadFile<PixelFormat::R>("demo/data/monalisa.png"), TextureFormat::R, 4u);
   shapeTex.setChannelMapping(TextureChannelMapping::Luminosity);
@@ -555,12 +555,12 @@ int main()
       Trans2f projTrans = Trans2f::orthographicProjection(wnd->getViewport());
 
       Mesh2 viewportMesh = createRectangleOutlineMesh2(wnd->getViewport().getSize(), 1);
-      mr.draw(*wnd, viewportMesh, Color::White
+      m2rend.draw(*wnd, viewportMesh, Color::White
         , projTrans * Trans2f::translation(wnd->getViewport().getPosition()));
 
       for(const auto& shapePtr : shapes)
       {
-        shapePtr->draw(*wnd, mr, projTrans);
+        shapePtr->draw(*wnd, m2rend, projTrans);
       }
       wnd->display();
     }

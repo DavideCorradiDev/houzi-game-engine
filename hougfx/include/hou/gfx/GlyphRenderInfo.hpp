@@ -9,6 +9,7 @@
 #include "hou/cor/NonCopyable.hpp"
 
 #include "hou/gfx/GlyphMetrics.hpp"
+#include "hou/gfx/Mesh.hpp"
 #include "hou/gfx/TextureFwd.hpp"
 #include "hou/gfx/Vertex2.hpp"
 

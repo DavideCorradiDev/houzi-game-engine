@@ -48,7 +48,6 @@ SET(EXE_HOUGFX_TEST_SRC
   hou/gfx/TestGraphicContext.cpp
   hou/gfx/TestRenderCanvas.cpp
   hou/gfx/TestRenderWindow.cpp
-  hou/gfx/TestRenderer2.cpp
   hou/gfx/TestShader.cpp
   hou/gfx/TestShaderProgram.cpp
   hou/gfx/TestTextVertex.cpp

@@ -46,34 +46,6 @@ Renderer2::Renderer2(Renderer2&& other)
 
 void Renderer2::draw
   ( RenderSurface& target
-  , const Mesh2& mesh
-  , const Color& color
-  , const Trans2f& trans)
-{
-  draw(target, mesh, mDefaultTexture, color, trans);
-}
-
-
-
-void Renderer2::draw
-  ( RenderSurface& target
-  , const Mesh2& mesh
-  , const Texture2& texture
-  , const Color& color
-  , const Trans2f& trans)
-{
-  mShaderProgram.setColor(color);
-  mShaderProgram.setTransform(trans);
-  RenderSurface::setCurrentRenderTarget(target);
-  Mesh2ShaderProgram::bind(mShaderProgram);
-  Texture2::bind(texture, 0u);
-  Mesh2::draw(mesh);
-}
-
-
-
-void Renderer2::draw
-  ( RenderSurface& target
   , const std::string& text
   , Font& font
   , const Color& color
@@ -103,7 +75,7 @@ void Renderer2::draw
         , texture.getSize());
       Trans2f charTrans = trans * Trans2f::translation(penPos
         + static_cast<Vec2f>(g.getMetrics().getHorizontalBearing() / 64.f));
-      draw(target, quad, texture, color, charTrans);
+      mShaderProgram.draw(target, quad, texture, color, charTrans);
       penPos.x() += g.getMetrics().getHorizontalAdvance() / 64.f;
     }
   }

@@ -5,6 +5,7 @@
 #include "hou/Test.hpp"
 #include "hou/gfx/TestGfxBase.hpp"
 
+#include "hou/gfx/Mesh.hpp"
 #include "hou/gfx/Vertex2.hpp"
 #include "hou/gfx/VertexFormat.hpp"
 
