@@ -12,7 +12,7 @@
 
 #include "hou/gl/GlContext.hpp"
 
-#include "hou/sys/Window.hpp"
+#include "hou/sys/SystemWindow.hpp"
 
 
 
@@ -92,7 +92,7 @@ private:
 
 private:
   ExtensionInitializer mExtensionInitializer;
-  Window mDefaultWindow;
+  SystemWindow mDefaultWindow;
   gl::Context mGlContext;
   bool mInitialized;
 };

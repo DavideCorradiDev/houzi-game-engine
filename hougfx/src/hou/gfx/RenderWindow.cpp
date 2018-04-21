@@ -7,7 +7,6 @@
 #include "hou/gl/GlFunctions.hpp"
 
 #include "hou/gfx/GraphicContext.hpp"
-#include "hou/gfx/RenderTexture.hpp"
 #include "hou/gfx/Texture.hpp"
 
 #include "hou/sys/VideoMode.hpp"
@@ -37,9 +36,9 @@ namespace hou
 {
 
 RenderWindow::RenderWindow(const std::string& title, const Vec2u& size,
-  uint sampleCount, WindowStyle style)
-  : Window(title,
-      VideoMode(size, GraphicContext::getRenderingColorByteCount()), style)
+  WindowStyle style, uint sampleCount)
+  : Window(title, VideoMode(size, GraphicContext::getRenderingColorByteCount()),
+      style)
   , RenderSurface(size, sampleCount)
 {}
 
@@ -82,43 +81,44 @@ void RenderWindow::setVerticalSyncMode(VerticalSyncMode mode)
 
 
 
-void RenderWindow::setSize(const Vec2u& size)
+void RenderWindow::setSampleCount(uint sampleCount)
 {
-  Window::setClientSize(size);
-  RenderSurface::setSize(size);
+  buildFramebuffer(getSize(), sampleCount);
 }
 
 
 
-Texture2 RenderWindow::toTexture() const
+void RenderWindow::setFrameRect(const Vec2i& pos, const Vec2u& size)
 {
-  if(isMultisampled())
+  Window::setFrameRect(pos, size);
+  rebuildFramebufferIfNecessary();
+}
+
+
+
+void RenderWindow::setClientRect(const Vec2i& pos, const Vec2u& size)
+{
+  Window::setClientRect(pos, size);
+  rebuildFramebufferIfNecessary();
+}
+
+
+
+void RenderWindow::rebuildFramebufferIfNecessary()
+{
+  Vec2u newSize = getClientSize();
+  if(newSize.x() == 0u)
   {
-    RenderTexture ssRenderTexture(getSize(), 0u);
-    Recti viewport = getDefaultViewport();
-    blit(*this, viewport, ssRenderTexture, viewport);
-    return ssRenderTexture.toTexture();
+    newSize.x() = 1u;
   }
-  else
+  if(newSize.y() == 0u)
   {
-    return RenderSurface::toTexture();
+    newSize.y() = 1u;
   }
-}
-
-
-
-void RenderWindow::setFrameRect(const Recti& value)
-{
-  Window::setFrameRect(value);
-  RenderSurface::setSize(getClientSize());
-}
-
-
-
-void RenderWindow::setClientRect(const Recti& value)
-{
-  Window::setClientRect(value);
-  RenderSurface::setSize(getClientSize());
+  if(getSize() != newSize)
+  {
+    buildFramebuffer(newSize, getSampleCount());
+  }
 }
 
 }  // namespace hou

@@ -48,6 +48,7 @@ SET(LIB_HOUSYS_SRC
   src/hou/sys/PixelFormat.cpp
   src/hou/sys/ScanCode.cpp
   src/hou/sys/SysError.cpp
+  src/hou/sys/SystemWindow.cpp
   src/hou/sys/TextFileIn.cpp
   src/hou/sys/TextFileOut.cpp
   src/hou/sys/TextStream.cpp

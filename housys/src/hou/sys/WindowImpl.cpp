@@ -8,8 +8,6 @@
 
 #include "hou/sys/WindowEvent.hpp"
 
-#include <thread>
-
 
 
 namespace hou
@@ -57,22 +55,6 @@ void WindowImpl::setKeyRepeatEnabled(bool value)
 bool WindowImpl::isEventQueueEmpty() const
 {
   return mEventQueue.empty();
-}
-
-
-
-WindowEvent WindowImpl::waitEvent()
-{
-  static constexpr std::chrono::milliseconds sleepTime(10);
-
-  updateEventQueue();
-  while(isEventQueueEmpty())
-  {
-    std::this_thread::sleep_for(sleepTime);
-    updateEventQueue();
-  }
-  HOU_ENSURE_DEV(!isEventQueueEmpty());
-  return popEvent();
 }
 
 

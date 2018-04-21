@@ -46,6 +46,20 @@ void RenderSurface::setDefaultRenderTarget()
 
 
 
+Vec2u RenderSurface::getMaxSize()
+{
+  return AttachmentType::getMaxSize();
+}
+
+
+
+uint RenderSurface::getMaxSampleCount()
+{
+  return MultisampledAttachmentType::getMaxSampleCount();
+}
+
+
+
 RenderSurface::RenderSurface(const Vec2u& size, uint sampleCount)
   : NonCopyable()
   , mFrameBuffer()
@@ -104,13 +118,6 @@ Vec2u RenderSurface::getSize() const
 
 
 
-void RenderSurface::setSize(const Vec2u& size)
-{
-  buildFramebuffer(size, mSampleCount);
-}
-
-
-
 bool RenderSurface::isMultisampled() const
 {
   return mSampleCount > 1u;
@@ -121,13 +128,6 @@ bool RenderSurface::isMultisampled() const
 uint RenderSurface::getSampleCount() const
 {
   return mSampleCount;
-}
-
-
-
-void RenderSurface::setSampleCount(uint sampleCount)
-{
-  buildFramebuffer(getSize(), sampleCount);
 }
 
 
@@ -147,11 +147,9 @@ void RenderSurface::clear(const Color& color)
 
 Texture2 RenderSurface::toTexture() const
 {
-  HOU_EXPECT(!isMultisampled());
-  setCurrentRenderSource(*this);
-  Vec2u size = getSize();
-  Texture2 tex(size);
-  gl::copyTextureSubImage2d(tex.getHandle(), 0, 0, 0, 0, 0, size.x(), size.y());
+  Texture2 tex(getSize());
+  Recti blitRect(Vec2i::zero(), static_cast<Vec2i>(getSize()));
+  blit(mFrameBuffer, blitRect, tex, blitRect, FrameBufferBlitFilter::Nearest);
   return tex;
 }
 
@@ -176,6 +174,7 @@ void RenderSurface::buildFramebuffer(const Vec2u& size, uint sampleCount)
   HOU_ENSURE_DEV(GraphicContext::getRenderingColorByteCount() == 4u);
   HOU_ENSURE_DEV(GraphicContext::getRenderingDepthByteCount() == 3u);
   HOU_ENSURE_DEV(GraphicContext::getRenderingStencilByteCount() == 1u);
+  HOU_EXPECT(sampleCount > 0u);
 
   mSampleCount = sampleCount;
   if(sampleCount <= 1)
@@ -209,10 +208,26 @@ void RenderSurface::buildFramebuffer(const Vec2u& size, uint sampleCount)
 
 
 void blit(const RenderSurface& src, const Recti& srcRect, RenderSurface& dst,
-  const Recti& dstRect)
+  const Recti& dstRect, FrameBufferBlitFilter filter)
 {
   blit(src.mFrameBuffer, srcRect, dst.mFrameBuffer, dstRect,
-    FrameBufferBlitMask::All, FrameBufferBlitFilter::Nearest);
+    FrameBufferBlitMask::All, filter);
+}
+
+
+
+void blit(const RenderSurface& src, const Recti& srcRect, Texture& dst,
+  const Recti& dstRect, FrameBufferBlitFilter filter)
+{
+  blit(src.mFrameBuffer, srcRect, dst, dstRect, filter);
+}
+
+
+
+void blit(const Texture& src, const Recti& srcRect, RenderSurface& dst,
+  const Recti& dstRect, FrameBufferBlitFilter filter)
+{
+  blit(src, srcRect, dst.mFrameBuffer, dstRect, filter);
 }
 
 }  // namespace hou

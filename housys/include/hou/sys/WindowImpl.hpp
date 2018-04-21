@@ -42,7 +42,7 @@ public:
   WindowImpl(const std::string& title, const VideoMode& videoMode
     , WindowStyle style);
   WindowImpl(WindowImpl&& other);
-  virtual ~WindowImpl();
+  ~WindowImpl();
 
   WindowHandle getWindowHandle() const;
 
@@ -71,7 +71,6 @@ public:
 
   bool isEventQueueEmpty() const;
   void updateEventQueue();
-  WindowEvent waitEvent();
   WindowEvent popEvent();
   void pushEvent(const WindowEvent& event);
 

@@ -18,8 +18,8 @@ int main()
 {
   GraphicContext ctx;
   GraphicContext::setCurrent(ctx);
-  RenderWindow rw(u8"Text Rendering Demo", Vec2u(800u, 600u), 8u
-    , WindowStyle::Windowed);
+  RenderWindow rw(u8"Text Rendering Demo", Vec2u(800u, 600u)
+    , WindowStyle::WindowedResizable, 8u);
   rw.setVisible(true);
   Trans2f proj = Trans2f::orthographicProjection(rw.getViewport());
   Renderer2 rnd;
@@ -69,7 +69,7 @@ int main()
 
 
   std::cout << "Drawing " << textLine.size() * linesNum << " characters." << std::endl;
-  bool useRenderCache = false;
+  bool useRenderCache = true;
 
   bool running = true;
   Stopwatch timer;
@@ -127,9 +127,19 @@ int main()
             }
           }
         }
+        break;
+        case hou::WindowEventType::Resized:
+          rw.setViewport(rw.getDefaultViewport());
+          proj = Trans2f::orthographicProjection(rw.getViewport());
+          std::cout << "Window resized: (" << we.getSizeData().sizeX << ", "
+                    << we.getSizeData().sizeY << ")" << std::endl;
+          std::cout << "Window client size: " << transpose(rw.getClientSize())
+                    << std::endl;
+          std::cout << "Window framebuffer size: " << transpose(rw.getSize())
+                    << std::endl;
+          break;
         case hou::WindowEventType::FocusGained:
         case hou::WindowEventType::FocusLost:
-        case hou::WindowEventType::Resized:
         case hou::WindowEventType::KeyPressed:
         case hou::WindowEventType::TextEntered:
         case hou::WindowEventType::MouseMoved:
@@ -163,4 +173,3 @@ int main()
 
   return 0;
 }
-

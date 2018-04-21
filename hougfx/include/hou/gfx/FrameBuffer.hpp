@@ -121,7 +121,7 @@ public:
    *  to bind. It must be a valid mip map level of texture.
    */
   void setColorAttachment(
-    uint attachmentPoint, Texture& texture, uint mipMapLevel = 0u);
+    uint attachmentPoint, const Texture& texture, uint mipMapLevel = 0u);
 
   /** Sets the depth attachment for this FrameBuffer.
    *
@@ -130,7 +130,7 @@ public:
    *  \param mipMapLevel the mip map level to bind. It must be a valid mip map
    *  level of texture.
    */
-  void setDepthAttachment(Texture& texture, uint mipMapLevel = 0u);
+  void setDepthAttachment(const Texture& texture, uint mipMapLevel = 0u);
 
   /** Sets the stencil attachment for this FrameBuffer.
    *
@@ -139,7 +139,7 @@ public:
    *  \param mipMapLevel the mip map level to bind. It must be a valid mip map
    *  level of texture.
    */
-  void setStencilAttachment(Texture& texture, uint mipMapLevel = 0u);
+  void setStencilAttachment(const Texture& texture, uint mipMapLevel = 0u);
 
   /** Sets the depth and stencil attachment for this FrameBuffer.
    *
@@ -148,7 +148,7 @@ public:
    *  \param mipMapLevel the mip map level to bind. It must be a valid mip map
    *  level of texture.
    */
-  void setDepthStencilAttachment(Texture& texture, uint mipMapLevel = 0u);
+  void setDepthStencilAttachment(const Texture& texture, uint mipMapLevel = 0u);
 
   /** Checks if this FrameBuffer has a multisample attachment.
    *
@@ -165,22 +165,73 @@ private:
 
 /** Copies a rectangular region of a FrameBuffer into another FrameBuffer.
  *
- *  The following constraints must be observed, or an exception will be thrown:
- *  * src and dst must be complete FrameBuffer objects.
- *  * If src or dst are multisampled, srcRect and dstRect must have the same
- *  size.
- *  * If mask contains Depth or Stencil, filter must be set to Nearest.
+ * The following constraints must be observed, or an exception will be thrown:
+ * * src and dst must be complete FrameBuffer objects.
+ * * If src or dst are multisampled, srcRect and dstRect must have the same
+ * size.
+ * * If mask contains Depth or Stencil, filter must be set to Nearest.
  *
- *  \param src the source FrameBuffer.
- *  \param srcRect the source rectangle.
- *  \param dst the destination FrameBuffer.
- *  \param dstRect the destination rectangle.
- *  \param mask a bitfield specifying what attachments to blit.
- *  \param filter the filter to apply for this operation.
+ * \param src the source FrameBuffer.
+ * \param srcRect the source rectangle.
+ * \param dst the destination FrameBuffer.
+ * \param dstRect the destination rectangle.
+ * \param mask a bitfield specifying what attachments to blit.
+ * \param filter the filter to apply for this operation.
  */
 HOU_GFX_API void blit(const FrameBuffer& src, const Recti& srcRect,
   FrameBuffer& dst, const Recti& dstRect, FrameBufferBlitMask mask,
-  FrameBufferBlitFilter filter);
+  FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
+
+/** Copies a rectangular region of a FrameBuffer into a texture.
+ *
+ * The following constraints must be observed, or an exception will be thrown:
+ * * src must be complete FrameBuffer object.
+ * * If src or dst are multisampled, srcRect and dstRect must have the same
+ * size.
+ *
+ * \param src the source FrameBuffer.
+ * \param srcRect the source rectangle.
+ * \param dst the destination texture.
+ * \param dstRect the destination rectangle.
+ * \param filter the filter to apply for this operation.
+ */
+HOU_GFX_API void blit(const FrameBuffer& src, const Recti& srcRect,
+  Texture& dst, const Recti& dstRect,
+  FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
+
+/** Copies a rectangular region of a texture into a FrameBuffer.
+ *
+ * The following constraints must be observed, or an exception will be thrown:
+ * * dst must be complete FrameBuffer object.
+ * * If src or dst are multisampled, srcRect and dstRect must have the same
+ * size.
+ *
+ * \param src the source texture.
+ * \param srcRect the source rectangle.
+ * \param dst the destination FrameBuffer.
+ * \param dstRect the destination rectangle.
+ * \param filter the filter to apply for this operation.
+ */
+HOU_GFX_API void blit(const Texture& src, const Recti& srcRect,
+  FrameBuffer& dst, const Recti& dstRect,
+  FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
+
+/** Copies a rectangular region of a texture into a FrameBuffer.
+ *
+ * The following constraints must be observed, or an exception will be thrown:
+ * * dst must be complete FrameBuffer object.
+ * * If src or dst are multisampled, srcRect and dstRect must have the same
+ * size.
+ *
+ * \param src the source texture.
+ * \param srcRect the source rectangle.
+ * \param dst the destination texture.
+ * \param dstRect the destination rectangle.
+ * \param filter the filter to apply for this operation.
+ */
+HOU_GFX_API void blit(const Texture& src, const Recti& srcRect, Texture& dst,
+  const Recti& dstRect,
+  FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
 
 }  // namespace hou
 

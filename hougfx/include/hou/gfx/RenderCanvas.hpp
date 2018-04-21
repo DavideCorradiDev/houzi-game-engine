@@ -2,8 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#ifndef HOU_GFX_RENDER_TEXTURE_HPP
-#define HOU_GFX_RENDER_TEXTURE_HPP
+#ifndef HOU_GFX_RENDER_CANVAS_HPP
+#define HOU_GFX_RENDER_CANVAS_HPP
 
 #include "hou/gfx/GfxExport.hpp"
 #include "hou/gfx/RenderSurface.hpp"
@@ -15,7 +15,7 @@ namespace hou
 
 /** Surface for off-screen rendering.
  */
-class HOU_GFX_API RenderTexture
+class HOU_GFX_API RenderCanvas
   : public RenderSurface
 {
 public:
@@ -24,21 +24,17 @@ public:
    *  \param size the size.
    *  \param sampleCount the sample count.
    */
-  RenderTexture(const Vec2u& size, uint sampleCount);
+  RenderCanvas(const Vec2u& size, uint sampleCount = 1u);
 
   /** Move constructor.
    *
-   *  \param other the other RenderTexture.
+   *  \param other the other RenderCanvas.
    */
-  RenderTexture(RenderTexture&& other);
+  RenderCanvas(RenderCanvas&& other);
 
   /** Destructor.
    */
-  virtual ~RenderTexture();
-
-  //. RenderSurface overrides.
-  void setSize(const Vec2u& size) override;
-  Texture2 toTexture() const override;
+  virtual ~RenderCanvas();
 };
 
 }

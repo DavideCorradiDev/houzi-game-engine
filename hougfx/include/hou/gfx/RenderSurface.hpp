@@ -52,18 +52,29 @@ public:
    */
   static void setDefaultRenderTarget();
 
+  /** Retrieves the maximum allowed size for the render surface..
+   *
+   * \return a vector containing the maximum size on each dimension.
+   */
+  static Vec2u getMaxSize();
+
+  /** Retrieves the maximum amount of samples per pixel.
+   *
+   * \return the maximum amount of samples per pixel.
+   */
+  static uint getMaxSampleCount();
+
 public:
   /** Builds a RenderSurface with the given size and sample count.
    *
-   *  Throws if the required sample count is larger than the maximum supported.
-   *  Throws if the required area of the surface is 0.
-   *  Throws if the required area is larger than the maximum supported texture
-   * size.
+   *  Throws if the required sample count is larger than the maximum supported
+   * or 0. Throws if the required area of the surface is 0. Throws if the
+   * required area is larger than the maximum supported texture size.
    *
    *  \param size the size.
    *  \param sampleCount the sample count.
    */
-  RenderSurface(const Vec2u& size, uint sampleCount);
+  RenderSurface(const Vec2u& size, uint sampleCount = 1u);
 
   /** Move constructor.
    *
@@ -107,17 +118,6 @@ public:
    */
   Vec2u getSize() const;
 
-  /** Sets the size of the RenderSurface.
-   *
-   *  After setting the size, the content of the surface is undefined.
-   *  Throws if the required surface area is 0.
-   *  Throws if the required size is larger than
-   *  the maximum supported texture size.
-   *
-   *  \param size the desired size of the render surface.
-   */
-  virtual void setSize(const Vec2u& size) = 0;
-
   /** Checks if the RenderSurface is multisampled.
    *
    *  \return true if the number of samples of the RenderSurface is greater than
@@ -130,15 +130,6 @@ public:
    *  \return the number of samples of the RenderSurface.
    */
   uint getSampleCount() const;
-
-  /** Sets the number of samples of the RenderSurface.
-   *
-   *  After setting the sample count, the content of the surface is undefined.
-   *  Throws if the required sample count is larger then the maximum supported.
-   *
-   *  \return the number of samples of the RenderSurface.
-   */
-  void setSampleCount(uint sampleCount);
 
   /** Clears the RenderSurface to the desired color.
    *
@@ -154,7 +145,7 @@ public:
    *
    *  \return the Texture2 create from this RenderSurface.
    */
-  virtual Texture2 toTexture() const = 0;
+  Texture2 toTexture() const;
 
   /** Checks if this RenderSurface is the current render source.
    *
@@ -185,10 +176,23 @@ public:
    *  \param dstRect the destination rectangle of the blit operation.
    */
   friend HOU_GFX_API void blit(const RenderSurface& src, const Recti& srcRect,
-    RenderSurface& dst, const Recti& dstRect);
+    RenderSurface& dst, const Recti& dstRect,
+    FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
+
+  friend HOU_GFX_API void blit(const RenderSurface& src, const Recti& srcRect,
+    Texture& dst, const Recti& dstRect,
+    FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
+
+  friend HOU_GFX_API void blit(const Texture& src, const Recti& srcRect,
+    RenderSurface& dst, const Recti& dstRect,
+    FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
+
+protected:
+  void buildFramebuffer(const Vec2u& size, uint sampleCount);
 
 private:
-  void buildFramebuffer(const Vec2u& size, uint sampleCount);
+  using AttachmentType = Texture2;
+  using MultisampledAttachmentType = MultisampleTexture2;
 
 private:
   FrameBuffer mFrameBuffer;

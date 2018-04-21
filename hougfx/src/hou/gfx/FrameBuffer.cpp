@@ -119,7 +119,7 @@ bool FrameBuffer::isComplete() const
 
 
 void FrameBuffer::setColorAttachment(
-  uint attachmentPoint, Texture& texture, uint mipMapLevel)
+  uint attachmentPoint, const Texture& texture, uint mipMapLevel)
 {
   HOU_EXPECT(attachmentPoint < getColorAttachmentPointCount());
   HOU_EXPECT(mipMapLevel < texture.getMipMapLevelCount());
@@ -134,7 +134,7 @@ void FrameBuffer::setColorAttachment(
 
 
 
-void FrameBuffer::setDepthAttachment(Texture& texture, uint mipMapLevel)
+void FrameBuffer::setDepthAttachment(const Texture& texture, uint mipMapLevel)
 {
   HOU_EXPECT(mipMapLevel < texture.getMipMapLevelCount());
   HOU_EXPECT(texture.getFormat() == TextureFormat::Depth
@@ -145,7 +145,7 @@ void FrameBuffer::setDepthAttachment(Texture& texture, uint mipMapLevel)
 
 
 
-void FrameBuffer::setStencilAttachment(Texture& texture, uint mipMapLevel)
+void FrameBuffer::setStencilAttachment(const Texture& texture, uint mipMapLevel)
 {
   HOU_EXPECT(mipMapLevel < texture.getMipMapLevelCount());
   HOU_EXPECT(texture.getFormat() == TextureFormat::Stencil
@@ -157,7 +157,8 @@ void FrameBuffer::setStencilAttachment(Texture& texture, uint mipMapLevel)
 
 
 
-void FrameBuffer::setDepthStencilAttachment(Texture& texture, uint mipMapLevel)
+void FrameBuffer::setDepthStencilAttachment(
+  const Texture& texture, uint mipMapLevel)
 {
   HOU_EXPECT(mipMapLevel < texture.getMipMapLevelCount());
   HOU_EXPECT(texture.getFormat() == TextureFormat::DepthStencil);
@@ -182,17 +183,51 @@ void blit(const FrameBuffer& src, const Recti& srcRect, FrameBuffer& dst,
   const Recti& dstRect, FrameBufferBlitMask mask, FrameBufferBlitFilter filter)
 {
   HOU_EXPECT((filter == FrameBufferBlitFilter::Nearest
-               || mask == FrameBufferBlitMask::None
-               || mask == FrameBufferBlitMask::Color)
-    && src.isComplete() && dst.isComplete()
-    && ((!src.hasMultisampleAttachment() && !dst.hasMultisampleAttachment())
-         || (std::abs(srcRect.w()) == std::abs(dstRect.w())
-              && std::abs(srcRect.h()) == std::abs(srcRect.h()))));
+    || mask == FrameBufferBlitMask::None
+    || mask == FrameBufferBlitMask::Color));
+  HOU_EXPECT(src.isComplete());
+  HOU_EXPECT(dst.isComplete());
+  HOU_EXPECT(
+    (!src.hasMultisampleAttachment() && !dst.hasMultisampleAttachment())
+    || (std::abs(srcRect.w()) == std::abs(dstRect.w())
+         && std::abs(srcRect.h()) == std::abs(srcRect.h())));
 
   gl::blitFramebuffer(src.getHandle(), dst.getHandle(), srcRect.l(),
     srcRect.t(), srcRect.r(), srcRect.b(), dstRect.l(), dstRect.t(),
     dstRect.r(), dstRect.b(), static_cast<GLbitfield>(mask),
     static_cast<GLenum>(filter));
+}
+
+
+
+void blit(const FrameBuffer& src, const Recti& srcRect, Texture& dst,
+  const Recti& dstRect, FrameBufferBlitFilter filter)
+{
+  FrameBuffer dstFrameBuffer;
+  dstFrameBuffer.setColorAttachment(0u, dst);
+  blit(
+    src, srcRect, dstFrameBuffer, dstRect, FrameBufferBlitMask::Color, filter);
+}
+
+
+
+void blit(const Texture& src, const Recti& srcRect, FrameBuffer& dst,
+  const Recti& dstRect, FrameBufferBlitFilter filter)
+{
+  FrameBuffer srcFrameBuffer;
+  srcFrameBuffer.setColorAttachment(0u, src);
+  blit(
+    srcFrameBuffer, srcRect, dst, dstRect, FrameBufferBlitMask::Color, filter);
+}
+
+
+
+void blit(const Texture& src, const Recti& srcRect, Texture& dst,
+  const Recti& dstRect, FrameBufferBlitFilter filter)
+{
+  FrameBuffer srcFrameBuffer;
+  srcFrameBuffer.setColorAttachment(0u, src);
+  blit(srcFrameBuffer, srcRect, dst, dstRect, filter);
 }
 
 }  // namespace hou

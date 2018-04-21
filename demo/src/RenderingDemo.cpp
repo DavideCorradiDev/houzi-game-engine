@@ -367,8 +367,8 @@ int main()
   Vec2u wndSize(800u, 600u);
   uint wndSamples = 16u;
   WindowStyle wndStyle = WindowStyle::Windowed;
-  std::unique_ptr<RenderWindow> wnd(std::make_unique<RenderWindow>(wndTitle
-    , wndSize, wndSamples, wndStyle));
+  std::unique_ptr<RenderWindow> wnd(
+    std::make_unique<RenderWindow>(wndTitle, wndSize, wndStyle, wndSamples));
   wnd->setVisible(true);
 
   Renderer2 mr;
@@ -444,14 +444,12 @@ int main()
           }
           else if(data.scanCode == ScanCode::Add)
           {
-            if(wndSamples < 16)
+            if(wndSamples < 32)
             {
               wndSamples *= 2;
             }
-            wnd.reset();
-            wnd = std::make_unique<RenderWindow>(wndTitle, wndSize, wndSamples
-              , wndStyle);
-            wnd->setVisible(true);
+            std::cout << "Samples: " << wndSamples << std::endl;
+            wnd->setSampleCount(wndSamples);
           }
           else if(data.scanCode == ScanCode::Subtract)
           {
@@ -459,25 +457,23 @@ int main()
             {
               wndSamples /= 2;
             }
-            wnd.reset();
-            wnd = std::make_unique<RenderWindow>(wndTitle, wndSize, wndSamples
-              , wndStyle);
-            wnd->setVisible(true);
+            std::cout << "Samples: " << wndSamples << std::endl;
+            wnd->setSampleCount(wndSamples);
           }
           else if(data.scanCode == ScanCode::Decimal)
           {
             wndStyle = WindowStyle::Fullscreen;
             wnd.reset();
-            wnd = std::make_unique<RenderWindow>(wndTitle, wndSize, wndSamples
-              , wndStyle);
+            wnd = std::make_unique<RenderWindow>(wndTitle, wndSize
+              , wndStyle, wndSamples);
             wnd->setVisible(true);
           }
           else if(data.scanCode == ScanCode::Numpad0)
           {
             wndStyle = WindowStyle::Windowed;
             wnd.reset();
-            wnd = std::make_unique<RenderWindow>(wndTitle, wndSize, wndSamples
-              , wndStyle);
+            wnd = std::make_unique<RenderWindow>(wndTitle, wndSize
+              , wndStyle, wndSamples);
             wnd->setVisible(true);
           }
           break;
@@ -572,4 +568,3 @@ int main()
 
   return 0;
 }
-

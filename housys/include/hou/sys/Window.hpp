@@ -37,7 +37,7 @@ public:
    *  Key repeat is disabled for the window.
    *
    *  \param title the title of the Window.
-   *  \param videoMode the video mode of the Window, specifying its size and
+   *  \param videoMode the video mode of the Window, specifying its client size and
    *  bytes per pixel.
    *  \param style the style of the Window.
    *  Only one Window can be fullscreen.
@@ -55,7 +55,7 @@ public:
 
   /** Destructor.
    */
-  virtual ~Window();
+  virtual ~Window() = 0;
 
   /** Gets the OS dependent window handle associated to this Window.
    *
@@ -81,14 +81,6 @@ public:
    */
   void setTitle(const std::string& title);
 
-  /** Gets the Window frame rectangle.
-   *
-   *  The Window frame rectangle includes the borders.
-   *
-   *  \return the Window frame rectangle.
-   */
-  Recti getFrameRect() const;
-
   /** Gets the position of the Window frame.
    *
    *  The Window frame position is the top left corner of the Window, including
@@ -112,7 +104,7 @@ public:
    *
    *  \param rect the Window frame rectangle.
    */
-  virtual void setFrameRect(const Recti& rect);
+  virtual void setFrameRect(const Vec2i& pos, const Vec2u& size) = 0;
 
   /** Sets the position of the Window frame.
    *
@@ -130,14 +122,6 @@ public:
    *  \param size the size of the Window frame.
    */
   void setFrameSize(const Vec2u& size);
-
-  /** Gets the Window client rectangle.
-   *
-   *  The Window client rectangle does not include the borders.
-   *
-   *  \return the Window client rectangle.
-   */
-  Recti getClientRect() const;
 
   /** Gets the position of the Window client.
    *
@@ -162,7 +146,7 @@ public:
    *
    *  \param rect the Window client rectangle.
    */
-  virtual void setClientRect(const Recti& rect);
+  virtual void setClientRect(const Vec2i& pos, const Vec2u& size) = 0;
 
   /** Sets the position of the Window client.
    *
@@ -315,6 +299,9 @@ protected:
    *  safe to do so.
    */
   void swapBuffers();
+
+private:
+  void reactToEvent(const WindowEvent& event);
 
 private:
   prv::WindowImpl mImpl;
