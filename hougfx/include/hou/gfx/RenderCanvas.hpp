@@ -24,7 +24,7 @@ public:
    *  \param size the size.
    *  \param sampleCount the sample count.
    */
-  RenderCanvas(const Vec2u& size, uint sampleCount);
+  RenderCanvas(const Vec2u& size, uint sampleCount = 1u);
 
   /** Move constructor.
    *

@@ -367,8 +367,8 @@ int main()
   Vec2u wndSize(800u, 600u);
   uint wndSamples = 16u;
   WindowStyle wndStyle = WindowStyle::Windowed;
-  std::unique_ptr<RenderWindow> wnd(std::make_unique<RenderWindow>(wndTitle
-    , wndSize, wndSamples, wndStyle));
+  std::unique_ptr<RenderWindow> wnd(
+    std::make_unique<RenderWindow>(wndTitle, wndSize, wndStyle, wndSamples));
   wnd->setVisible(true);
 
   Renderer2 mr;
@@ -464,16 +464,16 @@ int main()
           {
             wndStyle = WindowStyle::Fullscreen;
             wnd.reset();
-            wnd = std::make_unique<RenderWindow>(wndTitle, wndSize, wndSamples
-              , wndStyle);
+            wnd = std::make_unique<RenderWindow>(wndTitle, wndSize
+              , wndStyle, wndSamples);
             wnd->setVisible(true);
           }
           else if(data.scanCode == ScanCode::Numpad0)
           {
             wndStyle = WindowStyle::Windowed;
             wnd.reset();
-            wnd = std::make_unique<RenderWindow>(wndTitle, wndSize, wndSamples
-              , wndStyle);
+            wnd = std::make_unique<RenderWindow>(wndTitle, wndSize
+              , wndStyle, wndSamples);
             wnd->setVisible(true);
           }
           break;
@@ -568,4 +568,3 @@ int main()
 
   return 0;
 }
-

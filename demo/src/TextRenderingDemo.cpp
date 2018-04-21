@@ -18,8 +18,8 @@ int main()
 {
   GraphicContext ctx;
   GraphicContext::setCurrent(ctx);
-  RenderWindow rw(u8"Text Rendering Demo", Vec2u(800u, 600u), 8u
-    , WindowStyle::WindowedResizable);
+  RenderWindow rw(u8"Text Rendering Demo", Vec2u(800u, 600u)
+    , WindowStyle::WindowedResizable, 8u);
   rw.setVisible(true);
   Trans2f proj = Trans2f::orthographicProjection(rw.getViewport());
   Renderer2 rnd;

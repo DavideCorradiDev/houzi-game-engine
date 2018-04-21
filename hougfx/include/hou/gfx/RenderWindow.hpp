@@ -53,8 +53,8 @@ public:
    *  \param sampleCount the sample count.
    *  \param style the window style.
    */
-  RenderWindow(const std::string& title, const Vec2u& size, uint sampleCount
-    , WindowStyle style);
+  RenderWindow(const std::string& title, const Vec2u& size, WindowStyle style,
+    uint sampleCount = 1u);
 
   /** Move constructor.
    *

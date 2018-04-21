@@ -34,9 +34,9 @@ TEST_F(TestRenderWindow, CreationWindowed)
   Vec2i posRef = static_cast<Vec2i>(screenSize - sizeRef) / 2;
   WindowStyle styleRef = WindowStyle::Windowed;
   Image2RGBA iconRef;
-  uint samplesRef = 0u;
+  uint samplesRef = 1u;
 
-  RenderWindow w(titleRef, sizeRef, samplesRef, styleRef);
+  RenderWindow w(titleRef, sizeRef, styleRef, samplesRef);
 
   EXPECT_NE(0u, w.getUid());
   EXPECT_NE(nullptr, w.getWindowHandle());
@@ -70,7 +70,7 @@ TEST_F(TestRenderWindow, CreationWindowedMultisampled)
   Image2RGBA iconRef;
   uint samplesRef = 4u;
 
-  RenderWindow w(titleRef, sizeRef, samplesRef, styleRef);
+  RenderWindow w(titleRef, sizeRef, styleRef, samplesRef);
 
   EXPECT_NE(0u, w.getUid());
   EXPECT_NE(nullptr, w.getWindowHandle());
@@ -102,9 +102,9 @@ TEST_F(TestRenderWindow, CreationFullscreen)
   Vec2i posRef = static_cast<Vec2i>(screenSize - sizeRef) / 2;
   WindowStyle styleRef = WindowStyle::Fullscreen;
   Image2RGBA iconRef;
-  uint samplesRef = 0u;
+  uint samplesRef = 1u;
 
-  RenderWindow w(titleRef, sizeRef, samplesRef, styleRef);
+  RenderWindow w(titleRef, sizeRef, styleRef, samplesRef);
 
   EXPECT_NE(0u, w.getUid());
   EXPECT_NE(nullptr, w.getWindowHandle());
@@ -130,7 +130,7 @@ TEST_F(TestRenderWindow, CreationFullscreen)
 
 TEST_F(TestRenderWindow, SetClientRect)
 {
-  RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
+  RenderWindow w(u8"Test", Vec2u(32u, 16u), WindowStyle::Windowed, 4u);
 
   Vec2i posRef(2, 3);
   Vec2u sizeRef(14u, 17u);
@@ -145,7 +145,7 @@ TEST_F(TestRenderWindow, SetClientRect)
 
 TEST_F(TestRenderWindow, SetClientRectNullSizeX)
 {
-  RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
+  RenderWindow w(u8"Test", Vec2u(32u, 16u), WindowStyle::Windowed, 4u);
 
   Vec2u sizeRef(0u, 17u);
   w.setClientRect(Vec2i::zero(), sizeRef);
@@ -159,7 +159,7 @@ TEST_F(TestRenderWindow, SetClientRectNullSizeX)
 
 TEST_F(TestRenderWindow, SetClientRectNullSizeY)
 {
-  RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
+  RenderWindow w(u8"Test", Vec2u(32u, 16u), WindowStyle::Windowed, 4u);
 
   Vec2u sizeRef(13u, 0u);
   w.setClientRect(Vec2i::zero(), sizeRef);
@@ -173,7 +173,7 @@ TEST_F(TestRenderWindow, SetClientRectNullSizeY)
 
 TEST_F(TestRenderWindow, SetClientRectNullSize)
 {
-  RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
+  RenderWindow w(u8"Test", Vec2u(32u, 16u), WindowStyle::Windowed, 4u);
 
   Vec2u sizeRef = Vec2u::zero();
   w.setClientRect(Vec2i::zero(), sizeRef);
@@ -188,7 +188,7 @@ TEST_F(TestRenderWindow, SetClientRectNullSize)
 
 TEST_F(TestRenderWindow, SetClientSize)
 {
-  RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
+  RenderWindow w(u8"Test", Vec2u(32u, 16u), WindowStyle::Windowed, 4u);
 
   Vec2u sizeRef(14u, 17u);
   w.setClientSize(sizeRef);
@@ -201,7 +201,7 @@ TEST_F(TestRenderWindow, SetClientSize)
 
 TEST_F(TestRenderWindow, SetClientSizeNullSizeX)
 {
-  RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
+  RenderWindow w(u8"Test", Vec2u(32u, 16u),  WindowStyle::Windowed, 4u);
 
   Vec2u sizeRef(0u, 17u);
   w.setClientSize(sizeRef);
@@ -215,7 +215,7 @@ TEST_F(TestRenderWindow, SetClientSizeNullSizeX)
 
 TEST_F(TestRenderWindow, SetClientSizeNullSizeY)
 {
-  RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
+  RenderWindow w(u8"Test", Vec2u(32u, 16u), WindowStyle::Windowed, 4u);
 
   Vec2u sizeRef(13u, 0u);
   w.setClientSize(sizeRef);
@@ -229,7 +229,7 @@ TEST_F(TestRenderWindow, SetClientSizeNullSizeY)
 
 TEST_F(TestRenderWindow, SetClientSizeNullSize)
 {
-  RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
+  RenderWindow w(u8"Test", Vec2u(32u, 16u), WindowStyle::Windowed, 4u);
 
   Vec2u sizeRef = Vec2u::zero();
   w.setClientSize(sizeRef);
@@ -244,7 +244,7 @@ TEST_F(TestRenderWindow, SetClientSizeNullSize)
 
 TEST_F(TestRenderWindow, SetFrameRect)
 {
-  RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
+  RenderWindow w(u8"Test", Vec2u(32u, 16u), WindowStyle::Windowed, 4u);
 
   Vec2i posRef(12, 13);
   Vec2u sizeRef(60u, 100u);
@@ -259,7 +259,7 @@ TEST_F(TestRenderWindow, SetFrameRect)
 
 TEST_F(TestRenderWindow, SetFrameRectNullSizeX)
 {
-  RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
+  RenderWindow w(u8"Test", Vec2u(32u, 16u), WindowStyle::Windowed, 4u);
 
   Vec2u sizeRef(0u, 42u);
   w.setFrameRect(Vec2i::zero(), sizeRef);
@@ -274,7 +274,7 @@ TEST_F(TestRenderWindow, SetFrameRectNullSizeX)
 
 TEST_F(TestRenderWindow, SetFrameRectNullSizeY)
 {
-  RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
+  RenderWindow w(u8"Test", Vec2u(32u, 16u), WindowStyle::Windowed, 4u);
 
   Vec2u sizeRef(42u, 0u);
   w.setFrameRect(Vec2i::zero(), sizeRef);
@@ -289,7 +289,7 @@ TEST_F(TestRenderWindow, SetFrameRectNullSizeY)
 
 TEST_F(TestRenderWindow, SetFrameRectNullSize)
 {
-  RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
+  RenderWindow w(u8"Test", Vec2u(32u, 16u), WindowStyle::Windowed, 4u);
 
   Vec2u sizeRef = Vec2u::zero();
   w.setFrameRect(Vec2i::zero(), sizeRef);
@@ -305,7 +305,7 @@ TEST_F(TestRenderWindow, SetFrameRectNullSize)
 
 TEST_F(TestRenderWindow, SetFrameSize)
 {
-  RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
+  RenderWindow w(u8"Test", Vec2u(32u, 16u), WindowStyle::Windowed, 4u);
 
   w.setFrameSize(Vec2u(60u, 70u));
 
@@ -316,7 +316,7 @@ TEST_F(TestRenderWindow, SetFrameSize)
 
 TEST_F(TestRenderWindow, SetFrameSizeNullSizeX)
 {
-  RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
+  RenderWindow w(u8"Test", Vec2u(32u, 16u), WindowStyle::Windowed, 4u);
 
   Vec2u sizeRef(0u, 42u);
   w.setFrameSize(sizeRef);
@@ -331,7 +331,7 @@ TEST_F(TestRenderWindow, SetFrameSizeNullSizeX)
 
 TEST_F(TestRenderWindow, SetFrameSizeNullSizeY)
 {
-  RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
+  RenderWindow w(u8"Test", Vec2u(32u, 16u), WindowStyle::Windowed, 4u);
 
   Vec2u sizeRef(42u, 0u);
   w.setFrameSize(sizeRef);
@@ -346,7 +346,7 @@ TEST_F(TestRenderWindow, SetFrameSizeNullSizeY)
 
 TEST_F(TestRenderWindow, SetFrameSizeNullSize)
 {
-  RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
+  RenderWindow w(u8"Test", Vec2u(32u, 16u), WindowStyle::Windowed, 4u);
 
   Vec2u sizeRef = Vec2u::zero();
   w.setFrameSize(sizeRef);
@@ -362,7 +362,7 @@ TEST_F(TestRenderWindow, SetFrameSizeNullSize)
 
 TEST_F(TestRenderWindow, SetVerticalSyncMode)
 {
-  RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
+  RenderWindow w(u8"Test", Vec2u(32u, 16u), WindowStyle::Windowed, 4u);
   w.setVerticalSyncMode(VerticalSyncMode::Enabled);
   w.setVerticalSyncMode(VerticalSyncMode::Disabled);
   SUCCEED();
@@ -372,7 +372,7 @@ TEST_F(TestRenderWindow, SetVerticalSyncMode)
 
 TEST_F(TestRenderWindow, SetSamples)
 {
-  RenderWindow w(u8"Test", Vec2u(32u, 16u), 0u, WindowStyle::Windowed);
+  RenderWindow w(u8"Test", Vec2u(32u, 16u), WindowStyle::Windowed, 1u);
 
   w.setSampleCount(1u);
   EXPECT_EQ(1u, w.getSampleCount());
@@ -391,7 +391,7 @@ TEST_F(TestRenderWindow, SetSamples)
 
 TEST_F(TestRenderWindowDeathTest, SetSamplesTooLarge)
 {
-  RenderWindow w(u8"Test", Vec2u(32u, 16u), 0u, WindowStyle::Windowed);
+  RenderWindow w(u8"Test", Vec2u(32u, 16u), WindowStyle::Windowed, 1u);
   HOU_EXPECT_PRECONDITION(
     w.setSampleCount(RenderWindow::getMaxSampleCount() + 1u));
 }
@@ -401,7 +401,7 @@ TEST_F(TestRenderWindowDeathTest, SetSamplesTooLarge)
 TEST_F(TestRenderWindow, ResizeFrameBufferOnPopResizedEvent)
 {
   Vec2u oldSize(Vec2u(32u, 16u));
-  RenderWindow w(u8"Test", oldSize, 4u, WindowStyle::Windowed);
+  RenderWindow w(u8"Test", oldSize, WindowStyle::Windowed, 4u);
   Vec2u newSize(Vec2u(12u, 8u));
 
   WindowEvent ev = WindowEvent::resized(newSize.x(), newSize.y());

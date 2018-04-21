@@ -174,6 +174,7 @@ void RenderSurface::buildFramebuffer(const Vec2u& size, uint sampleCount)
   HOU_ENSURE_DEV(GraphicContext::getRenderingColorByteCount() == 4u);
   HOU_ENSURE_DEV(GraphicContext::getRenderingDepthByteCount() == 3u);
   HOU_ENSURE_DEV(GraphicContext::getRenderingStencilByteCount() == 1u);
+  HOU_EXPECT(sampleCount > 0u);
 
   mSampleCount = sampleCount;
   if(sampleCount <= 1)

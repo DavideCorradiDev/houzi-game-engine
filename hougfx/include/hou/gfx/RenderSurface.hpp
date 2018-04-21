@@ -67,7 +67,7 @@ public:
 public:
   /** Builds a RenderSurface with the given size and sample count.
    *
-   *  Throws if the required sample count is larger than the maximum supported.
+   *  Throws if the required sample count is larger than the maximum supported or 0.
    *  Throws if the required area of the surface is 0.
    *  Throws if the required area is larger than the maximum supported texture
    * size.
@@ -75,7 +75,7 @@ public:
    *  \param size the size.
    *  \param sampleCount the sample count.
    */
-  RenderSurface(const Vec2u& size, uint sampleCount);
+  RenderSurface(const Vec2u& size, uint sampleCount = 1u);
 
   /** Move constructor.
    *
