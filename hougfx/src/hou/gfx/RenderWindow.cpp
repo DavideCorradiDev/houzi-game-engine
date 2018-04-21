@@ -7,7 +7,6 @@
 #include "hou/gl/GlFunctions.hpp"
 
 #include "hou/gfx/GraphicContext.hpp"
-#include "hou/gfx/RenderTexture.hpp"
 #include "hou/gfx/Texture.hpp"
 
 #include "hou/sys/VideoMode.hpp"

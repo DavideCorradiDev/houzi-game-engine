@@ -46,8 +46,7 @@ SET(EXE_HOUGFX_TEST_SRC
   hou/gfx/TestMesh.cpp
   hou/gfx/TestMesh2ShaderProgram.cpp
   hou/gfx/TestGraphicContext.cpp
-  hou/gfx/TestRenderSurface.cpp
-  hou/gfx/TestRenderTexture.cpp
+  hou/gfx/TestRenderCanvas.cpp
   hou/gfx/TestRenderWindow.cpp
   hou/gfx/TestRenderer2.cpp
   hou/gfx/TestShader.cpp

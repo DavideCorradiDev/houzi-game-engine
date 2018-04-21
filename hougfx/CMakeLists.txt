@@ -48,8 +48,8 @@ SET(LIB_HOUGFX_SRC
   src/hou/gfx/MeshFillMode.cpp
   src/hou/gfx/GraphicContext.cpp
   src/hou/gfx/RenderFont.cpp
+  src/hou/gfx/RenderCanvas.cpp
   src/hou/gfx/RenderSurface.cpp
-  src/hou/gfx/RenderTexture.cpp
   src/hou/gfx/RenderWindow.cpp
   src/hou/gfx/Renderer2.cpp
   src/hou/gfx/Shader.cpp
