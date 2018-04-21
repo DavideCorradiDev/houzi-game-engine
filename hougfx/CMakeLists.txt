@@ -51,7 +51,6 @@ SET(LIB_HOUGFX_SRC
   src/hou/gfx/RenderCanvas.cpp
   src/hou/gfx/RenderSurface.cpp
   src/hou/gfx/RenderWindow.cpp
-  src/hou/gfx/Renderer2.cpp
   src/hou/gfx/Shader.cpp
   src/hou/gfx/ShaderProgram.cpp
   src/hou/gfx/ShaderType.cpp

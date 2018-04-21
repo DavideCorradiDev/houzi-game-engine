@@ -1,8 +1,10 @@
 #include "hou/gfx/Vertex2.hpp"
-#include "hou/gfx/Renderer2.hpp"
 #include "hou/gfx/GraphicContext.hpp"
 #include "hou/gfx/RenderWindow.hpp"
 #include "hou/gfx/TextureChannelMapping.hpp"
+#include "hou/gfx/Mesh.hpp"
+#include "hou/gfx/Mesh2ShaderProgram.hpp"
+#include "hou/gfx/TextShaderProgram.hpp"
 
 #include "hou/mth/MathFunctions.hpp"
 #include "hou/mth/Rotation2.hpp"

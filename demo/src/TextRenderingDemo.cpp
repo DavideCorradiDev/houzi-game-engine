@@ -4,7 +4,9 @@
 #include "hou/gfx/GraphicContext.hpp"
 #include "hou/gfx/RenderWindow.hpp"
 #include "hou/gfx/RenderFont.hpp"
-#include "hou/gfx/Renderer2.hpp"
+#include "hou/gfx/Mesh2ShaderProgram.hpp"
+#include "hou/gfx/TextShaderProgram.hpp"
+#include "hou/gfx/Mesh.hpp"
 #include "hou/sys/Color.hpp"
 #include "hou/cor/Stopwatch.hpp"
 #include "hou/sys/WindowEvent.hpp"
@@ -24,7 +26,6 @@ int main()
   Trans2f proj = Trans2f::orthographicProjection(rw.getViewport());
   Mesh2ShaderProgram m2Rnd;
   TextShaderProgram textRnd;
-  Renderer2 rnd;
   Mesh2 fpsRect = createRectangleMesh2(Vec2f(128.f, 32.f));
   std::vector<uint> fontSizes{0, 2, 4, 8, 16, 32, 64};
   size_t currentSizeIdx = 3;
