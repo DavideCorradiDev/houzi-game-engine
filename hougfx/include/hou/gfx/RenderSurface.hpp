@@ -67,10 +67,9 @@ public:
 public:
   /** Builds a RenderSurface with the given size and sample count.
    *
-   *  Throws if the required sample count is larger than the maximum supported or 0.
-   *  Throws if the required area of the surface is 0.
-   *  Throws if the required area is larger than the maximum supported texture
-   * size.
+   *  Throws if the required sample count is larger than the maximum supported
+   * or 0. Throws if the required area of the surface is 0. Throws if the
+   * required area is larger than the maximum supported texture size.
    *
    *  \param size the size.
    *  \param sampleCount the sample count.
@@ -177,7 +176,16 @@ public:
    *  \param dstRect the destination rectangle of the blit operation.
    */
   friend HOU_GFX_API void blit(const RenderSurface& src, const Recti& srcRect,
-    RenderSurface& dst, const Recti& dstRect);
+    RenderSurface& dst, const Recti& dstRect,
+    FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
+
+  friend HOU_GFX_API void blit(const RenderSurface& src, const Recti& srcRect,
+    Texture& dst, const Recti& dstRect,
+    FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
+
+  friend HOU_GFX_API void blit(const Texture& src, const Recti& srcRect,
+    RenderSurface& dst, const Recti& dstRect,
+    FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
 
 protected:
   void buildFramebuffer(const Vec2u& size, uint sampleCount);

@@ -72,7 +72,7 @@ TEST_F(TestRenderer2, DrawRectangle)
 {
   Renderer2 mr;
   Vec2u size(4u, 6u);
-  RenderCanvas rt(size, 0u);
+  RenderCanvas rt(size);
   Mesh2 rect = createRectangleMesh2(Vec2f(2.f, 3.f));
   Color col(20u, 30u, 40u, 255u);
   Trans2f t = Trans2f::orthographicProjection(Rectf(0.f, 0.f, size.x(), size.y()))
@@ -91,7 +91,7 @@ TEST_F(TestRenderer2, DrawTexturedRectangle)
 {
   Renderer2 mr;
   Vec2u size(8u, 10u);
-  RenderCanvas rt(size, 0u);
+  RenderCanvas rt(size);
   Mesh2 rect = createRectangleMesh2(Vec2f(3.f, 4.f));
   Image2RGBA image(Vec2u(3u, 4u));
   Color col(20u, 30u, 40u, 255u);

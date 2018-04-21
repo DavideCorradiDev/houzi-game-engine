@@ -208,10 +208,26 @@ void RenderSurface::buildFramebuffer(const Vec2u& size, uint sampleCount)
 
 
 void blit(const RenderSurface& src, const Recti& srcRect, RenderSurface& dst,
-  const Recti& dstRect)
+  const Recti& dstRect, FrameBufferBlitFilter filter)
 {
   blit(src.mFrameBuffer, srcRect, dst.mFrameBuffer, dstRect,
-    FrameBufferBlitMask::All, FrameBufferBlitFilter::Nearest);
+    FrameBufferBlitMask::All, filter);
+}
+
+
+
+void blit(const RenderSurface& src, const Recti& srcRect, Texture& dst,
+  const Recti& dstRect, FrameBufferBlitFilter filter)
+{
+  blit(src.mFrameBuffer, srcRect, dst, dstRect, filter);
+}
+
+
+
+void blit(const Texture& src, const Recti& srcRect, RenderSurface& dst,
+  const Recti& dstRect, FrameBufferBlitFilter filter)
+{
+  blit(src, srcRect, dst.mFrameBuffer, dstRect, filter);
 }
 
 }  // namespace hou

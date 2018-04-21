@@ -180,13 +180,14 @@ private:
  */
 HOU_GFX_API void blit(const FrameBuffer& src, const Recti& srcRect,
   FrameBuffer& dst, const Recti& dstRect, FrameBufferBlitMask mask,
-  FrameBufferBlitFilter filter);
+  FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
 
 /** Copies a rectangular region of a FrameBuffer into a texture.
  *
  * The following constraints must be observed, or an exception will be thrown:
  * * src must be complete FrameBuffer object.
- * * If src or dst are multisampled, srcRect and dstRect must have the same size.
+ * * If src or dst are multisampled, srcRect and dstRect must have the same
+ * size.
  *
  * \param src the source FrameBuffer.
  * \param srcRect the source rectangle.
@@ -195,13 +196,15 @@ HOU_GFX_API void blit(const FrameBuffer& src, const Recti& srcRect,
  * \param filter the filter to apply for this operation.
  */
 HOU_GFX_API void blit(const FrameBuffer& src, const Recti& srcRect,
-  Texture& dst, const Recti& dstRect, FrameBufferBlitFilter filter);
+  Texture& dst, const Recti& dstRect,
+  FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
 
 /** Copies a rectangular region of a texture into a FrameBuffer.
  *
  * The following constraints must be observed, or an exception will be thrown:
  * * dst must be complete FrameBuffer object.
- * * If src or dst are multisampled, srcRect and dstRect must have the same size.
+ * * If src or dst are multisampled, srcRect and dstRect must have the same
+ * size.
  *
  * \param src the source texture.
  * \param srcRect the source rectangle.
@@ -210,15 +213,15 @@ HOU_GFX_API void blit(const FrameBuffer& src, const Recti& srcRect,
  * \param filter the filter to apply for this operation.
  */
 HOU_GFX_API void blit(const Texture& src, const Recti& srcRect,
-  FrameBuffer& dst, const Recti& dstRect, FrameBufferBlitFilter filter);
-
-HOU_GFX_API void blit(const Texture& src, const Recti& srcRect,
+  FrameBuffer& dst, const Recti& dstRect,
+  FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
 
 /** Copies a rectangular region of a texture into a FrameBuffer.
  *
  * The following constraints must be observed, or an exception will be thrown:
  * * dst must be complete FrameBuffer object.
- * * If src or dst are multisampled, srcRect and dstRect must have the same size.
+ * * If src or dst are multisampled, srcRect and dstRect must have the same
+ * size.
  *
  * \param src the source texture.
  * \param srcRect the source rectangle.
@@ -226,7 +229,9 @@ HOU_GFX_API void blit(const Texture& src, const Recti& srcRect,
  * \param dstRect the destination rectangle.
  * \param filter the filter to apply for this operation.
  */
-  Texture& dst, const Recti& dstRect, FrameBufferBlitFilter filter);
+HOU_GFX_API void blit(const Texture& src, const Recti& srcRect, Texture& dst,
+  const Recti& dstRect,
+  FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
 
 }  // namespace hou
 
