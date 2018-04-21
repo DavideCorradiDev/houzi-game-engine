@@ -77,8 +77,8 @@ public:
   void setVerticalSyncMode(VerticalSyncMode mode);
 
   // Window overrides.
-  void setFrameRect(const Recti& value) override;
-  void setClientRect(const Recti& value) override;
+  void setFrameRect(const Vec2i& pos, const Vec2u& size) override;
+  void setClientRect(const Vec2i& pos, const Vec2u& size) override;
 
 private:
   void rebuildFramebufferIfNecessary();

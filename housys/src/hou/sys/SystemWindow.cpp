@@ -18,14 +18,14 @@ SystemWindow::SystemWindow(SystemWindow&& other)
 
 
 
-void SystemWindow::setFrameRect(const Recti& rect)
+void SystemWindow::setFrameRect(const Vec2i& pos, const Vec2u& size)
 {
-  Window::setFrameRect(rect);
+  Window::setFrameRect(pos, size);
 }
 
-void SystemWindow::setClientRect(const Recti& rect)
+void SystemWindow::setClientRect(const Vec2i& pos, const Vec2u& size)
 {
-  Window::setClientRect(rect);
+  Window::setClientRect(pos, size);
 }
 
 }  // namespace hou

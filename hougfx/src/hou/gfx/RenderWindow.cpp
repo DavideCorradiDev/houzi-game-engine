@@ -82,17 +82,17 @@ void RenderWindow::setVerticalSyncMode(VerticalSyncMode mode)
 
 
 
-void RenderWindow::setFrameRect(const Recti& value)
+void RenderWindow::setFrameRect(const Vec2i& pos, const Vec2u& size)
 {
-  Window::setFrameRect(value);
+  Window::setFrameRect(pos, size);
   rebuildFramebufferIfNecessary();
 }
 
 
 
-void RenderWindow::setClientRect(const Recti& value)
+void RenderWindow::setClientRect(const Vec2i& pos, const Vec2u& size)
 {
-  Window::setClientRect(value);
+  Window::setClientRect(pos, size);
   rebuildFramebufferIfNecessary();
 }
 

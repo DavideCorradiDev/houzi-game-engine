@@ -112,7 +112,7 @@ public:
    *
    *  \param rect the Window frame rectangle.
    */
-  virtual void setFrameRect(const Recti& rect) = 0;
+  virtual void setFrameRect(const Vec2i& pos, const Vec2u& size) = 0;
 
   /** Sets the position of the Window frame.
    *
@@ -162,7 +162,7 @@ public:
    *
    *  \param rect the Window client rectangle.
    */
-  virtual void setClientRect(const Recti& rect) = 0;
+  virtual void setClientRect(const Vec2i& pos, const Vec2u& size) = 0;
 
   /** Sets the position of the Window client.
    *

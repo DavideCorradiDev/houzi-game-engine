@@ -114,11 +114,10 @@ Vec2u Window::getFrameSize() const
 
 
 
-void Window::setFrameRect(const Recti& rect)
+void Window::setFrameRect(const Vec2i& pos, const Vec2u& size)
 {
-  HOU_EXPECT(rect.getSize().x() >= 0 && rect.getSize().y() >= 0);
   Vec2u oldClientSize = getClientSize();
-  mImpl.setFrameRect(rect);
+  mImpl.setFrameRect(Recti(pos, static_cast<Vec2i>(size)));
   Vec2u newClientSize = getClientSize();
   if(oldClientSize != newClientSize)
   {
@@ -130,14 +129,14 @@ void Window::setFrameRect(const Recti& rect)
 
 void Window::setFramePosition(const Vec2i& pos)
 {
-  setFrameRect(Recti(pos, static_cast<Vec2i>(getFrameSize())));
+  setFrameRect(pos, getFrameSize());
 }
 
 
 
 void Window::setFrameSize(const Vec2u& size)
 {
-  setFrameRect(Recti(getFramePosition(), static_cast<Vec2i>(size)));
+  setFrameRect(getFramePosition(), size);
 }
 
 
@@ -163,11 +162,10 @@ Vec2u Window::getClientSize() const
 
 
 
-void Window::setClientRect(const Recti& rect)
+void Window::setClientRect(const Vec2i& pos, const Vec2u& size)
 {
-  HOU_EXPECT(rect.getSize().x() >= 0 && rect.getSize().y() >= 0);
   Vec2u oldClientSize = getClientSize();
-  mImpl.setClientRect(rect);
+  mImpl.setClientRect(Recti(pos, static_cast<Vec2i>(size)));
   Vec2u newClientSize = getClientSize();
   if(oldClientSize != newClientSize)
   {
@@ -179,14 +177,14 @@ void Window::setClientRect(const Recti& rect)
 
 void Window::setClientPosition(const Vec2i& pos)
 {
-  setClientRect(Recti(pos, static_cast<Vec2i>(getClientSize())));
+  setClientRect(pos, getClientSize());
 }
 
 
 
 void Window::setClientSize(const Vec2u& size)
 {
-  setClientRect(Recti(getClientPosition(), static_cast<Vec2i>(size)));
+  setClientRect(getClientPosition(), size);
 }
 
 

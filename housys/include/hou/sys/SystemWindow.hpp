@@ -44,8 +44,8 @@ public:
   SystemWindow(SystemWindow&& other);
 
   // Window ovverrides.
-  void setFrameRect(const Recti& rect) final;
-  void setClientRect(const Recti& rect) final;
+  void setFrameRect(const Vec2i& pos, const Vec2u& size) final;
+  void setClientRect(const Vec2i& pos, const Vec2u& size) override;
 };
 
 }  // namespace hou
