@@ -76,6 +76,15 @@ public:
    */
   void setVerticalSyncMode(VerticalSyncMode mode);
 
+  /** Sets the number of samples of the RenderWindow.
+   *
+   *  After setting the sample count, the content of the framebuffer is reset.
+   *  Throws if the required sample count is larger then the maximum supported.
+   *
+   *  \return the number of samples of the RenderWindow.
+   */
+  void setSampleCount(uint sampleCount);
+
   // Window overrides.
   void setFrameRect(const Vec2i& pos, const Vec2u& size) override;
   void setClientRect(const Vec2i& pos, const Vec2u& size) override;

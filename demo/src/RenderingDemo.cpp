@@ -444,14 +444,12 @@ int main()
           }
           else if(data.scanCode == ScanCode::Add)
           {
-            if(wndSamples < 16)
+            if(wndSamples < 32)
             {
               wndSamples *= 2;
             }
-            wnd.reset();
-            wnd = std::make_unique<RenderWindow>(wndTitle, wndSize, wndSamples
-              , wndStyle);
-            wnd->setVisible(true);
+            std::cout << "Samples: " << wndSamples << std::endl;
+            wnd->setSampleCount(wndSamples);
           }
           else if(data.scanCode == ScanCode::Subtract)
           {
@@ -459,10 +457,8 @@ int main()
             {
               wndSamples /= 2;
             }
-            wnd.reset();
-            wnd = std::make_unique<RenderWindow>(wndTitle, wndSize, wndSamples
-              , wndStyle);
-            wnd->setVisible(true);
+            std::cout << "Samples: " << wndSamples << std::endl;
+            wnd->setSampleCount(wndSamples);
           }
           else if(data.scanCode == ScanCode::Decimal)
           {

@@ -46,6 +46,20 @@ void RenderSurface::setDefaultRenderTarget()
 
 
 
+Vec2u RenderSurface::getMaxSize()
+{
+  return AttachmentType::getMaxSize();
+}
+
+
+
+uint RenderSurface::getMaxSampleCount()
+{
+  return MultisampledAttachmentType::getMaxSampleCount();
+}
+
+
+
 RenderSurface::RenderSurface(const Vec2u& size, uint sampleCount)
   : NonCopyable()
   , mFrameBuffer()
@@ -114,13 +128,6 @@ bool RenderSurface::isMultisampled() const
 uint RenderSurface::getSampleCount() const
 {
   return mSampleCount;
-}
-
-
-
-void RenderSurface::setSampleCount(uint sampleCount)
-{
-  buildFramebuffer(getSize(), sampleCount);
 }
 
 

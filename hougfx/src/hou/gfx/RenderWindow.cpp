@@ -82,6 +82,13 @@ void RenderWindow::setVerticalSyncMode(VerticalSyncMode mode)
 
 
 
+void RenderWindow::setSampleCount(uint sampleCount)
+{
+  buildFramebuffer(getSize(), sampleCount);
+}
+
+
+
 void RenderWindow::setFrameRect(const Vec2i& pos, const Vec2u& size)
 {
   Window::setFrameRect(pos, size);

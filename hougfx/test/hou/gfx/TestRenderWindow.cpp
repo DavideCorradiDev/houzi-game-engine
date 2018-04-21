@@ -370,6 +370,34 @@ TEST_F(TestRenderWindow, SetVerticalSyncMode)
 
 
 
+TEST_F(TestRenderWindow, SetSamples)
+{
+  RenderWindow w(u8"Test", Vec2u(32u, 16u), 0u, WindowStyle::Windowed);
+
+  w.setSampleCount(1u);
+  EXPECT_EQ(1u, w.getSampleCount());
+  EXPECT_FALSE(w.isMultisampled());
+
+  w.setSampleCount(2u);
+  EXPECT_EQ(2u, w.getSampleCount());
+  EXPECT_TRUE(w.isMultisampled());
+
+  w.setSampleCount(RenderWindow::getMaxSampleCount());
+  EXPECT_EQ(RenderWindow::getMaxSampleCount(), w.getSampleCount());
+  EXPECT_TRUE(w.isMultisampled());
+}
+
+
+
+TEST_F(TestRenderWindowDeathTest, SetSamplesTooLarge)
+{
+  RenderWindow w(u8"Test", Vec2u(32u, 16u), 0u, WindowStyle::Windowed);
+  HOU_EXPECT_PRECONDITION(
+    w.setSampleCount(RenderWindow::getMaxSampleCount() + 1u));
+}
+
+
+
 TEST_F(TestRenderWindow, ResizeFrameBufferOnPopResizedEvent)
 {
   Vec2u oldSize(Vec2u(32u, 16u));

@@ -52,6 +52,18 @@ public:
    */
   static void setDefaultRenderTarget();
 
+  /** Retrieves the maximum allowed size for the render surface..
+   *
+   * \return a vector containing the maximum size on each dimension.
+   */
+  static Vec2u getMaxSize();
+
+  /** Retrieves the maximum amount of samples per pixel.
+   *
+   * \return the maximum amount of samples per pixel.
+   */
+  static uint getMaxSampleCount();
+
 public:
   /** Builds a RenderSurface with the given size and sample count.
    *
@@ -120,15 +132,6 @@ public:
    */
   uint getSampleCount() const;
 
-  /** Sets the number of samples of the RenderSurface.
-   *
-   *  After setting the sample count, the content of the surface is undefined.
-   *  Throws if the required sample count is larger then the maximum supported.
-   *
-   *  \return the number of samples of the RenderSurface.
-   */
-  void setSampleCount(uint sampleCount);
-
   /** Clears the RenderSurface to the desired color.
    *
    *  \param color the desired color.
@@ -178,6 +181,10 @@ public:
 
 protected:
   void buildFramebuffer(const Vec2u& size, uint sampleCount);
+
+private:
+  using AttachmentType = Texture2;
+  using MultisampledAttachmentType = MultisampleTexture2;
 
 private:
   FrameBuffer mFrameBuffer;

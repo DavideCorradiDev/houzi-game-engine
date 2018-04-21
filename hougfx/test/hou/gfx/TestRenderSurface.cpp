@@ -207,35 +207,13 @@ TEST_F(TestRenderSurface, NegativeSizeViewport)
 
 TEST_F(TestRenderSurface, IsMultisampled)
 {
-  ConcreteRenderSurface rs(Vec2u(3u, 4u), 0u);
+  ConcreteRenderSurface rs1(Vec2u(3u, 4u), 0u);
+  ConcreteRenderSurface rs2(Vec2u(3u, 4u), 1u);
+  ConcreteRenderSurface rs3(Vec2u(3u, 4u), 2u);
 
-  EXPECT_FALSE(rs.isMultisampled());
-
-  rs.setSampleCount(1u);
-  EXPECT_FALSE(rs.isMultisampled());
-
-  rs.setSampleCount(2u);
-  EXPECT_TRUE(rs.isMultisampled());
-}
-
-
-
-TEST_F(TestRenderSurface, SetSamples)
-{
-  ConcreteRenderSurface rs(Vec2u(3u, 4u), 0u);
-  uint samples = 5u;
-  rs.setSampleCount(samples);
-
-  EXPECT_EQ(samples, rs.getSampleCount());
-  EXPECT_TRUE(rs.isMultisampled());
-}
-
-
-
-TEST_F(TestRenderSurfaceDeathTest, SetSamplesTooLarge)
-{
-  ConcreteRenderSurface rs(Vec2u(3u, 4u), 0u);
-  HOU_EXPECT_PRECONDITION(rs.setSampleCount(40000));
+  EXPECT_FALSE(rs1.isMultisampled());
+  EXPECT_FALSE(rs2.isMultisampled());
+  EXPECT_TRUE(rs3.isMultisampled());
 }
 
 
