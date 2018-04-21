@@ -42,7 +42,6 @@ SET(EXE_HOUGFX_TEST_SRC
   hou/gfx/TestGfxBase.cpp
   hou/gfx/TestGlyph.cpp
   hou/gfx/TestGlyphMetrics.cpp
-  hou/gfx/TestGlyphRenderInfo.cpp
   hou/gfx/TestMesh.cpp
   hou/gfx/TestMesh2ShaderProgram.cpp
   hou/gfx/TestGraphicContext.cpp
