@@ -118,7 +118,7 @@ void Mesh2ShaderProgram::draw(RenderSurface& target, const Mesh2& mesh,
   setColor(col);
   setTextureUnit(texUnit);
   setTransform(trn);
-  ShaderProgram::bind(*this);
+  bind(*this);
   Texture::bind(tex, texUnit);
   Mesh::draw(mesh);
 }

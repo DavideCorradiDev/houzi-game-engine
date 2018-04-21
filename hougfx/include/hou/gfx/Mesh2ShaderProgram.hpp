@@ -14,12 +14,13 @@
 
 #include "hou/mth/Transform2.hpp"
 
+#include "hou/sys/Color.hpp"
+
 
 
 namespace hou
 {
 
-class Color;
 class RenderSurface;
 
 /** Shader program used to render Mesh2d objects.

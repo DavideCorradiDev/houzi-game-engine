@@ -1,10 +1,15 @@
 #include "hou/gfx/TextShaderProgram.hpp"
 
+#include "hou/gfx/Font.hpp"
+#include "hou/gfx/RenderFont.hpp"
+#include "hou/gfx/RenderSurface.hpp"
 #include "hou/gfx/Shader.hpp"
 
 #include "hou/mth/Transform2.hpp"
 
 #include "hou/sys/Color.hpp"
+
+#include <set>
 
 #define UNI_COLOR "colorUni"
 #define UNI_TEXTURE "textureUni"
@@ -94,6 +99,20 @@ void TextShaderProgram::setTransform(const Trans2f& trans)
 {
   gl::setProgramUniformMatrix4f(
     getHandle(), mUniTransform, 1u, GL_TRUE, trans.toMat4x4().data());
+}
+
+void TextShaderProgram::draw(RenderSurface& target, const std::string& text,
+  const Font& font, const Color& col, const Trans2f& trn)
+{
+  std::u32string textUtf32 = convertEncoding<Utf8, Utf32>(text);
+  std::set<Utf32::CodeUnit> charSet(textUtf32.begin(), textUtf32.end());
+  std::vector<Utf32::CodeUnit> charVec(charSet.begin(), charSet.end());
+  RenderFont renderFont(charVec, font);
+  RenderSurface::setCurrentRenderTarget(target);
+  setColor(col);
+  setTransform(trn);
+  bind(*this);
+  renderFont.draw(textUtf32);
 }
 
 }  // namespace hou

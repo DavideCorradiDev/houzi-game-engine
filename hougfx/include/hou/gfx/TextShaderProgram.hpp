@@ -10,12 +10,17 @@
 
 #include "hou/gfx/ShaderProgram.hpp"
 
-#include "hou/mth/Transform2Fwd.hpp"
+#include "hou/mth/Transform2.hpp"
+
+#include "hou/sys/Color.hpp"
 
 
 
 namespace hou
 {
+
+class Font;
+class RenderSurface;
 
 class Color;
 
@@ -28,6 +33,9 @@ public:
   void setColor(const Color& color);
   void setTextureUnit(uint unit);
   void setTransform(const Trans2f& trans);
+
+  void draw(RenderSurface& target, const std::string& text, const Font& font,
+    const Color& col = Color::White, const Trans2f& trn = Trans2f::identity());
 
 private:
   int mUniColor;
