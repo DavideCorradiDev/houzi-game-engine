@@ -877,7 +877,7 @@ void WindowImpl::filterEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
       // manually. In order to do so, the mouse has to be captured, so that
       // mousemove events are generated when the mouse is outside of the client
       // area as well.
-      //
+
       Vec2i pos(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 
       Recti clientRect = getClientRect();

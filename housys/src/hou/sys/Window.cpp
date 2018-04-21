@@ -297,7 +297,9 @@ void Window::updateEventQueue()
 
 WindowEvent Window::popEvent()
 {
-  return mImpl.popEvent();
+  WindowEvent ev = mImpl.popEvent();
+  reactToEvent(ev);
+  return ev;
 }
 
 
@@ -311,7 +313,9 @@ void Window::pushEvent(const WindowEvent& event)
 
 WindowEvent Window::waitEvent()
 {
-  return mImpl.waitEvent();
+  WindowEvent ev = mImpl.waitEvent();
+  reactToEvent(ev);
+  return ev;
 }
 
 
@@ -319,6 +323,20 @@ WindowEvent Window::waitEvent()
 void Window::swapBuffers()
 {
   mImpl.swapBuffers();
+}
+
+
+
+void Window::reactToEvent(const WindowEvent& event)
+{
+  // If the window has been resized by the OS user, call setClientSize to make
+  // sure that special handling for the derived class is performed as well.
+  // Example: RenderWindow also resizes the FrameBuffer on resize.
+  if(event.getType() == WindowEventType::Resized)
+  {
+    const WindowEvent::SizeData& data = event.getSizeData();
+    setClientSize(Vec2u(data.sizeX, data.sizeY));
+  }
 }
 
 }

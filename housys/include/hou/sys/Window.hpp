@@ -317,6 +317,9 @@ protected:
   void swapBuffers();
 
 private:
+  void reactToEvent(const WindowEvent& event);
+
+private:
   prv::WindowImpl mImpl;
   uint32_t mUid;
   WindowStyle mStyle;

@@ -32,8 +32,7 @@ class VideoMode;
  * element in the render surface size will be equal to 1. The render surface
  * must have at least one pixel.
  * - If the window is resized by dragging its borders, the rendering surface
- * will be resized accordingly only when popping the resizing event from the
- * event queue of the window.
+ * will be resized accordingly only when updating the event queue.
  *
  * The view port of the render surface will not be adjusted if the size of the
  * window changes for any reason. It must be adjusted manually. This can

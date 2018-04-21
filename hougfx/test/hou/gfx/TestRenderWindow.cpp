@@ -9,6 +9,7 @@
 #include "hou/gfx/Texture.hpp"
 
 #include "hou/sys/VideoMode.hpp"
+#include "hou/sys/WindowEvent.hpp"
 
 using namespace hou;
 
@@ -361,3 +362,20 @@ TEST_F(TestRenderWindow, SetVerticalSyncMode)
   SUCCEED();
 }
 
+
+
+TEST_F(TestRenderWindow, ResizeFrameBufferOnPopResizedEvent)
+{
+  Vec2u oldSize(Vec2u(32u, 16u));
+  RenderWindow w(u8"Test", oldSize, 4u, WindowStyle::Windowed);
+  Vec2u newSize(Vec2u(12u, 8u));
+
+  WindowEvent ev = WindowEvent::resized(newSize.x(), newSize.y());
+  w.pushEvent(ev);
+  EXPECT_EQ(oldSize, w.getClientSize());
+  EXPECT_EQ(oldSize, w.getSize());
+
+  EXPECT_EQ(ev, w.popEvent());
+  EXPECT_EQ(newSize, w.getClientSize());
+  EXPECT_EQ(newSize, w.getSize());
+}
