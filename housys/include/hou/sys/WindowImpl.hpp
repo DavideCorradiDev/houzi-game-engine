@@ -71,7 +71,6 @@ public:
 
   bool isEventQueueEmpty() const;
   void updateEventQueue();
-  WindowEvent waitEvent();
   WindowEvent popEvent();
   void pushEvent(const WindowEvent& event);
 

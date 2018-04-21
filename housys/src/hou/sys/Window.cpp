@@ -11,6 +11,8 @@
 
 #include "hou/mth/Rectangle.hpp"
 
+#include <thread>
+
 
 
 namespace hou
@@ -313,9 +315,16 @@ void Window::pushEvent(const WindowEvent& event)
 
 WindowEvent Window::waitEvent()
 {
-  WindowEvent ev = mImpl.waitEvent();
-  reactToEvent(ev);
-  return ev;
+  static constexpr std::chrono::milliseconds sleepTime(10);
+
+  updateEventQueue();
+  while(isEventQueueEmpty())
+  {
+    std::this_thread::sleep_for(sleepTime);
+    updateEventQueue();
+  }
+  HOU_ENSURE_DEV(!isEventQueueEmpty());
+  return popEvent();
 }
 
 
