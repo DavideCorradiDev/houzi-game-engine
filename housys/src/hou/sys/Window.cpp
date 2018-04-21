@@ -93,23 +93,16 @@ void Window::setTitle(const std::string& title)
 
 
 
-Recti Window::getFrameRect() const
-{
-  return mImpl.getFrameRect();
-}
-
-
-
 Vec2i Window::getFramePosition() const
 {
-  return getFrameRect().getPosition();
+  return mImpl.getFrameRect().getPosition();
 }
 
 
 
 Vec2u Window::getFrameSize() const
 {
-  return static_cast<Vec2u>(getFrameRect().getSize());
+  return static_cast<Vec2u>(mImpl.getFrameRect().getSize());
 }
 
 
@@ -141,23 +134,16 @@ void Window::setFrameSize(const Vec2u& size)
 
 
 
-Recti Window::getClientRect() const
-{
-  return mImpl.getClientRect();
-}
-
-
-
 Vec2i Window::getClientPosition() const
 {
-  return getClientRect().getPosition();
+  return mImpl.getClientRect().getPosition();
 }
 
 
 
 Vec2u Window::getClientSize() const
 {
-  return static_cast<Vec2u>(getClientRect().getSize());
+  return static_cast<Vec2u>(mImpl.getClientRect().getSize());
 }
 
 

@@ -132,9 +132,11 @@ TEST_F(TestRenderWindow, SetClientRect)
 {
   RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
 
+  Vec2i posRef(2, 3);
   Vec2u sizeRef(14u, 17u);
-  w.setClientRect(Recti(w.getClientPosition(), sizeRef));
+  w.setClientRect(posRef, sizeRef);
 
+  EXPECT_EQ(posRef, w.getClientPosition());
   EXPECT_EQ(sizeRef, w.getClientSize());
   EXPECT_EQ(sizeRef, w.getSize());
 }
@@ -146,7 +148,7 @@ TEST_F(TestRenderWindow, SetClientRectNullSizeX)
   RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
 
   Vec2u sizeRef(0u, 17u);
-  w.setClientRect(Recti(Vec2i::zero(), static_cast<Vec2i>(sizeRef)));
+  w.setClientRect(Vec2i::zero(), sizeRef);
   EXPECT_EQ(sizeRef, w.getClientSize());
 
   sizeRef.x() = 1u;
@@ -160,7 +162,7 @@ TEST_F(TestRenderWindow, SetClientRectNullSizeY)
   RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
 
   Vec2u sizeRef(13u, 0u);
-  w.setClientRect(Recti(Vec2i::zero(), static_cast<Vec2i>(sizeRef)));
+  w.setClientRect(Vec2i::zero(), sizeRef);
   EXPECT_EQ(sizeRef, w.getClientSize());
 
   sizeRef.y() = 1u;
@@ -174,7 +176,7 @@ TEST_F(TestRenderWindow, SetClientRectNullSize)
   RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
 
   Vec2u sizeRef = Vec2u::zero();
-  w.setClientRect(Recti(Vec2i::zero(), static_cast<Vec2i>(sizeRef)));
+  w.setClientRect(Vec2i::zero(), sizeRef);
   EXPECT_EQ(sizeRef, w.getClientSize());
 
   sizeRef.x() = 1u;
@@ -244,8 +246,12 @@ TEST_F(TestRenderWindow, SetFrameRect)
 {
   RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
 
-  w.setFrameRect(Recti(w.getFramePosition(), Vec2u(60u, 70u)));
+  Vec2i posRef(12, 13);
+  Vec2u sizeRef(60u, 100u);
+  w.setFrameRect(posRef, sizeRef);
 
+  EXPECT_EQ(posRef, w.getFramePosition());
+  EXPECT_EQ(sizeRef, w.getFrameSize());
   EXPECT_EQ(w.getClientSize(), w.getSize());
 }
 
@@ -256,7 +262,7 @@ TEST_F(TestRenderWindow, SetFrameRectNullSizeX)
   RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
 
   Vec2u sizeRef(0u, 42u);
-  w.setFrameRect(Recti(Vec2i::zero(), static_cast<Vec2i>(sizeRef)));
+  w.setFrameRect(Vec2i::zero(), sizeRef);
   EXPECT_EQ(sizeRef, w.getFrameSize());
 
   Vec2u texSizeRef = w.getClientSize();
@@ -271,7 +277,7 @@ TEST_F(TestRenderWindow, SetFrameRectNullSizeY)
   RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
 
   Vec2u sizeRef(42u, 0u);
-  w.setFrameRect(Recti(Vec2i::zero(), static_cast<Vec2i>(sizeRef)));
+  w.setFrameRect(Vec2i::zero(), sizeRef);
   EXPECT_EQ(sizeRef, w.getFrameSize());
 
   Vec2u texSizeRef = w.getClientSize();
@@ -286,7 +292,7 @@ TEST_F(TestRenderWindow, SetFrameRectNullSize)
   RenderWindow w(u8"Test", Vec2u(32u, 16u), 4u, WindowStyle::Windowed);
 
   Vec2u sizeRef = Vec2u::zero();
-  w.setFrameRect(Recti(Vec2i::zero(), static_cast<Vec2i>(sizeRef)));
+  w.setFrameRect(Vec2i::zero(), sizeRef);
   EXPECT_EQ(sizeRef, w.getFrameSize());
 
   Vec2u texSizeRef = w.getClientSize();

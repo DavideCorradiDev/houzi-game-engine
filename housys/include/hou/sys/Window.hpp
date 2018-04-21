@@ -81,14 +81,6 @@ public:
    */
   void setTitle(const std::string& title);
 
-  /** Gets the Window frame rectangle.
-   *
-   *  The Window frame rectangle includes the borders.
-   *
-   *  \return the Window frame rectangle.
-   */
-  Recti getFrameRect() const;
-
   /** Gets the position of the Window frame.
    *
    *  The Window frame position is the top left corner of the Window, including
@@ -130,14 +122,6 @@ public:
    *  \param size the size of the Window frame.
    */
   void setFrameSize(const Vec2u& size);
-
-  /** Gets the Window client rectangle.
-   *
-   *  The Window client rectangle does not include the borders.
-   *
-   *  \return the Window client rectangle.
-   */
-  Recti getClientRect() const;
 
   /** Gets the position of the Window client.
    *

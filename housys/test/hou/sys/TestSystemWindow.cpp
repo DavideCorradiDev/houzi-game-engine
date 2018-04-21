@@ -210,18 +210,11 @@ TEST_F(TestSystemWindow, FrameRect)
   SystemWindow w(
     "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   Recti refRect = Recti(10, 20, 30, 40);
-  w.setFrameRect(refRect);
-  EXPECT_EQ(refRect, w.getFrameRect());
-}
-
-
-
-TEST_F(TestSystemWindowDeathTest, FrameRectErrorNegativeSize)
-{
-  SystemWindow w(
-    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
-  HOU_EXPECT_PRECONDITION(w.setFrameRect(Recti(0, 0, -1, 600)));
-  HOU_EXPECT_PRECONDITION(w.setFrameRect(Recti(0, 0, 300, -1)));
+  Vec2i pos(10, 20);
+  Vec2u size(30u, 40u);
+  w.setFrameRect(pos, size);
+  EXPECT_EQ(pos, w.getFramePosition());
+  EXPECT_EQ(size, w.getFrameSize());
 }
 
 
@@ -253,18 +246,11 @@ TEST_F(TestSystemWindow, ClientRect)
   SystemWindow w(
     "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   Recti refRect = Recti(10, 20, 30, 40);
-  w.setClientRect(refRect);
-  EXPECT_EQ(refRect, w.getClientRect());
-}
-
-
-
-TEST_F(TestSystemWindowDeathTest, ClientRectErrorNegativeSize)
-{
-  SystemWindow w(
-    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
-  HOU_EXPECT_PRECONDITION(w.setClientRect(Recti(0, 0, -1, 600)));
-  HOU_EXPECT_PRECONDITION(w.setClientRect(Recti(0, 0, 300, -1)));
+  Vec2i pos(10, 20);
+  Vec2u size(30u, 40u);
+  w.setClientRect(pos, size);
+  EXPECT_EQ(pos, w.getClientPosition());
+  EXPECT_EQ(size, w.getClientSize());
 }
 
 
@@ -467,7 +453,7 @@ TEST_F(TestSystemWindow, GenerateResizeEventOnSetFrameRect)
     "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   EXPECT_TRUE(w.isEventQueueEmpty());
 
-  w.setFrameRect(Recti(Vec2i(32, 64), Vec2i(200, 400)));
+  w.setFrameRect(Vec2i(32, 64), Vec2u(200u, 400u));
   WindowEvent eventRef
     = WindowEvent::resized(w.getClientSize().x(), w.getClientSize().y());
   EXPECT_FALSE(w.isEventQueueEmpty());
@@ -483,7 +469,7 @@ TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetFrameRectWithSameSize)
     "Win", VideoMode(Vec2u(200u, 400u), 32u), WindowStyle::Windowed);
   EXPECT_TRUE(w.isEventQueueEmpty());
 
-  w.setFrameRect(Recti(Vec2i(32, 64), static_cast<Vec2i>(w.getFrameSize())));
+  w.setFrameRect(Vec2i(32, 64), w.getFrameSize());
   EXPECT_TRUE(w.isEventQueueEmpty());
 }
 
@@ -535,7 +521,7 @@ TEST_F(TestSystemWindow, GenerateResizeEventOnSetClientRect)
     "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   EXPECT_TRUE(w.isEventQueueEmpty());
 
-  w.setClientRect(Recti(Vec2i(32, 64), Vec2i(200, 400)));
+  w.setClientRect(Vec2i(32, 64), Vec2u(200u, 400u));
   WindowEvent eventRef
     = WindowEvent::resized(w.getClientSize().x(), w.getClientSize().y());
   EXPECT_FALSE(w.isEventQueueEmpty());
@@ -551,7 +537,7 @@ TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetClientRectWithSameSize)
     "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   EXPECT_TRUE(w.isEventQueueEmpty());
 
-  w.setClientRect(Recti(Vec2i(32, 64), static_cast<Vec2i>(w.getClientSize())));
+  w.setClientRect(Vec2i(32, 64), w.getClientSize());
   EXPECT_TRUE(w.isEventQueueEmpty());
 }
 
@@ -566,8 +552,6 @@ TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetClientPos)
   w.setClientPosition(Vec2i(32, 64));
   EXPECT_TRUE(w.isEventQueueEmpty());
 }
-
-// setClientRect with negative values?
 
 
 
