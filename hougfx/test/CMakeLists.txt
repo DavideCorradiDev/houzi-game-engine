@@ -38,6 +38,7 @@ SET(EXE_HOUGFX_TEST_SRC
   ${LIB_HOUTEST_SOURCE_DIR}/src/TestMain.cpp
   hou/gfx/TestData.cpp
   hou/gfx/TestFont.cpp
+  hou/gfx/TestFormattedText.cpp
   hou/gfx/TestFramebuffer.cpp
   hou/gfx/TestGfxBase.cpp
   hou/gfx/TestGlyph.cpp

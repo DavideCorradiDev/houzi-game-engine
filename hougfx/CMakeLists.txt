@@ -39,6 +39,7 @@ SET(LIB_HOUGFX_SRC
   src/hou/gfx/Glyph.cpp
   src/hou/gfx/GlyphMetrics.cpp
   src/hou/gfx/GlType.cpp
+  src/hou/gfx/FormattedText.cpp
   src/hou/gfx/FrameBuffer.cpp
   src/hou/gfx/FrameBufferBlitFilter.cpp
   src/hou/gfx/Mesh.cpp
