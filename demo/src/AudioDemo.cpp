@@ -3,8 +3,8 @@
 
 #include "hou/gfx/GraphicContext.hpp"
 #include "hou/gfx/RenderWindow.hpp"
-#include "hou/gfx/Renderer2.hpp"
 #include "hou/gfx/Font.hpp"
+#include "hou/gfx/TextShaderProgram.hpp"
 #include "hou/sys/Color.hpp"
 #include "hou/sys/WindowEvent.hpp"
 #include "hou/sys/BinaryFileIn.hpp"
@@ -40,7 +40,7 @@ int main()
   rw.setVisible(true);
   rw.setVerticalSyncMode(VerticalSyncMode::Disabled);
 
-  Renderer2 rnd;
+  TextShaderProgram rnd;
   Font font(std::make_unique<BinaryFileIn>("demo/data/NotoMono-Regular.ttf"));
   Trans2f proj = Trans2f::orthographicProjection(rw.getViewport());
   Trans2f textTrans = Trans2f::translation(Vec2f(0.f, static_cast<float>(font.getLineSpacing())));

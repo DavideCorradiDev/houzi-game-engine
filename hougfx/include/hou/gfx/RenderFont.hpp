@@ -10,6 +10,7 @@
 
 #include "hou/cor/BasicTypes.hpp"
 #include "hou/cor/CharacterEncodings.hpp"
+#include "hou/cor/Span.hpp"
 
 #include "hou/gfx/Font.hpp"
 #include "hou/gfx/GlyphMetrics.hpp"
@@ -34,13 +35,14 @@ public:
   using CharacterSet = std::vector<Utf32::CodeUnit>;
 
 public:
-  RenderFont(const CharacterSet& characterSet, const Font& font
+  RenderFont(const Span<const Utf32::CodeUnit>& characterSet, const Font& font
     , const Vec3u& maxGlyphAtlasSize);
-  RenderFont(const CharacterSet& characterSet, const Font& font);
+  RenderFont(const Span<const Utf32::CodeUnit>& characterSet, const Font& font);
   RenderFont(RenderFont&& other);
 
   // Change later to calls returning texture and mesh.
   void draw(const std::string& text) const;
+  void draw(const std::u32string& text) const;
 
 private:
   class GlyphRenderInfo

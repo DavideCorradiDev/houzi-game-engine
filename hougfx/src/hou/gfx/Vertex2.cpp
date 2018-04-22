@@ -4,6 +4,7 @@
 
 #include "hou/gfx/Vertex2.hpp"
 
+#include "hou/gfx/Mesh.hpp"
 #include "hou/gfx/VertexFormat.hpp"
 
 #include "hou/mth/MathFunctions.hpp"

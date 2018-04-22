@@ -5,24 +5,27 @@
 #ifndef HOU_GFX_MESH_2_SHADER_PROGRAM_HPP
 #define HOU_GFX_MESH_2_SHADER_PROGRAM_HPP
 
-#include "hou/gfx/GfxExport.hpp"
 #include "hou/cor/NonCopyable.hpp"
+#include "hou/gfx/GfxExport.hpp"
 
 #include "hou/gfx/ShaderProgram.hpp"
+#include "hou/gfx/Texture.hpp"
+#include "hou/gfx/Vertex2Fwd.hpp"
 
-#include "hou/mth/Transform2Fwd.hpp"
+#include "hou/mth/Transform2.hpp"
+
+#include "hou/sys/Color.hpp"
 
 
 
 namespace hou
 {
 
-class Color;
+class RenderSurface;
 
 /** Shader program used to render Mesh2d objects.
  */
-class HOU_GFX_API Mesh2ShaderProgram
-  : public ShaderProgram
+class HOU_GFX_API Mesh2ShaderProgram : public ShaderProgram
 {
 public:
   /** Creates a Mesh2ShaderProgram.
@@ -59,13 +62,24 @@ public:
    */
   void setTransform(const Trans2f& trans);
 
+  void draw(RenderSurface& target, const Mesh2& mesh, const Texture2& tex,
+    const Color& col = Color::White, const Trans2f& trn = Trans2f::identity());
+
+  void draw(RenderSurface& target, const Mesh2& mesh,
+    const Color& col = Color::White, const Trans2f& trn = Trans2f::identity());
+
+  void draw(RenderSurface& target, const Mesh2& mesh, const Texture2& tex,
+    const Trans2f& trn);
+
+  void draw(RenderSurface& target, const Mesh2& mesh, const Trans2f& trn);
+
 private:
+  Texture2 mBlankTexture;
   int mUniColor;
   int mUniTexture;
   int mUniTransform;
 };
 
-}
+}  // namespace hou
 
 #endif
-

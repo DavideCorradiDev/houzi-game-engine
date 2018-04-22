@@ -10,7 +10,9 @@
 #include "hou/cor/BasicTypes.hpp"
 #include "hou/cor/Pragmas.hpp"
 
-#include "hou/gfx/Mesh.hpp"
+#include "hou/gl/OpenGL.hpp"
+
+#include "hou/gfx/Vertex2Fwd.hpp"
 
 #include "hou/sys/Color.hpp"
 
@@ -141,12 +143,6 @@ HOU_GFX_API bool close(const Vertex2& lhs, const Vertex2& rhs,
  *  \return a reference to os.
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, const Vertex2& v);
-
-/** Mesh of Vertex2.
- *
- *  Used to represent 2d shapes such as rectangles, circles...
- */
-using Mesh2 = MeshT<Vertex2>;
 
 /** Creates a Mesh object representing a rectangle shape with the given size.
  *

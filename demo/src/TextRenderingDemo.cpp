@@ -4,7 +4,9 @@
 #include "hou/gfx/GraphicContext.hpp"
 #include "hou/gfx/RenderWindow.hpp"
 #include "hou/gfx/RenderFont.hpp"
-#include "hou/gfx/Renderer2.hpp"
+#include "hou/gfx/Mesh2ShaderProgram.hpp"
+#include "hou/gfx/TextShaderProgram.hpp"
+#include "hou/gfx/Mesh.hpp"
 #include "hou/sys/Color.hpp"
 #include "hou/cor/Stopwatch.hpp"
 #include "hou/sys/WindowEvent.hpp"
@@ -22,7 +24,8 @@ int main()
     , WindowStyle::WindowedResizable, 8u);
   rw.setVisible(true);
   Trans2f proj = Trans2f::orthographicProjection(rw.getViewport());
-  Renderer2 rnd;
+  Mesh2ShaderProgram m2Rnd;
+  TextShaderProgram textRnd;
   Mesh2 fpsRect = createRectangleMesh2(Vec2f(128.f, 32.f));
   std::vector<uint> fontSizes{0, 2, 4, 8, 16, 32, 64};
   size_t currentSizeIdx = 3;
@@ -58,7 +61,6 @@ int main()
   std::string chineseText;
   font.setPixelHeight(fontSizes[currentSizeIdx]);
   chineseFont.setPixelHeight(fontSizes[currentSizeIdx]);
-  auto renderFont = std::make_unique<RenderFont>(characters, font);
   uint linesNum = 38;
   for(uint i = 0u; i < linesNum; ++i)
   {
@@ -69,7 +71,6 @@ int main()
 
 
   std::cout << "Drawing " << textLine.size() * linesNum << " characters." << std::endl;
-  bool useRenderCache = true;
 
   bool running = true;
   Stopwatch timer;
@@ -89,11 +90,7 @@ int main()
         }
         case WindowEventType::KeyReleased:
         {
-          if(we.getKeyData().scanCode == ScanCode::Enter)
-          {
-            useRenderCache = !useRenderCache;
-          }
-          else if(we.getKeyData().scanCode == ScanCode::Down
+          if(we.getKeyData().scanCode == ScanCode::Down
             || we.getKeyData().scanCode == ScanCode::Up
             || we.getKeyData().scanCode == ScanCode::RShift)
           {
@@ -117,14 +114,6 @@ int main()
             }
             font.setPixelHeight(fontSizes[currentSizeIdx]);
             chineseFont.setPixelHeight(fontSizes[currentSizeIdx]);
-            if(printChinese)
-            {
-              renderFont = std::make_unique<RenderFont>(chineseCharacters, chineseFont);
-            }
-            else
-            {
-              renderFont = std::make_unique<RenderFont>(characters, font);
-            }
           }
         }
         break;
@@ -157,17 +146,14 @@ int main()
     std::chrono::nanoseconds timePerFrame = timer.reset();
     // std::cout << timePerFrame.count() << " ns  = " << std::chrono::duration_cast<std::chrono::duration<float>>(timePerFrame).count() << "s" << std::endl;
     const std::string& textToRender = printChinese ? chineseText : text;
-    if(useRenderCache)
-    {
-      rnd.draw(rw, textToRender, *renderFont, Color::White, proj * textTrans);
-    }
-    else
-    {
-      Font& fontToRender = printChinese ? chineseFont : font;
-      rnd.draw(rw, textToRender, fontToRender, Color::White, proj * textTrans);
-    }
-    rnd.draw(rw, fpsRect, Color::Black, proj);
-    rnd.draw(rw, toString(1.f / std::chrono::duration_cast<std::chrono::duration<float>>(timePerFrame).count()), font, Color::White, proj * textTrans);
+    Font& fontToRender = printChinese ? chineseFont : font;
+    textRnd.draw(rw, textToRender, fontToRender, Color::White, proj * textTrans);
+    m2Rnd.draw(rw, fpsRect, Color::Black, proj);
+    textRnd.draw(rw,
+      toString(1.f
+        / std::chrono::duration_cast<std::chrono::duration<float>>(timePerFrame)
+            .count()),
+      font, Color::White, proj * textTrans);
     rw.display();
   }
 

@@ -20,7 +20,7 @@
 namespace hou
 {
 
-RenderFont::RenderFont(const CharacterSet& characterSet, const Font& font
+RenderFont::RenderFont(const Span<const Utf32::CodeUnit>& characterSet, const Font& font
   , const Vec3u& maxGlyphAtlasSize)
   : NonCopyable()
   , mAtlasSize()
@@ -107,25 +107,24 @@ RenderFont::RenderFont(const CharacterSet& characterSet, const Font& font
   mPlaceholderGlyphRenderInfo.mMetrics = placeholderGlyph.getMetrics();
   mGlyphAtlas->setSubImage(Vec3u::zero(), Image3R(placeholderGlyph.getImage()));
 
-  for(size_t i = 0; i < characterSet.size(); ++i)
+  uint i = 0;
+  for(auto c : characterSet)
   {
     Vec3u glyphAtlasPosition
       ( static_cast<uint>((i+1) % atlasLayerGridSize % glyphAtlasGridSize.x() * glyphMaxSize.x())
       , static_cast<uint>((i+1) % atlasLayerGridSize / glyphAtlasGridSize.x() * glyphMaxSize.y())
       , static_cast<uint>((i+1) / atlasLayerGridSize));
-    Glyph g = font.getGlyph(characterSet[i]);
-    // std::cout << "character " << i << " '" << characterSet[i] << "'; ";
-    // std::cout << "glyphAtlasPosition " << transpose(glyphAtlasPosition) << "; ";
-    // std::cout << "bmpSize " << transpose(g.getImage().getSize()) << std::endl;
-    mGlyphRenderInfoMap.insert(std::make_pair(characterSet[i]
-      , GlyphRenderInfo(g.getMetrics(), glyphAtlasPosition)));
+    Glyph g = font.getGlyph(c);
+    mGlyphRenderInfoMap.insert(
+      std::make_pair(c, GlyphRenderInfo(g.getMetrics(), glyphAtlasPosition)));
     mGlyphAtlas->setSubImage(glyphAtlasPosition, Image3R(g.getImage()));
+    ++i;
   }
 }
 
 
 
-RenderFont::RenderFont(const CharacterSet& characterSet, const Font& font)
+RenderFont::RenderFont(const Span<const Utf32::CodeUnit>& characterSet, const Font& font)
   : RenderFont(characterSet, font, Vec3u
     ( std::min(2048u, static_cast<uint>(gl::getMaxTextureSize()))
     , std::min(2048u, static_cast<uint>(gl::getMaxTextureSize()))
@@ -145,10 +144,16 @@ RenderFont::RenderFont(RenderFont&& other)
 
 void RenderFont::draw(const std::string& text) const
 {
+  draw(convertEncoding<Utf8, Utf32>(text));
+}
+
+
+
+void RenderFont::draw(const std::u32string& textUtf32) const
+{
   static constexpr Utf32::CodeUnit sLineFeed = 0x0000000A;
 
   Vec2f penPos(0.f, 0.f);
-  std::u32string textUtf32 = convertEncoding<Utf8, Utf32>(text);
   std::vector<TextVertex> vertices(6u * textUtf32.size(), TextVertex());
   for(size_t i = 0; i < textUtf32.size(); ++i)
   {
@@ -204,6 +209,7 @@ void RenderFont::draw(const std::string& text) const
   TextMesh mesh(MeshDrawMode::Triangles, MeshFillMode::Fill, vertices);
   TextMesh::draw(mesh);
 }
+
 
 
 
