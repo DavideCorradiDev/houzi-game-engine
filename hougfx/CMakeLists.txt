@@ -47,7 +47,6 @@ SET(LIB_HOUGFX_SRC
   src/hou/gfx/MeshDrawMode.cpp
   src/hou/gfx/MeshFillMode.cpp
   src/hou/gfx/GraphicContext.cpp
-  src/hou/gfx/RenderFont.cpp
   src/hou/gfx/RenderCanvas.cpp
   src/hou/gfx/RenderSurface.cpp
   src/hou/gfx/RenderWindow.cpp

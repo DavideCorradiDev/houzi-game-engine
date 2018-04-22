@@ -4,7 +4,6 @@
 #include "hou/gfx/GraphicContext.hpp"
 #include "hou/gfx/FormattedText.hpp"
 #include "hou/gfx/RenderWindow.hpp"
-#include "hou/gfx/RenderFont.hpp"
 #include "hou/gfx/Mesh2ShaderProgram.hpp"
 #include "hou/gfx/TextShaderProgram.hpp"
 #include "hou/gfx/Mesh.hpp"
