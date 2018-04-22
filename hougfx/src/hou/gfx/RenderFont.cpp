@@ -66,8 +66,8 @@ RenderFont::RenderFont(const Span<const Utf32::CodeUnit>& characterSet, const Fo
     , maxGlyphAtlasSize.y() / glyphMaxSize.y()
     , maxGlyphAtlasSize.z());
 
-  std::cout << "maxGlyphAtlasSize " << transpose(maxGlyphAtlasSize) << std::endl;
-  std::cout << "maxGlyphAtlasGridSize " << transpose(maxGlyphAtlasGridSize) << std::endl;
+  // std::cout << "maxGlyphAtlasSize " << transpose(maxGlyphAtlasSize) << std::endl;
+  // std::cout << "maxGlyphAtlasGridSize " << transpose(maxGlyphAtlasGridSize) << std::endl;
 
   HOU_EXPECT(maxGlyphAtlasGridSize.x() > 0u);
   HOU_EXPECT(maxGlyphAtlasGridSize.y() > 0u);
@@ -87,13 +87,13 @@ RenderFont::RenderFont(const Span<const Utf32::CodeUnit>& characterSet, const Fo
     , std::max(1u, glyphAtlasGridSize.y() * glyphMaxSize.y())
     , std::max(1u, glyphAtlasGridSize.z()));
 
-  std::cout << "glyphBoundingBox " << glyphBoundingBox << std::endl;
-  std::cout << "globalFloatGlyphMaxSize " << transpose(globalFloatGlyphMaxSize) << std::endl;
-  std::cout << "globalGlyphMaxSize " << transpose(globalGlyphMaxSize) << std::endl;
-  std::cout << "floatGlyphMaxSize " << transpose(floatGlyphMaxSize) << std::endl;
-  std::cout << "glyphMaxSize " << transpose(glyphMaxSize) << std::endl;
-  std::cout << "mAtlasSize " << transpose(mAtlasSize) << std::endl;
-  std::cout << "glyphAtlasGridSize " << transpose(glyphAtlasGridSize) << std::endl;
+  // std::cout << "glyphBoundingBox " << glyphBoundingBox << std::endl;
+  // std::cout << "globalFloatGlyphMaxSize " << transpose(globalFloatGlyphMaxSize) << std::endl;
+  // std::cout << "globalGlyphMaxSize " << transpose(globalGlyphMaxSize) << std::endl;
+  // std::cout << "floatGlyphMaxSize " << transpose(floatGlyphMaxSize) << std::endl;
+  // std::cout << "glyphMaxSize " << transpose(glyphMaxSize) << std::endl;
+  // std::cout << "mAtlasSize " << transpose(mAtlasSize) << std::endl;
+  // std::cout << "glyphAtlasGridSize " << transpose(glyphAtlasGridSize) << std::endl;
 
   HOU_ENSURE(glyphAtlasGridSize.x() * glyphAtlasGridSize.y()
     * glyphAtlasGridSize.z() >= characterCount);

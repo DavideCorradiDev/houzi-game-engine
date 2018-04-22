@@ -35,7 +35,18 @@ const std::string fontPath = getDataDir() + u8"NotoSans-Regular.ttf";
 
 
 
-TEST_F(TestFormattedText, Constructor)
+TEST_F(TestFormattedText, Utf8Constructor)
+{
+  Font f = loadFont(fontPath);
+  std::string s = u8"A";
+  FormattedText ft(s, f);
+  EXPECT_EQ(Image3R(Vec3u(1u, 1u, 1u)), ft.getAtlas().getImage<PixelFormat::R>());
+  EXPECT_EQ(TextMesh::VertexCollectionType(), ft.getMesh().getVertices());
+}
+
+
+
+TEST_F(TestFormattedText, Utf32Constructor)
 {
   Font f = loadFont(fontPath);
   std::u32string s = U"A";
@@ -52,6 +63,17 @@ TEST_F(TestFormattedText, MoveConstructor)
   std::u32string s = U"A";
   FormattedText ftDummy(s, f);
   FormattedText ft(std::move(ftDummy));
+  EXPECT_EQ(Image3R(Vec3u(1u, 1u, 1u)), ft.getAtlas().getImage<PixelFormat::R>());
+  EXPECT_EQ(TextMesh::VertexCollectionType(), ft.getMesh().getVertices());
+}
+
+
+
+TEST_F(TestFormattedText, TwoCharacters)
+{
+  Font f = loadFont(fontPath);
+  std::u32string s = U"ABUtf32Constructor";
+  FormattedText ft(s, f);
   EXPECT_EQ(Image3R(Vec3u(1u, 1u, 1u)), ft.getAtlas().getImage<PixelFormat::R>());
   EXPECT_EQ(TextMesh::VertexCollectionType(), ft.getMesh().getVertices());
 }

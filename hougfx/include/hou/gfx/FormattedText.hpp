@@ -34,6 +34,7 @@ public:
   using VertexContainer = std::vector<TextVertex>;
 
 public:
+  FormattedText(const std::string& text, const Font& font);
   FormattedText(const std::u32string& text, const Font& font);
   FormattedText(FormattedText&& other);
 

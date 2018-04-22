@@ -2,6 +2,7 @@
 #include "hou/gfx/Font.hpp"
 #include "hou/gfx/Vertex2.hpp"
 #include "hou/gfx/GraphicContext.hpp"
+#include "hou/gfx/FormattedText.hpp"
 #include "hou/gfx/RenderWindow.hpp"
 #include "hou/gfx/RenderFont.hpp"
 #include "hou/gfx/Mesh2ShaderProgram.hpp"
@@ -147,13 +148,15 @@ int main()
     // std::cout << timePerFrame.count() << " ns  = " << std::chrono::duration_cast<std::chrono::duration<float>>(timePerFrame).count() << "s" << std::endl;
     const std::string& textToRender = printChinese ? chineseText : text;
     Font& fontToRender = printChinese ? chineseFont : font;
-    textRnd.draw(rw, textToRender, fontToRender, Color::White, proj * textTrans);
+    FormattedText ft(textToRender, fontToRender);
+    textRnd.draw(rw, ft, Color::White, proj * textTrans);
     m2Rnd.draw(rw, fpsRect, Color::Black, proj);
-    textRnd.draw(rw,
+    FormattedText fpsText(
       toString(1.f
         / std::chrono::duration_cast<std::chrono::duration<float>>(timePerFrame)
             .count()),
-      font, Color::White, proj * textTrans);
+      font);
+    textRnd.draw(rw, fpsText, Color::White, proj * textTrans);
     rw.display();
   }
 
