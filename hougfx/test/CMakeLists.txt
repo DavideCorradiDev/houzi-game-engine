@@ -50,6 +50,7 @@ SET(EXE_HOUGFX_TEST_SRC
   hou/gfx/TestRenderWindow.cpp
   hou/gfx/TestShader.cpp
   hou/gfx/TestShaderProgram.cpp
+  hou/gfx/TestTextBoxFormattingParams.cpp
   hou/gfx/TestTextVertex.cpp
   hou/gfx/TestTexture.cpp
   hou/gfx/TestTextureChannelMapping.cpp
