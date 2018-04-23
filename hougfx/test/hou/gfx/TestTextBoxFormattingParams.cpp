@@ -21,6 +21,27 @@ class TestTextBoxFormattingParams : public Test
 
 TEST_F(TestTextBoxFormattingParams, Constructor)
 {
-  TextBoxFormattingParams tbfp;
-  FAIL();
+  TextFlow textFlowRef = TextFlow::LeftRight;
+  TextBoxFormattingParams tbfp(textFlowRef);
+
+  EXPECT_EQ(textFlowRef, tbfp.getTextFlow());
+}
+
+
+
+TEST_F(TestTextBoxFormattingParams, TextFlowValues)
+{
+  std::vector<TextFlow> textFlowValues
+  {
+    TextFlow::LeftRight,
+    TextFlow::RightLeft,
+    TextFlow::TopBottom,
+    TextFlow::BottomTop
+  };
+
+  for(auto textFlow : textFlowValues)
+  {
+    TextBoxFormattingParams tbfp(textFlow);
+    EXPECT_EQ(textFlow, tbfp.getTextFlow());
+  }
 }

@@ -5,7 +5,15 @@
 namespace hou
 {
 
-TextBoxFormattingParams::TextBoxFormattingParams()
+TextBoxFormattingParams::TextBoxFormattingParams(TextFlow textFlow)
+  : mTextFlow(textFlow)
 {}
 
+
+
+TextFlow TextBoxFormattingParams::getTextFlow() const
+{
+  return mTextFlow;
 }
+
+}  // namespace hou

@@ -7,6 +7,8 @@
 
 #include "hou/gfx/GfxExport.hpp"
 
+#include "hou/gfx/TextFlow.hpp"
+
 
 
 namespace hou
@@ -15,9 +17,14 @@ namespace hou
 class HOU_GFX_API TextBoxFormattingParams
 {
 public:
-  TextBoxFormattingParams();
+  TextBoxFormattingParams(TextFlow textFlow);
+
+  TextFlow getTextFlow() const;
+
+private:
+  TextFlow mTextFlow;
 };
 
-}
+}  // namespace hou
 
 #endif
