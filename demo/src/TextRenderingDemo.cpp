@@ -29,7 +29,7 @@ int main()
   Mesh2 fpsRect = createRectangleMesh2(Vec2f(128.f, 32.f));
   std::vector<uint> fontSizes{0, 2, 4, 8, 16, 32, 64};
   size_t currentSizeIdx = 3;
-  Font font(std::make_unique<BinaryFileIn>("demo/data/NotoMono-Regular.ttf"));
+  Font font(std::make_unique<BinaryFileIn>("demo/data/NotoSans-Regular.ttf"));
   Font chineseFont(std::make_unique<BinaryFileIn>("demo/data/NotoSansCJKsc-Regular.otf"));
   std::vector<Utf32::CodeUnit> characters;
   for(Utf32::CodeUnit c = 0; c < 256; ++c)
@@ -55,7 +55,7 @@ int main()
 
   bool printChinese = false;
   std::string textLine = u8"Lorem ipsum dolor sit amet, consectetur adipiscing "
-    " elit. Duis venenatis mi neque, id ullamcorper tellus\n";
+    "elit. Duis venenatis mi neque, id ullamcorper tellus\n";
   std::string text;
   std::string chineseTextLine = u8"\u5154\u5B50\u6CA1\u6709\u6C57\u817A\uFF0C\u6240\u4EE5\u4E0D\u4F1A\u6D41\u6C57\uFF0C\u8033\u6735\u53EF\u4EE5\u6563\u70ED\u3002\n";
   std::string chineseText;
