@@ -85,13 +85,31 @@ Vec3f AtlasGlyphCoordinates::getBottomLeftTex() const
 }
 
 FormattedText::FormattedText(const std::string& text, const Font& font)
-  : FormattedText(convertEncoding<Utf8, Utf32>(text), font)
+  : FormattedText(text, font, TextBoxFormattingParams::Default)
 {}
 
+
+
 FormattedText::FormattedText(const std::u32string& text, const Font& font)
+  : FormattedText(text, font, TextBoxFormattingParams::Default)
+{}
+
+
+
+FormattedText::FormattedText(const std::string& text, const Font& font,
+    const TextBoxFormattingParams& tbfp)
+  : FormattedText(convertEncoding<Utf8, Utf32>(text), font, tbfp)
+{}
+
+
+
+FormattedText::FormattedText(const std::u32string& text, const Font& font,
+    const TextBoxFormattingParams& tbfp)
   : NonCopyable()
   , mAtlas(nullptr)
   , mMesh(nullptr)
+  , mBoundingBox()
+  , mTransform()
 {
   // Get all distinct characters.
   std::set<Utf32::CodeUnit> charSet(text.begin(), text.end());
@@ -158,6 +176,16 @@ FormattedText::FormattedText(const std::u32string& text, const Font& font)
   // Create vertex list.
   static constexpr Utf32::CodeUnit lineFeed = 0x0000000A;
 
+  size_t mainCoord = tbfp.getTextFlow() == TextFlow::LeftRight
+      || tbfp.getTextFlow() == TextFlow::RightLeft
+    ? 0u
+    : 1u;
+  size_t secCoord = mainCoord == 0u ? 1u : 0u;
+  float dirMultiplier = tbfp.getTextFlow() == TextFlow::LeftRight
+      || tbfp.getTextFlow() == TextFlow::TopBottom
+    ? 1.f
+    : -1.f;
+
   Vec2f penPos(0.f, 0.f);
   float lineSpacing = font.getPixelLineSpacing();
   std::vector<TextVertex> vertices(6u * text.size(), TextVertex());
@@ -166,8 +194,8 @@ FormattedText::FormattedText(const std::u32string& text, const Font& font)
     Utf32::CodeUnit c = text[i];
     if(c == lineFeed)
     {
-      penPos.x() = 0.f;
-      penPos.y() += lineSpacing;
+      penPos(mainCoord) = 0.f;
+      penPos(secCoord) += lineSpacing;
     }
     else
     {
@@ -197,8 +225,36 @@ FormattedText::FormattedText(const std::u32string& text, const Font& font)
       vertices[i * 6 + 4] = v1;
       vertices[i * 6 + 5] = v3;
 
-      penPos.x() += gm.getPixelHorizontalAdvance();
+      // Update bounding box.
+      if(v0Pos.x() < mBoundingBox.l())
+      {
+        mBoundingBox.x() = v0Pos.x();
+      }
+      if(v0Pos.y() < mBoundingBox.t())
+      {
+        mBoundingBox.y() = v0Pos.y();
+      }
+      if(v3Pos.x() > mBoundingBox.r())
+      {
+        mBoundingBox.w() = v3Pos.x() - mBoundingBox.x();
+      }
+      if(v3Pos.y() > mBoundingBox.b())
+      {
+        mBoundingBox.h() = v3Pos.y() - mBoundingBox.y();
+      }
+
+      penPos(mainCoord) += dirMultiplier
+        * (mainCoord == 0u ? gm.getPixelHorizontalAdvance()
+                           : gm.getPixelVerticalAdvance());
     }
+  }
+  if(tbfp.getTextFlow() == TextFlow::RightLeft)
+  {
+    mTransform = Trans2f::translation(Vec2f(-mBoundingBox.l(), 0.f));
+  }
+  else if(tbfp.getTextFlow() == TextFlow::BottomTop)
+  {
+    mTransform = Trans2f::translation(Vec2f(0.f, -mBoundingBox.t()));
   }
 
   // Create the texture and mesh.
@@ -214,6 +270,8 @@ FormattedText::FormattedText(FormattedText&& other)
   : NonCopyable()
   , mAtlas(std::move(other.mAtlas))
   , mMesh(std::move(other.mMesh))
+  , mBoundingBox(std::move(other.mBoundingBox))
+  , mTransform(std::move(other.mTransform))
 {}
 
 
@@ -230,6 +288,20 @@ const TextMesh& FormattedText::getMesh() const
 {
   HOU_EXPECT_DEV(mMesh != nullptr);
   return *mMesh;
+}
+
+
+
+const Rectf& FormattedText::getBoundingBox() const
+{
+  return mBoundingBox;
+}
+
+
+
+const Trans2f& FormattedText::getTransform() const
+{
+  return mTransform;
 }
 
 }

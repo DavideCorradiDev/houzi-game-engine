@@ -12,7 +12,11 @@
 #include "hou/cor/StdString.hpp"
 #include "hou/cor/StdVector.hpp"
 
+#include "hou/mth/Rectangle.hpp"
+#include "hou/mth/Transform2.hpp"
+
 #include "hou/gfx/Mesh.hpp"
+#include "hou/gfx/TextBoxFormattingParams.hpp"
 #include "hou/gfx/TextVertex.hpp"
 #include "hou/gfx/Texture.hpp"
 
@@ -36,17 +40,24 @@ public:
 public:
   FormattedText(const std::string& text, const Font& font);
   FormattedText(const std::u32string& text, const Font& font);
+  FormattedText(const std::string& text, const Font& font,
+    const TextBoxFormattingParams& tbfp);
+  FormattedText(const std::u32string& text, const Font& font,
+    const TextBoxFormattingParams& tbfp);
   FormattedText(FormattedText&& other);
 
   const Texture2Array& getAtlas() const;
   const TextMesh& getMesh() const;
+  const Rectf& getBoundingBox() const;
+  const Trans2f& getTransform() const;
 
 private:
   std::unique_ptr<Texture2Array> mAtlas;
   std::unique_ptr<TextMesh> mMesh;
+  Rectf mBoundingBox;
+  Trans2f mTransform;
 };
 
 }
 
 #endif
-

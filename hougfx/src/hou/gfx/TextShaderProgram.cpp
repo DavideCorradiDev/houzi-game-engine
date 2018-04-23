@@ -127,7 +127,7 @@ void TextShaderProgram::draw(RenderSurface& target, const TextMesh& mesh,
 void TextShaderProgram::draw(RenderSurface& target, const FormattedText& text,
   const Color& col, const Trans2f& trn)
 {
-  draw(target, text.getMesh(), text.getAtlas(), col, trn);
+  draw(target, text.getMesh(), text.getAtlas(), col, trn * text.getTransform());
 }
 
 

@@ -71,6 +71,7 @@ int main()
 
 
   std::cout << "Drawing " << textLine.size() * linesNum << " characters." << std::endl;
+  TextFlow textFlow = TextFlow::LeftRight;
 
   bool running = true;
   Stopwatch timer;
@@ -115,6 +116,26 @@ int main()
             font.setPixelHeight(fontSizes[currentSizeIdx]);
             chineseFont.setPixelHeight(fontSizes[currentSizeIdx]);
           }
+          else if(we.getKeyData().scanCode == ScanCode::A)
+          {
+            textFlow = TextFlow::RightLeft;
+            std::cout << "textFlow: " << textFlow << std::endl;
+          }
+          else if(we.getKeyData().scanCode == ScanCode::D)
+          {
+            textFlow = TextFlow::LeftRight;
+            std::cout << "textFlow: " << textFlow << std::endl;
+          }
+          else if(we.getKeyData().scanCode == ScanCode::W)
+          {
+            textFlow = TextFlow::BottomTop;
+            std::cout << "textFlow: " << textFlow << std::endl;
+          }
+          else if(we.getKeyData().scanCode == ScanCode::S)
+          {
+            textFlow = TextFlow::TopBottom;
+            std::cout << "textFlow: " << textFlow << std::endl;
+          }
         }
         break;
         case hou::WindowEventType::Resized:
@@ -143,19 +164,25 @@ int main()
     }
 
     rw.clear(Color::Black);
-    std::chrono::nanoseconds timePerFrame = timer.reset();
-    // std::cout << timePerFrame.count() << " ns  = " << std::chrono::duration_cast<std::chrono::duration<float>>(timePerFrame).count() << "s" << std::endl;
+
     const std::string& textToRender = printChinese ? chineseText : text;
     Font& fontToRender = printChinese ? chineseFont : font;
-    FormattedText ft(textToRender, fontToRender);
+    TextBoxFormattingParams tbfp(textFlow);
+    FormattedText ft(textToRender, fontToRender, tbfp);
+    Mesh2 textBox
+      = createRectangleOutlineMesh2(ft.getBoundingBox().getSize(), 1u);
+    m2Rnd.draw(rw, textBox, Color::White,
+      proj * Trans2f::translation(ft.getBoundingBox().getPosition()));
     textRnd.draw(rw, ft, Color::White, proj * textTrans);
-    m2Rnd.draw(rw, fpsRect, Color::Black, proj);
-    FormattedText fpsText(
-      toString(1.f
-        / std::chrono::duration_cast<std::chrono::duration<float>>(timePerFrame)
-            .count()),
-      font);
-    textRnd.draw(rw, fpsText, Color::White, proj * textTrans);
+
+    std::chrono::nanoseconds timePerFrame = timer.reset();
+    // m2Rnd.draw(rw, fpsRect, Color::Black, proj);
+    // FormattedText fpsText(
+    //   toString(1.f
+    //     / std::chrono::duration_cast<std::chrono::duration<float>>(timePerFrame)
+    //         .count()),
+    //   font);
+    // textRnd.draw(rw, fpsText, Color::White, proj * textTrans);
     rw.display();
   }
 

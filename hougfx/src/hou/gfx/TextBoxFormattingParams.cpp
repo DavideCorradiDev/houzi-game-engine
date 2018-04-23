@@ -5,6 +5,11 @@
 namespace hou
 {
 
+const TextBoxFormattingParams
+    TextBoxFormattingParams::Default(TextFlow::LeftRight);
+
+
+
 TextBoxFormattingParams::TextBoxFormattingParams(TextFlow textFlow)
   : mTextFlow(textFlow)
 {}

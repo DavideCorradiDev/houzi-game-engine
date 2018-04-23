@@ -17,6 +17,9 @@ namespace hou
 class HOU_GFX_API TextBoxFormattingParams
 {
 public:
+  static const TextBoxFormattingParams Default;
+
+public:
   TextBoxFormattingParams(TextFlow textFlow);
 
   TextFlow getTextFlow() const;
