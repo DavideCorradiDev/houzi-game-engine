@@ -67,7 +67,7 @@ int main()
     text.append(textLine);
     chineseText.append(chineseTextLine);
   }
-  Trans2f textTrans = Trans2f::translation(Vec2f(0.f, static_cast<float>(font.getLineSpacing() / 64)));
+  Trans2f textTrans = Trans2f::translation(Vec2f(32.f, 32.f));
 
 
   std::cout << "Drawing " << textLine.size() * linesNum << " characters." << std::endl;
@@ -171,8 +171,7 @@ int main()
     FormattedText ft(textToRender, fontToRender, tbfp);
     Mesh2 textBox
       = createRectangleOutlineMesh2(ft.getBoundingBox().getSize(), 1u);
-    m2Rnd.draw(rw, textBox, Color::White,
-      proj * Trans2f::translation(ft.getBoundingBox().getPosition()));
+    m2Rnd.draw(rw, textBox, Color::White, proj * textTrans);
     textRnd.draw(rw, ft, Color::White, proj * textTrans);
 
     std::chrono::nanoseconds timePerFrame = timer.reset();

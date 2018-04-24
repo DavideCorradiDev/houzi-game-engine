@@ -18,7 +18,8 @@ namespace
 class AtlasGlyphCoordinates
 {
 public:
-  AtlasGlyphCoordinates(const Vec3u& pos, const Vec2u& size, const Vec3u& texSize);
+  AtlasGlyphCoordinates(
+    const Vec3u& pos, const Vec2u& size, const Vec3u& texSize);
 
   Vec2f getTopLeftPos() const;
   Vec2f getTopRightPos() const;
@@ -64,25 +65,29 @@ Vec2f AtlasGlyphCoordinates::getBottomLeftPos() const
 
 Vec3f AtlasGlyphCoordinates::getTopLeftTex() const
 {
-  return Vec3f(mPos.x() / mTexSize.x(), mPos.y() / mTexSize.y(), mPos.z());;
+  return Vec3f(mPos.x() / mTexSize.x(), mPos.y() / mTexSize.y(), mPos.z());
+  ;
 }
 
 Vec3f AtlasGlyphCoordinates::getTopRightTex() const
 {
-  return Vec3f((mPos.x() + mSize.x()) / mTexSize.x(), mPos.y() / mTexSize.y(), mPos.z());
+  return Vec3f(
+    (mPos.x() + mSize.x()) / mTexSize.x(), mPos.y() / mTexSize.y(), mPos.z());
 }
 
 Vec3f AtlasGlyphCoordinates::getBottomRightTex() const
 {
-  return Vec3f((mPos.x() + mSize.x()) / mTexSize.x(), (mPos.y() + mSize.y()) / mTexSize.y(), mPos.z());
+  return Vec3f((mPos.x() + mSize.x()) / mTexSize.x(),
+    (mPos.y() + mSize.y()) / mTexSize.y(), mPos.z());
 }
 
 Vec3f AtlasGlyphCoordinates::getBottomLeftTex() const
 {
-  return Vec3f(mPos.x() / mTexSize.x(), (mPos.y() + mSize.y()) / mTexSize.y(), mPos.z());
+  return Vec3f(
+    mPos.x() / mTexSize.x(), (mPos.y() + mSize.y()) / mTexSize.y(), mPos.z());
 }
 
-}
+}  // namespace
 
 FormattedText::FormattedText(const std::string& text, const Font& font)
   : FormattedText(text, font, TextBoxFormattingParams::Default)
@@ -97,14 +102,14 @@ FormattedText::FormattedText(const std::u32string& text, const Font& font)
 
 
 FormattedText::FormattedText(const std::string& text, const Font& font,
-    const TextBoxFormattingParams& tbfp)
+  const TextBoxFormattingParams& tbfp)
   : FormattedText(convertEncoding<Utf8, Utf32>(text), font, tbfp)
 {}
 
 
 
 FormattedText::FormattedText(const std::u32string& text, const Font& font,
-    const TextBoxFormattingParams& tbfp)
+  const TextBoxFormattingParams& tbfp)
   : NonCopyable()
   , mAtlas(nullptr)
   , mMesh(nullptr)
@@ -186,10 +191,22 @@ FormattedText::FormattedText(const std::u32string& text, const Font& font,
     ? 1.f
     : -1.f;
 
-  Vec2f penPos(0.f, 0.f);
-  float lineSpacing
-    = mainCoord == 0u ? font.getPixelLineSpacing() : font.getMaxPixelAdvance();
+  float lineSpacing = font.getPixelLineSpacing();
   std::vector<TextVertex> vertices(6u * text.size(), TextVertex());
+
+  Vec2f penPos(0.f, 0.f);
+  if(mainCoord == 0u)
+  {
+    penPos.y() += lineSpacing;
+  }
+  else
+  {
+    // no need for the full line spacing.
+    penPos.x() += 0.5f * lineSpacing;
+  }
+
+  Vec2f topLeft;
+  Vec2f bottomRight;
   for(size_t i = 0; i < text.size(); ++i)
   {
     Utf32::CodeUnit c = text[i];
@@ -204,16 +221,20 @@ FormattedText::FormattedText(const std::u32string& text, const Font& font,
       const AtlasGlyphCoordinates& ac = atlasCoordinatesCache.at(c);
 
       float advance = dirMultiplier
-        * (mainCoord == 0u ? gm.getPixelHorizontalAdvance()
-                           : (font.hasVertical() ? gm.getPixelVerticalAdvance()
-                                                 : font.getPixelLineSpacing()));
+        * (mainCoord == 0u
+              ? gm.getPixelHorizontalAdvance()
+              : (font.hasVertical() ? gm.getPixelVerticalAdvance()
+                                    : gm.getPixelSize().y() * 1.5f));
       if(advance < 0.f)
       {
         penPos(mainCoord) += advance;
       }
 
-      const Vec2f& bearing = mainCoord == 0 ? gm.getPixelHorizontalBearing()
-        : gm.getPixelVerticalBearing();
+      Vec2f horiBearing = font.hasVertical()
+        ? gm.getPixelVerticalBearing()
+        : Vec2f(-gm.getPixelSize().x() / 2.f, 0.f);
+      const Vec2f& bearing
+        = mainCoord == 0 ? gm.getPixelHorizontalBearing() : horiBearing;
 
       Vec2f v0Pos = penPos + bearing + ac.getTopLeftPos();
       Vec3f v0Tex = ac.getTopLeftTex();
@@ -239,21 +260,21 @@ FormattedText::FormattedText(const std::u32string& text, const Font& font,
       vertices[i * 6 + 5] = v3;
 
       // Update bounding box.
-      if(v0Pos.x() < mBoundingBox.l())
+      if(v0Pos.x() < topLeft.x())
       {
-        mBoundingBox.x() = v0Pos.x();
+        topLeft.x() = v0Pos.x();
       }
-      if(v0Pos.y() < mBoundingBox.t())
+      if(v0Pos.y() < topLeft.y())
       {
-        mBoundingBox.y() = v0Pos.y();
+        topLeft.y() = v0Pos.y();
       }
-      if(v3Pos.x() > mBoundingBox.r())
+      if(v3Pos.x() > bottomRight.x())
       {
-        mBoundingBox.w() = v3Pos.x() - mBoundingBox.x();
+        bottomRight.x() = v3Pos.x();
       }
-      if(v3Pos.y() > mBoundingBox.b())
+      if(v3Pos.y() > bottomRight.y())
       {
-        mBoundingBox.h() = v3Pos.y() - mBoundingBox.y();
+        bottomRight.y() = v3Pos.y();
       }
 
       if(advance > 0.f)
@@ -262,14 +283,20 @@ FormattedText::FormattedText(const std::u32string& text, const Font& font,
       }
     }
   }
-  if(tbfp.getTextFlow() == TextFlow::RightLeft)
+
+  for(auto& vertex : vertices)
   {
-    mTransform = Trans2f::translation(Vec2f(-mBoundingBox.l(), 0.f));
+    vertex.setPosition(vertex.getPosition() - topLeft);
   }
-  else if(tbfp.getTextFlow() == TextFlow::BottomTop)
-  {
-    mTransform = Trans2f::translation(Vec2f(0.f, -mBoundingBox.t()));
-  }
+  mBoundingBox.setSize(bottomRight - topLeft);
+  // if(tbfp.getTextFlow() == TextFlow::RightLeft)
+  // {
+  //   mTransform = Trans2f::translation(Vec2f(-mBoundingBox.l(), 0.f));
+  // }
+  // else if(tbfp.getTextFlow() == TextFlow::BottomTop)
+  // {
+  //   mTransform = Trans2f::translation(Vec2f(0.f, -mBoundingBox.t()));
+  // }
 
   // Create the texture and mesh.
   mAtlas = std::make_unique<Texture2Array>(atlasImage, TextureFormat::R, 1u);
@@ -318,4 +345,4 @@ const Trans2f& FormattedText::getTransform() const
   return mTransform;
 }
 
-}
+}  // namespace hou
