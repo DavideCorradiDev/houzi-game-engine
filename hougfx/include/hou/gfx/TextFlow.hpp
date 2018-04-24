@@ -24,6 +24,6 @@ enum class TextFlow
 
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, TextFlow tf);
 
-}
+}  // namespace hou
 
 #endif

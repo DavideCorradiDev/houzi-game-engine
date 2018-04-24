@@ -5,13 +5,15 @@
 namespace hou
 {
 
-const TextBoxFormattingParams
-    TextBoxFormattingParams::Default(TextFlow::LeftRight);
+const TextBoxFormattingParams TextBoxFormattingParams::Default(
+  TextFlow::LeftRight, TextAnchoring::Baseline);
 
 
 
-TextBoxFormattingParams::TextBoxFormattingParams(TextFlow textFlow)
+TextBoxFormattingParams::TextBoxFormattingParams(
+  TextFlow textFlow, TextAnchoring textAnchoring)
   : mTextFlow(textFlow)
+  , mTextAnchoring(textAnchoring)
 {}
 
 
@@ -19,6 +21,13 @@ TextBoxFormattingParams::TextBoxFormattingParams(TextFlow textFlow)
 TextFlow TextBoxFormattingParams::getTextFlow() const
 {
   return mTextFlow;
+}
+
+
+
+TextAnchoring TextBoxFormattingParams::getTextAnchoring() const
+{
+  return mTextAnchoring;
 }
 
 }  // namespace hou

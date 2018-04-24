@@ -53,6 +53,7 @@ SET(LIB_HOUGFX_SRC
   src/hou/gfx/Shader.cpp
   src/hou/gfx/ShaderProgram.cpp
   src/hou/gfx/ShaderType.cpp
+  src/hou/gfx/TextAnchoring.cpp
   src/hou/gfx/TextBoxFormattingParams.cpp
   src/hou/gfx/TextFlow.cpp
   src/hou/gfx/TextShaderProgram.cpp

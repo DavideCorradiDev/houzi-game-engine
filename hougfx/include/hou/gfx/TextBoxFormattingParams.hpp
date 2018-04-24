@@ -7,6 +7,7 @@
 
 #include "hou/gfx/GfxExport.hpp"
 
+#include "hou/gfx/TextAnchoring.hpp"
 #include "hou/gfx/TextFlow.hpp"
 
 
@@ -20,12 +21,14 @@ public:
   static const TextBoxFormattingParams Default;
 
 public:
-  TextBoxFormattingParams(TextFlow textFlow);
+  TextBoxFormattingParams(TextFlow textFlow, TextAnchoring textAnchoring);
 
   TextFlow getTextFlow() const;
+  TextAnchoring getTextAnchoring() const;
 
 private:
   TextFlow mTextFlow;
+  TextAnchoring mTextAnchoring;
 };
 
 }  // namespace hou
