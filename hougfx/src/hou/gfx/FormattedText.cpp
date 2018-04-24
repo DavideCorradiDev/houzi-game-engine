@@ -202,7 +202,19 @@ FormattedText::FormattedText(const std::u32string& text, const Font& font,
       const GlyphMetrics& gm = charCache.at(c).getMetrics();
       const AtlasGlyphCoordinates& ac = atlasCoordinatesCache.at(c);
 
-      Vec2f v0Pos = penPos + gm.getPixelHorizontalBearing() + ac.getTopLeftPos();
+      float advance = dirMultiplier
+        * (mainCoord == 0u ? gm.getPixelHorizontalAdvance()
+                           : (font.hasVertical() ? gm.getPixelVerticalAdvance()
+                                                 : font.getPixelLineSpacing()));
+      if(advance < 0.f)
+      {
+        penPos(mainCoord) += advance;
+      }
+
+      const Vec2f& bearing = mainCoord == 0 ? gm.getPixelHorizontalBearing()
+        : gm.getPixelVerticalBearing();
+
+      Vec2f v0Pos = penPos + bearing + ac.getTopLeftPos();
       Vec3f v0Tex = ac.getTopLeftTex();
       TextVertex v0(v0Pos, v0Tex);
 
@@ -243,9 +255,10 @@ FormattedText::FormattedText(const std::u32string& text, const Font& font,
         mBoundingBox.h() = v3Pos.y() - mBoundingBox.y();
       }
 
-      penPos(mainCoord) += dirMultiplier
-        * (mainCoord == 0u ? gm.getPixelHorizontalAdvance()
-                           : gm.getPixelVerticalAdvance());
+      if(advance > 0.f)
+      {
+        penPos(mainCoord) += advance;
+      }
     }
   }
   if(tbfp.getTextFlow() == TextFlow::RightLeft)
