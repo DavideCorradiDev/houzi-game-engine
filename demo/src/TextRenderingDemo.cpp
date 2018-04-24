@@ -67,11 +67,12 @@ int main()
     text.append(textLine);
     chineseText.append(chineseTextLine);
   }
-  Trans2f textTrans = Trans2f::translation(Vec2f(32.f, 32.f));
+  Trans2f textTrans = Trans2f::translation(Vec2f(128.f, 200.f));
 
 
   std::cout << "Drawing " << textLine.size() * linesNum << " characters." << std::endl;
   TextFlow textFlow = TextFlow::LeftRight;
+  TextAnchoring textAnchoring = TextAnchoring::TopLeft;
 
   bool running = true;
   Stopwatch timer;
@@ -119,23 +120,60 @@ int main()
           else if(we.getKeyData().scanCode == ScanCode::A)
           {
             textFlow = TextFlow::RightLeft;
-            std::cout << "textFlow: " << textFlow << std::endl;
           }
           else if(we.getKeyData().scanCode == ScanCode::D)
           {
             textFlow = TextFlow::LeftRight;
-            std::cout << "textFlow: " << textFlow << std::endl;
           }
           else if(we.getKeyData().scanCode == ScanCode::W)
           {
             textFlow = TextFlow::BottomTop;
-            std::cout << "textFlow: " << textFlow << std::endl;
           }
           else if(we.getKeyData().scanCode == ScanCode::S)
           {
             textFlow = TextFlow::TopBottom;
-            std::cout << "textFlow: " << textFlow << std::endl;
           }
+          else if(we.getKeyData().scanCode == ScanCode::T)
+          {
+            textAnchoring = TextAnchoring::TopLeft;
+          }
+          else if(we.getKeyData().scanCode == ScanCode::Y)
+          {
+            textAnchoring = TextAnchoring::TopCenter;
+          }
+          else if(we.getKeyData().scanCode == ScanCode::U)
+          {
+            textAnchoring = TextAnchoring::TopRight;
+          }
+          else if(we.getKeyData().scanCode == ScanCode::G)
+          {
+            textAnchoring = TextAnchoring::CenterLeft;
+          }
+          else if(we.getKeyData().scanCode == ScanCode::H)
+          {
+            textAnchoring = TextAnchoring::Center;
+          }
+          else if(we.getKeyData().scanCode == ScanCode::J)
+          {
+            textAnchoring = TextAnchoring::CenterRight;
+          }
+          else if(we.getKeyData().scanCode == ScanCode::B)
+          {
+            textAnchoring = TextAnchoring::BottomLeft;
+          }
+          else if(we.getKeyData().scanCode == ScanCode::N)
+          {
+            textAnchoring = TextAnchoring::BottomCenter;
+          }
+          else if(we.getKeyData().scanCode == ScanCode::M)
+          {
+            textAnchoring = TextAnchoring::BottomRight;
+          }
+          else if(we.getKeyData().scanCode == ScanCode::K)
+          {
+            textAnchoring = TextAnchoring::Baseline;
+          }
+
         }
         break;
         case hou::WindowEventType::Resized:
@@ -165,13 +203,18 @@ int main()
 
     rw.clear(Color::Black);
 
+    Mesh2 dot = createEllipseMesh2(Vec2f(16.f, 16.f), 32u);
+    m2Rnd.draw(rw, dot, Color::Red, proj * textTrans * Trans2f::translation(Vec2f(-8.f, -8.f)));
+
     const std::string& textToRender = printChinese ? chineseText : text;
     Font& fontToRender = printChinese ? chineseFont : font;
-    TextBoxFormattingParams tbfp(textFlow);
+    TextBoxFormattingParams tbfp(textFlow, textAnchoring);
     FormattedText ft(textToRender, fontToRender, tbfp);
     Mesh2 textBox
       = createRectangleOutlineMesh2(ft.getBoundingBox().getSize(), 1u);
-    m2Rnd.draw(rw, textBox, Color::White, proj * textTrans);
+    m2Rnd.draw(rw, textBox, Color::White,
+      proj * textTrans
+        * Trans2f::translation(ft.getBoundingBox().getPosition()));
     textRnd.draw(rw, ft, Color::White, proj * textTrans);
 
     std::chrono::nanoseconds timePerFrame = timer.reset();

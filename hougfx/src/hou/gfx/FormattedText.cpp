@@ -204,6 +204,7 @@ FormattedText::FormattedText(const std::u32string& text, const Font& font,
     // no need for the full line spacing.
     penPos.x() += 0.5f * lineSpacing;
   }
+  Vec2f startPos = penPos;
 
   Vec2f topLeft;
   Vec2f bottomRight;
@@ -284,19 +285,53 @@ FormattedText::FormattedText(const std::u32string& text, const Font& font,
     }
   }
 
+  Vec2f offset;
+  switch(tbfp.getTextAnchoring())
+  {
+  case TextAnchoring::TopLeft:
+    offset = topLeft;
+    break;
+  case TextAnchoring::TopCenter:
+    offset.x() = 0.5f * (topLeft.x() + bottomRight.x());
+    offset.y() = topLeft.y();
+    break;
+  case TextAnchoring::TopRight:
+    offset.x() = bottomRight.x();
+    offset.y() = topLeft.y();
+    break;
+  case TextAnchoring::CenterLeft:
+    offset.x() = topLeft.x();
+    offset.y() = 0.5f * (topLeft.y() + bottomRight.y());
+    break;
+  case TextAnchoring::Center:
+    offset.x() = 0.5f * (topLeft.x() + bottomRight.x());
+    offset.y() = 0.5f * (topLeft.y() + bottomRight.y());
+    break;
+  case TextAnchoring::CenterRight:
+    offset.x() = bottomRight.x();
+    offset.y() = 0.5f * (topLeft.y() + bottomRight.y());
+    break;
+  case TextAnchoring::BottomLeft:
+    offset.x() = topLeft.x();
+    offset.y() = bottomRight.y();
+    break;
+  case TextAnchoring::BottomCenter:
+    offset.x() = 0.5f * (topLeft.x() + bottomRight.x());
+    offset.y() = bottomRight.y();
+    break;
+  case TextAnchoring::BottomRight:
+    offset = bottomRight;
+    break;
+  case TextAnchoring::Baseline:
+    offset = startPos;
+    break;
+  }
   for(auto& vertex : vertices)
   {
-    vertex.setPosition(vertex.getPosition() - topLeft);
+    vertex.setPosition(vertex.getPosition() - offset);
   }
+  mBoundingBox.setPosition(topLeft-offset);
   mBoundingBox.setSize(bottomRight - topLeft);
-  // if(tbfp.getTextFlow() == TextFlow::RightLeft)
-  // {
-  //   mTransform = Trans2f::translation(Vec2f(-mBoundingBox.l(), 0.f));
-  // }
-  // else if(tbfp.getTextFlow() == TextFlow::BottomTop)
-  // {
-  //   mTransform = Trans2f::translation(Vec2f(0.f, -mBoundingBox.t()));
-  // }
 
   // Create the texture and mesh.
   mAtlas = std::make_unique<Texture2Array>(atlasImage, TextureFormat::R, 1u);
