@@ -57,6 +57,7 @@ TEST_F(TestFont, DataConstructor)
   EXPECT_TRUE(f.isScalable());
   EXPECT_EQ(Recti(-356, -175, 1202, 845), f.getGlyphBoundingBox());
   EXPECT_EQ(896, f.getLineSpacing());
+  EXPECT_EQ(832, f.getMaxAdvance());
   EXPECT_EQ(857, f.getMaxHorizontalAdvance());
   EXPECT_EQ(872, f.getMaxVerticalAdvance());
   EXPECT_EQ(2416u, f.getGlyphCount());
@@ -86,6 +87,7 @@ TEST_F(TestFont, StreamConstructor)
   EXPECT_TRUE(f.isScalable());
   EXPECT_EQ(Recti(-356, -175, 1202, 845), f.getGlyphBoundingBox());
   EXPECT_EQ(896, f.getLineSpacing());
+  EXPECT_EQ(832, f.getMaxAdvance());
   EXPECT_EQ(857, f.getMaxHorizontalAdvance());
   EXPECT_EQ(872, f.getMaxVerticalAdvance());
   EXPECT_EQ(2416u, f.getGlyphCount());
@@ -107,6 +109,7 @@ TEST_F(TestFont, MoveConstructor)
   EXPECT_TRUE(f.isScalable());
   EXPECT_EQ(Recti(-356, -175, 1202, 845), f.getGlyphBoundingBox());
   EXPECT_EQ(896, f.getLineSpacing());
+  EXPECT_EQ(832, f.getMaxAdvance());
   EXPECT_EQ(857, f.getMaxHorizontalAdvance());
   EXPECT_EQ(872, f.getMaxVerticalAdvance());
   EXPECT_EQ(2416u, f.getGlyphCount());
@@ -137,6 +140,7 @@ TEST_F(TestFont, MultiThreadingCreation)
   EXPECT_TRUE(f1->isScalable());
   EXPECT_EQ(Recti(-356, -175, 1202, 845), f1->getGlyphBoundingBox());
   EXPECT_EQ(896, f1->getLineSpacing());
+  EXPECT_EQ(832, f1->getMaxAdvance());
   EXPECT_EQ(857, f1->getMaxHorizontalAdvance());
   EXPECT_EQ(872, f1->getMaxVerticalAdvance());
   EXPECT_EQ(2416u, f1->getGlyphCount());
@@ -149,6 +153,7 @@ TEST_F(TestFont, MultiThreadingCreation)
   EXPECT_TRUE(f2->isScalable());
   EXPECT_EQ(Recti(-356, -175, 1202, 845), f2->getGlyphBoundingBox());
   EXPECT_EQ(896, f2->getLineSpacing());
+  EXPECT_EQ(832, f2->getMaxAdvance());
   EXPECT_EQ(857, f2->getMaxHorizontalAdvance());
   EXPECT_EQ(872, f2->getMaxVerticalAdvance());
   EXPECT_EQ(2416u, f2->getGlyphCount());
@@ -290,6 +295,16 @@ TEST_F(TestFont, GetPixelLineSpacing)
 
   EXPECT_EQ(896, f.getLineSpacing());
   HOU_EXPECT_FLOAT_CLOSE(14.f, f.getPixelLineSpacing());
+}
+
+
+
+TEST_F(TestFont, GetPixelMaxAdvance)
+{
+  Font f(std::make_unique<BinaryFileIn>(fontName));
+
+  EXPECT_EQ(832, f.getMaxAdvance());
+  HOU_EXPECT_FLOAT_CLOSE(13.f, f.getMaxPixelAdvance());
 }
 
 

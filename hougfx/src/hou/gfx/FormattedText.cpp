@@ -187,7 +187,8 @@ FormattedText::FormattedText(const std::u32string& text, const Font& font,
     : -1.f;
 
   Vec2f penPos(0.f, 0.f);
-  float lineSpacing = font.getPixelLineSpacing();
+  float lineSpacing
+    = mainCoord == 0u ? font.getPixelLineSpacing() : font.getMaxPixelAdvance();
   std::vector<TextVertex> vertices(6u * text.size(), TextVertex());
   for(size_t i = 0; i < text.size(); ++i)
   {

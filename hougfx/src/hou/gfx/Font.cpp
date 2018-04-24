@@ -244,6 +244,21 @@ float Font::getPixelLineSpacing() const
 
 
 
+int Font::getMaxAdvance() const
+{
+  HOU_EXPECT_DEV(mFace != nullptr);
+  return mFace->size->metrics.max_advance;
+}
+
+
+
+float Font::getMaxPixelAdvance() const
+{
+  return static_cast<float>(getMaxAdvance()) * pf266ToPixelFactor;
+}
+
+
+
 int Font::getMaxHorizontalAdvance() const
 {
   HOU_EXPECT_DEV(mFace != nullptr);

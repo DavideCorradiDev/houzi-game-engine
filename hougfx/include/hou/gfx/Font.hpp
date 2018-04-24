@@ -159,6 +159,18 @@ public:
    *
    * \return the maximum horizontal advance.
    */
+  int getMaxAdvance() const;
+
+  /** Get the maximum horizontal advance in pixels.
+   *
+   * \return the maximum horizontal advance.
+   */
+  float getMaxPixelAdvance() const;
+
+  /** Get the maximum horizontal advance in 26.6 pixel format.
+   *
+   * \return the maximum horizontal advance.
+   */
   int getMaxHorizontalAdvance() const;
 
   /** Get the maximum horizontal advance in pixels.
