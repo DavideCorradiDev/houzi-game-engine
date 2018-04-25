@@ -177,19 +177,19 @@ int main()
           }
           else if(we.getKeyData().scanCode == ScanCode::K)
           {
-            maxTBoxSize.x() = std::min(0.f, maxTBoxSize.x() - maxTBoxIncrement);
+            maxTBoxSize.x() = std::max(0.f, maxTBoxSize.x() - maxTBoxIncrement);
           }
           else if(we.getKeyData().scanCode == ScanCode::Semicolon)
           {
-            maxTBoxSize.x() = std::max(640.f, maxTBoxSize.x() + maxTBoxIncrement);
+            maxTBoxSize.x() = std::min(640.f, maxTBoxSize.x() + maxTBoxIncrement);
           }
           else if(we.getKeyData().scanCode == ScanCode::O)
           {
-            maxTBoxSize.y() = std::min(0.f, maxTBoxSize.y() - maxTBoxIncrement);
+            maxTBoxSize.y() = std::max(0.f, maxTBoxSize.y() - maxTBoxIncrement);
           }
           else if(we.getKeyData().scanCode == ScanCode::L)
           {
-            maxTBoxSize.y() = std::max(640.f, maxTBoxSize.y() + maxTBoxIncrement);
+            maxTBoxSize.y() = std::min(640.f, maxTBoxSize.y() + maxTBoxIncrement);
           }
         }
         break;
@@ -220,8 +220,16 @@ int main()
 
     rw.clear(Color::Black);
 
-    Mesh2 dot = createEllipseMesh2(Vec2f(16.f, 16.f), 32u);
-    m2Rnd.draw(rw, dot, Color::Red, proj * textTrans * Trans2f::translation(Vec2f(-8.f, -8.f)));
+    if(maxTBoxSize.x() == 0.f || maxTBoxSize.y() == 0.f)
+    {
+      Mesh2 dot = createEllipseMesh2(Vec2f(16.f, 16.f), 32u);
+      m2Rnd.draw(rw, dot, Color::Red, proj * textTrans * Trans2f::translation(Vec2f(-8.f, -8.f)));
+    }
+    else
+    {
+      Mesh2 bbox = createRectangleOutlineMesh2(maxTBoxSize, 1u);
+      m2Rnd.draw(rw, bbox, Color::Red, proj * textTrans);
+    }
 
     const std::string& textToRender = printChinese ? chineseText : text;
     Font& fontToRender = printChinese ? chineseFont : font;

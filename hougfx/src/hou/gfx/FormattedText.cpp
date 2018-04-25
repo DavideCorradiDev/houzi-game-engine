@@ -108,7 +108,7 @@ FormattedText::FormattedText(const std::string& text, const Font& font,
 
 
 
-FormattedText::FormattedText(const std::u32string& text, const Font& font,
+FormattedText::FormattedText(const std::u32string& aText, const Font& font,
   const TextBoxFormattingParams& tbfp)
   : NonCopyable()
   , mAtlas(nullptr)
@@ -116,6 +116,7 @@ FormattedText::FormattedText(const std::u32string& text, const Font& font,
   , mBoundingBox()
   , mTransform()
 {
+  std::u32string text = aText;
   // Get all distinct characters.
   std::set<Utf32::CodeUnit> charSet(text.begin(), text.end());
 
@@ -180,6 +181,8 @@ FormattedText::FormattedText(const std::u32string& text, const Font& font,
 
   // Create vertex list.
   static constexpr Utf32::CodeUnit lineFeed = 0x0000000A;
+  // Todo: consider other type of space characters and tabs.
+  static constexpr Utf32::CodeUnit whitespace = 0x00000020;
 
   size_t mainCoord = tbfp.getTextFlow() == TextFlow::LeftRight
       || tbfp.getTextFlow() == TextFlow::RightLeft
@@ -206,6 +209,101 @@ FormattedText::FormattedText(const std::u32string& text, const Font& font,
   }
   Vec2f startPos = penPos;
 
+  auto computeAdvance = [&](const GlyphMetrics& gm) {
+    return dirMultiplier
+      * (mainCoord == 0u ? gm.getPixelHorizontalAdvance()
+                         : (font.hasVertical() ? gm.getPixelVerticalAdvance()
+                                               : gm.getPixelSize().y() * 1.5f));
+  };
+
+  // fit text to max size. Break lines and trim the text where necessary.
+  if(tbfp.getMaxSize().x() > 0.f && tbfp.getMaxSize().y() > 0.f)
+  {
+    float lineSize = 0.f;
+    float columnSize = lineSpacing;
+    const float maxLineSize = tbfp.getMaxSize()(mainCoord);
+    const float maxColumnSize = tbfp.getMaxSize()(secCoord);
+
+    // Vertical space insufficient: no need to do anything..
+    if(columnSize > maxColumnSize)
+    {
+      text.clear();
+    }
+
+    size_t pos = 0;
+    size_t newlinepos = text.find_first_of(lineFeed);
+    while(pos < text.size())
+    {
+      size_t wordStart = pos < text.size()
+        ? std::min(text.find_first_not_of(whitespace, pos), newlinepos)
+        : text.size();
+      size_t wordEnd = wordStart < text.size()
+        ? std::min(text.find_first_of(whitespace, wordStart), newlinepos)
+        : text.size();
+      float wordSize = 0.f;
+
+      // std::cout << newlinepos << " - " << maxLineSize << " - " << maxColumnSize
+      //           << " - " << pos << " - " << wordStart << " - " << wordEnd
+      //           << " - " << lineSize << " - " << columnSize << " - '"
+      //           << convertEncoding<Utf32, Utf8>(text.substr(pos, wordEnd - pos))
+      //           << "'" << std::endl;
+
+      for(size_t i = pos; i < wordEnd; ++i)
+      {
+        HOU_ENSURE_DEV(i < text.size());
+        const GlyphMetrics& gm = charCache.at(text[i]).getMetrics();
+        wordSize += dirMultiplier * computeAdvance(gm);
+      }
+
+      float adjustment = 0.f;
+      if(text[pos] == whitespace)
+      {
+        adjustment = dirMultiplier * computeAdvance(charCache.at(whitespace).getMetrics());
+      }
+
+      // If the word can't possibly fit on any line.
+      // The rest of the strnig need not be rendered.
+      if((wordSize - adjustment) > maxLineSize)
+      {
+        text.erase(pos);
+        break;
+      }
+
+      // If the word doesn't fit on this line.
+      // Add a line break in place of the first space.
+      lineSize += wordSize;
+      if(lineSize > maxLineSize)
+      {
+        text[pos] = '\n';
+        columnSize += lineSpacing;
+        lineSize = wordSize - adjustment;
+      }
+
+      if(columnSize > maxColumnSize)
+      {
+        text.erase(pos);
+        break;
+      }
+
+      pos = wordEnd;
+
+      if(text[wordEnd] == lineFeed)
+      {
+        columnSize += lineSpacing;
+        newlinepos = wordEnd + 1 < text.size()
+          ? text.find_first_of(lineFeed, wordEnd + 1)
+          : text.size();
+        lineSize = 0.f;
+      }
+
+      if(columnSize > maxColumnSize)
+      {
+        text.erase(pos);
+        break;
+      }
+    }
+  }
+
   Vec2f topLeft;
   Vec2f bottomRight;
   for(size_t i = 0; i < text.size(); ++i)
@@ -221,11 +319,8 @@ FormattedText::FormattedText(const std::u32string& text, const Font& font,
       const GlyphMetrics& gm = charCache.at(c).getMetrics();
       const AtlasGlyphCoordinates& ac = atlasCoordinatesCache.at(c);
 
-      float advance = dirMultiplier
-        * (mainCoord == 0u
-              ? gm.getPixelHorizontalAdvance()
-              : (font.hasVertical() ? gm.getPixelVerticalAdvance()
-                                    : gm.getPixelSize().y() * 1.5f));
+      float advance = computeAdvance(gm);
+
       if(advance < 0.f)
       {
         penPos(mainCoord) += advance;
