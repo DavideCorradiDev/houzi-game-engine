@@ -73,6 +73,8 @@ int main()
   std::cout << "Drawing " << textLine.size() * linesNum << " characters." << std::endl;
   TextFlow textFlow = TextFlow::LeftRight;
   TextAnchoring textAnchoring = TextAnchoring::TopLeft;
+  Vec2f maxTBoxSize;
+  const float maxTBoxIncrement = 32.f;
 
   bool running = true;
   Stopwatch timer;
@@ -169,11 +171,26 @@ int main()
           {
             textAnchoring = TextAnchoring::BottomRight;
           }
-          else if(we.getKeyData().scanCode == ScanCode::K)
+          else if(we.getKeyData().scanCode == ScanCode::I)
           {
             textAnchoring = TextAnchoring::Baseline;
           }
-
+          else if(we.getKeyData().scanCode == ScanCode::K)
+          {
+            maxTBoxSize.x() = std::min(0.f, maxTBoxSize.x() - maxTBoxIncrement);
+          }
+          else if(we.getKeyData().scanCode == ScanCode::Semicolon)
+          {
+            maxTBoxSize.x() = std::max(640.f, maxTBoxSize.x() + maxTBoxIncrement);
+          }
+          else if(we.getKeyData().scanCode == ScanCode::O)
+          {
+            maxTBoxSize.y() = std::min(0.f, maxTBoxSize.y() - maxTBoxIncrement);
+          }
+          else if(we.getKeyData().scanCode == ScanCode::L)
+          {
+            maxTBoxSize.y() = std::max(640.f, maxTBoxSize.y() + maxTBoxIncrement);
+          }
         }
         break;
         case hou::WindowEventType::Resized:
@@ -208,7 +225,7 @@ int main()
 
     const std::string& textToRender = printChinese ? chineseText : text;
     Font& fontToRender = printChinese ? chineseFont : font;
-    TextBoxFormattingParams tbfp(textFlow, textAnchoring);
+    TextBoxFormattingParams tbfp(textFlow, textAnchoring, maxTBoxSize);
     FormattedText ft(textToRender, fontToRender, tbfp);
     Mesh2 textBox
       = createRectangleOutlineMesh2(ft.getBoundingBox().getSize(), 1u);
