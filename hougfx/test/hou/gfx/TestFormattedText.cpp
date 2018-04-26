@@ -120,12 +120,10 @@ TEST_F(TestFormattedText, Utf8Constructor)
     TextVertex(Vec2f(7.f, 0.f), Vec3f(1.f, 1.f, 0.f)),
   };
   Rectf rectRef(0.f, -7.f, 7.f, 7.f);
-  Trans2f transRef(Trans2f::identity());
 
   EXPECT_EQ(imageRef, ft.getAtlas().getImage<PixelFormat::R>());
   HOU_EXPECT_CLOSE(verticesRef, ft.getMesh().getVertices(), testAcc);
   HOU_EXPECT_CLOSE(rectRef, ft.getBoundingBox(), testAcc);
-  HOU_EXPECT_CLOSE(transRef, ft.getTransform(), testAcc);
 }
 
 
@@ -149,12 +147,10 @@ TEST_F(TestFormattedText, Utf32Constructor)
     TextVertex(Vec2f(7.f, 0.f), Vec3f(1.f, 1.f, 0.f)),
   };
   Rectf rectRef(0.f, -7.f, 7.f, 7.f);
-  Trans2f transRef(Trans2f::identity());
 
   EXPECT_EQ(imageRef, ft.getAtlas().getImage<PixelFormat::R>());
   HOU_EXPECT_CLOSE(verticesRef, ft.getMesh().getVertices(), testAcc);
   HOU_EXPECT_CLOSE(rectRef, ft.getBoundingBox(), testAcc);
-  HOU_EXPECT_CLOSE(transRef, ft.getTransform(), testAcc);
 }
 
 
@@ -179,12 +175,10 @@ TEST_F(TestFormattedText, MoveConstructor)
     TextVertex(Vec2f(7.f, 0.f), Vec3f(1.f, 1.f, 0.f))
   };
   Rectf rectRef(0.f, -7.f, 7.f, 7.f);
-  Trans2f transRef(Trans2f::identity());
 
   EXPECT_EQ(imageRef, ft.getAtlas().getImage<PixelFormat::R>());
   HOU_EXPECT_CLOSE(verticesRef, ft.getMesh().getVertices(), testAcc);
   HOU_EXPECT_CLOSE(rectRef, ft.getBoundingBox(), testAcc);
-  HOU_EXPECT_CLOSE(transRef, ft.getTransform(), testAcc);
 }
 
 
@@ -216,12 +210,10 @@ TEST_F(TestFormattedText, TwoCharacters)
     TextVertex(Vec2f(12.f, -7.f), Vec3f(0.928571f, 0.f, 0.f)),
     TextVertex(Vec2f(12.f, 0.f), Vec3f(0.928571f, 1.f, 0.f))};
   Rectf rectRef(0.f, -7.f, 12.f, 7.f);
-  Trans2f transRef(Trans2f::identity());
 
   EXPECT_EQ(imageRef, ft.getAtlas().getImage<PixelFormat::R>());
   HOU_EXPECT_CLOSE(verticesRef, ft.getMesh().getVertices(), testAcc);
   HOU_EXPECT_CLOSE(rectRef, ft.getBoundingBox(), testAcc);
-  HOU_EXPECT_CLOSE(transRef, ft.getTransform(), testAcc);
 }
 
 
@@ -333,12 +325,10 @@ TEST_F(TestFormattedText, StringWithSpace)
     TextVertex(Vec2f(56.f, -5.f), Vec3f(0.883333f, 0.f, 0.f)),
     TextVertex(Vec2f(56.f, 0.f), Vec3f(0.883333f, 0.714286f, 0.f))};
   Rectf rectRef(0.f, -7.f, 56.f, 7.f);
-  Trans2f transRef(Trans2f::identity());
 
   EXPECT_EQ(imageRef, ft.getAtlas().getImage<PixelFormat::R>());
   HOU_EXPECT_CLOSE(verticesRef, ft.getMesh().getVertices(), testAcc);
   HOU_EXPECT_CLOSE(rectRef, ft.getBoundingBox(), testAcc);
-  HOU_EXPECT_CLOSE(transRef, ft.getTransform(), testAcc);
 }
 
 
@@ -511,10 +501,8 @@ TEST_F(TestFormattedText, StringWithNewLine)
     TextVertex(Vec2f(27.f, 23.f), Vec3f(0.902778f, 0.f, 0.f)),
     TextVertex(Vec2f(27.f, 28.f), Vec3f(0.902778f, 0.714286f, 0.f))};
   Rectf rectRef(0.f, -7.f, 37.f, 35.f);
-  Trans2f transRef(Trans2f::identity());
 
   EXPECT_EQ(imageRef, ft.getAtlas().getImage<PixelFormat::R>());
   HOU_EXPECT_CLOSE(verticesRef, ft.getMesh().getVertices(), testAcc);
   HOU_EXPECT_CLOSE(rectRef, ft.getBoundingBox(), testAcc);
-  HOU_EXPECT_CLOSE(transRef, ft.getTransform(), testAcc);
 }

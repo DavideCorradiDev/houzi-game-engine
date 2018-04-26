@@ -576,7 +576,6 @@ FormattedText::FormattedText(
   , mAtlas(nullptr)
   , mMesh(nullptr)
   , mBoundingBox()
-  , mTransform()
 {
   GlyphCache glyphCache(text, font);
   GlyphAtlas glyphAtlas(glyphCache);
@@ -597,7 +596,6 @@ FormattedText::FormattedText(FormattedText&& other)
   , mAtlas(std::move(other.mAtlas))
   , mMesh(std::move(other.mMesh))
   , mBoundingBox(std::move(other.mBoundingBox))
-  , mTransform(std::move(other.mTransform))
 {}
 
 
@@ -621,13 +619,6 @@ const TextMesh& FormattedText::getMesh() const
 const Rectf& FormattedText::getBoundingBox() const
 {
   return mBoundingBox;
-}
-
-
-
-const Trans2f& FormattedText::getTransform() const
-{
-  return mTransform;
 }
 
 }  // namespace hou

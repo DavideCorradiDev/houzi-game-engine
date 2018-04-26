@@ -48,13 +48,11 @@ public:
   const Texture2Array& getAtlas() const;
   const TextMesh& getMesh() const;
   const Rectf& getBoundingBox() const;
-  const Trans2f& getTransform() const;
 
 private:
   std::unique_ptr<Texture2Array> mAtlas;
   std::unique_ptr<TextMesh> mMesh;
   Rectf mBoundingBox;
-  Trans2f mTransform;
 };
 
 }  // namespace hou
