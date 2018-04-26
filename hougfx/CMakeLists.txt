@@ -39,6 +39,7 @@ SET(LIB_HOUGFX_SRC
   src/hou/gfx/Glyph.cpp
   src/hou/gfx/GlyphMetrics.cpp
   src/hou/gfx/GlType.cpp
+  src/hou/gfx/FormattedText.cpp
   src/hou/gfx/FrameBuffer.cpp
   src/hou/gfx/FrameBufferBlitFilter.cpp
   src/hou/gfx/Mesh.cpp
@@ -46,13 +47,14 @@ SET(LIB_HOUGFX_SRC
   src/hou/gfx/MeshDrawMode.cpp
   src/hou/gfx/MeshFillMode.cpp
   src/hou/gfx/GraphicContext.cpp
-  src/hou/gfx/RenderFont.cpp
   src/hou/gfx/RenderCanvas.cpp
   src/hou/gfx/RenderSurface.cpp
   src/hou/gfx/RenderWindow.cpp
   src/hou/gfx/Shader.cpp
   src/hou/gfx/ShaderProgram.cpp
   src/hou/gfx/ShaderType.cpp
+  src/hou/gfx/TextBoxFormattingParams.cpp
+  src/hou/gfx/TextFlow.cpp
   src/hou/gfx/TextShaderProgram.cpp
   src/hou/gfx/TextVertex.cpp
   src/hou/gfx/Texture.cpp

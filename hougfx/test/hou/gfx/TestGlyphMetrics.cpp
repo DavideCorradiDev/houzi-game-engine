@@ -12,9 +12,10 @@ using namespace testing;
 namespace
 {
 
-class TestGlyphMetrics : public Test {};
+class TestGlyphMetrics : public Test
+{};
 
-}
+}  // namespace
 
 
 
@@ -94,6 +95,91 @@ TEST_F(TestGlyphMetrics, SetVerticalAdvance)
 
 
 
+TEST_F(TestGlyphMetrics, GetPixelSize)
+{
+  GlyphMetrics gm;
+  EXPECT_EQ(Vec2u::zero(), gm.getSize());
+  HOU_EXPECT_FLOAT_CLOSE(Vec2f::zero(), gm.getPixelSize());
+
+  gm.setSize(Vec2u(64u, 128u));
+  EXPECT_EQ(Vec2u(64u, 128u), gm.getSize());
+  HOU_EXPECT_FLOAT_CLOSE(Vec2f(1.f, 2.f), gm.getPixelSize());
+
+  gm.setSize(Vec2u(96u, 176u));
+  EXPECT_EQ(Vec2u(96u, 176u), gm.getSize());
+  HOU_EXPECT_FLOAT_CLOSE(Vec2f(1.5f, 2.75f), gm.getPixelSize());
+}
+
+
+
+TEST_F(TestGlyphMetrics, GetPixelHorizontalBearing)
+{
+  GlyphMetrics gm;
+  EXPECT_EQ(Vec2i::zero(), gm.getHorizontalBearing());
+  HOU_EXPECT_FLOAT_CLOSE(Vec2f::zero(), gm.getPixelHorizontalBearing());
+
+  gm.setHorizontalBearing(Vec2i(64, 128));
+  EXPECT_EQ(Vec2i(64, 128), gm.getHorizontalBearing());
+  HOU_EXPECT_FLOAT_CLOSE(Vec2f(1.f, 2.f), gm.getPixelHorizontalBearing());
+
+  gm.setHorizontalBearing(Vec2i(96, 176));
+  EXPECT_EQ(Vec2i(96, 176), gm.getHorizontalBearing());
+  HOU_EXPECT_FLOAT_CLOSE(Vec2f(1.5f, 2.75f), gm.getPixelHorizontalBearing());
+}
+
+
+
+TEST_F(TestGlyphMetrics, GetPixelHorizontalAdvance)
+{
+  GlyphMetrics gm;
+  EXPECT_EQ(0, gm.getHorizontalAdvance());
+  HOU_EXPECT_FLOAT_CLOSE(0.f, gm.getPixelHorizontalAdvance());
+
+  gm.setHorizontalAdvance(128);
+  EXPECT_EQ(128, gm.getHorizontalAdvance());
+  HOU_EXPECT_FLOAT_CLOSE(2.f, gm.getPixelHorizontalAdvance());
+
+  gm.setHorizontalAdvance(176);
+  EXPECT_EQ(176, gm.getHorizontalAdvance());
+  HOU_EXPECT_FLOAT_CLOSE(2.75f, gm.getPixelHorizontalAdvance());
+}
+
+
+
+TEST_F(TestGlyphMetrics, GetPixelVerticalBearing)
+{
+  GlyphMetrics gm;
+  EXPECT_EQ(Vec2i::zero(), gm.getVerticalBearing());
+  HOU_EXPECT_FLOAT_CLOSE(Vec2f::zero(), gm.getPixelVerticalBearing());
+
+  gm.setVerticalBearing(Vec2i(64, 128));
+  EXPECT_EQ(Vec2i(64, 128), gm.getVerticalBearing());
+  HOU_EXPECT_FLOAT_CLOSE(Vec2f(1.f, 2.f), gm.getPixelVerticalBearing());
+
+  gm.setVerticalBearing(Vec2i(96, 176));
+  EXPECT_EQ(Vec2i(96, 176), gm.getVerticalBearing());
+  HOU_EXPECT_FLOAT_CLOSE(Vec2f(1.5f, 2.75f), gm.getPixelVerticalBearing());
+}
+
+
+
+TEST_F(TestGlyphMetrics, GetPixelVerticalAdvance)
+{
+  GlyphMetrics gm;
+  EXPECT_EQ(0, gm.getVerticalAdvance());
+  HOU_EXPECT_FLOAT_CLOSE(0.f, gm.getPixelVerticalAdvance());
+
+  gm.setVerticalAdvance(128);
+  EXPECT_EQ(128, gm.getVerticalAdvance());
+  HOU_EXPECT_FLOAT_CLOSE(2.f, gm.getPixelVerticalAdvance());
+
+  gm.setVerticalAdvance(176);
+  EXPECT_EQ(176, gm.getVerticalAdvance());
+  HOU_EXPECT_FLOAT_CLOSE(2.75f, gm.getPixelVerticalAdvance());
+}
+
+
+
 TEST_F(TestGlyphMetrics, Comparison)
 {
   GlyphMetrics gm1(Vec2u(1u, 2u), Vec2i(-1, 3), 4, Vec2i(5, -7), -11);
@@ -126,10 +212,9 @@ TEST_F(TestGlyphMetrics, OutputStreamOperator)
   GlyphMetrics gm(Vec2u(1u, 2u), Vec2i(-1, 3), 4, Vec2i(5, -7), -11);
   const char* refOutput
     = "{Size = (1, 2)"
-    ", HorizontalBearing = (-1, 3)"
-    ", HorizontalAdvance = 4"
-    ", VerticalBearing = (5, -7)"
-    ", VerticalAdvance = -11}";
+      ", HorizontalBearing = (-1, 3)"
+      ", HorizontalAdvance = 4"
+      ", VerticalBearing = (5, -7)"
+      ", VerticalAdvance = -11}";
   HOU_EXPECT_OUTPUT(refOutput, gm);
 }
-

@@ -29,6 +29,8 @@ namespace hou
 namespace
 {
 
+static constexpr float pf266ToPixelFactor = 1.f / 64.f;
+
 class FtLibraryWrapper
   : public NonCopyable
 {
@@ -218,10 +220,41 @@ Recti Font::getGlyphBoundingBox() const
 
 
 
+Rectf Font::getPixelGlyphBoundingBox() const
+{
+  Recti pf266Rect = getGlyphBoundingBox();
+  return Rectf(static_cast<Vec2f>(pf266Rect.getPosition()) * pf266ToPixelFactor,
+    static_cast<Vec2f>(pf266Rect.getSize()) * pf266ToPixelFactor);
+}
+
+
+
 int Font::getLineSpacing() const
 {
   HOU_EXPECT_DEV(mFace != nullptr);
   return mFace->size->metrics.height;
+}
+
+
+
+float Font::getPixelLineSpacing() const
+{
+  return static_cast<float>(getLineSpacing()) * pf266ToPixelFactor;
+}
+
+
+
+int Font::getMaxAdvance() const
+{
+  HOU_EXPECT_DEV(mFace != nullptr);
+  return mFace->size->metrics.max_advance;
+}
+
+
+
+float Font::getMaxPixelAdvance() const
+{
+  return static_cast<float>(getMaxAdvance()) * pf266ToPixelFactor;
 }
 
 
@@ -234,10 +267,23 @@ int Font::getMaxHorizontalAdvance() const
 
 
 
+float Font::getMaxPixelHorizontalAdvance() const
+{
+  return static_cast<float>(getMaxHorizontalAdvance()) * pf266ToPixelFactor;
+}
+
+
 int Font::getMaxVerticalAdvance() const
 {
   HOU_EXPECT_DEV(mFace != nullptr);
   return FT_MulFix(mFace->max_advance_height, mFace->size->metrics.y_scale);
+}
+
+
+
+float Font::getMaxPixelVerticalAdvance() const
+{
+  return static_cast<float>(getMaxVerticalAdvance()) * pf266ToPixelFactor;
 }
 
 
@@ -294,6 +340,13 @@ Vec2i Font::getKerning(Utf32::CodeUnit first, Utf32::CodeUnit second) const
 
 
 
+Vec2f Font::getPixelKerning(Utf32::CodeUnit first, Utf32::CodeUnit second) const
+{
+  return static_cast<Vec2f>(getKerning(first, second)) * pf266ToPixelFactor;
+}
+
+
+
 void Font::load()
 {
   HOU_EXPECT_DEV(mFace == nullptr);
@@ -324,4 +377,3 @@ void Font::destroy()
 }
 
 }
-
