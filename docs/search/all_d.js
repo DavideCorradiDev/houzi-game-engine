@@ -1,11 +1,11 @@
 var searchData=
 [
   ['n',['N',['../namespacehou.html#a38cd4932bf20ccf3c7476ddb76bd2e89a8d9c307cb7f3c4a32822a51922d1ceaa',1,'hou::N()'],['../namespacehou.html#acf944f8801268fa6726cf19c01e6c750a8d9c307cb7f3c4a32822a51922d1ceaa',1,'hou::N()']]],
-  ['nearest',['Nearest',['../namespacehou.html#afd7acad89c5adbe426faf96af16614d9a60494f02d440f316319dd0fad40ad007',1,'hou']]],
+  ['nearest',['Nearest',['../namespacehou.html#ad758da28a1b7a19ebff0fb5c9b4be117a60494f02d440f316319dd0fad40ad007',1,'hou::Nearest()'],['../namespacehou.html#afd7acad89c5adbe426faf96af16614d9a60494f02d440f316319dd0fad40ad007',1,'hou::Nearest()']]],
   ['next',['next',['../classhou_1_1Utf8.html#a501d4128c578a2829c12db00873f1094',1,'hou::Utf8::next()'],['../classhou_1_1Utf16.html#ac3cd929dea219a26740323146ac069ac',1,'hou::Utf16::next()'],['../classhou_1_1Utf32.html#a2fe94f541cc6d3a8d23dc047e655bfd7',1,'hou::Utf32::next()'],['../classhou_1_1Wide.html#a10ab12a1e2285aa11a36f5f0b42cb899',1,'hou::Wide::next()']]],
   ['nonconvert',['NonConvert',['../namespacehou.html#a38cd4932bf20ccf3c7476ddb76bd2e89a12d90fc4c95ce3e54370c763e0695f63',1,'hou']]],
   ['noncopyable',['NonCopyable',['../classhou_1_1NonCopyable.html',1,'hou::NonCopyable'],['../classhou_1_1NonCopyable.html#ab2e0ffade342b84ff53950ceda7ae209',1,'hou::NonCopyable::NonCopyable()'],['../classhou_1_1NonCopyable.html#a5cd37b7c88730fb2863cac8ca0e2aa58',1,'hou::NonCopyable::NonCopyable(const NonCopyable &amp;)=delete'],['../classhou_1_1NonCopyable.html#aa720730f165b5e9c28d56dd2d82c4693',1,'hou::NonCopyable::NonCopyable(NonCopyable &amp;&amp;)=delete']]],
-  ['none',['None',['../namespacehou.html#a221cef7e9a56a4955e8efc30e05d9932a6adf97f83acf6453d4a6a4b1070f3754',1,'hou']]],
+  ['none',['None',['../namespacehou.html#a221cef7e9a56a4955e8efc30e05d9932a6adf97f83acf6453d4a6a4b1070f3754',1,'hou::None()'],['../namespacehou.html#a95689ff7b610487954f34a951e8887f6a6adf97f83acf6453d4a6a4b1070f3754',1,'hou::None()']]],
   ['noninstantiable',['NonInstantiable',['../classhou_1_1NonInstantiable.html',1,'hou']]],
   ['norm',['norm',['../namespacehou.html#aa7a25ea2debfbe5c2dade9bb65f598ce',1,'hou::norm(const Matrix&lt; T, rows, cols &gt; &amp;m)'],['../namespacehou.html#adac87d5b0b153c6df34b9f1a0d77791b',1,'hou::norm(const Quaternion&lt; T &gt; &amp;q)']]],
   ['normalize',['normalize',['../classhou_1_1Matrix.html#a949615847b5593ad8b621b9a64ae5e16',1,'hou::Matrix::normalize()'],['../classhou_1_1Quaternion.html#a44a1379be2982d0885a5a30e7d72ddc4',1,'hou::Quaternion::normalize()']]],

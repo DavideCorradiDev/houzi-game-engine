@@ -72,7 +72,7 @@ private:
  *  \return the result of the check.
  */
 HOU_GFX_API bool operator==(
-  const VertexAttribFormat& l, const VertexAttribFormat& r);
+  const VertexAttribFormat& lhs, const VertexAttribFormat& rhs);
 
 /** Checks if two VertexAttribFormat objects not are equal.
  *
@@ -81,7 +81,7 @@ HOU_GFX_API bool operator==(
  *  \return the result of the check.
  */
 HOU_GFX_API bool operator!=(
-  const VertexAttribFormat& l, const VertexAttribFormat& r);
+  const VertexAttribFormat& lhs, const VertexAttribFormat& rhs);
 
 /** Writes the object into a stream.
  *

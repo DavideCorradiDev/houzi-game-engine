@@ -45,7 +45,7 @@ public:
 
   // Window ovverrides.
   void setFrameRect(const Vec2i& pos, const Vec2u& size) final;
-  void setClientRect(const Vec2i& pos, const Vec2u& size) override;
+  void setClientRect(const Vec2i& pos, const Vec2u& size) final;
 };
 
 }  // namespace hou

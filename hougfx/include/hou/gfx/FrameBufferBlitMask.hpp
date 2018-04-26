@@ -40,6 +40,7 @@ enum class FrameBufferBlitMask : GLenum
 template <>
 struct hou::EnableBitwiseOperators<hou::FrameBufferBlitMask>
 {
+  /** Enable bitwise operators. */
   static constexpr bool enable = true;
 };
 

@@ -7,5 +7,5 @@ var searchData=
   ['diagonal',['diagonal',['../classhou_1_1Matrix.html#a10ee4ee83e0d912bd4f747b615cecec5',1,'hou::Matrix::diagonal(const Matrix&lt; T, rc, 1u &gt; &amp;elements)'],['../classhou_1_1Matrix.html#a7f124afe7f981ee4d984021ed87205f5',1,'hou::Matrix::diagonal(Args... elements)']]],
   ['display',['display',['../classhou_1_1RenderWindow.html#a9d39154863dd46dbdf4ca1ca08cb6e6d',1,'hou::RenderWindow']]],
   ['dot',['dot',['../namespacehou.html#a3eac4f45b8f2e88143f46f2df9c363d0',1,'hou']]],
-  ['draw',['draw',['../classhou_1_1Mesh.html#ac38485e0b9e08cca2dee1a52531dc2cf',1,'hou::Mesh::draw()'],['../classhou_1_1Renderer2.html#a1deddeef7bcc5ed2f48b9d1a49e075a7',1,'hou::Renderer2::draw(RenderSurface &amp;target, const Mesh2 &amp;mesh, const Color &amp;color, const Trans2f &amp;trans)'],['../classhou_1_1Renderer2.html#a7294d6833bd14962f0f348d42bf4d133',1,'hou::Renderer2::draw(RenderSurface &amp;target, const Mesh2 &amp;mesh, const Texture2 &amp;texture, const Color &amp;color, const Trans2f &amp;trans)'],['../classhou_1_1Renderer2.html#a7803fa1fe255697e9b0baa238507df36',1,'hou::Renderer2::draw(RenderSurface &amp;target, const std::string &amp;text, Font &amp;font, const Color &amp;color, const Trans2f &amp;trans)']]]
+  ['draw',['draw',['../classhou_1_1Mesh.html#a889eadfc1207f639386265db185396a1',1,'hou::Mesh']]]
 ];

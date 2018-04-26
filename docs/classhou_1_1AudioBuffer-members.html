@@ -9,6 +9,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -45,6 +53,23 @@ $(function() {
 });
 /* @license-end */</script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('classhou_1_1AudioBuffer.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -59,11 +84,6 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacehou.html">hou</a></li><li class="navelem"><a class="el" href="classhou_1_1AudioBuffer.html">AudioBuffer</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">hou::AudioBuffer Member List</div>  </div>
@@ -72,31 +92,38 @@ $(function() {
 
 <p>This is the complete list of members for <a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#aafc74ad2fba3a9806194e3a411aaa602">AudioBuffer</a>(const std::vector&lt; uint8_t &gt; &amp;data, AudioFormat format, int smpRate)</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#a165c619baf603e449232d60d35cf7c1d">AudioBuffer</a>(NotNull&lt; std::unique_ptr&lt; AudioStreamIn &gt;&gt; audioStream)</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"><span class="mlabel">explicit</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#ad25d2730352ca584a8c5730427379734">AudioBuffer</a>(AudioBuffer &amp;&amp;other)</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>AudioSource</b> (defined in <a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a>)</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"><span class="mlabel">friend</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#a329d21f635fb4f062d3db920c5b7f869">getAudioFormat</a>() const</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#a024d4ce79f36d03dd3c217dd9d1330a5">getByteCount</a>() const</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#a87465eeb8adb15afa8567c0924485c88">getBytesPerSample</a>() const</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#abb7739a730700c661ba3b5f349d00ac0">getChannelCount</a>() const</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#aa8712f42ce6ccb543941ee09cd2dc9fe">getSampleCount</a>() const</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#a234dedece7bc43aa09236d1c527beb75">getSampleRate</a>() const</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html#ab2e0ffade342b84ff53950ceda7ae209">NonCopyable</a>()</td><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html">hou::NonCopyable</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html#a5cd37b7c88730fb2863cac8ca0e2aa58">NonCopyable</a>(const NonCopyable &amp;)=delete</td><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html">hou::NonCopyable</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html#aa720730f165b5e9c28d56dd2d82c4693">NonCopyable</a>(NonCopyable &amp;&amp;)=delete</td><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html">hou::NonCopyable</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html#aa569ef329cc909c3896601c3ced9266a">operator=</a>(const NonCopyable &amp;)=delete</td><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html">hou::NonCopyable</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html#abac4f0a1f0bb907137884af2ba8242fa">operator=</a>(NonCopyable &amp;&amp;)=delete</td><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html">hou::NonCopyable</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#a81f1f146e5308d703698719c2b127609">setData</a>(const std::vector&lt; uint8_t &gt; &amp;data, AudioFormat format, int smlRate)</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#a42d1c9bcacd2b5ba35836704689e096b">setData</a>(NotNull&lt; std::unique_ptr&lt; AudioStreamIn &gt;&gt; audioStream)</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>StreamingAudioSource</b> (defined in <a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a>)</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"><span class="mlabel">friend</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#aa26833f95601161a7f5a848fda6d6b87">AudioBuffer</a>()</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#ab36cd792cb6ff36fa2b4a4b8db62d869">AudioBuffer</a>(const Span&lt; const uint8_t &gt; &amp;data, AudioBufferFormat format, int smpRate)</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#ade9c4dea6b6836c02f7b286aa845e66e">AudioBuffer</a>(std::vector&lt; uint8_t &gt; &amp;&amp;data, AudioBufferFormat format, int smpRate)</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#a9223b2e783643f50845c088ad7bbe7ff">AudioBuffer</a>(AudioStreamIn &amp;audioStream)</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"><span class="mlabel">explicit</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#ae71ebfe63602168643a1278a14310179">AudioBuffer</a>(AudioStreamIn &amp;&amp;audioStream)</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"><span class="mlabel">explicit</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#ad25d2730352ca584a8c5730427379734">AudioBuffer</a>(AudioBuffer &amp;&amp;other)</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#acf1c79aa06b909f2e57a616b0ee17ba9">getByteCount</a>() const</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#a87465eeb8adb15afa8567c0924485c88">getBytesPerSample</a>() const</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#abb7739a730700c661ba3b5f349d00ac0">getChannelCount</a>() const</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#a38755d3b1db78bb9e49849a3ff51fca1">getFormat</a>() const</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#ab485e7c7fe63d98ef4219c5f6657ad40">getHandle</a>() const</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#a971e7d54256265c8f0378d9676ed6d38">getSampleCount</a>() const</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#a234dedece7bc43aa09236d1c527beb75">getSampleRate</a>() const</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html#ab2e0ffade342b84ff53950ceda7ae209">NonCopyable</a>()</td><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html">hou::NonCopyable</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html#a5cd37b7c88730fb2863cac8ca0e2aa58">NonCopyable</a>(const NonCopyable &amp;)=delete</td><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html">hou::NonCopyable</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html#aa720730f165b5e9c28d56dd2d82c4693">NonCopyable</a>(NonCopyable &amp;&amp;)=delete</td><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html">hou::NonCopyable</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html#aa569ef329cc909c3896601c3ced9266a">operator=</a>(const NonCopyable &amp;)=delete</td><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html">hou::NonCopyable</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html#abac4f0a1f0bb907137884af2ba8242fa">operator=</a>(NonCopyable &amp;&amp;)=delete</td><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html">hou::NonCopyable</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#aea3be039292d0ef8b447ee816a2f0702">setData</a>(const Span&lt; const uint8_t &gt; &amp;data, AudioBufferFormat format, int smlRate)</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#a8e2f0e36fa0e9bcc72962e6f1caab2b5">setData</a>(std::vector&lt; uint8_t &gt; &amp;&amp;data, AudioBufferFormat format, int smlRate)</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#ab9262ebddb2f4020533756ebc88530bd">setData</a>(AudioStreamIn &amp;audioStream)</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html#a7c59c1f4d611e933b40aeda9c46d94f8">setData</a>(AudioStreamIn &amp;&amp;audioStream)</td><td class="entry"><a class="el" href="classhou_1_1AudioBuffer.html">hou::AudioBuffer</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html#a83cb41c7b136839df32aaa6cad8699f5">~NonCopyable</a>()</td><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html">hou::NonCopyable</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.14
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
+  </ul>
+</div>
 </body>
 </html>

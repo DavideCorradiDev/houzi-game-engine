@@ -9,6 +9,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -46,6 +54,22 @@ $(function() {
 /* @license-end */</script>
 <div id="main-nav"></div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('functions_o.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -68,7 +92,7 @@ $(function() {
 : <a class="el" href="classhou_1_1OggFileIn.html#ad4a07d18230769b58624ac1f9a75caac">hou::OggFileIn</a>
 </li>
 <li>onGetSamplePos()
-: <a class="el" href="classhou_1_1AudioSourceBase.html#a671c06eaa6bfa66472a07c1a749cb5fe">hou::AudioSourceBase</a>
+: <a class="el" href="classhou_1_1AudioSource.html#a767403a203c5103679a6050f1c011a18">hou::AudioSource</a>
 </li>
 <li>onRead()
 : <a class="el" href="classhou_1_1BinaryFileIn.html#a09c932592c783e7f91df5cd8abbfe94b">hou::BinaryFileIn</a>
@@ -76,7 +100,7 @@ $(function() {
 , <a class="el" href="classhou_1_1TextFileIn.html#a6194addae8e9aecf255092b2f7f98733">hou::TextFileIn</a>
 </li>
 <li>onSetSamplePos()
-: <a class="el" href="classhou_1_1AudioSourceBase.html#a3787ec91df1d4c59c3aaa58ca021e452">hou::AudioSourceBase</a>
+: <a class="el" href="classhou_1_1AudioSource.html#aa57c5ec636a0c34db4a7bcc514c1407d">hou::AudioSource</a>
 </li>
 <li>onWrite()
 : <a class="el" href="classhou_1_1BinaryFileOut.html#affc3ccbfda46bb521dec8408ab6f1b17">hou::BinaryFileOut</a>
@@ -91,6 +115,7 @@ $(function() {
 </li>
 <li>operator!=
 : <a class="el" href="classhou_1_1Matrix.html#a46dd5316db08a75442273e540f7b4cdd">hou::Matrix&lt; T, rows, cols &gt;</a>
+, <a class="el" href="classhou_1_1PixelT.html#a0f49b3088d9e7c655fced55687f9eb90">hou::PixelT&lt; pf &gt;</a>
 , <a class="el" href="classhou_1_1Quaternion.html#add9bf131a0d58036dbea804292991536">hou::Quaternion&lt; T &gt;</a>
 , <a class="el" href="classhou_1_1TextStream_1_1TextPosition.html#ac1f861079a70f3d6df1a851d28b88e9c">hou::TextStream::TextPosition</a>
 , <a class="el" href="classhou_1_1Transform2.html#a137fe5e3aaa18648a5f4c72e5235f1d1">hou::Transform2&lt; T &gt;</a>
@@ -125,7 +150,7 @@ $(function() {
 , <a class="el" href="classhou_1_1Quaternion.html#a8853acccf9bbc20cf0cd1097c8e54167">hou::Quaternion&lt; T &gt;</a>
 </li>
 <li>operator-&gt;()
-: <a class="el" href="classhou_1_1NotNull.html#af669d7a01902bf99b3164f1bf787643e">hou::NotNull&lt; PtrType &gt;</a>
+: <a class="el" href="classhou_1_1NotNull.html#a59f5999324ea5e350631db5907ba2ca9">hou::NotNull&lt; PtrType &gt;</a>
 </li>
 <li>operator/
 : <a class="el" href="classhou_1_1Matrix.html#a19fcae8e9a2676a60decccfe05ed2710">hou::Matrix&lt; T, rows, cols &gt;</a>
@@ -139,11 +164,12 @@ $(function() {
 : <a class="el" href="classhou_1_1TextStream_1_1TextPosition.html#a2ee9a322ffb2e0e4b4e8578a9b19421a">hou::TextStream::TextPosition</a>
 </li>
 <li>operator=()
-: <a class="el" href="classhou_1_1NonCopyable.html#aa569ef329cc909c3896601c3ced9266a">hou::NonCopyable</a>
+: <a class="el" href="classhou_1_1NonCopyable.html#abac4f0a1f0bb907137884af2ba8242fa">hou::NonCopyable</a>
 , <a class="el" href="classhou_1_1NotNull.html#a17b9993187685989e3c290f17759f66b">hou::NotNull&lt; PtrType &gt;</a>
 </li>
 <li>operator==
 : <a class="el" href="classhou_1_1Matrix.html#a9c177aa5c04d6ba7011ce67dc8294bc3">hou::Matrix&lt; T, rows, cols &gt;</a>
+, <a class="el" href="classhou_1_1PixelT.html#a27935a5aec12cc7bb9f052fb7c9ad4ab">hou::PixelT&lt; pf &gt;</a>
 , <a class="el" href="classhou_1_1Quaternion.html#a1c42f96d9fd49f17b09c08f9f6a6b859">hou::Quaternion&lt; T &gt;</a>
 , <a class="el" href="classhou_1_1TextStream_1_1TextPosition.html#a58f927320404b8985ebfdb1cafaf146f">hou::TextStream::TextPosition</a>
 , <a class="el" href="classhou_1_1Transform2.html#a0f8b6a7f621501d5d6c6cb616e3dcd9f">hou::Transform2&lt; T &gt;</a>
@@ -157,11 +183,14 @@ $(function() {
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.14
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
+  </ul>
+</div>
 </body>
 </html>

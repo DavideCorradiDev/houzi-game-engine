@@ -9,6 +9,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -45,6 +53,23 @@ $(function() {
 });
 /* @license-end */</script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('classhou_1_1Image.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -59,11 +84,6 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacehou.html">hou</a></li><li class="navelem"><a class="el" href="classhou_1_1Image.html">Image</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">hou::Image&lt; dim, fmt &gt; Member List</div>  </div>
@@ -72,34 +92,37 @@ $(function() {
 
 <p>This is the complete list of members for <a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a>, including all inherited members.</p>
 <table class="directory">
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>clear</b>(const Pixel &amp;pixel) (defined in <a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a>)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>Coordinates</b> typedef (defined in <a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a>)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>getDimensionCount</b>() (defined in <a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a>)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>getPixel</b>(const Coordinates &amp;coordinates) (defined in <a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a>)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>getPixel</b>(const Coordinates &amp;coordinates) const (defined in <a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a>)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>getPixelByteCount</b>() (defined in <a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a>)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>getPixelFormat</b>() (defined in <a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a>)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>getPixels</b>() const (defined in <a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a>)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>getSize</b>() const (defined in <a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a>)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>getSubImage</b>(const Coordinates &amp;offset, const Size &amp;size) (defined in <a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a>)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>Image</b> (defined in <a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a>)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"><span class="mlabel">friend</span></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>Image</b>() (defined in <a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a>)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>Image</b>(const Size &amp;size) (defined in <a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a>)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>Image</b>(const Size &amp;size, const Pixel &amp;pixel) (defined in <a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a>)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>Image</b>(const Size &amp;size, const Span&lt; const Pixel &gt; &amp;pixels) (defined in <a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a>)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>Image</b>(const Size &amp;size, const Span&lt; const uint8_t &gt; &amp;bytes) (defined in <a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a>)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>Image</b>(const Image&lt; otherDim, otherFmt &gt; &amp;other) (defined in <a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a>)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>Pixel</b> typedef (defined in <a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a>)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>PixelCollection</b> typedef (defined in <a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a>)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>setPixels</b>(const Span&lt; const Pixel &gt; &amp;pixels) (defined in <a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a>)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>setSubImage</b>(const Coordinates &amp;offset, const Image &amp;image) (defined in <a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a>)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>Size</b> typedef (defined in <a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a>)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Image.html#a38715dcb6e981e65d3efff30d51f21b6">clear</a>(const Pixel &amp;pixel)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1Image.html#a9ea99d8671a02897841f72665df4fd61">Coordinates</a> typedef</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Image.html#a4d26353950caa115374d7875802d0a48">getDimensionCount</a>()</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1Image.html#af1df34b749eae934db725e17b6f81877">getPixel</a>(const Coordinates &amp;coordinates) const</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Image.html#a670ba0054692fab02c9a3741ecc656fa">getPixelByteCount</a>()</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1Image.html#a3ff71a448c5c2af84555643a3496dbef">getPixelFormat</a>()</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Image.html#a6c9303a3e9208017660439d6f9ee9162">getPixels</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1Image.html#aa092d40ac918ba9ca020f4c24819679d">getSize</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Image.html#aad41af46438268404c9bbd4f14b982b9">getSubImage</a>(const Coordinates &amp;offset, const Size &amp;size)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>Image</b> (defined in <a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a>)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"><span class="mlabel">friend</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Image.html#acf4fb7af561e0d04090007c3ff6c4139">Image</a>()</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1Image.html#a5521ec2e2438a2911628dc350307a812">Image</a>(const Size &amp;size)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Image.html#a2465e00bf99810e884fcdcaead29b483">Image</a>(const Size &amp;size, const Pixel &amp;pixel)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1Image.html#ab354a913025b03b78cba9d57aa57fdce">Image</a>(const Size &amp;size, const Span&lt; const Pixel &gt; &amp;pixels)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Image.html#ab5bf85e15db74216c32f7b4e9eb317d0">Image</a>(const Size &amp;size, PixelCollection &amp;&amp;pixels)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1Image.html#a45937fdbe1adbdafe80b1c33c6ebc603">Image</a>(const Image&lt; otherDim, otherFmt &gt; &amp;other)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Image.html#af24a7a62c129a1553ebdb57f9f94ad69">Pixel</a> typedef</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1Image.html#aadac6ad79a3e46c920a254e6f107b11f">PixelCollection</a> typedef</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Image.html#acafcfc3dca4af3da2e2ce24b8a95e714">setPixel</a>(const Coordinates &amp;coordinates, const Pixel &amp;value)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1Image.html#ad9e867b68e956fe79f7e366b7e82c2af">setPixels</a>(const Span&lt; const Pixel &gt; &amp;pixels)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Image.html#a259a8f5bbc6cdfa21d048deaf887cd22">setSubImage</a>(const Coordinates &amp;offset, const Image &amp;image)</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1Image.html#ae331219cf5c3d64ae1d196ae77120342">Size</a> typedef</td><td class="entry"><a class="el" href="classhou_1_1Image.html">hou::Image&lt; dim, fmt &gt;</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.14
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
+  </ul>
+</div>
 </body>
 </html>

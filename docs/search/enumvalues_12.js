@@ -11,9 +11,9 @@ var searchData=
   ['space',['Space',['../namespacehou.html#a38cd4932bf20ccf3c7476ddb76bd2e89ad511f8439ecde36647437fbba67a4394',1,'hou::Space()'],['../namespacehou.html#acf944f8801268fa6726cf19c01e6c750ad511f8439ecde36647437fbba67a4394',1,'hou::Space()']]],
   ['special1',['Special1',['../namespacehou.html#a38cd4932bf20ccf3c7476ddb76bd2e89a0cc397d679d06ea28562bdaa189fcb61',1,'hou']]],
   ['special2',['Special2',['../namespacehou.html#a38cd4932bf20ccf3c7476ddb76bd2e89ac34229172f550e4fea8e59f324f4da8f',1,'hou']]],
-  ['stencil',['Stencil',['../namespacehou.html#afdbcfc0bde8c68aa9e64dbb3161a47d1ad821e7ccd4d4c25a491ba1a9ea248895',1,'hou']]],
-  ['stereo16',['Stereo16',['../namespacehou.html#ace728d8b0d3830beb5a452635f6b92dda851cd6283aaf71edd18bb2fcda2505f4',1,'hou']]],
-  ['stereo8',['Stereo8',['../namespacehou.html#ace728d8b0d3830beb5a452635f6b92ddac6b222ce6dafa010da034571a80c21f3',1,'hou']]],
+  ['stencil',['Stencil',['../namespacehou.html#a95689ff7b610487954f34a951e8887f6ad821e7ccd4d4c25a491ba1a9ea248895',1,'hou::Stencil()'],['../namespacehou.html#afdbcfc0bde8c68aa9e64dbb3161a47d1ad821e7ccd4d4c25a491ba1a9ea248895',1,'hou::Stencil()']]],
+  ['stereo16',['Stereo16',['../namespacehou.html#a7eb69180f5627f590d96af30e709947ba851cd6283aaf71edd18bb2fcda2505f4',1,'hou']]],
+  ['stereo8',['Stereo8',['../namespacehou.html#a7eb69180f5627f590d96af30e709947bac6b222ce6dafa010da034571a80c21f3',1,'hou']]],
   ['stopped',['Stopped',['../namespacehou.html#af079280caedfad584b73e9f1eb62a4eaac23e2b09ebe6bf4cb5e2a9abe85c0be2',1,'hou']]],
   ['subtract',['Subtract',['../namespacehou.html#a38cd4932bf20ccf3c7476ddb76bd2e89a1d9baf077ee87921f57a8fe42d510b65',1,'hou::Subtract()'],['../namespacehou.html#acf944f8801268fa6726cf19c01e6c750a1d9baf077ee87921f57a8fe42d510b65',1,'hou::Subtract()']]],
   ['system',['System',['../namespacehou.html#a221cef7e9a56a4955e8efc30e05d9932aa45da96d0bf6575970f2d27af22be28a',1,'hou']]]

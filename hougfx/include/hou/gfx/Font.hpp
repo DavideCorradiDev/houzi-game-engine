@@ -203,7 +203,7 @@ public:
    * If the requested glyph is not present in the font a placeholder glyph is
    * returned.
    *
-   * \param the glyph code point.
+   * \param charCode the glyph code point.
    * \return the requested glyph.
    */
   Glyph getGlyph(Utf32::CodeUnit charCode) const;

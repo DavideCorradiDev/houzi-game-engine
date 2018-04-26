@@ -170,7 +170,7 @@ bool close(const MeshT<T>& lhs, const MeshT<T>& rhs,
 /** Writes the object into a stream.
  *
  *  \param os the stream.
- *  \param v the MeshT.
+ *  \param m the MeshT.
  *  \return a reference to os.
  */
 template <typename T>

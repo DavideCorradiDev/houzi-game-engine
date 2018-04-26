@@ -9,6 +9,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -46,6 +54,22 @@ $(function() {
 /* @license-end */</script>
 <div id="main-nav"></div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('functions_func_i.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -72,6 +96,9 @@ $(function() {
 , <a class="el" href="classhou_1_1Transform2.html#a21bf729c7f810e23981e46849989d182">hou::Transform2&lt; T &gt;</a>
 , <a class="el" href="classhou_1_1Transform3.html#abf9dfb381533a5cb619efd4778ed010c">hou::Transform3&lt; T &gt;</a>
 </li>
+<li>Image()
+: <a class="el" href="classhou_1_1Image.html#a5521ec2e2438a2911628dc350307a812">hou::Image&lt; dim, fmt &gt;</a>
+</li>
 <li>invert()
 : <a class="el" href="classhou_1_1Matrix.html#a0c614096f47d657c3fa85911c0b30619">hou::Matrix&lt; T, rows, cols &gt;</a>
 , <a class="el" href="classhou_1_1Quaternion.html#af83e256da3288772ca31be4a743c1224">hou::Quaternion&lt; T &gt;</a>
@@ -81,11 +108,22 @@ $(function() {
 , <a class="el" href="classhou_1_1Transform3.html#a8451cb69a2ad4e14c3d11e790f78d97c">hou::Transform3&lt; T &gt;</a>
 </li>
 <li>isBound()
-: <a class="el" href="classhou_1_1Mesh.html#a3b6f2f73802c009920bbc4d87811764e">hou::Mesh&lt; VertexType &gt;</a>
+: <a class="el" href="classhou_1_1Texture.html#a4bdd5d9848cb7c30360f95cafd80ccd9">hou::Texture</a>
+, <a class="el" href="classhou_1_1VertexArray.html#a26a551661efd5b438dee4f989d204f54">hou::VertexArray</a>
+, <a class="el" href="classhou_1_1VertexBuffer.html#abaeacdfd11136d03dc2ea6cc3c4d6f9d">hou::VertexBuffer</a>
+</li>
+<li>isBoundToDrawTarget()
+: <a class="el" href="classhou_1_1FrameBuffer.html#a0014e246659e0e8cc688bc26ab14dc2d">hou::FrameBuffer</a>
+</li>
+<li>isBoundToReadTarget()
+: <a class="el" href="classhou_1_1FrameBuffer.html#a2d773be9a9af40d8a8febe22f7fee7c3">hou::FrameBuffer</a>
+</li>
+<li>isComplete()
+: <a class="el" href="classhou_1_1FrameBuffer.html#a69fd49600dde16b0714e48309331cc57">hou::FrameBuffer</a>
 </li>
 <li>isCurrent()
 : <a class="el" href="classhou_1_1AudioContext.html#a4c3f3c43c629d4ab4e75c71f4343a49c">hou::AudioContext</a>
-, <a class="el" href="classhou_1_1RenderContext.html#a448c231bef14c4fcf32d4c6b9936373a">hou::RenderContext</a>
+, <a class="el" href="classhou_1_1GraphicContext.html#aaeade3023c078d1b71a22d81676d7a31">hou::GraphicContext</a>
 </li>
 <li>isCurrentRenderSource()
 : <a class="el" href="classhou_1_1RenderSurface.html#a1e29bbc5d516cc62143de31ff526db32">hou::RenderSurface</a>
@@ -103,18 +141,24 @@ $(function() {
 : <a class="el" href="classhou_1_1Window.html#affdc0a3a155d34c80196dd97a39ae189">hou::Window</a>
 </li>
 <li>isLooping()
-: <a class="el" href="classhou_1_1AudioSource.html#a9677d26fcd27cb2366a4d46c7db4056f">hou::AudioSource</a>
-, <a class="el" href="classhou_1_1AudioSourceBase.html#af6ad0332a90e22222441e5da7299d742">hou::AudioSourceBase</a>
+: <a class="el" href="classhou_1_1AudioSource.html#aba903c9980a2b75696cfc091692e3b5f">hou::AudioSource</a>
+, <a class="el" href="classhou_1_1MemoryAudioSource.html#affc81b301fcaab16a9aea02a77381f3b">hou::MemoryAudioSource</a>
 , <a class="el" href="classhou_1_1StreamingAudioSource.html#a42432ec1ee3d89c8cf51693d92dddb3b">hou::StreamingAudioSource</a>
+</li>
+<li>isMipMapped()
+: <a class="el" href="classhou_1_1Texture.html#ab1bcdb13d9fda843e59d9377b5c348c9">hou::Texture</a>
+, <a class="el" href="classhou_1_1TextureT.html#ad3da1c41a4083ff546195d2fdb337061">hou::TextureT&lt; type &gt;</a>
 </li>
 <li>isMouseCursorGrabbed()
 : <a class="el" href="classhou_1_1Window.html#a99be43a90c6e077fe1fce9e506ca05a0">hou::Window</a>
 </li>
 <li>isMultisampled()
 : <a class="el" href="classhou_1_1RenderSurface.html#a407d76f943e54b10efd892d36f36d456">hou::RenderSurface</a>
+, <a class="el" href="classhou_1_1Texture.html#a6c990ed303caefeb255f770eed16db01">hou::Texture</a>
+, <a class="el" href="classhou_1_1TextureT.html#aa0e7856c8d615b576629bcf17c23a8e4">hou::TextureT&lt; type &gt;</a>
 </li>
 <li>isRelative()
-: <a class="el" href="classhou_1_1AudioSourceBase.html#afe55519a02e3e30751383ea6caf9e504">hou::AudioSourceBase</a>
+: <a class="el" href="classhou_1_1AudioSource.html#ae4ec7fd4ad57d7f8a3fd0d907aba34c6">hou::AudioSource</a>
 </li>
 <li>isRunning()
 : <a class="el" href="classhou_1_1Stopwatch.html#a5f67ce0dcf0f2842d4690ba7882d41f2">hou::Stopwatch</a>
@@ -127,11 +171,14 @@ $(function() {
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.14
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
+  </ul>
+</div>
 </body>
 </html>

@@ -50,6 +50,10 @@ public:
   using PixelCollection = std::vector<Pixel>;
 
 public:
+  /** Retrieves the number of dimensions of the image.
+   *
+   * \return the number of dimensions of the imag.e
+   */
   static constexpr size_t getDimensionCount();
 
   /** Retrieves the format of the pixels of the image.
@@ -263,8 +267,8 @@ HOU_SYS_API bool bmpCheckFile(const std::string& path);
  *  Throws if the file corresponding to the given path cannot be opened.
  *  Throws if the file is not a BMP file.
  *
+ *  \tparam fmt the output image format.
  *  \param path the path to the file.
- *  \param format the format to be used when creating the image.
  *  \return an Image built from the information contained in the file.
  */
 template <PixelFormat fmt>
@@ -274,6 +278,7 @@ HOU_SYS_API Image2<fmt> bmpReadFile(const std::string& path);
  *
  *  Throws if it is not possible to write to the given path.
  *
+ *  \tparam fmt the input image format.
  *  \param path the path of the image file to be created.
  *  \param image the image to be written to disk.
  */
@@ -295,8 +300,8 @@ HOU_SYS_API bool pngCheckFile(const std::string& path);
  *  Throws if the file corresponding to the given path cannot be opened.
  *  Throws if the file is not a PNG file.
  *
+ *  \tparam fmt the output image format.
  *  \param path the path to the file.
- *  \param format the format to be used when creating the image.
  *  \return an Image built from the information contained in the file.
  */
 template <PixelFormat fmt>
@@ -317,8 +322,8 @@ HOU_SYS_API bool jpgCheckFile(const std::string& path);
  *  Throws if the file corresponding to the given path cannot be opened.
  *  Throws if the file is not a JPG file.
  *
+ *  \tparam fmt the output image format.
  *  \param path the path to the file.
- *  \param format the format to be used when creating the image.
  *  \return an Image built from the information contained in the file.
  */
 template <PixelFormat fmt>

@@ -49,19 +49,19 @@ bool VertexAttribFormat::mustBeNormalized() const
 
 
 
-bool operator==(const VertexAttribFormat& l, const VertexAttribFormat& r)
+bool operator==(const VertexAttribFormat& lhs, const VertexAttribFormat& rhs)
 {
-  return l.getType() == r.getType()
-    && l.getElementCount() == r.getElementCount()
-    && l.getByteOffset() == r.getByteOffset()
-    && l.mustBeNormalized() == r.mustBeNormalized();
+  return lhs.getType() == rhs.getType()
+    && lhs.getElementCount() == rhs.getElementCount()
+    && lhs.getByteOffset() == rhs.getByteOffset()
+    && lhs.mustBeNormalized() == rhs.mustBeNormalized();
 }
 
 
 
-bool operator!=(const VertexAttribFormat& l, const VertexAttribFormat& r)
+bool operator!=(const VertexAttribFormat& lhs, const VertexAttribFormat& rhs)
 {
-  return !(l == r);
+  return !(lhs == rhs);
 }
 
 

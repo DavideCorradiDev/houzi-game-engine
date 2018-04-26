@@ -9,6 +9,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -45,6 +53,23 @@ $(function() {
 });
 /* @license-end */</script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('TextStreamIn_8hpp_source.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -59,27 +84,27 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_e12422517c556980529d452e71759a1d.html">housys</a></li><li class="navelem"><a class="el" href="dir_c568d345319d75ab4b217d6c764ef1f9.html">include</a></li><li class="navelem"><a class="el" href="dir_38bfc886cb1bb8eb54afa1b8df77c010.html">hou</a></li><li class="navelem"><a class="el" href="dir_94a9359153c1db46361ef673380e88ef.html">sys</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">TextStreamIn.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Houzi Game Engine</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">// Copyright (c) 2018 Davide Corradi</span></div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// Licensed under the MIT license. See license.md for more details.</span></div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#ifndef HOU_SYS_TEXT_STREAM_IN_HPP</span></div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#define HOU_SYS_TEXT_STREAM_IN_HPP</span></div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;hou/sys/SysExport.hpp&quot;</span></div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;hou/sys/TextStream.hpp&quot;</span></div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;hou/sys/StreamIn.hpp&quot;</span></div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacehou.html">hou</a></div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;{</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div><div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classhou_1_1TextStreamIn.html">   19</a></span>&#160;<span class="keyword">class </span>HOU_SYS_API <a class="code" href="classhou_1_1TextStreamIn.html">TextStreamIn</a></div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  : <span class="keyword">public</span> <a class="code" href="classhou_1_1TextStream.html">TextStream</a></div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  , <span class="keyword">public</span> <a class="code" href="classhou_1_1StreamIn.html">StreamIn</a></div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;{</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">public</span>:</div><div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classhou_1_1TextStreamIn.html#a20d7e343c6d8197057515f0ebd965095">   26</a></span>&#160;  <span class="keyword">virtual</span> <a class="code" href="classhou_1_1TextStreamIn.html#a20d7e343c6d8197057515f0ebd965095">~TextStreamIn</a>() {};</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;};</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;}</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div><div class="ttc" id="namespacehou_html"><div class="ttname"><a href="namespacehou.html">hou</a></div><div class="ttdef"><b>Definition:</b> BasicTypes.hpp:13</div></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Houzi Game Engine</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">// Copyright (c) 2018 Davide Corradi</span></div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// Licensed under the MIT license.</span></div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#ifndef HOU_SYS_TEXT_STREAM_IN_HPP</span></div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#define HOU_SYS_TEXT_STREAM_IN_HPP</span></div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;hou/sys/SysExport.hpp&quot;</span></div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;hou/sys/TextStream.hpp&quot;</span></div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;hou/sys/StreamIn.hpp&quot;</span></div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacehou.html">hou</a></div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;{</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div><div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classhou_1_1TextStreamIn.html">   19</a></span>&#160;<span class="keyword">class </span>HOU_SYS_API <a class="code" href="classhou_1_1TextStreamIn.html">TextStreamIn</a></div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  : <span class="keyword">public</span> <a class="code" href="classhou_1_1TextStream.html">TextStream</a></div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  , <span class="keyword">public</span> <a class="code" href="classhou_1_1StreamIn.html">StreamIn</a></div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;{</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">public</span>:</div><div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classhou_1_1TextStreamIn.html#a20d7e343c6d8197057515f0ebd965095">   26</a></span>&#160;  <span class="keyword">virtual</span> <a class="code" href="classhou_1_1TextStreamIn.html#a20d7e343c6d8197057515f0ebd965095">~TextStreamIn</a>() {};</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    std::enable_if_t&lt;isContiguousContainer&lt;T&gt;::value, <a class="code" href="namespacehou.html#a38cd4932bf20ccf3c7476ddb76bd2e89ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>&gt; readAll();</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;};</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#include &quot;hou/sys/TextStreamIn.inl&quot;</span></div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div><div class="ttc" id="namespacehou_html"><div class="ttname"><a href="namespacehou.html">hou</a></div><div class="ttdef"><b>Definition:</b> BasicTypes.hpp:13</div></div>
+<div class="ttc" id="namespacehou_html_a38cd4932bf20ccf3c7476ddb76bd2e89ab9ece18c950afbfa6b0fdbfa4ff731d3"><div class="ttname"><a href="namespacehou.html#a38cd4932bf20ccf3c7476ddb76bd2e89ab9ece18c950afbfa6b0fdbfa4ff731d3">hou::KeyCode::T</a></div></div>
 <div class="ttc" id="classhou_1_1TextStreamIn_html"><div class="ttname"><a href="classhou_1_1TextStreamIn.html">hou::TextStreamIn</a></div><div class="ttdef"><b>Definition:</b> TextStreamIn.hpp:19</div></div>
 <div class="ttc" id="classhou_1_1StreamIn_html"><div class="ttname"><a href="classhou_1_1StreamIn.html">hou::StreamIn</a></div><div class="ttdef"><b>Definition:</b> StreamIn.hpp:24</div></div>
 <div class="ttc" id="classhou_1_1TextStreamIn_html_a20d7e343c6d8197057515f0ebd965095"><div class="ttname"><a href="classhou_1_1TextStreamIn.html#a20d7e343c6d8197057515f0ebd965095">hou::TextStreamIn::~TextStreamIn</a></div><div class="ttdeci">virtual ~TextStreamIn()</div><div class="ttdef"><b>Definition:</b> TextStreamIn.hpp:26</div></div>
 <div class="ttc" id="classhou_1_1TextStream_html"><div class="ttname"><a href="classhou_1_1TextStream.html">hou::TextStream</a></div><div class="ttdef"><b>Definition:</b> TextStream.hpp:21</div></div>
 </div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.14
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_e12422517c556980529d452e71759a1d.html">housys</a></li><li class="navelem"><a class="el" href="dir_c568d345319d75ab4b217d6c764ef1f9.html">include</a></li><li class="navelem"><a class="el" href="dir_38bfc886cb1bb8eb54afa1b8df77c010.html">hou</a></li><li class="navelem"><a class="el" href="dir_94a9359153c1db46361ef673380e88ef.html">sys</a></li><li class="navelem"><b>TextStreamIn.hpp</b></li>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
+  </ul>
+</div>
 </body>
 </html>

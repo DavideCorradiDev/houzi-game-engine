@@ -9,6 +9,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -45,6 +53,23 @@ $(function() {
 });
 /* @license-end */</script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('classhou_1_1EmptyAudioStreamIn.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -59,11 +84,6 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacehou.html">hou</a></li><li class="navelem"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html">EmptyAudioStreamIn</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">hou::EmptyAudioStreamIn Member List</div>  </div>
@@ -78,11 +98,11 @@ $(function() {
   <tr><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html#a6f81505ec6bf243d9c6c0e5d1e90a985">EmptyAudioStreamIn</a>()</td><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html">hou::EmptyAudioStreamIn</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html#aa10312331da19e6eacb8b29d7ff574ac">eof</a>() const final</td><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html">hou::EmptyAudioStreamIn</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html#a27618502796f923d73938250b1ccd6cf">error</a>() const final</td><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html">hou::EmptyAudioStreamIn</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioStream.html#a0c0403ec3c0d59eefb1e870b025bee11">getAudioFormat</a>() const</td><td class="entry"><a class="el" href="classhou_1_1AudioStream.html">hou::AudioStream</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html#aae4d4cc6583756a015d86ec5d3c54ca0">getByteCount</a>() const final</td><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html">hou::EmptyAudioStreamIn</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html#aba1e9a80bb75c819a56644837d9fdb01">getBytePos</a>() const final</td><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html">hou::EmptyAudioStreamIn</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1AudioStream.html#adb850af15e4c63d60f16eea031c4e937">getBytesPerSample</a>() const</td><td class="entry"><a class="el" href="classhou_1_1AudioStream.html">hou::AudioStream</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioStream.html#abda825be02ccb465f602aebdbdc80590">getChannelCount</a>() const</td><td class="entry"><a class="el" href="classhou_1_1AudioStream.html">hou::AudioStream</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html#aae4d4cc6583756a015d86ec5d3c54ca0">getByteCount</a>() const final</td><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html">hou::EmptyAudioStreamIn</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html#aba1e9a80bb75c819a56644837d9fdb01">getBytePos</a>() const final</td><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html">hou::EmptyAudioStreamIn</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioStream.html#adb850af15e4c63d60f16eea031c4e937">getBytesPerSample</a>() const</td><td class="entry"><a class="el" href="classhou_1_1AudioStream.html">hou::AudioStream</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1AudioStream.html#abda825be02ccb465f602aebdbdc80590">getChannelCount</a>() const</td><td class="entry"><a class="el" href="classhou_1_1AudioStream.html">hou::AudioStream</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioStream.html#a55f5f2ff1e7b3ca7f5c295a1c1409006">getFormat</a>() const</td><td class="entry"><a class="el" href="classhou_1_1AudioStream.html">hou::AudioStream</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html#abcaed3df857e1f81724cb60fc07cd8cc">getReadByteCount</a>() const final</td><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html">hou::EmptyAudioStreamIn</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html#a8fdb5526884464bbb11a33b52ad37e68">getReadElementCount</a>() const final</td><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html">hou::EmptyAudioStreamIn</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr><td class="entry"><a class="el" href="classhou_1_1AudioStreamIn.html#a950b38580425e2efeeebba993b3539f7">getReadSampleCount</a>() const</td><td class="entry"><a class="el" href="classhou_1_1AudioStreamIn.html">hou::AudioStreamIn</a></td><td class="entry"></td></tr>
@@ -94,24 +114,28 @@ $(function() {
   <tr><td class="entry"><a class="el" href="classhou_1_1StreamIn.html#a2925b43079226ce78da42d413161e334">read</a>(T &amp;buf)</td><td class="entry"><a class="el" href="classhou_1_1StreamIn.html">hou::StreamIn</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1StreamIn.html#acdc2cd6892a1ea6692852e8c709a96a6">read</a>(T &amp;buf)</td><td class="entry"><a class="el" href="classhou_1_1StreamIn.html">hou::StreamIn</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classhou_1_1StreamIn.html#a0b34308f3848d3621fd907805c5b0b70">read</a>(T *buf, size_t bufSize)</td><td class="entry"><a class="el" href="classhou_1_1StreamIn.html">hou::StreamIn</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioStream.html#a37c370fc558d40960cf6af5d5dec95f7">SampleOffset</a> typedef</td><td class="entry"><a class="el" href="classhou_1_1AudioStream.html">hou::AudioStream</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1AudioStream.html#a20f3552e89dd25407e001a466710c04f">SamplePosition</a> typedef</td><td class="entry"><a class="el" href="classhou_1_1AudioStream.html">hou::AudioStream</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioStream.html#aac86fcb40c38cea051a81bccf4b94154">setAudioFormat</a>(uint channels, uint bytesPerSample)</td><td class="entry"><a class="el" href="classhou_1_1AudioStream.html">hou::AudioStream</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioStreamIn.html#a3e92fa7e47057a2c7fed7a5142e79b63">readAll</a>()</td><td class="entry"><a class="el" href="classhou_1_1AudioStreamIn.html">hou::AudioStreamIn</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1AudioStream.html#a37c370fc558d40960cf6af5d5dec95f7">SampleOffset</a> typedef</td><td class="entry"><a class="el" href="classhou_1_1AudioStream.html">hou::AudioStream</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioStream.html#a20f3552e89dd25407e001a466710c04f">SamplePosition</a> typedef</td><td class="entry"><a class="el" href="classhou_1_1AudioStream.html">hou::AudioStream</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html#abd842538f631410a3734474511ee3ed9">setBytePos</a>(BytePosition pos) final</td><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html">hou::EmptyAudioStreamIn</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html#a96f589bfce97e835a97226414b5c08aa">setSamplePos</a>(SamplePosition pos) final</td><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html">hou::EmptyAudioStreamIn</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1AudioStream.html#a3e81d57313d2d7c5f53329e1d05a4d11">setSampleRate</a>(uint sampleRate)</td><td class="entry"><a class="el" href="classhou_1_1AudioStream.html">hou::AudioStream</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioStream.html#a8cb5819661bb99f321f0782775ae2f32">~AudioStream</a>()=0</td><td class="entry"><a class="el" href="classhou_1_1AudioStream.html">hou::AudioStream</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1AudioStreamIn.html#ac75b839d69814ba9964af2db563891ed">~AudioStreamIn</a>()=0</td><td class="entry"><a class="el" href="classhou_1_1AudioStreamIn.html">hou::AudioStreamIn</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1BinaryStream.html#a9d7f1919cc6f7c6c01b27c5f00b5c447">~BinaryStream</a>()</td><td class="entry"><a class="el" href="classhou_1_1BinaryStream.html">hou::BinaryStream</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html#a167c65a77e9c6bddf8ef04e44aa751b6">~EmptyAudioStreamIn</a>()</td><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html">hou::EmptyAudioStreamIn</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Stream.html#ade757fc8ab23bd3562f20b206ba1ee38">~Stream</a>()</td><td class="entry"><a class="el" href="classhou_1_1Stream.html">hou::Stream</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1StreamIn.html#ac4300870216be656d314fa4366546354">~StreamIn</a>()</td><td class="entry"><a class="el" href="classhou_1_1StreamIn.html">hou::StreamIn</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioStream.html#aa4979ae8051901929a790857879daebc">setFormat</a>(uint channels, uint bytesPerSample)</td><td class="entry"><a class="el" href="classhou_1_1AudioStream.html">hou::AudioStream</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html#a96f589bfce97e835a97226414b5c08aa">setSamplePos</a>(SamplePosition pos) final</td><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html">hou::EmptyAudioStreamIn</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioStream.html#a3e81d57313d2d7c5f53329e1d05a4d11">setSampleRate</a>(uint sampleRate)</td><td class="entry"><a class="el" href="classhou_1_1AudioStream.html">hou::AudioStream</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1AudioStream.html#a8cb5819661bb99f321f0782775ae2f32">~AudioStream</a>()=0</td><td class="entry"><a class="el" href="classhou_1_1AudioStream.html">hou::AudioStream</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1AudioStreamIn.html#ac75b839d69814ba9964af2db563891ed">~AudioStreamIn</a>()=0</td><td class="entry"><a class="el" href="classhou_1_1AudioStreamIn.html">hou::AudioStreamIn</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1BinaryStream.html#a9d7f1919cc6f7c6c01b27c5f00b5c447">~BinaryStream</a>()</td><td class="entry"><a class="el" href="classhou_1_1BinaryStream.html">hou::BinaryStream</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html#a167c65a77e9c6bddf8ef04e44aa751b6">~EmptyAudioStreamIn</a>()</td><td class="entry"><a class="el" href="classhou_1_1EmptyAudioStreamIn.html">hou::EmptyAudioStreamIn</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1Stream.html#ade757fc8ab23bd3562f20b206ba1ee38">~Stream</a>()</td><td class="entry"><a class="el" href="classhou_1_1Stream.html">hou::Stream</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1StreamIn.html#ac4300870216be656d314fa4366546354">~StreamIn</a>()</td><td class="entry"><a class="el" href="classhou_1_1StreamIn.html">hou::StreamIn</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.14
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
+  </ul>
+</div>
 </body>
 </html>

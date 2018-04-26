@@ -9,6 +9,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -45,6 +53,23 @@ $(function() {
 });
 /* @license-end */</script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('VerticalSyncMode_8hpp_source.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -59,28 +84,27 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_918d63f82b5a345ac3d3d075e1ede308.html">hougfx</a></li><li class="navelem"><a class="el" href="dir_e859e20c78b4acec9424fc511062b413.html">include</a></li><li class="navelem"><a class="el" href="dir_9414afa2a8cc42ccd674a98ac6d1df93.html">hou</a></li><li class="navelem"><a class="el" href="dir_3c952c7aad67c6edf7118abb2d447d0d.html">gfx</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">VerticalSyncMode.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Houzi Game Engine</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">// Copyright (c) 2018 Davide Corradi</span></div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// Licensed under the MIT license. See license.md for more details.</span></div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#ifndef HOU_GFX_VERTICAL_SYNC_MODE_HPP</span></div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#define HOU_GFX_VERTICAL_SYNC_MODE_HPP</span></div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;hou/gfx/GfxExport.hpp&quot;</span></div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;hou/cor/BasicTypes.hpp&quot;</span></div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacehou.html">hou</a></div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;{</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div><div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="namespacehou.html#aa8d102db5ccab5f32d5c70135dbf4d7b">   20</a></span>&#160;<span class="keyword">enum class</span> <a class="code" href="namespacehou.html#aa8d102db5ccab5f32d5c70135dbf4d7b">VerticalSyncMode</a> : int</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;{</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <a class="code" href="namespacehou.html#aa8d102db5ccab5f32d5c70135dbf4d7bab9f5c797ebbf55adccdd8539a65a0241">Disabled</a> = 0,</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <a class="code" href="namespacehou.html#aa8d102db5ccab5f32d5c70135dbf4d7ba00d23a76e43b46dae9ec7aa9dcbebb32">Enabled</a> = 1,</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <a class="code" href="namespacehou.html#aa8d102db5ccab5f32d5c70135dbf4d7ba1244cba6ca79bfda45de46141d32ea7b">Adaptive</a> = -1,</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;};</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;HOU_GFX_API std::ostream&amp; <a class="code" href="namespacehou.html#af6ed05ca39d789d07e819d859927b2f2">operator&lt;&lt;</a>(std::ostream&amp; os, <a class="code" href="namespacehou.html#aa8d102db5ccab5f32d5c70135dbf4d7b">VerticalSyncMode</a> vsm);</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div><div class="ttc" id="namespacehou_html"><div class="ttname"><a href="namespacehou.html">hou</a></div><div class="ttdef"><b>Definition:</b> BasicTypes.hpp:13</div></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Houzi Game Engine</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">// Copyright (c) 2018 Davide Corradi</span></div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// Licensed under the MIT license.</span></div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#ifndef HOU_GFX_VERTICAL_SYNC_MODE_HPP</span></div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#define HOU_GFX_VERTICAL_SYNC_MODE_HPP</span></div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;hou/gfx/GfxExport.hpp&quot;</span></div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;hou/cor/BasicTypes.hpp&quot;</span></div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacehou.html">hou</a></div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;{</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div><div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="namespacehou.html#aa8d102db5ccab5f32d5c70135dbf4d7b">   20</a></span>&#160;<span class="keyword">enum class</span> <a class="code" href="namespacehou.html#aa8d102db5ccab5f32d5c70135dbf4d7b">VerticalSyncMode</a> : int</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;{</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <a class="code" href="namespacehou.html#aa8d102db5ccab5f32d5c70135dbf4d7bab9f5c797ebbf55adccdd8539a65a0241">Disabled</a> = 0,</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <a class="code" href="namespacehou.html#aa8d102db5ccab5f32d5c70135dbf4d7ba00d23a76e43b46dae9ec7aa9dcbebb32">Enabled</a> = 1,</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <a class="code" href="namespacehou.html#aa8d102db5ccab5f32d5c70135dbf4d7ba1244cba6ca79bfda45de46141d32ea7b">Adaptive</a> = -1,</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;};</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;HOU_GFX_API std::ostream&amp; <a class="code" href="namespacehou.html#af6ed05ca39d789d07e819d859927b2f2">operator&lt;&lt;</a>(std::ostream&amp; os, <a class="code" href="namespacehou.html#aa8d102db5ccab5f32d5c70135dbf4d7b">VerticalSyncMode</a> vsm);</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div><div class="ttc" id="namespacehou_html"><div class="ttname"><a href="namespacehou.html">hou</a></div><div class="ttdef"><b>Definition:</b> BasicTypes.hpp:13</div></div>
 <div class="ttc" id="namespacehou_html_aa8d102db5ccab5f32d5c70135dbf4d7ba1244cba6ca79bfda45de46141d32ea7b"><div class="ttname"><a href="namespacehou.html#aa8d102db5ccab5f32d5c70135dbf4d7ba1244cba6ca79bfda45de46141d32ea7b">hou::VerticalSyncMode::Adaptive</a></div></div>
 <div class="ttc" id="namespacehou_html_aa8d102db5ccab5f32d5c70135dbf4d7b"><div class="ttname"><a href="namespacehou.html#aa8d102db5ccab5f32d5c70135dbf4d7b">hou::VerticalSyncMode</a></div><div class="ttdeci">VerticalSyncMode</div><div class="ttdef"><b>Definition:</b> VerticalSyncMode.hpp:20</div></div>
 <div class="ttc" id="namespacehou_html_aa8d102db5ccab5f32d5c70135dbf4d7bab9f5c797ebbf55adccdd8539a65a0241"><div class="ttname"><a href="namespacehou.html#aa8d102db5ccab5f32d5c70135dbf4d7bab9f5c797ebbf55adccdd8539a65a0241">hou::VerticalSyncMode::Disabled</a></div></div>
 <div class="ttc" id="namespacehou_html_af6ed05ca39d789d07e819d859927b2f2"><div class="ttname"><a href="namespacehou.html#af6ed05ca39d789d07e819d859927b2f2">hou::operator&lt;&lt;</a></div><div class="ttdeci">std::ostream &amp; operator&lt;&lt;(std::ostream &amp;os, const Span&lt; T &gt; &amp;s)</div><div class="ttdef"><b>Definition:</b> Span.inl:162</div></div>
 <div class="ttc" id="namespacehou_html_aa8d102db5ccab5f32d5c70135dbf4d7ba00d23a76e43b46dae9ec7aa9dcbebb32"><div class="ttname"><a href="namespacehou.html#aa8d102db5ccab5f32d5c70135dbf4d7ba00d23a76e43b46dae9ec7aa9dcbebb32">hou::VerticalSyncMode::Enabled</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.14
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_918d63f82b5a345ac3d3d075e1ede308.html">hougfx</a></li><li class="navelem"><a class="el" href="dir_e859e20c78b4acec9424fc511062b413.html">include</a></li><li class="navelem"><a class="el" href="dir_9414afa2a8cc42ccd674a98ac6d1df93.html">hou</a></li><li class="navelem"><a class="el" href="dir_3c952c7aad67c6edf7118abb2d447d0d.html">gfx</a></li><li class="navelem"><b>VerticalSyncMode.hpp</b></li>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
+  </ul>
+</div>
 </body>
 </html>

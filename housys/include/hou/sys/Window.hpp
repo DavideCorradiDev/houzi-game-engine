@@ -102,7 +102,8 @@ public:
    *
    *  The Window frame rectangle includes the borders.
    *
-   *  \param rect the Window frame rectangle.
+   *  \param pos the Window frame position.
+   *  \param size the window frame size.
    */
   virtual void setFrameRect(const Vec2i& pos, const Vec2u& size) = 0;
 
@@ -144,7 +145,8 @@ public:
    *
    *  The Window client rectangle does not include the borders.
    *
-   *  \param rect the Window client rectangle.
+   *  \param pos the Window client position.
+   *  \param size the Window client size.
    */
   virtual void setClientRect(const Vec2i& pos, const Vec2u& size) = 0;
 

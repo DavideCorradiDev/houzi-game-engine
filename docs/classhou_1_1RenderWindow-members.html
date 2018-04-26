@@ -9,6 +9,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -45,6 +53,23 @@ $(function() {
 });
 /* @license-end */</script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('classhou_1_1RenderWindow.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -59,11 +84,6 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacehou.html">hou</a></li><li class="navelem"><a class="el" href="classhou_1_1RenderWindow.html">RenderWindow</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">hou::RenderWindow Member List</div>  </div>
@@ -72,18 +92,18 @@ $(function() {
 
 <p>This is the complete list of members for <a class="el" href="classhou_1_1RenderWindow.html">hou::RenderWindow</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html#a81d7d61fbda93a52eef659e17d1ca912">blit</a>(RenderSurface &amp;dst, const Recti &amp;srcRect, const Recti &amp;dstRect) const</td><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html">hou::RenderSurface</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>buildFramebuffer</b>(const Vec2u &amp;size, uint sampleCount) (defined in <a class="el" href="classhou_1_1RenderSurface.html">hou::RenderSurface</a>)</td><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html">hou::RenderSurface</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
   <tr><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html#a2d26cba6fa822bea33b9f6b1cb968331">clear</a>(const Color &amp;color)</td><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html">hou::RenderSurface</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html#a9d39154863dd46dbdf4ca1ca08cb6e6d">display</a>()</td><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html">hou::RenderWindow</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#a41bbb36c919bf42b19eaa88de72bde6b">getBitsPerPixel</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#a7c5dd026885214ffb084df0d79cfba59">getBytesPerPixel</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#a18707fc7a7326e543b8254b33ba1b63a">getClientPosition</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#a76844fcc695caf515ee0593651e23e43">getClientRect</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#a19a8f402088ecd2c683c0f8b7ce9a21d">getClientSize</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html#aef5a0b858d9ccc4b661a225aa835118b">getDefaultViewport</a>() const</td><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html">hou::RenderSurface</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#ac8f760f03cb7a990689210617bf177e6">getFramePosition</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#ab0ab0596411d25720664e020acef4c51">getFrameRect</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#a19a8f402088ecd2c683c0f8b7ce9a21d">getClientSize</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html#aef5a0b858d9ccc4b661a225aa835118b">getDefaultViewport</a>() const</td><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html">hou::RenderSurface</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#ac8f760f03cb7a990689210617bf177e6">getFramePosition</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#a508af7ec6bca1b703f8fafc7b4410e82">getFrameSize</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#a9e951764254e08efc760408e69689409">getIcon</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html#aae7599132b51d8dc40abc64e57fb1b05">getMaxSampleCount</a>()</td><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html">hou::RenderSurface</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html#abb8439c043b8beb3c560acabd4ece958">getMaxSize</a>()</td><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html">hou::RenderSurface</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html#a279c89c552153a56f19015b2dd444b43">getSampleCount</a>() const</td><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html">hou::RenderSurface</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html#a83af41b4b22fbc2152f122e8cafcf3b4">getSize</a>() const</td><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html">hou::RenderSurface</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#af746124c88c6aea4a4c7d23c2f9f42d9">getStyle</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
@@ -111,47 +131,49 @@ $(function() {
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html#abac4f0a1f0bb907137884af2ba8242fa">hou::RenderSurface::operator=</a>(NonCopyable &amp;&amp;)=delete</td><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html">hou::NonCopyable</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#a750bfd3fc68f3c6f4fcfef564b389d82">popEvent</a>()</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#a8a8681cf8e661fbf159beb2dc5b3f0b4">pushEvent</a>(const WindowEvent &amp;event)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html#ad6d64ecf8ad254b7a4e36de6ffd833b6">RenderSurface</a>(const Vec2u &amp;size, uint sampleCount)</td><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html">hou::RenderSurface</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html#a0c277107768c5491d3a322d77a5555a9">RenderSurface</a>(const Vec2u &amp;size, uint sampleCount=1u)</td><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html">hou::RenderSurface</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html#aa5695b7cf14055a23c2861e373009bcf">RenderSurface</a>(RenderSurface &amp;&amp;other)</td><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html">hou::RenderSurface</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html#a74908d16a67eb8320b65385d9e26d37e">RenderWindow</a>(const std::string &amp;title, const Vec2u &amp;size, uint sampleCount, WindowStyle style)</td><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html">hou::RenderWindow</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html#ace89c3d070e8dda0e2e867822178d751">RenderWindow</a>(const std::string &amp;title, const Vec2u &amp;size, WindowStyle style, uint sampleCount=1u)</td><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html">hou::RenderWindow</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html#a9c5d2bacedab3fa995846ad685af9a2b">RenderWindow</a>(RenderWindow &amp;&amp;other)</td><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html">hou::RenderWindow</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#a16355143dee85f087be8c42b36b706c9">requestFocus</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#ab8ddd71a3681520fb948ba32c52fb6bb">setClientPosition</a>(const Vec2i &amp;pos)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html#ae8722bb37306e2616fbc689adb42938f">setClientRect</a>(const Recti &amp;value) override</td><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html">hou::RenderWindow</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html#a9b32b475a501f72c5d038168af9e79f5">setClientRect</a>(const Vec2i &amp;pos, const Vec2u &amp;size) override</td><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html">hou::RenderWindow</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#a304fc7e94a5a8e5d67d653eeda6d1900">setClientSize</a>(const Vec2u &amp;size)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html#a35ff30752330a4545d712c07adfaf11a">setCurrentRenderSource</a>(const RenderSurface &amp;rs)</td><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html">hou::RenderSurface</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html#a0b9d8b1a0de6b522492178d4907d0c34">setCurrentRenderTarget</a>(const RenderSurface &amp;rs)</td><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html">hou::RenderSurface</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html#a2bcf5e046a77efb12c2f923bc2896696">setDefaultRenderSource</a>()</td><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html">hou::RenderSurface</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html#a7c6c879751ab919a6588bf298c4676d3">setDefaultRenderTarget</a>()</td><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html">hou::RenderSurface</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#ac463bdca43a145d89e53fe5cae810133">setFramePosition</a>(const Vec2i &amp;pos)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html#a7e3841d00e46c6437e9e133772e79c02">setFrameRect</a>(const Recti &amp;value) override</td><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html">hou::RenderWindow</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html#ae2e31caeaa5cd0df36903f090e32a522">setFrameRect</a>(const Vec2i &amp;pos, const Vec2u &amp;size) override</td><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html">hou::RenderWindow</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#a05684b6994470af8e7d26c52a5dbdf15">setFrameSize</a>(const Vec2u &amp;size)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#a6dd95c583fe2a24e3e3ce9879b5742ce">setIcon</a>(const Image2RGBA &amp;icon)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#aa40900598db628c20436372d9fac91bf">setKeyRepeatEnabled</a>(bool value)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#a9e3f2d19516ce7f1cfe9e1fc19d9dad2">setMouseCursorGrabbed</a>(bool value)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html#ae2b27630243cb91efb4bdec31680c399">setSampleCount</a>(uint sampleCount)</td><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html">hou::RenderSurface</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html#a9e3f05713a81c6c9801aa1c4c5a2b1aa">setSize</a>(const Vec2u &amp;size) override</td><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html">hou::RenderWindow</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#ad5ff4c0b939a695a7c6d871f271bb4d6">setSystemIcon</a>()</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#aefc754918e27f7662c7d574bd0cedde7">setTitle</a>(const std::string &amp;title)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html#a8887cf77259174513a2e84b7ddc5fe07">setVerticalSyncMode</a>(VerticalSyncMode mode)</td><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html">hou::RenderWindow</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html#a53c1d795adcee656571faf41c8ccf394">setViewport</a>(const Recti &amp;viewport)</td><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html">hou::RenderSurface</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#ac6ca06d4be4783fc55d3b38dcee9a06f">setVisible</a>(bool value)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#a605f173ee8f57cb272ec76dae40694ac">swapBuffers</a>()</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html#a192ef738437b3b60d2d404c12016f01a">toTexture</a>() const override</td><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html">hou::RenderWindow</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#a096f32964e8c7b2030e95d71d9445539">updateEventQueue</a>()</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#ac1055eabe512cec76459ee5b97d0487b">waitEvent</a>()</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#acd02e82041a4690f0eb54dd65a621121">Window</a>(const std::string &amp;title, const VideoMode &amp;videoMode, WindowStyle style)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#a1579cb5439407ef7ffa4b1731e050e5e">Window</a>(Window &amp;&amp;other)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html#a83cb41c7b136839df32aaa6cad8699f5">~NonCopyable</a>()</td><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html">hou::NonCopyable</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html#a7dc157dec31c64f3ae8f90ed6dc5920a">~RenderSurface</a>()=0</td><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html">hou::RenderSurface</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html#a39681420572f9ca14a54c16748645230">~RenderWindow</a>()</td><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html">hou::RenderWindow</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#a7529e903ebbae3efee85948feedf7d0d">~Window</a>()</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html#ac8ada89d1d6a550c5104d5f60ba98f09">setSampleCount</a>(uint sampleCount)</td><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html">hou::RenderWindow</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#ad5ff4c0b939a695a7c6d871f271bb4d6">setSystemIcon</a>()</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#aefc754918e27f7662c7d574bd0cedde7">setTitle</a>(const std::string &amp;title)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html#a8887cf77259174513a2e84b7ddc5fe07">setVerticalSyncMode</a>(VerticalSyncMode mode)</td><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html">hou::RenderWindow</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html#a53c1d795adcee656571faf41c8ccf394">setViewport</a>(const Recti &amp;viewport)</td><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html">hou::RenderSurface</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#ac6ca06d4be4783fc55d3b38dcee9a06f">setVisible</a>(bool value)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#a605f173ee8f57cb272ec76dae40694ac">swapBuffers</a>()</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html#aabb2db36f9273f8845654b7b7e1b0099">toTexture</a>() const</td><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html">hou::RenderSurface</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#a096f32964e8c7b2030e95d71d9445539">updateEventQueue</a>()</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#ac1055eabe512cec76459ee5b97d0487b">waitEvent</a>()</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#acd02e82041a4690f0eb54dd65a621121">Window</a>(const std::string &amp;title, const VideoMode &amp;videoMode, WindowStyle style)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#a1579cb5439407ef7ffa4b1731e050e5e">Window</a>(Window &amp;&amp;other)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html#a83cb41c7b136839df32aaa6cad8699f5">~NonCopyable</a>()</td><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html">hou::NonCopyable</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html#a7dc157dec31c64f3ae8f90ed6dc5920a">~RenderSurface</a>()=0</td><td class="entry"><a class="el" href="classhou_1_1RenderSurface.html">hou::RenderSurface</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html#a39681420572f9ca14a54c16748645230">~RenderWindow</a>()</td><td class="entry"><a class="el" href="classhou_1_1RenderWindow.html">hou::RenderWindow</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#aeeb8975b37212586800041234aff3a00">~Window</a>()=0</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
 </table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.14
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
+  </ul>
+</div>
 </body>
 </html>

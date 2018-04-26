@@ -9,6 +9,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -45,6 +53,23 @@ $(function() {
 });
 /* @license-end */</script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('classhou_1_1NonCopyable.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -59,11 +84,6 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacehou.html">hou</a></li><li class="navelem"><a class="el" href="classhou_1_1NonCopyable.html">NonCopyable</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -80,32 +100,30 @@ Inheritance diagram for hou::NonCopyable:</div>
  <div class="center">
   <img src="classhou_1_1NonCopyable.png" usemap="#hou::NonCopyable_map" alt=""/>
   <map id="hou::NonCopyable_map" name="hou::NonCopyable_map">
-<area href="classhou_1_1AudioBuffer.html" alt="hou::AudioBuffer" shape="rect" coords="169,56,328,80"/>
-<area href="classhou_1_1AudioContext.html" alt="hou::AudioContext" shape="rect" coords="169,112,328,136"/>
-<area href="classhou_1_1AudioSourceBase.html" alt="hou::AudioSourceBase" shape="rect" coords="169,168,328,192"/>
-<area href="classhou_1_1BinaryFileIn.html" alt="hou::BinaryFileIn" shape="rect" coords="169,224,328,248"/>
-<area href="classhou_1_1BinaryFileOut.html" alt="hou::BinaryFileOut" shape="rect" coords="169,280,328,304"/>
-<area href="classhou_1_1File.html" alt="hou::File" shape="rect" coords="169,336,328,360"/>
-<area href="classhou_1_1FileHandle.html" alt="hou::FileHandle" shape="rect" coords="169,392,328,416"/>
-<area href="classhou_1_1Font.html" alt="hou::Font" shape="rect" coords="169,448,328,472"/>
-<area href="classhou_1_1GlyphRenderInfo.html" alt="hou::GlyphRenderInfo" shape="rect" coords="169,504,328,528"/>
-<area href="classhou_1_1Mesh.html" alt="hou::Mesh&lt; VertexType &gt;" shape="rect" coords="169,560,328,584"/>
-<area href="classhou_1_1OggFileIn.html" alt="hou::OggFileIn" shape="rect" coords="169,616,328,640"/>
-<area href="classhou_1_1prv_1_1WindowImpl.html" alt="hou::prv::WindowImpl" shape="rect" coords="169,672,328,696"/>
-<area href="classhou_1_1RenderContext.html" alt="hou::RenderContext" shape="rect" coords="169,728,328,752"/>
-<area href="classhou_1_1Renderer2.html" alt="hou::Renderer2" shape="rect" coords="169,784,328,808"/>
-<area href="classhou_1_1RenderFont.html" alt="hou::RenderFont" shape="rect" coords="169,840,328,864"/>
-<area href="classhou_1_1RenderSurface.html" alt="hou::RenderSurface" shape="rect" coords="169,896,328,920"/>
-<area href="classhou_1_1Shader.html" alt="hou::Shader" shape="rect" coords="169,952,328,976"/>
-<area href="classhou_1_1ShaderProgram.html" alt="hou::ShaderProgram" shape="rect" coords="169,1008,328,1032"/>
-<area href="classhou_1_1TextFileIn.html" alt="hou::TextFileIn" shape="rect" coords="169,1064,328,1088"/>
-<area href="classhou_1_1TextFileOut.html" alt="hou::TextFileOut" shape="rect" coords="169,1120,328,1144"/>
-<area href="classhou_1_1Texture.html" alt="hou::Texture" shape="rect" coords="169,1176,328,1200"/>
-<area href="classhou_1_1VertexArray.html" alt="hou::VertexArray" shape="rect" coords="169,1232,328,1256"/>
-<area href="classhou_1_1VertexBuffer.html" alt="hou::VertexBuffer" shape="rect" coords="169,1288,328,1312"/>
-<area href="classhou_1_1WavFileIn.html" alt="hou::WavFileIn" shape="rect" coords="169,1344,328,1368"/>
-<area href="classhou_1_1Window.html" alt="hou::Window" shape="rect" coords="169,1400,328,1424"/>
-<area href="classhou_1_1Mesh.html" alt="hou::Mesh&lt; Vertex2 &gt;" shape="rect" coords="169,1456,328,1480"/>
+<area href="classhou_1_1AudioBuffer.html" alt="hou::AudioBuffer" shape="rect" coords="140,56,270,80"/>
+<area href="classhou_1_1AudioContext.html" alt="hou::AudioContext" shape="rect" coords="140,112,270,136"/>
+<area href="classhou_1_1AudioSource.html" alt="hou::AudioSource" shape="rect" coords="140,168,270,192"/>
+<area href="classhou_1_1BinaryFileIn.html" alt="hou::BinaryFileIn" shape="rect" coords="140,224,270,248"/>
+<area href="classhou_1_1BinaryFileOut.html" alt="hou::BinaryFileOut" shape="rect" coords="140,280,270,304"/>
+<area href="classhou_1_1File.html" alt="hou::File" shape="rect" coords="140,336,270,360"/>
+<area href="classhou_1_1FileHandle.html" alt="hou::FileHandle" shape="rect" coords="140,392,270,416"/>
+<area href="classhou_1_1Font.html" alt="hou::Font" shape="rect" coords="140,448,270,472"/>
+<area href="classhou_1_1FormattedText.html" alt="hou::FormattedText" shape="rect" coords="140,504,270,528"/>
+<area href="classhou_1_1FrameBuffer.html" alt="hou::FrameBuffer" shape="rect" coords="140,560,270,584"/>
+<area href="classhou_1_1GraphicContext.html" alt="hou::GraphicContext" shape="rect" coords="140,616,270,640"/>
+<area href="classhou_1_1Mesh.html" alt="hou::Mesh" shape="rect" coords="140,672,270,696"/>
+<area href="classhou_1_1OggFileIn.html" alt="hou::OggFileIn" shape="rect" coords="140,728,270,752"/>
+<area href="classhou_1_1prv_1_1WindowImpl.html" alt="hou::prv::WindowImpl" shape="rect" coords="140,784,270,808"/>
+<area href="classhou_1_1RenderSurface.html" alt="hou::RenderSurface" shape="rect" coords="140,840,270,864"/>
+<area href="classhou_1_1Shader.html" alt="hou::Shader" shape="rect" coords="140,896,270,920"/>
+<area href="classhou_1_1ShaderProgram.html" alt="hou::ShaderProgram" shape="rect" coords="140,952,270,976"/>
+<area href="classhou_1_1TextFileIn.html" alt="hou::TextFileIn" shape="rect" coords="140,1008,270,1032"/>
+<area href="classhou_1_1TextFileOut.html" alt="hou::TextFileOut" shape="rect" coords="140,1064,270,1088"/>
+<area href="classhou_1_1Texture.html" alt="hou::Texture" shape="rect" coords="140,1120,270,1144"/>
+<area href="classhou_1_1VertexArray.html" alt="hou::VertexArray" shape="rect" coords="140,1176,270,1200"/>
+<area href="classhou_1_1VertexBuffer.html" alt="hou::VertexBuffer" shape="rect" coords="140,1232,270,1256"/>
+<area href="classhou_1_1WavFileIn.html" alt="hou::WavFileIn" shape="rect" coords="140,1288,270,1312"/>
+<area href="classhou_1_1Window.html" alt="hou::Window" shape="rect" coords="140,1344,270,1368"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -293,11 +311,15 @@ Public Member Functions</h2></td></tr>
 <li>houcor/include/hou/cor/<a class="el" href="NonCopyable_8hpp_source.html">NonCopyable.hpp</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.14
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacehou.html">hou</a></li><li class="navelem"><a class="el" href="classhou_1_1NonCopyable.html">NonCopyable</a></li>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
+  </ul>
+</div>
 </body>
 </html>
