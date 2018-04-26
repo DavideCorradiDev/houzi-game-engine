@@ -31,8 +31,7 @@ namespace hou
 
 class Font;
 
-class HOU_GFX_API FormattedText
-  : public NonCopyable
+class HOU_GFX_API FormattedText : public NonCopyable
 {
 public:
   using VertexContainer = std::vector<TextVertex>;
@@ -42,7 +41,7 @@ public:
   FormattedText(const std::u32string& text, const Font& font);
   FormattedText(const std::string& text, const Font& font,
     const TextBoxFormattingParams& tbfp);
-  FormattedText(const std::u32string& text, const Font& font,
+  FormattedText(std::u32string text, const Font& font,
     const TextBoxFormattingParams& tbfp);
   FormattedText(FormattedText&& other);
 
@@ -58,6 +57,6 @@ private:
   Trans2f mTransform;
 };
 
-}
+}  // namespace hou
 
 #endif
