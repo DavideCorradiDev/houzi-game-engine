@@ -97,10 +97,6 @@ When configuring the project with CMake, the following options are available:
 
 * **HOU\_OPT\_SHARED\_LIBS**: if set, shared libraries will be built. If unset, static libraries will be built.
 
-* **HOU\_OPT\_USE\_EXCEPTION\_HANDLING**: if set, exceptions will be used as an error handling mechanism.
-If unset, the library functions will crash with an error message instead of throwing exceptions in case of errors.
-Disable this only if your target platform does not have decent exception handling support.
-
 * **HOU\_OPT\_BUILD\_\[library\_identifier\]**: if set, the corresponding library will be built.
 If unset, the library will not be built.
 When building a library be careful to also build its dependencies.
