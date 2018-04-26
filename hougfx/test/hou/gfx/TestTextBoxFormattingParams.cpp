@@ -22,12 +22,10 @@ class TestTextBoxFormattingParams : public Test
 TEST_F(TestTextBoxFormattingParams, Constructor)
 {
   TextFlow textFlowRef = TextFlow::LeftRight;
-  TextAnchoring textAnchoringRef = TextAnchoring::Baseline;
   Vec2f maxSizeRef(1.f, 2.f);
-  TextBoxFormattingParams tbfp(textFlowRef, textAnchoringRef, maxSizeRef);
+  TextBoxFormattingParams tbfp(textFlowRef, maxSizeRef);
 
   EXPECT_EQ(textFlowRef, tbfp.getTextFlow());
-  EXPECT_EQ(textAnchoringRef, tbfp.getTextAnchoring());
   HOU_EXPECT_FLOAT_CLOSE(maxSizeRef, tbfp.getMaxSize());
 }
 
@@ -45,33 +43,8 @@ TEST_F(TestTextBoxFormattingParams, TextFlowValues)
 
   for(auto textFlow : textFlowValues)
   {
-    TextBoxFormattingParams tbfp(textFlow, TextAnchoring::Baseline, Vec2f::zero());
+    TextBoxFormattingParams tbfp(textFlow, Vec2f::zero());
     EXPECT_EQ(textFlow, tbfp.getTextFlow());
-  }
-}
-
-
-
-TEST_F(TestTextBoxFormattingParams, TextAnchoringValues)
-{
-  std::vector<TextAnchoring> textAnchoringValues
-  {
-    TextAnchoring::TopLeft,
-    TextAnchoring::TopCenter,
-    TextAnchoring::TopRight,
-    TextAnchoring::CenterLeft,
-    TextAnchoring::Center,
-    TextAnchoring::CenterRight,
-    TextAnchoring::BottomLeft,
-    TextAnchoring::BottomCenter,
-    TextAnchoring::BottomRight,
-    TextAnchoring::Baseline,
-  };
-
-  for(auto textAnchoring : textAnchoringValues)
-  {
-    TextBoxFormattingParams tbfp(TextFlow::LeftRight, textAnchoring, Vec2f::zero());
-    EXPECT_EQ(textAnchoring, tbfp.getTextAnchoring());
   }
 }
 
@@ -89,7 +62,7 @@ TEST_F(TestTextBoxFormattingParams, MaxSizeValues)
 
   for(auto maxSize : maxSizeValues)
   {
-    TextBoxFormattingParams tbfp(TextFlow::LeftRight, TextAnchoring::TopLeft, maxSize);
+    TextBoxFormattingParams tbfp(TextFlow::LeftRight, maxSize);
     EXPECT_EQ(maxSize, tbfp.getMaxSize());
   }
 }

@@ -78,7 +78,6 @@ int main()
   std::cout << "Drawing " << textLine.size() * linesNum << " characters."
             << std::endl;
   TextFlow textFlow = TextFlow::LeftRight;
-  TextAnchoring textAnchoring = TextAnchoring::TopLeft;
   Vec2f maxTBoxSize;
   const float maxTBoxIncrement = 32.f;
 
@@ -140,46 +139,6 @@ int main()
         else if(we.getKeyData().scanCode == ScanCode::S)
         {
           textFlow = TextFlow::TopBottom;
-        }
-        else if(we.getKeyData().scanCode == ScanCode::T)
-        {
-          textAnchoring = TextAnchoring::TopLeft;
-        }
-        else if(we.getKeyData().scanCode == ScanCode::Y)
-        {
-          textAnchoring = TextAnchoring::TopCenter;
-        }
-        else if(we.getKeyData().scanCode == ScanCode::U)
-        {
-          textAnchoring = TextAnchoring::TopRight;
-        }
-        else if(we.getKeyData().scanCode == ScanCode::G)
-        {
-          textAnchoring = TextAnchoring::CenterLeft;
-        }
-        else if(we.getKeyData().scanCode == ScanCode::H)
-        {
-          textAnchoring = TextAnchoring::Center;
-        }
-        else if(we.getKeyData().scanCode == ScanCode::J)
-        {
-          textAnchoring = TextAnchoring::CenterRight;
-        }
-        else if(we.getKeyData().scanCode == ScanCode::B)
-        {
-          textAnchoring = TextAnchoring::BottomLeft;
-        }
-        else if(we.getKeyData().scanCode == ScanCode::N)
-        {
-          textAnchoring = TextAnchoring::BottomCenter;
-        }
-        else if(we.getKeyData().scanCode == ScanCode::M)
-        {
-          textAnchoring = TextAnchoring::BottomRight;
-        }
-        else if(we.getKeyData().scanCode == ScanCode::I)
-        {
-          textAnchoring = TextAnchoring::Baseline;
         }
         else if(we.getKeyData().scanCode == ScanCode::K)
         {
@@ -263,7 +222,7 @@ int main()
         proj * textTrans * Trans2f::translation(bboxTrans));
     }
 
-    TextBoxFormattingParams tbfp(textFlow, textAnchoring, maxTBoxSize);
+    TextBoxFormattingParams tbfp(textFlow, maxTBoxSize);
     FormattedText ft(textToRender, fontToRender, tbfp);
     Mesh2 textBox
       = createRectangleOutlineMesh2(ft.getBoundingBox().getSize(), 1u);

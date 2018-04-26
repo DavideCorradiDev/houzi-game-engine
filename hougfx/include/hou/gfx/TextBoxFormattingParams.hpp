@@ -9,7 +9,6 @@
 
 #include "hou/mth/Matrix.hpp"
 
-#include "hou/gfx/TextAnchoring.hpp"
 #include "hou/gfx/TextFlow.hpp"
 
 
@@ -23,16 +22,13 @@ public:
   static const TextBoxFormattingParams Default;
 
 public:
-  TextBoxFormattingParams(TextFlow textFlow, TextAnchoring textAnchoring,
-      const Vec2f& maxSize);
+  TextBoxFormattingParams(TextFlow textFlow, const Vec2f& maxSize);
 
   TextFlow getTextFlow() const;
-  TextAnchoring getTextAnchoring() const;
   const Vec2f& getMaxSize() const;
 
 private:
   TextFlow mTextFlow;
-  TextAnchoring mTextAnchoring;
   Vec2f mMaxSize;
 };
 
