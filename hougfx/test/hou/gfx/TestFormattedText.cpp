@@ -33,69 +33,72 @@ Font TestFormattedText::loadFont(const std::string& path)
 
 const std::string fontPath = getDataDir() + u8"NotoSans-Regular.ttf";
 
-void print(const Image3R& image)
-{
-  std::cout << "Image3R imageRef(Vec3u(" << image.getSize().x() << "u, "
-            << image.getSize().y() << "u, " << image.getSize().z() << "u), {";
-  for(size_t i = 0; i < image.getPixels().size(); ++i)
-  {
-    if(i != 0)
-    {
-      std::cout << ",";
-    }
-    std::cout << static_cast<int>(image.getPixels()[i].getR()) << "u";
-  }
-  std::cout << "});" << std::endl;
-}
 
 
-void print(float f)
-{
-  std::cout << f;
-  double intPart;
-  double decPart = modf(f, &intPart);
-  if(decPart == 0.f)
-  {
-    std::cout << '.';
-  }
-  std::cout << 'f';
-}
-
-
-void print(const std::vector<TextVertex>& vertices)
-{
-  std::cout << "std::vector<TextVertex> verticesRef{";
-  for(size_t i = 0; i < vertices.size(); ++i)
-  {
-    if(i != 0)
-    {
-      std::cout << ",";
-    }
-    const TextVertex& v = vertices[i];
-    const Vec2f& vp = v.getPosition();
-    const Vec3f& vt = v.getTextureCoordinates();
-    std::cout << "TextVertex(Vec2f(";
-    print(vp.x());
-    std::cout << ",";
-    print(vp.y());
-    std::cout << "), Vec3f(";
-    print(vt.x());
-    std::cout << ", ";
-    print(vt.y());
-    std::cout << ", ";
-    print(vt.z());
-    std::cout << "))";
-  }
-  std::cout << "};" << std::endl;
-}
-
-
-
-void print(const FormattedText& ft)
-{
-  print(ft.getAtlas().getImage<PixelFormat::R>());
-  print(ft.getMesh().getVertices());
-}
+// void print(const Image3R& image)
+// {
+//   std::cout << "Image3R imageRef(Vec3u(" << image.getSize().x() << "u, "
+//             << image.getSize().y() << "u, " << image.getSize().z() << "u), {";
+//   for(size_t i = 0; i < image.getPixels().size(); ++i)
+//   {
+//     if(i != 0)
+//     {
+//       std::cout << ",";
+//     }
+//     std::cout << static_cast<int>(image.getPixels()[i].getR()) << "u";
+//   }
+//   std::cout << "});" << std::endl;
+// }
+//
+//
+//
+// void print(float f)
+// {
+//   std::cout << f;
+//   double intPart;
+//   double decPart = modf(f, &intPart);
+//   if(decPart == 0.f)
+//   {
+//     std::cout << '.';
+//   }
+//   std::cout << 'f';
+// }
+//
+//
+// void print(const std::vector<TextVertex>& vertices)
+// {
+//   std::cout << "std::vector<TextVertex> verticesRef{";
+//   for(size_t i = 0; i < vertices.size(); ++i)
+//   {
+//     if(i != 0)
+//     {
+//       std::cout << ",";
+//     }
+//     const TextVertex& v = vertices[i];
+//     const Vec2f& vp = v.getPosition();
+//     const Vec3f& vt = v.getTextureCoordinates();
+//     std::cout << "TextVertex(Vec2f(";
+//     print(vp.x());
+//     std::cout << ",";
+//     print(vp.y());
+//     std::cout << "), Vec3f(";
+//     print(vt.x());
+//     std::cout << ", ";
+//     print(vt.y());
+//     std::cout << ", ";
+//     print(vt.z());
+//     std::cout << "))";
+//   }
+//   std::cout << "};" << std::endl;
+// }
+//
+//
+//
+// void print(const FormattedText& ft)
+// {
+//   print(ft.getAtlas().getImage<PixelFormat::R>());
+//   print(ft.getMesh().getVertices());
+// }
 
 }  // namespace
 

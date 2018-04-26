@@ -551,18 +551,6 @@ const Rectf& TextFormatter::getBoundingBox() const
 
 
 
-FormattedText::FormattedText(const std::string& text, const Font& font)
-  : FormattedText(text, font, TextBoxFormattingParams::Default)
-{}
-
-
-
-FormattedText::FormattedText(const std::u32string& text, const Font& font)
-  : FormattedText(text, font, TextBoxFormattingParams::Default)
-{}
-
-
-
 FormattedText::FormattedText(const std::string& text, const Font& font,
   const TextBoxFormattingParams& tbfp)
   : FormattedText(convertEncoding<Utf8, Utf32>(text), font, tbfp)

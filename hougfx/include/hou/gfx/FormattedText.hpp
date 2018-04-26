@@ -31,22 +31,58 @@ namespace hou
 
 class Font;
 
+/** Formatted, renderable text.
+ *
+ * The text will be formatted according to the given parameters.
+ * The object stores a mesh and a texture atlas for quick rendering.
+ */
 class HOU_GFX_API FormattedText : public NonCopyable
 {
 public:
+  /** Type representing a collection of mesh vertices. */
   using VertexContainer = std::vector<TextVertex>;
 
 public:
-  FormattedText(const std::string& text, const Font& font);
-  FormattedText(const std::u32string& text, const Font& font);
+  /** Create a FormattedText with the given utf-8 string and formatting parameters.
+   *
+   * \param text the text.
+   * \param font the font.
+   * \param tbfp the text box formatting parameters.
+   */
   FormattedText(const std::string& text, const Font& font,
-    const TextBoxFormattingParams& tbfp);
+    const TextBoxFormattingParams& tbfp = TextBoxFormattingParams::Default);
+
+  /** Create a FormattedText with the given utf-32 string and formatting parameters.
+   *
+   * \param text the text.
+   * \param font the font.
+   * \param tbfp the text box formatting parameters.
+   */
   FormattedText(std::u32string text, const Font& font,
-    const TextBoxFormattingParams& tbfp);
+    const TextBoxFormattingParams& tbfp = TextBoxFormattingParams::Default);
+
+  /** Move constructor.
+   *
+   * \param other the other object.
+   */
   FormattedText(FormattedText&& other);
 
+  /** Retrieves the texture atlas.
+   *
+   * \return the texture atlas.
+   */
   const Texture2Array& getAtlas() const;
+
+  /** Retrieves the text mesh.
+   *
+   * \return the text mesh.
+   */
   const TextMesh& getMesh() const;
+
+  /** Retrieves the text bounding box.
+   *
+   * \return the text bounding box.
+   */
   const Rectf& getBoundingBox() const;
 
 private:

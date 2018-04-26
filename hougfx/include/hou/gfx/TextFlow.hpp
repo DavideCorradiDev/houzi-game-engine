@@ -14,14 +14,29 @@
 namespace hou
 {
 
+/** Represents the direction of the text flow.
+ */
 enum class TextFlow
 {
+  /** Left to right. */
   LeftRight,
+
+  /** Right to left. */
   RightLeft,
+
+  /** Top to bottom. */
   TopBottom,
+
+  /** Bottom to top. */
   BottomTop,
 };
 
+/** Writes the object into a stream.
+ *
+ * \param os the stream.
+ * \param tf the object.
+ * \return a reference to os.
+ */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, TextFlow tf);
 
 }  // namespace hou
