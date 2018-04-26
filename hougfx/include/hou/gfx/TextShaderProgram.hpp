@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #ifndef HOU_GFX_TEXT_SHADER_PROGRAM_HPP
 #define HOU_GFX_TEXT_SHADER_PROGRAM_HPP
@@ -8,9 +8,14 @@
 #include "hou/cor/NonCopyable.hpp"
 #include "hou/gfx/GfxExport.hpp"
 
+#include "hou/gfx/Mesh.hpp"
 #include "hou/gfx/ShaderProgram.hpp"
+#include "hou/gfx/TextVertex.hpp"
+#include "hou/gfx/TextureFwd.hpp"
 
-#include "hou/mth/Transform2Fwd.hpp"
+#include "hou/mth/Transform2.hpp"
+
+#include "hou/sys/Color.hpp"
 
 
 
@@ -18,6 +23,9 @@ namespace hou
 {
 
 class Color;
+class Font;
+class FormattedText;
+class RenderSurface;
 
 class HOU_GFX_API TextShaderProgram : public ShaderProgram
 {
@@ -28,6 +36,16 @@ public:
   void setColor(const Color& color);
   void setTextureUnit(uint unit);
   void setTransform(const Trans2f& trans);
+
+  void draw(RenderSurface& target, const TextMesh& mesh,
+    const Texture2Array& tex, const Color& col = Color::White,
+    const Trans2f& trn = Trans2f::identity());
+
+  void draw(RenderSurface& target, const FormattedText& text,
+    const Color& col = Color::White, const Trans2f& trn = Trans2f::identity());
+
+  void draw(RenderSurface& target, const std::string& text, const Font& font,
+    const Color& col = Color::White, const Trans2f& trn = Trans2f::identity());
 
 private:
   int mUniColor;

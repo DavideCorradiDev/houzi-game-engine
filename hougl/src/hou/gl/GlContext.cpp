@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/gl/GlContext.hpp"
 
@@ -30,7 +30,7 @@ uint32_t generateUid()
   return uidGenerator.generate();
 }
 
-}
+}  // namespace
 
 
 
@@ -71,8 +71,8 @@ Context::Context(const ContextSettings& settings, const Window& window)
 
 
 
-Context::Context(const ContextSettings& settings, const Window& window
-  , const Context& sharedContext)
+Context::Context(const ContextSettings& settings, const Window& window,
+  const Context& sharedContext)
   : Context(settings, window, &sharedContext)
 {}
 
@@ -129,14 +129,14 @@ thread_local uint32_t Context::sCurrentWindowUid(0u);
 
 
 
-Context::Context(const ContextSettings& settings, const Window& window
-  , const Context* sharedContext)
+Context::Context(const ContextSettings& settings, const Window& window,
+  const Context* sharedContext)
   : NonCopyable()
-  , mImpl(settings, window, (sharedContext == nullptr) ? nullptr
-    : &(sharedContext->mImpl))
+  , mImpl(settings, window,
+      (sharedContext == nullptr) ? nullptr : &(sharedContext->mImpl))
   , mUid(generateUid())
-  , mSharingGroupUid((sharedContext == nullptr) ? mUid
-    : sharedContext->mSharingGroupUid)
+  , mSharingGroupUid(
+      (sharedContext == nullptr) ? mUid : sharedContext->mSharingGroupUid)
   , mTrackingData()
 {}
 
@@ -161,12 +161,12 @@ uint32_t Context::TrackingData::getBoundBuffer(GLenum target) const
 {
   switch(target)
   {
-    case GL_ARRAY_BUFFER:
-      return mBoundArrayBuffer;
-    case GL_ELEMENT_ARRAY_BUFFER:
-      return mBoundElementArrayBuffer;
-    default:
-      return 0u;
+  case GL_ARRAY_BUFFER:
+    return mBoundArrayBuffer;
+  case GL_ELEMENT_ARRAY_BUFFER:
+    return mBoundElementArrayBuffer;
+  default:
+    return 0u;
   }
 }
 
@@ -176,48 +176,46 @@ void Context::TrackingData::setBoundBuffer(uint32_t uid, GLenum target)
 {
   switch(target)
   {
-    case GL_ARRAY_BUFFER:
-      mBoundArrayBuffer = uid;
-      break;
-    case GL_ELEMENT_ARRAY_BUFFER:
-      mBoundElementArrayBuffer = uid;
-      break;
-    default:
-      break;
+  case GL_ARRAY_BUFFER:
+    mBoundArrayBuffer = uid;
+    break;
+  case GL_ELEMENT_ARRAY_BUFFER:
+    mBoundElementArrayBuffer = uid;
+    break;
+  default:
+    break;
   }
 }
 
 
 
-uint32_t Context::TrackingData::getBoundFramebuffer
-  (GLenum target) const
+uint32_t Context::TrackingData::getBoundFramebuffer(GLenum target) const
 {
   switch(target)
   {
-    case GL_DRAW_FRAMEBUFFER:
-      return mBoundDrawFramebuffer;
-    case GL_READ_FRAMEBUFFER:
-      return mBoundReadFramebuffer;
-    default:
-      return 0u;
+  case GL_DRAW_FRAMEBUFFER:
+    return mBoundDrawFramebuffer;
+  case GL_READ_FRAMEBUFFER:
+    return mBoundReadFramebuffer;
+  default:
+    return 0u;
   }
 }
 
 
 
-void Context::TrackingData::setBoundFramebuffer(uint32_t uid
-  , GLenum target)
+void Context::TrackingData::setBoundFramebuffer(uint32_t uid, GLenum target)
 {
   switch(target)
   {
-    case GL_DRAW_FRAMEBUFFER:
-      mBoundDrawFramebuffer = uid;
-      break;
-    case GL_READ_FRAMEBUFFER:
-      mBoundReadFramebuffer = uid;
-      break;
-    default:
-      break;
+  case GL_DRAW_FRAMEBUFFER:
+    mBoundDrawFramebuffer = uid;
+    break;
+  case GL_READ_FRAMEBUFFER:
+    mBoundReadFramebuffer = uid;
+    break;
+  default:
+    break;
   }
 }
 
@@ -284,14 +282,14 @@ uint32_t Context::TrackingData::getBoundTexture(GLuint unit) const
 
 
 
-GLenum  Context::TrackingData::getBoundTextureTarget() const
+GLenum Context::TrackingData::getBoundTextureTarget() const
 {
   return getBoundTextureTarget(mActiveTexture);
 }
 
 
 
-GLenum  Context::TrackingData::getBoundTextureTarget(GLuint unit) const
+GLenum Context::TrackingData::getBoundTextureTarget(GLuint unit) const
 {
   if(mBoundTextureTargets.size() > unit)
   {
@@ -312,8 +310,8 @@ void Context::TrackingData::setBoundTexture(uint32_t uid, GLenum target)
 
 
 
-void Context::TrackingData::setBoundTexture(uint32_t uid, GLuint unit
-  , GLenum target)
+void Context::TrackingData::setBoundTexture(
+  uint32_t uid, GLuint unit, GLenum target)
 {
   resizeTextureVectors(unit + 1);
   HOU_EXPECT_DEV(mBoundTextures.size() > unit);
@@ -350,7 +348,6 @@ void Context::TrackingData::setCurrentViewport(const Recti& viewport)
   mCurrentViewport = viewport;
 }
 
-}
+}  // namespace gl
 
-}
-
+}  // namespace hou

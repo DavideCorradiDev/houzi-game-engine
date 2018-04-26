@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #ifndef HOU_AL_AL_LISTENER_HPP
 #define HOU_AL_AL_LISTENER_HPP
@@ -29,9 +29,8 @@ HOU_AL_API void getListenerVelocity(ALfloat* value);
 HOU_AL_API void setListenerOrientation(const ALfloat* value);
 HOU_AL_API void getListenerOrientation(ALfloat* value);
 
-}
+}  // namespace al
 
-}
+}  // namespace hou
 
 #endif
-

@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/aud/Listener.hpp"
 
@@ -17,14 +17,6 @@ namespace hou
 namespace Listener
 {
 
-void setGain(float gain)
-{
-  HOU_EXPECT(gain >= 0.f);
-  al::setListenerGain(static_cast<ALfloat>(gain));
-}
-
-
-
 float getGain()
 {
   return static_cast<float>(al::getListenerGain());
@@ -32,9 +24,10 @@ float getGain()
 
 
 
-void setPosition(const Vec3f& pos)
+void setGain(float gain)
 {
-  al::setListenerPosition(reinterpret_cast<const ALfloat*>(pos.data()));
+  HOU_EXPECT(gain >= 0.f);
+  al::setListenerGain(static_cast<ALfloat>(gain));
 }
 
 
@@ -48,9 +41,9 @@ Vec3f getPosition()
 
 
 
-void setVelocity(const Vec3f& vel)
+void setPosition(const Vec3f& pos)
 {
-  al::setListenerVelocity(reinterpret_cast<const ALfloat*>(vel.data()));
+  al::setListenerPosition(reinterpret_cast<const ALfloat*>(pos.data()));
 }
 
 
@@ -64,13 +57,9 @@ Vec3f getVelocity()
 
 
 
-void setOrientation(const Rot3f& ori)
+void setVelocity(const Vec3f& vel)
 {
-  Mat3x3f rotMat = ori.getMatrix();
-  ALfloat value[6] =
-    { -rotMat(0,2), -rotMat(1,2), -rotMat(2,2)
-    , rotMat(0,1), rotMat(1,1), rotMat(2,1) };
-  al::setListenerOrientation(reinterpret_cast<const ALfloat*>(value));
+  al::setListenerVelocity(reinterpret_cast<const ALfloat*>(vel.data()));
 }
 
 
@@ -85,20 +74,29 @@ Rot3f getOrientation()
   Vec3f x = cross(y, z);
 
   Mat3x3f rotMat = Mat3x3f::zero();
-  rotMat(0,0) = x(0);
-  rotMat(1,0) = x(1);
-  rotMat(2,0) = x(2);
-  rotMat(0,1) = y(0);
-  rotMat(1,1) = y(1);
-  rotMat(2,1) = y(2);
-  rotMat(0,2) = z(0);
-  rotMat(1,2) = z(1);
-  rotMat(2,2) = z(2);
+  rotMat(0, 0) = x(0);
+  rotMat(1, 0) = x(1);
+  rotMat(2, 0) = x(2);
+  rotMat(0, 1) = y(0);
+  rotMat(1, 1) = y(1);
+  rotMat(2, 1) = y(2);
+  rotMat(0, 2) = z(0);
+  rotMat(1, 2) = z(1);
+  rotMat(2, 2) = z(2);
 
   return Rot3f(rotMat);
 }
 
+
+
+void setOrientation(const Rot3f& ori)
+{
+  Mat3x3f rotMat = ori.getMatrix();
+  ALfloat value[6] = {-rotMat(0, 2), -rotMat(1, 2), -rotMat(2, 2), rotMat(0, 1),
+    rotMat(1, 1), rotMat(2, 1)};
+  al::setListenerOrientation(reinterpret_cast<const ALfloat*>(value));
 }
 
-}
+}  // namespace Listener
 
+}  // namespace hou

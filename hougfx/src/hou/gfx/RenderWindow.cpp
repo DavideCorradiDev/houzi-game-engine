@@ -1,13 +1,12 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/gfx/RenderWindow.hpp"
 
-#include "hou/gl/GlUtils.hpp"
+#include "hou/gl/GlFunctions.hpp"
 
-#include "hou/gfx/RenderContext.hpp"
-#include "hou/gfx/RenderTexture.hpp"
+#include "hou/gfx/GraphicContext.hpp"
 #include "hou/gfx/Texture.hpp"
 
 #include "hou/sys/VideoMode.hpp"
@@ -36,10 +35,10 @@
 namespace hou
 {
 
-RenderWindow::RenderWindow(const std::string& title, const Vec2u& size
-  , uint sampleCount, WindowStyle style)
-  : Window(title, VideoMode(size, RenderContext::getRenderingColorBitCount())
-    , style)
+RenderWindow::RenderWindow(const std::string& title, const Vec2u& size,
+  WindowStyle style, uint sampleCount)
+  : Window(title, VideoMode(size, GraphicContext::getRenderingColorByteCount()),
+      style)
   , RenderSurface(size, sampleCount)
 {}
 
@@ -64,11 +63,9 @@ void RenderWindow::display()
   setDefaultRenderTarget();
 
   Vec2u size = getSize();
-  gl::blitFramebuffer
-    ( 0, 0, size.x(), size.y()
-    , 0, size.y(), size.x(), 0
-    , GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT
-    , GL_NEAREST);
+  gl::blitFramebuffer(0, 0, size.x(), size.y(), 0, size.y(), size.x(), 0,
+    GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
+    GL_NEAREST);
 
   swapBuffers();
 }
@@ -84,44 +81,44 @@ void RenderWindow::setVerticalSyncMode(VerticalSyncMode mode)
 
 
 
-void RenderWindow::setSize(const Vec2u& size)
+void RenderWindow::setSampleCount(uint sampleCount)
 {
-  Window::setClientSize(size);
-  RenderSurface::setSize(size);
+  buildFramebuffer(getSize(), sampleCount);
 }
 
 
 
-Texture2 RenderWindow::toTexture() const
+void RenderWindow::setFrameRect(const Vec2i& pos, const Vec2u& size)
 {
-  if(isMultisampled())
+  Window::setFrameRect(pos, size);
+  rebuildFramebufferIfNecessary();
+}
+
+
+
+void RenderWindow::setClientRect(const Vec2i& pos, const Vec2u& size)
+{
+  Window::setClientRect(pos, size);
+  rebuildFramebufferIfNecessary();
+}
+
+
+
+void RenderWindow::rebuildFramebufferIfNecessary()
+{
+  Vec2u newSize = getClientSize();
+  if(newSize.x() == 0u)
   {
-    RenderTexture ssRenderTexture(getSize(), 0u);
-    Recti viewport = getDefaultViewport();
-    blit(ssRenderTexture, viewport, viewport);
-    return ssRenderTexture.toTexture();
+    newSize.x() = 1u;
   }
-  else
+  if(newSize.y() == 0u)
   {
-    return RenderSurface::toTexture();
+    newSize.y() = 1u;
+  }
+  if(getSize() != newSize)
+  {
+    buildFramebuffer(newSize, getSampleCount());
   }
 }
 
-
-
-void RenderWindow::setFrameRect(const Recti& value)
-{
-  Window::setFrameRect(value);
-  RenderSurface::setSize(getClientSize());
-}
-
-
-
-void RenderWindow::setClientRect(const Recti& value)
-{
-  Window::setClientRect(value);
-  RenderSurface::setSize(getClientSize());
-}
-
-}
-
+}  // namespace hou

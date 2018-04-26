@@ -1,12 +1,12 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/gl/GlTextureHandle.hpp"
 
 #include "hou/gl/GlCheck.hpp"
 #include "hou/gl/GlContext.hpp"
-#include "hou/gl/GlUtils.hpp"
+#include "hou/gl/GlFunctions.hpp"
 
 
 
@@ -120,6 +120,7 @@ TextureHandle::TextureHandle(TextureHandle&& other)
 TextureHandle::~TextureHandle()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(*this);
   GLuint name = getName();
   glDeleteTextures(1, &name);
   HOU_GL_CHECK_ERROR();

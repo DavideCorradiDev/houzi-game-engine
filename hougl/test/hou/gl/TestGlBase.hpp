@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #ifndef TEST_HOU_GL_TEST_GL_BASE_HPP
 #define TEST_HOU_GL_TEST_GL_BASE_HPP
@@ -9,7 +9,7 @@
 
 #include "hou/gl/GlContext.hpp"
 
-#include "hou/sys/Window.hpp"
+#include "hou/sys/SystemWindow.hpp"
 
 
 
@@ -25,7 +25,7 @@ public:
   void setContextCurrent();
 
 protected:
-  hou::Window mWindow;
+  hou::SystemWindow mWindow;
   hou::gl::Context mContext;
 };
 

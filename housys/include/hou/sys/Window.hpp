@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #ifndef HOU_SYS_WINDOW_HPP
 #define HOU_SYS_WINDOW_HPP
@@ -37,8 +37,8 @@ public:
    *  Key repeat is disabled for the window.
    *
    *  \param title the title of the Window.
-   *  \param videoMode the video mode of the Window, specifying its size and
-   *  bits per pixel.
+   *  \param videoMode the video mode of the Window, specifying its client size and
+   *  bytes per pixel.
    *  \param style the style of the Window.
    *  Only one Window can be fullscreen.
    *  If fullscreen mode is specified and videoMode is not a valid fullscreen
@@ -55,7 +55,7 @@ public:
 
   /** Destructor.
    */
-  virtual ~Window();
+  virtual ~Window() = 0;
 
   /** Gets the OS dependent window handle associated to this Window.
    *
@@ -81,14 +81,6 @@ public:
    */
   void setTitle(const std::string& title);
 
-  /** Gets the Window frame rectangle.
-   *
-   *  The Window frame rectangle includes the borders.
-   *
-   *  \return the Window frame rectangle.
-   */
-  Recti getFrameRect() const;
-
   /** Gets the position of the Window frame.
    *
    *  The Window frame position is the top left corner of the Window, including
@@ -110,9 +102,10 @@ public:
    *
    *  The Window frame rectangle includes the borders.
    *
-   *  \param rect the Window frame rectangle.
+   *  \param pos the Window frame position.
+   *  \param size the window frame size.
    */
-  virtual void setFrameRect(const Recti& rect);
+  virtual void setFrameRect(const Vec2i& pos, const Vec2u& size) = 0;
 
   /** Sets the position of the Window frame.
    *
@@ -130,14 +123,6 @@ public:
    *  \param size the size of the Window frame.
    */
   void setFrameSize(const Vec2u& size);
-
-  /** Gets the Window client rectangle.
-   *
-   *  The Window client rectangle does not include the borders.
-   *
-   *  \return the Window client rectangle.
-   */
-  Recti getClientRect() const;
 
   /** Gets the position of the Window client.
    *
@@ -160,9 +145,10 @@ public:
    *
    *  The Window client rectangle does not include the borders.
    *
-   *  \param rect the Window client rectangle.
+   *  \param pos the Window client position.
+   *  \param size the Window client size.
    */
-  virtual void setClientRect(const Recti& rect);
+  virtual void setClientRect(const Vec2i& pos, const Vec2u& size) = 0;
 
   /** Sets the position of the Window client.
    *
@@ -181,11 +167,11 @@ public:
    */
   void setClientSize(const Vec2u& size);
 
-  /** Gets the number of bits per pixel of this Window.
+  /** Gets the number of bytes per pixel of this Window.
    *
-   *  \return the number of bits per pixel of this Window.
+   *  \return the number of bytes per pixel of this Window.
    */
-  uint getBitsPerPixel() const;
+  uint getBytesPerPixel() const;
 
   /** Gets the style of this Window.
    *
@@ -317,10 +303,13 @@ protected:
   void swapBuffers();
 
 private:
+  void reactToEvent(const WindowEvent& event);
+
+private:
   prv::WindowImpl mImpl;
   uint32_t mUid;
   WindowStyle mStyle;
-  uint mBitsPerPixel;
+  uint mBytesPerPixel;
   std::string mTitle;
   Image2RGBA mIconImage;
 };

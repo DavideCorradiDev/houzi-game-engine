@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/aud/AudioContext.hpp"
 
@@ -12,6 +12,13 @@ namespace hou
 void AudioContext::setCurrent(AudioContext& context)
 {
   al::Context::setCurrent(context.mAlContext);
+}
+
+
+
+void AudioContext::unsetCurrent()
+{
+  al::Context::unsetCurrent();
 }
 
 
@@ -28,7 +35,7 @@ AudioContext::AudioContext()
   , mAlDevice()
   , mAlContext(mAlDevice)
 {
-  initialize();
+  alGetError();
 }
 
 
@@ -38,7 +45,7 @@ AudioContext::AudioContext(const std::string& deviceName)
   , mAlDevice(deviceName)
   , mAlContext(mAlDevice)
 {
-  initialize();
+  alGetError();
 }
 
 
@@ -53,14 +60,6 @@ AudioContext::AudioContext(AudioContext&& other)
 bool AudioContext::isCurrent() const
 {
   return mAlContext.isCurrent();
-}
-
-
-
-void AudioContext::initialize()
-{
-  alGetError();
-  setCurrent(*this);
 }
 
 }

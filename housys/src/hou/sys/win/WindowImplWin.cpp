@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/sys/WindowImpl.hpp"
 
@@ -40,6 +40,7 @@ namespace prv
 namespace
 {
 
+constexpr uint bitsPerByte = 8u;
 constexpr const wchar_t* houClassName = L"HziWindowClass";
 std::mutex houClassMutex;
 uint windowCount(0);
@@ -113,7 +114,7 @@ void activateFullscreenMode(WindowImpl& window, const VideoMode& videoMode)
   devmode.dmSize = sizeof(DEVMODE);
   devmode.dmPelsWidth = videoMode.getResolution().x();
   devmode.dmPelsHeight = videoMode.getResolution().y();
-  devmode.dmBitsPerPel = videoMode.getBitsPerPixel();
+  devmode.dmBitsPerPel = videoMode.getBytesPerPixel() * bitsPerByte;
   devmode.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT | DM_BITSPERPEL;
   HOU_WIN_ENSURE(ChangeDisplaySettings(&devmode, CDS_FULLSCREEN)
     == DISP_CHANGE_SUCCESSFUL);
@@ -876,7 +877,7 @@ void WindowImpl::filterEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
       // manually. In order to do so, the mouse has to be captured, so that
       // mousemove events are generated when the mouse is outside of the client
       // area as well.
-      //
+
       Vec2i pos(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 
       Recti clientRect = getClientRect();

@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/Test.hpp"
 #include "hou/gl/TestGlMultipleContexts.hpp"
@@ -47,38 +47,43 @@ TEST_F(TestGlVertexArrayHandle, Tracking)
 {
   gl::VertexArrayHandle vah1 = gl::VertexArrayHandle::create();
 
-  setSharingContextCurrent();
-  gl::VertexArrayHandle vah2 = gl::VertexArrayHandle::create();
+  {
+    setSharingContextCurrent();
+    gl::VertexArrayHandle vah2 = gl::VertexArrayHandle::create();
 
+    setContextCurrent();
+    EXPECT_EQ(0u, gl::getBoundVertexArrayName());
+    EXPECT_FALSE(gl::isVertexArrayBound(vah1));
+    EXPECT_FALSE(gl::isVertexArrayBound());
+
+    gl::bindVertexArray(vah1);
+    EXPECT_EQ(vah1.getName(), gl::getBoundVertexArrayName());
+    EXPECT_TRUE(gl::isVertexArrayBound(vah1));
+    EXPECT_TRUE(gl::isVertexArrayBound());
+
+    setSharingContextCurrent();
+    EXPECT_EQ(0u, gl::getBoundVertexArrayName());
+    EXPECT_FALSE(gl::isVertexArrayBound(vah2));
+    EXPECT_FALSE(gl::isVertexArrayBound());
+
+    gl::bindVertexArray(vah2);
+    EXPECT_EQ(vah2.getName(), gl::getBoundVertexArrayName());
+    EXPECT_TRUE(gl::isVertexArrayBound(vah2));
+    EXPECT_TRUE(gl::isVertexArrayBound());
+
+    setContextCurrent();
+    EXPECT_EQ(vah1.getName(), gl::getBoundVertexArrayName());
+    EXPECT_TRUE(gl::isVertexArrayBound(vah1));
+    EXPECT_TRUE(gl::isVertexArrayBound());
+
+    gl::unbindVertexArray();
+    EXPECT_EQ(0u, gl::getBoundVertexArrayName());
+    EXPECT_FALSE(gl::isVertexArrayBound(vah1));
+    EXPECT_FALSE(gl::isVertexArrayBound());
+
+    setSharingContextCurrent();
+  }
   setContextCurrent();
-  EXPECT_EQ(0u, gl::getBoundVertexArrayName());
-  EXPECT_FALSE(gl::isVertexArrayBound(vah1));
-  EXPECT_FALSE(gl::isVertexArrayBound());
-
-  gl::bindVertexArray(vah1);
-  EXPECT_EQ(vah1.getName(), gl::getBoundVertexArrayName());
-  EXPECT_TRUE(gl::isVertexArrayBound(vah1));
-  EXPECT_TRUE(gl::isVertexArrayBound());
-
-  setSharingContextCurrent();
-  EXPECT_EQ(0u, gl::getBoundVertexArrayName());
-  EXPECT_FALSE(gl::isVertexArrayBound(vah2));
-  EXPECT_FALSE(gl::isVertexArrayBound());
-
-  gl::bindVertexArray(vah2);
-  EXPECT_EQ(vah2.getName(), gl::getBoundVertexArrayName());
-  EXPECT_TRUE(gl::isVertexArrayBound(vah2));
-  EXPECT_TRUE(gl::isVertexArrayBound());
-
-  setContextCurrent();
-  EXPECT_EQ(vah1.getName(), gl::getBoundVertexArrayName());
-  EXPECT_TRUE(gl::isVertexArrayBound(vah1));
-  EXPECT_TRUE(gl::isVertexArrayBound());
-
-  gl::unbindVertexArray();
-  EXPECT_EQ(0u, gl::getBoundVertexArrayName());
-  EXPECT_FALSE(gl::isVertexArrayBound(vah1));
-  EXPECT_FALSE(gl::isVertexArrayBound());
 }
 
 
@@ -93,6 +98,7 @@ TEST_F(TestGlVertexArrayHandleDeathTest, SharingContextBinding)
   setSharingContextCurrent();
   HOU_EXPECT_ERROR(gl::bindVertexArray(vah), std::logic_error
     , getText(GlError::InvalidOwnership));
+  setContextCurrent();
 }
 
 
@@ -107,6 +113,7 @@ TEST_F(TestGlVertexArrayHandleDeathTest, NonSharingContextBinding)
   setNonSharingContextCurrent();
   HOU_EXPECT_ERROR(gl::bindVertexArray(vah), std::logic_error
     , getText(GlError::InvalidOwnership));
+  setContextCurrent();
 }
 
 

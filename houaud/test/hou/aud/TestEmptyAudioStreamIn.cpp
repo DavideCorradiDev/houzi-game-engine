@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/Test.hpp"
 
@@ -35,7 +35,7 @@ TEST_F(TestEmptyAudioStreamIn, DefaultConstructor)
   EXPECT_EQ(0, si.getBytePos());
   EXPECT_EQ(0u, si.getSampleCount());
   EXPECT_EQ(0, si.getSamplePos());
-  EXPECT_EQ(AudioFormat::Mono8, si.getAudioFormat());
+  EXPECT_EQ(AudioBufferFormat::Mono8, si.getFormat());
   EXPECT_EQ(1u, si.getChannelCount());
   EXPECT_EQ(1u, si.getBytesPerSample());
 }

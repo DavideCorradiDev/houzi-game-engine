@@ -1,20 +1,20 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/aud/OggFileIn.hpp"
 
 #include "hou/aud/AudError.hpp"
 
-#include "hou/cor/Diagnostics.hpp"
 #include "hou/cor/Error.hpp"
+#include "hou/cor/Pragmas.hpp"
 
 #include "hou/sys/SysError.hpp"
 
-GCC_DIAGNOSTIC_PUSH()
-GCC_DIAGNOSTIC_IGNORED(-Wunused-variable)
+HOU_PRAGMA_GCC_DIAGNOSTIC_PUSH()
+HOU_PRAGMA_GCC_DIAGNOSTIC_IGNORED(-Wunused-variable)
 #include <vorbis/vorbisfile.h>
-GCC_DIAGNOSTIC_POP()
+HOU_PRAGMA_GCC_DIAGNOSTIC_POP()
 
 
 namespace hou
@@ -205,7 +205,7 @@ void OggFileIn::readMetadata()
 {
   vorbis_info* info = ov_info(mVorbisFile.get(), -1);
   HOU_EXPECT(info != nullptr);
-  setAudioFormat(info->channels, bytesPerSample);
+  setFormat(info->channels, bytesPerSample);
   setSampleRate(info->rate);
   mPcmSize = ov_pcm_total(mVorbisFile.get(), -1);
 }

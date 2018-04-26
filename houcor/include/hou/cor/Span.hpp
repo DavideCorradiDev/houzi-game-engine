@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #ifndef HOU_COR_SPAN_HPP
 #define HOU_COR_SPAN_HPP
@@ -227,6 +227,19 @@ template <typename T>
  */
 template <typename T>
   std::ostream& operator<<(std::ostream& os, const Span<T>& s);
+
+/** Reinterprets the Span as a Span with a different underlying type.
+ *
+ *  Throws if the size of the input span in bytes is not divisible by the size
+ *  of Out.
+ *
+ *  \tparam Out the output type.
+ *  \tparam In the input type.
+ *  \param in the input span.
+ *  \return the input span reinterpreted with Out as underlying type.
+ */
+template <typename Out, typename In>
+Span<Out> reinterpretSpan(const Span<In>& in);
 
 
 

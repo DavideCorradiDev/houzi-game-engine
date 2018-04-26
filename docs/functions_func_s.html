@@ -9,6 +9,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -46,6 +54,22 @@ $(function() {
 /* @license-end */</script>
 <div id="main-nav"></div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('functions_func_s.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -79,9 +103,11 @@ $(function() {
 </li>
 <li>set()
 : <a class="el" href="classhou_1_1Matrix.html#a61e2572d7bf14d08645d8413d6d012e2">hou::Matrix&lt; T, rows, cols &gt;</a>
+, <a class="el" href="classhou_1_1PixelT.html#acf179884e6cb6d7009667eb46ccad3cb">hou::PixelT&lt; pf &gt;</a>
 </li>
 <li>setA()
-: <a class="el" href="classhou_1_1TextureChannelMapping.html#a1404489a0000e7fa93179c4ba635c72f">hou::TextureChannelMapping</a>
+: <a class="el" href="classhou_1_1PixelT.html#a46c2c9eed5d4a1e1cf37dfd1344119b3">hou::PixelT&lt; pf &gt;</a>
+, <a class="el" href="classhou_1_1TextureChannelMapping.html#a1404489a0000e7fa93179c4ba635c72f">hou::TextureChannelMapping</a>
 </li>
 <li>setAlpha()
 : <a class="el" href="classhou_1_1Color.html#ae55efa45c5ef1d856d64006d5340ccf2">hou::Color</a>
@@ -89,11 +115,9 @@ $(function() {
 <li>setAlphaf()
 : <a class="el" href="classhou_1_1Color.html#a61adf7e874390acf9f1a4d652f103d5e">hou::Color</a>
 </li>
-<li>setAudioFormat()
-: <a class="el" href="classhou_1_1AudioStream.html#aac86fcb40c38cea051a81bccf4b94154">hou::AudioStream</a>
-</li>
 <li>setB()
-: <a class="el" href="classhou_1_1TextureChannelMapping.html#a2427cbc8fd5168005c8277b1baab52a7">hou::TextureChannelMapping</a>
+: <a class="el" href="classhou_1_1PixelT.html#ad7dee6d1ed742d7cd163215760a90cb3">hou::PixelT&lt; pf &gt;</a>
+, <a class="el" href="classhou_1_1TextureChannelMapping.html#a2427cbc8fd5168005c8277b1baab52a7">hou::TextureChannelMapping</a>
 </li>
 <li>setBlue()
 : <a class="el" href="classhou_1_1Color.html#ae79b753c125ef02102adfb49780c3e7f">hou::Color</a>
@@ -102,7 +126,7 @@ $(function() {
 : <a class="el" href="classhou_1_1Color.html#a4acc04e526dbb8ccf93056500ad7e9e7">hou::Color</a>
 </li>
 <li>setBuffer()
-: <a class="el" href="classhou_1_1AudioSource.html#ac315dddabf9a8f6a8e5f2422696309ec">hou::AudioSource</a>
+: <a class="el" href="classhou_1_1MemoryAudioSource.html#a51c6ae1283cd74d3748fc171c3effce3">hou::MemoryAudioSource</a>
 </li>
 <li>setBufferCount()
 : <a class="el" href="classhou_1_1StreamingAudioSource.html#ae887aecdd5863675335665982768a250">hou::StreamingAudioSource</a>
@@ -118,32 +142,40 @@ $(function() {
 , <a class="el" href="classhou_1_1OggFileIn.html#ad11e4a36e96af416f7f6d27a6b3acf55">hou::OggFileIn</a>
 , <a class="el" href="classhou_1_1WavFileIn.html#a798c46ed8c57ffaa7b875a374ac83098">hou::WavFileIn</a>
 </li>
+<li>setChannelMapping()
+: <a class="el" href="classhou_1_1Texture.html#a8a5aa5548af0618ac2c11b7bf166a3b1">hou::Texture</a>
+</li>
 <li>setClientPosition()
 : <a class="el" href="classhou_1_1Window.html#ab8ddd71a3681520fb948ba32c52fb6bb">hou::Window</a>
 </li>
 <li>setClientRect()
-: <a class="el" href="classhou_1_1RenderWindow.html#ae8722bb37306e2616fbc689adb42938f">hou::RenderWindow</a>
-, <a class="el" href="classhou_1_1Window.html#a4b0823b17358fb5f1912f36a1139e110">hou::Window</a>
+: <a class="el" href="classhou_1_1RenderWindow.html#a9b32b475a501f72c5d038168af9e79f5">hou::RenderWindow</a>
+, <a class="el" href="classhou_1_1SystemWindow.html#ab3bf64d4050ea88328d842ab91971520">hou::SystemWindow</a>
+, <a class="el" href="classhou_1_1Window.html#a11b9539e8a6a825a902c558af31509e3">hou::Window</a>
 </li>
 <li>setClientSize()
 : <a class="el" href="classhou_1_1Window.html#a304fc7e94a5a8e5d67d653eeda6d1900">hou::Window</a>
 </li>
 <li>setColor()
 : <a class="el" href="classhou_1_1Mesh2ShaderProgram.html#a0eafa446ce4b9bc1061b9b183f5da72b">hou::Mesh2ShaderProgram</a>
+, <a class="el" href="classhou_1_1PixelT.html#aae72b4a0b0547d8a16b02f82ca515849">hou::PixelT&lt; pf &gt;</a>
 , <a class="el" href="classhou_1_1Vertex2.html#ae71aec6b4b0a0b181ba8652b310a8000">hou::Vertex2</a>
 </li>
+<li>setColorAttachment()
+: <a class="el" href="classhou_1_1FrameBuffer.html#a5dc18bc42380fef9205eb9860716cea7">hou::FrameBuffer</a>
+</li>
 <li>setConeInnerAngle()
-: <a class="el" href="classhou_1_1AudioSourceBase.html#ae4495d55fa7fff77060910d595f83fc6">hou::AudioSourceBase</a>
+: <a class="el" href="classhou_1_1AudioSource.html#a071cace98a6a999593a882fa29f528b3">hou::AudioSource</a>
 </li>
 <li>setConeOuterAngle()
-: <a class="el" href="classhou_1_1AudioSourceBase.html#a06771528290baf65cf2df0b76c791038">hou::AudioSourceBase</a>
+: <a class="el" href="classhou_1_1AudioSource.html#a65fa918d9ac68ce1c725e1408044d126">hou::AudioSource</a>
 </li>
 <li>setConeOuterGain()
-: <a class="el" href="classhou_1_1AudioSourceBase.html#a4645c5c9b7e5d26dcee348a947c20f1e">hou::AudioSourceBase</a>
+: <a class="el" href="classhou_1_1AudioSource.html#a4743f300694db8d3fdf3b8594208e1b9">hou::AudioSource</a>
 </li>
 <li>setCurrent()
 : <a class="el" href="classhou_1_1AudioContext.html#a8ca1a88dcddbfb9888f02c627ec2c971">hou::AudioContext</a>
-, <a class="el" href="classhou_1_1RenderContext.html#a7815cd84c19fc8bf5d0bb209b29eca3c">hou::RenderContext</a>
+, <a class="el" href="classhou_1_1GraphicContext.html#a03d43a1ad40977b4d16d11e437e8c492">hou::GraphicContext</a>
 </li>
 <li>setCurrentRenderSource()
 : <a class="el" href="classhou_1_1RenderSurface.html#a35ff30752330a4545d712c07adfaf11a">hou::RenderSurface</a>
@@ -152,7 +184,8 @@ $(function() {
 : <a class="el" href="classhou_1_1RenderSurface.html#a0b9d8b1a0de6b522492178d4907d0c34">hou::RenderSurface</a>
 </li>
 <li>setData()
-: <a class="el" href="classhou_1_1AudioBuffer.html#a81f1f146e5308d703698719c2b127609">hou::AudioBuffer</a>
+: <a class="el" href="classhou_1_1AudioBuffer.html#aea3be039292d0ef8b447ee816a2f0702">hou::AudioBuffer</a>
+, <a class="el" href="classhou_1_1VertexBufferT.html#af64d033c4f51fac383e9d9e2d7ac5672">hou::VertexBufferT&lt; T, dynamicStorage &gt;</a>
 </li>
 <li>setDefaultRenderSource()
 : <a class="el" href="classhou_1_1RenderSurface.html#a2bcf5e046a77efb12c2f923bc2896696">hou::RenderSurface</a>
@@ -160,27 +193,44 @@ $(function() {
 <li>setDefaultRenderTarget()
 : <a class="el" href="classhou_1_1RenderSurface.html#a7c6c879751ab919a6588bf298c4676d3">hou::RenderSurface</a>
 </li>
+<li>setDepthAttachment()
+: <a class="el" href="classhou_1_1FrameBuffer.html#a78bc3e746fcc42f938a9403ad6ec24af">hou::FrameBuffer</a>
+</li>
+<li>setDepthStencilAttachment()
+: <a class="el" href="classhou_1_1FrameBuffer.html#a3cd04b0961cbb9e43863404a9fec462f">hou::FrameBuffer</a>
+</li>
 <li>setDirection()
-: <a class="el" href="classhou_1_1AudioSourceBase.html#aad200442806fae3ffad7e04748d17bab">hou::AudioSourceBase</a>
+: <a class="el" href="classhou_1_1AudioSource.html#a07d64387323429ee7df068e7fa26c798">hou::AudioSource</a>
+</li>
+<li>setElementData()
+: <a class="el" href="classhou_1_1VertexArray.html#a5df134d68f64b20f419456d37746352f">hou::VertexArray</a>
 </li>
 <li>setFaceIndex()
 : <a class="el" href="classhou_1_1Font.html#a40428df0045b20d426ccc3b7eafff7a2">hou::Font</a>
+</li>
+<li>setFilter()
+: <a class="el" href="classhou_1_1TextureT.html#ab7e987cf1f0864061e3fd74f9069f689">hou::TextureT&lt; type &gt;</a>
+</li>
+<li>setFormat()
+: <a class="el" href="classhou_1_1AudioStream.html#aa4979ae8051901929a790857879daebc">hou::AudioStream</a>
 </li>
 <li>setFramePosition()
 : <a class="el" href="classhou_1_1Window.html#ac463bdca43a145d89e53fe5cae810133">hou::Window</a>
 </li>
 <li>setFrameRect()
-: <a class="el" href="classhou_1_1RenderWindow.html#a7e3841d00e46c6437e9e133772e79c02">hou::RenderWindow</a>
-, <a class="el" href="classhou_1_1Window.html#ac107519239b830eb7d13ef3e3a32736b">hou::Window</a>
+: <a class="el" href="classhou_1_1RenderWindow.html#ae2e31caeaa5cd0df36903f090e32a522">hou::RenderWindow</a>
+, <a class="el" href="classhou_1_1SystemWindow.html#a63a40f753eb6dec71393574cf566f4da">hou::SystemWindow</a>
+, <a class="el" href="classhou_1_1Window.html#ab04636e530ef677bfc5f4bbf6067013d">hou::Window</a>
 </li>
 <li>setFrameSize()
 : <a class="el" href="classhou_1_1Window.html#a05684b6994470af8e7d26c52a5dbdf15">hou::Window</a>
 </li>
 <li>setG()
-: <a class="el" href="classhou_1_1TextureChannelMapping.html#a5ef97ea1f57a2405d0c4b70cbd33aae6">hou::TextureChannelMapping</a>
+: <a class="el" href="classhou_1_1PixelT.html#a1204aef72be865073bcf049526708b8e">hou::PixelT&lt; pf &gt;</a>
+, <a class="el" href="classhou_1_1TextureChannelMapping.html#a5ef97ea1f57a2405d0c4b70cbd33aae6">hou::TextureChannelMapping</a>
 </li>
 <li>setGain()
-: <a class="el" href="classhou_1_1AudioSourceBase.html#a0d678f37f1498057e3f9654b5e0e8af5">hou::AudioSourceBase</a>
+: <a class="el" href="classhou_1_1AudioSource.html#a6774591c5c9dd1264f84519cb2c8fd3f">hou::AudioSource</a>
 </li>
 <li>setGreen()
 : <a class="el" href="classhou_1_1Color.html#a7f96b7cce3ce181400064442d4b46d05">hou::Color</a>
@@ -199,43 +249,52 @@ $(function() {
 </li>
 <li>setImage()
 : <a class="el" href="classhou_1_1Glyph.html#a0c23ff571dc83e906e579d389cf3256a">hou::Glyph</a>
+, <a class="el" href="classhou_1_1TextureT.html#ac0077a8a7b37b0f9df646c36c341107f">hou::TextureT&lt; type &gt;</a>
 </li>
 <li>setKeyRepeatEnabled()
 : <a class="el" href="classhou_1_1Window.html#aa40900598db628c20436372d9fac91bf">hou::Window</a>
 </li>
 <li>setLooping()
-: <a class="el" href="classhou_1_1AudioSource.html#a164a5c4f2bbc30985f52ae5e9d6ab10e">hou::AudioSource</a>
-, <a class="el" href="classhou_1_1AudioSourceBase.html#a02a6580bcf210737d58e24b4a7062f90">hou::AudioSourceBase</a>
+: <a class="el" href="classhou_1_1AudioSource.html#af2986853dfee967f86905ec8fc1fccba">hou::AudioSource</a>
+, <a class="el" href="classhou_1_1MemoryAudioSource.html#a59cbc453f2fc03fb4b1e37f875d5bb41">hou::MemoryAudioSource</a>
 , <a class="el" href="classhou_1_1StreamingAudioSource.html#aaf0f8894fc94fe5e51e662dc8ebbf006">hou::StreamingAudioSource</a>
 </li>
 <li>setMaxDistance()
-: <a class="el" href="classhou_1_1AudioSourceBase.html#a18b3044deb2eb6aa09356f9cc7932d32">hou::AudioSourceBase</a>
+: <a class="el" href="classhou_1_1AudioSource.html#a96e7294937dc58b7a4c166a76e01c710">hou::AudioSource</a>
 </li>
 <li>setMaxGain()
-: <a class="el" href="classhou_1_1AudioSourceBase.html#ab8f06a77f08cc3bd79ac6ea6e9ba4ff8">hou::AudioSourceBase</a>
+: <a class="el" href="classhou_1_1AudioSource.html#a235cea3b0fb957cd97a21525d7a0bf98">hou::AudioSource</a>
 </li>
 <li>setMetrics()
 : <a class="el" href="classhou_1_1Glyph.html#a1ce55e4b1153a6401d9016d61078eba2">hou::Glyph</a>
 </li>
 <li>setMinGain()
-: <a class="el" href="classhou_1_1AudioSourceBase.html#ac929aac4e6a769589ba64dfd01191996">hou::AudioSourceBase</a>
+: <a class="el" href="classhou_1_1AudioSource.html#a351c9678ea6d23eb0739507efd10721f">hou::AudioSource</a>
 </li>
 <li>setMouseCursorGrabbed()
 : <a class="el" href="classhou_1_1Window.html#a9e3f2d19516ce7f1cfe9e1fc19d9dad2">hou::Window</a>
 </li>
 <li>setPitch()
-: <a class="el" href="classhou_1_1AudioSourceBase.html#a1eceeb0c8ff0d6be0065628b90c45fb5">hou::AudioSourceBase</a>
+: <a class="el" href="classhou_1_1AudioSource.html#a6cdc07334e5ce4987beea0974fd5d204">hou::AudioSource</a>
+</li>
+<li>setPixel()
+: <a class="el" href="classhou_1_1Image.html#acafcfc3dca4af3da2e2ce24b8a95e714">hou::Image&lt; dim, fmt &gt;</a>
 </li>
 <li>setPixelHeight()
 : <a class="el" href="classhou_1_1Font.html#a53f8fc8676f3f7e8ede4957d0a19f668">hou::Font</a>
 </li>
+<li>setPixels()
+: <a class="el" href="classhou_1_1Image.html#ad9e867b68e956fe79f7e366b7e82c2af">hou::Image&lt; dim, fmt &gt;</a>
+</li>
 <li>setPosition()
-: <a class="el" href="classhou_1_1AudioSourceBase.html#a72efff223236049310428f04c3e7cb6d">hou::AudioSourceBase</a>
+: <a class="el" href="classhou_1_1AudioSource.html#a07753f3284f574a6a7c639d6e57a978c">hou::AudioSource</a>
 , <a class="el" href="classhou_1_1Rectangle.html#aab886807f7792e4e1ede28fccc5482dc">hou::Rectangle&lt; T &gt;</a>
+, <a class="el" href="classhou_1_1TextVertex.html#a385f231e0b788b92867a3ec936eed224">hou::TextVertex</a>
 , <a class="el" href="classhou_1_1Vertex2.html#aa58da67610f351dfd484385a49769a28">hou::Vertex2</a>
 </li>
 <li>setR()
-: <a class="el" href="classhou_1_1TextureChannelMapping.html#a729fdb61f910c2779fa94f7f0966badf">hou::TextureChannelMapping</a>
+: <a class="el" href="classhou_1_1PixelT.html#af51ec98cc245b7225e4c7e88ec4f3006">hou::PixelT&lt; pf &gt;</a>
+, <a class="el" href="classhou_1_1TextureChannelMapping.html#a729fdb61f910c2779fa94f7f0966badf">hou::TextureChannelMapping</a>
 </li>
 <li>setRed()
 : <a class="el" href="classhou_1_1Color.html#a654560d74441372e76644cb0af13cbfe">hou::Color</a>
@@ -244,19 +303,19 @@ $(function() {
 : <a class="el" href="classhou_1_1Color.html#ae0f447df22571447d7b00558eb488bde">hou::Color</a>
 </li>
 <li>setReferenceDistance()
-: <a class="el" href="classhou_1_1AudioSourceBase.html#a833028691faa5ef72ae3e63fb0e0e2cf">hou::AudioSourceBase</a>
+: <a class="el" href="classhou_1_1AudioSource.html#a29e249ef6639b978ff19f701f0ee93e9">hou::AudioSource</a>
 </li>
 <li>setRelative()
-: <a class="el" href="classhou_1_1AudioSourceBase.html#a17aed9a31a66b7704aebf5e9e1eb8427">hou::AudioSourceBase</a>
+: <a class="el" href="classhou_1_1AudioSource.html#af9f05234b9c53c4abf6ba6284ae5b273">hou::AudioSource</a>
 </li>
 <li>setRolloffFactor()
-: <a class="el" href="classhou_1_1AudioSourceBase.html#ae5c45072dbfc09ae0668ec4148bd8b6c">hou::AudioSourceBase</a>
+: <a class="el" href="classhou_1_1AudioSource.html#a7daf9c83541a8e983fb22ab176e503db">hou::AudioSource</a>
 </li>
 <li>setSampleCount()
-: <a class="el" href="classhou_1_1RenderSurface.html#ae2b27630243cb91efb4bdec31680c399">hou::RenderSurface</a>
+: <a class="el" href="classhou_1_1RenderWindow.html#ac8ada89d1d6a550c5104d5f60ba98f09">hou::RenderWindow</a>
 </li>
 <li>setSamplePos()
-: <a class="el" href="classhou_1_1AudioSourceBase.html#a850e917b37591ed9df37c81faf8b0044">hou::AudioSourceBase</a>
+: <a class="el" href="classhou_1_1AudioSource.html#a4427fbb94e610e9a488bc87c68bef001">hou::AudioSource</a>
 , <a class="el" href="classhou_1_1AudioStream.html#a18c0aa4725c6f6e51e650fb5b8906ce7">hou::AudioStream</a>
 , <a class="el" href="classhou_1_1EmptyAudioStreamIn.html#a96f589bfce97e835a97226414b5c08aa">hou::EmptyAudioStreamIn</a>
 , <a class="el" href="classhou_1_1OggFileIn.html#ac3765a5c7199ec4b2c578cc9b619448e">hou::OggFileIn</a>
@@ -268,12 +327,19 @@ $(function() {
 <li>setSize()
 : <a class="el" href="classhou_1_1GlyphMetrics.html#a01c56de306c61fe8806a880825fdf784">hou::GlyphMetrics</a>
 , <a class="el" href="classhou_1_1Rectangle.html#a945bb1cd7d8d076ee078ac959da3eb03">hou::Rectangle&lt; T &gt;</a>
-, <a class="el" href="classhou_1_1RenderSurface.html#a5398565b278b50b857614bd61c06b14a">hou::RenderSurface</a>
-, <a class="el" href="classhou_1_1RenderTexture.html#a2d49b88d64c57f7e72036a19c3be0cf1">hou::RenderTexture</a>
-, <a class="el" href="classhou_1_1RenderWindow.html#a9e3f05713a81c6c9801aa1c4c5a2b1aa">hou::RenderWindow</a>
+</li>
+<li>setStencilAttachment()
+: <a class="el" href="classhou_1_1FrameBuffer.html#a5c19268fb38d3b1b9c6c95f92ff63700">hou::FrameBuffer</a>
 </li>
 <li>setStream()
 : <a class="el" href="classhou_1_1StreamingAudioSource.html#a810a16780903c3d49d1140a153e380f3">hou::StreamingAudioSource</a>
+</li>
+<li>setSubData()
+: <a class="el" href="classhou_1_1VertexBufferT.html#ad1cfc7bddbadc4534de52583ee14a18c">hou::VertexBufferT&lt; T, dynamicStorage &gt;</a>
+</li>
+<li>setSubImage()
+: <a class="el" href="classhou_1_1Image.html#a259a8f5bbc6cdfa21d048deaf887cd22">hou::Image&lt; dim, fmt &gt;</a>
+, <a class="el" href="classhou_1_1TextureT.html#a9dadeed3737ab299b1a2b23e99880194">hou::TextureT&lt; type &gt;</a>
 </li>
 <li>setSystemIcon()
 : <a class="el" href="classhou_1_1Window.html#ad5ff4c0b939a695a7c6d871f271bb4d6">hou::Window</a>
@@ -284,13 +350,14 @@ $(function() {
 , <a class="el" href="classhou_1_1TextStream.html#ab05c2a6b17836263ad4ebe149535a756">hou::TextStream</a>
 </li>
 <li>setTextureCoordinates()
-: <a class="el" href="classhou_1_1Vertex2.html#aecf91f98b7541e85a770068aee7f2097">hou::Vertex2</a>
+: <a class="el" href="classhou_1_1TextVertex.html#a8a1b993fbf126eae86a888734f362d42">hou::TextVertex</a>
+, <a class="el" href="classhou_1_1Vertex2.html#aecf91f98b7541e85a770068aee7f2097">hou::Vertex2</a>
 </li>
 <li>setTextureUnit()
 : <a class="el" href="classhou_1_1Mesh2ShaderProgram.html#a7883b243af9983002852370142322fb6">hou::Mesh2ShaderProgram</a>
 </li>
 <li>setTimePos()
-: <a class="el" href="classhou_1_1AudioSourceBase.html#a66cd70f85c89b523092b3364e24cb4b0">hou::AudioSourceBase</a>
+: <a class="el" href="classhou_1_1AudioSource.html#ab85aa243de7a019dc87b1429f84e11fc">hou::AudioSource</a>
 </li>
 <li>setTitle()
 : <a class="el" href="classhou_1_1Window.html#aefc754918e27f7662c7d574bd0cedde7">hou::Window</a>
@@ -299,7 +366,10 @@ $(function() {
 : <a class="el" href="classhou_1_1Mesh2ShaderProgram.html#a37b98558ffad012bb3bd141db3e28215">hou::Mesh2ShaderProgram</a>
 </li>
 <li>setVelocity()
-: <a class="el" href="classhou_1_1AudioSourceBase.html#ad9a94206ff5eea68005f9be332e8785a">hou::AudioSourceBase</a>
+: <a class="el" href="classhou_1_1AudioSource.html#ad7dae9c3cb402c405cf59aa1b1d01a4d">hou::AudioSource</a>
+</li>
+<li>setVertexData()
+: <a class="el" href="classhou_1_1VertexArray.html#a7b2f44d51ea9fbf95083ce2f56af508b">hou::VertexArray</a>
 </li>
 <li>setVerticalAdvance()
 : <a class="el" href="classhou_1_1GlyphMetrics.html#a02af6e91b40f8b91645cefd9f3927359">hou::GlyphMetrics</a>
@@ -316,6 +386,9 @@ $(function() {
 <li>setVisible()
 : <a class="el" href="classhou_1_1Window.html#ac6ca06d4be4783fc55d3b38dcee9a06f">hou::Window</a>
 </li>
+<li>setWrapMode()
+: <a class="el" href="classhou_1_1TextureT.html#aa875b70b4434c5e5dda885192b210fac">hou::TextureT&lt; type &gt;</a>
+</li>
 <li>shear()
 : <a class="el" href="classhou_1_1Transform2.html#a889f9c7e399de9d413f22b5d9ac01387">hou::Transform2&lt; T &gt;</a>
 , <a class="el" href="classhou_1_1Transform3.html#aa93cdc5526c83d94b0e68621f505e21a">hou::Transform3&lt; T &gt;</a>
@@ -324,31 +397,37 @@ $(function() {
 : <a class="el" href="classhou_1_1Span.html#a0f665c0b2123829c9f0bab8b8a41d570">hou::Span&lt; T &gt;</a>
 </li>
 <li>Span()
-: <a class="el" href="classhou_1_1Span.html#af883f6d277fe2c6daf3c2ec4a43421a6">hou::Span&lt; T &gt;</a>
+: <a class="el" href="classhou_1_1Span.html#a434b5e582581b9242821da42f41a2d8f">hou::Span&lt; T &gt;</a>
 </li>
 <li>start()
 : <a class="el" href="classhou_1_1Stopwatch.html#a037f2b61edd7f5160cc1d0b8898c21c0">hou::Stopwatch</a>
 </li>
 <li>stop()
-: <a class="el" href="classhou_1_1AudioSourceBase.html#a2822b169d5e5430556efd06cf1837ef6">hou::AudioSourceBase</a>
+: <a class="el" href="classhou_1_1AudioSource.html#a1a07e99e67c1e51d4b162bdbf78e4792">hou::AudioSource</a>
 , <a class="el" href="classhou_1_1Stopwatch.html#a81b06c407c8b6d0ced2ab5c0ab3187c7">hou::Stopwatch</a>
 </li>
 <li>Stopwatch()
 : <a class="el" href="classhou_1_1Stopwatch.html#a7e528f9014fb4f7b26fd91954fedac23">hou::Stopwatch</a>
 </li>
 <li>StreamingAudioSource()
-: <a class="el" href="classhou_1_1StreamingAudioSource.html#a9bfaf3463b3ca6297fec59a722cb47c5">hou::StreamingAudioSource</a>
+: <a class="el" href="classhou_1_1StreamingAudioSource.html#a4985aaa4e5bbcb6a3069a90312d04393">hou::StreamingAudioSource</a>
 </li>
 <li>swapBuffers()
 : <a class="el" href="classhou_1_1Window.html#a605f173ee8f57cb272ec76dae40694ac">hou::Window</a>
 </li>
+<li>SystemWindow()
+: <a class="el" href="classhou_1_1SystemWindow.html#a37140a8dc133d9431933df65fa6f11e3">hou::SystemWindow</a>
+</li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.14
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
+  </ul>
+</div>
 </body>
 </html>

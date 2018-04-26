@@ -1,14 +1,12 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/sys/WindowImpl.hpp"
 
 #include "hou/cor/Error.hpp"
 
 #include "hou/sys/WindowEvent.hpp"
-
-#include <thread>
 
 
 
@@ -57,22 +55,6 @@ void WindowImpl::setKeyRepeatEnabled(bool value)
 bool WindowImpl::isEventQueueEmpty() const
 {
   return mEventQueue.empty();
-}
-
-
-
-WindowEvent WindowImpl::waitEvent()
-{
-  static constexpr std::chrono::milliseconds sleepTime(10);
-
-  updateEventQueue();
-  while(isEventQueueEmpty())
-  {
-    std::this_thread::sleep_for(sleepTime);
-    updateEventQueue();
-  }
-  HOU_ENSURE_DEV(!isEventQueueEmpty());
-  return popEvent();
 }
 
 

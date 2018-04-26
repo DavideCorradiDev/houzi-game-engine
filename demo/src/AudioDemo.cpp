@@ -1,10 +1,10 @@
 #include <iostream>
 #include <cassert>
 
-#include "hou/gfx/RenderContext.hpp"
+#include "hou/gfx/GraphicContext.hpp"
 #include "hou/gfx/RenderWindow.hpp"
-#include "hou/gfx/Renderer2.hpp"
 #include "hou/gfx/Font.hpp"
+#include "hou/gfx/TextShaderProgram.hpp"
 #include "hou/sys/Color.hpp"
 #include "hou/sys/WindowEvent.hpp"
 #include "hou/sys/BinaryFileIn.hpp"
@@ -16,15 +16,13 @@
 #include "hou/cor/Stopwatch.hpp"
 #include "hou/mth/Transform2.hpp"
 
-#include "hou/al/AlBuffer.hpp"
 #include "hou/al/AlContext.hpp"
 #include "hou/al/AlDevice.hpp"
 #include "hou/al/AlListener.hpp"
-#include "hou/al/AlSource.hpp"
 
 #include "hou/aud/AudioContext.hpp"
 #include "hou/aud/AudioBuffer.hpp"
-#include "hou/aud/AudioSource.hpp"
+#include "hou/aud/MemoryAudioSource.hpp"
 #include "hou/aud/OggFileIn.hpp"
 #include "hou/aud/StreamingAudioSource.hpp"
 #include "hou/aud/WavFileIn.hpp"
@@ -36,12 +34,13 @@ using namespace hou;
 
 int main()
 {
-  RenderContext ctx;
-  RenderWindow rw(u8"Sprite benchmark", Vec2u(800u, 600u), 8u, WindowStyle::Windowed);
+  GraphicContext ctx;
+  GraphicContext::setCurrent(ctx);
+  RenderWindow rw(u8"Sprite benchmark", Vec2u(800u, 600u), WindowStyle::Windowed);
   rw.setVisible(true);
   rw.setVerticalSyncMode(VerticalSyncMode::Disabled);
 
-  Renderer2 rnd;
+  TextShaderProgram rnd;
   Font font(std::make_unique<BinaryFileIn>("demo/data/NotoMono-Regular.ttf"));
   Trans2f proj = Trans2f::orthographicProjection(rw.getViewport());
   Trans2f textTrans = Trans2f::translation(Vec2f(0.f, static_cast<float>(font.getLineSpacing())));
@@ -56,6 +55,7 @@ int main()
   }
 
   AudioContext ac;
+  AudioContext::setCurrent(ac);
 
   ALfloat listenerPos[] = {0.f, 0.f, 0.f};
   ALfloat listenerVel[] = {0.f, 0.f, 0.f};
@@ -68,8 +68,8 @@ int main()
   std::string filename = "houaud/test/data/TestWav-Stereo-16-44100.wav";
   // std::string longFilename = "demo/data/longsound.wav";
   std::string longFilename = "demo/data/test.ogg";
-  AudioBuffer buffer(std::make_unique<WavFileIn>(filename));
-  AudioSource source(&buffer);
+  AudioBuffer buffer = AudioBuffer(WavFileIn(filename));
+  MemoryAudioSource source(&buffer);
   StreamingAudioSource sas(std::make_unique<OggFileIn>(longFilename));
   sas.setLooping(false);
 

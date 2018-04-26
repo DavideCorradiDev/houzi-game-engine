@@ -9,6 +9,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -46,6 +54,22 @@ $(function() {
 /* @license-end */</script>
 <div id="main-nav"></div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('functions_type.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -61,18 +85,28 @@ $(function() {
 </div>
 
 <div class="contents">
-&#160;<ul>
+&#160;
+
+<h3><a id="index_b"></a>- b -</h3><ul>
 <li>ByteOffset
 : <a class="el" href="classhou_1_1BinaryStream.html#a5866061893089361d8ce293ddcaf2ecd">hou::BinaryStream</a>
 </li>
 <li>BytePosition
 : <a class="el" href="classhou_1_1BinaryStream.html#ae5d85d3d14e304568d061551d44a37e9">hou::BinaryStream</a>
 </li>
+</ul>
+
+
+<h3><a id="index_c"></a>- c -</h3><ul>
 <li>CodeUnit
 : <a class="el" href="classhou_1_1Utf16.html#a0c1ed05e0e2900bbdc1fc0c92318df9d">hou::Utf16</a>
 , <a class="el" href="classhou_1_1Utf32.html#ae51c95c71faa460d2b9cabb704fa4d7d">hou::Utf32</a>
 , <a class="el" href="classhou_1_1Utf8.html#a509d3271ba8b33d72fb5671098fa0cef">hou::Utf8</a>
 , <a class="el" href="classhou_1_1Wide.html#a5c84755d70f152718c8f971d41b782e6">hou::Wide</a>
+</li>
+<li>ComparisonType
+: <a class="el" href="classhou_1_1TextVertex.html#ab908acec8e50f5112614f9bb64145085">hou::TextVertex</a>
+, <a class="el" href="classhou_1_1Vertex2.html#ab587bb37d8962e0ff50daec363be27bf">hou::Vertex2</a>
 </li>
 <li>const_iterator
 : <a class="el" href="classhou_1_1Span.html#a9ee8ff48aba348b7cb2918282d72cd85">hou::Span&lt; T &gt;</a>
@@ -86,40 +120,106 @@ $(function() {
 <li>const_reverse_iterator
 : <a class="el" href="classhou_1_1Span.html#a7ca5d359c467db4e54babcad81001c5d">hou::Span&lt; T &gt;</a>
 </li>
+<li>Coordinates
+: <a class="el" href="classhou_1_1Image.html#a9ea99d8671a02897841f72665df4fd61">hou::Image&lt; dim, fmt &gt;</a>
+, <a class="el" href="classhou_1_1TextureT.html#af899474b32953f4f06552454eba82ab8">hou::TextureT&lt; type &gt;</a>
+</li>
+</ul>
+
+
+<h3><a id="index_d"></a>- d -</h3><ul>
+<li>DataType
+: <a class="el" href="classhou_1_1VertexBufferT.html#ab160f113b06b3d2625d46550cf98606d">hou::VertexBufferT&lt; T, dynamicStorage &gt;</a>
+</li>
 <li>difference_type
 : <a class="el" href="classhou_1_1Span.html#ad26c4c601a76126397a89fbf533334d9">hou::Span&lt; T &gt;</a>
+</li>
+</ul>
+
+
+<h3><a id="index_i"></a>- i -</h3><ul>
+<li>Image
+: <a class="el" href="classhou_1_1TextureT.html#ab9f674734b342d4b8019b7f3d99e9175">hou::TextureT&lt; type &gt;</a>
 </li>
 <li>iterator
 : <a class="el" href="classhou_1_1Span.html#a02d503c3f2c035e76cd7637cf2170e1f">hou::Span&lt; T &gt;</a>
 </li>
+</ul>
+
+
+<h3><a id="index_p"></a>- p -</h3><ul>
+<li>Pixel
+: <a class="el" href="classhou_1_1Image.html#af24a7a62c129a1553ebdb57f9f94ad69">hou::Image&lt; dim, fmt &gt;</a>
+</li>
+<li>PixelCollection
+: <a class="el" href="classhou_1_1Image.html#aadac6ad79a3e46c920a254e6f107b11f">hou::Image&lt; dim, fmt &gt;</a>
+</li>
 <li>pointer
 : <a class="el" href="classhou_1_1Span.html#aabfde9e35d7c255537f54ebde9c8b0f1">hou::Span&lt; T &gt;</a>
 </li>
+</ul>
+
+
+<h3><a id="index_r"></a>- r -</h3><ul>
 <li>reference
 : <a class="el" href="classhou_1_1Span.html#a2defb6ac932e366f7330edf8d0d1858e">hou::Span&lt; T &gt;</a>
 </li>
 <li>reverse_iterator
 : <a class="el" href="classhou_1_1Span.html#a4fd7245989b578fcd0041af8dc0b3f1e">hou::Span&lt; T &gt;</a>
 </li>
+</ul>
+
+
+<h3><a id="index_s"></a>- s -</h3><ul>
 <li>SampleOffset
 : <a class="el" href="classhou_1_1AudioStream.html#a37c370fc558d40960cf6af5d5dec95f7">hou::AudioStream</a>
 </li>
 <li>SamplePosition
 : <a class="el" href="classhou_1_1AudioStream.html#a20f3552e89dd25407e001a466710c04f">hou::AudioStream</a>
 </li>
+<li>Size
+: <a class="el" href="classhou_1_1Image.html#ae331219cf5c3d64ae1d196ae77120342">hou::Image&lt; dim, fmt &gt;</a>
+, <a class="el" href="classhou_1_1TextureT.html#a1f7ac77f77c1e2fdb2da6a55948c69c1">hou::TextureT&lt; type &gt;</a>
+</li>
 <li>size_type
 : <a class="el" href="classhou_1_1Span.html#a49b58d50736b1d34e82d9111fe8799eb">hou::Span&lt; T &gt;</a>
 </li>
+</ul>
+
+
+<h3><a id="index_v"></a>- v -</h3><ul>
 <li>value_type
 : <a class="el" href="classhou_1_1Span.html#a6bf71ca0ee44f25b53576c7c5490f86e">hou::Span&lt; T &gt;</a>
 </li>
+<li>ValueType
+: <a class="el" href="classhou_1_1VertexBufferT.html#aa84c1a3fb731180c4ff42bc1feb9d201">hou::VertexBufferT&lt; T, dynamicStorage &gt;</a>
+</li>
+<li>VertexCollectionType
+: <a class="el" href="classhou_1_1MeshT.html#ace8e3e6ce1fe229d44ce6864547ed162">hou::MeshT&lt; T &gt;</a>
+</li>
+<li>VertexContainer
+: <a class="el" href="classhou_1_1FormattedText.html#a5ada32c35bf9d28112a50b13ad1ec971">hou::FormattedText</a>
+</li>
+<li>VertexType
+: <a class="el" href="classhou_1_1MeshT.html#a5d778d46a388a6e6320d453a83687399">hou::MeshT&lt; T &gt;</a>
+</li>
+</ul>
+
+
+<h3><a id="index_w"></a>- w -</h3><ul>
+<li>WrapMode
+: <a class="el" href="classhou_1_1TextureT.html#a4c2bd1aef22de7517b984812cafb639d">hou::TextureT&lt; type &gt;</a>
+</li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.14
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
+  </ul>
+</div>
 </body>
 </html>

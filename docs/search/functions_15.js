@@ -1,5 +1,10 @@
 var searchData=
 [
   ['vertex2',['Vertex2',['../classhou_1_1Vertex2.html#a6009956eadd40509ad9e9882580fd9c1',1,'hou::Vertex2::Vertex2()'],['../classhou_1_1Vertex2.html#a99c660a895f4c6ad190ee2f8bc018a0a',1,'hou::Vertex2::Vertex2(const Vec2f &amp;position, const Vec2f &amp;textureCoordinates, const Color &amp;color)']]],
-  ['videomode',['VideoMode',['../classhou_1_1VideoMode.html#ad26a0fcec8c72d6c5845c80e092d4b76',1,'hou::VideoMode']]]
+  ['vertexarray',['VertexArray',['../classhou_1_1VertexArray.html#a765fb14185f029c59a0b0c290fc0d231',1,'hou::VertexArray::VertexArray()'],['../classhou_1_1VertexArray.html#a1ded6a0c24827a1e3c789da8d21b9eb2',1,'hou::VertexArray::VertexArray(VertexArray &amp;&amp;other)']]],
+  ['vertexattribformat',['VertexAttribFormat',['../classhou_1_1VertexAttribFormat.html#a05ff1359ddc8a9782efb18103448a258',1,'hou::VertexAttribFormat']]],
+  ['vertexbuffer',['VertexBuffer',['../classhou_1_1VertexBuffer.html#aafbda048ddc7c2cf4ed1cbafc07c20e2',1,'hou::VertexBuffer::VertexBuffer(uint byteCount, bool dynamicStorage)'],['../classhou_1_1VertexBuffer.html#a46c29eab942fa7bdc32525b7f8da5436',1,'hou::VertexBuffer::VertexBuffer(uint byteCount, const void *data, bool dynamicStorage)'],['../classhou_1_1VertexBuffer.html#ae470de2452534a70fe932f7d77100bc9',1,'hou::VertexBuffer::VertexBuffer(VertexBuffer &amp;&amp;other)']]],
+  ['vertexbuffert',['VertexBufferT',['../classhou_1_1VertexBufferT.html#a86421e3a305c0f81ed23812188c9a2fc',1,'hou::VertexBufferT::VertexBufferT(uint size)'],['../classhou_1_1VertexBufferT.html#ae5c51144a9929ab98055a870fe190bac',1,'hou::VertexBufferT::VertexBufferT(const Span&lt; const T &gt; &amp;data)'],['../classhou_1_1VertexBufferT.html#a42f7ab41661117965564735bdd4f6dc3',1,'hou::VertexBufferT::VertexBufferT(VertexBuffer &amp;&amp;other)']]],
+  ['vertexformat',['VertexFormat',['../classhou_1_1VertexFormat.html#aa4f6aae3abdd669ada6505ffe3fbb298',1,'hou::VertexFormat::VertexFormat(ptrdiff_t offset, uint stride, const Span&lt; const VertexAttribFormat &gt; &amp;vertexAttribFormats)'],['../classhou_1_1VertexFormat.html#ab39c4667fe57298ff3c0cc78a6b0c1f5',1,'hou::VertexFormat::VertexFormat(ptrdiff_t offset, uint stride, std::vector&lt; VertexAttribFormat &gt; &amp;&amp;vertexAttribFormats)']]],
+  ['videomode',['VideoMode',['../classhou_1_1VideoMode.html#a54acbaea36f7fbe6a5f1bdf0c190cbeb',1,'hou::VideoMode']]]
 ];

@@ -1,10 +1,12 @@
-#include "hou/gfx/Mesh2.hpp"
-#include "hou/gfx/Renderer2.hpp"
-#include "hou/gfx/RenderContext.hpp"
+#include "hou/gfx/Vertex2.hpp"
+#include "hou/gfx/GraphicContext.hpp"
 #include "hou/gfx/RenderWindow.hpp"
 #include "hou/gfx/TextureChannelMapping.hpp"
+#include "hou/gfx/Mesh.hpp"
+#include "hou/gfx/Mesh2ShaderProgram.hpp"
+#include "hou/gfx/TextShaderProgram.hpp"
 
-#include "hou/mth/MthUtils.hpp"
+#include "hou/mth/MathFunctions.hpp"
 #include "hou/mth/Rotation2.hpp"
 #include "hou/mth/Transform2.hpp"
 
@@ -60,7 +62,7 @@ public:
   DrawableShape(const Texture2& texture);
 
   virtual Mesh2 generateMesh() const = 0;
-  void draw(RenderSurface& rt, Renderer2& renderer, const Trans2f& t) const;
+  void draw(RenderSurface& rt, Mesh2ShaderProgram& renderer, const Trans2f& t) const;
 
   void handleInput();
 
@@ -92,7 +94,7 @@ DrawableShape::DrawableShape(const Texture2& texture)
 
 
 
-void DrawableShape::draw(RenderSurface& rt, Renderer2& renderer, const Trans2f& t) const
+void DrawableShape::draw(RenderSurface& rt, Mesh2ShaderProgram& renderer, const Trans2f& t) const
 {
   if(mDrawWithTexture)
   {
@@ -360,17 +362,18 @@ public:
 
 int main()
 {
-  RenderContext ctx;
+  GraphicContext ctx;
+  GraphicContext::setCurrent(ctx);
 
   std::string wndTitle(u8"Rendering Demo");
   Vec2u wndSize(800u, 600u);
   uint wndSamples = 16u;
   WindowStyle wndStyle = WindowStyle::Windowed;
-  std::unique_ptr<RenderWindow> wnd(std::make_unique<RenderWindow>(wndTitle
-    , wndSize, wndSamples, wndStyle));
+  std::unique_ptr<RenderWindow> wnd(
+    std::make_unique<RenderWindow>(wndTitle, wndSize, wndStyle, wndSamples));
   wnd->setVisible(true);
 
-  Renderer2 mr;
+  Mesh2ShaderProgram m2rend;
 
   Texture2 shapeTex = Texture2(pngReadFile<PixelFormat::R>("demo/data/monalisa.png"), TextureFormat::R, 4u);
   shapeTex.setChannelMapping(TextureChannelMapping::Luminosity);
@@ -443,14 +446,12 @@ int main()
           }
           else if(data.scanCode == ScanCode::Add)
           {
-            if(wndSamples < 16)
+            if(wndSamples < 32)
             {
               wndSamples *= 2;
             }
-            wnd.reset();
-            wnd = std::make_unique<RenderWindow>(wndTitle, wndSize, wndSamples
-              , wndStyle);
-            wnd->setVisible(true);
+            std::cout << "Samples: " << wndSamples << std::endl;
+            wnd->setSampleCount(wndSamples);
           }
           else if(data.scanCode == ScanCode::Subtract)
           {
@@ -458,25 +459,23 @@ int main()
             {
               wndSamples /= 2;
             }
-            wnd.reset();
-            wnd = std::make_unique<RenderWindow>(wndTitle, wndSize, wndSamples
-              , wndStyle);
-            wnd->setVisible(true);
+            std::cout << "Samples: " << wndSamples << std::endl;
+            wnd->setSampleCount(wndSamples);
           }
           else if(data.scanCode == ScanCode::Decimal)
           {
             wndStyle = WindowStyle::Fullscreen;
             wnd.reset();
-            wnd = std::make_unique<RenderWindow>(wndTitle, wndSize, wndSamples
-              , wndStyle);
+            wnd = std::make_unique<RenderWindow>(wndTitle, wndSize
+              , wndStyle, wndSamples);
             wnd->setVisible(true);
           }
           else if(data.scanCode == ScanCode::Numpad0)
           {
             wndStyle = WindowStyle::Windowed;
             wnd.reset();
-            wnd = std::make_unique<RenderWindow>(wndTitle, wndSize, wndSamples
-              , wndStyle);
+            wnd = std::make_unique<RenderWindow>(wndTitle, wndSize
+              , wndStyle, wndSamples);
             wnd->setVisible(true);
           }
           break;
@@ -558,12 +557,12 @@ int main()
       Trans2f projTrans = Trans2f::orthographicProjection(wnd->getViewport());
 
       Mesh2 viewportMesh = createRectangleOutlineMesh2(wnd->getViewport().getSize(), 1);
-      mr.draw(*wnd, viewportMesh, Color::White
+      m2rend.draw(*wnd, viewportMesh, Color::White
         , projTrans * Trans2f::translation(wnd->getViewport().getPosition()));
 
       for(const auto& shapePtr : shapes)
       {
-        shapePtr->draw(*wnd, mr, projTrans);
+        shapePtr->draw(*wnd, m2rend, projTrans);
       }
       wnd->display();
     }
@@ -571,4 +570,3 @@ int main()
 
   return 0;
 }
-

@@ -9,6 +9,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -45,6 +53,23 @@ $(function() {
 });
 /* @license-end */</script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('classhou_1_1StreamingAudioSource.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -59,11 +84,6 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacehou.html">hou</a></li><li class="navelem"><a class="el" href="classhou_1_1StreamingAudioSource.html">StreamingAudioSource</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
@@ -81,7 +101,7 @@ Inheritance diagram for hou::StreamingAudioSource:</div>
  <div class="center">
   <img src="classhou_1_1StreamingAudioSource.png" usemap="#hou::StreamingAudioSource_map" alt=""/>
   <map id="hou::StreamingAudioSource_map" name="hou::StreamingAudioSource_map">
-<area href="classhou_1_1AudioSourceBase.html" alt="hou::AudioSourceBase" shape="rect" coords="0,56,169,80"/>
+<area href="classhou_1_1AudioSource.html" alt="hou::AudioSource" shape="rect" coords="0,56,169,80"/>
 <area href="classhou_1_1NonCopyable.html" alt="hou::NonCopyable" shape="rect" coords="0,0,169,24"/>
 </map>
  </div></div>
@@ -104,8 +124,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:abd1cfd23ee8eda18e744e7d37b480b1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a609dda7c42e49d4eb81216fe7779bf30"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1StreamingAudioSource.html#a609dda7c42e49d4eb81216fe7779bf30">getBufferSampleCount</a> () const</td></tr>
 <tr class="separator:a609dda7c42e49d4eb81216fe7779bf30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab052af3dcb0a4a96dab3562eb05b62a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehou.html#ace728d8b0d3830beb5a452635f6b92dd">AudioFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1StreamingAudioSource.html#aab052af3dcb0a4a96dab3562eb05b62a">getAudioFormat</a> () const final</td></tr>
-<tr class="separator:aab052af3dcb0a4a96dab3562eb05b62a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92aa7c8e922ea77f8c188da809e3d70a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehou.html#a7eb69180f5627f590d96af30e709947b">AudioBufferFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1StreamingAudioSource.html#a92aa7c8e922ea77f8c188da809e3d70a">getFormat</a> () const final</td></tr>
+<tr class="separator:a92aa7c8e922ea77f8c188da809e3d70a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace2f861c00610dc328d74d5413d8ceeb"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1StreamingAudioSource.html#ace2f861c00610dc328d74d5413d8ceeb">getChannelCount</a> () const final</td></tr>
 <tr class="separator:ace2f861c00610dc328d74d5413d8ceeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9fba952522acfd16f0433081cc75a935"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1StreamingAudioSource.html#a9fba952522acfd16f0433081cc75a935">getBytesPerSample</a> () const final</td></tr>
@@ -118,92 +138,94 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aaf0f8894fc94fe5e51e662dc8ebbf006"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42432ec1ee3d89c8cf51693d92dddb3b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1StreamingAudioSource.html#a42432ec1ee3d89c8cf51693d92dddb3b">isLooping</a> () const final</td></tr>
 <tr class="separator:a42432ec1ee3d89c8cf51693d92dddb3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classhou_1_1AudioSourceBase"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classhou_1_1AudioSourceBase')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classhou_1_1AudioSourceBase.html">hou::AudioSourceBase</a></td></tr>
-<tr class="memitem:a76d2450ec8aa9a7a85d900c16b2f0b8a inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a76d2450ec8aa9a7a85d900c16b2f0b8a">AudioSourceBase</a> ()</td></tr>
-<tr class="separator:a76d2450ec8aa9a7a85d900c16b2f0b8a inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94b009540462f6a08ffd9719e81635ce inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a94b009540462f6a08ffd9719e81635ce">AudioSourceBase</a> (<a class="el" href="classhou_1_1AudioSourceBase.html">AudioSourceBase</a> &amp;&amp;other)</td></tr>
-<tr class="separator:a94b009540462f6a08ffd9719e81635ce inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1be8cf2d479cdb552c6093a1cdd52089 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a1be8cf2d479cdb552c6093a1cdd52089">~AudioSourceBase</a> ()=0</td></tr>
-<tr class="separator:a1be8cf2d479cdb552c6093a1cdd52089 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a165c08d3f98421ed71a6888edcfdb3c9 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a165c08d3f98421ed71a6888edcfdb3c9">play</a> ()</td></tr>
-<tr class="separator:a165c08d3f98421ed71a6888edcfdb3c9 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf0a9f3baf52ff64a0c3a1f62ec0b9f7 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#acf0a9f3baf52ff64a0c3a1f62ec0b9f7">pause</a> ()</td></tr>
-<tr class="separator:acf0a9f3baf52ff64a0c3a1f62ec0b9f7 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2822b169d5e5430556efd06cf1837ef6 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a2822b169d5e5430556efd06cf1837ef6">stop</a> ()</td></tr>
-<tr class="separator:a2822b169d5e5430556efd06cf1837ef6 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac42caf7d7fe1227431bfafaffc7cbd7 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#aac42caf7d7fe1227431bfafaffc7cbd7">replay</a> ()</td></tr>
-<tr class="separator:aac42caf7d7fe1227431bfafaffc7cbd7 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af99231895416a8bf1277cbeb92810c3a inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehou.html#af079280caedfad584b73e9f1eb62a4ea">AudioSourceState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#af99231895416a8bf1277cbeb92810c3a">getState</a> () const</td></tr>
-<tr class="separator:af99231895416a8bf1277cbeb92810c3a inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a66cd70f85c89b523092b3364e24cb4b0 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a66cd70f85c89b523092b3364e24cb4b0">setTimePos</a> (std::chrono::nanoseconds nsPos)</td></tr>
-<tr class="separator:a66cd70f85c89b523092b3364e24cb4b0 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7555198e4538cb1059b4873572600b0e inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memTemplParams" colspan="2">template&lt;typename TimeDuration &gt; </td></tr>
-<tr class="memitem:a7555198e4538cb1059b4873572600b0e inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a7555198e4538cb1059b4873572600b0e">setTimePos</a> (TimeDuration pos)</td></tr>
-<tr class="separator:a7555198e4538cb1059b4873572600b0e inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa94810c175c9e27d2b46abe250f80e34 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">std::chrono::nanoseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#aa94810c175c9e27d2b46abe250f80e34">getTimePos</a> () const</td></tr>
-<tr class="separator:aa94810c175c9e27d2b46abe250f80e34 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad5eb39eab2340eb8601d6e4a1004b26a inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">std::chrono::nanoseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#ad5eb39eab2340eb8601d6e4a1004b26a">getDuration</a> () const</td></tr>
-<tr class="separator:ad5eb39eab2340eb8601d6e4a1004b26a inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a850e917b37591ed9df37c81faf8b0044 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a850e917b37591ed9df37c81faf8b0044">setSamplePos</a> (uint pos)</td></tr>
-<tr class="separator:a850e917b37591ed9df37c81faf8b0044 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad0714079238836f37723cb6ea58fe9e4 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#ad0714079238836f37723cb6ea58fe9e4">getSamplePos</a> () const</td></tr>
-<tr class="separator:ad0714079238836f37723cb6ea58fe9e4 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1eceeb0c8ff0d6be0065628b90c45fb5 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a1eceeb0c8ff0d6be0065628b90c45fb5">setPitch</a> (float value)</td></tr>
-<tr class="separator:a1eceeb0c8ff0d6be0065628b90c45fb5 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a558d00a10b5ec8f08f110735b1553fd5 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a558d00a10b5ec8f08f110735b1553fd5">getPitch</a> () const</td></tr>
-<tr class="separator:a558d00a10b5ec8f08f110735b1553fd5 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d678f37f1498057e3f9654b5e0e8af5 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a0d678f37f1498057e3f9654b5e0e8af5">setGain</a> (float value)</td></tr>
-<tr class="separator:a0d678f37f1498057e3f9654b5e0e8af5 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abbc402674f3c8f8b479a55bc7daa1974 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#abbc402674f3c8f8b479a55bc7daa1974">getGain</a> () const</td></tr>
-<tr class="separator:abbc402674f3c8f8b479a55bc7daa1974 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8f06a77f08cc3bd79ac6ea6e9ba4ff8 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#ab8f06a77f08cc3bd79ac6ea6e9ba4ff8">setMaxGain</a> (float value)</td></tr>
-<tr class="separator:ab8f06a77f08cc3bd79ac6ea6e9ba4ff8 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84c5fc0e02d3ff6e5efa3e4e1c6d5278 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a84c5fc0e02d3ff6e5efa3e4e1c6d5278">getMaxGain</a> () const</td></tr>
-<tr class="separator:a84c5fc0e02d3ff6e5efa3e4e1c6d5278 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac929aac4e6a769589ba64dfd01191996 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#ac929aac4e6a769589ba64dfd01191996">setMinGain</a> (float value)</td></tr>
-<tr class="separator:ac929aac4e6a769589ba64dfd01191996 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a71715820170b99f0dfd4a0d46fd133 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a7a71715820170b99f0dfd4a0d46fd133">getMinGain</a> () const</td></tr>
-<tr class="separator:a7a71715820170b99f0dfd4a0d46fd133 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18b3044deb2eb6aa09356f9cc7932d32 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a18b3044deb2eb6aa09356f9cc7932d32">setMaxDistance</a> (float value)</td></tr>
-<tr class="separator:a18b3044deb2eb6aa09356f9cc7932d32 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e15c412e4c5c50139d3012a54bca302 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a4e15c412e4c5c50139d3012a54bca302">getMaxDistance</a> () const</td></tr>
-<tr class="separator:a4e15c412e4c5c50139d3012a54bca302 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5c45072dbfc09ae0668ec4148bd8b6c inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#ae5c45072dbfc09ae0668ec4148bd8b6c">setRolloffFactor</a> (float value)</td></tr>
-<tr class="separator:ae5c45072dbfc09ae0668ec4148bd8b6c inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a53b4a1201c7dbc3b10279ef7887d1e3a inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a53b4a1201c7dbc3b10279ef7887d1e3a">getRolloffFactor</a> () const</td></tr>
-<tr class="separator:a53b4a1201c7dbc3b10279ef7887d1e3a inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a833028691faa5ef72ae3e63fb0e0e2cf inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a833028691faa5ef72ae3e63fb0e0e2cf">setReferenceDistance</a> (float value)</td></tr>
-<tr class="separator:a833028691faa5ef72ae3e63fb0e0e2cf inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a96c7428b46868e9947d1c6d005efb0d4 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a96c7428b46868e9947d1c6d005efb0d4">getReferenceDistance</a> () const</td></tr>
-<tr class="separator:a96c7428b46868e9947d1c6d005efb0d4 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17aed9a31a66b7704aebf5e9e1eb8427 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a17aed9a31a66b7704aebf5e9e1eb8427">setRelative</a> (bool value)</td></tr>
-<tr class="separator:a17aed9a31a66b7704aebf5e9e1eb8427 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe55519a02e3e30751383ea6caf9e504 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#afe55519a02e3e30751383ea6caf9e504">isRelative</a> () const</td></tr>
-<tr class="separator:afe55519a02e3e30751383ea6caf9e504 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4645c5c9b7e5d26dcee348a947c20f1e inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a4645c5c9b7e5d26dcee348a947c20f1e">setConeOuterGain</a> (float value)</td></tr>
-<tr class="separator:a4645c5c9b7e5d26dcee348a947c20f1e inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7460c22cb3bd3f7ada9f44310097887f inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a7460c22cb3bd3f7ada9f44310097887f">getConeOuterGain</a> () const</td></tr>
-<tr class="separator:a7460c22cb3bd3f7ada9f44310097887f inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4495d55fa7fff77060910d595f83fc6 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#ae4495d55fa7fff77060910d595f83fc6">setConeInnerAngle</a> (float value)</td></tr>
-<tr class="separator:ae4495d55fa7fff77060910d595f83fc6 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad5cdba57087cbbfa773dae90de40fe1e inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#ad5cdba57087cbbfa773dae90de40fe1e">getConeInnerAngle</a> () const</td></tr>
-<tr class="separator:ad5cdba57087cbbfa773dae90de40fe1e inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06771528290baf65cf2df0b76c791038 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a06771528290baf65cf2df0b76c791038">setConeOuterAngle</a> (float value)</td></tr>
-<tr class="separator:a06771528290baf65cf2df0b76c791038 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac29423a82893a1c064826a151952a2e5 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#ac29423a82893a1c064826a151952a2e5">getConeOuterAngle</a> () const</td></tr>
-<tr class="separator:ac29423a82893a1c064826a151952a2e5 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72efff223236049310428f04c3e7cb6d inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a72efff223236049310428f04c3e7cb6d">setPosition</a> (const <a class="el" href="namespacehou.html#aac2f748a1751ac9c70d60085f4d5142c">Vec3f</a> &amp;pos)</td></tr>
-<tr class="separator:a72efff223236049310428f04c3e7cb6d inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac507d48a662e8d0d579a386146e5ebd3 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehou.html#aac2f748a1751ac9c70d60085f4d5142c">Vec3f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#ac507d48a662e8d0d579a386146e5ebd3">getPosition</a> () const</td></tr>
-<tr class="separator:ac507d48a662e8d0d579a386146e5ebd3 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9a94206ff5eea68005f9be332e8785a inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#ad9a94206ff5eea68005f9be332e8785a">setVelocity</a> (const <a class="el" href="namespacehou.html#aac2f748a1751ac9c70d60085f4d5142c">Vec3f</a> &amp;vel)</td></tr>
-<tr class="separator:ad9a94206ff5eea68005f9be332e8785a inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab69392aba3182e60f1668e657ea4dcfa inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehou.html#aac2f748a1751ac9c70d60085f4d5142c">Vec3f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#ab69392aba3182e60f1668e657ea4dcfa">getVelocity</a> () const</td></tr>
-<tr class="separator:ab69392aba3182e60f1668e657ea4dcfa inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad200442806fae3ffad7e04748d17bab inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#aad200442806fae3ffad7e04748d17bab">setDirection</a> (const <a class="el" href="namespacehou.html#aac2f748a1751ac9c70d60085f4d5142c">Vec3f</a> &amp;dir)</td></tr>
-<tr class="separator:aad200442806fae3ffad7e04748d17bab inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ac770e1b9ef2ebd2cc689aa8f0ebdf3 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehou.html#aac2f748a1751ac9c70d60085f4d5142c">Vec3f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a9ac770e1b9ef2ebd2cc689aa8f0ebdf3">getDirection</a> () const</td></tr>
-<tr class="separator:a9ac770e1b9ef2ebd2cc689aa8f0ebdf3 inherit pub_methods_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classhou_1_1AudioSource"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classhou_1_1AudioSource')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classhou_1_1AudioSource.html">hou::AudioSource</a></td></tr>
+<tr class="memitem:a58161fd74b77b178ece7ba1d89721cac inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a58161fd74b77b178ece7ba1d89721cac">AudioSource</a> ()</td></tr>
+<tr class="separator:a58161fd74b77b178ece7ba1d89721cac inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a718bea5d70d303a78d627f61a0e8ba24 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a718bea5d70d303a78d627f61a0e8ba24">AudioSource</a> (<a class="el" href="classhou_1_1AudioSource.html">AudioSource</a> &amp;&amp;other)</td></tr>
+<tr class="separator:a718bea5d70d303a78d627f61a0e8ba24 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd8c3f8eee6ff251a24f31a44ba36dec inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#abd8c3f8eee6ff251a24f31a44ba36dec">~AudioSource</a> ()=0</td></tr>
+<tr class="separator:abd8c3f8eee6ff251a24f31a44ba36dec inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e5d85e27dd3fa572f651c38e457b8bb inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">const al::SourceHandle &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a3e5d85e27dd3fa572f651c38e457b8bb">getHandle</a> () const</td></tr>
+<tr class="separator:a3e5d85e27dd3fa572f651c38e457b8bb inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a933deef8759b84f20688348d2c450ea4 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a933deef8759b84f20688348d2c450ea4">play</a> ()</td></tr>
+<tr class="separator:a933deef8759b84f20688348d2c450ea4 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7af113ba288957330ff817a6331c5294 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a7af113ba288957330ff817a6331c5294">pause</a> ()</td></tr>
+<tr class="separator:a7af113ba288957330ff817a6331c5294 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a07e99e67c1e51d4b162bdbf78e4792 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a1a07e99e67c1e51d4b162bdbf78e4792">stop</a> ()</td></tr>
+<tr class="separator:a1a07e99e67c1e51d4b162bdbf78e4792 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f208d6d5553b4561a4829a777b31104 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a1f208d6d5553b4561a4829a777b31104">replay</a> ()</td></tr>
+<tr class="separator:a1f208d6d5553b4561a4829a777b31104 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab058560f257c4a1a25b8fffb2bfc1a50 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehou.html#af079280caedfad584b73e9f1eb62a4ea">AudioSourceState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#ab058560f257c4a1a25b8fffb2bfc1a50">getState</a> () const</td></tr>
+<tr class="separator:ab058560f257c4a1a25b8fffb2bfc1a50 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab85aa243de7a019dc87b1429f84e11fc inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#ab85aa243de7a019dc87b1429f84e11fc">setTimePos</a> (std::chrono::nanoseconds nsPos)</td></tr>
+<tr class="separator:ab85aa243de7a019dc87b1429f84e11fc inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56a931c0b119f5ac00ce33e0aa5d0e89 inherit pub_methods_classhou_1_1AudioSource"><td class="memTemplParams" colspan="2">template&lt;typename TimeDuration &gt; </td></tr>
+<tr class="memitem:a56a931c0b119f5ac00ce33e0aa5d0e89 inherit pub_methods_classhou_1_1AudioSource"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a56a931c0b119f5ac00ce33e0aa5d0e89">setTimePos</a> (TimeDuration pos)</td></tr>
+<tr class="separator:a56a931c0b119f5ac00ce33e0aa5d0e89 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2362a2355b11669ec3ac4a9fa2eedf0e inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">std::chrono::nanoseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a2362a2355b11669ec3ac4a9fa2eedf0e">getTimePos</a> () const</td></tr>
+<tr class="separator:a2362a2355b11669ec3ac4a9fa2eedf0e inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38076337a1664fed432bd53f03d41f79 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">std::chrono::nanoseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a38076337a1664fed432bd53f03d41f79">getDuration</a> () const</td></tr>
+<tr class="separator:a38076337a1664fed432bd53f03d41f79 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4427fbb94e610e9a488bc87c68bef001 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a4427fbb94e610e9a488bc87c68bef001">setSamplePos</a> (uint pos)</td></tr>
+<tr class="separator:a4427fbb94e610e9a488bc87c68bef001 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc92b4f14783d428c523af797295582e inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#abc92b4f14783d428c523af797295582e">getSamplePos</a> () const</td></tr>
+<tr class="separator:abc92b4f14783d428c523af797295582e inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cdc07334e5ce4987beea0974fd5d204 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a6cdc07334e5ce4987beea0974fd5d204">setPitch</a> (float value)</td></tr>
+<tr class="separator:a6cdc07334e5ce4987beea0974fd5d204 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1c02eeb9893c8d860a892e3575c1db5 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#ab1c02eeb9893c8d860a892e3575c1db5">getPitch</a> () const</td></tr>
+<tr class="separator:ab1c02eeb9893c8d860a892e3575c1db5 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6774591c5c9dd1264f84519cb2c8fd3f inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a6774591c5c9dd1264f84519cb2c8fd3f">setGain</a> (float value)</td></tr>
+<tr class="separator:a6774591c5c9dd1264f84519cb2c8fd3f inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a954eaf4b48fe70657164a0a1fe18bd1f inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a954eaf4b48fe70657164a0a1fe18bd1f">getGain</a> () const</td></tr>
+<tr class="separator:a954eaf4b48fe70657164a0a1fe18bd1f inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a235cea3b0fb957cd97a21525d7a0bf98 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a235cea3b0fb957cd97a21525d7a0bf98">setMaxGain</a> (float value)</td></tr>
+<tr class="separator:a235cea3b0fb957cd97a21525d7a0bf98 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acaf45007a1528a7fabb8a7a45b68d114 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#acaf45007a1528a7fabb8a7a45b68d114">getMaxGain</a> () const</td></tr>
+<tr class="separator:acaf45007a1528a7fabb8a7a45b68d114 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a351c9678ea6d23eb0739507efd10721f inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a351c9678ea6d23eb0739507efd10721f">setMinGain</a> (float value)</td></tr>
+<tr class="separator:a351c9678ea6d23eb0739507efd10721f inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f29a823f26e867f3383ac4c6946d5f6 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a3f29a823f26e867f3383ac4c6946d5f6">getMinGain</a> () const</td></tr>
+<tr class="separator:a3f29a823f26e867f3383ac4c6946d5f6 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96e7294937dc58b7a4c166a76e01c710 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a96e7294937dc58b7a4c166a76e01c710">setMaxDistance</a> (float value)</td></tr>
+<tr class="separator:a96e7294937dc58b7a4c166a76e01c710 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1a805d5bc430cefc37ed4f0d0705a08 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#ab1a805d5bc430cefc37ed4f0d0705a08">getMaxDistance</a> () const</td></tr>
+<tr class="separator:ab1a805d5bc430cefc37ed4f0d0705a08 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7daf9c83541a8e983fb22ab176e503db inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a7daf9c83541a8e983fb22ab176e503db">setRolloffFactor</a> (float value)</td></tr>
+<tr class="separator:a7daf9c83541a8e983fb22ab176e503db inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ae61ee36562c28f61bb81890a2ceddb inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a6ae61ee36562c28f61bb81890a2ceddb">getRolloffFactor</a> () const</td></tr>
+<tr class="separator:a6ae61ee36562c28f61bb81890a2ceddb inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29e249ef6639b978ff19f701f0ee93e9 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a29e249ef6639b978ff19f701f0ee93e9">setReferenceDistance</a> (float value)</td></tr>
+<tr class="separator:a29e249ef6639b978ff19f701f0ee93e9 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a066c8530a03a953da179dd4342104599 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a066c8530a03a953da179dd4342104599">getReferenceDistance</a> () const</td></tr>
+<tr class="separator:a066c8530a03a953da179dd4342104599 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9f05234b9c53c4abf6ba6284ae5b273 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#af9f05234b9c53c4abf6ba6284ae5b273">setRelative</a> (bool value)</td></tr>
+<tr class="separator:af9f05234b9c53c4abf6ba6284ae5b273 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4ec7fd4ad57d7f8a3fd0d907aba34c6 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#ae4ec7fd4ad57d7f8a3fd0d907aba34c6">isRelative</a> () const</td></tr>
+<tr class="separator:ae4ec7fd4ad57d7f8a3fd0d907aba34c6 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4743f300694db8d3fdf3b8594208e1b9 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a4743f300694db8d3fdf3b8594208e1b9">setConeOuterGain</a> (float value)</td></tr>
+<tr class="separator:a4743f300694db8d3fdf3b8594208e1b9 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd186a9f1de6ebe58ccc652b4d473acc inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#afd186a9f1de6ebe58ccc652b4d473acc">getConeOuterGain</a> () const</td></tr>
+<tr class="separator:afd186a9f1de6ebe58ccc652b4d473acc inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a071cace98a6a999593a882fa29f528b3 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a071cace98a6a999593a882fa29f528b3">setConeInnerAngle</a> (float value)</td></tr>
+<tr class="separator:a071cace98a6a999593a882fa29f528b3 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17c9f9edf45db9350ba9ba0069a20340 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a17c9f9edf45db9350ba9ba0069a20340">getConeInnerAngle</a> () const</td></tr>
+<tr class="separator:a17c9f9edf45db9350ba9ba0069a20340 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65fa918d9ac68ce1c725e1408044d126 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a65fa918d9ac68ce1c725e1408044d126">setConeOuterAngle</a> (float value)</td></tr>
+<tr class="separator:a65fa918d9ac68ce1c725e1408044d126 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a768ca02adde726c33f7f314350c65dfd inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a768ca02adde726c33f7f314350c65dfd">getConeOuterAngle</a> () const</td></tr>
+<tr class="separator:a768ca02adde726c33f7f314350c65dfd inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07753f3284f574a6a7c639d6e57a978c inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a07753f3284f574a6a7c639d6e57a978c">setPosition</a> (const <a class="el" href="namespacehou.html#aac2f748a1751ac9c70d60085f4d5142c">Vec3f</a> &amp;pos)</td></tr>
+<tr class="separator:a07753f3284f574a6a7c639d6e57a978c inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21cb3c1114331abb032f60380eefdeda inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehou.html#aac2f748a1751ac9c70d60085f4d5142c">Vec3f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a21cb3c1114331abb032f60380eefdeda">getPosition</a> () const</td></tr>
+<tr class="separator:a21cb3c1114331abb032f60380eefdeda inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7dae9c3cb402c405cf59aa1b1d01a4d inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#ad7dae9c3cb402c405cf59aa1b1d01a4d">setVelocity</a> (const <a class="el" href="namespacehou.html#aac2f748a1751ac9c70d60085f4d5142c">Vec3f</a> &amp;vel)</td></tr>
+<tr class="separator:ad7dae9c3cb402c405cf59aa1b1d01a4d inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a287fa6bf88f666aa43c136f970a515c5 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehou.html#aac2f748a1751ac9c70d60085f4d5142c">Vec3f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a287fa6bf88f666aa43c136f970a515c5">getVelocity</a> () const</td></tr>
+<tr class="separator:a287fa6bf88f666aa43c136f970a515c5 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07d64387323429ee7df068e7fa26c798 inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a07d64387323429ee7df068e7fa26c798">setDirection</a> (const <a class="el" href="namespacehou.html#aac2f748a1751ac9c70d60085f4d5142c">Vec3f</a> &amp;dir)</td></tr>
+<tr class="separator:a07d64387323429ee7df068e7fa26c798 inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a463ad749dc2dd1ddf92e245d1c728cba inherit pub_methods_classhou_1_1AudioSource"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehou.html#aac2f748a1751ac9c70d60085f4d5142c">Vec3f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSource.html#a463ad749dc2dd1ddf92e245d1c728cba">getDirection</a> () const</td></tr>
+<tr class="separator:a463ad749dc2dd1ddf92e245d1c728cba inherit pub_methods_classhou_1_1AudioSource"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classhou_1_1NonCopyable"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classhou_1_1NonCopyable')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classhou_1_1NonCopyable.html">hou::NonCopyable</a></td></tr>
 <tr class="memitem:ab2e0ffade342b84ff53950ceda7ae209 inherit pub_methods_classhou_1_1NonCopyable"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1NonCopyable.html#ab2e0ffade342b84ff53950ceda7ae209">NonCopyable</a> ()</td></tr>
 <tr class="separator:ab2e0ffade342b84ff53950ceda7ae209 inherit pub_methods_classhou_1_1NonCopyable"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -220,13 +242,10 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pro_attribs_classhou_1_1AudioSourceBase"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classhou_1_1AudioSourceBase')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classhou_1_1AudioSourceBase.html">hou::AudioSourceBase</a></td></tr>
-<tr class="memitem:a95f58db82c552a985bdd95c9748253f2 inherit pro_attribs_classhou_1_1AudioSourceBase"><td class="memItemLeft" align="right" valign="top">al::Source&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1AudioSourceBase.html#a95f58db82c552a985bdd95c9748253f2">mAlSource</a></td></tr>
-<tr class="separator:a95f58db82c552a985bdd95c9748253f2 inherit pro_attribs_classhou_1_1AudioSourceBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents an audio source constantly streaming a buffer.</p>
-<p>This class is suited to play long audio buffers, as the buffer must not be completely loaded in memory but is rather streamed concurrently in smaller chunks. For short audio files, it is suggested to use an <a class="el" href="classhou_1_1AudioSource.html">AudioSource</a> and an <a class="el" href="classhou_1_1AudioBuffer.html">AudioBuffer</a>, as performance is better and as the <a class="el" href="classhou_1_1AudioBuffer.html">AudioBuffer</a> can be shared by multiple AudioSources. Each <a class="el" href="classhou_1_1StreamingAudioSource.html">StreamingAudioSource</a> object spawns a thread that takes care of loading part of the audio into a queue of memory buffers. The thread is destroyed when the <a class="el" href="classhou_1_1StreamingAudioSource.html">StreamingAudioSource</a> is destroyed. A <a class="el" href="classhou_1_1StreamingAudioSource.html">StreamingAudioSource</a> must be given an <a class="el" href="classhou_1_1AudioStream.html">AudioStream</a> to play a sound. The <a class="el" href="classhou_1_1StreamingAudioSource.html">StreamingAudioSource</a> will retain unique ownership of the <a class="el" href="classhou_1_1AudioStream.html">AudioStream</a> and will automatically destroy it when necessary.</p>
+<p>This class is suited to play long audio buffers, as the buffer must not be completely loaded in memory but is rather streamed concurrently in smaller chunks. For short audio files, it is suggested to use an <a class="el" href="classhou_1_1MemoryAudioSource.html">MemoryAudioSource</a> and an <a class="el" href="classhou_1_1AudioBuffer.html">AudioBuffer</a>, as performance is better and as the <a class="el" href="classhou_1_1AudioBuffer.html">AudioBuffer</a> can be shared by multiple AudioSources. Each <a class="el" href="classhou_1_1StreamingAudioSource.html">StreamingAudioSource</a> object spawns a thread that takes care of loading part of the audio into a queue of memory buffers. The thread is destroyed when the <a class="el" href="classhou_1_1StreamingAudioSource.html">StreamingAudioSource</a> is destroyed. A <a class="el" href="classhou_1_1StreamingAudioSource.html">StreamingAudioSource</a> must be given an <a class="el" href="classhou_1_1AudioStream.html">AudioStream</a> to play a sound. The <a class="el" href="classhou_1_1StreamingAudioSource.html">StreamingAudioSource</a> will retain unique ownership of the <a class="el" href="classhou_1_1AudioStream.html">AudioStream</a> and will automatically destroy it when necessary.</p>
 <p>The buffer queue is defined by the number of buffers and the size of each buffer. The default values are 3 buffers, each composed of 44100 bytes. If necessary it is possible to modify these values with the associated methods. Higher number of buffers and higher buffer size will result in higher memory consumption, but better sound quality. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a9bfaf3463b3ca6297fec59a722cb47c5"></a>
@@ -309,35 +328,6 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="aab052af3dcb0a4a96dab3562eb05b62a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aab052af3dcb0a4a96dab3562eb05b62a">&#9670;&nbsp;</a></span>getAudioFormat()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacehou.html#ace728d8b0d3830beb5a452635f6b92dd">AudioFormat</a> hou::StreamingAudioSource::getAudioFormat </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">final</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Gets the audio format of the audio source.</p>
-<dl class="section return"><dt>Returns</dt><dd>the audio format. </dd></dl>
-
-<p>Implements <a class="el" href="classhou_1_1AudioSourceBase.html#a32bc0a506d380bab988506c24ca369fa">hou::AudioSourceBase</a>.</p>
-
-</div>
-</div>
 <a id="afdc7ef0d3a59f2f8f2e5fa05508fa894"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afdc7ef0d3a59f2f8f2e5fa05508fa894">&#9670;&nbsp;</a></span>getBufferCount()</h2>
 
@@ -401,7 +391,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Gets the number of bytes per sample of the audio stream, based on its audio format.</p>
 <p>The number returned is the number of bytes per sample for a single channel. </p><dl class="section return"><dt>Returns</dt><dd>1 for 8-bit audio formats, 2 for 16-bit audio formats. </dd></dl>
 
-<p>Implements <a class="el" href="classhou_1_1AudioSourceBase.html#a24302d1e7a69e8b9eb6255011b69bf63">hou::AudioSourceBase</a>.</p>
+<p>Implements <a class="el" href="classhou_1_1AudioSource.html#a0d55296d160ce2c90e99a34179c6c8db">hou::AudioSource</a>.</p>
 
 </div>
 </div>
@@ -430,7 +420,36 @@ Additional Inherited Members</h2></td></tr>
 <p>Gets the number of channels of the audio source, based on its audio format.</p>
 <dl class="section return"><dt>Returns</dt><dd>1 if the audio format is mono, 2 if the audio format is stereo. </dd></dl>
 
-<p>Implements <a class="el" href="classhou_1_1AudioSourceBase.html#af5d86eaf1aa8c9629c8160434779c83b">hou::AudioSourceBase</a>.</p>
+<p>Implements <a class="el" href="classhou_1_1AudioSource.html#a991a2234415c6758b6a70a921a503bf2">hou::AudioSource</a>.</p>
+
+</div>
+</div>
+<a id="a92aa7c8e922ea77f8c188da809e3d70a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92aa7c8e922ea77f8c188da809e3d70a">&#9670;&nbsp;</a></span>getFormat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacehou.html#a7eb69180f5627f590d96af30e709947b">AudioBufferFormat</a> hou::StreamingAudioSource::getFormat </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">final</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gets the audio format of the audio source.</p>
+<dl class="section return"><dt>Returns</dt><dd>the audio format. </dd></dl>
+
+<p>Implements <a class="el" href="classhou_1_1AudioSource.html#a7f9c6a63da05fc2ede5f5086e1f52e79">hou::AudioSource</a>.</p>
 
 </div>
 </div>
@@ -459,7 +478,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Gets the number of samples in the audio source.</p>
 <dl class="section return"><dt>Returns</dt><dd>the number of samples. </dd></dl>
 
-<p>Implements <a class="el" href="classhou_1_1AudioSourceBase.html#a7e38dbcc5456503b63f7a7b205d41364">hou::AudioSourceBase</a>.</p>
+<p>Implements <a class="el" href="classhou_1_1AudioSource.html#a6aaf4356b62cf8af662970a1afa87949">hou::AudioSource</a>.</p>
 
 </div>
 </div>
@@ -488,7 +507,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Gets the number of samples per second.</p>
 <dl class="section return"><dt>Returns</dt><dd>the sample rate in samples per second. </dd></dl>
 
-<p>Implements <a class="el" href="classhou_1_1AudioSourceBase.html#ad80c91b136a4045d94e285efe09e5c2b">hou::AudioSourceBase</a>.</p>
+<p>Implements <a class="el" href="classhou_1_1AudioSource.html#a06cf33d1956d2c332282a38551c60b82">hou::AudioSource</a>.</p>
 
 </div>
 </div>
@@ -517,7 +536,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Checks if the audio source is looping.</p>
 <dl class="section return"><dt>Returns</dt><dd>true if the audio source is looping. </dd></dl>
 
-<p>Implements <a class="el" href="classhou_1_1AudioSourceBase.html#af6ad0332a90e22222441e5da7299d742">hou::AudioSourceBase</a>.</p>
+<p>Implements <a class="el" href="classhou_1_1AudioSource.html#aba903c9980a2b75696cfc091692e3b5f">hou::AudioSource</a>.</p>
 
 </div>
 </div>
@@ -603,7 +622,7 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implements <a class="el" href="classhou_1_1AudioSourceBase.html#a02a6580bcf210737d58e24b4a7062f90">hou::AudioSourceBase</a>.</p>
+<p>Implements <a class="el" href="classhou_1_1AudioSource.html#af2986853dfee967f86905ec8fc1fccba">hou::AudioSource</a>.</p>
 
 </div>
 </div>
@@ -636,11 +655,15 @@ Additional Inherited Members</h2></td></tr>
 <li>houaud/include/hou/aud/<a class="el" href="StreamingAudioSource_8hpp_source.html">StreamingAudioSource.hpp</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.14
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacehou.html">hou</a></li><li class="navelem"><a class="el" href="classhou_1_1StreamingAudioSource.html">StreamingAudioSource</a></li>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
+  </ul>
+</div>
 </body>
 </html>

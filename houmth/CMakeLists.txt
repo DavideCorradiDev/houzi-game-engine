@@ -29,7 +29,7 @@ INCLUDE_DIRECTORIES(
 
 # Source files.
 SET(LIB_HOUMTH_SRC
-  src/hou/mth/MthUtils.cpp
+  src/hou/mth/MathFunctions.cpp
   src/hou/mth/Quaternion.cpp
   src/hou/mth/Rotation2.cpp
   src/hou/mth/Rotation3.cpp

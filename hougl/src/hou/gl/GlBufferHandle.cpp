@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/gl/GlBufferHandle.hpp"
 
@@ -60,6 +60,7 @@ BufferHandle::BufferHandle(BufferHandle&& other)
 BufferHandle::~BufferHandle()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(*this);
   GLuint name = getName();
   glDeleteBuffers(1, &name);
   HOU_GL_CHECK_ERROR();

@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/al/AlBufferHandle.hpp"
 
@@ -37,6 +37,7 @@ BufferHandle::~BufferHandle()
   if(getName() != 0u)
   {
     HOU_AL_CHECK_CONTEXT_EXISTENCE();
+    HOU_AL_CHECK_CONTEXT_OWNERSHIP(*this);
     ALuint name = getName();
     alDeleteBuffers(1u, &name);
     HOU_AL_CHECK_ERROR();
@@ -51,12 +52,12 @@ BufferHandle::BufferHandle(ALuint name)
 
 
 
-void setBufferData(const BufferHandle& handle, BufferFormat format
-  , ALvoid* data, ALsizei size, ALsizei freq)
+void setBufferData(const BufferHandle& handle, ALenum format, ALvoid* data,
+  ALsizei size, ALsizei freq)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(handle);
-  alBufferData(handle.getName(), static_cast<ALenum>(format), data, size, freq);
+  alBufferData(handle.getName(), format, data, size, freq);
   HOU_AL_CHECK_ERROR();
 }
 
@@ -108,7 +109,6 @@ ALint getBufferSize(const BufferHandle& handle)
   return value;
 }
 
-}
+}  // namespace al
 
-}
-
+}  // namespace hou

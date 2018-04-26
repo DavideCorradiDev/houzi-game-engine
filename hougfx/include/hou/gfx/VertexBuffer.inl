@@ -1,61 +1,87 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 namespace hou
 {
 
-template <typename Container, typename Enable>
-VertexBuffer::VertexBuffer(
-  const Container& data, VertexBufferAttributes attributes)
-  : VertexBuffer(data.size() * sizeof(typename Container::value_type),
-      reinterpret_cast<const void*>(data.data()), attributes)
+template <typename T, bool dynamicStorage>
+VertexBufferT<T, dynamicStorage>::VertexBufferT(uint size)
+  : VertexBuffer(size * sizeof(T), dynamicStorage)
 {}
 
 
 
-template <typename Container, typename Enable>
-void VertexBuffer::setData(const Container& data)
+template <typename T, bool dynamicStorage>
+VertexBufferT<T, dynamicStorage>::VertexBufferT(const Span<const T>& data)
+  : VertexBuffer(data.size() * sizeof(T),
+      reinterpret_cast<const void*>(data.data()), dynamicStorage)
+{}
+
+
+
+template <typename T, bool dynamicStorage>
+VertexBufferT<T, dynamicStorage>::VertexBufferT(VertexBuffer&& other)
+  : VertexBuffer(std::move(other))
+{}
+
+
+
+template <typename T, bool dynamicStorage>
+uint VertexBufferT<T, dynamicStorage>::getSize() const
 {
-  uint sizeBytes = data.size() * sizeof(typename Container::value_type);
-  HOU_EXPECT(sizeBytes == mByteCount);
+  HOU_EXPECT_DEV(getByteCount() % sizeof(T) == 0u);
+  return getByteCount() / sizeof(T);
+}
+
+
+
+template <typename T, bool dynamicStorage>
+typename VertexBufferT<T, dynamicStorage>::DataType
+  VertexBufferT<T, dynamicStorage>::getData() const
+{
+  return getSubData(0u, getSize());
+}
+
+
+
+template <typename T, bool dynamicStorage>
+typename VertexBufferT<T, dynamicStorage>::DataType
+  VertexBufferT<T, dynamicStorage>::getSubData(
+    uint offset, uint elementCount) const
+{
+  HOU_EXPECT_DEV(getByteCount() % sizeof(T) == 0u);
+  HOU_EXPECT(offset + elementCount <= getSize());
+  typename VertexBufferT<T, dynamicStorage>::DataType dataOut(
+    elementCount, T());
+  gl::getBufferSubData(getHandle(), static_cast<GLintptr>(offset * sizeof(T)),
+    static_cast<uint>(elementCount * sizeof(T)),
+    reinterpret_cast<GLvoid*>(dataOut.data()));
+  return dataOut;
+}
+
+
+
+template <typename T, bool dynamicStorage>
+template <bool ds, typename Enable>
+void VertexBufferT<T, dynamicStorage>::setData(const Span<const T>& data)
+{
+  HOU_EXPECT(data.size() == getSize());
   setSubData(0u, data);
 }
 
 
 
-template <typename Container, typename Enable>
-void VertexBuffer::setSubData(uint offset, const Container& data)
+template <typename T, bool dynamicStorage>
+template <bool ds, typename Enable>
+void VertexBufferT<T, dynamicStorage>::setSubData(
+  uint offset, const Span<const T>& data)
 {
-  uint offsetBytes = offset * sizeof(typename Container::value_type);
-  uint sizeBytes = data.size() * sizeof(typename Container::value_type);
-  HOU_EXPECT(offsetBytes + sizeBytes <= mByteCount);
-  gl::setBufferSubData(mHandle, static_cast<GLintptr>(offsetBytes),
-    static_cast<GLsizei>(sizeBytes),
+  HOU_EXPECT_DEV(getByteCount() % sizeof(T) == 0u);
+  HOU_EXPECT(offset + data.size() <= getSize());
+  gl::setBufferSubData(getHandle(), static_cast<GLintptr>(offset * sizeof(T)),
+    static_cast<GLsizei>(data.size() * sizeof(T)),
     reinterpret_cast<const GLvoid*>(data.data()));
-}
-
-
-
-template <typename DataType>
-std::vector<DataType> VertexBuffer::getData() const
-{
-  HOU_EXPECT(mByteCount % sizeof(DataType) == 0u);
-  return getSubData<DataType>(0u, mByteCount / sizeof(DataType));
-}
-
-
-
-template <typename DataType>
-std::vector<DataType> VertexBuffer::getSubData(uint offset, uint size) const
-{
-  uint offsetBytes = offset * sizeof(DataType);
-  uint sizeBytes = size * sizeof(DataType);
-  HOU_EXPECT(offsetBytes + sizeBytes <= mByteCount);
-  std::vector<DataType> dataOut(size, DataType());
-  gl::getBufferSubData(mHandle, static_cast<GLintptr>(offsetBytes),
-    static_cast<uint>(sizeBytes), reinterpret_cast<GLvoid*>(dataOut.data()));
-  return dataOut;
 }
 
 }  // namespace hou

@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/sys/VideoMode.hpp"
 
@@ -20,9 +20,9 @@ std::vector<VideoMode> VideoMode::getFullscreenModes()
 
 
 
-VideoMode::VideoMode(const Vec2u& resolution, uint bitsPerPixel)
+VideoMode::VideoMode(const Vec2u& resolution, uint bytesPerPixel)
   : mResolution(resolution)
-  , mBitsPerPixel(bitsPerPixel)
+  , mBytesPerPixel(bytesPerPixel)
 {}
 
 
@@ -34,9 +34,9 @@ const Vec2u& VideoMode::getResolution() const
 
 
 
-uint VideoMode::getBitsPerPixel() const
+uint VideoMode::getBytesPerPixel() const
 {
-  return mBitsPerPixel;
+  return mBytesPerPixel;
 }
 
 
@@ -52,7 +52,7 @@ bool VideoMode::isFullscreenMode() const
 bool operator==(const VideoMode& lhs, const VideoMode& rhs)
 {
   return (lhs.getResolution() == rhs.getResolution())
-    && (lhs.getBitsPerPixel() == rhs.getBitsPerPixel());
+    && (lhs.getBytesPerPixel() == rhs.getBytesPerPixel());
 }
 
 
@@ -66,7 +66,7 @@ bool operator!=(const VideoMode& lhs, const VideoMode& rhs)
 
 bool operator<(const VideoMode& lhs, const VideoMode& rhs)
 {
-  if(lhs.getBitsPerPixel() == rhs.getBitsPerPixel())
+  if(lhs.getBytesPerPixel() == rhs.getBytesPerPixel())
   {
     if(lhs.getResolution().x() == rhs.getResolution().x())
     {
@@ -79,7 +79,7 @@ bool operator<(const VideoMode& lhs, const VideoMode& rhs)
   }
   else
   {
-    return lhs.getBitsPerPixel() < rhs.getBitsPerPixel();
+    return lhs.getBytesPerPixel() < rhs.getBytesPerPixel();
   }
 }
 
@@ -109,7 +109,7 @@ bool operator>=(const VideoMode& lhs, const VideoMode& rhs)
 std::ostream& operator<<(std::ostream& os, const VideoMode& vm)
 {
   return os << "{Resolution = " << transpose(vm.getResolution())
-    << ", BitsPerPixel = " << vm.getBitsPerPixel() << "}";
+    << ", BytesPerPixel = " << vm.getBytesPerPixel() << "}";
 }
 
 }

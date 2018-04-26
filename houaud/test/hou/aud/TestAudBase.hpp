@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #ifndef TEST_HOU_AUD_TEST_AUD_BASE_HPP
 #define TEST_HOU_AUD_TEST_AUD_BASE_HPP
@@ -13,8 +13,7 @@
 
 
 
-class TestAudBase
-  : public ::testing::Test
+class TestAudBase : public ::testing::Test
 {
 public:
   static void SetUpTestCase();
@@ -29,4 +28,3 @@ public:
 };
 
 #endif
-

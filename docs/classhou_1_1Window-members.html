@@ -9,6 +9,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -45,6 +53,23 @@ $(function() {
 });
 /* @license-end */</script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('classhou_1_1Window.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -59,11 +84,6 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacehou.html">hou</a></li><li class="navelem"><a class="el" href="classhou_1_1Window.html">Window</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">hou::Window Member List</div>  </div>
@@ -72,12 +92,10 @@ $(function() {
 
 <p>This is the complete list of members for <a class="el" href="classhou_1_1Window.html">hou::Window</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#a41bbb36c919bf42b19eaa88de72bde6b">getBitsPerPixel</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#a7c5dd026885214ffb084df0d79cfba59">getBytesPerPixel</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#a18707fc7a7326e543b8254b33ba1b63a">getClientPosition</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#a76844fcc695caf515ee0593651e23e43">getClientRect</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#a19a8f402088ecd2c683c0f8b7ce9a21d">getClientSize</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#ac8f760f03cb7a990689210617bf177e6">getFramePosition</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#ab0ab0596411d25720664e020acef4c51">getFrameRect</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#a19a8f402088ecd2c683c0f8b7ce9a21d">getClientSize</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#ac8f760f03cb7a990689210617bf177e6">getFramePosition</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#a508af7ec6bca1b703f8fafc7b4410e82">getFrameSize</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#a9e951764254e08efc760408e69689409">getIcon</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#af746124c88c6aea4a4c7d23c2f9f42d9">getStyle</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
@@ -98,10 +116,10 @@ $(function() {
   <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#a8a8681cf8e661fbf159beb2dc5b3f0b4">pushEvent</a>(const WindowEvent &amp;event)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#a16355143dee85f087be8c42b36b706c9">requestFocus</a>() const</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#ab8ddd71a3681520fb948ba32c52fb6bb">setClientPosition</a>(const Vec2i &amp;pos)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#a4b0823b17358fb5f1912f36a1139e110">setClientRect</a>(const Recti &amp;rect)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#a11b9539e8a6a825a902c558af31509e3">setClientRect</a>(const Vec2i &amp;pos, const Vec2u &amp;size)=0</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
   <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#a304fc7e94a5a8e5d67d653eeda6d1900">setClientSize</a>(const Vec2u &amp;size)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#ac463bdca43a145d89e53fe5cae810133">setFramePosition</a>(const Vec2i &amp;pos)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#ac107519239b830eb7d13ef3e3a32736b">setFrameRect</a>(const Recti &amp;rect)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#ab04636e530ef677bfc5f4bbf6067013d">setFrameRect</a>(const Vec2i &amp;pos, const Vec2u &amp;size)=0</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#a05684b6994470af8e7d26c52a5dbdf15">setFrameSize</a>(const Vec2u &amp;size)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#a6dd95c583fe2a24e3e3ce9879b5742ce">setIcon</a>(const Image2RGBA &amp;icon)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#aa40900598db628c20436372d9fac91bf">setKeyRepeatEnabled</a>(bool value)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
@@ -115,13 +133,16 @@ $(function() {
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1Window.html#acd02e82041a4690f0eb54dd65a621121">Window</a>(const std::string &amp;title, const VideoMode &amp;videoMode, WindowStyle style)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#a1579cb5439407ef7ffa4b1731e050e5e">Window</a>(Window &amp;&amp;other)</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html#a83cb41c7b136839df32aaa6cad8699f5">~NonCopyable</a>()</td><td class="entry"><a class="el" href="classhou_1_1NonCopyable.html">hou::NonCopyable</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#a7529e903ebbae3efee85948feedf7d0d">~Window</a>()</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classhou_1_1Window.html#aeeb8975b37212586800041234aff3a00">~Window</a>()=0</td><td class="entry"><a class="el" href="classhou_1_1Window.html">hou::Window</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
 </table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.14
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
+  </ul>
+</div>
 </body>
 </html>

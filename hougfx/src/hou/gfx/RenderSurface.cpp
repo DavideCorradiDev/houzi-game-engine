@@ -1,13 +1,13 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/gfx/RenderSurface.hpp"
 
-#include "hou/gfx/RenderContext.hpp"
+#include "hou/gfx/GraphicContext.hpp"
 #include "hou/gfx/Texture.hpp"
 
-#include "hou/gl/GlUtils.hpp"
+#include "hou/gl/GlFunctions.hpp"
 
 #include "hou/sys/Color.hpp"
 
@@ -18,14 +18,14 @@ namespace hou
 
 void RenderSurface::setCurrentRenderSource(const RenderSurface& rs)
 {
-  gl::bindFramebuffer(rs.mGlFramebufferHandle, GL_READ_FRAMEBUFFER);
+  FrameBuffer::bindReadTarget(rs.mFrameBuffer);
 }
 
 
 
 void RenderSurface::setDefaultRenderSource()
 {
-  gl::unbindFramebuffer(GL_READ_FRAMEBUFFER);
+  FrameBuffer::unbindReadTarget();
 }
 
 
@@ -34,21 +34,35 @@ void RenderSurface::setCurrentRenderTarget(const RenderSurface& rs)
 {
   gl::setViewport(
     rs.mViewport.x(), rs.mViewport.y(), rs.mViewport.w(), rs.mViewport.h());
-  gl::bindFramebuffer(rs.mGlFramebufferHandle, GL_DRAW_FRAMEBUFFER);
+  FrameBuffer::bindDrawTarget(rs.mFrameBuffer);
 }
 
 
 
 void RenderSurface::setDefaultRenderTarget()
 {
-  gl::unbindFramebuffer(GL_DRAW_FRAMEBUFFER);
+  FrameBuffer::unbindDrawTarget();
+}
+
+
+
+Vec2u RenderSurface::getMaxSize()
+{
+  return AttachmentType::getMaxSize();
+}
+
+
+
+uint RenderSurface::getMaxSampleCount()
+{
+  return MultisampledAttachmentType::getMaxSampleCount();
 }
 
 
 
 RenderSurface::RenderSurface(const Vec2u& size, uint sampleCount)
   : NonCopyable()
-  , mGlFramebufferHandle(gl::FramebufferHandle::create())
+  , mFrameBuffer()
   , mColorAttachment(nullptr)
   , mDepthStencilAttachment(nullptr)
   , mSampleCount(sampleCount)
@@ -61,7 +75,7 @@ RenderSurface::RenderSurface(const Vec2u& size, uint sampleCount)
 
 RenderSurface::RenderSurface(RenderSurface&& other)
   : NonCopyable()
-  , mGlFramebufferHandle(std::move(other.mGlFramebufferHandle))
+  , mFrameBuffer(std::move(other.mFrameBuffer))
   , mColorAttachment(std::move(other.mColorAttachment))
   , mDepthStencilAttachment(std::move(other.mDepthStencilAttachment))
   , mSampleCount(std::move(other.mSampleCount))
@@ -104,13 +118,6 @@ Vec2u RenderSurface::getSize() const
 
 
 
-void RenderSurface::setSize(const Vec2u& size)
-{
-  buildFramebuffer(size, mSampleCount);
-}
-
-
-
 bool RenderSurface::isMultisampled() const
 {
   return mSampleCount > 1u;
@@ -121,13 +128,6 @@ bool RenderSurface::isMultisampled() const
 uint RenderSurface::getSampleCount() const
 {
   return mSampleCount;
-}
-
-
-
-void RenderSurface::setSampleCount(uint sampleCount)
-{
-  buildFramebuffer(getSize(), sampleCount);
 }
 
 
@@ -145,31 +145,11 @@ void RenderSurface::clear(const Color& color)
 
 
 
-void RenderSurface::blit(
-  RenderSurface& dst, const Recti& srcRect, const Recti& dstRect) const
-{
-  HOU_EXPECT(getSampleCount() == dst.getSampleCount()
-    || (std::abs(srcRect.w()) == std::abs(dstRect.w())
-         && std::abs(srcRect.h()) == std::abs(dstRect.h())));
-
-  setCurrentRenderSource(*this);
-  setCurrentRenderTarget(dst);
-
-  gl::blitFramebuffer(srcRect.l(), srcRect.t(), srcRect.r(), srcRect.b(),
-    dstRect.l(), dstRect.t(), dstRect.r(), dstRect.b(),
-    GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
-    GL_NEAREST);
-}
-
-
-
 Texture2 RenderSurface::toTexture() const
 {
-  HOU_EXPECT(!isMultisampled());
-  setCurrentRenderSource(*this);
-  Vec2u size = getSize();
-  Texture2 tex(size);
-  gl::copyTextureSubImage2d(tex.getHandle(), 0, 0, 0, 0, 0, size.x(), size.y());
+  Texture2 tex(getSize());
+  Recti blitRect(Vec2i::zero(), static_cast<Vec2i>(getSize()));
+  blit(mFrameBuffer, blitRect, tex, blitRect, FrameBufferBlitFilter::Nearest);
   return tex;
 }
 
@@ -177,23 +157,24 @@ Texture2 RenderSurface::toTexture() const
 
 bool RenderSurface::isCurrentRenderSource() const
 {
-  return gl::isFramebufferBound(mGlFramebufferHandle, GL_READ_FRAMEBUFFER);
+  return mFrameBuffer.isBoundToReadTarget();
 }
 
 
 
 bool RenderSurface::isCurrentRenderTarget() const
 {
-  return gl::isFramebufferBound(mGlFramebufferHandle, GL_DRAW_FRAMEBUFFER);
+  return mFrameBuffer.isBoundToDrawTarget();
 }
 
 
 
 void RenderSurface::buildFramebuffer(const Vec2u& size, uint sampleCount)
 {
-  HOU_ENSURE_DEV(RenderContext::getRenderingColorBitCount() == 32u);
-  HOU_ENSURE_DEV(RenderContext::getRenderingDepthBitCount() == 24u);
-  HOU_ENSURE_DEV(RenderContext::getRenderingStencilBitCount() == 8u);
+  HOU_ENSURE_DEV(GraphicContext::getRenderingColorByteCount() == 4u);
+  HOU_ENSURE_DEV(GraphicContext::getRenderingDepthByteCount() == 3u);
+  HOU_ENSURE_DEV(GraphicContext::getRenderingStencilByteCount() == 1u);
+  HOU_EXPECT(sampleCount > 0u);
 
   mSampleCount = sampleCount;
   if(sampleCount <= 1)
@@ -215,15 +196,38 @@ void RenderSurface::buildFramebuffer(const Vec2u& size, uint sampleCount)
   HOU_ENSURE_DEV(mColorAttachment != nullptr);
   HOU_ENSURE_DEV(mDepthStencilAttachment != nullptr);
 
-  static constexpr GLint attachment = 0;
-  static constexpr GLint level = 0;
-  gl::setFramebufferColorTexture(
-    mGlFramebufferHandle, attachment, mColorAttachment->getHandle(), level);
-  gl::setFramebufferDepthStencilTexture(
-    mGlFramebufferHandle, mDepthStencilAttachment->getHandle(), level);
+  static constexpr uint attachmentPoint = 0u;
+  static constexpr uint mipMapLevel = 0u;
+  mFrameBuffer.setColorAttachment(
+    attachmentPoint, *mColorAttachment, mipMapLevel);
+  mFrameBuffer.setDepthStencilAttachment(*mDepthStencilAttachment, mipMapLevel);
 
-  HOU_ENSURE_DEV(
-    gl::getFramebufferStatus(mGlFramebufferHandle) == GL_FRAMEBUFFER_COMPLETE);
+  HOU_ENSURE_DEV(mFrameBuffer.isComplete());
+}
+
+
+
+void blit(const RenderSurface& src, const Recti& srcRect, RenderSurface& dst,
+  const Recti& dstRect, FrameBufferBlitFilter filter)
+{
+  blit(src.mFrameBuffer, srcRect, dst.mFrameBuffer, dstRect,
+    FrameBufferBlitMask::All, filter);
+}
+
+
+
+void blit(const RenderSurface& src, const Recti& srcRect, Texture& dst,
+  const Recti& dstRect, FrameBufferBlitFilter filter)
+{
+  blit(src.mFrameBuffer, srcRect, dst, dstRect, filter);
+}
+
+
+
+void blit(const Texture& src, const Recti& srcRect, RenderSurface& dst,
+  const Recti& dstRect, FrameBufferBlitFilter filter)
+{
+  blit(src, srcRect, dst.mFrameBuffer, dstRect, filter);
 }
 
 }  // namespace hou

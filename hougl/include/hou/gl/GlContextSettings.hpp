@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #ifndef HOU_GL_CONTEXT_SETTINGS_HPP
 #define HOU_GL_CONTEXT_SETTINGS_HPP
@@ -23,23 +23,19 @@ namespace gl
 class HOU_GL_API ContextSettings
 {
 public:
-  ContextSettings
-    ( const Version& version
-    , ContextProfile profile
-    , uint depthBits
-    , uint stencilBits
-    , uint antiAliasingLevel);
+  ContextSettings(const Version& version, ContextProfile profile,
+    uint depthByteCount, uint stencilByteCount, uint sampleCount);
 
   const Version& getVersion() const;
   void setVersion(const Version& version);
   ContextProfile getProfile() const;
   void setProfile(ContextProfile value);
-  uint getDepthBits() const;
-  void setDepthBits(uint value);
-  uint getStencilBits() const;
-  void setStencilBits(uint value);
-  uint getAntialiasingLevel() const;
-  void setAntialiasingLevel(uint value);
+  uint getDepthByteCount() const;
+  void setDepthByteCount(uint value);
+  uint getStencilByteCount() const;
+  void setStencilByteCount(uint value);
+  uint getSampleCount() const;
+  void setSampleCount(uint value);
 
 public:
   static const ContextSettings Default;
@@ -47,19 +43,16 @@ public:
 private:
   Version mVersion;
   ContextProfile mProfile;
-  uint mDepthBits;
-  uint mStencilBits;
-  uint mAntiAliasingLevel;
+  uint mDepthByteCount;
+  uint mStencilByteCount;
+  uint mSampleCount;
 };
 
-HOU_GL_API bool operator==(const ContextSettings& l
-  , const ContextSettings& r);
-HOU_GL_API bool operator!=(const ContextSettings& l
-  , const ContextSettings& r);
+HOU_GL_API bool operator==(const ContextSettings& l, const ContextSettings& r);
+HOU_GL_API bool operator!=(const ContextSettings& l, const ContextSettings& r);
 
-}
+}  // namespace gl
 
-}
+}  // namespace hou
 
 #endif
-

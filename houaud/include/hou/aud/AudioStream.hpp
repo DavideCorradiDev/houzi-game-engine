@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #ifndef HOU_AUD_AUDIO_STREAM_HPP
 #define HOU_AUD_AUDIO_STREAM_HPP
@@ -8,7 +8,7 @@
 #include "hou/aud/AudExport.hpp"
 #include "hou/sys/BinaryStream.hpp"
 
-#include "hou/aud/AudioFormat.hpp"
+#include "hou/aud/AudioBufferFormat.hpp"
 
 
 
@@ -21,8 +21,7 @@ namespace hou
  *  of the data of a single sample.
  *
  */
-class HOU_AUD_API AudioStream
-  : public BinaryStream
+class HOU_AUD_API AudioStream : public BinaryStream
 {
 public:
   /** Position indicator representing the number of samples from the beginning
@@ -47,7 +46,7 @@ public:
    *
    *  \return the audio format of the stream.
    */
-  AudioFormat getAudioFormat() const;
+  AudioBufferFormat getFormat() const;
 
   /** Gets the number of channels of the stream, based on its audio format.
    *
@@ -55,10 +54,11 @@ public:
    */
   uint getChannelCount() const;
 
-  /** Gets the number of bytes per sample of the stream, based on its audio format.
+  /** Gets the number of bytes per sample of the stream, based on its audio
+   * format.
    *
-   *  The number returned is the number of bytes per sample for a single channel.
-   *  \return 1 for 8-bit audio formats, 2 for 16-bit audio formats.
+   *  The number returned is the number of bytes per sample for a single
+   * channel. \return 1 for 8-bit audio formats, 2 for 16-bit audio formats.
    */
   uint getBytesPerSample() const;
 
@@ -106,7 +106,7 @@ protected:
    *  \param channels the number of channels.
    *  \param bytesPerSample the number of bytes per sample per channel.
    */
-  void setAudioFormat(uint channels, uint bytesPerSample);
+  void setFormat(uint channels, uint bytesPerSample);
 
   /** Sets the sample rate of the stream.
    *
@@ -115,12 +115,10 @@ protected:
   void setSampleRate(uint sampleRate);
 
 private:
-  AudioFormat mFormat;
+  AudioBufferFormat mFormat;
   uint mSampleRate;
 };
 
-}
+}  // namespace hou
 
 #endif
-
-

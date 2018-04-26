@@ -9,6 +9,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -45,6 +53,23 @@ $(function() {
 });
 /* @license-end */</script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('classhou_1_1VideoMode.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -59,11 +84,6 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacehou.html">hou</a></li><li class="navelem"><a class="el" href="classhou_1_1VideoMode.html">VideoMode</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -78,12 +98,12 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad26a0fcec8c72d6c5845c80e092d4b76"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1VideoMode.html#ad26a0fcec8c72d6c5845c80e092d4b76">VideoMode</a> (const <a class="el" href="namespacehou.html#ac5e1326e1e69cc8149c46fc5f57b1855">Vec2u</a> &amp;resolution, uint bitsPerPixel)</td></tr>
-<tr class="separator:ad26a0fcec8c72d6c5845c80e092d4b76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54acbaea36f7fbe6a5f1bdf0c190cbeb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1VideoMode.html#a54acbaea36f7fbe6a5f1bdf0c190cbeb">VideoMode</a> (const <a class="el" href="namespacehou.html#ac5e1326e1e69cc8149c46fc5f57b1855">Vec2u</a> &amp;resolution, uint bytesPerPixel)</td></tr>
+<tr class="separator:a54acbaea36f7fbe6a5f1bdf0c190cbeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69cf86f8c8e6495e762f267ed111af84"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespacehou.html#ac5e1326e1e69cc8149c46fc5f57b1855">Vec2u</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1VideoMode.html#a69cf86f8c8e6495e762f267ed111af84">getResolution</a> () const</td></tr>
 <tr class="separator:a69cf86f8c8e6495e762f267ed111af84"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6421e4e680a14e8a16b883e249f98c51"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1VideoMode.html#a6421e4e680a14e8a16b883e249f98c51">getBitsPerPixel</a> () const</td></tr>
-<tr class="separator:a6421e4e680a14e8a16b883e249f98c51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0af6ca8ee85b7bd860cc55b7d87e0e6b"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1VideoMode.html#a0af6ca8ee85b7bd860cc55b7d87e0e6b">getBytesPerPixel</a> () const</td></tr>
+<tr class="separator:a0af6ca8ee85b7bd860cc55b7d87e0e6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac654200cb4b7e7b4ab25050635d60ce6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1VideoMode.html#ac654200cb4b7e7b4ab25050635d60ce6">isFullscreenMode</a> () const</td></tr>
 <tr class="separator:ac654200cb4b7e7b4ab25050635d60ce6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -97,8 +117,8 @@ Static Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class representing a video mode, defined by the resolution and the number of bits per pixel. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ad26a0fcec8c72d6c5845c80e092d4b76"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad26a0fcec8c72d6c5845c80e092d4b76">&#9670;&nbsp;</a></span>VideoMode()</h2>
+<a id="a54acbaea36f7fbe6a5f1bdf0c190cbeb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54acbaea36f7fbe6a5f1bdf0c190cbeb">&#9670;&nbsp;</a></span>VideoMode()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -113,7 +133,7 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint&#160;</td>
-          <td class="paramname"><em>bitsPerPixel</em>&#160;</td>
+          <td class="paramname"><em>bytesPerPixel</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -126,7 +146,7 @@ Static Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">resolution</td><td>the screen resolution. </td></tr>
-    <tr><td class="paramname">bitsPerPixel</td><td>the number of bits per pixel. </td></tr>
+    <tr><td class="paramname">bytesPerPixel</td><td>the number of bits per pixel. </td></tr>
   </table>
   </dd>
 </dl>
@@ -134,14 +154,14 @@ Static Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a6421e4e680a14e8a16b883e249f98c51"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6421e4e680a14e8a16b883e249f98c51">&#9670;&nbsp;</a></span>getBitsPerPixel()</h2>
+<a id="a0af6ca8ee85b7bd860cc55b7d87e0e6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0af6ca8ee85b7bd860cc55b7d87e0e6b">&#9670;&nbsp;</a></span>getBytesPerPixel()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint hou::VideoMode::getBitsPerPixel </td>
+          <td class="memname">uint hou::VideoMode::getBytesPerPixel </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -249,11 +269,15 @@ Static Public Member Functions</h2></td></tr>
 <li>housys/include/hou/sys/<a class="el" href="VideoMode_8hpp_source.html">VideoMode.hpp</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.14
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacehou.html">hou</a></li><li class="navelem"><a class="el" href="classhou_1_1VideoMode.html">VideoMode</a></li>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
+  </ul>
+</div>
 </body>
 </html>

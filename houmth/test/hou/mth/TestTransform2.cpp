@@ -1,10 +1,10 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/Test.hpp"
 
-#include "hou/mth/MthUtils.hpp"
+#include "hou/mth/MathFunctions.hpp"
 #include "hou/mth/Rectangle.hpp"
 #include "hou/mth/Rotation2.hpp"
 #include "hou/mth/Transform2.hpp"

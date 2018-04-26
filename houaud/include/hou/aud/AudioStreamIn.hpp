@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #ifndef HOU_AUD_AUDIO_STREAM_IN_HPP
 #define HOU_AUD_AUDIO_STREAM_IN_HPP
@@ -35,9 +35,20 @@ public:
   /** Get the number of samples read by the last read operation.
    */
   size_t getReadSampleCount() const;
+
+  /** Reads the whole contents of the stream into memory.
+   *
+   *  \tparam T the container type to return.
+   *
+   *  \return a container containing the whole content of the file.
+   */
+  template <typename T>
+    std::enable_if_t<isContiguousContainer<T>::value, T> readAll();
 };
 
 }
+
+#include "hou/aud/AudioStreamIn.inl"
 
 #endif
 

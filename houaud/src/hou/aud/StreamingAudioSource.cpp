@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/aud/StreamingAudioSource.hpp"
 
@@ -20,7 +20,7 @@ namespace
 constexpr size_t sDefaultBufferCount = 3u;
 constexpr size_t sDefaultBufferByteCount = 44100u;
 
-}
+}  // namespace
 
 
 
@@ -30,9 +30,9 @@ StreamingAudioSource::StreamingAudioSource()
 
 
 
-StreamingAudioSource::StreamingAudioSource
-  (NotNull<std::unique_ptr<AudioStreamIn>> audioStream)
-  : AudioSourceBase()
+StreamingAudioSource::StreamingAudioSource(
+  NotNull<std::unique_ptr<AudioStreamIn>> audioStream)
+  : AudioSource()
   , mThread()
   , mThreadMutex()
   , mAudioStream(std::move(audioStream))
@@ -58,8 +58,8 @@ StreamingAudioSource::~StreamingAudioSource()
 
 
 
-void StreamingAudioSource::setStream
-  (NotNull<std::unique_ptr<AudioStreamIn>> audioStream)
+void StreamingAudioSource::setStream(
+  NotNull<std::unique_ptr<AudioStreamIn>> audioStream)
 {
   stop();
   std::lock_guard<std::mutex> lock(mThreadMutex);
@@ -92,23 +92,23 @@ void StreamingAudioSource::setBufferSampleCount(size_t bufferSampleCount)
   HOU_EXPECT(bufferSampleCount > 0u);
   stop();
   std::lock_guard<std::mutex> lock(mThreadMutex);
-  mBufferByteCount = bufferSampleCount * (mAudioStream->getChannelCount()
-    * mAudioStream->getBytesPerSample());
+  mBufferByteCount = bufferSampleCount
+    * (mAudioStream->getChannelCount() * mAudioStream->getBytesPerSample());
 }
 
 
 
 size_t StreamingAudioSource::getBufferSampleCount() const
 {
-  return mBufferByteCount / (mAudioStream->getChannelCount()
-    * mAudioStream->getBytesPerSample());
+  return mBufferByteCount
+    / (mAudioStream->getChannelCount() * mAudioStream->getBytesPerSample());
 }
 
 
 
-AudioFormat StreamingAudioSource::getAudioFormat() const
+AudioBufferFormat StreamingAudioSource::getFormat() const
 {
-  return mAudioStream->getAudioFormat();
+  return mAudioStream->getFormat();
 }
 
 
@@ -168,8 +168,9 @@ void StreamingAudioSource::onSetSamplePos(uint value)
 uint StreamingAudioSource::onGetSamplePos() const
 {
   uint sampleCount = getSampleCount();
-  return sampleCount == 0u ? 0u
-    : (mSamplePos + mAlSource.getSampleOffset()) % getSampleCount();
+  return sampleCount == 0u
+    ? 0u
+    : (mSamplePos + AudioSource::onGetSamplePos()) % getSampleCount();
 }
 
 
@@ -201,12 +202,14 @@ std::vector<uint8_t> StreamingAudioSource::readDataChunk(size_t chunkSize)
 
 void StreamingAudioSource::freeBuffers()
 {
-  size_t processedBuffers = mAlSource.getProcessedBuffers();
-  mAlSource.unqueueBuffers(processedBuffers);
-  size_t processedBytes = mBufferQueue.freeBuffers(processedBuffers);
-  setSamplePosVariable(mSamplePos + processedBytes
-    / (mAudioStream->getChannelCount()
-    * mAudioStream->getBytesPerSample()));
+  uint processedBuffers = al::getSourceProcessedBuffers(getHandle());
+  std::vector<ALuint> bufferNames(processedBuffers, 0);
+  al::sourceUnqueueBuffers(
+    getHandle(), static_cast<ALsizei>(bufferNames.size()), bufferNames.data());
+  uint processedBytes = mBufferQueue.freeBuffers(processedBuffers);
+  setSamplePosVariable(mSamplePos
+    + processedBytes
+      / (mAudioStream->getChannelCount() * mAudioStream->getBytesPerSample()));
 }
 
 
@@ -229,8 +232,12 @@ void StreamingAudioSource::fillBuffers()
     }
     else
     {
-      mAlSource.queueBuffer(mBufferQueue.fillBuffer(data
-        , mAudioStream->getAudioFormat(), mAudioStream->getSampleRate()));
+      ALuint bufferName = mBufferQueue
+                            .fillBuffer(data, mAudioStream->getFormat(),
+                              mAudioStream->getSampleRate())
+                            .getHandle()
+                            .getName();
+      al::sourceQueueBuffers(getHandle(), 1u, &bufferName);
     }
   }
 }
@@ -277,12 +284,12 @@ size_t StreamingAudioSource::BufferQueue::freeBuffers(size_t count)
 
 
 
-const al::Buffer& StreamingAudioSource::BufferQueue::fillBuffer
-  (const std::vector<uint8_t>& data, AudioFormat format, int sampleRate)
+const AudioBuffer& StreamingAudioSource::BufferQueue::fillBuffer(
+  const std::vector<uint8_t>& data, AudioBufferFormat format, int sampleRate)
 {
   HOU_EXPECT_DEV(mFreeBufferCount > 0);
-  al::Buffer& buffer = mBuffers[mCurrentIndex];
-  buffer.setData(data, audioBufferFormatToAlBufferFormat(format), sampleRate);
+  AudioBuffer& buffer = mBuffers[mCurrentIndex];
+  buffer.setData(data, format, sampleRate);
   mCurrentIndex = (mCurrentIndex + 1) % mBuffers.size();
   --mFreeBufferCount;
   mBufferSampleCounts.push(data.size());
@@ -310,5 +317,4 @@ size_t StreamingAudioSource::BufferQueue::getBufferCount() const
   return mBuffers.size();
 }
 
-}
-
+}  // namespace hou

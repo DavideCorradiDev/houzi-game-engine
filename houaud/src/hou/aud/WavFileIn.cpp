@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/aud/WavFileIn.hpp"
 
@@ -228,7 +228,7 @@ void WavFileIn::readMetadata(const std::string& path)
   mElementCount = 0;
 
   // Update internal metadata.
-  setAudioFormat(format.channels, format.bitsPerSample / 8u);
+  setFormat(format.channels, format.bitsPerSample / 8u);
   setSampleRate(format.sampleRate);
 }
 

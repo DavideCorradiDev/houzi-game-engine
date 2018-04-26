@@ -1,20 +1,18 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #ifndef HOU_GFX_RENDER_SURFACE_HPP
 #define HOU_GFX_RENDER_SURFACE_HPP
 
-#include "hou/gfx/GfxExport.hpp"
 #include "hou/cor/NonCopyable.hpp"
+#include "hou/gfx/GfxExport.hpp"
 
+#include "hou/gfx/FrameBuffer.hpp"
 #include "hou/gfx/Texture.hpp"
 
-#include "hou/gl/GlFramebufferHandle.hpp"
-#include "hou/gl/GlTextureHandle.hpp"
-
-#include "hou/mth/Rectangle.hpp"
 #include "hou/mth/MatrixFwd.hpp"
+#include "hou/mth/Rectangle.hpp"
 
 #include <memory>
 
@@ -27,8 +25,7 @@ class Color;
 
 /** Abstract base class for surfaces that can be rendered onto.
  */
-class HOU_GFX_API RenderSurface
-  : public NonCopyable
+class HOU_GFX_API RenderSurface : public NonCopyable
 {
 public:
   /** Makes this RenderSurface the current render source.
@@ -55,17 +52,29 @@ public:
    */
   static void setDefaultRenderTarget();
 
+  /** Retrieves the maximum allowed size for the render surface..
+   *
+   * \return a vector containing the maximum size on each dimension.
+   */
+  static Vec2u getMaxSize();
+
+  /** Retrieves the maximum amount of samples per pixel.
+   *
+   * \return the maximum amount of samples per pixel.
+   */
+  static uint getMaxSampleCount();
+
 public:
   /** Builds a RenderSurface with the given size and sample count.
    *
-   *  Throws if the required sample count is larger than the maximum supported.
-   *  Throws if the required area of the surface is 0.
-   *  Throws if the required area is larger than the maximum supported texture size.
+   *  Throws if the required sample count is larger than the maximum supported
+   * or 0. Throws if the required area of the surface is 0. Throws if the
+   * required area is larger than the maximum supported texture size.
    *
    *  \param size the size.
    *  \param sampleCount the sample count.
    */
-  RenderSurface(const Vec2u& size, uint sampleCount);
+  RenderSurface(const Vec2u& size, uint sampleCount = 1u);
 
   /** Move constructor.
    *
@@ -109,17 +118,6 @@ public:
    */
   Vec2u getSize() const;
 
-  /** Sets the size of the RenderSurface.
-   *
-   *  After setting the size, the content of the surface is undefined.
-   *  Throws if the required surface area is 0.
-   *  Throws if the required size is larger than
-   *  the maximum supported texture size.
-   *
-   *  \param size the desired size of the render surface.
-   */
-  virtual void setSize(const Vec2u& size) = 0;
-
   /** Checks if the RenderSurface is multisampled.
    *
    *  \return true if the number of samples of the RenderSurface is greater than
@@ -133,20 +131,33 @@ public:
    */
   uint getSampleCount() const;
 
-  /** Sets the number of samples of the RenderSurface.
-   *
-   *  After setting the sample count, the content of the surface is undefined.
-   *  Throws if the required sample count is larger then the maximum supported.
-   *
-   *  \return the number of samples of the RenderSurface.
-   */
-  void setSampleCount(uint sampleCount);
-
   /** Clears the RenderSurface to the desired color.
    *
    *  \param color the desired color.
    */
   void clear(const Color& color);
+
+  /** Creates a Texture2 from this RenderSurface.
+   *
+   *  The generated Texture2 has RGBA format.
+   *  Throws if the RenderSurface is multisampled. Only single sampled
+   *  RenderSurface objects can be converted to textures.
+   *
+   *  \return the Texture2 create from this RenderSurface.
+   */
+  Texture2 toTexture() const;
+
+  /** Checks if this RenderSurface is the current render source.
+   *
+   *  \return true if this is the current render source.
+   */
+  bool isCurrentRenderSource() const;
+
+  /** Checks if this RenderSurface is the current render target.
+   *
+   *  \return true if this is the current render target.
+   */
+  bool isCurrentRenderTarget() const;
 
   /** Blits the RenderSurface onto another RenderSurface.
    *
@@ -164,43 +175,33 @@ public:
    *  \param srcRect the source rectangle of the blit operation.
    *  \param dstRect the destination rectangle of the blit operation.
    */
-  void blit(RenderSurface& dst, const Recti& srcRect
-    , const Recti& dstRect) const;
+  friend HOU_GFX_API void blit(const RenderSurface& src, const Recti& srcRect,
+    RenderSurface& dst, const Recti& dstRect,
+    FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
 
-  /** Creates a Texture2 from this RenderSurface.
-   *
-   *  The generated Texture2 has RGBA format.
-   *  Throws if the RenderSurface is multisampled. Only single sampled
-   *  RenderSurface objects can be converted to textures.
-   *
-   *  \return the Texture2 create from this RenderSurface.
-   */
-  virtual Texture2 toTexture() const = 0;
+  friend HOU_GFX_API void blit(const RenderSurface& src, const Recti& srcRect,
+    Texture& dst, const Recti& dstRect,
+    FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
 
-  /** Checks if this RenderSurface is the current render source.
-   *
-   *  \return true if this is the current render source.
-   */
-  bool isCurrentRenderSource() const;
+  friend HOU_GFX_API void blit(const Texture& src, const Recti& srcRect,
+    RenderSurface& dst, const Recti& dstRect,
+    FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
 
-  /** Checks if this RenderSurface is the current render target.
-   *
-   *  \return true if this is the current render target.
-   */
-  bool isCurrentRenderTarget() const;
-
-private:
+protected:
   void buildFramebuffer(const Vec2u& size, uint sampleCount);
 
 private:
-  gl::FramebufferHandle mGlFramebufferHandle;
+  using AttachmentType = Texture2;
+  using MultisampledAttachmentType = MultisampleTexture2;
+
+private:
+  FrameBuffer mFrameBuffer;
   std::unique_ptr<Texture> mColorAttachment;
   std::unique_ptr<Texture> mDepthStencilAttachment;
   uint mSampleCount;
   Recti mViewport;
 };
 
-}
+}  // namespace hou
 
 #endif
-

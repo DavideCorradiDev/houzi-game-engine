@@ -10,5 +10,7 @@ var searchData=
   ['font',['Font',['../classhou_1_1Font.html#a327bde8fafe6bd20ad55bc29362fb794',1,'hou::Font::Font(const Span&lt; const uint8_t &gt; &amp;data)'],['../classhou_1_1Font.html#ac3cda650f02a1b72dbd9f3ed5c96d7b7',1,'hou::Font::Font(NotNull&lt; std::unique_ptr&lt; BinaryStreamIn &gt;&gt; fontStream)'],['../classhou_1_1Font.html#a67c1f149d2ca4a679f6a50fd1187b8e1',1,'hou::Font::Font(Font &amp;&amp;other)']]],
   ['formaterrormessage',['formatErrorMessage',['../namespacehou.html#a18ef8d89c89ca8a0f16e7e134097266f',1,'hou']]],
   ['formatregex',['formatRegex',['../namespacehou.html#a9bacb5786901470343f269d8531162f9',1,'hou']]],
-  ['formatstring',['formatString',['../namespacehou.html#a36327fd6b1e4369c1050f5447535bb3a',1,'hou']]]
+  ['formatstring',['formatString',['../namespacehou.html#a36327fd6b1e4369c1050f5447535bb3a',1,'hou']]],
+  ['formattedtext',['FormattedText',['../classhou_1_1FormattedText.html#a87ad11f6e87ec40203918026cab14ec5',1,'hou::FormattedText::FormattedText(const std::string &amp;text, const Font &amp;font, const TextBoxFormattingParams &amp;tbfp=TextBoxFormattingParams::Default)'],['../classhou_1_1FormattedText.html#a50a6d3bf293d4f971a71e964e1411c71',1,'hou::FormattedText::FormattedText(std::u32string text, const Font &amp;font, const TextBoxFormattingParams &amp;tbfp=TextBoxFormattingParams::Default)'],['../classhou_1_1FormattedText.html#a60b7c756a1e6f28f1f3da33dd9106916',1,'hou::FormattedText::FormattedText(FormattedText &amp;&amp;other)']]],
+  ['framebuffer',['FrameBuffer',['../classhou_1_1FrameBuffer.html#a41f6ad1bb4e1ba93008d96f894fa908d',1,'hou::FrameBuffer::FrameBuffer()'],['../classhou_1_1FrameBuffer.html#afba8cf5acf35f2346e2d32751e57d9cf',1,'hou::FrameBuffer::FrameBuffer(FrameBuffer &amp;&amp;other)']]]
 ];

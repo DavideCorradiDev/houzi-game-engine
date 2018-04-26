@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/Test.hpp"
 #include "hou/aud/TestAudBase.hpp"
@@ -13,7 +13,7 @@
 
 #include "hou/cor/CorError.hpp"
 
-#include "hou/mth/MthUtils.hpp"
+#include "hou/mth/MathFunctions.hpp"
 
 using namespace hou;
 
@@ -22,8 +22,7 @@ using namespace hou;
 namespace
 {
 
-class TestStreamingAudioSource
-  : public TestAudBase
+class TestStreamingAudioSource : public TestAudBase
 {
 public:
   static void SetUpTestCase();
@@ -34,7 +33,8 @@ public:
 
 
 
-class TestStreamingAudioSourceDeathTest : public TestStreamingAudioSource {};
+class TestStreamingAudioSourceDeathTest : public TestStreamingAudioSource
+{};
 
 
 
@@ -46,11 +46,10 @@ void TestStreamingAudioSource::SetUpTestCase()
 
 
 
+const std::string TestStreamingAudioSource::audioFileName
+  = getDataDir() + u8"TestOgg-Stereo-16-44100.ogg";
 
-const std::string TestStreamingAudioSource::audioFileName = getDataDir()
-  + u8"TestOgg-Stereo-16-44100.ogg";
-
-}
+}  // namespace
 
 
 
@@ -60,7 +59,7 @@ TEST_F(TestStreamingAudioSource, DefaultConstructor)
   EXPECT_EQ(3u, as.getBufferCount());
   EXPECT_EQ(44100u, as.getBufferSampleCount());
   EXPECT_EQ(AudioSourceState::Stopped, as.getState());
-  EXPECT_EQ(AudioFormat::Mono8, as.getAudioFormat());
+  EXPECT_EQ(AudioBufferFormat::Mono8, as.getFormat());
   EXPECT_EQ(1u, as.getChannelCount());
   EXPECT_EQ(1u, as.getBytesPerSample());
   EXPECT_EQ(1u, as.getSampleRate());
@@ -93,7 +92,7 @@ TEST_F(TestStreamingAudioSource, StreamConstructor)
   EXPECT_EQ(3u, as.getBufferCount());
   EXPECT_EQ(44100u / 4u, as.getBufferSampleCount());
   EXPECT_EQ(AudioSourceState::Stopped, as.getState());
-  EXPECT_EQ(AudioFormat::Stereo16, as.getAudioFormat());
+  EXPECT_EQ(AudioBufferFormat::Stereo16, as.getFormat());
   EXPECT_EQ(2u, as.getChannelCount());
   EXPECT_EQ(2u, as.getBytesPerSample());
   EXPECT_EQ(44100u, as.getSampleRate());
@@ -411,8 +410,8 @@ TEST_F(TestStreamingAudioSource, SetBufferCountWhilePaused)
 TEST_F(TestStreamingAudioSourceDeathTest, SetBufferCountError)
 {
   StreamingAudioSource as(std::make_unique<OggFileIn>(audioFileName));
-  HOU_EXPECT_ERROR(as.setBufferCount(0u), std::logic_error
-    , getText(CorError::Precondition));
+  HOU_EXPECT_ERROR(
+    as.setBufferCount(0u), std::logic_error, getText(CorError::Precondition));
 }
 
 
@@ -455,7 +454,6 @@ TEST_F(TestStreamingAudioSource, SetBufferSampleCountWhilePaused)
 TEST_F(TestStreamingAudioSourceDeathTest, SetBufferSampleCountError)
 {
   StreamingAudioSource as(std::make_unique<OggFileIn>(audioFileName));
-  HOU_EXPECT_ERROR(as.setBufferSampleCount(0u), std::logic_error
-    , getText(CorError::Precondition));
+  HOU_EXPECT_ERROR(as.setBufferSampleCount(0u), std::logic_error,
+    getText(CorError::Precondition));
 }
-

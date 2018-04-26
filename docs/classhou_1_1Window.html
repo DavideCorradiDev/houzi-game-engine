@@ -9,6 +9,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -45,6 +53,23 @@ $(function() {
 });
 /* @license-end */</script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('classhou_1_1Window.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -59,18 +84,13 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacehou.html">hou</a></li><li class="navelem"><a class="el" href="classhou_1_1Window.html">Window</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classhou_1_1Window-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">hou::Window Class Reference</div>  </div>
+<div class="title">hou::Window Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -81,8 +101,9 @@ Inheritance diagram for hou::Window:</div>
  <div class="center">
   <img src="classhou_1_1Window.png" usemap="#hou::Window_map" alt=""/>
   <map id="hou::Window_map" name="hou::Window_map">
-<area href="classhou_1_1NonCopyable.html" alt="hou::NonCopyable" shape="rect" coords="0,0,124,24"/>
+<area href="classhou_1_1NonCopyable.html" alt="hou::NonCopyable" shape="rect" coords="67,0,191,24"/>
 <area href="classhou_1_1RenderWindow.html" alt="hou::RenderWindow" shape="rect" coords="0,112,124,136"/>
+<area href="classhou_1_1SystemWindow.html" alt="hou::SystemWindow" shape="rect" coords="134,112,258,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -92,8 +113,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:acd02e82041a4690f0eb54dd65a621121"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1579cb5439407ef7ffa4b1731e050e5e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Window.html#a1579cb5439407ef7ffa4b1731e050e5e">Window</a> (<a class="el" href="classhou_1_1Window.html">Window</a> &amp;&amp;other)</td></tr>
 <tr class="separator:a1579cb5439407ef7ffa4b1731e050e5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7529e903ebbae3efee85948feedf7d0d"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Window.html#a7529e903ebbae3efee85948feedf7d0d">~Window</a> ()</td></tr>
-<tr class="separator:a7529e903ebbae3efee85948feedf7d0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeeb8975b37212586800041234aff3a00"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Window.html#aeeb8975b37212586800041234aff3a00">~Window</a> ()=0</td></tr>
+<tr class="separator:aeeb8975b37212586800041234aff3a00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad953be02a8e44b2ee8ce1a76017c6fd9"><td class="memItemLeft" align="right" valign="top">WindowHandle&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Window.html#ad953be02a8e44b2ee8ce1a76017c6fd9">getWindowHandle</a> () const</td></tr>
 <tr class="separator:ad953be02a8e44b2ee8ce1a76017c6fd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79917841dd97db283d6bb1fe8983eb22"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Window.html#a79917841dd97db283d6bb1fe8983eb22">getUid</a> () const</td></tr>
@@ -102,32 +123,28 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a19fb4db31b07e7c5caf44136f628f1fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefc754918e27f7662c7d574bd0cedde7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Window.html#aefc754918e27f7662c7d574bd0cedde7">setTitle</a> (const std::string &amp;title)</td></tr>
 <tr class="separator:aefc754918e27f7662c7d574bd0cedde7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0ab0596411d25720664e020acef4c51"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehou.html#a2267c7c62d0f270f8a41fc0a20e6f988">Recti</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Window.html#ab0ab0596411d25720664e020acef4c51">getFrameRect</a> () const</td></tr>
-<tr class="separator:ab0ab0596411d25720664e020acef4c51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8f760f03cb7a990689210617bf177e6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehou.html#adf23a50ab3a0e25476b658320bcc0358">Vec2i</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Window.html#ac8f760f03cb7a990689210617bf177e6">getFramePosition</a> () const</td></tr>
 <tr class="separator:ac8f760f03cb7a990689210617bf177e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a508af7ec6bca1b703f8fafc7b4410e82"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehou.html#ac5e1326e1e69cc8149c46fc5f57b1855">Vec2u</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Window.html#a508af7ec6bca1b703f8fafc7b4410e82">getFrameSize</a> () const</td></tr>
 <tr class="separator:a508af7ec6bca1b703f8fafc7b4410e82"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac107519239b830eb7d13ef3e3a32736b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Window.html#ac107519239b830eb7d13ef3e3a32736b">setFrameRect</a> (const <a class="el" href="namespacehou.html#a2267c7c62d0f270f8a41fc0a20e6f988">Recti</a> &amp;rect)</td></tr>
-<tr class="separator:ac107519239b830eb7d13ef3e3a32736b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab04636e530ef677bfc5f4bbf6067013d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Window.html#ab04636e530ef677bfc5f4bbf6067013d">setFrameRect</a> (const <a class="el" href="namespacehou.html#adf23a50ab3a0e25476b658320bcc0358">Vec2i</a> &amp;pos, const <a class="el" href="namespacehou.html#ac5e1326e1e69cc8149c46fc5f57b1855">Vec2u</a> &amp;size)=0</td></tr>
+<tr class="separator:ab04636e530ef677bfc5f4bbf6067013d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac463bdca43a145d89e53fe5cae810133"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Window.html#ac463bdca43a145d89e53fe5cae810133">setFramePosition</a> (const <a class="el" href="namespacehou.html#adf23a50ab3a0e25476b658320bcc0358">Vec2i</a> &amp;pos)</td></tr>
 <tr class="separator:ac463bdca43a145d89e53fe5cae810133"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05684b6994470af8e7d26c52a5dbdf15"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Window.html#a05684b6994470af8e7d26c52a5dbdf15">setFrameSize</a> (const <a class="el" href="namespacehou.html#ac5e1326e1e69cc8149c46fc5f57b1855">Vec2u</a> &amp;size)</td></tr>
 <tr class="separator:a05684b6994470af8e7d26c52a5dbdf15"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76844fcc695caf515ee0593651e23e43"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehou.html#a2267c7c62d0f270f8a41fc0a20e6f988">Recti</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Window.html#a76844fcc695caf515ee0593651e23e43">getClientRect</a> () const</td></tr>
-<tr class="separator:a76844fcc695caf515ee0593651e23e43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18707fc7a7326e543b8254b33ba1b63a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehou.html#adf23a50ab3a0e25476b658320bcc0358">Vec2i</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Window.html#a18707fc7a7326e543b8254b33ba1b63a">getClientPosition</a> () const</td></tr>
 <tr class="separator:a18707fc7a7326e543b8254b33ba1b63a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19a8f402088ecd2c683c0f8b7ce9a21d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehou.html#ac5e1326e1e69cc8149c46fc5f57b1855">Vec2u</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Window.html#a19a8f402088ecd2c683c0f8b7ce9a21d">getClientSize</a> () const</td></tr>
 <tr class="separator:a19a8f402088ecd2c683c0f8b7ce9a21d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b0823b17358fb5f1912f36a1139e110"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Window.html#a4b0823b17358fb5f1912f36a1139e110">setClientRect</a> (const <a class="el" href="namespacehou.html#a2267c7c62d0f270f8a41fc0a20e6f988">Recti</a> &amp;rect)</td></tr>
-<tr class="separator:a4b0823b17358fb5f1912f36a1139e110"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11b9539e8a6a825a902c558af31509e3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Window.html#a11b9539e8a6a825a902c558af31509e3">setClientRect</a> (const <a class="el" href="namespacehou.html#adf23a50ab3a0e25476b658320bcc0358">Vec2i</a> &amp;pos, const <a class="el" href="namespacehou.html#ac5e1326e1e69cc8149c46fc5f57b1855">Vec2u</a> &amp;size)=0</td></tr>
+<tr class="separator:a11b9539e8a6a825a902c558af31509e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab8ddd71a3681520fb948ba32c52fb6bb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Window.html#ab8ddd71a3681520fb948ba32c52fb6bb">setClientPosition</a> (const <a class="el" href="namespacehou.html#adf23a50ab3a0e25476b658320bcc0358">Vec2i</a> &amp;pos)</td></tr>
 <tr class="separator:ab8ddd71a3681520fb948ba32c52fb6bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a304fc7e94a5a8e5d67d653eeda6d1900"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Window.html#a304fc7e94a5a8e5d67d653eeda6d1900">setClientSize</a> (const <a class="el" href="namespacehou.html#ac5e1326e1e69cc8149c46fc5f57b1855">Vec2u</a> &amp;size)</td></tr>
 <tr class="separator:a304fc7e94a5a8e5d67d653eeda6d1900"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41bbb36c919bf42b19eaa88de72bde6b"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Window.html#a41bbb36c919bf42b19eaa88de72bde6b">getBitsPerPixel</a> () const</td></tr>
-<tr class="separator:a41bbb36c919bf42b19eaa88de72bde6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c5dd026885214ffb084df0d79cfba59"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Window.html#a7c5dd026885214ffb084df0d79cfba59">getBytesPerPixel</a> () const</td></tr>
+<tr class="separator:a7c5dd026885214ffb084df0d79cfba59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af746124c88c6aea4a4c7d23c2f9f42d9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehou.html#a2c131af0820d8ab9429bf3060348cc20">WindowStyle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Window.html#af746124c88c6aea4a4c7d23c2f9f42d9">getStyle</a> () const</td></tr>
 <tr class="separator:af746124c88c6aea4a4c7d23c2f9f42d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e951764254e08efc760408e69689409"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classhou_1_1Image.html">Image2RGBA</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Window.html#a9e951764254e08efc760408e69689409">getIcon</a> () const</td></tr>
@@ -220,7 +237,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">title</td><td>the title of the <a class="el" href="classhou_1_1Window.html">Window</a>. </td></tr>
-    <tr><td class="paramname">videoMode</td><td>the video mode of the <a class="el" href="classhou_1_1Window.html">Window</a>, specifying its size and bits per pixel. </td></tr>
+    <tr><td class="paramname">videoMode</td><td>the video mode of the <a class="el" href="classhou_1_1Window.html">Window</a>, specifying its client size and bytes per pixel. </td></tr>
     <tr><td class="paramname">style</td><td>the style of the <a class="el" href="classhou_1_1Window.html">Window</a>. Only one <a class="el" href="classhou_1_1Window.html">Window</a> can be fullscreen. If fullscreen mode is specified and videoMode is not a valid fullscreen <a class="el" href="classhou_1_1VideoMode.html">VideoMode</a>, an error will be thrown. </td></tr>
   </table>
   </dd>
@@ -253,8 +270,8 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a7529e903ebbae3efee85948feedf7d0d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7529e903ebbae3efee85948feedf7d0d">&#9670;&nbsp;</a></span>~Window()</h2>
+<a id="aeeb8975b37212586800041234aff3a00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeeb8975b37212586800041234aff3a00">&#9670;&nbsp;</a></span>~Window()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -271,7 +288,7 @@ Protected Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -280,22 +297,22 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a41bbb36c919bf42b19eaa88de72bde6b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a41bbb36c919bf42b19eaa88de72bde6b">&#9670;&nbsp;</a></span>getBitsPerPixel()</h2>
+<a id="a7c5dd026885214ffb084df0d79cfba59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c5dd026885214ffb084df0d79cfba59">&#9670;&nbsp;</a></span>getBytesPerPixel()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint hou::Window::getBitsPerPixel </td>
+          <td class="memname">uint hou::Window::getBytesPerPixel </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Gets the number of bits per pixel of this <a class="el" href="classhou_1_1Window.html">Window</a>.</p>
-<dl class="section return"><dt>Returns</dt><dd>the number of bits per pixel of this <a class="el" href="classhou_1_1Window.html">Window</a>. </dd></dl>
+<p>Gets the number of bytes per pixel of this <a class="el" href="classhou_1_1Window.html">Window</a>.</p>
+<dl class="section return"><dt>Returns</dt><dd>the number of bytes per pixel of this <a class="el" href="classhou_1_1Window.html">Window</a>. </dd></dl>
 
 </div>
 </div>
@@ -316,26 +333,6 @@ Protected Member Functions</h2></td></tr>
 <p>Gets the position of the <a class="el" href="classhou_1_1Window.html">Window</a> client.</p>
 <p>The <a class="el" href="classhou_1_1Window.html">Window</a> client position is the top left corner of the <a class="el" href="classhou_1_1Window.html">Window</a>, not including the borders.</p>
 <dl class="section return"><dt>Returns</dt><dd>the position of the <a class="el" href="classhou_1_1Window.html">Window</a> client. </dd></dl>
-
-</div>
-</div>
-<a id="a76844fcc695caf515ee0593651e23e43"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a76844fcc695caf515ee0593651e23e43">&#9670;&nbsp;</a></span>getClientRect()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacehou.html#a2267c7c62d0f270f8a41fc0a20e6f988">Recti</a> hou::Window::getClientRect </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Gets the <a class="el" href="classhou_1_1Window.html">Window</a> client rectangle.</p>
-<p>The <a class="el" href="classhou_1_1Window.html">Window</a> client rectangle does not include the borders.</p>
-<dl class="section return"><dt>Returns</dt><dd>the <a class="el" href="classhou_1_1Window.html">Window</a> client rectangle. </dd></dl>
 
 </div>
 </div>
@@ -376,26 +373,6 @@ Protected Member Functions</h2></td></tr>
 <p>Gets the position of the <a class="el" href="classhou_1_1Window.html">Window</a> frame.</p>
 <p>The <a class="el" href="classhou_1_1Window.html">Window</a> frame position is the top left corner of the <a class="el" href="classhou_1_1Window.html">Window</a>, including the borders.</p>
 <dl class="section return"><dt>Returns</dt><dd>the position of the <a class="el" href="classhou_1_1Window.html">Window</a> frame. </dd></dl>
-
-</div>
-</div>
-<a id="ab0ab0596411d25720664e020acef4c51"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab0ab0596411d25720664e020acef4c51">&#9670;&nbsp;</a></span>getFrameRect()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacehou.html#a2267c7c62d0f270f8a41fc0a20e6f988">Recti</a> hou::Window::getFrameRect </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Gets the <a class="el" href="classhou_1_1Window.html">Window</a> frame rectangle.</p>
-<p>The <a class="el" href="classhou_1_1Window.html">Window</a> frame rectangle includes the borders.</p>
-<dl class="section return"><dt>Returns</dt><dd>the <a class="el" href="classhou_1_1Window.html">Window</a> frame rectangle. </dd></dl>
 
 </div>
 </div>
@@ -701,8 +678,8 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a4b0823b17358fb5f1912f36a1139e110"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4b0823b17358fb5f1912f36a1139e110">&#9670;&nbsp;</a></span>setClientRect()</h2>
+<a id="a11b9539e8a6a825a902c558af31509e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11b9539e8a6a825a902c558af31509e3">&#9670;&nbsp;</a></span>setClientRect()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -713,14 +690,24 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual void hou::Window::setClientRect </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespacehou.html#a2267c7c62d0f270f8a41fc0a20e6f988">Recti</a> &amp;&#160;</td>
-          <td class="paramname"><em>rect</em></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="namespacehou.html#adf23a50ab3a0e25476b658320bcc0358">Vec2i</a> &amp;&#160;</td>
+          <td class="paramname"><em>pos</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const <a class="el" href="namespacehou.html#ac5e1326e1e69cc8149c46fc5f57b1855">Vec2u</a> &amp;&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -728,12 +715,13 @@ Protected Member Functions</h2></td></tr>
 <p>The <a class="el" href="classhou_1_1Window.html">Window</a> client rectangle does not include the borders.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">rect</td><td>the <a class="el" href="classhou_1_1Window.html">Window</a> client rectangle. </td></tr>
+    <tr><td class="paramname">pos</td><td>the <a class="el" href="classhou_1_1Window.html">Window</a> client position. </td></tr>
+    <tr><td class="paramname">size</td><td>the <a class="el" href="classhou_1_1Window.html">Window</a> client size. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Reimplemented in <a class="el" href="classhou_1_1RenderWindow.html#ae8722bb37306e2616fbc689adb42938f">hou::RenderWindow</a>.</p>
+<p>Implemented in <a class="el" href="classhou_1_1RenderWindow.html#a9b32b475a501f72c5d038168af9e79f5">hou::RenderWindow</a>, and <a class="el" href="classhou_1_1SystemWindow.html#ab3bf64d4050ea88328d842ab91971520">hou::SystemWindow</a>.</p>
 
 </div>
 </div>
@@ -789,8 +777,8 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ac107519239b830eb7d13ef3e3a32736b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac107519239b830eb7d13ef3e3a32736b">&#9670;&nbsp;</a></span>setFrameRect()</h2>
+<a id="ab04636e530ef677bfc5f4bbf6067013d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab04636e530ef677bfc5f4bbf6067013d">&#9670;&nbsp;</a></span>setFrameRect()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -801,14 +789,24 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual void hou::Window::setFrameRect </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespacehou.html#a2267c7c62d0f270f8a41fc0a20e6f988">Recti</a> &amp;&#160;</td>
-          <td class="paramname"><em>rect</em></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="namespacehou.html#adf23a50ab3a0e25476b658320bcc0358">Vec2i</a> &amp;&#160;</td>
+          <td class="paramname"><em>pos</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const <a class="el" href="namespacehou.html#ac5e1326e1e69cc8149c46fc5f57b1855">Vec2u</a> &amp;&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -816,12 +814,13 @@ Protected Member Functions</h2></td></tr>
 <p>The <a class="el" href="classhou_1_1Window.html">Window</a> frame rectangle includes the borders.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">rect</td><td>the <a class="el" href="classhou_1_1Window.html">Window</a> frame rectangle. </td></tr>
+    <tr><td class="paramname">pos</td><td>the <a class="el" href="classhou_1_1Window.html">Window</a> frame position. </td></tr>
+    <tr><td class="paramname">size</td><td>the window frame size. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Reimplemented in <a class="el" href="classhou_1_1RenderWindow.html#a7e3841d00e46c6437e9e133772e79c02">hou::RenderWindow</a>.</p>
+<p>Implemented in <a class="el" href="classhou_1_1RenderWindow.html#ae2e31caeaa5cd0df36903f090e32a522">hou::RenderWindow</a>, and <a class="el" href="classhou_1_1SystemWindow.html#a63a40f753eb6dec71393574cf566f4da">hou::SystemWindow</a>.</p>
 
 </div>
 </div>
@@ -1063,11 +1062,15 @@ Protected Member Functions</h2></td></tr>
 <li>housys/include/hou/sys/<a class="el" href="Window_8hpp_source.html">Window.hpp</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.14
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacehou.html">hou</a></li><li class="navelem"><a class="el" href="classhou_1_1Window.html">Window</a></li>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
+  </ul>
+</div>
 </body>
 </html>

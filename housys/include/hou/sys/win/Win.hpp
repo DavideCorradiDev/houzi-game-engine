@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #ifndef SRC_HOU_SYS_WIN_HPP
 #define SRC_HOU_SYS_WIN_HPP

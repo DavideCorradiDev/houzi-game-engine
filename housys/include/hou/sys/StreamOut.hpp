@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #ifndef HZI_SYS_STREAM_OUT_HPP
 #define HZI_SYS_STREAM_OUT_HPP

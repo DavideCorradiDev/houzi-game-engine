@@ -12,7 +12,7 @@ The Houzi Game Engine aims to provide the following features:
 
 * **Modular**: divide the engine into several modules, making it possible to cherry-pick the desired modules and replace other modules with custom ones.
 
-* **Extendable**: write the engine so that it is practical to extend its functionality, for example by adding new OpenGL shaders or classes to read image and sound files from new formats.
+* **Extensible**: write the engine so that it is practical to extend its functionality, for example by adding new OpenGL shaders or classes to read image and sound files from new formats.
 
 
 
@@ -93,38 +93,34 @@ Support for more platforms and compilers is coming soon.
 The Houzi Game Engine uses CMake to control the compilation process.
 When configuring the project with CMake, the following options are available:
 
-* **CMAKE_BUILD_TYPE**: set to "Release" to build optimized, faster binaries, or to "Debug" to build debugging-friendly binaries.
+* **CMAKE\_BUILD\_TYPE**: set to "Release" to build optimized, faster binaries, or to "Debug" to build debugging-friendly binaries.
 
-* **HOU_OPT_SHARED_LIBS**: if set, shared libraries will be built. If unset, static libraries will be built.
+* **HOU\_OPT\_SHARED\_LIBS**: if set, shared libraries will be built. If unset, static libraries will be built.
 
-* **HOU_OPT_USE_EXCEPTION_HANDLING**: if set, exceptions will be used as an error handling mechanism.
-If unset, the library functions will crash with an error message instead of throwing exceptions in case of errors.
-Disable this only if your target platform does not have decent exception handling support.
-
-* **HOU_OPT_BUILD_<LibraryIdentifier>**: if set, the corresponding library will be built.
+* **HOU\_OPT\_BUILD\_\[library\_identifier\]**: if set, the corresponding library will be built.
 If unset, the library will not be built.
 When building a library be careful to also build its dependencies.
 
-* **HOU_OPT_BUILD_<LibraryIdentifier>_TESTS**: if set, the tests for the corresponding library will be built.
+* **HOU\_OPT\_BUILD\_\[library\_identifier\]\_TESTS**: if set, the tests for the corresponding library will be built.
 If unset, the tests will not be built.
 Be careful to build the corresponding library when building the relative tests.
 To build the tests you must have downloaded and built the gtest library.
 CMake will try to detect the path to the gtest library and the gtest header files by itself.
-In case it cannot do this, you can manually set **LIB_GOOGLE_TEST** to the path to the library and **LIB_GOOGLE_TEST_INCLUDE_DIR** to the path to the library headers.
+In case it cannot do this, you can manually set **LIB\_GOOGLE\_TEST** to the path to the library and **LIB\_GOOGLE\_TEST\_INCLUDE\_DIR** to the path to the library headers.
 
-* **HOU_OPT_BUILD_DEMOS**: if set, builds some small demo applications using the Houzi Game Engine.
+* **HOU\_OPT\_BUILD\_DEMOS**: if set, builds some small demo applications using the Houzi Game Engine.
 If unset, the demo applications will not be built.
 When building the demo applications, pay attention to build all of the Houzi Game Engine libraries.
 
-* **HOU_OPT_BUILD_OPENAL_SOFT**: if set, OpenALSoft will be built and used as the low-level sound library.
+* **HOU\_OPT\_BUILD\_OPENAL\_SOFT**: if set, OpenALSoft will be built and used as the low-level sound library.
 If unset, CMake will try to detect the path to an installed OpenAL library implementation and its headers.
-In case it cannot do this, you can manually set **LIB_OPENAL** to the path to the library and **LIB_OPENAL_INCLUDE_DIR** to the path to the library headers.
+In case it cannot do this, you can manually set **LIB\_OPENAL** to the path to the library and **LIB\_OPENAL\_INCLUDE\_DIR** to the path to the library headers.
 When building OpenALSoft, refer to the OpenALSoft documentation for details about the configuration.
 
-* **HOU_OPT_DISABLE_AL_\*_CHECKS**: these options disable some OpenAL error checks when set.
+* **HOU\_OPT\_DISABLE\_AL\_\[check_type\]\_CHECKS**: these options disable some OpenAL error checks when set.
 These checks can be useful during development or when debugging audio issues, but can be expensive and should be disabled for release builds.
 
-* **HOU_OPT_DISABLE_GL_\*_CHECKS**: these options disable some OpenGL error checks when set.
+* **HOU\_OPT\_DISABLE\_GL\_\[check_type\]\_CHECKS**: these options disable some OpenGL error checks when set.
 These checks can be useful during development or when debugging graphics issues, but can be expensive and should be disabled for release builds.
 
 
@@ -160,13 +156,9 @@ doxygen Doxyfile
 ```
 
 
-## Authors
-* Davide Corradi
-
-
 
 ## Copyright and license
 The Houzi Game Engine is distributed under the [MIT License](LICENSE).
 
-Copyright and license information for the third-party libraries used in the Houzi Engine can be found [here](THIRD-PARTY-LICENSES.md).
+Copyright and license information for the external libraries used in the Houzi Engine can be found [here](EXTERNAL-LIBS-INFO.md).
 

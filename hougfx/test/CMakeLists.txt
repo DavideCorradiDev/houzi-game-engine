@@ -38,19 +38,19 @@ SET(EXE_HOUGFX_TEST_SRC
   ${LIB_HOUTEST_SOURCE_DIR}/src/TestMain.cpp
   hou/gfx/TestData.cpp
   hou/gfx/TestFont.cpp
+  hou/gfx/TestFormattedText.cpp
+  hou/gfx/TestFramebuffer.cpp
   hou/gfx/TestGfxBase.cpp
   hou/gfx/TestGlyph.cpp
   hou/gfx/TestGlyphMetrics.cpp
-  hou/gfx/TestGlyphRenderInfo.cpp
-  hou/gfx/TestMesh2.cpp
+  hou/gfx/TestMesh.cpp
   hou/gfx/TestMesh2ShaderProgram.cpp
-  hou/gfx/TestRenderContext.cpp
-  hou/gfx/TestRenderSurface.cpp
-  hou/gfx/TestRenderTexture.cpp
+  hou/gfx/TestGraphicContext.cpp
+  hou/gfx/TestRenderCanvas.cpp
   hou/gfx/TestRenderWindow.cpp
-  hou/gfx/TestRenderer2.cpp
   hou/gfx/TestShader.cpp
   hou/gfx/TestShaderProgram.cpp
+  hou/gfx/TestTextBoxFormattingParams.cpp
   hou/gfx/TestTextVertex.cpp
   hou/gfx/TestTexture.cpp
   hou/gfx/TestTextureChannelMapping.cpp

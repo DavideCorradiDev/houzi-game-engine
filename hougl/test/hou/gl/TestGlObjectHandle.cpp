@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/Test.hpp"
 #include "hou/gl/TestGlSingleContext.hpp"
@@ -139,7 +139,7 @@ TEST_F(TestGlObjectHandle, NonSharedMoveConstructor)
 
 TEST_F(TestGlObjectHandle, SharedOwnerUid)
 {
-  Window w("Test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
+  SystemWindow w("Test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
   gl::Context c1(gl::ContextSettings::Default, w);
   gl::Context c2(gl::ContextSettings::Default, w, c1);
   gl::Context c3(gl::ContextSettings::Default, w);
@@ -166,7 +166,7 @@ TEST_F(TestGlObjectHandle, SharedOwnerUid)
 
 TEST_F(TestGlObjectHandle, NonSharedOwnerUid)
 {
-  Window w("Test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
+  SystemWindow w("Test", VideoMode(Vec2u::zero(), 0u), WindowStyle::Windowed);
   gl::Context c1(gl::ContextSettings::Default, w);
   gl::Context c2(gl::ContextSettings::Default, w, c1);
   gl::Context c3(gl::ContextSettings::Default, w);

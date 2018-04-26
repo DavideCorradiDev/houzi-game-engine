@@ -1,13 +1,13 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #ifndef HOU_COR_STD_ARRAY_HPP
 #define HOU_COR_STD_ARRAY_HPP
 
 #include "hou/cor/CorExport.hpp"
 
-#include "hou/cor/CorUtils.hpp"
+#include "hou/cor/CoreFunctions.hpp"
 
 #include <array>
 

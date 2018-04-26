@@ -39,7 +39,7 @@ SET(EXE_HOUCOR_TEST_SRC
   hou/cor/TestBitwiseOperators.cpp
   hou/cor/TestCharacterEncodings.cpp
   hou/cor/TestClock.cpp
-  hou/cor/TestCorUtils.cpp
+  hou/cor/TestCoreFunctions.cpp
   hou/cor/TestError.cpp
   hou/cor/TestNotNull.cpp
   hou/cor/TestSpan.cpp

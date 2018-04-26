@@ -1,12 +1,12 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #ifndef HOU_AUD_STREAMING_AUDIO_SOURCE_HPP
 #define HOU_AUD_STREAMING_AUDIO_SOURCE_HPP
 
 #include "hou/aud/AudExport.hpp"
-#include "hou/aud/AudioSourceBase.hpp"
+#include "hou/aud/AudioSource.hpp"
 
 #include "hou/aud/AudioBuffer.hpp"
 
@@ -30,7 +30,7 @@ namespace hou
  *  This class is suited to play long audio buffers, as the buffer must not be
  *  completely loaded in memory but is rather streamed concurrently in smaller
  *  chunks.
- *  For short audio files, it is suggested to use an AudioSource and an
+ *  For short audio files, it is suggested to use an MemoryAudioSource and an
  *  AudioBuffer, as performance is better and as the AudioBuffer can be shared
  *  by multiple AudioSources.
  *  Each StreamingAudioSource object spawns a thread that takes care of loading
@@ -48,8 +48,7 @@ namespace hou
  *  Higher number of buffers and higher buffer size will result in higher
  *  memory consumption, but better sound quality.
  */
-class HOU_AUD_API StreamingAudioSource
-  : public AudioSourceBase
+class HOU_AUD_API StreamingAudioSource : public AudioSource
 {
 public:
   /** Default constructor.
@@ -65,15 +64,15 @@ public:
    *
    *  \param audioStream the audio stream.
    */
-  explicit StreamingAudioSource
-    ( NotNull<std::unique_ptr<AudioStreamIn>> audioStream);
+  explicit StreamingAudioSource(
+    NotNull<std::unique_ptr<AudioStreamIn>> audioStream);
 
   /** Destructor.
    */
   virtual ~StreamingAudioSource();
-  // Note: no move constructor is implemented at the moment because of difficulty
-  // with the streaming thread. The thread should be stopped before copying
-  // data around.
+  // Note: no move constructor is implemented at the moment because of
+  // difficulty with the streaming thread. The thread should be stopped before
+  // copying data around.
 
   /** Sets the stream and transfers ownership to this object.
    *
@@ -107,8 +106,8 @@ public:
    */
   size_t getBufferSampleCount() const;
 
-  // AudioSourceBase overrides.
-  AudioFormat getAudioFormat() const final;
+  // AudioSource overrides.
+  AudioBufferFormat getFormat() const final;
   uint getChannelCount() const final;
   uint getBytesPerSample() const final;
   uint getSampleRate() const final;
@@ -122,14 +121,14 @@ private:
   public:
     BufferQueue(size_t bufferCount);
     size_t freeBuffers(size_t count);
-    const al::Buffer& fillBuffer(const std::vector<uint8_t>& data
-      , AudioFormat format, int sampleRate);
+    const AudioBuffer& fillBuffer(const std::vector<uint8_t>& data,
+      AudioBufferFormat format, int sampleRate);
     size_t getFreeBufferCount() const;
     size_t getUsedBufferCount() const;
     size_t getBufferCount() const;
 
   private:
-    std::vector<al::Buffer> mBuffers;
+    std::vector<AudioBuffer> mBuffers;
     std::queue<size_t> mBufferSampleCounts;
     size_t mFreeBufferCount;
     size_t mCurrentIndex;
@@ -157,7 +156,6 @@ private:
   size_t mBufferByteCount;
 };
 
-}
+}  // namespace hou
 
 #endif
-

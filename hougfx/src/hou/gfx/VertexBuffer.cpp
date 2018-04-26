@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/gfx/VertexBuffer.hpp"
 
@@ -23,16 +23,35 @@ void VertexBuffer::unbind(VertexBufferTarget target)
 
 
 
-VertexBuffer::VertexBuffer(uint byteCount, VertexBufferAttributes attributes)
-  : VertexBuffer(std::vector<uint8_t>(byteCount, 0u), attributes)
-{}
+VertexBuffer::VertexBuffer(uint byteCount, bool dynamicStorage)
+  : NonCopyable()
+  , mHandle(gl::BufferHandle::create())
+  , mByteCount(byteCount)
+{
+  std::vector<uint8_t> data(byteCount, 0u);
+  gl::setBufferStorage(mHandle, static_cast<GLsizei>(data.size()),
+    reinterpret_cast<const GLvoid*>(data.data()),
+    dynamicStorage ? GL_DYNAMIC_STORAGE_BIT : 0);
+}
+
+
+
+VertexBuffer::VertexBuffer(uint size, const void* data, bool dynamicStorage)
+  : NonCopyable()
+  , mHandle(gl::BufferHandle::create())
+  , mByteCount(size)
+{
+  gl::setBufferStorage(mHandle, static_cast<GLsizei>(size),
+    reinterpret_cast<const GLvoid*>(data),
+    dynamicStorage ? GL_DYNAMIC_STORAGE_BIT : 0);
+}
 
 
 
 VertexBuffer::VertexBuffer(VertexBuffer&& other)
   : NonCopyable()
   , mHandle(std::move(other.mHandle))
-  , mByteCount(other.mByteCount)
+  , mByteCount(std::move(other.mByteCount))
 {}
 
 
@@ -54,18 +73,6 @@ bool VertexBuffer::isBound(VertexBufferTarget target) const
 uint VertexBuffer::getByteCount() const
 {
   return mByteCount;
-}
-
-
-
-VertexBuffer::VertexBuffer(
-  uint byteCount, const void* data, VertexBufferAttributes attributes)
-  : NonCopyable()
-  , mHandle(gl::BufferHandle::create())
-  , mByteCount(byteCount)
-{
-  gl::setBufferStorage(mHandle, static_cast<GLsizei>(byteCount),
-    reinterpret_cast<const GLvoid*>(data), static_cast<GLbitfield>(attributes));
 }
 
 }  // namespace hou

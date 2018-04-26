@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/sys/Window.hpp"
 
@@ -10,6 +10,8 @@
 #include "hou/cor/UidGenerator.hpp"
 
 #include "hou/mth/Rectangle.hpp"
+
+#include <thread>
 
 
 
@@ -39,7 +41,7 @@ Window::Window(const std::string& title, const VideoMode& videoMode
   , mImpl(title, videoMode, style)
   , mUid(generateUid())
   , mStyle(style)
-  , mBitsPerPixel(videoMode.getBitsPerPixel())
+  , mBytesPerPixel(videoMode.getBytesPerPixel())
   , mTitle(title)
   , mIconImage()
 {}
@@ -50,7 +52,7 @@ Window::Window(Window&& other)
   : mImpl(std::move(other.mImpl))
   , mUid(std::move(other.mUid))
   , mStyle(std::move(other.mStyle))
-  , mBitsPerPixel(std::move(other.mBitsPerPixel))
+  , mBytesPerPixel(std::move(other.mBytesPerPixel))
   , mTitle(std::move(other.mTitle))
   , mIconImage(std::move(other.mIconImage))
 {}
@@ -91,97 +93,91 @@ void Window::setTitle(const std::string& title)
 
 
 
-Recti Window::getFrameRect() const
-{
-  return mImpl.getFrameRect();
-}
-
-
-
 Vec2i Window::getFramePosition() const
 {
-  return getFrameRect().getPosition();
+  return mImpl.getFrameRect().getPosition();
 }
 
 
 
 Vec2u Window::getFrameSize() const
 {
-  return getFrameRect().getSize();
+  return static_cast<Vec2u>(mImpl.getFrameRect().getSize());
 }
 
 
 
-void Window::setFrameRect(const Recti& rect)
+void Window::setFrameRect(const Vec2i& pos, const Vec2u& size)
 {
-  mImpl.setFrameRect(rect);
+  Vec2u oldClientSize = getClientSize();
+  mImpl.setFrameRect(Recti(pos, static_cast<Vec2i>(size)));
+  Vec2u newClientSize = getClientSize();
+  if(oldClientSize != newClientSize)
+  {
+    pushEvent(WindowEvent::resized(newClientSize.x(), newClientSize.y()));
+  }
 }
 
 
 
 void Window::setFramePosition(const Vec2i& pos)
 {
-  Vec2u size = getFrameSize();
-  setFrameRect(Recti(pos, size));
+  setFrameRect(pos, getFrameSize());
 }
 
 
 
 void Window::setFrameSize(const Vec2u& size)
 {
-  Vec2i pos = getFramePosition();
-  setFrameRect(Recti(pos, size));
-}
-
-
-
-Recti Window::getClientRect() const
-{
-  return mImpl.getClientRect();
+  setFrameRect(getFramePosition(), size);
 }
 
 
 
 Vec2i Window::getClientPosition() const
 {
-  return getClientRect().getPosition();
+  return mImpl.getClientRect().getPosition();
 }
 
 
 
 Vec2u Window::getClientSize() const
 {
-  return getClientRect().getSize();
+  return static_cast<Vec2u>(mImpl.getClientRect().getSize());
 }
 
 
 
-void Window::setClientRect(const Recti& rect)
+void Window::setClientRect(const Vec2i& pos, const Vec2u& size)
 {
-  mImpl.setClientRect(rect);
+  Vec2u oldClientSize = getClientSize();
+  mImpl.setClientRect(Recti(pos, static_cast<Vec2i>(size)));
+  Vec2u newClientSize = getClientSize();
+  if(oldClientSize != newClientSize)
+  {
+    pushEvent(WindowEvent::resized(newClientSize.x(), newClientSize.y()));
+  }
 }
 
 
 
 void Window::setClientPosition(const Vec2i& pos)
 {
-  Vec2u size = getFrameSize();
-  setClientRect(Recti(pos, size));
+  setClientRect(pos, getClientSize());
 }
 
 
 
 void Window::setClientSize(const Vec2u& size)
 {
-  Vec2i pos = getClientPosition();
-  setClientRect(Recti(pos, size));
+  setClientRect(getClientPosition(), size);
 }
 
 
 
-uint Window::getBitsPerPixel() const
+uint Window::getBytesPerPixel() const
 {
-  return mBitsPerPixel;
+  return mBytesPerPixel;
 }
 
 
@@ -287,7 +283,9 @@ void Window::updateEventQueue()
 
 WindowEvent Window::popEvent()
 {
-  return mImpl.popEvent();
+  WindowEvent ev = mImpl.popEvent();
+  reactToEvent(ev);
+  return ev;
 }
 
 
@@ -301,7 +299,16 @@ void Window::pushEvent(const WindowEvent& event)
 
 WindowEvent Window::waitEvent()
 {
-  return mImpl.waitEvent();
+  static constexpr std::chrono::milliseconds sleepTime(10);
+
+  updateEventQueue();
+  while(isEventQueueEmpty())
+  {
+    std::this_thread::sleep_for(sleepTime);
+    updateEventQueue();
+  }
+  HOU_ENSURE_DEV(!isEventQueueEmpty());
+  return popEvent();
 }
 
 
@@ -309,6 +316,20 @@ WindowEvent Window::waitEvent()
 void Window::swapBuffers()
 {
   mImpl.swapBuffers();
+}
+
+
+
+void Window::reactToEvent(const WindowEvent& event)
+{
+  // If the window has been resized by the OS user, call setClientSize to make
+  // sure that special handling for the derived class is performed as well.
+  // Example: RenderWindow also resizes the FrameBuffer on resize.
+  if(event.getType() == WindowEventType::Resized)
+  {
+    const WindowEvent::SizeData& data = event.getSizeData();
+    setClientSize(Vec2u(data.sizeX, data.sizeY));
+  }
 }
 
 }

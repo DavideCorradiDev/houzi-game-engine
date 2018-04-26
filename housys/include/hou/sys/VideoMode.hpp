@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #ifndef HOU_WND_VIDEO_MODE_HPP
 #define HOU_WND_VIDEO_MODE_HPP
@@ -40,9 +40,9 @@ public:
   /** Creates a VideoMode object.
    *
    *  \param resolution the screen resolution.
-   *  \param bitsPerPixel the number of bits per pixel.
+   *  \param bytesPerPixel the number of bits per pixel.
    */
-  VideoMode(const Vec2u& resolution, uint bitsPerPixel);
+  VideoMode(const Vec2u& resolution, uint bytesPerPixel);
 
   /** Retrieves the screen resolution.
    *
@@ -54,7 +54,7 @@ public:
    *
    *  \return the number of bits per pixel.
    */
-  uint getBitsPerPixel() const;
+  uint getBytesPerPixel() const;
 
   /** Checks if this is a fullscreen video mode.
    *
@@ -67,7 +67,7 @@ private:
 
 private:
   Vec2u mResolution;
-  uint mBitsPerPixel;
+  uint mBytesPerPixel;
 };
 
 /** Checks if two VideoMode objects are equal.

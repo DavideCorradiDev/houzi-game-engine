@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #ifndef HOU_AUD_AUDIO_CONTEXT_HPP
 #define HOU_AUD_AUDIO_CONTEXT_HPP
@@ -39,6 +39,10 @@ public:
    */
   static void setCurrent(AudioContext& context);
 
+  /** Unsets the current AudioContext.
+   */
+  static void unsetCurrent();
+
   /** Gets a list of the names of the available audio devices.
    *
    *  \return a list of the names of the available audio devices.
@@ -67,9 +71,6 @@ public:
    *  \return true if this is the current context.
    */
   bool isCurrent() const;
-
-private:
-  void initialize();
 
 private:
   al::Device mAlDevice;

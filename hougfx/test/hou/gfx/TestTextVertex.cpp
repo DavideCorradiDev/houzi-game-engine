@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/Test.hpp"
 
@@ -15,8 +15,16 @@ using namespace hou;
 namespace
 {
 
-class TestTextVertex : public Test {};
+class TestTextVertex : public Test
+{};
 
+}  // namespace
+
+
+
+TEST_F(TestTextVertex, Size)
+{
+  EXPECT_EQ(5u * sizeof(GLfloat), sizeof(TextVertex));
 }
 
 
@@ -117,4 +125,3 @@ TEST_F(TestTextVertex, OutputStreamOperator)
   const char* refOutput = "{Position = (1, 2), TextureCoordinates = (3, 4, 5)}";
   HOU_EXPECT_OUTPUT(refOutput, v);
 }
-

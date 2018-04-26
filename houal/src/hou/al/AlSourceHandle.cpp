@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/al/AlSourceHandle.hpp"
 
@@ -37,6 +37,7 @@ SourceHandle::~SourceHandle()
   if(getName() != 0)
   {
     HOU_AL_CHECK_CONTEXT_EXISTENCE();
+    HOU_AL_CHECK_CONTEXT_OWNERSHIP(*this);
     ALuint name = getName();
     alDeleteSources(1u, &name);
     HOU_AL_CHECK_ERROR();
@@ -389,24 +390,24 @@ ALboolean getSourceLooping(const SourceHandle& s)
 
 
 
-void setSourceState(const SourceHandle& s, SourceState state)
+void setSourceState(const SourceHandle& s, ALenum state)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
-  alSourcei(s.getName(), AL_SOURCE_STATE, static_cast<ALint>(state));
+  alSourcei(s.getName(), AL_SOURCE_STATE, state);
   HOU_AL_CHECK_ERROR();
 }
 
 
 
-SourceState getSourceState(const SourceHandle& s)
+ALenum getSourceState(const SourceHandle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
   ALint value;
   alGetSourcei(s.getName(), AL_SOURCE_STATE, &value);
   HOU_AL_CHECK_ERROR();
-  return static_cast<SourceState>(value);
+  return static_cast<ALenum>(value);
 }
 
 

@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/Test.hpp"
 #include "hou/sys/TestData.hpp"
@@ -262,6 +262,34 @@ TEST_F(TestTextFileIn, ReadToSpan)
   const uint8_t* offsetData = fileContent.data() + bufferByteSize;
   HOU_EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(buffer.data()), offsetData
     , bufferByteSize);
+}
+
+
+
+TEST_F(TestTextFileIn, ReadAllToVector)
+{
+  TextFileIn fi(fileName);
+  auto fiContent = fi.readAll<std::vector<uint8_t>>();
+
+  EXPECT_EQ(fileContent, fiContent);
+  EXPECT_EQ(fileContent.size(), fi.getReadByteCount());
+}
+
+
+
+TEST_F(TestTextFileIn, ReadAllToVectorNotFromStart)
+{
+  TextFileIn fi(fileName);
+
+  std::string buffer(2, 0);
+  EXPECT_EQ(TextFileIn::TextPosition::Start, fi.getTextPos());
+  fi.read(buffer);
+  EXPECT_NE(TextFileIn::TextPosition::Start, fi.getTextPos());
+
+  auto fiContent = fi.readAll<std::vector<uint8_t>>();
+
+  EXPECT_EQ(fileContent, fiContent);
+  EXPECT_EQ(fileContent.size(), fi.getReadByteCount());
 }
 
 

@@ -1,12 +1,12 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/gfx/Mesh2ShaderProgram.hpp"
 
+#include "hou/gfx/Mesh.hpp"
+#include "hou/gfx/RenderSurface.hpp"
 #include "hou/gfx/Shader.hpp"
-
-#include "hou/mth/Transform2.hpp"
 
 #include "hou/sys/Color.hpp"
 
@@ -67,15 +67,19 @@ std::string getGlFragmentShaderSource()
 Mesh2ShaderProgram::Mesh2ShaderProgram()
   : ShaderProgram(VertexShader(getGlVertexShaderSource()),
       FragmentShader(getGlFragmentShaderSource()))
+  , mBlankTexture(Vec2u(1u, 1u), TextureFormat::RGBA, 1u)
   , mUniColor(getUniformLocation(UNI_COLOR))
   , mUniTexture(getUniformLocation(UNI_TEXTURE))
   , mUniTransform(getUniformLocation(UNI_TRANSFORM))
-{}
+{
+  mBlankTexture.clear(PixelRGBA(Color::White));
+}
 
 
 
 Mesh2ShaderProgram::Mesh2ShaderProgram(Mesh2ShaderProgram&& other)
   : ShaderProgram(std::move(other))
+  , mBlankTexture(std::move(other.mBlankTexture))
   , mUniColor(std::move(other.mUniColor))
   , mUniTexture(std::move(other.mUniTexture))
   , mUniTransform(std::move(other.mUniTransform))
@@ -102,6 +106,39 @@ void Mesh2ShaderProgram::setTransform(const Trans2f& trans)
 {
   gl::setProgramUniformMatrix4f(
     getHandle(), mUniTransform, 1u, GL_TRUE, trans.toMat4x4().data());
+}
+
+
+
+void Mesh2ShaderProgram::draw(RenderSurface& target, const Mesh2& mesh,
+  const Texture2& tex, const Color& col, const Trans2f& trn)
+{
+  static constexpr uint texUnit = 0u;
+  RenderSurface::setCurrentRenderTarget(target);
+  setColor(col);
+  setTextureUnit(texUnit);
+  setTransform(trn);
+  bind(*this);
+  Texture::bind(tex, texUnit);
+  Mesh::draw(mesh);
+}
+
+void Mesh2ShaderProgram::draw(RenderSurface& target, const Mesh2& mesh,
+  const Color& col, const Trans2f& trn)
+{
+  draw(target, mesh, mBlankTexture, col, trn);
+}
+
+void Mesh2ShaderProgram::draw(RenderSurface& target, const Mesh2& mesh,
+  const Texture2& tex, const Trans2f& trn)
+{
+  draw(target, mesh, tex, Color::White, trn);
+}
+
+void Mesh2ShaderProgram::draw(
+  RenderSurface& target, const Mesh2& mesh, const Trans2f& trn)
+{
+  draw(target, mesh, mBlankTexture, Color::White, trn);
 }
 
 }  // namespace hou

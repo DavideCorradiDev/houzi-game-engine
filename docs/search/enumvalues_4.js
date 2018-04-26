@@ -9,5 +9,7 @@ var searchData=
   ['eraseeof',['EraseEOF',['../namespacehou.html#a38cd4932bf20ccf3c7476ddb76bd2e89ac47c4d90b96ba56e29acddcfe1dc80ac',1,'hou']]],
   ['escape',['Escape',['../namespacehou.html#a38cd4932bf20ccf3c7476ddb76bd2e89a013ec032d3460d4be4431c6ab1f8f224',1,'hou::Escape()'],['../namespacehou.html#acf944f8801268fa6726cf19c01e6c750a013ec032d3460d4be4431c6ab1f8f224',1,'hou::Escape()']]],
   ['execute',['Execute',['../namespacehou.html#a38cd4932bf20ccf3c7476ddb76bd2e89a40cd014b7b6251e3a22e6a45a73a64e1',1,'hou']]],
+  ['exponentdistance',['ExponentDistance',['../namespacehou.html#a1adeefcd4d5659c4aa628c3bebf98888a6f69922d830216f31901d27502565a0e',1,'hou']]],
+  ['exponentdistanceclamped',['ExponentDistanceClamped',['../namespacehou.html#a1adeefcd4d5659c4aa628c3bebf98888a789ffe8c94b253cb1712d2390665b483',1,'hou']]],
   ['exsel',['ExSel',['../namespacehou.html#a38cd4932bf20ccf3c7476ddb76bd2e89a9c9e473de4b3e4e4247ec95812446a17',1,'hou']]]
 ];

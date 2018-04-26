@@ -37,7 +37,7 @@ INCLUDE_DIRECTORIES(
 SET(EXE_HOUMTH_TEST_SRC
   ${LIB_HOUTEST_SOURCE_DIR}/src/TestMain.cpp
   hou/mth/TestMatrix.cpp
-  hou/mth/TestMthUtils.cpp
+  hou/mth/TestMathFunctions.cpp
   hou/mth/TestQuaternion.cpp
   hou/mth/TestRectangle.cpp
   hou/mth/TestRotation2.cpp

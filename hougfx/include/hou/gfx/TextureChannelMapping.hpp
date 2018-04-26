@@ -1,4 +1,4 @@
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #ifndef HOU_GFX_TEXTURE_CHANNEL_MAPPING_HPP
 #define HOU_GFX_TEXTURE_CHANNEL_MAPPING_HPP

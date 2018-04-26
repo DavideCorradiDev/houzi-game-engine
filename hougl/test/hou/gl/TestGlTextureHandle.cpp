@@ -1,6 +1,6 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license. See license.md for more details.
+// Licensed under the MIT license.
 
 #include "hou/Test.hpp"
 #include "hou/gl/TestGlMultipleContexts.hpp"
@@ -185,6 +185,7 @@ TEST_F(TestGlTextureHandleDeathTest, NonSharingContextBinding)
   setNonSharingContextCurrent();
   HOU_EXPECT_ERROR(
     gl::bindTexture(th), std::logic_error, getText(GlError::InvalidOwnership));
+  setContextCurrent();
 }
 
 
