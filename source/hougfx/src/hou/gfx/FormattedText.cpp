@@ -118,9 +118,10 @@ GlyphCache::GlyphCache(
 {
   for(auto c : characters)
   {
-    auto inserted = mGlyphs.insert(std::make_pair(c, font.getGlyph(c)));
-    if(inserted.second)
+    if(mGlyphs.count(c) == 0u)
     {
+      auto inserted = mGlyphs.insert(std::make_pair(c, font.getGlyph(c)));
+      HOU_EXPECT_DEV(inserted.second);
       const Vec2u& glyphSize = inserted.first->second.getImage().getSize();
       for(size_t i = 0; i < Vec2u::getSize(); ++i)
       {
