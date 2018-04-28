@@ -95,36 +95,38 @@ When configuring the project with CMake, the following options are available:
 
 * **CMAKE\_BUILD\_TYPE**: set to "Release" to build optimized, faster binaries, or to "Debug" to build debugging-friendly binaries.
 
-* **HOU\_GFG\_SHARED\_LIBS**: if set, shared libraries will be built. If unset, static libraries will be built.
-
-* **HOU\_GFG\_BUILD\_\[library\_identifier\]**: if set, the corresponding library will be built.
+* **HOU\_CFG\_BUILD\_\[library\_identifier\]**: if set, the corresponding library will be built.
 If unset, the library will not be built.
 When building a library be careful to also build its dependencies.
 
-* **HOU\_GFG\_BUILD\_\[library\_identifier\]\_TESTS**: if set, the tests for the corresponding library will be built.
+* **HOU\_CFG\_BUILD\_\[library\_identifier\]\_TESTS**: if set, the tests for the corresponding library will be built.
 If unset, the tests will not be built.
 Be careful to build the corresponding library when building the relative tests.
 To build the tests you must have downloaded and built the gtest library.
 CMake will try to detect the path to the gtest library and the gtest header files by itself.
 In case it cannot do this, you can manually set **LIB\_GOOGLE\_TEST** to the path to the library and **LIB\_GOOGLE\_TEST\_INCLUDE\_DIR** to the path to the library headers.
 
-* **HOU\_GFG\_BUILD\_DEMOS**: if set, builds some small demo applications using the Houzi Game Engine.
+* **HOU\_CFG\_BUILD\_DEMOS**: if set, builds some small demo applications using the Houzi Game Engine.
 If unset, the demo applications will not be built.
 When building the demo applications, pay attention to build all of the Houzi Game Engine libraries.
 
-* **HOU\_GFG\_BUILD\_OPENAL\_SOFT**: if set, OpenALSoft will be built and used as the low-level sound library.
+* **HOU\_CFG\_BUILD\_OPENAL\_SOFT**: if set, OpenALSoft will be built and used as the low-level sound library.
 If unset, CMake will try to detect the path to an installed OpenAL library implementation and its headers.
 In case it cannot do this, you can manually set **LIB\_OPENAL** to the path to the library and **LIB\_OPENAL\_INCLUDE\_DIR** to the path to the library headers.
 When building OpenALSoft, refer to the OpenALSoft documentation for details about the configuration.
+
+* **HOU\_CFG\_STATIC\_LIBS**: if set, static libraries will be build, otherwise shared libraries will be built.
+When building static libraries, you should define the preprocessor symbol **HOU_STATIC** to ensure that including headers from the library will behave correctly.
+When building static libraries, all dependencies must be explicitly linked, even if not directly used.
 
 * **HOU\_CFG\_DISABLE\_EXCEPTIONS**: if set, exceptions will be completely disabled.
 Instead of throwing an exception, the program will abort and write an error message in the error stream.
 If exceptions are disabled, you should define the preprocessor symbol **HOU_DISABLE_EXCEPTIONS** to ensure that header files will behave consistently.
 
-* **HOU\_GFG\_DISABLE\_AL\_\[check_type\]\_CHECKS**: these options disable some OpenAL error checks when set.
+* **HOU\_CFG\_DISABLE\_AL\_\[check_type\]\_CHECKS**: these options disable some OpenAL error checks when set.
 These checks can be useful during development or when debugging audio issues, but can be expensive and should be disabled for release builds.
 
-* **HOU\_GFG\_DISABLE\_GL\_\[check_type\]\_CHECKS**: these options disable some OpenGL error checks when set.
+* **HOU\_CFG\_DISABLE\_GL\_\[check_type\]\_CHECKS**: these options disable some OpenGL error checks when set.
 These checks can be useful during development or when debugging graphics issues, but can be expensive and should be disabled for release builds.
 
 

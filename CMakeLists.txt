@@ -107,12 +107,12 @@ OPTION(HOU_CFG_BUILD_OPENAL_SOFT
   "Build and link the OpenAL-Soft library. If unset, look for an installed OpenAL implementation."
   OFF
 )
-OPTION(HOU_CFG_SHARED_LIBS
-  "Build shared libraries. If unset, build static libraries."
-  ON
+OPTION(HOU_CFG_STATIC_LIBS
+  "If set, build static libraries. If unset, build shared libraries."
+  OFF
 )
 OPTION(HOU_CFG_DISABLE_EXCEPTIONS
-  "Disable exception handling. If set, crash instead of throwing exceptions."
+  "If set, disable exception handling and crash in case of errors. If unset, use exceptions for error handling."
   OFF
 )
 OPTION(HOU_CFG_BUILD_DEMOS
@@ -156,7 +156,7 @@ IF(CMAKE_BUILD_TYPE MATCHES Debug)
 ELSEIF(CMAKE_BUILD_TYPE MATCHES Release)
   ADD_DEFINITIONS(-DNDEBUG)
 ENDIF()
-IF(NOT HOU_CFG_SHARED_LIBS)
+IF(HOU_CFG_STATIC_LIBS)
   ADD_DEFINITIONS(-DHOU_STATIC)
 ENDIF()
 IF(HOU_CFG_DISABLE_EXCEPTIONS)
