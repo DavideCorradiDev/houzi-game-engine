@@ -29,11 +29,11 @@ public:
   virtual ~ObjectHandle() = 0;
 
   GLuint getName() const;
-  uint32_t getUid() const;
+  uint32_t get_uid() const;
 
 private:
   GLuint mName;
-  uint32_t mUid;
+  uint32_t m_uid;
 };
 
 

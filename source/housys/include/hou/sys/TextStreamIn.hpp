@@ -5,39 +5,39 @@
 #ifndef HOU_SYS_TEXT_STREAM_IN_HPP
 #define HOU_SYS_TEXT_STREAM_IN_HPP
 
-#include "hou/sys/SysExport.hpp"
-#include "hou/sys/TextStream.hpp"
-#include "hou/sys/StreamIn.hpp"
+#include "hou/sys/sys_export.hpp"
+#include "hou/sys/text_stream.hpp"
+#include "hou/sys/stream_in.hpp"
 
 
 
 namespace hou
 {
 
-/** Text input stream interface.
+/** text input ph_stream interface.
  */
-class HOU_SYS_API TextStreamIn
-  : public TextStream
-  , public StreamIn
+class HOU_SYS_API text_stream_in
+  : public text_stream
+  , public stream_in
 {
 public:
   /** Destructor.
    */
-  virtual ~TextStreamIn() {};
+  virtual ~text_stream_in() {};
 
-  /** Reads the whole contents of the stream into memory.
+  /** Reads the whole contents of the ph_stream into memory.
    *
    *  \tparam T the container type to return.
    *
-   *  \return a container containing the whole content of the file.
+   *  \return a container containing the whole content of the ph_file.
    */
   template <typename T>
-    std::enable_if_t<is_contiguous_container<T>::value, T> readAll();
+    std::enable_if_t<is_contiguous_container<T>::value, T> read_all();
 };
 
 }
 
-#include "hou/sys/TextStreamIn.inl"
+#include "hou/sys/text_stream_in.inl"
 
 #endif
 

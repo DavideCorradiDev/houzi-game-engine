@@ -128,7 +128,7 @@ void checkContextOwnership(const ContextOwnedObjectHandle& o
   , const std::string& filename, int line)
 {
   checkContextExistence(filename, line);
-  if(Context::getCurrent()->getUid() != o.getOwningContextUid())
+  if(Context::getCurrent()->get_uid() != o.getOwningContextUid())
   {
     HOU_THROW(std::logic_error, format_error_message(filename, line
       , get_text(AlError::InvalidOwnership)));

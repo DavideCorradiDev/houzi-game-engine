@@ -7,7 +7,7 @@
 
 #include "hou/aud/AudExport.hpp"
 #include "hou/aud/AudioStream.hpp"
-#include "hou/sys/StreamIn.hpp"
+#include "hou/sys/stream_in.hpp"
 
 #include "hou/cor/not_null.hpp"
 
@@ -18,14 +18,14 @@
 namespace hou
 {
 
-/** Input audio stream.
+/** Input audio ph_stream.
  *
- *  Read operations throw if reading a non-integer number of samples.
+ *  read operations throw if reading a non-integer number of samples.
  *
  */
 class HOU_AUD_API AudioStreamIn
   : public AudioStream
-  , public StreamIn
+  , public stream_in
 {
 public:
   /** Destructor.
@@ -36,14 +36,14 @@ public:
    */
   size_t getReadSampleCount() const;
 
-  /** Reads the whole contents of the stream into memory.
+  /** Reads the whole contents of the ph_stream into memory.
    *
    *  \tparam T the container type to return.
    *
-   *  \return a container containing the whole content of the file.
+   *  \return a container containing the whole content of the ph_file.
    */
   template <typename T>
-    std::enable_if_t<is_contiguous_container<T>::value, T> readAll();
+    std::enable_if_t<is_contiguous_container<T>::value, T> read_all();
 };
 
 }

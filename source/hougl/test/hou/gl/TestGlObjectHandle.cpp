@@ -8,7 +8,7 @@
 
 #include "hou/gl/GlContextSettings.hpp"
 
-#include "hou/sys/VideoMode.hpp"
+#include "hou/sys/video_mode.hpp"
 
 
 
@@ -60,10 +60,10 @@ TEST_F(TestGlObjectHandle, Creation)
 {
   ConcreteGlObjectHandle oh(1u);
   EXPECT_EQ(1u, oh.getName());
-  EXPECT_NE(0u, oh.getUid());
+  EXPECT_NE(0u, oh.get_uid());
 
   ConcreteGlObjectHandle oh2(1u);
-  EXPECT_NE(oh.getUid(), oh2.getUid());
+  EXPECT_NE(oh.get_uid(), oh2.get_uid());
 }
 
 
@@ -72,11 +72,11 @@ TEST_F(TestGlObjectHandle, SharedCreation)
 {
   ConcreteGlSharedObjectHandle oh(2u);
   EXPECT_EQ(2u, oh.getName());
-  EXPECT_NE(0u, oh.getUid());
+  EXPECT_NE(0u, oh.get_uid());
   EXPECT_EQ(mContext.getSharingGroupUid(), oh.getOwningSharingGroupUid());
 
   ConcreteGlObjectHandle oh2(1u);
-  EXPECT_NE(oh.getUid(), oh2.getUid());
+  EXPECT_NE(oh.get_uid(), oh2.get_uid());
 }
 
 
@@ -85,11 +85,11 @@ TEST_F(TestGlObjectHandle, NonSharedCreation)
 {
   ConcreteGlNonSharedObjectHandle oh(3u);
   EXPECT_EQ(3u, oh.getName());
-  EXPECT_NE(0u, oh.getUid());
-  EXPECT_EQ(mContext.getUid(), oh.getOwningContextUid());
+  EXPECT_NE(0u, oh.get_uid());
+  EXPECT_EQ(mContext.get_uid(), oh.getOwningContextUid());
 
   ConcreteGlObjectHandle oh2(1u);
-  EXPECT_NE(oh.getUid(), oh2.getUid());
+  EXPECT_NE(oh.get_uid(), oh2.get_uid());
 }
 
 
@@ -98,11 +98,11 @@ TEST_F(TestGlObjectHandle, MoveConstructor)
 {
   ConcreteGlObjectHandle ohDummy(1u);
   ConcreteGlObjectHandle oh(std::move(ohDummy));
-  uint32_t ohUidRef = oh.getUid();
+  uint32_t ohUidRef = oh.get_uid();
   EXPECT_EQ(0u, ohDummy.getName());
-  EXPECT_EQ(0u, ohDummy.getUid());
+  EXPECT_EQ(0u, ohDummy.get_uid());
   EXPECT_EQ(1u, oh.getName());
-  EXPECT_EQ(ohUidRef, oh.getUid());
+  EXPECT_EQ(ohUidRef, oh.get_uid());
 }
 
 
@@ -111,12 +111,12 @@ TEST_F(TestGlObjectHandle, SharedMoveConstructor)
 {
   ConcreteGlSharedObjectHandle ohDummy(1u);
   ConcreteGlSharedObjectHandle oh(std::move(ohDummy));
-  uint32_t ohUidRef = oh.getUid();
+  uint32_t ohUidRef = oh.get_uid();
   EXPECT_EQ(0u, ohDummy.getName());
-  EXPECT_EQ(0u, ohDummy.getUid());
+  EXPECT_EQ(0u, ohDummy.get_uid());
   EXPECT_EQ(mContext.getSharingGroupUid(), ohDummy.getOwningSharingGroupUid());
   EXPECT_EQ(1u, oh.getName());
-  EXPECT_EQ(ohUidRef, oh.getUid());
+  EXPECT_EQ(ohUidRef, oh.get_uid());
   EXPECT_EQ(mContext.getSharingGroupUid(), oh.getOwningSharingGroupUid());
 }
 
@@ -126,20 +126,20 @@ TEST_F(TestGlObjectHandle, NonSharedMoveConstructor)
 {
   ConcreteGlNonSharedObjectHandle ohDummy(1u);
   ConcreteGlNonSharedObjectHandle oh(std::move(ohDummy));
-  uint32_t ohUidRef = oh.getUid();
+  uint32_t ohUidRef = oh.get_uid();
   EXPECT_EQ(0u, ohDummy.getName());
-  EXPECT_EQ(0u, ohDummy.getUid());
-  EXPECT_EQ(mContext.getUid(), ohDummy.getOwningContextUid());
+  EXPECT_EQ(0u, ohDummy.get_uid());
+  EXPECT_EQ(mContext.get_uid(), ohDummy.getOwningContextUid());
   EXPECT_EQ(1u, oh.getName());
-  EXPECT_EQ(ohUidRef, oh.getUid());
-  EXPECT_EQ(mContext.getUid(), oh.getOwningContextUid());
+  EXPECT_EQ(ohUidRef, oh.get_uid());
+  EXPECT_EQ(mContext.get_uid(), oh.getOwningContextUid());
 }
 
 
 
 TEST_F(TestGlObjectHandle, SharedOwnerUid)
 {
-  SystemWindow w("Test", VideoMode(vec2u::zero(), 0u), WindowStyle::Windowed);
+  system_window w("Test", video_mode(vec2u::zero(), 0u), window_style::windowed);
   gl::Context c1(gl::ContextSettings::Default, w);
   gl::Context c2(gl::ContextSettings::Default, w, c1);
   gl::Context c3(gl::ContextSettings::Default, w);
@@ -166,7 +166,7 @@ TEST_F(TestGlObjectHandle, SharedOwnerUid)
 
 TEST_F(TestGlObjectHandle, NonSharedOwnerUid)
 {
-  SystemWindow w("Test", VideoMode(vec2u::zero(), 0u), WindowStyle::Windowed);
+  system_window w("Test", video_mode(vec2u::zero(), 0u), window_style::windowed);
   gl::Context c1(gl::ContextSettings::Default, w);
   gl::Context c2(gl::ContextSettings::Default, w, c1);
   gl::Context c3(gl::ContextSettings::Default, w);
@@ -180,9 +180,9 @@ TEST_F(TestGlObjectHandle, NonSharedOwnerUid)
   gl::Context::setCurrent(c3, w);
   ConcreteGlNonSharedObjectHandle nsh3(0u);
 
-  EXPECT_EQ(c1.getUid(), nsh1.getOwningContextUid());
-  EXPECT_EQ(c2.getUid(), nsh2.getOwningContextUid());
-  EXPECT_EQ(c3.getUid(), nsh3.getOwningContextUid());
+  EXPECT_EQ(c1.get_uid(), nsh1.getOwningContextUid());
+  EXPECT_EQ(c2.get_uid(), nsh2.getOwningContextUid());
+  EXPECT_EQ(c3.get_uid(), nsh3.getOwningContextUid());
 
   EXPECT_NE(nsh1.getOwningContextUid(), nsh2.getOwningContextUid());
   EXPECT_NE(nsh1.getOwningContextUid(), nsh3.getOwningContextUid());

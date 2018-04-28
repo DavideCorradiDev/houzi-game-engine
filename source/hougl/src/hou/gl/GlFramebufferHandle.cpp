@@ -85,9 +85,9 @@ void bindFramebuffer(const FramebufferHandle& framebuffer)
     glBindFramebuffer(GL_FRAMEBUFFER, framebuffer.getName());
     HOU_GL_CHECK_ERROR();
     Context::getCurrent()->mTrackingData.setBoundFramebuffer(
-      framebuffer.getUid(), GL_DRAW_FRAMEBUFFER);
+      framebuffer.get_uid(), GL_DRAW_FRAMEBUFFER);
     Context::getCurrent()->mTrackingData.setBoundFramebuffer(
-      framebuffer.getUid(), GL_READ_FRAMEBUFFER);
+      framebuffer.get_uid(), GL_READ_FRAMEBUFFER);
   }
 }
 
@@ -102,7 +102,7 @@ void bindFramebuffer(const FramebufferHandle& framebuffer, GLenum target)
     glBindFramebuffer(target, framebuffer.getName());
     HOU_GL_CHECK_ERROR();
     Context::getCurrent()->mTrackingData.setBoundFramebuffer(
-      framebuffer.getUid(), target);
+      framebuffer.get_uid(), target);
   }
 }
 
@@ -142,7 +142,7 @@ bool isFramebufferBound(const FramebufferHandle& framebuffer, GLenum target)
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(framebuffer);
   return Context::getCurrent()->mTrackingData.getBoundFramebuffer(target)
-    == framebuffer.getUid();
+    == framebuffer.get_uid();
 }
 
 

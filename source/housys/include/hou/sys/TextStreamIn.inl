@@ -8,12 +8,12 @@ namespace hou
 {
 
 template <typename T>
-std::enable_if_t<is_contiguous_container<T>::value, T> TextStreamIn::readAll()
+std::enable_if_t<is_contiguous_container<T>::value, T> text_stream_in::read_all()
 {
-  T data(getByteCount());
-  setTextPos(TextStream::TextPosition::Start);
+  T data(get_byte_count());
+  set_text_pos(text_stream::text_position::start);
   read(data);
-  HOU_ENSURE(data.size() == getReadByteCount());
+  HOU_ENSURE(data.size() == get_read_byte_count());
   return data;
 }
 

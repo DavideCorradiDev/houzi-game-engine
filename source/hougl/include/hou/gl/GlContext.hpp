@@ -78,30 +78,30 @@ private:
   };
 
 public:
-  static void setCurrent(Context& context, Window& window);
+  static void setCurrent(Context& context, window& ph_window);
   static void unsetCurrent();
   static Context* getCurrent();
 
-  Context(const ContextSettings& settings, const Window& window);
-  Context(const ContextSettings& settings, const Window& window,
+  Context(const ContextSettings& settings, const window& ph_window);
+  Context(const ContextSettings& settings, const window& ph_window,
     const Context& sharedContext);
   Context(Context&& other);
   ~Context();
 
-  uint32_t getUid() const;
+  uint32_t get_uid() const;
   uint32_t getSharingGroupUid() const;
   bool isCurrent() const;
 
 private:
-  Context(const ContextSettings& settings, const Window& window,
+  Context(const ContextSettings& settings, const window& ph_window,
     const Context* sharedContext);
 
 private:
   thread_local static Context* sCurrentContext;
   thread_local static uint32_t sCurrentWindowUid;
 
-  prv::ContextImpl mImpl;
-  uint32_t mUid;
+  prv::ContextImpl m_impl;
+  uint32_t m_uid;
   uint32_t mSharingGroupUid;
   TrackingData mTrackingData;
 

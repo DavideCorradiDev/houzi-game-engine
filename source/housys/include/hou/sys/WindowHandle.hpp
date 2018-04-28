@@ -18,7 +18,7 @@
 namespace hou {
 
 #if defined(HOU_SYSTEM_WINDOWS)
-  using WindowHandle = HWND__*;
+  using window_handle = HWND__*;
 #endif
 
 }

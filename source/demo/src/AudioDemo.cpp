@@ -5,11 +5,11 @@
 #include "hou/gfx/RenderWindow.hpp"
 #include "hou/gfx/Font.hpp"
 #include "hou/gfx/TextShaderProgram.hpp"
-#include "hou/sys/Color.hpp"
-#include "hou/sys/WindowEvent.hpp"
-#include "hou/sys/BinaryFileIn.hpp"
+#include "hou/sys/color.hpp"
+#include "hou/sys/window_event.hpp"
+#include "hou/sys/binary_file_in.hpp"
 
-#include "hou/sys/File.hpp"
+#include "hou/sys/file.hpp"
 
 #include "hou/cor/std_array.hpp"
 #include "hou/cor/std_vector.hpp"
@@ -37,12 +37,12 @@ int main()
   static const std::string dataDir = u8"source/demo/data/";
   GraphicContext ctx;
   GraphicContext::setCurrent(ctx);
-  RenderWindow rw(u8"Sprite benchmark", vec2u(800u, 600u), WindowStyle::Windowed);
-  rw.setVisible(true);
+  RenderWindow rw(u8"Sprite benchmark", vec2u(800u, 600u), window_style::windowed);
+  rw.set_visible(true);
   rw.setVerticalSyncMode(VerticalSyncMode::Disabled);
 
   TextShaderProgram rnd;
-  Font font(std::make_unique<BinaryFileIn>(dataDir + u8"NotoMono-Regular.ttf"));
+  Font font(std::make_unique<binary_file_in>(dataDir + u8"NotoMono-Regular.ttf"));
   trans2f proj = trans2f::orthographic_projection(rw.getViewport());
   trans2f textTrans = trans2f::translation(vec2f(0.f, static_cast<float>(font.getLineSpacing())));
   trans2f offsetTrans = trans2f::translation(vec2f(100.f, static_cast<float>(font.getLineSpacing())));
@@ -79,25 +79,25 @@ int main()
   timer.start();
   while(running)
   {
-    rw.updateEventQueue();
-    while(!rw.isEventQueueEmpty())
+    rw.update_event_queue();
+    while(!rw.is_event_queue_empty())
     {
-      WindowEvent we = rw.popEvent();
-      switch(we.getType())
+      window_event we = rw.pop_event();
+      switch(we.get_type())
       {
-        case WindowEventType::Closed:
+        case window_event_type::closed:
           running = false;
           break;
-        case WindowEventType::KeyPressed:
-          if(we.getKeyData().scanCode == ScanCode::Enter)
+        case window_event_type::key_pressed:
+          if(we.get_key_data().scan_code == scan_code::Enter)
           {
             sas.play();
           }
-          else if(we.getKeyData().scanCode == ScanCode::Backspace)
+          else if(we.get_key_data().scan_code == scan_code::Backspace)
           {
             sas.stop();
           }
-          else if(we.getKeyData().scanCode == ScanCode::RShift)
+          else if(we.get_key_data().scan_code == scan_code::RShift)
           {
             sas.pause();
           }
@@ -110,10 +110,10 @@ int main()
           break;
       }
     }
-    rw.clear(Color::Black);
+    rw.clear(color::black);
     std::chrono::nanoseconds timePerFrame = timer.reset();
     rnd.draw(rw, to_string(sas.getSamplePos()) + " / " + to_string(sas.getSampleCount())
-      , font, Color::White, proj * offsetTrans);
+      , font, color::white, proj * offsetTrans);
     rw.display();
   }
 

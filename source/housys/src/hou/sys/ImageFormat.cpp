@@ -16,10 +16,10 @@ std::ostream& operator<<(std::ostream& os, ImageFormat format)
 {
   switch(format)
   {
-    IMAGE_FORMAT_CASE(R, os);
-    IMAGE_FORMAT_CASE(RG, os);
-    IMAGE_FORMAT_CASE(RGB, os);
-    IMAGE_FORMAT_CASE(RGBA, os);
+    IMAGE_FORMAT_CASE(r, os);
+    IMAGE_FORMAT_CASE(rg, os);
+    IMAGE_FORMAT_CASE(rgb, os);
+    IMAGE_FORMAT_CASE(rgba, os);
     default: return os;
   }
 }

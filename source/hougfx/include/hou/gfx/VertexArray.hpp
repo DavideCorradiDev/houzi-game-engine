@@ -87,7 +87,7 @@ public:
   void setElementData(const VertexBuffer& eb);
 
 private:
-  gl::VertexArrayHandle mHandle;
+  gl::VertexArrayHandle m_handle;
 };
 
 }  // namespace hou

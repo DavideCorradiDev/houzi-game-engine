@@ -57,12 +57,12 @@ public:
    */
   StreamingAudioSource();
 
-  /** Stream constructor.
+  /** stream constructor.
    *
-   *  Creates a StreamingAudioSource object with the given audio stream, taking
+   *  Creates a StreamingAudioSource object with the given audio ph_stream, taking
    *  ownership of it.
    *
-   *  \param audioStream the audio stream.
+   *  \param audioStream the audio ph_stream.
    */
   explicit StreamingAudioSource(
     not_null<std::unique_ptr<AudioStreamIn>> audioStream);
@@ -74,9 +74,9 @@ public:
   // difficulty with the streaming thread. The thread should be stopped before
   // copying data around.
 
-  /** Sets the stream and transfers ownership to this object.
+  /** Sets the ph_stream and transfers ownership to this object.
    *
-   *  \param audioStream the stream.
+   *  \param audioStream the ph_stream.
    */
   void setStream(not_null<std::unique_ptr<AudioStreamIn>> audioStream);
 
@@ -107,7 +107,7 @@ public:
   size_t getBufferSampleCount() const;
 
   // AudioSource overrides.
-  AudioBufferFormat getFormat() const final;
+  AudioBufferFormat get_format() const final;
   uint getChannelCount() const final;
   uint getBytesPerSample() const final;
   uint getSampleRate() const final;

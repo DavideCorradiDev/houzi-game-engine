@@ -8,7 +8,7 @@
 
 #include "hou/mth/transform2.hpp"
 
-#include "hou/sys/Color.hpp"
+#include "hou/sys/color.hpp"
 
 #include <set>
 
@@ -51,14 +51,14 @@ std::string getGlFragmentShaderSource()
 {
   return "#version 330 core\n"
          "in vec3 texVs;\n"
-         "out vec4 color;\n"
+         "out vec4 ph_color;\n"
          "uniform vec4 " UNI_COLOR
          ";\n"
          "uniform sampler2DArray " UNI_TEXTURE
          ";\n"
          "void main()\n"
          "{\n"
-         "color = " UNI_COLOR " * texture(" UNI_TEXTURE
+         "ph_color = " UNI_COLOR " * texture(" UNI_TEXTURE
          ", texVs);\n"
          "}\n";
 }
@@ -86,10 +86,10 @@ TextShaderProgram::TextShaderProgram(TextShaderProgram&& other)
 
 
 
-void TextShaderProgram::setColor(const Color& color)
+void TextShaderProgram::set_color(const color& ph_color)
 {
-  gl::setProgramUniformf(getHandle(), mUniColor, color.getRedf(),
-    color.getGreenf(), color.getBluef(), color.getAlphaf());
+  gl::setProgramUniformf(getHandle(), mUniColor, ph_color.get_red_f(),
+    ph_color.get_green_f(), ph_color.get_blue_f(), ph_color.get_alpha_f());
 }
 
 
@@ -110,11 +110,11 @@ void TextShaderProgram::setTransform(const trans2f& trans)
 
 
 void TextShaderProgram::draw(RenderSurface& target, const TextMesh& mesh,
-  const Texture2Array& tex, const Color& col, const trans2f& trn)
+  const Texture2Array& tex, const color& col, const trans2f& trn)
 {
   static constexpr uint texUnit = 0u;
   RenderSurface::setCurrentRenderTarget(target);
-  setColor(col);
+  set_color(col);
   setTextureUnit(texUnit);
   setTransform(trn);
   bind(*this);
@@ -125,7 +125,7 @@ void TextShaderProgram::draw(RenderSurface& target, const TextMesh& mesh,
 
 
 void TextShaderProgram::draw(RenderSurface& target, const FormattedText& text,
-  const Color& col, const trans2f& trn)
+  const color& col, const trans2f& trn)
 {
   draw(target, text.getMesh(), text.getAtlas(), col, trn);
 }
@@ -133,7 +133,7 @@ void TextShaderProgram::draw(RenderSurface& target, const FormattedText& text,
 
 
 void TextShaderProgram::draw(RenderSurface& target, const std::string& text,
-  const Font& font, const Color& col, const trans2f& trn)
+  const Font& font, const color& col, const trans2f& trn)
 {
   draw(target, FormattedText(text, font), col, trn);
 }

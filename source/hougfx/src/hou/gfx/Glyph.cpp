@@ -16,23 +16,23 @@ Glyph::Glyph()
 
 
 
-Glyph::Glyph(const Image2R& image, const GlyphMetrics& metrics)
-  : mImage(image)
+Glyph::Glyph(const image2R& ph_image, const GlyphMetrics& metrics)
+  : mImage(ph_image)
   , mMetrics(metrics)
 {}
 
 
 
-const Image2R& Glyph::getImage() const
+const image2R& Glyph::get_image() const
 {
   return mImage;
 }
 
 
 
-void Glyph::setImage(const Image2R& image)
+void Glyph::set_image(const image2R& ph_image)
 {
-  mImage = image;
+  mImage = ph_image;
 }
 
 
@@ -53,7 +53,7 @@ void Glyph::setMetrics(const GlyphMetrics& metrics)
 
 bool operator==(const Glyph& lhs, const Glyph& rhs)
 {
-  return lhs.getImage() == rhs.getImage() && lhs.getMetrics() == rhs.getMetrics();
+  return lhs.get_image() == rhs.get_image() && lhs.getMetrics() == rhs.getMetrics();
 }
 
 
@@ -68,7 +68,7 @@ bool operator!=(const Glyph& lhs, const Glyph& rhs)
 std::ostream& operator<<(std::ostream& os, const Glyph& gm)
 {
   return os
-    << "{Image = " << gm.getImage()
+    << "{image = " << gm.get_image()
     << ", Metrics = " << gm.getMetrics()
     << "}";
 }

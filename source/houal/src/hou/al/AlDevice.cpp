@@ -54,7 +54,7 @@ std::vector<std::string> Device::getDeviceNames()
 Device::Device()
   : non_copyable()
   , mDevice(alcOpenDevice(nullptr))
-  , mUid(generateUid())
+  , m_uid(generateUid())
 {
   HOU_RUNTIME_CHECK(mDevice != nullptr, get_text(AlError::DeviceOpen)
     , u8"Default Device");
@@ -65,7 +65,7 @@ Device::Device()
 Device::Device(const std::string& deviceName)
   : non_copyable()
   , mDevice(alcOpenDevice(deviceName.c_str()))
-  , mUid(generateUid())
+  , m_uid(generateUid())
 {
   HOU_RUNTIME_CHECK(mDevice != nullptr, get_text(AlError::DeviceOpen)
     , deviceName.c_str());
@@ -75,7 +75,7 @@ Device::Device(const std::string& deviceName)
 
 Device::Device(Device&& other)
   : mDevice(std::move(other.mDevice))
-  , mUid(std::move(other.mUid))
+  , m_uid(std::move(other.m_uid))
 {
   other.mDevice = nullptr;
 }
@@ -107,9 +107,9 @@ ALCdevice* Device::getHandle()
 
 
 
-uint32_t Device::getUid() const
+uint32_t Device::get_uid() const
 {
-  return mUid;
+  return m_uid;
 }
 
 }

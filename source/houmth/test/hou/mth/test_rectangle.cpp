@@ -168,7 +168,7 @@ TEST_F(TestRectangle, FloatingPointComparison)
 
 TEST_F(TestRectangle, OutputStreamOperator)
 {
-  HOU_EXPECT_OUTPUT("{Position = (1, 2), Size = (3, 4)}", recti(1, 2, 3, 4));
+  HOU_EXPECT_OUTPUT("{Position = (1, 2), size_type = (3, 4)}", recti(1, 2, 3, 4));
 }
 
 

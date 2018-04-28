@@ -31,44 +31,44 @@ INCLUDE_DIRECTORIES(
 
 # Source files.
 SET(LIB_HOUSYS_SRC
-  src/hou/sys/BinaryFileIn.cpp
-  src/hou/sys/BinaryFileOut.cpp
-  src/hou/sys/Color.cpp
-  src/hou/sys/File.cpp
-  src/hou/sys/FileHandle.cpp
-  src/hou/sys/FileOpenMode.cpp
-  src/hou/sys/FileType.cpp
-  src/hou/sys/Image.cpp
-  src/hou/sys/Keyboard.cpp
-  src/hou/sys/ModifierKeys.cpp
-  src/hou/sys/MouseButton.cpp
-  src/hou/sys/MouseWheel.cpp
-  src/hou/sys/KeyCode.cpp
-  src/hou/sys/Pixel.cpp
-  src/hou/sys/PixelFormat.cpp
-  src/hou/sys/ScanCode.cpp
-  src/hou/sys/SysError.cpp
-  src/hou/sys/SystemWindow.cpp
-  src/hou/sys/TextFileIn.cpp
-  src/hou/sys/TextFileOut.cpp
-  src/hou/sys/TextStream.cpp
-  src/hou/sys/VideoMode.cpp
-  src/hou/sys/Window.cpp
-  src/hou/sys/WindowEvent.cpp
-  src/hou/sys/WindowEventType.cpp
-  src/hou/sys/WindowImpl.cpp
-  src/hou/sys/WindowStyle.cpp
+  src/hou/sys/binary_file_in.cpp
+  src/hou/sys/binary_file_out.cpp
+  src/hou/sys/color.cpp
+  src/hou/sys/file.cpp
+  src/hou/sys/file_handle.cpp
+  src/hou/sys/file_open_mode.cpp
+  src/hou/sys/file_type.cpp
+  src/hou/sys/image.cpp
+  src/hou/sys/keyboard.cpp
+  src/hou/sys/modifier_keys.cpp
+  src/hou/sys/mouse_button.cpp
+  src/hou/sys/mouse_wheel.cpp
+  src/hou/sys/key_code.cpp
+  src/hou/sys/pixel.cpp
+  src/hou/sys/pixel_format.cpp
+  src/hou/sys/scan_code.cpp
+  src/hou/sys/sys_error.cpp
+  src/hou/sys/system_window.cpp
+  src/hou/sys/text_file_in.cpp
+  src/hou/sys/text_file_out.cpp
+  src/hou/sys/text_stream.cpp
+  src/hou/sys/video_mode.cpp
+  src/hou/sys/window.cpp
+  src/hou/sys/window_event.cpp
+  src/hou/sys/window_event_type.cpp
+  src/hou/sys/window_impl.cpp
+  src/hou/sys/window_style.cpp
 )
 
 IF(WIN32)
   SET(LIB_HOUSYS_SRC
     ${LIB_HOUSYS_SRC}
-    src/hou/sys/win/FileHandleWin.cpp
-    src/hou/sys/win/KeyboardWin.cpp
-    src/hou/sys/win/MouseWin.cpp
-    src/hou/sys/win/VideoModeWin.cpp
-    src/hou/sys/win/WinError.cpp
-    src/hou/sys/win/WindowImplWin.cpp
+    src/hou/sys/win/file_handle_win.cpp
+    src/hou/sys/win/keyboard_win.cpp
+    src/hou/sys/win/mouse_win.cpp
+    src/hou/sys/win/videoMode_win.cpp
+    src/hou/sys/win/win_error.cpp
+    src/hou/sys/win/window_impl_win.cpp
   )
 ENDIF()
 

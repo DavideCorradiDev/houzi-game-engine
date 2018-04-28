@@ -8,7 +8,7 @@
 #include "hou/gfx/GfxExport.hpp"
 
 #include "hou/gfx/GlyphMetrics.hpp"
-#include "hou/sys/Image.hpp"
+#include "hou/sys/image.hpp"
 
 #include "hou/cor/basic_types.hpp"
 
@@ -19,32 +19,32 @@
 namespace hou
 {
 
-/** Class describing a glyph, including its metrics and its bitmap image.
+/** Class describing a glyph, including its metrics and its bitmap ph_image.
  */
 class HOU_GFX_API Glyph
 {
 public:
   /** Default constructor.
    *
-   *  The image is empty and the metrics are all null.
+   *  The ph_image is empty and the metrics are all null.
    */
   Glyph();
 
-  /** Creates a Glyph object with the given image and metrics.
+  /** Creates a Glyph object with the given ph_image and metrics.
    */
-  Glyph(const Image2R& image, const GlyphMetrics& metrics);
+  Glyph(const image2R& ph_image, const GlyphMetrics& metrics);
 
-  /** Gets the image.
+  /** Gets the ph_image.
    *
-   *  \return the image.
+   *  \return the ph_image.
    */
-  const Image2R& getImage() const;
+  const image2R& get_image() const;
 
-  /** Sets the image.
+  /** Sets the ph_image.
    *
-   *  \param image the image.
+   *  \param ph_image the ph_image.
    */
-  void setImage(const Image2R& image);
+  void set_image(const image2R& ph_image);
 
   /** Gets the metrics.
    *
@@ -59,7 +59,7 @@ public:
   void setMetrics(const GlyphMetrics& metrics);
 
 private:
-  Image2R mImage;
+  image2R mImage;
   GlyphMetrics mMetrics;
 };
 
@@ -79,9 +79,9 @@ HOU_GFX_API bool operator==(const Glyph& lhs, const Glyph& rhs);
  */
 HOU_GFX_API bool operator!=(const Glyph& lhs, const Glyph& rhs);
 
-/** Writes a Glyph object into a stream.
+/** Writes a Glyph object into a ph_stream.
  *
- *  \param os the output stream.
+ *  \param os the output ph_stream.
  *  \param gm the object.
  *  \return a reference to os.
  */

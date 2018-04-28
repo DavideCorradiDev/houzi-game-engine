@@ -5,7 +5,7 @@
 #ifndef HOU_SYS_WIN_WIN_ERROR_HPP
 #define HOU_SYS_WIN_WIN_ERROR_HPP
 
-#include "hou/sys/SysExport.hpp"
+#include "hou/sys/sys_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 #include "hou/cor/error.hpp"
@@ -16,7 +16,7 @@ namespace hou
 {
 
 template <typename... FormattingVariables>
-  std::string formatWinErrorMessage(std::string filename, int line
+  std::string format_win_error_message(std::string filename, int line
     , std::string message, FormattingVariables... vars);
 
 HOU_SYS_API std::string getLastWinErrorMessage();
@@ -26,7 +26,7 @@ HOU_SYS_API std::string getLastWinErrorMessage();
 
 
 #define HOU_WIN_ERRMSG(...) \
-  hou::formatWinErrorMessage(__FILE__, __LINE__, __VA_ARGS__)
+  hou::format_win_error_message(__FILE__, __LINE__, __VA_ARGS__)
 
 
 

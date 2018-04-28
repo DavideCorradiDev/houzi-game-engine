@@ -62,7 +62,7 @@ template <typename OutputIterator>
 
 /** Converts an object into a string.
  *
- *  The output stream operator must be defined for T and will be used to
+ *  The output ph_stream operator must be defined for T and will be used to
  *  generate the string.
  *
  *  \tparam T the type of the object to be converted into a string.

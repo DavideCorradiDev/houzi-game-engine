@@ -22,7 +22,7 @@ class TestTextVertex : public Test
 
 
 
-TEST_F(TestTextVertex, Size)
+TEST_F(TestTextVertex, size_type)
 {
   EXPECT_EQ(5u * sizeof(GLfloat), sizeof(TextVertex));
 }

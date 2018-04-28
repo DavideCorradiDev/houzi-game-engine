@@ -37,7 +37,7 @@ uint32_t generateUid()
 ObjectHandle::ObjectHandle(GLuint name)
   : non_copyable()
   , mName(name)
-  , mUid(generateUid())
+  , m_uid(generateUid())
 {}
 
 
@@ -45,10 +45,10 @@ ObjectHandle::ObjectHandle(GLuint name)
 ObjectHandle::ObjectHandle(ObjectHandle&& other)
   : non_copyable()
   , mName(other.mName)
-  , mUid(other.mUid)
+  , m_uid(other.m_uid)
 {
   other.mName = 0u;
-  other.mUid = 0u;
+  other.m_uid = 0u;
 }
 
 
@@ -65,9 +65,9 @@ GLuint ObjectHandle::getName() const
 
 
 
-uint32_t ObjectHandle::getUid() const
+uint32_t ObjectHandle::get_uid() const
 {
-  return mUid;
+  return m_uid;
 }
 
 
@@ -106,7 +106,7 @@ NonSharedObjectHandle::NonSharedObjectHandle(GLuint name)
   , mOwningContextUid(0u)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  mOwningContextUid = Context::getCurrent()->getUid();
+  mOwningContextUid = Context::getCurrent()->get_uid();
 }
 
 

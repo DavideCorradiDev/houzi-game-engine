@@ -32,11 +32,11 @@ template <typename T, typename U, std::size_t N
   bool close(const std::array<U, N>& lhs, const std::array<U, N>& rhs
   , T acc = std::numeric_limits<T>::epsilon());
 
-/** Outputs a std::array to the given stream.
+/** Outputs a std::array to the given ph_stream.
  *
  *  \tparam T the element type.
  *  \tparam N the size of the std::array object.
- *  \param os the output stream.
+ *  \param os the output ph_stream.
  *  \param c the std::array object.
  *  \return a reference to os.
  */

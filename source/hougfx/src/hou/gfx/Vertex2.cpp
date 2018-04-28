@@ -31,10 +31,10 @@ Mesh2 createGenericRectangleMesh2(
   float tr = tl + tw;
   float tb = tt + th;
   return Mesh2(MeshDrawMode::TriangleFan, MeshFillMode::Fill,
-    std::vector<Vertex2>{Vertex2(vec2f(l, t), vec2f(tl, tt), Color::White),
-      Vertex2(vec2f(l, b), vec2f(tl, tb), Color::White),
-      Vertex2(vec2f(r, b), vec2f(tr, tb), Color::White),
-      Vertex2(vec2f(r, t), vec2f(tr, tt), Color::White)});
+    std::vector<Vertex2>{Vertex2(vec2f(l, t), vec2f(tl, tt), color::white),
+      Vertex2(vec2f(l, b), vec2f(tl, tb), color::white),
+      Vertex2(vec2f(r, b), vec2f(tr, tb), color::white),
+      Vertex2(vec2f(r, t), vec2f(tr, tt), color::white)});
 }
 
 }  // namespace
@@ -57,16 +57,16 @@ const VertexFormat& Vertex2::getVertexFormat()
 
 
 Vertex2::Vertex2()
-  : Vertex2(vec2f(0.f, 0.f), vec2f(0.f, 0.f), Color(0, 0, 0, 0))
+  : Vertex2(vec2f(0.f, 0.f), vec2f(0.f, 0.f), color(0, 0, 0, 0))
 {}
 
 
 
 Vertex2::Vertex2(
-  const vec2f& position, const vec2f& texCoords, const Color& col)
+  const vec2f& position, const vec2f& texCoords, const color& col)
   : m_position{position.x(), position.y()}
   , mTexCoords{texCoords.x(), texCoords.y()}
-  , mColor{col.getRedf(), col.getGreenf(), col.getBluef(), col.getAlphaf()}
+  , mColor{col.get_red_f(), col.get_green_f(), col.get_blue_f(), col.get_alpha_f()}
 {}
 
 
@@ -101,20 +101,20 @@ void Vertex2::setTextureCoordinates(const vec2f& texCoords)
 
 
 
-Color Vertex2::getColor() const
+color Vertex2::get_color() const
 {
-  return Color(
+  return color(
     mColor[0] * 255, mColor[1] * 255, mColor[2] * 255, mColor[3] * 255);
 }
 
 
 
-void Vertex2::setColor(const Color& color)
+void Vertex2::set_color(const color& ph_color)
 {
-  mColor[0] = color.getRedf();
-  mColor[1] = color.getGreenf();
-  mColor[2] = color.getBluef();
-  mColor[3] = color.getAlphaf();
+  mColor[0] = ph_color.get_red_f();
+  mColor[1] = ph_color.get_green_f();
+  mColor[2] = ph_color.get_blue_f();
+  mColor[3] = ph_color.get_alpha_f();
 }
 
 
@@ -123,7 +123,7 @@ bool operator==(const Vertex2& lhs, const Vertex2& rhs)
 {
   return lhs.get_position() == rhs.get_position()
     && lhs.getTextureCoordinates() == rhs.getTextureCoordinates()
-    && lhs.getColor() == rhs.getColor();
+    && lhs.get_color() == rhs.get_color();
 }
 
 
@@ -137,7 +137,7 @@ bool operator!=(const Vertex2& lhs, const Vertex2& rhs)
 
 bool close(const Vertex2& lhs, const Vertex2& rhs, Vertex2::ComparisonType acc)
 {
-  return lhs.getColor() == rhs.getColor()
+  return lhs.get_color() == rhs.get_color()
     && close(lhs.get_position(), rhs.get_position(), acc)
     && close(lhs.getTextureCoordinates(), rhs.getTextureCoordinates(), acc);
 }
@@ -148,7 +148,7 @@ std::ostream& operator<<(std::ostream& os, const Vertex2& v)
 {
   return os << "{Position = " << transpose(v.get_position())
             << ", TextureCoordinates = " << transpose(v.getTextureCoordinates())
-            << ", Color = " << v.getColor() << "}";
+            << ", color = " << v.get_color() << "}";
 }
 Mesh2 createRectangleMesh2(const vec2f& size)
 {
@@ -165,16 +165,16 @@ Mesh2 createRectangleOutlineMesh2(const vec2f& size, float thickness)
   rectf ir(tv, size - 2 * tv);
   return Mesh2(MeshDrawMode::TriangleStrip, MeshFillMode::Fill,
     std::vector<Vertex2>{
-      Vertex2(vec2f(er.l(), er.t()), vec2f::zero(), Color::White),
-      Vertex2(vec2f(ir.l(), ir.t()), vec2f::zero(), Color::White),
-      Vertex2(vec2f(er.l(), er.b()), vec2f::zero(), Color::White),
-      Vertex2(vec2f(ir.l(), ir.b()), vec2f::zero(), Color::White),
-      Vertex2(vec2f(er.r(), er.b()), vec2f::zero(), Color::White),
-      Vertex2(vec2f(ir.r(), ir.b()), vec2f::zero(), Color::White),
-      Vertex2(vec2f(er.r(), er.t()), vec2f::zero(), Color::White),
-      Vertex2(vec2f(ir.r(), ir.t()), vec2f::zero(), Color::White),
-      Vertex2(vec2f(er.l(), er.t()), vec2f::zero(), Color::White),
-      Vertex2(vec2f(ir.l(), ir.t()), vec2f::zero(), Color::White)});
+      Vertex2(vec2f(er.l(), er.t()), vec2f::zero(), color::white),
+      Vertex2(vec2f(ir.l(), ir.t()), vec2f::zero(), color::white),
+      Vertex2(vec2f(er.l(), er.b()), vec2f::zero(), color::white),
+      Vertex2(vec2f(ir.l(), ir.b()), vec2f::zero(), color::white),
+      Vertex2(vec2f(er.r(), er.b()), vec2f::zero(), color::white),
+      Vertex2(vec2f(ir.r(), ir.b()), vec2f::zero(), color::white),
+      Vertex2(vec2f(er.r(), er.t()), vec2f::zero(), color::white),
+      Vertex2(vec2f(ir.r(), ir.t()), vec2f::zero(), color::white),
+      Vertex2(vec2f(er.l(), er.t()), vec2f::zero(), color::white),
+      Vertex2(vec2f(ir.l(), ir.t()), vec2f::zero(), color::white)});
 }
 
 
@@ -185,7 +185,7 @@ Mesh2 createEllipseMesh2(const vec2f& size, uint pointCount)
 
   std::vector<Vertex2> vertices(pointCount + 2);
   vertices[0].set_position(radius);
-  vertices[0].setColor(Color::White);
+  vertices[0].set_color(color::white);
 
   float t = 0.f;
   float dt = 2.f * pi_f / pointCount;
@@ -193,7 +193,7 @@ Mesh2 createEllipseMesh2(const vec2f& size, uint pointCount)
   {
     vec2f dPos(radius.x() * cosf(t), radius.y() * sinf(t));
     vertices[i].set_position(radius + dPos);
-    vertices[i].setColor(Color::White);
+    vertices[i].set_color(color::white);
     t += dt;
   }
   return Mesh2(MeshDrawMode::TriangleFan, MeshFillMode::Fill, vertices);
@@ -217,13 +217,13 @@ Mesh2 createEllipseOutlineMesh2(
 
     vec2f edPos(eRadius.x() * c, eRadius.y() * s);
     vertices[i].set_position(eRadius + edPos);
-    vertices[i].setColor(Color::White);
+    vertices[i].set_color(color::white);
     ++i;
     HOU_ENSURE_DEV(i < vertices.size());
 
     vec2f idPos(iRadius.x() * c, iRadius.y() * s);
     vertices[i].set_position(eRadius + idPos);
-    vertices[i].setColor(Color::White);
+    vertices[i].set_color(color::white);
 
     t += dt;
   }

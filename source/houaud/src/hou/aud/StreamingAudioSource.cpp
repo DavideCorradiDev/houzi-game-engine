@@ -106,9 +106,9 @@ size_t StreamingAudioSource::getBufferSampleCount() const
 
 
 
-AudioBufferFormat StreamingAudioSource::getFormat() const
+AudioBufferFormat StreamingAudioSource::get_format() const
 {
-  return mAudioStream->getFormat();
+  return mAudioStream->get_format();
 }
 
 
@@ -194,7 +194,7 @@ std::vector<uint8_t> StreamingAudioSource::readDataChunk(size_t chunkSize)
 {
   std::vector<uint8_t> data(chunkSize);
   mAudioStream->read(data);
-  data.resize(mAudioStream->getReadByteCount());
+  data.resize(mAudioStream->get_read_byte_count());
   return data;
 }
 
@@ -233,7 +233,7 @@ void StreamingAudioSource::fillBuffers()
     else
     {
       ALuint bufferName = mBufferQueue
-                            .fillBuffer(data, mAudioStream->getFormat(),
+                            .fillBuffer(data, mAudioStream->get_format(),
                               mAudioStream->getSampleRate())
                             .getHandle()
                             .getName();

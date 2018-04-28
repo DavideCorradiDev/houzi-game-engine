@@ -184,12 +184,12 @@ template <typename T>
 template <typename T>
   HOU_MTH_API transform3<T> inverse(transform3<T> t);
 
-/** Writes the object into a stream.
+/** Writes the object into a ph_stream.
  *
  *  \tparam T the scalar type.
- *  \param os the stream.
+ *  \param os the ph_stream.
  *  \param t the transform.
- *  \return a reference to the stream.
+ *  \return a reference to the ph_stream.
  */
 template <typename T>
   HOU_MTH_API std::ostream& operator<<(std::ostream& os

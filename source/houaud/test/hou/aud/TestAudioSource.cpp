@@ -42,7 +42,7 @@ public:
   ConcreteAudioSource(ConcreteAudioSource&& other);
   virtual ~ConcreteAudioSource();
 
-  AudioBufferFormat getFormat() const final;
+  AudioBufferFormat get_format() const final;
   uint getChannelCount() const final;
   uint getBytesPerSample() const final;
   uint getSampleRate() const final;
@@ -75,7 +75,7 @@ TestAudioSource::TestAudioSource()
 ConcreteAudioSource::ConcreteAudioSource(const AudioBuffer& buffer)
   : AudioSource()
   , mSampleCount(buffer.getSampleCount())
-  , mAudioBufferFormat(buffer.getFormat())
+  , mAudioBufferFormat(buffer.get_format())
   , mSampleRate(buffer.getSampleRate())
 {
   al::setSourceBuffer(getHandle(), buffer.getHandle().getName());
@@ -97,7 +97,7 @@ ConcreteAudioSource::~ConcreteAudioSource()
 
 
 
-AudioBufferFormat ConcreteAudioSource::getFormat() const
+AudioBufferFormat ConcreteAudioSource::get_format() const
 {
   return mAudioBufferFormat;
 }
@@ -166,7 +166,7 @@ TEST_F(TestAudioSource, DefaultConstructor)
 {
   ConcreteAudioSource as(mBuffer);
   EXPECT_EQ(AudioSourceState::Stopped, as.getState());
-  EXPECT_EQ(AudioBufferFormat::Stereo16, as.getFormat());
+  EXPECT_EQ(AudioBufferFormat::Stereo16, as.get_format());
   EXPECT_EQ(2u, as.getChannelCount());
   EXPECT_EQ(2u, as.getBytesPerSample());
   EXPECT_EQ(2u, as.getSampleRate());

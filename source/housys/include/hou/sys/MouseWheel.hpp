@@ -5,7 +5,7 @@
 #ifndef HOU_SYS_MOUSE_WHEEL_HPP
 #define HOU_SYS_MOUSE_WHEEL_HPP
 
-#include "hou/sys/SysExport.hpp"
+#include "hou/sys/sys_export.hpp"
 
 #include <iostream>
 
@@ -15,21 +15,21 @@ namespace hou
 {
 
 /** Enumeration for the mouse wheels. */
-enum class MouseWheel
+enum class mouse_wheel
 {
-  /** Horizontal wheel. */
-  Horizontal,
-  /** Vertical wheel. */
-  Vertical,
+  /** horizontal wheel. */
+  horizontal,
+  /** vertical wheel. */
+  vertical,
 };
 
-/** Writes a MouseWheel enum into a stream.
+/** Writes a mouse_wheel enum into a ph_stream.
  *
- *  \param os the stream.
- *  \param mw the MouseWheel enum.
- *  \return a reference to the stream.
+ *  \param os the ph_stream.
+ *  \param mw the mouse_wheel enum.
+ *  \return a reference to the ph_stream.
  */
-HOU_SYS_API std::ostream& operator<<(std::ostream& os, MouseWheel mw);
+HOU_SYS_API std::ostream& operator<<(std::ostream& os, mouse_wheel mw);
 
 }
 

@@ -2,11 +2,11 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/sys/WindowImpl.hpp"
+#include "hou/sys/window_impl.hpp"
 
 #include "hou/cor/error.hpp"
 
-#include "hou/sys/WindowEvent.hpp"
+#include "hou/sys/window_event.hpp"
 
 
 
@@ -16,68 +16,68 @@ namespace hou
 namespace prv
 {
 
-WindowHandle WindowImpl::getWindowHandle() const
+window_handle window_impl::get_handle() const
 {
-  return mHandle;
+  return m_handle;
 }
 
 
 
-bool WindowImpl::isMouseCursorGrabbed() const
+bool window_impl::is_mouse_cursor_grabbed() const
 {
-  return mCursorGrabbed;
+  return m_cursor_grabbed;
 }
 
 
 
-void WindowImpl::setMouseCursorGrabbed(bool value)
+void window_impl::set_mouse_cursor_grabbed(bool value)
 {
-  mCursorGrabbed = value;
+  m_cursor_grabbed = value;
   value ? grabMouseCursor() : ungrabMouseCursor();
 }
 
 
 
-bool WindowImpl::isKeyRepeatEnabled() const
+bool window_impl::is_key_repeat_enabled() const
 {
-  return mKeyRepeatEnabled;
+  return m_key_repeat_enabled;
 }
 
 
 
-void WindowImpl::setKeyRepeatEnabled(bool value)
+void window_impl::set_key_repeat_enabled(bool value)
 {
-  mKeyRepeatEnabled = value;
+  m_key_repeat_enabled = value;
 }
 
 
 
-bool WindowImpl::isEventQueueEmpty() const
+bool window_impl::is_event_queue_empty() const
 {
-  return mEventQueue.empty();
+  return m_event_queue.empty();
 }
 
 
 
-WindowEvent WindowImpl::popEvent()
+window_event window_impl::pop_event()
 {
-  if(isEventQueueEmpty())
+  if(is_event_queue_empty())
   {
-    return WindowEvent::empty();
+    return window_event::empty();
   }
   else
   {
-    WindowEvent event = std::move(mEventQueue.front());
-    mEventQueue.pop();
+    window_event event = std::move(m_event_queue.front());
+    m_event_queue.pop();
     return event;
   }
 }
 
 
 
-void WindowImpl::pushEvent(const WindowEvent& event)
+void window_impl::push_event(const window_event& event)
 {
-  mEventQueue.push(event);
+  m_event_queue.push(event);
 }
 
 }

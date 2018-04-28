@@ -32,8 +32,8 @@ namespace hou
 /** Creates a string containing a formatted error message.
  *
  *  \tparam FormattingVariables types of the formatting variables.
- *  \param filePath the file path to be included in the message.
- *  \param line the file line to be included in the message.
+ *  \param filePath the ph_file path to be included in the message.
+ *  \param line the ph_file line to be included in the message.
  *  \param message the format string for the error message.
  *  \param vars the variables used to generate the formatted string.
  *  \return the formatted error message.

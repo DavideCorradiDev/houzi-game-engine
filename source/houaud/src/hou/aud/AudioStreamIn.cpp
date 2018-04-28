@@ -24,7 +24,7 @@ AudioStreamIn::~AudioStreamIn()
 
 size_t AudioStreamIn::getReadSampleCount() const
 {
-  return getReadByteCount() / (getChannelCount() * getBytesPerSample());
+  return get_read_byte_count() / (getChannelCount() * getBytesPerSample());
 }
 
 }

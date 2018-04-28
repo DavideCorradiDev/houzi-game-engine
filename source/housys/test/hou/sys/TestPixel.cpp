@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/sys/Pixel.hpp"
+#include "hou/sys/pixel.hpp"
 
 using namespace hou;
 using namespace testing;
@@ -22,35 +22,35 @@ class TestPixelFormatDeathTest : public TestPixelFormat
 class TestPixel : public Test
 {};
 
-template <typename PixelT>
+template <typename pixel_t>
 class TestPixelCommon : public TestPixel
 {};
 
-using PixelTypesCommon = Types<PixelR, PixelRG, PixelRGB, PixelRGBA>;
+using PixelTypesCommon = Types<pixelr, pixelrg, pixelrgb, pixelrgba>;
 
-template <typename PixelT>
+template <typename pixel_t>
 class TestPixelRedChannel : public TestPixel
 {};
 
-using PixelTypesRedChannel = Types<PixelR, PixelRG, PixelRGB, PixelRGBA>;
+using PixelTypesRedChannel = Types<pixelr, pixelrg, pixelrgb, pixelrgba>;
 
-template <typename PixelT>
+template <typename pixel_t>
 class TestPixelGreenChannel : public TestPixel
 {};
 
-using PixelTypesGreenChannel = Types<PixelRG, PixelRGB, PixelRGBA>;
+using PixelTypesGreenChannel = Types<pixelrg, pixelrgb, pixelrgba>;
 
-template <typename PixelT>
+template <typename pixel_t>
 class TestPixelBlueChannel : public TestPixel
 {};
 
-using PixelTypesBlueChannel = Types<PixelRGB, PixelRGBA>;
+using PixelTypesBlueChannel = Types<pixelrgb, pixelrgba>;
 
-template <typename PixelT>
+template <typename pixel_t>
 class TestPixelAlphaChannel : public TestPixel
 {};
 
-using PixelTypesAlphaChannel = Types<PixelRGBA>;
+using PixelTypesAlphaChannel = Types<pixelrgba>;
 
 class TestPixelR : public TestPixel
 {};
@@ -78,10 +78,10 @@ TYPED_TEST_CASE(TestPixelAlphaChannel, PixelTypesAlphaChannel);
 
 TEST_F(TestPixelFormat, GetPixelFormatByteCount)
 {
-  EXPECT_EQ(1u, getPixelFormatByteCount(PixelFormat::R));
-  EXPECT_EQ(2u, getPixelFormatByteCount(PixelFormat::RG));
-  EXPECT_EQ(3u, getPixelFormatByteCount(PixelFormat::RGB));
-  EXPECT_EQ(4u, getPixelFormatByteCount(PixelFormat::RGBA));
+  EXPECT_EQ(1u, get_pixel_format_byte_count(pixel_format::r));
+  EXPECT_EQ(2u, get_pixel_format_byte_count(pixel_format::rg));
+  EXPECT_EQ(3u, get_pixel_format_byte_count(pixel_format::rgb));
+  EXPECT_EQ(4u, get_pixel_format_byte_count(pixel_format::rgba));
 }
 
 
@@ -89,7 +89,7 @@ TEST_F(TestPixelFormat, GetPixelFormatByteCount)
 TEST_F(TestPixelFormatDeathTest, GetPixelFormatByteCountErrorInvalidEnum)
 {
   int enumVal = 5;
-  HOU_EXPECT_ERROR(getPixelFormatByteCount(PixelFormat(enumVal)),
+  HOU_EXPECT_ERROR(get_pixel_format_byte_count(pixel_format(enumVal)),
     std::logic_error, format_string(get_text(cor_error::invalid_enum), enumVal));
 }
 
@@ -98,122 +98,122 @@ TEST_F(TestPixelFormatDeathTest, GetPixelFormatByteCountErrorInvalidEnum)
 TYPED_TEST(TestPixelCommon, GetByteCount)
 {
   EXPECT_EQ(
-    getPixelFormatByteCount(TypeParam::getFormat()), TypeParam::getByteCount());
+    get_pixel_format_byte_count(TypeParam::get_format()), TypeParam::get_byte_count());
 }
 
 
 
 TYPED_TEST(TestPixelCommon, NoPadding)
 {
-  EXPECT_EQ(TypeParam::getByteCount(), sizeof(TypeParam));
+  EXPECT_EQ(TypeParam::get_byte_count(), sizeof(TypeParam));
 }
 
 
 
 TYPED_TEST(TestPixelRedChannel, SetR)
 {
-  TypeParam pixel;
-  EXPECT_EQ(0u, pixel.getR());
-  pixel.setR(1u);
-  EXPECT_EQ(1u, pixel.getR());
+  TypeParam ph_pixel;
+  EXPECT_EQ(0u, ph_pixel.get_r());
+  ph_pixel.set_r(1u);
+  EXPECT_EQ(1u, ph_pixel.get_r());
 }
 
 
 
 TYPED_TEST(TestPixelGreenChannel, SetG)
 {
-  TypeParam pixel;
-  EXPECT_EQ(0u, pixel.getG());
-  pixel.setG(1u);
-  EXPECT_EQ(1u, pixel.getG());
+  TypeParam ph_pixel;
+  EXPECT_EQ(0u, ph_pixel.get_g());
+  ph_pixel.set_g(1u);
+  EXPECT_EQ(1u, ph_pixel.get_g());
 }
 
 
 
 TYPED_TEST(TestPixelBlueChannel, SetB)
 {
-  TypeParam pixel;
-  EXPECT_EQ(0u, pixel.getB());
-  pixel.setB(1u);
-  EXPECT_EQ(1u, pixel.getB());
+  TypeParam ph_pixel;
+  EXPECT_EQ(0u, ph_pixel.get_b());
+  ph_pixel.set_b(1u);
+  EXPECT_EQ(1u, ph_pixel.get_b());
 }
 
 
 
 TYPED_TEST(TestPixelAlphaChannel, SetA)
 {
-  TypeParam pixel;
-  EXPECT_EQ(0u, pixel.getA());
-  pixel.setA(1u);
-  EXPECT_EQ(1u, pixel.getA());
+  TypeParam ph_pixel;
+  EXPECT_EQ(0u, ph_pixel.get_a());
+  ph_pixel.set_a(1u);
+  EXPECT_EQ(1u, ph_pixel.get_a());
 }
 
 
 
 TEST_F(TestPixelR, GetFormat)
 {
-  EXPECT_EQ(PixelFormat::R, PixelR::getFormat());
+  EXPECT_EQ(pixel_format::r, pixelr::get_format());
 }
 
 
 
 TEST_F(TestPixelR, DefaultConstructor)
 {
-  PixelR pixel;
-  EXPECT_EQ(0u, pixel.getR());
+  pixelr ph_pixel;
+  EXPECT_EQ(0u, ph_pixel.get_r());
 }
 
 
 
 TEST_F(TestPixelR, ValueConstructor)
 {
-  PixelR pixel(1u);
-  EXPECT_EQ(1u, pixel.getR());
+  pixelr ph_pixel(1u);
+  EXPECT_EQ(1u, ph_pixel.get_r());
 }
 
 
 
 TEST_F(TestPixelR, PixelRGConstructor)
 {
-  PixelRG pxRG(1u, 2u);
-  PixelR pxR(pxRG);
-  EXPECT_EQ(1u, pxR.getR());
+  pixelrg pxRG(1u, 2u);
+  pixelr pxR(pxRG);
+  EXPECT_EQ(1u, pxR.get_r());
 }
 
 
 
 TEST_F(TestPixelR, PixelRGBConstructor)
 {
-  PixelRGB pxRGB(200u, 118u, 93u);
-  PixelR pxR(pxRGB);
-  EXPECT_EQ(139u, pxR.getR());
+  pixelrgb pxRGB(200u, 118u, 93u);
+  pixelr pxR(pxRGB);
+  EXPECT_EQ(139u, pxR.get_r());
 }
 
 
 
 TEST_F(TestPixelR, PixelRGBAConstructor)
 {
-  PixelRGBA pxRGBA(200u, 118u, 93u, 7u);
-  PixelR pxR(pxRGBA);
-  EXPECT_EQ(139u, pxR.getR());
+  pixelrgba pxRGBA(200u, 118u, 93u, 7u);
+  pixelr pxR(pxRGBA);
+  EXPECT_EQ(139u, pxR.get_r());
 }
 
 
 
 TEST_F(TestPixelR, Set)
 {
-  PixelR pixel;
-  pixel.set(1u);
-  EXPECT_EQ(1u, pixel.getR());
+  pixelr ph_pixel;
+  ph_pixel.set(1u);
+  EXPECT_EQ(1u, ph_pixel.get_r());
 }
 
 
 
 TEST_F(TestPixelR, Comparison)
 {
-  PixelR p0(1u);
-  PixelR p1(p0);
-  PixelR p2(2u);
+  pixelr p0(1u);
+  pixelr p1(p0);
+  pixelr p2(2u);
 
   EXPECT_TRUE(p0 == p1);
   EXPECT_FALSE(p0 == p2);
@@ -226,84 +226,84 @@ TEST_F(TestPixelR, Comparison)
 
 TEST_F(TestPixelR, OutputStreamOperator)
 {
-  PixelR pixel(1u);
-  const char* outputRef = "{R = 1}";
-  HOU_EXPECT_OUTPUT(outputRef, pixel);
+  pixelr ph_pixel(1u);
+  const char* outputRef = "{r = 1}";
+  HOU_EXPECT_OUTPUT(outputRef, ph_pixel);
 }
 
 
 
 TEST_F(TestPixelRG, GetFormat)
 {
-  EXPECT_EQ(PixelFormat::RG, PixelRG::getFormat());
+  EXPECT_EQ(pixel_format::rg, pixelrg::get_format());
 }
 
 
 
 TEST_F(TestPixelRG, DefaultConstructor)
 {
-  PixelRG pixel;
-  EXPECT_EQ(0u, pixel.getR());
-  EXPECT_EQ(0u, pixel.getG());
+  pixelrg ph_pixel;
+  EXPECT_EQ(0u, ph_pixel.get_r());
+  EXPECT_EQ(0u, ph_pixel.get_g());
 }
 
 
 
 TEST_F(TestPixelRG, ValueConstructor)
 {
-  PixelRG pixel(1u, 2u);
-  EXPECT_EQ(1u, pixel.getR());
-  EXPECT_EQ(2u, pixel.getG());
+  pixelrg ph_pixel(1u, 2u);
+  EXPECT_EQ(1u, ph_pixel.get_r());
+  EXPECT_EQ(2u, ph_pixel.get_g());
 }
 
 
 
 TEST_F(TestPixelRG, PixelRConstructor)
 {
-  PixelR pxR(1u);
-  PixelRG pxRG(pxR);
-  EXPECT_EQ(1u, pxRG.getR());
-  EXPECT_EQ(255u, pxRG.getG());
+  pixelr pxR(1u);
+  pixelrg pxRG(pxR);
+  EXPECT_EQ(1u, pxRG.get_r());
+  EXPECT_EQ(255u, pxRG.get_g());
 }
 
 
 
 TEST_F(TestPixelRG, PixelRGBConstructor)
 {
-  PixelRGB pxRGB(200u, 118u, 93u);
-  PixelRG pxRG(pxRGB);
-  EXPECT_EQ(139u, pxRG.getR());
-  EXPECT_EQ(255u, pxRG.getG());
+  pixelrgb pxRGB(200u, 118u, 93u);
+  pixelrg pxRG(pxRGB);
+  EXPECT_EQ(139u, pxRG.get_r());
+  EXPECT_EQ(255u, pxRG.get_g());
 }
 
 
 
 TEST_F(TestPixelRG, PixelRGBAConstructor)
 {
-  PixelRGBA pxRGBA(200u, 118u, 93u, 7u);
-  PixelRG pxRG(pxRGBA);
-  EXPECT_EQ(139u, pxRG.getR());
-  EXPECT_EQ(7u, pxRG.getG());
+  pixelrgba pxRGBA(200u, 118u, 93u, 7u);
+  pixelrg pxRG(pxRGBA);
+  EXPECT_EQ(139u, pxRG.get_r());
+  EXPECT_EQ(7u, pxRG.get_g());
 }
 
 
 
 TEST_F(TestPixelRG, Set)
 {
-  PixelRG pixel;
-  pixel.set(1u, 2u);
-  EXPECT_EQ(1u, pixel.getR());
-  EXPECT_EQ(2u, pixel.getG());
+  pixelrg ph_pixel;
+  ph_pixel.set(1u, 2u);
+  EXPECT_EQ(1u, ph_pixel.get_r());
+  EXPECT_EQ(2u, ph_pixel.get_g());
 }
 
 
 
 TEST_F(TestPixelRG, Comparison)
 {
-  PixelRG p0(1u, 2u);
-  PixelRG p1(p0);
-  PixelRG p2(3u, 2u);
-  PixelRG p3(1u, 3u);
+  pixelrg p0(1u, 2u);
+  pixelrg p1(p0);
+  pixelrg p2(3u, 2u);
+  pixelrg p3(1u, 3u);
 
   EXPECT_TRUE(p0 == p1);
   EXPECT_FALSE(p0 == p2);
@@ -318,91 +318,91 @@ TEST_F(TestPixelRG, Comparison)
 
 TEST_F(TestPixelRG, OutputStreamOperator)
 {
-  PixelRG pixel(1u, 2u);
-  const char* outputRef = "{R = 1, G = 2}";
-  HOU_EXPECT_OUTPUT(outputRef, pixel);
+  pixelrg ph_pixel(1u, 2u);
+  const char* outputRef = "{r = 1, G = 2}";
+  HOU_EXPECT_OUTPUT(outputRef, ph_pixel);
 }
 
 
 
 TEST_F(TestPixelRGB, GetFormat)
 {
-  EXPECT_EQ(PixelFormat::RGB, PixelRGB::getFormat());
+  EXPECT_EQ(pixel_format::rgb, pixelrgb::get_format());
 }
 
 
 
 TEST_F(TestPixelRGB, DefaultConstructor)
 {
-  PixelRGB pixel;
-  EXPECT_EQ(0u, pixel.getR());
-  EXPECT_EQ(0u, pixel.getG());
-  EXPECT_EQ(0u, pixel.getB());
+  pixelrgb ph_pixel;
+  EXPECT_EQ(0u, ph_pixel.get_r());
+  EXPECT_EQ(0u, ph_pixel.get_g());
+  EXPECT_EQ(0u, ph_pixel.get_b());
 }
 
 
 
 TEST_F(TestPixelRGB, ValueConstructor)
 {
-  PixelRGB pixel(1u, 2u, 3u);
-  EXPECT_EQ(1u, pixel.getR());
-  EXPECT_EQ(2u, pixel.getG());
-  EXPECT_EQ(3u, pixel.getB());
+  pixelrgb ph_pixel(1u, 2u, 3u);
+  EXPECT_EQ(1u, ph_pixel.get_r());
+  EXPECT_EQ(2u, ph_pixel.get_g());
+  EXPECT_EQ(3u, ph_pixel.get_b());
 }
 
 
 
 TEST_F(TestPixelRGB, PixelRConstructor)
 {
-  PixelR pxR(1u);
-  PixelRGB pxRGB(pxR);
-  EXPECT_EQ(1u, pxRGB.getR());
-  EXPECT_EQ(1u, pxRGB.getG());
-  EXPECT_EQ(1u, pxRGB.getB());
+  pixelr pxR(1u);
+  pixelrgb pxRGB(pxR);
+  EXPECT_EQ(1u, pxRGB.get_r());
+  EXPECT_EQ(1u, pxRGB.get_g());
+  EXPECT_EQ(1u, pxRGB.get_b());
 }
 
 
 
 TEST_F(TestPixelRGB, PixelRGConstructor)
 {
-  PixelRG pxRG(200u, 118u);
-  PixelRGB pxRGB(pxRG);
-  EXPECT_EQ(200u, pxRGB.getR());
-  EXPECT_EQ(200u, pxRGB.getG());
-  EXPECT_EQ(200u, pxRGB.getB());
+  pixelrg pxRG(200u, 118u);
+  pixelrgb pxRGB(pxRG);
+  EXPECT_EQ(200u, pxRGB.get_r());
+  EXPECT_EQ(200u, pxRGB.get_g());
+  EXPECT_EQ(200u, pxRGB.get_b());
 }
 
 
 
 TEST_F(TestPixelRGB, PixelRGBAConstructor)
 {
-  PixelRGBA pxRGBA(200u, 118u, 93u, 7u);
-  PixelRGB pxRGB(pxRGBA);
-  EXPECT_EQ(200, pxRGB.getR());
-  EXPECT_EQ(118u, pxRGB.getG());
-  EXPECT_EQ(93u, pxRGB.getB());
+  pixelrgba pxRGBA(200u, 118u, 93u, 7u);
+  pixelrgb pxRGB(pxRGBA);
+  EXPECT_EQ(200, pxRGB.get_r());
+  EXPECT_EQ(118u, pxRGB.get_g());
+  EXPECT_EQ(93u, pxRGB.get_b());
 }
 
 
 
 TEST_F(TestPixelRGB, Set)
 {
-  PixelRGB pixel;
-  pixel.set(1u, 2u, 3u);
-  EXPECT_EQ(1u, pixel.getR());
-  EXPECT_EQ(2u, pixel.getG());
-  EXPECT_EQ(3u, pixel.getB());
+  pixelrgb ph_pixel;
+  ph_pixel.set(1u, 2u, 3u);
+  EXPECT_EQ(1u, ph_pixel.get_r());
+  EXPECT_EQ(2u, ph_pixel.get_g());
+  EXPECT_EQ(3u, ph_pixel.get_b());
 }
 
 
 
 TEST_F(TestPixelRGB, Comparison)
 {
-  PixelRGB p0(1u, 2u, 3u);
-  PixelRGB p1(p0);
-  PixelRGB p2(4u, 2u, 3u);
-  PixelRGB p3(1u, 4u, 3u);
-  PixelRGB p4(1u, 2u, 4u);
+  pixelrgb p0(1u, 2u, 3u);
+  pixelrgb p1(p0);
+  pixelrgb p2(4u, 2u, 3u);
+  pixelrgb p3(1u, 4u, 3u);
+  pixelrgb p4(1u, 2u, 4u);
 
   EXPECT_TRUE(p0 == p1);
   EXPECT_FALSE(p0 == p2);
@@ -419,125 +419,125 @@ TEST_F(TestPixelRGB, Comparison)
 
 TEST_F(TestPixelRGB, OutputStreamOperator)
 {
-  PixelRGB pixel(1u, 2u, 3u);
-  const char* outputRef = "{R = 1, G = 2, B = 3}";
-  HOU_EXPECT_OUTPUT(outputRef, pixel);
+  pixelrgb ph_pixel(1u, 2u, 3u);
+  const char* outputRef = "{r = 1, G = 2, B = 3}";
+  HOU_EXPECT_OUTPUT(outputRef, ph_pixel);
 }
 
 
 
 TEST_F(TestPixelRGBA, GetFormat)
 {
-  EXPECT_EQ(PixelFormat::RGBA, PixelRGBA::getFormat());
+  EXPECT_EQ(pixel_format::rgba, pixelrgba::get_format());
 }
 
 
 
 TEST_F(TestPixelRGBA, DefaultConstructor)
 {
-  PixelRGBA pixel;
-  EXPECT_EQ(0u, pixel.getR());
-  EXPECT_EQ(0u, pixel.getG());
-  EXPECT_EQ(0u, pixel.getB());
-  EXPECT_EQ(0u, pixel.getA());
+  pixelrgba ph_pixel;
+  EXPECT_EQ(0u, ph_pixel.get_r());
+  EXPECT_EQ(0u, ph_pixel.get_g());
+  EXPECT_EQ(0u, ph_pixel.get_b());
+  EXPECT_EQ(0u, ph_pixel.get_a());
 }
 
 
 
 TEST_F(TestPixelRGBA, ValueConstructor)
 {
-  PixelRGBA pixel(1u, 2u, 3u, 4u);
-  EXPECT_EQ(1u, pixel.getR());
-  EXPECT_EQ(2u, pixel.getG());
-  EXPECT_EQ(3u, pixel.getB());
-  EXPECT_EQ(4u, pixel.getA());
+  pixelrgba ph_pixel(1u, 2u, 3u, 4u);
+  EXPECT_EQ(1u, ph_pixel.get_r());
+  EXPECT_EQ(2u, ph_pixel.get_g());
+  EXPECT_EQ(3u, ph_pixel.get_b());
+  EXPECT_EQ(4u, ph_pixel.get_a());
 }
 
 
 
 TEST_F(TestPixelRGBA, ColorConstructor)
 {
-  Color colorRef(1u, 2u, 3u, 4u);
-  PixelRGBA pixel(colorRef);
-  EXPECT_EQ(1u, pixel.getR());
-  EXPECT_EQ(2u, pixel.getG());
-  EXPECT_EQ(3u, pixel.getB());
-  EXPECT_EQ(4u, pixel.getA());
-  EXPECT_EQ(colorRef, pixel.getColor());
+  color colorRef(1u, 2u, 3u, 4u);
+  pixelrgba ph_pixel(colorRef);
+  EXPECT_EQ(1u, ph_pixel.get_r());
+  EXPECT_EQ(2u, ph_pixel.get_g());
+  EXPECT_EQ(3u, ph_pixel.get_b());
+  EXPECT_EQ(4u, ph_pixel.get_a());
+  EXPECT_EQ(colorRef, ph_pixel.get_color());
 }
 
 
 
 TEST_F(TestPixelRGBA, PixelRConstructor)
 {
-  PixelR pxR(1u);
-  PixelRGBA pxRGBA(pxR);
-  EXPECT_EQ(1u, pxRGBA.getR());
-  EXPECT_EQ(1u, pxRGBA.getG());
-  EXPECT_EQ(1u, pxRGBA.getB());
-  EXPECT_EQ(255u, pxRGBA.getA());
+  pixelr pxR(1u);
+  pixelrgba pxRGBA(pxR);
+  EXPECT_EQ(1u, pxRGBA.get_r());
+  EXPECT_EQ(1u, pxRGBA.get_g());
+  EXPECT_EQ(1u, pxRGBA.get_b());
+  EXPECT_EQ(255u, pxRGBA.get_a());
 }
 
 
 
 TEST_F(TestPixelRGBA, PixelRGConstructor)
 {
-  PixelRG pxRG(200u, 118u);
-  PixelRGBA pxRGBA(pxRG);
-  EXPECT_EQ(200u, pxRGBA.getR());
-  EXPECT_EQ(200u, pxRGBA.getG());
-  EXPECT_EQ(200u, pxRGBA.getB());
-  EXPECT_EQ(118u, pxRGBA.getA());
+  pixelrg pxRG(200u, 118u);
+  pixelrgba pxRGBA(pxRG);
+  EXPECT_EQ(200u, pxRGBA.get_r());
+  EXPECT_EQ(200u, pxRGBA.get_g());
+  EXPECT_EQ(200u, pxRGBA.get_b());
+  EXPECT_EQ(118u, pxRGBA.get_a());
 }
 
 
 
 TEST_F(TestPixelRGBA, PixelRGBConstructor)
 {
-  PixelRGB pxRGB(200u, 118u, 93u);
-  PixelRGBA pxRGBA(pxRGB);
-  EXPECT_EQ(200, pxRGBA.getR());
-  EXPECT_EQ(118u, pxRGBA.getG());
-  EXPECT_EQ(93u, pxRGBA.getB());
-  EXPECT_EQ(255u, pxRGBA.getA());
+  pixelrgb pxRGB(200u, 118u, 93u);
+  pixelrgba pxRGBA(pxRGB);
+  EXPECT_EQ(200, pxRGBA.get_r());
+  EXPECT_EQ(118u, pxRGBA.get_g());
+  EXPECT_EQ(93u, pxRGBA.get_b());
+  EXPECT_EQ(255u, pxRGBA.get_a());
 }
 
 
 
 TEST_F(TestPixelRGBA, Set)
 {
-  PixelRGBA pixel;
-  pixel.set(1u, 2u, 3u, 4u);
-  EXPECT_EQ(1u, pixel.getR());
-  EXPECT_EQ(2u, pixel.getG());
-  EXPECT_EQ(3u, pixel.getB());
-  EXPECT_EQ(4u, pixel.getA());
+  pixelrgba ph_pixel;
+  ph_pixel.set(1u, 2u, 3u, 4u);
+  EXPECT_EQ(1u, ph_pixel.get_r());
+  EXPECT_EQ(2u, ph_pixel.get_g());
+  EXPECT_EQ(3u, ph_pixel.get_b());
+  EXPECT_EQ(4u, ph_pixel.get_a());
 }
 
 
 
 TEST_F(TestPixelRGBA, SetColor)
 {
-  Color colorRef(1u, 2u, 3u, 4u);
-  PixelRGBA pixel;
-  pixel.setColor(colorRef);
-  EXPECT_EQ(1u, pixel.getR());
-  EXPECT_EQ(2u, pixel.getG());
-  EXPECT_EQ(3u, pixel.getB());
-  EXPECT_EQ(4u, pixel.getA());
-  EXPECT_EQ(colorRef, pixel.getColor());
+  color colorRef(1u, 2u, 3u, 4u);
+  pixelrgba ph_pixel;
+  ph_pixel.set_color(colorRef);
+  EXPECT_EQ(1u, ph_pixel.get_r());
+  EXPECT_EQ(2u, ph_pixel.get_g());
+  EXPECT_EQ(3u, ph_pixel.get_b());
+  EXPECT_EQ(4u, ph_pixel.get_a());
+  EXPECT_EQ(colorRef, ph_pixel.get_color());
 }
 
 
 
 TEST_F(TestPixelRGBA, Comparison)
 {
-  PixelRGBA p0(1u, 2u, 3u, 4u);
-  PixelRGBA p1(p0);
-  PixelRGBA p2(5u, 2u, 3u, 4u);
-  PixelRGBA p3(1u, 5u, 3u, 4u);
-  PixelRGBA p4(1u, 2u, 5u, 4u);
-  PixelRGBA p5(1u, 2u, 3u, 5u);
+  pixelrgba p0(1u, 2u, 3u, 4u);
+  pixelrgba p1(p0);
+  pixelrgba p2(5u, 2u, 3u, 4u);
+  pixelrgba p3(1u, 5u, 3u, 4u);
+  pixelrgba p4(1u, 2u, 5u, 4u);
+  pixelrgba p5(1u, 2u, 3u, 5u);
 
   EXPECT_TRUE(p0 == p1);
   EXPECT_FALSE(p0 == p2);
@@ -556,7 +556,7 @@ TEST_F(TestPixelRGBA, Comparison)
 
 TEST_F(TestPixelRGBA, OutputStreamOperator)
 {
-  PixelRGBA pixel(1u, 2u, 3u, 4u);
-  const char* outputRef = "{R = 1, G = 2, B = 3, A = 4}";
-  HOU_EXPECT_OUTPUT(outputRef, pixel);
+  pixelrgba ph_pixel(1u, 2u, 3u, 4u);
+  const char* outputRef = "{r = 1, G = 2, B = 3, A = 4}";
+  HOU_EXPECT_OUTPUT(outputRef, ph_pixel);
 }

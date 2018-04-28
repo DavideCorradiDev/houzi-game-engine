@@ -429,7 +429,7 @@ TEST_F(TestSpan, OutputStreamOperator)
   std::array<int, 3u> v{1, 2, 3};
   span<int> s(v);
   std::stringstream outRefStream;
-  outRefStream << "{Address = " << v.data() << ", Size = 3}";
+  outRefStream << "{Address = " << v.data() << ", size_type = 3}";
   HOU_EXPECT_OUTPUT(outRefStream.str().c_str(), s);
 }
 

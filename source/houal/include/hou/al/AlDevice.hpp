@@ -37,11 +37,11 @@ public:
 
   const ALCdevice* getHandle() const;
   ALCdevice* getHandle();
-  uint32_t getUid() const;
+  uint32_t get_uid() const;
 
 private:
   ALCdevice* mDevice;
-  uint32_t mUid;
+  uint32_t m_uid;
 };
 
 }

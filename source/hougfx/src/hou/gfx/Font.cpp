@@ -12,7 +12,7 @@
 #include "hou/mth/rectangle.hpp"
 #include "hou/mth/matrix.hpp"
 
-#include "hou/sys/BinaryFileIn.hpp"
+#include "hou/sys/binary_file_in.hpp"
 
 #include "ft2build.h"
 #include FT_FREETYPE_H
@@ -91,14 +91,14 @@ Font::Font(const span<const uint8_t>& data)
 
 
 
-Font::Font(not_null<std::unique_ptr<BinaryStreamIn>> fontStream)
+Font::Font(not_null<std::unique_ptr<binary_stream_in>> fontStream)
   : mFace()
   , mFaceIndex(0u)
   , mPixelHeight(10u)
   , mData()
 {
-  fontStream->setBytePos(0u);
-  mData.resize(fontStream->getByteCount());
+  fontStream->set_byte_pos(0u);
+  mData.resize(fontStream->get_byte_count());
   fontStream->read(mData);
   load();
 }
@@ -318,10 +318,10 @@ Glyph Font::getGlyph(utf32::code_unit charCode) const
   int vertAdvance = hasVertical() ? g->metrics.vertAdvance : 0;
 
   return Glyph
-    ( Image2R
+    ( image2R
       ( bmpSize
-      , span<const Image2R::Pixel>
-        ( reinterpret_cast<Image2R::Pixel*>(g->bitmap.buffer)
+      , span<const image2R::pixel>
+        ( reinterpret_cast<image2R::pixel*>(g->bitmap.buffer)
         , bmpSize.x() * bmpSize.y()))
     , GlyphMetrics(size, horiBearing, horiAdvance, vertBearing, vertAdvance));
 }
@@ -358,7 +358,7 @@ void Font::load()
   }
   HOU_EXPECT_DEV(mFace != nullptr);
 
-  // Calling set pixel height here is wrong. The pixel size will not be
+  // Calling set ph_pixel height here is wrong. The ph_pixel size will not be
   // adjusted because mPixelHeight is not modified.
   HOU_ENSURE(FT_Set_Pixel_Sizes(mFace, 0, mPixelHeight) == 0);
   HOU_ENSURE(FT_Select_Charmap(mFace, FT_ENCODING_UNICODE) == 0);

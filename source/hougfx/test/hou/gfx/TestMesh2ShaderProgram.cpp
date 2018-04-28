@@ -12,7 +12,7 @@
 
 #include "hou/mth/transform2.hpp"
 
-#include "hou/sys/Color.hpp"
+#include "hou/sys/color.hpp"
 
 using namespace hou;
 
@@ -24,16 +24,16 @@ namespace
 class TestMesh2ShaderProgram : public TestGfxBase
 {};
 
-Image2RGBA generateResultImage(const vec2u& dstSize, const recti& dstRect,
-  const Color& dstColor, const Color& srcColor);
+image2RGBA generateResultImage(const vec2u& dstSize, const recti& dstRect,
+  const color& dstColor, const color& srcColor);
 
 
 
-Image2RGBA generateResultImage(const vec2u& dstSize, const recti& dstRect,
-  const Color& dstColor, const Color& srcColor)
+image2RGBA generateResultImage(const vec2u& dstSize, const recti& dstRect,
+  const color& dstColor, const color& srcColor)
 {
-  Image2RGBA imRef(dstSize);
-  imRef.clear(Image2RGBA::Pixel(dstColor));
+  image2RGBA imRef(dstSize);
+  imRef.clear(image2RGBA::pixel(dstColor));
 
   uint xMax = std::min(static_cast<uint>(dstRect.r()), dstSize.x());
   uint yMax = std::min(static_cast<uint>(dstRect.b()), dstSize.y());
@@ -41,7 +41,7 @@ Image2RGBA generateResultImage(const vec2u& dstSize, const recti& dstRect,
   {
     for(uint x = dstRect.l(); x < xMax; ++x)
     {
-      imRef.setPixel(vec2u(x, y), Image2RGBA::Pixel(srcColor));
+      imRef.set_pixel(vec2u(x, y), image2RGBA::pixel(srcColor));
     }
   }
   return imRef;
@@ -71,7 +71,7 @@ TEST_F(TestMesh2ShaderProgram, MoveConstructor)
 TEST_F(TestMesh2ShaderProgram, SetColor)
 {
   Mesh2ShaderProgram sp;
-  sp.setColor(Color::Red);
+  sp.set_color(color::red);
   SUCCEED();
 }
 
@@ -101,16 +101,16 @@ TEST_F(TestMesh2ShaderProgram, DrawRectangle)
   vec2u size(4u, 6u);
   RenderCanvas rt(size);
   Mesh2 rect = createRectangleMesh2(vec2f(2.f, 3.f));
-  Color col(20u, 30u, 40u, 255u);
+  color col(20u, 30u, 40u, 255u);
   trans2f t
     = trans2f::orthographic_projection(rectf(0.f, 0.f, size.x(), size.y()))
     * trans2f::translation(vec2f(1.f, 2.f));
 
   mr.draw(rt, rect, col, t);
 
-  Image2RGBA imRef
-    = generateResultImage(size, recti(1, 2, 2, 3), Color::Transparent, col);
-  EXPECT_EQ(imRef, rt.toTexture().getImage<PixelFormat::RGBA>());
+  image2RGBA imRef
+    = generateResultImage(size, recti(1, 2, 2, 3), color::transparent, col);
+  EXPECT_EQ(imRef, rt.toTexture().get_image<pixel_format::rgba>());
 }
 
 
@@ -121,17 +121,17 @@ TEST_F(TestMesh2ShaderProgram, DrawTexturedRectangle)
   vec2u size(8u, 10u);
   RenderCanvas rt(size);
   Mesh2 rect = createRectangleMesh2(vec2f(3.f, 4.f));
-  Image2RGBA image(vec2u(3u, 4u));
-  Color col(20u, 30u, 40u, 255u);
-  image.clear(Image2RGBA::Pixel(col));
-  Texture2 tex(image);
+  image2RGBA ph_image(vec2u(3u, 4u));
+  color col(20u, 30u, 40u, 255u);
+  ph_image.clear(image2RGBA::pixel(col));
+  Texture2 tex(ph_image);
   trans2f t
     = trans2f::orthographic_projection(rectf(0.f, 0.f, size.x(), size.y()))
     * trans2f::translation(vec2f(1.f, 2.f));
 
-  mr.draw(rt, rect, tex, Color::White, t);
+  mr.draw(rt, rect, tex, color::white, t);
 
-  Image2RGBA imRef
-    = generateResultImage(size, recti(1, 2, 3, 4), Color::Transparent, col);
-  EXPECT_EQ(imRef, rt.toTexture().getImage<PixelFormat::RGBA>());
+  image2RGBA imRef
+    = generateResultImage(size, recti(1, 2, 3, 4), color::transparent, col);
+  EXPECT_EQ(imRef, rt.toTexture().get_image<pixel_format::rgba>());
 }

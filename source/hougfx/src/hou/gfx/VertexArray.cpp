@@ -14,7 +14,7 @@ namespace hou
 
 void VertexArray::bind(const VertexArray& vertexArray)
 {
-  gl::bindVertexArray(vertexArray.mHandle);
+  gl::bindVertexArray(vertexArray.m_handle);
 }
 
 
@@ -35,28 +35,28 @@ uint VertexArray::getMaxBindingIndex()
 
 VertexArray::VertexArray()
   : non_copyable()
-  , mHandle(gl::VertexArrayHandle::create())
+  , m_handle(gl::VertexArrayHandle::create())
 {}
 
 
 
 VertexArray::VertexArray(VertexArray&& other)
   : non_copyable()
-  , mHandle(std::move(other.mHandle))
+  , m_handle(std::move(other.m_handle))
 {}
 
 
 
 const gl::VertexArrayHandle& VertexArray::getHandle() const
 {
-  return mHandle;
+  return m_handle;
 }
 
 
 
 bool VertexArray::isBound() const
 {
-  return gl::isVertexArrayBound(mHandle);
+  return gl::isVertexArrayBound(m_handle);
 }
 
 
@@ -66,21 +66,21 @@ void VertexArray::setVertexData(
 {
   HOU_EXPECT(bindingIndex <= getMaxBindingIndex());
 
-  gl::setVertexArrayVertexBuffer(mHandle, static_cast<GLuint>(bindingIndex),
+  gl::setVertexArrayVertexBuffer(m_handle, static_cast<GLuint>(bindingIndex),
     vb.getHandle(), static_cast<GLintptr>(vf.getOffset()),
     static_cast<GLsizei>(vf.getStride()));
 
   const std::vector<VertexAttribFormat>& vafs = vf.getVertexAttribFormats();
   for(GLuint i = 0; i < vafs.size(); ++i)
   {
-    gl::setVertexArrayAttribFormat(mHandle, static_cast<GLuint>(i),
+    gl::setVertexArrayAttribFormat(m_handle, static_cast<GLuint>(i),
       static_cast<GLint>(vafs[i].getElementCount()),
-      static_cast<GLenum>(vafs[i].getType()),
+      static_cast<GLenum>(vafs[i].get_type()),
       static_cast<GLboolean>(vafs[i].mustBeNormalized()),
       static_cast<GLuint>(vafs[i].getByteOffset()));
     gl::setVertexArrayAttribBinding(
-      mHandle, static_cast<GLuint>(i), static_cast<GLuint>(bindingIndex));
-    gl::enableVertexArrayAttrib(mHandle, static_cast<GLuint>(i));
+      m_handle, static_cast<GLuint>(i), static_cast<GLuint>(bindingIndex));
+    gl::enableVertexArrayAttrib(m_handle, static_cast<GLuint>(i));
   }
 }
 
@@ -88,7 +88,7 @@ void VertexArray::setVertexData(
 
 void VertexArray::setElementData(const VertexBuffer& eb)
 {
-  gl::setVertexArrayElementBuffer(mHandle, eb.getHandle());
+  gl::setVertexArrayElementBuffer(m_handle, eb.getHandle());
 }
 
 }  // namespace hou

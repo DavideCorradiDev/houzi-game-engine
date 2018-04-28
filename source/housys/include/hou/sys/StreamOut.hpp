@@ -5,7 +5,7 @@
 #ifndef HZI_SYS_STREAM_OUT_HPP
 #define HZI_SYS_STREAM_OUT_HPP
 
-#include "hou/sys/SysExport.hpp"
+#include "hou/sys/sys_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 #include "hou/cor/template_utils.hpp"
@@ -19,26 +19,26 @@
 namespace hou
 {
 
-/** Output stream interface.
+/** Output ph_stream interface.
  */
-class HOU_SYS_API StreamOut
+class HOU_SYS_API stream_out
 {
 public:
   /** Destructor.
    */
-  virtual ~StreamOut() {};
+  virtual ~stream_out() {};
 
   /** Retrieves the number of bytes written by the last write operation.
    *
    *  \return the number of bytes written by the last write operation.
    */
-  virtual size_t getWriteByteCount() const = 0;
+  virtual size_t get_write_byte_count() const = 0;
 
   /** Retrieves the number of elements written by the last write operation.
    *
    *  \return the number of elements written by the last write operation.
    */
-  virtual size_t getWriteElementCount() const = 0;
+  virtual size_t get_write_element_count() const = 0;
 
   /** Writes from a pod, not container variable.
    *
@@ -46,11 +46,11 @@ public:
    *
    *  \tparam T the element type.
    *  \param buf the variable to be written.
-   *  \return a reference to this stream.
+   *  \return a reference to this ph_stream.
    */
   template <typename T>
     std::enable_if_t<std::is_pod<T>::value && !is_contiguous_container<T>::value
-    , StreamOut>& write(const T& buf);
+    , stream_out>& write(const T& buf);
 
   /** Writes from a contiguous container.
    *
@@ -60,10 +60,10 @@ public:
    *
    *  \tparam T the container type.
    *  \param buf the container to be written.
-   *  \return a reference to this stream.
+   *  \return a reference to this ph_stream.
    */
   template <typename T>
-    std::enable_if_t<is_contiguous_container<T>::value, StreamOut>&
+    std::enable_if_t<is_contiguous_container<T>::value, stream_out>&
     write(const T& buf);
 
   /** Writes from a specified location in memory.
@@ -78,10 +78,10 @@ public:
    *  \tparam T the element type.
    *  \param buf pointer to the memory location to be written.
    *  \param bufSize the number of elements to be written.
-   *  \return a reference to this stream.
+   *  \return a reference to this ph_stream.
    */
   template <typename T>
-    StreamOut& write(const T* buf, size_t bufSize);
+    stream_out& write(const T* buf, size_t bufSize);
 
 protected:
   /** Writes from a specified location in memory.
@@ -100,14 +100,14 @@ protected:
    *  \param elementSize the size of a single element to be written.
    *  \param bufSize the number of elements to be written.
    */
-  virtual void onWrite(const void* buf, size_t elementSize, size_t bufSize) = 0;
+  virtual void on_write(const void* buf, size_t elementSize, size_t bufSize) = 0;
 };
 
 }
 
 
 
-#include "hou/sys/StreamOut.inl"
+#include "hou/sys/stream_out.inl"
 
 #endif
 

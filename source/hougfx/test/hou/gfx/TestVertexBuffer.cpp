@@ -87,7 +87,7 @@ TEST_F(TestVertexBuffer, SizeConstructor)
   IntBuffer vb(sizeRef);
 
   EXPECT_NE(0u, vb.getHandle().getName());
-  EXPECT_EQ(sizeRef * sizeof(IntBuffer::ValueType), vb.getByteCount());
+  EXPECT_EQ(sizeRef * sizeof(IntBuffer::ValueType), vb.get_byte_count());
   EXPECT_EQ(sizeRef, vb.get_size());
   EXPECT_EQ(std::vector<int>(sizeRef, 0u), vb.getData());
 }
@@ -100,7 +100,7 @@ TEST_F(TestVertexBuffer, DataConstructor)
   FloatBuffer vb(dataRef);
 
   EXPECT_NE(0u, vb.getHandle().getName());
-  EXPECT_EQ(dataRef.size() * sizeof(float), vb.getByteCount());
+  EXPECT_EQ(dataRef.size() * sizeof(float), vb.get_byte_count());
   EXPECT_EQ(dataRef, vb.getData());
 }
 
@@ -115,7 +115,7 @@ TEST_F(TestVertexBuffer, MoveConstructor)
 
   EXPECT_EQ(0u, vbDummy.getHandle().getName());
   EXPECT_EQ(name, vb.getHandle().getName());
-  EXPECT_EQ(dataRef.size() * sizeof(float), vb.getByteCount());
+  EXPECT_EQ(dataRef.size() * sizeof(float), vb.get_byte_count());
   EXPECT_EQ(dataRef, vb.getData());
 }
 

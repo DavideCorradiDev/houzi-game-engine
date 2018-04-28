@@ -148,12 +148,12 @@ template <typename T>
   HOU_MTH_API bool close(const rotation2<T>& lhs, const rotation2<T>& rhs
   , T acc = std::numeric_limits<T>::epsilon());
 
-/** Writes the object into a stream.
+/** Writes the object into a ph_stream.
  *
  *  \tparam T the scalar type.
- *  \param os the output stream.
+ *  \param os the output ph_stream.
  *  \param r the rotation.
- *  \return a reference to the stream.
+ *  \return a reference to the ph_stream.
  */
 template <typename T>
   HOU_MTH_API std::ostream& operator<<(std::ostream& os, const rotation2<T>& r);

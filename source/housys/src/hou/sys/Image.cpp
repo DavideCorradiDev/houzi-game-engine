@@ -2,12 +2,12 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/sys/Image.hpp"
+#include "hou/sys/image.hpp"
 
 #include "hou/cor/error.hpp"
 
-#include "hou/sys/BinaryFileIn.hpp"
-#include "hou/sys/SysError.hpp"
+#include "hou/sys/binary_file_in.hpp"
+#include "hou/sys/sys_error.hpp"
 
 #include "soil/SOIL.h"
 
@@ -45,53 +45,53 @@ bool elementWiseLowerOrEqual(
 template <size_t dimOut, size_t dimIn>
 vec<uint, dimOut> padvector(const vec<uint, dimIn>& vecIn, uint value);
 
-template <PixelFormat fmt>
-Image1<fmt> getImageSubImage(
-  const Image1<fmt>& in, const vec1u& offset, const vec1u& size);
+template <pixel_format fmt>
+image1<fmt> getImageSubImage(
+  const image1<fmt>& in, const vec1u& offset, const vec1u& size);
 
-template <PixelFormat fmt>
-Image2<fmt> getImageSubImage(
-  const Image2<fmt>& in, const vec2u& offset, const vec2u& size);
+template <pixel_format fmt>
+image2<fmt> getImageSubImage(
+  const image2<fmt>& in, const vec2u& offset, const vec2u& size);
 
-template <PixelFormat fmt>
-Image3<fmt> getImageSubImage(
-  const Image3<fmt>& in, const vec3u& offset, const vec3u& size);
+template <pixel_format fmt>
+image3<fmt> getImageSubImage(
+  const image3<fmt>& in, const vec3u& offset, const vec3u& size);
 
-template <PixelFormat fmt>
+template <pixel_format fmt>
 void setImageSubImage(
-  Image1<fmt>& out, const vec1u& offset, const Image1<fmt>& in);
+  image1<fmt>& out, const vec1u& offset, const image1<fmt>& in);
 
-template <PixelFormat fmt>
+template <pixel_format fmt>
 void setImageSubImage(
-  Image2<fmt>& out, const vec2u& offset, const Image2<fmt>& in);
+  image2<fmt>& out, const vec2u& offset, const image2<fmt>& in);
 
-template <PixelFormat fmt>
+template <pixel_format fmt>
 void setImageSubImage(
-  Image3<fmt>& out, const vec3u& offset, const Image1<fmt>& in);
+  image3<fmt>& out, const vec3u& offset, const image1<fmt>& in);
 
 using SoilTestFunction = std::function<int(uchar const*, int)>;
 using SoilLoadFunction
   = std::function<uchar*(uchar const*, int, int*, int*, int*, int)>;
 
-int pixelFormatToSoilFormat(PixelFormat fmt);
+int pixelFormatToSoilFormat(pixel_format fmt);
 
 bool soilTestMemory(SoilTestFunction testFun, uchar* buffer, size_t size);
 bool soilTestFile(SoilTestFunction testFun, const std::string& path);
-template <PixelFormat fmt>
-std::tuple<Image2<fmt>, bool> soilLoadFromMemory(SoilLoadFunction loadFun,
+template <pixel_format fmt>
+std::tuple<image2<fmt>, bool> soilLoadFromMemory(SoilLoadFunction loadFun,
   SoilTestFunction testFun, uchar* buffer, size_t size);
-template <PixelFormat fmt>
-std::tuple<Image2<fmt>, bool> soilLoadFromFile(
+template <pixel_format fmt>
+std::tuple<image2<fmt>, bool> soilLoadFromFile(
   SoilLoadFunction loadFun, SoilTestFunction testFun, const std::string& path);
-template <PixelFormat fmt>
-Image2<fmt> soilLoadFromFileWithCheck(SoilLoadFunction loadFun,
-  SoilTestFunction testFun, const std::string& path, SysError ec);
-template <PixelFormat fmt>
+template <pixel_format fmt>
+image2<fmt> soilLoadFromFileWithCheck(SoilLoadFunction loadFun,
+  SoilTestFunction testFun, const std::string& path, sys_error ec);
+template <pixel_format fmt>
 bool soilWriteToFile(
-  const std::string& path, int imageType, const Image2<fmt>& im);
-template <PixelFormat fmt>
+  const std::string& path, int imageType, const image2<fmt>& im);
+template <pixel_format fmt>
 void soilWriteToFileWithCheck(
-  const std::string& path, int imageType, const Image2<fmt>& im, SysError ec);
+  const std::string& path, int imageType, const image2<fmt>& im, sys_error ec);
 
 
 
@@ -124,34 +124,34 @@ vec<uint, dimOut> padvector(const vec<uint, dimIn>& vecIn, uint value)
 
 
 
-template <PixelFormat fmt>
-Image1<fmt> getImageSubImage(
-  const Image1<fmt>& in, const vec1u& offset, const vec1u& size)
+template <pixel_format fmt>
+image1<fmt> getImageSubImage(
+  const image1<fmt>& in, const vec1u& offset, const vec1u& size)
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + size, in.get_size()));
-  Image1<fmt> out(size);
+  image1<fmt> out(size);
   for(uint x = 0; x < size.x(); ++x)
   {
     vec1u pos = vec1u(x);
-    out.setPixel(pos, in.getPixel(offset + pos));
+    out.set_pixel(pos, in.get_pixel(offset + pos));
   }
   return out;
 }
 
 
 
-template <PixelFormat fmt>
-Image2<fmt> getImageSubImage(
-  const Image2<fmt>& in, const vec2u& offset, const vec2u& size)
+template <pixel_format fmt>
+image2<fmt> getImageSubImage(
+  const image2<fmt>& in, const vec2u& offset, const vec2u& size)
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + size, in.get_size()));
-  Image2<fmt> out(size);
+  image2<fmt> out(size);
   for(uint x = 0; x < size.x(); ++x)
   {
     for(uint y = 0; y < size.y(); ++y)
     {
       vec2u pos = vec2u(x, y);
-      out.setPixel(pos, in.getPixel(offset + pos));
+      out.set_pixel(pos, in.get_pixel(offset + pos));
     }
   }
   return out;
@@ -159,12 +159,12 @@ Image2<fmt> getImageSubImage(
 
 
 
-template <PixelFormat fmt>
-Image3<fmt> getImageSubImage(
-  const Image3<fmt>& in, const vec3u& offset, const vec3u& size)
+template <pixel_format fmt>
+image3<fmt> getImageSubImage(
+  const image3<fmt>& in, const vec3u& offset, const vec3u& size)
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + size, in.get_size()));
-  Image3<fmt> out(size);
+  image3<fmt> out(size);
   for(uint x = 0; x < size.x(); ++x)
   {
     for(uint y = 0; y < size.y(); ++y)
@@ -172,7 +172,7 @@ Image3<fmt> getImageSubImage(
       for(uint z = 0; z < size.z(); ++z)
       {
         vec3u pos = vec3u(x, y, z);
-        out.setPixel(pos, in.getPixel(offset + pos));
+        out.set_pixel(pos, in.get_pixel(offset + pos));
       }
     }
   }
@@ -181,23 +181,23 @@ Image3<fmt> getImageSubImage(
 
 
 
-template <PixelFormat fmt>
+template <pixel_format fmt>
 void setImageSubImage(
-  Image1<fmt>& out, const vec1u& offset, const Image1<fmt>& in)
+  image1<fmt>& out, const vec1u& offset, const image1<fmt>& in)
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + in.get_size(), out.get_size()));
   for(uint x = 0; x < in.get_size().x(); ++x)
   {
     vec1u pos = vec1u(x);
-    out.setPixel(offset + pos, in.getPixel(pos));
+    out.set_pixel(offset + pos, in.get_pixel(pos));
   }
 }
 
 
 
-template <PixelFormat fmt>
+template <pixel_format fmt>
 void setImageSubImage(
-  Image2<fmt>& out, const vec2u& offset, const Image2<fmt>& in)
+  image2<fmt>& out, const vec2u& offset, const image2<fmt>& in)
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + in.get_size(), out.get_size()));
   for(uint x = 0; x < in.get_size().x(); ++x)
@@ -205,16 +205,16 @@ void setImageSubImage(
     for(uint y = 0; y < in.get_size().y(); ++y)
     {
       vec2u pos = vec2u(x, y);
-      out.setPixel(offset + pos, in.getPixel(pos));
+      out.set_pixel(offset + pos, in.get_pixel(pos));
     }
   }
 }
 
 
 
-template <PixelFormat fmt>
+template <pixel_format fmt>
 void setImageSubImage(
-  Image3<fmt>& out, const vec3u& offset, const Image3<fmt>& in)
+  image3<fmt>& out, const vec3u& offset, const image3<fmt>& in)
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + in.get_size(), out.get_size()));
   for(uint x = 0; x < in.get_size().x(); ++x)
@@ -224,7 +224,7 @@ void setImageSubImage(
       for(uint z = 0; z < in.get_size().z(); ++z)
       {
         vec3u pos = vec3u(x, y, z);
-        out.setPixel(offset + pos, in.getPixel(pos));
+        out.set_pixel(offset + pos, in.get_pixel(pos));
       }
     }
   }
@@ -232,17 +232,17 @@ void setImageSubImage(
 
 
 
-int pixelFormatToSoilFormat(PixelFormat fmt)
+int pixelFormatToSoilFormat(pixel_format fmt)
 {
   switch(fmt)
   {
-  case PixelFormat::R:
+  case pixel_format::r:
     return SOIL_LOAD_L;
-  case PixelFormat::RG:
+  case pixel_format::rg:
     return SOIL_LOAD_LA;
-  case PixelFormat::RGB:
+  case pixel_format::rgb:
     return SOIL_LOAD_RGB;
-  case PixelFormat::RGBA:
+  case pixel_format::rgba:
     return SOIL_LOAD_RGBA;
   default:
     HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(fmt));
@@ -261,21 +261,21 @@ bool soilTestMemory(SoilTestFunction testFun, uchar* buffer, size_t size)
 
 bool soilTestFile(SoilTestFunction testFun, const std::string& path)
 {
-  BinaryFileIn fi(path);
-  std::vector<uchar> buffer(fi.getByteCount());
+  binary_file_in fi(path);
+  std::vector<uchar> buffer(fi.get_byte_count());
   fi.read(buffer);
   return soilTestMemory(testFun, buffer.data(), buffer.size());
 }
 
 
 
-template <PixelFormat fmt>
-std::tuple<Image2<fmt>, bool> soilLoadFromMemory(SoilLoadFunction loadFun,
+template <pixel_format fmt>
+std::tuple<image2<fmt>, bool> soilLoadFromMemory(SoilLoadFunction loadFun,
   SoilTestFunction testFun, uchar* buffer, size_t size)
 {
   if(testFun(buffer, size) == 0)
   {
-    return std::make_tuple(Image2<fmt>(), false);
+    return std::make_tuple(image2<fmt>(), false);
   }
 
   int width;
@@ -284,13 +284,13 @@ std::tuple<Image2<fmt>, bool> soilLoadFromMemory(SoilLoadFunction loadFun,
     nullptr, pixelFormatToSoilFormat(fmt));
   if(rawImage == nullptr)
   {
-    return std::make_tuple(Image2<fmt>(), false);
+    return std::make_tuple(image2<fmt>(), false);
   }
 
   vec2u imageSize(static_cast<uint>(width), static_cast<uint>(height));
-  Image2<fmt> retImage(imageSize,
-    span<const typename Image2<fmt>::Pixel>(
-      reinterpret_cast<const typename Image2<fmt>::Pixel*>(rawImage),
+  image2<fmt> retImage(imageSize,
+    span<const typename image2<fmt>::pixel>(
+      reinterpret_cast<const typename image2<fmt>::pixel*>(rawImage),
       width * height));
   SOIL_free_image_data(rawImage);
   return std::make_tuple(retImage, true);
@@ -298,12 +298,12 @@ std::tuple<Image2<fmt>, bool> soilLoadFromMemory(SoilLoadFunction loadFun,
 
 
 
-template <PixelFormat fmt>
-std::tuple<Image2<fmt>, bool> soilLoadFromFile(
+template <pixel_format fmt>
+std::tuple<image2<fmt>, bool> soilLoadFromFile(
   SoilLoadFunction loadFun, SoilTestFunction testFun, const std::string& path)
 {
-  BinaryFileIn fi(path);
-  std::vector<uchar> buffer(fi.getByteCount());
+  binary_file_in fi(path);
+  std::vector<uchar> buffer(fi.get_byte_count());
   fi.read(buffer);
   return soilLoadFromMemory<fmt>(
     loadFun, testFun, buffer.data(), buffer.size());
@@ -311,11 +311,11 @@ std::tuple<Image2<fmt>, bool> soilLoadFromFile(
 
 
 
-template <PixelFormat fmt>
-Image2<fmt> soilLoadFromFileWithCheck(SoilLoadFunction loadFun,
-  SoilTestFunction testFun, const std::string& path, SysError ec)
+template <pixel_format fmt>
+image2<fmt> soilLoadFromFileWithCheck(SoilLoadFunction loadFun,
+  SoilTestFunction testFun, const std::string& path, sys_error ec)
 {
-  Image2<fmt> im;
+  image2<fmt> im;
   bool rv = false;
   std::tie(im, rv) = soilLoadFromFile<fmt>(loadFun, testFun, path);
   HOU_RUNTIME_CHECK(rv, get_text(ec), path.c_str());
@@ -324,25 +324,25 @@ Image2<fmt> soilLoadFromFileWithCheck(SoilLoadFunction loadFun,
 
 
 
-template <PixelFormat fmt>
+template <pixel_format fmt>
 bool soilWriteToFile(
-  const std::string& path, int imageType, const Image2<fmt>& image)
+  const std::string& path, int imageType, const image2<fmt>& ph_image)
 {
-  // Since SOIL does not support UNICODE filenames, first save the image to
-  // a file with a standardized name, then rename the file to what is requested.
+  // Since SOIL does not support UNICODE filenames, first save the ph_image to
+  // a ph_file with a standardized name, then rename the ph_file to what is requested.
   static constexpr char tmpFileName[] = ".HziTmpImageFileName.hou";
 
-  int saveResult = SOIL_save_image(tmpFileName, imageType, image.get_size().x(),
-    image.get_size().y(), Image2<fmt>::Pixel::getByteCount(),
-    reinterpret_cast<const uchar*>(image.getPixels().data()));
-  return saveResult && renameDir(tmpFileName, path);
+  int saveResult = SOIL_save_image(tmpFileName, imageType, ph_image.get_size().x(),
+    ph_image.get_size().y(), image2<fmt>::pixel::get_byte_count(),
+    reinterpret_cast<const uchar*>(ph_image.get_pixels().data()));
+  return saveResult && rename_dir(tmpFileName, path);
 }
 
 
 
-template <PixelFormat fmt>
+template <pixel_format fmt>
 void soilWriteToFileWithCheck(
-  const std::string& path, int imageType, const Image2<fmt>& im, SysError ec)
+  const std::string& path, int imageType, const image2<fmt>& im, sys_error ec)
 {
   HOU_RUNTIME_CHECK(
     soilWriteToFile<fmt>(path, imageType, im), get_text(ec), path.c_str());
@@ -352,192 +352,192 @@ void soilWriteToFileWithCheck(
 
 
 
-bool bmpCheckFile(const std::string& path)
+bool bmp_check_file(const std::string& path)
 {
   return soilTestFile(stbi_bmp_test_memory, path);
 }
 
 
 
-template <PixelFormat fmt>
-Image2<fmt> bmpReadFile(const std::string& path)
+template <pixel_format fmt>
+image2<fmt> bmp_read_file(const std::string& path)
 {
   return soilLoadFromFileWithCheck<fmt>(stbi_bmp_load_from_memory,
-    stbi_bmp_test_memory, path, SysError::ImageBmpRead);
+    stbi_bmp_test_memory, path, sys_error::image_bmp_read);
 }
 
 
 
-template <PixelFormat fmt>
-void bmpWriteFile(const std::string& path, const Image2<fmt>& image)
+template <pixel_format fmt>
+void bmp_write_file(const std::string& path, const image2<fmt>& ph_image)
 {
   soilWriteToFileWithCheck<fmt>(
-    path, SOIL_SAVE_TYPE_BMP, image, SysError::ImageBmpWrite);
+    path, SOIL_SAVE_TYPE_BMP, ph_image, sys_error::image_bmp_write);
 }
 
 
 
-bool pngCheckFile(const std::string& path)
+bool png_check_file(const std::string& path)
 {
   return soilTestFile(stbi_png_test_memory, path);
 }
 
 
 
-template <PixelFormat fmt>
-Image2<fmt> pngReadFile(const std::string& path)
+template <pixel_format fmt>
+image2<fmt> png_read_file(const std::string& path)
 {
   return soilLoadFromFileWithCheck<fmt>(stbi_png_load_from_memory,
-    stbi_png_test_memory, path, SysError::ImagePngRead);
+    stbi_png_test_memory, path, sys_error::image_png_read);
 }
 
 
 
-bool jpgCheckFile(const std::string& path)
+bool jpg_check_file(const std::string& path)
 {
   return soilTestFile(stbi_jpeg_test_memory, path);
 }
 
 
 
-template <PixelFormat fmt>
-Image2<fmt> jpgReadFile(const std::string& path)
+template <pixel_format fmt>
+image2<fmt> jpg_read_file(const std::string& path)
 {
   return soilLoadFromFileWithCheck<fmt>(stbi_jpeg_load_from_memory,
-    stbi_jpeg_test_memory, path, SysError::ImageJpgRead);
+    stbi_jpeg_test_memory, path, sys_error::image_jpg_read);
 }
 
 
 
-template <size_t dim, PixelFormat fmt>
-Image<dim, fmt>::Image()
+template <size_t dim, pixel_format fmt>
+image<dim, fmt>::image()
   : m_size()
-  , mPixels()
+  , m_pixels()
 {}
 
 
 
-template <size_t dim, PixelFormat fmt>
-Image<dim, fmt>::Image(const Size& size)
+template <size_t dim, pixel_format fmt>
+image<dim, fmt>::image(const size_type& size)
   : m_size(size)
-  , mPixels(computePixelCount(), Pixel())
+  , m_pixels(compute_pixel_count(), pixel())
 {}
 
 
 
-template <size_t dim, PixelFormat fmt>
-Image<dim, fmt>::Image(const Size& size, const Pixel& pixel)
+template <size_t dim, pixel_format fmt>
+image<dim, fmt>::image(const size_type& size, const pixel& ph_pixel)
   : m_size(size)
-  , mPixels(computePixelCount(), pixel)
+  , m_pixels(compute_pixel_count(), ph_pixel)
 {}
 
 
 
-template <size_t dim, PixelFormat fmt>
-Image<dim, fmt>::Image(const Size& size, const span<const Pixel>& pixels)
+template <size_t dim, pixel_format fmt>
+image<dim, fmt>::image(const size_type& size, const span<const pixel>& pixels)
   : m_size(size)
-  , mPixels(pixels.begin(), pixels.end())
+  , m_pixels(pixels.begin(), pixels.end())
 {
-  HOU_EXPECT(pixels.size() == computePixelCount());
+  HOU_EXPECT(pixels.size() == compute_pixel_count());
 }
 
 
 
-template <size_t dim, PixelFormat fmt>
-Image<dim, fmt>::Image(const Size& size, PixelCollection&& pixels)
+template <size_t dim, pixel_format fmt>
+image<dim, fmt>::image(const size_type& size, pixel_collection&& pixels)
   : m_size(size)
-  , mPixels(pixels)
+  , m_pixels(pixels)
 {
-  HOU_EXPECT(mPixels.size() == computePixelCount());
+  HOU_EXPECT(m_pixels.size() == compute_pixel_count());
 }
 
 
 
-template <size_t dim, PixelFormat fmt>
-template <size_t otherDim, PixelFormat otherFmt, typename Enable>
-Image<dim, fmt>::Image(const Image<otherDim, otherFmt>& other)
+template <size_t dim, pixel_format fmt>
+template <size_t otherDim, pixel_format otherFmt, typename Enable>
+image<dim, fmt>::image(const image<otherDim, otherFmt>& other)
   : m_size(padvector<dim>(other.get_size(), 1u))
-  , mPixels(computePixelCount())
+  , m_pixels(compute_pixel_count())
 {
-  for(size_t i = 0; i < mPixels.size(); ++i)
+  for(size_t i = 0; i < m_pixels.size(); ++i)
   {
-    mPixels[i] = other.mPixels[i];
+    m_pixels[i] = other.m_pixels[i];
   }
 }
 
 
 
-template <size_t dim, PixelFormat fmt>
-const typename Image<dim, fmt>::Size& Image<dim, fmt>::get_size() const
+template <size_t dim, pixel_format fmt>
+const typename image<dim, fmt>::size_type& image<dim, fmt>::get_size() const
 {
   return m_size;
 }
 
 
 
-template <size_t dim, PixelFormat fmt>
-const typename Image<dim, fmt>::PixelCollection& Image<dim, fmt>::getPixels()
+template <size_t dim, pixel_format fmt>
+const typename image<dim, fmt>::pixel_collection& image<dim, fmt>::get_pixels()
   const
 {
-  return mPixels;
+  return m_pixels;
 }
 
 
 
-template <size_t dim, PixelFormat fmt>
-void Image<dim, fmt>::setPixels(const span<const Pixel>& pixels)
+template <size_t dim, pixel_format fmt>
+void image<dim, fmt>::set_pixels(const span<const pixel>& pixels)
 {
-  HOU_EXPECT(pixels.size() == mPixels.size());
-  std::copy(pixels.begin(), pixels.end(), mPixels.begin());
+  HOU_EXPECT(pixels.size() == m_pixels.size());
+  std::copy(pixels.begin(), pixels.end(), m_pixels.begin());
 }
 
 
 
-template <size_t dim, PixelFormat fmt>
-const typename Image<dim, fmt>::Pixel& Image<dim, fmt>::getPixel(
-  const Coordinates& coordinates) const
+template <size_t dim, pixel_format fmt>
+const typename image<dim, fmt>::pixel& image<dim, fmt>::get_pixel(
+  const offset_type& coordinates) const
 {
-  return mPixels[computePixelIndex(coordinates)];
+  return m_pixels[compute_pixel_index(coordinates)];
 }
 
 
 
-template <size_t dim, PixelFormat fmt>
-void Image<dim, fmt>::setPixel(
-  const Coordinates& coordinates, const Pixel& value)
+template <size_t dim, pixel_format fmt>
+void image<dim, fmt>::set_pixel(
+  const offset_type& coordinates, const pixel& value)
 {
-  mPixels[computePixelIndex(coordinates)] = value;
+  m_pixels[compute_pixel_index(coordinates)] = value;
 }
 
 
 
-template <size_t dim, PixelFormat fmt>
-void Image<dim, fmt>::clear(const Pixel& pixel)
+template <size_t dim, pixel_format fmt>
+void image<dim, fmt>::clear(const pixel& ph_pixel)
 {
-  mPixels = PixelCollection(computePixelCount(), pixel);
+  m_pixels = pixel_collection(compute_pixel_count(), ph_pixel);
 }
 
 
 
-template <size_t dim, PixelFormat fmt>
-Image<dim, fmt> Image<dim, fmt>::getSubImage(
-  const Coordinates& offset, const Size& size)
+template <size_t dim, pixel_format fmt>
+image<dim, fmt> image<dim, fmt>::get_sub_image(
+  const offset_type& offset, const size_type& size)
 {
   return getImageSubImage(*this, offset, size);
 }
 
 
 
-template <size_t dim, PixelFormat fmt>
-void Image<dim, fmt>::setSubImage(const Coordinates& offset, const Image& image)
+template <size_t dim, pixel_format fmt>
+void image<dim, fmt>::set_sub_image(const offset_type& offset, const image& ph_image)
 {
-  return setImageSubImage(*this, offset, image);
+  return setImageSubImage(*this, offset, ph_image);
 }
 
 
 
-template <size_t dim, PixelFormat fmt>
-size_t Image<dim, fmt>::computePixelCount() const
+template <size_t dim, pixel_format fmt>
+size_t image<dim, fmt>::compute_pixel_count() const
 {
   size_t retval = 1u;
   for(size_t i = 0; i < dim; ++i)
@@ -549,8 +549,8 @@ size_t Image<dim, fmt>::computePixelCount() const
 
 
 
-template <size_t dim, PixelFormat fmt>
-size_t Image<dim, fmt>::computePixelIndex(const Coordinates& coordinates) const
+template <size_t dim, pixel_format fmt>
+size_t image<dim, fmt>::compute_pixel_index(const offset_type& coordinates) const
 {
   for(size_t i = 0; i < dim; ++i)
   {
@@ -569,72 +569,72 @@ size_t Image<dim, fmt>::computePixelIndex(const Coordinates& coordinates) const
 
 
 
-template <size_t dim, PixelFormat fmt>
-bool operator==(const Image<dim, fmt>& lhs, const Image<dim, fmt>& rhs)
+template <size_t dim, pixel_format fmt>
+bool operator==(const image<dim, fmt>& lhs, const image<dim, fmt>& rhs)
 {
-  return lhs.get_size() == rhs.get_size() && lhs.getPixels() == rhs.getPixels();
+  return lhs.get_size() == rhs.get_size() && lhs.get_pixels() == rhs.get_pixels();
 }
 
 
 
-template <size_t dim, PixelFormat fmt>
-bool operator!=(const Image<dim, fmt>& lhs, const Image<dim, fmt>& rhs)
+template <size_t dim, pixel_format fmt>
+bool operator!=(const image<dim, fmt>& lhs, const image<dim, fmt>& rhs)
 {
   return !(lhs == rhs);
 }
 
 
 
-template <size_t dim, PixelFormat fmt>
-std::ostream& operator<<(std::ostream& os, const Image<dim, fmt>& im)
+template <size_t dim, pixel_format fmt>
+std::ostream& operator<<(std::ostream& os, const image<dim, fmt>& im)
 {
-  return os << "{Size = " << transpose(im.get_size())
-            << ", Pixels = " << im.getPixels() << "}";
+  return os << "{size_type = " << transpose(im.get_size())
+            << ", Pixels = " << im.get_pixels() << "}";
 }
 
 
 
 #define INSTANTIATE_IMAGE_BASE(dim, pf)            \
-  template class Image<dim, pf>;                   \
+  template class image<dim, pf>;                   \
   template bool operator==<dim, pf>(               \
-    const Image<dim, pf>&, const Image<dim, pf>&); \
+    const image<dim, pf>&, const image<dim, pf>&); \
   template bool operator!=<dim, pf>(               \
-    const Image<dim, pf>&, const Image<dim, pf>&); \
+    const image<dim, pf>&, const image<dim, pf>&); \
   template std::ostream& operator<<<dim, pf>(      \
-    std::ostream&, const Image<dim, pf>&);
+    std::ostream&, const image<dim, pf>&);
 
 
 
 #define INSTANTIATE_CONVERSION_CONSTRUCTOR(dim1, dim2, pf1, pf2) \
-  template Image<dim1, pf1>::Image<dim2, pf2, void>(const Image<dim2, pf2>&);
+  template image<dim1, pf1>::image<dim2, pf2, void>(const image<dim2, pf2>&);
 
 
 
 #define INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIMENSIONS(dim1, dim2) \
   INSTANTIATE_CONVERSION_CONSTRUCTOR(                                   \
-    dim1, dim2, PixelFormat::R, PixelFormat::RG)                        \
+    dim1, dim2, pixel_format::r, pixel_format::rg)                        \
   INSTANTIATE_CONVERSION_CONSTRUCTOR(                                   \
-    dim1, dim2, PixelFormat::R, PixelFormat::RGB)                       \
+    dim1, dim2, pixel_format::r, pixel_format::rgb)                       \
   INSTANTIATE_CONVERSION_CONSTRUCTOR(                                   \
-    dim1, dim2, PixelFormat::R, PixelFormat::RGBA)                      \
+    dim1, dim2, pixel_format::r, pixel_format::rgba)                      \
   INSTANTIATE_CONVERSION_CONSTRUCTOR(                                   \
-    dim1, dim2, PixelFormat::RG, PixelFormat::R)                        \
+    dim1, dim2, pixel_format::rg, pixel_format::r)                        \
   INSTANTIATE_CONVERSION_CONSTRUCTOR(                                   \
-    dim1, dim2, PixelFormat::RG, PixelFormat::RGB)                      \
+    dim1, dim2, pixel_format::rg, pixel_format::rgb)                      \
   INSTANTIATE_CONVERSION_CONSTRUCTOR(                                   \
-    dim1, dim2, PixelFormat::RG, PixelFormat::RGBA)                     \
+    dim1, dim2, pixel_format::rg, pixel_format::rgba)                     \
   INSTANTIATE_CONVERSION_CONSTRUCTOR(                                   \
-    dim1, dim2, PixelFormat::RGB, PixelFormat::R)                       \
+    dim1, dim2, pixel_format::rgb, pixel_format::r)                       \
   INSTANTIATE_CONVERSION_CONSTRUCTOR(                                   \
-    dim1, dim2, PixelFormat::RGB, PixelFormat::RG)                      \
+    dim1, dim2, pixel_format::rgb, pixel_format::rg)                      \
   INSTANTIATE_CONVERSION_CONSTRUCTOR(                                   \
-    dim1, dim2, PixelFormat::RGB, PixelFormat::RGBA)                    \
+    dim1, dim2, pixel_format::rgb, pixel_format::rgba)                    \
   INSTANTIATE_CONVERSION_CONSTRUCTOR(                                   \
-    dim1, dim2, PixelFormat::RGBA, PixelFormat::R)                      \
+    dim1, dim2, pixel_format::rgba, pixel_format::r)                      \
   INSTANTIATE_CONVERSION_CONSTRUCTOR(                                   \
-    dim1, dim2, PixelFormat::RGBA, PixelFormat::RG)                     \
+    dim1, dim2, pixel_format::rgba, pixel_format::rg)                     \
   INSTANTIATE_CONVERSION_CONSTRUCTOR(                                   \
-    dim1, dim2, PixelFormat::RGBA, PixelFormat::RGB)
+    dim1, dim2, pixel_format::rgba, pixel_format::rgb)
 
 
 
@@ -647,21 +647,21 @@ std::ostream& operator<<(std::ostream& os, const Image<dim, fmt>& im)
   dim1, dim2)                                                          \
   INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIMENSIONS(dim1, dim2)      \
   INSTANTIATE_CONVERSION_CONSTRUCTOR(                                  \
-    dim1, dim2, PixelFormat::R, PixelFormat::R)                        \
+    dim1, dim2, pixel_format::r, pixel_format::r)                        \
   INSTANTIATE_CONVERSION_CONSTRUCTOR(                                  \
-    dim1, dim2, PixelFormat::RG, PixelFormat::RG)                      \
+    dim1, dim2, pixel_format::rg, pixel_format::rg)                      \
   INSTANTIATE_CONVERSION_CONSTRUCTOR(                                  \
-    dim1, dim2, PixelFormat::RGB, PixelFormat::RGB)                    \
+    dim1, dim2, pixel_format::rgb, pixel_format::rgb)                    \
   INSTANTIATE_CONVERSION_CONSTRUCTOR(                                  \
-    dim1, dim2, PixelFormat::RGBA, PixelFormat::RGBA)
+    dim1, dim2, pixel_format::rgba, pixel_format::rgba)
 
 
 
 #define INSTANTIATE_IMAGE_WITH_DIMENSION(dim)   \
-  INSTANTIATE_IMAGE_BASE(dim, PixelFormat::R)   \
-  INSTANTIATE_IMAGE_BASE(dim, PixelFormat::RG)  \
-  INSTANTIATE_IMAGE_BASE(dim, PixelFormat::RGB) \
-  INSTANTIATE_IMAGE_BASE(dim, PixelFormat::RGBA)
+  INSTANTIATE_IMAGE_BASE(dim, pixel_format::r)   \
+  INSTANTIATE_IMAGE_BASE(dim, pixel_format::rg)  \
+  INSTANTIATE_IMAGE_BASE(dim, pixel_format::rgb) \
+  INSTANTIATE_IMAGE_BASE(dim, pixel_format::rgba)
 
 
 
@@ -678,28 +678,28 @@ INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DIMENSION(3u)
 
 
 #define INSTANTIATE_READ_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pf) \
-  template Image2<pf> imType##ReadFile<pf>(const std::string&);
+  template image2<pf> imType##ReadFile<pf>(const std::string&);
 
 
 
 #define INSTANTIATE_READ_FILE_FUNCTION(imType)                              \
-  INSTANTIATE_READ_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, PixelFormat::R)   \
-  INSTANTIATE_READ_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, PixelFormat::RG)  \
-  INSTANTIATE_READ_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, PixelFormat::RGB) \
-  INSTANTIATE_READ_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, PixelFormat::RGBA)
+  INSTANTIATE_READ_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pixel_format::r)   \
+  INSTANTIATE_READ_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pixel_format::rg)  \
+  INSTANTIATE_READ_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pixel_format::rgb) \
+  INSTANTIATE_READ_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pixel_format::rgba)
 
 
 
 #define INSTANTIATE_WRITE_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pf) \
-  template void imType##WriteFile<pf>(const std::string&, const Image2<pf>&);
+  template void imType##WriteFile<pf>(const std::string&, const image2<pf>&);
 
 
 
 #define INSTANTIATE_WRITE_FILE_FUNCTION(imType)                              \
-  INSTANTIATE_WRITE_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, PixelFormat::R)   \
-  INSTANTIATE_WRITE_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, PixelFormat::RG)  \
-  INSTANTIATE_WRITE_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, PixelFormat::RGB) \
-  INSTANTIATE_WRITE_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, PixelFormat::RGBA)
+  INSTANTIATE_WRITE_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pixel_format::r)   \
+  INSTANTIATE_WRITE_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pixel_format::rg)  \
+  INSTANTIATE_WRITE_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pixel_format::rgb) \
+  INSTANTIATE_WRITE_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pixel_format::rgba)
 
 INSTANTIATE_READ_FILE_FUNCTION(bmp)
 INSTANTIATE_READ_FILE_FUNCTION(png)

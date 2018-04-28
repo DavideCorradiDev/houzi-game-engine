@@ -15,7 +15,7 @@ namespace hou
 
 void ShaderProgram::bind(const ShaderProgram& program)
 {
-  gl::bindProgram(program.mHandle);
+  gl::bindProgram(program.m_handle);
 }
 
 
@@ -42,7 +42,7 @@ ShaderProgram::ShaderProgram(
 
 ShaderProgram::ShaderProgram(ShaderProgram&& other)
   : non_copyable()
-  , mHandle(std::move(other.mHandle))
+  , m_handle(std::move(other.m_handle))
 {}
 
 
@@ -54,14 +54,14 @@ ShaderProgram::~ShaderProgram()
 
 const gl::ProgramHandle& ShaderProgram::getHandle() const
 {
-  return mHandle;
+  return m_handle;
 }
 
 
 
 bool ShaderProgram::isBound() const
 {
-  return gl::isProgramBound(mHandle);
+  return gl::isProgramBound(m_handle);
 }
 
 
@@ -69,7 +69,7 @@ bool ShaderProgram::isBound() const
 uint ShaderProgram::getUniformLocation(const std::string& uniformName) const
 {
   return static_cast<uint>(
-    gl::getProgramUniformLocation(mHandle, uniformName.c_str()));
+    gl::getProgramUniformLocation(m_handle, uniformName.c_str()));
 }
 
 
@@ -77,15 +77,15 @@ uint ShaderProgram::getUniformLocation(const std::string& uniformName) const
 ShaderProgram::ShaderProgram(
   const VertexShader& vs, const FragmentShader& fs, const GeometryShader* gs)
   : non_copyable()
-  , mHandle(gl::ProgramHandle::create())
+  , m_handle(gl::ProgramHandle::create())
 {
-  gl::attachShader(mHandle, vs.getHandle());
+  gl::attachShader(m_handle, vs.getHandle());
   if(gs != nullptr)
   {
-    gl::attachShader(mHandle, gs->getHandle());
+    gl::attachShader(m_handle, gs->getHandle());
   }
-  gl::attachShader(mHandle, fs.getHandle());
-  gl::linkProgram(mHandle);
+  gl::attachShader(m_handle, fs.getHandle());
+  gl::linkProgram(m_handle);
 }
 
 }  // namespace hou

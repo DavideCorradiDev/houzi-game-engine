@@ -12,7 +12,7 @@
 #include "hou/gfx/Mesh.hpp"
 #include "hou/gfx/VertexFormat.hpp"
 
-#include "hou/sys/Color.hpp"
+#include "hou/sys/color.hpp"
 
 using namespace hou;
 

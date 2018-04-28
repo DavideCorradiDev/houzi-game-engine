@@ -5,22 +5,22 @@
 #ifndef HOU_SYS_PIXEL_FWD_HPP
 #define HOU_SYS_PIXEL_FWD_HPP
 
-#include "hou/sys/SysExport.hpp"
+#include "hou/sys/sys_export.hpp"
 
-#include "hou/sys/PixelFormat.hpp"
+#include "hou/sys/pixel_format.hpp"
 
 
 
 namespace hou
 {
 
-template <PixelFormat format>
-  class PixelT;
+template <pixel_format format>
+  class pixel_t;
 
-using PixelR = PixelT<PixelFormat::R>;
-using PixelRG = PixelT<PixelFormat::RG>;
-using PixelRGB = PixelT<PixelFormat::RGB>;
-using PixelRGBA = PixelT<PixelFormat::RGBA>;
+using pixelr = pixel_t<pixel_format::r>;
+using pixelrg = pixel_t<pixel_format::rg>;
+using pixelrgb = pixel_t<pixel_format::rgb>;
+using pixelrgba = pixel_t<pixel_format::rgba>;
 
 }
 

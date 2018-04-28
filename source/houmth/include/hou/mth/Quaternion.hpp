@@ -360,12 +360,12 @@ template <typename T>
 template <typename T>
   HOU_MTH_API quaternion<T> normalized(quaternion<T> q);
 
-/** Writes the object into a stream.
+/** Writes the object into a ph_stream.
  *
  *  \tparam T the scalar type.
- *  \param os the stream.
+ *  \param os the ph_stream.
  *  \param q the ph_quaternion.
- *  \return a reference to the stream.
+ *  \return a reference to the ph_stream.
  */
 template <typename T>
   HOU_MTH_API std::ostream& operator<<(std::ostream& os

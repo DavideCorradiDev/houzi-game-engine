@@ -5,25 +5,25 @@
 #ifndef HOU_SYS_BINARY_STREAM_OUT_HPP
 #define HOU_SYS_BINARY_STREAM_OUT_HPP
 
-#include "hou/sys/SysExport.hpp"
-#include "hou/sys/BinaryStream.hpp"
-#include "hou/sys/StreamOut.hpp"
+#include "hou/sys/sys_export.hpp"
+#include "hou/sys/binary_stream.hpp"
+#include "hou/sys/stream_out.hpp"
 
 
 
 namespace hou
 {
 
-/** Binary output stream interface.
+/** binary output ph_stream interface.
  */
-class HOU_SYS_API BinaryStreamOut
-  : public BinaryStream
-  , public StreamOut
+class HOU_SYS_API binary_stream_out
+  : public binary_stream
+  , public stream_out
 {
 public:
   /** Destructor.
    */
-  virtual ~BinaryStreamOut() {};
+  virtual ~binary_stream_out() {};
 };
 
 }

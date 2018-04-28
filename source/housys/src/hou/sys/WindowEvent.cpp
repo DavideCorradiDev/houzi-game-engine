@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/sys/WindowEvent.hpp"
+#include "hou/sys/window_event.hpp"
 
 #include "hou/cor/error.hpp"
 
@@ -13,245 +13,245 @@
 namespace hou
 {
 
-WindowEvent WindowEvent::empty()
+window_event window_event::empty()
 {
-  WindowEvent ev;
-  ev.mType = WindowEventType::Empty;
+  window_event ev;
+  ev.m_type = window_event_type::empty;
   return ev;
 }
 
 
 
-WindowEvent WindowEvent::closed()
+window_event window_event::closed()
 {
-  WindowEvent ev;
-  ev.mType = WindowEventType::Closed;
+  window_event ev;
+  ev.m_type = window_event_type::closed;
   return ev;
 }
 
 
 
-WindowEvent WindowEvent::focusGained()
+window_event window_event::focus_gained()
 {
-  WindowEvent ev;
-  ev.mType = WindowEventType::FocusGained;
+  window_event ev;
+  ev.m_type = window_event_type::focus_gained;
   return ev;
 }
 
 
 
-WindowEvent WindowEvent::focusLost()
+window_event window_event::focus_lost()
 {
-  WindowEvent ev;
-  ev.mType = WindowEventType::FocusLost;
+  window_event ev;
+  ev.m_type = window_event_type::focus_lost;
   return ev;
 }
 
 
 
-WindowEvent WindowEvent::resized(uint sizeX, uint sizeY)
+window_event window_event::resized(uint x, uint y)
 {
-  WindowEvent ev;
-  ev.mType = WindowEventType::Resized;
-  ev.m_size.sizeX = sizeX;
-  ev.m_size.sizeY = sizeY;
+  window_event ev;
+  ev.m_type = window_event_type::resized;
+  ev.m_size.x = x;
+  ev.m_size.y = y;
   return ev;
 }
 
 
 
-WindowEvent WindowEvent::keyPressed(KeyCode kc, ScanCode sc, ModifierKeys modKeys)
+window_event window_event::key_pressed(key_code kc, scan_code sc, modifier_keys modKeys)
 {
-  WindowEvent ev;
-  ev.mType = WindowEventType::KeyPressed;
-  ev.mKey.keyCode = kc;
-  ev.mKey.scanCode = sc;
-  ev.mKey.modifierKeys = modKeys;
+  window_event ev;
+  ev.m_type = window_event_type::key_pressed;
+  ev.m_key.key_code = kc;
+  ev.m_key.scan_code = sc;
+  ev.m_key.modifier_keys = modKeys;
   return ev;
 }
 
 
 
-WindowEvent WindowEvent::keyReleased(KeyCode kc, ScanCode sc, ModifierKeys modKeys)
+window_event window_event::key_released(key_code kc, scan_code sc, modifier_keys modKeys)
 {
-  WindowEvent ev;
-  ev.mType = WindowEventType::KeyReleased;
-  ev.mKey.keyCode = kc;
-  ev.mKey.scanCode = sc;
-  ev.mKey.modifierKeys = modKeys;
+  window_event ev;
+  ev.m_type = window_event_type::key_released;
+  ev.m_key.key_code = kc;
+  ev.m_key.scan_code = sc;
+  ev.m_key.modifier_keys = modKeys;
   return ev;
 }
 
 
 
-WindowEvent WindowEvent::textEntered(char32_t codePoint)
+window_event window_event::text_entered(char32_t code_point)
 {
-  WindowEvent ev;
-  ev.mType = WindowEventType::TextEntered;
-  ev.mText.codePoint = codePoint;
+  window_event ev;
+  ev.m_type = window_event_type::TextEntered;
+  ev.m_text.code_point = code_point;
   return ev;
 }
 
 
 
-WindowEvent WindowEvent::mouseMoved(int posX, int posY)
+window_event window_event::mouse_moved(int x, int y)
 {
-  WindowEvent ev;
-  ev.mType = WindowEventType::MouseMoved;
-  ev.mMouseMove.posX = posX;
-  ev.mMouseMove.posY = posY;
+  window_event ev;
+  ev.m_type = window_event_type::mouse_moved;
+  ev.m_mouse_move.x = x;
+  ev.m_mouse_move.y = y;
   return ev;
 }
 
 
 
-WindowEvent WindowEvent::mouseEntered()
+window_event window_event::mouse_entered()
 {
-  WindowEvent ev;
-  ev.mType = WindowEventType::MouseEntered;
+  window_event ev;
+  ev.m_type = window_event_type::mouse_entered;
   return ev;
 }
 
 
 
-WindowEvent WindowEvent::mouseLeft()
+window_event window_event::mouse_left()
 {
-  WindowEvent ev;
-  ev.mType = WindowEventType::MouseLeft;
+  window_event ev;
+  ev.m_type = window_event_type::mouse_left;
   return ev;
 }
 
 
 
-WindowEvent WindowEvent::mouseButtonPressed(MouseButton mb, int posX, int posY)
+window_event window_event::mouse_button_pressed(mouse_button mb, int x, int y)
 {
-  WindowEvent ev;
-  ev.mType = WindowEventType::MouseButtonPressed;
-  ev.mMouseButton.button = mb;
-  ev.mMouseButton.posX = posX;
-  ev.mMouseButton.posY = posY;
+  window_event ev;
+  ev.m_type = window_event_type::mouse_button_pressed;
+  ev.m_mouse_button.button = mb;
+  ev.m_mouse_button.x = x;
+  ev.m_mouse_button.y = y;
   return ev;
 }
 
 
 
-WindowEvent WindowEvent::mouseButtonReleased(MouseButton mb, int posX, int posY)
+window_event window_event::mouse_button_released(mouse_button mb, int x, int y)
 {
-  WindowEvent ev;
-  ev.mType = WindowEventType::MouseButtonReleased;
-  ev.mMouseButton.button = mb;
-  ev.mMouseButton.posX = posX;
-  ev.mMouseButton.posY = posY;
+  window_event ev;
+  ev.m_type = window_event_type::mouse_button_released;
+  ev.m_mouse_button.button = mb;
+  ev.m_mouse_button.x = x;
+  ev.m_mouse_button.y = y;
   return ev;
 }
 
 
 
-WindowEvent WindowEvent::mouseWheelMoved(MouseWheel wheel, int delta, int posX
-  , int posY)
+window_event window_event::mouse_wheel_moved(mouse_wheel wheel, int delta, int x
+  , int y)
 {
-  WindowEvent ev;
-  ev.mType = WindowEventType::MouseWheelMoved;
-  ev.mMouseWheel.wheel = wheel;
-  ev.mMouseWheel.delta = delta;
-  ev.mMouseWheel.posX = posX;
-  ev.mMouseWheel.posY = posY;
+  window_event ev;
+  ev.m_type = window_event_type::mouse_wheel_moved;
+  ev.m_mouse_wheel.wheel = wheel;
+  ev.m_mouse_wheel.delta = delta;
+  ev.m_mouse_wheel.x = x;
+  ev.m_mouse_wheel.y = y;
   return ev;
 }
 
 
 
-WindowEventType WindowEvent::getType() const
+window_event_type window_event::get_type() const
 {
-  return mType;
+  return m_type;
 }
 
 
 
-const WindowEvent::SizeData& WindowEvent::getSizeData() const
+const window_event::size_data& window_event::get_size_data() const
 {
-  HOU_EXPECT(mType == WindowEventType::Resized);
+  HOU_EXPECT(m_type == window_event_type::resized);
   return m_size;
 }
 
 
 
-const WindowEvent::KeyData& WindowEvent::getKeyData() const
+const window_event::key_data& window_event::get_key_data() const
 {
-  HOU_EXPECT(mType == WindowEventType::KeyPressed
-    || mType == WindowEventType::KeyReleased);
-  return mKey;
+  HOU_EXPECT(m_type == window_event_type::key_pressed
+    || m_type == window_event_type::key_released);
+  return m_key;
 }
 
 
 
-const WindowEvent::TextData& WindowEvent::getTextData() const
+const window_event::text_data& window_event::get_text_data() const
 {
-  HOU_EXPECT(mType == WindowEventType::TextEntered);
-  return mText;
+  HOU_EXPECT(m_type == window_event_type::TextEntered);
+  return m_text;
 }
 
 
 
-const WindowEvent::MouseMoveData& WindowEvent::getMouseMoveData() const
+const window_event::mouse_move_data& window_event::get_mouse_move_data() const
 {
-  HOU_EXPECT(mType == WindowEventType::MouseMoved);
-  return mMouseMove;
+  HOU_EXPECT(m_type == window_event_type::mouse_moved);
+  return m_mouse_move;
 }
 
 
 
-const WindowEvent::MouseButtonData& WindowEvent::getMouseButtonData() const
+const window_event::mouse_button_data& window_event::get_mouse_button_data() const
 {
-  HOU_EXPECT(mType == WindowEventType::MouseButtonPressed
-    || mType == WindowEventType::MouseButtonReleased);
-  return mMouseButton;
+  HOU_EXPECT(m_type == window_event_type::mouse_button_pressed
+    || m_type == window_event_type::mouse_button_released);
+  return m_mouse_button;
 }
 
 
 
-const WindowEvent::MouseWheelData& WindowEvent::getMouseWheelData() const
+const window_event::mouse_wheel_data& window_event::get_mouse_wheel_data() const
 {
-  HOU_EXPECT(mType == WindowEventType::MouseWheelMoved);
-  return mMouseWheel;
+  HOU_EXPECT(m_type == window_event_type::mouse_wheel_moved);
+  return m_mouse_wheel;
 }
 
 
 
-WindowEvent::WindowEvent()
-  : mType()
+window_event::window_event()
+  : m_type()
 {}
 
 
 
-bool operator==(const WindowEvent& l, const WindowEvent& r)
+bool operator==(const window_event& l, const window_event& r)
 {
-  if(l.getType() != r.getType())
+  if(l.get_type() != r.get_type())
   {
     return false;
   }
-  switch(l.getType())
+  switch(l.get_type())
   {
-    case WindowEventType::Resized:
-      return l.getSizeData() == r.getSizeData();
-    case WindowEventType::KeyPressed:
-    case WindowEventType::KeyReleased:
-      return l.getKeyData() == r.getKeyData();
-    case WindowEventType::TextEntered:
-      return l.getTextData() == r.getTextData();
-    case WindowEventType::MouseMoved:
-      return l.getMouseMoveData() == r.getMouseMoveData();
-    case WindowEventType::MouseButtonPressed:
-    case WindowEventType::MouseButtonReleased:
-      return l.getMouseButtonData() == r.getMouseButtonData();
-    case WindowEventType::MouseWheelMoved:
-      return l.getMouseWheelData() == r.getMouseWheelData();
-    case WindowEventType::Empty:
-    case WindowEventType::Closed:
-    case WindowEventType::FocusGained:
-    case WindowEventType::FocusLost:
-    case WindowEventType::MouseEntered:
-    case WindowEventType::MouseLeft:
+    case window_event_type::resized:
+      return l.get_size_data() == r.get_size_data();
+    case window_event_type::key_pressed:
+    case window_event_type::key_released:
+      return l.get_key_data() == r.get_key_data();
+    case window_event_type::TextEntered:
+      return l.get_text_data() == r.get_text_data();
+    case window_event_type::mouse_moved:
+      return l.get_mouse_move_data() == r.get_mouse_move_data();
+    case window_event_type::mouse_button_pressed:
+    case window_event_type::mouse_button_released:
+      return l.get_mouse_button_data() == r.get_mouse_button_data();
+    case window_event_type::mouse_wheel_moved:
+      return l.get_mouse_wheel_data() == r.get_mouse_wheel_data();
+    case window_event_type::empty:
+    case window_event_type::closed:
+    case window_event_type::focus_gained:
+    case window_event_type::focus_lost:
+    case window_event_type::mouse_entered:
+    case window_event_type::mouse_left:
     default:
       return true;
   }
@@ -259,136 +259,136 @@ bool operator==(const WindowEvent& l, const WindowEvent& r)
 
 
 
-bool operator!=(const WindowEvent& l, const WindowEvent& r)
+bool operator!=(const window_event& l, const window_event& r)
 {
   return !(l == r);
 }
 
 
 
-bool operator==(const WindowEvent::SizeData& l, const WindowEvent::SizeData& r)
+bool operator==(const window_event::size_data& l, const window_event::size_data& r)
 {
-  return l.sizeX == r.sizeX && l.sizeY == r.sizeY;
+  return l.x == r.x && l.y == r.y;
 }
 
 
 
-bool operator==(const WindowEvent::KeyData& l, const WindowEvent::KeyData& r)
+bool operator==(const window_event::key_data& l, const window_event::key_data& r)
 {
-  return l.keyCode == r.keyCode && l.scanCode == r.scanCode
-    && l.modifierKeys == r.modifierKeys;
+  return l.key_code == r.key_code && l.scan_code == r.scan_code
+    && l.modifier_keys == r.modifier_keys;
 }
 
 
 
-bool operator==(const WindowEvent::TextData& l, const WindowEvent::TextData& r)
+bool operator==(const window_event::text_data& l, const window_event::text_data& r)
 {
-  return l.codePoint == r.codePoint;
+  return l.code_point == r.code_point;
 }
 
 
 
-bool operator==(const WindowEvent::MouseMoveData& l
-  , const WindowEvent::MouseMoveData& r)
+bool operator==(const window_event::mouse_move_data& l
+  , const window_event::mouse_move_data& r)
 {
-  return l.posX == r.posX && l.posY == r.posY;
+  return l.x == r.x && l.y == r.y;
 }
 
 
 
-bool operator==(const WindowEvent::MouseButtonData& l
-  , const WindowEvent::MouseButtonData& r)
+bool operator==(const window_event::mouse_button_data& l
+  , const window_event::mouse_button_data& r)
 {
-  return l.button == r.button && l.posX == r.posX && l.posY == r.posY;
+  return l.button == r.button && l.x == r.x && l.y == r.y;
 }
 
 
 
-bool operator==(const WindowEvent::MouseWheelData& l
-  , const WindowEvent::MouseWheelData& r)
+bool operator==(const window_event::mouse_wheel_data& l
+  , const window_event::mouse_wheel_data& r)
 {
-  return l.wheel == r.wheel && l.delta == r.delta && l.posX == r.posX
-    && l.posY == r.posY;
+  return l.wheel == r.wheel && l.delta == r.delta && l.x == r.x
+    && l.y == r.y;
 }
 
 
 
-bool operator!=(const WindowEvent::SizeData& l, const WindowEvent::SizeData& r)
+bool operator!=(const window_event::size_data& l, const window_event::size_data& r)
 {
   return !(l == r);
 }
 
 
 
-bool operator!=(const WindowEvent::KeyData& l, const WindowEvent::KeyData& r)
+bool operator!=(const window_event::key_data& l, const window_event::key_data& r)
 {
   return !(l == r);
 }
 
 
 
-bool operator!=(const WindowEvent::TextData& l, const WindowEvent::TextData& r)
+bool operator!=(const window_event::text_data& l, const window_event::text_data& r)
 {
   return !(l == r);
 }
 
 
 
-bool operator!=(const WindowEvent::MouseMoveData& l
-  , const WindowEvent::MouseMoveData& r)
+bool operator!=(const window_event::mouse_move_data& l
+  , const window_event::mouse_move_data& r)
 {
   return !(l == r);
 }
 
 
 
-bool operator!=(const WindowEvent::MouseButtonData& l
-  , const WindowEvent::MouseButtonData& r)
+bool operator!=(const window_event::mouse_button_data& l
+  , const window_event::mouse_button_data& r)
 {
   return !(l == r);
 }
 
 
 
-bool operator!=(const WindowEvent::MouseWheelData& l
-  , const WindowEvent::MouseWheelData& r)
+bool operator!=(const window_event::mouse_wheel_data& l
+  , const window_event::mouse_wheel_data& r)
 {
   return !(l == r);
 }
 
 
 
-std::ostream& operator<<(std::ostream& os, const WindowEvent& e)
+std::ostream& operator<<(std::ostream& os, const window_event& e)
 {
-  os << "{Type = " << e.getType() << ", Data = ";
-  switch(e.getType())
+  os << "{Type = " << e.get_type() << ", Data = ";
+  switch(e.get_type())
   {
-    case WindowEventType::Resized:
-      os << e.getSizeData();
+    case window_event_type::resized:
+      os << e.get_size_data();
       break;
-    case WindowEventType::KeyPressed:
-    case WindowEventType::KeyReleased:
-      os << e.getKeyData();
+    case window_event_type::key_pressed:
+    case window_event_type::key_released:
+      os << e.get_key_data();
       break;
-    case WindowEventType::TextEntered:
-      os << e.getTextData();
+    case window_event_type::TextEntered:
+      os << e.get_text_data();
       break;
-    case WindowEventType::MouseMoved:
-      os << e.getMouseMoveData();
+    case window_event_type::mouse_moved:
+      os << e.get_mouse_move_data();
       break;
-    case WindowEventType::MouseButtonPressed:
-    case WindowEventType::MouseButtonReleased:
-      os << e.getMouseButtonData();
+    case window_event_type::mouse_button_pressed:
+    case window_event_type::mouse_button_released:
+      os << e.get_mouse_button_data();
       break;
-    case WindowEventType::MouseWheelMoved:
-      os << e.getMouseWheelData();
+    case window_event_type::mouse_wheel_moved:
+      os << e.get_mouse_wheel_data();
       break;
-    case WindowEventType::Empty:
-    case WindowEventType::Closed:
-    case WindowEventType::FocusGained:
-    case WindowEventType::FocusLost:
-    case WindowEventType::MouseEntered:
-    case WindowEventType::MouseLeft:
+    case window_event_type::empty:
+    case window_event_type::closed:
+    case window_event_type::focus_gained:
+    case window_event_type::focus_lost:
+    case window_event_type::mouse_entered:
+    case window_event_type::mouse_left:
         os << "{}";
     default:
       break;
@@ -398,23 +398,23 @@ std::ostream& operator<<(std::ostream& os, const WindowEvent& e)
 
 
 
-std::ostream& operator<<(std::ostream& os, const WindowEvent::SizeData& e)
+std::ostream& operator<<(std::ostream& os, const window_event::size_data& e)
 {
-  return os << "{Size = (" << e.sizeX << ", " << e.sizeY << ")}";
+  return os << "{size_type = (" << e.x << ", " << e.y << ")}";
 }
 
 
 
-std::ostream& operator<<(std::ostream& os, const WindowEvent::KeyData& e)
+std::ostream& operator<<(std::ostream& os, const window_event::key_data& e)
 {
-  return os << "{KeyCode = " << e.keyCode
-    << ", ScanCode = " << e.scanCode
-    << ", ModifierKeys = " << e.modifierKeys << "}";
+  return os << "{key_code = " << e.key_code
+    << ", scan_code = " << e.scan_code
+    << ", modifier_keys = " << e.modifier_keys << "}";
 }
 
 
 
-std::ostream& operator<<(std::ostream& os, const WindowEvent::TextData& e)
+std::ostream& operator<<(std::ostream& os, const window_event::text_data& e)
 {
   class OutputFormatter
   {
@@ -438,35 +438,35 @@ std::ostream& operator<<(std::ostream& os, const WindowEvent::TextData& e)
   os << "{CodePoint = 0x";
   {
     OutputFormatter of(os);
-    os << static_cast<uint32_t>(e.codePoint);
+    os << static_cast<uint32_t>(e.code_point);
   }
   return os << "}";
 }
 
 
 
-std::ostream& operator<<(std::ostream& os, const WindowEvent::MouseMoveData& e)
+std::ostream& operator<<(std::ostream& os, const window_event::mouse_move_data& e)
 {
-  return os << "{Position = (" << e.posX << ", " << e.posY << ")}";
+  return os << "{Position = (" << e.x << ", " << e.y << ")}";
 }
 
 
 
 std::ostream& operator<<(std::ostream& os
-  , const WindowEvent::MouseButtonData& e)
+  , const window_event::mouse_button_data& e)
 {
   return os << "{Button = " << e.button
-    << ", Position = (" << e.posX << ", " << e.posY << ")}";
+    << ", Position = (" << e.x << ", " << e.y << ")}";
 }
 
 
 
 std::ostream& operator<<(std::ostream& os
-  , const WindowEvent::MouseWheelData& e)
+  , const window_event::mouse_wheel_data& e)
 {
   return os << "{Wheel = " << e.wheel
     << ", Delta = " << e.delta
-    << ", Position = (" << e.posX << ", " << e.posY << ")}";
+    << ", Position = (" << e.x << ", " << e.y << ")}";
 }
 
 }

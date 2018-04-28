@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/sys/Keyboard.hpp"
+#include "hou/sys/keyboard.hpp"
 
 #include "hou/sys/win/Win.hpp"
 
@@ -14,226 +14,226 @@ namespace hou
 namespace
 {
 
-UINT keyCodeToWinKey(KeyCode key);
-UINT scanCodeToWinKey(ScanCode sc);
+UINT keyCodeToWinKey(key_code key);
+UINT scanCodeToWinKey(scan_code sc);
 bool isWinVirtualKeyPressed(UINT vKey);
 bool isWinVirtualKeyToggled(UINT vKey);
 
 
 
-UINT keyCodeToWinKey(KeyCode key)
+UINT keyCodeToWinKey(key_code key)
 {
   switch(key)
   {
-    case KeyCode::Escape: return VK_ESCAPE;
+    case key_code::Escape: return VK_ESCAPE;
 
-    case KeyCode::Print: return VK_PRINT;
-    case KeyCode::PrintScreen: return VK_SNAPSHOT;
-    case KeyCode::Pause: return VK_PAUSE;
-    case KeyCode::Execute: return VK_EXECUTE;
-    case KeyCode::Select: return VK_SELECT;
-    case KeyCode::Help: return VK_HELP;
-    case KeyCode::Sleep: return VK_SLEEP;
-    case KeyCode::Apps: return VK_APPS;
-    case KeyCode::LSystem: return VK_LWIN;
-    case KeyCode::RSystem: return VK_RWIN;
+    case key_code::Print: return VK_PRINT;
+    case key_code::PrintScreen: return VK_SNAPSHOT;
+    case key_code::Pause: return VK_PAUSE;
+    case key_code::Execute: return VK_EXECUTE;
+    case key_code::Select: return VK_SELECT;
+    case key_code::Help: return VK_HELP;
+    case key_code::Sleep: return VK_SLEEP;
+    case key_code::Apps: return VK_APPS;
+    case key_code::LSystem: return VK_LWIN;
+    case key_code::RSystem: return VK_RWIN;
 
-    case KeyCode::F1: return VK_F1;
-    case KeyCode::F2: return VK_F2;
-    case KeyCode::F3: return VK_F3;
-    case KeyCode::F4: return VK_F4;
-    case KeyCode::F5: return VK_F5;
-    case KeyCode::F6: return VK_F6;
-    case KeyCode::F7: return VK_F7;
-    case KeyCode::F8: return VK_F8;
-    case KeyCode::F9: return VK_F9;
-    case KeyCode::F10: return VK_F10;
-    case KeyCode::F11: return VK_F11;
-    case KeyCode::F12: return VK_F12;
-    case KeyCode::F13: return VK_F13;
-    case KeyCode::F14: return VK_F14;
-    case KeyCode::F15: return VK_F15;
-    case KeyCode::F16: return VK_F16;
-    case KeyCode::F17: return VK_F17;
-    case KeyCode::F18: return VK_F18;
-    case KeyCode::F19: return VK_F19;
-    case KeyCode::F20: return VK_F20;
-    case KeyCode::F21: return VK_F21;
-    case KeyCode::F22: return VK_F22;
-    case KeyCode::F23: return VK_F23;
-    case KeyCode::F24: return VK_F24;
+    case key_code::F1: return VK_F1;
+    case key_code::F2: return VK_F2;
+    case key_code::F3: return VK_F3;
+    case key_code::F4: return VK_F4;
+    case key_code::F5: return VK_F5;
+    case key_code::F6: return VK_F6;
+    case key_code::F7: return VK_F7;
+    case key_code::F8: return VK_F8;
+    case key_code::F9: return VK_F9;
+    case key_code::F10: return VK_F10;
+    case key_code::F11: return VK_F11;
+    case key_code::F12: return VK_F12;
+    case key_code::F13: return VK_F13;
+    case key_code::F14: return VK_F14;
+    case key_code::F15: return VK_F15;
+    case key_code::F16: return VK_F16;
+    case key_code::F17: return VK_F17;
+    case key_code::F18: return VK_F18;
+    case key_code::F19: return VK_F19;
+    case key_code::F20: return VK_F20;
+    case key_code::F21: return VK_F21;
+    case key_code::F22: return VK_F22;
+    case key_code::F23: return VK_F23;
+    case key_code::F24: return VK_F24;
 
-    case KeyCode::Numpad0: return VK_NUMPAD0;
-    case KeyCode::Numpad1: return VK_NUMPAD1;
-    case KeyCode::Numpad2: return VK_NUMPAD2;
-    case KeyCode::Numpad3: return VK_NUMPAD3;
-    case KeyCode::Numpad4: return VK_NUMPAD4;
-    case KeyCode::Numpad5: return VK_NUMPAD5;
-    case KeyCode::Numpad6: return VK_NUMPAD6;
-    case KeyCode::Numpad7: return VK_NUMPAD7;
-    case KeyCode::Numpad8: return VK_NUMPAD8;
-    case KeyCode::Numpad9: return VK_NUMPAD9;
+    case key_code::Numpad0: return VK_NUMPAD0;
+    case key_code::Numpad1: return VK_NUMPAD1;
+    case key_code::Numpad2: return VK_NUMPAD2;
+    case key_code::Numpad3: return VK_NUMPAD3;
+    case key_code::Numpad4: return VK_NUMPAD4;
+    case key_code::Numpad5: return VK_NUMPAD5;
+    case key_code::Numpad6: return VK_NUMPAD6;
+    case key_code::Numpad7: return VK_NUMPAD7;
+    case key_code::Numpad8: return VK_NUMPAD8;
+    case key_code::Numpad9: return VK_NUMPAD9;
 
-    case KeyCode::Add: return VK_ADD;
-    case KeyCode::Subtract: return VK_SUBTRACT;
-    case KeyCode::Multiply: return VK_MULTIPLY;
-    case KeyCode::Divide: return VK_DIVIDE;
-    case KeyCode::Decimal: return VK_DECIMAL;
-    case KeyCode::Separator: return VK_SEPARATOR;
+    case key_code::Add: return VK_ADD;
+    case key_code::Subtract: return VK_SUBTRACT;
+    case key_code::Multiply: return VK_MULTIPLY;
+    case key_code::Divide: return VK_DIVIDE;
+    case key_code::Decimal: return VK_DECIMAL;
+    case key_code::Separator: return VK_SEPARATOR;
 
-    case KeyCode::PageUp: return VK_PRIOR;
-    case KeyCode::PageDown: return VK_NEXT;
-    case KeyCode::End: return VK_END;
-    case KeyCode::Home: return VK_HOME;
-    case KeyCode::Insert: return VK_INSERT;
-    case KeyCode::Delete: return VK_DELETE;
-    case KeyCode::Backspace: return VK_BACK;
+    case key_code::PageUp: return VK_PRIOR;
+    case key_code::PageDown: return VK_NEXT;
+    case key_code::End: return VK_END;
+    case key_code::Home: return VK_HOME;
+    case key_code::Insert: return VK_INSERT;
+    case key_code::Delete: return VK_DELETE;
+    case key_code::Backspace: return VK_BACK;
 
-    case KeyCode::Left: return VK_LEFT;
-    case KeyCode::Right: return VK_RIGHT;
-    case KeyCode::Up: return VK_UP;
-    case KeyCode::Down: return VK_DOWN;
+    case key_code::Left: return VK_LEFT;
+    case key_code::Right: return VK_RIGHT;
+    case key_code::Up: return VK_UP;
+    case key_code::Down: return VK_DOWN;
 
-    case KeyCode::Num0: return '0';
-    case KeyCode::Num1: return '1';
-    case KeyCode::Num2: return '2';
-    case KeyCode::Num3: return '3';
-    case KeyCode::Num4: return '4';
-    case KeyCode::Num5: return '5';
-    case KeyCode::Num6: return '6';
-    case KeyCode::Num7: return '7';
-    case KeyCode::Num8: return '8';
-    case KeyCode::Num9: return '9';
+    case key_code::Num0: return '0';
+    case key_code::Num1: return '1';
+    case key_code::Num2: return '2';
+    case key_code::Num3: return '3';
+    case key_code::Num4: return '4';
+    case key_code::Num5: return '5';
+    case key_code::Num6: return '6';
+    case key_code::Num7: return '7';
+    case key_code::Num8: return '8';
+    case key_code::Num9: return '9';
 
-    case KeyCode::A: return 'A';
-    case KeyCode::B: return 'B';
-    case KeyCode::C: return 'C';
-    case KeyCode::D: return 'D';
-    case KeyCode::E: return 'E';
-    case KeyCode::F: return 'F';
-    case KeyCode::G: return 'G';
-    case KeyCode::H: return 'H';
-    case KeyCode::I: return 'I';
-    case KeyCode::J: return 'J';
-    case KeyCode::K: return 'K';
-    case KeyCode::L: return 'L';
-    case KeyCode::M: return 'M';
-    case KeyCode::N: return 'N';
-    case KeyCode::O: return 'O';
-    case KeyCode::P: return 'P';
-    case KeyCode::Q: return 'Q';
-    case KeyCode::R: return 'R';
-    case KeyCode::S: return 'S';
-    case KeyCode::T: return 'T';
-    case KeyCode::U: return 'U';
-    case KeyCode::V: return 'V';
-    case KeyCode::X: return 'X';
-    case KeyCode::Y: return 'Y';
-    case KeyCode::W: return 'W';
-    case KeyCode::Z: return 'Z';
+    case key_code::A: return 'A';
+    case key_code::B: return 'B';
+    case key_code::C: return 'C';
+    case key_code::D: return 'D';
+    case key_code::E: return 'E';
+    case key_code::F: return 'F';
+    case key_code::G: return 'G';
+    case key_code::H: return 'H';
+    case key_code::I: return 'I';
+    case key_code::J: return 'J';
+    case key_code::K: return 'K';
+    case key_code::L: return 'L';
+    case key_code::M: return 'M';
+    case key_code::N: return 'N';
+    case key_code::O: return 'O';
+    case key_code::P: return 'P';
+    case key_code::Q: return 'Q';
+    case key_code::r: return 'r';
+    case key_code::S: return 'S';
+    case key_code::T: return 'T';
+    case key_code::U: return 'U';
+    case key_code::V: return 'V';
+    case key_code::X: return 'X';
+    case key_code::Y: return 'Y';
+    case key_code::W: return 'W';
+    case key_code::Z: return 'Z';
 
-    case KeyCode::LBracket: return VK_OEM_4;
-    case KeyCode::RBracket: return VK_OEM_6;
-    case KeyCode::Semicolon: return VK_OEM_1;
-    case KeyCode::Comma: return VK_OEM_COMMA;
-    case KeyCode::Period: return VK_OEM_PERIOD;
-    case KeyCode::Quote: return VK_OEM_7;
-    case KeyCode::Slash: return VK_OEM_2;
-    case KeyCode::Backslash: return VK_OEM_5;
-    case KeyCode::Tilde: return VK_OEM_3;
-    case KeyCode::Equal: return VK_OEM_PLUS;
-    case KeyCode::Dash: return VK_OEM_MINUS;
-    case KeyCode::Space: return VK_SPACE;
-    case KeyCode::Enter: return VK_RETURN;
-    case KeyCode::Tab: return VK_TAB;
-    case KeyCode::Special1: return VK_OEM_8;
-    case KeyCode::Special2: return VK_OEM_102;
+    case key_code::LBracket: return VK_OEM_4;
+    case key_code::RBracket: return VK_OEM_6;
+    case key_code::Semicolon: return VK_OEM_1;
+    case key_code::Comma: return VK_OEM_COMMA;
+    case key_code::Period: return VK_OEM_PERIOD;
+    case key_code::Quote: return VK_OEM_7;
+    case key_code::Slash: return VK_OEM_2;
+    case key_code::Backslash: return VK_OEM_5;
+    case key_code::Tilde: return VK_OEM_3;
+    case key_code::Equal: return VK_OEM_PLUS;
+    case key_code::Dash: return VK_OEM_MINUS;
+    case key_code::Space: return VK_SPACE;
+    case key_code::Enter: return VK_RETURN;
+    case key_code::Tab: return VK_TAB;
+    case key_code::Special1: return VK_OEM_8;
+    case key_code::Special2: return VK_OEM_102;
 
-    case KeyCode::CapsLock: return VK_CAPITAL;
-    case KeyCode::NumLock: return VK_NUMLOCK;
-    case KeyCode::ScrollLock: return VK_SCROLL;
+    case key_code::CapsLock: return VK_CAPITAL;
+    case key_code::NumLock: return VK_NUMLOCK;
+    case key_code::ScrollLock: return VK_SCROLL;
 
-    case KeyCode::LCtrl: return VK_LCONTROL;
-    case KeyCode::RCtrl: return VK_RCONTROL;
-    case KeyCode::LAlt: return VK_LMENU;
-    case KeyCode::RAlt: return VK_RMENU;
-    case KeyCode::LShift: return VK_LSHIFT;
-    case KeyCode::RShift: return VK_RSHIFT;
+    case key_code::LCtrl: return VK_LCONTROL;
+    case key_code::RCtrl: return VK_RCONTROL;
+    case key_code::LAlt: return VK_LMENU;
+    case key_code::RAlt: return VK_RMENU;
+    case key_code::LShift: return VK_LSHIFT;
+    case key_code::RShift: return VK_RSHIFT;
 
-    case KeyCode::Kana: return VK_KANA;
-    case KeyCode::Hangul: return VK_HANGUL;
-    case KeyCode::Junja: return VK_JUNJA;
-    case KeyCode::Final: return VK_FINAL;
-    case KeyCode::Hanja: return VK_HANJA;
-    case KeyCode::Kanji: return VK_KANJI;
-    case KeyCode::Convert: return VK_CONVERT;
-    case KeyCode::NonConvert: return VK_NONCONVERT;
-    case KeyCode::Accept: return VK_ACCEPT;
-    case KeyCode::ModeChange: return VK_MODECHANGE;
-    case KeyCode::ProcessKey: return VK_PROCESSKEY;
+    case key_code::Kana: return VK_KANA;
+    case key_code::Hangul: return VK_HANGUL;
+    case key_code::Junja: return VK_JUNJA;
+    case key_code::Final: return VK_FINAL;
+    case key_code::Hanja: return VK_HANJA;
+    case key_code::Kanji: return VK_KANJI;
+    case key_code::Convert: return VK_CONVERT;
+    case key_code::NonConvert: return VK_NONCONVERT;
+    case key_code::Accept: return VK_ACCEPT;
+    case key_code::ModeChange: return VK_MODECHANGE;
+    case key_code::ProcessKey: return VK_PROCESSKEY;
 
-    case KeyCode::BrowserBack: return VK_BROWSER_BACK;
-    case KeyCode::BrowserForward: return VK_BROWSER_FORWARD;
-    case KeyCode::BrowserRefresh: return VK_BROWSER_REFRESH;
-    case KeyCode::BrowserStop: return VK_BROWSER_STOP;
-    case KeyCode::BrowserSearch: return VK_BROWSER_SEARCH;
-    case KeyCode::BrowserFavorites: return VK_BROWSER_FAVORITES;
-    case KeyCode::BrowserHome: return VK_BROWSER_HOME;
+    case key_code::BrowserBack: return VK_BROWSER_BACK;
+    case key_code::BrowserForward: return VK_BROWSER_FORWARD;
+    case key_code::BrowserRefresh: return VK_BROWSER_REFRESH;
+    case key_code::BrowserStop: return VK_BROWSER_STOP;
+    case key_code::BrowserSearch: return VK_BROWSER_SEARCH;
+    case key_code::BrowserFavorites: return VK_BROWSER_FAVORITES;
+    case key_code::BrowserHome: return VK_BROWSER_HOME;
 
-    case KeyCode::VolumeUp: return VK_VOLUME_UP;
-    case KeyCode::VolumeDown: return VK_VOLUME_DOWN;
-    case KeyCode::VolumeMute: return VK_VOLUME_MUTE;
+    case key_code::VolumeUp: return VK_VOLUME_UP;
+    case key_code::VolumeDown: return VK_VOLUME_DOWN;
+    case key_code::VolumeMute: return VK_VOLUME_MUTE;
 
-    case KeyCode::MediaNextTrack: return VK_MEDIA_NEXT_TRACK;
-    case KeyCode::MediaPreviousTrack: return VK_MEDIA_PREV_TRACK;
-    case KeyCode::MediaStop: return VK_MEDIA_STOP;
-    case KeyCode::MediaPlayPause: return VK_MEDIA_PLAY_PAUSE;
-    case KeyCode::LaunchMediaSelect: return VK_LAUNCH_MEDIA_SELECT;
-    case KeyCode::LaunchMail: return VK_LAUNCH_MAIL;
-    case KeyCode::LaunchApp1: return VK_LAUNCH_APP1;
-    case KeyCode::LaunchApp2: return VK_LAUNCH_APP2;
+    case key_code::MediaNextTrack: return VK_MEDIA_NEXT_TRACK;
+    case key_code::MediaPreviousTrack: return VK_MEDIA_PREV_TRACK;
+    case key_code::MediaStop: return VK_MEDIA_STOP;
+    case key_code::MediaPlayPause: return VK_MEDIA_PLAY_PAUSE;
+    case key_code::LaunchMediaSelect: return VK_LAUNCH_MEDIA_SELECT;
+    case key_code::LaunchMail: return VK_LAUNCH_MAIL;
+    case key_code::LaunchApp1: return VK_LAUNCH_APP1;
+    case key_code::LaunchApp2: return VK_LAUNCH_APP2;
 
-    case KeyCode::Attn: return VK_ATTN;
-    case KeyCode::CrSel: return VK_CRSEL;
-    case KeyCode::ExSel: return VK_EXSEL;
-    case KeyCode::EraseEOF: return VK_EREOF;
-    case KeyCode::Play: return VK_PLAY;
-    case KeyCode::Zoom: return VK_ZOOM;
-    case KeyCode::PA1: return VK_PA1;
-    case KeyCode::Clear: return VK_CLEAR;
-    case KeyCode::Packet: return VK_PACKET;
+    case key_code::Attn: return VK_ATTN;
+    case key_code::CrSel: return VK_CRSEL;
+    case key_code::ExSel: return VK_EXSEL;
+    case key_code::EraseEOF: return VK_EREOF;
+    case key_code::Play: return VK_PLAY;
+    case key_code::Zoom: return VK_ZOOM;
+    case key_code::PA1: return VK_PA1;
+    case key_code::Clear: return VK_CLEAR;
+    case key_code::Packet: return VK_PACKET;
     default: return 0;
   }
 }
 
 
 
-UINT scanCodeToWinKey(ScanCode sc)
+UINT scanCodeToWinKey(scan_code sc)
 {
   // Special handling for some scan codes is needed for consistency with
-  // scan codes in window messages.
+  // scan codes in ph_window messages.
 
   // When numlock is on, windows checks nothing when one of the numpad keys is
   // pressed.
-  if(Keyboard::isKeyToggled(KeyCode::NumLock)) {
-     if(sc == ScanCode::Numpad0) { return VK_NUMPAD0; }
-     if(sc == ScanCode::Numpad1) { return VK_NUMPAD1; }
-     if(sc == ScanCode::Numpad2) { return VK_NUMPAD2; }
-     if(sc == ScanCode::Numpad3) { return VK_NUMPAD3; }
-     if(sc == ScanCode::Numpad4) { return VK_NUMPAD4; }
-     if(sc == ScanCode::Numpad5) { return VK_NUMPAD5; }
-     if(sc == ScanCode::Numpad6) { return VK_NUMPAD6; }
-     if(sc == ScanCode::Numpad7) { return VK_NUMPAD7; }
-     if(sc == ScanCode::Numpad8) { return VK_NUMPAD8; }
-     if(sc == ScanCode::Numpad9) { return VK_NUMPAD9; }
-     if(sc == ScanCode::Decimal) { return VK_DECIMAL; }
+  if(keyboard::is_key_toggled(key_code::NumLock)) {
+     if(sc == scan_code::Numpad0) { return VK_NUMPAD0; }
+     if(sc == scan_code::Numpad1) { return VK_NUMPAD1; }
+     if(sc == scan_code::Numpad2) { return VK_NUMPAD2; }
+     if(sc == scan_code::Numpad3) { return VK_NUMPAD3; }
+     if(sc == scan_code::Numpad4) { return VK_NUMPAD4; }
+     if(sc == scan_code::Numpad5) { return VK_NUMPAD5; }
+     if(sc == scan_code::Numpad6) { return VK_NUMPAD6; }
+     if(sc == scan_code::Numpad7) { return VK_NUMPAD7; }
+     if(sc == scan_code::Numpad8) { return VK_NUMPAD8; }
+     if(sc == scan_code::Numpad9) { return VK_NUMPAD9; }
+     if(sc == scan_code::Decimal) { return VK_DECIMAL; }
   }
 
   // Without these lines, Windows checks the pause key when the numlock key
   // is requested, and checks nothing when the print key is requested. This
-  // is in disagreement with the scancodes received by the window messages.
-  if(sc == ScanCode::Pause) { return VK_PAUSE; }
-  if(sc == ScanCode::NumLock) { return VK_NUMLOCK; }
+  // is in disagreement with the scancodes received by the ph_window messages.
+  if(sc == scan_code::Pause) { return VK_PAUSE; }
+  if(sc == scan_code::NumLock) { return VK_NUMLOCK; }
 
   // Other keys behave fine on their own.
   return MapVirtualKey(static_cast<uint>(sc), MAPVK_VSC_TO_VK_EX);
@@ -259,31 +259,31 @@ bool isWinVirtualKeyToggled(UINT vKey)
 
 
 
-namespace Keyboard
+namespace keyboard
 {
 
-bool isKeyPressed(KeyCode kc)
+bool is_key_pressed(key_code kc)
 {
   return isWinVirtualKeyPressed(keyCodeToWinKey(kc));
 }
 
 
 
-bool isKeyPressed(ScanCode sc)
+bool is_key_pressed(scan_code sc)
 {
   return isWinVirtualKeyPressed(scanCodeToWinKey(sc));
 }
 
 
 
-bool isKeyToggled(KeyCode kc)
+bool is_key_toggled(key_code kc)
 {
   return isWinVirtualKeyToggled(keyCodeToWinKey(kc));
 }
 
 
 
-bool isKeyToggled(ScanCode sc)
+bool is_key_toggled(scan_code sc)
 {
   return isWinVirtualKeyToggled(scanCodeToWinKey(sc));
 }

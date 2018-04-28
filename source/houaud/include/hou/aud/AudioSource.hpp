@@ -90,7 +90,7 @@ public:
    *
    *  \return the audio format.
    */
-  virtual AudioBufferFormat getFormat() const = 0;
+  virtual AudioBufferFormat get_format() const = 0;
 
   /** Gets the number of channels of the audio source, based on its audio
    * format.
@@ -99,7 +99,7 @@ public:
    */
   virtual uint getChannelCount() const = 0;
 
-  /** Gets the number of bytes per sample of the audio stream, based on its
+  /** Gets the number of bytes per sample of the audio ph_stream, based on its
    * audio format.
    *
    *  The number returned is the number of bytes per sample for a single
@@ -379,7 +379,7 @@ protected:
   virtual uint onGetSamplePos() const = 0;
 
 private:
-  al::SourceHandle mHandle;
+  al::SourceHandle m_handle;
   uint mRequestedSamplePos;
 };
 

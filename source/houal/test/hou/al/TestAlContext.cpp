@@ -21,8 +21,8 @@ TEST(TestAlContext, Creation)
   al::Device device;
   al::Context context(device);
 
-  EXPECT_NE(0u, context.getUid());
-  EXPECT_EQ(device.getUid(), context.getDeviceUid());
+  EXPECT_NE(0u, context.get_uid());
+  EXPECT_EQ(device.get_uid(), context.getDeviceUid());
   EXPECT_FALSE(context.isCurrent());
 }
 
@@ -32,11 +32,11 @@ TEST(TestAlContext, MoveConstructor)
 {
   al::Device device;
   al::Context contextDummy(device);
-  uint32_t uidRef = contextDummy.getUid();
+  uint32_t uidRef = contextDummy.get_uid();
   al::Context context(std::move(contextDummy));
 
-  EXPECT_EQ(uidRef, context.getUid());
-  EXPECT_EQ(device.getUid(), context.getDeviceUid());
+  EXPECT_EQ(uidRef, context.get_uid());
+  EXPECT_EQ(device.get_uid(), context.getDeviceUid());
   EXPECT_FALSE(context.isCurrent());
 }
 

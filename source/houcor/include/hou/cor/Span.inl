@@ -161,7 +161,7 @@ template <typename T>
 template <typename T>
   std::ostream& operator<<(std::ostream& os, const span<T>& s)
 {
-  return os << "{Address = " << s.data() << ", Size = " << s.size() << "}";
+  return os << "{Address = " << s.data() << ", size_type = " << s.size() << "}";
 }
 
 

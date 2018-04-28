@@ -51,49 +51,49 @@ public:
    *
    *  \return the channel mapped onto the red channel.
    */
-  TextureChannel getR() const;
+  TextureChannel get_r() const;
 
   /** Gets the channel mapped onto the green channel.
    *
    *  \return the channel mapped onto the green channel.
    */
-  TextureChannel getG() const;
+  TextureChannel get_g() const;
 
   /** Gets the channel mapped onto the blue channel.
    *
    *  \return the channel mapped onto the blue channel.
    */
-  TextureChannel getB() const;
+  TextureChannel get_b() const;
 
   /** Gets the channel mapped onto the alpha channel.
    *
    *  \return the channel mapped onto the alpha channel.
    */
-  TextureChannel getA() const;
+  TextureChannel get_a() const;
 
   /** Sets the channel mapped onto the red channel.
    *
    *  \param channel the channel mapped onto the red channel.
    */
-  void setR(TextureChannel channel);
+  void set_r(TextureChannel channel);
 
   /** Sets the channel mapped onto the green channel.
    *
    *  \param channel the channel mapped onto the green channel.
    */
-  void setG(TextureChannel channel);
+  void set_g(TextureChannel channel);
 
   /** Sets the channel mapped onto the blue channel.
    *
    *  \param channel the channel mapped onto the blue channel.
    */
-  void setB(TextureChannel channel);
+  void set_b(TextureChannel channel);
 
   /** Sets the channel mapped onto the alpha channel.
    *
    *  \param channel the channel mapped onto the alpha channel.
    */
-  void setA(TextureChannel channel);
+  void set_a(TextureChannel channel);
 
 private:
   TextureChannel mR;
@@ -120,9 +120,9 @@ HOU_GFX_API bool operator==(const TextureChannelMapping& lhs
 HOU_GFX_API bool operator!=(const TextureChannelMapping& lhs
   , const TextureChannelMapping& rhs);
 
-/** Outputs a TextureChannelMapping object into a stream.
+/** Outputs a TextureChannelMapping object into a ph_stream.
  *
- *  \param os the output stream.
+ *  \param os the output ph_stream.
  *  \param tcm the TextureChannelMapping object.
  *  \return a reference to os.
  */

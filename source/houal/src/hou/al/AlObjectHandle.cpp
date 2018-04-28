@@ -80,7 +80,7 @@ ContextOwnedObjectHandle::ContextOwnedObjectHandle(ALuint name)
   , mOwningContextUid(0u)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
-  mOwningContextUid = al::Context::getCurrent()->getUid();
+  mOwningContextUid = al::Context::getCurrent()->get_uid();
 }
 
 

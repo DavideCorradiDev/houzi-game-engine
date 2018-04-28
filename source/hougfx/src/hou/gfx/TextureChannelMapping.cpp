@@ -10,7 +10,7 @@ namespace hou
 {
 
 const TextureChannelMapping TextureChannelMapping::Default
-  ( TextureChannel::R
+  ( TextureChannel::r
   , TextureChannel::G
   , TextureChannel::B
   , TextureChannel::A);
@@ -18,9 +18,9 @@ const TextureChannelMapping TextureChannelMapping::Default
 
 
 const TextureChannelMapping TextureChannelMapping::Luminosity
-  ( TextureChannel::R
-  , TextureChannel::R
-  , TextureChannel::R
+  ( TextureChannel::r
+  , TextureChannel::r
+  , TextureChannel::r
   , TextureChannel::One);
 
 
@@ -29,7 +29,7 @@ const TextureChannelMapping TextureChannelMapping::Alpha
   ( TextureChannel::One
   , TextureChannel::One
   , TextureChannel::One
-  , TextureChannel::R);
+  , TextureChannel::r);
 
 
 
@@ -43,56 +43,56 @@ TextureChannelMapping::TextureChannelMapping(TextureChannel r, TextureChannel g
 
 
 
-TextureChannel TextureChannelMapping::getR() const
+TextureChannel TextureChannelMapping::get_r() const
 {
   return mR;
 }
 
 
 
-TextureChannel TextureChannelMapping::getG() const
+TextureChannel TextureChannelMapping::get_g() const
 {
   return mG;
 }
 
 
 
-TextureChannel TextureChannelMapping::getB() const
+TextureChannel TextureChannelMapping::get_b() const
 {
   return mB;
 }
 
 
 
-TextureChannel TextureChannelMapping::getA() const
+TextureChannel TextureChannelMapping::get_a() const
 {
   return mA;
 }
 
 
 
-void TextureChannelMapping::setR(TextureChannel channel)
+void TextureChannelMapping::set_r(TextureChannel channel)
 {
   mR = channel;
 }
 
 
 
-void TextureChannelMapping::setG(TextureChannel channel)
+void TextureChannelMapping::set_g(TextureChannel channel)
 {
   mG = channel;
 }
 
 
 
-void TextureChannelMapping::setB(TextureChannel channel)
+void TextureChannelMapping::set_b(TextureChannel channel)
 {
   mB = channel;
 }
 
 
 
-void TextureChannelMapping::setA(TextureChannel channel)
+void TextureChannelMapping::set_a(TextureChannel channel)
 {
   mA = channel;
 }
@@ -102,10 +102,10 @@ void TextureChannelMapping::setA(TextureChannel channel)
 bool operator==(const TextureChannelMapping& lhs
   , const TextureChannelMapping& rhs)
 {
-  return lhs.getR() == rhs.getR()
-    && lhs.getG() == rhs.getG()
-    && lhs.getB() == rhs.getB()
-    && lhs.getA() == rhs.getA();
+  return lhs.get_r() == rhs.get_r()
+    && lhs.get_g() == rhs.get_g()
+    && lhs.get_b() == rhs.get_b()
+    && lhs.get_a() == rhs.get_a();
 }
 
 
@@ -121,10 +121,10 @@ bool operator!=(const TextureChannelMapping& lhs
 std::ostream& operator<<(std::ostream& os, const TextureChannelMapping& tcm)
 {
   return os
-    << "{" << tcm.getR() << " -> R, "
-    << tcm.getG() << " -> G, "
-    << tcm.getB() << " -> B, "
-    << tcm.getA() << " -> A}";
+    << "{" << tcm.get_r() << " -> r, "
+    << tcm.get_g() << " -> G, "
+    << tcm.get_b() << " -> B, "
+    << tcm.get_a() << " -> A}";
 }
 
 }

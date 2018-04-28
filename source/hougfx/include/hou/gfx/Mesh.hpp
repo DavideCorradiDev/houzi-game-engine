@@ -167,9 +167,9 @@ bool close(const MeshT<T>& lhs, const MeshT<T>& rhs,
   typename T::ComparisonType acc
   = std::numeric_limits<typename T::ComparisonType>::epsilon());
 
-/** Writes the object into a stream.
+/** Writes the object into a ph_stream.
  *
- *  \param os the stream.
+ *  \param os the ph_stream.
  *  \param m the MeshT.
  *  \return a reference to os.
  */

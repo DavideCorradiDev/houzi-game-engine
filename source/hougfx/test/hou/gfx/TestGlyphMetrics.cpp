@@ -211,7 +211,7 @@ TEST_F(TestGlyphMetrics, OutputStreamOperator)
 {
   GlyphMetrics gm(vec2u(1u, 2u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
   const char* refOutput
-    = "{Size = (1, 2)"
+    = "{size_type = (1, 2)"
       ", HorizontalBearing = (-1, 3)"
       ", HorizontalAdvance = 4"
       ", VerticalBearing = (5, -7)"

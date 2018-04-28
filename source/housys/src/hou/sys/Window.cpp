@@ -2,10 +2,10 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/sys/Window.hpp"
+#include "hou/sys/window.hpp"
 
-#include "hou/sys/VideoMode.hpp"
-#include "hou/sys/WindowEvent.hpp"
+#include "hou/sys/video_mode.hpp"
+#include "hou/sys/window_event.hpp"
 
 #include "hou/cor/uid_generator.hpp"
 
@@ -35,300 +35,300 @@ uint32_t generateUid()
 
 
 
-Window::Window(const std::string& title, const VideoMode& videoMode
-  , WindowStyle style)
+window::window(const std::string& title, const video_mode& videoMode
+  , window_style style)
   : non_copyable()
-  , mImpl(title, videoMode, style)
-  , mUid(generateUid())
-  , mStyle(style)
-  , mBytesPerPixel(videoMode.getBytesPerPixel())
-  , mTitle(title)
-  , mIconImage()
+  , m_impl(title, videoMode, style)
+  , m_uid(generateUid())
+  , m_style(style)
+  , m_bytes_per_pixel(videoMode.get_bytes_per_pixel())
+  , m_title(title)
+  , m_icon_image()
 {}
 
 
 
-Window::Window(Window&& other)
-  : mImpl(std::move(other.mImpl))
-  , mUid(std::move(other.mUid))
-  , mStyle(std::move(other.mStyle))
-  , mBytesPerPixel(std::move(other.mBytesPerPixel))
-  , mTitle(std::move(other.mTitle))
-  , mIconImage(std::move(other.mIconImage))
+window::window(window&& other)
+  : m_impl(std::move(other.m_impl))
+  , m_uid(std::move(other.m_uid))
+  , m_style(std::move(other.m_style))
+  , m_bytes_per_pixel(std::move(other.m_bytes_per_pixel))
+  , m_title(std::move(other.m_title))
+  , m_icon_image(std::move(other.m_icon_image))
 {}
 
 
 
-Window::~Window()
+window::~window()
 {}
 
 
 
-WindowHandle Window::getWindowHandle() const
+window_handle window::get_handle() const
 {
-  return mImpl.getWindowHandle();
+  return m_impl.get_handle();
 }
 
 
 
-uint32_t Window::getUid() const
+uint32_t window::get_uid() const
 {
-  return mUid;
+  return m_uid;
 }
 
 
 
-const std::string& Window::getTitle() const
+const std::string& window::get_title() const
 {
-  return mTitle;
+  return m_title;
 }
 
 
 
-void Window::setTitle(const std::string& title)
+void window::set_title(const std::string& title)
 {
-  mImpl.setTitle(title);
-  mTitle = title;
+  m_impl.set_title(title);
+  m_title = title;
 }
 
 
 
-vec2i Window::getFramePosition() const
+vec2i window::get_frame_position() const
 {
-  return mImpl.getFrameRect().get_position();
+  return m_impl.get_frame_rect().get_position();
 }
 
 
 
-vec2u Window::getFrameSize() const
+vec2u window::get_frame_size() const
 {
-  return static_cast<vec2u>(mImpl.getFrameRect().get_size());
+  return static_cast<vec2u>(m_impl.get_frame_rect().get_size());
 }
 
 
 
-void Window::setFrameRect(const vec2i& pos, const vec2u& size)
+void window::set_frame_rect(const vec2i& pos, const vec2u& size)
 {
-  vec2u oldClientSize = getClientSize();
-  mImpl.setFrameRect(recti(pos, static_cast<vec2i>(size)));
-  vec2u newClientSize = getClientSize();
+  vec2u oldClientSize = get_client_size();
+  m_impl.set_frame_rect(recti(pos, static_cast<vec2i>(size)));
+  vec2u newClientSize = get_client_size();
   if(oldClientSize != newClientSize)
   {
-    pushEvent(WindowEvent::resized(newClientSize.x(), newClientSize.y()));
+    push_event(window_event::resized(newClientSize.x(), newClientSize.y()));
   }
 }
 
 
 
-void Window::setFramePosition(const vec2i& pos)
+void window::set_frame_position(const vec2i& pos)
 {
-  setFrameRect(pos, getFrameSize());
+  set_frame_rect(pos, get_frame_size());
 }
 
 
 
-void Window::setFrameSize(const vec2u& size)
+void window::setFrameSize(const vec2u& size)
 {
-  setFrameRect(getFramePosition(), size);
+  set_frame_rect(get_frame_position(), size);
 }
 
 
 
-vec2i Window::getClientPosition() const
+vec2i window::get_client_position() const
 {
-  return mImpl.getClientRect().get_position();
+  return m_impl.get_client_rect().get_position();
 }
 
 
 
-vec2u Window::getClientSize() const
+vec2u window::get_client_size() const
 {
-  return static_cast<vec2u>(mImpl.getClientRect().get_size());
+  return static_cast<vec2u>(m_impl.get_client_rect().get_size());
 }
 
 
 
-void Window::setClientRect(const vec2i& pos, const vec2u& size)
+void window::set_client_rect(const vec2i& pos, const vec2u& size)
 {
-  vec2u oldClientSize = getClientSize();
-  mImpl.setClientRect(recti(pos, static_cast<vec2i>(size)));
-  vec2u newClientSize = getClientSize();
+  vec2u oldClientSize = get_client_size();
+  m_impl.set_client_rect(recti(pos, static_cast<vec2i>(size)));
+  vec2u newClientSize = get_client_size();
   if(oldClientSize != newClientSize)
   {
-    pushEvent(WindowEvent::resized(newClientSize.x(), newClientSize.y()));
+    push_event(window_event::resized(newClientSize.x(), newClientSize.y()));
   }
 }
 
 
 
-void Window::setClientPosition(const vec2i& pos)
+void window::set_client_position(const vec2i& pos)
 {
-  setClientRect(pos, getClientSize());
+  set_client_rect(pos, get_client_size());
 }
 
 
 
-void Window::setClientSize(const vec2u& size)
+void window::set_client_size(const vec2u& size)
 {
-  setClientRect(getClientPosition(), size);
+  set_client_rect(get_client_position(), size);
 }
 
 
 
-uint Window::getBytesPerPixel() const
+uint window::get_bytes_per_pixel() const
 {
-  return mBytesPerPixel;
+  return m_bytes_per_pixel;
 }
 
 
 
-WindowStyle Window::getStyle() const
+window_style window::get_style() const
 {
-  return mStyle;
+  return m_style;
 }
 
 
 
-const Image2RGBA& Window::getIcon() const
+const image2RGBA& window::get_icon() const
 {
-  return mIconImage;
+  return m_icon_image;
 }
 
 
 
-void Window::setIcon(const Image2RGBA& icon)
+void window::set_icon(const image2RGBA& icon)
 {
-  mIconImage = icon;
-  mImpl.setIcon(icon);
+  m_icon_image = icon;
+  m_impl.set_icon(icon);
 }
 
 
 
-void Window::setSystemIcon()
+void window::set_system_icon()
 {
-  mIconImage = Image2RGBA();
-  mImpl.setSystemIcon();
+  m_icon_image = image2RGBA();
+  m_impl.set_system_icon();
 }
 
 
 
-bool Window::isVisible() const
+bool window::is_visible() const
 {
-  return mImpl.isVisible();
+  return m_impl.is_visible();
 }
 
 
 
-void Window::setVisible(bool value)
+void window::set_visible(bool value)
 {
-  mImpl.setVisible(value);
+  m_impl.set_visible(value);
 }
 
 
 
-bool Window::isMouseCursorGrabbed() const
+bool window::is_mouse_cursor_grabbed() const
 {
-  return mImpl.isMouseCursorGrabbed();
+  return m_impl.is_mouse_cursor_grabbed();
 }
 
 
 
-void Window::setMouseCursorGrabbed(bool value)
+void window::set_mouse_cursor_grabbed(bool value)
 {
-  mImpl.setMouseCursorGrabbed(value);
+  m_impl.set_mouse_cursor_grabbed(value);
 }
 
 
 
-bool Window::isKeyRepeatEnabled() const
+bool window::is_key_repeat_enabled() const
 {
-  return mImpl.isKeyRepeatEnabled();
+  return m_impl.is_key_repeat_enabled();
 }
 
 
 
-void Window::setKeyRepeatEnabled(bool value)
+void window::set_key_repeat_enabled(bool value)
 {
-  mImpl.setKeyRepeatEnabled(value);
+  m_impl.set_key_repeat_enabled(value);
 }
 
 
 
-bool Window::hasFocus() const
+bool window::has_focus() const
 {
-  return mImpl.hasFocus();
+  return m_impl.has_focus();
 }
 
 
 
-bool Window::requestFocus() const
+bool window::request_focus() const
 {
-  return mImpl.requestFocus();
+  return m_impl.request_focus();
 }
 
 
-bool Window::isEventQueueEmpty() const
+bool window::is_event_queue_empty() const
 {
-  return mImpl.isEventQueueEmpty();
-}
-
-
-
-void Window::updateEventQueue()
-{
-  mImpl.updateEventQueue();
+  return m_impl.is_event_queue_empty();
 }
 
 
 
-WindowEvent Window::popEvent()
+void window::update_event_queue()
 {
-  WindowEvent ev = mImpl.popEvent();
-  reactToEvent(ev);
+  m_impl.update_event_queue();
+}
+
+
+
+window_event window::pop_event()
+{
+  window_event ev = m_impl.pop_event();
+  react_to_event(ev);
   return ev;
 }
 
 
 
-void Window::pushEvent(const WindowEvent& event)
+void window::push_event(const window_event& event)
 {
-  mImpl.pushEvent(event);
+  m_impl.push_event(event);
 }
 
 
 
-WindowEvent Window::waitEvent()
+window_event window::wait_event()
 {
   static constexpr std::chrono::milliseconds sleepTime(10);
 
-  updateEventQueue();
-  while(isEventQueueEmpty())
+  update_event_queue();
+  while(is_event_queue_empty())
   {
     std::this_thread::sleep_for(sleepTime);
-    updateEventQueue();
+    update_event_queue();
   }
-  HOU_ENSURE_DEV(!isEventQueueEmpty());
-  return popEvent();
+  HOU_ENSURE_DEV(!is_event_queue_empty());
+  return pop_event();
 }
 
 
 
-void Window::swapBuffers()
+void window::swap_buffers()
 {
-  mImpl.swapBuffers();
+  m_impl.swap_buffers();
 }
 
 
 
-void Window::reactToEvent(const WindowEvent& event)
+void window::react_to_event(const window_event& event)
 {
-  // If the window has been resized by the OS user, call setClientSize to make
+  // If the ph_window has been resized by the OS user, call set_client_size to make
   // sure that special handling for the derived class is performed as well.
   // Example: RenderWindow also resizes the FrameBuffer on resize.
-  if(event.getType() == WindowEventType::Resized)
+  if(event.get_type() == window_event_type::resized)
   {
-    const WindowEvent::SizeData& data = event.getSizeData();
-    setClientSize(vec2u(data.sizeX, data.sizeY));
+    const window_event::size_data& data = event.get_size_data();
+    set_client_size(vec2u(data.x, data.y));
   }
 }
 

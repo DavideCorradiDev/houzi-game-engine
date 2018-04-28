@@ -5,7 +5,7 @@
 #ifndef HOU_SYS_KEY_CODE_HPP
 #define HOU_SYS_KEY_CODE_HPP
 
-#include "hou/sys/SysExport.hpp"
+#include "hou/sys/sys_export.hpp"
 
 #include <iostream>
 
@@ -15,7 +15,7 @@ namespace hou
 {
 
 /** Enumeration type for layout-dependent keyboard key codes. */
-enum class KeyCode
+enum class key_code
 {
   // Function keys
   /** Escape */
@@ -197,8 +197,8 @@ enum class KeyCode
   P,
   /** Q */
   Q,
-  /** R */
-  R,
+  /** r */
+  r,
   /** S */
   S,
   /** T */
@@ -358,13 +358,13 @@ enum class KeyCode
   Packet,
 };
 
-/** Writes a KeyCode enum into a stream.
+/** Writes a key_code enum into a ph_stream.
  *
- *  \param os the stream.
- *  \param kc the KeyCode enum.
- *  \return a reference to the stream.
+ *  \param os the ph_stream.
+ *  \param kc the key_code enum.
+ *  \return a reference to the ph_stream.
  */
-HOU_SYS_API std::ostream& operator<<(std::ostream& os, KeyCode kc);
+HOU_SYS_API std::ostream& operator<<(std::ostream& os, key_code kc);
 
 }
 

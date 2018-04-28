@@ -2,92 +2,92 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/sys/TextFileOut.hpp"
+#include "hou/sys/text_file_out.hpp"
 
 
 
 namespace hou
 {
 
-TextFileOut::TextFileOut(const std::string& path)
+text_file_out::text_file_out(const std::string& path)
   : non_copyable()
-  , TextStreamOut()
-  , mFile(path, FileOpenMode::Write, FileType::Binary)
-  , mByteCount(0u)
-  , mElementCount(0u)
+  , text_stream_out()
+  , m_file(path, file_open_mode::write, file_type::binary)
+  , m_byte_count(0u)
+  , m_element_count(0u)
 {}
 
 
 
-TextFileOut::TextFileOut(TextFileOut&& other)
-  : TextStreamOut(std::move(other))
-  , mFile(std::move(other.mFile))
-  , mByteCount(std::move(other.mByteCount))
-  , mElementCount(std::move(other.mElementCount))
+text_file_out::text_file_out(text_file_out&& other)
+  : text_stream_out(std::move(other))
+  , m_file(std::move(other.m_file))
+  , m_byte_count(std::move(other.m_byte_count))
+  , m_element_count(std::move(other.m_element_count))
 {}
 
 
 
-TextFileOut::~TextFileOut()
+text_file_out::~text_file_out()
 {}
 
 
 
-bool TextFileOut::eof() const
+bool text_file_out::eof() const
 {
-  return mFile.eof();
+  return m_file.eof();
 }
 
 
 
-bool TextFileOut::error() const
+bool text_file_out::error() const
 {
-  return mFile.error();
+  return m_file.error();
 }
 
 
 
-size_t TextFileOut::getByteCount() const
+size_t text_file_out::get_byte_count() const
 {
-  return mFile.getByteCount();
+  return m_file.get_byte_count();
 }
 
 
 
-size_t TextFileOut::getWriteByteCount() const
+size_t text_file_out::get_write_byte_count() const
 {
-  return mByteCount;
+  return m_byte_count;
 }
 
 
 
-size_t TextFileOut::getWriteElementCount() const
+size_t text_file_out::get_write_element_count() const
 {
-  return mElementCount;
+  return m_element_count;
 }
 
 
 
-TextFileOut::TextPosition TextFileOut::getTextPos() const
+text_file_out::text_position text_file_out::get_text_pos() const
 {
-  return createPositionObject(mFile.tell());
+  return create_position_object(m_file.tell());
 }
 
 
 
-TextStream& TextFileOut::setTextPos(TextFileOut::TextPosition pos)
+text_stream& text_file_out::set_text_pos(text_file_out::text_position pos)
 {
-  mFile.seekSet(convertPositionObject(pos));
+  m_file.seek_set(convert_position_object(pos));
   return *this;
 }
 
 
 
-void TextFileOut::onWrite(const void* buf, size_t elementSize, size_t bufSize)
+void text_file_out::on_write(const void* buf, size_t elementSize, size_t bufSize)
 {
-  mFile.write(buf, elementSize, bufSize);
-  mElementCount = bufSize;
-  mByteCount = elementSize * bufSize;
+  m_file.write(buf, elementSize, bufSize);
+  m_element_count = bufSize;
+  m_byte_count = elementSize * bufSize;
 }
 
 }

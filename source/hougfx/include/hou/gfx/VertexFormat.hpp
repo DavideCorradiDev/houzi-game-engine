@@ -97,9 +97,9 @@ HOU_GFX_API bool operator==(const VertexFormat& lhs, const VertexFormat& rhs);
  */
 HOU_GFX_API bool operator!=(const VertexFormat& lhs, const VertexFormat& rhs);
 
-/** Writes the object into a stream.
+/** Writes the object into a ph_stream.
  *
- *  \param os the stream.
+ *  \param os the ph_stream.
  *  \param vf the VertexFormat.
  *  \return a reference to os.
  */

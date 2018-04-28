@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/sys/FileHandle.hpp"
+#include "hou/sys/file_handle.hpp"
 
 #include "hou/cor/character_encodings.hpp"
 
@@ -16,7 +16,7 @@
 namespace hou
 {
 
-FILE* openFile(const std::string& path, const std::string& mode)
+FILE* open_file(const std::string& path, const std::string& mode)
 {
   return _wfopen(convertEncoding<utf8, wide>(path).c_str()
     , convertEncoding<utf8, wide>(mode).c_str());
@@ -24,7 +24,7 @@ FILE* openFile(const std::string& path, const std::string& mode)
 
 
 
-bool checkDir(const std::string& path)
+bool check_dir(const std::string& path)
 {
   DWORD attr = GetFileAttributesW(convertEncoding<utf8, wide>(path).c_str());
   return attr != INVALID_FILE_ATTRIBUTES;
@@ -32,14 +32,14 @@ bool checkDir(const std::string& path)
 
 
 
-bool removeDir(const std::string& path)
+bool remove_dir(const std::string& path)
 {
   return _wremove(convertEncoding<utf8, wide>(path).c_str()) == 0;
 }
 
 
 
-bool renameDir(const std::string& oldPath, const std::string& newPath)
+bool rename_dir(const std::string& oldPath, const std::string& newPath)
 {
   return _wrename(convertEncoding<utf8, wide>(oldPath).c_str()
     , convertEncoding<utf8, wide>(newPath).c_str()) == 0;
@@ -47,7 +47,7 @@ bool renameDir(const std::string& oldPath, const std::string& newPath)
 
 
 
-size_t getDirByteSize(const std::string& path)
+size_t get_dir_byte_size(const std::string& path)
 {
   struct _stat64 buf;
   int retval = _wstat64(convertEncoding<utf8, wide>(path).c_str(), &buf);
@@ -63,14 +63,14 @@ size_t getDirByteSize(const std::string& path)
 
 
 
-int getFileDescriptor(not_null<FILE*> file)
+int get_file_descriptor(not_null<FILE*> ph_file)
 {
-  return _fileno(file.get());
+  return _fileno(ph_file.get());
 }
 
 
 
-size_t getFileByteSize(int fileDescriptor)
+size_t get_file_byte_size(int fileDescriptor)
 {
   return static_cast<size_t>(_filelength(fileDescriptor));
 }

@@ -61,7 +61,7 @@ class GlyphAtlas
 public:
   GlyphAtlas(const GlyphCache& cache);
 
-  const Image3R& getImage() const;
+  const image3R& get_image() const;
   const AtlasGlyphCoordinates& getAtlasGlyphCoordinates(
     utf32::code_unit c) const;
 
@@ -70,7 +70,7 @@ private:
 
 private:
   vec3u mAtlasGridSize;
-  Image3R mImage;
+  image3R mImage;
   std::map<utf32::code_unit, AtlasGlyphCoordinates> mGlyphCoords;
 };
 
@@ -100,7 +100,7 @@ private:
   void computeBoundingBox();
 
 private:
-  std::u32string mText;
+  std::u32string m_text;
   std::vector<TextVertex> mVertices;
   size_t mLineCoord;
   size_t mColumnCoord;
@@ -122,7 +122,7 @@ GlyphCache::GlyphCache(
     {
       auto inserted = mGlyphs.insert(std::make_pair(c, font.getGlyph(c)));
       HOU_EXPECT_DEV(inserted.second);
-      const vec2u& glyphSize = inserted.first->second.getImage().get_size();
+      const vec2u& glyphSize = inserted.first->second.get_image().get_size();
       for(size_t i = 0; i < vec2u::get_size(); ++i)
       {
         if(glyphSize(i) > mMaxGlyphSize(i))
@@ -268,17 +268,17 @@ GlyphAtlas::GlyphAtlas(const GlyphCache& cache)
       idx % atlasGridLayer % mAtlasGridSize.x() * cache.getMaxGlyphSize().x(),
       idx % atlasGridLayer / mAtlasGridSize.x() * cache.getMaxGlyphSize().y(),
       idx / atlasGridLayer);
-    mImage.setSubImage(glyphPosition, kv.second.getImage());
+    mImage.set_sub_image(glyphPosition, kv.second.get_image());
     mGlyphCoords.insert(std::make_pair(kv.first,
       AtlasGlyphCoordinates(
-        glyphPosition, kv.second.getImage().get_size(), mImage.get_size())));
+        glyphPosition, kv.second.get_image().get_size(), mImage.get_size())));
     ++idx;
   }
 }
 
 
 
-const Image3R& GlyphAtlas::getImage() const
+const image3R& GlyphAtlas::get_image() const
 {
   return mImage;
 }
@@ -296,7 +296,7 @@ const AtlasGlyphCoordinates& GlyphAtlas::getAtlasGlyphCoordinates(
 TextFormatter::TextFormatter(std::u32string text, const Font& font,
   const GlyphCache& cache, const GlyphAtlas& atlas,
   const TextBoxFormattingParams tbfp)
-  : mText(text)
+  : m_text(text)
   , mVertices(VerticesPerGlyph * text.size(), TextVertex())
   , mLineCoord((tbfp.getTextFlow() == TextFlow::LeftRight
                  || tbfp.getTextFlow() == TextFlow::RightLeft)
@@ -361,36 +361,36 @@ void TextFormatter::insertLineBreaks(const Font& font, const GlyphCache& cache,
   float lineSize = 0.f;
   float columnSize = mLineSpacing;
   size_t pos = 0;
-  size_t newlinepos = mText.find_first_of(LineFeed);
-  while(pos < mText.size())
+  size_t newlinepos = m_text.find_first_of(LineFeed);
+  while(pos < m_text.size())
   {
-    // If the new line makes the mText box overflow, delete the rest of the
+    // If the new line makes the m_text box overflow, delete the rest of the
     // string.
     if(columnSize > maxColumnSize)
     {
-      mText.erase(pos);
+      m_text.erase(pos);
       break;
     }
 
-    size_t wordStart = pos < mText.size()
-      ? std::min(mText.find_first_not_of(WhiteSpace, pos), newlinepos)
-      : mText.size();
-    size_t wordEnd = wordStart < mText.size()
-      ? std::min(mText.find_first_of(WhiteSpace, wordStart), newlinepos)
-      : mText.size();
+    size_t wordStart = pos < m_text.size()
+      ? std::min(m_text.find_first_not_of(WhiteSpace, pos), newlinepos)
+      : m_text.size();
+    size_t wordEnd = wordStart < m_text.size()
+      ? std::min(m_text.find_first_of(WhiteSpace, wordStart), newlinepos)
+      : m_text.size();
 
     // Compute the size of the next word.
     float wordSize = 0.f;
     for(size_t i = pos; i < wordEnd; ++i)
     {
-      HOU_ENSURE_DEV(i < mText.size());
+      HOU_ENSURE_DEV(i < m_text.size());
       wordSize += std::fabs(
-        computeGlyphAdvance(cache.getGlyph(mText[i]).getMetrics(), font));
+        computeGlyphAdvance(cache.getGlyph(m_text[i]).getMetrics(), font));
     }
 
     // If the first word is a space, remove it for size computations.
     float wordSizeAdjustment = 0.f;
-    if(mText[pos] == WhiteSpace)
+    if(m_text[pos] == WhiteSpace)
     {
       wordSizeAdjustment = std::fabs(
         computeGlyphAdvance(cache.getGlyph(WhiteSpace).getMetrics(), font));
@@ -400,7 +400,7 @@ void TextFormatter::insertLineBreaks(const Font& font, const GlyphCache& cache,
     // The rest of the string need not be rendered.
     if((wordSize - wordSizeAdjustment) > maxLineSize)
     {
-      mText.erase(pos);
+      m_text.erase(pos);
       break;
     }
 
@@ -409,26 +409,26 @@ void TextFormatter::insertLineBreaks(const Font& font, const GlyphCache& cache,
     lineSize += wordSize;
     if(lineSize > maxLineSize)
     {
-      mText[pos] = '\n';
+      m_text[pos] = '\n';
       columnSize += mLineSpacing;
       lineSize = wordSize - wordSizeAdjustment;
     }
 
-    // If the new line makes the mText box overflow, delete the rest of the
+    // If the new line makes the m_text box overflow, delete the rest of the
     // string.
     if(columnSize > maxColumnSize)
     {
-      mText.erase(pos);
+      m_text.erase(pos);
       break;
     }
 
     // If new line character, start a new line.
     pos = wordEnd;
-    if(mText[wordEnd] == LineFeed)
+    if(m_text[wordEnd] == LineFeed)
     {
-      newlinepos = wordEnd + 1 < mText.size()
-        ? mText.find_first_of(LineFeed, wordEnd + 1)
-        : mText.size();
+      newlinepos = wordEnd + 1 < m_text.size()
+        ? m_text.find_first_of(LineFeed, wordEnd + 1)
+        : m_text.size();
       columnSize += mLineSpacing;
       lineSize = 0.f;
     }
@@ -441,9 +441,9 @@ void TextFormatter::generateVertices(
   const Font& font, const GlyphCache& cache, const GlyphAtlas& atlas)
 {
   vec2f penPos(0.f, 0.f);
-  for(size_t i = 0; i < mText.size(); ++i)
+  for(size_t i = 0; i < m_text.size(); ++i)
   {
-    utf32::code_unit c = mText[i];
+    utf32::code_unit c = m_text[i];
     if(c == LineFeed)
     {
       penPos(mLineCoord) = 0.f;
@@ -571,7 +571,7 @@ FormattedText::FormattedText(
   TextFormatter formatter(text, font, glyphCache, glyphAtlas, tbfp);
 
   mAtlas = std::make_unique<Texture2Array>(
-    glyphAtlas.getImage(), TextureFormat::R, 1u);
+    glyphAtlas.get_image(), TextureFormat::r, 1u);
   mAtlas->setChannelMapping(TextureChannelMapping::Alpha);
   mMesh = std::make_unique<TextMesh>(
     MeshDrawMode::Triangles, MeshFillMode::Fill, formatter.getVertices());

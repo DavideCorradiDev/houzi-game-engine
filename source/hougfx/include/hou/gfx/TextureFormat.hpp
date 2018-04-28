@@ -16,17 +16,17 @@
 namespace hou
 {
 
-/** Represents the pixel format of a texture. */
+/** Represents the ph_pixel format of a texture. */
 enum class TextureFormat : GLenum
 {
   /** Single channel (red) format. */
-  R = GL_R8,
+  r = GL_R8,
   /** double channel (red-green) format. */
-  RG = GL_RG8,
+  rg = GL_RG8,
   /** Triple channel (red-green-blue) format. */
-  RGB = GL_RGB8,
+  rgb = GL_RGB8,
   /** Quadruple channel (red-green-blue-alpha) format. */
-  RGBA = GL_RGBA8,
+  rgba = GL_RGBA8,
   /** 24 bit depth texture. */
   Depth = GL_DEPTH_COMPONENT24,
   /** 8 bit stencil texture. */
@@ -35,11 +35,11 @@ enum class TextureFormat : GLenum
   DepthStencil = GL_DEPTH24_STENCIL8,
 };
 
-/** Writes a TextureFormat enum into a stream.
+/** Writes a TextureFormat enum into a ph_stream.
  *
- * \param os the stream.
+ * \param os the ph_stream.
  * \param format the TextureFormat enum.
- * \return a reference to the stream.
+ * \return a reference to the ph_stream.
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, TextureFormat format);
 

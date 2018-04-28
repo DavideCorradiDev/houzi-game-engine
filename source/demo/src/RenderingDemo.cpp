@@ -10,11 +10,11 @@
 #include "hou/mth/rotation2.hpp"
 #include "hou/mth/transform2.hpp"
 
-#include "hou/sys/Color.hpp"
+#include "hou/sys/color.hpp"
 #include "hou/cor/clock.hpp"
-#include "hou/sys/Keyboard.hpp"
-#include "hou/sys/WindowEvent.hpp"
-#include "hou/sys/WindowStyle.hpp"
+#include "hou/sys/keyboard.hpp"
+#include "hou/sys/window_event.hpp"
+#include "hou/sys/window_style.hpp"
 
 using namespace hou;
 
@@ -67,7 +67,7 @@ public:
   void handleInput();
 
 public:
-  Color mColor;
+  color mColor;
   TransformData mTransformData;
   vec2f mOrigin;
   vec2f m_size;
@@ -82,7 +82,7 @@ public:
 
 DrawableShape::DrawableShape(const Texture2& texture)
   : non_copyable()
-  , mColor(Color::White)
+  , mColor(color::white)
   , mTransformData()
   , mOrigin(0.f, 0.f)
   , m_size(32.f, 32.f)
@@ -119,147 +119,147 @@ void DrawableShape::handleInput()
   static const uint deltaPoints = 4u;
   static const uint minPoints = 2u;
 
-  if(Keyboard::isKeyPressed(ScanCode::A))
+  if(keyboard::is_key_pressed(scan_code::A))
   {
     mTransformData.m_position.x() += deltaPos;
   }
-  if(Keyboard::isKeyPressed(ScanCode::Z))
+  if(keyboard::is_key_pressed(scan_code::Z))
   {
     mTransformData.m_position.x() -= deltaPos;
   }
-  if(Keyboard::isKeyPressed(ScanCode::S))
+  if(keyboard::is_key_pressed(scan_code::S))
   {
     mTransformData.m_position.y() += deltaPos;
   }
-  if(Keyboard::isKeyPressed(ScanCode::X))
+  if(keyboard::is_key_pressed(scan_code::X))
   {
     mTransformData.m_position.y() -= deltaPos;
   }
 
-  if(Keyboard::isKeyPressed(ScanCode::D))
+  if(keyboard::is_key_pressed(scan_code::D))
   {
     mTransformData.mRotation += deltaRot;
   }
-  if(Keyboard::isKeyPressed(ScanCode::C))
+  if(keyboard::is_key_pressed(scan_code::C))
   {
     mTransformData.mRotation -= deltaRot;
   }
 
-  if(Keyboard::isKeyPressed(ScanCode::F))
+  if(keyboard::is_key_pressed(scan_code::F))
   {
     mTransformData.mScale.x() += deltaScale;
   }
-  if(Keyboard::isKeyPressed(ScanCode::V))
+  if(keyboard::is_key_pressed(scan_code::V))
   {
     mTransformData.mScale.x() -= deltaScale;
   }
-  if(Keyboard::isKeyPressed(ScanCode::G))
+  if(keyboard::is_key_pressed(scan_code::G))
   {
     mTransformData.mScale.y() += deltaScale;
   }
-  if(Keyboard::isKeyPressed(ScanCode::B))
+  if(keyboard::is_key_pressed(scan_code::B))
   {
     mTransformData.mScale.y() -= deltaScale;
   }
 
-  if(Keyboard::isKeyPressed(ScanCode::H))
+  if(keyboard::is_key_pressed(scan_code::H))
   {
     mTransformData.mShear.x() += deltaShear;
   }
-  if(Keyboard::isKeyPressed(ScanCode::N))
+  if(keyboard::is_key_pressed(scan_code::N))
   {
     mTransformData.mShear.x() -= deltaShear;
   }
-  if(Keyboard::isKeyPressed(ScanCode::J))
+  if(keyboard::is_key_pressed(scan_code::J))
   {
     mTransformData.mShear.y() += deltaShear;
   }
-  if(Keyboard::isKeyPressed(ScanCode::M))
+  if(keyboard::is_key_pressed(scan_code::M))
   {
     mTransformData.mShear.y() -= deltaShear;
   }
 
-  if(Keyboard::isKeyPressed(ScanCode::Num1))
+  if(keyboard::is_key_pressed(scan_code::Num1))
   {
-    mColor.setRed(mColor.getRed() + deltaCol);
+    mColor.set_red(mColor.get_red() + deltaCol);
   }
-  if(Keyboard::isKeyPressed(ScanCode::Q))
+  if(keyboard::is_key_pressed(scan_code::Q))
   {
-    mColor.setRed(mColor.getRed() - deltaCol);
+    mColor.set_red(mColor.get_red() - deltaCol);
   }
-  if(Keyboard::isKeyPressed(ScanCode::Num2))
+  if(keyboard::is_key_pressed(scan_code::Num2))
   {
-    mColor.setGreen(mColor.getGreen() + deltaCol);
+    mColor.set_green(mColor.get_green() + deltaCol);
   }
-  if(Keyboard::isKeyPressed(ScanCode::W))
+  if(keyboard::is_key_pressed(scan_code::W))
   {
-    mColor.setGreen(mColor.getGreen() - deltaCol);
+    mColor.set_green(mColor.get_green() - deltaCol);
   }
-  if(Keyboard::isKeyPressed(ScanCode::Num3))
+  if(keyboard::is_key_pressed(scan_code::Num3))
   {
-    mColor.setBlue(mColor.getBlue() + deltaCol);
+    mColor.set_blue(mColor.get_blue() + deltaCol);
   }
-  if(Keyboard::isKeyPressed(ScanCode::E))
+  if(keyboard::is_key_pressed(scan_code::E))
   {
-    mColor.setBlue(mColor.getBlue() - deltaCol);
+    mColor.set_blue(mColor.get_blue() - deltaCol);
   }
-  if(Keyboard::isKeyPressed(ScanCode::Num4))
+  if(keyboard::is_key_pressed(scan_code::Num4))
   {
-    mColor.setAlpha(mColor.getAlpha() + deltaCol);
+    mColor.set_alpha(mColor.get_alpha() + deltaCol);
   }
-  if(Keyboard::isKeyPressed(ScanCode::R))
+  if(keyboard::is_key_pressed(scan_code::r))
   {
-    mColor.setAlpha(mColor.getAlpha() - deltaCol);
+    mColor.set_alpha(mColor.get_alpha() - deltaCol);
   }
 
-  if(Keyboard::isKeyPressed(ScanCode::Num5))
+  if(keyboard::is_key_pressed(scan_code::Num5))
   {
     mOrigin.x() += deltaPos;
   }
-  if(Keyboard::isKeyPressed(ScanCode::T))
+  if(keyboard::is_key_pressed(scan_code::T))
   {
     mOrigin.x() -= deltaPos;
   }
-  if(Keyboard::isKeyPressed(ScanCode::Num6))
+  if(keyboard::is_key_pressed(scan_code::Num6))
   {
     mOrigin.y() += deltaPos;
   }
-  if(Keyboard::isKeyPressed(ScanCode::Y))
+  if(keyboard::is_key_pressed(scan_code::Y))
   {
     mOrigin.y() -= deltaPos;
   }
 
-  if(Keyboard::isKeyPressed(ScanCode::Num7))
+  if(keyboard::is_key_pressed(scan_code::Num7))
   {
     m_size.x() += deltaPos;
   }
-  if(Keyboard::isKeyPressed(ScanCode::U))
+  if(keyboard::is_key_pressed(scan_code::U))
   {
     m_size.x() -= deltaPos;
   }
-  if(Keyboard::isKeyPressed(ScanCode::Num8))
+  if(keyboard::is_key_pressed(scan_code::Num8))
   {
     m_size.y() += deltaPos;
   }
-  if(Keyboard::isKeyPressed(ScanCode::I))
+  if(keyboard::is_key_pressed(scan_code::I))
   {
     m_size.y() -= deltaPos;
   }
 
-  if(Keyboard::isKeyPressed(ScanCode::Num9))
+  if(keyboard::is_key_pressed(scan_code::Num9))
   {
     mThickness += deltaThickness;
   }
-  if(Keyboard::isKeyPressed(ScanCode::O))
+  if(keyboard::is_key_pressed(scan_code::O))
   {
     mThickness -= deltaThickness;
   }
 
-  if(Keyboard::isKeyPressed(ScanCode::Num0))
+  if(keyboard::is_key_pressed(scan_code::Num0))
   {
     mPoints += deltaPoints;
   }
-  if(Keyboard::isKeyPressed(ScanCode::P))
+  if(keyboard::is_key_pressed(scan_code::P))
   {
     mPoints -= deltaPoints;
     if(mPoints < minPoints)
@@ -268,11 +268,11 @@ void DrawableShape::handleInput()
     }
   }
 
-  if(Keyboard::isKeyPressed(ScanCode::K))
+  if(keyboard::is_key_pressed(scan_code::K))
   {
     mDrawWithTexture = true;
   }
-  if(Keyboard::isKeyPressed(ScanCode::Comma))
+  if(keyboard::is_key_pressed(scan_code::Comma))
   {
     mDrawWithTexture = false;
   }
@@ -369,14 +369,14 @@ int main()
   std::string wndTitle(u8"Rendering Demo");
   vec2u wndSize(800u, 600u);
   uint wndSamples = 16u;
-  WindowStyle wndStyle = WindowStyle::Windowed;
+  window_style wndStyle = window_style::windowed;
   std::unique_ptr<RenderWindow> wnd(
     std::make_unique<RenderWindow>(wndTitle, wndSize, wndStyle, wndSamples));
-  wnd->setVisible(true);
+  wnd->set_visible(true);
 
   Mesh2ShaderProgram m2rend;
 
-  Texture2 shapeTex = Texture2(pngReadFile<PixelFormat::R>(dataDir + u8"monalisa.png"), TextureFormat::R, 4u);
+  Texture2 shapeTex = Texture2(png_read_file<pixel_format::r>(dataDir + u8"monalisa.png"), TextureFormat::r, 4u);
   shapeTex.setChannelMapping(TextureChannelMapping::Luminosity);
   shapeTex.setWrapMode(Texture2::WrapMode{TextureWrapMode::MirroredRepeat, TextureWrapMode::ClampToEdge});
 
@@ -406,46 +406,46 @@ int main()
   hou::clock loopClock;
   while(running)
   {
-    // Window Events handling.
-    wnd->updateEventQueue();
-    while(!wnd->isEventQueueEmpty())
+    // window Events handling.
+    wnd->update_event_queue();
+    while(!wnd->is_event_queue_empty())
     {
-      WindowEvent we = wnd->popEvent();
-      switch(we.getType())
+      window_event we = wnd->pop_event();
+      switch(we.get_type())
       {
-        case WindowEventType::Closed:
+        case window_event_type::closed:
         {
           running = false;
           break;
         }
-        case WindowEventType::KeyReleased:
+        case window_event_type::key_released:
         {
-          const auto& data = we.getKeyData();
-          if(data.scanCode == ScanCode::Escape)
+          const auto& data = we.get_key_data();
+          if(data.scan_code == scan_code::Escape)
           {
             running = false;
           }
-          else if(data.scanCode == ScanCode::F1)
+          else if(data.scan_code == scan_code::F1)
           {
             currentShape = 0;
           }
-          else if(data.scanCode == ScanCode::F2)
+          else if(data.scan_code == scan_code::F2)
           {
             currentShape = 1;
           }
-          else if(data.scanCode == ScanCode::F3)
+          else if(data.scan_code == scan_code::F3)
           {
             currentShape = 2;
           }
-          else if(data.scanCode == ScanCode::F4)
+          else if(data.scan_code == scan_code::F4)
           {
             currentShape = 3;
           }
-          else if(data.scanCode == ScanCode::F5)
+          else if(data.scan_code == scan_code::F5)
           {
             currentShape = 4;
           }
-          else if(data.scanCode == ScanCode::Add)
+          else if(data.scan_code == scan_code::Add)
           {
             if(wndSamples < 32)
             {
@@ -454,7 +454,7 @@ int main()
             std::cout << "Samples: " << wndSamples << std::endl;
             wnd->setSampleCount(wndSamples);
           }
-          else if(data.scanCode == ScanCode::Subtract)
+          else if(data.scan_code == scan_code::Subtract)
           {
             if(wndSamples > 1)
             {
@@ -463,35 +463,35 @@ int main()
             std::cout << "Samples: " << wndSamples << std::endl;
             wnd->setSampleCount(wndSamples);
           }
-          else if(data.scanCode == ScanCode::Decimal)
+          else if(data.scan_code == scan_code::Decimal)
           {
-            wndStyle = WindowStyle::Fullscreen;
+            wndStyle = window_style::fullscreen;
             wnd.reset();
             wnd = std::make_unique<RenderWindow>(wndTitle, wndSize
               , wndStyle, wndSamples);
-            wnd->setVisible(true);
+            wnd->set_visible(true);
           }
-          else if(data.scanCode == ScanCode::Numpad0)
+          else if(data.scan_code == scan_code::Numpad0)
           {
-            wndStyle = WindowStyle::Windowed;
+            wndStyle = window_style::windowed;
             wnd.reset();
             wnd = std::make_unique<RenderWindow>(wndTitle, wndSize
               , wndStyle, wndSamples);
-            wnd->setVisible(true);
+            wnd->set_visible(true);
           }
           break;
         }
-        case hou::WindowEventType::FocusGained:
-        case hou::WindowEventType::FocusLost:
-        case hou::WindowEventType::Resized:
-        case hou::WindowEventType::KeyPressed:
-        case hou::WindowEventType::TextEntered:
-        case hou::WindowEventType::MouseMoved:
-        case hou::WindowEventType::MouseEntered:
-        case hou::WindowEventType::MouseLeft:
-        case hou::WindowEventType::MouseButtonPressed:
-        case hou::WindowEventType::MouseButtonReleased:
-        case hou::WindowEventType::MouseWheelMoved:
+        case hou::window_event_type::focus_gained:
+        case hou::window_event_type::focus_lost:
+        case hou::window_event_type::resized:
+        case hou::window_event_type::key_pressed:
+        case hou::window_event_type::TextEntered:
+        case hou::window_event_type::mouse_moved:
+        case hou::window_event_type::mouse_entered:
+        case hou::window_event_type::mouse_left:
+        case hou::window_event_type::mouse_button_pressed:
+        case hou::window_event_type::mouse_button_released:
+        case hou::window_event_type::mouse_wheel_moved:
           break;
       }
     }
@@ -504,61 +504,61 @@ int main()
       shapes[currentShape]->handleInput();
 
       static const int viewportDelta = 4;
-      if(Keyboard::isKeyPressed(ScanCode::Divide))
+      if(keyboard::is_key_pressed(scan_code::Divide))
       {
         recti currentViewport = wnd->getViewport();
         currentViewport.x() += viewportDelta;
         wnd->setViewport(currentViewport);
       }
-      if(Keyboard::isKeyPressed(ScanCode::Numpad8))
+      if(keyboard::is_key_pressed(scan_code::Numpad8))
       {
         recti currentViewport = wnd->getViewport();
         currentViewport.x() -= viewportDelta;
         wnd->setViewport(currentViewport);
       }
-      if(Keyboard::isKeyPressed(ScanCode::Multiply))
+      if(keyboard::is_key_pressed(scan_code::Multiply))
       {
         recti currentViewport = wnd->getViewport();
         currentViewport.y() += viewportDelta;
         wnd->setViewport(currentViewport);
       }
-      if(Keyboard::isKeyPressed(ScanCode::Numpad9))
+      if(keyboard::is_key_pressed(scan_code::Numpad9))
       {
         recti currentViewport = wnd->getViewport();
         currentViewport.y() -= viewportDelta;
         wnd->setViewport(currentViewport);
       }
-      if(Keyboard::isKeyPressed(ScanCode::Numpad5))
+      if(keyboard::is_key_pressed(scan_code::Numpad5))
       {
         recti currentViewport = wnd->getViewport();
         currentViewport.w() += viewportDelta;
         wnd->setViewport(currentViewport);
       }
-      if(Keyboard::isKeyPressed(ScanCode::Numpad2))
+      if(keyboard::is_key_pressed(scan_code::Numpad2))
       {
         recti currentViewport = wnd->getViewport();
         currentViewport.w() -= viewportDelta;
         wnd->setViewport(currentViewport);
       }
-      if(Keyboard::isKeyPressed(ScanCode::Numpad6))
+      if(keyboard::is_key_pressed(scan_code::Numpad6))
       {
         recti currentViewport = wnd->getViewport();
         currentViewport.h() += viewportDelta;
         wnd->setViewport(currentViewport);
       }
-      if(Keyboard::isKeyPressed(ScanCode::Numpad3))
+      if(keyboard::is_key_pressed(scan_code::Numpad3))
       {
         recti currentViewport = wnd->getViewport();
         currentViewport.h() -= viewportDelta;
         wnd->setViewport(currentViewport);
       }
 
-      wnd->clear(Color::Grey);
+      wnd->clear(color::grey);
 
       trans2f projTrans = trans2f::orthographic_projection(wnd->getViewport());
 
       Mesh2 viewportMesh = createRectangleOutlineMesh2(wnd->getViewport().get_size(), 1);
-      m2rend.draw(*wnd, viewportMesh, Color::White
+      m2rend.draw(*wnd, viewportMesh, color::white
         , projTrans * trans2f::translation(wnd->getViewport().get_position()));
 
       for(const auto& shapePtr : shapes)

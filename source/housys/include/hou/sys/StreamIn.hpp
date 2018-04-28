@@ -5,7 +5,7 @@
 #ifndef HOU_SYS_STREAM_IN_HPP
 #define HOU_SYS_STREAM_IN_HPP
 
-#include "hou/sys/SysExport.hpp"
+#include "hou/sys/sys_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 #include "hou/cor/template_utils.hpp"
@@ -19,55 +19,55 @@
 namespace hou
 {
 
-/** Input stream interface.
+/** Input ph_stream interface.
  */
-class HOU_SYS_API StreamIn
+class HOU_SYS_API stream_in
 {
 public:
   /** Destructor.
    */
-  virtual ~StreamIn() {};
+  virtual ~stream_in() {};
 
   /** Retrieves the number of bytes read by the last read operation.
    *
    *  \return the number of bytes read by the last read operation.
    */
-  virtual size_t getReadByteCount() const = 0;
+  virtual size_t get_read_byte_count() const = 0;
 
   /** Retrieves the number of elements read by the last read operation.
    *
    *  \return the number of elements read by the last read operation.
    */
-  virtual size_t getReadElementCount() const = 0;
+  virtual size_t get_read_element_count() const = 0;
 
   /** Reads into a pod, not container variable.
    *
-   *  Sets eof if reading over the end of the file.
+   *  Sets eof if reading over the end of the ph_file.
    *  Throws in case of an error while reading.
    *
    *  \tparam T the element type.
    *  \param buf the variable to write into.
-   *  \return a reference to this stream.
+   *  \return a reference to this ph_stream.
    */
   template <typename T>
     std::enable_if_t<std::is_pod<T>::value && !is_contiguous_container<T>::value
-    , StreamIn>& read(T& buf);
+    , stream_in>& read(T& buf);
 
   /** Reads into a contiguous container.
    *
    *  This function will try to read as many elements as the size of buf.
-   *  If the end of the stream is reached, only part of buf will be written.
-   *  Use getReadElementCount to determine how many elements were read.
+   *  If the end of the ph_stream is reached, only part of buf will be written.
+   *  Use get_read_element_count to determine how many elements were read.
    *
-   *  Sets eof if reading over the end of the file.
+   *  Sets eof if reading over the end of the ph_file.
    *  Throws in case of an error while reading.
    *
    *  \tparam T the container type
    *  \param buf the container to write into.
-   *  \return a reference to this stream.
+   *  \return a reference to this ph_stream.
    */
   template <typename T>
-    std::enable_if_t<is_contiguous_container<T>::value, StreamIn>& read(T& buf);
+    std::enable_if_t<is_contiguous_container<T>::value, stream_in>& read(T& buf);
 
   /** Reads into a specified location in memory.
    *
@@ -77,19 +77,19 @@ public:
    *  behaviour.
    *
    *  This function will try to read bufSize elements.
-   *  If the end of the stream is reached, only part of buf will be written.
-   *  Use getReadElementCount to determine how many elements were read.
+   *  If the end of the ph_stream is reached, only part of buf will be written.
+   *  Use get_read_element_count to determine how many elements were read.
    *
-   *  Sets eof if reading over the end of the file.
+   *  Sets eof if reading over the end of the ph_file.
    *  Throws in case of an error while reading.
    *
    *  \tparam T the element type.
    *  \param buf pointer to the memory location to read into.
    *  \param bufSize the number of elements to be read.
-   *  \return a reference to this stream.
+   *  \return a reference to this ph_stream.
    */
   template <typename T>
-    StreamIn& read(T* buf, size_t bufSize);
+    stream_in& read(T* buf, size_t bufSize);
 
 protected:
   /** Reads into a specified location in memory.
@@ -100,10 +100,10 @@ protected:
    *  behaviour.
    *
    *  This function will try to read bufSize elements.
-   *  If the end of the stream is reached, only part of buf will be written.
-   *  Use getReadElementCount to determine how many elements were read.
+   *  If the end of the ph_stream is reached, only part of buf will be written.
+   *  Use get_read_element_count to determine how many elements were read.
    *
-   *  Sets eof if reading over the end of the file.
+   *  Sets eof if reading over the end of the ph_file.
    *  Throws in case of an error while reading.
    *
    *  This function should be overridden by derived classes.
@@ -113,14 +113,14 @@ protected:
    *  \param elementSize the size of a single element to be read.
    *  \param bufSize the number of elements to be read.
    */
-  virtual void onRead(void* buf, size_t elementSize, size_t bufSize) = 0;
+  virtual void on_read(void* buf, size_t elementSize, size_t bufSize) = 0;
 };
 
 }
 
 
 
-#include "hou/sys/StreamIn.inl"
+#include "hou/sys/stream_in.inl"
 
 #endif
 

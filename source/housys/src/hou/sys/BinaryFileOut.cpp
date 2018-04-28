@@ -2,100 +2,100 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/sys/BinaryFileOut.hpp"
+#include "hou/sys/binary_file_out.hpp"
 
 
 
 namespace hou
 {
 
-BinaryFileOut::BinaryFileOut(const std::string& path)
+binary_file_out::binary_file_out(const std::string& path)
   : non_copyable()
-  , BinaryStreamOut()
-  , mFile(path, FileOpenMode::Write, FileType::Binary)
-  , mByteCount(0u)
-  , mElementCount(0u)
+  , binary_stream_out()
+  , m_file(path, file_open_mode::write, file_type::binary)
+  , m_byte_count(0u)
+  , m_element_count(0u)
 {}
 
 
 
-BinaryFileOut::BinaryFileOut(BinaryFileOut&& other)
-  : BinaryStreamOut(std::move(other))
-  , mFile(std::move(other.mFile))
-  , mByteCount(std::move(other.mByteCount))
-  , mElementCount(std::move(other.mElementCount))
+binary_file_out::binary_file_out(binary_file_out&& other)
+  : binary_stream_out(std::move(other))
+  , m_file(std::move(other.m_file))
+  , m_byte_count(std::move(other.m_byte_count))
+  , m_element_count(std::move(other.m_element_count))
 {}
 
 
 
-BinaryFileOut::~BinaryFileOut()
+binary_file_out::~binary_file_out()
 {}
 
 
 
-bool BinaryFileOut::eof() const
+bool binary_file_out::eof() const
 {
-  return mFile.eof();
+  return m_file.eof();
 }
 
 
 
-bool BinaryFileOut::error() const
+bool binary_file_out::error() const
 {
-  return mFile.error();
+  return m_file.error();
 }
 
 
 
-size_t BinaryFileOut::getByteCount() const
+size_t binary_file_out::get_byte_count() const
 {
-  return mFile.getByteCount();
+  return m_file.get_byte_count();
 }
 
 
 
-size_t BinaryFileOut::getWriteByteCount() const
+size_t binary_file_out::get_write_byte_count() const
 {
-  return mByteCount;
+  return m_byte_count;
 }
 
 
 
-size_t BinaryFileOut::getWriteElementCount() const
+size_t binary_file_out::get_write_element_count() const
 {
-  return mElementCount;
+  return m_element_count;
 }
 
 
 
-BinaryFileOut::BytePosition BinaryFileOut::getBytePos() const
+binary_file_out::byte_position binary_file_out::get_byte_pos() const
 {
-  return mFile.tell();
+  return m_file.tell();
 }
 
 
 
-BinaryStream& BinaryFileOut::setBytePos(BinaryFileOut::BytePosition pos)
+binary_stream& binary_file_out::set_byte_pos(binary_file_out::byte_position pos)
 {
-  mFile.seekSet(pos);
+  m_file.seek_set(pos);
   return *this;
 }
 
 
 
-BinaryStream& BinaryFileOut::moveBytePos(BinaryFileOut::ByteOffset offset)
+binary_stream& binary_file_out::move_byte_pos(binary_file_out::byte_offset offset)
 {
-  mFile.seekOffset(offset);
+  m_file.seek_offset(offset);
   return *this;
 }
 
 
 
-void BinaryFileOut::onWrite(const void* buf, size_t elementSize, size_t bufSize)
+void binary_file_out::on_write(const void* buf, size_t elementSize, size_t bufSize)
 {
-  mFile.write(buf, elementSize, bufSize);
-  mElementCount = bufSize;
-  mByteCount = elementSize * bufSize;
+  m_file.write(buf, elementSize, bufSize);
+  m_element_count = bufSize;
+  m_byte_count = elementSize * bufSize;
 }
 
 }

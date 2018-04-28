@@ -43,7 +43,7 @@ uint32_t generateUid()
 void Context::setCurrent(Context& context)
 {
   std::lock_guard<std::mutex> lock(gCurrentContextMutex);
-  HOU_RUNTIME_CHECK(alcMakeContextCurrent(context.mHandle) == AL_TRUE
+  HOU_RUNTIME_CHECK(alcMakeContextCurrent(context.m_handle) == AL_TRUE
     , get_text(AlError::ContextMakeCurrent));
   gCurrentContext = &context;
 }
@@ -74,21 +74,21 @@ Context* Context::getCurrent()
 
 Context::Context(Device& device)
   : non_copyable()
-  , mHandle(alcCreateContext(device.getHandle(), nullptr))
-  , mUid(generateUid())
-  , mDeviceUid(device.getUid())
+  , m_handle(alcCreateContext(device.getHandle(), nullptr))
+  , m_uid(generateUid())
+  , mDeviceUid(device.get_uid())
 {
-  HOU_RUNTIME_CHECK(mHandle != nullptr, get_text(AlError::ContextCreate));
+  HOU_RUNTIME_CHECK(m_handle != nullptr, get_text(AlError::ContextCreate));
 }
 
 
 
 Context::Context(Context&& other)
-  : mHandle(std::move(other.mHandle))
-  , mUid(std::move(other.mUid))
+  : m_handle(std::move(other.m_handle))
+  , m_uid(std::move(other.m_uid))
   , mDeviceUid(std::move(other.mDeviceUid))
 {
-  other.mHandle = nullptr;
+  other.m_handle = nullptr;
   if(getCurrent() == &other)
   {
     gCurrentContext = this;
@@ -99,21 +99,21 @@ Context::Context(Context&& other)
 
 Context::~Context()
 {
-  if(mHandle != nullptr)
+  if(m_handle != nullptr)
   {
     if(isCurrent())
     {
       unsetCurrent();
     }
-    alcDestroyContext(mHandle);
+    alcDestroyContext(m_handle);
   }
 }
 
 
 
-uint32_t Context::getUid() const
+uint32_t Context::get_uid() const
 {
-  return mUid;
+  return m_uid;
 }
 
 
@@ -128,7 +128,7 @@ uint32_t Context::getDeviceUid() const
 bool Context::isCurrent() const
 {
   // alcGetCurrentContext cannot fail.
-  return alcGetCurrentContext() == mHandle;
+  return alcGetCurrentContext() == m_handle;
 }
 
 }

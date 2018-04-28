@@ -162,7 +162,7 @@ bool operator!=(const GlyphMetrics& lhs, const GlyphMetrics& rhs)
 
 std::ostream& operator<<(std::ostream& os, const GlyphMetrics& gm)
 {
-  return os << "{Size = " << transpose(gm.get_size())
+  return os << "{size_type = " << transpose(gm.get_size())
             << ", HorizontalBearing = " << transpose(gm.getHorizontalBearing())
             << ", HorizontalAdvance = " << gm.getHorizontalAdvance()
             << ", VerticalBearing = " << transpose(gm.getVerticalBearing())

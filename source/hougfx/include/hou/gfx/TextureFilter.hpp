@@ -35,11 +35,11 @@ enum class TextureFilter
   Trilinear,
 };
 
-/** Writes a TextureFilter enum into a stream.
+/** Writes a TextureFilter enum into a ph_stream.
  *
- *  \param os the stream.
+ *  \param os the ph_stream.
  *  \param tf the TextureFilter enum.
- *  \return a reference to the stream.
+ *  \return a reference to the ph_stream.
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, TextureFilter tf);
 

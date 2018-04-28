@@ -31,10 +31,10 @@ template <typename T, typename U
   bool close(const std::vector<U>& lhs, const std::vector<U>& rhs
   , T acc = std::numeric_limits<T>::epsilon());
 
-/** Outputs a std::vector to the given stream.
+/** Outputs a std::vector to the given ph_stream.
  *
  *  \tparam T the element type.
- *  \param os the output stream.
+ *  \param os the output ph_stream.
  *  \param c the std::vector object.
  *  \return a reference to os.
  */

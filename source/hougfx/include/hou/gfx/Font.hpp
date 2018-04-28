@@ -16,7 +16,7 @@
 #include "hou/mth/matrix_fwd.hpp"
 #include "hou/mth/rectangle_fwd.hpp"
 
-#include "hou/sys/BinaryStreamIn.hpp"
+#include "hou/sys/binary_stream_in.hpp"
 
 #include <memory>
 #include <vector>
@@ -36,8 +36,8 @@ class Glyph;
  * Supported formats: TTF, TTC, CFF, WOFF, OTF, OTC, PFA, PFB, CID-keyed Type
  * 1, SFNT-based bitmap fonts, X11 PCF, Windows FNT, BDF, PFR.
  *
- * All metrics are expressed in 26.6 pixel format, which means the unit is
- * 1/64th of pixel.
+ * All metrics are expressed in 26.6 ph_pixel format, which means the unit is
+ * 1/64th of ph_pixel.
  */
 class HOU_GFX_API Font : public non_copyable
 {
@@ -52,15 +52,15 @@ public:
    */
   explicit Font(const span<const uint8_t>& data);
 
-  /** Creates a Font object from the given binary input stream.
+  /** Creates a Font object from the given binary input ph_stream.
    *
-   * This constructor reads the entire content of the binary stream and makes
+   * This constructor reads the entire content of the binary ph_stream and makes
    * a copy of it in memory.
    * Throws if the data does not represent valid font data.
    *
-   * \param fontStream the font stream.
+   * \param fontStream the font ph_stream.
    */
-  explicit Font(not_null<std::unique_ptr<BinaryStreamIn>> fontStream);
+  explicit Font(not_null<std::unique_ptr<binary_stream_in>> fontStream);
 
   /** Move constructor.
    *
@@ -92,17 +92,17 @@ public:
    */
   void setFaceIndex(uint faceIndex);
 
-  /** Gets the currently selected pixel height.
+  /** Gets the currently selected ph_pixel height.
    *
    * The default value is 10.
    *
-   * \return the currently selected pixel height.
+   * \return the currently selected ph_pixel height.
    */
   uint getPixelHeight() const;
 
-  /** Sets the current pixel height.
+  /** Sets the current ph_pixel height.
    *
-   * \param pixelHeight the desired pixel height.
+   * \param pixelHeight the desired ph_pixel height.
    */
   void setPixelHeight(uint pixelHeight);
 
@@ -131,7 +131,7 @@ public:
   bool isScalable() const;
 
   /** Get a bounding box capable of containing any glyph in the font in 26.6
-   * pixel format.
+   * ph_pixel format.
    *
    * \return the bounding box.
    */
@@ -143,7 +143,7 @@ public:
    */
   rectf getPixelGlyphBoundingBox() const;
 
-  /** Get the line spacing in 26.6 pixel format.
+  /** Get the line spacing in 26.6 ph_pixel format.
    *
    * \return the line spacing.
    */
@@ -155,7 +155,7 @@ public:
    */
   float getPixelLineSpacing() const;
 
-  /** Get the maximum horizontal advance in 26.6 pixel format.
+  /** Get the maximum horizontal advance in 26.6 ph_pixel format.
    *
    * \return the maximum horizontal advance.
    */
@@ -167,7 +167,7 @@ public:
    */
   float getMaxPixelAdvance() const;
 
-  /** Get the maximum horizontal advance in 26.6 pixel format.
+  /** Get the maximum horizontal advance in 26.6 ph_pixel format.
    *
    * \return the maximum horizontal advance.
    */
@@ -179,7 +179,7 @@ public:
    */
   float getMaxPixelHorizontalAdvance() const;
 
-  /** Get the maximum vertical advance in 26.6 pixel format.
+  /** Get the maximum vertical advance in 26.6 ph_pixel format.
    *
    * \return the maximum vertical advance.
    */
@@ -199,7 +199,7 @@ public:
 
   /** Generates and returns information for a glyph.
    *
-   * The glyph is generated with the currently selected face and pixel height.
+   * The glyph is generated with the currently selected face and ph_pixel height.
    * If the requested glyph is not present in the font a placeholder glyph is
    * returned.
    *
@@ -208,7 +208,7 @@ public:
    */
   Glyph getGlyph(utf32::code_unit charCode) const;
 
-  /** Gets the kerning between two characters in 26.6 pixel format.
+  /** Gets the kerning between two characters in 26.6 ph_pixel format.
    *
    * \param first the first character.
    * \param second the second character.

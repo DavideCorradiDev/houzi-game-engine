@@ -10,7 +10,7 @@ namespace hou
 {
 
 AudioStream::AudioStream()
-  : BinaryStream()
+  : binary_stream()
   , mFormat(AudioBufferFormat::Mono8)
   , mSampleRate(0u)
 {}
@@ -22,7 +22,7 @@ AudioStream::~AudioStream()
 
 
 
-AudioBufferFormat AudioStream::getFormat() const
+AudioBufferFormat AudioStream::get_format() const
 {
   return mFormat;
 }

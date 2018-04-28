@@ -60,7 +60,7 @@ void bindVertexArray(const VertexArrayHandle& vertexArray)
     glBindVertexArray(vertexArray.getName());
     HOU_GL_CHECK_ERROR();
     Context::getCurrent()->mTrackingData.setBoundVertexArray
-      (vertexArray.getUid());
+      (vertexArray.get_uid());
   }
 }
 
@@ -84,7 +84,7 @@ bool isVertexArrayBound(const VertexArrayHandle& vertexArray)
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(vertexArray);
   return Context::getCurrent()->mTrackingData.getBoundVertexArray()
-    == vertexArray.getUid();
+    == vertexArray.get_uid();
 }
 
 

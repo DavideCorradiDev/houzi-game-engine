@@ -4,7 +4,7 @@
 
 #include "hou/aud/EmptyAudioStreamIn.hpp"
 
-#include "hou/sys/SysError.hpp"
+#include "hou/sys/sys_error.hpp"
 
 
 
@@ -39,39 +39,39 @@ bool EmptyAudioStreamIn::error() const
 
 
 
-size_t EmptyAudioStreamIn::getByteCount() const
+size_t EmptyAudioStreamIn::get_byte_count() const
 {
   return 0u;
 }
 
 
 
-size_t EmptyAudioStreamIn::getReadElementCount() const
+size_t EmptyAudioStreamIn::get_read_element_count() const
 {
   return 0u;
 }
 
 
 
-EmptyAudioStreamIn::BytePosition EmptyAudioStreamIn::getBytePos() const
+EmptyAudioStreamIn::byte_position EmptyAudioStreamIn::get_byte_pos() const
 {
   return 0u;
 }
 
 
 
-BinaryStream& EmptyAudioStreamIn::setBytePos(BytePosition pos)
+binary_stream& EmptyAudioStreamIn::set_byte_pos(byte_position pos)
 {
-  HOU_RUNTIME_CHECK(pos == 0, get_text(SysError::FileSeek));
+  HOU_RUNTIME_CHECK(pos == 0, get_text(sys_error::file_seek));
   HOU_EXPECT(pos == 0);
   return *this;
 }
 
 
 
-BinaryStream& EmptyAudioStreamIn::moveBytePos(ByteOffset offset)
+binary_stream& EmptyAudioStreamIn::move_byte_pos(byte_offset offset)
 {
-  HOU_RUNTIME_CHECK(offset == 0, get_text(SysError::FileSeek));
+  HOU_RUNTIME_CHECK(offset == 0, get_text(sys_error::file_seek));
   return *this;
 }
 
@@ -93,7 +93,7 @@ EmptyAudioStreamIn::SamplePosition EmptyAudioStreamIn::getSamplePos() const
 
 AudioStreamIn& EmptyAudioStreamIn::setSamplePos(SamplePosition pos)
 {
-  HOU_RUNTIME_CHECK(pos == 0, get_text(SysError::FileSeek));
+  HOU_RUNTIME_CHECK(pos == 0, get_text(sys_error::file_seek));
   return *this;
 }
 
@@ -101,20 +101,20 @@ AudioStreamIn& EmptyAudioStreamIn::setSamplePos(SamplePosition pos)
 
 AudioStreamIn& EmptyAudioStreamIn::moveSamplePos(SampleOffset offset)
 {
-  HOU_RUNTIME_CHECK(offset == 0, get_text(SysError::FileSeek));
+  HOU_RUNTIME_CHECK(offset == 0, get_text(sys_error::file_seek));
   return *this;
 }
 
 
 
-size_t EmptyAudioStreamIn::getReadByteCount() const
+size_t EmptyAudioStreamIn::get_read_byte_count() const
 {
   return 0u;
 }
 
 
 
-void EmptyAudioStreamIn::onRead(void*, size_t, size_t)
+void EmptyAudioStreamIn::on_read(void*, size_t, size_t)
 {}
 
 }

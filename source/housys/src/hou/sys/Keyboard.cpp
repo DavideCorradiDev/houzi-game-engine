@@ -2,40 +2,40 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/sys/Keyboard.hpp"
+#include "hou/sys/keyboard.hpp"
 
 
 
 namespace hou
 {
 
-namespace Keyboard
+namespace keyboard
 {
 
-ModifierKeys getModifierKeysState()
+modifier_keys get_modifier_keys_state()
 {
-  ModifierKeys modifierKeys = ModifierKeys::None;
-  if(isKeyPressed(ScanCode::LAlt)
-    || isKeyPressed(ScanCode::RAlt))
+  modifier_keys modifier_keys = modifier_keys::none;
+  if(is_key_pressed(scan_code::LAlt)
+    || is_key_pressed(scan_code::RAlt))
   {
-    modifierKeys |= ModifierKeys::Alt;
+    modifier_keys |= modifier_keys::alt;
   }
-  if(isKeyPressed(ScanCode::LCtrl)
-    || isKeyPressed(ScanCode::RCtrl))
+  if(is_key_pressed(scan_code::LCtrl)
+    || is_key_pressed(scan_code::RCtrl))
   {
-    modifierKeys |= ModifierKeys::Ctrl;
+    modifier_keys |= modifier_keys::ctrl;
   }
-  if(isKeyPressed(ScanCode::LShift)
-    || isKeyPressed(ScanCode::RShift))
+  if(is_key_pressed(scan_code::LShift)
+    || is_key_pressed(scan_code::RShift))
   {
-    modifierKeys |= ModifierKeys::Shift;
+    modifier_keys |= modifier_keys::shift;
   }
-  if(isKeyPressed(ScanCode::LSystem)
-    || isKeyPressed(ScanCode::RSystem))
+  if(is_key_pressed(scan_code::LSystem)
+    || is_key_pressed(scan_code::RSystem))
   {
-    modifierKeys |= ModifierKeys::System;
+    modifier_keys |= modifier_keys::system;
   }
-  return modifierKeys;
+  return modifier_keys;
 }
 
 }

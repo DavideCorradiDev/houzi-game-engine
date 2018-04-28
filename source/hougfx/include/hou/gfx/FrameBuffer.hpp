@@ -64,10 +64,10 @@ public:
    */
   static void unbind();
 
-  /** Retrieves the number of available slots for color attachments in a
+  /** Retrieves the number of available slots for ph_color attachments in a
    *  FrameBuffer.
    *
-   *  \return the number of available slots for color attachments.
+   *  \return the number of available slots for ph_color attachments.
    */
   static uint getColorAttachmentPointCount();
 
@@ -110,13 +110,13 @@ public:
    */
   bool isComplete() const;
 
-  /** Sets a color attachment for this FrameBuffer.
+  /** Sets a ph_color attachment for this FrameBuffer.
    *
    *  \param attachmentPoint an index representing the desired attachment point.
    *  Its value must be lower than the maximum number of available attachment
    *  points.
    *  \param texture the texture to be attached. The format of the
-   *  texture must be R, RG, RGB, or RGBA.
+   *  texture must be r, rg, rgb, or rgba.
    *  \param mipMapLevel the mip map level
    *  to bind. It must be a valid mip map level of texture.
    */
@@ -157,7 +157,7 @@ public:
   bool hasMultisampleAttachment() const;
 
 private:
-  gl::FramebufferHandle mHandle;
+  gl::FramebufferHandle m_handle;
   bool mHasMultisampleColorAttachment;
   bool mHasMultisampleDepthAttachment;
   bool mHasMultisampleStencilAttachment;

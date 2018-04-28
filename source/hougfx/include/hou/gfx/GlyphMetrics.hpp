@@ -20,8 +20,8 @@ namespace hou
 
 /** Class describing the metrics of a glyph.
  *
- * All metrics are internal expressed in 26.6 pixel format, which means the unit
- * is 1/64th of pixel.
+ * All metrics are internal expressed in 26.6 ph_pixel format, which means the unit
+ * is 1/64th of ph_pixel.
  */
 class HOU_GFX_API GlyphMetrics
 {
@@ -51,7 +51,7 @@ public:
   GlyphMetrics(const vec2u& size, const vec2i& horizontalBearing,
     int horizontalAdvance, const vec2i& verticalBearing, int verticalAdvance);
 
-  /** Gets the size of the bounding box of the glyph in 26.6 pixel format.
+  /** Gets the size of the bounding box of the glyph in 26.6 ph_pixel format.
    *
    * \return the size of the bounding box of the glyph.
    */
@@ -69,7 +69,7 @@ public:
    */
   void set_size(const vec2u& size);
 
-  /** Gets the horizontal bearing of the glyph in 26.6 pixel format.
+  /** Gets the horizontal bearing of the glyph in 26.6 ph_pixel format.
    *
    * \return the horizontal bearing of the glyph.
    */
@@ -87,7 +87,7 @@ public:
    */
   void setHorizontalBearing(const vec2i& horizontalBearing);
 
-  /** Gets the horizontal advance of the glyph in 26.6 pixel format.
+  /** Gets the horizontal advance of the glyph in 26.6 ph_pixel format.
    *
    * \return the horizontal advance of the glyph.
    */
@@ -105,7 +105,7 @@ public:
    */
   void setHorizontalAdvance(int horizontalAdvance);
 
-  /** Gets the vertical bearing of the glyph in 26.6 pixel format.
+  /** Gets the vertical bearing of the glyph in 26.6 ph_pixel format.
    *
    * \return the vertical bearing of the glyph.
    */
@@ -123,7 +123,7 @@ public:
    */
   void setVerticalBearing(const vec2i& verticalBearing);
 
-  /** Gets the vertical advance of the glyph in 26.6 pixel format.
+  /** Gets the vertical advance of the glyph in 26.6 ph_pixel format.
    *
    * \return the vertical advance of the glyph.
    */
@@ -169,9 +169,9 @@ HOU_GFX_API bool operator==(const GlyphMetrics& lhs, const GlyphMetrics& rhs);
  */
 HOU_GFX_API bool operator!=(const GlyphMetrics& lhs, const GlyphMetrics& rhs);
 
-/** Writes a GlyphMetrics object into a stream.
+/** Writes a GlyphMetrics object into a ph_stream.
  *
- * \param os the output stream.
+ * \param os the output ph_stream.
  *
  * \param gm the object.
  *

@@ -23,18 +23,18 @@ enum class VerticalSyncMode : int
   Disabled = 0,
   /** Enabled, */
   Enabled = 1,
-  /** Vertical sync is enabled only if the frame rate is higher than the sync
+  /** vertical sync is enabled only if the frame rate is higher than the sync
    *  rate. */
   Adaptive = -1,
 };
 
 
 
-/** Writes a VerticalSyncMode enum into a stream.
+/** Writes a VerticalSyncMode enum into a ph_stream.
  *
- *  \param os the stream.
+ *  \param os the ph_stream.
  *  \param vsm the VerticalSyncMode enum.
- *  \return a reference to the stream.
+ *  \return a reference to the ph_stream.
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, VerticalSyncMode vsm);
 

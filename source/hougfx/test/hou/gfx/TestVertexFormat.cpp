@@ -142,7 +142,7 @@ TEST_F(TestVertexFormat, OutputStreamOperator)
   VertexFormat vf(2, 3u, vafs);
   const char* outRef
     = "{Offset = 2, Stride = 3, VertexAttribFormats = {{Type = Float, "
-      "ElementCount = 3, ByteOffset = 12, MustBeNormalized = false}, {Type = "
-      "Float, ElementCount = 6, ByteOffset = 24, MustBeNormalized = true}}}";
+      "ElementCount = 3, byte_offset = 12, MustBeNormalized = false}, {Type = "
+      "Float, ElementCount = 6, byte_offset = 24, MustBeNormalized = true}}}";
   HOU_EXPECT_OUTPUT(outRef, vf);
 }

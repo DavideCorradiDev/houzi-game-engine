@@ -27,11 +27,11 @@ enum class MeshFillMode : GLenum
   Fill = GL_FILL,
 };
 
-/** Writes a MeshFillMode enum into a stream.
+/** Writes a MeshFillMode enum into a ph_stream.
  *
- *  \param os the stream.
+ *  \param os the ph_stream.
  *  \param mfm the MeshFillMode enum.
- *  \return a reference to the stream.
+ *  \return a reference to the ph_stream.
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, MeshFillMode mfm);
 

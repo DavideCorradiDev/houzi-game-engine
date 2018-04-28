@@ -8,9 +8,9 @@
 #include "hou/gfx/TextShaderProgram.hpp"
 #include "hou/gfx/Vertex2.hpp"
 #include "hou/mth/transform2.hpp"
-#include "hou/sys/BinaryFileIn.hpp"
-#include "hou/sys/Color.hpp"
-#include "hou/sys/WindowEvent.hpp"
+#include "hou/sys/binary_file_in.hpp"
+#include "hou/sys/color.hpp"
+#include "hou/sys/window_event.hpp"
 
 using namespace hou;
 
@@ -21,18 +21,18 @@ int main()
   static const std::string dataDir = u8"source/demo/data/";
   GraphicContext ctx;
   GraphicContext::setCurrent(ctx);
-  RenderWindow rw(u8"Text Rendering Demo", vec2u(800u, 600u),
-    WindowStyle::WindowedResizable, 8u);
-  rw.setVisible(true);
+  RenderWindow rw(u8"text Rendering Demo", vec2u(800u, 600u),
+    window_style::windowed_resizable, 8u);
+  rw.set_visible(true);
   trans2f proj = trans2f::orthographic_projection(rw.getViewport());
   Mesh2ShaderProgram m2Rnd;
   TextShaderProgram textRnd;
   Mesh2 fpsRect = createRectangleMesh2(vec2f(128.f, 32.f));
   std::vector<uint> fontSizes{0, 2, 4, 8, 16, 32, 64};
   size_t currentSizeIdx = 3;
-  Font font(std::make_unique<BinaryFileIn>(dataDir + u8"NotoSans-Regular.ttf"));
+  Font font(std::make_unique<binary_file_in>(dataDir + u8"NotoSans-Regular.ttf"));
   Font chineseFont(
-    std::make_unique<BinaryFileIn>(dataDir + u8"NotoSansCJKsc-Regular.otf"));
+    std::make_unique<binary_file_in>(dataDir + u8"NotoSansCJKsc-Regular.otf"));
   std::vector<utf32::code_unit> characters;
   for(utf32::code_unit c = 0; c < 256; ++c)
   {
@@ -87,104 +87,104 @@ int main()
   timer.start();
   while(running)
   {
-    rw.updateEventQueue();
-    while(!rw.isEventQueueEmpty())
+    rw.update_event_queue();
+    while(!rw.is_event_queue_empty())
     {
-      WindowEvent we = rw.popEvent();
-      switch(we.getType())
+      window_event we = rw.pop_event();
+      switch(we.get_type())
       {
-      case WindowEventType::Closed:
+      case window_event_type::closed:
       {
         running = false;
         break;
       }
-      case WindowEventType::KeyReleased:
+      case window_event_type::key_released:
       {
-        if(we.getKeyData().scanCode == ScanCode::Down
-          || we.getKeyData().scanCode == ScanCode::Up
-          || we.getKeyData().scanCode == ScanCode::RShift)
+        if(we.get_key_data().scan_code == scan_code::Down
+          || we.get_key_data().scan_code == scan_code::Up
+          || we.get_key_data().scan_code == scan_code::RShift)
         {
-          if(we.getKeyData().scanCode == ScanCode::Down)
+          if(we.get_key_data().scan_code == scan_code::Down)
           {
             if(currentSizeIdx > 0)
             {
               --currentSizeIdx;
             }
           }
-          else if(we.getKeyData().scanCode == ScanCode::Up)
+          else if(we.get_key_data().scan_code == scan_code::Up)
           {
             if(currentSizeIdx < fontSizes.size() - 1)
             {
               ++currentSizeIdx;
             }
           }
-          else if(we.getKeyData().scanCode == ScanCode::RShift)
+          else if(we.get_key_data().scan_code == scan_code::RShift)
           {
             printChinese = !printChinese;
           }
           font.setPixelHeight(fontSizes[currentSizeIdx]);
           chineseFont.setPixelHeight(fontSizes[currentSizeIdx]);
         }
-        else if(we.getKeyData().scanCode == ScanCode::A)
+        else if(we.get_key_data().scan_code == scan_code::A)
         {
           textFlow = TextFlow::RightLeft;
         }
-        else if(we.getKeyData().scanCode == ScanCode::D)
+        else if(we.get_key_data().scan_code == scan_code::D)
         {
           textFlow = TextFlow::LeftRight;
         }
-        else if(we.getKeyData().scanCode == ScanCode::W)
+        else if(we.get_key_data().scan_code == scan_code::W)
         {
           textFlow = TextFlow::BottomTop;
         }
-        else if(we.getKeyData().scanCode == ScanCode::S)
+        else if(we.get_key_data().scan_code == scan_code::S)
         {
           textFlow = TextFlow::TopBottom;
         }
-        else if(we.getKeyData().scanCode == ScanCode::K)
+        else if(we.get_key_data().scan_code == scan_code::K)
         {
           maxTBoxSize.x() = std::max(0.f, maxTBoxSize.x() - maxTBoxIncrement);
         }
-        else if(we.getKeyData().scanCode == ScanCode::Semicolon)
+        else if(we.get_key_data().scan_code == scan_code::Semicolon)
         {
           maxTBoxSize.x() = std::min(640.f, maxTBoxSize.x() + maxTBoxIncrement);
         }
-        else if(we.getKeyData().scanCode == ScanCode::O)
+        else if(we.get_key_data().scan_code == scan_code::O)
         {
           maxTBoxSize.y() = std::max(0.f, maxTBoxSize.y() - maxTBoxIncrement);
         }
-        else if(we.getKeyData().scanCode == ScanCode::L)
+        else if(we.get_key_data().scan_code == scan_code::L)
         {
           maxTBoxSize.y() = std::min(640.f, maxTBoxSize.y() + maxTBoxIncrement);
         }
       }
       break;
-      case hou::WindowEventType::Resized:
+      case hou::window_event_type::resized:
         rw.setViewport(rw.getDefaultViewport());
         proj = trans2f::orthographic_projection(rw.getViewport());
-        std::cout << "Window resized: (" << we.getSizeData().sizeX << ", "
-                  << we.getSizeData().sizeY << ")" << std::endl;
-        std::cout << "Window client size: " << transpose(rw.getClientSize())
+        std::cout << "window resized: (" << we.get_size_data().x << ", "
+                  << we.get_size_data().y << ")" << std::endl;
+        std::cout << "window client size: " << transpose(rw.get_client_size())
                   << std::endl;
-        std::cout << "Window framebuffer size: " << transpose(rw.get_size())
+        std::cout << "window framebuffer size: " << transpose(rw.get_size())
                   << std::endl;
         break;
-      case hou::WindowEventType::FocusGained:
-      case hou::WindowEventType::FocusLost:
-      case hou::WindowEventType::KeyPressed:
-      case hou::WindowEventType::TextEntered:
-      case hou::WindowEventType::MouseMoved:
-      case hou::WindowEventType::MouseEntered:
-      case hou::WindowEventType::MouseLeft:
-      case hou::WindowEventType::MouseButtonPressed:
-      case hou::WindowEventType::MouseButtonReleased:
-      case hou::WindowEventType::MouseWheelMoved:
-      case hou::WindowEventType::Empty:
+      case hou::window_event_type::focus_gained:
+      case hou::window_event_type::focus_lost:
+      case hou::window_event_type::key_pressed:
+      case hou::window_event_type::TextEntered:
+      case hou::window_event_type::mouse_moved:
+      case hou::window_event_type::mouse_entered:
+      case hou::window_event_type::mouse_left:
+      case hou::window_event_type::mouse_button_pressed:
+      case hou::window_event_type::mouse_button_released:
+      case hou::window_event_type::mouse_wheel_moved:
+      case hou::window_event_type::empty:
         break;
       }
     }
 
-    rw.clear(Color::Black);
+    rw.clear(color::black);
 
     const std::string& textToRender = printChinese ? chineseText : text;
     Font& fontToRender = printChinese ? chineseFont : font;
@@ -192,7 +192,7 @@ int main()
     if(maxTBoxSize.x() == 0.f || maxTBoxSize.y() == 0.f)
     {
       Mesh2 dot = createEllipseMesh2(vec2f(16.f, 16.f), 32u);
-      m2Rnd.draw(rw, dot, Color::Red,
+      m2Rnd.draw(rw, dot, color::red,
         proj * textTrans * trans2f::translation(vec2f(-8.f, -8.f)));
     }
     else
@@ -219,7 +219,7 @@ int main()
       }
 
       Mesh2 bbox = createRectangleOutlineMesh2(maxTBoxSize, 1u);
-      m2Rnd.draw(rw, bbox, Color::Red,
+      m2Rnd.draw(rw, bbox, color::red,
         proj * textTrans * trans2f::translation(bboxTrans));
     }
 
@@ -227,20 +227,20 @@ int main()
     FormattedText ft(textToRender, fontToRender, tbfp);
     Mesh2 textBox
       = createRectangleOutlineMesh2(ft.getBoundingBox().get_size(), 1u);
-    m2Rnd.draw(rw, textBox, Color::White,
+    m2Rnd.draw(rw, textBox, color::white,
       proj * textTrans
         * trans2f::translation(ft.getBoundingBox().get_position()));
-    textRnd.draw(rw, ft, Color::White, proj * textTrans);
+    textRnd.draw(rw, ft, color::white, proj * textTrans);
 
     std::chrono::nanoseconds timePerFrame = timer.reset();
-    m2Rnd.draw(rw, fpsRect, Color::Black, proj);
+    m2Rnd.draw(rw, fpsRect, color::black, proj);
     FormattedText fpsText(
       to_string(1.f
         /
         std::chrono::duration_cast<std::chrono::duration<float>>(timePerFrame)
             .count()),
       font);
-    textRnd.draw(rw, fpsText, Color::White, proj * trans2f::translation(-fpsText.getBoundingBox().get_position()));
+    textRnd.draw(rw, fpsText, color::white, proj * trans2f::translation(-fpsText.getBoundingBox().get_position()));
     rw.display();
   }
 

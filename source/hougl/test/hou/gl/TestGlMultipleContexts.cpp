@@ -4,7 +4,7 @@
 
 #include "hou/gl/TestGlMultipleContexts.hpp"
 #include "hou/gl/GlContextSettings.hpp"
-#include "hou/sys/VideoMode.hpp"
+#include "hou/sys/video_mode.hpp"
 
 
 

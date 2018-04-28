@@ -19,7 +19,7 @@ std::ostream& operator<<(std::ostream& os, TextureChannel tc)
 {
   switch(tc)
   {
-    TEXTURE_CHANNEL_CASE(R, os);
+    TEXTURE_CHANNEL_CASE(r, os);
     TEXTURE_CHANNEL_CASE(G, os);
     TEXTURE_CHANNEL_CASE(B, os);
     TEXTURE_CHANNEL_CASE(A, os);

@@ -7,7 +7,7 @@
 #include "hou/gl/GlContextSettings.hpp"
 #include "hou/gl/GlFunctions.hpp"
 
-#include "hou/sys/VideoMode.hpp"
+#include "hou/sys/video_mode.hpp"
 
 
 
@@ -65,8 +65,8 @@ uint GraphicContext::getRenderingStencilByteCount()
 GraphicContext::GraphicContext()
   : mExtensionInitializer()
   , mDefaultWindow(defaultWindowName,
-      VideoMode(vec2u::zero(), getRenderingColorByteCount()),
-      WindowStyle::Windowed)
+      video_mode(vec2u::zero(), getRenderingColorByteCount()),
+      window_style::windowed)
   , mGlContext(
       gl::ContextSettings(gl::Version(4u, 5u), gl::ContextProfile::Core,
         getRenderingDepthByteCount(), getRenderingStencilByteCount(), 0u),

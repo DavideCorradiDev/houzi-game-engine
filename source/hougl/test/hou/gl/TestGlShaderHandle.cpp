@@ -28,7 +28,7 @@ TEST_F(TestGlShaderHandle, Creation)
 {
   gl::ShaderHandle sh = gl::ShaderHandle::create(GL_VERTEX_SHADER);
   EXPECT_NE(0u, sh.getName());
-  EXPECT_EQ(static_cast<GLenum>(GL_VERTEX_SHADER), sh.getType());
+  EXPECT_EQ(static_cast<GLenum>(GL_VERTEX_SHADER), sh.get_type());
 }
 
 

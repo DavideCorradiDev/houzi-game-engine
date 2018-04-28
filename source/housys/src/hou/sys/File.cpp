@@ -2,9 +2,9 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/sys/File.hpp"
+#include "hou/sys/file.hpp"
 
-#include "hou/sys/SysError.hpp"
+#include "hou/sys/sys_error.hpp"
 
 #include "hou/cor/error.hpp"
 #include "hou/cor/std_string.hpp"
@@ -17,95 +17,95 @@
 namespace hou
 {
 
-File::File(const std::string& filename, FileOpenMode mode, FileType type)
+file::file(const std::string& filename, file_open_mode mode, file_type type)
   : non_copyable()
-  , mHandle(filename, mode, type)
-  , mEof(false)
-  , mError(false)
+  , m_handle(filename, mode, type)
+  , m_eof(false)
+  , m_error(false)
 {}
 
 
 
 
-File::File(File&& other)
+file::file(file&& other)
   : non_copyable()
-  , mHandle(std::move(other.mHandle))
-  , mEof(std::move(other.mEof))
-  , mError(std::move(other.mError))
+  , m_handle(std::move(other.m_handle))
+  , m_eof(std::move(other.m_eof))
+  , m_error(std::move(other.m_error))
 {}
 
 
 
-bool File::eof() const
+bool file::eof() const
 {
-  return mEof;
+  return m_eof;
 }
 
 
 
-bool File::error() const
+bool file::error() const
 {
-  return mError;
+  return m_error;
 }
 
 
 
-size_t File::getByteCount() const
+size_t file::get_byte_count() const
 {
-  return getFileByteSize(getFileDescriptor(mHandle));
+  return get_file_byte_size(get_file_descriptor(m_handle));
 }
 
 
 
-long File::tell() const
+long file::tell() const
 {
-  long pos = ftell(mHandle);
-  HOU_RUNTIME_CHECK(pos != -1L, get_text(SysError::FileTell));
+  long pos = ftell(m_handle);
+  HOU_RUNTIME_CHECK(pos != -1L, get_text(sys_error::file_tell));
   return pos;
 }
 
 
 
-void File::seekSet(long pos)
+void file::seek_set(long pos)
 {
   seek(pos, SEEK_SET);
-  updateFlags();
+  update_flags();
 }
 
 
 
-void File::seekFromEnd(long pos)
+void file::seek_from_end(long pos)
 {
   seek(pos, SEEK_END);
-  updateFlags();
+  update_flags();
 }
 
 
 
-void File::seekOffset(long offset)
+void file::seek_offset(long offset)
 {
   seek(offset, SEEK_CUR);
-  updateFlags();
+  update_flags();
 }
 
 
 
-void File::flush() const
+void file::flush() const
 {
-  HOU_RUNTIME_CHECK(fflush(mHandle) != EOF, get_text(SysError::FileFlush));
+  HOU_RUNTIME_CHECK(fflush(m_handle) != EOF, get_text(sys_error::file_flush));
 }
 
 
 
 
-bool File::getc(char& c)
+bool file::getc(char& c)
 {
-  int retval = fgetc(mHandle);
-  updateFlags();
+  int retval = fgetc(m_handle);
+  update_flags();
   c = static_cast<char>(retval);
   if(retval == EOF)
   {
-    HOU_RUNTIME_CHECK(!error(), get_text(SysError::FileRead));
+    HOU_RUNTIME_CHECK(!error(), get_text(sys_error::file_read));
     return false;
   }
   return true;
@@ -113,23 +113,23 @@ bool File::getc(char& c)
 
 
 
-void File::putc(char c)
+void file::putc(char c)
 {
-  int retval = fputc(c, mHandle);
-  updateFlags();
-  HOU_RUNTIME_CHECK(retval != EOF, get_text(SysError::FileWrite));
+  int retval = fputc(c, m_handle);
+  update_flags();
+  HOU_RUNTIME_CHECK(retval != EOF, get_text(sys_error::file_write));
 }
 
 
 
-size_t File::gets(std::string& str)
+size_t file::gets(std::string& str)
 {
   const char* retval = fgets(const_cast<char*>(str.data()), str.size()
-    , mHandle);
-  updateFlags();
+    , m_handle);
+  update_flags();
   if(retval == nullptr)
   {
-    HOU_RUNTIME_CHECK(!error(), get_text(SysError::FileRead));
+    HOU_RUNTIME_CHECK(!error(), get_text(sys_error::file_read));
     return 0u;
   }
   return std::char_traits<char>::length(retval);
@@ -137,46 +137,46 @@ size_t File::gets(std::string& str)
 
 
 
-void File::puts(const std::string& str)
+void file::puts(const std::string& str)
 {
-  int retval = fputs(str.c_str(), mHandle);
-  updateFlags();
-  HOU_RUNTIME_CHECK(retval != EOF, get_text(SysError::FileWrite));
+  int retval = fputs(str.c_str(), m_handle);
+  update_flags();
+  HOU_RUNTIME_CHECK(retval != EOF, get_text(sys_error::file_write));
 }
 
 
 
-size_t File::read(void* buf, size_t elementSize, size_t bufSize)
+size_t file::read(void* buf, size_t elementSize, size_t bufSize)
 {
-  size_t count = fread(buf, elementSize, bufSize, mHandle);
-  updateFlags();
-  HOU_RUNTIME_CHECK(count == bufSize || !error(), get_text(SysError::FileRead));
+  size_t count = fread(buf, elementSize, bufSize, m_handle);
+  update_flags();
+  HOU_RUNTIME_CHECK(count == bufSize || !error(), get_text(sys_error::file_read));
   return count;
 }
 
 
 
-void File::write(const void* buf, size_t elementSize, size_t bufSize)
+void file::write(const void* buf, size_t elementSize, size_t bufSize)
 {
-  size_t count = fwrite(buf, elementSize, bufSize, mHandle);
-  updateFlags();
-  HOU_RUNTIME_CHECK(count == bufSize, get_text(SysError::FileWrite));
+  size_t count = fwrite(buf, elementSize, bufSize, m_handle);
+  update_flags();
+  HOU_RUNTIME_CHECK(count == bufSize, get_text(sys_error::file_write));
 }
 
 
 
-void File::seek(long pos, int origin) const
+void file::seek(long pos, int origin) const
 {
-  HOU_RUNTIME_CHECK(fseek(mHandle, pos, origin) == 0
-    , get_text(SysError::FileSeek));
+  HOU_RUNTIME_CHECK(fseek(m_handle, pos, origin) == 0
+    , get_text(sys_error::file_seek));
 }
 
 
 
-void File::updateFlags()
+void file::update_flags()
 {
-  mEof = (feof(mHandle) != 0);
-  mError = (ferror(mHandle) != 0);
+  m_eof = (feof(m_handle) != 0);
+  m_error = (ferror(m_handle) != 0);
 }
 
 }

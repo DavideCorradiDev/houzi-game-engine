@@ -187,12 +187,12 @@ template <typename T>
   bool close(const rectangle<T>& lhs, const rectangle<T>& rhs
   , T acc = std::numeric_limits<T>::epsilon());
 
-/** Writes the object into a stream.
+/** Writes the object into a ph_stream.
  *
  *  \tparam T the scalar type.
- *  \param os the stream.
+ *  \param os the ph_stream.
  *  \param rect the ph_rectangle.
- *  \return a reference to the stream.
+ *  \return a reference to the ph_stream.
  */
 template <typename T>
   std::ostream& operator<<(std::ostream& os, const rectangle<T>& rect);

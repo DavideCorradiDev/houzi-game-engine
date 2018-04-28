@@ -75,13 +75,13 @@ do \
   { \
     if(lhs[macro_i] != rhs[macro_i]) \
     { \
-      std::stringstream stream; \
-      stream \
+      std::stringstream ph_stream; \
+      ph_stream \
         << "      Expected: " << #lhs << "[" << macro_i << "]\n" \
         << "      Which is: " << lhs[macro_i] << "\n" \
         << "To be equal to: " << #rhs << "[" << macro_i << "]\n" \
         << "      Which is: " << rhs[macro_i]; \
-      ADD_FAILURE() << stream.str(); \
+      ADD_FAILURE() << ph_stream.str(); \
     } \
     else \
     { \
@@ -101,14 +101,14 @@ do \
   { \
     if(!close(lhs[macro_i], rhs[macro_i], prec)) \
     { \
-      std::stringstream stream; \
-      stream \
+      std::stringstream ph_stream; \
+      ph_stream \
         << "      Expected: " << #lhs << "[" << macro_i << "]\n" \
         << "      Which is: " << lhs[macro_i] << "\n" \
         << "To be close to: " << #rhs << "[" << macro_i << "]\n" \
         << "      Which is: " << rhs[macro_i] << "\n" \
         << "With precision: " << prec; \
-      ADD_FAILURE() << stream.str(); \
+      ADD_FAILURE() << ph_stream.str(); \
     } \
     else \
     { \
@@ -130,14 +130,14 @@ do \
 { \
   if(!close(lhs, rhs, prec)) \
   { \
-    std::stringstream stream; \
-    stream \
+    std::stringstream ph_stream; \
+    ph_stream \
       << "      Expected: " << #lhs << "\n" \
       << "      Which is: " << lhs << "\n" \
       << "To be close to: " << #rhs << "\n" \
       << "      Which is: " << rhs << "\n" \
       << "With precision: " << prec; \
-    ADD_FAILURE() << stream.str(); \
+    ADD_FAILURE() << ph_stream.str(); \
   } \
   else \
   { \
@@ -155,9 +155,9 @@ while(false)
 
 #define HOU_EXPECT_OUTPUT(expected_string, object) \
 { \
-  std::stringstream stream; \
-  stream << object; \
-  EXPECT_STREQ(expected_string, stream.str().c_str()) \
+  std::stringstream ph_stream; \
+  ph_stream << object; \
+  EXPECT_STREQ(expected_string, ph_stream.str().c_str()) \
     << "Error in operator<<"; \
 }
 

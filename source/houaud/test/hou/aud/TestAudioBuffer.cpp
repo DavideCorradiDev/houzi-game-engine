@@ -41,9 +41,9 @@ TEST_F(TestAudioBuffer, DefaultConstructor)
   AudioBuffer ab;
 
   EXPECT_NE(0u, ab.getHandle().getName());
-  EXPECT_EQ(2u, ab.getByteCount());
+  EXPECT_EQ(2u, ab.get_byte_count());
   EXPECT_EQ(1u, ab.getSampleCount());
-  EXPECT_EQ(AudioBufferFormat::Mono16, ab.getFormat());
+  EXPECT_EQ(AudioBufferFormat::Mono16, ab.get_format());
   EXPECT_EQ(1u, ab.getChannelCount());
   EXPECT_EQ(2u, ab.getBytesPerSample());
   EXPECT_EQ(1, ab.getSampleRate());
@@ -57,12 +57,12 @@ TEST_F(TestAudioBuffer, DataConstructor)
   AudioBuffer ab(data, AudioBufferFormat::Stereo16, 345);
 
   EXPECT_NE(0u, ab.getHandle().getName());
-  EXPECT_EQ(data.size(), ab.getByteCount());
+  EXPECT_EQ(data.size(), ab.get_byte_count());
   EXPECT_EQ(data.size()
-      / (getAudioBufferFormatChannelCount(ab.getFormat())
-          * getAudioBufferFormatBytesPerSample(ab.getFormat())),
+      / (getAudioBufferFormatChannelCount(ab.get_format())
+          * getAudioBufferFormatBytesPerSample(ab.get_format())),
     ab.getSampleCount());
-  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.getFormat());
+  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.get_format());
   EXPECT_EQ(2u, ab.getChannelCount());
   EXPECT_EQ(2u, ab.getBytesPerSample());
   EXPECT_EQ(345, ab.getSampleRate());
@@ -77,12 +77,12 @@ TEST_F(TestAudioBuffer, DataMoveConstructor)
     {1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u}, AudioBufferFormat::Stereo16, 345);
 
   EXPECT_NE(0u, ab.getHandle().getName());
-  EXPECT_EQ(data.size(), ab.getByteCount());
+  EXPECT_EQ(data.size(), ab.get_byte_count());
   EXPECT_EQ(data.size()
-      / (getAudioBufferFormatChannelCount(ab.getFormat())
-          * getAudioBufferFormatBytesPerSample(ab.getFormat())),
+      / (getAudioBufferFormatChannelCount(ab.get_format())
+          * getAudioBufferFormatBytesPerSample(ab.get_format())),
     ab.getSampleCount());
-  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.getFormat());
+  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.get_format());
   EXPECT_EQ(2u, ab.getChannelCount());
   EXPECT_EQ(2u, ab.getBytesPerSample());
   EXPECT_EQ(345, ab.getSampleRate());
@@ -97,13 +97,13 @@ TEST_F(TestAudioBuffer, StreamConstructor)
   AudioBuffer ab(fi);
 
   EXPECT_NE(0u, ab.getHandle().getName());
-  EXPECT_EQ(84924u, ab.getByteCount());
+  EXPECT_EQ(84924u, ab.get_byte_count());
   EXPECT_EQ(21231u, ab.getSampleCount());
-  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.getFormat());
+  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.get_format());
   EXPECT_EQ(2u, ab.getChannelCount());
   EXPECT_EQ(2u, ab.getBytesPerSample());
   EXPECT_EQ(44100, ab.getSampleRate());
-  EXPECT_EQ(fi.getByteCount(), static_cast<size_t>(fi.getBytePos()));
+  EXPECT_EQ(fi.get_byte_count(), static_cast<size_t>(fi.get_byte_pos()));
 }
 
 
@@ -113,9 +113,9 @@ TEST_F(TestAudioBuffer, StreamMoveConstructor)
   AudioBuffer ab = AudioBuffer(WavFileIn(wavStereo16FileName));
 
   EXPECT_NE(0u, ab.getHandle().getName());
-  EXPECT_EQ(84924u, ab.getByteCount());
+  EXPECT_EQ(84924u, ab.get_byte_count());
   EXPECT_EQ(21231u, ab.getSampleCount());
-  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.getFormat());
+  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.get_format());
   EXPECT_EQ(2u, ab.getChannelCount());
   EXPECT_EQ(2u, ab.getBytesPerSample());
   EXPECT_EQ(44100, ab.getSampleRate());
@@ -132,12 +132,12 @@ TEST_F(TestAudioBuffer, MoveConstructor)
 
   EXPECT_EQ(0u, abDummy.getHandle().getName());
   EXPECT_EQ(nameRef, ab.getHandle().getName());
-  EXPECT_EQ(data.size(), ab.getByteCount());
+  EXPECT_EQ(data.size(), ab.get_byte_count());
   EXPECT_EQ(data.size()
-      / (getAudioBufferFormatChannelCount(ab.getFormat())
-          * getAudioBufferFormatBytesPerSample(ab.getFormat())),
+      / (getAudioBufferFormatChannelCount(ab.get_format())
+          * getAudioBufferFormatBytesPerSample(ab.get_format())),
     ab.getSampleCount());
-  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.getFormat());
+  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.get_format());
   EXPECT_EQ(2u, ab.getChannelCount());
   EXPECT_EQ(2u, ab.getBytesPerSample());
   EXPECT_EQ(345, ab.getSampleRate());
@@ -150,12 +150,12 @@ TEST_F(TestAudioBuffer, SetData)
   std::vector<uint8_t> dataRef1{1u, 2u, 3u, 4u};
   AudioBuffer ab(dataRef1, AudioBufferFormat::Stereo16, 114);
 
-  EXPECT_EQ(dataRef1.size(), ab.getByteCount());
+  EXPECT_EQ(dataRef1.size(), ab.get_byte_count());
   EXPECT_EQ(dataRef1.size()
-      / (getAudioBufferFormatChannelCount(ab.getFormat())
-          * getAudioBufferFormatBytesPerSample(ab.getFormat())),
+      / (getAudioBufferFormatChannelCount(ab.get_format())
+          * getAudioBufferFormatBytesPerSample(ab.get_format())),
     ab.getSampleCount());
-  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.getFormat());
+  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.get_format());
   EXPECT_EQ(2u, ab.getChannelCount());
   EXPECT_EQ(2u, ab.getBytesPerSample());
   EXPECT_EQ(114, ab.getSampleRate());
@@ -163,11 +163,11 @@ TEST_F(TestAudioBuffer, SetData)
   std::vector<uint8_t> dataRef2{1u, 2u, 3u, 4u, 5u, 6u};
   ab.setData(dataRef2, AudioBufferFormat::Mono16, 228);
 
-  EXPECT_EQ(dataRef2.size(), ab.getByteCount());
+  EXPECT_EQ(dataRef2.size(), ab.get_byte_count());
   EXPECT_EQ(
-    dataRef2.size() / getAudioBufferFormatBytesPerSample(ab.getFormat()),
+    dataRef2.size() / getAudioBufferFormatBytesPerSample(ab.get_format()),
     ab.getSampleCount());
-  EXPECT_EQ(AudioBufferFormat::Mono16, ab.getFormat());
+  EXPECT_EQ(AudioBufferFormat::Mono16, ab.get_format());
   EXPECT_EQ(1u, ab.getChannelCount());
   EXPECT_EQ(2u, ab.getBytesPerSample());
   EXPECT_EQ(228, ab.getSampleRate());
@@ -180,12 +180,12 @@ TEST_F(TestAudioBuffer, SetDataWithMove)
   std::vector<uint8_t> dataRef1{1u, 2u, 3u, 4u};
   AudioBuffer ab({1u, 2u, 3u, 4u}, AudioBufferFormat::Stereo16, 114);
 
-  EXPECT_EQ(dataRef1.size(), ab.getByteCount());
+  EXPECT_EQ(dataRef1.size(), ab.get_byte_count());
   EXPECT_EQ(dataRef1.size()
-      / (getAudioBufferFormatChannelCount(ab.getFormat())
-          * getAudioBufferFormatBytesPerSample(ab.getFormat())),
+      / (getAudioBufferFormatChannelCount(ab.get_format())
+          * getAudioBufferFormatBytesPerSample(ab.get_format())),
     ab.getSampleCount());
-  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.getFormat());
+  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.get_format());
   EXPECT_EQ(2u, ab.getChannelCount());
   EXPECT_EQ(2u, ab.getBytesPerSample());
   EXPECT_EQ(114, ab.getSampleRate());
@@ -193,11 +193,11 @@ TEST_F(TestAudioBuffer, SetDataWithMove)
   std::vector<uint8_t> dataRef2{1u, 2u, 3u, 4u, 5u, 6u};
   ab.setData({1u, 2u, 3u, 4u, 5u, 6u}, AudioBufferFormat::Mono16, 228);
 
-  EXPECT_EQ(dataRef2.size(), ab.getByteCount());
+  EXPECT_EQ(dataRef2.size(), ab.get_byte_count());
   EXPECT_EQ(
-    dataRef2.size() / getAudioBufferFormatBytesPerSample(ab.getFormat()),
+    dataRef2.size() / getAudioBufferFormatBytesPerSample(ab.get_format()),
     ab.getSampleCount());
-  EXPECT_EQ(AudioBufferFormat::Mono16, ab.getFormat());
+  EXPECT_EQ(AudioBufferFormat::Mono16, ab.get_format());
   EXPECT_EQ(1u, ab.getChannelCount());
   EXPECT_EQ(2u, ab.getBytesPerSample());
   EXPECT_EQ(228, ab.getSampleRate());
@@ -210,12 +210,12 @@ TEST_F(TestAudioBuffer, setDataFromStream)
   std::vector<uint8_t> dataRef1{1u, 2u, 3u, 4u};
   AudioBuffer ab(dataRef1, AudioBufferFormat::Stereo16, 114);
 
-  EXPECT_EQ(dataRef1.size(), ab.getByteCount());
+  EXPECT_EQ(dataRef1.size(), ab.get_byte_count());
   EXPECT_EQ(dataRef1.size()
-      / (getAudioBufferFormatChannelCount(ab.getFormat())
-          * getAudioBufferFormatBytesPerSample(ab.getFormat())),
+      / (getAudioBufferFormatChannelCount(ab.get_format())
+          * getAudioBufferFormatBytesPerSample(ab.get_format())),
     ab.getSampleCount());
-  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.getFormat());
+  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.get_format());
   EXPECT_EQ(2u, ab.getChannelCount());
   EXPECT_EQ(2u, ab.getBytesPerSample());
   EXPECT_EQ(114, ab.getSampleRate());
@@ -224,9 +224,9 @@ TEST_F(TestAudioBuffer, setDataFromStream)
   fi.setSamplePos(4u);
   ab.setData(fi);
 
-  EXPECT_EQ(84924u, ab.getByteCount());
+  EXPECT_EQ(84924u, ab.get_byte_count());
   EXPECT_EQ(21231u, ab.getSampleCount());
-  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.getFormat());
+  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.get_format());
   EXPECT_EQ(2u, ab.getChannelCount());
   EXPECT_EQ(2u, ab.getBytesPerSample());
   EXPECT_EQ(44100, ab.getSampleRate());
@@ -239,21 +239,21 @@ TEST_F(TestAudioBuffer, setDataFromStreamWithMove)
   std::vector<uint8_t> dataRef1{1u, 2u, 3u, 4u};
   AudioBuffer ab(dataRef1, AudioBufferFormat::Stereo16, 114);
 
-  EXPECT_EQ(dataRef1.size(), ab.getByteCount());
+  EXPECT_EQ(dataRef1.size(), ab.get_byte_count());
   EXPECT_EQ(dataRef1.size()
-      / (getAudioBufferFormatChannelCount(ab.getFormat())
-          * getAudioBufferFormatBytesPerSample(ab.getFormat())),
+      / (getAudioBufferFormatChannelCount(ab.get_format())
+          * getAudioBufferFormatBytesPerSample(ab.get_format())),
     ab.getSampleCount());
-  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.getFormat());
+  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.get_format());
   EXPECT_EQ(2u, ab.getChannelCount());
   EXPECT_EQ(2u, ab.getBytesPerSample());
   EXPECT_EQ(114, ab.getSampleRate());
 
   ab.setData(WavFileIn(wavStereo16FileName));
 
-  EXPECT_EQ(84924u, ab.getByteCount());
+  EXPECT_EQ(84924u, ab.get_byte_count());
   EXPECT_EQ(21231u, ab.getSampleCount());
-  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.getFormat());
+  EXPECT_EQ(AudioBufferFormat::Stereo16, ab.get_format());
   EXPECT_EQ(2u, ab.getChannelCount());
   EXPECT_EQ(2u, ab.getBytesPerSample());
   EXPECT_EQ(44100, ab.getSampleRate());
@@ -270,10 +270,10 @@ TEST_F(TestAudioBuffer, GetMono8FormatMeasures)
   AudioBuffer b(data, AudioBufferFormat::Mono8, 144);
   EXPECT_EQ(b.getBytesPerSample() == 1u ? AudioBufferFormat::Mono8
                                         : AudioBufferFormat::Mono16,
-    b.getFormat());
+    b.get_format());
   EXPECT_EQ(1u, b.getChannelCount());
   EXPECT_TRUE(b.getBytesPerSample() == 1u || b.getBytesPerSample() == 2u);
-  EXPECT_EQ(data.size() * b.getBytesPerSample(), b.getByteCount());
+  EXPECT_EQ(data.size() * b.getBytesPerSample(), b.get_byte_count());
 }
 
 
@@ -282,10 +282,10 @@ TEST_F(TestAudioBuffer, GetMono16FormatMeasures)
 {
   std::vector<uint8_t> data{1, 2, 3, 4};
   AudioBuffer b(data, AudioBufferFormat::Mono16, 144);
-  EXPECT_EQ(AudioBufferFormat::Mono16, b.getFormat());
+  EXPECT_EQ(AudioBufferFormat::Mono16, b.get_format());
   EXPECT_EQ(1u, b.getChannelCount());
   EXPECT_EQ(2u, b.getBytesPerSample());
-  EXPECT_EQ(data.size(), b.getByteCount());
+  EXPECT_EQ(data.size(), b.get_byte_count());
 }
 
 
@@ -299,10 +299,10 @@ TEST_F(TestAudioBuffer, GetStereo8FormatMeasures)
   AudioBuffer b(data, AudioBufferFormat::Stereo8, 144);
   EXPECT_EQ(b.getBytesPerSample() == 1u ? AudioBufferFormat::Stereo8
                                         : AudioBufferFormat::Stereo16,
-    b.getFormat());
+    b.get_format());
   EXPECT_EQ(2u, b.getChannelCount());
   EXPECT_TRUE(b.getBytesPerSample() == 1u || b.getBytesPerSample() == 2u);
-  EXPECT_EQ(data.size() * b.getBytesPerSample(), b.getByteCount());
+  EXPECT_EQ(data.size() * b.getBytesPerSample(), b.get_byte_count());
 }
 
 
@@ -311,8 +311,8 @@ TEST_F(TestAudioBuffer, GetStereo16FormatMeasures)
 {
   std::vector<uint8_t> data{1, 2, 3, 4};
   AudioBuffer b(data, AudioBufferFormat::Stereo16, 144);
-  EXPECT_EQ(AudioBufferFormat::Stereo16, b.getFormat());
+  EXPECT_EQ(AudioBufferFormat::Stereo16, b.get_format());
   EXPECT_EQ(2u, b.getChannelCount());
   EXPECT_EQ(2u, b.getBytesPerSample());
-  EXPECT_EQ(data.size(), b.getByteCount());
+  EXPECT_EQ(data.size(), b.get_byte_count());
 }

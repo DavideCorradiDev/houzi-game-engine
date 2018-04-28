@@ -5,83 +5,83 @@
 #ifndef HOU_SYS_BINARY_FILE_OUT_HPP
 #define HOU_SYS_BINARY_FILE_OUT_HPP
 
-#include "hou/sys/SysExport.hpp"
-#include "hou/sys/BinaryStreamOut.hpp"
+#include "hou/sys/sys_export.hpp"
+#include "hou/sys/binary_stream_out.hpp"
 
 #include "hou/cor/non_copyable.hpp"
 
-#include "hou/sys/File.hpp"
+#include "hou/sys/file.hpp"
 
 
 
 namespace hou
 {
 
-/** Output binary file stream.
+/** Output binary ph_file ph_stream.
  */
-class HOU_SYS_API BinaryFileOut
+class HOU_SYS_API binary_file_out
   : public non_copyable
-  , public BinaryStreamOut
+  , public binary_stream_out
 {
 public:
   /** Path constructor.
    *
    *  Throws if the provided path is not valid.
    *
-   *  \param path the path to the file to be opened.
+   *  \param path the path to the ph_file to be opened.
    */
-  explicit BinaryFileOut(const std::string& path);
+  explicit binary_file_out(const std::string& path);
 
   /** Move constructor.
    *
    *  \param other the other object.
    */
-  BinaryFileOut(BinaryFileOut&& other);
+  binary_file_out(binary_file_out&& other);
 
   /** Destructor.
    */
-  virtual ~BinaryFileOut();
+  virtual ~binary_file_out();
 
-  // Stream overrides.
+  // stream overrides.
   bool eof() const final;
   bool error() const final;
-  size_t getByteCount() const final;
+  size_t get_byte_count() const final;
 
-  // StreamOut overrides.
-  size_t getWriteByteCount() const final;
-  size_t getWriteElementCount() const final;
+  // stream_out overrides.
+  size_t get_write_byte_count() const final;
+  size_t get_write_element_count() const final;
 
-  // BinaryStream overrides.
-  BytePosition getBytePos() const final;
+  // binary_stream overrides.
+  byte_position get_byte_pos() const final;
 
   /** Sets the current byte position indicator.
    *
    *  Throws if pos is negative.
-   *  The position may be over the end of the file.
+   *  The position may be over the end of the ph_file.
    *
    *  \param pos the byte position indicator value.
-   *  \return a reference to this stream.
+   *  \return a reference to this ph_stream.
    */
-  BinaryStream& setBytePos(BytePosition pos) final;
+  binary_stream& set_byte_pos(byte_position pos) final;
 
   /** Moves the current byte position indicator.
    *
    *  Throws if the offset moves the position indicator to a negative position.
-   *  The position may be over the end of the file.
+   *  The position may be over the end of the ph_file.
    *
    *  \param offset the byte position indicator offset.
-   *  \return a reference to this stream.
+   *  \return a reference to this ph_stream.
    */
-  BinaryStream& moveBytePos(ByteOffset offset) final;
+  binary_stream& move_byte_pos(byte_offset offset) final;
 
 protected:
-  // StreamOut overrides.
-  void onWrite(const void* buf, size_t elementSize, size_t bufSize) final;
+  // stream_out overrides.
+  void on_write(const void* buf, size_t elementSize, size_t bufSize) final;
 
 private:
-  File mFile;
-  size_t mByteCount;
-  size_t mElementCount;
+  file m_file;
+  size_t m_byte_count;
+  size_t m_element_count;
 };
 
 }

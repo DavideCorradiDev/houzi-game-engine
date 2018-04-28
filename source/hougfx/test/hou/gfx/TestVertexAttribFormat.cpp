@@ -24,7 +24,7 @@ class TestVertexAttribFormat : public TestGfxBase
 TEST_F(TestVertexAttribFormat, Constructor)
 {
   VertexAttribFormat vaf(GlType::Float, 3u, 12u, false);
-  EXPECT_EQ(GlType::Float, vaf.getType());
+  EXPECT_EQ(GlType::Float, vaf.get_type());
   EXPECT_EQ(3u, vaf.getElementCount());
   EXPECT_EQ(12u, vaf.getByteOffset());
   EXPECT_EQ(false, vaf.mustBeNormalized());
@@ -59,7 +59,7 @@ TEST_F(TestVertexAttribFormat, Comparison)
 TEST_F(TestVertexAttribFormat, OutputStreamOperator)
 {
   VertexAttribFormat vaf(GlType::Float, 3u, 12u, false);
-  const char* outRef = "{Type = Float, ElementCount = 3, ByteOffset = 12, "
+  const char* outRef = "{Type = Float, ElementCount = 3, byte_offset = 12, "
                        "MustBeNormalized = false}";
   HOU_EXPECT_OUTPUT(outRef, vaf);
 }

@@ -20,7 +20,7 @@
 namespace hou
 {
 
-class Window;
+class window;
 
 namespace gl
 {
@@ -34,18 +34,18 @@ class ContextImpl
   : public non_copyable
 {
 public:
-  static void setCurrent(ContextImpl& context, Window& window);
+  static void setCurrent(ContextImpl& context, window& ph_window);
   static void unsetCurrent();
 
-  ContextImpl(const ContextSettings& settings, const Window& window
+  ContextImpl(const ContextSettings& settings, const window& ph_window
     , const ContextImpl* sharedContext);
   ContextImpl(ContextImpl&& other);
   ~ContextImpl();
 
 private:
 #if defined(HOU_SYSTEM_WINDOWS)
-  HGLRC mHandle;
-  HDC mHdc;
+  HGLRC m_handle;
+  HDC m_hdc;
   int mPixelFormat;
 #endif
 };

@@ -7,18 +7,18 @@
 namespace hou
 {
 
-template <PixelFormat pf>
-constexpr PixelFormat PixelT<pf>::getFormat()
+template <pixel_format pf>
+constexpr pixel_format pixel_t<pf>::get_format()
 {
   return pf;
 }
 
 
 
-template <PixelFormat pf>
-constexpr uint PixelT<pf>::getByteCount()
+template <pixel_format pf>
+constexpr uint pixel_t<pf>::get_byte_count()
 {
-  return getPixelFormatByteCount(pf);
+  return get_pixel_format_byte_count(pf);
 }
 
 }  // namespace hou

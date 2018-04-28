@@ -9,12 +9,12 @@
 #include "hou/gfx/GraphicContext.hpp"
 #include "hou/gfx/Texture.hpp"
 
-#include "hou/sys/VideoMode.hpp"
+#include "hou/sys/video_mode.hpp"
 
 
 
 // Implementation note:
-// Drawing is never performed on the default framebuffer of the window.
+// Drawing is never performed on the default framebuffer of the ph_window.
 // When performing draw operations, they are performed on an off-screen
 // render target.
 // When calling display(), the off-screen target is blit onto the default
@@ -27,8 +27,8 @@
 // - OpenGL has the origin on the lower left corner. In order to have an origin
 // on the top left corner, everything has to be mirrored. With the current
 // implementation, the mirroring happens during the blit operation, while the
-// image on the off-screen target is not mirrored. No mirroring takes place
-// until when the rendered image is displayed to the user. IF not doing this,
+// ph_image on the off-screen target is not mirrored. No mirroring takes place
+// until when the rendered ph_image is displayed to the user. IF not doing this,
 // each single draw operation would have to be mirrored. Also, blitting would
 // not perform correctly as the textures might be flipped multiple times.
 
@@ -36,8 +36,8 @@ namespace hou
 {
 
 RenderWindow::RenderWindow(const std::string& title, const vec2u& size,
-  WindowStyle style, uint sampleCount)
-  : Window(title, VideoMode(size, GraphicContext::getRenderingColorByteCount()),
+  window_style style, uint sampleCount)
+  : window(title, video_mode(size, GraphicContext::getRenderingColorByteCount()),
       style)
   , RenderSurface(size, sampleCount)
 {}
@@ -45,7 +45,7 @@ RenderWindow::RenderWindow(const std::string& title, const vec2u& size,
 
 
 RenderWindow::RenderWindow(RenderWindow&& other)
-  : Window(std::move(other))
+  : window(std::move(other))
   , RenderSurface(std::move(other))
 {}
 
@@ -67,7 +67,7 @@ void RenderWindow::display()
     GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
     GL_NEAREST);
 
-  swapBuffers();
+  swap_buffers();
 }
 
 
@@ -88,17 +88,17 @@ void RenderWindow::setSampleCount(uint sampleCount)
 
 
 
-void RenderWindow::setFrameRect(const vec2i& pos, const vec2u& size)
+void RenderWindow::set_frame_rect(const vec2i& pos, const vec2u& size)
 {
-  Window::setFrameRect(pos, size);
+  window::set_frame_rect(pos, size);
   rebuildFramebufferIfNecessary();
 }
 
 
 
-void RenderWindow::setClientRect(const vec2i& pos, const vec2u& size)
+void RenderWindow::set_client_rect(const vec2i& pos, const vec2u& size)
 {
-  Window::setClientRect(pos, size);
+  window::set_client_rect(pos, size);
   rebuildFramebufferIfNecessary();
 }
 
@@ -106,7 +106,7 @@ void RenderWindow::setClientRect(const vec2i& pos, const vec2u& size)
 
 void RenderWindow::rebuildFramebufferIfNecessary()
 {
-  vec2u newSize = getClientSize();
+  vec2u newSize = get_client_size();
   if(newSize.x() == 0u)
   {
     newSize.x() = 1u;

@@ -19,7 +19,7 @@
 namespace hou
 {
 
-class Window;
+class window;
 
 namespace gl
 {
@@ -53,7 +53,7 @@ HOU_GL_API GLint getPackAlignment();
 HOU_GL_API void setViewport(GLint x, GLint y, GLsizei w, GLsizei h);
 HOU_GL_API void setPolygonMode(GLenum polygonFace, GLenum polygonMode);
 HOU_GL_API void drawArrays(GLenum drawMode, GLint first, GLsizei count);
-HOU_GL_API void bindWindow(Window& w);
+HOU_GL_API void bindWindow(window& w);
 
 HOU_GL_API GLsizei getPixelSizeBytes(GLenum format);
 HOU_GL_API GLsizei computeTextureSizeBytes(

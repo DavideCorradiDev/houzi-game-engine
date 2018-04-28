@@ -55,10 +55,10 @@ const AudioBuffer* MemoryAudioSource::getBuffer() const
 
 
 
-AudioBufferFormat MemoryAudioSource::getFormat() const
+AudioBufferFormat MemoryAudioSource::get_format() const
 {
   return mBufferRef == nullptr ? AudioBufferFormat::Mono8
-                               : mBufferRef->getFormat();
+                               : mBufferRef->get_format();
 }
 
 

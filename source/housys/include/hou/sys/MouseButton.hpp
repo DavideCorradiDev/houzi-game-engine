@@ -5,7 +5,7 @@
 #ifndef HOU_SYS_MOUSE_BUTTON_HPP
 #define HOU_SYS_MOUSE_BUTTON_HPP
 
-#include "hou/sys/SysExport.hpp"
+#include "hou/sys/sys_export.hpp"
 
 #include <iostream>
 
@@ -15,27 +15,27 @@ namespace hou
 {
 
 /** Enumeration for the mouse buttons. */
-enum class MouseButton
+enum class mouse_button
 {
   /** Left button. */
-  LB,
+  lb,
   /** Middle button. */
-  MB,
+  mb,
   /** Right button. */
-  RB,
+  rb,
   /** Extra button 1. */
-  XB1,
+  xb1,
   /** Extra button 2. */
-  XB2,
+  xb2,
 };
 
-/** Writes a MouseButton enum into a stream.
+/** Writes a mouse_button enum into a ph_stream.
  *
- *  \param os the stream.
- *  \param mb the MouseButton enum.
- *  \return a reference to the stream.
+ *  \param os the ph_stream.
+ *  \param mb the mouse_button enum.
+ *  \return a reference to the ph_stream.
  */
-HOU_SYS_API std::ostream& operator<<(std::ostream& os, MouseButton mb);
+HOU_SYS_API std::ostream& operator<<(std::ostream& os, mouse_button mb);
 
 }
 

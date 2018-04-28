@@ -5,10 +5,10 @@
 #ifndef HOU_SYS_FILE_HPP
 #define HOU_SYS_FILE_HPP
 
-#include "hou/sys/SysExport.hpp"
+#include "hou/sys/sys_export.hpp"
 #include "hou/cor/non_copyable.hpp"
 
-#include "hou/sys/FileHandle.hpp"
+#include "hou/sys/file_handle.hpp"
 
 #include "hou/cor/basic_types.hpp"
 
@@ -19,9 +19,9 @@
 namespace hou
 {
 
-/** Class representing a file.
+/** Class representing a ph_file.
  */
-class HOU_SYS_API File
+class HOU_SYS_API file
   : public non_copyable
 {
 public:
@@ -29,21 +29,21 @@ public:
    *
    *  Throws if the specified path is invalid.
    *
-   *  \param path the path to the file.
-   *  \param mode the file open mode.
-   *  \param type the file type.
+   *  \param path the path to the ph_file.
+   *  \param mode the ph_file open mode.
+   *  \param type the ph_file type.
    */
-  File(const std::string& path, FileOpenMode mode, FileType type);
+  file(const std::string& path, file_open_mode mode, file_type type);
 
   /** Move constructor.
    *
    *  \param other the other object.
    */
-  File(File&& other);
+  file(file&& other);
 
-  /** Checks the end of file indicator.
+  /** Checks the end of ph_file indicator.
    *
-   *  \return true if the end of file indicator is set.
+   *  \return true if the end of ph_file indicator is set.
    */
   bool eof() const;
 
@@ -53,11 +53,11 @@ public:
    */
   bool error() const;
 
-  /** Retrieves the size of the file in bytes.
+  /** Retrieves the size of the ph_file in bytes.
    *
-   *  \return the size of the file in bytes.
+   *  \return the size of the ph_file in bytes.
    */
-  size_t getByteCount() const;
+  size_t get_byte_count() const;
 
   /** Retrieves the current position indicator.
    *
@@ -69,11 +69,11 @@ public:
    *
    *  \param pos the position indicator.
    *  For text files, pos must be a value obtained by a previous call to tell()
-   *  on the same File object, otherwise the behaviour is undefined. For binary
+   *  on the same file object, otherwise the behaviour is undefined. For binary
    *  files pos can be any non-negative value representing the offset in bytes
-   *  from the beginning of the file.
+   *  from the beginning of the ph_file.
    */
-  void seekSet(long pos);
+  void seek_set(long pos);
 
   /** Moves the current position indicator to the specified position from the
    *  end.
@@ -83,9 +83,9 @@ public:
    *  If possible, avoid calling this function.
    *  Throws if pos is a nagative value.
    *
-   *  \param pos the position from the end of the file.
+   *  \param pos the position from the end of the ph_file.
    */
-  void seekFromEnd(long pos);
+  void seek_from_end(long pos);
 
   /** Moves the current position indicator.
    *
@@ -94,20 +94,20 @@ public:
    *
    *  \param offset the offset in bytes from the current position.
    */
-  void seekOffset(long offset);
+  void seek_offset(long offset);
 
-  /** Flushes the file.
+  /** Flushes the ph_file.
    *
    *  Throws if the current position indicator would move to a negative position.
    *
-   *  If the file is open for writing, any data in the output buffer is flushed
-   *  to the actual file.
+   *  If the ph_file is open for writing, any data in the output buffer is flushed
+   *  to the actual ph_file.
    */
   void flush() const;
 
-  /** Reads a character from the file.
+  /** Reads a character from the ph_file.
    *
-   *  Sets eof if reading over the end of the file.
+   *  Sets eof if reading over the end of the ph_file.
    *  Throws in case of an error when reading.
    *
    *  \param c the character to be read into.
@@ -115,7 +115,7 @@ public:
    */
   bool getc(char& c);
 
-  /** Writes a character into the file.
+  /** Writes a character into the ph_file.
    *
    *  Throws in case of an error while writing.
    *
@@ -123,7 +123,7 @@ public:
    */
   void putc(char c);
 
-  /** Reads a string from the file.
+  /** Reads a string from the ph_file.
    *
    *  It tries to read a number of characters equal to the size of the string,
    *  or until a newline character is encountered.
@@ -131,7 +131,7 @@ public:
    *  of the string will be set.
    *  Check the return value to see how many characters were read.
    *
-   *  Sets eof if reading over the end of the file.
+   *  Sets eof if reading over the end of the ph_file.
    *  Throws in case of an error when reading.
    *
    *  \param str the string to be read into.
@@ -139,7 +139,7 @@ public:
    */
   size_t gets(std::string& str);
 
-  /** Writes a string into the file.
+  /** Writes a string into the ph_file.
    *
    *  Throws in case of an error while writing.
    *
@@ -155,10 +155,10 @@ public:
    *  behaviour.
    *
    *  This function will try to read bufSize elements.
-   *  If the end of the stream is reached, only part of buf will be written.
+   *  If the end of the ph_stream is reached, only part of buf will be written.
    *  Check the return value to see how many elements were read.
    *
-   *  Sets eof if reading over the end of the file.
+   *  Sets eof if reading over the end of the ph_file.
    *  Throws in case of an error while reading.
    *
    *  \param buf a pointer to the memory location to write into.
@@ -191,10 +191,10 @@ public:
    *  behaviour.
    *
    *  This function will try to read bufSize elements.
-   *  If the end of the stream is reached, only part of buf will be written.
+   *  If the end of the ph_stream is reached, only part of buf will be written.
    *  Check the return value to see how many elements were read.
    *
-   *  Sets eof if reading over the end of the file.
+   *  Sets eof if reading over the end of the ph_file.
    *  Throws in case of an error while reading.
    *
    *  \tparam T the element type.
@@ -217,7 +217,7 @@ public:
    *  \tparam T the element type.
    *  \param buf pointer to the memory location to be written.
    *  \param bufSize the number of elements to be written.
-   *  \return a reference to this stream.
+   *  \return a reference to this ph_stream.
    */
   template <typename T>
     void write(const T* buf, size_t bufSize);
@@ -225,10 +225,10 @@ public:
   /** Reads into a container.
    *
    *  This function will try to read as many elements as the size of buffer.
-   *  If the end of the stream is reached, only part of buf will be written.
+   *  If the end of the ph_stream is reached, only part of buf will be written.
    *  Check the return value to see how many elements were read.
    *
-   *  Sets eof if reading over the end of the file.
+   *  Sets eof if reading over the end of the ph_file.
    *  Throws in case of an error while reading.
    *
    *  \tparam Container the container type.
@@ -246,26 +246,26 @@ public:
    *
    *  \tparam Container the container type.
    *  \param buffer the container to be written.
-   *  \return a reference to this stream.
+   *  \return a reference to this ph_stream.
    */
   template <typename Container>
     void write(const Container& buffer);
 
 private:
   void seek(long pos, int origin) const;
-  void updateFlags();
+  void update_flags();
 
 private:
-  FileHandle mHandle;
-  bool mEof;
-  bool mError;
+  file_handle m_handle;
+  bool m_eof;
+  bool m_error;
 };
 
 }
 
 
 
-#include "hou/sys/File.inl"
+#include "hou/sys/file.inl"
 
 #endif
 

@@ -2,9 +2,9 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/sys/FileHandle.hpp"
+#include "hou/sys/file_handle.hpp"
 
-#include "hou/sys/SysError.hpp"
+#include "hou/sys/sys_error.hpp"
 
 #include "hou/cor/error.hpp"
 
@@ -13,52 +13,52 @@
 namespace hou
 {
 
-FileHandle::FileHandle(const std::string& path, FileOpenMode mode, FileType type)
+file_handle::file_handle(const std::string& path, file_open_mode mode, file_type type)
   : non_copyable()
-  , mFile(openFile(path, getFileModeString(mode, type)))
+  , m_file(open_file(path, get_file_mode_string(mode, type)))
 {
-  HOU_RUNTIME_CHECK(mFile != nullptr, get_text(SysError::FileOpen), path.c_str());
+  HOU_RUNTIME_CHECK(m_file != nullptr, get_text(sys_error::file_open), path.c_str());
 }
 
 
 
-FileHandle::FileHandle(FileHandle&& other)
+file_handle::file_handle(file_handle&& other)
   : non_copyable()
-  , mFile(std::move(other.mFile))
+  , m_file(std::move(other.m_file))
 {
-  other.mFile = nullptr;
+  other.m_file = nullptr;
 }
 
 
 
-FileHandle::~FileHandle()
+file_handle::~file_handle()
 {
-  if(mFile != nullptr)
+  if(m_file != nullptr)
   {
-    HOU_FATAL_CHECK(fclose(mFile) != EOF, get_text(SysError::FileClose)
-      , getFileDescriptor(mFile));
+    HOU_FATAL_CHECK(fclose(m_file) != EOF, get_text(sys_error::file_close)
+      , get_file_descriptor(m_file));
   }
 }
 
 
 
-FileHandle::operator FILE*() const
+file_handle::operator FILE*() const
 {
-  return mFile;
+  return m_file;
 }
 
 
 
-std::string getFileModeString(FileOpenMode mode, FileType type)
+std::string get_file_mode_string(file_open_mode mode, file_type type)
 {
   switch(mode)
   {
-    case FileOpenMode::Read:
-      return type == FileType::Binary ? "rb" : "r";
-    case FileOpenMode::Write:
-      return type == FileType::Binary ? "wb" : "w";
-    case FileOpenMode::Append:
-      return type == FileType::Binary ? "ab" : "a";
+    case file_open_mode::read:
+      return type == file_type::binary ? "rb" : "r";
+    case file_open_mode::write:
+      return type == file_type::binary ? "wb" : "w";
+    case file_open_mode::append:
+      return type == file_type::binary ? "ab" : "a";
     default:
       return "";
   }
@@ -66,7 +66,7 @@ std::string getFileModeString(FileOpenMode mode, FileType type)
 
 
 
-std::string getFilenameExtension(const std::string& path)
+std::string get_filename_extension(const std::string& path)
 {
   std::vector<std::string> pointSeparatedStrings;
   split_string(path, '.', std::back_inserter(pointSeparatedStrings));

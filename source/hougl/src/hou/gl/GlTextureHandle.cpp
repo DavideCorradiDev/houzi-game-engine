@@ -151,7 +151,7 @@ void bindTexture(const TextureHandle& texture)
     glBindTexture(texture.getTarget(), texture.getName());
     HOU_GL_CHECK_ERROR();
     Context::getCurrent()->mTrackingData.setBoundTexture(
-      texture.getUid(), texture.getTarget());
+      texture.get_uid(), texture.getTarget());
   }
 }
 
@@ -180,7 +180,7 @@ void bindTexture(const TextureHandle& texture, GLuint unit)
     glBindTextureUnit(unit, texture.getName());
     HOU_GL_CHECK_ERROR();
     Context::getCurrent()->mTrackingData.setBoundTexture(
-      texture.getUid(), unit, texture.getTarget());
+      texture.get_uid(), unit, texture.getTarget());
   }
 }
 
@@ -205,7 +205,7 @@ bool isTextureBound(const TextureHandle& texture)
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
   return Context::getCurrent()->mTrackingData.getBoundTexture()
-    == texture.getUid();
+    == texture.get_uid();
 }
 
 
@@ -223,7 +223,7 @@ bool isTextureBound(const TextureHandle& texture, uint unit)
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
   return Context::getCurrent()->mTrackingData.getBoundTexture(unit)
-    == texture.getUid();
+    == texture.get_uid();
 }
 
 

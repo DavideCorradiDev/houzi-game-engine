@@ -5,9 +5,9 @@
 #include "hou/Test.hpp"
 #include "hou/sys/TestData.hpp"
 
-#include "hou/sys/File.hpp"
-#include "hou/sys/Image.hpp"
-#include "hou/sys/SysError.hpp"
+#include "hou/sys/file.hpp"
+#include "hou/sys/image.hpp"
+#include "hou/sys/sys_error.hpp"
 
 using namespace hou;
 using namespace testing;
@@ -20,15 +20,15 @@ template <typename ImageT>
 class TestImage : public Test
 {
 public:
-  static typename ImageT::Size generateSize();
-  static typename ImageT::PixelCollection generatePixels(
-    const typename ImageT::Size& size);
-  static size_t multiplyElements(const typename ImageT::Size& size);
-  static size_t computePixelIndex(
-    const typename ImageT::Coordinates& coordinates,
-    const typename ImageT::Size& size);
-  static typename ImageT::Coordinates computePixelCoordinates(
-    size_t index, const typename ImageT::Size& size);
+  static typename ImageT::size_type generateSize();
+  static typename ImageT::pixel_collection generatePixels(
+    const typename ImageT::size_type& size);
+  static size_t multiplyElements(const typename ImageT::size_type& size);
+  static size_t compute_pixel_index(
+    const typename ImageT::offset_type& coordinates,
+    const typename ImageT::size_type& size);
+  static typename ImageT::offset_type computePixelCoordinates(
+    size_t index, const typename ImageT::size_type& size);
 };
 
 template <typename ImageT>
@@ -36,8 +36,8 @@ class TestImageDeathTest : public TestImage<ImageT>
 {};
 
 using ImageTypes
-  = Types<Image1R, Image2R, Image3R, Image1RG, Image2RG, Image3RG, Image1RGB,
-    Image2RGB, Image3RGB, Image1RGBA, Image2RGBA, Image3RGBA>;
+  = Types<image1R, image2R, image3R, image1RG, image2RG, image3RG, image1RGB,
+    image2RGB, image3RGB, image1RGBA, image2RGBA, image3RGBA>;
 
 class TestImageClassAttributes : public Test
 {};
@@ -60,7 +60,7 @@ class TestImageFileDeathTest : public TestImageFile
 
 
 template <>
-typename Image1R::Size TestImage<Image1R>::generateSize()
+typename image1R::size_type TestImage<image1R>::generateSize()
 {
   return vec1u{4u};
 }
@@ -68,7 +68,7 @@ typename Image1R::Size TestImage<Image1R>::generateSize()
 
 
 template <>
-typename Image1RG::Size TestImage<Image1RG>::generateSize()
+typename image1RG::size_type TestImage<image1RG>::generateSize()
 {
   return vec1u{4u};
 }
@@ -76,7 +76,7 @@ typename Image1RG::Size TestImage<Image1RG>::generateSize()
 
 
 template <>
-typename Image1RGB::Size TestImage<Image1RGB>::generateSize()
+typename image1RGB::size_type TestImage<image1RGB>::generateSize()
 {
   return vec1u{4u};
 }
@@ -84,7 +84,7 @@ typename Image1RGB::Size TestImage<Image1RGB>::generateSize()
 
 
 template <>
-typename Image1RGBA::Size TestImage<Image1RGBA>::generateSize()
+typename image1RGBA::size_type TestImage<image1RGBA>::generateSize()
 {
   return vec1u{4u};
 }
@@ -92,7 +92,7 @@ typename Image1RGBA::Size TestImage<Image1RGBA>::generateSize()
 
 
 template <>
-typename Image2R::Size TestImage<Image2R>::generateSize()
+typename image2R::size_type TestImage<image2R>::generateSize()
 {
   return vec2u{4u, 7u};
 }
@@ -100,7 +100,7 @@ typename Image2R::Size TestImage<Image2R>::generateSize()
 
 
 template <>
-typename Image2RG::Size TestImage<Image2RG>::generateSize()
+typename image2RG::size_type TestImage<image2RG>::generateSize()
 {
   return vec2u{4u, 7u};
 }
@@ -108,7 +108,7 @@ typename Image2RG::Size TestImage<Image2RG>::generateSize()
 
 
 template <>
-typename Image2RGB::Size TestImage<Image2RGB>::generateSize()
+typename image2RGB::size_type TestImage<image2RGB>::generateSize()
 {
   return vec2u{4u, 7u};
 }
@@ -116,7 +116,7 @@ typename Image2RGB::Size TestImage<Image2RGB>::generateSize()
 
 
 template <>
-typename Image2RGBA::Size TestImage<Image2RGBA>::generateSize()
+typename image2RGBA::size_type TestImage<image2RGBA>::generateSize()
 {
   return vec2u{4u, 7u};
 }
@@ -124,7 +124,7 @@ typename Image2RGBA::Size TestImage<Image2RGBA>::generateSize()
 
 
 template <>
-typename Image3R::Size TestImage<Image3R>::generateSize()
+typename image3R::size_type TestImage<image3R>::generateSize()
 {
   return vec3u{4u, 7u, 11u};
 }
@@ -132,7 +132,7 @@ typename Image3R::Size TestImage<Image3R>::generateSize()
 
 
 template <>
-typename Image3RG::Size TestImage<Image3RG>::generateSize()
+typename image3RG::size_type TestImage<image3RG>::generateSize()
 {
   return vec3u{4u, 7u, 11u};
 }
@@ -140,7 +140,7 @@ typename Image3RG::Size TestImage<Image3RG>::generateSize()
 
 
 template <>
-typename Image3RGB::Size TestImage<Image3RGB>::generateSize()
+typename image3RGB::size_type TestImage<image3RGB>::generateSize()
 {
   return vec3u{4u, 7u, 11u};
 }
@@ -148,7 +148,7 @@ typename Image3RGB::Size TestImage<Image3RGB>::generateSize()
 
 
 template <>
-typename Image3RGBA::Size TestImage<Image3RGBA>::generateSize()
+typename image3RGBA::size_type TestImage<image3RGBA>::generateSize()
 {
   return vec3u{4u, 7u, 11u};
 }
@@ -156,15 +156,15 @@ typename Image3RGBA::Size TestImage<Image3RGBA>::generateSize()
 
 
 template <typename ImageT>
-typename ImageT::PixelCollection TestImage<ImageT>::generatePixels(
-  const typename ImageT::Size& size)
+typename ImageT::pixel_collection TestImage<ImageT>::generatePixels(
+  const typename ImageT::size_type& size)
 {
-  typename ImageT::PixelCollection retval(multiplyElements(size));
+  typename ImageT::pixel_collection retval(multiplyElements(size));
   for(size_t i = 0; i < retval.size(); ++i)
   {
-    typename ImageT::Pixel pixel;
-    pixel.setR(i);
-    retval[i] = pixel;
+    typename ImageT::pixel ph_pixel;
+    ph_pixel.set_r(i);
+    retval[i] = ph_pixel;
   }
   return retval;
 }
@@ -172,7 +172,7 @@ typename ImageT::PixelCollection TestImage<ImageT>::generatePixels(
 
 
 template <typename ImageT>
-size_t TestImage<ImageT>::multiplyElements(const typename ImageT::Size& size)
+size_t TestImage<ImageT>::multiplyElements(const typename ImageT::size_type& size)
 {
   size_t retval = size(0);
   for(size_t i = 1; i < size.get_size(); ++i)
@@ -185,9 +185,9 @@ size_t TestImage<ImageT>::multiplyElements(const typename ImageT::Size& size)
 
 
 template <typename ImageT>
-size_t TestImage<ImageT>::computePixelIndex(
-  const typename ImageT::Coordinates& coordinates,
-  const typename ImageT::Size& size)
+size_t TestImage<ImageT>::compute_pixel_index(
+  const typename ImageT::offset_type& coordinates,
+  const typename ImageT::size_type& size)
 {
   size_t idx = 0;
   size_t multiplier = 1;
@@ -202,12 +202,12 @@ size_t TestImage<ImageT>::computePixelIndex(
 
 
 template <typename ImageT>
-typename ImageT::Coordinates TestImage<ImageT>::computePixelCoordinates(
-  size_t index, const typename ImageT::Size& size)
+typename ImageT::offset_type TestImage<ImageT>::computePixelCoordinates(
+  size_t index, const typename ImageT::size_type& size)
 {
-  using Coordinates = typename ImageT::Coordinates;
+  using offset_type = typename ImageT::offset_type;
 
-  Coordinates coords;
+  offset_type coords;
   size_t divider = multiplyElements(size);
   for(size_t i = size.get_size() - 1; i > 0; --i)
   {
@@ -241,187 +241,187 @@ TYPED_TEST_CASE(TestImageDeathTest, ImageTypes);
 
 TYPED_TEST(TestImage, GetPixelByteCount)
 {
-  EXPECT_EQ(TypeParam::Pixel::getByteCount(), TypeParam::getPixelByteCount());
+  EXPECT_EQ(TypeParam::pixel::get_byte_count(), TypeParam::get_pixel_byte_count());
 }
 
 
 
 TYPED_TEST(TestImage, DefaultConstructor)
 {
-  using Size = typename TypeParam::Size;
-  using PixelCollection = typename TypeParam::PixelCollection;
+  using size_type = typename TypeParam::size_type;
+  using pixel_collection = typename TypeParam::pixel_collection;
 
-  TypeParam image;
-  EXPECT_EQ(Size::zero(), image.get_size());
-  EXPECT_EQ(PixelCollection(), image.getPixels());
+  TypeParam ph_image;
+  EXPECT_EQ(size_type::zero(), ph_image.get_size());
+  EXPECT_EQ(pixel_collection(), ph_image.get_pixels());
 }
 
 
 
 TYPED_TEST(TestImage, SizeConstructor)
 {
-  using Size = typename TypeParam::Size;
-  using PixelCollection = typename TypeParam::PixelCollection;
+  using size_type = typename TypeParam::size_type;
+  using pixel_collection = typename TypeParam::pixel_collection;
 
-  Size sizeRef = TestFixture::generateSize();
-  TypeParam image(sizeRef);
-  EXPECT_EQ(sizeRef, image.get_size());
+  size_type sizeRef = TestFixture::generateSize();
+  TypeParam ph_image(sizeRef);
+  EXPECT_EQ(sizeRef, ph_image.get_size());
   EXPECT_EQ(
-    PixelCollection(TestFixture::multiplyElements(sizeRef)), image.getPixels());
+    pixel_collection(TestFixture::multiplyElements(sizeRef)), ph_image.get_pixels());
 }
 
 
 
 TYPED_TEST(TestImage, PixelConstructor)
 {
-  using Size = typename TypeParam::Size;
-  using Pixel = typename TypeParam::Pixel;
-  using PixelCollection = typename TypeParam::PixelCollection;
+  using size_type = typename TypeParam::size_type;
+  using pixel = typename TypeParam::pixel;
+  using pixel_collection = typename TypeParam::pixel_collection;
 
-  Size sizeRef = TestFixture::generateSize();
-  Pixel pixelRef;
-  pixelRef.setR(5u);
-  PixelCollection pixelsRef(TestFixture::multiplyElements(sizeRef), pixelRef);
-  TypeParam image(sizeRef, pixelRef);
+  size_type sizeRef = TestFixture::generateSize();
+  pixel pixelRef;
+  pixelRef.set_r(5u);
+  pixel_collection pixelsRef(TestFixture::multiplyElements(sizeRef), pixelRef);
+  TypeParam ph_image(sizeRef, pixelRef);
 
-  EXPECT_EQ(sizeRef, image.get_size());
-  EXPECT_EQ(pixelsRef, image.getPixels());
+  EXPECT_EQ(sizeRef, ph_image.get_size());
+  EXPECT_EQ(pixelsRef, ph_image.get_pixels());
 }
 
 
 
 TYPED_TEST(TestImage, PixelsConstructor)
 {
-  using Size = typename TypeParam::Size;
-  using PixelCollection = typename TypeParam::PixelCollection;
+  using size_type = typename TypeParam::size_type;
+  using pixel_collection = typename TypeParam::pixel_collection;
 
-  Size sizeRef = TestFixture::generateSize();
-  PixelCollection pixelsRef = TestFixture::generatePixels(sizeRef);
-  TypeParam image(sizeRef, pixelsRef);
+  size_type sizeRef = TestFixture::generateSize();
+  pixel_collection pixelsRef = TestFixture::generatePixels(sizeRef);
+  TypeParam ph_image(sizeRef, pixelsRef);
 
-  EXPECT_EQ(sizeRef, image.get_size());
-  EXPECT_EQ(pixelsRef, image.getPixels());
+  EXPECT_EQ(sizeRef, ph_image.get_size());
+  EXPECT_EQ(pixelsRef, ph_image.get_pixels());
 }
 
 
 
 TYPED_TEST(TestImageDeathTest, PixelsConstructorErrorTooFewPixels)
 {
-  using Size = typename TypeParam::Size;
-  using PixelCollection = typename TypeParam::PixelCollection;
+  using size_type = typename TypeParam::size_type;
+  using pixel_collection = typename TypeParam::pixel_collection;
 
-  Size sizeRef = TestFixture::generateSize();
-  PixelCollection pixelsRef(TestFixture::multiplyElements(sizeRef) - 1u);
-  HOU_EXPECT_PRECONDITION(TypeParam image(sizeRef, pixelsRef));
+  size_type sizeRef = TestFixture::generateSize();
+  pixel_collection pixelsRef(TestFixture::multiplyElements(sizeRef) - 1u);
+  HOU_EXPECT_PRECONDITION(TypeParam ph_image(sizeRef, pixelsRef));
 }
 
 
 
 TYPED_TEST(TestImageDeathTest, PixelsConstructorErrorTooManyPixels)
 {
-  using Size = typename TypeParam::Size;
-  using PixelCollection = typename TypeParam::PixelCollection;
+  using size_type = typename TypeParam::size_type;
+  using pixel_collection = typename TypeParam::pixel_collection;
 
-  Size sizeRef = TestFixture::generateSize();
-  PixelCollection pixelsRef(TestFixture::multiplyElements(sizeRef) + 1u);
-  HOU_EXPECT_PRECONDITION(TypeParam image(sizeRef, pixelsRef));
+  size_type sizeRef = TestFixture::generateSize();
+  pixel_collection pixelsRef(TestFixture::multiplyElements(sizeRef) + 1u);
+  HOU_EXPECT_PRECONDITION(TypeParam ph_image(sizeRef, pixelsRef));
 }
 
 
 
 TYPED_TEST(TestImage, PixelsMoveConstructor)
 {
-  using Size = typename TypeParam::Size;
-  using PixelCollection = typename TypeParam::PixelCollection;
+  using size_type = typename TypeParam::size_type;
+  using pixel_collection = typename TypeParam::pixel_collection;
 
-  Size sizeRef = TestFixture::generateSize();
-  PixelCollection pixelsRef = TestFixture::generatePixels(sizeRef);
-  PixelCollection pixels(pixelsRef);
-  TypeParam image(sizeRef, std::move(pixels));
+  size_type sizeRef = TestFixture::generateSize();
+  pixel_collection pixelsRef = TestFixture::generatePixels(sizeRef);
+  pixel_collection pixels(pixelsRef);
+  TypeParam ph_image(sizeRef, std::move(pixels));
 
-  EXPECT_EQ(sizeRef, image.get_size());
-  EXPECT_EQ(pixelsRef, image.getPixels());
+  EXPECT_EQ(sizeRef, ph_image.get_size());
+  EXPECT_EQ(pixelsRef, ph_image.get_pixels());
 }
 
 
 
 TYPED_TEST(TestImageDeathTest, PixelsMoveConstructorErrorTooFewPixels)
 {
-  using Size = typename TypeParam::Size;
-  using PixelCollection = typename TypeParam::PixelCollection;
+  using size_type = typename TypeParam::size_type;
+  using pixel_collection = typename TypeParam::pixel_collection;
 
-  Size sizeRef = TestFixture::generateSize();
-  PixelCollection pixelsRef(TestFixture::multiplyElements(sizeRef) - 1u);
-  HOU_EXPECT_PRECONDITION(TypeParam image(sizeRef, std::move(pixelsRef)));
+  size_type sizeRef = TestFixture::generateSize();
+  pixel_collection pixelsRef(TestFixture::multiplyElements(sizeRef) - 1u);
+  HOU_EXPECT_PRECONDITION(TypeParam ph_image(sizeRef, std::move(pixelsRef)));
 }
 
 
 
 TYPED_TEST(TestImageDeathTest, PixelsMoveConstructorErrorTooManyPixels)
 {
-  using Size = typename TypeParam::Size;
-  using PixelCollection = typename TypeParam::PixelCollection;
+  using size_type = typename TypeParam::size_type;
+  using pixel_collection = typename TypeParam::pixel_collection;
 
-  Size sizeRef = TestFixture::generateSize();
-  PixelCollection pixelsRef(TestFixture::multiplyElements(sizeRef) + 1u);
-  HOU_EXPECT_PRECONDITION(TypeParam image(sizeRef, std::move(pixelsRef)));
+  size_type sizeRef = TestFixture::generateSize();
+  pixel_collection pixelsRef(TestFixture::multiplyElements(sizeRef) + 1u);
+  HOU_EXPECT_PRECONDITION(TypeParam ph_image(sizeRef, std::move(pixelsRef)));
 }
 
 
 
 TYPED_TEST(TestImage, SetPixels)
 {
-  using Size = typename TypeParam::Size;
-  using PixelCollection = typename TypeParam::PixelCollection;
+  using size_type = typename TypeParam::size_type;
+  using pixel_collection = typename TypeParam::pixel_collection;
 
-  Size sizeRef = TestFixture::generateSize();
-  PixelCollection pixelsRef = TestFixture::generatePixels(sizeRef);
-  TypeParam image(sizeRef);
-  image.setPixels(pixelsRef);
-  EXPECT_EQ(pixelsRef, image.getPixels());
+  size_type sizeRef = TestFixture::generateSize();
+  pixel_collection pixelsRef = TestFixture::generatePixels(sizeRef);
+  TypeParam ph_image(sizeRef);
+  ph_image.set_pixels(pixelsRef);
+  EXPECT_EQ(pixelsRef, ph_image.get_pixels());
 }
 
 
 
 TYPED_TEST(TestImageDeathTest, SetPixelsErrorTooFewPixels)
 {
-  using Size = typename TypeParam::Size;
-  using PixelCollection = typename TypeParam::PixelCollection;
+  using size_type = typename TypeParam::size_type;
+  using pixel_collection = typename TypeParam::pixel_collection;
 
-  Size sizeRef = TestFixture::generateSize();
-  PixelCollection pixelsRef(TestFixture::multiplyElements(sizeRef) - 1u);
-  TypeParam image(sizeRef);
-  HOU_EXPECT_PRECONDITION(image.setPixels(pixelsRef));
+  size_type sizeRef = TestFixture::generateSize();
+  pixel_collection pixelsRef(TestFixture::multiplyElements(sizeRef) - 1u);
+  TypeParam ph_image(sizeRef);
+  HOU_EXPECT_PRECONDITION(ph_image.set_pixels(pixelsRef));
 }
 
 
 
 TYPED_TEST(TestImageDeathTest, SetPixelsErrorTooManyPixels)
 {
-  using Size = typename TypeParam::Size;
-  using PixelCollection = typename TypeParam::PixelCollection;
+  using size_type = typename TypeParam::size_type;
+  using pixel_collection = typename TypeParam::pixel_collection;
 
-  Size sizeRef = TestFixture::generateSize();
-  PixelCollection pixelsRef(TestFixture::multiplyElements(sizeRef) + 1u);
-  TypeParam image(sizeRef);
-  HOU_EXPECT_PRECONDITION(image.setPixels(pixelsRef));
+  size_type sizeRef = TestFixture::generateSize();
+  pixel_collection pixelsRef(TestFixture::multiplyElements(sizeRef) + 1u);
+  TypeParam ph_image(sizeRef);
+  HOU_EXPECT_PRECONDITION(ph_image.set_pixels(pixelsRef));
 }
 
 
 
 TYPED_TEST(TestImage, GetPixel)
 {
-  using Size = typename TypeParam::Size;
-  using PixelCollection = typename TypeParam::PixelCollection;
+  using size_type = typename TypeParam::size_type;
+  using pixel_collection = typename TypeParam::pixel_collection;
 
-  Size sizeRef = TestFixture::generateSize();
-  PixelCollection pixelsRef = TestFixture::generatePixels(sizeRef);
-  TypeParam image(sizeRef, pixelsRef);
+  size_type sizeRef = TestFixture::generateSize();
+  pixel_collection pixelsRef = TestFixture::generatePixels(sizeRef);
+  TypeParam ph_image(sizeRef, pixelsRef);
 
   for(size_t i = 0; i < pixelsRef.size(); ++i)
   {
     EXPECT_EQ(pixelsRef[i],
-      image.getPixel(TestFixture::computePixelCoordinates(i, image.get_size())));
+      ph_image.get_pixel(TestFixture::computePixelCoordinates(i, ph_image.get_size())));
   }
 }
 
@@ -429,41 +429,41 @@ TYPED_TEST(TestImage, GetPixel)
 
 TYPED_TEST(TestImageDeathTest, GetPixelErrorOutOfRange)
 {
-  using Size = typename TypeParam::Size;
-  using Coordinates = typename TypeParam::Coordinates;
+  using size_type = typename TypeParam::size_type;
+  using offset_type = typename TypeParam::offset_type;
 
-  Size sizeRef = TestFixture::generateSize();
-  TypeParam image(sizeRef);
+  size_type sizeRef = TestFixture::generateSize();
+  TypeParam ph_image(sizeRef);
 
   for(size_t i = 0; i < sizeRef.get_size(); ++i)
   {
-    Coordinates coords;
+    offset_type coords;
     coords(i) = sizeRef(i);
-    HOU_EXPECT_PRECONDITION(image.getPixel(coords));
+    HOU_EXPECT_PRECONDITION(ph_image.get_pixel(coords));
   }
-  HOU_EXPECT_PRECONDITION(image.getPixel(sizeRef));
+  HOU_EXPECT_PRECONDITION(ph_image.get_pixel(sizeRef));
 }
 
 
 
 TYPED_TEST(TestImage, SetPixel)
 {
-  using Size = typename TypeParam::Size;
-  using Pixel = typename TypeParam::Pixel;
-  using PixelCollection = typename TypeParam::PixelCollection;
+  using size_type = typename TypeParam::size_type;
+  using pixel = typename TypeParam::pixel;
+  using pixel_collection = typename TypeParam::pixel_collection;
 
-  Size sizeRef = TestFixture::generateSize();
-  Pixel pixelRef;
-  pixelRef.setR(42u);
+  size_type sizeRef = TestFixture::generateSize();
+  pixel pixelRef;
+  pixelRef.set_r(42u);
   for(size_t i = 0; i < TestFixture::multiplyElements(sizeRef); ++i)
   {
-    TypeParam image(sizeRef);
-    PixelCollection pixelsRef = image.getPixels();
+    TypeParam ph_image(sizeRef);
+    pixel_collection pixelsRef = ph_image.get_pixels();
     pixelsRef[i] = pixelRef;
-    image.setPixel(
-      TestFixture::computePixelCoordinates(i, image.get_size()), pixelRef);
+    ph_image.set_pixel(
+      TestFixture::computePixelCoordinates(i, ph_image.get_size()), pixelRef);
     EXPECT_EQ(pixelsRef[i],
-      image.getPixel(TestFixture::computePixelCoordinates(i, image.get_size())));
+      ph_image.get_pixel(TestFixture::computePixelCoordinates(i, ph_image.get_size())));
   }
 }
 
@@ -471,34 +471,34 @@ TYPED_TEST(TestImage, SetPixel)
 
 TYPED_TEST(TestImageDeathTest, SetPixelErrorOutOfRange)
 {
-  using Size = typename TypeParam::Size;
-  using Pixel = typename TypeParam::Pixel;
-  using Coordinates = typename TypeParam::Coordinates;
+  using size_type = typename TypeParam::size_type;
+  using pixel = typename TypeParam::pixel;
+  using offset_type = typename TypeParam::offset_type;
 
-  Size sizeRef = TestFixture::generateSize();
-  TypeParam image(sizeRef);
+  size_type sizeRef = TestFixture::generateSize();
+  TypeParam ph_image(sizeRef);
 
-  Pixel pixelRef;
+  pixel pixelRef;
   for(size_t i = 0; i < sizeRef.get_size(); ++i)
   {
-    Coordinates coords;
+    offset_type coords;
     coords(i) = sizeRef(i);
-    HOU_EXPECT_PRECONDITION(image.setPixel(coords, pixelRef));
+    HOU_EXPECT_PRECONDITION(ph_image.set_pixel(coords, pixelRef));
   }
-  HOU_EXPECT_PRECONDITION(image.setPixel(sizeRef, pixelRef));
+  HOU_EXPECT_PRECONDITION(ph_image.set_pixel(sizeRef, pixelRef));
 }
 
 
 
 TYPED_TEST(TestImage, GetSubImage)
 {
-  using Size = typename TypeParam::Size;
-  using Coordinates = typename TypeParam::Coordinates;
-  using PixelCollection = typename TypeParam::PixelCollection;
+  using size_type = typename TypeParam::size_type;
+  using offset_type = typename TypeParam::offset_type;
+  using pixel_collection = typename TypeParam::pixel_collection;
 
-  Size imageSize;
-  Size subImageSize;
-  Coordinates subImageOffset;
+  size_type imageSize;
+  size_type subImageSize;
+  offset_type subImageOffset;
   for(size_t i = 0; i < imageSize.get_size(); ++i)
   {
     imageSize(i) = (i + 1) * 4;
@@ -506,32 +506,32 @@ TYPED_TEST(TestImage, GetSubImage)
     subImageOffset(i) = i + 1;
   }
 
-  PixelCollection pixelsRef = TestFixture::generatePixels(imageSize);
-  PixelCollection subPixelsRef(TestFixture::multiplyElements(subImageSize));
+  pixel_collection pixelsRef = TestFixture::generatePixels(imageSize);
+  pixel_collection subPixelsRef(TestFixture::multiplyElements(subImageSize));
   for(size_t i = 0; i < subPixelsRef.size(); ++i)
   {
-    Coordinates subImageCoords
+    offset_type subImageCoords
       = TestFixture::computePixelCoordinates(i, subImageSize);
-    Coordinates imageCoords = subImageOffset + subImageCoords;
+    offset_type imageCoords = subImageOffset + subImageCoords;
     subPixelsRef[i]
-      = pixelsRef[TestFixture::computePixelIndex(imageCoords, imageSize)];
+      = pixelsRef[TestFixture::compute_pixel_index(imageCoords, imageSize)];
   }
 
-  TypeParam image(imageSize, pixelsRef);
+  TypeParam ph_image(imageSize, pixelsRef);
   TypeParam subImageRef(subImageSize, subPixelsRef);
-  EXPECT_EQ(subImageRef, image.getSubImage(subImageOffset, subImageSize));
+  EXPECT_EQ(subImageRef, ph_image.get_sub_image(subImageOffset, subImageSize));
 }
 
 
 
 TYPED_TEST(TestImageDeathTest, GetSubImageErrorOverflow)
 {
-  using Size = typename TypeParam::Size;
-  using Coordinates = typename TypeParam::Coordinates;
+  using size_type = typename TypeParam::size_type;
+  using offset_type = typename TypeParam::offset_type;
 
-  Size imageSize;
-  Size subImageSize;
-  Coordinates subImageOffset;
+  size_type imageSize;
+  size_type subImageSize;
+  offset_type subImageOffset;
   for(size_t i = 0; i < imageSize.get_size(); ++i)
   {
     imageSize(i) = (i + 1) * 4;
@@ -539,21 +539,21 @@ TYPED_TEST(TestImageDeathTest, GetSubImageErrorOverflow)
     subImageSize(i) = (i + 1) * 4 - subImageOffset(i) + 1u;
   }
 
-  TypeParam image(imageSize);
-  HOU_EXPECT_PRECONDITION(image.getSubImage(subImageOffset, subImageSize));
+  TypeParam ph_image(imageSize);
+  HOU_EXPECT_PRECONDITION(ph_image.get_sub_image(subImageOffset, subImageSize));
 }
 
 
 
 TYPED_TEST(TestImage, SetSubImage)
 {
-  using Size = typename TypeParam::Size;
-  using Coordinates = typename TypeParam::Coordinates;
-  using PixelCollection = typename TypeParam::PixelCollection;
+  using size_type = typename TypeParam::size_type;
+  using offset_type = typename TypeParam::offset_type;
+  using pixel_collection = typename TypeParam::pixel_collection;
 
-  Size imageSize;
-  Size subImageSize;
-  Coordinates subImageOffset;
+  size_type imageSize;
+  size_type subImageSize;
+  offset_type subImageOffset;
   for(size_t i = 0; i < imageSize.get_size(); ++i)
   {
     imageSize(i) = (i + 1) * 4;
@@ -561,36 +561,36 @@ TYPED_TEST(TestImage, SetSubImage)
     subImageOffset(i) = i + 1;
   }
 
-  PixelCollection pixelsRef(TestFixture::multiplyElements(imageSize));
-  PixelCollection subPixelsRef(TestFixture::generatePixels(subImageSize));
+  pixel_collection pixelsRef(TestFixture::multiplyElements(imageSize));
+  pixel_collection subPixelsRef(TestFixture::generatePixels(subImageSize));
   for(size_t i = 0; i < subPixelsRef.size(); ++i)
   {
-    Coordinates subImageCoords
+    offset_type subImageCoords
       = TestFixture::computePixelCoordinates(i, subImageSize);
-    Coordinates imageCoords = subImageOffset + subImageCoords;
-    pixelsRef[TestFixture::computePixelIndex(imageCoords, imageSize)]
+    offset_type imageCoords = subImageOffset + subImageCoords;
+    pixelsRef[TestFixture::compute_pixel_index(imageCoords, imageSize)]
       = subPixelsRef[i];
   }
 
-  TypeParam image(imageSize);
+  TypeParam ph_image(imageSize);
   TypeParam imageRef(imageSize, pixelsRef);
   TypeParam subImageRef(subImageSize, subPixelsRef);
-  image.setSubImage(subImageOffset, subImageRef);
+  ph_image.set_sub_image(subImageOffset, subImageRef);
 
-  EXPECT_EQ(imageRef, image);
-  EXPECT_EQ(subImageRef, image.getSubImage(subImageOffset, subImageSize));
+  EXPECT_EQ(imageRef, ph_image);
+  EXPECT_EQ(subImageRef, ph_image.get_sub_image(subImageOffset, subImageSize));
 }
 
 
 
 TYPED_TEST(TestImageDeathTest, SetSubImageErrorOverflow)
 {
-  using Size = typename TypeParam::Size;
-  using Coordinates = typename TypeParam::Coordinates;
+  using size_type = typename TypeParam::size_type;
+  using offset_type = typename TypeParam::offset_type;
 
-  Size imageSize;
-  Size subImageSize;
-  Coordinates subImageOffset;
+  size_type imageSize;
+  size_type subImageSize;
+  offset_type subImageOffset;
   for(size_t i = 0; i < imageSize.get_size(); ++i)
   {
     imageSize(i) = (i + 1) * 4;
@@ -598,47 +598,47 @@ TYPED_TEST(TestImageDeathTest, SetSubImageErrorOverflow)
     subImageSize(i) = (i + 1) * 4 - subImageOffset(i) + 1u;
   }
 
-  TypeParam image(imageSize);
+  TypeParam ph_image(imageSize);
   TypeParam subImage(subImageSize);
-  HOU_EXPECT_PRECONDITION(image.setSubImage(subImageOffset, subImage));
+  HOU_EXPECT_PRECONDITION(ph_image.set_sub_image(subImageOffset, subImage));
 }
 
 
 
 TYPED_TEST(TestImage, Clear)
 {
-  using Size = typename TypeParam::Size;
-  using Pixel = typename TypeParam::Pixel;
-  using PixelCollection = typename TypeParam::PixelCollection;
+  using size_type = typename TypeParam::size_type;
+  using pixel = typename TypeParam::pixel;
+  using pixel_collection = typename TypeParam::pixel_collection;
 
-  Size sizeRef = TestFixture::generateSize();
-  TypeParam image(sizeRef);
+  size_type sizeRef = TestFixture::generateSize();
+  TypeParam ph_image(sizeRef);
 
-  Pixel pixelRef;
-  pixelRef.setR(42u);
+  pixel pixelRef;
+  pixelRef.set_r(42u);
 
-  PixelCollection pixelsRef(TestFixture::multiplyElements(sizeRef), pixelRef);
-  image.clear(pixelRef);
-  EXPECT_EQ(pixelsRef, image.getPixels());
+  pixel_collection pixelsRef(TestFixture::multiplyElements(sizeRef), pixelRef);
+  ph_image.clear(pixelRef);
+  EXPECT_EQ(pixelsRef, ph_image.get_pixels());
 }
 
 
 
 TYPED_TEST(TestImage, Comparison)
 {
-  using Size = typename TypeParam::Size;
-  using Pixel = typename TypeParam::Pixel;
-  using PixelCollection = typename TypeParam::PixelCollection;
+  using size_type = typename TypeParam::size_type;
+  using pixel = typename TypeParam::pixel;
+  using pixel_collection = typename TypeParam::pixel_collection;
 
-  Size size1 = TestFixture::generateSize();
-  Size size2 = size1 * 2;
-  Pixel pixel1;
-  pixel1.setR(42);
-  Pixel pixel2;
-  pixel2.setR(88);
-  PixelCollection pixels11(TestFixture::multiplyElements(size1), pixel1);
-  PixelCollection pixels12(TestFixture::multiplyElements(size1), pixel2);
-  PixelCollection pixels22(TestFixture::multiplyElements(size2), pixel2);
+  size_type size1 = TestFixture::generateSize();
+  size_type size2 = size1 * 2;
+  pixel pixel1;
+  pixel1.set_r(42);
+  pixel pixel2;
+  pixel2.set_r(88);
+  pixel_collection pixels11(TestFixture::multiplyElements(size1), pixel1);
+  pixel_collection pixels12(TestFixture::multiplyElements(size1), pixel2);
+  pixel_collection pixels22(TestFixture::multiplyElements(size2), pixel2);
 
   TypeParam im0(size1, pixels11);
   TypeParam im1(im0);
@@ -658,195 +658,195 @@ TYPED_TEST(TestImage, Comparison)
 
 TYPED_TEST(TestImage, OutputStreamOperator)
 {
-  using Size = typename TypeParam::Size;
-  using PixelCollection = typename TypeParam::PixelCollection;
+  using size_type = typename TypeParam::size_type;
+  using pixel_collection = typename TypeParam::pixel_collection;
 
-  Size sizeRef = TestFixture::generateSize();
-  PixelCollection pixelsRef = TestFixture::generatePixels(sizeRef);
+  size_type sizeRef = TestFixture::generateSize();
+  pixel_collection pixelsRef = TestFixture::generatePixels(sizeRef);
 
-  TypeParam image(sizeRef, pixelsRef);
+  TypeParam ph_image(sizeRef, pixelsRef);
 
   std::stringstream ss;
-  ss << "{Size = " << transpose(sizeRef) << ", Pixels = " << pixelsRef << "}";
+  ss << "{size_type = " << transpose(sizeRef) << ", Pixels = " << pixelsRef << "}";
 
-  HOU_EXPECT_OUTPUT(ss.str().c_str(), image);
+  HOU_EXPECT_OUTPUT(ss.str().c_str(), ph_image);
 }
 
 
 
 TEST_F(TestImageClassAttributes, GetDimensionCount)
 {
-  EXPECT_EQ(1u, Image1R::getDimensionCount());
-  EXPECT_EQ(1u, Image1RG::getDimensionCount());
-  EXPECT_EQ(1u, Image1RGB::getDimensionCount());
-  EXPECT_EQ(1u, Image1RGBA::getDimensionCount());
-  EXPECT_EQ(2u, Image2R::getDimensionCount());
-  EXPECT_EQ(2u, Image2RG::getDimensionCount());
-  EXPECT_EQ(2u, Image2RGB::getDimensionCount());
-  EXPECT_EQ(2u, Image2RGBA::getDimensionCount());
-  EXPECT_EQ(3u, Image3R::getDimensionCount());
-  EXPECT_EQ(3u, Image3RG::getDimensionCount());
-  EXPECT_EQ(3u, Image3RGB::getDimensionCount());
-  EXPECT_EQ(3u, Image3RGBA::getDimensionCount());
+  EXPECT_EQ(1u, image1R::get_dimension_count());
+  EXPECT_EQ(1u, image1RG::get_dimension_count());
+  EXPECT_EQ(1u, image1RGB::get_dimension_count());
+  EXPECT_EQ(1u, image1RGBA::get_dimension_count());
+  EXPECT_EQ(2u, image2R::get_dimension_count());
+  EXPECT_EQ(2u, image2RG::get_dimension_count());
+  EXPECT_EQ(2u, image2RGB::get_dimension_count());
+  EXPECT_EQ(2u, image2RGBA::get_dimension_count());
+  EXPECT_EQ(3u, image3R::get_dimension_count());
+  EXPECT_EQ(3u, image3RG::get_dimension_count());
+  EXPECT_EQ(3u, image3RGB::get_dimension_count());
+  EXPECT_EQ(3u, image3RGBA::get_dimension_count());
 }
 
 
 
 TEST_F(TestImageClassAttributes, GetPixelFormat)
 {
-  EXPECT_EQ(PixelFormat::R, Image1R::getPixelFormat());
-  EXPECT_EQ(PixelFormat::RG, Image1RG::getPixelFormat());
-  EXPECT_EQ(PixelFormat::RGB, Image1RGB::getPixelFormat());
-  EXPECT_EQ(PixelFormat::RGBA, Image1RGBA::getPixelFormat());
-  EXPECT_EQ(PixelFormat::R, Image2R::getPixelFormat());
-  EXPECT_EQ(PixelFormat::RG, Image2RG::getPixelFormat());
-  EXPECT_EQ(PixelFormat::RGB, Image2RGB::getPixelFormat());
-  EXPECT_EQ(PixelFormat::RGBA, Image2RGBA::getPixelFormat());
-  EXPECT_EQ(PixelFormat::R, Image3R::getPixelFormat());
-  EXPECT_EQ(PixelFormat::RG, Image3RG::getPixelFormat());
-  EXPECT_EQ(PixelFormat::RGB, Image3RGB::getPixelFormat());
-  EXPECT_EQ(PixelFormat::RGBA, Image3RGBA::getPixelFormat());
+  EXPECT_EQ(pixel_format::r, image1R::get_pixel_format());
+  EXPECT_EQ(pixel_format::rg, image1RG::get_pixel_format());
+  EXPECT_EQ(pixel_format::rgb, image1RGB::get_pixel_format());
+  EXPECT_EQ(pixel_format::rgba, image1RGBA::get_pixel_format());
+  EXPECT_EQ(pixel_format::r, image2R::get_pixel_format());
+  EXPECT_EQ(pixel_format::rg, image2RG::get_pixel_format());
+  EXPECT_EQ(pixel_format::rgb, image2RGB::get_pixel_format());
+  EXPECT_EQ(pixel_format::rgba, image2RGBA::get_pixel_format());
+  EXPECT_EQ(pixel_format::r, image3R::get_pixel_format());
+  EXPECT_EQ(pixel_format::rg, image3RG::get_pixel_format());
+  EXPECT_EQ(pixel_format::rgb, image3RGB::get_pixel_format());
+  EXPECT_EQ(pixel_format::rgba, image3RGBA::get_pixel_format());
 }
 
 
 
 TEST_F(TestImageConversionConstructor, R2RGBAConstructor)
 {
-  Image2R::Size size(2u, 3u);
-  Image2R::PixelCollection pixelsR{
-    Image2R::Pixel(1u),
-    Image2R::Pixel(2u),
-    Image2R::Pixel(3u),
-    Image2R::Pixel(4u),
-    Image2R::Pixel(5u),
-    Image2R::Pixel(6u),
+  image2R::size_type size(2u, 3u);
+  image2R::pixel_collection pixelsR{
+    image2R::pixel(1u),
+    image2R::pixel(2u),
+    image2R::pixel(3u),
+    image2R::pixel(4u),
+    image2R::pixel(5u),
+    image2R::pixel(6u),
   };
 
-  Image2RGBA::PixelCollection pixelsRGBA{
-    Image2RGBA::Pixel(1u, 1u, 1u, 255u),
-    Image2RGBA::Pixel(2u, 2u, 2u, 255u),
-    Image2RGBA::Pixel(3u, 3u, 3u, 255u),
-    Image2RGBA::Pixel(4u, 4u, 4u, 255u),
-    Image2RGBA::Pixel(5u, 5u, 5u, 255u),
-    Image2RGBA::Pixel(6u, 6u, 6u, 255u),
+  image2RGBA::pixel_collection pixelsRGBA{
+    image2RGBA::pixel(1u, 1u, 1u, 255u),
+    image2RGBA::pixel(2u, 2u, 2u, 255u),
+    image2RGBA::pixel(3u, 3u, 3u, 255u),
+    image2RGBA::pixel(4u, 4u, 4u, 255u),
+    image2RGBA::pixel(5u, 5u, 5u, 255u),
+    image2RGBA::pixel(6u, 6u, 6u, 255u),
   };
 
-  Image2R imageR(size, pixelsR);
-  Image2RGBA imageRGBA(imageR);
+  image2R imageR(size, pixelsR);
+  image2RGBA imageRGBA(imageR);
 
   EXPECT_EQ(size, imageRGBA.get_size());
-  EXPECT_EQ(pixelsRGBA, imageRGBA.getPixels());
+  EXPECT_EQ(pixelsRGBA, imageRGBA.get_pixels());
 }
 
 
 
 TEST_F(TestImageConversionConstructor, RG2RGBAConstructor)
 {
-  Image2RG::Size size(2u, 3u);
-  Image2RG::PixelCollection pixelsRG{
-    Image2RG::Pixel(1u, 11u),
-    Image2RG::Pixel(2u, 12u),
-    Image2RG::Pixel(3u, 13u),
-    Image2RG::Pixel(4u, 14u),
-    Image2RG::Pixel(5u, 15u),
-    Image2RG::Pixel(6u, 16u),
+  image2RG::size_type size(2u, 3u);
+  image2RG::pixel_collection pixelsRG{
+    image2RG::pixel(1u, 11u),
+    image2RG::pixel(2u, 12u),
+    image2RG::pixel(3u, 13u),
+    image2RG::pixel(4u, 14u),
+    image2RG::pixel(5u, 15u),
+    image2RG::pixel(6u, 16u),
   };
 
-  Image2RGBA::PixelCollection pixelsRGBA{
-    Image2RGBA::Pixel(1u, 1u, 1u, 11u),
-    Image2RGBA::Pixel(2u, 2u, 2u, 12u),
-    Image2RGBA::Pixel(3u, 3u, 3u, 13u),
-    Image2RGBA::Pixel(4u, 4u, 4u, 14u),
-    Image2RGBA::Pixel(5u, 5u, 5u, 15u),
-    Image2RGBA::Pixel(6u, 6u, 6u, 16u),
+  image2RGBA::pixel_collection pixelsRGBA{
+    image2RGBA::pixel(1u, 1u, 1u, 11u),
+    image2RGBA::pixel(2u, 2u, 2u, 12u),
+    image2RGBA::pixel(3u, 3u, 3u, 13u),
+    image2RGBA::pixel(4u, 4u, 4u, 14u),
+    image2RGBA::pixel(5u, 5u, 5u, 15u),
+    image2RGBA::pixel(6u, 6u, 6u, 16u),
   };
 
-  Image2RG imageRG(size, pixelsRG);
-  Image2RGBA imageRGBA(imageRG);
+  image2RG imageRG(size, pixelsRG);
+  image2RGBA imageRGBA(imageRG);
 
   EXPECT_EQ(size, imageRGBA.get_size());
-  EXPECT_EQ(pixelsRGBA, imageRGBA.getPixels());
+  EXPECT_EQ(pixelsRGBA, imageRGBA.get_pixels());
 }
 
 
 
 TEST_F(TestImageConversionConstructor, RGB2RGBAConstructor)
 {
-  Image2RGB::Size size(2u, 3u);
-  Image2RGB::PixelCollection pixelsRGB{
-    Image2RGB::Pixel(200u, 118u, 93u),
-    Image2RGB::Pixel(3u, 12u, 3u),
-    Image2RGB::Pixel(5u, 11u, 2u),
-    Image2RGB::Pixel(200u, 100u, 0u),
-    Image2RGB::Pixel(0u, 21u, 0u),
-    Image2RGB::Pixel(100u, 20u, 0u),
+  image2RGB::size_type size(2u, 3u);
+  image2RGB::pixel_collection pixelsRGB{
+    image2RGB::pixel(200u, 118u, 93u),
+    image2RGB::pixel(3u, 12u, 3u),
+    image2RGB::pixel(5u, 11u, 2u),
+    image2RGB::pixel(200u, 100u, 0u),
+    image2RGB::pixel(0u, 21u, 0u),
+    image2RGB::pixel(100u, 20u, 0u),
   };
 
-  Image2RGBA::PixelCollection pixelsRGBA{
-    Image2RGBA::Pixel(200u, 118u, 93u, 255u),
-    Image2RGBA::Pixel(3u, 12u, 3u, 255u),
-    Image2RGBA::Pixel(5u, 11u, 2u, 255u),
-    Image2RGBA::Pixel(200u, 100u, 0u, 255u),
-    Image2RGBA::Pixel(0u, 21u, 0u, 255u),
-    Image2RGBA::Pixel(100u, 20u, 0u, 255u),
+  image2RGBA::pixel_collection pixelsRGBA{
+    image2RGBA::pixel(200u, 118u, 93u, 255u),
+    image2RGBA::pixel(3u, 12u, 3u, 255u),
+    image2RGBA::pixel(5u, 11u, 2u, 255u),
+    image2RGBA::pixel(200u, 100u, 0u, 255u),
+    image2RGBA::pixel(0u, 21u, 0u, 255u),
+    image2RGBA::pixel(100u, 20u, 0u, 255u),
   };
 
-  Image2RGB imageRGB(size, pixelsRGB);
-  Image2RGBA imageRGBA(imageRGB);
+  image2RGB imageRGB(size, pixelsRGB);
+  image2RGBA imageRGBA(imageRGB);
 
   EXPECT_EQ(size, imageRGBA.get_size());
-  EXPECT_EQ(pixelsRGBA, imageRGBA.getPixels());
+  EXPECT_EQ(pixelsRGBA, imageRGBA.get_pixels());
 }
 
 
 
 TEST_F(TestImageConversionConstructor, Image1ToImage2Constructor)
 {
-  Image1RGB::Size size(3u);
-  Image1RGBA::PixelCollection pixelsRGBA{
-    Image1RGBA::Pixel(200u, 118u, 93u, 255u),
-    Image1RGBA::Pixel(3u, 12u, 3u, 255u),
-    Image1RGBA::Pixel(5u, 11u, 2u, 255u),
+  image1RGB::size_type size(3u);
+  image1RGBA::pixel_collection pixelsRGBA{
+    image1RGBA::pixel(200u, 118u, 93u, 255u),
+    image1RGBA::pixel(3u, 12u, 3u, 255u),
+    image1RGBA::pixel(5u, 11u, 2u, 255u),
   };
-  Image1RGBA image1RGBA(size, pixelsRGBA);
-  Image2RGBA image2RGBA(image1RGBA);
+  image1RGBA image1RGBA(size, pixelsRGBA);
+  image2RGBA image2RGBA(image1RGBA);
   EXPECT_EQ(vec2u(size.x(), 1u), image2RGBA.get_size());
-  EXPECT_EQ(pixelsRGBA, image2RGBA.getPixels());
+  EXPECT_EQ(pixelsRGBA, image2RGBA.get_pixels());
 }
 
 
 
 TEST_F(TestImageConversionConstructor, Image1ToImage3Constructor)
 {
-  Image1RGB::Size size(3u);
-  Image1RGBA::PixelCollection pixelsRGBA{
-    Image1RGBA::Pixel(200u, 118u, 93u, 255u),
-    Image1RGBA::Pixel(3u, 12u, 3u, 255u),
-    Image1RGBA::Pixel(5u, 11u, 2u, 255u),
+  image1RGB::size_type size(3u);
+  image1RGBA::pixel_collection pixelsRGBA{
+    image1RGBA::pixel(200u, 118u, 93u, 255u),
+    image1RGBA::pixel(3u, 12u, 3u, 255u),
+    image1RGBA::pixel(5u, 11u, 2u, 255u),
   };
-  Image1RGBA image1RGBA(size, pixelsRGBA);
-  Image3RGBA image3RGBA(image1RGBA);
+  image1RGBA image1RGBA(size, pixelsRGBA);
+  image3RGBA image3RGBA(image1RGBA);
   EXPECT_EQ(vec3u(size.x(), 1u, 1u), image3RGBA.get_size());
-  EXPECT_EQ(pixelsRGBA, image3RGBA.getPixels());
+  EXPECT_EQ(pixelsRGBA, image3RGBA.get_pixels());
 }
 
 
 
 TEST_F(TestImageConversionConstructor, Image2ToImage3Constructor)
 {
-  Image2RGB::Size size(3u, 2u);
-  Image2RGBA::PixelCollection pixelsRGBA{
-    Image2RGBA::Pixel(200u, 118u, 93u, 255u),
-    Image2RGBA::Pixel(3u, 12u, 3u, 255u),
-    Image2RGBA::Pixel(5u, 11u, 2u, 255u),
-    Image2RGBA::Pixel(200u, 118u, 93u, 255u),
-    Image2RGBA::Pixel(3u, 12u, 3u, 255u),
-    Image2RGBA::Pixel(5u, 11u, 2u, 255u),
+  image2RGB::size_type size(3u, 2u);
+  image2RGBA::pixel_collection pixelsRGBA{
+    image2RGBA::pixel(200u, 118u, 93u, 255u),
+    image2RGBA::pixel(3u, 12u, 3u, 255u),
+    image2RGBA::pixel(5u, 11u, 2u, 255u),
+    image2RGBA::pixel(200u, 118u, 93u, 255u),
+    image2RGBA::pixel(3u, 12u, 3u, 255u),
+    image2RGBA::pixel(5u, 11u, 2u, 255u),
   };
-  Image2RGBA image1RGBA(size, pixelsRGBA);
-  Image3RGBA image3RGBA(image1RGBA);
+  image2RGBA image1RGBA(size, pixelsRGBA);
+  image3RGBA image3RGBA(image1RGBA);
   EXPECT_EQ(vec3u(size.x(), size.y(), 1u), image3RGBA.get_size());
-  EXPECT_EQ(pixelsRGBA, image3RGBA.getPixels());
+  EXPECT_EQ(pixelsRGBA, image3RGBA.get_pixels());
 }
 
 
@@ -854,16 +854,16 @@ TEST_F(TestImageConversionConstructor, Image2ToImage3Constructor)
 TEST_F(TestImageFile, LoadBmpRGBA)
 {
   // Alpha channel in Bmp not supported.
-  Image2RGBA imRef(vec2u(3u, 2u),
-    std::vector<Image2RGBA::Pixel>{
-      Image2RGBA::Pixel(50u, 100u, 150u, 255u),
-      Image2RGBA::Pixel(150u, 100u, 50u, 255u),
-      Image2RGBA::Pixel(255u, 200u, 50u, 255u),
-      Image2RGBA::Pixel(50u, 100u, 150u, 255u),
-      Image2RGBA::Pixel(0u, 255u, 255u, 255u),
-      Image2RGBA::Pixel(255u, 200u, 50u, 255u),
+  image2RGBA imRef(vec2u(3u, 2u),
+    std::vector<image2RGBA::pixel>{
+      image2RGBA::pixel(50u, 100u, 150u, 255u),
+      image2RGBA::pixel(150u, 100u, 50u, 255u),
+      image2RGBA::pixel(255u, 200u, 50u, 255u),
+      image2RGBA::pixel(50u, 100u, 150u, 255u),
+      image2RGBA::pixel(0u, 255u, 255u, 255u),
+      image2RGBA::pixel(255u, 200u, 50u, 255u),
     });
-  Image2RGBA im = bmpReadFile<PixelFormat::RGBA>(testImageBmp);
+  image2RGBA im = bmp_read_file<pixel_format::rgba>(testImageBmp);
   EXPECT_EQ(imRef, im);
 }
 
@@ -871,25 +871,25 @@ TEST_F(TestImageFile, LoadBmpRGBA)
 
 TEST_F(TestImageFileDeathTest, LoadBmpRGBAError)
 {
-  HOU_EXPECT_ERROR(bmpReadFile<PixelFormat::RGBA>(testImagePng),
+  HOU_EXPECT_ERROR(bmp_read_file<pixel_format::rgba>(testImagePng),
     std::runtime_error,
-    format_string(get_text(SysError::ImageBmpRead), testImagePng.c_str()));
+    format_string(get_text(sys_error::image_bmp_read), testImagePng.c_str()));
 }
 
 
 
 TEST_F(TestImageFile, LoadPngRGBA)
 {
-  Image2RGBA imRef(vec2u(3u, 2u),
-    std::vector<Image2RGBA::Pixel>{
-      Image2RGBA::Pixel(50u, 100u, 150u, 255u),
-      Image2RGBA::Pixel(150u, 100u, 50u, 255u),
-      Image2RGBA::Pixel(255u, 200u, 50u, 255u),
-      Image2RGBA::Pixel(50u, 100u, 150u, 63u),
-      Image2RGBA::Pixel(0u, 0u, 0u, 0u),
-      Image2RGBA::Pixel(255u, 200u, 50u, 127u),
+  image2RGBA imRef(vec2u(3u, 2u),
+    std::vector<image2RGBA::pixel>{
+      image2RGBA::pixel(50u, 100u, 150u, 255u),
+      image2RGBA::pixel(150u, 100u, 50u, 255u),
+      image2RGBA::pixel(255u, 200u, 50u, 255u),
+      image2RGBA::pixel(50u, 100u, 150u, 63u),
+      image2RGBA::pixel(0u, 0u, 0u, 0u),
+      image2RGBA::pixel(255u, 200u, 50u, 127u),
     });
-  Image2RGBA im = pngReadFile<PixelFormat::RGBA>(testImagePng);
+  image2RGBA im = png_read_file<pixel_format::rgba>(testImagePng);
   EXPECT_EQ(imRef, im);
 }
 
@@ -897,25 +897,25 @@ TEST_F(TestImageFile, LoadPngRGBA)
 
 TEST_F(TestImageFileDeathTest, LoadPngRGBAError)
 {
-  HOU_EXPECT_ERROR(pngReadFile<PixelFormat::RGBA>(testImageJpg),
+  HOU_EXPECT_ERROR(png_read_file<pixel_format::rgba>(testImageJpg),
     std::runtime_error,
-    format_string(get_text(SysError::ImagePngRead), testImageJpg.c_str()));
+    format_string(get_text(sys_error::image_png_read), testImageJpg.c_str()));
 }
 
 
 
 TEST_F(TestImageFile, LoadJpgRGBA)
 {
-  Image2RGBA imRef(vec2u(3u, 2u),
-    std::vector<Image2RGBA::Pixel>{
-      Image2RGBA::Pixel(72u, 86u, 133u, 255u),
-      Image2RGBA::Pixel(134u, 111u, 80u, 255u),
-      Image2RGBA::Pixel(252u, 204u, 46u, 255u),
-      Image2RGBA::Pixel(189u, 225u, 247u, 255u),
-      Image2RGBA::Pixel(255u, 253u, 240u, 255u),
-      Image2RGBA::Pixel(255u, 232u, 139u, 255u),
+  image2RGBA imRef(vec2u(3u, 2u),
+    std::vector<image2RGBA::pixel>{
+      image2RGBA::pixel(72u, 86u, 133u, 255u),
+      image2RGBA::pixel(134u, 111u, 80u, 255u),
+      image2RGBA::pixel(252u, 204u, 46u, 255u),
+      image2RGBA::pixel(189u, 225u, 247u, 255u),
+      image2RGBA::pixel(255u, 253u, 240u, 255u),
+      image2RGBA::pixel(255u, 232u, 139u, 255u),
     });
-  Image2RGBA im = jpgReadFile<PixelFormat::RGBA>(testImageJpg);
+  image2RGBA im = jpg_read_file<pixel_format::rgba>(testImageJpg);
   EXPECT_EQ(imRef, im);
 }
 
@@ -923,9 +923,9 @@ TEST_F(TestImageFile, LoadJpgRGBA)
 
 TEST_F(TestImageFileDeathTest, LoadJpgRGBAError)
 {
-  HOU_EXPECT_ERROR(jpgReadFile<PixelFormat::RGBA>(testImagePng),
+  HOU_EXPECT_ERROR(jpg_read_file<pixel_format::rgba>(testImagePng),
     std::runtime_error,
-    format_string(get_text(SysError::ImageJpgRead), testImagePng.c_str()));
+    format_string(get_text(sys_error::image_jpg_read), testImagePng.c_str()));
 }
 
 
@@ -933,12 +933,12 @@ TEST_F(TestImageFileDeathTest, LoadJpgRGBAError)
 TEST_F(TestImageFile, SaveBmpRGBA)
 {
   const std::string savePath = getOutputDir() + "savedBmp.bmp";
-  removeDir(savePath);
-  Image2RGBA imRef = bmpReadFile<PixelFormat::RGBA>(testImageBmp);
-  bmpWriteFile(savePath, imRef);
-  Image2RGBA im = bmpReadFile<PixelFormat::RGBA>(savePath);
+  remove_dir(savePath);
+  image2RGBA imRef = bmp_read_file<pixel_format::rgba>(testImageBmp);
+  bmp_write_file(savePath, imRef);
+  image2RGBA im = bmp_read_file<pixel_format::rgba>(savePath);
   EXPECT_EQ(imRef, im);
-  EXPECT_TRUE(removeDir(savePath));
+  EXPECT_TRUE(remove_dir(savePath));
 }
 
 
@@ -946,13 +946,13 @@ TEST_F(TestImageFile, SaveBmpRGBA)
 TEST_F(TestImageFileDeathTest, SaveBmpErrorRGBA)
 {
   const std::string savePath = getOutputDir() + "savedBmp.bmp";
-  removeDir(savePath);
-  Image2RGBA imRef = bmpReadFile<PixelFormat::RGBA>(testImageBmp);
-  bmpWriteFile(savePath, imRef);
-  HOU_EXPECT_ERROR(bmpWriteFile<PixelFormat::RGBA>(savePath, imRef),
+  remove_dir(savePath);
+  image2RGBA imRef = bmp_read_file<pixel_format::rgba>(testImageBmp);
+  bmp_write_file(savePath, imRef);
+  HOU_EXPECT_ERROR(bmp_write_file<pixel_format::rgba>(savePath, imRef),
     std::runtime_error,
-    format_string(get_text(SysError::ImageBmpWrite), savePath.c_str()));
-  EXPECT_TRUE(removeDir(savePath));
+    format_string(get_text(sys_error::image_bmp_write), savePath.c_str()));
+  EXPECT_TRUE(remove_dir(savePath));
 }
 
 
@@ -960,16 +960,16 @@ TEST_F(TestImageFileDeathTest, SaveBmpErrorRGBA)
 TEST_F(TestImageFile, LoadBmpRGB)
 {
   // Alpha channel in Bmp not supported.
-  Image2RGB imRef(vec2u(3u, 2u),
-    std::vector<Image2RGB::Pixel>{
-      Image2RGB::Pixel(50u, 100u, 150u),
-      Image2RGB::Pixel(150u, 100u, 50u),
-      Image2RGB::Pixel(255u, 200u, 50u),
-      Image2RGB::Pixel(50u, 100u, 150u),
-      Image2RGB::Pixel(0u, 255u, 255u),
-      Image2RGB::Pixel(255u, 200u, 50u),
+  image2RGB imRef(vec2u(3u, 2u),
+    std::vector<image2RGB::pixel>{
+      image2RGB::pixel(50u, 100u, 150u),
+      image2RGB::pixel(150u, 100u, 50u),
+      image2RGB::pixel(255u, 200u, 50u),
+      image2RGB::pixel(50u, 100u, 150u),
+      image2RGB::pixel(0u, 255u, 255u),
+      image2RGB::pixel(255u, 200u, 50u),
     });
-  Image2RGB im = bmpReadFile<PixelFormat::RGB>(testImageBmp);
+  image2RGB im = bmp_read_file<pixel_format::rgb>(testImageBmp);
   EXPECT_EQ(imRef, im);
 }
 
@@ -977,25 +977,25 @@ TEST_F(TestImageFile, LoadBmpRGB)
 
 TEST_F(TestImageFileDeathTest, LoadBmpRGBError)
 {
-  HOU_EXPECT_ERROR(bmpReadFile<PixelFormat::RGB>(testImagePng),
+  HOU_EXPECT_ERROR(bmp_read_file<pixel_format::rgb>(testImagePng),
     std::runtime_error,
-    format_string(get_text(SysError::ImageBmpRead), testImagePng.c_str()));
+    format_string(get_text(sys_error::image_bmp_read), testImagePng.c_str()));
 }
 
 
 
 TEST_F(TestImageFile, LoadPngRGB)
 {
-  Image2RGB imRef(vec2u(3u, 2u),
-    std::vector<Image2RGB::Pixel>{
-      Image2RGB::Pixel(50u, 100u, 150u),
-      Image2RGB::Pixel(150u, 100u, 50u),
-      Image2RGB::Pixel(255u, 200u, 50u),
-      Image2RGB::Pixel(50u, 100u, 150u),
-      Image2RGB::Pixel(0u, 0u, 0u),
-      Image2RGB::Pixel(255u, 200u, 50u),
+  image2RGB imRef(vec2u(3u, 2u),
+    std::vector<image2RGB::pixel>{
+      image2RGB::pixel(50u, 100u, 150u),
+      image2RGB::pixel(150u, 100u, 50u),
+      image2RGB::pixel(255u, 200u, 50u),
+      image2RGB::pixel(50u, 100u, 150u),
+      image2RGB::pixel(0u, 0u, 0u),
+      image2RGB::pixel(255u, 200u, 50u),
     });
-  Image2RGB im = pngReadFile<PixelFormat::RGB>(testImagePng);
+  image2RGB im = png_read_file<pixel_format::rgb>(testImagePng);
   EXPECT_EQ(imRef, im);
 }
 
@@ -1003,25 +1003,25 @@ TEST_F(TestImageFile, LoadPngRGB)
 
 TEST_F(TestImageFileDeathTest, LoadPngRGBError)
 {
-  HOU_EXPECT_ERROR(pngReadFile<PixelFormat::RGB>(testImageJpg),
+  HOU_EXPECT_ERROR(png_read_file<pixel_format::rgb>(testImageJpg),
     std::runtime_error,
-    format_string(get_text(SysError::ImagePngRead), testImageJpg.c_str()));
+    format_string(get_text(sys_error::image_png_read), testImageJpg.c_str()));
 }
 
 
 
 TEST_F(TestImageFile, LoadJpgRGB)
 {
-  Image2RGB imRef(vec2u(3u, 2u),
-    std::vector<Image2RGB::Pixel>{
-      Image2RGB::Pixel(72u, 86u, 133u),
-      Image2RGB::Pixel(134u, 111u, 80u),
-      Image2RGB::Pixel(252u, 204u, 46u),
-      Image2RGB::Pixel(189u, 225u, 247u),
-      Image2RGB::Pixel(255u, 253u, 240u),
-      Image2RGB::Pixel(255u, 232u, 139u),
+  image2RGB imRef(vec2u(3u, 2u),
+    std::vector<image2RGB::pixel>{
+      image2RGB::pixel(72u, 86u, 133u),
+      image2RGB::pixel(134u, 111u, 80u),
+      image2RGB::pixel(252u, 204u, 46u),
+      image2RGB::pixel(189u, 225u, 247u),
+      image2RGB::pixel(255u, 253u, 240u),
+      image2RGB::pixel(255u, 232u, 139u),
     });
-  Image2RGB im = jpgReadFile<PixelFormat::RGB>(testImageJpg);
+  image2RGB im = jpg_read_file<pixel_format::rgb>(testImageJpg);
   EXPECT_EQ(imRef, im);
 }
 
@@ -1029,9 +1029,9 @@ TEST_F(TestImageFile, LoadJpgRGB)
 
 TEST_F(TestImageFileDeathTest, LoadJpgRGBError)
 {
-  HOU_EXPECT_ERROR(jpgReadFile<PixelFormat::RGB>(testImagePng),
+  HOU_EXPECT_ERROR(jpg_read_file<pixel_format::rgb>(testImagePng),
     std::runtime_error,
-    format_string(get_text(SysError::ImageJpgRead), testImagePng.c_str()));
+    format_string(get_text(sys_error::image_jpg_read), testImagePng.c_str()));
 }
 
 
@@ -1039,16 +1039,16 @@ TEST_F(TestImageFileDeathTest, LoadJpgRGBError)
 TEST_F(TestImageFile, LoadBmpRG)
 {
   // Alpha channel in Bmp not supported.
-  Image2RG imRef(vec2u(3u, 2u),
-    std::vector<Image2RG::Pixel>{
-      Image2RG::Pixel(90u, 255u),
-      Image2RG::Pixel(109u, 255u),
-      Image2RG::Pixel(199u, 255u),
-      Image2RG::Pixel(90u, 255u),
-      Image2RG::Pixel(178u, 255u),
-      Image2RG::Pixel(199u, 255u),
+  image2RG imRef(vec2u(3u, 2u),
+    std::vector<image2RG::pixel>{
+      image2RG::pixel(90u, 255u),
+      image2RG::pixel(109u, 255u),
+      image2RG::pixel(199u, 255u),
+      image2RG::pixel(90u, 255u),
+      image2RG::pixel(178u, 255u),
+      image2RG::pixel(199u, 255u),
     });
-  Image2RG im = bmpReadFile<PixelFormat::RG>(testImageBmp);
+  image2RG im = bmp_read_file<pixel_format::rg>(testImageBmp);
   EXPECT_EQ(imRef, im);
 }
 
@@ -1056,25 +1056,25 @@ TEST_F(TestImageFile, LoadBmpRG)
 
 TEST_F(TestImageFileDeathTest, LoadBmpRGError)
 {
-  HOU_EXPECT_ERROR(bmpReadFile<PixelFormat::RG>(testImagePng),
+  HOU_EXPECT_ERROR(bmp_read_file<pixel_format::rg>(testImagePng),
     std::runtime_error,
-    format_string(get_text(SysError::ImageBmpRead), testImagePng.c_str()));
+    format_string(get_text(sys_error::image_bmp_read), testImagePng.c_str()));
 }
 
 
 
 TEST_F(TestImageFile, LoadPngRG)
 {
-  Image2RG imRef(vec2u(3u, 2u),
-    std::vector<Image2RG::Pixel>{
-      Image2RG::Pixel(90u, 255u),
-      Image2RG::Pixel(109u, 255u),
-      Image2RG::Pixel(199u, 255u),
-      Image2RG::Pixel(90u, 63u),
-      Image2RG::Pixel(0u, 0u),
-      Image2RG::Pixel(199u, 127u),
+  image2RG imRef(vec2u(3u, 2u),
+    std::vector<image2RG::pixel>{
+      image2RG::pixel(90u, 255u),
+      image2RG::pixel(109u, 255u),
+      image2RG::pixel(199u, 255u),
+      image2RG::pixel(90u, 63u),
+      image2RG::pixel(0u, 0u),
+      image2RG::pixel(199u, 127u),
     });
-  Image2RG im = pngReadFile<PixelFormat::RG>(testImagePng);
+  image2RG im = png_read_file<pixel_format::rg>(testImagePng);
   EXPECT_EQ(imRef, im);
 }
 
@@ -1082,25 +1082,25 @@ TEST_F(TestImageFile, LoadPngRG)
 
 TEST_F(TestImageFileDeathTest, LoadPngRGError)
 {
-  HOU_EXPECT_ERROR(pngReadFile<PixelFormat::RG>(testImageJpg),
+  HOU_EXPECT_ERROR(png_read_file<pixel_format::rg>(testImageJpg),
     std::runtime_error,
-    format_string(get_text(SysError::ImagePngRead), testImageJpg.c_str()));
+    format_string(get_text(sys_error::image_png_read), testImageJpg.c_str()));
 }
 
 
 
 TEST_F(TestImageFile, LoadJpgRG)
 {
-  Image2RG imRef(vec2u(3u, 2u),
-    std::vector<Image2RG::Pixel>{
-      Image2RG::Pixel(87u, 255u),
-      Image2RG::Pixel(114u, 255u),
-      Image2RG::Pixel(200u, 255u),
-      Image2RG::Pixel(217u, 255u),
-      Image2RG::Pixel(252u, 255u),
-      Image2RG::Pixel(231u, 255u),
+  image2RG imRef(vec2u(3u, 2u),
+    std::vector<image2RG::pixel>{
+      image2RG::pixel(87u, 255u),
+      image2RG::pixel(114u, 255u),
+      image2RG::pixel(200u, 255u),
+      image2RG::pixel(217u, 255u),
+      image2RG::pixel(252u, 255u),
+      image2RG::pixel(231u, 255u),
     });
-  Image2RG im = jpgReadFile<PixelFormat::RG>(testImageJpg);
+  image2RG im = jpg_read_file<pixel_format::rg>(testImageJpg);
   EXPECT_EQ(imRef, im);
 }
 
@@ -1108,9 +1108,9 @@ TEST_F(TestImageFile, LoadJpgRG)
 
 TEST_F(TestImageFileDeathTest, LoadJpgRGError)
 {
-  HOU_EXPECT_ERROR(jpgReadFile<PixelFormat::RG>(testImagePng),
+  HOU_EXPECT_ERROR(jpg_read_file<pixel_format::rg>(testImagePng),
     std::runtime_error,
-    format_string(get_text(SysError::ImageJpgRead), testImagePng.c_str()));
+    format_string(get_text(sys_error::image_jpg_read), testImagePng.c_str()));
 }
 
 
@@ -1118,16 +1118,16 @@ TEST_F(TestImageFileDeathTest, LoadJpgRGError)
 TEST_F(TestImageFile, LoadBmpR)
 {
   // Alpha channel in Bmp not supported.
-  Image2R imRef(vec2u(3u, 2u),
-    std::vector<Image2R::Pixel>{
-      Image2R::Pixel(90u),
-      Image2R::Pixel(109u),
-      Image2R::Pixel(199u),
-      Image2R::Pixel(90u),
-      Image2R::Pixel(178u),
-      Image2R::Pixel(199u),
+  image2R imRef(vec2u(3u, 2u),
+    std::vector<image2R::pixel>{
+      image2R::pixel(90u),
+      image2R::pixel(109u),
+      image2R::pixel(199u),
+      image2R::pixel(90u),
+      image2R::pixel(178u),
+      image2R::pixel(199u),
     });
-  Image2R im = bmpReadFile<PixelFormat::R>(testImageBmp);
+  image2R im = bmp_read_file<pixel_format::r>(testImageBmp);
   EXPECT_EQ(imRef, im);
 }
 
@@ -1135,25 +1135,25 @@ TEST_F(TestImageFile, LoadBmpR)
 
 TEST_F(TestImageFileDeathTest, LoadBmpRError)
 {
-  HOU_EXPECT_ERROR(bmpReadFile<PixelFormat::R>(testImagePng),
+  HOU_EXPECT_ERROR(bmp_read_file<pixel_format::r>(testImagePng),
     std::runtime_error,
-    format_string(get_text(SysError::ImageBmpRead), testImagePng.c_str()));
+    format_string(get_text(sys_error::image_bmp_read), testImagePng.c_str()));
 }
 
 
 
 TEST_F(TestImageFile, LoadPngR)
 {
-  Image2R imRef(vec2u(3u, 2u),
-    std::vector<Image2R::Pixel>{
-      Image2R::Pixel(90u),
-      Image2R::Pixel(109u),
-      Image2R::Pixel(199u),
-      Image2R::Pixel(90u),
-      Image2R::Pixel(0u),
-      Image2R::Pixel(199u),
+  image2R imRef(vec2u(3u, 2u),
+    std::vector<image2R::pixel>{
+      image2R::pixel(90u),
+      image2R::pixel(109u),
+      image2R::pixel(199u),
+      image2R::pixel(90u),
+      image2R::pixel(0u),
+      image2R::pixel(199u),
     });
-  Image2R im = pngReadFile<PixelFormat::R>(testImagePng);
+  image2R im = png_read_file<pixel_format::r>(testImagePng);
   EXPECT_EQ(imRef, im);
 }
 
@@ -1161,25 +1161,25 @@ TEST_F(TestImageFile, LoadPngR)
 
 TEST_F(TestImageFileDeathTest, LoadPngRError)
 {
-  HOU_EXPECT_ERROR(pngReadFile<PixelFormat::R>(testImageJpg),
+  HOU_EXPECT_ERROR(png_read_file<pixel_format::r>(testImageJpg),
     std::runtime_error,
-    format_string(get_text(SysError::ImagePngRead), testImageJpg.c_str()));
+    format_string(get_text(sys_error::image_png_read), testImageJpg.c_str()));
 }
 
 
 
 TEST_F(TestImageFile, LoadJpgR)
 {
-  Image2R imRef(vec2u(3u, 2u),
-    std::vector<Image2R::Pixel>{
-      Image2R::Pixel(87u),
-      Image2R::Pixel(114u),
-      Image2R::Pixel(200u),
-      Image2R::Pixel(217u),
-      Image2R::Pixel(252u),
-      Image2R::Pixel(231u),
+  image2R imRef(vec2u(3u, 2u),
+    std::vector<image2R::pixel>{
+      image2R::pixel(87u),
+      image2R::pixel(114u),
+      image2R::pixel(200u),
+      image2R::pixel(217u),
+      image2R::pixel(252u),
+      image2R::pixel(231u),
     });
-  Image2R im = jpgReadFile<PixelFormat::R>(testImageJpg);
+  image2R im = jpg_read_file<pixel_format::r>(testImageJpg);
   EXPECT_EQ(imRef, im);
 }
 
@@ -1187,7 +1187,7 @@ TEST_F(TestImageFile, LoadJpgR)
 
 TEST_F(TestImageFileDeathTest, LoadJpgRError)
 {
-  HOU_EXPECT_ERROR(jpgReadFile<PixelFormat::R>(testImagePng),
+  HOU_EXPECT_ERROR(jpg_read_file<pixel_format::r>(testImagePng),
     std::runtime_error,
-    format_string(get_text(SysError::ImageJpgRead), testImagePng.c_str()));
+    format_string(get_text(sys_error::image_jpg_read), testImagePng.c_str()));
 }

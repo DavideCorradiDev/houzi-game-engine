@@ -7,7 +7,7 @@
 #include "hou/cor/error.hpp"
 #include "hou/cor/uid_generator.hpp"
 
-#include "hou/sys/Window.hpp"
+#include "hou/sys/window.hpp"
 
 
 
@@ -34,13 +34,13 @@ uint32_t generateUid()
 
 
 
-void Context::setCurrent(Context& context, Window& window)
+void Context::setCurrent(Context& context, window& ph_window)
 {
-  if(!context.isCurrent() || sCurrentWindowUid != window.getUid())
+  if(!context.isCurrent() || sCurrentWindowUid != ph_window.get_uid())
   {
-    prv::ContextImpl::setCurrent(context.mImpl, window);
+    prv::ContextImpl::setCurrent(context.m_impl, ph_window);
     sCurrentContext = &context;
-    sCurrentWindowUid = window.getUid();
+    sCurrentWindowUid = ph_window.get_uid();
   }
 }
 
@@ -65,23 +65,23 @@ Context* Context::getCurrent()
 
 
 
-Context::Context(const ContextSettings& settings, const Window& window)
-  : Context(settings, window, nullptr)
+Context::Context(const ContextSettings& settings, const window& ph_window)
+  : Context(settings, ph_window, nullptr)
 {}
 
 
 
-Context::Context(const ContextSettings& settings, const Window& window,
+Context::Context(const ContextSettings& settings, const window& ph_window,
   const Context& sharedContext)
-  : Context(settings, window, &sharedContext)
+  : Context(settings, ph_window, &sharedContext)
 {}
 
 
 
 Context::Context(Context&& other)
   : non_copyable()
-  , mImpl(std::move(other.mImpl))
-  , mUid(std::move(other.mUid))
+  , m_impl(std::move(other.m_impl))
+  , m_uid(std::move(other.m_uid))
   , mSharingGroupUid(std::move(other.mSharingGroupUid))
   , mTrackingData(std::move(other.mTrackingData))
 {
@@ -103,9 +103,9 @@ Context::~Context()
 
 
 
-uint32_t Context::getUid() const
+uint32_t Context::get_uid() const
 {
-  return mUid;
+  return m_uid;
 }
 
 
@@ -129,14 +129,14 @@ thread_local uint32_t Context::sCurrentWindowUid(0u);
 
 
 
-Context::Context(const ContextSettings& settings, const Window& window,
+Context::Context(const ContextSettings& settings, const window& ph_window,
   const Context* sharedContext)
   : non_copyable()
-  , mImpl(settings, window,
-      (sharedContext == nullptr) ? nullptr : &(sharedContext->mImpl))
-  , mUid(generateUid())
+  , m_impl(settings, ph_window,
+      (sharedContext == nullptr) ? nullptr : &(sharedContext->m_impl))
+  , m_uid(generateUid())
   , mSharingGroupUid(
-      (sharedContext == nullptr) ? mUid : sharedContext->mSharingGroupUid)
+      (sharedContext == nullptr) ? m_uid : sharedContext->mSharingGroupUid)
   , mTrackingData()
 {}
 

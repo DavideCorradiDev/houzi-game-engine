@@ -2,17 +2,17 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/sys/KeyCode.hpp"
+#include "hou/sys/key_code.hpp"
 
 #define KEY_CODE_CASE(kc, os) \
-  case KeyCode::kc: return (os) << #kc
+  case key_code::kc: return (os) << #kc
 
 
 
 namespace hou
 {
 
-std::ostream& operator<<(std::ostream& os, KeyCode kc)
+std::ostream& operator<<(std::ostream& os, key_code kc)
 {
   switch(kc)
   {
@@ -113,7 +113,7 @@ std::ostream& operator<<(std::ostream& os, KeyCode kc)
     KEY_CODE_CASE(O, os);
     KEY_CODE_CASE(P, os);
     KEY_CODE_CASE(Q, os);
-    KEY_CODE_CASE(R, os);
+    KEY_CODE_CASE(r, os);
     KEY_CODE_CASE(S, os);
     KEY_CODE_CASE(T, os);
     KEY_CODE_CASE(U, os);

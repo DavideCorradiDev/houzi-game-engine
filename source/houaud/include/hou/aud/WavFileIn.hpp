@@ -9,24 +9,24 @@
 #include "hou/aud/AudioStreamIn.hpp"
 #include "hou/cor/non_copyable.hpp"
 
-#include "hou/sys/File.hpp"
+#include "hou/sys/file.hpp"
 
 
 
 namespace hou
 {
 
-/** Input wav file stream.
+/** Input wav ph_file ph_stream.
  */
 class HOU_AUD_API WavFileIn
   : public non_copyable
   , public AudioStreamIn
 {
 public:
-  /** Checks if the file corresponding to the given path is a wav file.
+  /** Checks if the ph_file corresponding to the given path is a wav ph_file.
    *
-   *  \param path the file path.
-   *  \return true if the specified file is a wav file.
+   *  \param path the ph_file path.
+   *  \return true if the specified ph_file is a wav ph_file.
    */
   static bool check(const std::string& path);
 
@@ -34,9 +34,9 @@ public:
   /** Path constructor.
    *
    *  Throws if the provided path is not valid or does not correspond to a wav
-   *  file.
+   *  ph_file.
    *
-   *  \param path the path to the file to be opened.
+   *  \param path the path to the ph_file to be opened.
    */
   explicit WavFileIn(const std::string& path);
 
@@ -50,36 +50,36 @@ public:
    */
   virtual ~WavFileIn();
 
-  // Stream overrides.
+  // stream overrides.
   bool eof() const final;
   bool error() const final;
-  size_t getByteCount() const final;
+  size_t get_byte_count() const final;
 
-  // StreamIn overrides.
-  size_t getReadByteCount() const final;
-  size_t getReadElementCount() const final;
+  // stream_in overrides.
+  size_t get_read_byte_count() const final;
+  size_t get_read_element_count() const final;
 
-  // BinaryStream overrides.
-  BytePosition getBytePos() const final;
+  // binary_stream overrides.
+  byte_position get_byte_pos() const final;
 
   /** Sets the current byte position indicator.
    *
-   *  Throws if pos is negative or greater than the number of bytes in the stream.
+   *  Throws if pos is negative or greater than the number of bytes in the ph_stream.
    *
    *  \param pos the byte position indicator value.
-   *  \return a reference to this stream.
+   *  \return a reference to this ph_stream.
    */
-  BinaryStream& setBytePos(BytePosition pos) final;
+  binary_stream& set_byte_pos(byte_position pos) final;
 
   /** Moves the current byte position indicator.
    *
    *  Throws if the offset moves the position indicator to a negative position
-   *  or to a position greater than the number of bytes in the stream.
+   *  or to a position greater than the number of bytes in the ph_stream.
    *
    *  \param offset the byte position indicator offset.
-   *  \return a reference to this stream.
+   *  \return a reference to this ph_stream.
    */
-  BinaryStream& moveBytePos(ByteOffset offset) final;
+  binary_stream& move_byte_pos(byte_offset offset) final;
 
   // AudioStream overrides.
   size_t getSampleCount() const final;
@@ -89,13 +89,13 @@ public:
 
 private:
   void readMetadata(const std::string& path);
-  void onRead(void* buf, size_t elementSize, size_t bufSize) final;
+  void on_read(void* buf, size_t elementSize, size_t bufSize) final;
 
 private:
-  File mFile;
+  file m_file;
   size_t mDataOffset;
-  size_t mByteCount;
-  size_t mElementCount;
+  size_t m_byte_count;
+  size_t m_element_count;
 };
 
 }

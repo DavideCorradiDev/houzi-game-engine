@@ -18,7 +18,7 @@
 #include "hou/gl/GlTextureHandle.hpp"
 #include "hou/gl/GlFunctions.hpp"
 
-#include "hou/sys/Image.hpp"
+#include "hou/sys/image.hpp"
 
 #include <vector>
 
@@ -29,7 +29,7 @@ namespace hou
 
 class TextureChannelMapping;
 
-/** Represents a Texture, that is an image residing in the graphical memory.
+/** Represents a Texture, that is an ph_image residing in the graphical memory.
  *
  * This class is a parent class from which different concrete Texture types are
  * derived.
@@ -102,7 +102,7 @@ public:
    *
    * \return the format of this texture.
    */
-  TextureFormat getFormat() const;
+  TextureFormat get_format() const;
 
   /** Retrieves the number of mip map levels of this texture.
    *
@@ -174,14 +174,14 @@ public:
    *
    * \return the type of the texture.
    */
-  virtual TextureType getType() const = 0;
+  virtual TextureType get_type() const = 0;
 
   /** Retrieves the number of dimensions of the texture (one-, two-, or
    * three-dimensional).
    *
    * \return the number of dimension of the texture.
    */
-  virtual size_t getDimensionCount() const = 0;
+  virtual size_t get_dimension_count() const = 0;
 
   /** Checks whether the texture may have multiple mip map levels.
    *
@@ -189,7 +189,7 @@ public:
    */
   virtual bool isMipMapped() const = 0;
 
-  /** Checks whether the texture may have multiple samples per pixel.
+  /** Checks whether the texture may have multiple samples per ph_pixel.
    *
    * \return the result of the check.
    */
@@ -209,40 +209,40 @@ class HOU_GFX_API TextureT : public Texture
 {
 public:
   /** Type representing the size of the texture. */
-  using Size = vec<uint, getTextureTypeDimensionCount(type)>;
+  using size_type = vec<uint, getTextureTypeDimensionCount(type)>;
 
   /** Type representing texture coordinates. */
-  using Coordinates = Size;
+  using offset_type = size_type;
 
   /** Type representing the texture wrap mode for each of its dimensions. */
   using WrapMode
     = std::array<TextureWrapMode, getTextureTypeDimensionCount(type)>;
 
-  /** Type representing an Image with dimensionality matching that of the
+  /** Type representing an image with dimensionality matching that of the
    * texture.
    *
    * \tparam ftm the format of the texture.
    */
-  template <PixelFormat fmt>
-  using Image = Image<getTextureTypeDimensionCount(type), fmt>;
+  template <pixel_format fmt>
+  using image = image<getTextureTypeDimensionCount(type), fmt>;
 
 public:
   /** Retrieves the maximum allowed size for the texture.
    *
    * \return a vector containing the maximum size on each dimension.
    */
-  static Size getMaxSize();
+  static size_type getMaxSize();
 
   /** Retrieves the maximum allowed number of mip map levels for a given texture
    * size.
    *
    * \return the maximum number of allowed mip map levels.
    */
-  static uint getMaxMipMapLevelCount(const Size& size);
+  static uint getMaxMipMapLevelCount(const size_type& size);
 
-  /** Retrieves the maximum amount of samples per pixel.
+  /** Retrieves the maximum amount of samples per ph_pixel.
    *
-   * \return the maximum amount of samples per pixel.
+   * \return the maximum amount of samples per ph_pixel.
    */
   static uint getMaxSampleCount();
 
@@ -266,18 +266,18 @@ public:
    */
   template <TextureType t = type,
     typename Enable = std::enable_if_t<isTextureTypeMipMapped(t)>>
-  HOU_GFX_API explicit TextureT(const Size& size,
-    TextureFormat format = TextureFormat::RGBA, uint mipMapLevelCount = 1u);
+  HOU_GFX_API explicit TextureT(const size_type& size,
+    TextureFormat format = TextureFormat::rgba, uint mipMapLevelCount = 1u);
 
-  /** Creates a Texture with the given image, format, and number of mip map
+  /** Creates a Texture with the given ph_image, format, and number of mip map
    * levels.
    *
    * \tparam t dummy parameter.
    *
    * \tparam Enable enabling parameter.
    *
-   * \param image an image representing the texture contents. The size of the
-   * image must be a valid texture size.
+   * \param ph_image an ph_image representing the texture contents. The size of the
+   * ph_image must be a valid texture size.
    *
    * \param format the format of the texture.
    *
@@ -285,10 +285,10 @@ public:
    * must be greater then zero and lower or equal than the maximum number of
    * allowed mip map levels.
    */
-  template <PixelFormat fmt, TextureType t = type,
+  template <pixel_format fmt, TextureType t = type,
     typename Enable = std::enable_if_t<isTextureTypeMipMapped(t)>>
-  HOU_GFX_API explicit TextureT(const Image<fmt>& image,
-    TextureFormat format = TextureFormat::RGBA, uint mipMapLevelCount = 1u);
+  HOU_GFX_API explicit TextureT(const image<fmt>& ph_image,
+    TextureFormat format = TextureFormat::rgba, uint mipMapLevelCount = 1u);
 
   /** Creates a Texture with the given size, format, and sample specification.
    *
@@ -302,17 +302,17 @@ public:
    *
    * \param format the format of the texture.
    *
-   * \param sampleCount the number of samples per pixel in the texture. It must
+   * \param sampleCount the number of samples per ph_pixel in the texture. It must
    * be greater than zero and lower or equal than the maximum number of allowed
-   * samples per pixel.
+   * samples per ph_pixel.
    *
    * \param fixedSampleLocations a bool specifying if the location of the
    * samples should be fixed.
    */
   template <TextureType t = type,
     typename Enable = std::enable_if_t<isTextureTypeMultisampled(t)>>
-  HOU_GFX_API explicit TextureT(const Size& size,
-    TextureFormat format = TextureFormat::RGBA, uint sampleCount = 1u,
+  HOU_GFX_API explicit TextureT(const size_type& size,
+    TextureFormat format = TextureFormat::rgba, uint sampleCount = 1u,
     bool fixedSampleLocations = true);
 
   /** Move constructor.
@@ -326,7 +326,7 @@ public:
    *
    * \return the size of the texture.
    */
-  Size get_size() const;
+  size_type get_size() const;
 
   /** Retrieves the texture filter.
    *
@@ -378,63 +378,63 @@ public:
     typename Enable = std::enable_if_t<!isTextureTypeMultisampled(t)>>
   HOU_GFX_API void setWrapMode(const WrapMode& wrapMode);
 
-  /** Retrieve the contents of the Texture as an Image object.
+  /** Retrieve the contents of the Texture as an image object.
    *
-   * \tparam fmt the PixelFormat of the output Image.
+   * \tparam fmt the pixel_format of the output image.
    *
    * \tparam t dummy parameter.
    *
    * \tparam Enable enabling parameter.
    *
-   * \return an Image with the content of the texture.
+   * \return an image with the content of the texture.
    */
-  template <PixelFormat fmt, TextureType t = type,
+  template <pixel_format fmt, TextureType t = type,
     typename Enable = std::enable_if_t<!isTextureTypeMultisampled(t)>>
-  HOU_GFX_API Image<fmt> getImage() const;
+  HOU_GFX_API image<fmt> get_image() const;
 
-  /** Retrieves the contents of a sub-region of the Texture as an Image object.
+  /** Retrieves the contents of a sub-region of the Texture as an image object.
    *
-   * Throws if the subregion exceeds the boundaries of th image.
+   * Throws if the subregion exceeds the boundaries of th ph_image.
    *
-   * \tparam fmt the PixelFormat of the output Image.
+   * \tparam fmt the pixel_format of the output image.
    *
    * \tparam t dummy parameter.
    *
    * \tparam Enable enabling parameter.
    *
-   * \param offset a pixel offset represeinting the top-left corner of the
+   * \param offset a ph_pixel offset represeinting the top-left corner of the
    * sub-region
    *
    * \param size the size of the sub-region
    *
-   * \return an Image with the content of the texture in the specified
+   * \return an image with the content of the texture in the specified
    * sub-region.
    */
-  template <PixelFormat fmt, TextureType t = type,
+  template <pixel_format fmt, TextureType t = type,
     typename Enable = std::enable_if_t<!isTextureTypeMultisampled(t)>>
-  HOU_GFX_API Image<fmt> getSubImage(
-    const Coordinates& offset, const Size& size) const;
+  HOU_GFX_API image<fmt> get_sub_image(
+    const offset_type& offset, const size_type& size) const;
 
   /** Sets the content of the Texture.
    *
-   * \tparam fmt the PixelFormat of the input Image.
+   * \tparam fmt the pixel_format of the input image.
    *
    * \tparam t dummy parameter.
    *
    * \tparam Enable enabling parameter.
    *
-   * \param image an image representing the content of the Texture.
+   * \param ph_image an ph_image representing the content of the Texture.
    */
-  template <PixelFormat fmt, TextureType t = type,
+  template <pixel_format fmt, TextureType t = type,
     typename Enable = std::enable_if_t<!isTextureTypeMultisampled(t)>>
-  HOU_GFX_API void setImage(const Image<fmt>& image);
+  HOU_GFX_API void set_image(const image<fmt>& ph_image);
 
 
   /** Sets the content of a sub-region of the Texture.
    *
-   * Throws if the subregion exceeds the boundaries of the image.
+   * Throws if the subregion exceeds the boundaries of the ph_image.
    *
-   * \tparam fmt the PixelFormat of the input Image.
+   * \tparam fmt the pixel_format of the input image.
    *
    * \tparam t dummy parameter.
    *
@@ -443,26 +443,26 @@ public:
    * \param offset an offset representing the top-left cornern of the
    * sub-region.
    *
-   * \param image an image representing the content of the Texture.
+   * \param ph_image an ph_image representing the content of the Texture.
    */
-  template <PixelFormat fmt, TextureType t = type,
+  template <pixel_format fmt, TextureType t = type,
     typename Enable = std::enable_if_t<!isTextureTypeMultisampled(t)>>
-  HOU_GFX_API void setSubImage(
-    const Coordinates& offset, const Image<fmt>& image);
+  HOU_GFX_API void set_sub_image(
+    const offset_type& offset, const image<fmt>& ph_image);
 
-  /** Clear the texture with the specified pixel value.
+  /** Clear the texture with the specified ph_pixel value.
    *
-   * \tparam fmt the PixelFormat of the input pixel value.
+   * \tparam fmt the pixel_format of the input ph_pixel value.
    *
    * \tparam t dummy parameter.
    *
    * \tparam Enable enabling parameter.
    *
-   * \param pixel the pixel value.
+   * \param ph_pixel the ph_pixel value.
    */
-  template <PixelFormat fmt, TextureType t = type,
+  template <pixel_format fmt, TextureType t = type,
     typename Enable = std::enable_if_t<!isTextureTypeMultisampled(t)>>
-  HOU_GFX_API void clear(const PixelT<fmt>& pixel);
+  HOU_GFX_API void clear(const pixel_t<fmt>& ph_pixel);
 
   /** Retrieves the size of the specified mip map level.
    *
@@ -477,12 +477,12 @@ public:
    */
   template <TextureType t = type,
     typename Enable = std::enable_if_t<isTextureTypeMipMapped(t)>>
-  HOU_GFX_API Size getMipMapSize(uint mipMapLevel) const;
+  HOU_GFX_API size_type getMipMapSize(uint mipMapLevel) const;
 
   /** Retrieves the content of the specified mip map level of the Texture as an
-   * Image object.
+   * image object.
    *
-   * \tparam fmt the PixelFormat of the input pixel value.
+   * \tparam fmt the pixel_format of the input ph_pixel value.
    *
    * \tparam t dummy parameter.
    *
@@ -491,15 +491,15 @@ public:
    * \param mipMapLevel the mipMapLevevel. It must be lower than the number of
    * mip map levels of the Texture.
    *
-   * \return an Image containing the data of the specified mip map level.
+   * \return an image containing the data of the specified mip map level.
    */
-  template <PixelFormat fmt, TextureType t = type,
+  template <pixel_format fmt, TextureType t = type,
     typename Enable = std::enable_if_t<isTextureTypeMipMapped(t)>>
-  HOU_GFX_API Image<fmt> getMipMapImage(uint mipMapLevel) const;
+  HOU_GFX_API image<fmt> getMipMapImage(uint mipMapLevel) const;
 
   // Texture overrides.
-  TextureType getType() const override;
-  size_t getDimensionCount() const override;
+  TextureType get_type() const override;
+  size_t get_dimension_count() const override;
   bool isMipMapped() const override;
   bool isMultisampled() const override;
 

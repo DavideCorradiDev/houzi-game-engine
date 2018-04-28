@@ -14,11 +14,11 @@ std::string get_text(AudError ec)
   switch(ec)
   {
     case AudError::InvalidAudioFileExtension:
-      return u8"Invalid audio file extension ('%s').";
+      return u8"Invalid audio ph_file extension ('%s').";
     case AudError::OggInvalidHeader:
-      return u8"Invalid OGG file header ('%s').";
+      return u8"Invalid OGG ph_file header ('%s').";
     case AudError::WavInvalidHeader:
-      return u8"Invalid WAV file header ('%s').";
+      return u8"Invalid WAV ph_file header ('%s').";
     default:
       return u8"";
   }

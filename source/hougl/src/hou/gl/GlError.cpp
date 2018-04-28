@@ -50,7 +50,7 @@ std::string get_text(GlError ec)
     case GlError::TableTooLarge:
       return u8"GL table too large.";
     case GlError::VerticalSyncSet:
-      return u8"Failed to set Vertical Sync mode.";
+      return u8"Failed to set vertical Sync mode.";
     default:
       return u8"";
   }

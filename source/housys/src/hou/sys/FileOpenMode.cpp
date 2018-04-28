@@ -2,23 +2,23 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/sys/FileOpenMode.hpp"
+#include "hou/sys/file_open_mode.hpp"
 
 #define FILE_OPEN_MODE_CASE(fom, os) \
-  case FileOpenMode::fom: return (os) << #fom
+  case file_open_mode::fom: return (os) << #fom
 
 
 
 namespace hou
 {
 
-std::ostream& operator<<(std::ostream& os, FileOpenMode fom)
+std::ostream& operator<<(std::ostream& os, file_open_mode fom)
 {
   switch(fom)
   {
-    FILE_OPEN_MODE_CASE(Read, os);
-    FILE_OPEN_MODE_CASE(Write, os);
-    FILE_OPEN_MODE_CASE(Append, os);
+    FILE_OPEN_MODE_CASE(read, os);
+    FILE_OPEN_MODE_CASE(write, os);
+    FILE_OPEN_MODE_CASE(append, os);
     default: return os;
   }
 }

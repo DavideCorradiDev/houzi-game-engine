@@ -60,7 +60,7 @@ void bindProgram(const ProgramHandle& program)
   {
     glUseProgram(program.getName());
     HOU_GL_CHECK_ERROR();
-    Context::getCurrent()->mTrackingData.setBoundProgram(program.getUid());
+    Context::getCurrent()->mTrackingData.setBoundProgram(program.get_uid());
   }
 }
 
@@ -84,7 +84,7 @@ bool isProgramBound(const ProgramHandle& program)
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(program);
   return Context::getCurrent()->mTrackingData.getBoundProgram()
-    == program.getUid();
+    == program.get_uid();
 }
 
 

@@ -195,7 +195,7 @@ template <typename T>
 std::ostream& operator<<(std::ostream& os, const rectangle<T>& rect)
 {
   return os << "{Position = " << transpose(rect.get_position())
-    << ", Size = " << transpose(rect.get_size()) << "}";
+    << ", size_type = " << transpose(rect.get_size()) << "}";
 }
 
 

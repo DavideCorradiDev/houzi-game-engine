@@ -27,7 +27,7 @@ AudioBuffer::AudioBuffer()
 AudioBuffer::AudioBuffer(
   const span<const uint8_t>& data, AudioBufferFormat format, int smlRate)
   : non_copyable()
-  , mHandle(al::BufferHandle::generate())
+  , m_handle(al::BufferHandle::generate())
 {
   setData(data, format, smlRate);
 }
@@ -43,7 +43,7 @@ AudioBuffer::AudioBuffer(
 
 AudioBuffer::AudioBuffer(AudioStreamIn& audioStream)
   : non_copyable()
-  , mHandle(al::BufferHandle::generate())
+  , m_handle(al::BufferHandle::generate())
 {
   setData(audioStream);
 }
@@ -52,7 +52,7 @@ AudioBuffer::AudioBuffer(AudioStreamIn& audioStream)
 
 AudioBuffer::AudioBuffer(AudioStreamIn&& audioStream)
   : non_copyable()
-  , mHandle(al::BufferHandle::generate())
+  , m_handle(al::BufferHandle::generate())
 {
   setData(audioStream);
 }
@@ -60,19 +60,19 @@ AudioBuffer::AudioBuffer(AudioStreamIn&& audioStream)
 
 
 AudioBuffer::AudioBuffer(AudioBuffer&& other)
-  : mHandle(std::move(other.mHandle))
+  : m_handle(std::move(other.m_handle))
 {}
 
 
 
 const al::BufferHandle& AudioBuffer::getHandle() const
 {
-  return mHandle;
+  return m_handle;
 }
 
 
 
-AudioBufferFormat AudioBuffer::getFormat() const
+AudioBufferFormat AudioBuffer::get_format() const
 {
   return getAudioBufferFormatEnum(getChannelCount(), getBytesPerSample());
 }
@@ -81,28 +81,28 @@ AudioBufferFormat AudioBuffer::getFormat() const
 
 uint AudioBuffer::getBytesPerSample() const
 {
-  return static_cast<uint>(al::getBufferBits(mHandle) / bitsPerByte);
+  return static_cast<uint>(al::getBufferBits(m_handle) / bitsPerByte);
 }
 
 
 
 uint AudioBuffer::getChannelCount() const
 {
-  return static_cast<uint>(al::getBufferChannels(mHandle));
+  return static_cast<uint>(al::getBufferChannels(m_handle));
 }
 
 
 
 int AudioBuffer::getSampleRate() const
 {
-  return static_cast<int>(al::getBufferFrequency(mHandle));
+  return static_cast<int>(al::getBufferFrequency(m_handle));
 }
 
 
 
-uint AudioBuffer::getByteCount() const
+uint AudioBuffer::get_byte_count() const
 {
-  return static_cast<uint>(al::getBufferSize(mHandle));
+  return static_cast<uint>(al::getBufferSize(m_handle));
 }
 
 
@@ -111,8 +111,8 @@ uint AudioBuffer::getSampleCount() const
 {
   HOU_EXPECT_DEV(getBytesPerSample() != 0u);
   HOU_EXPECT_DEV(
-    getByteCount() % (getChannelCount() * getBytesPerSample()) == 0);
-  return getByteCount() / (getChannelCount() * getBytesPerSample());
+    get_byte_count() % (getChannelCount() * getBytesPerSample()) == 0);
+  return get_byte_count() / (getChannelCount() * getBytesPerSample());
 }
 
 
@@ -121,7 +121,7 @@ void AudioBuffer::setData(
   const span<const uint8_t>& data, AudioBufferFormat format, int smlRate)
 {
   HOU_EXPECT_DEV(sizeof(uint8_t) == 1u);
-  al::setBufferData(mHandle, static_cast<ALenum>(format),
+  al::setBufferData(m_handle, static_cast<ALenum>(format),
     reinterpret_cast<ALvoid*>(const_cast<uint8_t*>(data.data())),
     static_cast<ALsizei>(data.size()), static_cast<ALsizei>(smlRate));
 }
@@ -138,7 +138,7 @@ void AudioBuffer::setData(
 
 void AudioBuffer::setData(AudioStreamIn& audioStream)
 {
-  setData(audioStream.readAll<std::vector<uint8_t>>(), audioStream.getFormat(),
+  setData(audioStream.read_all<std::vector<uint8_t>>(), audioStream.get_format(),
     audioStream.getSampleRate());
 }
 
@@ -146,7 +146,7 @@ void AudioBuffer::setData(AudioStreamIn& audioStream)
 
 void AudioBuffer::setData(AudioStreamIn&& audioStream)
 {
-  setData(audioStream.readAll<std::vector<uint8_t>>(), audioStream.getFormat(),
+  setData(audioStream.read_all<std::vector<uint8_t>>(), audioStream.get_format(),
     audioStream.getSampleRate());
 }
 

@@ -8,7 +8,7 @@
 #include "hou/gl/GlError.hpp"
 #include "hou/gl/OpenGl.hpp"
 
-#include "hou/sys/Window.hpp"
+#include "hou/sys/window.hpp"
 #include "hou/sys/win/WinError.hpp"
 
 
@@ -117,14 +117,14 @@ bool hasPixelFormat(HDC hdc)
 
 
 
-void ContextImpl::setCurrent(ContextImpl& context, Window& window)
+void ContextImpl::setCurrent(ContextImpl& context, window& ph_window)
 {
-  context.mHdc = GetDC(window.getWindowHandle());
-  HOU_ENSURE(context.mHdc != nullptr);
+  context.m_hdc = GetDC(ph_window.get_handle());
+  HOU_ENSURE(context.m_hdc != nullptr);
 
-  setPixelFormat(context.mHdc, context.mPixelFormat);
+  setPixelFormat(context.m_hdc, context.mPixelFormat);
 
-  HOU_WIN_RUNTIME_CHECK(wglMakeCurrent(context.mHdc, context.mHandle) != 0,
+  HOU_WIN_RUNTIME_CHECK(wglMakeCurrent(context.m_hdc, context.m_handle) != 0,
     get_text(GlError::ContextMakeCurrent));
 }
 
@@ -138,18 +138,18 @@ void ContextImpl::unsetCurrent()
 
 
 
-ContextImpl::ContextImpl(const ContextSettings& settings, const Window& window,
+ContextImpl::ContextImpl(const ContextSettings& settings, const window& ph_window,
   const ContextImpl* sharedContext)
   : non_copyable()
-  , mHandle(nullptr)
-  , mHdc(GetDC(window.getWindowHandle()))
-  , mPixelFormat(choosePixelFormat(mHdc, window.getBytesPerPixel(), settings))
+  , m_handle(nullptr)
+  , m_hdc(GetDC(ph_window.get_handle()))
+  , mPixelFormat(choosePixelFormat(m_hdc, ph_window.get_bytes_per_pixel(), settings))
 {
-  HOU_EXPECT(mHdc != nullptr);
+  HOU_EXPECT(m_hdc != nullptr);
 
-  setPixelFormat(mHdc, mPixelFormat);
+  setPixelFormat(m_hdc, mPixelFormat);
 
-  HGLRC shared = (sharedContext != nullptr) ? sharedContext->mHandle : nullptr;
+  HGLRC shared = (sharedContext != nullptr) ? sharedContext->m_handle : nullptr;
 
   if(wglCreateContextAttribsARB)
   {
@@ -171,43 +171,43 @@ ContextImpl::ContextImpl(const ContextSettings& settings, const Window& window,
           0  // End
         };
 
-    mHandle = wglCreateContextAttribsARB(mHdc, shared, attr);
-    HOU_WIN_RUNTIME_CHECK(mHandle != nullptr, get_text(GlError::ContextCreate));
+    m_handle = wglCreateContextAttribsARB(m_hdc, shared, attr);
+    HOU_WIN_RUNTIME_CHECK(m_handle != nullptr, get_text(GlError::ContextCreate));
   }
   else
   {
-    mHandle = wglCreateContext(mHdc);
-    HOU_WIN_RUNTIME_CHECK(mHandle != nullptr, get_text(GlError::ContextCreate));
+    m_handle = wglCreateContext(m_hdc);
+    HOU_WIN_RUNTIME_CHECK(m_handle != nullptr, get_text(GlError::ContextCreate));
     if(shared != nullptr)
     {
       HOU_WIN_RUNTIME_CHECK(
-        wglShareLists(shared, mHandle) != 0, get_text(GlError::ContextCreate));
+        wglShareLists(shared, m_handle) != 0, get_text(GlError::ContextCreate));
     }
   }
 
-  HOU_ENSURE_DEV(mHandle != nullptr);
+  HOU_ENSURE_DEV(m_handle != nullptr);
 }
 
 
 
 ContextImpl::ContextImpl(ContextImpl&& other)
   : non_copyable()
-  , mHandle(std::move(other.mHandle))
-  , mHdc(std::move(other.mHdc))
+  , m_handle(std::move(other.m_handle))
+  , m_hdc(std::move(other.m_hdc))
   , mPixelFormat(std::move(other.mPixelFormat))
 {
-  other.mHandle = nullptr;
-  other.mHdc = nullptr;
+  other.m_handle = nullptr;
+  other.m_hdc = nullptr;
 }
 
 
 
 ContextImpl::~ContextImpl()
 {
-  if(mHandle != nullptr)
+  if(m_handle != nullptr)
   {
     HOU_FATAL_CHECK(
-      wglDeleteContext(mHandle) != 0, get_text(GlError::ContextDestroy));
+      wglDeleteContext(m_handle) != 0, get_text(GlError::ContextDestroy));
   }
 }
 

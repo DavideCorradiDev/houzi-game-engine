@@ -2,52 +2,52 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/sys/TextStream.hpp"
+#include "hou/sys/text_stream.hpp"
 
 
 
 namespace hou
 {
 
-TextStream::TextPosition TextStream::createPositionObject(long value)
+text_stream::text_position text_stream::create_position_object(long value)
 {
-  return TextPosition(value);
+  return text_position(value);
 }
 
 
 
-long TextStream::convertPositionObject(TextStream::TextPosition pos)
+long text_stream::convert_position_object(text_stream::text_position pos)
 {
   return pos.mValue;
 }
 
 
 
-const TextStream::TextPosition TextStream::TextPosition::Start(0u);
+const text_stream::text_position text_stream::text_position::start(0u);
 
 
 
-TextStream::TextPosition::TextPosition(long value)
+text_stream::text_position::text_position(long value)
   : mValue(value)
 {}
 
 
 
-bool operator==(TextStream::TextPosition lhs, TextStream::TextPosition rhs)
+bool operator==(text_stream::text_position lhs, text_stream::text_position rhs)
 {
   return lhs.mValue == rhs.mValue;
 }
 
 
 
-bool operator!=(TextStream::TextPosition lhs, TextStream::TextPosition rhs)
+bool operator!=(text_stream::text_position lhs, text_stream::text_position rhs)
 {
   return lhs.mValue != rhs.mValue;
 }
 
 
 
-std::ostream& operator<<(std::ostream& os, TextStream::TextPosition p)
+std::ostream& operator<<(std::ostream& os, text_stream::text_position p)
 {
   return os << p;
 }

@@ -5,11 +5,11 @@
 #ifndef HOU_SYS_WINDOW_HPP
 #define HOU_SYS_WINDOW_HPP
 
-#include "hou/sys/SysExport.hpp"
+#include "hou/sys/sys_export.hpp"
 #include "hou/cor/non_copyable.hpp"
 
-#include "hou/sys/Image.hpp"
-#include "hou/sys/WindowImpl.hpp"
+#include "hou/sys/image.hpp"
+#include "hou/sys/window_impl.hpp"
 
 #include <string>
 
@@ -18,270 +18,270 @@
 namespace hou
 {
 
-class VideoMode;
-class WindowEvent;
+class video_mode;
+class window_event;
 
-/** Class representing a Window.
+/** Class representing a window.
  */
-class HOU_SYS_API Window
+class HOU_SYS_API window
   : public non_copyable
 {
 public:
-  /** Creates a Window object.
+  /** Creates a window object.
    *
-   *  The window client size corresponds to the resolution in videoMode.
-   *  The window client is be positioned in the middle of the screen.
-   *  The window uses the default system icon.
-   *  The window is not visible.
-   *  The window does not grab the mouse cursor.
-   *  Key repeat is disabled for the window.
+   *  The ph_window client size corresponds to the resolution in videoMode.
+   *  The ph_window client is be positioned in the middle of the screen.
+   *  The ph_window uses the default system icon.
+   *  The ph_window is not visible.
+   *  The ph_window does not grab the mouse cursor.
+   *  Key repeat is disabled for the ph_window.
    *
-   *  \param title the title of the Window.
-   *  \param videoMode the video mode of the Window, specifying its client size and
-   *  bytes per pixel.
-   *  \param style the style of the Window.
-   *  Only one Window can be fullscreen.
+   *  \param title the title of the window.
+   *  \param videoMode the video mode of the window, specifying its client size and
+   *  bytes per ph_pixel.
+   *  \param style the style of the window.
+   *  Only one window can be fullscreen.
    *  If fullscreen mode is specified and videoMode is not a valid fullscreen
-   *  VideoMode, an error will be thrown.
+   *  video_mode, an error will be thrown.
    */
-  Window(const std::string& title, const VideoMode& videoMode
-    , WindowStyle style);
+  window(const std::string& title, const video_mode& videoMode
+    , window_style style);
 
   /** Move constructor.
    *
-   *  \param other the other Window object.
+   *  \param other the other window object.
    */
-  Window(Window&& other);
+  window(window&& other);
 
   /** Destructor.
    */
-  virtual ~Window() = 0;
+  virtual ~window() = 0;
 
-  /** Gets the OS dependent window handle associated to this Window.
+  /** Gets the OS dependent ph_window handle associated to this window.
    *
-   *  \return the OS dependent window handle.
+   *  \return the OS dependent ph_window handle.
    */
-  WindowHandle getWindowHandle() const;
+  window_handle get_handle() const;
 
-  /** Gets the unique identifier of this Window.
+  /** Gets the unique identifier of this window.
    *
-   *  \return the unique identifier of this Window.
+   *  \return the unique identifier of this window.
    */
-  uint32_t getUid() const;
+  uint32_t get_uid() const;
 
-  /** Gets the title of this Window.
+  /** Gets the title of this window.
    *
-   *  \return the title of this Window.
+   *  \return the title of this window.
    */
-  const std::string& getTitle() const;
+  const std::string& get_title() const;
 
-  /** Sets the title of this window.
+  /** Sets the title of this ph_window.
    *
    *  \param title the title.
    */
-  void setTitle(const std::string& title);
+  void set_title(const std::string& title);
 
-  /** Gets the position of the Window frame.
+  /** Gets the position of the window frame.
    *
-   *  The Window frame position is the top left corner of the Window, including
+   *  The window frame position is the top left corner of the window, including
    *  the borders.
    *
-   *  \return the position of the Window frame.
+   *  \return the position of the window frame.
    */
-  vec2i getFramePosition() const;
+  vec2i get_frame_position() const;
 
-  /** Gets the size of the Window frame.
+  /** Gets the size of the window frame.
    *
-   *  The Window frame size includes the borders.
+   *  The window frame size includes the borders.
    *
-   *  \return the size of the Window frame.
+   *  \return the size of the window frame.
    */
-  vec2u getFrameSize() const;
+  vec2u get_frame_size() const;
 
-  /** Sets the Window frame ph_rectangle.
+  /** Sets the window frame ph_rectangle.
    *
-   *  The Window frame ph_rectangle includes the borders.
+   *  The window frame ph_rectangle includes the borders.
    *
-   *  \param pos the Window frame position.
-   *  \param size the window frame size.
+   *  \param pos the window frame position.
+   *  \param size the ph_window frame size.
    */
-  virtual void setFrameRect(const vec2i& pos, const vec2u& size) = 0;
+  virtual void set_frame_rect(const vec2i& pos, const vec2u& size) = 0;
 
-  /** Sets the position of the Window frame.
+  /** Sets the position of the window frame.
    *
-   *  The Window frame position is the top left corner of the Window, including
+   *  The window frame position is the top left corner of the window, including
    *  the borders
    *
-   *  \param pos the position of the Window frame.
+   *  \param pos the position of the window frame.
    */
-  void setFramePosition(const vec2i& pos);
+  void set_frame_position(const vec2i& pos);
 
-  /** Sets the size of the Window frame.
+  /** Sets the size of the window frame.
    *
-   *  The Window frame size includes the borders
+   *  The window frame size includes the borders
    *
-   *  \param size the size of the Window frame.
+   *  \param size the size of the window frame.
    */
   void setFrameSize(const vec2u& size);
 
-  /** Gets the position of the Window client.
+  /** Gets the position of the window client.
    *
-   *  The Window client position is the top left corner of the Window, not
+   *  The window client position is the top left corner of the window, not
    *  including the borders.
    *
-   *  \return the position of the Window client.
+   *  \return the position of the window client.
    */
-  vec2i getClientPosition() const;
+  vec2i get_client_position() const;
 
-  /** Gets the size of the Window client.
+  /** Gets the size of the window client.
    *
-   *  The Window client size does not include the borders.
+   *  The window client size does not include the borders.
    *
-   *  \return the size of the Window client.
+   *  \return the size of the window client.
    */
-  vec2u getClientSize() const;
+  vec2u get_client_size() const;
 
-  /** Sets the Window client ph_rectangle.
+  /** Sets the window client ph_rectangle.
    *
-   *  The Window client ph_rectangle does not include the borders.
+   *  The window client ph_rectangle does not include the borders.
    *
-   *  \param pos the Window client position.
-   *  \param size the Window client size.
+   *  \param pos the window client position.
+   *  \param size the window client size.
    */
-  virtual void setClientRect(const vec2i& pos, const vec2u& size) = 0;
+  virtual void set_client_rect(const vec2i& pos, const vec2u& size) = 0;
 
-  /** Sets the position of the Window client.
+  /** Sets the position of the window client.
    *
-   *  The Window client position is the top left corner of the Window, not
+   *  The window client position is the top left corner of the window, not
    *  including the borders.
    *
-   *  \param pos the position of the Window client.
+   *  \param pos the position of the window client.
    */
-  void setClientPosition(const vec2i& pos);
+  void set_client_position(const vec2i& pos);
 
-  /** Sets the size of the Window client.
+  /** Sets the size of the window client.
    *
-   *  The Window client size does not include the borders.
+   *  The window client size does not include the borders.
    *
-   *  \param size the size of the Window client.
+   *  \param size the size of the window client.
    */
-  void setClientSize(const vec2u& size);
+  void set_client_size(const vec2u& size);
 
-  /** Gets the number of bytes per pixel of this Window.
+  /** Gets the number of bytes per ph_pixel of this window.
    *
-   *  \return the number of bytes per pixel of this Window.
+   *  \return the number of bytes per ph_pixel of this window.
    */
-  uint getBytesPerPixel() const;
+  uint get_bytes_per_pixel() const;
 
-  /** Gets the style of this Window.
+  /** Gets the style of this window.
    *
-   *  \return the style of this Window.
+   *  \return the style of this window.
    */
-  WindowStyle getStyle() const;
+  window_style get_style() const;
 
-  /** Gets the Window icon.
+  /** Gets the window icon.
    *
-   *  \return the Window icon if a custom icon was set, an empty Image if the
+   *  \return the window icon if a custom icon was set, an empty image if the
    *  system icon is being used.
    */
-  const Image2RGBA& getIcon() const;
+  const image2RGBA& get_icon() const;
 
-  /** Sets the Window icon.
+  /** Sets the window icon.
    *
    *  \param icon the icon.
    */
-  void setIcon(const Image2RGBA& icon);
+  void set_icon(const image2RGBA& icon);
 
-  /** Resets the Window icon to the default system icon.
+  /** Resets the window icon to the default system icon.
    */
-  void setSystemIcon();
+  void set_system_icon();
 
-  /** Checks if the Window is visible.
+  /** Checks if the window is visible.
    *
-   *  \return true if the Window is visible.
+   *  \return true if the window is visible.
    */
-  bool isVisible() const;
+  bool is_visible() const;
 
-  /** Sets if the Window is visible.
+  /** Sets if the window is visible.
    *
-   *  \param value whether the Window is visible.
+   *  \param value whether the window is visible.
    */
-  void setVisible(bool value);
+  void set_visible(bool value);
 
-  /** Checks if the Window is grabbing the mouse cursor.
+  /** Checks if the window is grabbing the mouse cursor.
    *
-   *  \return true if the Window is grabbing the mouse cursor.
+   *  \return true if the window is grabbing the mouse cursor.
    */
-  bool isMouseCursorGrabbed() const;
+  bool is_mouse_cursor_grabbed() const;
 
-  /** Sets if the Window is grabbing the mouse cursor.
+  /** Sets if the window is grabbing the mouse cursor.
    *
-   *  \param value whether the Window is grabbing the mouse cursor.
+   *  \param value whether the window is grabbing the mouse cursor.
    */
-  void setMouseCursorGrabbed(bool value);
+  void set_mouse_cursor_grabbed(bool value);
 
-  /** Checks if key repeat is enabled for this Window.
+  /** Checks if key repeat is enabled for this window.
    *
-   *  \return true if key repeat is enabled for this Window.
+   *  \return true if key repeat is enabled for this window.
    */
-  bool isKeyRepeatEnabled() const;
+  bool is_key_repeat_enabled() const;
 
   /** Sets if key repeat is enabled for this Windows.
    *
-   *  \param value whether key repeat is enabled for this Window.
+   *  \param value whether key repeat is enabled for this window.
    */
-  void setKeyRepeatEnabled(bool value);
+  void set_key_repeat_enabled(bool value);
 
-  /** Checks if this Window currently has focus.
+  /** Checks if this window currently has focus.
    *
-   *  \return whether this Window currently has focus.
+   *  \return whether this window currently has focus.
    */
-  bool hasFocus() const;
+  bool has_focus() const;
 
-  /** Requests focus for this Window.
+  /** Requests focus for this window.
    *
    *  Requesting focus does not guarantee that the focus is actually obtained.
    *  Check the return value to see if the request was successfull.
    *
-   *  \return true if the focus request was successfull and this Window now has
+   *  \return true if the focus request was successfull and this window now has
    *  focus.
    */
-  bool requestFocus() const;
+  bool request_focus() const;
 
-  /** Checks if the event queue of this Window is empty.
+  /** Checks if the event queue of this window is empty.
    *
    *  This function does not automatically update the queue.
-   *  Call updateEventQueue before to fill it with events coming from the OS.
+   *  Call update_event_queue before to fill it with events coming from the OS.
    *
-   *  \return true if the event queue of this Window is empty.
+   *  \return true if the event queue of this window is empty.
    */
-  bool isEventQueueEmpty() const;
+  bool is_event_queue_empty() const;
 
-  /** Fills the event queue of this Window with events coming from the OS.
+  /** Fills the event queue of this window with events coming from the OS.
    */
-  void updateEventQueue();
+  void update_event_queue();
 
-  /** Pops the front event in the queue of this Window.
+  /** Pops the front event in the queue of this window.
    *
    *  This function does not automatically update the queue.
-   *  Call updateEventQueue before to fill it with events coming from the OS.
+   *  Call update_event_queue before to fill it with events coming from the OS.
    *  This function is not blocking.
-   *  If the event queue is empty, an event of type Empty is returned.
+   *  If the event queue is empty, an event of type empty is returned.
    *
-   *  \return the front event, or an event of type Empty if the queue is empty.
+   *  \return the front event, or an event of type empty if the queue is empty.
    */
-  WindowEvent popEvent();
+  window_event pop_event();
 
-  /** Pushes an event into the back of the queu of this Window.
+  /** Pushes an event into the back of the queu of this window.
    *
    *  \param event the event to be pushed.
    */
-  void pushEvent(const WindowEvent& event);
+  void push_event(const window_event& event);
 
-  /** Waits for the event queue of this Window to contain at least one event and
+  /** Waits for the event queue of this window to contain at least one event and
    *  pops it.
    *
-   *  This function always updates the event queue, so a call to updateEventQueue
+   *  This function always updates the event queue, so a call to update_event_queue
    *  is not necessary.
    *  This function is blocking, it will keep updating and checking the queue
    *  until an event is pushed.
@@ -291,27 +291,27 @@ public:
    *
    *  \return the front event.
    */
-  WindowEvent waitEvent();
+  window_event wait_event();
 
 protected:
-  /** Swaps the front and back buffers of the Window.
+  /** Swaps the front and back buffers of the window.
    *
-   *  Throws if the Window has no valid buffers.
+   *  Throws if the window has no valid buffers.
    *  Derived classes should make sure to only call this function when it is
    *  safe to do so.
    */
-  void swapBuffers();
+  void swap_buffers();
 
 private:
-  void reactToEvent(const WindowEvent& event);
+  void react_to_event(const window_event& event);
 
 private:
-  prv::WindowImpl mImpl;
-  uint32_t mUid;
-  WindowStyle mStyle;
-  uint mBytesPerPixel;
-  std::string mTitle;
-  Image2RGBA mIconImage;
+  prv::window_impl m_impl;
+  uint32_t m_uid;
+  window_style m_style;
+  uint m_bytes_per_pixel;
+  std::string m_title;
+  image2RGBA m_icon_image;
 };
 
 }

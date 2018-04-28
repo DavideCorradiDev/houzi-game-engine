@@ -734,14 +734,14 @@ template <typename T>
 template <typename T, size_t rows>
   T dot(const matrix<T, rows, 1u>& lhs, const matrix<T, rows, 1u>& rhs);
 
-/** Writes the object into a stream.
+/** Writes the object into a ph_stream.
  *
  *  \tparam T the scalar type.
  *  \tparam rows the number of rows.
  *  \tparam cols the number of columns.
- *  \param os the stream.
+ *  \param os the ph_stream.
  *  \param m the ph_matrix.
- *  \return a reference to the stream.
+ *  \return a reference to the ph_stream.
  */
 template <typename T, size_t rows, size_t cols>
   std::ostream& operator<<(std::ostream& os, const matrix<T, rows, cols>& m);

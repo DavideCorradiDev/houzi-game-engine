@@ -5,12 +5,12 @@
 #ifndef HOU_SYS_PIXEL_HPP
 #define HOU_SYS_PIXEL_HPP
 
-#include "hou/sys/SysExport.hpp"
+#include "hou/sys/sys_export.hpp"
 
 #include "hou/cor/pragmas.hpp"
 
-#include "hou/sys/Color.hpp"
-#include "hou/sys/PixelFwd.hpp"
+#include "hou/sys/color.hpp"
+#include "hou/sys/pixel_fwd.hpp"
 
 #include <array>
 
@@ -19,64 +19,64 @@ namespace hou
 
 HOU_PRAGMA_PACK_PUSH(1)
 
-/** Represents a pixel.
+/** Represents a ph_pixel.
  *
- *  Note: all possible class instances (one for each possible PixelFormat value)
+ *  Note: all possible class instances (one for each possible pixel_format value)
  *  are already explicitly instantiated and exported in the library.
  *
- *  \tparam pf the pixel format.
+ *  \tparam pf the ph_pixel format.
  */
-template <PixelFormat pf>
-class HOU_SYS_API PixelT
+template <pixel_format pf>
+class HOU_SYS_API pixel_t
 {
 public:
-  /** Retrieves the format of the pixel.
+  /** Retrieves the format of the ph_pixel.
    *
-   *  \return the format of the pixel.
+   *  \return the format of the ph_pixel.
    */
-  static constexpr PixelFormat getFormat();
+  static constexpr pixel_format get_format();
 
-  /** Retrieves the amount of bytes used by the pixel.
+  /** Retrieves the amount of bytes used by the ph_pixel.
    *
-   * \return the amomunt of bytes used by the pixel.
+   * \return the amomunt of bytes used by the ph_pixel.
    */
-  static constexpr uint getByteCount();
+  static constexpr uint get_byte_count();
 
 public:
   /** Default constructor.
    *
    *  Initializes all channels to 0.
    */
-  PixelT();
+  pixel_t();
 
   /** Channel constructor.
    *
-   *  Initializes the pixel with the given channel values.
+   *  Initializes the ph_pixel with the given channel values.
    *
    *  \tparam f dummy template parameter.
    *  \tparam Enable enabling template parameter.
    *  \param r the red channel value.
    */
-  template <PixelFormat f = pf,
-    typename Enable = std::enable_if_t<f == PixelFormat::R>>
-  HOU_SYS_API PixelT(uint8_t r);
+  template <pixel_format f = pf,
+    typename Enable = std::enable_if_t<f == pixel_format::r>>
+  HOU_SYS_API pixel_t(uint8_t r);
 
   /** Channel constructor.
    *
-   *  Initializes the pixel with the given channel values.
+   *  Initializes the ph_pixel with the given channel values.
    *
    *  \tparam f dummy template parameter.
    *  \tparam Enable enabling template parameter.
    *  \param r the red channel value.
    *  \param g the green channel value.
    */
-  template <PixelFormat f = pf,
-    typename Enable = std::enable_if_t<f == PixelFormat::RG>>
-  HOU_SYS_API PixelT(uint8_t r, uint8_t g);
+  template <pixel_format f = pf,
+    typename Enable = std::enable_if_t<f == pixel_format::rg>>
+  HOU_SYS_API pixel_t(uint8_t r, uint8_t g);
 
   /** Channel constructor.
    *
-   *  Initializes the pixel with the given channel values.
+   *  Initializes the ph_pixel with the given channel values.
    *
    *  \tparam f dummy template parameter.
    *  \tparam Enable enabling template parameter.
@@ -84,13 +84,13 @@ public:
    *  \param g the green channel value.
    *  \param b the blue channel value.
    */
-  template <PixelFormat f = pf,
-    typename Enable = std::enable_if_t<f == PixelFormat::RGB>>
-  HOU_SYS_API PixelT(uint8_t r, uint8_t g, uint8_t b);
+  template <pixel_format f = pf,
+    typename Enable = std::enable_if_t<f == pixel_format::rgb>>
+  HOU_SYS_API pixel_t(uint8_t r, uint8_t g, uint8_t b);
 
   /** Channel constructor.
    *
-   *  Initializes the pixel with the given channel values.
+   *  Initializes the ph_pixel with the given channel values.
    *
    *  \tparam f dummy template parameter.
    *  \tparam Enable enabling template parameter.
@@ -99,159 +99,159 @@ public:
    *  \param b the blue channel value.
    *  \param a the alpha channel value.
    */
-  template <PixelFormat f = pf,
-    typename Enable = std::enable_if_t<f == PixelFormat::RGBA>>
-  HOU_SYS_API PixelT(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
+  template <pixel_format f = pf,
+    typename Enable = std::enable_if_t<f == pixel_format::rgba>>
+  HOU_SYS_API pixel_t(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 
-  /** Color constructor.
+  /** color constructor.
    *
-   *  Initializes the pixel with the given color.
+   *  Initializes the ph_pixel with the given ph_color.
    *
    *  \tparam f dummy template parameter.
    *  \tparam Enable enabling template parameter.
-   *  \param c the color.
+   *  \param c the ph_color.
    */
-  template <PixelFormat f = pf,
-    typename Enable = std::enable_if_t<f == PixelFormat::RGBA>>
-  HOU_SYS_API PixelT(const Color& c);
+  template <pixel_format f = pf,
+    typename Enable = std::enable_if_t<f == pixel_format::rgba>>
+  HOU_SYS_API pixel_t(const color& c);
 
   /** Format conversion constructor.
    *
-   *  Initializes the pixel with the channel values of a pixel with a different
+   *  Initializes the ph_pixel with the channel values of a ph_pixel with a different
    *  format.
    *  The following rules are applied:
-   *  * When converting from RG or RGBA to R or RGB, the last input channel (the
+   *  * When converting from rg or rgba to r or rgb, the last input channel (the
    *  transparency channel) is ignored.
-   *  * When converting from R or RGB to RG or RGBA the last output channel (the
+   *  * When converting from r or rgb to rg or rgba the last output channel (the
    *  transparency channel) is set to 255.
-   *  * When converting from R or RG to RGB or RGBA, the R, G and B output
-   * channels are set to the value of the R input channel.
-   *  * When converting from RGB or RGBA to R or RG, the R output channel
-   *  (the value channel) is set to a weighted average of the R, G, and B input
+   *  * When converting from r or rg to rgb or rgba, the r, G and B output
+   * channels are set to the value of the r input channel.
+   *  * When converting from rgb or rgba to r or rg, the r output channel
+   *  (the value channel) is set to a weighted average of the r, G, and B input
    *  channels: Rout = (77 * Rin + 150 * Gin + 29 * Bin) / 256.
    *
-   *  \tparam otherFormat the other PixelFormat.
+   *  \tparam otherFormat the other pixel_format.
    *  \tparam Enable enabling template parameter.
-   *  \param other the other pixel.
+   *  \param other the other ph_pixel.
    */
-  template <PixelFormat otherFormat,
+  template <pixel_format otherFormat,
     typename Enable = std::enable_if_t<otherFormat != pf>>
-  HOU_SYS_API PixelT(const PixelT<otherFormat>& other);
+  HOU_SYS_API pixel_t(const pixel_t<otherFormat>& other);
 
-  /** Retrieves the value of the red channel of the pixel.
+  /** Retrieves the value of the red channel of the ph_pixel.
    *
    *  \return the value of the channel.
    */
-  uint8_t getR() const;
+  uint8_t get_r() const;
 
-  /** Sets the value of the red channel of the pixel.
+  /** Sets the value of the red channel of the ph_pixel.
    *
    *  \param value the value.
    */
-  void setR(uint8_t value);
+  void set_r(uint8_t value);
 
-  /** Retrieves the value of the green channel of the pixel.
-   *
-   *  \tparam f dummy template parameter.
-   *  \tparam Enable enabling template parameter.
-   *  \return the value of the channel.
-   */
-  template <PixelFormat f = pf,
-    typename Enable = std::enable_if_t<(getPixelFormatByteCount(f) > 1u)>>
-  HOU_SYS_API uint8_t getG() const;
-
-  /** Sets the value of the green channel of the pixel.
-   *
-   *  \tparam f dummy template parameter.
-   *  \tparam Enable enabling template parameter.
-   *  \param value the value.
-   */
-  template <PixelFormat f = pf,
-    typename Enable = std::enable_if_t<(getPixelFormatByteCount(f) > 1u)>>
-  HOU_SYS_API void setG(uint8_t value);
-
-  /** Retrieves the value of the blue channel of the pixel.
+  /** Retrieves the value of the green channel of the ph_pixel.
    *
    *  \tparam f dummy template parameter.
    *  \tparam Enable enabling template parameter.
    *  \return the value of the channel.
    */
-  template <PixelFormat f = pf,
-    typename Enable = std::enable_if_t<(getPixelFormatByteCount(f) > 2u)>>
-  HOU_SYS_API uint8_t getB() const;
+  template <pixel_format f = pf,
+    typename Enable = std::enable_if_t<(get_pixel_format_byte_count(f) > 1u)>>
+  HOU_SYS_API uint8_t get_g() const;
 
-  /** Sets the value of the blue channel of the pixel.
+  /** Sets the value of the green channel of the ph_pixel.
    *
    *  \tparam f dummy template parameter.
    *  \tparam Enable enabling template parameter.
    *  \param value the value.
    */
-  template <PixelFormat f = pf,
-    typename Enable = std::enable_if_t<(getPixelFormatByteCount(f) > 1u)>>
-  HOU_SYS_API void setB(uint8_t value);
+  template <pixel_format f = pf,
+    typename Enable = std::enable_if_t<(get_pixel_format_byte_count(f) > 1u)>>
+  HOU_SYS_API void set_g(uint8_t value);
 
-  /** Retrieves the value of the alpha channel of the pixel.
+  /** Retrieves the value of the blue channel of the ph_pixel.
    *
    *  \tparam f dummy template parameter.
    *  \tparam Enable enabling template parameter.
    *  \return the value of the channel.
    */
-  template <PixelFormat f = pf,
-    typename Enable = std::enable_if_t<(getPixelFormatByteCount(f) > 3u)>>
-  HOU_SYS_API uint8_t getA() const;
+  template <pixel_format f = pf,
+    typename Enable = std::enable_if_t<(get_pixel_format_byte_count(f) > 2u)>>
+  HOU_SYS_API uint8_t get_b() const;
 
-  /** Sets the value of the alpha channel of the pixel.
+  /** Sets the value of the blue channel of the ph_pixel.
    *
    *  \tparam f dummy template parameter.
    *  \tparam Enable enabling template parameter.
    *  \param value the value.
    */
-  template <PixelFormat f = pf,
-    typename Enable = std::enable_if_t<(getPixelFormatByteCount(f) > 1u)>>
-  HOU_SYS_API void setA(uint8_t value);
+  template <pixel_format f = pf,
+    typename Enable = std::enable_if_t<(get_pixel_format_byte_count(f) > 1u)>>
+  HOU_SYS_API void set_b(uint8_t value);
 
-  /** Retrieves the color of the pixel.
+  /** Retrieves the value of the alpha channel of the ph_pixel.
    *
    *  \tparam f dummy template parameter.
    *  \tparam Enable enabling template parameter.
-   *  \return the color of the pixel.
+   *  \return the value of the channel.
    */
-  template <PixelFormat f = pf,
-    typename Enable = std::enable_if_t<f == PixelFormat::RGBA>>
-  HOU_SYS_API Color getColor() const;
+  template <pixel_format f = pf,
+    typename Enable = std::enable_if_t<(get_pixel_format_byte_count(f) > 3u)>>
+  HOU_SYS_API uint8_t get_a() const;
 
-  /** Sets the color of the pixel.
+  /** Sets the value of the alpha channel of the ph_pixel.
    *
    *  \tparam f dummy template parameter.
    *  \tparam Enable enabling template parameter.
-   *  \param c the color of the pixel.
+   *  \param value the value.
    */
-  template <PixelFormat f = pf,
-    typename Enable = std::enable_if_t<f == PixelFormat::RGBA>>
-  HOU_SYS_API void setColor(const Color& c);
+  template <pixel_format f = pf,
+    typename Enable = std::enable_if_t<(get_pixel_format_byte_count(f) > 1u)>>
+  HOU_SYS_API void set_a(uint8_t value);
 
-  /** Sets the channels of the pixel.
+  /** Retrieves the ph_color of the ph_pixel.
+   *
+   *  \tparam f dummy template parameter.
+   *  \tparam Enable enabling template parameter.
+   *  \return the ph_color of the ph_pixel.
+   */
+  template <pixel_format f = pf,
+    typename Enable = std::enable_if_t<f == pixel_format::rgba>>
+  HOU_SYS_API color get_color() const;
+
+  /** Sets the ph_color of the ph_pixel.
+   *
+   *  \tparam f dummy template parameter.
+   *  \tparam Enable enabling template parameter.
+   *  \param c the ph_color of the ph_pixel.
+   */
+  template <pixel_format f = pf,
+    typename Enable = std::enable_if_t<f == pixel_format::rgba>>
+  HOU_SYS_API void set_color(const color& c);
+
+  /** Sets the channels of the ph_pixel.
    *
    *  \tparam f dummy template parameter.
    *  \tparam Enable enabling template parameter.
    *  \param r the red channel value.
    */
-  template <PixelFormat f = pf,
-    typename Enable = std::enable_if_t<f == PixelFormat::R>>
+  template <pixel_format f = pf,
+    typename Enable = std::enable_if_t<f == pixel_format::r>>
   HOU_SYS_API void set(uint8_t r);
 
-  /** Sets the channels of the pixel.
+  /** Sets the channels of the ph_pixel.
    *
    *  \tparam f dummy template parameter.
    *  \tparam Enable enabling template parameter.
    *  \param r the red channel value.
    *  \param g the green channel value.
    */
-  template <PixelFormat f = pf,
-    typename Enable = std::enable_if_t<f == PixelFormat::RG>>
+  template <pixel_format f = pf,
+    typename Enable = std::enable_if_t<f == pixel_format::rg>>
   HOU_SYS_API void set(uint8_t r, uint8_t g);
 
-  /** Sets the channels of the pixel.
+  /** Sets the channels of the ph_pixel.
    *
    *  \tparam f dummy template parameter.
    *  \tparam Enable enabling template parameter.
@@ -259,11 +259,11 @@ public:
    *  \param g the green channel value.
    *  \param b the blue channel value.
    */
-  template <PixelFormat f = pf,
-    typename Enable = std::enable_if_t<f == PixelFormat::RGB>>
+  template <pixel_format f = pf,
+    typename Enable = std::enable_if_t<f == pixel_format::rgb>>
   HOU_SYS_API void set(uint8_t r, uint8_t g, uint8_t b);
 
-  /** Sets the channels of the pixel.
+  /** Sets the channels of the ph_pixel.
    *
    *  \tparam f dummy template parameter.
    *  \tparam Enable enabling template parameter.
@@ -272,50 +272,50 @@ public:
    *  \param b the blue channel value.
    *  \param a the alpha channel value.
    */
-  template <PixelFormat f = pf,
-    typename Enable = std::enable_if_t<f == PixelFormat::RGBA>>
+  template <pixel_format f = pf,
+    typename Enable = std::enable_if_t<f == pixel_format::rgba>>
   HOU_SYS_API void set(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 
-  /** Checks if two Pixel objects are equal.
+  /** Checks if two pixel objects are equal.
    *
    *  \param lhs the left operand.
    *  \param rhs the right operand.
    *  \return the result of the check.
    */
-  friend bool operator==(const PixelT& lhs, const PixelT& rhs)
+  friend bool operator==(const pixel_t& lhs, const pixel_t& rhs)
   {
-    return lhs.mChannels == rhs.mChannels;
+    return lhs.m_channels == rhs.m_channels;
   }
 
-  /** Checks if two Pixel objects are not equal.
+  /** Checks if two pixel objects are not equal.
    *
    *  \param lhs the left operand.
    *  \param rhs the right operand.
    *  \return the result of the check.
    */
-  friend bool operator!=(const PixelT& lhs, const PixelT& rhs)
+  friend bool operator!=(const pixel_t& lhs, const pixel_t& rhs)
   {
-    return lhs.mChannels != rhs.mChannels;
+    return lhs.m_channels != rhs.m_channels;
   }
 
 private:
-  std::array<uint8_t, getPixelFormatByteCount(pf)> mChannels;
+  std::array<uint8_t, get_pixel_format_byte_count(pf)> m_channels;
 };
 
-/** Writes the object into a stream.
+/** Writes the object into a ph_stream.
  *
- *  \tparam pf the pixel format.
- *  \param os the stream.
- *  \param pixel the pixel.
+ *  \tparam pf the ph_pixel format.
+ *  \param os the ph_stream.
+ *  \param ph_pixel the ph_pixel.
  *  \return a reference to os.
  */
-template <PixelFormat pf>
-HOU_SYS_API std::ostream& operator<<(std::ostream& os, const PixelT<pf>& pixel);
+template <pixel_format pf>
+HOU_SYS_API std::ostream& operator<<(std::ostream& os, const pixel_t<pf>& ph_pixel);
 
 HOU_PRAGMA_PACK_POP()
 
 }  // namespace hou
 
-#include "hou/sys/Pixel.inl"
+#include "hou/sys/pixel.inl"
 
 #endif

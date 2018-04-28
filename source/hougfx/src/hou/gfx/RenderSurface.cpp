@@ -9,7 +9,7 @@
 
 #include "hou/gl/GlFunctions.hpp"
 
-#include "hou/sys/Color.hpp"
+#include "hou/sys/color.hpp"
 
 
 
@@ -132,12 +132,12 @@ uint RenderSurface::getSampleCount() const
 
 
 
-void RenderSurface::clear(const Color& color)
+void RenderSurface::clear(const color& ph_color)
 {
   setCurrentRenderTarget(*this);
 
   gl::setClearColor(
-    color.getRedf(), color.getGreenf(), color.getBluef(), color.getAlphaf());
+    ph_color.get_red_f(), ph_color.get_green_f(), ph_color.get_blue_f(), ph_color.get_alpha_f());
   gl::setClearDepth(1.f);
   gl::setClearStencil(0u);
   gl::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -181,7 +181,7 @@ void RenderSurface::buildFramebuffer(const vec2u& size, uint sampleCount)
   {
     static constexpr uint mipMapLevelCount = 1u;
     mColorAttachment
-      = std::make_unique<Texture2>(size, TextureFormat::RGBA, mipMapLevelCount);
+      = std::make_unique<Texture2>(size, TextureFormat::rgba, mipMapLevelCount);
     mDepthStencilAttachment = std::make_unique<Texture2>(
       size, TextureFormat::DepthStencil, mipMapLevelCount);
   }
@@ -189,7 +189,7 @@ void RenderSurface::buildFramebuffer(const vec2u& size, uint sampleCount)
   {
     static constexpr bool fixedSampleLocations = true;
     mColorAttachment = std::make_unique<MultisampleTexture2>(
-      size, TextureFormat::RGBA, sampleCount, fixedSampleLocations);
+      size, TextureFormat::rgba, sampleCount, fixedSampleLocations);
     mDepthStencilAttachment = std::make_unique<MultisampleTexture2>(
       size, TextureFormat::DepthStencil, sampleCount, fixedSampleLocations);
   }

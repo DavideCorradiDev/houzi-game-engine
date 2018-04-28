@@ -218,10 +218,10 @@ template <typename T>
 template <typename T>
   bool operator!=(const span<T>& lhs, const span<T>& rhs);
 
-/** Outsputs a span object into a stream.
+/** Outsputs a span object into a ph_stream.
  *
  *  \tparam T the value type of the span.
- *  \param os the output stream.
+ *  \param os the output ph_stream.
  *  \param s the span.
  *  \return a reference to os.
  */

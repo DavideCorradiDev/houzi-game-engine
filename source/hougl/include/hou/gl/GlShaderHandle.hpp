@@ -25,13 +25,13 @@ public:
   ShaderHandle(ShaderHandle&& other);
   virtual ~ShaderHandle();
 
-  GLenum getType() const;
+  GLenum get_type() const;
 
 private:
   ShaderHandle(GLuint name, GLenum type);
 
 private:
-  GLenum mType;
+  GLenum m_type;
 };
 
 HOU_GL_API void compileShader(const ShaderHandle& shader, const GLchar* src);

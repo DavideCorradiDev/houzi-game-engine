@@ -5,7 +5,7 @@
 #ifndef HOU_SYS_SCAN_CODE_HPP
 #define HOU_SYS_SCAN_CODE_HPP
 
-#include "hou/sys/SysExport.hpp"
+#include "hou/sys/sys_export.hpp"
 
 #include <iostream>
 
@@ -15,7 +15,7 @@ namespace hou
 {
 
 /** Enumeration type for layout-independent keyboard key codes. */
-enum class ScanCode
+enum class scan_code
 {
   /** Escape */
   Escape = 0x01u,
@@ -55,8 +55,8 @@ enum class ScanCode
   W = 0x11u,
   /** E */
   E = 0x12u,
-  /** R */
-  R = 0x13u,
+  /** r */
+  r = 0x13u,
   /** T */
   T = 0x14u,
   /** Y */
@@ -238,13 +238,13 @@ enum class ScanCode
 };
 
 
-/** Writes a ScanCode enum into a stream.
+/** Writes a scan_code enum into a ph_stream.
  *
- *  \param os the stream.
- *  \param sc the ScanCode enum.
- *  \return a reference to the stream.
+ *  \param os the ph_stream.
+ *  \param sc the scan_code enum.
+ *  \return a reference to the ph_stream.
  */
-HOU_SYS_API std::ostream& operator<<(std::ostream& os, ScanCode sc);
+HOU_SYS_API std::ostream& operator<<(std::ostream& os, scan_code sc);
 
 }
 

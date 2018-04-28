@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/sys/Color.hpp"
+#include "hou/sys/color.hpp"
 
 
 
@@ -39,162 +39,162 @@ float uint8ToFloat(uint8_t v)
 
 
 
-const Color Color::White(255, 255, 255, 255);
-const Color Color::Grey(128, 128, 128, 255);
-const Color Color::Black(0, 0, 0, 255);
-const Color Color::Red(255, 0, 0, 255);
-const Color Color::Yellow(255, 255, 0, 255);
-const Color Color::Green(0, 255, 0, 255);
-const Color Color::Cyan(0, 255, 255, 255);
-const Color Color::Blue(0, 0, 255, 255);
-const Color Color::Magenta(255, 0, 255, 255);
-const Color Color::Transparent(0, 0, 0, 0);
+const color color::white(255, 255, 255, 255);
+const color color::grey(128, 128, 128, 255);
+const color color::black(0, 0, 0, 255);
+const color color::red(255, 0, 0, 255);
+const color color::yellow(255, 255, 0, 255);
+const color color::green(0, 255, 0, 255);
+const color color::cyan(0, 255, 255, 255);
+const color color::blue(0, 0, 255, 255);
+const color color::magenta(255, 0, 255, 255);
+const color color::transparent(0, 0, 0, 0);
 
 
 
-Color::Color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
-  : mRed(red)
-  , mGreen(green)
-  , mBlue(blue)
-  , mAlpha(alpha) {}
+color::color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
+  : m_red(red)
+  , m_green(green)
+  , m_blue(blue)
+  , m_alpha(alpha) {}
 
 
 
-uint8_t Color::getRed() const
+uint8_t color::get_red() const
 {
-  return mRed;
+  return m_red;
 }
 
 
 
-float Color::getRedf() const
+float color::get_red_f() const
 {
-  return uint8ToFloat(mRed);
+  return uint8ToFloat(m_red);
 }
 
 
 
-void Color::setRed(uint8_t value)
+void color::set_red(uint8_t value)
 {
-  mRed = value;
+  m_red = value;
 }
 
 
 
-void Color::setRedf(float value)
+void color::set_red_f(float value)
 {
-  mRed = floatToUInt8(value);
+  m_red = floatToUInt8(value);
 }
 
 
 
-uint8_t Color::getGreen() const
+uint8_t color::get_green() const
 {
-  return mGreen;
+  return m_green;
 }
 
 
 
-float Color::getGreenf() const
+float color::get_green_f() const
 {
-  return uint8ToFloat(mGreen);
+  return uint8ToFloat(m_green);
 }
 
 
 
-void Color::setGreen(uint8_t value)
+void color::set_green(uint8_t value)
 {
-  mGreen = value;
+  m_green = value;
 }
 
 
 
-void Color::setGreenf(float value)
+void color::set_green_f(float value)
 {
-  mGreen = floatToUInt8(value);
+  m_green = floatToUInt8(value);
 }
 
 
 
-uint8_t Color::getBlue() const
+uint8_t color::get_blue() const
 {
-  return mBlue;
+  return m_blue;
 }
 
 
 
-float Color::getBluef() const
+float color::get_blue_f() const
 {
-  return uint8ToFloat(mBlue);
+  return uint8ToFloat(m_blue);
 }
 
 
 
-void Color::setBlue(uint8_t value)
+void color::set_blue(uint8_t value)
 {
-  mBlue = value;
+  m_blue = value;
 }
 
 
 
-void Color::setBluef(float value)
+void color::set_blue_f(float value)
 {
-  mBlue = floatToUInt8(value);
+  m_blue = floatToUInt8(value);
 }
 
 
 
-uint8_t Color::getAlpha() const
+uint8_t color::get_alpha() const
 {
-  return mAlpha;
+  return m_alpha;
 }
 
 
 
-float Color::getAlphaf() const
+float color::get_alpha_f() const
 {
-  return uint8ToFloat(mAlpha);
+  return uint8ToFloat(m_alpha);
 }
 
 
 
-void Color::setAlpha(uint8_t value)
+void color::set_alpha(uint8_t value)
 {
-  mAlpha = value;
+  m_alpha = value;
 }
 
 
 
-void Color::setAlphaf(float value)
+void color::set_alpha_f(float value)
 {
-  mAlpha = floatToUInt8(value);
+  m_alpha = floatToUInt8(value);
 }
 
 
 
 
-bool operator==(const Color& lhs, const Color& rhs)
+bool operator==(const color& lhs, const color& rhs)
 {
-  return lhs.getRed() == rhs.getRed() && lhs.getGreen() == rhs.getGreen()
-    && lhs.getBlue() == rhs.getBlue() && lhs.getAlpha() == rhs.getAlpha();
+  return lhs.get_red() == rhs.get_red() && lhs.get_green() == rhs.get_green()
+    && lhs.get_blue() == rhs.get_blue() && lhs.get_alpha() == rhs.get_alpha();
 }
 
 
 
-bool operator!=(const Color& lhs, const Color& rhs)
+bool operator!=(const color& lhs, const color& rhs)
 {
   return !(lhs == rhs);
 }
 
 
 
-std::ostream& operator<<(std::ostream& os, const Color& c)
+std::ostream& operator<<(std::ostream& os, const color& c)
 {
   return os
-    << "{Red = " << static_cast<int>(c.getRed())
-    << ", Green = " << static_cast<int>(c.getGreen())
-    << ", Blue = " << static_cast<int>(c.getBlue())
-    << ", Alpha = " << static_cast<int>(c.getAlpha()) << "}";
+    << "{red = " << static_cast<int>(c.get_red())
+    << ", green = " << static_cast<int>(c.get_green())
+    << ", blue = " << static_cast<int>(c.get_blue())
+    << ", Alpha = " << static_cast<int>(c.get_alpha()) << "}";
 }
 
 

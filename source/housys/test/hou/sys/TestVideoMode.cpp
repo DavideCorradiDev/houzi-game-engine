@@ -4,7 +4,7 @@
 
 #include "hou/Test.hpp"
 
-#include "hou/sys/VideoMode.hpp"
+#include "hou/sys/video_mode.hpp"
 
 using namespace hou;
 using namespace testing;
@@ -22,8 +22,8 @@ class TestVideoMode : public Test {};
 
 TEST_F(TestVideoMode, Constructor)
 {
-  VideoMode v(vec2u(1200u, 400u), 8u);
-  EXPECT_EQ(8u, v.getBytesPerPixel());
+  video_mode v(vec2u(1200u, 400u), 8u);
+  EXPECT_EQ(8u, v.get_bytes_per_pixel());
   EXPECT_EQ(vec2u(1200u, 400u), v.get_resolution());
 }
 
@@ -31,30 +31,30 @@ TEST_F(TestVideoMode, Constructor)
 
 TEST_F(TestVideoMode, FullscreenModeCheck)
 {
-  std::vector<VideoMode> vmodes = VideoMode::getFullscreenModes();
+  std::vector<video_mode> vmodes = video_mode::getFullscreenModes();
   for(const auto& mode : vmodes)
   {
-    EXPECT_TRUE(mode.isFullscreenMode());
+    EXPECT_TRUE(mode.is_fullscreen_mode());
   }
-  VideoMode notFullscreenMode(vec2u(0u, 0u), 0u);
-  EXPECT_FALSE(notFullscreenMode.isFullscreenMode());
+  video_mode notFullscreenMode(vec2u(0u, 0u), 0u);
+  EXPECT_FALSE(notFullscreenMode.is_fullscreen_mode());
 }
 
 
 
 TEST_F(TestVideoMode, DesktopModeIsFullscreen)
 {
-  EXPECT_TRUE(VideoMode::getDesktopMode().isFullscreenMode());
+  EXPECT_TRUE(video_mode::get_desktop_mode().is_fullscreen_mode());
 }
 
 
 
 TEST_F(TestVideoMode, ComparisonOperators)
 {
-  VideoMode v0(vec2u(640u, 320u), 4u);
-  VideoMode v1(vec2u(640u, 320u), 4u);
-  VideoMode v2(vec2u(800u, 320u), 4u);
-  VideoMode v3(vec2u(640u, 320u), 8u);
+  video_mode v0(vec2u(640u, 320u), 4u);
+  video_mode v1(vec2u(640u, 320u), 4u);
+  video_mode v2(vec2u(800u, 320u), 4u);
+  video_mode v3(vec2u(640u, 320u), 8u);
 
   EXPECT_TRUE(v0 == v1);
   EXPECT_FALSE(v0 == v2);
@@ -69,15 +69,15 @@ TEST_F(TestVideoMode, ComparisonOperators)
 
 TEST_F(TestVideoMode, OrderingOperators)
 {
-  VideoMode v0(vec2u(640u, 320u), 4u);
-  VideoMode v1(vec2u(640u, 600u), 4u);
-  VideoMode v2(vec2u(800u, 320u), 4u);
-  VideoMode v3(vec2u(800u, 600u), 4u);
-  VideoMode v4(vec2u(640u, 320u), 8u);
-  VideoMode v5(vec2u(640u, 600u), 8u);
-  VideoMode v6(vec2u(800u, 320u), 8u);
-  VideoMode v7(vec2u(800u, 600u), 8u);
-  VideoMode v8(v0);
+  video_mode v0(vec2u(640u, 320u), 4u);
+  video_mode v1(vec2u(640u, 600u), 4u);
+  video_mode v2(vec2u(800u, 320u), 4u);
+  video_mode v3(vec2u(800u, 600u), 4u);
+  video_mode v4(vec2u(640u, 320u), 8u);
+  video_mode v5(vec2u(640u, 600u), 8u);
+  video_mode v6(vec2u(800u, 320u), 8u);
+  video_mode v7(vec2u(800u, 600u), 8u);
+  video_mode v8(v0);
 
   EXPECT_TRUE(v0 < v1);
   EXPECT_TRUE(v1 < v2);
@@ -152,7 +152,7 @@ TEST_F(TestVideoMode, OrderingOperators)
 
 TEST_F(TestVideoMode, OutputStreamOperator)
 {
-  VideoMode vm(vec2u(300u, 400u), 8u);
+  video_mode vm(vec2u(300u, 400u), 8u);
   const char* outputRef = "{Resolution = (300, 400), BytesPerPixel = 8}";
   HOU_EXPECT_OUTPUT(outputRef, vm);
 }

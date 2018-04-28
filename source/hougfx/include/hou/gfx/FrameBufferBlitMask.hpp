@@ -24,9 +24,9 @@ namespace hou
 enum class FrameBufferBlitMask : GLenum
 {
   /** Don't blit any attachment. */
-  None = 0,
-  /** Blit the color attachment. */
-  Color = GL_COLOR_BUFFER_BIT,
+  none = 0,
+  /** Blit the ph_color attachment. */
+  color = GL_COLOR_BUFFER_BIT,
   /** Blit the depth attachment. */
   Depth = GL_DEPTH_BUFFER_BIT,
   /** Blit the stencil attachment. */

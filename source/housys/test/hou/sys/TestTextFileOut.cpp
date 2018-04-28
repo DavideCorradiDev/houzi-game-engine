@@ -7,9 +7,9 @@
 
 #include "hou/cor/span.hpp"
 
-#include "hou/sys/TextFileIn.hpp"
-#include "hou/sys/TextFileOut.hpp"
-#include "hou/sys/SysError.hpp"
+#include "hou/sys/text_file_in.hpp"
+#include "hou/sys/text_file_out.hpp"
+#include "hou/sys/sys_error.hpp"
 
 using namespace hou;
 using namespace testing;
@@ -38,14 +38,14 @@ class TestTextFileOutDeathTest : public TestTextFileOut {};
 
 TestTextFileOut::TestTextFileOut()
 {
-  TextFileOut fo(fileName);
+  text_file_out fo(fileName);
 }
 
 
 
 TestTextFileOut::~TestTextFileOut()
 {
-  removeDir(fileName);
+  remove_dir(fileName);
 }
 
 
@@ -59,43 +59,43 @@ const std::string TestTextFileOut::fileName = getOutputDir()
 
 TEST_F(TestTextFileOut, PathConstructor)
 {
-  TextFileOut fo(fileName);
+  text_file_out fo(fileName);
   EXPECT_FALSE(fo.eof());
   EXPECT_FALSE(fo.error());
-  EXPECT_EQ(0u, fo.getByteCount());
-  EXPECT_EQ(0u, fo.getWriteByteCount());
-  EXPECT_EQ(0u, fo.getWriteElementCount());
-  EXPECT_EQ(TextFileOut::TextPosition::Start, fo.getTextPos());
+  EXPECT_EQ(0u, fo.get_byte_count());
+  EXPECT_EQ(0u, fo.get_write_byte_count());
+  EXPECT_EQ(0u, fo.get_write_element_count());
+  EXPECT_EQ(text_file_out::text_position::start, fo.get_text_pos());
 }
 
 
 
 TEST_F(TestTextFileOut, MoveConstructor)
 {
-  TextFileOut foDummy(fileName);
-  TextFileOut fo(std::move(foDummy));
+  text_file_out foDummy(fileName);
+  text_file_out fo(std::move(foDummy));
   EXPECT_FALSE(fo.eof());
   EXPECT_FALSE(fo.error());
-  EXPECT_EQ(0u, fo.getByteCount());
-  EXPECT_EQ(0u, fo.getWriteByteCount());
-  EXPECT_EQ(0u, fo.getWriteElementCount());
-  EXPECT_EQ(TextFileOut::TextPosition::Start, fo.getTextPos());
+  EXPECT_EQ(0u, fo.get_byte_count());
+  EXPECT_EQ(0u, fo.get_write_byte_count());
+  EXPECT_EQ(0u, fo.get_write_element_count());
+  EXPECT_EQ(text_file_out::text_position::start, fo.get_text_pos());
 }
 
 
 
 TEST_F(TestTextFileOut, SetTextPos)
 {
-  TextFileOut fi(fileName);
+  text_file_out fi(fileName);
   std::string buffer = "ab";
-  EXPECT_EQ(TextFileOut::TextPosition::Start, fi.getTextPos());
+  EXPECT_EQ(text_file_out::text_position::start, fi.get_text_pos());
   fi.write(buffer);
-  TextFileOut::TextPosition posRef = fi.getTextPos();
-  EXPECT_NE(TextFileOut::TextPosition::Start, posRef);
-  fi.setTextPos(TextFileOut::TextPosition::Start);
-  EXPECT_EQ(TextFileOut::TextPosition::Start, fi.getTextPos());
-  fi.setTextPos(posRef);
-  EXPECT_EQ(posRef, fi.getTextPos());
+  text_file_out::text_position posRef = fi.get_text_pos();
+  EXPECT_NE(text_file_out::text_position::start, posRef);
+  fi.set_text_pos(text_file_out::text_position::start);
+  EXPECT_EQ(text_file_out::text_position::start, fi.get_text_pos());
+  fi.set_text_pos(posRef);
+  EXPECT_EQ(posRef, fi.get_text_pos());
 }
 
 
@@ -108,17 +108,17 @@ TEST_F(TestTextFileOut, WriteVariable)
   BufferType bufOut = 3u;
 
   {
-    TextFileOut fo(fileName);
+    text_file_out fo(fileName);
     fo.write(bufOut);
-    EXPECT_EQ(byteCount, fo.getWriteByteCount());
-    EXPECT_EQ(1u, fo.getWriteElementCount());
+    EXPECT_EQ(byteCount, fo.get_write_byte_count());
+    EXPECT_EQ(1u, fo.get_write_element_count());
   }
 
-  TextFileIn fi(fileName);
+  text_file_in fi(fileName);
   BufferType bufIn;
   fi.read(bufIn);
-  EXPECT_EQ(byteCount, fi.getByteCount());
-  EXPECT_EQ(byteCount, fi.getReadByteCount());
+  EXPECT_EQ(byteCount, fi.get_byte_count());
+  EXPECT_EQ(byteCount, fi.get_read_byte_count());
   EXPECT_EQ(bufOut, bufIn);
 }
 
@@ -133,17 +133,17 @@ TEST_F(TestTextFileOut, WriteBasicArray)
   BufferType bufOut[bufferSize] = {1u, 2u, 3u};
 
   {
-    TextFileOut fo(fileName);
+    text_file_out fo(fileName);
     fo.write(bufOut, bufferSize);
-    EXPECT_EQ(byteCount, fo.getWriteByteCount());
-    EXPECT_EQ(bufferSize, fo.getWriteElementCount());
+    EXPECT_EQ(byteCount, fo.get_write_byte_count());
+    EXPECT_EQ(bufferSize, fo.get_write_element_count());
   }
 
-  TextFileIn fi(fileName);
+  text_file_in fi(fileName);
   BufferType bufIn[bufferSize];
   fi.read(bufIn, bufferSize);
-  EXPECT_EQ(byteCount, fi.getByteCount());
-  EXPECT_EQ(byteCount, fi.getReadByteCount());
+  EXPECT_EQ(byteCount, fi.get_byte_count());
+  EXPECT_EQ(byteCount, fi.get_read_byte_count());
   HOU_EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(bufIn)
     , reinterpret_cast<uint8_t*>(bufOut), byteCount);
 }
@@ -159,17 +159,17 @@ TEST_F(TestTextFileOut, WriteArray)
   std::array<BufferType, bufferSize> bufOut = {1u, 2u, 3u};
 
   {
-    TextFileOut fo(fileName);
+    text_file_out fo(fileName);
     fo.write(bufOut);
-    EXPECT_EQ(byteCount, fo.getWriteByteCount());
-    EXPECT_EQ(bufferSize, fo.getWriteElementCount());
+    EXPECT_EQ(byteCount, fo.get_write_byte_count());
+    EXPECT_EQ(bufferSize, fo.get_write_element_count());
   }
 
-  TextFileIn fi(fileName);
+  text_file_in fi(fileName);
   std::array<BufferType, bufferSize> bufIn;
   fi.read(bufIn);
-  EXPECT_EQ(byteCount, fi.getByteCount());
-  EXPECT_EQ(byteCount, fi.getReadByteCount());
+  EXPECT_EQ(byteCount, fi.get_byte_count());
+  EXPECT_EQ(byteCount, fi.get_read_byte_count());
   EXPECT_EQ(bufOut, bufIn);
 }
 
@@ -184,17 +184,17 @@ TEST_F(TestTextFileOut, WriteVector)
   std::vector<BufferType> bufOut = {1u, 2u, 3u};
 
   {
-    TextFileOut fo(fileName);
+    text_file_out fo(fileName);
     fo.write(bufOut);
-    EXPECT_EQ(byteCount, fo.getWriteByteCount());
-    EXPECT_EQ(bufferSize, fo.getWriteElementCount());
+    EXPECT_EQ(byteCount, fo.get_write_byte_count());
+    EXPECT_EQ(bufferSize, fo.get_write_element_count());
   }
 
-  TextFileIn fi(fileName);
+  text_file_in fi(fileName);
   std::vector<BufferType> bufIn(3u, 0u);
   fi.read(bufIn);
-  EXPECT_EQ(byteCount, fi.getByteCount());
-  EXPECT_EQ(byteCount, fi.getReadByteCount());
+  EXPECT_EQ(byteCount, fi.get_byte_count());
+  EXPECT_EQ(byteCount, fi.get_read_byte_count());
   EXPECT_EQ(bufOut, bufIn);
 }
 
@@ -209,17 +209,17 @@ TEST_F(TestTextFileOut, WriteString)
   std::string bufOut = "abc";
 
   {
-    TextFileOut fo(fileName);
+    text_file_out fo(fileName);
     fo.write(bufOut);
-    EXPECT_EQ(byteCount, fo.getWriteByteCount());
-    EXPECT_EQ(bufferSize, fo.getWriteElementCount());
+    EXPECT_EQ(byteCount, fo.get_write_byte_count());
+    EXPECT_EQ(bufferSize, fo.get_write_element_count());
   }
 
-  TextFileIn fi(fileName);
+  text_file_in fi(fileName);
   std::string bufIn(3u, 'a');
   fi.read(bufIn);
-  EXPECT_EQ(byteCount, fi.getByteCount());
-  EXPECT_EQ(byteCount, fi.getReadByteCount());
+  EXPECT_EQ(byteCount, fi.get_byte_count());
+  EXPECT_EQ(byteCount, fi.get_read_byte_count());
   EXPECT_EQ(bufOut, bufIn);
 }
 
@@ -235,18 +235,18 @@ TEST_F(TestTextFileOut, WriteSpan)
   span<BufferType> bufOut(vecOut);
 
   {
-    TextFileOut fo(fileName);
+    text_file_out fo(fileName);
     fo.write(bufOut);
-    EXPECT_EQ(byteCount, fo.getWriteByteCount());
-    EXPECT_EQ(bufferSize, fo.getWriteElementCount());
+    EXPECT_EQ(byteCount, fo.get_write_byte_count());
+    EXPECT_EQ(bufferSize, fo.get_write_element_count());
   }
 
-  TextFileIn fi(fileName);
+  text_file_in fi(fileName);
   std::vector<BufferType> vecIn(3u, 0u);
   span<BufferType> bufIn(vecIn);
   fi.read(bufIn);
-  EXPECT_EQ(byteCount, fi.getByteCount());
-  EXPECT_EQ(byteCount, fi.getReadByteCount());
+  EXPECT_EQ(byteCount, fi.get_byte_count());
+  EXPECT_EQ(byteCount, fi.get_read_byte_count());
   EXPECT_EQ(vecOut, vecIn);
 }
 

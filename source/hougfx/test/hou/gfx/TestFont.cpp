@@ -12,7 +12,7 @@
 #include "hou/mth/matrix.hpp"
 #include "hou/mth/rectangle.hpp"
 
-#include "hou/sys/BinaryFileIn.hpp"
+#include "hou/sys/binary_file_in.hpp"
 
 #include <thread>
 
@@ -39,8 +39,8 @@ TEST_F(TestFont, DataConstructor)
 {
   std::vector<uint8_t> buffer;
   {
-    BinaryFileIn inf(fontName);
-    buffer.resize(inf.getByteCount());
+    binary_file_in inf(fontName);
+    buffer.resize(inf.get_byte_count());
     inf.read(buffer.data(), buffer.size());
   }
   // span<const uint8_t> s(buffer);
@@ -76,7 +76,7 @@ TEST_F(TestFontDeathTest, DataConstructorErrorInvalidData)
 
 TEST_F(TestFont, StreamConstructor)
 {
-  Font f(std::make_unique<BinaryFileIn>(fontName));
+  Font f(std::make_unique<binary_file_in>(fontName));
 
   EXPECT_EQ(1u, f.getFaceIndexCount());
   EXPECT_EQ(0u, f.getFaceIndex());
@@ -97,7 +97,7 @@ TEST_F(TestFont, StreamConstructor)
 
 TEST_F(TestFont, MoveConstructor)
 {
-  Font fDummy(std::make_unique<BinaryFileIn>(fontName));
+  Font fDummy(std::make_unique<binary_file_in>(fontName));
   Font f(std::move(fDummy));
 
   EXPECT_EQ(1u, f.getFaceIndexCount());
@@ -123,7 +123,7 @@ TEST_F(TestFont, MultiThreadingCreation)
   std::unique_ptr<Font> f2(nullptr);
 
   auto threadFun = [](std::unique_ptr<Font>& fontPtr) {
-    fontPtr.reset(new Font(std::make_unique<BinaryFileIn>(fontName)));
+    fontPtr.reset(new Font(std::make_unique<binary_file_in>(fontName)));
   };
 
   std::thread t1(threadFun, std::ref(f1));
@@ -163,9 +163,9 @@ TEST_F(TestFont, MultiThreadingCreation)
 
 TEST_F(TestFontDeathTest, FailedCreation)
 {
-  // Valid file but not a font file.
+  // Valid ph_file but not a font ph_file.
   HOU_EXPECT_ERROR(
-    Font f(std::make_unique<BinaryFileIn>(getDataDir() + u8"TestImage.png")),
+    Font f(std::make_unique<binary_file_in>(getDataDir() + u8"TestImage.png")),
     std::runtime_error, get_text(GfxError::FontLoadFace));
 }
 
@@ -173,7 +173,7 @@ TEST_F(TestFontDeathTest, FailedCreation)
 
 TEST_F(TestFont, MultiThreadingDestruction)
 {
-  auto threadFun = []() { Font f(std::make_unique<BinaryFileIn>(fontName)); };
+  auto threadFun = []() { Font f(std::make_unique<binary_file_in>(fontName)); };
 
   std::thread t1(threadFun);
   std::thread t2(threadFun);
@@ -188,7 +188,7 @@ TEST_F(TestFont, MultiThreadingDestruction)
 
 TEST_F(TestFont, SetFaceIndexSameValue)
 {
-  Font f(std::make_unique<BinaryFileIn>(fontName));
+  Font f(std::make_unique<binary_file_in>(fontName));
   f.setFaceIndex(0u);
   EXPECT_EQ(0u, f.getFaceIndex());
 }
@@ -197,7 +197,7 @@ TEST_F(TestFont, SetFaceIndexSameValue)
 
 TEST_F(TestFontDeathTest, SetFaceIndexErrorOutOfBounds)
 {
-  Font f(std::make_unique<BinaryFileIn>(fontName));
+  Font f(std::make_unique<binary_file_in>(fontName));
   HOU_EXPECT_PRECONDITION(f.setFaceIndex(f.getFaceIndexCount()));
 }
 
@@ -205,7 +205,7 @@ TEST_F(TestFontDeathTest, SetFaceIndexErrorOutOfBounds)
 
 TEST_F(TestFont, SetPixelHeight)
 {
-  Font f(std::make_unique<BinaryFileIn>(fontName));
+  Font f(std::make_unique<binary_file_in>(fontName));
   f.setPixelHeight(20u);
 
   EXPECT_EQ(20u, f.getPixelHeight());
@@ -215,37 +215,37 @@ TEST_F(TestFont, SetPixelHeight)
 
 TEST_F(TestFont, GetGlyph)
 {
-  Font f(std::make_unique<BinaryFileIn>(fontName));
+  Font f(std::make_unique<binary_file_in>(fontName));
 
   Glyph g1Ref(
-    Image2R(vec2u(5u, 5u),
-      std::vector<Image2R::Pixel>{Image2R::Pixel(0u), Image2R::Pixel(152u),
-        Image2R::Pixel(180u), Image2R::Pixel(199u), Image2R::Pixel(87u),
-        Image2R::Pixel(0u), Image2R::Pixel(4u), Image2R::Pixel(0u),
-        Image2R::Pixel(30u), Image2R::Pixel(195u), Image2R::Pixel(26u),
-        Image2R::Pixel(168u), Image2R::Pixel(160u), Image2R::Pixel(162u),
-        Image2R::Pixel(204u), Image2R::Pixel(125u), Image2R::Pixel(120u),
-        Image2R::Pixel(0u), Image2R::Pixel(54u), Image2R::Pixel(204u),
-        Image2R::Pixel(51u), Image2R::Pixel(208u), Image2R::Pixel(177u),
-        Image2R::Pixel(142u), Image2R::Pixel(191u)}),
+    image2R(vec2u(5u, 5u),
+      std::vector<image2R::pixel>{image2R::pixel(0u), image2R::pixel(152u),
+        image2R::pixel(180u), image2R::pixel(199u), image2R::pixel(87u),
+        image2R::pixel(0u), image2R::pixel(4u), image2R::pixel(0u),
+        image2R::pixel(30u), image2R::pixel(195u), image2R::pixel(26u),
+        image2R::pixel(168u), image2R::pixel(160u), image2R::pixel(162u),
+        image2R::pixel(204u), image2R::pixel(125u), image2R::pixel(120u),
+        image2R::pixel(0u), image2R::pixel(54u), image2R::pixel(204u),
+        image2R::pixel(51u), image2R::pixel(208u), image2R::pixel(177u),
+        image2R::pixel(142u), image2R::pixel(191u)}),
     GlyphMetrics(vec2u(320u, 320u), vec2i(0, -320), 384, vec2i(0, 0), 0));
   Glyph g2Ref(
-    Image2R(vec2u(6u, 7u),
-      std::vector<Image2R::Pixel>{Image2R::Pixel(40u), Image2R::Pixel(188u),
-        Image2R::Pixel(0u), Image2R::Pixel(0u), Image2R::Pixel(0u),
-        Image2R::Pixel(0u), Image2R::Pixel(40u), Image2R::Pixel(187u),
-        Image2R::Pixel(0u), Image2R::Pixel(0u), Image2R::Pixel(0u),
-        Image2R::Pixel(0u), Image2R::Pixel(40u), Image2R::Pixel(208u),
-        Image2R::Pixel(172u), Image2R::Pixel(190u), Image2R::Pixel(173u),
-        Image2R::Pixel(9u), Image2R::Pixel(40u), Image2R::Pixel(230u),
-        Image2R::Pixel(8u), Image2R::Pixel(0u), Image2R::Pixel(137u),
-        Image2R::Pixel(106u), Image2R::Pixel(40u), Image2R::Pixel(194u),
-        Image2R::Pixel(0u), Image2R::Pixel(0u), Image2R::Pixel(87u),
-        Image2R::Pixel(142u), Image2R::Pixel(40u), Image2R::Pixel(232u),
-        Image2R::Pixel(9u), Image2R::Pixel(0u), Image2R::Pixel(140u),
-        Image2R::Pixel(104u), Image2R::Pixel(40u), Image2R::Pixel(185u),
-        Image2R::Pixel(175u), Image2R::Pixel(191u), Image2R::Pixel(171u),
-        Image2R::Pixel(8u)}),
+    image2R(vec2u(6u, 7u),
+      std::vector<image2R::pixel>{image2R::pixel(40u), image2R::pixel(188u),
+        image2R::pixel(0u), image2R::pixel(0u), image2R::pixel(0u),
+        image2R::pixel(0u), image2R::pixel(40u), image2R::pixel(187u),
+        image2R::pixel(0u), image2R::pixel(0u), image2R::pixel(0u),
+        image2R::pixel(0u), image2R::pixel(40u), image2R::pixel(208u),
+        image2R::pixel(172u), image2R::pixel(190u), image2R::pixel(173u),
+        image2R::pixel(9u), image2R::pixel(40u), image2R::pixel(230u),
+        image2R::pixel(8u), image2R::pixel(0u), image2R::pixel(137u),
+        image2R::pixel(106u), image2R::pixel(40u), image2R::pixel(194u),
+        image2R::pixel(0u), image2R::pixel(0u), image2R::pixel(87u),
+        image2R::pixel(142u), image2R::pixel(40u), image2R::pixel(232u),
+        image2R::pixel(9u), image2R::pixel(0u), image2R::pixel(140u),
+        image2R::pixel(104u), image2R::pixel(40u), image2R::pixel(185u),
+        image2R::pixel(175u), image2R::pixel(191u), image2R::pixel(171u),
+        image2R::pixel(8u)}),
     GlyphMetrics(vec2u(384u, 448u), vec2i(0, -448), 384, vec2i(0, 0), 0));
 
   EXPECT_EQ(g1Ref, f.getGlyph('a'));
@@ -256,10 +256,10 @@ TEST_F(TestFont, GetGlyph)
 
 TEST_F(TestFont, GetGlyphNotExisting)
 {
-  Font f(std::make_unique<BinaryFileIn>(fontName));
+  Font f(std::make_unique<binary_file_in>(fontName));
   Glyph gRef(
-    Image2R(vec2u(6u, 7u),
-      std::vector<Image2R::Pixel>{16, 188, 132, 132, 188, 12, 16, 116, 0, 0,
+    image2R(vec2u(6u, 7u),
+      std::vector<image2R::pixel>{16, 188, 132, 132, 188, 12, 16, 116, 0, 0,
         116, 12, 16, 116, 0, 0, 116, 12, 16, 116, 0, 0, 116, 12, 16, 116, 0, 0,
         116, 12, 16, 116, 0, 0, 116, 12, 16, 188, 132, 132, 188, 12}),
     GlyphMetrics(vec2u(384u, 448u), vec2i(0, -448), 384, vec2i(0, 0), 0));
@@ -270,7 +270,7 @@ TEST_F(TestFont, GetGlyphNotExisting)
 
 TEST_F(TestFont, GetKerning)
 {
-  Font f(std::make_unique<BinaryFileIn>(fontName));
+  Font f(std::make_unique<binary_file_in>(fontName));
 
   EXPECT_EQ(vec2i(0, 0), f.getKerning('a', 'b'));
   EXPECT_EQ(vec2i(0, 0), f.getKerning('j', 'k'));
@@ -280,7 +280,7 @@ TEST_F(TestFont, GetKerning)
 
 TEST_F(TestFont, GetPixelGlyphBoundingBox)
 {
-  Font f(std::make_unique<BinaryFileIn>(fontName));
+  Font f(std::make_unique<binary_file_in>(fontName));
 
   EXPECT_EQ(recti(-356, -175, 1202, 845), f.getGlyphBoundingBox());
   HOU_EXPECT_FLOAT_CLOSE(rectf(-5.5625f, -2.734375f, 18.78125f, 13.203125),
@@ -291,7 +291,7 @@ TEST_F(TestFont, GetPixelGlyphBoundingBox)
 
 TEST_F(TestFont, GetPixelLineSpacing)
 {
-  Font f(std::make_unique<BinaryFileIn>(fontName));
+  Font f(std::make_unique<binary_file_in>(fontName));
 
   EXPECT_EQ(896, f.getLineSpacing());
   HOU_EXPECT_FLOAT_CLOSE(14.f, f.getPixelLineSpacing());
@@ -301,7 +301,7 @@ TEST_F(TestFont, GetPixelLineSpacing)
 
 TEST_F(TestFont, GetPixelMaxAdvance)
 {
-  Font f(std::make_unique<BinaryFileIn>(fontName));
+  Font f(std::make_unique<binary_file_in>(fontName));
 
   EXPECT_EQ(832, f.getMaxAdvance());
   HOU_EXPECT_FLOAT_CLOSE(13.f, f.getMaxPixelAdvance());
@@ -311,7 +311,7 @@ TEST_F(TestFont, GetPixelMaxAdvance)
 
 TEST_F(TestFont, GetPixelMaxHorizontalAdvance)
 {
-  Font f(std::make_unique<BinaryFileIn>(fontName));
+  Font f(std::make_unique<binary_file_in>(fontName));
 
   EXPECT_EQ(857, f.getMaxHorizontalAdvance());
   HOU_EXPECT_FLOAT_CLOSE(13.390625f, f.getMaxPixelHorizontalAdvance());
@@ -321,7 +321,7 @@ TEST_F(TestFont, GetPixelMaxHorizontalAdvance)
 
 TEST_F(TestFont, GetPixelMaxVerticalAdvance)
 {
-  Font f(std::make_unique<BinaryFileIn>(fontName));
+  Font f(std::make_unique<binary_file_in>(fontName));
 
   EXPECT_EQ(872, f.getMaxVerticalAdvance());
   HOU_EXPECT_FLOAT_CLOSE(13.625f, f.getMaxPixelVerticalAdvance());
@@ -331,7 +331,7 @@ TEST_F(TestFont, GetPixelMaxVerticalAdvance)
 
 TEST_F(TestFont, GetPixelKerning)
 {
-  Font f(std::make_unique<BinaryFileIn>(fontName));
+  Font f(std::make_unique<binary_file_in>(fontName));
 
   EXPECT_EQ(vec2i(0, 0), f.getKerning('a', 'b'));
   EXPECT_EQ(vec2f(0.f, 0.f), f.getPixelKerning('a', 'b'));

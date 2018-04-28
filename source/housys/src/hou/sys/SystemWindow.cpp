@@ -1,31 +1,31 @@
-#include "hou/sys/SystemWindow.hpp"
+#include "hou/sys/system_window.hpp"
 
 
 
 namespace hou
 {
 
-SystemWindow::SystemWindow(
-  const std::string& title, const VideoMode& videoMode, WindowStyle style)
-  : Window(title, videoMode, style)
+system_window::system_window(
+  const std::string& title, const video_mode& videoMode, window_style style)
+  : window(title, videoMode, style)
 {}
 
 
 
-SystemWindow::SystemWindow(SystemWindow&& other)
-  : Window(std::move(other))
+system_window::system_window(system_window&& other)
+  : window(std::move(other))
 {}
 
 
 
-void SystemWindow::setFrameRect(const vec2i& pos, const vec2u& size)
+void system_window::set_frame_rect(const vec2i& pos, const vec2u& size)
 {
-  Window::setFrameRect(pos, size);
+  window::set_frame_rect(pos, size);
 }
 
-void SystemWindow::setClientRect(const vec2i& pos, const vec2u& size)
+void system_window::set_client_rect(const vec2i& pos, const vec2u& size)
 {
-  Window::setClientRect(pos, size);
+  window::set_client_rect(pos, size);
 }
 
 }  // namespace hou

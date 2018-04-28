@@ -59,7 +59,7 @@ ShaderHandle ShaderHandle::create(GLenum type)
 
 ShaderHandle::ShaderHandle(ShaderHandle&& other)
   : SharedObjectHandle(std::move(other))
-  , mType(other.mType)
+  , m_type(other.m_type)
 {}
 
 
@@ -74,16 +74,16 @@ ShaderHandle::~ShaderHandle()
 
 
 
-GLenum ShaderHandle::getType() const
+GLenum ShaderHandle::get_type() const
 {
-  return mType;
+  return m_type;
 }
 
 
 
 ShaderHandle::ShaderHandle(GLuint name, GLenum type)
   : SharedObjectHandle(name)
-  , mType(type)
+  , m_type(type)
 {}
 
 
@@ -109,7 +109,7 @@ void compileShader(const ShaderHandle& shader, const GLchar* src)
     glGetShaderInfoLog(shader.getName(), maxInfoLogSize, nullptr, infoLog);
     HOU_GL_CHECK_ERROR();
     HOU_RUNTIME_ERROR(get_text(GlError::ShaderCompilation)
-      , shaderTypeToString(shader.getType()).c_str(), infoLog);
+      , shaderTypeToString(shader.get_type()).c_str(), infoLog);
   }
 }
 

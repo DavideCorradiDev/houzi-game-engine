@@ -35,14 +35,14 @@ public:
   Context(Context&& other);
   ~Context();
 
-  uint32_t getUid() const;
+  uint32_t get_uid() const;
   uint32_t getDeviceUid() const;
 
   bool isCurrent() const;
 
 private:
-  ALCcontext* mHandle;
-  uint32_t mUid;
+  ALCcontext* m_handle;
+  uint32_t m_uid;
   uint32_t mDeviceUid;
 };
 

@@ -46,11 +46,11 @@ enum class TextureType : GLenum
   // CubeMapArrayTexture = GL_TEXTURE_CUBE_MAP_ARRAY,
 };
 
-/** Writes the object into a stream.
+/** Writes the object into a ph_stream.
  *
- * \param os the stream.
+ * \param os the ph_stream.
  * \param type the TextureType enum.
- * \return a reference to the stream.
+ * \return a reference to the ph_stream.
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, TextureType type);
 

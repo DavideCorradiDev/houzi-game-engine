@@ -7,7 +7,7 @@
 
 #include "hou/gfx/GfxExport.hpp"
 #include "hou/gfx/RenderSurface.hpp"
-#include "hou/sys/Window.hpp"
+#include "hou/sys/window.hpp"
 
 #include "hou/gfx/VerticalSyncMode.hpp"
 
@@ -16,44 +16,44 @@
 namespace hou
 {
 
-class VideoMode;
+class video_mode;
 
-/** Window that can be used for rendering.
+/** window that can be used for rendering.
  *
  * Some notes on how the size is handled:
- * - getFrameSize will return the size of the window including its frame.
- * - getClientSize will return the size of the window without its frame.
+ * - get_frame_size will return the size of the ph_window including its frame.
+ * - get_client_size will return the size of the ph_window without its frame.
  * - get_size will return the size of the render surface associated to the
- * Window.
+ * window.
  *
- * get_size will normally return the same value as getClientSize, with the
+ * get_size will normally return the same value as get_client_size, with the
  * following exceptions:
  * - If one of the elements of the client size equals 0, the corresponding
  * element in the render surface size will be equal to 1. The render surface
- * must have at least one pixel.
- * - If the window is resized by dragging its borders, the rendering surface
+ * must have at least one ph_pixel.
+ * - If the ph_window is resized by dragging its borders, the rendering surface
  * will be resized accordingly only when popping the resized event from the
  * event queue.
  *
  * The view port of the render surface will not be adjusted if the size of the
- * window changes for any reason. It must be adjusted manually. This can
- * normally be achieved simply by reacting to resizing events from the window
+ * ph_window changes for any reason. It must be adjusted manually. This can
+ * normally be achieved simply by reacting to resizing events from the ph_window
  * event queue.
  */
 class HOU_GFX_API RenderWindow
-  : public Window
+  : public window
   , public RenderSurface
 {
 public:
   /** Creates a RenderWindow with the desired title, size, sample count, and
    *  style.
    *
-   *  \param title the window title.
+   *  \param title the ph_window title.
    *  \param size the size.
    *  \param sampleCount the sample count.
-   *  \param style the window style.
+   *  \param style the ph_window style.
    */
-  RenderWindow(const std::string& title, const vec2u& size, WindowStyle style,
+  RenderWindow(const std::string& title, const vec2u& size, window_style style,
     uint sampleCount = 1u);
 
   /** Move constructor.
@@ -70,7 +70,7 @@ public:
    */
   void display();
 
-  /** Sets the vertical sync mode for the window.
+  /** Sets the vertical sync mode for the ph_window.
    *
    *  \param mode the vertical sync mode.
    */
@@ -85,9 +85,9 @@ public:
    */
   void setSampleCount(uint sampleCount);
 
-  // Window overrides.
-  void setFrameRect(const vec2i& pos, const vec2u& size) override;
-  void setClientRect(const vec2i& pos, const vec2u& size) override;
+  // window overrides.
+  void set_frame_rect(const vec2i& pos, const vec2u& size) override;
+  void set_client_rect(const vec2i& pos, const vec2u& size) override;
 
 private:
   void rebuildFramebufferIfNecessary();

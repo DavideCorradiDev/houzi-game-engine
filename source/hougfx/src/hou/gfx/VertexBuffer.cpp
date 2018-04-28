@@ -11,7 +11,7 @@ namespace hou
 
 void VertexBuffer::bind(const VertexBuffer& buffer, VertexBufferTarget target)
 {
-  gl::bindBuffer(buffer.mHandle, static_cast<GLenum>(target));
+  gl::bindBuffer(buffer.m_handle, static_cast<GLenum>(target));
 }
 
 
@@ -25,11 +25,11 @@ void VertexBuffer::unbind(VertexBufferTarget target)
 
 VertexBuffer::VertexBuffer(uint byteCount, bool dynamicStorage)
   : non_copyable()
-  , mHandle(gl::BufferHandle::create())
-  , mByteCount(byteCount)
+  , m_handle(gl::BufferHandle::create())
+  , m_byte_count(byteCount)
 {
   std::vector<uint8_t> data(byteCount, 0u);
-  gl::setBufferStorage(mHandle, static_cast<GLsizei>(data.size()),
+  gl::setBufferStorage(m_handle, static_cast<GLsizei>(data.size()),
     reinterpret_cast<const GLvoid*>(data.data()),
     dynamicStorage ? GL_DYNAMIC_STORAGE_BIT : 0);
 }
@@ -38,10 +38,10 @@ VertexBuffer::VertexBuffer(uint byteCount, bool dynamicStorage)
 
 VertexBuffer::VertexBuffer(uint size, const void* data, bool dynamicStorage)
   : non_copyable()
-  , mHandle(gl::BufferHandle::create())
-  , mByteCount(size)
+  , m_handle(gl::BufferHandle::create())
+  , m_byte_count(size)
 {
-  gl::setBufferStorage(mHandle, static_cast<GLsizei>(size),
+  gl::setBufferStorage(m_handle, static_cast<GLsizei>(size),
     reinterpret_cast<const GLvoid*>(data),
     dynamicStorage ? GL_DYNAMIC_STORAGE_BIT : 0);
 }
@@ -50,29 +50,29 @@ VertexBuffer::VertexBuffer(uint size, const void* data, bool dynamicStorage)
 
 VertexBuffer::VertexBuffer(VertexBuffer&& other)
   : non_copyable()
-  , mHandle(std::move(other.mHandle))
-  , mByteCount(std::move(other.mByteCount))
+  , m_handle(std::move(other.m_handle))
+  , m_byte_count(std::move(other.m_byte_count))
 {}
 
 
 
 const gl::BufferHandle& VertexBuffer::getHandle() const
 {
-  return mHandle;
+  return m_handle;
 }
 
 
 
 bool VertexBuffer::isBound(VertexBufferTarget target) const
 {
-  return gl::isBufferBound(mHandle, static_cast<GLenum>(target));
+  return gl::isBufferBound(m_handle, static_cast<GLenum>(target));
 }
 
 
 
-uint VertexBuffer::getByteCount() const
+uint VertexBuffer::get_byte_count() const
 {
-  return mByteCount;
+  return m_byte_count;
 }
 
 }  // namespace hou

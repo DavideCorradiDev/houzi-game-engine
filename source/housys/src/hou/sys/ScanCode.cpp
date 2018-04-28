@@ -2,17 +2,17 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/sys/ScanCode.hpp"
+#include "hou/sys/scan_code.hpp"
 
 #define SCAN_CODE_CASE(sc, os) \
-  case ScanCode::sc: return (os) << #sc
+  case scan_code::sc: return (os) << #sc
 
 
 
 namespace hou
 {
 
-std::ostream& operator<<(std::ostream& os, ScanCode sc)
+std::ostream& operator<<(std::ostream& os, scan_code sc)
 {
   switch(sc)
   {
@@ -36,7 +36,7 @@ std::ostream& operator<<(std::ostream& os, ScanCode sc)
     SCAN_CODE_CASE(Q, os);
     SCAN_CODE_CASE(W, os);
     SCAN_CODE_CASE(E, os);
-    SCAN_CODE_CASE(R, os);
+    SCAN_CODE_CASE(r, os);
     SCAN_CODE_CASE(T, os);
     SCAN_CODE_CASE(Y, os);
     SCAN_CODE_CASE(U, os);

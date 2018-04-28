@@ -5,25 +5,25 @@
 #ifndef HOU_SYS_TEXT_STREAM_OUT_HPP
 #define HOU_SYS_TEXT_STREAM_OUT_HPP
 
-#include "hou/sys/SysExport.hpp"
-#include "hou/sys/TextStream.hpp"
-#include "hou/sys/StreamOut.hpp"
+#include "hou/sys/sys_export.hpp"
+#include "hou/sys/text_stream.hpp"
+#include "hou/sys/stream_out.hpp"
 
 
 
 namespace hou
 {
 
-/** Text output stream interface.
+/** text output ph_stream interface.
  */
-class HOU_SYS_API TextStreamOut
-  : public TextStream
-  , public StreamOut
+class HOU_SYS_API text_stream_out
+  : public text_stream
+  , public stream_out
 {
 public:
   /** Destructor.
    */
-  virtual ~TextStreamOut() {};
+  virtual ~text_stream_out() {};
 };
 
 }

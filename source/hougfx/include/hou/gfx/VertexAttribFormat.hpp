@@ -38,7 +38,7 @@ public:
    *
    *  \return the attribute type.
    */
-  GlType getType() const;
+  GlType get_type() const;
 
   /** Retrieves the number of elements of the attribute.
    *
@@ -59,8 +59,8 @@ public:
   bool mustBeNormalized() const;
 
 private:
-  GlType mType;
-  uint mElementCount;
+  GlType m_type;
+  uint m_element_count;
   uint mByteOffset;
   GLboolean mMustBeNormalized;
 };
@@ -83,9 +83,9 @@ HOU_GFX_API bool operator==(
 HOU_GFX_API bool operator!=(
   const VertexAttribFormat& lhs, const VertexAttribFormat& rhs);
 
-/** Writes the object into a stream.
+/** Writes the object into a ph_stream.
  *
- *  \param os the stream.
+ *  \param os the ph_stream.
  *  \param vf the VertexAttribFormat.
  *  \return a reference to os.
  */

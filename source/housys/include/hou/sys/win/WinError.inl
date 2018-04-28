@@ -6,7 +6,7 @@ namespace hou
 {
 
 template <typename... FormattingVariables>
-  std::string formatWinErrorMessage(std::string filename, int line
+  std::string format_win_error_message(std::string filename, int line
     , std::string message, FormattingVariables... vars)
 {
   return format_error_message(filename, line

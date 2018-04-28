@@ -5,7 +5,7 @@
 #ifndef HOU_SYS_STREAM_HPP
 #define HOU_SYS_STREAM_HPP
 
-#include "hou/sys/SysExport.hpp"
+#include "hou/sys/sys_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 
@@ -14,18 +14,18 @@
 namespace hou
 {
 
-/** Base stream interface.
+/** Base ph_stream interface.
  */
-class HOU_SYS_API Stream
+class HOU_SYS_API stream
 {
 public:
   /** Destructor.
    */
-  virtual ~Stream() {};
+  virtual ~stream() {};
 
-  /** Checks the end of file indicator.
+  /** Checks the end of ph_file indicator.
    *
-   *  \return true if the end of file indicator is set.
+   *  \return true if the end of ph_file indicator is set.
    */
   virtual bool eof() const = 0;
 
@@ -35,11 +35,11 @@ public:
    */
   virtual bool error() const = 0;
 
-  /** Retrieves the total number of bytes in the stream.
+  /** Retrieves the total number of bytes in the ph_stream.
    *
-   *  \return the size of the stream in bytes.
+   *  \return the size of the ph_stream in bytes.
    */
-  virtual size_t getByteCount() const = 0;
+  virtual size_t get_byte_count() const = 0;
 };
 
 }

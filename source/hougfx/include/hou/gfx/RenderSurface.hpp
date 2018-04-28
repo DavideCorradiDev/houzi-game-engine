@@ -21,7 +21,7 @@
 namespace hou
 {
 
-class Color;
+class color;
 
 /** Abstract base class for surfaces that can be rendered onto.
  */
@@ -36,7 +36,7 @@ public:
 
   /** Sets the default render surface as the render source.
    *
-   *  The default render source is that of the currently bound window.
+   *  The default render source is that of the currently bound ph_window.
    */
   static void setDefaultRenderSource();
 
@@ -48,7 +48,7 @@ public:
 
   /** Sets the default render surface as the render target.
    *
-   *  The default render target is that of the currently bound window.
+   *  The default render target is that of the currently bound ph_window.
    */
   static void setDefaultRenderTarget();
 
@@ -58,9 +58,9 @@ public:
    */
   static vec2u getMaxSize();
 
-  /** Retrieves the maximum amount of samples per pixel.
+  /** Retrieves the maximum amount of samples per ph_pixel.
    *
-   * \return the maximum amount of samples per pixel.
+   * \return the maximum amount of samples per ph_pixel.
    */
   static uint getMaxSampleCount();
 
@@ -131,15 +131,15 @@ public:
    */
   uint getSampleCount() const;
 
-  /** Clears the RenderSurface to the desired color.
+  /** Clears the RenderSurface to the desired ph_color.
    *
-   *  \param color the desired color.
+   *  \param ph_color the desired ph_color.
    */
-  void clear(const Color& color);
+  void clear(const color& ph_color);
 
   /** Creates a Texture2 from this RenderSurface.
    *
-   *  The generated Texture2 has RGBA format.
+   *  The generated Texture2 has rgba format.
    *  Throws if the RenderSurface is multisampled. Only single sampled
    *  RenderSurface objects can be converted to textures.
    *

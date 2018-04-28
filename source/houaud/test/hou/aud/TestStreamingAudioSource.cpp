@@ -59,7 +59,7 @@ TEST_F(TestStreamingAudioSource, DefaultConstructor)
   EXPECT_EQ(3u, as.getBufferCount());
   EXPECT_EQ(44100u, as.getBufferSampleCount());
   EXPECT_EQ(AudioSourceState::Stopped, as.getState());
-  EXPECT_EQ(AudioBufferFormat::Mono8, as.getFormat());
+  EXPECT_EQ(AudioBufferFormat::Mono8, as.get_format());
   EXPECT_EQ(1u, as.getChannelCount());
   EXPECT_EQ(1u, as.getBytesPerSample());
   EXPECT_EQ(1u, as.getSampleRate());
@@ -92,7 +92,7 @@ TEST_F(TestStreamingAudioSource, StreamConstructor)
   EXPECT_EQ(3u, as.getBufferCount());
   EXPECT_EQ(44100u / 4u, as.getBufferSampleCount());
   EXPECT_EQ(AudioSourceState::Stopped, as.getState());
-  EXPECT_EQ(AudioBufferFormat::Stereo16, as.getFormat());
+  EXPECT_EQ(AudioBufferFormat::Stereo16, as.get_format());
   EXPECT_EQ(2u, as.getChannelCount());
   EXPECT_EQ(2u, as.getBytesPerSample());
   EXPECT_EQ(44100u, as.getSampleRate());

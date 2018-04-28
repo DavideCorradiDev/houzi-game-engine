@@ -5,8 +5,8 @@
 #include "hou/Test.hpp"
 #include "hou/sys/TestData.hpp"
 
-#include "hou/sys/SysError.hpp"
-#include "hou/sys/File.hpp"
+#include "hou/sys/sys_error.hpp"
+#include "hou/sys/file.hpp"
 
 using namespace hou;
 
@@ -40,19 +40,19 @@ public:
 
 template <typename Container>
   bool testFileContents(const std::string& filename, const Container& expected
-  , FileType type);
+  , file_type type);
 
 
 
 const std::string TestFile::fileName = getOutputDir()
   + u8"TestFile-\U00004f60\U0000597d-BinaryFile.txt";
-const std::string TestFile::fileContent = u8"This is\na test file";
+const std::string TestFile::fileContent = u8"This is\na test ph_file";
 
 
 
 TestFile::TestFile()
 {
-  File f(fileName, FileOpenMode::Write, FileType::Binary);
+  file f(fileName, file_open_mode::write, file_type::binary);
   f.write(fileContent);
 }
 
@@ -60,17 +60,17 @@ TestFile::TestFile()
 
 TestFile::~TestFile()
 {
-  removeDir(fileName);
+  remove_dir(fileName);
 }
 
 
 
 template <typename Container>
   bool testFileContents(const std::string& filename, const Container& expected
-  , FileType type)
+  , file_type type)
 {
-  File f(filename, FileOpenMode::Read, type);
-  Container buffer(f.getByteCount(), 0);
+  file f(filename, file_open_mode::read, type);
+  Container buffer(f.get_byte_count(), 0);
   f.read(buffer);
   return expected == buffer;
 }
@@ -81,12 +81,12 @@ template <typename Container>
 
 TEST_F(TestFile, Creation)
 {
-  File f(fileName, FileOpenMode::Read, FileType::Binary);
+  file f(fileName, file_open_mode::read, file_type::binary);
   EXPECT_FALSE(f.eof());
   EXPECT_FALSE(f.error());
-  EXPECT_EQ(fileContent.size(), f.getByteCount());
+  EXPECT_EQ(fileContent.size(), f.get_byte_count());
   EXPECT_EQ(0, f.tell());
-  std::string content(f.getByteCount(), 0);
+  std::string content(f.get_byte_count(), 0);
   f.read(content);
   EXPECT_EQ(fileContent, content);
 }
@@ -95,22 +95,22 @@ TEST_F(TestFile, Creation)
 
 TEST_F(TestFileDeathTest, CreationError)
 {
-  HOU_EXPECT_ERROR(File f("NotAValidName.txt", FileOpenMode::Read
-    , FileType::Binary), std::runtime_error
-    , format_string(get_text(SysError::FileOpen), "NotAValidName.txt"));
+  HOU_EXPECT_ERROR(file f("NotAValidName.txt", file_open_mode::read
+    , file_type::binary), std::runtime_error
+    , format_string(get_text(sys_error::file_open), "NotAValidName.txt"));
 }
 
 
 
 TEST_F(TestFile, MoveConstructor)
 {
-  File fDummy(fileName, FileOpenMode::Read, FileType::Binary);
-  File f(std::move(fDummy));
+  file fDummy(fileName, file_open_mode::read, file_type::binary);
+  file f(std::move(fDummy));
   EXPECT_FALSE(f.eof());
   EXPECT_FALSE(f.error());
-  EXPECT_EQ(fileContent.size(), f.getByteCount());
+  EXPECT_EQ(fileContent.size(), f.get_byte_count());
   EXPECT_EQ(0, f.tell());
-  std::string content(f.getByteCount(), 0);
+  std::string content(f.get_byte_count(), 0);
   f.read(content);
   EXPECT_EQ(fileContent, content);
 }
@@ -119,17 +119,17 @@ TEST_F(TestFile, MoveConstructor)
 
 TEST_F(TestFile, CursorPositioning)
 {
-  File f(fileName, FileOpenMode::Read, FileType::Binary);
+  file f(fileName, file_open_mode::read, file_type::binary);
 
   EXPECT_EQ(0, f.tell());
 
-  f.seekSet(5);
+  f.seek_set(5);
   EXPECT_EQ(5, f.tell());
 
-  f.seekOffset(2);
+  f.seek_offset(2);
   EXPECT_EQ(7, f.tell());
 
-  f.seekOffset(-3);
+  f.seek_offset(-3);
   EXPECT_EQ(4, f.tell());
 }
 
@@ -137,13 +137,13 @@ TEST_F(TestFile, CursorPositioning)
 
 TEST_F(TestFileDeathTest, CursorPositioningError)
 {
-  File f(fileName, FileOpenMode::Read, FileType::Binary);
+  file f(fileName, file_open_mode::read, file_type::binary);
 
-  HOU_EXPECT_ERROR(f.seekSet(-1), std::runtime_error
-    , get_text(SysError::FileSeek));
+  HOU_EXPECT_ERROR(f.seek_set(-1), std::runtime_error
+    , get_text(sys_error::file_seek));
 
-  HOU_EXPECT_ERROR(f.seekOffset(-2), std::runtime_error
-    , get_text(SysError::FileSeek));
+  HOU_EXPECT_ERROR(f.seek_offset(-2), std::runtime_error
+    , get_text(sys_error::file_seek));
 
   // error flag is not set, only for read / write errors!
   EXPECT_FALSE(f.error());
@@ -153,8 +153,8 @@ TEST_F(TestFileDeathTest, CursorPositioningError)
 
 TEST_F(TestFile, FileSize)
 {
-  File f(fileName, FileOpenMode::Read, FileType::Binary);
-  EXPECT_EQ(19u, f.getByteCount());
+  file f(fileName, file_open_mode::read, file_type::binary);
+  EXPECT_EQ(19u, f.get_byte_count());
 }
 
 
@@ -162,14 +162,14 @@ TEST_F(TestFile, FileSize)
 TEST_F(TestFile, FileSizeCursorPosition)
 {
   // Test if the size is correct if the cursor is not at the beginning, and if
-  // requesting the file size does not change the cursor position.
-  File f(fileName, FileOpenMode::Read, FileType::Binary);
+  // requesting the ph_file size does not change the cursor position.
+  file f(fileName, file_open_mode::read, file_type::binary);
 
   char c;
   f.getc(c);
   f.getc(c);
   long curPos = f.tell();
-  size_t fileSize = f.getByteCount();
+  size_t fileSize = f.get_byte_count();
 
   EXPECT_EQ(curPos, f.tell());
   EXPECT_EQ(19u, fileSize);
@@ -180,7 +180,7 @@ TEST_F(TestFile, FileSizeCursorPosition)
 
 TEST_F(TestFile, GetcBinary)
 {
-  File f(fileName, FileOpenMode::Read, FileType::Binary);
+  file f(fileName, file_open_mode::read, file_type::binary);
   char c = 0;
 
   size_t i = 0;
@@ -198,20 +198,20 @@ TEST_F(TestFile, PutcBinary)
 {
   std::string toWrite = u8"I have\nwritten this";
   {
-    File f(fileName, FileOpenMode::Write, FileType::Binary);
+    file f(fileName, file_open_mode::write, file_type::binary);
     for(size_t i = 0; i < toWrite.size(); ++i)
     {
       f.putc(toWrite[i]);
     }
   }
-  EXPECT_TRUE(testFileContents(fileName, toWrite, FileType::Binary));
+  EXPECT_TRUE(testFileContents(fileName, toWrite, file_type::binary));
 }
 
 
 
 TEST_F(TestFile, GetsBinary)
 {
-  File f(fileName, FileOpenMode::Read, FileType::Binary);
+  file f(fileName, file_open_mode::read, file_type::binary);
   // Since a \0 is added, an extra character is needed
   std::string s(4u, 'a');
 
@@ -232,17 +232,17 @@ TEST_F(TestFile, PutsBinary)
 {
   std::string toWrite = u8"I have\nwritten this";
   {
-    File f(fileName, FileOpenMode::Write, FileType::Binary);
+    file f(fileName, file_open_mode::write, file_type::binary);
     f.puts(toWrite);
   }
-  EXPECT_TRUE(testFileContents(fileName, toWrite, FileType::Binary));
+  EXPECT_TRUE(testFileContents(fileName, toWrite, file_type::binary));
 }
 
 
 
 TEST_F(TestFile, ReadBufferBinary)
 {
-  File f(fileName, FileOpenMode::Read, FileType::Binary);
+  file f(fileName, file_open_mode::read, file_type::binary);
   std::vector<char> buf(3u, 0);
 
   size_t i = 0;
@@ -261,17 +261,17 @@ TEST_F(TestFile, WriteBufferBinary)
 {
   std::vector<char> toWrite{23, 12, 15, 0, 14, 1};
   {
-    File f(fileName, FileOpenMode::Write, FileType::Binary);
+    file f(fileName, file_open_mode::write, file_type::binary);
     f.write(toWrite.data(), toWrite.size());
   }
-  EXPECT_TRUE(testFileContents(fileName, toWrite, FileType::Binary));
+  EXPECT_TRUE(testFileContents(fileName, toWrite, file_type::binary));
 }
 
 
 
 TEST_F(TestFile, ReadStringBinary)
 {
-  File f(fileName, FileOpenMode::Read, FileType::Binary);
+  file f(fileName, file_open_mode::read, file_type::binary);
   std::string buf(3u, 0);
 
   size_t i = 0;
@@ -290,17 +290,17 @@ TEST_F(TestFile, WriteStringBinary)
 {
   std::string toWrite = u8"I have\nwritten this";
   {
-    File f(fileName, FileOpenMode::Write, FileType::Binary);
+    file f(fileName, file_open_mode::write, file_type::binary);
     f.write(toWrite);
   }
-  EXPECT_TRUE(testFileContents(fileName, toWrite, FileType::Binary));
+  EXPECT_TRUE(testFileContents(fileName, toWrite, file_type::binary));
 }
 
 
 
 TEST_F(TestFile, ReadContainerBinary)
 {
-  File f(fileName, FileOpenMode::Read, FileType::Binary);
+  file f(fileName, file_open_mode::read, file_type::binary);
   std::vector<char> buf(3u, 0);
 
   size_t i = 0;
@@ -319,10 +319,10 @@ TEST_F(TestFile, WriteContainerBinary)
 {
   std::vector<char> toWrite{23, 12, 15, 0, 14, 1};
   {
-    File f(fileName, FileOpenMode::Write, FileType::Binary);
+    file f(fileName, file_open_mode::write, file_type::binary);
     f.write(toWrite);
   }
-  EXPECT_TRUE(testFileContents(fileName, toWrite, FileType::Binary));
+  EXPECT_TRUE(testFileContents(fileName, toWrite, file_type::binary));
 }
 
 
@@ -331,26 +331,26 @@ TEST_F(TestFile, AppendBinary)
 {
   std::string toWrite = u8"I have\nwritten this";
   {
-    File f(fileName, FileOpenMode::Append, FileType::Binary);
+    file f(fileName, file_open_mode::append, file_type::binary);
     f.write(toWrite);
   }
   EXPECT_TRUE(testFileContents(fileName, fileContent + toWrite
-    , FileType::Binary));
+    , file_type::binary));
 }
 
 
 
 TEST_F(TestFileDeathTest, ReadFromWriteOnlyFile)
 {
-  File f(fileName, FileOpenMode::Write, FileType::Binary);
+  file f(fileName, file_open_mode::write, file_type::binary);
 
   char c;
   HOU_EXPECT_ERROR(f.getc(c), std::runtime_error
-    , get_text(SysError::FileRead));
+    , get_text(sys_error::file_read));
 
   std::string buffer(3u, 0);
   HOU_EXPECT_ERROR(f.read(buffer), std::runtime_error
-    , get_text(SysError::FileRead));
+    , get_text(sys_error::file_read));
 
 #if defined(HOU_USE_EXCEPTIONS)
   // With no exceptions handling, the HOU_EXPECT_ERROR macro does some magic,
@@ -363,14 +363,14 @@ TEST_F(TestFileDeathTest, ReadFromWriteOnlyFile)
 
 TEST_F(TestFileDeathTest, WriteToReadOnlyFile)
 {
-  File f(fileName, FileOpenMode::Read, FileType::Binary);
+  file f(fileName, file_open_mode::read, file_type::binary);
 
   HOU_EXPECT_ERROR(f.putc('a'), std::runtime_error
-    , get_text(SysError::FileWrite));
+    , get_text(sys_error::file_write));
 
   std::string toWrite = u8"I have\nwritten this";
   HOU_EXPECT_ERROR(f.write(toWrite), std::runtime_error
-    , get_text(SysError::FileWrite));
+    , get_text(sys_error::file_write));
 
 #ifndef HOU_DISABLE_EXCEPTIONS
   // With no exceptions handling, the HOU_EXPECT_ERROR macro does some magic,
@@ -383,7 +383,7 @@ TEST_F(TestFileDeathTest, WriteToReadOnlyFile)
 
 TEST_F(TestFile, Eof)
 {
-  File f(fileName, FileOpenMode::Read, FileType::Binary);
+  file f(fileName, file_open_mode::read, file_type::binary);
   char c = 0;
   while(f.getc(c)) {}
   EXPECT_TRUE(f.eof());
@@ -394,15 +394,15 @@ TEST_F(TestFile, Eof)
 TEST_F(TestFile, GetSizeAfterPutc)
 {
   // Note: on some filesystems the size is not immediately updated.
-  // For this reason it is necessary to open the file again to check the size.
+  // For this reason it is necessary to open the ph_file again to check the size.
   {
-    File f(fileName, FileOpenMode::Append, FileType::Binary);
-    EXPECT_EQ(fileContent.size(), f.getByteCount());
+    file f(fileName, file_open_mode::append, file_type::binary);
+    EXPECT_EQ(fileContent.size(), f.get_byte_count());
     f.putc('a');
   }
   {
-    File f(fileName, FileOpenMode::Read, FileType::Binary);
-    EXPECT_EQ(fileContent.size() + 1u, f.getByteCount());
+    file f(fileName, file_open_mode::read, file_type::binary);
+    EXPECT_EQ(fileContent.size() + 1u, f.get_byte_count());
   }
 }
 
@@ -411,16 +411,16 @@ TEST_F(TestFile, GetSizeAfterPutc)
 TEST_F(TestFile, GetSizeAfterPuts)
 {
   // Note: on some filesystems the size is not immediately updated.
-  // For this reason it is necessary to open the file again to check the size.
+  // For this reason it is necessary to open the ph_file again to check the size.
   std::string toWrite = u8"New stuff!";
   {
-    File f(fileName, FileOpenMode::Append, FileType::Binary);
-    EXPECT_EQ(fileContent.size(), f.getByteCount());
+    file f(fileName, file_open_mode::append, file_type::binary);
+    EXPECT_EQ(fileContent.size(), f.get_byte_count());
     f.puts(toWrite);
   }
   {
-    File f(fileName, FileOpenMode::Read, FileType::Binary);
-    EXPECT_EQ(fileContent.size() + toWrite.size(), f.getByteCount());
+    file f(fileName, file_open_mode::read, file_type::binary);
+    EXPECT_EQ(fileContent.size() + toWrite.size(), f.get_byte_count());
   }
 }
 
@@ -429,17 +429,17 @@ TEST_F(TestFile, GetSizeAfterPuts)
 TEST_F(TestFile, GetSizeAfterWrite)
 {
   // Note: on some filesystems the size is not immediately updated.
-  // For this reason it is necessary to open the file again to check the size.
+  // For this reason it is necessary to open the ph_file again to check the size.
   std::vector<uint16_t> toWrite{23, 12, 15, 0, 14, 1};
   {
-    File f(fileName, FileOpenMode::Append, FileType::Binary);
-    EXPECT_EQ(fileContent.size(), f.getByteCount());
+    file f(fileName, file_open_mode::append, file_type::binary);
+    EXPECT_EQ(fileContent.size(), f.get_byte_count());
     f.write(toWrite);
   }
   {
-    File f(fileName, FileOpenMode::Read, FileType::Binary);
+    file f(fileName, file_open_mode::read, file_type::binary);
     EXPECT_EQ(fileContent.size() + toWrite.size() * sizeof(uint16_t)
-      , f.getByteCount());
+      , f.get_byte_count());
   }
 }
 

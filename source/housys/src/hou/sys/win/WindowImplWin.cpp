@@ -2,19 +2,19 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/sys/WindowImpl.hpp"
+#include "hou/sys/window_impl.hpp"
 
-#include "hou/sys/Image.hpp"
-#include "hou/sys/Keyboard.hpp"
-#include "hou/sys/Mouse.hpp"
-#include "hou/sys/VideoMode.hpp"
-#include "hou/sys/WindowEvent.hpp"
+#include "hou/sys/image.hpp"
+#include "hou/sys/keyboard.hpp"
+#include "hou/sys/mouse.hpp"
+#include "hou/sys/video_mode.hpp"
+#include "hou/sys/window_event.hpp"
 #include "hou/sys/win/WinError.hpp"
 
 #include "hou/cor/error.hpp"
 
 #include "hou/mth/rectangle.hpp"
-#include "hou/sys/WindowStyle.hpp"
+#include "hou/sys/window_style.hpp"
 
 #include <mutex>
 #include <tchar.h>
@@ -46,39 +46,39 @@ std::mutex houClassMutex;
 uint windowCount(0);
 
 std::mutex fullscreenMutex;
-WindowImpl* fullscreenWindow(nullptr);
+window_impl* fullscreenWindow(nullptr);
 
 
 
-DWORD windowStyleToWinWindowStyle(WindowStyle style);
-DWORD windowStyleToWinWindowStyleEx(WindowStyle style);
+DWORD windowStyleToWinWindowStyle(window_style style);
+DWORD windowStyleToWinWindowStyleEx(window_style style);
 
-void activateFullscreenMode(WindowImpl& window, const VideoMode& videoMode);
+void activateFullscreenMode(window_impl& ph_window, const video_mode& videoMode);
 void deactivateFullscreenMode();
-bool isFullscreenWindow(const WindowImpl& window);
+bool isFullscreenWindow(const window_impl& ph_window);
 
 recti clientToFrameRect(HWND hwnd, const recti& rect);
 
 void setWindowIcon(HWND hwnd, HICON hicon);
-HICON createCustomIcon(const Image2RGBA& icon);
+HICON createCustomIcon(const image2RGBA& icon);
 HICON getSystemIcon();
 
-KeyCode winKeyToKeyCode(UINT key);
-KeyCode getKeyCodeWParam(WPARAM wParam);
-ScanCode getScanCodeLParam(LPARAM lParam);
+key_code winKeyToKeyCode(UINT key);
+key_code getKeyCodeWParam(WPARAM wParam);
+scan_code getScanCodeLParam(LPARAM lParam);
 
 
 
-DWORD windowStyleToWinWindowStyle(WindowStyle style)
+DWORD windowStyleToWinWindowStyle(window_style style)
 {
   switch(style)
   {
-    case WindowStyle::Windowed:
+    case window_style::windowed:
       return WS_POPUP | WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU;
-    case WindowStyle::WindowedResizable:
+    case window_style::windowed_resizable:
       return WS_POPUP | WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU
         | WS_MAXIMIZEBOX | WS_SIZEBOX;
-    case WindowStyle::Fullscreen:
+    case window_style::fullscreen:
       return WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS;
     default:
       return 0;
@@ -87,15 +87,15 @@ DWORD windowStyleToWinWindowStyle(WindowStyle style)
 
 
 
-DWORD windowStyleToWinWindowStyleEx(WindowStyle style)
+DWORD windowStyleToWinWindowStyleEx(window_style style)
 {
   switch(style)
   {
-    case WindowStyle::Windowed:
+    case window_style::windowed:
       return 0;
-    case WindowStyle::WindowedResizable:
+    case window_style::windowed_resizable:
       return 0;
-    case WindowStyle::Fullscreen:
+    case window_style::fullscreen:
       return WS_EX_APPWINDOW;
     default:
       return 0;
@@ -104,7 +104,7 @@ DWORD windowStyleToWinWindowStyleEx(WindowStyle style)
 
 
 
-void activateFullscreenMode(WindowImpl& window, const VideoMode& videoMode)
+void activateFullscreenMode(window_impl& ph_window, const video_mode& videoMode)
 {
   std::lock_guard<std::mutex> lock(fullscreenMutex);
 
@@ -114,12 +114,12 @@ void activateFullscreenMode(WindowImpl& window, const VideoMode& videoMode)
   devmode.dmSize = sizeof(DEVMODE);
   devmode.dmPelsWidth = videoMode.get_resolution().x();
   devmode.dmPelsHeight = videoMode.get_resolution().y();
-  devmode.dmBitsPerPel = videoMode.getBytesPerPixel() * bitsPerByte;
+  devmode.dmBitsPerPel = videoMode.get_bytes_per_pixel() * bitsPerByte;
   devmode.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT | DM_BITSPERPEL;
   HOU_WIN_ENSURE(ChangeDisplaySettings(&devmode, CDS_FULLSCREEN)
     == DISP_CHANGE_SUCCESSFUL);
 
-  fullscreenWindow = &window;
+  fullscreenWindow = &ph_window;
 }
 
 
@@ -136,10 +136,10 @@ void deactivateFullscreenMode()
 
 
 
-bool isFullscreenWindow(const WindowImpl& window)
+bool isFullscreenWindow(const window_impl& ph_window)
 {
   std::lock_guard<std::mutex> lock(fullscreenMutex);
-  return(&window == fullscreenWindow);
+  return(&ph_window == fullscreenWindow);
 }
 
 
@@ -164,20 +164,20 @@ void setWindowIcon(HWND hwnd, HICON hicon)
 
 
 
-HICON createCustomIcon(const Image2RGBA& icon)
+HICON createCustomIcon(const image2RGBA& icon)
 {
   static constexpr size_t iconPixelByteCount = 4u;
 
   // Swap red and blue channels for Windows.
-  std::vector<uint8_t> invPixels(icon.getPixels().size()
-    * icon.getPixelByteCount());
+  std::vector<uint8_t> invPixels(icon.get_pixels().size()
+    * icon.get_pixel_byte_count());
 
-  for(size_t i = 0; i < icon.getPixels().size(); ++i)
+  for(size_t i = 0; i < icon.get_pixels().size(); ++i)
   {
-    invPixels[i * iconPixelByteCount + 0] = icon.getPixels()[i].getB();
-    invPixels[i * iconPixelByteCount + 1] = icon.getPixels()[i].getG();
-    invPixels[i * iconPixelByteCount + 2] = icon.getPixels()[i].getR();
-    invPixels[i * iconPixelByteCount + 3] = icon.getPixels()[i].getA();
+    invPixels[i * iconPixelByteCount + 0] = icon.get_pixels()[i].get_b();
+    invPixels[i * iconPixelByteCount + 1] = icon.get_pixels()[i].get_g();
+    invPixels[i * iconPixelByteCount + 2] = icon.get_pixels()[i].get_r();
+    invPixels[i * iconPixelByteCount + 3] = icon.get_pixels()[i].get_a();
   }
 
   HINSTANCE module = GetModuleHandle(nullptr);
@@ -195,270 +195,270 @@ HICON getSystemIcon()
 
 
 
-KeyCode winKeyToKeyCode(UINT key)
+key_code winKeyToKeyCode(UINT key)
 {
   switch(key)
   {
-    case VK_ESCAPE: return KeyCode::Escape;
+    case VK_ESCAPE: return key_code::Escape;
 
-    case VK_PRINT: return KeyCode::Print;
-    case VK_SNAPSHOT: return KeyCode::PrintScreen;
-    case VK_PAUSE: return KeyCode::Pause;
-    case VK_EXECUTE: return KeyCode::Execute;
-    case VK_SELECT: return KeyCode::Select;
-    case VK_HELP: return KeyCode::Help;
-    case VK_SLEEP: return KeyCode::Sleep;
-    case VK_APPS: return KeyCode::Apps;
-    case VK_LWIN: return KeyCode::LSystem;
-    case VK_RWIN: return KeyCode::RSystem;
+    case VK_PRINT: return key_code::Print;
+    case VK_SNAPSHOT: return key_code::PrintScreen;
+    case VK_PAUSE: return key_code::Pause;
+    case VK_EXECUTE: return key_code::Execute;
+    case VK_SELECT: return key_code::Select;
+    case VK_HELP: return key_code::Help;
+    case VK_SLEEP: return key_code::Sleep;
+    case VK_APPS: return key_code::Apps;
+    case VK_LWIN: return key_code::LSystem;
+    case VK_RWIN: return key_code::RSystem;
 
-    case VK_F1: return KeyCode::F1;
-    case VK_F2: return KeyCode::F2;
-    case VK_F3: return KeyCode::F3;
-    case VK_F4: return KeyCode::F4;
-    case VK_F5: return KeyCode::F5;
-    case VK_F6: return KeyCode::F6;
-    case VK_F7: return KeyCode::F7;
-    case VK_F8: return KeyCode::F8;
-    case VK_F9: return KeyCode::F9;
-    case VK_F10: return KeyCode::F10;
-    case VK_F11: return KeyCode::F11;
-    case VK_F12: return KeyCode::F12;
-    case VK_F13: return KeyCode::F13;
-    case VK_F14: return KeyCode::F14;
-    case VK_F15: return KeyCode::F15;
-    case VK_F16: return KeyCode::F16;
-    case VK_F17: return KeyCode::F17;
-    case VK_F18: return KeyCode::F18;
-    case VK_F19: return KeyCode::F19;
-    case VK_F20: return KeyCode::F20;
-    case VK_F21: return KeyCode::F21;
-    case VK_F22: return KeyCode::F22;
-    case VK_F23: return KeyCode::F23;
-    case VK_F24: return KeyCode::F24;
+    case VK_F1: return key_code::F1;
+    case VK_F2: return key_code::F2;
+    case VK_F3: return key_code::F3;
+    case VK_F4: return key_code::F4;
+    case VK_F5: return key_code::F5;
+    case VK_F6: return key_code::F6;
+    case VK_F7: return key_code::F7;
+    case VK_F8: return key_code::F8;
+    case VK_F9: return key_code::F9;
+    case VK_F10: return key_code::F10;
+    case VK_F11: return key_code::F11;
+    case VK_F12: return key_code::F12;
+    case VK_F13: return key_code::F13;
+    case VK_F14: return key_code::F14;
+    case VK_F15: return key_code::F15;
+    case VK_F16: return key_code::F16;
+    case VK_F17: return key_code::F17;
+    case VK_F18: return key_code::F18;
+    case VK_F19: return key_code::F19;
+    case VK_F20: return key_code::F20;
+    case VK_F21: return key_code::F21;
+    case VK_F22: return key_code::F22;
+    case VK_F23: return key_code::F23;
+    case VK_F24: return key_code::F24;
 
-    case VK_NUMPAD0: return KeyCode::Numpad0;
-    case VK_NUMPAD1: return KeyCode::Numpad1;
-    case VK_NUMPAD2: return KeyCode::Numpad2;
-    case VK_NUMPAD3: return KeyCode::Numpad3;
-    case VK_NUMPAD4: return KeyCode::Numpad4;
-    case VK_NUMPAD5: return KeyCode::Numpad5;
-    case VK_NUMPAD6: return KeyCode::Numpad6;
-    case VK_NUMPAD7: return KeyCode::Numpad7;
-    case VK_NUMPAD8: return KeyCode::Numpad8;
-    case VK_NUMPAD9: return KeyCode::Numpad9;
+    case VK_NUMPAD0: return key_code::Numpad0;
+    case VK_NUMPAD1: return key_code::Numpad1;
+    case VK_NUMPAD2: return key_code::Numpad2;
+    case VK_NUMPAD3: return key_code::Numpad3;
+    case VK_NUMPAD4: return key_code::Numpad4;
+    case VK_NUMPAD5: return key_code::Numpad5;
+    case VK_NUMPAD6: return key_code::Numpad6;
+    case VK_NUMPAD7: return key_code::Numpad7;
+    case VK_NUMPAD8: return key_code::Numpad8;
+    case VK_NUMPAD9: return key_code::Numpad9;
 
-    case VK_ADD: return KeyCode::Add;
-    case VK_SUBTRACT: return KeyCode::Subtract;
-    case VK_MULTIPLY: return KeyCode::Multiply;
-    case VK_DIVIDE: return KeyCode::Divide;
-    case VK_DECIMAL: return KeyCode::Decimal;
-    case VK_SEPARATOR: return KeyCode::Separator;
+    case VK_ADD: return key_code::Add;
+    case VK_SUBTRACT: return key_code::Subtract;
+    case VK_MULTIPLY: return key_code::Multiply;
+    case VK_DIVIDE: return key_code::Divide;
+    case VK_DECIMAL: return key_code::Decimal;
+    case VK_SEPARATOR: return key_code::Separator;
 
-    case VK_PRIOR: return KeyCode::PageUp;
-    case VK_NEXT: return KeyCode::PageDown;
-    case VK_END: return KeyCode::End;
-    case VK_HOME: return KeyCode::Home;
-    case VK_INSERT: return KeyCode::Insert;
-    case VK_DELETE: return KeyCode::Delete;
-    case VK_BACK: return KeyCode::Backspace;
+    case VK_PRIOR: return key_code::PageUp;
+    case VK_NEXT: return key_code::PageDown;
+    case VK_END: return key_code::End;
+    case VK_HOME: return key_code::Home;
+    case VK_INSERT: return key_code::Insert;
+    case VK_DELETE: return key_code::Delete;
+    case VK_BACK: return key_code::Backspace;
 
-    case VK_LEFT: return KeyCode::Left;
-    case VK_RIGHT: return KeyCode::Right;
-    case VK_UP: return KeyCode::Up;
-    case VK_DOWN: return KeyCode::Down;
+    case VK_LEFT: return key_code::Left;
+    case VK_RIGHT: return key_code::Right;
+    case VK_UP: return key_code::Up;
+    case VK_DOWN: return key_code::Down;
 
-    case '0': return KeyCode::Num0;
-    case '1': return KeyCode::Num1;
-    case '2': return KeyCode::Num2;
-    case '3': return KeyCode::Num3;
-    case '4': return KeyCode::Num4;
-    case '5': return KeyCode::Num5;
-    case '6': return KeyCode::Num6;
-    case '7': return KeyCode::Num7;
-    case '8': return KeyCode::Num8;
-    case '9': return KeyCode::Num9;
+    case '0': return key_code::Num0;
+    case '1': return key_code::Num1;
+    case '2': return key_code::Num2;
+    case '3': return key_code::Num3;
+    case '4': return key_code::Num4;
+    case '5': return key_code::Num5;
+    case '6': return key_code::Num6;
+    case '7': return key_code::Num7;
+    case '8': return key_code::Num8;
+    case '9': return key_code::Num9;
 
-    case 'A': return KeyCode::A;
-    case 'B': return KeyCode::B;
-    case 'C': return KeyCode::C;
-    case 'D': return KeyCode::D;
-    case 'E': return KeyCode::E;
-    case 'F': return KeyCode::F;
-    case 'G': return KeyCode::G;
-    case 'H': return KeyCode::H;
-    case 'I': return KeyCode::I;
-    case 'J': return KeyCode::J;
-    case 'K': return KeyCode::K;
-    case 'L': return KeyCode::L;
-    case 'M': return KeyCode::M;
-    case 'N': return KeyCode::N;
-    case 'O': return KeyCode::O;
-    case 'P': return KeyCode::P;
-    case 'Q': return KeyCode::Q;
-    case 'R': return KeyCode::R;
-    case 'S': return KeyCode::S;
-    case 'T': return KeyCode::T;
-    case 'U': return KeyCode::U;
-    case 'V': return KeyCode::V;
-    case 'X': return KeyCode::X;
-    case 'Y': return KeyCode::Y;
-    case 'W': return KeyCode::W;
-    case 'Z': return KeyCode::Z;
+    case 'A': return key_code::A;
+    case 'B': return key_code::B;
+    case 'C': return key_code::C;
+    case 'D': return key_code::D;
+    case 'E': return key_code::E;
+    case 'F': return key_code::F;
+    case 'G': return key_code::G;
+    case 'H': return key_code::H;
+    case 'I': return key_code::I;
+    case 'J': return key_code::J;
+    case 'K': return key_code::K;
+    case 'L': return key_code::L;
+    case 'M': return key_code::M;
+    case 'N': return key_code::N;
+    case 'O': return key_code::O;
+    case 'P': return key_code::P;
+    case 'Q': return key_code::Q;
+    case 'r': return key_code::r;
+    case 'S': return key_code::S;
+    case 'T': return key_code::T;
+    case 'U': return key_code::U;
+    case 'V': return key_code::V;
+    case 'X': return key_code::X;
+    case 'Y': return key_code::Y;
+    case 'W': return key_code::W;
+    case 'Z': return key_code::Z;
 
-    case VK_OEM_1: return KeyCode::Semicolon;
-    case VK_OEM_2: return KeyCode::Slash;
-    case VK_OEM_3: return KeyCode::Tilde;
-    case VK_OEM_4: return KeyCode::LBracket;
-    case VK_OEM_5: return KeyCode::Backslash;
-    case VK_OEM_6: return KeyCode::RBracket;
-    case VK_OEM_7: return KeyCode::Quote;
-    case VK_OEM_8: return KeyCode::Special1;
-    case VK_OEM_102: return KeyCode::Special2;
-    case VK_OEM_COMMA: return KeyCode::Comma;
-    case VK_OEM_PERIOD: return KeyCode::Period;
-    case VK_OEM_PLUS: return KeyCode::Equal;
-    case VK_OEM_MINUS: return KeyCode::Dash;
-    case VK_SPACE: return KeyCode::Space;
-    case VK_RETURN: return KeyCode::Enter;
-    case VK_TAB: return KeyCode::Tab;
+    case VK_OEM_1: return key_code::Semicolon;
+    case VK_OEM_2: return key_code::Slash;
+    case VK_OEM_3: return key_code::Tilde;
+    case VK_OEM_4: return key_code::LBracket;
+    case VK_OEM_5: return key_code::Backslash;
+    case VK_OEM_6: return key_code::RBracket;
+    case VK_OEM_7: return key_code::Quote;
+    case VK_OEM_8: return key_code::Special1;
+    case VK_OEM_102: return key_code::Special2;
+    case VK_OEM_COMMA: return key_code::Comma;
+    case VK_OEM_PERIOD: return key_code::Period;
+    case VK_OEM_PLUS: return key_code::Equal;
+    case VK_OEM_MINUS: return key_code::Dash;
+    case VK_SPACE: return key_code::Space;
+    case VK_RETURN: return key_code::Enter;
+    case VK_TAB: return key_code::Tab;
 
-    case VK_CAPITAL: return KeyCode::CapsLock;
-    case VK_NUMLOCK: return KeyCode::NumLock;
-    case VK_SCROLL: return KeyCode::ScrollLock;
+    case VK_CAPITAL: return key_code::CapsLock;
+    case VK_NUMLOCK: return key_code::NumLock;
+    case VK_SCROLL: return key_code::ScrollLock;
 
-    case VK_CONTROL: return KeyCode::LCtrl;
-    case VK_LCONTROL: return KeyCode::LCtrl;
-    case VK_RCONTROL: return KeyCode::RCtrl;
-    case VK_MENU: return KeyCode::LAlt;
-    case VK_LMENU: return KeyCode::LAlt;
-    case VK_RMENU: return KeyCode::RAlt;
-    case VK_SHIFT: return KeyCode::LShift;
-    case VK_LSHIFT: return KeyCode::LShift;
-    case VK_RSHIFT: return KeyCode::RShift;
+    case VK_CONTROL: return key_code::LCtrl;
+    case VK_LCONTROL: return key_code::LCtrl;
+    case VK_RCONTROL: return key_code::RCtrl;
+    case VK_MENU: return key_code::LAlt;
+    case VK_LMENU: return key_code::LAlt;
+    case VK_RMENU: return key_code::RAlt;
+    case VK_SHIFT: return key_code::LShift;
+    case VK_LSHIFT: return key_code::LShift;
+    case VK_RSHIFT: return key_code::RShift;
 
-    case VK_JUNJA: return KeyCode::Junja;
-    case VK_FINAL: return KeyCode::Final;
-    case VK_HANJA: return KeyCode::Hanja;
-    case VK_CONVERT: return KeyCode::Convert;
-    case VK_NONCONVERT: return KeyCode::NonConvert;
-    case VK_ACCEPT: return KeyCode::Accept;
-    case VK_MODECHANGE: return KeyCode::ModeChange;
-    case VK_PROCESSKEY: return KeyCode::ProcessKey;
+    case VK_JUNJA: return key_code::Junja;
+    case VK_FINAL: return key_code::Final;
+    case VK_HANJA: return key_code::Hanja;
+    case VK_CONVERT: return key_code::Convert;
+    case VK_NONCONVERT: return key_code::NonConvert;
+    case VK_ACCEPT: return key_code::Accept;
+    case VK_MODECHANGE: return key_code::ModeChange;
+    case VK_PROCESSKEY: return key_code::ProcessKey;
 
-    case VK_BROWSER_BACK: return KeyCode::BrowserBack;
-    case VK_BROWSER_FORWARD: return KeyCode::BrowserForward;
-    case VK_BROWSER_REFRESH: return KeyCode::BrowserRefresh;
-    case VK_BROWSER_STOP: return KeyCode::BrowserStop;
-    case VK_BROWSER_SEARCH: return KeyCode::BrowserSearch;
-    case VK_BROWSER_FAVORITES: return KeyCode::BrowserFavorites;
-    case VK_BROWSER_HOME: return KeyCode::BrowserHome;
+    case VK_BROWSER_BACK: return key_code::BrowserBack;
+    case VK_BROWSER_FORWARD: return key_code::BrowserForward;
+    case VK_BROWSER_REFRESH: return key_code::BrowserRefresh;
+    case VK_BROWSER_STOP: return key_code::BrowserStop;
+    case VK_BROWSER_SEARCH: return key_code::BrowserSearch;
+    case VK_BROWSER_FAVORITES: return key_code::BrowserFavorites;
+    case VK_BROWSER_HOME: return key_code::BrowserHome;
 
-    case VK_VOLUME_UP: return KeyCode::VolumeUp;
-    case VK_VOLUME_DOWN: return KeyCode::VolumeDown;
-    case VK_VOLUME_MUTE: return KeyCode::VolumeMute;
+    case VK_VOLUME_UP: return key_code::VolumeUp;
+    case VK_VOLUME_DOWN: return key_code::VolumeDown;
+    case VK_VOLUME_MUTE: return key_code::VolumeMute;
 
-    case VK_MEDIA_NEXT_TRACK: return KeyCode::MediaNextTrack;
-    case VK_MEDIA_PREV_TRACK: return KeyCode::MediaPreviousTrack;
-    case VK_MEDIA_STOP: return KeyCode::MediaStop;
-    case VK_MEDIA_PLAY_PAUSE: return KeyCode::MediaPlayPause;
-    case VK_LAUNCH_MEDIA_SELECT: return KeyCode::LaunchMediaSelect;
-    case VK_LAUNCH_MAIL: return KeyCode::LaunchMail;
-    case VK_LAUNCH_APP1: return KeyCode::LaunchApp1;
-    case VK_LAUNCH_APP2: return KeyCode::LaunchApp2;
+    case VK_MEDIA_NEXT_TRACK: return key_code::MediaNextTrack;
+    case VK_MEDIA_PREV_TRACK: return key_code::MediaPreviousTrack;
+    case VK_MEDIA_STOP: return key_code::MediaStop;
+    case VK_MEDIA_PLAY_PAUSE: return key_code::MediaPlayPause;
+    case VK_LAUNCH_MEDIA_SELECT: return key_code::LaunchMediaSelect;
+    case VK_LAUNCH_MAIL: return key_code::LaunchMail;
+    case VK_LAUNCH_APP1: return key_code::LaunchApp1;
+    case VK_LAUNCH_APP2: return key_code::LaunchApp2;
 
-    case VK_ATTN: return KeyCode::Attn;
-    case VK_CRSEL: return KeyCode::CrSel;
-    case VK_EXSEL: return KeyCode::ExSel;
-    case VK_EREOF: return KeyCode::EraseEOF;
-    case VK_PLAY: return KeyCode::Play;
-    case VK_ZOOM: return KeyCode::Zoom;
-    case VK_PA1: return KeyCode::PA1;
-    case VK_CLEAR: return KeyCode::Clear;
-    case VK_PACKET: return KeyCode::Packet;
+    case VK_ATTN: return key_code::Attn;
+    case VK_CRSEL: return key_code::CrSel;
+    case VK_EXSEL: return key_code::ExSel;
+    case VK_EREOF: return key_code::EraseEOF;
+    case VK_PLAY: return key_code::Play;
+    case VK_ZOOM: return key_code::Zoom;
+    case VK_PA1: return key_code::PA1;
+    case VK_CLEAR: return key_code::Clear;
+    case VK_PACKET: return key_code::Packet;
 
     default:
       HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), key);
-      return KeyCode::Enter;
+      return key_code::Enter;
   }
 }
 
 
 
-KeyCode getKeyCodeWParam(WPARAM wParam)
+key_code getKeyCodeWParam(WPARAM wParam)
 {
   return winKeyToKeyCode(static_cast<UINT>(wParam));
 }
 
 
 
-ScanCode getScanCodeLParam(LPARAM lParam)
+scan_code getScanCodeLParam(LPARAM lParam)
 {
-  UINT scanCode = GET_SCAN_CODE_LPARAM(lParam);
+  UINT scan_code = GET_SCAN_CODE_LPARAM(lParam);
   if(GET_EXTENDED_KEY_LPARAM(lParam))
   {
-    scanCode += 0xe000;
+    scan_code += 0xe000;
   }
-  return ScanCode(scanCode);
+  return scan_code(scan_code);
 }
 
 }
 
 
 
-WindowImpl::WindowImpl(const std::string& title, const VideoMode& videoMode
-  , WindowStyle style)
+window_impl::window_impl(const std::string& title, const video_mode& videoMode
+  , window_style style)
   : non_copyable()
-  , mHandle(nullptr)
-  , mCursorGrabbed(false)
-  , mKeyRepeatEnabled(false)
-  , mEventQueue()
-  , mHdc(nullptr)
-  , mCursorHandle(nullptr)
-  , mIconHandle(nullptr)
+  , m_handle(nullptr)
+  , m_cursor_grabbed(false)
+  , m_key_repeat_enabled(false)
+  , m_event_queue()
+  , m_hdc(nullptr)
+  , m_cursor_handle(nullptr)
+  , m_icon_handle(nullptr)
   , mCachedUtf16Char(0)
-  , mMouseInWindow(false)
-  , mPreviousSize(videoMode.get_resolution())
+  , m_mouse_in_window(false)
+  , m_previous_size(videoMode.get_resolution())
 {
-  HOU_EXPECT(style != WindowStyle::Fullscreen
-    || (videoMode.isFullscreenMode() && fullscreenWindow == nullptr));
+  HOU_EXPECT(style != window_style::fullscreen
+    || (videoMode.is_fullscreen_mode() && fullscreenWindow == nullptr));
 
-  registerWindowClass();
+  register_window_class();
 
-  // Create the window.
-  mHandle = CreateWindowExW
+  // Create the ph_window.
+  m_handle = CreateWindowExW
     ( windowStyleToWinWindowStyleEx(style)              // dwExStyle
     , houClassName                                      // lpClassName
     , convertEncoding<utf8, wide>(title).c_str()        // lpWindowName
     , windowStyleToWinWindowStyle(style)                // dwStyle
     , 0, 0                        // Position
-    , 0, 0  // Size
+    , 0, 0  // size_type
     , nullptr                                           // hWndParent
     , nullptr                                           // hMenu
     , GetModuleHandle(nullptr)                          // hInstance
     , nullptr);                                         // lpParam
-  HOU_WIN_ENSURE(mHandle != nullptr);
+  HOU_WIN_ENSURE(m_handle != nullptr);
 
   // Set client size. CreateWindowEx sets frame position and size, but we want
   // the arguments passed to the constructor to refer to client position and
   // size.
-  vec2i position = (style == WindowStyle::Fullscreen)
+  vec2i position = (style == window_style::fullscreen)
     ? vec2i(0, 0)
-    : vec2i(VideoMode::getDesktopMode().get_resolution() - videoMode.get_resolution()) / 2;
-  setClientRect(recti(position, videoMode.get_resolution()));
+    : vec2i(video_mode::get_desktop_mode().get_resolution() - videoMode.get_resolution()) / 2;
+  set_client_rect(recti(position, videoMode.get_resolution()));
 
-  // Set a pointer to the window class in the window user data (used in the
-  // window procedure).
+  // Set a pointer to the ph_window class in the ph_window user data (used in the
+  // ph_window procedure).
   SetLastError(0);
-  SetWindowLongPtrW(mHandle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+  SetWindowLongPtrW(m_handle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
   HOU_WIN_ENSURE(GetLastError() == 0);
 
   // Initialize handle to device context.
-  mHdc = GetDC(mHandle);
-  HOU_WIN_ENSURE(mHdc != nullptr);
+  m_hdc = GetDC(m_handle);
+  HOU_WIN_ENSURE(m_hdc != nullptr);
 
   // Activate fullscreen mode if necessary.
-  if(style == WindowStyle::Fullscreen)
+  if(style == window_style::fullscreen)
   {
     activateFullscreenMode(*this, videoMode);
   }
@@ -466,23 +466,23 @@ WindowImpl::WindowImpl(const std::string& title, const VideoMode& videoMode
   // Check if the mouse is inside the client area. If yes, also capture the
   // cursor (this is necessary to correctly generate events related to mouse
   // movement).
-  mMouseInWindow = is_point_in_rectangle(getClientRect(), Mouse::get_position());
-  setMouseCaptured(mMouseInWindow);
+  m_mouse_in_window = is_point_in_rectangle(get_client_rect(), mouse::get_position());
+  setMouseCaptured(m_mouse_in_window);
 }
 
 
 
-WindowImpl::WindowImpl(WindowImpl&& other)
+window_impl::window_impl(window_impl&& other)
   : non_copyable()
-  , mHandle(std::move(other.mHandle))
-  , mCursorGrabbed(std::move(other.mCursorGrabbed))
-  , mKeyRepeatEnabled(std::move(other.mKeyRepeatEnabled))
-  , mEventQueue(std::move(other.mEventQueue))
-  , mHdc(std::move(other.mHdc))
-  , mCursorHandle(std::move(other.mCursorHandle))
-  , mIconHandle(std::move(other.mIconHandle))
+  , m_handle(std::move(other.m_handle))
+  , m_cursor_grabbed(std::move(other.m_cursor_grabbed))
+  , m_key_repeat_enabled(std::move(other.m_key_repeat_enabled))
+  , m_event_queue(std::move(other.m_event_queue))
+  , m_hdc(std::move(other.m_hdc))
+  , m_cursor_handle(std::move(other.m_cursor_handle))
+  , m_icon_handle(std::move(other.m_icon_handle))
   , mCachedUtf16Char(std::move(other.mCachedUtf16Char))
-  , mMouseInWindow(std::move(other.mMouseInWindow))
+  , m_mouse_in_window(std::move(other.m_mouse_in_window))
 {
   {
     std::lock_guard<std::mutex> lock(fullscreenMutex);
@@ -492,44 +492,44 @@ WindowImpl::WindowImpl(WindowImpl&& other)
     }
   }
 
-  // Update pointer to the window class in the window user data.
+  // Update pointer to the ph_window class in the ph_window user data.
   SetLastError(0);
-  SetWindowLongPtrW(mHandle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+  SetWindowLongPtrW(m_handle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
   HOU_WIN_ENSURE(GetLastError() == 0);
 
-  other.mHandle = nullptr;
-  other.mHdc = nullptr;
-  other.mCursorHandle = nullptr;
-  other.mIconHandle = nullptr;
+  other.m_handle = nullptr;
+  other.m_hdc = nullptr;
+  other.m_cursor_handle = nullptr;
+  other.m_icon_handle = nullptr;
 }
 
 
 
-WindowImpl::~WindowImpl()
+window_impl::~window_impl()
 {
-  destroyIcon();
-  destroyCursor();
-  destroyWindow();
+  destroy_icon();
+  destroy_cursor();
+  destroy_window();
 }
 
 
 
-recti WindowImpl::getFrameRect() const
+recti window_impl::get_frame_rect() const
 {
   RECT rect = {0, 0, 0, 0};
-  HOU_WIN_ENSURE(GetWindowRect(mHandle, &rect) != 0);
+  HOU_WIN_ENSURE(GetWindowRect(m_handle, &rect) != 0);
   return recti(rect.left, rect.top
     , rect.right - rect.left, rect.bottom - rect.top);
 }
 
 
 
-void WindowImpl::setFrameRect(const recti& value)
+void window_impl::set_frame_rect(const recti& value)
 {
-  HOU_WIN_ENSURE(SetWindowPos(mHandle, nullptr
+  HOU_WIN_ENSURE(SetWindowPos(m_handle, nullptr
     , value.x(), value.y(), value.w(), value.h()
     , SWP_NOZORDER) != 0);
-  if(mCursorGrabbed)
+  if(m_cursor_grabbed)
   {
     grabMouseCursor();
   }
@@ -537,14 +537,14 @@ void WindowImpl::setFrameRect(const recti& value)
 
 
 
-recti WindowImpl::getClientRect() const
+recti window_impl::get_client_rect() const
 {
   // Note returned x and y are always 0 with GetClientRect.
   RECT rect = {0, 0, 0, 0};
-  HOU_WIN_ENSURE(GetClientRect(mHandle, &rect) != 0);
+  HOU_WIN_ENSURE(GetClientRect(m_handle, &rect) != 0);
 
   POINT origin = {0, 0};
-  HOU_WIN_ENSURE(ClientToScreen(mHandle, &origin) != 0);
+  HOU_WIN_ENSURE(ClientToScreen(m_handle, &origin) != 0);
 
   return recti(origin.x, origin.y, rect.right, rect.bottom);
 }
@@ -552,68 +552,68 @@ recti WindowImpl::getClientRect() const
 
 
 
-void WindowImpl::setClientRect(const recti& value)
+void window_impl::set_client_rect(const recti& value)
 {
-  setFrameRect(clientToFrameRect(mHandle, value));
+  set_frame_rect(clientToFrameRect(m_handle, value));
 }
 
 
 
-void WindowImpl::setTitle(const std::string& value)
+void window_impl::set_title(const std::string& value)
 {
-  HOU_WIN_ENSURE(SetWindowTextW(mHandle
+  HOU_WIN_ENSURE(SetWindowTextW(m_handle
     , convertEncoding<utf8, wide>(value).c_str()) != 0);
 }
 
 
 
-bool WindowImpl::isVisible() const
+bool window_impl::is_visible() const
 {
-  return IsWindowVisible(mHandle);
+  return IsWindowVisible(m_handle);
 }
 
 
 
-void WindowImpl::setVisible(bool value)
+void window_impl::set_visible(bool value)
 {
   // No possible failure.
-  ShowWindow(mHandle, value ? SW_SHOW : SW_HIDE);
+  ShowWindow(m_handle, value ? SW_SHOW : SW_HIDE);
   if(value)
   {
-    HOU_WIN_ENSURE(UpdateWindow(mHandle) != 0);
+    HOU_WIN_ENSURE(UpdateWindow(m_handle) != 0);
   }
 }
 
 
 
-void WindowImpl::setIcon(const Image2RGBA& icon)
+void window_impl::set_icon(const image2RGBA& icon)
 {
-  destroyIcon();
-  mIconHandle = createCustomIcon(icon);
-  HOU_WIN_ENSURE(mIconHandle != nullptr);
-  setWindowIcon(mHandle, mIconHandle);
+  destroy_icon();
+  m_icon_handle = createCustomIcon(icon);
+  HOU_WIN_ENSURE(m_icon_handle != nullptr);
+  setWindowIcon(m_handle, m_icon_handle);
 }
 
 
 
-void WindowImpl::setSystemIcon()
+void window_impl::set_system_icon()
 {
-  destroyIcon();
-  mIconHandle = nullptr;
+  destroy_icon();
+  m_icon_handle = nullptr;
   HICON iconHandle = getSystemIcon();
   HOU_WIN_ENSURE(iconHandle != nullptr);
-  setWindowIcon(mHandle, iconHandle);
+  setWindowIcon(m_handle, iconHandle);
 }
 
 
 
-void WindowImpl::grabMouseCursor()
+void window_impl::grabMouseCursor()
 {
   RECT rect;
-  HOU_WIN_ENSURE(GetClientRect(mHandle, &rect) != 0);
+  HOU_WIN_ENSURE(GetClientRect(m_handle, &rect) != 0);
 
   SetLastError(0);
-  MapWindowPoints(mHandle, nullptr, reinterpret_cast<LPPOINT>(&rect), 2);
+  MapWindowPoints(m_handle, nullptr, reinterpret_cast<LPPOINT>(&rect), 2);
   HOU_WIN_ENSURE(GetLastError() == 0);
 
   HOU_WIN_ENSURE(ClipCursor(&rect) != 0);
@@ -621,27 +621,27 @@ void WindowImpl::grabMouseCursor()
 
 
 
-void WindowImpl::ungrabMouseCursor()
+void window_impl::ungrabMouseCursor()
 {
   HOU_WIN_ENSURE(ClipCursor(nullptr) != 0);
 }
 
 
 
-bool WindowImpl::isMouseCaptured() const
+bool window_impl::isMouseCaptured() const
 {
-  return GetCapture() == mHandle;
+  return GetCapture() == m_handle;
 }
 
 
 
-void WindowImpl::setMouseCaptured(bool value)
+void window_impl::setMouseCaptured(bool value)
 {
   if(isMouseCaptured() != value)
   {
     if(value)
     {
-      SetCapture(mHandle);
+      SetCapture(m_handle);
     }
     else
     {
@@ -653,24 +653,24 @@ void WindowImpl::setMouseCaptured(bool value)
 
 
 
-bool WindowImpl::hasFocus() const
+bool window_impl::has_focus() const
 {
-  return GetFocus() == mHandle;
+  return GetFocus() == m_handle;
 }
 
 
 
-bool WindowImpl::requestFocus() const
+bool window_impl::request_focus() const
 {
   // Allow focus stealing only within the current process.
   // Cannot fail.
-  DWORD thisPid = GetWindowThreadProcessId(mHandle, nullptr);
+  DWORD thisPid = GetWindowThreadProcessId(m_handle, nullptr);
   DWORD foregroundPid = GetWindowThreadProcessId(GetForegroundWindow()
     , nullptr);
 
   if(thisPid == foregroundPid)
   {
-    BOOL success = SetForegroundWindow(mHandle);
+    BOOL success = SetForegroundWindow(m_handle);
     return success != 0;
   }
   else
@@ -678,7 +678,7 @@ bool WindowImpl::requestFocus() const
     // Flash if not allowed to steal focus.
     FLASHWINFO info;
     info.cbSize = sizeof(FLASHWINFO);
-    info.hwnd = mHandle;
+    info.hwnd = m_handle;
     info.dwFlags = FLASHW_TRAY;
     info.dwTimeout = 0;
     info.uCount = 3;
@@ -689,11 +689,11 @@ bool WindowImpl::requestFocus() const
 
 
 
-void WindowImpl::updateEventQueue()
+void window_impl::update_event_queue()
 {
   MSG msg;
   // Cannot fail.
-  while(PeekMessageW(&msg, mHandle, 0, 0, PM_REMOVE))
+  while(PeekMessageW(&msg, m_handle, 0, 0, PM_REMOVE))
   {
     // Cannot fail.
     TranslateMessage(&msg);
@@ -704,14 +704,14 @@ void WindowImpl::updateEventQueue()
 
 
 
-void WindowImpl::swapBuffers()
+void window_impl::swap_buffers()
 {
-  HOU_WIN_ENSURE(SwapBuffers(mHdc) != 0);
+  HOU_WIN_ENSURE(SwapBuffers(m_hdc) != 0);
 }
 
 
 
-void WindowImpl::registerWindowClass()
+void window_impl::register_window_class()
 {
   std::lock_guard<std::mutex> lock(houClassMutex);
   if(windowCount == 0)
@@ -719,7 +719,7 @@ void WindowImpl::registerWindowClass()
     WNDCLASSEXW wcex;
     wcex.cbSize = sizeof(WNDCLASSEX);
     wcex.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-    wcex.lpfnWndProc = &hou::prv::WindowImpl::wndProcedure;
+    wcex.lpfnWndProc = &hou::prv::window_impl::wnd_procedure;
     wcex.cbClsExtra = 0;
     wcex.cbWndExtra = 0;
     wcex.hInstance = GetModuleHandle(nullptr);
@@ -738,7 +738,7 @@ void WindowImpl::registerWindowClass()
 
 
 
-void WindowImpl::unregisterWindowClass()
+void window_impl::unregister_window_class()
 {
   std::lock_guard<std::mutex> lock(houClassMutex);
   HOU_EXPECT_DEV(windowCount > 0);
@@ -752,16 +752,16 @@ void WindowImpl::unregisterWindowClass()
 
 
 
-LRESULT CALLBACK WindowImpl::wndProcedure(HWND hwnd, UINT uMsg, WPARAM wParam
+LRESULT CALLBACK window_impl::wnd_procedure(HWND hwnd, UINT uMsg, WPARAM wParam
   , LPARAM lParam)
 {
-  WindowImpl* window = hwnd
-    ? reinterpret_cast<WindowImpl*>(GetWindowLongPtrW(hwnd, GWLP_USERDATA))
+  window_impl* ph_window = hwnd
+    ? reinterpret_cast<window_impl*>(GetWindowLongPtrW(hwnd, GWLP_USERDATA))
     : nullptr;
 
-  if(window != nullptr)
+  if(ph_window != nullptr)
   {
-    window->filterEvent(uMsg, wParam, lParam);
+    ph_window->filter_event(uMsg, wParam, lParam);
   }
 
   // Do not forward close messages and sys command messages.
@@ -775,30 +775,30 @@ LRESULT CALLBACK WindowImpl::wndProcedure(HWND hwnd, UINT uMsg, WPARAM wParam
 
 
 
-void WindowImpl::filterEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
+void window_impl::filter_event(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-  HOU_EXPECT_DEV(mHandle != nullptr);
+  HOU_EXPECT_DEV(m_handle != nullptr);
 
   switch(uMsg)
   {
     case WM_CLOSE:
     {
-      pushEvent(WindowEvent::closed());
+      push_event(window_event::closed());
       break;
     }
 
     case WM_SETFOCUS:
     {
-      isMouseCursorGrabbed() ? grabMouseCursor() : ungrabMouseCursor();
-      pushEvent(WindowEvent::focusGained());
+      is_mouse_cursor_grabbed() ? grabMouseCursor() : ungrabMouseCursor();
+      push_event(window_event::focus_gained());
       break;
     }
 
     case WM_KILLFOCUS:
     {
-      mPreviousSize = getClientRect().get_size();
+      m_previous_size = get_client_rect().get_size();
       ungrabMouseCursor();
-      pushEvent(WindowEvent::focusLost());
+      push_event(window_event::focus_lost());
       break;
     }
 
@@ -810,11 +810,11 @@ void WindowImpl::filterEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
     case WM_EXITSIZEMOVE:
     {
-      isMouseCursorGrabbed() ? grabMouseCursor() : ungrabMouseCursor();
-      vec2u currentSize = getClientRect().get_size();
-      if(currentSize != mPreviousSize)
+      is_mouse_cursor_grabbed() ? grabMouseCursor() : ungrabMouseCursor();
+      vec2u currentSize = get_client_rect().get_size();
+      if(currentSize != m_previous_size)
       {
-        pushEvent(WindowEvent::resized(currentSize.x(), currentSize.y()));
+        push_event(window_event::resized(currentSize.x(), currentSize.y()));
       }
       break;
     }
@@ -822,12 +822,12 @@ void WindowImpl::filterEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_KEYDOWN:
     case WM_SYSKEYDOWN:
     {
-      if(isKeyRepeatEnabled() || !GET_KEY_PREVIOUSLY_DOWN_LPARAM(lParam))
+      if(is_key_repeat_enabled() || !GET_KEY_PREVIOUSLY_DOWN_LPARAM(lParam))
       {
-        pushEvent(WindowEvent::keyPressed
+        push_event(window_event::key_pressed
           ( getKeyCodeWParam(wParam)
           , getScanCodeLParam(lParam)
-          , Keyboard::getModifierKeysState()));
+          , keyboard::get_modifier_keys_state()));
       }
       break;
     }
@@ -835,17 +835,17 @@ void WindowImpl::filterEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_KEYUP:
     case WM_SYSKEYUP:
     {
-      pushEvent(WindowEvent::keyReleased
+      push_event(window_event::key_released
         ( getKeyCodeWParam(wParam)
         , getScanCodeLParam(lParam)
-        , Keyboard::getModifierKeysState()));
+        , keyboard::get_modifier_keys_state()));
       break;
     }
 
     case WM_CHAR:
     {
       // Check if key repeat is enabled or if previous key state is up.
-      if(isKeyRepeatEnabled() || !GET_KEY_PREVIOUSLY_DOWN_LPARAM(lParam))
+      if(is_key_repeat_enabled() || !GET_KEY_PREVIOUSLY_DOWN_LPARAM(lParam))
       {
         char32_t character = static_cast<char32_t>(wParam);
         // First code unit of surrogate pair.
@@ -864,7 +864,7 @@ void WindowImpl::filterEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
             mCachedUtf16Char = 0;
           }
 
-          pushEvent(WindowEvent::textEntered(character));
+          push_event(window_event::text_entered(character));
         }
       }
       break;
@@ -880,7 +880,7 @@ void WindowImpl::filterEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
       vec2i pos(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 
-      recti clientRect = getClientRect();
+      recti clientRect = get_client_rect();
       clientRect.set_position(vec2i());
 
       bool mouseCurrentlyInWindow = is_point_in_rectangle(clientRect, pos);
@@ -888,19 +888,19 @@ void WindowImpl::filterEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
       // Generate mouse move event only if the mouse is inside the client.
       if(mouseCurrentlyInWindow)
       {
-        pushEvent(WindowEvent::mouseMoved(pos.x(), pos.y()));
+        push_event(window_event::mouse_moved(pos.x(), pos.y()));
       }
 
-      if(!mMouseInWindow && mouseCurrentlyInWindow)
+      if(!m_mouse_in_window && mouseCurrentlyInWindow)
       {
-        pushEvent(WindowEvent::mouseEntered());
+        push_event(window_event::mouse_entered());
       }
-      else if(mMouseInWindow && !mouseCurrentlyInWindow)
+      else if(m_mouse_in_window && !mouseCurrentlyInWindow)
       {
-        pushEvent(WindowEvent::mouseLeft());
+        push_event(window_event::mouse_left());
       }
 
-      mMouseInWindow = mouseCurrentlyInWindow;
+      m_mouse_in_window = mouseCurrentlyInWindow;
       setMouseCaptured(mouseCurrentlyInWindow);
 
       break;
@@ -908,60 +908,60 @@ void WindowImpl::filterEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
     case WM_LBUTTONDOWN:
     {
-      pushEvent(WindowEvent::mouseButtonPressed(MouseButton::LB
+      push_event(window_event::mouse_button_pressed(mouse_button::lb
         , GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
       break;
     }
 
     case WM_LBUTTONUP:
     {
-      pushEvent(WindowEvent::mouseButtonReleased(MouseButton::LB
+      push_event(window_event::mouse_button_released(mouse_button::lb
         , GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
       break;
     }
 
     case WM_RBUTTONDOWN:
     {
-      pushEvent(WindowEvent::mouseButtonPressed(MouseButton::RB
+      push_event(window_event::mouse_button_pressed(mouse_button::rb
         , GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
       break;
     }
 
     case WM_RBUTTONUP:
     {
-      pushEvent(WindowEvent::mouseButtonReleased(MouseButton::RB
+      push_event(window_event::mouse_button_released(mouse_button::rb
         , GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
       break;
     }
 
     case WM_MBUTTONDOWN:
     {
-      pushEvent(WindowEvent::mouseButtonPressed(MouseButton::MB
+      push_event(window_event::mouse_button_pressed(mouse_button::mb
         , GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
       break;
     }
 
     case WM_MBUTTONUP:
     {
-      pushEvent(WindowEvent::mouseButtonReleased(MouseButton::MB
+      push_event(window_event::mouse_button_released(mouse_button::mb
         , GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
       break;
     }
 
     case WM_XBUTTONDOWN:
     {
-      pushEvent(WindowEvent::mouseButtonPressed
+      push_event(window_event::mouse_button_pressed
         ( GET_XBUTTON_WPARAM(wParam) == 1
-        ? MouseButton::XB1 : MouseButton::XB2
+        ? mouse_button::xb1 : mouse_button::xb2
         , GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
       break;
     }
 
     case WM_XBUTTONUP:
     {
-      pushEvent(WindowEvent::mouseButtonReleased
+      push_event(window_event::mouse_button_released
         ( GET_XBUTTON_WPARAM(wParam) == 1
-        ? MouseButton::XB1 : MouseButton::XB2
+        ? mouse_button::xb1 : mouse_button::xb2
         , GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
       break;
     }
@@ -969,8 +969,8 @@ void WindowImpl::filterEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_MOUSEWHEEL:
     {
       static constexpr int wheelIncrement = 120;
-      pushEvent(WindowEvent::mouseWheelMoved
-        ( MouseWheel::Vertical
+      push_event(window_event::mouse_wheel_moved
+        ( mouse_wheel::vertical
         , GET_WHEEL_DELTA_WPARAM(wParam) / wheelIncrement
         , GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
       break;
@@ -979,8 +979,8 @@ void WindowImpl::filterEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_MOUSEHWHEEL:
     {
       static constexpr int wheelIncrement = 120;
-      pushEvent(WindowEvent::mouseWheelMoved
-        ( MouseWheel::Horizontal
+      push_event(window_event::mouse_wheel_moved
+        ( mouse_wheel::horizontal
         , GET_WHEEL_DELTA_WPARAM(wParam) / wheelIncrement
         , GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)));
       break;
@@ -990,36 +990,36 @@ void WindowImpl::filterEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 
 
-void WindowImpl::destroyIcon()
+void window_impl::destroy_icon()
 {
-  if(mIconHandle != nullptr)
+  if(m_icon_handle != nullptr)
   {
-    HOU_WIN_FATAL_CHECK(DestroyIcon(mIconHandle) != 0, "");
+    HOU_WIN_FATAL_CHECK(DestroyIcon(m_icon_handle) != 0, "");
   }
 }
 
 
 
-void WindowImpl::destroyCursor()
+void window_impl::destroy_cursor()
 {
-  if(mCursorHandle != nullptr)
+  if(m_cursor_handle != nullptr)
   {
-    HOU_WIN_FATAL_CHECK(DestroyCursor(mCursorHandle) != 0, "");
+    HOU_WIN_FATAL_CHECK(DestroyCursor(m_cursor_handle) != 0, "");
   }
 }
 
 
 
-void WindowImpl::destroyWindow()
+void window_impl::destroy_window()
 {
-  if(mHandle != nullptr)
+  if(m_handle != nullptr)
   {
     if(isFullscreenWindow(*this))
     {
       deactivateFullscreenMode();
     }
-    HOU_WIN_FATAL_CHECK(DestroyWindow(mHandle) != 0, "");
-    unregisterWindowClass();
+    HOU_WIN_FATAL_CHECK(DestroyWindow(m_handle) != 0, "");
+    unregister_window_class();
   }
 }
 

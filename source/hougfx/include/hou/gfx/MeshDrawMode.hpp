@@ -43,11 +43,11 @@ enum class MeshDrawMode : GLenum
   Patches = GL_PATCHES,
 };
 
-/** Writes a MeshDrawMode enum into a stream.
+/** Writes a MeshDrawMode enum into a ph_stream.
  *
- *  \param os the stream.
+ *  \param os the ph_stream.
  *  \param mdm the MeshDrawMode enum.
- *  \return a reference to the stream.
+ *  \return a reference to the ph_stream.
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, MeshDrawMode mdm);
 

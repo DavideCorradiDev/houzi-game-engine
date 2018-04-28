@@ -29,7 +29,7 @@ public:
   const gl::ShaderHandle& getHandle() const;
 
 private:
-  gl::ShaderHandle mHandle;
+  gl::ShaderHandle m_handle;
 };
 
 

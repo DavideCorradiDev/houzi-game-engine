@@ -5,9 +5,9 @@
 #ifndef HOU_SYS_TEXT_STREAM_HPP
 #define HOU_SYS_TEXT_STREAM_HPP
 
-#include "hou/sys/SysExport.hpp"
+#include "hou/sys/sys_export.hpp"
 
-#include "hou/sys/Stream.hpp"
+#include "hou/sys/stream.hpp"
 
 #include <ostream>
 
@@ -16,23 +16,23 @@
 namespace hou
 {
 
-/** Text stream interface.
+/** text ph_stream interface.
  */
-class HOU_SYS_API TextStream
-  : public Stream
+class HOU_SYS_API text_stream
+  : public stream
 {
 public:
-  /** Position indicator for a TextStream.
+  /** Position indicator for a text_stream.
    *
-   *  This class is not supposed to be instantiated manually, only a TextStream
+   *  This class is not supposed to be instantiated manually, only a text_stream
    *  object can do so.
-   *  Mixing TextPosition objects coming from different TextStream objects is
+   *  Mixing text_position objects coming from different text_stream objects is
    *  undefined behaviour.
    */
-  class HOU_SYS_API TextPosition
+  class HOU_SYS_API text_position
   {
   public:
-    friend class TextStream;
+    friend class text_stream;
 
     /** Checks if two text position indicators are equal.
      *
@@ -40,7 +40,7 @@ public:
      *  \param rhs the right operand.
      *  \return the result of the check.
      */
-    friend HOU_SYS_API bool operator==(TextPosition lhs, TextPosition rhs);
+    friend HOU_SYS_API bool operator==(text_position lhs, text_position rhs);
 
     /** Checks if two text position indicators are not equal.
      *
@@ -48,24 +48,24 @@ public:
      *  \param rhs the right operand.
      *  \return the result of the check.
      */
-    friend HOU_SYS_API bool operator!=(TextPosition lhs, TextPosition rhs);
+    friend HOU_SYS_API bool operator!=(text_position lhs, text_position rhs);
 
-    /** Writes a text position indicator into a stream.
+    /** Writes a text position indicator into a ph_stream.
      *
-     *  \param os the stream.
+     *  \param os the ph_stream.
      *  \param p the text position indicator.
-     *  \return a reference to the stream.
+     *  \return a reference to the ph_stream.
      */
     friend HOU_SYS_API std::ostream& operator<<(std::ostream& os
-      , TextPosition p);
+      , text_position p);
 
   public:
-    /** Text position indicator representing the beginning of the file.
+    /** text position indicator representing the beginning of the ph_file.
      */
-    static const TextPosition Start;
+    static const text_position start;
 
   private:
-    TextPosition(long value);
+    text_position(long value);
 
   private:
     long mValue;
@@ -74,44 +74,44 @@ public:
 public:
   /** Destructor.
    */
-  virtual ~TextStream() {};
+  virtual ~text_stream() {};
 
   /** Gets the current text position indicator.
    *
    *  \return the current text position indicator.
    */
-  virtual TextPosition getTextPos() const = 0;
+  virtual text_position get_text_pos() const = 0;
 
   /** Sets the current text position indicator.
    *
-   *  \param pos the current text position indicator. It must either be Start or
-   *  a value obtained by calling getTextPos on this stream. Using a value
-   *  obtained by calling getTextPos on another TextStream is undefined
+   *  \param pos the current text position indicator. It must either be start or
+   *  a value obtained by calling get_text_pos on this ph_stream. Using a value
+   *  obtained by calling get_text_pos on another text_stream is undefined
    *  behaviour.
-   *  \return a reference to this stream.
+   *  \return a reference to this ph_stream.
    */
-  virtual TextStream& setTextPos(TextPosition pos) = 0;
+  virtual text_stream& set_text_pos(text_position pos) = 0;
 
 protected:
-  /** Creates a TextPosition object with the given value.
+  /** Creates a text_position object with the given value.
    *
-   *  Since the TextPosition object constructor is private, derived classes can
+   *  Since the text_position object constructor is private, derived classes can
    *  use this utility function to create one if necessary.
    *
-   *  \param value the value of the TextPosition object.
+   *  \param value the value of the text_position object.
    */
-  static TextPosition createPositionObject(long value);
+  static text_position create_position_object(long value);
 
   /** Converts a position object to an integer type.
    *
-   *  If a derived class needs to convert a TextPosition into an integer, it can
+   *  If a derived class needs to convert a text_position into an integer, it can
    *  use this utility method.
    *
-   *  \param pos the TextPosition object.
-   *  \return the corresponding value of the TextPosition object as an integer
+   *  \param pos the text_position object.
+   *  \return the corresponding value of the text_position object as an integer
    *  type.
    */
-  static long convertPositionObject(TextPosition pos);
+  static long convert_position_object(text_position pos);
 };
 
 }

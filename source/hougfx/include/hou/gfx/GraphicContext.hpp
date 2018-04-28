@@ -12,7 +12,7 @@
 
 #include "hou/gl/GlContext.hpp"
 
-#include "hou/sys/SystemWindow.hpp"
+#include "hou/sys/system_window.hpp"
 
 
 
@@ -42,9 +42,9 @@ public:
    */
   static void unsetCurrent();
 
-  /** Gets the number of color bits used in rendering.
+  /** Gets the number of ph_color bits used in rendering.
    *
-   * \return the number of color bits.
+   * \return the number of ph_color bits.
    */
   static uint getRenderingColorByteCount();
 
@@ -92,7 +92,7 @@ private:
 
 private:
   ExtensionInitializer mExtensionInitializer;
-  SystemWindow mDefaultWindow;
+  system_window mDefaultWindow;
   gl::Context mGlContext;
   bool mInitialized;
 };

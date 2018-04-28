@@ -2,22 +2,22 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/sys/MouseWheel.hpp"
+#include "hou/sys/mouse_wheel.hpp"
 
 #define MOUSE_WHEEL_CASE(mw, os) \
-  case MouseWheel::mw: return (os) << #mw
+  case mouse_wheel::mw: return (os) << #mw
 
 
 
 namespace hou
 {
 
-std::ostream& operator<<(std::ostream& os, MouseWheel mw)
+std::ostream& operator<<(std::ostream& os, mouse_wheel mw)
 {
   switch(mw)
   {
-    MOUSE_WHEEL_CASE(Horizontal, os);
-    MOUSE_WHEEL_CASE(Vertical, os);
+    MOUSE_WHEEL_CASE(horizontal, os);
+    MOUSE_WHEEL_CASE(vertical, os);
     default: return os;
   }
 }

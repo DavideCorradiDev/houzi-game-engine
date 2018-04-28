@@ -19,11 +19,11 @@ namespace hou
 /** Enumeration for the texture channel. */
 enum class TextureChannel : GLenum
 {
-  /** Red channel. */
-  R = GL_RED,
-  /** Green channel. */
+  /** red channel. */
+  r = GL_RED,
+  /** green channel. */
   G = GL_GREEN,
-  /** Blue channel. */
+  /** blue channel. */
   B = GL_BLUE,
   /** Alpha channel. */
   A = GL_ALPHA,
@@ -33,11 +33,11 @@ enum class TextureChannel : GLenum
   One = GL_ONE,
 };
 
-/** Writes a TextureChannel enum into a stream.
+/** Writes a TextureChannel enum into a ph_stream.
  *
- *  \param os the stream.
+ *  \param os the ph_stream.
  *  \param tc the TextureChannel enum.
- *  \return a reference to the stream.
+ *  \return a reference to the ph_stream.
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, TextureChannel tc);
 

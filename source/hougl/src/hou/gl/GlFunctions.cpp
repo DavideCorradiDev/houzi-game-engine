@@ -11,8 +11,8 @@
 
 #include "hou/mth/rectangle.hpp"
 
-#include "hou/sys/VideoMode.hpp"
-#include "hou/sys/SystemWindow.hpp"
+#include "hou/sys/video_mode.hpp"
+#include "hou/sys/system_window.hpp"
 
 #if defined(HOU_SYSTEM_WINDOWS)
 #include "hou/sys/win/WinError.hpp"
@@ -71,7 +71,7 @@ void initExtensions()
   if(!extensionsInitialized)
   {
     // Create temporary dummy context, needed to call any GL function.
-    SystemWindow w("", VideoMode(vec2u(0u, 0u), 32u), WindowStyle::Windowed);
+    system_window w("", video_mode(vec2u(0u, 0u), 32u), window_style::windowed);
     gl::ContextSettings cs(gl::ContextSettings::Default);
     gl::Context c(cs, w);
     gl::Context::setCurrent(c, w);
@@ -83,7 +83,7 @@ void initExtensions()
       get_text(GlError::ExtensionsInitialization), gladInitRetval);
 
 #if defined(HOU_SYSTEM_WINDOWS)
-    int wglGladInitRetval = gladLoadWGL(GetDC(w.getWindowHandle()));
+    int wglGladInitRetval = gladLoadWGL(GetDC(w.get_handle()));
     HOU_RUNTIME_CHECK(wglGladInitRetval != 0,
       get_text(GlError::ExtensionsInitialization), wglGladInitRetval);
 #endif
@@ -293,7 +293,7 @@ void drawArrays(GLenum drawMode, GLint first, GLsizei count)
 
 
 
-void bindWindow(Window& w)
+void bindWindow(window& w)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   gl::Context::setCurrent(*gl::Context::getCurrent(), w);

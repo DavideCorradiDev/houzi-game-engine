@@ -14,7 +14,7 @@
 
 #include "hou/mth/transform2.hpp"
 
-#include "hou/sys/Color.hpp"
+#include "hou/sys/color.hpp"
 
 
 
@@ -38,13 +38,13 @@ public:
    */
   Mesh2ShaderProgram(Mesh2ShaderProgram&& other);
 
-  /** Sets the color used when rendering Mesh2d objects.
+  /** Sets the ph_color used when rendering Mesh2d objects.
    *
    *  The default value is white.
    *
-   *  \param color the color.
+   *  \param ph_color the ph_color.
    */
-  void setColor(const Color& color);
+  void set_color(const color& ph_color);
 
   /** Sets the texture unit used when rendering Mesh2d objects.
    *
@@ -63,10 +63,10 @@ public:
   void setTransform(const trans2f& trans);
 
   void draw(RenderSurface& target, const Mesh2& mesh, const Texture2& tex,
-    const Color& col = Color::White, const trans2f& trn = trans2f::identity());
+    const color& col = color::white, const trans2f& trn = trans2f::identity());
 
   void draw(RenderSurface& target, const Mesh2& mesh,
-    const Color& col = Color::White, const trans2f& trn = trans2f::identity());
+    const color& col = color::white, const trans2f& trn = trans2f::identity());
 
   void draw(RenderSurface& target, const Mesh2& mesh, const Texture2& tex,
     const trans2f& trn);

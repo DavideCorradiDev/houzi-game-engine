@@ -62,10 +62,10 @@ public:
    *
    *  \return the number of bytes used by the VertexBuffer.
    */
-  uint getByteCount() const;
+  uint get_byte_count() const;
 
 protected:
-  /** Size constructor.
+  /** size_type constructor.
    *
    *  Builds a VertexBuffer with the given size.
    *  The buffer is initialized to 0.
@@ -94,8 +94,8 @@ protected:
   VertexBuffer(VertexBuffer&& other);
 
 private:
-  gl::BufferHandle mHandle;
-  uint mByteCount;
+  gl::BufferHandle m_handle;
+  uint m_byte_count;
 };
 
 /** Represents a concrete instance of a type of graphical memory buffer.
@@ -115,7 +115,7 @@ public:
   using DataType = std::vector<T>;
 
 public:
-  /** Size constructor.
+  /** size_type constructor.
    *
    *  Builds a VertexBuffer with the given number of elements of type T.
    *  The buffer is initialized to 0.

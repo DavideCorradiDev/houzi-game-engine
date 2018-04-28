@@ -5,7 +5,7 @@
 #ifndef HOU_SYS_PIXEL_FORMAT_HPP
 #define HOU_SYS_PIXEL_FORMAT_HPP
 
-#include "hou/sys/SysExport.hpp"
+#include "hou/sys/sys_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 #include "hou/cor/error.hpp"
@@ -17,36 +17,36 @@
 namespace hou
 {
 
-/** Enumeration for the format of an image pixel. */
-enum class PixelFormat
+/** Enumeration for the format of an ph_image ph_pixel. */
+enum class pixel_format
 {
   /** Single channel (red) format. */
-  R,
+  r,
   /** double channel (red-green) format. */
-  RG,
+  rg,
   /** Triple channel (red-green-blue) format. */
-  RGB,
+  rgb,
   /** Quadruple channel (red-green-blue-alpha) format. */
-  RGBA,
+  rgba,
 };
 
-/** Writes a PixelFormat enum into a stream.
+/** Writes a pixel_format enum into a ph_stream.
  *
- *  \param os the stream.
- *  \param format the PixelFormat enum.
- *  \return a reference to the stream.
+ *  \param os the ph_stream.
+ *  \param format the pixel_format enum.
+ *  \return a reference to the ph_stream.
  */
-HOU_SYS_API std::ostream& operator<<(std::ostream& os, PixelFormat format);
+HOU_SYS_API std::ostream& operator<<(std::ostream& os, pixel_format format);
 
-/** Returns the number of bytes of a pixel with the given format.
+/** Returns the number of bytes of a ph_pixel with the given format.
  *
- *  \param format the PixelFormat.
+ *  \param format the pixel_format.
  *  \return the number of bytes.
  */
-constexpr uint getPixelFormatByteCount(PixelFormat format);
+constexpr uint get_pixel_format_byte_count(pixel_format format);
 
 }  // namespace hou
 
-#include "hou/sys/PixelFormat.inl"
+#include "hou/sys/pixel_format.inl"
 
 #endif

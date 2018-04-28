@@ -13,16 +13,16 @@ namespace hou
 
 Shader::Shader(const std::string& source, ShaderType type)
   : non_copyable()
-  , mHandle(gl::ShaderHandle::create(static_cast<GLenum>(type)))
+  , m_handle(gl::ShaderHandle::create(static_cast<GLenum>(type)))
 {
-  gl::compileShader(mHandle, source.c_str());
+  gl::compileShader(m_handle, source.c_str());
 }
 
 
 
 Shader::Shader(Shader&& other)
   : non_copyable()
-  , mHandle(std::move(other.mHandle))
+  , m_handle(std::move(other.m_handle))
 {}
 
 
@@ -34,7 +34,7 @@ Shader::~Shader()
 
 const gl::ShaderHandle& Shader::getHandle() const
 {
-  return mHandle;
+  return m_handle;
 }
 
 

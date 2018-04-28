@@ -15,14 +15,14 @@
 
 #include "hou/mth/transform2.hpp"
 
-#include "hou/sys/Color.hpp"
+#include "hou/sys/color.hpp"
 
 
 
 namespace hou
 {
 
-class Color;
+class color;
 class Font;
 class FormattedText;
 class RenderSurface;
@@ -33,19 +33,19 @@ public:
   TextShaderProgram();
   TextShaderProgram(TextShaderProgram&& other);
 
-  void setColor(const Color& color);
+  void set_color(const color& ph_color);
   void setTextureUnit(uint unit);
   void setTransform(const trans2f& trans);
 
   void draw(RenderSurface& target, const TextMesh& mesh,
-    const Texture2Array& tex, const Color& col = Color::White,
+    const Texture2Array& tex, const color& col = color::white,
     const trans2f& trn = trans2f::identity());
 
   void draw(RenderSurface& target, const FormattedText& text,
-    const Color& col = Color::White, const trans2f& trn = trans2f::identity());
+    const color& col = color::white, const trans2f& trn = trans2f::identity());
 
   void draw(RenderSurface& target, const std::string& text, const Font& font,
-    const Color& col = Color::White, const trans2f& trn = trans2f::identity());
+    const color& col = color::white, const trans2f& trn = trans2f::identity());
 
 private:
   int mUniColor;

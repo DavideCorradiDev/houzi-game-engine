@@ -63,13 +63,13 @@ public:
   AudioBuffer(
     std::vector<uint8_t>&& data, AudioBufferFormat format, int smpRate);
 
-  /** Creates an AudioBuffer object with the data from the given stream.
+  /** Creates an AudioBuffer object with the data from the given ph_stream.
    *
    *  \param audioStream the audioStream.
    */
   explicit AudioBuffer(AudioStreamIn& audioStream);
 
-  /** Creates an AudioBuffer object with the data from the given stream.
+  /** Creates an AudioBuffer object with the data from the given ph_stream.
    *
    *  \param audioStream the audioStream.
    */
@@ -91,7 +91,7 @@ public:
    *
    *  \return the audio format of the buffer.
    */
-  AudioBufferFormat getFormat() const;
+  AudioBufferFormat get_format() const;
 
   /** Gets the number of channels of the buffer, based on its audio format.
    *
@@ -117,7 +117,7 @@ public:
    *
    *  \return the number of bytes in the channel.
    */
-  uint getByteCount() const;
+  uint get_byte_count() const;
 
   /** Gets the number of samples in the buffer for a single channel.
    *
@@ -145,18 +145,18 @@ public:
 
   /** Sets the buffer data by reading the provided AudioStreamIn)
    *
-   *  \param audioStream the audio stream.
+   *  \param audioStream the audio ph_stream.
    */
   void setData(AudioStreamIn& audioStream);
 
   /** Sets the buffer data by reading the provided AudioStreamIn)
    *
-   *  \param audioStream the audio stream.
+   *  \param audioStream the audio ph_stream.
    */
   void setData(AudioStreamIn&& audioStream);
 
 private:
-  al::BufferHandle mHandle;
+  al::BufferHandle m_handle;
 };
 
 }  // namespace hou

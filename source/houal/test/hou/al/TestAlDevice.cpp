@@ -15,7 +15,7 @@ TEST(TestAlDevice, DefaultDeviceCreation)
 {
   al::Device d;
   EXPECT_NE(nullptr, d.getHandle());
-  EXPECT_NE(0u, d.getUid());
+  EXPECT_NE(0u, d.get_uid());
 }
 
 
@@ -27,7 +27,7 @@ TEST(TestAlDevice, Creation)
   {
     al::Device d(deviceName);
     EXPECT_NE(nullptr, d.getHandle());
-    EXPECT_NE(0u, d.getUid());
+    EXPECT_NE(0u, d.get_uid());
   }
 }
 
@@ -46,11 +46,11 @@ TEST(TestAlDevice, MoveConstructor)
 {
   al::Device dDummy;
   ALCdevice* handleRef = dDummy.getHandle();
-  uint32_t uidRef = dDummy.getUid();
+  uint32_t uidRef = dDummy.get_uid();
   al::Device d(std::move(dDummy));
 
   EXPECT_EQ(handleRef, d.getHandle());
-  EXPECT_EQ(uidRef, d.getUid());
+  EXPECT_EQ(uidRef, d.get_uid());
   EXPECT_EQ(nullptr, dDummy.getHandle());
 }
 

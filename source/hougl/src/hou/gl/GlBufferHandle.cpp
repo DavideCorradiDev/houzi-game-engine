@@ -82,7 +82,7 @@ void bindBuffer(const BufferHandle& buffer, GLenum target)
   {
     glBindBuffer(target, buffer.getName());
     HOU_GL_CHECK_ERROR();
-    Context::getCurrent()->mTrackingData.setBoundBuffer(buffer.getUid()
+    Context::getCurrent()->mTrackingData.setBoundBuffer(buffer.get_uid()
       , target);
   }
 }
@@ -107,7 +107,7 @@ bool isBufferBound(const BufferHandle& buffer, GLenum target)
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(buffer);
   return Context::getCurrent()->mTrackingData.getBoundBuffer(target)
-    == buffer.getUid();
+    == buffer.get_uid();
 }
 
 

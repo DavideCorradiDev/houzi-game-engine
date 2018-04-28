@@ -6,7 +6,7 @@
 #define HOU_AUD_AUDIO_STREAM_HPP
 
 #include "hou/aud/AudExport.hpp"
-#include "hou/sys/BinaryStream.hpp"
+#include "hou/sys/binary_stream.hpp"
 
 #include "hou/aud/AudioBufferFormat.hpp"
 
@@ -15,17 +15,17 @@
 namespace hou
 {
 
-/** Specialization of a BinaryStream representing an audio stream.
+/** Specialization of a binary_stream representing an audio ph_stream.
  *
  *  Setting or moving the position indicator throws when moving it to the middle
  *  of the data of a single sample.
  *
  */
-class HOU_AUD_API AudioStream : public BinaryStream
+class HOU_AUD_API AudioStream : public binary_stream
 {
 public:
   /** Position indicator representing the number of samples from the beginning
-   *  of the file
+   *  of the ph_file
    */
   using SamplePosition = long;
 
@@ -42,19 +42,19 @@ public:
    */
   virtual ~AudioStream() = 0;
 
-  /** Gets the audio format of the stream.
+  /** Gets the audio format of the ph_stream.
    *
-   *  \return the audio format of the stream.
+   *  \return the audio format of the ph_stream.
    */
-  AudioBufferFormat getFormat() const;
+  AudioBufferFormat get_format() const;
 
-  /** Gets the number of channels of the stream, based on its audio format.
+  /** Gets the number of channels of the ph_stream, based on its audio format.
    *
    *  \return 1 if the audio format is mono, 2 if the audio format is stereo.
    */
   uint getChannelCount() const;
 
-  /** Gets the number of bytes per sample of the stream, based on its audio
+  /** Gets the number of bytes per sample of the ph_stream, based on its audio
    * format.
    *
    *  The number returned is the number of bytes per sample for a single
@@ -68,9 +68,9 @@ public:
    */
   uint getSampleRate() const;
 
-  /** Gets the number of samples in the stream for a single channel.
+  /** Gets the number of samples in the ph_stream for a single channel.
    *
-   *  \return the number of samples in the stream for a single channel.
+   *  \return the number of samples in the ph_stream for a single channel.
    */
   virtual size_t getSampleCount() const = 0;
 
@@ -83,32 +83,32 @@ public:
   /** Sets the current sample position indicator.
    *
    *  Throws if pos is negative or higher than the number of samples in the
-   *  stream.
+   *  ph_stream.
    *
    *  \param pos the sample position indicator value.
-   *  \return a reference to this stream.
+   *  \return a reference to this ph_stream.
    */
   virtual AudioStream& setSamplePos(SamplePosition pos) = 0;
 
   /** Moves the current sample position indicator.
    *
    *  Throws if the offset moves the position indicator to a negative position
-   *  or to a position higher than the number of samples in the stream.
+   *  or to a position higher than the number of samples in the ph_stream.
    *
    *  \param offset the byte position indicator offset.
-   *  \return a reference to this stream.
+   *  \return a reference to this ph_stream.
    */
   virtual AudioStream& moveSamplePos(SampleOffset offset) = 0;
 
 protected:
-  /** Sets the audio format of the stream.
+  /** Sets the audio format of the ph_stream.
    *
    *  \param channels the number of channels.
    *  \param bytesPerSample the number of bytes per sample per channel.
    */
   void setFormat(uint channels, uint bytesPerSample);
 
-  /** Sets the sample rate of the stream.
+  /** Sets the sample rate of the ph_stream.
    *
    *  \param sampleRate the sample rate in samples per second.
    */

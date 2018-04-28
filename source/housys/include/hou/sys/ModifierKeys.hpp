@@ -5,7 +5,7 @@
 #ifndef HOU_SYS_MODIFIER_KEYS_HPP
 #define HOU_SYS_MODIFIER_KEYS_HPP
 
-#include "hou/sys/SysExport.hpp"
+#include "hou/sys/sys_export.hpp"
 
 #include "hou/cor/bitwise_operators.hpp"
 
@@ -16,34 +16,34 @@
 namespace hou
 {
 
-/** Enumeration for the modifier key flags, used for key related window events.
+/** Enumeration for the modifier key flags, used for key related ph_window events.
  */
-enum class ModifierKeys
+enum class modifier_keys
 {
   /** Null flag. */
-  None = 0,
-  /** Alt key. */
-  Alt = 1 << 0,
-  /** Ctrl key. */
-  Ctrl = 1 << 1,
-  /** Shift key. */
-  Shift = 1 << 2,
-  /** System key. */
-  System = 1 << 3,
+  none = 0,
+  /** alt key. */
+  alt = 1 << 0,
+  /** ctrl key. */
+  ctrl = 1 << 1,
+  /** shift key. */
+  shift = 1 << 2,
+  /** system key. */
+  system = 1 << 3,
 };
 
-/** Writes a ModifierKeys enum into a stream.
+/** Writes a modifier_keys enum into a ph_stream.
  *
- *  \param os the stream.
- *  \param mkf the ModifierKeys enum.
- *  \return a reference to the stream.
+ *  \param os the ph_stream.
+ *  \param mkf the modifier_keys enum.
+ *  \return a reference to the ph_stream.
  */
-HOU_SYS_API std::ostream& operator<<(std::ostream& os, ModifierKeys mkf);
+HOU_SYS_API std::ostream& operator<<(std::ostream& os, modifier_keys mkf);
 
-/** Enables bitwise operators for ModifierKeys.
+/** Enables bitwise operators for modifier_keys.
  */
 template <>
-  struct enable_bitwise_operators<ModifierKeys>
+  struct enable_bitwise_operators<modifier_keys>
 {
   /** Enabling variable. */
   static constexpr bool enable = true;

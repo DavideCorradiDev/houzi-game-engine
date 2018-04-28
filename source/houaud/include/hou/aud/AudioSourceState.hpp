@@ -28,11 +28,11 @@ enum class AudioSourceState
   Paused,
 };
 
-/** Writes the object into a stream.
+/** Writes the object into a ph_stream.
  *
- *  \param os the stream.
+ *  \param os the ph_stream.
  *  \param state the AudioSourceState enum.
- *  \return a reference to the stream.
+ *  \return a reference to the ph_stream.
  */
 HOU_AUD_API std::ostream& operator<<(std::ostream& os, AudioSourceState state);
 

@@ -46,7 +46,7 @@ private:
     const VertexShader& vs, const FragmentShader& fs, const GeometryShader* gs);
 
 private:
-  gl::ProgramHandle mHandle;
+  gl::ProgramHandle m_handle;
 };
 
 }  // namespace hou

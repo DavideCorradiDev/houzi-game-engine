@@ -30,8 +30,8 @@ VertexBufferT<T, dynamicStorage>::VertexBufferT(VertexBuffer&& other)
 template <typename T, bool dynamicStorage>
 uint VertexBufferT<T, dynamicStorage>::get_size() const
 {
-  HOU_EXPECT_DEV(getByteCount() % sizeof(T) == 0u);
-  return getByteCount() / sizeof(T);
+  HOU_EXPECT_DEV(get_byte_count() % sizeof(T) == 0u);
+  return get_byte_count() / sizeof(T);
 }
 
 
@@ -50,7 +50,7 @@ typename VertexBufferT<T, dynamicStorage>::DataType
   VertexBufferT<T, dynamicStorage>::getSubData(
     uint offset, uint elementCount) const
 {
-  HOU_EXPECT_DEV(getByteCount() % sizeof(T) == 0u);
+  HOU_EXPECT_DEV(get_byte_count() % sizeof(T) == 0u);
   HOU_EXPECT(offset + elementCount <= get_size());
   typename VertexBufferT<T, dynamicStorage>::DataType dataOut(
     elementCount, T());
@@ -77,7 +77,7 @@ template <bool ds, typename Enable>
 void VertexBufferT<T, dynamicStorage>::setSubData(
   uint offset, const span<const T>& data)
 {
-  HOU_EXPECT_DEV(getByteCount() % sizeof(T) == 0u);
+  HOU_EXPECT_DEV(get_byte_count() % sizeof(T) == 0u);
   HOU_EXPECT(offset + data.size() <= get_size());
   gl::setBufferSubData(getHandle(), static_cast<GLintptr>(offset * sizeof(T)),
     static_cast<GLsizei>(data.size() * sizeof(T)),

@@ -8,8 +8,8 @@
 
 #include "hou/cor/error.hpp"
 
-#include "hou/sys/BinaryFileIn.hpp"
-#include "hou/sys/SysError.hpp"
+#include "hou/sys/binary_file_in.hpp"
+#include "hou/sys/sys_error.hpp"
 
 
 
@@ -49,7 +49,7 @@ namespace
 
 bool WavFileIn::check(const std::string& path)
 {
-  BinaryFileIn f(path);
+  binary_file_in f(path);
   WavSignature signature;
   f.read(signature);
 
@@ -62,10 +62,10 @@ bool WavFileIn::check(const std::string& path)
 WavFileIn::WavFileIn(const std::string& path)
   : non_copyable()
   , AudioStreamIn()
-  , mFile(path, FileOpenMode::Read, FileType::Binary)
+  , m_file(path, file_open_mode::read, file_type::binary)
   , mDataOffset(0u)
-  , mByteCount(0u)
-  , mElementCount(0u)
+  , m_byte_count(0u)
+  , m_element_count(0u)
 {
   readMetadata(path);
 }
@@ -74,10 +74,10 @@ WavFileIn::WavFileIn(const std::string& path)
 
 WavFileIn::WavFileIn(WavFileIn&& other)
   : AudioStreamIn(std::move(other))
-  , mFile(std::move(other.mFile))
+  , m_file(std::move(other.m_file))
   , mDataOffset(std::move(other.mDataOffset))
-  , mByteCount(std::move(other.mByteCount))
-  , mElementCount(std::move(other.mElementCount))
+  , m_byte_count(std::move(other.m_byte_count))
+  , m_element_count(std::move(other.m_element_count))
 {}
 
 
@@ -89,85 +89,85 @@ WavFileIn::~WavFileIn()
 
 bool WavFileIn::eof() const
 {
-  return mFile.eof();
+  return m_file.eof();
 }
 
 
 
 bool WavFileIn::error() const
 {
-  return mFile.error();
+  return m_file.error();
 }
 
 
 
-size_t WavFileIn::getByteCount() const
+size_t WavFileIn::get_byte_count() const
 {
-  return mFile.getByteCount() - mDataOffset;
+  return m_file.get_byte_count() - mDataOffset;
 }
 
 
 
-size_t WavFileIn::getReadByteCount() const
+size_t WavFileIn::get_read_byte_count() const
 {
-  return mByteCount;
+  return m_byte_count;
 }
 
 
 
-size_t WavFileIn::getReadElementCount() const
+size_t WavFileIn::get_read_element_count() const
 {
-  return mElementCount;
+  return m_element_count;
 }
 
 
 
-WavFileIn::BytePosition WavFileIn::getBytePos() const
+WavFileIn::byte_position WavFileIn::get_byte_pos() const
 {
-  return mFile.tell() - mDataOffset;
+  return m_file.tell() - mDataOffset;
 }
 
 
 
-BinaryStream& WavFileIn::setBytePos(WavFileIn::BytePosition pos)
+binary_stream& WavFileIn::set_byte_pos(WavFileIn::byte_position pos)
 {
   // Audio streams have stricter requirements for cursor position, therefore
   // a check must be done here.
   HOU_EXPECT((pos % (getChannelCount() * getBytesPerSample())) == 0u);
   HOU_RUNTIME_CHECK(pos >= 0
-    && pos <= static_cast<WavFileIn::BytePosition>(getByteCount())
-    , get_text(SysError::FileSeek));
-  mFile.seekSet(pos + mDataOffset);
+    && pos <= static_cast<WavFileIn::byte_position>(get_byte_count())
+    , get_text(sys_error::file_seek));
+  m_file.seek_set(pos + mDataOffset);
   return *this;
 }
 
 
 
-BinaryStream& WavFileIn::moveBytePos(WavFileIn::ByteOffset offset)
+binary_stream& WavFileIn::move_byte_pos(WavFileIn::byte_offset offset)
 {
-  BytePosition pos = getBytePos() + offset;
-  return setBytePos(pos);
+  byte_position pos = get_byte_pos() + offset;
+  return set_byte_pos(pos);
 }
 
 
 
 size_t WavFileIn::getSampleCount() const
 {
-  return getByteCount() / (getChannelCount() * getBytesPerSample());
+  return get_byte_count() / (getChannelCount() * getBytesPerSample());
 }
 
 
 
 WavFileIn::SamplePosition WavFileIn::getSamplePos() const
 {
-  return getBytePos() / (getChannelCount() * getBytesPerSample());
+  return get_byte_pos() / (getChannelCount() * getBytesPerSample());
 }
 
 
 
 AudioStreamIn& WavFileIn::setSamplePos(WavFileIn::SamplePosition pos)
 {
-  setBytePos(pos * (getChannelCount() * getBytesPerSample()));
+  set_byte_pos(pos * (getChannelCount() * getBytesPerSample()));
   return *this;
 }
 
@@ -175,7 +175,7 @@ AudioStreamIn& WavFileIn::setSamplePos(WavFileIn::SamplePosition pos)
 
 AudioStreamIn& WavFileIn::moveSamplePos(WavFileIn::SampleOffset offset)
 {
-  moveBytePos(offset * (getChannelCount() * getBytesPerSample()));
+  move_byte_pos(offset * (getChannelCount() * getBytesPerSample()));
   return *this;
 }
 
@@ -184,14 +184,14 @@ AudioStreamIn& WavFileIn::moveSamplePos(WavFileIn::SampleOffset offset)
 void WavFileIn::readMetadata(const std::string& path)
 {
 
-  // Read metadata from header.
+  // read metadata from header.
   WavSignature signature;
   WavFormat format;
   read(signature);
   read(format);
 
   // Check if the read opeartion was performed correctly.
-  HOU_RUNTIME_CHECK(!mFile.eof(), get_text(AudError::WavInvalidHeader)
+  HOU_RUNTIME_CHECK(!m_file.eof(), get_text(AudError::WavInvalidHeader)
     , path.c_str());
 
   // Consistency checks.
@@ -212,20 +212,20 @@ void WavFileIn::readMetadata(const std::string& path)
   read(chunkSignature);
   while(std::string(chunkSignature.id, wavHeaderStringSize) != u8"data")
   {
-    mFile.seekOffset(chunkSignature.size);
+    m_file.seek_offset(chunkSignature.size);
     read(chunkSignature);
     HOU_RUNTIME_CHECK(!eof(), get_text(AudError::WavInvalidHeader)
       , path.c_str());
   }
 
   // Set data offset.
-  mDataOffset = mFile.tell();
-  HOU_ENSURE_DEV(getBytePos() == 0u);
-  HOU_ENSURE_DEV(getByteCount() == chunkSignature.size);
+  mDataOffset = m_file.tell();
+  HOU_ENSURE_DEV(get_byte_pos() == 0u);
+  HOU_ENSURE_DEV(get_byte_count() == chunkSignature.size);
 
   // Reset read counter (it is set to 1 by the metadata read operation);
-  mByteCount = 0;
-  mElementCount = 0;
+  m_byte_count = 0;
+  m_element_count = 0;
 
   // Update internal metadata.
   setFormat(format.channels, format.bitsPerSample / 8u);
@@ -234,12 +234,12 @@ void WavFileIn::readMetadata(const std::string& path)
 
 
 
-void WavFileIn::onRead(void* buf, size_t elementSize, size_t bufSize)
+void WavFileIn::on_read(void* buf, size_t elementSize, size_t bufSize)
 {
   HOU_EXPECT(((elementSize * bufSize) % (getChannelCount() * getBytesPerSample()))
     == 0u);
-  mElementCount = mFile.read(buf, elementSize, bufSize);
-  mByteCount = mElementCount * elementSize;
+  m_element_count = m_file.read(buf, elementSize, bufSize);
+  m_byte_count = m_element_count * elementSize;
 }
 
 }

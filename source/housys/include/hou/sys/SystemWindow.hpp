@@ -5,47 +5,47 @@
 #ifndef HOU_SYS_SYSTEM_WINDOW_HPP
 #define HOU_SYS_SYSTEM_WINDOW_HPP
 
-#include "hou/sys/SysExport.hpp"
+#include "hou/sys/sys_export.hpp"
 
-#include "hou/sys/Window.hpp"
+#include "hou/sys/window.hpp"
 
 
 
 namespace hou
 {
 
-class HOU_SYS_API SystemWindow : public Window
+class HOU_SYS_API system_window : public window
 {
 public:
-  /** Creates a Window object.
+  /** Creates a window object.
    *
-   * The window client size corresponds to the resolution in videoMode.
-   * The window client is be positioned in the middle of the screen.
-   * The window uses the default system icon.
-   * The window is not visible.
-   * The window does not grab the mouse cursor.
-   * Key repeat is disabled for the window.
+   * The ph_window client size corresponds to the resolution in videoMode.
+   * The ph_window client is be positioned in the middle of the screen.
+   * The ph_window uses the default system icon.
+   * The ph_window is not visible.
+   * The ph_window does not grab the mouse cursor.
+   * Key repeat is disabled for the ph_window.
    *
-   * \param title the title of the Window.
-   * \param videoMode the video mode of the Window, specifying its size and
-   * bytes per pixel.
-   * \param style the style of the Window.
-   * Only one Window can be fullscreen.
+   * \param title the title of the window.
+   * \param videoMode the video mode of the window, specifying its size and
+   * bytes per ph_pixel.
+   * \param style the style of the window.
+   * Only one window can be fullscreen.
    * If fullscreen mode is specified and videoMode is not a valid fullscreen
-   * VideoMode, an error will be thrown.
+   * video_mode, an error will be thrown.
    */
-  SystemWindow(
-    const std::string& title, const VideoMode& videoMode, WindowStyle style);
+  system_window(
+    const std::string& title, const video_mode& videoMode, window_style style);
 
   /** Move constructor.
    *
-   * \param other the other Window object.
+   * \param other the other window object.
    */
-  SystemWindow(SystemWindow&& other);
+  system_window(system_window&& other);
 
-  // Window ovverrides.
-  void setFrameRect(const vec2i& pos, const vec2u& size) final;
-  void setClientRect(const vec2i& pos, const vec2u& size) final;
+  // window ovverrides.
+  void set_frame_rect(const vec2i& pos, const vec2u& size) final;
+  void set_client_rect(const vec2i& pos, const vec2u& size) final;
 };
 
 }  // namespace hou

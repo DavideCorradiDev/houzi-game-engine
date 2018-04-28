@@ -24,10 +24,10 @@ TEST_F(TestTextureChannelMapping, Creation)
   TextureChannelMapping tcm(TextureChannel::B, TextureChannel::One
     , TextureChannel::G, TextureChannel::Zero);
 
-  EXPECT_EQ(TextureChannel::B, tcm.getR());
-  EXPECT_EQ(TextureChannel::One, tcm.getG());
-  EXPECT_EQ(TextureChannel::G, tcm.getB());
-  EXPECT_EQ(TextureChannel::Zero, tcm.getA());
+  EXPECT_EQ(TextureChannel::B, tcm.get_r());
+  EXPECT_EQ(TextureChannel::One, tcm.get_g());
+  EXPECT_EQ(TextureChannel::G, tcm.get_b());
+  EXPECT_EQ(TextureChannel::Zero, tcm.get_a());
 }
 
 
@@ -37,11 +37,11 @@ TEST_F(TestTextureChannelMapping, SetR)
   TextureChannelMapping tcm(TextureChannel::B, TextureChannel::One
     , TextureChannel::B, TextureChannel::Zero);
 
-  tcm.setR(TextureChannel::G);
-  EXPECT_EQ(TextureChannel::G, tcm.getR());
-  EXPECT_EQ(TextureChannel::One, tcm.getG());
-  EXPECT_EQ(TextureChannel::B, tcm.getB());
-  EXPECT_EQ(TextureChannel::Zero, tcm.getA());
+  tcm.set_r(TextureChannel::G);
+  EXPECT_EQ(TextureChannel::G, tcm.get_r());
+  EXPECT_EQ(TextureChannel::One, tcm.get_g());
+  EXPECT_EQ(TextureChannel::B, tcm.get_b());
+  EXPECT_EQ(TextureChannel::Zero, tcm.get_a());
 }
 
 
@@ -51,11 +51,11 @@ TEST_F(TestTextureChannelMapping, SetG)
   TextureChannelMapping tcm(TextureChannel::B, TextureChannel::One
     , TextureChannel::B, TextureChannel::Zero);
 
-  tcm.setG(TextureChannel::G);
-  EXPECT_EQ(TextureChannel::B, tcm.getR());
-  EXPECT_EQ(TextureChannel::G, tcm.getG());
-  EXPECT_EQ(TextureChannel::B, tcm.getB());
-  EXPECT_EQ(TextureChannel::Zero, tcm.getA());
+  tcm.set_g(TextureChannel::G);
+  EXPECT_EQ(TextureChannel::B, tcm.get_r());
+  EXPECT_EQ(TextureChannel::G, tcm.get_g());
+  EXPECT_EQ(TextureChannel::B, tcm.get_b());
+  EXPECT_EQ(TextureChannel::Zero, tcm.get_a());
 }
 
 
@@ -65,11 +65,11 @@ TEST_F(TestTextureChannelMapping, SetB)
   TextureChannelMapping tcm(TextureChannel::B, TextureChannel::One
     , TextureChannel::B, TextureChannel::Zero);
 
-  tcm.setB(TextureChannel::G);
-  EXPECT_EQ(TextureChannel::B, tcm.getR());
-  EXPECT_EQ(TextureChannel::One, tcm.getG());
-  EXPECT_EQ(TextureChannel::G, tcm.getB());
-  EXPECT_EQ(TextureChannel::Zero, tcm.getA());
+  tcm.set_b(TextureChannel::G);
+  EXPECT_EQ(TextureChannel::B, tcm.get_r());
+  EXPECT_EQ(TextureChannel::One, tcm.get_g());
+  EXPECT_EQ(TextureChannel::G, tcm.get_b());
+  EXPECT_EQ(TextureChannel::Zero, tcm.get_a());
 }
 
 
@@ -79,11 +79,11 @@ TEST_F(TestTextureChannelMapping, SetA)
   TextureChannelMapping tcm(TextureChannel::B, TextureChannel::One
     , TextureChannel::B, TextureChannel::Zero);
 
-  tcm.setA(TextureChannel::G);
-  EXPECT_EQ(TextureChannel::B, tcm.getR());
-  EXPECT_EQ(TextureChannel::One, tcm.getG());
-  EXPECT_EQ(TextureChannel::B, tcm.getB());
-  EXPECT_EQ(TextureChannel::G, tcm.getA());
+  tcm.set_a(TextureChannel::G);
+  EXPECT_EQ(TextureChannel::B, tcm.get_r());
+  EXPECT_EQ(TextureChannel::One, tcm.get_g());
+  EXPECT_EQ(TextureChannel::B, tcm.get_b());
+  EXPECT_EQ(TextureChannel::G, tcm.get_a());
 }
 
 
@@ -94,27 +94,27 @@ TEST_F(TestTextureChannelMapping, Comparison)
     ( TextureChannel::B
     , TextureChannel::A
     , TextureChannel::One
-    , TextureChannel::R);
+    , TextureChannel::r);
   TextureChannelMapping tcm2
     ( TextureChannel::B
     , TextureChannel::A
     , TextureChannel::One
-    , TextureChannel::R);
+    , TextureChannel::r);
   TextureChannelMapping tcm3
-    ( TextureChannel::R
+    ( TextureChannel::r
     , TextureChannel::A
     , TextureChannel::One
-    , TextureChannel::R);
+    , TextureChannel::r);
   TextureChannelMapping tcm4
     ( TextureChannel::B
-    , TextureChannel::R
+    , TextureChannel::r
     , TextureChannel::One
-    , TextureChannel::R);
+    , TextureChannel::r);
   TextureChannelMapping tcm5
     ( TextureChannel::B
     , TextureChannel::A
-    , TextureChannel::R
-    , TextureChannel::R);
+    , TextureChannel::r
+    , TextureChannel::r);
   TextureChannelMapping tcm6
     ( TextureChannel::B
     , TextureChannel::A
@@ -142,8 +142,8 @@ TEST_F(TestTextureChannelMapping, OutputStreamOperator)
     ( TextureChannel::B
     , TextureChannel::A
     , TextureChannel::One
-    , TextureChannel::R);
-  const char outRef[] = "{B -> R, A -> G, One -> B, R -> A}";
+    , TextureChannel::r);
+  const char outRef[] = "{B -> r, A -> G, One -> B, r -> A}";
   HOU_EXPECT_OUTPUT(outRef, tcm);
 }
 

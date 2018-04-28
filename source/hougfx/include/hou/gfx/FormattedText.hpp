@@ -20,7 +20,7 @@
 #include "hou/gfx/TextVertex.hpp"
 #include "hou/gfx/Texture.hpp"
 
-#include "hou/sys/ImageFwd.hpp"
+#include "hou/sys/image_fwd.hpp"
 
 #include <memory>
 
