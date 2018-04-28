@@ -24,7 +24,7 @@ template <typename T>
 
 
 template <typename T>
-  transform2<T> transform2<T>::translation(const Vec2<T>& translation)
+  transform2<T> transform2<T>::translation(const vec2<T>& translation)
 {
   return transform2<T>(mat2x2<T>::identity(), translation);
 }
@@ -34,16 +34,16 @@ template <typename T>
 template <typename T>
   transform2<T> transform2<T>::rotation(const rot2<T>& rotation)
 {
-  return transform2<T>(rotation.get_matrix(), Vec2<T>::zero());
+  return transform2<T>(rotation.get_matrix(), vec2<T>::zero());
 }
 
 
 
 template <typename T>
-  transform2<T> transform2<T>::scale(const Vec2<T>& scale)
+  transform2<T> transform2<T>::scale(const vec2<T>& scale)
 {
   return transform2<T>(mat2x2<T>(scale.x(), T(0), T(0), scale.y())
-  , Vec2<T>::zero());
+  , vec2<T>::zero());
 }
 
 
@@ -51,7 +51,7 @@ template <typename T>
 template <typename T>
   transform2<T> transform2<T>::shear(T sxy, T syx)
 {
-  return transform2<T>(mat2x2<T>(T(1), sxy, syx, T(1)), Vec2<T>::zero());
+  return transform2<T>(mat2x2<T>(T(1), sxy, syx, T(1)), vec2<T>::zero());
 }
 
 
@@ -61,9 +61,9 @@ template <typename T>
   (const Rect<T>& clippingPlane)
 
 {
-  return translation(Vec2<T>(T(-1), T(-1)))
-    * scale(Vec2<T>(2 / clippingPlane.w(), 2 / clippingPlane.h()))
-    * translation(Vec2<T>(-clippingPlane.x(), -clippingPlane.y()));
+  return translation(vec2<T>(T(-1), T(-1)))
+    * scale(vec2<T>(2 / clippingPlane.w(), 2 / clippingPlane.h()))
+    * translation(vec2<T>(-clippingPlane.x(), -clippingPlane.y()));
 }
 
 
@@ -71,7 +71,7 @@ template <typename T>
 template <typename T>
   transform2<T>::transform2()
   : m_mat(mat2x2<T>::identity())
-  , m_vec(Vec2<T>::zero()) {}
+  , m_vec(vec2<T>::zero()) {}
 
 
 
@@ -79,15 +79,15 @@ template <typename T>
 template <typename U>
   transform2<T>::transform2(const transform2<U>& other)
   : m_mat(static_cast<mat2x2<T>>(other.m_mat))
-  , m_vec(static_cast<Vec2<T>>(other.m_vec))
+  , m_vec(static_cast<vec2<T>>(other.m_vec))
 {}
 
 
 
 template <typename T>
-  Mat4x4<T> transform2<T>::to_mat4x4() const
+  mat4x4<T> transform2<T>::to_mat4x4() const
 {
-  return Mat4x4<T>
+  return mat4x4<T>
   {
     m_mat(0), m_mat(1), 0, m_vec(0),
     m_mat(2), m_mat(3), 0, m_vec(1),
@@ -119,7 +119,7 @@ template <typename T>
 
 
 template <typename T>
-  Vec2<T> transform2<T>::transform_vector(const Vec2<T>& vec) const
+  vec2<T> transform2<T>::transform_vector(const vec2<T>& vec) const
 {
   return m_mat * vec;
 }
@@ -127,7 +127,7 @@ template <typename T>
 
 
 template <typename T>
-  Vec2<T> transform2<T>::transform_point(const Vec2<T>& point) const
+  vec2<T> transform2<T>::transform_point(const vec2<T>& point) const
 {
   return m_vec + m_mat * point;
 }
@@ -135,7 +135,7 @@ template <typename T>
 
 
 template <typename T>
-  transform2<T>::transform2(const mat2x2<T>& r, const Vec2<T>& t)
+  transform2<T>::transform2(const mat2x2<T>& r, const vec2<T>& t)
   : m_mat(r)
   , m_vec(t)
 {}

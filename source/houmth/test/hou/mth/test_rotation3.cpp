@@ -33,7 +33,7 @@ TEST_F(TestRotation3, DefaultConstructor)
   Rot3f r;
   HOU_EXPECT_FLOAT_CLOSE(quatf::identity(), r.get_quaternion());
   HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), r.get_vector());
-  HOU_EXPECT_FLOAT_CLOSE(Mat3x3f::identity(), r.get_matrix());
+  HOU_EXPECT_FLOAT_CLOSE(mat3x3f::identity(), r.get_matrix());
 }
 
 
@@ -42,7 +42,7 @@ TEST_F(TestRotation3, ConstructorQuaternion)
 {
   quatf quatRef(0.2041241f, -0.2041241f, 0.4082483f, 0.8660254f);
   vec3f vecRef(0.4275166f, -0.4275166f, 0.8550332f);
-  Mat3x3f matRef
+  mat3x3f matRef
     ( 0.5833333f, -0.7904401f, -0.1868867f
     , 0.6237735f, 0.5833333f, -0.52022f
     , 0.52022f, 0.1868867f, 0.8333333f);
@@ -78,7 +78,7 @@ TEST_F(TestRotation3, ConstructorVector)
 {
   quatf quatRef(0.2041241f, -0.2041241f, 0.4082483f, 0.8660254f);
   vec3f vecRef(0.4275166f, -0.4275166f, 0.8550332f);
-  Mat3x3f matRef
+  mat3x3f matRef
     ( 0.5833333f, -0.7904401f, -0.1868867f
     , 0.6237735f, 0.5833333f, -0.52022f
     , 0.52022f, 0.1868867f, 0.8333333f);
@@ -95,7 +95,7 @@ TEST_F(TestRotation3, ConstructorMatrix)
 {
   quatf quatRef(0.f, 0.f, -0.7071068f, 0.7071068f);
   vec3f vecRef(0.f, 0.f, -1.5707963f);
-  Mat3x3f matRef(0.f, 1.f, 0.f, -1.f, 0.f, 0.f, 0.f, 0.f, 1.f);
+  mat3x3f matRef(0.f, 1.f, 0.f, -1.f, 0.f, 0.f, 0.f, 0.f, 1.f);
 
   Rot3f rMat(matRef);
   HOU_EXPECT_CLOSE(quatRef, rMat.get_quaternion(), 1.e-6f);
@@ -109,7 +109,7 @@ TEST_F(TestRotation3, ConstructorMatrixNullRootFunction)
 {
   quatf quatRef(0.f, 1.f, 0.f, 0.f);
   vec3f vecRef(0.f, pi_f, 0.f);
-  Mat3x3f matRef(-1.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, -1.f);
+  mat3x3f matRef(-1.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, -1.f);
 
   Rot3f rMat(matRef);
   HOU_EXPECT_CLOSE(quatRef, rMat.get_quaternion(), 1.e-6f);
@@ -123,7 +123,7 @@ TEST_F(TestRotation3, ConstructorMatrixSmallRootFunction)
 {
   quatf quatRef(0.707107f, 0.707107f, 0.f, 0.f);
   vec3f vecRef(2.2214417f, 2.2214417f, 0.f);
-  Mat3x3f matRef(0.f, 1.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, -1.f);
+  mat3x3f matRef(0.f, 1.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, -1.f);
 
   Rot3f rMat(matRef);
   HOU_EXPECT_CLOSE(quatRef, rMat.get_quaternion(), 1.e-6f);
@@ -146,20 +146,20 @@ TEST_F(TestRotation3, ConstructorNonRotationMatrix)
 {
   quatf quatRef(0.119523f, -0.239046f, 0.119523f, 0.956183f);
   vec3f vecRef(0.2426f, -0.485199f, 0.2426f);
-  Mat3x3f matRef
+  mat3x3f matRef
   {
     0.857143f, -0.285714f, -0.428571f,
     0.171429f, 0.942857f, -0.285714f,
     0.485714f, 0.171429f, 0.857143f,
   };
 
-  Rot3f rMat(Mat3x3f{1.f, 2.f, 3.f, 4.f, 5.f, 6.f, 7.f, 8.f, 9.f});
+  Rot3f rMat(mat3x3f{1.f, 2.f, 3.f, 4.f, 5.f, 6.f, 7.f, 8.f, 9.f});
   HOU_EXPECT_CLOSE(quatRef, rMat.get_quaternion(), 1.e-6f);
   HOU_EXPECT_CLOSE(vecRef, rMat.get_vector(), 1.e-6f);
   HOU_EXPECT_CLOSE(matRef, rMat.get_matrix(), 1.e-6f);
 
   HOU_EXPECT_CLOSE(1.f, norm(rMat.get_quaternion()), 1.e-6f);
-  HOU_EXPECT_CLOSE(Mat3x3f::identity(), rMat.get_matrix()
+  HOU_EXPECT_CLOSE(mat3x3f::identity(), rMat.get_matrix()
     * transpose(rMat.get_matrix()), 1.e-6f);
   HOU_EXPECT_CLOSE(1.f, det(rMat.get_matrix()), 1.e-6f);
 }
@@ -170,15 +170,15 @@ TEST_F(TestRotation3, ConstructorZeroMatrix)
 {
   quatf quatRef(0.f, 0.f, 1.f, 0.f);
   vec3f vecRef(0.f, 0.f, pi_f);
-  Mat3x3f matRef(-1.f, 0.f, 0.f, 0.f, -1.f, 0.f, 0.f, 0.f, 1.f);
+  mat3x3f matRef(-1.f, 0.f, 0.f, 0.f, -1.f, 0.f, 0.f, 0.f, 1.f);
 
-  Rot3f rMat(Mat3x3f::zero());
+  Rot3f rMat(mat3x3f::zero());
   HOU_EXPECT_CLOSE(quatRef, rMat.get_quaternion(), 1.e-6f);
   HOU_EXPECT_CLOSE(vecRef, rMat.get_vector(), 1.e-6f);
   HOU_EXPECT_CLOSE(matRef, rMat.get_matrix(), 1.e-6f);
 
   HOU_EXPECT_CLOSE(1.f, norm(rMat.get_quaternion()), 1.e-6f);
-  HOU_EXPECT_CLOSE(Mat3x3f::identity(), rMat.get_matrix()
+  HOU_EXPECT_CLOSE(mat3x3f::identity(), rMat.get_matrix()
     * transpose(rMat.get_matrix()), 1.e-6f);
   HOU_EXPECT_CLOSE(1.f, det(rMat.get_matrix()), 1.e-6f);
 }
@@ -290,7 +290,7 @@ TEST_P(TestRotation3Paramf, RotationX)
   Rot3f r = Rot3f::x(GetParam());
   quatf qRef(std::sin(GetParam() / 2.f), 0.f, 0.f, std::cos(GetParam() / 2.f));
   vec3f vRef(GetParam(), 0.f, 0.f);
-  Mat3x3f mRef =
+  mat3x3f mRef =
   {
     1.f, 0.f, 0.f,
     0.f, std::cos(GetParam()), -std::sin(GetParam()),
@@ -308,7 +308,7 @@ TEST_P(TestRotation3Paramf, RotationY)
   Rot3f r = Rot3f::y(GetParam());
   quatf qRef(0.f, std::sin(GetParam() / 2.f), 0.f, std::cos(GetParam() / 2.f));
   vec3f vRef(0.f, GetParam(), 0.f);
-  Mat3x3f mRef =
+  mat3x3f mRef =
   {
     std::cos(GetParam()), 0.f, std::sin(GetParam()),
     0.f, 1.f, 0.f,
@@ -326,7 +326,7 @@ TEST_P(TestRotation3Paramf, RotationZ)
   Rot3f r = Rot3f::z(GetParam());
   quatf qRef(0.f, 0.f, std::sin(GetParam() / 2.f), std::cos(GetParam() / 2.f));
   vec3f vRef(0.f, 0.f, GetParam());
-  Mat3x3f mRef =
+  mat3x3f mRef =
   {
     std::cos(GetParam()), -std::sin(GetParam()), 0.f,
     std::sin(GetParam()), std::cos(GetParam()), 0.f,

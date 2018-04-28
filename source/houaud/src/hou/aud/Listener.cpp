@@ -73,7 +73,7 @@ Rot3f getOrientation()
   vec3f y(ori[3], ori[4], ori[5]);
   vec3f x = cross(y, z);
 
-  Mat3x3f rotMat = Mat3x3f::zero();
+  mat3x3f rotMat = mat3x3f::zero();
   rotMat(0, 0) = x(0);
   rotMat(1, 0) = x(1);
   rotMat(2, 0) = x(2);
@@ -91,7 +91,7 @@ Rot3f getOrientation()
 
 void setOrientation(const Rot3f& ori)
 {
-  Mat3x3f rotMat = ori.get_matrix();
+  mat3x3f rotMat = ori.get_matrix();
   ALfloat value[6] = {-rotMat(0, 2), -rotMat(1, 2), -rotMat(2, 2), rotMat(0, 1),
     rotMat(1, 1), rotMat(2, 1)};
   al::setListenerOrientation(reinterpret_cast<const ALfloat*>(value));

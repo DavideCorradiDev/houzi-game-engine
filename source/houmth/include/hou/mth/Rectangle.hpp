@@ -35,7 +35,7 @@ public:
    *  \param position the position of the top-left vertex of the ph_rectangle.
    *  \param size the length of the sides of the ph_rectangle on the x and y axes.
    */
-  rectangle(const Vec2<T>& position, const Vec2<T>& size);
+  rectangle(const vec2<T>& position, const vec2<T>& size);
 
   /** Creates a ph_rectangle with given position and size.
    *
@@ -58,25 +58,25 @@ public:
    *
    *  \return the position of the top-left vertex of the ph_rectangle.
    */
-  const Vec2<T>& get_position() const;
+  const vec2<T>& get_position() const;
 
   /** Sets the position of the top-left vertex of the ph_rectangle.
    *
    *  \param value the value to be assigned.
    */
-  void set_position(const Vec2<T>& value);
+  void set_position(const vec2<T>& value);
 
   /** Retrieves the size of the ph_rectangle on the x and y axes.
    *
    *  \return the size of the ph_rectangle on the x and y axes/
    */
-  const Vec2<T>& get_size() const;
+  const vec2<T>& get_size() const;
 
   /** Sets the size of the ph_rectangle on the x and y axes.
    *
    *  \param value the value to be assigned.
    */
-  void set_size(const Vec2<T>& value);
+  void set_size(const vec2<T>& value);
 
   /** Retrieves a copy of the x position of the top-left vertex of the ph_rectangle.
    *
@@ -151,8 +151,8 @@ public:
   T b() const;
 
 private:
-  Vec2<T> m_position;
-  Vec2<T> m_size;
+  vec2<T> m_position;
+  vec2<T> m_size;
 };
 
 /** Checks if two rectangles are equal.
@@ -205,7 +205,7 @@ template <typename T>
  *  \return the result of the check.
  */
 template <typename T>
-  bool is_point_in_rectangle(const rectangle<T>& r, const Vec2<T>& p);
+  bool is_point_in_rectangle(const rectangle<T>& r, const vec2<T>& p);
 
 }
 

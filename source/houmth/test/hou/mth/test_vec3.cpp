@@ -49,10 +49,10 @@ TEST_F(TestVec3, Construction)
 
 
 
-TEST_F(TestVec3, ConstructionFromMatrix)
+TEST_F(TestVec3, ConstructionFrommatrix)
 {
-  vec3i vi1(Mat3x1i{1, 2, 3});
-  vec3i vi2(Mat3x1f{1.f, 2.f, 3.f});
+  vec3i vi1(mat3x1i{1, 2, 3});
+  vec3i vi2(mat3x1f{1.f, 2.f, 3.f});
 
   EXPECT_EQ(1, vi1(0));
   EXPECT_EQ(2, vi1(1));
@@ -83,10 +83,10 @@ TEST_F(TestVec3, ElementAccessOperators)
 
 
 
-TEST_F(TestVec3, CrossMatrix)
+TEST_F(TestVec3, Crossmatrix)
 {
   vec3f v(1.f, 2.f, 3.f);
-  Mat3x3f m =
+  mat3x3f m =
   {
     0.f, -3.f, 2.f,
     3.f, 0.f, -1.f,
@@ -116,7 +116,7 @@ TEST_F(TestVec3, OuterProduct)
 {
   vec3i v1(-1, 2, 3);
   vec3i v2(5, 7, 11);
-  Mat3x3i m =
+  mat3x3i m =
   {
     -5, -7, -11,
     10, 14, 22,

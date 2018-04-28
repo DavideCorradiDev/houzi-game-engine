@@ -47,7 +47,7 @@ public:
    *  \param translation the translation vector.
    *  \return a transform2 object representing the translation.
    */
-  static transform2 translation(const Vec2<T>& translation);
+  static transform2 translation(const vec2<T>& translation);
 
   /** Creates a 2d transform representing a rotation.
    *
@@ -61,7 +61,7 @@ public:
    *  \param scale the scaling factors.
    *  \return a transform2 object representing the scaling.
    */
-  static transform2 scale(const Vec2<T>& scale);
+  static transform2 scale(const vec2<T>& scale);
 
   /** Creates a 2d transform representing a shearing transformation.
    *
@@ -99,7 +99,7 @@ public:
    *  \return the homogeneous transformation ph_matrix corresponding to the
    *    transform.
    */
-  Mat4x4<T> to_mat4x4() const;
+  mat4x4<T> to_mat4x4() const;
 
   /** Combines the transform with the given transform r.
    *
@@ -119,14 +119,14 @@ public:
    *  \param vec the vector to be transformed.
    *  \return the transformed vector.
    */
-  Vec2<T> transform_vector(const Vec2<T>& vec) const;
+  vec2<T> transform_vector(const vec2<T>& vec) const;
 
   /** Transforms the given point.
    *
    *  \param point the point to be transformed.
    *  \return the transformed point.
    */
-  Vec2<T> transform_point(const Vec2<T>& point) const;
+  vec2<T> transform_point(const vec2<T>& point) const;
 
   /** Checks if two transforms are equal.
    *
@@ -164,11 +164,11 @@ public:
   }
 
 private:
-  transform2(const mat2x2<T>& r, const Vec2<T>& t);
+  transform2(const mat2x2<T>& r, const vec2<T>& t);
 
 private:
   mat2x2<T> m_mat;
-  Vec2<T> m_vec;
+  vec2<T> m_vec;
 };
 
 /** Combines two transforms.

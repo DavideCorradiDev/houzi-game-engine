@@ -36,16 +36,16 @@ INCLUDE_DIRECTORIES(
 # Source files.
 SET(EXE_HOUMTH_TEST_SRC
   ${LIB_HOUTEST_SOURCE_DIR}/src/TestMain.cpp
-  hou/mth/TestMatrix.cpp
-  hou/mth/TestMathFunctions.cpp
-  hou/mth/TestQuaternion.cpp
-  hou/mth/TestRectangle.cpp
-  hou/mth/TestRotation2.cpp
-  hou/mth/TestRotation3.cpp
-  hou/mth/TestTransform2.cpp
-  hou/mth/TestTransform3.cpp
-  hou/mth/TestVec2.cpp
-  hou/mth/TestVec3.cpp
+  hou/mth/test_matrix.cpp
+  hou/mth/test_math_functions.cpp
+  hou/mth/test_quaternion.cpp
+  hou/mth/test_rectangle.cpp
+  hou/mth/test_rotation2.cpp
+  hou/mth/test_rotation3.cpp
+  hou/mth/test_transform2.cpp
+  hou/mth/test_transform3.cpp
+  hou/mth/test_vec2.cpp
+  hou/mth/test_vec3.cpp
 )
 
 

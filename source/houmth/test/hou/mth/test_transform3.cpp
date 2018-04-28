@@ -209,7 +209,7 @@ TEST_F(TestTransform3, VectorTransformation)
   // Perform the transformation using the homogeneous transformation ph_matrix
   // and a 4d vector and compare the results.
   // 4th element == 0 -> vector
-  Mat4x1f hv{3.f, -13.f, 10.f, 0.f};
+  mat4x1f hv{3.f, -13.f, 10.f, 0.f};
   hv = t.to_mat4x4() * hv;
   vec3f vRef(hv(0), hv(1), hv(2));
 
@@ -231,7 +231,7 @@ TEST_F(TestTransform3, PointTransformation)
   // Perform the transformation using the homogeneous transformation ph_matrix
   // and a 4d point and compare the results.
   // 4th element == 1 -> point
-  Mat4x1f hv{3.f, -13.f, 10.f, 1.f};
+  mat4x1f hv{3.f, -13.f, 10.f, 1.f};
   hv = t.to_mat4x4() * hv;
   vec3f vRef(hv(0), hv(1), hv(2));
 

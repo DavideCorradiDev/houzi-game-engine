@@ -209,7 +209,7 @@ class HOU_GFX_API TextureT : public Texture
 {
 public:
   /** Type representing the size of the texture. */
-  using Size = Vec<uint, getTextureTypeDimensionCount(type)>;
+  using Size = vec<uint, getTextureTypeDimensionCount(type)>;
 
   /** Type representing texture coordinates. */
   using Coordinates = Size;

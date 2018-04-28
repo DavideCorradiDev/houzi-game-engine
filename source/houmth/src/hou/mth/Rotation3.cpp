@@ -15,18 +15,18 @@ namespace
 {
 
 template <typename T>
-  quaternion<T> toQuaternion(Vec3<T> v);
+  quaternion<T> toQuaternion(vec3<T> v);
 template <typename T>
-  quaternion<T> toQuaternion(const Mat3x3<T>& m);
+  quaternion<T> toQuaternion(const mat3x3<T>& m);
 template <typename T>
-  Vec3<T> toVector(const quaternion<T>& q);
+  vec3<T> toVector(const quaternion<T>& q);
 template <typename T>
-  Mat3x3<T> toMatrix(const quaternion<T>& q);
+  mat3x3<T> toMatrix(const quaternion<T>& q);
 
 
 
 template <typename T>
-  quaternion<T> toQuaternion(Vec3<T> v)
+  quaternion<T> toQuaternion(vec3<T> v)
 {
   T angle = norm(v);
   v /= angle;
@@ -38,7 +38,7 @@ template <typename T>
 
 
 template <typename T>
-  quaternion<T> toQuaternion(const Mat3x3<T>& m)
+  quaternion<T> toQuaternion(const mat3x3<T>& m)
 {
   T tr = trace(m);
   if(tr > T(0))
@@ -90,10 +90,10 @@ template <typename T>
 
 
 template <typename T>
-  Vec3<T> toVector(const quaternion<T>& q)
+  vec3<T> toVector(const quaternion<T>& q)
 {
   HOU_EXPECT_DEV(close(T(1), norm(q)));
-  Vec3<T> v(q.x(), q.y(), q.z());
+  vec3<T> v(q.x(), q.y(), q.z());
   T vecNorm = norm(v);
   if(!close(T(0), vecNorm))
   {
@@ -105,7 +105,7 @@ template <typename T>
 
 
 template <typename T>
-  Mat3x3<T> toMatrix(const quaternion<T>& q)
+  mat3x3<T> toMatrix(const quaternion<T>& q)
 {
   HOU_EXPECT_DEV(close(T(1), norm(q)));
   T xx = 2 * q.x() * q.x();
@@ -118,7 +118,7 @@ template <typename T>
   T zz = 2 * q.z() * q.z();
   T zw = 2 * q.z() * q.w();
   T ww = 2 * q.w() * q.w();
-  return Mat3x3<T>
+  return mat3x3<T>
     ( -1 + xx + ww, xy - zw, xz + yw
     , xy + zw, -1 + yy + ww, yz - xw
     , xz - yw, xw + yz, -1 + zz + ww);
@@ -178,14 +178,14 @@ template <typename T>
 
 
 template <typename T>
-  rotation3<T>::rotation3(const Vec3<T>& v)
+  rotation3<T>::rotation3(const vec3<T>& v)
   : m_quaternion(normalized(toQuaternion(v)))
 {}
 
 
 
 template <typename T>
-  rotation3<T>::rotation3(const Mat3x3<T>& m)
+  rotation3<T>::rotation3(const mat3x3<T>& m)
   : m_quaternion(normalized(toQuaternion(m)))
 {}
 
@@ -208,7 +208,7 @@ template <typename T>
 
 
 template <typename T>
-  Vec3<T> rotation3<T>::get_vector() const
+  vec3<T> rotation3<T>::get_vector() const
 {
   return toVector(m_quaternion);
 }
@@ -216,7 +216,7 @@ template <typename T>
 
 
 template <typename T>
-  Mat3x3<T> rotation3<T>::get_matrix() const
+  mat3x3<T> rotation3<T>::get_matrix() const
 {
   return toMatrix(m_quaternion);
 }

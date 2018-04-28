@@ -83,7 +83,7 @@ public:
    *
    *  \param v the vector representing the axis and angle of rotation.
    */
-  explicit rotation3(const Vec3<T>& v);
+  explicit rotation3(const vec3<T>& v);
 
   /** Creates a rotation with the given rotation ph_matrix.
    *
@@ -94,7 +94,7 @@ public:
    *
    *  \param m the rotation ph_matrix.
    */
-  explicit rotation3(const Mat3x3<T>& m);
+  explicit rotation3(const mat3x3<T>& m);
 
 
   /** Creates a rotation from a rotation with different scalar type.
@@ -116,13 +116,13 @@ public:
    *
    *  /return a vector representing the rotation.
    */
-  Vec3<T> get_vector() const;
+  vec3<T> get_vector() const;
 
   /** Returns a rotatin ph_matrix representing the rotation.
    *
    *  /return a ph_matrix representing the rotation.
    */
-  Mat3x3<T> get_matrix() const;
+  mat3x3<T> get_matrix() const;
 
   /** Combines this rotation with the given rotation.
    *

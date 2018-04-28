@@ -44,10 +44,10 @@ TEST_F(TestVec2, Construction)
 
 
 
-TEST_F(TestVec2, ConstructionFromMatrix)
+TEST_F(TestVec2, ConstructionFrommatrix)
 {
-  vec2i vi1(Mat2x1i{1, 2});
-  vec2i vi2(Mat2x1f{1.f, 2.f});
+  vec2i vi1(mat2x1i{1, 2});
+  vec2i vi2(mat2x1f{1.f, 2.f});
 
   EXPECT_EQ(1, vi1(0));
   EXPECT_EQ(2, vi1(1));

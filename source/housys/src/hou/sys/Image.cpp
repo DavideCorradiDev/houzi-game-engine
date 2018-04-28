@@ -40,10 +40,10 @@ namespace
 
 template <size_t dim>
 bool elementWiseLowerOrEqual(
-  const Vec<uint, dim>& lhs, const Vec<uint, dim>& rhs);
+  const vec<uint, dim>& lhs, const vec<uint, dim>& rhs);
 
 template <size_t dimOut, size_t dimIn>
-Vec<uint, dimOut> padVector(const Vec<uint, dimIn>& vecIn, uint value);
+vec<uint, dimOut> padvector(const vec<uint, dimIn>& vecIn, uint value);
 
 template <PixelFormat fmt>
 Image1<fmt> getImageSubImage(
@@ -97,7 +97,7 @@ void soilWriteToFileWithCheck(
 
 template <size_t dim>
 bool elementWiseLowerOrEqual(
-  const Vec<uint, dim>& lhs, const Vec<uint, dim>& rhs)
+  const vec<uint, dim>& lhs, const vec<uint, dim>& rhs)
 {
   for(size_t i = 0; i < dim; ++i)
   {
@@ -112,9 +112,9 @@ bool elementWiseLowerOrEqual(
 
 
 template <size_t dimOut, size_t dimIn>
-Vec<uint, dimOut> padVector(const Vec<uint, dimIn>& vecIn, uint value)
+vec<uint, dimOut> padvector(const vec<uint, dimIn>& vecIn, uint value)
 {
-  Vec<uint, dimOut> vecOut = Vec<uint, dimOut>::filled(value);
+  vec<uint, dimOut> vecOut = vec<uint, dimOut>::filled(value);
   for(size_t i = 0; i < std::min(dimOut, dimIn); ++i)
   {
     vecOut(i) = vecIn(i);
@@ -456,7 +456,7 @@ Image<dim, fmt>::Image(const Size& size, PixelCollection&& pixels)
 template <size_t dim, PixelFormat fmt>
 template <size_t otherDim, PixelFormat otherFmt, typename Enable>
 Image<dim, fmt>::Image(const Image<otherDim, otherFmt>& other)
-  : m_size(padVector<dim>(other.get_size(), 1u))
+  : m_size(padvector<dim>(other.get_size(), 1u))
   , mPixels(computePixelCount())
 {
   for(size_t i = 0; i < mPixels.size(); ++i)

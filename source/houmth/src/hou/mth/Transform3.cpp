@@ -23,9 +23,9 @@ template <typename T>
 
 
 template <typename T>
-  transform3<T> transform3<T>::translation(const Vec3<T>& translation)
+  transform3<T> transform3<T>::translation(const vec3<T>& translation)
 {
-  return transform3<T>(Mat3x3<T>::identity(), translation);
+  return transform3<T>(mat3x3<T>::identity(), translation);
 }
 
 
@@ -33,17 +33,17 @@ template <typename T>
 template <typename T>
   transform3<T> transform3<T>::rotation(const Rot3<T>& rotation)
 {
-  return transform3<T>(rotation.get_matrix(), Vec3<T>::zero());
+  return transform3<T>(rotation.get_matrix(), vec3<T>::zero());
 }
 
 
 
 template <typename T>
-  transform3<T> transform3<T>::scale(const Vec3<T>& scale)
+  transform3<T> transform3<T>::scale(const vec3<T>& scale)
 {
   return transform3<T>
-    ( Mat3x3<T>(scale.x(), T(0), T(0), T(0), scale.y(), T(0), T(0), T(0), scale.z())
-    , Vec3<T>::zero());
+    ( mat3x3<T>(scale.x(), T(0), T(0), T(0), scale.y(), T(0), T(0), T(0), scale.z())
+    , vec3<T>::zero());
 }
 
 
@@ -53,31 +53,31 @@ template <typename T>
   , T szy)
 {
   return transform3<T>
-    ( Mat3x3<T>(T(1), sxy, sxz, syx, T(1), syz, szx, szy, T(1))
-    , Vec3<T>::zero());
+    ( mat3x3<T>(T(1), sxy, sxz, syx, T(1), syz, szx, szy, T(1))
+    , vec3<T>::zero());
 }
 
 
 
 template <typename T>
   transform3<T>::transform3()
-  : m_mat(Mat3x3<T>::identity())
-  , m_vec(Vec3<T>::zero()) {}
+  : m_mat(mat3x3<T>::identity())
+  , m_vec(vec3<T>::zero()) {}
 
 
 
 template <typename T>
 template <typename U>
   transform3<T>::transform3(const transform3<U>& other)
-  : m_mat(static_cast<Mat3x3<T>>(other.m_mat))
-  , m_vec(static_cast<Vec3<T>>(other.m_vec)) {}
+  : m_mat(static_cast<mat3x3<T>>(other.m_mat))
+  , m_vec(static_cast<vec3<T>>(other.m_vec)) {}
 
 
 
 template <typename T>
-  Mat4x4<T> transform3<T>::to_mat4x4() const
+  mat4x4<T> transform3<T>::to_mat4x4() const
 {
-  return Mat4x4<T>
+  return mat4x4<T>
   {
     m_mat(0), m_mat(1), m_mat(2), m_vec(0),
     m_mat(3), m_mat(4), m_mat(5), m_vec(1),
@@ -109,7 +109,7 @@ template <typename T>
 
 
 template <typename T>
-  Vec3<T> transform3<T>::transform_vector(const Vec3<T>& vec) const
+  vec3<T> transform3<T>::transform_vector(const vec3<T>& vec) const
 {
   return m_mat * vec;
 }
@@ -117,7 +117,7 @@ template <typename T>
 
 
 template <typename T>
-  Vec3<T> transform3<T>::transform_point(const Vec3<T>& point) const
+  vec3<T> transform3<T>::transform_point(const vec3<T>& point) const
 {
   return m_vec + m_mat * point;
 }
@@ -125,7 +125,7 @@ template <typename T>
 
 
 template <typename T>
-  transform3<T>::transform3(const Mat3x3<T>& r, const Vec3<T>& t)
+  transform3<T>::transform3(const mat3x3<T>& r, const vec3<T>& t)
   : m_mat(r)
   , m_vec(t)
 {}

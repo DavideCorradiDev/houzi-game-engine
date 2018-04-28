@@ -46,7 +46,7 @@ public:
    *  \param translation the translation vector.
    *  \return a transform3 object representing the translation.
    */
-  static transform3 translation(const Vec3<T>& translation);
+  static transform3 translation(const vec3<T>& translation);
 
   /** Creates a 3d transform representing a rotation.
    *
@@ -60,7 +60,7 @@ public:
    *  \param scale the scaling factors.
    *  \return a transform3 object representing the scaling.
    */
-  static transform3 scale(const Vec3<T>& scale);
+  static transform3 scale(const vec3<T>& scale);
 
   /** Creates a 3d transform representing a shearing transformation.
    *
@@ -92,7 +92,7 @@ public:
    *  \return the homogeneous transformation ph_matrix corresponding to the
    *    transform.
    */
-  Mat4x4<T> to_mat4x4() const;
+  mat4x4<T> to_mat4x4() const;
 
   /** Combines the transform with the given transform r.
    *
@@ -112,14 +112,14 @@ public:
    *  \param vec the vector to be transformed.
    *  \return the transformed vector.
    */
-  Vec3<T> transform_vector(const Vec3<T>& vec) const;
+  vec3<T> transform_vector(const vec3<T>& vec) const;
 
   /** Transforms the given point.
    *
    *  \param point the point to be transformed.
    *  \return the transformed point.
    */
-  Vec3<T> transform_point(const Vec3<T>& point) const;
+  vec3<T> transform_point(const vec3<T>& point) const;
 
   /** Checks if two transforms are equal.
    *
@@ -157,11 +157,11 @@ public:
   }
 
 private:
-  transform3(const Mat3x3<T>& r, const Vec3<T>& t);
+  transform3(const mat3x3<T>& r, const vec3<T>& t);
 
 private:
-  Mat3x3<T> m_mat;
-  Vec3<T> m_vec;
+  mat3x3<T> m_mat;
+  vec3<T> m_vec;
 };
 
 /** Combines two transforms.

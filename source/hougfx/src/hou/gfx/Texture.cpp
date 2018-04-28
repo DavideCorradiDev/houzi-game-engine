@@ -34,11 +34,11 @@ template <TextureType type>
 uint getMipMapRelevantSize(const typename TextureT<type>::Size& size);
 
 template <size_t dim>
-size_t computeImageBufferSize(const Vec<uint, dim>& imSize, PixelFormat fmt);
+size_t computeImageBufferSize(const vec<uint, dim>& imSize, PixelFormat fmt);
 
 template <size_t dim>
 bool elementWiseLowerOrEqual(
-  const Vec<uint, dim>& lhs, const Vec<uint, dim>& rhs);
+  const vec<uint, dim>& lhs, const vec<uint, dim>& rhs);
 
 vec1u getTexture1Size(const gl::TextureHandle& th, uint mipMapLevel);
 
@@ -186,7 +186,7 @@ uint getMipMapRelevantSize<TextureType::MultisampleTexture2Array>(
 
 
 template <size_t dim>
-size_t computeImageBufferSize(const Vec<uint, dim>& imSize, PixelFormat fmt)
+size_t computeImageBufferSize(const vec<uint, dim>& imSize, PixelFormat fmt)
 {
   HOU_EXPECT_DEV(gl::getUnpackAlignment() == 1u);
   size_t byteCount = 1u;
@@ -201,7 +201,7 @@ size_t computeImageBufferSize(const Vec<uint, dim>& imSize, PixelFormat fmt)
 
 template <size_t dim>
 bool elementWiseLowerOrEqual(
-  const Vec<uint, dim>& lhs, const Vec<uint, dim>& rhs)
+  const vec<uint, dim>& lhs, const vec<uint, dim>& rhs)
 {
   for(size_t i = 0; i < dim; ++i)
   {

@@ -14,7 +14,7 @@ rectangle<T>::rectangle()
 
 
 template <typename T>
-rectangle<T>::rectangle(const Vec2<T>& position, const Vec2<T>& size)
+rectangle<T>::rectangle(const vec2<T>& position, const vec2<T>& size)
   : m_position(position)
   , m_size(size)
 {}
@@ -23,7 +23,7 @@ rectangle<T>::rectangle(const Vec2<T>& position, const Vec2<T>& size)
 
 template <typename T>
 rectangle<T>::rectangle(T x, T y, T w, T h)
-  : rectangle(Vec2<T>(x, y), Vec2<T>(w, h))
+  : rectangle(vec2<T>(x, y), vec2<T>(w, h))
 {}
 
 
@@ -31,13 +31,13 @@ rectangle<T>::rectangle(T x, T y, T w, T h)
 template <typename T>
 template <typename U>
 rectangle<T>::rectangle(const rectangle<U>& other)
-  : rectangle<T>(Vec2<T>(other.get_position()), Vec2<T>(other.get_size()))
+  : rectangle<T>(vec2<T>(other.get_position()), vec2<T>(other.get_size()))
 {}
 
 
 
 template <typename T>
-const Vec2<T>& rectangle<T>::get_position() const
+const vec2<T>& rectangle<T>::get_position() const
 {
   return m_position;
 }
@@ -45,7 +45,7 @@ const Vec2<T>& rectangle<T>::get_position() const
 
 
 template <typename T>
-void rectangle<T>::set_position(const Vec2<T>& value)
+void rectangle<T>::set_position(const vec2<T>& value)
 {
   m_position = value;
 }
@@ -53,7 +53,7 @@ void rectangle<T>::set_position(const Vec2<T>& value)
 
 
 template <typename T>
-const Vec2<T>& rectangle<T>::get_size() const
+const vec2<T>& rectangle<T>::get_size() const
 {
   return m_size;
 }
@@ -61,7 +61,7 @@ const Vec2<T>& rectangle<T>::get_size() const
 
 
 template <typename T>
-void rectangle<T>::set_size(const Vec2<T>& value)
+void rectangle<T>::set_size(const vec2<T>& value)
 {
   m_size = value;
 }
@@ -201,7 +201,7 @@ std::ostream& operator<<(std::ostream& os, const rectangle<T>& rect)
 
 
 template <typename T>
-  bool is_point_in_rectangle(const rectangle<T>& r, const Vec2<T>& p)
+  bool is_point_in_rectangle(const rectangle<T>& r, const vec2<T>& p)
 {
   return p.x() >= r.l() && p.x() <= r.r() && p.y() >= r.t() && p.y() <= r.b();
 }

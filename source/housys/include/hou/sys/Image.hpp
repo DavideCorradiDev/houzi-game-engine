@@ -38,7 +38,7 @@ public:
   friend class Image;
 
   /** Type representing the size of the Image. */
-  using Size = Vec<uint, dim>;
+  using Size = vec<uint, dim>;
 
   /** Type representing pixel coordinates. */
   using Coordinates = Size;

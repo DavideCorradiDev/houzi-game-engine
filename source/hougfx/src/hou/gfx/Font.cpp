@@ -305,7 +305,7 @@ Glyph Font::getGlyph(utf32::code_unit charCode) const
 
   vec2u bmpSize(g->bitmap.width, g->bitmap.rows);
 
-  vec2u size(Vec2<long>(g->metrics.width, g->metrics.height));
+  vec2u size(vec2<long>(g->metrics.width, g->metrics.height));
 
   vec2i horiBearing = hasHorizontal()
     ? vec2i(g->metrics.horiBearingX, -g->metrics.horiBearingY)
