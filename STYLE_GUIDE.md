@@ -16,33 +16,6 @@ In this case the extra source files have a suffix identifying the type of platfo
 
 
 
-### Header inclusion
-Headers should be included only when  necessary to reduce compilation times and number of recompilations when a header is modified.
-In all other cases forward declarations should be preferred.
-
-For this reason, nested type definition should be avoided, since nested types cannot be forward declared.
-An obvious exception is if the type is not public.
-
-In cases where using forward declarations can be cumbersome, an extra forward declaration header can be added.
-This header should have the same name of the normal header, with the suffix \_fwd (e.g. matrix.hpp and matrix\_fwd.hpp).
-The forward declaration header should be included in the main header, to ensure that all symbols defined there are respected.
-
-```
-template <typename T size_t rows, size_t cols>
-class matrix;
-
-template <typename T, size_t cols>
-using vec = matrix<T, 1u, cols>;
-
-template <typename T>
-using vec2 = vec<T, 2u>;
-
-using vec2i = vec2<int>;
-using vec2f = vec2<float>;
-```
-
-
-
 ### Directory structure
 The directory structure of the code base follows the following pattern:
 
@@ -289,7 +262,7 @@ In header files, declarations are normally separated by a single line.
 In source files (and inlined files), declarations and definitions are normally separated by three lines in a row.
 
 The extra spacing in source files is done to improve readability by making it clearer where the boundaries between different definitions are.
-Single empty lines often come up inside blocks themselves, therefore separating with a single line tends to mesh everything together.
+Single empty lines often come up inside the actual code blocks, therefore separating with a only single line (or no line) tends to mesh everything together.
 The extra spacing is not required in header files because the documentation comments already separate the different elements well.
 Even without the comments, since only definitions are present, readability would be satisfying without the extra line spacing.
 
@@ -301,7 +274,7 @@ Note: this is not enforced by clang-format. Just do what is best to improve code
 All code should be included in the **hou** namespace.
 Code which is not supposed to be used by the user should be included in the **hou::prv** namespace.
 
-using namespace should never be used in .hpp or .inl files.
+The **using namespace** directive should never be used in .hpp or .inl files.
 It may be used in .cpp files.
 
 
@@ -322,6 +295,7 @@ Declare members in the following orders:
 * Static data members.
 * Constructors and functions.
 * Data members.
+
 Repeat the visibility keyword before each group of members.
 The visibility keyword should not be indented to avoid space waste.
 
@@ -333,14 +307,13 @@ public:
   using fruit_pointer_type = apple*;
 
 public:
-  static get_max_apples();
+  static int get_max_apples();
 
 public:
   static const int max_slices;
 
 public:
   pie(int p_apple_count);
-
   int get_apple_count() const;
   void set_apple_count(int p_apple_count);
 
@@ -356,4 +329,39 @@ private:
 };
 ```
 
+
+### Header inclusion
+Headers should be included only when  necessary to reduce compilation times and number of recompilations when a header is modified.
+In all other cases forward declarations should be preferred.
+
+For this reason, nested type definition should be avoided, since nested types cannot be forward declared.
+An obvious exception is if the type is not public, as they will never need be forward declared.
+Nested aliases are allowed.
+
+When using forward declarations can be cumbersome, an extra forward declaration header can be added.
+This header should have the same name of the normal header, with the suffix \_fwd (e.g. matrix.hpp and matrix\_fwd.hpp).
+The forward declaration header should be included in the main header, to ensure that all symbols defined there are respected.
+
+```
+template <typename T size_t rows, size_t cols>
+class matrix;
+
+template <typename T, size_t cols>
+using vec = matrix<T, 1u, cols>;
+
+template <typename T>
+using vec2 = vec<T, 2u>;
+
+using vec2i = vec2<int>;
+using vec2f = vec2<float>;
+```
+
+Files should be included in the following order:
+* Headers containing where parent classes are declared.
+* Headers from the project, grouped by module, in alphabetical order.
+* Headers from the project defining the export symbol macros.
+* Headers from external libraries.
+* Headers from the standard library.
+
+This order of inclusion makes it easier to detect non-consistent header files.
 
