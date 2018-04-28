@@ -9,7 +9,7 @@
 #include "hou/aud/AudioStream.hpp"
 #include "hou/sys/StreamIn.hpp"
 
-#include "hou/cor/NotNull.hpp"
+#include "hou/cor/not_null.hpp"
 
 #include <memory>
 
@@ -43,7 +43,7 @@ public:
    *  \return a container containing the whole content of the file.
    */
   template <typename T>
-    std::enable_if_t<isContiguousContainer<T>::value, T> readAll();
+    std::enable_if_t<is_contiguous_container<T>::value, T> readAll();
 };
 
 }

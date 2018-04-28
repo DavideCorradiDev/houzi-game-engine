@@ -5,11 +5,11 @@
 #ifndef HOU_COR_CHARACTER_ENCODINGS_HPP
 #define HOU_COR_CHARACTER_ENCODINGS_HPP
 
-#include "hou/cor/CorExport.hpp"
-#include "hou/cor/NonInstantiable.hpp"
+#include "hou/cor/cor_export.hpp"
+#include "hou/cor/non_instantiable.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
-#include "hou/cor/Error.hpp"
+#include "hou/cor/basic_types.hpp"
+#include "hou/cor/error.hpp"
 
 #include <array>
 #include <limits>
@@ -25,7 +25,7 @@ using CodePoint = char32_t;
 /** Container class for UTF-8 encoding functions
  */
 class utf8
-  : public NonInstantiable
+  : public non_instantiable
 {
 public:
   /** UTF-8 code unit representation. */
@@ -96,7 +96,7 @@ private:
 /** Container class for UTF-16 encoding functions
  */
 class utf16
-  : public NonInstantiable
+  : public non_instantiable
 {
 public:
   /** UTF-16 code unit representation. */
@@ -164,7 +164,7 @@ public:
 /** Container class for UTF-32 encoding functions
  */
 class utf32
-  : public NonInstantiable
+  : public non_instantiable
 {
 public:
   /** UTF-32 code unit representation. */
@@ -233,7 +233,7 @@ public:
  *
  */
 class wide
-  : public NonInstantiable
+  : public non_instantiable
 {
 public:
   /** wide code unit representation. */

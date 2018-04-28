@@ -9,7 +9,7 @@
 namespace hou
 {
 
-std::string getText(AudError ec)
+std::string get_text(AudError ec)
 {
   switch(ec)
   {

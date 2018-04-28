@@ -19,7 +19,7 @@ namespace al
 {
 
 ObjectHandle::ObjectHandle(ALuint name)
-  : NonCopyable()
+  : non_copyable()
   , mName(name)
 {}
 

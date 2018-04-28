@@ -22,7 +22,7 @@ enum class GlError
   ContextLost,
   ContextMakeCurrent,
   ExtensionsInitialization,
-  InvalidEnum,
+  invalid_enum,
   InvalidFramebufferOperation,
   InvalidOperation,
   InvalidOwnership,
@@ -37,7 +37,7 @@ enum class GlError
   VerticalSyncSet,
 };
 
-HOU_GL_API std::string getText(GlError ec);
+HOU_GL_API std::string get_text(GlError ec);
 
 }
 

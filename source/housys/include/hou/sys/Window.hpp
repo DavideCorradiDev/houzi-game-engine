@@ -6,7 +6,7 @@
 #define HOU_SYS_WINDOW_HPP
 
 #include "hou/sys/SysExport.hpp"
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/cor/non_copyable.hpp"
 
 #include "hou/sys/Image.hpp"
 #include "hou/sys/WindowImpl.hpp"
@@ -24,7 +24,7 @@ class WindowEvent;
 /** Class representing a Window.
  */
 class HOU_SYS_API Window
-  : public NonCopyable
+  : public non_copyable
 {
 public:
   /** Creates a Window object.

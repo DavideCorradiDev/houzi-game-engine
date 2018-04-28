@@ -5,8 +5,8 @@
 #include "hou/Test.hpp"
 #include "hou/gfx/TestGfxBase.hpp"
 
-#include "hou/cor/CoreFunctions.hpp"
-#include "hou/cor/StdVector.hpp"
+#include "hou/cor/core_functions.hpp"
+#include "hou/cor/std_vector.hpp"
 
 #include "hou/gfx/GlType.hpp"
 #include "hou/gfx/Mesh.hpp"

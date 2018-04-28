@@ -11,7 +11,7 @@
 #include "hou/sys/WindowEvent.hpp"
 #include "hou/sys/win/WinError.hpp"
 
-#include "hou/cor/Error.hpp"
+#include "hou/cor/error.hpp"
 
 #include "hou/mth/Rectangle.hpp"
 #include "hou/sys/WindowStyle.hpp"
@@ -378,7 +378,7 @@ KeyCode winKeyToKeyCode(UINT key)
     case VK_PACKET: return KeyCode::Packet;
 
     default:
-      HOU_LOGIC_ERROR(getText(CorError::InvalidEnum), key);
+      HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), key);
       return KeyCode::Enter;
   }
 }
@@ -408,7 +408,7 @@ ScanCode getScanCodeLParam(LPARAM lParam)
 
 WindowImpl::WindowImpl(const std::string& title, const VideoMode& videoMode
   , WindowStyle style)
-  : NonCopyable()
+  : non_copyable()
   , mHandle(nullptr)
   , mCursorGrabbed(false)
   , mKeyRepeatEnabled(false)
@@ -473,7 +473,7 @@ WindowImpl::WindowImpl(const std::string& title, const VideoMode& videoMode
 
 
 WindowImpl::WindowImpl(WindowImpl&& other)
-  : NonCopyable()
+  : non_copyable()
   , mHandle(std::move(other.mHandle))
   , mCursorGrabbed(std::move(other.mCursorGrabbed))
   , mKeyRepeatEnabled(std::move(other.mKeyRepeatEnabled))

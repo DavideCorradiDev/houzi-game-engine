@@ -5,7 +5,7 @@
 #include "hou/Test.hpp"
 #include "hou/sys/TestData.hpp"
 
-#include "hou/cor/Span.hpp"
+#include "hou/cor/span.hpp"
 
 #include "hou/sys/TextFileIn.hpp"
 #include "hou/sys/SysError.hpp"
@@ -80,7 +80,7 @@ TEST_F(TestTextFileInDeathTest, PathConstructorFailure)
 {
   std::string invalidFileName = u8"InvalidFileName";
   HOU_EXPECT_ERROR(TextFileIn fi(invalidFileName), std::runtime_error
-    , formatString(getText(SysError::FileOpen), invalidFileName.c_str()));
+    , format_string(get_text(SysError::FileOpen), invalidFileName.c_str()));
 }
 
 
@@ -248,7 +248,7 @@ TEST_F(TestTextFileIn, ReadToSpan)
 
   TextFileIn fi(fileName);
   std::vector<BufferType> vec(bufferSize, 0u);
-  Span<BufferType> buffer(vec);
+  span<BufferType> buffer(vec);
 
   fi.read(buffer);
   EXPECT_EQ(bufferByteSize, fi.getReadByteCount());

@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_TEXTURE_HPP
 #define HOU_GFX_TEXTURE_HPP
 
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/cor/non_copyable.hpp"
 #include "hou/gfx/GfxExport.hpp"
 
 #include "hou/mth/MatrixFwd.hpp"
@@ -34,7 +34,7 @@ class TextureChannelMapping;
  * This class is a parent class from which different concrete Texture types are
  * derived.
  */
-class HOU_GFX_API Texture : public NonCopyable
+class HOU_GFX_API Texture : public non_copyable
 {
 public:
   /** Binds the texture to the given texture unit.

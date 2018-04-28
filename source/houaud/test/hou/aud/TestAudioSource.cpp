@@ -8,7 +8,7 @@
 #include "hou/aud/AudioBuffer.hpp"
 #include "hou/aud/AudioSource.hpp"
 
-#include "hou/cor/CorError.hpp"
+#include "hou/cor/cor_error.hpp"
 
 #include "hou/mth/MathFunctions.hpp"
 
@@ -466,7 +466,7 @@ TEST_F(TestAudioSourceDeathTest, InvalidGain)
 {
   ConcreteAudioSource as(mBuffer);
   HOU_EXPECT_ERROR(
-    as.setGain(-3.f), std::logic_error, getText(CorError::Precondition));
+    as.setGain(-3.f), std::logic_error, get_text(cor_error::pre_condition));
 }
 
 
@@ -484,7 +484,7 @@ TEST_F(TestAudioSourceDeathTest, InvalidMaxGain)
 {
   ConcreteAudioSource as(mBuffer);
   HOU_EXPECT_ERROR(
-    as.setMaxGain(-3.f), std::logic_error, getText(CorError::Precondition));
+    as.setMaxGain(-3.f), std::logic_error, get_text(cor_error::pre_condition));
 }
 
 
@@ -502,7 +502,7 @@ TEST_F(TestAudioSourceDeathTest, InvalidMinGain)
 {
   ConcreteAudioSource as(mBuffer);
   HOU_EXPECT_ERROR(
-    as.setMinGain(-3.f), std::logic_error, getText(CorError::Precondition));
+    as.setMinGain(-3.f), std::logic_error, get_text(cor_error::pre_condition));
 }
 
 
@@ -520,7 +520,7 @@ TEST_F(TestAudioSourceDeathTest, InvalidMaxDistance)
 {
   ConcreteAudioSource as(mBuffer);
   HOU_EXPECT_ERROR(
-    as.setMaxDistance(-3.f), std::logic_error, getText(CorError::Precondition));
+    as.setMaxDistance(-3.f), std::logic_error, get_text(cor_error::pre_condition));
 }
 
 
@@ -538,7 +538,7 @@ TEST_F(TestAudioSourceDeathTest, InvalidRolloffFactor)
 {
   ConcreteAudioSource as(mBuffer);
   HOU_EXPECT_ERROR(as.setRolloffFactor(-3.f), std::logic_error,
-    getText(CorError::Precondition));
+    get_text(cor_error::pre_condition));
 }
 
 
@@ -556,7 +556,7 @@ TEST_F(TestAudioSourceDeathTest, InvalidReferenceDistance)
 {
   ConcreteAudioSource as(mBuffer);
   HOU_EXPECT_ERROR(as.setReferenceDistance(-3.f), std::logic_error,
-    getText(CorError::Precondition));
+    get_text(cor_error::pre_condition));
 }
 
 
@@ -583,7 +583,7 @@ TEST_F(TestAudioSourceDeathTest, InvalidConeOuterGain)
 {
   ConcreteAudioSource as(mBuffer);
   HOU_EXPECT_ERROR(as.setConeOuterGain(-3.f), std::logic_error,
-    getText(CorError::Precondition));
+    get_text(cor_error::pre_condition));
 }
 
 
@@ -605,9 +605,9 @@ TEST_F(TestAudioSourceDeathTest, InvalidConeInnerAngle)
 {
   ConcreteAudioSource as(mBuffer);
   HOU_EXPECT_ERROR(as.setConeInnerAngle(-PI_F), std::logic_error,
-    getText(CorError::Precondition));
+    get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(as.setConeInnerAngle(3 * PI_F), std::logic_error,
-    getText(CorError::Precondition));
+    get_text(cor_error::pre_condition));
 }
 
 
@@ -629,9 +629,9 @@ TEST_F(TestAudioSourceDeathTest, InvalidConeOuterAngle)
 {
   ConcreteAudioSource as(mBuffer);
   HOU_EXPECT_ERROR(as.setConeOuterAngle(-PI_F), std::logic_error,
-    getText(CorError::Precondition));
+    get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(as.setConeOuterAngle(3 * PI_F), std::logic_error,
-    getText(CorError::Precondition));
+    get_text(cor_error::pre_condition));
 }
 
 

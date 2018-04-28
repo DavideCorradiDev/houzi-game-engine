@@ -6,7 +6,7 @@ namespace hou
 {
 
 template <typename... FormattingVariables>
-  std::string formatErrorMessage(const std::string& filePath, int line
+  std::string format_error_message(const std::string& filePath, int line
   , const std::string& message, const FormattingVariables&... vars)
 {
 #if defined(HOU_SYSTEM_WINDOWS)
@@ -14,10 +14,10 @@ template <typename... FormattingVariables>
 #else
   constexpr char sPathSeparator = '/';
 #endif
-  return formatString(u8"%s:%d - %s"
+  return format_string(u8"%s:%d - %s"
     , filePath.substr(filePath.find_last_of(sPathSeparator) + 1).c_str()
     , line
-    , formatString(message, vars...).c_str());
+    , format_string(message, vars...).c_str());
 }
 
 }

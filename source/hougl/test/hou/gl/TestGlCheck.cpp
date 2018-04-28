@@ -59,7 +59,7 @@ TEST_F(TestGlCheckDeathTest, GlCheckErrorFunction)
 {
   glClear(GL_COLOR); 
   HOU_EXPECT_ERROR(gl::checkError("", 0), std::logic_error
-    , getText(GlError::InvalidValue));
+    , get_text(GlError::InvalidValue));
 }
 
 
@@ -78,7 +78,7 @@ TEST_F(TestGlCheckDeathTest, GlCheckErrorMacro)
   glClear(GL_COLOR);
 #ifdef HOU_ENABLE_GL_ERROR_CHECKS
   HOU_EXPECT_ERROR(HOU_GL_CHECK_ERROR(), std::logic_error
-    , getText(GlError::InvalidValue));
+    , get_text(GlError::InvalidValue));
 #else
   HOU_GL_CHECK_ERROR();
   SUCCEED();
@@ -100,7 +100,7 @@ TEST_F(TestGlCheckDeathTest, GlContextExistenceFunction)
   gl::Context::unsetCurrent();
   HOU_EXPECT_ERROR(gl::checkContextExistence("", 0)
     , std::logic_error
-    , getText(GlError::ContextExistence));
+    , get_text(GlError::ContextExistence));
 }
 
 
@@ -119,7 +119,7 @@ TEST_F(TestGlCheckDeathTest, GlContextExistenceMacro)
 #ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
   HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_EXISTENCE()
     , std::logic_error
-    , getText(GlError::ContextExistence));
+    , get_text(GlError::ContextExistence));
 #else
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   SUCCEED();
@@ -177,20 +177,20 @@ TEST_F(TestGlCheckDeathTest, GlContextOwnershipSharedFunction)
   gl::Context::setCurrent(c1, w);
   HOU_EXPECT_ERROR(gl::checkContextOwnership(o3, "", 0)
     , std::logic_error
-    , getText(GlError::InvalidOwnership));
+    , get_text(GlError::InvalidOwnership));
 
   gl::Context::setCurrent(c2, w);
   HOU_EXPECT_ERROR(gl::checkContextOwnership(o3, "", 0)
     , std::logic_error
-    , getText(GlError::InvalidOwnership));
+    , get_text(GlError::InvalidOwnership));
 
   gl::Context::setCurrent(c3, w);
   HOU_EXPECT_ERROR(gl::checkContextOwnership(o1, "", 0)
     , std::logic_error
-    , getText(GlError::InvalidOwnership));
+    , get_text(GlError::InvalidOwnership));
   HOU_EXPECT_ERROR(gl::checkContextOwnership(o2, "", 0)
     , std::logic_error
-    , getText(GlError::InvalidOwnership));
+    , get_text(GlError::InvalidOwnership));
 }
 
 
@@ -245,7 +245,7 @@ TEST_F(TestGlCheckDeathTest, GlContextOwnershipSharedMacro)
 #ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
   HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3)
     , std::logic_error
-    , getText(GlError::InvalidOwnership));
+    , get_text(GlError::InvalidOwnership));
 #else
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3);
   SUCCEED();
@@ -255,7 +255,7 @@ TEST_F(TestGlCheckDeathTest, GlContextOwnershipSharedMacro)
 #ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
   HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3)
     , std::logic_error
-    , getText(GlError::InvalidOwnership));
+    , get_text(GlError::InvalidOwnership));
 #else
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3);
   SUCCEED();
@@ -265,10 +265,10 @@ TEST_F(TestGlCheckDeathTest, GlContextOwnershipSharedMacro)
 #ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
   HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1)
     , std::logic_error
-    , getText(GlError::InvalidOwnership));
+    , get_text(GlError::InvalidOwnership));
   HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2)
     , std::logic_error
-    , getText(GlError::InvalidOwnership));
+    , get_text(GlError::InvalidOwnership));
 #else
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1);
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2);
@@ -325,26 +325,26 @@ TEST_F(TestGlCheckDeathTest, GlContextOwnershipNonSharedFunction)
   gl::Context::setCurrent(c1, w);
   HOU_EXPECT_ERROR(gl::checkContextOwnership(o2, "", 0)
     , std::logic_error
-    , getText(GlError::InvalidOwnership));
+    , get_text(GlError::InvalidOwnership));
   HOU_EXPECT_ERROR(gl::checkContextOwnership(o3, "", 0)
     , std::logic_error
-    , getText(GlError::InvalidOwnership));
+    , get_text(GlError::InvalidOwnership));
 
   gl::Context::setCurrent(c2, w);
   HOU_EXPECT_ERROR(gl::checkContextOwnership(o1, "", 0)
     , std::logic_error
-    , getText(GlError::InvalidOwnership));
+    , get_text(GlError::InvalidOwnership));
   HOU_EXPECT_ERROR(gl::checkContextOwnership(o3, "", 0)
     , std::logic_error
-    , getText(GlError::InvalidOwnership));
+    , get_text(GlError::InvalidOwnership));
 
   gl::Context::setCurrent(c3, w);
   HOU_EXPECT_ERROR(gl::checkContextOwnership(o1, "", 0)
     , std::logic_error
-    , getText(GlError::InvalidOwnership));
+    , get_text(GlError::InvalidOwnership));
   HOU_EXPECT_ERROR(gl::checkContextOwnership(o2, "", 0)
     , std::logic_error
-    , getText(GlError::InvalidOwnership));
+    , get_text(GlError::InvalidOwnership));
 }
 
 
@@ -396,9 +396,9 @@ TEST_F(TestGlCheckDeathTest, GlContextOwnershipNonSharedMacro)
   gl::Context::setCurrent(c1, w);
 #ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
   HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2), std::logic_error
-    , getText(GlError::InvalidOwnership));
+    , get_text(GlError::InvalidOwnership));
   HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3), std::logic_error
-    , getText(GlError::InvalidOwnership));
+    , get_text(GlError::InvalidOwnership));
 #else
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2);
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3);
@@ -408,9 +408,9 @@ TEST_F(TestGlCheckDeathTest, GlContextOwnershipNonSharedMacro)
   gl::Context::setCurrent(c2, w);
 #ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
   HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1), std::logic_error
-    , getText(GlError::InvalidOwnership));
+    , get_text(GlError::InvalidOwnership));
   HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3), std::logic_error
-    , getText(GlError::InvalidOwnership));
+    , get_text(GlError::InvalidOwnership));
 #else
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1);
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3);
@@ -420,9 +420,9 @@ TEST_F(TestGlCheckDeathTest, GlContextOwnershipNonSharedMacro)
   gl::Context::setCurrent(c3, w);
 #ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
   HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1), std::logic_error
-    , getText(GlError::InvalidOwnership));
+    , get_text(GlError::InvalidOwnership));
   HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2), std::logic_error
-    , getText(GlError::InvalidOwnership));
+    , get_text(GlError::InvalidOwnership));
 #else
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1);
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2);

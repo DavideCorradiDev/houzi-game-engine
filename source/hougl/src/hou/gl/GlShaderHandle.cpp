@@ -8,7 +8,7 @@
 #include "hou/gl/GlContext.hpp"
 #include "hou/gl/GlError.hpp"
 
-#include "hou/cor/Error.hpp"
+#include "hou/cor/error.hpp"
 #include "hou/cor/character_encodings.hpp"
 
 
@@ -108,7 +108,7 @@ void compileShader(const ShaderHandle& shader, const GLchar* src)
     GLchar infoLog[maxInfoLogSize];
     glGetShaderInfoLog(shader.getName(), maxInfoLogSize, nullptr, infoLog);
     HOU_GL_CHECK_ERROR();
-    HOU_RUNTIME_ERROR(getText(GlError::ShaderCompilation)
+    HOU_RUNTIME_ERROR(get_text(GlError::ShaderCompilation)
       , shaderTypeToString(shader.getType()).c_str(), infoLog);
   }
 }

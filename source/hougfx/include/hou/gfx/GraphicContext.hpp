@@ -5,10 +5,10 @@
 #ifndef HOU_GFX_GRAPHIC_CONTEXT_HPP
 #define HOU_GFX_GRAPHIC_CONTEXT_HPP
 
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/cor/non_copyable.hpp"
 #include "hou/gfx/GfxExport.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
+#include "hou/cor/basic_types.hpp"
 
 #include "hou/gl/GlContext.hpp"
 
@@ -31,7 +31,7 @@ namespace hou
  * while it is current, there will be nocurrent GraphicContext until another
  * GraphicContext is created or set as current.
  */
-class HOU_GFX_API GraphicContext : public NonCopyable
+class HOU_GFX_API GraphicContext : public non_copyable
 {
 public:
   /** Sets this as the current context for the current thread.

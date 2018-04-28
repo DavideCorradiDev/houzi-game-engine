@@ -873,7 +873,7 @@ TEST_F(TestImageFileDeathTest, LoadBmpRGBAError)
 {
   HOU_EXPECT_ERROR(bmpReadFile<PixelFormat::RGBA>(testImagePng),
     std::runtime_error,
-    formatString(getText(SysError::ImageBmpRead), testImagePng.c_str()));
+    format_string(get_text(SysError::ImageBmpRead), testImagePng.c_str()));
 }
 
 
@@ -899,7 +899,7 @@ TEST_F(TestImageFileDeathTest, LoadPngRGBAError)
 {
   HOU_EXPECT_ERROR(pngReadFile<PixelFormat::RGBA>(testImageJpg),
     std::runtime_error,
-    formatString(getText(SysError::ImagePngRead), testImageJpg.c_str()));
+    format_string(get_text(SysError::ImagePngRead), testImageJpg.c_str()));
 }
 
 
@@ -925,7 +925,7 @@ TEST_F(TestImageFileDeathTest, LoadJpgRGBAError)
 {
   HOU_EXPECT_ERROR(jpgReadFile<PixelFormat::RGBA>(testImagePng),
     std::runtime_error,
-    formatString(getText(SysError::ImageJpgRead), testImagePng.c_str()));
+    format_string(get_text(SysError::ImageJpgRead), testImagePng.c_str()));
 }
 
 
@@ -951,7 +951,7 @@ TEST_F(TestImageFileDeathTest, SaveBmpErrorRGBA)
   bmpWriteFile(savePath, imRef);
   HOU_EXPECT_ERROR(bmpWriteFile<PixelFormat::RGBA>(savePath, imRef),
     std::runtime_error,
-    formatString(getText(SysError::ImageBmpWrite), savePath.c_str()));
+    format_string(get_text(SysError::ImageBmpWrite), savePath.c_str()));
   EXPECT_TRUE(removeDir(savePath));
 }
 
@@ -979,7 +979,7 @@ TEST_F(TestImageFileDeathTest, LoadBmpRGBError)
 {
   HOU_EXPECT_ERROR(bmpReadFile<PixelFormat::RGB>(testImagePng),
     std::runtime_error,
-    formatString(getText(SysError::ImageBmpRead), testImagePng.c_str()));
+    format_string(get_text(SysError::ImageBmpRead), testImagePng.c_str()));
 }
 
 
@@ -1005,7 +1005,7 @@ TEST_F(TestImageFileDeathTest, LoadPngRGBError)
 {
   HOU_EXPECT_ERROR(pngReadFile<PixelFormat::RGB>(testImageJpg),
     std::runtime_error,
-    formatString(getText(SysError::ImagePngRead), testImageJpg.c_str()));
+    format_string(get_text(SysError::ImagePngRead), testImageJpg.c_str()));
 }
 
 
@@ -1031,7 +1031,7 @@ TEST_F(TestImageFileDeathTest, LoadJpgRGBError)
 {
   HOU_EXPECT_ERROR(jpgReadFile<PixelFormat::RGB>(testImagePng),
     std::runtime_error,
-    formatString(getText(SysError::ImageJpgRead), testImagePng.c_str()));
+    format_string(get_text(SysError::ImageJpgRead), testImagePng.c_str()));
 }
 
 
@@ -1058,7 +1058,7 @@ TEST_F(TestImageFileDeathTest, LoadBmpRGError)
 {
   HOU_EXPECT_ERROR(bmpReadFile<PixelFormat::RG>(testImagePng),
     std::runtime_error,
-    formatString(getText(SysError::ImageBmpRead), testImagePng.c_str()));
+    format_string(get_text(SysError::ImageBmpRead), testImagePng.c_str()));
 }
 
 
@@ -1084,7 +1084,7 @@ TEST_F(TestImageFileDeathTest, LoadPngRGError)
 {
   HOU_EXPECT_ERROR(pngReadFile<PixelFormat::RG>(testImageJpg),
     std::runtime_error,
-    formatString(getText(SysError::ImagePngRead), testImageJpg.c_str()));
+    format_string(get_text(SysError::ImagePngRead), testImageJpg.c_str()));
 }
 
 
@@ -1110,7 +1110,7 @@ TEST_F(TestImageFileDeathTest, LoadJpgRGError)
 {
   HOU_EXPECT_ERROR(jpgReadFile<PixelFormat::RG>(testImagePng),
     std::runtime_error,
-    formatString(getText(SysError::ImageJpgRead), testImagePng.c_str()));
+    format_string(get_text(SysError::ImageJpgRead), testImagePng.c_str()));
 }
 
 
@@ -1137,7 +1137,7 @@ TEST_F(TestImageFileDeathTest, LoadBmpRError)
 {
   HOU_EXPECT_ERROR(bmpReadFile<PixelFormat::R>(testImagePng),
     std::runtime_error,
-    formatString(getText(SysError::ImageBmpRead), testImagePng.c_str()));
+    format_string(get_text(SysError::ImageBmpRead), testImagePng.c_str()));
 }
 
 
@@ -1163,7 +1163,7 @@ TEST_F(TestImageFileDeathTest, LoadPngRError)
 {
   HOU_EXPECT_ERROR(pngReadFile<PixelFormat::R>(testImageJpg),
     std::runtime_error,
-    formatString(getText(SysError::ImagePngRead), testImageJpg.c_str()));
+    format_string(get_text(SysError::ImagePngRead), testImageJpg.c_str()));
 }
 
 
@@ -1189,5 +1189,5 @@ TEST_F(TestImageFileDeathTest, LoadJpgRError)
 {
   HOU_EXPECT_ERROR(jpgReadFile<PixelFormat::R>(testImagePng),
     std::runtime_error,
-    formatString(getText(SysError::ImageJpgRead), testImagePng.c_str()));
+    format_string(get_text(SysError::ImageJpgRead), testImagePng.c_str()));
 }

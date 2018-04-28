@@ -6,11 +6,11 @@
 #define HOU_GL_GL_OBJECT_HANDLE_HPP
 
 #include "hou/gl/GlExport.hpp"
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/cor/non_copyable.hpp"
 
 #include "hou/gl/OpenGl.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
+#include "hou/cor/basic_types.hpp"
 
 
 
@@ -21,7 +21,7 @@ namespace gl
 {
 
 class HOU_GL_API ObjectHandle
-  : public NonCopyable
+  : public non_copyable
 {
 public:
   ObjectHandle(GLuint name);

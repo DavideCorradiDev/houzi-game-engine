@@ -9,8 +9,8 @@
 #include "hou/al/AlError.hpp"
 #include "hou/al/AlObjectHandle.hpp"
 
-#include "hou/cor/CorError.hpp"
-#include "hou/cor/Error.hpp"
+#include "hou/cor/cor_error.hpp"
+#include "hou/cor/error.hpp"
 
 #include <AL/al.h>
 #include <AL/alc.h>
@@ -34,17 +34,17 @@ std::string getErrorMessage(ALenum err)
   switch(err)
   {
     case AL_INVALID_ENUM:
-      return getText(AlError::InvalidEnum);
+      return get_text(AlError::invalid_enum);
     case AL_INVALID_NAME:
-      return getText(AlError::InvalidName);
+      return get_text(AlError::InvalidName);
     case AL_INVALID_OPERATION:
-      return getText(AlError::InvalidOperation);
+      return get_text(AlError::InvalidOperation);
     case AL_INVALID_VALUE:
-      return getText(AlError::InvalidValue);
+      return get_text(AlError::InvalidValue);
     case AL_OUT_OF_MEMORY:
-      return getText(AlError::OutOfMemory);
+      return get_text(AlError::OutOfMemory);
     default:
-      HOU_LOGIC_ERROR(getText(CorError::InvalidEnum), static_cast<int>(err));
+      HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(err));
       return u8"";
   }
 }
@@ -56,17 +56,17 @@ std::string getContextErrorMessage(ALCenum err)
   switch(err)
   {
     case ALC_INVALID_CONTEXT:
-      return getText(AlError::InvalidContext);
+      return get_text(AlError::InvalidContext);
     case ALC_INVALID_DEVICE:
-      return getText(AlError::InvalidDevice);
+      return get_text(AlError::InvalidDevice);
     case ALC_INVALID_ENUM:
-      return getText(AlError::InvalidEnum);
+      return get_text(AlError::invalid_enum);
     case ALC_INVALID_VALUE:
-      return getText(AlError::InvalidValue);
+      return get_text(AlError::InvalidValue);
     case ALC_OUT_OF_MEMORY:
-      return getText(AlError::OutOfMemory);
+      return get_text(AlError::OutOfMemory);
     default:
-      HOU_LOGIC_ERROR(getText(CorError::InvalidEnum), static_cast<int>(err));
+      HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(err));
       return u8"";
   }
 }
@@ -80,7 +80,7 @@ void checkError(const std::string& filename, int line)
   ALenum errState = alGetError();
   if(errState != AL_NO_ERROR)
   {
-    HOU_THROW(std::logic_error, formatErrorMessage(filename, line
+    HOU_THROW(std::logic_error, format_error_message(filename, line
       , getErrorMessage(errState)));
   }
 }
@@ -92,7 +92,7 @@ void checkContextError(Device& device, const std::string& filename, int line)
   ALCenum errState = alcGetError(device.getHandle());
   if(errState != ALC_NO_ERROR)
   {
-    HOU_THROW(std::logic_error, formatErrorMessage(filename, line
+    HOU_THROW(std::logic_error, format_error_message(filename, line
       , getContextErrorMessage(errState)));
   }
 }
@@ -103,8 +103,8 @@ void checkContextExistence(const std::string& filename, int line)
 {
   if(Context::getCurrent() == nullptr)
   {
-    HOU_THROW(std::logic_error, formatErrorMessage(filename, line
-      , getText(AlError::ContextExistence)));
+    HOU_THROW(std::logic_error, format_error_message(filename, line
+      , get_text(AlError::ContextExistence)));
   }
 }
 
@@ -117,8 +117,8 @@ void checkContextOwnership(const DeviceOwnedObjectHandle& o
   checkContextExistence(filename, line);
   if(Context::getCurrent()->getDeviceUid() != o.getOwningDeviceUid())
   {
-    HOU_THROW(std::logic_error, formatErrorMessage(filename, line
-      , getText(AlError::InvalidOwnership)));
+    HOU_THROW(std::logic_error, format_error_message(filename, line
+      , get_text(AlError::InvalidOwnership)));
   }
 }
 
@@ -130,8 +130,8 @@ void checkContextOwnership(const ContextOwnedObjectHandle& o
   checkContextExistence(filename, line);
   if(Context::getCurrent()->getUid() != o.getOwningContextUid())
   {
-    HOU_THROW(std::logic_error, formatErrorMessage(filename, line
-      , getText(AlError::InvalidOwnership)));
+    HOU_THROW(std::logic_error, format_error_message(filename, line
+      , get_text(AlError::InvalidOwnership)));
   }
 }
 

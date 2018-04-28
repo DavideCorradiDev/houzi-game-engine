@@ -7,7 +7,7 @@ namespace hou
 {
 
 template <typename T>
-  Span<T>::Span()
+  span<T>::span()
   : mData(nullptr)
   , mSize(0u)
 {}
@@ -16,7 +16,7 @@ template <typename T>
 
 #ifndef HOU_DOXYGEN
 template <typename T>
-  Span<T>::Span(pointer data, size_type size)
+  span<T>::span(pointer data, size_type size)
   : mData(data)
   , mSize(size)
 {
@@ -28,8 +28,8 @@ template <typename T>
 
 
 template <typename T>
-  Span<T>::Span(pointer first, pointer last)
-  : Span(first, std::distance(first, last))
+  span<T>::span(pointer first, pointer last)
+  : span(first, std::distance(first, last))
 {
   HOU_EXPECT(first != nullptr && last != nullptr);
 }
@@ -38,22 +38,22 @@ template <typename T>
 
 template <typename T>
 template <typename Container, typename Enable>
-  Span<T>::Span(const Container& c)
-  : Span(c.data(), c.size())
+  span<T>::span(const Container& c)
+  : span(c.data(), c.size())
 {}
 
 
 
 template <typename T>
 template <typename Container, typename Enable>
-  Span<T>::Span(Container& c)
-  : Span(const_cast<typename Container::pointer>(c.data()), c.size())
+  span<T>::span(Container& c)
+  : span(const_cast<typename Container::pointer>(c.data()), c.size())
 {}
 
 
 
 template <typename T>
-  constexpr typename Span<T>::pointer Span<T>::data() const
+  constexpr typename span<T>::pointer span<T>::data() const
 {
   return mData;
 }
@@ -61,7 +61,7 @@ template <typename T>
 
 
 template <typename T>
-  constexpr typename Span<T>::size_type Span<T>::size() const
+  constexpr typename span<T>::size_type span<T>::size() const
 {
   return mSize;
 }
@@ -69,8 +69,8 @@ template <typename T>
 
 
 template <typename T>
-  constexpr typename Span<T>::reference Span<T>::operator[]
-  (Span<T>::size_type idx) const
+  constexpr typename span<T>::reference span<T>::operator[]
+  (span<T>::size_type idx) const
 {
   HOU_EXPECT(mData != nullptr && idx < mSize);
   return *(mData + idx);
@@ -79,7 +79,7 @@ template <typename T>
 
 
 template <typename T>
-  constexpr typename Span<T>::iterator Span<T>::begin() const
+  constexpr typename span<T>::iterator span<T>::begin() const
 {
   return iterator(*this, 0u);
 }
@@ -87,7 +87,7 @@ template <typename T>
 
 
 template <typename T>
-  constexpr typename Span<T>::const_iterator Span<T>::cbegin() const
+  constexpr typename span<T>::const_iterator span<T>::cbegin() const
 {
   return const_iterator(*this, 0u);
 }
@@ -95,7 +95,7 @@ template <typename T>
 
 
 template <typename T>
-  constexpr typename Span<T>::reverse_iterator Span<T>::rbegin() const
+  constexpr typename span<T>::reverse_iterator span<T>::rbegin() const
 {
   return reverse_iterator(end());
 }
@@ -103,7 +103,7 @@ template <typename T>
 
 
 template <typename T>
-  constexpr typename Span<T>::const_reverse_iterator Span<T>::crbegin() const
+  constexpr typename span<T>::const_reverse_iterator span<T>::crbegin() const
 {
   return const_reverse_iterator(cend());
 }
@@ -111,7 +111,7 @@ template <typename T>
 
 
 template <typename T>
-  constexpr typename Span<T>::iterator Span<T>::end() const
+  constexpr typename span<T>::iterator span<T>::end() const
 {
   return iterator(*this, mSize);
 }
@@ -119,7 +119,7 @@ template <typename T>
 
 
 template <typename T>
-  constexpr typename Span<T>::const_iterator Span<T>::cend() const
+  constexpr typename span<T>::const_iterator span<T>::cend() const
 {
   return const_iterator(*this, mSize);
 }
@@ -127,7 +127,7 @@ template <typename T>
 
 
 template <typename T>
-  constexpr typename Span<T>::reverse_iterator Span<T>::rend() const
+  constexpr typename span<T>::reverse_iterator span<T>::rend() const
 {
   return reverse_iterator(begin());
 }
@@ -135,7 +135,7 @@ template <typename T>
 
 
 template <typename T>
-  constexpr typename Span<T>::const_reverse_iterator Span<T>::crend() const
+  constexpr typename span<T>::const_reverse_iterator span<T>::crend() const
 {
   return const_reverse_iterator(cbegin());
 }
@@ -143,7 +143,7 @@ template <typename T>
 
 
 template <typename T>
-  bool operator==(const Span<T>& lhs, const Span<T>& rhs)
+  bool operator==(const span<T>& lhs, const span<T>& rhs)
 {
   return lhs.data() == rhs.data() && lhs.size() == rhs.size();
 }
@@ -151,7 +151,7 @@ template <typename T>
 
 
 template <typename T>
-  bool operator!=(const Span<T>& lhs, const Span<T>& rhs)
+  bool operator!=(const span<T>& lhs, const span<T>& rhs)
 {
   return !(lhs == rhs);
 }
@@ -159,7 +159,7 @@ template <typename T>
 
 
 template <typename T>
-  std::ostream& operator<<(std::ostream& os, const Span<T>& s)
+  std::ostream& operator<<(std::ostream& os, const span<T>& s)
 {
   return os << "{Address = " << s.data() << ", Size = " << s.size() << "}";
 }
@@ -167,11 +167,11 @@ template <typename T>
 
 
 template <typename Out, typename In>
-Span<Out> reinterpretSpan(const Span<In>& in)
+span<Out> reinterpret_span(const span<In>& in)
 {
   size_t inByteCount = in.size() * sizeof(In);
   HOU_EXPECT(inByteCount % sizeof(Out) == 0);
-  return Span<Out>(reinterpret_cast<typename Span<Out>::pointer>(in.data()),
+  return span<Out>(reinterpret_cast<typename span<Out>::pointer>(in.data()),
     inByteCount / sizeof(Out));
 }
 
@@ -181,10 +181,10 @@ namespace prv
 {
 
 template <typename T>
-  constexpr SpanIterator<T>::SpanIterator(const Span<T>& span
+  constexpr span_iterator<T>::span_iterator(const span<T>& span
   , size_type index)
-  : mSpan(&span)
-  , mIndex(index)
+  : m_span(&span)
+  , m_index(index)
 {
   HOU_EXPECT(index <= span.size());
 }
@@ -192,53 +192,53 @@ template <typename T>
 
 
 template <typename T>
-  constexpr typename SpanIterator<T>::reference
-  SpanIterator<T>::operator*() const
+  constexpr typename span_iterator<T>::reference
+  span_iterator<T>::operator*() const
 {
-  HOU_EXPECT_DEV(mSpan != nullptr);
-  HOU_EXPECT(mIndex < mSpan->size());
-  return *(mSpan->data() + mIndex);
+  HOU_EXPECT_DEV(m_span != nullptr);
+  HOU_EXPECT(m_index < m_span->size());
+  return *(m_span->data() + m_index);
 }
 
 
 
 template <typename T>
-  constexpr typename SpanIterator<T>::pointer
-  SpanIterator<T>::operator->() const
+  constexpr typename span_iterator<T>::pointer
+  span_iterator<T>::operator->() const
 {
-  HOU_EXPECT_DEV(mSpan != nullptr);
-  HOU_EXPECT(mIndex < mSpan->size());
-  return mSpan->data() + mIndex;
+  HOU_EXPECT_DEV(m_span != nullptr);
+  HOU_EXPECT(m_index < m_span->size());
+  return m_span->data() + m_index;
 }
 
 
 
 template <typename T>
-  constexpr SpanIterator<T>& SpanIterator<T>::operator+=(difference_type rhs)
+  constexpr span_iterator<T>& span_iterator<T>::operator+=(difference_type rhs)
 {
-  HOU_EXPECT_DEV(mSpan != nullptr);
-  HOU_EXPECT(mIndex + rhs <= mSpan->size());
-  mIndex += rhs;
+  HOU_EXPECT_DEV(m_span != nullptr);
+  HOU_EXPECT(m_index + rhs <= m_span->size());
+  m_index += rhs;
   return *this;
 }
 
 
 
 template <typename T>
-  constexpr SpanIterator<T>& SpanIterator<T>::operator++()
+  constexpr span_iterator<T>& span_iterator<T>::operator++()
 {
-  HOU_EXPECT_DEV(mSpan != nullptr);
-  HOU_EXPECT(mIndex < mSpan->size());
-  mIndex++;
+  HOU_EXPECT_DEV(m_span != nullptr);
+  HOU_EXPECT(m_index < m_span->size());
+  m_index++;
   return *this;
 }
 
 
 
 template <typename T>
-  constexpr SpanIterator<T> SpanIterator<T>::operator++(int)
+  constexpr span_iterator<T> span_iterator<T>::operator++(int)
 {
-  SpanIterator retval = *this;
+  span_iterator retval = *this;
   ++(*this);
   return retval;
 }
@@ -246,29 +246,29 @@ template <typename T>
 
 
 template <typename T>
-  constexpr SpanIterator<T>& SpanIterator<T>::operator-=(difference_type rhs)
+  constexpr span_iterator<T>& span_iterator<T>::operator-=(difference_type rhs)
 {
-  HOU_EXPECT(mIndex >= static_cast<size_type>(rhs));
-  mIndex -= rhs;
+  HOU_EXPECT(m_index >= static_cast<size_type>(rhs));
+  m_index -= rhs;
   return *this;
 }
 
 
 
 template <typename T>
-  constexpr SpanIterator<T>& SpanIterator<T>::operator--()
+  constexpr span_iterator<T>& span_iterator<T>::operator--()
 {
-  HOU_EXPECT(mIndex > 0);
-  mIndex--;
+  HOU_EXPECT(m_index > 0);
+  m_index--;
   return *this;
 }
 
 
 
 template <typename T>
-  constexpr SpanIterator<T> SpanIterator<T>::operator--(int)
+  constexpr span_iterator<T> span_iterator<T>::operator--(int)
 {
-  SpanIterator retval = *this;
+  span_iterator retval = *this;
   --(*this);
   return retval;
 }
@@ -276,11 +276,11 @@ template <typename T>
 
 
 template <typename T>
-  constexpr typename SpanIterator<T>::reference SpanIterator<T>::operator[]
+  constexpr typename span_iterator<T>::reference span_iterator<T>::operator[]
   (difference_type offset) const
 {
-  HOU_EXPECT_DEV(mSpan != nullptr);
-  return (*mSpan)[mIndex + offset];
+  HOU_EXPECT_DEV(m_span != nullptr);
+  return (*m_span)[m_index + offset];
 }
 
 }

@@ -6,15 +6,15 @@
 #define HOU_AUD_AUDIO_BUFFER_HPP
 
 #include "hou/aud/AudExport.hpp"
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/cor/non_copyable.hpp"
 
 #include "hou/aud/AudioBufferFormat.hpp"
 #include "hou/aud/AudioStreamIn.hpp"
 
 #include "hou/al/AlBufferHandle.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
-#include "hou/cor/Span.hpp"
+#include "hou/cor/basic_types.hpp"
+#include "hou/cor/span.hpp"
 
 #include <vector>
 
@@ -35,7 +35,7 @@ namespace hou
  *  In that case, it is suggested to use audio streams and a
  * StreamingAudioSource.
  */
-class HOU_AUD_API AudioBuffer : public NonCopyable
+class HOU_AUD_API AudioBuffer : public non_copyable
 {
 public:
   /** Creates an empty AudioBuffer.
@@ -52,7 +52,7 @@ public:
    *  \param smpRate the sample rate.
    */
   AudioBuffer(
-    const Span<const uint8_t>& data, AudioBufferFormat format, int smpRate);
+    const span<const uint8_t>& data, AudioBufferFormat format, int smpRate);
 
   /** Creates an AudioBuffer object with the given parameters, moving the data.
    *
@@ -132,7 +132,7 @@ public:
    *  \param smlRate the sample rate.
    */
   void setData(
-    const Span<const uint8_t>& data, AudioBufferFormat format, int smlRate);
+    const span<const uint8_t>& data, AudioBufferFormat format, int smlRate);
 
   /** Sets the buffer data with the provided values, moving the data.
    *

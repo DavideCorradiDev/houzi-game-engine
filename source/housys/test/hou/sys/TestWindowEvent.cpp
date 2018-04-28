@@ -4,7 +4,7 @@
 
 #include "hou/Test.hpp"
 
-#include "hou/cor/CorError.hpp"
+#include "hou/cor/cor_error.hpp"
 
 #include "hou/sys/WindowEvent.hpp"
 
@@ -35,17 +35,17 @@ TEST_F(TestWindowEventDeathTest, EmptyWrongData)
 {
   WindowEvent ev = WindowEvent::empty();
   HOU_EXPECT_ERROR(ev.getSizeData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getKeyData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getTextData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseMoveData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseButtonData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseWheelData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
 }
 
 
@@ -62,17 +62,17 @@ TEST_F(TestWindowEventDeathTest, ClosedWrongData)
 {
   WindowEvent ev = WindowEvent::closed();
   HOU_EXPECT_ERROR(ev.getSizeData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getKeyData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getTextData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseMoveData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseButtonData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseWheelData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
 }
 
 
@@ -89,17 +89,17 @@ TEST_F(TestWindowEventDeathTest, FocusGainedWrongData)
 {
   WindowEvent ev = WindowEvent::focusGained();
   HOU_EXPECT_ERROR(ev.getSizeData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getKeyData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getTextData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseMoveData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseButtonData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseWheelData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
 }
 
 
@@ -116,17 +116,17 @@ TEST_F(TestWindowEventDeathTest, FocusLostWrongData)
 {
   WindowEvent ev = WindowEvent::focusLost();
   HOU_EXPECT_ERROR(ev.getSizeData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getKeyData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getTextData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseMoveData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseButtonData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseWheelData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
 }
 
 
@@ -145,15 +145,15 @@ TEST_F(TestWindowEventDeathTest, ResizedWrongData)
 {
   WindowEvent ev = WindowEvent::resized(1, 3);
   HOU_EXPECT_ERROR(ev.getKeyData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getTextData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseMoveData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseButtonData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseWheelData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
 }
 
 
@@ -175,15 +175,15 @@ TEST_F(TestWindowEventDeathTest, KeyPressedWrongData)
   WindowEvent ev = WindowEvent::keyPressed(KeyCode::A, ScanCode::Q
     , ModifierKeys::Alt | ModifierKeys::Shift);
   HOU_EXPECT_ERROR(ev.getSizeData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getTextData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseMoveData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseButtonData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseWheelData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
 }
 
 
@@ -205,15 +205,15 @@ TEST_F(TestWindowEventDeathTest, KeyReleasedWrongData)
   WindowEvent ev = WindowEvent::keyReleased(KeyCode::A, ScanCode::Q
     , ModifierKeys::Alt | ModifierKeys::Shift);
   HOU_EXPECT_ERROR(ev.getSizeData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getTextData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseMoveData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseButtonData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseWheelData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
 }
 
 
@@ -231,15 +231,15 @@ TEST_F(TestWindowEventDeathTest, TextEnteredWrongData)
 {
   WindowEvent ev = WindowEvent::textEntered(1234u);
   HOU_EXPECT_ERROR(ev.getSizeData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getKeyData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseMoveData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseButtonData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseWheelData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
 }
 
 
@@ -258,15 +258,15 @@ TEST_F(TestWindowEventDeathTest, MouseMovedWrongData)
 {
   WindowEvent ev = WindowEvent::mouseMoved(1, 3);
   HOU_EXPECT_ERROR(ev.getSizeData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getKeyData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getTextData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseButtonData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseWheelData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
 }
 
 
@@ -283,17 +283,17 @@ TEST_F(TestWindowEventDeathTest, MouseEnteredWrongData)
 {
   WindowEvent ev = WindowEvent::mouseEntered();
   HOU_EXPECT_ERROR(ev.getSizeData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getKeyData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getTextData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseMoveData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseButtonData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseWheelData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
 }
 
 
@@ -310,17 +310,17 @@ TEST_F(TestWindowEventDeathTest, MouseLeftWrongData)
 {
   WindowEvent ev = WindowEvent::mouseLeft();
   HOU_EXPECT_ERROR(ev.getSizeData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getKeyData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getTextData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseMoveData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseButtonData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseWheelData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
 }
 
 
@@ -340,15 +340,15 @@ TEST_F(TestWindowEventDeathTest, MouseButtonPressedWrongData)
 {
   WindowEvent ev = WindowEvent::mouseButtonPressed(MouseButton::LB, 1, 3);
   HOU_EXPECT_ERROR(ev.getSizeData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getKeyData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getTextData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseMoveData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseWheelData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
 }
 
 
@@ -368,15 +368,15 @@ TEST_F(TestWindowEventDeathTest, MouseButtonReleasedWrongData)
 {
   WindowEvent ev = WindowEvent::mouseButtonReleased(MouseButton::LB, 1, 3);
   HOU_EXPECT_ERROR(ev.getSizeData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getKeyData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getTextData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseMoveData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseWheelData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
 }
 
 
@@ -397,15 +397,15 @@ TEST_F(TestWindowEventDeathTest, MouseWheelMovedWrongData)
 {
   WindowEvent ev = WindowEvent::mouseWheelMoved(MouseWheel::Vertical, 5, 1, 3);
   HOU_EXPECT_ERROR(ev.getSizeData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getKeyData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getTextData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseMoveData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(ev.getMouseButtonData(), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
 }
 
 

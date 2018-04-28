@@ -56,7 +56,7 @@ Trans2f TransformData::computeTransform() const
 
 
 class DrawableShape
-  : public NonCopyable
+  : public non_copyable
 {
 public:
   DrawableShape(const Texture2& texture);
@@ -81,7 +81,7 @@ public:
 
 
 DrawableShape::DrawableShape(const Texture2& texture)
-  : NonCopyable()
+  : non_copyable()
   , mColor(Color::White)
   , mTransformData()
   , mOrigin(0.f, 0.f)

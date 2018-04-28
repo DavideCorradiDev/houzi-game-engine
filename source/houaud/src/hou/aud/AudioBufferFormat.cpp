@@ -4,8 +4,8 @@
 
 #include "hou/aud/AudioBufferFormat.hpp"
 
-#include "hou/cor/CorError.hpp"
-#include "hou/cor/Error.hpp"
+#include "hou/cor/cor_error.hpp"
+#include "hou/cor/error.hpp"
 
 #define AUDIO_BUFFER_FORMAT_CASE(format, os) \
   case AudioBufferFormat::format:            \
@@ -58,7 +58,7 @@ uint getAudioBufferFormatChannelCount(AudioBufferFormat format)
   case AudioBufferFormat::Stereo16:
     return 2u;
   default:
-    HOU_LOGIC_ERROR(getText(CorError::InvalidEnum), static_cast<int>(format));
+    HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(format));
     return 1u;
   }
 }
@@ -76,7 +76,7 @@ uint getAudioBufferFormatBytesPerSample(AudioBufferFormat format)
   case AudioBufferFormat::Mono16:
     return 2u;
   default:
-    HOU_LOGIC_ERROR(getText(CorError::InvalidEnum), static_cast<int>(format));
+    HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(format));
     return 0u;
   }
 }

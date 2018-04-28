@@ -66,7 +66,7 @@ uint FrameBuffer::getColorAttachmentPointCount()
 
 
 FrameBuffer::FrameBuffer()
-  : NonCopyable()
+  : non_copyable()
   , mHandle(gl::FramebufferHandle::create())
   , mHasMultisampleColorAttachment(false)
   , mHasMultisampleDepthAttachment(false)
@@ -76,7 +76,7 @@ FrameBuffer::FrameBuffer()
 
 
 FrameBuffer::FrameBuffer(FrameBuffer&& other)
-  : NonCopyable()
+  : non_copyable()
   , mHandle(std::move(other.mHandle))
   , mHasMultisampleColorAttachment(
       std::move(other.mHasMultisampleColorAttachment))

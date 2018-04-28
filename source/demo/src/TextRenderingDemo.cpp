@@ -1,4 +1,4 @@
-#include "hou/cor/Stopwatch.hpp"
+#include "hou/cor/stopwatch.hpp"
 #include "hou/gfx/Font.hpp"
 #include "hou/gfx/FormattedText.hpp"
 #include "hou/gfx/GraphicContext.hpp"
@@ -83,7 +83,7 @@ int main()
   const float maxTBoxIncrement = 32.f;
 
   bool running = true;
-  Stopwatch timer;
+  stopwatch timer;
   timer.start();
   while(running)
   {
@@ -235,7 +235,7 @@ int main()
     std::chrono::nanoseconds timePerFrame = timer.reset();
     m2Rnd.draw(rw, fpsRect, Color::Black, proj);
     FormattedText fpsText(
-      toString(1.f
+      to_string(1.f
         /
         std::chrono::duration_cast<std::chrono::duration<float>>(timePerFrame)
             .count()),

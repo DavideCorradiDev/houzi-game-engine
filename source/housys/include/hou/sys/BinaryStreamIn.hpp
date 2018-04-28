@@ -32,7 +32,7 @@ public:
    *  \return a container containing the whole content of the file.
    */
   template <typename T>
-    std::enable_if_t<isContiguousContainer<T>::value, T> readAll();
+    std::enable_if_t<is_contiguous_container<T>::value, T> readAll();
 };
 
 }

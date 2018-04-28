@@ -34,7 +34,7 @@ enum class SysError
  *
  *  \param ec the error code.
  */
-HOU_SYS_API std::string getText(SysError ec);
+HOU_SYS_API std::string get_text(SysError ec);
 
 }
 

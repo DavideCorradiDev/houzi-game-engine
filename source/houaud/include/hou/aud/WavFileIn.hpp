@@ -7,7 +7,7 @@
 
 #include "hou/aud/AudExport.hpp"
 #include "hou/aud/AudioStreamIn.hpp"
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/cor/non_copyable.hpp"
 
 #include "hou/sys/File.hpp"
 
@@ -19,7 +19,7 @@ namespace hou
 /** Input wav file stream.
  */
 class HOU_AUD_API WavFileIn
-  : public NonCopyable
+  : public non_copyable
   , public AudioStreamIn
 {
 public:

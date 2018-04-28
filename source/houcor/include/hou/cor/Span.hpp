@@ -5,10 +5,10 @@
 #ifndef HOU_COR_SPAN_HPP
 #define HOU_COR_SPAN_HPP
 
-#include "hou/cor/CorExport.hpp"
+#include "hou/cor/cor_export.hpp"
 
-#include "hou/cor/Error.hpp"
-#include "hou/cor/TemplateUtils.hpp"
+#include "hou/cor/error.hpp"
+#include "hou/cor/template_utils.hpp"
 
 #include <iostream>
 
@@ -17,12 +17,12 @@
 namespace hou
 {
 
-template <typename T> struct isSpan;
+template <typename T> struct is_span;
 
 namespace prv
 {
 
-template <typename T> class SpanIterator;
+template <typename T> class span_iterator;
 
 }
 
@@ -31,18 +31,18 @@ template <typename T> class SpanIterator;
 /** Lightweight proxy for any contiguous container which can be represented by
  *  a pointer and a size.
  *
- *  A Span does not contain any elements, it just references elements placed
+ *  A span does not contain any elements, it just references elements placed
  *  elsewhere in memory.
- *  The user must ensure that a Span always points at a valid memory block.
+ *  The user must ensure that a span always points at a valid memory block.
  *
- *  Note that a Span has different semantics than containers, as they don't
+ *  Note that a span has different semantics than containers, as they don't
  *  hold any elements but just a reference to a memory address.
  *
  *  \tparam T the value type. For constant containers it should be
  *  const value_type.
  */
 template <typename T>
-  class Span
+  class span
 {
 public:
   /** The value type. */
@@ -60,7 +60,7 @@ public:
   /** The const_pointer type. */
   using const_pointer = std::add_pointer_t<const_reference>;
   /** The iterator type. */
-  using iterator = prv::SpanIterator<T>;
+  using iterator = prv::span_iterator<T>;
   /** The const iterator type. */
   using const_iterator = iterator;
   /** The reverse iterator type. */
@@ -71,7 +71,7 @@ public:
 public:
   /** Builds a span pointing to no data.
    */
-  Span();
+  span();
 
   /** Builds a span from the given pointer and size.
    *
@@ -80,7 +80,7 @@ public:
    *  \param data the pointer to the beginning of the data buffer.
    *  \param size the size of the data buffer.
    */
-  Span(pointer data, size_type size);
+  span(pointer data, size_type size);
 
   /** Builds a span from the given pointer to begin and end of the data buffer.
    *
@@ -89,7 +89,7 @@ public:
    *  \param first a pointer to the begin of the data buffer.
    *  \param last a pointer to the end of the data buffer.
    */
-  Span(pointer first, pointer last);
+  span(pointer first, pointer last);
 
   /** Builds a span from a constant container using contiguous memory.
    *
@@ -101,10 +101,10 @@ public:
     , typename Enable = std::enable_if_t
     <std::is_const<T>::value
     && !std::is_const<Container>::value
-    && !isSpan<Container>::value
+    && !is_span<Container>::value
     && std::is_convertible<typename Container::pointer, pointer>::value
-    && isContiguousContainer<Container>::value>>
-    Span(const Container& c);
+    && is_contiguous_container<Container>::value>>
+    span(const Container& c);
 
   /** Builds a span from a container using contiguous memory.
    *
@@ -115,10 +115,10 @@ public:
   template <typename Container
     , typename Enable = std::enable_if_t
     <!std::is_const<Container>::value
-    && !isSpan<Container>::value
+    && !is_span<Container>::value
     && std::is_convertible<typename Container::pointer, pointer>::value
-    && isContiguousContainer<Container>::value>>
-    Span(Container& c);
+    && is_contiguous_container<Container>::value>>
+    span(Container& c);
 
   /** Gets a pointer to the begin of the data buffer.
    *
@@ -192,43 +192,43 @@ private:
   size_type mSize;
 };
 
-/** Checks if two Span objects are equal.
+/** Checks if two span objects are equal.
  *
  *  Two spans are equal if the memory adress the point at and the size is the
  *  same, the check does not compare the elements in the buffer.
  *
- *  \tparam T the value type of the Span.
+ *  \tparam T the value type of the span.
  *  \param lhs the left operand.
  *  \param rhs the right operand.
- *  \return true if the two Span objects are equal.
+ *  \return true if the two span objects are equal.
  */
 template <typename T>
-  bool operator==(const Span<T>& lhs, const Span<T>& rhs);
+  bool operator==(const span<T>& lhs, const span<T>& rhs);
 
-/** Checks if two Span objects are not equal.
+/** Checks if two span objects are not equal.
  *
  *  Two spans are equal if the memory adress the point at and the size is the
  *  same, the check does not compare the elements in the buffer.
  *
- *  \tparam T the value type of the Span.
+ *  \tparam T the value type of the span.
  *  \param lhs the left operand.
  *  \param rhs the right operand.
- *  \return true if the two Span objects are not equal.
+ *  \return true if the two span objects are not equal.
  */
 template <typename T>
-  bool operator!=(const Span<T>& lhs, const Span<T>& rhs);
+  bool operator!=(const span<T>& lhs, const span<T>& rhs);
 
-/** Outsputs a Span object into a stream.
+/** Outsputs a span object into a stream.
  *
- *  \tparam T the value type of the Span.
+ *  \tparam T the value type of the span.
  *  \param os the output stream.
- *  \param s the Span.
+ *  \param s the span.
  *  \return a reference to os.
  */
 template <typename T>
-  std::ostream& operator<<(std::ostream& os, const Span<T>& s);
+  std::ostream& operator<<(std::ostream& os, const span<T>& s);
 
-/** Reinterprets the Span as a Span with a different underlying type.
+/** Reinterprets the span as a span with a different underlying type.
  *
  *  Throws if the size of the input span in bytes is not divisible by the size
  *  of Out.
@@ -239,7 +239,7 @@ template <typename T>
  *  \return the input span reinterpreted with Out as underlying type.
  */
 template <typename Out, typename In>
-Span<Out> reinterpretSpan(const Span<In>& in);
+span<Out> reinterpret_span(const span<In>& in);
 
 
 
@@ -247,19 +247,19 @@ namespace prv
 {
 
 template <class T>
-  struct isSpanHelper : std::false_type {};
+  struct is_span_helper : std::false_type {};
 
 template <class T>
-  struct isSpanHelper<Span<T>> : std::true_type {};
+  struct is_span_helper<span<T>> : std::true_type {};
 
 }
 
-/** Template checker to determine if the type is a Span.
+/** Template checker to determine if the type is a span.
  *
  *  \tparam T the type to be checked.
  */
 template <class T>
-  struct isSpan : public prv::isSpanHelper<std::remove_cv_t<T>> {};
+  struct is_span : public prv::is_span_helper<std::remove_cv_t<T>> {};
 
 
 
@@ -267,98 +267,98 @@ namespace prv
 {
 
 template <typename T>
-  class SpanIterator
+  class span_iterator
 {
   public:
     using iterator_category = std::random_access_iterator_tag;
-    using value_type = typename Span<T>::value_type;
-    using size_type = typename Span<T>::size_type;
-    using difference_type = typename Span<T>::difference_type;
-    using reference = typename Span<T>::reference;
-    using pointer = typename Span<T>::pointer;
+    using value_type = typename span<T>::value_type;
+    using size_type = typename span<T>::size_type;
+    using difference_type = typename span<T>::difference_type;
+    using reference = typename span<T>::reference;
+    using pointer = typename span<T>::pointer;
 
   public:
-    constexpr SpanIterator(const Span<T>& span, size_type index);
+    constexpr span_iterator(const span<T>& span, size_type index);
 
     constexpr reference operator*() const;
     constexpr pointer operator->() const;
-    constexpr SpanIterator& operator+=(difference_type rhs);
-    constexpr SpanIterator& operator++();
-    constexpr SpanIterator operator++(int);
-    constexpr SpanIterator& operator-=(difference_type rhs);
-    constexpr SpanIterator& operator--();
-    constexpr SpanIterator operator--(int);
+    constexpr span_iterator& operator+=(difference_type rhs);
+    constexpr span_iterator& operator++();
+    constexpr span_iterator operator++(int);
+    constexpr span_iterator& operator-=(difference_type rhs);
+    constexpr span_iterator& operator--();
+    constexpr span_iterator operator--(int);
     constexpr reference operator[](difference_type offset) const;
 
-    friend constexpr SpanIterator operator+(SpanIterator lhs
+    friend constexpr span_iterator operator+(span_iterator lhs
       , difference_type rhs)
     {
       return lhs += rhs;
     }
 
-    friend constexpr SpanIterator operator+(difference_type lhs
-      , SpanIterator rhs)
+    friend constexpr span_iterator operator+(difference_type lhs
+      , span_iterator rhs)
     {
       return rhs += lhs;
     }
 
-    friend constexpr SpanIterator operator-(SpanIterator lhs
+    friend constexpr span_iterator operator-(span_iterator lhs
       , difference_type rhs)
     {
       return lhs -= rhs;
     }
 
-    friend constexpr difference_type operator-(const SpanIterator& lhs
-      , const SpanIterator& rhs)
+    friend constexpr difference_type operator-(const span_iterator& lhs
+      , const span_iterator& rhs)
     {
-      HOU_EXPECT(lhs.mSpan == rhs.mSpan);
-      HOU_EXPECT(lhs.mIndex >= rhs.mIndex);
-      return lhs.mIndex - rhs.mIndex;
+      HOU_EXPECT(lhs.m_span == rhs.m_span);
+      HOU_EXPECT(lhs.m_index >= rhs.m_index);
+      return lhs.m_index - rhs.m_index;
     }
 
-    friend constexpr bool operator==(const SpanIterator& lhs
-      , const SpanIterator& rhs)
+    friend constexpr bool operator==(const span_iterator& lhs
+      , const span_iterator& rhs)
     {
-      return lhs.mSpan == rhs.mSpan && lhs.mIndex == rhs.mIndex;
+      return lhs.m_span == rhs.m_span && lhs.m_index == rhs.m_index;
     }
 
-    friend constexpr bool operator!=(const SpanIterator& lhs
-      , const SpanIterator& rhs)
+    friend constexpr bool operator!=(const span_iterator& lhs
+      , const span_iterator& rhs)
     {
       return !(lhs == rhs);
     }
 
-    friend constexpr bool operator<(const SpanIterator& lhs
-      , const SpanIterator& rhs)
+    friend constexpr bool operator<(const span_iterator& lhs
+      , const span_iterator& rhs)
     {
-      HOU_EXPECT(lhs.mSpan == rhs.mSpan);
-      return lhs.mIndex < rhs.mIndex;
+      HOU_EXPECT(lhs.m_span == rhs.m_span);
+      return lhs.m_index < rhs.m_index;
     }
 
-    friend constexpr bool operator<=(const SpanIterator& lhs
-      , const SpanIterator& rhs)
+    friend constexpr bool operator<=(const span_iterator& lhs
+      , const span_iterator& rhs)
     {
-      HOU_EXPECT(lhs.mSpan == rhs.mSpan);
-      return lhs.mIndex <= rhs.mIndex;
+      HOU_EXPECT(lhs.m_span == rhs.m_span);
+      return lhs.m_index <= rhs.m_index;
     }
 
-    friend constexpr bool operator>(const SpanIterator& lhs
-      , const SpanIterator& rhs)
+    friend constexpr bool operator>(const span_iterator& lhs
+      , const span_iterator& rhs)
     {
-      HOU_EXPECT(lhs.mSpan == rhs.mSpan);
-      return lhs.mIndex > rhs.mIndex;
+      HOU_EXPECT(lhs.m_span == rhs.m_span);
+      return lhs.m_index > rhs.m_index;
     }
 
-    friend constexpr bool operator>=(const SpanIterator& lhs
-      , const SpanIterator& rhs)
+    friend constexpr bool operator>=(const span_iterator& lhs
+      , const span_iterator& rhs)
     {
-      HOU_EXPECT(lhs.mSpan == rhs.mSpan);
-      return lhs.mIndex >= rhs.mIndex;
+      HOU_EXPECT(lhs.m_span == rhs.m_span);
+      return lhs.m_index >= rhs.m_index;
     }
 
   private:
-    const Span<T>* mSpan;
-    size_type mIndex;
+    const span<T>* m_span;
+    size_type m_index;
 };
 
 }
@@ -367,7 +367,7 @@ template <typename T>
 
 
 
-#include "hou/cor/Span.inl"
+#include "hou/cor/span.inl"
 
 #endif
 

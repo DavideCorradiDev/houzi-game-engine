@@ -7,7 +7,7 @@
 
 #include "hou/sys/SysExport.hpp"
 
-#include "hou/cor/Pragmas.hpp"
+#include "hou/cor/pragmas.hpp"
 
 #include "hou/sys/Color.hpp"
 #include "hou/sys/PixelFwd.hpp"

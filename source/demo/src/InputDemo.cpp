@@ -1,4 +1,4 @@
-#include "hou/cor/BasicTypes.hpp"
+#include "hou/cor/basic_types.hpp"
 
 #include "hou/mth/Transform2.hpp"
 
@@ -495,11 +495,11 @@ int main()
         , projTrans * keyboard2Trans);
       meshRnd.draw(wnd, mouseQuad, mouseTex, hou::Color::White
         , projTrans * mouseTrans);
-      std::string mousePosText = hou::formatString("SCREEN MOUSE CURSOR POSITION: (%d, %d)"
+      std::string mousePosText = hou::format_string("SCREEN MOUSE CURSOR POSITION: (%d, %d)"
         , hou::Mouse::getPosition().x(), hou::Mouse::getPosition().y());
       textRnd.draw(wnd, mousePosText, font, hou::Color::Green
         , projTrans * mousePosTextTrans);
-      std::string mouseRelPosText = hou::formatString("WINDOW MOUSE CURSOR POSITION: (%d, %d)"
+      std::string mouseRelPosText = hou::format_string("WINDOW MOUSE CURSOR POSITION: (%d, %d)"
         , hou::Mouse::getPosition(wnd).x(), hou::Mouse::getPosition(wnd).y());
       textRnd.draw(wnd, mouseRelPosText, font, hou::Color::Green
         , projTrans * mouseRelPosTextTrans);

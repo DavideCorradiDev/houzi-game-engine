@@ -7,7 +7,7 @@
 #include "hou/gl/GlCheck.hpp"
 #include "hou/gl/GlContext.hpp"
 
-#include "hou/cor/UidGenerator.hpp"
+#include "hou/cor/uid_generator.hpp"
 
 
 
@@ -26,7 +26,7 @@ uint32_t generateUid();
 
 uint32_t generateUid()
 {
-  static UidGenerator gen(1u);
+  static uid_generator gen(1u);
   return gen.generate();
 }
 
@@ -35,7 +35,7 @@ uint32_t generateUid()
 
 
 ObjectHandle::ObjectHandle(GLuint name)
-  : NonCopyable()
+  : non_copyable()
   , mName(name)
   , mUid(generateUid())
 {}
@@ -43,7 +43,7 @@ ObjectHandle::ObjectHandle(GLuint name)
 
 
 ObjectHandle::ObjectHandle(ObjectHandle&& other)
-  : NonCopyable()
+  : non_copyable()
   , mName(other.mName)
   , mUid(other.mUid)
 {

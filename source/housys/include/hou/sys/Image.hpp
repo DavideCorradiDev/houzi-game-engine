@@ -7,8 +7,8 @@
 
 #include "hou/sys/SysExport.hpp"
 
-#include "hou/cor/Span.hpp"
-#include "hou/cor/StdVector.hpp"
+#include "hou/cor/span.hpp"
+#include "hou/cor/std_vector.hpp"
 
 #include "hou/mth/Matrix.hpp"
 
@@ -106,7 +106,7 @@ public:
    *  \param size the size of the image.
    *  \param pixels the collection of pixels of the image.
    */
-  Image(const Size& size, const Span<const Pixel>& pixels);
+  Image(const Size& size, const span<const Pixel>& pixels);
 
   /** Pixels move constructor.
    *
@@ -160,7 +160,7 @@ public:
    *
    *  \param pixels the pixels.
    */
-  void setPixels(const Span<const Pixel>& pixels);
+  void setPixels(const span<const Pixel>& pixels);
 
   /** Retrieves a single pixel.
    *

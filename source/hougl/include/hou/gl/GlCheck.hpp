@@ -8,7 +8,7 @@
 #include "hou/gl/GlExport.hpp"
 #include "hou/gl/OpenGl.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
+#include "hou/cor/basic_types.hpp"
 
 #include <string>
 

@@ -97,7 +97,7 @@ TEST_F(TestFileDeathTest, CreationError)
 {
   HOU_EXPECT_ERROR(File f("NotAValidName.txt", FileOpenMode::Read
     , FileType::Binary), std::runtime_error
-    , formatString(getText(SysError::FileOpen), "NotAValidName.txt"));
+    , format_string(get_text(SysError::FileOpen), "NotAValidName.txt"));
 }
 
 
@@ -140,10 +140,10 @@ TEST_F(TestFileDeathTest, CursorPositioningError)
   File f(fileName, FileOpenMode::Read, FileType::Binary);
 
   HOU_EXPECT_ERROR(f.seekSet(-1), std::runtime_error
-    , getText(SysError::FileSeek));
+    , get_text(SysError::FileSeek));
 
   HOU_EXPECT_ERROR(f.seekOffset(-2), std::runtime_error
-    , getText(SysError::FileSeek));
+    , get_text(SysError::FileSeek));
 
   // error flag is not set, only for read / write errors!
   EXPECT_FALSE(f.error());
@@ -346,11 +346,11 @@ TEST_F(TestFileDeathTest, ReadFromWriteOnlyFile)
 
   char c;
   HOU_EXPECT_ERROR(f.getc(c), std::runtime_error
-    , getText(SysError::FileRead));
+    , get_text(SysError::FileRead));
 
   std::string buffer(3u, 0);
   HOU_EXPECT_ERROR(f.read(buffer), std::runtime_error
-    , getText(SysError::FileRead));
+    , get_text(SysError::FileRead));
 
 #if defined(HOU_USE_EXCEPTIONS)
   // With no exceptions handling, the HOU_EXPECT_ERROR macro does some magic,
@@ -366,11 +366,11 @@ TEST_F(TestFileDeathTest, WriteToReadOnlyFile)
   File f(fileName, FileOpenMode::Read, FileType::Binary);
 
   HOU_EXPECT_ERROR(f.putc('a'), std::runtime_error
-    , getText(SysError::FileWrite));
+    , get_text(SysError::FileWrite));
 
   std::string toWrite = u8"I have\nwritten this";
   HOU_EXPECT_ERROR(f.write(toWrite), std::runtime_error
-    , getText(SysError::FileWrite));
+    , get_text(SysError::FileWrite));
 
 #ifndef HOU_DISABLE_EXCEPTIONS
   // With no exceptions handling, the HOU_EXPECT_ERROR macro does some magic,

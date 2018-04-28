@@ -3,7 +3,7 @@ namespace hou
 
 template <typename T>
 MeshT<T>::MeshT(
-  MeshDrawMode drawMode, MeshFillMode fillMode, const Span<const T>& vertices)
+  MeshDrawMode drawMode, MeshFillMode fillMode, const span<const T>& vertices)
   : Mesh(drawMode, fillMode, vertices.size())
   , mVbo(vertices)
 {

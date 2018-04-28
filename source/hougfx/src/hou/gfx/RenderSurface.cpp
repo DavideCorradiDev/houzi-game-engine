@@ -61,7 +61,7 @@ uint RenderSurface::getMaxSampleCount()
 
 
 RenderSurface::RenderSurface(const Vec2u& size, uint sampleCount)
-  : NonCopyable()
+  : non_copyable()
   , mFrameBuffer()
   , mColorAttachment(nullptr)
   , mDepthStencilAttachment(nullptr)
@@ -74,7 +74,7 @@ RenderSurface::RenderSurface(const Vec2u& size, uint sampleCount)
 
 
 RenderSurface::RenderSurface(RenderSurface&& other)
-  : NonCopyable()
+  : non_copyable()
   , mFrameBuffer(std::move(other.mFrameBuffer))
   , mColorAttachment(std::move(other.mColorAttachment))
   , mDepthStencilAttachment(std::move(other.mDepthStencilAttachment))

@@ -7,8 +7,8 @@
 
 #include "hou/sys/SysExport.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
-#include "hou/cor/Error.hpp"
+#include "hou/cor/basic_types.hpp"
+#include "hou/cor/error.hpp"
 
 
 
@@ -106,7 +106,7 @@ HOU_SYS_API std::string getLastWinErrorMessage();
 
 #define HOU_WIN_EXPECT(condition) \
   HOU_LOGIC_CHECK(condition \
-    , getText(hou::CorError::Precondition) + std::string(" (" #condition ")."))
+    , get_text(hou::cor_error::pre_condition) + std::string(" (" #condition ")."))
 
 
 
@@ -120,7 +120,7 @@ HOU_SYS_API std::string getLastWinErrorMessage();
 
 #define HOU_WIN_ENSURE(condition) \
   HOU_WIN_LOGIC_CHECK(condition \
-    , getText(hou::CorError::Postcondition) + std::string(" (" #condition ")."))
+    , get_text(hou::cor_error::post_condition) + std::string(" (" #condition ")."))
 
 
 

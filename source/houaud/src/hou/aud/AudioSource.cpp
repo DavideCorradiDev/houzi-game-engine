@@ -4,8 +4,8 @@
 
 #include "hou/aud/AudioSource.hpp"
 
-#include "hou/cor/CorError.hpp"
-#include "hou/cor/Error.hpp"
+#include "hou/cor/cor_error.hpp"
+#include "hou/cor/error.hpp"
 
 #include "hou/mth/MathFunctions.hpp"
 
@@ -32,7 +32,7 @@ AudioSourceState alSourceStateToAudioSourceState(ALenum state)
   case AL_STOPPED:
     return AudioSourceState::Stopped;
   default:
-    HOU_LOGIC_ERROR(getText(CorError::InvalidEnum), static_cast<int>(state));
+    HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(state));
     return AudioSourceState::Stopped;
   }
 }
@@ -49,7 +49,7 @@ uint normalize(uint value, uint max)
 
 
 AudioSource::AudioSource()
-  : NonCopyable()
+  : non_copyable()
   , mHandle(al::SourceHandle::generate())
   , mRequestedSamplePos(0u)
 {}

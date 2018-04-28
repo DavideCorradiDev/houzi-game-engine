@@ -9,7 +9,7 @@
 #include "hou/gl/GlError.hpp"
 #include "hou/gl/GlShaderHandle.hpp"
 
-#include "hou/cor/Error.hpp"
+#include "hou/cor/error.hpp"
 #include "hou/cor/character_encodings.hpp"
 
 
@@ -134,7 +134,7 @@ void linkProgram(const ProgramHandle& program)
     GLchar infoLog[maxInfoLogSize];
     glGetProgramInfoLog(program.getName(), maxInfoLogSize, nullptr, infoLog);
     HOU_GL_CHECK_ERROR();
-    HOU_RUNTIME_ERROR(getText(GlError::ProgramLinking), infoLog);
+    HOU_RUNTIME_ERROR(get_text(GlError::ProgramLinking), infoLog);
   }
 }
 
@@ -147,7 +147,7 @@ GLint getProgramUniformLocation(const ProgramHandle& program
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(program);
   GLint location = glGetUniformLocation(program.getName(), name);
   HOU_GL_CHECK_ERROR();
-  HOU_RUNTIME_CHECK(location != -1, getText(GlError::ProgramInvalidUniform)
+  HOU_RUNTIME_CHECK(location != -1, get_text(GlError::ProgramInvalidUniform)
     , name);
   return location;
 }

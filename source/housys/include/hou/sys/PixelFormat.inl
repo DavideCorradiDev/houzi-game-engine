@@ -14,7 +14,7 @@ constexpr uint getPixelFormatByteCount(PixelFormat format)
   case PixelFormat::RGBA:
     return 4u;
   default:
-    HOU_LOGIC_ERROR(getText(CorError::InvalidEnum), static_cast<int>(format));
+    HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(format));
     return 1u;
   };
 }

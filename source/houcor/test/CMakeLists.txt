@@ -36,20 +36,20 @@ INCLUDE_DIRECTORIES(
 # Source files.
 SET(EXE_HOUCOR_TEST_SRC
   ${LIB_HOUTEST_SOURCE_DIR}/src/TestMain.cpp
-  hou/cor/TestBitwiseOperators.cpp
+  hou/cor/test_bitwise_operators.cpp
   hou/cor/test_character_encodings.cpp
   hou/cor/test_clock.cpp
-  hou/cor/TestCoreFunctions.cpp
-  hou/cor/TestError.cpp
-  hou/cor/TestNotNull.cpp
-  hou/cor/TestSpan.cpp
-  hou/cor/TestStdArray.cpp
-  hou/cor/TestStdChrono.cpp
-  hou/cor/TestStdString.cpp
-  hou/cor/TestStdVector.cpp
-  hou/cor/TestStopwatch.cpp
-  hou/cor/TestTemplateUtils.cpp
-  hou/cor/TestUidGenerator.cpp
+  hou/cor/test_core_functions.cpp
+  hou/cor/test_error.cpp
+  hou/cor/test_not_null.cpp
+  hou/cor/test_span.cpp
+  hou/cor/test_std_array.cpp
+  hou/cor/test_std_chrono.cpp
+  hou/cor/test_std_string.cpp
+  hou/cor/test_std_vector.cpp
+  hou/cor/test_stopwatch.cpp
+  hou/cor/test_template_utils.cpp
+  hou/cor/test_uid_generator.cpp
 )
 
 

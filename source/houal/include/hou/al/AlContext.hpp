@@ -9,8 +9,8 @@
 
 #include "hou/al/OpenAl.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/cor/basic_types.hpp"
+#include "hou/cor/non_copyable.hpp"
 
 
 
@@ -23,7 +23,7 @@ namespace al
 class Device;
 
 class HOU_AL_API Context
-  : public NonCopyable
+  : public non_copyable
 {
 public:
   static void setCurrent(Context& context);

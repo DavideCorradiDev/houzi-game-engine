@@ -5,13 +5,13 @@
 #ifndef HOU_GFX_FONT_HPP
 #define HOU_GFX_FONT_HPP
 
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/cor/non_copyable.hpp"
 #include "hou/gfx/GfxExport.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
+#include "hou/cor/basic_types.hpp"
 #include "hou/cor/character_encodings.hpp"
-#include "hou/cor/NotNull.hpp"
-#include "hou/cor/Span.hpp"
+#include "hou/cor/not_null.hpp"
+#include "hou/cor/span.hpp"
 
 #include "hou/mth/MatrixFwd.hpp"
 #include "hou/mth/RectangleFwd.hpp"
@@ -39,7 +39,7 @@ class Glyph;
  * All metrics are expressed in 26.6 pixel format, which means the unit is
  * 1/64th of pixel.
  */
-class HOU_GFX_API Font : public NonCopyable
+class HOU_GFX_API Font : public non_copyable
 {
 public:
   /** Creates a Font object from the given font raw data.
@@ -50,7 +50,7 @@ public:
    *
    * \param data the font data.
    */
-  explicit Font(const Span<const uint8_t>& data);
+  explicit Font(const span<const uint8_t>& data);
 
   /** Creates a Font object from the given binary input stream.
    *
@@ -60,7 +60,7 @@ public:
    *
    * \param fontStream the font stream.
    */
-  explicit Font(NotNull<std::unique_ptr<BinaryStreamIn>> fontStream);
+  explicit Font(not_null<std::unique_ptr<BinaryStreamIn>> fontStream);
 
   /** Move constructor.
    *

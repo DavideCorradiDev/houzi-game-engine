@@ -4,8 +4,8 @@
 
 #include "hou/gl/GlContext.hpp"
 
-#include "hou/cor/Error.hpp"
-#include "hou/cor/UidGenerator.hpp"
+#include "hou/cor/error.hpp"
+#include "hou/cor/uid_generator.hpp"
 
 #include "hou/sys/Window.hpp"
 
@@ -26,7 +26,7 @@ uint32_t generateUid();
 
 uint32_t generateUid()
 {
-  static UidGenerator uidGenerator(1u);
+  static uid_generator uidGenerator(1u);
   return uidGenerator.generate();
 }
 
@@ -79,7 +79,7 @@ Context::Context(const ContextSettings& settings, const Window& window,
 
 
 Context::Context(Context&& other)
-  : NonCopyable()
+  : non_copyable()
   , mImpl(std::move(other.mImpl))
   , mUid(std::move(other.mUid))
   , mSharingGroupUid(std::move(other.mSharingGroupUid))
@@ -131,7 +131,7 @@ thread_local uint32_t Context::sCurrentWindowUid(0u);
 
 Context::Context(const ContextSettings& settings, const Window& window,
   const Context* sharedContext)
-  : NonCopyable()
+  : non_copyable()
   , mImpl(settings, window,
       (sharedContext == nullptr) ? nullptr : &(sharedContext->mImpl))
   , mUid(generateUid())

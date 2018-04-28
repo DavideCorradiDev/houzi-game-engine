@@ -9,7 +9,7 @@
 namespace hou
 {
 
-std::string getText(AlError ec)
+std::string get_text(AlError ec)
 {
   switch(ec)
   {
@@ -29,7 +29,7 @@ std::string getText(AlError ec)
       return u8"Invalid AL context.";
     case AlError::InvalidDevice:
       return u8"Invalid AL device.";
-    case AlError::InvalidEnum:
+    case AlError::invalid_enum:
       return u8"Invalid AL enum.";
     case AlError::InvalidName:
       return u8"Invalid AL name.";

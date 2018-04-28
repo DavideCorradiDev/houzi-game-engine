@@ -5,11 +5,11 @@
 #ifndef HOU_COR_ERROR
 #define HOU_COR_ERROR
 
-#include "hou/cor/CorExport.hpp"
+#include "hou/cor/cor_export.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
-#include "hou/cor/CorError.hpp"
-#include "hou/cor/StdString.hpp"
+#include "hou/cor/basic_types.hpp"
+#include "hou/cor/cor_error.hpp"
+#include "hou/cor/std_string.hpp"
 
 #include <iostream>
 #include <stdexcept>
@@ -39,7 +39,7 @@ namespace hou
  *  \return the formatted error message.
  */
 template <typename... FormattingVariables>
-  std::string formatErrorMessage(const std::string& filePath, int line
+  std::string format_error_message(const std::string& filePath, int line
   , const std::string& message, const FormattingVariables&... vars);
 
 }
@@ -47,7 +47,7 @@ template <typename... FormattingVariables>
 
 
 #define HOU_ERRMSG(...) \
-  ::hou::formatErrorMessage(__FILE__, __LINE__, __VA_ARGS__)
+  ::hou::format_error_message(__FILE__, __LINE__, __VA_ARGS__)
 
 
 
@@ -149,7 +149,7 @@ template <typename... FormattingVariables>
 
 #define HOU_EXPECT(condition) \
   HOU_LOGIC_CHECK(condition \
-    , getText(::hou::CorError::Precondition) + std::string(" (" #condition ")."))
+    , get_text(::hou::cor_error::pre_condition) + std::string(" (" #condition ")."))
 
 
 
@@ -163,7 +163,7 @@ template <typename... FormattingVariables>
 
 #define HOU_ENSURE(condition) \
   HOU_LOGIC_CHECK(condition \
-    , getText(::hou::CorError::Postcondition) + std::string(" (" #condition ")."))
+    , get_text(::hou::cor_error::post_condition) + std::string(" (" #condition ")."))
 
 
 
@@ -177,7 +177,7 @@ template <typename... FormattingVariables>
 
 #define HOU_EXPECT_FATAL(condition) \
   HOU_FATAL_CHECK(condition \
-    , getText(::hou::CorError::Precondition) + std::string(" (" #condition ")."))
+    , get_text(::hou::cor_error::pre_condition) + std::string(" (" #condition ")."))
 
 
 
@@ -192,7 +192,7 @@ template <typename... FormattingVariables>
 
 #define HOU_ENSURE_FATAL(condition) \
   HOU_FATAL_CHECK(condition \
-    , getText(::hou::CorError::Postcondition) + std::string(" (" #condition ")."))
+    , get_text(::hou::cor_error::post_condition) + std::string(" (" #condition ")."))
 
 
 

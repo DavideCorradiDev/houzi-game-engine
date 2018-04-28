@@ -24,7 +24,7 @@ enum class GfxError
  *
  *  \param ec the error code.
  */
-HOU_GFX_API std::string getText(GfxError ec);
+HOU_GFX_API std::string get_text(GfxError ec);
 
 }
 

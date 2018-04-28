@@ -5,7 +5,7 @@
 #include "hou/Test.hpp"
 #include "hou/sys/TestData.hpp"
 
-#include "hou/cor/Span.hpp"
+#include "hou/cor/span.hpp"
 
 #include "hou/sys/BinaryFileIn.hpp"
 #include "hou/sys/BinaryFileOut.hpp"
@@ -106,7 +106,7 @@ TEST_F(TestBinaryFileOutDeathTest, SetBytePosError)
 {
   BinaryFileOut fo(fileName);
   HOU_EXPECT_ERROR(fo.setBytePos(-1), std::runtime_error
-    , getText(SysError::FileSeek));
+    , get_text(SysError::FileSeek));
 }
 
 
@@ -135,7 +135,7 @@ TEST_F(TestBinaryFileOutDeathTest, MoveBytePosError)
 {
   BinaryFileOut fo(fileName);
   HOU_EXPECT_ERROR(fo.moveBytePos(-1), std::runtime_error
-    , getText(SysError::FileSeek));
+    , get_text(SysError::FileSeek));
 }
 
 
@@ -272,7 +272,7 @@ TEST_F(TestBinaryFileOut, WriteSpan)
   static constexpr size_t byteCount = sizeof(BufferType) * bufferSize;
 
   std::vector<BufferType> vecOut = {1u, 2u, 3u};
-  Span<BufferType> bufOut(vecOut);
+  span<BufferType> bufOut(vecOut);
 
   {
     BinaryFileOut fo(fileName);
@@ -283,7 +283,7 @@ TEST_F(TestBinaryFileOut, WriteSpan)
 
   BinaryFileIn fi(fileName);
   std::vector<BufferType> vecIn(3u, 0u);
-  Span<BufferType> bufIn(vecIn);
+  span<BufferType> bufIn(vecIn);
   fi.read(bufIn);
   EXPECT_EQ(byteCount, fi.getByteCount());
   EXPECT_EQ(byteCount, fi.getReadByteCount());

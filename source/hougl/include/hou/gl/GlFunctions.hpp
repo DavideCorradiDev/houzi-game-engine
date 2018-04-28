@@ -10,7 +10,7 @@
 #include "hou/gl/GlVerticalSyncMode.hpp"
 #include "hou/gl/OpenGl.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
+#include "hou/cor/basic_types.hpp"
 
 #include "hou/mth/RectangleFwd.hpp"
 

@@ -6,10 +6,10 @@
 #define HOU_SYS_FILE_HANDLE_HPP
 
 #include "hou/sys/SysExport.hpp"
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/cor/non_copyable.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
-#include "hou/cor/NotNull.hpp"
+#include "hou/cor/basic_types.hpp"
+#include "hou/cor/not_null.hpp"
 
 #include "hou/sys/FileOpenMode.hpp"
 #include "hou/sys/FileType.hpp"
@@ -24,7 +24,7 @@ namespace hou
 /** Manages the lifetime of a file handle.
  */
 class HOU_SYS_API FileHandle
-  : public NonCopyable
+  : public non_copyable
 {
 public: 
   /** Path constructor.
@@ -134,7 +134,7 @@ HOU_SYS_API std::string getFilenameExtension(const std::string& path);
  *  \param file the file pointer.
  *  \return the file descriptor.
  */
-HOU_SYS_API int getFileDescriptor(NotNull<FILE*> file);
+HOU_SYS_API int getFileDescriptor(not_null<FILE*> file);
 
 /** Retrieves the size of a file in bytes.
  *

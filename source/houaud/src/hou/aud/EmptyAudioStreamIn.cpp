@@ -62,7 +62,7 @@ EmptyAudioStreamIn::BytePosition EmptyAudioStreamIn::getBytePos() const
 
 BinaryStream& EmptyAudioStreamIn::setBytePos(BytePosition pos)
 {
-  HOU_RUNTIME_CHECK(pos == 0, getText(SysError::FileSeek));
+  HOU_RUNTIME_CHECK(pos == 0, get_text(SysError::FileSeek));
   HOU_EXPECT(pos == 0);
   return *this;
 }
@@ -71,7 +71,7 @@ BinaryStream& EmptyAudioStreamIn::setBytePos(BytePosition pos)
 
 BinaryStream& EmptyAudioStreamIn::moveBytePos(ByteOffset offset)
 {
-  HOU_RUNTIME_CHECK(offset == 0, getText(SysError::FileSeek));
+  HOU_RUNTIME_CHECK(offset == 0, get_text(SysError::FileSeek));
   return *this;
 }
 
@@ -93,7 +93,7 @@ EmptyAudioStreamIn::SamplePosition EmptyAudioStreamIn::getSamplePos() const
 
 AudioStreamIn& EmptyAudioStreamIn::setSamplePos(SamplePosition pos)
 {
-  HOU_RUNTIME_CHECK(pos == 0, getText(SysError::FileSeek));
+  HOU_RUNTIME_CHECK(pos == 0, get_text(SysError::FileSeek));
   return *this;
 }
 
@@ -101,7 +101,7 @@ AudioStreamIn& EmptyAudioStreamIn::setSamplePos(SamplePosition pos)
 
 AudioStreamIn& EmptyAudioStreamIn::moveSamplePos(SampleOffset offset)
 {
-  HOU_RUNTIME_CHECK(offset == 0, getText(SysError::FileSeek));
+  HOU_RUNTIME_CHECK(offset == 0, get_text(SysError::FileSeek));
   return *this;
 }
 

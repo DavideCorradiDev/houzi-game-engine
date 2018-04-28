@@ -34,14 +34,14 @@ uint VertexArray::getMaxBindingIndex()
 
 
 VertexArray::VertexArray()
-  : NonCopyable()
+  : non_copyable()
   , mHandle(gl::VertexArrayHandle::create())
 {}
 
 
 
 VertexArray::VertexArray(VertexArray&& other)
-  : NonCopyable()
+  : non_copyable()
   , mHandle(std::move(other.mHandle))
 {}
 

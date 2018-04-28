@@ -7,7 +7,7 @@
 
 #include "hou/gfx/TextureChannel.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
+#include "hou/cor/basic_types.hpp"
 
 
 

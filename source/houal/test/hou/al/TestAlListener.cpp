@@ -7,7 +7,7 @@
 
 #include "hou/al/AlListener.hpp"
 
-#include "hou/cor/StdArray.hpp"
+#include "hou/cor/std_array.hpp"
 
 using namespace hou;
 

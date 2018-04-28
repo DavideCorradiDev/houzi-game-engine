@@ -4,7 +4,7 @@
 
 #include "hou/sys/WindowImpl.hpp"
 
-#include "hou/cor/Error.hpp"
+#include "hou/cor/error.hpp"
 
 #include "hou/sys/WindowEvent.hpp"
 

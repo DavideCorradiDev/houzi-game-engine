@@ -38,6 +38,6 @@ TEST_F(TestAlBufferHandleDeathTest, DISABLED_NoContextCreation)
 {
   al::Context::unsetCurrent();
   HOU_EXPECT_ERROR(al::BufferHandle::generate(), std::logic_error
-    , getText(AlError::ContextExistence));
+    , get_text(AlError::ContextExistence));
 }
 

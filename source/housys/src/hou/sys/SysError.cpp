@@ -9,7 +9,7 @@
 namespace hou
 {
 
-std::string getText(SysError ec)
+std::string get_text(SysError ec)
 {
   switch(ec)
   {

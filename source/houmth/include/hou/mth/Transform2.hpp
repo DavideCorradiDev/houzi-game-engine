@@ -12,7 +12,7 @@
 #include "hou/mth/Rotation2Fwd.hpp"
 #include "hou/mth/Transform2Fwd.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
+#include "hou/cor/basic_types.hpp"
 
 #include <iostream>
 #include <limits>

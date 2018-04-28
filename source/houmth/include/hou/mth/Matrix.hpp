@@ -7,10 +7,10 @@
 
 #include "hou/mth/MthExport.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
-#include "hou/cor/Error.hpp"
-#include "hou/cor/StdArray.hpp"
-#include "hou/cor/TemplateUtils.hpp"
+#include "hou/cor/basic_types.hpp"
+#include "hou/cor/error.hpp"
+#include "hou/cor/std_array.hpp"
+#include "hou/cor/template_utils.hpp"
 
 #include "hou/mth/MatrixFwd.hpp"
 

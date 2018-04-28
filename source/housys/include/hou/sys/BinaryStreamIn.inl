@@ -8,7 +8,7 @@ namespace hou
 {
 
 template <typename T>
-std::enable_if_t<isContiguousContainer<T>::value, T> BinaryStreamIn::readAll()
+std::enable_if_t<is_contiguous_container<T>::value, T> BinaryStreamIn::readAll()
 {
   T data(getByteCount());
   setBytePos(0u);

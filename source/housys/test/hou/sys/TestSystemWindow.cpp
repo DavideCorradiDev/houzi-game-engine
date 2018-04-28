@@ -117,7 +117,7 @@ TEST_F(TestSystemWindowDeathTest, CreateFullscreenErrorInvalidVideoMode)
 {
   HOU_EXPECT_ERROR(SystemWindow w1("Win", VideoMode(Vec2u::zero(), 32),
                      WindowStyle::Fullscreen),
-    std::logic_error, getText(CorError::Precondition));
+    std::logic_error, get_text(cor_error::pre_condition));
 }
 
 
@@ -128,7 +128,7 @@ TEST_F(TestSystemWindowDeathTest,
   SystemWindow w2("Win", VideoMode::getDesktopMode(), WindowStyle::Fullscreen);
   HOU_EXPECT_ERROR(SystemWindow w3("Win", VideoMode::getDesktopMode(),
                      WindowStyle::Fullscreen),
-    std::logic_error, getText(CorError::Precondition));
+    std::logic_error, get_text(cor_error::pre_condition));
 }
 
 

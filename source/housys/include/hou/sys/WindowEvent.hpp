@@ -14,7 +14,7 @@
 #include "hou/sys/ScanCode.hpp"
 #include "hou/sys/WindowEventType.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
+#include "hou/cor/basic_types.hpp"
 
 
 

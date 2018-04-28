@@ -5,9 +5,9 @@
 #ifndef HOU_COR_CLOCK_HPP
 #define HOU_COR_CLOCK_HPP
 
-#include "hou/cor/CorExport.hpp"
+#include "hou/cor/cor_export.hpp"
 
-#include "hou/cor/StdChrono.hpp"
+#include "hou/cor/std_chrono.hpp"
 
 
 

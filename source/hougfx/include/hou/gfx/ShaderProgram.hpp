@@ -5,10 +5,10 @@
 #ifndef HOU_GFX_SHADER_PROGRAM_HPP
 #define HOU_GFX_SHADER_PROGRAM_HPP
 
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/cor/non_copyable.hpp"
 #include "hou/gfx/GfxExport.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
+#include "hou/cor/basic_types.hpp"
 #include "hou/cor/character_encodings.hpp"
 
 #include "hou/mth/MatrixFwd.hpp"
@@ -24,7 +24,7 @@
 namespace hou
 {
 
-class HOU_GFX_API ShaderProgram : public NonCopyable
+class HOU_GFX_API ShaderProgram : public non_copyable
 {
 public:
   static void bind(const ShaderProgram& program);

@@ -4,7 +4,7 @@
 
 #include "hou/gfx/MeshDrawMode.hpp"
 
-#include "hou/cor/Error.hpp"
+#include "hou/cor/error.hpp"
 
 #define MESH_DRAW_MODE_CASE(mdm, os) \
   case MeshDrawMode::mdm:            \

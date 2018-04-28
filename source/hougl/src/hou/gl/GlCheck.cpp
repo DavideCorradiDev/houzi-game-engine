@@ -8,7 +8,7 @@
 #include "hou/gl/GlError.hpp"
 #include "hou/gl/GlObjectHandle.hpp"
 
-#include "hou/cor/Error.hpp"
+#include "hou/cor/error.hpp"
 
 
 
@@ -28,25 +28,25 @@ std::string getErrorMessage(GLenum err)
   switch(err)
   {
     case GL_CONTEXT_LOST:
-      return getText(GlError::ContextLost);
+      return get_text(GlError::ContextLost);
     case GL_INVALID_ENUM:
-      return getText(GlError::InvalidEnum);
+      return get_text(GlError::invalid_enum);
     case GL_INVALID_FRAMEBUFFER_OPERATION:
-      return getText(GlError::InvalidFramebufferOperation);
+      return get_text(GlError::InvalidFramebufferOperation);
     case GL_INVALID_OPERATION:
-      return getText(GlError::InvalidOperation);
+      return get_text(GlError::InvalidOperation);
     case GL_INVALID_VALUE:
-      return getText(GlError::InvalidValue);
+      return get_text(GlError::InvalidValue);
     case GL_OUT_OF_MEMORY:
-      return getText(GlError::OutOfMemory);
+      return get_text(GlError::OutOfMemory);
     case GL_STACK_OVERFLOW:
-      return getText(GlError::StackOverflow);
+      return get_text(GlError::StackOverflow);
     case GL_STACK_UNDERFLOW:
-      return getText(GlError::StackUnderflow);
+      return get_text(GlError::StackUnderflow);
     case GL_TABLE_TOO_LARGE:
-      return getText(GlError::TableTooLarge);
+      return get_text(GlError::TableTooLarge);
     default:
-      HOU_LOGIC_ERROR(getText(CorError::InvalidEnum), static_cast<int>(err));
+      HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(err));
       return u8"";
   }
 }
@@ -59,7 +59,7 @@ void checkError(const std::string& filename, int line)
 {
   for(GLenum err; (err = glGetError()) != GL_NO_ERROR;)
   {
-    HOU_THROW(std::logic_error, formatErrorMessage(filename, line
+    HOU_THROW(std::logic_error, format_error_message(filename, line
       , getErrorMessage(err)));
   }
 }
@@ -70,8 +70,8 @@ void checkContextExistence(const std::string& filename, int line)
 {
   if(Context::getCurrent() == nullptr)
   {
-    HOU_THROW(std::logic_error, formatErrorMessage(filename, line
-      , getText(GlError::ContextExistence)));
+    HOU_THROW(std::logic_error, format_error_message(filename, line
+      , get_text(GlError::ContextExistence)));
   }
 }
 
@@ -84,8 +84,8 @@ void checkContextOwnership(const SharedObjectHandle& object
   if(Context::getCurrent()->getSharingGroupUid()
     != object.getOwningSharingGroupUid())
   {
-    HOU_THROW(std::logic_error, formatErrorMessage(filename, line
-      , getText(GlError::InvalidOwnership)));
+    HOU_THROW(std::logic_error, format_error_message(filename, line
+      , get_text(GlError::InvalidOwnership)));
   }
 }
 
@@ -98,8 +98,8 @@ void checkContextOwnership(const NonSharedObjectHandle& object
   if(Context::getCurrent()->getUid()
     != object.getOwningContextUid())
   {
-    HOU_THROW(std::logic_error, formatErrorMessage(filename, line
-      , getText(GlError::InvalidOwnership)));
+    HOU_THROW(std::logic_error, format_error_message(filename, line
+      , get_text(GlError::InvalidOwnership)));
   }
 }
 

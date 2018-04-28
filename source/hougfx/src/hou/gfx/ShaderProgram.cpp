@@ -41,7 +41,7 @@ ShaderProgram::ShaderProgram(
 
 
 ShaderProgram::ShaderProgram(ShaderProgram&& other)
-  : NonCopyable()
+  : non_copyable()
   , mHandle(std::move(other.mHandle))
 {}
 
@@ -76,7 +76,7 @@ uint ShaderProgram::getUniformLocation(const std::string& uniformName) const
 
 ShaderProgram::ShaderProgram(
   const VertexShader& vs, const FragmentShader& fs, const GeometryShader* gs)
-  : NonCopyable()
+  : non_copyable()
   , mHandle(gl::ProgramHandle::create())
 {
   gl::attachShader(mHandle, vs.getHandle());

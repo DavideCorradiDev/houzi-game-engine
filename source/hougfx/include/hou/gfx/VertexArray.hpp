@@ -5,10 +5,10 @@
 #ifndef HOU_GFX_VERTEX_ARRAY_HPP
 #define HOU_GFX_VERTEX_ARRAY_HPP
 
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/cor/non_copyable.hpp"
 #include "hou/gfx/GfxExport.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
+#include "hou/cor/basic_types.hpp"
 
 #include "hou/gl/GlVertexArrayHandle.hpp"
 
@@ -22,7 +22,7 @@ class VertexFormat;
 
 /** Represents a VertexArray object.
  */
-class HOU_GFX_API VertexArray : public NonCopyable
+class HOU_GFX_API VertexArray : public non_copyable
 {
 public:
   /** Binds the VertexArray to the current GraphicContext.

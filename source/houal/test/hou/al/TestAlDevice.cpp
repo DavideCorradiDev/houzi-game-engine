@@ -37,7 +37,7 @@ TEST(TestAlDeviceDeathTest, CreationFailure)
 {
   std::string invalidDeviceName = u8"Invalid device name";
   HOU_EXPECT_ERROR(al::Device d(invalidDeviceName), std::runtime_error
-    , formatString(getText(AlError::DeviceOpen), invalidDeviceName.c_str()));
+    , format_string(get_text(AlError::DeviceOpen), invalidDeviceName.c_str()));
 }
 
 

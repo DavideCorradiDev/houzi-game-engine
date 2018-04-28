@@ -8,7 +8,7 @@
 #include "hou/sys/SysExport.hpp"
 #include "hou/sys/BinaryStreamOut.hpp"
 
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/cor/non_copyable.hpp"
 
 #include "hou/sys/File.hpp"
 
@@ -20,7 +20,7 @@ namespace hou
 /** Output binary file stream.
  */
 class HOU_SYS_API BinaryFileOut
-  : public NonCopyable
+  : public non_copyable
   , public BinaryStreamOut
 {
 public:

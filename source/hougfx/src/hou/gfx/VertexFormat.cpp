@@ -19,7 +19,7 @@ uint VertexFormat::getMaxAttribFormatCount()
 
 
 VertexFormat::VertexFormat(ptrdiff_t offset, uint stride,
-  const Span<const VertexAttribFormat>& vertexAttribFormats)
+  const span<const VertexAttribFormat>& vertexAttribFormats)
   : mOffset(offset)
   , mStride(stride)
   , mVertexAttribFormats(vertexAttribFormats.begin(), vertexAttribFormats.end())

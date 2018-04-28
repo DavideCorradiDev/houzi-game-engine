@@ -13,7 +13,7 @@ VertexBufferT<T, dynamicStorage>::VertexBufferT(uint size)
 
 
 template <typename T, bool dynamicStorage>
-VertexBufferT<T, dynamicStorage>::VertexBufferT(const Span<const T>& data)
+VertexBufferT<T, dynamicStorage>::VertexBufferT(const span<const T>& data)
   : VertexBuffer(data.size() * sizeof(T),
       reinterpret_cast<const void*>(data.data()), dynamicStorage)
 {}
@@ -64,7 +64,7 @@ typename VertexBufferT<T, dynamicStorage>::DataType
 
 template <typename T, bool dynamicStorage>
 template <bool ds, typename Enable>
-void VertexBufferT<T, dynamicStorage>::setData(const Span<const T>& data)
+void VertexBufferT<T, dynamicStorage>::setData(const span<const T>& data)
 {
   HOU_EXPECT(data.size() == getSize());
   setSubData(0u, data);
@@ -75,7 +75,7 @@ void VertexBufferT<T, dynamicStorage>::setData(const Span<const T>& data)
 template <typename T, bool dynamicStorage>
 template <bool ds, typename Enable>
 void VertexBufferT<T, dynamicStorage>::setSubData(
-  uint offset, const Span<const T>& data)
+  uint offset, const span<const T>& data)
 {
   HOU_EXPECT_DEV(getByteCount() % sizeof(T) == 0u);
   HOU_EXPECT(offset + data.size() <= getSize());

@@ -5,7 +5,7 @@
 #ifndef HOU_MTH_RECTANGLE_HPP
 #define HOU_MTH_RECTANGLE_HPP
 
-#include "hou/cor/BasicTypes.hpp"
+#include "hou/cor/basic_types.hpp"
 
 #include "hou/mth/RectangleFwd.hpp"
 #include "hou/mth/Matrix.hpp"

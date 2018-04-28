@@ -64,7 +64,7 @@ TEST(TestAlContextDeathTest, ContextCreationFailed)
   al::Device d2(std::move(d1));
 
   HOU_EXPECT_ERROR(al::Context c(d1), std::runtime_error
-    , getText(AlError::ContextCreate));
+    , get_text(AlError::ContextCreate));
 }
 
 

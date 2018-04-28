@@ -38,6 +38,6 @@ TEST_F(TestAlSourceHandleDeathTest, DISABLED_NoContextCreation)
 {
   al::Context::unsetCurrent();
   HOU_EXPECT_ERROR(al::SourceHandle::generate(), std::logic_error
-    , getText(AlError::ContextExistence));
+    , get_text(AlError::ContextExistence));
 }
 

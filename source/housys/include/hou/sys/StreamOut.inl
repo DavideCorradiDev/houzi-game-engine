@@ -6,7 +6,7 @@ namespace hou
 {
 
 template <typename T>
-  std::enable_if_t<std::is_pod<T>::value && !isContiguousContainer<T>::value
+  std::enable_if_t<std::is_pod<T>::value && !is_contiguous_container<T>::value
   , StreamOut>& StreamOut::write(const T& buf)
 {
   onWrite(&buf, sizeof(T), 1u);
@@ -16,7 +16,7 @@ template <typename T>
 
 
 template <typename T>
-  std::enable_if_t<isContiguousContainer<T>::value, StreamOut>&
+  std::enable_if_t<is_contiguous_container<T>::value, StreamOut>&
   StreamOut::write(const T& buf)
 {
   onWrite(buf.data(), sizeof(typename T::value_type), buf.size());

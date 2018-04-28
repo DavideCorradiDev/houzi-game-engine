@@ -72,7 +72,7 @@ TEST_F(TestWavFileInDeathTest, CheckFailureInvalidFile)
 {
   std::string invalidFileName = u8"Invalidfile";
   HOU_EXPECT_ERROR(WavFileIn::check(invalidFileName), std::runtime_error,
-    formatString(getText(SysError::FileOpen), invalidFileName.c_str()));
+    format_string(get_text(SysError::FileOpen), invalidFileName.c_str()));
 }
 
 
@@ -100,7 +100,7 @@ TEST_F(TestWavFileInDeathTest, PathConstructorFailureFileNotExisting)
 {
   std::string invalidFileName = u8"InvalidFileName";
   HOU_EXPECT_ERROR(WavFileIn fi(invalidFileName), std::runtime_error,
-    formatString(getText(SysError::FileOpen), invalidFileName.c_str()));
+    format_string(get_text(SysError::FileOpen), invalidFileName.c_str()));
 }
 
 
@@ -138,8 +138,8 @@ TEST_F(TestWavFileInDeathTest, PathConstructorFailureInvalidWavFile)
   }
 
   HOU_EXPECT_ERROR(WavFileIn fi(dummyWavFileName), std::runtime_error,
-    formatString(
-      getText(AudError::WavInvalidHeader), dummyWavFileName.c_str()));
+    format_string(
+      get_text(AudError::WavInvalidHeader), dummyWavFileName.c_str()));
 
   removeDir(dummyWavFileName);
 }
@@ -155,8 +155,8 @@ TEST_F(TestWavFileInDeathTest, PathConstructorFailureNoWavHeader)
   }
 
   HOU_EXPECT_ERROR(WavFileIn fi(dummyWavFileName), std::runtime_error,
-    formatString(
-      getText(AudError::WavInvalidHeader), dummyWavFileName.c_str()));
+    format_string(
+      get_text(AudError::WavInvalidHeader), dummyWavFileName.c_str()));
 
   removeDir(dummyWavFileName);
 }
@@ -256,9 +256,9 @@ TEST_F(TestWavFileInDeathTest, SetBytePosErrorPositionInSample)
 {
   WavFileIn fi(mono16FileName);
   HOU_EXPECT_ERROR(
-    fi.setBytePos(3), std::logic_error, getText(CorError::Precondition));
+    fi.setBytePos(3), std::logic_error, get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(fi.setBytePos(fi.getByteCount() + 3), std::logic_error,
-    getText(CorError::Precondition));
+    get_text(cor_error::pre_condition));
 }
 
 
@@ -267,9 +267,9 @@ TEST_F(TestWavFileInDeathTest, SetBytePosErrorInvalidPosition)
 {
   WavFileIn fi(mono16FileName);
   HOU_EXPECT_ERROR(
-    fi.setBytePos(-2), std::runtime_error, getText(SysError::FileSeek));
+    fi.setBytePos(-2), std::runtime_error, get_text(SysError::FileSeek));
   HOU_EXPECT_ERROR(fi.setBytePos(fi.getByteCount() + 2), std::runtime_error,
-    getText(SysError::FileSeek));
+    get_text(SysError::FileSeek));
 }
 
 
@@ -296,9 +296,9 @@ TEST_F(TestWavFileInDeathTest, MoveBytePosErrorPositionInSample)
   WavFileIn fi(mono16FileName);
   fi.moveBytePos(4);
   HOU_EXPECT_ERROR(
-    fi.moveBytePos(3), std::logic_error, getText(CorError::Precondition));
+    fi.moveBytePos(3), std::logic_error, get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(fi.moveBytePos(fi.getByteCount() + 3), std::logic_error,
-    getText(CorError::Precondition));
+    get_text(cor_error::pre_condition));
 }
 
 
@@ -308,9 +308,9 @@ TEST_F(TestWavFileInDeathTest, MoveBytePosErrorInvalidPosition)
   WavFileIn fi(mono16FileName);
   fi.moveBytePos(4);
   HOU_EXPECT_ERROR(
-    fi.moveBytePos(-6), std::runtime_error, getText(SysError::FileSeek));
+    fi.moveBytePos(-6), std::runtime_error, get_text(SysError::FileSeek));
   HOU_EXPECT_ERROR(fi.moveBytePos(fi.getByteCount() - 2), std::runtime_error,
-    getText(SysError::FileSeek));
+    get_text(SysError::FileSeek));
 }
 
 
@@ -391,9 +391,9 @@ TEST_F(TestWavFileInDeathTest, SetSamplePosErrorInvalidPosition)
 {
   WavFileIn fi(mono16FileName);
   HOU_EXPECT_ERROR(
-    fi.setSamplePos(-1), std::runtime_error, getText(SysError::FileSeek));
+    fi.setSamplePos(-1), std::runtime_error, get_text(SysError::FileSeek));
   HOU_EXPECT_ERROR(fi.setSamplePos(fi.getSampleCount() + 1), std::runtime_error,
-    getText(SysError::FileSeek));
+    get_text(SysError::FileSeek));
 }
 
 
@@ -499,9 +499,9 @@ TEST_F(TestWavFileInDeathTest, MoveSamplePosErrorInvalidPosition)
   WavFileIn fi(mono16FileName);
   fi.moveSamplePos(2);
   HOU_EXPECT_ERROR(
-    fi.moveSamplePos(-3), std::runtime_error, getText(SysError::FileSeek));
+    fi.moveSamplePos(-3), std::runtime_error, get_text(SysError::FileSeek));
   HOU_EXPECT_ERROR(fi.moveSamplePos(fi.getSampleCount() - 1),
-    std::runtime_error, getText(SysError::FileSeek));
+    std::runtime_error, get_text(SysError::FileSeek));
 }
 
 
@@ -644,7 +644,7 @@ TEST_F(TestWavFileInDeathTest, ReadToInvalidSizeBuffer)
   EXPECT_EQ(AudioBufferFormat::Mono16, fi.getFormat());
 
   HOU_EXPECT_ERROR(
-    fi.read(buffer), std::logic_error, getText(CorError::Precondition));
+    fi.read(buffer), std::logic_error, get_text(cor_error::pre_condition));
 }
 
 

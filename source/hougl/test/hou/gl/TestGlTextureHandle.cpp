@@ -41,7 +41,7 @@ TEST_F(TestGlTextureHandleDeathTest, DISABLED_NoContextCreation)
 {
   gl::Context::unsetCurrent();
   HOU_EXPECT_ERROR(gl::TextureHandle::create(GL_TEXTURE_2D), std::logic_error,
-    getText(GlError::ContextExistence));
+    get_text(GlError::ContextExistence));
 }
 
 
@@ -184,7 +184,7 @@ TEST_F(TestGlTextureHandleDeathTest, DISABLED_NonSharingContextBinding)
   gl::TextureHandle th = gl::TextureHandle::create(GL_TEXTURE_1D);
   setNonSharingContextCurrent();
   HOU_EXPECT_ERROR(
-    gl::bindTexture(th), std::logic_error, getText(GlError::InvalidOwnership));
+    gl::bindTexture(th), std::logic_error, get_text(GlError::InvalidOwnership));
   setContextCurrent();
 }
 
@@ -199,7 +199,7 @@ TEST_F(TestGlTextureHandleDeathTest, DISABLED_NoContextBinding)
   gl::TextureHandle th = gl::TextureHandle::create(GL_TEXTURE_1D);
   gl::Context::unsetCurrent();
   HOU_EXPECT_ERROR(
-    gl::bindTexture(th), std::logic_error, getText(GlError::ContextExistence));
+    gl::bindTexture(th), std::logic_error, get_text(GlError::ContextExistence));
   setContextCurrent();
 }
 

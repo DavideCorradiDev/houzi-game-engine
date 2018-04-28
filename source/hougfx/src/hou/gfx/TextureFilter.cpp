@@ -4,8 +4,8 @@
 
 #include "hou/gfx/TextureFilter.hpp"
 
-#include "hou/cor/CorError.hpp"
-#include "hou/cor/Error.hpp"
+#include "hou/cor/cor_error.hpp"
+#include "hou/cor/error.hpp"
 
 #define TEXTURE_FILTER_CASE(tf, os) \
   case TextureFilter::tf:           \

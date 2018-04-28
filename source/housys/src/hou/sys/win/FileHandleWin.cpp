@@ -63,7 +63,7 @@ size_t getDirByteSize(const std::string& path)
 
 
 
-int getFileDescriptor(NotNull<FILE*> file)
+int getFileDescriptor(not_null<FILE*> file)
 {
   return _fileno(file.get());
 }

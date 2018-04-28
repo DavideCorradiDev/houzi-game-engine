@@ -24,7 +24,7 @@ enum class AlError
   DeviceOpen,
   InvalidContext,
   InvalidDevice,
-  InvalidEnum,
+  invalid_enum,
   InvalidName,
   InvalidOperation,
   InvalidOwnership,
@@ -32,7 +32,7 @@ enum class AlError
   OutOfMemory,
 };
 
-HOU_AL_API std::string getText(AlError ec);
+HOU_AL_API std::string get_text(AlError ec);
 
 }
 

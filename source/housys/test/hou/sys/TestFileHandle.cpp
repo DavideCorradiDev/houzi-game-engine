@@ -78,7 +78,7 @@ TEST_F(TestFileHandleDeathTest, PathConstructorError)
   std::string invalidFileName = u8"InvalidFileName.txt";
   HOU_EXPECT_ERROR(FileHandle f(invalidFileName, FileOpenMode::Read
     , FileType::Binary), std::runtime_error
-    , formatString(getText(SysError::FileOpen), invalidFileName.c_str()));
+    , format_string(get_text(SysError::FileOpen), invalidFileName.c_str()));
 }
 
 

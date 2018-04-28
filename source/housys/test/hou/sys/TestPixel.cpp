@@ -90,7 +90,7 @@ TEST_F(TestPixelFormatDeathTest, GetPixelFormatByteCountErrorInvalidEnum)
 {
   int enumVal = 5;
   HOU_EXPECT_ERROR(getPixelFormatByteCount(PixelFormat(enumVal)),
-    std::logic_error, formatString(getText(CorError::InvalidEnum), enumVal));
+    std::logic_error, format_string(get_text(cor_error::invalid_enum), enumVal));
 }
 
 

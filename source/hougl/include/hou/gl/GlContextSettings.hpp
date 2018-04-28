@@ -10,7 +10,7 @@
 #include "hou/gl/GlContextProfile.hpp"
 #include "hou/gl/GlVersion.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
+#include "hou/cor/basic_types.hpp"
 
 
 

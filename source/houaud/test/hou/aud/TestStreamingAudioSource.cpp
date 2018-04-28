@@ -11,7 +11,7 @@
 #include "hou/aud/OggFileIn.hpp"
 #include "hou/aud/StreamingAudioSource.hpp"
 
-#include "hou/cor/CorError.hpp"
+#include "hou/cor/cor_error.hpp"
 
 #include "hou/mth/MathFunctions.hpp"
 
@@ -411,7 +411,7 @@ TEST_F(TestStreamingAudioSourceDeathTest, SetBufferCountError)
 {
   StreamingAudioSource as(std::make_unique<OggFileIn>(audioFileName));
   HOU_EXPECT_ERROR(
-    as.setBufferCount(0u), std::logic_error, getText(CorError::Precondition));
+    as.setBufferCount(0u), std::logic_error, get_text(cor_error::pre_condition));
 }
 
 
@@ -455,5 +455,5 @@ TEST_F(TestStreamingAudioSourceDeathTest, SetBufferSampleCountError)
 {
   StreamingAudioSource as(std::make_unique<OggFileIn>(audioFileName));
   HOU_EXPECT_ERROR(as.setBufferSampleCount(0u), std::logic_error,
-    getText(CorError::Precondition));
+    get_text(cor_error::pre_condition));
 }

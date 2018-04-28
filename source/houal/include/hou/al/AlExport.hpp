@@ -5,7 +5,7 @@
 #ifndef HOU_AL_EXPORT_HPP
 #define HOU_AL_EXPORT_HPP
 
-#include "hou/Config.hpp"
+#include "hou/config.hpp"
 
 #if defined(HOU_AL_EXPORTS)
   #define HOU_AL_API HOU_EXPORT

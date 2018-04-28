@@ -7,9 +7,9 @@
 
 #include "hou/gfx/GfxExport.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
-#include "hou/cor/Span.hpp"
-#include "hou/cor/StdVector.hpp"
+#include "hou/cor/basic_types.hpp"
+#include "hou/cor/span.hpp"
+#include "hou/cor/std_vector.hpp"
 
 #include "hou/gfx/VertexAttribFormat.hpp"
 
@@ -30,7 +30,7 @@ public:
   static uint getMaxAttribFormatCount();
 
 public:
-  /** Span constructor.
+  /** span constructor.
    *
    *  Creates a VertexFormat with the specified offset, stride, and
    * VertexAttribFormat objects.
@@ -40,7 +40,7 @@ public:
    * bytes. \param vertexAttribFormats the format of the vertex attributes.
    */
   VertexFormat(ptrdiff_t offset, uint stride,
-    const Span<const VertexAttribFormat>& vertexAttribFormats);
+    const span<const VertexAttribFormat>& vertexAttribFormats);
 
   /** VertexAttribFormat move constructor.
    *

@@ -4,7 +4,7 @@
 
 #include "hou/gfx/VertexAttribFormat.hpp"
 
-#include "hou/cor/StdString.hpp"
+#include "hou/cor/std_string.hpp"
 
 
 
@@ -71,7 +71,7 @@ std::ostream& operator<<(std::ostream& os, const VertexAttribFormat& vf)
   return os << "{Type = " << vf.getType()
             << ", ElementCount = " << vf.getElementCount()
             << ", ByteOffset = " << vf.getByteOffset()
-            << ", MustBeNormalized = " << toString(vf.mustBeNormalized())
+            << ", MustBeNormalized = " << to_string(vf.mustBeNormalized())
             << "}";
 }
 

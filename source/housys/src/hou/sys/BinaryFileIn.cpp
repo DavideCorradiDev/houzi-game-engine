@@ -10,7 +10,7 @@ namespace hou
 {
 
 BinaryFileIn::BinaryFileIn(const std::string& path)
-  : NonCopyable()
+  : non_copyable()
   , BinaryStreamIn()
   , mFile(path, FileOpenMode::Read, FileType::Binary)
   , mByteCount(0u)

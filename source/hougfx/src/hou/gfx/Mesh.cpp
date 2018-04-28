@@ -21,7 +21,7 @@ void Mesh::draw(const Mesh& mesh)
 
 
 Mesh::Mesh(MeshDrawMode drawMode, MeshFillMode fillMode, uint vertexCount)
-  : NonCopyable()
+  : non_copyable()
   , mDrawMode(drawMode)
   , mFillMode(fillMode)
   , mVertexCount(vertexCount)
@@ -31,7 +31,7 @@ Mesh::Mesh(MeshDrawMode drawMode, MeshFillMode fillMode, uint vertexCount)
 
 
 Mesh::Mesh(Mesh&& other)
-  : NonCopyable()
+  : non_copyable()
   , mDrawMode(std::move(other.mDrawMode))
   , mFillMode(std::move(other.mFillMode))
   , mVertexCount(std::move(other.mVertexCount))

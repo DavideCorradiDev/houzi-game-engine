@@ -10,7 +10,7 @@
 
 #include "hou/aud/AudioBuffer.hpp"
 
-#include "hou/cor/NotNull.hpp"
+#include "hou/cor/not_null.hpp"
 
 #include <atomic>
 #include <memory>
@@ -65,7 +65,7 @@ public:
    *  \param audioStream the audio stream.
    */
   explicit StreamingAudioSource(
-    NotNull<std::unique_ptr<AudioStreamIn>> audioStream);
+    not_null<std::unique_ptr<AudioStreamIn>> audioStream);
 
   /** Destructor.
    */
@@ -78,7 +78,7 @@ public:
    *
    *  \param audioStream the stream.
    */
-  void setStream(NotNull<std::unique_ptr<AudioStreamIn>> audioStream);
+  void setStream(not_null<std::unique_ptr<AudioStreamIn>> audioStream);
 
   /** Sets the number of buffers in the buffer queue.
    *
@@ -148,7 +148,7 @@ private:
 private:
   std::thread mThread;
   std::mutex mThreadMutex;
-  NotNull<std::unique_ptr<AudioStreamIn>> mAudioStream;
+  not_null<std::unique_ptr<AudioStreamIn>> mAudioStream;
   BufferQueue mBufferQueue;
   std::atomic<bool> mStreamingThreadEndRequested;
   std::atomic<bool> mLooping;

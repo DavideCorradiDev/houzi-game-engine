@@ -6,7 +6,7 @@
 
 #include "hou/sys/SysError.hpp"
 
-#include "hou/cor/Error.hpp"
+#include "hou/cor/error.hpp"
 
 
 
@@ -14,16 +14,16 @@ namespace hou
 {
 
 FileHandle::FileHandle(const std::string& path, FileOpenMode mode, FileType type)
-  : NonCopyable()
+  : non_copyable()
   , mFile(openFile(path, getFileModeString(mode, type)))
 {
-  HOU_RUNTIME_CHECK(mFile != nullptr, getText(SysError::FileOpen), path.c_str());
+  HOU_RUNTIME_CHECK(mFile != nullptr, get_text(SysError::FileOpen), path.c_str());
 }
 
 
 
 FileHandle::FileHandle(FileHandle&& other)
-  : NonCopyable()
+  : non_copyable()
   , mFile(std::move(other.mFile))
 {
   other.mFile = nullptr;
@@ -35,7 +35,7 @@ FileHandle::~FileHandle()
 {
   if(mFile != nullptr)
   {
-    HOU_FATAL_CHECK(fclose(mFile) != EOF, getText(SysError::FileClose)
+    HOU_FATAL_CHECK(fclose(mFile) != EOF, get_text(SysError::FileClose)
       , getFileDescriptor(mFile));
   }
 }
@@ -69,7 +69,7 @@ std::string getFileModeString(FileOpenMode mode, FileType type)
 std::string getFilenameExtension(const std::string& path)
 {
   std::vector<std::string> pointSeparatedStrings;
-  splitString(path, '.', std::back_inserter(pointSeparatedStrings));
+  split_string(path, '.', std::back_inserter(pointSeparatedStrings));
   // If filename is empty, or if there is no point, return empty extension.
   if(pointSeparatedStrings.size() < 2u)
   {

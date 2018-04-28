@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_EXPORT_HPP
 #define HOU_GFX_EXPORT_HPP
 
-#include "hou/Config.hpp"
+#include "hou/config.hpp"
 
 #if defined(HOU_GFX_EXPORTS)
   #define HOU_GFX_API HOU_EXPORT

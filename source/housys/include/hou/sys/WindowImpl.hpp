@@ -6,7 +6,7 @@
 #define HOU_SYS_WINDOW_IMPL_HPP
 
 #include "hou/sys/SysExport.hpp"
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/cor/non_copyable.hpp"
 
 #include "hou/cor/character_encodings.hpp"
 
@@ -36,7 +36,7 @@ namespace prv
 {
 
 class WindowImpl
-  : public NonCopyable
+  : public non_copyable
 {
 public:
   WindowImpl(const std::string& title, const VideoMode& videoMode

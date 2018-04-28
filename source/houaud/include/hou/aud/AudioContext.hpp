@@ -6,7 +6,7 @@
 #define HOU_AUD_AUDIO_CONTEXT_HPP
 
 #include "hou/aud/AudExport.hpp"
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/cor/non_copyable.hpp"
 
 #include "hou/al/AlContext.hpp"
 #include "hou/al/AlDevice.hpp"
@@ -32,7 +32,7 @@ namespace hou
  *  AudioContext until another AudioContext is created or set as current.
  */
 class HOU_AUD_API AudioContext
-  : public NonCopyable
+  : public non_copyable
 {
 public:
   /** Sets this as the current context.

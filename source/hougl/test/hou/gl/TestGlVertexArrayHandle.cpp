@@ -38,7 +38,7 @@ TEST_F(TestGlVertexArrayHandleDeathTest, DISABLED_NoContextCreation)
 {
   gl::Context::unsetCurrent();
   HOU_EXPECT_ERROR(gl::VertexArrayHandle::create(), std::logic_error
-    , getText(GlError::ContextExistence));
+    , get_text(GlError::ContextExistence));
 }
 
 
@@ -97,7 +97,7 @@ TEST_F(TestGlVertexArrayHandleDeathTest, DISABLED_SharingContextBinding)
   gl::VertexArrayHandle vah = gl::VertexArrayHandle::create();
   setSharingContextCurrent();
   HOU_EXPECT_ERROR(gl::bindVertexArray(vah), std::logic_error
-    , getText(GlError::InvalidOwnership));
+    , get_text(GlError::InvalidOwnership));
   setContextCurrent();
 }
 
@@ -112,7 +112,7 @@ TEST_F(TestGlVertexArrayHandleDeathTest, DISABLED_NonSharingContextBinding)
   gl::VertexArrayHandle vah = gl::VertexArrayHandle::create();
   setNonSharingContextCurrent();
   HOU_EXPECT_ERROR(gl::bindVertexArray(vah), std::logic_error
-    , getText(GlError::InvalidOwnership));
+    , get_text(GlError::InvalidOwnership));
   setContextCurrent();
 }
 
@@ -127,7 +127,7 @@ TEST_F(TestGlVertexArrayHandleDeathTest, DISABLED_NoContextBinding)
   gl::VertexArrayHandle vah = gl::VertexArrayHandle::create();
   gl::Context::unsetCurrent();
   HOU_EXPECT_ERROR(gl::bindVertexArray(vah), std::logic_error
-    , getText(GlError::ContextExistence));
+    , get_text(GlError::ContextExistence));
   setContextCurrent();
 }
 

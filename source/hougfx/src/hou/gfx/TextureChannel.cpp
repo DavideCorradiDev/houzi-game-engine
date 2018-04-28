@@ -4,7 +4,7 @@
 
 #include "hou/gfx/TextureChannel.hpp"
 
-#include "hou/cor/Error.hpp"
+#include "hou/cor/error.hpp"
 
 #define TEXTURE_CHANNEL_CASE(tc, os) \
   case TextureChannel::tc:           \

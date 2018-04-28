@@ -69,7 +69,7 @@ TEST_F(TestRotation3, ConstructorNonUnitQuaternion)
 TEST_F(TestRotation3DeathTest, ConstructorFailureZeroQuaternion)
 {
   HOU_EXPECT_ERROR(Rot3f(Quatf::zero()), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
 }
 
 

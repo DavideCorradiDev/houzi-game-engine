@@ -4,8 +4,8 @@
 
 #include "hou/mth/Rotation2.hpp"
 
-#include "hou/cor/CoreFunctions.hpp"
-#include "hou/cor/Pragmas.hpp"
+#include "hou/cor/core_functions.hpp"
+#include "hou/cor/pragmas.hpp"
 
 #include "hou/mth/Matrix.hpp"
 #include "hou/mth/MathFunctions.hpp"

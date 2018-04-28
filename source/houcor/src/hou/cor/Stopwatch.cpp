@@ -2,79 +2,79 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/cor/Stopwatch.hpp"
+#include "hou/cor/stopwatch.hpp"
 
 
 
 namespace hou
 {
 
-std::chrono::nanoseconds Stopwatch::get_resolution()
+std::chrono::nanoseconds stopwatch::get_resolution()
 {
   return clock::get_resolution();
 }
 
 
 
-Stopwatch::Stopwatch()
+stopwatch::stopwatch()
   : m_clock()
-  , mElapsedTime(0)
-  , mRunning(false)
+  , m_elapsed_time(0)
+  , m_running(false)
 {}
 
 
 
-std::chrono::nanoseconds Stopwatch::get_elapsed_time() const
+std::chrono::nanoseconds stopwatch::get_elapsed_time() const
 {
-  return mElapsedTime
-    + (mRunning ? m_clock.get_elapsed_time() : std::chrono::nanoseconds(0));
+  return m_elapsed_time
+    + (m_running ? m_clock.get_elapsed_time() : std::chrono::nanoseconds(0));
 }
 
 
 
-bool Stopwatch::isRunning() const
+bool stopwatch::isRunning() const
 {
-  return mRunning;
+  return m_running;
 }
 
 
 
-std::chrono::nanoseconds Stopwatch::start()
+std::chrono::nanoseconds stopwatch::start()
 {
-  if(!mRunning)
+  if(!m_running)
   {
     m_clock.reset();
-    mRunning = true;
+    m_running = true;
   }
-  return mElapsedTime;
+  return m_elapsed_time;
 }
 
 
 
-std::chrono::nanoseconds Stopwatch::pause()
+std::chrono::nanoseconds stopwatch::pause()
 {
-  mElapsedTime = get_elapsed_time();
-  mRunning = false;
-  return mElapsedTime;
+  m_elapsed_time = get_elapsed_time();
+  m_running = false;
+  return m_elapsed_time;
 }
 
 
 
-std::chrono::nanoseconds Stopwatch::reset()
+std::chrono::nanoseconds stopwatch::reset()
 {
   std::chrono::nanoseconds elapsedTime = get_elapsed_time();
-  mElapsedTime = std::chrono::nanoseconds(0);
+  m_elapsed_time = std::chrono::nanoseconds(0);
   m_clock.reset();
   return elapsedTime;
 }
 
 
 
-std::chrono::nanoseconds Stopwatch::stop()
+std::chrono::nanoseconds stopwatch::stop()
 {
   std::chrono::nanoseconds elapsedTime = get_elapsed_time();
-  mElapsedTime = std::chrono::nanoseconds(0);
-  mRunning = false;
+  m_elapsed_time = std::chrono::nanoseconds(0);
+  m_running = false;
   return elapsedTime;
 }
 

@@ -5,7 +5,7 @@
 #ifndef HOU_COR_RECTANGLE_FWD_HPP
 #define HOU_COR_RECTANGLE_FWD_HPP
 
-#include "hou/cor/BasicTypes.hpp"
+#include "hou/cor/basic_types.hpp"
 
 
 

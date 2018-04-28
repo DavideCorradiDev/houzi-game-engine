@@ -6,7 +6,7 @@
 
 #include "hou/mth/Matrix.hpp"
 
-#include "hou/cor/CorError.hpp"
+#include "hou/cor/cor_error.hpp"
 
 using namespace hou;
 using namespace testing;
@@ -60,9 +60,9 @@ TEST_F(TestMatrix, InitializerListConstructor)
 TEST_F(TestMatrixDeathTest, InitializerListConstructorWrongSize)
 {
   HOU_EXPECT_ERROR(Mat3x2i({1, 2, 3}), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(Mat3x2i({1, 2, 3, 4, 5, 6, 7}), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
 }
 
 
@@ -154,10 +154,10 @@ TEST_F(TestMatrix, ElementAccessOperators)
 TEST_F(TestMatrixDeathTest, ElementAccessOutOfBounds)
 {
   Mat3x2i m;
-  HOU_EXPECT_ERROR(m(3,1), std::logic_error, getText(CorError::Precondition));
-  HOU_EXPECT_ERROR(m(2,2), std::logic_error, getText(CorError::Precondition));
-  HOU_EXPECT_ERROR(m(3,2), std::logic_error, getText(CorError::Precondition));
-  HOU_EXPECT_ERROR(m(7), std::logic_error, getText(CorError::Precondition));
+  HOU_EXPECT_ERROR(m(3,1), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(m(2,2), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(m(3,2), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(m(7), std::logic_error, get_text(cor_error::pre_condition));
 }
 
 
@@ -663,7 +663,7 @@ TEST_F(TestMatrixDeathTest, InverseFailureNullDeterminant)
 {
   Mat2x2f m = Mat2x2f::zero();
   HOU_EXPECT_ERROR(inverse(m), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
 }
 
 
@@ -787,7 +787,7 @@ TEST_F(TestMatrix, NormalizationMat3x1f)
 TEST_F(TestMatrix, NormalizationFailureNullNorm)
 {
   HOU_EXPECT_ERROR(normalized(Mat3x1f::zero()), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
 }
 
 

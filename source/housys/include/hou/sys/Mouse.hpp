@@ -9,7 +9,7 @@
 
 #include "hou/sys/MouseButton.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
+#include "hou/cor/basic_types.hpp"
 
 #include "hou/mth/MatrixFwd.hpp"
 

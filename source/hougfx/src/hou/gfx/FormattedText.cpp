@@ -1,6 +1,6 @@
 #include "hou/gfx/FormattedText.hpp"
 
-#include "hou/cor/Span.hpp"
+#include "hou/cor/span.hpp"
 
 #include "hou/gfx/Font.hpp"
 #include "hou/gfx/Glyph.hpp"
@@ -20,7 +20,7 @@ namespace
 class GlyphCache
 {
 public:
-  GlyphCache(const Span<const utf32::code_unit>& characters, const Font& font);
+  GlyphCache(const span<const utf32::code_unit>& characters, const Font& font);
 
   const std::map<utf32::code_unit, Glyph>& getGlyphs() const;
   const Glyph& getGlyph(utf32::code_unit c) const;
@@ -112,7 +112,7 @@ private:
 
 
 GlyphCache::GlyphCache(
-  const Span<const utf32::code_unit>& characters, const Font& font)
+  const span<const utf32::code_unit>& characters, const Font& font)
   : mGlyphs()
   , mMaxGlyphSize()
 {
@@ -561,7 +561,7 @@ FormattedText::FormattedText(const std::string& text, const Font& font,
 
 FormattedText::FormattedText(
   std::u32string text, const Font& font, const TextBoxFormattingParams& tbfp)
-  : NonCopyable()
+  : non_copyable()
   , mAtlas(nullptr)
   , mMesh(nullptr)
   , mBoundingBox()
@@ -581,7 +581,7 @@ FormattedText::FormattedText(
 
 
 FormattedText::FormattedText(FormattedText&& other)
-  : NonCopyable()
+  : non_copyable()
   , mAtlas(std::move(other.mAtlas))
   , mMesh(std::move(other.mMesh))
   , mBoundingBox(std::move(other.mBoundingBox))

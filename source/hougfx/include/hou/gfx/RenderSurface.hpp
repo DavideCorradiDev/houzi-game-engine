@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_RENDER_SURFACE_HPP
 #define HOU_GFX_RENDER_SURFACE_HPP
 
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/cor/non_copyable.hpp"
 #include "hou/gfx/GfxExport.hpp"
 
 #include "hou/gfx/FrameBuffer.hpp"
@@ -25,7 +25,7 @@ class Color;
 
 /** Abstract base class for surfaces that can be rendered onto.
  */
-class HOU_GFX_API RenderSurface : public NonCopyable
+class HOU_GFX_API RenderSurface : public non_copyable
 {
 public:
   /** Makes this RenderSurface the current render source.

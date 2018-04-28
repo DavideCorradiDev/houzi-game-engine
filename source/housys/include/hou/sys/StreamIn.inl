@@ -6,7 +6,7 @@ namespace hou
 {
 
 template <typename T>
-  std::enable_if_t<std::is_pod<T>::value && !isContiguousContainer<T>::value
+  std::enable_if_t<std::is_pod<T>::value && !is_contiguous_container<T>::value
   , StreamIn>& StreamIn::read(T& buf)
 {
   onRead(&buf, sizeof(T), 1u);
@@ -16,7 +16,7 @@ template <typename T>
 
 
 template <typename T>
-  std::enable_if_t<isContiguousContainer<T>::value, StreamIn>&
+  std::enable_if_t<is_contiguous_container<T>::value, StreamIn>&
   StreamIn::read(T& buf)
 {
   onRead(const_cast<typename T::pointer>(buf.data())

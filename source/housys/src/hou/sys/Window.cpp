@@ -7,7 +7,7 @@
 #include "hou/sys/VideoMode.hpp"
 #include "hou/sys/WindowEvent.hpp"
 
-#include "hou/cor/UidGenerator.hpp"
+#include "hou/cor/uid_generator.hpp"
 
 #include "hou/mth/Rectangle.hpp"
 
@@ -27,7 +27,7 @@ uint32_t generateUid();
 
 uint32_t generateUid()
 {
-  static UidGenerator uidGenerator(1u);
+  static uid_generator uidGenerator(1u);
   return uidGenerator.generate();
 }
 
@@ -37,7 +37,7 @@ uint32_t generateUid()
 
 Window::Window(const std::string& title, const VideoMode& videoMode
   , WindowStyle style)
-  : NonCopyable()
+  : non_copyable()
   , mImpl(title, videoMode, style)
   , mUid(generateUid())
   , mStyle(style)

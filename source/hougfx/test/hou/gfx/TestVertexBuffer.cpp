@@ -9,7 +9,7 @@
 
 #include "hou/gl/GlError.hpp"
 
-#include "hou/cor/CorError.hpp"
+#include "hou/cor/cor_error.hpp"
 
 using namespace hou;
 

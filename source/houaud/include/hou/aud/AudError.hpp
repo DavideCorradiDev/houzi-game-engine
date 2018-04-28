@@ -26,7 +26,7 @@ enum class AudError
  *
  *  \param ec the error code.
  */
-HOU_AUD_API std::string getText(AudError ec);
+HOU_AUD_API std::string get_text(AudError ec);
 
 }
 

@@ -6,7 +6,7 @@
 
 #include "hou/aud/AudError.hpp"
 
-#include "hou/cor/Error.hpp"
+#include "hou/cor/error.hpp"
 
 #include "hou/sys/BinaryFileIn.hpp"
 #include "hou/sys/SysError.hpp"
@@ -60,7 +60,7 @@ bool WavFileIn::check(const std::string& path)
 
 
 WavFileIn::WavFileIn(const std::string& path)
-  : NonCopyable()
+  : non_copyable()
   , AudioStreamIn()
   , mFile(path, FileOpenMode::Read, FileType::Binary)
   , mDataOffset(0u)
@@ -136,7 +136,7 @@ BinaryStream& WavFileIn::setBytePos(WavFileIn::BytePosition pos)
   HOU_EXPECT((pos % (getChannelCount() * getBytesPerSample())) == 0u);
   HOU_RUNTIME_CHECK(pos >= 0
     && pos <= static_cast<WavFileIn::BytePosition>(getByteCount())
-    , getText(SysError::FileSeek));
+    , get_text(SysError::FileSeek));
   mFile.seekSet(pos + mDataOffset);
   return *this;
 }
@@ -191,21 +191,21 @@ void WavFileIn::readMetadata(const std::string& path)
   read(format);
 
   // Check if the read opeartion was performed correctly.
-  HOU_RUNTIME_CHECK(!mFile.eof(), getText(AudError::WavInvalidHeader)
+  HOU_RUNTIME_CHECK(!mFile.eof(), get_text(AudError::WavInvalidHeader)
     , path.c_str());
 
   // Consistency checks.
   HOU_RUNTIME_CHECK(std::string(signature.id, wavHeaderStringSize) == u8"RIFF"
-    , getText(AudError::WavInvalidHeader), path.c_str());
+    , get_text(AudError::WavInvalidHeader), path.c_str());
   HOU_RUNTIME_CHECK(std::string(signature.form, wavHeaderStringSize) == u8"WAVE"
-    , getText(AudError::WavInvalidHeader), path.c_str());
+    , get_text(AudError::WavInvalidHeader), path.c_str());
   HOU_RUNTIME_CHECK(std::string(format.signature.id, wavHeaderStringSize)
-    == u8"fmt ", getText(AudError::WavInvalidHeader), path.c_str());
+    == u8"fmt ", get_text(AudError::WavInvalidHeader), path.c_str());
   HOU_RUNTIME_CHECK(format.byteRate == (format.sampleRate * format.channels
-    * format.bitsPerSample / 8), getText(AudError::WavInvalidHeader)
+    * format.bitsPerSample / 8), get_text(AudError::WavInvalidHeader)
     , path.c_str());
   HOU_RUNTIME_CHECK(format.blockAlign == (format.channels * format.bitsPerSample
-    / 8u), getText(AudError::WavInvalidHeader), path.c_str());
+    / 8u), get_text(AudError::WavInvalidHeader), path.c_str());
 
   // Look for the data subchunk.and set the data offset.
   WavChunkSignature chunkSignature;
@@ -214,7 +214,7 @@ void WavFileIn::readMetadata(const std::string& path)
   {
     mFile.seekOffset(chunkSignature.size);
     read(chunkSignature);
-    HOU_RUNTIME_CHECK(!eof(), getText(AudError::WavInvalidHeader)
+    HOU_RUNTIME_CHECK(!eof(), get_text(AudError::WavInvalidHeader)
       , path.c_str());
   }
 

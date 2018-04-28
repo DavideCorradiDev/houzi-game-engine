@@ -31,7 +31,7 @@ std::vector<std::string> AudioContext::getDeviceNames()
 
 
 AudioContext::AudioContext()
-  : NonCopyable()
+  : non_copyable()
   , mAlDevice()
   , mAlContext(mAlDevice)
 {
@@ -41,7 +41,7 @@ AudioContext::AudioContext()
 
 
 AudioContext::AudioContext(const std::string& deviceName)
-  : NonCopyable()
+  : non_copyable()
   , mAlDevice(deviceName)
   , mAlContext(mAlDevice)
 {

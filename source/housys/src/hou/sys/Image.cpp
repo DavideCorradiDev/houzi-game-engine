@@ -4,7 +4,7 @@
 
 #include "hou/sys/Image.hpp"
 
-#include "hou/cor/Error.hpp"
+#include "hou/cor/error.hpp"
 
 #include "hou/sys/BinaryFileIn.hpp"
 #include "hou/sys/SysError.hpp"
@@ -245,7 +245,7 @@ int pixelFormatToSoilFormat(PixelFormat fmt)
   case PixelFormat::RGBA:
     return SOIL_LOAD_RGBA;
   default:
-    HOU_LOGIC_ERROR(getText(CorError::InvalidEnum), static_cast<int>(fmt));
+    HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(fmt));
     return 0u;
   }
 }
@@ -289,7 +289,7 @@ std::tuple<Image2<fmt>, bool> soilLoadFromMemory(SoilLoadFunction loadFun,
 
   Vec2u imageSize(static_cast<uint>(width), static_cast<uint>(height));
   Image2<fmt> retImage(imageSize,
-    Span<const typename Image2<fmt>::Pixel>(
+    span<const typename Image2<fmt>::Pixel>(
       reinterpret_cast<const typename Image2<fmt>::Pixel*>(rawImage),
       width * height));
   SOIL_free_image_data(rawImage);
@@ -318,7 +318,7 @@ Image2<fmt> soilLoadFromFileWithCheck(SoilLoadFunction loadFun,
   Image2<fmt> im;
   bool rv = false;
   std::tie(im, rv) = soilLoadFromFile<fmt>(loadFun, testFun, path);
-  HOU_RUNTIME_CHECK(rv, getText(ec), path.c_str());
+  HOU_RUNTIME_CHECK(rv, get_text(ec), path.c_str());
   return im;
 }
 
@@ -345,7 +345,7 @@ void soilWriteToFileWithCheck(
   const std::string& path, int imageType, const Image2<fmt>& im, SysError ec)
 {
   HOU_RUNTIME_CHECK(
-    soilWriteToFile<fmt>(path, imageType, im), getText(ec), path.c_str());
+    soilWriteToFile<fmt>(path, imageType, im), get_text(ec), path.c_str());
 }
 
 }  // namespace
@@ -434,7 +434,7 @@ Image<dim, fmt>::Image(const Size& size, const Pixel& pixel)
 
 
 template <size_t dim, PixelFormat fmt>
-Image<dim, fmt>::Image(const Size& size, const Span<const Pixel>& pixels)
+Image<dim, fmt>::Image(const Size& size, const span<const Pixel>& pixels)
   : mSize(size)
   , mPixels(pixels.begin(), pixels.end())
 {
@@ -485,7 +485,7 @@ const typename Image<dim, fmt>::PixelCollection& Image<dim, fmt>::getPixels()
 
 
 template <size_t dim, PixelFormat fmt>
-void Image<dim, fmt>::setPixels(const Span<const Pixel>& pixels)
+void Image<dim, fmt>::setPixels(const span<const Pixel>& pixels)
 {
   HOU_EXPECT(pixels.size() == mPixels.size());
   std::copy(pixels.begin(), pixels.end(), mPixels.begin());

@@ -37,11 +37,11 @@ INCLUDE_DIRECTORIES(
 SET(LIB_HOUCOR_SRC
   src/hou/cor/character_encodings.cpp
   src/hou/cor/clock.cpp
-  src/hou/cor/CorError.cpp
-  src/hou/cor/CoreFunctions.cpp
-  src/hou/cor/StdString.cpp
-  src/hou/cor/Stopwatch.cpp
-  src/hou/cor/UidGenerator.cpp
+  src/hou/cor/cor_error.cpp
+  src/hou/cor/core_functions.cpp
+  src/hou/cor/std_string.cpp
+  src/hou/cor/stopwatch.cpp
+  src/hou/cor/uid_generator.cpp
 )
 
 

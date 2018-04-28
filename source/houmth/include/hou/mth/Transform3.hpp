@@ -11,7 +11,7 @@
 #include "hou/mth/Rotation3.hpp"
 #include "hou/mth/Transform3Fwd.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
+#include "hou/cor/basic_types.hpp"
 
 #include <iostream>
 #include <limits>

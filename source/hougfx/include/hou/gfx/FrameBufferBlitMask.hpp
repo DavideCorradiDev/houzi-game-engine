@@ -7,7 +7,7 @@
 
 #include "hou/gfx/GfxExport.hpp"
 
-#include "hou/cor/BitwiseOperators.hpp"
+#include "hou/cor/bitwise_operators.hpp"
 
 #include "hou/gl/OpenGl.hpp"
 
@@ -38,7 +38,7 @@ enum class FrameBufferBlitMask : GLenum
 }  // namespace hou
 
 template <>
-struct hou::EnableBitwiseOperators<hou::FrameBufferBlitMask>
+struct hou::enable_bitwise_operators<hou::FrameBufferBlitMask>
 {
   /** Enable bitwise operators. */
   static constexpr bool enable = true;

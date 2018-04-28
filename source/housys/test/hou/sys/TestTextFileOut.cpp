@@ -5,7 +5,7 @@
 #include "hou/Test.hpp"
 #include "hou/sys/TestData.hpp"
 
-#include "hou/cor/Span.hpp"
+#include "hou/cor/span.hpp"
 
 #include "hou/sys/TextFileIn.hpp"
 #include "hou/sys/TextFileOut.hpp"
@@ -232,7 +232,7 @@ TEST_F(TestTextFileOut, WriteSpan)
   static constexpr size_t byteCount = sizeof(BufferType) * bufferSize;
 
   std::vector<BufferType> vecOut = {1u, 2u, 3u};
-  Span<BufferType> bufOut(vecOut);
+  span<BufferType> bufOut(vecOut);
 
   {
     TextFileOut fo(fileName);
@@ -243,7 +243,7 @@ TEST_F(TestTextFileOut, WriteSpan)
 
   TextFileIn fi(fileName);
   std::vector<BufferType> vecIn(3u, 0u);
-  Span<BufferType> bufIn(vecIn);
+  span<BufferType> bufIn(vecIn);
   fi.read(bufIn);
   EXPECT_EQ(byteCount, fi.getByteCount());
   EXPECT_EQ(byteCount, fi.getReadByteCount());

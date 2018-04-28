@@ -9,7 +9,7 @@
 namespace hou
 {
 
-std::string getText(GlError ec)
+std::string get_text(GlError ec)
 {
   switch(ec)
   {
@@ -25,7 +25,7 @@ std::string getText(GlError ec)
       return u8"Error setting current GL Context.";
     case GlError::ExtensionsInitialization:
       return u8"Failed to initialize GL extensions (error code: %d).";
-    case GlError::InvalidEnum:
+    case GlError::invalid_enum:
       return u8"Invalid GL enum.";
     case GlError::InvalidFramebufferOperation:
       return u8"Invalid GL Framebuffer operation.";

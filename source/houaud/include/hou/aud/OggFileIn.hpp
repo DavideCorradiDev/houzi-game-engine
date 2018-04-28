@@ -8,7 +8,7 @@
 #include "hou/aud/AudExport.hpp"
 #include "hou/aud/AudioStreamIn.hpp"
 
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/cor/non_copyable.hpp"
 
 #include "hou/sys/FileHandle.hpp"
 
@@ -26,7 +26,7 @@ namespace hou
 /** Input ogg file stream.
  */
 class HOU_AUD_API OggFileIn
-  : public NonCopyable
+  : public non_copyable
   , public AudioStreamIn
 {
 public:

@@ -107,7 +107,7 @@ TEST_F(TestCharacterEncodingsDeathTest, Utf8DecodingFailure)
   CodePoint charCode;
 
   HOU_EXPECT_ERROR(utf8::decode(utf8Char.end(), utf8Char.begin(), charCode)
-    , std::logic_error, getText(CorError::Precondition));
+    , std::logic_error, get_text(cor_error::pre_condition));
 }
 
 
@@ -156,7 +156,7 @@ TEST_F(TestCharacterEncodingsDeathTest, Utf8NextFailure)
 {
   std::array<utf8::code_unit, 4u> utf8Char;
   HOU_EXPECT_ERROR(utf8::next(utf8Char.end(), utf8Char.begin())
-    , std::logic_error, getText(CorError::Precondition));
+    , std::logic_error, get_text(cor_error::pre_condition));
 }
 
 
@@ -199,7 +199,7 @@ TEST_F(TestCharacterEncodingsDeathTest, Utf8CountFailure)
 {
   std::array<utf8::code_unit, 32u> utf8String;
   HOU_EXPECT_ERROR(utf8::count(utf8String.end(), utf8String.begin())
-    , std::logic_error, getText(CorError::Precondition));
+    , std::logic_error, get_text(cor_error::pre_condition));
 }
 
 
@@ -274,7 +274,7 @@ TEST_F(TestCharacterEncodingsDeathTest, Utf16DecodingFailure)
   CodePoint charCode;
 
   HOU_EXPECT_ERROR(utf16::decode(utf16Char.end(), utf16Char.begin(), charCode)
-    , std::logic_error, getText(CorError::Precondition));
+    , std::logic_error, get_text(cor_error::pre_condition));
 }
 
 
@@ -312,7 +312,7 @@ TEST_F(TestCharacterEncodingsDeathTest, Utf16NextFailure)
 {
   std::array<utf16::code_unit, 2u> utf16Char;
   HOU_EXPECT_ERROR(utf16::next(utf16Char.end(), utf16Char.begin())
-    , std::logic_error, getText(CorError::Precondition));
+    , std::logic_error, get_text(cor_error::pre_condition));
 }
 
 
@@ -355,7 +355,7 @@ TEST_F(TestCharacterEncodingsDeathTest, Utf16CountDeathTest)
 {
   std::array<utf16::code_unit, 16u> utf16String;
   HOU_EXPECT_ERROR(utf16::count(utf16String.end(), utf16String.begin())
-    , std::logic_error, getText(CorError::Precondition));
+    , std::logic_error, get_text(cor_error::pre_condition));
 }
 
 
@@ -427,7 +427,7 @@ TEST_F(TestCharacterEncodingsDeathTest, Utf32DecodingFailure)
   CodePoint charCode;
 
   HOU_EXPECT_ERROR(utf32::decode(utf32Char.end(), utf32Char.begin(), charCode)
-    , std::logic_error, getText(CorError::Precondition));
+    , std::logic_error, get_text(cor_error::pre_condition));
 }
 
 
@@ -464,7 +464,7 @@ TEST_F(TestCharacterEncodingsDeathTest, Utf32NextFaillure)
 {
   std::array<utf32::code_unit, 1u> utf32Char;
   HOU_EXPECT_ERROR(utf32::next(utf32Char.end(), utf32Char.begin())
-    , std::logic_error, getText(CorError::Precondition));
+    , std::logic_error, get_text(cor_error::pre_condition));
 }
 
 
@@ -507,7 +507,7 @@ TEST_F(TestCharacterEncodingsDeathTest, Utf32CountFailure)
 {
   std::array<utf32::code_unit, 8u> utf32String;
   HOU_EXPECT_ERROR(utf32::count(utf32String.end(), utf32String.begin())
-    , std::logic_error, getText(CorError::Precondition));
+    , std::logic_error, get_text(cor_error::pre_condition));
 }
 
 
@@ -566,7 +566,7 @@ TEST_F(TestCharacterEncodingsDeathTest, WideDecodingFailure)
   CodePoint charCode;
 
   HOU_EXPECT_ERROR(wide::decode(&wideChar + 1, &wideChar, charCode)
-    , std::logic_error, getText(CorError::Precondition));
+    , std::logic_error, get_text(cor_error::pre_condition));
 }
 
 
@@ -599,7 +599,7 @@ TEST_F(TestCharacterEncodingsDeathTest, WideNextFailure)
 {
   wide::code_unit wideChar;
   HOU_EXPECT_ERROR(wide::next(&wideChar + 2, &wideChar + 1)
-    , std::logic_error, getText(CorError::Precondition));
+    , std::logic_error, get_text(cor_error::pre_condition));
 }
 
 
@@ -616,7 +616,7 @@ TEST_F(TestCharacterEncodingsDeathTest, WideCountFailure)
 {
   wide::code_unit wideString[] = L"hello!";
   HOU_EXPECT_ERROR(wide::count(wideString + 4, wideString + 3)
-    , std::logic_error, getText(CorError::Precondition));
+    , std::logic_error, get_text(cor_error::pre_condition));
 }
 
 

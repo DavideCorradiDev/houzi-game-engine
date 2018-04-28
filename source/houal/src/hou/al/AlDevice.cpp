@@ -7,9 +7,9 @@
 #include "hou/al/AlCheck.hpp"
 #include "hou/al/AlError.hpp"
 
-#include "hou/cor/Error.hpp"
-#include "hou/cor/StdString.hpp"
-#include "hou/cor/UidGenerator.hpp"
+#include "hou/cor/error.hpp"
+#include "hou/cor/std_string.hpp"
+#include "hou/cor/uid_generator.hpp"
 
 #include <AL/al.h>
 
@@ -30,7 +30,7 @@ uint32_t generateUid();
 
 uint32_t generateUid()
 {
-  static UidGenerator uidGenerator(1u);
+  static uid_generator uidGenerator(1u);
   return uidGenerator.generate();
 }
 
@@ -44,7 +44,7 @@ std::vector<std::string> Device::getDeviceNames()
   if(alcIsExtensionPresent(nullptr, "ALC_ENUMERATION_EXT"))
   {
     std::string deviceNamesStr(alcGetString(nullptr, ALC_DEVICE_SPECIFIER));
-    splitString(deviceNamesStr, ',', std::back_inserter(deviceNames));
+    split_string(deviceNamesStr, ',', std::back_inserter(deviceNames));
   }
   return deviceNames;
 }
@@ -52,22 +52,22 @@ std::vector<std::string> Device::getDeviceNames()
 
 
 Device::Device()
-  : NonCopyable()
+  : non_copyable()
   , mDevice(alcOpenDevice(nullptr))
   , mUid(generateUid())
 {
-  HOU_RUNTIME_CHECK(mDevice != nullptr, getText(AlError::DeviceOpen)
+  HOU_RUNTIME_CHECK(mDevice != nullptr, get_text(AlError::DeviceOpen)
     , u8"Default Device");
 }
 
 
 
 Device::Device(const std::string& deviceName)
-  : NonCopyable()
+  : non_copyable()
   , mDevice(alcOpenDevice(deviceName.c_str()))
   , mUid(generateUid())
 {
-  HOU_RUNTIME_CHECK(mDevice != nullptr, getText(AlError::DeviceOpen)
+  HOU_RUNTIME_CHECK(mDevice != nullptr, get_text(AlError::DeviceOpen)
     , deviceName.c_str());
 }
 
@@ -87,7 +87,7 @@ Device::~Device()
   if(mDevice != nullptr)
   {
     HOU_FATAL_CHECK(alcCloseDevice(mDevice) == AL_TRUE
-      , getText(AlError::DeviceClose));
+      , get_text(AlError::DeviceClose));
   }
 }
 

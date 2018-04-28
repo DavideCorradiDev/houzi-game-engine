@@ -11,9 +11,9 @@
 
 #include "hou/sys/File.hpp"
 
-#include "hou/cor/StdArray.hpp"
-#include "hou/cor/StdVector.hpp"
-#include "hou/cor/Stopwatch.hpp"
+#include "hou/cor/std_array.hpp"
+#include "hou/cor/std_vector.hpp"
+#include "hou/cor/stopwatch.hpp"
 #include "hou/mth/Transform2.hpp"
 
 #include "hou/al/AlContext.hpp"
@@ -75,7 +75,7 @@ int main()
   sas.setLooping(false);
 
   bool running = true;
-  Stopwatch timer;
+  stopwatch timer;
   timer.start();
   while(running)
   {
@@ -112,7 +112,7 @@ int main()
     }
     rw.clear(Color::Black);
     std::chrono::nanoseconds timePerFrame = timer.reset();
-    rnd.draw(rw, toString(sas.getSamplePos()) + " / " + toString(sas.getSampleCount())
+    rnd.draw(rw, to_string(sas.getSamplePos()) + " / " + to_string(sas.getSampleCount())
       , font, Color::White, proj * offsetTrans);
     rw.display();
   }

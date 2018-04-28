@@ -25,8 +25,8 @@ AudioBuffer::AudioBuffer()
 
 
 AudioBuffer::AudioBuffer(
-  const Span<const uint8_t>& data, AudioBufferFormat format, int smlRate)
-  : NonCopyable()
+  const span<const uint8_t>& data, AudioBufferFormat format, int smlRate)
+  : non_copyable()
   , mHandle(al::BufferHandle::generate())
 {
   setData(data, format, smlRate);
@@ -36,13 +36,13 @@ AudioBuffer::AudioBuffer(
 
 AudioBuffer::AudioBuffer(
   std::vector<uint8_t>&& data, AudioBufferFormat format, int smpRate)
-  : AudioBuffer(Span<const uint8_t>(data), format, smpRate)
+  : AudioBuffer(span<const uint8_t>(data), format, smpRate)
 {}
 
 
 
 AudioBuffer::AudioBuffer(AudioStreamIn& audioStream)
-  : NonCopyable()
+  : non_copyable()
   , mHandle(al::BufferHandle::generate())
 {
   setData(audioStream);
@@ -51,7 +51,7 @@ AudioBuffer::AudioBuffer(AudioStreamIn& audioStream)
 
 
 AudioBuffer::AudioBuffer(AudioStreamIn&& audioStream)
-  : NonCopyable()
+  : non_copyable()
   , mHandle(al::BufferHandle::generate())
 {
   setData(audioStream);
@@ -118,7 +118,7 @@ uint AudioBuffer::getSampleCount() const
 
 
 void AudioBuffer::setData(
-  const Span<const uint8_t>& data, AudioBufferFormat format, int smlRate)
+  const span<const uint8_t>& data, AudioBufferFormat format, int smlRate)
 {
   HOU_EXPECT_DEV(sizeof(uint8_t) == 1u);
   al::setBufferData(mHandle, static_cast<ALenum>(format),
@@ -131,7 +131,7 @@ void AudioBuffer::setData(
 void AudioBuffer::setData(
   std::vector<uint8_t>&& data, AudioBufferFormat format, int smlRate)
 {
-  setData(Span<const uint8_t>(data), format, smlRate);
+  setData(span<const uint8_t>(data), format, smlRate);
 }
 
 

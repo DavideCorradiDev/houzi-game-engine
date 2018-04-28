@@ -43,9 +43,9 @@ TEST_F(TestFont, DataConstructor)
     buffer.resize(inf.getByteCount());
     inf.read(buffer.data(), buffer.size());
   }
-  // Span<const uint8_t> s(buffer);
+  // span<const uint8_t> s(buffer);
   // Font f(s);
-  // Font f(Span<const uint8_t> s(buffer));
+  // Font f(span<const uint8_t> s(buffer));
   Font f(buffer);
 
   EXPECT_EQ(1u, f.getFaceIndexCount());
@@ -69,7 +69,7 @@ TEST_F(TestFontDeathTest, DataConstructorErrorInvalidData)
 {
   std::vector<uint8_t> data;
   HOU_EXPECT_ERROR(
-    Font f(data), std::runtime_error, getText(GfxError::FontLoadFace));
+    Font f(data), std::runtime_error, get_text(GfxError::FontLoadFace));
 }
 
 
@@ -166,7 +166,7 @@ TEST_F(TestFontDeathTest, FailedCreation)
   // Valid file but not a font file.
   HOU_EXPECT_ERROR(
     Font f(std::make_unique<BinaryFileIn>(getDataDir() + u8"TestImage.png")),
-    std::runtime_error, getText(GfxError::FontLoadFace));
+    std::runtime_error, get_text(GfxError::FontLoadFace));
 }
 
 

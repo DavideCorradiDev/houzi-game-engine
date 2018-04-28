@@ -31,7 +31,7 @@ StreamingAudioSource::StreamingAudioSource()
 
 
 StreamingAudioSource::StreamingAudioSource(
-  NotNull<std::unique_ptr<AudioStreamIn>> audioStream)
+  not_null<std::unique_ptr<AudioStreamIn>> audioStream)
   : AudioSource()
   , mThread()
   , mThreadMutex()
@@ -59,7 +59,7 @@ StreamingAudioSource::~StreamingAudioSource()
 
 
 void StreamingAudioSource::setStream(
-  NotNull<std::unique_ptr<AudioStreamIn>> audioStream)
+  not_null<std::unique_ptr<AudioStreamIn>> audioStream)
 {
   stop();
   std::lock_guard<std::mutex> lock(mThreadMutex);

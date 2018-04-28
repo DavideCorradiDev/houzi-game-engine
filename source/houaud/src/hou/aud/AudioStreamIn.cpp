@@ -8,8 +8,8 @@
 #include "hou/aud/OggFileIn.hpp"
 #include "hou/aud/WavFileIn.hpp"
 
-#include "hou/cor/CorError.hpp"
-#include "hou/cor/Error.hpp"
+#include "hou/cor/cor_error.hpp"
+#include "hou/cor/error.hpp"
 
 
 

@@ -740,7 +740,7 @@ TextureFilter TextureT<type>::getFilter() const
   case GL_LINEAR_MIPMAP_LINEAR:
     return TextureFilter::Trilinear;
   default:
-    HOU_LOGIC_ERROR(getText(CorError::InvalidEnum),
+    HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum),
       static_cast<GLenum>(getTextureMinFilter(mGlTextureHandle)));
   }
 }
@@ -770,7 +770,7 @@ void TextureT<type>::setFilter(TextureFilter filter)
     setTextureMagFilter(mGlTextureHandle, GL_LINEAR);
     break;
   default:
-    HOU_LOGIC_ERROR(getText(CorError::InvalidEnum), static_cast<int>(filter));
+    HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(filter));
     break;
   }
 }
@@ -882,7 +882,7 @@ typename TextureT<type>::template Image<fmt> TextureT<type>::getImage() const
   gl::getTextureImage(mGlTextureHandle, 0u, pixelFormatToGlPixelFormat(fmt),
     static_cast<GLenum>(toGlType<uint8_t>()), buffer.size(), buffer.data());
   return Image<fmt>(size,
-    reinterpretSpan<const typename Image<fmt>::Pixel>(Span<uint8_t>(buffer)));
+    reinterpret_span<const typename Image<fmt>::Pixel>(span<uint8_t>(buffer)));
 }
 
 
@@ -900,7 +900,7 @@ typename TextureT<TextureType::Texture1>::template Image<fmt>
     pixelFormatToGlPixelFormat(fmt), static_cast<GLenum>(toGlType<uint8_t>()),
     buffer.size(), buffer.data());
   return Image<fmt>(size,
-    reinterpretSpan<const typename Image<fmt>::Pixel>(Span<uint8_t>(buffer)));
+    reinterpret_span<const typename Image<fmt>::Pixel>(span<uint8_t>(buffer)));
 }
 
 
@@ -918,7 +918,7 @@ typename TextureT<TextureType::Texture1Array>::template Image<fmt>
     size.y(), 1, 0, pixelFormatToGlPixelFormat(fmt),
     static_cast<GLenum>(toGlType<uint8_t>()), buffer.size(), buffer.data());
   return Image<fmt>(size,
-    reinterpretSpan<const typename Image<fmt>::Pixel>(Span<uint8_t>(buffer)));
+    reinterpret_span<const typename Image<fmt>::Pixel>(span<uint8_t>(buffer)));
 }
 
 
@@ -936,7 +936,7 @@ typename TextureT<TextureType::Texture2>::template Image<fmt>
     size.y(), 1, 0, pixelFormatToGlPixelFormat(fmt),
     static_cast<GLenum>(toGlType<uint8_t>()), buffer.size(), buffer.data());
   return Image<fmt>(size,
-    reinterpretSpan<const typename Image<fmt>::Pixel>(Span<uint8_t>(buffer)));
+    reinterpret_span<const typename Image<fmt>::Pixel>(span<uint8_t>(buffer)));
 }
 
 
@@ -954,7 +954,7 @@ typename TextureT<TextureType::Texture2Array>::template Image<fmt>
     size.x(), size.y(), size.z(), 0, pixelFormatToGlPixelFormat(fmt),
     static_cast<GLenum>(toGlType<uint8_t>()), buffer.size(), buffer.data());
   return Image<fmt>(size,
-    reinterpretSpan<const typename Image<fmt>::Pixel>(Span<uint8_t>(buffer)));
+    reinterpret_span<const typename Image<fmt>::Pixel>(span<uint8_t>(buffer)));
 }
 
 
@@ -972,7 +972,7 @@ typename TextureT<TextureType::Texture3>::template Image<fmt>
     size.x(), size.y(), size.z(), 0, pixelFormatToGlPixelFormat(fmt),
     static_cast<GLenum>(toGlType<uint8_t>()), buffer.size(), buffer.data());
   return Image<fmt>(size,
-    reinterpretSpan<const typename Image<fmt>::Pixel>(Span<uint8_t>(buffer)));
+    reinterpret_span<const typename Image<fmt>::Pixel>(span<uint8_t>(buffer)));
 }
 
 
@@ -1139,7 +1139,7 @@ typename TextureT<type>::template Image<fmt> TextureT<type>::getMipMapImage(
     pixelFormatToGlPixelFormat(fmt), static_cast<GLenum>(toGlType<uint8_t>()),
     buffer.size(), buffer.data());
   return Image<fmt>(mipMapSize,
-    reinterpretSpan<const typename Image<fmt>::Pixel>(Span<uint8_t>(buffer)));
+    reinterpret_span<const typename Image<fmt>::Pixel>(span<uint8_t>(buffer)));
 }
 
 

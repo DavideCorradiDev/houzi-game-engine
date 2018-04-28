@@ -7,12 +7,12 @@
 
 #include "hou/gfx/GfxExport.hpp"
 
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/cor/non_copyable.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
-#include "hou/cor/Error.hpp"
-#include "hou/cor/Span.hpp"
-#include "hou/cor/TemplateUtils.hpp"
+#include "hou/cor/basic_types.hpp"
+#include "hou/cor/error.hpp"
+#include "hou/cor/span.hpp"
+#include "hou/cor/template_utils.hpp"
 
 #include "hou/gfx/VertexBufferFwd.hpp"
 #include "hou/gfx/VertexBufferTarget.hpp"
@@ -28,7 +28,7 @@ namespace hou
 
 /** Represents a generic interface for a graphical memory buffer.
  */
-class HOU_GFX_API VertexBuffer : public NonCopyable
+class HOU_GFX_API VertexBuffer : public non_copyable
 {
 public:
   /** Binds the VertexBuffer to the current GraphicContext.
@@ -130,7 +130,7 @@ public:
    *
    *  \param data the data.
    */
-  VertexBufferT(const Span<const T>& data);
+  VertexBufferT(const span<const T>& data);
 
   /** Move constructor.
    *
@@ -171,7 +171,7 @@ public:
    *  \param data the data.
    */
   template <bool ds = dynamicStorage, typename Enable = std::enable_if_t<ds>>
-  void setData(const Span<const T>& data);
+  void setData(const span<const T>& data);
 
   /** Sets a sub-set of the data contained in the buffer.
    *
@@ -185,7 +185,7 @@ public:
    *  \param data the data.
    */
   template <bool ds = dynamicStorage, typename Enable = std::enable_if_t<ds>>
-  void setSubData(uint offset, const Span<const T>& data);
+  void setSubData(uint offset, const span<const T>& data);
 };
 
 }  // namespace hou

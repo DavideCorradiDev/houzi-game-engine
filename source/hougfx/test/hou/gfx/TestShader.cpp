@@ -90,8 +90,8 @@ TEST_F(TestShaderDeathTest, GlVertexShaderCreation)
 {
   const char vertexShaderSrc[] = "I like trains.";
   HOU_EXPECT_ERROR(VertexShader vs(vertexShaderSrc), std::runtime_error
-    , formatString(getText(GlError::ShaderCompilation)
-    , toString(ShaderType::Vertex).c_str()
+    , format_string(get_text(GlError::ShaderCompilation)
+    , to_string(ShaderType::Vertex).c_str()
     , "0(1) : error C0000: syntax error, "
     "unexpected '.', expecting \"::\" at token \".\"\n"));
 }
@@ -119,8 +119,8 @@ TEST_F(TestShaderDeathTest, GlFragmentShaderCreation)
 {
   const char fragShaderSrc[] = "I like trains.";
   HOU_EXPECT_ERROR(FragmentShader vs(fragShaderSrc), std::runtime_error
-    , formatString(getText(GlError::ShaderCompilation)
-    , toString(ShaderType::Fragment).c_str()
+    , format_string(get_text(GlError::ShaderCompilation)
+    , to_string(ShaderType::Fragment).c_str()
     , "0(1) : error C0000: syntax error, "
     "unexpected '.', expecting \"::\" at token \".\"\n"));
 }
@@ -148,8 +148,8 @@ TEST_F(TestShaderDeathTest, GlGeometryShaderCreation)
 {
   const char geometryShaderSrc[] = "I like trains.";
   HOU_EXPECT_ERROR(GeometryShader vs(geometryShaderSrc), std::runtime_error
-    , formatString(getText(GlError::ShaderCompilation)
-    , toString(ShaderType::Geometry).c_str()
+    , format_string(get_text(GlError::ShaderCompilation)
+    , to_string(ShaderType::Geometry).c_str()
     , "0(1) : error C0000: syntax error, "
     "unexpected '.', expecting \"::\" at token \".\"\n"));
 }

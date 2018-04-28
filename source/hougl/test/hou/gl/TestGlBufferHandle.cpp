@@ -38,7 +38,7 @@ TEST_F(TestGlBufferHandleDeathTest, DISABLED_NoContextCreation)
 {
   gl::Context::unsetCurrent();
   HOU_EXPECT_ERROR(gl::BufferHandle::create(), std::logic_error
-    , getText(GlError::ContextExistence));
+    , get_text(GlError::ContextExistence));
 }
 
 
@@ -129,7 +129,7 @@ TEST_F(TestGlBufferHandleDeathTest, DISABLED_NonSharingContextBinding)
   gl::BufferHandle bh = gl::BufferHandle::create();
   setNonSharingContextCurrent();
   HOU_EXPECT_ERROR(gl::bindBuffer(bh, GL_ARRAY_BUFFER)
-    , std::logic_error, getText(GlError::InvalidOwnership));
+    , std::logic_error, get_text(GlError::InvalidOwnership));
   setContextCurrent();
 }
 
@@ -144,7 +144,7 @@ TEST_F(TestGlBufferHandleDeathTest, DISABLED_NoContextBinding)
   gl::BufferHandle bh = gl::BufferHandle::create();
   gl::Context::unsetCurrent();
   HOU_EXPECT_ERROR(gl::bindBuffer(bh, GL_ARRAY_BUFFER)
-    , std::logic_error, getText(GlError::ContextExistence));
+    , std::logic_error, get_text(GlError::ContextExistence));
   setContextCurrent();
 }
 

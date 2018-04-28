@@ -7,7 +7,7 @@
 
 #include "hou/gfx/GfxExport.hpp"
 
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/cor/non_copyable.hpp"
 
 #include "hou/mth/RectangleFwd.hpp"
 
@@ -25,7 +25,7 @@ class Texture;
 
 /** Represents a user defined framebuffer.
  */
-class HOU_GFX_API FrameBuffer : public NonCopyable
+class HOU_GFX_API FrameBuffer : public non_copyable
 {
 public:
   /** Binds a FrameBuffer as the target for drawing operations.

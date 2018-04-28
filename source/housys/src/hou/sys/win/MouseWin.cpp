@@ -7,7 +7,7 @@
 #include "hou/sys/Window.hpp"
 #include "hou/sys/win/Win.hpp"
 
-#include "hou/cor/Error.hpp"
+#include "hou/cor/error.hpp"
 
 #include "hou/mth/Matrix.hpp"
 

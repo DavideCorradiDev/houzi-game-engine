@@ -4,7 +4,7 @@
 
 #include "hou/sys/TextFileIn.hpp"
 
-#include "hou/cor/Error.hpp"
+#include "hou/cor/error.hpp"
 
 
 
@@ -12,7 +12,7 @@ namespace hou
 {
 
 TextFileIn::TextFileIn(const std::string& path)
-  : NonCopyable()
+  : non_copyable()
   , TextStreamIn()
   , mFile(path, FileOpenMode::Read, FileType::Text)
   , mByteCount(0u)

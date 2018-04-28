@@ -2,7 +2,7 @@
 
 #include "hou/al/AlState.hpp"
 
-#include "hou/cor/Error.hpp"
+#include "hou/cor/error.hpp"
 
 
 

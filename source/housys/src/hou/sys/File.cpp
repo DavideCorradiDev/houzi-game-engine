@@ -6,8 +6,8 @@
 
 #include "hou/sys/SysError.hpp"
 
-#include "hou/cor/Error.hpp"
-#include "hou/cor/StdString.hpp"
+#include "hou/cor/error.hpp"
+#include "hou/cor/std_string.hpp"
 
 #include <cstdio>
 #include <vector>
@@ -18,7 +18,7 @@ namespace hou
 {
 
 File::File(const std::string& filename, FileOpenMode mode, FileType type)
-  : NonCopyable()
+  : non_copyable()
   , mHandle(filename, mode, type)
   , mEof(false)
   , mError(false)
@@ -28,7 +28,7 @@ File::File(const std::string& filename, FileOpenMode mode, FileType type)
 
 
 File::File(File&& other)
-  : NonCopyable()
+  : non_copyable()
   , mHandle(std::move(other.mHandle))
   , mEof(std::move(other.mEof))
   , mError(std::move(other.mError))
@@ -60,7 +60,7 @@ size_t File::getByteCount() const
 long File::tell() const
 {
   long pos = ftell(mHandle);
-  HOU_RUNTIME_CHECK(pos != -1L, getText(SysError::FileTell));
+  HOU_RUNTIME_CHECK(pos != -1L, get_text(SysError::FileTell));
   return pos;
 }
 
@@ -92,7 +92,7 @@ void File::seekOffset(long offset)
 
 void File::flush() const
 {
-  HOU_RUNTIME_CHECK(fflush(mHandle) != EOF, getText(SysError::FileFlush));
+  HOU_RUNTIME_CHECK(fflush(mHandle) != EOF, get_text(SysError::FileFlush));
 }
 
 
@@ -105,7 +105,7 @@ bool File::getc(char& c)
   c = static_cast<char>(retval);
   if(retval == EOF)
   {
-    HOU_RUNTIME_CHECK(!error(), getText(SysError::FileRead));
+    HOU_RUNTIME_CHECK(!error(), get_text(SysError::FileRead));
     return false;
   }
   return true;
@@ -117,7 +117,7 @@ void File::putc(char c)
 {
   int retval = fputc(c, mHandle);
   updateFlags();
-  HOU_RUNTIME_CHECK(retval != EOF, getText(SysError::FileWrite));
+  HOU_RUNTIME_CHECK(retval != EOF, get_text(SysError::FileWrite));
 }
 
 
@@ -129,7 +129,7 @@ size_t File::gets(std::string& str)
   updateFlags();
   if(retval == nullptr)
   {
-    HOU_RUNTIME_CHECK(!error(), getText(SysError::FileRead));
+    HOU_RUNTIME_CHECK(!error(), get_text(SysError::FileRead));
     return 0u;
   }
   return std::char_traits<char>::length(retval);
@@ -141,7 +141,7 @@ void File::puts(const std::string& str)
 {
   int retval = fputs(str.c_str(), mHandle);
   updateFlags();
-  HOU_RUNTIME_CHECK(retval != EOF, getText(SysError::FileWrite));
+  HOU_RUNTIME_CHECK(retval != EOF, get_text(SysError::FileWrite));
 }
 
 
@@ -150,7 +150,7 @@ size_t File::read(void* buf, size_t elementSize, size_t bufSize)
 {
   size_t count = fread(buf, elementSize, bufSize, mHandle);
   updateFlags();
-  HOU_RUNTIME_CHECK(count == bufSize || !error(), getText(SysError::FileRead));
+  HOU_RUNTIME_CHECK(count == bufSize || !error(), get_text(SysError::FileRead));
   return count;
 }
 
@@ -160,7 +160,7 @@ void File::write(const void* buf, size_t elementSize, size_t bufSize)
 {
   size_t count = fwrite(buf, elementSize, bufSize, mHandle);
   updateFlags();
-  HOU_RUNTIME_CHECK(count == bufSize, getText(SysError::FileWrite));
+  HOU_RUNTIME_CHECK(count == bufSize, get_text(SysError::FileWrite));
 }
 
 
@@ -168,7 +168,7 @@ void File::write(const void* buf, size_t elementSize, size_t bufSize)
 void File::seek(long pos, int origin) const
 {
   HOU_RUNTIME_CHECK(fseek(mHandle, pos, origin) == 0
-    , getText(SysError::FileSeek));
+    , get_text(SysError::FileSeek));
 }
 
 

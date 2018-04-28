@@ -7,8 +7,8 @@
 
 #include "hou/gfx/GfxExport.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
-#include "hou/cor/Pragmas.hpp"
+#include "hou/cor/basic_types.hpp"
+#include "hou/cor/pragmas.hpp"
 
 #include "hou/gl/OpenGL.hpp"
 

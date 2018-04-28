@@ -240,7 +240,7 @@ TEST_F(TestGlContextDeathTest, MakeCurrentError)
   std::thread t([&c]() {
     SystemWindow w2("Test", VideoMode(Vec2u(10u, 10u), 4u), WindowStyle::Windowed);
     HOU_EXPECT_ERROR(gl::Context::setCurrent(c, w2), std::runtime_error,
-      getText(GlError::ContextMakeCurrent));
+      get_text(GlError::ContextMakeCurrent));
   });
 
   t.join();

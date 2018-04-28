@@ -41,7 +41,7 @@ TEST_F(TestGlShaderHandleDeathTest, DISABLED_NoContextCreation)
 {
   gl::Context::unsetCurrent();
   HOU_EXPECT_ERROR(gl::ShaderHandle::create(GL_VERTEX_SHADER)
-    , std::logic_error, getText(GlError::ContextExistence));
+    , std::logic_error, get_text(GlError::ContextExistence));
 }
 
 
@@ -60,7 +60,7 @@ TEST_F(TestGlShaderHandleDeathTest, CompileFragmentShaderFailure)
   gl::ShaderHandle sh = gl::ShaderHandle::create(GL_FRAGMENT_SHADER);
   const char fragmentGlShaderSrc[] = "I like trains.";
   HOU_EXPECT_ERROR(compileShader(sh, fragmentGlShaderSrc), std::runtime_error
-    , formatString(getText(GlError::ShaderCompilation)
+    , format_string(get_text(GlError::ShaderCompilation)
     , "Fragment"
     , "0(1) : error C0000: syntax error, "
     "unexpected '.', expecting \"::\" at token \".\"\n"));
@@ -82,7 +82,7 @@ TEST_F(TestGlShaderHandleDeathTest, CompileGeometryShaderFailure)
   gl::ShaderHandle sh = gl::ShaderHandle::create(GL_GEOMETRY_SHADER);
   const char geometryGlShaderSrc[] = "I like trains.";
   HOU_EXPECT_ERROR(compileShader(sh, geometryGlShaderSrc), std::runtime_error
-    , formatString(getText(GlError::ShaderCompilation)
+    , format_string(get_text(GlError::ShaderCompilation)
     , "Geometry"
     , "0(1) : error C0000: syntax error, "
     "unexpected '.', expecting \"::\" at token \".\"\n"));
@@ -104,7 +104,7 @@ TEST_F(TestGlShaderHandleDeathTest, CompileVertexShaderFailure)
   gl::ShaderHandle sh = gl::ShaderHandle::create(GL_VERTEX_SHADER);
   const char vertexGlShaderSrc[] = "I like trains.";
   HOU_EXPECT_ERROR(compileShader(sh, vertexGlShaderSrc), std::runtime_error
-    , formatString(getText(GlError::ShaderCompilation)
+    , format_string(get_text(GlError::ShaderCompilation)
     , "Vertex"
     , "0(1) : error C0000: syntax error, "
     "unexpected '.', expecting \"::\" at token \".\"\n"));

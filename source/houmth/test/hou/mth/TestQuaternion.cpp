@@ -1,6 +1,6 @@
 #include "hou/Test.hpp"
 
-#include "hou/cor/CorError.hpp"
+#include "hou/cor/cor_error.hpp"
 
 #include "hou/mth/Quaternion.hpp"
 
@@ -67,9 +67,9 @@ TEST_F(TestQuaternion, ConversionConstructor)
 TEST_F(TestQuaternionDeathTest, InitializerListConstructorWrongSize)
 {
   HOU_EXPECT_ERROR(Quatf q({1.f, 2.f, 3.f}), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(Quatf q({1.f, 2.f, 3.f, 4.f, 5.f}), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
 }
 
 
@@ -236,7 +236,7 @@ TEST_F(TestQuaternion, InversionFailureNullDeterminant)
 {
   Quatf q;
   HOU_EXPECT_ERROR(inverse(q), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
 }
 
 
@@ -281,7 +281,7 @@ TEST_F(TestQuaternion, Normalization)
 TEST_F(TestQuaternion, NormalizationFailureNullNorm)
 {
   HOU_EXPECT_ERROR(normalized(Quatf::zero()), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
 }
 
 

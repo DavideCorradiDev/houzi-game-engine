@@ -7,7 +7,7 @@
 #include "hou/gfx/GfxError.hpp"
 #include "hou/gfx/Glyph.hpp"
 
-#include "hou/cor/Error.hpp"
+#include "hou/cor/error.hpp"
 
 #include "hou/mth/Rectangle.hpp"
 #include "hou/mth/Matrix.hpp"
@@ -32,7 +32,7 @@ namespace
 static constexpr float pf266ToPixelFactor = 1.f / 64.f;
 
 class FtLibraryWrapper
-  : public NonCopyable
+  : public non_copyable
 {
 public:
   FtLibraryWrapper();
@@ -46,7 +46,7 @@ FT_Library getFtLibrary();
 
 
 FtLibraryWrapper::FtLibraryWrapper()
-  : NonCopyable()
+  : non_copyable()
   , library(nullptr)
 {
   HOU_ENSURE(FT_Init_FreeType(&library) == 0);
@@ -80,7 +80,7 @@ FT_Library getFtLibrary()
 
 
 
-Font::Font(const Span<const uint8_t>& data)
+Font::Font(const span<const uint8_t>& data)
   : mFace()
   , mFaceIndex(0u)
   , mPixelHeight(10u)
@@ -91,7 +91,7 @@ Font::Font(const Span<const uint8_t>& data)
 
 
 
-Font::Font(NotNull<std::unique_ptr<BinaryStreamIn>> fontStream)
+Font::Font(not_null<std::unique_ptr<BinaryStreamIn>> fontStream)
   : mFace()
   , mFaceIndex(0u)
   , mPixelHeight(10u)
@@ -320,7 +320,7 @@ Glyph Font::getGlyph(utf32::code_unit charCode) const
   return Glyph
     ( Image2R
       ( bmpSize
-      , Span<const Image2R::Pixel>
+      , span<const Image2R::Pixel>
         ( reinterpret_cast<Image2R::Pixel*>(g->bitmap.buffer)
         , bmpSize.x() * bmpSize.y()))
     , GlyphMetrics(size, horiBearing, horiAdvance, vertBearing, vertAdvance));
@@ -354,7 +354,7 @@ void Font::load()
   {
     std::lock_guard<std::mutex> lock(ftLibraryMutex);
     HOU_RUNTIME_CHECK(FT_New_Memory_Face(ftLibrary, mData.data(), mData.size()
-      , mFaceIndex, &mFace) == 0, getText(GfxError::FontLoadFace));
+      , mFaceIndex, &mFace) == 0, get_text(GfxError::FontLoadFace));
   }
   HOU_EXPECT_DEV(mFace != nullptr);
 

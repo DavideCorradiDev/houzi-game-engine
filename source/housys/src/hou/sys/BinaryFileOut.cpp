@@ -10,7 +10,7 @@ namespace hou
 {
 
 BinaryFileOut::BinaryFileOut(const std::string& path)
-  : NonCopyable()
+  : non_copyable()
   , BinaryStreamOut()
   , mFile(path, FileOpenMode::Write, FileType::Binary)
   , mByteCount(0u)

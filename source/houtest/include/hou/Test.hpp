@@ -5,8 +5,8 @@
 #ifndef HOU_TEST
 #define HOU_TEST
 
-#include "hou/cor/CorError.hpp"
-#include "hou/cor/StdString.hpp"
+#include "hou/cor/cor_error.hpp"
+#include "hou/cor/std_string.hpp"
 
 #include <cstring>
 #include <gmock/gmock.h>
@@ -27,7 +27,7 @@
   #define HOU_EXPECT_ERROR(statement, exception_type, message) \
   { \
     std::stringstream expectedOutput; \
-    expectedOutput << #exception_type << " -.*" << hou::formatRegex(message) \
+    expectedOutput << #exception_type << " -.*" << hou::format_regex(message) \
       << ".*"; \
     EXPECT_DEATH(statement, expectedOutput.str().c_str()); \
   }
@@ -44,7 +44,7 @@
     catch(const exception_type& e) \
     { \
       std::stringstream expectedOutput; \
-      expectedOutput << ".*" << hou::formatRegex(message) << ".*"; \
+      expectedOutput << ".*" << hou::format_regex(message) << ".*"; \
       EXPECT_THAT(e.what() \
         , ::testing::MatchesRegex(expectedOutput.str().c_str())); \
     } \
@@ -59,12 +59,12 @@
 
 
 #define HOU_EXPECT_PRECONDITION(statement) \
-  HOU_EXPECT_ERROR(statement, std::logic_error, getText(CorError::Precondition));
+  HOU_EXPECT_ERROR(statement, std::logic_error, get_text(cor_error::pre_condition));
 
 
 
 #define HOU_EXPECT_POSTCONDITION(statement) \
-  HOU_EXPECT_ERROR(statement, std::logic_error, getText(CorError::PostCondition));
+  HOU_EXPECT_ERROR(statement, std::logic_error, get_text(cor_error::post_condition));
 
 
 

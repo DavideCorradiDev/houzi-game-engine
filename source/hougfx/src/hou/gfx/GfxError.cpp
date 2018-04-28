@@ -9,7 +9,7 @@
 namespace hou
 {
 
-std::string getText(GfxError ec)
+std::string get_text(GfxError ec)
 {
   switch(ec)
   {

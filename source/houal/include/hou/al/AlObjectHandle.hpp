@@ -6,11 +6,11 @@
 #define HOU_AL_AL_OBJECT_HANDLE_HPP
 
 #include "hou/al/AlExport.hpp"
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/cor/non_copyable.hpp"
 
 #include "hou/al/OpenAl.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
+#include "hou/cor/basic_types.hpp"
 
 
 
@@ -21,7 +21,7 @@ namespace al
 {
 
 class HOU_AL_API ObjectHandle
-  : public NonCopyable
+  : public non_copyable
 {
 public:
   ObjectHandle(ALuint name);

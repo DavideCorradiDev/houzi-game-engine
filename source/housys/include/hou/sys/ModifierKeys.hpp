@@ -7,7 +7,7 @@
 
 #include "hou/sys/SysExport.hpp"
 
-#include "hou/cor/BitwiseOperators.hpp"
+#include "hou/cor/bitwise_operators.hpp"
 
 #include <iostream>
 
@@ -43,7 +43,7 @@ HOU_SYS_API std::ostream& operator<<(std::ostream& os, ModifierKeys mkf);
 /** Enables bitwise operators for ModifierKeys.
  */
 template <>
-  struct EnableBitwiseOperators<ModifierKeys>
+  struct enable_bitwise_operators<ModifierKeys>
 {
   /** Enabling variable. */
   static constexpr bool enable = true;

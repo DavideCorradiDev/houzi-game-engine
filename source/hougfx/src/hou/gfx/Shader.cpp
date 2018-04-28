@@ -12,7 +12,7 @@ namespace hou
 {
 
 Shader::Shader(const std::string& source, ShaderType type)
-  : NonCopyable()
+  : non_copyable()
   , mHandle(gl::ShaderHandle::create(static_cast<GLenum>(type)))
 {
   gl::compileShader(mHandle, source.c_str());
@@ -21,7 +21,7 @@ Shader::Shader(const std::string& source, ShaderType type)
 
 
 Shader::Shader(Shader&& other)
-  : NonCopyable()
+  : non_copyable()
   , mHandle(std::move(other.mHandle))
 {}
 

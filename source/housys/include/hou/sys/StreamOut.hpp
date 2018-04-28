@@ -7,8 +7,8 @@
 
 #include "hou/sys/SysExport.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
-#include "hou/cor/TemplateUtils.hpp"
+#include "hou/cor/basic_types.hpp"
+#include "hou/cor/template_utils.hpp"
 
 #include <array>
 #include <string>
@@ -49,7 +49,7 @@ public:
    *  \return a reference to this stream.
    */
   template <typename T>
-    std::enable_if_t<std::is_pod<T>::value && !isContiguousContainer<T>::value
+    std::enable_if_t<std::is_pod<T>::value && !is_contiguous_container<T>::value
     , StreamOut>& write(const T& buf);
 
   /** Writes from a contiguous container.
@@ -63,7 +63,7 @@ public:
    *  \return a reference to this stream.
    */
   template <typename T>
-    std::enable_if_t<isContiguousContainer<T>::value, StreamOut>&
+    std::enable_if_t<is_contiguous_container<T>::value, StreamOut>&
     write(const T& buf);
 
   /** Writes from a specified location in memory.

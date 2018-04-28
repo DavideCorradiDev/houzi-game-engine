@@ -5,7 +5,7 @@
 #ifndef HOU_GL_GL_CONTEXT_HPP
 #define HOU_GL_GL_CONTEXT_HPP
 
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/cor/non_copyable.hpp"
 #include "hou/gl/GlExport.hpp"
 
 #include "hou/gl/GlContextImpl.hpp"
@@ -29,7 +29,7 @@ class ProgramHandle;
 class TextureHandle;
 class VertexArrayHandle;
 
-class HOU_GL_API Context : public NonCopyable
+class HOU_GL_API Context : public non_copyable
 {
 private:
   class TrackingData

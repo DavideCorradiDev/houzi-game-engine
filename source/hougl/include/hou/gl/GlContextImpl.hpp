@@ -6,10 +6,10 @@
 
 #define HOU_GL_GL_CONTEXT_IMPL_HPP
 
-#include "hou/Config.hpp"
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/config.hpp"
+#include "hou/cor/non_copyable.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
+#include "hou/cor/basic_types.hpp"
 
 #if defined(HOU_SYSTEM_WINDOWS)
   #include "hou/sys/win/Win.hpp"
@@ -31,7 +31,7 @@ namespace prv
 {
 
 class ContextImpl
-  : public NonCopyable
+  : public non_copyable
 {
 public:
   static void setCurrent(ContextImpl& context, Window& window);

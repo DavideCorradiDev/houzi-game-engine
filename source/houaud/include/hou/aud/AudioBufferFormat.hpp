@@ -9,7 +9,7 @@
 
 #include "hou/al/OpenAl.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
+#include "hou/cor/basic_types.hpp"
 
 #include <iostream>
 

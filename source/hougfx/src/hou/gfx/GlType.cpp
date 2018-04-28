@@ -4,7 +4,7 @@
 
 #include "hou/gfx/GlType.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
+#include "hou/cor/basic_types.hpp"
 
 #define GFX_GL_TYPE_CASE(type, os) \
   case GlType::type:            \

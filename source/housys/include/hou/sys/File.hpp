@@ -6,11 +6,11 @@
 #define HOU_SYS_FILE_HPP
 
 #include "hou/sys/SysExport.hpp"
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/cor/non_copyable.hpp"
 
 #include "hou/sys/FileHandle.hpp"
 
-#include "hou/cor/BasicTypes.hpp"
+#include "hou/cor/basic_types.hpp"
 
 #include <string>
 
@@ -22,7 +22,7 @@ namespace hou
 /** Class representing a file.
  */
 class HOU_SYS_API File
-  : public NonCopyable
+  : public non_copyable
 {
 public:
   /** Path constructor.

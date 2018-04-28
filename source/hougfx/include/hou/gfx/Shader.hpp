@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_SHADER_HPP
 #define HOU_GFX_SHADER_HPP
 
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/cor/non_copyable.hpp"
 #include "hou/gfx/GfxExport.hpp"
 
 #include "hou/gfx/ShaderFwd.hpp"
@@ -19,7 +19,7 @@
 namespace hou
 {
 
-class HOU_GFX_API Shader : public NonCopyable
+class HOU_GFX_API Shader : public non_copyable
 {
 public:
   Shader(const std::string& source, ShaderType type);

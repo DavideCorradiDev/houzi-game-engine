@@ -12,8 +12,8 @@
 
 #include "hou/al/AlSourceHandle.hpp"
 
-#include "hou/cor/NonCopyable.hpp"
-#include "hou/cor/StdChrono.hpp"
+#include "hou/cor/non_copyable.hpp"
+#include "hou/cor/std_chrono.hpp"
 
 #include "hou/mth/Matrix.hpp"
 
@@ -24,7 +24,7 @@ namespace hou
 
 /** Parent class for audio sources.
  */
-class HOU_AUD_API AudioSource : public NonCopyable
+class HOU_AUD_API AudioSource : public non_copyable
 {
 public:
   /** Default constructor.

@@ -61,7 +61,7 @@ TEST_F(TestGlProgramHandle, DISABLED_NoContextCreation)
 {
   gl::Context::unsetCurrent();
   HOU_EXPECT_ERROR(gl::ProgramHandle::create(), std::logic_error
-    , getText(GlError::ContextExistence));
+    , get_text(GlError::ContextExistence));
 }
 
 
@@ -123,7 +123,7 @@ TEST_F(TestGlProgramHandleDeathTest, DISABLED_NonSharingContextBinding)
   gl::ProgramHandle ph = createProgram();
   setNonSharingContextCurrent();
   HOU_EXPECT_ERROR(gl::bindProgram(ph), std::logic_error
-    , getText(GlError::InvalidOwnership));
+    , get_text(GlError::InvalidOwnership));
   setContextCurrent();
 }
 
@@ -138,7 +138,7 @@ TEST_F(TestGlProgramHandleDeathTest, DISABLED_NoContextBinding)
   gl::ProgramHandle ph = createProgram();
   gl::Context::unsetCurrent();
   HOU_EXPECT_ERROR(gl::bindProgram(ph), std::logic_error
-    , getText(GlError::ContextExistence));
+    , get_text(GlError::ContextExistence));
   setContextCurrent();
 }
 
@@ -176,7 +176,7 @@ TEST_F(TestGlProgramHandleDeathTest, LinkProgramFailure)
   gl::attachShader(ph, gsh);
   gl::attachShader(ph, fsh);
   HOU_EXPECT_ERROR(gl::linkProgram(ph), std::runtime_error
-    , formatString(getText(GlError::ProgramLinking)
+    , format_string(get_text(GlError::ProgramLinking)
     , "Geometry info\n"
     "-------------\n"
     "(0) : error C6022: No input primitive type\n"
@@ -197,7 +197,7 @@ TEST_F(TestGlProgramHandleDeathTest, GetUniformLocationInvalidName)
 {
   gl::ProgramHandle ph = createProgram();
   HOU_EXPECT_ERROR(gl::getProgramUniformLocation(ph, "invalidName")
-    , std::runtime_error, formatString(getText(GlError::ProgramInvalidUniform)
+    , std::runtime_error, format_string(get_text(GlError::ProgramInvalidUniform)
     , "invalidName"));
 
 }

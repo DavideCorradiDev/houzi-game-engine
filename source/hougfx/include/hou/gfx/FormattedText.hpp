@@ -7,10 +7,10 @@
 
 #include "hou/gfx/GfxExport.hpp"
 
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/cor/non_copyable.hpp"
 
-#include "hou/cor/StdString.hpp"
-#include "hou/cor/StdVector.hpp"
+#include "hou/cor/std_string.hpp"
+#include "hou/cor/std_vector.hpp"
 
 #include "hou/mth/Rectangle.hpp"
 #include "hou/mth/Transform2.hpp"
@@ -36,7 +36,7 @@ class Font;
  * The text will be formatted according to the given parameters.
  * The object stores a mesh and a texture atlas for quick rendering.
  */
-class HOU_GFX_API FormattedText : public NonCopyable
+class HOU_GFX_API FormattedText : public non_copyable
 {
 public:
   /** Type representing a collection of mesh vertices. */

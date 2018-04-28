@@ -1,6 +1,6 @@
 #include "hou/Test.hpp"
 
-#include "hou/cor/CorError.hpp"
+#include "hou/cor/cor_error.hpp"
 
 #include "hou/mth/Matrix.hpp"
 #include "hou/mth/MathFunctions.hpp"
@@ -77,7 +77,7 @@ TEST_F(TestRotation2, ConstructorMatrix)
 TEST_F(TestRotation2DeathTest, ConstructorMatrixFailureInvalidMatrix)
 {
   HOU_EXPECT_ERROR(Rot2f(Mat2x2f::zero()), std::logic_error
-    , getText(CorError::Precondition));
+    , get_text(cor_error::pre_condition));
 }
 
 

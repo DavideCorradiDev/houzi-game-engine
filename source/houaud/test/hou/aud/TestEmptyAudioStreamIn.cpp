@@ -55,9 +55,9 @@ TEST_F(TestEmptyAudioStreamInDeathTest, SetBytePosError)
 {
   EmptyAudioStreamIn si;
   HOU_EXPECT_ERROR(si.setBytePos(-1), std::runtime_error
-    , getText(SysError::FileSeek));
+    , get_text(SysError::FileSeek));
   HOU_EXPECT_ERROR(si.setBytePos(1), std::runtime_error
-    , getText(SysError::FileSeek));
+    , get_text(SysError::FileSeek));
 }
 
 
@@ -75,9 +75,9 @@ TEST_F(TestEmptyAudioStreamInDeathTest, MoveBytePosError)
 {
   EmptyAudioStreamIn si;
   HOU_EXPECT_ERROR(si.moveBytePos(-1), std::runtime_error
-    , getText(SysError::FileSeek));
+    , get_text(SysError::FileSeek));
   HOU_EXPECT_ERROR(si.moveBytePos(1), std::runtime_error
-    , getText(SysError::FileSeek));
+    , get_text(SysError::FileSeek));
 }
 
 
@@ -95,9 +95,9 @@ TEST_F(TestEmptyAudioStreamInDeathTest, SetSamplePosError)
 {
   EmptyAudioStreamIn si;
   HOU_EXPECT_ERROR(si.setSamplePos(-1), std::runtime_error
-    , getText(SysError::FileSeek));
+    , get_text(SysError::FileSeek));
   HOU_EXPECT_ERROR(si.setSamplePos(1), std::runtime_error
-    , getText(SysError::FileSeek));
+    , get_text(SysError::FileSeek));
 }
 
 
@@ -115,9 +115,9 @@ TEST_F(TestEmptyAudioStreamInDeathTest, MoveSamplePosError)
 {
   EmptyAudioStreamIn si;
   HOU_EXPECT_ERROR(si.moveSamplePos(-1), std::runtime_error
-    , getText(SysError::FileSeek));
+    , get_text(SysError::FileSeek));
   HOU_EXPECT_ERROR(si.moveSamplePos(1), std::runtime_error
-    , getText(SysError::FileSeek));
+    , get_text(SysError::FileSeek));
 }
 
 

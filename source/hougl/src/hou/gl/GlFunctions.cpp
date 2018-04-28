@@ -80,12 +80,12 @@ void initExtensions()
     // Initialize extenstions through GLAD.
     int gladInitRetval = gladLoadGL();
     HOU_RUNTIME_CHECK(gladInitRetval != 0,
-      getText(GlError::ExtensionsInitialization), gladInitRetval);
+      get_text(GlError::ExtensionsInitialization), gladInitRetval);
 
 #if defined(HOU_SYSTEM_WINDOWS)
     int wglGladInitRetval = gladLoadWGL(GetDC(w.getWindowHandle()));
     HOU_RUNTIME_CHECK(wglGladInitRetval != 0,
-      getText(GlError::ExtensionsInitialization), wglGladInitRetval);
+      get_text(GlError::ExtensionsInitialization), wglGladInitRetval);
 #endif
 
     extensionsInitialized = true;
@@ -111,7 +111,7 @@ void setVerticalSyncMode(VerticalSyncMode mode)
   if(wglSwapIntervalEXT)
   {
     HOU_WIN_RUNTIME_CHECK(wglSwapIntervalEXT(static_cast<int>(mode)) != 0,
-      getText(GlError::VerticalSyncSet));
+      get_text(GlError::VerticalSyncSet));
   }
 #else
   HOU_LOGIC_ERROR("Unsupported OS");

@@ -6,8 +6,8 @@
 
 #include "hou/aud/AudError.hpp"
 
-#include "hou/cor/Error.hpp"
-#include "hou/cor/Pragmas.hpp"
+#include "hou/cor/error.hpp"
+#include "hou/cor/pragmas.hpp"
 
 #include "hou/sys/SysError.hpp"
 
@@ -34,7 +34,7 @@ static constexpr size_t bytesPerSample = 2u;
 bool OggFileIn::check(const std::string& path)
 {
   FILE* file = openFile(path, "rb");
-  HOU_RUNTIME_CHECK(file != nullptr, getText(SysError::FileOpen)
+  HOU_RUNTIME_CHECK(file != nullptr, get_text(SysError::FileOpen)
     , path.c_str());
 
   OggVorbis_File vorbisFile;
@@ -53,7 +53,7 @@ bool OggFileIn::check(const std::string& path)
 
 
 OggFileIn::OggFileIn(const std::string& path)
-  : NonCopyable()
+  : non_copyable()
   , AudioStreamIn()
   , mVorbisFile(std::make_unique<OggVorbis_File>())
   , mLogicalBitStream(0u)
@@ -64,7 +64,7 @@ OggFileIn::OggFileIn(const std::string& path)
   , mError(false)
 {
   FILE* file = openFile(path, "rb");
-  HOU_RUNTIME_CHECK(file != nullptr, getText(SysError::FileOpen)
+  HOU_RUNTIME_CHECK(file != nullptr, get_text(SysError::FileOpen)
     , path.c_str());
 
   // The last two parameters are used to point to initial data.
@@ -72,7 +72,7 @@ OggFileIn::OggFileIn(const std::string& path)
   if(ov_open(file, mVorbisFile.get(), nullptr, 0) != 0)
   {
     fclose(file);
-    HOU_RUNTIME_ERROR(getText(AudError::OggInvalidHeader), path.c_str());
+    HOU_RUNTIME_ERROR(get_text(AudError::OggInvalidHeader), path.c_str());
   }
 
   readMetadata();
@@ -99,7 +99,7 @@ OggFileIn::~OggFileIn()
 {
   if(mVorbisFile != nullptr)
   {
-    HOU_FATAL_CHECK(ov_clear(mVorbisFile.get()) == 0, getText(SysError::FileClose));
+    HOU_FATAL_CHECK(ov_clear(mVorbisFile.get()) == 0, get_text(SysError::FileClose));
   }
 }
 
@@ -184,7 +184,7 @@ AudioStreamIn& OggFileIn::setSamplePos(OggFileIn::SamplePosition pos)
 {
   mEof = false;
   HOU_RUNTIME_CHECK(ov_pcm_seek(mVorbisFile.get()
-    , static_cast<ogg_int64_t>(pos)) == 0, getText(SysError::FileSeek));
+    , static_cast<ogg_int64_t>(pos)) == 0, get_text(SysError::FileSeek));
   return *this;
 }
 
@@ -195,7 +195,7 @@ AudioStreamIn& OggFileIn::moveSamplePos(OggFileIn::SampleOffset offset)
   mEof = false;
   HOU_RUNTIME_CHECK(ov_pcm_seek(mVorbisFile.get(), static_cast<ogg_int64_t>
     (static_cast<OggFileIn::SampleOffset>(getSamplePos()) + offset)) == 0
-    , getText(SysError::FileSeek));
+    , get_text(SysError::FileSeek));
   return *this;
 }
 
@@ -254,7 +254,7 @@ void OggFileIn::onRead(void* buf, size_t elementSize, size_t bufSize)
   }
   // Check that no error happened during the read operation.
   HOU_RUNTIME_CHECK(countBytes == sizeBytes || !error()
-    , getText(SysError::FileRead));
+    , get_text(SysError::FileRead));
   HOU_ENSURE_DEV(countBytes % elementSize == 0u);
   mByteCount = countBytes;
   mElementCount = countBytes / elementSize;

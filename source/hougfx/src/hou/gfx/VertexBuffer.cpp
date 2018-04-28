@@ -24,7 +24,7 @@ void VertexBuffer::unbind(VertexBufferTarget target)
 
 
 VertexBuffer::VertexBuffer(uint byteCount, bool dynamicStorage)
-  : NonCopyable()
+  : non_copyable()
   , mHandle(gl::BufferHandle::create())
   , mByteCount(byteCount)
 {
@@ -37,7 +37,7 @@ VertexBuffer::VertexBuffer(uint byteCount, bool dynamicStorage)
 
 
 VertexBuffer::VertexBuffer(uint size, const void* data, bool dynamicStorage)
-  : NonCopyable()
+  : non_copyable()
   , mHandle(gl::BufferHandle::create())
   , mByteCount(size)
 {
@@ -49,7 +49,7 @@ VertexBuffer::VertexBuffer(uint size, const void* data, bool dynamicStorage)
 
 
 VertexBuffer::VertexBuffer(VertexBuffer&& other)
-  : NonCopyable()
+  : non_copyable()
   , mHandle(std::move(other.mHandle))
   , mByteCount(std::move(other.mByteCount))
 {}

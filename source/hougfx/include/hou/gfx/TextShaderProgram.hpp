@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_TEXT_SHADER_PROGRAM_HPP
 #define HOU_GFX_TEXT_SHADER_PROGRAM_HPP
 
-#include "hou/cor/NonCopyable.hpp"
+#include "hou/cor/non_copyable.hpp"
 #include "hou/gfx/GfxExport.hpp"
 
 #include "hou/gfx/Mesh.hpp"

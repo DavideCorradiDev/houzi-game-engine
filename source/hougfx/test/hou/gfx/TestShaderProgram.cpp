@@ -162,7 +162,7 @@ TEST_F(TestShaderProgramDeathTest, GetUniformLocationInvalidName)
   ConcreteShaderProgram p(vs, fs, gs);
   std::string invalidName = "trololol";
   HOU_EXPECT_ERROR(p.getUniformLocation(invalidName), std::runtime_error,
-    formatString(getText(GlError::ProgramInvalidUniform), invalidName.c_str()));
+    format_string(get_text(GlError::ProgramInvalidUniform), invalidName.c_str()));
 }
 
 
@@ -173,7 +173,7 @@ TEST_F(TestShaderProgramDeathTest, ConstructorErrorLinkFailure)
   GeometryShader gs(getVsSource());
   FragmentShader fs(getFsSource());
   HOU_EXPECT_ERROR(ConcreteShaderProgram(vs, fs, gs), std::runtime_error,
-    formatString(getText(GlError::ProgramLinking),
+    format_string(get_text(GlError::ProgramLinking),
       "Geometry info\n"
       "-------------\n"
       "(0) : error C6022: No input primitive type\n"
