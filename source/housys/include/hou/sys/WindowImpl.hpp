@@ -8,7 +8,7 @@
 #include "hou/sys/SysExport.hpp"
 #include "hou/cor/NonCopyable.hpp"
 
-#include "hou/cor/CharacterEncodings.hpp"
+#include "hou/cor/character_encodings.hpp"
 
 #include "hou/mth/RectangleFwd.hpp"
 #include "hou/mth/Matrix.hpp"
@@ -104,7 +104,7 @@ private:
   HDC mHdc;
   HCURSOR mCursorHandle;
   HICON mIconHandle;
-  Wide::CodeUnit mCachedUtf16Char;
+  wide::code_unit mCachedUtf16Char;
   bool mMouseInWindow;
   Vec2u mPreviousSize;
 #endif

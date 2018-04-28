@@ -24,8 +24,8 @@ class TestStopwatch : public Test {};
 
 TEST_F(TestStopwatch, GetResolution)
 {
-  EXPECT_GE(std::chrono::nanoseconds(100), Stopwatch::getResolution());
-  EXPECT_EQ(Clock::getResolution(), Stopwatch::getResolution());
+  EXPECT_GE(std::chrono::nanoseconds(100), Stopwatch::get_resolution());
+  EXPECT_EQ(clock::get_resolution(), Stopwatch::get_resolution());
 }
 
 
@@ -33,7 +33,7 @@ TEST_F(TestStopwatch, GetResolution)
 TEST_F(TestStopwatch, Construction)
 {
   Stopwatch t;
-  EXPECT_EQ(std::chrono::nanoseconds(0), t.getElapsedTime());
+  EXPECT_EQ(std::chrono::nanoseconds(0), t.get_elapsed_time());
   EXPECT_FALSE(t.isRunning());
 }
 
@@ -49,32 +49,32 @@ TEST_F(TestStopwatch, StartPauseResetStop)
 
   std::chrono::nanoseconds t0 = t.start();
   std::this_thread::sleep_for(sleepTime);
-  std::chrono::nanoseconds t1 = t.getElapsedTime();
+  std::chrono::nanoseconds t1 = t.get_elapsed_time();
   std::this_thread::sleep_for(sleepTime);
   std::chrono::nanoseconds t2 = t.pause();
   std::this_thread::sleep_for(sleepTime);
-  std::chrono::nanoseconds t3 = t.getElapsedTime();
+  std::chrono::nanoseconds t3 = t.get_elapsed_time();
   std::chrono::nanoseconds t4 = t.start();
   std::this_thread::sleep_for(sleepTime);
-  std::chrono::nanoseconds t5 = t.getElapsedTime();
+  std::chrono::nanoseconds t5 = t.get_elapsed_time();
   std::this_thread::sleep_for(sleepTime);
   std::chrono::nanoseconds t6 = t.reset();
   std::this_thread::sleep_for(sleepTime);
-  std::chrono::nanoseconds t7 = t.getElapsedTime();
+  std::chrono::nanoseconds t7 = t.get_elapsed_time();
   std::this_thread::sleep_for(sleepTime);
   std::chrono::nanoseconds t8 = t.pause();
   std::this_thread::sleep_for(sleepTime);
   std::chrono::nanoseconds t9 = t.reset();
   std::this_thread::sleep_for(sleepTime);
-  std::chrono::nanoseconds t10 = t.getElapsedTime();
+  std::chrono::nanoseconds t10 = t.get_elapsed_time();
   std::this_thread::sleep_for(sleepTime);
   std::chrono::nanoseconds t11 = t.start();
   std::this_thread::sleep_for(sleepTime);
-  std::chrono::nanoseconds t12 = t.getElapsedTime();
+  std::chrono::nanoseconds t12 = t.get_elapsed_time();
   std::this_thread::sleep_for(sleepTime);
   std::chrono::nanoseconds t13 = t.stop();
   std::this_thread::sleep_for(sleepTime);
-  std::chrono::nanoseconds t14 = t.getElapsedTime();
+  std::chrono::nanoseconds t14 = t.get_elapsed_time();
 
 
   EXPECT_EQ(std::chrono::nanoseconds(0), t0);

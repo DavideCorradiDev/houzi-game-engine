@@ -4,7 +4,7 @@
 
 #include "hou/Test.hpp"
 
-#include "hou/cor/Clock.hpp"
+#include "hou/cor/clock.hpp"
 
 #include "hou/gl/GlContext.hpp"
 #include "hou/gl/GlContextSettings.hpp"
@@ -264,38 +264,38 @@ TEST_F(TestGlContextOptimizations, RedundantBinding)
   gl::Context::setCurrent(c2, w1);
   gl::Context::setCurrent(c2, w2);
 
-  // Measurement clock.
-  Clock clock;
+  // Measurement p_clock.
+  hou::clock p_clock;
 
   // Bind to same context window (should not rebind).
   gl::Context::unsetCurrent();
-  clock = Clock();
+  p_clock = hou::clock();
   for(uint i = 0; i < calls; ++i)
   {
     gl::Context::setCurrent(c1, w1);
     gl::Context::setCurrent(c1, w1);
   }
-  std::chrono::nanoseconds time1 = clock.getElapsedTime();
+  std::chrono::nanoseconds time1 = p_clock.get_elapsed_time();
 
   // Bind to different window (should rebind).
   gl::Context::unsetCurrent();
-  clock = Clock();
+  p_clock = hou::clock();
   for(uint i = 0; i < calls; ++i)
   {
     gl::Context::setCurrent(c1, w1);
     gl::Context::setCurrent(c1, w2);
   }
-  std::chrono::nanoseconds time2 = clock.getElapsedTime();
+  std::chrono::nanoseconds time2 = p_clock.get_elapsed_time();
 
   // Bind to different context (should rebind).
   gl::Context::unsetCurrent();
-  clock = Clock();
+  p_clock = hou::clock();
   for(uint i = 0; i < calls; ++i)
   {
     gl::Context::setCurrent(c1, w1);
     gl::Context::setCurrent(c2, w1);
   }
-  std::chrono::nanoseconds time3 = clock.getElapsedTime();
+  std::chrono::nanoseconds time3 = p_clock.get_elapsed_time();
 
   EXPECT_LT(time1, time2);
   EXPECT_LT(time1, time3);

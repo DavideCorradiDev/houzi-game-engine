@@ -14,41 +14,41 @@
 namespace hou
 {
 
-/** High resolution clock.
+/** High resolution p_clock.
  *
  *  Guarantees a resolution of 100 ns.
  */
-class HOU_COR_API Clock
+class HOU_COR_API clock
 {
 public:
-  /** Retrieves the clock resolution.
+  /** Retrieves the p_clock resolution.
    *
    *  Note: the reported resolution might not be accurate.
    *
    *  \return the resolution in nanoseconds.
    */
-  static std::chrono::nanoseconds getResolution();
+  static std::chrono::nanoseconds get_resolution();
 
 public:
-  /** Creates a clock object.
+  /** Creates a p_clock object.
    */
-  Clock();
+  clock();
 
-  /** Returns the time elapsed since the clock creation.
+  /** Returns the time elapsed since the p_clock creation.
    *
    *  \return the elapsed time in nanoseconds.
    */
-  std::chrono::nanoseconds getElapsedTime() const;
+  std::chrono::nanoseconds get_elapsed_time() const;
 
-  /** Resets the clock elapsed time.
+  /** Resets the p_clock elapsed time.
    *
    *  \return the elapsed time before resetting it in nanoseconds.
    */
   std::chrono::nanoseconds reset();
 
 private:
-  std::chrono::high_resolution_clock mClock;
-  std::chrono::high_resolution_clock::time_point mStartTime;
+  std::chrono::high_resolution_clock m_clock;
+  std::chrono::high_resolution_clock::time_point m_start_time;
 };
 
 }

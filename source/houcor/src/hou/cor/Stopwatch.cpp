@@ -9,25 +9,25 @@
 namespace hou
 {
 
-std::chrono::nanoseconds Stopwatch::getResolution()
+std::chrono::nanoseconds Stopwatch::get_resolution()
 {
-  return Clock::getResolution();
+  return clock::get_resolution();
 }
 
 
 
 Stopwatch::Stopwatch()
-  : mClock()
+  : m_clock()
   , mElapsedTime(0)
   , mRunning(false)
 {}
 
 
 
-std::chrono::nanoseconds Stopwatch::getElapsedTime() const
+std::chrono::nanoseconds Stopwatch::get_elapsed_time() const
 {
   return mElapsedTime
-    + (mRunning ? mClock.getElapsedTime() : std::chrono::nanoseconds(0));
+    + (mRunning ? m_clock.get_elapsed_time() : std::chrono::nanoseconds(0));
 }
 
 
@@ -43,7 +43,7 @@ std::chrono::nanoseconds Stopwatch::start()
 {
   if(!mRunning)
   {
-    mClock.reset();
+    m_clock.reset();
     mRunning = true;
   }
   return mElapsedTime;
@@ -53,7 +53,7 @@ std::chrono::nanoseconds Stopwatch::start()
 
 std::chrono::nanoseconds Stopwatch::pause()
 {
-  mElapsedTime = getElapsedTime();
+  mElapsedTime = get_elapsed_time();
   mRunning = false;
   return mElapsedTime;
 }
@@ -62,9 +62,9 @@ std::chrono::nanoseconds Stopwatch::pause()
 
 std::chrono::nanoseconds Stopwatch::reset()
 {
-  std::chrono::nanoseconds elapsedTime = getElapsedTime();
+  std::chrono::nanoseconds elapsedTime = get_elapsed_time();
   mElapsedTime = std::chrono::nanoseconds(0);
-  mClock.reset();
+  m_clock.reset();
   return elapsedTime;
 }
 
@@ -72,7 +72,7 @@ std::chrono::nanoseconds Stopwatch::reset()
 
 std::chrono::nanoseconds Stopwatch::stop()
 {
-  std::chrono::nanoseconds elapsedTime = getElapsedTime();
+  std::chrono::nanoseconds elapsedTime = get_elapsed_time();
   mElapsedTime = std::chrono::nanoseconds(0);
   mRunning = false;
   return elapsedTime;

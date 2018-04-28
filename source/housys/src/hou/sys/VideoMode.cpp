@@ -27,7 +27,7 @@ VideoMode::VideoMode(const Vec2u& resolution, uint bytesPerPixel)
 
 
 
-const Vec2u& VideoMode::getResolution() const
+const Vec2u& VideoMode::get_resolution() const
 {
   return mResolution;
 }
@@ -51,7 +51,7 @@ bool VideoMode::isFullscreenMode() const
 
 bool operator==(const VideoMode& lhs, const VideoMode& rhs)
 {
-  return (lhs.getResolution() == rhs.getResolution())
+  return (lhs.get_resolution() == rhs.get_resolution())
     && (lhs.getBytesPerPixel() == rhs.getBytesPerPixel());
 }
 
@@ -68,13 +68,13 @@ bool operator<(const VideoMode& lhs, const VideoMode& rhs)
 {
   if(lhs.getBytesPerPixel() == rhs.getBytesPerPixel())
   {
-    if(lhs.getResolution().x() == rhs.getResolution().x())
+    if(lhs.get_resolution().x() == rhs.get_resolution().x())
     {
-      return lhs.getResolution().y() < rhs.getResolution().y();
+      return lhs.get_resolution().y() < rhs.get_resolution().y();
     }
     else
     {
-      return lhs.getResolution().x() < rhs.getResolution().x();
+      return lhs.get_resolution().x() < rhs.get_resolution().x();
     }
   }
   else
@@ -108,7 +108,7 @@ bool operator>=(const VideoMode& lhs, const VideoMode& rhs)
 
 std::ostream& operator<<(std::ostream& os, const VideoMode& vm)
 {
-  return os << "{Resolution = " << transpose(vm.getResolution())
+  return os << "{Resolution = " << transpose(vm.get_resolution())
     << ", BytesPerPixel = " << vm.getBytesPerPixel() << "}";
 }
 

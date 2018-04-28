@@ -37,8 +37,8 @@ INCLUDE_DIRECTORIES(
 SET(EXE_HOUCOR_TEST_SRC
   ${LIB_HOUTEST_SOURCE_DIR}/src/TestMain.cpp
   hou/cor/TestBitwiseOperators.cpp
-  hou/cor/TestCharacterEncodings.cpp
-  hou/cor/TestClock.cpp
+  hou/cor/test_character_encodings.cpp
+  hou/cor/test_clock.cpp
   hou/cor/TestCoreFunctions.cpp
   hou/cor/TestError.cpp
   hou/cor/TestNotNull.cpp

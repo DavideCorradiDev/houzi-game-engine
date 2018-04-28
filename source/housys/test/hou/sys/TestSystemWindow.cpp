@@ -35,7 +35,7 @@ TEST_F(TestSystemWindow, CreateWindowed)
 {
   std::string titleRef("SystemWindow");
   Vec2u sizeRef(300u, 600u);
-  Vec2u screenSize = VideoMode::getDesktopMode().getResolution();
+  Vec2u screenSize = VideoMode::getDesktopMode().get_resolution();
   Vec2i posRef = static_cast<Vec2i>(screenSize - sizeRef) / 2;
   uint bbpRef = 4u;
   WindowStyle styleRef = WindowStyle::Windowed;
@@ -62,7 +62,7 @@ TEST_F(TestSystemWindow, CreateWindowedResizable)
 {
   std::string titleRef("SystemWindow");
   Vec2u sizeRef(300u, 600u);
-  Vec2u screenSize = VideoMode::getDesktopMode().getResolution();
+  Vec2u screenSize = VideoMode::getDesktopMode().get_resolution();
   Vec2i posRef = static_cast<Vec2i>(screenSize - sizeRef) / 2;
   uint bbpRef = 4u;
   WindowStyle styleRef = WindowStyle::WindowedResizable;
@@ -88,7 +88,7 @@ TEST_F(TestSystemWindow, CreateWindowedResizable)
 TEST_F(TestSystemWindow, CreateFullscreen)
 {
   std::string titleRef("SystemWindow");
-  Vec2u sizeRef(VideoMode::getDesktopMode().getResolution());
+  Vec2u sizeRef(VideoMode::getDesktopMode().get_resolution());
   Vec2i posRef(0, 0);
   uint bbpRef(VideoMode::getDesktopMode().getBytesPerPixel());
   WindowStyle styleRef = WindowStyle::Fullscreen;
@@ -164,7 +164,7 @@ TEST_F(TestSystemWindow, MoveConstructor)
 {
   std::string titleRef("SystemWindow");
   Vec2u sizeRef(300u, 600u);
-  Vec2u screenSize = VideoMode::getDesktopMode().getResolution();
+  Vec2u screenSize = VideoMode::getDesktopMode().get_resolution();
   Vec2i posRef = static_cast<Vec2i>(screenSize - sizeRef) / 2;
   uint bbpRef = 4u;
   WindowStyle styleRef = WindowStyle::Windowed;

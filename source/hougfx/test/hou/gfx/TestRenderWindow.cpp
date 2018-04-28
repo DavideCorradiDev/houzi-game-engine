@@ -30,7 +30,7 @@ TEST_F(TestRenderWindow, CreationWindowed)
 {
   std::string titleRef(u8"Test");
   Vec2u sizeRef(16u, 32u);
-  Vec2u screenSize = VideoMode::getDesktopMode().getResolution();
+  Vec2u screenSize = VideoMode::getDesktopMode().get_resolution();
   Vec2i posRef = static_cast<Vec2i>(screenSize - sizeRef) / 2;
   WindowStyle styleRef = WindowStyle::Windowed;
   Image2RGBA iconRef;
@@ -64,7 +64,7 @@ TEST_F(TestRenderWindow, CreationWindowedMultisampled)
 {
   std::string titleRef(u8"Test");
   Vec2u sizeRef(16u, 32u);
-  Vec2u screenSize = VideoMode::getDesktopMode().getResolution();
+  Vec2u screenSize = VideoMode::getDesktopMode().get_resolution();
   Vec2i posRef = static_cast<Vec2i>(screenSize - sizeRef) / 2;
   WindowStyle styleRef = WindowStyle::Windowed;
   Image2RGBA iconRef;
@@ -97,7 +97,7 @@ TEST_F(TestRenderWindow, CreationWindowedMultisampled)
 TEST_F(TestRenderWindow, CreationFullscreen)
 {
   std::string titleRef(u8"Test");
-  Vec2u screenSize = VideoMode::getDesktopMode().getResolution();
+  Vec2u screenSize = VideoMode::getDesktopMode().get_resolution();
   Vec2u sizeRef = screenSize;
   Vec2i posRef = static_cast<Vec2i>(screenSize - sizeRef) / 2;
   WindowStyle styleRef = WindowStyle::Fullscreen;

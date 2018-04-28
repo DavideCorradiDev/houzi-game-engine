@@ -10,7 +10,7 @@
 #include "hou/gl/GlShaderHandle.hpp"
 
 #include "hou/cor/Error.hpp"
-#include "hou/cor/CharacterEncodings.hpp"
+#include "hou/cor/character_encodings.hpp"
 
 
 

@@ -48,7 +48,7 @@ public:
    *
    *  \return the screen resolution.
    */
-  const Vec2u& getResolution() const;
+  const Vec2u& get_resolution() const;
 
   /** Retrieves the number of bits per pixel.
    *

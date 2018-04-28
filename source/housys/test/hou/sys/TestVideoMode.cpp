@@ -24,7 +24,7 @@ TEST_F(TestVideoMode, Constructor)
 {
   VideoMode v(Vec2u(1200u, 400u), 8u);
   EXPECT_EQ(8u, v.getBytesPerPixel());
-  EXPECT_EQ(Vec2u(1200u, 400u), v.getResolution());
+  EXPECT_EQ(Vec2u(1200u, 400u), v.get_resolution());
 }
 
 

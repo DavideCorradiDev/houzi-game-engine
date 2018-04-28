@@ -9,7 +9,7 @@
 #include "hou/gfx/GfxExport.hpp"
 
 #include "hou/cor/BasicTypes.hpp"
-#include "hou/cor/CharacterEncodings.hpp"
+#include "hou/cor/character_encodings.hpp"
 #include "hou/cor/NotNull.hpp"
 #include "hou/cor/Span.hpp"
 
@@ -206,7 +206,7 @@ public:
    * \param charCode the glyph code point.
    * \return the requested glyph.
    */
-  Glyph getGlyph(Utf32::CodeUnit charCode) const;
+  Glyph getGlyph(utf32::code_unit charCode) const;
 
   /** Gets the kerning between two characters in 26.6 pixel format.
    *
@@ -214,7 +214,7 @@ public:
    * \param second the second character.
    * \return the kerning between the two characters.
    */
-  Vec2i getKerning(Utf32::CodeUnit first, Utf32::CodeUnit second) const;
+  Vec2i getKerning(utf32::code_unit first, utf32::code_unit second) const;
 
   /** Gets the kerning between two characters in pixels.
    *
@@ -222,7 +222,7 @@ public:
    * \param second the second character.
    * \return the kerning between the two characters.
    */
-  Vec2f getPixelKerning(Utf32::CodeUnit first, Utf32::CodeUnit second) const;
+  Vec2f getPixelKerning(utf32::code_unit first, utf32::code_unit second) const;
 
   // Values of ascender and descender are not standardized and therefore not
   // reliable.

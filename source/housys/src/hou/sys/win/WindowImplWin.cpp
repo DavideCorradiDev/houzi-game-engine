@@ -112,8 +112,8 @@ void activateFullscreenMode(WindowImpl& window, const VideoMode& videoMode)
 
   DEVMODE devmode;
   devmode.dmSize = sizeof(DEVMODE);
-  devmode.dmPelsWidth = videoMode.getResolution().x();
-  devmode.dmPelsHeight = videoMode.getResolution().y();
+  devmode.dmPelsWidth = videoMode.get_resolution().x();
+  devmode.dmPelsHeight = videoMode.get_resolution().y();
   devmode.dmBitsPerPel = videoMode.getBytesPerPixel() * bitsPerByte;
   devmode.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT | DM_BITSPERPEL;
   HOU_WIN_ENSURE(ChangeDisplaySettings(&devmode, CDS_FULLSCREEN)
@@ -418,7 +418,7 @@ WindowImpl::WindowImpl(const std::string& title, const VideoMode& videoMode
   , mIconHandle(nullptr)
   , mCachedUtf16Char(0)
   , mMouseInWindow(false)
-  , mPreviousSize(videoMode.getResolution())
+  , mPreviousSize(videoMode.get_resolution())
 {
   HOU_EXPECT(style != WindowStyle::Fullscreen
     || (videoMode.isFullscreenMode() && fullscreenWindow == nullptr));
@@ -429,7 +429,7 @@ WindowImpl::WindowImpl(const std::string& title, const VideoMode& videoMode
   mHandle = CreateWindowExW
     ( windowStyleToWinWindowStyleEx(style)              // dwExStyle
     , houClassName                                      // lpClassName
-    , convertEncoding<Utf8, Wide>(title).c_str()        // lpWindowName
+    , convertEncoding<utf8, wide>(title).c_str()        // lpWindowName
     , windowStyleToWinWindowStyle(style)                // dwStyle
     , 0, 0                        // Position
     , 0, 0  // Size
@@ -444,8 +444,8 @@ WindowImpl::WindowImpl(const std::string& title, const VideoMode& videoMode
   // size.
   Vec2i position = (style == WindowStyle::Fullscreen)
     ? Vec2i(0, 0)
-    : Vec2i(VideoMode::getDesktopMode().getResolution() - videoMode.getResolution()) / 2;
-  setClientRect(Recti(position, videoMode.getResolution()));
+    : Vec2i(VideoMode::getDesktopMode().get_resolution() - videoMode.get_resolution()) / 2;
+  setClientRect(Recti(position, videoMode.get_resolution()));
 
   // Set a pointer to the window class in the window user data (used in the
   // window procedure).
@@ -562,7 +562,7 @@ void WindowImpl::setClientRect(const Recti& value)
 void WindowImpl::setTitle(const std::string& value)
 {
   HOU_WIN_ENSURE(SetWindowTextW(mHandle
-    , convertEncoding<Utf8, Wide>(value).c_str()) != 0);
+    , convertEncoding<utf8, wide>(value).c_str()) != 0);
 }
 
 
@@ -858,9 +858,9 @@ void WindowImpl::filterEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
           // Second code unit of surrogate pair.
           if((character >= 0xDC00) && (character <= 0xDFFF))
           {
-            char16_t utf16[] = { mCachedUtf16Char
+            char16_t p_utf16[] = { mCachedUtf16Char
               , static_cast<char16_t>(character) };
-            convertEncoding<Utf16, Utf32>(utf16, utf16 + 2, &character);
+            convertEncoding<utf16, utf32>(p_utf16, p_utf16 + 2, &character);
             mCachedUtf16Char = 0;
           }
 

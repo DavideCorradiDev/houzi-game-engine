@@ -35,8 +35,8 @@ INCLUDE_DIRECTORIES(
 
 # Source files.
 SET(LIB_HOUCOR_SRC
-  src/hou/cor/CharacterEncodings.cpp
-  src/hou/cor/Clock.cpp
+  src/hou/cor/character_encodings.cpp
+  src/hou/cor/clock.cpp
   src/hou/cor/CorError.cpp
   src/hou/cor/CoreFunctions.cpp
   src/hou/cor/StdString.cpp

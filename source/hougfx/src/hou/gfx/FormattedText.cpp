@@ -20,15 +20,15 @@ namespace
 class GlyphCache
 {
 public:
-  GlyphCache(const Span<const Utf32::CodeUnit>& characters, const Font& font);
+  GlyphCache(const Span<const utf32::code_unit>& characters, const Font& font);
 
-  const std::map<Utf32::CodeUnit, Glyph>& getGlyphs() const;
-  const Glyph& getGlyph(Utf32::CodeUnit c) const;
+  const std::map<utf32::code_unit, Glyph>& getGlyphs() const;
+  const Glyph& getGlyph(utf32::code_unit c) const;
   const Vec2u& getMaxGlyphSize() const;
   uint getSize() const;
 
 private:
-  std::map<Utf32::CodeUnit, Glyph> mGlyphs;
+  std::map<utf32::code_unit, Glyph> mGlyphs;
   Vec2u mMaxGlyphSize;
 };
 
@@ -63,7 +63,7 @@ public:
 
   const Image3R& getImage() const;
   const AtlasGlyphCoordinates& getAtlasGlyphCoordinates(
-    Utf32::CodeUnit c) const;
+    utf32::code_unit c) const;
 
 private:
   static Vec3u computeAtlasGridSize(const GlyphCache& cache);
@@ -71,7 +71,7 @@ private:
 private:
   Vec3u mAtlasGridSize;
   Image3R mImage;
-  std::map<Utf32::CodeUnit, AtlasGlyphCoordinates> mGlyphCoords;
+  std::map<utf32::code_unit, AtlasGlyphCoordinates> mGlyphCoords;
 };
 
 
@@ -87,8 +87,8 @@ public:
 
 private:
   static constexpr uint VerticesPerGlyph = 6u;
-  static constexpr Utf32::CodeUnit LineFeed = 0x0000000A;
-  static constexpr Utf32::CodeUnit WhiteSpace = 0x00000020;
+  static constexpr utf32::code_unit LineFeed = 0x0000000A;
+  static constexpr utf32::code_unit WhiteSpace = 0x00000020;
 
 private:
   float computeGlyphAdvance(const GlyphMetrics& gm, const Font& font) const;
@@ -112,7 +112,7 @@ private:
 
 
 GlyphCache::GlyphCache(
-  const Span<const Utf32::CodeUnit>& characters, const Font& font)
+  const Span<const utf32::code_unit>& characters, const Font& font)
   : mGlyphs()
   , mMaxGlyphSize()
 {
@@ -136,14 +136,14 @@ GlyphCache::GlyphCache(
 
 
 
-const std::map<Utf32::CodeUnit, Glyph>& GlyphCache::getGlyphs() const
+const std::map<utf32::code_unit, Glyph>& GlyphCache::getGlyphs() const
 {
   return mGlyphs;
 }
 
 
 
-const Glyph& GlyphCache::getGlyph(Utf32::CodeUnit c) const
+const Glyph& GlyphCache::getGlyph(utf32::code_unit c) const
 {
   return mGlyphs.at(c);
 }
@@ -286,7 +286,7 @@ const Image3R& GlyphAtlas::getImage() const
 
 
 const AtlasGlyphCoordinates& GlyphAtlas::getAtlasGlyphCoordinates(
-  Utf32::CodeUnit c) const
+  utf32::code_unit c) const
 {
   return mGlyphCoords.at(c);
 }
@@ -443,7 +443,7 @@ void TextFormatter::generateVertices(
   Vec2f penPos(0.f, 0.f);
   for(size_t i = 0; i < mText.size(); ++i)
   {
-    Utf32::CodeUnit c = mText[i];
+    utf32::code_unit c = mText[i];
     if(c == LineFeed)
     {
       penPos(mLineCoord) = 0.f;
@@ -554,7 +554,7 @@ const Rectf& TextFormatter::getBoundingBox() const
 
 FormattedText::FormattedText(const std::string& text, const Font& font,
   const TextBoxFormattingParams& tbfp)
-  : FormattedText(convertEncoding<Utf8, Utf32>(text), font, tbfp)
+  : FormattedText(convertEncoding<utf8, utf32>(text), font, tbfp)
 {}
 
 

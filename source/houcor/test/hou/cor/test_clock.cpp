@@ -4,7 +4,7 @@
 
 #include "hou/Test.hpp"
 
-#include "hou/cor/Clock.hpp"
+#include "hou/cor/clock.hpp"
 
 #include <thread>
 
@@ -24,14 +24,14 @@ class TestClock : public Test {};
 
 TEST_F(TestClock, GetResolution)
 {
-  EXPECT_GE(std::chrono::nanoseconds(100), Clock::getResolution());
+  EXPECT_GE(std::chrono::nanoseconds(100), hou::clock::get_resolution());
 }
 
 
 
 TEST_F(TestClock, DefaultConstructor)
 {
-  Clock c;
+  hou::clock c;
   SUCCEED();
 }
 
@@ -43,12 +43,12 @@ TEST_F(TestClock, GetElapsedTime)
   // timer resolution.
 
   const std::chrono::nanoseconds sleepTime(1000000);
-  Clock c;
-  std::chrono::nanoseconds t1 = c.getElapsedTime();
+  hou::clock c;
+  std::chrono::nanoseconds t1 = c.get_elapsed_time();
   std::this_thread::sleep_for(sleepTime);
-  std::chrono::nanoseconds t2 = c.getElapsedTime();
+  std::chrono::nanoseconds t2 = c.get_elapsed_time();
   std::this_thread::sleep_for(sleepTime);
-  std::chrono::nanoseconds t3 = c.getElapsedTime();
+  std::chrono::nanoseconds t3 = c.get_elapsed_time();
 
   EXPECT_GT(t2, t1);
   EXPECT_GT(t3, t2);
@@ -60,11 +60,11 @@ TEST_F(TestClock, GetElapsedTime)
 
 TEST_F(TestClock, Reset)
 {
-  Clock c;
+  hou::clock c;
   std::this_thread::sleep_for(std::chrono::nanoseconds(1000000));
-  std::chrono::nanoseconds t1 = c.getElapsedTime();
+  std::chrono::nanoseconds t1 = c.get_elapsed_time();
   c.reset();
-  std::chrono::nanoseconds t2 = c.getElapsedTime();
+  std::chrono::nanoseconds t2 = c.get_elapsed_time();
   EXPECT_LT(t2, t1);
 }
 

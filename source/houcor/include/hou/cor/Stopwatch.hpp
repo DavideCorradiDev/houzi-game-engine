@@ -9,7 +9,7 @@
 
 #include "hou/cor/BasicTypes.hpp"
 
-#include "hou/cor/Clock.hpp"
+#include "hou/cor/clock.hpp"
 
 
 
@@ -29,7 +29,7 @@ public:
    *
    *  \return the resolution in nanoseconds.
    */
-  static std::chrono::nanoseconds getResolution();
+  static std::chrono::nanoseconds get_resolution();
 
 public:
   /** Creates a stopwatch object.
@@ -43,7 +43,7 @@ public:
    *
    *  \return the elapsed time.
    */
-  std::chrono::nanoseconds getElapsedTime() const;
+  std::chrono::nanoseconds get_elapsed_time() const;
 
   /** Checks if the stopwatch is currently running or not.
    *
@@ -78,7 +78,7 @@ public:
   std::chrono::nanoseconds stop();
 
 private:
-  Clock mClock;
+  clock m_clock;
   std::chrono::nanoseconds mElapsedTime;
   bool mRunning;
 };

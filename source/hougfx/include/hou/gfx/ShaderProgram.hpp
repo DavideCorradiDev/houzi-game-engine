@@ -9,7 +9,7 @@
 #include "hou/gfx/GfxExport.hpp"
 
 #include "hou/cor/BasicTypes.hpp"
-#include "hou/cor/CharacterEncodings.hpp"
+#include "hou/cor/character_encodings.hpp"
 
 #include "hou/mth/MatrixFwd.hpp"
 

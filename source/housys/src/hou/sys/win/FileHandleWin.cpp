@@ -4,7 +4,7 @@
 
 #include "hou/sys/FileHandle.hpp"
 
-#include "hou/cor/CharacterEncodings.hpp"
+#include "hou/cor/character_encodings.hpp"
 
 #include "hou/sys/win/Win.hpp"
 
@@ -18,15 +18,15 @@ namespace hou
 
 FILE* openFile(const std::string& path, const std::string& mode)
 {
-  return _wfopen(convertEncoding<Utf8, Wide>(path).c_str()
-    , convertEncoding<Utf8, Wide>(mode).c_str());
+  return _wfopen(convertEncoding<utf8, wide>(path).c_str()
+    , convertEncoding<utf8, wide>(mode).c_str());
 }
 
 
 
 bool checkDir(const std::string& path)
 {
-  DWORD attr = GetFileAttributesW(convertEncoding<Utf8, Wide>(path).c_str());
+  DWORD attr = GetFileAttributesW(convertEncoding<utf8, wide>(path).c_str());
   return attr != INVALID_FILE_ATTRIBUTES;
 }
 
@@ -34,15 +34,15 @@ bool checkDir(const std::string& path)
 
 bool removeDir(const std::string& path)
 {
-  return _wremove(convertEncoding<Utf8, Wide>(path).c_str()) == 0;
+  return _wremove(convertEncoding<utf8, wide>(path).c_str()) == 0;
 }
 
 
 
 bool renameDir(const std::string& oldPath, const std::string& newPath)
 {
-  return _wrename(convertEncoding<Utf8, Wide>(oldPath).c_str()
-    , convertEncoding<Utf8, Wide>(newPath).c_str()) == 0;
+  return _wrename(convertEncoding<utf8, wide>(oldPath).c_str()
+    , convertEncoding<utf8, wide>(newPath).c_str()) == 0;
 }
 
 
@@ -50,7 +50,7 @@ bool renameDir(const std::string& oldPath, const std::string& newPath)
 size_t getDirByteSize(const std::string& path)
 {
   struct _stat64 buf;
-  int retval = _wstat64(convertEncoding<Utf8, Wide>(path).c_str(), &buf);
+  int retval = _wstat64(convertEncoding<utf8, wide>(path).c_str(), &buf);
   if(retval == 0)
   {
     return buf.st_size;

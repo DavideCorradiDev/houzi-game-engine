@@ -296,7 +296,7 @@ uint Font::getGlyphCount() const
 
 
 
-Glyph Font::getGlyph(Utf32::CodeUnit charCode) const
+Glyph Font::getGlyph(utf32::code_unit charCode) const
 {
   HOU_EXPECT_DEV(mFace != nullptr);
   HOU_ENSURE(FT_Load_Char(mFace, charCode, FT_LOAD_RENDER) == 0);
@@ -328,7 +328,7 @@ Glyph Font::getGlyph(Utf32::CodeUnit charCode) const
 
 
 
-Vec2i Font::getKerning(Utf32::CodeUnit first, Utf32::CodeUnit second) const
+Vec2i Font::getKerning(utf32::code_unit first, utf32::code_unit second) const
 {
   FT_Vector kerning;
   FT_UInt firstIndex = FT_Get_Char_Index(mFace, first);
@@ -340,7 +340,7 @@ Vec2i Font::getKerning(Utf32::CodeUnit first, Utf32::CodeUnit second) const
 
 
 
-Vec2f Font::getPixelKerning(Utf32::CodeUnit first, Utf32::CodeUnit second) const
+Vec2f Font::getPixelKerning(utf32::code_unit first, utf32::code_unit second) const
 {
   return static_cast<Vec2f>(getKerning(first, second)) * pf266ToPixelFactor;
 }

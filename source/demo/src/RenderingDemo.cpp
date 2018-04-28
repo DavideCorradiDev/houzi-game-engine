@@ -11,7 +11,7 @@
 #include "hou/mth/Transform2.hpp"
 
 #include "hou/sys/Color.hpp"
-#include "hou/cor/Clock.hpp"
+#include "hou/cor/clock.hpp"
 #include "hou/sys/Keyboard.hpp"
 #include "hou/sys/WindowEvent.hpp"
 #include "hou/sys/WindowStyle.hpp"
@@ -403,7 +403,7 @@ int main()
   bool running = true;
   const std::chrono::nanoseconds frameTime(1000000000 / 60);
   std::chrono::nanoseconds lastUpdateTime(frameTime);
-  Clock loopClock;
+  hou::clock loopClock;
   while(running)
   {
     // Window Events handling.
@@ -497,7 +497,7 @@ int main()
     }
 
     // Update frame.
-    if((loopClock.getElapsedTime() - lastUpdateTime) >= frameTime)
+    if((loopClock.get_elapsed_time() - lastUpdateTime) >= frameTime)
     {
       lastUpdateTime += frameTime;
 

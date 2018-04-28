@@ -33,25 +33,25 @@ int main()
   Font font(std::make_unique<BinaryFileIn>(dataDir + u8"NotoSans-Regular.ttf"));
   Font chineseFont(
     std::make_unique<BinaryFileIn>(dataDir + u8"NotoSansCJKsc-Regular.otf"));
-  std::vector<Utf32::CodeUnit> characters;
-  for(Utf32::CodeUnit c = 0; c < 256; ++c)
+  std::vector<utf32::code_unit> characters;
+  for(utf32::code_unit c = 0; c < 256; ++c)
   {
     if(c != 'a')
       characters.push_back(c);
   }
 
-  std::vector<Utf32::CodeUnit> chineseCharacters;
+  std::vector<utf32::code_unit> chineseCharacters;
   chineseCharacters.push_back(0x0020);
   chineseCharacters.push_back(0xff0c);
-  for(Utf32::CodeUnit c = 0x2000; c < 0x206f; ++c)
+  for(utf32::code_unit c = 0x2000; c < 0x206f; ++c)
   {
     chineseCharacters.push_back(c);
   }
-  for(Utf32::CodeUnit c = 0x3000; c < 0x303f; ++c)
+  for(utf32::code_unit c = 0x3000; c < 0x303f; ++c)
   {
     chineseCharacters.push_back(c);
   }
-  for(Utf32::CodeUnit c = 0x4e00; c < 0x9fff; ++c)
+  for(utf32::code_unit c = 0x4e00; c < 0x9fff; ++c)
   {
     chineseCharacters.push_back(c);
   }

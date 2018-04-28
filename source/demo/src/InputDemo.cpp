@@ -12,7 +12,7 @@
 #include "hou/gfx/Mesh2ShaderProgram.hpp"
 #include "hou/gfx/TextShaderProgram.hpp"
 
-#include "hou/cor/Clock.hpp"
+#include "hou/cor/clock.hpp"
 #include "hou/sys/BinaryFileIn.hpp"
 #include "hou/sys/Image.hpp"
 #include "hou/sys/Keyboard.hpp"
@@ -416,7 +416,7 @@ int main()
   // Main loop.
   bool running = true;
   std::chrono::nanoseconds lastUpdateTime(frameTime);
-  hou::Clock clock;
+  hou::clock p_clock;
   while(running)
   {
     // Process event queue.
@@ -479,7 +479,7 @@ int main()
     }
 
     // Update cycle
-    if((clock.getElapsedTime() - lastUpdateTime) >= frameTime)
+    if((p_clock.get_elapsed_time() - lastUpdateTime) >= frameTime)
     {
       lastUpdateTime += frameTime;
 
@@ -519,7 +519,7 @@ int main()
         ss << ev;
         if(ev.getType() == hou::WindowEventType::TextEntered)
         {
-          ss << "  " <<  hou::convertEncoding<hou::Utf32, hou::Utf8>(std::u32string(1, ev.getTextData().codePoint)) << "\n";
+          ss << "  " <<  hou::convertEncoding<hou::utf32, hou::utf8>(std::u32string(1, ev.getTextData().codePoint)) << "\n";
         }
         textRnd.draw(wnd, ss.str(), font, hou::Color::Black
           , projTrans * eventQueueTrans * evTrans * hou::Trans2f::translation(hou::Vec2f(4.f, 16.f)));

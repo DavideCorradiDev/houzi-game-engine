@@ -6,9 +6,9 @@ namespace hou
 {
 
 template <typename OutputIt>
-  OutputIt Utf8::encode(CodePoint input, OutputIt outFirst)
+  OutputIt utf8::encode(CodePoint input, OutputIt outFirst)
 {
-  static constexpr std::array<CodeUnit, 4u> sStartSignatures
+  static constexpr std::array<code_unit, 4u> sStartSignatures
   {
     0b00000000,
     0b11000000,
@@ -39,7 +39,7 @@ template <typename OutputIt>
 
 
 template <typename InputIt>
-  InputIt Utf8::decode(InputIt inFirst, InputIt inLast, CodePoint& out)
+  InputIt utf8::decode(InputIt inFirst, InputIt inLast, CodePoint& out)
 {
   static constexpr std::array<CodePoint, 4u> offsets
   {
@@ -49,7 +49,7 @@ template <typename InputIt>
     0x03C82080,
   };
 
-  size_t nTrailingUnits = countTrailingUnits(*inFirst);
+  size_t nTrailingUnits = count_trailing_units(*inFirst);
 
   HOU_EXPECT(inFirst + nTrailingUnits < inLast);
 
@@ -72,9 +72,9 @@ template <typename InputIt>
 
 
 template <typename InputIt>
-  InputIt Utf8::next(InputIt inFirst, InputIt inLast)
+  InputIt utf8::next(InputIt inFirst, InputIt inLast)
 {
-  InputIt next = inFirst + countTrailingUnits(*inFirst) + 1;
+  InputIt next = inFirst + count_trailing_units(*inFirst) + 1;
   HOU_EXPECT(next <= inLast);
   return next;
 }
@@ -82,7 +82,7 @@ template <typename InputIt>
 
 
 template <typename InputIt>
-  size_t Utf8::count(InputIt inFirst, InputIt inLast)
+  size_t utf8::count(InputIt inFirst, InputIt inLast)
 {
   HOU_EXPECT(inFirst <= inLast);
   size_t count = 0;
@@ -96,9 +96,9 @@ template <typename InputIt>
 
 
 
-size_t Utf8::countTrailingUnits(CodeUnit cu)
+size_t utf8::count_trailing_units(code_unit cu)
 {
-  static constexpr std::array<CodeUnit, 16u> sTrailingUnits
+  static constexpr std::array<code_unit, 16u> sTrailingUnits
   {
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 1, 1, 2, 3,
@@ -109,19 +109,19 @@ size_t Utf8::countTrailingUnits(CodeUnit cu)
 
 
 template <typename OutputIt>
-  OutputIt Utf16::encode(CodePoint in, OutputIt outFirst)
+  OutputIt utf16::encode(CodePoint in, OutputIt outFirst)
 {
   if(in <= 0xFFFF)
   {
     // One code unit. Direct conversion.
-    *outFirst++ = static_cast<CodeUnit>(in);
+    *outFirst++ = static_cast<code_unit>(in);
   }
   else
   {
     // Two code units. Need to take care of masking signature bits.
     in -= 0x00010000;
-    *outFirst++ = static_cast<CodeUnit>(in >> 10) + 0xD800;
-    *outFirst++ = static_cast<CodeUnit>(in & 0b0000001111111111) + 0xDC00;
+    *outFirst++ = static_cast<code_unit>(in >> 10) + 0xD800;
+    *outFirst++ = static_cast<code_unit>(in & 0b0000001111111111) + 0xDC00;
   }
 
   return outFirst;
@@ -130,9 +130,9 @@ template <typename OutputIt>
 
 
 template <typename InputIt>
-  InputIt Utf16::decode(InputIt inFirst, InputIt inLast, CodePoint& out)
+  InputIt utf16::decode(InputIt inFirst, InputIt inLast, CodePoint& out)
 {
-  CodeUnit e1 = *inFirst++;
+  code_unit e1 = *inFirst++;
 
   if(e1 < 0xD800 || e1 > 0xDBFF)
   {
@@ -144,7 +144,7 @@ template <typename InputIt>
   {
     // Two code units
     HOU_EXPECT(inFirst < inLast);
-    CodeUnit e2 = *inFirst++;
+    code_unit e2 = *inFirst++;
     HOU_EXPECT(((e2 >= 0xDC00) && (e2 <= 0xDFFF)));
     out = static_cast<CodePoint>(((e1 - 0xD800) << 10) + (e2 - 0xDC00)
       + 0x0010000);
@@ -156,7 +156,7 @@ template <typename InputIt>
 
 
 template <typename InputIt>
-  InputIt Utf16::next(InputIt inFirst, InputIt inLast)
+  InputIt utf16::next(InputIt inFirst, InputIt inLast)
 {
   InputIt next = inFirst + ((*inFirst < 0xD800 || *inFirst > 0xDBFF) ? 1 : 2);
   HOU_EXPECT(next <= inLast);
@@ -166,7 +166,7 @@ template <typename InputIt>
 
 
 template <typename InputIt>
-  size_t Utf16::count(InputIt inFirst, InputIt inLast)
+  size_t utf16::count(InputIt inFirst, InputIt inLast)
 {
   HOU_EXPECT(inFirst <= inLast);
   size_t length = 0;
@@ -181,7 +181,7 @@ template <typename InputIt>
 
 
 template <typename OutputIt>
-  OutputIt Utf32::encode(CodePoint in, OutputIt outFirst)
+  OutputIt utf32::encode(CodePoint in, OutputIt outFirst)
 {
   *outFirst = in;
   return ++outFirst;
@@ -190,7 +190,7 @@ template <typename OutputIt>
 
 
 template <typename InputIt>
-  InputIt Utf32::decode(InputIt inFirst, InputIt inLast, CodePoint& out)
+  InputIt utf32::decode(InputIt inFirst, InputIt inLast, CodePoint& out)
 {
   HOU_EXPECT(inFirst < inLast);
   out = *inFirst;
@@ -200,7 +200,7 @@ template <typename InputIt>
 
 
 template <typename InputIt>
-  InputIt Utf32::next(InputIt inFirst, InputIt inLast)
+  InputIt utf32::next(InputIt inFirst, InputIt inLast)
 {
   HOU_EXPECT(inFirst < inLast);
   return ++inFirst;
@@ -209,7 +209,7 @@ template <typename InputIt>
 
 
 template <typename InputIt>
-  size_t Utf32::count(InputIt inFirst, InputIt inLast)
+  size_t utf32::count(InputIt inFirst, InputIt inLast)
 {
   HOU_EXPECT(inFirst <= inLast);
   return inLast - inFirst;
@@ -218,48 +218,48 @@ template <typename InputIt>
 
 
 template <typename OutputIt>
-  OutputIt Wide::encode(CodePoint in, OutputIt outFirst)
+  OutputIt wide::encode(CodePoint in, OutputIt outFirst)
 {
 #if defined(HOU_SYSTEM_WINDOWS)
-  return Utf16::encode(in, outFirst);
+  return utf16::encode(in, outFirst);
 #else
-  return Utf32::encode(in, outFirst);
+  return utf32::encode(in, outFirst);
 #endif
 }
 
 
 
 template <typename InputIt>
-  InputIt Wide::decode(InputIt inFirst, InputIt inLast, CodePoint& out)
+  InputIt wide::decode(InputIt inFirst, InputIt inLast, CodePoint& out)
 {
 #if defined(HOU_SYSTEM_WINDOWS)
-  return Utf16::decode(inFirst, inLast, out);
+  return utf16::decode(inFirst, inLast, out);
 #else
-  return Utf32::decode(inFirst, inLast, out);
+  return utf32::decode(inFirst, inLast, out);
 #endif
 }
 
 
 
 template <typename InputIt>
-  InputIt Wide::next(InputIt inFirst, InputIt inLast)
+  InputIt wide::next(InputIt inFirst, InputIt inLast)
 {
 #if defined(HOU_SYSTEM_WINDOWS)
-  return Utf16::next(inFirst, inLast);
+  return utf16::next(inFirst, inLast);
 #else
-  return Utf32::next(inFirst, inLast);
+  return utf32::next(inFirst, inLast);
 #endif
 }
 
 
 
 template <typename InputIt>
-  size_t Wide::count(InputIt inFirst, InputIt inLast)
+  size_t wide::count(InputIt inFirst, InputIt inLast)
 {
 #if defined(HOU_SYSTEM_WINDOWS)
-  return Utf16::count(inFirst, inLast);
+  return utf16::count(inFirst, inLast);
 #else
-  return Utf32::count(inFirst, inLast);
+  return utf32::count(inFirst, inLast);
 #endif
 }
 
@@ -281,10 +281,10 @@ template <typename InputEncoding, typename OutputEncoding
 
 
 template <typename InputEncoding, typename OutputEncoding>
-  std::basic_string<typename OutputEncoding::CodeUnit> convertEncoding
-  (const std::basic_string<typename InputEncoding::CodeUnit>& s)
+  std::basic_string<typename OutputEncoding::code_unit> convertEncoding
+  (const std::basic_string<typename InputEncoding::code_unit>& s)
 {
-  std::basic_string<typename OutputEncoding::CodeUnit> retval;
+  std::basic_string<typename OutputEncoding::code_unit> retval;
   convertEncoding<InputEncoding, OutputEncoding>(s.begin(), s.end()
     , std::back_inserter(retval));
   return retval;
