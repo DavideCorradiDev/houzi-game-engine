@@ -7,7 +7,7 @@
 
 // Values from CMakeLists.txt
 #define HOU_VERSION_MAJOR 0
-#define HOU_VERSION_MINOR 1
+#define HOU_VERSION_MINOR 3
 #define HOU_VERSION_PATCH 0
 
 // OS symbols definition

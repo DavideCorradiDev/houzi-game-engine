@@ -67,9 +67,8 @@ template <typename... FormattingVariables>
 #else
   #define HOU_THROW(ExceptionType, ...) \
     do { \
-      ExceptionType ex = ExceptionType(__VA_ARGS__); \
       HOU_TERMINATE(std::string(#ExceptionType) + std::string(u8" - ") \
-        + std::string(ex.what())); \
+        + std::string(ExceptionType(__VA_ARGS__).what())); \
     } while(false)
 #endif
 
