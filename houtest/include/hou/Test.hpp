@@ -23,7 +23,15 @@
 
 
 
-#if defined(HOU_USE_EXCEPTIONS)
+#if defined(HOU_DISABLE_EXCEPTIONS)
+  #define HOU_EXPECT_ERROR(statement, exception_type, message) \
+  { \
+    std::stringstream expectedOutput; \
+    expectedOutput << #exception_type << " -.*" << hou::formatRegex(message) \
+      << ".*"; \
+    EXPECT_DEATH(statement, expectedOutput.str().c_str()); \
+  }
+#else
   #include <stdexcept>
   #define HOU_EXPECT_ERROR(statement, exception_type, message) \
   { \
@@ -45,14 +53,6 @@
       ADD_FAILURE() << "Expected: " #statement " throws an exception of type " \
         #exception_type ".\n  Actual: it throws a different type."; \
     } \
-  }
-#else
-  #define HOU_EXPECT_ERROR(statement, exception_type, message) \
-  { \
-    std::stringstream expectedOutput; \
-    expectedOutput << #exception_type << " -.*" << hou::formatRegex(message) \
-      << ".*"; \
-    EXPECT_DEATH(statement, expectedOutput.str().c_str()); \
   }
 #endif
 

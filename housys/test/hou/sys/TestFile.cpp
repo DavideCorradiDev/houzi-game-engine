@@ -372,7 +372,7 @@ TEST_F(TestFileDeathTest, WriteToReadOnlyFile)
   HOU_EXPECT_ERROR(f.write(toWrite), std::runtime_error
     , getText(SysError::FileWrite));
 
-#if defined(HOU_USE_EXCEPTIONS)
+#ifndef HOU_DISABLE_EXCEPTIONS
   // With no exceptions handling, the HOU_EXPECT_ERROR macro does some magic,
   // so that in the end the error flag is not set for f.
   EXPECT_TRUE(f.error());
