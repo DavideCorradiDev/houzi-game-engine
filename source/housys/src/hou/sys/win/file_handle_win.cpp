@@ -6,7 +6,7 @@
 
 #include "hou/cor/character_encodings.hpp"
 
-#include "hou/sys/win/Win.hpp"
+#include "hou/sys/win/win.hpp"
 
 #include <sys/stat.h>
 #include <sys/types.h>

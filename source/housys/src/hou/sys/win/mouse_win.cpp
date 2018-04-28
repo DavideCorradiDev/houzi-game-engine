@@ -5,7 +5,7 @@
 #include "hou/sys/mouse.hpp"
 
 #include "hou/sys/window.hpp"
-#include "hou/sys/win/Win.hpp"
+#include "hou/sys/win/win.hpp"
 
 #include "hou/cor/error.hpp"
 

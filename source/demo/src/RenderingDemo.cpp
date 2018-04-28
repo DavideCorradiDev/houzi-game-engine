@@ -207,7 +207,7 @@ void DrawableShape::handleInput()
   {
     mColor.set_alpha(mColor.get_alpha() + deltaCol);
   }
-  if(keyboard::is_key_pressed(scan_code::r))
+  if(keyboard::is_key_pressed(scan_code::R))
   {
     mColor.set_alpha(mColor.get_alpha() - deltaCol);
   }

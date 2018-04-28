@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/sys/TestData.hpp"
+#include "hou/sys/test_data.hpp"
 
 #include "hou/sys/sys_error.hpp"
 #include "hou/sys/file.hpp"
@@ -46,7 +46,7 @@ template <typename Container>
 
 const std::string TestFile::fileName = getOutputDir()
   + u8"TestFile-\U00004f60\U0000597d-BinaryFile.txt";
-const std::string TestFile::fileContent = u8"This is\na test ph_file";
+const std::string TestFile::fileContent = u8"This is\na test file";
 
 
 

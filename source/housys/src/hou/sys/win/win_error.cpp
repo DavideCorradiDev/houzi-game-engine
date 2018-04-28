@@ -2,9 +2,9 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/sys/win/WinError.hpp"
+#include "hou/sys/win/win_error.hpp"
 
-#include "hou/sys/win/Win.hpp"
+#include "hou/sys/win/win.hpp"
 
 #include "hou/cor/character_encodings.hpp"
 

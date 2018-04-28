@@ -9,7 +9,7 @@
 #include "hou/sys/mouse.hpp"
 #include "hou/sys/video_mode.hpp"
 #include "hou/sys/window_event.hpp"
-#include "hou/sys/win/WinError.hpp"
+#include "hou/sys/win/win_error.hpp"
 
 #include "hou/cor/error.hpp"
 
@@ -296,7 +296,7 @@ key_code winKeyToKeyCode(UINT key)
     case 'O': return key_code::O;
     case 'P': return key_code::P;
     case 'Q': return key_code::Q;
-    case 'r': return key_code::r;
+    case 'R': return key_code::R;
     case 'S': return key_code::S;
     case 'T': return key_code::T;
     case 'U': return key_code::U;
@@ -394,12 +394,12 @@ key_code getKeyCodeWParam(WPARAM wParam)
 
 scan_code getScanCodeLParam(LPARAM lParam)
 {
-  UINT scan_code = GET_SCAN_CODE_LPARAM(lParam);
+  UINT sc = GET_SCAN_CODE_LPARAM(lParam);
   if(GET_EXTENDED_KEY_LPARAM(lParam))
   {
-    scan_code += 0xe000;
+    sc += 0xe000;
   }
-  return scan_code(scan_code);
+  return scan_code(sc);
 }
 
 }

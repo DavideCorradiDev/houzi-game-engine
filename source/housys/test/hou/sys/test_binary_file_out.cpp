@@ -3,12 +3,12 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/sys/TestData.hpp"
+#include "hou/sys/test_data.hpp"
 
 #include "hou/cor/span.hpp"
 
-#include "hou/sys/text_file_in.hpp"
-#include "hou/sys/text_file_out.hpp"
+#include "hou/sys/binary_file_in.hpp"
+#include "hou/sys/binary_file_out.hpp"
 #include "hou/sys/sys_error.hpp"
 
 using namespace hou;
@@ -19,88 +19,128 @@ using namespace testing;
 namespace
 {
 
-class TestTextFileOut
+class TestBinaryFileOut
   : public Test
 {
 public:
   static const std::string fileName;
 
 public:
-  TestTextFileOut();
-  ~TestTextFileOut();
+  TestBinaryFileOut();
+  ~TestBinaryFileOut();
 };
 
 
 
-class TestTextFileOutDeathTest : public TestTextFileOut {};
+class TestBinaryFileOutDeathTest : public TestBinaryFileOut {};
 
 
 
-TestTextFileOut::TestTextFileOut()
+TestBinaryFileOut::TestBinaryFileOut()
 {
-  text_file_out fo(fileName);
+  binary_file_out fo(fileName);
 }
 
 
 
-TestTextFileOut::~TestTextFileOut()
+TestBinaryFileOut::~TestBinaryFileOut()
 {
   remove_dir(fileName);
 }
 
 
 
-const std::string TestTextFileOut::fileName = getOutputDir()
-  + u8"TestTextFileOut-\U00004f60\U0000597d.txt";
+const std::string TestBinaryFileOut::fileName = getOutputDir()
+  + u8"TestBinaryFileOut-\U00004f60\U0000597d.txt";
 
 }
 
 
 
-TEST_F(TestTextFileOut, PathConstructor)
+TEST_F(TestBinaryFileOut, FileNameConstructor)
 {
-  text_file_out fo(fileName);
+  binary_file_out fo(fileName);
   EXPECT_FALSE(fo.eof());
   EXPECT_FALSE(fo.error());
   EXPECT_EQ(0u, fo.get_byte_count());
   EXPECT_EQ(0u, fo.get_write_byte_count());
   EXPECT_EQ(0u, fo.get_write_element_count());
-  EXPECT_EQ(text_file_out::text_position::start, fo.get_text_pos());
+  EXPECT_EQ(0, fo.get_byte_pos());
 }
 
 
 
-TEST_F(TestTextFileOut, MoveConstructor)
+TEST_F(TestBinaryFileOut, MoveConstructor)
 {
-  text_file_out foDummy(fileName);
-  text_file_out fo(std::move(foDummy));
+  binary_file_out foDummy(fileName);
+  binary_file_out fo(std::move(foDummy));
   EXPECT_FALSE(fo.eof());
   EXPECT_FALSE(fo.error());
   EXPECT_EQ(0u, fo.get_byte_count());
   EXPECT_EQ(0u, fo.get_write_byte_count());
   EXPECT_EQ(0u, fo.get_write_element_count());
-  EXPECT_EQ(text_file_out::text_position::start, fo.get_text_pos());
+  EXPECT_EQ(0, fo.get_byte_pos());
 }
 
 
 
-TEST_F(TestTextFileOut, SetTextPos)
+TEST_F(TestBinaryFileOut, SetBytePos)
 {
-  text_file_out fi(fileName);
-  std::string buffer = "ab";
-  EXPECT_EQ(text_file_out::text_position::start, fi.get_text_pos());
-  fi.write(buffer);
-  text_file_out::text_position posRef = fi.get_text_pos();
-  EXPECT_NE(text_file_out::text_position::start, posRef);
-  fi.set_text_pos(text_file_out::text_position::start);
-  EXPECT_EQ(text_file_out::text_position::start, fi.get_text_pos());
-  fi.set_text_pos(posRef);
-  EXPECT_EQ(posRef, fi.get_text_pos());
+  binary_file_out fo(fileName);
+  EXPECT_EQ(0, fo.get_byte_pos());
+  fo.set_byte_pos(3);
+  EXPECT_EQ(3, fo.get_byte_pos());
+  fo.set_byte_pos(0);
+  EXPECT_EQ(0, fo.get_byte_pos());
+  fo.set_byte_pos(fo.get_byte_count());
+  EXPECT_EQ(static_cast<binary_file_out::byte_position>(fo.get_byte_count())
+    , fo.get_byte_pos());
+  fo.set_byte_pos(fo.get_byte_count() + 6);
+  EXPECT_EQ(static_cast<binary_file_out::byte_position>(fo.get_byte_count() + 6)
+    , fo.get_byte_pos());
 }
 
 
 
-TEST_F(TestTextFileOut, WriteVariable)
+TEST_F(TestBinaryFileOutDeathTest, SetBytePosError)
+{
+  binary_file_out fo(fileName);
+  HOU_EXPECT_ERROR(fo.set_byte_pos(-1), std::runtime_error
+    , get_text(sys_error::file_seek));
+}
+
+
+
+TEST_F(TestBinaryFileOut, MoveBytePos)
+{
+  binary_file_out fo(fileName);
+  EXPECT_EQ(0, fo.get_byte_pos());
+  fo.move_byte_pos(3);
+  EXPECT_EQ(3, fo.get_byte_pos());
+  fo.move_byte_pos(-2);
+  EXPECT_EQ(1, fo.get_byte_pos());
+  fo.move_byte_pos(-1);
+  EXPECT_EQ(0, fo.get_byte_pos());
+  fo.move_byte_pos(fo.get_byte_count());
+  EXPECT_EQ(static_cast<binary_file_out::byte_position>(fo.get_byte_count())
+    , fo.get_byte_pos());
+  fo.move_byte_pos(6);
+  EXPECT_EQ(static_cast<binary_file_out::byte_position>(fo.get_byte_count() + 6)
+    , fo.get_byte_pos());
+}
+
+
+
+TEST_F(TestBinaryFileOutDeathTest, MoveBytePosError)
+{
+  binary_file_out fo(fileName);
+  HOU_EXPECT_ERROR(fo.move_byte_pos(-1), std::runtime_error
+    , get_text(sys_error::file_seek));
+}
+
+
+
+TEST_F(TestBinaryFileOut, WriteVariable)
 {
   using BufferType = uint16_t;
   static constexpr size_t byteCount = sizeof(BufferType);
@@ -108,13 +148,13 @@ TEST_F(TestTextFileOut, WriteVariable)
   BufferType bufOut = 3u;
 
   {
-    text_file_out fo(fileName);
+    binary_file_out fo(fileName);
     fo.write(bufOut);
     EXPECT_EQ(byteCount, fo.get_write_byte_count());
     EXPECT_EQ(1u, fo.get_write_element_count());
   }
 
-  text_file_in fi(fileName);
+  binary_file_in fi(fileName);
   BufferType bufIn;
   fi.read(bufIn);
   EXPECT_EQ(byteCount, fi.get_byte_count());
@@ -124,7 +164,7 @@ TEST_F(TestTextFileOut, WriteVariable)
 
 
 
-TEST_F(TestTextFileOut, WriteBasicArray)
+TEST_F(TestBinaryFileOut, WriteBasicArray)
 {
   using BufferType = uint16_t;
   static constexpr size_t bufferSize = 3u;
@@ -133,13 +173,13 @@ TEST_F(TestTextFileOut, WriteBasicArray)
   BufferType bufOut[bufferSize] = {1u, 2u, 3u};
 
   {
-    text_file_out fo(fileName);
+    binary_file_out fo(fileName);
     fo.write(bufOut, bufferSize);
     EXPECT_EQ(byteCount, fo.get_write_byte_count());
     EXPECT_EQ(bufferSize, fo.get_write_element_count());
   }
 
-  text_file_in fi(fileName);
+  binary_file_in fi(fileName);
   BufferType bufIn[bufferSize];
   fi.read(bufIn, bufferSize);
   EXPECT_EQ(byteCount, fi.get_byte_count());
@@ -150,7 +190,7 @@ TEST_F(TestTextFileOut, WriteBasicArray)
 
 
 
-TEST_F(TestTextFileOut, WriteArray)
+TEST_F(TestBinaryFileOut, WriteArray)
 {
   using BufferType = uint16_t;
   static constexpr size_t bufferSize = 3u;
@@ -159,13 +199,13 @@ TEST_F(TestTextFileOut, WriteArray)
   std::array<BufferType, bufferSize> bufOut = {1u, 2u, 3u};
 
   {
-    text_file_out fo(fileName);
+    binary_file_out fo(fileName);
     fo.write(bufOut);
     EXPECT_EQ(byteCount, fo.get_write_byte_count());
     EXPECT_EQ(bufferSize, fo.get_write_element_count());
   }
 
-  text_file_in fi(fileName);
+  binary_file_in fi(fileName);
   std::array<BufferType, bufferSize> bufIn;
   fi.read(bufIn);
   EXPECT_EQ(byteCount, fi.get_byte_count());
@@ -175,7 +215,7 @@ TEST_F(TestTextFileOut, WriteArray)
 
 
 
-TEST_F(TestTextFileOut, WriteVector)
+TEST_F(TestBinaryFileOut, WriteVector)
 {
   using BufferType = uint16_t;
   static constexpr size_t bufferSize = 3u;
@@ -184,13 +224,13 @@ TEST_F(TestTextFileOut, WriteVector)
   std::vector<BufferType> bufOut = {1u, 2u, 3u};
 
   {
-    text_file_out fo(fileName);
+    binary_file_out fo(fileName);
     fo.write(bufOut);
     EXPECT_EQ(byteCount, fo.get_write_byte_count());
     EXPECT_EQ(bufferSize, fo.get_write_element_count());
   }
 
-  text_file_in fi(fileName);
+  binary_file_in fi(fileName);
   std::vector<BufferType> bufIn(3u, 0u);
   fi.read(bufIn);
   EXPECT_EQ(byteCount, fi.get_byte_count());
@@ -200,7 +240,7 @@ TEST_F(TestTextFileOut, WriteVector)
 
 
 
-TEST_F(TestTextFileOut, WriteString)
+TEST_F(TestBinaryFileOut, WriteString)
 {
   using BufferType = std::string::value_type;
   static constexpr size_t bufferSize = 3u;
@@ -209,13 +249,13 @@ TEST_F(TestTextFileOut, WriteString)
   std::string bufOut = "abc";
 
   {
-    text_file_out fo(fileName);
+    binary_file_out fo(fileName);
     fo.write(bufOut);
     EXPECT_EQ(byteCount, fo.get_write_byte_count());
     EXPECT_EQ(bufferSize, fo.get_write_element_count());
   }
 
-  text_file_in fi(fileName);
+  binary_file_in fi(fileName);
   std::string bufIn(3u, 'a');
   fi.read(bufIn);
   EXPECT_EQ(byteCount, fi.get_byte_count());
@@ -225,7 +265,7 @@ TEST_F(TestTextFileOut, WriteString)
 
 
 
-TEST_F(TestTextFileOut, WriteSpan)
+TEST_F(TestBinaryFileOut, WriteSpan)
 {
   using BufferType = uint16_t;
   static constexpr size_t bufferSize = 3u;
@@ -235,13 +275,13 @@ TEST_F(TestTextFileOut, WriteSpan)
   span<BufferType> bufOut(vecOut);
 
   {
-    text_file_out fo(fileName);
+    binary_file_out fo(fileName);
     fo.write(bufOut);
     EXPECT_EQ(byteCount, fo.get_write_byte_count());
     EXPECT_EQ(bufferSize, fo.get_write_element_count());
   }
 
-  text_file_in fi(fileName);
+  binary_file_in fi(fileName);
   std::vector<BufferType> vecIn(3u, 0u);
   span<BufferType> bufIn(vecIn);
   fi.read(bufIn);

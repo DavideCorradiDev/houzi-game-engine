@@ -15,7 +15,7 @@
 #include "hou/sys/system_window.hpp"
 
 #if defined(HOU_SYSTEM_WINDOWS)
-#include "hou/sys/win/WinError.hpp"
+#include "hou/sys/win/win_error.hpp"
 #endif
 
 #include <mutex>

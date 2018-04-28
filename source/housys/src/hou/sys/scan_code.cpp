@@ -36,7 +36,7 @@ std::ostream& operator<<(std::ostream& os, scan_code sc)
     SCAN_CODE_CASE(Q, os);
     SCAN_CODE_CASE(W, os);
     SCAN_CODE_CASE(E, os);
-    SCAN_CODE_CASE(r, os);
+    SCAN_CODE_CASE(R, os);
     SCAN_CODE_CASE(T, os);
     SCAN_CODE_CASE(Y, os);
     SCAN_CODE_CASE(U, os);

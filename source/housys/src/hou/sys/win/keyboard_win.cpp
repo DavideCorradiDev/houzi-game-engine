@@ -4,7 +4,7 @@
 
 #include "hou/sys/keyboard.hpp"
 
-#include "hou/sys/win/Win.hpp"
+#include "hou/sys/win/win.hpp"
 
 
 
@@ -122,7 +122,7 @@ UINT keyCodeToWinKey(key_code key)
     case key_code::O: return 'O';
     case key_code::P: return 'P';
     case key_code::Q: return 'Q';
-    case key_code::r: return 'r';
+    case key_code::R: return 'R';
     case key_code::S: return 'S';
     case key_code::T: return 'T';
     case key_code::U: return 'U';

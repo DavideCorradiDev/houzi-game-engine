@@ -678,7 +678,7 @@ INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DIMENSION(3u)
 
 
 #define INSTANTIATE_READ_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pf) \
-  template image2<pf> imType##ReadFile<pf>(const std::string&);
+  template image2<pf> imType##_read_file<pf>(const std::string&);
 
 
 
@@ -691,7 +691,7 @@ INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DIMENSION(3u)
 
 
 #define INSTANTIATE_WRITE_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pf) \
-  template void imType##WriteFile<pf>(const std::string&, const image2<pf>&);
+  template void imType##_write_file<pf>(const std::string&, const image2<pf>&);
 
 
 

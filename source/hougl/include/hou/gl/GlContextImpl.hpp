@@ -12,7 +12,7 @@
 #include "hou/cor/basic_types.hpp"
 
 #if defined(HOU_SYSTEM_WINDOWS)
-  #include "hou/sys/win/Win.hpp"
+  #include "hou/sys/win/win.hpp"
 #endif
 
 

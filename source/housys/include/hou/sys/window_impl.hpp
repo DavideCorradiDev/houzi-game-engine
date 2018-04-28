@@ -17,7 +17,7 @@
 #include "hou/sys/window_handle.hpp"
 #include "hou/sys/window_style.hpp"
 #if defined(HOU_SYSTEM_WINDOWS)
-  #include "hou/sys/Win/Win.hpp"
+  #include "hou/sys/Win/win.hpp"
 #endif
 
 #include <queue>

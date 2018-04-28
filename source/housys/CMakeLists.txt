@@ -66,7 +66,7 @@ IF(WIN32)
     src/hou/sys/win/file_handle_win.cpp
     src/hou/sys/win/keyboard_win.cpp
     src/hou/sys/win/mouse_win.cpp
-    src/hou/sys/win/videoMode_win.cpp
+    src/hou/sys/win/video_mode_win.cpp
     src/hou/sys/win/win_error.cpp
     src/hou/sys/win/window_impl_win.cpp
   )

@@ -113,7 +113,7 @@ std::ostream& operator<<(std::ostream& os, key_code kc)
     KEY_CODE_CASE(O, os);
     KEY_CODE_CASE(P, os);
     KEY_CODE_CASE(Q, os);
-    KEY_CODE_CASE(r, os);
+    KEY_CODE_CASE(R, os);
     KEY_CODE_CASE(S, os);
     KEY_CODE_CASE(T, os);
     KEY_CODE_CASE(U, os);

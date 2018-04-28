@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/sys/TestData.hpp"
+#include "hou/sys/test_data.hpp"
 
 #include "hou/cor/span.hpp"
 

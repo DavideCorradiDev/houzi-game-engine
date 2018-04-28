@@ -282,7 +282,7 @@ int main()
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(64.f, 48.f)), key1Quad
     , hou::key_code::E, hou::scan_code::E));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(80.f, 48.f)), key1Quad
-    , hou::key_code::r, hou::scan_code::r));
+    , hou::key_code::R, hou::scan_code::R));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(96.f, 48.f)), key1Quad
     , hou::key_code::T, hou::scan_code::T));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(112.f, 48.f)), key1Quad

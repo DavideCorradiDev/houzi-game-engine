@@ -132,7 +132,7 @@ HOU_SYS_API std::string getLastWinErrorMessage();
 
 
 
-#include "hou/sys/win/WinError.inl"
+#include "hou/sys/win/win_error.inl"
 
 #endif
 

@@ -361,8 +361,8 @@ std::ostream& operator<<<pixel_format::rgba>(
 
 
 #define INSTANTIATE_CHANNEL_FUNCTIONS(pf, Channel)             \
-  template uint8_t pixel_t<pf>::get##Channel<pf, void>() const; \
-  template void pixel_t<pf>::set##Channel<pf, void>(uint8_t);
+  template uint8_t pixel_t<pf>::get_##Channel<pf, void>() const; \
+  template void pixel_t<pf>::set_##Channel<pf, void>(uint8_t);
 
 
 
@@ -381,7 +381,7 @@ template void pixel_t<pixel_format::rg>::set<pixel_format::rg, void>(
 INSTANTIATE_CONVERSION_CONSTRUCTOR(pixel_format::rg, pixel_format::r)
 INSTANTIATE_CONVERSION_CONSTRUCTOR(pixel_format::rg, pixel_format::rgb)
 INSTANTIATE_CONVERSION_CONSTRUCTOR(pixel_format::rg, pixel_format::rgba)
-INSTANTIATE_CHANNEL_FUNCTIONS(pixel_format::rg, G)
+INSTANTIATE_CHANNEL_FUNCTIONS(pixel_format::rg, g)
 
 template class pixel_t<pixel_format::rgb>;
 template pixel_t<pixel_format::rgb>::pixel_t<pixel_format::rgb, void>(
@@ -391,8 +391,8 @@ template void pixel_t<pixel_format::rgb>::set<pixel_format::rgb, void>(
 INSTANTIATE_CONVERSION_CONSTRUCTOR(pixel_format::rgb, pixel_format::r)
 INSTANTIATE_CONVERSION_CONSTRUCTOR(pixel_format::rgb, pixel_format::rg)
 INSTANTIATE_CONVERSION_CONSTRUCTOR(pixel_format::rgb, pixel_format::rgba)
-INSTANTIATE_CHANNEL_FUNCTIONS(pixel_format::rgb, G)
-INSTANTIATE_CHANNEL_FUNCTIONS(pixel_format::rgb, B)
+INSTANTIATE_CHANNEL_FUNCTIONS(pixel_format::rgb, g)
+INSTANTIATE_CHANNEL_FUNCTIONS(pixel_format::rgb, b)
 
 template class pixel_t<pixel_format::rgba>;
 template pixel_t<pixel_format::rgba>::pixel_t<pixel_format::rgba, void>(
@@ -408,8 +408,8 @@ template void pixel_t<pixel_format::rgba>::set_color<pixel_format::rgba, void>(
 INSTANTIATE_CONVERSION_CONSTRUCTOR(pixel_format::rgba, pixel_format::r)
 INSTANTIATE_CONVERSION_CONSTRUCTOR(pixel_format::rgba, pixel_format::rg)
 INSTANTIATE_CONVERSION_CONSTRUCTOR(pixel_format::rgba, pixel_format::rgb)
-INSTANTIATE_CHANNEL_FUNCTIONS(pixel_format::rgba, G)
-INSTANTIATE_CHANNEL_FUNCTIONS(pixel_format::rgba, B)
-INSTANTIATE_CHANNEL_FUNCTIONS(pixel_format::rgba, A)
+INSTANTIATE_CHANNEL_FUNCTIONS(pixel_format::rgba, g)
+INSTANTIATE_CHANNEL_FUNCTIONS(pixel_format::rgba, b)
+INSTANTIATE_CHANNEL_FUNCTIONS(pixel_format::rgba, a)
 
 }  // namespace hou

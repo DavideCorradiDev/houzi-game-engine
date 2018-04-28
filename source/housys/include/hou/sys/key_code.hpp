@@ -197,8 +197,8 @@ enum class key_code
   P,
   /** Q */
   Q,
-  /** r */
-  r,
+  /** R */
+  R,
   /** S */
   S,
   /** T */

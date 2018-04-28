@@ -4,7 +4,7 @@
 
 #include "hou/sys/video_mode.hpp"
 
-#include "hou/sys/win/Win.hpp"
+#include "hou/sys/win/win.hpp"
 
 #include <algorithm>
 

@@ -56,7 +56,7 @@ enum class scan_code
   /** E */
   E = 0x12u,
   /** r */
-  r = 0x13u,
+  R = 0x13u,
   /** T */
   T = 0x14u,
   /** Y */
