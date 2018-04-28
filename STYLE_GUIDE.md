@@ -101,6 +101,7 @@ int myVariable;
 // Bad
 #define hou_my_symbol 0
 #define HouMySymbol 0
+```
 * Template parameter and concept names must be written in camel case.
 ```
 // Good
