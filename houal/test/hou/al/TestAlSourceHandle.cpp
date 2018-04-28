@@ -30,10 +30,10 @@ TEST_F(TestAlSourceHandle, Generation)
 
 
 
-#if defined(HOU_DISABLE_AL_CONTEXT_EXISTENCE_CHECKS)
-TEST_F(TestAlSourceHandleDeathTest, DISABLED_NoContextCreation)
-#else
+#ifdef HOU_ENABLE_AL_CONTEXT_EXISTENCE_CHECKS
 TEST_F(TestAlSourceHandleDeathTest, NoContextCreation)
+#else
+TEST_F(TestAlSourceHandleDeathTest, DISABLED_NoContextCreation)
 #endif
 {
   al::Context::unsetCurrent();

@@ -38,38 +38,38 @@ void HOU_AL_API checkContextOwnership(const ContextOwnedObjectHandle& o
 
 
 
-#if defined(HOU_DISABLE_AL_ERROR_CHECKS)
-  #define HOU_AL_CHECK_ERROR()
-#else
+#ifdef HOU_ENABLE_AL_ERROR_CHECKS
   #define HOU_AL_CHECK_ERROR() \
     hou::al::checkError(__FILE__, __LINE__)
+#else
+  #define HOU_AL_CHECK_ERROR()
 #endif
 
 
 
-#if defined(HOU_DISABLE_AL_CONTEXT_ERROR_CHECKS)
-  #define HOU_AL_CHECK_CONTEXT_ERROR(device)
-#else
+#ifdef HOU_ENABLE_AL_CONTEXT_ERROR_CHECKS
   #define HOU_AL_CHECK_CONTEXT_ERROR(device) \
     hou::al::checkContextError(device, __FILE__, __LINE__)
+#else
+  #define HOU_AL_CHECK_CONTEXT_ERROR(device)
 #endif
 
 
 
-#if defined(HOU_DISABLE_AL_CONTEXT_EXISTENCE_CHECKS)
-  #define HOU_AL_CHECK_CONTEXT_EXISTENCE()
-#else
+#ifdef HOU_ENABLE_AL_CONTEXT_EXISTENCE_CHECKS
   #define HOU_AL_CHECK_CONTEXT_EXISTENCE() \
     hou::al::checkContextExistence(__FILE__, __LINE__)
+#else
+  #define HOU_AL_CHECK_CONTEXT_EXISTENCE()
 #endif
 
 
 
-#if defined(HOU_DISABLE_AL_CONTEXT_OWNERSHIP_CHECKS)
-  #define HOU_AL_CHECK_CONTEXT_OWNERSHIP(objectHandle)
-#else
+#ifdef HOU_ENABLE_AL_CONTEXT_OWNERSHIP_CHECKS
   #define HOU_AL_CHECK_CONTEXT_OWNERSHIP(objectHandle) \
     hou::al::checkContextOwnership(objectHandle, __FILE__, __LINE__)
+#else
+  #define HOU_AL_CHECK_CONTEXT_OWNERSHIP(objectHandle)
 #endif
 
 #endif

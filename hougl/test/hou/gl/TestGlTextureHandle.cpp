@@ -33,10 +33,10 @@ TEST_F(TestGlTextureHandle, Creation)
 
 
 
-#if defined(HOU_DISABLE_GL_CONTEXT_EXISTENCE_CHECKS)
-TEST_F(TestGlTextureHandleDeathTest, DISABLED_NoContextCreation)
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
 TEST_F(TestGlTextureHandleDeathTest, NoContextCreation)
+#else
+TEST_F(TestGlTextureHandleDeathTest, DISABLED_NoContextCreation)
 #endif
 {
   gl::Context::unsetCurrent();
@@ -175,10 +175,10 @@ TEST_F(TestGlTextureHandle, SharingContextBinding)
 
 
 
-#if defined(HOU_DISABLE_GL_CONTEXT_OWNERSHIP_CHECKS)
-TEST_F(TestGlTextureHandleDeathTest, DISABLED_NonSharingContextBinding)
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
 TEST_F(TestGlTextureHandleDeathTest, NonSharingContextBinding)
+#else
+TEST_F(TestGlTextureHandleDeathTest, DISABLED_NonSharingContextBinding)
 #endif
 {
   gl::TextureHandle th = gl::TextureHandle::create(GL_TEXTURE_1D);
@@ -190,10 +190,10 @@ TEST_F(TestGlTextureHandleDeathTest, NonSharingContextBinding)
 
 
 
-#if defined(HOU_DISABLE_GL_CONTEXT_EXISTENCE_CHECKS)
-TEST_F(TestGlTextureHandleDeathTest, DISABLED_NoContextBinding)
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
 TEST_F(TestGlTextureHandleDeathTest, NoContextBinding)
+#else
+TEST_F(TestGlTextureHandleDeathTest, DISABLED_NoContextBinding)
 #endif
 {
   gl::TextureHandle th = gl::TextureHandle::create(GL_TEXTURE_1D);

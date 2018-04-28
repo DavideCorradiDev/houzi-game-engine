@@ -30,10 +30,10 @@ TEST_F(TestGlVertexArrayHandle, Creation)
 
 
 
-#if defined(HOU_DISABLE_GL_CONTEXT_EXISTENCE_CHECKS)
-TEST_F(TestGlVertexArrayHandleDeathTest, DISABLED_NoContextCreation)
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
 TEST_F(TestGlVertexArrayHandleDeathTest, NoContextCreation)
+#else
+TEST_F(TestGlVertexArrayHandleDeathTest, DISABLED_NoContextCreation)
 #endif
 {
   gl::Context::unsetCurrent();
@@ -88,10 +88,10 @@ TEST_F(TestGlVertexArrayHandle, Tracking)
 
 
 
-#if defined(HOU_DISABLE_GL_CONTEXT_OWNERSHIP_CHECKS)
-TEST_F(TestGlVertexArrayHandleDeathTest, DISABLED_SharingContextBinding)
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
 TEST_F(TestGlVertexArrayHandleDeathTest, SharingContextBinding)
+#else
+TEST_F(TestGlVertexArrayHandleDeathTest, DISABLED_SharingContextBinding)
 #endif
 {
   gl::VertexArrayHandle vah = gl::VertexArrayHandle::create();
@@ -103,10 +103,10 @@ TEST_F(TestGlVertexArrayHandleDeathTest, SharingContextBinding)
 
 
 
-#if defined(HOU_DISABLE_GL_CONTEXT_OWNERSHIP_CHECKS)
-TEST_F(TestGlVertexArrayHandleDeathTest, DISABLED_NonSharingContextBinding)
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
 TEST_F(TestGlVertexArrayHandleDeathTest, NonSharingContextBinding)
+#else
+TEST_F(TestGlVertexArrayHandleDeathTest, DISABLED_NonSharingContextBinding)
 #endif
 {
   gl::VertexArrayHandle vah = gl::VertexArrayHandle::create();
@@ -118,10 +118,10 @@ TEST_F(TestGlVertexArrayHandleDeathTest, NonSharingContextBinding)
 
 
 
-#if defined(HOU_DISABLE_GL_CONTEXT_EXISTENCE_CHECKS)
-TEST_F(TestGlVertexArrayHandleDeathTest, DISABLED_NoContextBinding)
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
 TEST_F(TestGlVertexArrayHandleDeathTest, NoContextBinding)
+#else
+TEST_F(TestGlVertexArrayHandleDeathTest, DISABLED_NoContextBinding)
 #endif
 {
   gl::VertexArrayHandle vah = gl::VertexArrayHandle::create();

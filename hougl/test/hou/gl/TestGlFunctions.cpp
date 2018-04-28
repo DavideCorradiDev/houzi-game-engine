@@ -48,9 +48,11 @@ TEST_F(TestGlFunctions, UnpackAlignment)
 
 TEST_F(TestGlFunctionsDeathTest, InvalidUnpackAlignment)
 {
-#if not defined(HOU_DISABLE_GL_ERROR_CHECKS)
+#ifdef HOU_ENABLE_GL_ERROR_CHECKS
   HOU_EXPECT_ERROR(gl::setUnpackAlignment(3), std::logic_error,
     getText(GlError::InvalidValue));
+#else
+  SUCCEED();
 #endif
 }
 
@@ -68,9 +70,11 @@ TEST_F(TestGlFunctions, PackAlignment)
 
 TEST_F(TestGlFunctionsDeathTest, InvalidPackAlignment)
 {
-#if not defined(HOU_DISABLE_GL_ERROR_CHECKS)
+#ifdef HOU_ENABLE_GL_ERROR_CHECKS
   HOU_EXPECT_ERROR(
     gl::setPackAlignment(3), std::logic_error, getText(GlError::InvalidValue));
+#else
+  SUCCEED();
 #endif
 }
 

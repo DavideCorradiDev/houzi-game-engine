@@ -33,10 +33,10 @@ TEST_F(TestGlShaderHandle, Creation)
 
 
 
-#if defined(HOU_DISABLE_GL_CONTEXT_EXISTENCE_CHECKS)
-TEST_F(TestGlShaderHandleDeathTest, DISABLED_NoContextCreation)
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
 TEST_F(TestGlShaderHandleDeathTest, NoContextCreation)
+#else
+TEST_F(TestGlShaderHandleDeathTest, DISABLED_NoContextCreation)
 #endif
 {
   gl::Context::unsetCurrent();

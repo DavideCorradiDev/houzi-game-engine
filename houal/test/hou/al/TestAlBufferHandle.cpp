@@ -30,10 +30,10 @@ TEST_F(TestAlBufferHandle, Generation)
 
 
 
-#if defined(HOU_DISABLE_AL_CONTEXT_EXISTENCE_CHECKS)
-TEST_F(TestAlBufferHandleDeathTest, DISABLED_NoContextCreation)
-#else
+#ifdef HOU_ENABLE_AL_CONTEXT_EXISTENCE_CHECKS
 TEST_F(TestAlBufferHandleDeathTest, NoContextCreation)
+#else
+TEST_F(TestAlBufferHandleDeathTest, DISABLED_NoContextCreation)
 #endif
 {
   al::Context::unsetCurrent();

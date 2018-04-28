@@ -77,12 +77,12 @@ TEST_F(TestAlCheck, AlCheckErrorMacro)
 TEST_F(TestAlCheckDeathTest, AlCheckErrorMacro)
 {
   alGetString(AL_INVERSE_DISTANCE);
-#if defined(HOU_DISABLE_AL_ERROR_CHECKS)
-  HOU_AL_CHECK_ERROR();
-  SUCCEED();
-#else
+#ifdef HOU_ENABLE_AL_ERROR_CHECKS
   HOU_EXPECT_ERROR(HOU_AL_CHECK_ERROR(), std::logic_error
     , getText(AlError::InvalidEnum));
+#else
+  HOU_AL_CHECK_ERROR();
+  SUCCEED();
 #endif
 }
 
@@ -118,12 +118,12 @@ TEST_F(TestAlCheck, AlCheckContextErrorMacro)
 TEST_F(TestAlCheckDeathTest, AlCheckContextErrorMacro)
 {
   alcGetString(mDevice.getHandle(), ALC_MAJOR_VERSION);
-#if defined(HOU_DISABLE_AL_CONTEXT_ERROR_CHECKS)
-  HOU_AL_CHECK_CONTEXT_ERROR(mDevice);
-  SUCCEED();
-#else
+#ifdef HOU_ENABLE_AL_CONTEXT_ERROR_CHECKS
   HOU_EXPECT_ERROR(HOU_AL_CHECK_CONTEXT_ERROR(mDevice), std::logic_error
     , getText(AlError::InvalidEnum));
+#else
+  HOU_AL_CHECK_CONTEXT_ERROR(mDevice);
+  SUCCEED();
 #endif
 }
 
@@ -157,12 +157,12 @@ TEST_F(TestAlCheck, AlCheckContextExistenceMacro)
 TEST_F(TestAlCheckDeathTest, AlCheckContextExistenceMacro)
 {
   al::Context::unsetCurrent();
-#if defined(HOU_DISABLE_AL_CONTEXT_EXISTENCE_CHECKS)
-  HOU_AL_CHECK_CONTEXT_EXISTENCE();
-  SUCCEED();
-#else
+#ifdef HOU_ENABLE_AL_CONTEXT_EXISTENCE_CHECKS
   HOU_EXPECT_ERROR(HOU_AL_CHECK_CONTEXT_EXISTENCE(), std::logic_error
     , getText(AlError::ContextExistence));
+#else
+  HOU_AL_CHECK_CONTEXT_EXISTENCE();
+  SUCCEED();
 #endif
 }
 
@@ -238,12 +238,12 @@ TEST_F(TestAlCheckDeathTest, AlCheckContextOwnershipDeviceOwnedObjectMacro)
 
   al::Context::setCurrent(c2);
 
-#if defined(HOU_DISABLE_AL_CONTEXT_OWNERSHIP_CHECKS)
-  HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1);
-  SUCCEED();
-#else
+#ifdef HOU_ENABLE_AL_CONTEXT_OWNERSHIP_CHECKS
   HOU_EXPECT_ERROR(HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1), std::logic_error
     , getText(AlError::InvalidOwnership));
+#else
+  HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1);
+  SUCCEED();
 #endif
 }
 
@@ -317,12 +317,12 @@ TEST_F(TestAlCheckDeathTest, AlCheckContextOwnershipContextOwnedObjectMacro)
   ConcreteContextOwnedObjectHandle o1(1u);
 
   al::Context::setCurrent(c2);
-#if defined(HOU_DISABLE_AL_CONTEXT_OWNERSHIP_CHECKS)
-  HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1);
-  SUCCEED();
-#else
+#ifdef HOU_ENABLE_AL_CONTEXT_OWNERSHIP_CHECKS
   HOU_EXPECT_ERROR(HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1), std::logic_error
     , getText(AlError::InvalidOwnership));
+#else
+  HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1);
+  SUCCEED();
 #endif
 }
 

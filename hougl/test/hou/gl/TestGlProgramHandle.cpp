@@ -53,10 +53,10 @@ TEST_F(TestGlProgramHandle, Creation)
 
 
 
-#if defined(HOU_DISABLE_GL_CONTEXT_EXISTENCE_CHECKS)
-TEST_F(TestGlProgramHandle, DISABLED_NoContextCreation)
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
 TEST_F(TestGlProgramHandle, NoContextCreation)
+#else
+TEST_F(TestGlProgramHandle, DISABLED_NoContextCreation)
 #endif
 {
   gl::Context::unsetCurrent();
@@ -114,10 +114,10 @@ TEST_F(TestGlProgramHandle, SharingContextBinding)
 
 
 
-#if defined(HOU_DISABLE_GL_CONTEXT_OWNERSHIP_CHECKS)
-TEST_F(TestGlProgramHandleDeathTest, DISABLED_NonSharingContextBinding)
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
 TEST_F(TestGlProgramHandleDeathTest, NonSharingContextBinding)
+#else
+TEST_F(TestGlProgramHandleDeathTest, DISABLED_NonSharingContextBinding)
 #endif
 {
   gl::ProgramHandle ph = createProgram();
@@ -129,10 +129,10 @@ TEST_F(TestGlProgramHandleDeathTest, NonSharingContextBinding)
 
 
 
-#if defined(HOU_DISABLE_GL_CONTEXT_EXISTENCE_CHECKS)
-TEST_F(TestGlProgramHandleDeathTest, DISABLED_NoContextBinding)
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
 TEST_F(TestGlProgramHandleDeathTest, NoContextBinding)
+#else
+TEST_F(TestGlProgramHandleDeathTest, DISABLED_NoContextBinding)
 #endif
 {
   gl::ProgramHandle ph = createProgram();

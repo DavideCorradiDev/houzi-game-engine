@@ -30,10 +30,10 @@ TEST_F(TestGlFramebufferHandle, Creation)
 
 
 
-#if defined(HOU_DISABLE_GL_CONTEXT_EXISTENCE_CHECKS)
-TEST_F(TestGlFramebufferHandleDeathTest, DISABLED_NoContextCreation)
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
 TEST_F(TestGlFramebufferHandleDeathTest, NoContextCreation)
+#else
+TEST_F(TestGlFramebufferHandleDeathTest, DISABLED_NoContextCreation)
 #endif
 {
   gl::Context::unsetCurrent();
@@ -128,10 +128,10 @@ TEST_F(TestGlFramebufferHandle, Tracking)
 
 
 
-#if defined(HOU_DISABLE_GL_CONTEXT_OWNERSHIP_CHECKS)
-TEST_F(TestGlFramebufferHandleDeathTest, DISABLED_SharingContextBinding)
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
 TEST_F(TestGlFramebufferHandleDeathTest, SharingContextBinding)
+#else
+TEST_F(TestGlFramebufferHandleDeathTest, DISABLED_SharingContextBinding)
 #endif
 {
   gl::FramebufferHandle fbh = gl::FramebufferHandle::create();
@@ -143,10 +143,10 @@ TEST_F(TestGlFramebufferHandleDeathTest, SharingContextBinding)
 
 
 
-#if defined(HOU_DISABLE_GL_CONTEXT_OWNERSHIP_CHECKS)
-TEST_F(TestGlFramebufferHandleDeathTest, DISABLED_NonSharingContextBinding)
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
 TEST_F(TestGlFramebufferHandleDeathTest, NonSharingContextBinding)
+#else
+TEST_F(TestGlFramebufferHandleDeathTest, DISABLED_NonSharingContextBinding)
 #endif
 {
   gl::FramebufferHandle fbh = gl::FramebufferHandle::create();
@@ -158,10 +158,10 @@ TEST_F(TestGlFramebufferHandleDeathTest, NonSharingContextBinding)
 
 
 
-#if defined(HOU_DISABLE_GL_CONTEXT_EXISTENCE_CHECKS)
-TEST_F(TestGlFramebufferHandleDeathTest, DISABLED_NoContextBinding)
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
 TEST_F(TestGlFramebufferHandleDeathTest, NoContextBinding)
+#else
+TEST_F(TestGlFramebufferHandleDeathTest, DISABLED_NoContextBinding)
 #endif
 {
   gl::FramebufferHandle fbh = gl::FramebufferHandle::create();

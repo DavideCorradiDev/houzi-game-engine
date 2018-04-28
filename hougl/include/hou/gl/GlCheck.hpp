@@ -38,29 +38,29 @@ void HOU_GL_API checkContextOwnership(const NonSharedObjectHandle& o
 
 
 
-#if defined(HOU_DISABLE_GL_ERROR_CHECKS)
-  #define HOU_GL_CHECK_ERROR()
-#else
+#ifdef HOU_ENABLE_GL_ERROR_CHECKS
   #define HOU_GL_CHECK_ERROR() \
     hou::gl::checkError(__FILE__, __LINE__)
+#else
+  #define HOU_GL_CHECK_ERROR()
 #endif
 
 
 
-#if defined(HOU_DISABLE_GL_CONTEXT_EXISTENCE_CHECKS)
-  #define HOU_GL_CHECK_CONTEXT_EXISTENCE()
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
   #define HOU_GL_CHECK_CONTEXT_EXISTENCE() \
     hou::gl::checkContextExistence(__FILE__, __LINE__)
+#else
+  #define HOU_GL_CHECK_CONTEXT_EXISTENCE()
 #endif
 
 
 
-#if defined(HOU_DISABLE_GL_CONTEXT_OWNERSHIP_CHECKS)
-  #define HOU_GL_CHECK_CONTEXT_OWNERSHIP(objectHandle)
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
   #define HOU_GL_CHECK_CONTEXT_OWNERSHIP(objectHandle) \
     hou::gl::checkContextOwnership(objectHandle, __FILE__, __LINE__)
+#else
+  #define HOU_GL_CHECK_CONTEXT_OWNERSHIP(objectHandle)
 #endif
 
 

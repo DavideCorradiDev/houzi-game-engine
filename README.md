@@ -116,18 +116,20 @@ In case it cannot do this, you can manually set **LIB\_OPENAL** to the path to t
 When building OpenALSoft, refer to the OpenALSoft documentation for details about the configuration.
 
 * **HOU\_CFG\_STATIC\_LIBS**: if set, static libraries will be build, otherwise shared libraries will be built.
-When building static libraries, you should define the preprocessor symbol **HOU_STATIC** to ensure that including headers from the library will behave correctly.
+When building static libraries, you should define the preprocessor symbol **HOU\_STATIC** to ensure that including headers from the library will behave correctly.
 When building static libraries, all dependencies must be explicitly linked, even if not directly used.
 
 * **HOU\_CFG\_DISABLE\_EXCEPTIONS**: if set, exceptions will be completely disabled.
 Instead of throwing an exception, the program will abort and write an error message in the error stream.
-If exceptions are disabled, you should define the preprocessor symbol **HOU_DISABLE_EXCEPTIONS** to ensure that header files will behave consistently.
+If exceptions are disabled, you should define the preprocessor symbol **HOU\_DISABLE\_EXCEPTIONS** to ensure that header files will behave consistently.
 
-* **HOU\_CFG\_DISABLE\_AL\_\[check_type\]\_CHECKS**: these options disable some OpenAL error checks when set.
-These checks can be useful during development or when debugging audio issues, but can be expensive and should be disabled for release builds.
+* **HOU\_CFG\_ENABLE\_AL\_\[check_type\]\_CHECKS**: these options enables some OpenAL error checks when set.
+These checks can be useful during development or when debugging audio issues, but can be expensive and should be enabled for release builds.
+When enabling a check of a specific type, the preprocessor symbl **HOU\_ENABLE\_GL\_\[check_type\]\_CHECKS** should be defined to ensure that header files will behave consistently.
 
-* **HOU\_CFG\_DISABLE\_GL\_\[check_type\]\_CHECKS**: these options disable some OpenGL error checks when set.
-These checks can be useful during development or when debugging graphics issues, but can be expensive and should be disabled for release builds.
+* **HOU\_CFG\_ENABLE\_GL\_\[check_type\]\_CHECKS**: these options enables some OpenGL error checks when set.
+These checks can be useful during development or when debugging graphics issues, but can be expensive and should be enabled for release builds.
+When enabling a check of a specific type, the preprocessor symbl **HOU\_ENABLE\_AL\_\[check_type\]\_CHECKS** should be defined to ensure that header files will behave consistently.
 
 
 

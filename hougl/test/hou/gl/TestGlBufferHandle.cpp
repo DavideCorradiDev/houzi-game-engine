@@ -30,10 +30,10 @@ TEST_F(TestGlBufferHandle, Creation)
 
 
 
-#if defined(HOU_DISABLE_GL_CONTEXT_EXISTENCE_CHECKS)
-TEST_F(TestGlBufferHandleDeathTest, DISABLED_NoContextCreation)
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
 TEST_F(TestGlBufferHandleDeathTest, NoContextCreation)
+#else
+TEST_F(TestGlBufferHandleDeathTest, DISABLED_NoContextCreation)
 #endif
 {
   gl::Context::unsetCurrent();
@@ -120,10 +120,10 @@ TEST_F(TestGlBufferHandle, SharingContextBinding)
 
 
 
-#if defined(HOU_DISABLE_GL_CONTEXT_OWNERSHIP_CHECKS)
-TEST_F(TestGlBufferHandleDeathTest, DISABLED_NonSharingContextBinding)
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
 TEST_F(TestGlBufferHandleDeathTest, NonSharingContextBinding)
+#else
+TEST_F(TestGlBufferHandleDeathTest, DISABLED_NonSharingContextBinding)
 #endif
 {
   gl::BufferHandle bh = gl::BufferHandle::create();
@@ -135,10 +135,10 @@ TEST_F(TestGlBufferHandleDeathTest, NonSharingContextBinding)
 
 
 
-#if defined(HOU_DISABLE_GL_CONTEXT_EXISTENCE_CHECKS)
-TEST_F(TestGlBufferHandleDeathTest, DISABLED_NoContextBinding)
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
 TEST_F(TestGlBufferHandleDeathTest, NoContextBinding)
+#else
+TEST_F(TestGlBufferHandleDeathTest, DISABLED_NoContextBinding)
 #endif
 {
   gl::BufferHandle bh = gl::BufferHandle::create();

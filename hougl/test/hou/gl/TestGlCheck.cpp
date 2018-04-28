@@ -76,12 +76,12 @@ TEST_F(TestGlCheck, GlCheckErrorMacro)
 TEST_F(TestGlCheckDeathTest, GlCheckErrorMacro)
 {
   glClear(GL_COLOR);
-#if defined(HOU_DISABLE_GL_ERROR_CHECKS)
-  HOU_GL_CHECK_ERROR();
-  SUCCEED();
-#else
+#ifdef HOU_ENABLE_GL_ERROR_CHECKS
   HOU_EXPECT_ERROR(HOU_GL_CHECK_ERROR(), std::logic_error
     , getText(GlError::InvalidValue));
+#else
+  HOU_GL_CHECK_ERROR();
+  SUCCEED();
 #endif
 }
 
@@ -116,13 +116,13 @@ TEST_F(TestGlCheck, GlContextExistenceMacro)
 TEST_F(TestGlCheckDeathTest, GlContextExistenceMacro)
 {
   gl::Context::unsetCurrent();
-#if defined(HOU_DISABLE_GL_CONTEXT_EXISTENCE_CHECKS)
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  SUCCEED();
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
   HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_EXISTENCE()
     , std::logic_error
     , getText(GlError::ContextExistence));
+#else
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  SUCCEED();
 #endif
 }
 
@@ -242,37 +242,37 @@ TEST_F(TestGlCheckDeathTest, GlContextOwnershipSharedMacro)
   ConcreteGlSharedObjectHandle o3(0u);
 
   gl::Context::setCurrent(c1, w);
-#if defined(HOU_DISABLE_GL_CONTEXT_OWNERSHIP_CHECKS)
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3);
-  SUCCEED();
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
   HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3)
     , std::logic_error
     , getText(GlError::InvalidOwnership));
+#else
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3);
+  SUCCEED();
 #endif
 
   gl::Context::setCurrent(c2, w);
-#if defined(HOU_DISABLE_GL_CONTEXT_OWNERSHIP_CHECKS)
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3);
-  SUCCEED();
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
   HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3)
     , std::logic_error
     , getText(GlError::InvalidOwnership));
+#else
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3);
+  SUCCEED();
 #endif
 
   gl::Context::setCurrent(c3, w);
-#if defined(HOU_DISABLE_GL_CONTEXT_OWNERSHIP_CHECKS)
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1);
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2);
-  SUCCEED();
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
   HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1)
     , std::logic_error
     , getText(GlError::InvalidOwnership));
   HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2)
     , std::logic_error
     , getText(GlError::InvalidOwnership));
+#else
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1);
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2);
+  SUCCEED();
 #endif
 }
 
@@ -394,39 +394,39 @@ TEST_F(TestGlCheckDeathTest, GlContextOwnershipNonSharedMacro)
   ConcreteGlNonSharedObjectHandle o3(0u);
 
   gl::Context::setCurrent(c1, w);
-#if defined(HOU_DISABLE_GL_CONTEXT_OWNERSHIP_CHECKS)
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2);
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3);
-  SUCCEED();
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
   HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2), std::logic_error
     , getText(GlError::InvalidOwnership));
   HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3), std::logic_error
     , getText(GlError::InvalidOwnership));
+#else
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2);
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3);
+  SUCCEED();
 #endif
 
   gl::Context::setCurrent(c2, w);
-#if defined(HOU_DISABLE_GL_CONTEXT_OWNERSHIP_CHECKS)
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1);
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3);
-  SUCCEED();
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
   HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1), std::logic_error
     , getText(GlError::InvalidOwnership));
   HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3), std::logic_error
     , getText(GlError::InvalidOwnership));
+#else
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1);
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3);
+  SUCCEED();
 #endif
 
   gl::Context::setCurrent(c3, w);
-#if defined(HOU_DISABLE_GL_CONTEXT_OWNERSHIP_CHECKS)
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1);
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2);
-  SUCCEED();
-#else
+#ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
   HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1), std::logic_error
     , getText(GlError::InvalidOwnership));
   HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2), std::logic_error
     , getText(GlError::InvalidOwnership));
+#else
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1);
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2);
+  SUCCEED();
 #endif
 }
 
