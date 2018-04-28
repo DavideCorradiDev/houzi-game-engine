@@ -167,7 +167,7 @@ namespace std {}
 #define HOU_DO_STUFF(x) (x)*(x)
 ```
 
-The main reasons behind this naming conventions are:
+The main reasons behind these naming conventions are:
 * Consistency with the standard library.
 * Simplicity.
 * Reduce the change of name clashing and the verbosity of the code.
@@ -201,12 +201,12 @@ Lines which are a continuation of a previous line must be indented according to 
 ```
 // Good
 template <typename LongishTypename>
-typename LongishTypename::internal_scope_type longish_function_name(int p_ie
+typename LongishTypename::internal_scope_type longish_function_name(int p_ie,
   my_class p_stuff);
 
 // Bad
 template <typename LongishTypename>
-typename LongishTypename::internal_scope_type longish_function_name(int p_ie
+typename LongishTypename::internal_scope_type longish_function_name(int p_ie,
                                                                     my_class p_stuff);
 ```
 
@@ -225,7 +225,7 @@ The brace makes it clear when the actual scope starts and when it ends.
 ```
 // Good
 template <typename LongishTypename>
-typename LongishTypename::internal_scope_type longish_function_name(int p_ie
+typename LongishTypename::internal_scope_type longish_function_name(int p_ie,
   my_class p_stuff)
 {
   int hello = 2
@@ -233,10 +233,11 @@ typename LongishTypename::internal_scope_type longish_function_name(int p_ie
 
 // Bad
 template <typename LongishTypename>
-typename LongishTypename::internal_scope_type longish_function_name(int p_ie
+typename LongishTypename::internal_scope_type longish_function_name(int p_ie,
   my_class p_stuff) {
   int hello = 2
 }
+```
 
 A scope should never be written in a single line and / or inlined with the preceding line.
 This is also done to improve readability;
