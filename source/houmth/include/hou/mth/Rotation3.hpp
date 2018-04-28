@@ -5,11 +5,11 @@
 #ifndef HOU_MTH_ROTATION_3_HPP
 #define HOU_MTH_ROTATION_3_HPP
 
-#include "hou/mth/MthExport.hpp"
+#include "hou/mth/mth_export.hpp"
 
-#include "hou/mth/MatrixFwd.hpp"
-#include "hou/mth/Quaternion.hpp"
-#include "hou/mth/Rotation3Fwd.hpp"
+#include "hou/mth/matrix_fwd.hpp"
+#include "hou/mth/quaternion.hpp"
+#include "hou/mth/rotation3_fwd.hpp"
 
 #include <iostream>
 #include <limits>
@@ -21,22 +21,22 @@ namespace hou
 
 /** Represents a rotation in 2d space.
  *
- *  The rotation is internally represented as a unit quaternion.
+ *  The rotation is internally represented as a unit ph_quaternion.
  *
  *  \tparam T the scalar type.
  */
 template <typename T>
-  class HOU_MTH_API Rotation3
+  class HOU_MTH_API rotation3
 {
 public:
-  template <typename otherT> friend class Rotation3;
+  template <typename otherT> friend class rotation3;
 
 public:
   /** Returns the identity rotation.
    *
    *  \return the identity rotation.
    */
-  static Rotation3 identity();
+  static rotation3 identity();
 
   /** Returns a rotation around the x axis with the given angle.
    *
@@ -44,7 +44,7 @@ public:
    *  \return the rotation around the x axis.
    *
    */
-  static Rotation3 x(T angle);
+  static rotation3 x(T angle);
 
   /** Returns a rotation around the y axis with the given angle.
    *
@@ -52,7 +52,7 @@ public:
    *  \return the rotation around the y axis.
    *
    */
-  static Rotation3 y(T angle);
+  static rotation3 y(T angle);
 
   /** Returns a rotation around the z axis with the given angle.
    *
@@ -60,21 +60,21 @@ public:
    *  \return the rotation around the z axis.
    *
    */
-  static Rotation3 z(T angle);
+  static rotation3 z(T angle);
 
 public:
   /** Creates an identity rotation.
    */
-  Rotation3();
+  rotation3();
 
-  /** Creates a rotation with the given quaternion
+  /** Creates a rotation with the given ph_quaternion
    *
-   *  The quaternion will be normalized if it is not.
-   *  Throws if passed the zero quaternion.
+   *  The ph_quaternion will be normalized if it is not.
+   *  Throws if passed the zero ph_quaternion.
    *
-   *  \param q the quaternion.
+   *  \param q the ph_quaternion.
    */
-  explicit Rotation3(const Quaternion<T>& q);
+  explicit rotation3(const quaternion<T>& q);
 
   /** Creates a rotation with the given vector.
    *
@@ -83,18 +83,18 @@ public:
    *
    *  \param v the vector representing the axis and angle of rotation.
    */
-  explicit Rotation3(const Vec3<T>& v);
+  explicit rotation3(const Vec3<T>& v);
 
-  /** Creates a rotation with the given rotation matrix.
+  /** Creates a rotation with the given rotation ph_matrix.
    *
-   *  If m is not a valid rotation matrix, the matrix will be converted to a
-   *  quaternion which will then be normalized. This will result in a valid
-   *  rotation, whose rotation matrix is a different one from the one provided.
-   *  The caller must therefore ensure that m is a valid rotation matrix.
+   *  If m is not a valid rotation ph_matrix, the ph_matrix will be converted to a
+   *  ph_quaternion which will then be normalized. This will result in a valid
+   *  rotation, whose rotation ph_matrix is a different one from the one provided.
+   *  The caller must therefore ensure that m is a valid rotation ph_matrix.
    *
-   *  \param m the rotation matrix.
+   *  \param m the rotation ph_matrix.
    */
-  explicit Rotation3(const Mat3x3<T>& m);
+  explicit rotation3(const Mat3x3<T>& m);
 
 
   /** Creates a rotation from a rotation with different scalar type.
@@ -103,42 +103,42 @@ public:
    *  \param other the rotation to be copied.
    */
   template <typename U>
-    HOU_MTH_API Rotation3(const Rotation3<U>& other);
+    HOU_MTH_API rotation3(const rotation3<U>& other);
 
 
-  /** Returns a quaternion representing the rotation.
+  /** Returns a ph_quaternion representing the rotation.
    *
-   *  /return a quaternion representing the rotation.
+   *  /return a ph_quaternion representing the rotation.
    */
-  const Quaternion<T>& getQuaternion() const;
+  const quaternion<T>& get_quaternion() const;
 
   /** Returns a vector representing the rotation.
    *
    *  /return a vector representing the rotation.
    */
-  Vec3<T> getVector() const;
+  Vec3<T> get_vector() const;
 
-  /** Returns a rotatin matrix representing the rotation.
+  /** Returns a rotatin ph_matrix representing the rotation.
    *
-   *  /return a matrix representing the rotation.
+   *  /return a ph_matrix representing the rotation.
    */
-  Mat3x3<T> getMatrix() const;
+  Mat3x3<T> get_matrix() const;
 
   /** Combines this rotation with the given rotation.
    *
    *  \param rhs the rotation to be combined.
    *  \return a reference to this rotation after the combination.
    */
-  Rotation3& operator*=(const Rotation3& rhs);
+  rotation3& operator*=(const rotation3& rhs);
 
   /** Inverts this rotation.
    *
    *  \return a reference to this rotation after the inversion.
    */
-  Rotation3& invert();
+  rotation3& invert();
 
 private:
-  Quaternion<T> mQuaternion;
+  quaternion<T> m_quaternion;
 };
 
 /** Computes the combination of two rotations.
@@ -149,7 +149,7 @@ private:
  *  \return a rotation representing the two combined rotations.
  */
 template <typename T>
-  HOU_MTH_API Rotation3<T> operator*(Rotation3<T> lhs, const Rotation3<T>& rhs);
+  HOU_MTH_API rotation3<T> operator*(rotation3<T> lhs, const rotation3<T>& rhs);
 
 /** Computes the inverse of the given rotation.
  *
@@ -158,7 +158,7 @@ template <typename T>
  *  \return the inverse rotation.
  */
 template <typename T>
-  HOU_MTH_API Rotation3<T> inverse(Rotation3<T> r);
+  HOU_MTH_API rotation3<T> inverse(rotation3<T> r);
 
 /** Checks if two rotations are equal.
  *
@@ -168,7 +168,7 @@ template <typename T>
  *  \return the result of the comparison.
  */
 template <typename T>
-  HOU_MTH_API bool operator==(const Rotation3<T>& lhs, const Rotation3<T>& rhs);
+  HOU_MTH_API bool operator==(const rotation3<T>& lhs, const rotation3<T>& rhs);
 
 /** Checks if two rotations are not equal.
  *
@@ -178,7 +178,7 @@ template <typename T>
  *  \return the result of the comparison.
  */
 template <typename T>
-  HOU_MTH_API bool operator!=(const Rotation3<T>& lhs, const Rotation3<T>& rhs);
+  HOU_MTH_API bool operator!=(const rotation3<T>& lhs, const rotation3<T>& rhs);
 
 /** Checks if two rotations are equal with the given accuracy.
  *
@@ -189,7 +189,7 @@ template <typename T>
  *  \return the result of the comparison.
  */
 template <typename T>
-  HOU_MTH_API bool close(const Rotation3<T>& lhs, const Rotation3<T>& rhs
+  HOU_MTH_API bool close(const rotation3<T>& lhs, const rotation3<T>& rhs
   , T acc = std::numeric_limits<T>::epsilon());
 
 /** Writes the object into a stream.
@@ -200,7 +200,7 @@ template <typename T>
  *  \return a reference to the stream.
  */
 template <typename T>
-  HOU_MTH_API std::ostream& operator<<(std::ostream& os, const Rotation3<T>& r);
+  HOU_MTH_API std::ostream& operator<<(std::ostream& os, const rotation3<T>& r);
 
 }
 

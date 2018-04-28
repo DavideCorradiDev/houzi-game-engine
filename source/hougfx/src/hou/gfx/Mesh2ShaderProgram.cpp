@@ -67,7 +67,7 @@ std::string getGlFragmentShaderSource()
 Mesh2ShaderProgram::Mesh2ShaderProgram()
   : ShaderProgram(VertexShader(getGlVertexShaderSource()),
       FragmentShader(getGlFragmentShaderSource()))
-  , mBlankTexture(Vec2u(1u, 1u), TextureFormat::RGBA, 1u)
+  , mBlankTexture(vec2u(1u, 1u), TextureFormat::RGBA, 1u)
   , mUniColor(getUniformLocation(UNI_COLOR))
   , mUniTexture(getUniformLocation(UNI_TEXTURE))
   , mUniTransform(getUniformLocation(UNI_TRANSFORM))
@@ -102,16 +102,16 @@ void Mesh2ShaderProgram::setTextureUnit(uint unit)
 
 
 
-void Mesh2ShaderProgram::setTransform(const Trans2f& trans)
+void Mesh2ShaderProgram::setTransform(const trans2f& trans)
 {
   gl::setProgramUniformMatrix4f(
-    getHandle(), mUniTransform, 1u, GL_TRUE, trans.toMat4x4().data());
+    getHandle(), mUniTransform, 1u, GL_TRUE, trans.to_mat4x4().data());
 }
 
 
 
 void Mesh2ShaderProgram::draw(RenderSurface& target, const Mesh2& mesh,
-  const Texture2& tex, const Color& col, const Trans2f& trn)
+  const Texture2& tex, const Color& col, const trans2f& trn)
 {
   static constexpr uint texUnit = 0u;
   RenderSurface::setCurrentRenderTarget(target);
@@ -124,19 +124,19 @@ void Mesh2ShaderProgram::draw(RenderSurface& target, const Mesh2& mesh,
 }
 
 void Mesh2ShaderProgram::draw(RenderSurface& target, const Mesh2& mesh,
-  const Color& col, const Trans2f& trn)
+  const Color& col, const trans2f& trn)
 {
   draw(target, mesh, mBlankTexture, col, trn);
 }
 
 void Mesh2ShaderProgram::draw(RenderSurface& target, const Mesh2& mesh,
-  const Texture2& tex, const Trans2f& trn)
+  const Texture2& tex, const trans2f& trn)
 {
   draw(target, mesh, tex, Color::White, trn);
 }
 
 void Mesh2ShaderProgram::draw(
-  RenderSurface& target, const Mesh2& mesh, const Trans2f& trn)
+  RenderSurface& target, const Mesh2& mesh, const trans2f& trn)
 {
   draw(target, mesh, mBlankTexture, Color::White, trn);
 }

@@ -23,10 +23,10 @@ TEST_F(TestGlyphMetrics, DefaultConstructor)
 {
   GlyphMetrics gm;
 
-  EXPECT_EQ(Vec2u::zero(), gm.getSize());
-  EXPECT_EQ(Vec2i::zero(), gm.getHorizontalBearing());
+  EXPECT_EQ(vec2u::zero(), gm.get_size());
+  EXPECT_EQ(vec2i::zero(), gm.getHorizontalBearing());
   EXPECT_EQ(0, gm.getHorizontalAdvance());
-  EXPECT_EQ(Vec2i::zero(), gm.getVerticalBearing());
+  EXPECT_EQ(vec2i::zero(), gm.getVerticalBearing());
   EXPECT_EQ(0, gm.getVerticalAdvance());
 }
 
@@ -34,12 +34,12 @@ TEST_F(TestGlyphMetrics, DefaultConstructor)
 
 TEST_F(TestGlyphMetrics, ParameterConstructor)
 {
-  GlyphMetrics gm(Vec2u(1u, 2u), Vec2i(-1, 3), 4, Vec2i(5, -7), -11);
+  GlyphMetrics gm(vec2u(1u, 2u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
 
-  EXPECT_EQ(Vec2u(1u, 2u), gm.getSize());
-  EXPECT_EQ(Vec2i(-1, 3), gm.getHorizontalBearing());
+  EXPECT_EQ(vec2u(1u, 2u), gm.get_size());
+  EXPECT_EQ(vec2i(-1, 3), gm.getHorizontalBearing());
   EXPECT_EQ(4, gm.getHorizontalAdvance());
-  EXPECT_EQ(Vec2i(5, -7), gm.getVerticalBearing());
+  EXPECT_EQ(vec2i(5, -7), gm.getVerticalBearing());
   EXPECT_EQ(-11, gm.getVerticalAdvance());
 }
 
@@ -48,9 +48,9 @@ TEST_F(TestGlyphMetrics, ParameterConstructor)
 TEST_F(TestGlyphMetrics, SetSize)
 {
   GlyphMetrics gm;
-  Vec2u sizeRef(2u, 7u);
-  gm.setSize(sizeRef);
-  EXPECT_EQ(sizeRef, gm.getSize());
+  vec2u sizeRef(2u, 7u);
+  gm.set_size(sizeRef);
+  EXPECT_EQ(sizeRef, gm.get_size());
 }
 
 
@@ -58,7 +58,7 @@ TEST_F(TestGlyphMetrics, SetSize)
 TEST_F(TestGlyphMetrics, SetHorizontalBearing)
 {
   GlyphMetrics gm;
-  Vec2i bearingRef(3, 5);
+  vec2i bearingRef(3, 5);
   gm.setHorizontalBearing(bearingRef);
   EXPECT_EQ(bearingRef, gm.getHorizontalBearing());
 }
@@ -78,7 +78,7 @@ TEST_F(TestGlyphMetrics, SetHorizontalAdvance)
 TEST_F(TestGlyphMetrics, SetVerticalBearing)
 {
   GlyphMetrics gm;
-  Vec2i bearingRef(5, 3);
+  vec2i bearingRef(5, 3);
   gm.setVerticalBearing(bearingRef);
   EXPECT_EQ(bearingRef, gm.getVerticalBearing());
 }
@@ -98,16 +98,16 @@ TEST_F(TestGlyphMetrics, SetVerticalAdvance)
 TEST_F(TestGlyphMetrics, GetPixelSize)
 {
   GlyphMetrics gm;
-  EXPECT_EQ(Vec2u::zero(), gm.getSize());
-  HOU_EXPECT_FLOAT_CLOSE(Vec2f::zero(), gm.getPixelSize());
+  EXPECT_EQ(vec2u::zero(), gm.get_size());
+  HOU_EXPECT_FLOAT_CLOSE(vec2f::zero(), gm.getPixelSize());
 
-  gm.setSize(Vec2u(64u, 128u));
-  EXPECT_EQ(Vec2u(64u, 128u), gm.getSize());
-  HOU_EXPECT_FLOAT_CLOSE(Vec2f(1.f, 2.f), gm.getPixelSize());
+  gm.set_size(vec2u(64u, 128u));
+  EXPECT_EQ(vec2u(64u, 128u), gm.get_size());
+  HOU_EXPECT_FLOAT_CLOSE(vec2f(1.f, 2.f), gm.getPixelSize());
 
-  gm.setSize(Vec2u(96u, 176u));
-  EXPECT_EQ(Vec2u(96u, 176u), gm.getSize());
-  HOU_EXPECT_FLOAT_CLOSE(Vec2f(1.5f, 2.75f), gm.getPixelSize());
+  gm.set_size(vec2u(96u, 176u));
+  EXPECT_EQ(vec2u(96u, 176u), gm.get_size());
+  HOU_EXPECT_FLOAT_CLOSE(vec2f(1.5f, 2.75f), gm.getPixelSize());
 }
 
 
@@ -115,16 +115,16 @@ TEST_F(TestGlyphMetrics, GetPixelSize)
 TEST_F(TestGlyphMetrics, GetPixelHorizontalBearing)
 {
   GlyphMetrics gm;
-  EXPECT_EQ(Vec2i::zero(), gm.getHorizontalBearing());
-  HOU_EXPECT_FLOAT_CLOSE(Vec2f::zero(), gm.getPixelHorizontalBearing());
+  EXPECT_EQ(vec2i::zero(), gm.getHorizontalBearing());
+  HOU_EXPECT_FLOAT_CLOSE(vec2f::zero(), gm.getPixelHorizontalBearing());
 
-  gm.setHorizontalBearing(Vec2i(64, 128));
-  EXPECT_EQ(Vec2i(64, 128), gm.getHorizontalBearing());
-  HOU_EXPECT_FLOAT_CLOSE(Vec2f(1.f, 2.f), gm.getPixelHorizontalBearing());
+  gm.setHorizontalBearing(vec2i(64, 128));
+  EXPECT_EQ(vec2i(64, 128), gm.getHorizontalBearing());
+  HOU_EXPECT_FLOAT_CLOSE(vec2f(1.f, 2.f), gm.getPixelHorizontalBearing());
 
-  gm.setHorizontalBearing(Vec2i(96, 176));
-  EXPECT_EQ(Vec2i(96, 176), gm.getHorizontalBearing());
-  HOU_EXPECT_FLOAT_CLOSE(Vec2f(1.5f, 2.75f), gm.getPixelHorizontalBearing());
+  gm.setHorizontalBearing(vec2i(96, 176));
+  EXPECT_EQ(vec2i(96, 176), gm.getHorizontalBearing());
+  HOU_EXPECT_FLOAT_CLOSE(vec2f(1.5f, 2.75f), gm.getPixelHorizontalBearing());
 }
 
 
@@ -149,16 +149,16 @@ TEST_F(TestGlyphMetrics, GetPixelHorizontalAdvance)
 TEST_F(TestGlyphMetrics, GetPixelVerticalBearing)
 {
   GlyphMetrics gm;
-  EXPECT_EQ(Vec2i::zero(), gm.getVerticalBearing());
-  HOU_EXPECT_FLOAT_CLOSE(Vec2f::zero(), gm.getPixelVerticalBearing());
+  EXPECT_EQ(vec2i::zero(), gm.getVerticalBearing());
+  HOU_EXPECT_FLOAT_CLOSE(vec2f::zero(), gm.getPixelVerticalBearing());
 
-  gm.setVerticalBearing(Vec2i(64, 128));
-  EXPECT_EQ(Vec2i(64, 128), gm.getVerticalBearing());
-  HOU_EXPECT_FLOAT_CLOSE(Vec2f(1.f, 2.f), gm.getPixelVerticalBearing());
+  gm.setVerticalBearing(vec2i(64, 128));
+  EXPECT_EQ(vec2i(64, 128), gm.getVerticalBearing());
+  HOU_EXPECT_FLOAT_CLOSE(vec2f(1.f, 2.f), gm.getPixelVerticalBearing());
 
-  gm.setVerticalBearing(Vec2i(96, 176));
-  EXPECT_EQ(Vec2i(96, 176), gm.getVerticalBearing());
-  HOU_EXPECT_FLOAT_CLOSE(Vec2f(1.5f, 2.75f), gm.getPixelVerticalBearing());
+  gm.setVerticalBearing(vec2i(96, 176));
+  EXPECT_EQ(vec2i(96, 176), gm.getVerticalBearing());
+  HOU_EXPECT_FLOAT_CLOSE(vec2f(1.5f, 2.75f), gm.getPixelVerticalBearing());
 }
 
 
@@ -182,13 +182,13 @@ TEST_F(TestGlyphMetrics, GetPixelVerticalAdvance)
 
 TEST_F(TestGlyphMetrics, Comparison)
 {
-  GlyphMetrics gm1(Vec2u(1u, 2u), Vec2i(-1, 3), 4, Vec2i(5, -7), -11);
-  GlyphMetrics gm2(Vec2u(1u, 2u), Vec2i(-1, 3), 4, Vec2i(5, -7), -11);
-  GlyphMetrics gm3(Vec2u(2u, 2u), Vec2i(-1, 3), 4, Vec2i(5, -7), -11);
-  GlyphMetrics gm4(Vec2u(1u, 2u), Vec2i(-3, 3), 4, Vec2i(5, -7), -11);
-  GlyphMetrics gm5(Vec2u(1u, 2u), Vec2i(-1, 3), 5, Vec2i(5, -7), -11);
-  GlyphMetrics gm6(Vec2u(1u, 2u), Vec2i(-1, 3), 4, Vec2i(2, -7), -11);
-  GlyphMetrics gm7(Vec2u(1u, 2u), Vec2i(-1, 3), 4, Vec2i(5, -7), -21);
+  GlyphMetrics gm1(vec2u(1u, 2u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
+  GlyphMetrics gm2(vec2u(1u, 2u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
+  GlyphMetrics gm3(vec2u(2u, 2u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
+  GlyphMetrics gm4(vec2u(1u, 2u), vec2i(-3, 3), 4, vec2i(5, -7), -11);
+  GlyphMetrics gm5(vec2u(1u, 2u), vec2i(-1, 3), 5, vec2i(5, -7), -11);
+  GlyphMetrics gm6(vec2u(1u, 2u), vec2i(-1, 3), 4, vec2i(2, -7), -11);
+  GlyphMetrics gm7(vec2u(1u, 2u), vec2i(-1, 3), 4, vec2i(5, -7), -21);
 
   EXPECT_TRUE(gm1 == gm2);
   EXPECT_FALSE(gm1 == gm3);
@@ -209,7 +209,7 @@ TEST_F(TestGlyphMetrics, Comparison)
 
 TEST_F(TestGlyphMetrics, OutputStreamOperator)
 {
-  GlyphMetrics gm(Vec2u(1u, 2u), Vec2i(-1, 3), 4, Vec2i(5, -7), -11);
+  GlyphMetrics gm(vec2u(1u, 2u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
   const char* refOutput
     = "{Size = (1, 2)"
       ", HorizontalBearing = (-1, 3)"

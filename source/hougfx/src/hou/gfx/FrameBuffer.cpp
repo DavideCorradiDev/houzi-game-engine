@@ -4,7 +4,7 @@
 
 #include "hou/gfx/FrameBuffer.hpp"
 
-#include "hou/mth/Rectangle.hpp"
+#include "hou/mth/rectangle.hpp"
 
 #include "hou/gfx/Texture.hpp"
 
@@ -179,8 +179,8 @@ bool FrameBuffer::hasMultisampleAttachment() const
 
 
 
-void blit(const FrameBuffer& src, const Recti& srcRect, FrameBuffer& dst,
-  const Recti& dstRect, FrameBufferBlitMask mask, FrameBufferBlitFilter filter)
+void blit(const FrameBuffer& src, const recti& srcRect, FrameBuffer& dst,
+  const recti& dstRect, FrameBufferBlitMask mask, FrameBufferBlitFilter filter)
 {
   HOU_EXPECT((filter == FrameBufferBlitFilter::Nearest
     || mask == FrameBufferBlitMask::None
@@ -200,8 +200,8 @@ void blit(const FrameBuffer& src, const Recti& srcRect, FrameBuffer& dst,
 
 
 
-void blit(const FrameBuffer& src, const Recti& srcRect, Texture& dst,
-  const Recti& dstRect, FrameBufferBlitFilter filter)
+void blit(const FrameBuffer& src, const recti& srcRect, Texture& dst,
+  const recti& dstRect, FrameBufferBlitFilter filter)
 {
   FrameBuffer dstFrameBuffer;
   dstFrameBuffer.setColorAttachment(0u, dst);
@@ -211,8 +211,8 @@ void blit(const FrameBuffer& src, const Recti& srcRect, Texture& dst,
 
 
 
-void blit(const Texture& src, const Recti& srcRect, FrameBuffer& dst,
-  const Recti& dstRect, FrameBufferBlitFilter filter)
+void blit(const Texture& src, const recti& srcRect, FrameBuffer& dst,
+  const recti& dstRect, FrameBufferBlitFilter filter)
 {
   FrameBuffer srcFrameBuffer;
   srcFrameBuffer.setColorAttachment(0u, src);
@@ -222,8 +222,8 @@ void blit(const Texture& src, const Recti& srcRect, FrameBuffer& dst,
 
 
 
-void blit(const Texture& src, const Recti& srcRect, Texture& dst,
-  const Recti& dstRect, FrameBufferBlitFilter filter)
+void blit(const Texture& src, const recti& srcRect, Texture& dst,
+  const recti& dstRect, FrameBufferBlitFilter filter)
 {
   FrameBuffer srcFrameBuffer;
   srcFrameBuffer.setColorAttachment(0u, src);

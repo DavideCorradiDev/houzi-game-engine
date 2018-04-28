@@ -28,7 +28,7 @@ VideoMode VideoMode::getDesktopMode()
   winMode.dmSize = sizeof(winMode);
   // No need to check for error here.
   EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &winMode);
-  return VideoMode(Vec2u(winMode.dmPelsWidth, winMode.dmPelsHeight)
+  return VideoMode(vec2u(winMode.dmPelsWidth, winMode.dmPelsHeight)
     , winMode.dmBitsPerPel / bitsPerByte);
 }
 
@@ -44,7 +44,7 @@ std::vector<VideoMode> VideoMode::createFullscreenModesVector()
   // returns zero when the second argument is too high).
   for(int i = 0; EnumDisplaySettings(nullptr, i, &winMode) != 0; ++i)
   {
-    VideoMode mode(Vec2u(winMode.dmPelsWidth, winMode.dmPelsHeight)
+    VideoMode mode(vec2u(winMode.dmPelsWidth, winMode.dmPelsHeight)
       , winMode.dmBitsPerPel / bitsPerByte);
     if(std::find(modes.begin(), modes.end(), mode) == modes.end())
     {

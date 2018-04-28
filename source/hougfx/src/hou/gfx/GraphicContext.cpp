@@ -65,7 +65,7 @@ uint GraphicContext::getRenderingStencilByteCount()
 GraphicContext::GraphicContext()
   : mExtensionInitializer()
   , mDefaultWindow(defaultWindowName,
-      VideoMode(Vec2u::zero(), getRenderingColorByteCount()),
+      VideoMode(vec2u::zero(), getRenderingColorByteCount()),
       WindowStyle::Windowed)
   , mGlContext(
       gl::ContextSettings(gl::Version(4u, 5u), gl::ContextProfile::Core,

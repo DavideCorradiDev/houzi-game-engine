@@ -7,7 +7,7 @@
 #include "hou/gfx/RenderWindow.hpp"
 #include "hou/gfx/TextShaderProgram.hpp"
 #include "hou/gfx/Vertex2.hpp"
-#include "hou/mth/Transform2.hpp"
+#include "hou/mth/transform2.hpp"
 #include "hou/sys/BinaryFileIn.hpp"
 #include "hou/sys/Color.hpp"
 #include "hou/sys/WindowEvent.hpp"
@@ -21,13 +21,13 @@ int main()
   static const std::string dataDir = u8"source/demo/data/";
   GraphicContext ctx;
   GraphicContext::setCurrent(ctx);
-  RenderWindow rw(u8"Text Rendering Demo", Vec2u(800u, 600u),
+  RenderWindow rw(u8"Text Rendering Demo", vec2u(800u, 600u),
     WindowStyle::WindowedResizable, 8u);
   rw.setVisible(true);
-  Trans2f proj = Trans2f::orthographicProjection(rw.getViewport());
+  trans2f proj = trans2f::orthographic_projection(rw.getViewport());
   Mesh2ShaderProgram m2Rnd;
   TextShaderProgram textRnd;
-  Mesh2 fpsRect = createRectangleMesh2(Vec2f(128.f, 32.f));
+  Mesh2 fpsRect = createRectangleMesh2(vec2f(128.f, 32.f));
   std::vector<uint> fontSizes{0, 2, 4, 8, 16, 32, 64};
   size_t currentSizeIdx = 3;
   Font font(std::make_unique<BinaryFileIn>(dataDir + u8"NotoSans-Regular.ttf"));
@@ -73,13 +73,13 @@ int main()
     text.append(textLine);
     chineseText.append(chineseTextLine);
   }
-  Trans2f textTrans = Trans2f::translation(Vec2f(128.f, 200.f));
+  trans2f textTrans = trans2f::translation(vec2f(128.f, 200.f));
 
 
   std::cout << "Drawing " << textLine.size() * linesNum << " characters."
             << std::endl;
   TextFlow textFlow = TextFlow::LeftRight;
-  Vec2f maxTBoxSize;
+  vec2f maxTBoxSize;
   const float maxTBoxIncrement = 32.f;
 
   bool running = true;
@@ -161,12 +161,12 @@ int main()
       break;
       case hou::WindowEventType::Resized:
         rw.setViewport(rw.getDefaultViewport());
-        proj = Trans2f::orthographicProjection(rw.getViewport());
+        proj = trans2f::orthographic_projection(rw.getViewport());
         std::cout << "Window resized: (" << we.getSizeData().sizeX << ", "
                   << we.getSizeData().sizeY << ")" << std::endl;
         std::cout << "Window client size: " << transpose(rw.getClientSize())
                   << std::endl;
-        std::cout << "Window framebuffer size: " << transpose(rw.getSize())
+        std::cout << "Window framebuffer size: " << transpose(rw.get_size())
                   << std::endl;
         break;
       case hou::WindowEventType::FocusGained:
@@ -191,13 +191,13 @@ int main()
 
     if(maxTBoxSize.x() == 0.f || maxTBoxSize.y() == 0.f)
     {
-      Mesh2 dot = createEllipseMesh2(Vec2f(16.f, 16.f), 32u);
+      Mesh2 dot = createEllipseMesh2(vec2f(16.f, 16.f), 32u);
       m2Rnd.draw(rw, dot, Color::Red,
-        proj * textTrans * Trans2f::translation(Vec2f(-8.f, -8.f)));
+        proj * textTrans * trans2f::translation(vec2f(-8.f, -8.f)));
     }
     else
     {
-      Vec2f bboxTrans;
+      vec2f bboxTrans;
       switch(textFlow)
       {
       case TextFlow::LeftRight:
@@ -220,16 +220,16 @@ int main()
 
       Mesh2 bbox = createRectangleOutlineMesh2(maxTBoxSize, 1u);
       m2Rnd.draw(rw, bbox, Color::Red,
-        proj * textTrans * Trans2f::translation(bboxTrans));
+        proj * textTrans * trans2f::translation(bboxTrans));
     }
 
     TextBoxFormattingParams tbfp(textFlow, maxTBoxSize);
     FormattedText ft(textToRender, fontToRender, tbfp);
     Mesh2 textBox
-      = createRectangleOutlineMesh2(ft.getBoundingBox().getSize(), 1u);
+      = createRectangleOutlineMesh2(ft.getBoundingBox().get_size(), 1u);
     m2Rnd.draw(rw, textBox, Color::White,
       proj * textTrans
-        * Trans2f::translation(ft.getBoundingBox().getPosition()));
+        * trans2f::translation(ft.getBoundingBox().get_position()));
     textRnd.draw(rw, ft, Color::White, proj * textTrans);
 
     std::chrono::nanoseconds timePerFrame = timer.reset();
@@ -240,7 +240,7 @@ int main()
         std::chrono::duration_cast<std::chrono::duration<float>>(timePerFrame)
             .count()),
       font);
-    textRnd.draw(rw, fpsText, Color::White, proj * Trans2f::translation(-fpsText.getBoundingBox().getPosition()));
+    textRnd.draw(rw, fpsText, Color::White, proj * trans2f::translation(-fpsText.getBoundingBox().get_position()));
     rw.display();
   }
 

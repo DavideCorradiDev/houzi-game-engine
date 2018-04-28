@@ -7,7 +7,7 @@
 #include "hou/cor/cor_error.hpp"
 #include "hou/cor/error.hpp"
 
-#include "hou/mth/MathFunctions.hpp"
+#include "hou/mth/math_functions.hpp"
 
 
 
@@ -331,44 +331,44 @@ float AudioSource::getConeOuterGain() const
 
 void AudioSource::setConeInnerAngle(float value)
 {
-  HOU_EXPECT(value >= 0.f && value <= 2.f * PI_F);
-  al::setSourceConeInnerAngle(mHandle, static_cast<ALfloat>(radToDeg(value)));
+  HOU_EXPECT(value >= 0.f && value <= 2.f * pi_f);
+  al::setSourceConeInnerAngle(mHandle, static_cast<ALfloat>(rad_to_deg(value)));
 }
 
 
 
 float AudioSource::getConeInnerAngle() const
 {
-  return degToRad(static_cast<float>(al::getSourceConeInnerAngle(mHandle)));
+  return deg_to_rad(static_cast<float>(al::getSourceConeInnerAngle(mHandle)));
 }
 
 
 
 void AudioSource::setConeOuterAngle(float value)
 {
-  HOU_EXPECT(value >= 0.f && value <= 2.f * PI_F);
-  al::setSourceConeOuterAngle(mHandle, static_cast<ALfloat>(radToDeg(value)));
+  HOU_EXPECT(value >= 0.f && value <= 2.f * pi_f);
+  al::setSourceConeOuterAngle(mHandle, static_cast<ALfloat>(rad_to_deg(value)));
 }
 
 
 
 float AudioSource::getConeOuterAngle() const
 {
-  return degToRad(static_cast<float>(al::getSourceConeOuterAngle(mHandle)));
+  return deg_to_rad(static_cast<float>(al::getSourceConeOuterAngle(mHandle)));
 }
 
 
 
-void AudioSource::setPosition(const Vec3f& pos)
+void AudioSource::set_position(const vec3f& pos)
 {
   al::setSourcePosition(mHandle, static_cast<const ALfloat*>(pos.data()));
 }
 
 
 
-Vec3f AudioSource::getPosition() const
+vec3f AudioSource::get_position() const
 {
-  Vec3f retval;
+  vec3f retval;
   al::getSourcePosition(
     mHandle, static_cast<ALfloat*>(const_cast<float*>(retval.data())));
   return retval;
@@ -376,16 +376,16 @@ Vec3f AudioSource::getPosition() const
 
 
 
-void AudioSource::setVelocity(const Vec3f& vel)
+void AudioSource::setVelocity(const vec3f& vel)
 {
   al::setSourceVelocity(mHandle, static_cast<const ALfloat*>(vel.data()));
 }
 
 
 
-Vec3f AudioSource::getVelocity() const
+vec3f AudioSource::getVelocity() const
 {
-  Vec3f retval;
+  vec3f retval;
   al::getSourceVelocity(
     mHandle, static_cast<ALfloat*>(const_cast<float*>(retval.data())));
   return retval;
@@ -393,16 +393,16 @@ Vec3f AudioSource::getVelocity() const
 
 
 
-void AudioSource::setDirection(const Vec3f& dir)
+void AudioSource::setDirection(const vec3f& dir)
 {
   al::setSourceDirection(mHandle, static_cast<const ALfloat*>(dir.data()));
 }
 
 
 
-Vec3f AudioSource::getDirection() const
+vec3f AudioSource::getDirection() const
 {
-  Vec3f retval;
+  vec3f retval;
   al::getSourceDirection(
     mHandle, static_cast<ALfloat*>(const_cast<float*>(retval.data())));
   return retval;

@@ -11,8 +11,8 @@
 #include "hou/gfx/FrameBuffer.hpp"
 #include "hou/gfx/Texture.hpp"
 
-#include "hou/mth/MatrixFwd.hpp"
-#include "hou/mth/Rectangle.hpp"
+#include "hou/mth/matrix_fwd.hpp"
+#include "hou/mth/rectangle.hpp"
 
 #include <memory>
 
@@ -56,7 +56,7 @@ public:
    *
    * \return a vector containing the maximum size on each dimension.
    */
-  static Vec2u getMaxSize();
+  static vec2u getMaxSize();
 
   /** Retrieves the maximum amount of samples per pixel.
    *
@@ -74,7 +74,7 @@ public:
    *  \param size the size.
    *  \param sampleCount the sample count.
    */
-  RenderSurface(const Vec2u& size, uint sampleCount = 1u);
+  RenderSurface(const vec2u& size, uint sampleCount = 1u);
 
   /** Move constructor.
    *
@@ -86,37 +86,37 @@ public:
    */
   virtual ~RenderSurface() = 0;
 
-  /** Gets the default viewport rectangle.
+  /** Gets the default viewport ph_rectangle.
    *
-   *  The default viewport rectangle has the top left corner at the origin
+   *  The default viewport ph_rectangle has the top left corner at the origin
    *  and side lengths equal to the size of the RenderSurface.
    *
-   *  \return the default viewport rectangle.
+   *  \return the default viewport ph_rectangle.
    */
-  Recti getDefaultViewport() const;
+  recti getDefaultViewport() const;
 
-  /** Gets the current viewport rectangle.
+  /** Gets the current viewport ph_rectangle.
    *
-   *  The viewport rectangle represents the area of the RenderSurface which is
+   *  The viewport ph_rectangle represents the area of the RenderSurface which is
    *  drawn onto.
-   *  For a newly created RenderSurface the viewport rectangle is the default
-   *  viewport rectangle.
+   *  For a newly created RenderSurface the viewport ph_rectangle is the default
+   *  viewport ph_rectangle.
    *
-   *  \return the current viewport rectangle.
+   *  \return the current viewport ph_rectangle.
    */
-  const Recti& getViewport() const;
+  const recti& getViewport() const;
 
-  /** Sets the current viewport rectangle.
+  /** Sets the current viewport ph_rectangle.
    *
-   *  \param viewport the desired viewport rectangle.
+   *  \param viewport the desired viewport ph_rectangle.
    */
-  void setViewport(const Recti& viewport);
+  void setViewport(const recti& viewport);
 
   /** Gets the size of the RenderSurface.
    *
    *  \return the size of the render surface.
    */
-  Vec2u getSize() const;
+  vec2u get_size() const;
 
   /** Checks if the RenderSurface is multisampled.
    *
@@ -165,30 +165,30 @@ public:
    *  different sample count and source and destination rectangles with
    *  different size.
    *  Blitting between two RenderSurface objects with different sample count
-   *  but source and destination rectangle with the same size, or with
-   *  source and destination rectangle with same size but different sample count
+   *  but source and destination ph_rectangle with the same size, or with
+   *  source and destination ph_rectangle with same size but different sample count
    *  is possible.
-   *  If the size of the source and destination rectangle is the same but
+   *  If the size of the source and destination ph_rectangle is the same but
    *  inverted, it counts as the same for the purpose of this check.
    *
    *  \param dst the destination RenderSurface.
-   *  \param srcRect the source rectangle of the blit operation.
-   *  \param dstRect the destination rectangle of the blit operation.
+   *  \param srcRect the source ph_rectangle of the blit operation.
+   *  \param dstRect the destination ph_rectangle of the blit operation.
    */
-  friend HOU_GFX_API void blit(const RenderSurface& src, const Recti& srcRect,
-    RenderSurface& dst, const Recti& dstRect,
+  friend HOU_GFX_API void blit(const RenderSurface& src, const recti& srcRect,
+    RenderSurface& dst, const recti& dstRect,
     FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
 
-  friend HOU_GFX_API void blit(const RenderSurface& src, const Recti& srcRect,
-    Texture& dst, const Recti& dstRect,
+  friend HOU_GFX_API void blit(const RenderSurface& src, const recti& srcRect,
+    Texture& dst, const recti& dstRect,
     FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
 
-  friend HOU_GFX_API void blit(const Texture& src, const Recti& srcRect,
-    RenderSurface& dst, const Recti& dstRect,
+  friend HOU_GFX_API void blit(const Texture& src, const recti& srcRect,
+    RenderSurface& dst, const recti& dstRect,
     FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
 
 protected:
-  void buildFramebuffer(const Vec2u& size, uint sampleCount);
+  void buildFramebuffer(const vec2u& size, uint sampleCount);
 
 private:
   using AttachmentType = Texture2;
@@ -199,7 +199,7 @@ private:
   std::unique_ptr<Texture> mColorAttachment;
   std::unique_ptr<Texture> mDepthStencilAttachment;
   uint mSampleCount;
-  Recti mViewport;
+  recti mViewport;
 };
 
 }  // namespace hou

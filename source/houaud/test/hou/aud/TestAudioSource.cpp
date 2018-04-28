@@ -10,7 +10,7 @@
 
 #include "hou/cor/cor_error.hpp"
 
-#include "hou/mth/MathFunctions.hpp"
+#include "hou/mth/math_functions.hpp"
 
 using namespace hou;
 
@@ -184,11 +184,11 @@ TEST_F(TestAudioSource, DefaultConstructor)
   EXPECT_FLOAT_EQ(1.f, as.getReferenceDistance());
   EXPECT_FALSE(as.isRelative());
   EXPECT_FLOAT_EQ(0.f, as.getConeOuterGain());
-  EXPECT_FLOAT_EQ(2 * PI_F, as.getConeInnerAngle());
-  EXPECT_FLOAT_EQ(2 * PI_F, as.getConeOuterAngle());
-  HOU_EXPECT_FLOAT_CLOSE(Vec3f::zero(), as.getPosition());
-  HOU_EXPECT_FLOAT_CLOSE(Vec3f::zero(), as.getVelocity());
-  HOU_EXPECT_FLOAT_CLOSE(Vec3f::zero(), as.getDirection());
+  EXPECT_FLOAT_EQ(2 * pi_f, as.getConeInnerAngle());
+  EXPECT_FLOAT_EQ(2 * pi_f, as.getConeOuterAngle());
+  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_position());
+  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.getVelocity());
+  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.getDirection());
 }
 
 
@@ -215,11 +215,11 @@ TEST_F(TestAudioSource, MoveConstructor)
   EXPECT_FLOAT_EQ(1.f, as.getReferenceDistance());
   EXPECT_FALSE(as.isRelative());
   EXPECT_FLOAT_EQ(0.f, as.getConeOuterGain());
-  EXPECT_FLOAT_EQ(2 * PI_F, as.getConeInnerAngle());
-  EXPECT_FLOAT_EQ(2 * PI_F, as.getConeOuterAngle());
-  HOU_EXPECT_FLOAT_CLOSE(Vec3f::zero(), as.getPosition());
-  HOU_EXPECT_FLOAT_CLOSE(Vec3f::zero(), as.getVelocity());
-  HOU_EXPECT_FLOAT_CLOSE(Vec3f::zero(), as.getDirection());
+  EXPECT_FLOAT_EQ(2 * pi_f, as.getConeInnerAngle());
+  EXPECT_FLOAT_EQ(2 * pi_f, as.getConeOuterAngle());
+  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_position());
+  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.getVelocity());
+  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.getDirection());
 }
 
 
@@ -593,10 +593,10 @@ TEST_F(TestAudioSource, ConeInnerAngle)
   ConcreteAudioSource as(mBuffer);
   as.setConeInnerAngle(0.f);
   EXPECT_FLOAT_EQ(0.f, as.getConeInnerAngle());
-  as.setConeInnerAngle(PI_F);
-  EXPECT_FLOAT_EQ(PI_F, as.getConeInnerAngle());
-  as.setConeInnerAngle(2 * PI_F);
-  EXPECT_FLOAT_EQ(2 * PI_F, as.getConeInnerAngle());
+  as.setConeInnerAngle(pi_f);
+  EXPECT_FLOAT_EQ(pi_f, as.getConeInnerAngle());
+  as.setConeInnerAngle(2 * pi_f);
+  EXPECT_FLOAT_EQ(2 * pi_f, as.getConeInnerAngle());
 }
 
 
@@ -604,9 +604,9 @@ TEST_F(TestAudioSource, ConeInnerAngle)
 TEST_F(TestAudioSourceDeathTest, InvalidConeInnerAngle)
 {
   ConcreteAudioSource as(mBuffer);
-  HOU_EXPECT_ERROR(as.setConeInnerAngle(-PI_F), std::logic_error,
+  HOU_EXPECT_ERROR(as.setConeInnerAngle(-pi_f), std::logic_error,
     get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(as.setConeInnerAngle(3 * PI_F), std::logic_error,
+  HOU_EXPECT_ERROR(as.setConeInnerAngle(3 * pi_f), std::logic_error,
     get_text(cor_error::pre_condition));
 }
 
@@ -617,10 +617,10 @@ TEST_F(TestAudioSource, ConeOuterAngle)
   ConcreteAudioSource as(mBuffer);
   as.setConeOuterAngle(0.f);
   EXPECT_FLOAT_EQ(0.f, as.getConeOuterAngle());
-  as.setConeOuterAngle(PI_F);
-  EXPECT_FLOAT_EQ(PI_F, as.getConeOuterAngle());
-  as.setConeOuterAngle(2 * PI_F);
-  EXPECT_FLOAT_EQ(2 * PI_F, as.getConeOuterAngle());
+  as.setConeOuterAngle(pi_f);
+  EXPECT_FLOAT_EQ(pi_f, as.getConeOuterAngle());
+  as.setConeOuterAngle(2 * pi_f);
+  EXPECT_FLOAT_EQ(2 * pi_f, as.getConeOuterAngle());
 }
 
 
@@ -628,9 +628,9 @@ TEST_F(TestAudioSource, ConeOuterAngle)
 TEST_F(TestAudioSourceDeathTest, InvalidConeOuterAngle)
 {
   ConcreteAudioSource as(mBuffer);
-  HOU_EXPECT_ERROR(as.setConeOuterAngle(-PI_F), std::logic_error,
+  HOU_EXPECT_ERROR(as.setConeOuterAngle(-pi_f), std::logic_error,
     get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(as.setConeOuterAngle(3 * PI_F), std::logic_error,
+  HOU_EXPECT_ERROR(as.setConeOuterAngle(3 * pi_f), std::logic_error,
     get_text(cor_error::pre_condition));
 }
 
@@ -639,9 +639,9 @@ TEST_F(TestAudioSourceDeathTest, InvalidConeOuterAngle)
 TEST_F(TestAudioSource, Position)
 {
   ConcreteAudioSource as(mBuffer);
-  Vec3f posRef(1.f, -2.f, 3.f);
-  as.setPosition(posRef);
-  HOU_EXPECT_FLOAT_CLOSE(posRef, as.getPosition());
+  vec3f posRef(1.f, -2.f, 3.f);
+  as.set_position(posRef);
+  HOU_EXPECT_FLOAT_CLOSE(posRef, as.get_position());
 }
 
 
@@ -649,7 +649,7 @@ TEST_F(TestAudioSource, Position)
 TEST_F(TestAudioSource, Velocity)
 {
   ConcreteAudioSource as(mBuffer);
-  Vec3f velRef(1.f, -2.f, 3.f);
+  vec3f velRef(1.f, -2.f, 3.f);
   as.setVelocity(velRef);
   HOU_EXPECT_FLOAT_CLOSE(velRef, as.getVelocity());
 }
@@ -659,7 +659,7 @@ TEST_F(TestAudioSource, Velocity)
 TEST_F(TestAudioSource, Direction)
 {
   ConcreteAudioSource as(mBuffer);
-  Vec3f dirRef(1.f, -2.f, 3.f);
+  vec3f dirRef(1.f, -2.f, 3.f);
   as.setDirection(dirRef);
   HOU_EXPECT_FLOAT_CLOSE(dirRef, as.getDirection());
 }

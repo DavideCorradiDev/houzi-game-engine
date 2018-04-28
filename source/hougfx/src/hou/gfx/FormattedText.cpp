@@ -24,12 +24,12 @@ public:
 
   const std::map<utf32::code_unit, Glyph>& getGlyphs() const;
   const Glyph& getGlyph(utf32::code_unit c) const;
-  const Vec2u& getMaxGlyphSize() const;
-  uint getSize() const;
+  const vec2u& getMaxGlyphSize() const;
+  uint get_size() const;
 
 private:
   std::map<utf32::code_unit, Glyph> mGlyphs;
-  Vec2u mMaxGlyphSize;
+  vec2u mMaxGlyphSize;
 };
 
 
@@ -37,21 +37,21 @@ class AtlasGlyphCoordinates
 {
 public:
   AtlasGlyphCoordinates(
-    const Vec3u& pos, const Vec2u& size, const Vec3u& texSize);
+    const vec3u& pos, const vec2u& size, const vec3u& texSize);
 
-  Vec2f getTopLeftPos() const;
-  Vec2f getTopRightPos() const;
-  Vec2f getBottomRightPos() const;
-  Vec2f getBottomLeftPos() const;
-  Vec3f getTopLeftTex() const;
-  Vec3f getTopRightTex() const;
-  Vec3f getBottomRightTex() const;
-  Vec3f getBottomLeftTex() const;
+  vec2f getTopLeftPos() const;
+  vec2f getTopRightPos() const;
+  vec2f getBottomRightPos() const;
+  vec2f getBottomLeftPos() const;
+  vec3f getTopLeftTex() const;
+  vec3f getTopRightTex() const;
+  vec3f getBottomRightTex() const;
+  vec3f getBottomLeftTex() const;
 
 private:
-  Vec3f mPos;
-  Vec2f mSize;
-  Vec3f mTexSize;
+  vec3f mPos;
+  vec2f m_size;
+  vec3f mTexSize;
 };
 
 
@@ -66,10 +66,10 @@ public:
     utf32::code_unit c) const;
 
 private:
-  static Vec3u computeAtlasGridSize(const GlyphCache& cache);
+  static vec3u computeAtlasGridSize(const GlyphCache& cache);
 
 private:
-  Vec3u mAtlasGridSize;
+  vec3u mAtlasGridSize;
   Image3R mImage;
   std::map<utf32::code_unit, AtlasGlyphCoordinates> mGlyphCoords;
 };
@@ -83,7 +83,7 @@ public:
     const GlyphAtlas& atlas, const TextBoxFormattingParams params);
 
   const std::vector<TextVertex>& getVertices() const;
-  const Rectf& getBoundingBox() const;
+  const rectf& getBoundingBox() const;
 
 private:
   static constexpr uint VerticesPerGlyph = 6u;
@@ -92,7 +92,7 @@ private:
 
 private:
   float computeGlyphAdvance(const GlyphMetrics& gm, const Font& font) const;
-  Vec2f computeGlyphBearing(const GlyphMetrics& gm, const Font& font) const;
+  vec2f computeGlyphBearing(const GlyphMetrics& gm, const Font& font) const;
   void insertLineBreaks(const Font& font, const GlyphCache& cache,
     const TextBoxFormattingParams& tbfp);
   void generateVertices(
@@ -106,7 +106,7 @@ private:
   size_t mColumnCoord;
   float mLineSpacing;
   float mCharSpacingFactor;
-  Rectf mBoundingBox;
+  rectf mBoundingBox;
 };
 
 
@@ -122,8 +122,8 @@ GlyphCache::GlyphCache(
     {
       auto inserted = mGlyphs.insert(std::make_pair(c, font.getGlyph(c)));
       HOU_EXPECT_DEV(inserted.second);
-      const Vec2u& glyphSize = inserted.first->second.getImage().getSize();
-      for(size_t i = 0; i < Vec2u::getSize(); ++i)
+      const vec2u& glyphSize = inserted.first->second.getImage().get_size();
+      for(size_t i = 0; i < vec2u::get_size(); ++i)
       {
         if(glyphSize(i) > mMaxGlyphSize(i))
         {
@@ -150,26 +150,26 @@ const Glyph& GlyphCache::getGlyph(utf32::code_unit c) const
 
 
 
-const Vec2u& GlyphCache::getMaxGlyphSize() const
+const vec2u& GlyphCache::getMaxGlyphSize() const
 {
   return mMaxGlyphSize;
 }
 
 
 
-Vec3u GlyphAtlas::computeAtlasGridSize(const GlyphCache& cache)
+vec3u GlyphAtlas::computeAtlasGridSize(const GlyphCache& cache)
 {
-  static const Vec3u maxAtlasSize(
+  static const vec3u maxAtlasSize(
     std::min(2048u, static_cast<uint>(gl::getMaxTextureSize())),
     std::min(2048u, static_cast<uint>(gl::getMaxTextureSize())),
     std::min(256u, static_cast<uint>(gl::getMaxTextureLayers())));
 
-  Vec3u maxAtlasGridSize = maxAtlasSize;
+  vec3u maxAtlasGridSize = maxAtlasSize;
   maxAtlasGridSize.x() /= cache.getMaxGlyphSize().x();
   maxAtlasGridSize.y() /= cache.getMaxGlyphSize().y();
 
-  uint charCount = cache.getSize();
-  return Vec3u(std::min(charCount, maxAtlasGridSize.x()),
+  uint charCount = cache.get_size();
+  return vec3u(std::min(charCount, maxAtlasGridSize.x()),
     std::min(charCount / maxAtlasGridSize.x(), maxAtlasGridSize.y() - 1u) + 1u,
     std::min(charCount / (maxAtlasGridSize.x() * maxAtlasGridSize.y()),
       maxAtlasGridSize.z() - 1u)
@@ -179,75 +179,75 @@ Vec3u GlyphAtlas::computeAtlasGridSize(const GlyphCache& cache)
 
 
 AtlasGlyphCoordinates::AtlasGlyphCoordinates(
-  const Vec3u& pos, const Vec2u& size, const Vec3u& texSize)
-  : mPos(static_cast<Vec3f>(pos))
-  , mSize(static_cast<Vec2f>(size))
-  , mTexSize(static_cast<Vec3f>(texSize))
+  const vec3u& pos, const vec2u& size, const vec3u& texSize)
+  : mPos(static_cast<vec3f>(pos))
+  , m_size(static_cast<vec2f>(size))
+  , mTexSize(static_cast<vec3f>(texSize))
 {}
 
 
 
-Vec2f AtlasGlyphCoordinates::getTopLeftPos() const
+vec2f AtlasGlyphCoordinates::getTopLeftPos() const
 {
-  return Vec2f();
+  return vec2f();
 }
 
 
 
-Vec2f AtlasGlyphCoordinates::getTopRightPos() const
+vec2f AtlasGlyphCoordinates::getTopRightPos() const
 {
-  return Vec2f(mSize.x(), 0.f);
+  return vec2f(m_size.x(), 0.f);
 }
 
 
 
-Vec2f AtlasGlyphCoordinates::getBottomRightPos() const
+vec2f AtlasGlyphCoordinates::getBottomRightPos() const
 {
-  return Vec2f(mSize.x(), mSize.y());
+  return vec2f(m_size.x(), m_size.y());
 }
 
 
 
-Vec2f AtlasGlyphCoordinates::getBottomLeftPos() const
+vec2f AtlasGlyphCoordinates::getBottomLeftPos() const
 {
-  return Vec2f(0.f, mSize.y());
+  return vec2f(0.f, m_size.y());
 }
 
 
 
-Vec3f AtlasGlyphCoordinates::getTopLeftTex() const
+vec3f AtlasGlyphCoordinates::getTopLeftTex() const
 {
-  return Vec3f(mPos.x() / mTexSize.x(), mPos.y() / mTexSize.y(), mPos.z());
+  return vec3f(mPos.x() / mTexSize.x(), mPos.y() / mTexSize.y(), mPos.z());
   ;
 }
 
 
 
-Vec3f AtlasGlyphCoordinates::getTopRightTex() const
+vec3f AtlasGlyphCoordinates::getTopRightTex() const
 {
-  return Vec3f(
-    (mPos.x() + mSize.x()) / mTexSize.x(), mPos.y() / mTexSize.y(), mPos.z());
+  return vec3f(
+    (mPos.x() + m_size.x()) / mTexSize.x(), mPos.y() / mTexSize.y(), mPos.z());
 }
 
 
 
-Vec3f AtlasGlyphCoordinates::getBottomRightTex() const
+vec3f AtlasGlyphCoordinates::getBottomRightTex() const
 {
-  return Vec3f((mPos.x() + mSize.x()) / mTexSize.x(),
-    (mPos.y() + mSize.y()) / mTexSize.y(), mPos.z());
+  return vec3f((mPos.x() + m_size.x()) / mTexSize.x(),
+    (mPos.y() + m_size.y()) / mTexSize.y(), mPos.z());
 }
 
 
 
-Vec3f AtlasGlyphCoordinates::getBottomLeftTex() const
+vec3f AtlasGlyphCoordinates::getBottomLeftTex() const
 {
-  return Vec3f(
-    mPos.x() / mTexSize.x(), (mPos.y() + mSize.y()) / mTexSize.y(), mPos.z());
+  return vec3f(
+    mPos.x() / mTexSize.x(), (mPos.y() + m_size.y()) / mTexSize.y(), mPos.z());
 }
 
 
 
-uint GlyphCache::getSize() const
+uint GlyphCache::get_size() const
 {
   return mGlyphs.size();
 }
@@ -256,7 +256,7 @@ uint GlyphCache::getSize() const
 
 GlyphAtlas::GlyphAtlas(const GlyphCache& cache)
   : mAtlasGridSize(computeAtlasGridSize(cache))
-  , mImage(Vec3u(mAtlasGridSize.x() * cache.getMaxGlyphSize().x(),
+  , mImage(vec3u(mAtlasGridSize.x() * cache.getMaxGlyphSize().x(),
       mAtlasGridSize.y() * cache.getMaxGlyphSize().y(), mAtlasGridSize.z()))
   , mGlyphCoords()
 {
@@ -264,14 +264,14 @@ GlyphAtlas::GlyphAtlas(const GlyphCache& cache)
   uint idx = 0;
   for(const auto& kv : cache.getGlyphs())
   {
-    Vec3u glyphPosition(
+    vec3u glyphPosition(
       idx % atlasGridLayer % mAtlasGridSize.x() * cache.getMaxGlyphSize().x(),
       idx % atlasGridLayer / mAtlasGridSize.x() * cache.getMaxGlyphSize().y(),
       idx / atlasGridLayer);
     mImage.setSubImage(glyphPosition, kv.second.getImage());
     mGlyphCoords.insert(std::make_pair(kv.first,
       AtlasGlyphCoordinates(
-        glyphPosition, kv.second.getImage().getSize(), mImage.getSize())));
+        glyphPosition, kv.second.getImage().get_size(), mImage.get_size())));
     ++idx;
   }
 }
@@ -329,14 +329,14 @@ float TextFormatter::computeGlyphAdvance(
 
 
 
-Vec2f TextFormatter::computeGlyphBearing(
+vec2f TextFormatter::computeGlyphBearing(
   const GlyphMetrics& gm, const Font& font) const
 {
-  Vec2f vertBearing = font.hasVertical()
+  vec2f vertBearing = font.hasVertical()
     ? gm.getPixelVerticalBearing()
-    : Vec2f(-0.5f * gm.getPixelSize().x(), 0.f);
+    : vec2f(-0.5f * gm.getPixelSize().x(), 0.f);
 
-  const Vec2f& bearing
+  const vec2f& bearing
     = mLineCoord == 0 ? gm.getPixelHorizontalBearing() : vertBearing;
 
   return bearing;
@@ -440,7 +440,7 @@ void TextFormatter::insertLineBreaks(const Font& font, const GlyphCache& cache,
 void TextFormatter::generateVertices(
   const Font& font, const GlyphCache& cache, const GlyphAtlas& atlas)
 {
-  Vec2f penPos(0.f, 0.f);
+  vec2f penPos(0.f, 0.f);
   for(size_t i = 0; i < mText.size(); ++i)
   {
     utf32::code_unit c = mText[i];
@@ -461,22 +461,22 @@ void TextFormatter::generateVertices(
         penPos(mLineCoord) += advance;
       }
 
-      Vec2f bearing = computeGlyphBearing(gm, font);
+      vec2f bearing = computeGlyphBearing(gm, font);
 
-      Vec2f v0Pos = penPos + bearing + ac.getTopLeftPos();
-      Vec3f v0Tex = ac.getTopLeftTex();
+      vec2f v0Pos = penPos + bearing + ac.getTopLeftPos();
+      vec3f v0Tex = ac.getTopLeftTex();
       TextVertex v0(v0Pos, v0Tex);
 
-      Vec2f v1Pos = v0Pos + ac.getTopRightPos();
-      Vec3f v1Tex = ac.getTopRightTex();
+      vec2f v1Pos = v0Pos + ac.getTopRightPos();
+      vec3f v1Tex = ac.getTopRightTex();
       TextVertex v1(v1Pos, v1Tex);
 
-      Vec2f v2Pos = v0Pos + ac.getBottomLeftPos();
-      Vec3f v2Tex = ac.getBottomLeftTex();
+      vec2f v2Pos = v0Pos + ac.getBottomLeftPos();
+      vec3f v2Tex = ac.getBottomLeftTex();
       TextVertex v2(v2Pos, v2Tex);
 
-      Vec2f v3Pos = v0Pos + ac.getBottomRightPos();
-      Vec3f v3Tex = ac.getBottomRightTex();
+      vec2f v3Pos = v0Pos + ac.getBottomRightPos();
+      vec3f v3Tex = ac.getBottomRightTex();
       TextVertex v3(v3Pos, v3Tex);
 
       mVertices[i * 6 + 0] = v0;
@@ -505,13 +505,13 @@ void TextFormatter::computeBoundingBox()
   static constexpr size_t tlOffset = 0u;
   static constexpr size_t brOffset = 5u;
 
-  Vec2f topLeft = mVertices[tlOffset].getPosition();
-  Vec2f bottomRight = mVertices[brOffset].getPosition();
+  vec2f topLeft = mVertices[tlOffset].get_position();
+  vec2f bottomRight = mVertices[brOffset].get_position();
 
   for(size_t i = VerticesPerGlyph; i < mVertices.size(); i += VerticesPerGlyph)
   {
-    const Vec2f& tlPos = mVertices[i + tlOffset].getPosition();
-    const Vec2f& brPos = mVertices[i + brOffset].getPosition();
+    const vec2f& tlPos = mVertices[i + tlOffset].get_position();
+    const vec2f& brPos = mVertices[i + brOffset].get_position();
     if(tlPos.x() < topLeft.x())
     {
       topLeft.x() = tlPos.x();
@@ -530,8 +530,8 @@ void TextFormatter::computeBoundingBox()
     }
   }
 
-  mBoundingBox.setPosition(topLeft);
-  mBoundingBox.setSize(bottomRight - topLeft);
+  mBoundingBox.set_position(topLeft);
+  mBoundingBox.set_size(bottomRight - topLeft);
 }
 
 
@@ -543,7 +543,7 @@ const std::vector<TextVertex>& TextFormatter::getVertices() const
 
 
 
-const Rectf& TextFormatter::getBoundingBox() const
+const rectf& TextFormatter::getBoundingBox() const
 {
   return mBoundingBox;
 }
@@ -605,7 +605,7 @@ const TextMesh& FormattedText::getMesh() const
 
 
 
-const Rectf& FormattedText::getBoundingBox() const
+const rectf& FormattedText::getBoundingBox() const
 {
   return mBoundingBox;
 }

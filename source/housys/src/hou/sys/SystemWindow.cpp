@@ -18,12 +18,12 @@ SystemWindow::SystemWindow(SystemWindow&& other)
 
 
 
-void SystemWindow::setFrameRect(const Vec2i& pos, const Vec2u& size)
+void SystemWindow::setFrameRect(const vec2i& pos, const vec2u& size)
 {
   Window::setFrameRect(pos, size);
 }
 
-void SystemWindow::setClientRect(const Vec2i& pos, const Vec2u& size)
+void SystemWindow::setClientRect(const vec2i& pos, const vec2u& size)
 {
   Window::setClientRect(pos, size);
 }

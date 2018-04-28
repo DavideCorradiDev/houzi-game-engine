@@ -10,7 +10,7 @@ namespace hou
 {
 
 Glyph::Glyph()
-  : mImage(Vec2u())
+  : mImage(vec2u())
   , mMetrics()
 {}
 

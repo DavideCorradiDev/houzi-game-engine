@@ -11,7 +11,7 @@
 #include "hou/gl/GlContextImpl.hpp"
 #include "hou/gl/OpenGl.hpp"
 
-#include "hou/mth/Rectangle.hpp"
+#include "hou/mth/rectangle.hpp"
 
 #include <vector>
 
@@ -61,8 +61,8 @@ private:
     uint32_t getBoundVertexArray() const;
     void setBoundVertexArray(uint32_t uid);
 
-    const Recti& getCurrentViewport() const;
-    void setCurrentViewport(const Recti& viewport);
+    const recti& getCurrentViewport() const;
+    void setCurrentViewport(const recti& viewport);
 
   private:
     uint32_t mBoundArrayBuffer;
@@ -74,7 +74,7 @@ private:
     GLuint mActiveTexture;
     std::vector<uint32_t> mBoundTextures;
     std::vector<GLenum> mBoundTextureTargets;
-    Recti mCurrentViewport;
+    recti mCurrentViewport;
   };
 
 public:

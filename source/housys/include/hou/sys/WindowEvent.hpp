@@ -256,7 +256,7 @@ private:
   WindowEventType mType;
   union
   {
-    SizeData mSize;
+    SizeData m_size;
     KeyData mKey;
     TextData mText;
     MouseMoveData mMouseMove;

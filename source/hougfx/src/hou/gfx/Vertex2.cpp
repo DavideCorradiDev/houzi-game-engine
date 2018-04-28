@@ -7,8 +7,8 @@
 #include "hou/gfx/Mesh.hpp"
 #include "hou/gfx/VertexFormat.hpp"
 
-#include "hou/mth/MathFunctions.hpp"
-#include "hou/mth/Rectangle.hpp"
+#include "hou/mth/math_functions.hpp"
+#include "hou/mth/rectangle.hpp"
 
 
 
@@ -31,10 +31,10 @@ Mesh2 createGenericRectangleMesh2(
   float tr = tl + tw;
   float tb = tt + th;
   return Mesh2(MeshDrawMode::TriangleFan, MeshFillMode::Fill,
-    std::vector<Vertex2>{Vertex2(Vec2f(l, t), Vec2f(tl, tt), Color::White),
-      Vertex2(Vec2f(l, b), Vec2f(tl, tb), Color::White),
-      Vertex2(Vec2f(r, b), Vec2f(tr, tb), Color::White),
-      Vertex2(Vec2f(r, t), Vec2f(tr, tt), Color::White)});
+    std::vector<Vertex2>{Vertex2(vec2f(l, t), vec2f(tl, tt), Color::White),
+      Vertex2(vec2f(l, b), vec2f(tl, tb), Color::White),
+      Vertex2(vec2f(r, b), vec2f(tr, tb), Color::White),
+      Vertex2(vec2f(r, t), vec2f(tr, tt), Color::White)});
 }
 
 }  // namespace
@@ -46,7 +46,7 @@ const VertexFormat& Vertex2::getVertexFormat()
   static constexpr bool mustBeNormalized = true;
   static const VertexFormat vf(0, sizeof(Vertex2),
     {VertexAttribFormat(GlType::Float, Vertex2::sPositionSize,
-       offsetof(Vertex2, mPosition), !mustBeNormalized),
+       offsetof(Vertex2, m_position), !mustBeNormalized),
       VertexAttribFormat(GlType::Float, Vertex2::sTextureCoordinatesSize,
         offsetof(Vertex2, mTexCoords), mustBeNormalized),
       VertexAttribFormat(GlType::Float, Vertex2::sColorSize,
@@ -57,43 +57,43 @@ const VertexFormat& Vertex2::getVertexFormat()
 
 
 Vertex2::Vertex2()
-  : Vertex2(Vec2f(0.f, 0.f), Vec2f(0.f, 0.f), Color(0, 0, 0, 0))
+  : Vertex2(vec2f(0.f, 0.f), vec2f(0.f, 0.f), Color(0, 0, 0, 0))
 {}
 
 
 
 Vertex2::Vertex2(
-  const Vec2f& position, const Vec2f& texCoords, const Color& col)
-  : mPosition{position.x(), position.y()}
+  const vec2f& position, const vec2f& texCoords, const Color& col)
+  : m_position{position.x(), position.y()}
   , mTexCoords{texCoords.x(), texCoords.y()}
   , mColor{col.getRedf(), col.getGreenf(), col.getBluef(), col.getAlphaf()}
 {}
 
 
 
-Vec2f Vertex2::getPosition() const
+vec2f Vertex2::get_position() const
 {
-  return Vec2f(mPosition[0], mPosition[1]);
+  return vec2f(m_position[0], m_position[1]);
 }
 
 
 
-void Vertex2::setPosition(const Vec2f& pos)
+void Vertex2::set_position(const vec2f& pos)
 {
-  mPosition[0] = pos.x();
-  mPosition[1] = pos.y();
+  m_position[0] = pos.x();
+  m_position[1] = pos.y();
 }
 
 
 
-Vec2f Vertex2::getTextureCoordinates() const
+vec2f Vertex2::getTextureCoordinates() const
 {
-  return Vec2f(mTexCoords[0], mTexCoords[1]);
+  return vec2f(mTexCoords[0], mTexCoords[1]);
 }
 
 
 
-void Vertex2::setTextureCoordinates(const Vec2f& texCoords)
+void Vertex2::setTextureCoordinates(const vec2f& texCoords)
 {
   mTexCoords[0] = texCoords.x();
   mTexCoords[1] = texCoords.y();
@@ -121,7 +121,7 @@ void Vertex2::setColor(const Color& color)
 
 bool operator==(const Vertex2& lhs, const Vertex2& rhs)
 {
-  return lhs.getPosition() == rhs.getPosition()
+  return lhs.get_position() == rhs.get_position()
     && lhs.getTextureCoordinates() == rhs.getTextureCoordinates()
     && lhs.getColor() == rhs.getColor();
 }
@@ -138,7 +138,7 @@ bool operator!=(const Vertex2& lhs, const Vertex2& rhs)
 bool close(const Vertex2& lhs, const Vertex2& rhs, Vertex2::ComparisonType acc)
 {
   return lhs.getColor() == rhs.getColor()
-    && close(lhs.getPosition(), rhs.getPosition(), acc)
+    && close(lhs.get_position(), rhs.get_position(), acc)
     && close(lhs.getTextureCoordinates(), rhs.getTextureCoordinates(), acc);
 }
 
@@ -146,11 +146,11 @@ bool close(const Vertex2& lhs, const Vertex2& rhs, Vertex2::ComparisonType acc)
 
 std::ostream& operator<<(std::ostream& os, const Vertex2& v)
 {
-  return os << "{Position = " << transpose(v.getPosition())
+  return os << "{Position = " << transpose(v.get_position())
             << ", TextureCoordinates = " << transpose(v.getTextureCoordinates())
             << ", Color = " << v.getColor() << "}";
 }
-Mesh2 createRectangleMesh2(const Vec2f& size)
+Mesh2 createRectangleMesh2(const vec2f& size)
 {
   return createGenericRectangleMesh2(
     0.f, 0.f, size.x(), size.y(), 0.f, 0.f, 1.f, 1.f);
@@ -158,41 +158,41 @@ Mesh2 createRectangleMesh2(const Vec2f& size)
 
 
 
-Mesh2 createRectangleOutlineMesh2(const Vec2f& size, float thickness)
+Mesh2 createRectangleOutlineMesh2(const vec2f& size, float thickness)
 {
-  Rectf er(Vec2f::zero(), size);
-  Vec2f tv(thickness, thickness);
-  Rectf ir(tv, size - 2 * tv);
+  rectf er(vec2f::zero(), size);
+  vec2f tv(thickness, thickness);
+  rectf ir(tv, size - 2 * tv);
   return Mesh2(MeshDrawMode::TriangleStrip, MeshFillMode::Fill,
     std::vector<Vertex2>{
-      Vertex2(Vec2f(er.l(), er.t()), Vec2f::zero(), Color::White),
-      Vertex2(Vec2f(ir.l(), ir.t()), Vec2f::zero(), Color::White),
-      Vertex2(Vec2f(er.l(), er.b()), Vec2f::zero(), Color::White),
-      Vertex2(Vec2f(ir.l(), ir.b()), Vec2f::zero(), Color::White),
-      Vertex2(Vec2f(er.r(), er.b()), Vec2f::zero(), Color::White),
-      Vertex2(Vec2f(ir.r(), ir.b()), Vec2f::zero(), Color::White),
-      Vertex2(Vec2f(er.r(), er.t()), Vec2f::zero(), Color::White),
-      Vertex2(Vec2f(ir.r(), ir.t()), Vec2f::zero(), Color::White),
-      Vertex2(Vec2f(er.l(), er.t()), Vec2f::zero(), Color::White),
-      Vertex2(Vec2f(ir.l(), ir.t()), Vec2f::zero(), Color::White)});
+      Vertex2(vec2f(er.l(), er.t()), vec2f::zero(), Color::White),
+      Vertex2(vec2f(ir.l(), ir.t()), vec2f::zero(), Color::White),
+      Vertex2(vec2f(er.l(), er.b()), vec2f::zero(), Color::White),
+      Vertex2(vec2f(ir.l(), ir.b()), vec2f::zero(), Color::White),
+      Vertex2(vec2f(er.r(), er.b()), vec2f::zero(), Color::White),
+      Vertex2(vec2f(ir.r(), ir.b()), vec2f::zero(), Color::White),
+      Vertex2(vec2f(er.r(), er.t()), vec2f::zero(), Color::White),
+      Vertex2(vec2f(ir.r(), ir.t()), vec2f::zero(), Color::White),
+      Vertex2(vec2f(er.l(), er.t()), vec2f::zero(), Color::White),
+      Vertex2(vec2f(ir.l(), ir.t()), vec2f::zero(), Color::White)});
 }
 
 
 
-Mesh2 createEllipseMesh2(const Vec2f& size, uint pointCount)
+Mesh2 createEllipseMesh2(const vec2f& size, uint pointCount)
 {
-  Vec2f radius = size / 2.f;
+  vec2f radius = size / 2.f;
 
   std::vector<Vertex2> vertices(pointCount + 2);
-  vertices[0].setPosition(radius);
+  vertices[0].set_position(radius);
   vertices[0].setColor(Color::White);
 
   float t = 0.f;
-  float dt = 2.f * PI_F / pointCount;
+  float dt = 2.f * pi_f / pointCount;
   for(size_t i = 1; i < vertices.size(); ++i)
   {
-    Vec2f dPos(radius.x() * cosf(t), radius.y() * sinf(t));
-    vertices[i].setPosition(radius + dPos);
+    vec2f dPos(radius.x() * cosf(t), radius.y() * sinf(t));
+    vertices[i].set_position(radius + dPos);
     vertices[i].setColor(Color::White);
     t += dt;
   }
@@ -202,27 +202,27 @@ Mesh2 createEllipseMesh2(const Vec2f& size, uint pointCount)
 
 
 Mesh2 createEllipseOutlineMesh2(
-  const Vec2f& size, uint pointCount, float thickness)
+  const vec2f& size, uint pointCount, float thickness)
 {
-  Vec2f eRadius = size / 2.f;
-  Vec2f iRadius = eRadius - Vec2f(thickness, thickness);
+  vec2f eRadius = size / 2.f;
+  vec2f iRadius = eRadius - vec2f(thickness, thickness);
 
   float t = 0.f;
-  float dt = 2 * PI_F / pointCount;
+  float dt = 2 * pi_f / pointCount;
   std::vector<Vertex2> vertices(2 * pointCount + 2);
   for(size_t i = 0; i < vertices.size(); ++i)
   {
     float c = cosf(t);
     float s = sinf(t);
 
-    Vec2f edPos(eRadius.x() * c, eRadius.y() * s);
-    vertices[i].setPosition(eRadius + edPos);
+    vec2f edPos(eRadius.x() * c, eRadius.y() * s);
+    vertices[i].set_position(eRadius + edPos);
     vertices[i].setColor(Color::White);
     ++i;
     HOU_ENSURE_DEV(i < vertices.size());
 
-    Vec2f idPos(iRadius.x() * c, iRadius.y() * s);
-    vertices[i].setPosition(eRadius + idPos);
+    vec2f idPos(iRadius.x() * c, iRadius.y() * s);
+    vertices[i].set_position(eRadius + idPos);
     vertices[i].setColor(Color::White);
 
     t += dt;
@@ -232,7 +232,7 @@ Mesh2 createEllipseOutlineMesh2(
 
 
 
-Mesh2 createTextureQuadMesh2(const Rectf& rect, const Vec2f& textureSize)
+Mesh2 createTextureQuadMesh2(const rectf& rect, const vec2f& textureSize)
 {
   return createGenericRectangleMesh2(0.f, 0.f, rect.w(), rect.h(),
     rect.x() / textureSize.x(), rect.y() / textureSize.y(),

@@ -88,7 +88,7 @@ public:
    *
    *  \return the position of the Window frame.
    */
-  Vec2i getFramePosition() const;
+  vec2i getFramePosition() const;
 
   /** Gets the size of the Window frame.
    *
@@ -96,16 +96,16 @@ public:
    *
    *  \return the size of the Window frame.
    */
-  Vec2u getFrameSize() const;
+  vec2u getFrameSize() const;
 
-  /** Sets the Window frame rectangle.
+  /** Sets the Window frame ph_rectangle.
    *
-   *  The Window frame rectangle includes the borders.
+   *  The Window frame ph_rectangle includes the borders.
    *
    *  \param pos the Window frame position.
    *  \param size the window frame size.
    */
-  virtual void setFrameRect(const Vec2i& pos, const Vec2u& size) = 0;
+  virtual void setFrameRect(const vec2i& pos, const vec2u& size) = 0;
 
   /** Sets the position of the Window frame.
    *
@@ -114,7 +114,7 @@ public:
    *
    *  \param pos the position of the Window frame.
    */
-  void setFramePosition(const Vec2i& pos);
+  void setFramePosition(const vec2i& pos);
 
   /** Sets the size of the Window frame.
    *
@@ -122,7 +122,7 @@ public:
    *
    *  \param size the size of the Window frame.
    */
-  void setFrameSize(const Vec2u& size);
+  void setFrameSize(const vec2u& size);
 
   /** Gets the position of the Window client.
    *
@@ -131,7 +131,7 @@ public:
    *
    *  \return the position of the Window client.
    */
-  Vec2i getClientPosition() const;
+  vec2i getClientPosition() const;
 
   /** Gets the size of the Window client.
    *
@@ -139,16 +139,16 @@ public:
    *
    *  \return the size of the Window client.
    */
-  Vec2u getClientSize() const;
+  vec2u getClientSize() const;
 
-  /** Sets the Window client rectangle.
+  /** Sets the Window client ph_rectangle.
    *
-   *  The Window client rectangle does not include the borders.
+   *  The Window client ph_rectangle does not include the borders.
    *
    *  \param pos the Window client position.
    *  \param size the Window client size.
    */
-  virtual void setClientRect(const Vec2i& pos, const Vec2u& size) = 0;
+  virtual void setClientRect(const vec2i& pos, const vec2u& size) = 0;
 
   /** Sets the position of the Window client.
    *
@@ -157,7 +157,7 @@ public:
    *
    *  \param pos the position of the Window client.
    */
-  void setClientPosition(const Vec2i& pos);
+  void setClientPosition(const vec2i& pos);
 
   /** Sets the size of the Window client.
    *
@@ -165,7 +165,7 @@ public:
    *
    *  \param size the size of the Window client.
    */
-  void setClientSize(const Vec2u& size);
+  void setClientSize(const vec2u& size);
 
   /** Gets the number of bytes per pixel of this Window.
    *

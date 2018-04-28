@@ -5,10 +5,10 @@
 #ifndef HOU_MTH_ROTATION_2_HPP
 #define HOU_MTH_ROTATION_2_HPP
 
-#include "hou/mth/MthExport.hpp"
+#include "hou/mth/mth_export.hpp"
 
-#include "hou/mth/MatrixFwd.hpp"
-#include "hou/mth/Rotation2Fwd.hpp"
+#include "hou/mth/matrix_fwd.hpp"
+#include "hou/mth/rotation2_fwd.hpp"
 
 #include <iostream>
 #include <limits>
@@ -21,42 +21,42 @@ namespace hou
 /** Represents a rotation in 2d space.
  *
  *  The rotation is internally represented as an angle expressed in radians in
- *  the range (-PI_F; Pi].
+ *  the range (-pi_f; Pi].
  *
  *  \tparam T the scalar type.
  */
 template <typename T>
-  class HOU_MTH_API Rotation2
+  class HOU_MTH_API rotation2
 {
 public:
-  template <typename otherT> friend class Rotation2;
+  template <typename otherT> friend class rotation2;
 
 public:
   /** Returns the identity rotation.
    *
    *  \return the identity rotation.
    */
-  static Rotation2 identity();
+  static rotation2 identity();
 
 public:
   /** Creates an identity rotation.
    */
-  Rotation2();
+  rotation2();
 
   /** Creates a rotation with the given rotation angle.
    *
    *  \param angle the angle in radians.
    */
-  explicit Rotation2(T angle);
+  explicit rotation2(T angle);
 
-  /** Creates a rotation with the given rotation matrix.
+  /** Creates a rotation with the given rotation ph_matrix.
    *
-   *  Throws if the matrix is not a valid rotation matrix (determinant equal to
+   *  Throws if the ph_matrix is not a valid rotation ph_matrix (determinant equal to
    *  one and transpose equal to its inverse).
    *
-   *  \param m the rotation matrix.
+   *  \param m the rotation ph_matrix.
    */
-  explicit Rotation2(const Mat2x2<T>& m);
+  explicit rotation2(const mat2x2<T>& m);
 
   /** Creates a rotation from a rotation with different scalar type.
    *
@@ -64,37 +64,37 @@ public:
    *  \param other the rotation to be copied.
    */
   template <typename U>
-    HOU_MTH_API Rotation2(const Rotation2<U>& other);
+    HOU_MTH_API rotation2(const rotation2<U>& other);
 
   /** Returns the rotation angle.
    *
-   *  The angle is expressed in radians and included in the range (-PI_F; Pi].
+   *  The angle is expressed in radians and included in the range (-pi_f; Pi].
    *
    *  \return the rotation angle.
    */
-  T getAngle() const;
+  T get_angle() const;
 
-  /** Returns the rotation matrix.
+  /** Returns the rotation ph_matrix.
    *
-   *  \return the rotation matrix.
+   *  \return the rotation ph_matrix.
    */
-  Mat2x2<T> getMatrix() const;
+  mat2x2<T> get_matrix() const;
 
   /** Combines this rotation with the given rotation.
    *
    *  \param rhs the rotation to be combined.
    *  \return a reference to this rotation after the combination.
    */
-  Rotation2& operator*=(const Rotation2& rhs);
+  rotation2& operator*=(const rotation2& rhs);
 
   /** Inverts this rotation.
    *
    *  \return a reference to this rotation after the inversion.
    */
-  Rotation2& invert();
+  rotation2& invert();
 
 private:
-  T mAngle;
+  T m_angle;
 };
 
 /** Computes the combination of two rotations.
@@ -105,7 +105,7 @@ private:
  *  \return a rotation representing the two combined rotations.
  */
 template <typename T>
-  HOU_MTH_API Rotation2<T> operator*(Rotation2<T> lhs, const Rotation2<T>& rhs);
+  HOU_MTH_API rotation2<T> operator*(rotation2<T> lhs, const rotation2<T>& rhs);
 
 /** Computes the inverse of the given rotation.
  *
@@ -114,7 +114,7 @@ template <typename T>
  *  \return the inverse rotation.
  */
 template <typename T>
-  HOU_MTH_API Rotation2<T> inverse(Rotation2<T> r);
+  HOU_MTH_API rotation2<T> inverse(rotation2<T> r);
 
 /** Checks if two rotations are equal.
  *
@@ -124,7 +124,7 @@ template <typename T>
  *  \return the result of the comparison.
  */
 template <typename T>
-  HOU_MTH_API bool operator==(const Rotation2<T>& lhs, const Rotation2<T>& rhs);
+  HOU_MTH_API bool operator==(const rotation2<T>& lhs, const rotation2<T>& rhs);
 
 /** Checks if two rotations are not equal.
  *
@@ -134,7 +134,7 @@ template <typename T>
  *  \return the result of the comparison.
  */
 template <typename T>
-  HOU_MTH_API bool operator!=(const Rotation2<T>& lhs, const Rotation2<T>& rhs);
+  HOU_MTH_API bool operator!=(const rotation2<T>& lhs, const rotation2<T>& rhs);
 
 /** Checks if two rotations are equal with the given accuracy.
  *
@@ -145,7 +145,7 @@ template <typename T>
  *  \return the result of the comparison.
  */
 template <typename T>
-  HOU_MTH_API bool close(const Rotation2<T>& lhs, const Rotation2<T>& rhs
+  HOU_MTH_API bool close(const rotation2<T>& lhs, const rotation2<T>& rhs
   , T acc = std::numeric_limits<T>::epsilon());
 
 /** Writes the object into a stream.
@@ -156,7 +156,7 @@ template <typename T>
  *  \return a reference to the stream.
  */
 template <typename T>
-  HOU_MTH_API std::ostream& operator<<(std::ostream& os, const Rotation2<T>& r);
+  HOU_MTH_API std::ostream& operator<<(std::ostream& os, const rotation2<T>& r);
 
 }
 

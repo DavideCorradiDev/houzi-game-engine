@@ -12,7 +12,7 @@
 #include "hou/gfx/Texture.hpp"
 #include "hou/gfx/Vertex2Fwd.hpp"
 
-#include "hou/mth/Transform2.hpp"
+#include "hou/mth/transform2.hpp"
 
 #include "hou/sys/Color.hpp"
 
@@ -60,18 +60,18 @@ public:
    *
    *  \param trans the transform to be used.
    */
-  void setTransform(const Trans2f& trans);
+  void setTransform(const trans2f& trans);
 
   void draw(RenderSurface& target, const Mesh2& mesh, const Texture2& tex,
-    const Color& col = Color::White, const Trans2f& trn = Trans2f::identity());
+    const Color& col = Color::White, const trans2f& trn = trans2f::identity());
 
   void draw(RenderSurface& target, const Mesh2& mesh,
-    const Color& col = Color::White, const Trans2f& trn = Trans2f::identity());
+    const Color& col = Color::White, const trans2f& trn = trans2f::identity());
 
   void draw(RenderSurface& target, const Mesh2& mesh, const Texture2& tex,
-    const Trans2f& trn);
+    const trans2f& trn);
 
-  void draw(RenderSurface& target, const Mesh2& mesh, const Trans2f& trn);
+  void draw(RenderSurface& target, const Mesh2& mesh, const trans2f& trn);
 
 private:
   Texture2 mBlankTexture;

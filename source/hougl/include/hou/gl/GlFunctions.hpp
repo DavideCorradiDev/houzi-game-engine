@@ -12,7 +12,7 @@
 
 #include "hou/cor/basic_types.hpp"
 
-#include "hou/mth/RectangleFwd.hpp"
+#include "hou/mth/rectangle_fwd.hpp"
 
 
 

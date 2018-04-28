@@ -46,7 +46,7 @@ void RenderSurface::setDefaultRenderTarget()
 
 
 
-Vec2u RenderSurface::getMaxSize()
+vec2u RenderSurface::getMaxSize()
 {
   return AttachmentType::getMaxSize();
 }
@@ -60,13 +60,13 @@ uint RenderSurface::getMaxSampleCount()
 
 
 
-RenderSurface::RenderSurface(const Vec2u& size, uint sampleCount)
+RenderSurface::RenderSurface(const vec2u& size, uint sampleCount)
   : non_copyable()
   , mFrameBuffer()
   , mColorAttachment(nullptr)
   , mDepthStencilAttachment(nullptr)
   , mSampleCount(sampleCount)
-  , mViewport(Recti(0, 0, size.x(), size.y()))
+  , mViewport(recti(0, 0, size.x(), size.y()))
 {
   buildFramebuffer(size, sampleCount);
 }
@@ -89,28 +89,28 @@ RenderSurface::~RenderSurface()
 
 
 
-Recti RenderSurface::getDefaultViewport() const
+recti RenderSurface::getDefaultViewport() const
 {
-  return Recti(Vec2i(0, 0), getSize());
+  return recti(vec2i(0, 0), get_size());
 }
 
 
 
-const Recti& RenderSurface::getViewport() const
+const recti& RenderSurface::getViewport() const
 {
   return mViewport;
 }
 
 
 
-void RenderSurface::setViewport(const Recti& viewport)
+void RenderSurface::setViewport(const recti& viewport)
 {
   mViewport = viewport;
 }
 
 
 
-Vec2u RenderSurface::getSize() const
+vec2u RenderSurface::get_size() const
 {
   HOU_EXPECT_DEV(mColorAttachment != nullptr);
   return mColorAttachment->getSize2();
@@ -147,8 +147,8 @@ void RenderSurface::clear(const Color& color)
 
 Texture2 RenderSurface::toTexture() const
 {
-  Texture2 tex(getSize());
-  Recti blitRect(Vec2i::zero(), static_cast<Vec2i>(getSize()));
+  Texture2 tex(get_size());
+  recti blitRect(vec2i::zero(), static_cast<vec2i>(get_size()));
   blit(mFrameBuffer, blitRect, tex, blitRect, FrameBufferBlitFilter::Nearest);
   return tex;
 }
@@ -169,7 +169,7 @@ bool RenderSurface::isCurrentRenderTarget() const
 
 
 
-void RenderSurface::buildFramebuffer(const Vec2u& size, uint sampleCount)
+void RenderSurface::buildFramebuffer(const vec2u& size, uint sampleCount)
 {
   HOU_ENSURE_DEV(GraphicContext::getRenderingColorByteCount() == 4u);
   HOU_ENSURE_DEV(GraphicContext::getRenderingDepthByteCount() == 3u);
@@ -207,8 +207,8 @@ void RenderSurface::buildFramebuffer(const Vec2u& size, uint sampleCount)
 
 
 
-void blit(const RenderSurface& src, const Recti& srcRect, RenderSurface& dst,
-  const Recti& dstRect, FrameBufferBlitFilter filter)
+void blit(const RenderSurface& src, const recti& srcRect, RenderSurface& dst,
+  const recti& dstRect, FrameBufferBlitFilter filter)
 {
   blit(src.mFrameBuffer, srcRect, dst.mFrameBuffer, dstRect,
     FrameBufferBlitMask::All, filter);
@@ -216,16 +216,16 @@ void blit(const RenderSurface& src, const Recti& srcRect, RenderSurface& dst,
 
 
 
-void blit(const RenderSurface& src, const Recti& srcRect, Texture& dst,
-  const Recti& dstRect, FrameBufferBlitFilter filter)
+void blit(const RenderSurface& src, const recti& srcRect, Texture& dst,
+  const recti& dstRect, FrameBufferBlitFilter filter)
 {
   blit(src.mFrameBuffer, srcRect, dst, dstRect, filter);
 }
 
 
 
-void blit(const Texture& src, const Recti& srcRect, RenderSurface& dst,
-  const Recti& dstRect, FrameBufferBlitFilter filter)
+void blit(const Texture& src, const recti& srcRect, RenderSurface& dst,
+  const recti& dstRect, FrameBufferBlitFilter filter)
 {
   blit(src, srcRect, dst.mFrameBuffer, dstRect, filter);
 }

@@ -12,8 +12,8 @@
 #include "hou/cor/std_string.hpp"
 #include "hou/cor/std_vector.hpp"
 
-#include "hou/mth/Rectangle.hpp"
-#include "hou/mth/Transform2.hpp"
+#include "hou/mth/rectangle.hpp"
+#include "hou/mth/transform2.hpp"
 
 #include "hou/gfx/Mesh.hpp"
 #include "hou/gfx/TextBoxFormattingParams.hpp"
@@ -83,12 +83,12 @@ public:
    *
    * \return the text bounding box.
    */
-  const Rectf& getBoundingBox() const;
+  const rectf& getBoundingBox() const;
 
 private:
   std::unique_ptr<Texture2Array> mAtlas;
   std::unique_ptr<TextMesh> mMesh;
-  Rectf mBoundingBox;
+  rectf mBoundingBox;
 };
 
 }  // namespace hou

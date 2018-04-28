@@ -12,15 +12,15 @@
 namespace hou
 {
 
-template <typename T> class Rotation3;
+template <typename T> class rotation3;
 
 /** 3d rotation */
 template <typename T>
-  using Rot3 = Rotation3<T>;
+  using Rot3 = rotation3<T>;
 /** float 3d rotation */
-using Rot3f = Rotation3<float>;
+using Rot3f = rotation3<float>;
 /** double 3d rotation */
-using Rot3d = Rotation3<double>;
+using Rot3d = rotation3<double>;
 
 }
 

@@ -13,8 +13,8 @@
 #include "hou/cor/not_null.hpp"
 #include "hou/cor/span.hpp"
 
-#include "hou/mth/MatrixFwd.hpp"
-#include "hou/mth/RectangleFwd.hpp"
+#include "hou/mth/matrix_fwd.hpp"
+#include "hou/mth/rectangle_fwd.hpp"
 
 #include "hou/sys/BinaryStreamIn.hpp"
 
@@ -135,13 +135,13 @@ public:
    *
    * \return the bounding box.
    */
-  Recti getGlyphBoundingBox() const;
+  recti getGlyphBoundingBox() const;
 
   /** Get a bounding box capable of containing any glyph in the font in pixels.
    *
    * \return the bounding box.
    */
-  Rectf getPixelGlyphBoundingBox() const;
+  rectf getPixelGlyphBoundingBox() const;
 
   /** Get the line spacing in 26.6 pixel format.
    *
@@ -214,7 +214,7 @@ public:
    * \param second the second character.
    * \return the kerning between the two characters.
    */
-  Vec2i getKerning(utf32::code_unit first, utf32::code_unit second) const;
+  vec2i getKerning(utf32::code_unit first, utf32::code_unit second) const;
 
   /** Gets the kerning between two characters in pixels.
    *
@@ -222,7 +222,7 @@ public:
    * \param second the second character.
    * \return the kerning between the two characters.
    */
-  Vec2f getPixelKerning(utf32::code_unit first, utf32::code_unit second) const;
+  vec2f getPixelKerning(utf32::code_unit first, utf32::code_unit second) const;
 
   // Values of ascender and descender are not standardized and therefore not
   // reliable.

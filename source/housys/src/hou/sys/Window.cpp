@@ -9,7 +9,7 @@
 
 #include "hou/cor/uid_generator.hpp"
 
-#include "hou/mth/Rectangle.hpp"
+#include "hou/mth/rectangle.hpp"
 
 #include <thread>
 
@@ -93,25 +93,25 @@ void Window::setTitle(const std::string& title)
 
 
 
-Vec2i Window::getFramePosition() const
+vec2i Window::getFramePosition() const
 {
-  return mImpl.getFrameRect().getPosition();
+  return mImpl.getFrameRect().get_position();
 }
 
 
 
-Vec2u Window::getFrameSize() const
+vec2u Window::getFrameSize() const
 {
-  return static_cast<Vec2u>(mImpl.getFrameRect().getSize());
+  return static_cast<vec2u>(mImpl.getFrameRect().get_size());
 }
 
 
 
-void Window::setFrameRect(const Vec2i& pos, const Vec2u& size)
+void Window::setFrameRect(const vec2i& pos, const vec2u& size)
 {
-  Vec2u oldClientSize = getClientSize();
-  mImpl.setFrameRect(Recti(pos, static_cast<Vec2i>(size)));
-  Vec2u newClientSize = getClientSize();
+  vec2u oldClientSize = getClientSize();
+  mImpl.setFrameRect(recti(pos, static_cast<vec2i>(size)));
+  vec2u newClientSize = getClientSize();
   if(oldClientSize != newClientSize)
   {
     pushEvent(WindowEvent::resized(newClientSize.x(), newClientSize.y()));
@@ -120,39 +120,39 @@ void Window::setFrameRect(const Vec2i& pos, const Vec2u& size)
 
 
 
-void Window::setFramePosition(const Vec2i& pos)
+void Window::setFramePosition(const vec2i& pos)
 {
   setFrameRect(pos, getFrameSize());
 }
 
 
 
-void Window::setFrameSize(const Vec2u& size)
+void Window::setFrameSize(const vec2u& size)
 {
   setFrameRect(getFramePosition(), size);
 }
 
 
 
-Vec2i Window::getClientPosition() const
+vec2i Window::getClientPosition() const
 {
-  return mImpl.getClientRect().getPosition();
+  return mImpl.getClientRect().get_position();
 }
 
 
 
-Vec2u Window::getClientSize() const
+vec2u Window::getClientSize() const
 {
-  return static_cast<Vec2u>(mImpl.getClientRect().getSize());
+  return static_cast<vec2u>(mImpl.getClientRect().get_size());
 }
 
 
 
-void Window::setClientRect(const Vec2i& pos, const Vec2u& size)
+void Window::setClientRect(const vec2i& pos, const vec2u& size)
 {
-  Vec2u oldClientSize = getClientSize();
-  mImpl.setClientRect(Recti(pos, static_cast<Vec2i>(size)));
-  Vec2u newClientSize = getClientSize();
+  vec2u oldClientSize = getClientSize();
+  mImpl.setClientRect(recti(pos, static_cast<vec2i>(size)));
+  vec2u newClientSize = getClientSize();
   if(oldClientSize != newClientSize)
   {
     pushEvent(WindowEvent::resized(newClientSize.x(), newClientSize.y()));
@@ -161,14 +161,14 @@ void Window::setClientRect(const Vec2i& pos, const Vec2u& size)
 
 
 
-void Window::setClientPosition(const Vec2i& pos)
+void Window::setClientPosition(const vec2i& pos)
 {
   setClientRect(pos, getClientSize());
 }
 
 
 
-void Window::setClientSize(const Vec2u& size)
+void Window::setClientSize(const vec2u& size)
 {
   setClientRect(getClientPosition(), size);
 }
@@ -328,7 +328,7 @@ void Window::reactToEvent(const WindowEvent& event)
   if(event.getType() == WindowEventType::Resized)
   {
     const WindowEvent::SizeData& data = event.getSizeData();
-    setClientSize(Vec2u(data.sizeX, data.sizeY));
+    setClientSize(vec2u(data.sizeX, data.sizeY));
   }
 }
 

@@ -20,14 +20,14 @@ std::vector<VideoMode> VideoMode::getFullscreenModes()
 
 
 
-VideoMode::VideoMode(const Vec2u& resolution, uint bytesPerPixel)
+VideoMode::VideoMode(const vec2u& resolution, uint bytesPerPixel)
   : mResolution(resolution)
   , mBytesPerPixel(bytesPerPixel)
 {}
 
 
 
-const Vec2u& VideoMode::get_resolution() const
+const vec2u& VideoMode::get_resolution() const
 {
   return mResolution;
 }

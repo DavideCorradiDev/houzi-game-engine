@@ -9,7 +9,7 @@
 
 #include "hou/cor/basic_types.hpp"
 
-#include "hou/mth/Matrix.hpp"
+#include "hou/mth/matrix.hpp"
 
 #include <ostream>
 #include <vector>
@@ -42,13 +42,13 @@ public:
    *  \param resolution the screen resolution.
    *  \param bytesPerPixel the number of bits per pixel.
    */
-  VideoMode(const Vec2u& resolution, uint bytesPerPixel);
+  VideoMode(const vec2u& resolution, uint bytesPerPixel);
 
   /** Retrieves the screen resolution.
    *
    *  \return the screen resolution.
    */
-  const Vec2u& get_resolution() const;
+  const vec2u& get_resolution() const;
 
   /** Retrieves the number of bits per pixel.
    *
@@ -66,7 +66,7 @@ private:
   static std::vector<VideoMode> createFullscreenModesVector();
 
 private:
-  Vec2u mResolution;
+  vec2u mResolution;
   uint mBytesPerPixel;
 };
 

@@ -8,7 +8,7 @@
 #include "hou/cor/non_copyable.hpp"
 #include "hou/gfx/GfxExport.hpp"
 
-#include "hou/mth/MatrixFwd.hpp"
+#include "hou/mth/matrix_fwd.hpp"
 
 #include "hou/gfx/TextureFilter.hpp"
 #include "hou/gfx/TextureFormat.hpp"
@@ -144,19 +144,19 @@ public:
    *
    * \return a vector containing the width of the texture.
    */
-  Vec1u getSize1() const;
+  vec1u getSize1() const;
 
   /** Retrieves a vector containing the width and height of the texture.
    *
    * \return a vector containing the width and height of the texture.
    */
-  Vec2u getSize2() const;
+  vec2u getSize2() const;
 
   /** Retrieves a vector containing the width, height and depth of the texture.
    *
    * \return a vector containing the width, height and depth of the texture.
    */
-  Vec3u getSize3() const;
+  vec3u getSize3() const;
 
   /** Retrieves the channel mapping of the texture.
    *
@@ -326,7 +326,7 @@ public:
    *
    * \return the size of the texture.
    */
-  Size getSize() const;
+  Size get_size() const;
 
   /** Retrieves the texture filter.
    *

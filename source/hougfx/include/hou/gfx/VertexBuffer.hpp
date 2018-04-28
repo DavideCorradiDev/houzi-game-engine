@@ -142,7 +142,7 @@ public:
    *
    *  \return the number of elements in the buffer.
    */
-  uint getSize() const;
+  uint get_size() const;
 
   /** Retrieves the data contained in the buffer.
    *

@@ -9,7 +9,7 @@
 #include "hou/sys/VideoMode.hpp"
 #include "hou/sys/WindowEvent.hpp"
 
-#include "hou/mth/Rectangle.hpp"
+#include "hou/mth/rectangle.hpp"
 
 #include <thread>
 
@@ -34,9 +34,9 @@ class TestSystemWindowDeathTest : public TestSystemWindow
 TEST_F(TestSystemWindow, CreateWindowed)
 {
   std::string titleRef("SystemWindow");
-  Vec2u sizeRef(300u, 600u);
-  Vec2u screenSize = VideoMode::getDesktopMode().get_resolution();
-  Vec2i posRef = static_cast<Vec2i>(screenSize - sizeRef) / 2;
+  vec2u sizeRef(300u, 600u);
+  vec2u screenSize = VideoMode::getDesktopMode().get_resolution();
+  vec2i posRef = static_cast<vec2i>(screenSize - sizeRef) / 2;
   uint bbpRef = 4u;
   WindowStyle styleRef = WindowStyle::Windowed;
   Image2RGBA iconRef;
@@ -61,9 +61,9 @@ TEST_F(TestSystemWindow, CreateWindowed)
 TEST_F(TestSystemWindow, CreateWindowedResizable)
 {
   std::string titleRef("SystemWindow");
-  Vec2u sizeRef(300u, 600u);
-  Vec2u screenSize = VideoMode::getDesktopMode().get_resolution();
-  Vec2i posRef = static_cast<Vec2i>(screenSize - sizeRef) / 2;
+  vec2u sizeRef(300u, 600u);
+  vec2u screenSize = VideoMode::getDesktopMode().get_resolution();
+  vec2i posRef = static_cast<vec2i>(screenSize - sizeRef) / 2;
   uint bbpRef = 4u;
   WindowStyle styleRef = WindowStyle::WindowedResizable;
   Image2RGBA iconRef;
@@ -88,8 +88,8 @@ TEST_F(TestSystemWindow, CreateWindowedResizable)
 TEST_F(TestSystemWindow, CreateFullscreen)
 {
   std::string titleRef("SystemWindow");
-  Vec2u sizeRef(VideoMode::getDesktopMode().get_resolution());
-  Vec2i posRef(0, 0);
+  vec2u sizeRef(VideoMode::getDesktopMode().get_resolution());
+  vec2i posRef(0, 0);
   uint bbpRef(VideoMode::getDesktopMode().getBytesPerPixel());
   WindowStyle styleRef = WindowStyle::Fullscreen;
   Image2RGBA iconRef;
@@ -115,7 +115,7 @@ TEST_F(TestSystemWindow, CreateFullscreen)
 
 TEST_F(TestSystemWindowDeathTest, CreateFullscreenErrorInvalidVideoMode)
 {
-  HOU_EXPECT_ERROR(SystemWindow w1("Win", VideoMode(Vec2u::zero(), 32),
+  HOU_EXPECT_ERROR(SystemWindow w1("Win", VideoMode(vec2u::zero(), 32),
                      WindowStyle::Fullscreen),
     std::logic_error, get_text(cor_error::pre_condition));
 }
@@ -139,7 +139,7 @@ TEST_F(TestSystemWindow, CreateWindowMultithreadedEnvironment)
   // This test checks if everything runs fine when multiple threads try to
   // create a window.
   auto threadFun = []() {
-    SystemWindow w("Win", VideoMode(Vec2u::zero(), 0), WindowStyle::Windowed);
+    SystemWindow w("Win", VideoMode(vec2u::zero(), 0), WindowStyle::Windowed);
     std::this_thread::sleep_for(std::chrono::milliseconds(2));
   };
 
@@ -163,9 +163,9 @@ TEST_F(TestSystemWindow, CreateWindowMultithreadedEnvironment)
 TEST_F(TestSystemWindow, MoveConstructor)
 {
   std::string titleRef("SystemWindow");
-  Vec2u sizeRef(300u, 600u);
-  Vec2u screenSize = VideoMode::getDesktopMode().get_resolution();
-  Vec2i posRef = static_cast<Vec2i>(screenSize - sizeRef) / 2;
+  vec2u sizeRef(300u, 600u);
+  vec2u screenSize = VideoMode::getDesktopMode().get_resolution();
+  vec2i posRef = static_cast<vec2i>(screenSize - sizeRef) / 2;
   uint bbpRef = 4u;
   WindowStyle styleRef = WindowStyle::Windowed;
   Image2RGBA iconRef;
@@ -193,12 +193,12 @@ TEST_F(TestSystemWindow, MoveConstructor)
 TEST_F(TestSystemWindow, UidGeneration)
 {
   SystemWindow firstWindow(
-    "Win", VideoMode(Vec2u::zero(), 0), WindowStyle::Windowed);
+    "Win", VideoMode(vec2u::zero(), 0), WindowStyle::Windowed);
   uint32_t firstUid = firstWindow.getUid() + 1u;
 
   for(size_t i = 0; i < 5u; ++i)
   {
-    SystemWindow w("Win", VideoMode(Vec2u::zero(), 0), WindowStyle::Windowed);
+    SystemWindow w("Win", VideoMode(vec2u::zero(), 0), WindowStyle::Windowed);
     EXPECT_EQ(firstUid + i, w.getUid());
   }
 }
@@ -208,10 +208,10 @@ TEST_F(TestSystemWindow, UidGeneration)
 TEST_F(TestSystemWindow, FrameRect)
 {
   SystemWindow w(
-    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
-  Recti refRect = Recti(10, 20, 30, 40);
-  Vec2i pos(10, 20);
-  Vec2u size(30u, 40u);
+    "Win", VideoMode(vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  recti refRect = recti(10, 20, 30, 40);
+  vec2i pos(10, 20);
+  vec2u size(30u, 40u);
   w.setFrameRect(pos, size);
   EXPECT_EQ(pos, w.getFramePosition());
   EXPECT_EQ(size, w.getFrameSize());
@@ -222,8 +222,8 @@ TEST_F(TestSystemWindow, FrameRect)
 TEST_F(TestSystemWindow, FramePosition)
 {
   SystemWindow w(
-    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
-  Vec2i refPos = Vec2i(30, 40);
+    "Win", VideoMode(vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  vec2i refPos = vec2i(30, 40);
   w.setFramePosition(refPos);
   EXPECT_EQ(refPos, w.getFramePosition());
 }
@@ -233,8 +233,8 @@ TEST_F(TestSystemWindow, FramePosition)
 TEST_F(TestSystemWindow, FrameSize)
 {
   SystemWindow w(
-    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
-  Vec2u refSize = Vec2u(30u, 40u);
+    "Win", VideoMode(vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  vec2u refSize = vec2u(30u, 40u);
   w.setFrameSize(refSize);
   EXPECT_EQ(refSize, w.getFrameSize());
 }
@@ -244,10 +244,10 @@ TEST_F(TestSystemWindow, FrameSize)
 TEST_F(TestSystemWindow, ClientRect)
 {
   SystemWindow w(
-    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
-  Recti refRect = Recti(10, 20, 30, 40);
-  Vec2i pos(10, 20);
-  Vec2u size(30u, 40u);
+    "Win", VideoMode(vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  recti refRect = recti(10, 20, 30, 40);
+  vec2i pos(10, 20);
+  vec2u size(30u, 40u);
   w.setClientRect(pos, size);
   EXPECT_EQ(pos, w.getClientPosition());
   EXPECT_EQ(size, w.getClientSize());
@@ -258,8 +258,8 @@ TEST_F(TestSystemWindow, ClientRect)
 TEST_F(TestSystemWindow, ClientPosition)
 {
   SystemWindow w(
-    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
-  Vec2i refPos = Vec2i(30, 40);
+    "Win", VideoMode(vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  vec2i refPos = vec2i(30, 40);
   w.setClientPosition(refPos);
   EXPECT_EQ(refPos, w.getClientPosition());
 }
@@ -269,8 +269,8 @@ TEST_F(TestSystemWindow, ClientPosition)
 TEST_F(TestSystemWindow, ClientSize)
 {
   SystemWindow w(
-    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
-  Vec2u refSize = Vec2u(30u, 40u);
+    "Win", VideoMode(vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+  vec2u refSize = vec2u(30u, 40u);
   w.setClientSize(refSize);
   EXPECT_EQ(refSize, w.getClientSize());
 }
@@ -280,7 +280,7 @@ TEST_F(TestSystemWindow, ClientSize)
 TEST_F(TestSystemWindow, Title)
 {
   SystemWindow w(
-    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+    "Win", VideoMode(vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   std::string refTitle(u8"NewTitle");
   w.setTitle(refTitle);
   EXPECT_EQ(refTitle, w.getTitle());
@@ -291,7 +291,7 @@ TEST_F(TestSystemWindow, Title)
 TEST_F(TestSystemWindow, Icon)
 {
   SystemWindow w(
-    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+    "Win", VideoMode(vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   EXPECT_EQ(Image2RGBA(), w.getIcon());
   Image2RGBA refIcon(
     pngReadFile<PixelFormat::RGBA>(getDataDir() + u8"TestImage.png"));
@@ -306,7 +306,7 @@ TEST_F(TestSystemWindow, Icon)
 TEST_F(TestSystemWindow, Visibility)
 {
   SystemWindow w(
-    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+    "Win", VideoMode(vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   EXPECT_FALSE(w.isVisible());
 
   w.setVisible(true);
@@ -321,7 +321,7 @@ TEST_F(TestSystemWindow, Visibility)
 TEST_F(TestSystemWindow, CursorGrabbed)
 {
   SystemWindow w(
-    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+    "Win", VideoMode(vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   EXPECT_FALSE(w.isMouseCursorGrabbed());
 
   w.setMouseCursorGrabbed(true);
@@ -336,7 +336,7 @@ TEST_F(TestSystemWindow, CursorGrabbed)
 TEST_F(TestSystemWindow, KeyRepeatEnabled)
 {
   SystemWindow w(
-    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+    "Win", VideoMode(vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   EXPECT_FALSE(w.isKeyRepeatEnabled());
 
   w.setKeyRepeatEnabled(true);
@@ -351,9 +351,9 @@ TEST_F(TestSystemWindow, KeyRepeatEnabled)
 TEST_F(TestSystemWindow, Focus)
 {
   SystemWindow w1(
-    "Win1", VideoMode(Vec2u(640u, 480u), 32u), WindowStyle::Windowed);
+    "Win1", VideoMode(vec2u(640u, 480u), 32u), WindowStyle::Windowed);
   SystemWindow w2(
-    "Win2", VideoMode(Vec2u(640u, 480u), 32u), WindowStyle::Windowed);
+    "Win2", VideoMode(vec2u(640u, 480u), 32u), WindowStyle::Windowed);
   w1.setVisible(true);
   w2.setVisible(true);
 
@@ -374,7 +374,7 @@ TEST_F(TestSystemWindow, Focus)
 TEST_F(TestSystemWindow, EventQueuePushAndPop)
 {
   SystemWindow w(
-    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+    "Win", VideoMode(vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   WindowEvent e1(WindowEvent::closed());
   WindowEvent e2(WindowEvent::focusGained());
   WindowEvent e3(WindowEvent::focusLost());
@@ -401,7 +401,7 @@ TEST_F(TestSystemWindow, EventQueuePushAndPop)
 TEST_F(TestSystemWindow, EventQueueWaitEvent)
 {
   WindowEvent evRef = WindowEvent::focusGained();
-  SystemWindow w("Win", VideoMode(Vec2u::zero(), 0), WindowStyle::Windowed);
+  SystemWindow w("Win", VideoMode(vec2u::zero(), 0), WindowStyle::Windowed);
   auto threadFun = [&evRef, &w]() {
     // This thread will wait for an event, which will be generated by the
     // main thread.
@@ -422,10 +422,10 @@ TEST_F(TestSystemWindow, EventQueueWaitEvent)
 TEST_F(TestSystemWindow, GenerateResizeEventOnSetFrameSize)
 {
   SystemWindow w(
-    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+    "Win", VideoMode(vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   EXPECT_TRUE(w.isEventQueueEmpty());
 
-  w.setFrameSize(Vec2u(200u, 400u));
+  w.setFrameSize(vec2u(200u, 400u));
   WindowEvent eventRef
     = WindowEvent::resized(w.getClientSize().x(), w.getClientSize().y());
   EXPECT_FALSE(w.isEventQueueEmpty());
@@ -438,7 +438,7 @@ TEST_F(TestSystemWindow, GenerateResizeEventOnSetFrameSize)
 TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetFrameSizeWithSameSize)
 {
   SystemWindow w(
-    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+    "Win", VideoMode(vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   EXPECT_TRUE(w.isEventQueueEmpty());
 
   w.setFrameSize(w.getFrameSize());
@@ -450,10 +450,10 @@ TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetFrameSizeWithSameSize)
 TEST_F(TestSystemWindow, GenerateResizeEventOnSetFrameRect)
 {
   SystemWindow w(
-    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+    "Win", VideoMode(vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   EXPECT_TRUE(w.isEventQueueEmpty());
 
-  w.setFrameRect(Vec2i(32, 64), Vec2u(200u, 400u));
+  w.setFrameRect(vec2i(32, 64), vec2u(200u, 400u));
   WindowEvent eventRef
     = WindowEvent::resized(w.getClientSize().x(), w.getClientSize().y());
   EXPECT_FALSE(w.isEventQueueEmpty());
@@ -466,10 +466,10 @@ TEST_F(TestSystemWindow, GenerateResizeEventOnSetFrameRect)
 TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetFrameRectWithSameSize)
 {
   SystemWindow w(
-    "Win", VideoMode(Vec2u(200u, 400u), 32u), WindowStyle::Windowed);
+    "Win", VideoMode(vec2u(200u, 400u), 32u), WindowStyle::Windowed);
   EXPECT_TRUE(w.isEventQueueEmpty());
 
-  w.setFrameRect(Vec2i(32, 64), w.getFrameSize());
+  w.setFrameRect(vec2i(32, 64), w.getFrameSize());
   EXPECT_TRUE(w.isEventQueueEmpty());
 }
 
@@ -478,10 +478,10 @@ TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetFrameRectWithSameSize)
 TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetFramePos)
 {
   SystemWindow w(
-    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+    "Win", VideoMode(vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   EXPECT_TRUE(w.isEventQueueEmpty());
 
-  w.setFramePosition(Vec2i(32, 64));
+  w.setFramePosition(vec2i(32, 64));
   EXPECT_TRUE(w.isEventQueueEmpty());
 }
 
@@ -490,10 +490,10 @@ TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetFramePos)
 TEST_F(TestSystemWindow, GenerateResizeEventOnSetClientSize)
 {
   SystemWindow w(
-    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+    "Win", VideoMode(vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   EXPECT_TRUE(w.isEventQueueEmpty());
 
-  w.setClientSize(Vec2u(200u, 400u));
+  w.setClientSize(vec2u(200u, 400u));
   WindowEvent eventRef
     = WindowEvent::resized(w.getClientSize().x(), w.getClientSize().y());
   EXPECT_FALSE(w.isEventQueueEmpty());
@@ -506,7 +506,7 @@ TEST_F(TestSystemWindow, GenerateResizeEventOnSetClientSize)
 TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetClientSizeWithSameSize)
 {
   SystemWindow w(
-    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+    "Win", VideoMode(vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   EXPECT_TRUE(w.isEventQueueEmpty());
 
   w.setClientSize(w.getClientSize());
@@ -518,10 +518,10 @@ TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetClientSizeWithSameSize)
 TEST_F(TestSystemWindow, GenerateResizeEventOnSetClientRect)
 {
   SystemWindow w(
-    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+    "Win", VideoMode(vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   EXPECT_TRUE(w.isEventQueueEmpty());
 
-  w.setClientRect(Vec2i(32, 64), Vec2u(200u, 400u));
+  w.setClientRect(vec2i(32, 64), vec2u(200u, 400u));
   WindowEvent eventRef
     = WindowEvent::resized(w.getClientSize().x(), w.getClientSize().y());
   EXPECT_FALSE(w.isEventQueueEmpty());
@@ -534,10 +534,10 @@ TEST_F(TestSystemWindow, GenerateResizeEventOnSetClientRect)
 TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetClientRectWithSameSize)
 {
   SystemWindow w(
-    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+    "Win", VideoMode(vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   EXPECT_TRUE(w.isEventQueueEmpty());
 
-  w.setClientRect(Vec2i(32, 64), w.getClientSize());
+  w.setClientRect(vec2i(32, 64), w.getClientSize());
   EXPECT_TRUE(w.isEventQueueEmpty());
 }
 
@@ -546,10 +546,10 @@ TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetClientRectWithSameSize)
 TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetClientPos)
 {
   SystemWindow w(
-    "Win", VideoMode(Vec2u(300u, 600u), 32u), WindowStyle::Windowed);
+    "Win", VideoMode(vec2u(300u, 600u), 32u), WindowStyle::Windowed);
   EXPECT_TRUE(w.isEventQueueEmpty());
 
-  w.setClientPosition(Vec2i(32, 64));
+  w.setClientPosition(vec2i(32, 64));
   EXPECT_TRUE(w.isEventQueueEmpty());
 }
 

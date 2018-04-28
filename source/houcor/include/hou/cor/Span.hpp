@@ -189,7 +189,7 @@ public:
 
 private:
   pointer mData;
-  size_type mSize;
+  size_type m_size;
 };
 
 /** Checks if two span objects are equal.

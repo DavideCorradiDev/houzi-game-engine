@@ -9,7 +9,7 @@
 #include "hou/gfx/Vertex2.hpp"
 #include "hou/gfx/VertexFormat.hpp"
 
-#include "hou/mth/Rectangle.hpp"
+#include "hou/mth/rectangle.hpp"
 
 using namespace testing;
 using namespace hou;
@@ -39,8 +39,8 @@ TEST_F(TestVertex2, Size)
 TEST_F(TestVertex2, DefaultConstructor)
 {
   Vertex2 v;
-  HOU_EXPECT_FLOAT_CLOSE(Vec2f(0.f, 0.f), v.getPosition());
-  HOU_EXPECT_FLOAT_CLOSE(Vec2f(0.f, 0.f), v.getTextureCoordinates());
+  HOU_EXPECT_FLOAT_CLOSE(vec2f(0.f, 0.f), v.get_position());
+  HOU_EXPECT_FLOAT_CLOSE(vec2f(0.f, 0.f), v.getTextureCoordinates());
   EXPECT_EQ(Color(0u, 0u, 0u, 0u), v.getColor());
 }
 
@@ -48,12 +48,12 @@ TEST_F(TestVertex2, DefaultConstructor)
 
 TEST_F(TestVertex2, Constructor)
 {
-  Vec2f posRef(1.f, 2.f);
-  Vec2f tcRef(3.f, 4.f);
+  vec2f posRef(1.f, 2.f);
+  vec2f tcRef(3.f, 4.f);
   Color colRef(5u, 6u, 7u, 9u);
   Vertex2 v(posRef, tcRef, colRef);
 
-  HOU_EXPECT_FLOAT_CLOSE(posRef, v.getPosition());
+  HOU_EXPECT_FLOAT_CLOSE(posRef, v.get_position());
   HOU_EXPECT_FLOAT_CLOSE(tcRef, v.getTextureCoordinates());
   EXPECT_EQ(colRef, v.getColor());
 }
@@ -63,11 +63,11 @@ TEST_F(TestVertex2, Constructor)
 TEST_F(TestVertex2, SetPosition)
 {
   Vertex2 v;
-  HOU_EXPECT_FLOAT_CLOSE(Vec2f(0.f, 0.f), v.getPosition());
+  HOU_EXPECT_FLOAT_CLOSE(vec2f(0.f, 0.f), v.get_position());
 
-  Vec2f posRef(1.f, 2.f);
-  v.setPosition(posRef);
-  HOU_EXPECT_FLOAT_CLOSE(posRef, v.getPosition());
+  vec2f posRef(1.f, 2.f);
+  v.set_position(posRef);
+  HOU_EXPECT_FLOAT_CLOSE(posRef, v.get_position());
 }
 
 
@@ -75,9 +75,9 @@ TEST_F(TestVertex2, SetPosition)
 TEST_F(TestVertex2, SetTextureCoordinates)
 {
   Vertex2 v;
-  HOU_EXPECT_FLOAT_CLOSE(Vec2f(0.f, 0.f), v.getTextureCoordinates());
+  HOU_EXPECT_FLOAT_CLOSE(vec2f(0.f, 0.f), v.getTextureCoordinates());
 
-  Vec2f tcRef(3.f, 4.f);
+  vec2f tcRef(3.f, 4.f);
   v.setTextureCoordinates(tcRef);
   HOU_EXPECT_FLOAT_CLOSE(tcRef, v.getTextureCoordinates());
 }
@@ -98,11 +98,11 @@ TEST_F(TestVertex2, SetColor)
 
 TEST_F(TestVertex2, Comparison)
 {
-  Vertex2 v1(Vec2f(1.f, 2.f), Vec2f(3.f, 4.f), Color(5u, 6u, 7u, 8u));
-  Vertex2 v2(Vec2f(1.f, 2.f), Vec2f(3.f, 4.f), Color(5u, 6u, 7u, 8u));
-  Vertex2 v3(Vec2f(3.f, 2.f), Vec2f(3.f, 4.f), Color(5u, 6u, 7u, 8u));
-  Vertex2 v4(Vec2f(1.f, 2.f), Vec2f(3.f, 7.f), Color(5u, 6u, 7u, 8u));
-  Vertex2 v5(Vec2f(1.f, 2.f), Vec2f(3.f, 4.f), Color(5u, 6u, 1u, 8u));
+  Vertex2 v1(vec2f(1.f, 2.f), vec2f(3.f, 4.f), Color(5u, 6u, 7u, 8u));
+  Vertex2 v2(vec2f(1.f, 2.f), vec2f(3.f, 4.f), Color(5u, 6u, 7u, 8u));
+  Vertex2 v3(vec2f(3.f, 2.f), vec2f(3.f, 4.f), Color(5u, 6u, 7u, 8u));
+  Vertex2 v4(vec2f(1.f, 2.f), vec2f(3.f, 7.f), Color(5u, 6u, 7u, 8u));
+  Vertex2 v5(vec2f(1.f, 2.f), vec2f(3.f, 4.f), Color(5u, 6u, 1u, 8u));
 
   EXPECT_TRUE(v1 == v2);
   EXPECT_FALSE(v1 == v3);
@@ -119,10 +119,10 @@ TEST_F(TestVertex2, Comparison)
 
 TEST_F(TestVertex2, CloseComparison)
 {
-  Vec2f pos1(1.1234f, 3.3456f);
-  Vec2f pos2(1.1238f, 3.3456f);
-  Vec2f tc1(1.1234f, 3.3456f);
-  Vec2f tc2(1.1238f, 3.3456f);
+  vec2f pos1(1.1234f, 3.3456f);
+  vec2f pos2(1.1238f, 3.3456f);
+  vec2f tc1(1.1234f, 3.3456f);
+  vec2f tc2(1.1238f, 3.3456f);
   Color c1(5u, 6u, 7u, 8u);
   Color c2(9u, 6u, 7u, 8u);
 
@@ -152,7 +152,7 @@ TEST_F(TestVertex2, CloseComparison)
 
 TEST_F(TestVertex2, OutputStreamOperator)
 {
-  Vertex2 v(Vec2f(1.f, 2.f), Vec2f(3.f, 4.f), Color(5u, 6u, 7u, 8u));
+  Vertex2 v(vec2f(1.f, 2.f), vec2f(3.f, 4.f), Color(5u, 6u, 7u, 8u));
   const char* refOutput = "{Position = (1, 2), TextureCoordinates = (3, 4), "
                           "Color = {Red = 5, Green = 6, Blue = 7, Alpha = 8}}";
   HOU_EXPECT_OUTPUT(refOutput, v);
@@ -160,19 +160,19 @@ TEST_F(TestVertex2, OutputStreamOperator)
 
 
 
-TEST_F(TestMesh2, Rectangle)
+TEST_F(TestMesh2, rectangle)
 {
-  Mesh2 m = createRectangleMesh2(Vec2f(1.f, 2.f));
+  Mesh2 m = createRectangleMesh2(vec2f(1.f, 2.f));
 
   EXPECT_EQ(MeshDrawMode::TriangleFan, m.getDrawMode());
   EXPECT_EQ(MeshFillMode::Fill, m.getFillMode());
   EXPECT_EQ(4u, m.getVertexCount());
 
   std::vector<Vertex2> verticesRef{
-    Vertex2(Vec2f(0.f, 0.f), Vec2f(0.f, 0.f), Color::White),
-    Vertex2(Vec2f(0.f, 2.f), Vec2f(0.f, 1.f), Color::White),
-    Vertex2(Vec2f(1.f, 2.f), Vec2f(1.f, 1.f), Color::White),
-    Vertex2(Vec2f(1.f, 0.f), Vec2f(1.f, 0.f), Color::White)};
+    Vertex2(vec2f(0.f, 0.f), vec2f(0.f, 0.f), Color::White),
+    Vertex2(vec2f(0.f, 2.f), vec2f(0.f, 1.f), Color::White),
+    Vertex2(vec2f(1.f, 2.f), vec2f(1.f, 1.f), Color::White),
+    Vertex2(vec2f(1.f, 0.f), vec2f(1.f, 0.f), Color::White)};
   EXPECT_EQ(verticesRef, m.getVertices());
 }
 
@@ -180,23 +180,23 @@ TEST_F(TestMesh2, Rectangle)
 
 TEST_F(TestMesh2, RectangleOutline)
 {
-  Mesh2 m = createRectangleOutlineMesh2(Vec2f(6.f, 8.f), 2);
+  Mesh2 m = createRectangleOutlineMesh2(vec2f(6.f, 8.f), 2);
 
   EXPECT_EQ(MeshDrawMode::TriangleStrip, m.getDrawMode());
   EXPECT_EQ(MeshFillMode::Fill, m.getFillMode());
   EXPECT_EQ(10u, m.getVertexCount());
 
   std::vector<Vertex2> verticesRef{
-    Vertex2(Vec2f(0.f, 0.f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(2.f, 2.f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.f, 8.f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(2.f, 6.f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(6.f, 8.f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(4.f, 6.f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(6.f, 0.f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(4.f, 2.f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.f, 0.f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(2.f, 2.f), Vec2f::zero(), Color::White)};
+    Vertex2(vec2f(0.f, 0.f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(2.f, 2.f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.f, 8.f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(2.f, 6.f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(6.f, 8.f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(4.f, 6.f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(6.f, 0.f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(4.f, 2.f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.f, 0.f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(2.f, 2.f), vec2f::zero(), Color::White)};
   EXPECT_EQ(verticesRef, m.getVertices());
 }
 
@@ -204,23 +204,23 @@ TEST_F(TestMesh2, RectangleOutline)
 
 TEST_F(TestMesh2, Ellipse)
 {
-  Mesh2 m = createEllipseMesh2(Vec2f(1.f, 2.f), 8);
+  Mesh2 m = createEllipseMesh2(vec2f(1.f, 2.f), 8);
 
   EXPECT_EQ(MeshDrawMode::TriangleFan, m.getDrawMode());
   EXPECT_EQ(MeshFillMode::Fill, m.getFillMode());
   EXPECT_EQ(10u, m.getVertexCount());
 
   std::vector<Vertex2> verticesRef{
-    Vertex2(Vec2f(0.5f, 1.f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(1.f, 1.f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.853553f, 1.70711f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.5f, 2.f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.146447f, 1.70711f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.f, 1.f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.146447f, 0.292893f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.5f, 0.f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.853553f, 0.292893f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(1.f, 1.f), Vec2f::zero(), Color::White)};
+    Vertex2(vec2f(0.5f, 1.f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(1.f, 1.f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.853553f, 1.70711f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.5f, 2.f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.146447f, 1.70711f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.f, 1.f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.146447f, 0.292893f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.5f, 0.f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.853553f, 0.292893f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(1.f, 1.f), vec2f::zero(), Color::White)};
   HOU_EXPECT_CLOSE(verticesRef, m.getVertices(), 1e-5f);
 }
 
@@ -228,31 +228,31 @@ TEST_F(TestMesh2, Ellipse)
 
 TEST_F(TestMesh2, EllipseOutline)
 {
-  Mesh2 m = createEllipseOutlineMesh2(Vec2f(1.f, 2.f), 8, 0.25);
+  Mesh2 m = createEllipseOutlineMesh2(vec2f(1.f, 2.f), 8, 0.25);
 
   EXPECT_EQ(MeshDrawMode::TriangleStrip, m.getDrawMode());
   EXPECT_EQ(MeshFillMode::Fill, m.getFillMode());
   EXPECT_EQ(18u, m.getVertexCount());
 
   std::vector<Vertex2> verticesRef{
-    Vertex2(Vec2f(1.f, 1.f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.75f, 1.f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.853553f, 1.70711f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.676777f, 1.53033f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.5f, 2.f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.5f, 1.75f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.146447f, 1.70711f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.323223f, 1.53033f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.f, 1.f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.25f, 1.f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.146447f, 0.292893f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.323223f, 0.46967f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.5f, 0.f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.5f, 0.25f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.853553f, 0.292893f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.676777f, 0.46967f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(1.f, 1.f), Vec2f::zero(), Color::White),
-    Vertex2(Vec2f(0.75f, 1.f), Vec2f::zero(), Color::White)};
+    Vertex2(vec2f(1.f, 1.f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.75f, 1.f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.853553f, 1.70711f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.676777f, 1.53033f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.5f, 2.f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.5f, 1.75f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.146447f, 1.70711f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.323223f, 1.53033f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.f, 1.f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.25f, 1.f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.146447f, 0.292893f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.323223f, 0.46967f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.5f, 0.f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.5f, 0.25f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.853553f, 0.292893f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.676777f, 0.46967f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(1.f, 1.f), vec2f::zero(), Color::White),
+    Vertex2(vec2f(0.75f, 1.f), vec2f::zero(), Color::White)};
   HOU_EXPECT_CLOSE(verticesRef, m.getVertices(), 1e-5f);
 }
 
@@ -261,16 +261,16 @@ TEST_F(TestMesh2, EllipseOutline)
 TEST_F(TestMesh2, TextureQuad)
 {
   Mesh2 m
-    = createTextureQuadMesh2(Rectf(3.f, 8.f, 6.f, 4.f), Vec2f(12.f, 16.f));
+    = createTextureQuadMesh2(rectf(3.f, 8.f, 6.f, 4.f), vec2f(12.f, 16.f));
 
   EXPECT_EQ(MeshDrawMode::TriangleFan, m.getDrawMode());
   EXPECT_EQ(MeshFillMode::Fill, m.getFillMode());
   EXPECT_EQ(4u, m.getVertexCount());
 
   std::vector<Vertex2> verticesRef{
-    Vertex2(Vec2f(0.f, 0.f), Vec2f(0.25f, 0.5f), Color::White),
-    Vertex2(Vec2f(0.f, 4.f), Vec2f(0.25f, 0.75f), Color::White),
-    Vertex2(Vec2f(6.f, 4.f), Vec2f(0.75f, 0.75f), Color::White),
-    Vertex2(Vec2f(6.f, 0.f), Vec2f(0.75f, 0.5f), Color::White)};
+    Vertex2(vec2f(0.f, 0.f), vec2f(0.25f, 0.5f), Color::White),
+    Vertex2(vec2f(0.f, 4.f), vec2f(0.25f, 0.75f), Color::White),
+    Vertex2(vec2f(6.f, 4.f), vec2f(0.75f, 0.75f), Color::White),
+    Vertex2(vec2f(6.f, 0.f), vec2f(0.75f, 0.5f), Color::White)};
   EXPECT_EQ(verticesRef, m.getVertices());
 }

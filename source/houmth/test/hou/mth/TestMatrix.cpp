@@ -4,7 +4,7 @@
 
 #include "hou/Test.hpp"
 
-#include "hou/mth/Matrix.hpp"
+#include "hou/mth/matrix.hpp"
 
 #include "hou/cor/cor_error.hpp"
 
@@ -98,13 +98,13 @@ TEST_F(TestMatrix, SizeOperators)
 {
   Mat3x2i m;
 
-  EXPECT_EQ(3u, m.getRowsCount());
-  EXPECT_EQ(6u, m.getSize());
-  EXPECT_EQ(2u, m.getColumnsCount());
+  EXPECT_EQ(3u, m.get_row_count());
+  EXPECT_EQ(6u, m.get_size());
+  EXPECT_EQ(2u, m.get_column_count());
 
-  EXPECT_EQ(3u, Mat3x2i::getRowsCount());
-  EXPECT_EQ(6u, Mat3x2i::getSize());
-  EXPECT_EQ(2u, Mat3x2i::getColumnsCount());
+  EXPECT_EQ(3u, Mat3x2i::get_row_count());
+  EXPECT_EQ(6u, Mat3x2i::get_size());
+  EXPECT_EQ(2u, Mat3x2i::get_column_count());
 }
 
 
@@ -244,7 +244,7 @@ TEST_F(TestMatrix, Data)
 {
   Mat3x2i m = {1, 2, 3, 4, 5, 6};
   int dataRef[] = {1, 2, 3, 4, 5, 6};
-  HOU_EXPECT_ARRAY_EQ(dataRef, m.data(), m.getSize());
+  HOU_EXPECT_ARRAY_EQ(dataRef, m.data(), m.get_size());
 
 }
 
@@ -703,7 +703,7 @@ TEST_F(TestMatrix, Determinant4x4)
   };
   EXPECT_EQ(8686, det(mi));
 
-  Mat4x4f mf =
+  mat4x4f mf =
   {
     -1.5f, 0.5f, 5.f, -8.f,
     3.f, 2.f, 7.f, 0.f,
@@ -761,7 +761,7 @@ TEST_F(TestMatrix, Trace4x4)
 TEST_F(TestMatrix, NormMat3x1f)
 {
   Mat3x1f m{3.f, 4.f, 12.f};
-  EXPECT_FLOAT_EQ(169.f, squareNorm(m));
+  EXPECT_FLOAT_EQ(169.f, square_norm(m));
   EXPECT_FLOAT_EQ(13.f, norm(m));
 }
 
@@ -773,12 +773,12 @@ TEST_F(TestMatrix, NormalizationMat3x1f)
 
   Mat3x1f mNorm = normalized(m);
   HOU_EXPECT_FLOAT_CLOSE(m / 13.f, mNorm);
-  EXPECT_FLOAT_EQ(1.f, squareNorm(mNorm));
+  EXPECT_FLOAT_EQ(1.f, square_norm(mNorm));
   EXPECT_FLOAT_EQ(1.f, norm(mNorm));
 
   m.normalize();
   HOU_EXPECT_FLOAT_CLOSE(mNorm, m);
-  EXPECT_FLOAT_EQ(1.f, squareNorm(m));
+  EXPECT_FLOAT_EQ(1.f, square_norm(m));
   EXPECT_FLOAT_EQ(1.f, norm(m));
 }
 
@@ -816,7 +816,7 @@ TEST_F(TestMatrix, Filled)
 TEST_F(TestMatrix, Diagonal)
 {
   Mat3x3i mRef{1, 0, 0, 0, 2, 0, 0, 0, 3};
-  EXPECT_EQ(mRef, Mat3x3i::diagonal(Vec3i(1, 2, 3)));
+  EXPECT_EQ(mRef, Mat3x3i::diagonal(vec3i(1, 2, 3)));
   EXPECT_EQ(mRef, Mat3x3i::diagonal(1, 2, 3));
 }
 

@@ -6,134 +6,134 @@ namespace hou
 {
 
 template <typename T>
-Rectangle<T>::Rectangle()
-  : mPosition()
-  , mSize()
+rectangle<T>::rectangle()
+  : m_position()
+  , m_size()
 {}
 
 
 
 template <typename T>
-Rectangle<T>::Rectangle(const Vec2<T>& position, const Vec2<T>& size)
-  : mPosition(position)
-  , mSize(size)
+rectangle<T>::rectangle(const Vec2<T>& position, const Vec2<T>& size)
+  : m_position(position)
+  , m_size(size)
 {}
 
 
 
 template <typename T>
-Rectangle<T>::Rectangle(T x, T y, T w, T h)
-  : Rectangle(Vec2<T>(x, y), Vec2<T>(w, h))
+rectangle<T>::rectangle(T x, T y, T w, T h)
+  : rectangle(Vec2<T>(x, y), Vec2<T>(w, h))
 {}
 
 
 
 template <typename T>
 template <typename U>
-Rectangle<T>::Rectangle(const Rectangle<U>& other)
-  : Rectangle<T>(Vec2<T>(other.getPosition()), Vec2<T>(other.getSize()))
+rectangle<T>::rectangle(const rectangle<U>& other)
+  : rectangle<T>(Vec2<T>(other.get_position()), Vec2<T>(other.get_size()))
 {}
 
 
 
 template <typename T>
-const Vec2<T>& Rectangle<T>::getPosition() const
+const Vec2<T>& rectangle<T>::get_position() const
 {
-  return mPosition;
+  return m_position;
 }
 
 
 
 template <typename T>
-void Rectangle<T>::setPosition(const Vec2<T>& value)
+void rectangle<T>::set_position(const Vec2<T>& value)
 {
-  mPosition = value;
+  m_position = value;
 }
 
 
 
 template <typename T>
-const Vec2<T>& Rectangle<T>::getSize() const
+const Vec2<T>& rectangle<T>::get_size() const
 {
-  return mSize;
+  return m_size;
 }
 
 
 
 template <typename T>
-void Rectangle<T>::setSize(const Vec2<T>& value)
+void rectangle<T>::set_size(const Vec2<T>& value)
 {
-  mSize = value;
+  m_size = value;
 }
 
 
 
 template <typename T>
-T Rectangle<T>::x() const
+T rectangle<T>::x() const
 {
-  return mPosition.x();
+  return m_position.x();
 }
 
 
 
 template <typename T>
-T& Rectangle<T>::x()
+T& rectangle<T>::x()
 {
-  return mPosition.x();
+  return m_position.x();
 }
 
 
 
 template <typename T>
-T Rectangle<T>::y() const
+T rectangle<T>::y() const
 {
-  return mPosition.y();
+  return m_position.y();
 }
 
 
 
 template <typename T>
-T& Rectangle<T>::y()
+T& rectangle<T>::y()
 {
-  return mPosition.y();
+  return m_position.y();
 }
 
 
 
 template <typename T>
-T Rectangle<T>::w() const
+T rectangle<T>::w() const
 {
-  return mSize.x();
+  return m_size.x();
 }
 
 
 
 template <typename T>
-T& Rectangle<T>::w()
+T& rectangle<T>::w()
 {
-  return mSize.x();
+  return m_size.x();
 }
 
 
 
 template <typename T>
-T Rectangle<T>::h() const
+T rectangle<T>::h() const
 {
-  return mSize.y();
+  return m_size.y();
 }
 
 
 
 template <typename T>
-T& Rectangle<T>::h()
+T& rectangle<T>::h()
 {
-  return mSize.y();
+  return m_size.y();
 }
 
 
 
 template <typename T>
-T Rectangle<T>::l() const
+T rectangle<T>::l() const
 {
   return x();
 }
@@ -141,7 +141,7 @@ T Rectangle<T>::l() const
 
 
 template <typename T>
-T Rectangle<T>::t() const
+T rectangle<T>::t() const
 {
   return y();
 }
@@ -149,7 +149,7 @@ T Rectangle<T>::t() const
 
 
 template <typename T>
-T Rectangle<T>::r() const
+T rectangle<T>::r() const
 {
   return x() + w();
 }
@@ -157,7 +157,7 @@ T Rectangle<T>::r() const
 
 
 template <typename T>
-T Rectangle<T>::b() const
+T rectangle<T>::b() const
 {
   return y() + h();
 }
@@ -165,17 +165,17 @@ T Rectangle<T>::b() const
 
 
 template <typename T>
-bool operator==(const Rectangle<T>& lhs, const Rectangle<T>& rhs)
+bool operator==(const rectangle<T>& lhs, const rectangle<T>& rhs)
 {
-  return lhs.getPosition() == rhs.getPosition()
-    && lhs.getSize() == rhs.getSize();
+  return lhs.get_position() == rhs.get_position()
+    && lhs.get_size() == rhs.get_size();
 }
 
 
 
 
 template <typename T>
-bool operator!=(const Rectangle<T>& lhs, const Rectangle<T>& rhs)
+bool operator!=(const rectangle<T>& lhs, const rectangle<T>& rhs)
 {
   return !(lhs == rhs);
 }
@@ -183,25 +183,25 @@ bool operator!=(const Rectangle<T>& lhs, const Rectangle<T>& rhs)
 
 
 template <typename T>
-  bool close(const Rectangle<T>& lhs, const Rectangle<T>& rhs, T acc)
+  bool close(const rectangle<T>& lhs, const rectangle<T>& rhs, T acc)
 {
-  return close(lhs.getPosition(), rhs.getPosition(), acc)
-    && close(lhs.getSize(), rhs.getSize(), acc);
+  return close(lhs.get_position(), rhs.get_position(), acc)
+    && close(lhs.get_size(), rhs.get_size(), acc);
 }
 
 
 
 template <typename T>
-std::ostream& operator<<(std::ostream& os, const Rectangle<T>& rect)
+std::ostream& operator<<(std::ostream& os, const rectangle<T>& rect)
 {
-  return os << "{Position = " << transpose(rect.getPosition())
-    << ", Size = " << transpose(rect.getSize()) << "}";
+  return os << "{Position = " << transpose(rect.get_position())
+    << ", Size = " << transpose(rect.get_size()) << "}";
 }
 
 
 
 template <typename T>
-  bool isPointInRectangle(const Rectangle<T>& r, const Vec2<T>& p)
+  bool is_point_in_rectangle(const rectangle<T>& r, const Vec2<T>& p)
 {
   return p.x() >= r.l() && p.x() <= r.r() && p.y() >= r.t() && p.y() <= r.b();
 }

@@ -6,7 +6,7 @@
 #include "hou/gfx/Shader.hpp"
 #include "hou/gfx/Texture.hpp"
 
-#include "hou/mth/Transform2.hpp"
+#include "hou/mth/transform2.hpp"
 
 #include "hou/sys/Color.hpp"
 
@@ -101,16 +101,16 @@ void TextShaderProgram::setTextureUnit(uint unit)
 
 
 
-void TextShaderProgram::setTransform(const Trans2f& trans)
+void TextShaderProgram::setTransform(const trans2f& trans)
 {
   gl::setProgramUniformMatrix4f(
-    getHandle(), mUniTransform, 1u, GL_TRUE, trans.toMat4x4().data());
+    getHandle(), mUniTransform, 1u, GL_TRUE, trans.to_mat4x4().data());
 }
 
 
 
 void TextShaderProgram::draw(RenderSurface& target, const TextMesh& mesh,
-  const Texture2Array& tex, const Color& col, const Trans2f& trn)
+  const Texture2Array& tex, const Color& col, const trans2f& trn)
 {
   static constexpr uint texUnit = 0u;
   RenderSurface::setCurrentRenderTarget(target);
@@ -125,7 +125,7 @@ void TextShaderProgram::draw(RenderSurface& target, const TextMesh& mesh,
 
 
 void TextShaderProgram::draw(RenderSurface& target, const FormattedText& text,
-  const Color& col, const Trans2f& trn)
+  const Color& col, const trans2f& trn)
 {
   draw(target, text.getMesh(), text.getAtlas(), col, trn);
 }
@@ -133,7 +133,7 @@ void TextShaderProgram::draw(RenderSurface& target, const FormattedText& text,
 
 
 void TextShaderProgram::draw(RenderSurface& target, const std::string& text,
-  const Font& font, const Color& col, const Trans2f& trn)
+  const Font& font, const Color& col, const trans2f& trn)
 {
   draw(target, FormattedText(text, font), col, trn);
 }

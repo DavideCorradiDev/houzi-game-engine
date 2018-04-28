@@ -12,15 +12,15 @@
 namespace hou
 {
 
-template <typename T> class Transform3;
+template <typename T> class transform3;
 
 /** 3d transform */
 template <typename T>
-  using Trans3 = Transform3<T>;
+  using trans3 = transform3<T>;
 /** float 3d transform */
-using Trans3f = Transform3<float>;
+using trans3f = transform3<float>;
 /** double 3d transform */
-using Trans3d = Transform3<double>;
+using trans3d = transform3<double>;
 
 }
 

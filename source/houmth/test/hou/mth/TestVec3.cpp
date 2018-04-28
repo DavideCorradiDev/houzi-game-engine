@@ -6,7 +6,7 @@
 
 #include "hou/cor/cor_error.hpp"
 
-#include "hou/mth/Matrix.hpp"
+#include "hou/mth/matrix.hpp"
 
 using namespace hou;
 using namespace testing;
@@ -24,11 +24,11 @@ class TestVec3 : public Test {};
 
 TEST_F(TestVec3, Construction)
 {
-  Vec3i vi1;
-  Vec3i vi2(1, 2, 3);
-  Vec3i vi3{4, 5, 6};
-  Vec3i vi4(vi2);
-  Vec3i vi5(Vec3f(7.f, 8.f, 9.f));
+  vec3i vi1;
+  vec3i vi2(1, 2, 3);
+  vec3i vi3{4, 5, 6};
+  vec3i vi4(vi2);
+  vec3i vi5(vec3f(7.f, 8.f, 9.f));
 
   EXPECT_EQ(0, vi1(0));
   EXPECT_EQ(0, vi1(1));
@@ -51,8 +51,8 @@ TEST_F(TestVec3, Construction)
 
 TEST_F(TestVec3, ConstructionFromMatrix)
 {
-  Vec3i vi1(Mat3x1i{1, 2, 3});
-  Vec3i vi2(Mat3x1f{1.f, 2.f, 3.f});
+  vec3i vi1(Mat3x1i{1, 2, 3});
+  vec3i vi2(Mat3x1f{1.f, 2.f, 3.f});
 
   EXPECT_EQ(1, vi1(0));
   EXPECT_EQ(2, vi1(1));
@@ -66,7 +66,7 @@ TEST_F(TestVec3, ConstructionFromMatrix)
 
 TEST_F(TestVec3, ElementAccessOperators)
 {
-  Vec3i v1(1, 2, 3);
+  vec3i v1(1, 2, 3);
 
   EXPECT_EQ(1, v1.x());
   EXPECT_EQ(2, v1.y());
@@ -85,7 +85,7 @@ TEST_F(TestVec3, ElementAccessOperators)
 
 TEST_F(TestVec3, CrossMatrix)
 {
-  Vec3f v(1.f, 2.f, 3.f);
+  vec3f v(1.f, 2.f, 3.f);
   Mat3x3f m =
   {
     0.f, -3.f, 2.f,
@@ -93,19 +93,19 @@ TEST_F(TestVec3, CrossMatrix)
     -2.f, 1.f, 0.f
   };
 
-  HOU_EXPECT_FLOAT_CLOSE(m, crossMatrix(v));
+  HOU_EXPECT_FLOAT_CLOSE(m, cross_matrix(v));
 }
 
 
 
 TEST_F(TestVec3, CrossProduct)
 {
-  Vec3i v1(1, 3, -5);
-  Vec3i v2(-2, 7, 6);
-  EXPECT_EQ(Vec3i(53, 4, 13), cross(v1, v2));
-  EXPECT_EQ(Vec3i(-53, -4, -13), cross(v2, v1));
-  EXPECT_EQ(crossMatrix(v1) * v2, cross(v1, v2));
-  EXPECT_EQ(crossMatrix(v2) * v1, cross(v2, v1));
+  vec3i v1(1, 3, -5);
+  vec3i v2(-2, 7, 6);
+  EXPECT_EQ(vec3i(53, 4, 13), cross(v1, v2));
+  EXPECT_EQ(vec3i(-53, -4, -13), cross(v2, v1));
+  EXPECT_EQ(cross_matrix(v1) * v2, cross(v1, v2));
+  EXPECT_EQ(cross_matrix(v2) * v1, cross(v2, v1));
   EXPECT_EQ(0, dot(cross(v1, v2), v1));
   EXPECT_EQ(0, dot(cross(v1, v2), v2));
 }
@@ -114,8 +114,8 @@ TEST_F(TestVec3, CrossProduct)
 
 TEST_F(TestVec3, OuterProduct)
 {
-  Vec3i v1(-1, 2, 3);
-  Vec3i v2(5, 7, 11);
+  vec3i v1(-1, 2, 3);
+  vec3i v2(5, 7, 11);
   Mat3x3i m =
   {
     -5, -7, -11,
@@ -123,16 +123,16 @@ TEST_F(TestVec3, OuterProduct)
     15, 21, 33
   };
 
-  EXPECT_EQ(m, outerProduct(v1, v2));
+  EXPECT_EQ(m, outer_product(v1, v2));
 }
 
 
 
 TEST_F(TestVec3, DotProduct)
 {
-  Vec3i v1(2, 3, 5);
-  Vec3i v2(-1, 7, 4);
-  EXPECT_EQ(0, dot(Vec3i::zero(), v1));
+  vec3i v1(2, 3, 5);
+  vec3i v2(-1, 7, 4);
+  EXPECT_EQ(0, dot(vec3i::zero(), v1));
   EXPECT_EQ(39, dot(v1, v2));
   EXPECT_EQ(39, dot(v2, v1));
 }
@@ -141,7 +141,7 @@ TEST_F(TestVec3, DotProduct)
 
 TEST_F(TestVec3, OutputStreamOperator)
 {
-  Vec3i v(1, 2, 3);
+  vec3i v(1, 2, 3);
   HOU_EXPECT_OUTPUT("(1)\n(2)\n(3)", v);
 }
 

@@ -11,7 +11,7 @@
 #include "hou/cor/basic_types.hpp"
 #include "hou/cor/character_encodings.hpp"
 
-#include "hou/mth/MatrixFwd.hpp"
+#include "hou/mth/matrix_fwd.hpp"
 
 #include "hou/gfx/ShaderFwd.hpp"
 

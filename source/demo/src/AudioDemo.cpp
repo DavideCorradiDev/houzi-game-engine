@@ -14,7 +14,7 @@
 #include "hou/cor/std_array.hpp"
 #include "hou/cor/std_vector.hpp"
 #include "hou/cor/stopwatch.hpp"
-#include "hou/mth/Transform2.hpp"
+#include "hou/mth/transform2.hpp"
 
 #include "hou/al/AlContext.hpp"
 #include "hou/al/AlDevice.hpp"
@@ -37,15 +37,15 @@ int main()
   static const std::string dataDir = u8"source/demo/data/";
   GraphicContext ctx;
   GraphicContext::setCurrent(ctx);
-  RenderWindow rw(u8"Sprite benchmark", Vec2u(800u, 600u), WindowStyle::Windowed);
+  RenderWindow rw(u8"Sprite benchmark", vec2u(800u, 600u), WindowStyle::Windowed);
   rw.setVisible(true);
   rw.setVerticalSyncMode(VerticalSyncMode::Disabled);
 
   TextShaderProgram rnd;
   Font font(std::make_unique<BinaryFileIn>(dataDir + u8"NotoMono-Regular.ttf"));
-  Trans2f proj = Trans2f::orthographicProjection(rw.getViewport());
-  Trans2f textTrans = Trans2f::translation(Vec2f(0.f, static_cast<float>(font.getLineSpacing())));
-  Trans2f offsetTrans = Trans2f::translation(Vec2f(100.f, static_cast<float>(font.getLineSpacing())));
+  trans2f proj = trans2f::orthographic_projection(rw.getViewport());
+  trans2f textTrans = trans2f::translation(vec2f(0.f, static_cast<float>(font.getLineSpacing())));
+  trans2f offsetTrans = trans2f::translation(vec2f(100.f, static_cast<float>(font.getLineSpacing())));
 
   //****************
 

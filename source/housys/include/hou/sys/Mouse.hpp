@@ -11,7 +11,7 @@
 
 #include "hou/cor/basic_types.hpp"
 
-#include "hou/mth/MatrixFwd.hpp"
+#include "hou/mth/matrix_fwd.hpp"
 
 
 
@@ -38,7 +38,7 @@ HOU_SYS_API bool isButtonPressed(MouseButton button);
  *
  *  \return the mouse position relative to the screen
  */
-HOU_SYS_API Vec2i getPosition();
+HOU_SYS_API vec2i get_position();
 
 /** Retrieves the current mouse position relative to the given window.
  *
@@ -47,7 +47,7 @@ HOU_SYS_API Vec2i getPosition();
  *  \param window the window to compute the mouse position relative to.
  *  \return the mouse position relative to the given window.
  */
-HOU_SYS_API Vec2i getPosition(const Window& window);
+HOU_SYS_API vec2i get_position(const Window& window);
 
 /** Sets the position of the mouse relative to the screen.
  *
@@ -55,7 +55,7 @@ HOU_SYS_API Vec2i getPosition(const Window& window);
  *
  *  \param value the position.
  */
-HOU_SYS_API void setPosition(const Vec2i& value);
+HOU_SYS_API void set_position(const vec2i& value);
 
 /** Sets the position of the mouse relative to the given window.
  *
@@ -64,7 +64,7 @@ HOU_SYS_API void setPosition(const Vec2i& value);
  *  \param value the position.
  *  \param window the window.
  */
-HOU_SYS_API void setPosition(const Vec2i& value, const Window& window);
+HOU_SYS_API void set_position(const vec2i& value, const Window& window);
 
 }
 

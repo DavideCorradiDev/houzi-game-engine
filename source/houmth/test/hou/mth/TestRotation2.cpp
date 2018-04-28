@@ -2,9 +2,9 @@
 
 #include "hou/cor/cor_error.hpp"
 
-#include "hou/mth/Matrix.hpp"
-#include "hou/mth/MathFunctions.hpp"
-#include "hou/mth/Rotation2.hpp"
+#include "hou/mth/matrix.hpp"
+#include "hou/mth/math_functions.hpp"
+#include "hou/mth/rotation2.hpp"
 
 using namespace hou;
 using namespace testing;
@@ -23,60 +23,60 @@ class TestRotation2DeathTest : public TestRotation2{};
 
 TEST_F(TestRotation2, DefaultConstructor)
 {
-  Rot2f r;
-  HOU_EXPECT_FLOAT_CLOSE(0.f, r.getAngle());
-  HOU_EXPECT_FLOAT_CLOSE(Mat2x2f::identity(), r.getMatrix());
+  rot2f r;
+  HOU_EXPECT_FLOAT_CLOSE(0.f, r.get_angle());
+  HOU_EXPECT_FLOAT_CLOSE(Mat2x2f::identity(), r.get_matrix());
 }
 
 
 
 TEST_F(TestRotation2, ConstructorAngle)
 {
-  float angleRef = PI_F / 2.f;
+  float angleRef = pi_f / 2.f;
   Mat2x2f mRef(0.f, -1.f, 1.f, 0.f);
-  Rot2f r(angleRef);
-  HOU_EXPECT_FLOAT_CLOSE(angleRef, r.getAngle());
-  HOU_EXPECT_FLOAT_CLOSE(mRef, r.getMatrix());
+  rot2f r(angleRef);
+  HOU_EXPECT_FLOAT_CLOSE(angleRef, r.get_angle());
+  HOU_EXPECT_FLOAT_CLOSE(mRef, r.get_matrix());
 }
 
 
 
 TEST_F(TestRotation2, ConstructorAngleOverflow)
 {
-  float angleRef = -PI_F / 2.f;
+  float angleRef = -pi_f / 2.f;
   Mat2x2f mRef(0.f, 1.f, -1.f, 0.f);
-  Rot2f r(3.f * PI_F / 2.f);
-  HOU_EXPECT_CLOSE(angleRef, r.getAngle(), 1.e-6f);
-  HOU_EXPECT_CLOSE(mRef, r.getMatrix(), 1.e-6f);
+  rot2f r(3.f * pi_f / 2.f);
+  HOU_EXPECT_CLOSE(angleRef, r.get_angle(), 1.e-6f);
+  HOU_EXPECT_CLOSE(mRef, r.get_matrix(), 1.e-6f);
 }
 
 
 
 TEST_F(TestRotation2, ConstructorAngleUnderflow)
 {
-  float angleRef = PI_F / 2.f;
+  float angleRef = pi_f / 2.f;
   Mat2x2f mRef(0.f, -1.f, 1.f, 0.f);
-  Rot2f r(-3.f * PI_F / 2.f);
-  HOU_EXPECT_CLOSE(angleRef, r.getAngle(), 1.e-6f);
-  HOU_EXPECT_CLOSE(mRef, r.getMatrix(), 1.e-6f);
+  rot2f r(-3.f * pi_f / 2.f);
+  HOU_EXPECT_CLOSE(angleRef, r.get_angle(), 1.e-6f);
+  HOU_EXPECT_CLOSE(mRef, r.get_matrix(), 1.e-6f);
 }
 
 
 
 TEST_F(TestRotation2, ConstructorMatrix)
 {
-  float angleRef = PI_F / 2.f;
+  float angleRef = pi_f / 2.f;
   Mat2x2f mRef(0.f, -1.f, 1.f, 0.f);
-  Rot2f r(mRef);
-  HOU_EXPECT_FLOAT_CLOSE(angleRef, r.getAngle());
-  HOU_EXPECT_FLOAT_CLOSE(mRef, r.getMatrix());
+  rot2f r(mRef);
+  HOU_EXPECT_FLOAT_CLOSE(angleRef, r.get_angle());
+  HOU_EXPECT_FLOAT_CLOSE(mRef, r.get_matrix());
 }
 
 
 
 TEST_F(TestRotation2DeathTest, ConstructorMatrixFailureInvalidMatrix)
 {
-  HOU_EXPECT_ERROR(Rot2f(Mat2x2f::zero()), std::logic_error
+  HOU_EXPECT_ERROR(rot2f(Mat2x2f::zero()), std::logic_error
     , get_text(cor_error::pre_condition));
 }
 
@@ -84,19 +84,19 @@ TEST_F(TestRotation2DeathTest, ConstructorMatrixFailureInvalidMatrix)
 
 TEST_F(TestRotation2, ConversionConstructor)
 {
-  Rot2d rd;
-  Rot2f rf;
-  HOU_EXPECT_FLOAT_CLOSE(0.f, rf.getAngle());
-  HOU_EXPECT_FLOAT_CLOSE(Mat2x2f::identity(), rf.getMatrix());
+  rot2d rd;
+  rot2f rf;
+  HOU_EXPECT_FLOAT_CLOSE(0.f, rf.get_angle());
+  HOU_EXPECT_FLOAT_CLOSE(Mat2x2f::identity(), rf.get_matrix());
 }
 
 
 
 TEST_F(TestRotation2, ComparisonOperators)
 {
-  Rot2f r1(PI_F / 6.f);
-  Rot2f r2(r1);
-  Rot2f r3(-PI_F / 3.f);
+  rot2f r1(pi_f / 6.f);
+  rot2f r2(r1);
+  rot2f r3(-pi_f / 3.f);
 
   EXPECT_TRUE(r1 == r2);
   EXPECT_FALSE(r1 == r3);
@@ -108,10 +108,10 @@ TEST_F(TestRotation2, ComparisonOperators)
 
 TEST_F(TestRotation2, FloatingPointComparison)
 {
-  Rot2f r1(0.23456f);
-  Rot2f r2(r1);
-  Rot2f r3(0.234561f);
-  Rot2f r4(0.23556f);
+  rot2f r1(0.23456f);
+  rot2f r2(r1);
+  rot2f r3(0.234561f);
+  rot2f r4(0.23556f);
 
   EXPECT_TRUE(close(r1, r2));
   EXPECT_FALSE(close(r1, r3));
@@ -128,9 +128,9 @@ TEST_F(TestRotation2, FloatingPointComparison)
 
 TEST_F(TestRotation2, Multiplication)
 {
-  Rot2f r1(PI_F / 4.f);
-  Rot2f r2(PI_F);
-  Rot2f rRef(-3.f * PI_F / 4.f);
+  rot2f r1(pi_f / 4.f);
+  rot2f r2(pi_f);
+  rot2f rRef(-3.f * pi_f / 4.f);
   HOU_EXPECT_FLOAT_CLOSE(rRef, r1 * r2);
   r1 *= r2;
   HOU_EXPECT_FLOAT_CLOSE(rRef, r1);
@@ -140,11 +140,11 @@ TEST_F(TestRotation2, Multiplication)
 
 TEST_F(TestRotation2, Inversion)
 {
-  Rot2f r(PI_F / 4.f);
-  Rot2f rInvRef(-PI_F / 4.f);
-  Rot2f rInv = inverse(r);
+  rot2f r(pi_f / 4.f);
+  rot2f rInvRef(-pi_f / 4.f);
+  rot2f rInv = inverse(r);
   HOU_EXPECT_FLOAT_CLOSE(rInvRef, rInv);
-  HOU_EXPECT_FLOAT_CLOSE(Rot2f::identity(), rInv * r);
+  HOU_EXPECT_FLOAT_CLOSE(rot2f::identity(), rInv * r);
   r.invert();
   HOU_EXPECT_FLOAT_CLOSE(rInvRef, r);
 }
@@ -153,7 +153,7 @@ TEST_F(TestRotation2, Inversion)
 
 TEST_F(TestRotation2, OutputStreamOperator)
 {
-  Rot2f r(0.5f);
+  rot2f r(0.5f);
   HOU_EXPECT_OUTPUT("0.5", r);
 }
 

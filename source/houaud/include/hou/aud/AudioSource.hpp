@@ -15,7 +15,7 @@
 #include "hou/cor/non_copyable.hpp"
 #include "hou/cor/std_chrono.hpp"
 
-#include "hou/mth/Matrix.hpp"
+#include "hou/mth/matrix.hpp"
 
 
 
@@ -329,37 +329,37 @@ public:
    *
    *  \param pos the position.
    */
-  void setPosition(const Vec3f& pos);
+  void set_position(const vec3f& pos);
 
   /** Gets the audio source position.
    *
    *  \return the position.
    */
-  Vec3f getPosition() const;
+  vec3f get_position() const;
 
   /** Sets the audio source velocity.
    *
    *  \param vel the velocity.
    */
-  void setVelocity(const Vec3f& vel);
+  void setVelocity(const vec3f& vel);
 
   /** Gets the audio source vleocity.
    *
    *  \return the velocity.
    */
-  Vec3f getVelocity() const;
+  vec3f getVelocity() const;
 
   /** Sets the audio source direction.
    *
    *  \param dir the direction.
    */
-  void setDirection(const Vec3f& dir);
+  void setDirection(const vec3f& dir);
 
   /** Gets the audio source direction.
    *
    *  \return the direction.
    */
-  Vec3f getDirection() const;
+  vec3f getDirection() const;
 
 protected:
   /** Sets the sample position.

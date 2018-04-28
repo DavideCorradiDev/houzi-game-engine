@@ -35,7 +35,7 @@
 namespace hou
 {
 
-RenderWindow::RenderWindow(const std::string& title, const Vec2u& size,
+RenderWindow::RenderWindow(const std::string& title, const vec2u& size,
   WindowStyle style, uint sampleCount)
   : Window(title, VideoMode(size, GraphicContext::getRenderingColorByteCount()),
       style)
@@ -62,7 +62,7 @@ void RenderWindow::display()
   setCurrentRenderSource(*this);
   setDefaultRenderTarget();
 
-  Vec2u size = getSize();
+  vec2u size = get_size();
   gl::blitFramebuffer(0, 0, size.x(), size.y(), 0, size.y(), size.x(), 0,
     GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
     GL_NEAREST);
@@ -83,12 +83,12 @@ void RenderWindow::setVerticalSyncMode(VerticalSyncMode mode)
 
 void RenderWindow::setSampleCount(uint sampleCount)
 {
-  buildFramebuffer(getSize(), sampleCount);
+  buildFramebuffer(get_size(), sampleCount);
 }
 
 
 
-void RenderWindow::setFrameRect(const Vec2i& pos, const Vec2u& size)
+void RenderWindow::setFrameRect(const vec2i& pos, const vec2u& size)
 {
   Window::setFrameRect(pos, size);
   rebuildFramebufferIfNecessary();
@@ -96,7 +96,7 @@ void RenderWindow::setFrameRect(const Vec2i& pos, const Vec2u& size)
 
 
 
-void RenderWindow::setClientRect(const Vec2i& pos, const Vec2u& size)
+void RenderWindow::setClientRect(const vec2i& pos, const vec2u& size)
 {
   Window::setClientRect(pos, size);
   rebuildFramebufferIfNecessary();
@@ -106,7 +106,7 @@ void RenderWindow::setClientRect(const Vec2i& pos, const Vec2u& size)
 
 void RenderWindow::rebuildFramebufferIfNecessary()
 {
-  Vec2u newSize = getClientSize();
+  vec2u newSize = getClientSize();
   if(newSize.x() == 0u)
   {
     newSize.x() = 1u;
@@ -115,7 +115,7 @@ void RenderWindow::rebuildFramebufferIfNecessary()
   {
     newSize.y() = 1u;
   }
-  if(getSize() != newSize)
+  if(get_size() != newSize)
   {
     buildFramebuffer(newSize, getSampleCount());
   }

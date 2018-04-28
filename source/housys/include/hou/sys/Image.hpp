@@ -10,7 +10,7 @@
 #include "hou/cor/span.hpp"
 #include "hou/cor/std_vector.hpp"
 
-#include "hou/mth/Matrix.hpp"
+#include "hou/mth/matrix.hpp"
 
 #include "hou/sys/ImageFwd.hpp"
 #include "hou/sys/Pixel.hpp"
@@ -145,7 +145,7 @@ public:
    *
    *  \return the size of the image.
    */
-  const Size& getSize() const;
+  const Size& get_size() const;
 
   /** Retrieves the pixels of the image.
    *
@@ -213,7 +213,7 @@ private:
   size_t computePixelIndex(const Coordinates& coordinates) const;
 
 private:
-  Size mSize;
+  Size m_size;
   PixelCollection mPixels;
 };
 

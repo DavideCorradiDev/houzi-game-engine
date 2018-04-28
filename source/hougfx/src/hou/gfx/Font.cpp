@@ -9,8 +9,8 @@
 
 #include "hou/cor/error.hpp"
 
-#include "hou/mth/Rectangle.hpp"
-#include "hou/mth/Matrix.hpp"
+#include "hou/mth/rectangle.hpp"
+#include "hou/mth/matrix.hpp"
 
 #include "hou/sys/BinaryFileIn.hpp"
 
@@ -206,10 +206,10 @@ bool Font::isScalable() const
 
 
 
-Recti Font::getGlyphBoundingBox() const
+recti Font::getGlyphBoundingBox() const
 {
   HOU_EXPECT_DEV(mFace != nullptr);
-  return Recti
+  return recti
     ( FT_MulFix(mFace->bbox.xMin, mFace->size->metrics.x_scale)
     , FT_MulFix(mFace->bbox.yMin, mFace->size->metrics.y_scale)
     , FT_MulFix(mFace->bbox.xMax - mFace->bbox.xMin
@@ -220,11 +220,11 @@ Recti Font::getGlyphBoundingBox() const
 
 
 
-Rectf Font::getPixelGlyphBoundingBox() const
+rectf Font::getPixelGlyphBoundingBox() const
 {
-  Recti pf266Rect = getGlyphBoundingBox();
-  return Rectf(static_cast<Vec2f>(pf266Rect.getPosition()) * pf266ToPixelFactor,
-    static_cast<Vec2f>(pf266Rect.getSize()) * pf266ToPixelFactor);
+  recti pf266Rect = getGlyphBoundingBox();
+  return rectf(static_cast<vec2f>(pf266Rect.get_position()) * pf266ToPixelFactor,
+    static_cast<vec2f>(pf266Rect.get_size()) * pf266ToPixelFactor);
 }
 
 
@@ -303,18 +303,18 @@ Glyph Font::getGlyph(utf32::code_unit charCode) const
 
   const auto& g = mFace->glyph;
 
-  Vec2u bmpSize(g->bitmap.width, g->bitmap.rows);
+  vec2u bmpSize(g->bitmap.width, g->bitmap.rows);
 
-  Vec2u size(Vec2<long>(g->metrics.width, g->metrics.height));
+  vec2u size(Vec2<long>(g->metrics.width, g->metrics.height));
 
-  Vec2i horiBearing = hasHorizontal()
-    ? Vec2i(g->metrics.horiBearingX, -g->metrics.horiBearingY)
-    : Vec2i::zero();
+  vec2i horiBearing = hasHorizontal()
+    ? vec2i(g->metrics.horiBearingX, -g->metrics.horiBearingY)
+    : vec2i::zero();
   int horiAdvance = hasHorizontal() ? g->metrics.horiAdvance : 0;
 
-  Vec2i vertBearing = hasVertical()
-    ? Vec2i(g->metrics.vertBearingX, -g->metrics.vertBearingY)
-    : Vec2i::zero();
+  vec2i vertBearing = hasVertical()
+    ? vec2i(g->metrics.vertBearingX, -g->metrics.vertBearingY)
+    : vec2i::zero();
   int vertAdvance = hasVertical() ? g->metrics.vertAdvance : 0;
 
   return Glyph
@@ -328,21 +328,21 @@ Glyph Font::getGlyph(utf32::code_unit charCode) const
 
 
 
-Vec2i Font::getKerning(utf32::code_unit first, utf32::code_unit second) const
+vec2i Font::getKerning(utf32::code_unit first, utf32::code_unit second) const
 {
   FT_Vector kerning;
   FT_UInt firstIndex = FT_Get_Char_Index(mFace, first);
   FT_UInt secondIndex = FT_Get_Char_Index(mFace, second);
   HOU_ENSURE(FT_Get_Kerning(mFace, firstIndex, secondIndex
     , FT_KERNING_DEFAULT, &kerning) == 0);
-  return Vec2i(kerning.x, kerning.y);
+  return vec2i(kerning.x, kerning.y);
 }
 
 
 
-Vec2f Font::getPixelKerning(utf32::code_unit first, utf32::code_unit second) const
+vec2f Font::getPixelKerning(utf32::code_unit first, utf32::code_unit second) const
 {
-  return static_cast<Vec2f>(getKerning(first, second)) * pf266ToPixelFactor;
+  return static_cast<vec2f>(getKerning(first, second)) * pf266ToPixelFactor;
 }
 
 

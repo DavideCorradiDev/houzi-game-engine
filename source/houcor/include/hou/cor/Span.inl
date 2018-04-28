@@ -9,7 +9,7 @@ namespace hou
 template <typename T>
   span<T>::span()
   : mData(nullptr)
-  , mSize(0u)
+  , m_size(0u)
 {}
 
 
@@ -18,7 +18,7 @@ template <typename T>
 template <typename T>
   span<T>::span(pointer data, size_type size)
   : mData(data)
-  , mSize(size)
+  , m_size(size)
 {
   HOU_EXPECT((mData == nullptr && size == 0u)
     || (mData != nullptr));
@@ -63,7 +63,7 @@ template <typename T>
 template <typename T>
   constexpr typename span<T>::size_type span<T>::size() const
 {
-  return mSize;
+  return m_size;
 }
 
 
@@ -72,7 +72,7 @@ template <typename T>
   constexpr typename span<T>::reference span<T>::operator[]
   (span<T>::size_type idx) const
 {
-  HOU_EXPECT(mData != nullptr && idx < mSize);
+  HOU_EXPECT(mData != nullptr && idx < m_size);
   return *(mData + idx);
 }
 
@@ -113,7 +113,7 @@ template <typename T>
 template <typename T>
   constexpr typename span<T>::iterator span<T>::end() const
 {
-  return iterator(*this, mSize);
+  return iterator(*this, m_size);
 }
 
 
@@ -121,7 +121,7 @@ template <typename T>
 template <typename T>
   constexpr typename span<T>::const_iterator span<T>::cend() const
 {
-  return const_iterator(*this, mSize);
+  return const_iterator(*this, m_size);
 }
 
 

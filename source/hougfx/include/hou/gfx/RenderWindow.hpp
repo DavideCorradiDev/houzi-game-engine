@@ -23,10 +23,10 @@ class VideoMode;
  * Some notes on how the size is handled:
  * - getFrameSize will return the size of the window including its frame.
  * - getClientSize will return the size of the window without its frame.
- * - getSize will return the size of the render surface associated to the
+ * - get_size will return the size of the render surface associated to the
  * Window.
  *
- * getSize will normally return the same value as getClientSize, with the
+ * get_size will normally return the same value as getClientSize, with the
  * following exceptions:
  * - If one of the elements of the client size equals 0, the corresponding
  * element in the render surface size will be equal to 1. The render surface
@@ -53,7 +53,7 @@ public:
    *  \param sampleCount the sample count.
    *  \param style the window style.
    */
-  RenderWindow(const std::string& title, const Vec2u& size, WindowStyle style,
+  RenderWindow(const std::string& title, const vec2u& size, WindowStyle style,
     uint sampleCount = 1u);
 
   /** Move constructor.
@@ -86,8 +86,8 @@ public:
   void setSampleCount(uint sampleCount);
 
   // Window overrides.
-  void setFrameRect(const Vec2i& pos, const Vec2u& size) override;
-  void setClientRect(const Vec2i& pos, const Vec2u& size) override;
+  void setFrameRect(const vec2i& pos, const vec2u& size) override;
+  void setClientRect(const vec2i& pos, const vec2u& size) override;
 
 private:
   void rebuildFramebufferIfNecessary();

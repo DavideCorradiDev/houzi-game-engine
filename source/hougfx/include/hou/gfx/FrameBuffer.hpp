@@ -9,7 +9,7 @@
 
 #include "hou/cor/non_copyable.hpp"
 
-#include "hou/mth/RectangleFwd.hpp"
+#include "hou/mth/rectangle_fwd.hpp"
 
 #include "hou/gfx/FrameBufferBlitFilter.hpp"
 #include "hou/gfx/FrameBufferBlitMask.hpp"
@@ -172,14 +172,14 @@ private:
  * * If mask contains Depth or Stencil, filter must be set to Nearest.
  *
  * \param src the source FrameBuffer.
- * \param srcRect the source rectangle.
+ * \param srcRect the source ph_rectangle.
  * \param dst the destination FrameBuffer.
- * \param dstRect the destination rectangle.
+ * \param dstRect the destination ph_rectangle.
  * \param mask a bitfield specifying what attachments to blit.
  * \param filter the filter to apply for this operation.
  */
-HOU_GFX_API void blit(const FrameBuffer& src, const Recti& srcRect,
-  FrameBuffer& dst, const Recti& dstRect, FrameBufferBlitMask mask,
+HOU_GFX_API void blit(const FrameBuffer& src, const recti& srcRect,
+  FrameBuffer& dst, const recti& dstRect, FrameBufferBlitMask mask,
   FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
 
 /** Copies a rectangular region of a FrameBuffer into a texture.
@@ -190,13 +190,13 @@ HOU_GFX_API void blit(const FrameBuffer& src, const Recti& srcRect,
  * size.
  *
  * \param src the source FrameBuffer.
- * \param srcRect the source rectangle.
+ * \param srcRect the source ph_rectangle.
  * \param dst the destination texture.
- * \param dstRect the destination rectangle.
+ * \param dstRect the destination ph_rectangle.
  * \param filter the filter to apply for this operation.
  */
-HOU_GFX_API void blit(const FrameBuffer& src, const Recti& srcRect,
-  Texture& dst, const Recti& dstRect,
+HOU_GFX_API void blit(const FrameBuffer& src, const recti& srcRect,
+  Texture& dst, const recti& dstRect,
   FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
 
 /** Copies a rectangular region of a texture into a FrameBuffer.
@@ -207,13 +207,13 @@ HOU_GFX_API void blit(const FrameBuffer& src, const Recti& srcRect,
  * size.
  *
  * \param src the source texture.
- * \param srcRect the source rectangle.
+ * \param srcRect the source ph_rectangle.
  * \param dst the destination FrameBuffer.
- * \param dstRect the destination rectangle.
+ * \param dstRect the destination ph_rectangle.
  * \param filter the filter to apply for this operation.
  */
-HOU_GFX_API void blit(const Texture& src, const Recti& srcRect,
-  FrameBuffer& dst, const Recti& dstRect,
+HOU_GFX_API void blit(const Texture& src, const recti& srcRect,
+  FrameBuffer& dst, const recti& dstRect,
   FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
 
 /** Copies a rectangular region of a texture into a FrameBuffer.
@@ -224,13 +224,13 @@ HOU_GFX_API void blit(const Texture& src, const Recti& srcRect,
  * size.
  *
  * \param src the source texture.
- * \param srcRect the source rectangle.
+ * \param srcRect the source ph_rectangle.
  * \param dst the destination texture.
- * \param dstRect the destination rectangle.
+ * \param dstRect the destination ph_rectangle.
  * \param filter the filter to apply for this operation.
  */
-HOU_GFX_API void blit(const Texture& src, const Recti& srcRect, Texture& dst,
-  const Recti& dstRect,
+HOU_GFX_API void blit(const Texture& src, const recti& srcRect, Texture& dst,
+  const recti& dstRect,
   FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
 
 }  // namespace hou

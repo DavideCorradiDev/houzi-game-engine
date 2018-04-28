@@ -51,7 +51,7 @@ TestTextureBase<Tex>::~TestTextureBase()
 template <>
 typename Texture1::Size TestTextureBase<Texture1>::generateSize()
 {
-  return Vec1u{4u};
+  return vec1u{4u};
 }
 
 
@@ -59,7 +59,7 @@ typename Texture1::Size TestTextureBase<Texture1>::generateSize()
 template <>
 typename Texture1Array::Size TestTextureBase<Texture1Array>::generateSize()
 {
-  return Vec2u{4u, 8u};
+  return vec2u{4u, 8u};
 }
 
 
@@ -67,7 +67,7 @@ typename Texture1Array::Size TestTextureBase<Texture1Array>::generateSize()
 template <>
 typename Texture2::Size TestTextureBase<Texture2>::generateSize()
 {
-  return Vec2u{4u, 8u};
+  return vec2u{4u, 8u};
 }
 
 
@@ -75,7 +75,7 @@ typename Texture2::Size TestTextureBase<Texture2>::generateSize()
 template <>
 typename Texture2Array::Size TestTextureBase<Texture2Array>::generateSize()
 {
-  return Vec3u{4u, 8u, 13u};
+  return vec3u{4u, 8u, 13u};
 }
 
 
@@ -83,7 +83,7 @@ typename Texture2Array::Size TestTextureBase<Texture2Array>::generateSize()
 template <>
 typename Texture3::Size TestTextureBase<Texture3>::generateSize()
 {
-  return Vec3u{4u, 8u, 13u};
+  return vec3u{4u, 8u, 13u};
 }
 
 
@@ -92,7 +92,7 @@ template <>
 typename MultisampleTexture2::Size
   TestTextureBase<MultisampleTexture2>::generateSize()
 {
-  return Vec2u{4u, 8u};
+  return vec2u{4u, 8u};
 }
 
 
@@ -101,7 +101,7 @@ template <>
 typename MultisampleTexture2Array::Size
   TestTextureBase<MultisampleTexture2Array>::generateSize()
 {
-  return Vec3u{4u, 8u, 13u};
+  return vec3u{4u, 8u, 13u};
 }
 
 
@@ -331,7 +331,7 @@ TYPED_TEST(TestTextureCommon, SizeConstructor)
   EXPECT_EQ(1u, tex.getMipMapLevelCount());
   EXPECT_EQ(1u, tex.getSampleCount());
   EXPECT_TRUE(tex.hasFixedSampleLocations());
-  EXPECT_EQ(sizeRef, tex.getSize());
+  EXPECT_EQ(sizeRef, tex.get_size());
   EXPECT_EQ(TextureChannelMapping::Default, tex.getChannelMapping());
 }
 
@@ -343,17 +343,17 @@ TYPED_TEST(TestTextureCommon, SizeConstructorSizeLimits)
 
   Size sizeRef = this->generateSize();
   Size maxSize = TypeParam::getMaxSize();
-  for(size_t i = 0u; i < sizeRef.getSize(); ++i)
+  for(size_t i = 0u; i < sizeRef.get_size(); ++i)
   {
     Size sizeWithOne = sizeRef;
     sizeWithOne(i) = 1u;
     TypeParam texWithOne(sizeWithOne);
-    EXPECT_EQ(sizeWithOne, texWithOne.getSize());
+    EXPECT_EQ(sizeWithOne, texWithOne.get_size());
 
     Size sizeWithMax = sizeRef;
     sizeWithMax(i) = maxSize(i);
     TypeParam texWithMax(sizeWithMax);
-    EXPECT_EQ(sizeWithMax, texWithMax.getSize());
+    EXPECT_EQ(sizeWithMax, texWithMax.get_size());
   }
 }
 
@@ -365,7 +365,7 @@ TYPED_TEST(TestTextureCommonDeathTest, SizeConstructorErrorInvalidSize)
 
   Size sizeRef = this->generateSize();
   Size maxSize = TypeParam::getMaxSize();
-  for(size_t i = 0u; i < sizeRef.getSize(); ++i)
+  for(size_t i = 0u; i < sizeRef.get_size(); ++i)
   {
     Size sizeWithNull = sizeRef;
     sizeWithNull(i) = 0u;
@@ -393,10 +393,10 @@ TYPED_TEST(TestTextureCommon, SetChannelMapping)
 TYPED_TEST(TestTextureCommon, GetSingleSizeElements)
 {
   TypeParam tex(this->generateSize());
-  Vec3u sizeRef(1u, 1u, 1u);
-  for(size_t i = 0; i < tex.getSize().getSize(); ++i)
+  vec3u sizeRef(1u, 1u, 1u);
+  for(size_t i = 0; i < tex.get_size().get_size(); ++i)
   {
-    sizeRef(i) = tex.getSize()(i);
+    sizeRef(i) = tex.get_size()(i);
   }
 
   EXPECT_EQ(tex.getWidth(), sizeRef.x());
@@ -409,11 +409,11 @@ TYPED_TEST(TestTextureCommon, GetSingleSizeElements)
 TYPED_TEST(TestTextureCommon, GetSize1)
 {
   TypeParam tex(this->generateSize());
-  Vec1u sizeRef(1u);
-  for(size_t i = 0; i < std::min(sizeRef.getSize(), tex.getSize().getSize());
+  vec1u sizeRef(1u);
+  for(size_t i = 0; i < std::min(sizeRef.get_size(), tex.get_size().get_size());
       ++i)
   {
-    sizeRef(i) = tex.getSize()(i);
+    sizeRef(i) = tex.get_size()(i);
   }
   EXPECT_EQ(sizeRef, tex.getSize1());
 }
@@ -423,11 +423,11 @@ TYPED_TEST(TestTextureCommon, GetSize1)
 TYPED_TEST(TestTextureCommon, GetSize2)
 {
   TypeParam tex(this->generateSize());
-  Vec2u sizeRef(1u, 1u);
-  for(size_t i = 0; i < std::min(sizeRef.getSize(), tex.getSize().getSize());
+  vec2u sizeRef(1u, 1u);
+  for(size_t i = 0; i < std::min(sizeRef.get_size(), tex.get_size().get_size());
       ++i)
   {
-    sizeRef(i) = tex.getSize()(i);
+    sizeRef(i) = tex.get_size()(i);
   }
   EXPECT_EQ(sizeRef, tex.getSize2());
 }
@@ -437,11 +437,11 @@ TYPED_TEST(TestTextureCommon, GetSize2)
 TYPED_TEST(TestTextureCommon, GetSize3)
 {
   TypeParam tex(this->generateSize());
-  Vec3u sizeRef(1u, 1u, 1u);
-  for(size_t i = 0; i < std::min(sizeRef.getSize(), tex.getSize().getSize());
+  vec3u sizeRef(1u, 1u, 1u);
+  for(size_t i = 0; i < std::min(sizeRef.get_size(), tex.get_size().get_size());
       ++i)
   {
-    sizeRef(i) = tex.getSize()(i);
+    sizeRef(i) = tex.get_size()(i);
   }
   EXPECT_EQ(sizeRef, tex.getSize3());
 }
@@ -463,11 +463,11 @@ TYPED_TEST(TestTextureNotMultisampled, MipMapConstructor)
   EXPECT_EQ(mipMapLevelCountRef, tex.getMipMapLevelCount());
   EXPECT_EQ(1u, tex.getSampleCount());
   EXPECT_TRUE(tex.hasFixedSampleLocations());
-  EXPECT_EQ(sizeRef, tex.getSize());
+  EXPECT_EQ(sizeRef, tex.get_size());
   EXPECT_EQ(TextureChannelMapping::Default, tex.getChannelMapping());
   EXPECT_EQ(TextureFilter::Linear, tex.getFilter());
   EXPECT_EQ(this->getDefaultWrapMode(), tex.getWrapMode());
-  EXPECT_EQ(Image(tex.getSize()), tex.template getImage<PixelFormat::RGB>());
+  EXPECT_EQ(Image(tex.get_size()), tex.template getImage<PixelFormat::RGB>());
 }
 
 
@@ -478,17 +478,17 @@ TYPED_TEST(TestTextureNotMultisampled, MipMapConstructorSizeLimits)
 
   Size sizeRef = this->generateSize();
   Size maxSize = TypeParam::getMaxSize();
-  for(size_t i = 0u; i < sizeRef.getSize(); ++i)
+  for(size_t i = 0u; i < sizeRef.get_size(); ++i)
   {
     Size sizeWithOne = sizeRef;
     sizeWithOne(i) = 1u;
     TypeParam texWithOne(sizeWithOne, TextureFormat::RGBA, 1u);
-    EXPECT_EQ(sizeWithOne, texWithOne.getSize());
+    EXPECT_EQ(sizeWithOne, texWithOne.get_size());
 
     Size sizeWithMax = sizeRef;
     sizeWithMax(i) = maxSize(i);
     TypeParam texWithMax(sizeWithMax, TextureFormat::RGBA, 1u);
-    EXPECT_EQ(sizeWithMax, texWithMax.getSize());
+    EXPECT_EQ(sizeWithMax, texWithMax.get_size());
   }
 }
 
@@ -516,7 +516,7 @@ TYPED_TEST(
 
   Size sizeRef = this->generateSize();
   Size maxSize = TypeParam::getMaxSize();
-  for(size_t i = 0u; i < sizeRef.getSize(); ++i)
+  for(size_t i = 0u; i < sizeRef.get_size(); ++i)
   {
     Size sizeWithNull = sizeRef;
     sizeWithNull(i) = 0u;
@@ -555,7 +555,7 @@ TYPED_TEST(TestTextureNotMultisampled, ImageConstructor)
   EXPECT_EQ(mipMapLevelCountRef, tex.getMipMapLevelCount());
   EXPECT_EQ(1u, tex.getSampleCount());
   EXPECT_TRUE(tex.hasFixedSampleLocations());
-  EXPECT_EQ(imageRef.getSize(), tex.getSize());
+  EXPECT_EQ(imageRef.get_size(), tex.get_size());
   EXPECT_EQ(TextureChannelMapping::Default, tex.getChannelMapping());
   EXPECT_EQ(TextureFilter::Linear, tex.getFilter());
   EXPECT_EQ(this->getDefaultWrapMode(), tex.getWrapMode());
@@ -574,7 +574,7 @@ TYPED_TEST(TestTextureNotMultisampled, ImageConstructorDefaultArguments)
   EXPECT_EQ(1u, tex.getMipMapLevelCount());
   EXPECT_EQ(1u, tex.getSampleCount());
   EXPECT_TRUE(tex.hasFixedSampleLocations());
-  EXPECT_EQ(imageRef.getSize(), tex.getSize());
+  EXPECT_EQ(imageRef.get_size(), tex.get_size());
   EXPECT_EQ(TextureChannelMapping::Default, tex.getChannelMapping());
   EXPECT_EQ(TextureFilter::Linear, tex.getFilter());
   EXPECT_EQ(this->getDefaultWrapMode(), tex.getWrapMode());
@@ -589,7 +589,7 @@ TYPED_TEST(TestTextureNotMultisampled, ImageConstructorSizeLimits)
 
   Size sizeRef = this->generateSize();
   Size maxSize = TypeParam::getMaxSize();
-  for(size_t i = 0u; i < sizeRef.getSize(); ++i)
+  for(size_t i = 0u; i < sizeRef.get_size(); ++i)
   {
     Size sizeWithOne = sizeRef;
     sizeWithOne(i) = 1u;
@@ -631,7 +631,7 @@ TYPED_TEST(
 
   Size sizeRef = this->generateSize();
   Size maxSize = TypeParam::getMaxSize();
-  for(size_t i = 0u; i < sizeRef.getSize(); ++i)
+  for(size_t i = 0u; i < sizeRef.get_size(); ++i)
   {
     Size sizeWithNull = sizeRef;
     sizeWithNull(i) = 0u;
@@ -691,8 +691,8 @@ TYPED_TEST(TestTextureNotMultisampled, SetImage)
   using Image = typename TypeParam::template Image<PixelFormat::RGBA>;
 
   TypeParam tex(this->generateSize());
-  EXPECT_EQ(Image(tex.getSize()), tex.template getImage<PixelFormat::RGBA>());
-  Image imageRef = this->generateImage(tex.getSize());
+  EXPECT_EQ(Image(tex.get_size()), tex.template getImage<PixelFormat::RGBA>());
+  Image imageRef = this->generateImage(tex.get_size());
   tex.setImage(imageRef);
   EXPECT_EQ(imageRef, tex.template getImage<PixelFormat::RGBA>());
 }
@@ -704,7 +704,7 @@ TYPED_TEST(TestTextureNotMultisampledDeathTest, SetImageErrorInvalidSize)
   using Image = typename TypeParam::template Image<PixelFormat::RGBA>;
 
   TypeParam tex(this->generateSize());
-  HOU_EXPECT_PRECONDITION(tex.setImage(Image(tex.getSize() * 2)));
+  HOU_EXPECT_PRECONDITION(tex.setImage(Image(tex.get_size() * 2)));
 }
 
 
@@ -718,7 +718,7 @@ TYPED_TEST(TestTextureNotMultisampled, GetSubImage)
   Size texSize;
   Size subImageSize;
   Coordinates subImageOffset;
-  for(size_t i = 0; i < texSize.getSize(); ++i)
+  for(size_t i = 0; i < texSize.get_size(); ++i)
   {
     texSize(i) = (i + 1) * 4;
     subImageSize(i) = (i + 1) * 2;
@@ -743,7 +743,7 @@ TYPED_TEST(TestTextureNotMultisampledDeathTest, GetSubImageErrorOverflow)
   Size texSize;
   Size subImageSize;
   Coordinates subImageOffset;
-  for(size_t i = 0; i < texSize.getSize(); ++i)
+  for(size_t i = 0; i < texSize.get_size(); ++i)
   {
     texSize(i) = (i + 1) * 4;
     subImageOffset(i) = i + 1;
@@ -765,7 +765,7 @@ TYPED_TEST(TestTextureNotMultisampled, SetSubImage)
   Size texSize;
   Size subImageSize;
   Coordinates subImageOffset;
-  for(size_t i = 0; i < texSize.getSize(); ++i)
+  for(size_t i = 0; i < texSize.get_size(); ++i)
   {
     texSize(i) = (i + 1) * 4;
     subImageSize(i) = (i + 1) * 2;
@@ -795,7 +795,7 @@ TYPED_TEST(TestTextureNotMultisampledDeathTest, SetSubImageErrorOverflow)
   Size texSize;
   Size subImageSize;
   Coordinates subImageOffset;
-  for(size_t i = 0; i < texSize.getSize(); ++i)
+  for(size_t i = 0; i < texSize.get_size(); ++i)
   {
     texSize(i) = (i + 1) * 4;
     subImageOffset(i) = i + 1;
@@ -814,11 +814,11 @@ TYPED_TEST(TestTextureNotMultisampled, Clear)
   using Image = typename TypeParam::template Image<PixelFormat::RGBA>;
 
   TypeParam tex(this->generateSize());
-  EXPECT_EQ(Image(tex.getSize()), tex.template getImage<PixelFormat::RGBA>());
+  EXPECT_EQ(Image(tex.get_size()), tex.template getImage<PixelFormat::RGBA>());
   PixelRGBA pixelRef(1u, 2u, 3u, 4u);
   tex.clear(pixelRef);
   EXPECT_EQ(
-    Image(tex.getSize(), pixelRef), tex.template getImage<PixelFormat::RGBA>());
+    Image(tex.get_size(), pixelRef), tex.template getImage<PixelFormat::RGBA>());
 }
 
 
@@ -885,7 +885,7 @@ TYPED_TEST(TestTextureNotMultisampled, SetImageGetMipMapImage)
   Size texSize;
   Size subImageOffset;
   Size subImageSize;
-  for(size_t i = 0; i < texSize.getSize(); ++i)
+  for(size_t i = 0; i < texSize.get_size(); ++i)
   {
     texSize(i) = (i + 1) * 16;
     subImageOffset(i) = (i + 1) * 4;
@@ -988,7 +988,7 @@ TYPED_TEST(TestTextureMultisampled, MultisampleConstructor)
   EXPECT_EQ(1u, tex.getMipMapLevelCount());
   EXPECT_EQ(sampleCountRef, tex.getSampleCount());
   EXPECT_FALSE(tex.hasFixedSampleLocations());
-  EXPECT_EQ(sizeRef, tex.getSize());
+  EXPECT_EQ(sizeRef, tex.get_size());
   EXPECT_EQ(TextureChannelMapping::Default, tex.getChannelMapping());
 }
 
@@ -1000,17 +1000,17 @@ TYPED_TEST(TestTextureMultisampled, MultisampleConstructorSizeLimits)
 
   Size sizeRef = this->generateSize();
   Size maxSize = TypeParam::getMaxSize();
-  for(size_t i = 0u; i < sizeRef.getSize(); ++i)
+  for(size_t i = 0u; i < sizeRef.get_size(); ++i)
   {
     Size sizeWithOne = sizeRef;
     sizeWithOne(i) = 1u;
     TypeParam texWithOne(sizeWithOne, TextureFormat::RGBA, 1u, true);
-    EXPECT_EQ(sizeWithOne, texWithOne.getSize());
+    EXPECT_EQ(sizeWithOne, texWithOne.get_size());
 
     Size sizeWithMax = sizeRef;
     sizeWithMax(i) = maxSize(i);
     TypeParam texWithMax(sizeWithMax, TextureFormat::RGBA, 1u, true);
-    EXPECT_EQ(sizeWithMax, texWithMax.getSize());
+    EXPECT_EQ(sizeWithMax, texWithMax.get_size());
   }
 }
 
@@ -1051,7 +1051,7 @@ TYPED_TEST(
 
   Size sizeRef = this->generateSize();
   Size maxSize = TypeParam::getMaxSize();
-  for(size_t i = 0u; i < sizeRef.getSize(); ++i)
+  for(size_t i = 0u; i < sizeRef.get_size(); ++i)
   {
     Size sizeWithNull = sizeRef;
     sizeWithNull(i) = 0u;

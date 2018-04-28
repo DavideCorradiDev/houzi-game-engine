@@ -13,7 +13,7 @@
 
 #include "hou/cor/error.hpp"
 
-#include "hou/mth/Rectangle.hpp"
+#include "hou/mth/rectangle.hpp"
 #include "hou/sys/WindowStyle.hpp"
 
 #include <mutex>
@@ -57,7 +57,7 @@ void activateFullscreenMode(WindowImpl& window, const VideoMode& videoMode);
 void deactivateFullscreenMode();
 bool isFullscreenWindow(const WindowImpl& window);
 
-Recti clientToFrameRect(HWND hwnd, const Recti& rect);
+recti clientToFrameRect(HWND hwnd, const recti& rect);
 
 void setWindowIcon(HWND hwnd, HICON hicon);
 HICON createCustomIcon(const Image2RGBA& icon);
@@ -144,12 +144,12 @@ bool isFullscreenWindow(const WindowImpl& window)
 
 
 
-Recti clientToFrameRect(HWND hwnd, const Recti& rect)
+recti clientToFrameRect(HWND hwnd, const recti& rect)
 {
   RECT winRect = {rect.l(), rect.t(), rect.r(), rect.b()};
   HOU_ENSURE(AdjustWindowRect(&winRect, GetWindowLong(hwnd, GWL_STYLE)
     , false)!= 0);
-  return Recti(winRect.left, winRect.top, winRect.right - winRect.left
+  return recti(winRect.left, winRect.top, winRect.right - winRect.left
     , winRect.bottom - winRect.top);
 }
 
@@ -182,7 +182,7 @@ HICON createCustomIcon(const Image2RGBA& icon)
 
   HINSTANCE module = GetModuleHandle(nullptr);
   HOU_WIN_ENSURE(module != nullptr);
-  return CreateIcon(module, icon.getSize().x(), icon.getSize().y()
+  return CreateIcon(module, icon.get_size().x(), icon.get_size().y()
     , 1 /*cplanes*/, 32 /*bbp*/, nullptr, invPixels.data());
 }
 
@@ -442,10 +442,10 @@ WindowImpl::WindowImpl(const std::string& title, const VideoMode& videoMode
   // Set client size. CreateWindowEx sets frame position and size, but we want
   // the arguments passed to the constructor to refer to client position and
   // size.
-  Vec2i position = (style == WindowStyle::Fullscreen)
-    ? Vec2i(0, 0)
-    : Vec2i(VideoMode::getDesktopMode().get_resolution() - videoMode.get_resolution()) / 2;
-  setClientRect(Recti(position, videoMode.get_resolution()));
+  vec2i position = (style == WindowStyle::Fullscreen)
+    ? vec2i(0, 0)
+    : vec2i(VideoMode::getDesktopMode().get_resolution() - videoMode.get_resolution()) / 2;
+  setClientRect(recti(position, videoMode.get_resolution()));
 
   // Set a pointer to the window class in the window user data (used in the
   // window procedure).
@@ -466,7 +466,7 @@ WindowImpl::WindowImpl(const std::string& title, const VideoMode& videoMode
   // Check if the mouse is inside the client area. If yes, also capture the
   // cursor (this is necessary to correctly generate events related to mouse
   // movement).
-  mMouseInWindow = isPointInRectangle(getClientRect(), Mouse::getPosition());
+  mMouseInWindow = is_point_in_rectangle(getClientRect(), Mouse::get_position());
   setMouseCaptured(mMouseInWindow);
 }
 
@@ -514,17 +514,17 @@ WindowImpl::~WindowImpl()
 
 
 
-Recti WindowImpl::getFrameRect() const
+recti WindowImpl::getFrameRect() const
 {
   RECT rect = {0, 0, 0, 0};
   HOU_WIN_ENSURE(GetWindowRect(mHandle, &rect) != 0);
-  return Recti(rect.left, rect.top
+  return recti(rect.left, rect.top
     , rect.right - rect.left, rect.bottom - rect.top);
 }
 
 
 
-void WindowImpl::setFrameRect(const Recti& value)
+void WindowImpl::setFrameRect(const recti& value)
 {
   HOU_WIN_ENSURE(SetWindowPos(mHandle, nullptr
     , value.x(), value.y(), value.w(), value.h()
@@ -537,7 +537,7 @@ void WindowImpl::setFrameRect(const Recti& value)
 
 
 
-Recti WindowImpl::getClientRect() const
+recti WindowImpl::getClientRect() const
 {
   // Note returned x and y are always 0 with GetClientRect.
   RECT rect = {0, 0, 0, 0};
@@ -546,13 +546,13 @@ Recti WindowImpl::getClientRect() const
   POINT origin = {0, 0};
   HOU_WIN_ENSURE(ClientToScreen(mHandle, &origin) != 0);
 
-  return Recti(origin.x, origin.y, rect.right, rect.bottom);
+  return recti(origin.x, origin.y, rect.right, rect.bottom);
 }
 
 
 
 
-void WindowImpl::setClientRect(const Recti& value)
+void WindowImpl::setClientRect(const recti& value)
 {
   setFrameRect(clientToFrameRect(mHandle, value));
 }
@@ -796,7 +796,7 @@ void WindowImpl::filterEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
     case WM_KILLFOCUS:
     {
-      mPreviousSize = getClientRect().getSize();
+      mPreviousSize = getClientRect().get_size();
       ungrabMouseCursor();
       pushEvent(WindowEvent::focusLost());
       break;
@@ -811,7 +811,7 @@ void WindowImpl::filterEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_EXITSIZEMOVE:
     {
       isMouseCursorGrabbed() ? grabMouseCursor() : ungrabMouseCursor();
-      Vec2u currentSize = getClientRect().getSize();
+      vec2u currentSize = getClientRect().get_size();
       if(currentSize != mPreviousSize)
       {
         pushEvent(WindowEvent::resized(currentSize.x(), currentSize.y()));
@@ -878,12 +878,12 @@ void WindowImpl::filterEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
       // mousemove events are generated when the mouse is outside of the client
       // area as well.
 
-      Vec2i pos(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+      vec2i pos(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 
-      Recti clientRect = getClientRect();
-      clientRect.setPosition(Vec2i());
+      recti clientRect = getClientRect();
+      clientRect.set_position(vec2i());
 
-      bool mouseCurrentlyInWindow = isPointInRectangle(clientRect, pos);
+      bool mouseCurrentlyInWindow = is_point_in_rectangle(clientRect, pos);
 
       // Generate mouse move event only if the mouse is inside the client.
       if(mouseCurrentlyInWindow)

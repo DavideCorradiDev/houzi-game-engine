@@ -116,7 +116,7 @@ TEST_F(TestGlFunctions, ComputeTextureSizeBytes)
 TEST_F(TestGlFunctions, BindWindow)
 {
   ASSERT_TRUE(mContext.isCurrent());
-  SystemWindow w("Test", VideoMode(Vec2u(40u, 30u), 32u), WindowStyle::Windowed);
+  SystemWindow w("Test", VideoMode(vec2u(40u, 30u), 32u), WindowStyle::Windowed);
   gl::bindWindow(w);
   EXPECT_TRUE(mContext.isCurrent());
 }

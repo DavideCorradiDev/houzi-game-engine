@@ -47,27 +47,27 @@ Vec<uint, dimOut> padVector(const Vec<uint, dimIn>& vecIn, uint value);
 
 template <PixelFormat fmt>
 Image1<fmt> getImageSubImage(
-  const Image1<fmt>& in, const Vec1u& offset, const Vec1u& size);
+  const Image1<fmt>& in, const vec1u& offset, const vec1u& size);
 
 template <PixelFormat fmt>
 Image2<fmt> getImageSubImage(
-  const Image2<fmt>& in, const Vec2u& offset, const Vec2u& size);
+  const Image2<fmt>& in, const vec2u& offset, const vec2u& size);
 
 template <PixelFormat fmt>
 Image3<fmt> getImageSubImage(
-  const Image3<fmt>& in, const Vec3u& offset, const Vec3u& size);
+  const Image3<fmt>& in, const vec3u& offset, const vec3u& size);
 
 template <PixelFormat fmt>
 void setImageSubImage(
-  Image1<fmt>& out, const Vec1u& offset, const Image1<fmt>& in);
+  Image1<fmt>& out, const vec1u& offset, const Image1<fmt>& in);
 
 template <PixelFormat fmt>
 void setImageSubImage(
-  Image2<fmt>& out, const Vec2u& offset, const Image2<fmt>& in);
+  Image2<fmt>& out, const vec2u& offset, const Image2<fmt>& in);
 
 template <PixelFormat fmt>
 void setImageSubImage(
-  Image3<fmt>& out, const Vec3u& offset, const Image1<fmt>& in);
+  Image3<fmt>& out, const vec3u& offset, const Image1<fmt>& in);
 
 using SoilTestFunction = std::function<int(uchar const*, int)>;
 using SoilLoadFunction
@@ -126,13 +126,13 @@ Vec<uint, dimOut> padVector(const Vec<uint, dimIn>& vecIn, uint value)
 
 template <PixelFormat fmt>
 Image1<fmt> getImageSubImage(
-  const Image1<fmt>& in, const Vec1u& offset, const Vec1u& size)
+  const Image1<fmt>& in, const vec1u& offset, const vec1u& size)
 {
-  HOU_EXPECT(elementWiseLowerOrEqual(offset + size, in.getSize()));
+  HOU_EXPECT(elementWiseLowerOrEqual(offset + size, in.get_size()));
   Image1<fmt> out(size);
   for(uint x = 0; x < size.x(); ++x)
   {
-    Vec1u pos = Vec1u(x);
+    vec1u pos = vec1u(x);
     out.setPixel(pos, in.getPixel(offset + pos));
   }
   return out;
@@ -142,15 +142,15 @@ Image1<fmt> getImageSubImage(
 
 template <PixelFormat fmt>
 Image2<fmt> getImageSubImage(
-  const Image2<fmt>& in, const Vec2u& offset, const Vec2u& size)
+  const Image2<fmt>& in, const vec2u& offset, const vec2u& size)
 {
-  HOU_EXPECT(elementWiseLowerOrEqual(offset + size, in.getSize()));
+  HOU_EXPECT(elementWiseLowerOrEqual(offset + size, in.get_size()));
   Image2<fmt> out(size);
   for(uint x = 0; x < size.x(); ++x)
   {
     for(uint y = 0; y < size.y(); ++y)
     {
-      Vec2u pos = Vec2u(x, y);
+      vec2u pos = vec2u(x, y);
       out.setPixel(pos, in.getPixel(offset + pos));
     }
   }
@@ -161,9 +161,9 @@ Image2<fmt> getImageSubImage(
 
 template <PixelFormat fmt>
 Image3<fmt> getImageSubImage(
-  const Image3<fmt>& in, const Vec3u& offset, const Vec3u& size)
+  const Image3<fmt>& in, const vec3u& offset, const vec3u& size)
 {
-  HOU_EXPECT(elementWiseLowerOrEqual(offset + size, in.getSize()));
+  HOU_EXPECT(elementWiseLowerOrEqual(offset + size, in.get_size()));
   Image3<fmt> out(size);
   for(uint x = 0; x < size.x(); ++x)
   {
@@ -171,7 +171,7 @@ Image3<fmt> getImageSubImage(
     {
       for(uint z = 0; z < size.z(); ++z)
       {
-        Vec3u pos = Vec3u(x, y, z);
+        vec3u pos = vec3u(x, y, z);
         out.setPixel(pos, in.getPixel(offset + pos));
       }
     }
@@ -183,12 +183,12 @@ Image3<fmt> getImageSubImage(
 
 template <PixelFormat fmt>
 void setImageSubImage(
-  Image1<fmt>& out, const Vec1u& offset, const Image1<fmt>& in)
+  Image1<fmt>& out, const vec1u& offset, const Image1<fmt>& in)
 {
-  HOU_EXPECT(elementWiseLowerOrEqual(offset + in.getSize(), out.getSize()));
-  for(uint x = 0; x < in.getSize().x(); ++x)
+  HOU_EXPECT(elementWiseLowerOrEqual(offset + in.get_size(), out.get_size()));
+  for(uint x = 0; x < in.get_size().x(); ++x)
   {
-    Vec1u pos = Vec1u(x);
+    vec1u pos = vec1u(x);
     out.setPixel(offset + pos, in.getPixel(pos));
   }
 }
@@ -197,14 +197,14 @@ void setImageSubImage(
 
 template <PixelFormat fmt>
 void setImageSubImage(
-  Image2<fmt>& out, const Vec2u& offset, const Image2<fmt>& in)
+  Image2<fmt>& out, const vec2u& offset, const Image2<fmt>& in)
 {
-  HOU_EXPECT(elementWiseLowerOrEqual(offset + in.getSize(), out.getSize()));
-  for(uint x = 0; x < in.getSize().x(); ++x)
+  HOU_EXPECT(elementWiseLowerOrEqual(offset + in.get_size(), out.get_size()));
+  for(uint x = 0; x < in.get_size().x(); ++x)
   {
-    for(uint y = 0; y < in.getSize().y(); ++y)
+    for(uint y = 0; y < in.get_size().y(); ++y)
     {
-      Vec2u pos = Vec2u(x, y);
+      vec2u pos = vec2u(x, y);
       out.setPixel(offset + pos, in.getPixel(pos));
     }
   }
@@ -214,16 +214,16 @@ void setImageSubImage(
 
 template <PixelFormat fmt>
 void setImageSubImage(
-  Image3<fmt>& out, const Vec3u& offset, const Image3<fmt>& in)
+  Image3<fmt>& out, const vec3u& offset, const Image3<fmt>& in)
 {
-  HOU_EXPECT(elementWiseLowerOrEqual(offset + in.getSize(), out.getSize()));
-  for(uint x = 0; x < in.getSize().x(); ++x)
+  HOU_EXPECT(elementWiseLowerOrEqual(offset + in.get_size(), out.get_size()));
+  for(uint x = 0; x < in.get_size().x(); ++x)
   {
-    for(uint y = 0; y < in.getSize().y(); ++y)
+    for(uint y = 0; y < in.get_size().y(); ++y)
     {
-      for(uint z = 0; z < in.getSize().z(); ++z)
+      for(uint z = 0; z < in.get_size().z(); ++z)
       {
-        Vec3u pos = Vec3u(x, y, z);
+        vec3u pos = vec3u(x, y, z);
         out.setPixel(offset + pos, in.getPixel(pos));
       }
     }
@@ -287,7 +287,7 @@ std::tuple<Image2<fmt>, bool> soilLoadFromMemory(SoilLoadFunction loadFun,
     return std::make_tuple(Image2<fmt>(), false);
   }
 
-  Vec2u imageSize(static_cast<uint>(width), static_cast<uint>(height));
+  vec2u imageSize(static_cast<uint>(width), static_cast<uint>(height));
   Image2<fmt> retImage(imageSize,
     span<const typename Image2<fmt>::Pixel>(
       reinterpret_cast<const typename Image2<fmt>::Pixel*>(rawImage),
@@ -332,8 +332,8 @@ bool soilWriteToFile(
   // a file with a standardized name, then rename the file to what is requested.
   static constexpr char tmpFileName[] = ".HziTmpImageFileName.hou";
 
-  int saveResult = SOIL_save_image(tmpFileName, imageType, image.getSize().x(),
-    image.getSize().y(), Image2<fmt>::Pixel::getByteCount(),
+  int saveResult = SOIL_save_image(tmpFileName, imageType, image.get_size().x(),
+    image.get_size().y(), Image2<fmt>::Pixel::getByteCount(),
     reinterpret_cast<const uchar*>(image.getPixels().data()));
   return saveResult && renameDir(tmpFileName, path);
 }
@@ -411,7 +411,7 @@ Image2<fmt> jpgReadFile(const std::string& path)
 
 template <size_t dim, PixelFormat fmt>
 Image<dim, fmt>::Image()
-  : mSize()
+  : m_size()
   , mPixels()
 {}
 
@@ -419,7 +419,7 @@ Image<dim, fmt>::Image()
 
 template <size_t dim, PixelFormat fmt>
 Image<dim, fmt>::Image(const Size& size)
-  : mSize(size)
+  : m_size(size)
   , mPixels(computePixelCount(), Pixel())
 {}
 
@@ -427,7 +427,7 @@ Image<dim, fmt>::Image(const Size& size)
 
 template <size_t dim, PixelFormat fmt>
 Image<dim, fmt>::Image(const Size& size, const Pixel& pixel)
-  : mSize(size)
+  : m_size(size)
   , mPixels(computePixelCount(), pixel)
 {}
 
@@ -435,7 +435,7 @@ Image<dim, fmt>::Image(const Size& size, const Pixel& pixel)
 
 template <size_t dim, PixelFormat fmt>
 Image<dim, fmt>::Image(const Size& size, const span<const Pixel>& pixels)
-  : mSize(size)
+  : m_size(size)
   , mPixels(pixels.begin(), pixels.end())
 {
   HOU_EXPECT(pixels.size() == computePixelCount());
@@ -445,7 +445,7 @@ Image<dim, fmt>::Image(const Size& size, const span<const Pixel>& pixels)
 
 template <size_t dim, PixelFormat fmt>
 Image<dim, fmt>::Image(const Size& size, PixelCollection&& pixels)
-  : mSize(size)
+  : m_size(size)
   , mPixels(pixels)
 {
   HOU_EXPECT(mPixels.size() == computePixelCount());
@@ -456,7 +456,7 @@ Image<dim, fmt>::Image(const Size& size, PixelCollection&& pixels)
 template <size_t dim, PixelFormat fmt>
 template <size_t otherDim, PixelFormat otherFmt, typename Enable>
 Image<dim, fmt>::Image(const Image<otherDim, otherFmt>& other)
-  : mSize(padVector<dim>(other.getSize(), 1u))
+  : m_size(padVector<dim>(other.get_size(), 1u))
   , mPixels(computePixelCount())
 {
   for(size_t i = 0; i < mPixels.size(); ++i)
@@ -468,9 +468,9 @@ Image<dim, fmt>::Image(const Image<otherDim, otherFmt>& other)
 
 
 template <size_t dim, PixelFormat fmt>
-const typename Image<dim, fmt>::Size& Image<dim, fmt>::getSize() const
+const typename Image<dim, fmt>::Size& Image<dim, fmt>::get_size() const
 {
-  return mSize;
+  return m_size;
 }
 
 
@@ -542,7 +542,7 @@ size_t Image<dim, fmt>::computePixelCount() const
   size_t retval = 1u;
   for(size_t i = 0; i < dim; ++i)
   {
-    retval *= mSize(i);
+    retval *= m_size(i);
   }
   return retval;
 }
@@ -554,7 +554,7 @@ size_t Image<dim, fmt>::computePixelIndex(const Coordinates& coordinates) const
 {
   for(size_t i = 0; i < dim; ++i)
   {
-    HOU_EXPECT(coordinates(i) < mSize(i));
+    HOU_EXPECT(coordinates(i) < m_size(i));
   }
 
   size_t idx = 0;
@@ -562,7 +562,7 @@ size_t Image<dim, fmt>::computePixelIndex(const Coordinates& coordinates) const
   for(size_t i = 0; i < dim; ++i)
   {
     idx += coordinates(i) * multiplier;
-    multiplier *= mSize(i);
+    multiplier *= m_size(i);
   }
   return idx;
 }
@@ -572,7 +572,7 @@ size_t Image<dim, fmt>::computePixelIndex(const Coordinates& coordinates) const
 template <size_t dim, PixelFormat fmt>
 bool operator==(const Image<dim, fmt>& lhs, const Image<dim, fmt>& rhs)
 {
-  return lhs.getSize() == rhs.getSize() && lhs.getPixels() == rhs.getPixels();
+  return lhs.get_size() == rhs.get_size() && lhs.getPixels() == rhs.getPixels();
 }
 
 
@@ -588,7 +588,7 @@ bool operator!=(const Image<dim, fmt>& lhs, const Image<dim, fmt>& rhs)
 template <size_t dim, PixelFormat fmt>
 std::ostream& operator<<(std::ostream& os, const Image<dim, fmt>& im)
 {
-  return os << "{Size = " << transpose(im.getSize())
+  return os << "{Size = " << transpose(im.get_size())
             << ", Pixels = " << im.getPixels() << "}";
 }
 

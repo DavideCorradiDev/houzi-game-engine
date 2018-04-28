@@ -10,8 +10,8 @@
 
 #include "hou/cor/character_encodings.hpp"
 
-#include "hou/mth/RectangleFwd.hpp"
-#include "hou/mth/Matrix.hpp"
+#include "hou/mth/rectangle_fwd.hpp"
+#include "hou/mth/matrix.hpp"
 
 #include "hou/sys/ImageFwd.hpp"
 #include "hou/sys/WindowHandle.hpp"
@@ -46,11 +46,11 @@ public:
 
   WindowHandle getWindowHandle() const;
 
-  Recti getFrameRect() const;
-  void setFrameRect(const Recti& value);
+  recti getFrameRect() const;
+  void setFrameRect(const recti& value);
 
-  Recti getClientRect() const;
-  void setClientRect(const Recti& value);
+  recti getClientRect() const;
+  void setClientRect(const recti& value);
 
   void setTitle(const std::string& value);
 
@@ -106,7 +106,7 @@ private:
   HICON mIconHandle;
   wide::code_unit mCachedUtf16Char;
   bool mMouseInWindow;
-  Vec2u mPreviousSize;
+  vec2u mPreviousSize;
 #endif
 };
 

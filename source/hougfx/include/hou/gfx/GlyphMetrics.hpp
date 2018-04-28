@@ -9,7 +9,7 @@
 
 #include "hou/cor/basic_types.hpp"
 
-#include "hou/mth/Matrix.hpp"
+#include "hou/mth/matrix.hpp"
 
 #include <iostream>
 
@@ -48,44 +48,44 @@ public:
    * \param verticalAdvance the vertical advance of the glyph, that is the
    * vertical offset to the next glyph when rendering text vertically.
    */
-  GlyphMetrics(const Vec2u& size, const Vec2i& horizontalBearing,
-    int horizontalAdvance, const Vec2i& verticalBearing, int verticalAdvance);
+  GlyphMetrics(const vec2u& size, const vec2i& horizontalBearing,
+    int horizontalAdvance, const vec2i& verticalBearing, int verticalAdvance);
 
   /** Gets the size of the bounding box of the glyph in 26.6 pixel format.
    *
    * \return the size of the bounding box of the glyph.
    */
-  const Vec2u& getSize() const;
+  const vec2u& get_size() const;
 
   /** Gets the size of the bounding box of the glyph in pixels.
    *
    * \return the size of the bounding box of the glyph.
    */
-  Vec2f getPixelSize() const;
+  vec2f getPixelSize() const;
 
   /** Sets the size of the bounding box of the glyph.
    *
    * \param size the size of the bounding box of the glyph.
    */
-  void setSize(const Vec2u& size);
+  void set_size(const vec2u& size);
 
   /** Gets the horizontal bearing of the glyph in 26.6 pixel format.
    *
    * \return the horizontal bearing of the glyph.
    */
-  const Vec2i& getHorizontalBearing() const;
+  const vec2i& getHorizontalBearing() const;
 
   /** Gets the horizontal bearing of the glyph in pixels.
    *
    * \return the horizontal bearing of the glyph.
    */
-  Vec2f getPixelHorizontalBearing() const;
+  vec2f getPixelHorizontalBearing() const;
 
   /** Sets the horizontal bearing of the glyph.
    *
    * \param horizontalBearing the horizontal bearing.
    */
-  void setHorizontalBearing(const Vec2i& horizontalBearing);
+  void setHorizontalBearing(const vec2i& horizontalBearing);
 
   /** Gets the horizontal advance of the glyph in 26.6 pixel format.
    *
@@ -109,19 +109,19 @@ public:
    *
    * \return the vertical bearing of the glyph.
    */
-  const Vec2i& getVerticalBearing() const;
+  const vec2i& getVerticalBearing() const;
 
   /** Gets the vertical bearing of the glyph in pixels.
    *
    * \return the vertical bearing of the glyph.
    */
-  Vec2f getPixelVerticalBearing() const;
+  vec2f getPixelVerticalBearing() const;
 
   /** Sets the vertical bearing of the glyph.
    *
    * \param verticalBearing the vertical bearing.
    */
-  void setVerticalBearing(const Vec2i& verticalBearing);
+  void setVerticalBearing(const vec2i& verticalBearing);
 
   /** Gets the vertical advance of the glyph in 26.6 pixel format.
    *
@@ -142,10 +142,10 @@ public:
   void setVerticalAdvance(int verticalAdvance);
 
 private:
-  Vec2u mSize;
-  Vec2i mHorizontalBearing;
+  vec2u m_size;
+  vec2i mHorizontalBearing;
   int mHorizontalAdvance;
-  Vec2i mVerticalBearing;
+  vec2i mVerticalBearing;
   int mVerticalAdvance;
 };
 

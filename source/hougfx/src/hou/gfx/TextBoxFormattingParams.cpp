@@ -6,12 +6,12 @@ namespace hou
 {
 
 const TextBoxFormattingParams TextBoxFormattingParams::Default(
-  TextFlow::LeftRight, Vec2f::zero());
+  TextFlow::LeftRight, vec2f::zero());
 
 
 
 TextBoxFormattingParams::TextBoxFormattingParams(
-  TextFlow textFlow, const Vec2f& maxSize)
+  TextFlow textFlow, const vec2f& maxSize)
   : mTextFlow(textFlow)
   , mMaxSize(maxSize)
 {}
@@ -25,7 +25,7 @@ TextFlow TextBoxFormattingParams::getTextFlow() const
 
 
 
-const Vec2f& TextBoxFormattingParams::getMaxSize() const
+const vec2f& TextBoxFormattingParams::getMaxSize() const
 {
   return mMaxSize;
 }

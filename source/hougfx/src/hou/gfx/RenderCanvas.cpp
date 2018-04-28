@@ -9,7 +9,7 @@
 namespace hou
 {
 
-RenderCanvas::RenderCanvas(const Vec2u& size, uint sampleCount)
+RenderCanvas::RenderCanvas(const vec2u& size, uint sampleCount)
   : RenderSurface(size, sampleCount)
 {}
 

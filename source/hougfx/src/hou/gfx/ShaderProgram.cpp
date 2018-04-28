@@ -6,7 +6,7 @@
 
 #include "hou/gfx/Shader.hpp"
 
-#include "hou/mth/Matrix.hpp"
+#include "hou/mth/matrix.hpp"
 
 
 

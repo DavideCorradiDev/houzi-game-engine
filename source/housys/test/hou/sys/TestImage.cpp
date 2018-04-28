@@ -62,7 +62,7 @@ class TestImageFileDeathTest : public TestImageFile
 template <>
 typename Image1R::Size TestImage<Image1R>::generateSize()
 {
-  return Vec1u{4u};
+  return vec1u{4u};
 }
 
 
@@ -70,7 +70,7 @@ typename Image1R::Size TestImage<Image1R>::generateSize()
 template <>
 typename Image1RG::Size TestImage<Image1RG>::generateSize()
 {
-  return Vec1u{4u};
+  return vec1u{4u};
 }
 
 
@@ -78,7 +78,7 @@ typename Image1RG::Size TestImage<Image1RG>::generateSize()
 template <>
 typename Image1RGB::Size TestImage<Image1RGB>::generateSize()
 {
-  return Vec1u{4u};
+  return vec1u{4u};
 }
 
 
@@ -86,7 +86,7 @@ typename Image1RGB::Size TestImage<Image1RGB>::generateSize()
 template <>
 typename Image1RGBA::Size TestImage<Image1RGBA>::generateSize()
 {
-  return Vec1u{4u};
+  return vec1u{4u};
 }
 
 
@@ -94,7 +94,7 @@ typename Image1RGBA::Size TestImage<Image1RGBA>::generateSize()
 template <>
 typename Image2R::Size TestImage<Image2R>::generateSize()
 {
-  return Vec2u{4u, 7u};
+  return vec2u{4u, 7u};
 }
 
 
@@ -102,7 +102,7 @@ typename Image2R::Size TestImage<Image2R>::generateSize()
 template <>
 typename Image2RG::Size TestImage<Image2RG>::generateSize()
 {
-  return Vec2u{4u, 7u};
+  return vec2u{4u, 7u};
 }
 
 
@@ -110,7 +110,7 @@ typename Image2RG::Size TestImage<Image2RG>::generateSize()
 template <>
 typename Image2RGB::Size TestImage<Image2RGB>::generateSize()
 {
-  return Vec2u{4u, 7u};
+  return vec2u{4u, 7u};
 }
 
 
@@ -118,7 +118,7 @@ typename Image2RGB::Size TestImage<Image2RGB>::generateSize()
 template <>
 typename Image2RGBA::Size TestImage<Image2RGBA>::generateSize()
 {
-  return Vec2u{4u, 7u};
+  return vec2u{4u, 7u};
 }
 
 
@@ -126,7 +126,7 @@ typename Image2RGBA::Size TestImage<Image2RGBA>::generateSize()
 template <>
 typename Image3R::Size TestImage<Image3R>::generateSize()
 {
-  return Vec3u{4u, 7u, 11u};
+  return vec3u{4u, 7u, 11u};
 }
 
 
@@ -134,7 +134,7 @@ typename Image3R::Size TestImage<Image3R>::generateSize()
 template <>
 typename Image3RG::Size TestImage<Image3RG>::generateSize()
 {
-  return Vec3u{4u, 7u, 11u};
+  return vec3u{4u, 7u, 11u};
 }
 
 
@@ -142,7 +142,7 @@ typename Image3RG::Size TestImage<Image3RG>::generateSize()
 template <>
 typename Image3RGB::Size TestImage<Image3RGB>::generateSize()
 {
-  return Vec3u{4u, 7u, 11u};
+  return vec3u{4u, 7u, 11u};
 }
 
 
@@ -150,7 +150,7 @@ typename Image3RGB::Size TestImage<Image3RGB>::generateSize()
 template <>
 typename Image3RGBA::Size TestImage<Image3RGBA>::generateSize()
 {
-  return Vec3u{4u, 7u, 11u};
+  return vec3u{4u, 7u, 11u};
 }
 
 
@@ -175,7 +175,7 @@ template <typename ImageT>
 size_t TestImage<ImageT>::multiplyElements(const typename ImageT::Size& size)
 {
   size_t retval = size(0);
-  for(size_t i = 1; i < size.getSize(); ++i)
+  for(size_t i = 1; i < size.get_size(); ++i)
   {
     retval *= size(i);
   }
@@ -191,7 +191,7 @@ size_t TestImage<ImageT>::computePixelIndex(
 {
   size_t idx = 0;
   size_t multiplier = 1;
-  for(size_t i = 0; i < coordinates.getSize(); ++i)
+  for(size_t i = 0; i < coordinates.get_size(); ++i)
   {
     idx += coordinates(i) * multiplier;
     multiplier *= size(i);
@@ -209,7 +209,7 @@ typename ImageT::Coordinates TestImage<ImageT>::computePixelCoordinates(
 
   Coordinates coords;
   size_t divider = multiplyElements(size);
-  for(size_t i = size.getSize() - 1; i > 0; --i)
+  for(size_t i = size.get_size() - 1; i > 0; --i)
   {
     divider /= size(i);
     coords(i) = index / divider;
@@ -252,7 +252,7 @@ TYPED_TEST(TestImage, DefaultConstructor)
   using PixelCollection = typename TypeParam::PixelCollection;
 
   TypeParam image;
-  EXPECT_EQ(Size::zero(), image.getSize());
+  EXPECT_EQ(Size::zero(), image.get_size());
   EXPECT_EQ(PixelCollection(), image.getPixels());
 }
 
@@ -265,7 +265,7 @@ TYPED_TEST(TestImage, SizeConstructor)
 
   Size sizeRef = TestFixture::generateSize();
   TypeParam image(sizeRef);
-  EXPECT_EQ(sizeRef, image.getSize());
+  EXPECT_EQ(sizeRef, image.get_size());
   EXPECT_EQ(
     PixelCollection(TestFixture::multiplyElements(sizeRef)), image.getPixels());
 }
@@ -284,7 +284,7 @@ TYPED_TEST(TestImage, PixelConstructor)
   PixelCollection pixelsRef(TestFixture::multiplyElements(sizeRef), pixelRef);
   TypeParam image(sizeRef, pixelRef);
 
-  EXPECT_EQ(sizeRef, image.getSize());
+  EXPECT_EQ(sizeRef, image.get_size());
   EXPECT_EQ(pixelsRef, image.getPixels());
 }
 
@@ -299,7 +299,7 @@ TYPED_TEST(TestImage, PixelsConstructor)
   PixelCollection pixelsRef = TestFixture::generatePixels(sizeRef);
   TypeParam image(sizeRef, pixelsRef);
 
-  EXPECT_EQ(sizeRef, image.getSize());
+  EXPECT_EQ(sizeRef, image.get_size());
   EXPECT_EQ(pixelsRef, image.getPixels());
 }
 
@@ -339,7 +339,7 @@ TYPED_TEST(TestImage, PixelsMoveConstructor)
   PixelCollection pixels(pixelsRef);
   TypeParam image(sizeRef, std::move(pixels));
 
-  EXPECT_EQ(sizeRef, image.getSize());
+  EXPECT_EQ(sizeRef, image.get_size());
   EXPECT_EQ(pixelsRef, image.getPixels());
 }
 
@@ -421,7 +421,7 @@ TYPED_TEST(TestImage, GetPixel)
   for(size_t i = 0; i < pixelsRef.size(); ++i)
   {
     EXPECT_EQ(pixelsRef[i],
-      image.getPixel(TestFixture::computePixelCoordinates(i, image.getSize())));
+      image.getPixel(TestFixture::computePixelCoordinates(i, image.get_size())));
   }
 }
 
@@ -435,7 +435,7 @@ TYPED_TEST(TestImageDeathTest, GetPixelErrorOutOfRange)
   Size sizeRef = TestFixture::generateSize();
   TypeParam image(sizeRef);
 
-  for(size_t i = 0; i < sizeRef.getSize(); ++i)
+  for(size_t i = 0; i < sizeRef.get_size(); ++i)
   {
     Coordinates coords;
     coords(i) = sizeRef(i);
@@ -461,9 +461,9 @@ TYPED_TEST(TestImage, SetPixel)
     PixelCollection pixelsRef = image.getPixels();
     pixelsRef[i] = pixelRef;
     image.setPixel(
-      TestFixture::computePixelCoordinates(i, image.getSize()), pixelRef);
+      TestFixture::computePixelCoordinates(i, image.get_size()), pixelRef);
     EXPECT_EQ(pixelsRef[i],
-      image.getPixel(TestFixture::computePixelCoordinates(i, image.getSize())));
+      image.getPixel(TestFixture::computePixelCoordinates(i, image.get_size())));
   }
 }
 
@@ -479,7 +479,7 @@ TYPED_TEST(TestImageDeathTest, SetPixelErrorOutOfRange)
   TypeParam image(sizeRef);
 
   Pixel pixelRef;
-  for(size_t i = 0; i < sizeRef.getSize(); ++i)
+  for(size_t i = 0; i < sizeRef.get_size(); ++i)
   {
     Coordinates coords;
     coords(i) = sizeRef(i);
@@ -499,7 +499,7 @@ TYPED_TEST(TestImage, GetSubImage)
   Size imageSize;
   Size subImageSize;
   Coordinates subImageOffset;
-  for(size_t i = 0; i < imageSize.getSize(); ++i)
+  for(size_t i = 0; i < imageSize.get_size(); ++i)
   {
     imageSize(i) = (i + 1) * 4;
     subImageSize(i) = (i + 1) * 2;
@@ -532,7 +532,7 @@ TYPED_TEST(TestImageDeathTest, GetSubImageErrorOverflow)
   Size imageSize;
   Size subImageSize;
   Coordinates subImageOffset;
-  for(size_t i = 0; i < imageSize.getSize(); ++i)
+  for(size_t i = 0; i < imageSize.get_size(); ++i)
   {
     imageSize(i) = (i + 1) * 4;
     subImageOffset(i) = i + 1;
@@ -554,7 +554,7 @@ TYPED_TEST(TestImage, SetSubImage)
   Size imageSize;
   Size subImageSize;
   Coordinates subImageOffset;
-  for(size_t i = 0; i < imageSize.getSize(); ++i)
+  for(size_t i = 0; i < imageSize.get_size(); ++i)
   {
     imageSize(i) = (i + 1) * 4;
     subImageSize(i) = (i + 1) * 2;
@@ -591,7 +591,7 @@ TYPED_TEST(TestImageDeathTest, SetSubImageErrorOverflow)
   Size imageSize;
   Size subImageSize;
   Coordinates subImageOffset;
-  for(size_t i = 0; i < imageSize.getSize(); ++i)
+  for(size_t i = 0; i < imageSize.get_size(); ++i)
   {
     imageSize(i) = (i + 1) * 4;
     subImageOffset(i) = i + 1;
@@ -734,7 +734,7 @@ TEST_F(TestImageConversionConstructor, R2RGBAConstructor)
   Image2R imageR(size, pixelsR);
   Image2RGBA imageRGBA(imageR);
 
-  EXPECT_EQ(size, imageRGBA.getSize());
+  EXPECT_EQ(size, imageRGBA.get_size());
   EXPECT_EQ(pixelsRGBA, imageRGBA.getPixels());
 }
 
@@ -764,7 +764,7 @@ TEST_F(TestImageConversionConstructor, RG2RGBAConstructor)
   Image2RG imageRG(size, pixelsRG);
   Image2RGBA imageRGBA(imageRG);
 
-  EXPECT_EQ(size, imageRGBA.getSize());
+  EXPECT_EQ(size, imageRGBA.get_size());
   EXPECT_EQ(pixelsRGBA, imageRGBA.getPixels());
 }
 
@@ -794,7 +794,7 @@ TEST_F(TestImageConversionConstructor, RGB2RGBAConstructor)
   Image2RGB imageRGB(size, pixelsRGB);
   Image2RGBA imageRGBA(imageRGB);
 
-  EXPECT_EQ(size, imageRGBA.getSize());
+  EXPECT_EQ(size, imageRGBA.get_size());
   EXPECT_EQ(pixelsRGBA, imageRGBA.getPixels());
 }
 
@@ -810,7 +810,7 @@ TEST_F(TestImageConversionConstructor, Image1ToImage2Constructor)
   };
   Image1RGBA image1RGBA(size, pixelsRGBA);
   Image2RGBA image2RGBA(image1RGBA);
-  EXPECT_EQ(Vec2u(size.x(), 1u), image2RGBA.getSize());
+  EXPECT_EQ(vec2u(size.x(), 1u), image2RGBA.get_size());
   EXPECT_EQ(pixelsRGBA, image2RGBA.getPixels());
 }
 
@@ -826,7 +826,7 @@ TEST_F(TestImageConversionConstructor, Image1ToImage3Constructor)
   };
   Image1RGBA image1RGBA(size, pixelsRGBA);
   Image3RGBA image3RGBA(image1RGBA);
-  EXPECT_EQ(Vec3u(size.x(), 1u, 1u), image3RGBA.getSize());
+  EXPECT_EQ(vec3u(size.x(), 1u, 1u), image3RGBA.get_size());
   EXPECT_EQ(pixelsRGBA, image3RGBA.getPixels());
 }
 
@@ -845,7 +845,7 @@ TEST_F(TestImageConversionConstructor, Image2ToImage3Constructor)
   };
   Image2RGBA image1RGBA(size, pixelsRGBA);
   Image3RGBA image3RGBA(image1RGBA);
-  EXPECT_EQ(Vec3u(size.x(), size.y(), 1u), image3RGBA.getSize());
+  EXPECT_EQ(vec3u(size.x(), size.y(), 1u), image3RGBA.get_size());
   EXPECT_EQ(pixelsRGBA, image3RGBA.getPixels());
 }
 
@@ -854,7 +854,7 @@ TEST_F(TestImageConversionConstructor, Image2ToImage3Constructor)
 TEST_F(TestImageFile, LoadBmpRGBA)
 {
   // Alpha channel in Bmp not supported.
-  Image2RGBA imRef(Vec2u(3u, 2u),
+  Image2RGBA imRef(vec2u(3u, 2u),
     std::vector<Image2RGBA::Pixel>{
       Image2RGBA::Pixel(50u, 100u, 150u, 255u),
       Image2RGBA::Pixel(150u, 100u, 50u, 255u),
@@ -880,7 +880,7 @@ TEST_F(TestImageFileDeathTest, LoadBmpRGBAError)
 
 TEST_F(TestImageFile, LoadPngRGBA)
 {
-  Image2RGBA imRef(Vec2u(3u, 2u),
+  Image2RGBA imRef(vec2u(3u, 2u),
     std::vector<Image2RGBA::Pixel>{
       Image2RGBA::Pixel(50u, 100u, 150u, 255u),
       Image2RGBA::Pixel(150u, 100u, 50u, 255u),
@@ -906,7 +906,7 @@ TEST_F(TestImageFileDeathTest, LoadPngRGBAError)
 
 TEST_F(TestImageFile, LoadJpgRGBA)
 {
-  Image2RGBA imRef(Vec2u(3u, 2u),
+  Image2RGBA imRef(vec2u(3u, 2u),
     std::vector<Image2RGBA::Pixel>{
       Image2RGBA::Pixel(72u, 86u, 133u, 255u),
       Image2RGBA::Pixel(134u, 111u, 80u, 255u),
@@ -960,7 +960,7 @@ TEST_F(TestImageFileDeathTest, SaveBmpErrorRGBA)
 TEST_F(TestImageFile, LoadBmpRGB)
 {
   // Alpha channel in Bmp not supported.
-  Image2RGB imRef(Vec2u(3u, 2u),
+  Image2RGB imRef(vec2u(3u, 2u),
     std::vector<Image2RGB::Pixel>{
       Image2RGB::Pixel(50u, 100u, 150u),
       Image2RGB::Pixel(150u, 100u, 50u),
@@ -986,7 +986,7 @@ TEST_F(TestImageFileDeathTest, LoadBmpRGBError)
 
 TEST_F(TestImageFile, LoadPngRGB)
 {
-  Image2RGB imRef(Vec2u(3u, 2u),
+  Image2RGB imRef(vec2u(3u, 2u),
     std::vector<Image2RGB::Pixel>{
       Image2RGB::Pixel(50u, 100u, 150u),
       Image2RGB::Pixel(150u, 100u, 50u),
@@ -1012,7 +1012,7 @@ TEST_F(TestImageFileDeathTest, LoadPngRGBError)
 
 TEST_F(TestImageFile, LoadJpgRGB)
 {
-  Image2RGB imRef(Vec2u(3u, 2u),
+  Image2RGB imRef(vec2u(3u, 2u),
     std::vector<Image2RGB::Pixel>{
       Image2RGB::Pixel(72u, 86u, 133u),
       Image2RGB::Pixel(134u, 111u, 80u),
@@ -1039,7 +1039,7 @@ TEST_F(TestImageFileDeathTest, LoadJpgRGBError)
 TEST_F(TestImageFile, LoadBmpRG)
 {
   // Alpha channel in Bmp not supported.
-  Image2RG imRef(Vec2u(3u, 2u),
+  Image2RG imRef(vec2u(3u, 2u),
     std::vector<Image2RG::Pixel>{
       Image2RG::Pixel(90u, 255u),
       Image2RG::Pixel(109u, 255u),
@@ -1065,7 +1065,7 @@ TEST_F(TestImageFileDeathTest, LoadBmpRGError)
 
 TEST_F(TestImageFile, LoadPngRG)
 {
-  Image2RG imRef(Vec2u(3u, 2u),
+  Image2RG imRef(vec2u(3u, 2u),
     std::vector<Image2RG::Pixel>{
       Image2RG::Pixel(90u, 255u),
       Image2RG::Pixel(109u, 255u),
@@ -1091,7 +1091,7 @@ TEST_F(TestImageFileDeathTest, LoadPngRGError)
 
 TEST_F(TestImageFile, LoadJpgRG)
 {
-  Image2RG imRef(Vec2u(3u, 2u),
+  Image2RG imRef(vec2u(3u, 2u),
     std::vector<Image2RG::Pixel>{
       Image2RG::Pixel(87u, 255u),
       Image2RG::Pixel(114u, 255u),
@@ -1118,7 +1118,7 @@ TEST_F(TestImageFileDeathTest, LoadJpgRGError)
 TEST_F(TestImageFile, LoadBmpR)
 {
   // Alpha channel in Bmp not supported.
-  Image2R imRef(Vec2u(3u, 2u),
+  Image2R imRef(vec2u(3u, 2u),
     std::vector<Image2R::Pixel>{
       Image2R::Pixel(90u),
       Image2R::Pixel(109u),
@@ -1144,7 +1144,7 @@ TEST_F(TestImageFileDeathTest, LoadBmpRError)
 
 TEST_F(TestImageFile, LoadPngR)
 {
-  Image2R imRef(Vec2u(3u, 2u),
+  Image2R imRef(vec2u(3u, 2u),
     std::vector<Image2R::Pixel>{
       Image2R::Pixel(90u),
       Image2R::Pixel(109u),
@@ -1170,7 +1170,7 @@ TEST_F(TestImageFileDeathTest, LoadPngRError)
 
 TEST_F(TestImageFile, LoadJpgR)
 {
-  Image2R imRef(Vec2u(3u, 2u),
+  Image2R imRef(vec2u(3u, 2u),
     std::vector<Image2R::Pixel>{
       Image2R::Pixel(87u),
       Image2R::Pixel(114u),

@@ -4,8 +4,8 @@
 
 #include "hou/gfx/Texture.hpp"
 
-#include "hou/mth/Matrix.hpp"
-#include "hou/mth/MathFunctions.hpp"
+#include "hou/mth/matrix.hpp"
+#include "hou/mth/math_functions.hpp"
 
 #include "hou/gfx/GlType.hpp"
 #include "hou/gfx/TextureChannelMapping.hpp"
@@ -40,11 +40,11 @@ template <size_t dim>
 bool elementWiseLowerOrEqual(
   const Vec<uint, dim>& lhs, const Vec<uint, dim>& rhs);
 
-Vec1u getTexture1Size(const gl::TextureHandle& th, uint mipMapLevel);
+vec1u getTexture1Size(const gl::TextureHandle& th, uint mipMapLevel);
 
-Vec2u getTexture2Size(const gl::TextureHandle& th, uint mipMapLevel);
+vec2u getTexture2Size(const gl::TextureHandle& th, uint mipMapLevel);
 
-Vec3u getTexture3Size(const gl::TextureHandle& th, uint mipMapLevel);
+vec3u getTexture3Size(const gl::TextureHandle& th, uint mipMapLevel);
 
 std::array<TextureWrapMode, 1u> getTexture1WrapMode(
   const gl::TextureHandle& th);
@@ -90,7 +90,7 @@ bool isTextureSizeValid(const typename TextureT<type>::Size& size)
 {
   using Tex = TextureT<type>;
   typename Tex::Size maxSize = Tex::getMaxSize();
-  for(size_t i = 0; i < size.getSize(); ++i)
+  for(size_t i = 0; i < size.get_size(); ++i)
   {
     if(size(i) < 1u || size(i) > maxSize(i))
     {
@@ -190,7 +190,7 @@ size_t computeImageBufferSize(const Vec<uint, dim>& imSize, PixelFormat fmt)
 {
   HOU_EXPECT_DEV(gl::getUnpackAlignment() == 1u);
   size_t byteCount = 1u;
-  for(size_t i = 0; i < imSize.getSize(); ++i)
+  for(size_t i = 0; i < imSize.get_size(); ++i)
   {
     byteCount *= imSize(i);
   }
@@ -215,24 +215,24 @@ bool elementWiseLowerOrEqual(
 
 
 
-Vec1u getTexture1Size(const gl::TextureHandle& th, uint mipMapLevel)
+vec1u getTexture1Size(const gl::TextureHandle& th, uint mipMapLevel)
 {
-  return Vec1u(static_cast<uint>(gl::getTextureWidth(th, mipMapLevel)));
+  return vec1u(static_cast<uint>(gl::getTextureWidth(th, mipMapLevel)));
 }
 
 
 
-Vec2u getTexture2Size(const gl::TextureHandle& th, uint mipMapLevel)
+vec2u getTexture2Size(const gl::TextureHandle& th, uint mipMapLevel)
 {
-  return Vec2u(static_cast<uint>(gl::getTextureWidth(th, mipMapLevel)),
+  return vec2u(static_cast<uint>(gl::getTextureWidth(th, mipMapLevel)),
     static_cast<uint>(gl::getTextureHeight(th, mipMapLevel)));
 }
 
 
 
-Vec3u getTexture3Size(const gl::TextureHandle& th, uint mipMapLevel)
+vec3u getTexture3Size(const gl::TextureHandle& th, uint mipMapLevel)
 {
-  return Vec3u(static_cast<uint>(gl::getTextureWidth(th, mipMapLevel)),
+  return vec3u(static_cast<uint>(gl::getTextureWidth(th, mipMapLevel)),
     static_cast<uint>(gl::getTextureHeight(th, mipMapLevel)),
     static_cast<uint>(gl::getTextureDepth(th, mipMapLevel)));
 }
@@ -424,57 +424,57 @@ uint Texture::getDepth() const
 
 
 
-Vec1u Texture::getSize1() const
+vec1u Texture::getSize1() const
 {
-  return Vec1u(getWidth());
+  return vec1u(getWidth());
 }
 
 
 
-Vec2u Texture::getSize2() const
+vec2u Texture::getSize2() const
 {
-  return Vec2u(getWidth(), getHeight());
+  return vec2u(getWidth(), getHeight());
 }
 
 
 
-Vec3u Texture::getSize3() const
+vec3u Texture::getSize3() const
 {
-  return Vec3u(getWidth(), getHeight(), getDepth());
-}
-
-
-
-template <>
-Vec1u TextureT<TextureType::Texture1>::getMaxSize()
-{
-  return Vec1u(static_cast<uint>(gl::getMaxTextureSize()));
+  return vec3u(getWidth(), getHeight(), getDepth());
 }
 
 
 
 template <>
-Vec2u TextureT<TextureType::Texture1Array>::getMaxSize()
+vec1u TextureT<TextureType::Texture1>::getMaxSize()
 {
-  return Vec2u(static_cast<uint>(gl::getMaxTextureSize()),
+  return vec1u(static_cast<uint>(gl::getMaxTextureSize()));
+}
+
+
+
+template <>
+vec2u TextureT<TextureType::Texture1Array>::getMaxSize()
+{
+  return vec2u(static_cast<uint>(gl::getMaxTextureSize()),
     static_cast<uint>(gl::getMaxTextureLayers()));
 }
 
 
 
 template <>
-Vec2u TextureT<TextureType::Texture2>::getMaxSize()
+vec2u TextureT<TextureType::Texture2>::getMaxSize()
 {
-  return Vec2u(static_cast<uint>(gl::getMaxTextureSize()),
+  return vec2u(static_cast<uint>(gl::getMaxTextureSize()),
     static_cast<uint>(gl::getMaxTextureSize()));
 }
 
 
 
 template <>
-Vec3u TextureT<TextureType::Texture2Array>::getMaxSize()
+vec3u TextureT<TextureType::Texture2Array>::getMaxSize()
 {
-  return Vec3u(static_cast<uint>(gl::getMaxTextureSize()),
+  return vec3u(static_cast<uint>(gl::getMaxTextureSize()),
     static_cast<uint>(gl::getMaxTextureSize()),
     static_cast<uint>(gl::getMaxTextureLayers()));
 }
@@ -482,9 +482,9 @@ Vec3u TextureT<TextureType::Texture2Array>::getMaxSize()
 
 
 template <>
-Vec3u TextureT<TextureType::Texture3>::getMaxSize()
+vec3u TextureT<TextureType::Texture3>::getMaxSize()
 {
-  return Vec3u(static_cast<uint>(gl::getMax3dTextureSize()),
+  return vec3u(static_cast<uint>(gl::getMax3dTextureSize()),
     static_cast<uint>(gl::getMax3dTextureSize()),
     static_cast<uint>(gl::getMax3dTextureSize()));
 }
@@ -492,18 +492,18 @@ Vec3u TextureT<TextureType::Texture3>::getMaxSize()
 
 
 template <>
-Vec2u TextureT<TextureType::MultisampleTexture2>::getMaxSize()
+vec2u TextureT<TextureType::MultisampleTexture2>::getMaxSize()
 {
-  return Vec2u(static_cast<uint>(gl::getMaxTextureSize()),
+  return vec2u(static_cast<uint>(gl::getMaxTextureSize()),
     static_cast<uint>(gl::getMaxTextureSize()));
 }
 
 
 
 template <>
-Vec3u TextureT<TextureType::MultisampleTexture2Array>::getMaxSize()
+vec3u TextureT<TextureType::MultisampleTexture2Array>::getMaxSize()
 {
-  return Vec3u(static_cast<uint>(gl::getMaxTextureSize()),
+  return vec3u(static_cast<uint>(gl::getMaxTextureSize()),
     static_cast<uint>(gl::getMaxTextureSize()),
     static_cast<uint>(gl::getMaxTextureLayers()));
 }
@@ -609,7 +609,7 @@ template <TextureType type>
 template <PixelFormat fmt, TextureType t, typename Enable>
 TextureT<type>::TextureT(
   const Image<fmt>& image, TextureFormat format, uint mipMapLevelCount)
-  : TextureT(image.getSize(), format, mipMapLevelCount)
+  : TextureT(image.get_size(), format, mipMapLevelCount)
 {
   setImage(image);
 }
@@ -664,7 +664,7 @@ TextureT<type>::~TextureT()
 
 template <>
 typename TextureT<TextureType::Texture1>::Size
-  TextureT<TextureType::Texture1>::getSize() const
+  TextureT<TextureType::Texture1>::get_size() const
 {
   return getSize1();
 }
@@ -673,7 +673,7 @@ typename TextureT<TextureType::Texture1>::Size
 
 template <>
 typename TextureT<TextureType::Texture1Array>::Size
-  TextureT<TextureType::Texture1Array>::getSize() const
+  TextureT<TextureType::Texture1Array>::get_size() const
 {
   return getSize2();
 }
@@ -682,7 +682,7 @@ typename TextureT<TextureType::Texture1Array>::Size
 
 template <>
 typename TextureT<TextureType::Texture2>::Size
-  TextureT<TextureType::Texture2>::getSize() const
+  TextureT<TextureType::Texture2>::get_size() const
 {
   return getSize2();
 }
@@ -691,7 +691,7 @@ typename TextureT<TextureType::Texture2>::Size
 
 template <>
 typename TextureT<TextureType::Texture2Array>::Size
-  TextureT<TextureType::Texture2Array>::getSize() const
+  TextureT<TextureType::Texture2Array>::get_size() const
 {
   return getSize3();
 }
@@ -700,7 +700,7 @@ typename TextureT<TextureType::Texture2Array>::Size
 
 template <>
 typename TextureT<TextureType::Texture3>::Size
-  TextureT<TextureType::Texture3>::getSize() const
+  TextureT<TextureType::Texture3>::get_size() const
 {
   return getSize3();
 }
@@ -709,7 +709,7 @@ typename TextureT<TextureType::Texture3>::Size
 
 template <>
 typename TextureT<TextureType::MultisampleTexture2>::Size
-  TextureT<TextureType::MultisampleTexture2>::getSize() const
+  TextureT<TextureType::MultisampleTexture2>::get_size() const
 {
   return getSize2();
 }
@@ -718,7 +718,7 @@ typename TextureT<TextureType::MultisampleTexture2>::Size
 
 template <>
 typename TextureT<TextureType::MultisampleTexture2Array>::Size
-  TextureT<TextureType::MultisampleTexture2Array>::getSize() const
+  TextureT<TextureType::MultisampleTexture2Array>::get_size() const
 {
   return getSize3();
 }
@@ -877,7 +877,7 @@ template <PixelFormat fmt, TextureType t, typename Enable>
 typename TextureT<type>::template Image<fmt> TextureT<type>::getImage() const
 {
   gl::setUnpackAlignment(1);
-  Size size = getSize();
+  Size size = get_size();
   std::vector<uint8_t> buffer(computeImageBufferSize(size, fmt));
   gl::getTextureImage(mGlTextureHandle, 0u, pixelFormatToGlPixelFormat(fmt),
     static_cast<GLenum>(toGlType<uint8_t>()), buffer.size(), buffer.data());
@@ -893,7 +893,7 @@ typename TextureT<TextureType::Texture1>::template Image<fmt>
   TextureT<TextureType::Texture1>::getSubImage(
     const Coordinates& offset, const Size& size) const
 {
-  HOU_EXPECT(elementWiseLowerOrEqual(offset + size, getSize()));
+  HOU_EXPECT(elementWiseLowerOrEqual(offset + size, get_size()));
   gl::setUnpackAlignment(1);
   std::vector<uint8_t> buffer(computeImageBufferSize(size, fmt));
   gl::getTextureSubImage(mGlTextureHandle, offset.x(), 0, 0, size.x(), 1, 1, 0,
@@ -911,7 +911,7 @@ typename TextureT<TextureType::Texture1Array>::template Image<fmt>
   TextureT<TextureType::Texture1Array>::getSubImage(
     const Coordinates& offset, const Size& size) const
 {
-  HOU_EXPECT(elementWiseLowerOrEqual(offset + size, getSize()));
+  HOU_EXPECT(elementWiseLowerOrEqual(offset + size, get_size()));
   gl::setUnpackAlignment(1);
   std::vector<uint8_t> buffer(computeImageBufferSize(size, fmt));
   gl::getTextureSubImage(mGlTextureHandle, offset.x(), offset.y(), 0, size.x(),
@@ -929,7 +929,7 @@ typename TextureT<TextureType::Texture2>::template Image<fmt>
   TextureT<TextureType::Texture2>::getSubImage(
     const Coordinates& offset, const Size& size) const
 {
-  HOU_EXPECT(elementWiseLowerOrEqual(offset + size, getSize()));
+  HOU_EXPECT(elementWiseLowerOrEqual(offset + size, get_size()));
   gl::setUnpackAlignment(1);
   std::vector<uint8_t> buffer(computeImageBufferSize(size, fmt));
   gl::getTextureSubImage(mGlTextureHandle, offset.x(), offset.y(), 0, size.x(),
@@ -947,7 +947,7 @@ typename TextureT<TextureType::Texture2Array>::template Image<fmt>
   TextureT<TextureType::Texture2Array>::getSubImage(
     const Coordinates& offset, const Size& size) const
 {
-  HOU_EXPECT(elementWiseLowerOrEqual(offset + size, getSize()));
+  HOU_EXPECT(elementWiseLowerOrEqual(offset + size, get_size()));
   gl::setUnpackAlignment(1);
   std::vector<uint8_t> buffer(computeImageBufferSize(size, fmt));
   gl::getTextureSubImage(mGlTextureHandle, offset.x(), offset.y(), offset.z(),
@@ -965,7 +965,7 @@ typename TextureT<TextureType::Texture3>::template Image<fmt>
   TextureT<TextureType::Texture3>::getSubImage(
     const Coordinates& offset, const Size& size) const
 {
-  HOU_EXPECT(elementWiseLowerOrEqual(offset + size, getSize()));
+  HOU_EXPECT(elementWiseLowerOrEqual(offset + size, get_size()));
   gl::setUnpackAlignment(1);
   std::vector<uint8_t> buffer(computeImageBufferSize(size, fmt));
   gl::getTextureSubImage(mGlTextureHandle, offset.x(), offset.y(), offset.z(),
@@ -981,7 +981,7 @@ template <TextureType type>
 template <PixelFormat fmt, TextureType t, typename Enable>
 void TextureT<type>::setImage(const Image<fmt>& image)
 {
-  HOU_EXPECT(image.getSize() == getSize());
+  HOU_EXPECT(image.get_size() == get_size());
   setSubImage<fmt>(Coordinates::zero(), image);
 }
 
@@ -992,9 +992,9 @@ template <PixelFormat fmt, TextureType t, typename Enable>
 void TextureT<TextureType::Texture1>::setSubImage(
   const Coordinates& offset, const Image<fmt>& image)
 {
-  HOU_EXPECT(elementWiseLowerOrEqual(offset + image.getSize(), getSize()));
+  HOU_EXPECT(elementWiseLowerOrEqual(offset + image.get_size(), get_size()));
   gl::setTextureSubImage1d(mGlTextureHandle, 0u, offset.x(),
-    image.getSize().x(), pixelFormatToGlPixelFormat(fmt),
+    image.get_size().x(), pixelFormatToGlPixelFormat(fmt),
     static_cast<GLenum>(toGlType<uint8_t>()),
     reinterpret_cast<const void*>(image.getPixels().data()));
   generateMipMap();
@@ -1007,9 +1007,9 @@ template <PixelFormat fmt, TextureType t, typename Enable>
 void TextureT<TextureType::Texture1Array>::setSubImage(
   const Coordinates& offset, const Image<fmt>& image)
 {
-  HOU_EXPECT(elementWiseLowerOrEqual(offset + image.getSize(), getSize()));
+  HOU_EXPECT(elementWiseLowerOrEqual(offset + image.get_size(), get_size()));
   gl::setTextureSubImage2d(mGlTextureHandle, 0, offset.x(), offset.y(),
-    image.getSize().x(), image.getSize().y(), pixelFormatToGlPixelFormat(fmt),
+    image.get_size().x(), image.get_size().y(), pixelFormatToGlPixelFormat(fmt),
     static_cast<GLenum>(toGlType<uint8_t>()),
     reinterpret_cast<const void*>(image.getPixels().data()));
   generateMipMap();
@@ -1022,9 +1022,9 @@ template <PixelFormat fmt, TextureType t, typename Enable>
 void TextureT<TextureType::Texture2>::setSubImage(
   const Coordinates& offset, const Image<fmt>& image)
 {
-  HOU_EXPECT(elementWiseLowerOrEqual(offset + image.getSize(), getSize()));
+  HOU_EXPECT(elementWiseLowerOrEqual(offset + image.get_size(), get_size()));
   gl::setTextureSubImage2d(mGlTextureHandle, 0, offset.x(), offset.y(),
-    image.getSize().x(), image.getSize().y(), pixelFormatToGlPixelFormat(fmt),
+    image.get_size().x(), image.get_size().y(), pixelFormatToGlPixelFormat(fmt),
     static_cast<GLenum>(toGlType<uint8_t>()),
     reinterpret_cast<const void*>(image.getPixels().data()));
   generateMipMap();
@@ -1037,9 +1037,9 @@ template <PixelFormat fmt, TextureType t, typename Enable>
 void TextureT<TextureType::Texture2Array>::setSubImage(
   const Coordinates& offset, const Image<fmt>& image)
 {
-  HOU_EXPECT(elementWiseLowerOrEqual(offset + image.getSize(), getSize()));
+  HOU_EXPECT(elementWiseLowerOrEqual(offset + image.get_size(), get_size()));
   gl::setTextureSubImage3d(mGlTextureHandle, 0, offset.x(), offset.y(),
-    offset.z(), image.getSize().x(), image.getSize().y(), image.getSize().z(),
+    offset.z(), image.get_size().x(), image.get_size().y(), image.get_size().z(),
     pixelFormatToGlPixelFormat(fmt), static_cast<GLenum>(toGlType<uint8_t>()),
     reinterpret_cast<const void*>(image.getPixels().data()));
   generateMipMap();
@@ -1052,9 +1052,9 @@ template <PixelFormat fmt, TextureType t, typename Enable>
 void TextureT<TextureType::Texture3>::setSubImage(
   const Coordinates& offset, const Image<fmt>& image)
 {
-  HOU_EXPECT(elementWiseLowerOrEqual(offset + image.getSize(), getSize()));
+  HOU_EXPECT(elementWiseLowerOrEqual(offset + image.get_size(), get_size()));
   gl::setTextureSubImage3d(mGlTextureHandle, 0, offset.x(), offset.y(),
-    offset.z(), image.getSize().x(), image.getSize().y(), image.getSize().z(),
+    offset.z(), image.get_size().x(), image.get_size().y(), image.get_size().z(),
     pixelFormatToGlPixelFormat(fmt), static_cast<GLenum>(toGlType<uint8_t>()),
     reinterpret_cast<const void*>(image.getPixels().data()));
   generateMipMap();
@@ -1066,7 +1066,7 @@ template <TextureType type>
 template <PixelFormat fmt, TextureType t, typename Enable>
 void TextureT<type>::clear(const PixelT<fmt>& pixel)
 {
-  setImage(Image<fmt>(getSize(), pixel));
+  setImage(Image<fmt>(get_size(), pixel));
 }
 
 

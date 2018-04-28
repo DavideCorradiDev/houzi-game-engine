@@ -88,7 +88,7 @@ TEST_F(TestVertexBuffer, SizeConstructor)
 
   EXPECT_NE(0u, vb.getHandle().getName());
   EXPECT_EQ(sizeRef * sizeof(IntBuffer::ValueType), vb.getByteCount());
-  EXPECT_EQ(sizeRef, vb.getSize());
+  EXPECT_EQ(sizeRef, vb.get_size());
   EXPECT_EQ(std::vector<int>(sizeRef, 0u), vb.getData());
 }
 
@@ -136,7 +136,7 @@ TEST_F(TestVertexBuffer, GetSubDataLimit)
   DynamicFloatBuffer::DataType dataRef = {1.f, 2.f, 3.f, 4.f, 5.f};
   DynamicFloatBuffer::DataType subDataRef = {3.f, 4.f, 5.f};
   FloatBuffer vb(dataRef);
-  EXPECT_EQ(dataRef, vb.getSubData(0u, vb.getSize()));
+  EXPECT_EQ(dataRef, vb.getSubData(0u, vb.get_size()));
   EXPECT_EQ(subDataRef, vb.getSubData(2u, 3u));
 }
 
@@ -146,8 +146,8 @@ TEST_F(TestVertexBufferDeathTest, GetSubDataErrorOverflow)
 {
   DynamicFloatBuffer::DataType dataRef = {1.f, 2.f, 3.f, 4.f, 5.f};
   FloatBuffer vb(dataRef);
-  HOU_EXPECT_PRECONDITION(vb.getSubData(0u, vb.getSize() + 1u));
-  HOU_EXPECT_PRECONDITION(vb.getSubData(2u, vb.getSize() - 1u));
+  HOU_EXPECT_PRECONDITION(vb.getSubData(0u, vb.get_size() + 1u));
+  HOU_EXPECT_PRECONDITION(vb.getSubData(2u, vb.get_size() - 1u));
 }
 
 
@@ -189,7 +189,7 @@ TEST_F(TestVertexBufferDeathTest, SetSubDataErrorOverflow)
 {
   DynamicFloatBuffer vb(6u);
   DynamicFloatBuffer::DataType data(3u, 0.f);
-  HOU_EXPECT_PRECONDITION(vb.setSubData(vb.getSize() - data.size() + 1u, data));
+  HOU_EXPECT_PRECONDITION(vb.setSubData(vb.get_size() - data.size() + 1u, data));
 }
 
 
@@ -197,7 +197,7 @@ TEST_F(TestVertexBufferDeathTest, SetSubDataErrorOverflow)
 TEST_F(TestVertexBuffer, SetData)
 {
   DynamicFloatBuffer vb(3u);
-  EXPECT_EQ(DynamicFloatBuffer::DataType(vb.getSize(), 0.f), vb.getData());
+  EXPECT_EQ(DynamicFloatBuffer::DataType(vb.get_size(), 0.f), vb.getData());
 
   DynamicFloatBuffer::DataType dataRef = {0.1f, 0.2f, 0.3f};
   vb.setData(dataRef);
@@ -209,7 +209,7 @@ TEST_F(TestVertexBuffer, SetData)
 TEST_F(TestVertexBufferDeathTest, SetDataErrorTooFewElements)
 {
   DynamicFloatBuffer vb(3u);
-  DynamicFloatBuffer::DataType data(vb.getSize() - 1u, 0.f);
+  DynamicFloatBuffer::DataType data(vb.get_size() - 1u, 0.f);
   HOU_EXPECT_PRECONDITION(vb.setData(data));
 }
 
@@ -218,6 +218,6 @@ TEST_F(TestVertexBufferDeathTest, SetDataErrorTooFewElements)
 TEST_F(TestVertexBufferDeathTest, SetDataErrorTooManyElements)
 {
   DynamicFloatBuffer vb(3u);
-  DynamicFloatBuffer::DataType data(vb.getSize() + 1u, 0.f);
+  DynamicFloatBuffer::DataType data(vb.get_size() + 1u, 0.f);
   HOU_EXPECT_PRECONDITION(vb.setData(data));
 }

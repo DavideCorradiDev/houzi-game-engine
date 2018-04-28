@@ -9,7 +9,7 @@
 
 #include "hou/cor/error.hpp"
 
-#include "hou/mth/Matrix.hpp"
+#include "hou/mth/matrix.hpp"
 
 
 
@@ -58,35 +58,35 @@ bool isButtonPressed(MouseButton button)
 
 
 
-Vec2i getPosition()
+vec2i get_position()
 {
   POINT position;
   GetCursorPos(&position);
-  return Vec2i(position.x, position.y);
+  return vec2i(position.x, position.y);
 }
 
 
 
-Vec2i getPosition(const Window& window)
+vec2i get_position(const Window& window)
 {
   HOU_EXPECT_DEV(window.getWindowHandle() != nullptr);
 
   POINT position;
   GetCursorPos(&position);
   ScreenToClient(window.getWindowHandle(), &position);
-  return Vec2i(position.x, position.y);
+  return vec2i(position.x, position.y);
 }
 
 
 
-void setPosition(const Vec2i& value)
+void set_position(const vec2i& value)
 {
   SetCursorPos(value.x(), value.y());
 }
 
 
 
-void setPosition(const Vec2i& value, const Window& window)
+void set_position(const vec2i& value, const Window& window)
 {
   HOU_EXPECT_DEV(window.getWindowHandle() != nullptr);
 

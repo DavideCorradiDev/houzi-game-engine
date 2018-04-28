@@ -336,14 +336,14 @@ void Context::TrackingData::setBoundVertexArray(uint32_t uid)
 
 
 
-const Recti& Context::TrackingData::getCurrentViewport() const
+const recti& Context::TrackingData::getCurrentViewport() const
 {
   return mCurrentViewport;
 }
 
 
 
-void Context::TrackingData::setCurrentViewport(const Recti& viewport)
+void Context::TrackingData::setCurrentViewport(const recti& viewport)
 {
   mCurrentViewport = viewport;
 }

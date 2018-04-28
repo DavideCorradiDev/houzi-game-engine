@@ -13,7 +13,7 @@
 #include "hou/gfx/TextVertex.hpp"
 #include "hou/gfx/TextureFwd.hpp"
 
-#include "hou/mth/Transform2.hpp"
+#include "hou/mth/transform2.hpp"
 
 #include "hou/sys/Color.hpp"
 
@@ -35,17 +35,17 @@ public:
 
   void setColor(const Color& color);
   void setTextureUnit(uint unit);
-  void setTransform(const Trans2f& trans);
+  void setTransform(const trans2f& trans);
 
   void draw(RenderSurface& target, const TextMesh& mesh,
     const Texture2Array& tex, const Color& col = Color::White,
-    const Trans2f& trn = Trans2f::identity());
+    const trans2f& trn = trans2f::identity());
 
   void draw(RenderSurface& target, const FormattedText& text,
-    const Color& col = Color::White, const Trans2f& trn = Trans2f::identity());
+    const Color& col = Color::White, const trans2f& trn = trans2f::identity());
 
   void draw(RenderSurface& target, const std::string& text, const Font& font,
-    const Color& col = Color::White, const Trans2f& trn = Trans2f::identity());
+    const Color& col = Color::White, const trans2f& trn = trans2f::identity());
 
 private:
   int mUniColor;

@@ -5,12 +5,12 @@
 #ifndef HOU_MTH_TRANSFORM_2_HPP
 #define HOU_MTH_TRANSFORM_2_HPP
 
-#include "hou/mth/MthExport.hpp"
+#include "hou/mth/mth_export.hpp"
 
-#include "hou/mth/Matrix.hpp"
-#include "hou/mth/RectangleFwd.hpp"
-#include "hou/mth/Rotation2Fwd.hpp"
-#include "hou/mth/Transform2Fwd.hpp"
+#include "hou/mth/matrix.hpp"
+#include "hou/mth/rectangle_fwd.hpp"
+#include "hou/mth/rotation2_fwd.hpp"
+#include "hou/mth/transform2_fwd.hpp"
 
 #include "hou/cor/basic_types.hpp"
 
@@ -30,61 +30,61 @@ namespace hou
  *  \tparam T the scalar type.
  */
 template <typename T>
-  class HOU_MTH_API Transform2
+  class HOU_MTH_API transform2
 {
 public:
-  template <typename otherT> friend class Transform2;
+  template <typename otherT> friend class transform2;
 
 public:
   /** Returns the identity transform.
    *
    *  /return the identity transform.
    */
-  static Transform2 identity();
+  static transform2 identity();
 
   /** Creates a 2d transform representing a translation.
    *
    *  \param translation the translation vector.
-   *  \return a Transform2 object representing the translation.
+   *  \return a transform2 object representing the translation.
    */
-  static Transform2 translation(const Vec2<T>& translation);
+  static transform2 translation(const Vec2<T>& translation);
 
   /** Creates a 2d transform representing a rotation.
    *
    *  \param rotation the rotation.
-   *  \return a Transform2 object representing the rotation.
+   *  \return a transform2 object representing the rotation.
    */
-  static Transform2 rotation(const Rot2<T>& rotation);
+  static transform2 rotation(const rot2<T>& rotation);
 
   /** Creates a 2d transform representing a scaling transformation.
    *
    *  \param scale the scaling factors.
-   *  \return a Transform2 object representing the scaling.
+   *  \return a transform2 object representing the scaling.
    */
-  static Transform2 scale(const Vec2<T>& scale);
+  static transform2 scale(const Vec2<T>& scale);
 
   /** Creates a 2d transform representing a shearing transformation.
    *
    *  \param sxy the horizontal shear factor.
    *  \param syx the vertical shear factor.
-   *  \return a Transform2 object representing the shearing.
+   *  \return a transform2 object representing the shearing.
    */
-  static Transform2 shear(T sxy, T syx);
+  static transform2 shear(T sxy, T syx);
 
   /** Creates a 2d transform representing an ortographic transform.
    *
    *  The transform transforms from the rect specified by clipping plane into
    *  a rect with normalized coordinates going from -1 to +1.
-   *  \param clippingPlane the rectangle to be transformed into normalized
+   *  \param clippingPlane the ph_rectangle to be transformed into normalized
    *    coordinates.
-   *  \return a Transform2 object representing the ortographic projection.
+   *  \return a transform2 object representing the ortographic projection.
    */
-  static Transform2 orthographicProjection(const Rect<T>& clippingPlane);
+  static transform2 orthographic_projection(const Rect<T>& clippingPlane);
 
 public:
   /** Creates an identity transform.
    */
-  Transform2();
+  transform2();
 
   /** Creates a transform from a transform with a different scalar type.
    *
@@ -92,41 +92,41 @@ public:
    *  \param other the transform to be converted.
    */
   template <typename U>
-    HOU_MTH_API Transform2(const Transform2<U>& other);
+    HOU_MTH_API transform2(const transform2<U>& other);
 
-  /** Builds a homogeneous transformation matrix corresponding to the transform.
+  /** Builds a homogeneous transformation ph_matrix corresponding to the transform.
    *
-   *  \return the homogeneous transformation matrix corresponding to the
+   *  \return the homogeneous transformation ph_matrix corresponding to the
    *    transform.
    */
-  Mat4x4<T> toMat4x4() const;
+  Mat4x4<T> to_mat4x4() const;
 
   /** Combines the transform with the given transform r.
    *
    *  \param rhs the transform to be combined.
    *  \return a reference to the object after the combination.
    */
-  Transform2& operator*=(const Transform2& rhs);
+  transform2& operator*=(const transform2& rhs);
 
   /** Inverts the transform.
    *
    *  \return a reference to the object after the inversion.
    */
-  Transform2& invert();
+  transform2& invert();
 
   /** Transforms the given vector.
    *
    *  \param vec the vector to be transformed.
    *  \return the transformed vector.
    */
-  Vec2<T> transformVector(const Vec2<T>& vec) const;
+  Vec2<T> transform_vector(const Vec2<T>& vec) const;
 
   /** Transforms the given point.
    *
    *  \param point the point to be transformed.
    *  \return the transformed point.
    */
-  Vec2<T> transformPoint(const Vec2<T>& point) const;
+  Vec2<T> transform_point(const Vec2<T>& point) const;
 
   /** Checks if two transforms are equal.
    *
@@ -134,9 +134,9 @@ public:
    *  \param rhs the right operand of the comparison.
    *  \return the result of the check.
    */
-  friend bool operator==(const Transform2& lhs, const Transform2& rhs)
+  friend bool operator==(const transform2& lhs, const transform2& rhs)
   {
-    return lhs.mMat == rhs.mMat && lhs.mVec == rhs.mVec;
+    return lhs.m_mat == rhs.m_mat && lhs.m_vec == rhs.m_vec;
   }
 
   /** Checks if two transforms are not equal.
@@ -145,7 +145,7 @@ public:
    *  \param rhs the right operand of the comparison.
    *  \return the result of the check.
    */
-  friend bool operator!=(const Transform2& lhs, const Transform2& rhs)
+  friend bool operator!=(const transform2& lhs, const transform2& rhs)
   {
     return !(lhs == rhs);
   }
@@ -157,18 +157,18 @@ public:
    *  \param acc the accuracy.
    *  \return the result of the check.
    */
-  friend bool close(const Transform2& lhs, const Transform2& rhs
+  friend bool close(const transform2& lhs, const transform2& rhs
     , T acc = std::numeric_limits<T>::epsilon())
   {
-    return close(lhs.mMat, rhs.mMat, acc) && close(lhs.mVec, rhs.mVec, acc);
+    return close(lhs.m_mat, rhs.m_mat, acc) && close(lhs.m_vec, rhs.m_vec, acc);
   }
 
 private:
-  Transform2(const Mat2x2<T>& r, const Vec2<T>& t);
+  transform2(const mat2x2<T>& r, const Vec2<T>& t);
 
 private:
-  Mat2x2<T> mMat;
-  Vec2<T> mVec;
+  mat2x2<T> m_mat;
+  Vec2<T> m_vec;
 };
 
 /** Combines two transforms.
@@ -179,8 +179,8 @@ private:
  *  \return the combined transform.
  */
 template <typename T>
-  HOU_MTH_API Transform2<T> operator*(Transform2<T> lhs
-  , const Transform2<T>& rhs);
+  HOU_MTH_API transform2<T> operator*(transform2<T> lhs
+  , const transform2<T>& rhs);
 
 /** Computes the inverse of a transform.
  *
@@ -189,7 +189,7 @@ template <typename T>
  *  \return the inverse transform.
  */
 template <typename T>
-  HOU_MTH_API Transform2<T> inverse(Transform2<T> t);
+  HOU_MTH_API transform2<T> inverse(transform2<T> t);
 
 /** Writes the object into a stream.
  *
@@ -200,7 +200,7 @@ template <typename T>
  */
 template <typename T>
   HOU_MTH_API std::ostream& operator<<(std::ostream& os
-  , const Transform2<T>& t);
+  , const transform2<T>& t);
 
 }
 

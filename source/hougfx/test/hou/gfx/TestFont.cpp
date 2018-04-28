@@ -9,8 +9,8 @@
 #include "hou/gfx/GfxError.hpp"
 #include "hou/gfx/Glyph.hpp"
 
-#include "hou/mth/Matrix.hpp"
-#include "hou/mth/Rectangle.hpp"
+#include "hou/mth/matrix.hpp"
+#include "hou/mth/rectangle.hpp"
 
 #include "hou/sys/BinaryFileIn.hpp"
 
@@ -55,7 +55,7 @@ TEST_F(TestFont, DataConstructor)
   EXPECT_FALSE(f.hasVertical());
   EXPECT_FALSE(f.hasKerning());
   EXPECT_TRUE(f.isScalable());
-  EXPECT_EQ(Recti(-356, -175, 1202, 845), f.getGlyphBoundingBox());
+  EXPECT_EQ(recti(-356, -175, 1202, 845), f.getGlyphBoundingBox());
   EXPECT_EQ(896, f.getLineSpacing());
   EXPECT_EQ(832, f.getMaxAdvance());
   EXPECT_EQ(857, f.getMaxHorizontalAdvance());
@@ -85,7 +85,7 @@ TEST_F(TestFont, StreamConstructor)
   EXPECT_FALSE(f.hasVertical());
   EXPECT_FALSE(f.hasKerning());
   EXPECT_TRUE(f.isScalable());
-  EXPECT_EQ(Recti(-356, -175, 1202, 845), f.getGlyphBoundingBox());
+  EXPECT_EQ(recti(-356, -175, 1202, 845), f.getGlyphBoundingBox());
   EXPECT_EQ(896, f.getLineSpacing());
   EXPECT_EQ(832, f.getMaxAdvance());
   EXPECT_EQ(857, f.getMaxHorizontalAdvance());
@@ -107,7 +107,7 @@ TEST_F(TestFont, MoveConstructor)
   EXPECT_FALSE(f.hasVertical());
   EXPECT_FALSE(f.hasKerning());
   EXPECT_TRUE(f.isScalable());
-  EXPECT_EQ(Recti(-356, -175, 1202, 845), f.getGlyphBoundingBox());
+  EXPECT_EQ(recti(-356, -175, 1202, 845), f.getGlyphBoundingBox());
   EXPECT_EQ(896, f.getLineSpacing());
   EXPECT_EQ(832, f.getMaxAdvance());
   EXPECT_EQ(857, f.getMaxHorizontalAdvance());
@@ -138,7 +138,7 @@ TEST_F(TestFont, MultiThreadingCreation)
   EXPECT_TRUE(f1->hasHorizontal());
   EXPECT_FALSE(f1->hasVertical());
   EXPECT_TRUE(f1->isScalable());
-  EXPECT_EQ(Recti(-356, -175, 1202, 845), f1->getGlyphBoundingBox());
+  EXPECT_EQ(recti(-356, -175, 1202, 845), f1->getGlyphBoundingBox());
   EXPECT_EQ(896, f1->getLineSpacing());
   EXPECT_EQ(832, f1->getMaxAdvance());
   EXPECT_EQ(857, f1->getMaxHorizontalAdvance());
@@ -151,7 +151,7 @@ TEST_F(TestFont, MultiThreadingCreation)
   EXPECT_TRUE(f2->hasHorizontal());
   EXPECT_FALSE(f2->hasVertical());
   EXPECT_TRUE(f2->isScalable());
-  EXPECT_EQ(Recti(-356, -175, 1202, 845), f2->getGlyphBoundingBox());
+  EXPECT_EQ(recti(-356, -175, 1202, 845), f2->getGlyphBoundingBox());
   EXPECT_EQ(896, f2->getLineSpacing());
   EXPECT_EQ(832, f2->getMaxAdvance());
   EXPECT_EQ(857, f2->getMaxHorizontalAdvance());
@@ -218,7 +218,7 @@ TEST_F(TestFont, GetGlyph)
   Font f(std::make_unique<BinaryFileIn>(fontName));
 
   Glyph g1Ref(
-    Image2R(Vec2u(5u, 5u),
+    Image2R(vec2u(5u, 5u),
       std::vector<Image2R::Pixel>{Image2R::Pixel(0u), Image2R::Pixel(152u),
         Image2R::Pixel(180u), Image2R::Pixel(199u), Image2R::Pixel(87u),
         Image2R::Pixel(0u), Image2R::Pixel(4u), Image2R::Pixel(0u),
@@ -228,9 +228,9 @@ TEST_F(TestFont, GetGlyph)
         Image2R::Pixel(0u), Image2R::Pixel(54u), Image2R::Pixel(204u),
         Image2R::Pixel(51u), Image2R::Pixel(208u), Image2R::Pixel(177u),
         Image2R::Pixel(142u), Image2R::Pixel(191u)}),
-    GlyphMetrics(Vec2u(320u, 320u), Vec2i(0, -320), 384, Vec2i(0, 0), 0));
+    GlyphMetrics(vec2u(320u, 320u), vec2i(0, -320), 384, vec2i(0, 0), 0));
   Glyph g2Ref(
-    Image2R(Vec2u(6u, 7u),
+    Image2R(vec2u(6u, 7u),
       std::vector<Image2R::Pixel>{Image2R::Pixel(40u), Image2R::Pixel(188u),
         Image2R::Pixel(0u), Image2R::Pixel(0u), Image2R::Pixel(0u),
         Image2R::Pixel(0u), Image2R::Pixel(40u), Image2R::Pixel(187u),
@@ -246,7 +246,7 @@ TEST_F(TestFont, GetGlyph)
         Image2R::Pixel(104u), Image2R::Pixel(40u), Image2R::Pixel(185u),
         Image2R::Pixel(175u), Image2R::Pixel(191u), Image2R::Pixel(171u),
         Image2R::Pixel(8u)}),
-    GlyphMetrics(Vec2u(384u, 448u), Vec2i(0, -448), 384, Vec2i(0, 0), 0));
+    GlyphMetrics(vec2u(384u, 448u), vec2i(0, -448), 384, vec2i(0, 0), 0));
 
   EXPECT_EQ(g1Ref, f.getGlyph('a'));
   EXPECT_EQ(g2Ref, f.getGlyph('b'));
@@ -258,11 +258,11 @@ TEST_F(TestFont, GetGlyphNotExisting)
 {
   Font f(std::make_unique<BinaryFileIn>(fontName));
   Glyph gRef(
-    Image2R(Vec2u(6u, 7u),
+    Image2R(vec2u(6u, 7u),
       std::vector<Image2R::Pixel>{16, 188, 132, 132, 188, 12, 16, 116, 0, 0,
         116, 12, 16, 116, 0, 0, 116, 12, 16, 116, 0, 0, 116, 12, 16, 116, 0, 0,
         116, 12, 16, 116, 0, 0, 116, 12, 16, 188, 132, 132, 188, 12}),
-    GlyphMetrics(Vec2u(384u, 448u), Vec2i(0, -448), 384, Vec2i(0, 0), 0));
+    GlyphMetrics(vec2u(384u, 448u), vec2i(0, -448), 384, vec2i(0, 0), 0));
   EXPECT_EQ(gRef, f.getGlyph(U'\U00004f68'));
 }
 
@@ -272,8 +272,8 @@ TEST_F(TestFont, GetKerning)
 {
   Font f(std::make_unique<BinaryFileIn>(fontName));
 
-  EXPECT_EQ(Vec2i(0, 0), f.getKerning('a', 'b'));
-  EXPECT_EQ(Vec2i(0, 0), f.getKerning('j', 'k'));
+  EXPECT_EQ(vec2i(0, 0), f.getKerning('a', 'b'));
+  EXPECT_EQ(vec2i(0, 0), f.getKerning('j', 'k'));
 }
 
 
@@ -282,8 +282,8 @@ TEST_F(TestFont, GetPixelGlyphBoundingBox)
 {
   Font f(std::make_unique<BinaryFileIn>(fontName));
 
-  EXPECT_EQ(Recti(-356, -175, 1202, 845), f.getGlyphBoundingBox());
-  HOU_EXPECT_FLOAT_CLOSE(Rectf(-5.5625f, -2.734375f, 18.78125f, 13.203125),
+  EXPECT_EQ(recti(-356, -175, 1202, 845), f.getGlyphBoundingBox());
+  HOU_EXPECT_FLOAT_CLOSE(rectf(-5.5625f, -2.734375f, 18.78125f, 13.203125),
     f.getPixelGlyphBoundingBox());
 }
 
@@ -333,9 +333,9 @@ TEST_F(TestFont, GetPixelKerning)
 {
   Font f(std::make_unique<BinaryFileIn>(fontName));
 
-  EXPECT_EQ(Vec2i(0, 0), f.getKerning('a', 'b'));
-  EXPECT_EQ(Vec2f(0.f, 0.f), f.getPixelKerning('a', 'b'));
+  EXPECT_EQ(vec2i(0, 0), f.getKerning('a', 'b'));
+  EXPECT_EQ(vec2f(0.f, 0.f), f.getPixelKerning('a', 'b'));
 
-  EXPECT_EQ(Vec2i(0, 0), f.getKerning('j', 'k'));
-  EXPECT_EQ(Vec2f(0.f, 0.f), f.getPixelKerning('j', 'k'));
+  EXPECT_EQ(vec2i(0, 0), f.getKerning('j', 'k'));
+  EXPECT_EQ(vec2f(0.f, 0.f), f.getPixelKerning('j', 'k'));
 }

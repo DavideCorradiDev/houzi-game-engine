@@ -10,7 +10,7 @@
 #include "hou/cor/basic_types.hpp"
 #include "hou/cor/pragmas.hpp"
 
-#include "hou/mth/Matrix.hpp"
+#include "hou/mth/matrix.hpp"
 
 #include "hou/gfx/Mesh.hpp"
 
@@ -50,38 +50,38 @@ public:
    *  \param position the vertex position.
    *  \param textureCoordinates the vertex texture coordinates.
    */
-  TextVertex(const Vec2f& position, const Vec3f& textureCoordinates);
+  TextVertex(const vec2f& position, const vec3f& textureCoordinates);
 
   /** Gets the vertex position.
    *
    *  \return the vertex position.
    */
-  Vec2f getPosition() const;
+  vec2f get_position() const;
 
   /** Sets the vertex position.
    *
    *  \param pos the vertex position.
    */
-  void setPosition(const Vec2f& pos);
+  void set_position(const vec2f& pos);
 
   /** Gets the vertex texture coordinates.
    *
    *  \return the vertex texture coordinates.
    */
-  Vec3f getTextureCoordinates() const;
+  vec3f getTextureCoordinates() const;
 
   /** Sets the vertex texture coordinates.
    *
    *  \param textureCoordinates the vertex texture coordinates.
    */
-  void setTextureCoordinates(const Vec3f& textureCoordinates);
+  void setTextureCoordinates(const vec3f& textureCoordinates);
 
 private:
   static constexpr size_t sPositionSize = 2u;
   static constexpr size_t sTextureCoordinatesSize = 3u;
 
 private:
-  GLfloat mPosition[sPositionSize];
+  GLfloat m_position[sPositionSize];
   GLfloat mTexCoords[sTextureCoordinatesSize];
 };
 

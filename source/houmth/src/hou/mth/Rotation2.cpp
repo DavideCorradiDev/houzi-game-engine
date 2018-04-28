@@ -2,13 +2,13 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/mth/Rotation2.hpp"
+#include "hou/mth/rotation2.hpp"
 
 #include "hou/cor/core_functions.hpp"
 #include "hou/cor/pragmas.hpp"
 
-#include "hou/mth/Matrix.hpp"
-#include "hou/mth/MathFunctions.hpp"
+#include "hou/mth/matrix.hpp"
+#include "hou/mth/math_functions.hpp"
 
 
 
@@ -19,16 +19,16 @@ namespace
 {
 
 template <typename T>
-  T toAngle(const Mat2x2<T>& m);
+  T toAngle(const mat2x2<T>& m);
 template <typename T>
-  Mat2x2<T> toMatrix(T angle);
+  mat2x2<T> toMatrix(T angle);
 template <typename T>
   T normalizeAngle(T angle);
 
 
 
 template <typename T>
-  T toAngle(const Mat2x2<T>& m)
+  T toAngle(const mat2x2<T>& m)
 {
   return std::atan2(m(2), m(0));
 }
@@ -36,11 +36,11 @@ template <typename T>
 
 
 template <typename T>
-  Mat2x2<T> toMatrix(T angle)
+  mat2x2<T> toMatrix(T angle)
 {
   T c = std::cos(angle);
   T s = std::sin(angle);
-  return Mat2x2<T>{c, -s, s, c};
+  return mat2x2<T>{c, -s, s, c};
 }
 
 
@@ -48,13 +48,13 @@ template <typename T>
 template <typename T>
   T normalizeAngle(T angle)
 {
-  while(angle <= -PI_F)
+  while(angle <= -pi_f)
   {
-    angle += 2 * PI_F;
+    angle += 2 * pi_f;
   }
-  while(angle > PI_F)
+  while(angle > pi_f)
   {
-    angle -= 2 * PI_F;
+    angle -= 2 * pi_f;
   }
   return angle;
 }
@@ -64,81 +64,81 @@ template <typename T>
 
 
 template <typename T>
-  Rotation2<T> Rotation2<T>::identity()
+  rotation2<T> rotation2<T>::identity()
 {
-  return Rotation2<T>();
+  return rotation2<T>();
 }
 
 
 
 template <typename T>
-  Rotation2<T>::Rotation2()
-  : mAngle(0)
+  rotation2<T>::rotation2()
+  : m_angle(0)
 {}
 
 
 
 template <typename T>
-  Rotation2<T>::Rotation2(T angle)
-  : mAngle(normalizeAngle(angle))
+  rotation2<T>::rotation2(T angle)
+  : m_angle(normalizeAngle(angle))
 {}
 
 
 
 template <typename T>
-  Rotation2<T>::Rotation2(const Mat2x2<T>& m)
-  : mAngle(toAngle(m))
+  rotation2<T>::rotation2(const mat2x2<T>& m)
+  : m_angle(toAngle(m))
 {
-  HOU_EXPECT(close(T(1), det(m)) && close(Mat2x2<T>::identity(), m * transpose(m)));
-  HOU_EXPECT_DEV(mAngle > -PI_F && mAngle <= PI_F);
+  HOU_EXPECT(close(T(1), det(m)) && close(mat2x2<T>::identity(), m * transpose(m)));
+  HOU_EXPECT_DEV(m_angle > -pi_f && m_angle <= pi_f);
 }
 
 
 
 template <typename T>
 template <typename U>
-  Rotation2<T>::Rotation2(const Rotation2<U>& other)
-  : mAngle(static_cast<T>(other.mAngle))
+  rotation2<T>::rotation2(const rotation2<U>& other)
+  : m_angle(static_cast<T>(other.m_angle))
 {}
 
 
 
 template <typename T>
-  T Rotation2<T>::getAngle() const
+  T rotation2<T>::get_angle() const
 {
-  return mAngle;
+  return m_angle;
 }
 
 
 
 template <typename T>
-  Mat2x2<T> Rotation2<T>::getMatrix() const
+  mat2x2<T> rotation2<T>::get_matrix() const
 {
-  return toMatrix(mAngle);
+  return toMatrix(m_angle);
 }
 
 
 
 template <typename T>
-  Rotation2<T>& Rotation2<T>::operator*=(const Rotation2<T>& rhs)
+  rotation2<T>& rotation2<T>::operator*=(const rotation2<T>& rhs)
 {
-  mAngle = normalizeAngle(mAngle + rhs.mAngle);
+  m_angle = normalizeAngle(m_angle + rhs.m_angle);
   return *this;
 }
 
 
 
 template <typename T>
-  Rotation2<T>& Rotation2<T>::invert()
+  rotation2<T>& rotation2<T>::invert()
 {
-  mAngle = normalizeAngle(-mAngle);
+  m_angle = normalizeAngle(-m_angle);
   return *this;
 }
 
 
 
 template <typename T>
-  Rotation2<T> operator*(Rotation2<T> lhs, const Rotation2<T>& rhs)
+  rotation2<T> operator*(rotation2<T> lhs, const rotation2<T>& rhs)
 {
   return lhs *= rhs;
 }
@@ -146,7 +146,7 @@ template <typename T>
 
 
 template <typename T>
-  Rotation2<T> inverse(Rotation2<T> r)
+  rotation2<T> inverse(rotation2<T> r)
 {
   return r.invert();
 }
@@ -156,9 +156,9 @@ template <typename T>
 HOU_PRAGMA_GCC_DIAGNOSTIC_PUSH()
 HOU_PRAGMA_GCC_DIAGNOSTIC_IGNORED(-Wfloat-equal)
 template <typename T>
-  bool operator==(const Rotation2<T>& lhs, const Rotation2<T>& rhs)
+  bool operator==(const rotation2<T>& lhs, const rotation2<T>& rhs)
 {
-  return lhs.getAngle() == rhs.getAngle();
+  return lhs.get_angle() == rhs.get_angle();
 }
 HOU_PRAGMA_GCC_DIAGNOSTIC_POP()
 
@@ -167,43 +167,43 @@ HOU_PRAGMA_GCC_DIAGNOSTIC_POP()
 HOU_PRAGMA_GCC_DIAGNOSTIC_PUSH()
 HOU_PRAGMA_GCC_DIAGNOSTIC_IGNORED(-Wfloat-equal)
 template <typename T>
-  bool operator!=(const Rotation2<T>& lhs, const Rotation2<T>& rhs)
+  bool operator!=(const rotation2<T>& lhs, const rotation2<T>& rhs)
 {
-  return lhs.getAngle() != rhs.getAngle();
+  return lhs.get_angle() != rhs.get_angle();
 }
 HOU_PRAGMA_GCC_DIAGNOSTIC_POP()
 
 
 
 template <typename T>
-  bool close(const Rotation2<T>& lhs, const Rotation2<T>& rhs, T acc)
+  bool close(const rotation2<T>& lhs, const rotation2<T>& rhs, T acc)
 {
-  return close(lhs.getAngle(), rhs.getAngle(), acc);
+  return close(lhs.get_angle(), rhs.get_angle(), acc);
 }
 
 
 
 template <typename T>
-  std::ostream& operator<<(std::ostream& os, const Rotation2<T>& r)
+  std::ostream& operator<<(std::ostream& os, const rotation2<T>& r)
 {
-  return os << r.getAngle();
+  return os << r.get_angle();
 }
 
 
 
 #define HOU_INSTANTIATE(T) \
-  template class Rotation2<T>; \
-  template Rotation2<T> operator*<T>(Rotation2<T>, const Rotation2<T>&); \
-  template Rotation2<T> inverse<T>(Rotation2<T>); \
-  template bool operator==<T>(const Rotation2<T>&, const Rotation2<T>&); \
-  template bool operator!=<T>(const Rotation2<T>&, const Rotation2<T>&); \
-  template bool close<T>(const Rotation2<T>&, const Rotation2<T>&, T); \
-  template std::ostream& operator<<<T>(std::ostream&, const Rotation2<T>&)
+  template class rotation2<T>; \
+  template rotation2<T> operator*<T>(rotation2<T>, const rotation2<T>&); \
+  template rotation2<T> inverse<T>(rotation2<T>); \
+  template bool operator==<T>(const rotation2<T>&, const rotation2<T>&); \
+  template bool operator!=<T>(const rotation2<T>&, const rotation2<T>&); \
+  template bool close<T>(const rotation2<T>&, const rotation2<T>&, T); \
+  template std::ostream& operator<<<T>(std::ostream&, const rotation2<T>&)
 
 HOU_INSTANTIATE(float);
 HOU_INSTANTIATE(double);
-template Rotation2<float>::Rotation2<double>(const Rotation2<double>&);
-template Rotation2<double>::Rotation2<float>(const Rotation2<float>&);
+template rotation2<float>::rotation2<double>(const rotation2<double>&);
+template rotation2<double>::rotation2<float>(const rotation2<float>&);
 
 }
 

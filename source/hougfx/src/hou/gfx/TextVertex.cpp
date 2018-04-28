@@ -16,7 +16,7 @@ const VertexFormat& TextVertex::getVertexFormat()
   static constexpr bool mustBeNormalized = true;
   static const VertexFormat vf(0, sizeof(TextVertex),
     {VertexAttribFormat(GlType::Float, TextVertex::sPositionSize,
-       offsetof(TextVertex, mPosition), !mustBeNormalized),
+       offsetof(TextVertex, m_position), !mustBeNormalized),
       VertexAttribFormat(GlType::Float, TextVertex::sTextureCoordinatesSize,
         offsetof(TextVertex, mTexCoords), mustBeNormalized)});
   return vf;
@@ -25,41 +25,41 @@ const VertexFormat& TextVertex::getVertexFormat()
 
 
 TextVertex::TextVertex()
-  : TextVertex(Vec2f(0.f, 0.f), Vec3f(0.f, 0.f, 0.f))
+  : TextVertex(vec2f(0.f, 0.f), vec3f(0.f, 0.f, 0.f))
 {}
 
 
 
-TextVertex::TextVertex(const Vec2f& position, const Vec3f& texCoords)
-  : mPosition{position.x(), position.y()}
+TextVertex::TextVertex(const vec2f& position, const vec3f& texCoords)
+  : m_position{position.x(), position.y()}
   , mTexCoords{texCoords.x(), texCoords.y(), texCoords.z()}
 {}
 
 
 
-Vec2f TextVertex::getPosition() const
+vec2f TextVertex::get_position() const
 {
-  return Vec2f(mPosition[0], mPosition[1]);
+  return vec2f(m_position[0], m_position[1]);
 }
 
 
 
-void TextVertex::setPosition(const Vec2f& pos)
+void TextVertex::set_position(const vec2f& pos)
 {
-  mPosition[0] = pos.x();
-  mPosition[1] = pos.y();
+  m_position[0] = pos.x();
+  m_position[1] = pos.y();
 }
 
 
 
-Vec3f TextVertex::getTextureCoordinates() const
+vec3f TextVertex::getTextureCoordinates() const
 {
-  return Vec3f(mTexCoords[0], mTexCoords[1], mTexCoords[2]);
+  return vec3f(mTexCoords[0], mTexCoords[1], mTexCoords[2]);
 }
 
 
 
-void TextVertex::setTextureCoordinates(const Vec3f& texCoords)
+void TextVertex::setTextureCoordinates(const vec3f& texCoords)
 {
   mTexCoords[0] = texCoords.x();
   mTexCoords[1] = texCoords.y();
@@ -70,7 +70,7 @@ void TextVertex::setTextureCoordinates(const Vec3f& texCoords)
 
 bool operator==(const TextVertex& lhs, const TextVertex& rhs)
 {
-  return lhs.getPosition() == rhs.getPosition()
+  return lhs.get_position() == rhs.get_position()
     && lhs.getTextureCoordinates() == rhs.getTextureCoordinates();
 }
 
@@ -86,7 +86,7 @@ bool operator!=(const TextVertex& lhs, const TextVertex& rhs)
 bool close(
   const TextVertex& lhs, const TextVertex& rhs, TextVertex::ComparisonType acc)
 {
-  return close(lhs.getPosition(), rhs.getPosition(), acc)
+  return close(lhs.get_position(), rhs.get_position(), acc)
     && close(lhs.getTextureCoordinates(), rhs.getTextureCoordinates(), acc);
 }
 
@@ -94,7 +94,7 @@ bool close(
 
 std::ostream& operator<<(std::ostream& os, const TextVertex& v)
 {
-  return os << "{Position = " << transpose(v.getPosition())
+  return os << "{Position = " << transpose(v.get_position())
             << ", TextureCoordinates = " << transpose(v.getTextureCoordinates())
             << "}";
 }

@@ -13,7 +13,7 @@
 
 #include "hou/cor/cor_error.hpp"
 
-#include "hou/mth/MathFunctions.hpp"
+#include "hou/mth/math_functions.hpp"
 
 using namespace hou;
 
@@ -77,11 +77,11 @@ TEST_F(TestStreamingAudioSource, DefaultConstructor)
   EXPECT_FLOAT_EQ(1.f, as.getReferenceDistance());
   EXPECT_FALSE(as.isRelative());
   EXPECT_FLOAT_EQ(0.f, as.getConeOuterGain());
-  EXPECT_FLOAT_EQ(2 * PI_F, as.getConeInnerAngle());
-  EXPECT_FLOAT_EQ(2 * PI_F, as.getConeOuterAngle());
-  HOU_EXPECT_FLOAT_CLOSE(Vec3f::zero(), as.getPosition());
-  HOU_EXPECT_FLOAT_CLOSE(Vec3f::zero(), as.getVelocity());
-  HOU_EXPECT_FLOAT_CLOSE(Vec3f::zero(), as.getDirection());
+  EXPECT_FLOAT_EQ(2 * pi_f, as.getConeInnerAngle());
+  EXPECT_FLOAT_EQ(2 * pi_f, as.getConeOuterAngle());
+  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_position());
+  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.getVelocity());
+  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.getDirection());
 }
 
 
@@ -110,11 +110,11 @@ TEST_F(TestStreamingAudioSource, StreamConstructor)
   EXPECT_FLOAT_EQ(1.f, as.getReferenceDistance());
   EXPECT_FALSE(as.isRelative());
   EXPECT_FLOAT_EQ(0.f, as.getConeOuterGain());
-  EXPECT_FLOAT_EQ(2 * PI_F, as.getConeInnerAngle());
-  EXPECT_FLOAT_EQ(2 * PI_F, as.getConeOuterAngle());
-  HOU_EXPECT_FLOAT_CLOSE(Vec3f::zero(), as.getPosition());
-  HOU_EXPECT_FLOAT_CLOSE(Vec3f::zero(), as.getVelocity());
-  HOU_EXPECT_FLOAT_CLOSE(Vec3f::zero(), as.getDirection());
+  EXPECT_FLOAT_EQ(2 * pi_f, as.getConeInnerAngle());
+  EXPECT_FLOAT_EQ(2 * pi_f, as.getConeOuterAngle());
+  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_position());
+  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.getVelocity());
+  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.getDirection());
 }
 
 

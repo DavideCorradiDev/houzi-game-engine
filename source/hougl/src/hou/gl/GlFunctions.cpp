@@ -9,7 +9,7 @@
 #include "hou/gl/GlContextSettings.hpp"
 #include "hou/gl/GlError.hpp"
 
-#include "hou/mth/Rectangle.hpp"
+#include "hou/mth/rectangle.hpp"
 
 #include "hou/sys/VideoMode.hpp"
 #include "hou/sys/SystemWindow.hpp"
@@ -71,7 +71,7 @@ void initExtensions()
   if(!extensionsInitialized)
   {
     // Create temporary dummy context, needed to call any GL function.
-    SystemWindow w("", VideoMode(Vec2u(0u, 0u), 32u), WindowStyle::Windowed);
+    SystemWindow w("", VideoMode(vec2u(0u, 0u), 32u), WindowStyle::Windowed);
     gl::ContextSettings cs(gl::ContextSettings::Default);
     gl::Context c(cs, w);
     gl::Context::setCurrent(c, w);
@@ -264,7 +264,7 @@ GLint getPackAlignment()
 void setViewport(GLint x, GLint y, GLsizei w, GLsizei h)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  const Recti& currVp
+  const recti& currVp
     = Context::getCurrent()->mTrackingData.getCurrentViewport();
   if(x != currVp.x() || y != currVp.y() || w != currVp.w() || h != currVp.h())
   {

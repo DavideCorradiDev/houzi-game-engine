@@ -2,10 +2,10 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/mth/Transform3.hpp"
+#include "hou/mth/transform3.hpp"
 
-#include "hou/mth/MathFunctions.hpp"
-#include "hou/mth/Rectangle.hpp"
+#include "hou/mth/math_functions.hpp"
+#include "hou/mth/rectangle.hpp"
 
 #include <cmath>
 
@@ -15,33 +15,33 @@ namespace hou
 {
 
 template <typename T>
-  Transform3<T> Transform3<T>::identity()
+  transform3<T> transform3<T>::identity()
 {
-  return Transform3<T>();
+  return transform3<T>();
 }
 
 
 
 template <typename T>
-  Transform3<T> Transform3<T>::translation(const Vec3<T>& translation)
+  transform3<T> transform3<T>::translation(const Vec3<T>& translation)
 {
-  return Transform3<T>(Mat3x3<T>::identity(), translation);
+  return transform3<T>(Mat3x3<T>::identity(), translation);
 }
 
 
 
 template <typename T>
-  Transform3<T> Transform3<T>::rotation(const Rot3<T>& rotation)
+  transform3<T> transform3<T>::rotation(const Rot3<T>& rotation)
 {
-  return Transform3<T>(rotation.getMatrix(), Vec3<T>::zero());
+  return transform3<T>(rotation.get_matrix(), Vec3<T>::zero());
 }
 
 
 
 template <typename T>
-  Transform3<T> Transform3<T>::scale(const Vec3<T>& scale)
+  transform3<T> transform3<T>::scale(const Vec3<T>& scale)
 {
-  return Transform3<T>
+  return transform3<T>
     ( Mat3x3<T>(scale.x(), T(0), T(0), T(0), scale.y(), T(0), T(0), T(0), scale.z())
     , Vec3<T>::zero());
 }
@@ -49,10 +49,10 @@ template <typename T>
 
 
 template <typename T>
-  Transform3<T> Transform3<T>::shear(T sxy, T sxz, T syx, T syz, T szx
+  transform3<T> transform3<T>::shear(T sxy, T sxz, T syx, T syz, T szx
   , T szy)
 {
-  return Transform3<T>
+  return transform3<T>
     ( Mat3x3<T>(T(1), sxy, sxz, syx, T(1), syz, szx, szy, T(1))
     , Vec3<T>::zero());
 }
@@ -60,28 +60,28 @@ template <typename T>
 
 
 template <typename T>
-  Transform3<T>::Transform3()
-  : mMat(Mat3x3<T>::identity())
-  , mVec(Vec3<T>::zero()) {}
+  transform3<T>::transform3()
+  : m_mat(Mat3x3<T>::identity())
+  , m_vec(Vec3<T>::zero()) {}
 
 
 
 template <typename T>
 template <typename U>
-  Transform3<T>::Transform3(const Transform3<U>& other)
-  : mMat(static_cast<Mat3x3<T>>(other.mMat))
-  , mVec(static_cast<Vec3<T>>(other.mVec)) {}
+  transform3<T>::transform3(const transform3<U>& other)
+  : m_mat(static_cast<Mat3x3<T>>(other.m_mat))
+  , m_vec(static_cast<Vec3<T>>(other.m_vec)) {}
 
 
 
 template <typename T>
-  Mat4x4<T> Transform3<T>::toMat4x4() const
+  Mat4x4<T> transform3<T>::to_mat4x4() const
 {
   return Mat4x4<T>
   {
-    mMat(0), mMat(1), mMat(2), mVec(0),
-    mMat(3), mMat(4), mMat(5), mVec(1),
-    mMat(6), mMat(7), mMat(8), mVec(2),
+    m_mat(0), m_mat(1), m_mat(2), m_vec(0),
+    m_mat(3), m_mat(4), m_mat(5), m_vec(1),
+    m_mat(6), m_mat(7), m_mat(8), m_vec(2),
     T(0),     T(0),     T(0),     T(1)
   };
 }
@@ -89,51 +89,51 @@ template <typename T>
 
 
 template <typename T>
-  Transform3<T>& Transform3<T>::operator*=(const Transform3<T>& r)
+  transform3<T>& transform3<T>::operator*=(const transform3<T>& r)
 {
-  mVec += mMat * r.mVec;
-  mMat = mMat * r.mMat;
+  m_vec += m_mat * r.m_vec;
+  m_mat = m_mat * r.m_mat;
   return *this;
 }
 
 
 
 template <typename T>
-  Transform3<T>& Transform3<T>::invert()
+  transform3<T>& transform3<T>::invert()
 {
-  mMat.invert();
-  mVec = -mMat * mVec;
+  m_mat.invert();
+  m_vec = -m_mat * m_vec;
   return *this;
 }
 
 
 
 template <typename T>
-  Vec3<T> Transform3<T>::transformVector(const Vec3<T>& vec) const
+  Vec3<T> transform3<T>::transform_vector(const Vec3<T>& vec) const
 {
-  return mMat * vec;
+  return m_mat * vec;
 }
 
 
 
 template <typename T>
-  Vec3<T> Transform3<T>::transformPoint(const Vec3<T>& point) const
+  Vec3<T> transform3<T>::transform_point(const Vec3<T>& point) const
 {
-  return mVec + mMat * point;
+  return m_vec + m_mat * point;
 }
 
 
 
 template <typename T>
-  Transform3<T>::Transform3(const Mat3x3<T>& r, const Vec3<T>& t)
-  : mMat(r)
-  , mVec(t)
+  transform3<T>::transform3(const Mat3x3<T>& r, const Vec3<T>& t)
+  : m_mat(r)
+  , m_vec(t)
 {}
 
 
 
 template <typename T>
-  Transform3<T> operator*(Transform3<T> lhs, const Transform3<T>& rhs)
+  transform3<T> operator*(transform3<T> lhs, const transform3<T>& rhs)
 {
   return lhs *= rhs;
 }
@@ -141,7 +141,7 @@ template <typename T>
 
 
 template <typename T>
-  Transform3<T> inverse(Transform3<T> t)
+  transform3<T> inverse(transform3<T> t)
 {
   return t.invert();
 }
@@ -149,23 +149,23 @@ template <typename T>
 
 
 template <typename T>
-  std::ostream& operator<<(std::ostream& os, const Transform3<T>& t)
+  std::ostream& operator<<(std::ostream& os, const transform3<T>& t)
 {
-  return os << t.toMat4x4();
+  return os << t.to_mat4x4();
 }
 
 
 
 #define HOU_INSTANTIATE(T) \
-  template class Transform3<T>; \
-  template Transform3<T> operator*<T>(Transform3<T>, const Transform3<T>&); \
-  template Transform3<T> inverse<T>(Transform3<T>); \
-  template std::ostream& operator<<<T>(std::ostream&, const Transform3<T>&)
+  template class transform3<T>; \
+  template transform3<T> operator*<T>(transform3<T>, const transform3<T>&); \
+  template transform3<T> inverse<T>(transform3<T>); \
+  template std::ostream& operator<<<T>(std::ostream&, const transform3<T>&)
 
 HOU_INSTANTIATE(float);
 HOU_INSTANTIATE(double);
-template Transform3<float>::Transform3<double>(const Transform3<double>&);
-template Transform3<double>::Transform3<float>(const Transform3<float>&);
+template transform3<float>::transform3<double>(const transform3<double>&);
+template transform3<double>::transform3<float>(const transform3<float>&);
 
 }
 

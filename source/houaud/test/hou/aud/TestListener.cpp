@@ -7,9 +7,9 @@
 
 #include "hou/aud/Listener.hpp"
 
-#include "hou/mth/Matrix.hpp"
-#include "hou/mth/MathFunctions.hpp"
-#include "hou/mth/Rotation3.hpp"
+#include "hou/mth/matrix.hpp"
+#include "hou/mth/math_functions.hpp"
+#include "hou/mth/rotation3.hpp"
 
 using namespace hou;
 
@@ -46,18 +46,18 @@ TEST_F(TestListenerDeathTest, InvalidGain)
 
 TEST_F(TestListener, Position)
 {
-  HOU_EXPECT_FLOAT_CLOSE(Vec3f::zero(), Listener::getPosition());
-  Listener::setPosition(Vec3f(1.f, 2.f, 3.f));
-  HOU_EXPECT_FLOAT_CLOSE(Vec3f(1.f, 2.f, 3.f), Listener::getPosition());
+  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), Listener::get_position());
+  Listener::set_position(vec3f(1.f, 2.f, 3.f));
+  HOU_EXPECT_FLOAT_CLOSE(vec3f(1.f, 2.f, 3.f), Listener::get_position());
 }
 
 
 
 TEST_F(TestListener, Velocity)
 {
-  HOU_EXPECT_FLOAT_CLOSE(Vec3f::zero(), Listener::getVelocity());
-  Listener::setVelocity(Vec3f(1.f, 2.f, 3.f));
-  HOU_EXPECT_FLOAT_CLOSE(Vec3f(1.f, 2.f, 3.f), Listener::getVelocity());
+  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), Listener::getVelocity());
+  Listener::setVelocity(vec3f(1.f, 2.f, 3.f));
+  HOU_EXPECT_FLOAT_CLOSE(vec3f(1.f, 2.f, 3.f), Listener::getVelocity());
 }
 
 
@@ -67,7 +67,7 @@ TEST_F(TestListener, Orientation)
   HOU_EXPECT_FLOAT_CLOSE(Rot3f::identity(), Listener::getOrientation());
 
   Rot3f orRef
-    = Rot3f::x(PI_F / 3.f) * Rot3f::z(PI_F / 4.f) * Rot3f::y(PI_F / 2.f);
+    = Rot3f::x(pi_f / 3.f) * Rot3f::z(pi_f / 4.f) * Rot3f::y(pi_f / 2.f);
   Listener::setOrientation(orRef);
   HOU_EXPECT_FLOAT_CLOSE(orRef, Listener::getOrientation());
 }

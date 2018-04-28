@@ -7,8 +7,8 @@
 
 #include "hou/aud/AudExport.hpp"
 
-#include "hou/mth/MatrixFwd.hpp"
-#include "hou/mth/Rotation3Fwd.hpp"
+#include "hou/mth/matrix_fwd.hpp"
+#include "hou/mth/rotation3_fwd.hpp"
 
 
 
@@ -44,7 +44,7 @@ HOU_AUD_API void setGain(float gain);
  *
  *  \return the current position of the listener.
  */
-HOU_AUD_API Vec3f getPosition();
+HOU_AUD_API vec3f get_position();
 
 /** Sets the position of the listener in 3d space.
  *
@@ -52,13 +52,13 @@ HOU_AUD_API Vec3f getPosition();
  *
  *  \param pos the position.
  */
-HOU_AUD_API void setPosition(const Vec3f& pos);
+HOU_AUD_API void set_position(const vec3f& pos);
 
 /** Gets the current linear velocity of the listener.
  *
  *  \return the linear velocity.
  */
-HOU_AUD_API Vec3f getVelocity();
+HOU_AUD_API vec3f getVelocity();
 
 /** Sets the current linear velocity of the listener.
  *
@@ -66,7 +66,7 @@ HOU_AUD_API Vec3f getVelocity();
  *
  *  \param vel the velocity.
  */
-HOU_AUD_API void setVelocity(const Vec3f& vel);
+HOU_AUD_API void setVelocity(const vec3f& vel);
 
 /** Gets the orientation of the listener.
  *

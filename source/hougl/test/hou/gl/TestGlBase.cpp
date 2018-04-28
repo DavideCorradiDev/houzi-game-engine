@@ -20,7 +20,7 @@ void TestGlBase::SetUpTestCase()
 
 TestGlBase::TestGlBase()
   : testing::Test()
-  , mWindow("TestGfxWindow", hou::VideoMode(hou::Vec2u::zero(), 4u)
+  , mWindow("TestGfxWindow", hou::VideoMode(hou::vec2u::zero(), 4u)
     , hou::WindowStyle::Windowed)
   , mContext(hou::gl::ContextSettings::Default, mWindow)
 {

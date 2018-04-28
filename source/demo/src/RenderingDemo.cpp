@@ -6,9 +6,9 @@
 #include "hou/gfx/Mesh2ShaderProgram.hpp"
 #include "hou/gfx/TextShaderProgram.hpp"
 
-#include "hou/mth/MathFunctions.hpp"
-#include "hou/mth/Rotation2.hpp"
-#include "hou/mth/Transform2.hpp"
+#include "hou/mth/math_functions.hpp"
+#include "hou/mth/rotation2.hpp"
+#include "hou/mth/transform2.hpp"
 
 #include "hou/sys/Color.hpp"
 #include "hou/cor/clock.hpp"
@@ -25,19 +25,19 @@ class TransformData
 public:
   TransformData();
 
-  Trans2f computeTransform() const;
+  trans2f computeTransform() const;
 
 public:
-  Vec2f mPosition;
-  Vec2f mScale;
-  Vec2f mShear;
+  vec2f m_position;
+  vec2f mScale;
+  vec2f mShear;
   float mRotation;
 };
 
 
 
 TransformData::TransformData()
-  : mPosition(0.f, 0.f)
+  : m_position(0.f, 0.f)
   , mScale(1.f, 1.f)
   , mShear(0.f, 0.f)
   , mRotation(0.f)
@@ -45,12 +45,12 @@ TransformData::TransformData()
 
 
 
-Trans2f TransformData::computeTransform() const
+trans2f TransformData::computeTransform() const
 {
-  return Trans2f::translation(mPosition)
-    *Trans2f::rotation(Rot2f(degToRad(mRotation)))
-    * Trans2f::scale(mScale)
-    * Trans2f::shear(mShear.x(), mShear.y());
+  return trans2f::translation(m_position)
+    *trans2f::rotation(rot2f(deg_to_rad(mRotation)))
+    * trans2f::scale(mScale)
+    * trans2f::shear(mShear.x(), mShear.y());
 }
 
 
@@ -62,15 +62,15 @@ public:
   DrawableShape(const Texture2& texture);
 
   virtual Mesh2 generateMesh() const = 0;
-  void draw(RenderSurface& rt, Mesh2ShaderProgram& renderer, const Trans2f& t) const;
+  void draw(RenderSurface& rt, Mesh2ShaderProgram& renderer, const trans2f& t) const;
 
   void handleInput();
 
 public:
   Color mColor;
   TransformData mTransformData;
-  Vec2f mOrigin;
-  Vec2f mSize;
+  vec2f mOrigin;
+  vec2f m_size;
   float mThickness;
   float mPoints;
   bool mDrawWithTexture;
@@ -85,7 +85,7 @@ DrawableShape::DrawableShape(const Texture2& texture)
   , mColor(Color::White)
   , mTransformData()
   , mOrigin(0.f, 0.f)
-  , mSize(32.f, 32.f)
+  , m_size(32.f, 32.f)
   , mThickness(1.f)
   , mPoints(16)
   , mDrawWithTexture(false)
@@ -94,7 +94,7 @@ DrawableShape::DrawableShape(const Texture2& texture)
 
 
 
-void DrawableShape::draw(RenderSurface& rt, Mesh2ShaderProgram& renderer, const Trans2f& t) const
+void DrawableShape::draw(RenderSurface& rt, Mesh2ShaderProgram& renderer, const trans2f& t) const
 {
   if(mDrawWithTexture)
   {
@@ -121,19 +121,19 @@ void DrawableShape::handleInput()
 
   if(Keyboard::isKeyPressed(ScanCode::A))
   {
-    mTransformData.mPosition.x() += deltaPos;
+    mTransformData.m_position.x() += deltaPos;
   }
   if(Keyboard::isKeyPressed(ScanCode::Z))
   {
-    mTransformData.mPosition.x() -= deltaPos;
+    mTransformData.m_position.x() -= deltaPos;
   }
   if(Keyboard::isKeyPressed(ScanCode::S))
   {
-    mTransformData.mPosition.y() += deltaPos;
+    mTransformData.m_position.y() += deltaPos;
   }
   if(Keyboard::isKeyPressed(ScanCode::X))
   {
-    mTransformData.mPosition.y() -= deltaPos;
+    mTransformData.m_position.y() -= deltaPos;
   }
 
   if(Keyboard::isKeyPressed(ScanCode::D))
@@ -231,19 +231,19 @@ void DrawableShape::handleInput()
 
   if(Keyboard::isKeyPressed(ScanCode::Num7))
   {
-    mSize.x() += deltaPos;
+    m_size.x() += deltaPos;
   }
   if(Keyboard::isKeyPressed(ScanCode::U))
   {
-    mSize.x() -= deltaPos;
+    m_size.x() -= deltaPos;
   }
   if(Keyboard::isKeyPressed(ScanCode::Num8))
   {
-    mSize.y() += deltaPos;
+    m_size.y() += deltaPos;
   }
   if(Keyboard::isKeyPressed(ScanCode::I))
   {
-    mSize.y() -= deltaPos;
+    m_size.y() -= deltaPos;
   }
 
   if(Keyboard::isKeyPressed(ScanCode::Num9))
@@ -290,7 +290,7 @@ public:
 
   Mesh2 generateMesh() const override
   {
-    return createRectangleMesh2(mSize);
+    return createRectangleMesh2(m_size);
   }
 };
 
@@ -306,7 +306,7 @@ public:
 
   Mesh2 generateMesh() const override
   {
-    return createRectangleOutlineMesh2(mSize, mThickness);
+    return createRectangleOutlineMesh2(m_size, mThickness);
   }
 };
 
@@ -322,7 +322,7 @@ public:
 
   Mesh2 generateMesh() const override
   {
-    return createEllipseMesh2(mSize, mPoints);
+    return createEllipseMesh2(m_size, mPoints);
   }
 };
 
@@ -338,7 +338,7 @@ public:
 
   Mesh2 generateMesh() const override
   {
-    return createEllipseOutlineMesh2(mSize, mPoints, mThickness);
+    return createEllipseOutlineMesh2(m_size, mPoints, mThickness);
   }
 };
 
@@ -354,7 +354,7 @@ public:
 
   Mesh2 generateMesh() const override
   {
-    return createTextureQuadMesh2(Rectf(mOrigin, mSize), mTexture->getSize());
+    return createTextureQuadMesh2(rectf(mOrigin, m_size), mTexture->get_size());
   }
 };
 
@@ -367,7 +367,7 @@ int main()
   GraphicContext::setCurrent(ctx);
 
   std::string wndTitle(u8"Rendering Demo");
-  Vec2u wndSize(800u, 600u);
+  vec2u wndSize(800u, 600u);
   uint wndSamples = 16u;
   WindowStyle wndStyle = WindowStyle::Windowed;
   std::unique_ptr<RenderWindow> wnd(
@@ -384,19 +384,19 @@ int main()
   std::vector<std::unique_ptr<DrawableShape>> shapes;
 
   shapes.push_back(std::make_unique<RectangleShape>(shapeTex));
-  shapes.back()->mTransformData.mPosition = Vec2f(16.f, 16.f);
+  shapes.back()->mTransformData.m_position = vec2f(16.f, 16.f);
 
   shapes.push_back(std::make_unique<RectangleOutlineShape>(shapeTex));
-  shapes.back()->mTransformData.mPosition = Vec2f(64.f, 16.f);
+  shapes.back()->mTransformData.m_position = vec2f(64.f, 16.f);
 
   shapes.push_back(std::make_unique<EllipseShape>(shapeTex));
-  shapes.back()->mTransformData.mPosition = Vec2f(112.f, 16.f);
+  shapes.back()->mTransformData.m_position = vec2f(112.f, 16.f);
 
   shapes.push_back(std::make_unique<EllipseOutlineShape>(shapeTex));
-  shapes.back()->mTransformData.mPosition = Vec2f(160.f, 16.f);
+  shapes.back()->mTransformData.m_position = vec2f(160.f, 16.f);
 
   shapes.push_back(std::make_unique<TextureQuadShape>(shapeTex));
-  shapes.back()->mTransformData.mPosition = Vec2f(204.f, 16.f);
+  shapes.back()->mTransformData.m_position = vec2f(204.f, 16.f);
 
   size_t currentShape = 0;
 
@@ -506,60 +506,60 @@ int main()
       static const int viewportDelta = 4;
       if(Keyboard::isKeyPressed(ScanCode::Divide))
       {
-        Recti currentViewport = wnd->getViewport();
+        recti currentViewport = wnd->getViewport();
         currentViewport.x() += viewportDelta;
         wnd->setViewport(currentViewport);
       }
       if(Keyboard::isKeyPressed(ScanCode::Numpad8))
       {
-        Recti currentViewport = wnd->getViewport();
+        recti currentViewport = wnd->getViewport();
         currentViewport.x() -= viewportDelta;
         wnd->setViewport(currentViewport);
       }
       if(Keyboard::isKeyPressed(ScanCode::Multiply))
       {
-        Recti currentViewport = wnd->getViewport();
+        recti currentViewport = wnd->getViewport();
         currentViewport.y() += viewportDelta;
         wnd->setViewport(currentViewport);
       }
       if(Keyboard::isKeyPressed(ScanCode::Numpad9))
       {
-        Recti currentViewport = wnd->getViewport();
+        recti currentViewport = wnd->getViewport();
         currentViewport.y() -= viewportDelta;
         wnd->setViewport(currentViewport);
       }
       if(Keyboard::isKeyPressed(ScanCode::Numpad5))
       {
-        Recti currentViewport = wnd->getViewport();
+        recti currentViewport = wnd->getViewport();
         currentViewport.w() += viewportDelta;
         wnd->setViewport(currentViewport);
       }
       if(Keyboard::isKeyPressed(ScanCode::Numpad2))
       {
-        Recti currentViewport = wnd->getViewport();
+        recti currentViewport = wnd->getViewport();
         currentViewport.w() -= viewportDelta;
         wnd->setViewport(currentViewport);
       }
       if(Keyboard::isKeyPressed(ScanCode::Numpad6))
       {
-        Recti currentViewport = wnd->getViewport();
+        recti currentViewport = wnd->getViewport();
         currentViewport.h() += viewportDelta;
         wnd->setViewport(currentViewport);
       }
       if(Keyboard::isKeyPressed(ScanCode::Numpad3))
       {
-        Recti currentViewport = wnd->getViewport();
+        recti currentViewport = wnd->getViewport();
         currentViewport.h() -= viewportDelta;
         wnd->setViewport(currentViewport);
       }
 
       wnd->clear(Color::Grey);
 
-      Trans2f projTrans = Trans2f::orthographicProjection(wnd->getViewport());
+      trans2f projTrans = trans2f::orthographic_projection(wnd->getViewport());
 
-      Mesh2 viewportMesh = createRectangleOutlineMesh2(wnd->getViewport().getSize(), 1);
+      Mesh2 viewportMesh = createRectangleOutlineMesh2(wnd->getViewport().get_size(), 1);
       m2rend.draw(*wnd, viewportMesh, Color::White
-        , projTrans * Trans2f::translation(wnd->getViewport().getPosition()));
+        , projTrans * trans2f::translation(wnd->getViewport().get_position()));
 
       for(const auto& shapePtr : shapes)
       {

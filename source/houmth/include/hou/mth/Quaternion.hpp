@@ -5,13 +5,13 @@
 #ifndef HOU_MTH_QUATERNION_HPP
 #define HOU_MTH_QUATERNION_HPP
 
-#include "hou/mth/MthExport.hpp"
+#include "hou/mth/mth_export.hpp"
 
 #include "hou/cor/error.hpp"
 #include "hou/cor/basic_types.hpp"
 #include "hou/cor/std_array.hpp"
 
-#include "hou/mth/QuaternionFwd.hpp"
+#include "hou/mth/quaternion_fwd.hpp"
 
 #include <cmath>
 #include <initializer_list>
@@ -23,58 +23,58 @@
 namespace hou
 {
 
-/** Represents a quaternion.
+/** Represents a ph_quaternion.
  *
  *  \tparam T the scalar type.
  */
 template <typename T>
-  class HOU_MTH_API Quaternion
+  class HOU_MTH_API quaternion
 {
 public:
-  /** Returns the zero quaternion.
+  /** Returns the zero ph_quaternion.
    *
-   *  /return the zero quaternion.
+   *  /return the zero ph_quaternion.
    */
-  static Quaternion zero();
+  static quaternion zero();
 
-  /** Returns the identity quaternion.
+  /** Returns the identity ph_quaternion.
    *
-   *  /return the identity quaternion.
+   *  /return the identity ph_quaternion.
    */
-  static Quaternion identity();
+  static quaternion identity();
 
 public:
-  /** Creates a quaternion with elements initialized to 0.
+  /** Creates a ph_quaternion with elements initialized to 0.
    */
-  Quaternion();
+  quaternion();
 
-  /** Creates a quaternion with the elements initialized at the specified values.
+  /** Creates a ph_quaternion with the elements initialized at the specified values.
    *
    *  \param x the first element of the vector part.
    *  \param y the second element of the vector part.
    *  \param z the third element of the vector part.
    *  \param w the scalar part.
    */
-  Quaternion(T x, T y, T z, T w);
+  quaternion(T x, T y, T z, T w);
 
-  /** Creates a quaternion with the elements initialized at the specified values.
+  /** Creates a ph_quaternion with the elements initialized at the specified values.
    *
    *  Throws if the size of the initializer_list is not 4.
    *
    *  \param elements the elements. They are, in order, the three elements of
    *  the vector part and the single element of the scalar part.
    */
-  Quaternion(std::initializer_list<T> elements);
+  quaternion(std::initializer_list<T> elements);
 
-  /** Creates a quaternion from a quaternion with different scalar type.
+  /** Creates a ph_quaternion from a ph_quaternion with different scalar type.
    *
    *  U must be convertible to T.
    *
    *  \tparam U the other scalar type.
-   *  \param other the matrix to be copied.
+   *  \param other the ph_matrix to be copied.
    */
   template <typename U>
-    HOU_MTH_API Quaternion(const Quaternion<U>& other);
+    HOU_MTH_API quaternion(const quaternion<U>& other);
 
   /** Retrieves a copy of the first element of the vector part.
    *
@@ -124,7 +124,7 @@ public:
    */
   T& w();
 
-  /** Retrieves a pointer to an array containing the elements of the quaternion.
+  /** Retrieves a pointer to an array containing the elements of the ph_quaternion.
    *
    *  The elements in the array are, in order, the three elements of the vector
    *  part and the scalar part.
@@ -133,107 +133,107 @@ public:
    */
   const T* data() const;
 
-  /** Adds the given quaternion to this quaternion.
+  /** Adds the given ph_quaternion to this ph_quaternion.
    *
    *  The sum is element-wise.
    *
-   *  \param rhs is the quaternion to be added.
-   *  \return a reference to this quaternion after the addition.
+   *  \param rhs is the ph_quaternion to be added.
+   *  \return a reference to this ph_quaternion after the addition.
    */
-  Quaternion& operator+=(const Quaternion& rhs);
+  quaternion& operator+=(const quaternion& rhs);
 
-  /** Subtracts the given quaternion from this quaternion.
+  /** Subtracts the given ph_quaternion from this ph_quaternion.
    *
    *  The difference is element-wise.
    *
-   *  \param rhs the quaternion to be subtracted.
-   *  \return a reference to this quaternion after the subtraction.
+   *  \param rhs the ph_quaternion to be subtracted.
+   *  \return a reference to this ph_quaternion after the subtraction.
    */
-  Quaternion& operator-=(const Quaternion& rhs);
+  quaternion& operator-=(const quaternion& rhs);
 
-  /** Multiplies this quaternion by the given quaternion.
+  /** Multiplies this ph_quaternion by the given ph_quaternion.
    *
-   *  \param rhs the quaternion to be multiplied.
-   *  \return a reference to this quaternion after the multiplication.
+   *  \param rhs the ph_quaternion to be multiplied.
+   *  \return a reference to this ph_quaternion after the multiplication.
    */
-  Quaternion& operator*=(const Quaternion& rhs);
+  quaternion& operator*=(const quaternion& rhs);
 
-  /** Multiplies this quaternion by the given scalar.
+  /** Multiplies this ph_quaternion by the given scalar.
    *
-   *  All elements of the quaternion are multiplied by the given scalar.
+   *  All elements of the ph_quaternion are multiplied by the given scalar.
    *
    *  \param rhs the scalar factor.
-   *  \return a reference to this quaternion after the multiplication.
+   *  \return a reference to this ph_quaternion after the multiplication.
    */
-  Quaternion& operator*=(T rhs);
+  quaternion& operator*=(T rhs);
 
-  /** Divides this quaternion by the given scalar.
+  /** Divides this ph_quaternion by the given scalar.
    *
-   *  All elements of the quaternion are divided by the given scalar.
+   *  All elements of the ph_quaternion are divided by the given scalar.
    *
    *  \param rhs the scalar divisor.
-   *  \return a reference to this quaternion after the division.
+   *  \return a reference to this ph_quaternion after the division.
    */
-  Quaternion& operator/=(T rhs);
+  quaternion& operator/=(T rhs);
 
-  /** Inverts this quaternion.
+  /** Inverts this ph_quaternion.
    *
-   *  \return a reference to this quaternion after the inversion.
+   *  \return a reference to this ph_quaternion after the inversion.
    */
-  Quaternion& invert();
+  quaternion& invert();
 
-  /** Conjugates this quaternion.
+  /** Conjugates this ph_quaternion.
    *
-   *  \return a reference to this quaternion after the conjugation.
+   *  \return a reference to this ph_quaternion after the conjugation.
    */
-  Quaternion& conjugate();
+  quaternion& conjugate();
 
-  /** Normalizes this quaternion.
+  /** Normalizes this ph_quaternion.
    *
-   *  \return a reference to this quaternion after the normalization.
+   *  \return a reference to this ph_quaternion after the normalization.
    */
-  Quaternion& normalize();
+  quaternion& normalize();
 
-  /** Computes the opposite of a quaternion.
+  /** Computes the opposite of a ph_quaternion.
    *
-   *  \param q the quaternion.
-   *  \return the opposite quaternion.
+   *  \param q the ph_quaternion.
+   *  \return the opposite ph_quaternion.
    */
-  friend Quaternion operator-(const Quaternion<T>& q)
+  friend quaternion operator-(const quaternion<T>& q)
   {
-    return Quaternion(-q.mElements[0], -q.mElements[1], -q.mElements[2]
-      , -q.mElements[3]);
+    return quaternion(-q.m_elements[0], -q.m_elements[1], -q.m_elements[2]
+      , -q.m_elements[3]);
   }
 
-  /** Multiplies a quaternion by a scalar.
+  /** Multiplies a ph_quaternion by a scalar.
    *
    *  \param lhs the left operator.
    *  \param rhs the right operator.
-   *  \return the product of the quaternion and the scalar.
+   *  \return the product of the ph_quaternion and the scalar.
    */
-  friend Quaternion operator*(Quaternion lhs, T rhs)
+  friend quaternion operator*(quaternion lhs, T rhs)
   {
     return lhs *= rhs;
   }
 
-  /** Multiplies a quaternion by a scalar.
+  /** Multiplies a ph_quaternion by a scalar.
    *
    *  \param lhs the left operator.
    *  \param rhs the right operator.
-   *  \return the product of the quaternion and the scalar.
+   *  \return the product of the ph_quaternion and the scalar.
    */
-  friend Quaternion operator*(T lhs, Quaternion rhs)
+  friend quaternion operator*(T lhs, quaternion rhs)
   {
     return rhs *= lhs;
   }
 
-  /** Divides a quaternion by a scalar.
+  /** Divides a ph_quaternion by a scalar.
    *
    *  \param lhs the left operator.
    *  \param rhs the right operator.
-   *  \return the quotient of the quaternion and the scalar.
+   *  \return the quotient of the ph_quaternion and the scalar.
    */
-  friend Quaternion operator/(Quaternion lhs, T rhs)
+  friend quaternion operator/(quaternion lhs, T rhs)
   {
     return lhs /= rhs;
   }
@@ -244,9 +244,9 @@ public:
    *  \param rhs the right operator.
    *  \return the result of the check.
    */
-  friend bool operator==(const Quaternion& lhs, const Quaternion& rhs)
+  friend bool operator==(const quaternion& lhs, const quaternion& rhs)
   {
-    return lhs.mElements == rhs.mElements;
+    return lhs.m_elements == rhs.m_elements;
   }
 
   /** Checks if two quaternions are not equal.
@@ -255,9 +255,9 @@ public:
    *  \param rhs the right operator.
    *  \return the result of the check.
    */
-  friend bool operator!=(const Quaternion& lhs, const Quaternion& rhs)
+  friend bool operator!=(const quaternion& lhs, const quaternion& rhs)
   {
-    return lhs.mElements != rhs.mElements;
+    return lhs.m_elements != rhs.m_elements;
   }
 
   /** Checks if two quaternions are equal with the specified accuracy.
@@ -267,14 +267,14 @@ public:
    *  \param acc the accuracy.
    *  \return the result of the check.
    */
-  friend bool close(const Quaternion& lhs, const Quaternion& rhs
+  friend bool close(const quaternion& lhs, const quaternion& rhs
     , T acc = std::numeric_limits<T>::epsilon())
   {
-    return close(lhs.mElements, rhs.mElements, acc);
+    return close(lhs.m_elements, rhs.m_elements, acc);
   }
 
 private:
-  std::array<T, 4u> mElements;
+  std::array<T, 4u> m_elements;
 };
 
 /** Sums two quaternions.
@@ -287,8 +287,8 @@ private:
  *  \return the sum of the two quaternions.
  */
 template <typename T>
-  HOU_MTH_API Quaternion<T> operator+(Quaternion<T> lhs
-  , const Quaternion<T>& rhs);
+  HOU_MTH_API quaternion<T> operator+(quaternion<T> lhs
+  , const quaternion<T>& rhs);
 
 /** Subtracts two quaternions.
  *
@@ -301,8 +301,8 @@ template <typename T>
  *  \return the difference of the two quaternions.
  */
 template <typename T>
-  HOU_MTH_API Quaternion<T> operator-(Quaternion<T> lhs
-  , const Quaternion<T>& rhs);
+  HOU_MTH_API quaternion<T> operator-(quaternion<T> lhs
+  , const quaternion<T>& rhs);
 
 /** Multiplies two quaternions.
  *
@@ -312,64 +312,64 @@ template <typename T>
  *  \return the product of the two quaternions.
  */
 template <typename T>
-  HOU_MTH_API Quaternion<T> operator*(Quaternion<T> lhs
-  , const Quaternion<T>& rhs);
+  HOU_MTH_API quaternion<T> operator*(quaternion<T> lhs
+  , const quaternion<T>& rhs);
 
-/** Computes the inverse of a quaternion.
+/** Computes the inverse of a ph_quaternion.
  *
  *  \tparam T the scalar type.
- *  \param q the quaternion to be inverted.
- *  \return the inverse of the quaternion.
+ *  \param q the ph_quaternion to be inverted.
+ *  \return the inverse of the ph_quaternion.
  */
 template <typename T>
-  HOU_MTH_API Quaternion<T> inverse(Quaternion<T> q);
+  HOU_MTH_API quaternion<T> inverse(quaternion<T> q);
 
-/** Computes the conjugate of a quaternion.
+/** Computes the conjugate of a ph_quaternion.
  *
  *  \tparam T the scalar type.
- *  \param q the quaternion to be conjugated.
- *  \return the conjugate of the quaternion.
+ *  \param q the ph_quaternion to be conjugated.
+ *  \return the conjugate of the ph_quaternion.
  */
 template <typename T>
-  HOU_MTH_API Quaternion<T> conjugate(Quaternion<T> q);
+  HOU_MTH_API quaternion<T> conjugate(quaternion<T> q);
 
-/** Computes the square norm of a quaternion.
+/** Computes the square norm of a ph_quaternion.
  *
  *  \tparam T the scalar type.
- *  \param q the quaternion.
+ *  \param q the ph_quaternion.
  *  \return the square norm.
  */
 template <typename T>
-  HOU_MTH_API T squareNorm(const Quaternion<T>& q);
+  HOU_MTH_API T square_norm(const quaternion<T>& q);
 
-/** Computes the norm of a quaternion.
+/** Computes the norm of a ph_quaternion.
  *
  *  \tparam T the scalar type.
- *  \param q the quaternion.
+ *  \param q the ph_quaternion.
  *  \return the norm.
  */
 template <typename T>
-  HOU_MTH_API T norm(const Quaternion<T>& q);
+  HOU_MTH_API T norm(const quaternion<T>& q);
 
-/** Computes the normalized quaternion.
+/** Computes the normalized ph_quaternion.
  *
  *  \tparam T the scalar type.
- *  \param q the quaternion.
- *  \return the normalized quaternion.
+ *  \param q the ph_quaternion.
+ *  \return the normalized ph_quaternion.
  */
 template <typename T>
-  HOU_MTH_API Quaternion<T> normalized(Quaternion<T> q);
+  HOU_MTH_API quaternion<T> normalized(quaternion<T> q);
 
 /** Writes the object into a stream.
  *
  *  \tparam T the scalar type.
  *  \param os the stream.
- *  \param q the quaternion.
+ *  \param q the ph_quaternion.
  *  \return a reference to the stream.
  */
 template <typename T>
   HOU_MTH_API std::ostream& operator<<(std::ostream& os
-  , const Quaternion<T>& q);
+  , const quaternion<T>& q);
 
 }
 

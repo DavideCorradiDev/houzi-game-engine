@@ -7,7 +7,7 @@
 
 #include "hou/gfx/GfxExport.hpp"
 
-#include "hou/mth/Matrix.hpp"
+#include "hou/mth/matrix.hpp"
 
 #include "hou/gfx/TextFlow.hpp"
 
@@ -31,7 +31,7 @@ public:
    * \param textFlow the text flow direction.
    * \param maxSize the maximum text box size.
    */
-  TextBoxFormattingParams(TextFlow textFlow, const Vec2f& maxSize);
+  TextBoxFormattingParams(TextFlow textFlow, const vec2f& maxSize);
 
   /** Retrieves the text flow parameter.
    *
@@ -43,11 +43,11 @@ public:
    *
    * \return the maximum text box size.
    */
-  const Vec2f& getMaxSize() const;
+  const vec2f& getMaxSize() const;
 
 private:
   TextFlow mTextFlow;
-  Vec2f mMaxSize;
+  vec2f mMaxSize;
 };
 
 }  // namespace hou

@@ -16,8 +16,8 @@
 
 #include "hou/sys/Color.hpp"
 
-#include "hou/mth/Matrix.hpp"
-#include "hou/mth/RectangleFwd.hpp"
+#include "hou/mth/matrix.hpp"
+#include "hou/mth/rectangle_fwd.hpp"
 
 
 
@@ -58,31 +58,31 @@ public:
    *  \param color the vertex color.
    */
   Vertex2(
-    const Vec2f& position, const Vec2f& textureCoordinates, const Color& color);
+    const vec2f& position, const vec2f& textureCoordinates, const Color& color);
 
   /** Gets the vertex position.
    *
    *  \return the vertex position.
    */
-  Vec2f getPosition() const;
+  vec2f get_position() const;
 
   /** Sets the vertex position.
    *
    *  \param pos the vertex position.
    */
-  void setPosition(const Vec2f& pos);
+  void set_position(const vec2f& pos);
 
   /** Gets the vertex texture coordinates.
    *
    *  \return the vertex texture coordinates.
    */
-  Vec2f getTextureCoordinates() const;
+  vec2f getTextureCoordinates() const;
 
   /** Sets the vertex texture coordinates.
    *
    *  \param textureCoordinates the vertex texture coordinates.
    */
-  void setTextureCoordinates(const Vec2f& textureCoordinates);
+  void setTextureCoordinates(const vec2f& textureCoordinates);
 
   /** Gets the vertex color.
    *
@@ -102,7 +102,7 @@ private:
   static constexpr size_t sColorSize = 4u;
 
 private:
-  GLfloat mPosition[sPositionSize];
+  GLfloat m_position[sPositionSize];
   GLfloat mTexCoords[sTextureCoordinatesSize];
   GLfloat mColor[sColorSize];
 };
@@ -144,30 +144,30 @@ HOU_GFX_API bool close(const Vertex2& lhs, const Vertex2& rhs,
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, const Vertex2& v);
 
-/** Creates a Mesh object representing a rectangle shape with the given size.
+/** Creates a Mesh object representing a ph_rectangle shape with the given size.
  *
  *  The texture coordinates are defined so that a texture is stretched to cover
- *  the entire rectangle.
+ *  the entire ph_rectangle.
  *  The color is always white.
  *
- *  \param size the size of the rectangle.
- *  \return the Mesh representing the rectangle.
+ *  \param size the size of the ph_rectangle.
+ *  \return the Mesh representing the ph_rectangle.
  */
-HOU_GFX_API Mesh2 createRectangleMesh2(const Vec2f& size);
+HOU_GFX_API Mesh2 createRectangleMesh2(const vec2f& size);
 
-/** Creates a Mesh2 object representing a rectangle outline shape with the
+/** Creates a Mesh2 object representing a ph_rectangle outline shape with the
  *  given size and border thickness.
  *
  *  The texture coordinates are always equal to zero.
  *  The color is always white.
  *  The size refers to the outside of the border.
  *
- *  \param size the size of the rectangle.
- *  \param thickness the thickness of the border of the rectangle.
- *  \return the Mesh2 representing the rectangle outline.
+ *  \param size the size of the ph_rectangle.
+ *  \param thickness the thickness of the border of the ph_rectangle.
+ *  \return the Mesh2 representing the ph_rectangle outline.
  */
 HOU_GFX_API Mesh2 createRectangleOutlineMesh2(
-  const Vec2f& size, float thickness);
+  const vec2f& size, float thickness);
 
 /** Creates a Mesh2 object representing an approximation of an ellipse with
  *  the given size and drawn with the given number of points.
@@ -182,7 +182,7 @@ HOU_GFX_API Mesh2 createRectangleOutlineMesh2(
  *  \param pointCount the number of pointCount used to draw the ellipse.
  *  \return the Mesh2 representing the ellipse.
  */
-HOU_GFX_API Mesh2 createEllipseMesh2(const Vec2f& size, uint pointCount);
+HOU_GFX_API Mesh2 createEllipseMesh2(const vec2f& size, uint pointCount);
 
 
 /** Creates a Mesh2 object representing an approximation of an ellipse outline
@@ -204,14 +204,14 @@ HOU_GFX_API Mesh2 createEllipseMesh2(const Vec2f& size, uint pointCount);
  *  \return the Mesh2 representing the ellipse outline.
  */
 HOU_GFX_API Mesh2 createEllipseOutlineMesh2(
-  const Vec2f& size, uint pointCount, float thickness);
+  const vec2f& size, uint pointCount, float thickness);
 
 /** Creates a Mesh2 object representing a texture quad covering the specified
- *  rectangle of a texture.
+ *  ph_rectangle of a texture.
  *
  *  A texture quad has a rectangular shape with the top left corner at the
- * origin and the size specified by rect, just like a normal rectangle mesh.
- *  Unlike the rectangle mesh, the texture coordinates are defined to coincide
+ * origin and the size specified by rect, just like a normal ph_rectangle mesh.
+ *  Unlike the ph_rectangle mesh, the texture coordinates are defined to coincide
  *  with the elements of rect, normalized by the actual texture size.
  *  The same texture quad may be used with different textures with the same
  * size. If a texture quad is used with a texture of a different size than the
@@ -222,7 +222,7 @@ HOU_GFX_API Mesh2 createEllipseOutlineMesh2(
  *  \param textureSize the size of the texture to be used with the quad.
  */
 HOU_GFX_API Mesh2 createTextureQuadMesh2(
-  const Rectf& rect, const Vec2f& textureSize);
+  const rectf& rect, const vec2f& textureSize);
 
 }  // namespace hou
 

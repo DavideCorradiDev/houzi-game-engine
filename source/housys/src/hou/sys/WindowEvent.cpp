@@ -53,8 +53,8 @@ WindowEvent WindowEvent::resized(uint sizeX, uint sizeY)
 {
   WindowEvent ev;
   ev.mType = WindowEventType::Resized;
-  ev.mSize.sizeX = sizeX;
-  ev.mSize.sizeY = sizeY;
+  ev.m_size.sizeX = sizeX;
+  ev.m_size.sizeY = sizeY;
   return ev;
 }
 
@@ -171,7 +171,7 @@ WindowEventType WindowEvent::getType() const
 const WindowEvent::SizeData& WindowEvent::getSizeData() const
 {
   HOU_EXPECT(mType == WindowEventType::Resized);
-  return mSize;
+  return m_size;
 }
 
 
