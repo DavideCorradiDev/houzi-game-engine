@@ -55,7 +55,10 @@ TestFileHandle::TestFileHandle()
 
 TestFileHandle::~TestFileHandle()
 {
-  removeDir(fileName);
+  if(checkDir(fileName))
+  {
+    removeDir(fileName);
+  }
 }
 
 }
@@ -112,29 +115,37 @@ TEST_F(TestFileHandle, OpenFile)
 
 
 
+TEST_F(TestFileHandle, CheckDir)
+{
+  EXPECT_TRUE(checkDir(fileName));
+  EXPECT_TRUE(checkDir(getOutputDir()));
+  EXPECT_FALSE(checkDir(u8"DummyName"));
+  EXPECT_FALSE(checkDir(u8"./DummyDir/"));
+}
+
+
+
 TEST_F(TestFileHandle, RenameDir)
 {
   const std::string newName = getOutputDir()
     + u8"TestFileHandle-\U00004f61\U0000597e-2.txt";
 
-  EXPECT_TRUE(renameDir(fileName, newName));
+  EXPECT_TRUE(checkDir(fileName));
+  EXPECT_FALSE(checkDir(newName));
 
-  {
-    HOU_EXPECT_ERROR(FileHandle f1(fileName, FileOpenMode::Read, FileType::Binary)
-      , std::runtime_error
-      , formatString(getText(SysError::FileOpen), fileName.c_str()));
-    FileHandle f2(newName, FileOpenMode::Read, FileType::Binary);
-    EXPECT_NE(nullptr, static_cast<FILE*>(f2));
-  }
+  EXPECT_TRUE(renameDir(fileName, newName));
+  EXPECT_FALSE(checkDir(fileName));
+  EXPECT_TRUE(checkDir(newName));
 
   EXPECT_TRUE(renameDir(newName, fileName));
+  EXPECT_TRUE(checkDir(fileName));
+  EXPECT_FALSE(checkDir(newName));
 
+  // Just for safety reason... If the test fails and the file does not get
+  // renamed back, it will not be cleaned up at the end of the test.
+  if(checkDir(newName))
   {
-    FileHandle f1(fileName, FileOpenMode::Read, FileType::Binary);
-    EXPECT_NE(nullptr, static_cast<FILE*>(f1));
-    HOU_EXPECT_ERROR(FileHandle f2(newName, FileOpenMode::Read, FileType::Binary)
-      , std::runtime_error
-      , formatString(getText(SysError::FileOpen), newName.c_str()));
+    removeDir(newName);
   }
 }
 
@@ -153,6 +164,8 @@ TEST_F(TestFileHandle, RemoveDir)
     + u8"TestFileHandle-\U00004f61\U0000597e-2.txt";
   const std::string toWrite = u8"I have\nwritten this";
 
+  EXPECT_FALSE(checkDir(newName));
+
   {
     FileHandle f(newName, FileOpenMode::Write, FileType::Binary);
     fwrite(toWrite.data(), sizeof(char), toWrite.size(), f);
@@ -163,10 +176,9 @@ TEST_F(TestFileHandle, RemoveDir)
     EXPECT_NE(nullptr, static_cast<FILE*>(f));
   }
 
+  EXPECT_TRUE(checkDir(newName));
   EXPECT_TRUE(removeDir(newName));
-  HOU_EXPECT_ERROR(FileHandle f(newName, FileOpenMode::Read, FileType::Binary)
-    , std::runtime_error
-    , formatString(getText(SysError::FileOpen), newName.c_str()));
+  EXPECT_FALSE(checkDir(newName));
 }
 
 

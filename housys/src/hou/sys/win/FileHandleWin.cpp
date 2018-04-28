@@ -24,6 +24,14 @@ FILE* openFile(const std::string& path, const std::string& mode)
 
 
 
+bool checkDir(const std::string& path)
+{
+  DWORD attr = GetFileAttributesW(convertEncoding<Utf8, Wide>(path).c_str());
+  return attr != INVALID_FILE_ATTRIBUTES;
+}
+
+
+
 bool removeDir(const std::string& path)
 {
   return _wremove(convertEncoding<Utf8, Wide>(path).c_str()) == 0;

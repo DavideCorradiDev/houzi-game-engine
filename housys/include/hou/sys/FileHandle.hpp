@@ -78,6 +78,15 @@ HOU_SYS_API std::string getFileModeString(FileOpenMode mode, FileType type);
  */
 HOU_SYS_API FILE* openFile(const std::string& path, const std::string& mode);
 
+/** Checks if a directory exists.
+ *
+ *  Supports unicode paths.
+ *
+ *  \param path the directory to be checked.
+ *  \return true if the directory exists.
+ */
+HOU_SYS_API bool checkDir(const std::string& path);
+
 /** Removes the specified directory.
  *
  *  Supports unicode paths.
