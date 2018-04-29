@@ -24,34 +24,36 @@
 
 
 #if defined(HOU_DISABLE_EXCEPTIONS)
-  #define HOU_EXPECT_ERROR(statement, exception_type, message) \
+#define HOU_EXPECT_ERROR(statement, exception_type, message) \
   { \
-    std::stringstream expectedOutput; \
-    expectedOutput << #exception_type << " -.*" << hou::escape_regex(message) \
-      << ".*"; \
-    EXPECT_DEATH(statement, expectedOutput.str().c_str()); \
+    std::stringstream expected_output; \
+    expected_output << #exception_type << " -.*" << hou::escape_regex(message) \
+                    << ".*"; \
+    EXPECT_DEATH(statement, expected_output.str().c_str()); \
   }
 #else
-  #include <stdexcept>
-  #define HOU_EXPECT_ERROR(statement, exception_type, message) \
+#include <stdexcept>
+#define HOU_EXPECT_ERROR(statement, exception_type, message) \
   { \
     try \
     { \
       statement; \
-      ADD_FAILURE() << "Expected: " #statement " throws an exception of type " \
-        #exception_type ".\n  Actual: it throws nothing."; \
+      ADD_FAILURE() << "Expected: " #statement \
+                       " throws an exception of type " #exception_type \
+                       ".\n  Actual: it throws nothing."; \
     } \
     catch(const exception_type& e) \
     { \
-      std::stringstream expectedOutput; \
-      expectedOutput << ".*" << hou::escape_regex(message) << ".*"; \
-      EXPECT_THAT(e.what() \
-        , ::testing::MatchesRegex(expectedOutput.str().c_str())); \
+      std::stringstream expected_output; \
+      expected_output << ".*" << hou::escape_regex(message) << ".*"; \
+      EXPECT_THAT( \
+        e.what(), ::testing::MatchesRegex(expected_output.str().c_str())); \
     } \
     catch(...) \
     { \
-      ADD_FAILURE() << "Expected: " #statement " throws an exception of type " \
-        #exception_type ".\n  Actual: it throws a different type."; \
+      ADD_FAILURE() << "Expected: " #statement \
+                       " throws an exception of type " #exception_type \
+                       ".\n  Actual: it throws a different type."; \
     } \
   }
 #endif
@@ -59,64 +61,61 @@
 
 
 #define HOU_EXPECT_PRECONDITION(statement) \
-  HOU_EXPECT_ERROR(statement, std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR( \
+    statement, std::logic_error, get_text(cor_error::pre_condition));
 
 
 
 #define HOU_EXPECT_POSTCONDITION(statement) \
-  HOU_EXPECT_ERROR(statement, std::logic_error, get_text(cor_error::post_condition));
+  HOU_EXPECT_ERROR( \
+    statement, std::logic_error, get_text(cor_error::post_condition));
 
 
 
 #define HOU_EXPECT_ARRAY_EQ(lhs, rhs, size) \
-do \
-{ \
-  for(size_t macro_i = 0; macro_i < size; ++macro_i) \
+  do \
   { \
-    if(lhs[macro_i] != rhs[macro_i]) \
+    for(size_t macro_i = 0; macro_i < size; ++macro_i) \
     { \
-      std::stringstream ph_stream; \
-      ph_stream \
-        << "      Expected: " << #lhs << "[" << macro_i << "]\n" \
-        << "      Which is: " << lhs[macro_i] << "\n" \
-        << "To be equal to: " << #rhs << "[" << macro_i << "]\n" \
-        << "      Which is: " << rhs[macro_i]; \
-      ADD_FAILURE() << ph_stream.str(); \
+      if(lhs[macro_i] != rhs[macro_i]) \
+      { \
+        std::stringstream stream; \
+        stream << "      Expected: " << #lhs << "[" << macro_i << "]\n" \
+               << "      Which is: " << lhs[macro_i] << "\n" \
+               << "To be equal to: " << #rhs << "[" << macro_i << "]\n" \
+               << "      Which is: " << rhs[macro_i]; \
+        ADD_FAILURE() << stream.str(); \
+      } \
+      else \
+      { \
+        SUCCEED(); \
+      } \
     } \
-    else \
-    { \
-      SUCCEED(); \
-    } \
-  } \
-} \
-while(false)
-
+  } while(false)
 
 
 
 #define HOU_EXPECT_ARRAY_CLOSE(lhs, rhs, size, prec) \
-do \
-{ \
-  for(size_t macro_i = 0; macro_i < size; ++macro_i) \
+  do \
   { \
-    if(!close(lhs[macro_i], rhs[macro_i], prec)) \
+    for(size_t macro_i = 0; macro_i < size; ++macro_i) \
     { \
-      std::stringstream ph_stream; \
-      ph_stream \
-        << "      Expected: " << #lhs << "[" << macro_i << "]\n" \
-        << "      Which is: " << lhs[macro_i] << "\n" \
-        << "To be close to: " << #rhs << "[" << macro_i << "]\n" \
-        << "      Which is: " << rhs[macro_i] << "\n" \
-        << "With precision: " << prec; \
-      ADD_FAILURE() << ph_stream.str(); \
+      if(!close(lhs[macro_i], rhs[macro_i], prec)) \
+      { \
+        std::stringstream stream; \
+        stream << "      Expected: " << #lhs << "[" << macro_i << "]\n" \
+               << "      Which is: " << lhs[macro_i] << "\n" \
+               << "To be close to: " << #rhs << "[" << macro_i << "]\n" \
+               << "      Which is: " << rhs[macro_i] << "\n" \
+               << "With precision: " << prec; \
+        ADD_FAILURE() << stream.str(); \
+      } \
+      else \
+      { \
+        SUCCEED(); \
+      } \
     } \
-    else \
-    { \
-      SUCCEED(); \
-    } \
-  } \
-} \
-while(false)
+  } while(false)
 
 
 
@@ -126,25 +125,23 @@ while(false)
 
 
 #define HOU_EXPECT_CLOSE(lhs, rhs, prec) \
-do \
-{ \
-  if(!close(lhs, rhs, prec)) \
+  do \
   { \
-    std::stringstream ph_stream; \
-    ph_stream \
-      << "      Expected: " << #lhs << "\n" \
-      << "      Which is: " << lhs << "\n" \
-      << "To be close to: " << #rhs << "\n" \
-      << "      Which is: " << rhs << "\n" \
-      << "With precision: " << prec; \
-    ADD_FAILURE() << ph_stream.str(); \
-  } \
-  else \
-  { \
-    SUCCEED(); \
-  } \
-} \
-while(false)
+    if(!close(lhs, rhs, prec)) \
+    { \
+      std::stringstream stream; \
+      stream << "      Expected: " << #lhs << "\n" \
+             << "      Which is: " << lhs << "\n" \
+             << "To be close to: " << #rhs << "\n" \
+             << "      Which is: " << rhs << "\n" \
+             << "With precision: " << prec; \
+      ADD_FAILURE() << stream.str(); \
+    } \
+    else \
+    { \
+      SUCCEED(); \
+    } \
+  } while(false)
 
 
 
@@ -154,13 +151,13 @@ while(false)
 
 
 #define HOU_EXPECT_OUTPUT(expected_string, object) \
-{ \
-  std::stringstream ph_stream; \
-  ph_stream << object; \
-  EXPECT_STREQ(expected_string, ph_stream.str().c_str()) \
-    << "Error in operator<<"; \
-}
+  { \
+    std::stringstream stream; \
+    stream << object; \
+    EXPECT_STREQ(expected_string, stream.str().c_str()) \
+      << "Error in operator<<"; \
+  }
 
 
 
-#endif // HOU_TEST
+#endif  // HOU_TEST
