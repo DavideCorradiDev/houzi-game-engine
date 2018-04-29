@@ -413,3 +413,4 @@ INSTANTIATE_CHANNEL_FUNCTIONS(pixel_format::rgba, b)
 INSTANTIATE_CHANNEL_FUNCTIONS(pixel_format::rgba, a)
 
 }  // namespace hou
+
