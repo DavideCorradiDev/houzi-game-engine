@@ -50,11 +50,11 @@ std::ostream& operator<<(std::ostream& os, scan_code sc)
 
     SCAN_CODE_CASE(LCtrl, os);
     SCAN_CODE_CASE(RCtrl, os);
-    SCAN_CODE_CASE(a, os);
+    SCAN_CODE_CASE(A, os);
     SCAN_CODE_CASE(S, os);
     SCAN_CODE_CASE(D, os);
     SCAN_CODE_CASE(F, os);
-    SCAN_CODE_CASE(g, os);
+    SCAN_CODE_CASE(G, os);
     SCAN_CODE_CASE(H, os);
     SCAN_CODE_CASE(J, os);
     SCAN_CODE_CASE(K, os);
@@ -69,7 +69,7 @@ std::ostream& operator<<(std::ostream& os, scan_code sc)
     SCAN_CODE_CASE(X, os);
     SCAN_CODE_CASE(C, os);
     SCAN_CODE_CASE(V, os);
-    SCAN_CODE_CASE(b, os);
+    SCAN_CODE_CASE(B, os);
     SCAN_CODE_CASE(N, os);
     SCAN_CODE_CASE(M, os);
     SCAN_CODE_CASE(Comma, os);

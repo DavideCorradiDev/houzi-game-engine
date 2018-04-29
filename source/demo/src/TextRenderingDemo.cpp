@@ -4,7 +4,7 @@
 #include "hou/gfx/graphic_context.hpp"
 #include "hou/gfx/mesh.hpp"
 #include "hou/gfx/mesh2_shader_program.hpp"
-#include "hou/gfx/RenderWindow.hpp"
+#include "hou/gfx/render_window.hpp"
 #include "hou/gfx/text_shader_program.hpp"
 #include "hou/gfx/vertex2.hpp"
 #include "hou/mth/transform2.hpp"
@@ -21,10 +21,10 @@ int main()
   static const std::string dataDir = u8"source/demo/data/";
   graphic_context ctx;
   graphic_context::set_current(ctx);
-  RenderWindow rw(u8"text Rendering Demo", vec2u(800u, 600u),
+  render_window rw(u8"text Rendering Demo", vec2u(800u, 600u),
     window_style::windowed_resizable, 8u);
   rw.set_visible(true);
-  trans2f proj = trans2f::orthographic_projection(rw.getViewport());
+  trans2f proj = trans2f::orthographic_projection(rw.get_viewport());
   mesh2_shader_program m2Rnd;
   text_shader_program textRnd;
   mesh2 fpsRect = create_rectangle_mesh2(vec2f(128.f, 32.f));
@@ -78,7 +78,7 @@ int main()
 
   std::cout << "Drawing " << textLine.size() * linesNum << " characters."
             << std::endl;
-  TextFlow textFlow = TextFlow::LeftRight;
+  text_flow textFlow = text_flow::LeftRight;
   vec2f maxTBoxSize;
   const float maxTBoxIncrement = 32.f;
 
@@ -125,21 +125,21 @@ int main()
           ph_font.set_pixel_height(fontSizes[currentSizeIdx]);
           chineseFont.set_pixel_height(fontSizes[currentSizeIdx]);
         }
-        else if(we.get_key_data().scan_code == scan_code::a)
+        else if(we.get_key_data().scan_code == scan_code::A)
         {
-          textFlow = TextFlow::RightLeft;
+          textFlow = text_flow::RightLeft;
         }
         else if(we.get_key_data().scan_code == scan_code::D)
         {
-          textFlow = TextFlow::LeftRight;
+          textFlow = text_flow::LeftRight;
         }
         else if(we.get_key_data().scan_code == scan_code::W)
         {
-          textFlow = TextFlow::BottomTop;
+          textFlow = text_flow::BottomTop;
         }
         else if(we.get_key_data().scan_code == scan_code::S)
         {
-          textFlow = TextFlow::TopBottom;
+          textFlow = text_flow::TopBottom;
         }
         else if(we.get_key_data().scan_code == scan_code::K)
         {
@@ -160,8 +160,8 @@ int main()
       }
       break;
       case hou::window_event_type::resized:
-        rw.set_viewport(rw.getDefaultViewport());
-        proj = trans2f::orthographic_projection(rw.getViewport());
+        rw.set_viewport(rw.get_default_viewport());
+        proj = trans2f::orthographic_projection(rw.get_viewport());
         std::cout << "window resized: (" << we.get_size_data().x << ", "
                   << we.get_size_data().y << ")" << std::endl;
         std::cout << "window client size: " << transpose(rw.get_client_size())
@@ -200,17 +200,17 @@ int main()
       vec2f bboxTrans;
       switch(textFlow)
       {
-      case TextFlow::LeftRight:
+      case text_flow::LeftRight:
         bboxTrans.y() = -fontToRender.get_pixel_line_spacing();
         break;
-      case TextFlow::RightLeft:
+      case text_flow::RightLeft:
         bboxTrans.x() = -maxTBoxSize.x();
         bboxTrans.y() = -fontToRender.get_pixel_line_spacing();
         break;
-      case TextFlow::TopBottom:
+      case text_flow::TopBottom:
         bboxTrans.x() = -0.5f * fontToRender.get_pixel_max_advance();
         break;
-      case TextFlow::BottomTop:
+      case text_flow::BottomTop:
         bboxTrans.x() = -0.5f * fontToRender.get_pixel_max_advance();
         bboxTrans.y() = -maxTBoxSize.y();
         break;

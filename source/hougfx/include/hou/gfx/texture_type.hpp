@@ -18,7 +18,7 @@ namespace hou
 
 /** Represents the type of a ph_texture.
  */
-enum class TextureType : GLenum
+enum class texture_type : GLenum
 {
   /** one-dimensional ph_texture. */
   texture1 = GL_TEXTURE_1D,
@@ -49,35 +49,35 @@ enum class TextureType : GLenum
 /** Writes the object into a ph_stream.
  *
  * \param os the ph_stream.
- * \param type the TextureType enum.
+ * \param type the texture_type enum.
  * \return a reference to the ph_stream.
  */
-HOU_GFX_API std::ostream& operator<<(std::ostream& os, TextureType type);
+HOU_GFX_API std::ostream& operator<<(std::ostream& os, texture_type type);
 
-/** Retrieves the number of dimensions associated to a TextureType.
+/** Retrieves the number of dimensions associated to a texture_type.
  *
  * \param t the ph_texture type.
  *
- * \return the number of dimensions associated to a TextureType.
+ * \return the number of dimensions associated to a texture_type.
  */
-constexpr size_t get_texture_type_dimension_count(TextureType t);
+constexpr size_t get_texture_type_dimension_count(texture_type t);
 
-/** Checks whether a TextureType represents a mip-mapped ph_texture.
+/** Checks whether a texture_type represents a mip-mapped ph_texture.
  *
  * \return the result of the check.
  */
-constexpr bool is_texture_type_mipmapped(TextureType t);
+constexpr bool is_texture_type_mipmapped(texture_type t);
 
-/** Checks whether a TextureType represents a multisample ph_texture.
+/** Checks whether a texture_type represents a multisample ph_texture.
  *
  * \return the result of the check.
  */
-constexpr bool is_texture_type_multisampled(TextureType t);
+constexpr bool is_texture_type_multisampled(texture_type t);
 
 }  // namespace hou
 
 
 
-#include "hou/gfx/TextureType.inl"
+#include "hou/gfx/texture_type.inl"
 
 #endif

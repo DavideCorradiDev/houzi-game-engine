@@ -2,16 +2,16 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gfx/TextFlow.hpp"
+#include "hou/gfx/text_flow.hpp"
 
 #define TEXT_FLOW_CASE(tf, os) \
-  case TextFlow::tf:           \
+  case text_flow::tf:           \
     return (os) << #tf
 
 namespace hou
 {
 
-std::ostream &operator<<(std::ostream &os, TextFlow tf)
+std::ostream &operator<<(std::ostream &os, text_flow tf)
 {
   switch(tf)
   {

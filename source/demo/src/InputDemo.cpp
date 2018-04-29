@@ -7,7 +7,7 @@
 #include "hou/gfx/font.hpp"
 #include "hou/gfx/vertex2.hpp"
 #include "hou/gfx/graphic_context.hpp"
-#include "hou/gfx/RenderWindow.hpp"
+#include "hou/gfx/render_window.hpp"
 #include "hou/gfx/texture.hpp"
 #include "hou/gfx/mesh2_shader_program.hpp"
 #include "hou/gfx/text_shader_program.hpp"
@@ -111,7 +111,7 @@ int main()
   // Initialization of objects used for rendering.
   hou::graphic_context ctx;
   hou::graphic_context::set_current(ctx);
-  hou::RenderWindow wnd(u8"Input Demo", hou::vec2u(800u, 600u),
+  hou::render_window wnd(u8"Input Demo", hou::vec2u(800u, 600u),
     hou::window_style::windowed_resizable);
   wnd.set_visible(true);
   wnd.set_key_repeat_enabled(false);
@@ -308,7 +308,7 @@ int main()
     , hou::key_code::CapsLock, hou::scan_code::CapsLock));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(40.f, 64.f)), key1Quad
-    , hou::key_code::a, hou::scan_code::a));
+    , hou::key_code::A, hou::scan_code::A));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(56.f, 64.f)), key1Quad
     , hou::key_code::S, hou::scan_code::S));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(72.f, 64.f)), key1Quad
@@ -316,7 +316,7 @@ int main()
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(88.f, 64.f)), key1Quad
     , hou::key_code::F, hou::scan_code::F));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(104.f, 64.f)), key1Quad
-    , hou::key_code::g, hou::scan_code::g));
+    , hou::key_code::G, hou::scan_code::G));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(120.f, 64.f)), key1Quad
     , hou::key_code::H, hou::scan_code::H));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(136.f, 64.f)), key1Quad
@@ -345,7 +345,7 @@ int main()
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(96.f, 80.f)), key1Quad
     , hou::key_code::V, hou::scan_code::V));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(112.f, 80.f)), key1Quad
-    , hou::key_code::b, hou::scan_code::b));
+    , hou::key_code::B, hou::scan_code::B));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(128.f, 80.f)), key1Quad
     , hou::key_code::N, hou::scan_code::N));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(144.f, 80.f)), key1Quad

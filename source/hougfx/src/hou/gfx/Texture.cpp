@@ -20,17 +20,17 @@ namespace
 
 GLenum pixelFormatToGlPixelFormat(pixel_format format);
 
-template <TextureType type>
+template <texture_type type>
 bool isTextureSizeValid(const typename texture_t<type>::size_type& size);
 
-template <TextureType type>
+template <texture_type type>
 bool isMipMapLevelCountValid(
   uint mipMapLevelCount, const typename texture_t<type>::size_type& size);
 
-template <TextureType type>
+template <texture_type type>
 uint getMaxMipMapLevelCountForSize(const typename texture_t<type>::size_type& size);
 
-template <TextureType type>
+template <texture_type type>
 uint getMipMapRelevantSize(const typename texture_t<type>::size_type& size);
 
 template <size_t dim>
@@ -85,7 +85,7 @@ GLenum pixelFormatToGlPixelFormat(pixel_format format)
 
 
 
-template <TextureType type>
+template <texture_type type>
 bool isTextureSizeValid(const typename texture_t<type>::size_type& size)
 {
   using Tex = texture_t<type>;
@@ -102,7 +102,7 @@ bool isTextureSizeValid(const typename texture_t<type>::size_type& size)
 
 
 
-template <TextureType type>
+template <texture_type type>
 bool isMipMapLevelCountValid(
   uint mipMapLevelCount, const typename texture_t<type>::size_type& size)
 {
@@ -112,7 +112,7 @@ bool isMipMapLevelCountValid(
 
 
 
-template <TextureType type>
+template <texture_type type>
 uint getMaxMipMapLevelCountForSize(const typename texture_t<type>::size_type& size)
 {
   return 1u
@@ -123,8 +123,8 @@ uint getMaxMipMapLevelCountForSize(const typename texture_t<type>::size_type& si
 
 
 template <>
-uint getMipMapRelevantSize<TextureType::texture1>(
-  const typename texture_t<TextureType::texture1>::size_type& size)
+uint getMipMapRelevantSize<texture_type::texture1>(
+  const typename texture_t<texture_type::texture1>::size_type& size)
 {
   return size(0);
 }
@@ -132,8 +132,8 @@ uint getMipMapRelevantSize<TextureType::texture1>(
 
 
 template <>
-uint getMipMapRelevantSize<TextureType::texture1_array>(
-  const typename texture_t<TextureType::texture1_array>::size_type& size)
+uint getMipMapRelevantSize<texture_type::texture1_array>(
+  const typename texture_t<texture_type::texture1_array>::size_type& size)
 {
   return size(0);
 }
@@ -141,8 +141,8 @@ uint getMipMapRelevantSize<TextureType::texture1_array>(
 
 
 template <>
-uint getMipMapRelevantSize<TextureType::texture2>(
-  const typename texture_t<TextureType::texture2>::size_type& size)
+uint getMipMapRelevantSize<texture_type::texture2>(
+  const typename texture_t<texture_type::texture2>::size_type& size)
 {
   return std::max(size(0), size(1));
 }
@@ -150,8 +150,8 @@ uint getMipMapRelevantSize<TextureType::texture2>(
 
 
 template <>
-uint getMipMapRelevantSize<TextureType::texture2_array>(
-  const typename texture_t<TextureType::texture2_array>::size_type& size)
+uint getMipMapRelevantSize<texture_type::texture2_array>(
+  const typename texture_t<texture_type::texture2_array>::size_type& size)
 {
   return std::max(size(0), size(1));
 }
@@ -159,8 +159,8 @@ uint getMipMapRelevantSize<TextureType::texture2_array>(
 
 
 template <>
-uint getMipMapRelevantSize<TextureType::texture3>(
-  const typename texture_t<TextureType::texture3>::size_type& size)
+uint getMipMapRelevantSize<texture_type::texture3>(
+  const typename texture_t<texture_type::texture3>::size_type& size)
 {
   return std::max(std::max(size(0), size(1)), size(2));
 }
@@ -168,8 +168,8 @@ uint getMipMapRelevantSize<TextureType::texture3>(
 
 
 template <>
-uint getMipMapRelevantSize<TextureType::multisample_texture2>(
-  const typename texture_t<TextureType::multisample_texture2>::size_type&)
+uint getMipMapRelevantSize<texture_type::multisample_texture2>(
+  const typename texture_t<texture_type::multisample_texture2>::size_type&)
 {
   return 1u;
 }
@@ -177,8 +177,8 @@ uint getMipMapRelevantSize<TextureType::multisample_texture2>(
 
 
 template <>
-uint getMipMapRelevantSize<TextureType::multisample_texture2_array>(
-  const typename texture_t<TextureType::multisample_texture2_array>::size_type&)
+uint getMipMapRelevantSize<texture_type::multisample_texture2_array>(
+  const typename texture_t<texture_type::multisample_texture2_array>::size_type&)
 {
   return 1u;
 }
@@ -315,7 +315,7 @@ uint texture::get_texture_unit_count()
 
 
 
-texture::texture(TextureType type, uint mipMapLevelCount, uint sampleCount,
+texture::texture(texture_type type, uint mipMapLevelCount, uint sampleCount,
   bool fixedSampleLocations)
   : mGlTextureHandle(gl::texture_handle::create(static_cast<GLenum>(type)))
   , m_mipmap_level_count(mipMapLevelCount)
@@ -446,7 +446,7 @@ vec3u texture::get_size3() const
 
 
 template <>
-vec1u texture_t<TextureType::texture1>::get_max_size()
+vec1u texture_t<texture_type::texture1>::get_max_size()
 {
   return vec1u(static_cast<uint>(gl::get_max_texture_size()));
 }
@@ -454,7 +454,7 @@ vec1u texture_t<TextureType::texture1>::get_max_size()
 
 
 template <>
-vec2u texture_t<TextureType::texture1_array>::get_max_size()
+vec2u texture_t<texture_type::texture1_array>::get_max_size()
 {
   return vec2u(static_cast<uint>(gl::get_max_texture_size()),
     static_cast<uint>(gl::get_max_texture_layers()));
@@ -463,7 +463,7 @@ vec2u texture_t<TextureType::texture1_array>::get_max_size()
 
 
 template <>
-vec2u texture_t<TextureType::texture2>::get_max_size()
+vec2u texture_t<texture_type::texture2>::get_max_size()
 {
   return vec2u(static_cast<uint>(gl::get_max_texture_size()),
     static_cast<uint>(gl::get_max_texture_size()));
@@ -472,7 +472,7 @@ vec2u texture_t<TextureType::texture2>::get_max_size()
 
 
 template <>
-vec3u texture_t<TextureType::texture2_array>::get_max_size()
+vec3u texture_t<texture_type::texture2_array>::get_max_size()
 {
   return vec3u(static_cast<uint>(gl::get_max_texture_size()),
     static_cast<uint>(gl::get_max_texture_size()),
@@ -482,7 +482,7 @@ vec3u texture_t<TextureType::texture2_array>::get_max_size()
 
 
 template <>
-vec3u texture_t<TextureType::texture3>::get_max_size()
+vec3u texture_t<texture_type::texture3>::get_max_size()
 {
   return vec3u(static_cast<uint>(gl::get_max_3d_texture_size()),
     static_cast<uint>(gl::get_max_3d_texture_size()),
@@ -492,7 +492,7 @@ vec3u texture_t<TextureType::texture3>::get_max_size()
 
 
 template <>
-vec2u texture_t<TextureType::multisample_texture2>::get_max_size()
+vec2u texture_t<texture_type::multisample_texture2>::get_max_size()
 {
   return vec2u(static_cast<uint>(gl::get_max_texture_size()),
     static_cast<uint>(gl::get_max_texture_size()));
@@ -501,7 +501,7 @@ vec2u texture_t<TextureType::multisample_texture2>::get_max_size()
 
 
 template <>
-vec3u texture_t<TextureType::multisample_texture2_array>::get_max_size()
+vec3u texture_t<texture_type::multisample_texture2_array>::get_max_size()
 {
   return vec3u(static_cast<uint>(gl::get_max_texture_size()),
     static_cast<uint>(gl::get_max_texture_size()),
@@ -510,7 +510,7 @@ vec3u texture_t<TextureType::multisample_texture2_array>::get_max_size()
 
 
 
-template <TextureType type>
+template <texture_type type>
 uint texture_t<type>::get_max_mipmap_level_count(const size_type& size)
 {
   return is_texture_type_mipmapped(type)
@@ -520,7 +520,7 @@ uint texture_t<type>::get_max_mipmap_level_count(const size_type& size)
 
 
 
-template <TextureType type>
+template <texture_type type>
 uint texture_t<type>::get_max_sample_count()
 {
   return is_texture_type_multisampled(type) ? gl::get_max_texture_samples() : 1u;
@@ -530,12 +530,12 @@ uint texture_t<type>::get_max_sample_count()
 
 template <>
 template <>
-texture_t<TextureType::texture1>::texture_t<TextureType::texture1, void>(
+texture_t<texture_type::texture1>::texture_t<texture_type::texture1, void>(
   const size_type& size, texture_format format, uint mipMapLevelCount)
-  : texture(TextureType::texture1, mipMapLevelCount, 1u, true)
+  : texture(texture_type::texture1, mipMapLevelCount, 1u, true)
 {
-  HOU_EXPECT(isTextureSizeValid<TextureType::texture1>(size)
-    && isMipMapLevelCountValid<TextureType::texture1>(mipMapLevelCount, size));
+  HOU_EXPECT(isTextureSizeValid<texture_type::texture1>(size)
+    && isMipMapLevelCountValid<texture_type::texture1>(mipMapLevelCount, size));
   gl::set_texture_storage_1d(
     mGlTextureHandle, mipMapLevelCount, static_cast<GLenum>(format), size.x());
   clear(pixelrgba(0u, 0u, 0u, 0u));
@@ -545,12 +545,12 @@ texture_t<TextureType::texture1>::texture_t<TextureType::texture1, void>(
 
 template <>
 template <>
-texture_t<TextureType::texture1_array>::texture_t<TextureType::texture1_array,
+texture_t<texture_type::texture1_array>::texture_t<texture_type::texture1_array,
   void>(const size_type& size, texture_format format, uint mipMapLevelCount)
-  : texture(TextureType::texture1_array, mipMapLevelCount, 1u, true)
+  : texture(texture_type::texture1_array, mipMapLevelCount, 1u, true)
 {
-  HOU_EXPECT(isTextureSizeValid<TextureType::texture1_array>(size)
-    && isMipMapLevelCountValid<TextureType::texture1_array>(
+  HOU_EXPECT(isTextureSizeValid<texture_type::texture1_array>(size)
+    && isMipMapLevelCountValid<texture_type::texture1_array>(
          mipMapLevelCount, size));
   gl::set_texture_storage_2d(mGlTextureHandle, mipMapLevelCount,
     static_cast<GLenum>(format), size.x(), size.y());
@@ -561,12 +561,12 @@ texture_t<TextureType::texture1_array>::texture_t<TextureType::texture1_array,
 
 template <>
 template <>
-texture_t<TextureType::texture2>::texture_t<TextureType::texture2, void>(
+texture_t<texture_type::texture2>::texture_t<texture_type::texture2, void>(
   const size_type& size, texture_format format, uint mipMapLevelCount)
-  : texture(TextureType::texture2, mipMapLevelCount, 1u, true)
+  : texture(texture_type::texture2, mipMapLevelCount, 1u, true)
 {
-  HOU_EXPECT(isTextureSizeValid<TextureType::texture2>(size)
-    && isMipMapLevelCountValid<TextureType::texture2>(mipMapLevelCount, size));
+  HOU_EXPECT(isTextureSizeValid<texture_type::texture2>(size)
+    && isMipMapLevelCountValid<texture_type::texture2>(mipMapLevelCount, size));
   gl::set_texture_storage_2d(mGlTextureHandle, mipMapLevelCount,
     static_cast<GLenum>(format), size.x(), size.y());
   clear(pixelrgba(0u, 0u, 0u, 0u));
@@ -576,12 +576,12 @@ texture_t<TextureType::texture2>::texture_t<TextureType::texture2, void>(
 
 template <>
 template <>
-texture_t<TextureType::texture2_array>::texture_t<TextureType::texture2_array,
+texture_t<texture_type::texture2_array>::texture_t<texture_type::texture2_array,
   void>(const size_type& size, texture_format format, uint mipMapLevelCount)
-  : texture(TextureType::texture2_array, mipMapLevelCount, 1u, true)
+  : texture(texture_type::texture2_array, mipMapLevelCount, 1u, true)
 {
-  HOU_EXPECT(isTextureSizeValid<TextureType::texture2_array>(size)
-    && isMipMapLevelCountValid<TextureType::texture2_array>(
+  HOU_EXPECT(isTextureSizeValid<texture_type::texture2_array>(size)
+    && isMipMapLevelCountValid<texture_type::texture2_array>(
          mipMapLevelCount, size));
   gl::set_texture_storage_3d(mGlTextureHandle, mipMapLevelCount,
     static_cast<GLenum>(format), size.x(), size.y(), size.z());
@@ -592,12 +592,12 @@ texture_t<TextureType::texture2_array>::texture_t<TextureType::texture2_array,
 
 template <>
 template <>
-texture_t<TextureType::texture3>::texture_t<TextureType::texture3, void>(
+texture_t<texture_type::texture3>::texture_t<texture_type::texture3, void>(
   const size_type& size, texture_format format, uint mipMapLevelCount)
-  : texture(TextureType::texture3, mipMapLevelCount, 1u, true)
+  : texture(texture_type::texture3, mipMapLevelCount, 1u, true)
 {
-  HOU_EXPECT(isTextureSizeValid<TextureType::texture3>(size)
-    && isMipMapLevelCountValid<TextureType::texture3>(mipMapLevelCount, size));
+  HOU_EXPECT(isTextureSizeValid<texture_type::texture3>(size)
+    && isMipMapLevelCountValid<texture_type::texture3>(mipMapLevelCount, size));
   gl::set_texture_storage_3d(mGlTextureHandle, mipMapLevelCount,
     static_cast<GLenum>(format), size.x(), size.y(), size.z());
   clear(pixelrgba(0u, 0u, 0u, 0u));
@@ -605,8 +605,8 @@ texture_t<TextureType::texture3>::texture_t<TextureType::texture3, void>(
 
 
 
-template <TextureType type>
-template <pixel_format fmt, TextureType t, typename Enable>
+template <texture_type type>
+template <pixel_format fmt, texture_type t, typename Enable>
 texture_t<type>::texture_t(
   const image<fmt>& ph_image, texture_format format, uint mipMapLevelCount)
   : texture_t(ph_image.get_size(), format, mipMapLevelCount)
@@ -617,13 +617,13 @@ texture_t<type>::texture_t(
 
 
 template <>
-template <TextureType t, typename Enable>
-texture_t<TextureType::multisample_texture2>::texture_t(const size_type& size,
+template <texture_type t, typename Enable>
+texture_t<texture_type::multisample_texture2>::texture_t(const size_type& size,
   texture_format format, uint sampleCount, bool fixedSampleLocations)
   : texture(
-      TextureType::multisample_texture2, 1u, sampleCount, fixedSampleLocations)
+      texture_type::multisample_texture2, 1u, sampleCount, fixedSampleLocations)
 {
-  HOU_EXPECT(isTextureSizeValid<TextureType::multisample_texture2>(size)
+  HOU_EXPECT(isTextureSizeValid<texture_type::multisample_texture2>(size)
     && sampleCount > 0u
     && sampleCount <= static_cast<uint>(gl::get_max_texture_samples()));
   set_texture_storage_2d_multisample(mGlTextureHandle, sampleCount,
@@ -633,13 +633,13 @@ texture_t<TextureType::multisample_texture2>::texture_t(const size_type& size,
 
 
 template <>
-template <TextureType t, typename Enable>
-texture_t<TextureType::multisample_texture2_array>::texture_t(const size_type& size,
+template <texture_type t, typename Enable>
+texture_t<texture_type::multisample_texture2_array>::texture_t(const size_type& size,
   texture_format format, uint sampleCount, bool fixedSampleLocations)
-  : texture(TextureType::multisample_texture2_array, 1u, sampleCount,
+  : texture(texture_type::multisample_texture2_array, 1u, sampleCount,
       fixedSampleLocations)
 {
-  HOU_EXPECT(isTextureSizeValid<TextureType::multisample_texture2_array>(size)
+  HOU_EXPECT(isTextureSizeValid<texture_type::multisample_texture2_array>(size)
     && sampleCount > 0u
     && sampleCount <= static_cast<uint>(gl::get_max_texture_samples()));
   set_texture_storage_3d_multisample(mGlTextureHandle, sampleCount,
@@ -649,22 +649,22 @@ texture_t<TextureType::multisample_texture2_array>::texture_t(const size_type& s
 
 
 
-template <TextureType type>
+template <texture_type type>
 texture_t<type>::texture_t(texture_t&& other)
   : texture(std::move(other))
 {}
 
 
 
-template <TextureType type>
+template <texture_type type>
 texture_t<type>::~texture_t()
 {}
 
 
 
 template <>
-typename texture_t<TextureType::texture1>::size_type
-  texture_t<TextureType::texture1>::get_size() const
+typename texture_t<texture_type::texture1>::size_type
+  texture_t<texture_type::texture1>::get_size() const
 {
   return get_size1();
 }
@@ -672,8 +672,8 @@ typename texture_t<TextureType::texture1>::size_type
 
 
 template <>
-typename texture_t<TextureType::texture1_array>::size_type
-  texture_t<TextureType::texture1_array>::get_size() const
+typename texture_t<texture_type::texture1_array>::size_type
+  texture_t<texture_type::texture1_array>::get_size() const
 {
   return get_size2();
 }
@@ -681,8 +681,8 @@ typename texture_t<TextureType::texture1_array>::size_type
 
 
 template <>
-typename texture_t<TextureType::texture2>::size_type
-  texture_t<TextureType::texture2>::get_size() const
+typename texture_t<texture_type::texture2>::size_type
+  texture_t<texture_type::texture2>::get_size() const
 {
   return get_size2();
 }
@@ -690,8 +690,8 @@ typename texture_t<TextureType::texture2>::size_type
 
 
 template <>
-typename texture_t<TextureType::texture2_array>::size_type
-  texture_t<TextureType::texture2_array>::get_size() const
+typename texture_t<texture_type::texture2_array>::size_type
+  texture_t<texture_type::texture2_array>::get_size() const
 {
   return get_size3();
 }
@@ -699,8 +699,8 @@ typename texture_t<TextureType::texture2_array>::size_type
 
 
 template <>
-typename texture_t<TextureType::texture3>::size_type
-  texture_t<TextureType::texture3>::get_size() const
+typename texture_t<texture_type::texture3>::size_type
+  texture_t<texture_type::texture3>::get_size() const
 {
   return get_size3();
 }
@@ -708,8 +708,8 @@ typename texture_t<TextureType::texture3>::size_type
 
 
 template <>
-typename texture_t<TextureType::multisample_texture2>::size_type
-  texture_t<TextureType::multisample_texture2>::get_size() const
+typename texture_t<texture_type::multisample_texture2>::size_type
+  texture_t<texture_type::multisample_texture2>::get_size() const
 {
   return get_size2();
 }
@@ -717,16 +717,16 @@ typename texture_t<TextureType::multisample_texture2>::size_type
 
 
 template <>
-typename texture_t<TextureType::multisample_texture2_array>::size_type
-  texture_t<TextureType::multisample_texture2_array>::get_size() const
+typename texture_t<texture_type::multisample_texture2_array>::size_type
+  texture_t<texture_type::multisample_texture2_array>::get_size() const
 {
   return get_size3();
 }
 
 
 
-template <TextureType type>
-template <TextureType t, typename Enable>
+template <texture_type type>
+template <texture_type t, typename Enable>
 texture_filter texture_t<type>::get_filter() const
 {
   switch(get_texture_min_filter(mGlTextureHandle))
@@ -747,8 +747,8 @@ texture_filter texture_t<type>::get_filter() const
 
 
 
-template <TextureType type>
-template <TextureType t, typename Enable>
+template <texture_type type>
+template <texture_type t, typename Enable>
 void texture_t<type>::set_filter(texture_filter filter)
 {
   switch(filter)
@@ -778,9 +778,9 @@ void texture_t<type>::set_filter(texture_filter filter)
 
 
 template <>
-template <TextureType t, typename Enable>
-typename texture_t<TextureType::texture1>::wrap_mode
-  texture_t<TextureType::texture1>::get_wrap_mode() const
+template <texture_type t, typename Enable>
+typename texture_t<texture_type::texture1>::wrap_mode
+  texture_t<texture_type::texture1>::get_wrap_mode() const
 {
   return getTexture1WrapMode(mGlTextureHandle);
 }
@@ -788,9 +788,9 @@ typename texture_t<TextureType::texture1>::wrap_mode
 
 
 template <>
-template <TextureType t, typename Enable>
-typename texture_t<TextureType::texture1_array>::wrap_mode
-  texture_t<TextureType::texture1_array>::get_wrap_mode() const
+template <texture_type t, typename Enable>
+typename texture_t<texture_type::texture1_array>::wrap_mode
+  texture_t<texture_type::texture1_array>::get_wrap_mode() const
 {
   return getTexture2WrapMode(mGlTextureHandle);
 }
@@ -798,9 +798,9 @@ typename texture_t<TextureType::texture1_array>::wrap_mode
 
 
 template <>
-template <TextureType t, typename Enable>
-typename texture_t<TextureType::texture2>::wrap_mode
-  texture_t<TextureType::texture2>::get_wrap_mode() const
+template <texture_type t, typename Enable>
+typename texture_t<texture_type::texture2>::wrap_mode
+  texture_t<texture_type::texture2>::get_wrap_mode() const
 {
   return getTexture2WrapMode(mGlTextureHandle);
 }
@@ -808,9 +808,9 @@ typename texture_t<TextureType::texture2>::wrap_mode
 
 
 template <>
-template <TextureType t, typename Enable>
-typename texture_t<TextureType::texture2_array>::wrap_mode
-  texture_t<TextureType::texture2_array>::get_wrap_mode() const
+template <texture_type t, typename Enable>
+typename texture_t<texture_type::texture2_array>::wrap_mode
+  texture_t<texture_type::texture2_array>::get_wrap_mode() const
 {
   return getTexture3WrapMode(mGlTextureHandle);
 }
@@ -818,9 +818,9 @@ typename texture_t<TextureType::texture2_array>::wrap_mode
 
 
 template <>
-template <TextureType t, typename Enable>
-typename texture_t<TextureType::texture3>::wrap_mode
-  texture_t<TextureType::texture3>::get_wrap_mode() const
+template <texture_type t, typename Enable>
+typename texture_t<texture_type::texture3>::wrap_mode
+  texture_t<texture_type::texture3>::get_wrap_mode() const
 {
   return getTexture3WrapMode(mGlTextureHandle);
 }
@@ -828,8 +828,8 @@ typename texture_t<TextureType::texture3>::wrap_mode
 
 
 template <>
-template <TextureType t, typename Enable>
-void texture_t<TextureType::texture1>::set_wrap_mode(const wrap_mode& wrapMode)
+template <texture_type t, typename Enable>
+void texture_t<texture_type::texture1>::set_wrap_mode(const wrap_mode& wrapMode)
 {
   setTexture1WrapMode(mGlTextureHandle, wrapMode);
 }
@@ -837,8 +837,8 @@ void texture_t<TextureType::texture1>::set_wrap_mode(const wrap_mode& wrapMode)
 
 
 template <>
-template <TextureType t, typename Enable>
-void texture_t<TextureType::texture1_array>::set_wrap_mode(const wrap_mode& wrapMode)
+template <texture_type t, typename Enable>
+void texture_t<texture_type::texture1_array>::set_wrap_mode(const wrap_mode& wrapMode)
 {
   setTexture2WrapMode(mGlTextureHandle, wrapMode);
 }
@@ -846,8 +846,8 @@ void texture_t<TextureType::texture1_array>::set_wrap_mode(const wrap_mode& wrap
 
 
 template <>
-template <TextureType t, typename Enable>
-void texture_t<TextureType::texture2>::set_wrap_mode(const wrap_mode& wrapMode)
+template <texture_type t, typename Enable>
+void texture_t<texture_type::texture2>::set_wrap_mode(const wrap_mode& wrapMode)
 {
   setTexture2WrapMode(mGlTextureHandle, wrapMode);
 }
@@ -855,8 +855,8 @@ void texture_t<TextureType::texture2>::set_wrap_mode(const wrap_mode& wrapMode)
 
 
 template <>
-template <TextureType t, typename Enable>
-void texture_t<TextureType::texture2_array>::set_wrap_mode(const wrap_mode& wrapMode)
+template <texture_type t, typename Enable>
+void texture_t<texture_type::texture2_array>::set_wrap_mode(const wrap_mode& wrapMode)
 {
   setTexture3WrapMode(mGlTextureHandle, wrapMode);
 }
@@ -864,16 +864,16 @@ void texture_t<TextureType::texture2_array>::set_wrap_mode(const wrap_mode& wrap
 
 
 template <>
-template <TextureType t, typename Enable>
-void texture_t<TextureType::texture3>::set_wrap_mode(const wrap_mode& wrapMode)
+template <texture_type t, typename Enable>
+void texture_t<texture_type::texture3>::set_wrap_mode(const wrap_mode& wrapMode)
 {
   setTexture3WrapMode(mGlTextureHandle, wrapMode);
 }
 
 
 
-template <TextureType type>
-template <pixel_format fmt, TextureType t, typename Enable>
+template <texture_type type>
+template <pixel_format fmt, texture_type t, typename Enable>
 typename texture_t<type>::template image<fmt> texture_t<type>::get_image() const
 {
   gl::set_unpack_alignment(1);
@@ -888,9 +888,9 @@ typename texture_t<type>::template image<fmt> texture_t<type>::get_image() const
 
 
 template <>
-template <pixel_format fmt, TextureType t, typename Enable>
-typename texture_t<TextureType::texture1>::template image<fmt>
-  texture_t<TextureType::texture1>::get_sub_image(
+template <pixel_format fmt, texture_type t, typename Enable>
+typename texture_t<texture_type::texture1>::template image<fmt>
+  texture_t<texture_type::texture1>::get_sub_image(
     const offset_type& offset, const size_type& size) const
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + size, get_size()));
@@ -906,9 +906,9 @@ typename texture_t<TextureType::texture1>::template image<fmt>
 
 
 template <>
-template <pixel_format fmt, TextureType t, typename Enable>
-typename texture_t<TextureType::texture1_array>::template image<fmt>
-  texture_t<TextureType::texture1_array>::get_sub_image(
+template <pixel_format fmt, texture_type t, typename Enable>
+typename texture_t<texture_type::texture1_array>::template image<fmt>
+  texture_t<texture_type::texture1_array>::get_sub_image(
     const offset_type& offset, const size_type& size) const
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + size, get_size()));
@@ -924,9 +924,9 @@ typename texture_t<TextureType::texture1_array>::template image<fmt>
 
 
 template <>
-template <pixel_format fmt, TextureType t, typename Enable>
-typename texture_t<TextureType::texture2>::template image<fmt>
-  texture_t<TextureType::texture2>::get_sub_image(
+template <pixel_format fmt, texture_type t, typename Enable>
+typename texture_t<texture_type::texture2>::template image<fmt>
+  texture_t<texture_type::texture2>::get_sub_image(
     const offset_type& offset, const size_type& size) const
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + size, get_size()));
@@ -942,9 +942,9 @@ typename texture_t<TextureType::texture2>::template image<fmt>
 
 
 template <>
-template <pixel_format fmt, TextureType t, typename Enable>
-typename texture_t<TextureType::texture2_array>::template image<fmt>
-  texture_t<TextureType::texture2_array>::get_sub_image(
+template <pixel_format fmt, texture_type t, typename Enable>
+typename texture_t<texture_type::texture2_array>::template image<fmt>
+  texture_t<texture_type::texture2_array>::get_sub_image(
     const offset_type& offset, const size_type& size) const
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + size, get_size()));
@@ -960,9 +960,9 @@ typename texture_t<TextureType::texture2_array>::template image<fmt>
 
 
 template <>
-template <pixel_format fmt, TextureType t, typename Enable>
-typename texture_t<TextureType::texture3>::template image<fmt>
-  texture_t<TextureType::texture3>::get_sub_image(
+template <pixel_format fmt, texture_type t, typename Enable>
+typename texture_t<texture_type::texture3>::template image<fmt>
+  texture_t<texture_type::texture3>::get_sub_image(
     const offset_type& offset, const size_type& size) const
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + size, get_size()));
@@ -977,8 +977,8 @@ typename texture_t<TextureType::texture3>::template image<fmt>
 
 
 
-template <TextureType type>
-template <pixel_format fmt, TextureType t, typename Enable>
+template <texture_type type>
+template <pixel_format fmt, texture_type t, typename Enable>
 void texture_t<type>::set_image(const image<fmt>& ph_image)
 {
   HOU_EXPECT(ph_image.get_size() == get_size());
@@ -988,8 +988,8 @@ void texture_t<type>::set_image(const image<fmt>& ph_image)
 
 
 template <>
-template <pixel_format fmt, TextureType t, typename Enable>
-void texture_t<TextureType::texture1>::set_sub_image(
+template <pixel_format fmt, texture_type t, typename Enable>
+void texture_t<texture_type::texture1>::set_sub_image(
   const offset_type& offset, const image<fmt>& ph_image)
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + ph_image.get_size(), get_size()));
@@ -1003,8 +1003,8 @@ void texture_t<TextureType::texture1>::set_sub_image(
 
 
 template <>
-template <pixel_format fmt, TextureType t, typename Enable>
-void texture_t<TextureType::texture1_array>::set_sub_image(
+template <pixel_format fmt, texture_type t, typename Enable>
+void texture_t<texture_type::texture1_array>::set_sub_image(
   const offset_type& offset, const image<fmt>& ph_image)
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + ph_image.get_size(), get_size()));
@@ -1018,8 +1018,8 @@ void texture_t<TextureType::texture1_array>::set_sub_image(
 
 
 template <>
-template <pixel_format fmt, TextureType t, typename Enable>
-void texture_t<TextureType::texture2>::set_sub_image(
+template <pixel_format fmt, texture_type t, typename Enable>
+void texture_t<texture_type::texture2>::set_sub_image(
   const offset_type& offset, const image<fmt>& ph_image)
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + ph_image.get_size(), get_size()));
@@ -1033,8 +1033,8 @@ void texture_t<TextureType::texture2>::set_sub_image(
 
 
 template <>
-template <pixel_format fmt, TextureType t, typename Enable>
-void texture_t<TextureType::texture2_array>::set_sub_image(
+template <pixel_format fmt, texture_type t, typename Enable>
+void texture_t<texture_type::texture2_array>::set_sub_image(
   const offset_type& offset, const image<fmt>& ph_image)
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + ph_image.get_size(), get_size()));
@@ -1048,8 +1048,8 @@ void texture_t<TextureType::texture2_array>::set_sub_image(
 
 
 template <>
-template <pixel_format fmt, TextureType t, typename Enable>
-void texture_t<TextureType::texture3>::set_sub_image(
+template <pixel_format fmt, texture_type t, typename Enable>
+void texture_t<texture_type::texture3>::set_sub_image(
   const offset_type& offset, const image<fmt>& ph_image)
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + ph_image.get_size(), get_size()));
@@ -1062,8 +1062,8 @@ void texture_t<TextureType::texture3>::set_sub_image(
 
 
 
-template <TextureType type>
-template <pixel_format fmt, TextureType t, typename Enable>
+template <texture_type type>
+template <pixel_format fmt, texture_type t, typename Enable>
 void texture_t<type>::clear(const pixel_t<fmt>& ph_pixel)
 {
   set_image(image<fmt>(get_size(), ph_pixel));
@@ -1072,9 +1072,9 @@ void texture_t<type>::clear(const pixel_t<fmt>& ph_pixel)
 
 
 template <>
-template <TextureType t, typename Enable>
-typename texture_t<TextureType::texture1>::size_type
-  texture_t<TextureType::texture1>::get_mipmap_size(uint mipMapLevel) const
+template <texture_type t, typename Enable>
+typename texture_t<texture_type::texture1>::size_type
+  texture_t<texture_type::texture1>::get_mipmap_size(uint mipMapLevel) const
 {
   HOU_EXPECT(mipMapLevel < m_mipmap_level_count);
   return getTexture1Size(mGlTextureHandle, mipMapLevel);
@@ -1083,9 +1083,9 @@ typename texture_t<TextureType::texture1>::size_type
 
 
 template <>
-template <TextureType t, typename Enable>
-typename texture_t<TextureType::texture1_array>::size_type
-  texture_t<TextureType::texture1_array>::get_mipmap_size(uint mipMapLevel) const
+template <texture_type t, typename Enable>
+typename texture_t<texture_type::texture1_array>::size_type
+  texture_t<texture_type::texture1_array>::get_mipmap_size(uint mipMapLevel) const
 {
   HOU_EXPECT(mipMapLevel < m_mipmap_level_count);
   return getTexture2Size(mGlTextureHandle, mipMapLevel);
@@ -1094,9 +1094,9 @@ typename texture_t<TextureType::texture1_array>::size_type
 
 
 template <>
-template <TextureType t, typename Enable>
-typename texture_t<TextureType::texture2>::size_type
-  texture_t<TextureType::texture2>::get_mipmap_size(uint mipMapLevel) const
+template <texture_type t, typename Enable>
+typename texture_t<texture_type::texture2>::size_type
+  texture_t<texture_type::texture2>::get_mipmap_size(uint mipMapLevel) const
 {
   HOU_EXPECT(mipMapLevel < m_mipmap_level_count);
   return getTexture2Size(mGlTextureHandle, mipMapLevel);
@@ -1105,9 +1105,9 @@ typename texture_t<TextureType::texture2>::size_type
 
 
 template <>
-template <TextureType t, typename Enable>
-typename texture_t<TextureType::texture2_array>::size_type
-  texture_t<TextureType::texture2_array>::get_mipmap_size(uint mipMapLevel) const
+template <texture_type t, typename Enable>
+typename texture_t<texture_type::texture2_array>::size_type
+  texture_t<texture_type::texture2_array>::get_mipmap_size(uint mipMapLevel) const
 {
   HOU_EXPECT(mipMapLevel < m_mipmap_level_count);
   return getTexture3Size(mGlTextureHandle, mipMapLevel);
@@ -1116,9 +1116,9 @@ typename texture_t<TextureType::texture2_array>::size_type
 
 
 template <>
-template <TextureType t, typename Enable>
-typename texture_t<TextureType::texture3>::size_type
-  texture_t<TextureType::texture3>::get_mipmap_size(uint mipMapLevel) const
+template <texture_type t, typename Enable>
+typename texture_t<texture_type::texture3>::size_type
+  texture_t<texture_type::texture3>::get_mipmap_size(uint mipMapLevel) const
 {
   HOU_EXPECT(mipMapLevel < m_mipmap_level_count);
   return getTexture3Size(mGlTextureHandle, mipMapLevel);
@@ -1126,8 +1126,8 @@ typename texture_t<TextureType::texture3>::size_type
 
 
 
-template <TextureType type>
-template <pixel_format fmt, TextureType t, typename Enable>
+template <texture_type type>
+template <pixel_format fmt, texture_type t, typename Enable>
 typename texture_t<type>::template image<fmt> texture_t<type>::get_mipmap_image(
   uint mipMapLevel) const
 {
@@ -1144,15 +1144,15 @@ typename texture_t<type>::template image<fmt> texture_t<type>::get_mipmap_image(
 
 
 
-template <TextureType type>
-TextureType texture_t<type>::get_type() const
+template <texture_type type>
+texture_type texture_t<type>::get_type() const
 {
   return type;
 }
 
 
 
-template <TextureType type>
+template <texture_type type>
 size_t texture_t<type>::get_dimension_count() const
 {
   return get_texture_type_dimension_count(type);
@@ -1160,7 +1160,7 @@ size_t texture_t<type>::get_dimension_count() const
 
 
 
-template <TextureType type>
+template <texture_type type>
 bool texture_t<type>::is_mipmapped() const
 {
   return is_texture_type_mipmapped(type);
@@ -1168,7 +1168,7 @@ bool texture_t<type>::is_mipmapped() const
 
 
 
-template <TextureType type>
+template <texture_type type>
 bool texture_t<type>::is_multisampled() const
 {
   return is_texture_type_multisampled(type);
@@ -1176,7 +1176,7 @@ bool texture_t<type>::is_multisampled() const
 
 
 
-template <TextureType type>
+template <texture_type type>
 void texture_t<type>::generate_mip_map()
 {
   if(m_mipmap_level_count > 1u)
@@ -1248,12 +1248,12 @@ void texture_t<type>::generate_mip_map()
 
 
 
-INSTANTIATE_TEXTURE_MIP_MAP(TextureType::texture1)
-INSTANTIATE_TEXTURE_MIP_MAP(TextureType::texture1_array)
-INSTANTIATE_TEXTURE_MIP_MAP(TextureType::texture2)
-INSTANTIATE_TEXTURE_MIP_MAP(TextureType::texture2_array)
-INSTANTIATE_TEXTURE_MIP_MAP(TextureType::texture3)
-INSTANTIATE_TEXTURE_MULTISAMPLE(TextureType::multisample_texture2)
-INSTANTIATE_TEXTURE_MULTISAMPLE(TextureType::multisample_texture2_array)
+INSTANTIATE_TEXTURE_MIP_MAP(texture_type::texture1)
+INSTANTIATE_TEXTURE_MIP_MAP(texture_type::texture1_array)
+INSTANTIATE_TEXTURE_MIP_MAP(texture_type::texture2)
+INSTANTIATE_TEXTURE_MIP_MAP(texture_type::texture2_array)
+INSTANTIATE_TEXTURE_MIP_MAP(texture_type::texture3)
+INSTANTIATE_TEXTURE_MULTISAMPLE(texture_type::multisample_texture2)
+INSTANTIATE_TEXTURE_MULTISAMPLE(texture_type::multisample_texture2_array)
 
 }  // namespace hou

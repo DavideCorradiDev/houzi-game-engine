@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_GFX_ERROR_HPP
 #define HOU_GFX_GFX_ERROR_HPP
 
-#include "hou/gfx/gfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
 #include <string>
 

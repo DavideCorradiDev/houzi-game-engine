@@ -301,7 +301,7 @@ glyph font::get_glyph(utf32::code_unit charCode) const
   HOU_EXPECT_DEV(m_face != nullptr);
   HOU_ENSURE(FT_Load_Char(m_face, charCode, FT_LOAD_RENDER) == 0);
 
-  const auto& g = m_face->ph_glyph;
+  const auto& g = m_face->glyph;
 
   vec2u bmpSize(g->bitmap.width, g->bitmap.rows);
 

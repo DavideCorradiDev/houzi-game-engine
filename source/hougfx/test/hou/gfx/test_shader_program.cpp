@@ -174,7 +174,7 @@ TEST_F(TestShaderProgramDeathTest, ConstructorErrorLinkFailure)
   fragment_shader fs(getFsSource());
   HOU_EXPECT_ERROR(ConcreteShaderProgram(vs, fs, gs), std::runtime_error,
     format_string(get_text(gl_error::program_linking),
-      "geometry info\n"
+      "Geometry info\n"
       "-------------\n"
       "(0) : error C6022: No input primitive type\n"
       "(0) : error C6029: No output primitive type\n"));

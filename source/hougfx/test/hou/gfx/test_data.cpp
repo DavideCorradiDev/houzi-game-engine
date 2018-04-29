@@ -2,15 +2,18 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#ifndef TEST_HOU_GFX_TEST_DATA_HPP
-#define TEST_HOU_GFX_TEST_DATA_HPP
-
-#include <string>
+#include "hou/gfx/test_data.hpp"
 
 
 
-std::string getOutputDir();
-std::string getDataDir();
+std::string getOutputDir()
+{
+  return u8"source/hougfx/test/output/";
+}
 
-#endif
 
+
+std::string getDataDir()
+{
+  return u8"source/hougfx/test/data/";
+}

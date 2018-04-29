@@ -177,7 +177,7 @@ TEST_F(TestGlProgramHandleDeathTest, LinkProgramFailure)
   gl::attach_shader(ph, fsh);
   HOU_EXPECT_ERROR(gl::link_program(ph), std::runtime_error
     , format_string(get_text(gl_error::program_linking)
-    , "geometry info\n"
+    , "Geometry info\n"
     "-------------\n"
     "(0) : error C6022: No input primitive type\n"
     "(0) : error C6029: No output primitive type\n"));

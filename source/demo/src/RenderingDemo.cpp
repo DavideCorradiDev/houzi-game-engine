@@ -1,6 +1,6 @@
 #include "hou/gfx/vertex2.hpp"
 #include "hou/gfx/graphic_context.hpp"
-#include "hou/gfx/RenderWindow.hpp"
+#include "hou/gfx/render_window.hpp"
 #include "hou/gfx/texture_channel_mapping.hpp"
 #include "hou/gfx/mesh.hpp"
 #include "hou/gfx/mesh2_shader_program.hpp"
@@ -62,7 +62,7 @@ public:
   DrawableShape(const texture2& ph_texture);
 
   virtual mesh2 generateMesh() const = 0;
-  void draw(RenderSurface& rt, mesh2_shader_program& renderer, const trans2f& t) const;
+  void draw(render_surface& rt, mesh2_shader_program& renderer, const trans2f& t) const;
 
   void handleInput();
 
@@ -94,7 +94,7 @@ DrawableShape::DrawableShape(const texture2& ph_texture)
 
 
 
-void DrawableShape::draw(RenderSurface& rt, mesh2_shader_program& renderer, const trans2f& t) const
+void DrawableShape::draw(render_surface& rt, mesh2_shader_program& renderer, const trans2f& t) const
 {
   if(mDrawWithTexture)
   {
@@ -119,7 +119,7 @@ void DrawableShape::handleInput()
   static const uint deltaPoints = 4u;
   static const uint minPoints = 2u;
 
-  if(keyboard::is_key_pressed(scan_code::a))
+  if(keyboard::is_key_pressed(scan_code::A))
   {
     mTransformData.m_position.x() += deltaPos;
   }
@@ -153,11 +153,11 @@ void DrawableShape::handleInput()
   {
     mTransformData.mScale.x() -= deltaScale;
   }
-  if(keyboard::is_key_pressed(scan_code::g))
+  if(keyboard::is_key_pressed(scan_code::G))
   {
     mTransformData.mScale.y() += deltaScale;
   }
-  if(keyboard::is_key_pressed(scan_code::b))
+  if(keyboard::is_key_pressed(scan_code::B))
   {
     mTransformData.mScale.y() -= deltaScale;
   }
@@ -370,8 +370,8 @@ int main()
   vec2u wndSize(800u, 600u);
   uint wndSamples = 16u;
   window_style wndStyle = window_style::windowed;
-  std::unique_ptr<RenderWindow> wnd(
-    std::make_unique<RenderWindow>(wndTitle, wndSize, wndStyle, wndSamples));
+  std::unique_ptr<render_window> wnd(
+    std::make_unique<render_window>(wndTitle, wndSize, wndStyle, wndSamples));
   wnd->set_visible(true);
 
   mesh2_shader_program m2rend;
@@ -452,7 +452,7 @@ int main()
               wndSamples *= 2;
             }
             std::cout << "Samples: " << wndSamples << std::endl;
-            wnd->setSampleCount(wndSamples);
+            wnd->set_sample_count(wndSamples);
           }
           else if(data.scan_code == scan_code::Subtract)
           {
@@ -461,13 +461,13 @@ int main()
               wndSamples /= 2;
             }
             std::cout << "Samples: " << wndSamples << std::endl;
-            wnd->setSampleCount(wndSamples);
+            wnd->set_sample_count(wndSamples);
           }
           else if(data.scan_code == scan_code::Decimal)
           {
             wndStyle = window_style::fullscreen;
             wnd.reset();
-            wnd = std::make_unique<RenderWindow>(wndTitle, wndSize
+            wnd = std::make_unique<render_window>(wndTitle, wndSize
               , wndStyle, wndSamples);
             wnd->set_visible(true);
           }
@@ -475,7 +475,7 @@ int main()
           {
             wndStyle = window_style::windowed;
             wnd.reset();
-            wnd = std::make_unique<RenderWindow>(wndTitle, wndSize
+            wnd = std::make_unique<render_window>(wndTitle, wndSize
               , wndStyle, wndSamples);
             wnd->set_visible(true);
           }
@@ -506,60 +506,60 @@ int main()
       static const int viewportDelta = 4;
       if(keyboard::is_key_pressed(scan_code::Divide))
       {
-        recti currentViewport = wnd->getViewport();
+        recti currentViewport = wnd->get_viewport();
         currentViewport.x() += viewportDelta;
         wnd->set_viewport(currentViewport);
       }
       if(keyboard::is_key_pressed(scan_code::Numpad8))
       {
-        recti currentViewport = wnd->getViewport();
+        recti currentViewport = wnd->get_viewport();
         currentViewport.x() -= viewportDelta;
         wnd->set_viewport(currentViewport);
       }
       if(keyboard::is_key_pressed(scan_code::Multiply))
       {
-        recti currentViewport = wnd->getViewport();
+        recti currentViewport = wnd->get_viewport();
         currentViewport.y() += viewportDelta;
         wnd->set_viewport(currentViewport);
       }
       if(keyboard::is_key_pressed(scan_code::Numpad9))
       {
-        recti currentViewport = wnd->getViewport();
+        recti currentViewport = wnd->get_viewport();
         currentViewport.y() -= viewportDelta;
         wnd->set_viewport(currentViewport);
       }
       if(keyboard::is_key_pressed(scan_code::Numpad5))
       {
-        recti currentViewport = wnd->getViewport();
+        recti currentViewport = wnd->get_viewport();
         currentViewport.w() += viewportDelta;
         wnd->set_viewport(currentViewport);
       }
       if(keyboard::is_key_pressed(scan_code::Numpad2))
       {
-        recti currentViewport = wnd->getViewport();
+        recti currentViewport = wnd->get_viewport();
         currentViewport.w() -= viewportDelta;
         wnd->set_viewport(currentViewport);
       }
       if(keyboard::is_key_pressed(scan_code::Numpad6))
       {
-        recti currentViewport = wnd->getViewport();
+        recti currentViewport = wnd->get_viewport();
         currentViewport.h() += viewportDelta;
         wnd->set_viewport(currentViewport);
       }
       if(keyboard::is_key_pressed(scan_code::Numpad3))
       {
-        recti currentViewport = wnd->getViewport();
+        recti currentViewport = wnd->get_viewport();
         currentViewport.h() -= viewportDelta;
         wnd->set_viewport(currentViewport);
       }
 
       wnd->clear(color::grey);
 
-      trans2f projTrans = trans2f::orthographic_projection(wnd->getViewport());
+      trans2f projTrans = trans2f::orthographic_projection(wnd->get_viewport());
 
-      mesh2 viewportMesh = create_rectangle_outline_mesh2(wnd->getViewport().get_size(), 1);
+      mesh2 viewportMesh = create_rectangle_outline_mesh2(wnd->get_viewport().get_size(), 1);
       m2rend.draw(*wnd, viewportMesh, color::white
-        , projTrans * trans2f::translation(wnd->getViewport().get_position()));
+        , projTrans * trans2f::translation(wnd->get_viewport().get_position()));
 
       for(const auto& shapePtr : shapes)
       {

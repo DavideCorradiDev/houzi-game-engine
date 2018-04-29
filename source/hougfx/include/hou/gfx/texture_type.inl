@@ -5,19 +5,19 @@
 namespace hou
 {
 
-constexpr size_t get_texture_type_dimension_count(TextureType t)
+constexpr size_t get_texture_type_dimension_count(texture_type t)
 {
   switch(t)
   {
-  case TextureType::texture1:
+  case texture_type::texture1:
     return 1u;
-  case TextureType::texture1_array:
-  case TextureType::texture2:
-  case TextureType::multisample_texture2:
+  case texture_type::texture1_array:
+  case texture_type::texture2:
+  case texture_type::multisample_texture2:
     return 2u;
-  case TextureType::texture2_array:
-  case TextureType::texture3:
-  case TextureType::multisample_texture2_array:
+  case texture_type::texture2_array:
+  case texture_type::texture3:
+  case texture_type::multisample_texture2_array:
     return 3u;
   default:
     return 1u;
@@ -26,19 +26,19 @@ constexpr size_t get_texture_type_dimension_count(TextureType t)
 
 
 
-constexpr bool is_texture_type_mipmapped(TextureType t)
+constexpr bool is_texture_type_mipmapped(texture_type t)
 {
-  return t == TextureType::texture1 || t == TextureType::texture1_array
-    || t == TextureType::texture2 || t == TextureType::texture2_array
-    || t == TextureType::texture3;
+  return t == texture_type::texture1 || t == texture_type::texture1_array
+    || t == texture_type::texture2 || t == texture_type::texture2_array
+    || t == texture_type::texture3;
 }
 
 
 
-constexpr bool is_texture_type_multisampled(TextureType t)
+constexpr bool is_texture_type_multisampled(texture_type t)
 {
-  return t == TextureType::multisample_texture2
-    || t == TextureType::multisample_texture2_array;
+  return t == texture_type::multisample_texture2
+    || t == texture_type::multisample_texture2_array;
 }
 
 }  // namespace hou

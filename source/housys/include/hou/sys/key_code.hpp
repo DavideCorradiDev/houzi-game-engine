@@ -164,9 +164,9 @@ enum class key_code
   /** Num9 */
   Num9,
   /** a */
-  a,
+  A,
   /** b */
-  b,
+  B,
   /** C */
   C,
   /** D */
@@ -176,7 +176,7 @@ enum class key_code
   /** F */
   F,
   /** g */
-  g,
+  G,
   /** H */
   H,
   /** I */

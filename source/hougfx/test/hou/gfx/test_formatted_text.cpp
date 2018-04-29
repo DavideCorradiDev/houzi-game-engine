@@ -107,7 +107,7 @@ const std::string fontPath = getDataDir() + u8"NotoSans-Regular.ttf";
 TEST_F(TestFormattedText, Utf8Constructor)
 {
   font f = loadFont(fontPath);
-  std::string s = u8"a";
+  std::string s = u8"A";
   formatted_text ft(s, f);
 
   image3R imageRef(vec3u(7u, 7u, 1u),
@@ -134,7 +134,7 @@ TEST_F(TestFormattedText, Utf8Constructor)
 TEST_F(TestFormattedText, Utf32Constructor)
 {
   font f = loadFont(fontPath);
-  std::u32string s = U"a";
+  std::u32string s = U"A";
   formatted_text ft(s, f);
 
   image3R imageRef(vec3u(7u, 7u, 1u),
@@ -161,7 +161,7 @@ TEST_F(TestFormattedText, Utf32Constructor)
 TEST_F(TestFormattedText, MoveConstructor)
 {
   font f = loadFont(fontPath);
-  std::u32string s = U"a";
+  std::u32string s = U"A";
   formatted_text ftDummy(s, f);
   formatted_text ft(std::move(ftDummy));
 

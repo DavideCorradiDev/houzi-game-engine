@@ -21,7 +21,7 @@ class TestTextBoxFormattingParams : public Test
 
 TEST_F(TestTextBoxFormattingParams, Constructor)
 {
-  TextFlow textFlowRef = TextFlow::LeftRight;
+  text_flow textFlowRef = text_flow::LeftRight;
   vec2f maxSizeRef(1.f, 2.f);
   text_box_formatting_params tbfp(textFlowRef, maxSizeRef);
 
@@ -33,12 +33,12 @@ TEST_F(TestTextBoxFormattingParams, Constructor)
 
 TEST_F(TestTextBoxFormattingParams, TextFlowValues)
 {
-  std::vector<TextFlow> textFlowValues
+  std::vector<text_flow> textFlowValues
   {
-    TextFlow::LeftRight,
-    TextFlow::RightLeft,
-    TextFlow::TopBottom,
-    TextFlow::BottomTop
+    text_flow::LeftRight,
+    text_flow::RightLeft,
+    text_flow::TopBottom,
+    text_flow::BottomTop
   };
 
   for(auto textFlow : textFlowValues)
@@ -62,7 +62,7 @@ TEST_F(TestTextBoxFormattingParams, MaxSizeValues)
 
   for(auto maxSize : maxSizeValues)
   {
-    text_box_formatting_params tbfp(TextFlow::LeftRight, maxSize);
+    text_box_formatting_params tbfp(text_flow::LeftRight, maxSize);
     EXPECT_EQ(maxSize, tbfp.get_max_size());
   }
 }

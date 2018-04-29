@@ -51,12 +51,12 @@ std::string getGlFragmentShaderSource()
   return "#version 330 core\n"
          "in vec2 texVs;\n"
          "in vec4 colorVs;\n"
-         "out vec4 ph_color;\n"
+         "out vec4 color;\n"
          "uniform vec4 " UNI_COLOR ";\n"
          "uniform sampler2D " UNI_TEXTURE ";\n"
          "void main()\n"
          "{\n"
-         "ph_color = " UNI_COLOR " * colorVs * ph_texture(" UNI_TEXTURE ", texVs);\n"
+         "color = " UNI_COLOR " * colorVs * texture(" UNI_TEXTURE ", texVs);\n"
          "}\n";
 }
 

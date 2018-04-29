@@ -16,7 +16,7 @@ namespace hou
 
 /** Represents the direction of the text flow.
  */
-enum class TextFlow
+enum class text_flow
 {
   /** Left to right. */
   LeftRight,
@@ -37,7 +37,7 @@ enum class TextFlow
  * \param tf the object.
  * \return a reference to os.
  */
-HOU_GFX_API std::ostream& operator<<(std::ostream& os, TextFlow tf);
+HOU_GFX_API std::ostream& operator<<(std::ostream& os, text_flow tf);
 
 }  // namespace hou
 

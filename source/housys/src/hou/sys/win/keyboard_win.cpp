@@ -105,13 +105,13 @@ UINT keyCodeToWinKey(key_code key)
     case key_code::Num8: return '8';
     case key_code::Num9: return '9';
 
-    case key_code::a: return 'a';
-    case key_code::b: return 'b';
+    case key_code::A: return 'a';
+    case key_code::B: return 'b';
     case key_code::C: return 'C';
     case key_code::D: return 'D';
     case key_code::E: return 'E';
     case key_code::F: return 'F';
-    case key_code::g: return 'g';
+    case key_code::G: return 'g';
     case key_code::H: return 'H';
     case key_code::I: return 'I';
     case key_code::J: return 'J';

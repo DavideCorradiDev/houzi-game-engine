@@ -279,13 +279,13 @@ key_code winKeyToKeyCode(UINT key)
     case '8': return key_code::Num8;
     case '9': return key_code::Num9;
 
-    case 'a': return key_code::a;
-    case 'b': return key_code::b;
+    case 'A': return key_code::A;
+    case 'B': return key_code::B;
     case 'C': return key_code::C;
     case 'D': return key_code::D;
     case 'E': return key_code::E;
     case 'F': return key_code::F;
-    case 'g': return key_code::g;
+    case 'G': return key_code::G;
     case 'H': return key_code::H;
     case 'I': return key_code::I;
     case 'J': return key_code::J;

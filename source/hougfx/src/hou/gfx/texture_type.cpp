@@ -2,10 +2,10 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gfx/TextureType.hpp"
+#include "hou/gfx/texture_type.hpp"
 
 #define TEXTURE_TYPE_CASE(type, os) \
-  case TextureType::type:           \
+  case texture_type::type:           \
     return (os) << #type
 
 
@@ -13,7 +13,7 @@
 namespace hou
 {
 
-std::ostream& operator<<(std::ostream& os, TextureType type)
+std::ostream& operator<<(std::ostream& os, texture_type type)
 {
   switch(type)
   {

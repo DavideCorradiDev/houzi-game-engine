@@ -298,15 +298,15 @@ TextFormatter::TextFormatter(std::u32string text, const font& ph_font,
   const text_box_formatting_params tbfp)
   : m_text(text)
   , mVertices(VerticesPerGlyph * text.size(), text_vertex())
-  , mLineCoord((tbfp.get_text_flow() == TextFlow::LeftRight
-                 || tbfp.get_text_flow() == TextFlow::RightLeft)
+  , mLineCoord((tbfp.get_text_flow() == text_flow::LeftRight
+                 || tbfp.get_text_flow() == text_flow::RightLeft)
         ? 0u
         : 1u)
   , mColumnCoord(mLineCoord == 0u ? 1u : 0u)
   , mLineSpacing(mLineCoord == 0u ? ph_font.get_pixel_line_spacing()
                                   : 0.5f * ph_font.get_pixel_max_advance())
-  , mCharSpacingFactor(tbfp.get_text_flow() == TextFlow::LeftRight
-          || tbfp.get_text_flow() == TextFlow::TopBottom
+  , mCharSpacingFactor(tbfp.get_text_flow() == text_flow::LeftRight
+          || tbfp.get_text_flow() == text_flow::TopBottom
         ? 1.f
         : -1.f)
   , m_bounding_box()
