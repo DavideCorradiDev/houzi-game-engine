@@ -5,7 +5,7 @@
 namespace hou
 {
 
-const TextBoxFormattingParams TextBoxFormattingParams::default(
+const TextBoxFormattingParams TextBoxFormattingParams::standard(
   TextFlow::LeftRight, vec2f::zero());
 
 

@@ -70,6 +70,7 @@ SET(LIB_HOUGFX_SRC
   src/hou/gfx/VertexBufferTarget.cpp
   src/hou/gfx/VertexFormat.cpp
   src/hou/gfx/Vertex2.cpp
+  src/hou/gfx/vertical_sync_mode.cpp
 )
 
 

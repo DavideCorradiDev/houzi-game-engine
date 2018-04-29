@@ -41,7 +41,7 @@ std::string getVsSource();
 
 std::string getFsSource()
 {
-  return "#ph_version 330 core\n"
+  return "#version 330 core\n"
          "uniform vec4 colorUni;"
          "out vec4 outColor;"
          "void main()"
@@ -54,7 +54,7 @@ std::string getFsSource()
 
 std::string getGsSource()
 {
-  return "#ph_version 330 core\n"
+  return "#version 330 core\n"
          "layout(points) in;"
          "layout(line_strip, max_vertices = 2) out;"
          "void main()"
@@ -71,7 +71,7 @@ std::string getGsSource()
 
 std::string getVsSource()
 {
-  return "#ph_version 330 core\n"
+  return "#version 330 core\n"
          "in vec2 pos;"
          "void main()"
          "{"

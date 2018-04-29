@@ -332,7 +332,7 @@ TYPED_TEST(TestTextureCommon, SizeConstructor)
   EXPECT_EQ(1u, tex.get_sample_count());
   EXPECT_TRUE(tex.hasFixedSampleLocations());
   EXPECT_EQ(sizeRef, tex.get_size());
-  EXPECT_EQ(TextureChannelMapping::default, tex.getChannelMapping());
+  EXPECT_EQ(TextureChannelMapping::standard, tex.getChannelMapping());
 }
 
 
@@ -381,7 +381,7 @@ TYPED_TEST(TestTextureCommonDeathTest, SizeConstructorErrorInvalidSize)
 TYPED_TEST(TestTextureCommon, SetChannelMapping)
 {
   TypeParam tex(this->generateSize());
-  EXPECT_EQ(TextureChannelMapping::default, tex.getChannelMapping());
+  EXPECT_EQ(TextureChannelMapping::standard, tex.getChannelMapping());
   tex.setChannelMapping(TextureChannelMapping::Alpha);
   EXPECT_EQ(TextureChannelMapping::Alpha, tex.getChannelMapping());
   tex.setChannelMapping(TextureChannelMapping::Luminosity);
@@ -464,7 +464,7 @@ TYPED_TEST(TestTextureNotMultisampled, MipMapConstructor)
   EXPECT_EQ(1u, tex.get_sample_count());
   EXPECT_TRUE(tex.hasFixedSampleLocations());
   EXPECT_EQ(sizeRef, tex.get_size());
-  EXPECT_EQ(TextureChannelMapping::default, tex.getChannelMapping());
+  EXPECT_EQ(TextureChannelMapping::standard, tex.getChannelMapping());
   EXPECT_EQ(TextureFilter::Linear, tex.getFilter());
   EXPECT_EQ(this->getDefaultWrapMode(), tex.getWrapMode());
   EXPECT_EQ(image(tex.get_size()), tex.template get_image<pixel_format::rgb>());
@@ -556,7 +556,7 @@ TYPED_TEST(TestTextureNotMultisampled, ImageConstructor)
   EXPECT_EQ(1u, tex.get_sample_count());
   EXPECT_TRUE(tex.hasFixedSampleLocations());
   EXPECT_EQ(imageRef.get_size(), tex.get_size());
-  EXPECT_EQ(TextureChannelMapping::default, tex.getChannelMapping());
+  EXPECT_EQ(TextureChannelMapping::standard, tex.getChannelMapping());
   EXPECT_EQ(TextureFilter::Linear, tex.getFilter());
   EXPECT_EQ(this->getDefaultWrapMode(), tex.getWrapMode());
   EXPECT_EQ(imageRef, tex.template get_image<pixel_format::rgba>());
@@ -575,7 +575,7 @@ TYPED_TEST(TestTextureNotMultisampled, ImageConstructorDefaultArguments)
   EXPECT_EQ(1u, tex.get_sample_count());
   EXPECT_TRUE(tex.hasFixedSampleLocations());
   EXPECT_EQ(imageRef.get_size(), tex.get_size());
-  EXPECT_EQ(TextureChannelMapping::default, tex.getChannelMapping());
+  EXPECT_EQ(TextureChannelMapping::standard, tex.getChannelMapping());
   EXPECT_EQ(TextureFilter::Linear, tex.getFilter());
   EXPECT_EQ(this->getDefaultWrapMode(), tex.getWrapMode());
   EXPECT_EQ(imageRef, tex.template get_image<pixel_format::rgba>());
@@ -989,7 +989,7 @@ TYPED_TEST(TestTextureMultisampled, MultisampleConstructor)
   EXPECT_EQ(sampleCountRef, tex.get_sample_count());
   EXPECT_FALSE(tex.hasFixedSampleLocations());
   EXPECT_EQ(sizeRef, tex.get_size());
-  EXPECT_EQ(TextureChannelMapping::default, tex.getChannelMapping());
+  EXPECT_EQ(TextureChannelMapping::standard, tex.getChannelMapping());
 }
 
 

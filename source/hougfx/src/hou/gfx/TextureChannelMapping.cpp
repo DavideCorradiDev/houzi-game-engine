@@ -9,7 +9,7 @@
 namespace hou
 {
 
-const TextureChannelMapping TextureChannelMapping::default
+const TextureChannelMapping TextureChannelMapping::standard
   ( TextureChannel::r
   , TextureChannel::G
   , TextureChannel::B

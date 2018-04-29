@@ -50,7 +50,7 @@ SET(LIB_HOUGL_SRC
 IF(WIN32)
   SET(LIB_HOUGL_SRC
     ${LIB_HOUGL_SRC}
-    src/hou/gl/wgl/GlContextImplWgl.cpp
+    src/hou/gl/wgl/gl_context_impl_wgl.cpp
   )
 ENDIF()
 

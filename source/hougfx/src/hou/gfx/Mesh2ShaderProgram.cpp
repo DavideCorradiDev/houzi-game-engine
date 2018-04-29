@@ -29,7 +29,7 @@ std::string getGlFragmentShaderSource();
 
 std::string getGlVertexShaderSource()
 {
-  return "#ph_version 330 core\n"
+  return "#version 330 core\n"
          "layout (location = 0) in vec2 posIn;\n"
          "layout (location = 1) in vec2 texIn;\n"
          "layout (location = 2) in vec4 colorIn;\n"
@@ -48,7 +48,7 @@ std::string getGlVertexShaderSource()
 
 std::string getGlFragmentShaderSource()
 {
-  return "#ph_version 330 core\n"
+  return "#version 330 core\n"
          "in vec2 texVs;\n"
          "in vec4 colorVs;\n"
          "out vec4 ph_color;\n"

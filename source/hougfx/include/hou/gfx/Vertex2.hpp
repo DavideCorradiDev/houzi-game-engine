@@ -10,7 +10,7 @@
 #include "hou/cor/basic_types.hpp"
 #include "hou/cor/pragmas.hpp"
 
-#include "hou/gl/OpenGL.hpp"
+#include "hou/gl/open_gl.hpp"
 
 #include "hou/gfx/Vertex2Fwd.hpp"
 

@@ -50,7 +50,7 @@ public:
    * \param tbfp the text box formatting parameters.
    */
   FormattedText(const std::string& text, const Font& font,
-    const TextBoxFormattingParams& tbfp = TextBoxFormattingParams::default);
+    const TextBoxFormattingParams& tbfp = TextBoxFormattingParams::standard);
 
   /** Create a FormattedText with the given utf-32 string and formatting parameters.
    *
@@ -59,7 +59,7 @@ public:
    * \param tbfp the text box formatting parameters.
    */
   FormattedText(std::u32string text, const Font& font,
-    const TextBoxFormattingParams& tbfp = TextBoxFormattingParams::default);
+    const TextBoxFormattingParams& tbfp = TextBoxFormattingParams::standard);
 
   /** Move constructor.
    *

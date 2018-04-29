@@ -23,7 +23,7 @@ class HOU_GFX_API TextBoxFormattingParams
 public:
   /** default parameters.
    */
-  static const TextBoxFormattingParams default;
+  static const TextBoxFormattingParams standard;
 
 public:
   /** Creates an object with the given parameters.

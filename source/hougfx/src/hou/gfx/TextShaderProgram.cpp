@@ -31,7 +31,7 @@ std::string getGlFragmentShaderSource();
 
 std::string getGlVertexShaderSource()
 {
-  return "#ph_version 330 core\n"
+  return "#version 330 core\n"
          "layout (location = 0) in vec2 posIn;\n"
          "layout (location = 1) in vec3 texIn;\n"
          "out vec3 texVs;\n"
@@ -49,7 +49,7 @@ std::string getGlVertexShaderSource()
 
 std::string getGlFragmentShaderSource()
 {
-  return "#ph_version 330 core\n"
+  return "#version 330 core\n"
          "in vec3 texVs;\n"
          "out vec4 ph_color;\n"
          "uniform vec4 " UNI_COLOR
