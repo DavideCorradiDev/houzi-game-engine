@@ -3,8 +3,8 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/aud/TestAudBase.hpp"
-#include "hou/aud/TestData.hpp"
+#include "hou/aud/test_aud_base.hpp"
+#include "hou/aud/test_data.hpp"
 
 #include "hou/aud/audio_buffer.hpp"
 #include "hou/aud/wav_file_in.hpp"
@@ -16,7 +16,7 @@ using namespace hou;
 namespace
 {
 
-class TestAudioBuffer : public TestAudBase
+class TestAudioBuffer : public test_aud_base
 {
 public:
   static const std::string wavStereo16FileName;

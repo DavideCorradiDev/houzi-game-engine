@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/aud/TestData.hpp"
+#include "hou/aud/test_data.hpp"
 
 #include "hou/aud/aud_error.hpp"
 #include "hou/aud/ogg_file_in.hpp"

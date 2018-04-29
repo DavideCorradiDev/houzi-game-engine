@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/aud/TestAudBase.hpp"
+#include "hou/aud/test_aud_base.hpp"
 
 #include "hou/aud/audio_buffer.hpp"
 #include "hou/aud/audio_source.hpp"
@@ -19,7 +19,7 @@ using namespace hou;
 namespace
 {
 
-class TestAudioSource : public TestAudBase
+class TestAudioSource : public test_aud_base
 {
 public:
   TestAudioSource();
@@ -64,7 +64,7 @@ private:
 
 
 TestAudioSource::TestAudioSource()
-  : TestAudBase()
+  : test_aud_base()
   , mBuffer(
       std::vector<uint8_t>{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
       audio_buffer_format::stereo16, 2)

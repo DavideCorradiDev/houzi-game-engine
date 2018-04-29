@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/aud/TestAudBaseTestSpecificContext.hpp"
+#include "hou/aud/test_aud_base_test_specific_context.hpp"
 
 #include "hou/aud/sound_model.hpp"
 
@@ -14,7 +14,7 @@ using namespace hou;
 namespace
 {
 
-class TestSoundModel : public TestAudBaseTestSpecificContext
+class TestSoundModel : public test_aud_base_test_specific_context
 {};
 
 class TestSoundModelDeathTest : public TestSoundModel

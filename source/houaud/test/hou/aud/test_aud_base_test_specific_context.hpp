@@ -13,11 +13,11 @@
 
 
 
-class TestAudBaseTestSpecificContext : public ::testing::Test
+class test_aud_base_test_specific_context : public ::testing::Test
 {
 public:
-  TestAudBaseTestSpecificContext();
-  virtual ~TestAudBaseTestSpecificContext() = 0;
+  test_aud_base_test_specific_context();
+  virtual ~test_aud_base_test_specific_context() = 0;
 
 public:
   hou::audio_context mContext;

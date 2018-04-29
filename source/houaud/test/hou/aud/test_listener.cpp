@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/aud/TestAudBaseTestSpecificContext.hpp"
+#include "hou/aud/test_aud_base_test_specific_context.hpp"
 
 #include "hou/aud/listener.hpp"
 
@@ -18,7 +18,7 @@ using namespace hou;
 namespace
 {
 
-class TestListener : public TestAudBaseTestSpecificContext
+class TestListener : public test_aud_base_test_specific_context
 {};
 
 class TestListenerDeathTest : public TestListener

@@ -3,8 +3,8 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/aud/TestAudBase.hpp"
-#include "hou/aud/TestData.hpp"
+#include "hou/aud/test_aud_base.hpp"
+#include "hou/aud/test_data.hpp"
 
 #include "hou/aud/empty_audio_stream_in.hpp"
 #include "hou/aud/listener.hpp"
@@ -22,7 +22,7 @@ using namespace hou;
 namespace
 {
 
-class TestStreamingAudioSource : public TestAudBase
+class TestStreamingAudioSource : public test_aud_base
 {
 public:
   static void SetUpTestCase();
@@ -40,7 +40,7 @@ class TestStreamingAudioSourceDeathTest : public TestStreamingAudioSource
 
 void TestStreamingAudioSource::SetUpTestCase()
 {
-  TestAudBase::SetUpTestCase();
+  test_aud_base::SetUpTestCase();
   listener::set_gain(0.f);
 }
 
