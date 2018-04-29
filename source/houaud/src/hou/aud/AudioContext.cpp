@@ -2,64 +2,64 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/aud/AudioContext.hpp"
+#include "hou/aud/audio_context.hpp"
 
 
 
 namespace hou
 {
 
-void AudioContext::set_current(AudioContext& ph_context)
+void audio_context::set_current(audio_context& ph_context)
 {
-  al::context::set_current(ph_context.mAlContext);
+  al::context::set_current(ph_context.m_al_context);
 }
 
 
 
-void AudioContext::unset_current()
+void audio_context::unset_current()
 {
   al::context::unset_current();
 }
 
 
 
-std::vector<std::string> AudioContext::get_device_names()
+std::vector<std::string> audio_context::get_device_names()
 {
   return al::device::get_device_names();
 }
 
 
 
-AudioContext::AudioContext()
+audio_context::audio_context()
   : non_copyable()
-  , mAlDevice()
-  , mAlContext(mAlDevice)
+  , m_al_device()
+  , m_al_context(m_al_device)
 {
   alGetError();
 }
 
 
 
-AudioContext::AudioContext(const std::string& deviceName)
+audio_context::audio_context(const std::string& deviceName)
   : non_copyable()
-  , mAlDevice(deviceName)
-  , mAlContext(mAlDevice)
+  , m_al_device(deviceName)
+  , m_al_context(m_al_device)
 {
   alGetError();
 }
 
 
 
-AudioContext::AudioContext(AudioContext&& other)
-  : mAlDevice(std::move(other.mAlDevice))
-  , mAlContext(std::move(other.mAlContext))
+audio_context::audio_context(audio_context&& other)
+  : m_al_device(std::move(other.m_al_device))
+  , m_al_context(std::move(other.m_al_context))
 {}
 
 
 
-bool AudioContext::is_current() const
+bool audio_context::is_current() const
 {
-  return mAlContext.is_current();
+  return m_al_context.is_current();
 }
 
 }

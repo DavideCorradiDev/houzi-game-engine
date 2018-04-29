@@ -5,7 +5,7 @@
 #ifndef HOU_AUD_LISTENER_HPP
 #define HOU_AUD_LISTENER_HPP
 
-#include "hou/aud/AudExport.hpp"
+#include "hou/aud/aud_export.hpp"
 
 #include "hou/mth/matrix_fwd.hpp"
 #include "hou/mth/rotation3_fwd.hpp"
@@ -18,17 +18,17 @@ namespace hou
 /** Functions related to the state of the audio listener.
  *
  *  The audio listener represents the position from which sounds are heard.
- *  There is only one listener per AudioContext.
+ *  There is only one listener per audio_context.
  *  all functions in this namespace are thread safe.
  */
-namespace Listener
+namespace listener
 {
 
 /** Gets the gain of the listener.
  *
  *  \return the gain of the listener.
  */
-HOU_AUD_API float getGain();
+HOU_AUD_API float get_gain();
 
 /** Sets the gain of the listener.
  *
@@ -38,7 +38,7 @@ HOU_AUD_API float getGain();
  *
  *  \param gain the gain.
  */
-HOU_AUD_API void setGain(float gain);
+HOU_AUD_API void set_gain(float gain);
 
 /** Gets the current position of the listener in 3d space.
  *
@@ -58,7 +58,7 @@ HOU_AUD_API void set_position(const vec3f& pos);
  *
  *  \return the linear velocity.
  */
-HOU_AUD_API vec3f getVelocity();
+HOU_AUD_API vec3f get_velocity();
 
 /** Sets the current linear velocity of the listener.
  *
@@ -66,13 +66,13 @@ HOU_AUD_API vec3f getVelocity();
  *
  *  \param vel the velocity.
  */
-HOU_AUD_API void setVelocity(const vec3f& vel);
+HOU_AUD_API void set_velocity(const vec3f& vel);
 
 /** Gets the orientation of the listener.
  *
  *  \return the orientation of the listener.
  */
-HOU_AUD_API Rot3f getOrientation();
+HOU_AUD_API Rot3f get_orientation();
 
 /** Gets the current orientation of the listener.
  *
@@ -82,9 +82,9 @@ HOU_AUD_API Rot3f getOrientation();
  *
  *  \param ori the orientation.
  */
-HOU_AUD_API void setOrientation(const Rot3f& ori);
+HOU_AUD_API void set_orientation(const Rot3f& ori);
 
-}  // namespace Listener
+}  // namespace listener
 
 }  // namespace hou
 

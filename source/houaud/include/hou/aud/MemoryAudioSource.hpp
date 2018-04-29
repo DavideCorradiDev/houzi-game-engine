@@ -5,15 +5,15 @@
 #ifndef HOU_AUD_AUDIO_SOURCE_HPP
 #define HOU_AUD_AUDIO_SOURCE_HPP
 
-#include "hou/aud/AudExport.hpp"
-#include "hou/aud/AudioSource.hpp"
+#include "hou/aud/aud_export.hpp"
+#include "hou/aud/audio_source.hpp"
 
 
 
 namespace hou
 {
 
-class AudioBuffer;
+class audio_buffer;
 
 
 
@@ -21,69 +21,69 @@ class AudioBuffer;
  *
  * Since the buffer must be completely loaded in memory, this class is not
  * suited to play long audio buffers.
- * Prefer using StreamingAudioSource in that case.
+ * Prefer using streaming_audio_source in that case.
  *
- * a MemoryAudioSource must be associated to an AudioBuffer to play a sound.
- * Many MemoryAudioSource objects may share an AudioBuffer.
+ * a memory_audio_source must be associated to an audio_buffer to play a sound.
+ * Many memory_audio_source objects may share an audio_buffer.
  *
- * It must be ensured that the AudioBuffer associated to a MemoryAudioSource is
- * not destroyed while the MemoryAudioSource is still existing, failing to do so
+ * It must be ensured that the audio_buffer associated to a memory_audio_source is
+ * not destroyed while the memory_audio_source is still existing, failing to do so
  * will result in undefined behaviour.
  */
-class HOU_AUD_API MemoryAudioSource : public AudioSource
+class HOU_AUD_API memory_audio_source : public audio_source
 {
 public:
   /** Buffer constructor.
    *
-   * Creates a MemoryAudioSource with the given AudioBuffer.
-   * If passed nullptr, the MemoryAudioSource will not be associated to any
+   * Creates a memory_audio_source with the given audio_buffer.
+   * If passed nullptr, the memory_audio_source will not be associated to any
    * buffer and will not play any sound.
    *
-   * \param buffer pointer to the AudioBuffer.
+   * \param buffer pointer to the audio_buffer.
    */
-  explicit MemoryAudioSource(const AudioBuffer* buffer = nullptr);
+  explicit memory_audio_source(const audio_buffer* buffer = nullptr);
 
   /** Move constructor.
    *
-   * \param other the other MemoryAudioSource.
+   * \param other the other memory_audio_source.
    */
-  MemoryAudioSource(MemoryAudioSource&& other);
+  memory_audio_source(memory_audio_source&& other);
 
   /** Destructor.
    */
-  virtual ~MemoryAudioSource();
+  virtual ~memory_audio_source();
 
-  /** Sets the AudioBuffer.
+  /** Sets the audio_buffer.
    *
-   * If passed nullptr, the MemoryAudioSource will not be associated to any
+   * If passed nullptr, the memory_audio_source will not be associated to any
    * buffer and will not play any sound.
    *
-   * \param buffer pointer to the AudioBuffer.
+   * \param buffer pointer to the audio_buffer.
    */
-  void setBuffer(const AudioBuffer* buffer);
+  void set_buffer(const audio_buffer* buffer);
 
-  /** Gets the AudioBuffer.
+  /** Gets the audio_buffer.
    *
-   * \return a pointer to the AudioBuffer, or nullptr if no AudioBuffer is
-   * associated to the MemoryAudioSource.
+   * \return a pointer to the audio_buffer, or nullptr if no audio_buffer is
+   * associated to the memory_audio_source.
    */
-  const AudioBuffer* getBuffer() const;
+  const audio_buffer* get_buffer() const;
 
-  // AudioSource overrides.
-  AudioBufferFormat get_format() const final;
-  uint getChannelCount() const final;
-  uint getBytesPerSample() const final;
-  uint getSampleRate() const final;
+  // audio_source overrides.
+  audio_buffer_format get_format() const final;
+  uint get_channel_count() const final;
+  uint get_bytes_per_sample() const final;
+  uint get_sample_rate() const final;
   uint get_sample_count() const final;
-  void setLooping(bool looping) final;
-  bool isLooping() const final;
+  void set_looping(bool looping) final;
+  bool is_looping() const final;
 
 private:
-  void onSetSamplePos(uint pos) final;
-  uint onGetSamplePos() const final;
+  void on_set_sample_pos(uint pos) final;
+  uint on_get_sample_pos() const final;
 
 private:
-  const AudioBuffer* mBufferRef;
+  const audio_buffer* m_buffer_ref;
 };
 
 }  // namespace hou

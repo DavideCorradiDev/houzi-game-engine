@@ -5,7 +5,7 @@
 #ifndef HOU_AUD_AUDIO_CONTEXT_HPP
 #define HOU_AUD_AUDIO_CONTEXT_HPP
 
-#include "hou/aud/AudExport.hpp"
+#include "hou/aud/aud_export.hpp"
 #include "hou/cor/non_copyable.hpp"
 
 #include "hou/al/al_context.hpp"
@@ -21,25 +21,25 @@ namespace hou
 
 /** Represents the global state of the audio ph_device.
  *
- *  At least one AudioContext must exist when creating AudioBuffer, AudioSource,
- *  and StreamingAudioSource objects, and when using Listener functions.
- *  An AudioContext can be shared among multiple threads.
+ *  At least one audio_context must exist when creating audio_buffer, audio_source,
+ *  and streaming_audio_source objects, and when using listener functions.
+ *  An audio_context can be shared among multiple threads.
  *  The audio drivers may limit the number of AudioContexts that can be created
  *  at one time.
- *  For most applications, it is sufficient to create a single AudioContext
+ *  For most applications, it is sufficient to create a single audio_context
  *  at the start of the application and destroy it at shutdown.
- *  If an AudioContext is destroyed while it is current, there will be no current
- *  AudioContext until another AudioContext is created or set as current.
+ *  If an audio_context is destroyed while it is current, there will be no current
+ *  audio_context until another audio_context is created or set as current.
  */
-class HOU_AUD_API AudioContext
+class HOU_AUD_API audio_context
   : public non_copyable
 {
 public:
   /** Sets this as the current ph_context.
    */
-  static void set_current(AudioContext& ph_context);
+  static void set_current(audio_context& ph_context);
 
-  /** Unsets the current AudioContext.
+  /** Unsets the current audio_context.
    */
   static void unset_current();
 
@@ -50,21 +50,21 @@ public:
   static std::vector<std::string> get_device_names();
 
 public:
-  /** Creates an AudioContext and sets it as the current AudioContext.
+  /** Creates an audio_context and sets it as the current audio_context.
    */
-  AudioContext();
+  audio_context();
 
-  /** Creates an AudioContext with the given ph_device.
+  /** Creates an audio_context with the given ph_device.
    *
    *  a list of available devices may be obtained by calling get_device_names.
    *
    *  \param deviceName the name of the ph_device.
    */
-  AudioContext(const std::string& deviceName);
+  audio_context(const std::string& deviceName);
 
   /** Move constructor.
    */
-  AudioContext(AudioContext&& other);
+  audio_context(audio_context&& other);
 
   /** Checks if this is the current ph_context.
    *
@@ -73,8 +73,8 @@ public:
   bool is_current() const;
 
 private:
-  al::device mAlDevice;
-  al::context mAlContext;
+  al::device m_al_device;
+  al::context m_al_context;
 };
 
 }

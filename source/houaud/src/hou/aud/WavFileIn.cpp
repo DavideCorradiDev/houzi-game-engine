@@ -2,9 +2,9 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/aud/WavFileIn.hpp"
+#include "hou/aud/wav_file_in.hpp"
 
-#include "hou/aud/AudError.hpp"
+#include "hou/aud/aud_error.hpp"
 
 #include "hou/cor/error.hpp"
 
@@ -47,7 +47,7 @@ namespace
 
 
 
-bool WavFileIn::check(const std::string& path)
+bool wav_file_in::check(const std::string& path)
 {
   binary_file_in f(path);
   WavSignature signature;
@@ -59,91 +59,91 @@ bool WavFileIn::check(const std::string& path)
 
 
 
-WavFileIn::WavFileIn(const std::string& path)
+wav_file_in::wav_file_in(const std::string& path)
   : non_copyable()
-  , AudioStreamIn()
+  , audio_stream_in()
   , m_file(path, file_open_mode::read, file_type::binary)
-  , mDataOffset(0u)
+  , m_data_offset(0u)
   , m_byte_count(0u)
   , m_element_count(0u)
 {
-  readMetadata(path);
+  read_metadata(path);
 }
 
 
 
-WavFileIn::WavFileIn(WavFileIn&& other)
-  : AudioStreamIn(std::move(other))
+wav_file_in::wav_file_in(wav_file_in&& other)
+  : audio_stream_in(std::move(other))
   , m_file(std::move(other.m_file))
-  , mDataOffset(std::move(other.mDataOffset))
+  , m_data_offset(std::move(other.m_data_offset))
   , m_byte_count(std::move(other.m_byte_count))
   , m_element_count(std::move(other.m_element_count))
 {}
 
 
 
-WavFileIn::~WavFileIn()
+wav_file_in::~wav_file_in()
 {}
 
 
 
-bool WavFileIn::eof() const
+bool wav_file_in::eof() const
 {
   return m_file.eof();
 }
 
 
 
-bool WavFileIn::error() const
+bool wav_file_in::error() const
 {
   return m_file.error();
 }
 
 
 
-size_t WavFileIn::get_byte_count() const
+size_t wav_file_in::get_byte_count() const
 {
-  return m_file.get_byte_count() - mDataOffset;
+  return m_file.get_byte_count() - m_data_offset;
 }
 
 
 
-size_t WavFileIn::get_read_byte_count() const
+size_t wav_file_in::get_read_byte_count() const
 {
   return m_byte_count;
 }
 
 
 
-size_t WavFileIn::get_read_element_count() const
+size_t wav_file_in::get_read_element_count() const
 {
   return m_element_count;
 }
 
 
 
-WavFileIn::byte_position WavFileIn::get_byte_pos() const
+wav_file_in::byte_position wav_file_in::get_byte_pos() const
 {
-  return m_file.tell() - mDataOffset;
+  return m_file.tell() - m_data_offset;
 }
 
 
 
-binary_stream& WavFileIn::set_byte_pos(WavFileIn::byte_position pos)
+binary_stream& wav_file_in::set_byte_pos(wav_file_in::byte_position pos)
 {
   // Audio streams have stricter requirements for cursor position, therefore
   // a check must be done here.
-  HOU_EXPECT((pos % (getChannelCount() * getBytesPerSample())) == 0u);
+  HOU_EXPECT((pos % (get_channel_count() * get_bytes_per_sample())) == 0u);
   HOU_RUNTIME_CHECK(pos >= 0
-    && pos <= static_cast<WavFileIn::byte_position>(get_byte_count())
+    && pos <= static_cast<wav_file_in::byte_position>(get_byte_count())
     , get_text(sys_error::file_seek));
-  m_file.seek_set(pos + mDataOffset);
+  m_file.seek_set(pos + m_data_offset);
   return *this;
 }
 
 
 
-binary_stream& WavFileIn::move_byte_pos(WavFileIn::byte_offset offset)
+binary_stream& wav_file_in::move_byte_pos(wav_file_in::byte_offset offset)
 {
   byte_position pos = get_byte_pos() + offset;
   return set_byte_pos(pos);
@@ -151,37 +151,37 @@ binary_stream& WavFileIn::move_byte_pos(WavFileIn::byte_offset offset)
 
 
 
-size_t WavFileIn::get_sample_count() const
+size_t wav_file_in::get_sample_count() const
 {
-  return get_byte_count() / (getChannelCount() * getBytesPerSample());
+  return get_byte_count() / (get_channel_count() * get_bytes_per_sample());
 }
 
 
 
-WavFileIn::SamplePosition WavFileIn::getSamplePos() const
+wav_file_in::sample_position wav_file_in::get_sample_pos() const
 {
-  return get_byte_pos() / (getChannelCount() * getBytesPerSample());
+  return get_byte_pos() / (get_channel_count() * get_bytes_per_sample());
 }
 
 
 
-AudioStreamIn& WavFileIn::setSamplePos(WavFileIn::SamplePosition pos)
+audio_stream_in& wav_file_in::set_sample_pos(wav_file_in::sample_position pos)
 {
-  set_byte_pos(pos * (getChannelCount() * getBytesPerSample()));
+  set_byte_pos(pos * (get_channel_count() * get_bytes_per_sample()));
   return *this;
 }
 
 
 
-AudioStreamIn& WavFileIn::moveSamplePos(WavFileIn::SampleOffset offset)
+audio_stream_in& wav_file_in::move_sample_pos(wav_file_in::sample_offset offset)
 {
-  move_byte_pos(offset * (getChannelCount() * getBytesPerSample()));
+  move_byte_pos(offset * (get_channel_count() * get_bytes_per_sample()));
   return *this;
 }
 
 
 
-void WavFileIn::readMetadata(const std::string& path)
+void wav_file_in::read_metadata(const std::string& path)
 {
 
   // read metadata from header.
@@ -191,21 +191,21 @@ void WavFileIn::readMetadata(const std::string& path)
   read(format);
 
   // Check if the read opeartion was performed correctly.
-  HOU_RUNTIME_CHECK(!m_file.eof(), get_text(AudError::WavInvalidHeader)
+  HOU_RUNTIME_CHECK(!m_file.eof(), get_text(aud_error::wav_invalid_header)
     , path.c_str());
 
   // Consistency checks.
   HOU_RUNTIME_CHECK(std::string(signature.id, wavHeaderStringSize) == u8"RIFF"
-    , get_text(AudError::WavInvalidHeader), path.c_str());
+    , get_text(aud_error::wav_invalid_header), path.c_str());
   HOU_RUNTIME_CHECK(std::string(signature.form, wavHeaderStringSize) == u8"WAVE"
-    , get_text(AudError::WavInvalidHeader), path.c_str());
+    , get_text(aud_error::wav_invalid_header), path.c_str());
   HOU_RUNTIME_CHECK(std::string(format.signature.id, wavHeaderStringSize)
-    == u8"fmt ", get_text(AudError::WavInvalidHeader), path.c_str());
+    == u8"fmt ", get_text(aud_error::wav_invalid_header), path.c_str());
   HOU_RUNTIME_CHECK(format.byteRate == (format.sampleRate * format.channels
-    * format.bitsPerSample / 8), get_text(AudError::WavInvalidHeader)
+    * format.bitsPerSample / 8), get_text(aud_error::wav_invalid_header)
     , path.c_str());
   HOU_RUNTIME_CHECK(format.blockAlign == (format.channels * format.bitsPerSample
-    / 8u), get_text(AudError::WavInvalidHeader), path.c_str());
+    / 8u), get_text(aud_error::wav_invalid_header), path.c_str());
 
   // Look for the data subchunk.and set the data offset.
   WavChunkSignature chunkSignature;
@@ -214,12 +214,12 @@ void WavFileIn::readMetadata(const std::string& path)
   {
     m_file.seek_offset(chunkSignature.size);
     read(chunkSignature);
-    HOU_RUNTIME_CHECK(!eof(), get_text(AudError::WavInvalidHeader)
+    HOU_RUNTIME_CHECK(!eof(), get_text(aud_error::wav_invalid_header)
       , path.c_str());
   }
 
   // Set data offset.
-  mDataOffset = m_file.tell();
+  m_data_offset = m_file.tell();
   HOU_ENSURE_DEV(get_byte_pos() == 0u);
   HOU_ENSURE_DEV(get_byte_count() == chunkSignature.size);
 
@@ -228,15 +228,15 @@ void WavFileIn::readMetadata(const std::string& path)
   m_element_count = 0;
 
   // Update internal metadata.
-  setFormat(format.channels, format.bitsPerSample / 8u);
-  setSampleRate(format.sampleRate);
+  set_format(format.channels, format.bitsPerSample / 8u);
+  set_sample_rate(format.sampleRate);
 }
 
 
 
-void WavFileIn::on_read(void* buf, size_t elementSize, size_t bufSize)
+void wav_file_in::on_read(void* buf, size_t elementSize, size_t bufSize)
 {
-  HOU_EXPECT(((elementSize * bufSize) % (getChannelCount() * getBytesPerSample()))
+  HOU_EXPECT(((elementSize * bufSize) % (get_channel_count() * get_bytes_per_sample()))
     == 0u);
   m_element_count = m_file.read(buf, elementSize, bufSize);
   m_byte_count = m_element_count * elementSize;

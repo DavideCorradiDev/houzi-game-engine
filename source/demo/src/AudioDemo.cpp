@@ -20,12 +20,12 @@
 #include "hou/al/al_device.hpp"
 #include "hou/al/al_listener.hpp"
 
-#include "hou/aud/AudioContext.hpp"
-#include "hou/aud/AudioBuffer.hpp"
-#include "hou/aud/MemoryAudioSource.hpp"
-#include "hou/aud/OggFileIn.hpp"
-#include "hou/aud/StreamingAudioSource.hpp"
-#include "hou/aud/WavFileIn.hpp"
+#include "hou/aud/audio_context.hpp"
+#include "hou/aud/audio_buffer.hpp"
+#include "hou/aud/memory_audio_source.hpp"
+#include "hou/aud/ogg_file_in.hpp"
+#include "hou/aud/streaming_audio_source.hpp"
+#include "hou/aud/wav_file_in.hpp"
 
 using namespace hou;
 
@@ -49,14 +49,14 @@ int main()
 
   //****************
 
-  std::vector<std::string> deviceNames = AudioContext::get_device_names();
+  std::vector<std::string> deviceNames = audio_context::get_device_names();
   std::cout << "Available devices:" << std::endl;
   for(const auto& deviceName : deviceNames) {
     std::cout << deviceName << std::endl;
   }
 
-  AudioContext ac;
-  AudioContext::set_current(ac);
+  audio_context ac;
+  audio_context::set_current(ac);
 
   ALfloat listenerPos[] = {0.f, 0.f, 0.f};
   ALfloat listenerVel[] = {0.f, 0.f, 0.f};
@@ -69,10 +69,10 @@ int main()
   std::string filename = "source/houaud/test/data/TestWav-Stereo-16-44100.wav";
   // std::string longFilename = dataDir + u8"longsound.wav";
   std::string longFilename = dataDir + u8"test.ogg";
-  AudioBuffer buffer = AudioBuffer(WavFileIn(filename));
-  MemoryAudioSource source(&buffer);
-  StreamingAudioSource sas(std::make_unique<OggFileIn>(longFilename));
-  sas.setLooping(false);
+  audio_buffer buffer = audio_buffer(wav_file_in(filename));
+  memory_audio_source source(&buffer);
+  streaming_audio_source sas(std::make_unique<ogg_file_in>(longFilename));
+  sas.set_looping(false);
 
   bool running = true;
   stopwatch timer;
@@ -112,7 +112,7 @@ int main()
     }
     rw.clear(color::black);
     std::chrono::nanoseconds timePerFrame = timer.reset();
-    rnd.draw(rw, to_string(sas.getSamplePos()) + " / " + to_string(sas.get_sample_count())
+    rnd.draw(rw, to_string(sas.get_sample_pos()) + " / " + to_string(sas.get_sample_count())
       , ph_font, color::white, proj * offsetTrans);
     rw.display();
   }

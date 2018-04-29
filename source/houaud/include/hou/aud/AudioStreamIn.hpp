@@ -5,8 +5,8 @@
 #ifndef HOU_AUD_AUDIO_STREAM_IN_HPP
 #define HOU_AUD_AUDIO_STREAM_IN_HPP
 
-#include "hou/aud/AudExport.hpp"
-#include "hou/aud/AudioStream.hpp"
+#include "hou/aud/aud_export.hpp"
+#include "hou/aud/audio_stream.hpp"
 #include "hou/sys/stream_in.hpp"
 
 #include "hou/cor/not_null.hpp"
@@ -23,18 +23,18 @@ namespace hou
  *  read operations throw if reading a non-integer number of samples.
  *
  */
-class HOU_AUD_API AudioStreamIn
-  : public AudioStream
+class HOU_AUD_API audio_stream_in
+  : public audio_stream
   , public stream_in
 {
 public:
   /** Destructor.
    */
-  virtual ~AudioStreamIn() = 0;
+  virtual ~audio_stream_in() = 0;
 
   /** Get the number of samples read by the last read operation.
    */
-  size_t getReadSampleCount() const;
+  size_t get_read_sample_count() const;
 
   /** Reads the whole contents of the ph_stream into memory.
    *
@@ -48,7 +48,7 @@ public:
 
 }
 
-#include "hou/aud/AudioStreamIn.inl"
+#include "hou/aud/audio_stream_in.inl"
 
 #endif
 

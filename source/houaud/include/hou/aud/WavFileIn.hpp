@@ -5,8 +5,8 @@
 #ifndef HOU_AUD_WAV_FILE_IN_HPP
 #define HOU_AUD_WAV_FILE_IN_HPP
 
-#include "hou/aud/AudExport.hpp"
-#include "hou/aud/AudioStreamIn.hpp"
+#include "hou/aud/aud_export.hpp"
+#include "hou/aud/audio_stream_in.hpp"
 #include "hou/cor/non_copyable.hpp"
 
 #include "hou/sys/file.hpp"
@@ -18,9 +18,9 @@ namespace hou
 
 /** Input wav ph_file ph_stream.
  */
-class HOU_AUD_API WavFileIn
+class HOU_AUD_API wav_file_in
   : public non_copyable
-  , public AudioStreamIn
+  , public audio_stream_in
 {
 public:
   /** Checks if the ph_file corresponding to the given path is a wav ph_file.
@@ -38,17 +38,17 @@ public:
    *
    *  \param path the path to the ph_file to be opened.
    */
-  explicit WavFileIn(const std::string& path);
+  explicit wav_file_in(const std::string& path);
 
   /** Move constructor.
    *
    *  \param other the other object.
    */
-  WavFileIn(WavFileIn&& other);
+  wav_file_in(wav_file_in&& other);
 
   /** Destructor.
    */
-  virtual ~WavFileIn();
+  virtual ~wav_file_in();
 
   // stream overrides.
   bool eof() const final;
@@ -81,19 +81,19 @@ public:
    */
   binary_stream& move_byte_pos(byte_offset offset) final;
 
-  // AudioStream overrides.
+  // audio_stream overrides.
   size_t get_sample_count() const final;
-  SamplePosition getSamplePos() const final;
-  AudioStreamIn& setSamplePos(SamplePosition pos) final;
-  AudioStreamIn& moveSamplePos(SampleOffset offset) final;
+  sample_position get_sample_pos() const final;
+  audio_stream_in& set_sample_pos(sample_position pos) final;
+  audio_stream_in& move_sample_pos(sample_offset offset) final;
 
 private:
-  void readMetadata(const std::string& path);
+  void read_metadata(const std::string& path);
   void on_read(void* buf, size_t elementSize, size_t bufSize) final;
 
 private:
   file m_file;
-  size_t mDataOffset;
+  size_t m_data_offset;
   size_t m_byte_count;
   size_t m_element_count;
 };

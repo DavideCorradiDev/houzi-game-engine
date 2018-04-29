@@ -5,8 +5,8 @@
 #ifndef HOU_AUD_OGG_FILE_IN_HPP
 #define HOU_AUD_OGG_FILE_IN_HPP
 
-#include "hou/aud/AudExport.hpp"
-#include "hou/aud/AudioStreamIn.hpp"
+#include "hou/aud/aud_export.hpp"
+#include "hou/aud/audio_stream_in.hpp"
 
 #include "hou/cor/non_copyable.hpp"
 
@@ -25,9 +25,9 @@ namespace hou
 
 /** Input ogg ph_file ph_stream.
  */
-class HOU_AUD_API OggFileIn
+class HOU_AUD_API ogg_file_in
   : public non_copyable
-  , public AudioStreamIn
+  , public audio_stream_in
 {
 public:
   /** Checks if the ph_file corresponding to the given path is a ogg ph_file.
@@ -45,17 +45,17 @@ public:
    *
    *  \param path the path to the ph_file to be opened.
    */
-  explicit OggFileIn(const std::string& path);
+  explicit ogg_file_in(const std::string& path);
 
   /** Move constructor.
    *
    *  \param other the other object.
    */
-  OggFileIn(OggFileIn&& other);
+  ogg_file_in(ogg_file_in&& other);
 
   /** Destructor.
    */
-  virtual ~OggFileIn();
+  virtual ~ogg_file_in();
 
   // stream overrides.
   bool eof() const final;
@@ -88,20 +88,20 @@ public:
    */
   binary_stream& move_byte_pos(byte_offset offset) final;
 
-  // AudioStream overrides.
+  // audio_stream overrides.
   size_t get_sample_count() const final;
-  SamplePosition getSamplePos() const final;
-  AudioStreamIn& setSamplePos(SamplePosition pos) final;
-  AudioStreamIn& moveSamplePos(SampleOffset offset) final;
+  sample_position get_sample_pos() const final;
+  audio_stream_in& set_sample_pos(sample_position pos) final;
+  audio_stream_in& move_sample_pos(sample_offset offset) final;
 
 private:
-  void readMetadata();
+  void read_metadata();
   void on_read(void* buf, size_t elementSize, size_t bufSize) final;
 
 private:
-  std::unique_ptr<OggVorbis_File> mVorbisFile;
-  int mLogicalBitStream;
-  size_t mPcmSize;
+  std::unique_ptr<OggVorbis_File> m_vorbis_file;
+  int m_logical_bit_stream;
+  size_t m_pcm_size;
   size_t m_byte_count;
   size_t m_element_count;
   bool m_eof;

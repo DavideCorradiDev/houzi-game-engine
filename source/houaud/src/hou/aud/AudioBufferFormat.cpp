@@ -2,13 +2,13 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/aud/AudioBufferFormat.hpp"
+#include "hou/aud/audio_buffer_format.hpp"
 
 #include "hou/cor/cor_error.hpp"
 #include "hou/cor/error.hpp"
 
 #define AUDIO_BUFFER_FORMAT_CASE(format, os) \
-  case AudioBufferFormat::format:            \
+  case audio_buffer_format::format:            \
     return (os) << #format
 
 
@@ -16,7 +16,7 @@
 namespace hou
 {
 
-AudioBufferFormat getAudioBufferFormatEnum(uint channels, uint bytesPerSample)
+audio_buffer_format get_audio_buffer_format_enum(uint channels, uint bytesPerSample)
 {
   HOU_EXPECT((channels == 1u || channels == 2u)
     && (bytesPerSample == 1u || bytesPerSample == 2u));
@@ -24,38 +24,38 @@ AudioBufferFormat getAudioBufferFormatEnum(uint channels, uint bytesPerSample)
   {
     if(bytesPerSample == 1u)
     {
-      return AudioBufferFormat::Mono8;
+      return audio_buffer_format::mono8;
     }
     else if(bytesPerSample == 2u)
     {
-      return AudioBufferFormat::Mono16;
+      return audio_buffer_format::mono16;
     }
   }
   else if(channels == 2u)
   {
     if(bytesPerSample == 1u)
     {
-      return AudioBufferFormat::Stereo8;
+      return audio_buffer_format::stereo8;
     }
     else if(bytesPerSample == 2u)
     {
-      return AudioBufferFormat::Stereo16;
+      return audio_buffer_format::stereo16;
     }
   }
-  return AudioBufferFormat::Mono16;
+  return audio_buffer_format::mono16;
 }
 
 
 
-uint getAudioBufferFormatChannelCount(AudioBufferFormat format)
+uint get_audio_buffer_format_channel_count(audio_buffer_format format)
 {
   switch(format)
   {
-  case AudioBufferFormat::Mono8:
-  case AudioBufferFormat::Mono16:
+  case audio_buffer_format::mono8:
+  case audio_buffer_format::mono16:
     return 1u;
-  case AudioBufferFormat::Stereo8:
-  case AudioBufferFormat::Stereo16:
+  case audio_buffer_format::stereo8:
+  case audio_buffer_format::stereo16:
     return 2u;
   default:
     HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(format));
@@ -65,15 +65,15 @@ uint getAudioBufferFormatChannelCount(AudioBufferFormat format)
 
 
 
-uint getAudioBufferFormatBytesPerSample(AudioBufferFormat format)
+uint get_audio_buffer_format_bytes_per_sample(audio_buffer_format format)
 {
   switch(format)
   {
-  case AudioBufferFormat::Mono8:
-  case AudioBufferFormat::Stereo8:
+  case audio_buffer_format::mono8:
+  case audio_buffer_format::stereo8:
     return 1u;
-  case AudioBufferFormat::Stereo16:
-  case AudioBufferFormat::Mono16:
+  case audio_buffer_format::stereo16:
+  case audio_buffer_format::mono16:
     return 2u;
   default:
     HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(format));
@@ -83,14 +83,14 @@ uint getAudioBufferFormatBytesPerSample(AudioBufferFormat format)
 
 
 
-std::ostream& operator<<(std::ostream& os, AudioBufferFormat format)
+std::ostream& operator<<(std::ostream& os, audio_buffer_format format)
 {
   switch(format)
   {
-    AUDIO_BUFFER_FORMAT_CASE(Mono8, os);
-    AUDIO_BUFFER_FORMAT_CASE(Mono16, os);
-    AUDIO_BUFFER_FORMAT_CASE(Stereo8, os);
-    AUDIO_BUFFER_FORMAT_CASE(Stereo16, os);
+    AUDIO_BUFFER_FORMAT_CASE(mono8, os);
+    AUDIO_BUFFER_FORMAT_CASE(mono16, os);
+    AUDIO_BUFFER_FORMAT_CASE(stereo8, os);
+    AUDIO_BUFFER_FORMAT_CASE(stereo16, os);
   default:
     return os;
   }

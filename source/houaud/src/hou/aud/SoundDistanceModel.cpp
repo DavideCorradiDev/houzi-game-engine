@@ -2,10 +2,10 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/aud/SoundDistanceModel.hpp"
+#include "hou/aud/sound_distance_model.hpp"
 
 #define SOUND_DISTANCE_MODEL_CASE(dm, os) \
-  case SoundDistanceModel::dm:            \
+  case sound_distance_model::dm:            \
     return (os) << #dm
 
 
@@ -13,16 +13,16 @@
 namespace hou
 {
 
-std::ostream& operator<<(std::ostream& os, SoundDistanceModel dm)
+std::ostream& operator<<(std::ostream& os, sound_distance_model dm)
 {
   switch(dm)
   {
-    SOUND_DISTANCE_MODEL_CASE(InverseDistance, os);
-    SOUND_DISTANCE_MODEL_CASE(InverseDistanceClamped, os);
-    SOUND_DISTANCE_MODEL_CASE(LinearDistance, os);
-    SOUND_DISTANCE_MODEL_CASE(LinearDistanceClamped, os);
-    SOUND_DISTANCE_MODEL_CASE(ExponentDistance, os);
-    SOUND_DISTANCE_MODEL_CASE(ExponentDistanceClamped, os);
+    SOUND_DISTANCE_MODEL_CASE(inverse_distance, os);
+    SOUND_DISTANCE_MODEL_CASE(inverse_distance_clamped, os);
+    SOUND_DISTANCE_MODEL_CASE(linear_distance, os);
+    SOUND_DISTANCE_MODEL_CASE(linear_distance_clamped, os);
+    SOUND_DISTANCE_MODEL_CASE(exponent_distance, os);
+    SOUND_DISTANCE_MODEL_CASE(exponent_distance_clamped, os);
   default:
     return os;
   }

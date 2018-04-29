@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/aud/Listener.hpp"
+#include "hou/aud/listener.hpp"
 
 #include "hou/al/al_listener.hpp"
 
@@ -14,17 +14,17 @@
 namespace hou
 {
 
-namespace Listener
+namespace listener
 {
 
-float getGain()
+float get_gain()
 {
   return static_cast<float>(al::get_listener_gain());
 }
 
 
 
-void setGain(float gain)
+void set_gain(float gain)
 {
   HOU_EXPECT(gain >= 0.f);
   al::set_listener_gain(static_cast<ALfloat>(gain));
@@ -48,7 +48,7 @@ void set_position(const vec3f& pos)
 
 
 
-vec3f getVelocity()
+vec3f get_velocity()
 {
   ALfloat vel[3];
   al::get_listener_velocity(vel);
@@ -57,14 +57,14 @@ vec3f getVelocity()
 
 
 
-void setVelocity(const vec3f& vel)
+void set_velocity(const vec3f& vel)
 {
   al::set_listener_velocity(reinterpret_cast<const ALfloat*>(vel.data()));
 }
 
 
 
-Rot3f getOrientation()
+Rot3f get_orientation()
 {
   ALfloat ori[6];
   al::get_listener_orientation(ori);
@@ -89,7 +89,7 @@ Rot3f getOrientation()
 
 
 
-void setOrientation(const Rot3f& ori)
+void set_orientation(const Rot3f& ori)
 {
   mat3x3f rotMat = ori.get_matrix();
   ALfloat value[6] = {-rotMat(0, 2), -rotMat(1, 2), -rotMat(2, 2), rotMat(0, 1),
@@ -97,6 +97,6 @@ void setOrientation(const Rot3f& ori)
   al::set_listener_orientation(reinterpret_cast<const ALfloat*>(value));
 }
 
-}  // namespace Listener
+}  // namespace listener
 
 }  // namespace hou

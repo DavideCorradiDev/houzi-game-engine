@@ -7,7 +7,7 @@
 
 #include <gtest/gtest.h>
 
-#include "hou/aud/AudioContext.hpp"
+#include "hou/aud/audio_context.hpp"
 
 #include <memory>
 
@@ -20,7 +20,7 @@ public:
   virtual ~TestAudBaseTestSpecificContext() = 0;
 
 public:
-  hou::AudioContext mContext;
+  hou::audio_context mContext;
 };
 
 #endif

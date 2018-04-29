@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/aud/EmptyAudioStreamIn.hpp"
+#include "hou/aud/empty_audio_stream_in.hpp"
 
 #include "hou/sys/sys_error.hpp"
 
@@ -11,56 +11,56 @@
 namespace hou
 {
 
-EmptyAudioStreamIn::EmptyAudioStreamIn()
-  : AudioStreamIn()
+empty_audio_stream_in::empty_audio_stream_in()
+  : audio_stream_in()
 {
-  setFormat(1u, 1u);
-  setSampleRate(1u);
+  set_format(1u, 1u);
+  set_sample_rate(1u);
 }
 
 
 
-EmptyAudioStreamIn::~EmptyAudioStreamIn()
+empty_audio_stream_in::~empty_audio_stream_in()
 {}
 
 
 
-bool EmptyAudioStreamIn::eof() const
+bool empty_audio_stream_in::eof() const
 {
   return true;
 }
 
 
 
-bool EmptyAudioStreamIn::error() const
+bool empty_audio_stream_in::error() const
 {
   return false;
 }
 
 
 
-size_t EmptyAudioStreamIn::get_byte_count() const
+size_t empty_audio_stream_in::get_byte_count() const
 {
   return 0u;
 }
 
 
 
-size_t EmptyAudioStreamIn::get_read_element_count() const
+size_t empty_audio_stream_in::get_read_element_count() const
 {
   return 0u;
 }
 
 
 
-EmptyAudioStreamIn::byte_position EmptyAudioStreamIn::get_byte_pos() const
+empty_audio_stream_in::byte_position empty_audio_stream_in::get_byte_pos() const
 {
   return 0u;
 }
 
 
 
-binary_stream& EmptyAudioStreamIn::set_byte_pos(byte_position pos)
+binary_stream& empty_audio_stream_in::set_byte_pos(byte_position pos)
 {
   HOU_RUNTIME_CHECK(pos == 0, get_text(sys_error::file_seek));
   HOU_EXPECT(pos == 0);
@@ -69,7 +69,7 @@ binary_stream& EmptyAudioStreamIn::set_byte_pos(byte_position pos)
 
 
 
-binary_stream& EmptyAudioStreamIn::move_byte_pos(byte_offset offset)
+binary_stream& empty_audio_stream_in::move_byte_pos(byte_offset offset)
 {
   HOU_RUNTIME_CHECK(offset == 0, get_text(sys_error::file_seek));
   return *this;
@@ -77,21 +77,21 @@ binary_stream& EmptyAudioStreamIn::move_byte_pos(byte_offset offset)
 
 
 
-size_t EmptyAudioStreamIn::get_sample_count() const
+size_t empty_audio_stream_in::get_sample_count() const
 {
   return 0u;
 }
 
 
 
-EmptyAudioStreamIn::SamplePosition EmptyAudioStreamIn::getSamplePos() const
+empty_audio_stream_in::sample_position empty_audio_stream_in::get_sample_pos() const
 {
   return 0u;
 }
 
 
 
-AudioStreamIn& EmptyAudioStreamIn::setSamplePos(SamplePosition pos)
+audio_stream_in& empty_audio_stream_in::set_sample_pos(sample_position pos)
 {
   HOU_RUNTIME_CHECK(pos == 0, get_text(sys_error::file_seek));
   return *this;
@@ -99,7 +99,7 @@ AudioStreamIn& EmptyAudioStreamIn::setSamplePos(SamplePosition pos)
 
 
 
-AudioStreamIn& EmptyAudioStreamIn::moveSamplePos(SampleOffset offset)
+audio_stream_in& empty_audio_stream_in::move_sample_pos(sample_offset offset)
 {
   HOU_RUNTIME_CHECK(offset == 0, get_text(sys_error::file_seek));
   return *this;
@@ -107,14 +107,14 @@ AudioStreamIn& EmptyAudioStreamIn::moveSamplePos(SampleOffset offset)
 
 
 
-size_t EmptyAudioStreamIn::get_read_byte_count() const
+size_t empty_audio_stream_in::get_read_byte_count() const
 {
   return 0u;
 }
 
 
 
-void EmptyAudioStreamIn::on_read(void*, size_t, size_t)
+void empty_audio_stream_in::on_read(void*, size_t, size_t)
 {}
 
 }

@@ -2,64 +2,64 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/aud/AudioStream.hpp"
+#include "hou/aud/audio_stream.hpp"
 
 
 
 namespace hou
 {
 
-AudioStream::AudioStream()
+audio_stream::audio_stream()
   : binary_stream()
-  , mFormat(AudioBufferFormat::Mono8)
-  , mSampleRate(0u)
+  , m_format(audio_buffer_format::mono8)
+  , m_sample_rate(0u)
 {}
 
 
 
-AudioStream::~AudioStream()
+audio_stream::~audio_stream()
 {}
 
 
 
-AudioBufferFormat AudioStream::get_format() const
+audio_buffer_format audio_stream::get_format() const
 {
-  return mFormat;
+  return m_format;
 }
 
 
 
-uint AudioStream::getChannelCount() const
+uint audio_stream::get_channel_count() const
 {
-  return getAudioBufferFormatChannelCount(mFormat);
+  return get_audio_buffer_format_channel_count(m_format);
 }
 
 
 
-uint AudioStream::getBytesPerSample() const
+uint audio_stream::get_bytes_per_sample() const
 {
-  return getAudioBufferFormatBytesPerSample(mFormat);
+  return get_audio_buffer_format_bytes_per_sample(m_format);
 }
 
 
 
-uint AudioStream::getSampleRate() const
+uint audio_stream::get_sample_rate() const
 {
-  return mSampleRate;
+  return m_sample_rate;
 }
 
 
 
-void AudioStream::setFormat(uint channels, uint bytesPerSample)
+void audio_stream::set_format(uint channels, uint bytesPerSample)
 {
-  mFormat = getAudioBufferFormatEnum(channels, bytesPerSample);
+  m_format = get_audio_buffer_format_enum(channels, bytesPerSample);
 }
 
 
 
-void AudioStream::setSampleRate(uint sampleRate)
+void audio_stream::set_sample_rate(uint sampleRate)
 {
-  mSampleRate = sampleRate;
+  m_sample_rate = sampleRate;
 }
 
 }  // namespace hou

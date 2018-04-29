@@ -2,9 +2,9 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/aud/AudioBuffer.hpp"
+#include "hou/aud/audio_buffer.hpp"
 
-#include "hou/aud/AudioStreamIn.hpp"
+#include "hou/aud/audio_stream_in.hpp"
 
 
 
@@ -18,14 +18,14 @@ static constexpr uint bitsPerByte = 8u;
 
 
 
-AudioBuffer::AudioBuffer()
-  : AudioBuffer(std::vector<uint8_t>(2u, 0u), AudioBufferFormat::Mono16, 1u)
+audio_buffer::audio_buffer()
+  : audio_buffer(std::vector<uint8_t>(2u, 0u), audio_buffer_format::mono16, 1u)
 {}
 
 
 
-AudioBuffer::AudioBuffer(
-  const span<const uint8_t>& data, AudioBufferFormat format, int smlRate)
+audio_buffer::audio_buffer(
+  const span<const uint8_t>& data, audio_buffer_format format, int smlRate)
   : non_copyable()
   , m_handle(al::buffer_handle::generate())
 {
@@ -34,14 +34,14 @@ AudioBuffer::AudioBuffer(
 
 
 
-AudioBuffer::AudioBuffer(
-  std::vector<uint8_t>&& data, AudioBufferFormat format, int smpRate)
-  : AudioBuffer(span<const uint8_t>(data), format, smpRate)
+audio_buffer::audio_buffer(
+  std::vector<uint8_t>&& data, audio_buffer_format format, int smpRate)
+  : audio_buffer(span<const uint8_t>(data), format, smpRate)
 {}
 
 
 
-AudioBuffer::AudioBuffer(AudioStreamIn& audioStream)
+audio_buffer::audio_buffer(audio_stream_in& audioStream)
   : non_copyable()
   , m_handle(al::buffer_handle::generate())
 {
@@ -50,7 +50,7 @@ AudioBuffer::AudioBuffer(AudioStreamIn& audioStream)
 
 
 
-AudioBuffer::AudioBuffer(AudioStreamIn&& audioStream)
+audio_buffer::audio_buffer(audio_stream_in&& audioStream)
   : non_copyable()
   , m_handle(al::buffer_handle::generate())
 {
@@ -59,66 +59,66 @@ AudioBuffer::AudioBuffer(AudioStreamIn&& audioStream)
 
 
 
-AudioBuffer::AudioBuffer(AudioBuffer&& other)
+audio_buffer::audio_buffer(audio_buffer&& other)
   : m_handle(std::move(other.m_handle))
 {}
 
 
 
-const al::buffer_handle& AudioBuffer::get_handle() const
+const al::buffer_handle& audio_buffer::get_handle() const
 {
   return m_handle;
 }
 
 
 
-AudioBufferFormat AudioBuffer::get_format() const
+audio_buffer_format audio_buffer::get_format() const
 {
-  return getAudioBufferFormatEnum(getChannelCount(), getBytesPerSample());
+  return get_audio_buffer_format_enum(get_channel_count(), get_bytes_per_sample());
 }
 
 
 
-uint AudioBuffer::getBytesPerSample() const
+uint audio_buffer::get_bytes_per_sample() const
 {
   return static_cast<uint>(al::get_buffer_bits(m_handle) / bitsPerByte);
 }
 
 
 
-uint AudioBuffer::getChannelCount() const
+uint audio_buffer::get_channel_count() const
 {
   return static_cast<uint>(al::get_buffer_channels(m_handle));
 }
 
 
 
-int AudioBuffer::getSampleRate() const
+int audio_buffer::get_sample_rate() const
 {
   return static_cast<int>(al::get_buffer_frequency(m_handle));
 }
 
 
 
-uint AudioBuffer::get_byte_count() const
+uint audio_buffer::get_byte_count() const
 {
   return static_cast<uint>(al::get_buffer_size(m_handle));
 }
 
 
 
-uint AudioBuffer::get_sample_count() const
+uint audio_buffer::get_sample_count() const
 {
-  HOU_EXPECT_DEV(getBytesPerSample() != 0u);
+  HOU_EXPECT_DEV(get_bytes_per_sample() != 0u);
   HOU_EXPECT_DEV(
-    get_byte_count() % (getChannelCount() * getBytesPerSample()) == 0);
-  return get_byte_count() / (getChannelCount() * getBytesPerSample());
+    get_byte_count() % (get_channel_count() * get_bytes_per_sample()) == 0);
+  return get_byte_count() / (get_channel_count() * get_bytes_per_sample());
 }
 
 
 
-void AudioBuffer::set_data(
-  const span<const uint8_t>& data, AudioBufferFormat format, int smlRate)
+void audio_buffer::set_data(
+  const span<const uint8_t>& data, audio_buffer_format format, int smlRate)
 {
   HOU_EXPECT_DEV(sizeof(uint8_t) == 1u);
   al::set_buffer_data(m_handle, static_cast<ALenum>(format),
@@ -128,26 +128,26 @@ void AudioBuffer::set_data(
 
 
 
-void AudioBuffer::set_data(
-  std::vector<uint8_t>&& data, AudioBufferFormat format, int smlRate)
+void audio_buffer::set_data(
+  std::vector<uint8_t>&& data, audio_buffer_format format, int smlRate)
 {
   set_data(span<const uint8_t>(data), format, smlRate);
 }
 
 
 
-void AudioBuffer::set_data(AudioStreamIn& audioStream)
+void audio_buffer::set_data(audio_stream_in& audioStream)
 {
   set_data(audioStream.read_all<std::vector<uint8_t>>(), audioStream.get_format(),
-    audioStream.getSampleRate());
+    audioStream.get_sample_rate());
 }
 
 
 
-void AudioBuffer::set_data(AudioStreamIn&& audioStream)
+void audio_buffer::set_data(audio_stream_in&& audioStream)
 {
   set_data(audioStream.read_all<std::vector<uint8_t>>(), audioStream.get_format(),
-    audioStream.getSampleRate());
+    audioStream.get_sample_rate());
 }
 
 }  // namespace hou

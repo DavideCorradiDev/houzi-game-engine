@@ -5,7 +5,7 @@
 #ifndef HOU_AUD_AUDIO_BUFFER_FORMAT_HPP
 #define HOU_AUD_AUDIO_BUFFER_FORMAT_HPP
 
-#include "hou/aud/AudExport.hpp"
+#include "hou/aud/aud_export.hpp"
 
 #include "hou/al/open_al.hpp"
 
@@ -20,16 +20,16 @@ namespace hou
 
 /** Enumeration class for audio formats.
  */
-enum class AudioBufferFormat : ALenum
+enum class audio_buffer_format : ALenum
 {
   /** 8-bit mono audio format. */
-  Mono8 = AL_FORMAT_MONO8,
+  mono8 = AL_FORMAT_MONO8,
   /** 16-bit mono audio format. */
-  Mono16 = AL_FORMAT_MONO16,
+  mono16 = AL_FORMAT_MONO16,
   /** 8-bit stereo audio format. */
-  Stereo8 = AL_FORMAT_STEREO8,
+  stereo8 = AL_FORMAT_STEREO8,
   /** 16-bit stereo audio format. */
-  Stereo16 = AL_FORMAT_STEREO16,
+  stereo16 = AL_FORMAT_STEREO16,
 };
 
 /** Gets the appropriate audio format given the number of channels and bytes per
@@ -44,7 +44,7 @@ enum class AudioBufferFormat : ALenum
  *  \return the audio format corresponding to the given number of channels and
  *  bytes per sample.
  */
-HOU_AUD_API AudioBufferFormat getAudioBufferFormatEnum(
+HOU_AUD_API audio_buffer_format get_audio_buffer_format_enum(
   uint channels, uint bytesPerSample);
 
 /** Gets the number of channels associated to an audio format.
@@ -53,7 +53,7 @@ HOU_AUD_API AudioBufferFormat getAudioBufferFormatEnum(
  *  \return the number of channels of the format, either 1 (single channel, mono
  *  format) or 2 (double channel, stereo format).
  */
-HOU_AUD_API uint getAudioBufferFormatChannelCount(AudioBufferFormat format);
+HOU_AUD_API uint get_audio_buffer_format_channel_count(audio_buffer_format format);
 
 /** Gets the number of bytes per sample associated to an audio format.
  *
@@ -61,16 +61,16 @@ HOU_AUD_API uint getAudioBufferFormatChannelCount(AudioBufferFormat format);
  *  \return the number of bytes per sample of the format, either 1 (8-bit
  *  format) or 2 (16-bit format).
  */
-HOU_AUD_API uint getAudioBufferFormatBytesPerSample(AudioBufferFormat format);
+HOU_AUD_API uint get_audio_buffer_format_bytes_per_sample(audio_buffer_format format);
 
-/** Writes a AudioBufferFormat enum into a ph_stream.
+/** Writes a audio_buffer_format enum into a ph_stream.
  *
  *  \param os the ph_stream.
- *  \param format the AudioBufferFormat enum.
+ *  \param format the audio_buffer_format enum.
  *  \return a reference to the ph_stream.
  */
 HOU_AUD_API std::ostream& operator<<(
-  std::ostream& os, AudioBufferFormat format);
+  std::ostream& os, audio_buffer_format format);
 
 }  // namespace hou
 

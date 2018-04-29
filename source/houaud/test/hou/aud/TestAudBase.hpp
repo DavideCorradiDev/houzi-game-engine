@@ -7,7 +7,7 @@
 
 #include <gtest/gtest.h>
 
-#include "hou/aud/AudioContext.hpp"
+#include "hou/aud/audio_context.hpp"
 
 #include <memory>
 
@@ -24,7 +24,7 @@ public:
   virtual ~TestAudBase() = 0;
 
 public:
-  static std::unique_ptr<hou::AudioContext> sContext;
+  static std::unique_ptr<hou::audio_context> sContext;
 };
 
 #endif

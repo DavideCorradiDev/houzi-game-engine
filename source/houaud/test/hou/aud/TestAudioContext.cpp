@@ -4,7 +4,7 @@
 
 #include "hou/Test.hpp"
 
-#include "hou/aud/AudioContext.hpp"
+#include "hou/aud/audio_context.hpp"
 
 using namespace hou;
 
@@ -12,7 +12,7 @@ using namespace hou;
 
 TEST(TestAudioContext, DefaultCreation)
 {
-  AudioContext ctx;
+  audio_context ctx;
   SUCCEED();
 }
 
@@ -20,10 +20,10 @@ TEST(TestAudioContext, DefaultCreation)
 
 TEST(TestAudioContext, DeviceNameCreation)
 {
-  std::vector<std::string> deviceNames = AudioContext::get_device_names();
+  std::vector<std::string> deviceNames = audio_context::get_device_names();
   for(const auto& deviceName : deviceNames)
   {
-    AudioContext ctx(deviceName);
+    audio_context ctx(deviceName);
   }
   SUCCEED();
 }
@@ -32,9 +32,9 @@ TEST(TestAudioContext, DeviceNameCreation)
 
 TEST(TestAudioContext, MoveConstructor)
 {
-  AudioContext ctxDummy;
-  AudioContext::set_current(ctxDummy);
-  AudioContext ctx = std::move(ctxDummy);
+  audio_context ctxDummy;
+  audio_context::set_current(ctxDummy);
+  audio_context ctx = std::move(ctxDummy);
   EXPECT_TRUE(ctx.is_current());
 }
 
@@ -43,29 +43,29 @@ TEST(TestAudioContext, MoveConstructor)
 TEST(TestAudioContext, SetCurrent)
 {
   {
-    AudioContext ctx1;
-    AudioContext ctx2;
+    audio_context ctx1;
+    audio_context ctx2;
 
     EXPECT_FALSE(ctx1.is_current());
     EXPECT_FALSE(ctx2.is_current());
 
-    AudioContext::set_current(ctx1);
+    audio_context::set_current(ctx1);
     EXPECT_TRUE(ctx1.is_current());
     EXPECT_FALSE(ctx2.is_current());
 
-    AudioContext::set_current(ctx2);
+    audio_context::set_current(ctx2);
     EXPECT_FALSE(ctx1.is_current());
     EXPECT_TRUE(ctx2.is_current());
 
-    AudioContext::set_current(ctx2);
+    audio_context::set_current(ctx2);
     EXPECT_FALSE(ctx1.is_current());
     EXPECT_TRUE(ctx2.is_current());
 
-    AudioContext::unset_current();
+    audio_context::unset_current();
     EXPECT_FALSE(ctx1.is_current());
     EXPECT_FALSE(ctx2.is_current());
 
-    AudioContext::unset_current();
+    audio_context::unset_current();
     EXPECT_FALSE(ctx1.is_current());
     EXPECT_FALSE(ctx2.is_current());
   }

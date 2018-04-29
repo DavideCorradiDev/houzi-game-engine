@@ -2,10 +2,10 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/aud/StreamingAudioSource.hpp"
+#include "hou/aud/streaming_audio_source.hpp"
 
-#include "hou/aud/AudioStreamIn.hpp"
-#include "hou/aud/EmptyAudioStreamIn.hpp"
+#include "hou/aud/audio_stream_in.hpp"
+#include "hou/aud/empty_audio_stream_in.hpp"
 
 #include <functional>
 
@@ -24,206 +24,206 @@ constexpr size_t sDefaultBufferByteCount = 44100u;
 
 
 
-StreamingAudioSource::StreamingAudioSource()
-  : StreamingAudioSource(std::make_unique<EmptyAudioStreamIn>())
+streaming_audio_source::streaming_audio_source()
+  : streaming_audio_source(std::make_unique<empty_audio_stream_in>())
 {}
 
 
 
-StreamingAudioSource::StreamingAudioSource(
-  not_null<std::unique_ptr<AudioStreamIn>> audioStream)
-  : AudioSource()
-  , mThread()
-  , mThreadMutex()
-  , mAudioStream(std::move(audioStream))
-  , mBufferQueue(sDefaultBufferCount)
-  , mStreamingThreadEndRequested(false)
-  , mLooping(false)
-  , mSamplePos(0u)
-  , mBufferByteCount(sDefaultBufferByteCount)
+streaming_audio_source::streaming_audio_source(
+  not_null<std::unique_ptr<audio_stream_in>> audioStream)
+  : audio_source()
+  , m_thread()
+  , m_thread_mutex()
+  , m_audio_stream(std::move(audioStream))
+  , m_buffer_queue(sDefaultBufferCount)
+  , m_streaming_thread_end_requested(false)
+  , m_looping(false)
+  , m_sample_pos(0u)
+  , m_buffer_byte_count(sDefaultBufferByteCount)
 {
-  mAudioStream->setSamplePos(0u);
-  mThread = std::thread(std::bind(&StreamingAudioSource::threadFunction, this));
+  m_audio_stream->set_sample_pos(0u);
+  m_thread = std::thread(std::bind(&streaming_audio_source::thread_function, this));
 }
 
 
 
-StreamingAudioSource::~StreamingAudioSource()
-{
-  stop();
-  mStreamingThreadEndRequested = true;
-  mThread.join();
-  freeBuffers();
-}
-
-
-
-void StreamingAudioSource::setStream(
-  not_null<std::unique_ptr<AudioStreamIn>> audioStream)
+streaming_audio_source::~streaming_audio_source()
 {
   stop();
-  std::lock_guard<std::mutex> lock(mThreadMutex);
-  mAudioStream = std::move(audioStream);
-  setSamplePosAndStreamCursor(0u);
+  m_streaming_thread_end_requested = true;
+  m_thread.join();
+  free_buffers();
 }
 
 
 
-void StreamingAudioSource::setBufferCount(size_t bufferCount)
+void streaming_audio_source::set_stream(
+  not_null<std::unique_ptr<audio_stream_in>> audioStream)
+{
+  stop();
+  std::lock_guard<std::mutex> lock(m_thread_mutex);
+  m_audio_stream = std::move(audioStream);
+  set_sample_pos_and_stream_cursor(0u);
+}
+
+
+
+void streaming_audio_source::set_buffer_count(size_t bufferCount)
 {
   HOU_EXPECT(bufferCount > 0u);
   stop();
-  std::lock_guard<std::mutex> lock(mThreadMutex);
-  freeBuffers();
-  mBufferQueue = BufferQueue(bufferCount);
+  std::lock_guard<std::mutex> lock(m_thread_mutex);
+  free_buffers();
+  m_buffer_queue = buffer_queue(bufferCount);
 }
 
 
 
-size_t StreamingAudioSource::getBufferCount() const
+size_t streaming_audio_source::get_buffer_count() const
 {
-  return mBufferQueue.getBufferCount();
+  return m_buffer_queue.get_buffer_count();
 }
 
 
 
-void StreamingAudioSource::setBufferSampleCount(size_t bufferSampleCount)
+void streaming_audio_source::set_buffer_sample_count(size_t bufferSampleCount)
 {
   HOU_EXPECT(bufferSampleCount > 0u);
   stop();
-  std::lock_guard<std::mutex> lock(mThreadMutex);
-  mBufferByteCount = bufferSampleCount
-    * (mAudioStream->getChannelCount() * mAudioStream->getBytesPerSample());
+  std::lock_guard<std::mutex> lock(m_thread_mutex);
+  m_buffer_byte_count = bufferSampleCount
+    * (m_audio_stream->get_channel_count() * m_audio_stream->get_bytes_per_sample());
 }
 
 
 
-size_t StreamingAudioSource::getBufferSampleCount() const
+size_t streaming_audio_source::get_buffer_sample_count() const
 {
-  return mBufferByteCount
-    / (mAudioStream->getChannelCount() * mAudioStream->getBytesPerSample());
+  return m_buffer_byte_count
+    / (m_audio_stream->get_channel_count() * m_audio_stream->get_bytes_per_sample());
 }
 
 
 
-AudioBufferFormat StreamingAudioSource::get_format() const
+audio_buffer_format streaming_audio_source::get_format() const
 {
-  return mAudioStream->get_format();
+  return m_audio_stream->get_format();
 }
 
 
 
-uint StreamingAudioSource::getChannelCount() const
+uint streaming_audio_source::get_channel_count() const
 {
-  return mAudioStream->getChannelCount();
+  return m_audio_stream->get_channel_count();
 }
 
 
 
-uint StreamingAudioSource::getBytesPerSample() const
+uint streaming_audio_source::get_bytes_per_sample() const
 {
-  return mAudioStream->getBytesPerSample();
+  return m_audio_stream->get_bytes_per_sample();
 }
 
 
 
-uint StreamingAudioSource::getSampleRate() const
+uint streaming_audio_source::get_sample_rate() const
 {
-  return mAudioStream->getSampleRate();
+  return m_audio_stream->get_sample_rate();
 }
 
 
 
-uint StreamingAudioSource::get_sample_count() const
+uint streaming_audio_source::get_sample_count() const
 {
-  return mAudioStream->get_sample_count();
+  return m_audio_stream->get_sample_count();
 }
 
 
 
-void StreamingAudioSource::setLooping(bool looping)
+void streaming_audio_source::set_looping(bool looping)
 {
-  mLooping = looping;
+  m_looping = looping;
 }
 
 
 
-bool StreamingAudioSource::isLooping() const
+bool streaming_audio_source::is_looping() const
 {
-  return mLooping;
+  return m_looping;
 }
 
 
 
-void StreamingAudioSource::onSetSamplePos(uint value)
+void streaming_audio_source::on_set_sample_pos(uint value)
 {
-  std::lock_guard<std::mutex> lock(mThreadMutex);
-  freeBuffers();
-  setSamplePosAndStreamCursor(value);
-  fillBuffers();
+  std::lock_guard<std::mutex> lock(m_thread_mutex);
+  free_buffers();
+  set_sample_pos_and_stream_cursor(value);
+  fill_buffers();
 }
 
 
 
-uint StreamingAudioSource::onGetSamplePos() const
+uint streaming_audio_source::on_get_sample_pos() const
 {
   uint sampleCount = get_sample_count();
   return sampleCount == 0u
     ? 0u
-    : (mSamplePos + AudioSource::onGetSamplePos()) % get_sample_count();
+    : (m_sample_pos + audio_source::on_get_sample_pos()) % get_sample_count();
 }
 
 
 
-void StreamingAudioSource::threadFunction()
+void streaming_audio_source::thread_function()
 {
-  while(!mStreamingThreadEndRequested)
+  while(!m_streaming_thread_end_requested)
   {
-    std::lock_guard<std::mutex> lock(mThreadMutex);
-    freeBuffers();
-    if(getState() == AudioSourceState::Playing)
+    std::lock_guard<std::mutex> lock(m_thread_mutex);
+    free_buffers();
+    if(get_state() == audio_source_state::playing)
     {
-      fillBuffers();
+      fill_buffers();
     }
   }
 }
 
 
 
-std::vector<uint8_t> StreamingAudioSource::readDataChunk(size_t chunkSize)
+std::vector<uint8_t> streaming_audio_source::read_data_chunk(size_t chunkSize)
 {
   std::vector<uint8_t> data(chunkSize);
-  mAudioStream->read(data);
-  data.resize(mAudioStream->get_read_byte_count());
+  m_audio_stream->read(data);
+  data.resize(m_audio_stream->get_read_byte_count());
   return data;
 }
 
 
 
-void StreamingAudioSource::freeBuffers()
+void streaming_audio_source::free_buffers()
 {
   uint processedBuffers = al::get_source_processed_buffers(get_handle());
   std::vector<ALuint> bufferNames(processedBuffers, 0);
   al::source_unqueue_buffers(
     get_handle(), static_cast<ALsizei>(bufferNames.size()), bufferNames.data());
-  uint processedBytes = mBufferQueue.freeBuffers(processedBuffers);
-  setSamplePosVariable(mSamplePos
+  uint processedBytes = m_buffer_queue.free_buffers(processedBuffers);
+  set_sample_pos_variable(m_sample_pos
     + processedBytes
-      / (mAudioStream->getChannelCount() * mAudioStream->getBytesPerSample()));
+      / (m_audio_stream->get_channel_count() * m_audio_stream->get_bytes_per_sample()));
 }
 
 
 
-void StreamingAudioSource::fillBuffers()
+void streaming_audio_source::fill_buffers()
 {
-  while(get_sample_count() > 0 && mBufferQueue.getFreeBufferCount() > 0)
+  while(get_sample_count() > 0 && m_buffer_queue.get_free_buffer_count() > 0)
   {
-    std::vector<uint8_t> data = readDataChunk(mBufferByteCount);
+    std::vector<uint8_t> data = read_data_chunk(m_buffer_byte_count);
     if(data.empty())
     {
-      if(mLooping)
+      if(m_looping)
       {
-        mAudioStream->setSamplePos(0u);
+        m_audio_stream->set_sample_pos(0u);
       }
       else
       {
@@ -232,9 +232,9 @@ void StreamingAudioSource::fillBuffers()
     }
     else
     {
-      ALuint bufferName = mBufferQueue
-                            .fillBuffer(data, mAudioStream->get_format(),
-                              mAudioStream->getSampleRate())
+      ALuint bufferName = m_buffer_queue
+                            .fill_buffer(data, m_audio_stream->get_format(),
+                              m_audio_stream->get_sample_rate())
                             .get_handle()
                             .get_name();
       al::source_queue_buffers(get_handle(), 1u, &bufferName);
@@ -244,77 +244,77 @@ void StreamingAudioSource::fillBuffers()
 
 
 
-void StreamingAudioSource::setSamplePosVariable(size_t pos)
+void streaming_audio_source::set_sample_pos_variable(size_t pos)
 {
   uint sampleCount = get_sample_count();
-  mSamplePos = sampleCount == 0u ? 0u : pos % get_sample_count();
+  m_sample_pos = sampleCount == 0u ? 0u : pos % get_sample_count();
 }
 
 
 
-void StreamingAudioSource::setSamplePosAndStreamCursor(size_t pos)
+void streaming_audio_source::set_sample_pos_and_stream_cursor(size_t pos)
 {
-  setSamplePosVariable(pos);
-  mAudioStream->setSamplePos(pos);
+  set_sample_pos_variable(pos);
+  m_audio_stream->set_sample_pos(pos);
 }
 
 
 
-StreamingAudioSource::BufferQueue::BufferQueue(size_t bufferCount)
-  : mBuffers(bufferCount)
-  , mBufferSampleCounts()
-  , mFreeBufferCount(bufferCount)
-  , mCurrentIndex(0u)
+streaming_audio_source::buffer_queue::buffer_queue(size_t bufferCount)
+  : m_buffers(bufferCount)
+  , m_buffer_sample_counts()
+  , m_free_buffer_count(bufferCount)
+  , m_current_index(0u)
 {}
 
 
 
-size_t StreamingAudioSource::BufferQueue::freeBuffers(size_t count)
+size_t streaming_audio_source::buffer_queue::free_buffers(size_t count)
 {
-  mFreeBufferCount += count;
-  HOU_ENSURE_DEV(mFreeBufferCount <= mBuffers.size());
+  m_free_buffer_count += count;
+  HOU_ENSURE_DEV(m_free_buffer_count <= m_buffers.size());
   size_t freedBytes = 0u;
   for(uint i = 0; i < count; ++i)
   {
-    freedBytes += mBufferSampleCounts.front();
-    mBufferSampleCounts.pop();
+    freedBytes += m_buffer_sample_counts.front();
+    m_buffer_sample_counts.pop();
   }
   return freedBytes;
 }
 
 
 
-const AudioBuffer& StreamingAudioSource::BufferQueue::fillBuffer(
-  const std::vector<uint8_t>& data, AudioBufferFormat format, int sampleRate)
+const audio_buffer& streaming_audio_source::buffer_queue::fill_buffer(
+  const std::vector<uint8_t>& data, audio_buffer_format format, int sampleRate)
 {
-  HOU_EXPECT_DEV(mFreeBufferCount > 0);
-  AudioBuffer& buffer = mBuffers[mCurrentIndex];
+  HOU_EXPECT_DEV(m_free_buffer_count > 0);
+  audio_buffer& buffer = m_buffers[m_current_index];
   buffer.set_data(data, format, sampleRate);
-  mCurrentIndex = (mCurrentIndex + 1) % mBuffers.size();
-  --mFreeBufferCount;
-  mBufferSampleCounts.push(data.size());
+  m_current_index = (m_current_index + 1) % m_buffers.size();
+  --m_free_buffer_count;
+  m_buffer_sample_counts.push(data.size());
   return buffer;
 }
 
 
 
-size_t StreamingAudioSource::BufferQueue::getFreeBufferCount() const
+size_t streaming_audio_source::buffer_queue::get_free_buffer_count() const
 {
-  return mFreeBufferCount;
+  return m_free_buffer_count;
 }
 
 
 
-size_t StreamingAudioSource::BufferQueue::getUsedBufferCount() const
+size_t streaming_audio_source::buffer_queue::get_used_buffer_count() const
 {
-  return mBuffers.size() - mFreeBufferCount;
+  return m_buffers.size() - m_free_buffer_count;
 }
 
 
 
-size_t StreamingAudioSource::BufferQueue::getBufferCount() const
+size_t streaming_audio_source::buffer_queue::get_buffer_count() const
 {
-  return mBuffers.size();
+  return m_buffers.size();
 }
 
 }  // namespace hou

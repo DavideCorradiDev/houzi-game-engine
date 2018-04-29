@@ -35,22 +35,22 @@ INCLUDE_DIRECTORIES(
 
 # Source files.
 SET(LIB_HOUAUD_SRC
-  src/hou/aud/AudError.cpp
-  src/hou/aud/AudioBuffer.cpp
-  src/hou/aud/AudioBufferFormat.cpp
-  src/hou/aud/AudioContext.cpp
-  src/hou/aud/AudioSource.cpp
-  src/hou/aud/AudioSourceState.cpp
-  src/hou/aud/AudioStream.cpp
-  src/hou/aud/AudioStreamIn.cpp
-  src/hou/aud/EmptyAudioStreamIn.cpp
-  src/hou/aud/Listener.cpp
-  src/hou/aud/MemoryAudioSource.cpp
-  src/hou/aud/OggFileIn.cpp
-  src/hou/aud/SoundDistanceModel.cpp
-  src/hou/aud/SoundModel.cpp
-  src/hou/aud/StreamingAudioSource.cpp
-  src/hou/aud/WavFileIn.cpp
+  src/hou/aud/aud_error.cpp
+  src/hou/aud/audio_buffer.cpp
+  src/hou/aud/audio_buffer_format.cpp
+  src/hou/aud/audio_context.cpp
+  src/hou/aud/audio_source.cpp
+  src/hou/aud/audio_source_state.cpp
+  src/hou/aud/audio_stream.cpp
+  src/hou/aud/audio_stream_in.cpp
+  src/hou/aud/empty_audio_stream_in.cpp
+  src/hou/aud/listener.cpp
+  src/hou/aud/memory_audio_source.cpp
+  src/hou/aud/ogg_file_in.cpp
+  src/hou/aud/sound_distance_model.cpp
+  src/hou/aud/sound_model.cpp
+  src/hou/aud/streaming_audio_source.cpp
+  src/hou/aud/wav_file_in.cpp
 )
 
 

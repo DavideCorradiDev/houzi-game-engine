@@ -5,9 +5,9 @@
 #ifndef HOU_AUD_SOUND_MODEL_HPP
 #define HOU_AUD_SOUND_MODEL_HPP
 
-#include "hou/aud/AudExport.hpp"
+#include "hou/aud/aud_export.hpp"
 
-#include "hou/aud/SoundDistanceModel.hpp"
+#include "hou/aud/sound_distance_model.hpp"
 
 
 
@@ -40,22 +40,22 @@ namespace hou
  * The doppler factor and speed of sound are constants used to simulate the
  * doppler effect.
  */
-namespace SoundModel
+namespace sound_model
 {
 
 /** Gets the currently used sound distance model.
  *
- * The default value is InverseDistanceClamped.
+ * The default value is inverse_distance_clamped.
  *
  * \return the currently used sound distance model.
  */
-HOU_AUD_API SoundDistanceModel get_distance_model();
+HOU_AUD_API sound_distance_model get_distance_model();
 
 /** Sets the current sound distance model.
  *
  * \param model the sound distance model.
  */
-HOU_AUD_API void set_distance_model(SoundDistanceModel model);
+HOU_AUD_API void set_distance_model(sound_distance_model model);
 
 /** Gets the current doppler factor.
  *
@@ -89,7 +89,7 @@ HOU_AUD_API float get_speed_of_sound();
  */
 HOU_AUD_API void set_speed_of_sound(float speedOfSound);
 
-}  // namespace SoundModel
+}  // namespace sound_model
 
 }  // namespace hou
 

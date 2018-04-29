@@ -2,40 +2,40 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/aud/MemoryAudioSource.hpp"
+#include "hou/aud/memory_audio_source.hpp"
 
-#include "hou/aud/AudioBuffer.hpp"
+#include "hou/aud/audio_buffer.hpp"
 
 
 
 namespace hou
 {
 
-MemoryAudioSource::MemoryAudioSource(const AudioBuffer* buffer)
-  : AudioSource()
-  , mBufferRef(nullptr)
+memory_audio_source::memory_audio_source(const audio_buffer* buffer)
+  : audio_source()
+  , m_buffer_ref(nullptr)
 {
-  setBuffer(buffer);
+  set_buffer(buffer);
 }
 
 
 
-MemoryAudioSource::MemoryAudioSource(MemoryAudioSource&& other)
-  : AudioSource(std::move(other))
-  , mBufferRef(std::move(other.mBufferRef))
+memory_audio_source::memory_audio_source(memory_audio_source&& other)
+  : audio_source(std::move(other))
+  , m_buffer_ref(std::move(other.m_buffer_ref))
 {}
 
 
 
-MemoryAudioSource::~MemoryAudioSource()
+memory_audio_source::~memory_audio_source()
 {}
 
 
 
-void MemoryAudioSource::setBuffer(const AudioBuffer* buffer)
+void memory_audio_source::set_buffer(const audio_buffer* buffer)
 {
   stop();
-  mBufferRef = buffer;
+  m_buffer_ref = buffer;
   if(buffer != nullptr)
   {
     al::set_source_buffer(get_handle(), buffer->get_handle().get_name());
@@ -48,73 +48,73 @@ void MemoryAudioSource::setBuffer(const AudioBuffer* buffer)
 
 
 
-const AudioBuffer* MemoryAudioSource::getBuffer() const
+const audio_buffer* memory_audio_source::get_buffer() const
 {
-  return mBufferRef;
+  return m_buffer_ref;
 }
 
 
 
-AudioBufferFormat MemoryAudioSource::get_format() const
+audio_buffer_format memory_audio_source::get_format() const
 {
-  return mBufferRef == nullptr ? AudioBufferFormat::Mono8
-                               : mBufferRef->get_format();
+  return m_buffer_ref == nullptr ? audio_buffer_format::mono8
+                               : m_buffer_ref->get_format();
 }
 
 
 
-uint MemoryAudioSource::getChannelCount() const
+uint memory_audio_source::get_channel_count() const
 {
-  return mBufferRef == nullptr ? 1u : mBufferRef->getChannelCount();
+  return m_buffer_ref == nullptr ? 1u : m_buffer_ref->get_channel_count();
 }
 
 
 
-uint MemoryAudioSource::getBytesPerSample() const
+uint memory_audio_source::get_bytes_per_sample() const
 {
-  return mBufferRef == nullptr ? 1u : mBufferRef->getChannelCount();
+  return m_buffer_ref == nullptr ? 1u : m_buffer_ref->get_channel_count();
 }
 
 
 
-uint MemoryAudioSource::getSampleRate() const
+uint memory_audio_source::get_sample_rate() const
 {
-  return mBufferRef == nullptr ? 1u : mBufferRef->getSampleRate();
+  return m_buffer_ref == nullptr ? 1u : m_buffer_ref->get_sample_rate();
 }
 
 
 
-uint MemoryAudioSource::get_sample_count() const
+uint memory_audio_source::get_sample_count() const
 {
-  return mBufferRef == nullptr ? 0u : mBufferRef->get_sample_count();
+  return m_buffer_ref == nullptr ? 0u : m_buffer_ref->get_sample_count();
 }
 
 
 
-void MemoryAudioSource::setLooping(bool looping)
+void memory_audio_source::set_looping(bool looping)
 {
-  AudioSource::setLooping(looping);
+  audio_source::set_looping(looping);
 }
 
 
 
-bool MemoryAudioSource::isLooping() const
+bool memory_audio_source::is_looping() const
 {
-  return AudioSource::isLooping();
+  return audio_source::is_looping();
 }
 
 
 
-void MemoryAudioSource::onSetSamplePos(uint pos)
+void memory_audio_source::on_set_sample_pos(uint pos)
 {
-  AudioSource::onSetSamplePos(pos);
+  audio_source::on_set_sample_pos(pos);
 }
 
 
 
-uint MemoryAudioSource::onGetSamplePos() const
+uint memory_audio_source::on_get_sample_pos() const
 {
-  return AudioSource::onGetSamplePos();
+  return audio_source::on_get_sample_pos();
 }
 
 }  // namespace hou

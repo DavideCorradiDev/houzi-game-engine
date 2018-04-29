@@ -2,22 +2,22 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/aud/AudError.hpp"
+#include "hou/aud/aud_error.hpp"
 
 
 
 namespace hou
 {
 
-std::string get_text(AudError ec)
+std::string get_text(aud_error ec)
 {
   switch(ec)
   {
-    case AudError::InvalidAudioFileExtension:
+    case aud_error::invalid_audio_file_extension:
       return u8"Invalid audio ph_file extension ('%s').";
-    case AudError::OggInvalidHeader:
+    case aud_error::ogg_invalid_header:
       return u8"Invalid OGG ph_file header ('%s').";
-    case AudError::WavInvalidHeader:
+    case aud_error::wav_invalid_header:
       return u8"Invalid WAV ph_file header ('%s').";
     default:
       return u8"";

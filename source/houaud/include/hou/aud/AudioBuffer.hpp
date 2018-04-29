@@ -5,11 +5,11 @@
 #ifndef HOU_AUD_AUDIO_BUFFER_HPP
 #define HOU_AUD_AUDIO_BUFFER_HPP
 
-#include "hou/aud/AudExport.hpp"
+#include "hou/aud/aud_export.hpp"
 #include "hou/cor/non_copyable.hpp"
 
-#include "hou/aud/AudioBufferFormat.hpp"
-#include "hou/aud/AudioStreamIn.hpp"
+#include "hou/aud/audio_buffer_format.hpp"
+#include "hou/aud/audio_stream_in.hpp"
 
 #include "hou/al/al_buffer_handle.hpp"
 
@@ -25,61 +25,61 @@ namespace hou
 
 /** Represents an audio buffer in memory.
  *
- *  It is not possible to play a sound with an AudioBuffer object alone.
- *  It is necessary to create an AudioSource object and assign a reference to an
- *  AudioBuffer to it.
- *  Many AudioSource objects can share the same AudioBuffer objects, allowing to
+ *  It is not possible to play a sound with an audio_buffer object alone.
+ *  It is necessary to create an audio_source object and assign a reference to an
+ *  audio_buffer to it.
+ *  Many audio_source objects can share the same audio_buffer objects, allowing to
  *  save resources.
- *  An AudioBuffer object loads the whole audio data into memory.
+ *  An audio_buffer object loads the whole audio data into memory.
  *  For large audio data this might be expensive.
  *  In that case, it is suggested to use audio streams and a
- * StreamingAudioSource.
+ * streaming_audio_source.
  */
-class HOU_AUD_API AudioBuffer : public non_copyable
+class HOU_AUD_API audio_buffer : public non_copyable
 {
 public:
-  /** Creates an empty AudioBuffer.
+  /** Creates an empty audio_buffer.
    *
-   *  The buffer is created with one single sample set to 0, Mono16 format, and
+   *  The buffer is created with one single sample set to 0, mono16 format, and
    * a frequency of 1 sample per second.
    */
-  AudioBuffer();
+  audio_buffer();
 
-  /** Creates an AudioBuffer object with the given parameters.
+  /** Creates an audio_buffer object with the given parameters.
    *
    *  \param data the data.
    *  \param format the audio format.
    *  \param smpRate the sample rate.
    */
-  AudioBuffer(
-    const span<const uint8_t>& data, AudioBufferFormat format, int smpRate);
+  audio_buffer(
+    const span<const uint8_t>& data, audio_buffer_format format, int smpRate);
 
-  /** Creates an AudioBuffer object with the given parameters, moving the data.
+  /** Creates an audio_buffer object with the given parameters, moving the data.
    *
    *  \param data the data.
    *  \param format the audio format.
    *  \param smpRate the sample rate.
    */
-  AudioBuffer(
-    std::vector<uint8_t>&& data, AudioBufferFormat format, int smpRate);
+  audio_buffer(
+    std::vector<uint8_t>&& data, audio_buffer_format format, int smpRate);
 
-  /** Creates an AudioBuffer object with the data from the given ph_stream.
+  /** Creates an audio_buffer object with the data from the given ph_stream.
    *
    *  \param audioStream the audioStream.
    */
-  explicit AudioBuffer(AudioStreamIn& audioStream);
+  explicit audio_buffer(audio_stream_in& audioStream);
 
-  /** Creates an AudioBuffer object with the data from the given ph_stream.
+  /** Creates an audio_buffer object with the data from the given ph_stream.
    *
    *  \param audioStream the audioStream.
    */
-  explicit AudioBuffer(AudioStreamIn&& audioStream);
+  explicit audio_buffer(audio_stream_in&& audioStream);
 
   /** Move constructor.
    *
-   *  \param other the other AudioBuffer.
+   *  \param other the other audio_buffer.
    */
-  AudioBuffer(AudioBuffer&& other);
+  audio_buffer(audio_buffer&& other);
 
   /** Gets the OpenAL buffer handle.
    *
@@ -91,13 +91,13 @@ public:
    *
    *  \return the audio format of the buffer.
    */
-  AudioBufferFormat get_format() const;
+  audio_buffer_format get_format() const;
 
   /** Gets the number of channels of the buffer, based on its audio format.
    *
    *  \return 1 if the audio format is mono, 2 if the audio format is stereo.
    */
-  uint getChannelCount() const;
+  uint get_channel_count() const;
 
   /** Gets the number of bytes per sample of the buffer, based on its audio
    * format.
@@ -105,13 +105,13 @@ public:
    *  The number returned is the number of bytes per sample for a single
    * channel. \return 1 for 8-bit audio formats, 2 for 16-bit audio formats.
    */
-  uint getBytesPerSample() const;
+  uint get_bytes_per_sample() const;
 
   /** Gets the number of samples per second.
    *
    *  \return the sample rate in samples per second.
    */
-  int getSampleRate() const;
+  int get_sample_rate() const;
 
   /** Gets the number of bytes in the buffer.
    *
@@ -132,7 +132,7 @@ public:
    *  \param smlRate the sample rate.
    */
   void set_data(
-    const span<const uint8_t>& data, AudioBufferFormat format, int smlRate);
+    const span<const uint8_t>& data, audio_buffer_format format, int smlRate);
 
   /** Sets the buffer data with the provided values, moving the data.
    *
@@ -141,19 +141,19 @@ public:
    *  \param smlRate the sample rate.
    */
   void set_data(
-    std::vector<uint8_t>&& data, AudioBufferFormat format, int smlRate);
+    std::vector<uint8_t>&& data, audio_buffer_format format, int smlRate);
 
-  /** Sets the buffer data by reading the provided AudioStreamIn)
+  /** Sets the buffer data by reading the provided audio_stream_in)
    *
    *  \param audioStream the audio ph_stream.
    */
-  void set_data(AudioStreamIn& audioStream);
+  void set_data(audio_stream_in& audioStream);
 
-  /** Sets the buffer data by reading the provided AudioStreamIn)
+  /** Sets the buffer data by reading the provided audio_stream_in)
    *
    *  \param audioStream the audio ph_stream.
    */
-  void set_data(AudioStreamIn&& audioStream);
+  void set_data(audio_stream_in&& audioStream);
 
 private:
   al::buffer_handle m_handle;
