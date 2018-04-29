@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/gfx/TestGfxBase.hpp"
+#include "hou/gfx/test_gfx_base.hpp"
 
 #include "hou/gfx/render_window.hpp"
 #include "hou/gfx/texture.hpp"
@@ -18,7 +18,7 @@ using namespace hou;
 namespace
 {
 
-class TestRenderWindow : public TestGfxBase {};
+class TestRenderWindow : public test_gfx_base {};
 
 class TestRenderWindowDeathTest : public TestRenderWindow {};
 

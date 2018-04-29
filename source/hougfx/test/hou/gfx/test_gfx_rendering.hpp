@@ -5,16 +5,16 @@
 #ifndef TEST_HOU_GFX_TEST_GFX_RENDERING_HPP
 #define TEST_HOU_GFX_TEST_GFX_RENDERING_HPP
 
-#include "hou/gfx/TestGfxBase.hpp"
+#include "hou/gfx/test_gfx_base.hpp"
 
 
 
-class TestGfxRendering
-  : public TestGfxBase
+class test_gfx_rendering
+  : public test_gfx_base
 {
 public:
-  TestGfxRendering();
-  virtual ~TestGfxRendering() = 0;
+  test_gfx_rendering();
+  virtual ~test_gfx_rendering() = 0;
 
 public:
   hou::RenderTexture mRenderTexture;

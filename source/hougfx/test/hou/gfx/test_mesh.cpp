@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/gfx/TestGfxBase.hpp"
+#include "hou/gfx/test_gfx_base.hpp"
 
 #include "hou/cor/core_functions.hpp"
 #include "hou/cor/std_vector.hpp"
@@ -21,7 +21,7 @@ using namespace hou;
 namespace
 {
 
-class TestMesh : public TestGfxBase
+class TestMesh : public test_gfx_base
 {};
 
 class vertex_type

@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/gfx/TestGfxBase.hpp"
+#include "hou/gfx/test_gfx_base.hpp"
 
 #include "hou/gfx/vertex_buffer.hpp"
 #include "hou/gfx/vertex_array.hpp"
@@ -19,7 +19,7 @@ namespace
 
 using FloatBuffer = static_vertex_buffer<float>;
 
-class TestVertexArray : public TestGfxBase
+class TestVertexArray : public test_gfx_base
 {};
 
 class TestVertexArrayDeathTest : public TestVertexArray

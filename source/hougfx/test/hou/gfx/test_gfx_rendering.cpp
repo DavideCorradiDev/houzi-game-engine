@@ -2,10 +2,10 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gfx/TestGfxRendering.hpp"
+#include "hou/gfx/test_gfx_rendering.hpp"
 
-TestGfxRendering::TestGfxRendering()
-  : TestGfxBase()
+test_gfx_rendering::test_gfx_rendering()
+  : test_gfx_base()
   , mRenderTexture()
 {}
 

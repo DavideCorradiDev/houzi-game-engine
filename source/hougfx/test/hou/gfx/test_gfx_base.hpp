@@ -11,7 +11,7 @@
 
 
 
-class TestGfxBase
+class test_gfx_base
   : public ::testing::Test
 {
 public:
@@ -19,8 +19,8 @@ public:
   static void TearDownTestCase();
 
 public:
-  TestGfxBase();
-  virtual ~TestGfxBase() = 0;
+  test_gfx_base();
+  virtual ~test_gfx_base() = 0;
 
 public:
   static std::unique_ptr<hou::graphic_context> sContext;

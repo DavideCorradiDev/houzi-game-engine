@@ -4,8 +4,8 @@
 
 
 #include "hou/Test.hpp"
-#include "hou/gfx/TestData.hpp"
-#include "hou/gfx/TestGfxBase.hpp"
+#include "hou/gfx/test_data.hpp"
+#include "hou/gfx/test_gfx_base.hpp"
 
 #include "hou/gfx/texture.hpp"
 #include "hou/gfx/texture_channel_mapping.hpp"
@@ -23,7 +23,7 @@ namespace
 {
 
 template <typename Tex>
-class TestTextureBase : public TestGfxBase
+class TestTextureBase : public test_gfx_base
 {
 public:
   virtual ~TestTextureBase();

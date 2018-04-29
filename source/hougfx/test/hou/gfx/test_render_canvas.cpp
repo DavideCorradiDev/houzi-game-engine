@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/gfx/TestGfxBase.hpp"
+#include "hou/gfx/test_gfx_base.hpp"
 
 #include "hou/gfx/render_canvas.hpp"
 #include "hou/gfx/texture.hpp"
@@ -21,7 +21,7 @@ using namespace hou;
 namespace
 {
 
-class TestRenderCanvas : public TestGfxBase
+class TestRenderCanvas : public test_gfx_base
 {};
 
 class TestRenderCanvasDeathTest : public TestRenderCanvas

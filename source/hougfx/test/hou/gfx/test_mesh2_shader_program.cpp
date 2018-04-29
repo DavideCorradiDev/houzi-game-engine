@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/gfx/TestGfxBase.hpp"
+#include "hou/gfx/test_gfx_base.hpp"
 
 #include "hou/gfx/mesh.hpp"
 #include "hou/gfx/mesh2_shader_program.hpp"
@@ -21,7 +21,7 @@ using namespace hou;
 namespace
 {
 
-class TestMesh2ShaderProgram : public TestGfxBase
+class TestMesh2ShaderProgram : public test_gfx_base
 {};
 
 image2RGBA generateResultImage(const vec2u& dstSize, const recti& dstRect,

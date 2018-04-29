@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/gfx/TestGfxBase.hpp"
+#include "hou/gfx/test_gfx_base.hpp"
 
 #include "hou/gfx/vertex_attrib_format.hpp"
 
@@ -14,7 +14,7 @@ using namespace hou;
 namespace
 {
 
-class TestVertexAttribFormat : public TestGfxBase
+class TestVertexAttribFormat : public test_gfx_base
 {};
 
 }  // namespace

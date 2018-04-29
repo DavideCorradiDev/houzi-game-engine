@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/gfx/TestGfxBase.hpp"
+#include "hou/gfx/test_gfx_base.hpp"
 
 #include "hou/gfx/shader.hpp"
 
@@ -16,7 +16,7 @@ using namespace hou;
 namespace
 {
 
-class TestShader : public TestGfxBase {};
+class TestShader : public test_gfx_base {};
 class TestShaderDeathTest : public TestShader {};
 
 std::string getFsSource();

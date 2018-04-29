@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/gfx/TestGfxBase.hpp"
+#include "hou/gfx/test_gfx_base.hpp"
 
 #include "hou/gfx/mesh.hpp"
 #include "hou/gfx/vertex2.hpp"
@@ -22,7 +22,7 @@ namespace
 class TestVertex2 : public Test
 {};
 
-class TestMesh2 : public TestGfxBase
+class TestMesh2 : public test_gfx_base
 {};
 
 }  // namespace

@@ -4,7 +4,7 @@
 
 #include "hou/Test.hpp"
 
-#include "hou/gfx/TestGfxBase.hpp"
+#include "hou/gfx/test_gfx_base.hpp"
 
 #include "hou/gfx/framebuffer.hpp"
 #include "hou/gfx/texture.hpp"
@@ -18,7 +18,7 @@ using namespace hou;
 namespace
 {
 
-class TestFrameBuffer : public TestGfxBase
+class TestFrameBuffer : public test_gfx_base
 {};
 
 class TestFrameBufferDeathTest : public TestFrameBuffer

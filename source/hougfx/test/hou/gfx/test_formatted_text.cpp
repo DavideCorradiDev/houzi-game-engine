@@ -3,8 +3,8 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/gfx/TestData.hpp"
-#include "hou/gfx/TestGfxBase.hpp"
+#include "hou/gfx/test_data.hpp"
+#include "hou/gfx/test_gfx_base.hpp"
 
 #include "hou/gfx/font.hpp"
 #include "hou/gfx/formatted_text.hpp"
@@ -20,7 +20,7 @@ namespace
 
 static constexpr float testAcc = 1.e-6f;
 
-class TestFormattedText : public TestGfxBase
+class TestFormattedText : public test_gfx_base
 {
 public:
   font loadFont(const std::string& path);

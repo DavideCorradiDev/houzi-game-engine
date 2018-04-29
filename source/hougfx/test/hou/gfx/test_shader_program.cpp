@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/gfx/TestGfxBase.hpp"
+#include "hou/gfx/test_gfx_base.hpp"
 
 #include "hou/gfx/shader.hpp"
 #include "hou/gfx/shader_program.hpp"
@@ -17,7 +17,7 @@ using namespace hou;
 namespace
 {
 
-class TestShaderProgram : public TestGfxBase
+class TestShaderProgram : public test_gfx_base
 {};
 
 class TestShaderProgramDeathTest : public TestShaderProgram
