@@ -24,7 +24,7 @@ enum class gl_error
   extensions_initialization,
   invalid_enum,
   invalid_framebuffer_operation,
-  InvalidOperation,
+  invalid_operation,
   invalid_ownership,
   invalid_value,
   out_of_memory,

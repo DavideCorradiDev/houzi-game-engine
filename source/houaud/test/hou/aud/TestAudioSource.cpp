@@ -78,7 +78,7 @@ ConcreteAudioSource::ConcreteAudioSource(const AudioBuffer& buffer)
   , mAudioBufferFormat(buffer.get_format())
   , mSampleRate(buffer.getSampleRate())
 {
-  al::setSourceBuffer(get_handle(), buffer.get_handle().get_name());
+  al::set_source_buffer(get_handle(), buffer.get_handle().get_name());
 }
 
 

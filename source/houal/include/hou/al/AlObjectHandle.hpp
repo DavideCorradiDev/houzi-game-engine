@@ -5,10 +5,10 @@
 #ifndef HOU_AL_AL_OBJECT_HANDLE_HPP
 #define HOU_AL_AL_OBJECT_HANDLE_HPP
 
-#include "hou/al/AlExport.hpp"
+#include "hou/al/al_export.hpp"
 #include "hou/cor/non_copyable.hpp"
 
-#include "hou/al/OpenAl.hpp"
+#include "hou/al/open_al.hpp"
 
 #include "hou/cor/basic_types.hpp"
 
@@ -36,29 +36,29 @@ private:
 
 
 
-class HOU_AL_API DeviceOwnedObjectHandle
+class HOU_AL_API device_owned_object_handle
   : public object_handle
 {
 public:
-  DeviceOwnedObjectHandle(ALuint name);
-  DeviceOwnedObjectHandle(DeviceOwnedObjectHandle&& other);
-  virtual ~DeviceOwnedObjectHandle() = 0;
+  device_owned_object_handle(ALuint name);
+  device_owned_object_handle(device_owned_object_handle&& other);
+  virtual ~device_owned_object_handle() = 0;
 
-  uint32_t getOwningDeviceUid() const;
+  uint32_t get_owning_device_uid() const;
 
 private:
-  uint32_t mOwningDeviceUid;
+  uint32_t m_owning_device_uid;
 };
 
 
 
-class HOU_AL_API ContextOwnedObjectHandle
+class HOU_AL_API context_owned_object_handle
   : public object_handle
 {
 public:
-  ContextOwnedObjectHandle(ALuint name);
-  ContextOwnedObjectHandle(ContextOwnedObjectHandle&& other);
-  virtual ~ContextOwnedObjectHandle() = 0;
+  context_owned_object_handle(ALuint name);
+  context_owned_object_handle(context_owned_object_handle&& other);
+  virtual ~context_owned_object_handle() = 0;
 
   uint32_t get_owning_context_uid() const;
 

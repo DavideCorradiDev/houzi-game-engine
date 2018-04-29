@@ -2,10 +2,10 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/al/AlDevice.hpp"
+#include "hou/al/al_device.hpp"
 
-#include "hou/al/AlCheck.hpp"
-#include "hou/al/AlError.hpp"
+#include "hou/al/al_check.hpp"
+#include "hou/al/al_error.hpp"
 
 #include "hou/cor/error.hpp"
 #include "hou/cor/std_string.hpp"
@@ -38,7 +38,7 @@ uint32_t generateUid()
 
 
 
-std::vector<std::string> Device::getDeviceNames()
+std::vector<std::string> device::get_device_names()
 {
   std::vector<std::string> deviceNames;
   if(alcIsExtensionPresent(nullptr, "ALC_ENUMERATION_EXT"))
@@ -51,63 +51,63 @@ std::vector<std::string> Device::getDeviceNames()
 
 
 
-Device::Device()
+device::device()
   : non_copyable()
-  , mDevice(alcOpenDevice(nullptr))
+  , m_device(alcOpenDevice(nullptr))
   , m_uid(generateUid())
 {
-  HOU_RUNTIME_CHECK(mDevice != nullptr, get_text(AlError::DeviceOpen)
-    , u8"default Device");
+  HOU_RUNTIME_CHECK(m_device != nullptr, get_text(al_error::device_open)
+    , u8"default device");
 }
 
 
 
-Device::Device(const std::string& deviceName)
+device::device(const std::string& deviceName)
   : non_copyable()
-  , mDevice(alcOpenDevice(deviceName.c_str()))
+  , m_device(alcOpenDevice(deviceName.c_str()))
   , m_uid(generateUid())
 {
-  HOU_RUNTIME_CHECK(mDevice != nullptr, get_text(AlError::DeviceOpen)
+  HOU_RUNTIME_CHECK(m_device != nullptr, get_text(al_error::device_open)
     , deviceName.c_str());
 }
 
 
 
-Device::Device(Device&& other)
-  : mDevice(std::move(other.mDevice))
+device::device(device&& other)
+  : m_device(std::move(other.m_device))
   , m_uid(std::move(other.m_uid))
 {
-  other.mDevice = nullptr;
+  other.m_device = nullptr;
 }
 
 
 
-Device::~Device()
+device::~device()
 {
-  if(mDevice != nullptr)
+  if(m_device != nullptr)
   {
-    HOU_FATAL_CHECK(alcCloseDevice(mDevice) == AL_TRUE
-      , get_text(AlError::DeviceClose));
+    HOU_FATAL_CHECK(alcCloseDevice(m_device) == AL_TRUE
+      , get_text(al_error::device_close));
   }
 }
 
 
 
-const ALCdevice* Device::get_handle() const
+const ALCdevice* device::get_handle() const
 {
-  return mDevice;
+  return m_device;
 }
 
 
 
-ALCdevice* Device::get_handle()
+ALCdevice* device::get_handle()
 {
-  return mDevice;
+  return m_device;
 }
 
 
 
-uint32_t Device::get_uid() const
+uint32_t device::get_uid() const
 {
   return m_uid;
 }

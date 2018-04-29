@@ -5,7 +5,7 @@
 #include "hou/Test.hpp"
 #include "hou/al/TestAlBase.hpp"
 
-#include "hou/al/AlState.hpp"
+#include "hou/al/al_state.hpp"
 
 using namespace hou;
 
@@ -22,26 +22,26 @@ class TestAlState : public TestAlBase {};
 
 TEST_F(TestAlState, SetDistanceModel)
 {
-  EXPECT_EQ(AL_INVERSE_DISTANCE_CLAMPED, al::getDistanceModel());
-  al::setDistanceModel(AL_INVERSE_DISTANCE);
-  EXPECT_EQ(AL_INVERSE_DISTANCE, al::getDistanceModel());
+  EXPECT_EQ(AL_INVERSE_DISTANCE_CLAMPED, al::get_distance_model());
+  al::set_distance_model(AL_INVERSE_DISTANCE);
+  EXPECT_EQ(AL_INVERSE_DISTANCE, al::get_distance_model());
 }
 
 
 
 TEST_F(TestAlState, SetDopplerFactor)
 {
-  EXPECT_FLOAT_EQ(1.f, al::getDopplerFactor());
-  al::setDopplerFactor(0.5f);
-  EXPECT_FLOAT_EQ(0.5f, al::getDopplerFactor());
+  EXPECT_FLOAT_EQ(1.f, al::get_doppler_factor());
+  al::set_doppler_factor(0.5f);
+  EXPECT_FLOAT_EQ(0.5f, al::get_doppler_factor());
 }
 
 
 
 TEST_F(TestAlState, SetSpeedOfSound)
 {
-  EXPECT_FLOAT_EQ(343.3f, al::getSpeedOfSound());
-  al::setSpeedOfSound(0.5f);
-  EXPECT_FLOAT_EQ(0.5f, al::getSpeedOfSound());
+  EXPECT_FLOAT_EQ(343.3f, al::get_speed_of_sound());
+  al::set_speed_of_sound(0.5f);
+  EXPECT_FLOAT_EQ(0.5f, al::get_speed_of_sound());
 }
 

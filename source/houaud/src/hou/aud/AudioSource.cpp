@@ -50,7 +50,7 @@ uint normalize(uint value, uint max)
 
 AudioSource::AudioSource()
   : non_copyable()
-  , m_handle(al::SourceHandle::generate())
+  , m_handle(al::source_handle::generate())
   , mRequestedSamplePos(0u)
 {}
 
@@ -68,7 +68,7 @@ AudioSource::~AudioSource()
 
 
 
-const al::SourceHandle& AudioSource::get_handle() const
+const al::source_handle& AudioSource::get_handle() const
 {
   return m_handle;
 }
@@ -79,9 +79,9 @@ void AudioSource::play()
 {
   if(getState() != AudioSourceState::Playing)
   {
-    al::stopSource(m_handle);
+    al::stop_source(m_handle);
     onSetSamplePos(mRequestedSamplePos);
-    al::playSource(m_handle);
+    al::play_source(m_handle);
     // The requested pos has to be set to 0 in case playback ends on its own.
     mRequestedSamplePos = 0u;
   }
@@ -93,7 +93,7 @@ void AudioSource::pause()
 {
   if(getState() != AudioSourceState::Paused)
   {
-    al::pauseSource(m_handle);
+    al::pause_source(m_handle);
     // The requested pos is updated. Another call to play will resume from
     // the current pos.
     mRequestedSamplePos = onGetSamplePos();
@@ -106,7 +106,7 @@ void AudioSource::stop()
 {
   if(getState() != AudioSourceState::Stopped)
   {
-    al::stopSource(m_handle);
+    al::stop_source(m_handle);
   }
   // Stopping resets the pos to 0.
   mRequestedSamplePos = 0u;
@@ -124,7 +124,7 @@ void AudioSource::replay()
 
 AudioSourceState AudioSource::getState() const
 {
-  return alSourceStateToAudioSourceState(al::getSourceState(m_handle));
+  return alSourceStateToAudioSourceState(al::get_source_state(m_handle));
 }
 
 
@@ -183,14 +183,14 @@ uint AudioSource::getSamplePos() const
 
 void AudioSource::setLooping(bool looping)
 {
-  al::setSourceLooping(m_handle, static_cast<ALboolean>(looping));
+  al::set_source_looping(m_handle, static_cast<ALboolean>(looping));
 }
 
 
 
 bool AudioSource::isLooping() const
 {
-  return static_cast<bool>(al::getSourceLooping(m_handle));
+  return static_cast<bool>(al::get_source_looping(m_handle));
 }
 
 
@@ -198,14 +198,14 @@ bool AudioSource::isLooping() const
 void AudioSource::setPitch(float value)
 {
   HOU_EXPECT(value >= 0.f);
-  al::setSourcePitch(m_handle, static_cast<ALfloat>(value));
+  al::set_source_pitch(m_handle, static_cast<ALfloat>(value));
 }
 
 
 
 float AudioSource::getPitch() const
 {
-  return static_cast<float>(al::getSourcePitch(m_handle));
+  return static_cast<float>(al::get_source_pitch(m_handle));
 }
 
 
@@ -213,14 +213,14 @@ float AudioSource::getPitch() const
 void AudioSource::setGain(float value)
 {
   HOU_EXPECT(value >= 0.f);
-  al::setSourceGain(m_handle, static_cast<ALfloat>(value));
+  al::set_source_gain(m_handle, static_cast<ALfloat>(value));
 }
 
 
 
 float AudioSource::getGain() const
 {
-  return static_cast<float>(al::getSourceGain(m_handle));
+  return static_cast<float>(al::get_source_gain(m_handle));
 }
 
 
@@ -228,14 +228,14 @@ float AudioSource::getGain() const
 void AudioSource::setMaxGain(float value)
 {
   HOU_EXPECT(value >= 0.f);
-  al::setSourceMaxGain(m_handle, static_cast<ALfloat>(value));
+  al::set_source_max_gain(m_handle, static_cast<ALfloat>(value));
 }
 
 
 
 float AudioSource::getMaxGain() const
 {
-  return static_cast<float>(al::getSourceMaxGain(m_handle));
+  return static_cast<float>(al::get_source_max_gain(m_handle));
 }
 
 
@@ -243,14 +243,14 @@ float AudioSource::getMaxGain() const
 void AudioSource::setMinGain(float value)
 {
   HOU_EXPECT(value >= 0.f);
-  al::setSourceMinGain(m_handle, static_cast<ALfloat>(value));
+  al::set_source_min_gain(m_handle, static_cast<ALfloat>(value));
 }
 
 
 
 float AudioSource::getMinGain() const
 {
-  return static_cast<float>(al::getSourceMinGain(m_handle));
+  return static_cast<float>(al::get_source_min_gain(m_handle));
 }
 
 
@@ -258,14 +258,14 @@ float AudioSource::getMinGain() const
 void AudioSource::setMaxDistance(float value)
 {
   HOU_EXPECT(value >= 0.f);
-  al::setSourceMaxDistance(m_handle, static_cast<ALfloat>(value));
+  al::set_source_max_distance(m_handle, static_cast<ALfloat>(value));
 }
 
 
 
 float AudioSource::getMaxDistance() const
 {
-  return static_cast<float>(al::getSourceMaxDistance(m_handle));
+  return static_cast<float>(al::get_source_max_distance(m_handle));
 }
 
 
@@ -273,14 +273,14 @@ float AudioSource::getMaxDistance() const
 void AudioSource::setRolloffFactor(float value)
 {
   HOU_EXPECT(value >= 0.f);
-  al::setSourceRolloffFactor(m_handle, static_cast<ALfloat>(value));
+  al::set_source_rolloff_factor(m_handle, static_cast<ALfloat>(value));
 }
 
 
 
 float AudioSource::getRolloffFactor() const
 {
-  return static_cast<float>(al::getSourceRolloffFactor(m_handle));
+  return static_cast<float>(al::get_source_rolloff_factor(m_handle));
 }
 
 
@@ -288,28 +288,28 @@ float AudioSource::getRolloffFactor() const
 void AudioSource::setReferenceDistance(float value)
 {
   HOU_EXPECT(value >= 0.f);
-  al::setSourceReferenceDistance(m_handle, static_cast<ALfloat>(value));
+  al::set_source_reference_distance(m_handle, static_cast<ALfloat>(value));
 }
 
 
 
 float AudioSource::getReferenceDistance() const
 {
-  return static_cast<float>(al::getSourceReferenceDistance(m_handle));
+  return static_cast<float>(al::get_source_reference_distance(m_handle));
 }
 
 
 
 void AudioSource::setRelative(bool value)
 {
-  al::setSourceRelative(m_handle, static_cast<ALfloat>(value));
+  al::set_source_relative(m_handle, static_cast<ALfloat>(value));
 }
 
 
 
 bool AudioSource::isRelative() const
 {
-  return static_cast<bool>(al::getSourceRelative(m_handle));
+  return static_cast<bool>(al::get_source_relative(m_handle));
 }
 
 
@@ -317,14 +317,14 @@ bool AudioSource::isRelative() const
 void AudioSource::setConeOuterGain(float value)
 {
   HOU_EXPECT(value >= 0.f);
-  al::setSourceConeOuterGain(m_handle, static_cast<ALfloat>(value));
+  al::set_source_cone_outer_gain(m_handle, static_cast<ALfloat>(value));
 }
 
 
 
 float AudioSource::getConeOuterGain() const
 {
-  return static_cast<float>(al::getSourceConeOuterGain(m_handle));
+  return static_cast<float>(al::get_source_cone_outer_gain(m_handle));
 }
 
 
@@ -332,14 +332,14 @@ float AudioSource::getConeOuterGain() const
 void AudioSource::setConeInnerAngle(float value)
 {
   HOU_EXPECT(value >= 0.f && value <= 2.f * pi_f);
-  al::setSourceConeInnerAngle(m_handle, static_cast<ALfloat>(rad_to_deg(value)));
+  al::set_source_cone_inner_angle(m_handle, static_cast<ALfloat>(rad_to_deg(value)));
 }
 
 
 
 float AudioSource::getConeInnerAngle() const
 {
-  return deg_to_rad(static_cast<float>(al::getSourceConeInnerAngle(m_handle)));
+  return deg_to_rad(static_cast<float>(al::get_source_cone_inner_angle(m_handle)));
 }
 
 
@@ -347,7 +347,7 @@ float AudioSource::getConeInnerAngle() const
 void AudioSource::setConeOuterAngle(float value)
 {
   HOU_EXPECT(value >= 0.f && value <= 2.f * pi_f);
-  al::setSourceConeOuterAngle(m_handle, static_cast<ALfloat>(rad_to_deg(value)));
+  al::set_source_cone_outer_angle(m_handle, static_cast<ALfloat>(rad_to_deg(value)));
 }
 
 
@@ -361,7 +361,7 @@ float AudioSource::getConeOuterAngle() const
 
 void AudioSource::set_position(const vec3f& pos)
 {
-  al::setSourcePosition(m_handle, static_cast<const ALfloat*>(pos.data()));
+  al::set_source_position(m_handle, static_cast<const ALfloat*>(pos.data()));
 }
 
 
@@ -369,7 +369,7 @@ void AudioSource::set_position(const vec3f& pos)
 vec3f AudioSource::get_position() const
 {
   vec3f retval;
-  al::getSourcePosition(
+  al::get_source_position(
     m_handle, static_cast<ALfloat*>(const_cast<float*>(retval.data())));
   return retval;
 }
@@ -378,7 +378,7 @@ vec3f AudioSource::get_position() const
 
 void AudioSource::setVelocity(const vec3f& vel)
 {
-  al::setSourceVelocity(m_handle, static_cast<const ALfloat*>(vel.data()));
+  al::set_source_velocity(m_handle, static_cast<const ALfloat*>(vel.data()));
 }
 
 
@@ -386,7 +386,7 @@ void AudioSource::setVelocity(const vec3f& vel)
 vec3f AudioSource::getVelocity() const
 {
   vec3f retval;
-  al::getSourceVelocity(
+  al::get_source_velocity(
     m_handle, static_cast<ALfloat*>(const_cast<float*>(retval.data())));
   return retval;
 }
@@ -395,7 +395,7 @@ vec3f AudioSource::getVelocity() const
 
 void AudioSource::setDirection(const vec3f& dir)
 {
-  al::setSourceDirection(m_handle, static_cast<const ALfloat*>(dir.data()));
+  al::set_source_direction(m_handle, static_cast<const ALfloat*>(dir.data()));
 }
 
 
@@ -403,7 +403,7 @@ void AudioSource::setDirection(const vec3f& dir)
 vec3f AudioSource::getDirection() const
 {
   vec3f retval;
-  al::getSourceDirection(
+  al::get_source_direction(
     m_handle, static_cast<ALfloat*>(const_cast<float*>(retval.data())));
   return retval;
 }
@@ -412,14 +412,14 @@ vec3f AudioSource::getDirection() const
 
 void AudioSource::onSetSamplePos(uint pos)
 {
-  al::setSourceSampleOffset(m_handle, static_cast<ALint>(pos));
+  al::set_source_sample_offset(m_handle, static_cast<ALint>(pos));
 }
 
 
 
 uint AudioSource::onGetSamplePos() const
 {
-  return static_cast<uint>(al::getSourceSampleOffset(m_handle));
+  return static_cast<uint>(al::get_source_sample_offset(m_handle));
 }
 
 }  // namespace hou

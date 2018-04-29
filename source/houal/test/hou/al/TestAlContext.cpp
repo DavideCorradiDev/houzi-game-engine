@@ -4,9 +4,9 @@
 
 #include "hou/Test.hpp"
 
-#include "hou/al/AlContext.hpp"
-#include "hou/al/AlDevice.hpp"
-#include "hou/al/AlError.hpp"
+#include "hou/al/al_context.hpp"
+#include "hou/al/al_device.hpp"
+#include "hou/al/al_error.hpp"
 
 #include <memory>
 #include <thread>
@@ -18,11 +18,11 @@ using namespace hou;
 
 TEST(TestAlContext, Creation)
 {
-  al::Device device;
-  al::context ph_context(device);
+  al::device ph_device;
+  al::context ph_context(ph_device);
 
   EXPECT_NE(0u, ph_context.get_uid());
-  EXPECT_EQ(device.get_uid(), ph_context.getDeviceUid());
+  EXPECT_EQ(ph_device.get_uid(), ph_context.get_device_uid());
   EXPECT_FALSE(ph_context.is_current());
 }
 
@@ -30,13 +30,13 @@ TEST(TestAlContext, Creation)
 
 TEST(TestAlContext, MoveConstructor)
 {
-  al::Device device;
-  al::context contextDummy(device);
+  al::device ph_device;
+  al::context contextDummy(ph_device);
   uint32_t uidRef = contextDummy.get_uid();
   al::context ph_context(std::move(contextDummy));
 
   EXPECT_EQ(uidRef, ph_context.get_uid());
-  EXPECT_EQ(device.get_uid(), ph_context.getDeviceUid());
+  EXPECT_EQ(ph_device.get_uid(), ph_context.get_device_uid());
   EXPECT_FALSE(ph_context.is_current());
 }
 
@@ -44,8 +44,8 @@ TEST(TestAlContext, MoveConstructor)
 
 TEST(TestAlContext, CurrentContextMoveConstructor)
 {
-  al::Device device;
-  al::context contextDummy(device);
+  al::device ph_device;
+  al::context contextDummy(ph_device);
   al::context::set_current(contextDummy);
   EXPECT_TRUE(contextDummy.is_current());
   EXPECT_EQ(&contextDummy, al::context::getCurrent());
@@ -60,20 +60,20 @@ TEST(TestAlContext, CurrentContextMoveConstructor)
 TEST(TestAlContextDeathTest, ContextCreationFailed)
 {
   // Artificially create an invalid ph_context by improper use of std::move.
-  al::Device d1;
-  al::Device d2(std::move(d1));
+  al::device d1;
+  al::device d2(std::move(d1));
 
   HOU_EXPECT_ERROR(al::context c(d1), std::runtime_error
-    , get_text(AlError::context_create));
+    , get_text(al_error::context_create));
 }
 
 
 
 TEST(TestAlContext, SetCurrent)
 {
-  al::Device d1;
+  al::device d1;
   al::context c1(d1);
-  al::Device d2;
+  al::device d2;
   al::context c2(d2);
 
   EXPECT_FALSE(c1.is_current());
@@ -106,18 +106,18 @@ TEST(TestAlContext, SetCurrent)
 TEST(TestAlContext, CurrentContextResetOnDestruction)
 {
   {
-    al::Device d;
+    al::device d;
     al::context c(d);
     al::context::set_current(c);
     EXPECT_EQ(&c, al::context::getCurrent());
   }
   EXPECT_EQ(nullptr, al::context::getCurrent());
 
-  al::Device d1;
+  al::device d1;
   al::context c1(d1);
   al::context::set_current(c1);
   {
-    al::Device d2;
+    al::device d2;
     al::context c2(d2);
   }
   EXPECT_EQ(&c1, al::context::getCurrent());
@@ -129,7 +129,7 @@ TEST(TestAlContext, MultithreadedGetCurrent)
 {
   static constexpr size_t numThreads = 8u;
 
-  al::Device d;
+  al::device d;
   al::context c(d);
   al::context::set_current(c);
 
@@ -160,11 +160,11 @@ TEST(TestAlContext, MultithreadedSetCurrent)
 {
   static constexpr size_t numThreads = 8u;
 
-  std::vector<al::Device> devices;
+  std::vector<al::device> devices;
   std::vector<al::context> contexts;
   for(size_t i = 0; i < numThreads; ++i)
   {
-    devices.push_back(al::Device());
+    devices.push_back(al::device());
     contexts.push_back(al::context(devices[i]));
   }
 

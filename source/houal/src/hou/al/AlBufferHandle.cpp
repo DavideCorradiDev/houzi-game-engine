@@ -2,9 +2,9 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/al/AlBufferHandle.hpp"
+#include "hou/al/al_buffer_handle.hpp"
 
-#include "hou/al/AlCheck.hpp"
+#include "hou/al/al_check.hpp"
 
 
 
@@ -27,7 +27,7 @@ buffer_handle buffer_handle::generate()
 
 
 buffer_handle::buffer_handle(buffer_handle&& other)
-  : DeviceOwnedObjectHandle(std::move(other))
+  : device_owned_object_handle(std::move(other))
 {}
 
 
@@ -47,12 +47,12 @@ buffer_handle::~buffer_handle()
 
 
 buffer_handle::buffer_handle(ALuint name)
-  : DeviceOwnedObjectHandle(name)
+  : device_owned_object_handle(name)
 {}
 
 
 
-void setBufferData(const buffer_handle& handle, ALenum format, ALvoid* data,
+void set_buffer_data(const buffer_handle& handle, ALenum format, ALvoid* data,
   ALsizei size, ALsizei freq)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
@@ -63,7 +63,7 @@ void setBufferData(const buffer_handle& handle, ALenum format, ALvoid* data,
 
 
 
-ALint getBufferFrequency(const buffer_handle& handle)
+ALint get_buffer_frequency(const buffer_handle& handle)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(handle);
@@ -75,7 +75,7 @@ ALint getBufferFrequency(const buffer_handle& handle)
 
 
 
-ALint getBufferBits(const buffer_handle& handle)
+ALint get_buffer_bits(const buffer_handle& handle)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(handle);
@@ -87,7 +87,7 @@ ALint getBufferBits(const buffer_handle& handle)
 
 
 
-ALint getBufferChannels(const buffer_handle& handle)
+ALint get_buffer_channels(const buffer_handle& handle)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(handle);
@@ -99,7 +99,7 @@ ALint getBufferChannels(const buffer_handle& handle)
 
 
 
-ALint getBufferSize(const buffer_handle& handle)
+ALint get_buffer_size(const buffer_handle& handle)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(handle);

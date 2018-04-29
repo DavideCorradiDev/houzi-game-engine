@@ -27,7 +27,7 @@ class TestSoundModelDeathTest : public TestSoundModel
 TEST_F(TestSoundModel, SoundDistanceModel)
 {
   EXPECT_EQ(
-    SoundDistanceModel::InverseDistanceClamped, SoundModel::getDistanceModel());
+    SoundDistanceModel::InverseDistanceClamped, SoundModel::get_distance_model());
 
   std::vector<SoundDistanceModel> distanceModels{
     SoundDistanceModel::InverseDistance,
@@ -40,8 +40,8 @@ TEST_F(TestSoundModel, SoundDistanceModel)
 
   for(auto dm : distanceModels)
   {
-    SoundModel::setDistanceModel(dm);
-    EXPECT_EQ(dm, SoundModel::getDistanceModel());
+    SoundModel::set_distance_model(dm);
+    EXPECT_EQ(dm, SoundModel::get_distance_model());
   }
 }
 
@@ -49,14 +49,14 @@ TEST_F(TestSoundModel, SoundDistanceModel)
 
 TEST_F(TestSoundModel, DopplerFactor)
 {
-  EXPECT_FLOAT_EQ(1.f, SoundModel::getDopplerFactor());
+  EXPECT_FLOAT_EQ(1.f, SoundModel::get_doppler_factor());
 
   std::vector<float> dopplerFactorValues{0.f, 0.5f, 1.f, 3.f, 10.f};
 
   for(auto df : dopplerFactorValues)
   {
-    SoundModel::setDopplerFactor(df);
-    EXPECT_FLOAT_EQ(df, SoundModel::getDopplerFactor());
+    SoundModel::set_doppler_factor(df);
+    EXPECT_FLOAT_EQ(df, SoundModel::get_doppler_factor());
   }
 }
 
@@ -64,21 +64,21 @@ TEST_F(TestSoundModel, DopplerFactor)
 
 TEST_F(TestSoundModel, DopplerFactorErrorNegativeValue)
 {
-  HOU_EXPECT_PRECONDITION(SoundModel::setDopplerFactor(-1.f));
+  HOU_EXPECT_PRECONDITION(SoundModel::set_doppler_factor(-1.f));
 }
 
 
 
 TEST_F(TestSoundModel, SpeedOfSound)
 {
-  EXPECT_FLOAT_EQ(343.3f, SoundModel::getSpeedOfSound());
+  EXPECT_FLOAT_EQ(343.3f, SoundModel::get_speed_of_sound());
 
   std::vector<float> speedOfSoundValues{0.5f, 1.f, 3.f, 10.f, 343.3f, 700.f};
 
   for(auto df : speedOfSoundValues)
   {
-    SoundModel::setSpeedOfSound(df);
-    EXPECT_FLOAT_EQ(df, SoundModel::getSpeedOfSound());
+    SoundModel::set_speed_of_sound(df);
+    EXPECT_FLOAT_EQ(df, SoundModel::get_speed_of_sound());
   }
 }
 
@@ -86,6 +86,6 @@ TEST_F(TestSoundModel, SpeedOfSound)
 
 TEST_F(TestSoundModel, SpeedOfSoundErrorNegativeOrNullValue)
 {
-  HOU_EXPECT_PRECONDITION(SoundModel::setSpeedOfSound(0.f));
-  HOU_EXPECT_PRECONDITION(SoundModel::setSpeedOfSound(-1.f));
+  HOU_EXPECT_PRECONDITION(SoundModel::set_speed_of_sound(0.f));
+  HOU_EXPECT_PRECONDITION(SoundModel::set_speed_of_sound(-1.f));
 }

@@ -29,7 +29,7 @@ std::string get_text(gl_error ec)
       return u8"Invalid GL enum.";
     case gl_error::invalid_framebuffer_operation:
       return u8"Invalid GL Framebuffer operation.";
-    case gl_error::InvalidOperation:
+    case gl_error::invalid_operation:
       return u8"Invalid GL operation";
     case gl_error::invalid_ownership:
       return u8"Current GL ph_context does not own object.";

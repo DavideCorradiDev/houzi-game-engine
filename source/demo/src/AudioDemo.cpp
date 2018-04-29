@@ -16,9 +16,9 @@
 #include "hou/cor/stopwatch.hpp"
 #include "hou/mth/transform2.hpp"
 
-#include "hou/al/AlContext.hpp"
-#include "hou/al/AlDevice.hpp"
-#include "hou/al/AlListener.hpp"
+#include "hou/al/al_context.hpp"
+#include "hou/al/al_device.hpp"
+#include "hou/al/al_listener.hpp"
 
 #include "hou/aud/AudioContext.hpp"
 #include "hou/aud/AudioBuffer.hpp"
@@ -49,7 +49,7 @@ int main()
 
   //****************
 
-  std::vector<std::string> deviceNames = AudioContext::getDeviceNames();
+  std::vector<std::string> deviceNames = AudioContext::get_device_names();
   std::cout << "Available devices:" << std::endl;
   for(const auto& deviceName : deviceNames) {
     std::cout << deviceName << std::endl;
@@ -61,9 +61,9 @@ int main()
   ALfloat listenerPos[] = {0.f, 0.f, 0.f};
   ALfloat listenerVel[] = {0.f, 0.f, 0.f};
   ALfloat listenerOri[] = {0.f, 0.f, 0.f, 0.f, 1.f, 0.f};
-  al::setListenerPosition(listenerPos);
-  al::setListenerVelocity(listenerVel);
-  al::setListenerOrientation(listenerOri);
+  al::set_listener_position(listenerPos);
+  al::set_listener_velocity(listenerVel);
+  al::set_listener_orientation(listenerOri);
 
   // std::string filename = dataDir + u8"test.wav";
   std::string filename = "source/houaud/test/data/TestWav-Stereo-16-44100.wav";

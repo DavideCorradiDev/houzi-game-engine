@@ -5,8 +5,8 @@
 #ifndef HOU_AL_AL_STATE_HPP
 #define HOU_AL_AL_STATE_HPP
 
-#include "hou/al/AlExport.hpp"
-#include "hou/al/OpenAl.hpp"
+#include "hou/al/al_export.hpp"
+#include "hou/al/open_al.hpp"
 
 
 
@@ -16,14 +16,14 @@ namespace hou
 namespace al
 {
 
-void HOU_AL_API setDistanceModel(ALenum value);
-ALenum HOU_AL_API getDistanceModel();
+void HOU_AL_API set_distance_model(ALenum value);
+ALenum HOU_AL_API get_distance_model();
 
-void HOU_AL_API setDopplerFactor(ALfloat value);
-ALfloat HOU_AL_API getDopplerFactor();
+void HOU_AL_API set_doppler_factor(ALfloat value);
+ALfloat HOU_AL_API get_doppler_factor();
 
-void HOU_AL_API setSpeedOfSound(ALfloat value);
-ALfloat HOU_AL_API getSpeedOfSound();
+void HOU_AL_API set_speed_of_sound(ALfloat value);
+ALfloat HOU_AL_API get_speed_of_sound();
 
 }
 

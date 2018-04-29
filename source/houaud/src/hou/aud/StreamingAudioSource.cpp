@@ -202,9 +202,9 @@ std::vector<uint8_t> StreamingAudioSource::readDataChunk(size_t chunkSize)
 
 void StreamingAudioSource::freeBuffers()
 {
-  uint processedBuffers = al::getSourceProcessedBuffers(get_handle());
+  uint processedBuffers = al::get_source_processed_buffers(get_handle());
   std::vector<ALuint> bufferNames(processedBuffers, 0);
-  al::sourceUnqueueBuffers(
+  al::source_unqueue_buffers(
     get_handle(), static_cast<ALsizei>(bufferNames.size()), bufferNames.data());
   uint processedBytes = mBufferQueue.freeBuffers(processedBuffers);
   setSamplePosVariable(mSamplePos
@@ -237,7 +237,7 @@ void StreamingAudioSource::fillBuffers()
                               mAudioStream->getSampleRate())
                             .get_handle()
                             .get_name();
-      al::sourceQueueBuffers(get_handle(), 1u, &bufferName);
+      al::source_queue_buffers(get_handle(), 1u, &bufferName);
     }
   }
 }

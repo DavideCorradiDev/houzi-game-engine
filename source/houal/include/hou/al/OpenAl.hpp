@@ -5,7 +5,7 @@
 #ifndef HOU_AL_OPEN_AL_HPP
 #define HOU_AL_OPEN_AL_HPP
 
-#include "hou/al/AlExport.hpp"
+#include "hou/al/al_export.hpp"
 
 #ifndef TARGET_OS_MAC
   #define TARGET_OS_MAC 0

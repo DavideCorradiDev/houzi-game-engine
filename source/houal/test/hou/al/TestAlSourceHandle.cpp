@@ -5,8 +5,8 @@
 #include "hou/Test.hpp"
 #include "hou/al/TestAlBase.hpp"
 
-#include "hou/al/AlSourceHandle.hpp"
-#include "hou/al/AlError.hpp"
+#include "hou/al/al_source_handle.hpp"
+#include "hou/al/al_error.hpp"
 
 using namespace hou;
 
@@ -24,7 +24,7 @@ class TestAlSourceHandleDeathTest : public TestAlSourceHandle {};
 
 TEST_F(TestAlSourceHandle, Generation)
 {
-  al::SourceHandle sh = al::SourceHandle::generate();
+  al::source_handle sh = al::source_handle::generate();
   EXPECT_NE(0u, sh.get_name());
 }
 
@@ -37,7 +37,7 @@ TEST_F(TestAlSourceHandleDeathTest, DISABLED_NoContextCreation)
 #endif
 {
   al::context::unset_current();
-  HOU_EXPECT_ERROR(al::SourceHandle::generate(), std::logic_error
-    , get_text(AlError::context_existence));
+  HOU_EXPECT_ERROR(al::source_handle::generate(), std::logic_error
+    , get_text(al_error::context_existence));
 }
 

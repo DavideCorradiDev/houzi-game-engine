@@ -2,9 +2,9 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/al/AlState.hpp"
+#include "hou/al/al_state.hpp"
 
-#include "hou/al/AlCheck.hpp"
+#include "hou/al/al_check.hpp"
 
 
 
@@ -14,7 +14,7 @@ namespace hou
 namespace al
 {
 
-void setDistanceModel(ALenum value)
+void set_distance_model(ALenum value)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   alDistanceModel(value);
@@ -23,7 +23,7 @@ void setDistanceModel(ALenum value)
 
 
 
-ALenum getDistanceModel()
+ALenum get_distance_model()
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   ALint value = alGetInteger(AL_DISTANCE_MODEL);
@@ -33,7 +33,7 @@ ALenum getDistanceModel()
 
 
 
-void setDopplerFactor(ALfloat value)
+void set_doppler_factor(ALfloat value)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   alDopplerFactor(value);
@@ -42,7 +42,7 @@ void setDopplerFactor(ALfloat value)
 
 
 
-ALfloat getDopplerFactor()
+ALfloat get_doppler_factor()
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   ALfloat value = alGetFloat(AL_DOPPLER_FACTOR);
@@ -52,7 +52,7 @@ ALfloat getDopplerFactor()
 
 
 
-void setSpeedOfSound(ALfloat value)
+void set_speed_of_sound(ALfloat value)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   alSpeedOfSound(value);
@@ -61,7 +61,7 @@ void setSpeedOfSound(ALfloat value)
 
 
 
-ALfloat getSpeedOfSound()
+ALfloat get_speed_of_sound()
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   ALfloat value = alGetFloat(AL_SPEED_OF_SOUND);

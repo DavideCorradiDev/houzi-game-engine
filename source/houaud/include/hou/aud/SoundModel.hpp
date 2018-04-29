@@ -49,13 +49,13 @@ namespace SoundModel
  *
  * \return the currently used sound distance model.
  */
-HOU_AUD_API SoundDistanceModel getDistanceModel();
+HOU_AUD_API SoundDistanceModel get_distance_model();
 
 /** Sets the current sound distance model.
  *
  * \param model the sound distance model.
  */
-HOU_AUD_API void setDistanceModel(SoundDistanceModel model);
+HOU_AUD_API void set_distance_model(SoundDistanceModel model);
 
 /** Gets the current doppler factor.
  *
@@ -63,7 +63,7 @@ HOU_AUD_API void setDistanceModel(SoundDistanceModel model);
  *
  * \return the current doppler factor.
  */
-HOU_AUD_API float getDopplerFactor();
+HOU_AUD_API float get_doppler_factor();
 
 /** Sets the current doppler factor.
  *
@@ -71,7 +71,7 @@ HOU_AUD_API float getDopplerFactor();
  *
  * \param dopplerFactor the doppler factor.
  */
-HOU_AUD_API void setDopplerFactor(float dopplerFactor);
+HOU_AUD_API void set_doppler_factor(float dopplerFactor);
 
 /** Gets the current speed of sound in meters per second.
  *
@@ -79,7 +79,7 @@ HOU_AUD_API void setDopplerFactor(float dopplerFactor);
  *
  * \return the current speed of sound.
  */
-HOU_AUD_API float getSpeedOfSound();
+HOU_AUD_API float get_speed_of_sound();
 
 /** Sets the current speed of sound.
  *
@@ -87,7 +87,7 @@ HOU_AUD_API float getSpeedOfSound();
  *
  * \param speedOfSound the speed of sound.
  */
-HOU_AUD_API void setSpeedOfSound(float speedOfSound);
+HOU_AUD_API void set_speed_of_sound(float speedOfSound);
 
 }  // namespace SoundModel
 

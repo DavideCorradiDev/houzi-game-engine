@@ -8,8 +8,8 @@
 
 TestAlBase::TestAlBase()
   : testing::Test()
-  , mDevice()
-  , mContext(mDevice)
+  , m_device()
+  , mContext(m_device)
 {
   setContextCurrent();
 }

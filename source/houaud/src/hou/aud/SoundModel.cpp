@@ -1,6 +1,6 @@
 #include "hou/aud/SoundModel.hpp"
 
-#include "hou/al/AlState.hpp"
+#include "hou/al/al_state.hpp"
 
 #include "hou/cor/error.hpp"
 
@@ -12,46 +12,46 @@ namespace hou
 namespace SoundModel
 {
 
-SoundDistanceModel getDistanceModel()
+SoundDistanceModel get_distance_model()
 {
-  return SoundDistanceModel(al::getDistanceModel());
+  return SoundDistanceModel(al::get_distance_model());
 }
 
 
 
-void setDistanceModel(SoundDistanceModel model)
+void set_distance_model(SoundDistanceModel model)
 {
-  al::setDistanceModel(static_cast<ALenum>(model));
+  al::set_distance_model(static_cast<ALenum>(model));
 }
 
 
 
-float getDopplerFactor()
+float get_doppler_factor()
 {
-  return static_cast<float>(al::getDopplerFactor());
+  return static_cast<float>(al::get_doppler_factor());
 }
 
 
 
-void setDopplerFactor(float dopplerFactor)
+void set_doppler_factor(float dopplerFactor)
 {
   HOU_EXPECT(dopplerFactor >= 0.f);
-  al::setDopplerFactor(static_cast<ALfloat>(dopplerFactor));
+  al::set_doppler_factor(static_cast<ALfloat>(dopplerFactor));
 }
 
 
 
-float getSpeedOfSound()
+float get_speed_of_sound()
 {
-  return static_cast<float>(al::getSpeedOfSound());
+  return static_cast<float>(al::get_speed_of_sound());
 }
 
 
 
-void setSpeedOfSound(float speedOfSound)
+void set_speed_of_sound(float speedOfSound)
 {
   HOU_EXPECT(speedOfSound > 0.f);
-  al::setSpeedOfSound(static_cast<ALfloat>(speedOfSound));
+  al::set_speed_of_sound(static_cast<ALfloat>(speedOfSound));
 }
 
 }  // namespace SoundModel

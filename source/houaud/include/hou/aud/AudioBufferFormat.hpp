@@ -7,7 +7,7 @@
 
 #include "hou/aud/AudExport.hpp"
 
-#include "hou/al/OpenAl.hpp"
+#include "hou/al/open_al.hpp"
 
 #include "hou/cor/basic_types.hpp"
 

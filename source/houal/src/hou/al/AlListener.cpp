@@ -2,9 +2,9 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/al/AlListener.hpp"
+#include "hou/al/al_listener.hpp"
 
-#include "hou/al/AlCheck.hpp"
+#include "hou/al/al_check.hpp"
 
 
 
@@ -14,7 +14,7 @@ namespace hou
 namespace al
 {
 
-void setListenerGain(ALfloat value)
+void set_listener_gain(ALfloat value)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   alListenerf(AL_GAIN, value);
@@ -23,7 +23,7 @@ void setListenerGain(ALfloat value)
 
 
 
-ALfloat getListenerGain()
+ALfloat get_listener_gain()
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   ALfloat value;
@@ -34,7 +34,7 @@ ALfloat getListenerGain()
 
 
 
-void setListenerPosition(const ALfloat* value)
+void set_listener_position(const ALfloat* value)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   alListenerfv(AL_POSITION, const_cast<ALfloat*>(value));
@@ -43,7 +43,7 @@ void setListenerPosition(const ALfloat* value)
 
 
 
-void getListenerPosition(ALfloat* value)
+void get_listener_position(ALfloat* value)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   alGetListenerfv(AL_POSITION, value);
@@ -52,7 +52,7 @@ void getListenerPosition(ALfloat* value)
 
 
 
-void setListenerVelocity(const ALfloat* value)
+void set_listener_velocity(const ALfloat* value)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   alListenerfv(AL_VELOCITY, const_cast<ALfloat*>(value));
@@ -61,7 +61,7 @@ void setListenerVelocity(const ALfloat* value)
 
 
 
-void getListenerVelocity(ALfloat* value)
+void get_listener_velocity(ALfloat* value)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   alGetListenerfv(AL_VELOCITY, value);
@@ -70,7 +70,7 @@ void getListenerVelocity(ALfloat* value)
 
 
 
-void setListenerOrientation(const ALfloat* value)
+void set_listener_orientation(const ALfloat* value)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   alListenerfv(AL_ORIENTATION, const_cast<ALfloat*>(value));
@@ -79,7 +79,7 @@ void setListenerOrientation(const ALfloat* value)
 
 
 
-void getListenerOrientation(ALfloat* value)
+void get_listener_orientation(ALfloat* value)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   alGetListenerfv(AL_ORIENTATION, value);

@@ -23,9 +23,9 @@ void AudioContext::unset_current()
 
 
 
-std::vector<std::string> AudioContext::getDeviceNames()
+std::vector<std::string> AudioContext::get_device_names()
 {
-  return al::Device::getDeviceNames();
+  return al::device::get_device_names();
 }
 
 

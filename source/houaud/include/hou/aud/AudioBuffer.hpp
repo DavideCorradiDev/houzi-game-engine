@@ -11,7 +11,7 @@
 #include "hou/aud/AudioBufferFormat.hpp"
 #include "hou/aud/AudioStreamIn.hpp"
 
-#include "hou/al/AlBufferHandle.hpp"
+#include "hou/al/al_buffer_handle.hpp"
 
 #include "hou/cor/basic_types.hpp"
 #include "hou/cor/span.hpp"

@@ -2,11 +2,11 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/al/AlObjectHandle.hpp"
+#include "hou/al/al_object_handle.hpp"
 
-#include "hou/al/AlCheck.hpp"
-#include "hou/al/AlContext.hpp"
-#include "hou/al/AlDevice.hpp"
+#include "hou/al/al_check.hpp"
+#include "hou/al/al_context.hpp"
+#include "hou/al/al_device.hpp"
 
 #include <utility>
 
@@ -45,37 +45,37 @@ ALuint object_handle::get_name() const
 
 
 
-DeviceOwnedObjectHandle::DeviceOwnedObjectHandle(ALuint name)
+device_owned_object_handle::device_owned_object_handle(ALuint name)
   : object_handle(name)
-  , mOwningDeviceUid(0u)
+  , m_owning_device_uid(0u)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
-  mOwningDeviceUid = al::context::getCurrent()->getDeviceUid();
+  m_owning_device_uid = al::context::getCurrent()->get_device_uid();
 }
 
 
 
-DeviceOwnedObjectHandle::DeviceOwnedObjectHandle
-  (DeviceOwnedObjectHandle&& other)
+device_owned_object_handle::device_owned_object_handle
+  (device_owned_object_handle&& other)
   : object_handle(std::move(other))
-  , mOwningDeviceUid(std::move(other.mOwningDeviceUid))
+  , m_owning_device_uid(std::move(other.m_owning_device_uid))
 {}
 
 
 
-DeviceOwnedObjectHandle::~DeviceOwnedObjectHandle()
+device_owned_object_handle::~device_owned_object_handle()
 {}
 
 
 
-uint32_t DeviceOwnedObjectHandle::getOwningDeviceUid() const
+uint32_t device_owned_object_handle::get_owning_device_uid() const
 {
-  return mOwningDeviceUid;
+  return m_owning_device_uid;
 }
 
 
 
-ContextOwnedObjectHandle::ContextOwnedObjectHandle(ALuint name)
+context_owned_object_handle::context_owned_object_handle(ALuint name)
   : object_handle(name)
   , m_owning_context_uid(0u)
 {
@@ -85,20 +85,20 @@ ContextOwnedObjectHandle::ContextOwnedObjectHandle(ALuint name)
 
 
 
-ContextOwnedObjectHandle::ContextOwnedObjectHandle
-  (ContextOwnedObjectHandle&& other)
+context_owned_object_handle::context_owned_object_handle
+  (context_owned_object_handle&& other)
   : object_handle(std::move(other))
   , m_owning_context_uid(std::move(other.m_owning_context_uid))
 {}
 
 
 
-ContextOwnedObjectHandle::~ContextOwnedObjectHandle()
+context_owned_object_handle::~context_owned_object_handle()
 {}
 
 
 
-uint32_t ContextOwnedObjectHandle::get_owning_context_uid() const
+uint32_t context_owned_object_handle::get_owning_context_uid() const
 {
   return m_owning_context_uid;
 }

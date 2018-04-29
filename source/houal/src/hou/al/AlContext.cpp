@@ -2,10 +2,10 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/al/AlContext.hpp"
+#include "hou/al/al_context.hpp"
 
-#include "hou/al/AlDevice.hpp"
-#include "hou/al/AlError.hpp"
+#include "hou/al/al_device.hpp"
+#include "hou/al/al_error.hpp"
 
 #include "hou/cor/error.hpp"
 #include "hou/cor/uid_generator.hpp"
@@ -44,7 +44,7 @@ void context::set_current(context& ph_context)
 {
   std::lock_guard<std::mutex> lock(gCurrentContextMutex);
   HOU_RUNTIME_CHECK(alcMakeContextCurrent(ph_context.m_handle) == AL_TRUE
-    , get_text(AlError::context_make_current));
+    , get_text(al_error::context_make_current));
   gCurrentContext = &ph_context;
 }
 
@@ -54,7 +54,7 @@ void context::unset_current()
 {
   std::lock_guard<std::mutex> lock(gCurrentContextMutex);
   HOU_RUNTIME_CHECK(alcMakeContextCurrent(nullptr) == AL_TRUE
-    , get_text(AlError::context_make_current));
+    , get_text(al_error::context_make_current));
   gCurrentContext = nullptr;
 }
 
@@ -72,13 +72,13 @@ context* context::getCurrent()
 
 
 
-context::context(Device& device)
+context::context(device& ph_device)
   : non_copyable()
-  , m_handle(alcCreateContext(device.get_handle(), nullptr))
+  , m_handle(alcCreateContext(ph_device.get_handle(), nullptr))
   , m_uid(generateUid())
-  , mDeviceUid(device.get_uid())
+  , m_device_uid(ph_device.get_uid())
 {
-  HOU_RUNTIME_CHECK(m_handle != nullptr, get_text(AlError::context_create));
+  HOU_RUNTIME_CHECK(m_handle != nullptr, get_text(al_error::context_create));
 }
 
 
@@ -86,7 +86,7 @@ context::context(Device& device)
 context::context(context&& other)
   : m_handle(std::move(other.m_handle))
   , m_uid(std::move(other.m_uid))
-  , mDeviceUid(std::move(other.mDeviceUid))
+  , m_device_uid(std::move(other.m_device_uid))
 {
   other.m_handle = nullptr;
   if(getCurrent() == &other)
@@ -118,9 +118,9 @@ uint32_t context::get_uid() const
 
 
 
-uint32_t context::getDeviceUid() const
+uint32_t context::get_device_uid() const
 {
-  return mDeviceUid;
+  return m_device_uid;
 }
 
 

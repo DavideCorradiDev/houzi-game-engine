@@ -10,7 +10,7 @@
 #include "hou/aud/AudioBufferFormat.hpp"
 #include "hou/aud/AudioSourceState.hpp"
 
-#include "hou/al/AlSourceHandle.hpp"
+#include "hou/al/al_source_handle.hpp"
 
 #include "hou/cor/non_copyable.hpp"
 #include "hou/cor/std_chrono.hpp"
@@ -45,7 +45,7 @@ public:
    *
    *  \return the OpenAL audio source handle.
    */
-  const al::SourceHandle& get_handle() const;
+  const al::source_handle& get_handle() const;
 
   /** Plays the audio source.
    *
@@ -379,7 +379,7 @@ protected:
   virtual uint onGetSamplePos() const = 0;
 
 private:
-  al::SourceHandle m_handle;
+  al::source_handle m_handle;
   uint mRequestedSamplePos;
 };
 

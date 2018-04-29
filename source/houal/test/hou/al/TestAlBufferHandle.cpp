@@ -5,8 +5,8 @@
 #include "hou/Test.hpp"
 #include "hou/al/TestAlBase.hpp"
 
-#include "hou/al/AlBufferHandle.hpp"
-#include "hou/al/AlError.hpp"
+#include "hou/al/al_buffer_handle.hpp"
+#include "hou/al/al_error.hpp"
 
 using namespace hou;
 
@@ -38,6 +38,6 @@ TEST_F(TestAlBufferHandleDeathTest, DISABLED_NoContextCreation)
 {
   al::context::unset_current();
   HOU_EXPECT_ERROR(al::buffer_handle::generate(), std::logic_error
-    , get_text(AlError::context_existence));
+    , get_text(al_error::context_existence));
 }
 

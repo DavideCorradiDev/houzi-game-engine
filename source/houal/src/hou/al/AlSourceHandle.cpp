@@ -2,10 +2,10 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/al/AlSourceHandle.hpp"
+#include "hou/al/al_source_handle.hpp"
 
-#include "hou/al/AlBufferHandle.hpp"
-#include "hou/al/AlCheck.hpp"
+#include "hou/al/al_buffer_handle.hpp"
+#include "hou/al/al_check.hpp"
 
 
 
@@ -15,24 +15,24 @@ namespace hou
 namespace al
 {
 
-SourceHandle SourceHandle::generate()
+source_handle source_handle::generate()
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   ALuint name;
   alGenSources(1u, &name);
   HOU_AL_CHECK_ERROR();
-  return SourceHandle(name);
+  return source_handle(name);
 }
 
 
 
-SourceHandle::SourceHandle(SourceHandle&& other)
-  : ContextOwnedObjectHandle(std::move(other))
+source_handle::source_handle(source_handle&& other)
+  : context_owned_object_handle(std::move(other))
 {}
 
 
 
-SourceHandle::~SourceHandle()
+source_handle::~source_handle()
 {
   if(get_name() != 0)
   {
@@ -46,13 +46,13 @@ SourceHandle::~SourceHandle()
 
 
 
-SourceHandle::SourceHandle(ALuint name)
-  : ContextOwnedObjectHandle(name)
+source_handle::source_handle(ALuint name)
+  : context_owned_object_handle(name)
 {}
 
 
 
-void setSourcePitch(const SourceHandle& s, ALfloat pitch)
+void set_source_pitch(const source_handle& s, ALfloat pitch)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -63,7 +63,7 @@ void setSourcePitch(const SourceHandle& s, ALfloat pitch)
 
 
 
-ALfloat getSourcePitch(const SourceHandle& s)
+ALfloat get_source_pitch(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -75,7 +75,7 @@ ALfloat getSourcePitch(const SourceHandle& s)
 
 
 
-void setSourceGain(const SourceHandle& s, ALfloat gain)
+void set_source_gain(const source_handle& s, ALfloat gain)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -86,7 +86,7 @@ void setSourceGain(const SourceHandle& s, ALfloat gain)
 
 
 
-ALfloat getSourceGain(const SourceHandle& s)
+ALfloat get_source_gain(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -98,7 +98,7 @@ ALfloat getSourceGain(const SourceHandle& s)
 
 
 
-void setSourceMaxGain(const SourceHandle& s, ALfloat maxGain)
+void set_source_max_gain(const source_handle& s, ALfloat maxGain)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -109,7 +109,7 @@ void setSourceMaxGain(const SourceHandle& s, ALfloat maxGain)
 
 
 
-ALfloat getSourceMaxGain(const SourceHandle& s)
+ALfloat get_source_max_gain(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -121,7 +121,7 @@ ALfloat getSourceMaxGain(const SourceHandle& s)
 
 
 
-void setSourceMinGain(const SourceHandle& s, ALfloat minGain)
+void set_source_min_gain(const source_handle& s, ALfloat minGain)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -132,7 +132,7 @@ void setSourceMinGain(const SourceHandle& s, ALfloat minGain)
 
 
 
-ALfloat getSourceMinGain(const SourceHandle& s)
+ALfloat get_source_min_gain(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -144,7 +144,7 @@ ALfloat getSourceMinGain(const SourceHandle& s)
 
 
 
-void setSourceMaxDistance(const SourceHandle& s, ALfloat distance)
+void set_source_max_distance(const source_handle& s, ALfloat distance)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -155,7 +155,7 @@ void setSourceMaxDistance(const SourceHandle& s, ALfloat distance)
 
 
 
-ALfloat getSourceMaxDistance(const SourceHandle& s)
+ALfloat get_source_max_distance(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -167,7 +167,7 @@ ALfloat getSourceMaxDistance(const SourceHandle& s)
 
 
 
-void setSourceRolloffFactor(const SourceHandle& s, ALfloat factor)
+void set_source_rolloff_factor(const source_handle& s, ALfloat factor)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -178,7 +178,7 @@ void setSourceRolloffFactor(const SourceHandle& s, ALfloat factor)
 
 
 
-ALfloat getSourceRolloffFactor(const SourceHandle& s)
+ALfloat get_source_rolloff_factor(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -190,7 +190,7 @@ ALfloat getSourceRolloffFactor(const SourceHandle& s)
 
 
 
-void setSourceConeOuterGain(const SourceHandle& s, ALfloat gain)
+void set_source_cone_outer_gain(const source_handle& s, ALfloat gain)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -201,7 +201,7 @@ void setSourceConeOuterGain(const SourceHandle& s, ALfloat gain)
 
 
 
-ALfloat getSourceConeOuterGain(const SourceHandle& s)
+ALfloat get_source_cone_outer_gain(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -213,7 +213,7 @@ ALfloat getSourceConeOuterGain(const SourceHandle& s)
 
 
 
-void setSourceConeInnerAngle(const SourceHandle& s, ALfloat angle)
+void set_source_cone_inner_angle(const source_handle& s, ALfloat angle)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -224,7 +224,7 @@ void setSourceConeInnerAngle(const SourceHandle& s, ALfloat angle)
 
 
 
-ALfloat getSourceConeInnerAngle(const SourceHandle& s)
+ALfloat get_source_cone_inner_angle(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -236,7 +236,7 @@ ALfloat getSourceConeInnerAngle(const SourceHandle& s)
 
 
 
-void setSourceConeOuterAngle(const SourceHandle& s, ALfloat angle)
+void set_source_cone_outer_angle(const source_handle& s, ALfloat angle)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -247,7 +247,7 @@ void setSourceConeOuterAngle(const SourceHandle& s, ALfloat angle)
 
 
 
-ALfloat getSourceConeOuterAngle(const SourceHandle& s)
+ALfloat getSourceConeOuterAngle(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -259,7 +259,7 @@ ALfloat getSourceConeOuterAngle(const SourceHandle& s)
 
 
 
-void setSourceReferenceDistance(const SourceHandle& s, ALfloat dist)
+void set_source_reference_distance(const source_handle& s, ALfloat dist)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -270,7 +270,7 @@ void setSourceReferenceDistance(const SourceHandle& s, ALfloat dist)
 
 
 
-ALfloat getSourceReferenceDistance(const SourceHandle& s)
+ALfloat get_source_reference_distance(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -282,7 +282,7 @@ ALfloat getSourceReferenceDistance(const SourceHandle& s)
 
 
 
-void setSourcePosition(const SourceHandle& s, const ALfloat* pos)
+void set_source_position(const source_handle& s, const ALfloat* pos)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -293,7 +293,7 @@ void setSourcePosition(const SourceHandle& s, const ALfloat* pos)
 
 
 
-void getSourcePosition(const SourceHandle& s, ALfloat* pos)
+void get_source_position(const source_handle& s, ALfloat* pos)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -303,7 +303,7 @@ void getSourcePosition(const SourceHandle& s, ALfloat* pos)
 
 
 
-void setSourceVelocity(const SourceHandle& s, const ALfloat* vel)
+void set_source_velocity(const source_handle& s, const ALfloat* vel)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -314,7 +314,7 @@ void setSourceVelocity(const SourceHandle& s, const ALfloat* vel)
 
 
 
-void getSourceVelocity(const SourceHandle& s, ALfloat* vel)
+void get_source_velocity(const source_handle& s, ALfloat* vel)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -324,7 +324,7 @@ void getSourceVelocity(const SourceHandle& s, ALfloat* vel)
 
 
 
-void setSourceDirection(const SourceHandle& s, const ALfloat* dir)
+void set_source_direction(const source_handle& s, const ALfloat* dir)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -334,7 +334,7 @@ void setSourceDirection(const SourceHandle& s, const ALfloat* dir)
 
 
 
-void getSourceDirection(const SourceHandle& s, ALfloat* dir)
+void get_source_direction(const source_handle& s, ALfloat* dir)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -345,7 +345,7 @@ void getSourceDirection(const SourceHandle& s, ALfloat* dir)
 
 
 
-void setSourceRelative(const SourceHandle& s, ALboolean relative)
+void set_source_relative(const source_handle& s, ALboolean relative)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -356,7 +356,7 @@ void setSourceRelative(const SourceHandle& s, ALboolean relative)
 
 
 
-ALboolean getSourceRelative(const SourceHandle& s)
+ALboolean get_source_relative(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -368,7 +368,7 @@ ALboolean getSourceRelative(const SourceHandle& s)
 
 
 
-void setSourceLooping(const SourceHandle& s, ALboolean looping)
+void set_source_looping(const source_handle& s, ALboolean looping)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -378,7 +378,7 @@ void setSourceLooping(const SourceHandle& s, ALboolean looping)
 
 
 
-ALboolean getSourceLooping(const SourceHandle& s)
+ALboolean get_source_looping(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -390,7 +390,7 @@ ALboolean getSourceLooping(const SourceHandle& s)
 
 
 
-void setSourceState(const SourceHandle& s, ALenum state)
+void set_source_state(const source_handle& s, ALenum state)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -400,7 +400,7 @@ void setSourceState(const SourceHandle& s, ALenum state)
 
 
 
-ALenum getSourceState(const SourceHandle& s)
+ALenum get_source_state(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -412,7 +412,7 @@ ALenum getSourceState(const SourceHandle& s)
 
 
 
-void playSource(const SourceHandle& s)
+void play_source(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -422,7 +422,7 @@ void playSource(const SourceHandle& s)
 
 
 
-void pauseSource(const SourceHandle& s)
+void pause_source(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -432,7 +432,7 @@ void pauseSource(const SourceHandle& s)
 
 
 
-void stopSource(const SourceHandle& s)
+void stop_source(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -442,7 +442,7 @@ void stopSource(const SourceHandle& s)
 
 
 
-void rewindSource(const SourceHandle& s)
+void rewind_source(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -453,7 +453,7 @@ void rewindSource(const SourceHandle& s)
 
 
 
-void setSourceBuffer(const SourceHandle& s, ALuint buffer)
+void set_source_buffer(const source_handle& s, ALuint buffer)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -463,7 +463,7 @@ void setSourceBuffer(const SourceHandle& s, ALuint buffer)
 
 
 
-ALuint getSourceBuffer(const SourceHandle& s)
+ALuint get_source_buffer(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -475,7 +475,7 @@ ALuint getSourceBuffer(const SourceHandle& s)
 
 
 
-void sourceQueueBuffers(const SourceHandle& s, ALsizei n, ALuint* buffers)
+void source_queue_buffers(const source_handle& s, ALsizei n, ALuint* buffers)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -485,7 +485,7 @@ void sourceQueueBuffers(const SourceHandle& s, ALsizei n, ALuint* buffers)
 
 
 
-void sourceUnqueueBuffers(const SourceHandle& s, ALsizei n, ALuint* buffers)
+void source_unqueue_buffers(const source_handle& s, ALsizei n, ALuint* buffers)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -495,7 +495,7 @@ void sourceUnqueueBuffers(const SourceHandle& s, ALsizei n, ALuint* buffers)
 
 
 
-ALint getSourceQueuedBuffers(const SourceHandle& s)
+ALint get_source_queued_buffers(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -507,7 +507,7 @@ ALint getSourceQueuedBuffers(const SourceHandle& s)
 
 
 
-ALint getSourceProcessedBuffers(const SourceHandle& s)
+ALint get_source_processed_buffers(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -519,7 +519,7 @@ ALint getSourceProcessedBuffers(const SourceHandle& s)
 
 
 
-void setSourceSecOffset(const SourceHandle& s, ALfloat offset)
+void set_source_sec_offset(const source_handle& s, ALfloat offset)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -529,7 +529,7 @@ void setSourceSecOffset(const SourceHandle& s, ALfloat offset)
 
 
 
-ALfloat getSourceSecOffset(const SourceHandle& s)
+ALfloat get_source_sec_offset(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -541,7 +541,7 @@ ALfloat getSourceSecOffset(const SourceHandle& s)
 
 
 
-ALint getSourceSampleOffset(const SourceHandle& s)
+ALint get_source_sample_offset(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -553,7 +553,7 @@ ALint getSourceSampleOffset(const SourceHandle& s)
 
 
 
-void setSourceSampleOffset(const SourceHandle& s, ALint offset)
+void set_source_sample_offset(const source_handle& s, ALint offset)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -563,7 +563,7 @@ void setSourceSampleOffset(const SourceHandle& s, ALint offset)
 
 
 
-ALint getSourceByteOffset(const SourceHandle& s)
+ALint get_source_byte_offset(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);
@@ -575,7 +575,7 @@ ALint getSourceByteOffset(const SourceHandle& s)
 
 
 
-void setSourceByteOffset(const SourceHandle& s, ALint offset)
+void set_source_byte_offset(const source_handle& s, ALint offset)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(s);

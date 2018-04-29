@@ -8,8 +8,8 @@
 #include "hou/aud/AudExport.hpp"
 #include "hou/cor/non_copyable.hpp"
 
-#include "hou/al/AlContext.hpp"
-#include "hou/al/AlDevice.hpp"
+#include "hou/al/al_context.hpp"
+#include "hou/al/al_device.hpp"
 
 #include <string>
 #include <vector>
@@ -19,7 +19,7 @@
 namespace hou
 {
 
-/** Represents the global state of the audio device.
+/** Represents the global state of the audio ph_device.
  *
  *  At least one AudioContext must exist when creating AudioBuffer, AudioSource,
  *  and StreamingAudioSource objects, and when using Listener functions.
@@ -47,18 +47,18 @@ public:
    *
    *  \return a list of the names of the available audio devices.
    */
-  static std::vector<std::string> getDeviceNames();
+  static std::vector<std::string> get_device_names();
 
 public:
   /** Creates an AudioContext and sets it as the current AudioContext.
    */
   AudioContext();
 
-  /** Creates an AudioContext with the given device.
+  /** Creates an AudioContext with the given ph_device.
    *
-   *  a list of available devices may be obtained by calling getDeviceNames.
+   *  a list of available devices may be obtained by calling get_device_names.
    *
-   *  \param deviceName the name of the device.
+   *  \param deviceName the name of the ph_device.
    */
   AudioContext(const std::string& deviceName);
 
@@ -73,7 +73,7 @@ public:
   bool is_current() const;
 
 private:
-  al::Device mAlDevice;
+  al::device mAlDevice;
   al::context mAlContext;
 };
 

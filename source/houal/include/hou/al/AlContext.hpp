@@ -5,9 +5,9 @@
 #ifndef HOU_AL_AL_CONTEXT_HPP
 #define HOU_AL_AL_CONTEXT_HPP
 
-#include "hou/al/AlExport.hpp"
+#include "hou/al/al_export.hpp"
 
-#include "hou/al/OpenAl.hpp"
+#include "hou/al/open_al.hpp"
 
 #include "hou/cor/basic_types.hpp"
 #include "hou/cor/non_copyable.hpp"
@@ -20,7 +20,7 @@ namespace hou
 namespace al
 {
 
-class Device;
+class device;
 
 class HOU_AL_API context
   : public non_copyable
@@ -31,19 +31,19 @@ public:
   static context* getCurrent();
 
 public:
-  context(Device& device);
+  context(device& ph_device);
   context(context&& other);
   ~context();
 
   uint32_t get_uid() const;
-  uint32_t getDeviceUid() const;
+  uint32_t get_device_uid() const;
 
   bool is_current() const;
 
 private:
   ALCcontext* m_handle;
   uint32_t m_uid;
-  uint32_t mDeviceUid;
+  uint32_t m_device_uid;
 };
 
 }

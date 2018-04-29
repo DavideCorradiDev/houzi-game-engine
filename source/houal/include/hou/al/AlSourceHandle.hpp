@@ -5,8 +5,8 @@
 #ifndef HOU_AL_AL_SOURCE_HANDLE_HPP
 #define HOU_AL_AL_SOURCE_HANDLE_HPP
 
-#include "hou/al/AlExport.hpp"
-#include "hou/al/AlObjectHandle.hpp"
+#include "hou/al/al_export.hpp"
+#include "hou/al/al_object_handle.hpp"
 
 
 
@@ -20,74 +20,74 @@ class buffer_handle;
 
 
 
-class HOU_AL_API SourceHandle
-  : public ContextOwnedObjectHandle
+class HOU_AL_API source_handle
+  : public context_owned_object_handle
 {
 public:
-  static SourceHandle generate();
+  static source_handle generate();
 
-  SourceHandle(SourceHandle&& other);
-  virtual ~SourceHandle();
+  source_handle(source_handle&& other);
+  virtual ~source_handle();
 
 private:
-  SourceHandle(ALuint name);
+  source_handle(ALuint name);
 };
 
 
 
-HOU_AL_API void setSourcePitch(const SourceHandle& s, ALfloat pitch);
-HOU_AL_API ALfloat getSourcePitch(const SourceHandle& s);
-HOU_AL_API void setSourceGain(const SourceHandle& s, ALfloat gain);
-HOU_AL_API ALfloat getSourceGain(const SourceHandle& s);
-HOU_AL_API void setSourceMaxGain(const SourceHandle& s, ALfloat maxGain);
-HOU_AL_API ALfloat getSourceMaxGain(const SourceHandle& s);
-HOU_AL_API void setSourceMinGain(const SourceHandle& s, ALfloat minGain);
-HOU_AL_API ALfloat getSourceMinGain(const SourceHandle& s);
-HOU_AL_API void setSourceMaxDistance(const SourceHandle& s, ALfloat distance);
-HOU_AL_API ALfloat getSourceMaxDistance(const SourceHandle& s);
-HOU_AL_API void setSourceRolloffFactor(const SourceHandle& s, ALfloat factor);
-HOU_AL_API ALfloat getSourceRolloffFactor(const SourceHandle& s);
-HOU_AL_API void setSourceConeOuterGain(const SourceHandle& s, ALfloat gain);
-HOU_AL_API ALfloat getSourceConeOuterGain(const SourceHandle& s);
-HOU_AL_API void setSourceConeInnerAngle(const SourceHandle& s, ALfloat angle);
-HOU_AL_API ALfloat getSourceConeInnerAngle(const SourceHandle& s);
-HOU_AL_API void setSourceConeOuterAngle(const SourceHandle& s, ALfloat angle);
-HOU_AL_API ALfloat getSourceConeOuterAngle(const SourceHandle& s);
-HOU_AL_API void setSourceReferenceDistance(const SourceHandle& s, ALfloat dist);
-HOU_AL_API ALfloat getSourceReferenceDistance(const SourceHandle& s);
-HOU_AL_API void setSourcePosition(const SourceHandle& s, const ALfloat* pos);
-HOU_AL_API void getSourcePosition(const SourceHandle& s, ALfloat* pos);
-HOU_AL_API void setSourceVelocity(const SourceHandle& s, const ALfloat* vel);
-HOU_AL_API void getSourceVelocity(const SourceHandle& s, ALfloat* vel);
-HOU_AL_API void setSourceDirection(const SourceHandle& s, const ALfloat* dir);
-HOU_AL_API void getSourceDirection(const SourceHandle& s, ALfloat* dir);
-HOU_AL_API void setSourceRelative(const SourceHandle& s, ALboolean relative);
-HOU_AL_API ALboolean getSourceRelative(const SourceHandle& s);
-HOU_AL_API void setSourceLooping(const SourceHandle& s, ALboolean looping);
-HOU_AL_API ALboolean getSourceLooping(const SourceHandle& s);
+HOU_AL_API void set_source_pitch(const source_handle& s, ALfloat pitch);
+HOU_AL_API ALfloat get_source_pitch(const source_handle& s);
+HOU_AL_API void set_source_gain(const source_handle& s, ALfloat gain);
+HOU_AL_API ALfloat get_source_gain(const source_handle& s);
+HOU_AL_API void set_source_max_gain(const source_handle& s, ALfloat maxGain);
+HOU_AL_API ALfloat get_source_max_gain(const source_handle& s);
+HOU_AL_API void set_source_min_gain(const source_handle& s, ALfloat minGain);
+HOU_AL_API ALfloat get_source_min_gain(const source_handle& s);
+HOU_AL_API void set_source_max_distance(const source_handle& s, ALfloat distance);
+HOU_AL_API ALfloat get_source_max_distance(const source_handle& s);
+HOU_AL_API void set_source_rolloff_factor(const source_handle& s, ALfloat factor);
+HOU_AL_API ALfloat get_source_rolloff_factor(const source_handle& s);
+HOU_AL_API void set_source_cone_outer_gain(const source_handle& s, ALfloat gain);
+HOU_AL_API ALfloat get_source_cone_outer_gain(const source_handle& s);
+HOU_AL_API void set_source_cone_inner_angle(const source_handle& s, ALfloat angle);
+HOU_AL_API ALfloat get_source_cone_inner_angle(const source_handle& s);
+HOU_AL_API void set_source_cone_outer_angle(const source_handle& s, ALfloat angle);
+HOU_AL_API ALfloat getSourceConeOuterAngle(const source_handle& s);
+HOU_AL_API void set_source_reference_distance(const source_handle& s, ALfloat dist);
+HOU_AL_API ALfloat get_source_reference_distance(const source_handle& s);
+HOU_AL_API void set_source_position(const source_handle& s, const ALfloat* pos);
+HOU_AL_API void get_source_position(const source_handle& s, ALfloat* pos);
+HOU_AL_API void set_source_velocity(const source_handle& s, const ALfloat* vel);
+HOU_AL_API void get_source_velocity(const source_handle& s, ALfloat* vel);
+HOU_AL_API void set_source_direction(const source_handle& s, const ALfloat* dir);
+HOU_AL_API void get_source_direction(const source_handle& s, ALfloat* dir);
+HOU_AL_API void set_source_relative(const source_handle& s, ALboolean relative);
+HOU_AL_API ALboolean get_source_relative(const source_handle& s);
+HOU_AL_API void set_source_looping(const source_handle& s, ALboolean looping);
+HOU_AL_API ALboolean get_source_looping(const source_handle& s);
 
-HOU_AL_API void setSourceState(const SourceHandle& s, ALenum state);
-HOU_AL_API ALenum getSourceState(const SourceHandle& s);
-HOU_AL_API void playSource(const SourceHandle& s);
-HOU_AL_API void pauseSource(const SourceHandle& s);
-HOU_AL_API void stopSource(const SourceHandle& s);
-HOU_AL_API void rewindSource(const SourceHandle& s);
+HOU_AL_API void set_source_state(const source_handle& s, ALenum state);
+HOU_AL_API ALenum get_source_state(const source_handle& s);
+HOU_AL_API void play_source(const source_handle& s);
+HOU_AL_API void pause_source(const source_handle& s);
+HOU_AL_API void stop_source(const source_handle& s);
+HOU_AL_API void rewind_source(const source_handle& s);
 
-HOU_AL_API void setSourceBuffer(const SourceHandle& s, ALuint buffer);
-HOU_AL_API ALuint getSourceBuffer(const SourceHandle& s);
-HOU_AL_API void sourceQueueBuffers(const SourceHandle& s, ALsizei n
+HOU_AL_API void set_source_buffer(const source_handle& s, ALuint buffer);
+HOU_AL_API ALuint get_source_buffer(const source_handle& s);
+HOU_AL_API void source_queue_buffers(const source_handle& s, ALsizei n
   , ALuint* buffers);
-HOU_AL_API void sourceUnqueueBuffers(const SourceHandle& s, ALsizei n
+HOU_AL_API void source_unqueue_buffers(const source_handle& s, ALsizei n
   , ALuint* buffers);
-HOU_AL_API ALint getSourceQueuedBuffers(const SourceHandle& s);
-HOU_AL_API ALint getSourceProcessedBuffers(const SourceHandle& s);
+HOU_AL_API ALint get_source_queued_buffers(const source_handle& s);
+HOU_AL_API ALint get_source_processed_buffers(const source_handle& s);
 
-HOU_AL_API void setSourceSecOffset(const SourceHandle& s, ALfloat offset);
-HOU_AL_API ALfloat getSourceSecOffset(const SourceHandle& s);
-HOU_AL_API void setSourceSampleOffset(const SourceHandle& s, ALint offset);
-HOU_AL_API ALint getSourceSampleOffset(const SourceHandle& s);
-HOU_AL_API void setSourceByteOffset(const SourceHandle& s, ALint offset);
-HOU_AL_API ALint getSourceByteOffset(const SourceHandle& s);
+HOU_AL_API void set_source_sec_offset(const source_handle& s, ALfloat offset);
+HOU_AL_API ALfloat get_source_sec_offset(const source_handle& s);
+HOU_AL_API void set_source_sample_offset(const source_handle& s, ALint offset);
+HOU_AL_API ALint get_source_sample_offset(const source_handle& s);
+HOU_AL_API void set_source_byte_offset(const source_handle& s, ALint offset);
+HOU_AL_API ALint get_source_byte_offset(const source_handle& s);
 
 }
 

@@ -20,7 +20,7 @@ TEST(TestAudioContext, DefaultCreation)
 
 TEST(TestAudioContext, DeviceNameCreation)
 {
-  std::vector<std::string> deviceNames = AudioContext::getDeviceNames();
+  std::vector<std::string> deviceNames = AudioContext::get_device_names();
   for(const auto& deviceName : deviceNames)
   {
     AudioContext ctx(deviceName);

@@ -7,8 +7,8 @@
 
 #include <gtest/gtest.h>
 
-#include "hou/al/AlContext.hpp"
-#include "hou/al/AlDevice.hpp"
+#include "hou/al/al_context.hpp"
+#include "hou/al/al_device.hpp"
 
 
 
@@ -22,7 +22,7 @@ public:
   void setContextCurrent();
 
 protected:
-  hou::al::Device mDevice;
+  hou::al::device m_device;
   hou::al::context mContext;
 };
 

@@ -34,7 +34,7 @@ std::string getErrorMessage(GLenum err)
     case GL_INVALID_FRAMEBUFFER_OPERATION:
       return get_text(gl_error::invalid_framebuffer_operation);
     case GL_INVALID_OPERATION:
-      return get_text(gl_error::InvalidOperation);
+      return get_text(gl_error::invalid_operation);
     case GL_INVALID_VALUE:
       return get_text(gl_error::invalid_value);
     case GL_OUT_OF_MEMORY:

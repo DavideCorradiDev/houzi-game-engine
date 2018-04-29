@@ -5,8 +5,8 @@
 #ifndef HOU_AL_AL_BUFFER_HANDLE_HPP
 #define HOU_AL_AL_BUFFER_HANDLE_HPP
 
-#include "hou/al/AlExport.hpp"
-#include "hou/al/AlObjectHandle.hpp"
+#include "hou/al/al_export.hpp"
+#include "hou/al/al_object_handle.hpp"
 
 
 
@@ -16,7 +16,7 @@ namespace hou
 namespace al
 {
 
-class HOU_AL_API buffer_handle : public DeviceOwnedObjectHandle
+class HOU_AL_API buffer_handle : public device_owned_object_handle
 {
 public:
   static buffer_handle generate();
@@ -28,12 +28,12 @@ private:
   buffer_handle(ALuint name);
 };
 
-HOU_AL_API void setBufferData(const buffer_handle& handle, ALenum format,
+HOU_AL_API void set_buffer_data(const buffer_handle& handle, ALenum format,
   ALvoid* data, ALsizei size, ALsizei freq);
-HOU_AL_API ALint getBufferFrequency(const buffer_handle& handle);
-HOU_AL_API ALint getBufferBits(const buffer_handle& handle);
-HOU_AL_API ALint getBufferChannels(const buffer_handle& handle);
-HOU_AL_API ALint getBufferSize(const buffer_handle& handle);
+HOU_AL_API ALint get_buffer_frequency(const buffer_handle& handle);
+HOU_AL_API ALint get_buffer_bits(const buffer_handle& handle);
+HOU_AL_API ALint get_buffer_channels(const buffer_handle& handle);
+HOU_AL_API ALint get_buffer_size(const buffer_handle& handle);
 
 }  // namespace al
 
