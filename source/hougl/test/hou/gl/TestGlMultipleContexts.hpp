@@ -20,8 +20,8 @@ public:
   void setNonSharingContextCurrent();
 
 protected:
-  hou::gl::Context mSharingContext;
-  hou::gl::Context mNonSharingContext;
+  hou::gl::context mSharingContext;
+  hou::gl::context mNonSharingContext;
 };
 
 #endif

@@ -16,7 +16,7 @@ namespace hou
 namespace al
 {
 
-class BufferHandle;
+class buffer_handle;
 
 
 

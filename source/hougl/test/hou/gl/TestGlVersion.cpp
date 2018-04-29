@@ -4,7 +4,7 @@
 
 #include "hou/Test.hpp"
 #include "hou/gl/TestGlSingleContext.hpp"
-#include "hou/gl/GlVersion.hpp"
+#include "hou/gl/gl_version.hpp"
 
 using namespace hou;
 
@@ -22,26 +22,26 @@ class TestGlVersion
 
 TEST_F(TestGlVersion, Creation)
 {
-  gl::Version glv(4u, 5u);
+  gl::version glv(4u, 5u);
 
-  EXPECT_EQ(4u, glv.getMajor());
-  EXPECT_EQ(5u, glv.getMinor());
+  EXPECT_EQ(4u, glv.get_major());
+  EXPECT_EQ(5u, glv.get_minor());
 }
 
 
 
 TEST_F(TestGlVersion, Comparison)
 {
-  gl::Version v(3u, 3u);
-  gl::Version v44(4u, 4u);
-  gl::Version v43(4u, 3u);
-  gl::Version v42(4u, 2u);
-  gl::Version v34(3u, 4u);
-  gl::Version v33(3u, 3u);
-  gl::Version v32(3u, 2u);
-  gl::Version v24(2u, 4u);
-  gl::Version v23(2u, 3u);
-  gl::Version v22(2u, 2u);
+  gl::version v(3u, 3u);
+  gl::version v44(4u, 4u);
+  gl::version v43(4u, 3u);
+  gl::version v42(4u, 2u);
+  gl::version v34(3u, 4u);
+  gl::version v33(3u, 3u);
+  gl::version v32(3u, 2u);
+  gl::version v24(2u, 4u);
+  gl::version v23(2u, 3u);
+  gl::version v22(2u, 2u);
 
   EXPECT_FALSE(v == v22);
   EXPECT_FALSE(v == v23);
@@ -108,7 +108,7 @@ TEST_F(TestGlVersion, Comparison)
 
 TEST_F(TestGlVersion, OutputStreamOperator)
 {
-  gl::Version glv(4u, 5u);
+  gl::version glv(4u, 5u);
   HOU_EXPECT_OUTPUT("4.5", glv);
 }
 
@@ -116,17 +116,17 @@ TEST_F(TestGlVersion, OutputStreamOperator)
 
 TEST_F(TestGlVersion, IsSupported)
 {
-  gl::Version v1(4u, 5u);
-  gl::Version v2(4u, 4u);
+  gl::version v1(4u, 5u);
+  gl::version v2(4u, 4u);
 
-  EXPECT_TRUE(v1.isSupported());
-  EXPECT_FALSE(v2.isSupported());
+  EXPECT_TRUE(v1.is_supported());
+  EXPECT_FALSE(v2.is_supported());
 }
 
 
 
-TEST_F(TestGlVersion, Default)
+TEST_F(TestGlVersion, default)
 {
-  EXPECT_EQ(gl::Version(4u, 5u), gl::Version::Default);
+  EXPECT_EQ(gl::version(4u, 5u), gl::version::default);
 }
 

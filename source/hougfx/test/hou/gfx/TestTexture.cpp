@@ -10,7 +10,7 @@
 #include "hou/gfx/Texture.hpp"
 #include "hou/gfx/TextureChannelMapping.hpp"
 
-#include "hou/gl/GlError.hpp"
+#include "hou/gl/gl_error.hpp"
 
 #include "hou/sys/image.hpp"
 
@@ -326,13 +326,13 @@ TYPED_TEST(TestTextureCommon, SizeConstructor)
   size_type sizeRef = this->generateSize();
   TypeParam tex(sizeRef);
 
-  EXPECT_NE(0u, tex.getHandle().getName());
+  EXPECT_NE(0u, tex.getHandle().get_name());
   EXPECT_EQ(TextureFormat::rgba, tex.get_format());
   EXPECT_EQ(1u, tex.getMipMapLevelCount());
-  EXPECT_EQ(1u, tex.getSampleCount());
+  EXPECT_EQ(1u, tex.get_sample_count());
   EXPECT_TRUE(tex.hasFixedSampleLocations());
   EXPECT_EQ(sizeRef, tex.get_size());
-  EXPECT_EQ(TextureChannelMapping::Default, tex.getChannelMapping());
+  EXPECT_EQ(TextureChannelMapping::default, tex.getChannelMapping());
 }
 
 
@@ -381,7 +381,7 @@ TYPED_TEST(TestTextureCommonDeathTest, SizeConstructorErrorInvalidSize)
 TYPED_TEST(TestTextureCommon, SetChannelMapping)
 {
   TypeParam tex(this->generateSize());
-  EXPECT_EQ(TextureChannelMapping::Default, tex.getChannelMapping());
+  EXPECT_EQ(TextureChannelMapping::default, tex.getChannelMapping());
   tex.setChannelMapping(TextureChannelMapping::Alpha);
   EXPECT_EQ(TextureChannelMapping::Alpha, tex.getChannelMapping());
   tex.setChannelMapping(TextureChannelMapping::Luminosity);
@@ -458,13 +458,13 @@ TYPED_TEST(TestTextureNotMultisampled, MipMapConstructor)
   uint mipMapLevelCountRef = 3u;
   TypeParam tex(sizeRef, formatRef, mipMapLevelCountRef);
 
-  EXPECT_NE(0u, tex.getHandle().getName());
+  EXPECT_NE(0u, tex.getHandle().get_name());
   EXPECT_EQ(formatRef, tex.get_format());
   EXPECT_EQ(mipMapLevelCountRef, tex.getMipMapLevelCount());
-  EXPECT_EQ(1u, tex.getSampleCount());
+  EXPECT_EQ(1u, tex.get_sample_count());
   EXPECT_TRUE(tex.hasFixedSampleLocations());
   EXPECT_EQ(sizeRef, tex.get_size());
-  EXPECT_EQ(TextureChannelMapping::Default, tex.getChannelMapping());
+  EXPECT_EQ(TextureChannelMapping::default, tex.getChannelMapping());
   EXPECT_EQ(TextureFilter::Linear, tex.getFilter());
   EXPECT_EQ(this->getDefaultWrapMode(), tex.getWrapMode());
   EXPECT_EQ(image(tex.get_size()), tex.template get_image<pixel_format::rgb>());
@@ -550,13 +550,13 @@ TYPED_TEST(TestTextureNotMultisampled, ImageConstructor)
   uint mipMapLevelCountRef = 3u;
   TypeParam tex(imageRef, TextureFormat::rgba, mipMapLevelCountRef);
 
-  EXPECT_NE(0u, tex.getHandle().getName());
+  EXPECT_NE(0u, tex.getHandle().get_name());
   EXPECT_EQ(formatRef, tex.get_format());
   EXPECT_EQ(mipMapLevelCountRef, tex.getMipMapLevelCount());
-  EXPECT_EQ(1u, tex.getSampleCount());
+  EXPECT_EQ(1u, tex.get_sample_count());
   EXPECT_TRUE(tex.hasFixedSampleLocations());
   EXPECT_EQ(imageRef.get_size(), tex.get_size());
-  EXPECT_EQ(TextureChannelMapping::Default, tex.getChannelMapping());
+  EXPECT_EQ(TextureChannelMapping::default, tex.getChannelMapping());
   EXPECT_EQ(TextureFilter::Linear, tex.getFilter());
   EXPECT_EQ(this->getDefaultWrapMode(), tex.getWrapMode());
   EXPECT_EQ(imageRef, tex.template get_image<pixel_format::rgba>());
@@ -569,13 +569,13 @@ TYPED_TEST(TestTextureNotMultisampled, ImageConstructorDefaultArguments)
   auto imageRef = this->generateImage(this->generateSize());
   TypeParam tex(imageRef);
 
-  EXPECT_NE(0u, tex.getHandle().getName());
+  EXPECT_NE(0u, tex.getHandle().get_name());
   EXPECT_EQ(TextureFormat::rgba, tex.get_format());
   EXPECT_EQ(1u, tex.getMipMapLevelCount());
-  EXPECT_EQ(1u, tex.getSampleCount());
+  EXPECT_EQ(1u, tex.get_sample_count());
   EXPECT_TRUE(tex.hasFixedSampleLocations());
   EXPECT_EQ(imageRef.get_size(), tex.get_size());
-  EXPECT_EQ(TextureChannelMapping::Default, tex.getChannelMapping());
+  EXPECT_EQ(TextureChannelMapping::default, tex.getChannelMapping());
   EXPECT_EQ(TextureFilter::Linear, tex.getFilter());
   EXPECT_EQ(this->getDefaultWrapMode(), tex.getWrapMode());
   EXPECT_EQ(imageRef, tex.template get_image<pixel_format::rgba>());
@@ -983,13 +983,13 @@ TYPED_TEST(TestTextureMultisampled, MultisampleConstructor)
   uint sampleCountRef = 3u;
   TypeParam tex(sizeRef, formatRef, sampleCountRef, false);
 
-  EXPECT_NE(0u, tex.getHandle().getName());
+  EXPECT_NE(0u, tex.getHandle().get_name());
   EXPECT_EQ(formatRef, tex.get_format());
   EXPECT_EQ(1u, tex.getMipMapLevelCount());
-  EXPECT_EQ(sampleCountRef, tex.getSampleCount());
+  EXPECT_EQ(sampleCountRef, tex.get_sample_count());
   EXPECT_FALSE(tex.hasFixedSampleLocations());
   EXPECT_EQ(sizeRef, tex.get_size());
-  EXPECT_EQ(TextureChannelMapping::Default, tex.getChannelMapping());
+  EXPECT_EQ(TextureChannelMapping::default, tex.getChannelMapping());
 }
 
 
@@ -1022,11 +1022,11 @@ TYPED_TEST(TestTextureMultisampled, MultisampleConstructorSampleCountLimits)
 
   size_type sizeRef = this->generateSize();
   TypeParam texWithMinSampleCount(sizeRef, TextureFormat::rgba, 1u, true);
-  EXPECT_EQ(1u, texWithMinSampleCount.getSampleCount());
+  EXPECT_EQ(1u, texWithMinSampleCount.get_sample_count());
   TypeParam texWithMaxSampleCount(
     sizeRef, TextureFormat::rgba, TypeParam::getMaxSampleCount(), true);
   EXPECT_EQ(
-    TypeParam::getMaxSampleCount(), texWithMaxSampleCount.getSampleCount());
+    TypeParam::getMaxSampleCount(), texWithMaxSampleCount.get_sample_count());
 }
 
 

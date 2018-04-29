@@ -25,28 +25,28 @@ class window;
 namespace gl
 {
 
-class ContextSettings;
+class context_settings;
 
 namespace prv
 {
 
-class ContextImpl
+class context_impl
   : public non_copyable
 {
 public:
-  static void setCurrent(ContextImpl& context, window& ph_window);
-  static void unsetCurrent();
+  static void set_current(context_impl& ph_context, window& ph_window);
+  static void unset_current();
 
-  ContextImpl(const ContextSettings& settings, const window& ph_window
-    , const ContextImpl* sharedContext);
-  ContextImpl(ContextImpl&& other);
-  ~ContextImpl();
+  context_impl(const context_settings& settings, const window& ph_window
+    , const context_impl* sharedContext);
+  context_impl(context_impl&& other);
+  ~context_impl();
 
 private:
 #if defined(HOU_SYSTEM_WINDOWS)
   HGLRC m_handle;
   HDC m_hdc;
-  int mPixelFormat;
+  int m_pixel_format;
 #endif
 };
 

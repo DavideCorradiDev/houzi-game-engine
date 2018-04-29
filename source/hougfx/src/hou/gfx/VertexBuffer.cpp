@@ -11,25 +11,25 @@ namespace hou
 
 void VertexBuffer::bind(const VertexBuffer& buffer, VertexBufferTarget target)
 {
-  gl::bindBuffer(buffer.m_handle, static_cast<GLenum>(target));
+  gl::bind_buffer(buffer.m_handle, static_cast<GLenum>(target));
 }
 
 
 
 void VertexBuffer::unbind(VertexBufferTarget target)
 {
-  gl::unbindBuffer(static_cast<GLenum>(target));
+  gl::unbind_buffer(static_cast<GLenum>(target));
 }
 
 
 
 VertexBuffer::VertexBuffer(uint byteCount, bool dynamicStorage)
   : non_copyable()
-  , m_handle(gl::BufferHandle::create())
+  , m_handle(gl::buffer_handle::create())
   , m_byte_count(byteCount)
 {
   std::vector<uint8_t> data(byteCount, 0u);
-  gl::setBufferStorage(m_handle, static_cast<GLsizei>(data.size()),
+  gl::set_buffer_storage(m_handle, static_cast<GLsizei>(data.size()),
     reinterpret_cast<const GLvoid*>(data.data()),
     dynamicStorage ? GL_DYNAMIC_STORAGE_BIT : 0);
 }
@@ -38,10 +38,10 @@ VertexBuffer::VertexBuffer(uint byteCount, bool dynamicStorage)
 
 VertexBuffer::VertexBuffer(uint size, const void* data, bool dynamicStorage)
   : non_copyable()
-  , m_handle(gl::BufferHandle::create())
+  , m_handle(gl::buffer_handle::create())
   , m_byte_count(size)
 {
-  gl::setBufferStorage(m_handle, static_cast<GLsizei>(size),
+  gl::set_buffer_storage(m_handle, static_cast<GLsizei>(size),
     reinterpret_cast<const GLvoid*>(data),
     dynamicStorage ? GL_DYNAMIC_STORAGE_BIT : 0);
 }
@@ -56,7 +56,7 @@ VertexBuffer::VertexBuffer(VertexBuffer&& other)
 
 
 
-const gl::BufferHandle& VertexBuffer::getHandle() const
+const gl::buffer_handle& VertexBuffer::getHandle() const
 {
   return m_handle;
 }
@@ -65,7 +65,7 @@ const gl::BufferHandle& VertexBuffer::getHandle() const
 
 bool VertexBuffer::isBound(VertexBufferTarget target) const
 {
-  return gl::isBufferBound(m_handle, static_cast<GLenum>(target));
+  return gl::is_buffer_bound(m_handle, static_cast<GLenum>(target));
 }
 
 

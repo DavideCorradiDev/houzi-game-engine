@@ -89,7 +89,7 @@ public:
   binary_stream& move_byte_pos(byte_offset offset) final;
 
   // AudioStream overrides.
-  size_t getSampleCount() const final;
+  size_t get_sample_count() const final;
   SamplePosition getSamplePos() const final;
   AudioStreamIn& setSamplePos(SamplePosition pos) final;
   AudioStreamIn& moveSamplePos(SampleOffset offset) final;

@@ -9,7 +9,7 @@
 
 #include "hou/cor/bitwise_operators.hpp"
 
-#include "hou/gl/OpenGl.hpp"
+#include "hou/gl/open_gl.hpp"
 
 #include <iostream>
 

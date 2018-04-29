@@ -7,7 +7,7 @@
 
 #include "hou/gfx/VertexBuffer.hpp"
 
-#include "hou/gl/GlError.hpp"
+#include "hou/gl/gl_error.hpp"
 
 #include "hou/cor/cor_error.hpp"
 
@@ -86,7 +86,7 @@ TEST_F(TestVertexBuffer, SizeConstructor)
   uint sizeRef = 7u;
   IntBuffer vb(sizeRef);
 
-  EXPECT_NE(0u, vb.getHandle().getName());
+  EXPECT_NE(0u, vb.getHandle().get_name());
   EXPECT_EQ(sizeRef * sizeof(IntBuffer::ValueType), vb.get_byte_count());
   EXPECT_EQ(sizeRef, vb.get_size());
   EXPECT_EQ(std::vector<int>(sizeRef, 0u), vb.getData());
@@ -99,7 +99,7 @@ TEST_F(TestVertexBuffer, DataConstructor)
   DynamicFloatBuffer::DataType dataRef = {1.f, 2.f, 3.f, 4.f, 5.f};
   FloatBuffer vb(dataRef);
 
-  EXPECT_NE(0u, vb.getHandle().getName());
+  EXPECT_NE(0u, vb.getHandle().get_name());
   EXPECT_EQ(dataRef.size() * sizeof(float), vb.get_byte_count());
   EXPECT_EQ(dataRef, vb.getData());
 }
@@ -110,11 +110,11 @@ TEST_F(TestVertexBuffer, MoveConstructor)
 {
   DynamicFloatBuffer::DataType dataRef = {1.f, 2.f, 3.f, 4.f, 5.f};
   FloatBuffer vbDummy(dataRef);
-  GLuint name = vbDummy.getHandle().getName();
+  GLuint name = vbDummy.getHandle().get_name();
   FloatBuffer vb(std::move(vbDummy));
 
-  EXPECT_EQ(0u, vbDummy.getHandle().getName());
-  EXPECT_EQ(name, vb.getHandle().getName());
+  EXPECT_EQ(0u, vbDummy.getHandle().get_name());
+  EXPECT_EQ(name, vb.getHandle().get_name());
   EXPECT_EQ(dataRef.size() * sizeof(float), vb.get_byte_count());
   EXPECT_EQ(dataRef, vb.getData());
 }

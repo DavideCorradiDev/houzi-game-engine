@@ -14,7 +14,7 @@
 namespace hou
 {
 
-/** Core module error codes. */
+/** core module error codes. */
 enum class cor_error
 {
   invalid_enum,

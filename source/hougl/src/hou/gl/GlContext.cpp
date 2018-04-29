@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gl/GlContext.hpp"
+#include "hou/gl/gl_context.hpp"
 
 #include "hou/cor/error.hpp"
 #include "hou/cor/uid_generator.hpp"
@@ -34,23 +34,23 @@ uint32_t generateUid()
 
 
 
-void Context::setCurrent(Context& context, window& ph_window)
+void context::set_current(context& ph_context, window& ph_window)
 {
-  if(!context.isCurrent() || sCurrentWindowUid != ph_window.get_uid())
+  if(!ph_context.is_current() || sCurrentWindowUid != ph_window.get_uid())
   {
-    prv::ContextImpl::setCurrent(context.m_impl, ph_window);
-    sCurrentContext = &context;
+    prv::context_impl::set_current(ph_context.m_impl, ph_window);
+    sCurrentContext = &ph_context;
     sCurrentWindowUid = ph_window.get_uid();
   }
 }
 
 
 
-void Context::unsetCurrent()
+void context::unset_current()
 {
   if(getCurrent() != nullptr)
   {
-    prv::ContextImpl::unsetCurrent();
+    prv::context_impl::unset_current();
     sCurrentContext = nullptr;
     sCurrentWindowUid = 0u;
   }
@@ -58,27 +58,27 @@ void Context::unsetCurrent()
 
 
 
-Context* Context::getCurrent()
+context* context::getCurrent()
 {
   return sCurrentContext;
 }
 
 
 
-Context::Context(const ContextSettings& settings, const window& ph_window)
-  : Context(settings, ph_window, nullptr)
+context::context(const context_settings& settings, const window& ph_window)
+  : context(settings, ph_window, nullptr)
 {}
 
 
 
-Context::Context(const ContextSettings& settings, const window& ph_window,
-  const Context& sharedContext)
-  : Context(settings, ph_window, &sharedContext)
+context::context(const context_settings& settings, const window& ph_window,
+  const context& sharedContext)
+  : context(settings, ph_window, &sharedContext)
 {}
 
 
 
-Context::Context(Context&& other)
+context::context(context&& other)
   : non_copyable()
   , m_impl(std::move(other.m_impl))
   , m_uid(std::move(other.m_uid))
@@ -93,44 +93,44 @@ Context::Context(Context&& other)
 
 
 
-Context::~Context()
+context::~context()
 {
-  if(isCurrent())
+  if(is_current())
   {
-    unsetCurrent();
+    unset_current();
   }
 }
 
 
 
-uint32_t Context::get_uid() const
+uint32_t context::get_uid() const
 {
   return m_uid;
 }
 
 
 
-uint32_t Context::getSharingGroupUid() const
+uint32_t context::getSharingGroupUid() const
 {
   return mSharingGroupUid;
 }
 
 
 
-bool Context::isCurrent() const
+bool context::is_current() const
 {
   return this == sCurrentContext;
 }
 
 
 
-thread_local Context* Context::sCurrentContext(nullptr);
-thread_local uint32_t Context::sCurrentWindowUid(0u);
+thread_local context* context::sCurrentContext(nullptr);
+thread_local uint32_t context::sCurrentWindowUid(0u);
 
 
 
-Context::Context(const ContextSettings& settings, const window& ph_window,
-  const Context* sharedContext)
+context::context(const context_settings& settings, const window& ph_window,
+  const context* sharedContext)
   : non_copyable()
   , m_impl(settings, ph_window,
       (sharedContext == nullptr) ? nullptr : &(sharedContext->m_impl))
@@ -142,29 +142,29 @@ Context::Context(const ContextSettings& settings, const window& ph_window,
 
 
 
-Context::TrackingData::TrackingData()
-  : mBoundArrayBuffer(0u)
-  , mBoundElementArrayBuffer(0u)
-  , mBoundDrawFramebuffer(0u)
-  , mBoundReadFramebuffer(0u)
-  , mBoundProgram(0u)
-  , mBoundVertexArray(0u)
-  , mActiveTexture(0u)
-  , mBoundTextures(1u, 0u)
-  , mBoundTextureTargets(1u, GL_TEXTURE_1D)
-  , mCurrentViewport(0, 0, 0, 0)
+context::TrackingData::TrackingData()
+  : m_bound_array_buffer(0u)
+  , m_bound_element_array_buffer(0u)
+  , m_bound_draw_framebuffer(0u)
+  , m_bound_read_framebuffer(0u)
+  , m_bound_program(0u)
+  , m_bound_vertex_array(0u)
+  , m_active_texture(0u)
+  , m_bound_textures(1u, 0u)
+  , m_bound_texture_targets(1u, GL_TEXTURE_1D)
+  , m_current_viewport(0, 0, 0, 0)
 {}
 
 
 
-uint32_t Context::TrackingData::getBoundBuffer(GLenum target) const
+uint32_t context::TrackingData::get_bound_buffer(GLenum target) const
 {
   switch(target)
   {
   case GL_ARRAY_BUFFER:
-    return mBoundArrayBuffer;
+    return m_bound_array_buffer;
   case GL_ELEMENT_ARRAY_BUFFER:
-    return mBoundElementArrayBuffer;
+    return m_bound_element_array_buffer;
   default:
     return 0u;
   }
@@ -172,15 +172,15 @@ uint32_t Context::TrackingData::getBoundBuffer(GLenum target) const
 
 
 
-void Context::TrackingData::setBoundBuffer(uint32_t uid, GLenum target)
+void context::TrackingData::set_bound_buffer(uint32_t uid, GLenum target)
 {
   switch(target)
   {
   case GL_ARRAY_BUFFER:
-    mBoundArrayBuffer = uid;
+    m_bound_array_buffer = uid;
     break;
   case GL_ELEMENT_ARRAY_BUFFER:
-    mBoundElementArrayBuffer = uid;
+    m_bound_element_array_buffer = uid;
     break;
   default:
     break;
@@ -189,14 +189,14 @@ void Context::TrackingData::setBoundBuffer(uint32_t uid, GLenum target)
 
 
 
-uint32_t Context::TrackingData::getBoundFramebuffer(GLenum target) const
+uint32_t context::TrackingData::get_bound_framebuffer(GLenum target) const
 {
   switch(target)
   {
   case GL_DRAW_FRAMEBUFFER:
-    return mBoundDrawFramebuffer;
+    return m_bound_draw_framebuffer;
   case GL_READ_FRAMEBUFFER:
-    return mBoundReadFramebuffer;
+    return m_bound_read_framebuffer;
   default:
     return 0u;
   }
@@ -204,15 +204,15 @@ uint32_t Context::TrackingData::getBoundFramebuffer(GLenum target) const
 
 
 
-void Context::TrackingData::setBoundFramebuffer(uint32_t uid, GLenum target)
+void context::TrackingData::set_bound_framebuffer(uint32_t uid, GLenum target)
 {
   switch(target)
   {
   case GL_DRAW_FRAMEBUFFER:
-    mBoundDrawFramebuffer = uid;
+    m_bound_draw_framebuffer = uid;
     break;
   case GL_READ_FRAMEBUFFER:
-    mBoundReadFramebuffer = uid;
+    m_bound_read_framebuffer = uid;
     break;
   default:
     break;
@@ -221,58 +221,58 @@ void Context::TrackingData::setBoundFramebuffer(uint32_t uid, GLenum target)
 
 
 
-uint32_t Context::TrackingData::getBoundProgram() const
+uint32_t context::TrackingData::get_bound_program() const
 {
-  return mBoundProgram;
+  return m_bound_program;
 }
 
 
 
-void Context::TrackingData::setBoundProgram(uint32_t uid)
+void context::TrackingData::set_bound_program(uint32_t uid)
 {
-  mBoundProgram = uid;
+  m_bound_program = uid;
 }
 
 
 
-void Context::TrackingData::resizeTextureVectors(size_t size)
+void context::TrackingData::resize_texture_vectors(size_t size)
 {
-  if(mBoundTextures.size() < size)
+  if(m_bound_textures.size() < size)
   {
-    mBoundTextures.resize(size, 0u);
-    mBoundTextureTargets.resize(size, GL_TEXTURE_1D);
+    m_bound_textures.resize(size, 0u);
+    m_bound_texture_targets.resize(size, GL_TEXTURE_1D);
   }
 }
 
 
 
-GLuint Context::TrackingData::getActiveTexture() const
+GLuint context::TrackingData::get_active_texture() const
 {
-  return mActiveTexture;
+  return m_active_texture;
 }
 
 
 
-void Context::TrackingData::setActiveTexture(GLuint unit)
+void context::TrackingData::set_active_texture(GLuint unit)
 {
-  mActiveTexture = unit;
-  resizeTextureVectors(++unit);
+  m_active_texture = unit;
+  resize_texture_vectors(++unit);
 }
 
 
 
-uint32_t Context::TrackingData::getBoundTexture() const
+uint32_t context::TrackingData::get_bound_texture() const
 {
-  return getBoundTexture(mActiveTexture);
+  return get_bound_texture(m_active_texture);
 }
 
 
 
-uint32_t Context::TrackingData::getBoundTexture(GLuint unit) const
+uint32_t context::TrackingData::get_bound_texture(GLuint unit) const
 {
-  if(mBoundTextures.size() > unit)
+  if(m_bound_textures.size() > unit)
   {
-    return mBoundTextures[unit];
+    return m_bound_textures[unit];
   }
   else
   {
@@ -282,18 +282,18 @@ uint32_t Context::TrackingData::getBoundTexture(GLuint unit) const
 
 
 
-GLenum Context::TrackingData::getBoundTextureTarget() const
+GLenum context::TrackingData::get_bound_texture_target() const
 {
-  return getBoundTextureTarget(mActiveTexture);
+  return get_bound_texture_target(m_active_texture);
 }
 
 
 
-GLenum Context::TrackingData::getBoundTextureTarget(GLuint unit) const
+GLenum context::TrackingData::get_bound_texture_target(GLuint unit) const
 {
-  if(mBoundTextureTargets.size() > unit)
+  if(m_bound_texture_targets.size() > unit)
   {
-    return mBoundTextureTargets[unit];
+    return m_bound_texture_targets[unit];
   }
   else
   {
@@ -303,49 +303,49 @@ GLenum Context::TrackingData::getBoundTextureTarget(GLuint unit) const
 
 
 
-void Context::TrackingData::setBoundTexture(uint32_t uid, GLenum target)
+void context::TrackingData::set_bound_texture(uint32_t uid, GLenum target)
 {
-  setBoundTexture(uid, mActiveTexture, target);
+  set_bound_texture(uid, m_active_texture, target);
 }
 
 
 
-void Context::TrackingData::setBoundTexture(
+void context::TrackingData::set_bound_texture(
   uint32_t uid, GLuint unit, GLenum target)
 {
-  resizeTextureVectors(unit + 1);
-  HOU_EXPECT_DEV(mBoundTextures.size() > unit);
-  HOU_EXPECT_DEV(mBoundTextureTargets.size() > unit);
-  mBoundTextures[unit] = uid;
-  mBoundTextureTargets[unit] = target;
+  resize_texture_vectors(unit + 1);
+  HOU_EXPECT_DEV(m_bound_textures.size() > unit);
+  HOU_EXPECT_DEV(m_bound_texture_targets.size() > unit);
+  m_bound_textures[unit] = uid;
+  m_bound_texture_targets[unit] = target;
 }
 
 
 
-uint32_t Context::TrackingData::getBoundVertexArray() const
+uint32_t context::TrackingData::get_bound_vertex_array() const
 {
-  return mBoundVertexArray;
+  return m_bound_vertex_array;
 }
 
 
 
-void Context::TrackingData::setBoundVertexArray(uint32_t uid)
+void context::TrackingData::set_bound_vertex_array(uint32_t uid)
 {
-  mBoundVertexArray = uid;
+  m_bound_vertex_array = uid;
 }
 
 
 
-const recti& Context::TrackingData::getCurrentViewport() const
+const recti& context::TrackingData::get_current_viewport() const
 {
-  return mCurrentViewport;
+  return m_current_viewport;
 }
 
 
 
-void Context::TrackingData::setCurrentViewport(const recti& viewport)
+void context::TrackingData::set_current_viewport(const recti& viewport)
 {
-  mCurrentViewport = viewport;
+  m_current_viewport = viewport;
 }
 
 }  // namespace gl

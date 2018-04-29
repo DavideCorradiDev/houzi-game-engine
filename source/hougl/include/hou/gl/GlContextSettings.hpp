@@ -5,10 +5,10 @@
 #ifndef HOU_GL_CONTEXT_SETTINGS_HPP
 #define HOU_GL_CONTEXT_SETTINGS_HPP
 
-#include "hou/gl/GlExport.hpp"
+#include "hou/gl/gl_export.hpp"
 
-#include "hou/gl/GlContextProfile.hpp"
-#include "hou/gl/GlVersion.hpp"
+#include "hou/gl/gl_context_profile.hpp"
+#include "hou/gl/gl_version.hpp"
 
 #include "hou/cor/basic_types.hpp"
 
@@ -20,36 +20,36 @@ namespace hou
 namespace gl
 {
 
-class HOU_GL_API ContextSettings
+class HOU_GL_API context_settings
 {
 public:
-  ContextSettings(const Version& version, ContextProfile profile,
+  context_settings(const version& ph_version, context_profile profile,
     uint depthByteCount, uint stencilByteCount, uint sampleCount);
 
-  const Version& getVersion() const;
-  void setVersion(const Version& version);
-  ContextProfile getProfile() const;
-  void setProfile(ContextProfile value);
-  uint getDepthByteCount() const;
-  void setDepthByteCount(uint value);
-  uint getStencilByteCount() const;
-  void setStencilByteCount(uint value);
-  uint getSampleCount() const;
+  const version& get_version() const;
+  void set_version(const version& ph_version);
+  context_profile get_profile() const;
+  void set_profile(context_profile value);
+  uint get_depth_byte_count() const;
+  void set_depth_byte_count(uint value);
+  uint get_stencil_byte_count() const;
+  void set_stencil_byte_count(uint value);
+  uint get_sample_count() const;
   void setSampleCount(uint value);
 
 public:
-  static const ContextSettings Default;
+  static const context_settings default;
 
 private:
-  Version mVersion;
-  ContextProfile mProfile;
-  uint mDepthByteCount;
-  uint mStencilByteCount;
-  uint mSampleCount;
+  version m_version;
+  context_profile m_profile;
+  uint m_depth_byte_count;
+  uint m_stencil_byte_count;
+  uint m_sample_count;
 };
 
-HOU_GL_API bool operator==(const ContextSettings& l, const ContextSettings& r);
-HOU_GL_API bool operator!=(const ContextSettings& l, const ContextSettings& r);
+HOU_GL_API bool operator==(const context_settings& l, const context_settings& r);
+HOU_GL_API bool operator!=(const context_settings& l, const context_settings& r);
 
 }  // namespace gl
 

@@ -28,8 +28,8 @@ namespace hou
 /** Represents a mesh.
  *
  *  The vertex information of a Mesh object is stored in the VRAM.
- *  There must be a current context to create a Mesh object.
- *  A Mesh object should be used only if the owning context is current.
+ *  There must be a current ph_context to create a Mesh object.
+ *  A Mesh object should be used only if the owning ph_context is current.
  *
  *  \tparam T the type of vertex stored by the mesh.
  */
@@ -95,8 +95,8 @@ protected:
 /** Represents a mesh.
  *
  *  The vertex information of a Mesh object is stored in the VRAM.
- *  There must be a current context to create a Mesh object.
- *  A Mesh object should be used only if the owning context is current.
+ *  There must be a current ph_context to create a Mesh object.
+ *  A Mesh object should be used only if the owning ph_context is current.
  *
  *  \tparam T the type of vertex stored by the mesh.
  */

@@ -19,7 +19,7 @@ class HOU_AUD_API EmptyAudioStreamIn
   : public AudioStreamIn
 {
 public:
-  /** Default constructor.
+  /** default constructor.
    */
   EmptyAudioStreamIn();
 
@@ -42,7 +42,7 @@ public:
   binary_stream& move_byte_pos(byte_offset offset) final;
 
   // AudioStream overrides.
-  size_t getSampleCount() const final;
+  size_t get_sample_count() const final;
   SamplePosition getSamplePos() const final;
 
   /** Sets the current byte position indicator.

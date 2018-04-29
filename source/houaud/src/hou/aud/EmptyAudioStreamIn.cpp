@@ -77,7 +77,7 @@ binary_stream& EmptyAudioStreamIn::move_byte_pos(byte_offset offset)
 
 
 
-size_t EmptyAudioStreamIn::getSampleCount() const
+size_t EmptyAudioStreamIn::get_sample_count() const
 {
   return 0u;
 }

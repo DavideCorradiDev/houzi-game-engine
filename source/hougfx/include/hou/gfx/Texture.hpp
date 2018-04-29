@@ -15,8 +15,8 @@
 #include "hou/gfx/TextureFwd.hpp"
 #include "hou/gfx/TextureWrapMode.hpp"
 
-#include "hou/gl/GlTextureHandle.hpp"
-#include "hou/gl/GlFunctions.hpp"
+#include "hou/gl/gl_texture_handle.hpp"
+#include "hou/gl/gl_functions.hpp"
 
 #include "hou/sys/image.hpp"
 
@@ -87,7 +87,7 @@ public:
    *
    * \return a reference to the OpenGL texture handle.
    */
-  const gl::TextureHandle& getHandle() const;
+  const gl::texture_handle& getHandle() const;
 
   /** Checks if this Texture is currently bound to the given texture unit.
    *
@@ -114,7 +114,7 @@ public:
    *
    * \return the number of samples of this texture.
    */
-  uint getSampleCount() const;
+  uint get_sample_count() const;
 
   /** Retrieves whether the samples of this texture have fixed positions.
    *
@@ -196,9 +196,9 @@ public:
   virtual bool isMultisampled() const = 0;
 
 protected:
-  gl::TextureHandle mGlTextureHandle;
+  gl::texture_handle mGlTextureHandle;
   uint mMipMapLevelCount;
-  uint mSampleCount;
+  uint m_sample_count;
   bool mFixedSampleLocations;
 };
 
@@ -504,7 +504,7 @@ public:
   bool isMultisampled() const override;
 
 private:
-  HOU_GFX_API void generateMipMap();
+  HOU_GFX_API void generate_mip_map();
 };
 
 }  // namespace hou

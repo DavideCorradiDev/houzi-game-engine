@@ -48,7 +48,7 @@ TEST_F(TestMemoryAudioSource, DefaultConstructor)
   EXPECT_EQ(1u, as.getChannelCount());
   EXPECT_EQ(1u, as.getBytesPerSample());
   EXPECT_EQ(1u, as.getSampleRate());
-  EXPECT_EQ(0u, as.getSampleCount());
+  EXPECT_EQ(0u, as.get_sample_count());
   EXPECT_EQ(0u, as.getSamplePos());
   EXPECT_EQ(std::chrono::microseconds(0), as.getTimePos());
   EXPECT_EQ(std::chrono::microseconds(0), as.getDuration());
@@ -80,7 +80,7 @@ TEST_F(TestMemoryAudioSource, BufferConstructor)
   EXPECT_EQ(2u, as.getChannelCount());
   EXPECT_EQ(2u, as.getBytesPerSample());
   EXPECT_EQ(2u, as.getSampleRate());
-  EXPECT_EQ(4u, as.getSampleCount());
+  EXPECT_EQ(4u, as.get_sample_count());
   EXPECT_EQ(0u, as.getSamplePos());
   EXPECT_EQ(std::chrono::microseconds(0), as.getTimePos());
   EXPECT_EQ(std::chrono::microseconds(2000000), as.getDuration());
@@ -114,7 +114,7 @@ TEST_F(TestMemoryAudioSource, MoveConstructor)
   EXPECT_EQ(2u, as.getBytesPerSample());
   EXPECT_EQ(2u, as.getSampleRate());
   EXPECT_EQ(0u, as.getSamplePos());
-  EXPECT_EQ(4u, as.getSampleCount());
+  EXPECT_EQ(4u, as.get_sample_count());
   EXPECT_EQ(std::chrono::microseconds(0), as.getTimePos());
   EXPECT_EQ(std::chrono::microseconds(2000000), as.getDuration());
   EXPECT_FALSE(as.isLooping());

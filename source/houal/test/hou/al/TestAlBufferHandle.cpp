@@ -24,8 +24,8 @@ class TestAlBufferHandleDeathTest : public TestAlBufferHandle {};
 
 TEST_F(TestAlBufferHandle, Generation)
 {
-  al::BufferHandle bh = al::BufferHandle::generate();
-  EXPECT_NE(0u, bh.getName());
+  al::buffer_handle bh = al::buffer_handle::generate();
+  EXPECT_NE(0u, bh.get_name());
 }
 
 
@@ -36,8 +36,8 @@ TEST_F(TestAlBufferHandleDeathTest, NoContextCreation)
 TEST_F(TestAlBufferHandleDeathTest, DISABLED_NoContextCreation)
 #endif
 {
-  al::Context::unsetCurrent();
-  HOU_EXPECT_ERROR(al::BufferHandle::generate(), std::logic_error
-    , get_text(AlError::ContextExistence));
+  al::context::unset_current();
+  HOU_EXPECT_ERROR(al::buffer_handle::generate(), std::logic_error
+    , get_text(AlError::context_existence));
 }
 

@@ -20,7 +20,7 @@ int main()
 {
   static const std::string dataDir = u8"source/demo/data/";
   GraphicContext ctx;
-  GraphicContext::setCurrent(ctx);
+  GraphicContext::set_current(ctx);
   RenderWindow rw(u8"text Rendering Demo", vec2u(800u, 600u),
     window_style::windowed_resizable, 8u);
   rw.set_visible(true);
@@ -160,7 +160,7 @@ int main()
       }
       break;
       case hou::window_event_type::resized:
-        rw.setViewport(rw.getDefaultViewport());
+        rw.set_viewport(rw.getDefaultViewport());
         proj = trans2f::orthographic_projection(rw.getViewport());
         std::cout << "window resized: (" << we.get_size_data().x << ", "
                   << we.get_size_data().y << ")" << std::endl;

@@ -24,7 +24,7 @@ namespace hou
 class HOU_GFX_API Glyph
 {
 public:
-  /** Default constructor.
+  /** default constructor.
    *
    *  The ph_image is empty and the metrics are all null.
    */

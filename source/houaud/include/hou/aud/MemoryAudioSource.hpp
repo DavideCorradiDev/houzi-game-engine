@@ -74,7 +74,7 @@ public:
   uint getChannelCount() const final;
   uint getBytesPerSample() const final;
   uint getSampleRate() const final;
-  uint getSampleCount() const final;
+  uint get_sample_count() const final;
   void setLooping(bool looping) final;
   bool isLooping() const final;
 

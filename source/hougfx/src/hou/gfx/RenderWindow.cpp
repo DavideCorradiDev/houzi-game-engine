@@ -4,7 +4,7 @@
 
 #include "hou/gfx/RenderWindow.hpp"
 
-#include "hou/gl/GlFunctions.hpp"
+#include "hou/gl/gl_functions.hpp"
 
 #include "hou/gfx/GraphicContext.hpp"
 #include "hou/gfx/Texture.hpp"
@@ -58,12 +58,12 @@ RenderWindow::~RenderWindow()
 
 void RenderWindow::display()
 {
-  gl::bindWindow(*this);
+  gl::bind_window(*this);
   setCurrentRenderSource(*this);
   setDefaultRenderTarget();
 
   vec2u size = get_size();
-  gl::blitFramebuffer(0, 0, size.x(), size.y(), 0, size.y(), size.x(), 0,
+  gl::blit_framebuffer(0, 0, size.x(), size.y(), 0, size.y(), size.x(), 0,
     GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
     GL_NEAREST);
 
@@ -72,11 +72,11 @@ void RenderWindow::display()
 
 
 
-void RenderWindow::setVerticalSyncMode(VerticalSyncMode mode)
+void RenderWindow::set_vertical_sync_mode(vertical_sync_mode mode)
 {
-  gl::bindWindow(*this);
+  gl::bind_window(*this);
   setDefaultRenderTarget();
-  gl::setVerticalSyncMode(gl::VerticalSyncMode(static_cast<int>(mode)));
+  gl::set_vertical_sync_mode(gl::vertical_sync_mode(static_cast<int>(mode)));
 }
 
 
@@ -117,7 +117,7 @@ void RenderWindow::rebuildFramebufferIfNecessary()
   }
   if(get_size() != newSize)
   {
-    buildFramebuffer(newSize, getSampleCount());
+    buildFramebuffer(newSize, get_sample_count());
   }
 }
 

@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gl/GlContextSettings.hpp"
+#include "hou/gl/gl_context_settings.hpp"
 
 namespace hou
 {
@@ -10,103 +10,103 @@ namespace hou
 namespace gl
 {
 
-const ContextSettings ContextSettings::Default
-  = ContextSettings(Version::Default, ContextProfile::Core, 3u, 1u, 0u);
+const context_settings context_settings::default
+  = context_settings(version::default, context_profile::core, 3u, 1u, 0u);
 
 
 
-ContextSettings::ContextSettings(const Version& version, ContextProfile profile,
+context_settings::context_settings(const version& ph_version, context_profile profile,
   uint depthByteCount, uint stencilByteCount, uint sampleCount)
-  : mVersion(version)
-  , mProfile(profile)
-  , mDepthByteCount(depthByteCount)
-  , mStencilByteCount(stencilByteCount)
-  , mSampleCount(sampleCount)
+  : m_version(ph_version)
+  , m_profile(profile)
+  , m_depth_byte_count(depthByteCount)
+  , m_stencil_byte_count(stencilByteCount)
+  , m_sample_count(sampleCount)
 {}
 
 
 
-void ContextSettings::setVersion(const Version& version)
+void context_settings::set_version(const version& ph_version)
 {
-  mVersion = version;
+  m_version = ph_version;
 }
 
 
 
-const Version& ContextSettings::getVersion() const
+const version& context_settings::get_version() const
 {
-  return mVersion;
+  return m_version;
 }
 
 
 
-ContextProfile ContextSettings::getProfile() const
+context_profile context_settings::get_profile() const
 {
-  return mProfile;
+  return m_profile;
 }
 
 
 
-void ContextSettings::setProfile(ContextProfile value)
+void context_settings::set_profile(context_profile value)
 {
-  mProfile = value;
+  m_profile = value;
 }
 
 
 
-uint ContextSettings::getDepthByteCount() const
+uint context_settings::get_depth_byte_count() const
 {
-  return mDepthByteCount;
+  return m_depth_byte_count;
 }
 
 
 
-void ContextSettings::setDepthByteCount(uint value)
+void context_settings::set_depth_byte_count(uint value)
 {
-  mDepthByteCount = value;
+  m_depth_byte_count = value;
 }
 
 
 
-uint ContextSettings::getStencilByteCount() const
+uint context_settings::get_stencil_byte_count() const
 {
-  return mStencilByteCount;
+  return m_stencil_byte_count;
 }
 
 
 
-void ContextSettings::setStencilByteCount(uint value)
+void context_settings::set_stencil_byte_count(uint value)
 {
-  mStencilByteCount = value;
+  m_stencil_byte_count = value;
 }
 
 
 
-uint ContextSettings::getSampleCount() const
+uint context_settings::get_sample_count() const
 {
-  return mSampleCount;
+  return m_sample_count;
 }
 
 
 
-void ContextSettings::setSampleCount(uint value)
+void context_settings::setSampleCount(uint value)
 {
-  mSampleCount = value;
+  m_sample_count = value;
 }
 
 
 
-bool operator==(const ContextSettings& l, const ContextSettings& r)
+bool operator==(const context_settings& l, const context_settings& r)
 {
-  return l.getVersion() == r.getVersion() && l.getProfile() == r.getProfile()
-    && l.getDepthByteCount() == r.getDepthByteCount()
-    && l.getStencilByteCount() == r.getStencilByteCount()
-    && l.getSampleCount() == r.getSampleCount();
+  return l.get_version() == r.get_version() && l.get_profile() == r.get_profile()
+    && l.get_depth_byte_count() == r.get_depth_byte_count()
+    && l.get_stencil_byte_count() == r.get_stencil_byte_count()
+    && l.get_sample_count() == r.get_sample_count();
 }
 
 
 
-bool operator!=(const ContextSettings& l, const ContextSettings& r)
+bool operator!=(const context_settings& l, const context_settings& r)
 {
   return !(l == r);
 }

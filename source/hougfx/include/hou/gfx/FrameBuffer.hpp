@@ -14,7 +14,7 @@
 #include "hou/gfx/FrameBufferBlitFilter.hpp"
 #include "hou/gfx/FrameBufferBlitMask.hpp"
 
-#include "hou/gl/GlFramebufferHandle.hpp"
+#include "hou/gl/gl_framebuffer_handle.hpp"
 
 
 
@@ -72,7 +72,7 @@ public:
   static uint getColorAttachmentPointCount();
 
 public:
-  /** Default constructor.
+  /** default constructor.
    */
   FrameBuffer();
 
@@ -86,7 +86,7 @@ public:
    *
    *  \return a reference to the OpenGL framebuffer handle.
    */
-  const gl::FramebufferHandle& getHandle() const;
+  const gl::framebuffer_handle& getHandle() const;
 
   /** Checks if this FrameBuffer is currently bound as draw target.
    *
@@ -157,7 +157,7 @@ public:
   bool hasMultisampleAttachment() const;
 
 private:
-  gl::FramebufferHandle m_handle;
+  gl::framebuffer_handle m_handle;
   bool mHasMultisampleColorAttachment;
   bool mHasMultisampleDepthAttachment;
   bool mHasMultisampleStencilAttachment;

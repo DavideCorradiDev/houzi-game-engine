@@ -5,8 +5,8 @@
 #include "hou/Test.hpp"
 #include "hou/gl/TestGlMultipleContexts.hpp"
 
-#include "hou/gl/GlBufferHandle.hpp"
-#include "hou/gl/GlError.hpp"
+#include "hou/gl/gl_buffer_handle.hpp"
+#include "hou/gl/gl_error.hpp"
 
 using namespace hou;
 
@@ -24,8 +24,8 @@ class TestGlBufferHandleDeathTest : public TestGlBufferHandle {};
 
 TEST_F(TestGlBufferHandle, Creation)
 {
-  gl::BufferHandle bh = gl::BufferHandle::create();
-  EXPECT_NE(0u, bh.getName());
+  gl::buffer_handle bh = gl::buffer_handle::create();
+  EXPECT_NE(0u, bh.get_name());
 }
 
 
@@ -36,86 +36,86 @@ TEST_F(TestGlBufferHandleDeathTest, NoContextCreation)
 TEST_F(TestGlBufferHandleDeathTest, DISABLED_NoContextCreation)
 #endif
 {
-  gl::Context::unsetCurrent();
-  HOU_EXPECT_ERROR(gl::BufferHandle::create(), std::logic_error
-    , get_text(GlError::ContextExistence));
+  gl::context::unset_current();
+  HOU_EXPECT_ERROR(gl::buffer_handle::create(), std::logic_error
+    , get_text(gl_error::context_existence));
 }
 
 
 
 TEST_F(TestGlBufferHandle, Tracking)
 {
-  gl::BufferHandle bh1 = gl::BufferHandle::create();
-  gl::BufferHandle bh2 = gl::BufferHandle::create();
+  gl::buffer_handle bh1 = gl::buffer_handle::create();
+  gl::buffer_handle bh2 = gl::buffer_handle::create();
 
-  EXPECT_EQ(0u, gl::getBoundBufferName(GL_ARRAY_BUFFER));
-  EXPECT_EQ(0u, gl::getBoundBufferName(GL_ELEMENT_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(bh1, GL_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(bh1, GL_ELEMENT_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(bh2, GL_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(bh2, GL_ELEMENT_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(GL_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(GL_ELEMENT_ARRAY_BUFFER));
+  EXPECT_EQ(0u, gl::get_bound_buffer_name(GL_ARRAY_BUFFER));
+  EXPECT_EQ(0u, gl::get_bound_buffer_name(GL_ELEMENT_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(bh1, GL_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(bh1, GL_ELEMENT_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(bh2, GL_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(bh2, GL_ELEMENT_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(GL_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(GL_ELEMENT_ARRAY_BUFFER));
 
-  gl::bindBuffer(bh1, GL_ARRAY_BUFFER);
-  EXPECT_EQ(bh1.getName(), gl::getBoundBufferName(GL_ARRAY_BUFFER));
-  EXPECT_EQ(0u, gl::getBoundBufferName(GL_ELEMENT_ARRAY_BUFFER));
-  EXPECT_TRUE(gl::isBufferBound(bh1, GL_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(bh1, GL_ELEMENT_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(bh2, GL_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(bh2, GL_ELEMENT_ARRAY_BUFFER));
-  EXPECT_TRUE(gl::isBufferBound(GL_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(GL_ELEMENT_ARRAY_BUFFER));
+  gl::bind_buffer(bh1, GL_ARRAY_BUFFER);
+  EXPECT_EQ(bh1.get_name(), gl::get_bound_buffer_name(GL_ARRAY_BUFFER));
+  EXPECT_EQ(0u, gl::get_bound_buffer_name(GL_ELEMENT_ARRAY_BUFFER));
+  EXPECT_TRUE(gl::is_buffer_bound(bh1, GL_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(bh1, GL_ELEMENT_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(bh2, GL_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(bh2, GL_ELEMENT_ARRAY_BUFFER));
+  EXPECT_TRUE(gl::is_buffer_bound(GL_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(GL_ELEMENT_ARRAY_BUFFER));
 
   setSharingContextCurrent();
-  EXPECT_EQ(0u, gl::getBoundBufferName(GL_ARRAY_BUFFER));
-  EXPECT_EQ(0u, gl::getBoundBufferName(GL_ELEMENT_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(bh1, GL_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(bh1, GL_ELEMENT_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(bh2, GL_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(bh2, GL_ELEMENT_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(GL_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(GL_ELEMENT_ARRAY_BUFFER));
+  EXPECT_EQ(0u, gl::get_bound_buffer_name(GL_ARRAY_BUFFER));
+  EXPECT_EQ(0u, gl::get_bound_buffer_name(GL_ELEMENT_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(bh1, GL_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(bh1, GL_ELEMENT_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(bh2, GL_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(bh2, GL_ELEMENT_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(GL_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(GL_ELEMENT_ARRAY_BUFFER));
 
-  gl::bindBuffer(bh2, GL_ELEMENT_ARRAY_BUFFER);
-  EXPECT_EQ(0u, gl::getBoundBufferName(GL_ARRAY_BUFFER));
-  EXPECT_EQ(bh2.getName(), gl::getBoundBufferName(GL_ELEMENT_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(bh1, GL_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(bh1, GL_ELEMENT_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(bh2, GL_ARRAY_BUFFER));
-  EXPECT_TRUE(gl::isBufferBound(bh2, GL_ELEMENT_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(GL_ARRAY_BUFFER));
-  EXPECT_TRUE(gl::isBufferBound(GL_ELEMENT_ARRAY_BUFFER));
+  gl::bind_buffer(bh2, GL_ELEMENT_ARRAY_BUFFER);
+  EXPECT_EQ(0u, gl::get_bound_buffer_name(GL_ARRAY_BUFFER));
+  EXPECT_EQ(bh2.get_name(), gl::get_bound_buffer_name(GL_ELEMENT_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(bh1, GL_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(bh1, GL_ELEMENT_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(bh2, GL_ARRAY_BUFFER));
+  EXPECT_TRUE(gl::is_buffer_bound(bh2, GL_ELEMENT_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(GL_ARRAY_BUFFER));
+  EXPECT_TRUE(gl::is_buffer_bound(GL_ELEMENT_ARRAY_BUFFER));
 
   setContextCurrent();
-  EXPECT_EQ(bh1.getName(), gl::getBoundBufferName(GL_ARRAY_BUFFER));
-  EXPECT_EQ(0u, gl::getBoundBufferName(GL_ELEMENT_ARRAY_BUFFER));
-  EXPECT_TRUE(gl::isBufferBound(bh1, GL_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(bh1, GL_ELEMENT_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(bh2, GL_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(bh2, GL_ELEMENT_ARRAY_BUFFER));
-  EXPECT_TRUE(gl::isBufferBound(GL_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(GL_ELEMENT_ARRAY_BUFFER));
+  EXPECT_EQ(bh1.get_name(), gl::get_bound_buffer_name(GL_ARRAY_BUFFER));
+  EXPECT_EQ(0u, gl::get_bound_buffer_name(GL_ELEMENT_ARRAY_BUFFER));
+  EXPECT_TRUE(gl::is_buffer_bound(bh1, GL_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(bh1, GL_ELEMENT_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(bh2, GL_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(bh2, GL_ELEMENT_ARRAY_BUFFER));
+  EXPECT_TRUE(gl::is_buffer_bound(GL_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(GL_ELEMENT_ARRAY_BUFFER));
 
-  gl::unbindBuffer(GL_ARRAY_BUFFER);
-  EXPECT_EQ(0u, gl::getBoundBufferName(GL_ARRAY_BUFFER));
-  EXPECT_EQ(0u, gl::getBoundBufferName(GL_ELEMENT_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(bh1, GL_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(bh1, GL_ELEMENT_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(bh2, GL_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(bh2, GL_ELEMENT_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(GL_ARRAY_BUFFER));
-  EXPECT_FALSE(gl::isBufferBound(GL_ELEMENT_ARRAY_BUFFER));
+  gl::unbind_buffer(GL_ARRAY_BUFFER);
+  EXPECT_EQ(0u, gl::get_bound_buffer_name(GL_ARRAY_BUFFER));
+  EXPECT_EQ(0u, gl::get_bound_buffer_name(GL_ELEMENT_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(bh1, GL_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(bh1, GL_ELEMENT_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(bh2, GL_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(bh2, GL_ELEMENT_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(GL_ARRAY_BUFFER));
+  EXPECT_FALSE(gl::is_buffer_bound(GL_ELEMENT_ARRAY_BUFFER));
 }
 
 
 
 TEST_F(TestGlBufferHandle, SharingContextBinding)
 {
-  gl::BufferHandle bh = gl::BufferHandle::create();
+  gl::buffer_handle bh = gl::buffer_handle::create();
   setSharingContextCurrent();
-  gl::bindBuffer(bh, GL_ARRAY_BUFFER);
-  EXPECT_TRUE(gl::isBufferBound(bh, GL_ARRAY_BUFFER));
+  gl::bind_buffer(bh, GL_ARRAY_BUFFER);
+  EXPECT_TRUE(gl::is_buffer_bound(bh, GL_ARRAY_BUFFER));
 }
 
 
@@ -126,10 +126,10 @@ TEST_F(TestGlBufferHandleDeathTest, NonSharingContextBinding)
 TEST_F(TestGlBufferHandleDeathTest, DISABLED_NonSharingContextBinding)
 #endif
 {
-  gl::BufferHandle bh = gl::BufferHandle::create();
+  gl::buffer_handle bh = gl::buffer_handle::create();
   setNonSharingContextCurrent();
-  HOU_EXPECT_ERROR(gl::bindBuffer(bh, GL_ARRAY_BUFFER)
-    , std::logic_error, get_text(GlError::InvalidOwnership));
+  HOU_EXPECT_ERROR(gl::bind_buffer(bh, GL_ARRAY_BUFFER)
+    , std::logic_error, get_text(gl_error::invalid_ownership));
   setContextCurrent();
 }
 
@@ -141,10 +141,10 @@ TEST_F(TestGlBufferHandleDeathTest, NoContextBinding)
 TEST_F(TestGlBufferHandleDeathTest, DISABLED_NoContextBinding)
 #endif
 {
-  gl::BufferHandle bh = gl::BufferHandle::create();
-  gl::Context::unsetCurrent();
-  HOU_EXPECT_ERROR(gl::bindBuffer(bh, GL_ARRAY_BUFFER)
-    , std::logic_error, get_text(GlError::ContextExistence));
+  gl::buffer_handle bh = gl::buffer_handle::create();
+  gl::context::unset_current();
+  HOU_EXPECT_ERROR(gl::bind_buffer(bh, GL_ARRAY_BUFFER)
+    , std::logic_error, get_text(gl_error::context_existence));
   setContextCurrent();
 }
 

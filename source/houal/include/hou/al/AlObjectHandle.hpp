@@ -20,24 +20,24 @@ namespace hou
 namespace al
 {
 
-class HOU_AL_API ObjectHandle
+class HOU_AL_API object_handle
   : public non_copyable
 {
 public:
-  ObjectHandle(ALuint name);
-  ObjectHandle(ObjectHandle&& other);
-  virtual ~ObjectHandle() = 0;
+  object_handle(ALuint name);
+  object_handle(object_handle&& other);
+  virtual ~object_handle() = 0;
 
-  ALuint getName() const;
+  ALuint get_name() const;
 
 private:
-  ALuint mName;
+  ALuint m_name;
 };
 
 
 
 class HOU_AL_API DeviceOwnedObjectHandle
-  : public ObjectHandle
+  : public object_handle
 {
 public:
   DeviceOwnedObjectHandle(ALuint name);
@@ -53,17 +53,17 @@ private:
 
 
 class HOU_AL_API ContextOwnedObjectHandle
-  : public ObjectHandle
+  : public object_handle
 {
 public:
   ContextOwnedObjectHandle(ALuint name);
   ContextOwnedObjectHandle(ContextOwnedObjectHandle&& other);
   virtual ~ContextOwnedObjectHandle() = 0;
 
-  uint32_t getOwningContextUid() const;
+  uint32_t get_owning_context_uid() const;
 
 private:
-  uint32_t mOwningContextUid;
+  uint32_t m_owning_context_uid;
 };
 
 }

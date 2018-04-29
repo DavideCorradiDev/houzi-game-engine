@@ -110,7 +110,7 @@ public:
    *
    *  \param viewport the desired viewport ph_rectangle.
    */
-  void setViewport(const recti& viewport);
+  void set_viewport(const recti& viewport);
 
   /** Gets the size of the RenderSurface.
    *
@@ -129,7 +129,7 @@ public:
    *
    *  \return the number of samples of the RenderSurface.
    */
-  uint getSampleCount() const;
+  uint get_sample_count() const;
 
   /** Clears the RenderSurface to the desired ph_color.
    *
@@ -198,7 +198,7 @@ private:
   FrameBuffer mFrameBuffer;
   std::unique_ptr<Texture> mColorAttachment;
   std::unique_ptr<Texture> mDepthStencilAttachment;
-  uint mSampleCount;
+  uint m_sample_count;
   recti mViewport;
 };
 

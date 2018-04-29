@@ -90,7 +90,7 @@ TEST_F(TestWavFileIn, PathConstructor)
   EXPECT_EQ(1u, fi.getChannelCount());
   EXPECT_EQ(2u, fi.getBytesPerSample());
   EXPECT_EQ(44100u, fi.getSampleRate());
-  EXPECT_EQ(21103u, fi.getSampleCount());
+  EXPECT_EQ(21103u, fi.get_sample_count());
   EXPECT_EQ(0, fi.getSamplePos());
 }
 
@@ -177,7 +177,7 @@ TEST_F(TestWavFileIn, MoveConstructor)
   EXPECT_EQ(1u, fi.getChannelCount());
   EXPECT_EQ(2u, fi.getBytesPerSample());
   EXPECT_EQ(44100u, fi.getSampleRate());
-  EXPECT_EQ(21103u, fi.getSampleCount());
+  EXPECT_EQ(21103u, fi.get_sample_count());
   EXPECT_EQ(0, fi.getSamplePos());
 }
 
@@ -224,10 +224,10 @@ TEST_F(TestWavFileIn, GetSampleCount)
   WavFileIn fiStereo8(stereo8FileName);
   WavFileIn fiStereo16(stereo16FileName);
 
-  EXPECT_EQ(21231u, fiMono8.getSampleCount());
-  EXPECT_EQ(21231u, fiMono16.getSampleCount());
-  EXPECT_EQ(21231u, fiStereo8.getSampleCount());
-  EXPECT_EQ(21231u, fiStereo16.getSampleCount());
+  EXPECT_EQ(21231u, fiMono8.get_sample_count());
+  EXPECT_EQ(21231u, fiMono16.get_sample_count());
+  EXPECT_EQ(21231u, fiStereo8.get_sample_count());
+  EXPECT_EQ(21231u, fiStereo16.get_sample_count());
 
   EXPECT_EQ(21231u, fiMono8.get_byte_count());
   EXPECT_EQ(42462u, fiMono16.get_byte_count());
@@ -324,10 +324,10 @@ TEST_F(TestWavFileIn, SetSamplePosMono8)
   fi.setSamplePos(3);
   EXPECT_EQ(3, fi.get_byte_pos());
   EXPECT_EQ(3, fi.getSamplePos());
-  fi.setSamplePos(fi.getSampleCount());
+  fi.setSamplePos(fi.get_sample_count());
   EXPECT_EQ(
     static_cast<WavFileIn::byte_position>(fi.get_byte_count()), fi.get_byte_pos());
-  EXPECT_EQ(static_cast<WavFileIn::SamplePosition>(fi.getSampleCount()),
+  EXPECT_EQ(static_cast<WavFileIn::SamplePosition>(fi.get_sample_count()),
     fi.getSamplePos());
 }
 
@@ -342,10 +342,10 @@ TEST_F(TestWavFileIn, SetSamplePosMono16)
   fi.setSamplePos(3);
   EXPECT_EQ(6, fi.get_byte_pos());
   EXPECT_EQ(3, fi.getSamplePos());
-  fi.setSamplePos(fi.getSampleCount());
+  fi.setSamplePos(fi.get_sample_count());
   EXPECT_EQ(
     static_cast<WavFileIn::byte_position>(fi.get_byte_count()), fi.get_byte_pos());
-  EXPECT_EQ(static_cast<WavFileIn::SamplePosition>(fi.getSampleCount()),
+  EXPECT_EQ(static_cast<WavFileIn::SamplePosition>(fi.get_sample_count()),
     fi.getSamplePos());
 }
 
@@ -360,10 +360,10 @@ TEST_F(TestWavFileIn, SetSamplePosStereo8)
   fi.setSamplePos(3);
   EXPECT_EQ(6, fi.get_byte_pos());
   EXPECT_EQ(3, fi.getSamplePos());
-  fi.setSamplePos(fi.getSampleCount());
+  fi.setSamplePos(fi.get_sample_count());
   EXPECT_EQ(
     static_cast<WavFileIn::byte_position>(fi.get_byte_count()), fi.get_byte_pos());
-  EXPECT_EQ(static_cast<WavFileIn::SamplePosition>(fi.getSampleCount()),
+  EXPECT_EQ(static_cast<WavFileIn::SamplePosition>(fi.get_sample_count()),
     fi.getSamplePos());
 }
 
@@ -378,10 +378,10 @@ TEST_F(TestWavFileIn, SetSamplePosStereo16)
   fi.setSamplePos(3);
   EXPECT_EQ(12, fi.get_byte_pos());
   EXPECT_EQ(3, fi.getSamplePos());
-  fi.setSamplePos(fi.getSampleCount());
+  fi.setSamplePos(fi.get_sample_count());
   EXPECT_EQ(
     static_cast<WavFileIn::byte_position>(fi.get_byte_count()), fi.get_byte_pos());
-  EXPECT_EQ(static_cast<WavFileIn::SamplePosition>(fi.getSampleCount()),
+  EXPECT_EQ(static_cast<WavFileIn::SamplePosition>(fi.get_sample_count()),
     fi.getSamplePos());
 }
 
@@ -392,7 +392,7 @@ TEST_F(TestWavFileInDeathTest, SetSamplePosErrorInvalidPosition)
   WavFileIn fi(mono16FileName);
   HOU_EXPECT_ERROR(
     fi.setSamplePos(-1), std::runtime_error, get_text(sys_error::file_seek));
-  HOU_EXPECT_ERROR(fi.setSamplePos(fi.getSampleCount() + 1), std::runtime_error,
+  HOU_EXPECT_ERROR(fi.setSamplePos(fi.get_sample_count() + 1), std::runtime_error,
     get_text(sys_error::file_seek));
 }
 
@@ -413,10 +413,10 @@ TEST_F(TestWavFileIn, MoveSamplePosMono8)
   fi.moveSamplePos(-2);
   EXPECT_EQ(0, fi.get_byte_pos());
   EXPECT_EQ(0, fi.getSamplePos());
-  fi.moveSamplePos(fi.getSampleCount());
+  fi.moveSamplePos(fi.get_sample_count());
   EXPECT_EQ(
     static_cast<WavFileIn::byte_position>(fi.get_byte_count()), fi.get_byte_pos());
-  EXPECT_EQ(static_cast<WavFileIn::SamplePosition>(fi.getSampleCount()),
+  EXPECT_EQ(static_cast<WavFileIn::SamplePosition>(fi.get_sample_count()),
     fi.getSamplePos());
 }
 
@@ -437,10 +437,10 @@ TEST_F(TestWavFileIn, MoveSamplePosMono16)
   fi.moveSamplePos(-2);
   EXPECT_EQ(0, fi.get_byte_pos());
   EXPECT_EQ(0, fi.getSamplePos());
-  fi.moveSamplePos(fi.getSampleCount());
+  fi.moveSamplePos(fi.get_sample_count());
   EXPECT_EQ(
     static_cast<WavFileIn::byte_position>(fi.get_byte_count()), fi.get_byte_pos());
-  EXPECT_EQ(static_cast<WavFileIn::SamplePosition>(fi.getSampleCount()),
+  EXPECT_EQ(static_cast<WavFileIn::SamplePosition>(fi.get_sample_count()),
     fi.getSamplePos());
 }
 
@@ -461,10 +461,10 @@ TEST_F(TestWavFileIn, MoveSamplePosStereo8)
   fi.moveSamplePos(-2);
   EXPECT_EQ(0, fi.get_byte_pos());
   EXPECT_EQ(0, fi.getSamplePos());
-  fi.moveSamplePos(fi.getSampleCount());
+  fi.moveSamplePos(fi.get_sample_count());
   EXPECT_EQ(
     static_cast<WavFileIn::byte_position>(fi.get_byte_count()), fi.get_byte_pos());
-  EXPECT_EQ(static_cast<WavFileIn::SamplePosition>(fi.getSampleCount()),
+  EXPECT_EQ(static_cast<WavFileIn::SamplePosition>(fi.get_sample_count()),
     fi.getSamplePos());
 }
 
@@ -485,10 +485,10 @@ TEST_F(TestWavFileIn, MoveSamplePosStereo16)
   fi.moveSamplePos(-2);
   EXPECT_EQ(0, fi.get_byte_pos());
   EXPECT_EQ(0, fi.getSamplePos());
-  fi.moveSamplePos(fi.getSampleCount());
+  fi.moveSamplePos(fi.get_sample_count());
   EXPECT_EQ(
     static_cast<WavFileIn::byte_position>(fi.get_byte_count()), fi.get_byte_pos());
-  EXPECT_EQ(static_cast<WavFileIn::SamplePosition>(fi.getSampleCount()),
+  EXPECT_EQ(static_cast<WavFileIn::SamplePosition>(fi.get_sample_count()),
     fi.getSamplePos());
 }
 
@@ -500,7 +500,7 @@ TEST_F(TestWavFileInDeathTest, MoveSamplePosErrorInvalidPosition)
   fi.moveSamplePos(2);
   HOU_EXPECT_ERROR(
     fi.moveSamplePos(-3), std::runtime_error, get_text(sys_error::file_seek));
-  HOU_EXPECT_ERROR(fi.moveSamplePos(fi.getSampleCount() - 1),
+  HOU_EXPECT_ERROR(fi.moveSamplePos(fi.get_sample_count() - 1),
     std::runtime_error, get_text(sys_error::file_seek));
 }
 

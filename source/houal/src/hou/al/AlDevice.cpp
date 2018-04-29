@@ -57,7 +57,7 @@ Device::Device()
   , m_uid(generateUid())
 {
   HOU_RUNTIME_CHECK(mDevice != nullptr, get_text(AlError::DeviceOpen)
-    , u8"Default Device");
+    , u8"default Device");
 }
 
 

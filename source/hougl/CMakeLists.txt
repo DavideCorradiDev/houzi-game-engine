@@ -32,19 +32,19 @@ INCLUDE_DIRECTORIES(
 
 # Source files.
 SET(LIB_HOUGL_SRC
-  src/hou/gl/GlBufferHandle.cpp
-  src/hou/gl/GlContext.cpp
-  src/hou/gl/GlContextSettings.cpp
-  src/hou/gl/GlCheck.cpp
-  src/hou/gl/GlError.cpp
-  src/hou/gl/GlFramebufferHandle.cpp
-  src/hou/gl/GlFunctions.cpp
-  src/hou/gl/GlObjectHandle.cpp
-  src/hou/gl/GlProgramHandle.cpp
-  src/hou/gl/GlShaderHandle.cpp
-  src/hou/gl/GlTextureHandle.cpp
-  src/hou/gl/GlVersion.cpp
-  src/hou/gl/GlVertexArrayHandle.cpp
+  src/hou/gl/gl_buffer_handle.cpp
+  src/hou/gl/gl_context.cpp
+  src/hou/gl/gl_context_settings.cpp
+  src/hou/gl/gl_check.cpp
+  src/hou/gl/gl_error.cpp
+  src/hou/gl/gl_framebuffer_handle.cpp
+  src/hou/gl/gl_functions.cpp
+  src/hou/gl/gl_object_handle.cpp
+  src/hou/gl/gl_program_handle.cpp
+  src/hou/gl/gl_shader_handle.cpp
+  src/hou/gl/gl_texture_handle.cpp
+  src/hou/gl/gl_version.cpp
+  src/hou/gl/gl_vertex_array_handle.cpp
 )
 
 IF(WIN32)

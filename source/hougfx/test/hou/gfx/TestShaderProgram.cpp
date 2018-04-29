@@ -8,7 +8,7 @@
 #include "hou/gfx/Shader.hpp"
 #include "hou/gfx/ShaderProgram.hpp"
 
-#include "hou/gl/GlError.hpp"
+#include "hou/gl/gl_error.hpp"
 
 using namespace hou;
 
@@ -41,7 +41,7 @@ std::string getVsSource();
 
 std::string getFsSource()
 {
-  return "#version 330 core\n"
+  return "#ph_version 330 core\n"
          "uniform vec4 colorUni;"
          "out vec4 outColor;"
          "void main()"
@@ -54,7 +54,7 @@ std::string getFsSource()
 
 std::string getGsSource()
 {
-  return "#version 330 core\n"
+  return "#ph_version 330 core\n"
          "layout(points) in;"
          "layout(line_strip, max_vertices = 2) out;"
          "void main()"
@@ -71,7 +71,7 @@ std::string getGsSource()
 
 std::string getVsSource()
 {
-  return "#version 330 core\n"
+  return "#ph_version 330 core\n"
          "in vec2 pos;"
          "void main()"
          "{"
@@ -113,7 +113,7 @@ TEST_F(TestShaderProgram, ConstructorWithoutGlGeometryShader)
   VertexShader vs(getVsSource());
   FragmentShader fs(getFsSource());
   ConcreteShaderProgram p(vs, fs);
-  EXPECT_NE(0u, p.getHandle().getName());
+  EXPECT_NE(0u, p.getHandle().get_name());
 }
 
 
@@ -124,7 +124,7 @@ TEST_F(TestShaderProgram, ConstructorWithGlGeometryShader)
   GeometryShader gs(getGsSource());
   FragmentShader fs(getFsSource());
   ConcreteShaderProgram p(vs, fs, gs);
-  EXPECT_NE(0u, p.getHandle().getName());
+  EXPECT_NE(0u, p.getHandle().get_name());
 }
 
 
@@ -135,10 +135,10 @@ TEST_F(TestShaderProgram, MoveConstructor)
   GeometryShader gs(getGsSource());
   FragmentShader fs(getFsSource());
   ConcreteShaderProgram pDummy(vs, fs, gs);
-  uint programId = pDummy.getHandle().getName();
+  uint programId = pDummy.getHandle().get_name();
   ConcreteShaderProgram p = std::move(pDummy);
-  EXPECT_EQ(programId, p.getHandle().getName());
-  EXPECT_EQ(0u, pDummy.getHandle().getName());
+  EXPECT_EQ(programId, p.getHandle().get_name());
+  EXPECT_EQ(0u, pDummy.getHandle().get_name());
 }
 
 
@@ -162,7 +162,7 @@ TEST_F(TestShaderProgramDeathTest, GetUniformLocationInvalidName)
   ConcreteShaderProgram p(vs, fs, gs);
   std::string invalidName = "trololol";
   HOU_EXPECT_ERROR(p.getUniformLocation(invalidName), std::runtime_error,
-    format_string(get_text(GlError::ProgramInvalidUniform), invalidName.c_str()));
+    format_string(get_text(gl_error::program_invalid_uniform), invalidName.c_str()));
 }
 
 
@@ -173,7 +173,7 @@ TEST_F(TestShaderProgramDeathTest, ConstructorErrorLinkFailure)
   GeometryShader gs(getVsSource());
   FragmentShader fs(getFsSource());
   HOU_EXPECT_ERROR(ConcreteShaderProgram(vs, fs, gs), std::runtime_error,
-    format_string(get_text(GlError::ProgramLinking),
+    format_string(get_text(gl_error::program_linking),
       "Geometry info\n"
       "-------------\n"
       "(0) : error C6022: No input primitive type\n"

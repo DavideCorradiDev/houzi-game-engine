@@ -43,7 +43,7 @@ public:
   static constexpr uint get_byte_count();
 
 public:
-  /** Default constructor.
+  /** default constructor.
    *
    *  Initializes all channels to 0.
    */

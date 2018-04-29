@@ -33,9 +33,9 @@ TEST(TestAudioContext, DeviceNameCreation)
 TEST(TestAudioContext, MoveConstructor)
 {
   AudioContext ctxDummy;
-  AudioContext::setCurrent(ctxDummy);
+  AudioContext::set_current(ctxDummy);
   AudioContext ctx = std::move(ctxDummy);
-  EXPECT_TRUE(ctx.isCurrent());
+  EXPECT_TRUE(ctx.is_current());
 }
 
 
@@ -46,29 +46,29 @@ TEST(TestAudioContext, SetCurrent)
     AudioContext ctx1;
     AudioContext ctx2;
 
-    EXPECT_FALSE(ctx1.isCurrent());
-    EXPECT_FALSE(ctx2.isCurrent());
+    EXPECT_FALSE(ctx1.is_current());
+    EXPECT_FALSE(ctx2.is_current());
 
-    AudioContext::setCurrent(ctx1);
-    EXPECT_TRUE(ctx1.isCurrent());
-    EXPECT_FALSE(ctx2.isCurrent());
+    AudioContext::set_current(ctx1);
+    EXPECT_TRUE(ctx1.is_current());
+    EXPECT_FALSE(ctx2.is_current());
 
-    AudioContext::setCurrent(ctx2);
-    EXPECT_FALSE(ctx1.isCurrent());
-    EXPECT_TRUE(ctx2.isCurrent());
+    AudioContext::set_current(ctx2);
+    EXPECT_FALSE(ctx1.is_current());
+    EXPECT_TRUE(ctx2.is_current());
 
-    AudioContext::setCurrent(ctx2);
-    EXPECT_FALSE(ctx1.isCurrent());
-    EXPECT_TRUE(ctx2.isCurrent());
+    AudioContext::set_current(ctx2);
+    EXPECT_FALSE(ctx1.is_current());
+    EXPECT_TRUE(ctx2.is_current());
 
-    AudioContext::unsetCurrent();
-    EXPECT_FALSE(ctx1.isCurrent());
-    EXPECT_FALSE(ctx2.isCurrent());
+    AudioContext::unset_current();
+    EXPECT_FALSE(ctx1.is_current());
+    EXPECT_FALSE(ctx2.is_current());
 
-    AudioContext::unsetCurrent();
-    EXPECT_FALSE(ctx1.isCurrent());
-    EXPECT_FALSE(ctx2.isCurrent());
+    AudioContext::unset_current();
+    EXPECT_FALSE(ctx1.is_current());
+    EXPECT_FALSE(ctx2.is_current());
   }
-  EXPECT_EQ(nullptr, al::Context::getCurrent());
+  EXPECT_EQ(nullptr, al::context::getCurrent());
 }
 

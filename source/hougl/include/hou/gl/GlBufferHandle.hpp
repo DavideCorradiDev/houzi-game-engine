@@ -5,8 +5,8 @@
 #ifndef HOU_GL_GL_BUFFER_HANDLE_HPP
 #define HOU_GL_GL_BUFFER_HANDLE_HPP
 
-#include "hou/gl/GlExport.hpp"
-#include "hou/gl/GlObjectHandle.hpp"
+#include "hou/gl/gl_export.hpp"
+#include "hou/gl/gl_object_handle.hpp"
 
 
 
@@ -16,30 +16,30 @@ namespace hou
 namespace gl
 {
 
-class HOU_GL_API BufferHandle
-  : public SharedObjectHandle
+class HOU_GL_API buffer_handle
+  : public shared_object_handle
 {
 public:
-  static BufferHandle create();
+  static buffer_handle create();
 
-  BufferHandle(BufferHandle&& other);
-  virtual ~BufferHandle();
+  buffer_handle(buffer_handle&& other);
+  virtual ~buffer_handle();
 
 private:
-  BufferHandle(GLuint name);
+  buffer_handle(GLuint name);
 };
 
-HOU_GL_API void bindBuffer(const BufferHandle& buffer, GLenum target);
-HOU_GL_API void unbindBuffer(GLenum target);
-HOU_GL_API bool isBufferBound(const BufferHandle& buffer, GLenum target);
-HOU_GL_API bool isBufferBound(GLenum target);
-HOU_GL_API GLuint getBoundBufferName(GLenum target);
+HOU_GL_API void bind_buffer(const buffer_handle& buffer, GLenum target);
+HOU_GL_API void unbind_buffer(GLenum target);
+HOU_GL_API bool is_buffer_bound(const buffer_handle& buffer, GLenum target);
+HOU_GL_API bool is_buffer_bound(GLenum target);
+HOU_GL_API GLuint get_bound_buffer_name(GLenum target);
 
-HOU_GL_API void setBufferStorage(const BufferHandle& buffer, GLsizei size
+HOU_GL_API void set_buffer_storage(const buffer_handle& buffer, GLsizei size
   , const GLvoid* data, GLbitfield flags);
-HOU_GL_API void setBufferSubData(const BufferHandle& buffer, GLintptr offset
+HOU_GL_API void set_buffer_sub_data(const buffer_handle& buffer, GLintptr offset
   , GLsizei size, const GLvoid* data);
-HOU_GL_API void getBufferSubData(const BufferHandle& buffer, GLintptr offset
+HOU_GL_API void get_buffer_sub_data(const buffer_handle& buffer, GLintptr offset
   , GLsizei size, GLvoid* data);
 
 }

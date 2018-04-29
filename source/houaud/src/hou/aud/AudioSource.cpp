@@ -147,7 +147,7 @@ std::chrono::nanoseconds AudioSource::getTimePos() const
 
 std::chrono::nanoseconds AudioSource::getDuration() const
 {
-  return std::chrono::nanoseconds(static_cast<int64_t>(getSampleCount())
+  return std::chrono::nanoseconds(static_cast<int64_t>(get_sample_count())
     * 1000000000 / static_cast<int64_t>(getSampleRate()));
 }
 
@@ -157,11 +157,11 @@ void AudioSource::setSamplePos(uint pos)
 {
   if(getState() == AudioSourceState::Playing)
   {
-    onSetSamplePos(normalize(pos, getSampleCount()));
+    onSetSamplePos(normalize(pos, get_sample_count()));
   }
   else
   {
-    mRequestedSamplePos = normalize(pos, getSampleCount());
+    mRequestedSamplePos = normalize(pos, get_sample_count());
   }
 }
 

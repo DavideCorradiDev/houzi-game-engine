@@ -5,8 +5,8 @@
 #ifndef HOU_GL_GL_TEXTURE_HANDLE_HPP
 #define HOU_GL_GL_TEXTURE_HANDLE_HPP
 
-#include "hou/gl/GlExport.hpp"
-#include "hou/gl/GlObjectHandle.hpp"
+#include "hou/gl/gl_export.hpp"
+#include "hou/gl/gl_object_handle.hpp"
 
 
 
@@ -16,130 +16,130 @@ namespace hou
 namespace gl
 {
 
-class HOU_GL_API TextureHandle : public SharedObjectHandle
+class HOU_GL_API texture_handle : public shared_object_handle
 {
 public:
-  static TextureHandle create(GLenum target);
+  static texture_handle create(GLenum target);
 
-  TextureHandle(TextureHandle&& other);
-  virtual ~TextureHandle();
+  texture_handle(texture_handle&& other);
+  virtual ~texture_handle();
 
   GLenum getTarget() const;
 
 private:
-  TextureHandle(GLuint name, GLenum target);
+  texture_handle(GLuint name, GLenum target);
 
 private:
-  GLenum mTarget;
+  GLenum m_target;
 };
 
-HOU_GL_API void bindTexture(const TextureHandle& texture);
-HOU_GL_API void unbindTexture();
-HOU_GL_API bool isTextureBound(const TextureHandle& texture);
-HOU_GL_API bool isTextureBound();
+HOU_GL_API void bind_texture(const texture_handle& texture);
+HOU_GL_API void unbind_texture();
+HOU_GL_API bool is_texture_bound(const texture_handle& texture);
+HOU_GL_API bool is_texture_bound();
 
-HOU_GL_API void bindTexture(const TextureHandle& texture, GLuint unit);
-HOU_GL_API void unbindTexture(GLuint unit);
-HOU_GL_API bool isTextureBound(const TextureHandle& texture, GLuint unit);
-HOU_GL_API bool isTextureBound(GLuint unit);
+HOU_GL_API void bind_texture(const texture_handle& texture, GLuint unit);
+HOU_GL_API void unbind_texture(GLuint unit);
+HOU_GL_API bool is_texture_bound(const texture_handle& texture, GLuint unit);
+HOU_GL_API bool is_texture_bound(GLuint unit);
 
-HOU_GL_API GLuint getBoundTextureName();
+HOU_GL_API GLuint get_bound_texture_name();
 
-HOU_GL_API void setActiveTexture(GLuint unit);
-HOU_GL_API GLuint getActiveTexture();
-HOU_GL_API GLuint getMaxTextureImageUnits();
+HOU_GL_API void set_active_texture(GLuint unit);
+HOU_GL_API GLuint get_active_texture();
+HOU_GL_API GLuint get_max_texture_image_units();
 
-HOU_GL_API void setTextureStorage1d(const TextureHandle& texture,
+HOU_GL_API void set_texture_storage_1d(const texture_handle& texture,
   GLsizei levels, GLenum internalFormat, GLsizei width);
-HOU_GL_API void setTextureStorage2d(const TextureHandle& texture,
+HOU_GL_API void set_texture_storage_2d(const texture_handle& texture,
   GLsizei levels, GLenum internalFormat, GLsizei width, GLsizei height);
-HOU_GL_API void setTextureStorage3d(const TextureHandle& texture,
+HOU_GL_API void set_texture_storage_3d(const texture_handle& texture,
   GLsizei levels, GLenum internalFormat, GLsizei width, GLsizei height,
   GLsizei depth);
-HOU_GL_API void setTextureStorage2dMultisample(const TextureHandle& texture,
+HOU_GL_API void set_texture_storage_2d_multisample(const texture_handle& texture,
   GLsizei samples, GLenum internalFormat, GLsizei width, GLsizei height,
   GLboolean fixedSampleLocations);
-HOU_GL_API void setTextureStorage3dMultisample(const TextureHandle& texture,
+HOU_GL_API void set_texture_storage_3d_multisample(const texture_handle& texture,
   GLsizei samples, GLenum internalFormat, GLsizei width, GLsizei height,
   GLsizei depth, GLboolean fixedSampleLocations);
 
-HOU_GL_API void setTextureSubImage1d(const TextureHandle& texture, GLint level,
+HOU_GL_API void set_texture_sub_image_1d(const texture_handle& texture, GLint level,
   GLint xoffset, GLsizei width, GLenum format, GLenum type, const void* pixels);
-HOU_GL_API void setTextureSubImage2d(const TextureHandle& texture, GLint level,
+HOU_GL_API void set_texture_sub_image_2d(const texture_handle& texture, GLint level,
   GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format,
   GLenum type, const void* pixels);
-HOU_GL_API void setTextureSubImage3d(const TextureHandle& texture, GLint level,
+HOU_GL_API void set_texture_sub_image_3d(const texture_handle& texture, GLint level,
   GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height,
   GLsizei depth, GLenum format, GLenum type, const void* pixels);
 
-HOU_GL_API void copyTextureSubImage1d(const TextureHandle& texture, GLint level,
+HOU_GL_API void copy_texture_sub_image_1d(const texture_handle& texture, GLint level,
   GLint xoffset, GLint x, GLint y, GLsizei width);
-HOU_GL_API void copyTextureSubImage2d(const TextureHandle& texture, GLint level,
+HOU_GL_API void copy_texture_sub_image_2d(const texture_handle& texture, GLint level,
   GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width,
   GLsizei height);
-HOU_GL_API void copyTextureSubImage3d(const TextureHandle& texture, GLint level,
+HOU_GL_API void copy_texture_sub_image_3d(const texture_handle& texture, GLint level,
   GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width,
   GLsizei height);
 
-HOU_GL_API void getTextureImage(const TextureHandle& texture, GLint level,
+HOU_GL_API void get_texture_image(const texture_handle& texture, GLint level,
   GLenum format, GLenum type, GLsizei bufSize, void* pixels);
-HOU_GL_API void getTextureSubImage(const TextureHandle& texture, GLint xoffset,
+HOU_GL_API void get_texture_sub_image(const texture_handle& texture, GLint xoffset,
   GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth,
   GLint level, GLenum format, GLenum type, GLsizei bufSize, void* pixels);
 
-HOU_GL_API GLsizei getTextureWidth(const TextureHandle& handle, GLint level);
-HOU_GL_API GLsizei getTextureWidth(const TextureHandle& handle);
-HOU_GL_API GLsizei getTextureHeight(const TextureHandle& handle, GLint level);
-HOU_GL_API GLsizei getTextureHeight(const TextureHandle& handle);
-HOU_GL_API GLsizei getTextureDepth(const TextureHandle& handle, GLint level);
-HOU_GL_API GLsizei getTextureDepth(const TextureHandle& handle);
+HOU_GL_API GLsizei get_texture_width(const texture_handle& handle, GLint level);
+HOU_GL_API GLsizei get_texture_width(const texture_handle& handle);
+HOU_GL_API GLsizei get_texture_height(const texture_handle& handle, GLint level);
+HOU_GL_API GLsizei get_texture_height(const texture_handle& handle);
+HOU_GL_API GLsizei get_texture_depth(const texture_handle& handle, GLint level);
+HOU_GL_API GLsizei get_texture_depth(const texture_handle& handle);
 
-HOU_GL_API GLenum getTextureFormat(const TextureHandle& handle, GLint level);
-HOU_GL_API GLenum getTextureFormat(const TextureHandle& handle);
+HOU_GL_API GLenum get_texture_format(const texture_handle& handle, GLint level);
+HOU_GL_API GLenum get_texture_format(const texture_handle& handle);
 
-HOU_GL_API GLint getTextureBaseLevel(const TextureHandle& handle);
-HOU_GL_API GLint getTextureMaxLevel(const TextureHandle& handle);
+HOU_GL_API GLint get_texture_base_level(const texture_handle& handle);
+HOU_GL_API GLint get_texture_max_level(const texture_handle& handle);
 
-HOU_GL_API GLenum getTextureMinFilter(const TextureHandle& texture);
-HOU_GL_API GLenum getTextureMagFilter(const TextureHandle& texture);
-HOU_GL_API void setTextureMinFilter(
-  const TextureHandle& texture, GLenum filter);
-HOU_GL_API void setTextureMagFilter(
-  const TextureHandle& texture, GLenum filter);
+HOU_GL_API GLenum get_texture_min_filter(const texture_handle& texture);
+HOU_GL_API GLenum get_texture_mag_filter(const texture_handle& texture);
+HOU_GL_API void set_texture_min_filter(
+  const texture_handle& texture, GLenum filter);
+HOU_GL_API void set_texture_mag_filter(
+  const texture_handle& texture, GLenum filter);
 
-HOU_GL_API GLenum getTextureSwizzleR(const TextureHandle& texture);
-HOU_GL_API GLenum getTextureSwizzleG(const TextureHandle& texture);
-HOU_GL_API GLenum getTextureSwizzleB(const TextureHandle& texture);
-HOU_GL_API GLenum getTextureSwizzleA(const TextureHandle& texture);
-HOU_GL_API void getTextureSwizzle(
-  const TextureHandle& texture, GLenum* swizzle);
-HOU_GL_API void setTextureSwizzleR(
-  const TextureHandle& texture, GLenum swizzle);
-HOU_GL_API void setTextureSwizzleG(
-  const TextureHandle& texture, GLenum swizzle);
-HOU_GL_API void setTextureSwizzleB(
-  const TextureHandle& texture, GLenum swizzle);
-HOU_GL_API void setTextureSwizzleA(
-  const TextureHandle& texture, GLenum swizzle);
-HOU_GL_API void setTextureSwizzle(
-  const TextureHandle& texture, const GLenum* swizzle);
+HOU_GL_API GLenum get_texture_swizzle_r(const texture_handle& texture);
+HOU_GL_API GLenum get_texture_swizzle_g(const texture_handle& texture);
+HOU_GL_API GLenum get_texture_swizzle_b(const texture_handle& texture);
+HOU_GL_API GLenum get_texture_swizzle_a(const texture_handle& texture);
+HOU_GL_API void get_texture_swizzle(
+  const texture_handle& texture, GLenum* swizzle);
+HOU_GL_API void set_texture_swizzle_r(
+  const texture_handle& texture, GLenum swizzle);
+HOU_GL_API void set_texture_swizzle_g(
+  const texture_handle& texture, GLenum swizzle);
+HOU_GL_API void set_texture_swizzle_b(
+  const texture_handle& texture, GLenum swizzle);
+HOU_GL_API void set_texture_swizzle_a(
+  const texture_handle& texture, GLenum swizzle);
+HOU_GL_API void set_texture_swizzle(
+  const texture_handle& texture, const GLenum* swizzle);
 
-HOU_GL_API GLenum getTextureWrapModeS(const TextureHandle& texture);
-HOU_GL_API GLenum getTextureWrapModeT(const TextureHandle& texture);
-HOU_GL_API GLenum getTextureWrapModeR(const TextureHandle& texture);
-HOU_GL_API void setTextureWrapModeS(const TextureHandle& texture, GLenum mode);
-HOU_GL_API void setTextureWrapModeT(const TextureHandle& texture, GLenum mode);
-HOU_GL_API void setTextureWrapModeR(const TextureHandle& texture, GLenum mode);
+HOU_GL_API GLenum get_texture_wrap_mode_s(const texture_handle& texture);
+HOU_GL_API GLenum get_texture_wrap_mode_t(const texture_handle& texture);
+HOU_GL_API GLenum get_texture_wrap_mode_r(const texture_handle& texture);
+HOU_GL_API void set_texture_wrap_mode_s(const texture_handle& texture, GLenum mode);
+HOU_GL_API void set_texture_wrap_mode_t(const texture_handle& texture, GLenum mode);
+HOU_GL_API void set_texture_wrap_mode_r(const texture_handle& texture, GLenum mode);
 
-HOU_GL_API void generateMipMap(const TextureHandle& texture);
+HOU_GL_API void generate_mip_map(const texture_handle& texture);
 
-HOU_GL_API GLint getTextureSamples(const TextureHandle& texture);
+HOU_GL_API GLint get_texture_samples(const texture_handle& texture);
 HOU_GL_API
 
-HOU_GL_API GLint getMaxTextureSamples();
-HOU_GL_API GLint getMaxTextureSize();
-HOU_GL_API GLint getMax3dTextureSize();
-HOU_GL_API GLint getMaxTextureLayers();
+HOU_GL_API GLint get_max_texture_samples();
+HOU_GL_API GLint get_max_texture_size();
+HOU_GL_API GLint get_max_3d_texture_size();
+HOU_GL_API GLint get_max_texture_layers();
 
 }  // namespace gl
 

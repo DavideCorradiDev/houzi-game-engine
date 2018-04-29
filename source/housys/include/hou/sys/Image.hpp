@@ -69,7 +69,7 @@ public:
   static constexpr uint get_pixel_byte_count();
 
 public:
-  /** Default constructor.
+  /** default constructor.
    *
    *  Creates an ph_image with no pixels.
    *  All of its size components are equal to 0.

@@ -9,16 +9,16 @@
 namespace hou
 {
 
-void AudioContext::setCurrent(AudioContext& context)
+void AudioContext::set_current(AudioContext& ph_context)
 {
-  al::Context::setCurrent(context.mAlContext);
+  al::context::set_current(ph_context.mAlContext);
 }
 
 
 
-void AudioContext::unsetCurrent()
+void AudioContext::unset_current()
 {
-  al::Context::unsetCurrent();
+  al::context::unset_current();
 }
 
 
@@ -57,9 +57,9 @@ AudioContext::AudioContext(AudioContext&& other)
 
 
 
-bool AudioContext::isCurrent() const
+bool AudioContext::is_current() const
 {
-  return mAlContext.isCurrent();
+  return mAlContext.is_current();
 }
 
 }

@@ -7,9 +7,9 @@
 
 #include "hou/gl/TestGlShaderSources.hpp"
 
-#include "hou/gl/GlError.hpp"
-#include "hou/gl/GlProgramHandle.hpp"
-#include "hou/gl/GlShaderHandle.hpp"
+#include "hou/gl/gl_error.hpp"
+#include "hou/gl/gl_program_handle.hpp"
+#include "hou/gl/gl_shader_handle.hpp"
 
 using namespace hou;
 
@@ -21,22 +21,22 @@ namespace
 class TestGlProgramHandle: public TestGlMultipleContexts {};
 class TestGlProgramHandleDeathTest : public TestGlProgramHandle {};
 
-gl::ProgramHandle createProgram();
+gl::program_handle createProgram();
 
 
 
-gl::ProgramHandle createProgram()
+gl::program_handle createProgram()
 {
-  gl::ShaderHandle vsh = gl::ShaderHandle::create(GL_VERTEX_SHADER);
-  compileShader(vsh, getVsSource().c_str());
+  gl::shader_handle vsh = gl::shader_handle::create(GL_VERTEX_SHADER);
+  compile_shader(vsh, getVsSource().c_str());
 
-  gl::ShaderHandle fsh = gl::ShaderHandle::create(GL_FRAGMENT_SHADER);
-  compileShader(fsh, getFsSource().c_str());
+  gl::shader_handle fsh = gl::shader_handle::create(GL_FRAGMENT_SHADER);
+  compile_shader(fsh, getFsSource().c_str());
 
-  gl::ProgramHandle ph = gl::ProgramHandle::create();
-  attachShader(ph, vsh);
-  attachShader(ph, fsh);
-  linkProgram(ph);
+  gl::program_handle ph = gl::program_handle::create();
+  attach_shader(ph, vsh);
+  attach_shader(ph, fsh);
+  link_program(ph);
 
   return std::move(ph);
 }
@@ -47,8 +47,8 @@ gl::ProgramHandle createProgram()
 
 TEST_F(TestGlProgramHandle, Creation)
 {
-  gl::ProgramHandle vah = gl::ProgramHandle::create();
-  EXPECT_NE(0u, vah.getName());
+  gl::program_handle vah = gl::program_handle::create();
+  EXPECT_NE(0u, vah.get_name());
 }
 
 
@@ -59,57 +59,57 @@ TEST_F(TestGlProgramHandle, NoContextCreation)
 TEST_F(TestGlProgramHandle, DISABLED_NoContextCreation)
 #endif
 {
-  gl::Context::unsetCurrent();
-  HOU_EXPECT_ERROR(gl::ProgramHandle::create(), std::logic_error
-    , get_text(GlError::ContextExistence));
+  gl::context::unset_current();
+  HOU_EXPECT_ERROR(gl::program_handle::create(), std::logic_error
+    , get_text(gl_error::context_existence));
 }
 
 
 
 TEST_F(TestGlProgramHandle, Tracking)
 {
-  gl::ProgramHandle ph1 = createProgram();
-  gl::ProgramHandle ph2 = createProgram();
+  gl::program_handle ph1 = createProgram();
+  gl::program_handle ph2 = createProgram();
 
   setContextCurrent();
-  EXPECT_EQ(0u, gl::getBoundProgramName());
-  EXPECT_FALSE(gl::isProgramBound(ph1));
-  EXPECT_FALSE(gl::isProgramBound());
+  EXPECT_EQ(0u, gl::get_bound_program_name());
+  EXPECT_FALSE(gl::is_program_bound(ph1));
+  EXPECT_FALSE(gl::is_program_bound());
 
-  gl::bindProgram(ph1);
-  EXPECT_EQ(ph1.getName(), gl::getBoundProgramName());
-  EXPECT_TRUE(gl::isProgramBound(ph1));
-  EXPECT_TRUE(gl::isProgramBound());
+  gl::bind_program(ph1);
+  EXPECT_EQ(ph1.get_name(), gl::get_bound_program_name());
+  EXPECT_TRUE(gl::is_program_bound(ph1));
+  EXPECT_TRUE(gl::is_program_bound());
 
   setSharingContextCurrent();
-  EXPECT_EQ(0u, gl::getBoundProgramName());
-  EXPECT_FALSE(gl::isProgramBound(ph2));
-  EXPECT_FALSE(gl::isProgramBound());
+  EXPECT_EQ(0u, gl::get_bound_program_name());
+  EXPECT_FALSE(gl::is_program_bound(ph2));
+  EXPECT_FALSE(gl::is_program_bound());
 
-  gl::bindProgram(ph2);
-  EXPECT_EQ(ph2.getName(), gl::getBoundProgramName());
-  EXPECT_TRUE(gl::isProgramBound(ph2));
-  EXPECT_TRUE(gl::isProgramBound());
+  gl::bind_program(ph2);
+  EXPECT_EQ(ph2.get_name(), gl::get_bound_program_name());
+  EXPECT_TRUE(gl::is_program_bound(ph2));
+  EXPECT_TRUE(gl::is_program_bound());
 
   setContextCurrent();
-  EXPECT_EQ(ph1.getName(), gl::getBoundProgramName());
-  EXPECT_TRUE(gl::isProgramBound(ph1));
-  EXPECT_TRUE(gl::isProgramBound());
+  EXPECT_EQ(ph1.get_name(), gl::get_bound_program_name());
+  EXPECT_TRUE(gl::is_program_bound(ph1));
+  EXPECT_TRUE(gl::is_program_bound());
 
-  gl::unbindProgram();
-  EXPECT_EQ(0u, gl::getBoundProgramName());
-  EXPECT_FALSE(gl::isProgramBound(ph1));
-  EXPECT_FALSE(gl::isProgramBound());
+  gl::unbind_program();
+  EXPECT_EQ(0u, gl::get_bound_program_name());
+  EXPECT_FALSE(gl::is_program_bound(ph1));
+  EXPECT_FALSE(gl::is_program_bound());
 }
 
 
 
 TEST_F(TestGlProgramHandle, SharingContextBinding)
 {
-  gl::ProgramHandle ph = createProgram();
+  gl::program_handle ph = createProgram();
   setSharingContextCurrent();
-  gl::bindProgram(ph);
-  EXPECT_TRUE(isProgramBound(ph));
+  gl::bind_program(ph);
+  EXPECT_TRUE(is_program_bound(ph));
 }
 
 
@@ -120,10 +120,10 @@ TEST_F(TestGlProgramHandleDeathTest, NonSharingContextBinding)
 TEST_F(TestGlProgramHandleDeathTest, DISABLED_NonSharingContextBinding)
 #endif
 {
-  gl::ProgramHandle ph = createProgram();
+  gl::program_handle ph = createProgram();
   setNonSharingContextCurrent();
-  HOU_EXPECT_ERROR(gl::bindProgram(ph), std::logic_error
-    , get_text(GlError::InvalidOwnership));
+  HOU_EXPECT_ERROR(gl::bind_program(ph), std::logic_error
+    , get_text(gl_error::invalid_ownership));
   setContextCurrent();
 }
 
@@ -135,10 +135,10 @@ TEST_F(TestGlProgramHandleDeathTest, NoContextBinding)
 TEST_F(TestGlProgramHandleDeathTest, DISABLED_NoContextBinding)
 #endif
 {
-  gl::ProgramHandle ph = createProgram();
-  gl::Context::unsetCurrent();
-  HOU_EXPECT_ERROR(gl::bindProgram(ph), std::logic_error
-    , get_text(GlError::ContextExistence));
+  gl::program_handle ph = createProgram();
+  gl::context::unset_current();
+  HOU_EXPECT_ERROR(gl::bind_program(ph), std::logic_error
+    , get_text(gl_error::context_existence));
   setContextCurrent();
 }
 
@@ -146,17 +146,17 @@ TEST_F(TestGlProgramHandleDeathTest, DISABLED_NoContextBinding)
 
 TEST_F(TestGlProgramHandle, LinkProgram)
 {
-  gl::ShaderHandle vsh = gl::ShaderHandle::create(GL_VERTEX_SHADER);
-  gl::compileShader(vsh, getVsSource().c_str());
-  gl::ShaderHandle gsh = gl::ShaderHandle::create(GL_GEOMETRY_SHADER);
-  gl::compileShader(gsh, getGsSource().c_str());
-  gl::ShaderHandle fsh = gl::ShaderHandle::create(GL_FRAGMENT_SHADER);
-  gl::compileShader(fsh, getFsSource().c_str());
-  gl::ProgramHandle ph = gl::ProgramHandle::create();
-  gl::attachShader(ph, vsh);
-  gl::attachShader(ph, gsh);
-  gl::attachShader(ph, fsh);
-  gl::linkProgram(ph);
+  gl::shader_handle vsh = gl::shader_handle::create(GL_VERTEX_SHADER);
+  gl::compile_shader(vsh, getVsSource().c_str());
+  gl::shader_handle gsh = gl::shader_handle::create(GL_GEOMETRY_SHADER);
+  gl::compile_shader(gsh, getGsSource().c_str());
+  gl::shader_handle fsh = gl::shader_handle::create(GL_FRAGMENT_SHADER);
+  gl::compile_shader(fsh, getFsSource().c_str());
+  gl::program_handle ph = gl::program_handle::create();
+  gl::attach_shader(ph, vsh);
+  gl::attach_shader(ph, gsh);
+  gl::attach_shader(ph, fsh);
+  gl::link_program(ph);
   SUCCEED();
 }
 
@@ -164,19 +164,19 @@ TEST_F(TestGlProgramHandle, LinkProgram)
 
 TEST_F(TestGlProgramHandleDeathTest, LinkProgramFailure)
 {
-  gl::ShaderHandle vsh = gl::ShaderHandle::create(GL_VERTEX_SHADER);
-  gl::compileShader(vsh, getVsSource().c_str());
-  gl::ShaderHandle gsh = gl::ShaderHandle::create(GL_GEOMETRY_SHADER);
+  gl::shader_handle vsh = gl::shader_handle::create(GL_VERTEX_SHADER);
+  gl::compile_shader(vsh, getVsSource().c_str());
+  gl::shader_handle gsh = gl::shader_handle::create(GL_GEOMETRY_SHADER);
   // Vertex shader source here to trigger the error!
-  gl::compileShader(gsh, getVsSource().c_str());
-  gl::ShaderHandle fsh = gl::ShaderHandle::create(GL_FRAGMENT_SHADER);
-  gl::compileShader(fsh, getFsSource().c_str());
-  gl::ProgramHandle ph = gl::ProgramHandle::create();
-  gl::attachShader(ph, vsh);
-  gl::attachShader(ph, gsh);
-  gl::attachShader(ph, fsh);
-  HOU_EXPECT_ERROR(gl::linkProgram(ph), std::runtime_error
-    , format_string(get_text(GlError::ProgramLinking)
+  gl::compile_shader(gsh, getVsSource().c_str());
+  gl::shader_handle fsh = gl::shader_handle::create(GL_FRAGMENT_SHADER);
+  gl::compile_shader(fsh, getFsSource().c_str());
+  gl::program_handle ph = gl::program_handle::create();
+  gl::attach_shader(ph, vsh);
+  gl::attach_shader(ph, gsh);
+  gl::attach_shader(ph, fsh);
+  HOU_EXPECT_ERROR(gl::link_program(ph), std::runtime_error
+    , format_string(get_text(gl_error::program_linking)
     , "Geometry info\n"
     "-------------\n"
     "(0) : error C6022: No input primitive type\n"
@@ -187,17 +187,17 @@ TEST_F(TestGlProgramHandleDeathTest, LinkProgramFailure)
 
 TEST_F(TestGlProgramHandle, GetUniformLocation)
 {
-  gl::ProgramHandle ph = createProgram();
-  EXPECT_EQ(0, gl::getProgramUniformLocation(ph, "colorUni"));
+  gl::program_handle ph = createProgram();
+  EXPECT_EQ(0, gl::get_program_uniform_location(ph, "colorUni"));
 }
 
 
 
 TEST_F(TestGlProgramHandleDeathTest, GetUniformLocationInvalidName)
 {
-  gl::ProgramHandle ph = createProgram();
-  HOU_EXPECT_ERROR(gl::getProgramUniformLocation(ph, "invalidName")
-    , std::runtime_error, format_string(get_text(GlError::ProgramInvalidUniform)
+  gl::program_handle ph = createProgram();
+  HOU_EXPECT_ERROR(gl::get_program_uniform_location(ph, "invalidName")
+    , std::runtime_error, format_string(get_text(gl_error::program_invalid_uniform)
     , "invalidName"));
 
 }

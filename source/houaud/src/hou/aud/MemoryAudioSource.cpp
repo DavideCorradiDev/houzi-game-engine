@@ -38,7 +38,7 @@ void MemoryAudioSource::setBuffer(const AudioBuffer* buffer)
   mBufferRef = buffer;
   if(buffer != nullptr)
   {
-    al::setSourceBuffer(getHandle(), buffer->getHandle().getName());
+    al::setSourceBuffer(getHandle(), buffer->getHandle().get_name());
   }
   else
   {
@@ -84,9 +84,9 @@ uint MemoryAudioSource::getSampleRate() const
 
 
 
-uint MemoryAudioSource::getSampleCount() const
+uint MemoryAudioSource::get_sample_count() const
 {
-  return mBufferRef == nullptr ? 0u : mBufferRef->getSampleCount();
+  return mBufferRef == nullptr ? 0u : mBufferRef->get_sample_count();
 }
 
 

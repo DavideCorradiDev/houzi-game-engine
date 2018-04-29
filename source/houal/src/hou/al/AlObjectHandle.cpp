@@ -18,46 +18,46 @@ namespace hou
 namespace al
 {
 
-ObjectHandle::ObjectHandle(ALuint name)
+object_handle::object_handle(ALuint name)
   : non_copyable()
-  , mName(name)
+  , m_name(name)
 {}
 
 
 
-ObjectHandle::ObjectHandle(ObjectHandle&& other)
-  : mName(std::move(other.mName))
+object_handle::object_handle(object_handle&& other)
+  : m_name(std::move(other.m_name))
 {
-  other.mName = 0u;
+  other.m_name = 0u;
 }
 
 
 
-ObjectHandle::~ObjectHandle()
+object_handle::~object_handle()
 {}
 
 
 
-ALuint ObjectHandle::getName() const
+ALuint object_handle::get_name() const
 {
-  return mName;
+  return m_name;
 }
 
 
 
 DeviceOwnedObjectHandle::DeviceOwnedObjectHandle(ALuint name)
-  : ObjectHandle(name)
+  : object_handle(name)
   , mOwningDeviceUid(0u)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
-  mOwningDeviceUid = al::Context::getCurrent()->getDeviceUid();
+  mOwningDeviceUid = al::context::getCurrent()->getDeviceUid();
 }
 
 
 
 DeviceOwnedObjectHandle::DeviceOwnedObjectHandle
   (DeviceOwnedObjectHandle&& other)
-  : ObjectHandle(std::move(other))
+  : object_handle(std::move(other))
   , mOwningDeviceUid(std::move(other.mOwningDeviceUid))
 {}
 
@@ -76,19 +76,19 @@ uint32_t DeviceOwnedObjectHandle::getOwningDeviceUid() const
 
 
 ContextOwnedObjectHandle::ContextOwnedObjectHandle(ALuint name)
-  : ObjectHandle(name)
-  , mOwningContextUid(0u)
+  : object_handle(name)
+  , m_owning_context_uid(0u)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
-  mOwningContextUid = al::Context::getCurrent()->get_uid();
+  m_owning_context_uid = al::context::getCurrent()->get_uid();
 }
 
 
 
 ContextOwnedObjectHandle::ContextOwnedObjectHandle
   (ContextOwnedObjectHandle&& other)
-  : ObjectHandle(std::move(other))
-  , mOwningContextUid(std::move(other.mOwningContextUid))
+  : object_handle(std::move(other))
+  , m_owning_context_uid(std::move(other.m_owning_context_uid))
 {}
 
 
@@ -98,9 +98,9 @@ ContextOwnedObjectHandle::~ContextOwnedObjectHandle()
 
 
 
-uint32_t ContextOwnedObjectHandle::getOwningContextUid() const
+uint32_t ContextOwnedObjectHandle::get_owning_context_uid() const
 {
-  return mOwningContextUid;
+  return m_owning_context_uid;
 }
 
 }

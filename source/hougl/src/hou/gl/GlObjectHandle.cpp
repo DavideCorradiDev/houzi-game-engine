@@ -2,10 +2,10 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gl/GlObjectHandle.hpp"
+#include "hou/gl/gl_object_handle.hpp"
 
 #include "hou/gl/GlCheck.hpp"
-#include "hou/gl/GlContext.hpp"
+#include "hou/gl/gl_context.hpp"
 
 #include "hou/cor/uid_generator.hpp"
 
@@ -34,98 +34,98 @@ uint32_t generateUid()
 
 
 
-ObjectHandle::ObjectHandle(GLuint name)
+object_handle::object_handle(GLuint name)
   : non_copyable()
-  , mName(name)
+  , m_name(name)
   , m_uid(generateUid())
 {}
 
 
 
-ObjectHandle::ObjectHandle(ObjectHandle&& other)
+object_handle::object_handle(object_handle&& other)
   : non_copyable()
-  , mName(other.mName)
+  , m_name(other.m_name)
   , m_uid(other.m_uid)
 {
-  other.mName = 0u;
+  other.m_name = 0u;
   other.m_uid = 0u;
 }
 
 
 
-ObjectHandle::~ObjectHandle()
+object_handle::~object_handle()
 {}
 
 
 
-GLuint ObjectHandle::getName() const
+GLuint object_handle::get_name() const
 {
-  return mName;
+  return m_name;
 }
 
 
 
-uint32_t ObjectHandle::get_uid() const
+uint32_t object_handle::get_uid() const
 {
   return m_uid;
 }
 
 
 
-SharedObjectHandle::SharedObjectHandle(GLuint name)
-  : ObjectHandle(name)
-  , mOwningSharingGroupUid(0u)
+shared_object_handle::shared_object_handle(GLuint name)
+  : object_handle(name)
+  , m_owning_sharing_group_uid(0u)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  mOwningSharingGroupUid = Context::getCurrent()->getSharingGroupUid();
+  m_owning_sharing_group_uid = context::getCurrent()->getSharingGroupUid();
 }
 
 
 
-SharedObjectHandle::SharedObjectHandle(SharedObjectHandle&& other)
-  : ObjectHandle(std::move(other))
-  , mOwningSharingGroupUid(other.mOwningSharingGroupUid)
+shared_object_handle::shared_object_handle(shared_object_handle&& other)
+  : object_handle(std::move(other))
+  , m_owning_sharing_group_uid(other.m_owning_sharing_group_uid)
 {}
 
 
 
-SharedObjectHandle::~SharedObjectHandle()
+shared_object_handle::~shared_object_handle()
 {}
 
 
 
-uint32_t SharedObjectHandle::getOwningSharingGroupUid() const
+uint32_t shared_object_handle::get_owning_sharing_group_uid() const
 {
-  return mOwningSharingGroupUid;
+  return m_owning_sharing_group_uid;
 }
 
 
 
-NonSharedObjectHandle::NonSharedObjectHandle(GLuint name)
-  : ObjectHandle(name)
-  , mOwningContextUid(0u)
+non_shared_object_handle::non_shared_object_handle(GLuint name)
+  : object_handle(name)
+  , m_owning_context_uid(0u)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  mOwningContextUid = Context::getCurrent()->get_uid();
+  m_owning_context_uid = context::getCurrent()->get_uid();
 }
 
 
 
-NonSharedObjectHandle::NonSharedObjectHandle(NonSharedObjectHandle&& other)
-  : ObjectHandle(std::move(other))
-  , mOwningContextUid(other.mOwningContextUid)
+non_shared_object_handle::non_shared_object_handle(non_shared_object_handle&& other)
+  : object_handle(std::move(other))
+  , m_owning_context_uid(other.m_owning_context_uid)
 {}
 
 
 
-NonSharedObjectHandle::~NonSharedObjectHandle()
+non_shared_object_handle::~non_shared_object_handle()
 {}
 
 
 
-uint32_t NonSharedObjectHandle::getOwningContextUid() const
+uint32_t non_shared_object_handle::get_owning_context_uid() const
 {
-  return mOwningContextUid;
+  return m_owning_context_uid;
 }
 
 }

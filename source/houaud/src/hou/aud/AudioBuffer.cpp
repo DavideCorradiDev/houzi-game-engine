@@ -27,7 +27,7 @@ AudioBuffer::AudioBuffer()
 AudioBuffer::AudioBuffer(
   const span<const uint8_t>& data, AudioBufferFormat format, int smlRate)
   : non_copyable()
-  , m_handle(al::BufferHandle::generate())
+  , m_handle(al::buffer_handle::generate())
 {
   setData(data, format, smlRate);
 }
@@ -43,7 +43,7 @@ AudioBuffer::AudioBuffer(
 
 AudioBuffer::AudioBuffer(AudioStreamIn& audioStream)
   : non_copyable()
-  , m_handle(al::BufferHandle::generate())
+  , m_handle(al::buffer_handle::generate())
 {
   setData(audioStream);
 }
@@ -52,7 +52,7 @@ AudioBuffer::AudioBuffer(AudioStreamIn& audioStream)
 
 AudioBuffer::AudioBuffer(AudioStreamIn&& audioStream)
   : non_copyable()
-  , m_handle(al::BufferHandle::generate())
+  , m_handle(al::buffer_handle::generate())
 {
   setData(audioStream);
 }
@@ -65,7 +65,7 @@ AudioBuffer::AudioBuffer(AudioBuffer&& other)
 
 
 
-const al::BufferHandle& AudioBuffer::getHandle() const
+const al::buffer_handle& AudioBuffer::getHandle() const
 {
   return m_handle;
 }
@@ -107,7 +107,7 @@ uint AudioBuffer::get_byte_count() const
 
 
 
-uint AudioBuffer::getSampleCount() const
+uint AudioBuffer::get_sample_count() const
 {
   HOU_EXPECT_DEV(getBytesPerSample() != 0u);
   HOU_EXPECT_DEV(

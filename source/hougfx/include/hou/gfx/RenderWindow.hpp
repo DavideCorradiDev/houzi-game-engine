@@ -9,7 +9,7 @@
 #include "hou/gfx/RenderSurface.hpp"
 #include "hou/sys/window.hpp"
 
-#include "hou/gfx/VerticalSyncMode.hpp"
+#include "hou/gfx/vertical_sync_mode.hpp"
 
 
 
@@ -74,7 +74,7 @@ public:
    *
    *  \param mode the vertical sync mode.
    */
-  void setVerticalSyncMode(VerticalSyncMode mode);
+  void set_vertical_sync_mode(vertical_sync_mode mode);
 
   /** Sets the number of samples of the RenderWindow.
    *

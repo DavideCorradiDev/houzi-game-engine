@@ -13,10 +13,10 @@ namespace hou
 namespace gl
 {
 
-enum class ContextProfile
+enum class context_profile
 {
-  Compatibility,
-  Core,
+  compatibility,
+  core,
 };
 
 }

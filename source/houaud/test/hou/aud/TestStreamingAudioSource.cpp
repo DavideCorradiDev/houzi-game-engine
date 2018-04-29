@@ -63,7 +63,7 @@ TEST_F(TestStreamingAudioSource, DefaultConstructor)
   EXPECT_EQ(1u, as.getChannelCount());
   EXPECT_EQ(1u, as.getBytesPerSample());
   EXPECT_EQ(1u, as.getSampleRate());
-  EXPECT_EQ(0u, as.getSampleCount());
+  EXPECT_EQ(0u, as.get_sample_count());
   EXPECT_EQ(0u, as.getSamplePos());
   EXPECT_EQ(std::chrono::nanoseconds(0), as.getTimePos());
   EXPECT_EQ(std::chrono::nanoseconds(0), as.getDuration());
@@ -96,7 +96,7 @@ TEST_F(TestStreamingAudioSource, StreamConstructor)
   EXPECT_EQ(2u, as.getChannelCount());
   EXPECT_EQ(2u, as.getBytesPerSample());
   EXPECT_EQ(44100u, as.getSampleRate());
-  EXPECT_EQ(21231u, as.getSampleCount());
+  EXPECT_EQ(21231u, as.get_sample_count());
   EXPECT_EQ(0u, as.getSamplePos());
   EXPECT_EQ(std::chrono::nanoseconds(0), as.getTimePos());
   EXPECT_EQ(std::chrono::nanoseconds(481428571), as.getDuration());
@@ -123,7 +123,7 @@ TEST_F(TestStreamingAudioSource, SetStreamWhileStopped)
 {
   StreamingAudioSource as;
   as.setStream(std::make_unique<OggFileIn>(audioFileName));
-  EXPECT_EQ(21231u, as.getSampleCount());
+  EXPECT_EQ(21231u, as.get_sample_count());
 }
 
 

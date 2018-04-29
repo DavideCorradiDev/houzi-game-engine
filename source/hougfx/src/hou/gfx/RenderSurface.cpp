@@ -7,7 +7,7 @@
 #include "hou/gfx/GraphicContext.hpp"
 #include "hou/gfx/Texture.hpp"
 
-#include "hou/gl/GlFunctions.hpp"
+#include "hou/gl/gl_functions.hpp"
 
 #include "hou/sys/color.hpp"
 
@@ -32,7 +32,7 @@ void RenderSurface::setDefaultRenderSource()
 
 void RenderSurface::setCurrentRenderTarget(const RenderSurface& rs)
 {
-  gl::setViewport(
+  gl::set_viewport(
     rs.mViewport.x(), rs.mViewport.y(), rs.mViewport.w(), rs.mViewport.h());
   FrameBuffer::bindDrawTarget(rs.mFrameBuffer);
 }
@@ -65,7 +65,7 @@ RenderSurface::RenderSurface(const vec2u& size, uint sampleCount)
   , mFrameBuffer()
   , mColorAttachment(nullptr)
   , mDepthStencilAttachment(nullptr)
-  , mSampleCount(sampleCount)
+  , m_sample_count(sampleCount)
   , mViewport(recti(0, 0, size.x(), size.y()))
 {
   buildFramebuffer(size, sampleCount);
@@ -78,7 +78,7 @@ RenderSurface::RenderSurface(RenderSurface&& other)
   , mFrameBuffer(std::move(other.mFrameBuffer))
   , mColorAttachment(std::move(other.mColorAttachment))
   , mDepthStencilAttachment(std::move(other.mDepthStencilAttachment))
-  , mSampleCount(std::move(other.mSampleCount))
+  , m_sample_count(std::move(other.m_sample_count))
   , mViewport(std::move(other.mViewport))
 {}
 
@@ -103,7 +103,7 @@ const recti& RenderSurface::getViewport() const
 
 
 
-void RenderSurface::setViewport(const recti& viewport)
+void RenderSurface::set_viewport(const recti& viewport)
 {
   mViewport = viewport;
 }
@@ -120,14 +120,14 @@ vec2u RenderSurface::get_size() const
 
 bool RenderSurface::isMultisampled() const
 {
-  return mSampleCount > 1u;
+  return m_sample_count > 1u;
 }
 
 
 
-uint RenderSurface::getSampleCount() const
+uint RenderSurface::get_sample_count() const
 {
-  return mSampleCount;
+  return m_sample_count;
 }
 
 
@@ -136,10 +136,10 @@ void RenderSurface::clear(const color& ph_color)
 {
   setCurrentRenderTarget(*this);
 
-  gl::setClearColor(
+  gl::set_clear_color(
     ph_color.get_red_f(), ph_color.get_green_f(), ph_color.get_blue_f(), ph_color.get_alpha_f());
-  gl::setClearDepth(1.f);
-  gl::setClearStencil(0u);
+  gl::set_clear_depth(1.f);
+  gl::set_clear_stencil(0u);
   gl::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
@@ -176,7 +176,7 @@ void RenderSurface::buildFramebuffer(const vec2u& size, uint sampleCount)
   HOU_ENSURE_DEV(GraphicContext::getRenderingStencilByteCount() == 1u);
   HOU_EXPECT(sampleCount > 0u);
 
-  mSampleCount = sampleCount;
+  m_sample_count = sampleCount;
   if(sampleCount <= 1)
   {
     static constexpr uint mipMapLevelCount = 1u;

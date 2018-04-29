@@ -134,9 +134,9 @@ uint StreamingAudioSource::getSampleRate() const
 
 
 
-uint StreamingAudioSource::getSampleCount() const
+uint StreamingAudioSource::get_sample_count() const
 {
-  return mAudioStream->getSampleCount();
+  return mAudioStream->get_sample_count();
 }
 
 
@@ -167,10 +167,10 @@ void StreamingAudioSource::onSetSamplePos(uint value)
 
 uint StreamingAudioSource::onGetSamplePos() const
 {
-  uint sampleCount = getSampleCount();
+  uint sampleCount = get_sample_count();
   return sampleCount == 0u
     ? 0u
-    : (mSamplePos + AudioSource::onGetSamplePos()) % getSampleCount();
+    : (mSamplePos + AudioSource::onGetSamplePos()) % get_sample_count();
 }
 
 
@@ -216,7 +216,7 @@ void StreamingAudioSource::freeBuffers()
 
 void StreamingAudioSource::fillBuffers()
 {
-  while(getSampleCount() > 0 && mBufferQueue.getFreeBufferCount() > 0)
+  while(get_sample_count() > 0 && mBufferQueue.getFreeBufferCount() > 0)
   {
     std::vector<uint8_t> data = readDataChunk(mBufferByteCount);
     if(data.empty())
@@ -236,7 +236,7 @@ void StreamingAudioSource::fillBuffers()
                             .fillBuffer(data, mAudioStream->get_format(),
                               mAudioStream->getSampleRate())
                             .getHandle()
-                            .getName();
+                            .get_name();
       al::sourceQueueBuffers(getHandle(), 1u, &bufferName);
     }
   }
@@ -246,8 +246,8 @@ void StreamingAudioSource::fillBuffers()
 
 void StreamingAudioSource::setSamplePosVariable(size_t pos)
 {
-  uint sampleCount = getSampleCount();
-  mSamplePos = sampleCount == 0u ? 0u : pos % getSampleCount();
+  uint sampleCount = get_sample_count();
+  mSamplePos = sampleCount == 0u ? 0u : pos % get_sample_count();
 }
 
 

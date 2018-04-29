@@ -14,28 +14,28 @@ namespace hou
 
 void VertexArray::bind(const VertexArray& vertexArray)
 {
-  gl::bindVertexArray(vertexArray.m_handle);
+  gl::bind_vertex_array(vertexArray.m_handle);
 }
 
 
 
 void VertexArray::unbind()
 {
-  gl::unbindVertexArray();
+  gl::unbind_vertex_array();
 }
 
 
 
 uint VertexArray::getMaxBindingIndex()
 {
-  return gl::getMaxVertexAttribBindings() - 1u;
+  return gl::get_max_vertex_attrib_bindings() - 1u;
 }
 
 
 
 VertexArray::VertexArray()
   : non_copyable()
-  , m_handle(gl::VertexArrayHandle::create())
+  , m_handle(gl::vertex_array_handle::create())
 {}
 
 
@@ -47,7 +47,7 @@ VertexArray::VertexArray(VertexArray&& other)
 
 
 
-const gl::VertexArrayHandle& VertexArray::getHandle() const
+const gl::vertex_array_handle& VertexArray::getHandle() const
 {
   return m_handle;
 }
@@ -56,7 +56,7 @@ const gl::VertexArrayHandle& VertexArray::getHandle() const
 
 bool VertexArray::isBound() const
 {
-  return gl::isVertexArrayBound(m_handle);
+  return gl::is_vertex_array_bound(m_handle);
 }
 
 
@@ -66,21 +66,21 @@ void VertexArray::setVertexData(
 {
   HOU_EXPECT(bindingIndex <= getMaxBindingIndex());
 
-  gl::setVertexArrayVertexBuffer(m_handle, static_cast<GLuint>(bindingIndex),
+  gl::set_vertex_array_vertex_buffer(m_handle, static_cast<GLuint>(bindingIndex),
     vb.getHandle(), static_cast<GLintptr>(vf.getOffset()),
     static_cast<GLsizei>(vf.getStride()));
 
   const std::vector<VertexAttribFormat>& vafs = vf.getVertexAttribFormats();
   for(GLuint i = 0; i < vafs.size(); ++i)
   {
-    gl::setVertexArrayAttribFormat(m_handle, static_cast<GLuint>(i),
+    gl::set_vertex_array_attrib_format(m_handle, static_cast<GLuint>(i),
       static_cast<GLint>(vafs[i].getElementCount()),
       static_cast<GLenum>(vafs[i].get_type()),
       static_cast<GLboolean>(vafs[i].mustBeNormalized()),
       static_cast<GLuint>(vafs[i].getByteOffset()));
-    gl::setVertexArrayAttribBinding(
+    gl::set_vertex_array_attrib_binding(
       m_handle, static_cast<GLuint>(i), static_cast<GLuint>(bindingIndex));
-    gl::enableVertexArrayAttrib(m_handle, static_cast<GLuint>(i));
+    gl::enable_vertex_array_attrib(m_handle, static_cast<GLuint>(i));
   }
 }
 

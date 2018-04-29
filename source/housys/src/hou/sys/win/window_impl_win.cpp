@@ -453,7 +453,7 @@ window_impl::window_impl(const std::string& title, const video_mode& videoMode
   SetWindowLongPtrW(m_handle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
   HOU_WIN_ENSURE(GetLastError() == 0);
 
-  // Initialize handle to device context.
+  // Initialize handle to device ph_context.
   m_hdc = GetDC(m_handle);
   HOU_WIN_ENSURE(m_hdc != nullptr);
 

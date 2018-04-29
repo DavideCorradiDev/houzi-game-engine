@@ -16,10 +16,10 @@ namespace hou
 
 enum class AlError
 {
-  ContextCreate,
-  ContextDestroy,
-  ContextExistence,
-  ContextMakeCurrent,
+  context_create,
+  context_destroy,
+  context_existence,
+  context_make_current,
   DeviceClose,
   DeviceOpen,
   InvalidContext,
@@ -27,9 +27,9 @@ enum class AlError
   invalid_enum,
   InvalidName,
   InvalidOperation,
-  InvalidOwnership,
-  InvalidValue,
-  OutOfMemory,
+  invalid_ownership,
+  invalid_value,
+  out_of_memory,
 };
 
 HOU_AL_API std::string get_text(AlError ec);

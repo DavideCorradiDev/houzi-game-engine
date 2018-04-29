@@ -35,13 +35,13 @@ class HOU_AUD_API AudioContext
   : public non_copyable
 {
 public:
-  /** Sets this as the current context.
+  /** Sets this as the current ph_context.
    */
-  static void setCurrent(AudioContext& context);
+  static void set_current(AudioContext& ph_context);
 
   /** Unsets the current AudioContext.
    */
-  static void unsetCurrent();
+  static void unset_current();
 
   /** Gets a list of the names of the available audio devices.
    *
@@ -66,15 +66,15 @@ public:
    */
   AudioContext(AudioContext&& other);
 
-  /** Checks if this is the current context.
+  /** Checks if this is the current ph_context.
    *
-   *  \return true if this is the current context.
+   *  \return true if this is the current ph_context.
    */
-  bool isCurrent() const;
+  bool is_current() const;
 
 private:
   al::Device mAlDevice;
-  al::Context mAlContext;
+  al::context mAlContext;
 };
 
 }

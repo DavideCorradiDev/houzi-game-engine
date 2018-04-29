@@ -10,7 +10,7 @@
 
 #include "hou/cor/basic_types.hpp"
 
-#include "hou/gl/GlVertexArrayHandle.hpp"
+#include "hou/gl/gl_vertex_array_handle.hpp"
 
 
 
@@ -43,7 +43,7 @@ public:
   static uint getMaxBindingIndex();
 
 public:
-  /** Default constructor.
+  /** default constructor.
    */
   VertexArray();
 
@@ -57,7 +57,7 @@ public:
    *
    *  \return the reference to the OpenGL vertex array object.
    */
-  const gl::VertexArrayHandle& getHandle() const;
+  const gl::vertex_array_handle& getHandle() const;
 
   /** Checks if the VertexArray is currently bound.
    *
@@ -87,7 +87,7 @@ public:
   void setElementData(const VertexBuffer& eb);
 
 private:
-  gl::VertexArrayHandle m_handle;
+  gl::vertex_array_handle m_handle;
 };
 
 }  // namespace hou

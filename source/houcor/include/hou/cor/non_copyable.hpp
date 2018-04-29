@@ -17,7 +17,7 @@ namespace hou
 class non_copyable
 {
 public:
-  /** Default constructor
+  /** default constructor
    */
   non_copyable() {}
 

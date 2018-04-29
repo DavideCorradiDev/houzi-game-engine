@@ -36,10 +36,10 @@ int main()
 {
   static const std::string dataDir = u8"source/demo/data/";
   GraphicContext ctx;
-  GraphicContext::setCurrent(ctx);
+  GraphicContext::set_current(ctx);
   RenderWindow rw(u8"Sprite benchmark", vec2u(800u, 600u), window_style::windowed);
   rw.set_visible(true);
-  rw.setVerticalSyncMode(VerticalSyncMode::Disabled);
+  rw.set_vertical_sync_mode(vertical_sync_mode::disabled);
 
   TextShaderProgram rnd;
   Font font(std::make_unique<binary_file_in>(dataDir + u8"NotoMono-Regular.ttf"));
@@ -56,7 +56,7 @@ int main()
   }
 
   AudioContext ac;
-  AudioContext::setCurrent(ac);
+  AudioContext::set_current(ac);
 
   ALfloat listenerPos[] = {0.f, 0.f, 0.f};
   ALfloat listenerVel[] = {0.f, 0.f, 0.f};
@@ -112,7 +112,7 @@ int main()
     }
     rw.clear(color::black);
     std::chrono::nanoseconds timePerFrame = timer.reset();
-    rnd.draw(rw, to_string(sas.getSamplePos()) + " / " + to_string(sas.getSampleCount())
+    rnd.draw(rw, to_string(sas.getSamplePos()) + " / " + to_string(sas.get_sample_count())
       , font, color::white, proj * offsetTrans);
     rw.display();
   }

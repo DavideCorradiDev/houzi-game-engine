@@ -25,7 +25,7 @@ class TestAlSourceHandleDeathTest : public TestAlSourceHandle {};
 TEST_F(TestAlSourceHandle, Generation)
 {
   al::SourceHandle sh = al::SourceHandle::generate();
-  EXPECT_NE(0u, sh.getName());
+  EXPECT_NE(0u, sh.get_name());
 }
 
 
@@ -36,8 +36,8 @@ TEST_F(TestAlSourceHandleDeathTest, NoContextCreation)
 TEST_F(TestAlSourceHandleDeathTest, DISABLED_NoContextCreation)
 #endif
 {
-  al::Context::unsetCurrent();
+  al::context::unset_current();
   HOU_EXPECT_ERROR(al::SourceHandle::generate(), std::logic_error
-    , get_text(AlError::ContextExistence));
+    , get_text(AlError::context_existence));
 }
 

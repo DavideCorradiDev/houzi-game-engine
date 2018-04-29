@@ -364,7 +364,7 @@ int main()
 {
   static const std::string dataDir = u8"source/demo/data/";
   GraphicContext ctx;
-  GraphicContext::setCurrent(ctx);
+  GraphicContext::set_current(ctx);
 
   std::string wndTitle(u8"Rendering Demo");
   vec2u wndSize(800u, 600u);
@@ -508,49 +508,49 @@ int main()
       {
         recti currentViewport = wnd->getViewport();
         currentViewport.x() += viewportDelta;
-        wnd->setViewport(currentViewport);
+        wnd->set_viewport(currentViewport);
       }
       if(keyboard::is_key_pressed(scan_code::Numpad8))
       {
         recti currentViewport = wnd->getViewport();
         currentViewport.x() -= viewportDelta;
-        wnd->setViewport(currentViewport);
+        wnd->set_viewport(currentViewport);
       }
       if(keyboard::is_key_pressed(scan_code::Multiply))
       {
         recti currentViewport = wnd->getViewport();
         currentViewport.y() += viewportDelta;
-        wnd->setViewport(currentViewport);
+        wnd->set_viewport(currentViewport);
       }
       if(keyboard::is_key_pressed(scan_code::Numpad9))
       {
         recti currentViewport = wnd->getViewport();
         currentViewport.y() -= viewportDelta;
-        wnd->setViewport(currentViewport);
+        wnd->set_viewport(currentViewport);
       }
       if(keyboard::is_key_pressed(scan_code::Numpad5))
       {
         recti currentViewport = wnd->getViewport();
         currentViewport.w() += viewportDelta;
-        wnd->setViewport(currentViewport);
+        wnd->set_viewport(currentViewport);
       }
       if(keyboard::is_key_pressed(scan_code::Numpad2))
       {
         recti currentViewport = wnd->getViewport();
         currentViewport.w() -= viewportDelta;
-        wnd->setViewport(currentViewport);
+        wnd->set_viewport(currentViewport);
       }
       if(keyboard::is_key_pressed(scan_code::Numpad6))
       {
         recti currentViewport = wnd->getViewport();
         currentViewport.h() += viewportDelta;
-        wnd->setViewport(currentViewport);
+        wnd->set_viewport(currentViewport);
       }
       if(keyboard::is_key_pressed(scan_code::Numpad3))
       {
         recti currentViewport = wnd->getViewport();
         currentViewport.h() -= viewportDelta;
-        wnd->setViewport(currentViewport);
+        wnd->set_viewport(currentViewport);
       }
 
       wnd->clear(color::grey);

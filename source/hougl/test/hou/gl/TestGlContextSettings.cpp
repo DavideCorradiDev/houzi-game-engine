@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/gl/GlContextSettings.hpp"
+#include "hou/gl/gl_context_settings.hpp"
 
 using namespace hou;
 
@@ -11,57 +11,57 @@ using namespace hou;
 
 TEST(TestGlContextSettings, Creation)
 {
-  gl::ContextSettings cs(
-    gl::Version(4u, 5u), gl::ContextProfile::Core, 3u, 1u, 0u);
+  gl::context_settings cs(
+    gl::version(4u, 5u), gl::context_profile::core, 3u, 1u, 0u);
 
-  EXPECT_EQ(gl::Version(4u, 5u), cs.getVersion());
-  EXPECT_EQ(gl::ContextProfile::Core, cs.getProfile());
-  EXPECT_EQ(3u, cs.getDepthByteCount());
-  EXPECT_EQ(1u, cs.getStencilByteCount());
-  EXPECT_EQ(0u, cs.getSampleCount());
+  EXPECT_EQ(gl::version(4u, 5u), cs.get_version());
+  EXPECT_EQ(gl::context_profile::core, cs.get_profile());
+  EXPECT_EQ(3u, cs.get_depth_byte_count());
+  EXPECT_EQ(1u, cs.get_stencil_byte_count());
+  EXPECT_EQ(0u, cs.get_sample_count());
 }
 
 
 
 TEST(TestGlContextSettings, SettersAndGetters)
 {
-  gl::ContextSettings cs(
-    gl::Version(4u, 5u), gl::ContextProfile::Core, 3u, 1u, 0u);
+  gl::context_settings cs(
+    gl::version(4u, 5u), gl::context_profile::core, 3u, 1u, 0u);
 
-  cs.setVersion(gl::Version(3u, 4u));
-  EXPECT_EQ(gl::Version(3u, 4u), cs.getVersion());
+  cs.set_version(gl::version(3u, 4u));
+  EXPECT_EQ(gl::version(3u, 4u), cs.get_version());
 
-  cs.setProfile(gl::ContextProfile::Compatibility);
-  EXPECT_EQ(gl::ContextProfile::Compatibility, cs.getProfile());
+  cs.set_profile(gl::context_profile::compatibility);
+  EXPECT_EQ(gl::context_profile::compatibility, cs.get_profile());
 
-  cs.setDepthByteCount(2u);
-  EXPECT_EQ(2u, cs.getDepthByteCount());
+  cs.set_depth_byte_count(2u);
+  EXPECT_EQ(2u, cs.get_depth_byte_count());
 
-  cs.setStencilByteCount(2u);
-  EXPECT_EQ(2u, cs.getStencilByteCount());
+  cs.set_stencil_byte_count(2u);
+  EXPECT_EQ(2u, cs.get_stencil_byte_count());
 
   cs.setSampleCount(4u);
-  EXPECT_EQ(4u, cs.getSampleCount());
+  EXPECT_EQ(4u, cs.get_sample_count());
 }
 
 
 
 TEST(TestGlContextSettings, Comparison)
 {
-  gl::ContextSettings cs1(
-    gl::Version(4u, 5u), gl::ContextProfile::Core, 3u, 1u, 0u);
-  gl::ContextSettings cs2(
-    gl::Version(3u, 5u), gl::ContextProfile::Core, 3u, 1u, 0u);
-  gl::ContextSettings cs3(
-    gl::Version(4u, 5u), gl::ContextProfile::Compatibility, 3u, 1u, 0u);
-  gl::ContextSettings cs4(
-    gl::Version(4u, 5u), gl::ContextProfile::Core, 32, 1u, 0u);
-  gl::ContextSettings cs5(
-    gl::Version(4u, 5u), gl::ContextProfile::Core, 3u, 0u, 0u);
-  gl::ContextSettings cs6(
-    gl::Version(4u, 5u), gl::ContextProfile::Core, 3u, 1u, 4u);
-  gl::ContextSettings cs7(
-    gl::Version(4u, 5u), gl::ContextProfile::Core, 3u, 1u, 0u);
+  gl::context_settings cs1(
+    gl::version(4u, 5u), gl::context_profile::core, 3u, 1u, 0u);
+  gl::context_settings cs2(
+    gl::version(3u, 5u), gl::context_profile::core, 3u, 1u, 0u);
+  gl::context_settings cs3(
+    gl::version(4u, 5u), gl::context_profile::compatibility, 3u, 1u, 0u);
+  gl::context_settings cs4(
+    gl::version(4u, 5u), gl::context_profile::core, 32, 1u, 0u);
+  gl::context_settings cs5(
+    gl::version(4u, 5u), gl::context_profile::core, 3u, 0u, 0u);
+  gl::context_settings cs6(
+    gl::version(4u, 5u), gl::context_profile::core, 3u, 1u, 4u);
+  gl::context_settings cs7(
+    gl::version(4u, 5u), gl::context_profile::core, 3u, 1u, 0u);
 
   EXPECT_TRUE(cs1 != cs2);
   EXPECT_TRUE(cs1 != cs3);
@@ -82,7 +82,7 @@ TEST(TestGlContextSettings, Comparison)
 
 TEST(TestGlContextSettings, DefaultSettings)
 {
-  gl::ContextSettings csRef(
-    gl::Version::Default, gl::ContextProfile::Core, 3u, 1u, 0u);
-  EXPECT_EQ(csRef, gl::ContextSettings::Default);
+  gl::context_settings csRef(
+    gl::version::default, gl::context_profile::core, 3u, 1u, 0u);
+  EXPECT_EQ(csRef, gl::context_settings::default);
 }

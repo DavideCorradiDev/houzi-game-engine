@@ -9,7 +9,7 @@
 TestAudBaseTestSpecificContext::TestAudBaseTestSpecificContext()
   : mContext()
 {
-  hou::AudioContext::setCurrent(mContext);
+  hou::AudioContext::set_current(mContext);
 }
 
 

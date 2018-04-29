@@ -151,7 +151,7 @@ binary_stream& WavFileIn::move_byte_pos(WavFileIn::byte_offset offset)
 
 
 
-size_t WavFileIn::getSampleCount() const
+size_t WavFileIn::get_sample_count() const
 {
   return get_byte_count() / (getChannelCount() * getBytesPerSample());
 }

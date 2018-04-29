@@ -121,7 +121,7 @@ bool OggFileIn::error() const
 
 size_t OggFileIn::get_byte_count() const
 {
-  return getSampleCount() * (getChannelCount() * getBytesPerSample());
+  return get_sample_count() * (getChannelCount() * getBytesPerSample());
 }
 
 
@@ -165,7 +165,7 @@ binary_stream& OggFileIn::move_byte_pos(OggFileIn::byte_offset offset)
 
 
 
-size_t OggFileIn::getSampleCount() const
+size_t OggFileIn::get_sample_count() const
 {
   return mPcmSize;
 }

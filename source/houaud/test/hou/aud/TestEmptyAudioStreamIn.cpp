@@ -33,7 +33,7 @@ TEST_F(TestEmptyAudioStreamIn, DefaultConstructor)
   EXPECT_EQ(0u, si.get_read_byte_count());
   EXPECT_EQ(0u, si.get_read_element_count());
   EXPECT_EQ(0, si.get_byte_pos());
-  EXPECT_EQ(0u, si.getSampleCount());
+  EXPECT_EQ(0u, si.get_sample_count());
   EXPECT_EQ(0, si.getSamplePos());
   EXPECT_EQ(AudioBufferFormat::Mono8, si.get_format());
   EXPECT_EQ(1u, si.getChannelCount());

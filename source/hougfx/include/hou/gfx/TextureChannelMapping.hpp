@@ -23,9 +23,9 @@ namespace hou
 class HOU_GFX_API TextureChannelMapping
 {
 public:
-  /** Default mapping (red to red, green to green, blue to blue, alpha to alpha).
+  /** default mapping (red to red, green to green, blue to blue, alpha to alpha).
    */
-  static const TextureChannelMapping Default;
+  static const TextureChannelMapping default;
 
   /** Luminosity mapping (red to red, red to green, red to blue, one to alpha).
    */

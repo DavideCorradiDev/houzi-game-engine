@@ -7,7 +7,7 @@
 
 #include "hou/gfx/Shader.hpp"
 
-#include "hou/gl/GlError.hpp"
+#include "hou/gl/gl_error.hpp"
 
 using namespace hou;
 
@@ -27,7 +27,7 @@ std::string getVsSource();
 
 std::string getFsSource()
 {
-  return "#version 330 core\n"
+  return "#ph_version 330 core\n"
     "uniform vec4 colorUni;"
     "out vec4 outColor;"
     "void main()"
@@ -40,7 +40,7 @@ std::string getFsSource()
 
 std::string getGsSource()
 {
-  return "#version 330 core\n"
+  return "#ph_version 330 core\n"
     "layout(points) in;"
     "layout(line_strip, max_vertices = 2) out;"
     "void main()"
@@ -57,7 +57,7 @@ std::string getGsSource()
 
 std::string getVsSource()
 {
-  return "#version 330 core\n"
+  return "#ph_version 330 core\n"
     "in vec2 pos;"
     "void main()"
     "{"
@@ -90,7 +90,7 @@ TEST_F(TestShaderDeathTest, GlVertexShaderCreation)
 {
   const char vertexShaderSrc[] = "I like trains.";
   HOU_EXPECT_ERROR(VertexShader vs(vertexShaderSrc), std::runtime_error
-    , format_string(get_text(GlError::ShaderCompilation)
+    , format_string(get_text(gl_error::shader_compilation)
     , to_string(ShaderType::Vertex).c_str()
     , "0(1) : error C0000: syntax error, "
     "unexpected '.', expecting \"::\" at token \".\"\n"));
@@ -119,7 +119,7 @@ TEST_F(TestShaderDeathTest, GlFragmentShaderCreation)
 {
   const char fragShaderSrc[] = "I like trains.";
   HOU_EXPECT_ERROR(FragmentShader vs(fragShaderSrc), std::runtime_error
-    , format_string(get_text(GlError::ShaderCompilation)
+    , format_string(get_text(gl_error::shader_compilation)
     , to_string(ShaderType::Fragment).c_str()
     , "0(1) : error C0000: syntax error, "
     "unexpected '.', expecting \"::\" at token \".\"\n"));
@@ -148,7 +148,7 @@ TEST_F(TestShaderDeathTest, GlGeometryShaderCreation)
 {
   const char geometryShaderSrc[] = "I like trains.";
   HOU_EXPECT_ERROR(GeometryShader vs(geometryShaderSrc), std::runtime_error
-    , format_string(get_text(GlError::ShaderCompilation)
+    , format_string(get_text(gl_error::shader_compilation)
     , to_string(ShaderType::Geometry).c_str()
     , "0(1) : error C0000: syntax error, "
     "unexpected '.', expecting \"::\" at token \".\"\n"));

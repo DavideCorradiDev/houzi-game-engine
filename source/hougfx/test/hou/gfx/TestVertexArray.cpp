@@ -55,7 +55,7 @@ TEST_F(TestVertexArray, Binding)
 TEST_F(TestVertexArray, DefaultConstructor)
 {
   VertexArray va;
-  EXPECT_NE(0u, va.getHandle().getName());
+  EXPECT_NE(0u, va.getHandle().get_name());
 }
 
 
@@ -63,11 +63,11 @@ TEST_F(TestVertexArray, DefaultConstructor)
 TEST_F(TestVertexArray, MoveConstructor)
 {
   VertexArray va1;
-  uint va1Id = va1.getHandle().getName();
+  uint va1Id = va1.getHandle().get_name();
   VertexArray va2(std::move(va1));
 
-  EXPECT_EQ(va1Id, va2.getHandle().getName());
-  EXPECT_EQ(0u, va1.getHandle().getName());
+  EXPECT_EQ(va1Id, va2.getHandle().get_name());
+  EXPECT_EQ(0u, va1.getHandle().get_name());
 }
 
 

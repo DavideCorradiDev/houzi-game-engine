@@ -51,7 +51,7 @@ namespace hou
 class HOU_AUD_API StreamingAudioSource : public AudioSource
 {
 public:
-  /** Default constructor.
+  /** default constructor.
    *
    *  Creates a StreamingAudioSource object with an EmptyStream.
    */
@@ -111,7 +111,7 @@ public:
   uint getChannelCount() const final;
   uint getBytesPerSample() const final;
   uint getSampleRate() const final;
-  uint getSampleCount() const final;
+  uint get_sample_count() const final;
   void setLooping(bool looping) final;
   bool isLooping() const final;
 

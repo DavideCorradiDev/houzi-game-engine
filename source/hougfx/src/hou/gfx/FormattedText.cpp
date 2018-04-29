@@ -160,9 +160,9 @@ const vec2u& GlyphCache::getMaxGlyphSize() const
 vec3u GlyphAtlas::computeAtlasGridSize(const GlyphCache& cache)
 {
   static const vec3u maxAtlasSize(
-    std::min(2048u, static_cast<uint>(gl::getMaxTextureSize())),
-    std::min(2048u, static_cast<uint>(gl::getMaxTextureSize())),
-    std::min(256u, static_cast<uint>(gl::getMaxTextureLayers())));
+    std::min(2048u, static_cast<uint>(gl::get_max_texture_size())),
+    std::min(2048u, static_cast<uint>(gl::get_max_texture_size())),
+    std::min(256u, static_cast<uint>(gl::get_max_texture_layers())));
 
   vec3u maxAtlasGridSize = maxAtlasSize;
   maxAtlasGridSize.x() /= cache.getMaxGlyphSize().x();

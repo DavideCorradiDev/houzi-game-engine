@@ -40,9 +40,9 @@ std::string getErrorMessage(ALenum err)
     case AL_INVALID_OPERATION:
       return get_text(AlError::InvalidOperation);
     case AL_INVALID_VALUE:
-      return get_text(AlError::InvalidValue);
+      return get_text(AlError::invalid_value);
     case AL_OUT_OF_MEMORY:
-      return get_text(AlError::OutOfMemory);
+      return get_text(AlError::out_of_memory);
     default:
       HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(err));
       return u8"";
@@ -62,9 +62,9 @@ std::string getContextErrorMessage(ALCenum err)
     case ALC_INVALID_ENUM:
       return get_text(AlError::invalid_enum);
     case ALC_INVALID_VALUE:
-      return get_text(AlError::InvalidValue);
+      return get_text(AlError::invalid_value);
     case ALC_OUT_OF_MEMORY:
-      return get_text(AlError::OutOfMemory);
+      return get_text(AlError::out_of_memory);
     default:
       HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(err));
       return u8"";
@@ -75,7 +75,7 @@ std::string getContextErrorMessage(ALCenum err)
 
 
 
-void checkError(const std::string& filename, int line)
+void check_error(const std::string& filename, int line)
 {
   ALenum errState = alGetError();
   if(errState != AL_NO_ERROR)
@@ -99,39 +99,39 @@ void checkContextError(Device& device, const std::string& filename, int line)
 
 
 
-void checkContextExistence(const std::string& filename, int line)
+void check_context_existence(const std::string& filename, int line)
 {
-  if(Context::getCurrent() == nullptr)
+  if(context::getCurrent() == nullptr)
   {
     HOU_THROW(std::logic_error, format_error_message(filename, line
-      , get_text(AlError::ContextExistence)));
+      , get_text(AlError::context_existence)));
   }
 }
 
 
 
 
-void checkContextOwnership(const DeviceOwnedObjectHandle& o
+void check_context_ownership(const DeviceOwnedObjectHandle& o
   , const std::string& filename, int line)
 {
-  checkContextExistence(filename, line);
-  if(Context::getCurrent()->getDeviceUid() != o.getOwningDeviceUid())
+  check_context_existence(filename, line);
+  if(context::getCurrent()->getDeviceUid() != o.getOwningDeviceUid())
   {
     HOU_THROW(std::logic_error, format_error_message(filename, line
-      , get_text(AlError::InvalidOwnership)));
+      , get_text(AlError::invalid_ownership)));
   }
 }
 
 
 
-void checkContextOwnership(const ContextOwnedObjectHandle& o
+void check_context_ownership(const ContextOwnedObjectHandle& o
   , const std::string& filename, int line)
 {
-  checkContextExistence(filename, line);
-  if(Context::getCurrent()->get_uid() != o.getOwningContextUid())
+  check_context_existence(filename, line);
+  if(context::getCurrent()->get_uid() != o.get_owning_context_uid())
   {
     HOU_THROW(std::logic_error, format_error_message(filename, line
-      , get_text(AlError::InvalidOwnership)));
+      , get_text(AlError::invalid_ownership)));
   }
 }
 

@@ -53,7 +53,7 @@ TEST_F(TestRenderWindow, CreationWindowed)
   EXPECT_EQ(recti(vec2i::zero(), sizeRef), w.getDefaultViewport());
   EXPECT_EQ(recti(vec2i::zero(), sizeRef), w.getViewport());
   EXPECT_EQ(sizeRef, w.get_size());
-  EXPECT_EQ(samplesRef, w.getSampleCount());
+  EXPECT_EQ(samplesRef, w.get_sample_count());
   EXPECT_FALSE(w.isMultisampled());
   EXPECT_EQ(Texture2(sizeRef).get_image<pixel_format::rgba>(), w.toTexture().get_image<pixel_format::rgba>());
 }
@@ -87,7 +87,7 @@ TEST_F(TestRenderWindow, CreationWindowedMultisampled)
   EXPECT_EQ(recti(vec2i::zero(), sizeRef), w.getDefaultViewport());
   EXPECT_EQ(recti(vec2i::zero(), sizeRef), w.getViewport());
   EXPECT_EQ(sizeRef, w.get_size());
-  EXPECT_EQ(samplesRef, w.getSampleCount());
+  EXPECT_EQ(samplesRef, w.get_sample_count());
   EXPECT_TRUE(w.isMultisampled());
   EXPECT_EQ(Texture2(sizeRef).get_image<pixel_format::rgba>(), w.toTexture().get_image<pixel_format::rgba>());
 }
@@ -121,7 +121,7 @@ TEST_F(TestRenderWindow, CreationFullscreen)
   EXPECT_EQ(recti(vec2i::zero(), sizeRef), w.getDefaultViewport());
   EXPECT_EQ(recti(vec2i::zero(), sizeRef), w.getViewport());
   EXPECT_EQ(sizeRef, w.get_size());
-  EXPECT_EQ(samplesRef, w.getSampleCount());
+  EXPECT_EQ(samplesRef, w.get_sample_count());
   EXPECT_FALSE(w.isMultisampled());
   EXPECT_EQ(Texture2(sizeRef).get_image<pixel_format::rgba>(), w.toTexture().get_image<pixel_format::rgba>());
 }
@@ -363,8 +363,8 @@ TEST_F(TestRenderWindow, SetFrameSizeNullSize)
 TEST_F(TestRenderWindow, SetVerticalSyncMode)
 {
   RenderWindow w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
-  w.setVerticalSyncMode(VerticalSyncMode::Enabled);
-  w.setVerticalSyncMode(VerticalSyncMode::Disabled);
+  w.set_vertical_sync_mode(vertical_sync_mode::enabled);
+  w.set_vertical_sync_mode(vertical_sync_mode::disabled);
   SUCCEED();
 }
 
@@ -375,15 +375,15 @@ TEST_F(TestRenderWindow, SetSamples)
   RenderWindow w(u8"Test", vec2u(32u, 16u), window_style::windowed, 1u);
 
   w.setSampleCount(1u);
-  EXPECT_EQ(1u, w.getSampleCount());
+  EXPECT_EQ(1u, w.get_sample_count());
   EXPECT_FALSE(w.isMultisampled());
 
   w.setSampleCount(2u);
-  EXPECT_EQ(2u, w.getSampleCount());
+  EXPECT_EQ(2u, w.get_sample_count());
   EXPECT_TRUE(w.isMultisampled());
 
   w.setSampleCount(RenderWindow::getMaxSampleCount());
-  EXPECT_EQ(RenderWindow::getMaxSampleCount(), w.getSampleCount());
+  EXPECT_EQ(RenderWindow::getMaxSampleCount(), w.get_sample_count());
   EXPECT_TRUE(w.isMultisampled());
 }
 

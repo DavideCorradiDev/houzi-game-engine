@@ -26,7 +26,7 @@ namespace hou
 class HOU_GFX_API GlyphMetrics
 {
 public:
-  /** Default constructor.
+  /** default constructor.
    *
    * All properties are set to 0.
    */

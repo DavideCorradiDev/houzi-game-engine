@@ -5,10 +5,10 @@
 #ifndef HOU_GL_UTILS_HPP
 #define HOU_GL_UTILS_HPP
 
-#include "hou/gl/GlExport.hpp"
+#include "hou/gl/gl_export.hpp"
 
-#include "hou/gl/GlVerticalSyncMode.hpp"
-#include "hou/gl/OpenGl.hpp"
+#include "hou/gl/gl_vertical_sync_mode.hpp"
+#include "hou/gl/open_gl.hpp"
 
 #include "hou/cor/basic_types.hpp"
 
@@ -24,43 +24,43 @@ class window;
 namespace gl
 {
 
-HOU_GL_API void initExtensions();
-HOU_GL_API const GLubyte* getGlVersionString();
+HOU_GL_API void init_extensions();
+HOU_GL_API const GLubyte* get_gl_version_string();
 
-HOU_GL_API void setVerticalSyncMode(VerticalSyncMode mode);
+HOU_GL_API void set_vertical_sync_mode(vertical_sync_mode mode);
 
-HOU_GL_API void setClearColor(GLclampf r, GLclampf g, GLclampf b, GLclampf a);
-HOU_GL_API void setClearDepth(GLfloat depth);
-HOU_GL_API void setClearStencil(GLint stencil);
+HOU_GL_API void set_clear_color(GLclampf r, GLclampf g, GLclampf b, GLclampf a);
+HOU_GL_API void set_clear_depth(GLfloat depth);
+HOU_GL_API void set_clear_stencil(GLint stencil);
 HOU_GL_API void clear(GLenum mask);
 
-HOU_GL_API void enableBlending();
-HOU_GL_API void disableBlending();
-HOU_GL_API GLboolean isBlendingEnabled();
-HOU_GL_API void setBlending(GLenum sfactor, GLenum dfactor);
-HOU_GL_API GLenum getSourceBlending();
-HOU_GL_API GLenum getDestinationBlending();
+HOU_GL_API void enable_blending();
+HOU_GL_API void disable_blending();
+HOU_GL_API GLboolean is_blending_enabled();
+HOU_GL_API void set_blending(GLenum sfactor, GLenum dfactor);
+HOU_GL_API GLenum get_source_blending();
+HOU_GL_API GLenum get_destination_blending();
 
-HOU_GL_API void enableMultisampling();
-HOU_GL_API void disableMultisampling();
-HOU_GL_API GLboolean isMultisamplingEnabled();
+HOU_GL_API void enable_multisampling();
+HOU_GL_API void disable_multisampling();
+HOU_GL_API GLboolean is_multisampling_enabled();
 
-HOU_GL_API void setUnpackAlignment(GLint value);
-HOU_GL_API GLint getUnpackAlignment();
-HOU_GL_API void setPackAlignment(GLint value);
-HOU_GL_API GLint getPackAlignment();
+HOU_GL_API void set_unpack_alignment(GLint value);
+HOU_GL_API GLint get_unpack_alignment();
+HOU_GL_API void set_pack_alignment(GLint value);
+HOU_GL_API GLint get_pack_alignment();
 
-HOU_GL_API void setViewport(GLint x, GLint y, GLsizei w, GLsizei h);
-HOU_GL_API void setPolygonMode(GLenum polygonFace, GLenum polygonMode);
-HOU_GL_API void drawArrays(GLenum drawMode, GLint first, GLsizei count);
-HOU_GL_API void bindWindow(window& w);
+HOU_GL_API void set_viewport(GLint x, GLint y, GLsizei w, GLsizei h);
+HOU_GL_API void set_polygon_mode(GLenum polygonFace, GLenum polygonMode);
+HOU_GL_API void draw_arrays(GLenum drawMode, GLint first, GLsizei count);
+HOU_GL_API void bind_window(window& w);
 
-HOU_GL_API GLsizei getPixelSizeBytes(GLenum format);
-HOU_GL_API GLsizei computeTextureSizeBytes(
+HOU_GL_API GLsizei get_pixel_size_bytes(GLenum format);
+HOU_GL_API GLsizei compute_texture_size_bytes(
   GLsizei width, GLsizei height, GLsizei depth, GLenum format);
 
-HOU_GL_API void getIntegerv(GLenum variable, GLint* value);
-HOU_GL_API GLint getInteger(GLenum variable);
+HOU_GL_API void get_integer_v(GLenum variable, GLint* value);
+HOU_GL_API GLint get_integer(GLenum variable);
 
 }  // namespace gl
 

@@ -4,8 +4,8 @@
 
 #include "hou/gfx/GraphicContext.hpp"
 
-#include "hou/gl/GlContextSettings.hpp"
-#include "hou/gl/GlFunctions.hpp"
+#include "hou/gl/gl_context_settings.hpp"
+#include "hou/gl/gl_functions.hpp"
 
 #include "hou/sys/video_mode.hpp"
 
@@ -23,20 +23,20 @@ constexpr const char* defaultWindowName = "HouziHiddenWindow";
 
 
 
-void GraphicContext::setCurrent(GraphicContext& context)
+void GraphicContext::set_current(GraphicContext& ph_context)
 {
-  gl::Context::setCurrent(context.mGlContext, context.mDefaultWindow);
-  if(!context.mInitialized)
+  gl::context::set_current(ph_context.gl_context, ph_context.mDefaultWindow);
+  if(!ph_context.mInitialized)
   {
-    context.initialize();
+    ph_context.initialize();
   }
 }
 
 
 
-void GraphicContext::unsetCurrent()
+void GraphicContext::unset_current()
 {
-  gl::Context::unsetCurrent();
+  gl::context::unset_current();
 }
 
 
@@ -67,8 +67,8 @@ GraphicContext::GraphicContext()
   , mDefaultWindow(defaultWindowName,
       video_mode(vec2u::zero(), getRenderingColorByteCount()),
       window_style::windowed)
-  , mGlContext(
-      gl::ContextSettings(gl::Version(4u, 5u), gl::ContextProfile::Core,
+  , gl_context(
+      gl::context_settings(gl::version(4u, 5u), gl::context_profile::core,
         getRenderingDepthByteCount(), getRenderingStencilByteCount(), 0u),
       mDefaultWindow)
   , mInitialized(false)
@@ -79,15 +79,15 @@ GraphicContext::GraphicContext()
 GraphicContext::GraphicContext(GraphicContext&& other)
   : mExtensionInitializer()
   , mDefaultWindow(std::move(other.mDefaultWindow))
-  , mGlContext(std::move(other.mGlContext))
+  , gl_context(std::move(other.gl_context))
   , mInitialized(std::move(other.mInitialized))
 {}
 
 
 
-bool GraphicContext::isCurrent() const
+bool GraphicContext::is_current() const
 {
-  return mGlContext.isCurrent();
+  return gl_context.is_current();
 }
 
 
@@ -97,22 +97,22 @@ void GraphicContext::initialize()
   mInitialized = true;
 
   // Set texture pack and unpack alignment to 1 so that there is no padding.
-  gl::setUnpackAlignment(1);
-  gl::setPackAlignment(1);
+  gl::set_unpack_alignment(1);
+  gl::set_pack_alignment(1);
 
   // Multisampled default framebuffer is never used.
-  gl::disableMultisampling();
+  gl::disable_multisampling();
 
   // Enable alpha blending.
-  gl::enableBlending();
-  gl::setBlending(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  gl::enable_blending();
+  gl::set_blending(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 
 
 GraphicContext::ExtensionInitializer::ExtensionInitializer()
 {
-  gl::initExtensions();
+  gl::init_extensions();
 }
 
 }  // namespace hou

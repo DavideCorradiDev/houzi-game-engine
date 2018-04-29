@@ -17,7 +17,7 @@
 #include "hou/gfx/VertexBufferFwd.hpp"
 #include "hou/gfx/VertexBufferTarget.hpp"
 
-#include "hou/gl/GlBufferHandle.hpp"
+#include "hou/gl/gl_buffer_handle.hpp"
 
 #include <vector>
 
@@ -49,7 +49,7 @@ public:
    *
    *  \return the reference to the OpenGL buffer.
    */
-  const gl::BufferHandle& getHandle() const;
+  const gl::buffer_handle& getHandle() const;
 
   /** Checks if this VertexBuffer is bound to the given target.
    *
@@ -94,7 +94,7 @@ protected:
   VertexBuffer(VertexBuffer&& other);
 
 private:
-  gl::BufferHandle m_handle;
+  gl::buffer_handle m_handle;
   uint m_byte_count;
 };
 

@@ -46,7 +46,7 @@ public:
   uint getChannelCount() const final;
   uint getBytesPerSample() const final;
   uint getSampleRate() const final;
-  uint getSampleCount() const final;
+  uint get_sample_count() const final;
 
   void setLooping(bool looping) final;
   bool isLooping() const final;
@@ -56,7 +56,7 @@ private:
   uint onGetSamplePos() const final;
 
 private:
-  uint mSampleCount;
+  uint m_sample_count;
   AudioBufferFormat mAudioBufferFormat;
   int mSampleRate;
 };
@@ -74,18 +74,18 @@ TestAudioSource::TestAudioSource()
 
 ConcreteAudioSource::ConcreteAudioSource(const AudioBuffer& buffer)
   : AudioSource()
-  , mSampleCount(buffer.getSampleCount())
+  , m_sample_count(buffer.get_sample_count())
   , mAudioBufferFormat(buffer.get_format())
   , mSampleRate(buffer.getSampleRate())
 {
-  al::setSourceBuffer(getHandle(), buffer.getHandle().getName());
+  al::setSourceBuffer(getHandle(), buffer.getHandle().get_name());
 }
 
 
 
 ConcreteAudioSource::ConcreteAudioSource(ConcreteAudioSource&& other)
   : AudioSource(std::move(other))
-  , mSampleCount(std::move(other.mSampleCount))
+  , m_sample_count(std::move(other.m_sample_count))
   , mAudioBufferFormat(std::move(other.mAudioBufferFormat))
   , mSampleRate(std::move(other.mSampleRate))
 {}
@@ -125,9 +125,9 @@ uint ConcreteAudioSource::getSampleRate() const
 
 
 
-uint ConcreteAudioSource::getSampleCount() const
+uint ConcreteAudioSource::get_sample_count() const
 {
-  return mSampleCount;
+  return m_sample_count;
 }
 
 
@@ -170,7 +170,7 @@ TEST_F(TestAudioSource, DefaultConstructor)
   EXPECT_EQ(2u, as.getChannelCount());
   EXPECT_EQ(2u, as.getBytesPerSample());
   EXPECT_EQ(2u, as.getSampleRate());
-  EXPECT_EQ(4u, as.getSampleCount());
+  EXPECT_EQ(4u, as.get_sample_count());
   EXPECT_EQ(0u, as.getSamplePos());
   EXPECT_EQ(std::chrono::microseconds(0), as.getTimePos());
   EXPECT_EQ(std::chrono::microseconds(2000000), as.getDuration());
@@ -201,7 +201,7 @@ TEST_F(TestAudioSource, MoveConstructor)
   EXPECT_EQ(2u, as.getChannelCount());
   EXPECT_EQ(2u, as.getBytesPerSample());
   EXPECT_EQ(2u, as.getSampleRate());
-  EXPECT_EQ(4u, as.getSampleCount());
+  EXPECT_EQ(4u, as.get_sample_count());
   EXPECT_EQ(0u, as.getSamplePos());
   EXPECT_EQ(std::chrono::microseconds(0), as.getTimePos());
   EXPECT_EQ(std::chrono::microseconds(2000000), as.getDuration());

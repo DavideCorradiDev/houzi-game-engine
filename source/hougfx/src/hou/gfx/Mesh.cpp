@@ -4,7 +4,7 @@
 
 #include "hou/gfx/Mesh.hpp"
 
-#include "hou/gl/GlFunctions.hpp"
+#include "hou/gl/gl_functions.hpp"
 
 
 
@@ -14,8 +14,8 @@ namespace hou
 void Mesh::draw(const Mesh& mesh)
 {
   VertexArray::bind(mesh.mVao);
-  gl::setPolygonMode(GL_FRONT_AND_BACK, static_cast<GLenum>(mesh.mFillMode));
-  gl::drawArrays(static_cast<GLenum>(mesh.mDrawMode), 0, mesh.mVertexCount);
+  gl::set_polygon_mode(GL_FRONT_AND_BACK, static_cast<GLenum>(mesh.mFillMode));
+  gl::draw_arrays(static_cast<GLenum>(mesh.mDrawMode), 0, mesh.mVertexCount);
 }
 
 

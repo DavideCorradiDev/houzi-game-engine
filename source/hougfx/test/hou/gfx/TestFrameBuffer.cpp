@@ -48,7 +48,7 @@ void testColorBlit(TextureFormat srcFormat,
   srcFb.setColorAttachment(0u, srcTex);
 
   FrameBuffer::bind(srcFb);
-  gl::setClearColor(colorRef.get_red_f(), colorRef.get_green_f(),
+  gl::set_clear_color(colorRef.get_red_f(), colorRef.get_green_f(),
     colorRef.get_blue_f(), colorRef.get_alpha_f());
   gl::clear(GL_COLOR_BUFFER_BIT);
   FrameBuffer::unbind();
@@ -199,7 +199,7 @@ TEST_F(TestFrameBuffer, DefaultConstructor)
 {
   FrameBuffer fb;
 
-  EXPECT_NE(0u, fb.getHandle().getName());
+  EXPECT_NE(0u, fb.getHandle().get_name());
   EXPECT_FALSE(fb.isBoundToDrawTarget());
   EXPECT_FALSE(fb.isBoundToReadTarget());
   EXPECT_FALSE(fb.isComplete());
@@ -210,11 +210,11 @@ TEST_F(TestFrameBuffer, DefaultConstructor)
 TEST_F(TestFrameBuffer, MoveConstructor)
 {
   FrameBuffer fbDummy;
-  GLuint fbName = fbDummy.getHandle().getName();
+  GLuint fbName = fbDummy.getHandle().get_name();
   FrameBuffer fb(std::move(fbDummy));
 
-  EXPECT_EQ(0u, fbDummy.getHandle().getName());
-  EXPECT_EQ(fbName, fb.getHandle().getName());
+  EXPECT_EQ(0u, fbDummy.getHandle().get_name());
+  EXPECT_EQ(fbName, fb.getHandle().get_name());
   EXPECT_FALSE(fb.isBoundToDrawTarget());
   EXPECT_FALSE(fb.isBoundToReadTarget());
   EXPECT_FALSE(fb.isComplete());

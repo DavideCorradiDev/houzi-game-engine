@@ -5,8 +5,8 @@
 #ifndef HOU_GL_GL_SHADER_HANDLE_HPP
 #define HOU_GL_GL_SHADER_HANDLE_HPP
 
-#include "hou/gl/GlExport.hpp"
-#include "hou/gl/GlObjectHandle.hpp"
+#include "hou/gl/gl_export.hpp"
+#include "hou/gl/gl_object_handle.hpp"
 
 
 
@@ -16,25 +16,25 @@ namespace hou
 namespace gl
 {
 
-class HOU_GL_API ShaderHandle
-  : public SharedObjectHandle
+class HOU_GL_API shader_handle
+  : public shared_object_handle
 {
 public:
-  static ShaderHandle create(GLenum type);
+  static shader_handle create(GLenum type);
 
-  ShaderHandle(ShaderHandle&& other);
-  virtual ~ShaderHandle();
+  shader_handle(shader_handle&& other);
+  virtual ~shader_handle();
 
   GLenum get_type() const;
 
 private:
-  ShaderHandle(GLuint name, GLenum type);
+  shader_handle(GLuint name, GLenum type);
 
 private:
   GLenum m_type;
 };
 
-HOU_GL_API void compileShader(const ShaderHandle& shader, const GLchar* src);
+HOU_GL_API void compile_shader(const shader_handle& shader, const GLchar* src);
 
 }
 

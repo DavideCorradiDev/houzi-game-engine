@@ -15,11 +15,11 @@ namespace hou
 namespace gl
 {
 
-enum class VerticalSyncMode : int
+enum class vertical_sync_mode : int
 {
-  Disabled = 0,
-  Enabled = 1,
-  Adaptive = -1,
+  disabled = 0,
+  enabled = 1,
+  adaptive = -1,
 };
 
 }

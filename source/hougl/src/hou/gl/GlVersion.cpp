@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gl/GlVersion.hpp"
+#include "hou/gl/gl_version.hpp"
 
 #include <algorithm>
 #include <cstring>
@@ -17,40 +17,40 @@ namespace gl
 namespace
 {
 
-const std::vector<Version> supportedVersions =
+const std::vector<version> supportedVersions =
 {
-  Version(4u, 5u),
+  version(4u, 5u),
 };
 
 }
 
 
 
-Version Version::Default(4u, 5u);
+version version::default(4u, 5u);
 
 
 
-Version::Version(uint major, uint minor)
-  : mMajor(major)
-  , mMinor(minor) {}
+version::version(uint major, uint minor)
+  : m_major(major)
+  , m_minor(minor) {}
 
 
 
-uint Version::getMajor() const
+uint version::get_major() const
 {
-  return mMajor;
+  return m_major;
 }
 
 
 
-uint Version::getMinor() const
+uint version::get_minor() const
 {
-  return mMinor;
+  return m_minor;
 }
 
 
 
-bool Version::isSupported() const
+bool version::is_supported() const
 {
   return(std::find(supportedVersions.begin(), supportedVersions.end(), *this)
     != supportedVersions.end());
@@ -58,55 +58,55 @@ bool Version::isSupported() const
 
 
 
-bool operator==(const Version& l, const Version& r)
+bool operator==(const version& l, const version& r)
 {
-  return l.getMajor() == r.getMajor() && l.getMinor() == r.getMinor();
+  return l.get_major() == r.get_major() && l.get_minor() == r.get_minor();
 }
 
 
 
-bool operator!=(const Version& l, const Version& r)
+bool operator!=(const version& l, const version& r)
 {
-  return l.getMajor() != r.getMajor() || l.getMinor() != r.getMinor();
+  return l.get_major() != r.get_major() || l.get_minor() != r.get_minor();
 }
 
 
 
-bool operator>(const Version& l, const Version& r)
+bool operator>(const version& l, const version& r)
 {
-  return l.getMajor() > r.getMajor() || (l.getMajor() == r.getMajor()
-    && l.getMinor() > r.getMinor());
+  return l.get_major() > r.get_major() || (l.get_major() == r.get_major()
+    && l.get_minor() > r.get_minor());
 }
 
 
 
-bool operator>=(const Version& l, const Version& r)
+bool operator>=(const version& l, const version& r)
 {
-  return l.getMajor() > r.getMajor() || (l.getMajor() == r.getMajor()
-    && l.getMinor() >= r.getMinor());
+  return l.get_major() > r.get_major() || (l.get_major() == r.get_major()
+    && l.get_minor() >= r.get_minor());
 }
 
 
 
-bool operator<(const Version& l, const Version& r)
+bool operator<(const version& l, const version& r)
 {
-  return l.getMajor() < r.getMajor() || (l.getMajor() == r.getMajor()
-    && l.getMinor() < r.getMinor());
+  return l.get_major() < r.get_major() || (l.get_major() == r.get_major()
+    && l.get_minor() < r.get_minor());
 }
 
 
 
-bool operator<=(const Version& l, const Version& r)
+bool operator<=(const version& l, const version& r)
 {
-  return l.getMajor() < r.getMajor() || (l.getMajor() == r.getMajor()
-    && l.getMinor() <= r.getMinor());
+  return l.get_major() < r.get_major() || (l.get_major() == r.get_major()
+    && l.get_minor() <= r.get_minor());
 }
 
 
 
-std::ostream& operator<<(std::ostream& os, const Version& v)
+std::ostream& operator<<(std::ostream& os, const version& v)
 {
-  return os << v.getMajor() << "." << v.getMinor();
+  return os << v.get_major() << "." << v.get_minor();
 }
 
 }

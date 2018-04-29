@@ -34,7 +34,7 @@ public:
   using SampleOffset = long;
 
 public:
-  /** Default constructor.
+  /** default constructor.
    */
   AudioStream();
 
@@ -72,7 +72,7 @@ public:
    *
    *  \return the number of samples in the ph_stream for a single channel.
    */
-  virtual size_t getSampleCount() const = 0;
+  virtual size_t get_sample_count() const = 0;
 
   /** Gets the current sample position indicator.
    *

@@ -8,7 +8,7 @@
 #include "hou/gfx/RenderCanvas.hpp"
 #include "hou/gfx/Texture.hpp"
 
-#include "hou/gl/GlError.hpp"
+#include "hou/gl/gl_error.hpp"
 
 #include "hou/sys/color.hpp"
 
@@ -68,7 +68,7 @@ TEST_F(TestRenderCanvas, Creation)
   EXPECT_EQ(recti(vec2i(0, 0), size), rs.getDefaultViewport());
   EXPECT_EQ(recti(vec2i(0, 0), size), rs.getViewport());
   EXPECT_EQ(size, rs.get_size());
-  EXPECT_EQ(samples, rs.getSampleCount());
+  EXPECT_EQ(samples, rs.get_sample_count());
   EXPECT_FALSE(rs.isMultisampled());
   EXPECT_EQ(Texture2(size).get_image<pixel_format::rgba>(),
     rs.toTexture().get_image<pixel_format::rgba>());
@@ -93,7 +93,7 @@ TEST_F(TestRenderCanvas, CreationWithAreaGreaterThanMaxTextureSize)
   EXPECT_EQ(recti(vec2i(0, 0), size), rs.getDefaultViewport());
   EXPECT_EQ(recti(vec2i(0, 0), size), rs.getViewport());
   EXPECT_EQ(size, rs.get_size());
-  EXPECT_EQ(samples, rs.getSampleCount());
+  EXPECT_EQ(samples, rs.get_sample_count());
   EXPECT_FALSE(rs.isMultisampled());
   EXPECT_EQ(Texture2(size).get_image<pixel_format::rgba>(),
     rs.toTexture().get_image<pixel_format::rgba>());
@@ -110,7 +110,7 @@ TEST_F(TestRenderCanvas, CreationMultisampled)
   EXPECT_EQ(recti(vec2i(0, 0), size), rs.getDefaultViewport());
   EXPECT_EQ(recti(vec2i(0, 0), size), rs.getViewport());
   EXPECT_EQ(size, rs.get_size());
-  EXPECT_EQ(samples, rs.getSampleCount());
+  EXPECT_EQ(samples, rs.get_sample_count());
   EXPECT_TRUE(rs.isMultisampled());
 
   RenderCanvas ssrs(size);
@@ -139,7 +139,7 @@ TEST_F(TestRenderCanvasDeathTest, CreationSizeNull)
 
 TEST_F(TestRenderCanvasDeathTest, CreationSizeTooLarge)
 {
-  const uint size = gl::getMaxTextureSize() + 1;
+  const uint size = gl::get_max_texture_size() + 1;
   HOU_EXPECT_PRECONDITION(RenderCanvas rs(vec2u(size, size), 1u));
   HOU_EXPECT_PRECONDITION(RenderCanvas rs(vec2u(1u, size), 1u));
   HOU_EXPECT_PRECONDITION(RenderCanvas rs(vec2u(size, 1u), 1u));
@@ -157,7 +157,7 @@ TEST_F(TestRenderCanvas, MoveConstructor)
   EXPECT_EQ(recti(vec2i(0, 0), size), rs2.getDefaultViewport());
   EXPECT_EQ(recti(vec2i(0, 0), size), rs2.getViewport());
   EXPECT_EQ(size, rs2.get_size());
-  EXPECT_EQ(samples, rs2.getSampleCount());
+  EXPECT_EQ(samples, rs2.get_sample_count());
   EXPECT_TRUE(rs2.isMultisampled());
 
   RenderCanvas ssrs(size);
@@ -173,7 +173,7 @@ TEST_F(TestRenderCanvas, Viewport)
   vec2u size(3u, 4u);
   RenderCanvas rs(size);
   recti viewport(vec2i(1, 2), vec2i(3, 5));
-  rs.setViewport(viewport);
+  rs.set_viewport(viewport);
 
   EXPECT_EQ(recti(vec2i(0, 0), size), rs.getDefaultViewport());
   EXPECT_EQ(viewport, rs.getViewport());
@@ -187,7 +187,7 @@ TEST_F(TestRenderCanvas, NegativeSizeViewport)
   vec2u size(3u, 4u);
   RenderCanvas rs(size);
   recti viewport(vec2i(1, -2), vec2i(-3, 5));
-  rs.setViewport(viewport);
+  rs.set_viewport(viewport);
 
   EXPECT_EQ(recti(vec2i(0, 0), size), rs.getDefaultViewport());
   EXPECT_EQ(viewport, rs.getViewport());

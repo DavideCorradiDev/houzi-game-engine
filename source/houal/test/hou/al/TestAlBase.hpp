@@ -23,7 +23,7 @@ public:
 
 protected:
   hou::al::Device mDevice;
-  hou::al::Context mContext;
+  hou::al::context mContext;
 };
 
 #endif

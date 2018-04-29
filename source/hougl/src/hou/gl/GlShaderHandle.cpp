@@ -2,11 +2,11 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gl/GlShaderHandle.hpp"
+#include "hou/gl/gl_shader_handle.hpp"
 
 #include "hou/gl/GlCheck.hpp"
-#include "hou/gl/GlContext.hpp"
-#include "hou/gl/GlError.hpp"
+#include "hou/gl/gl_context.hpp"
+#include "hou/gl/gl_error.hpp"
 
 #include "hou/cor/error.hpp"
 #include "hou/cor/character_encodings.hpp"
@@ -47,68 +47,68 @@ std::string shaderTypeToString(GLenum type)
 
 
 
-ShaderHandle ShaderHandle::create(GLenum type)
+shader_handle shader_handle::create(GLenum type)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   GLuint name = glCreateShader(static_cast<GLenum>(type));
   HOU_GL_CHECK_ERROR();
-  return ShaderHandle(name, type);
+  return shader_handle(name, type);
 }
 
 
 
-ShaderHandle::ShaderHandle(ShaderHandle&& other)
-  : SharedObjectHandle(std::move(other))
+shader_handle::shader_handle(shader_handle&& other)
+  : shared_object_handle(std::move(other))
   , m_type(other.m_type)
 {}
 
 
 
-ShaderHandle::~ShaderHandle()
+shader_handle::~shader_handle()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(*this);
-  glDeleteShader(getName());
+  glDeleteShader(get_name());
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-GLenum ShaderHandle::get_type() const
+GLenum shader_handle::get_type() const
 {
   return m_type;
 }
 
 
 
-ShaderHandle::ShaderHandle(GLuint name, GLenum type)
-  : SharedObjectHandle(name)
+shader_handle::shader_handle(GLuint name, GLenum type)
+  : shared_object_handle(name)
   , m_type(type)
 {}
 
 
 
-void compileShader(const ShaderHandle& shader, const GLchar* src)
+void compile_shader(const shader_handle& shader, const GLchar* src)
 {
   static constexpr size_t maxInfoLogSize = 1024;
 
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(shader);
 
-  glShaderSource(shader.getName(), 1, &src, nullptr);
+  glShaderSource(shader.get_name(), 1, &src, nullptr);
   HOU_GL_CHECK_ERROR();
-  glCompileShader(shader.getName());
+  glCompileShader(shader.get_name());
   HOU_GL_CHECK_ERROR();
 
   GLint success = 0;
-  glGetShaderiv(shader.getName(), GL_COMPILE_STATUS, &success);
+  glGetShaderiv(shader.get_name(), GL_COMPILE_STATUS, &success);
   HOU_GL_CHECK_ERROR();
   if(success == 0)
   {
     GLchar infoLog[maxInfoLogSize];
-    glGetShaderInfoLog(shader.getName(), maxInfoLogSize, nullptr, infoLog);
+    glGetShaderInfoLog(shader.get_name(), maxInfoLogSize, nullptr, infoLog);
     HOU_GL_CHECK_ERROR();
-    HOU_RUNTIME_ERROR(get_text(GlError::ShaderCompilation)
+    HOU_RUNTIME_ERROR(get_text(gl_error::shader_compilation)
       , shaderTypeToString(shader.get_type()).c_str(), infoLog);
   }
 }

@@ -2,12 +2,12 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gl/GlFunctions.hpp"
+#include "hou/gl/gl_functions.hpp"
 
 #include "hou/gl/GlCheck.hpp"
-#include "hou/gl/GlContext.hpp"
-#include "hou/gl/GlContextSettings.hpp"
-#include "hou/gl/GlError.hpp"
+#include "hou/gl/gl_context.hpp"
+#include "hou/gl/gl_context_settings.hpp"
+#include "hou/gl/gl_error.hpp"
 
 #include "hou/mth/rectangle.hpp"
 
@@ -61,7 +61,7 @@ GLboolean isEnabled(GLenum val)
 }
 }  // namespace
 
-void initExtensions()
+void init_extensions()
 {
   static bool extensionsInitialized = false;
   static std::mutex extensionsMutex;
@@ -70,22 +70,22 @@ void initExtensions()
   // Initialize only once.
   if(!extensionsInitialized)
   {
-    // Create temporary dummy context, needed to call any GL function.
+    // Create temporary dummy ph_context, needed to call any GL function.
     system_window w("", video_mode(vec2u(0u, 0u), 32u), window_style::windowed);
-    gl::ContextSettings cs(gl::ContextSettings::Default);
-    gl::Context c(cs, w);
-    gl::Context::setCurrent(c, w);
+    gl::context_settings cs(gl::context_settings::default);
+    gl::context c(cs, w);
+    gl::context::set_current(c, w);
     HOU_GL_CHECK_CONTEXT_EXISTENCE();
 
     // Initialize extenstions through GLAD.
     int gladInitRetval = gladLoadGL();
     HOU_RUNTIME_CHECK(gladInitRetval != 0,
-      get_text(GlError::ExtensionsInitialization), gladInitRetval);
+      get_text(gl_error::extensions_initialization), gladInitRetval);
 
 #if defined(HOU_SYSTEM_WINDOWS)
     int wglGladInitRetval = gladLoadWGL(GetDC(w.get_handle()));
     HOU_RUNTIME_CHECK(wglGladInitRetval != 0,
-      get_text(GlError::ExtensionsInitialization), wglGladInitRetval);
+      get_text(gl_error::extensions_initialization), wglGladInitRetval);
 #endif
 
     extensionsInitialized = true;
@@ -94,7 +94,7 @@ void initExtensions()
 
 
 
-const GLubyte* getGlVersionString()
+const GLubyte* get_gl_version_string()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   const GLubyte* str = glGetString(GL_VERSION);
@@ -104,14 +104,14 @@ const GLubyte* getGlVersionString()
 
 
 
-void setVerticalSyncMode(VerticalSyncMode mode)
+void set_vertical_sync_mode(vertical_sync_mode mode)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
 #if defined(HOU_SYSTEM_WINDOWS)
   if(wglSwapIntervalEXT)
   {
     HOU_WIN_RUNTIME_CHECK(wglSwapIntervalEXT(static_cast<int>(mode)) != 0,
-      get_text(GlError::VerticalSyncSet));
+      get_text(gl_error::vertical_sync_set));
   }
 #else
   HOU_LOGIC_ERROR("Unsupported OS");
@@ -120,7 +120,7 @@ void setVerticalSyncMode(VerticalSyncMode mode)
 
 
 
-void setClearColor(GLclampf r, GLclampf g, GLclampf b, GLclampf a)
+void set_clear_color(GLclampf r, GLclampf g, GLclampf b, GLclampf a)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   glClearColor(r, g, b, a);
@@ -129,7 +129,7 @@ void setClearColor(GLclampf r, GLclampf g, GLclampf b, GLclampf a)
 
 
 
-void setClearDepth(GLfloat depth)
+void set_clear_depth(GLfloat depth)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   glClearDepth(depth);
@@ -138,7 +138,7 @@ void setClearDepth(GLfloat depth)
 
 
 
-void setClearStencil(GLint stencil)
+void set_clear_stencil(GLint stencil)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   glClearDepth(stencil);
@@ -156,28 +156,28 @@ void clear(GLenum mask)
 
 
 
-void enableBlending()
+void enable_blending()
 {
   enable(GL_BLEND);
 }
 
 
 
-void disableBlending()
+void disable_blending()
 {
   disable(GL_BLEND);
 }
 
 
 
-GLboolean isBlendingEnabled()
+GLboolean is_blending_enabled()
 {
   return isEnabled(GL_BLEND);
 }
 
 
 
-void setBlending(GLenum sfactor, GLenum dfactor)
+void set_blending(GLenum sfactor, GLenum dfactor)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   glBlendFunc(sfactor, dfactor);
@@ -186,42 +186,42 @@ void setBlending(GLenum sfactor, GLenum dfactor)
 
 
 
-GLenum getSourceBlending()
+GLenum get_source_blending()
 {
-  return getInteger(GL_BLEND_SRC_ALPHA);
+  return get_integer(GL_BLEND_SRC_ALPHA);
 }
 
 
 
-GLenum getDestinationBlending()
+GLenum get_destination_blending()
 {
-  return getInteger(GL_BLEND_DST_ALPHA);
+  return get_integer(GL_BLEND_DST_ALPHA);
 }
 
 
 
-void enableMultisampling()
+void enable_multisampling()
 {
   enable(GL_MULTISAMPLE);
 }
 
 
 
-void disableMultisampling()
+void disable_multisampling()
 {
   disable(GL_MULTISAMPLE);
 }
 
 
 
-GLboolean isMultisamplingEnabled()
+GLboolean is_multisampling_enabled()
 {
   return isEnabled(GL_MULTISAMPLE);
 }
 
 
 
-void setUnpackAlignment(GLint value)
+void set_unpack_alignment(GLint value)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   glPixelStorei(GL_UNPACK_ALIGNMENT, value);
@@ -230,7 +230,7 @@ void setUnpackAlignment(GLint value)
 
 
 
-GLint getUnpackAlignment()
+GLint get_unpack_alignment()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   GLint value;
@@ -241,7 +241,7 @@ GLint getUnpackAlignment()
 
 
 
-void setPackAlignment(GLint value)
+void set_pack_alignment(GLint value)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   glPixelStorei(GL_PACK_ALIGNMENT, value);
@@ -250,7 +250,7 @@ void setPackAlignment(GLint value)
 
 
 
-GLint getPackAlignment()
+GLint get_pack_alignment()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   GLint value;
@@ -261,11 +261,11 @@ GLint getPackAlignment()
 
 
 
-void setViewport(GLint x, GLint y, GLsizei w, GLsizei h)
+void set_viewport(GLint x, GLint y, GLsizei w, GLsizei h)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   const recti& currVp
-    = Context::getCurrent()->mTrackingData.getCurrentViewport();
+    = context::getCurrent()->mTrackingData.get_current_viewport();
   if(x != currVp.x() || y != currVp.y() || w != currVp.w() || h != currVp.h())
   {
     glViewport(x, y, w, h);
@@ -275,7 +275,7 @@ void setViewport(GLint x, GLint y, GLsizei w, GLsizei h)
 
 
 
-void setPolygonMode(GLenum polygonFace, GLenum polygonMode)
+void set_polygon_mode(GLenum polygonFace, GLenum polygonMode)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   glPolygonMode(polygonFace, polygonMode);
@@ -284,7 +284,7 @@ void setPolygonMode(GLenum polygonFace, GLenum polygonMode)
 
 
 
-void drawArrays(GLenum drawMode, GLint first, GLsizei count)
+void draw_arrays(GLenum drawMode, GLint first, GLsizei count)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   glDrawArrays(drawMode, first, count);
@@ -293,15 +293,15 @@ void drawArrays(GLenum drawMode, GLint first, GLsizei count)
 
 
 
-void bindWindow(window& w)
+void bind_window(window& w)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  gl::Context::setCurrent(*gl::Context::getCurrent(), w);
+  gl::context::set_current(*gl::context::getCurrent(), w);
 }
 
 
 
-GLsizei getPixelSizeBytes(GLenum format)
+GLsizei get_pixel_size_bytes(GLenum format)
 {
   switch(format)
   {
@@ -322,11 +322,11 @@ GLsizei getPixelSizeBytes(GLenum format)
 
 
 
-GLsizei computeTextureSizeBytes(
+GLsizei compute_texture_size_bytes(
   GLsizei width, GLsizei height, GLsizei depth, GLenum format)
 {
-  GLsizei unpackAlignment = static_cast<GLsizei>(gl::getUnpackAlignment());
-  GLsizei pixelSize = getPixelSizeBytes(format);
+  GLsizei unpackAlignment = static_cast<GLsizei>(gl::get_unpack_alignment());
+  GLsizei pixelSize = get_pixel_size_bytes(format);
   GLsizei rowSize = pixelSize * width;
   GLsizei offset = rowSize % unpackAlignment;
   rowSize += (unpackAlignment - offset) % unpackAlignment;
@@ -335,7 +335,7 @@ GLsizei computeTextureSizeBytes(
 
 
 
-void getIntegerv(GLenum variable, GLint* value)
+void get_integer_v(GLenum variable, GLint* value)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   glGetIntegerv(variable, value);
@@ -344,10 +344,10 @@ void getIntegerv(GLenum variable, GLint* value)
 
 
 
-GLint getInteger(GLenum variable)
+GLint get_integer(GLenum variable)
 {
   GLint value;
-  getIntegerv(variable, &value);
+  get_integer_v(variable, &value);
   return value;
 }
 

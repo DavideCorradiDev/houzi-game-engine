@@ -22,23 +22,23 @@ namespace al
 
 class Device;
 
-class HOU_AL_API Context
+class HOU_AL_API context
   : public non_copyable
 {
 public:
-  static void setCurrent(Context& context);
-  static void unsetCurrent();
-  static Context* getCurrent();
+  static void set_current(context& ph_context);
+  static void unset_current();
+  static context* getCurrent();
 
 public:
-  Context(Device& device);
-  Context(Context&& other);
-  ~Context();
+  context(Device& device);
+  context(context&& other);
+  ~context();
 
   uint32_t get_uid() const;
   uint32_t getDeviceUid() const;
 
-  bool isCurrent() const;
+  bool is_current() const;
 
 private:
   ALCcontext* m_handle;

@@ -2,11 +2,11 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gl/GlTextureHandle.hpp"
+#include "hou/gl/gl_texture_handle.hpp"
 
 #include "hou/gl/GlCheck.hpp"
-#include "hou/gl/GlContext.hpp"
-#include "hou/gl/GlFunctions.hpp"
+#include "hou/gl/gl_context.hpp"
+#include "hou/gl/gl_functions.hpp"
 
 
 
@@ -20,11 +20,11 @@ namespace
 {
 
 GLenum toGetGLenum(GLenum target);
-GLint getTextureParameteri(const TextureHandle& texture, GLenum param);
+GLint getTextureParameteri(const texture_handle& texture, GLenum param);
 void setTextureParameteri(
-  const TextureHandle& texture, GLenum param, GLint value);
+  const texture_handle& texture, GLenum param, GLint value);
 GLint getTextureLevelParameteri(
-  const TextureHandle& texture, GLint level, GLenum param);
+  const texture_handle& texture, GLint level, GLenum param);
 
 
 
@@ -61,12 +61,12 @@ GLenum toGetGLenum(GLenum target)
 
 
 
-GLint getTextureParameteri(const TextureHandle& texture, GLenum param)
+GLint getTextureParameteri(const texture_handle& texture, GLenum param)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
   GLint value;
-  glGetTextureParameteriv(texture.getName(), param, &value);
+  glGetTextureParameteriv(texture.get_name(), param, &value);
   HOU_GL_CHECK_ERROR();
   return value;
 }
@@ -74,23 +74,23 @@ GLint getTextureParameteri(const TextureHandle& texture, GLenum param)
 
 
 void setTextureParameteri(
-  const TextureHandle& texture, GLenum param, GLint value)
+  const texture_handle& texture, GLenum param, GLint value)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
-  glTextureParameteri(texture.getName(), param, value);
+  glTextureParameteri(texture.get_name(), param, value);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
 GLint getTextureLevelParameteri(
-  const TextureHandle& texture, GLint level, GLenum param)
+  const texture_handle& texture, GLint level, GLenum param)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
   GLint value;
-  glGetTextureLevelParameteriv(texture.getName(), level, param, &value);
+  glGetTextureLevelParameteriv(texture.get_name(), level, param, &value);
   HOU_GL_CHECK_ERROR();
   return value;
 }
@@ -99,376 +99,376 @@ GLint getTextureLevelParameteri(
 
 
 
-TextureHandle TextureHandle::create(GLenum target)
+texture_handle texture_handle::create(GLenum target)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   GLuint name;
   glCreateTextures(target, 1, &name);
   HOU_GL_CHECK_ERROR();
-  return TextureHandle(name, target);
+  return texture_handle(name, target);
 }
 
 
 
-TextureHandle::TextureHandle(TextureHandle&& other)
-  : SharedObjectHandle(std::move(other))
-  , mTarget(other.mTarget)
+texture_handle::texture_handle(texture_handle&& other)
+  : shared_object_handle(std::move(other))
+  , m_target(other.m_target)
 {}
 
 
 
-TextureHandle::~TextureHandle()
+texture_handle::~texture_handle()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(*this);
-  GLuint name = getName();
+  GLuint name = get_name();
   glDeleteTextures(1, &name);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-GLenum TextureHandle::getTarget() const
+GLenum texture_handle::getTarget() const
 {
-  return mTarget;
+  return m_target;
 }
 
 
 
-TextureHandle::TextureHandle(GLuint name, GLenum target)
-  : SharedObjectHandle(name)
-  , mTarget(target)
+texture_handle::texture_handle(GLuint name, GLenum target)
+  : shared_object_handle(name)
+  , m_target(target)
 {}
 
 
 
-void bindTexture(const TextureHandle& texture)
+void bind_texture(const texture_handle& texture)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
-  if(!isTextureBound(texture))
+  if(!is_texture_bound(texture))
   {
-    glBindTexture(texture.getTarget(), texture.getName());
+    glBindTexture(texture.getTarget(), texture.get_name());
     HOU_GL_CHECK_ERROR();
-    Context::getCurrent()->mTrackingData.setBoundTexture(
+    context::getCurrent()->mTrackingData.set_bound_texture(
       texture.get_uid(), texture.getTarget());
   }
 }
 
 
 
-void unbindTexture()
+void unbind_texture()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  if(isTextureBound())
+  if(is_texture_bound())
   {
     glBindTexture(
-      Context::getCurrent()->mTrackingData.getBoundTextureTarget(), 0u);
+      context::getCurrent()->mTrackingData.get_bound_texture_target(), 0u);
     HOU_GL_CHECK_ERROR();
-    Context::getCurrent()->mTrackingData.setBoundTexture(0u, GL_TEXTURE_1D);
+    context::getCurrent()->mTrackingData.set_bound_texture(0u, GL_TEXTURE_1D);
   }
 }
 
 
 
-void bindTexture(const TextureHandle& texture, GLuint unit)
+void bind_texture(const texture_handle& texture, GLuint unit)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
-  if(!isTextureBound(texture, unit))
+  if(!is_texture_bound(texture, unit))
   {
-    glBindTextureUnit(unit, texture.getName());
+    glBindTextureUnit(unit, texture.get_name());
     HOU_GL_CHECK_ERROR();
-    Context::getCurrent()->mTrackingData.setBoundTexture(
+    context::getCurrent()->mTrackingData.set_bound_texture(
       texture.get_uid(), unit, texture.getTarget());
   }
 }
 
 
 
-void unbindTexture(GLuint unit)
+void unbind_texture(GLuint unit)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  if(isTextureBound(unit))
+  if(is_texture_bound(unit))
   {
     glBindTextureUnit(unit, 0u);
     HOU_GL_CHECK_ERROR();
-    Context::getCurrent()->mTrackingData.setBoundTexture(
+    context::getCurrent()->mTrackingData.set_bound_texture(
       0u, unit, GL_TEXTURE_1D);
   }
 }
 
 
 
-bool isTextureBound(const TextureHandle& texture)
+bool is_texture_bound(const texture_handle& texture)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
-  return Context::getCurrent()->mTrackingData.getBoundTexture()
+  return context::getCurrent()->mTrackingData.get_bound_texture()
     == texture.get_uid();
 }
 
 
 
-bool isTextureBound()
+bool is_texture_bound()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  return Context::getCurrent()->mTrackingData.getBoundTexture() != 0u;
+  return context::getCurrent()->mTrackingData.get_bound_texture() != 0u;
 }
 
 
 
-bool isTextureBound(const TextureHandle& texture, uint unit)
+bool is_texture_bound(const texture_handle& texture, uint unit)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
-  return Context::getCurrent()->mTrackingData.getBoundTexture(unit)
+  return context::getCurrent()->mTrackingData.get_bound_texture(unit)
     == texture.get_uid();
 }
 
 
 
-bool isTextureBound(uint unit)
+bool is_texture_bound(uint unit)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  return Context::getCurrent()->mTrackingData.getBoundTexture(unit) != 0u;
+  return context::getCurrent()->mTrackingData.get_bound_texture(unit) != 0u;
 }
 
 
 
-GLuint getBoundTextureName()
+GLuint get_bound_texture_name()
 {
-  return static_cast<GLuint>(getInteger(
-    toGetGLenum(Context::getCurrent()->mTrackingData.getBoundTextureTarget())));
+  return static_cast<GLuint>(get_integer(
+    toGetGLenum(context::getCurrent()->mTrackingData.get_bound_texture_target())));
 }
 
 
 
-void setActiveTexture(GLuint unit)
+void set_active_texture(GLuint unit)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   glActiveTexture(GL_TEXTURE0 + unit);
-  Context::getCurrent()->mTrackingData.setActiveTexture(unit);
+  context::getCurrent()->mTrackingData.set_active_texture(unit);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-GLuint getActiveTexture()
+GLuint get_active_texture()
 {
-  return static_cast<GLuint>(getInteger(GL_ACTIVE_TEXTURE) - GL_TEXTURE0);
+  return static_cast<GLuint>(get_integer(GL_ACTIVE_TEXTURE) - GL_TEXTURE0);
 }
 
 
 
-GLuint getMaxTextureImageUnits()
+GLuint get_max_texture_image_units()
 {
-  return static_cast<GLuint>(getInteger(GL_MAX_TEXTURE_IMAGE_UNITS));
+  return static_cast<GLuint>(get_integer(GL_MAX_TEXTURE_IMAGE_UNITS));
 }
 
 
 
-void setTextureStorage1d(const TextureHandle& texture, GLsizei levels,
+void set_texture_storage_1d(const texture_handle& texture, GLsizei levels,
   GLenum internalFormat, GLsizei width)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
-  glTextureStorage1D(texture.getName(), levels, internalFormat, width);
+  glTextureStorage1D(texture.get_name(), levels, internalFormat, width);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-void setTextureStorage2d(const TextureHandle& texture, GLsizei levels,
+void set_texture_storage_2d(const texture_handle& texture, GLsizei levels,
   GLenum internalFormat, GLsizei width, GLsizei height)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
-  glTextureStorage2D(texture.getName(), levels, internalFormat, width, height);
+  glTextureStorage2D(texture.get_name(), levels, internalFormat, width, height);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-void setTextureStorage3d(const TextureHandle& texture, GLsizei levels,
+void set_texture_storage_3d(const texture_handle& texture, GLsizei levels,
   GLenum internalFormat, GLsizei width, GLsizei height, GLsizei depth)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
   glTextureStorage3D(
-    texture.getName(), levels, internalFormat, width, height, depth);
+    texture.get_name(), levels, internalFormat, width, height, depth);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-void setTextureStorage2dMultisample(const TextureHandle& texture,
+void set_texture_storage_2d_multisample(const texture_handle& texture,
   GLsizei samples, GLenum internalFormat, GLsizei width, GLsizei height,
   GLboolean fixedSampleLocations)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
-  glTextureStorage2DMultisample(texture.getName(), samples, internalFormat,
+  glTextureStorage2DMultisample(texture.get_name(), samples, internalFormat,
     width, height, fixedSampleLocations);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-void setTextureStorage3dMultisample(const TextureHandle& texture,
+void set_texture_storage_3d_multisample(const texture_handle& texture,
   GLsizei samples, GLenum internalFormat, GLsizei width, GLsizei height,
   GLsizei depth, GLboolean fixedSampleLocations)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
-  glTextureStorage3DMultisample(texture.getName(), samples, internalFormat,
+  glTextureStorage3DMultisample(texture.get_name(), samples, internalFormat,
     width, height, depth, fixedSampleLocations);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-void setTextureSubImage1d(const TextureHandle& texture, GLint level,
+void set_texture_sub_image_1d(const texture_handle& texture, GLint level,
   GLint xoffset, GLsizei width, GLenum format, GLenum type, const void* pixels)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
   glTextureSubImage1D(
-    texture.getName(), level, xoffset, width, format, type, pixels);
+    texture.get_name(), level, xoffset, width, format, type, pixels);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-void setTextureSubImage2d(const TextureHandle& texture, GLint level,
+void set_texture_sub_image_2d(const texture_handle& texture, GLint level,
   GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format,
   GLenum type, const void* pixels)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
-  glTextureSubImage2D(texture.getName(), level, xoffset, yoffset, width, height,
+  glTextureSubImage2D(texture.get_name(), level, xoffset, yoffset, width, height,
     format, type, pixels);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-void setTextureSubImage3d(const TextureHandle& texture, GLint level,
+void set_texture_sub_image_3d(const texture_handle& texture, GLint level,
   GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height,
   GLsizei depth, GLenum format, GLenum type, const void* pixels)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
-  glTextureSubImage3D(texture.getName(), level, xoffset, yoffset, zoffset,
+  glTextureSubImage3D(texture.get_name(), level, xoffset, yoffset, zoffset,
     width, height, depth, format, type, pixels);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-void copyTextureSubImage1d(const TextureHandle& texture, GLint level,
+void copy_texture_sub_image_1d(const texture_handle& texture, GLint level,
   GLint xoffset, GLint x, GLint y, GLsizei width)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
-  glCopyTextureSubImage1D(texture.getName(), level, xoffset, x, y, width);
+  glCopyTextureSubImage1D(texture.get_name(), level, xoffset, x, y, width);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-void copyTextureSubImage2d(const TextureHandle& texture, GLint level,
+void copy_texture_sub_image_2d(const texture_handle& texture, GLint level,
   GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
   glCopyTextureSubImage2D(
-    texture.getName(), level, xoffset, yoffset, x, y, width, height);
+    texture.get_name(), level, xoffset, yoffset, x, y, width, height);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-void copyTextureSubImage3d(const TextureHandle& texture, GLint level,
+void copy_texture_sub_image_3d(const texture_handle& texture, GLint level,
   GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width,
   GLsizei height)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
   glCopyTextureSubImage3D(
-    texture.getName(), level, xoffset, yoffset, zoffset, x, y, width, height);
+    texture.get_name(), level, xoffset, yoffset, zoffset, x, y, width, height);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-void getTextureImage(const TextureHandle& texture, GLint level, GLenum format,
+void get_texture_image(const texture_handle& texture, GLint level, GLenum format,
   GLenum type, GLsizei bufSize, void* pixels)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
-  glGetTextureImage(texture.getName(), level, format, type, bufSize, pixels);
+  glGetTextureImage(texture.get_name(), level, format, type, bufSize, pixels);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-void getTextureSubImage(const TextureHandle& texture, GLint xoffset,
+void get_texture_sub_image(const texture_handle& texture, GLint xoffset,
   GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth,
   GLint level, GLenum format, GLenum type, GLsizei bufSize, void* pixels)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
-  glGetTextureSubImage(texture.getName(), level, xoffset, yoffset, zoffset,
+  glGetTextureSubImage(texture.get_name(), level, xoffset, yoffset, zoffset,
     width, height, depth, format, type, bufSize, pixels);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-GLsizei getTextureWidth(const TextureHandle& handle, GLint level)
+GLsizei get_texture_width(const texture_handle& handle, GLint level)
 {
   return getTextureLevelParameteri(handle, level, GL_TEXTURE_WIDTH);
 }
 
 
 
-GLsizei getTextureWidth(const TextureHandle& handle)
+GLsizei get_texture_width(const texture_handle& handle)
 {
-  return getTextureWidth(handle, 0);
+  return get_texture_width(handle, 0);
 }
 
 
 
-GLsizei getTextureHeight(const TextureHandle& handle, GLint level)
+GLsizei get_texture_height(const texture_handle& handle, GLint level)
 {
   return getTextureLevelParameteri(handle, level, GL_TEXTURE_HEIGHT);
 }
 
 
 
-GLsizei getTextureHeight(const TextureHandle& handle)
+GLsizei get_texture_height(const texture_handle& handle)
 {
-  return getTextureHeight(handle, 0);
+  return get_texture_height(handle, 0);
 }
 
 
 
-GLsizei getTextureDepth(const TextureHandle& handle, GLint level)
+GLsizei get_texture_depth(const texture_handle& handle, GLint level)
 {
   return getTextureLevelParameteri(handle, level, GL_TEXTURE_DEPTH);
 }
 
 
 
-GLsizei getTextureDepth(const TextureHandle& handle)
+GLsizei get_texture_depth(const texture_handle& handle)
 {
-  return getTextureDepth(handle, 0);
+  return get_texture_depth(handle, 0);
 }
 
 
 
-GLenum getTextureFormat(const TextureHandle& handle, GLint level)
+GLenum get_texture_format(const texture_handle& handle, GLint level)
 {
   return GLenum(
     getTextureLevelParameteri(handle, level, GL_TEXTURE_INTERNAL_FORMAT));
@@ -476,95 +476,95 @@ GLenum getTextureFormat(const TextureHandle& handle, GLint level)
 
 
 
-GLint getTextureBaseLevel(const TextureHandle& handle)
+GLint get_texture_base_level(const texture_handle& handle)
 {
   return getTextureParameteri(handle, GL_TEXTURE_BASE_LEVEL);
 }
 
 
 
-GLint getTextureMaxLevel(const TextureHandle& handle)
+GLint get_texture_max_level(const texture_handle& handle)
 {
   return getTextureParameteri(handle, GL_TEXTURE_MAX_LEVEL);
 }
 
 
 
-GLenum getTextureFormat(const TextureHandle& handle)
+GLenum get_texture_format(const texture_handle& handle)
 {
-  return getTextureFormat(handle, 0);
+  return get_texture_format(handle, 0);
 }
 
 
 
-GLenum getTextureMinFilter(const TextureHandle& texture)
+GLenum get_texture_min_filter(const texture_handle& texture)
 {
   return getTextureParameteri(texture, GL_TEXTURE_MIN_FILTER);
 }
 
 
 
-GLenum getTextureMagFilter(const TextureHandle& texture)
+GLenum get_texture_mag_filter(const texture_handle& texture)
 {
   return getTextureParameteri(texture, GL_TEXTURE_MAG_FILTER);
 }
 
 
 
-void setTextureMinFilter(const TextureHandle& texture, GLenum filter)
+void set_texture_min_filter(const texture_handle& texture, GLenum filter)
 {
   setTextureParameteri(texture, GL_TEXTURE_MIN_FILTER, filter);
 }
 
 
 
-void setTextureMagFilter(const TextureHandle& texture, GLenum filter)
+void set_texture_mag_filter(const texture_handle& texture, GLenum filter)
 {
   setTextureParameteri(texture, GL_TEXTURE_MAG_FILTER, filter);
 }
 
 
 
-GLenum getTextureSwizzleR(const TextureHandle& texture)
+GLenum get_texture_swizzle_r(const texture_handle& texture)
 {
   return getTextureParameteri(texture, GL_TEXTURE_SWIZZLE_R);
 }
 
 
 
-GLenum getTextureSwizzleG(const TextureHandle& texture)
+GLenum get_texture_swizzle_g(const texture_handle& texture)
 {
   return getTextureParameteri(texture, GL_TEXTURE_SWIZZLE_G);
 }
 
 
 
-GLenum getTextureSwizzleB(const TextureHandle& texture)
+GLenum get_texture_swizzle_b(const texture_handle& texture)
 {
   return getTextureParameteri(texture, GL_TEXTURE_SWIZZLE_B);
 }
 
 
 
-GLenum getTextureSwizzleA(const TextureHandle& texture)
+GLenum get_texture_swizzle_a(const texture_handle& texture)
 {
   return getTextureParameteri(texture, GL_TEXTURE_SWIZZLE_A);
 }
 
 
 
-void getTextureSwizzle(const TextureHandle& texture, GLenum* swizzle)
+void get_texture_swizzle(const texture_handle& texture, GLenum* swizzle)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
-  glGetTextureParameteriv(texture.getName(), GL_TEXTURE_SWIZZLE_RGBA,
+  glGetTextureParameteriv(texture.get_name(), GL_TEXTURE_SWIZZLE_RGBA,
     reinterpret_cast<GLint*>(swizzle));
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-void setTextureSwizzleR(const TextureHandle& texture, GLenum swizzle)
+void set_texture_swizzle_r(const texture_handle& texture, GLenum swizzle)
 {
   setTextureParameteri(texture, GL_TEXTURE_SWIZZLE_R, swizzle);
   HOU_GL_CHECK_ERROR();
@@ -572,114 +572,114 @@ void setTextureSwizzleR(const TextureHandle& texture, GLenum swizzle)
 
 
 
-void setTextureSwizzleG(const TextureHandle& texture, GLenum swizzle)
+void set_texture_swizzle_g(const texture_handle& texture, GLenum swizzle)
 {
   setTextureParameteri(texture, GL_TEXTURE_SWIZZLE_G, swizzle);
 }
 
 
 
-void setTextureSwizzleB(const TextureHandle& texture, GLenum swizzle)
+void set_texture_swizzle_b(const texture_handle& texture, GLenum swizzle)
 {
   setTextureParameteri(texture, GL_TEXTURE_SWIZZLE_B, swizzle);
 }
 
 
 
-void setTextureSwizzleA(const TextureHandle& texture, GLenum swizzle)
+void set_texture_swizzle_a(const texture_handle& texture, GLenum swizzle)
 {
   setTextureParameteri(texture, GL_TEXTURE_SWIZZLE_A, swizzle);
 }
 
 
 
-void setTextureSwizzle(const TextureHandle& texture, const GLenum* swizzle)
+void set_texture_swizzle(const texture_handle& texture, const GLenum* swizzle)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
-  glTextureParameteriv(texture.getName(), GL_TEXTURE_SWIZZLE_RGBA,
+  glTextureParameteriv(texture.get_name(), GL_TEXTURE_SWIZZLE_RGBA,
     reinterpret_cast<const GLint*>(swizzle));
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-GLenum getTextureWrapModeS(const TextureHandle& texture)
+GLenum get_texture_wrap_mode_s(const texture_handle& texture)
 {
   return getTextureParameteri(texture, GL_TEXTURE_WRAP_S);
 }
 
 
 
-GLenum getTextureWrapModeT(const TextureHandle& texture)
+GLenum get_texture_wrap_mode_t(const texture_handle& texture)
 {
   return getTextureParameteri(texture, GL_TEXTURE_WRAP_T);
 }
 
 
 
-GLenum getTextureWrapModeR(const TextureHandle& texture)
+GLenum get_texture_wrap_mode_r(const texture_handle& texture)
 {
   return getTextureParameteri(texture, GL_TEXTURE_WRAP_R);
 }
 
 
 
-void setTextureWrapModeS(const TextureHandle& texture, GLenum mode)
+void set_texture_wrap_mode_s(const texture_handle& texture, GLenum mode)
 {
   setTextureParameteri(texture, GL_TEXTURE_WRAP_S, mode);
 }
 
 
 
-void setTextureWrapModeT(const TextureHandle& texture, GLenum mode)
+void set_texture_wrap_mode_t(const texture_handle& texture, GLenum mode)
 {
   setTextureParameteri(texture, GL_TEXTURE_WRAP_T, mode);
 }
 
 
 
-void setTextureWrapModeR(const TextureHandle& texture, GLenum mode)
+void set_texture_wrap_mode_r(const texture_handle& texture, GLenum mode)
 {
   setTextureParameteri(texture, GL_TEXTURE_WRAP_R, mode);
 }
 
 
 
-void generateMipMap(const TextureHandle& texture)
+void generate_mip_map(const texture_handle& texture)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
-  glGenerateTextureMipmap(texture.getName());
+  glGenerateTextureMipmap(texture.get_name());
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-GLint getMaxTextureSamples()
+GLint get_max_texture_samples()
 {
-  return getInteger(GL_MAX_SAMPLES);
+  return get_integer(GL_MAX_SAMPLES);
 }
 
 
 
-GLint getMaxTextureSize()
+GLint get_max_texture_size()
 {
-  return getInteger(GL_MAX_TEXTURE_SIZE);
+  return get_integer(GL_MAX_TEXTURE_SIZE);
 }
 
 
 
-GLint getMax3dTextureSize()
+GLint get_max_3d_texture_size()
 {
-  return getInteger(GL_MAX_3D_TEXTURE_SIZE);
+  return get_integer(GL_MAX_3D_TEXTURE_SIZE);
 }
 
 
 
-GLint getMaxTextureLayers()
+GLint get_max_texture_layers()
 {
-  return getInteger(GL_MAX_ARRAY_TEXTURE_LAYERS);
+  return get_integer(GL_MAX_ARRAY_TEXTURE_LAYERS);
 }
 
 }  // namespace gl

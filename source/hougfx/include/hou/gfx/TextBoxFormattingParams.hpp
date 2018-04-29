@@ -21,9 +21,9 @@ namespace hou
 class HOU_GFX_API TextBoxFormattingParams
 {
 public:
-  /** Default parameters.
+  /** default parameters.
    */
-  static const TextBoxFormattingParams Default;
+  static const TextBoxFormattingParams default;
 
 public:
   /** Creates an object with the given parameters.

@@ -2,23 +2,23 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gfx/VerticalSyncMode.hpp"
+#include "hou/gfx/vertical_sync_mode.hpp"
 
 #define VERTICAL_SYNC_MODE_CASE(vsm, os) \
-  case VerticalSyncMode::vsm: return (os) << #vsm
+  case vertical_sync_mode::vsm: return (os) << #vsm
 
 
 
 namespace hou
 {
 
-std::ostream& operator<<(std::ostream& os, VerticalSyncMode vsm)
+std::ostream& operator<<(std::ostream& os, vertical_sync_mode vsm)
 {
   switch(vsm)
   {
-    VERTICAL_SYNC_MODE_CASE(Disabled, os);
-    VERTICAL_SYNC_MODE_CASE(Enabled, os);
-    VERTICAL_SYNC_MODE_CASE(Adaptive, os);
+    VERTICAL_SYNC_MODE_CASE(disabled, os);
+    VERTICAL_SYNC_MODE_CASE(enabled, os);
+    VERTICAL_SYNC_MODE_CASE(adaptive, os);
     default: return os;
   }
 }

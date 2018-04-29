@@ -40,29 +40,29 @@ template <size_t dim>
 bool elementWiseLowerOrEqual(
   const vec<uint, dim>& lhs, const vec<uint, dim>& rhs);
 
-vec1u getTexture1Size(const gl::TextureHandle& th, uint mipMapLevel);
+vec1u getTexture1Size(const gl::texture_handle& th, uint mipMapLevel);
 
-vec2u getTexture2Size(const gl::TextureHandle& th, uint mipMapLevel);
+vec2u getTexture2Size(const gl::texture_handle& th, uint mipMapLevel);
 
-vec3u getTexture3Size(const gl::TextureHandle& th, uint mipMapLevel);
+vec3u getTexture3Size(const gl::texture_handle& th, uint mipMapLevel);
 
 std::array<TextureWrapMode, 1u> getTexture1WrapMode(
-  const gl::TextureHandle& th);
+  const gl::texture_handle& th);
 
 std::array<TextureWrapMode, 2u> getTexture2WrapMode(
-  const gl::TextureHandle& th);
+  const gl::texture_handle& th);
 
 std::array<TextureWrapMode, 3u> getTexture3WrapMode(
-  const gl::TextureHandle& th);
+  const gl::texture_handle& th);
 
 void setTexture1WrapMode(
-  const gl::TextureHandle& th, const std::array<TextureWrapMode, 1u>& wm);
+  const gl::texture_handle& th, const std::array<TextureWrapMode, 1u>& wm);
 
 void setTexture2WrapMode(
-  const gl::TextureHandle& th, const std::array<TextureWrapMode, 2u>& wm);
+  const gl::texture_handle& th, const std::array<TextureWrapMode, 2u>& wm);
 
 void setTexture3WrapMode(
-  const gl::TextureHandle& th, const std::array<TextureWrapMode, 3u>& wm);
+  const gl::texture_handle& th, const std::array<TextureWrapMode, 3u>& wm);
 
 
 
@@ -188,7 +188,7 @@ uint getMipMapRelevantSize<TextureType::MultisampleTexture2Array>(
 template <size_t dim>
 size_t computeImageBufferSize(const vec<uint, dim>& imSize, pixel_format fmt)
 {
-  HOU_EXPECT_DEV(gl::getUnpackAlignment() == 1u);
+  HOU_EXPECT_DEV(gl::get_unpack_alignment() == 1u);
   size_t byteCount = 1u;
   for(size_t i = 0; i < imSize.get_size(); ++i)
   {
@@ -215,77 +215,77 @@ bool elementWiseLowerOrEqual(
 
 
 
-vec1u getTexture1Size(const gl::TextureHandle& th, uint mipMapLevel)
+vec1u getTexture1Size(const gl::texture_handle& th, uint mipMapLevel)
 {
-  return vec1u(static_cast<uint>(gl::getTextureWidth(th, mipMapLevel)));
+  return vec1u(static_cast<uint>(gl::get_texture_width(th, mipMapLevel)));
 }
 
 
 
-vec2u getTexture2Size(const gl::TextureHandle& th, uint mipMapLevel)
+vec2u getTexture2Size(const gl::texture_handle& th, uint mipMapLevel)
 {
-  return vec2u(static_cast<uint>(gl::getTextureWidth(th, mipMapLevel)),
-    static_cast<uint>(gl::getTextureHeight(th, mipMapLevel)));
+  return vec2u(static_cast<uint>(gl::get_texture_width(th, mipMapLevel)),
+    static_cast<uint>(gl::get_texture_height(th, mipMapLevel)));
 }
 
 
 
-vec3u getTexture3Size(const gl::TextureHandle& th, uint mipMapLevel)
+vec3u getTexture3Size(const gl::texture_handle& th, uint mipMapLevel)
 {
-  return vec3u(static_cast<uint>(gl::getTextureWidth(th, mipMapLevel)),
-    static_cast<uint>(gl::getTextureHeight(th, mipMapLevel)),
-    static_cast<uint>(gl::getTextureDepth(th, mipMapLevel)));
+  return vec3u(static_cast<uint>(gl::get_texture_width(th, mipMapLevel)),
+    static_cast<uint>(gl::get_texture_height(th, mipMapLevel)),
+    static_cast<uint>(gl::get_texture_depth(th, mipMapLevel)));
 }
 
 
 
-std::array<TextureWrapMode, 1u> getTexture1WrapMode(const gl::TextureHandle& th)
+std::array<TextureWrapMode, 1u> getTexture1WrapMode(const gl::texture_handle& th)
 {
-  return {TextureWrapMode(getTextureWrapModeS(th))};
+  return {TextureWrapMode(get_texture_wrap_mode_s(th))};
 }
 
 
 
-std::array<TextureWrapMode, 2u> getTexture2WrapMode(const gl::TextureHandle& th)
+std::array<TextureWrapMode, 2u> getTexture2WrapMode(const gl::texture_handle& th)
 {
-  return {TextureWrapMode(getTextureWrapModeS(th)),
-    TextureWrapMode(getTextureWrapModeT(th))};
+  return {TextureWrapMode(get_texture_wrap_mode_s(th)),
+    TextureWrapMode(get_texture_wrap_mode_t(th))};
 }
 
 
 
-std::array<TextureWrapMode, 3u> getTexture3WrapMode(const gl::TextureHandle& th)
+std::array<TextureWrapMode, 3u> getTexture3WrapMode(const gl::texture_handle& th)
 {
-  return {TextureWrapMode(getTextureWrapModeS(th)),
-    TextureWrapMode(getTextureWrapModeT(th)),
-    TextureWrapMode(getTextureWrapModeR(th))};
+  return {TextureWrapMode(get_texture_wrap_mode_s(th)),
+    TextureWrapMode(get_texture_wrap_mode_t(th)),
+    TextureWrapMode(get_texture_wrap_mode_r(th))};
 }
 
 
 
 void setTexture1WrapMode(
-  const gl::TextureHandle& th, const std::array<TextureWrapMode, 1u>& wm)
+  const gl::texture_handle& th, const std::array<TextureWrapMode, 1u>& wm)
 {
-  setTextureWrapModeS(th, static_cast<GLenum>(wm[0]));
+  set_texture_wrap_mode_s(th, static_cast<GLenum>(wm[0]));
 }
 
 
 
 void setTexture2WrapMode(
-  const gl::TextureHandle& th, const std::array<TextureWrapMode, 2u>& wm)
+  const gl::texture_handle& th, const std::array<TextureWrapMode, 2u>& wm)
 {
-  setTextureWrapModeS(th, static_cast<GLenum>(wm[0]));
-  setTextureWrapModeT(th, static_cast<GLenum>(wm[1]));
+  set_texture_wrap_mode_s(th, static_cast<GLenum>(wm[0]));
+  set_texture_wrap_mode_t(th, static_cast<GLenum>(wm[1]));
 }
 
 
 
 void setTexture3WrapMode(
-  const gl::TextureHandle& th, const std::array<TextureWrapMode, 3u>& wm)
+  const gl::texture_handle& th, const std::array<TextureWrapMode, 3u>& wm)
 {
-  setTextureWrapModeS(th, static_cast<GLenum>(wm[0]));
-  setTextureWrapModeT(th, static_cast<GLenum>(wm[1]));
-  setTextureWrapModeR(th, static_cast<GLenum>(wm[2]));
+  set_texture_wrap_mode_s(th, static_cast<GLenum>(wm[0]));
+  set_texture_wrap_mode_t(th, static_cast<GLenum>(wm[1]));
+  set_texture_wrap_mode_r(th, static_cast<GLenum>(wm[2]));
 }
 
 }  // namespace
@@ -295,7 +295,7 @@ void setTexture3WrapMode(
 void Texture::bind(const Texture& texture, uint textureUnit)
 {
   HOU_EXPECT(textureUnit < getTextureUnitCount());
-  gl::bindTexture(texture.mGlTextureHandle, textureUnit);
+  gl::bind_texture(texture.mGlTextureHandle, textureUnit);
 }
 
 
@@ -303,23 +303,23 @@ void Texture::bind(const Texture& texture, uint textureUnit)
 void Texture::unbind(uint textureUnit)
 {
   HOU_EXPECT(textureUnit < getTextureUnitCount());
-  gl::unbindTexture(textureUnit);
+  gl::unbind_texture(textureUnit);
 }
 
 
 
 uint Texture::getTextureUnitCount()
 {
-  return static_cast<uint>(gl::getMaxTextureImageUnits());
+  return static_cast<uint>(gl::get_max_texture_image_units());
 }
 
 
 
 Texture::Texture(TextureType type, uint mipMapLevelCount, uint sampleCount,
   bool fixedSampleLocations)
-  : mGlTextureHandle(gl::TextureHandle::create(static_cast<GLenum>(type)))
+  : mGlTextureHandle(gl::texture_handle::create(static_cast<GLenum>(type)))
   , mMipMapLevelCount(mipMapLevelCount)
-  , mSampleCount(sampleCount)
+  , m_sample_count(sampleCount)
   , mFixedSampleLocations(fixedSampleLocations)
 {}
 
@@ -328,7 +328,7 @@ Texture::Texture(TextureType type, uint mipMapLevelCount, uint sampleCount,
 Texture::Texture(Texture&& other)
   : mGlTextureHandle(std::move(other.mGlTextureHandle))
   , mMipMapLevelCount(std::move(other.mMipMapLevelCount))
-  , mSampleCount(std::move(other.mSampleCount))
+  , m_sample_count(std::move(other.m_sample_count))
   , mFixedSampleLocations(std::move(other.mFixedSampleLocations))
 {}
 
@@ -339,7 +339,7 @@ Texture::~Texture()
 
 
 
-const gl::TextureHandle& Texture::getHandle() const
+const gl::texture_handle& Texture::getHandle() const
 {
   return mGlTextureHandle;
 }
@@ -349,14 +349,14 @@ const gl::TextureHandle& Texture::getHandle() const
 bool Texture::isBound(uint textureUnit) const
 {
   HOU_EXPECT(textureUnit < getTextureUnitCount());
-  return gl::isTextureBound(mGlTextureHandle, textureUnit);
+  return gl::is_texture_bound(mGlTextureHandle, textureUnit);
 }
 
 
 
 TextureFormat Texture::get_format() const
 {
-  return TextureFormat(gl::getTextureFormat(mGlTextureHandle));
+  return TextureFormat(gl::get_texture_format(mGlTextureHandle));
 }
 
 
@@ -368,9 +368,9 @@ uint Texture::getMipMapLevelCount() const
 
 
 
-uint Texture::getSampleCount() const
+uint Texture::get_sample_count() const
 {
-  return mSampleCount;
+  return m_sample_count;
 }
 
 
@@ -385,41 +385,41 @@ bool Texture::hasFixedSampleLocations() const
 TextureChannelMapping Texture::getChannelMapping() const
 {
   return TextureChannelMapping(
-    TextureChannel(getTextureSwizzleR(mGlTextureHandle)),
-    TextureChannel(getTextureSwizzleG(mGlTextureHandle)),
-    TextureChannel(getTextureSwizzleB(mGlTextureHandle)),
-    TextureChannel(getTextureSwizzleA(mGlTextureHandle)));
+    TextureChannel(get_texture_swizzle_r(mGlTextureHandle)),
+    TextureChannel(get_texture_swizzle_g(mGlTextureHandle)),
+    TextureChannel(get_texture_swizzle_b(mGlTextureHandle)),
+    TextureChannel(get_texture_swizzle_a(mGlTextureHandle)));
 }
 
 
 
 void Texture::setChannelMapping(const TextureChannelMapping& mapping)
 {
-  setTextureSwizzleR(mGlTextureHandle, static_cast<GLenum>(mapping.get_r()));
-  setTextureSwizzleG(mGlTextureHandle, static_cast<GLenum>(mapping.get_g()));
-  setTextureSwizzleB(mGlTextureHandle, static_cast<GLenum>(mapping.get_b()));
-  setTextureSwizzleA(mGlTextureHandle, static_cast<GLenum>(mapping.get_a()));
+  set_texture_swizzle_r(mGlTextureHandle, static_cast<GLenum>(mapping.get_r()));
+  set_texture_swizzle_g(mGlTextureHandle, static_cast<GLenum>(mapping.get_g()));
+  set_texture_swizzle_b(mGlTextureHandle, static_cast<GLenum>(mapping.get_b()));
+  set_texture_swizzle_a(mGlTextureHandle, static_cast<GLenum>(mapping.get_a()));
 }
 
 
 
 uint Texture::getWidth() const
 {
-  return static_cast<uint>(gl::getTextureWidth(mGlTextureHandle, 0));
+  return static_cast<uint>(gl::get_texture_width(mGlTextureHandle, 0));
 }
 
 
 
 uint Texture::getHeight() const
 {
-  return static_cast<uint>(gl::getTextureHeight(mGlTextureHandle, 0));
+  return static_cast<uint>(gl::get_texture_height(mGlTextureHandle, 0));
 }
 
 
 
 uint Texture::getDepth() const
 {
-  return static_cast<uint>(gl::getTextureDepth(mGlTextureHandle, 0));
+  return static_cast<uint>(gl::get_texture_depth(mGlTextureHandle, 0));
 }
 
 
@@ -448,7 +448,7 @@ vec3u Texture::getSize3() const
 template <>
 vec1u TextureT<TextureType::Texture1>::getMaxSize()
 {
-  return vec1u(static_cast<uint>(gl::getMaxTextureSize()));
+  return vec1u(static_cast<uint>(gl::get_max_texture_size()));
 }
 
 
@@ -456,8 +456,8 @@ vec1u TextureT<TextureType::Texture1>::getMaxSize()
 template <>
 vec2u TextureT<TextureType::Texture1Array>::getMaxSize()
 {
-  return vec2u(static_cast<uint>(gl::getMaxTextureSize()),
-    static_cast<uint>(gl::getMaxTextureLayers()));
+  return vec2u(static_cast<uint>(gl::get_max_texture_size()),
+    static_cast<uint>(gl::get_max_texture_layers()));
 }
 
 
@@ -465,8 +465,8 @@ vec2u TextureT<TextureType::Texture1Array>::getMaxSize()
 template <>
 vec2u TextureT<TextureType::Texture2>::getMaxSize()
 {
-  return vec2u(static_cast<uint>(gl::getMaxTextureSize()),
-    static_cast<uint>(gl::getMaxTextureSize()));
+  return vec2u(static_cast<uint>(gl::get_max_texture_size()),
+    static_cast<uint>(gl::get_max_texture_size()));
 }
 
 
@@ -474,9 +474,9 @@ vec2u TextureT<TextureType::Texture2>::getMaxSize()
 template <>
 vec3u TextureT<TextureType::Texture2Array>::getMaxSize()
 {
-  return vec3u(static_cast<uint>(gl::getMaxTextureSize()),
-    static_cast<uint>(gl::getMaxTextureSize()),
-    static_cast<uint>(gl::getMaxTextureLayers()));
+  return vec3u(static_cast<uint>(gl::get_max_texture_size()),
+    static_cast<uint>(gl::get_max_texture_size()),
+    static_cast<uint>(gl::get_max_texture_layers()));
 }
 
 
@@ -484,9 +484,9 @@ vec3u TextureT<TextureType::Texture2Array>::getMaxSize()
 template <>
 vec3u TextureT<TextureType::Texture3>::getMaxSize()
 {
-  return vec3u(static_cast<uint>(gl::getMax3dTextureSize()),
-    static_cast<uint>(gl::getMax3dTextureSize()),
-    static_cast<uint>(gl::getMax3dTextureSize()));
+  return vec3u(static_cast<uint>(gl::get_max_3d_texture_size()),
+    static_cast<uint>(gl::get_max_3d_texture_size()),
+    static_cast<uint>(gl::get_max_3d_texture_size()));
 }
 
 
@@ -494,8 +494,8 @@ vec3u TextureT<TextureType::Texture3>::getMaxSize()
 template <>
 vec2u TextureT<TextureType::MultisampleTexture2>::getMaxSize()
 {
-  return vec2u(static_cast<uint>(gl::getMaxTextureSize()),
-    static_cast<uint>(gl::getMaxTextureSize()));
+  return vec2u(static_cast<uint>(gl::get_max_texture_size()),
+    static_cast<uint>(gl::get_max_texture_size()));
 }
 
 
@@ -503,9 +503,9 @@ vec2u TextureT<TextureType::MultisampleTexture2>::getMaxSize()
 template <>
 vec3u TextureT<TextureType::MultisampleTexture2Array>::getMaxSize()
 {
-  return vec3u(static_cast<uint>(gl::getMaxTextureSize()),
-    static_cast<uint>(gl::getMaxTextureSize()),
-    static_cast<uint>(gl::getMaxTextureLayers()));
+  return vec3u(static_cast<uint>(gl::get_max_texture_size()),
+    static_cast<uint>(gl::get_max_texture_size()),
+    static_cast<uint>(gl::get_max_texture_layers()));
 }
 
 
@@ -523,7 +523,7 @@ uint TextureT<type>::getMaxMipMapLevelCount(const size_type& size)
 template <TextureType type>
 uint TextureT<type>::getMaxSampleCount()
 {
-  return isTextureTypeMultisampled(type) ? gl::getMaxTextureSamples() : 1u;
+  return isTextureTypeMultisampled(type) ? gl::get_max_texture_samples() : 1u;
 }
 
 
@@ -536,7 +536,7 @@ TextureT<TextureType::Texture1>::TextureT<TextureType::Texture1, void>(
 {
   HOU_EXPECT(isTextureSizeValid<TextureType::Texture1>(size)
     && isMipMapLevelCountValid<TextureType::Texture1>(mipMapLevelCount, size));
-  gl::setTextureStorage1d(
+  gl::set_texture_storage_1d(
     mGlTextureHandle, mipMapLevelCount, static_cast<GLenum>(format), size.x());
   clear(pixelrgba(0u, 0u, 0u, 0u));
 }
@@ -552,7 +552,7 @@ TextureT<TextureType::Texture1Array>::TextureT<TextureType::Texture1Array,
   HOU_EXPECT(isTextureSizeValid<TextureType::Texture1Array>(size)
     && isMipMapLevelCountValid<TextureType::Texture1Array>(
          mipMapLevelCount, size));
-  gl::setTextureStorage2d(mGlTextureHandle, mipMapLevelCount,
+  gl::set_texture_storage_2d(mGlTextureHandle, mipMapLevelCount,
     static_cast<GLenum>(format), size.x(), size.y());
   clear(pixelrgba(0u, 0u, 0u, 0u));
 }
@@ -567,7 +567,7 @@ TextureT<TextureType::Texture2>::TextureT<TextureType::Texture2, void>(
 {
   HOU_EXPECT(isTextureSizeValid<TextureType::Texture2>(size)
     && isMipMapLevelCountValid<TextureType::Texture2>(mipMapLevelCount, size));
-  gl::setTextureStorage2d(mGlTextureHandle, mipMapLevelCount,
+  gl::set_texture_storage_2d(mGlTextureHandle, mipMapLevelCount,
     static_cast<GLenum>(format), size.x(), size.y());
   clear(pixelrgba(0u, 0u, 0u, 0u));
 }
@@ -583,7 +583,7 @@ TextureT<TextureType::Texture2Array>::TextureT<TextureType::Texture2Array,
   HOU_EXPECT(isTextureSizeValid<TextureType::Texture2Array>(size)
     && isMipMapLevelCountValid<TextureType::Texture2Array>(
          mipMapLevelCount, size));
-  gl::setTextureStorage3d(mGlTextureHandle, mipMapLevelCount,
+  gl::set_texture_storage_3d(mGlTextureHandle, mipMapLevelCount,
     static_cast<GLenum>(format), size.x(), size.y(), size.z());
   clear(pixelrgba(0u, 0u, 0u, 0u));
 }
@@ -598,7 +598,7 @@ TextureT<TextureType::Texture3>::TextureT<TextureType::Texture3, void>(
 {
   HOU_EXPECT(isTextureSizeValid<TextureType::Texture3>(size)
     && isMipMapLevelCountValid<TextureType::Texture3>(mipMapLevelCount, size));
-  gl::setTextureStorage3d(mGlTextureHandle, mipMapLevelCount,
+  gl::set_texture_storage_3d(mGlTextureHandle, mipMapLevelCount,
     static_cast<GLenum>(format), size.x(), size.y(), size.z());
   clear(pixelrgba(0u, 0u, 0u, 0u));
 }
@@ -625,8 +625,8 @@ TextureT<TextureType::MultisampleTexture2>::TextureT(const size_type& size,
 {
   HOU_EXPECT(isTextureSizeValid<TextureType::MultisampleTexture2>(size)
     && sampleCount > 0u
-    && sampleCount <= static_cast<uint>(gl::getMaxTextureSamples()));
-  setTextureStorage2dMultisample(mGlTextureHandle, sampleCount,
+    && sampleCount <= static_cast<uint>(gl::get_max_texture_samples()));
+  set_texture_storage_2d_multisample(mGlTextureHandle, sampleCount,
     static_cast<GLenum>(format), size.x(), size.y(), fixedSampleLocations);
 }
 
@@ -641,8 +641,8 @@ TextureT<TextureType::MultisampleTexture2Array>::TextureT(const size_type& size,
 {
   HOU_EXPECT(isTextureSizeValid<TextureType::MultisampleTexture2Array>(size)
     && sampleCount > 0u
-    && sampleCount <= static_cast<uint>(gl::getMaxTextureSamples()));
-  setTextureStorage3dMultisample(mGlTextureHandle, sampleCount,
+    && sampleCount <= static_cast<uint>(gl::get_max_texture_samples()));
+  set_texture_storage_3d_multisample(mGlTextureHandle, sampleCount,
     static_cast<GLenum>(format), size.x(), size.y(), size.z(),
     fixedSampleLocations);
 }
@@ -729,7 +729,7 @@ template <TextureType type>
 template <TextureType t, typename Enable>
 TextureFilter TextureT<type>::getFilter() const
 {
-  switch(getTextureMinFilter(mGlTextureHandle))
+  switch(get_texture_min_filter(mGlTextureHandle))
   {
   case GL_NEAREST_MIPMAP_NEAREST:
     return TextureFilter::Nearest;
@@ -741,7 +741,7 @@ TextureFilter TextureT<type>::getFilter() const
     return TextureFilter::Trilinear;
   default:
     HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum),
-      static_cast<GLenum>(getTextureMinFilter(mGlTextureHandle)));
+      static_cast<GLenum>(get_texture_min_filter(mGlTextureHandle)));
   }
 }
 
@@ -754,20 +754,20 @@ void TextureT<type>::setFilter(TextureFilter filter)
   switch(filter)
   {
   case TextureFilter::Nearest:
-    setTextureMinFilter(mGlTextureHandle, GL_NEAREST_MIPMAP_NEAREST);
-    setTextureMagFilter(mGlTextureHandle, GL_NEAREST);
+    set_texture_min_filter(mGlTextureHandle, GL_NEAREST_MIPMAP_NEAREST);
+    set_texture_mag_filter(mGlTextureHandle, GL_NEAREST);
     break;
   case TextureFilter::Linear:
-    setTextureMinFilter(mGlTextureHandle, GL_NEAREST_MIPMAP_LINEAR);
-    setTextureMagFilter(mGlTextureHandle, GL_NEAREST);
+    set_texture_min_filter(mGlTextureHandle, GL_NEAREST_MIPMAP_LINEAR);
+    set_texture_mag_filter(mGlTextureHandle, GL_NEAREST);
     break;
   case TextureFilter::Bilinear:
-    setTextureMinFilter(mGlTextureHandle, GL_LINEAR_MIPMAP_NEAREST);
-    setTextureMagFilter(mGlTextureHandle, GL_LINEAR);
+    set_texture_min_filter(mGlTextureHandle, GL_LINEAR_MIPMAP_NEAREST);
+    set_texture_mag_filter(mGlTextureHandle, GL_LINEAR);
     break;
   case TextureFilter::Trilinear:
-    setTextureMinFilter(mGlTextureHandle, GL_LINEAR_MIPMAP_LINEAR);
-    setTextureMagFilter(mGlTextureHandle, GL_LINEAR);
+    set_texture_min_filter(mGlTextureHandle, GL_LINEAR_MIPMAP_LINEAR);
+    set_texture_mag_filter(mGlTextureHandle, GL_LINEAR);
     break;
   default:
     HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(filter));
@@ -876,10 +876,10 @@ template <TextureType type>
 template <pixel_format fmt, TextureType t, typename Enable>
 typename TextureT<type>::template image<fmt> TextureT<type>::get_image() const
 {
-  gl::setUnpackAlignment(1);
+  gl::set_unpack_alignment(1);
   size_type size = get_size();
   std::vector<uint8_t> buffer(computeImageBufferSize(size, fmt));
-  gl::getTextureImage(mGlTextureHandle, 0u, pixelFormatToGlPixelFormat(fmt),
+  gl::get_texture_image(mGlTextureHandle, 0u, pixelFormatToGlPixelFormat(fmt),
     static_cast<GLenum>(toGlType<uint8_t>()), buffer.size(), buffer.data());
   return image<fmt>(size,
     reinterpret_span<const typename image<fmt>::pixel>(span<uint8_t>(buffer)));
@@ -894,9 +894,9 @@ typename TextureT<TextureType::Texture1>::template image<fmt>
     const offset_type& offset, const size_type& size) const
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + size, get_size()));
-  gl::setUnpackAlignment(1);
+  gl::set_unpack_alignment(1);
   std::vector<uint8_t> buffer(computeImageBufferSize(size, fmt));
-  gl::getTextureSubImage(mGlTextureHandle, offset.x(), 0, 0, size.x(), 1, 1, 0,
+  gl::get_texture_sub_image(mGlTextureHandle, offset.x(), 0, 0, size.x(), 1, 1, 0,
     pixelFormatToGlPixelFormat(fmt), static_cast<GLenum>(toGlType<uint8_t>()),
     buffer.size(), buffer.data());
   return image<fmt>(size,
@@ -912,9 +912,9 @@ typename TextureT<TextureType::Texture1Array>::template image<fmt>
     const offset_type& offset, const size_type& size) const
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + size, get_size()));
-  gl::setUnpackAlignment(1);
+  gl::set_unpack_alignment(1);
   std::vector<uint8_t> buffer(computeImageBufferSize(size, fmt));
-  gl::getTextureSubImage(mGlTextureHandle, offset.x(), offset.y(), 0, size.x(),
+  gl::get_texture_sub_image(mGlTextureHandle, offset.x(), offset.y(), 0, size.x(),
     size.y(), 1, 0, pixelFormatToGlPixelFormat(fmt),
     static_cast<GLenum>(toGlType<uint8_t>()), buffer.size(), buffer.data());
   return image<fmt>(size,
@@ -930,9 +930,9 @@ typename TextureT<TextureType::Texture2>::template image<fmt>
     const offset_type& offset, const size_type& size) const
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + size, get_size()));
-  gl::setUnpackAlignment(1);
+  gl::set_unpack_alignment(1);
   std::vector<uint8_t> buffer(computeImageBufferSize(size, fmt));
-  gl::getTextureSubImage(mGlTextureHandle, offset.x(), offset.y(), 0, size.x(),
+  gl::get_texture_sub_image(mGlTextureHandle, offset.x(), offset.y(), 0, size.x(),
     size.y(), 1, 0, pixelFormatToGlPixelFormat(fmt),
     static_cast<GLenum>(toGlType<uint8_t>()), buffer.size(), buffer.data());
   return image<fmt>(size,
@@ -948,9 +948,9 @@ typename TextureT<TextureType::Texture2Array>::template image<fmt>
     const offset_type& offset, const size_type& size) const
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + size, get_size()));
-  gl::setUnpackAlignment(1);
+  gl::set_unpack_alignment(1);
   std::vector<uint8_t> buffer(computeImageBufferSize(size, fmt));
-  gl::getTextureSubImage(mGlTextureHandle, offset.x(), offset.y(), offset.z(),
+  gl::get_texture_sub_image(mGlTextureHandle, offset.x(), offset.y(), offset.z(),
     size.x(), size.y(), size.z(), 0, pixelFormatToGlPixelFormat(fmt),
     static_cast<GLenum>(toGlType<uint8_t>()), buffer.size(), buffer.data());
   return image<fmt>(size,
@@ -966,9 +966,9 @@ typename TextureT<TextureType::Texture3>::template image<fmt>
     const offset_type& offset, const size_type& size) const
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + size, get_size()));
-  gl::setUnpackAlignment(1);
+  gl::set_unpack_alignment(1);
   std::vector<uint8_t> buffer(computeImageBufferSize(size, fmt));
-  gl::getTextureSubImage(mGlTextureHandle, offset.x(), offset.y(), offset.z(),
+  gl::get_texture_sub_image(mGlTextureHandle, offset.x(), offset.y(), offset.z(),
     size.x(), size.y(), size.z(), 0, pixelFormatToGlPixelFormat(fmt),
     static_cast<GLenum>(toGlType<uint8_t>()), buffer.size(), buffer.data());
   return image<fmt>(size,
@@ -993,11 +993,11 @@ void TextureT<TextureType::Texture1>::set_sub_image(
   const offset_type& offset, const image<fmt>& ph_image)
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + ph_image.get_size(), get_size()));
-  gl::setTextureSubImage1d(mGlTextureHandle, 0u, offset.x(),
+  gl::set_texture_sub_image_1d(mGlTextureHandle, 0u, offset.x(),
     ph_image.get_size().x(), pixelFormatToGlPixelFormat(fmt),
     static_cast<GLenum>(toGlType<uint8_t>()),
     reinterpret_cast<const void*>(ph_image.get_pixels().data()));
-  generateMipMap();
+  generate_mip_map();
 }
 
 
@@ -1008,11 +1008,11 @@ void TextureT<TextureType::Texture1Array>::set_sub_image(
   const offset_type& offset, const image<fmt>& ph_image)
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + ph_image.get_size(), get_size()));
-  gl::setTextureSubImage2d(mGlTextureHandle, 0, offset.x(), offset.y(),
+  gl::set_texture_sub_image_2d(mGlTextureHandle, 0, offset.x(), offset.y(),
     ph_image.get_size().x(), ph_image.get_size().y(), pixelFormatToGlPixelFormat(fmt),
     static_cast<GLenum>(toGlType<uint8_t>()),
     reinterpret_cast<const void*>(ph_image.get_pixels().data()));
-  generateMipMap();
+  generate_mip_map();
 }
 
 
@@ -1023,11 +1023,11 @@ void TextureT<TextureType::Texture2>::set_sub_image(
   const offset_type& offset, const image<fmt>& ph_image)
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + ph_image.get_size(), get_size()));
-  gl::setTextureSubImage2d(mGlTextureHandle, 0, offset.x(), offset.y(),
+  gl::set_texture_sub_image_2d(mGlTextureHandle, 0, offset.x(), offset.y(),
     ph_image.get_size().x(), ph_image.get_size().y(), pixelFormatToGlPixelFormat(fmt),
     static_cast<GLenum>(toGlType<uint8_t>()),
     reinterpret_cast<const void*>(ph_image.get_pixels().data()));
-  generateMipMap();
+  generate_mip_map();
 }
 
 
@@ -1038,11 +1038,11 @@ void TextureT<TextureType::Texture2Array>::set_sub_image(
   const offset_type& offset, const image<fmt>& ph_image)
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + ph_image.get_size(), get_size()));
-  gl::setTextureSubImage3d(mGlTextureHandle, 0, offset.x(), offset.y(),
+  gl::set_texture_sub_image_3d(mGlTextureHandle, 0, offset.x(), offset.y(),
     offset.z(), ph_image.get_size().x(), ph_image.get_size().y(), ph_image.get_size().z(),
     pixelFormatToGlPixelFormat(fmt), static_cast<GLenum>(toGlType<uint8_t>()),
     reinterpret_cast<const void*>(ph_image.get_pixels().data()));
-  generateMipMap();
+  generate_mip_map();
 }
 
 
@@ -1053,11 +1053,11 @@ void TextureT<TextureType::Texture3>::set_sub_image(
   const offset_type& offset, const image<fmt>& ph_image)
 {
   HOU_EXPECT(elementWiseLowerOrEqual(offset + ph_image.get_size(), get_size()));
-  gl::setTextureSubImage3d(mGlTextureHandle, 0, offset.x(), offset.y(),
+  gl::set_texture_sub_image_3d(mGlTextureHandle, 0, offset.x(), offset.y(),
     offset.z(), ph_image.get_size().x(), ph_image.get_size().y(), ph_image.get_size().z(),
     pixelFormatToGlPixelFormat(fmt), static_cast<GLenum>(toGlType<uint8_t>()),
     reinterpret_cast<const void*>(ph_image.get_pixels().data()));
-  generateMipMap();
+  generate_mip_map();
 }
 
 
@@ -1132,10 +1132,10 @@ typename TextureT<type>::template image<fmt> TextureT<type>::getMipMapImage(
   uint mipMapLevel) const
 {
   HOU_EXPECT(mipMapLevel < mMipMapLevelCount);
-  gl::setUnpackAlignment(1);
+  gl::set_unpack_alignment(1);
   size_type mipMapSize = getMipMapSize(mipMapLevel);
   std::vector<uint8_t> buffer(computeImageBufferSize(mipMapSize, fmt));
-  gl::getTextureImage(mGlTextureHandle, mipMapLevel,
+  gl::get_texture_image(mGlTextureHandle, mipMapLevel,
     pixelFormatToGlPixelFormat(fmt), static_cast<GLenum>(toGlType<uint8_t>()),
     buffer.size(), buffer.data());
   return image<fmt>(mipMapSize,
@@ -1177,11 +1177,11 @@ bool TextureT<type>::isMultisampled() const
 
 
 template <TextureType type>
-void TextureT<type>::generateMipMap()
+void TextureT<type>::generate_mip_map()
 {
   if(mMipMapLevelCount > 1u)
   {
-    gl::generateMipMap(mGlTextureHandle);
+    gl::generate_mip_map(mGlTextureHandle);
   }
 }
 

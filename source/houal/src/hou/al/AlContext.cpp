@@ -24,7 +24,7 @@ namespace
 {
 
 std::mutex gCurrentContextMutex;
-Context* gCurrentContext;
+context* gCurrentContext;
 
 uint32_t generateUid();
 
@@ -40,29 +40,29 @@ uint32_t generateUid()
 
 
 
-void Context::setCurrent(Context& context)
+void context::set_current(context& ph_context)
 {
   std::lock_guard<std::mutex> lock(gCurrentContextMutex);
-  HOU_RUNTIME_CHECK(alcMakeContextCurrent(context.m_handle) == AL_TRUE
-    , get_text(AlError::ContextMakeCurrent));
-  gCurrentContext = &context;
+  HOU_RUNTIME_CHECK(alcMakeContextCurrent(ph_context.m_handle) == AL_TRUE
+    , get_text(AlError::context_make_current));
+  gCurrentContext = &ph_context;
 }
 
 
 
-void Context::unsetCurrent()
+void context::unset_current()
 {
   std::lock_guard<std::mutex> lock(gCurrentContextMutex);
   HOU_RUNTIME_CHECK(alcMakeContextCurrent(nullptr) == AL_TRUE
-    , get_text(AlError::ContextMakeCurrent));
+    , get_text(AlError::context_make_current));
   gCurrentContext = nullptr;
 }
 
 
 
-Context* Context::getCurrent()
+context* context::getCurrent()
 {
-  Context* retval = nullptr;
+  context* retval = nullptr;
   {
     std::lock_guard<std::mutex> lock(gCurrentContextMutex);
     retval = gCurrentContext;
@@ -72,18 +72,18 @@ Context* Context::getCurrent()
 
 
 
-Context::Context(Device& device)
+context::context(Device& device)
   : non_copyable()
   , m_handle(alcCreateContext(device.getHandle(), nullptr))
   , m_uid(generateUid())
   , mDeviceUid(device.get_uid())
 {
-  HOU_RUNTIME_CHECK(m_handle != nullptr, get_text(AlError::ContextCreate));
+  HOU_RUNTIME_CHECK(m_handle != nullptr, get_text(AlError::context_create));
 }
 
 
 
-Context::Context(Context&& other)
+context::context(context&& other)
   : m_handle(std::move(other.m_handle))
   , m_uid(std::move(other.m_uid))
   , mDeviceUid(std::move(other.mDeviceUid))
@@ -97,13 +97,13 @@ Context::Context(Context&& other)
 
 
 
-Context::~Context()
+context::~context()
 {
   if(m_handle != nullptr)
   {
-    if(isCurrent())
+    if(is_current())
     {
-      unsetCurrent();
+      unset_current();
     }
     alcDestroyContext(m_handle);
   }
@@ -111,21 +111,21 @@ Context::~Context()
 
 
 
-uint32_t Context::get_uid() const
+uint32_t context::get_uid() const
 {
   return m_uid;
 }
 
 
 
-uint32_t Context::getDeviceUid() const
+uint32_t context::getDeviceUid() const
 {
   return mDeviceUid;
 }
 
 
 
-bool Context::isCurrent() const
+bool context::is_current() const
 {
   // alcGetCurrentContext cannot fail.
   return alcGetCurrentContext() == m_handle;

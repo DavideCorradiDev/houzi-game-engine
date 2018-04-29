@@ -4,7 +4,7 @@
 
 #include "hou/gfx/VertexFormat.hpp"
 
-#include "hou/gl/GlVertexArrayHandle.hpp"
+#include "hou/gl/gl_vertex_array_handle.hpp"
 
 
 
@@ -13,7 +13,7 @@ namespace hou
 
 uint VertexFormat::getMaxAttribFormatCount()
 {
-  return gl::getMaxVertexAttribs();
+  return gl::get_max_vertex_attribs();
 }
 
 

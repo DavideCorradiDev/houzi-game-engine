@@ -27,7 +27,7 @@ namespace hou
 class HOU_AUD_API AudioSource : public non_copyable
 {
 public:
-  /** Default constructor.
+  /** default constructor.
    */
   AudioSource();
 
@@ -159,7 +159,7 @@ public:
    *
    *  \return the number of samples.
    */
-  virtual uint getSampleCount() const = 0;
+  virtual uint get_sample_count() const = 0;
 
   /** Sets whether the audio source is looping or not.
    *

@@ -15,7 +15,7 @@
 
 #include "hou/gfx/ShaderFwd.hpp"
 
-#include "hou/gl/GlProgramHandle.hpp"
+#include "hou/gl/gl_program_handle.hpp"
 
 #include <string>
 
@@ -37,7 +37,7 @@ public:
   ShaderProgram(ShaderProgram&& other);
   virtual ~ShaderProgram() = 0;
 
-  const gl::ProgramHandle& getHandle() const;
+  const gl::program_handle& getHandle() const;
   bool isBound() const;
   uint getUniformLocation(const std::string& uniformName) const;
 
@@ -46,7 +46,7 @@ private:
     const VertexShader& vs, const FragmentShader& fs, const GeometryShader* gs);
 
 private:
-  gl::ProgramHandle m_handle;
+  gl::program_handle m_handle;
 };
 
 }  // namespace hou

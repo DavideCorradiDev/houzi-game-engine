@@ -29,7 +29,7 @@ std::string getGlFragmentShaderSource();
 
 std::string getGlVertexShaderSource()
 {
-  return "#version 330 core\n"
+  return "#ph_version 330 core\n"
          "layout (location = 0) in vec2 posIn;\n"
          "layout (location = 1) in vec2 texIn;\n"
          "layout (location = 2) in vec4 colorIn;\n"
@@ -48,7 +48,7 @@ std::string getGlVertexShaderSource()
 
 std::string getGlFragmentShaderSource()
 {
-  return "#version 330 core\n"
+  return "#ph_version 330 core\n"
          "in vec2 texVs;\n"
          "in vec4 colorVs;\n"
          "out vec4 ph_color;\n"
@@ -89,7 +89,7 @@ Mesh2ShaderProgram::Mesh2ShaderProgram(Mesh2ShaderProgram&& other)
 
 void Mesh2ShaderProgram::set_color(const color& ph_color)
 {
-  gl::setProgramUniformf(getHandle(), mUniColor, ph_color.get_red_f(),
+  gl::set_program_uniform_f(getHandle(), mUniColor, ph_color.get_red_f(),
     ph_color.get_green_f(), ph_color.get_blue_f(), ph_color.get_alpha_f());
 }
 
@@ -97,14 +97,14 @@ void Mesh2ShaderProgram::set_color(const color& ph_color)
 
 void Mesh2ShaderProgram::setTextureUnit(uint unit)
 {
-  gl::setProgramUniformi(getHandle(), mUniTexture, unit);
+  gl::set_program_uniform_i(getHandle(), mUniTexture, unit);
 }
 
 
 
 void Mesh2ShaderProgram::setTransform(const trans2f& trans)
 {
-  gl::setProgramUniformMatrix4f(
+  gl::set_program_uniform_mat4x4f(
     getHandle(), mUniTransform, 1u, GL_TRUE, trans.to_mat4x4().data());
 }
 

@@ -36,22 +36,22 @@ INCLUDE_DIRECTORIES(
 # Source files.
 SET(EXE_HOUGL_TEST_SRC
   ${LIB_HOUTEST_SOURCE_DIR}/src/TestMain.cpp
-  hou/gl/TestGlBase.cpp
-  hou/gl/TestGlMultipleContexts.cpp
-  hou/gl/TestGlSingleContext.cpp
-  hou/gl/TestGlBufferHandle.cpp
-  hou/gl/TestGlContext.cpp
-  hou/gl/TestGlContextSettings.cpp
-  hou/gl/TestGlFrameBufferHandle.cpp
-  hou/gl/TestGlFunctions.cpp
-  hou/gl/TestGlVersion.cpp
-  hou/gl/TestGlCheck.cpp
-  hou/gl/TestGlObjectHandle.cpp
-  hou/gl/TestGlProgramHandle.cpp
-  hou/gl/TestGlShaderHandle.cpp
-  hou/gl/TestGlShaderSources.cpp
-  hou/gl/TestGlTextureHandle.cpp
-  hou/gl/TestGlVertexArrayHandle.cpp
+  hou/gl/test_gl_base.cpp
+  hou/gl/test_gl_multiple_contexts.cpp
+  hou/gl/test_gl_single_context.cpp
+  hou/gl/test_gl_buffer_handle.cpp
+  hou/gl/test_gl_context.cpp
+  hou/gl/test_gl_context_settings.cpp
+  hou/gl/test_gl_framebuffer_handle.cpp
+  hou/gl/test_gl_functions.cpp
+  hou/gl/test_gl_version.cpp
+  hou/gl/test_gl_check.cpp
+  hou/gl/test_gl_object_handle.cpp
+  hou/gl/test_gl_program_handle.cpp
+  hou/gl/test_gl_shader_handle.cpp
+  hou/gl/test_gl_shader_sources.cpp
+  hou/gl/test_gl_texture_handle.cpp
+  hou/gl/test_gl_vertex_array_handle.cpp
 )
 
 

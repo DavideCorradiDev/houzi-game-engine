@@ -10,7 +10,7 @@
 
 #include "hou/gfx/ShaderFwd.hpp"
 
-#include "hou/gl/GlShaderHandle.hpp"
+#include "hou/gl/gl_shader_handle.hpp"
 
 #include <string>
 
@@ -26,10 +26,10 @@ public:
   Shader(Shader&& other);
   virtual ~Shader() = 0;
 
-  const gl::ShaderHandle& getHandle() const;
+  const gl::shader_handle& getHandle() const;
 
 private:
-  gl::ShaderHandle m_handle;
+  gl::shader_handle m_handle;
 };
 
 

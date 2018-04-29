@@ -5,8 +5,8 @@
 #ifndef HOU_GL_GL_CHECK_HPP
 #define HOU_GL_GL_CHECK_HPP
 
-#include "hou/gl/GlExport.hpp"
-#include "hou/gl/OpenGl.hpp"
+#include "hou/gl/gl_export.hpp"
+#include "hou/gl/open_gl.hpp"
 
 #include "hou/cor/basic_types.hpp"
 
@@ -20,16 +20,16 @@ namespace hou
 namespace gl
 {
 
-class SharedObjectHandle;
-class NonSharedObjectHandle;
+class shared_object_handle;
+class non_shared_object_handle;
 
 
 
-void HOU_GL_API checkError(const std::string& filename, int line);
-void HOU_GL_API checkContextExistence(const std::string& filename, int line);
-void HOU_GL_API checkContextOwnership(const SharedObjectHandle& o
+void HOU_GL_API check_error(const std::string& filename, int line);
+void HOU_GL_API check_context_existence(const std::string& filename, int line);
+void HOU_GL_API check_context_ownership(const shared_object_handle& o
   , const std::string& filename, int line);
-void HOU_GL_API checkContextOwnership(const NonSharedObjectHandle& o
+void HOU_GL_API check_context_ownership(const non_shared_object_handle& o
   , const std::string& filename, int line);
 
 }
@@ -40,7 +40,7 @@ void HOU_GL_API checkContextOwnership(const NonSharedObjectHandle& o
 
 #ifdef HOU_ENABLE_GL_ERROR_CHECKS
   #define HOU_GL_CHECK_ERROR() \
-    hou::gl::checkError(__FILE__, __LINE__)
+    hou::gl::check_error(__FILE__, __LINE__)
 #else
   #define HOU_GL_CHECK_ERROR()
 #endif
@@ -49,7 +49,7 @@ void HOU_GL_API checkContextOwnership(const NonSharedObjectHandle& o
 
 #ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
   #define HOU_GL_CHECK_CONTEXT_EXISTENCE() \
-    hou::gl::checkContextExistence(__FILE__, __LINE__)
+    hou::gl::check_context_existence(__FILE__, __LINE__)
 #else
   #define HOU_GL_CHECK_CONTEXT_EXISTENCE()
 #endif
@@ -58,7 +58,7 @@ void HOU_GL_API checkContextOwnership(const NonSharedObjectHandle& o
 
 #ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
   #define HOU_GL_CHECK_CONTEXT_OWNERSHIP(objectHandle) \
-    hou::gl::checkContextOwnership(objectHandle, __FILE__, __LINE__)
+    hou::gl::check_context_ownership(objectHandle, __FILE__, __LINE__)
 #else
   #define HOU_GL_CHECK_CONTEXT_OWNERSHIP(objectHandle)
 #endif

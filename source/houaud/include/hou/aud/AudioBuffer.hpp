@@ -85,7 +85,7 @@ public:
    *
    *  \return the OpenAL buffer handle.
    */
-  const al::BufferHandle& getHandle() const;
+  const al::buffer_handle& getHandle() const;
 
   /** Gets the audio format of the buffer.
    *
@@ -123,7 +123,7 @@ public:
    *
    *  \return the number of samples in the buffer for a single channel.
    */
-  uint getSampleCount() const;
+  uint get_sample_count() const;
 
   /** Sets the buffer data with the provided values.
    *
@@ -156,7 +156,7 @@ public:
   void setData(AudioStreamIn&& audioStream);
 
 private:
-  al::BufferHandle m_handle;
+  al::buffer_handle m_handle;
 };
 
 }  // namespace hou

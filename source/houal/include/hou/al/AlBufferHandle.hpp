@@ -16,24 +16,24 @@ namespace hou
 namespace al
 {
 
-class HOU_AL_API BufferHandle : public DeviceOwnedObjectHandle
+class HOU_AL_API buffer_handle : public DeviceOwnedObjectHandle
 {
 public:
-  static BufferHandle generate();
+  static buffer_handle generate();
 
-  BufferHandle(BufferHandle&& other);
-  virtual ~BufferHandle();
+  buffer_handle(buffer_handle&& other);
+  virtual ~buffer_handle();
 
 private:
-  BufferHandle(ALuint name);
+  buffer_handle(ALuint name);
 };
 
-HOU_AL_API void setBufferData(const BufferHandle& handle, ALenum format,
+HOU_AL_API void setBufferData(const buffer_handle& handle, ALenum format,
   ALvoid* data, ALsizei size, ALsizei freq);
-HOU_AL_API ALint getBufferFrequency(const BufferHandle& handle);
-HOU_AL_API ALint getBufferBits(const BufferHandle& handle);
-HOU_AL_API ALint getBufferChannels(const BufferHandle& handle);
-HOU_AL_API ALint getBufferSize(const BufferHandle& handle);
+HOU_AL_API ALint getBufferFrequency(const buffer_handle& handle);
+HOU_AL_API ALint getBufferBits(const buffer_handle& handle);
+HOU_AL_API ALint getBufferChannels(const buffer_handle& handle);
+HOU_AL_API ALint getBufferSize(const buffer_handle& handle);
 
 }  // namespace al
 

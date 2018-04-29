@@ -7,7 +7,7 @@
 
 #include <gtest/gtest.h>
 
-#include "hou/gl/GlContext.hpp"
+#include "hou/gl/gl_context.hpp"
 
 #include "hou/sys/system_window.hpp"
 
@@ -26,7 +26,7 @@ public:
 
 protected:
   hou::system_window mWindow;
-  hou::gl::Context mContext;
+  hou::gl::context mContext;
 };
 
 #endif

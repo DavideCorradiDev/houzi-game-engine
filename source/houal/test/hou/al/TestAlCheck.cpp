@@ -49,7 +49,7 @@ public:
 TEST_F(TestAlCheck, AlCheckErrorFunction)
 {
   alGetString(AL_VERSION);
-  al::checkError("", 0);
+  al::check_error("", 0);
   SUCCEED();
 }
 
@@ -59,7 +59,7 @@ TEST_F(TestAlCheck, AlCheckErrorFunction)
 TEST_F(TestAlCheckDeathTest, AlCheckErrorFunction)
 {
   alGetString(AL_INVERSE_DISTANCE);
-  HOU_EXPECT_ERROR(al::checkError("", 0), std::logic_error
+  HOU_EXPECT_ERROR(al::check_error("", 0), std::logic_error
     , get_text(AlError::invalid_enum));
 }
 
@@ -131,7 +131,7 @@ TEST_F(TestAlCheckDeathTest, AlCheckContextErrorMacro)
 
 TEST_F(TestAlCheck, AlCheckContextExistenceFunction)
 {
-  al::checkContextExistence("", 0);
+  al::check_context_existence("", 0);
   SUCCEED();
 }
 
@@ -139,9 +139,9 @@ TEST_F(TestAlCheck, AlCheckContextExistenceFunction)
 
 TEST_F(TestAlCheckDeathTest, AlCheckContextExistenceFunction)
 {
-  al::Context::unsetCurrent();
-  HOU_EXPECT_ERROR(al::checkContextExistence("", 0), std::logic_error
-    , get_text(AlError::ContextExistence));
+  al::context::unset_current();
+  HOU_EXPECT_ERROR(al::check_context_existence("", 0), std::logic_error
+    , get_text(AlError::context_existence));
 }
 
 
@@ -156,10 +156,10 @@ TEST_F(TestAlCheck, AlCheckContextExistenceMacro)
 
 TEST_F(TestAlCheckDeathTest, AlCheckContextExistenceMacro)
 {
-  al::Context::unsetCurrent();
+  al::context::unset_current();
 #ifdef HOU_ENABLE_AL_CONTEXT_EXISTENCE_CHECKS
   HOU_EXPECT_ERROR(HOU_AL_CHECK_CONTEXT_EXISTENCE(), std::logic_error
-    , get_text(AlError::ContextExistence));
+    , get_text(AlError::context_existence));
 #else
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   SUCCEED();
@@ -172,16 +172,16 @@ TEST_F(TestAlCheck, AlCheckContextOwnershipDeviceOwnedObjectFunction)
 {
   al::Device d1;
   al::Device d2;
-  al::Context c1(d1);
-  al::Context c2(d2);
+  al::context c1(d1);
+  al::context c2(d2);
 
-  al::Context::setCurrent(c1);
+  al::context::set_current(c1);
   ConcreteDeviceOwnedObjectHandle o1(1u);
-  al::checkContextOwnership(o1, "", 0);
+  al::check_context_ownership(o1, "", 0);
 
-  al::Context::setCurrent(c2);
+  al::context::set_current(c2);
   ConcreteDeviceOwnedObjectHandle o2(1u);
-  al::checkContextOwnership(o2, "", 0);
+  al::check_context_ownership(o2, "", 0);
 
   SUCCEED();
 }
@@ -192,15 +192,15 @@ TEST_F(TestAlCheckDeathTest, AlCheckContextOwnershipDeviceOwnedObjectFunction)
 {
   al::Device d1;
   al::Device d2;
-  al::Context c1(d1);
-  al::Context c2(d2);
+  al::context c1(d1);
+  al::context c2(d2);
 
-  al::Context::setCurrent(c1);
+  al::context::set_current(c1);
   ConcreteDeviceOwnedObjectHandle o1(1u);
 
-  al::Context::setCurrent(c2);
-  HOU_EXPECT_ERROR(al::checkContextOwnership(o1, "", 0), std::logic_error
-    , get_text(AlError::InvalidOwnership));
+  al::context::set_current(c2);
+  HOU_EXPECT_ERROR(al::check_context_ownership(o1, "", 0), std::logic_error
+    , get_text(AlError::invalid_ownership));
 }
 
 
@@ -209,15 +209,15 @@ TEST_F(TestAlCheck, AlCheckContextOwnershipDeviceOwnedObjectMacro)
 {
   al::Device d1;
   al::Device d2;
-  al::Context c1(d1);
-  al::Context c2(d2);
+  al::context c1(d1);
+  al::context c2(d2);
 
-  al::Context::setCurrent(c1);
+  al::context::set_current(c1);
   ConcreteDeviceOwnedObjectHandle o1(1u);
-  al::checkContextOwnership(o1, "", 0);
+  al::check_context_ownership(o1, "", 0);
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1);
 
-  al::Context::setCurrent(c2);
+  al::context::set_current(c2);
   ConcreteDeviceOwnedObjectHandle o2(1u);
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(o2);
 
@@ -230,17 +230,17 @@ TEST_F(TestAlCheckDeathTest, AlCheckContextOwnershipDeviceOwnedObjectMacro)
 {
   al::Device d1;
   al::Device d2;
-  al::Context c1(d1);
-  al::Context c2(d2);
+  al::context c1(d1);
+  al::context c2(d2);
 
-  al::Context::setCurrent(c1);
+  al::context::set_current(c1);
   ConcreteDeviceOwnedObjectHandle o1(1u);
 
-  al::Context::setCurrent(c2);
+  al::context::set_current(c2);
 
 #ifdef HOU_ENABLE_AL_CONTEXT_OWNERSHIP_CHECKS
   HOU_EXPECT_ERROR(HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1), std::logic_error
-    , get_text(AlError::InvalidOwnership));
+    , get_text(AlError::invalid_ownership));
 #else
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1);
   SUCCEED();
@@ -253,16 +253,16 @@ TEST_F(TestAlCheck, AlCheckContextOwnershipContextOwnedObjectFunction)
 {
   al::Device d1;
   al::Device d2;
-  al::Context c1(d1);
-  al::Context c2(d2);
+  al::context c1(d1);
+  al::context c2(d2);
 
-  al::Context::setCurrent(c1);
+  al::context::set_current(c1);
   ConcreteContextOwnedObjectHandle o1(1u);
-  al::checkContextOwnership(o1, "", 0);
+  al::check_context_ownership(o1, "", 0);
 
-  al::Context::setCurrent(c2);
+  al::context::set_current(c2);
   ConcreteContextOwnedObjectHandle o2(1u);
-  al::checkContextOwnership(o2, "", 0);
+  al::check_context_ownership(o2, "", 0);
 
   SUCCEED();
 }
@@ -273,15 +273,15 @@ TEST_F(TestAlCheckDeathTest, AlCheckContextOwnershipContextOwnedObjectFunction)
 {
   al::Device d1;
   al::Device d2;
-  al::Context c1(d1);
-  al::Context c2(d2);
+  al::context c1(d1);
+  al::context c2(d2);
 
-  al::Context::setCurrent(c1);
+  al::context::set_current(c1);
   ConcreteContextOwnedObjectHandle o1(1u);
 
-  al::Context::setCurrent(c2);
-  HOU_EXPECT_ERROR(al::checkContextOwnership(o1, "", 0), std::logic_error
-    , get_text(AlError::InvalidOwnership));
+  al::context::set_current(c2);
+  HOU_EXPECT_ERROR(al::check_context_ownership(o1, "", 0), std::logic_error
+    , get_text(AlError::invalid_ownership));
 }
 
 
@@ -290,14 +290,14 @@ TEST_F(TestAlCheck, AlCheckContextOwnershipContextOwnedObjectMacro)
 {
   al::Device d1;
   al::Device d2;
-  al::Context c1(d1);
-  al::Context c2(d2);
+  al::context c1(d1);
+  al::context c2(d2);
 
-  al::Context::setCurrent(c1);
+  al::context::set_current(c1);
   ConcreteContextOwnedObjectHandle o1(1u);
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1);
 
-  al::Context::setCurrent(c2);
+  al::context::set_current(c2);
   ConcreteContextOwnedObjectHandle o2(1u);
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(o2);
 
@@ -310,16 +310,16 @@ TEST_F(TestAlCheckDeathTest, AlCheckContextOwnershipContextOwnedObjectMacro)
 {
   al::Device d1;
   al::Device d2;
-  al::Context c1(d1);
-  al::Context c2(d2);
+  al::context c1(d1);
+  al::context c2(d2);
 
-  al::Context::setCurrent(c1);
+  al::context::set_current(c1);
   ConcreteContextOwnedObjectHandle o1(1u);
 
-  al::Context::setCurrent(c2);
+  al::context::set_current(c2);
 #ifdef HOU_ENABLE_AL_CONTEXT_OWNERSHIP_CHECKS
   HOU_EXPECT_ERROR(HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1), std::logic_error
-    , get_text(AlError::InvalidOwnership));
+    , get_text(AlError::invalid_ownership));
 #else
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1);
   SUCCEED();

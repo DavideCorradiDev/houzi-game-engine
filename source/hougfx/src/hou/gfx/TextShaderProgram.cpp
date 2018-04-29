@@ -31,7 +31,7 @@ std::string getGlFragmentShaderSource();
 
 std::string getGlVertexShaderSource()
 {
-  return "#version 330 core\n"
+  return "#ph_version 330 core\n"
          "layout (location = 0) in vec2 posIn;\n"
          "layout (location = 1) in vec3 texIn;\n"
          "out vec3 texVs;\n"
@@ -49,7 +49,7 @@ std::string getGlVertexShaderSource()
 
 std::string getGlFragmentShaderSource()
 {
-  return "#version 330 core\n"
+  return "#ph_version 330 core\n"
          "in vec3 texVs;\n"
          "out vec4 ph_color;\n"
          "uniform vec4 " UNI_COLOR
@@ -88,7 +88,7 @@ TextShaderProgram::TextShaderProgram(TextShaderProgram&& other)
 
 void TextShaderProgram::set_color(const color& ph_color)
 {
-  gl::setProgramUniformf(getHandle(), mUniColor, ph_color.get_red_f(),
+  gl::set_program_uniform_f(getHandle(), mUniColor, ph_color.get_red_f(),
     ph_color.get_green_f(), ph_color.get_blue_f(), ph_color.get_alpha_f());
 }
 
@@ -96,14 +96,14 @@ void TextShaderProgram::set_color(const color& ph_color)
 
 void TextShaderProgram::setTextureUnit(uint unit)
 {
-  gl::setProgramUniformi(getHandle(), mUniTexture, unit);
+  gl::set_program_uniform_i(getHandle(), mUniTexture, unit);
 }
 
 
 
 void TextShaderProgram::setTransform(const trans2f& trans)
 {
-  gl::setProgramUniformMatrix4f(
+  gl::set_program_uniform_mat4x4f(
     getHandle(), mUniTransform, 1u, GL_TRUE, trans.to_mat4x4().data());
 }
 

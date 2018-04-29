@@ -23,6 +23,6 @@ TestAlBase::~TestAlBase()
 
 void TestAlBase::setContextCurrent()
 {
-  hou::al::Context::setCurrent(mContext);
+  hou::al::context::set_current(mContext);
 }
 
