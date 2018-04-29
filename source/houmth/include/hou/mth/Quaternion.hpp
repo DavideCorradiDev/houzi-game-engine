@@ -160,7 +160,7 @@ public:
 
   /** Multiplies this ph_quaternion by the given scalar.
    *
-   *  All elements of the ph_quaternion are multiplied by the given scalar.
+   *  all elements of the ph_quaternion are multiplied by the given scalar.
    *
    *  \param rhs the scalar factor.
    *  \return a reference to this ph_quaternion after the multiplication.
@@ -169,7 +169,7 @@ public:
 
   /** Divides this ph_quaternion by the given scalar.
    *
-   *  All elements of the ph_quaternion are divided by the given scalar.
+   *  all elements of the ph_quaternion are divided by the given scalar.
    *
    *  \param rhs the scalar divisor.
    *  \return a reference to this ph_quaternion after the division.

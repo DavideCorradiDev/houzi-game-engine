@@ -5,14 +5,14 @@
 #ifndef HOU_GFX_FRAME_BUFFER_HPP
 #define HOU_GFX_FRAME_BUFFER_HPP
 
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/cor/non_copyable.hpp"
 
 #include "hou/mth/rectangle_fwd.hpp"
 
-#include "hou/gfx/FrameBufferBlitFilter.hpp"
-#include "hou/gfx/FrameBufferBlitMask.hpp"
+#include "hou/gfx/framebuffer_blit_filter.hpp"
+#include "hou/gfx/framebuffer_blit_mask.hpp"
 
 #include "hou/gl/gl_framebuffer_handle.hpp"
 
@@ -25,92 +25,92 @@ class Texture;
 
 /** Represents a user defined framebuffer.
  */
-class HOU_GFX_API FrameBuffer : public non_copyable
+class HOU_GFX_API framebuffer : public non_copyable
 {
 public:
-  /** Binds a FrameBuffer as the target for drawing operations.
+  /** Binds a framebuffer as the target for drawing operations.
    *
    *  Throws if fb is not complete.
    *
-   *  \param fb the FrameBuffer.
+   *  \param fb the framebuffer.
    */
-  static void bindDrawTarget(const FrameBuffer& fb);
+  static void bind_draw_target(const framebuffer& fb);
 
-  /** Binds a FrameBuffer as the source FrameBuffer.
+  /** Binds a framebuffer as the source framebuffer.
    *
    *  Throws if fb is not complete.
    *
-   *  \param fb the FrameBuffer.
+   *  \param fb the framebuffer.
    */
-  static void bindReadTarget(const FrameBuffer& fb);
+  static void bind_read_target(const framebuffer& fb);
 
-  /** Binds a FrameBuffer as both target and source.
+  /** Binds a framebuffer as both target and source.
    *
    *  Throws if fb is not complete.
    *
-   *  \param fb the FrameBuffer.
+   *  \param fb the framebuffer.
    */
-  static void bind(const FrameBuffer& fb);
+  static void bind(const framebuffer& fb);
 
-  /** Unbinds the current draw FrameBuffer.
+  /** Unbinds the current draw framebuffer.
    */
-  static void unbindDrawTarget();
+  static void unbind_draw_target();
 
-  /** Unbinds the current read FrameBuffer.
+  /** Unbinds the current read framebuffer.
    */
-  static void unbindReadTarget();
+  static void unbind_read_target();
 
-  /** Unbinds the current draw and read FrameBuffer objects.
+  /** Unbinds the current draw and read framebuffer objects.
    */
   static void unbind();
 
   /** Retrieves the number of available slots for ph_color attachments in a
-   *  FrameBuffer.
+   *  framebuffer.
    *
    *  \return the number of available slots for ph_color attachments.
    */
-  static uint getColorAttachmentPointCount();
+  static uint get_color_attachment_point_count();
 
 public:
   /** default constructor.
    */
-  FrameBuffer();
+  framebuffer();
 
   /** Move constructor.
    *
-   *  \param other the other FrameBuffer.
+   *  \param other the other framebuffer.
    */
-  FrameBuffer(FrameBuffer&& other);
+  framebuffer(framebuffer&& other);
 
   /** Retrieves a reference to the OpenGL framebuffer handle.
    *
    *  \return a reference to the OpenGL framebuffer handle.
    */
-  const gl::framebuffer_handle& getHandle() const;
+  const gl::framebuffer_handle& get_handle() const;
 
-  /** Checks if this FrameBuffer is currently bound as draw target.
+  /** Checks if this framebuffer is currently bound as draw target.
    *
    *  \return the result of the check.
    */
-  bool isBoundToDrawTarget() const;
+  bool is_bound_to_draw_target() const;
 
-  /** Checks if this FrameBuffer is currently bound as read target.
+  /** Checks if this framebuffer is currently bound as read target.
    *
    *  \return the result of the check.
    */
-  bool isBoundToReadTarget() const;
+  bool is_bound_to_read_target() const;
 
-  /** Checks if this FrameBuffer is complete.
+  /** Checks if this framebuffer is complete.
    *
-   *  Only complete FrameBuffer objects can be bound or used as source or
-   *  destination for blit destination. Using an incomplete FrameBuffer will
+   *  Only complete framebuffer objects can be bound or used as source or
+   *  destination for blit destination. Using an incomplete framebuffer will
    *  cause an exception to be thrown.
    *
    *  \return the result of the check.
    */
-  bool isComplete() const;
+  bool is_complete() const;
 
-  /** Sets a ph_color attachment for this FrameBuffer.
+  /** Sets a ph_color attachment for this framebuffer.
    *
    *  \param attachmentPoint an index representing the desired attachment point.
    *  Its value must be lower than the maximum number of available attachment
@@ -120,37 +120,37 @@ public:
    *  \param mipMapLevel the mip map level
    *  to bind. It must be a valid mip map level of texture.
    */
-  void setColorAttachment(
+  void set_color_attachment(
     uint attachmentPoint, const Texture& texture, uint mipMapLevel = 0u);
 
-  /** Sets the depth attachment for this FrameBuffer.
+  /** Sets the depth attachment for this framebuffer.
    *
    *  \param texture the texture to be attached. The format of the texture must
-   *  be Depth or DepthStencil.
+   *  be depth or DepthStencil.
    *  \param mipMapLevel the mip map level to bind. It must be a valid mip map
    *  level of texture.
    */
-  void setDepthAttachment(const Texture& texture, uint mipMapLevel = 0u);
+  void set_depth_attachment(const Texture& texture, uint mipMapLevel = 0u);
 
-  /** Sets the stencil attachment for this FrameBuffer.
+  /** Sets the stencil attachment for this framebuffer.
    *
    *  \param texture the texture to be attached. The format of the texture must
-   *  be Stencil or DepthStencil.
+   *  be stencil or DepthStencil.
    *  \param mipMapLevel the mip map level to bind. It must be a valid mip map
    *  level of texture.
    */
-  void setStencilAttachment(const Texture& texture, uint mipMapLevel = 0u);
+  void set_stencil_attachment(const Texture& texture, uint mipMapLevel = 0u);
 
-  /** Sets the depth and stencil attachment for this FrameBuffer.
+  /** Sets the depth and stencil attachment for this framebuffer.
    *
    *  \param texture the texture to be attached. The format of the texture must
    *  be DepthStencil.
    *  \param mipMapLevel the mip map level to bind. It must be a valid mip map
    *  level of texture.
    */
-  void setDepthStencilAttachment(const Texture& texture, uint mipMapLevel = 0u);
+  void set_depth_stencil_attachment(const Texture& texture, uint mipMapLevel = 0u);
 
-  /** Checks if this FrameBuffer has a multisample attachment.
+  /** Checks if this framebuffer has a multisample attachment.
    *
    *  \return the result of the check.
    */
@@ -158,68 +158,68 @@ public:
 
 private:
   gl::framebuffer_handle m_handle;
-  bool mHasMultisampleColorAttachment;
-  bool mHasMultisampleDepthAttachment;
-  bool mHasMultisampleStencilAttachment;
+  bool m_has_multisample_color_attachment;
+  bool m_has_multisample_depth_attachment;
+  bool m_has_multisample_stencil_attachment;
 };
 
-/** Copies a rectangular region of a FrameBuffer into another FrameBuffer.
+/** Copies a rectangular region of a framebuffer into another framebuffer.
  *
  * The following constraints must be observed, or an exception will be thrown:
- * * src and dst must be complete FrameBuffer objects.
+ * * src and dst must be complete framebuffer objects.
  * * If src or dst are multisampled, srcRect and dstRect must have the same
  * size.
- * * If mask contains Depth or Stencil, filter must be set to Nearest.
+ * * If mask contains depth or stencil, filter must be set to nearest.
  *
- * \param src the source FrameBuffer.
+ * \param src the source framebuffer.
  * \param srcRect the source ph_rectangle.
- * \param dst the destination FrameBuffer.
+ * \param dst the destination framebuffer.
  * \param dstRect the destination ph_rectangle.
  * \param mask a bitfield specifying what attachments to blit.
  * \param filter the filter to apply for this operation.
  */
-HOU_GFX_API void blit(const FrameBuffer& src, const recti& srcRect,
-  FrameBuffer& dst, const recti& dstRect, FrameBufferBlitMask mask,
-  FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
+HOU_GFX_API void blit(const framebuffer& src, const recti& srcRect,
+  framebuffer& dst, const recti& dstRect, framebuffer_blit_mask mask,
+  framebuffer_blit_filter filter = framebuffer_blit_filter::nearest);
 
-/** Copies a rectangular region of a FrameBuffer into a texture.
+/** Copies a rectangular region of a framebuffer into a texture.
  *
  * The following constraints must be observed, or an exception will be thrown:
- * * src must be complete FrameBuffer object.
+ * * src must be complete framebuffer object.
  * * If src or dst are multisampled, srcRect and dstRect must have the same
  * size.
  *
- * \param src the source FrameBuffer.
+ * \param src the source framebuffer.
  * \param srcRect the source ph_rectangle.
  * \param dst the destination texture.
  * \param dstRect the destination ph_rectangle.
  * \param filter the filter to apply for this operation.
  */
-HOU_GFX_API void blit(const FrameBuffer& src, const recti& srcRect,
+HOU_GFX_API void blit(const framebuffer& src, const recti& srcRect,
   Texture& dst, const recti& dstRect,
-  FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
+  framebuffer_blit_filter filter = framebuffer_blit_filter::nearest);
 
-/** Copies a rectangular region of a texture into a FrameBuffer.
+/** Copies a rectangular region of a texture into a framebuffer.
  *
  * The following constraints must be observed, or an exception will be thrown:
- * * dst must be complete FrameBuffer object.
+ * * dst must be complete framebuffer object.
  * * If src or dst are multisampled, srcRect and dstRect must have the same
  * size.
  *
  * \param src the source texture.
  * \param srcRect the source ph_rectangle.
- * \param dst the destination FrameBuffer.
+ * \param dst the destination framebuffer.
  * \param dstRect the destination ph_rectangle.
  * \param filter the filter to apply for this operation.
  */
 HOU_GFX_API void blit(const Texture& src, const recti& srcRect,
-  FrameBuffer& dst, const recti& dstRect,
-  FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
+  framebuffer& dst, const recti& dstRect,
+  framebuffer_blit_filter filter = framebuffer_blit_filter::nearest);
 
-/** Copies a rectangular region of a texture into a FrameBuffer.
+/** Copies a rectangular region of a texture into a framebuffer.
  *
  * The following constraints must be observed, or an exception will be thrown:
- * * dst must be complete FrameBuffer object.
+ * * dst must be complete framebuffer object.
  * * If src or dst are multisampled, srcRect and dstRect must have the same
  * size.
  *
@@ -231,7 +231,7 @@ HOU_GFX_API void blit(const Texture& src, const recti& srcRect,
  */
 HOU_GFX_API void blit(const Texture& src, const recti& srcRect, Texture& dst,
   const recti& dstRect,
-  FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
+  framebuffer_blit_filter filter = framebuffer_blit_filter::nearest);
 
 }  // namespace hou
 

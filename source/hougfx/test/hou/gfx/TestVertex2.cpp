@@ -5,7 +5,7 @@
 #include "hou/Test.hpp"
 #include "hou/gfx/TestGfxBase.hpp"
 
-#include "hou/gfx/Mesh.hpp"
+#include "hou/gfx/mesh.hpp"
 #include "hou/gfx/Vertex2.hpp"
 #include "hou/gfx/VertexFormat.hpp"
 
@@ -164,9 +164,9 @@ TEST_F(TestMesh2, rectangle)
 {
   Mesh2 m = createRectangleMesh2(vec2f(1.f, 2.f));
 
-  EXPECT_EQ(MeshDrawMode::TriangleFan, m.getDrawMode());
-  EXPECT_EQ(MeshFillMode::Fill, m.getFillMode());
-  EXPECT_EQ(4u, m.getVertexCount());
+  EXPECT_EQ(mesh_draw_mode::triangle_fan, m.get_draw_mode());
+  EXPECT_EQ(mesh_fill_mode::fill, m.get_fill_mode());
+  EXPECT_EQ(4u, m.get_vertex_count());
 
   std::vector<Vertex2> verticesRef{
     Vertex2(vec2f(0.f, 0.f), vec2f(0.f, 0.f), color::white),
@@ -182,9 +182,9 @@ TEST_F(TestMesh2, RectangleOutline)
 {
   Mesh2 m = createRectangleOutlineMesh2(vec2f(6.f, 8.f), 2);
 
-  EXPECT_EQ(MeshDrawMode::TriangleStrip, m.getDrawMode());
-  EXPECT_EQ(MeshFillMode::Fill, m.getFillMode());
-  EXPECT_EQ(10u, m.getVertexCount());
+  EXPECT_EQ(mesh_draw_mode::triangle_strip, m.get_draw_mode());
+  EXPECT_EQ(mesh_fill_mode::fill, m.get_fill_mode());
+  EXPECT_EQ(10u, m.get_vertex_count());
 
   std::vector<Vertex2> verticesRef{
     Vertex2(vec2f(0.f, 0.f), vec2f::zero(), color::white),
@@ -206,9 +206,9 @@ TEST_F(TestMesh2, Ellipse)
 {
   Mesh2 m = createEllipseMesh2(vec2f(1.f, 2.f), 8);
 
-  EXPECT_EQ(MeshDrawMode::TriangleFan, m.getDrawMode());
-  EXPECT_EQ(MeshFillMode::Fill, m.getFillMode());
-  EXPECT_EQ(10u, m.getVertexCount());
+  EXPECT_EQ(mesh_draw_mode::triangle_fan, m.get_draw_mode());
+  EXPECT_EQ(mesh_fill_mode::fill, m.get_fill_mode());
+  EXPECT_EQ(10u, m.get_vertex_count());
 
   std::vector<Vertex2> verticesRef{
     Vertex2(vec2f(0.5f, 1.f), vec2f::zero(), color::white),
@@ -230,9 +230,9 @@ TEST_F(TestMesh2, EllipseOutline)
 {
   Mesh2 m = createEllipseOutlineMesh2(vec2f(1.f, 2.f), 8, 0.25);
 
-  EXPECT_EQ(MeshDrawMode::TriangleStrip, m.getDrawMode());
-  EXPECT_EQ(MeshFillMode::Fill, m.getFillMode());
-  EXPECT_EQ(18u, m.getVertexCount());
+  EXPECT_EQ(mesh_draw_mode::triangle_strip, m.get_draw_mode());
+  EXPECT_EQ(mesh_fill_mode::fill, m.get_fill_mode());
+  EXPECT_EQ(18u, m.get_vertex_count());
 
   std::vector<Vertex2> verticesRef{
     Vertex2(vec2f(1.f, 1.f), vec2f::zero(), color::white),
@@ -263,9 +263,9 @@ TEST_F(TestMesh2, TextureQuad)
   Mesh2 m
     = createTextureQuadMesh2(rectf(3.f, 8.f, 6.f, 4.f), vec2f(12.f, 16.f));
 
-  EXPECT_EQ(MeshDrawMode::TriangleFan, m.getDrawMode());
-  EXPECT_EQ(MeshFillMode::Fill, m.getFillMode());
-  EXPECT_EQ(4u, m.getVertexCount());
+  EXPECT_EQ(mesh_draw_mode::triangle_fan, m.get_draw_mode());
+  EXPECT_EQ(mesh_fill_mode::fill, m.get_fill_mode());
+  EXPECT_EQ(4u, m.get_vertex_count());
 
   std::vector<Vertex2> verticesRef{
     Vertex2(vec2f(0.f, 0.f), vec2f(0.25f, 0.5f), color::white),

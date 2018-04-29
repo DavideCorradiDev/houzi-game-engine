@@ -12,7 +12,7 @@ namespace hou
 {
 
 VertexAttribFormat::VertexAttribFormat(
-  GlType type, uint elementCount, uint byteOffset, bool mustBeNormalized)
+  gl_type type, uint elementCount, uint byteOffset, bool mustBeNormalized)
   : m_type(type)
   , m_element_count(elementCount)
   , mByteOffset(byteOffset)
@@ -21,7 +21,7 @@ VertexAttribFormat::VertexAttribFormat(
 
 
 
-GlType VertexAttribFormat::get_type() const
+gl_type VertexAttribFormat::get_type() const
 {
   return m_type;
 }

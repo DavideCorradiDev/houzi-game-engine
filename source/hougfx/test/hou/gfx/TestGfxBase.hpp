@@ -7,7 +7,7 @@
 
 #include <gtest/gtest.h>
 
-#include "hou/gfx/GraphicContext.hpp"
+#include "hou/gfx/graphic_context.hpp"
 
 
 
@@ -23,7 +23,7 @@ public:
   virtual ~TestGfxBase() = 0;
 
 public:
-  static std::unique_ptr<hou::GraphicContext> sContext;
+  static std::unique_ptr<hou::graphic_context> sContext;
 };
 
 #endif

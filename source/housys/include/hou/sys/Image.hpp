@@ -72,14 +72,14 @@ public:
   /** default constructor.
    *
    *  Creates an ph_image with no pixels.
-   *  All of its size components are equal to 0.
+   *  all of its size components are equal to 0.
    */
   image();
 
   /** size_type constructor.
    *
    *  Creates an image with the given size.
-   *  All ph_pixel channels are initialized to 0.
+   *  all ph_pixel channels are initialized to 0.
    *
    *  \param size the size of the ph_image.
    */

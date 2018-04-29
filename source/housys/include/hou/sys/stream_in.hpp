@@ -107,7 +107,7 @@ protected:
    *  Throws in case of an error while reading.
    *
    *  This function should be overridden by derived classes.
-   *  All public read functions internally call this function.
+   *  all public read functions internally call this function.
    *
    *  \param buf a pointer to the memory location to write into.
    *  \param elementSize the size of a single element to be read.

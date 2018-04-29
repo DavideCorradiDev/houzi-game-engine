@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_MESH_DRAW_MODE_HPP
 #define HOU_GFX_MESH_DRAW_MODE_HPP
 
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/gl/open_gl.hpp"
 
@@ -16,40 +16,40 @@
 namespace hou
 {
 
-/** Enumeration for the draw mode of a mesh. */
-enum class MeshDrawMode : GLenum
+/** Enumeration for the draw mode of a ph_mesh. */
+enum class mesh_draw_mode : GLenum
 {
   /** Single points draw mode. */
-  Points = GL_POINTS,
-  /** Line strip draw mode. */
-  LineStrip = GL_LINE_STRIP,
-  /** Line loop draw mode. */
-  LineLoop = GL_LINE_LOOP,
-  /** Lines draw mode. */
-  Lines = GL_LINES,
+  points = GL_POINTS,
+  /** line strip draw mode. */
+  line_strip = GL_LINE_STRIP,
+  /** line loop draw mode. */
+  line_loop = GL_LINE_LOOP,
+  /** lines draw mode. */
+  lines = GL_LINES,
   /** Adjacency line strip draw mode, */
-  LineStripAdjacency = GL_LINE_STRIP_ADJACENCY,
+  line_strip_adjacency = GL_LINE_STRIP_ADJACENCY,
   /** Adjacency lines draw mode. */
-  LinesAdjacency = GL_LINES_ADJACENCY,
+  line_adjacency = GL_LINES_ADJACENCY,
   /** Triangle strip draw mode. */
-  TriangleStrip = GL_TRIANGLE_STRIP,
+  triangle_strip = GL_TRIANGLE_STRIP,
   /** Triangle fan draw mode. */
-  TriangleFan = GL_TRIANGLE_FAN,
-  /** Triangles draw mode. */
-  Triangles = GL_TRIANGLES,
+  triangle_fan = GL_TRIANGLE_FAN,
+  /** triangles draw mode. */
+  triangles = GL_TRIANGLES,
   /** Adjacency triangle strip draw mode. */
-  TriangleStripAdjacency = GL_TRIANGLE_STRIP_ADJACENCY,
-  /** Patches draw mode. */
-  Patches = GL_PATCHES,
+  triangle_strip_adjacency = GL_TRIANGLE_STRIP_ADJACENCY,
+  /** patches draw mode. */
+  patches = GL_PATCHES,
 };
 
-/** Writes a MeshDrawMode enum into a ph_stream.
+/** Writes a mesh_draw_mode enum into a ph_stream.
  *
  *  \param os the ph_stream.
- *  \param mdm the MeshDrawMode enum.
+ *  \param mdm the mesh_draw_mode enum.
  *  \return a reference to the ph_stream.
  */
-HOU_GFX_API std::ostream& operator<<(std::ostream& os, MeshDrawMode mdm);
+HOU_GFX_API std::ostream& operator<<(std::ostream& os, mesh_draw_mode mdm);
 
 }  // namespace hou
 

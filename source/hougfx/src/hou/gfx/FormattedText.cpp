@@ -1,9 +1,9 @@
-#include "hou/gfx/FormattedText.hpp"
+#include "hou/gfx/formatted_text.hpp"
 
 #include "hou/cor/span.hpp"
 
-#include "hou/gfx/Font.hpp"
-#include "hou/gfx/Glyph.hpp"
+#include "hou/gfx/font.hpp"
+#include "hou/gfx/glyph.hpp"
 #include "hou/gfx/TextureChannelMapping.hpp"
 
 #include <map>
@@ -20,15 +20,15 @@ namespace
 class GlyphCache
 {
 public:
-  GlyphCache(const span<const utf32::code_unit>& characters, const Font& font);
+  GlyphCache(const span<const utf32::code_unit>& characters, const font& ph_font);
 
-  const std::map<utf32::code_unit, Glyph>& getGlyphs() const;
-  const Glyph& getGlyph(utf32::code_unit c) const;
+  const std::map<utf32::code_unit, glyph>& getGlyphs() const;
+  const glyph& get_glyph(utf32::code_unit c) const;
   const vec2u& getMaxGlyphSize() const;
   uint get_size() const;
 
 private:
-  std::map<utf32::code_unit, Glyph> mGlyphs;
+  std::map<utf32::code_unit, glyph> mGlyphs;
   vec2u mMaxGlyphSize;
 };
 
@@ -70,7 +70,7 @@ private:
 
 private:
   vec3u mAtlasGridSize;
-  image3R mImage;
+  image3R m_image;
   std::map<utf32::code_unit, AtlasGlyphCoordinates> mGlyphCoords;
 };
 
@@ -79,11 +79,11 @@ private:
 class TextFormatter
 {
 public:
-  TextFormatter(std::u32string text, const Font&, const GlyphCache& cache,
+  TextFormatter(std::u32string text, const font&, const GlyphCache& cache,
     const GlyphAtlas& atlas, const TextBoxFormattingParams params);
 
   const std::vector<TextVertex>& getVertices() const;
-  const rectf& getBoundingBox() const;
+  const rectf& get_bounding_box() const;
 
 private:
   static constexpr uint VerticesPerGlyph = 6u;
@@ -91,12 +91,12 @@ private:
   static constexpr utf32::code_unit WhiteSpace = 0x00000020;
 
 private:
-  float computeGlyphAdvance(const GlyphMetrics& gm, const Font& font) const;
-  vec2f computeGlyphBearing(const GlyphMetrics& gm, const Font& font) const;
-  void insertLineBreaks(const Font& font, const GlyphCache& cache,
+  float computeGlyphAdvance(const glyph_metrics& gm, const font& ph_font) const;
+  vec2f computeGlyphBearing(const glyph_metrics& gm, const font& ph_font) const;
+  void insertLineBreaks(const font& ph_font, const GlyphCache& cache,
     const TextBoxFormattingParams& tbfp);
   void generateVertices(
-    const Font& font, const GlyphCache& cache, const GlyphAtlas& atlas);
+    const font& ph_font, const GlyphCache& cache, const GlyphAtlas& atlas);
   void computeBoundingBox();
 
 private:
@@ -106,13 +106,13 @@ private:
   size_t mColumnCoord;
   float mLineSpacing;
   float mCharSpacingFactor;
-  rectf mBoundingBox;
+  rectf m_bounding_box;
 };
 
 
 
 GlyphCache::GlyphCache(
-  const span<const utf32::code_unit>& characters, const Font& font)
+  const span<const utf32::code_unit>& characters, const font& ph_font)
   : mGlyphs()
   , mMaxGlyphSize()
 {
@@ -120,7 +120,7 @@ GlyphCache::GlyphCache(
   {
     if(mGlyphs.count(c) == 0u)
     {
-      auto inserted = mGlyphs.insert(std::make_pair(c, font.getGlyph(c)));
+      auto inserted = mGlyphs.insert(std::make_pair(c, ph_font.get_glyph(c)));
       HOU_EXPECT_DEV(inserted.second);
       const vec2u& glyphSize = inserted.first->second.get_image().get_size();
       for(size_t i = 0; i < vec2u::get_size(); ++i)
@@ -136,14 +136,14 @@ GlyphCache::GlyphCache(
 
 
 
-const std::map<utf32::code_unit, Glyph>& GlyphCache::getGlyphs() const
+const std::map<utf32::code_unit, glyph>& GlyphCache::getGlyphs() const
 {
   return mGlyphs;
 }
 
 
 
-const Glyph& GlyphCache::getGlyph(utf32::code_unit c) const
+const glyph& GlyphCache::get_glyph(utf32::code_unit c) const
 {
   return mGlyphs.at(c);
 }
@@ -256,7 +256,7 @@ uint GlyphCache::get_size() const
 
 GlyphAtlas::GlyphAtlas(const GlyphCache& cache)
   : mAtlasGridSize(computeAtlasGridSize(cache))
-  , mImage(vec3u(mAtlasGridSize.x() * cache.getMaxGlyphSize().x(),
+  , m_image(vec3u(mAtlasGridSize.x() * cache.getMaxGlyphSize().x(),
       mAtlasGridSize.y() * cache.getMaxGlyphSize().y(), mAtlasGridSize.z()))
   , mGlyphCoords()
 {
@@ -268,10 +268,10 @@ GlyphAtlas::GlyphAtlas(const GlyphCache& cache)
       idx % atlasGridLayer % mAtlasGridSize.x() * cache.getMaxGlyphSize().x(),
       idx % atlasGridLayer / mAtlasGridSize.x() * cache.getMaxGlyphSize().y(),
       idx / atlasGridLayer);
-    mImage.set_sub_image(glyphPosition, kv.second.get_image());
+    m_image.set_sub_image(glyphPosition, kv.second.get_image());
     mGlyphCoords.insert(std::make_pair(kv.first,
       AtlasGlyphCoordinates(
-        glyphPosition, kv.second.get_image().get_size(), mImage.get_size())));
+        glyphPosition, kv.second.get_image().get_size(), m_image.get_size())));
     ++idx;
   }
 }
@@ -280,7 +280,7 @@ GlyphAtlas::GlyphAtlas(const GlyphCache& cache)
 
 const image3R& GlyphAtlas::get_image() const
 {
-  return mImage;
+  return m_image;
 }
 
 
@@ -293,7 +293,7 @@ const AtlasGlyphCoordinates& GlyphAtlas::getAtlasGlyphCoordinates(
 
 
 
-TextFormatter::TextFormatter(std::u32string text, const Font& font,
+TextFormatter::TextFormatter(std::u32string text, const font& ph_font,
   const GlyphCache& cache, const GlyphAtlas& atlas,
   const TextBoxFormattingParams tbfp)
   : m_text(text)
@@ -303,48 +303,48 @@ TextFormatter::TextFormatter(std::u32string text, const Font& font,
         ? 0u
         : 1u)
   , mColumnCoord(mLineCoord == 0u ? 1u : 0u)
-  , mLineSpacing(mLineCoord == 0u ? font.getPixelLineSpacing()
-                                  : 0.5f * font.getMaxPixelAdvance())
+  , mLineSpacing(mLineCoord == 0u ? ph_font.get_pixel_line_spacing()
+                                  : 0.5f * ph_font.get_pixel_max_advance())
   , mCharSpacingFactor(tbfp.getTextFlow() == TextFlow::LeftRight
           || tbfp.getTextFlow() == TextFlow::TopBottom
         ? 1.f
         : -1.f)
-  , mBoundingBox()
+  , m_bounding_box()
 {
-  insertLineBreaks(font, cache, tbfp);
-  generateVertices(font, cache, atlas);
+  insertLineBreaks(ph_font, cache, tbfp);
+  generateVertices(ph_font, cache, atlas);
   computeBoundingBox();
 }
 
 
 
 float TextFormatter::computeGlyphAdvance(
-  const GlyphMetrics& gm, const Font& font) const
+  const glyph_metrics& gm, const font& ph_font) const
 {
   return mCharSpacingFactor
-    * (mLineCoord == 0u ? gm.getPixelHorizontalAdvance()
-                        : (font.hasVertical() ? gm.getPixelVerticalAdvance()
-                                              : gm.getPixelSize().y() * 1.5f));
+    * (mLineCoord == 0u ? gm.get_pixel_horizontal_advance()
+                        : (ph_font.has_vertical() ? gm.get_pixel_vertical_advance()
+                                              : gm.get_pixel_size().y() * 1.5f));
 }
 
 
 
 vec2f TextFormatter::computeGlyphBearing(
-  const GlyphMetrics& gm, const Font& font) const
+  const glyph_metrics& gm, const font& ph_font) const
 {
-  vec2f vertBearing = font.hasVertical()
-    ? gm.getPixelVerticalBearing()
-    : vec2f(-0.5f * gm.getPixelSize().x(), 0.f);
+  vec2f vertBearing = ph_font.has_vertical()
+    ? gm.get_pixel_vertical_bearing()
+    : vec2f(-0.5f * gm.get_pixel_size().x(), 0.f);
 
   const vec2f& bearing
-    = mLineCoord == 0 ? gm.getPixelHorizontalBearing() : vertBearing;
+    = mLineCoord == 0 ? gm.get_pixel_horizontal_bearing() : vertBearing;
 
   return bearing;
 }
 
 
 
-void TextFormatter::insertLineBreaks(const Font& font, const GlyphCache& cache,
+void TextFormatter::insertLineBreaks(const font& ph_font, const GlyphCache& cache,
   const TextBoxFormattingParams& tbfp)
 {
   // This function wraps text inside the bounding box.
@@ -385,7 +385,7 @@ void TextFormatter::insertLineBreaks(const Font& font, const GlyphCache& cache,
     {
       HOU_ENSURE_DEV(i < m_text.size());
       wordSize += std::fabs(
-        computeGlyphAdvance(cache.getGlyph(m_text[i]).getMetrics(), font));
+        computeGlyphAdvance(cache.get_glyph(m_text[i]).get_metrics(), ph_font));
     }
 
     // If the first word is a space, remove it for size computations.
@@ -393,7 +393,7 @@ void TextFormatter::insertLineBreaks(const Font& font, const GlyphCache& cache,
     if(m_text[pos] == WhiteSpace)
     {
       wordSizeAdjustment = std::fabs(
-        computeGlyphAdvance(cache.getGlyph(WhiteSpace).getMetrics(), font));
+        computeGlyphAdvance(cache.get_glyph(WhiteSpace).get_metrics(), ph_font));
     }
 
     // If the word can't possibly fit on any line.
@@ -438,7 +438,7 @@ void TextFormatter::insertLineBreaks(const Font& font, const GlyphCache& cache,
 
 
 void TextFormatter::generateVertices(
-  const Font& font, const GlyphCache& cache, const GlyphAtlas& atlas)
+  const font& ph_font, const GlyphCache& cache, const GlyphAtlas& atlas)
 {
   vec2f penPos(0.f, 0.f);
   for(size_t i = 0; i < m_text.size(); ++i)
@@ -451,17 +451,17 @@ void TextFormatter::generateVertices(
     }
     else
     {
-      const GlyphMetrics& gm = cache.getGlyph(c).getMetrics();
+      const glyph_metrics& gm = cache.get_glyph(c).get_metrics();
       const AtlasGlyphCoordinates& ac = atlas.getAtlasGlyphCoordinates(c);
 
-      float advance = computeGlyphAdvance(gm, font);
+      float advance = computeGlyphAdvance(gm, ph_font);
 
       if(advance < 0.f)
       {
         penPos(mLineCoord) += advance;
       }
 
-      vec2f bearing = computeGlyphBearing(gm, font);
+      vec2f bearing = computeGlyphBearing(gm, ph_font);
 
       vec2f v0Pos = penPos + bearing + ac.getTopLeftPos();
       vec3f v0Tex = ac.getTopLeftTex();
@@ -530,8 +530,8 @@ void TextFormatter::computeBoundingBox()
     }
   }
 
-  mBoundingBox.set_position(topLeft);
-  mBoundingBox.set_size(bottomRight - topLeft);
+  m_bounding_box.set_position(topLeft);
+  m_bounding_box.set_size(bottomRight - topLeft);
 }
 
 
@@ -543,71 +543,71 @@ const std::vector<TextVertex>& TextFormatter::getVertices() const
 
 
 
-const rectf& TextFormatter::getBoundingBox() const
+const rectf& TextFormatter::get_bounding_box() const
 {
-  return mBoundingBox;
+  return m_bounding_box;
 }
 
 }  // namespace
 
 
 
-FormattedText::FormattedText(const std::string& text, const Font& font,
+formatted_text::formatted_text(const std::string& text, const font& ph_font,
   const TextBoxFormattingParams& tbfp)
-  : FormattedText(convertEncoding<utf8, utf32>(text), font, tbfp)
+  : formatted_text(convertEncoding<utf8, utf32>(text), ph_font, tbfp)
 {}
 
 
 
-FormattedText::FormattedText(
-  std::u32string text, const Font& font, const TextBoxFormattingParams& tbfp)
+formatted_text::formatted_text(
+  std::u32string text, const font& ph_font, const TextBoxFormattingParams& tbfp)
   : non_copyable()
-  , mAtlas(nullptr)
-  , mMesh(nullptr)
-  , mBoundingBox()
+  , m_atlas(nullptr)
+  , m_mesh(nullptr)
+  , m_bounding_box()
 {
-  GlyphCache glyphCache(text, font);
+  GlyphCache glyphCache(text, ph_font);
   GlyphAtlas glyphAtlas(glyphCache);
-  TextFormatter formatter(text, font, glyphCache, glyphAtlas, tbfp);
+  TextFormatter formatter(text, ph_font, glyphCache, glyphAtlas, tbfp);
 
-  mAtlas = std::make_unique<Texture2Array>(
+  m_atlas = std::make_unique<Texture2Array>(
     glyphAtlas.get_image(), TextureFormat::r, 1u);
-  mAtlas->setChannelMapping(TextureChannelMapping::Alpha);
-  mMesh = std::make_unique<TextMesh>(
-    MeshDrawMode::Triangles, MeshFillMode::Fill, formatter.getVertices());
-  mBoundingBox = formatter.getBoundingBox();
+  m_atlas->setChannelMapping(TextureChannelMapping::Alpha);
+  m_mesh = std::make_unique<TextMesh>(
+    mesh_draw_mode::triangles, mesh_fill_mode::fill, formatter.getVertices());
+  m_bounding_box = formatter.get_bounding_box();
 }
 
 
 
-FormattedText::FormattedText(FormattedText&& other)
+formatted_text::formatted_text(formatted_text&& other)
   : non_copyable()
-  , mAtlas(std::move(other.mAtlas))
-  , mMesh(std::move(other.mMesh))
-  , mBoundingBox(std::move(other.mBoundingBox))
+  , m_atlas(std::move(other.m_atlas))
+  , m_mesh(std::move(other.m_mesh))
+  , m_bounding_box(std::move(other.m_bounding_box))
 {}
 
 
 
-const Texture2Array& FormattedText::getAtlas() const
+const Texture2Array& formatted_text::get_atlas() const
 {
-  HOU_EXPECT_DEV(mAtlas != nullptr);
-  return *mAtlas;
+  HOU_EXPECT_DEV(m_atlas != nullptr);
+  return *m_atlas;
 }
 
 
 
-const TextMesh& FormattedText::getMesh() const
+const TextMesh& formatted_text::get_mesh() const
 {
-  HOU_EXPECT_DEV(mMesh != nullptr);
-  return *mMesh;
+  HOU_EXPECT_DEV(m_mesh != nullptr);
+  return *m_mesh;
 }
 
 
 
-const rectf& FormattedText::getBoundingBox() const
+const rectf& formatted_text::get_bounding_box() const
 {
-  return mBoundingBox;
+  return m_bounding_box;
 }
 
 }  // namespace hou

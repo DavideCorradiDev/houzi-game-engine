@@ -32,7 +32,7 @@ Shader::~Shader()
 
 
 
-const gl::shader_handle& Shader::getHandle() const
+const gl::shader_handle& Shader::get_handle() const
 {
   return m_handle;
 }

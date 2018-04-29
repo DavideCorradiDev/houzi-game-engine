@@ -19,8 +19,8 @@ std::ostream &operator<<(std::ostream &os, TextureFormat format)
     TEXTURE_FORMAT_CASE(rg, os);
     TEXTURE_FORMAT_CASE(rgb, os);
     TEXTURE_FORMAT_CASE(rgba, os);
-    TEXTURE_FORMAT_CASE(Depth, os);
-    TEXTURE_FORMAT_CASE(Stencil, os);
+    TEXTURE_FORMAT_CASE(depth, os);
+    TEXTURE_FORMAT_CASE(stencil, os);
     TEXTURE_FORMAT_CASE(DepthStencil, os);
   default:
     return os;

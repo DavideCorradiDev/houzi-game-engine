@@ -15,9 +15,9 @@ const VertexFormat& TextVertex::getVertexFormat()
 {
   static constexpr bool mustBeNormalized = true;
   static const VertexFormat vf(0, sizeof(TextVertex),
-    {VertexAttribFormat(GlType::Float, TextVertex::sPositionSize,
+    {VertexAttribFormat(gl_type::float_decimal, TextVertex::sPositionSize,
        offsetof(TextVertex, m_position), !mustBeNormalized),
-      VertexAttribFormat(GlType::Float, TextVertex::sTextureCoordinatesSize,
+      VertexAttribFormat(gl_type::float_decimal, TextVertex::sTextureCoordinatesSize,
         offsetof(TextVertex, mTexCoords), mustBeNormalized)});
   return vf;
 }

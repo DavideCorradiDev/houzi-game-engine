@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_FORMATTED_TEXT_HPP
 #define HOU_GFX_FORMATTED_TEXT_HPP
 
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/cor/non_copyable.hpp"
 
@@ -15,7 +15,7 @@
 #include "hou/mth/rectangle.hpp"
 #include "hou/mth/transform2.hpp"
 
-#include "hou/gfx/Mesh.hpp"
+#include "hou/gfx/mesh.hpp"
 #include "hou/gfx/TextBoxFormattingParams.hpp"
 #include "hou/gfx/TextVertex.hpp"
 #include "hou/gfx/Texture.hpp"
@@ -29,66 +29,66 @@
 namespace hou
 {
 
-class Font;
+class font;
 
 /** Formatted, renderable text.
  *
  * The text will be formatted according to the given parameters.
- * The object stores a mesh and a texture atlas for quick rendering.
+ * The object stores a ph_mesh and a texture atlas for quick rendering.
  */
-class HOU_GFX_API FormattedText : public non_copyable
+class HOU_GFX_API formatted_text : public non_copyable
 {
 public:
-  /** Type representing a collection of mesh vertices. */
+  /** Type representing a collection of ph_mesh vertices. */
   using VertexContainer = std::vector<TextVertex>;
 
 public:
-  /** Create a FormattedText with the given utf-8 string and formatting parameters.
+  /** Create a formatted_text with the given utf-8 string and formatting parameters.
    *
    * \param text the text.
-   * \param font the font.
+   * \param ph_font the ph_font.
    * \param tbfp the text box formatting parameters.
    */
-  FormattedText(const std::string& text, const Font& font,
+  formatted_text(const std::string& text, const font& ph_font,
     const TextBoxFormattingParams& tbfp = TextBoxFormattingParams::standard);
 
-  /** Create a FormattedText with the given utf-32 string and formatting parameters.
+  /** Create a formatted_text with the given utf-32 string and formatting parameters.
    *
    * \param text the text.
-   * \param font the font.
+   * \param ph_font the ph_font.
    * \param tbfp the text box formatting parameters.
    */
-  FormattedText(std::u32string text, const Font& font,
+  formatted_text(std::u32string text, const font& ph_font,
     const TextBoxFormattingParams& tbfp = TextBoxFormattingParams::standard);
 
   /** Move constructor.
    *
    * \param other the other object.
    */
-  FormattedText(FormattedText&& other);
+  formatted_text(formatted_text&& other);
 
   /** Retrieves the texture atlas.
    *
    * \return the texture atlas.
    */
-  const Texture2Array& getAtlas() const;
+  const Texture2Array& get_atlas() const;
 
-  /** Retrieves the text mesh.
+  /** Retrieves the text ph_mesh.
    *
-   * \return the text mesh.
+   * \return the text ph_mesh.
    */
-  const TextMesh& getMesh() const;
+  const TextMesh& get_mesh() const;
 
   /** Retrieves the text bounding box.
    *
    * \return the text bounding box.
    */
-  const rectf& getBoundingBox() const;
+  const rectf& get_bounding_box() const;
 
 private:
-  std::unique_ptr<Texture2Array> mAtlas;
-  std::unique_ptr<TextMesh> mMesh;
-  rectf mBoundingBox;
+  std::unique_ptr<Texture2Array> m_atlas;
+  std::unique_ptr<TextMesh> m_mesh;
+  rectf m_bounding_box;
 };
 
 }  // namespace hou

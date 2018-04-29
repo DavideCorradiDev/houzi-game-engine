@@ -1,9 +1,9 @@
 #include "hou/cor/stopwatch.hpp"
-#include "hou/gfx/Font.hpp"
-#include "hou/gfx/FormattedText.hpp"
-#include "hou/gfx/GraphicContext.hpp"
-#include "hou/gfx/Mesh.hpp"
-#include "hou/gfx/Mesh2ShaderProgram.hpp"
+#include "hou/gfx/font.hpp"
+#include "hou/gfx/formatted_text.hpp"
+#include "hou/gfx/graphic_context.hpp"
+#include "hou/gfx/mesh.hpp"
+#include "hou/gfx/mesh2_shader_program.hpp"
 #include "hou/gfx/RenderWindow.hpp"
 #include "hou/gfx/TextShaderProgram.hpp"
 #include "hou/gfx/Vertex2.hpp"
@@ -19,19 +19,19 @@ using namespace hou;
 int main()
 {
   static const std::string dataDir = u8"source/demo/data/";
-  GraphicContext ctx;
-  GraphicContext::set_current(ctx);
+  graphic_context ctx;
+  graphic_context::set_current(ctx);
   RenderWindow rw(u8"text Rendering Demo", vec2u(800u, 600u),
     window_style::windowed_resizable, 8u);
   rw.set_visible(true);
   trans2f proj = trans2f::orthographic_projection(rw.getViewport());
-  Mesh2ShaderProgram m2Rnd;
+  mesh2_shader_program m2Rnd;
   TextShaderProgram textRnd;
   Mesh2 fpsRect = createRectangleMesh2(vec2f(128.f, 32.f));
   std::vector<uint> fontSizes{0, 2, 4, 8, 16, 32, 64};
   size_t currentSizeIdx = 3;
-  Font font(std::make_unique<binary_file_in>(dataDir + u8"NotoSans-Regular.ttf"));
-  Font chineseFont(
+  font ph_font(std::make_unique<binary_file_in>(dataDir + u8"NotoSans-Regular.ttf"));
+  font chineseFont(
     std::make_unique<binary_file_in>(dataDir + u8"NotoSansCJKsc-Regular.otf"));
   std::vector<utf32::code_unit> characters;
   for(utf32::code_unit c = 0; c < 256; ++c)
@@ -65,8 +65,8 @@ int main()
     = u8"\u5154\u5B50\u6CA1\u6709\u6C57\u817A\uFF0C\u6240\u4EE5\u4E0D\u4F1A"
       u8"\u6D41\u6C57\uFF0C\u8033\u6735\u53EF\u4EE5\u6563\u70ED\u3002\n";
   std::string chineseText;
-  font.setPixelHeight(fontSizes[currentSizeIdx]);
-  chineseFont.setPixelHeight(fontSizes[currentSizeIdx]);
+  ph_font.set_pixel_height(fontSizes[currentSizeIdx]);
+  chineseFont.set_pixel_height(fontSizes[currentSizeIdx]);
   uint linesNum = 38;
   for(uint i = 0u; i < linesNum; ++i)
   {
@@ -122,8 +122,8 @@ int main()
           {
             printChinese = !printChinese;
           }
-          font.setPixelHeight(fontSizes[currentSizeIdx]);
-          chineseFont.setPixelHeight(fontSizes[currentSizeIdx]);
+          ph_font.set_pixel_height(fontSizes[currentSizeIdx]);
+          chineseFont.set_pixel_height(fontSizes[currentSizeIdx]);
         }
         else if(we.get_key_data().scan_code == scan_code::A)
         {
@@ -187,7 +187,7 @@ int main()
     rw.clear(color::black);
 
     const std::string& textToRender = printChinese ? chineseText : text;
-    Font& fontToRender = printChinese ? chineseFont : font;
+    font& fontToRender = printChinese ? chineseFont : ph_font;
 
     if(maxTBoxSize.x() == 0.f || maxTBoxSize.y() == 0.f)
     {
@@ -201,17 +201,17 @@ int main()
       switch(textFlow)
       {
       case TextFlow::LeftRight:
-        bboxTrans.y() = -fontToRender.getPixelLineSpacing();
+        bboxTrans.y() = -fontToRender.get_pixel_line_spacing();
         break;
       case TextFlow::RightLeft:
         bboxTrans.x() = -maxTBoxSize.x();
-        bboxTrans.y() = -fontToRender.getPixelLineSpacing();
+        bboxTrans.y() = -fontToRender.get_pixel_line_spacing();
         break;
       case TextFlow::TopBottom:
-        bboxTrans.x() = -0.5f * fontToRender.getMaxPixelAdvance();
+        bboxTrans.x() = -0.5f * fontToRender.get_pixel_max_advance();
         break;
       case TextFlow::BottomTop:
-        bboxTrans.x() = -0.5f * fontToRender.getMaxPixelAdvance();
+        bboxTrans.x() = -0.5f * fontToRender.get_pixel_max_advance();
         bboxTrans.y() = -maxTBoxSize.y();
         break;
       default:
@@ -224,23 +224,23 @@ int main()
     }
 
     TextBoxFormattingParams tbfp(textFlow, maxTBoxSize);
-    FormattedText ft(textToRender, fontToRender, tbfp);
+    formatted_text ft(textToRender, fontToRender, tbfp);
     Mesh2 textBox
-      = createRectangleOutlineMesh2(ft.getBoundingBox().get_size(), 1u);
+      = createRectangleOutlineMesh2(ft.get_bounding_box().get_size(), 1u);
     m2Rnd.draw(rw, textBox, color::white,
       proj * textTrans
-        * trans2f::translation(ft.getBoundingBox().get_position()));
+        * trans2f::translation(ft.get_bounding_box().get_position()));
     textRnd.draw(rw, ft, color::white, proj * textTrans);
 
     std::chrono::nanoseconds timePerFrame = timer.reset();
     m2Rnd.draw(rw, fpsRect, color::black, proj);
-    FormattedText fpsText(
+    formatted_text fpsText(
       to_string(1.f
         /
         std::chrono::duration_cast<std::chrono::duration<float>>(timePerFrame)
             .count()),
-      font);
-    textRnd.draw(rw, fpsText, color::white, proj * trans2f::translation(-fpsText.getBoundingBox().get_position()));
+      ph_font);
+    textRnd.draw(rw, fpsText, color::white, proj * trans2f::translation(-fpsText.get_bounding_box().get_position()));
     rw.display();
   }
 

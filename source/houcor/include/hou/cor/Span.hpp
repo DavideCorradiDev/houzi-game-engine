@@ -188,7 +188,7 @@ public:
   constexpr const_reverse_iterator crend() const;
 
 private:
-  pointer mData;
+  pointer m_data;
   size_type m_size;
 };
 

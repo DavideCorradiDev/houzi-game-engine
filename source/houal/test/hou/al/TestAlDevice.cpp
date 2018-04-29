@@ -14,7 +14,7 @@ using namespace hou;
 TEST(TestAlDevice, DefaultDeviceCreation)
 {
   al::Device d;
-  EXPECT_NE(nullptr, d.getHandle());
+  EXPECT_NE(nullptr, d.get_handle());
   EXPECT_NE(0u, d.get_uid());
 }
 
@@ -26,7 +26,7 @@ TEST(TestAlDevice, Creation)
   for(const auto& deviceName : deviceNames)
   {
     al::Device d(deviceName);
-    EXPECT_NE(nullptr, d.getHandle());
+    EXPECT_NE(nullptr, d.get_handle());
     EXPECT_NE(0u, d.get_uid());
   }
 }
@@ -45,12 +45,12 @@ TEST(TestAlDeviceDeathTest, CreationFailure)
 TEST(TestAlDevice, MoveConstructor)
 {
   al::Device dDummy;
-  ALCdevice* handleRef = dDummy.getHandle();
+  ALCdevice* handleRef = dDummy.get_handle();
   uint32_t uidRef = dDummy.get_uid();
   al::Device d(std::move(dDummy));
 
-  EXPECT_EQ(handleRef, d.getHandle());
+  EXPECT_EQ(handleRef, d.get_handle());
   EXPECT_EQ(uidRef, d.get_uid());
-  EXPECT_EQ(nullptr, dDummy.getHandle());
+  EXPECT_EQ(nullptr, dDummy.get_handle());
 }
 

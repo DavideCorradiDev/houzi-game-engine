@@ -3,7 +3,7 @@
 #ifndef HOU_GFX_TEXTURE_CHANNEL_MAPPING_HPP
 #define HOU_GFX_TEXTURE_CHANNEL_MAPPING_HPP
 
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/gfx/TextureChannel.hpp"
 

@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_VERTEX_BUFFER_HPP
 #define HOU_GFX_VERTEX_BUFFER_HPP
 
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/cor/non_copyable.hpp"
 
@@ -31,7 +31,7 @@ namespace hou
 class HOU_GFX_API VertexBuffer : public non_copyable
 {
 public:
-  /** Binds the VertexBuffer to the current GraphicContext.
+  /** Binds the VertexBuffer to the current graphic_context.
    *
    *  \param buffer the VertexBuffer to be bound.
    *  \param target the target to bound the buffer to.
@@ -49,7 +49,7 @@ public:
    *
    *  \return the reference to the OpenGL buffer.
    */
-  const gl::buffer_handle& getHandle() const;
+  const gl::buffer_handle& get_handle() const;
 
   /** Checks if this VertexBuffer is bound to the given target.
    *

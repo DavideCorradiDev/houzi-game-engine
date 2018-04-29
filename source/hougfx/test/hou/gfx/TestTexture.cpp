@@ -326,7 +326,7 @@ TYPED_TEST(TestTextureCommon, SizeConstructor)
   size_type sizeRef = this->generateSize();
   TypeParam tex(sizeRef);
 
-  EXPECT_NE(0u, tex.getHandle().get_name());
+  EXPECT_NE(0u, tex.get_handle().get_name());
   EXPECT_EQ(TextureFormat::rgba, tex.get_format());
   EXPECT_EQ(1u, tex.getMipMapLevelCount());
   EXPECT_EQ(1u, tex.get_sample_count());
@@ -458,14 +458,14 @@ TYPED_TEST(TestTextureNotMultisampled, MipMapConstructor)
   uint mipMapLevelCountRef = 3u;
   TypeParam tex(sizeRef, formatRef, mipMapLevelCountRef);
 
-  EXPECT_NE(0u, tex.getHandle().get_name());
+  EXPECT_NE(0u, tex.get_handle().get_name());
   EXPECT_EQ(formatRef, tex.get_format());
   EXPECT_EQ(mipMapLevelCountRef, tex.getMipMapLevelCount());
   EXPECT_EQ(1u, tex.get_sample_count());
   EXPECT_TRUE(tex.hasFixedSampleLocations());
   EXPECT_EQ(sizeRef, tex.get_size());
   EXPECT_EQ(TextureChannelMapping::standard, tex.getChannelMapping());
-  EXPECT_EQ(TextureFilter::Linear, tex.getFilter());
+  EXPECT_EQ(TextureFilter::linear, tex.getFilter());
   EXPECT_EQ(this->getDefaultWrapMode(), tex.getWrapMode());
   EXPECT_EQ(image(tex.get_size()), tex.template get_image<pixel_format::rgb>());
 }
@@ -550,14 +550,14 @@ TYPED_TEST(TestTextureNotMultisampled, ImageConstructor)
   uint mipMapLevelCountRef = 3u;
   TypeParam tex(imageRef, TextureFormat::rgba, mipMapLevelCountRef);
 
-  EXPECT_NE(0u, tex.getHandle().get_name());
+  EXPECT_NE(0u, tex.get_handle().get_name());
   EXPECT_EQ(formatRef, tex.get_format());
   EXPECT_EQ(mipMapLevelCountRef, tex.getMipMapLevelCount());
   EXPECT_EQ(1u, tex.get_sample_count());
   EXPECT_TRUE(tex.hasFixedSampleLocations());
   EXPECT_EQ(imageRef.get_size(), tex.get_size());
   EXPECT_EQ(TextureChannelMapping::standard, tex.getChannelMapping());
-  EXPECT_EQ(TextureFilter::Linear, tex.getFilter());
+  EXPECT_EQ(TextureFilter::linear, tex.getFilter());
   EXPECT_EQ(this->getDefaultWrapMode(), tex.getWrapMode());
   EXPECT_EQ(imageRef, tex.template get_image<pixel_format::rgba>());
 }
@@ -569,14 +569,14 @@ TYPED_TEST(TestTextureNotMultisampled, ImageConstructorDefaultArguments)
   auto imageRef = this->generateImage(this->generateSize());
   TypeParam tex(imageRef);
 
-  EXPECT_NE(0u, tex.getHandle().get_name());
+  EXPECT_NE(0u, tex.get_handle().get_name());
   EXPECT_EQ(TextureFormat::rgba, tex.get_format());
   EXPECT_EQ(1u, tex.getMipMapLevelCount());
   EXPECT_EQ(1u, tex.get_sample_count());
   EXPECT_TRUE(tex.hasFixedSampleLocations());
   EXPECT_EQ(imageRef.get_size(), tex.get_size());
   EXPECT_EQ(TextureChannelMapping::standard, tex.getChannelMapping());
-  EXPECT_EQ(TextureFilter::Linear, tex.getFilter());
+  EXPECT_EQ(TextureFilter::linear, tex.getFilter());
   EXPECT_EQ(this->getDefaultWrapMode(), tex.getWrapMode());
   EXPECT_EQ(imageRef, tex.template get_image<pixel_format::rgba>());
 }
@@ -664,9 +664,9 @@ TYPED_TEST(TestTextureNotMultisampledDeathTest,
 TYPED_TEST(TestTextureNotMultisampled, SetFilter)
 {
   TypeParam tex(this->generateSize());
-  std::vector<TextureFilter> filters = {TextureFilter::Nearest,
-    TextureFilter::Linear, TextureFilter::Bilinear, TextureFilter::Trilinear};
-  EXPECT_EQ(TextureFilter::Linear, tex.getFilter());
+  std::vector<TextureFilter> filters = {TextureFilter::nearest,
+    TextureFilter::linear, TextureFilter::Bilinear, TextureFilter::Trilinear};
+  EXPECT_EQ(TextureFilter::linear, tex.getFilter());
   for(auto filter : filters)
   {
     tex.setFilter(filter);
@@ -949,8 +949,8 @@ TYPED_TEST(
 //     TextureFormat::rgb,
 //     TextureFormat::rg,
 //     TextureFormat::r,
-//     TextureFormat::Depth,
-//     TextureFormat::Stencil,
+//     TextureFormat::depth,
+//     TextureFormat::stencil,
 //     TextureFormat::DepthStencil,
 //   };
 //
@@ -983,7 +983,7 @@ TYPED_TEST(TestTextureMultisampled, MultisampleConstructor)
   uint sampleCountRef = 3u;
   TypeParam tex(sizeRef, formatRef, sampleCountRef, false);
 
-  EXPECT_NE(0u, tex.getHandle().get_name());
+  EXPECT_NE(0u, tex.get_handle().get_name());
   EXPECT_EQ(formatRef, tex.get_format());
   EXPECT_EQ(1u, tex.getMipMapLevelCount());
   EXPECT_EQ(sampleCountRef, tex.get_sample_count());

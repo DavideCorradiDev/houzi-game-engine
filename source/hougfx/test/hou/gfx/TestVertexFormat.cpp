@@ -27,8 +27,8 @@ class TestVertexFormatDeathTest : public TestVertexFormat
 TEST_F(TestVertexFormat, VafSpanConstructor)
 {
   std::vector<VertexAttribFormat> vafs = {
-    VertexAttribFormat(GlType::Float, 3u, 12u, false),
-    VertexAttribFormat(GlType::Float, 6u, 24u, true),
+    VertexAttribFormat(gl_type::float_decimal, 3u, 12u, false),
+    VertexAttribFormat(gl_type::float_decimal, 6u, 24u, true),
   };
   VertexFormat vf(2u, 3u, vafs);
 
@@ -41,7 +41,7 @@ TEST_F(TestVertexFormat, VafSpanConstructor)
 
 TEST_F(TestVertexFormat, VafSpanConstructorAttribLimit)
 {
-  VertexAttribFormat vaf(GlType::Float, 3u, 12u, false);
+  VertexAttribFormat vaf(gl_type::float_decimal, 3u, 12u, false);
   std::vector<VertexAttribFormat> vafs(
     VertexFormat::getMaxAttribFormatCount(), vaf);
   VertexFormat vf(2u, 3u, vafs);
@@ -55,7 +55,7 @@ TEST_F(TestVertexFormat, VafSpanConstructorAttribLimit)
 
 TEST_F(TestVertexFormatDeathTest, VafSpanConstructorErrorTooManyAttribFormats)
 {
-  VertexAttribFormat vaf(GlType::Float, 3u, 12u, false);
+  VertexAttribFormat vaf(gl_type::float_decimal, 3u, 12u, false);
   std::vector<VertexAttribFormat> vafs(
     VertexFormat::getMaxAttribFormatCount() + 1u, vaf);
   HOU_EXPECT_PRECONDITION(VertexFormat vf(2u, 3u, vafs));
@@ -66,8 +66,8 @@ TEST_F(TestVertexFormatDeathTest, VafSpanConstructorErrorTooManyAttribFormats)
 TEST_F(TestVertexFormat, VafMoveConstructor)
 {
   std::vector<VertexAttribFormat> vafs = {
-    VertexAttribFormat(GlType::Float, 3u, 12u, false),
-    VertexAttribFormat(GlType::Float, 6u, 24u, true),
+    VertexAttribFormat(gl_type::float_decimal, 3u, 12u, false),
+    VertexAttribFormat(gl_type::float_decimal, 6u, 24u, true),
   };
   std::vector<VertexAttribFormat> vafsRef = vafs;
   VertexFormat vf(2u, 3u, std::move(vafs));
@@ -81,7 +81,7 @@ TEST_F(TestVertexFormat, VafMoveConstructor)
 
 TEST_F(TestVertexFormat, VafMoveConstructorAttribLimit)
 {
-  VertexAttribFormat vaf(GlType::Float, 3u, 12u, false);
+  VertexAttribFormat vaf(gl_type::float_decimal, 3u, 12u, false);
   std::vector<VertexAttribFormat> vafs(
     VertexFormat::getMaxAttribFormatCount(), vaf);
   std::vector<VertexAttribFormat> vafsRef = vafs;
@@ -96,7 +96,7 @@ TEST_F(TestVertexFormat, VafMoveConstructorAttribLimit)
 
 TEST_F(TestVertexFormatDeathTest, VafMoveConstructorErrorTooManyAttribFormats)
 {
-  VertexAttribFormat vaf(GlType::Float, 3u, 12u, false);
+  VertexAttribFormat vaf(gl_type::float_decimal, 3u, 12u, false);
   std::vector<VertexAttribFormat> vafs(
     VertexFormat::getMaxAttribFormatCount() + 1u, vaf);
   HOU_EXPECT_PRECONDITION(VertexFormat vf(2u, 3u, std::move(vafs)));
@@ -107,11 +107,11 @@ TEST_F(TestVertexFormatDeathTest, VafMoveConstructorErrorTooManyAttribFormats)
 TEST_F(TestVertexFormat, Comparison)
 {
   std::vector<VertexAttribFormat> vafs1 = {
-    VertexAttribFormat(GlType::Float, 3u, 12u, false),
-    VertexAttribFormat(GlType::Float, 6u, 2u, true),
+    VertexAttribFormat(gl_type::float_decimal, 3u, 12u, false),
+    VertexAttribFormat(gl_type::float_decimal, 6u, 2u, true),
   };
   std::vector<VertexAttribFormat> vafs2 = {
-    VertexAttribFormat(GlType::Float, 3u, 12u, false),
+    VertexAttribFormat(gl_type::float_decimal, 3u, 12u, false),
   };
 
   VertexFormat vf1(2, 3u, vafs1);
@@ -136,13 +136,13 @@ TEST_F(TestVertexFormat, Comparison)
 TEST_F(TestVertexFormat, OutputStreamOperator)
 {
   std::vector<VertexAttribFormat> vafs = {
-    VertexAttribFormat(GlType::Float, 3u, 12u, false),
-    VertexAttribFormat(GlType::Float, 6u, 24u, true),
+    VertexAttribFormat(gl_type::float_decimal, 3u, 12u, false),
+    VertexAttribFormat(gl_type::float_decimal, 6u, 24u, true),
   };
   VertexFormat vf(2, 3u, vafs);
   const char* outRef
-    = "{Offset = 2, Stride = 3, VertexAttribFormats = {{Type = Float, "
+    = "{Offset = 2, Stride = 3, VertexAttribFormats = {{Type = float_decimal, "
       "ElementCount = 3, byte_offset = 12, MustBeNormalized = false}, {Type = "
-      "Float, ElementCount = 6, byte_offset = 24, MustBeNormalized = true}}}";
+      "float_decimal, ElementCount = 6, byte_offset = 24, MustBeNormalized = true}}}";
   HOU_EXPECT_OUTPUT(outRef, vf);
 }

@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_RENDER_CANVAS_HPP
 #define HOU_GFX_RENDER_CANVAS_HPP
 
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 #include "hou/gfx/RenderSurface.hpp"
 
 

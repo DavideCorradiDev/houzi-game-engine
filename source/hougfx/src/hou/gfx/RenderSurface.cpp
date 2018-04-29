@@ -4,7 +4,7 @@
 
 #include "hou/gfx/RenderSurface.hpp"
 
-#include "hou/gfx/GraphicContext.hpp"
+#include "hou/gfx/graphic_context.hpp"
 #include "hou/gfx/Texture.hpp"
 
 #include "hou/gl/gl_functions.hpp"
@@ -18,14 +18,14 @@ namespace hou
 
 void RenderSurface::setCurrentRenderSource(const RenderSurface& rs)
 {
-  FrameBuffer::bindReadTarget(rs.mFrameBuffer);
+  framebuffer::bind_read_target(rs.mFrameBuffer);
 }
 
 
 
 void RenderSurface::setDefaultRenderSource()
 {
-  FrameBuffer::unbindReadTarget();
+  framebuffer::unbind_read_target();
 }
 
 
@@ -34,14 +34,14 @@ void RenderSurface::setCurrentRenderTarget(const RenderSurface& rs)
 {
   gl::set_viewport(
     rs.mViewport.x(), rs.mViewport.y(), rs.mViewport.w(), rs.mViewport.h());
-  FrameBuffer::bindDrawTarget(rs.mFrameBuffer);
+  framebuffer::bind_draw_target(rs.mFrameBuffer);
 }
 
 
 
 void RenderSurface::setDefaultRenderTarget()
 {
-  FrameBuffer::unbindDrawTarget();
+  framebuffer::unbind_draw_target();
 }
 
 
@@ -149,7 +149,7 @@ Texture2 RenderSurface::toTexture() const
 {
   Texture2 tex(get_size());
   recti blitRect(vec2i::zero(), static_cast<vec2i>(get_size()));
-  blit(mFrameBuffer, blitRect, tex, blitRect, FrameBufferBlitFilter::Nearest);
+  blit(mFrameBuffer, blitRect, tex, blitRect, framebuffer_blit_filter::nearest);
   return tex;
 }
 
@@ -157,23 +157,23 @@ Texture2 RenderSurface::toTexture() const
 
 bool RenderSurface::isCurrentRenderSource() const
 {
-  return mFrameBuffer.isBoundToReadTarget();
+  return mFrameBuffer.is_bound_to_read_target();
 }
 
 
 
 bool RenderSurface::isCurrentRenderTarget() const
 {
-  return mFrameBuffer.isBoundToDrawTarget();
+  return mFrameBuffer.is_bound_to_draw_target();
 }
 
 
 
 void RenderSurface::buildFramebuffer(const vec2u& size, uint sampleCount)
 {
-  HOU_ENSURE_DEV(GraphicContext::getRenderingColorByteCount() == 4u);
-  HOU_ENSURE_DEV(GraphicContext::getRenderingDepthByteCount() == 3u);
-  HOU_ENSURE_DEV(GraphicContext::getRenderingStencilByteCount() == 1u);
+  HOU_ENSURE_DEV(graphic_context::get_rendering_color_byte_count() == 4u);
+  HOU_ENSURE_DEV(graphic_context::get_rendering_depth_byte_count() == 3u);
+  HOU_ENSURE_DEV(graphic_context::get_rendering_stencil_byte_count() == 1u);
   HOU_EXPECT(sampleCount > 0u);
 
   m_sample_count = sampleCount;
@@ -198,26 +198,26 @@ void RenderSurface::buildFramebuffer(const vec2u& size, uint sampleCount)
 
   static constexpr uint attachmentPoint = 0u;
   static constexpr uint mipMapLevel = 0u;
-  mFrameBuffer.setColorAttachment(
+  mFrameBuffer.set_color_attachment(
     attachmentPoint, *mColorAttachment, mipMapLevel);
-  mFrameBuffer.setDepthStencilAttachment(*mDepthStencilAttachment, mipMapLevel);
+  mFrameBuffer.set_depth_stencil_attachment(*mDepthStencilAttachment, mipMapLevel);
 
-  HOU_ENSURE_DEV(mFrameBuffer.isComplete());
+  HOU_ENSURE_DEV(mFrameBuffer.is_complete());
 }
 
 
 
 void blit(const RenderSurface& src, const recti& srcRect, RenderSurface& dst,
-  const recti& dstRect, FrameBufferBlitFilter filter)
+  const recti& dstRect, framebuffer_blit_filter filter)
 {
   blit(src.mFrameBuffer, srcRect, dst.mFrameBuffer, dstRect,
-    FrameBufferBlitMask::All, filter);
+    framebuffer_blit_mask::all, filter);
 }
 
 
 
 void blit(const RenderSurface& src, const recti& srcRect, Texture& dst,
-  const recti& dstRect, FrameBufferBlitFilter filter)
+  const recti& dstRect, framebuffer_blit_filter filter)
 {
   blit(src.mFrameBuffer, srcRect, dst, dstRect, filter);
 }
@@ -225,7 +225,7 @@ void blit(const RenderSurface& src, const recti& srcRect, Texture& dst,
 
 
 void blit(const Texture& src, const recti& srcRect, RenderSurface& dst,
-  const recti& dstRect, FrameBufferBlitFilter filter)
+  const recti& dstRect, framebuffer_blit_filter filter)
 {
   blit(src, srcRect, dst.mFrameBuffer, dstRect, filter);
 }

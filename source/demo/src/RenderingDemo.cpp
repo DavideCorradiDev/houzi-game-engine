@@ -1,9 +1,9 @@
 #include "hou/gfx/Vertex2.hpp"
-#include "hou/gfx/GraphicContext.hpp"
+#include "hou/gfx/graphic_context.hpp"
 #include "hou/gfx/RenderWindow.hpp"
 #include "hou/gfx/TextureChannelMapping.hpp"
-#include "hou/gfx/Mesh.hpp"
-#include "hou/gfx/Mesh2ShaderProgram.hpp"
+#include "hou/gfx/mesh.hpp"
+#include "hou/gfx/mesh2_shader_program.hpp"
 #include "hou/gfx/TextShaderProgram.hpp"
 
 #include "hou/mth/math_functions.hpp"
@@ -62,7 +62,7 @@ public:
   DrawableShape(const Texture2& texture);
 
   virtual Mesh2 generateMesh() const = 0;
-  void draw(RenderSurface& rt, Mesh2ShaderProgram& renderer, const trans2f& t) const;
+  void draw(RenderSurface& rt, mesh2_shader_program& renderer, const trans2f& t) const;
 
   void handleInput();
 
@@ -94,7 +94,7 @@ DrawableShape::DrawableShape(const Texture2& texture)
 
 
 
-void DrawableShape::draw(RenderSurface& rt, Mesh2ShaderProgram& renderer, const trans2f& t) const
+void DrawableShape::draw(RenderSurface& rt, mesh2_shader_program& renderer, const trans2f& t) const
 {
   if(mDrawWithTexture)
   {
@@ -363,8 +363,8 @@ public:
 int main()
 {
   static const std::string dataDir = u8"source/demo/data/";
-  GraphicContext ctx;
-  GraphicContext::set_current(ctx);
+  graphic_context ctx;
+  graphic_context::set_current(ctx);
 
   std::string wndTitle(u8"Rendering Demo");
   vec2u wndSize(800u, 600u);
@@ -374,7 +374,7 @@ int main()
     std::make_unique<RenderWindow>(wndTitle, wndSize, wndStyle, wndSamples));
   wnd->set_visible(true);
 
-  Mesh2ShaderProgram m2rend;
+  mesh2_shader_program m2rend;
 
   Texture2 shapeTex = Texture2(png_read_file<pixel_format::r>(dataDir + u8"monalisa.png"), TextureFormat::r, 4u);
   shapeTex.setChannelMapping(TextureChannelMapping::Luminosity);

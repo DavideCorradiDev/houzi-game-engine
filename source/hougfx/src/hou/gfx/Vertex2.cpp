@@ -4,7 +4,7 @@
 
 #include "hou/gfx/Vertex2.hpp"
 
-#include "hou/gfx/Mesh.hpp"
+#include "hou/gfx/mesh.hpp"
 #include "hou/gfx/VertexFormat.hpp"
 
 #include "hou/mth/math_functions.hpp"
@@ -30,7 +30,7 @@ Mesh2 createGenericRectangleMesh2(
   float b = t + h;
   float tr = tl + tw;
   float tb = tt + th;
-  return Mesh2(MeshDrawMode::TriangleFan, MeshFillMode::Fill,
+  return Mesh2(mesh_draw_mode::triangle_fan, mesh_fill_mode::fill,
     std::vector<Vertex2>{Vertex2(vec2f(l, t), vec2f(tl, tt), color::white),
       Vertex2(vec2f(l, b), vec2f(tl, tb), color::white),
       Vertex2(vec2f(r, b), vec2f(tr, tb), color::white),
@@ -45,11 +45,11 @@ const VertexFormat& Vertex2::getVertexFormat()
 {
   static constexpr bool mustBeNormalized = true;
   static const VertexFormat vf(0, sizeof(Vertex2),
-    {VertexAttribFormat(GlType::Float, Vertex2::sPositionSize,
+    {VertexAttribFormat(gl_type::float_decimal, Vertex2::sPositionSize,
        offsetof(Vertex2, m_position), !mustBeNormalized),
-      VertexAttribFormat(GlType::Float, Vertex2::sTextureCoordinatesSize,
+      VertexAttribFormat(gl_type::float_decimal, Vertex2::sTextureCoordinatesSize,
         offsetof(Vertex2, mTexCoords), mustBeNormalized),
-      VertexAttribFormat(GlType::Float, Vertex2::sColorSize,
+      VertexAttribFormat(gl_type::float_decimal, Vertex2::sColorSize,
         offsetof(Vertex2, mColor), mustBeNormalized)});
   return vf;
 }
@@ -163,7 +163,7 @@ Mesh2 createRectangleOutlineMesh2(const vec2f& size, float thickness)
   rectf er(vec2f::zero(), size);
   vec2f tv(thickness, thickness);
   rectf ir(tv, size - 2 * tv);
-  return Mesh2(MeshDrawMode::TriangleStrip, MeshFillMode::Fill,
+  return Mesh2(mesh_draw_mode::triangle_strip, mesh_fill_mode::fill,
     std::vector<Vertex2>{
       Vertex2(vec2f(er.l(), er.t()), vec2f::zero(), color::white),
       Vertex2(vec2f(ir.l(), ir.t()), vec2f::zero(), color::white),
@@ -196,7 +196,7 @@ Mesh2 createEllipseMesh2(const vec2f& size, uint pointCount)
     vertices[i].set_color(color::white);
     t += dt;
   }
-  return Mesh2(MeshDrawMode::TriangleFan, MeshFillMode::Fill, vertices);
+  return Mesh2(mesh_draw_mode::triangle_fan, mesh_fill_mode::fill, vertices);
 }
 
 
@@ -227,7 +227,7 @@ Mesh2 createEllipseOutlineMesh2(
 
     t += dt;
   }
-  return Mesh2(MeshDrawMode::TriangleStrip, MeshFillMode::Fill, vertices);
+  return Mesh2(mesh_draw_mode::triangle_strip, mesh_fill_mode::fill, vertices);
 }
 
 

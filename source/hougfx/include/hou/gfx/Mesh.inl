@@ -2,45 +2,45 @@ namespace hou
 {
 
 template <typename T>
-MeshT<T>::MeshT(
-  MeshDrawMode drawMode, MeshFillMode fillMode, const span<const T>& vertices)
-  : Mesh(drawMode, fillMode, vertices.size())
-  , mVbo(vertices)
+mesh_t<T>::mesh_t(
+  mesh_draw_mode drawMode, mesh_fill_mode fillMode, const span<const T>& vertices)
+  : mesh(drawMode, fillMode, vertices.size())
+  , m_vbo(vertices)
 {
-  mVao.setVertexData(mVbo, 0u, T::getVertexFormat());
+  m_vao.setVertexData(m_vbo, 0u, T::getVertexFormat());
 }
 
 
 
 template <typename T>
-MeshT<T>::MeshT(MeshT&& other)
-  : Mesh(std::move(other))
-  , mVbo(std::move(other.mVbo))
+mesh_t<T>::mesh_t(mesh_t&& other)
+  : mesh(std::move(other))
+  , m_vbo(std::move(other.m_vbo))
 {}
 
 
 
 template <typename T>
-typename MeshT<T>::VertexCollectionType MeshT<T>::getVertices() const
+typename mesh_t<T>::vertex_collection mesh_t<T>::getVertices() const
 {
-  return mVbo.getData();
+  return m_vbo.getData();
 }
 
 
 
 template <typename T>
-bool operator==(const MeshT<T>& lhs, const MeshT<T>& rhs)
+bool operator==(const mesh_t<T>& lhs, const mesh_t<T>& rhs)
 {
-  return lhs.getVertexCount() == rhs.getVertexCount()
-    && lhs.getDrawMode() == rhs.getDrawMode()
-    && lhs.getFillMode() == rhs.getFillMode()
+  return lhs.get_vertex_count() == rhs.get_vertex_count()
+    && lhs.get_draw_mode() == rhs.get_draw_mode()
+    && lhs.get_fill_mode() == rhs.get_fill_mode()
     && lhs.getVertices() == rhs.getVertices();
 }
 
 
 
 template <typename T>
-bool operator!=(const MeshT<T>& lhs, const MeshT<T>& rhs)
+bool operator!=(const mesh_t<T>& lhs, const mesh_t<T>& rhs)
 {
   return !(lhs == rhs);
 }
@@ -49,21 +49,21 @@ bool operator!=(const MeshT<T>& lhs, const MeshT<T>& rhs)
 
 template <typename T>
 bool close(
-  const MeshT<T>& lhs, const MeshT<T>& rhs, typename T::ComparisonType acc)
+  const mesh_t<T>& lhs, const mesh_t<T>& rhs, typename T::ComparisonType acc)
 {
-  return lhs.getVertexCount() == rhs.getVertexCount()
-    && lhs.getDrawMode() == rhs.getDrawMode()
-    && lhs.getFillMode() == rhs.getFillMode()
+  return lhs.get_vertex_count() == rhs.get_vertex_count()
+    && lhs.get_draw_mode() == rhs.get_draw_mode()
+    && lhs.get_fill_mode() == rhs.get_fill_mode()
     && close(lhs.getVertices(), rhs.getVertices(), acc);
 }
 
 
 
 template <typename T>
-std::ostream& operator<<(std::ostream& os, const MeshT<T>& m)
+std::ostream& operator<<(std::ostream& os, const mesh_t<T>& m)
 {
-  return os << "{DrawMode = " << m.getDrawMode()
-            << ", FillMode = " << m.getFillMode()
+  return os << "{DrawMode = " << m.get_draw_mode()
+            << ", FillMode = " << m.get_fill_mode()
             << ", Vertices = " << m.getVertices() << "}";
 }
 

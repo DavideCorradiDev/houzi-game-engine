@@ -56,7 +56,7 @@ VertexBuffer::VertexBuffer(VertexBuffer&& other)
 
 
 
-const gl::buffer_handle& VertexBuffer::getHandle() const
+const gl::buffer_handle& VertexBuffer::get_handle() const
 {
   return m_handle;
 }

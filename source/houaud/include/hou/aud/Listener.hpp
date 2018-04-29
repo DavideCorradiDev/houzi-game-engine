@@ -19,7 +19,7 @@ namespace hou
  *
  *  The audio listener represents the position from which sounds are heard.
  *  There is only one listener per AudioContext.
- *  All functions in this namespace are thread safe.
+ *  all functions in this namespace are thread safe.
  */
 namespace Listener
 {

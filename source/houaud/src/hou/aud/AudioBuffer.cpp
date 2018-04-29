@@ -65,7 +65,7 @@ AudioBuffer::AudioBuffer(AudioBuffer&& other)
 
 
 
-const al::buffer_handle& AudioBuffer::getHandle() const
+const al::buffer_handle& AudioBuffer::get_handle() const
 {
   return m_handle;
 }

@@ -4,7 +4,7 @@
 
 #include "hou/Test.hpp"
 
-#include "hou/gfx/Glyph.hpp"
+#include "hou/gfx/glyph.hpp"
 
 using namespace hou;
 using namespace testing;
@@ -20,10 +20,10 @@ class TestGlyph : public Test {};
 
 TEST_F(TestGlyph, DefaultConstructor)
 {
-  Glyph g;
+  glyph g;
 
   EXPECT_EQ(image2R(), g.get_image());
-  EXPECT_EQ(GlyphMetrics(), g.getMetrics());
+  EXPECT_EQ(glyph_metrics(), g.get_metrics());
 }
 
 
@@ -31,11 +31,11 @@ TEST_F(TestGlyph, DefaultConstructor)
 TEST_F(TestGlyph, ParameterConstructor)
 {
   image2R refImage(vec2u(2u, 3u), std::vector<image2R::pixel>{1, 2, 3, 4, 5, 6});
-  GlyphMetrics refMetrics(vec2u(2u, 3u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
-  Glyph g(refImage, refMetrics);
+  glyph_metrics refMetrics(vec2u(2u, 3u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
+  glyph g(refImage, refMetrics);
 
   EXPECT_EQ(refImage, g.get_image());
-  EXPECT_EQ(refMetrics, g.getMetrics());
+  EXPECT_EQ(refMetrics, g.get_metrics());
 }
 
 
@@ -44,12 +44,12 @@ TEST_F(TestGlyph, Comparison)
 {
   image2R refImage1(vec2u(2u, 3u), std::vector<image2R::pixel>{1, 2, 3, 4, 5, 6});
   image2R refImage2(vec2u(2u, 3u), std::vector<image2R::pixel>{1, 3, 3, 4, 5, 6});
-  GlyphMetrics refMetrics1(vec2u(2u, 3u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
-  GlyphMetrics refMetrics2(vec2u(3u, 3u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
-  Glyph g1(refImage1, refMetrics1);
-  Glyph g2(refImage1, refMetrics1);
-  Glyph g3(refImage2, refMetrics1);
-  Glyph g4(refImage1, refMetrics2);
+  glyph_metrics refMetrics1(vec2u(2u, 3u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
+  glyph_metrics refMetrics2(vec2u(3u, 3u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
+  glyph g1(refImage1, refMetrics1);
+  glyph g2(refImage1, refMetrics1);
+  glyph g3(refImage2, refMetrics1);
+  glyph g4(refImage1, refMetrics2);
 
   EXPECT_TRUE(g1 == g2);
   EXPECT_FALSE(g1 == g3);
@@ -66,8 +66,8 @@ TEST_F(TestGlyph, SetImage)
 {
   image2R refImage1(vec2u(2u, 3u), std::vector<image2R::pixel>{1, 2, 3, 4, 5, 6});
   image2R refImage2(vec2u(2u, 3u), std::vector<image2R::pixel>{1, 3, 3, 4, 5, 6});
-  GlyphMetrics refMetrics(vec2u(2u, 3u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
-  Glyph g(refImage1, refMetrics);
+  glyph_metrics refMetrics(vec2u(2u, 3u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
+  glyph g(refImage1, refMetrics);
   EXPECT_EQ(refImage1, g.get_image());
 
   g.set_image(refImage2);
@@ -79,13 +79,13 @@ TEST_F(TestGlyph, SetImage)
 TEST_F(TestGlyph, SetMetrics)
 {
   image2R refImage(vec2u(2u, 3u), std::vector<image2R::pixel>{1, 2, 3, 4, 5, 6});
-  GlyphMetrics refMetrics1(vec2u(2u, 3u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
-  GlyphMetrics refMetrics2(vec2u(3u, 3u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
-  Glyph g(refImage, refMetrics1);
-  EXPECT_EQ(refMetrics1, g.getMetrics());
+  glyph_metrics refMetrics1(vec2u(2u, 3u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
+  glyph_metrics refMetrics2(vec2u(3u, 3u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
+  glyph g(refImage, refMetrics1);
+  EXPECT_EQ(refMetrics1, g.get_metrics());
 
-  g.setMetrics(refMetrics2);
-  EXPECT_EQ(refMetrics2, g.getMetrics());
+  g.set_metrics(refMetrics2);
+  EXPECT_EQ(refMetrics2, g.get_metrics());
 }
 
 
@@ -93,8 +93,8 @@ TEST_F(TestGlyph, SetMetrics)
 TEST_F(TestGlyph, OutputStreamOperator)
 {
   image2R refImage(vec2u(2u, 3u), std::vector<image2R::pixel>{1, 2, 3, 4, 5, 6});
-  GlyphMetrics refMetrics(vec2u(2u, 3u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
-  Glyph g(refImage, refMetrics);
+  glyph_metrics refMetrics(vec2u(2u, 3u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
+  glyph g(refImage, refMetrics);
 
   const char* refOutput
     = "{image = "

@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_TEXTURE_FILTER_HPP
 #define HOU_GFX_TEXTURE_FILTER_HPP
 
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
 #include <iostream>
 
@@ -17,20 +17,20 @@ namespace hou
 /** Enumeration for the texture filter type. */
 enum class TextureFilter
 {
-  /** Nearest filter.
+  /** nearest filter.
    *  No interpolation performed.
    */
-  Nearest,
-  /** Linear filter.
-   *  Linear interpolation between mip-map levels.
+  nearest,
+  /** linear filter.
+   *  linear interpolation between mip-map levels.
    */
-  Linear,
+  linear,
   /** Bilinear filter.
-   *  Linear interpolation within each mip-map level.
+   *  linear interpolation within each mip-map level.
    */
   Bilinear,
   /** Trilinear filter.
-   *  Linear interpolation within each mip-map level and between mip-map levels.
+   *  linear interpolation within each mip-map level and between mip-map levels.
    */
   Trilinear,
 };

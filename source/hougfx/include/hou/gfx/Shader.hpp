@@ -6,7 +6,7 @@
 #define HOU_GFX_SHADER_HPP
 
 #include "hou/cor/non_copyable.hpp"
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/gfx/ShaderFwd.hpp"
 
@@ -26,7 +26,7 @@ public:
   Shader(Shader&& other);
   virtual ~Shader() = 0;
 
-  const gl::shader_handle& getHandle() const;
+  const gl::shader_handle& get_handle() const;
 
 private:
   gl::shader_handle m_handle;

@@ -344,7 +344,7 @@ public:
 
   /** Multiplies this ph_matrix by the given scalar.
    *
-   *  All elements of the ph_matrix are multiplied by the given scalar.
+   *  all elements of the ph_matrix are multiplied by the given scalar.
    *
    *  \param rhs the scalar factor.
    *  \return a reference to this ph_matrix after the multiplication.
@@ -353,7 +353,7 @@ public:
 
   /** Divides this ph_matrix by the given scalar.
    *
-   *  All elements of the ph_matrix are divided by the given scalar.
+   *  all elements of the ph_matrix are divided by the given scalar.
    *
    *  \param rhs the scalar divisor.
    *  \return a reference to this ph_matrix after the division.
@@ -388,7 +388,7 @@ public:
 
   /** Computes the opposite of a ph_matrix.
    *
-   *  All elements of the resulting ph_matrix are the opposite of the corresponding
+   *  all elements of the resulting ph_matrix are the opposite of the corresponding
    *  original elements.
    *
    *  \param m the ph_matrix.
@@ -405,7 +405,7 @@ public:
 
   /** Multiplies a ph_matrix by a scalar.
    *
-   *  All elements of the ph_matrix are multiplied by the given scalar.
+   *  all elements of the ph_matrix are multiplied by the given scalar.
    *
    *  \param lhs the ph_matrix.
    *  \param rhs the scalar factor.
@@ -418,7 +418,7 @@ public:
 
   /** Multiplies a ph_matrix by a scalar.
    *
-   *  All elements of the ph_matrix are multiplied by the given scalar.
+   *  all elements of the ph_matrix are multiplied by the given scalar.
    *
    *  \param lhs the scalar factor.
    *  \param rhs the ph_matrix.
@@ -432,7 +432,7 @@ public:
 
   /** Divides a ph_matrix by a scalar.
    *
-   *  All elements of the ph_matrix are divided by the given scalar.
+   *  all elements of the ph_matrix are divided by the given scalar.
    *
    *  \param lhs the ph_matrix.
    *  \param rhs the scalar divisor.

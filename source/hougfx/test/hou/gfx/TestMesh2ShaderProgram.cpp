@@ -5,8 +5,8 @@
 #include "hou/Test.hpp"
 #include "hou/gfx/TestGfxBase.hpp"
 
-#include "hou/gfx/Mesh.hpp"
-#include "hou/gfx/Mesh2ShaderProgram.hpp"
+#include "hou/gfx/mesh.hpp"
+#include "hou/gfx/mesh2_shader_program.hpp"
 #include "hou/gfx/RenderCanvas.hpp"
 #include "hou/gfx/Vertex2.hpp"
 
@@ -53,7 +53,7 @@ image2RGBA generateResultImage(const vec2u& dstSize, const recti& dstRect,
 
 TEST_F(TestMesh2ShaderProgram, Creation)
 {
-  Mesh2ShaderProgram sp;
+  mesh2_shader_program sp;
   SUCCEED();
 }
 
@@ -61,8 +61,8 @@ TEST_F(TestMesh2ShaderProgram, Creation)
 
 TEST_F(TestMesh2ShaderProgram, MoveConstructor)
 {
-  Mesh2ShaderProgram spDummy;
-  Mesh2ShaderProgram sp(std::move(spDummy));
+  mesh2_shader_program spDummy;
+  mesh2_shader_program sp(std::move(spDummy));
   SUCCEED();
 }
 
@@ -70,7 +70,7 @@ TEST_F(TestMesh2ShaderProgram, MoveConstructor)
 
 TEST_F(TestMesh2ShaderProgram, SetColor)
 {
-  Mesh2ShaderProgram sp;
+  mesh2_shader_program sp;
   sp.set_color(color::red);
   SUCCEED();
 }
@@ -79,8 +79,8 @@ TEST_F(TestMesh2ShaderProgram, SetColor)
 
 TEST_F(TestMesh2ShaderProgram, SetTextureUnit)
 {
-  Mesh2ShaderProgram sp;
-  sp.setTextureUnit(1u);
+  mesh2_shader_program sp;
+  sp.set_texture_unit(1u);
   SUCCEED();
 }
 
@@ -88,8 +88,8 @@ TEST_F(TestMesh2ShaderProgram, SetTextureUnit)
 
 TEST_F(TestMesh2ShaderProgram, SetTransform)
 {
-  Mesh2ShaderProgram sp;
-  sp.setTransform(trans2f::translation(vec2f(2.f, 3.f)));
+  mesh2_shader_program sp;
+  sp.set_transform(trans2f::translation(vec2f(2.f, 3.f)));
   SUCCEED();
 }
 
@@ -97,7 +97,7 @@ TEST_F(TestMesh2ShaderProgram, SetTransform)
 
 TEST_F(TestMesh2ShaderProgram, DrawRectangle)
 {
-  Mesh2ShaderProgram mr;
+  mesh2_shader_program mr;
   vec2u size(4u, 6u);
   RenderCanvas rt(size);
   Mesh2 rect = createRectangleMesh2(vec2f(2.f, 3.f));
@@ -117,7 +117,7 @@ TEST_F(TestMesh2ShaderProgram, DrawRectangle)
 
 TEST_F(TestMesh2ShaderProgram, DrawTexturedRectangle)
 {
-  Mesh2ShaderProgram mr;
+  mesh2_shader_program mr;
   vec2u size(8u, 10u);
   RenderCanvas rt(size);
   Mesh2 rect = createRectangleMesh2(vec2f(3.f, 4.f));

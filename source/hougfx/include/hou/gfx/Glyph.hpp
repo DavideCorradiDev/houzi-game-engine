@@ -5,9 +5,9 @@
 #ifndef HOU_GFX_GLYPH_HPP
 #define HOU_GFX_GLYPH_HPP
 
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
-#include "hou/gfx/GlyphMetrics.hpp"
+#include "hou/gfx/glyph_metrics.hpp"
 #include "hou/sys/image.hpp"
 
 #include "hou/cor/basic_types.hpp"
@@ -19,20 +19,20 @@
 namespace hou
 {
 
-/** Class describing a glyph, including its metrics and its bitmap ph_image.
+/** Class describing a ph_glyph, including its metrics and its bitmap ph_image.
  */
-class HOU_GFX_API Glyph
+class HOU_GFX_API glyph
 {
 public:
   /** default constructor.
    *
    *  The ph_image is empty and the metrics are all null.
    */
-  Glyph();
+  glyph();
 
-  /** Creates a Glyph object with the given ph_image and metrics.
+  /** Creates a glyph object with the given ph_image and metrics.
    */
-  Glyph(const image2R& ph_image, const GlyphMetrics& metrics);
+  glyph(const image2R& ph_image, const glyph_metrics& metrics);
 
   /** Gets the ph_image.
    *
@@ -50,42 +50,42 @@ public:
    *
    *  \return the metrics.
    */
-  const GlyphMetrics& getMetrics() const;
+  const glyph_metrics& get_metrics() const;
 
   /** Sets the metrics.
    *
    *  \param metrics the metrics.
    */
-  void setMetrics(const GlyphMetrics& metrics);
+  void set_metrics(const glyph_metrics& metrics);
 
 private:
-  image2R mImage;
-  GlyphMetrics mMetrics;
+  image2R m_image;
+  glyph_metrics m_metrics;
 };
 
-/** Checks if two Glyph objects are equal.
+/** Checks if two glyph objects are equal.
  *
  *  \param lhs the left operand.
  *  \param rhs the right operand.
  *  \return true if the two objects are equal,
  */
-HOU_GFX_API bool operator==(const Glyph& lhs, const Glyph& rhs);
+HOU_GFX_API bool operator==(const glyph& lhs, const glyph& rhs);
 
-/** Checks if two Glyph objects are not equal.
+/** Checks if two glyph objects are not equal.
  *
  *  \param lhs the left operand.
  *  \param rhs the right operand.
  *  \return true if the two objects are not equal,
  */
-HOU_GFX_API bool operator!=(const Glyph& lhs, const Glyph& rhs);
+HOU_GFX_API bool operator!=(const glyph& lhs, const glyph& rhs);
 
-/** Writes a Glyph object into a ph_stream.
+/** Writes a glyph object into a ph_stream.
  *
  *  \param os the output ph_stream.
  *  \param gm the object.
  *  \return a reference to os.
  */
-HOU_GFX_API std::ostream& operator<<(std::ostream& os, const Glyph& gm);
+HOU_GFX_API std::ostream& operator<<(std::ostream& os, const glyph& gm);
 
 }
 

@@ -93,14 +93,14 @@ Device::~Device()
 
 
 
-const ALCdevice* Device::getHandle() const
+const ALCdevice* Device::get_handle() const
 {
   return mDevice;
 }
 
 
 
-ALCdevice* Device::getHandle()
+ALCdevice* Device::get_handle()
 {
   return mDevice;
 }

@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_VERTEX_FORMAT
 #define HOU_GFX_VERTEX_FORMAT
 
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 #include "hou/cor/span.hpp"

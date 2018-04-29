@@ -6,9 +6,9 @@
 #define HOU_GFX_RENDER_SURFACE_HPP
 
 #include "hou/cor/non_copyable.hpp"
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
-#include "hou/gfx/FrameBuffer.hpp"
+#include "hou/gfx/framebuffer.hpp"
 #include "hou/gfx/Texture.hpp"
 
 #include "hou/mth/matrix_fwd.hpp"
@@ -177,15 +177,15 @@ public:
    */
   friend HOU_GFX_API void blit(const RenderSurface& src, const recti& srcRect,
     RenderSurface& dst, const recti& dstRect,
-    FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
+    framebuffer_blit_filter filter = framebuffer_blit_filter::nearest);
 
   friend HOU_GFX_API void blit(const RenderSurface& src, const recti& srcRect,
     Texture& dst, const recti& dstRect,
-    FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
+    framebuffer_blit_filter filter = framebuffer_blit_filter::nearest);
 
   friend HOU_GFX_API void blit(const Texture& src, const recti& srcRect,
     RenderSurface& dst, const recti& dstRect,
-    FrameBufferBlitFilter filter = FrameBufferBlitFilter::Nearest);
+    framebuffer_blit_filter filter = framebuffer_blit_filter::nearest);
 
 protected:
   void buildFramebuffer(const vec2u& size, uint sampleCount);
@@ -195,7 +195,7 @@ private:
   using MultisampledAttachmentType = MultisampleTexture2;
 
 private:
-  FrameBuffer mFrameBuffer;
+  framebuffer mFrameBuffer;
   std::unique_ptr<Texture> mColorAttachment;
   std::unique_ptr<Texture> mDepthStencilAttachment;
   uint m_sample_count;

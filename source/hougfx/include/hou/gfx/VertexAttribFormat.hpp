@@ -5,11 +5,11 @@
 #ifndef HOU_GFX_VERTEX_ATTRIB_FORMAT_HPP
 #define HOU_GFX_VERTEX_ATTRIB_FORMAT_HPP
 
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 
-#include "hou/gfx/GlType.hpp"
+#include "hou/gfx/gl_type.hpp"
 
 #include <iostream>
 
@@ -32,13 +32,13 @@ public:
    *  normalized or not.
    */
   VertexAttribFormat(
-    GlType type, uint elementCount, uint byteOffset, bool mustBeNormalized);
+    gl_type type, uint elementCount, uint byteOffset, bool mustBeNormalized);
 
   /** Retrieves the attribute type.
    *
    *  \return the attribute type.
    */
-  GlType get_type() const;
+  gl_type get_type() const;
 
   /** Retrieves the number of elements of the attribute.
    *
@@ -59,7 +59,7 @@ public:
   bool mustBeNormalized() const;
 
 private:
-  GlType m_type;
+  gl_type m_type;
   uint m_element_count;
   uint mByteOffset;
   GLboolean mMustBeNormalized;

@@ -113,7 +113,7 @@ TEST_F(TestShaderProgram, ConstructorWithoutGlGeometryShader)
   VertexShader vs(getVsSource());
   FragmentShader fs(getFsSource());
   ConcreteShaderProgram p(vs, fs);
-  EXPECT_NE(0u, p.getHandle().get_name());
+  EXPECT_NE(0u, p.get_handle().get_name());
 }
 
 
@@ -124,7 +124,7 @@ TEST_F(TestShaderProgram, ConstructorWithGlGeometryShader)
   GeometryShader gs(getGsSource());
   FragmentShader fs(getFsSource());
   ConcreteShaderProgram p(vs, fs, gs);
-  EXPECT_NE(0u, p.getHandle().get_name());
+  EXPECT_NE(0u, p.get_handle().get_name());
 }
 
 
@@ -135,10 +135,10 @@ TEST_F(TestShaderProgram, MoveConstructor)
   GeometryShader gs(getGsSource());
   FragmentShader fs(getFsSource());
   ConcreteShaderProgram pDummy(vs, fs, gs);
-  uint programId = pDummy.getHandle().get_name();
+  uint programId = pDummy.get_handle().get_name();
   ConcreteShaderProgram p = std::move(pDummy);
-  EXPECT_EQ(programId, p.getHandle().get_name());
-  EXPECT_EQ(0u, pDummy.getHandle().get_name());
+  EXPECT_EQ(programId, p.get_handle().get_name());
+  EXPECT_EQ(0u, pDummy.get_handle().get_name());
 }
 
 

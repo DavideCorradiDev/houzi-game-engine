@@ -2,14 +2,14 @@
 
 #include "hou/mth/transform2.hpp"
 
-#include "hou/gfx/Mesh.hpp"
+#include "hou/gfx/mesh.hpp"
 #include "hou/sys/color.hpp"
-#include "hou/gfx/Font.hpp"
+#include "hou/gfx/font.hpp"
 #include "hou/gfx/Vertex2.hpp"
-#include "hou/gfx/GraphicContext.hpp"
+#include "hou/gfx/graphic_context.hpp"
 #include "hou/gfx/RenderWindow.hpp"
 #include "hou/gfx/Texture.hpp"
-#include "hou/gfx/Mesh2ShaderProgram.hpp"
+#include "hou/gfx/mesh2_shader_program.hpp"
 #include "hou/gfx/TextShaderProgram.hpp"
 
 #include "hou/cor/clock.hpp"
@@ -109,14 +109,14 @@ int main()
   static const hou::vec2f evSize((800.f - 20.f) / maxEventQueueSize, (800.f - 20.f) / maxEventQueueSize);
 
   // Initialization of objects used for rendering.
-  hou::GraphicContext ctx;
-  hou::GraphicContext::set_current(ctx);
+  hou::graphic_context ctx;
+  hou::graphic_context::set_current(ctx);
   hou::RenderWindow wnd(u8"Input Demo", hou::vec2u(800u, 600u),
     hou::window_style::windowed_resizable);
   wnd.set_visible(true);
   wnd.set_key_repeat_enabled(false);
   wnd.set_mouse_cursor_grabbed(false);
-  hou::Mesh2ShaderProgram meshRnd;
+  hou::mesh2_shader_program meshRnd;
   hou::TextShaderProgram textRnd;
 
   std::string iconFilename = dataDir + u8"monkey.png";
@@ -130,7 +130,7 @@ int main()
   hou::Texture2 mouseTex(hou::png_read_file<hou::pixel_format::rgba>(dataDir + u8"mouse.png"));
   hou::Texture2 mousebuttonsTex(hou::png_read_file<hou::pixel_format::rgba>(dataDir + u8"mousebuttons.png"));
 
-  hou::Font font(std::make_unique<hou::binary_file_in>(dataDir + u8"NotoMono-Regular.ttf"));
+  hou::font ph_font(std::make_unique<hou::binary_file_in>(dataDir + u8"NotoMono-Regular.ttf"));
 
   hou::Mesh2 keyboardQuad = hou::createTextureQuadMesh2
     ( hou::rectf(0, 0, keyboardTex.get_size().x(), keyboardTex.get_size().y())
@@ -485,11 +485,11 @@ int main()
 
       // Draw static images.
       wnd.clear(hou::color::black);
-      textRnd.draw(wnd, "KEYBOARD KEY CODE", font, hou::color::red
+      textRnd.draw(wnd, "KEYBOARD KEY CODE", ph_font, hou::color::red
         , projTrans * keyboard1TextTrans);
       meshRnd.draw(wnd, keyboardQuad, keyboardTex, hou::color::white
         , projTrans * keyboard1Trans);
-      textRnd.draw(wnd, "KEYBOARD SCAN CODE", font, hou::color::yellow
+      textRnd.draw(wnd, "KEYBOARD SCAN CODE", ph_font, hou::color::yellow
         , projTrans * keyboard2TextTrans);
       meshRnd.draw(wnd, keyboardQuad, keyboardTex, hou::color::white
         , projTrans * keyboard2Trans);
@@ -497,17 +497,17 @@ int main()
         , projTrans * mouseTrans);
       std::string mousePosText = hou::format_string("SCREEN MOUSE CURSOR POSITION: (%d, %d)"
         , hou::mouse::get_position().x(), hou::mouse::get_position().y());
-      textRnd.draw(wnd, mousePosText, font, hou::color::green
+      textRnd.draw(wnd, mousePosText, ph_font, hou::color::green
         , projTrans * mousePosTextTrans);
       std::string mouseRelPosText = hou::format_string("WINDOW MOUSE CURSOR POSITION: (%d, %d)"
         , hou::mouse::get_position(wnd).x(), hou::mouse::get_position(wnd).y());
-      textRnd.draw(wnd, mouseRelPosText, font, hou::color::green
+      textRnd.draw(wnd, mouseRelPosText, ph_font, hou::color::green
         , projTrans * mouseRelPosTextTrans);
       textRnd.draw(wnd
-        , "PRESS CTRL+O TO MOVE THE MOUSE CURSOR TO THE SCREEN ORIGIN", font
+        , "PRESS CTRL+O TO MOVE THE MOUSE CURSOR TO THE SCREEN ORIGIN", ph_font
         , hou::color::green, projTrans * mouseHintText1Trans);
       textRnd.draw(wnd
-        , "PRESS CTRL+P TO MOVE THE MOUSE CURSOR TO THE WINDOW ORIGIN", font
+        , "PRESS CTRL+P TO MOVE THE MOUSE CURSOR TO THE WINDOW ORIGIN", ph_font
         , hou::color::green, projTrans * mouseHintText2Trans);
 
       // Draw events in queue.
@@ -521,7 +521,7 @@ int main()
         {
           ss << "  " <<  hou::convertEncoding<hou::utf32, hou::utf8>(std::u32string(1, ev.get_text_data().code_point)) << "\n";
         }
-        textRnd.draw(wnd, ss.str(), font, hou::color::black
+        textRnd.draw(wnd, ss.str(), ph_font, hou::color::black
           , projTrans * eventQueueTrans * evTrans * hou::trans2f::translation(hou::vec2f(4.f, 16.f)));
         evTrans *= hou::trans2f::translation(hou::vec2f(evSize.x(), 0.f));
       }

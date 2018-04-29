@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gfx/GraphicContext.hpp"
+#include "hou/gfx/graphic_context.hpp"
 
 #include "hou/gl/gl_context_settings.hpp"
 #include "hou/gl/gl_functions.hpp"
@@ -23,10 +23,10 @@ constexpr const char* defaultWindowName = "HouziHiddenWindow";
 
 
 
-void GraphicContext::set_current(GraphicContext& ph_context)
+void graphic_context::set_current(graphic_context& ph_context)
 {
   gl::context::set_current(ph_context.gl_context, ph_context.mDefaultWindow);
-  if(!ph_context.mInitialized)
+  if(!ph_context.m_initialized)
   {
     ph_context.initialize();
   }
@@ -34,67 +34,67 @@ void GraphicContext::set_current(GraphicContext& ph_context)
 
 
 
-void GraphicContext::unset_current()
+void graphic_context::unset_current()
 {
   gl::context::unset_current();
 }
 
 
 
-uint GraphicContext::getRenderingColorByteCount()
+uint graphic_context::get_rendering_color_byte_count()
 {
   return 4u;
 }
 
 
 
-uint GraphicContext::getRenderingDepthByteCount()
+uint graphic_context::get_rendering_depth_byte_count()
 {
   return 3u;
 }
 
 
 
-uint GraphicContext::getRenderingStencilByteCount()
+uint graphic_context::get_rendering_stencil_byte_count()
 {
   return 1u;
 }
 
 
 
-GraphicContext::GraphicContext()
+graphic_context::graphic_context()
   : mExtensionInitializer()
   , mDefaultWindow(defaultWindowName,
-      video_mode(vec2u::zero(), getRenderingColorByteCount()),
+      video_mode(vec2u::zero(), get_rendering_color_byte_count()),
       window_style::windowed)
   , gl_context(
       gl::context_settings(gl::version(4u, 5u), gl::context_profile::core,
-        getRenderingDepthByteCount(), getRenderingStencilByteCount(), 0u),
+        get_rendering_depth_byte_count(), get_rendering_stencil_byte_count(), 0u),
       mDefaultWindow)
-  , mInitialized(false)
+  , m_initialized(false)
 {}
 
 
 
-GraphicContext::GraphicContext(GraphicContext&& other)
+graphic_context::graphic_context(graphic_context&& other)
   : mExtensionInitializer()
   , mDefaultWindow(std::move(other.mDefaultWindow))
   , gl_context(std::move(other.gl_context))
-  , mInitialized(std::move(other.mInitialized))
+  , m_initialized(std::move(other.m_initialized))
 {}
 
 
 
-bool GraphicContext::is_current() const
+bool graphic_context::is_current() const
 {
   return gl_context.is_current();
 }
 
 
 
-void GraphicContext::initialize()
+void graphic_context::initialize()
 {
-  mInitialized = true;
+  m_initialized = true;
 
   // Set texture pack and unpack alignment to 1 so that there is no padding.
   gl::set_unpack_alignment(1);
@@ -110,7 +110,7 @@ void GraphicContext::initialize()
 
 
 
-GraphicContext::ExtensionInitializer::ExtensionInitializer()
+graphic_context::extension_initializer::extension_initializer()
 {
   gl::init_extensions();
 }

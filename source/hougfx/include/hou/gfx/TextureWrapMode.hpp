@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_TEXTURE_WRAP_MODE_HPP
 #define HOU_GFX_TEXTURE_WRAP_MODE_HPP
 
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/gl/open_gl.hpp"
 

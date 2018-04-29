@@ -6,7 +6,7 @@
 #define HOU_GFX_GRAPHIC_CONTEXT_HPP
 
 #include "hou/cor/non_copyable.hpp"
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 
@@ -21,24 +21,24 @@ namespace hou
 
 /** Represents the global state of the rendering device.
  *
- * At least one GraphicContext must exist when creating rendering objects.
+ * At least one graphic_context must exist when creating rendering objects.
  * For most applications, it is sufficient to create and set as current a
- * single GraphicContext at startup, and destroy it at shutdown. Each thread may
- * have a single current GraphicContext. Each GraphicContext may be current in a
+ * single graphic_context at startup, and destroy it at shutdown. Each thread may
+ * have a single current graphic_context. Each graphic_context may be current in a
  * single thread. Resources are not shared among contexts. Even though multiple
  * contexts in multiple threads may exist, it is suggested to perform all
- * rendering operations in a single thread. If a GraphicContext is destroyed
- * while it is current, there will be nocurrent GraphicContext until another
- * GraphicContext is created or set as current.
+ * rendering operations in a single thread. If a graphic_context is destroyed
+ * while it is current, there will be nocurrent graphic_context until another
+ * graphic_context is created or set as current.
  */
-class HOU_GFX_API GraphicContext : public non_copyable
+class HOU_GFX_API graphic_context : public non_copyable
 {
 public:
   /** Sets this as the current ph_context for the current thread.
    */
-  static void set_current(GraphicContext& ph_context);
+  static void set_current(graphic_context& ph_context);
 
-  /** Unsets the current GraphicContext.
+  /** Unsets the current graphic_context.
    */
   static void unset_current();
 
@@ -46,29 +46,29 @@ public:
    *
    * \return the number of ph_color bits.
    */
-  static uint getRenderingColorByteCount();
+  static uint get_rendering_color_byte_count();
 
   /** Gets the number of depth bits used in rendering.
    *
    * \return the number of depth bits.
    */
-  static uint getRenderingDepthByteCount();
+  static uint get_rendering_depth_byte_count();
 
   /** Gets the number of stencil bits used in rendering.
    *
    * \return the number of stencil bits.
    */
-  static uint getRenderingStencilByteCount();
+  static uint get_rendering_stencil_byte_count();
 
 public:
-  /** Creates a GraphicContext and sets it as the current GraphicContext. */
-  GraphicContext();
+  /** Creates a graphic_context and sets it as the current graphic_context. */
+  graphic_context();
 
   /** Move constructor.
    *
-   * \param other the other GraphicContext.
+   * \param other the other graphic_context.
    */
-  GraphicContext(GraphicContext&& other);
+  graphic_context(graphic_context&& other);
 
   /** Checks if this ph_context is current in the current thread.
    *
@@ -77,10 +77,10 @@ public:
   bool is_current() const;
 
 private:
-  class ExtensionInitializer
+  class extension_initializer
   {
   public:
-    ExtensionInitializer();
+    extension_initializer();
   };
 
 private:
@@ -91,10 +91,10 @@ private:
   void initialize();
 
 private:
-  ExtensionInitializer mExtensionInitializer;
+  extension_initializer mExtensionInitializer;
   system_window mDefaultWindow;
   gl::context gl_context;
-  bool mInitialized;
+  bool m_initialized;
 };
 
 }  // namespace hou

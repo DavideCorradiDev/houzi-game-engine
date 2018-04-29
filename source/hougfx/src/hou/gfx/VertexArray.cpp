@@ -47,7 +47,7 @@ VertexArray::VertexArray(VertexArray&& other)
 
 
 
-const gl::vertex_array_handle& VertexArray::getHandle() const
+const gl::vertex_array_handle& VertexArray::get_handle() const
 {
   return m_handle;
 }
@@ -67,7 +67,7 @@ void VertexArray::setVertexData(
   HOU_EXPECT(bindingIndex <= getMaxBindingIndex());
 
   gl::set_vertex_array_vertex_buffer(m_handle, static_cast<GLuint>(bindingIndex),
-    vb.getHandle(), static_cast<GLintptr>(vf.getOffset()),
+    vb.get_handle(), static_cast<GLintptr>(vf.getOffset()),
     static_cast<GLsizei>(vf.getStride()));
 
   const std::vector<VertexAttribFormat>& vafs = vf.getVertexAttribFormats();
@@ -88,7 +88,7 @@ void VertexArray::setVertexData(
 
 void VertexArray::setElementData(const VertexBuffer& eb)
 {
-  gl::setVertexArrayElementBuffer(m_handle, eb.getHandle());
+  gl::setVertexArrayElementBuffer(m_handle, eb.get_handle());
 }
 
 }  // namespace hou

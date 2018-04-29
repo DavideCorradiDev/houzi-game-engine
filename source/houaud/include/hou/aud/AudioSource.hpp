@@ -45,7 +45,7 @@ public:
    *
    *  \return the OpenAL audio source handle.
    */
-  const al::SourceHandle& getHandle() const;
+  const al::SourceHandle& get_handle() const;
 
   /** Plays the audio source.
    *

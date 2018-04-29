@@ -38,11 +38,11 @@ void MemoryAudioSource::setBuffer(const AudioBuffer* buffer)
   mBufferRef = buffer;
   if(buffer != nullptr)
   {
-    al::setSourceBuffer(getHandle(), buffer->getHandle().get_name());
+    al::setSourceBuffer(get_handle(), buffer->get_handle().get_name());
   }
   else
   {
-    al::setSourceBuffer(getHandle(), 0);
+    al::setSourceBuffer(get_handle(), 0);
   }
 }
 

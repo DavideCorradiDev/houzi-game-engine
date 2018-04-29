@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_SHADER_TYPE_HPP
 #define HOU_GFX_SHADER_TYPE_HPP
 
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/gl/open_gl.hpp"
 

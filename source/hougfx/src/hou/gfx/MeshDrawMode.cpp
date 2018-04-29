@@ -2,12 +2,12 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gfx/MeshDrawMode.hpp"
+#include "hou/gfx/mesh_draw_mode.hpp"
 
 #include "hou/cor/error.hpp"
 
 #define MESH_DRAW_MODE_CASE(mdm, os) \
-  case MeshDrawMode::mdm:            \
+  case mesh_draw_mode::mdm:            \
     return (os) << #mdm
 
 
@@ -15,21 +15,21 @@
 namespace hou
 {
 
-std::ostream& operator<<(std::ostream& os, MeshDrawMode mdm)
+std::ostream& operator<<(std::ostream& os, mesh_draw_mode mdm)
 {
   switch(mdm)
   {
-    MESH_DRAW_MODE_CASE(Points, os);
-    MESH_DRAW_MODE_CASE(LineStrip, os);
-    MESH_DRAW_MODE_CASE(LineLoop, os);
-    MESH_DRAW_MODE_CASE(Lines, os);
-    MESH_DRAW_MODE_CASE(LineStripAdjacency, os);
-    MESH_DRAW_MODE_CASE(LinesAdjacency, os);
-    MESH_DRAW_MODE_CASE(TriangleStrip, os);
-    MESH_DRAW_MODE_CASE(TriangleFan, os);
-    MESH_DRAW_MODE_CASE(Triangles, os);
-    MESH_DRAW_MODE_CASE(TriangleStripAdjacency, os);
-    MESH_DRAW_MODE_CASE(Patches, os);
+    MESH_DRAW_MODE_CASE(points, os);
+    MESH_DRAW_MODE_CASE(line_strip, os);
+    MESH_DRAW_MODE_CASE(line_loop, os);
+    MESH_DRAW_MODE_CASE(lines, os);
+    MESH_DRAW_MODE_CASE(line_strip_adjacency, os);
+    MESH_DRAW_MODE_CASE(line_adjacency, os);
+    MESH_DRAW_MODE_CASE(triangle_strip, os);
+    MESH_DRAW_MODE_CASE(triangle_fan, os);
+    MESH_DRAW_MODE_CASE(triangles, os);
+    MESH_DRAW_MODE_CASE(triangle_strip_adjacency, os);
+    MESH_DRAW_MODE_CASE(patches, os);
   default:
     return os;
   }

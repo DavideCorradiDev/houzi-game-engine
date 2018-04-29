@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_RENDER_WINDOW_HPP
 #define HOU_GFX_RENDER_WINDOW_HPP
 
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 #include "hou/gfx/RenderSurface.hpp"
 #include "hou/sys/window.hpp"
 

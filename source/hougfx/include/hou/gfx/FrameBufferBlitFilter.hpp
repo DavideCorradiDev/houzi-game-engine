@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_FRAME_BUFFER_BLIT_FILTER_HPP
 #define HOU_GFX_FRAME_BUFFER_BLIT_FILTER_HPP
 
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/gl/open_gl.hpp"
 
@@ -18,16 +18,16 @@ namespace hou
 
 /** Specifies how to filter when blitting a framebuffer onto another.
  */
-enum class FrameBufferBlitFilter : GLenum
+enum class framebuffer_blit_filter : GLenum
 {
   /** Do not filter. */
-  Nearest = GL_NEAREST,
-  /** Linear interpolation filter. */
-  Linear = GL_LINEAR,
+  nearest = GL_NEAREST,
+  /** linear interpolation filter. */
+  linear = GL_LINEAR,
 };
 
 HOU_GFX_API std::ostream& operator<<(
-  std::ostream& os, FrameBufferBlitFilter fbbf);
+  std::ostream& os, framebuffer_blit_filter fbbf);
 
 }  // namespace hou
 

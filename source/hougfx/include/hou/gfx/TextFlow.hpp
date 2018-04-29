@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_TEXT_FLOW_HPP
 #define HOU_GFX_TEXT_FLOW_HPP
 
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
 #include <iostream>
 

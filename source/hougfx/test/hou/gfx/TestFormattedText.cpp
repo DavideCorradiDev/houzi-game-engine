@@ -6,8 +6,8 @@
 #include "hou/gfx/TestData.hpp"
 #include "hou/gfx/TestGfxBase.hpp"
 
-#include "hou/gfx/Font.hpp"
-#include "hou/gfx/FormattedText.hpp"
+#include "hou/gfx/font.hpp"
+#include "hou/gfx/formatted_text.hpp"
 
 #include "hou/sys/binary_file_in.hpp"
 
@@ -23,12 +23,12 @@ static constexpr float testAcc = 1.e-6f;
 class TestFormattedText : public TestGfxBase
 {
 public:
-  Font loadFont(const std::string& path);
+  font loadFont(const std::string& path);
 };
 
-Font TestFormattedText::loadFont(const std::string& path)
+font TestFormattedText::loadFont(const std::string& path)
 {
-  return Font(std::make_unique<binary_file_in>(path));
+  return font(std::make_unique<binary_file_in>(path));
 }
 
 const std::string fontPath = getDataDir() + u8"NotoSans-Regular.ttf";
@@ -94,10 +94,10 @@ const std::string fontPath = getDataDir() + u8"NotoSans-Regular.ttf";
 //
 //
 //
-// void print(const FormattedText& ft)
+// void print(const formatted_text& ft)
 // {
-//   print(ft.getAtlas().get_image<pixel_format::r>());
-//   print(ft.getMesh().getVertices());
+//   print(ft.get_atlas().get_image<pixel_format::r>());
+//   print(ft.get_mesh().getVertices());
 // }
 
 }  // namespace
@@ -106,15 +106,15 @@ const std::string fontPath = getDataDir() + u8"NotoSans-Regular.ttf";
 
 TEST_F(TestFormattedText, Utf8Constructor)
 {
-  Font f = loadFont(fontPath);
+  font f = loadFont(fontPath);
   std::string s = u8"A";
-  FormattedText ft(s, f);
+  formatted_text ft(s, f);
 
   image3R imageRef(vec3u(7u, 7u, 1u),
     {0, 0, 107, 201, 0, 0, 0, 0, 0, 200, 167, 47, 0, 0, 0, 55, 166, 64, 150, 0,
       0, 0, 156, 66, 1, 205, 10, 0, 13, 229, 204, 204, 223, 97, 0, 104, 123, 0,
       0, 38, 198, 0, 202, 28, 0, 0, 0, 193, 45});
-  TextMesh::VertexCollectionType verticesRef{
+  TextMesh::vertex_collection verticesRef{
     TextVertex(vec2f(0.f, -7.f), vec3f(0.f, 0.f, 0.f)),
     TextVertex(vec2f(7.f, -7.f), vec3f(1.f, 0.f, 0.f)),
     TextVertex(vec2f(0.f, 0.f), vec3f(0.f, 1.f, 0.f)),
@@ -124,24 +124,24 @@ TEST_F(TestFormattedText, Utf8Constructor)
   };
   rectf rectRef(0.f, -7.f, 7.f, 7.f);
 
-  EXPECT_EQ(imageRef, ft.getAtlas().get_image<pixel_format::r>());
-  HOU_EXPECT_CLOSE(verticesRef, ft.getMesh().getVertices(), testAcc);
-  HOU_EXPECT_CLOSE(rectRef, ft.getBoundingBox(), testAcc);
+  EXPECT_EQ(imageRef, ft.get_atlas().get_image<pixel_format::r>());
+  HOU_EXPECT_CLOSE(verticesRef, ft.get_mesh().getVertices(), testAcc);
+  HOU_EXPECT_CLOSE(rectRef, ft.get_bounding_box(), testAcc);
 }
 
 
 
 TEST_F(TestFormattedText, Utf32Constructor)
 {
-  Font f = loadFont(fontPath);
+  font f = loadFont(fontPath);
   std::u32string s = U"A";
-  FormattedText ft(s, f);
+  formatted_text ft(s, f);
 
   image3R imageRef(vec3u(7u, 7u, 1u),
     {0, 0, 107, 201, 0, 0, 0, 0, 0, 200, 167, 47, 0, 0, 0, 55, 166, 64, 150, 0,
       0, 0, 156, 66, 1, 205, 10, 0, 13, 229, 204, 204, 223, 97, 0, 104, 123, 0,
       0, 38, 198, 0, 202, 28, 0, 0, 0, 193, 45});
-  TextMesh::VertexCollectionType verticesRef{
+  TextMesh::vertex_collection verticesRef{
     TextVertex(vec2f(0.f, -7.f), vec3f(0.f, 0.f, 0.f)),
     TextVertex(vec2f(7.f, -7.f), vec3f(1.f, 0.f, 0.f)),
     TextVertex(vec2f(0.f, 0.f), vec3f(0.f, 1.f, 0.f)),
@@ -151,25 +151,25 @@ TEST_F(TestFormattedText, Utf32Constructor)
   };
   rectf rectRef(0.f, -7.f, 7.f, 7.f);
 
-  EXPECT_EQ(imageRef, ft.getAtlas().get_image<pixel_format::r>());
-  HOU_EXPECT_CLOSE(verticesRef, ft.getMesh().getVertices(), testAcc);
-  HOU_EXPECT_CLOSE(rectRef, ft.getBoundingBox(), testAcc);
+  EXPECT_EQ(imageRef, ft.get_atlas().get_image<pixel_format::r>());
+  HOU_EXPECT_CLOSE(verticesRef, ft.get_mesh().getVertices(), testAcc);
+  HOU_EXPECT_CLOSE(rectRef, ft.get_bounding_box(), testAcc);
 }
 
 
 
 TEST_F(TestFormattedText, MoveConstructor)
 {
-  Font f = loadFont(fontPath);
+  font f = loadFont(fontPath);
   std::u32string s = U"A";
-  FormattedText ftDummy(s, f);
-  FormattedText ft(std::move(ftDummy));
+  formatted_text ftDummy(s, f);
+  formatted_text ft(std::move(ftDummy));
 
   image3R imageRef(vec3u(7u, 7u, 1u),
     {0, 0, 107, 201, 0, 0, 0, 0, 0, 200, 167, 47, 0, 0, 0, 55, 166, 64, 150, 0,
       0, 0, 156, 66, 1, 205, 10, 0, 13, 229, 204, 204, 223, 97, 0, 104, 123, 0,
       0, 38, 198, 0, 202, 28, 0, 0, 0, 193, 45});
-  TextMesh::VertexCollectionType verticesRef{
+  TextMesh::vertex_collection verticesRef{
     TextVertex(vec2f(0.f, -7.f), vec3f(0.f, 0.f, 0.f)),
     TextVertex(vec2f(7.f, -7.f), vec3f(1.f, 0.f, 0.f)),
     TextVertex(vec2f(0.f, 0.f), vec3f(0.f, 1.f, 0.f)),
@@ -179,18 +179,18 @@ TEST_F(TestFormattedText, MoveConstructor)
   };
   rectf rectRef(0.f, -7.f, 7.f, 7.f);
 
-  EXPECT_EQ(imageRef, ft.getAtlas().get_image<pixel_format::r>());
-  HOU_EXPECT_CLOSE(verticesRef, ft.getMesh().getVertices(), testAcc);
-  HOU_EXPECT_CLOSE(rectRef, ft.getBoundingBox(), testAcc);
+  EXPECT_EQ(imageRef, ft.get_atlas().get_image<pixel_format::r>());
+  HOU_EXPECT_CLOSE(verticesRef, ft.get_mesh().getVertices(), testAcc);
+  HOU_EXPECT_CLOSE(rectRef, ft.get_bounding_box(), testAcc);
 }
 
 
 
 TEST_F(TestFormattedText, TwoCharacters)
 {
-  Font f = loadFont(fontPath);
+  font f = loadFont(fontPath);
   std::u32string s = U"AB";
-  FormattedText ft(s, f);
+  formatted_text ft(s, f);
   image3R imageRef(vec3u(14u, 7u, 1u),
     {0u, 0u, 107u, 201u, 0u, 0u, 0u, 8u, 248u, 196u, 195u, 197u, 49u, 0u, 0u,
       0u, 200u, 167u, 47u, 0u, 0u, 8u, 224u, 0u, 0u, 85u, 167u, 0u, 0u, 55u,
@@ -214,18 +214,18 @@ TEST_F(TestFormattedText, TwoCharacters)
     TextVertex(vec2f(12.f, 0.f), vec3f(0.928571f, 1.f, 0.f))};
   rectf rectRef(0.f, -7.f, 12.f, 7.f);
 
-  EXPECT_EQ(imageRef, ft.getAtlas().get_image<pixel_format::r>());
-  HOU_EXPECT_CLOSE(verticesRef, ft.getMesh().getVertices(), testAcc);
-  HOU_EXPECT_CLOSE(rectRef, ft.getBoundingBox(), testAcc);
+  EXPECT_EQ(imageRef, ft.get_atlas().get_image<pixel_format::r>());
+  HOU_EXPECT_CLOSE(verticesRef, ft.get_mesh().getVertices(), testAcc);
+  HOU_EXPECT_CLOSE(rectRef, ft.get_bounding_box(), testAcc);
 }
 
 
 
 TEST_F(TestFormattedText, StringWithSpace)
 {
-  Font f = loadFont(fontPath);
+  font f = loadFont(fontPath);
   std::u32string s = U"I love cakes";
-  FormattedText ft(s, f);
+  formatted_text ft(s, f);
   image3R imageRef(vec3u(60u, 7u, 1u),
     {0u, 0u, 0u, 0u, 0u, 0u, 89u, 237u, 169u, 0u, 0u, 0u, 0u, 152u, 180u, 199u,
       87u, 0u, 0u, 129u, 200u, 208u, 70u, 0u, 0u, 130u, 187u, 193u, 88u, 0u,
@@ -329,19 +329,19 @@ TEST_F(TestFormattedText, StringWithSpace)
     TextVertex(vec2f(56.f, 0.f), vec3f(0.883333f, 0.714286f, 0.f))};
   rectf rectRef(0.f, -7.f, 56.f, 7.f);
 
-  EXPECT_EQ(imageRef, ft.getAtlas().get_image<pixel_format::r>());
-  HOU_EXPECT_CLOSE(verticesRef, ft.getMesh().getVertices(), testAcc);
-  HOU_EXPECT_CLOSE(rectRef, ft.getBoundingBox(), testAcc);
+  EXPECT_EQ(imageRef, ft.get_atlas().get_image<pixel_format::r>());
+  HOU_EXPECT_CLOSE(verticesRef, ft.get_mesh().getVertices(), testAcc);
+  HOU_EXPECT_CLOSE(rectRef, ft.get_bounding_box(), testAcc);
 }
 
 
 
 TEST_F(TestFormattedText, StringWithNewLine)
 {
-  Font f = loadFont(fontPath);
+  font f = loadFont(fontPath);
   std::u32string s = U"I love\n cheese \ncakes";
 
-  FormattedText ft(s, f);
+  formatted_text ft(s, f);
   image3R imageRef(vec3u(72u, 7u, 1u),
     {16u, 188u, 132u, 132u, 188u, 12u, 0u, 0u, 0u, 0u, 0u, 0u, 89u, 237u, 169u,
       0u, 0u, 0u, 0u, 152u, 180u, 199u, 87u, 0u, 0u, 129u, 200u, 208u, 70u, 0u,
@@ -505,7 +505,7 @@ TEST_F(TestFormattedText, StringWithNewLine)
     TextVertex(vec2f(27.f, 28.f), vec3f(0.902778f, 0.714286f, 0.f))};
   rectf rectRef(0.f, -7.f, 37.f, 35.f);
 
-  EXPECT_EQ(imageRef, ft.getAtlas().get_image<pixel_format::r>());
-  HOU_EXPECT_CLOSE(verticesRef, ft.getMesh().getVertices(), testAcc);
-  HOU_EXPECT_CLOSE(rectRef, ft.getBoundingBox(), testAcc);
+  EXPECT_EQ(imageRef, ft.get_atlas().get_image<pixel_format::r>());
+  HOU_EXPECT_CLOSE(verticesRef, ft.get_mesh().getVertices(), testAcc);
+  HOU_EXPECT_CLOSE(rectRef, ft.get_bounding_box(), testAcc);
 }

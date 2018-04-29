@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_VERTEX_2_HPP
 #define HOU_GFX_VERTEX_2_HPP
 
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 #include "hou/cor/pragmas.hpp"
@@ -36,7 +36,7 @@ HOU_PRAGMA_PACK_PUSH(1)
 class HOU_GFX_API Vertex2
 {
 public:
-  /** Type to be used as accuracy in close comparison checks for Mesh.
+  /** Type to be used as accuracy in close comparison checks for mesh.
    */
   using ComparisonType = float;
 
@@ -144,14 +144,14 @@ HOU_GFX_API bool close(const Vertex2& lhs, const Vertex2& rhs,
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, const Vertex2& v);
 
-/** Creates a Mesh object representing a ph_rectangle shape with the given size.
+/** Creates a mesh object representing a ph_rectangle shape with the given size.
  *
  *  The texture coordinates are defined so that a texture is stretched to cover
  *  the entire ph_rectangle.
  *  The ph_color is always white.
  *
  *  \param size the size of the ph_rectangle.
- *  \return the Mesh representing the ph_rectangle.
+ *  \return the mesh representing the ph_rectangle.
  */
 HOU_GFX_API Mesh2 createRectangleMesh2(const vec2f& size);
 
@@ -210,8 +210,8 @@ HOU_GFX_API Mesh2 createEllipseOutlineMesh2(
  *  ph_rectangle of a texture.
  *
  *  A texture quad has a rectangular shape with the top left corner at the
- * origin and the size specified by rect, just like a normal ph_rectangle mesh.
- *  Unlike the ph_rectangle mesh, the texture coordinates are defined to coincide
+ * origin and the size specified by rect, just like a normal ph_rectangle ph_mesh.
+ *  Unlike the ph_rectangle ph_mesh, the texture coordinates are defined to coincide
  *  with the elements of rect, normalized by the actual texture size.
  *  The same texture quad may be used with different textures with the same
  * size. If a texture quad is used with a texture of a different size than the

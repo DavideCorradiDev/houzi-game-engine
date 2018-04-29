@@ -35,8 +35,8 @@ public:
   Device(Device&& other);
   ~Device();
 
-  const ALCdevice* getHandle() const;
-  ALCdevice* getHandle();
+  const ALCdevice* get_handle() const;
+  ALCdevice* get_handle();
   uint32_t get_uid() const;
 
 private:

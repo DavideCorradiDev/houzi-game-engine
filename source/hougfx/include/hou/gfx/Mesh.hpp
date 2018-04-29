@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_MESH_HPP
 #define HOU_GFX_MESH_HPP
 
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/cor/non_copyable.hpp"
 
@@ -13,8 +13,8 @@
 #include "hou/cor/span.hpp"
 #include "hou/cor/std_vector.hpp"
 
-#include "hou/gfx/MeshDrawMode.hpp"
-#include "hou/gfx/MeshFillMode.hpp"
+#include "hou/gfx/mesh_draw_mode.hpp"
+#include "hou/gfx/mesh_fill_mode.hpp"
 #include "hou/gfx/VertexBuffer.hpp"
 #include "hou/gfx/VertexArray.hpp"
 
@@ -25,137 +25,137 @@
 namespace hou
 {
 
-/** Represents a mesh.
+/** Represents a ph_mesh.
  *
- *  The vertex information of a Mesh object is stored in the VRAM.
- *  There must be a current ph_context to create a Mesh object.
- *  A Mesh object should be used only if the owning ph_context is current.
+ *  The vertex information of a mesh object is stored in the VRAM.
+ *  There must be a current ph_context to create a mesh object.
+ *  A mesh object should be used only if the owning ph_context is current.
  *
- *  \tparam T the type of vertex stored by the mesh.
+ *  \tparam T the type of vertex stored by the ph_mesh.
  */
-class HOU_GFX_API Mesh : public non_copyable
+class HOU_GFX_API mesh : public non_copyable
 {
 public:
-  /** Draws a Mesh object with the current shader and texture.
+  /** Draws a mesh object with the current shader and texture.
    *
-   *  The draw operation automatically binds the mesh to the current
-   * GraphicContext.
+   *  The draw operation automatically binds the ph_mesh to the current
+   * graphic_context.
    *
-   *  \param mesh the Mesh to be drawn.
+   *  \param ph_mesh the mesh to be drawn.
    */
-  static void draw(const Mesh& mesh);
+  static void draw(const mesh& ph_mesh);
 
 public:
   /** Destructor.
    */
-  virtual ~Mesh() = 0;
+  virtual ~mesh() = 0;
 
-  /** Gets the MeshDrawMode.
+  /** Gets the mesh_draw_mode.
    *
-   *  \return the MeshDrawMode.
+   *  \return the mesh_draw_mode.
    */
-  MeshDrawMode getDrawMode() const;
+  mesh_draw_mode get_draw_mode() const;
 
-  /** Gets the MeshFillMode.
+  /** Gets the mesh_fill_mode.
    *
-   *  \return the MeshFillMode.
+   *  \return the mesh_fill_mode.
    */
-  MeshFillMode getFillMode() const;
+  mesh_fill_mode get_fill_mode() const;
 
-  /** Gets the number of vertices in the mesh.
+  /** Gets the number of vertices in the ph_mesh.
    *
-   *  \return the number of vertices in the mesh.
+   *  \return the number of vertices in the ph_mesh.
    */
-  uint getVertexCount() const;
+  uint get_vertex_count() const;
 
 protected:
   /** Generic constructor.
    *
    *  To be used by derived classes.
    *
-   *  \param drawMode the MeshDrawMode.
-   *  \param fillMode the MeshFillMode.
+   *  \param drawMode the mesh_draw_mode.
+   *  \param fillMode the mesh_fill_mode.
    *  \param vertexCount the number of vertices.
    */
-  Mesh(MeshDrawMode drawMode, MeshFillMode fillMode, uint vertexCount);
+  mesh(mesh_draw_mode drawMode, mesh_fill_mode fillMode, uint vertexCount);
 
   /** Move constructor.
    *
-   *  \param other the other MeshT object.
+   *  \param other the other mesh_t object.
    */
-  Mesh(Mesh&& other);
+  mesh(mesh&& other);
 
 protected:
-  MeshDrawMode mDrawMode;
-  MeshFillMode mFillMode;
-  uint mVertexCount;
-  VertexArray mVao;
+  mesh_draw_mode m_draw_mode;
+  mesh_fill_mode m_fill_mode;
+  uint m_vertex_count;
+  VertexArray m_vao;
 };
 
-/** Represents a mesh.
+/** Represents a ph_mesh.
  *
- *  The vertex information of a Mesh object is stored in the VRAM.
- *  There must be a current ph_context to create a Mesh object.
- *  A Mesh object should be used only if the owning ph_context is current.
+ *  The vertex information of a mesh object is stored in the VRAM.
+ *  There must be a current ph_context to create a mesh object.
+ *  A mesh object should be used only if the owning ph_context is current.
  *
- *  \tparam T the type of vertex stored by the mesh.
+ *  \tparam T the type of vertex stored by the ph_mesh.
  */
 template <typename T>
-class MeshT : public Mesh
+class mesh_t : public mesh
 {
 public:
-  /** Type of the vertices stored in the Mesh. */
-  using VertexType = T;
+  /** Type of the vertices stored in the mesh. */
+  using vertex_type = T;
 
-  /** Type used to represent the collection of vertices stored in the Mesh. */
-  using VertexCollectionType = std::vector<T>;
+  /** Type used to represent the collection of vertices stored in the mesh. */
+  using vertex_collection = std::vector<T>;
 
 public:
-  /** Creates a Mesh with the given MeshDrawMode, MeshFillMode, and vertices.
+  /** Creates a mesh with the given mesh_draw_mode, mesh_fill_mode, and vertices.
    *
-   *  \param drawMode the MeshDrawMode.
-   *  \param fillMode the MeshFillMode.
+   *  \param drawMode the mesh_draw_mode.
+   *  \param fillMode the mesh_fill_mode.
    *  \param vertices the vertices.
    */
-  MeshT(MeshDrawMode drawMode, MeshFillMode fillMode,
+  mesh_t(mesh_draw_mode drawMode, mesh_fill_mode fillMode,
     const span<const T>& vertices);
 
   /** Move constructor.
    *
-   *  \param other the other MeshT object.
+   *  \param other the other mesh_t object.
    */
-  MeshT(MeshT&& other);
+  mesh_t(mesh_t&& other);
 
-  /** Gets the vertices in the mesh inside a vector.
+  /** Gets the vertices in the ph_mesh inside a vector.
    *
-   *  \return a vector containing the vertices of the mesh.
+   *  \return a vector containing the vertices of the ph_mesh.
    */
-  VertexCollectionType getVertices() const;
+  vertex_collection getVertices() const;
 
 private:
-  StaticVertexBuffer<T> mVbo;
+  StaticVertexBuffer<T> m_vbo;
 };
 
 
-/** Checks if two Mesh objects are equal.
+/** Checks if two mesh objects are equal.
  *
  *  \param lhs the left operand.
  *  \param rhs the right operand.
  *  \return true if the two objects are equal.
  */
 template <typename T>
-bool operator==(const MeshT<T>& lhs, const MeshT<T>& rhs);
+bool operator==(const mesh_t<T>& lhs, const mesh_t<T>& rhs);
 
-/** Checks if two MeshT objects are not equal.
+/** Checks if two mesh_t objects are not equal.
  *
  *  \param lhs the left operand.
  *  \param rhs the right operand.
  *  \return true if the two objects are not equal.
  */
 template <typename T>
-bool operator!=(const MeshT<T>& lhs, const MeshT<T>& rhs);
+bool operator!=(const mesh_t<T>& lhs, const mesh_t<T>& rhs);
 
-/** Checks if two MeshT objects are equal with the specified accuracy.
+/** Checks if two mesh_t objects are equal with the specified accuracy.
  *
  *  \param lhs the left operand.
  *  \param rhs the right operand.
@@ -163,21 +163,21 @@ bool operator!=(const MeshT<T>& lhs, const MeshT<T>& rhs);
  *  \return true if the two objects are equal.
  */
 template <typename T>
-bool close(const MeshT<T>& lhs, const MeshT<T>& rhs,
+bool close(const mesh_t<T>& lhs, const mesh_t<T>& rhs,
   typename T::ComparisonType acc
   = std::numeric_limits<typename T::ComparisonType>::epsilon());
 
 /** Writes the object into a ph_stream.
  *
  *  \param os the ph_stream.
- *  \param m the MeshT.
+ *  \param m the mesh_t.
  *  \return a reference to os.
  */
 template <typename T>
-std::ostream& operator<<(std::ostream& os, const MeshT<T>& m);
+std::ostream& operator<<(std::ostream& os, const mesh_t<T>& m);
 
 }  // namespace hou
 
-#include "hou/gfx/Mesh.inl"
+#include "hou/gfx/mesh.inl"
 
 #endif

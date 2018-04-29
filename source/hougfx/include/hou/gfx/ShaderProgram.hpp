@@ -6,7 +6,7 @@
 #define HOU_GFX_SHADER_PROGRAM_HPP
 
 #include "hou/cor/non_copyable.hpp"
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 #include "hou/cor/character_encodings.hpp"
@@ -37,7 +37,7 @@ public:
   ShaderProgram(ShaderProgram&& other);
   virtual ~ShaderProgram() = 0;
 
-  const gl::program_handle& getHandle() const;
+  const gl::program_handle& get_handle() const;
   bool isBound() const;
   uint getUniformLocation(const std::string& uniformName) const;
 

@@ -7,7 +7,7 @@
 #include "hou/mth/matrix.hpp"
 #include "hou/mth/math_functions.hpp"
 
-#include "hou/gfx/GlType.hpp"
+#include "hou/gfx/gl_type.hpp"
 #include "hou/gfx/TextureChannelMapping.hpp"
 
 
@@ -339,7 +339,7 @@ Texture::~Texture()
 
 
 
-const gl::texture_handle& Texture::getHandle() const
+const gl::texture_handle& Texture::get_handle() const
 {
   return mGlTextureHandle;
 }
@@ -732,9 +732,9 @@ TextureFilter TextureT<type>::getFilter() const
   switch(get_texture_min_filter(mGlTextureHandle))
   {
   case GL_NEAREST_MIPMAP_NEAREST:
-    return TextureFilter::Nearest;
+    return TextureFilter::nearest;
   case GL_NEAREST_MIPMAP_LINEAR:
-    return TextureFilter::Linear;
+    return TextureFilter::linear;
   case GL_LINEAR_MIPMAP_NEAREST:
     return TextureFilter::Bilinear;
   case GL_LINEAR_MIPMAP_LINEAR:
@@ -753,11 +753,11 @@ void TextureT<type>::setFilter(TextureFilter filter)
 {
   switch(filter)
   {
-  case TextureFilter::Nearest:
+  case TextureFilter::nearest:
     set_texture_min_filter(mGlTextureHandle, GL_NEAREST_MIPMAP_NEAREST);
     set_texture_mag_filter(mGlTextureHandle, GL_NEAREST);
     break;
-  case TextureFilter::Linear:
+  case TextureFilter::linear:
     set_texture_min_filter(mGlTextureHandle, GL_NEAREST_MIPMAP_LINEAR);
     set_texture_mag_filter(mGlTextureHandle, GL_NEAREST);
     break;
@@ -880,7 +880,7 @@ typename TextureT<type>::template image<fmt> TextureT<type>::get_image() const
   size_type size = get_size();
   std::vector<uint8_t> buffer(computeImageBufferSize(size, fmt));
   gl::get_texture_image(mGlTextureHandle, 0u, pixelFormatToGlPixelFormat(fmt),
-    static_cast<GLenum>(toGlType<uint8_t>()), buffer.size(), buffer.data());
+    static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
   return image<fmt>(size,
     reinterpret_span<const typename image<fmt>::pixel>(span<uint8_t>(buffer)));
 }
@@ -897,7 +897,7 @@ typename TextureT<TextureType::Texture1>::template image<fmt>
   gl::set_unpack_alignment(1);
   std::vector<uint8_t> buffer(computeImageBufferSize(size, fmt));
   gl::get_texture_sub_image(mGlTextureHandle, offset.x(), 0, 0, size.x(), 1, 1, 0,
-    pixelFormatToGlPixelFormat(fmt), static_cast<GLenum>(toGlType<uint8_t>()),
+    pixelFormatToGlPixelFormat(fmt), static_cast<GLenum>(to_gl_type<uint8_t>()),
     buffer.size(), buffer.data());
   return image<fmt>(size,
     reinterpret_span<const typename image<fmt>::pixel>(span<uint8_t>(buffer)));
@@ -916,7 +916,7 @@ typename TextureT<TextureType::Texture1Array>::template image<fmt>
   std::vector<uint8_t> buffer(computeImageBufferSize(size, fmt));
   gl::get_texture_sub_image(mGlTextureHandle, offset.x(), offset.y(), 0, size.x(),
     size.y(), 1, 0, pixelFormatToGlPixelFormat(fmt),
-    static_cast<GLenum>(toGlType<uint8_t>()), buffer.size(), buffer.data());
+    static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
   return image<fmt>(size,
     reinterpret_span<const typename image<fmt>::pixel>(span<uint8_t>(buffer)));
 }
@@ -934,7 +934,7 @@ typename TextureT<TextureType::Texture2>::template image<fmt>
   std::vector<uint8_t> buffer(computeImageBufferSize(size, fmt));
   gl::get_texture_sub_image(mGlTextureHandle, offset.x(), offset.y(), 0, size.x(),
     size.y(), 1, 0, pixelFormatToGlPixelFormat(fmt),
-    static_cast<GLenum>(toGlType<uint8_t>()), buffer.size(), buffer.data());
+    static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
   return image<fmt>(size,
     reinterpret_span<const typename image<fmt>::pixel>(span<uint8_t>(buffer)));
 }
@@ -952,7 +952,7 @@ typename TextureT<TextureType::Texture2Array>::template image<fmt>
   std::vector<uint8_t> buffer(computeImageBufferSize(size, fmt));
   gl::get_texture_sub_image(mGlTextureHandle, offset.x(), offset.y(), offset.z(),
     size.x(), size.y(), size.z(), 0, pixelFormatToGlPixelFormat(fmt),
-    static_cast<GLenum>(toGlType<uint8_t>()), buffer.size(), buffer.data());
+    static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
   return image<fmt>(size,
     reinterpret_span<const typename image<fmt>::pixel>(span<uint8_t>(buffer)));
 }
@@ -970,7 +970,7 @@ typename TextureT<TextureType::Texture3>::template image<fmt>
   std::vector<uint8_t> buffer(computeImageBufferSize(size, fmt));
   gl::get_texture_sub_image(mGlTextureHandle, offset.x(), offset.y(), offset.z(),
     size.x(), size.y(), size.z(), 0, pixelFormatToGlPixelFormat(fmt),
-    static_cast<GLenum>(toGlType<uint8_t>()), buffer.size(), buffer.data());
+    static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
   return image<fmt>(size,
     reinterpret_span<const typename image<fmt>::pixel>(span<uint8_t>(buffer)));
 }
@@ -995,7 +995,7 @@ void TextureT<TextureType::Texture1>::set_sub_image(
   HOU_EXPECT(elementWiseLowerOrEqual(offset + ph_image.get_size(), get_size()));
   gl::set_texture_sub_image_1d(mGlTextureHandle, 0u, offset.x(),
     ph_image.get_size().x(), pixelFormatToGlPixelFormat(fmt),
-    static_cast<GLenum>(toGlType<uint8_t>()),
+    static_cast<GLenum>(to_gl_type<uint8_t>()),
     reinterpret_cast<const void*>(ph_image.get_pixels().data()));
   generate_mip_map();
 }
@@ -1010,7 +1010,7 @@ void TextureT<TextureType::Texture1Array>::set_sub_image(
   HOU_EXPECT(elementWiseLowerOrEqual(offset + ph_image.get_size(), get_size()));
   gl::set_texture_sub_image_2d(mGlTextureHandle, 0, offset.x(), offset.y(),
     ph_image.get_size().x(), ph_image.get_size().y(), pixelFormatToGlPixelFormat(fmt),
-    static_cast<GLenum>(toGlType<uint8_t>()),
+    static_cast<GLenum>(to_gl_type<uint8_t>()),
     reinterpret_cast<const void*>(ph_image.get_pixels().data()));
   generate_mip_map();
 }
@@ -1025,7 +1025,7 @@ void TextureT<TextureType::Texture2>::set_sub_image(
   HOU_EXPECT(elementWiseLowerOrEqual(offset + ph_image.get_size(), get_size()));
   gl::set_texture_sub_image_2d(mGlTextureHandle, 0, offset.x(), offset.y(),
     ph_image.get_size().x(), ph_image.get_size().y(), pixelFormatToGlPixelFormat(fmt),
-    static_cast<GLenum>(toGlType<uint8_t>()),
+    static_cast<GLenum>(to_gl_type<uint8_t>()),
     reinterpret_cast<const void*>(ph_image.get_pixels().data()));
   generate_mip_map();
 }
@@ -1040,7 +1040,7 @@ void TextureT<TextureType::Texture2Array>::set_sub_image(
   HOU_EXPECT(elementWiseLowerOrEqual(offset + ph_image.get_size(), get_size()));
   gl::set_texture_sub_image_3d(mGlTextureHandle, 0, offset.x(), offset.y(),
     offset.z(), ph_image.get_size().x(), ph_image.get_size().y(), ph_image.get_size().z(),
-    pixelFormatToGlPixelFormat(fmt), static_cast<GLenum>(toGlType<uint8_t>()),
+    pixelFormatToGlPixelFormat(fmt), static_cast<GLenum>(to_gl_type<uint8_t>()),
     reinterpret_cast<const void*>(ph_image.get_pixels().data()));
   generate_mip_map();
 }
@@ -1055,7 +1055,7 @@ void TextureT<TextureType::Texture3>::set_sub_image(
   HOU_EXPECT(elementWiseLowerOrEqual(offset + ph_image.get_size(), get_size()));
   gl::set_texture_sub_image_3d(mGlTextureHandle, 0, offset.x(), offset.y(),
     offset.z(), ph_image.get_size().x(), ph_image.get_size().y(), ph_image.get_size().z(),
-    pixelFormatToGlPixelFormat(fmt), static_cast<GLenum>(toGlType<uint8_t>()),
+    pixelFormatToGlPixelFormat(fmt), static_cast<GLenum>(to_gl_type<uint8_t>()),
     reinterpret_cast<const void*>(ph_image.get_pixels().data()));
   generate_mip_map();
 }
@@ -1136,7 +1136,7 @@ typename TextureT<type>::template image<fmt> TextureT<type>::getMipMapImage(
   size_type mipMapSize = getMipMapSize(mipMapLevel);
   std::vector<uint8_t> buffer(computeImageBufferSize(mipMapSize, fmt));
   gl::get_texture_image(mGlTextureHandle, mipMapLevel,
-    pixelFormatToGlPixelFormat(fmt), static_cast<GLenum>(toGlType<uint8_t>()),
+    pixelFormatToGlPixelFormat(fmt), static_cast<GLenum>(to_gl_type<uint8_t>()),
     buffer.size(), buffer.data());
   return image<fmt>(mipMapSize,
     reinterpret_span<const typename image<fmt>::pixel>(span<uint8_t>(buffer)));

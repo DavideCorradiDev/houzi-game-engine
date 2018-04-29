@@ -68,7 +68,7 @@ AudioSource::~AudioSource()
 
 
 
-const al::SourceHandle& AudioSource::getHandle() const
+const al::SourceHandle& AudioSource::get_handle() const
 {
   return m_handle;
 }

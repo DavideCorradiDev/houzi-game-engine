@@ -85,7 +85,7 @@ public:
    *
    *  \return the OpenAL buffer handle.
    */
-  const al::buffer_handle& getHandle() const;
+  const al::buffer_handle& get_handle() const;
 
   /** Gets the audio format of the buffer.
    *

@@ -2,10 +2,10 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gfx/Font.hpp"
+#include "hou/gfx/font.hpp"
 
-#include "hou/gfx/GfxError.hpp"
-#include "hou/gfx/Glyph.hpp"
+#include "hou/gfx/gfx_error.hpp"
+#include "hou/gfx/glyph.hpp"
 
 #include "hou/cor/error.hpp"
 
@@ -80,45 +80,45 @@ FT_Library getFtLibrary()
 
 
 
-Font::Font(const span<const uint8_t>& data)
-  : mFace()
-  , mFaceIndex(0u)
-  , mPixelHeight(10u)
-  , mData(data.begin(), data.end())
+font::font(const span<const uint8_t>& data)
+  : m_face()
+  , m_face_index(0u)
+  , m_pixel_height(10u)
+  , m_data(data.begin(), data.end())
 {
   load();
 }
 
 
 
-Font::Font(not_null<std::unique_ptr<binary_stream_in>> fontStream)
-  : mFace()
-  , mFaceIndex(0u)
-  , mPixelHeight(10u)
-  , mData()
+font::font(not_null<std::unique_ptr<binary_stream_in>> fontStream)
+  : m_face()
+  , m_face_index(0u)
+  , m_pixel_height(10u)
+  , m_data()
 {
   fontStream->set_byte_pos(0u);
-  mData.resize(fontStream->get_byte_count());
-  fontStream->read(mData);
+  m_data.resize(fontStream->get_byte_count());
+  fontStream->read(m_data);
   load();
 }
 
 
 
-Font::Font(Font&& other)
-  : mFace(std::move(other.mFace))
-  , mFaceIndex(std::move(other.mFaceIndex))
-  , mPixelHeight(std::move(other.mPixelHeight))
-  , mData(std::move(other.mData))
+font::font(font&& other)
+  : m_face(std::move(other.m_face))
+  , m_face_index(std::move(other.m_face_index))
+  , m_pixel_height(std::move(other.m_pixel_height))
+  , m_data(std::move(other.m_data))
 {
-  other.mFace = nullptr;
+  other.m_face = nullptr;
 }
 
 
 
-Font::~Font()
+font::~font()
 {
-  if(mFace != nullptr)
+  if(m_face != nullptr)
   {
     destroy();
   }
@@ -126,28 +126,28 @@ Font::~Font()
 
 
 
-uint Font::getFaceIndexCount() const
+uint font::get_face_index_count() const
 {
-  HOU_EXPECT_DEV(mFace != nullptr);
-  return mFace->num_faces;
+  HOU_EXPECT_DEV(m_face != nullptr);
+  return m_face->num_faces;
 }
 
 
 
-uint Font::getFaceIndex() const
+uint font::get_face_index() const
 {
-  return mFaceIndex;
+  return m_face_index;
 }
 
 
 
-void Font::setFaceIndex(uint faceIndex)
+void font::set_face_index(uint faceIndex)
 {
-  if(mFaceIndex != faceIndex)
+  if(m_face_index != faceIndex)
   {
-    HOU_EXPECT_DEV(mFace != nullptr);
-    HOU_EXPECT(faceIndex < getFaceIndexCount());
-    mFaceIndex = faceIndex;
+    HOU_EXPECT_DEV(m_face != nullptr);
+    HOU_EXPECT(faceIndex < get_face_index_count());
+    m_face_index = faceIndex;
     destroy();
     load();
   }
@@ -155,225 +155,225 @@ void Font::setFaceIndex(uint faceIndex)
 
 
 
-uint Font::getPixelHeight() const
+uint font::get_pixel_height() const
 {
-  return mPixelHeight;
+  return m_pixel_height;
 }
 
 
 
-void Font::setPixelHeight(uint pixelHeight)
+void font::set_pixel_height(uint pixelHeight)
 {
-  if(mPixelHeight != pixelHeight)
+  if(m_pixel_height != pixelHeight)
   {
-    HOU_EXPECT_DEV(mFace != nullptr);
-    mPixelHeight = pixelHeight;
-    HOU_ENSURE(FT_Set_Pixel_Sizes(mFace, 0, pixelHeight) == 0);
+    HOU_EXPECT_DEV(m_face != nullptr);
+    m_pixel_height = pixelHeight;
+    HOU_ENSURE(FT_Set_Pixel_Sizes(m_face, 0, pixelHeight) == 0);
   }
 }
 
 
 
-bool Font::hasHorizontal() const
+bool font::has_horizontal() const
 {
-  HOU_EXPECT_DEV(mFace != nullptr);
-  return FT_HAS_HORIZONTAL(mFace);
+  HOU_EXPECT_DEV(m_face != nullptr);
+  return FT_HAS_HORIZONTAL(m_face);
 }
 
 
 
-bool Font::hasVertical() const
+bool font::has_vertical() const
 {
-  HOU_EXPECT_DEV(mFace != nullptr);
-  return FT_HAS_VERTICAL(mFace);
+  HOU_EXPECT_DEV(m_face != nullptr);
+  return FT_HAS_VERTICAL(m_face);
 }
 
 
 
-bool Font::hasKerning() const
+bool font::has_kerning() const
 {
-  HOU_EXPECT_DEV(mFace != nullptr);
-  return FT_HAS_KERNING(mFace);
+  HOU_EXPECT_DEV(m_face != nullptr);
+  return FT_HAS_KERNING(m_face);
 }
 
 
 
-bool Font::isScalable() const
+bool font::is_scalable() const
 {
-  HOU_EXPECT_DEV(mFace != nullptr);
-  return FT_IS_SCALABLE(mFace);
+  HOU_EXPECT_DEV(m_face != nullptr);
+  return FT_IS_SCALABLE(m_face);
 }
 
 
 
-recti Font::getGlyphBoundingBox() const
+recti font::get_glyph_bounding_box() const
 {
-  HOU_EXPECT_DEV(mFace != nullptr);
+  HOU_EXPECT_DEV(m_face != nullptr);
   return recti
-    ( FT_MulFix(mFace->bbox.xMin, mFace->size->metrics.x_scale)
-    , FT_MulFix(mFace->bbox.yMin, mFace->size->metrics.y_scale)
-    , FT_MulFix(mFace->bbox.xMax - mFace->bbox.xMin
-      , mFace->size->metrics.x_scale)
-    , FT_MulFix(mFace->bbox.yMax - mFace->bbox.yMin
-      , mFace->size->metrics.y_scale));
+    ( FT_MulFix(m_face->bbox.xMin, m_face->size->metrics.x_scale)
+    , FT_MulFix(m_face->bbox.yMin, m_face->size->metrics.y_scale)
+    , FT_MulFix(m_face->bbox.xMax - m_face->bbox.xMin
+      , m_face->size->metrics.x_scale)
+    , FT_MulFix(m_face->bbox.yMax - m_face->bbox.yMin
+      , m_face->size->metrics.y_scale));
 }
 
 
 
-rectf Font::getPixelGlyphBoundingBox() const
+rectf font::get_pixel_glyph_bounding_box() const
 {
-  recti pf266Rect = getGlyphBoundingBox();
+  recti pf266Rect = get_glyph_bounding_box();
   return rectf(static_cast<vec2f>(pf266Rect.get_position()) * pf266ToPixelFactor,
     static_cast<vec2f>(pf266Rect.get_size()) * pf266ToPixelFactor);
 }
 
 
 
-int Font::getLineSpacing() const
+int font::get_line_spacing() const
 {
-  HOU_EXPECT_DEV(mFace != nullptr);
-  return mFace->size->metrics.height;
+  HOU_EXPECT_DEV(m_face != nullptr);
+  return m_face->size->metrics.height;
 }
 
 
 
-float Font::getPixelLineSpacing() const
+float font::get_pixel_line_spacing() const
 {
-  return static_cast<float>(getLineSpacing()) * pf266ToPixelFactor;
+  return static_cast<float>(get_line_spacing()) * pf266ToPixelFactor;
 }
 
 
 
-int Font::getMaxAdvance() const
+int font::get_max_advance() const
 {
-  HOU_EXPECT_DEV(mFace != nullptr);
-  return mFace->size->metrics.max_advance;
+  HOU_EXPECT_DEV(m_face != nullptr);
+  return m_face->size->metrics.max_advance;
 }
 
 
 
-float Font::getMaxPixelAdvance() const
+float font::get_pixel_max_advance() const
 {
-  return static_cast<float>(getMaxAdvance()) * pf266ToPixelFactor;
+  return static_cast<float>(get_max_advance()) * pf266ToPixelFactor;
 }
 
 
 
-int Font::getMaxHorizontalAdvance() const
+int font::get_max_horizontal_advance() const
 {
-  HOU_EXPECT_DEV(mFace != nullptr);
-  return FT_MulFix(mFace->max_advance_width, mFace->size->metrics.x_scale);
+  HOU_EXPECT_DEV(m_face != nullptr);
+  return FT_MulFix(m_face->max_advance_width, m_face->size->metrics.x_scale);
 }
 
 
 
-float Font::getMaxPixelHorizontalAdvance() const
+float font::get_pixel_max_horizontal_advance() const
 {
-  return static_cast<float>(getMaxHorizontalAdvance()) * pf266ToPixelFactor;
+  return static_cast<float>(get_max_horizontal_advance()) * pf266ToPixelFactor;
 }
 
 
-int Font::getMaxVerticalAdvance() const
+int font::get_max_vertical_advance() const
 {
-  HOU_EXPECT_DEV(mFace != nullptr);
-  return FT_MulFix(mFace->max_advance_height, mFace->size->metrics.y_scale);
-}
-
-
-
-float Font::getMaxPixelVerticalAdvance() const
-{
-  return static_cast<float>(getMaxVerticalAdvance()) * pf266ToPixelFactor;
+  HOU_EXPECT_DEV(m_face != nullptr);
+  return FT_MulFix(m_face->max_advance_height, m_face->size->metrics.y_scale);
 }
 
 
 
-uint Font::getGlyphCount() const
+float font::get_pixel_max_vertical_advance() const
 {
-  HOU_EXPECT_DEV(mFace != nullptr);
-  return mFace->num_glyphs;
+  return static_cast<float>(get_max_vertical_advance()) * pf266ToPixelFactor;
 }
 
 
 
-Glyph Font::getGlyph(utf32::code_unit charCode) const
+uint font::get_glyph_count() const
 {
-  HOU_EXPECT_DEV(mFace != nullptr);
-  HOU_ENSURE(FT_Load_Char(mFace, charCode, FT_LOAD_RENDER) == 0);
+  HOU_EXPECT_DEV(m_face != nullptr);
+  return m_face->num_glyphs;
+}
 
-  const auto& g = mFace->glyph;
+
+
+glyph font::get_glyph(utf32::code_unit charCode) const
+{
+  HOU_EXPECT_DEV(m_face != nullptr);
+  HOU_ENSURE(FT_Load_Char(m_face, charCode, FT_LOAD_RENDER) == 0);
+
+  const auto& g = m_face->ph_glyph;
 
   vec2u bmpSize(g->bitmap.width, g->bitmap.rows);
 
   vec2u size(vec2<long>(g->metrics.width, g->metrics.height));
 
-  vec2i horiBearing = hasHorizontal()
+  vec2i horiBearing = has_horizontal()
     ? vec2i(g->metrics.horiBearingX, -g->metrics.horiBearingY)
     : vec2i::zero();
-  int horiAdvance = hasHorizontal() ? g->metrics.horiAdvance : 0;
+  int horiAdvance = has_horizontal() ? g->metrics.horiAdvance : 0;
 
-  vec2i vertBearing = hasVertical()
+  vec2i vertBearing = has_vertical()
     ? vec2i(g->metrics.vertBearingX, -g->metrics.vertBearingY)
     : vec2i::zero();
-  int vertAdvance = hasVertical() ? g->metrics.vertAdvance : 0;
+  int vertAdvance = has_vertical() ? g->metrics.vertAdvance : 0;
 
-  return Glyph
+  return glyph
     ( image2R
       ( bmpSize
       , span<const image2R::pixel>
         ( reinterpret_cast<image2R::pixel*>(g->bitmap.buffer)
         , bmpSize.x() * bmpSize.y()))
-    , GlyphMetrics(size, horiBearing, horiAdvance, vertBearing, vertAdvance));
+    , glyph_metrics(size, horiBearing, horiAdvance, vertBearing, vertAdvance));
 }
 
 
 
-vec2i Font::getKerning(utf32::code_unit first, utf32::code_unit second) const
+vec2i font::get_kerning(utf32::code_unit first, utf32::code_unit second) const
 {
   FT_Vector kerning;
-  FT_UInt firstIndex = FT_Get_Char_Index(mFace, first);
-  FT_UInt secondIndex = FT_Get_Char_Index(mFace, second);
-  HOU_ENSURE(FT_Get_Kerning(mFace, firstIndex, secondIndex
+  FT_UInt firstIndex = FT_Get_Char_Index(m_face, first);
+  FT_UInt secondIndex = FT_Get_Char_Index(m_face, second);
+  HOU_ENSURE(FT_Get_Kerning(m_face, firstIndex, secondIndex
     , FT_KERNING_DEFAULT, &kerning) == 0);
   return vec2i(kerning.x, kerning.y);
 }
 
 
 
-vec2f Font::getPixelKerning(utf32::code_unit first, utf32::code_unit second) const
+vec2f font::get_pixel_kerning(utf32::code_unit first, utf32::code_unit second) const
 {
-  return static_cast<vec2f>(getKerning(first, second)) * pf266ToPixelFactor;
+  return static_cast<vec2f>(get_kerning(first, second)) * pf266ToPixelFactor;
 }
 
 
 
-void Font::load()
+void font::load()
 {
-  HOU_EXPECT_DEV(mFace == nullptr);
+  HOU_EXPECT_DEV(m_face == nullptr);
   FT_Library ftLibrary = getFtLibrary();
   {
     std::lock_guard<std::mutex> lock(ftLibraryMutex);
-    HOU_RUNTIME_CHECK(FT_New_Memory_Face(ftLibrary, mData.data(), mData.size()
-      , mFaceIndex, &mFace) == 0, get_text(GfxError::FontLoadFace));
+    HOU_RUNTIME_CHECK(FT_New_Memory_Face(ftLibrary, m_data.data(), m_data.size()
+      , m_face_index, &m_face) == 0, get_text(gfx_error::font_load_face));
   }
-  HOU_EXPECT_DEV(mFace != nullptr);
+  HOU_EXPECT_DEV(m_face != nullptr);
 
   // Calling set ph_pixel height here is wrong. The ph_pixel size will not be
-  // adjusted because mPixelHeight is not modified.
-  HOU_ENSURE(FT_Set_Pixel_Sizes(mFace, 0, mPixelHeight) == 0);
-  HOU_ENSURE(FT_Select_Charmap(mFace, FT_ENCODING_UNICODE) == 0);
+  // adjusted because m_pixel_height is not modified.
+  HOU_ENSURE(FT_Set_Pixel_Sizes(m_face, 0, m_pixel_height) == 0);
+  HOU_ENSURE(FT_Select_Charmap(m_face, FT_ENCODING_UNICODE) == 0);
 }
 
 
 
-void Font::destroy()
+void font::destroy()
 {
-  HOU_EXPECT_DEV(mFace != nullptr);
+  HOU_EXPECT_DEV(m_face != nullptr);
   {
     std::lock_guard<std::mutex> lock(ftLibraryMutex);
-    HOU_ENSURE_FATAL(FT_Done_Face(mFace) == 0);
+    HOU_ENSURE_FATAL(FT_Done_Face(m_face) == 0);
   }
-  mFace = nullptr;
+  m_face = nullptr;
 }
 
 }

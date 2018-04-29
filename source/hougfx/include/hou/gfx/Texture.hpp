@@ -6,7 +6,7 @@
 #define HOU_GFX_TEXTURE_HPP
 
 #include "hou/cor/non_copyable.hpp"
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/mth/matrix_fwd.hpp"
 
@@ -87,7 +87,7 @@ public:
    *
    * \return a reference to the OpenGL texture handle.
    */
-  const gl::texture_handle& getHandle() const;
+  const gl::texture_handle& get_handle() const;
 
   /** Checks if this Texture is currently bound to the given texture unit.
    *

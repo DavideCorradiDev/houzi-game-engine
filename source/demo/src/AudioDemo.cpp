@@ -1,9 +1,9 @@
 #include <iostream>
 #include <cassert>
 
-#include "hou/gfx/GraphicContext.hpp"
+#include "hou/gfx/graphic_context.hpp"
 #include "hou/gfx/RenderWindow.hpp"
-#include "hou/gfx/Font.hpp"
+#include "hou/gfx/font.hpp"
 #include "hou/gfx/TextShaderProgram.hpp"
 #include "hou/sys/color.hpp"
 #include "hou/sys/window_event.hpp"
@@ -35,17 +35,17 @@ using namespace hou;
 int main()
 {
   static const std::string dataDir = u8"source/demo/data/";
-  GraphicContext ctx;
-  GraphicContext::set_current(ctx);
+  graphic_context ctx;
+  graphic_context::set_current(ctx);
   RenderWindow rw(u8"Sprite benchmark", vec2u(800u, 600u), window_style::windowed);
   rw.set_visible(true);
   rw.set_vertical_sync_mode(vertical_sync_mode::disabled);
 
   TextShaderProgram rnd;
-  Font font(std::make_unique<binary_file_in>(dataDir + u8"NotoMono-Regular.ttf"));
+  font ph_font(std::make_unique<binary_file_in>(dataDir + u8"NotoMono-Regular.ttf"));
   trans2f proj = trans2f::orthographic_projection(rw.getViewport());
-  trans2f textTrans = trans2f::translation(vec2f(0.f, static_cast<float>(font.getLineSpacing())));
-  trans2f offsetTrans = trans2f::translation(vec2f(100.f, static_cast<float>(font.getLineSpacing())));
+  trans2f textTrans = trans2f::translation(vec2f(0.f, static_cast<float>(ph_font.get_line_spacing())));
+  trans2f offsetTrans = trans2f::translation(vec2f(100.f, static_cast<float>(ph_font.get_line_spacing())));
 
   //****************
 
@@ -113,7 +113,7 @@ int main()
     rw.clear(color::black);
     std::chrono::nanoseconds timePerFrame = timer.reset();
     rnd.draw(rw, to_string(sas.getSamplePos()) + " / " + to_string(sas.get_sample_count())
-      , font, color::white, proj * offsetTrans);
+      , ph_font, color::white, proj * offsetTrans);
     rw.display();
   }
 

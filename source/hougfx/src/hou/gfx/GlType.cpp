@@ -2,12 +2,12 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gfx/GlType.hpp"
+#include "hou/gfx/gl_type.hpp"
 
 #include "hou/cor/basic_types.hpp"
 
 #define GFX_GL_TYPE_CASE(type, os) \
-  case GlType::type:            \
+  case gl_type::type:            \
     return (os) << #type
 
 
@@ -15,20 +15,20 @@
 namespace hou
 {
 
-std::ostream& operator<<(std::ostream& os, GlType type)
+std::ostream& operator<<(std::ostream& os, gl_type type)
 {
   switch(type)
   {
-    GFX_GL_TYPE_CASE(Byte, os);
-    GFX_GL_TYPE_CASE(UnsignedByte, os);
-    GFX_GL_TYPE_CASE(Short, os);
-    GFX_GL_TYPE_CASE(UnsignedShort, os);
-    GFX_GL_TYPE_CASE(Int, os);
-    GFX_GL_TYPE_CASE(UnsignedInt, os);
-    GFX_GL_TYPE_CASE(HalfFloat, os);
-    GFX_GL_TYPE_CASE(Float, os);
-    GFX_GL_TYPE_CASE(Double, os);
-    GFX_GL_TYPE_CASE(Fixed, os);
+    GFX_GL_TYPE_CASE(byte, os);
+    GFX_GL_TYPE_CASE(unsigned_byte, os);
+    GFX_GL_TYPE_CASE(short_integer, os);
+    GFX_GL_TYPE_CASE(unsigned_short_integer, os);
+    GFX_GL_TYPE_CASE(integer, os);
+    GFX_GL_TYPE_CASE(unsigned_integer, os);
+    GFX_GL_TYPE_CASE(half_float_decimal, os);
+    GFX_GL_TYPE_CASE(float_decimal, os);
+    GFX_GL_TYPE_CASE(double_decimal, os);
+    GFX_GL_TYPE_CASE(fixed_decimal, os);
   default:
     return os;
   }
@@ -37,65 +37,65 @@ std::ostream& operator<<(std::ostream& os, GlType type)
 
 
 template <>
-GlType toGlType<int8_t>()
+gl_type to_gl_type<int8_t>()
 {
-  return GlType::Byte;
+  return gl_type::byte;
 }
 
 
 
 template <>
-GlType toGlType<uint8_t>()
+gl_type to_gl_type<uint8_t>()
 {
-  return GlType::UnsignedByte;
+  return gl_type::unsigned_byte;
 }
 
 
 
 template <>
-GlType toGlType<int16_t>()
+gl_type to_gl_type<int16_t>()
 {
-  return GlType::Short;
+  return gl_type::short_integer;
 }
 
 
 
 template <>
-GlType toGlType<uint16_t>()
+gl_type to_gl_type<uint16_t>()
 {
-  return GlType::UnsignedShort;
+  return gl_type::unsigned_short_integer;
 }
 
 
 
 template <>
-GlType toGlType<int32_t>()
+gl_type to_gl_type<int32_t>()
 {
-  return GlType::Int;
+  return gl_type::integer;
 }
 
 
 
 template <>
-GlType toGlType<uint32_t>()
+gl_type to_gl_type<uint32_t>()
 {
-  return GlType::UnsignedInt;
+  return gl_type::unsigned_integer;
 }
 
 
 
 template <>
-GlType toGlType<float>()
+gl_type to_gl_type<float>()
 {
-  return GlType::Float;
+  return gl_type::float_decimal;
 }
 
 
 
 template <>
-GlType toGlType<double>()
+gl_type to_gl_type<double>()
 {
-  return GlType::Double;
+  return gl_type::double_decimal;
 }
 
 }  // namespace hou

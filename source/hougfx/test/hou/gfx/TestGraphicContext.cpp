@@ -4,7 +4,7 @@
 
 #include "hou/Test.hpp"
 
-#include "hou/gfx/GraphicContext.hpp"
+#include "hou/gfx/graphic_context.hpp"
 
 #include "hou/gl/gl_texture_handle.hpp"
 #include "hou/gl/gl_functions.hpp"
@@ -26,7 +26,7 @@ class TestGraphicContext : public Test
 
 TEST_F(TestGraphicContext, Creation)
 {
-  GraphicContext rc;
+  graphic_context rc;
   SUCCEED();
 }
 
@@ -34,9 +34,9 @@ TEST_F(TestGraphicContext, Creation)
 
 TEST_F(TestGraphicContext, MoveConstructor)
 {
-  GraphicContext rcDummy;
-  GraphicContext::set_current(rcDummy);
-  GraphicContext rc = std::move(rcDummy);
+  graphic_context rcDummy;
+  graphic_context::set_current(rcDummy);
+  graphic_context rc = std::move(rcDummy);
   EXPECT_TRUE(rc.is_current());
 }
 
@@ -45,29 +45,29 @@ TEST_F(TestGraphicContext, MoveConstructor)
 TEST_F(TestGraphicContext, SetCurrent)
 {
   {
-    GraphicContext rc1;
-    GraphicContext rc2;
+    graphic_context rc1;
+    graphic_context rc2;
 
     EXPECT_FALSE(rc1.is_current());
     EXPECT_FALSE(rc2.is_current());
 
-    GraphicContext::set_current(rc1);
+    graphic_context::set_current(rc1);
     EXPECT_TRUE(rc1.is_current());
     EXPECT_FALSE(rc2.is_current());
 
-    GraphicContext::set_current(rc2);
+    graphic_context::set_current(rc2);
     EXPECT_FALSE(rc1.is_current());
     EXPECT_TRUE(rc2.is_current());
 
-    GraphicContext::set_current(rc2);
+    graphic_context::set_current(rc2);
     EXPECT_FALSE(rc1.is_current());
     EXPECT_TRUE(rc2.is_current());
 
-    GraphicContext::unset_current();
+    graphic_context::unset_current();
     EXPECT_FALSE(rc1.is_current());
     EXPECT_FALSE(rc2.is_current());
 
-    GraphicContext::unset_current();
+    graphic_context::unset_current();
     EXPECT_FALSE(rc1.is_current());
     EXPECT_FALSE(rc2.is_current());
   }
@@ -79,9 +79,9 @@ TEST_F(TestGraphicContext, SetCurrent)
 TEST_F(TestGraphicContext, UnsetCurrentOnDeletion)
 {
   {
-    GraphicContext rc;
+    graphic_context rc;
     EXPECT_FALSE(rc.is_current());
-    GraphicContext::set_current(rc);
+    graphic_context::set_current(rc);
     EXPECT_TRUE(rc.is_current());
   }
   EXPECT_EQ(nullptr, gl::context::getCurrent());
@@ -91,8 +91,8 @@ TEST_F(TestGraphicContext, UnsetCurrentOnDeletion)
 
 TEST_F(TestGraphicContext, DefaultContextParameters)
 {
-  GraphicContext rc;
-  GraphicContext::set_current(rc);
+  graphic_context rc;
+  graphic_context::set_current(rc);
 
   EXPECT_EQ(1, gl::get_unpack_alignment());
   EXPECT_EQ(1, gl::get_pack_alignment());
@@ -109,18 +109,18 @@ TEST_F(TestGraphicContext, DefaultContextParameters)
 
 TEST_F(TestGraphicContext, ContextParametersWithContextSwitch)
 {
-  GraphicContext rc1;
-  GraphicContext rc2;
+  graphic_context rc1;
+  graphic_context rc2;
 
-  GraphicContext::set_current(rc1);
+  graphic_context::set_current(rc1);
   EXPECT_EQ(1, gl::get_unpack_alignment());
   gl::set_unpack_alignment(4);
   EXPECT_EQ(4, gl::get_unpack_alignment());
 
-  GraphicContext::set_current(rc2);
+  graphic_context::set_current(rc2);
   EXPECT_EQ(1, gl::get_unpack_alignment());
 
-  GraphicContext::set_current(rc1);
+  graphic_context::set_current(rc1);
   EXPECT_EQ(4, gl::get_unpack_alignment());
 }
 
@@ -128,19 +128,19 @@ TEST_F(TestGraphicContext, ContextParametersWithContextSwitch)
 
 TEST_F(TestGraphicContext, GetRenderingColorByteCount)
 {
-  EXPECT_EQ(4u, GraphicContext::getRenderingColorByteCount());
+  EXPECT_EQ(4u, graphic_context::get_rendering_color_byte_count());
 }
 
 
 
 TEST_F(TestGraphicContext, GetRenderingDepthByteCount)
 {
-  EXPECT_EQ(3u, GraphicContext::getRenderingDepthByteCount());
+  EXPECT_EQ(3u, graphic_context::get_rendering_depth_byte_count());
 }
 
 
 
 TEST_F(TestGraphicContext, GetRenderingStencilByteCount)
 {
-  EXPECT_EQ(1u, GraphicContext::getRenderingStencilByteCount());
+  EXPECT_EQ(1u, graphic_context::get_rendering_stencil_byte_count());
 }

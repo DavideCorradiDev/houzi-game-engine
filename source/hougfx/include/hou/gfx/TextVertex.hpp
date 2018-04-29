@@ -5,14 +5,14 @@
 #ifndef HOU_GFX_TEXT_VERTEX_HPP
 #define HOU_GFX_TEXT_VERTEX_HPP
 
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 #include "hou/cor/pragmas.hpp"
 
 #include "hou/mth/matrix.hpp"
 
-#include "hou/gfx/Mesh.hpp"
+#include "hou/gfx/mesh.hpp"
 
 
 
@@ -30,7 +30,7 @@ HOU_PRAGMA_PACK_PUSH(1)
 class HOU_GFX_API TextVertex
 {
 public:
-  /** Type to be used as accuracy in close comparison checks for Mesh.
+  /** Type to be used as accuracy in close comparison checks for mesh.
    */
   using ComparisonType = float;
 
@@ -122,11 +122,11 @@ HOU_GFX_API bool close(const TextVertex& lhs, const TextVertex& rhs,
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, const TextVertex& v);
 
-/** Mesh TextVertex.
+/** mesh TextVertex.
  *
  *  Used to represent renderable text blocks.
  */
-using TextMesh = MeshT<TextVertex>;
+using TextMesh = mesh_t<TextVertex>;
 
 }  // namespace hou
 

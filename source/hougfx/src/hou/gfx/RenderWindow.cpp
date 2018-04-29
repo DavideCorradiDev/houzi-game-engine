@@ -6,7 +6,7 @@
 
 #include "hou/gl/gl_functions.hpp"
 
-#include "hou/gfx/GraphicContext.hpp"
+#include "hou/gfx/graphic_context.hpp"
 #include "hou/gfx/Texture.hpp"
 
 #include "hou/sys/video_mode.hpp"
@@ -37,7 +37,7 @@ namespace hou
 
 RenderWindow::RenderWindow(const std::string& title, const vec2u& size,
   window_style style, uint sampleCount)
-  : window(title, video_mode(size, GraphicContext::getRenderingColorByteCount()),
+  : window(title, video_mode(size, graphic_context::get_rendering_color_byte_count()),
       style)
   , RenderSurface(size, sampleCount)
 {}

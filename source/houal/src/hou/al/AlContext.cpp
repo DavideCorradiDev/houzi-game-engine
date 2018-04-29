@@ -74,7 +74,7 @@ context* context::getCurrent()
 
 context::context(Device& device)
   : non_copyable()
-  , m_handle(alcCreateContext(device.getHandle(), nullptr))
+  , m_handle(alcCreateContext(device.get_handle(), nullptr))
   , m_uid(generateUid())
   , mDeviceUid(device.get_uid())
 {

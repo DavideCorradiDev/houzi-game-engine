@@ -5,7 +5,7 @@
 #ifndef HOU_SYS_TEXTURE_FORMAT_HPP
 #define HOU_SYS_TEXTURE_FORMAT_HPP
 
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/gl/open_gl.hpp"
 
@@ -28,9 +28,9 @@ enum class TextureFormat : GLenum
   /** Quadruple channel (red-green-blue-alpha) format. */
   rgba = GL_RGBA8,
   /** 24 bit depth texture. */
-  Depth = GL_DEPTH_COMPONENT24,
+  depth = GL_DEPTH_COMPONENT24,
   /** 8 bit stencil texture. */
-  Stencil = GL_STENCIL_INDEX8,
+  stencil = GL_STENCIL_INDEX8,
   /** 32 bit texture using 24 bit for depth and 8 for stencil. */
   DepthStencil = GL_DEPTH24_STENCIL8,
 };

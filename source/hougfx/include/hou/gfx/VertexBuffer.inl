@@ -54,7 +54,7 @@ typename VertexBufferT<T, dynamicStorage>::DataType
   HOU_EXPECT(offset + elementCount <= get_size());
   typename VertexBufferT<T, dynamicStorage>::DataType dataOut(
     elementCount, T());
-  gl::get_buffer_sub_data(getHandle(), static_cast<GLintptr>(offset * sizeof(T)),
+  gl::get_buffer_sub_data(get_handle(), static_cast<GLintptr>(offset * sizeof(T)),
     static_cast<uint>(elementCount * sizeof(T)),
     reinterpret_cast<GLvoid*>(dataOut.data()));
   return dataOut;
@@ -79,7 +79,7 @@ void VertexBufferT<T, dynamicStorage>::setSubData(
 {
   HOU_EXPECT_DEV(get_byte_count() % sizeof(T) == 0u);
   HOU_EXPECT(offset + data.size() <= get_size());
-  gl::set_buffer_sub_data(getHandle(), static_cast<GLintptr>(offset * sizeof(T)),
+  gl::set_buffer_sub_data(get_handle(), static_cast<GLintptr>(offset * sizeof(T)),
     static_cast<GLsizei>(data.size() * sizeof(T)),
     reinterpret_cast<const GLvoid*>(data.data()));
 }

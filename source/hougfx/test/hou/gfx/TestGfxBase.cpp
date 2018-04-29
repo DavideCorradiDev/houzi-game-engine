@@ -6,14 +6,14 @@
 
 
 
-std::unique_ptr<hou::GraphicContext> TestGfxBase::sContext(nullptr);
+std::unique_ptr<hou::graphic_context> TestGfxBase::sContext(nullptr);
 
 
 
 void TestGfxBase::SetUpTestCase()
 {
-  sContext = std::make_unique<hou::GraphicContext>();
-  hou::GraphicContext::set_current(*sContext);
+  sContext = std::make_unique<hou::graphic_context>();
+  hou::graphic_context::set_current(*sContext);
 }
 
 

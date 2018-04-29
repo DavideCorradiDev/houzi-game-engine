@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_MESH_FILL_MODE_HPP
 #define HOU_GFX_MESH_FILL_MODE_HPP
 
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/gl/open_gl.hpp"
 
@@ -16,24 +16,24 @@
 namespace hou
 {
 
-/** Enumeration for the mesh fill mode of a mesh. */
-enum class MeshFillMode : GLenum
+/** Enumeration for the ph_mesh fill mode of a ph_mesh. */
+enum class mesh_fill_mode : GLenum
 {
   /** Single points. */
-  Point = GL_POINT,
+  point = GL_POINT,
   /** Polygon outlines. */
-  Line = GL_LINE,
+  line = GL_LINE,
   /** Filled polygons. */
-  Fill = GL_FILL,
+  fill = GL_FILL,
 };
 
-/** Writes a MeshFillMode enum into a ph_stream.
+/** Writes a mesh_fill_mode enum into a ph_stream.
  *
  *  \param os the ph_stream.
- *  \param mfm the MeshFillMode enum.
+ *  \param mfm the mesh_fill_mode enum.
  *  \return a reference to the ph_stream.
  */
-HOU_GFX_API std::ostream& operator<<(std::ostream& os, MeshFillMode mfm);
+HOU_GFX_API std::ostream& operator<<(std::ostream& os, mesh_fill_mode mfm);
 
 }  // namespace hou
 

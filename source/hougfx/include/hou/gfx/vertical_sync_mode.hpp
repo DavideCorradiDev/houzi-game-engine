@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_VERTICAL_SYNC_MODE_HPP
 #define HOU_GFX_VERTICAL_SYNC_MODE_HPP
 
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 

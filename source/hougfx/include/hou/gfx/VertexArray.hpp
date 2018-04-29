@@ -6,7 +6,7 @@
 #define HOU_GFX_VERTEX_ARRAY_HPP
 
 #include "hou/cor/non_copyable.hpp"
-#include "hou/gfx/GfxExport.hpp"
+#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 
@@ -25,7 +25,7 @@ class VertexFormat;
 class HOU_GFX_API VertexArray : public non_copyable
 {
 public:
-  /** Binds the VertexArray to the current GraphicContext.
+  /** Binds the VertexArray to the current graphic_context.
    *
    *  \param vertexArray the VertexArray to be bound.
    */
@@ -57,7 +57,7 @@ public:
    *
    *  \return the reference to the OpenGL vertex array object.
    */
-  const gl::vertex_array_handle& getHandle() const;
+  const gl::vertex_array_handle& get_handle() const;
 
   /** Checks if the VertexArray is currently bound.
    *

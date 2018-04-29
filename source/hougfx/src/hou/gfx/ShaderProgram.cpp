@@ -52,7 +52,7 @@ ShaderProgram::~ShaderProgram()
 
 
 
-const gl::program_handle& ShaderProgram::getHandle() const
+const gl::program_handle& ShaderProgram::get_handle() const
 {
   return m_handle;
 }
@@ -79,12 +79,12 @@ ShaderProgram::ShaderProgram(
   : non_copyable()
   , m_handle(gl::program_handle::create())
 {
-  gl::attach_shader(m_handle, vs.getHandle());
+  gl::attach_shader(m_handle, vs.get_handle());
   if(gs != nullptr)
   {
-    gl::attach_shader(m_handle, gs->getHandle());
+    gl::attach_shader(m_handle, gs->get_handle());
   }
-  gl::attach_shader(m_handle, fs.getHandle());
+  gl::attach_shader(m_handle, fs.get_handle());
   gl::link_program(m_handle);
 }
 

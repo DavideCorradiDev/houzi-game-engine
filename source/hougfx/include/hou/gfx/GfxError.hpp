@@ -15,16 +15,16 @@ namespace hou
 {
 
 /** Graphics module error codes. */
-enum class GfxError
+enum class gfx_error
 {
-  FontLoadFace,
+  font_load_face,
 };
 
 /** Retrieves the message string associated to a graphics module error code.
  *
  *  \param ec the error code.
  */
-HOU_GFX_API std::string get_text(GfxError ec);
+HOU_GFX_API std::string get_text(gfx_error ec);
 
 }
 

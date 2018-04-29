@@ -90,7 +90,7 @@ TEST_F(TestAlCheckDeathTest, AlCheckErrorMacro)
 
 TEST_F(TestAlCheck, AlCheckContextErrorFunction)
 {
-  alcGetString(mDevice.getHandle(), ALC_DEVICE_SPECIFIER);
+  alcGetString(mDevice.get_handle(), ALC_DEVICE_SPECIFIER);
   al::checkContextError(mDevice, "", 0);
   SUCCEED();
 }
@@ -99,7 +99,7 @@ TEST_F(TestAlCheck, AlCheckContextErrorFunction)
 
 TEST_F(TestAlCheckDeathTest, AlCheckContextErrorFunction)
 {
-  alcGetString(mDevice.getHandle(), ALC_MAJOR_VERSION);
+  alcGetString(mDevice.get_handle(), ALC_MAJOR_VERSION);
   HOU_EXPECT_ERROR(al::checkContextError(mDevice, "", 0), std::logic_error
     , get_text(AlError::invalid_enum));
 }
@@ -108,7 +108,7 @@ TEST_F(TestAlCheckDeathTest, AlCheckContextErrorFunction)
 
 TEST_F(TestAlCheck, AlCheckContextErrorMacro)
 {
-  alcGetString(mDevice.getHandle(), ALC_DEVICE_SPECIFIER);
+  alcGetString(mDevice.get_handle(), ALC_DEVICE_SPECIFIER);
   HOU_AL_CHECK_CONTEXT_ERROR(mDevice);
   SUCCEED();
 }
@@ -117,7 +117,7 @@ TEST_F(TestAlCheck, AlCheckContextErrorMacro)
 
 TEST_F(TestAlCheckDeathTest, AlCheckContextErrorMacro)
 {
-  alcGetString(mDevice.getHandle(), ALC_MAJOR_VERSION);
+  alcGetString(mDevice.get_handle(), ALC_MAJOR_VERSION);
 #ifdef HOU_ENABLE_AL_CONTEXT_ERROR_CHECKS
   HOU_EXPECT_ERROR(HOU_AL_CHECK_CONTEXT_ERROR(mDevice), std::logic_error
     , get_text(AlError::invalid_enum));

@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gfx/GlyphMetrics.hpp"
+#include "hou/gfx/glyph_metrics.hpp"
 
 
 
@@ -16,157 +16,157 @@ static constexpr float pf266ToPixelFactor = 1.f / 64.f;
 
 
 
-GlyphMetrics::GlyphMetrics()
+glyph_metrics::glyph_metrics()
   : m_size()
-  , mHorizontalBearing()
-  , mHorizontalAdvance(0)
-  , mVerticalBearing()
-  , mVerticalAdvance(0)
+  , m_horizontal_bearing()
+  , m_horizontal_advance(0)
+  , m_vertical_bearing()
+  , m_vertical_advance(0)
 {}
 
 
 
-GlyphMetrics::GlyphMetrics(const vec2u& size, const vec2i& horizontalBearing,
+glyph_metrics::glyph_metrics(const vec2u& size, const vec2i& horizontalBearing,
   int horizontalAdvance, const vec2i& verticalBearing, int verticalAdvance)
   : m_size(size)
-  , mHorizontalBearing(horizontalBearing)
-  , mHorizontalAdvance(horizontalAdvance)
-  , mVerticalBearing(verticalBearing)
-  , mVerticalAdvance(verticalAdvance)
+  , m_horizontal_bearing(horizontalBearing)
+  , m_horizontal_advance(horizontalAdvance)
+  , m_vertical_bearing(verticalBearing)
+  , m_vertical_advance(verticalAdvance)
 {}
 
 
 
-const vec2u& GlyphMetrics::get_size() const
+const vec2u& glyph_metrics::get_size() const
 {
   return m_size;
 }
 
 
 
-vec2f GlyphMetrics::getPixelSize() const
+vec2f glyph_metrics::get_pixel_size() const
 {
   return static_cast<vec2f>(m_size) * pf266ToPixelFactor;
 }
 
 
 
-void GlyphMetrics::set_size(const vec2u& size)
+void glyph_metrics::set_size(const vec2u& size)
 {
   m_size = size;
 }
 
 
 
-const vec2i& GlyphMetrics::getHorizontalBearing() const
+const vec2i& glyph_metrics::get_horizontal_bearing() const
 {
-  return mHorizontalBearing;
+  return m_horizontal_bearing;
 }
 
 
 
-vec2f GlyphMetrics::getPixelHorizontalBearing() const
+vec2f glyph_metrics::get_pixel_horizontal_bearing() const
 {
-  return static_cast<vec2f>(mHorizontalBearing) * pf266ToPixelFactor;
+  return static_cast<vec2f>(m_horizontal_bearing) * pf266ToPixelFactor;
 }
 
 
 
-void GlyphMetrics::setHorizontalBearing(const vec2i& horizontalBearing)
+void glyph_metrics::setHorizontalBearing(const vec2i& horizontalBearing)
 {
-  mHorizontalBearing = horizontalBearing;
+  m_horizontal_bearing = horizontalBearing;
 }
 
 
 
-int GlyphMetrics::getHorizontalAdvance() const
+int glyph_metrics::get_horizontal_advance() const
 {
-  return mHorizontalAdvance;
+  return m_horizontal_advance;
 }
 
 
 
-float GlyphMetrics::getPixelHorizontalAdvance() const
+float glyph_metrics::get_pixel_horizontal_advance() const
 {
-  return static_cast<float>(mHorizontalAdvance) * pf266ToPixelFactor;
+  return static_cast<float>(m_horizontal_advance) * pf266ToPixelFactor;
 }
 
 
 
-void GlyphMetrics::setHorizontalAdvance(int horizontalAdvance)
+void glyph_metrics::set_horizontal_advance(int horizontalAdvance)
 {
-  mHorizontalAdvance = horizontalAdvance;
+  m_horizontal_advance = horizontalAdvance;
 }
 
 
 
-const vec2i& GlyphMetrics::getVerticalBearing() const
+const vec2i& glyph_metrics::get_vertical_bearing() const
 {
-  return mVerticalBearing;
+  return m_vertical_bearing;
 }
 
 
 
-vec2f GlyphMetrics::getPixelVerticalBearing() const
+vec2f glyph_metrics::get_pixel_vertical_bearing() const
 {
-  return static_cast<vec2f>(mVerticalBearing) * pf266ToPixelFactor;
+  return static_cast<vec2f>(m_vertical_bearing) * pf266ToPixelFactor;
 }
 
 
 
-void GlyphMetrics::setVerticalBearing(const vec2i& verticalBearing)
+void glyph_metrics::set_vertical_bearing(const vec2i& verticalBearing)
 {
-  mVerticalBearing = verticalBearing;
+  m_vertical_bearing = verticalBearing;
 }
 
 
 
-int GlyphMetrics::getVerticalAdvance() const
+int glyph_metrics::get_vertical_advance() const
 {
-  return mVerticalAdvance;
+  return m_vertical_advance;
 }
 
 
 
-float GlyphMetrics::getPixelVerticalAdvance() const
+float glyph_metrics::get_pixel_vertical_advance() const
 {
-  return static_cast<float>(mVerticalAdvance) * pf266ToPixelFactor;
+  return static_cast<float>(m_vertical_advance) * pf266ToPixelFactor;
 }
 
 
 
-void GlyphMetrics::setVerticalAdvance(int verticalAdvance)
+void glyph_metrics::set_vertical_advance(int verticalAdvance)
 {
-  mVerticalAdvance = verticalAdvance;
+  m_vertical_advance = verticalAdvance;
 }
 
 
 
-bool operator==(const GlyphMetrics& lhs, const GlyphMetrics& rhs)
+bool operator==(const glyph_metrics& lhs, const glyph_metrics& rhs)
 {
   return lhs.get_size() == rhs.get_size()
-    && lhs.getHorizontalBearing() == rhs.getHorizontalBearing()
-    && lhs.getHorizontalAdvance() == rhs.getHorizontalAdvance()
-    && lhs.getVerticalBearing() == rhs.getVerticalBearing()
-    && lhs.getVerticalAdvance() == rhs.getVerticalAdvance();
+    && lhs.get_horizontal_bearing() == rhs.get_horizontal_bearing()
+    && lhs.get_horizontal_advance() == rhs.get_horizontal_advance()
+    && lhs.get_vertical_bearing() == rhs.get_vertical_bearing()
+    && lhs.get_vertical_advance() == rhs.get_vertical_advance();
 }
 
 
 
-bool operator!=(const GlyphMetrics& lhs, const GlyphMetrics& rhs)
+bool operator!=(const glyph_metrics& lhs, const glyph_metrics& rhs)
 {
   return !(lhs == rhs);
 }
 
 
 
-std::ostream& operator<<(std::ostream& os, const GlyphMetrics& gm)
+std::ostream& operator<<(std::ostream& os, const glyph_metrics& gm)
 {
   return os << "{size_type = " << transpose(gm.get_size())
-            << ", HorizontalBearing = " << transpose(gm.getHorizontalBearing())
-            << ", HorizontalAdvance = " << gm.getHorizontalAdvance()
-            << ", VerticalBearing = " << transpose(gm.getVerticalBearing())
-            << ", VerticalAdvance = " << gm.getVerticalAdvance() << "}";
+            << ", HorizontalBearing = " << transpose(gm.get_horizontal_bearing())
+            << ", HorizontalAdvance = " << gm.get_horizontal_advance()
+            << ", VerticalBearing = " << transpose(gm.get_vertical_bearing())
+            << ", VerticalAdvance = " << gm.get_vertical_advance() << "}";
 }
 
 }  // namespace hou

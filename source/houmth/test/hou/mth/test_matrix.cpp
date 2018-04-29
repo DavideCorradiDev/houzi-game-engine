@@ -260,7 +260,7 @@ TEST_F(Testmatrix, Set)
 
 
 
-TEST_F(Testmatrix, Fill)
+TEST_F(Testmatrix, fill)
 {
   mat3x2i m = {1, 2, 3, 4, 5, 6};
   m.fill(1);

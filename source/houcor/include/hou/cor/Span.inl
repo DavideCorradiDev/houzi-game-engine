@@ -8,7 +8,7 @@ namespace hou
 
 template <typename T>
   span<T>::span()
-  : mData(nullptr)
+  : m_data(nullptr)
   , m_size(0u)
 {}
 
@@ -17,11 +17,11 @@ template <typename T>
 #ifndef HOU_DOXYGEN
 template <typename T>
   span<T>::span(pointer data, size_type size)
-  : mData(data)
+  : m_data(data)
   , m_size(size)
 {
-  HOU_EXPECT((mData == nullptr && size == 0u)
-    || (mData != nullptr));
+  HOU_EXPECT((m_data == nullptr && size == 0u)
+    || (m_data != nullptr));
 }
 #endif
 
@@ -55,7 +55,7 @@ template <typename Container, typename Enable>
 template <typename T>
   constexpr typename span<T>::pointer span<T>::data() const
 {
-  return mData;
+  return m_data;
 }
 
 
@@ -72,8 +72,8 @@ template <typename T>
   constexpr typename span<T>::reference span<T>::operator[]
   (span<T>::size_type idx) const
 {
-  HOU_EXPECT(mData != nullptr && idx < m_size);
-  return *(mData + idx);
+  HOU_EXPECT(m_data != nullptr && idx < m_size);
+  return *(m_data + idx);
 }
 
 

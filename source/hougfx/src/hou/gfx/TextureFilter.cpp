@@ -20,8 +20,8 @@ std::ostream& operator<<(std::ostream& os, TextureFilter tf)
 {
   switch(tf)
   {
-    TEXTURE_FILTER_CASE(Nearest, os);
-    TEXTURE_FILTER_CASE(Linear, os);
+    TEXTURE_FILTER_CASE(nearest, os);
+    TEXTURE_FILTER_CASE(linear, os);
     TEXTURE_FILTER_CASE(Bilinear, os);
     TEXTURE_FILTER_CASE(Trilinear, os);
   default:

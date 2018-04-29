@@ -2,9 +2,9 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gfx/Mesh2ShaderProgram.hpp"
+#include "hou/gfx/mesh2_shader_program.hpp"
 
-#include "hou/gfx/Mesh.hpp"
+#include "hou/gfx/mesh.hpp"
 #include "hou/gfx/RenderSurface.hpp"
 #include "hou/gfx/Shader.hpp"
 
@@ -64,81 +64,81 @@ std::string getGlFragmentShaderSource()
 
 
 
-Mesh2ShaderProgram::Mesh2ShaderProgram()
+mesh2_shader_program::mesh2_shader_program()
   : ShaderProgram(VertexShader(getGlVertexShaderSource()),
       FragmentShader(getGlFragmentShaderSource()))
-  , mBlankTexture(vec2u(1u, 1u), TextureFormat::rgba, 1u)
-  , mUniColor(getUniformLocation(UNI_COLOR))
-  , mUniTexture(getUniformLocation(UNI_TEXTURE))
-  , mUniTransform(getUniformLocation(UNI_TRANSFORM))
+  , m_blank_texture(vec2u(1u, 1u), TextureFormat::rgba, 1u)
+  , m_uni_color(getUniformLocation(UNI_COLOR))
+  , m_uni_texture(getUniformLocation(UNI_TEXTURE))
+  , m_uni_transform(getUniformLocation(UNI_TRANSFORM))
 {
-  mBlankTexture.clear(pixelrgba(color::white));
+  m_blank_texture.clear(pixelrgba(color::white));
 }
 
 
 
-Mesh2ShaderProgram::Mesh2ShaderProgram(Mesh2ShaderProgram&& other)
+mesh2_shader_program::mesh2_shader_program(mesh2_shader_program&& other)
   : ShaderProgram(std::move(other))
-  , mBlankTexture(std::move(other.mBlankTexture))
-  , mUniColor(std::move(other.mUniColor))
-  , mUniTexture(std::move(other.mUniTexture))
-  , mUniTransform(std::move(other.mUniTransform))
+  , m_blank_texture(std::move(other.m_blank_texture))
+  , m_uni_color(std::move(other.m_uni_color))
+  , m_uni_texture(std::move(other.m_uni_texture))
+  , m_uni_transform(std::move(other.m_uni_transform))
 {}
 
 
 
-void Mesh2ShaderProgram::set_color(const color& ph_color)
+void mesh2_shader_program::set_color(const color& ph_color)
 {
-  gl::set_program_uniform_f(getHandle(), mUniColor, ph_color.get_red_f(),
+  gl::set_program_uniform_f(get_handle(), m_uni_color, ph_color.get_red_f(),
     ph_color.get_green_f(), ph_color.get_blue_f(), ph_color.get_alpha_f());
 }
 
 
 
-void Mesh2ShaderProgram::setTextureUnit(uint unit)
+void mesh2_shader_program::set_texture_unit(uint unit)
 {
-  gl::set_program_uniform_i(getHandle(), mUniTexture, unit);
+  gl::set_program_uniform_i(get_handle(), m_uni_texture, unit);
 }
 
 
 
-void Mesh2ShaderProgram::setTransform(const trans2f& trans)
+void mesh2_shader_program::set_transform(const trans2f& trans)
 {
   gl::set_program_uniform_mat4x4f(
-    getHandle(), mUniTransform, 1u, GL_TRUE, trans.to_mat4x4().data());
+    get_handle(), m_uni_transform, 1u, GL_TRUE, trans.to_mat4x4().data());
 }
 
 
 
-void Mesh2ShaderProgram::draw(RenderSurface& target, const Mesh2& mesh,
+void mesh2_shader_program::draw(RenderSurface& target, const Mesh2& ph_mesh,
   const Texture2& tex, const color& col, const trans2f& trn)
 {
   static constexpr uint texUnit = 0u;
   RenderSurface::setCurrentRenderTarget(target);
   set_color(col);
-  setTextureUnit(texUnit);
-  setTransform(trn);
+  set_texture_unit(texUnit);
+  set_transform(trn);
   bind(*this);
   Texture::bind(tex, texUnit);
-  Mesh::draw(mesh);
+  mesh::draw(ph_mesh);
 }
 
-void Mesh2ShaderProgram::draw(RenderSurface& target, const Mesh2& mesh,
+void mesh2_shader_program::draw(RenderSurface& target, const Mesh2& ph_mesh,
   const color& col, const trans2f& trn)
 {
-  draw(target, mesh, mBlankTexture, col, trn);
+  draw(target, ph_mesh, m_blank_texture, col, trn);
 }
 
-void Mesh2ShaderProgram::draw(RenderSurface& target, const Mesh2& mesh,
+void mesh2_shader_program::draw(RenderSurface& target, const Mesh2& ph_mesh,
   const Texture2& tex, const trans2f& trn)
 {
-  draw(target, mesh, tex, color::white, trn);
+  draw(target, ph_mesh, tex, color::white, trn);
 }
 
-void Mesh2ShaderProgram::draw(
-  RenderSurface& target, const Mesh2& mesh, const trans2f& trn)
+void mesh2_shader_program::draw(
+  RenderSurface& target, const Mesh2& ph_mesh, const trans2f& trn)
 {
-  draw(target, mesh, mBlankTexture, color::white, trn);
+  draw(target, ph_mesh, m_blank_texture, color::white, trn);
 }
 
 }  // namespace hou

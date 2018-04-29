@@ -2,10 +2,10 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gfx/FrameBufferBlitFilter.hpp"
+#include "hou/gfx/framebuffer_blit_filter.hpp"
 
 #define FRAME_BUFFER_BLIT_FILTER_CASE(fbbf, os) \
-  case FrameBufferBlitFilter::fbbf:            \
+  case framebuffer_blit_filter::fbbf:            \
     return (os) << #fbbf
 
 
@@ -13,12 +13,12 @@
 namespace hou
 {
 
-std::ostream& operator<<(std::ostream& os, FrameBufferBlitFilter fbbf)
+std::ostream& operator<<(std::ostream& os, framebuffer_blit_filter fbbf)
 {
   switch(fbbf)
   {
-    FRAME_BUFFER_BLIT_FILTER_CASE(Nearest, os);
-    FRAME_BUFFER_BLIT_FILTER_CASE(Linear, os);
+    FRAME_BUFFER_BLIT_FILTER_CASE(nearest, os);
+    FRAME_BUFFER_BLIT_FILTER_CASE(linear, os);
   default:
     return os;
   }
