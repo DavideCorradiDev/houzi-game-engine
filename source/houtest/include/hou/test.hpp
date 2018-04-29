@@ -27,7 +27,7 @@
   #define HOU_EXPECT_ERROR(statement, exception_type, message) \
   { \
     std::stringstream expectedOutput; \
-    expectedOutput << #exception_type << " -.*" << hou::format_regex(message) \
+    expectedOutput << #exception_type << " -.*" << hou::escape_regex(message) \
       << ".*"; \
     EXPECT_DEATH(statement, expectedOutput.str().c_str()); \
   }
@@ -44,7 +44,7 @@
     catch(const exception_type& e) \
     { \
       std::stringstream expectedOutput; \
-      expectedOutput << ".*" << hou::format_regex(message) << ".*"; \
+      expectedOutput << ".*" << hou::escape_regex(message) << ".*"; \
       EXPECT_THAT(e.what() \
         , ::testing::MatchesRegex(expectedOutput.str().c_str())); \
     } \

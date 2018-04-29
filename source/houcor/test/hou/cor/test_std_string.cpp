@@ -42,7 +42,7 @@ TEST_F(TestStdString, ReplaceAll)
 TEST_F(TestStdString, FormatRegex)
 {
   std::string sIn = u8".^$*+?()[{\\|";
-  std::string sOut = format_regex(sIn);
+  std::string sOut = escape_regex(sIn);
   EXPECT_EQ(u8"\\.\\^\\$\\*\\+\\?\\(\\)\\[\\{\\\\\\|", sOut);
 }
 

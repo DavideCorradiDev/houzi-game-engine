@@ -7,52 +7,44 @@ namespace hou
 
 template <typename PtrType>
 template <typename OtherPtrType, typename Enable>
-  not_null<PtrType>::not_null(OtherPtrType&& other)
-  : mPtr(std::move(other))
+not_null<PtrType>::not_null(OtherPtrType&& other)
+  : m_ptr(std::move(other))
 {
-  HOU_EXPECT(mPtr != nullptr);
+  HOU_EXPECT(m_ptr != nullptr);
 }
 
 
 
 template <typename PtrType>
 template <typename OtherPtrType, typename Enable>
-  not_null<PtrType>::not_null(const not_null<OtherPtrType>& other)
-  : mPtr(other.get())
+not_null<PtrType>::not_null(const not_null<OtherPtrType>& other)
+  : m_ptr(other.get())
 {
-  HOU_EXPECT_DEV(mPtr != nullptr);
+  HOU_EXPECT_DEV(m_ptr != nullptr);
 }
 
 
 
 template <typename PtrType>
-  const PtrType& not_null<PtrType>::get() const
+const PtrType& not_null<PtrType>::get() const
 {
-  HOU_EXPECT_DEV(mPtr != nullptr);
-  return mPtr;
+  HOU_EXPECT_DEV(m_ptr != nullptr);
+  return m_ptr;
 }
 
 
 
 template <typename PtrType>
-  PtrType& not_null<PtrType>::get()
+PtrType& not_null<PtrType>::get()
 {
-  HOU_EXPECT_DEV(mPtr != nullptr);
-  return mPtr;
+  HOU_EXPECT_DEV(m_ptr != nullptr);
+  return m_ptr;
 }
 
 
 
 template <typename PtrType>
-  decltype(auto) not_null<PtrType>::operator->() const
-{
-  return get();
-}
-
-
-
-template <typename PtrType>
-  decltype(auto) not_null<PtrType>::operator->()
+decltype(auto) not_null<PtrType>::operator-> () const
 {
   return get();
 }
@@ -60,7 +52,15 @@ template <typename PtrType>
 
 
 template <typename PtrType>
-  decltype(auto) not_null<PtrType>::operator*() const
+decltype(auto) not_null<PtrType>::operator-> ()
+{
+  return get();
+}
+
+
+
+template <typename PtrType>
+decltype(auto) not_null<PtrType>::operator*() const
 {
   return *get();
 }
@@ -68,10 +68,9 @@ template <typename PtrType>
 
 
 template <typename PtrType>
-  not_null<PtrType>::operator PtrType() const
+not_null<PtrType>::operator PtrType() const
 {
   return get();
 }
 
-}
-
+}  // namespace hou

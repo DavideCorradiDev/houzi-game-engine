@@ -22,5 +22,4 @@ std::string get_text(cor_error ec)
   }
 }
 
-}
-
+}  // namespace hou

@@ -20,5 +20,4 @@ bool close(T lhs, T rhs, T acc)
 template bool close<float>(float, float, float);
 template bool close<double>(double, double, double);
 
-}
-
+}  // namespace hou

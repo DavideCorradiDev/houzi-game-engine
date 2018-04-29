@@ -12,18 +12,20 @@ namespace hou
 
 /** Non copyable class.
  *
- *  a class inheriting from non_copyable cannot be copied.
+ * A class inheriting from non_copyable cannot be copied.
  */
 class non_copyable
 {
 public:
   /** default constructor
    */
-  non_copyable() {}
+  non_copyable()
+  {}
 
   /** Destructor
    */
-  virtual ~non_copyable() {}
+  virtual ~non_copyable()
+  {}
 
   /** Deleted copy constructor
    */
@@ -42,7 +44,6 @@ public:
   non_copyable& operator=(non_copyable&&) = delete;
 };
 
-}
+}  // namespace hou
 
 #endif
-

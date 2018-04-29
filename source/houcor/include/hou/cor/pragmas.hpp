@@ -1,7 +1,7 @@
 // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
-//
+
 #ifndef HOU_COR_PRAGMAS_HPP
 #define HOU_COR_PRAGMAS_HPP
 

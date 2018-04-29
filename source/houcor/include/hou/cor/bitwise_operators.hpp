@@ -16,29 +16,32 @@ namespace hou
 
 /** Enable bitwise operators for type T.
  *
- *  \tparam T the type to enable bitwise operators for.
+ * \tparam T the type to enable bitwise operators for.
  */
 template <typename T>
-  struct enable_bitwise_operators
+struct enable_bitwise_operators
 {
   /** Whether the bitwise operators are enabled for type T.
    *
-   *  Provide a class specialization setting this variable to true to enable
-   *  bitwise operators for type T.
+   * Provide a class specialization setting this variable to true to enable
+   * bitwise operators for type T.
    */
   static constexpr bool enable = false;
 };
 
 /** Bitwise OR operator.
  *
- *  \tparam T the type.
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return the bitwise OR result.
+ * \tparam T the type.
+ *
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return the bitwise OR result.
  */
 template <typename T>
-  typename std::enable_if<enable_bitwise_operators<T>::enable, T>::type
-  operator|(T lhs, T rhs)
+typename std::enable_if<enable_bitwise_operators<T>::enable, T>::type operator|(
+  T lhs, T rhs)
 {
   using utype = typename std::underlying_type<T>::type;
   return static_cast<T>(static_cast<utype>(lhs) | static_cast<utype>(rhs));
@@ -46,14 +49,17 @@ template <typename T>
 
 /** Bitwise OR operator.
  *
- *  \tparam T the type.
- *  \param lhs the left operand.
- *  It will store the result of the operation.
- *  \param rhs the right operand.
- *  \return a reference to lhs after performing the bitwise or operation.
+ * \tparam T the type.
+ *
+ * \param lhs the left operand.
+ * It will store the result of the operation.
+ *
+ * \param rhs the right operand.
+ *
+ * \return a reference to lhs after performing the bitwise or operation.
  */
 template <typename T>
-  typename std::enable_if<enable_bitwise_operators<T>::enable, T&>::type
+typename std::enable_if<enable_bitwise_operators<T>::enable, T&>::type
   operator|=(T& lhs, T rhs)
 {
   return lhs = lhs | rhs;
@@ -61,14 +67,17 @@ template <typename T>
 
 /** Bitwise AND operator.
  *
- *  \tparam T the type.
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return the bitwise AND result.
+ * \tparam T the type.
+ *
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return the bitwise AND result.
  */
 template <typename T>
-  typename std::enable_if<enable_bitwise_operators<T>::enable, T>::type
-  operator&(T lhs, T rhs)
+typename std::enable_if<enable_bitwise_operators<T>::enable, T>::type operator&(
+  T lhs, T rhs)
 {
   using utype = typename std::underlying_type<T>::type;
   return static_cast<T>(static_cast<utype>(lhs) & static_cast<utype>(rhs));
@@ -76,14 +85,17 @@ template <typename T>
 
 /** Bitwise AND operator.
  *
- *  \tparam T the type.
- *  \param lhs the left operand.
- *  It will store the result of the operation.
- *  \param rhs the right operand.
- *  \return a reference to lhs after performing the bitwise or operation.
+ * \tparam T the type.
+ *
+ * \param lhs the left operand.
+ * It will store the result of the operation.
+ *
+ * \param rhs the right operand.
+ *
+ * \return a reference to lhs after performing the bitwise or operation.
  */
 template <typename T>
-  typename std::enable_if<enable_bitwise_operators<T>::enable, T&>::type
+typename std::enable_if<enable_bitwise_operators<T>::enable, T&>::type
   operator&=(T& lhs, T rhs)
 {
   return lhs = lhs & rhs;
@@ -91,19 +103,21 @@ template <typename T>
 
 /** Checks if a bit is set in a bitfield.
  *
- *  \tparam T the type.
- *  \param bitfield the field.
- *  \param bit the bit.
- *  \return the result of the check.
+ * \tparam T the type.
+ *
+ * \param bitfield the field.
+ *
+ * \param bit the bit.
+ *
+ * \return the result of the check.
  */
 template <typename T>
-  typename std::enable_if<enable_bitwise_operators<T>::enable, bool>::type
-  checkBit(T bitfield, T bit)
+typename std::enable_if<enable_bitwise_operators<T>::enable, bool>::type
+  check_bit(T bitfield, T bit)
 {
   return (bitfield & bit) == bit;
 }
 
-}
+}  // namespace hou
 
 #endif
-

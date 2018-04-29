@@ -18,15 +18,15 @@ namespace hou
 
 FILE* open_file(const std::string& path, const std::string& mode)
 {
-  return _wfopen(convertEncoding<utf8, wide>(path).c_str()
-    , convertEncoding<utf8, wide>(mode).c_str());
+  return _wfopen(convert_encoding<utf8, wide>(path).c_str()
+    , convert_encoding<utf8, wide>(mode).c_str());
 }
 
 
 
 bool check_dir(const std::string& path)
 {
-  DWORD attr = GetFileAttributesW(convertEncoding<utf8, wide>(path).c_str());
+  DWORD attr = GetFileAttributesW(convert_encoding<utf8, wide>(path).c_str());
   return attr != INVALID_FILE_ATTRIBUTES;
 }
 
@@ -34,15 +34,15 @@ bool check_dir(const std::string& path)
 
 bool remove_dir(const std::string& path)
 {
-  return _wremove(convertEncoding<utf8, wide>(path).c_str()) == 0;
+  return _wremove(convert_encoding<utf8, wide>(path).c_str()) == 0;
 }
 
 
 
 bool rename_dir(const std::string& oldPath, const std::string& newPath)
 {
-  return _wrename(convertEncoding<utf8, wide>(oldPath).c_str()
-    , convertEncoding<utf8, wide>(newPath).c_str()) == 0;
+  return _wrename(convert_encoding<utf8, wide>(oldPath).c_str()
+    , convert_encoding<utf8, wide>(newPath).c_str()) == 0;
 }
 
 
@@ -50,7 +50,7 @@ bool rename_dir(const std::string& oldPath, const std::string& newPath)
 size_t get_dir_byte_size(const std::string& path)
 {
   struct _stat64 buf;
-  int retval = _wstat64(convertEncoding<utf8, wide>(path).c_str(), &buf);
+  int retval = _wstat64(convert_encoding<utf8, wide>(path).c_str(), &buf);
   if(retval == 0)
   {
     return buf.st_size;

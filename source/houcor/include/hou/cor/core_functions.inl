@@ -2,7 +2,7 @@ namespace hou
 {
 
 template <typename T, typename InputIt1, typename InputIt2, typename Enable>
-  bool container_close(InputIt1 begin1, InputIt1 end1, InputIt2 begin2, T acc)
+bool container_close(InputIt1 begin1, InputIt1 end1, InputIt2 begin2, T acc)
 {
   for(; begin1 != end1; ++begin1, ++begin2)
   {
@@ -17,7 +17,7 @@ template <typename T, typename InputIt1, typename InputIt2, typename Enable>
 
 
 template <typename Iterator>
-  std::ostream& container_stream(std::ostream& os, Iterator begin, Iterator end)
+std::ostream& container_stream(std::ostream& os, Iterator begin, Iterator end)
 {
   os << "{";
   for(auto it = begin; it != end; ++it)
@@ -31,5 +31,4 @@ template <typename Iterator>
   return os << "}";
 }
 
-}
-
+}  // namespace hou

@@ -9,7 +9,7 @@
 
 
 #define MODIFIER_KEY_BITFIELD_CASE(bitfield, mkf) \
-  (checkBit(bitfield, modifier_keys::mkf) ? #mkf : "0")
+  (check_bit(bitfield, modifier_keys::mkf) ? #mkf : "0")
 
 
 

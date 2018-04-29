@@ -434,7 +434,7 @@ int main()
         case hou::window_event_type::key_pressed:
         {
           auto data = we.get_key_data();
-          if(hou::checkBit(data.modifier_keys, hou::modifier_keys::ctrl))
+          if(hou::check_bit(data.modifier_keys, hou::modifier_keys::ctrl))
           {
             if(data.scan_code == hou::scan_code::Num1)
             {
@@ -519,7 +519,7 @@ int main()
         ss << ev;
         if(ev.get_type() == hou::window_event_type::TextEntered)
         {
-          ss << "  " <<  hou::convertEncoding<hou::utf32, hou::utf8>(std::u32string(1, ev.get_text_data().code_point)) << "\n";
+          ss << "  " <<  hou::convert_encoding<hou::utf32, hou::utf8>(std::u32string(1, ev.get_text_data().code_point)) << "\n";
         }
         textRnd.draw(wnd, ss.str(), ph_font, hou::color::black
           , projTrans * eventQueueTrans * evTrans * hou::trans2f::translation(hou::vec2f(4.f, 16.f)));

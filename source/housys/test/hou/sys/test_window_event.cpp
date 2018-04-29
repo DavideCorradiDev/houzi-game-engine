@@ -1741,7 +1741,7 @@ TEST_F(TestWindowEvent, KeyReleasedOutputStreamOperator)
 TEST_F(TestWindowEvent, TextEnteredOutputStreamOperator)
 {
   window_event ev = window_event::text_entered(0x13fa);
-  const char* osRef = "{Type = TextEntered, Data = {CodePoint = 0x000013fa}}";
+  const char* osRef = "{Type = TextEntered, Data = {code_point = 0x000013fa}}";
   HOU_EXPECT_OUTPUT(osRef, ev);
 }
 

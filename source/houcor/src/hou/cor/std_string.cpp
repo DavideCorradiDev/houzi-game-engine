@@ -9,8 +9,8 @@
 namespace hou
 {
 
-std::string replace_all(std::string s, const std::string& from
-  , const std::string& to)
+std::string replace_all(
+  std::string s, const std::string& from, const std::string& to)
 {
   size_t start = 0u;
   while((start = s.find(from, start)) != std::string::npos)
@@ -23,26 +23,15 @@ std::string replace_all(std::string s, const std::string& from
 
 
 
-std::string format_regex(std::string s)
+std::string escape_regex(std::string s)
 {
-  static const std::vector<std::string> reservedChars =
-  {
+  static const std::vector<std::string> reserved_chars = {
     // \ must be first in the list to avoid replacing it recursively.
-    u8"\\",
-    u8".",
-    u8"^",
-    u8"$",
-    u8"*",
-    u8"+",
-    u8"?",
-    u8"(",
-    u8")",
-    u8"[",
-    u8"{",
-    u8"|",
+    u8"\\", u8".", u8"^", u8"$", u8"*", u8"+",
+    u8"?",  u8"(", u8")", u8"[", u8"{", u8"|",
   };
 
-  for(const auto& c : reservedChars)
+  for(const auto& c : reserved_chars)
   {
     s = replace_all(s, c, u8"\\" + c);
   }
@@ -56,5 +45,4 @@ std::string to_string(bool value)
   return value ? "true" : "false";
 }
 
-}
-
+}  // namespace hou

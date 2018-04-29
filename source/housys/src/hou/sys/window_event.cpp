@@ -435,7 +435,7 @@ std::ostream& operator<<(std::ostream& os, const window_event::text_data& e)
     std::ios mOldState;
   };
 
-  os << "{CodePoint = 0x";
+  os << "{code_point = 0x";
   {
     OutputFormatter of(os);
     os << static_cast<uint32_t>(e.code_point);

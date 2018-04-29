@@ -36,7 +36,7 @@ std::string getLastWinErrorMessage()
   else
   {
     // Convert Windows UNICODE encoding to utf-8 to store it in a std::string.
-    std::string messageUtf8(convertEncoding<wide, utf8>((LPWSTR)lpMsgBuf));
+    std::string messageUtf8(convert_encoding<wide, utf8>((LPWSTR)lpMsgBuf));
     std::string winError = format_string(u8"Error code %d: %s", ec
       , messageUtf8.c_str());
     LocalFree(lpMsgBuf);

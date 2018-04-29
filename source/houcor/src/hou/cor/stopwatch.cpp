@@ -62,21 +62,20 @@ std::chrono::nanoseconds stopwatch::pause()
 
 std::chrono::nanoseconds stopwatch::reset()
 {
-  std::chrono::nanoseconds elapsedTime = get_elapsed_time();
+  std::chrono::nanoseconds elapsed_time = get_elapsed_time();
   m_elapsed_time = std::chrono::nanoseconds(0);
   m_clock.reset();
-  return elapsedTime;
+  return elapsed_time;
 }
 
 
 
 std::chrono::nanoseconds stopwatch::stop()
 {
-  std::chrono::nanoseconds elapsedTime = get_elapsed_time();
+  std::chrono::nanoseconds elapsed_time = get_elapsed_time();
   m_elapsed_time = std::chrono::nanoseconds(0);
   m_running = false;
-  return elapsedTime;
+  return elapsed_time;
 }
 
-}
-
+}  // namespace hou

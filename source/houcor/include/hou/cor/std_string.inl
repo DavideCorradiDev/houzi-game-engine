@@ -6,7 +6,7 @@ namespace hou
 {
 
 template <typename... Args>
-  std::string format_string(const std::string& s, Args... args)
+std::string format_string(const std::string& s, Args... args)
 {
   // The +1 is for an extra space for null terminating char in the buffer.
   size_t size = std::snprintf(nullptr, 0, s.c_str(), args...) + 1;
@@ -19,8 +19,8 @@ template <typename... Args>
 
 
 template <typename OutputIterator>
-  OutputIterator split_string(const std::string& s, char delimiter
-  , OutputIterator out)
+OutputIterator split_string(
+  const std::string& s, char delimiter, OutputIterator out)
 {
   std::istringstream ss(s);
   while(!ss.eof())
@@ -36,12 +36,11 @@ template <typename OutputIterator>
 
 
 template <typename T>
-  std::string to_string(const T& obj)
+std::string to_string(const T& obj)
 {
   std::stringstream ss;
   ss << obj;
   return ss.str();
 }
 
-}
-
+}  // namespace hou

@@ -23,13 +23,13 @@ class HOU_COR_API uid_generator
 public:
   /** Creates the generator.
    *
-   *  The constructor is not thread safe.
+   * The constructor is not thread safe.
    */
-  uid_generator(uint32_t startingValue);
+  uid_generator(uint32_t starting_value);
 
   /** Generates a unique identifier.
    *
-   *  Calling this function is thread safe.
+   * Calling this function is thread safe.
    */
   uint32_t generate();
 
@@ -37,7 +37,6 @@ private:
   std::atomic<uint32_t> m_counter;
 };
 
-}
+}  // namespace hou
 
 #endif
-

@@ -59,7 +59,7 @@ TEST_F(TestCharacterEncodings, Utf8Decoding)
 {
   std::array<utf8::code_unit, 4u> utf8Char;
   auto retval = utf8Char.begin();
-  CodePoint charCode;
+  code_point charCode;
 
   // a
   utf8Char[0] = '\x61';
@@ -104,7 +104,7 @@ TEST_F(TestCharacterEncodings, Utf8Decoding)
 TEST_F(TestCharacterEncodingsDeathTest, Utf8DecodingFailure)
 {
   std::array<utf8::code_unit, 4u> utf8Char{'\xF0', '\x91', '\xAB', '\x80'};
-  CodePoint charCode;
+  code_point charCode;
 
   HOU_EXPECT_ERROR(utf8::decode(utf8Char.end(), utf8Char.begin(), charCode)
     , std::logic_error, get_text(cor_error::pre_condition));
@@ -237,7 +237,7 @@ TEST_F(TestCharacterEncodings, Utf16Decoding)
 {
   std::array<utf16::code_unit, 2u> utf16Char;
   auto retval = utf16Char.begin();
-  CodePoint charCode;
+  code_point charCode;
 
   // a
   utf16Char[0] = u'\x0061';
@@ -271,7 +271,7 @@ TEST_F(TestCharacterEncodings, Utf16Decoding)
 TEST_F(TestCharacterEncodingsDeathTest, Utf16DecodingFailure)
 {
   std::array<utf16::code_unit, 2u> utf16Char = {u'\xD806', u'\xDEC0'};
-  CodePoint charCode;
+  code_point charCode;
 
   HOU_EXPECT_ERROR(utf16::decode(utf16Char.end(), utf16Char.begin(), charCode)
     , std::logic_error, get_text(cor_error::pre_condition));
@@ -392,7 +392,7 @@ TEST_F(TestCharacterEncodings, Utf32Decoding)
 {
   std::array<utf32::code_unit, 1u> utf32Char;
   auto retval = utf32Char.begin();
-  CodePoint charCode;
+  code_point charCode;
 
   // a
   utf32Char[0] = U'\U00000061';
@@ -424,7 +424,7 @@ TEST_F(TestCharacterEncodings, Utf32Decoding)
 TEST_F(TestCharacterEncodingsDeathTest, Utf32DecodingFailure)
 {
   std::array<utf32::code_unit, 1u> utf32Char = {U'\U00000012'};
-  CodePoint charCode;
+  code_point charCode;
 
   HOU_EXPECT_ERROR(utf32::decode(utf32Char.end(), utf32Char.begin(), charCode)
     , std::logic_error, get_text(cor_error::pre_condition));
@@ -537,7 +537,7 @@ TEST_F(TestCharacterEncodings, WideDecoding)
 {
   std::array<wide::code_unit, 1u> wideChar;
   auto retval = wideChar.begin();
-  CodePoint charCode;
+  code_point charCode;
 
   // a
   wideChar[0] = 0x0061;
@@ -563,7 +563,7 @@ TEST_F(TestCharacterEncodings, WideDecoding)
 TEST_F(TestCharacterEncodingsDeathTest, WideDecodingFailure)
 {
   wide::code_unit wideChar;
-  CodePoint charCode;
+  code_point charCode;
 
   HOU_EXPECT_ERROR(wide::decode(&wideChar + 1, &wideChar, charCode)
     , std::logic_error, get_text(cor_error::pre_condition));
@@ -630,8 +630,8 @@ TEST_F(TestCharacterEncodings, Utf32Utf16Conversion)
     , u'\x0904'};
   utf16::code_unit utf16Str[5] = {0};
 
-  convertEncoding<utf32, utf16>(utf32Ref, utf32Ref + 4, utf16Str);
-  convertEncoding<utf16, utf32>(utf16Ref, utf16Ref + 5, utf32Str);
+  convert_encoding<utf32, utf16>(utf32Ref, utf32Ref + 4, utf16Str);
+  convert_encoding<utf16, utf32>(utf16Ref, utf16Ref + 5, utf32Str);
 
   HOU_EXPECT_ARRAY_EQ(utf32Ref, utf32Str, 4);
   HOU_EXPECT_ARRAY_EQ(utf16Ref, utf16Str, 5);
@@ -648,8 +648,8 @@ TEST_F(TestCharacterEncodings, Utf32Utf8Conversion)
     , '\x81', '\xE0', '\xA4', '\x84'};
   utf8::code_unit utf8Str[10] = {0};
 
-  convertEncoding<utf32, utf8>(utf32Ref, utf32Ref + 4, utf8Str);
-  convertEncoding<utf8, utf32>(utf8Ref, utf8Ref + 10, utf32Str);
+  convert_encoding<utf32, utf8>(utf32Ref, utf32Ref + 4, utf8Str);
+  convert_encoding<utf8, utf32>(utf8Ref, utf8Ref + 10, utf32Str);
 
   HOU_EXPECT_ARRAY_EQ(utf32Ref, utf32Str, 4);
   HOU_EXPECT_ARRAY_EQ(utf8Ref, utf8Str, 10);
@@ -666,8 +666,8 @@ TEST_F(TestCharacterEncodings, Utf16Utf8Conversion)
     , '\x81', '\xE0', '\xA4', '\x84'};
   utf8::code_unit utf8Str[10] = {0};
 
-  convertEncoding<utf16, utf8>(utf16Ref, utf16Ref + 5, utf8Str);
-  convertEncoding<utf8, utf16>(utf8Ref, utf8Ref + 10, utf16Str);
+  convert_encoding<utf16, utf8>(utf16Ref, utf16Ref + 5, utf8Str);
+  convert_encoding<utf8, utf16>(utf8Ref, utf8Ref + 10, utf16Str);
 
   HOU_EXPECT_ARRAY_EQ(utf16Ref, utf16Str, 5);
   HOU_EXPECT_ARRAY_EQ(utf8Ref, utf8Str, 10);
@@ -682,22 +682,22 @@ TEST_F(TestCharacterEncodings, StringEncodingConversion)
   std::u16string utf16Ref = u"\U00000061\U00011AC0\U00000101\U00000904";
   std::u32string utf32Ref = U"\U00000061\U00011AC0\U00000101\U00000904";
 
-  std::string u16to8 = convertEncoding<utf16, utf8>(utf16Ref);
+  std::string u16to8 = convert_encoding<utf16, utf8>(utf16Ref);
   EXPECT_EQ(utf8Ref, u16to8);
 
-  std::string u32to8 = convertEncoding<utf32, utf8>(utf32Ref);
+  std::string u32to8 = convert_encoding<utf32, utf8>(utf32Ref);
   EXPECT_EQ(utf8Ref, u32to8);
 
-  std::u16string u8to16 = convertEncoding<utf8, utf16>(utf8Ref);
+  std::u16string u8to16 = convert_encoding<utf8, utf16>(utf8Ref);
   EXPECT_EQ(utf16Ref, u8to16);
 
-  std::u16string u32to16 = convertEncoding<utf32, utf16>(utf32Ref);
+  std::u16string u32to16 = convert_encoding<utf32, utf16>(utf32Ref);
   EXPECT_EQ(utf16Ref, u32to16);
 
-  std::u32string u8to32 = convertEncoding<utf8, utf32>(utf8Ref);
+  std::u32string u8to32 = convert_encoding<utf8, utf32>(utf8Ref);
   EXPECT_EQ(utf32Ref, u8to32);
 
-  std::u32string u16to32 = convertEncoding<utf16, utf32>(utf16Ref);
+  std::u32string u16to32 = convert_encoding<utf16, utf32>(utf16Ref);
   EXPECT_EQ(utf32Ref, u16to32);
 
 }

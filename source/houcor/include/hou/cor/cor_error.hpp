@@ -29,7 +29,6 @@ enum class cor_error
  */
 HOU_COR_API std::string get_text(cor_error ec);
 
-}
+}  // namespace hou
 
 #endif
-

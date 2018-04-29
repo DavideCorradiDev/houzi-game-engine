@@ -429,7 +429,7 @@ window_impl::window_impl(const std::string& title, const video_mode& videoMode
   m_handle = CreateWindowExW
     ( windowStyleToWinWindowStyleEx(style)              // dwExStyle
     , houClassName                                      // lpClassName
-    , convertEncoding<utf8, wide>(title).c_str()        // lpWindowName
+    , convert_encoding<utf8, wide>(title).c_str()        // lpWindowName
     , windowStyleToWinWindowStyle(style)                // dwStyle
     , 0, 0                        // Position
     , 0, 0  // size_type
@@ -562,7 +562,7 @@ void window_impl::set_client_rect(const recti& value)
 void window_impl::set_title(const std::string& value)
 {
   HOU_WIN_ENSURE(SetWindowTextW(m_handle
-    , convertEncoding<utf8, wide>(value).c_str()) != 0);
+    , convert_encoding<utf8, wide>(value).c_str()) != 0);
 }
 
 
@@ -860,7 +860,7 @@ void window_impl::filter_event(UINT uMsg, WPARAM wParam, LPARAM lParam)
           {
             char16_t p_utf16[] = { mCachedUtf16Char
               , static_cast<char16_t>(character) };
-            convertEncoding<utf16, utf32>(p_utf16, p_utf16 + 2, &character);
+            convert_encoding<utf16, utf32>(p_utf16, p_utf16 + 2, &character);
             mCachedUtf16Char = 0;
           }
 

@@ -13,10 +13,11 @@ namespace hou
 
 std::chrono::nanoseconds clock::get_resolution()
 {
-  return std::chrono::nanoseconds
-    (static_cast<int64_t>(1000000000.
-    * ( static_cast<double>(std::chrono::high_resolution_clock::period::num)
-      / static_cast<double>(std::chrono::high_resolution_clock::period::den))));
+  return std::chrono::nanoseconds(static_cast<int64_t>(
+    1000000000.
+    * (static_cast<double>(std::chrono::high_resolution_clock::period::num)
+       / static_cast<double>(
+           std::chrono::high_resolution_clock::period::den))));
 }
 
 
@@ -37,11 +38,10 @@ std::chrono::nanoseconds clock::get_elapsed_time() const
 
 std::chrono::nanoseconds clock::reset()
 {
-  std::chrono::high_resolution_clock::time_point currentTime = m_clock.now();
-  std::chrono::nanoseconds retval = currentTime - m_start_time;
-  m_start_time = currentTime;
+  std::chrono::high_resolution_clock::time_point current_time = m_clock.now();
+  std::chrono::nanoseconds retval = current_time - m_start_time;
+  m_start_time = current_time;
   return retval;
 }
 
-}
-
+}  // namespace hou
