@@ -799,7 +799,7 @@ TEST_F(Testmatrix, Identity)
 
 
 
-TEST_F(Testmatrix, Zero)
+TEST_F(Testmatrix, zero)
 {
   EXPECT_EQ(mat3x2i({0, 0, 0, 0, 0, 0}), mat3x2i::zero());
 }

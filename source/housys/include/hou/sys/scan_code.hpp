@@ -82,16 +82,16 @@ enum class scan_code
   LCtrl = 0x1du,
   /** RCtrl */
   RCtrl = 0xe01du,
-  /** A */
-  A = 0x1eu,
+  /** a */
+  a = 0x1eu,
   /** S */
   S = 0x1fu,
   /** D */
   D = 0x20u,
   /** F */
   F = 0x21u,
-  /** G */
-  G = 0x22u,
+  /** g */
+  g = 0x22u,
   /** H */
   H = 0x23u,
   /** J */
@@ -119,8 +119,8 @@ enum class scan_code
   C = 0x2eu,
   /** V */
   V = 0x2fu,
-  /** B */
-  B = 0x30u,
+  /** b */
+  b = 0x30u,
   /** N */
   N = 0x31u,
   /** M */

@@ -13,7 +13,7 @@ namespace hou
 
 void mesh::draw(const mesh& ph_mesh)
 {
-  VertexArray::bind(ph_mesh.m_vao);
+  vertex_array::bind(ph_mesh.m_vao);
   gl::set_polygon_mode(GL_FRONT_AND_BACK, static_cast<GLenum>(ph_mesh.m_fill_mode));
   gl::draw_arrays(static_cast<GLenum>(ph_mesh.m_draw_mode), 0, ph_mesh.m_vertex_count);
 }

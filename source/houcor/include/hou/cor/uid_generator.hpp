@@ -16,7 +16,7 @@
 namespace hou
 {
 
-/** A thread safe unique identifier generator.
+/** a thread safe unique identifier generator.
  */
 class HOU_COR_API uid_generator
 {

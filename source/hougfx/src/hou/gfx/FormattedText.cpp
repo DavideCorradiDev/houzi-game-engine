@@ -4,7 +4,7 @@
 
 #include "hou/gfx/font.hpp"
 #include "hou/gfx/glyph.hpp"
-#include "hou/gfx/TextureChannelMapping.hpp"
+#include "hou/gfx/texture_channel_mapping.hpp"
 
 #include <map>
 #include <set>
@@ -80,9 +80,9 @@ class TextFormatter
 {
 public:
   TextFormatter(std::u32string text, const font&, const GlyphCache& cache,
-    const GlyphAtlas& atlas, const TextBoxFormattingParams params);
+    const GlyphAtlas& atlas, const text_box_formatting_params params);
 
-  const std::vector<TextVertex>& getVertices() const;
+  const std::vector<text_vertex>& getVertices() const;
   const rectf& get_bounding_box() const;
 
 private:
@@ -94,14 +94,14 @@ private:
   float computeGlyphAdvance(const glyph_metrics& gm, const font& ph_font) const;
   vec2f computeGlyphBearing(const glyph_metrics& gm, const font& ph_font) const;
   void insertLineBreaks(const font& ph_font, const GlyphCache& cache,
-    const TextBoxFormattingParams& tbfp);
+    const text_box_formatting_params& tbfp);
   void generateVertices(
     const font& ph_font, const GlyphCache& cache, const GlyphAtlas& atlas);
   void computeBoundingBox();
 
 private:
   std::u32string m_text;
-  std::vector<TextVertex> mVertices;
+  std::vector<text_vertex> mVertices;
   size_t mLineCoord;
   size_t mColumnCoord;
   float mLineSpacing;
@@ -295,18 +295,18 @@ const AtlasGlyphCoordinates& GlyphAtlas::getAtlasGlyphCoordinates(
 
 TextFormatter::TextFormatter(std::u32string text, const font& ph_font,
   const GlyphCache& cache, const GlyphAtlas& atlas,
-  const TextBoxFormattingParams tbfp)
+  const text_box_formatting_params tbfp)
   : m_text(text)
-  , mVertices(VerticesPerGlyph * text.size(), TextVertex())
-  , mLineCoord((tbfp.getTextFlow() == TextFlow::LeftRight
-                 || tbfp.getTextFlow() == TextFlow::RightLeft)
+  , mVertices(VerticesPerGlyph * text.size(), text_vertex())
+  , mLineCoord((tbfp.get_text_flow() == TextFlow::LeftRight
+                 || tbfp.get_text_flow() == TextFlow::RightLeft)
         ? 0u
         : 1u)
   , mColumnCoord(mLineCoord == 0u ? 1u : 0u)
   , mLineSpacing(mLineCoord == 0u ? ph_font.get_pixel_line_spacing()
                                   : 0.5f * ph_font.get_pixel_max_advance())
-  , mCharSpacingFactor(tbfp.getTextFlow() == TextFlow::LeftRight
-          || tbfp.getTextFlow() == TextFlow::TopBottom
+  , mCharSpacingFactor(tbfp.get_text_flow() == TextFlow::LeftRight
+          || tbfp.get_text_flow() == TextFlow::TopBottom
         ? 1.f
         : -1.f)
   , m_bounding_box()
@@ -345,18 +345,18 @@ vec2f TextFormatter::computeGlyphBearing(
 
 
 void TextFormatter::insertLineBreaks(const font& ph_font, const GlyphCache& cache,
-  const TextBoxFormattingParams& tbfp)
+  const text_box_formatting_params& tbfp)
 {
   // This function wraps text inside the bounding box.
   // The algorithm should be improved to be consistent with common typographic
   // rules.
-  if(tbfp.getMaxSize().x() <= 0.f || tbfp.getMaxSize().y() <= 0.f)
+  if(tbfp.get_max_size().x() <= 0.f || tbfp.get_max_size().y() <= 0.f)
   {
     return;
   }
 
-  const float maxLineSize = tbfp.getMaxSize()(mLineCoord);
-  const float maxColumnSize = tbfp.getMaxSize()(mColumnCoord);
+  const float maxLineSize = tbfp.get_max_size()(mLineCoord);
+  const float maxColumnSize = tbfp.get_max_size()(mColumnCoord);
 
   float lineSize = 0.f;
   float columnSize = mLineSpacing;
@@ -465,19 +465,19 @@ void TextFormatter::generateVertices(
 
       vec2f v0Pos = penPos + bearing + ac.getTopLeftPos();
       vec3f v0Tex = ac.getTopLeftTex();
-      TextVertex v0(v0Pos, v0Tex);
+      text_vertex v0(v0Pos, v0Tex);
 
       vec2f v1Pos = v0Pos + ac.getTopRightPos();
       vec3f v1Tex = ac.getTopRightTex();
-      TextVertex v1(v1Pos, v1Tex);
+      text_vertex v1(v1Pos, v1Tex);
 
       vec2f v2Pos = v0Pos + ac.getBottomLeftPos();
       vec3f v2Tex = ac.getBottomLeftTex();
-      TextVertex v2(v2Pos, v2Tex);
+      text_vertex v2(v2Pos, v2Tex);
 
       vec2f v3Pos = v0Pos + ac.getBottomRightPos();
       vec3f v3Tex = ac.getBottomRightTex();
-      TextVertex v3(v3Pos, v3Tex);
+      text_vertex v3(v3Pos, v3Tex);
 
       mVertices[i * 6 + 0] = v0;
       mVertices[i * 6 + 1] = v1;
@@ -536,7 +536,7 @@ void TextFormatter::computeBoundingBox()
 
 
 
-const std::vector<TextVertex>& TextFormatter::getVertices() const
+const std::vector<text_vertex>& TextFormatter::getVertices() const
 {
   return mVertices;
 }
@@ -553,14 +553,14 @@ const rectf& TextFormatter::get_bounding_box() const
 
 
 formatted_text::formatted_text(const std::string& text, const font& ph_font,
-  const TextBoxFormattingParams& tbfp)
+  const text_box_formatting_params& tbfp)
   : formatted_text(convertEncoding<utf8, utf32>(text), ph_font, tbfp)
 {}
 
 
 
 formatted_text::formatted_text(
-  std::u32string text, const font& ph_font, const TextBoxFormattingParams& tbfp)
+  std::u32string text, const font& ph_font, const text_box_formatting_params& tbfp)
   : non_copyable()
   , m_atlas(nullptr)
   , m_mesh(nullptr)
@@ -570,10 +570,10 @@ formatted_text::formatted_text(
   GlyphAtlas glyphAtlas(glyphCache);
   TextFormatter formatter(text, ph_font, glyphCache, glyphAtlas, tbfp);
 
-  m_atlas = std::make_unique<Texture2Array>(
-    glyphAtlas.get_image(), TextureFormat::r, 1u);
-  m_atlas->setChannelMapping(TextureChannelMapping::Alpha);
-  m_mesh = std::make_unique<TextMesh>(
+  m_atlas = std::make_unique<texture2_array>(
+    glyphAtlas.get_image(), texture_format::r, 1u);
+  m_atlas->setChannelMapping(texture_channel_mapping::alpha);
+  m_mesh = std::make_unique<text_mesh>(
     mesh_draw_mode::triangles, mesh_fill_mode::fill, formatter.getVertices());
   m_bounding_box = formatter.get_bounding_box();
 }
@@ -589,7 +589,7 @@ formatted_text::formatted_text(formatted_text&& other)
 
 
 
-const Texture2Array& formatted_text::get_atlas() const
+const texture2_array& formatted_text::get_atlas() const
 {
   HOU_EXPECT_DEV(m_atlas != nullptr);
   return *m_atlas;
@@ -597,7 +597,7 @@ const Texture2Array& formatted_text::get_atlas() const
 
 
 
-const TextMesh& formatted_text::get_mesh() const
+const text_mesh& formatted_text::get_mesh() const
 {
   HOU_EXPECT_DEV(m_mesh != nullptr);
   return *m_mesh;

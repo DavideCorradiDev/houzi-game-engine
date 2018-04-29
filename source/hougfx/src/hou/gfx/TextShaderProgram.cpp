@@ -1,10 +1,10 @@
-#include "hou/gfx/TextShaderProgram.hpp"
+#include "hou/gfx/text_shader_program.hpp"
 
 #include "hou/gfx/font.hpp"
 #include "hou/gfx/formatted_text.hpp"
-#include "hou/gfx/RenderSurface.hpp"
-#include "hou/gfx/Shader.hpp"
-#include "hou/gfx/Texture.hpp"
+#include "hou/gfx/render_surface.hpp"
+#include "hou/gfx/shader.hpp"
+#include "hou/gfx/texture.hpp"
 
 #include "hou/mth/transform2.hpp"
 
@@ -58,7 +58,7 @@ std::string getGlFragmentShaderSource()
          ";\n"
          "void main()\n"
          "{\n"
-         "ph_color = " UNI_COLOR " * texture(" UNI_TEXTURE
+         "ph_color = " UNI_COLOR " * ph_texture(" UNI_TEXTURE
          ", texVs);\n"
          "}\n";
 }
@@ -67,18 +67,18 @@ std::string getGlFragmentShaderSource()
 
 
 
-TextShaderProgram::TextShaderProgram()
-  : ShaderProgram(VertexShader(getGlVertexShaderSource()),
-      FragmentShader(getGlFragmentShaderSource()))
-  , m_uni_color(getUniformLocation(UNI_COLOR))
-  , m_uni_texture(getUniformLocation(UNI_TEXTURE))
-  , m_uni_transform(getUniformLocation(UNI_TRANSFORM))
+text_shader_program::text_shader_program()
+  : shader_program(vertex_shader(getGlVertexShaderSource()),
+      fragment_shader(getGlFragmentShaderSource()))
+  , m_uni_color(get_uniform_location(UNI_COLOR))
+  , m_uni_texture(get_uniform_location(UNI_TEXTURE))
+  , m_uni_transform(get_uniform_location(UNI_TRANSFORM))
 {}
 
 
 
-TextShaderProgram::TextShaderProgram(TextShaderProgram&& other)
-  : ShaderProgram(std::move(other))
+text_shader_program::text_shader_program(text_shader_program&& other)
+  : shader_program(std::move(other))
   , m_uni_color(std::move(other.m_uni_color))
   , m_uni_texture(std::move(other.m_uni_texture))
   , m_uni_transform(std::move(other.m_uni_transform))
@@ -86,7 +86,7 @@ TextShaderProgram::TextShaderProgram(TextShaderProgram&& other)
 
 
 
-void TextShaderProgram::set_color(const color& ph_color)
+void text_shader_program::set_color(const color& ph_color)
 {
   gl::set_program_uniform_f(get_handle(), m_uni_color, ph_color.get_red_f(),
     ph_color.get_green_f(), ph_color.get_blue_f(), ph_color.get_alpha_f());
@@ -94,14 +94,14 @@ void TextShaderProgram::set_color(const color& ph_color)
 
 
 
-void TextShaderProgram::set_texture_unit(uint unit)
+void text_shader_program::set_texture_unit(uint unit)
 {
   gl::set_program_uniform_i(get_handle(), m_uni_texture, unit);
 }
 
 
 
-void TextShaderProgram::set_transform(const trans2f& trans)
+void text_shader_program::set_transform(const trans2f& trans)
 {
   gl::set_program_uniform_mat4x4f(
     get_handle(), m_uni_transform, 1u, GL_TRUE, trans.to_mat4x4().data());
@@ -109,22 +109,22 @@ void TextShaderProgram::set_transform(const trans2f& trans)
 
 
 
-void TextShaderProgram::draw(RenderSurface& target, const TextMesh& ph_mesh,
-  const Texture2Array& tex, const color& col, const trans2f& trn)
+void text_shader_program::draw(render_surface& target, const text_mesh& ph_mesh,
+  const texture2_array& tex, const color& col, const trans2f& trn)
 {
   static constexpr uint texUnit = 0u;
-  RenderSurface::setCurrentRenderTarget(target);
+  render_surface::set_current_render_target(target);
   set_color(col);
   set_texture_unit(texUnit);
   set_transform(trn);
   bind(*this);
-  Texture::bind(tex, texUnit);
+  texture::bind(tex, texUnit);
   mesh::draw(ph_mesh);
 }
 
 
 
-void TextShaderProgram::draw(RenderSurface& target, const formatted_text& text,
+void text_shader_program::draw(render_surface& target, const formatted_text& text,
   const color& col, const trans2f& trn)
 {
   draw(target, text.get_mesh(), text.get_atlas(), col, trn);
@@ -132,7 +132,7 @@ void TextShaderProgram::draw(RenderSurface& target, const formatted_text& text,
 
 
 
-void TextShaderProgram::draw(RenderSurface& target, const std::string& text,
+void text_shader_program::draw(render_surface& target, const std::string& text,
   const font& ph_font, const color& col, const trans2f& trn)
 {
   draw(target, formatted_text(text, ph_font), col, trn);

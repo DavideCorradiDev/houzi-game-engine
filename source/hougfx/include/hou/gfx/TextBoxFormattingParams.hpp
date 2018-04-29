@@ -18,12 +18,12 @@ namespace hou
 
 /** Represents a collection of text box formatting parameters.
  */
-class HOU_GFX_API TextBoxFormattingParams
+class HOU_GFX_API text_box_formatting_params
 {
 public:
   /** default parameters.
    */
-  static const TextBoxFormattingParams standard;
+  static const text_box_formatting_params standard;
 
 public:
   /** Creates an object with the given parameters.
@@ -31,23 +31,23 @@ public:
    * \param textFlow the text flow direction.
    * \param maxSize the maximum text box size.
    */
-  TextBoxFormattingParams(TextFlow textFlow, const vec2f& maxSize);
+  text_box_formatting_params(TextFlow textFlow, const vec2f& maxSize);
 
   /** Retrieves the text flow parameter.
    *
    * \return the text flow parameter.
    */
-  TextFlow getTextFlow() const;
+  TextFlow get_text_flow() const;
 
   /** Retrieves the maximum text box size.
    *
    * \return the maximum text box size.
    */
-  const vec2f& getMaxSize() const;
+  const vec2f& get_max_size() const;
 
 private:
-  TextFlow mTextFlow;
-  vec2f mMaxSize;
+  TextFlow m_text_flow;
+  vec2f m_max_size;
 };
 
 }  // namespace hou

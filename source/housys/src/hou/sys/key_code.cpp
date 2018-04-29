@@ -96,13 +96,13 @@ std::ostream& operator<<(std::ostream& os, key_code kc)
     KEY_CODE_CASE(Num8, os);
     KEY_CODE_CASE(Num9, os);
 
-    KEY_CODE_CASE(A, os);
-    KEY_CODE_CASE(B, os);
+    KEY_CODE_CASE(a, os);
+    KEY_CODE_CASE(b, os);
     KEY_CODE_CASE(C, os);
     KEY_CODE_CASE(D, os);
     KEY_CODE_CASE(E, os);
     KEY_CODE_CASE(F, os);
-    KEY_CODE_CASE(G, os);
+    KEY_CODE_CASE(g, os);
     KEY_CODE_CASE(H, os);
     KEY_CODE_CASE(I, os);
     KEY_CODE_CASE(J, os);

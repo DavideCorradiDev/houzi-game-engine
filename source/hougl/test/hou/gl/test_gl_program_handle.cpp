@@ -167,7 +167,7 @@ TEST_F(TestGlProgramHandleDeathTest, LinkProgramFailure)
   gl::shader_handle vsh = gl::shader_handle::create(GL_VERTEX_SHADER);
   gl::compile_shader(vsh, getVsSource().c_str());
   gl::shader_handle gsh = gl::shader_handle::create(GL_GEOMETRY_SHADER);
-  // Vertex shader source here to trigger the error!
+  // vertex ph_shader source here to trigger the error!
   gl::compile_shader(gsh, getVsSource().c_str());
   gl::shader_handle fsh = gl::shader_handle::create(GL_FRAGMENT_SHADER);
   gl::compile_shader(fsh, getFsSource().c_str());
@@ -177,7 +177,7 @@ TEST_F(TestGlProgramHandleDeathTest, LinkProgramFailure)
   gl::attach_shader(ph, fsh);
   HOU_EXPECT_ERROR(gl::link_program(ph), std::runtime_error
     , format_string(get_text(gl_error::program_linking)
-    , "Geometry info\n"
+    , "geometry info\n"
     "-------------\n"
     "(0) : error C6022: No input primitive type\n"
     "(0) : error C6029: No output primitive type\n"));

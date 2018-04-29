@@ -19,7 +19,7 @@ namespace hou
 
 /** Checks if two floating point numbers are equal with the given accuracy.
  *
- *  A specialization is provided only for float and double.
+ *  a specialization is provided only for float and double.
  *
  *  \tparam T the floating point type.
  *  \tparam Enable enabling parameter.

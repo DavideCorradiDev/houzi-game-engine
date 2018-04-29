@@ -2,26 +2,26 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gfx/RenderCanvas.hpp"
+#include "hou/gfx/render_canvas.hpp"
 
 
 
 namespace hou
 {
 
-RenderCanvas::RenderCanvas(const vec2u& size, uint sampleCount)
-  : RenderSurface(size, sampleCount)
+render_canvas::render_canvas(const vec2u& size, uint sampleCount)
+  : render_surface(size, sampleCount)
 {}
 
 
 
-RenderCanvas::RenderCanvas(RenderCanvas&& other)
-  : RenderSurface(std::move(other))
+render_canvas::render_canvas(render_canvas&& other)
+  : render_surface(std::move(other))
 {}
 
 
 
-RenderCanvas::~RenderCanvas()
+render_canvas::~render_canvas()
 {}
 
 }

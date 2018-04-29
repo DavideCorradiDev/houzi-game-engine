@@ -96,7 +96,7 @@ void graphic_context::initialize()
 {
   m_initialized = true;
 
-  // Set texture pack and unpack alignment to 1 so that there is no padding.
+  // Set ph_texture pack and unpack alignment to 1 so that there is no padding.
   gl::set_unpack_alignment(1);
   gl::set_pack_alignment(1);
 

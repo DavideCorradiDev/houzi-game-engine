@@ -2,49 +2,49 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gfx/TextVertex.hpp"
+#include "hou/gfx/text_vertex.hpp"
 
-#include "hou/gfx/VertexFormat.hpp"
+#include "hou/gfx/vertex_format.hpp"
 
 
 
 namespace hou
 {
 
-const VertexFormat& TextVertex::getVertexFormat()
+const vertex_format& text_vertex::get_vertex_format()
 {
-  static constexpr bool mustBeNormalized = true;
-  static const VertexFormat vf(0, sizeof(TextVertex),
-    {VertexAttribFormat(gl_type::float_decimal, TextVertex::sPositionSize,
-       offsetof(TextVertex, m_position), !mustBeNormalized),
-      VertexAttribFormat(gl_type::float_decimal, TextVertex::sTextureCoordinatesSize,
-        offsetof(TextVertex, mTexCoords), mustBeNormalized)});
+  static constexpr bool must_be_normalized = true;
+  static const vertex_format vf(0, sizeof(text_vertex),
+    {vertex_attrib_format(gl_type::float_decimal, text_vertex::s_position_size,
+       offsetof(text_vertex, m_position), !must_be_normalized),
+      vertex_attrib_format(gl_type::float_decimal, text_vertex::s_texture_coordinates_size,
+        offsetof(text_vertex, m_tex_coords), must_be_normalized)});
   return vf;
 }
 
 
 
-TextVertex::TextVertex()
-  : TextVertex(vec2f(0.f, 0.f), vec3f(0.f, 0.f, 0.f))
+text_vertex::text_vertex()
+  : text_vertex(vec2f(0.f, 0.f), vec3f(0.f, 0.f, 0.f))
 {}
 
 
 
-TextVertex::TextVertex(const vec2f& position, const vec3f& texCoords)
+text_vertex::text_vertex(const vec2f& position, const vec3f& texCoords)
   : m_position{position.x(), position.y()}
-  , mTexCoords{texCoords.x(), texCoords.y(), texCoords.z()}
+  , m_tex_coords{texCoords.x(), texCoords.y(), texCoords.z()}
 {}
 
 
 
-vec2f TextVertex::get_position() const
+vec2f text_vertex::get_position() const
 {
   return vec2f(m_position[0], m_position[1]);
 }
 
 
 
-void TextVertex::set_position(const vec2f& pos)
+void text_vertex::set_position(const vec2f& pos)
 {
   m_position[0] = pos.x();
   m_position[1] = pos.y();
@@ -52,31 +52,31 @@ void TextVertex::set_position(const vec2f& pos)
 
 
 
-vec3f TextVertex::getTextureCoordinates() const
+vec3f text_vertex::get_texture_coordinates() const
 {
-  return vec3f(mTexCoords[0], mTexCoords[1], mTexCoords[2]);
+  return vec3f(m_tex_coords[0], m_tex_coords[1], m_tex_coords[2]);
 }
 
 
 
-void TextVertex::setTextureCoordinates(const vec3f& texCoords)
+void text_vertex::set_texture_coordinates(const vec3f& texCoords)
 {
-  mTexCoords[0] = texCoords.x();
-  mTexCoords[1] = texCoords.y();
-  mTexCoords[2] = texCoords.z();
+  m_tex_coords[0] = texCoords.x();
+  m_tex_coords[1] = texCoords.y();
+  m_tex_coords[2] = texCoords.z();
 }
 
 
 
-bool operator==(const TextVertex& lhs, const TextVertex& rhs)
+bool operator==(const text_vertex& lhs, const text_vertex& rhs)
 {
   return lhs.get_position() == rhs.get_position()
-    && lhs.getTextureCoordinates() == rhs.getTextureCoordinates();
+    && lhs.get_texture_coordinates() == rhs.get_texture_coordinates();
 }
 
 
 
-bool operator!=(const TextVertex& lhs, const TextVertex& rhs)
+bool operator!=(const text_vertex& lhs, const text_vertex& rhs)
 {
   return !(lhs == rhs);
 }
@@ -84,18 +84,18 @@ bool operator!=(const TextVertex& lhs, const TextVertex& rhs)
 
 
 bool close(
-  const TextVertex& lhs, const TextVertex& rhs, TextVertex::ComparisonType acc)
+  const text_vertex& lhs, const text_vertex& rhs, text_vertex::comparison_type acc)
 {
   return close(lhs.get_position(), rhs.get_position(), acc)
-    && close(lhs.getTextureCoordinates(), rhs.getTextureCoordinates(), acc);
+    && close(lhs.get_texture_coordinates(), rhs.get_texture_coordinates(), acc);
 }
 
 
 
-std::ostream& operator<<(std::ostream& os, const TextVertex& v)
+std::ostream& operator<<(std::ostream& os, const text_vertex& v)
 {
   return os << "{Position = " << transpose(v.get_position())
-            << ", TextureCoordinates = " << transpose(v.getTextureCoordinates())
+            << ", TextureCoordinates = " << transpose(v.get_texture_coordinates())
             << "}";
 }
 

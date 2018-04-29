@@ -16,9 +16,9 @@
 #include "hou/mth/transform2.hpp"
 
 #include "hou/gfx/mesh.hpp"
-#include "hou/gfx/TextBoxFormattingParams.hpp"
-#include "hou/gfx/TextVertex.hpp"
-#include "hou/gfx/Texture.hpp"
+#include "hou/gfx/text_box_formatting_params.hpp"
+#include "hou/gfx/text_vertex.hpp"
+#include "hou/gfx/texture.hpp"
 
 #include "hou/sys/image_fwd.hpp"
 
@@ -34,13 +34,13 @@ class font;
 /** Formatted, renderable text.
  *
  * The text will be formatted according to the given parameters.
- * The object stores a ph_mesh and a texture atlas for quick rendering.
+ * The object stores a ph_mesh and a ph_texture atlas for quick rendering.
  */
 class HOU_GFX_API formatted_text : public non_copyable
 {
 public:
   /** Type representing a collection of ph_mesh vertices. */
-  using VertexContainer = std::vector<TextVertex>;
+  using VertexContainer = std::vector<text_vertex>;
 
 public:
   /** Create a formatted_text with the given utf-8 string and formatting parameters.
@@ -50,7 +50,7 @@ public:
    * \param tbfp the text box formatting parameters.
    */
   formatted_text(const std::string& text, const font& ph_font,
-    const TextBoxFormattingParams& tbfp = TextBoxFormattingParams::standard);
+    const text_box_formatting_params& tbfp = text_box_formatting_params::standard);
 
   /** Create a formatted_text with the given utf-32 string and formatting parameters.
    *
@@ -59,7 +59,7 @@ public:
    * \param tbfp the text box formatting parameters.
    */
   formatted_text(std::u32string text, const font& ph_font,
-    const TextBoxFormattingParams& tbfp = TextBoxFormattingParams::standard);
+    const text_box_formatting_params& tbfp = text_box_formatting_params::standard);
 
   /** Move constructor.
    *
@@ -67,17 +67,17 @@ public:
    */
   formatted_text(formatted_text&& other);
 
-  /** Retrieves the texture atlas.
+  /** Retrieves the ph_texture atlas.
    *
-   * \return the texture atlas.
+   * \return the ph_texture atlas.
    */
-  const Texture2Array& get_atlas() const;
+  const texture2_array& get_atlas() const;
 
   /** Retrieves the text ph_mesh.
    *
    * \return the text ph_mesh.
    */
-  const TextMesh& get_mesh() const;
+  const text_mesh& get_mesh() const;
 
   /** Retrieves the text bounding box.
    *
@@ -86,8 +86,8 @@ public:
   const rectf& get_bounding_box() const;
 
 private:
-  std::unique_ptr<Texture2Array> m_atlas;
-  std::unique_ptr<TextMesh> m_mesh;
+  std::unique_ptr<texture2_array> m_atlas;
+  std::unique_ptr<text_mesh> m_mesh;
   rectf m_bounding_box;
 };
 

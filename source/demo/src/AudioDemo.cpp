@@ -4,7 +4,7 @@
 #include "hou/gfx/graphic_context.hpp"
 #include "hou/gfx/RenderWindow.hpp"
 #include "hou/gfx/font.hpp"
-#include "hou/gfx/TextShaderProgram.hpp"
+#include "hou/gfx/text_shader_program.hpp"
 #include "hou/sys/color.hpp"
 #include "hou/sys/window_event.hpp"
 #include "hou/sys/binary_file_in.hpp"
@@ -41,7 +41,7 @@ int main()
   rw.set_visible(true);
   rw.set_vertical_sync_mode(vertical_sync_mode::disabled);
 
-  TextShaderProgram rnd;
+  text_shader_program rnd;
   font ph_font(std::make_unique<binary_file_in>(dataDir + u8"NotoMono-Regular.ttf"));
   trans2f proj = trans2f::orthographic_projection(rw.getViewport());
   trans2f textTrans = trans2f::translation(vec2f(0.f, static_cast<float>(ph_font.get_line_spacing())));

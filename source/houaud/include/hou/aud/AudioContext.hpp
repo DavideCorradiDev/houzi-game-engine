@@ -56,7 +56,7 @@ public:
 
   /** Creates an AudioContext with the given device.
    *
-   *  A list of available devices may be obtained by calling getDeviceNames.
+   *  a list of available devices may be obtained by calling getDeviceNames.
    *
    *  \param deviceName the name of the device.
    */

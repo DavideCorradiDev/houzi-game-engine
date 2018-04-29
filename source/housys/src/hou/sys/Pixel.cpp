@@ -327,7 +327,7 @@ std::ostream& operator<<<pixel_format::rg>(
   std::ostream& os, const pixelrg& ph_pixel)
 {
   return os << "{r = " << static_cast<int>(ph_pixel.get_r())
-            << ", G = " << static_cast<int>(ph_pixel.get_g()) << "}";
+            << ", g = " << static_cast<int>(ph_pixel.get_g()) << "}";
 }
 
 
@@ -337,8 +337,8 @@ std::ostream& operator<<<pixel_format::rgb>(
   std::ostream& os, const pixelrgb& ph_pixel)
 {
   return os << "{r = " << static_cast<int>(ph_pixel.get_r())
-            << ", G = " << static_cast<int>(ph_pixel.get_g())
-            << ", B = " << static_cast<int>(ph_pixel.get_b()) << "}";
+            << ", g = " << static_cast<int>(ph_pixel.get_g())
+            << ", b = " << static_cast<int>(ph_pixel.get_b()) << "}";
 }
 
 
@@ -348,9 +348,9 @@ std::ostream& operator<<<pixel_format::rgba>(
   std::ostream& os, const pixelrgba& ph_pixel)
 {
   return os << "{r = " << static_cast<int>(ph_pixel.get_r())
-            << ", G = " << static_cast<int>(ph_pixel.get_g())
-            << ", B = " << static_cast<int>(ph_pixel.get_b())
-            << ", A = " << static_cast<int>(ph_pixel.get_a()) << "}";
+            << ", g = " << static_cast<int>(ph_pixel.get_g())
+            << ", b = " << static_cast<int>(ph_pixel.get_b())
+            << ", a = " << static_cast<int>(ph_pixel.get_a()) << "}";
 }
 
 

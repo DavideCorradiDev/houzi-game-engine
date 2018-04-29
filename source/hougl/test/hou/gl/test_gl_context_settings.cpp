@@ -40,7 +40,7 @@ TEST(TestGlContextSettings, SettersAndGetters)
   cs.set_stencil_byte_count(2u);
   EXPECT_EQ(2u, cs.get_stencil_byte_count());
 
-  cs.setSampleCount(4u);
+  cs.set_sample_count(4u);
   EXPECT_EQ(4u, cs.get_sample_count());
 }
 

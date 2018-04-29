@@ -7,21 +7,21 @@
 
 #include "hou/gfx/gfx_export.hpp"
 
-#include "hou/gfx/ShaderType.hpp"
+#include "hou/gfx/shader_type.hpp"
 
 
 
 namespace hou
 {
 
-class Shader;
+class shader;
 
-template <ShaderType type>
-class ShaderTemplate;
+template <shader_type type>
+class shader_t;
 
-using VertexShader = ShaderTemplate<ShaderType::Vertex>;
-using FragmentShader = ShaderTemplate<ShaderType::Fragment>;
-using GeometryShader = ShaderTemplate<ShaderType::Geometry>;
+using vertex_shader = shader_t<shader_type::vertex>;
+using fragment_shader = shader_t<shader_type::fragment>;
+using geometry_shader = shader_t<shader_type::geometry>;
 
 }  // namespace hou
 

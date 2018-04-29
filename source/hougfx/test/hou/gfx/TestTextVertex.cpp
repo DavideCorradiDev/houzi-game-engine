@@ -4,8 +4,8 @@
 
 #include "hou/Test.hpp"
 
-#include "hou/gfx/TextVertex.hpp"
-#include "hou/gfx/VertexFormat.hpp"
+#include "hou/gfx/text_vertex.hpp"
+#include "hou/gfx/vertex_format.hpp"
 
 using namespace testing;
 using namespace hou;
@@ -24,16 +24,16 @@ class TestTextVertex : public Test
 
 TEST_F(TestTextVertex, size_type)
 {
-  EXPECT_EQ(5u * sizeof(GLfloat), sizeof(TextVertex));
+  EXPECT_EQ(5u * sizeof(GLfloat), sizeof(text_vertex));
 }
 
 
 
 TEST_F(TestTextVertex, DefaultConstructor)
 {
-  TextVertex v;
+  text_vertex v;
   HOU_EXPECT_FLOAT_CLOSE(vec2f(0.f, 0.f), v.get_position());
-  HOU_EXPECT_FLOAT_CLOSE(vec3f(0.f, 0.f, 0.f), v.getTextureCoordinates());
+  HOU_EXPECT_FLOAT_CLOSE(vec3f(0.f, 0.f, 0.f), v.get_texture_coordinates());
 }
 
 
@@ -42,17 +42,17 @@ TEST_F(TestTextVertex, Constructor)
 {
   vec2f posRef(1.f, 2.f);
   vec3f tcRef(3.f, 4.f, 5.f);
-  TextVertex v(posRef, tcRef);
+  text_vertex v(posRef, tcRef);
 
   HOU_EXPECT_FLOAT_CLOSE(posRef, v.get_position());
-  HOU_EXPECT_FLOAT_CLOSE(tcRef, v.getTextureCoordinates());
+  HOU_EXPECT_FLOAT_CLOSE(tcRef, v.get_texture_coordinates());
 }
 
 
 
 TEST_F(TestTextVertex, SetPosition)
 {
-  TextVertex v;
+  text_vertex v;
   HOU_EXPECT_FLOAT_CLOSE(vec2f(0.f, 0.f), v.get_position());
 
   vec2f posRef(1.f, 2.f);
@@ -64,22 +64,22 @@ TEST_F(TestTextVertex, SetPosition)
 
 TEST_F(TestTextVertex, SetTextureCoordinates)
 {
-  TextVertex v;
-  HOU_EXPECT_FLOAT_CLOSE(vec3f(0.f, 0.f, 0.f), v.getTextureCoordinates());
+  text_vertex v;
+  HOU_EXPECT_FLOAT_CLOSE(vec3f(0.f, 0.f, 0.f), v.get_texture_coordinates());
 
   vec3f tcRef(3.f, 4.f, 5.f);
-  v.setTextureCoordinates(tcRef);
-  HOU_EXPECT_FLOAT_CLOSE(tcRef, v.getTextureCoordinates());
+  v.set_texture_coordinates(tcRef);
+  HOU_EXPECT_FLOAT_CLOSE(tcRef, v.get_texture_coordinates());
 }
 
 
 
 TEST_F(TestTextVertex, Comparison)
 {
-  TextVertex v1(vec2f(1.f, 2.f), vec3f(3.f, 4.f, 5.f));
-  TextVertex v2(vec2f(1.f, 2.f), vec3f(3.f, 4.f, 5.f));
-  TextVertex v3(vec2f(3.f, 2.f), vec3f(3.f, 4.f, 5.f));
-  TextVertex v4(vec2f(1.f, 2.f), vec3f(3.f, 7.f, 5.f));
+  text_vertex v1(vec2f(1.f, 2.f), vec3f(3.f, 4.f, 5.f));
+  text_vertex v2(vec2f(1.f, 2.f), vec3f(3.f, 4.f, 5.f));
+  text_vertex v3(vec2f(3.f, 2.f), vec3f(3.f, 4.f, 5.f));
+  text_vertex v4(vec2f(1.f, 2.f), vec3f(3.f, 7.f, 5.f));
 
   EXPECT_TRUE(v1 == v2);
   EXPECT_FALSE(v1 == v3);
@@ -99,10 +99,10 @@ TEST_F(TestTextVertex, CloseComparison)
   vec3f tc1(1.1234f, 3.3456f, 3.3456f);
   vec3f tc2(1.1238f, 3.3456f, 3.3456f);
 
-  TextVertex v1(pos1, tc1);
-  TextVertex v2(v1);
-  TextVertex v3(pos2, tc1);
-  TextVertex v4(pos1, tc2);
+  text_vertex v1(pos1, tc1);
+  text_vertex v2(v1);
+  text_vertex v3(pos2, tc1);
+  text_vertex v4(pos1, tc2);
 
   EXPECT_TRUE(close(v1, v2, 1e-3f));
   EXPECT_TRUE(close(v1, v3, 1e-3f));
@@ -121,7 +121,7 @@ TEST_F(TestTextVertex, CloseComparison)
 
 TEST_F(TestTextVertex, OutputStreamOperator)
 {
-  TextVertex v(vec2f(1.f, 2.f), vec3f(3.f, 4.f, 5.f));
+  text_vertex v(vec2f(1.f, 2.f), vec3f(3.f, 4.f, 5.f));
   const char* refOutput = "{Position = (1, 2), TextureCoordinates = (3, 4, 5)}";
   HOU_EXPECT_OUTPUT(refOutput, v);
 }

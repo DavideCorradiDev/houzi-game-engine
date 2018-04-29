@@ -10,7 +10,7 @@
 
 #include "hou/gfx/gl_type.hpp"
 #include "hou/gfx/mesh.hpp"
-#include "hou/gfx/VertexFormat.hpp"
+#include "hou/gfx/vertex_format.hpp"
 
 #include "hou/sys/color.hpp"
 
@@ -27,10 +27,10 @@ class TestMesh : public TestGfxBase
 class vertex_type
 {
 public:
-  using ComparisonType = float;
+  using comparison_type = float;
 
 public:
-  static const VertexFormat& getVertexFormat();
+  static const vertex_format& get_vertex_format();
 
 public:
   vertex_type();
@@ -51,12 +51,12 @@ using MeshType = mesh_t<vertex_type>;
 
 
 
-const VertexFormat& vertex_type::getVertexFormat()
+const vertex_format& vertex_type::get_vertex_format()
 {
-  static constexpr bool mustBeNormalized = true;
-  static const VertexFormat vf(0, sizeof(vertex_type),
-    {VertexAttribFormat(
-      gl_type::float_decimal, 1, offsetof(vertex_type, mValue), !mustBeNormalized)});
+  static constexpr bool must_be_normalized = true;
+  static const vertex_format vf(0, sizeof(vertex_type),
+    {vertex_attrib_format(
+      gl_type::float_decimal, 1, offsetof(vertex_type, mValue), !must_be_normalized)});
   return vf;
 }
 

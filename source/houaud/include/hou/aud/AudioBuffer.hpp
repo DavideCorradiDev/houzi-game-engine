@@ -131,7 +131,7 @@ public:
    *  \param format the audio format.
    *  \param smlRate the sample rate.
    */
-  void setData(
+  void set_data(
     const span<const uint8_t>& data, AudioBufferFormat format, int smlRate);
 
   /** Sets the buffer data with the provided values, moving the data.
@@ -140,20 +140,20 @@ public:
    *  \param format the audio format.
    *  \param smlRate the sample rate.
    */
-  void setData(
+  void set_data(
     std::vector<uint8_t>&& data, AudioBufferFormat format, int smlRate);
 
   /** Sets the buffer data by reading the provided AudioStreamIn)
    *
    *  \param audioStream the audio ph_stream.
    */
-  void setData(AudioStreamIn& audioStream);
+  void set_data(AudioStreamIn& audioStream);
 
   /** Sets the buffer data by reading the provided AudioStreamIn)
    *
    *  \param audioStream the audio ph_stream.
    */
-  void setData(AudioStreamIn&& audioStream);
+  void set_data(AudioStreamIn&& audioStream);
 
 private:
   al::buffer_handle m_handle;

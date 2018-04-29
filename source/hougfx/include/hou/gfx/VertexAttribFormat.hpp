@@ -18,21 +18,21 @@
 namespace hou
 {
 
-/** Class representing the format of an attribute of a vertex.
+/** Class representing the format of an attribute of a ph_vertex.
  */
-class HOU_GFX_API VertexAttribFormat
+class HOU_GFX_API vertex_attrib_format
 {
 public:
   /** Constructor.
    *
    *  \param type the attribute type.
    *  \param elementCount the number of elements forming the attribute.
-   *  \param byteOffset the byte offset from the beginning of the vertex.
-   *  \param mustBeNormalized whether the value of this attribute must be
+   *  \param byteOffset the byte offset from the beginning of the ph_vertex.
+   *  \param must_be_normalized whether the value of this attribute must be
    *  normalized or not.
    */
-  VertexAttribFormat(
-    gl_type type, uint elementCount, uint byteOffset, bool mustBeNormalized);
+  vertex_attrib_format(
+    gl_type type, uint elementCount, uint byteOffset, bool must_be_normalized);
 
   /** Retrieves the attribute type.
    *
@@ -44,53 +44,53 @@ public:
    *
    *  \return the number of elements of the attribute.
    */
-  uint getElementCount() const;
+  uint get_element_count() const;
 
-  /** Retrieves the offset from the start of the vertex object.
+  /** Retrieves the offset from the start of the ph_vertex object.
    *
-   *  \return the offset from the start of the vertex object.
+   *  \return the offset from the start of the ph_vertex object.
    */
-  uint getByteOffset() const;
+  uint get_byte_offset() const;
 
   /** Retrieves whether the attribute values must be normalized.
    *
    *  \return true if the attribute values must be normalized.
    */
-  bool mustBeNormalized() const;
+  bool must_be_normalized() const;
 
 private:
   gl_type m_type;
   uint m_element_count;
-  uint mByteOffset;
-  GLboolean mMustBeNormalized;
+  uint m_byte_offset;
+  GLboolean m_must_be_normalized;
 };
 
-/** Checks if two VertexAttribFormat objects are equal.
+/** Checks if two vertex_attrib_format objects are equal.
  *
  *  \param lhs the left operand.
  *  \param rhs the right operand.
  *  \return the result of the check.
  */
 HOU_GFX_API bool operator==(
-  const VertexAttribFormat& lhs, const VertexAttribFormat& rhs);
+  const vertex_attrib_format& lhs, const vertex_attrib_format& rhs);
 
-/** Checks if two VertexAttribFormat objects not are equal.
+/** Checks if two vertex_attrib_format objects not are equal.
  *
  *  \param lhs the left operand.
  *  \param rhs the right operand.
  *  \return the result of the check.
  */
 HOU_GFX_API bool operator!=(
-  const VertexAttribFormat& lhs, const VertexAttribFormat& rhs);
+  const vertex_attrib_format& lhs, const vertex_attrib_format& rhs);
 
 /** Writes the object into a ph_stream.
  *
  *  \param os the ph_stream.
- *  \param vf the VertexAttribFormat.
+ *  \param vf the vertex_attrib_format.
  *  \return a reference to os.
  */
 HOU_GFX_API std::ostream& operator<<(
-  std::ostream& os, const VertexAttribFormat& vf);
+  std::ostream& os, const vertex_attrib_format& vf);
 
 }  // namespace hou
 

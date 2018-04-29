@@ -2,105 +2,105 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gfx/TextureChannelMapping.hpp"
+#include "hou/gfx/texture_channel_mapping.hpp"
 
 
 
 namespace hou
 {
 
-const TextureChannelMapping TextureChannelMapping::standard
-  ( TextureChannel::r
-  , TextureChannel::G
-  , TextureChannel::B
-  , TextureChannel::A);
+const texture_channel_mapping texture_channel_mapping::standard
+  ( texture_channel::r
+  , texture_channel::g
+  , texture_channel::b
+  , texture_channel::a);
 
 
 
-const TextureChannelMapping TextureChannelMapping::Luminosity
-  ( TextureChannel::r
-  , TextureChannel::r
-  , TextureChannel::r
-  , TextureChannel::One);
+const texture_channel_mapping texture_channel_mapping::luminosity
+  ( texture_channel::r
+  , texture_channel::r
+  , texture_channel::r
+  , texture_channel::one);
 
 
 
-const TextureChannelMapping TextureChannelMapping::Alpha
-  ( TextureChannel::One
-  , TextureChannel::One
-  , TextureChannel::One
-  , TextureChannel::r);
+const texture_channel_mapping texture_channel_mapping::alpha
+  ( texture_channel::one
+  , texture_channel::one
+  , texture_channel::one
+  , texture_channel::r);
 
 
 
-TextureChannelMapping::TextureChannelMapping(TextureChannel r, TextureChannel g
-  , TextureChannel b, TextureChannel a)
-  : mR(r)
-  , mG(g)
-  , mB(b)
-  , mA(a)
+texture_channel_mapping::texture_channel_mapping(texture_channel r, texture_channel g
+  , texture_channel b, texture_channel a)
+  : m_r(r)
+  , m_g(g)
+  , m_b(b)
+  , m_a(a)
 {}
 
 
 
-TextureChannel TextureChannelMapping::get_r() const
+texture_channel texture_channel_mapping::get_r() const
 {
-  return mR;
+  return m_r;
 }
 
 
 
-TextureChannel TextureChannelMapping::get_g() const
+texture_channel texture_channel_mapping::get_g() const
 {
-  return mG;
+  return m_g;
 }
 
 
 
-TextureChannel TextureChannelMapping::get_b() const
+texture_channel texture_channel_mapping::get_b() const
 {
-  return mB;
+  return m_b;
 }
 
 
 
-TextureChannel TextureChannelMapping::get_a() const
+texture_channel texture_channel_mapping::get_a() const
 {
-  return mA;
+  return m_a;
 }
 
 
 
-void TextureChannelMapping::set_r(TextureChannel channel)
+void texture_channel_mapping::set_r(texture_channel channel)
 {
-  mR = channel;
+  m_r = channel;
 }
 
 
 
-void TextureChannelMapping::set_g(TextureChannel channel)
+void texture_channel_mapping::set_g(texture_channel channel)
 {
-  mG = channel;
+  m_g = channel;
 }
 
 
 
-void TextureChannelMapping::set_b(TextureChannel channel)
+void texture_channel_mapping::set_b(texture_channel channel)
 {
-  mB = channel;
+  m_b = channel;
 }
 
 
 
-void TextureChannelMapping::set_a(TextureChannel channel)
+void texture_channel_mapping::set_a(texture_channel channel)
 {
-  mA = channel;
+  m_a = channel;
 }
 
 
 
-bool operator==(const TextureChannelMapping& lhs
-  , const TextureChannelMapping& rhs)
+bool operator==(const texture_channel_mapping& lhs
+  , const texture_channel_mapping& rhs)
 {
   return lhs.get_r() == rhs.get_r()
     && lhs.get_g() == rhs.get_g()
@@ -110,21 +110,21 @@ bool operator==(const TextureChannelMapping& lhs
 
 
 
-bool operator!=(const TextureChannelMapping& lhs
-  , const TextureChannelMapping& rhs)
+bool operator!=(const texture_channel_mapping& lhs
+  , const texture_channel_mapping& rhs)
 {
   return !(lhs == rhs);
 }
 
 
 
-std::ostream& operator<<(std::ostream& os, const TextureChannelMapping& tcm)
+std::ostream& operator<<(std::ostream& os, const texture_channel_mapping& tcm)
 {
   return os
     << "{" << tcm.get_r() << " -> r, "
-    << tcm.get_g() << " -> G, "
-    << tcm.get_b() << " -> B, "
-    << tcm.get_a() << " -> A}";
+    << tcm.get_g() << " -> g, "
+    << tcm.get_b() << " -> b, "
+    << tcm.get_a() << " -> a}";
 }
 
 }

@@ -2,10 +2,10 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gfx/Vertex2.hpp"
+#include "hou/gfx/vertex2.hpp"
 
 #include "hou/gfx/mesh.hpp"
-#include "hou/gfx/VertexFormat.hpp"
+#include "hou/gfx/vertex_format.hpp"
 
 #include "hou/mth/math_functions.hpp"
 #include "hou/mth/rectangle.hpp"
@@ -18,67 +18,67 @@ namespace hou
 namespace
 {
 
-Mesh2 createGenericRectangleMesh2(
+mesh2 createGenericRectangleMesh2(
   float l, float t, float w, float h, float tl, float tt, float tw, float th);
 
 
 
-Mesh2 createGenericRectangleMesh2(
+mesh2 createGenericRectangleMesh2(
   float l, float t, float w, float h, float tl, float tt, float tw, float th)
 {
   float r = l + w;
   float b = t + h;
   float tr = tl + tw;
   float tb = tt + th;
-  return Mesh2(mesh_draw_mode::triangle_fan, mesh_fill_mode::fill,
-    std::vector<Vertex2>{Vertex2(vec2f(l, t), vec2f(tl, tt), color::white),
-      Vertex2(vec2f(l, b), vec2f(tl, tb), color::white),
-      Vertex2(vec2f(r, b), vec2f(tr, tb), color::white),
-      Vertex2(vec2f(r, t), vec2f(tr, tt), color::white)});
+  return mesh2(mesh_draw_mode::triangle_fan, mesh_fill_mode::fill,
+    std::vector<vertex2>{vertex2(vec2f(l, t), vec2f(tl, tt), color::white),
+      vertex2(vec2f(l, b), vec2f(tl, tb), color::white),
+      vertex2(vec2f(r, b), vec2f(tr, tb), color::white),
+      vertex2(vec2f(r, t), vec2f(tr, tt), color::white)});
 }
 
 }  // namespace
 
 
 
-const VertexFormat& Vertex2::getVertexFormat()
+const vertex_format& vertex2::get_vertex_format()
 {
-  static constexpr bool mustBeNormalized = true;
-  static const VertexFormat vf(0, sizeof(Vertex2),
-    {VertexAttribFormat(gl_type::float_decimal, Vertex2::sPositionSize,
-       offsetof(Vertex2, m_position), !mustBeNormalized),
-      VertexAttribFormat(gl_type::float_decimal, Vertex2::sTextureCoordinatesSize,
-        offsetof(Vertex2, mTexCoords), mustBeNormalized),
-      VertexAttribFormat(gl_type::float_decimal, Vertex2::sColorSize,
-        offsetof(Vertex2, mColor), mustBeNormalized)});
+  static constexpr bool must_be_normalized = true;
+  static const vertex_format vf(0, sizeof(vertex2),
+    {vertex_attrib_format(gl_type::float_decimal, vertex2::s_position_size,
+       offsetof(vertex2, m_position), !must_be_normalized),
+      vertex_attrib_format(gl_type::float_decimal, vertex2::s_texture_coordinates_size,
+        offsetof(vertex2, m_tex_coords), must_be_normalized),
+      vertex_attrib_format(gl_type::float_decimal, vertex2::sColorSize,
+        offsetof(vertex2, m_color), must_be_normalized)});
   return vf;
 }
 
 
 
-Vertex2::Vertex2()
-  : Vertex2(vec2f(0.f, 0.f), vec2f(0.f, 0.f), color(0, 0, 0, 0))
+vertex2::vertex2()
+  : vertex2(vec2f(0.f, 0.f), vec2f(0.f, 0.f), color(0, 0, 0, 0))
 {}
 
 
 
-Vertex2::Vertex2(
+vertex2::vertex2(
   const vec2f& position, const vec2f& texCoords, const color& col)
   : m_position{position.x(), position.y()}
-  , mTexCoords{texCoords.x(), texCoords.y()}
-  , mColor{col.get_red_f(), col.get_green_f(), col.get_blue_f(), col.get_alpha_f()}
+  , m_tex_coords{texCoords.x(), texCoords.y()}
+  , m_color{col.get_red_f(), col.get_green_f(), col.get_blue_f(), col.get_alpha_f()}
 {}
 
 
 
-vec2f Vertex2::get_position() const
+vec2f vertex2::get_position() const
 {
   return vec2f(m_position[0], m_position[1]);
 }
 
 
 
-void Vertex2::set_position(const vec2f& pos)
+void vertex2::set_position(const vec2f& pos)
 {
   m_position[0] = pos.x();
   m_position[1] = pos.y();
@@ -86,71 +86,71 @@ void Vertex2::set_position(const vec2f& pos)
 
 
 
-vec2f Vertex2::getTextureCoordinates() const
+vec2f vertex2::get_texture_coordinates() const
 {
-  return vec2f(mTexCoords[0], mTexCoords[1]);
+  return vec2f(m_tex_coords[0], m_tex_coords[1]);
 }
 
 
 
-void Vertex2::setTextureCoordinates(const vec2f& texCoords)
+void vertex2::set_texture_coordinates(const vec2f& texCoords)
 {
-  mTexCoords[0] = texCoords.x();
-  mTexCoords[1] = texCoords.y();
+  m_tex_coords[0] = texCoords.x();
+  m_tex_coords[1] = texCoords.y();
 }
 
 
 
-color Vertex2::get_color() const
+color vertex2::get_color() const
 {
   return color(
-    mColor[0] * 255, mColor[1] * 255, mColor[2] * 255, mColor[3] * 255);
+    m_color[0] * 255, m_color[1] * 255, m_color[2] * 255, m_color[3] * 255);
 }
 
 
 
-void Vertex2::set_color(const color& ph_color)
+void vertex2::set_color(const color& ph_color)
 {
-  mColor[0] = ph_color.get_red_f();
-  mColor[1] = ph_color.get_green_f();
-  mColor[2] = ph_color.get_blue_f();
-  mColor[3] = ph_color.get_alpha_f();
+  m_color[0] = ph_color.get_red_f();
+  m_color[1] = ph_color.get_green_f();
+  m_color[2] = ph_color.get_blue_f();
+  m_color[3] = ph_color.get_alpha_f();
 }
 
 
 
-bool operator==(const Vertex2& lhs, const Vertex2& rhs)
+bool operator==(const vertex2& lhs, const vertex2& rhs)
 {
   return lhs.get_position() == rhs.get_position()
-    && lhs.getTextureCoordinates() == rhs.getTextureCoordinates()
+    && lhs.get_texture_coordinates() == rhs.get_texture_coordinates()
     && lhs.get_color() == rhs.get_color();
 }
 
 
 
-bool operator!=(const Vertex2& lhs, const Vertex2& rhs)
+bool operator!=(const vertex2& lhs, const vertex2& rhs)
 {
   return !(lhs == rhs);
 }
 
 
 
-bool close(const Vertex2& lhs, const Vertex2& rhs, Vertex2::ComparisonType acc)
+bool close(const vertex2& lhs, const vertex2& rhs, vertex2::comparison_type acc)
 {
   return lhs.get_color() == rhs.get_color()
     && close(lhs.get_position(), rhs.get_position(), acc)
-    && close(lhs.getTextureCoordinates(), rhs.getTextureCoordinates(), acc);
+    && close(lhs.get_texture_coordinates(), rhs.get_texture_coordinates(), acc);
 }
 
 
 
-std::ostream& operator<<(std::ostream& os, const Vertex2& v)
+std::ostream& operator<<(std::ostream& os, const vertex2& v)
 {
   return os << "{Position = " << transpose(v.get_position())
-            << ", TextureCoordinates = " << transpose(v.getTextureCoordinates())
+            << ", TextureCoordinates = " << transpose(v.get_texture_coordinates())
             << ", color = " << v.get_color() << "}";
 }
-Mesh2 createRectangleMesh2(const vec2f& size)
+mesh2 create_rectangle_mesh2(const vec2f& size)
 {
   return createGenericRectangleMesh2(
     0.f, 0.f, size.x(), size.y(), 0.f, 0.f, 1.f, 1.f);
@@ -158,32 +158,32 @@ Mesh2 createRectangleMesh2(const vec2f& size)
 
 
 
-Mesh2 createRectangleOutlineMesh2(const vec2f& size, float thickness)
+mesh2 create_rectangle_outline_mesh2(const vec2f& size, float thickness)
 {
   rectf er(vec2f::zero(), size);
   vec2f tv(thickness, thickness);
   rectf ir(tv, size - 2 * tv);
-  return Mesh2(mesh_draw_mode::triangle_strip, mesh_fill_mode::fill,
-    std::vector<Vertex2>{
-      Vertex2(vec2f(er.l(), er.t()), vec2f::zero(), color::white),
-      Vertex2(vec2f(ir.l(), ir.t()), vec2f::zero(), color::white),
-      Vertex2(vec2f(er.l(), er.b()), vec2f::zero(), color::white),
-      Vertex2(vec2f(ir.l(), ir.b()), vec2f::zero(), color::white),
-      Vertex2(vec2f(er.r(), er.b()), vec2f::zero(), color::white),
-      Vertex2(vec2f(ir.r(), ir.b()), vec2f::zero(), color::white),
-      Vertex2(vec2f(er.r(), er.t()), vec2f::zero(), color::white),
-      Vertex2(vec2f(ir.r(), ir.t()), vec2f::zero(), color::white),
-      Vertex2(vec2f(er.l(), er.t()), vec2f::zero(), color::white),
-      Vertex2(vec2f(ir.l(), ir.t()), vec2f::zero(), color::white)});
+  return mesh2(mesh_draw_mode::triangle_strip, mesh_fill_mode::fill,
+    std::vector<vertex2>{
+      vertex2(vec2f(er.l(), er.t()), vec2f::zero(), color::white),
+      vertex2(vec2f(ir.l(), ir.t()), vec2f::zero(), color::white),
+      vertex2(vec2f(er.l(), er.b()), vec2f::zero(), color::white),
+      vertex2(vec2f(ir.l(), ir.b()), vec2f::zero(), color::white),
+      vertex2(vec2f(er.r(), er.b()), vec2f::zero(), color::white),
+      vertex2(vec2f(ir.r(), ir.b()), vec2f::zero(), color::white),
+      vertex2(vec2f(er.r(), er.t()), vec2f::zero(), color::white),
+      vertex2(vec2f(ir.r(), ir.t()), vec2f::zero(), color::white),
+      vertex2(vec2f(er.l(), er.t()), vec2f::zero(), color::white),
+      vertex2(vec2f(ir.l(), ir.t()), vec2f::zero(), color::white)});
 }
 
 
 
-Mesh2 createEllipseMesh2(const vec2f& size, uint pointCount)
+mesh2 create_ellipse_mesh2(const vec2f& size, uint pointCount)
 {
   vec2f radius = size / 2.f;
 
-  std::vector<Vertex2> vertices(pointCount + 2);
+  std::vector<vertex2> vertices(pointCount + 2);
   vertices[0].set_position(radius);
   vertices[0].set_color(color::white);
 
@@ -196,12 +196,12 @@ Mesh2 createEllipseMesh2(const vec2f& size, uint pointCount)
     vertices[i].set_color(color::white);
     t += dt;
   }
-  return Mesh2(mesh_draw_mode::triangle_fan, mesh_fill_mode::fill, vertices);
+  return mesh2(mesh_draw_mode::triangle_fan, mesh_fill_mode::fill, vertices);
 }
 
 
 
-Mesh2 createEllipseOutlineMesh2(
+mesh2 create_ellipse_outline_mesh2(
   const vec2f& size, uint pointCount, float thickness)
 {
   vec2f eRadius = size / 2.f;
@@ -209,7 +209,7 @@ Mesh2 createEllipseOutlineMesh2(
 
   float t = 0.f;
   float dt = 2 * pi_f / pointCount;
-  std::vector<Vertex2> vertices(2 * pointCount + 2);
+  std::vector<vertex2> vertices(2 * pointCount + 2);
   for(size_t i = 0; i < vertices.size(); ++i)
   {
     float c = cosf(t);
@@ -227,12 +227,12 @@ Mesh2 createEllipseOutlineMesh2(
 
     t += dt;
   }
-  return Mesh2(mesh_draw_mode::triangle_strip, mesh_fill_mode::fill, vertices);
+  return mesh2(mesh_draw_mode::triangle_strip, mesh_fill_mode::fill, vertices);
 }
 
 
 
-Mesh2 createTextureQuadMesh2(const rectf& rect, const vec2f& textureSize)
+mesh2 create_texture_quad_mesh2(const rectf& rect, const vec2f& textureSize)
 {
   return createGenericRectangleMesh2(0.f, 0.f, rect.w(), rect.h(),
     rect.x() / textureSize.x(), rect.y() / textureSize.y(),

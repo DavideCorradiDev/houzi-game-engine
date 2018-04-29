@@ -12,7 +12,7 @@ namespace hou
 
 /** Non copyable class.
  *
- *  A class inheriting from non_copyable cannot be copied.
+ *  a class inheriting from non_copyable cannot be copied.
  */
 class non_copyable
 {

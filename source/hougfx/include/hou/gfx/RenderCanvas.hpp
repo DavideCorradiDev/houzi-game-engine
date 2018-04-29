@@ -6,7 +6,7 @@
 #define HOU_GFX_RENDER_CANVAS_HPP
 
 #include "hou/gfx/gfx_export.hpp"
-#include "hou/gfx/RenderSurface.hpp"
+#include "hou/gfx/render_surface.hpp"
 
 
 
@@ -15,8 +15,8 @@ namespace hou
 
 /** Surface for off-screen rendering.
  */
-class HOU_GFX_API RenderCanvas
-  : public RenderSurface
+class HOU_GFX_API render_canvas
+  : public render_surface
 {
 public:
   /** Creates a RenderTexutre with the desired size and sample count.
@@ -24,17 +24,17 @@ public:
    *  \param size the size.
    *  \param sampleCount the sample count.
    */
-  RenderCanvas(const vec2u& size, uint sampleCount = 1u);
+  render_canvas(const vec2u& size, uint sampleCount = 1u);
 
   /** Move constructor.
    *
-   *  \param other the other RenderCanvas.
+   *  \param other the other render_canvas.
    */
-  RenderCanvas(RenderCanvas&& other);
+  render_canvas(render_canvas&& other);
 
   /** Destructor.
    */
-  virtual ~RenderCanvas();
+  virtual ~render_canvas();
 };
 
 }

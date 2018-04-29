@@ -1,33 +1,33 @@
-#include "hou/gfx/TextBoxFormattingParams.hpp"
+#include "hou/gfx/text_box_formatting_params.hpp"
 
 
 
 namespace hou
 {
 
-const TextBoxFormattingParams TextBoxFormattingParams::standard(
+const text_box_formatting_params text_box_formatting_params::standard(
   TextFlow::LeftRight, vec2f::zero());
 
 
 
-TextBoxFormattingParams::TextBoxFormattingParams(
+text_box_formatting_params::text_box_formatting_params(
   TextFlow textFlow, const vec2f& maxSize)
-  : mTextFlow(textFlow)
-  , mMaxSize(maxSize)
+  : m_text_flow(textFlow)
+  , m_max_size(maxSize)
 {}
 
 
 
-TextFlow TextBoxFormattingParams::getTextFlow() const
+TextFlow text_box_formatting_params::get_text_flow() const
 {
-  return mTextFlow;
+  return m_text_flow;
 }
 
 
 
-const vec2f& TextBoxFormattingParams::getMaxSize() const
+const vec2f& text_box_formatting_params::get_max_size() const
 {
-  return mMaxSize;
+  return m_max_size;
 }
 
 }  // namespace hou

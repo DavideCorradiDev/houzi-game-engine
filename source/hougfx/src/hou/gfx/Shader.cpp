@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gfx/Shader.hpp"
+#include "hou/gfx/shader.hpp"
 
 #include <utility>
 
@@ -11,7 +11,7 @@
 namespace hou
 {
 
-Shader::Shader(const std::string& source, ShaderType type)
+shader::shader(const std::string& source, shader_type type)
   : non_copyable()
   , m_handle(gl::shader_handle::create(static_cast<GLenum>(type)))
 {
@@ -20,40 +20,40 @@ Shader::Shader(const std::string& source, ShaderType type)
 
 
 
-Shader::Shader(Shader&& other)
+shader::shader(shader&& other)
   : non_copyable()
   , m_handle(std::move(other.m_handle))
 {}
 
 
 
-Shader::~Shader()
+shader::~shader()
 {}
 
 
 
-const gl::shader_handle& Shader::get_handle() const
+const gl::shader_handle& shader::get_handle() const
 {
   return m_handle;
 }
 
 
 
-template <ShaderType type>
-ShaderTemplate<type>::ShaderTemplate(const std::string& source)
-  : Shader(source, type)
+template <shader_type type>
+shader_t<type>::shader_t(const std::string& source)
+  : shader(source, type)
 {}
 
 
 
-template <ShaderType type>
-ShaderTemplate<type>::ShaderTemplate(ShaderTemplate&& other)
-  : Shader(std::move(other))
+template <shader_type type>
+shader_t<type>::shader_t(shader_t&& other)
+  : shader(std::move(other))
 {}
 
 
-template class ShaderTemplate<ShaderType::Vertex>;
-template class ShaderTemplate<ShaderType::Fragment>;
-template class ShaderTemplate<ShaderType::Geometry>;
+template class shader_t<shader_type::vertex>;
+template class shader_t<shader_type::fragment>;
+template class shader_t<shader_type::geometry>;
 
 }  // namespace hou

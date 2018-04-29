@@ -29,7 +29,7 @@ AudioBuffer::AudioBuffer(
   : non_copyable()
   , m_handle(al::buffer_handle::generate())
 {
-  setData(data, format, smlRate);
+  set_data(data, format, smlRate);
 }
 
 
@@ -45,7 +45,7 @@ AudioBuffer::AudioBuffer(AudioStreamIn& audioStream)
   : non_copyable()
   , m_handle(al::buffer_handle::generate())
 {
-  setData(audioStream);
+  set_data(audioStream);
 }
 
 
@@ -54,7 +54,7 @@ AudioBuffer::AudioBuffer(AudioStreamIn&& audioStream)
   : non_copyable()
   , m_handle(al::buffer_handle::generate())
 {
-  setData(audioStream);
+  set_data(audioStream);
 }
 
 
@@ -117,7 +117,7 @@ uint AudioBuffer::get_sample_count() const
 
 
 
-void AudioBuffer::setData(
+void AudioBuffer::set_data(
   const span<const uint8_t>& data, AudioBufferFormat format, int smlRate)
 {
   HOU_EXPECT_DEV(sizeof(uint8_t) == 1u);
@@ -128,25 +128,25 @@ void AudioBuffer::setData(
 
 
 
-void AudioBuffer::setData(
+void AudioBuffer::set_data(
   std::vector<uint8_t>&& data, AudioBufferFormat format, int smlRate)
 {
-  setData(span<const uint8_t>(data), format, smlRate);
+  set_data(span<const uint8_t>(data), format, smlRate);
 }
 
 
 
-void AudioBuffer::setData(AudioStreamIn& audioStream)
+void AudioBuffer::set_data(AudioStreamIn& audioStream)
 {
-  setData(audioStream.read_all<std::vector<uint8_t>>(), audioStream.get_format(),
+  set_data(audioStream.read_all<std::vector<uint8_t>>(), audioStream.get_format(),
     audioStream.getSampleRate());
 }
 
 
 
-void AudioBuffer::setData(AudioStreamIn&& audioStream)
+void AudioBuffer::set_data(AudioStreamIn&& audioStream)
 {
-  setData(audioStream.read_all<std::vector<uint8_t>>(), audioStream.get_format(),
+  set_data(audioStream.read_all<std::vector<uint8_t>>(), audioStream.get_format(),
     audioStream.getSampleRate());
 }
 

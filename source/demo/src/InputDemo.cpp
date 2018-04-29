@@ -5,12 +5,12 @@
 #include "hou/gfx/mesh.hpp"
 #include "hou/sys/color.hpp"
 #include "hou/gfx/font.hpp"
-#include "hou/gfx/Vertex2.hpp"
+#include "hou/gfx/vertex2.hpp"
 #include "hou/gfx/graphic_context.hpp"
 #include "hou/gfx/RenderWindow.hpp"
-#include "hou/gfx/Texture.hpp"
+#include "hou/gfx/texture.hpp"
 #include "hou/gfx/mesh2_shader_program.hpp"
-#include "hou/gfx/TextShaderProgram.hpp"
+#include "hou/gfx/text_shader_program.hpp"
 
 #include "hou/cor/clock.hpp"
 #include "hou/sys/binary_file_in.hpp"
@@ -33,24 +33,24 @@ namespace
 class KeyInfo
 {
 public:
-  KeyInfo(const hou::trans2f& trans, const hou::Mesh2& quad
+  KeyInfo(const hou::trans2f& trans, const hou::mesh2& quad
     , hou::key_code key, hou::scan_code sc);
 
   const hou::trans2f& getTrans() const;
-  const hou::Mesh2& getQuad() const;
+  const hou::mesh2& getQuad() const;
   hou::key_code getKey() const;
   hou::scan_code getScanCode() const;
 
 private:
   hou::trans2f mTrans;
-  const hou::Mesh2* mQuad;
+  const hou::mesh2* mQuad;
   hou::key_code m_key;
   hou::scan_code mScanCode;
 };
 
 
 
-KeyInfo::KeyInfo(const hou::trans2f& trans, const hou::Mesh2& quad
+KeyInfo::KeyInfo(const hou::trans2f& trans, const hou::mesh2& quad
     , hou::key_code key, hou::scan_code sc)
   : mTrans(trans)
   , mQuad(&quad)
@@ -67,7 +67,7 @@ const hou::trans2f& KeyInfo::getTrans() const
 
 
 
-const hou::Mesh2& KeyInfo::getQuad() const
+const hou::mesh2& KeyInfo::getQuad() const
 {
   return *mQuad;
 }
@@ -117,7 +117,7 @@ int main()
   wnd.set_key_repeat_enabled(false);
   wnd.set_mouse_cursor_grabbed(false);
   hou::mesh2_shader_program meshRnd;
-  hou::TextShaderProgram textRnd;
+  hou::text_shader_program textRnd;
 
   std::string iconFilename = dataDir + u8"monkey.png";
   hou::image2RGBA iconRGBA = hou::png_read_file<hou::pixel_format::rgba>(iconFilename);
@@ -125,53 +125,53 @@ int main()
   hou::image2RG iconRG = hou::png_read_file<hou::pixel_format::rg>(iconFilename);
   hou::image2R iconR = hou::png_read_file<hou::pixel_format::r>(iconFilename);
 
-  hou::Texture2 keyboardTex(hou::png_read_file<hou::pixel_format::rgba>(dataDir + u8"keyboard.png"));
-  hou::Texture2 keyboardKeysTex(hou::png_read_file<hou::pixel_format::rgba>(dataDir + u8"keyboardkeys.png"));
-  hou::Texture2 mouseTex(hou::png_read_file<hou::pixel_format::rgba>(dataDir + u8"mouse.png"));
-  hou::Texture2 mousebuttonsTex(hou::png_read_file<hou::pixel_format::rgba>(dataDir + u8"mousebuttons.png"));
+  hou::texture2 keyboardTex(hou::png_read_file<hou::pixel_format::rgba>(dataDir + u8"keyboard.png"));
+  hou::texture2 keyboardKeysTex(hou::png_read_file<hou::pixel_format::rgba>(dataDir + u8"keyboardkeys.png"));
+  hou::texture2 mouseTex(hou::png_read_file<hou::pixel_format::rgba>(dataDir + u8"mouse.png"));
+  hou::texture2 mousebuttonsTex(hou::png_read_file<hou::pixel_format::rgba>(dataDir + u8"mousebuttons.png"));
 
   hou::font ph_font(std::make_unique<hou::binary_file_in>(dataDir + u8"NotoMono-Regular.ttf"));
 
-  hou::Mesh2 keyboardQuad = hou::createTextureQuadMesh2
+  hou::mesh2 keyboardQuad = hou::create_texture_quad_mesh2
     ( hou::rectf(0, 0, keyboardTex.get_size().x(), keyboardTex.get_size().y())
     , keyboardTex.get_size());
-  hou::Mesh2 key1Quad = hou::createTextureQuadMesh2
+  hou::mesh2 key1Quad = hou::create_texture_quad_mesh2
     ( hou::rectf(72, 0, 16, 16)
     , keyboardKeysTex.get_size());
-  hou::Mesh2 key1hQuad = hou::createTextureQuadMesh2
+  hou::mesh2 key1hQuad = hou::create_texture_quad_mesh2
     ( hou::rectf(0, 16, 24, 16)
     , keyboardKeysTex.get_size());
-  hou::Mesh2 key2Quad = hou::createTextureQuadMesh2
+  hou::mesh2 key2Quad = hou::create_texture_quad_mesh2
     ( hou::rectf(24, 16, 32, 16)
     , keyboardKeysTex.get_size());
-  hou::Mesh2 key2hQuad = hou::createTextureQuadMesh2
+  hou::mesh2 key2hQuad = hou::create_texture_quad_mesh2
     ( hou::rectf(56, 16, 40, 16)
     , keyboardKeysTex.get_size());
-  hou::Mesh2 key4hQuad = hou::createTextureQuadMesh2
+  hou::mesh2 key4hQuad = hou::create_texture_quad_mesh2
     ( hou::rectf(0, 0, 72, 16)
     , keyboardKeysTex.get_size());
-  hou::Mesh2 keyEnterQuad = hou::createTextureQuadMesh2
+  hou::mesh2 keyEnterQuad = hou::create_texture_quad_mesh2
     ( hou::rectf(96, 0, 24, 32)
     , keyboardKeysTex.get_size());
-  hou::Mesh2 keyVertQuad = hou::createTextureQuadMesh2
+  hou::mesh2 keyVertQuad = hou::create_texture_quad_mesh2
     ( hou::rectf(120, 0, 16, 32)
     , keyboardKeysTex.get_size());
-  hou::Mesh2 mouseQuad = hou::createTextureQuadMesh2
+  hou::mesh2 mouseQuad = hou::create_texture_quad_mesh2
     ( hou::rectf(0, 0, mouseTex.get_size().x(), mouseTex.get_size().y())
     , mouseTex.get_size());
-  hou::Mesh2 mouseBtnQuad = hou::createTextureQuadMesh2
+  hou::mesh2 mouseBtnQuad = hou::create_texture_quad_mesh2
     ( hou::rectf(0, 0, 16, 25)
     , mousebuttonsTex.get_size());
-  hou::Mesh2 mouseWheelQuad = hou::createTextureQuadMesh2
+  hou::mesh2 mouseWheelQuad = hou::create_texture_quad_mesh2
     ( hou::rectf(16, 0, 6, 12)
     , mousebuttonsTex.get_size());
-  hou::Mesh2 mouseBtnXQuad = hou::createTextureQuadMesh2
+  hou::mesh2 mouseBtnXQuad = hou::create_texture_quad_mesh2
     ( hou::rectf(17, 12, 5, 9)
     , mousebuttonsTex.get_size());
 
-  hou::Mesh2 eventRect = hou::createRectangleMesh2(evSize - hou::vec2f(4.f, 4.f));
+  hou::mesh2 eventRect = hou::create_rectangle_mesh2(evSize - hou::vec2f(4.f, 4.f));
 
-  hou::Mesh2 keyboardLed = hou::createRectangleMesh2(hou::vec2f(8.f, 4.f));
+  hou::mesh2 keyboardLed = hou::create_rectangle_mesh2(hou::vec2f(8.f, 4.f));
 
   hou::trans2f projTrans = hou::trans2f::orthographic_projection(hou::rectf(0.f, 0.f, wnd.get_size().x()
     , wnd.get_size().y()));
@@ -308,7 +308,7 @@ int main()
     , hou::key_code::CapsLock, hou::scan_code::CapsLock));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(40.f, 64.f)), key1Quad
-    , hou::key_code::A, hou::scan_code::A));
+    , hou::key_code::a, hou::scan_code::a));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(56.f, 64.f)), key1Quad
     , hou::key_code::S, hou::scan_code::S));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(72.f, 64.f)), key1Quad
@@ -316,7 +316,7 @@ int main()
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(88.f, 64.f)), key1Quad
     , hou::key_code::F, hou::scan_code::F));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(104.f, 64.f)), key1Quad
-    , hou::key_code::G, hou::scan_code::G));
+    , hou::key_code::g, hou::scan_code::g));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(120.f, 64.f)), key1Quad
     , hou::key_code::H, hou::scan_code::H));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(136.f, 64.f)), key1Quad
@@ -345,7 +345,7 @@ int main()
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(96.f, 80.f)), key1Quad
     , hou::key_code::V, hou::scan_code::V));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(112.f, 80.f)), key1Quad
-    , hou::key_code::B, hou::scan_code::B));
+    , hou::key_code::b, hou::scan_code::b));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(128.f, 80.f)), key1Quad
     , hou::key_code::N, hou::scan_code::N));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(144.f, 80.f)), key1Quad

@@ -5,8 +5,8 @@
 #include "hou/gfx/mesh2_shader_program.hpp"
 
 #include "hou/gfx/mesh.hpp"
-#include "hou/gfx/RenderSurface.hpp"
-#include "hou/gfx/Shader.hpp"
+#include "hou/gfx/render_surface.hpp"
+#include "hou/gfx/shader.hpp"
 
 #include "hou/sys/color.hpp"
 
@@ -56,7 +56,7 @@ std::string getGlFragmentShaderSource()
          "uniform sampler2D " UNI_TEXTURE ";\n"
          "void main()\n"
          "{\n"
-         "ph_color = " UNI_COLOR " * colorVs * texture(" UNI_TEXTURE ", texVs);\n"
+         "ph_color = " UNI_COLOR " * colorVs * ph_texture(" UNI_TEXTURE ", texVs);\n"
          "}\n";
 }
 
@@ -65,12 +65,12 @@ std::string getGlFragmentShaderSource()
 
 
 mesh2_shader_program::mesh2_shader_program()
-  : ShaderProgram(VertexShader(getGlVertexShaderSource()),
-      FragmentShader(getGlFragmentShaderSource()))
-  , m_blank_texture(vec2u(1u, 1u), TextureFormat::rgba, 1u)
-  , m_uni_color(getUniformLocation(UNI_COLOR))
-  , m_uni_texture(getUniformLocation(UNI_TEXTURE))
-  , m_uni_transform(getUniformLocation(UNI_TRANSFORM))
+  : shader_program(vertex_shader(getGlVertexShaderSource()),
+      fragment_shader(getGlFragmentShaderSource()))
+  , m_blank_texture(vec2u(1u, 1u), texture_format::rgba, 1u)
+  , m_uni_color(get_uniform_location(UNI_COLOR))
+  , m_uni_texture(get_uniform_location(UNI_TEXTURE))
+  , m_uni_transform(get_uniform_location(UNI_TRANSFORM))
 {
   m_blank_texture.clear(pixelrgba(color::white));
 }
@@ -78,7 +78,7 @@ mesh2_shader_program::mesh2_shader_program()
 
 
 mesh2_shader_program::mesh2_shader_program(mesh2_shader_program&& other)
-  : ShaderProgram(std::move(other))
+  : shader_program(std::move(other))
   , m_blank_texture(std::move(other.m_blank_texture))
   , m_uni_color(std::move(other.m_uni_color))
   , m_uni_texture(std::move(other.m_uni_texture))
@@ -110,33 +110,33 @@ void mesh2_shader_program::set_transform(const trans2f& trans)
 
 
 
-void mesh2_shader_program::draw(RenderSurface& target, const Mesh2& ph_mesh,
-  const Texture2& tex, const color& col, const trans2f& trn)
+void mesh2_shader_program::draw(render_surface& target, const mesh2& ph_mesh,
+  const texture2& tex, const color& col, const trans2f& trn)
 {
   static constexpr uint texUnit = 0u;
-  RenderSurface::setCurrentRenderTarget(target);
+  render_surface::set_current_render_target(target);
   set_color(col);
   set_texture_unit(texUnit);
   set_transform(trn);
   bind(*this);
-  Texture::bind(tex, texUnit);
+  texture::bind(tex, texUnit);
   mesh::draw(ph_mesh);
 }
 
-void mesh2_shader_program::draw(RenderSurface& target, const Mesh2& ph_mesh,
+void mesh2_shader_program::draw(render_surface& target, const mesh2& ph_mesh,
   const color& col, const trans2f& trn)
 {
   draw(target, ph_mesh, m_blank_texture, col, trn);
 }
 
-void mesh2_shader_program::draw(RenderSurface& target, const Mesh2& ph_mesh,
-  const Texture2& tex, const trans2f& trn)
+void mesh2_shader_program::draw(render_surface& target, const mesh2& ph_mesh,
+  const texture2& tex, const trans2f& trn)
 {
   draw(target, ph_mesh, tex, color::white, trn);
 }
 
 void mesh2_shader_program::draw(
-  RenderSurface& target, const Mesh2& ph_mesh, const trans2f& trn)
+  render_surface& target, const mesh2& ph_mesh, const trans2f& trn)
 {
   draw(target, ph_mesh, m_blank_texture, color::white, trn);
 }

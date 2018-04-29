@@ -124,10 +124,10 @@ public:
    *  transparency channel) is ignored.
    *  * When converting from r or rgb to rg or rgba the last output channel (the
    *  transparency channel) is set to 255.
-   *  * When converting from r or rg to rgb or rgba, the r, G and B output
+   *  * When converting from r or rg to rgb or rgba, the r, g and b output
    * channels are set to the value of the r input channel.
    *  * When converting from rgb or rgba to r or rg, the r output channel
-   *  (the value channel) is set to a weighted average of the r, G, and B input
+   *  (the value channel) is set to a weighted average of the r, g, and b input
    *  channels: Rout = (77 * Rin + 150 * Gin + 29 * Bin) / 256.
    *
    *  \tparam otherFormat the other pixel_format.

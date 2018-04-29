@@ -5,8 +5,8 @@
 #include "hou/gfx/mesh.hpp"
 #include "hou/gfx/mesh2_shader_program.hpp"
 #include "hou/gfx/RenderWindow.hpp"
-#include "hou/gfx/TextShaderProgram.hpp"
-#include "hou/gfx/Vertex2.hpp"
+#include "hou/gfx/text_shader_program.hpp"
+#include "hou/gfx/vertex2.hpp"
 #include "hou/mth/transform2.hpp"
 #include "hou/sys/binary_file_in.hpp"
 #include "hou/sys/color.hpp"
@@ -26,8 +26,8 @@ int main()
   rw.set_visible(true);
   trans2f proj = trans2f::orthographic_projection(rw.getViewport());
   mesh2_shader_program m2Rnd;
-  TextShaderProgram textRnd;
-  Mesh2 fpsRect = createRectangleMesh2(vec2f(128.f, 32.f));
+  text_shader_program textRnd;
+  mesh2 fpsRect = create_rectangle_mesh2(vec2f(128.f, 32.f));
   std::vector<uint> fontSizes{0, 2, 4, 8, 16, 32, 64};
   size_t currentSizeIdx = 3;
   font ph_font(std::make_unique<binary_file_in>(dataDir + u8"NotoSans-Regular.ttf"));
@@ -125,7 +125,7 @@ int main()
           ph_font.set_pixel_height(fontSizes[currentSizeIdx]);
           chineseFont.set_pixel_height(fontSizes[currentSizeIdx]);
         }
-        else if(we.get_key_data().scan_code == scan_code::A)
+        else if(we.get_key_data().scan_code == scan_code::a)
         {
           textFlow = TextFlow::RightLeft;
         }
@@ -191,7 +191,7 @@ int main()
 
     if(maxTBoxSize.x() == 0.f || maxTBoxSize.y() == 0.f)
     {
-      Mesh2 dot = createEllipseMesh2(vec2f(16.f, 16.f), 32u);
+      mesh2 dot = create_ellipse_mesh2(vec2f(16.f, 16.f), 32u);
       m2Rnd.draw(rw, dot, color::red,
         proj * textTrans * trans2f::translation(vec2f(-8.f, -8.f)));
     }
@@ -218,15 +218,15 @@ int main()
         break;
       }
 
-      Mesh2 bbox = createRectangleOutlineMesh2(maxTBoxSize, 1u);
+      mesh2 bbox = create_rectangle_outline_mesh2(maxTBoxSize, 1u);
       m2Rnd.draw(rw, bbox, color::red,
         proj * textTrans * trans2f::translation(bboxTrans));
     }
 
-    TextBoxFormattingParams tbfp(textFlow, maxTBoxSize);
+    text_box_formatting_params tbfp(textFlow, maxTBoxSize);
     formatted_text ft(textToRender, fontToRender, tbfp);
-    Mesh2 textBox
-      = createRectangleOutlineMesh2(ft.get_bounding_box().get_size(), 1u);
+    mesh2 textBox
+      = create_rectangle_outline_mesh2(ft.get_bounding_box().get_size(), 1u);
     m2Rnd.draw(rw, textBox, color::white,
       proj * textTrans
         * trans2f::translation(ft.get_bounding_box().get_position()));

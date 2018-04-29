@@ -167,52 +167,52 @@ GLuint get_bound_framebuffer_name(GLenum target)
 
 
 void set_framebuffer_color_texture(const framebuffer_handle& framebuffer,
-  GLuint attachment, const texture_handle& texture, GLint level)
+  GLuint attachment, const texture_handle& ph_texture, GLint level)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(framebuffer);
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(ph_texture);
   glNamedFramebufferTexture(framebuffer.get_name(),
-    GL_COLOR_ATTACHMENT0 + attachment, texture.get_name(), level);
+    GL_COLOR_ATTACHMENT0 + attachment, ph_texture.get_name(), level);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
 void set_framebuffer_depth_texture(const framebuffer_handle& framebuffer,
-  const texture_handle& texture, GLint level)
+  const texture_handle& ph_texture, GLint level)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(framebuffer);
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(ph_texture);
   glNamedFramebufferTexture(
-    framebuffer.get_name(), GL_DEPTH_ATTACHMENT, texture.get_name(), level);
+    framebuffer.get_name(), GL_DEPTH_ATTACHMENT, ph_texture.get_name(), level);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
 void set_framebuffer_stencil_texture(const framebuffer_handle& framebuffer,
-  const texture_handle& texture, GLint level)
+  const texture_handle& ph_texture, GLint level)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(framebuffer);
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(ph_texture);
   glNamedFramebufferTexture(
-    framebuffer.get_name(), GL_STENCIL_ATTACHMENT, texture.get_name(), level);
+    framebuffer.get_name(), GL_STENCIL_ATTACHMENT, ph_texture.get_name(), level);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
 void set_framebuffer_depth_stencil_texture(const framebuffer_handle& framebuffer,
-  const texture_handle& texture, GLint level)
+  const texture_handle& ph_texture, GLint level)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(framebuffer);
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(texture);
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(ph_texture);
   glNamedFramebufferTexture(framebuffer.get_name(), GL_DEPTH_STENCIL_ATTACHMENT,
-    texture.get_name(), level);
+    ph_texture.get_name(), level);
   HOU_GL_CHECK_ERROR();
 }
 

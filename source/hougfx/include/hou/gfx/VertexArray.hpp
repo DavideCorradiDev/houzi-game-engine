@@ -17,74 +17,74 @@
 namespace hou
 {
 
-class VertexBuffer;
-class VertexFormat;
+class vertex_buffer;
+class vertex_format;
 
-/** Represents a VertexArray object.
+/** Represents a vertex_array object.
  */
-class HOU_GFX_API VertexArray : public non_copyable
+class HOU_GFX_API vertex_array : public non_copyable
 {
 public:
-  /** Binds the VertexArray to the current graphic_context.
+  /** Binds the vertex_array to the current graphic_context.
    *
-   *  \param vertexArray the VertexArray to be bound.
+   *  \param vertexArray the vertex_array to be bound.
    */
-  static void bind(const VertexArray& vertexArray);
+  static void bind(const vertex_array& vertexArray);
 
-  /** Unbinds the currently bound VertexArray, if present.
+  /** Unbinds the currently bound vertex_array, if present.
    */
   static void unbind();
 
-  /** Retrieves the maximum number of VertexBuffer objects that can be bound to
-   * a single VertexArray object.
+  /** Retrieves the maximum number of vertex_buffer objects that can be bound to
+   * a single vertex_array object.
    *
-   *  \return the maximum number of VertexBuffer objects that can be bound.
+   *  \return the maximum number of vertex_buffer objects that can be bound.
    */
-  static uint getMaxBindingIndex();
+  static uint get_max_binding_index();
 
 public:
   /** default constructor.
    */
-  VertexArray();
+  vertex_array();
 
   /** Move constructor.
    *
-   *  \param other the other VertexArray.
+   *  \param other the other vertex_array.
    */
-  VertexArray(VertexArray&& other);
+  vertex_array(vertex_array&& other);
 
-  /** Retrieves the reference to the OpenGL vertex array object.
+  /** Retrieves the reference to the OpenGL ph_vertex array object.
    *
-   *  \return the reference to the OpenGL vertex array object.
+   *  \return the reference to the OpenGL ph_vertex array object.
    */
   const gl::vertex_array_handle& get_handle() const;
 
-  /** Checks if the VertexArray is currently bound.
+  /** Checks if the vertex_array is currently bound.
    *
    *  \return the result of the check.
    */
-  bool isBound() const;
+  bool is_bound() const;
 
-  /** Binds a VertexBuffer as a vertex buffer.
+  /** Binds a vertex_buffer as a ph_vertex buffer.
    *
-   *  The data in the VertexBuffer represents vertex data.
+   *  The data in the vertex_buffer represents ph_vertex data.
    *  Throws if binding index is greater than the maximum binding index.
    *
-   *  \param vb the VertexBuffer to be bound.
+   *  \param vb the vertex_buffer to be bound.
    *  \param bindingIndex the binding index to be used.
    *  \param vf the format of the vertices contained in vb.
    */
-  void setVertexData(
-    const VertexBuffer& vb, uint bindingIndex, const VertexFormat& vf);
+  void set_vertex_data(
+    const vertex_buffer& vb, uint bindingIndex, const vertex_format& vf);
 
-  /** Binds a VertexBuffer as an element buffer.
+  /** Binds a vertex_buffer as an element buffer.
    *
-   *  The data in the VertexBuffer represents indices referring to element of
-   *  the bound vertex buffer.
+   *  The data in the vertex_buffer represents indices referring to element of
+   *  the bound ph_vertex buffer.
    *
-   *  \param eb the VertexBuffer to be bound.
+   *  \param eb the vertex_buffer to be bound.
    */
-  void setElementData(const VertexBuffer& eb);
+  void set_element_data(const vertex_buffer& eb);
 
 private:
   gl::vertex_array_handle m_handle;

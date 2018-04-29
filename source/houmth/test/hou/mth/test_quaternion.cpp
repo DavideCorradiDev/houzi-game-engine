@@ -286,7 +286,7 @@ TEST_F(TestQuaternion, NormalizationFailureNullNorm)
 
 
 
-TEST_F(TestQuaternion, Zero)
+TEST_F(TestQuaternion, zero)
 {
   HOU_EXPECT_FLOAT_CLOSE(quatf(0.f, 0.f, 0.f, 0.f), quatf::zero());
 }

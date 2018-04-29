@@ -4,7 +4,7 @@
 
 #include "hou/Test.hpp"
 
-#include "hou/gfx/TextBoxFormattingParams.hpp"
+#include "hou/gfx/text_box_formatting_params.hpp"
 
 using namespace hou;
 using namespace testing;
@@ -23,10 +23,10 @@ TEST_F(TestTextBoxFormattingParams, Constructor)
 {
   TextFlow textFlowRef = TextFlow::LeftRight;
   vec2f maxSizeRef(1.f, 2.f);
-  TextBoxFormattingParams tbfp(textFlowRef, maxSizeRef);
+  text_box_formatting_params tbfp(textFlowRef, maxSizeRef);
 
-  EXPECT_EQ(textFlowRef, tbfp.getTextFlow());
-  HOU_EXPECT_FLOAT_CLOSE(maxSizeRef, tbfp.getMaxSize());
+  EXPECT_EQ(textFlowRef, tbfp.get_text_flow());
+  HOU_EXPECT_FLOAT_CLOSE(maxSizeRef, tbfp.get_max_size());
 }
 
 
@@ -43,8 +43,8 @@ TEST_F(TestTextBoxFormattingParams, TextFlowValues)
 
   for(auto textFlow : textFlowValues)
   {
-    TextBoxFormattingParams tbfp(textFlow, vec2f::zero());
-    EXPECT_EQ(textFlow, tbfp.getTextFlow());
+    text_box_formatting_params tbfp(textFlow, vec2f::zero());
+    EXPECT_EQ(textFlow, tbfp.get_text_flow());
   }
 }
 
@@ -62,7 +62,7 @@ TEST_F(TestTextBoxFormattingParams, MaxSizeValues)
 
   for(auto maxSize : maxSizeValues)
   {
-    TextBoxFormattingParams tbfp(TextFlow::LeftRight, maxSize);
-    EXPECT_EQ(maxSize, tbfp.getMaxSize());
+    text_box_formatting_params tbfp(TextFlow::LeftRight, maxSize);
+    EXPECT_EQ(maxSize, tbfp.get_max_size());
   }
 }

@@ -13,7 +13,7 @@
 
 #include "hou/mth/matrix_fwd.hpp"
 
-#include "hou/gfx/ShaderFwd.hpp"
+#include "hou/gfx/shader_fwd.hpp"
 
 #include "hou/gl/gl_program_handle.hpp"
 
@@ -24,26 +24,26 @@
 namespace hou
 {
 
-class HOU_GFX_API ShaderProgram : public non_copyable
+class HOU_GFX_API shader_program : public non_copyable
 {
 public:
-  static void bind(const ShaderProgram& program);
+  static void bind(const shader_program& program);
   static void unbind();
 
 public:
-  ShaderProgram(const VertexShader& vs, const FragmentShader& fs);
-  ShaderProgram(
-    const VertexShader& vs, const FragmentShader& fs, const GeometryShader& gs);
-  ShaderProgram(ShaderProgram&& other);
-  virtual ~ShaderProgram() = 0;
+  shader_program(const vertex_shader& vs, const fragment_shader& fs);
+  shader_program(
+    const vertex_shader& vs, const fragment_shader& fs, const geometry_shader& gs);
+  shader_program(shader_program&& other);
+  virtual ~shader_program() = 0;
 
   const gl::program_handle& get_handle() const;
-  bool isBound() const;
-  uint getUniformLocation(const std::string& uniformName) const;
+  bool is_bound() const;
+  uint get_uniform_location(const std::string& uniformName) const;
 
 private:
-  ShaderProgram(
-    const VertexShader& vs, const FragmentShader& fs, const GeometryShader* gs);
+  shader_program(
+    const vertex_shader& vs, const fragment_shader& fs, const geometry_shader* gs);
 
 private:
   gl::program_handle m_handle;

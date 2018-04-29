@@ -289,7 +289,7 @@ const AudioBuffer& StreamingAudioSource::BufferQueue::fillBuffer(
 {
   HOU_EXPECT_DEV(mFreeBufferCount > 0);
   AudioBuffer& buffer = mBuffers[mCurrentIndex];
-  buffer.setData(data, format, sampleRate);
+  buffer.set_data(data, format, sampleRate);
   mCurrentIndex = (mCurrentIndex + 1) % mBuffers.size();
   --mFreeBufferCount;
   mBufferSampleCounts.push(data.size());

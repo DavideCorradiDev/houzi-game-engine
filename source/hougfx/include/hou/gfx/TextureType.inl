@@ -5,19 +5,19 @@
 namespace hou
 {
 
-constexpr size_t getTextureTypeDimensionCount(TextureType t)
+constexpr size_t get_texture_type_dimension_count(TextureType t)
 {
   switch(t)
   {
-  case TextureType::Texture1:
+  case TextureType::texture1:
     return 1u;
-  case TextureType::Texture1Array:
-  case TextureType::Texture2:
-  case TextureType::MultisampleTexture2:
+  case TextureType::texture1_array:
+  case TextureType::texture2:
+  case TextureType::multisample_texture2:
     return 2u;
-  case TextureType::Texture2Array:
-  case TextureType::Texture3:
-  case TextureType::MultisampleTexture2Array:
+  case TextureType::texture2_array:
+  case TextureType::texture3:
+  case TextureType::multisample_texture2_array:
     return 3u;
   default:
     return 1u;
@@ -26,19 +26,19 @@ constexpr size_t getTextureTypeDimensionCount(TextureType t)
 
 
 
-constexpr bool isTextureTypeMipMapped(TextureType t)
+constexpr bool is_texture_type_mipmapped(TextureType t)
 {
-  return t == TextureType::Texture1 || t == TextureType::Texture1Array
-    || t == TextureType::Texture2 || t == TextureType::Texture2Array
-    || t == TextureType::Texture3;
+  return t == TextureType::texture1 || t == TextureType::texture1_array
+    || t == TextureType::texture2 || t == TextureType::texture2_array
+    || t == TextureType::texture3;
 }
 
 
 
-constexpr bool isTextureTypeMultisampled(TextureType t)
+constexpr bool is_texture_type_multisampled(TextureType t)
 {
-  return t == TextureType::MultisampleTexture2
-    || t == TextureType::MultisampleTexture2Array;
+  return t == TextureType::multisample_texture2
+    || t == TextureType::multisample_texture2_array;
 }
 
 }  // namespace hou

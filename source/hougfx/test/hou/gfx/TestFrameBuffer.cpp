@@ -7,7 +7,7 @@
 #include "hou/gfx/TestGfxBase.hpp"
 
 #include "hou/gfx/framebuffer.hpp"
-#include "hou/gfx/Texture.hpp"
+#include "hou/gfx/texture.hpp"
 
 #include "hou/sys/image.hpp"
 
@@ -25,15 +25,15 @@ class TestFrameBufferDeathTest : public TestFrameBuffer
 {};
 
 template <typename SrcTexType, typename DstTexType>
-void testColorBlit(TextureFormat srcFormat,
+void testColorBlit(texture_format srcFormat,
   const typename SrcTexType::size_type& srcSize, const recti& srcRect,
-  TextureFormat dstFormat, const typename DstTexType::size_type& dstSize,
+  texture_format dstFormat, const typename DstTexType::size_type& dstSize,
   const recti& dstRect, framebuffer_blit_filter filter, bool testError = false);
 
 template <typename SrcTexType, typename DstTexType>
-void testColorBlit(TextureFormat srcFormat,
+void testColorBlit(texture_format srcFormat,
   const typename SrcTexType::size_type& srcSize, const recti& srcRect,
-  TextureFormat dstFormat, const typename DstTexType::size_type& dstSize,
+  texture_format dstFormat, const typename DstTexType::size_type& dstSize,
   const recti& dstRect, framebuffer_blit_filter filter, bool testError)
 {
   using image = image2RGBA;
@@ -100,12 +100,12 @@ void testColorBlit(TextureFormat srcFormat,
 TEST_F(TestFrameBuffer, Binding)
 {
   framebuffer fb1;
-  Texture2 tex1(vec2u(4u, 8u), TextureFormat::rgba);
+  texture2 tex1(vec2u(4u, 8u), texture_format::rgba);
   fb1.set_color_attachment(0u, tex1);
   EXPECT_TRUE(fb1.is_complete());
 
   framebuffer fb2;
-  Texture2 tex2(vec2u(4u, 8u), TextureFormat::rgba);
+  texture2 tex2(vec2u(4u, 8u), texture_format::rgba);
   fb2.set_color_attachment(0u, tex2);
   EXPECT_TRUE(fb2.is_complete());
 
@@ -138,12 +138,12 @@ TEST_F(TestFrameBuffer, Binding)
 TEST_F(TestFrameBuffer, SpecificBinding)
 {
   framebuffer fb1;
-  Texture2 tex1(vec2u(4u, 8u), TextureFormat::rgba);
+  texture2 tex1(vec2u(4u, 8u), texture_format::rgba);
   fb1.set_color_attachment(0u, tex1);
   EXPECT_TRUE(fb1.is_complete());
 
   framebuffer fb2;
-  Texture2 tex2(vec2u(4u, 8u), TextureFormat::rgba);
+  texture2 tex2(vec2u(4u, 8u), texture_format::rgba);
   fb2.set_color_attachment(0u, tex2);
   EXPECT_TRUE(fb2.is_complete());
 
@@ -225,7 +225,7 @@ TEST_F(TestFrameBuffer, MoveConstructor)
 TEST_F(TestFrameBuffer, SetColorAttachment)
 {
   framebuffer fb;
-  Texture2 tex(vec2u(4u, 8u), TextureFormat::rgba, 2u);
+  texture2 tex(vec2u(4u, 8u), texture_format::rgba, 2u);
 
   fb.set_color_attachment(0u, tex);
 
@@ -237,7 +237,7 @@ TEST_F(TestFrameBuffer, SetColorAttachment)
 TEST_F(TestFrameBuffer, SetColorAttachmentAttachmentPointLimit)
 {
   framebuffer fb;
-  Texture2 tex(vec2u(4u, 8u), TextureFormat::rgba, 2u);
+  texture2 tex(vec2u(4u, 8u), texture_format::rgba, 2u);
 
   fb.set_color_attachment(framebuffer::get_color_attachment_point_count() - 1u, tex);
   SUCCEED();
@@ -248,7 +248,7 @@ TEST_F(TestFrameBuffer, SetColorAttachmentAttachmentPointLimit)
 TEST_F(TestFrameBufferDeathTest, SetColorAttachmentErrorInvalidAttachmentPoint)
 {
   framebuffer fb;
-  Texture2 tex(vec2u(4u, 8u), TextureFormat::rgba, 2u);
+  texture2 tex(vec2u(4u, 8u), texture_format::rgba, 2u);
   HOU_EXPECT_PRECONDITION(
     fb.set_color_attachment(framebuffer::get_color_attachment_point_count(), tex));
 }
@@ -259,7 +259,7 @@ TEST_F(TestFrameBuffer, SetColorAttachmentMipMapLevelLimit)
 {
   framebuffer fb;
   uint mipMapLevelCount = 3u;
-  Texture2 tex(vec2u(4u, 8u), TextureFormat::rgba, mipMapLevelCount);
+  texture2 tex(vec2u(4u, 8u), texture_format::rgba, mipMapLevelCount);
 
   for(uint i = 0; i < mipMapLevelCount; ++i)
   {
@@ -275,7 +275,7 @@ TEST_F(TestFrameBufferDeathTest, SetColorAttachmentErrorInvalidMipMapLevel)
 {
   framebuffer fb;
   uint mipMapLevelCount = 3u;
-  Texture2 tex(vec2u(4u, 8u), TextureFormat::rgba, mipMapLevelCount);
+  texture2 tex(vec2u(4u, 8u), texture_format::rgba, mipMapLevelCount);
   HOU_EXPECT_PRECONDITION(fb.set_color_attachment(0u, tex, mipMapLevelCount));
 }
 
@@ -284,10 +284,10 @@ TEST_F(TestFrameBufferDeathTest, SetColorAttachmentErrorInvalidMipMapLevel)
 TEST_F(TestFrameBuffer, SetColorAttachmentValidFormats)
 {
   framebuffer fb;
-  Texture2 texR(vec2u(4u, 8u), TextureFormat::r);
-  Texture2 texRG(vec2u(4u, 8u), TextureFormat::rg);
-  Texture2 texRGB(vec2u(4u, 8u), TextureFormat::rgb);
-  Texture2 texRGBA(vec2u(4u, 8u), TextureFormat::rgba);
+  texture2 texR(vec2u(4u, 8u), texture_format::r);
+  texture2 texRG(vec2u(4u, 8u), texture_format::rg);
+  texture2 texRGB(vec2u(4u, 8u), texture_format::rgb);
+  texture2 texRGBA(vec2u(4u, 8u), texture_format::rgba);
   fb.set_color_attachment(0u, texR);
   fb.set_color_attachment(0u, texRG);
   fb.set_color_attachment(0u, texRGB);
@@ -300,9 +300,9 @@ TEST_F(TestFrameBuffer, SetColorAttachmentValidFormats)
 TEST_F(TestFrameBufferDeathTest, SetColorAttachmentInvalidFormats)
 {
   framebuffer fb;
-  Texture2 texDepth(vec2u(4u, 8u), TextureFormat::depth);
-  Texture2 texStencil(vec2u(4u, 8u), TextureFormat::stencil);
-  Texture2 texDepthStencil(vec2u(4u, 8u), TextureFormat::DepthStencil);
+  texture2 texDepth(vec2u(4u, 8u), texture_format::depth);
+  texture2 texStencil(vec2u(4u, 8u), texture_format::stencil);
+  texture2 texDepthStencil(vec2u(4u, 8u), texture_format::depth_stencil);
   HOU_EXPECT_PRECONDITION(fb.set_color_attachment(0u, texDepth));
   HOU_EXPECT_PRECONDITION(fb.set_color_attachment(0u, texStencil));
   HOU_EXPECT_PRECONDITION(fb.set_color_attachment(0u, texDepthStencil));
@@ -313,7 +313,7 @@ TEST_F(TestFrameBufferDeathTest, SetColorAttachmentInvalidFormats)
 TEST_F(TestFrameBuffer, SetDepthAttachment)
 {
   framebuffer fb;
-  Texture2 tex(vec2u(4u, 8u), TextureFormat::depth, 2u);
+  texture2 tex(vec2u(4u, 8u), texture_format::depth, 2u);
 
   fb.set_depth_attachment(tex);
 
@@ -326,7 +326,7 @@ TEST_F(TestFrameBuffer, SetDepthAttachmentMipMapLevelLimit)
 {
   framebuffer fb;
   uint mipMapLevelCount = 3u;
-  Texture2 tex(vec2u(4u, 8u), TextureFormat::depth, mipMapLevelCount);
+  texture2 tex(vec2u(4u, 8u), texture_format::depth, mipMapLevelCount);
 
   for(uint i = 0; i < mipMapLevelCount; ++i)
   {
@@ -342,7 +342,7 @@ TEST_F(TestFrameBufferDeathTest, SetDepthAttachmentErrorInvalidMipMapLevel)
 {
   framebuffer fb;
   uint mipMapLevelCount = 3u;
-  Texture2 tex(vec2u(4u, 8u), TextureFormat::depth, mipMapLevelCount);
+  texture2 tex(vec2u(4u, 8u), texture_format::depth, mipMapLevelCount);
   HOU_EXPECT_PRECONDITION(fb.set_depth_attachment(tex, mipMapLevelCount));
 }
 
@@ -351,8 +351,8 @@ TEST_F(TestFrameBufferDeathTest, SetDepthAttachmentErrorInvalidMipMapLevel)
 TEST_F(TestFrameBuffer, SetDepthAttachmentValidFormats)
 {
   framebuffer fb;
-  Texture2 texDepth(vec2u(4u, 8u), TextureFormat::depth);
-  Texture2 texDepthStencil(vec2u(4u, 8u), TextureFormat::DepthStencil);
+  texture2 texDepth(vec2u(4u, 8u), texture_format::depth);
+  texture2 texDepthStencil(vec2u(4u, 8u), texture_format::depth_stencil);
   fb.set_depth_attachment(texDepth);
   fb.set_depth_attachment(texDepthStencil);
   SUCCEED();
@@ -363,11 +363,11 @@ TEST_F(TestFrameBuffer, SetDepthAttachmentValidFormats)
 TEST_F(TestFrameBufferDeathTest, SetDepthAttachmentInvalidFormats)
 {
   framebuffer fb;
-  Texture2 texR(vec2u(4u, 8u), TextureFormat::r);
-  Texture2 texRG(vec2u(4u, 8u), TextureFormat::rg);
-  Texture2 texRGB(vec2u(4u, 8u), TextureFormat::rgb);
-  Texture2 texRGBA(vec2u(4u, 8u), TextureFormat::rgba);
-  Texture2 texStencil(vec2u(4u, 8u), TextureFormat::stencil);
+  texture2 texR(vec2u(4u, 8u), texture_format::r);
+  texture2 texRG(vec2u(4u, 8u), texture_format::rg);
+  texture2 texRGB(vec2u(4u, 8u), texture_format::rgb);
+  texture2 texRGBA(vec2u(4u, 8u), texture_format::rgba);
+  texture2 texStencil(vec2u(4u, 8u), texture_format::stencil);
   HOU_EXPECT_PRECONDITION(fb.set_depth_attachment(texR));
   HOU_EXPECT_PRECONDITION(fb.set_depth_attachment(texRG));
   HOU_EXPECT_PRECONDITION(fb.set_depth_attachment(texRGB));
@@ -380,7 +380,7 @@ TEST_F(TestFrameBufferDeathTest, SetDepthAttachmentInvalidFormats)
 TEST_F(TestFrameBuffer, SetStencilAttachment)
 {
   framebuffer fb;
-  Texture2 tex(vec2u(4u, 8u), TextureFormat::stencil, 2u);
+  texture2 tex(vec2u(4u, 8u), texture_format::stencil, 2u);
 
   fb.set_stencil_attachment(tex);
 
@@ -393,7 +393,7 @@ TEST_F(TestFrameBuffer, SetStencilAttachmentMipMapLevelLimit)
 {
   framebuffer fb;
   uint mipMapLevelCount = 3u;
-  Texture2 tex(vec2u(4u, 8u), TextureFormat::stencil, mipMapLevelCount);
+  texture2 tex(vec2u(4u, 8u), texture_format::stencil, mipMapLevelCount);
 
   for(uint i = 0; i < mipMapLevelCount; ++i)
   {
@@ -409,7 +409,7 @@ TEST_F(TestFrameBufferDeathTest, SetStencilAttachmentErrorInvalidMipMapLevel)
 {
   framebuffer fb;
   uint mipMapLevelCount = 3u;
-  Texture2 tex(vec2u(4u, 8u), TextureFormat::stencil, mipMapLevelCount);
+  texture2 tex(vec2u(4u, 8u), texture_format::stencil, mipMapLevelCount);
   HOU_EXPECT_PRECONDITION(fb.set_stencil_attachment(tex, mipMapLevelCount));
 }
 
@@ -418,8 +418,8 @@ TEST_F(TestFrameBufferDeathTest, SetStencilAttachmentErrorInvalidMipMapLevel)
 TEST_F(TestFrameBuffer, SetStencilAttachmentValidFormats)
 {
   framebuffer fb;
-  Texture2 texStencil(vec2u(4u, 8u), TextureFormat::stencil);
-  Texture2 texDepthStencil(vec2u(4u, 8u), TextureFormat::DepthStencil);
+  texture2 texStencil(vec2u(4u, 8u), texture_format::stencil);
+  texture2 texDepthStencil(vec2u(4u, 8u), texture_format::depth_stencil);
   fb.set_stencil_attachment(texStencil);
   fb.set_stencil_attachment(texDepthStencil);
   SUCCEED();
@@ -430,11 +430,11 @@ TEST_F(TestFrameBuffer, SetStencilAttachmentValidFormats)
 TEST_F(TestFrameBufferDeathTest, SetStencilAttachmentInvalidFormats)
 {
   framebuffer fb;
-  Texture2 texR(vec2u(4u, 8u), TextureFormat::r);
-  Texture2 texRG(vec2u(4u, 8u), TextureFormat::rg);
-  Texture2 texRGB(vec2u(4u, 8u), TextureFormat::rgb);
-  Texture2 texRGBA(vec2u(4u, 8u), TextureFormat::rgba);
-  Texture2 texDepth(vec2u(4u, 8u), TextureFormat::depth);
+  texture2 texR(vec2u(4u, 8u), texture_format::r);
+  texture2 texRG(vec2u(4u, 8u), texture_format::rg);
+  texture2 texRGB(vec2u(4u, 8u), texture_format::rgb);
+  texture2 texRGBA(vec2u(4u, 8u), texture_format::rgba);
+  texture2 texDepth(vec2u(4u, 8u), texture_format::depth);
   HOU_EXPECT_PRECONDITION(fb.set_stencil_attachment(texR));
   HOU_EXPECT_PRECONDITION(fb.set_stencil_attachment(texRG));
   HOU_EXPECT_PRECONDITION(fb.set_stencil_attachment(texRGB));
@@ -447,7 +447,7 @@ TEST_F(TestFrameBufferDeathTest, SetStencilAttachmentInvalidFormats)
 TEST_F(TestFrameBuffer, SetDepthStencilAttachment)
 {
   framebuffer fb;
-  Texture2 tex(vec2u(4u, 8u), TextureFormat::DepthStencil, 2u);
+  texture2 tex(vec2u(4u, 8u), texture_format::depth_stencil, 2u);
 
   fb.set_depth_stencil_attachment(tex);
 
@@ -460,7 +460,7 @@ TEST_F(TestFrameBuffer, SetDepthStencilAttachmentMipMapLevelLimit)
 {
   framebuffer fb;
   uint mipMapLevelCount = 3u;
-  Texture2 tex(vec2u(4u, 8u), TextureFormat::DepthStencil, mipMapLevelCount);
+  texture2 tex(vec2u(4u, 8u), texture_format::depth_stencil, mipMapLevelCount);
 
   for(uint i = 0; i < mipMapLevelCount; ++i)
   {
@@ -477,7 +477,7 @@ TEST_F(
 {
   framebuffer fb;
   uint mipMapLevelCount = 3u;
-  Texture2 tex(vec2u(4u, 8u), TextureFormat::DepthStencil, mipMapLevelCount);
+  texture2 tex(vec2u(4u, 8u), texture_format::depth_stencil, mipMapLevelCount);
   HOU_EXPECT_PRECONDITION(fb.set_depth_stencil_attachment(tex, mipMapLevelCount));
 }
 
@@ -486,7 +486,7 @@ TEST_F(
 TEST_F(TestFrameBuffer, SetDepthStencilAttachmentValidFormats)
 {
   framebuffer fb;
-  Texture2 texDepthStencil(vec2u(4u, 8u), TextureFormat::DepthStencil);
+  texture2 texDepthStencil(vec2u(4u, 8u), texture_format::depth_stencil);
   fb.set_depth_stencil_attachment(texDepthStencil);
   SUCCEED();
 }
@@ -496,12 +496,12 @@ TEST_F(TestFrameBuffer, SetDepthStencilAttachmentValidFormats)
 TEST_F(TestFrameBufferDeathTest, SetDepthStencilAttachmentInvalidFormats)
 {
   framebuffer fb;
-  Texture2 texR(vec2u(4u, 8u), TextureFormat::r);
-  Texture2 texRG(vec2u(4u, 8u), TextureFormat::rg);
-  Texture2 texRGB(vec2u(4u, 8u), TextureFormat::rgb);
-  Texture2 texRGBA(vec2u(4u, 8u), TextureFormat::rgba);
-  Texture2 texDepth(vec2u(4u, 8u), TextureFormat::depth);
-  Texture2 texStencil(vec2u(4u, 8u), TextureFormat::stencil);
+  texture2 texR(vec2u(4u, 8u), texture_format::r);
+  texture2 texRG(vec2u(4u, 8u), texture_format::rg);
+  texture2 texRGB(vec2u(4u, 8u), texture_format::rgb);
+  texture2 texRGBA(vec2u(4u, 8u), texture_format::rgba);
+  texture2 texDepth(vec2u(4u, 8u), texture_format::depth);
+  texture2 texStencil(vec2u(4u, 8u), texture_format::stencil);
   HOU_EXPECT_PRECONDITION(fb.set_depth_stencil_attachment(texR));
   HOU_EXPECT_PRECONDITION(fb.set_depth_stencil_attachment(texRG));
   HOU_EXPECT_PRECONDITION(fb.set_depth_stencil_attachment(texRGB));
@@ -515,7 +515,7 @@ TEST_F(TestFrameBufferDeathTest, SetDepthStencilAttachmentInvalidFormats)
 TEST_F(TestFrameBuffer, StatusColorAttachment)
 {
   framebuffer fb;
-  Texture2 texRGBA(vec2u(4u, 8u), TextureFormat::rgba);
+  texture2 texRGBA(vec2u(4u, 8u), texture_format::rgba);
 
   fb.set_color_attachment(0u, texRGBA);
   EXPECT_TRUE(fb.is_complete());
@@ -526,7 +526,7 @@ TEST_F(TestFrameBuffer, StatusColorAttachment)
 TEST_F(TestFrameBuffer, StatusDepthAttachment)
 {
   framebuffer fb;
-  Texture2 texDepth(vec2u(4u, 8u), TextureFormat::depth);
+  texture2 texDepth(vec2u(4u, 8u), texture_format::depth);
 
   fb.set_depth_attachment(texDepth);
   EXPECT_TRUE(fb.is_complete());
@@ -537,7 +537,7 @@ TEST_F(TestFrameBuffer, StatusDepthAttachment)
 TEST_F(TestFrameBuffer, StatusStencilAttachment)
 {
   framebuffer fb;
-  Texture2 texStencil(vec2u(4u, 8u), TextureFormat::stencil);
+  texture2 texStencil(vec2u(4u, 8u), texture_format::stencil);
 
   fb.set_stencil_attachment(texStencil);
   EXPECT_TRUE(fb.is_complete());
@@ -548,7 +548,7 @@ TEST_F(TestFrameBuffer, StatusStencilAttachment)
 TEST_F(TestFrameBuffer, StatusDepthStencilAttachment)
 {
   framebuffer fb;
-  Texture2 texDepthStencil(vec2u(4u, 8u), TextureFormat::DepthStencil);
+  texture2 texDepthStencil(vec2u(4u, 8u), texture_format::depth_stencil);
 
   fb.set_depth_stencil_attachment(texDepthStencil);
   EXPECT_TRUE(fb.is_complete());
@@ -559,8 +559,8 @@ TEST_F(TestFrameBuffer, StatusDepthStencilAttachment)
 TEST_F(TestFrameBuffer, StatusColorDepthStencilAttachment)
 {
   framebuffer fb;
-  Texture2 texRGBA(vec2u(4u, 8u), TextureFormat::rgba);
-  Texture2 texDepthStencil(vec2u(4u, 8u), TextureFormat::DepthStencil);
+  texture2 texRGBA(vec2u(4u, 8u), texture_format::rgba);
+  texture2 texDepthStencil(vec2u(4u, 8u), texture_format::depth_stencil);
 
   fb.set_color_attachment(0u, texRGBA);
   fb.set_depth_stencil_attachment(texDepthStencil);
@@ -572,9 +572,9 @@ TEST_F(TestFrameBuffer, StatusColorDepthStencilAttachment)
 TEST_F(TestFrameBuffer, StatusColorDepthAndStencilAttachment)
 {
   framebuffer fb;
-  Texture2 texRGBA(vec2u(4u, 8u), TextureFormat::rgba);
-  Texture2 texDepth(vec2u(4u, 8u), TextureFormat::depth);
-  Texture2 texStencil(vec2u(4u, 8u), TextureFormat::stencil);
+  texture2 texRGBA(vec2u(4u, 8u), texture_format::rgba);
+  texture2 texDepth(vec2u(4u, 8u), texture_format::depth);
+  texture2 texStencil(vec2u(4u, 8u), texture_format::stencil);
 
   fb.set_color_attachment(0u, texRGBA);
   fb.set_depth_attachment(texDepth);
@@ -588,8 +588,8 @@ TEST_F(TestFrameBuffer, StatusMultisampledColorDepthStencilAttachment)
 {
   framebuffer fb;
   uint sampleCount = 4u;
-  MultisampleTexture2 texRGBA(vec2u(4u, 8u), TextureFormat::rgba, sampleCount);
-  Texture2 texDepthStencil(vec2u(4u, 8u), TextureFormat::DepthStencil);
+  multisample_texture2 texRGBA(vec2u(4u, 8u), texture_format::rgba, sampleCount);
+  texture2 texDepthStencil(vec2u(4u, 8u), texture_format::depth_stencil);
 
   fb.set_color_attachment(0u, texRGBA);
   fb.set_depth_stencil_attachment(texDepthStencil);
@@ -603,9 +603,9 @@ TEST_F(
 {
   framebuffer fb;
   uint sampleCount = 4u;
-  MultisampleTexture2 texRGBA(vec2u(4u, 8u), TextureFormat::rgba, sampleCount);
-  MultisampleTexture2 texDepthStencil(
-    vec2u(4u, 8u), TextureFormat::DepthStencil, sampleCount);
+  multisample_texture2 texRGBA(vec2u(4u, 8u), texture_format::rgba, sampleCount);
+  multisample_texture2 texDepthStencil(
+    vec2u(4u, 8u), texture_format::depth_stencil, sampleCount);
 
   fb.set_color_attachment(0u, texRGBA);
   fb.set_depth_stencil_attachment(texDepthStencil);
@@ -619,9 +619,9 @@ TEST_F(TestFrameBuffer,
 {
   framebuffer fb;
   uint sampleCount = 4u;
-  MultisampleTexture2 texRGBA(vec2u(4u, 8u), TextureFormat::rgba, sampleCount);
-  MultisampleTexture2 texDepthStencil(
-    vec2u(4u, 8u), TextureFormat::DepthStencil, 1u);
+  multisample_texture2 texRGBA(vec2u(4u, 8u), texture_format::rgba, sampleCount);
+  multisample_texture2 texDepthStencil(
+    vec2u(4u, 8u), texture_format::depth_stencil, 1u);
 
   fb.set_color_attachment(0u, texRGBA);
   fb.set_depth_stencil_attachment(texDepthStencil);
@@ -634,10 +634,10 @@ TEST_F(TestFrameBuffer, HasMultisampleAttachment)
 {
   vec2u size(4u, 8u);
   framebuffer fb;
-  Texture2 texColorSS(size, TextureFormat::rgba);
-  Texture2 texDSSS(size, TextureFormat::DepthStencil);
-  MultisampleTexture2 texColorMS(size, TextureFormat::rgba);
-  MultisampleTexture2 texDSMS(size, TextureFormat::DepthStencil);
+  texture2 texColorSS(size, texture_format::rgba);
+  texture2 texDSSS(size, texture_format::depth_stencil);
+  multisample_texture2 texColorMS(size, texture_format::rgba);
+  multisample_texture2 texDSMS(size, texture_format::depth_stencil);
 
   EXPECT_FALSE(fb.hasMultisampleAttachment());
   fb.set_color_attachment(0u, texColorSS);
@@ -662,8 +662,8 @@ TEST_F(TestFrameBuffer, HasMultisampleAttachment)
 TEST_F(TestFrameBuffer, BlitColorFullImage)
 {
   vec2u size(4u, 8u);
-  testColorBlit<Texture2, Texture2>(TextureFormat::rgba, size,
-    recti(vec2u(), size), TextureFormat::rgba, size, recti(vec2u(), size),
+  testColorBlit<texture2, texture2>(texture_format::rgba, size,
+    recti(vec2u(), size), texture_format::rgba, size, recti(vec2u(), size),
     framebuffer_blit_filter::nearest);
 }
 
@@ -673,8 +673,8 @@ TEST_F(TestFrameBuffer, BlitColorSameRect)
 {
   vec2u size(8u, 16u);
   recti rect(1u, 2u, 3u, 4u);
-  testColorBlit<Texture2, Texture2>(TextureFormat::rgba, size, rect,
-    TextureFormat::rgba, size, rect, framebuffer_blit_filter::nearest);
+  testColorBlit<texture2, texture2>(texture_format::rgba, size, rect,
+    texture_format::rgba, size, rect, framebuffer_blit_filter::nearest);
 }
 
 
@@ -683,8 +683,8 @@ TEST_F(TestFrameBuffer, BlitColorDifferentTextureSizes)
 {
   vec2u size1(4u, 8u);
   vec2u size2(8u, 16u);
-  testColorBlit<Texture2, Texture2>(TextureFormat::rgba, size1,
-    recti(vec2u(), size1), TextureFormat::rgba, size2, recti(vec2u(), size1),
+  testColorBlit<texture2, texture2>(texture_format::rgba, size1,
+    recti(vec2u(), size1), texture_format::rgba, size2, recti(vec2u(), size1),
     framebuffer_blit_filter::nearest);
 }
 
@@ -695,8 +695,8 @@ TEST_F(TestFrameBuffer, BlitColorDifferentRects)
   vec2u size(8u, 16u);
   recti srcRect(1u, 2u, 3u, 4u);
   recti dstRect(2u, 1u, 4u, 6u);
-  testColorBlit<Texture2, Texture2>(TextureFormat::rgba, size, srcRect,
-    TextureFormat::rgba, size, dstRect, framebuffer_blit_filter::nearest);
+  testColorBlit<texture2, texture2>(texture_format::rgba, size, srcRect,
+    texture_format::rgba, size, dstRect, framebuffer_blit_filter::nearest);
 }
 
 
@@ -705,8 +705,8 @@ TEST_F(TestFrameBuffer, BlitColorOverflowingRect)
 {
   vec2u size(8u, 16u);
   recti rect(4u, 6u, 6u, 16u);
-  testColorBlit<Texture2, Texture2>(TextureFormat::rgba, size, rect,
-    TextureFormat::rgba, size, rect, framebuffer_blit_filter::nearest);
+  testColorBlit<texture2, texture2>(texture_format::rgba, size, rect,
+    texture_format::rgba, size, rect, framebuffer_blit_filter::nearest);
 }
 
 
@@ -716,8 +716,8 @@ TEST_F(TestFrameBuffer, BlitColorInvertedRect)
   vec2u size(8u, 16u);
   recti srcRect(1u, 2u, 3u, 4u);
   recti dstRect(srcRect.r(), srcRect.b(), -srcRect.w(), -srcRect.h());
-  testColorBlit<Texture2, Texture2>(TextureFormat::rgba, size, srcRect,
-    TextureFormat::rgba, size, dstRect, framebuffer_blit_filter::nearest);
+  testColorBlit<texture2, texture2>(texture_format::rgba, size, srcRect,
+    texture_format::rgba, size, dstRect, framebuffer_blit_filter::nearest);
 }
 
 
@@ -725,8 +725,8 @@ TEST_F(TestFrameBuffer, BlitColorInvertedRect)
 TEST_F(TestFrameBuffer, BlitColorLinearFilter)
 {
   vec2u size(4u, 8u);
-  testColorBlit<Texture2, Texture2>(TextureFormat::rgba, size,
-    recti(vec2u(), size), TextureFormat::rgba, size, recti(vec2u(), size),
+  testColorBlit<texture2, texture2>(texture_format::rgba, size,
+    recti(vec2u(), size), texture_format::rgba, size, recti(vec2u(), size),
     framebuffer_blit_filter::linear);
 }
 
@@ -735,8 +735,8 @@ TEST_F(TestFrameBuffer, BlitColorLinearFilter)
 TEST_F(TestFrameBuffer, BlitColorDifferentFormat)
 {
   vec2u size(4u, 8u);
-  testColorBlit<Texture2, Texture2>(TextureFormat::rgba, size,
-    recti(vec2u(), size), TextureFormat::rgb, size, recti(vec2u(), size),
+  testColorBlit<texture2, texture2>(texture_format::rgba, size,
+    recti(vec2u(), size), texture_format::rgb, size, recti(vec2u(), size),
     framebuffer_blit_filter::linear);
 }
 
@@ -745,8 +745,8 @@ TEST_F(TestFrameBuffer, BlitColorDifferentFormat)
 TEST_F(TestFrameBuffer, BlitColorFullImageMultisample)
 {
   vec2u size(4u, 8u);
-  testColorBlit<MultisampleTexture2, Texture2>(TextureFormat::rgba, size,
-    recti(vec2u(), size), TextureFormat::rgba, size, recti(vec2u(), size),
+  testColorBlit<multisample_texture2, texture2>(texture_format::rgba, size,
+    recti(vec2u(), size), texture_format::rgba, size, recti(vec2u(), size),
     framebuffer_blit_filter::nearest);
 }
 
@@ -756,8 +756,8 @@ TEST_F(TestFrameBuffer, BlitColorSameRectMultisample)
 {
   vec2u size(8u, 16u);
   recti rect(1u, 2u, 3u, 4u);
-  testColorBlit<MultisampleTexture2, Texture2>(TextureFormat::rgba, size, rect,
-    TextureFormat::rgba, size, rect, framebuffer_blit_filter::nearest);
+  testColorBlit<multisample_texture2, texture2>(texture_format::rgba, size, rect,
+    texture_format::rgba, size, rect, framebuffer_blit_filter::nearest);
 }
 
 
@@ -766,8 +766,8 @@ TEST_F(TestFrameBuffer, BlitColorDifferentTextureSizesMultisample)
 {
   vec2u size1(4u, 8u);
   vec2u size2(8u, 16u);
-  testColorBlit<MultisampleTexture2, Texture2>(TextureFormat::rgba, size1,
-    recti(vec2u(), size1), TextureFormat::rgba, size2, recti(vec2u(), size1),
+  testColorBlit<multisample_texture2, texture2>(texture_format::rgba, size1,
+    recti(vec2u(), size1), texture_format::rgba, size2, recti(vec2u(), size1),
     framebuffer_blit_filter::nearest);
 }
 
@@ -777,8 +777,8 @@ TEST_F(TestFrameBuffer, BlitColorOverflowingRectMultisample)
 {
   vec2u size(8u, 16u);
   recti rect(4u, 6u, 6u, 16u);
-  testColorBlit<MultisampleTexture2, Texture2>(TextureFormat::rgba, size, rect,
-    TextureFormat::rgba, size, rect, framebuffer_blit_filter::nearest);
+  testColorBlit<multisample_texture2, texture2>(texture_format::rgba, size, rect,
+    texture_format::rgba, size, rect, framebuffer_blit_filter::nearest);
 }
 
 
@@ -788,8 +788,8 @@ TEST_F(TestFrameBuffer, BlitColorInvertedRectMultisample)
   vec2u size(8u, 16u);
   recti srcRect(1u, 2u, 3u, 4u);
   recti dstRect(srcRect.r(), srcRect.b(), -srcRect.w(), -srcRect.h());
-  testColorBlit<MultisampleTexture2, Texture2>(TextureFormat::rgba, size,
-    srcRect, TextureFormat::rgba, size, dstRect,
+  testColorBlit<multisample_texture2, texture2>(texture_format::rgba, size,
+    srcRect, texture_format::rgba, size, dstRect,
     framebuffer_blit_filter::nearest);
 }
 
@@ -798,8 +798,8 @@ TEST_F(TestFrameBuffer, BlitColorInvertedRectMultisample)
 TEST_F(TestFrameBuffer, BlitColorLinearFilterMultisample)
 {
   vec2u size(4u, 8u);
-  testColorBlit<MultisampleTexture2, Texture2>(TextureFormat::rgba, size,
-    recti(vec2u(), size), TextureFormat::rgba, size, recti(vec2u(), size),
+  testColorBlit<multisample_texture2, texture2>(texture_format::rgba, size,
+    recti(vec2u(), size), texture_format::rgba, size, recti(vec2u(), size),
     framebuffer_blit_filter::linear);
 }
 
@@ -810,8 +810,8 @@ TEST_F(TestFrameBufferDeathTest, BlitErrorColorDifferentRectsMultisample)
   vec2u size(8u, 16u);
   recti srcRect(1u, 2u, 3u, 4u);
   recti dstRect(2u, 1u, 4u, 6u);
-  testColorBlit<MultisampleTexture2, Texture2>(TextureFormat::rgba, size,
-    srcRect, TextureFormat::rgba, size, dstRect, framebuffer_blit_filter::nearest,
+  testColorBlit<multisample_texture2, texture2>(texture_format::rgba, size,
+    srcRect, texture_format::rgba, size, dstRect, framebuffer_blit_filter::nearest,
     true);
 }
 
@@ -821,7 +821,7 @@ TEST_F(TestFrameBufferDeathTest, BlitErrorIncompleteSourceBuffer)
 {
   framebuffer src;
   framebuffer dst;
-  Texture2 dstTex(vec2u(4u, 8u));
+  texture2 dstTex(vec2u(4u, 8u));
   dst.set_color_attachment(0u, dstTex);
 
   EXPECT_FALSE(src.is_complete());
@@ -836,7 +836,7 @@ TEST_F(TestFrameBufferDeathTest, BlitErrorIncompleteSourceBuffer)
 TEST_F(TestFrameBufferDeathTest, BlitErrorIncompleteDestinationBuffer)
 {
   framebuffer src;
-  Texture2 srcTex(vec2u(4u, 8u));
+  texture2 srcTex(vec2u(4u, 8u));
   src.set_color_attachment(0u, srcTex);
   framebuffer dst;
 
@@ -852,14 +852,14 @@ TEST_F(TestFrameBufferDeathTest, BlitErrorIncompleteDestinationBuffer)
 TEST_F(TestFrameBuffer, BlitNoAttachmentSpecified)
 {
   framebuffer src;
-  Texture2 srcTexColor(vec2u(4u, 8u));
-  Texture2 srcTexDS(vec2u(4u, 8u), TextureFormat::DepthStencil);
+  texture2 srcTexColor(vec2u(4u, 8u));
+  texture2 srcTexDS(vec2u(4u, 8u), texture_format::depth_stencil);
   src.set_color_attachment(0u, srcTexColor);
   src.set_depth_stencil_attachment(srcTexDS);
 
   framebuffer dst;
-  Texture2 dstTexColor(vec2u(4u, 8u));
-  Texture2 dstTexDS(vec2u(4u, 8u), TextureFormat::DepthStencil);
+  texture2 dstTexColor(vec2u(4u, 8u));
+  texture2 dstTexDS(vec2u(4u, 8u), texture_format::depth_stencil);
   dst.set_color_attachment(0u, dstTexColor);
   dst.set_depth_stencil_attachment(dstTexDS);
 
@@ -876,12 +876,12 @@ TEST_F(TestFrameBuffer, BlitNoAttachmentSpecified)
 TEST_F(TestFrameBuffer, BlitSourceMissingColor)
 {
   framebuffer src;
-  Texture2 srcTexDS(vec2u(4u, 8u), TextureFormat::DepthStencil);
+  texture2 srcTexDS(vec2u(4u, 8u), texture_format::depth_stencil);
   src.set_depth_stencil_attachment(srcTexDS);
 
   framebuffer dst;
-  Texture2 dstTexColor(vec2u(4u, 8u));
-  Texture2 dstTexDS(vec2u(4u, 8u), TextureFormat::DepthStencil);
+  texture2 dstTexColor(vec2u(4u, 8u));
+  texture2 dstTexDS(vec2u(4u, 8u), texture_format::depth_stencil);
   dst.set_color_attachment(0u, dstTexColor);
   dst.set_depth_stencil_attachment(dstTexDS);
 
@@ -898,12 +898,12 @@ TEST_F(TestFrameBuffer, BlitSourceMissingColor)
 TEST_F(TestFrameBuffer, BlitSourceMissingDepthStencil)
 {
   framebuffer src;
-  Texture2 srcTexColor(vec2u(4u, 8u));
+  texture2 srcTexColor(vec2u(4u, 8u));
   src.set_color_attachment(0u, srcTexColor);
 
   framebuffer dst;
-  Texture2 dstTexColor(vec2u(4u, 8u));
-  Texture2 dstTexDS(vec2u(4u, 8u), TextureFormat::DepthStencil);
+  texture2 dstTexColor(vec2u(4u, 8u));
+  texture2 dstTexDS(vec2u(4u, 8u), texture_format::depth_stencil);
   dst.set_color_attachment(0u, dstTexColor);
   dst.set_depth_stencil_attachment(dstTexDS);
 
@@ -922,13 +922,13 @@ TEST_F(TestFrameBuffer, BlitSourceMissingDepthStencil)
 TEST_F(TestFrameBuffer, BlitDestinationMissingColor)
 {
   framebuffer src;
-  Texture2 srcTexColor(vec2u(4u, 8u));
-  Texture2 srcTexDS(vec2u(4u, 8u), TextureFormat::DepthStencil);
+  texture2 srcTexColor(vec2u(4u, 8u));
+  texture2 srcTexDS(vec2u(4u, 8u), texture_format::depth_stencil);
   src.set_color_attachment(0u, srcTexColor);
   src.set_depth_stencil_attachment(srcTexDS);
 
   framebuffer dst;
-  Texture2 dstTexDS(vec2u(4u, 8u), TextureFormat::DepthStencil);
+  texture2 dstTexDS(vec2u(4u, 8u), texture_format::depth_stencil);
   dst.set_depth_stencil_attachment(dstTexDS);
 
   EXPECT_TRUE(src.is_complete());
@@ -944,13 +944,13 @@ TEST_F(TestFrameBuffer, BlitDestinationMissingColor)
 TEST_F(TestFrameBuffer, BlitDestinationMissingDepthStencil)
 {
   framebuffer src;
-  Texture2 srcTexColor(vec2u(4u, 8u));
-  Texture2 srcTexDS(vec2u(4u, 8u), TextureFormat::DepthStencil);
+  texture2 srcTexColor(vec2u(4u, 8u));
+  texture2 srcTexDS(vec2u(4u, 8u), texture_format::depth_stencil);
   src.set_color_attachment(0u, srcTexColor);
   src.set_depth_stencil_attachment(srcTexDS);
 
   framebuffer dst;
-  Texture2 dstTexColor(vec2u(4u, 8u));
+  texture2 dstTexColor(vec2u(4u, 8u));
   dst.set_color_attachment(0u, dstTexColor);
 
   EXPECT_TRUE(src.is_complete());
@@ -968,11 +968,11 @@ TEST_F(TestFrameBuffer, BlitDestinationMissingDepthStencil)
 TEST_F(TestFrameBuffer, BlitMissingColor)
 {
   framebuffer src;
-  Texture2 srcTexDS(vec2u(4u, 8u), TextureFormat::DepthStencil);
+  texture2 srcTexDS(vec2u(4u, 8u), texture_format::depth_stencil);
   src.set_depth_stencil_attachment(srcTexDS);
 
   framebuffer dst;
-  Texture2 dstTexDS(vec2u(4u, 8u), TextureFormat::DepthStencil);
+  texture2 dstTexDS(vec2u(4u, 8u), texture_format::depth_stencil);
   dst.set_depth_stencil_attachment(dstTexDS);
 
   EXPECT_TRUE(src.is_complete());
@@ -988,11 +988,11 @@ TEST_F(TestFrameBuffer, BlitMissingColor)
 TEST_F(TestFrameBuffer, BlitMissingDepthStencil)
 {
   framebuffer src;
-  Texture2 srcTexColor(vec2u(4u, 8u));
+  texture2 srcTexColor(vec2u(4u, 8u));
   src.set_color_attachment(0u, srcTexColor);
 
   framebuffer dst;
-  Texture2 dstTexColor(vec2u(4u, 8u));
+  texture2 dstTexColor(vec2u(4u, 8u));
   dst.set_color_attachment(0u, dstTexColor);
 
   EXPECT_TRUE(src.is_complete());
@@ -1010,14 +1010,14 @@ TEST_F(TestFrameBuffer, BlitMissingDepthStencil)
 TEST_F(TestFrameBufferDeathTest, BlitErrorLinearFilterWithDepthStencilMask)
 {
   framebuffer src;
-  Texture2 srcTexColor(vec2u(4u, 8u));
-  Texture2 srcTexDS(vec2u(4u, 8u), TextureFormat::DepthStencil);
+  texture2 srcTexColor(vec2u(4u, 8u));
+  texture2 srcTexDS(vec2u(4u, 8u), texture_format::depth_stencil);
   src.set_color_attachment(0u, srcTexColor);
   src.set_depth_stencil_attachment(srcTexDS);
 
   framebuffer dst;
-  Texture2 dstTexColor(vec2u(4u, 8u));
-  Texture2 dstTexDS(vec2u(4u, 8u), TextureFormat::DepthStencil);
+  texture2 dstTexColor(vec2u(4u, 8u));
+  texture2 dstTexDS(vec2u(4u, 8u), texture_format::depth_stencil);
   dst.set_color_attachment(0u, dstTexColor);
   dst.set_depth_stencil_attachment(dstTexDS);
 
@@ -1047,11 +1047,11 @@ TEST_F(TestFrameBuffer, BlitToTexture)
   recti rectRef(vec2i::zero(), sizeRef);
 
   framebuffer src;
-  Texture2 srcTex(sizeRef);
+  texture2 srcTex(sizeRef);
   srcTex.clear(pixelrgba(1u, 2u, 3u, 4u));
   src.set_color_attachment(0u, srcTex);
 
-  Texture2 dstTex(sizeRef);
+  texture2 dstTex(sizeRef);
 
   blit(src, rectRef, dstTex, rectRef, framebuffer_blit_filter::linear);
   EXPECT_EQ(
@@ -1065,11 +1065,11 @@ TEST_F(TestFrameBuffer, BlitFromTexture)
   vec2u sizeRef(4u, 8u);
   recti rectRef(vec2i::zero(), sizeRef);
 
-  Texture2 srcTex(sizeRef);
+  texture2 srcTex(sizeRef);
   srcTex.clear(pixelrgba(1u, 2u, 3u, 4u));
 
   framebuffer dst;
-  Texture2 dstTex(sizeRef);
+  texture2 dstTex(sizeRef);
   dst.set_color_attachment(0u, dstTex);
 
   blit(srcTex, rectRef, dst, rectRef, framebuffer_blit_filter::linear);
@@ -1084,10 +1084,10 @@ TEST_F(TestFrameBuffer, BlitFromAndToTexture)
   vec2u sizeRef(4u, 8u);
   recti rectRef(vec2i::zero(), sizeRef);
 
-  Texture2 srcTex(sizeRef);
+  texture2 srcTex(sizeRef);
   srcTex.clear(pixelrgba(1u, 2u, 3u, 4u));
 
-  Texture2 dstTex(sizeRef);
+  texture2 dstTex(sizeRef);
 
   blit(srcTex, rectRef, dstTex, rectRef, framebuffer_blit_filter::linear);
   EXPECT_EQ(

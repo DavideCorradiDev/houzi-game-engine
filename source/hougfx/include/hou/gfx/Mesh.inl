@@ -7,7 +7,7 @@ mesh_t<T>::mesh_t(
   : mesh(drawMode, fillMode, vertices.size())
   , m_vbo(vertices)
 {
-  m_vao.setVertexData(m_vbo, 0u, T::getVertexFormat());
+  m_vao.set_vertex_data(m_vbo, 0u, T::get_vertex_format());
 }
 
 
@@ -23,7 +23,7 @@ mesh_t<T>::mesh_t(mesh_t&& other)
 template <typename T>
 typename mesh_t<T>::vertex_collection mesh_t<T>::getVertices() const
 {
-  return m_vbo.getData();
+  return m_vbo.get_data();
 }
 
 
@@ -49,7 +49,7 @@ bool operator!=(const mesh_t<T>& lhs, const mesh_t<T>& rhs)
 
 template <typename T>
 bool close(
-  const mesh_t<T>& lhs, const mesh_t<T>& rhs, typename T::ComparisonType acc)
+  const mesh_t<T>& lhs, const mesh_t<T>& rhs, typename T::comparison_type acc)
 {
   return lhs.get_vertex_count() == rhs.get_vertex_count()
     && lhs.get_draw_mode() == rhs.get_draw_mode()

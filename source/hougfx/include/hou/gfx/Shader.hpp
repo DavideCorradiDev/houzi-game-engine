@@ -8,7 +8,7 @@
 #include "hou/cor/non_copyable.hpp"
 #include "hou/gfx/gfx_export.hpp"
 
-#include "hou/gfx/ShaderFwd.hpp"
+#include "hou/gfx/shader_fwd.hpp"
 
 #include "hou/gl/gl_shader_handle.hpp"
 
@@ -19,12 +19,12 @@
 namespace hou
 {
 
-class HOU_GFX_API Shader : public non_copyable
+class HOU_GFX_API shader : public non_copyable
 {
 public:
-  Shader(const std::string& source, ShaderType type);
-  Shader(Shader&& other);
-  virtual ~Shader() = 0;
+  shader(const std::string& source, shader_type type);
+  shader(shader&& other);
+  virtual ~shader() = 0;
 
   const gl::shader_handle& get_handle() const;
 
@@ -34,12 +34,12 @@ private:
 
 
 
-template <ShaderType type>
-class HOU_GFX_API ShaderTemplate : public Shader
+template <shader_type type>
+class HOU_GFX_API shader_t : public shader
 {
 public:
-  explicit ShaderTemplate(const std::string& source);
-  ShaderTemplate(ShaderTemplate&& other);
+  explicit shader_t(const std::string& source);
+  shader_t(shader_t&& other);
 };
 
 }  // namespace hou

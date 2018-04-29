@@ -1,10 +1,10 @@
-#include "hou/gfx/Vertex2.hpp"
+#include "hou/gfx/vertex2.hpp"
 #include "hou/gfx/graphic_context.hpp"
 #include "hou/gfx/RenderWindow.hpp"
-#include "hou/gfx/TextureChannelMapping.hpp"
+#include "hou/gfx/texture_channel_mapping.hpp"
 #include "hou/gfx/mesh.hpp"
 #include "hou/gfx/mesh2_shader_program.hpp"
-#include "hou/gfx/TextShaderProgram.hpp"
+#include "hou/gfx/text_shader_program.hpp"
 
 #include "hou/mth/math_functions.hpp"
 #include "hou/mth/rotation2.hpp"
@@ -59,37 +59,37 @@ class DrawableShape
   : public non_copyable
 {
 public:
-  DrawableShape(const Texture2& texture);
+  DrawableShape(const texture2& ph_texture);
 
-  virtual Mesh2 generateMesh() const = 0;
+  virtual mesh2 generateMesh() const = 0;
   void draw(RenderSurface& rt, mesh2_shader_program& renderer, const trans2f& t) const;
 
   void handleInput();
 
 public:
-  color mColor;
+  color m_color;
   TransformData mTransformData;
   vec2f mOrigin;
   vec2f m_size;
   float mThickness;
   float mPoints;
   bool mDrawWithTexture;
-  const Texture2* mTexture;
+  const texture2* mTexture;
 };
 
 
 
 
-DrawableShape::DrawableShape(const Texture2& texture)
+DrawableShape::DrawableShape(const texture2& ph_texture)
   : non_copyable()
-  , mColor(color::white)
+  , m_color(color::white)
   , mTransformData()
   , mOrigin(0.f, 0.f)
   , m_size(32.f, 32.f)
   , mThickness(1.f)
   , mPoints(16)
   , mDrawWithTexture(false)
-  , mTexture(&texture)
+  , mTexture(&ph_texture)
 {}
 
 
@@ -98,11 +98,11 @@ void DrawableShape::draw(RenderSurface& rt, mesh2_shader_program& renderer, cons
 {
   if(mDrawWithTexture)
   {
-    renderer.draw(rt, generateMesh(), *mTexture, mColor, t * mTransformData.computeTransform());
+    renderer.draw(rt, generateMesh(), *mTexture, m_color, t * mTransformData.computeTransform());
   }
   else
   {
-    renderer.draw(rt, generateMesh(), mColor, t * mTransformData.computeTransform());
+    renderer.draw(rt, generateMesh(), m_color, t * mTransformData.computeTransform());
   }
 }
 
@@ -119,7 +119,7 @@ void DrawableShape::handleInput()
   static const uint deltaPoints = 4u;
   static const uint minPoints = 2u;
 
-  if(keyboard::is_key_pressed(scan_code::A))
+  if(keyboard::is_key_pressed(scan_code::a))
   {
     mTransformData.m_position.x() += deltaPos;
   }
@@ -153,11 +153,11 @@ void DrawableShape::handleInput()
   {
     mTransformData.mScale.x() -= deltaScale;
   }
-  if(keyboard::is_key_pressed(scan_code::G))
+  if(keyboard::is_key_pressed(scan_code::g))
   {
     mTransformData.mScale.y() += deltaScale;
   }
-  if(keyboard::is_key_pressed(scan_code::B))
+  if(keyboard::is_key_pressed(scan_code::b))
   {
     mTransformData.mScale.y() -= deltaScale;
   }
@@ -181,35 +181,35 @@ void DrawableShape::handleInput()
 
   if(keyboard::is_key_pressed(scan_code::Num1))
   {
-    mColor.set_red(mColor.get_red() + deltaCol);
+    m_color.set_red(m_color.get_red() + deltaCol);
   }
   if(keyboard::is_key_pressed(scan_code::Q))
   {
-    mColor.set_red(mColor.get_red() - deltaCol);
+    m_color.set_red(m_color.get_red() - deltaCol);
   }
   if(keyboard::is_key_pressed(scan_code::Num2))
   {
-    mColor.set_green(mColor.get_green() + deltaCol);
+    m_color.set_green(m_color.get_green() + deltaCol);
   }
   if(keyboard::is_key_pressed(scan_code::W))
   {
-    mColor.set_green(mColor.get_green() - deltaCol);
+    m_color.set_green(m_color.get_green() - deltaCol);
   }
   if(keyboard::is_key_pressed(scan_code::Num3))
   {
-    mColor.set_blue(mColor.get_blue() + deltaCol);
+    m_color.set_blue(m_color.get_blue() + deltaCol);
   }
   if(keyboard::is_key_pressed(scan_code::E))
   {
-    mColor.set_blue(mColor.get_blue() - deltaCol);
+    m_color.set_blue(m_color.get_blue() - deltaCol);
   }
   if(keyboard::is_key_pressed(scan_code::Num4))
   {
-    mColor.set_alpha(mColor.get_alpha() + deltaCol);
+    m_color.set_alpha(m_color.get_alpha() + deltaCol);
   }
   if(keyboard::is_key_pressed(scan_code::R))
   {
-    mColor.set_alpha(mColor.get_alpha() - deltaCol);
+    m_color.set_alpha(m_color.get_alpha() - deltaCol);
   }
 
   if(keyboard::is_key_pressed(scan_code::Num5))
@@ -284,13 +284,13 @@ class RectangleShape
   : public DrawableShape
 {
 public:
-  RectangleShape(const Texture2& texture)
-    : DrawableShape(texture)
+  RectangleShape(const texture2& ph_texture)
+    : DrawableShape(ph_texture)
   {}
 
-  Mesh2 generateMesh() const override
+  mesh2 generateMesh() const override
   {
-    return createRectangleMesh2(m_size);
+    return create_rectangle_mesh2(m_size);
   }
 };
 
@@ -300,13 +300,13 @@ class RectangleOutlineShape
   : public DrawableShape
 {
 public:
-  RectangleOutlineShape(const Texture2& texture)
-    : DrawableShape(texture)
+  RectangleOutlineShape(const texture2& ph_texture)
+    : DrawableShape(ph_texture)
   {}
 
-  Mesh2 generateMesh() const override
+  mesh2 generateMesh() const override
   {
-    return createRectangleOutlineMesh2(m_size, mThickness);
+    return create_rectangle_outline_mesh2(m_size, mThickness);
   }
 };
 
@@ -316,13 +316,13 @@ class EllipseShape
   : public DrawableShape
 {
 public:
-  EllipseShape(Texture2& texture)
-    : DrawableShape(texture)
+  EllipseShape(texture2& ph_texture)
+    : DrawableShape(ph_texture)
   {}
 
-  Mesh2 generateMesh() const override
+  mesh2 generateMesh() const override
   {
-    return createEllipseMesh2(m_size, mPoints);
+    return create_ellipse_mesh2(m_size, mPoints);
   }
 };
 
@@ -332,13 +332,13 @@ class EllipseOutlineShape
   : public DrawableShape
 {
 public:
-  EllipseOutlineShape(const Texture2& texture)
-    : DrawableShape(texture)
+  EllipseOutlineShape(const texture2& ph_texture)
+    : DrawableShape(ph_texture)
   {}
 
-  Mesh2 generateMesh() const override
+  mesh2 generateMesh() const override
   {
-    return createEllipseOutlineMesh2(m_size, mPoints, mThickness);
+    return create_ellipse_outline_mesh2(m_size, mPoints, mThickness);
   }
 };
 
@@ -348,13 +348,13 @@ class TextureQuadShape
   : public DrawableShape
 {
 public:
-  TextureQuadShape(const Texture2& texture)
-    : DrawableShape(texture)
+  TextureQuadShape(const texture2& ph_texture)
+    : DrawableShape(ph_texture)
   {}
 
-  Mesh2 generateMesh() const override
+  mesh2 generateMesh() const override
   {
-    return createTextureQuadMesh2(rectf(mOrigin, m_size), mTexture->get_size());
+    return create_texture_quad_mesh2(rectf(mOrigin, m_size), mTexture->get_size());
   }
 };
 
@@ -376,9 +376,9 @@ int main()
 
   mesh2_shader_program m2rend;
 
-  Texture2 shapeTex = Texture2(png_read_file<pixel_format::r>(dataDir + u8"monalisa.png"), TextureFormat::r, 4u);
-  shapeTex.setChannelMapping(TextureChannelMapping::Luminosity);
-  shapeTex.setWrapMode(Texture2::WrapMode{TextureWrapMode::MirroredRepeat, TextureWrapMode::ClampToEdge});
+  texture2 shapeTex = texture2(png_read_file<pixel_format::r>(dataDir + u8"monalisa.png"), texture_format::r, 4u);
+  shapeTex.setChannelMapping(texture_channel_mapping::luminosity);
+  shapeTex.set_wrap_mode(texture2::wrap_mode{texture_wrap_mode::mirrored_repeat, texture_wrap_mode::clamp_to_edge});
 
 
   std::vector<std::unique_ptr<DrawableShape>> shapes;
@@ -557,7 +557,7 @@ int main()
 
       trans2f projTrans = trans2f::orthographic_projection(wnd->getViewport());
 
-      Mesh2 viewportMesh = createRectangleOutlineMesh2(wnd->getViewport().get_size(), 1);
+      mesh2 viewportMesh = create_rectangle_outline_mesh2(wnd->getViewport().get_size(), 1);
       m2rend.draw(*wnd, viewportMesh, color::white
         , projTrans * trans2f::translation(wnd->getViewport().get_position()));
 

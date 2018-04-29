@@ -324,7 +324,7 @@ void window::react_to_event(const window_event& event)
 {
   // If the ph_window has been resized by the OS user, call set_client_size to make
   // sure that special handling for the derived class is performed as well.
-  // Example: RenderWindow also resizes the framebuffer on resize.
+  // Example: render_window also resizes the framebuffer on resize.
   if(event.get_type() == window_event_type::resized)
   {
     const window_event::size_data& data = event.get_size_data();

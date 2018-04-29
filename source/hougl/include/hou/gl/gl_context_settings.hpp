@@ -35,7 +35,7 @@ public:
   uint get_stencil_byte_count() const;
   void set_stencil_byte_count(uint value);
   uint get_sample_count() const;
-  void setSampleCount(uint value);
+  void set_sample_count(uint value);
 
 public:
   static const context_settings standard;

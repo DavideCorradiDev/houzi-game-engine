@@ -161,7 +161,7 @@ TEST_F(TestAudioBuffer, SetData)
   EXPECT_EQ(114, ab.getSampleRate());
 
   std::vector<uint8_t> dataRef2{1u, 2u, 3u, 4u, 5u, 6u};
-  ab.setData(dataRef2, AudioBufferFormat::Mono16, 228);
+  ab.set_data(dataRef2, AudioBufferFormat::Mono16, 228);
 
   EXPECT_EQ(dataRef2.size(), ab.get_byte_count());
   EXPECT_EQ(
@@ -191,7 +191,7 @@ TEST_F(TestAudioBuffer, SetDataWithMove)
   EXPECT_EQ(114, ab.getSampleRate());
 
   std::vector<uint8_t> dataRef2{1u, 2u, 3u, 4u, 5u, 6u};
-  ab.setData({1u, 2u, 3u, 4u, 5u, 6u}, AudioBufferFormat::Mono16, 228);
+  ab.set_data({1u, 2u, 3u, 4u, 5u, 6u}, AudioBufferFormat::Mono16, 228);
 
   EXPECT_EQ(dataRef2.size(), ab.get_byte_count());
   EXPECT_EQ(
@@ -222,7 +222,7 @@ TEST_F(TestAudioBuffer, setDataFromStream)
 
   WavFileIn fi(wavStereo16FileName);
   fi.setSamplePos(4u);
-  ab.setData(fi);
+  ab.set_data(fi);
 
   EXPECT_EQ(84924u, ab.get_byte_count());
   EXPECT_EQ(21231u, ab.get_sample_count());
@@ -249,7 +249,7 @@ TEST_F(TestAudioBuffer, setDataFromStreamWithMove)
   EXPECT_EQ(2u, ab.getBytesPerSample());
   EXPECT_EQ(114, ab.getSampleRate());
 
-  ab.setData(WavFileIn(wavStereo16FileName));
+  ab.set_data(WavFileIn(wavStereo16FileName));
 
   EXPECT_EQ(84924u, ab.get_byte_count());
   EXPECT_EQ(21231u, ab.get_sample_count());

@@ -16,30 +16,30 @@
 namespace hou
 {
 
-/** Represents the type of a texture.
+/** Represents the type of a ph_texture.
  */
 enum class TextureType : GLenum
 {
-  /** One-dimensional texture. */
-  Texture1 = GL_TEXTURE_1D,
+  /** one-dimensional ph_texture. */
+  texture1 = GL_TEXTURE_1D,
 
-  /** Array of one-dimensional textures. */
-  Texture1Array = GL_TEXTURE_1D_ARRAY,
+  /** array_buffer of one-dimensional textures. */
+  texture1_array = GL_TEXTURE_1D_ARRAY,
 
-  /** Two-dimensional texture. */
-  Texture2 = GL_TEXTURE_2D,
+  /** Two-dimensional ph_texture. */
+  texture2 = GL_TEXTURE_2D,
 
-  /** Array of two-dimensional textures. */
-  Texture2Array = GL_TEXTURE_2D_ARRAY,
+  /** array_buffer of two-dimensional textures. */
+  texture2_array = GL_TEXTURE_2D_ARRAY,
 
-  /** Three dimensional texture. */
-  Texture3 = GL_TEXTURE_3D,
+  /** Three dimensional ph_texture. */
+  texture3 = GL_TEXTURE_3D,
 
-  /** Multisample two-dimensional texture. */
-  MultisampleTexture2 = GL_TEXTURE_2D_MULTISAMPLE,
+  /** Multisample two-dimensional ph_texture. */
+  multisample_texture2 = GL_TEXTURE_2D_MULTISAMPLE,
 
-  /** Array of multisample two-dimensional textures. */
-  MultisampleTexture2Array = GL_TEXTURE_2D_MULTISAMPLE_ARRAY,
+  /** array_buffer of multisample two-dimensional textures. */
+  multisample_texture2_array = GL_TEXTURE_2D_MULTISAMPLE_ARRAY,
   // BufferTexture = GL_TEXTURE_BUFFER,
   // RectangleTexture = GL_TEXTURE_RECTANGLE,
   // CubeMapTexture = GL_TEXTURE_CUBE_MAP,
@@ -56,23 +56,23 @@ HOU_GFX_API std::ostream& operator<<(std::ostream& os, TextureType type);
 
 /** Retrieves the number of dimensions associated to a TextureType.
  *
- * \param t the texture type.
+ * \param t the ph_texture type.
  *
  * \return the number of dimensions associated to a TextureType.
  */
-constexpr size_t getTextureTypeDimensionCount(TextureType t);
+constexpr size_t get_texture_type_dimension_count(TextureType t);
 
-/** Checks whether a TextureType represents a mip-mapped texture.
+/** Checks whether a TextureType represents a mip-mapped ph_texture.
  *
  * \return the result of the check.
  */
-constexpr bool isTextureTypeMipMapped(TextureType t);
+constexpr bool is_texture_type_mipmapped(TextureType t);
 
-/** Checks whether a TextureType represents a multisample texture.
+/** Checks whether a TextureType represents a multisample ph_texture.
  *
  * \return the result of the check.
  */
-constexpr bool isTextureTypeMultisampled(TextureType t);
+constexpr bool is_texture_type_multisampled(TextureType t);
 
 }  // namespace hou
 

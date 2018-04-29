@@ -108,10 +108,10 @@ GLuint get_bound_program_name()
 
 
 
-void attach_shader(const program_handle& program, const shader_handle& shader)
+void attach_shader(const program_handle& program, const shader_handle& ph_shader)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  glAttachShader(program.get_name(), shader.get_name());
+  glAttachShader(program.get_name(), ph_shader.get_name());
   HOU_GL_CHECK_ERROR();
 }
 

@@ -2,12 +2,12 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gfx/RenderWindow.hpp"
+#include "hou/gfx/render_window.hpp"
 
 #include "hou/gl/gl_functions.hpp"
 
 #include "hou/gfx/graphic_context.hpp"
-#include "hou/gfx/Texture.hpp"
+#include "hou/gfx/texture.hpp"
 
 #include "hou/sys/video_mode.hpp"
 
@@ -35,32 +35,32 @@
 namespace hou
 {
 
-RenderWindow::RenderWindow(const std::string& title, const vec2u& size,
+render_window::render_window(const std::string& title, const vec2u& size,
   window_style style, uint sampleCount)
   : window(title, video_mode(size, graphic_context::get_rendering_color_byte_count()),
       style)
-  , RenderSurface(size, sampleCount)
+  , render_surface(size, sampleCount)
 {}
 
 
 
-RenderWindow::RenderWindow(RenderWindow&& other)
+render_window::render_window(render_window&& other)
   : window(std::move(other))
-  , RenderSurface(std::move(other))
+  , render_surface(std::move(other))
 {}
 
 
 
-RenderWindow::~RenderWindow()
+render_window::~render_window()
 {}
 
 
 
-void RenderWindow::display()
+void render_window::display()
 {
   gl::bind_window(*this);
-  setCurrentRenderSource(*this);
-  setDefaultRenderTarget();
+  set_current_render_source(*this);
+  set_default_render_target();
 
   vec2u size = get_size();
   gl::blit_framebuffer(0, 0, size.x(), size.y(), 0, size.y(), size.x(), 0,
@@ -72,39 +72,39 @@ void RenderWindow::display()
 
 
 
-void RenderWindow::set_vertical_sync_mode(vertical_sync_mode mode)
+void render_window::set_vertical_sync_mode(vertical_sync_mode mode)
 {
   gl::bind_window(*this);
-  setDefaultRenderTarget();
+  set_default_render_target();
   gl::set_vertical_sync_mode(gl::vertical_sync_mode(static_cast<int>(mode)));
 }
 
 
 
-void RenderWindow::setSampleCount(uint sampleCount)
+void render_window::set_sample_count(uint sampleCount)
 {
-  buildFramebuffer(get_size(), sampleCount);
+  build_framebuffer(get_size(), sampleCount);
 }
 
 
 
-void RenderWindow::set_frame_rect(const vec2i& pos, const vec2u& size)
+void render_window::set_frame_rect(const vec2i& pos, const vec2u& size)
 {
   window::set_frame_rect(pos, size);
-  rebuildFramebufferIfNecessary();
+  rebuild_framebuffer_if_necessary();
 }
 
 
 
-void RenderWindow::set_client_rect(const vec2i& pos, const vec2u& size)
+void render_window::set_client_rect(const vec2i& pos, const vec2u& size)
 {
   window::set_client_rect(pos, size);
-  rebuildFramebufferIfNecessary();
+  rebuild_framebuffer_if_necessary();
 }
 
 
 
-void RenderWindow::rebuildFramebufferIfNecessary()
+void render_window::rebuild_framebuffer_if_necessary()
 {
   vec2u newSize = get_client_size();
   if(newSize.x() == 0u)
@@ -117,7 +117,7 @@ void RenderWindow::rebuildFramebufferIfNecessary()
   }
   if(get_size() != newSize)
   {
-    buildFramebuffer(newSize, get_sample_count());
+    build_framebuffer(newSize, get_sample_count());
   }
 }
 

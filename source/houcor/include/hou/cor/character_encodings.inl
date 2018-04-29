@@ -17,7 +17,7 @@ template <typename OutputIt>
   };
 
   // Determine size of the character in code units based on its code point.
-  // A maximum of 4 code units is needed.
+  // a maximum of 4 code units is needed.
   size_t nUnits =  input < 0x80 ? 1u
   : input < 0x800 ? 2u
   : input < 0x10000 ? 3u
@@ -113,7 +113,7 @@ template <typename OutputIt>
 {
   if(in <= 0xFFFF)
   {
-    // One code unit. Direct conversion.
+    // one code unit. Direct conversion.
     *outFirst++ = static_cast<code_unit>(in);
   }
   else
@@ -136,7 +136,7 @@ template <typename InputIt>
 
   if(e1 < 0xD800 || e1 > 0xDBFF)
   {
-    // One code unit.
+    // one code unit.
     HOU_EXPECT(inFirst <= inLast);
     out = e1;
   }

@@ -2,10 +2,10 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gfx/ShaderType.hpp"
+#include "hou/gfx/shader_type.hpp"
 
 #define GFX_SHADER_TYPE_CASE(st, os) \
-  case ShaderType::st:               \
+  case shader_type::st:               \
     return (os) << #st
 
 
@@ -13,13 +13,13 @@
 namespace hou
 {
 
-std::ostream& operator<<(std::ostream& os, ShaderType st)
+std::ostream& operator<<(std::ostream& os, shader_type st)
 {
   switch(st)
   {
-    GFX_SHADER_TYPE_CASE(Fragment, os);
-    GFX_SHADER_TYPE_CASE(Geometry, os);
-    GFX_SHADER_TYPE_CASE(Vertex, os);
+    GFX_SHADER_TYPE_CASE(fragment, os);
+    GFX_SHADER_TYPE_CASE(geometry, os);
+    GFX_SHADER_TYPE_CASE(vertex, os);
   default:
     return os;
   }

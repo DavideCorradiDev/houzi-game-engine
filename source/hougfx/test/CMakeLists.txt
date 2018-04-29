@@ -36,29 +36,29 @@ INCLUDE_DIRECTORIES(
 # Source files.
 SET(EXE_HOUGFX_TEST_SRC
   ${LIB_HOUTEST_SOURCE_DIR}/src/TestMain.cpp
-  hou/gfx/TestData.cpp
-  hou/gfx/TestFont.cpp
-  hou/gfx/TestFormattedText.cpp
-  hou/gfx/TestFramebuffer.cpp
-  hou/gfx/TestGfxBase.cpp
-  hou/gfx/TestGlyph.cpp
-  hou/gfx/TestGlyphMetrics.cpp
-  hou/gfx/TestMesh.cpp
-  hou/gfx/TestMesh2ShaderProgram.cpp
-  hou/gfx/TestGraphicContext.cpp
-  hou/gfx/TestRenderCanvas.cpp
-  hou/gfx/TestRenderWindow.cpp
-  hou/gfx/TestShader.cpp
-  hou/gfx/TestShaderProgram.cpp
-  hou/gfx/TestTextBoxFormattingParams.cpp
-  hou/gfx/TestTextVertex.cpp
-  hou/gfx/TestTexture.cpp
-  hou/gfx/TestTextureChannelMapping.cpp
-  hou/gfx/TestVertex2.cpp
-  hou/gfx/TestVertexArray.cpp
-  hou/gfx/TestVertexAttribFormat.cpp
-  hou/gfx/TestVertexBuffer.cpp
-  hou/gfx/TestVertexFormat.cpp
+  hou/gfx/test_data.cpp
+  hou/gfx/test_font.cpp
+  hou/gfx/test_formatted_text.cpp
+  hou/gfx/test_framebuffer.cpp
+  hou/gfx/test_gfx_base.cpp
+  hou/gfx/test_glyph.cpp
+  hou/gfx/test_glyph_metrics.cpp
+  hou/gfx/test_mesh.cpp
+  hou/gfx/test_mesh2_shader_program.cpp
+  hou/gfx/test_graphic_context.cpp
+  hou/gfx/test_render_canvas.cpp
+  hou/gfx/test_render_window.cpp
+  hou/gfx/test_shader.cpp
+  hou/gfx/test_shader_program.cpp
+  hou/gfx/test_text_box_formatting_params.cpp
+  hou/gfx/test_text_vertex.cpp
+  hou/gfx/test_texture.cpp
+  hou/gfx/test_texture_channel_mapping.cpp
+  hou/gfx/test_vertex2.cpp
+  hou/gfx/test_vertex_array.cpp
+  hou/gfx/test_vertex_attrib_format.cpp
+  hou/gfx/test_vertex_buffer.cpp
+  hou/gfx/test_vertex_format.cpp
 )
 
 

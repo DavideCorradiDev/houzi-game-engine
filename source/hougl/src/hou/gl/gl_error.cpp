@@ -42,7 +42,7 @@ std::string get_text(gl_error ec)
     case gl_error::program_linking:
       return u8"Error linking GL Program:\n%s";
     case gl_error::shader_compilation:
-      return u8"Error compiling GL %s Shader:\n%s";
+      return u8"Error compiling GL %s shader:\n%s";
     case gl_error::stack_overflow:
       return u8"GL stack overflow.";
     case gl_error::stack_underflow:

@@ -194,7 +194,7 @@ std::ostream& operator<<(std::ostream& os, const color& c)
     << "{red = " << static_cast<int>(c.get_red())
     << ", green = " << static_cast<int>(c.get_green())
     << ", blue = " << static_cast<int>(c.get_blue())
-    << ", Alpha = " << static_cast<int>(c.get_alpha()) << "}";
+    << ", alpha = " << static_cast<int>(c.get_alpha()) << "}";
 }
 
 

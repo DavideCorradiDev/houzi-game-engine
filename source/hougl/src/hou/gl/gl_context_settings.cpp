@@ -89,7 +89,7 @@ uint context_settings::get_sample_count() const
 
 
 
-void context_settings::setSampleCount(uint value)
+void context_settings::set_sample_count(uint value)
 {
   m_sample_count = value;
 }

@@ -5,8 +5,8 @@
 #include "hou/Test.hpp"
 #include "hou/gfx/TestGfxBase.hpp"
 
-#include "hou/gfx/RenderWindow.hpp"
-#include "hou/gfx/Texture.hpp"
+#include "hou/gfx/render_window.hpp"
+#include "hou/gfx/texture.hpp"
 
 #include "hou/sys/video_mode.hpp"
 #include "hou/sys/window_event.hpp"
@@ -36,7 +36,7 @@ TEST_F(TestRenderWindow, CreationWindowed)
   image2RGBA iconRef;
   uint samplesRef = 1u;
 
-  RenderWindow w(titleRef, sizeRef, styleRef, samplesRef);
+  render_window w(titleRef, sizeRef, styleRef, samplesRef);
 
   EXPECT_NE(0u, w.get_uid());
   EXPECT_NE(nullptr, w.get_handle());
@@ -50,12 +50,12 @@ TEST_F(TestRenderWindow, CreationWindowed)
   EXPECT_FALSE(w.is_mouse_cursor_grabbed());
   EXPECT_FALSE(w.is_key_repeat_enabled());
 
-  EXPECT_EQ(recti(vec2i::zero(), sizeRef), w.getDefaultViewport());
-  EXPECT_EQ(recti(vec2i::zero(), sizeRef), w.getViewport());
+  EXPECT_EQ(recti(vec2i::zero(), sizeRef), w.get_default_viewport());
+  EXPECT_EQ(recti(vec2i::zero(), sizeRef), w.get_viewport());
   EXPECT_EQ(sizeRef, w.get_size());
   EXPECT_EQ(samplesRef, w.get_sample_count());
-  EXPECT_FALSE(w.isMultisampled());
-  EXPECT_EQ(Texture2(sizeRef).get_image<pixel_format::rgba>(), w.toTexture().get_image<pixel_format::rgba>());
+  EXPECT_FALSE(w.is_multisampled());
+  EXPECT_EQ(texture2(sizeRef).get_image<pixel_format::rgba>(), w.to_texture().get_image<pixel_format::rgba>());
 }
 
 
@@ -70,7 +70,7 @@ TEST_F(TestRenderWindow, CreationWindowedMultisampled)
   image2RGBA iconRef;
   uint samplesRef = 4u;
 
-  RenderWindow w(titleRef, sizeRef, styleRef, samplesRef);
+  render_window w(titleRef, sizeRef, styleRef, samplesRef);
 
   EXPECT_NE(0u, w.get_uid());
   EXPECT_NE(nullptr, w.get_handle());
@@ -84,12 +84,12 @@ TEST_F(TestRenderWindow, CreationWindowedMultisampled)
   EXPECT_FALSE(w.is_mouse_cursor_grabbed());
   EXPECT_FALSE(w.is_key_repeat_enabled());
 
-  EXPECT_EQ(recti(vec2i::zero(), sizeRef), w.getDefaultViewport());
-  EXPECT_EQ(recti(vec2i::zero(), sizeRef), w.getViewport());
+  EXPECT_EQ(recti(vec2i::zero(), sizeRef), w.get_default_viewport());
+  EXPECT_EQ(recti(vec2i::zero(), sizeRef), w.get_viewport());
   EXPECT_EQ(sizeRef, w.get_size());
   EXPECT_EQ(samplesRef, w.get_sample_count());
-  EXPECT_TRUE(w.isMultisampled());
-  EXPECT_EQ(Texture2(sizeRef).get_image<pixel_format::rgba>(), w.toTexture().get_image<pixel_format::rgba>());
+  EXPECT_TRUE(w.is_multisampled());
+  EXPECT_EQ(texture2(sizeRef).get_image<pixel_format::rgba>(), w.to_texture().get_image<pixel_format::rgba>());
 }
 
 
@@ -104,7 +104,7 @@ TEST_F(TestRenderWindow, CreationFullscreen)
   image2RGBA iconRef;
   uint samplesRef = 1u;
 
-  RenderWindow w(titleRef, sizeRef, styleRef, samplesRef);
+  render_window w(titleRef, sizeRef, styleRef, samplesRef);
 
   EXPECT_NE(0u, w.get_uid());
   EXPECT_NE(nullptr, w.get_handle());
@@ -118,19 +118,19 @@ TEST_F(TestRenderWindow, CreationFullscreen)
   EXPECT_FALSE(w.is_mouse_cursor_grabbed());
   EXPECT_FALSE(w.is_key_repeat_enabled());
 
-  EXPECT_EQ(recti(vec2i::zero(), sizeRef), w.getDefaultViewport());
-  EXPECT_EQ(recti(vec2i::zero(), sizeRef), w.getViewport());
+  EXPECT_EQ(recti(vec2i::zero(), sizeRef), w.get_default_viewport());
+  EXPECT_EQ(recti(vec2i::zero(), sizeRef), w.get_viewport());
   EXPECT_EQ(sizeRef, w.get_size());
   EXPECT_EQ(samplesRef, w.get_sample_count());
-  EXPECT_FALSE(w.isMultisampled());
-  EXPECT_EQ(Texture2(sizeRef).get_image<pixel_format::rgba>(), w.toTexture().get_image<pixel_format::rgba>());
+  EXPECT_FALSE(w.is_multisampled());
+  EXPECT_EQ(texture2(sizeRef).get_image<pixel_format::rgba>(), w.to_texture().get_image<pixel_format::rgba>());
 }
 
 
 
 TEST_F(TestRenderWindow, SetClientRect)
 {
-  RenderWindow w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
+  render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
   vec2i posRef(2, 3);
   vec2u sizeRef(14u, 17u);
@@ -145,7 +145,7 @@ TEST_F(TestRenderWindow, SetClientRect)
 
 TEST_F(TestRenderWindow, SetClientRectNullSizeX)
 {
-  RenderWindow w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
+  render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
   vec2u sizeRef(0u, 17u);
   w.set_client_rect(vec2i::zero(), sizeRef);
@@ -159,7 +159,7 @@ TEST_F(TestRenderWindow, SetClientRectNullSizeX)
 
 TEST_F(TestRenderWindow, SetClientRectNullSizeY)
 {
-  RenderWindow w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
+  render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
   vec2u sizeRef(13u, 0u);
   w.set_client_rect(vec2i::zero(), sizeRef);
@@ -173,7 +173,7 @@ TEST_F(TestRenderWindow, SetClientRectNullSizeY)
 
 TEST_F(TestRenderWindow, SetClientRectNullSize)
 {
-  RenderWindow w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
+  render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
   vec2u sizeRef = vec2u::zero();
   w.set_client_rect(vec2i::zero(), sizeRef);
@@ -188,7 +188,7 @@ TEST_F(TestRenderWindow, SetClientRectNullSize)
 
 TEST_F(TestRenderWindow, SetClientSize)
 {
-  RenderWindow w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
+  render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
   vec2u sizeRef(14u, 17u);
   w.set_client_size(sizeRef);
@@ -201,7 +201,7 @@ TEST_F(TestRenderWindow, SetClientSize)
 
 TEST_F(TestRenderWindow, SetClientSizeNullSizeX)
 {
-  RenderWindow w(u8"Test", vec2u(32u, 16u),  window_style::windowed, 4u);
+  render_window w(u8"Test", vec2u(32u, 16u),  window_style::windowed, 4u);
 
   vec2u sizeRef(0u, 17u);
   w.set_client_size(sizeRef);
@@ -215,7 +215,7 @@ TEST_F(TestRenderWindow, SetClientSizeNullSizeX)
 
 TEST_F(TestRenderWindow, SetClientSizeNullSizeY)
 {
-  RenderWindow w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
+  render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
   vec2u sizeRef(13u, 0u);
   w.set_client_size(sizeRef);
@@ -229,7 +229,7 @@ TEST_F(TestRenderWindow, SetClientSizeNullSizeY)
 
 TEST_F(TestRenderWindow, SetClientSizeNullSize)
 {
-  RenderWindow w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
+  render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
   vec2u sizeRef = vec2u::zero();
   w.set_client_size(sizeRef);
@@ -244,7 +244,7 @@ TEST_F(TestRenderWindow, SetClientSizeNullSize)
 
 TEST_F(TestRenderWindow, SetFrameRect)
 {
-  RenderWindow w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
+  render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
   vec2i posRef(12, 13);
   vec2u sizeRef(60u, 100u);
@@ -259,7 +259,7 @@ TEST_F(TestRenderWindow, SetFrameRect)
 
 TEST_F(TestRenderWindow, SetFrameRectNullSizeX)
 {
-  RenderWindow w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
+  render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
   vec2u sizeRef(0u, 42u);
   w.set_frame_rect(vec2i::zero(), sizeRef);
@@ -274,7 +274,7 @@ TEST_F(TestRenderWindow, SetFrameRectNullSizeX)
 
 TEST_F(TestRenderWindow, SetFrameRectNullSizeY)
 {
-  RenderWindow w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
+  render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
   vec2u sizeRef(42u, 0u);
   w.set_frame_rect(vec2i::zero(), sizeRef);
@@ -289,7 +289,7 @@ TEST_F(TestRenderWindow, SetFrameRectNullSizeY)
 
 TEST_F(TestRenderWindow, SetFrameRectNullSize)
 {
-  RenderWindow w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
+  render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
   vec2u sizeRef = vec2u::zero();
   w.set_frame_rect(vec2i::zero(), sizeRef);
@@ -305,7 +305,7 @@ TEST_F(TestRenderWindow, SetFrameRectNullSize)
 
 TEST_F(TestRenderWindow, SetFrameSize)
 {
-  RenderWindow w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
+  render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
   w.setFrameSize(vec2u(60u, 70u));
 
@@ -316,7 +316,7 @@ TEST_F(TestRenderWindow, SetFrameSize)
 
 TEST_F(TestRenderWindow, SetFrameSizeNullSizeX)
 {
-  RenderWindow w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
+  render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
   vec2u sizeRef(0u, 42u);
   w.setFrameSize(sizeRef);
@@ -331,7 +331,7 @@ TEST_F(TestRenderWindow, SetFrameSizeNullSizeX)
 
 TEST_F(TestRenderWindow, SetFrameSizeNullSizeY)
 {
-  RenderWindow w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
+  render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
   vec2u sizeRef(42u, 0u);
   w.setFrameSize(sizeRef);
@@ -346,7 +346,7 @@ TEST_F(TestRenderWindow, SetFrameSizeNullSizeY)
 
 TEST_F(TestRenderWindow, SetFrameSizeNullSize)
 {
-  RenderWindow w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
+  render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
   vec2u sizeRef = vec2u::zero();
   w.setFrameSize(sizeRef);
@@ -362,7 +362,7 @@ TEST_F(TestRenderWindow, SetFrameSizeNullSize)
 
 TEST_F(TestRenderWindow, SetVerticalSyncMode)
 {
-  RenderWindow w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
+  render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
   w.set_vertical_sync_mode(vertical_sync_mode::enabled);
   w.set_vertical_sync_mode(vertical_sync_mode::disabled);
   SUCCEED();
@@ -372,28 +372,28 @@ TEST_F(TestRenderWindow, SetVerticalSyncMode)
 
 TEST_F(TestRenderWindow, SetSamples)
 {
-  RenderWindow w(u8"Test", vec2u(32u, 16u), window_style::windowed, 1u);
+  render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 1u);
 
-  w.setSampleCount(1u);
+  w.set_sample_count(1u);
   EXPECT_EQ(1u, w.get_sample_count());
-  EXPECT_FALSE(w.isMultisampled());
+  EXPECT_FALSE(w.is_multisampled());
 
-  w.setSampleCount(2u);
+  w.set_sample_count(2u);
   EXPECT_EQ(2u, w.get_sample_count());
-  EXPECT_TRUE(w.isMultisampled());
+  EXPECT_TRUE(w.is_multisampled());
 
-  w.setSampleCount(RenderWindow::getMaxSampleCount());
-  EXPECT_EQ(RenderWindow::getMaxSampleCount(), w.get_sample_count());
-  EXPECT_TRUE(w.isMultisampled());
+  w.set_sample_count(render_window::get_max_sample_count());
+  EXPECT_EQ(render_window::get_max_sample_count(), w.get_sample_count());
+  EXPECT_TRUE(w.is_multisampled());
 }
 
 
 
 TEST_F(TestRenderWindowDeathTest, SetSamplesTooLarge)
 {
-  RenderWindow w(u8"Test", vec2u(32u, 16u), window_style::windowed, 1u);
+  render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 1u);
   HOU_EXPECT_PRECONDITION(
-    w.setSampleCount(RenderWindow::getMaxSampleCount() + 1u));
+    w.set_sample_count(render_window::get_max_sample_count() + 1u));
 }
 
 
@@ -401,7 +401,7 @@ TEST_F(TestRenderWindowDeathTest, SetSamplesTooLarge)
 TEST_F(TestRenderWindow, ResizeFrameBufferOnPopResizedEvent)
 {
   vec2u oldSize(vec2u(32u, 16u));
-  RenderWindow w(u8"Test", oldSize, window_style::windowed, 4u);
+  render_window w(u8"Test", oldSize, window_style::windowed, 4u);
   vec2u newSize(vec2u(12u, 8u));
 
   window_event ev = window_event::resized(newSize.x(), newSize.y());

@@ -8,16 +8,16 @@
 namespace hou
 {
 
-class VertexBuffer;
+class vertex_buffer;
 
 template <typename T, bool dynamicStorage>
-class VertexBufferT;
+class vertex_buffer_t;
 
 template <typename T>
-using StaticVertexBuffer = VertexBufferT<T, false>;
+using static_vertex_buffer = vertex_buffer_t<T, false>;
 
 template <typename T>
-using DynamicVertexBuffer = VertexBufferT<T, true>;
+using dynamic_vertex_buffer = vertex_buffer_t<T, true>;
 
 }  // namespace hou
 

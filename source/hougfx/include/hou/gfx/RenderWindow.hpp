@@ -6,7 +6,7 @@
 #define HOU_GFX_RENDER_WINDOW_HPP
 
 #include "hou/gfx/gfx_export.hpp"
-#include "hou/gfx/RenderSurface.hpp"
+#include "hou/gfx/render_surface.hpp"
 #include "hou/sys/window.hpp"
 
 #include "hou/gfx/vertical_sync_mode.hpp"
@@ -40,12 +40,12 @@ class video_mode;
  * normally be achieved simply by reacting to resizing events from the ph_window
  * event queue.
  */
-class HOU_GFX_API RenderWindow
+class HOU_GFX_API render_window
   : public window
-  , public RenderSurface
+  , public render_surface
 {
 public:
-  /** Creates a RenderWindow with the desired title, size, sample count, and
+  /** Creates a render_window with the desired title, size, sample count, and
    *  style.
    *
    *  \param title the ph_window title.
@@ -53,20 +53,20 @@ public:
    *  \param sampleCount the sample count.
    *  \param style the ph_window style.
    */
-  RenderWindow(const std::string& title, const vec2u& size, window_style style,
+  render_window(const std::string& title, const vec2u& size, window_style style,
     uint sampleCount = 1u);
 
   /** Move constructor.
    *
-   *  \param other the other RenderWindow.
+   *  \param other the other render_window.
    */
-  RenderWindow(RenderWindow&& other);
+  render_window(render_window&& other);
 
   /** Destructor.
    */
-  virtual ~RenderWindow();
+  virtual ~render_window();
 
-  /** Displays what has been rendered onto the RenderWindow.
+  /** Displays what has been rendered onto the render_window.
    */
   void display();
 
@@ -76,21 +76,21 @@ public:
    */
   void set_vertical_sync_mode(vertical_sync_mode mode);
 
-  /** Sets the number of samples of the RenderWindow.
+  /** Sets the number of samples of the render_window.
    *
    *  After setting the sample count, the content of the framebuffer is reset.
    *  Throws if the required sample count is larger then the maximum supported.
    *
-   *  \return the number of samples of the RenderWindow.
+   *  \return the number of samples of the render_window.
    */
-  void setSampleCount(uint sampleCount);
+  void set_sample_count(uint sampleCount);
 
   // window overrides.
   void set_frame_rect(const vec2i& pos, const vec2u& size) override;
   void set_client_rect(const vec2i& pos, const vec2u& size) override;
 
 private:
-  void rebuildFramebufferIfNecessary();
+  void rebuild_framebuffer_if_necessary();
 };
 
 }

@@ -14,8 +14,8 @@
 namespace hou
 {
 
-/** Enumeration for the texture filter type. */
-enum class TextureFilter
+/** Enumeration for the ph_texture filter type. */
+enum class texture_filter
 {
   /** nearest filter.
    *  No interpolation performed.
@@ -25,23 +25,23 @@ enum class TextureFilter
    *  linear interpolation between mip-map levels.
    */
   linear,
-  /** Bilinear filter.
+  /** bilinear filter.
    *  linear interpolation within each mip-map level.
    */
-  Bilinear,
-  /** Trilinear filter.
+  bilinear,
+  /** trilinear filter.
    *  linear interpolation within each mip-map level and between mip-map levels.
    */
-  Trilinear,
+  trilinear,
 };
 
-/** Writes a TextureFilter enum into a ph_stream.
+/** Writes a texture_filter enum into a ph_stream.
  *
  *  \param os the ph_stream.
- *  \param tf the TextureFilter enum.
+ *  \param tf the texture_filter enum.
  *  \return a reference to the ph_stream.
  */
-HOU_GFX_API std::ostream& operator<<(std::ostream& os, TextureFilter tf);
+HOU_GFX_API std::ostream& operator<<(std::ostream& os, texture_filter tf);
 
 }  // namespace hou
 

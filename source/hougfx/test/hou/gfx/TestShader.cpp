@@ -5,7 +5,7 @@
 #include "hou/Test.hpp"
 #include "hou/gfx/TestGfxBase.hpp"
 
-#include "hou/gfx/Shader.hpp"
+#include "hou/gfx/shader.hpp"
 
 #include "hou/gl/gl_error.hpp"
 
@@ -71,7 +71,7 @@ std::string getVsSource()
 
 TEST_F(TestShader, GlVertexShaderCreation)
 {
-  VertexShader vs(getVsSource());
+  vertex_shader vs(getVsSource());
   SUCCEED();
 }
 
@@ -79,8 +79,8 @@ TEST_F(TestShader, GlVertexShaderCreation)
 
 TEST_F(TestShader, GlVertexShaderMoveConstructor)
 {
-  VertexShader vsDummy = VertexShader(getVsSource());
-  VertexShader vs = std::move(vsDummy);
+  vertex_shader vsDummy = vertex_shader(getVsSource());
+  vertex_shader vs = std::move(vsDummy);
   SUCCEED();
 }
 
@@ -89,9 +89,9 @@ TEST_F(TestShader, GlVertexShaderMoveConstructor)
 TEST_F(TestShaderDeathTest, GlVertexShaderCreation)
 {
   const char vertexShaderSrc[] = "I like trains.";
-  HOU_EXPECT_ERROR(VertexShader vs(vertexShaderSrc), std::runtime_error
+  HOU_EXPECT_ERROR(vertex_shader vs(vertexShaderSrc), std::runtime_error
     , format_string(get_text(gl_error::shader_compilation)
-    , to_string(ShaderType::Vertex).c_str()
+    , to_string(shader_type::vertex).c_str()
     , "0(1) : error C0000: syntax error, "
     "unexpected '.', expecting \"::\" at token \".\"\n"));
 }
@@ -100,7 +100,7 @@ TEST_F(TestShaderDeathTest, GlVertexShaderCreation)
 
 TEST_F(TestShader, GlFragmentShaderCreation)
 {
-  FragmentShader fs(getFsSource());
+  fragment_shader fs(getFsSource());
   SUCCEED();
 }
 
@@ -108,8 +108,8 @@ TEST_F(TestShader, GlFragmentShaderCreation)
 
 TEST_F(TestShader, GlFragmentShaderMoveConstructor)
 {
-  FragmentShader fsDummy = FragmentShader(getFsSource());
-  FragmentShader fs = std::move(fsDummy);
+  fragment_shader fsDummy = fragment_shader(getFsSource());
+  fragment_shader fs = std::move(fsDummy);
   SUCCEED();
 }
 
@@ -118,9 +118,9 @@ TEST_F(TestShader, GlFragmentShaderMoveConstructor)
 TEST_F(TestShaderDeathTest, GlFragmentShaderCreation)
 {
   const char fragShaderSrc[] = "I like trains.";
-  HOU_EXPECT_ERROR(FragmentShader vs(fragShaderSrc), std::runtime_error
+  HOU_EXPECT_ERROR(fragment_shader vs(fragShaderSrc), std::runtime_error
     , format_string(get_text(gl_error::shader_compilation)
-    , to_string(ShaderType::Fragment).c_str()
+    , to_string(shader_type::fragment).c_str()
     , "0(1) : error C0000: syntax error, "
     "unexpected '.', expecting \"::\" at token \".\"\n"));
 }
@@ -129,7 +129,7 @@ TEST_F(TestShaderDeathTest, GlFragmentShaderCreation)
 
 TEST_F(TestShader, GlGeometryShaderCreation)
 {
-  GeometryShader gs(getGsSource());
+  geometry_shader gs(getGsSource());
   SUCCEED();
 }
 
@@ -137,8 +137,8 @@ TEST_F(TestShader, GlGeometryShaderCreation)
 
 TEST_F(TestShader, GlGeometryShaderMoveConstructor)
 {
-  GeometryShader gsDummy = GeometryShader(getGsSource());
-  GeometryShader gs = std::move(gsDummy);
+  geometry_shader gsDummy = geometry_shader(getGsSource());
+  geometry_shader gs = std::move(gsDummy);
   SUCCEED();
 }
 
@@ -147,9 +147,9 @@ TEST_F(TestShader, GlGeometryShaderMoveConstructor)
 TEST_F(TestShaderDeathTest, GlGeometryShaderCreation)
 {
   const char geometryShaderSrc[] = "I like trains.";
-  HOU_EXPECT_ERROR(GeometryShader vs(geometryShaderSrc), std::runtime_error
+  HOU_EXPECT_ERROR(geometry_shader vs(geometryShaderSrc), std::runtime_error
     , format_string(get_text(gl_error::shader_compilation)
-    , to_string(ShaderType::Geometry).c_str()
+    , to_string(shader_type::geometry).c_str()
     , "0(1) : error C0000: syntax error, "
     "unexpected '.', expecting \"::\" at token \".\"\n"));
 }

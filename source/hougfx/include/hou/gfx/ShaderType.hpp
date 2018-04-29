@@ -16,17 +16,17 @@
 namespace hou
 {
 
-enum class ShaderType : GLenum
+enum class shader_type : GLenum
 {
   // Compute = GL_COMPUTE_SHADER,
-  Fragment = GL_FRAGMENT_SHADER,
-  Geometry = GL_GEOMETRY_SHADER,
+  fragment = GL_FRAGMENT_SHADER,
+  geometry = GL_GEOMETRY_SHADER,
   // TessControl = GL_TESS_CONTROL_SHADER,
   // TessEvaluation = GL_TESS_EVALUATION_SHADER,
-  Vertex = GL_VERTEX_SHADER,
+  vertex = GL_VERTEX_SHADER,
 };
 
-HOU_GFX_API std::ostream& operator<<(std::ostream& os, ShaderType st);
+HOU_GFX_API std::ostream& operator<<(std::ostream& os, shader_type st);
 
 }  // namespace hou
 

@@ -2,28 +2,28 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gfx/VertexBuffer.hpp"
+#include "hou/gfx/vertex_buffer.hpp"
 
 
 
 namespace hou
 {
 
-void VertexBuffer::bind(const VertexBuffer& buffer, VertexBufferTarget target)
+void vertex_buffer::bind(const vertex_buffer& buffer, vertex_buffer_target target)
 {
   gl::bind_buffer(buffer.m_handle, static_cast<GLenum>(target));
 }
 
 
 
-void VertexBuffer::unbind(VertexBufferTarget target)
+void vertex_buffer::unbind(vertex_buffer_target target)
 {
   gl::unbind_buffer(static_cast<GLenum>(target));
 }
 
 
 
-VertexBuffer::VertexBuffer(uint byteCount, bool dynamicStorage)
+vertex_buffer::vertex_buffer(uint byteCount, bool dynamicStorage)
   : non_copyable()
   , m_handle(gl::buffer_handle::create())
   , m_byte_count(byteCount)
@@ -36,7 +36,7 @@ VertexBuffer::VertexBuffer(uint byteCount, bool dynamicStorage)
 
 
 
-VertexBuffer::VertexBuffer(uint size, const void* data, bool dynamicStorage)
+vertex_buffer::vertex_buffer(uint size, const void* data, bool dynamicStorage)
   : non_copyable()
   , m_handle(gl::buffer_handle::create())
   , m_byte_count(size)
@@ -48,7 +48,7 @@ VertexBuffer::VertexBuffer(uint size, const void* data, bool dynamicStorage)
 
 
 
-VertexBuffer::VertexBuffer(VertexBuffer&& other)
+vertex_buffer::vertex_buffer(vertex_buffer&& other)
   : non_copyable()
   , m_handle(std::move(other.m_handle))
   , m_byte_count(std::move(other.m_byte_count))
@@ -56,21 +56,21 @@ VertexBuffer::VertexBuffer(VertexBuffer&& other)
 
 
 
-const gl::buffer_handle& VertexBuffer::get_handle() const
+const gl::buffer_handle& vertex_buffer::get_handle() const
 {
   return m_handle;
 }
 
 
 
-bool VertexBuffer::isBound(VertexBufferTarget target) const
+bool vertex_buffer::is_bound(vertex_buffer_target target) const
 {
   return gl::is_buffer_bound(m_handle, static_cast<GLenum>(target));
 }
 
 
 
-uint VertexBuffer::get_byte_count() const
+uint vertex_buffer::get_byte_count() const
 {
   return m_byte_count;
 }

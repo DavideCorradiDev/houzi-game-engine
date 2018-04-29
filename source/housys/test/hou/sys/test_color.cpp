@@ -140,7 +140,7 @@ TEST_F(TestColor, Comparison)
 
 TEST_F(TestColor, OutputStreamOperator)
 {
-  HOU_EXPECT_OUTPUT("{red = 1, green = 2, blue = 3, Alpha = 4}"
+  HOU_EXPECT_OUTPUT("{red = 1, green = 2, blue = 3, alpha = 4}"
     , color(1u, 2u, 3u, 4u));
 }
 

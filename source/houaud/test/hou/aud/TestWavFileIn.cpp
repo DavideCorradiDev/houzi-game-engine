@@ -131,7 +131,7 @@ TEST_F(TestWavFileInDeathTest, PathConstructorFailureInvalidWavFile)
     file dummyWavFile(dummyWavFileName, file_open_mode::write, file_type::binary);
     WavMetadata data;
     data.id[0] = 'F';
-    data.id[1] = 'A';
+    data.id[1] = 'a';
     data.id[2] = 'K';
     data.id[3] = 'E';
     dummyWavFile.write(&data, 1u);

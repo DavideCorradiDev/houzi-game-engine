@@ -17,13 +17,13 @@ std::ostream& operator<<(std::ostream& os, TextureType type)
 {
   switch(type)
   {
-    TEXTURE_TYPE_CASE(Texture1, os);
-    TEXTURE_TYPE_CASE(Texture1Array, os);
-    TEXTURE_TYPE_CASE(Texture2, os);
-    TEXTURE_TYPE_CASE(Texture2Array, os);
-    TEXTURE_TYPE_CASE(Texture3, os);
-    TEXTURE_TYPE_CASE(MultisampleTexture2, os);
-    TEXTURE_TYPE_CASE(MultisampleTexture2Array, os);
+    TEXTURE_TYPE_CASE(texture1, os);
+    TEXTURE_TYPE_CASE(texture1_array, os);
+    TEXTURE_TYPE_CASE(texture2, os);
+    TEXTURE_TYPE_CASE(texture2_array, os);
+    TEXTURE_TYPE_CASE(texture3, os);
+    TEXTURE_TYPE_CASE(multisample_texture2, os);
+    TEXTURE_TYPE_CASE(multisample_texture2_array, os);
   default:
     return os;
   }

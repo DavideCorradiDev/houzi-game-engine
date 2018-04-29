@@ -7,8 +7,8 @@
 
 #include "hou/gfx/mesh.hpp"
 #include "hou/gfx/mesh2_shader_program.hpp"
-#include "hou/gfx/RenderCanvas.hpp"
-#include "hou/gfx/Vertex2.hpp"
+#include "hou/gfx/render_canvas.hpp"
+#include "hou/gfx/vertex2.hpp"
 
 #include "hou/mth/transform2.hpp"
 
@@ -99,8 +99,8 @@ TEST_F(TestMesh2ShaderProgram, DrawRectangle)
 {
   mesh2_shader_program mr;
   vec2u size(4u, 6u);
-  RenderCanvas rt(size);
-  Mesh2 rect = createRectangleMesh2(vec2f(2.f, 3.f));
+  render_canvas rt(size);
+  mesh2 rect = create_rectangle_mesh2(vec2f(2.f, 3.f));
   color col(20u, 30u, 40u, 255u);
   trans2f t
     = trans2f::orthographic_projection(rectf(0.f, 0.f, size.x(), size.y()))
@@ -110,7 +110,7 @@ TEST_F(TestMesh2ShaderProgram, DrawRectangle)
 
   image2RGBA imRef
     = generateResultImage(size, recti(1, 2, 2, 3), color::transparent, col);
-  EXPECT_EQ(imRef, rt.toTexture().get_image<pixel_format::rgba>());
+  EXPECT_EQ(imRef, rt.to_texture().get_image<pixel_format::rgba>());
 }
 
 
@@ -119,12 +119,12 @@ TEST_F(TestMesh2ShaderProgram, DrawTexturedRectangle)
 {
   mesh2_shader_program mr;
   vec2u size(8u, 10u);
-  RenderCanvas rt(size);
-  Mesh2 rect = createRectangleMesh2(vec2f(3.f, 4.f));
+  render_canvas rt(size);
+  mesh2 rect = create_rectangle_mesh2(vec2f(3.f, 4.f));
   image2RGBA ph_image(vec2u(3u, 4u));
   color col(20u, 30u, 40u, 255u);
   ph_image.clear(image2RGBA::pixel(col));
-  Texture2 tex(ph_image);
+  texture2 tex(ph_image);
   trans2f t
     = trans2f::orthographic_projection(rectf(0.f, 0.f, size.x(), size.y()))
     * trans2f::translation(vec2f(1.f, 2.f));
@@ -133,5 +133,5 @@ TEST_F(TestMesh2ShaderProgram, DrawTexturedRectangle)
 
   image2RGBA imRef
     = generateResultImage(size, recti(1, 2, 3, 4), color::transparent, col);
-  EXPECT_EQ(imRef, rt.toTexture().get_image<pixel_format::rgba>());
+  EXPECT_EQ(imRef, rt.to_texture().get_image<pixel_format::rgba>());
 }

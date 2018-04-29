@@ -15,8 +15,8 @@
 
 #include "hou/gfx/mesh_draw_mode.hpp"
 #include "hou/gfx/mesh_fill_mode.hpp"
-#include "hou/gfx/VertexBuffer.hpp"
-#include "hou/gfx/VertexArray.hpp"
+#include "hou/gfx/vertex_buffer.hpp"
+#include "hou/gfx/vertex_array.hpp"
 
 #include <iostream>
 
@@ -27,16 +27,16 @@ namespace hou
 
 /** Represents a ph_mesh.
  *
- *  The vertex information of a mesh object is stored in the VRAM.
+ *  The ph_vertex information of a mesh object is stored in the VRAM.
  *  There must be a current ph_context to create a mesh object.
- *  A mesh object should be used only if the owning ph_context is current.
+ *  a mesh object should be used only if the owning ph_context is current.
  *
- *  \tparam T the type of vertex stored by the ph_mesh.
+ *  \tparam T the type of ph_vertex stored by the ph_mesh.
  */
 class HOU_GFX_API mesh : public non_copyable
 {
 public:
-  /** Draws a mesh object with the current shader and texture.
+  /** Draws a mesh object with the current ph_shader and ph_texture.
    *
    *  The draw operation automatically binds the ph_mesh to the current
    * graphic_context.
@@ -89,16 +89,16 @@ protected:
   mesh_draw_mode m_draw_mode;
   mesh_fill_mode m_fill_mode;
   uint m_vertex_count;
-  VertexArray m_vao;
+  vertex_array m_vao;
 };
 
 /** Represents a ph_mesh.
  *
- *  The vertex information of a mesh object is stored in the VRAM.
+ *  The ph_vertex information of a mesh object is stored in the VRAM.
  *  There must be a current ph_context to create a mesh object.
- *  A mesh object should be used only if the owning ph_context is current.
+ *  a mesh object should be used only if the owning ph_context is current.
  *
- *  \tparam T the type of vertex stored by the ph_mesh.
+ *  \tparam T the type of ph_vertex stored by the ph_mesh.
  */
 template <typename T>
 class mesh_t : public mesh
@@ -133,7 +133,7 @@ public:
   vertex_collection getVertices() const;
 
 private:
-  StaticVertexBuffer<T> m_vbo;
+  static_vertex_buffer<T> m_vbo;
 };
 
 
@@ -164,8 +164,8 @@ bool operator!=(const mesh_t<T>& lhs, const mesh_t<T>& rhs);
  */
 template <typename T>
 bool close(const mesh_t<T>& lhs, const mesh_t<T>& rhs,
-  typename T::ComparisonType acc
-  = std::numeric_limits<typename T::ComparisonType>::epsilon());
+  typename T::comparison_type acc
+  = std::numeric_limits<typename T::comparison_type>::epsilon());
 
 /** Writes the object into a ph_stream.
  *

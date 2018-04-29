@@ -14,8 +14,8 @@
 #include "hou/cor/span.hpp"
 #include "hou/cor/template_utils.hpp"
 
-#include "hou/gfx/VertexBufferFwd.hpp"
-#include "hou/gfx/VertexBufferTarget.hpp"
+#include "hou/gfx/vertex_buffer_fwd.hpp"
+#include "hou/gfx/vertex_buffer_target.hpp"
 
 #include "hou/gl/gl_buffer_handle.hpp"
 
@@ -28,21 +28,21 @@ namespace hou
 
 /** Represents a generic interface for a graphical memory buffer.
  */
-class HOU_GFX_API VertexBuffer : public non_copyable
+class HOU_GFX_API vertex_buffer : public non_copyable
 {
 public:
-  /** Binds the VertexBuffer to the current graphic_context.
+  /** Binds the vertex_buffer to the current graphic_context.
    *
-   *  \param buffer the VertexBuffer to be bound.
+   *  \param buffer the vertex_buffer to be bound.
    *  \param target the target to bound the buffer to.
    */
-  static void bind(const VertexBuffer& buffer, VertexBufferTarget target);
+  static void bind(const vertex_buffer& buffer, vertex_buffer_target target);
 
-  /** Unbinds the VertexBuffer for the given target, if present.
+  /** Unbinds the vertex_buffer for the given target, if present.
    *
    *  \param target the target.
    */
-  static void unbind(VertexBufferTarget target);
+  static void unbind(vertex_buffer_target target);
 
 public:
   /** Retrieves the reference to the OpenGL buffer.
@@ -51,47 +51,47 @@ public:
    */
   const gl::buffer_handle& get_handle() const;
 
-  /** Checks if this VertexBuffer is bound to the given target.
+  /** Checks if this vertex_buffer is bound to the given target.
    *
    *  \target target the target to check.
    *  \return the result of the check.
    */
-  bool isBound(VertexBufferTarget target) const;
+  bool is_bound(vertex_buffer_target target) const;
 
-  /** Returns the number of bytes used by the VertexBuffer.
+  /** Returns the number of bytes used by the vertex_buffer.
    *
-   *  \return the number of bytes used by the VertexBuffer.
+   *  \return the number of bytes used by the vertex_buffer.
    */
   uint get_byte_count() const;
 
 protected:
   /** size_type constructor.
    *
-   *  Builds a VertexBuffer with the given size.
+   *  Builds a vertex_buffer with the given size.
    *  The buffer is initialized to 0.
    *
    *  \param size the size of the buffer in bytes.
-   *  \param dynamicStorage if true, the VertexBuffer is modifiable, otherwise
+   *  \param dynamicStorage if true, the vertex_buffer is modifiable, otherwise
    * it is not.
    */
-  VertexBuffer(uint byteCount, bool dynamicStorage);
+  vertex_buffer(uint byteCount, bool dynamicStorage);
 
   /** Data constructor
    *
-   *  Builds a VertexBuffer with the given data.
+   *  Builds a vertex_buffer with the given data.
    *
    *  \param byteCount the size of the buffer in bytes.
    *  \param data a pointer to a data buffer.
-   *  \param dynamicStorage if true, the VertexBuffer is modifiable, otherwise
+   *  \param dynamicStorage if true, the vertex_buffer is modifiable, otherwise
    * it is not.
    */
-  VertexBuffer(uint byteCount, const void* data, bool dynamicStorage);
+  vertex_buffer(uint byteCount, const void* data, bool dynamicStorage);
 
   /** Move constructor.
    *
-   *  \param other the other VertexBuffer.
+   *  \param other the other vertex_buffer.
    */
-  VertexBuffer(VertexBuffer&& other);
+  vertex_buffer(vertex_buffer&& other);
 
 private:
   gl::buffer_handle m_handle;
@@ -105,7 +105,7 @@ private:
  *  If false, this is not possible.
  */
 template <typename T, bool dynamicStorage = false>
-class VertexBufferT : public VertexBuffer
+class vertex_buffer_t : public vertex_buffer
 {
 public:
   /** Type of the objects stored in the buffer. */
@@ -117,26 +117,26 @@ public:
 public:
   /** size_type constructor.
    *
-   *  Builds a VertexBuffer with the given number of elements of type T.
+   *  Builds a vertex_buffer with the given number of elements of type T.
    *  The buffer is initialized to 0.
    *
    *  \param size the number of elements composing the buffer.
    */
-  VertexBufferT(uint size);
+  vertex_buffer_t(uint size);
 
   /** Data constructor.
    *
-   *  Builds a VertexBuffer with the given data.
+   *  Builds a vertex_buffer with the given data.
    *
    *  \param data the data.
    */
-  VertexBufferT(const span<const T>& data);
+  vertex_buffer_t(const span<const T>& data);
 
   /** Move constructor.
    *
-   *  \param other the other VertexBuffer.
+   *  \param other the other vertex_buffer.
    */
-  VertexBufferT(VertexBuffer&& other);
+  vertex_buffer_t(vertex_buffer&& other);
 
   /** Retrieves the number of elements in the buffer.
    *
@@ -148,7 +148,7 @@ public:
    *
    *  \return the data contained in the buffer.
    */
-  DataType getData() const;
+  DataType get_data() const;
 
   /** Retrieves a sub-set of the data contained in the buffer.
    *
@@ -158,9 +158,9 @@ public:
    *  buffer.
    *  \param elementCount the number of elements to read.
    *  \return a collection with elementCount elements taken from the
-   *  VertexBuffer starting from the given offset.
+   *  vertex_buffer starting from the given offset.
    */
-  DataType getSubData(uint offset, uint elementCount) const;
+  DataType get_sub_data(uint offset, uint elementCount) const;
 
   /** Sets the data contained in the buffer.
    *
@@ -171,13 +171,13 @@ public:
    *  \param data the data.
    */
   template <bool ds = dynamicStorage, typename Enable = std::enable_if_t<ds>>
-  void setData(const span<const T>& data);
+  void set_data(const span<const T>& data);
 
   /** Sets a sub-set of the data contained in the buffer.
    *
    *  This function is defined only for dynamic render buffers.
    *  Throws if offset plus the size of data is greater then the size of the
-   *  VertexBuffer.
+   *  vertex_buffer.
    *
    *  \tparam ds dummy template parameter.
    *  \tparam Enable enabling parameter.
@@ -185,11 +185,11 @@ public:
    *  \param data the data.
    */
   template <bool ds = dynamicStorage, typename Enable = std::enable_if_t<ds>>
-  void setSubData(uint offset, const span<const T>& data);
+  void set_sub_data(uint offset, const span<const T>& data);
 };
 
 }  // namespace hou
 
-#include "hou/gfx/VertexBuffer.inl"
+#include "hou/gfx/vertex_buffer.inl"
 
 #endif

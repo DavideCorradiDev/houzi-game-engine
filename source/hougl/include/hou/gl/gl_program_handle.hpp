@@ -38,7 +38,7 @@ HOU_GL_API bool is_program_bound();
 HOU_GL_API GLuint get_bound_program_name();
 
 HOU_GL_API void attach_shader(const program_handle& program
-  , const shader_handle& shader);
+  , const shader_handle& ph_shader);
 HOU_GL_API void link_program(const program_handle& program);
 
 HOU_GL_API GLint get_program_uniform_location(const program_handle& program

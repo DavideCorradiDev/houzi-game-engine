@@ -114,9 +114,9 @@ template <typename T>
 
 /** Class implementing a conjunction condition for variadic template parameters.
  *
- *  \tparam B the template parameter conditions.
+ *  \tparam b the template parameter conditions.
  */
-template <bool... B>
+template <bool... b>
   struct conjunction
 {};
 
@@ -138,9 +138,9 @@ template <bool Head, bool... Tail>
  *
  *  \tparam the boolean value.
  */
-template <bool B>
-  struct conjunction<B>
-  : std::integral_constant<bool, B>
+template <bool b>
+  struct conjunction<b>
+  : std::integral_constant<bool, b>
 {};
 
 }

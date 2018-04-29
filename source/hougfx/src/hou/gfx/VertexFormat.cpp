@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gfx/VertexFormat.hpp"
+#include "hou/gfx/vertex_format.hpp"
 
 #include "hou/gl/gl_vertex_array_handle.hpp"
 
@@ -11,77 +11,77 @@
 namespace hou
 {
 
-uint VertexFormat::getMaxAttribFormatCount()
+uint vertex_format::get_max_attrib_format_count()
 {
   return gl::get_max_vertex_attribs();
 }
 
 
 
-VertexFormat::VertexFormat(ptrdiff_t offset, uint stride,
-  const span<const VertexAttribFormat>& vertexAttribFormats)
-  : mOffset(offset)
-  , mStride(stride)
-  , mVertexAttribFormats(vertexAttribFormats.begin(), vertexAttribFormats.end())
+vertex_format::vertex_format(ptrdiff_t offset, uint stride,
+  const span<const vertex_attrib_format>& vertexAttribFormats)
+  : m_offset(offset)
+  , m_stride(stride)
+  , m_vertex_attrib_formats(vertexAttribFormats.begin(), vertexAttribFormats.end())
 {
-  HOU_EXPECT(mVertexAttribFormats.size() <= getMaxAttribFormatCount());
+  HOU_EXPECT(m_vertex_attrib_formats.size() <= get_max_attrib_format_count());
 }
 
 
 
-VertexFormat::VertexFormat(ptrdiff_t offset, uint stride,
-  std::vector<VertexAttribFormat>&& vertexAttribFormats)
-  : mOffset(offset)
-  , mStride(stride)
-  , mVertexAttribFormats(std::move(vertexAttribFormats))
+vertex_format::vertex_format(ptrdiff_t offset, uint stride,
+  std::vector<vertex_attrib_format>&& vertexAttribFormats)
+  : m_offset(offset)
+  , m_stride(stride)
+  , m_vertex_attrib_formats(std::move(vertexAttribFormats))
 {
-  HOU_EXPECT(mVertexAttribFormats.size() <= getMaxAttribFormatCount());
+  HOU_EXPECT(m_vertex_attrib_formats.size() <= get_max_attrib_format_count());
 }
 
 
 
-ptrdiff_t VertexFormat::getOffset() const
+ptrdiff_t vertex_format::get_offset() const
 {
-  return mOffset;
+  return m_offset;
 }
 
 
 
-uint VertexFormat::getStride() const
+uint vertex_format::get_stride() const
 {
-  return mStride;
+  return m_stride;
 }
 
 
 
-const std::vector<VertexAttribFormat>& VertexFormat::getVertexAttribFormats()
+const std::vector<vertex_attrib_format>& vertex_format::get_vertex_attrib_formats()
   const
 {
-  return mVertexAttribFormats;
+  return m_vertex_attrib_formats;
 }
 
 
 
-bool operator==(const VertexFormat& lhs, const VertexFormat& rhs)
+bool operator==(const vertex_format& lhs, const vertex_format& rhs)
 {
-  return lhs.getOffset() == rhs.getOffset()
-    && lhs.getStride() == rhs.getStride()
-    && lhs.getVertexAttribFormats() == rhs.getVertexAttribFormats();
+  return lhs.get_offset() == rhs.get_offset()
+    && lhs.get_stride() == rhs.get_stride()
+    && lhs.get_vertex_attrib_formats() == rhs.get_vertex_attrib_formats();
 }
 
 
 
-bool operator!=(const VertexFormat& lhs, const VertexFormat& rhs)
+bool operator!=(const vertex_format& lhs, const vertex_format& rhs)
 {
   return !(lhs == rhs);
 }
 
 
 
-std::ostream& operator<<(std::ostream& os, const VertexFormat& vf)
+std::ostream& operator<<(std::ostream& os, const vertex_format& vf)
 {
-  return os << "{Offset = " << vf.getOffset() << ", Stride = " << vf.getStride()
-            << ", VertexAttribFormats = " << vf.getVertexAttribFormats() << "}";
+  return os << "{Offset = " << vf.get_offset() << ", Stride = " << vf.get_stride()
+            << ", VertexAttribFormats = " << vf.get_vertex_attrib_formats() << "}";
 }
 
 }  // namespace hou

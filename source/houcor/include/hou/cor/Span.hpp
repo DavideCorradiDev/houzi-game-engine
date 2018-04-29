@@ -31,7 +31,7 @@ template <typename T> class span_iterator;
 /** Lightweight proxy for any contiguous container which can be represented by
  *  a pointer and a size.
  *
- *  A span does not contain any elements, it just references elements placed
+ *  a span does not contain any elements, it just references elements placed
  *  elsewhere in memory.
  *  The user must ensure that a span always points at a valid memory block.
  *

@@ -23,7 +23,7 @@ class AudioBuffer;
  * suited to play long audio buffers.
  * Prefer using StreamingAudioSource in that case.
  *
- * A MemoryAudioSource must be associated to an AudioBuffer to play a sound.
+ * a MemoryAudioSource must be associated to an AudioBuffer to play a sound.
  * Many MemoryAudioSource objects may share an AudioBuffer.
  *
  * It must be ensured that the AudioBuffer associated to a MemoryAudioSource is

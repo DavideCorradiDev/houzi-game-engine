@@ -8,9 +8,9 @@
 #include "hou/cor/non_copyable.hpp"
 #include "hou/gfx/gfx_export.hpp"
 
-#include "hou/gfx/ShaderProgram.hpp"
-#include "hou/gfx/Texture.hpp"
-#include "hou/gfx/Vertex2Fwd.hpp"
+#include "hou/gfx/shader_program.hpp"
+#include "hou/gfx/texture.hpp"
+#include "hou/gfx/vertex2_fwd.hpp"
 
 #include "hou/mth/transform2.hpp"
 
@@ -21,11 +21,11 @@
 namespace hou
 {
 
-class RenderSurface;
+class render_surface;
 
-/** Shader program used to render Mesh2d objects.
+/** shader program used to render Mesh2d objects.
  */
-class HOU_GFX_API mesh2_shader_program : public ShaderProgram
+class HOU_GFX_API mesh2_shader_program : public shader_program
 {
 public:
   /** Creates a mesh2_shader_program.
@@ -46,11 +46,11 @@ public:
    */
   void set_color(const color& ph_color);
 
-  /** Sets the texture unit used when rendering Mesh2d objects.
+  /** Sets the ph_texture unit used when rendering Mesh2d objects.
    *
    *  The default value is 0.
    *
-   *  \param unit the texture unit to be used.
+   *  \param unit the ph_texture unit to be used.
    */
   void set_texture_unit(uint unit);
 
@@ -62,19 +62,19 @@ public:
    */
   void set_transform(const trans2f& trans);
 
-  void draw(RenderSurface& target, const Mesh2& ph_mesh, const Texture2& tex,
+  void draw(render_surface& target, const mesh2& ph_mesh, const texture2& tex,
     const color& col = color::white, const trans2f& trn = trans2f::identity());
 
-  void draw(RenderSurface& target, const Mesh2& ph_mesh,
+  void draw(render_surface& target, const mesh2& ph_mesh,
     const color& col = color::white, const trans2f& trn = trans2f::identity());
 
-  void draw(RenderSurface& target, const Mesh2& ph_mesh, const Texture2& tex,
+  void draw(render_surface& target, const mesh2& ph_mesh, const texture2& tex,
     const trans2f& trn);
 
-  void draw(RenderSurface& target, const Mesh2& ph_mesh, const trans2f& trn);
+  void draw(render_surface& target, const mesh2& ph_mesh, const trans2f& trn);
 
 private:
-  Texture2 m_blank_texture;
+  texture2 m_blank_texture;
   int m_uni_color;
   int m_uni_texture;
   int m_uni_transform;

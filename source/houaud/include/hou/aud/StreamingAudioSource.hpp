@@ -36,7 +36,7 @@ namespace hou
  *  Each StreamingAudioSource object spawns a thread that takes care of loading
  *  part of the audio into a queue of memory buffers.
  *  The thread is destroyed when the StreamingAudioSource is destroyed.
- *  A StreamingAudioSource must be given an AudioStream to play a sound.
+ *  a StreamingAudioSource must be given an AudioStream to play a sound.
  *  The StreamingAudioSource will retain unique ownership of the AudioStream and
  *  will automatically destroy it when necessary.
  *

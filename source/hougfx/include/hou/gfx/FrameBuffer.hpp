@@ -21,7 +21,7 @@
 namespace hou
 {
 
-class Texture;
+class texture;
 
 /** Represents a user defined framebuffer.
  */
@@ -115,40 +115,40 @@ public:
    *  \param attachmentPoint an index representing the desired attachment point.
    *  Its value must be lower than the maximum number of available attachment
    *  points.
-   *  \param texture the texture to be attached. The format of the
-   *  texture must be r, rg, rgb, or rgba.
+   *  \param ph_texture the ph_texture to be attached. The format of the
+   *  ph_texture must be r, rg, rgb, or rgba.
    *  \param mipMapLevel the mip map level
-   *  to bind. It must be a valid mip map level of texture.
+   *  to bind. It must be a valid mip map level of ph_texture.
    */
   void set_color_attachment(
-    uint attachmentPoint, const Texture& texture, uint mipMapLevel = 0u);
+    uint attachmentPoint, const texture& ph_texture, uint mipMapLevel = 0u);
 
   /** Sets the depth attachment for this framebuffer.
    *
-   *  \param texture the texture to be attached. The format of the texture must
-   *  be depth or DepthStencil.
+   *  \param ph_texture the ph_texture to be attached. The format of the ph_texture must
+   *  be depth or depth_stencil.
    *  \param mipMapLevel the mip map level to bind. It must be a valid mip map
-   *  level of texture.
+   *  level of ph_texture.
    */
-  void set_depth_attachment(const Texture& texture, uint mipMapLevel = 0u);
+  void set_depth_attachment(const texture& ph_texture, uint mipMapLevel = 0u);
 
   /** Sets the stencil attachment for this framebuffer.
    *
-   *  \param texture the texture to be attached. The format of the texture must
-   *  be stencil or DepthStencil.
+   *  \param ph_texture the ph_texture to be attached. The format of the ph_texture must
+   *  be stencil or depth_stencil.
    *  \param mipMapLevel the mip map level to bind. It must be a valid mip map
-   *  level of texture.
+   *  level of ph_texture.
    */
-  void set_stencil_attachment(const Texture& texture, uint mipMapLevel = 0u);
+  void set_stencil_attachment(const texture& ph_texture, uint mipMapLevel = 0u);
 
   /** Sets the depth and stencil attachment for this framebuffer.
    *
-   *  \param texture the texture to be attached. The format of the texture must
-   *  be DepthStencil.
+   *  \param ph_texture the ph_texture to be attached. The format of the ph_texture must
+   *  be depth_stencil.
    *  \param mipMapLevel the mip map level to bind. It must be a valid mip map
-   *  level of texture.
+   *  level of ph_texture.
    */
-  void set_depth_stencil_attachment(const Texture& texture, uint mipMapLevel = 0u);
+  void set_depth_stencil_attachment(const texture& ph_texture, uint mipMapLevel = 0u);
 
   /** Checks if this framebuffer has a multisample attachment.
    *
@@ -182,7 +182,7 @@ HOU_GFX_API void blit(const framebuffer& src, const recti& srcRect,
   framebuffer& dst, const recti& dstRect, framebuffer_blit_mask mask,
   framebuffer_blit_filter filter = framebuffer_blit_filter::nearest);
 
-/** Copies a rectangular region of a framebuffer into a texture.
+/** Copies a rectangular region of a framebuffer into a ph_texture.
  *
  * The following constraints must be observed, or an exception will be thrown:
  * * src must be complete framebuffer object.
@@ -191,45 +191,45 @@ HOU_GFX_API void blit(const framebuffer& src, const recti& srcRect,
  *
  * \param src the source framebuffer.
  * \param srcRect the source ph_rectangle.
- * \param dst the destination texture.
+ * \param dst the destination ph_texture.
  * \param dstRect the destination ph_rectangle.
  * \param filter the filter to apply for this operation.
  */
 HOU_GFX_API void blit(const framebuffer& src, const recti& srcRect,
-  Texture& dst, const recti& dstRect,
+  texture& dst, const recti& dstRect,
   framebuffer_blit_filter filter = framebuffer_blit_filter::nearest);
 
-/** Copies a rectangular region of a texture into a framebuffer.
+/** Copies a rectangular region of a ph_texture into a framebuffer.
  *
  * The following constraints must be observed, or an exception will be thrown:
  * * dst must be complete framebuffer object.
  * * If src or dst are multisampled, srcRect and dstRect must have the same
  * size.
  *
- * \param src the source texture.
+ * \param src the source ph_texture.
  * \param srcRect the source ph_rectangle.
  * \param dst the destination framebuffer.
  * \param dstRect the destination ph_rectangle.
  * \param filter the filter to apply for this operation.
  */
-HOU_GFX_API void blit(const Texture& src, const recti& srcRect,
+HOU_GFX_API void blit(const texture& src, const recti& srcRect,
   framebuffer& dst, const recti& dstRect,
   framebuffer_blit_filter filter = framebuffer_blit_filter::nearest);
 
-/** Copies a rectangular region of a texture into a framebuffer.
+/** Copies a rectangular region of a ph_texture into a framebuffer.
  *
  * The following constraints must be observed, or an exception will be thrown:
  * * dst must be complete framebuffer object.
  * * If src or dst are multisampled, srcRect and dstRect must have the same
  * size.
  *
- * \param src the source texture.
+ * \param src the source ph_texture.
  * \param srcRect the source ph_rectangle.
- * \param dst the destination texture.
+ * \param dst the destination ph_texture.
  * \param dstRect the destination ph_rectangle.
  * \param filter the filter to apply for this operation.
  */
-HOU_GFX_API void blit(const Texture& src, const recti& srcRect, Texture& dst,
+HOU_GFX_API void blit(const texture& src, const recti& srcRect, texture& dst,
   const recti& dstRect,
   framebuffer_blit_filter filter = framebuffer_blit_filter::nearest);
 

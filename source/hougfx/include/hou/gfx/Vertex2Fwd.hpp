@@ -12,15 +12,15 @@
 namespace hou
 {
 
-class Vertex2;
+class vertex2;
 
-template <typename Vertex> class mesh_t;
+template <typename vertex> class mesh_t;
 
-/** mesh of Vertex2.
+/** mesh of vertex2.
  *
  *  Used to represent 2d shapes such as rectangles, circles...
  */
-using Mesh2 = mesh_t<Vertex2>;
+using mesh2 = mesh_t<vertex2>;
 
 }
 

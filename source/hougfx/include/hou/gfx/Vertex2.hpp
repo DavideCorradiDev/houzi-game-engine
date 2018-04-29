@@ -12,7 +12,7 @@
 
 #include "hou/gl/open_gl.hpp"
 
-#include "hou/gfx/Vertex2Fwd.hpp"
+#include "hou/gfx/vertex2_fwd.hpp"
 
 #include "hou/sys/color.hpp"
 
@@ -24,204 +24,204 @@
 namespace hou
 {
 
-class VertexFormat;
+class vertex_format;
 
 HOU_PRAGMA_PACK_PUSH(1)
 
-/** Represents a vertex in 2d space.
+/** Represents a ph_vertex in 2d space.
  *
- *  The vertex contains information about its position, texture coordinates,
+ *  The ph_vertex contains information about its position, ph_texture coordinates,
  *  and ph_color.
  */
-class HOU_GFX_API Vertex2
+class HOU_GFX_API vertex2
 {
 public:
   /** Type to be used as accuracy in close comparison checks for mesh.
    */
-  using ComparisonType = float;
+  using comparison_type = float;
 
 public:
-  /** Retrieves the VertexFormat.
+  /** Retrieves the vertex_format.
    */
-  static const VertexFormat& getVertexFormat();
+  static const vertex_format& get_vertex_format();
 
 public:
-  /** Builds a Vertex2 object with all elements set to 0.
+  /** Builds a vertex2 object with all elements set to 0.
    */
-  Vertex2();
+  vertex2();
 
-  /** Builds a Vertex2 object with the given position, texture coordinates,
+  /** Builds a vertex2 object with the given position, ph_texture coordinates,
    *  and ph_color.
    *
-   *  \param position the vertex position.
-   *  \param textureCoordinates the vertex texture coordinates.
-   *  \param ph_color the vertex ph_color.
+   *  \param position the ph_vertex position.
+   *  \param textureCoordinates the ph_vertex ph_texture coordinates.
+   *  \param ph_color the ph_vertex ph_color.
    */
-  Vertex2(
+  vertex2(
     const vec2f& position, const vec2f& textureCoordinates, const color& ph_color);
 
-  /** Gets the vertex position.
+  /** Gets the ph_vertex position.
    *
-   *  \return the vertex position.
+   *  \return the ph_vertex position.
    */
   vec2f get_position() const;
 
-  /** Sets the vertex position.
+  /** Sets the ph_vertex position.
    *
-   *  \param pos the vertex position.
+   *  \param pos the ph_vertex position.
    */
   void set_position(const vec2f& pos);
 
-  /** Gets the vertex texture coordinates.
+  /** Gets the ph_vertex ph_texture coordinates.
    *
-   *  \return the vertex texture coordinates.
+   *  \return the ph_vertex ph_texture coordinates.
    */
-  vec2f getTextureCoordinates() const;
+  vec2f get_texture_coordinates() const;
 
-  /** Sets the vertex texture coordinates.
+  /** Sets the ph_vertex ph_texture coordinates.
    *
-   *  \param textureCoordinates the vertex texture coordinates.
+   *  \param textureCoordinates the ph_vertex ph_texture coordinates.
    */
-  void setTextureCoordinates(const vec2f& textureCoordinates);
+  void set_texture_coordinates(const vec2f& textureCoordinates);
 
-  /** Gets the vertex ph_color.
+  /** Gets the ph_vertex ph_color.
    *
-   *  \return the vertex ph_color.
+   *  \return the ph_vertex ph_color.
    */
   color get_color() const;
 
-  /** Sets the vertex ph_color.
+  /** Sets the ph_vertex ph_color.
    *
-   *  \param ph_color the vertex ph_color.
+   *  \param ph_color the ph_vertex ph_color.
    */
   void set_color(const color& ph_color);
 
 private:
-  static constexpr size_t sPositionSize = 2u;
-  static constexpr size_t sTextureCoordinatesSize = 2u;
+  static constexpr size_t s_position_size = 2u;
+  static constexpr size_t s_texture_coordinates_size = 2u;
   static constexpr size_t sColorSize = 4u;
 
 private:
-  GLfloat m_position[sPositionSize];
-  GLfloat mTexCoords[sTextureCoordinatesSize];
-  GLfloat mColor[sColorSize];
+  GLfloat m_position[s_position_size];
+  GLfloat m_tex_coords[s_texture_coordinates_size];
+  GLfloat m_color[sColorSize];
 };
 
 HOU_PRAGMA_PACK_POP()
 
-/** Checks if two Vertex2 objects are equal.
+/** Checks if two vertex2 objects are equal.
  *
  *  \param lhs the left operand.
  *  \param rhs the right operand.
  *  \return true if the two objects are equal.
  */
-HOU_GFX_API bool operator==(const Vertex2& lhs, const Vertex2& rhs);
+HOU_GFX_API bool operator==(const vertex2& lhs, const vertex2& rhs);
 
-/** Checks if two Vertex2 objects are not equal.
+/** Checks if two vertex2 objects are not equal.
  *
  *  \param lhs the left operand.
  *  \param rhs the right operand.
  *  \return true if the two objects are not equal.
  */
-HOU_GFX_API bool operator!=(const Vertex2& lhs, const Vertex2& rhs);
+HOU_GFX_API bool operator!=(const vertex2& lhs, const vertex2& rhs);
 
-/** Checks if two Vertex2 objects are equal with the specified accuracy.
+/** Checks if two vertex2 objects are equal with the specified accuracy.
  *
  *  \param lhs the left operand.
  *  \param rhs the right operand.
  *  \param acc the accuracy.
  *  \return true if the two objects are equal.
  */
-HOU_GFX_API bool close(const Vertex2& lhs, const Vertex2& rhs,
-  Vertex2::ComparisonType acc
-  = std::numeric_limits<Vertex2::ComparisonType>::epsilon());
+HOU_GFX_API bool close(const vertex2& lhs, const vertex2& rhs,
+  vertex2::comparison_type acc
+  = std::numeric_limits<vertex2::comparison_type>::epsilon());
 
 /** Writes the object into a ph_stream.
  *
  *  \param os the ph_stream.
- *  \param v the Vertex2.
+ *  \param v the vertex2.
  *  \return a reference to os.
  */
-HOU_GFX_API std::ostream& operator<<(std::ostream& os, const Vertex2& v);
+HOU_GFX_API std::ostream& operator<<(std::ostream& os, const vertex2& v);
 
 /** Creates a mesh object representing a ph_rectangle shape with the given size.
  *
- *  The texture coordinates are defined so that a texture is stretched to cover
+ *  The ph_texture coordinates are defined so that a ph_texture is stretched to cover
  *  the entire ph_rectangle.
  *  The ph_color is always white.
  *
  *  \param size the size of the ph_rectangle.
  *  \return the mesh representing the ph_rectangle.
  */
-HOU_GFX_API Mesh2 createRectangleMesh2(const vec2f& size);
+HOU_GFX_API mesh2 create_rectangle_mesh2(const vec2f& size);
 
-/** Creates a Mesh2 object representing a ph_rectangle outline shape with the
+/** Creates a mesh2 object representing a ph_rectangle outline shape with the
  *  given size and border thickness.
  *
- *  The texture coordinates are always equal to zero.
+ *  The ph_texture coordinates are always equal to zero.
  *  The ph_color is always white.
  *  The size refers to the outside of the border.
  *
  *  \param size the size of the ph_rectangle.
  *  \param thickness the thickness of the border of the ph_rectangle.
- *  \return the Mesh2 representing the ph_rectangle outline.
+ *  \return the mesh2 representing the ph_rectangle outline.
  */
-HOU_GFX_API Mesh2 createRectangleOutlineMesh2(
+HOU_GFX_API mesh2 create_rectangle_outline_mesh2(
   const vec2f& size, float thickness);
 
-/** Creates a Mesh2 object representing an approximation of an ellipse with
+/** Creates a mesh2 object representing an approximation of an ellipse with
  *  the given size and drawn with the given number of points.
  *
- *  The texture coordinates are always equal to zero.
+ *  The ph_texture coordinates are always equal to zero.
  *  The ph_color is always white.
- *  The actual vertex count is equal to pointCount plus 2, as the center of
- *  the ellipse is also defined as a vertex and one vertex has to be repeated
+ *  The actual ph_vertex count is equal to pointCount plus 2, as the center of
+ *  the ellipse is also defined as a ph_vertex and one ph_vertex has to be repeated
  *  twice to close the shape.
  *
  *  \param size the size of the ellipse.
  *  \param pointCount the number of pointCount used to draw the ellipse.
- *  \return the Mesh2 representing the ellipse.
+ *  \return the mesh2 representing the ellipse.
  */
-HOU_GFX_API Mesh2 createEllipseMesh2(const vec2f& size, uint pointCount);
+HOU_GFX_API mesh2 create_ellipse_mesh2(const vec2f& size, uint pointCount);
 
 
-/** Creates a Mesh2 object representing an approximation of an ellipse outline
+/** Creates a mesh2 object representing an approximation of an ellipse outline
  *  with the given size and drawn with the given number of points.
  *
- *  The texture coordinates are always equal to zero.
+ *  The ph_texture coordinates are always equal to zero.
  *  The ph_color is always white.
  *  The number of points refers to the number of points used to draw the outer
  *  and inner perimiter of the outline each.
  *  The size refers to the outside of the border.
  *
- *  The actual vertex count is equal to double pointCount plus 2, as the center
- *  of the ellipse is also defined as a vertex and one vertex has to be repeated
+ *  The actual ph_vertex count is equal to double pointCount plus 2, as the center
+ *  of the ellipse is also defined as a ph_vertex and one ph_vertex has to be repeated
  *  twice to close the shape.
  *
  *  \param size the size of the ellipse.
  *  \param pointCount the number of pointCount used to draw the ellipse.
  *  \param thickness the thicknes of the outline.
- *  \return the Mesh2 representing the ellipse outline.
+ *  \return the mesh2 representing the ellipse outline.
  */
-HOU_GFX_API Mesh2 createEllipseOutlineMesh2(
+HOU_GFX_API mesh2 create_ellipse_outline_mesh2(
   const vec2f& size, uint pointCount, float thickness);
 
-/** Creates a Mesh2 object representing a texture quad covering the specified
- *  ph_rectangle of a texture.
+/** Creates a mesh2 object representing a ph_texture quad covering the specified
+ *  ph_rectangle of a ph_texture.
  *
- *  A texture quad has a rectangular shape with the top left corner at the
+ *  a ph_texture quad has a rectangular shape with the top left corner at the
  * origin and the size specified by rect, just like a normal ph_rectangle ph_mesh.
- *  Unlike the ph_rectangle ph_mesh, the texture coordinates are defined to coincide
- *  with the elements of rect, normalized by the actual texture size.
- *  The same texture quad may be used with different textures with the same
- * size. If a texture quad is used with a texture of a different size than the
- * one it was defined with, it will work, but the section of texture shown will
+ *  Unlike the ph_rectangle ph_mesh, the ph_texture coordinates are defined to coincide
+ *  with the elements of rect, normalized by the actual ph_texture size.
+ *  The same ph_texture quad may be used with different textures with the same
+ * size. If a ph_texture quad is used with a ph_texture of a different size than the
+ * one it was defined with, it will work, but the section of ph_texture shown will
  * not correspond to the values of rect anymore. The ph_color is always white.
  *
- *  \param rect the part of the texture to be shown.
- *  \param textureSize the size of the texture to be used with the quad.
+ *  \param rect the part of the ph_texture to be shown.
+ *  \param textureSize the size of the ph_texture to be used with the quad.
  */
-HOU_GFX_API Mesh2 createTextureQuadMesh2(
+HOU_GFX_API mesh2 create_texture_quad_mesh2(
   const rectf& rect, const vec2f& textureSize);
 
 }  // namespace hou

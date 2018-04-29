@@ -14,19 +14,19 @@
 namespace hou
 {
 
-class Texture;
+class texture;
 
 template <TextureType type>
-class TextureT;
+class texture_t;
 
-using Texture1 = TextureT<TextureType::Texture1>;
-using Texture1Array = TextureT<TextureType::Texture1Array>;
-using Texture2 = TextureT<TextureType::Texture2>;
-using Texture2Array = TextureT<TextureType::Texture2Array>;
-using Texture3 = TextureT<TextureType::Texture3>;
-using MultisampleTexture2 = TextureT<TextureType::MultisampleTexture2>;
-using MultisampleTexture2Array
-  = TextureT<TextureType::MultisampleTexture2Array>;
+using texture1 = texture_t<TextureType::texture1>;
+using texture1_array = texture_t<TextureType::texture1_array>;
+using texture2 = texture_t<TextureType::texture2>;
+using texture2_array = texture_t<TextureType::texture2_array>;
+using texture3 = texture_t<TextureType::texture3>;
+using multisample_texture2 = texture_t<TextureType::multisample_texture2>;
+using multisample_texture2_array
+  = texture_t<TextureType::multisample_texture2_array>;
 
 }  // namespace hou
 

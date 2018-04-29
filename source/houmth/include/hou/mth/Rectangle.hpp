@@ -32,15 +32,15 @@ public:
 
   /** Creates a ph_rectangle with the given position and size.
    *
-   *  \param position the position of the top-left vertex of the ph_rectangle.
+   *  \param position the position of the top-left ph_vertex of the ph_rectangle.
    *  \param size the length of the sides of the ph_rectangle on the x and y axes.
    */
   rectangle(const vec2<T>& position, const vec2<T>& size);
 
   /** Creates a ph_rectangle with given position and size.
    *
-   *  \param x the x coordinate of the top-left vertex of the ph_rectangle.
-   *  \param y the y coordinate of the top-left vertex of the ph_rectangle.
+   *  \param x the x coordinate of the top-left ph_vertex of the ph_rectangle.
+   *  \param y the y coordinate of the top-left ph_vertex of the ph_rectangle.
    *  \param w the length of the ph_rectangle on the x axis (width).
    *  \param h the length of the ph_rectangle on the y axis (height).
    */
@@ -54,13 +54,13 @@ public:
   template <typename U>
     rectangle(const rectangle<U>& other);
 
-  /** Retrieves the position of the top-left vertex of the ph_rectangle.
+  /** Retrieves the position of the top-left ph_vertex of the ph_rectangle.
    *
-   *  \return the position of the top-left vertex of the ph_rectangle.
+   *  \return the position of the top-left ph_vertex of the ph_rectangle.
    */
   const vec2<T>& get_position() const;
 
-  /** Sets the position of the top-left vertex of the ph_rectangle.
+  /** Sets the position of the top-left ph_vertex of the ph_rectangle.
    *
    *  \param value the value to be assigned.
    */
@@ -78,27 +78,27 @@ public:
    */
   void set_size(const vec2<T>& value);
 
-  /** Retrieves a copy of the x position of the top-left vertex of the ph_rectangle.
+  /** Retrieves a copy of the x position of the top-left ph_vertex of the ph_rectangle.
    *
-   *  \return a copy of the x position of the top-left vertex.
+   *  \return a copy of the x position of the top-left ph_vertex.
    */
   T x() const;
 
-  /** Retrieves a reference to the x position of the top-left vertex of the ph_rectangle.
+  /** Retrieves a reference to the x position of the top-left ph_vertex of the ph_rectangle.
    *
-   *  \return a reference to the x position of the top-left vertex.
+   *  \return a reference to the x position of the top-left ph_vertex.
    */
   T& x();
 
-  /** Retrieves a copy of the y position of the top-left vertex of the ph_rectangle.
+  /** Retrieves a copy of the y position of the top-left ph_vertex of the ph_rectangle.
    *
-   *  \return a copy of the y position of the top-left vertex.
+   *  \return a copy of the y position of the top-left ph_vertex.
    */
   T y() const;
 
-  /** Retrieves a reference to the y position of the top-left vertex of the ph_rectangle.
+  /** Retrieves a reference to the y position of the top-left ph_vertex of the ph_rectangle.
    *
-   *  \return a reference to the y position of the top-left vertex.
+   *  \return a reference to the y position of the top-left ph_vertex.
    */
   T& y();
 

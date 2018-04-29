@@ -6,7 +6,7 @@
 
 #include "hou/mth/rectangle.hpp"
 
-#include "hou/gfx/Texture.hpp"
+#include "hou/gfx/texture.hpp"
 
 
 
@@ -119,54 +119,54 @@ bool framebuffer::is_complete() const
 
 
 void framebuffer::set_color_attachment(
-  uint attachmentPoint, const Texture& texture, uint mipMapLevel)
+  uint attachmentPoint, const texture& ph_texture, uint mipMapLevel)
 {
   HOU_EXPECT(attachmentPoint < get_color_attachment_point_count());
-  HOU_EXPECT(mipMapLevel < texture.getMipMapLevelCount());
-  HOU_EXPECT(texture.get_format() == TextureFormat::rgba
-    || texture.get_format() == TextureFormat::rgb
-    || texture.get_format() == TextureFormat::rg
-    || texture.get_format() == TextureFormat::r);
+  HOU_EXPECT(mipMapLevel < ph_texture.get_mipmap_level_count());
+  HOU_EXPECT(ph_texture.get_format() == texture_format::rgba
+    || ph_texture.get_format() == texture_format::rgb
+    || ph_texture.get_format() == texture_format::rg
+    || ph_texture.get_format() == texture_format::r);
   gl::set_framebuffer_color_texture(m_handle, static_cast<GLuint>(attachmentPoint),
-    texture.get_handle(), static_cast<GLint>(mipMapLevel));
-  m_has_multisample_color_attachment = isTextureTypeMultisampled(texture.get_type());
+    ph_texture.get_handle(), static_cast<GLint>(mipMapLevel));
+  m_has_multisample_color_attachment = is_texture_type_multisampled(ph_texture.get_type());
 }
 
 
 
-void framebuffer::set_depth_attachment(const Texture& texture, uint mipMapLevel)
+void framebuffer::set_depth_attachment(const texture& ph_texture, uint mipMapLevel)
 {
-  HOU_EXPECT(mipMapLevel < texture.getMipMapLevelCount());
-  HOU_EXPECT(texture.get_format() == TextureFormat::depth
-    || texture.get_format() == TextureFormat::DepthStencil);
-  gl::set_framebuffer_depth_texture(m_handle, texture.get_handle(), mipMapLevel);
-  m_has_multisample_depth_attachment = isTextureTypeMultisampled(texture.get_type());
+  HOU_EXPECT(mipMapLevel < ph_texture.get_mipmap_level_count());
+  HOU_EXPECT(ph_texture.get_format() == texture_format::depth
+    || ph_texture.get_format() == texture_format::depth_stencil);
+  gl::set_framebuffer_depth_texture(m_handle, ph_texture.get_handle(), mipMapLevel);
+  m_has_multisample_depth_attachment = is_texture_type_multisampled(ph_texture.get_type());
 }
 
 
 
-void framebuffer::set_stencil_attachment(const Texture& texture, uint mipMapLevel)
+void framebuffer::set_stencil_attachment(const texture& ph_texture, uint mipMapLevel)
 {
-  HOU_EXPECT(mipMapLevel < texture.getMipMapLevelCount());
-  HOU_EXPECT(texture.get_format() == TextureFormat::stencil
-    || texture.get_format() == TextureFormat::DepthStencil);
-  gl::set_framebuffer_stencil_texture(m_handle, texture.get_handle(), mipMapLevel);
+  HOU_EXPECT(mipMapLevel < ph_texture.get_mipmap_level_count());
+  HOU_EXPECT(ph_texture.get_format() == texture_format::stencil
+    || ph_texture.get_format() == texture_format::depth_stencil);
+  gl::set_framebuffer_stencil_texture(m_handle, ph_texture.get_handle(), mipMapLevel);
   m_has_multisample_stencil_attachment
-    = isTextureTypeMultisampled(texture.get_type());
+    = is_texture_type_multisampled(ph_texture.get_type());
 }
 
 
 
 void framebuffer::set_depth_stencil_attachment(
-  const Texture& texture, uint mipMapLevel)
+  const texture& ph_texture, uint mipMapLevel)
 {
-  HOU_EXPECT(mipMapLevel < texture.getMipMapLevelCount());
-  HOU_EXPECT(texture.get_format() == TextureFormat::DepthStencil);
+  HOU_EXPECT(mipMapLevel < ph_texture.get_mipmap_level_count());
+  HOU_EXPECT(ph_texture.get_format() == texture_format::depth_stencil);
   gl::set_framebuffer_depth_stencil_texture(
-    m_handle, texture.get_handle(), mipMapLevel);
-  m_has_multisample_depth_attachment = isTextureTypeMultisampled(texture.get_type());
+    m_handle, ph_texture.get_handle(), mipMapLevel);
+  m_has_multisample_depth_attachment = is_texture_type_multisampled(ph_texture.get_type());
   m_has_multisample_stencil_attachment
-    = isTextureTypeMultisampled(texture.get_type());
+    = is_texture_type_multisampled(ph_texture.get_type());
 }
 
 
@@ -200,7 +200,7 @@ void blit(const framebuffer& src, const recti& srcRect, framebuffer& dst,
 
 
 
-void blit(const framebuffer& src, const recti& srcRect, Texture& dst,
+void blit(const framebuffer& src, const recti& srcRect, texture& dst,
   const recti& dstRect, framebuffer_blit_filter filter)
 {
   framebuffer dstFrameBuffer;
@@ -211,7 +211,7 @@ void blit(const framebuffer& src, const recti& srcRect, Texture& dst,
 
 
 
-void blit(const Texture& src, const recti& srcRect, framebuffer& dst,
+void blit(const texture& src, const recti& srcRect, framebuffer& dst,
   const recti& dstRect, framebuffer_blit_filter filter)
 {
   framebuffer srcFrameBuffer;
@@ -222,7 +222,7 @@ void blit(const Texture& src, const recti& srcRect, framebuffer& dst,
 
 
 
-void blit(const Texture& src, const recti& srcRect, Texture& dst,
+void blit(const texture& src, const recti& srcRect, texture& dst,
   const recti& dstRect, framebuffer_blit_filter filter)
 {
   framebuffer srcFrameBuffer;

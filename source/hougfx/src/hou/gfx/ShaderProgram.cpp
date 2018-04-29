@@ -2,9 +2,9 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gfx/ShaderProgram.hpp"
+#include "hou/gfx/shader_program.hpp"
 
-#include "hou/gfx/Shader.hpp"
+#include "hou/gfx/shader.hpp"
 
 #include "hou/mth/matrix.hpp"
 
@@ -13,60 +13,60 @@
 namespace hou
 {
 
-void ShaderProgram::bind(const ShaderProgram& program)
+void shader_program::bind(const shader_program& program)
 {
   gl::bind_program(program.m_handle);
 }
 
 
 
-void ShaderProgram::unbind()
+void shader_program::unbind()
 {
   gl::unbind_program();
 }
 
 
 
-ShaderProgram::ShaderProgram(const VertexShader& vs, const FragmentShader& fs)
-  : ShaderProgram(vs, fs, nullptr)
+shader_program::shader_program(const vertex_shader& vs, const fragment_shader& fs)
+  : shader_program(vs, fs, nullptr)
 {}
 
 
 
-ShaderProgram::ShaderProgram(
-  const VertexShader& vs, const FragmentShader& fs, const GeometryShader& gs)
-  : ShaderProgram(vs, fs, &gs)
+shader_program::shader_program(
+  const vertex_shader& vs, const fragment_shader& fs, const geometry_shader& gs)
+  : shader_program(vs, fs, &gs)
 {}
 
 
 
-ShaderProgram::ShaderProgram(ShaderProgram&& other)
+shader_program::shader_program(shader_program&& other)
   : non_copyable()
   , m_handle(std::move(other.m_handle))
 {}
 
 
 
-ShaderProgram::~ShaderProgram()
+shader_program::~shader_program()
 {}
 
 
 
-const gl::program_handle& ShaderProgram::get_handle() const
+const gl::program_handle& shader_program::get_handle() const
 {
   return m_handle;
 }
 
 
 
-bool ShaderProgram::isBound() const
+bool shader_program::is_bound() const
 {
   return gl::is_program_bound(m_handle);
 }
 
 
 
-uint ShaderProgram::getUniformLocation(const std::string& uniformName) const
+uint shader_program::get_uniform_location(const std::string& uniformName) const
 {
   return static_cast<uint>(
     gl::get_program_uniform_location(m_handle, uniformName.c_str()));
@@ -74,8 +74,8 @@ uint ShaderProgram::getUniformLocation(const std::string& uniformName) const
 
 
 
-ShaderProgram::ShaderProgram(
-  const VertexShader& vs, const FragmentShader& fs, const GeometryShader* gs)
+shader_program::shader_program(
+  const vertex_shader& vs, const fragment_shader& fs, const geometry_shader* gs)
   : non_copyable()
   , m_handle(gl::program_handle::create())
 {

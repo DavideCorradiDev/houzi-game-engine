@@ -319,7 +319,7 @@ TEST_F(TestPixelRG, Comparison)
 TEST_F(TestPixelRG, OutputStreamOperator)
 {
   pixelrg ph_pixel(1u, 2u);
-  const char* outputRef = "{r = 1, G = 2}";
+  const char* outputRef = "{r = 1, g = 2}";
   HOU_EXPECT_OUTPUT(outputRef, ph_pixel);
 }
 
@@ -420,7 +420,7 @@ TEST_F(TestPixelRGB, Comparison)
 TEST_F(TestPixelRGB, OutputStreamOperator)
 {
   pixelrgb ph_pixel(1u, 2u, 3u);
-  const char* outputRef = "{r = 1, G = 2, B = 3}";
+  const char* outputRef = "{r = 1, g = 2, b = 3}";
   HOU_EXPECT_OUTPUT(outputRef, ph_pixel);
 }
 
@@ -557,6 +557,6 @@ TEST_F(TestPixelRGBA, Comparison)
 TEST_F(TestPixelRGBA, OutputStreamOperator)
 {
   pixelrgba ph_pixel(1u, 2u, 3u, 4u);
-  const char* outputRef = "{r = 1, G = 2, B = 3, A = 4}";
+  const char* outputRef = "{r = 1, g = 2, b = 3, a = 4}";
   HOU_EXPECT_OUTPUT(outputRef, ph_pixel);
 }

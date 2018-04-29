@@ -34,7 +34,7 @@ private:
   GLenum m_type;
 };
 
-HOU_GL_API void compile_shader(const shader_handle& shader, const GLchar* src);
+HOU_GL_API void compile_shader(const shader_handle& ph_shader, const GLchar* src);
 
 }
 

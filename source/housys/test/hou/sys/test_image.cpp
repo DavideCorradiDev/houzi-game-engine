@@ -853,7 +853,7 @@ TEST_F(TestImageConversionConstructor, Image2ToImage3Constructor)
 
 TEST_F(TestImageFile, LoadBmpRGBA)
 {
-  // Alpha channel in Bmp not supported.
+  // alpha channel in Bmp not supported.
   image2RGBA imRef(vec2u(3u, 2u),
     std::vector<image2RGBA::pixel>{
       image2RGBA::pixel(50u, 100u, 150u, 255u),
@@ -959,7 +959,7 @@ TEST_F(TestImageFileDeathTest, SaveBmpErrorRGBA)
 
 TEST_F(TestImageFile, LoadBmpRGB)
 {
-  // Alpha channel in Bmp not supported.
+  // alpha channel in Bmp not supported.
   image2RGB imRef(vec2u(3u, 2u),
     std::vector<image2RGB::pixel>{
       image2RGB::pixel(50u, 100u, 150u),
@@ -1038,7 +1038,7 @@ TEST_F(TestImageFileDeathTest, LoadJpgRGBError)
 
 TEST_F(TestImageFile, LoadBmpRG)
 {
-  // Alpha channel in Bmp not supported.
+  // alpha channel in Bmp not supported.
   image2RG imRef(vec2u(3u, 2u),
     std::vector<image2RG::pixel>{
       image2RG::pixel(90u, 255u),
@@ -1117,7 +1117,7 @@ TEST_F(TestImageFileDeathTest, LoadJpgRGError)
 
 TEST_F(TestImageFile, LoadBmpR)
 {
-  // Alpha channel in Bmp not supported.
+  // alpha channel in Bmp not supported.
   image2R imRef(vec2u(3u, 2u),
     std::vector<image2R::pixel>{
       image2R::pixel(90u),

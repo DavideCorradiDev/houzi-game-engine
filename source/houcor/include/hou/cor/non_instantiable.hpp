@@ -12,7 +12,7 @@ namespace hou
 
 /** Non instantiable class.
  *
- *  A class inheriting from non_instantiable cannot be instantiated.
+ *  a class inheriting from non_instantiable cannot be instantiated.
  */
 class non_instantiable
 {
