@@ -12,12 +12,12 @@
 
 
 
-class TestAlBase
+class test_al_base
   : public testing::Test
 {
 public:
-  TestAlBase();
-  virtual ~TestAlBase() = 0;
+  test_al_base();
+  virtual ~test_al_base() = 0;
 
   void setContextCurrent();
 

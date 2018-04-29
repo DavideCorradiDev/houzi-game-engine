@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/al/TestAlBase.hpp"
+#include "hou/al/test_al_base.hpp"
 
 #include "hou/al/al_buffer_handle.hpp"
 #include "hou/al/al_error.hpp"
@@ -15,7 +15,7 @@ using namespace hou;
 namespace
 {
 
-class TestAlBufferHandle : public TestAlBase {};
+class TestAlBufferHandle : public test_al_base {};
 class TestAlBufferHandleDeathTest : public TestAlBufferHandle {};
 
 }

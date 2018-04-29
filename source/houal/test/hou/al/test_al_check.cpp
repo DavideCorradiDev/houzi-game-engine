@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/al/TestAlBase.hpp"
+#include "hou/al/test_al_base.hpp"
 
 #include "hou/al/al_context.hpp"
 #include "hou/al/al_check.hpp"
@@ -17,7 +17,7 @@ using namespace hou;
 namespace
 {
 
-class TestAlCheck : public TestAlBase {};
+class TestAlCheck : public test_al_base {};
 class TestAlCheckDeathTest : public TestAlCheck {};
 
 

@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/al/TestAlBase.hpp"
+#include "hou/al/test_al_base.hpp"
 
 #include "hou/al/al_listener.hpp"
 
@@ -16,7 +16,7 @@ using namespace hou;
 namespace
 {
 
-class TestAlListener : public TestAlBase {};
+class TestAlListener : public test_al_base {};
 
 }
 

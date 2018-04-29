@@ -2,11 +2,11 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/al/TestAlBase.hpp"
+#include "hou/al/test_al_base.hpp"
 
 
 
-TestAlBase::TestAlBase()
+test_al_base::test_al_base()
   : testing::Test()
   , m_device()
   , mContext(m_device)
@@ -16,12 +16,12 @@ TestAlBase::TestAlBase()
 
 
 
-TestAlBase::~TestAlBase()
+test_al_base::~test_al_base()
 {}
 
 
 
-void TestAlBase::setContextCurrent()
+void test_al_base::setContextCurrent()
 {
   hou::al::context::set_current(mContext);
 }

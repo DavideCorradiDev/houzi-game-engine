@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/Test.hpp"
-#include "hou/al/TestAlBase.hpp"
+#include "hou/al/test_al_base.hpp"
 
 #include "hou/al/al_state.hpp"
 
@@ -14,7 +14,7 @@ using namespace hou;
 namespace
 {
 
-class TestAlState : public TestAlBase {};
+class TestAlState : public test_al_base {};
 
 }
 
