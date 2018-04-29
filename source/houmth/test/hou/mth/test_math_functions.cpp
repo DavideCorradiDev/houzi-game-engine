@@ -11,27 +11,28 @@ using namespace testing;
 namespace
 {
 
-class TestMathFunctions : public Test {};
+class test_math_functions : public Test
+{};
 
-}
+}  // namespace
 
 
 
-TEST_F(TestMathFunctions, PiFloatValue)
+TEST_F(test_math_functions, pi_float_value)
 {
   EXPECT_FLOAT_EQ(3.14159265358979f, pi_f);
 }
 
 
 
-TEST_F(TestMathFunctions, PiDoubleValue)
+TEST_F(test_math_functions, pi_double_value)
 {
   EXPECT_FLOAT_EQ(3.14159265358979, pi_d);
 }
 
 
 
-TEST_F(TestMathFunctions, DegRadFloatConversion)
+TEST_F(test_math_functions, deg_rad_float_conversion)
 {
   EXPECT_FLOAT_EQ(-pi_f * 2.f, deg_to_rad(-360.f));
   EXPECT_FLOAT_EQ(-pi_f, deg_to_rad(-180.f));
@@ -59,7 +60,7 @@ TEST_F(TestMathFunctions, DegRadFloatConversion)
 
 
 
-TEST_F(TestMathFunctions, DegRadDoubleConversion)
+TEST_F(test_math_functions, deg_rad_double_conversion)
 {
   EXPECT_DOUBLE_EQ(-pi_d * 2., deg_to_rad(-360.));
   EXPECT_DOUBLE_EQ(-pi_d, deg_to_rad(-180.));
@@ -87,7 +88,7 @@ TEST_F(TestMathFunctions, DegRadDoubleConversion)
 
 
 
-TEST_F(TestMathFunctions, LogFloat)
+TEST_F(test_math_functions, log_float)
 {
   EXPECT_FLOAT_EQ(-3.f, log(0.125f, 2));
   EXPECT_FLOAT_EQ(-2.f, log(0.25f, 2));
@@ -114,7 +115,7 @@ TEST_F(TestMathFunctions, LogFloat)
 
 
 
-TEST_F(TestMathFunctions, LogDouble)
+TEST_F(test_math_functions, log_double)
 {
   EXPECT_DOUBLE_EQ(-3., log(0.125, 2));
   EXPECT_DOUBLE_EQ(-2., log(0.25, 2));
@@ -138,4 +139,3 @@ TEST_F(TestMathFunctions, LogDouble)
   EXPECT_TRUE(std::isnan(log(-2., 2)));
   EXPECT_TRUE(std::isnan(log(-2., -2)));
 }
-

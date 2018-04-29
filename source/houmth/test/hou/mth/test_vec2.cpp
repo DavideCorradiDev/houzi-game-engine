@@ -16,13 +16,14 @@ using namespace testing;
 namespace
 {
 
-class TestVec2 : public Test {};
+class test_vec2 : public Test
+{};
 
-}
+}  // namespace
 
 
 
-TEST_F(TestVec2, Construction)
+TEST_F(test_vec2, construction)
 {
   vec2i vi1;
   vec2i vi2(1, 2);
@@ -44,7 +45,7 @@ TEST_F(TestVec2, Construction)
 
 
 
-TEST_F(TestVec2, ConstructionFrommatrix)
+TEST_F(test_vec2, construction_frommatrix)
 {
   vec2i vi1(mat2x1i{1, 2});
   vec2i vi2(mat2x1f{1.f, 2.f});
@@ -57,7 +58,7 @@ TEST_F(TestVec2, ConstructionFrommatrix)
 
 
 
-TEST_F(TestVec2, ElementAccessOperators)
+TEST_F(test_vec2, element_access_operators)
 {
   vec2i v1(1, 2);
 
@@ -73,7 +74,7 @@ TEST_F(TestVec2, ElementAccessOperators)
 
 
 
-TEST_F(TestVec2, CrossProduct)
+TEST_F(test_vec2, cross_product)
 {
   vec2i v(3, 2);
   EXPECT_EQ(vec2i(2, -3), cross(v));
@@ -82,7 +83,7 @@ TEST_F(TestVec2, CrossProduct)
 
 
 
-TEST_F(TestVec2, DotProduct)
+TEST_F(test_vec2, dot_product)
 {
   vec2i v1(2, 3);
   vec2i v2(-5, 7);
@@ -93,9 +94,8 @@ TEST_F(TestVec2, DotProduct)
 
 
 
-TEST_F(TestVec2, OutputStreamOperator)
+TEST_F(test_vec2, output_stream_operator)
 {
   vec2i v(1, 2);
   HOU_EXPECT_OUTPUT("(1)\n(2)", v);
 }
-

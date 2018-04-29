@@ -13,16 +13,17 @@ using namespace testing;
 
 
 
-namespace 
+namespace
 {
 
-class TestVec3 : public Test {};
+class test_vec3 : public Test
+{};
 
-}
+}  // namespace
 
 
 
-TEST_F(TestVec3, Construction)
+TEST_F(test_vec3, construction)
 {
   vec3i vi1;
   vec3i vi2(1, 2, 3);
@@ -49,7 +50,7 @@ TEST_F(TestVec3, Construction)
 
 
 
-TEST_F(TestVec3, ConstructionFrommatrix)
+TEST_F(test_vec3, construction_frommatrix)
 {
   vec3i vi1(mat3x1i{1, 2, 3});
   vec3i vi2(mat3x1f{1.f, 2.f, 3.f});
@@ -64,7 +65,7 @@ TEST_F(TestVec3, ConstructionFrommatrix)
 
 
 
-TEST_F(TestVec3, ElementAccessOperators)
+TEST_F(test_vec3, element_access_operators)
 {
   vec3i v1(1, 2, 3);
 
@@ -83,22 +84,24 @@ TEST_F(TestVec3, ElementAccessOperators)
 
 
 
-TEST_F(TestVec3, Crossmatrix)
+TEST_F(test_vec3, crossmatrix)
 {
   vec3f v(1.f, 2.f, 3.f);
+  // clang-format off
   mat3x3f m =
   {
     0.f, -3.f, 2.f,
     3.f, 0.f, -1.f,
     -2.f, 1.f, 0.f
   };
+  // clang-format on
 
   HOU_EXPECT_FLOAT_CLOSE(m, cross_matrix(v));
 }
 
 
 
-TEST_F(TestVec3, CrossProduct)
+TEST_F(test_vec3, cross_product)
 {
   vec3i v1(1, 3, -5);
   vec3i v2(-2, 7, 6);
@@ -112,23 +115,25 @@ TEST_F(TestVec3, CrossProduct)
 
 
 
-TEST_F(TestVec3, OuterProduct)
+TEST_F(test_vec3, outer_product)
 {
   vec3i v1(-1, 2, 3);
   vec3i v2(5, 7, 11);
+  // clang-format off
   mat3x3i m =
   {
     -5, -7, -11,
     10, 14, 22,
     15, 21, 33
   };
+  // clang-format on
 
   EXPECT_EQ(m, outer_product(v1, v2));
 }
 
 
 
-TEST_F(TestVec3, DotProduct)
+TEST_F(test_vec3, dot_product)
 {
   vec3i v1(2, 3, 5);
   vec3i v2(-1, 7, 4);
@@ -139,9 +144,8 @@ TEST_F(TestVec3, DotProduct)
 
 
 
-TEST_F(TestVec3, OutputStreamOperator)
+TEST_F(test_vec3, output_stream_operator)
 {
   vec3i v(1, 2, 3);
   HOU_EXPECT_OUTPUT("(1)\n(2)\n(3)", v);
 }
-

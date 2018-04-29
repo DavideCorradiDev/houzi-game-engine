@@ -12,14 +12,17 @@ using namespace testing;
 namespace
 {
 
-class TestQuaternion : public Test {};
-class TestQuaternionDeathTest : public TestQuaternion {};
+class test_quaternion : public Test
+{};
 
-}
+class test_quaternion_death_test : public test_quaternion
+{};
+
+}  // namespace
 
 
 
-TEST_F(TestQuaternion, DefaultConstructor)
+TEST_F(test_quaternion, default_constructor)
 {
   quatf q;
   EXPECT_FLOAT_EQ(0.f, q.x());
@@ -30,7 +33,7 @@ TEST_F(TestQuaternion, DefaultConstructor)
 
 
 
-TEST_F(TestQuaternion, ElementConstructor)
+TEST_F(test_quaternion, element_constructor)
 {
   quatf q(1.f, 2.f, 3.f, 4.f);
   EXPECT_FLOAT_EQ(1.f, q.x());
@@ -41,7 +44,7 @@ TEST_F(TestQuaternion, ElementConstructor)
 
 
 
-TEST_F(TestQuaternion, InitializerListConstructor)
+TEST_F(test_quaternion, initializer_list_constructor)
 {
   quatf q{1.f, 2.f, 3.f, 4.f};
   EXPECT_FLOAT_EQ(1.f, q.x());
@@ -52,7 +55,7 @@ TEST_F(TestQuaternion, InitializerListConstructor)
 
 
 
-TEST_F(TestQuaternion, ConversionConstructor)
+TEST_F(test_quaternion, conversion_constructor)
 {
   quatd qd{1., 2., 3., 4.};
   quatf qf(qd);
@@ -64,17 +67,17 @@ TEST_F(TestQuaternion, ConversionConstructor)
 
 
 
-TEST_F(TestQuaternionDeathTest, InitializerListConstructorWrongSize)
+TEST_F(test_quaternion_death_test, initializer_list_constructor_wrong_size)
 {
-  HOU_EXPECT_ERROR(quatf q({1.f, 2.f, 3.f}), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(quatf q({1.f, 2.f, 3.f, 4.f, 5.f}), std::logic_error
-    , get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(quatf q({1.f, 2.f, 3.f}), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(quatf q({1.f, 2.f, 3.f, 4.f, 5.f}), std::logic_error,
+    get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestQuaternion, ElementAccessOperators)
+TEST_F(test_quaternion, element_access_operators)
 {
   quatf q{1.f, 2.f, 3.f, 4.f};
   q.x() = 5.f;
@@ -89,7 +92,7 @@ TEST_F(TestQuaternion, ElementAccessOperators)
 
 
 
-TEST_F(TestQuaternion, Data)
+TEST_F(test_quaternion, data)
 {
   quatf q{1.f, 2.f, 3.f, 4.f};
   float dataRef[] = {1.f, 2.f, 3.f, 4.f};
@@ -98,7 +101,7 @@ TEST_F(TestQuaternion, Data)
 
 
 
-TEST_F(TestQuaternion, ComparisonOperators)
+TEST_F(test_quaternion, comparison_operators)
 {
   quatf q1(1.f, 2.f, 3.f, 4.f);
   quatf q2 = q1;
@@ -121,7 +124,7 @@ TEST_F(TestQuaternion, ComparisonOperators)
 
 
 
-TEST_F(TestQuaternion, FloatingPointComparison)
+TEST_F(test_quaternion, floating_point_comparison)
 {
   quatf q1(1.f, 2.3456f, 3.f, 4.5678f);
   quatf q2 = q1;
@@ -137,7 +140,7 @@ TEST_F(TestQuaternion, FloatingPointComparison)
 
 
 
-TEST_F(TestQuaternion, Addition)
+TEST_F(test_quaternion, addition)
 {
   quatf q1(1.f, 2.f, 3.f, 4.f);
   quatf q2(5.f, -1.f, 5.f, 7.f);
@@ -148,7 +151,7 @@ TEST_F(TestQuaternion, Addition)
 
 
 
-TEST_F(TestQuaternion, Subtraction)
+TEST_F(test_quaternion, subtraction)
 {
   quatf q1(1.f, 2.f, 3.f, 4.f);
   quatf q2(5.f, -1.f, 5.f, 7.f);
@@ -159,7 +162,7 @@ TEST_F(TestQuaternion, Subtraction)
 
 
 
-TEST_F(TestQuaternion, Opposite)
+TEST_F(test_quaternion, opposite)
 {
   quatf q1(1.f, 2.f, 3.f, -4.f);
   EXPECT_EQ(quatf(-1.f, -2.f, -3.f, 4.f), -q1);
@@ -167,7 +170,7 @@ TEST_F(TestQuaternion, Opposite)
 
 
 
-TEST_F(TestQuaternion, Multiplication)
+TEST_F(test_quaternion, multiplication)
 {
   quatf q1(1.f, 2.f, 3.f, 4.f);
   quatf q2(5.f, -1.f, 5.f, 7.f);
@@ -178,7 +181,7 @@ TEST_F(TestQuaternion, Multiplication)
 
 
 
-TEST_F(TestQuaternion, ScalarMultiplication)
+TEST_F(test_quaternion, scalar_multiplication)
 {
   quatf q(1.f, 2.f, -3.f, 4.f);
   EXPECT_EQ(quatf(2.f, 4.f, -6.f, 8.f), q * 2.f);
@@ -189,7 +192,7 @@ TEST_F(TestQuaternion, ScalarMultiplication)
 
 
 
-TEST_F(TestQuaternion, MixedScalarMultiplication)
+TEST_F(test_quaternion, mixed_scalar_multiplication)
 {
   quatf q(1.f, 2.f, -3.f, 4.f);
   EXPECT_EQ(quatf(2.f, 4.f, -6.f, 8.f), q * 2);
@@ -200,7 +203,7 @@ TEST_F(TestQuaternion, MixedScalarMultiplication)
 
 
 
-TEST_F(TestQuaternion, ScalarDivision)
+TEST_F(test_quaternion, scalar_division)
 {
   quatf q(1.f, 2.f, -3.f, 4.f);
   EXPECT_EQ(quatf(0.5f, 1.f, -1.5f, 2.f), q / 2.f);
@@ -210,7 +213,7 @@ TEST_F(TestQuaternion, ScalarDivision)
 
 
 
-TEST_F(TestQuaternion, MixedScalarDivision)
+TEST_F(test_quaternion, mixed_scalar_division)
 {
   quatf q(1.f, 2.f, -3.f, 4.f);
   EXPECT_EQ(quatf(0.5f, 1.f, -1.5f, 2.f), q / 2);
@@ -220,7 +223,7 @@ TEST_F(TestQuaternion, MixedScalarDivision)
 
 
 
-TEST_F(TestQuaternion, Inversion)
+TEST_F(test_quaternion, inversion)
 {
   quatf q(2.f, -1.f, -3.f, 4.f);
   quatf qInv = inverse(q);
@@ -232,27 +235,27 @@ TEST_F(TestQuaternion, Inversion)
 
 
 
-TEST_F(TestQuaternion, InversionFailureNullDeterminant)
+TEST_F(test_quaternion, inversion_failure_null_determinant)
 {
   quatf q;
-  HOU_EXPECT_ERROR(inverse(q), std::logic_error
-    , get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    inverse(q), std::logic_error, get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestQuaternion, Conjugation)
+TEST_F(test_quaternion, conjugation)
 {
   quatf q(2.f, 4.f, 5.f, -6.f);
-  quatf qConj = conjugate(q);
-  HOU_EXPECT_FLOAT_CLOSE(quatf(-2.f, -4.f, -5.f, -6.f), qConj);
+  quatf q_conj = conjugate(q);
+  HOU_EXPECT_FLOAT_CLOSE(quatf(-2.f, -4.f, -5.f, -6.f), q_conj);
   q.conjugate();
   HOU_EXPECT_FLOAT_CLOSE(quatf(-2.f, -4.f, -5.f, -6.f), q);
 }
 
 
 
-TEST_F(TestQuaternion, Norm)
+TEST_F(test_quaternion, norm)
 {
   quatf q(2.f, 4.f, 5.f, -6.f);
   EXPECT_FLOAT_EQ(81.f, square_norm(q));
@@ -261,48 +264,47 @@ TEST_F(TestQuaternion, Norm)
 
 
 
-TEST_F(TestQuaternion, Normalization)
+TEST_F(test_quaternion, normalization)
 {
   quatf q(2.f, 4.f, 5.f, -6.f);
 
-  quatf qNorm = normalized(q);
-  HOU_EXPECT_FLOAT_CLOSE(q / 9.f, qNorm);
-  EXPECT_FLOAT_EQ(1.f, square_norm(qNorm));
-  EXPECT_FLOAT_EQ(1.f, norm(qNorm));
+  quatf q_norm = normalized(q);
+  HOU_EXPECT_FLOAT_CLOSE(q / 9.f, q_norm);
+  EXPECT_FLOAT_EQ(1.f, square_norm(q_norm));
+  EXPECT_FLOAT_EQ(1.f, norm(q_norm));
 
   q.normalize();
-  HOU_EXPECT_FLOAT_CLOSE(qNorm, q);
+  HOU_EXPECT_FLOAT_CLOSE(q_norm, q);
   EXPECT_FLOAT_EQ(1.f, square_norm(q));
   EXPECT_FLOAT_EQ(1.f, norm(q));
 }
 
 
 
-TEST_F(TestQuaternion, NormalizationFailureNullNorm)
+TEST_F(test_quaternion, normalization_failure_null_norm)
 {
-  HOU_EXPECT_ERROR(normalized(quatf::zero()), std::logic_error
-    , get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(normalized(quatf::zero()), std::logic_error,
+    get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestQuaternion, zero)
+TEST_F(test_quaternion, zero)
 {
   HOU_EXPECT_FLOAT_CLOSE(quatf(0.f, 0.f, 0.f, 0.f), quatf::zero());
 }
 
 
 
-TEST_F(TestQuaternion, Identity)
+TEST_F(test_quaternion, identity)
 {
   HOU_EXPECT_FLOAT_CLOSE(quatf(0.f, 0.f, 0.f, 1.f), quatf::identity());
 }
 
 
 
-TEST_F(TestQuaternion, OutputStreamOperator)
+TEST_F(test_quaternion, output_stream_operator)
 {
   quatf q{1.f, 2.f, 3.f, 4.f};
   HOU_EXPECT_OUTPUT("(1,2,3,4)", q);
 }
-

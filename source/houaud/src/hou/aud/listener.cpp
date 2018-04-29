@@ -64,7 +64,7 @@ void set_velocity(const vec3f& vel)
 
 
 
-Rot3f get_orientation()
+rot3f get_orientation()
 {
   ALfloat ori[6];
   al::get_listener_orientation(ori);
@@ -84,12 +84,12 @@ Rot3f get_orientation()
   rotMat(1, 2) = z(1);
   rotMat(2, 2) = z(2);
 
-  return Rot3f(rotMat);
+  return rot3f(rotMat);
 }
 
 
 
-void set_orientation(const Rot3f& ori)
+void set_orientation(const rot3f& ori)
 {
   mat3x3f rotMat = ori.get_matrix();
   ALfloat value[6] = {-rotMat(0, 2), -rotMat(1, 2), -rotMat(2, 2), rotMat(0, 1),

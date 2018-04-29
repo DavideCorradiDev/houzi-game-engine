@@ -87,7 +87,7 @@ public:
    *
    * \return a transform2 object representing the ortographic projection.
    */
-  static transform2 orthographic_projection(const Rect<T>& clipping_plane);
+  static transform2 orthographic_projection(const rect<T>& clipping_plane);
 
 public:
   /** Creates an identity transform.

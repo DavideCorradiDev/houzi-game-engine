@@ -16,14 +16,17 @@ using namespace testing;
 namespace
 {
 
-class Testmatrix : public Test {};
-class TestmatrixDeathTest : public Testmatrix {};
+class test_matrix : public Test
+{};
 
-}
+class test_matrix_death_test : public test_matrix
+{};
+
+}  // namespace
 
 
 
-TEST_F(Testmatrix, DefaultConstructor)
+TEST_F(test_matrix, default_constructor)
 {
   mat3x2i m;
   EXPECT_EQ(0, m(0));
@@ -36,7 +39,7 @@ TEST_F(Testmatrix, DefaultConstructor)
 
 
 
-TEST_F(Testmatrix, InitializerListConstructor)
+TEST_F(test_matrix, initializer_list_constructor)
 {
   mat3x2i mi = {1, 2, 3, 4, 5, 6};
   EXPECT_EQ(1, mi(0));
@@ -57,17 +60,17 @@ TEST_F(Testmatrix, InitializerListConstructor)
 
 
 
-TEST_F(TestmatrixDeathTest, InitializerListConstructorWrongSize)
+TEST_F(test_matrix_death_test, initializer_list_constructor_wrong_size)
 {
-  HOU_EXPECT_ERROR(mat3x2i({1, 2, 3}), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(mat3x2i({1, 2, 3, 4, 5, 6, 7}), std::logic_error
-    , get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    mat3x2i({1, 2, 3}), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(mat3x2i({1, 2, 3, 4, 5, 6, 7}), std::logic_error,
+    get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(Testmatrix, ElementConstructor)
+TEST_F(test_matrix, element_constructor)
 {
   mat3x2i mi(1, 2, 3, 4, 5, 6);
   EXPECT_EQ(1, mi(0));
@@ -80,7 +83,7 @@ TEST_F(Testmatrix, ElementConstructor)
 
 
 
-TEST_F(Testmatrix, ConversionConstructor)
+TEST_F(test_matrix, conversion_constructor)
 {
   mat3x2f mf = {1.f, 2.f, 3.f, 4.f, 5.f, 6.f};
   mat3x2i mi = mf;
@@ -94,7 +97,7 @@ TEST_F(Testmatrix, ConversionConstructor)
 
 
 
-TEST_F(Testmatrix, SizeOperators)
+TEST_F(test_matrix, size_operators)
 {
   mat3x2i m;
 
@@ -109,7 +112,7 @@ TEST_F(Testmatrix, SizeOperators)
 
 
 
-TEST_F(Testmatrix, ElementAccessOperators)
+TEST_F(test_matrix, element_access_operators)
 {
   mat3x2i m;
 
@@ -127,19 +130,19 @@ TEST_F(Testmatrix, ElementAccessOperators)
   EXPECT_EQ(5, m(4));
   EXPECT_EQ(6, m(5));
 
-  EXPECT_EQ(1, m(0,0));
-  EXPECT_EQ(2, m(0,1));
-  EXPECT_EQ(3, m(1,0));
-  EXPECT_EQ(4, m(1,1));
-  EXPECT_EQ(5, m(2,0));
-  EXPECT_EQ(6, m(2,1));
+  EXPECT_EQ(1, m(0, 0));
+  EXPECT_EQ(2, m(0, 1));
+  EXPECT_EQ(3, m(1, 0));
+  EXPECT_EQ(4, m(1, 1));
+  EXPECT_EQ(5, m(2, 0));
+  EXPECT_EQ(6, m(2, 1));
 
-  m(0,0) = 7;
-  m(0,1) = 8;
-  m(1,0) = 9;
-  m(1,1) = 10;
-  m(2,0) = 11;
-  m(2,1) = 12;
+  m(0, 0) = 7;
+  m(0, 1) = 8;
+  m(1, 0) = 9;
+  m(1, 1) = 10;
+  m(2, 0) = 11;
+  m(2, 1) = 12;
 
   EXPECT_EQ(7, m(0));
   EXPECT_EQ(8, m(1));
@@ -151,18 +154,21 @@ TEST_F(Testmatrix, ElementAccessOperators)
 
 
 
-TEST_F(TestmatrixDeathTest, ElementAccessOutOfBounds)
+TEST_F(test_matrix_death_test, element_access_out_of_bounds)
 {
   mat3x2i m;
-  HOU_EXPECT_ERROR(m(3,1), std::logic_error, get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(m(2,2), std::logic_error, get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(m(3,2), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    m(3, 1), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    m(2, 2), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    m(3, 2), std::logic_error, get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(m(7), std::logic_error, get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(Testmatrix, ElementAccessX)
+TEST_F(test_matrix, element_access_x)
 {
   mat1x1i m1{1};
   mat2x1i m2{1, 2};
@@ -189,7 +195,7 @@ TEST_F(Testmatrix, ElementAccessX)
 
 
 
-TEST_F(Testmatrix, ElementAccessY)
+TEST_F(test_matrix, element_access_y)
 {
   mat2x1i m2{1, 2};
   mat3x1i m3{1, 2, 3};
@@ -211,7 +217,7 @@ TEST_F(Testmatrix, ElementAccessY)
 
 
 
-TEST_F(Testmatrix, ElementAccessZ)
+TEST_F(test_matrix, element_access_z)
 {
   mat3x1i m3{1, 2, 3};
   mat4x1i m4{1, 2, 3, 4};
@@ -228,7 +234,7 @@ TEST_F(Testmatrix, ElementAccessZ)
 
 
 
-TEST_F(Testmatrix, ElementAccessW)
+TEST_F(test_matrix, element_access_w)
 {
   mat4x1i m4{1, 2, 3, 4};
 
@@ -240,37 +246,36 @@ TEST_F(Testmatrix, ElementAccessW)
 
 
 
-TEST_F(Testmatrix, Data)
+TEST_F(test_matrix, data)
 {
   mat3x2i m = {1, 2, 3, 4, 5, 6};
-  int dataRef[] = {1, 2, 3, 4, 5, 6};
-  HOU_EXPECT_ARRAY_EQ(dataRef, m.data(), m.get_size());
-
+  int data_ref[] = {1, 2, 3, 4, 5, 6};
+  HOU_EXPECT_ARRAY_EQ(data_ref, m.data(), m.get_size());
 }
 
 
 
-TEST_F(Testmatrix, Set)
+TEST_F(test_matrix, set)
 {
   mat3x2i m = {1, 2, 3, 4, 5, 6};
   m.set(7, 8, 9, 10, -1, -2);
-  mat3x2i mRef = {7, 8, 9, 10, -1, -2};
-  EXPECT_EQ(mRef, m);
+  mat3x2i m_ref = {7, 8, 9, 10, -1, -2};
+  EXPECT_EQ(m_ref, m);
 }
 
 
 
-TEST_F(Testmatrix, fill)
+TEST_F(test_matrix, fill)
 {
   mat3x2i m = {1, 2, 3, 4, 5, 6};
   m.fill(1);
-  mat3x2i mRef = {1, 1, 1, 1, 1, 1};
-  EXPECT_EQ(mRef, m);
+  mat3x2i m_ref = {1, 1, 1, 1, 1, 1};
+  EXPECT_EQ(m_ref, m);
 }
 
 
 
-TEST_F(Testmatrix, ComparisonOperators)
+TEST_F(test_matrix, comparison_operators)
 {
   mat3x2i m1 = {0, 1, 2, 3, 4, 5};
   mat3x2i m2 = {6, 7, 8, 9, 10, 11};
@@ -284,7 +289,7 @@ TEST_F(Testmatrix, ComparisonOperators)
 
 
 
-TEST_F(Testmatrix, FloatingPointComparison)
+TEST_F(test_matrix, floating_point_comparison)
 {
   mat3x2f m1 = {0.f, 1.f, 2.3456f, 3.f, 4.f, 5.f};
   mat3x2f m2 = m1;
@@ -297,125 +302,126 @@ TEST_F(Testmatrix, FloatingPointComparison)
 
 
 
-TEST_F(Testmatrix, Addition)
+TEST_F(test_matrix, addition)
 {
   mat3x2i m1 = {0, 1, 2, 3, 4, 5};
   mat3x2i m2 = {6, 7, 8, -5, 10, 0};
-  mat3x2i mSum = m1 + m2;
-  mat3x2i mSumIncremental = m1;
-  mSumIncremental += m2;
-  mat3x2i mSumRef = {6, 8, 10, -2, 14, 5};
+  mat3x2i m_sum = m1 + m2;
+  mat3x2i m_sum_incremental = m1;
+  m_sum_incremental += m2;
+  mat3x2i m_sum_ref = {6, 8, 10, -2, 14, 5};
 
-  EXPECT_EQ(mSumRef, mSum);
-  EXPECT_EQ(mSumRef, mSumIncremental);
+  EXPECT_EQ(m_sum_ref, m_sum);
+  EXPECT_EQ(m_sum_ref, m_sum_incremental);
 }
 
 
 
-TEST_F(Testmatrix, Subtraction)
+TEST_F(test_matrix, subtraction)
 {
   mat3x2i m1 = {0, 1, 2, 3, 4, 5};
   mat3x2i m2 = {6, 7, 1, -5, 10, 0};
-  mat3x2i mDiff = m1 - m2;
-  mat3x2i mDiffIncremental = m1;
-  mDiffIncremental -= m2;
-  mat3x2i mDiffRef = {-6, -6, 1, 8, -6, 5};
+  mat3x2i m_diff = m1 - m2;
+  mat3x2i m_diff_incremental = m1;
+  m_diff_incremental -= m2;
+  mat3x2i m_diff_ref = {-6, -6, 1, 8, -6, 5};
 
-  EXPECT_EQ(mDiffRef, mDiff);
-  EXPECT_EQ(mDiffRef, mDiffIncremental);
+  EXPECT_EQ(m_diff_ref, m_diff);
+  EXPECT_EQ(m_diff_ref, m_diff_incremental);
 }
 
 
 
-TEST_F(Testmatrix, Opposite)
+TEST_F(test_matrix, opposite)
 {
   mat3x2i m = {1, -2, 3, -4, 5, -6};
-  mat3x2i mOpp = -m;
-  mat3x2i mOppRef = {-1, 2, -3, 4, -5, 6};
+  mat3x2i m_opp = -m;
+  mat3x2i m_opp_ref = {-1, 2, -3, 4, -5, 6};
 
-  EXPECT_EQ(mOppRef, mOpp);
+  EXPECT_EQ(m_opp_ref, m_opp);
 }
 
 
 
-TEST_F(Testmatrix, ScalarMultiplication)
+TEST_F(test_matrix, scalar_multiplication)
 {
   mat3x2i m = {0, 1, 2, 3, -4, 5};
   int factor = 3;
-  mat3x2i mMultLeft = factor * m;
-  mat3x2i mMultRight = m * factor;
-  mat3x2i mMultIncremental = m;
-  mMultIncremental *= factor;
-  mat3x2i mMultRef = {0, 3, 6, 9, -12, 15};
+  mat3x2i m_mult_left = factor * m;
+  mat3x2i m_mult_right = m * factor;
+  mat3x2i m_mult_incremental = m;
+  m_mult_incremental *= factor;
+  mat3x2i m_mult_ref = {0, 3, 6, 9, -12, 15};
 
-  EXPECT_EQ(mMultRef, mMultLeft);
-  EXPECT_EQ(mMultRef, mMultRight);
-  EXPECT_EQ(mMultRef, mMultIncremental);
+  EXPECT_EQ(m_mult_ref, m_mult_left);
+  EXPECT_EQ(m_mult_ref, m_mult_right);
+  EXPECT_EQ(m_mult_ref, m_mult_incremental);
 }
 
 
 
-TEST_F(Testmatrix, MixedScalarMultiplication)
+TEST_F(test_matrix, mixed_scalar_multiplication)
 {
   mat3x2f m = {0, 1, 2, 3, -4, 5};
   int factor = 3;
-  mat3x2f mMultLeft = factor * m;
-  mat3x2f mMultRight = m * factor;
-  mat3x2f mMultIncremental = m;
-  mMultIncremental *= factor;
-  mat3x2f mMultRef = {0, 3, 6, 9, -12, 15};
+  mat3x2f m_mult_left = factor * m;
+  mat3x2f m_mult_right = m * factor;
+  mat3x2f m_mult_incremental = m;
+  m_mult_incremental *= factor;
+  mat3x2f m_mult_ref = {0, 3, 6, 9, -12, 15};
 
-  EXPECT_EQ(mMultRef, mMultLeft);
-  EXPECT_EQ(mMultRef, mMultRight);
-  EXPECT_EQ(mMultRef, mMultIncremental);
+  EXPECT_EQ(m_mult_ref, m_mult_left);
+  EXPECT_EQ(m_mult_ref, m_mult_right);
+  EXPECT_EQ(m_mult_ref, m_mult_incremental);
 }
 
 
 
-TEST_F(Testmatrix, Multiplication)
+TEST_F(test_matrix, multiplication)
 {
   mat3x2i m1 = {0, 1, 2, 3, -4, 5};
   mat2x1i m2 = {-4, 7};
   mat3x1i res = m1 * m2;
-  mat3x1i resRef = {7, 13, 51};
+  mat3x1i res_ref = {7, 13, 51};
 
-  EXPECT_EQ(resRef, res);
+  EXPECT_EQ(res_ref, res);
 }
 
 
 
-TEST_F(Testmatrix, ScalarDivision)
+TEST_F(test_matrix, scalar_division)
 {
   mat3x2i m = {0, 2, -4, 6, 8, 10};
   int divisor = 2;
-  mat3x2i mDiv = m / divisor;
-  mat3x2i mDivIncremental = m;
-  mDivIncremental /= divisor;
-  mat3x2i mDivRef = {0, 1, -2, 3, 4, 5};
+  mat3x2i m_div = m / divisor;
+  mat3x2i m_div_incremental = m;
+  m_div_incremental /= divisor;
+  mat3x2i m_div_ref = {0, 1, -2, 3, 4, 5};
 
-  EXPECT_EQ(mDivRef, mDiv);
-  EXPECT_EQ(mDivRef, mDivIncremental);
+  EXPECT_EQ(m_div_ref, m_div);
+  EXPECT_EQ(m_div_ref, m_div_incremental);
 }
 
 
 
-TEST_F(Testmatrix, MixedScalarDivision)
+TEST_F(test_matrix, mixed_scalar_division)
 {
   mat3x2f m = {0, 2, -4, 6, 8, 10};
   int divisor = 2;
-  mat3x2f mDiv = m / divisor;
-  mat3x2f mDivIncremental = m;
-  mDivIncremental /= divisor;
-  mat3x2f mDivRef = {0, 1, -2, 3, 4, 5};
+  mat3x2f m_div = m / divisor;
+  mat3x2f m_div_incremental = m;
+  m_div_incremental /= divisor;
+  mat3x2f m_div_ref = {0, 1, -2, 3, 4, 5};
 
-  EXPECT_EQ(mDivRef, mDiv);
-  EXPECT_EQ(mDivRef, mDivIncremental);
+  EXPECT_EQ(m_div_ref, m_div);
+  EXPECT_EQ(m_div_ref, m_div_incremental);
 }
 
 
 
-TEST_F(Testmatrix, Reduce3x2)
+TEST_F(test_matrix, reduce3x2)
 {
+  // clang-format off
   mat3x2i m =
   {
     1, 2,
@@ -470,12 +476,14 @@ TEST_F(Testmatrix, Reduce3x2)
     };
     EXPECT_EQ(mReducedRef, reduce(m, 2, 1));
   }
+  // clang-format on
 }
 
 
 
-TEST_F(Testmatrix, Reduce3x3)
+TEST_F(test_matrix, reduce3x3)
 {
+  // clang-format off
   mat3x3i m =
   {
     1, 2, 3,
@@ -554,11 +562,12 @@ TEST_F(Testmatrix, Reduce3x3)
     };
     EXPECT_EQ(mReducedRef, reduce(m, 2, 2));
   }
+  // clang-format on
 }
 
 
 
-TEST_F(Testmatrix, Transpose)
+TEST_F(test_matrix, transpose)
 {
   mat3x2i m = {1, 2, 3, 4, 5, 6};
   mat2x3i mTranspose = transpose(m);
@@ -568,7 +577,7 @@ TEST_F(Testmatrix, Transpose)
 
 
 
-TEST_F(Testmatrix, Adjugate1x1)
+TEST_F(test_matrix, adjugate1x1)
 {
   mat1x1i m = {2};
   EXPECT_EQ(mat1x1i::identity(), adjugate(m));
@@ -578,7 +587,7 @@ TEST_F(Testmatrix, Adjugate1x1)
 
 
 
-TEST_F(Testmatrix, Adjugate2x2)
+TEST_F(test_matrix, adjugate2x2)
 {
   mat2x2i m = {1, 2, 3, 4};
   mat2x2i mAdjugateRef = {4, -2, -3, 1};
@@ -589,8 +598,9 @@ TEST_F(Testmatrix, Adjugate2x2)
 
 
 
-TEST_F(Testmatrix, Adjugate3x3)
+TEST_F(test_matrix, adjugate3x3)
 {
+  // clang-format off
   mat3x3i m =
   {
     1, 2, 3,
@@ -603,6 +613,7 @@ TEST_F(Testmatrix, Adjugate3x3)
     6, -12, 6,
     -3, 6, -3
   };
+  // clang-format on
   EXPECT_EQ(mAdjugateRef, adjugate(m));
   m.adjugate();
   EXPECT_EQ(mAdjugateRef, m);
@@ -610,7 +621,7 @@ TEST_F(Testmatrix, Adjugate3x3)
 
 
 
-TEST_F(Testmatrix, Inverse1x1)
+TEST_F(test_matrix, inverse1x1)
 {
   mat1x1f m = {2.f};
   mat1x1f mInv = inverse(m);
@@ -623,7 +634,7 @@ TEST_F(Testmatrix, Inverse1x1)
 
 
 
-TEST_F(Testmatrix, Inverse2x2)
+TEST_F(test_matrix, inverse2x2)
 {
   mat2x2f m = {1.f, 2.f, 3.f, 4.f};
   mat2x2f mInv = inverse(m);
@@ -636,21 +647,23 @@ TEST_F(Testmatrix, Inverse2x2)
 
 
 
-TEST_F(Testmatrix, Inverse3x3)
+TEST_F(test_matrix, inverse3x3)
 {
+  // clang-format off
   mat3x3f m =
   {
     1.f, 2.f, 3.f,
     3.f, 2.f, 1.f,
     1.f, 3.f, 2.f
   };
-  mat3x3f mInv = inverse(m);
   mat3x3f mInvRef =
   {
     1.f / 12.f, 5.f / 12.f, -1.f / 3.f,
     -5.f / 12.f, -1.f / 12.f, 2.f / 3.f,
     7.f / 12.f, -1.f / 12.f, -1.f / 3.f
   };
+  // clang-format on
+  mat3x3f mInv = inverse(m);
   HOU_EXPECT_FLOAT_CLOSE(mInvRef, mInv);
   HOU_EXPECT_FLOAT_CLOSE(mat3x3f::identity(), m * mInv);
   m.invert();
@@ -659,16 +672,16 @@ TEST_F(Testmatrix, Inverse3x3)
 
 
 
-TEST_F(TestmatrixDeathTest, InverseFailureNullDeterminant)
+TEST_F(test_matrix_death_test, inverse_failure_null_determinant)
 {
   mat2x2f m = mat2x2f::zero();
-  HOU_EXPECT_ERROR(inverse(m), std::logic_error
-    , get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    inverse(m), std::logic_error, get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(Testmatrix, Determinant1x1)
+TEST_F(test_matrix, determinant1x1)
 {
   EXPECT_EQ(1, det(mat1x1i{1}));
   EXPECT_FLOAT_EQ(-3.f, det(mat1x1f{-3.f}));
@@ -676,7 +689,7 @@ TEST_F(Testmatrix, Determinant1x1)
 
 
 
-TEST_F(Testmatrix, Determinant2x2)
+TEST_F(test_matrix, determinant2x2)
 {
   EXPECT_EQ(-6, det(mat2x2i{0, 2, 3, 9}));
   EXPECT_FLOAT_EQ(-11.f, det(mat2x2f{-1.f, 2.f, 3.f, 5.f}));
@@ -684,16 +697,18 @@ TEST_F(Testmatrix, Determinant2x2)
 
 
 
-TEST_F(Testmatrix, Determinant3x3)
+TEST_F(test_matrix, determinant3x3)
 {
   EXPECT_EQ(381, det(mat3x3i{0, 2, 3, 9, -1, -4, 3, 10, -7}));
-  EXPECT_FLOAT_EQ(66.f, det(mat3x3f{-1.f, 2.f, 3.f, 5.f, -4.f, 5.f, -2., 7.f, 5.f}));
+  EXPECT_FLOAT_EQ(
+    66.f, det(mat3x3f{-1.f, 2.f, 3.f, 5.f, -4.f, 5.f, -2., 7.f, 5.f}));
 }
 
 
 
-TEST_F(Testmatrix, Determinant4x4)
+TEST_F(test_matrix, determinant4x4)
 {
+  // clang-format off
   mat4x4i mi =
   {
     0, -1, 4, -7,
@@ -701,8 +716,10 @@ TEST_F(Testmatrix, Determinant4x4)
     -2, -3, 13, 10,
     16, -1, 0, 4
   };
+  // clang-format on
   EXPECT_EQ(8686, det(mi));
 
+  // clang-format off
   mat4x4f mf =
   {
     -1.5f, 0.5f, 5.f, -8.f,
@@ -710,12 +727,13 @@ TEST_F(Testmatrix, Determinant4x4)
     15.f, -5.f, 7.f, 9.f,
     1.f, 3.f, -2.f, -4.5f
   };
+  // clang-format on
   EXPECT_FLOAT_EQ(3571.25f, det(mf));
 }
 
 
 
-TEST_F(Testmatrix, Trace1x1)
+TEST_F(test_matrix, trace1x1)
 {
   mat1x1i m{2};
   EXPECT_EQ(2, trace(m));
@@ -723,7 +741,7 @@ TEST_F(Testmatrix, Trace1x1)
 
 
 
-TEST_F(Testmatrix, Trace2x2)
+TEST_F(test_matrix, trace2x2)
 {
   mat2x2i m{2, 3, -5, 1};
   EXPECT_EQ(3, trace(m));
@@ -731,21 +749,24 @@ TEST_F(Testmatrix, Trace2x2)
 
 
 
-TEST_F(Testmatrix, Trace3x3)
+TEST_F(test_matrix, trace3x3)
 {
+  // clang-format off
   mat3x3i m
   {
     2, 3, -5,
     1, -3, 4,
     7, 2, 9,
   };
+  // clang-format on
   EXPECT_EQ(8, trace(m));
 }
 
 
 
-TEST_F(Testmatrix, Trace4x4)
+TEST_F(test_matrix, trace4x4)
 {
+  // clang-format off
   mat4x4i m
   {
     2, 3, -5, 2,
@@ -753,12 +774,13 @@ TEST_F(Testmatrix, Trace4x4)
     7, 2, 9, 7,
     2, -1, -3, -5,
   };
+  // clang-format on
   EXPECT_EQ(3, trace(m));
 }
 
 
 
-TEST_F(Testmatrix, Normmat3x1f)
+TEST_F(test_matrix, norm_mat3x1f)
 {
   mat3x1f m{3.f, 4.f, 12.f};
   EXPECT_FLOAT_EQ(169.f, square_norm(m));
@@ -767,7 +789,7 @@ TEST_F(Testmatrix, Normmat3x1f)
 
 
 
-TEST_F(Testmatrix, Normalizationmat3x1f)
+TEST_F(test_matrix, normalization_mat3x1f)
 {
   mat3x1f m{3.f, 4.f, 12.f};
 
@@ -784,47 +806,46 @@ TEST_F(Testmatrix, Normalizationmat3x1f)
 
 
 
-TEST_F(Testmatrix, NormalizationFailureNullNorm)
+TEST_F(test_matrix, normalization_failure_null_norm)
 {
-  HOU_EXPECT_ERROR(normalized(mat3x1f::zero()), std::logic_error
-    , get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(normalized(mat3x1f::zero()), std::logic_error,
+    get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(Testmatrix, Identity)
+TEST_F(test_matrix, identity)
 {
   EXPECT_EQ(mat3x3i({1, 0, 0, 0, 1, 0, 0, 0, 1}), mat3x3i::identity());
 }
 
 
 
-TEST_F(Testmatrix, zero)
+TEST_F(test_matrix, zero)
 {
   EXPECT_EQ(mat3x2i({0, 0, 0, 0, 0, 0}), mat3x2i::zero());
 }
 
 
 
-TEST_F(Testmatrix, Filled)
+TEST_F(test_matrix, filled)
 {
   EXPECT_EQ(mat3x2i({2, 2, 2, 2, 2, 2}), mat3x2i::filled(2));
 }
 
 
 
-TEST_F(Testmatrix, Diagonal)
+TEST_F(test_matrix, diagonal)
 {
-  mat3x3i mRef{1, 0, 0, 0, 2, 0, 0, 0, 3};
-  EXPECT_EQ(mRef, mat3x3i::diagonal(vec3i(1, 2, 3)));
-  EXPECT_EQ(mRef, mat3x3i::diagonal(1, 2, 3));
+  mat3x3i m_ref{1, 0, 0, 0, 2, 0, 0, 0, 3};
+  EXPECT_EQ(m_ref, mat3x3i::diagonal(vec3i(1, 2, 3)));
+  EXPECT_EQ(m_ref, mat3x3i::diagonal(1, 2, 3));
 }
 
 
 
-TEST_F(Testmatrix, OutputStreamOperator)
+TEST_F(test_matrix, output_stream_operator)
 {
   HOU_EXPECT_OUTPUT("(0)\n(1)", mat2x1i(0, 1));
   HOU_EXPECT_OUTPUT("(0, 1)\n(2, 3)\n(4, 5)", mat3x2i(0, 1, 2, 3, 4, 5));
 }
-

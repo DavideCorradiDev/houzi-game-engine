@@ -31,7 +31,7 @@ transform3<T> transform3<T>::translation(const vec3<T>& translation)
 
 
 template <typename T>
-transform3<T> transform3<T>::rotation(const Rot3<T>& rotation)
+transform3<T> transform3<T>::rotation(const rot3<T>& rotation)
 {
   return transform3<T>(rotation.get_matrix(), vec3<T>::zero());
 }

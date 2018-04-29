@@ -58,7 +58,7 @@ transform2<T> transform2<T>::shear(T sxy, T syx)
 
 template <typename T>
 transform2<T> transform2<T>::orthographic_projection(
-  const Rect<T>& clipping_plane)
+  const rect<T>& clipping_plane)
 
 {
   return translation(vec2<T>(T(-1), T(-1)))

@@ -14,14 +14,14 @@ using namespace testing;
 namespace
 {
 
-class TestRectangle : public Test
+class test_rectangle : public Test
 {};
 
 }  // namespace
 
 
 
-TEST_F(TestRectangle, DefaultConstructor)
+TEST_F(test_rectangle, default_constructor)
 {
   recti r;
   EXPECT_EQ(0, r.x());
@@ -32,7 +32,7 @@ TEST_F(TestRectangle, DefaultConstructor)
 
 
 
-TEST_F(TestRectangle, ElementConstructor)
+TEST_F(test_rectangle, element_constructor)
 {
   recti r(1, 2, 3, 4);
   EXPECT_EQ(1, r.x());
@@ -43,7 +43,7 @@ TEST_F(TestRectangle, ElementConstructor)
 
 
 
-TEST_F(TestRectangle, PositionSizeConstructor)
+TEST_F(test_rectangle, position_size_constructor)
 {
   recti r(vec2i(5, 6), vec2i(7, 8));
   EXPECT_EQ(5, r.x());
@@ -54,7 +54,7 @@ TEST_F(TestRectangle, PositionSizeConstructor)
 
 
 
-TEST_F(TestRectangle, ConversionConstructor)
+TEST_F(test_rectangle, conversion_constructor)
 {
   rectf rf(1.1f, 2.2f, 3.3f, 4.4f);
   recti ri = static_cast<recti>(rf);
@@ -67,7 +67,7 @@ TEST_F(TestRectangle, ConversionConstructor)
 
 
 
-TEST_F(TestRectangle, ElementAccess)
+TEST_F(test_rectangle, element_access)
 {
   recti r(1, 2, 3, 5);
 
@@ -121,7 +121,7 @@ TEST_F(TestRectangle, ElementAccess)
 
 
 
-TEST_F(TestRectangle, ComparisonOperators)
+TEST_F(test_rectangle, comparison_operators)
 {
   recti r1(1, 2, 3, 4);
   recti r2(r1);
@@ -144,7 +144,7 @@ TEST_F(TestRectangle, ComparisonOperators)
 
 
 
-TEST_F(TestRectangle, FloatingPointComparison)
+TEST_F(test_rectangle, floating_point_comparison)
 {
   rectf r1(1.23456f, 2.34567f, 4.245678f, 5.894523f);
   rectf r2(r1);
@@ -167,15 +167,15 @@ TEST_F(TestRectangle, FloatingPointComparison)
 
 
 
-TEST_F(TestRectangle, OutputStreamOperator)
+TEST_F(test_rectangle, output_stream_operator)
 {
   HOU_EXPECT_OUTPUT(
-    "{Position = (1, 2), size_type = (3, 4)}", recti(1, 2, 3, 4));
+    "{position = (1, 2), size_type = (3, 4)}", recti(1, 2, 3, 4));
 }
 
 
 
-TEST_F(TestRectangle, RectContainsPoint)
+TEST_F(test_rectangle, rect_contains_point)
 {
   recti r(-2, 3, 5, 4);
   vec2i p0(1, 5);

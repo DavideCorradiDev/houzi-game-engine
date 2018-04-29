@@ -154,25 +154,29 @@ rotation2<T> inverse(rotation2<T> r)
 
 
 
+// clang-format off
 HOU_PRAGMA_GCC_DIAGNOSTIC_PUSH()
-HOU_PRAGMA_GCC_DIAGNOSTIC_IGNORED(-Wfloat - equal)
+HOU_PRAGMA_GCC_DIAGNOSTIC_IGNORED(-Wfloat-equal)
 template <typename T>
 bool operator==(const rotation2<T>& lhs, const rotation2<T>& rhs)
 {
   return lhs.get_angle() == rhs.get_angle();
 }
 HOU_PRAGMA_GCC_DIAGNOSTIC_POP()
+// clang-format on
 
 
 
+// clang-format off
 HOU_PRAGMA_GCC_DIAGNOSTIC_PUSH()
-HOU_PRAGMA_GCC_DIAGNOSTIC_IGNORED(-Wfloat - equal)
+HOU_PRAGMA_GCC_DIAGNOSTIC_IGNORED(-Wfloat-equal)
 template <typename T>
 bool operator!=(const rotation2<T>& lhs, const rotation2<T>& rhs)
 {
   return lhs.get_angle() != rhs.get_angle();
 }
 HOU_PRAGMA_GCC_DIAGNOSTIC_POP()
+// clang-format on
 
 
 

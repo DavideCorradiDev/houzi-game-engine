@@ -56,7 +56,7 @@ public:
    *
    * \return a transform3 object representing the rotation.
    */
-  static transform3 rotation(const Rot3<T>& rotation);
+  static transform3 rotation(const rot3<T>& rotation);
 
   /** Creates a 3d transform representing a scaling transformation.
    *

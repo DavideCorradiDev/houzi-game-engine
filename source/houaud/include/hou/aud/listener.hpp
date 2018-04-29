@@ -72,7 +72,7 @@ HOU_AUD_API void set_velocity(const vec3f& vel);
  *
  *  \return the orientation of the listener.
  */
-HOU_AUD_API Rot3f get_orientation();
+HOU_AUD_API rot3f get_orientation();
 
 /** Gets the current orientation of the listener.
  *
@@ -82,7 +82,7 @@ HOU_AUD_API Rot3f get_orientation();
  *
  *  \param ori the orientation.
  */
-HOU_AUD_API void set_orientation(const Rot3f& ori);
+HOU_AUD_API void set_orientation(const rot3f& ori);
 
 }  // namespace listener
 
