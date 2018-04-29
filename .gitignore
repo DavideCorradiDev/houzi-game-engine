@@ -43,3 +43,6 @@ latex/
 tags
 tags.lock
 tags.temp
+
+# Config file
+source/houcor/include/hou/Config.hpp
