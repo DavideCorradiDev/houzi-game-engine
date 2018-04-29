@@ -11,78 +11,76 @@
 
 using namespace testing;
 
-// Not: not_null clashes with a gtest defined class. Therefore it is necessary to
-// explicitly specify the namespace in this test case.
-
 
 
 namespace
 {
 
-class TestNotNull : public Test {};
+class test_not_null : public Test
+{};
 
-class Foo
+class foo
 {
 public:
-  Foo();
-  int getInt() const;
-  void setInt(int value);
+  foo();
+  int get_int() const;
+  void set_int(int value);
 
 private:
-  int mInt;
+  int m_int;
 };
 
 
 
-Foo::Foo()
-  : mInt(0)
+foo::foo()
+  : m_int(0)
 {}
 
 
 
-int Foo::getInt() const
+int foo::get_int() const
 {
-  return mInt;
+  return m_int;
 }
 
 
 
-void Foo::setInt(int value)
+void foo::set_int(int value)
 {
-  mInt = value;
+  m_int = value;
 }
 
-}
+}  // namespace
 
 
 
-TEST_F(TestNotNull, UniquePtrConstruction)
+TEST_F(test_not_null, unique_ptr_construction)
 {
-  using IntPtr = std::unique_ptr<int>;
+  using int_ptr = std::unique_ptr<int>;
 
-  hou::not_null<IntPtr> nnp(std::make_unique<int>(2));
+  hou::not_null<int_ptr> nnp(std::make_unique<int>(2));
   EXPECT_EQ(2, *nnp.get());
   EXPECT_EQ(2, *nnp);
 }
 
 
 
-TEST_F(TestNotNull, UniquePtrGet)
+TEST_F(test_not_null, unique_ptr_get)
 {
-  using IntPtr = std::unique_ptr<int>;
+  using int_ptr = std::unique_ptr<int>;
 
-  hou::not_null<IntPtr> nnp(std::make_unique<int>(2));
-  IntPtr p = std::move(nnp.get());
+  hou::not_null<int_ptr> nnp(std::make_unique<int>(2));
+  int_ptr p = std::move(nnp.get());
   EXPECT_EQ(2, *p);
 }
 
 
 
-TEST_F(TestNotNull, UniquePtrDereferencing)
+TEST_F(test_not_null, unique_ptr_dereferencing)
 {
-  using IntPtr = std::unique_ptr<int>;
+  using int_ptr = std::unique_ptr<int>;
 
-  hou::not_null<IntPtr> nnp(std::make_unique<int>(2));
+  hou::not_null<int_ptr> nnp(std::make_unique<int>(2));
   EXPECT_EQ(2, *nnp);
   *nnp = 3;
   EXPECT_EQ(3, *nnp);
@@ -90,46 +88,46 @@ TEST_F(TestNotNull, UniquePtrDereferencing)
 
 
 
-TEST_F(TestNotNull, UniquePtrClassMethodDereferencing)
+TEST_F(test_not_null, unique_ptr_class_method_dereferencing)
 {
-  using FooPtr = std::unique_ptr<Foo>;
+  using foo_ptr = std::unique_ptr<foo>;
 
-  hou::not_null<FooPtr> nnp(std::make_unique<Foo>());
-  EXPECT_EQ(0, nnp->getInt());
-  nnp->setInt(42);
-  EXPECT_EQ(42, nnp->getInt());
+  hou::not_null<foo_ptr> nnp(std::make_unique<foo>());
+  EXPECT_EQ(0, nnp->get_int());
+  nnp->set_int(42);
+  EXPECT_EQ(42, nnp->get_int());
 }
 
 
 
-TEST_F(TestNotNull, SharedPtrConstruction)
+TEST_F(test_not_null, shared_ptr_construction)
 {
-  using IntPtr = std::shared_ptr<int>;
+  using int_ptr = std::shared_ptr<int>;
 
-  IntPtr p = std::make_shared<int>(2);
-  hou::not_null<IntPtr> nnp(p);
+  int_ptr p = std::make_shared<int>(2);
+  hou::not_null<int_ptr> nnp(p);
   EXPECT_EQ(2, *nnp.get());
   EXPECT_EQ(2, *nnp);
 }
 
 
 
-TEST_F(TestNotNull, SharedPtrGet)
+TEST_F(test_not_null, shared_ptr_get)
 {
-  using IntPtr = std::shared_ptr<int>;
+  using int_ptr = std::shared_ptr<int>;
 
-  hou::not_null<IntPtr> nnp(std::make_shared<int>(2));
-  IntPtr p = nnp.get();
+  hou::not_null<int_ptr> nnp(std::make_shared<int>(2));
+  int_ptr p = nnp.get();
   EXPECT_EQ(2, *p);
 }
 
 
 
-TEST_F(TestNotNull, SharedPtrDereferencing)
+TEST_F(test_not_null, shared_ptr_dereferencing)
 {
-  using IntPtr = std::shared_ptr<int>;
+  using int_ptr = std::shared_ptr<int>;
 
-  hou::not_null<IntPtr> nnp(std::make_shared<int>(2));
+  hou::not_null<int_ptr> nnp(std::make_shared<int>(2));
   EXPECT_EQ(2, *nnp);
   *nnp = 3;
   EXPECT_EQ(3, *nnp);
@@ -137,30 +135,30 @@ TEST_F(TestNotNull, SharedPtrDereferencing)
 
 
 
-TEST_F(TestNotNull, SharedPtrClassMethodDereferencing)
+TEST_F(test_not_null, shared_ptr_class_method_dereferencing)
 {
-  using FooPtr = std::shared_ptr<Foo>;
+  using foo_ptr = std::shared_ptr<foo>;
 
-  hou::not_null<FooPtr> nnp(std::make_shared<Foo>());
-  EXPECT_EQ(0, nnp->getInt());
-  nnp->setInt(42);
-  EXPECT_EQ(42, nnp->getInt());
+  hou::not_null<foo_ptr> nnp(std::make_shared<foo>());
+  EXPECT_EQ(0, nnp->get_int());
+  nnp->set_int(42);
+  EXPECT_EQ(42, nnp->get_int());
 }
 
 
 
-TEST_F(TestNotNull, SharedPtrConversion)
+TEST_F(test_not_null, shared_ptr_conversion)
 {
-  using IntPtr = std::shared_ptr<int>;
+  using int_ptr = std::shared_ptr<int>;
 
-  hou::not_null<IntPtr> nnp(std::make_shared<int>(2));
-  IntPtr p = nnp;
+  hou::not_null<int_ptr> nnp(std::make_shared<int>(2));
+  int_ptr p = nnp;
   EXPECT_EQ(2, *p);
 }
 
 
 
-TEST_F(TestNotNull, NakedPtrConstruction)
+TEST_F(test_not_null, naked_ptr_construction)
 {
   int* p = new int(2);
   hou::not_null<int*> nnp(p);
@@ -171,7 +169,7 @@ TEST_F(TestNotNull, NakedPtrConstruction)
 
 
 
-TEST_F(TestNotNull, NakedPtrGet)
+TEST_F(test_not_null, naked_ptr_get)
 {
   int* p1 = new int(2);
   hou::not_null<int*> nnp(p1);
@@ -182,7 +180,7 @@ TEST_F(TestNotNull, NakedPtrGet)
 
 
 
-TEST_F(TestNotNull, NakedPtrDereferencing)
+TEST_F(test_not_null, naked_ptr_dereferencing)
 {
   int* p = new int(2);
   hou::not_null<int*> nnp(p);
@@ -194,19 +192,19 @@ TEST_F(TestNotNull, NakedPtrDereferencing)
 
 
 
-TEST_F(TestNotNull, NakedPtrClassMethodDereferencing)
+TEST_F(test_not_null, naked_ptr_class_method_dereferencing)
 {
-  Foo* p = new Foo();
-  hou::not_null<Foo*> nnp(p);
-  EXPECT_EQ(0, nnp->getInt());
-  nnp->setInt(42);
-  EXPECT_EQ(42, nnp->getInt());
+  foo* p = new foo();
+  hou::not_null<foo*> nnp(p);
+  EXPECT_EQ(0, nnp->get_int());
+  nnp->set_int(42);
+  EXPECT_EQ(42, nnp->get_int());
   delete p;
 }
 
 
 
-TEST_F(TestNotNull, NakedPtrConversion)
+TEST_F(test_not_null, naked_ptr_conversion)
 {
   int* p1 = new int(2);
   hou::not_null<int*> nnp(p1);
@@ -214,4 +212,3 @@ TEST_F(TestNotNull, NakedPtrConversion)
   EXPECT_EQ(2, *p2);
   delete p1;
 }
-

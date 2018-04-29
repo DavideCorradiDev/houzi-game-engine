@@ -48,7 +48,7 @@ public:
    *
    * \return true if the ph_stopwatch is running.
    */
-  bool isRunning() const;
+  bool is_running() const;
 
   /** Starts the ph_stopwatch.
    *

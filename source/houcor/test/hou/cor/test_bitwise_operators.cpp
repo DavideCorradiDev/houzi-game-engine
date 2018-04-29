@@ -11,21 +11,22 @@ using namespace testing;
 
 
 
-namespace 
+namespace
 {
 
-class TestBitwiseOperators : public Test {};
+class test_bitwise_operators : public Test
+{};
 
-enum class Flags : uint
+enum class flags : uint
 {
-  Null = 0u,
-  Flag0 = 1u << 0,
-  Flag1 = 1u << 1,
-  Flag2 = 1u << 2,
+  null = 0u,
+  flag0 = 1u << 0,
+  flag1 = 1u << 1,
+  flag2 = 1u << 2,
   all = 7u,
 };
 
-}
+}  // namespace
 
 
 
@@ -33,145 +34,144 @@ namespace hou
 {
 
 template <>
-  struct enable_bitwise_operators<Flags>
+struct enable_bitwise_operators<flags>
 {
   static constexpr bool enable = true;
 };
 
-}
+}  // namespace hou
 
 
 
-TEST_F(TestBitwiseOperators, BitwiseAnd)
+TEST_F(test_bitwise_operators, bitwise_and)
 {
-  EXPECT_EQ(0u, static_cast<uint>(Flags::Null & Flags::Flag0));
-  EXPECT_EQ(0u, static_cast<uint>(Flags::Null & Flags::Flag1));
-  EXPECT_EQ(0u, static_cast<uint>(Flags::Null & Flags::Flag2));
-  EXPECT_EQ(1u, static_cast<uint>(Flags::Flag0 & Flags::Flag0));
-  EXPECT_EQ(0u, static_cast<uint>(Flags::Flag0 & Flags::Flag1));
-  EXPECT_EQ(0u, static_cast<uint>(Flags::Flag0 & Flags::Flag2));
-  EXPECT_EQ(1u, static_cast<uint>(Flags::all & Flags::Flag0));
-  EXPECT_EQ(2u, static_cast<uint>(Flags::all & Flags::Flag1));
-  EXPECT_EQ(4u, static_cast<uint>(Flags::all & Flags::Flag2));
+  EXPECT_EQ(0u, static_cast<uint>(flags::null & flags::flag0));
+  EXPECT_EQ(0u, static_cast<uint>(flags::null & flags::flag1));
+  EXPECT_EQ(0u, static_cast<uint>(flags::null & flags::flag2));
+  EXPECT_EQ(1u, static_cast<uint>(flags::flag0 & flags::flag0));
+  EXPECT_EQ(0u, static_cast<uint>(flags::flag0 & flags::flag1));
+  EXPECT_EQ(0u, static_cast<uint>(flags::flag0 & flags::flag2));
+  EXPECT_EQ(1u, static_cast<uint>(flags::all & flags::flag0));
+  EXPECT_EQ(2u, static_cast<uint>(flags::all & flags::flag1));
+  EXPECT_EQ(4u, static_cast<uint>(flags::all & flags::flag2));
 }
 
 
 
-TEST_F(TestBitwiseOperators, InPlaceBitwiseAnd)
-{
-  {
-    Flags f = Flags::Null;
-    EXPECT_EQ(0u, static_cast<uint>(f &= Flags::Flag0));
-  }
-  {
-    Flags f = Flags::Null;
-    EXPECT_EQ(0u, static_cast<uint>(f &= Flags::Flag1));
-  }
-  {
-    Flags f = Flags::Null;
-    EXPECT_EQ(0u, static_cast<uint>(f &= Flags::Flag2));
-  }
-  {
-    Flags f = Flags::Flag0;
-    EXPECT_EQ(1u, static_cast<uint>(f &= Flags::Flag0));
-  }
-  {
-    Flags f = Flags::Flag0;
-    EXPECT_EQ(0u, static_cast<uint>(f &= Flags::Flag1));
-  }
-  {
-    Flags f = Flags::Flag0;
-    EXPECT_EQ(0u, static_cast<uint>(f &= Flags::Flag2));
-  }
-  {
-    Flags f = Flags::all;
-    EXPECT_EQ(1u, static_cast<uint>(f &= Flags::Flag0));
-  }
-  {
-    Flags f = Flags::all;
-    EXPECT_EQ(2u, static_cast<uint>(f &= Flags::Flag1));
-  }
-  {
-    Flags f = Flags::all;
-    EXPECT_EQ(4u, static_cast<uint>(f &= Flags::Flag2));
-  }
-}
-
-
-
-TEST_F(TestBitwiseOperators, BitwiseOr)
-{
-  EXPECT_EQ(1u, static_cast<uint>(Flags::Null | Flags::Flag0));
-  EXPECT_EQ(2u, static_cast<uint>(Flags::Null | Flags::Flag1));
-  EXPECT_EQ(4u, static_cast<uint>(Flags::Null | Flags::Flag2));
-  EXPECT_EQ(1u, static_cast<uint>(Flags::Flag0 | Flags::Flag0));
-  EXPECT_EQ(3u, static_cast<uint>(Flags::Flag0 | Flags::Flag1));
-  EXPECT_EQ(5u, static_cast<uint>(Flags::Flag0 | Flags::Flag2));
-  EXPECT_EQ(7u, static_cast<uint>(Flags::all | Flags::Flag0));
-  EXPECT_EQ(7u, static_cast<uint>(Flags::all | Flags::Flag1));
-  EXPECT_EQ(7u, static_cast<uint>(Flags::all | Flags::Flag2));
-}
-
-
-
-TEST_F(TestBitwiseOperators, InPlaceBitwiseOr)
+TEST_F(test_bitwise_operators, in_place_bitwise_and)
 {
   {
-    Flags f = Flags::Null;
-    EXPECT_EQ(1u, static_cast<uint>(f |= Flags::Flag0));
+    flags f = flags::null;
+    EXPECT_EQ(0u, static_cast<uint>(f &= flags::flag0));
   }
   {
-    Flags f = Flags::Null;
-    EXPECT_EQ(2u, static_cast<uint>(f |= Flags::Flag1));
+    flags f = flags::null;
+    EXPECT_EQ(0u, static_cast<uint>(f &= flags::flag1));
   }
   {
-    Flags f = Flags::Null;
-    EXPECT_EQ(4u, static_cast<uint>(f |= Flags::Flag2));
+    flags f = flags::null;
+    EXPECT_EQ(0u, static_cast<uint>(f &= flags::flag2));
   }
   {
-    Flags f = Flags::Flag0;
-    EXPECT_EQ(1u, static_cast<uint>(f |= Flags::Flag0));
+    flags f = flags::flag0;
+    EXPECT_EQ(1u, static_cast<uint>(f &= flags::flag0));
   }
   {
-    Flags f = Flags::Flag0;
-    EXPECT_EQ(3u, static_cast<uint>(f |= Flags::Flag1));
+    flags f = flags::flag0;
+    EXPECT_EQ(0u, static_cast<uint>(f &= flags::flag1));
   }
   {
-    Flags f = Flags::Flag0;
-    EXPECT_EQ(5u, static_cast<uint>(f |= Flags::Flag2));
+    flags f = flags::flag0;
+    EXPECT_EQ(0u, static_cast<uint>(f &= flags::flag2));
   }
   {
-    Flags f = Flags::all;
-    EXPECT_EQ(7u, static_cast<uint>(f |= Flags::Flag0));
+    flags f = flags::all;
+    EXPECT_EQ(1u, static_cast<uint>(f &= flags::flag0));
   }
   {
-    Flags f = Flags::all;
-    EXPECT_EQ(7u, static_cast<uint>(f |= Flags::Flag1));
+    flags f = flags::all;
+    EXPECT_EQ(2u, static_cast<uint>(f &= flags::flag1));
   }
   {
-    Flags f = Flags::all;
-    EXPECT_EQ(7u, static_cast<uint>(f |= Flags::Flag2));
+    flags f = flags::all;
+    EXPECT_EQ(4u, static_cast<uint>(f &= flags::flag2));
   }
 }
 
 
 
-TEST_F(TestBitwiseOperators, CheckBit)
+TEST_F(test_bitwise_operators, bitwise_or)
 {
-  EXPECT_FALSE(check_bit(Flags::Null, Flags::Flag0));
-  EXPECT_FALSE(check_bit(Flags::Null, Flags::Flag1));
-  EXPECT_FALSE(check_bit(Flags::Null, Flags::Flag2));
-  EXPECT_TRUE(check_bit(Flags::Flag0, Flags::Flag0));
-  EXPECT_FALSE(check_bit(Flags::Flag0, Flags::Flag1));
-  EXPECT_FALSE(check_bit(Flags::Flag0, Flags::Flag2));
-  EXPECT_FALSE(check_bit(Flags::Flag1, Flags::Flag0));
-  EXPECT_TRUE(check_bit(Flags::Flag1, Flags::Flag1));
-  EXPECT_FALSE(check_bit(Flags::Flag1, Flags::Flag2));
-  EXPECT_FALSE(check_bit(Flags::Flag2, Flags::Flag0));
-  EXPECT_FALSE(check_bit(Flags::Flag2, Flags::Flag1));
-  EXPECT_TRUE(check_bit(Flags::Flag2, Flags::Flag2));
-  EXPECT_TRUE(check_bit(Flags::all, Flags::Flag0));
-  EXPECT_TRUE(check_bit(Flags::all, Flags::Flag1));
-  EXPECT_TRUE(check_bit(Flags::all, Flags::Flag2));
+  EXPECT_EQ(1u, static_cast<uint>(flags::null | flags::flag0));
+  EXPECT_EQ(2u, static_cast<uint>(flags::null | flags::flag1));
+  EXPECT_EQ(4u, static_cast<uint>(flags::null | flags::flag2));
+  EXPECT_EQ(1u, static_cast<uint>(flags::flag0 | flags::flag0));
+  EXPECT_EQ(3u, static_cast<uint>(flags::flag0 | flags::flag1));
+  EXPECT_EQ(5u, static_cast<uint>(flags::flag0 | flags::flag2));
+  EXPECT_EQ(7u, static_cast<uint>(flags::all | flags::flag0));
+  EXPECT_EQ(7u, static_cast<uint>(flags::all | flags::flag1));
+  EXPECT_EQ(7u, static_cast<uint>(flags::all | flags::flag2));
 }
 
+
+
+TEST_F(test_bitwise_operators, in_place_bitwise_or)
+{
+  {
+    flags f = flags::null;
+    EXPECT_EQ(1u, static_cast<uint>(f |= flags::flag0));
+  }
+  {
+    flags f = flags::null;
+    EXPECT_EQ(2u, static_cast<uint>(f |= flags::flag1));
+  }
+  {
+    flags f = flags::null;
+    EXPECT_EQ(4u, static_cast<uint>(f |= flags::flag2));
+  }
+  {
+    flags f = flags::flag0;
+    EXPECT_EQ(1u, static_cast<uint>(f |= flags::flag0));
+  }
+  {
+    flags f = flags::flag0;
+    EXPECT_EQ(3u, static_cast<uint>(f |= flags::flag1));
+  }
+  {
+    flags f = flags::flag0;
+    EXPECT_EQ(5u, static_cast<uint>(f |= flags::flag2));
+  }
+  {
+    flags f = flags::all;
+    EXPECT_EQ(7u, static_cast<uint>(f |= flags::flag0));
+  }
+  {
+    flags f = flags::all;
+    EXPECT_EQ(7u, static_cast<uint>(f |= flags::flag1));
+  }
+  {
+    flags f = flags::all;
+    EXPECT_EQ(7u, static_cast<uint>(f |= flags::flag2));
+  }
+}
+
+
+
+TEST_F(test_bitwise_operators, check_bit)
+{
+  EXPECT_FALSE(check_bit(flags::null, flags::flag0));
+  EXPECT_FALSE(check_bit(flags::null, flags::flag1));
+  EXPECT_FALSE(check_bit(flags::null, flags::flag2));
+  EXPECT_TRUE(check_bit(flags::flag0, flags::flag0));
+  EXPECT_FALSE(check_bit(flags::flag0, flags::flag1));
+  EXPECT_FALSE(check_bit(flags::flag0, flags::flag2));
+  EXPECT_FALSE(check_bit(flags::flag1, flags::flag0));
+  EXPECT_TRUE(check_bit(flags::flag1, flags::flag1));
+  EXPECT_FALSE(check_bit(flags::flag1, flags::flag2));
+  EXPECT_FALSE(check_bit(flags::flag2, flags::flag0));
+  EXPECT_FALSE(check_bit(flags::flag2, flags::flag1));
+  EXPECT_TRUE(check_bit(flags::flag2, flags::flag2));
+  EXPECT_TRUE(check_bit(flags::all, flags::flag0));
+  EXPECT_TRUE(check_bit(flags::all, flags::flag1));
+  EXPECT_TRUE(check_bit(flags::all, flags::flag2));
+}

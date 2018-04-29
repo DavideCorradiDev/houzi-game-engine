@@ -22,91 +22,106 @@ using namespace testing;
 namespace
 {
 
-class TestTemplateUtils : public Test {};
+class test_template_utils : public Test
+{};
 
-class DetectorTestClassTrue
+class detector_test_class_true
 {
-  int answer() { return 42; }
+  int answer()
+  {
+    return 42;
+  }
 };
 
-class DetectorTestClassFalse {};
+class detector_test_class_false
+{};
 
 HOU_CREATE_MEMBER_DETECTOR(answer);
 
-class TypeDetectorTestClassTrue
+class type_detector_test_class_true
 {
 public:
-  using MyType = int;
+  using my_type = int;
 };
 
-class TypeDetectorTestClassFalse {};
+class type_detector_test_class_false
+{};
 
-HOU_CREATE_TYPE_DETECTOR(MyType);
+HOU_CREATE_TYPE_DETECTOR(my_type);
 
-class IsContiguousContainerTestTrue
-{
-public:
-  using pointer = int*;
-  pointer data() { return &mValue; };
-
-private:
-  int mValue;
-};
-
-class IsContiguousContainerTestFalseNoPointer
-{
-  int* data() { return &mValue; };
-
-private:
-  int mValue;
-};
-
-class IsContiguousContainerTestFalseNoData
+class is_contiguous_container_test_true
 {
 public:
   using pointer = int*;
+  pointer data()
+  {
+    return &m_value;
+  };
+
+private:
+  int m_value;
 };
 
-class IsContiguousContainerTestFalseDataVariable
+class is_contiguous_container_test_false_no_pointer
+{
+  int* data()
+  {
+    return &m_value;
+  };
+
+private:
+  int m_value;
+};
+
+class is_contiguous_container_test_false_no_data
+{
+public:
+  using pointer = int*;
+};
+
+class is_contiguous_container_test_false_data_variable
 {
 public:
   using pointer = int*;
   int data;
 };
 
-class IsContiguousContainerTestFalseIncompatibleDataPointer
+class is_contiguous_container_test_false_incompatible_data_pointer
 {
 public:
   using pointer = float*;
-  int* data() { return &mValue; };
+  int* data()
+  {
+    return &m_value;
+  };
 
 private:
-  int mValue;
+  int m_value;
 };
 
-}
+}  // namespace
 
 
 
-TEST_F(TestTemplateUtils, MemberDetector)
+TEST_F(test_template_utils, MemberDetector)
 {
-  EXPECT_TRUE(detect_member_answer<DetectorTestClassTrue>::value);
-  EXPECT_FALSE(detect_member_answer<DetectorTestClassFalse>::value);
+  EXPECT_TRUE(detect_member_answer<detector_test_class_true>::value);
+  EXPECT_FALSE(detect_member_answer<detector_test_class_false>::value);
   EXPECT_FALSE(detect_member_answer<int>::value);
 }
 
 
 
-TEST_F(TestTemplateUtils, TypeDetector)
+TEST_F(test_template_utils, TypeDetector)
 {
-  EXPECT_TRUE(detect_type_MyType<TypeDetectorTestClassTrue>::value);
-  EXPECT_FALSE(detect_type_MyType<TypeDetectorTestClassFalse>::value);
-  EXPECT_FALSE(detect_type_MyType<int>::value);
+  EXPECT_TRUE(detect_type_my_type<type_detector_test_class_true>::value);
+  EXPECT_FALSE(detect_type_my_type<type_detector_test_class_false>::value);
+  EXPECT_FALSE(detect_type_my_type<int>::value);
 }
 
 
 
-TEST_F(TestTemplateUtils, IsContiguousContainer)
+TEST_F(test_template_utils, IsContiguousContainer)
 {
   using Array2 = std::array<int, 2u>;
   EXPECT_TRUE(is_contiguous_container<Array2>::value);
@@ -119,12 +134,16 @@ TEST_F(TestTemplateUtils, IsContiguousContainer)
   EXPECT_FALSE(is_contiguous_container<UnMapii>::value);
   EXPECT_TRUE(is_contiguous_container<std::vector<int>>::value);
   EXPECT_FALSE(is_contiguous_container<int>::value);
-  EXPECT_TRUE(is_contiguous_container<IsContiguousContainerTestTrue>::value);
-  EXPECT_FALSE(is_contiguous_container<IsContiguousContainerTestFalseNoPointer>::value);
-  EXPECT_FALSE(is_contiguous_container<IsContiguousContainerTestFalseNoData>::value);
-  EXPECT_FALSE(is_contiguous_container<IsContiguousContainerTestFalseIncompatibleDataPointer>::value);
+  EXPECT_TRUE(
+    is_contiguous_container<is_contiguous_container_test_true>::value);
+  EXPECT_FALSE(is_contiguous_container<
+               is_contiguous_container_test_false_no_pointer>::value);
+  EXPECT_FALSE(
+    is_contiguous_container<is_contiguous_container_test_false_no_data>::value);
+  EXPECT_FALSE(
+    is_contiguous_container<
+      is_contiguous_container_test_false_incompatible_data_pointer>::value);
   EXPECT_FALSE(is_contiguous_container<std::unique_ptr<int>>::value);
   // This case does not compile because template conditions try to call data().
-  // EXPECT_FALSE(is_contiguous_container<IsContiguousContainerTestFalseDataVariable>::value);
+  // EXPECT_FALSE(is_contiguous_container<is_contiguous_container_test_false_data_variable>::value);
 }
-

@@ -19,55 +19,53 @@ using namespace testing;
 namespace
 {
 
-class TestUidGenerator : public Test {};
-class TestUidGeneratorDeathTest : public TestUidGenerator {};
+class test_uid_generator : public Test
+{};
+class test_uid_generator_death_test : public test_uid_generator
+{};
 
+}  // namespace
+
+
+
+TEST_F(test_uid_generator, increment)
+{
+  uid_generator uid_gen(3u);
+
+  EXPECT_EQ(3u, uid_gen.generate());
+  EXPECT_EQ(4u, uid_gen.generate());
+  EXPECT_EQ(5u, uid_gen.generate());
+  EXPECT_EQ(6u, uid_gen.generate());
 }
 
 
 
-TEST_F(TestUidGenerator, Increment)
+TEST_F(test_uid_generator, multi_thread_increment)
 {
-  uid_generator uidGen(3u);
+  uid_generator uid_gen(2u);
 
-  EXPECT_EQ(3u, uidGen.generate());
-  EXPECT_EQ(4u, uidGen.generate());
-  EXPECT_EQ(5u, uidGen.generate());
-  EXPECT_EQ(6u, uidGen.generate());
-}
+  auto thread_fun = [&uid_gen]() { uid_gen.generate(); };
 
-
-
-TEST_F(TestUidGenerator, MultiThreadIncrement)
-{
-  uid_generator uidGen(2u);
-
-  auto threadFun = [&uidGen] ()
-  {
-    uidGen.generate();
-  };
-
-  std::thread t1(threadFun);
-  std::thread t2(threadFun);
-  std::thread t3(threadFun);
-  std::thread t4(threadFun);
+  std::thread t1(thread_fun);
+  std::thread t2(thread_fun);
+  std::thread t3(thread_fun);
+  std::thread t4(thread_fun);
 
   t1.join();
   t2.join();
   t3.join();
   t4.join();
 
-  EXPECT_EQ(6u, uidGen.generate());
+  EXPECT_EQ(6u, uid_gen.generate());
 }
 
 
 
-TEST_F(TestUidGeneratorDeathTest, overflow)
+TEST_F(test_uid_generator_death_test, overflow)
 {
-  uid_generator uidGen(std::numeric_limits<uint32_t>::max() - 1);
+  uid_generator uid_gen(std::numeric_limits<uint32_t>::max() - 1);
 
-  uidGen.generate();
-  HOU_EXPECT_ERROR(uidGen.generate(), std::runtime_error
-    , get_text(cor_error::overflow));
+  uid_gen.generate();
+  HOU_EXPECT_ERROR(
+    uid_gen.generate(), std::runtime_error, get_text(cor_error::overflow));
 }
-

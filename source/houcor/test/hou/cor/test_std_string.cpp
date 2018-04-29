@@ -14,41 +14,41 @@ using namespace testing;
 namespace
 {
 
-class TestStdString : public Test {};
+class test_std_string : public Test {};
 
 }
 
 
 
-TEST_F(TestStdString, FormatString)
+TEST_F(test_std_string, format_string)
 {
   std::string str = u8"This is a %s string with number: %d";
-  std::string formattedStringRef = u8"This is a nice string with number: 2";
-  std::string formattedString = format_string(str, u8"nice", 2);
-  EXPECT_EQ(formattedStringRef, formattedString);
+  std::string formatted_string_ref = u8"This is a nice string with number: 2";
+  std::string formatted_string = format_string(str, u8"nice", 2);
+  EXPECT_EQ(formatted_string_ref, formatted_string);
 }
 
 
 
-TEST_F(TestStdString, ReplaceAll)
+TEST_F(test_std_string, replace_all)
 {
-  std::string sIn = u8"This is a blue blueprint of a blueblue blues";
-  std::string sOut = replace_all(sIn, "blue", "red");
-  EXPECT_EQ(u8"This is a red redprint of a redred reds", sOut);
+  std::string s_in = u8"This is a blue blueprint of a blueblue blues";
+  std::string s_out = replace_all(s_in, "blue", "red");
+  EXPECT_EQ(u8"This is a red redprint of a redred reds", s_out);
 }
 
 
 
-TEST_F(TestStdString, FormatRegex)
+TEST_F(test_std_string, format_regex)
 {
-  std::string sIn = u8".^$*+?()[{\\|";
-  std::string sOut = escape_regex(sIn);
-  EXPECT_EQ(u8"\\.\\^\\$\\*\\+\\?\\(\\)\\[\\{\\\\\\|", sOut);
+  std::string s_in = u8".^$*+?()[{\\|";
+  std::string s_out = escape_regex(s_in);
+  EXPECT_EQ(u8"\\.\\^\\$\\*\\+\\?\\(\\)\\[\\{\\\\\\|", s_out);
 }
 
 
 
-TEST_F(TestStdString, BoolToString)
+TEST_F(test_std_string, bool_to_string)
 {
   EXPECT_EQ("true", to_string(true));
   EXPECT_EQ("false", to_string(false));
@@ -56,12 +56,12 @@ TEST_F(TestStdString, BoolToString)
 
 
 
-TEST_F(TestStdString, SplitString)
+TEST_F(test_std_string, split_string)
 {
   std::string s = "This ;; is a, string; delimited; by ;semicolons";
 
-  std::vector<std::string> itemsSemicolon;
-  std::vector<std::string> itemsSemicolonRef
+  std::vector<std::string> items_semicolon;
+  std::vector<std::string> items_semicolon_ref
   {
     "This ",
     "",
@@ -70,26 +70,25 @@ TEST_F(TestStdString, SplitString)
     " by ",
     "semicolons",
   };
-  split_string(s, ';', std::back_inserter(itemsSemicolon));
-  EXPECT_EQ(itemsSemicolonRef, itemsSemicolon);
+  split_string(s, ';', std::back_inserter(items_semicolon));
+  EXPECT_EQ(items_semicolon_ref, items_semicolon);
 
-  std::vector<std::string> itemsComma;
-  std::vector<std::string> itemsCommaRef
+  std::vector<std::string> items_comma;
+  std::vector<std::string> items_comma_ref
   {
     "This ;; is a",
     " string; delimited; by ;semicolons",
   };
-  split_string(s, ',', std::back_inserter(itemsComma));
-  EXPECT_EQ(itemsCommaRef, itemsComma);
+  split_string(s, ',', std::back_inserter(items_comma));
+  EXPECT_EQ(items_comma_ref, items_comma);
 }
 
 
 
-TEST_F(TestStdString, SplitStringOutput)
+TEST_F(test_std_string, split_string_output)
 {
   std::string s = "a b c d";
   std::vector<std::string> chars(4, std::string());
-  std::vector<std::string> charsRef = {"a", "b", "c", "d"};
 
   auto it = split_string(s, ' ', chars.begin());
   EXPECT_EQ(chars.end(), it);
@@ -97,7 +96,7 @@ TEST_F(TestStdString, SplitStringOutput)
 
 
 
-TEST_F(TestStdString, ToString)
+TEST_F(test_std_string, to_string)
 {
   EXPECT_EQ("46", to_string(46));
   EXPECT_EQ("34.56", to_string(34.56f));

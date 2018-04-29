@@ -14,13 +14,14 @@ using namespace testing;
 namespace
 {
 
-class TestStdVector : public Test {};
+class test_std_vector : public Test
+{};
 
-}
+}  // namespace
 
 
 
-TEST_F(TestStdVector, VectorFloatClose)
+TEST_F(test_std_vector, vector_float_close)
 {
   std::vector<float> v1{1.3456f, 2.12f};
   std::vector<float> v2(v1);
@@ -56,7 +57,7 @@ TEST_F(TestStdVector, VectorFloatClose)
 
 
 
-TEST_F(TestStdVector, VectorDoubleClose)
+TEST_F(test_std_vector, vector_double_close)
 {
   std::vector<double> v1{1.345612345, 2.12};
   std::vector<double> v2(v1);
@@ -92,9 +93,8 @@ TEST_F(TestStdVector, VectorDoubleClose)
 
 
 
-TEST_F(TestStdVector, VectorOutputStreamOperator)
+TEST_F(test_std_vector, vector_output_stream_operator)
 {
   std::vector<float> v{1.f, 2.5};
   HOU_EXPECT_OUTPUT("{1, 2.5}", v);
 }
-

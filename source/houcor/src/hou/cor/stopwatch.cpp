@@ -32,7 +32,7 @@ std::chrono::nanoseconds stopwatch::get_elapsed_time() const
 
 
 
-bool stopwatch::isRunning() const
+bool stopwatch::is_running() const
 {
   return m_running;
 }

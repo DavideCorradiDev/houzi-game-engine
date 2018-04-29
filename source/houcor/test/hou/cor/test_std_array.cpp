@@ -14,13 +14,13 @@ using namespace testing;
 namespace
 {
 
-class TestStdArray : public Test {};
+class test_std_array : public Test {};
 
 }
 
 
 
-TEST_F(TestStdArray, ArrayFloatClose)
+TEST_F(test_std_array, array_float_close)
 {
   std::array<float, 2u> a1{1.3456f, 2.12f};
   std::array<float, 2u> a2(a1);
@@ -46,7 +46,7 @@ TEST_F(TestStdArray, ArrayFloatClose)
 
 
 
-TEST_F(TestStdArray, ArrayDoubleClose)
+TEST_F(test_std_array, array_double_close)
 {
   std::array<double, 2u> a1{1.345612345, 2.12};
   std::array<double, 2u> a2(a1);
@@ -72,7 +72,7 @@ TEST_F(TestStdArray, ArrayDoubleClose)
 
 
 
-TEST_F(TestStdArray, ArrayOutputStreamOperator)
+TEST_F(test_std_array, array_output_stream_operator)
 {
   std::array<float, 3u> v{1.f, 2.5, -12.71f};
   HOU_EXPECT_OUTPUT("{1, 2.5, -12.71}", v);

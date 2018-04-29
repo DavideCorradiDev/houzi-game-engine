@@ -14,13 +14,14 @@ using namespace testing;
 namespace
 {
 
-class TestCoreFunctions : public Test {};
+class test_core_functions : public Test
+{};
 
-}
+}  // namespace
 
 
 
-TEST_F(TestCoreFunctions, FloatClose)
+TEST_F(test_core_functions, float_close)
 {
   float f1 = 1.2345f;
   float f2 = 1.2345f;
@@ -46,7 +47,7 @@ TEST_F(TestCoreFunctions, FloatClose)
 
 
 
-TEST_F(TestCoreFunctions, DoubleClose)
+TEST_F(test_core_functions, double_close)
 {
   double f1 = 1.234567891;
   double f2 = 1.234567891;
@@ -69,4 +70,3 @@ TEST_F(TestCoreFunctions, DoubleClose)
   EXPECT_TRUE(close(f1, f3, 1e-2));
   EXPECT_TRUE(close(f1, f4, 1e-2));
 }
-
