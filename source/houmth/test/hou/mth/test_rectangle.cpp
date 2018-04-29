@@ -14,9 +14,10 @@ using namespace testing;
 namespace
 {
 
-class TestRectangle : public Test {};
+class TestRectangle : public Test
+{};
 
-}
+}  // namespace
 
 
 
@@ -168,7 +169,8 @@ TEST_F(TestRectangle, FloatingPointComparison)
 
 TEST_F(TestRectangle, OutputStreamOperator)
 {
-  HOU_EXPECT_OUTPUT("{Position = (1, 2), size_type = (3, 4)}", recti(1, 2, 3, 4));
+  HOU_EXPECT_OUTPUT(
+    "{Position = (1, 2), size_type = (3, 4)}", recti(1, 2, 3, 4));
 }
 
 
@@ -204,4 +206,3 @@ TEST_F(TestRectangle, RectContainsPoint)
   EXPECT_FALSE(is_point_in_rectangle(r, p11));
   EXPECT_FALSE(is_point_in_rectangle(r, p12));
 }
-

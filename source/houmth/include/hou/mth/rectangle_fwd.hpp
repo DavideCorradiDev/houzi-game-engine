@@ -12,19 +12,19 @@
 namespace hou
 {
 
-template <typename T> class rectangle;
-
-/** Axis aligned ph_rectangle */
 template <typename T>
-  using Rect = rectangle<T>;
-/** Integer ph_rectangle */
-using recti = Rect<int>;
-/** float ph_rectangle */
-using rectf = Rect<float>;
-/** double ph_rectangle */
-using rectd = Rect<double>;
+class rectangle;
 
-}
+/** Axis aligned rectangle */
+template <typename T>
+using rect = rectangle<T>;
+/** Integer rectangle */
+using recti = rect<int>;
+/** Float rectangle */
+using rectf = rect<float>;
+/** Double rectangle */
+using rectd = rect<double>;
+
+}  // namespace hou
 
 #endif
-

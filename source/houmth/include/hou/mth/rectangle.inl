@@ -173,7 +173,6 @@ bool operator==(const rectangle<T>& lhs, const rectangle<T>& rhs)
 
 
 
-
 template <typename T>
 bool operator!=(const rectangle<T>& lhs, const rectangle<T>& rhs)
 {
@@ -183,7 +182,7 @@ bool operator!=(const rectangle<T>& lhs, const rectangle<T>& rhs)
 
 
 template <typename T>
-  bool close(const rectangle<T>& lhs, const rectangle<T>& rhs, T acc)
+bool close(const rectangle<T>& lhs, const rectangle<T>& rhs, T acc)
 {
   return close(lhs.get_position(), rhs.get_position(), acc)
     && close(lhs.get_size(), rhs.get_size(), acc);
@@ -194,17 +193,16 @@ template <typename T>
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const rectangle<T>& rect)
 {
-  return os << "{Position = " << transpose(rect.get_position())
-    << ", size_type = " << transpose(rect.get_size()) << "}";
+  return os << "{position = " << transpose(rect.get_position())
+            << ", size_type = " << transpose(rect.get_size()) << "}";
 }
 
 
 
 template <typename T>
-  bool is_point_in_rectangle(const rectangle<T>& r, const vec2<T>& p)
+bool is_point_in_rectangle(const rectangle<T>& r, const vec2<T>& p)
 {
   return p.x() >= r.l() && p.x() <= r.r() && p.y() >= r.t() && p.y() <= r.b();
 }
 
-}
-
+}  // namespace hou

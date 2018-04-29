@@ -10,7 +10,7 @@ namespace hou
 {
 
 template <typename T>
-  quaternion<T> quaternion<T>::zero()
+quaternion<T> quaternion<T>::zero()
 {
   return quaternion<T>(0, 0, 0, 0);
 }
@@ -18,7 +18,7 @@ template <typename T>
 
 
 template <typename T>
-  quaternion<T> quaternion<T>::identity()
+quaternion<T> quaternion<T>::identity()
 {
   return quaternion<T>(0, 0, 0, 1);
 }
@@ -26,21 +26,21 @@ template <typename T>
 
 
 template <typename T>
-  quaternion<T>::quaternion()
+quaternion<T>::quaternion()
   : quaternion(0, 0, 0, 0)
 {}
 
 
 
 template <typename T>
-  quaternion<T>::quaternion(T x, T y, T z, T w)
+quaternion<T>::quaternion(T x, T y, T z, T w)
   : m_elements{x, y, z, w}
 {}
 
 
 
 template <typename T>
-  quaternion<T>::quaternion(std::initializer_list<T> elements)
+quaternion<T>::quaternion(std::initializer_list<T> elements)
   : m_elements()
 {
   HOU_EXPECT(elements.size() == m_elements.size());
@@ -51,18 +51,15 @@ template <typename T>
 
 template <typename T>
 template <typename U>
-  quaternion<T>::quaternion(const quaternion<U>& other)
-  : quaternion
-    ( static_cast<T>(other.x())
-    , static_cast<T>(other.y())
-    , static_cast<T>(other.z())
-    , static_cast<T>(other.w()))
+quaternion<T>::quaternion(const quaternion<U>& other)
+  : quaternion(static_cast<T>(other.x()), static_cast<T>(other.y()),
+      static_cast<T>(other.z()), static_cast<T>(other.w()))
 {}
 
 
 
 template <typename T>
-  T quaternion<T>::x() const
+T quaternion<T>::x() const
 {
   return m_elements[0];
 }
@@ -70,7 +67,7 @@ template <typename T>
 
 
 template <typename T>
-  T& quaternion<T>::x()
+T& quaternion<T>::x()
 {
   return m_elements[0];
 }
@@ -78,7 +75,7 @@ template <typename T>
 
 
 template <typename T>
-  T quaternion<T>::y() const
+T quaternion<T>::y() const
 {
   return m_elements[1];
 }
@@ -86,7 +83,7 @@ template <typename T>
 
 
 template <typename T>
-  T& quaternion<T>::y()
+T& quaternion<T>::y()
 {
   return m_elements[1];
 }
@@ -94,7 +91,7 @@ template <typename T>
 
 
 template <typename T>
-  T quaternion<T>::z() const
+T quaternion<T>::z() const
 {
   return m_elements[2];
 }
@@ -102,7 +99,7 @@ template <typename T>
 
 
 template <typename T>
-  T& quaternion<T>::z()
+T& quaternion<T>::z()
 {
   return m_elements[2];
 }
@@ -110,7 +107,7 @@ template <typename T>
 
 
 template <typename T>
-  T quaternion<T>::w() const
+T quaternion<T>::w() const
 {
   return m_elements[3];
 }
@@ -118,7 +115,7 @@ template <typename T>
 
 
 template <typename T>
-  T& quaternion<T>::w()
+T& quaternion<T>::w()
 {
   return m_elements[3];
 }
@@ -126,7 +123,7 @@ template <typename T>
 
 
 template <typename T>
-  const T* quaternion<T>::data() const
+const T* quaternion<T>::data() const
 {
   return m_elements.data();
 }
@@ -134,7 +131,7 @@ template <typename T>
 
 
 template <typename T>
-  quaternion<T>& quaternion<T>::operator+=(const quaternion<T>& rhs)
+quaternion<T>& quaternion<T>::operator+=(const quaternion<T>& rhs)
 {
   m_elements[0] += rhs.m_elements[0];
   m_elements[1] += rhs.m_elements[1];
@@ -146,7 +143,7 @@ template <typename T>
 
 
 template <typename T>
-  quaternion<T>& quaternion<T>::operator-=(const quaternion<T>& rhs)
+quaternion<T>& quaternion<T>::operator-=(const quaternion<T>& rhs)
 {
   m_elements[0] -= rhs.m_elements[0];
   m_elements[1] -= rhs.m_elements[1];
@@ -158,19 +155,21 @@ template <typename T>
 
 
 template <typename T>
-  quaternion<T>& quaternion<T>::operator*=(const quaternion<T>& r)
+quaternion<T>& quaternion<T>::operator*=(const quaternion<T>& r)
 {
-  return *this = quaternion<T>
-    ( this->w()*r.x() + this->x()*r.w() + this->y()*r.z() - this->z()*r.y()
-    , this->w()*r.y() - this->x()*r.z() + this->y()*r.w() + this->z()*r.x()
-    , this->w()*r.z() + this->x()*r.y() - this->y()*r.x() + this->z()*r.w()
-    , this->w()*r.w() - this->x()*r.x() - this->y()*r.y() - this->z()*r.z());
+  // clang-format off
+  return *this = quaternion<T>(
+    this->w() * r.x() + this->x() * r.w() + this->y() * r.z() - this->z() * r.y(),
+    this->w() * r.y() - this->x() * r.z() + this->y() * r.w() + this->z() * r.x(),
+    this->w() * r.z() + this->x() * r.y() - this->y() * r.x() + this->z() * r.w(),
+    this->w() * r.w() - this->x() * r.x() - this->y() * r.y() - this->z() * r.z());
+  // clang-format on
 }
 
 
 
 template <typename T>
-  quaternion<T>& quaternion<T>::operator*=(T rhs)
+quaternion<T>& quaternion<T>::operator*=(T rhs)
 {
   m_elements[0] *= rhs;
   m_elements[1] *= rhs;
@@ -182,7 +181,7 @@ template <typename T>
 
 
 template <typename T>
-  quaternion<T>& quaternion<T>::operator/=(T rhs)
+quaternion<T>& quaternion<T>::operator/=(T rhs)
 {
   m_elements[0] /= rhs;
   m_elements[1] /= rhs;
@@ -194,7 +193,7 @@ template <typename T>
 
 
 template <typename T>
-  quaternion<T>& quaternion<T>::invert()
+quaternion<T>& quaternion<T>::invert()
 {
   T sqNorm = square_norm(*this);
   HOU_EXPECT(!close(sqNorm, T(0)));
@@ -204,7 +203,7 @@ template <typename T>
 
 
 template <typename T>
-  quaternion<T>& quaternion<T>::conjugate()
+quaternion<T>& quaternion<T>::conjugate()
 {
   m_elements[0] = -m_elements[0];
   m_elements[1] = -m_elements[1];
@@ -215,7 +214,7 @@ template <typename T>
 
 
 template <typename T>
-  quaternion<T>& quaternion<T>::normalize()
+quaternion<T>& quaternion<T>::normalize()
 {
   T quatNorm = norm(*this);
   HOU_EXPECT(!close(quatNorm, T(0)));
@@ -225,7 +224,7 @@ template <typename T>
 
 
 template <typename T>
-  quaternion<T> operator+(quaternion<T> lhs, const quaternion<T>& rhs)
+quaternion<T> operator+(quaternion<T> lhs, const quaternion<T>& rhs)
 {
   return lhs += rhs;
 }
@@ -233,7 +232,7 @@ template <typename T>
 
 
 template <typename T>
-  quaternion<T> operator-(quaternion<T> lhs, const quaternion<T>& rhs)
+quaternion<T> operator-(quaternion<T> lhs, const quaternion<T>& rhs)
 {
   return lhs -= rhs;
 }
@@ -241,7 +240,7 @@ template <typename T>
 
 
 template <typename T>
-  quaternion<T> operator*(quaternion<T> lhs, const quaternion<T>& rhs)
+quaternion<T> operator*(quaternion<T> lhs, const quaternion<T>& rhs)
 {
   return lhs *= rhs;
 }
@@ -249,7 +248,7 @@ template <typename T>
 
 
 template <typename T>
-  T square_norm(const quaternion<T>& q)
+T square_norm(const quaternion<T>& q)
 {
   return q.x() * q.x() + q.y() * q.y() + q.z() * q.z() + q.w() * q.w();
 }
@@ -257,7 +256,7 @@ template <typename T>
 
 
 template <typename T>
-  T norm(const quaternion<T>& q)
+T norm(const quaternion<T>& q)
 {
   return std::sqrt(square_norm(q));
 }
@@ -265,7 +264,7 @@ template <typename T>
 
 
 template <typename T>
-  quaternion<T> inverse(quaternion<T> q)
+quaternion<T> inverse(quaternion<T> q)
 {
   return q.invert();
 }
@@ -273,7 +272,7 @@ template <typename T>
 
 
 template <typename T>
-  quaternion<T> conjugate(quaternion<T> q)
+quaternion<T> conjugate(quaternion<T> q)
 {
   return q.conjugate();
 }
@@ -281,7 +280,7 @@ template <typename T>
 
 
 template <typename T>
-  quaternion<T> normalized(quaternion<T> q)
+quaternion<T> normalized(quaternion<T> q)
 {
   return q.normalize();
 }
@@ -289,10 +288,10 @@ template <typename T>
 
 
 template <typename T>
-  std::ostream& operator<<(std::ostream& os, const quaternion<T>& q)
+std::ostream& operator<<(std::ostream& os, const quaternion<T>& q)
 {
   return os << "(" << q.x() << "," << q.y() << "," << q.z() << "," << q.w()
-    << ")";
+            << ")";
 }
 
 
@@ -314,5 +313,4 @@ HOU_INSTANTIATE(double);
 template quaternion<float>::quaternion<double>(const quaternion<double>&);
 template quaternion<double>::quaternion<float>(const quaternion<float>&);
 
-}
-
+}  // namespace hou

@@ -12,17 +12,17 @@
 namespace hou
 {
 
-template <typename T> class transform2;
+template <typename T>
+class transform2;
 
 /** 2d transform */
 template <typename T>
-  using trans2 = transform2<T>;
+using trans2 = transform2<T>;
 /** float 2d transform */
 using trans2f = transform2<float>;
 /** double 2d transform */
 using trans2d = transform2<double>;
 
-}
+}  // namespace hou
 
 #endif
-

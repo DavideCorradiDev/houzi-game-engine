@@ -8,11 +8,10 @@ namespace hou
 {
 
 template <typename T, typename Enable>
-  T log(T x, int n)
+T log(T x, int n)
 {
   return std::log(x) / std::log(static_cast<T>(n));
 }
 
 
-}
-
+}  // namespace hou

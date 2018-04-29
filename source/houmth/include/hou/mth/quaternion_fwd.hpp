@@ -12,14 +12,14 @@
 namespace hou
 {
 
-template <typename T> class quaternion;
+template <typename T>
+class quaternion;
 
-/** float ph_quaternion */
+/** float quaternion */
 using quatf = quaternion<float>;
-/** double ph_quaternion */
+/** double quaternion */
 using quatd = quaternion<double>;
 
-}
+}  // namespace hou
 
 #endif
-

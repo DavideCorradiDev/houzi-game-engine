@@ -12,17 +12,17 @@
 namespace hou
 {
 
-template <typename T> class rotation3;
+template <typename T>
+class rotation3;
 
 /** 3d rotation */
 template <typename T>
-  using Rot3 = rotation3<T>;
+using rot3 = rotation3<T>;
 /** float 3d rotation */
-using Rot3f = rotation3<float>;
+using rot3f = rotation3<float>;
 /** double 3d rotation */
-using Rot3d = rotation3<double>;
+using rot3d = rotation3<double>;
 
-}
+}  // namespace hou
 
 #endif
-

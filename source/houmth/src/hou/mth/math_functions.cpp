@@ -39,5 +39,4 @@ double rad_to_deg(double rad)
   return rad * factor;
 }
 
-}
-
+}  // namespace hou

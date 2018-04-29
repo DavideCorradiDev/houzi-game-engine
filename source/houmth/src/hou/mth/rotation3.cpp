@@ -15,18 +15,18 @@ namespace
 {
 
 template <typename T>
-  quaternion<T> toQuaternion(vec3<T> v);
+quaternion<T> to_quaternion(vec3<T> v);
 template <typename T>
-  quaternion<T> toQuaternion(const mat3x3<T>& m);
+quaternion<T> to_quaternion(const mat3x3<T>& m);
 template <typename T>
-  vec3<T> toVector(const quaternion<T>& q);
+vec3<T> to_vector(const quaternion<T>& q);
 template <typename T>
-  mat3x3<T> toMatrix(const quaternion<T>& q);
+mat3x3<T> to_matrix(const quaternion<T>& q);
 
 
 
 template <typename T>
-  quaternion<T> toQuaternion(vec3<T> v)
+quaternion<T> to_quaternion(vec3<T> v)
 {
   T angle = norm(v);
   v /= angle;
@@ -37,60 +37,58 @@ template <typename T>
 
 
 
+// clang-format off
 template <typename T>
-  quaternion<T> toQuaternion(const mat3x3<T>& m)
+quaternion<T> to_quaternion(const mat3x3<T>& m)
 {
   T tr = trace(m);
   if(tr > T(0))
   {
     T s = sqrt(1.f + tr) * 2.f;
-    return quaternion<T>
-    {
-      (m(2,1) - m(1,2)) / s,
-      (m(0,2) - m(2,0)) / s,
-      (m(1,0) - m(0,1)) / s,
-      0.25f * s
+    return quaternion<T>{
+      (m(2, 1) - m(1, 2)) / s,
+      (m(0, 2) - m(2, 0)) / s,
+      (m(1, 0) - m(0, 1)) / s,
+      0.25f * s,
     };
   }
-  else if((m(0,0) > m(1,1)) && (m(0,0) > m(2,2)))
+  else if((m(0, 0) > m(1, 1)) && (m(0, 0) > m(2, 2)))
   {
-    T s = sqrt(1.f + m(0,0) - m(1,1) - m(2,2)) * 2.f;
-    return quaternion<T>
-    {
+    T s = sqrt(1.f + m(0, 0) - m(1, 1) - m(2, 2)) * 2.f;
+    return quaternion<T>{
       0.25f * s,
-      (m(0,1) + m(1,0)) / s,
-      (m(0,2) + m(2,0)) / s,
-      (m(2,1) - m(1,2)) / s,
+      (m(0, 1) + m(1, 0)) / s,
+      (m(0, 2) + m(2, 0)) / s,
+      (m(2, 1) - m(1, 2)) / s,
     };
   }
-  else if(m(1,1) > m(2,2))
+  else if(m(1, 1) > m(2, 2))
   {
-    T s = sqrt(1.f + m(1,1) - m(0,0) - m(2,2)) * 2.f;
-    return quaternion<T>
-    {
-      (m(0,1) + m(1,0)) / s,
+    T s = sqrt(1.f + m(1, 1) - m(0, 0) - m(2, 2)) * 2.f;
+    return quaternion<T>{
+      (m(0, 1) + m(1, 0)) / s,
       0.25f * s,
-      (m(1,2) + m(2,1)) / s,
-      (m(0,2) - m(2,0)) / s,
+      (m(1, 2) + m(2, 1)) / s,
+      (m(0, 2) - m(2, 0)) / s,
     };
   }
   else
   {
-    T s = sqrt(1.f + m(2,2) - m(0,0) - m(1,1)) * 2.f;
-    return quaternion<T>
-    {
-      (m(0,2) + m(2,0)) / s,
-      (m(1,2) + m(2,1)) / s,
+    T s = sqrt(1.f + m(2, 2) - m(0, 0) - m(1, 1)) * 2.f;
+    return quaternion<T>{
+      (m(0, 2) + m(2, 0)) / s,
+      (m(1, 2) + m(2, 1)) / s,
       0.25f * s,
-      (m(1,0) - m(0,1)) / s,
+      (m(1, 0) - m(0, 1)) / s,
     };
   }
 }
+// clang-format on
 
 
 
 template <typename T>
-  vec3<T> toVector(const quaternion<T>& q)
+vec3<T> to_vector(const quaternion<T>& q)
 {
   HOU_EXPECT_DEV(close(T(1), norm(q)));
   vec3<T> v(q.x(), q.y(), q.z());
@@ -105,7 +103,7 @@ template <typename T>
 
 
 template <typename T>
-  mat3x3<T> toMatrix(const quaternion<T>& q)
+mat3x3<T> to_matrix(const quaternion<T>& q)
 {
   HOU_EXPECT_DEV(close(T(1), norm(q)));
   T xx = 2 * q.x() * q.x();
@@ -118,18 +116,16 @@ template <typename T>
   T zz = 2 * q.z() * q.z();
   T zw = 2 * q.z() * q.w();
   T ww = 2 * q.w() * q.w();
-  return mat3x3<T>
-    ( -1 + xx + ww, xy - zw, xz + yw
-    , xy + zw, -1 + yy + ww, yz - xw
-    , xz - yw, xw + yz, -1 + zz + ww);
+  return mat3x3<T>(-1 + xx + ww, xy - zw, xz + yw, xy + zw, -1 + yy + ww,
+    yz - xw, xz - yw, xw + yz, -1 + zz + ww);
 }
 
-}
+}  // namespace
 
 
 
 template <typename T>
-  rotation3<T> rotation3<T>::identity()
+rotation3<T> rotation3<T>::identity()
 {
   return rotation3<T>();
 }
@@ -137,7 +133,7 @@ template <typename T>
 
 
 template <typename T>
-  rotation3<T> rotation3<T>::x(T angle)
+rotation3<T> rotation3<T>::x(T angle)
 {
   angle /= 2;
   return rotation3<T>(quaternion<T>(std::sin(angle), 0, 0, std::cos(angle)));
@@ -146,7 +142,7 @@ template <typename T>
 
 
 template <typename T>
-  rotation3<T> rotation3<T>::y(T angle)
+rotation3<T> rotation3<T>::y(T angle)
 {
   angle /= 2;
   return rotation3<T>(quaternion<T>(0, std::sin(angle), 0, std::cos(angle)));
@@ -155,7 +151,7 @@ template <typename T>
 
 
 template <typename T>
-  rotation3<T> rotation3<T>::z(T angle)
+rotation3<T> rotation3<T>::z(T angle)
 {
   angle /= 2;
   return rotation3<T>(quaternion<T>(0, 0, std::sin(angle), std::cos(angle)));
@@ -164,43 +160,43 @@ template <typename T>
 
 
 template <typename T>
-  rotation3<T>::rotation3()
+rotation3<T>::rotation3()
   : m_quaternion(quaternion<T>::identity())
 {}
 
 
 
 template <typename T>
-  rotation3<T>::rotation3(const quaternion<T>& q)
+rotation3<T>::rotation3(const quaternion<T>& q)
   : m_quaternion(normalized(q))
 {}
 
 
 
 template <typename T>
-  rotation3<T>::rotation3(const vec3<T>& v)
-  : m_quaternion(normalized(toQuaternion(v)))
+rotation3<T>::rotation3(const vec3<T>& v)
+  : m_quaternion(normalized(to_quaternion(v)))
 {}
 
 
 
 template <typename T>
-  rotation3<T>::rotation3(const mat3x3<T>& m)
-  : m_quaternion(normalized(toQuaternion(m)))
+rotation3<T>::rotation3(const mat3x3<T>& m)
+  : m_quaternion(normalized(to_quaternion(m)))
 {}
 
 
 
 template <typename T>
 template <typename U>
-  rotation3<T>::rotation3(const rotation3<U>& other)
+rotation3<T>::rotation3(const rotation3<U>& other)
   : m_quaternion(normalized(static_cast<quaternion<T>>(other.m_quaternion)))
 {}
 
 
 
 template <typename T>
-  const quaternion<T>& rotation3<T>::get_quaternion() const
+const quaternion<T>& rotation3<T>::get_quaternion() const
 {
   return m_quaternion;
 }
@@ -208,23 +204,23 @@ template <typename T>
 
 
 template <typename T>
-  vec3<T> rotation3<T>::get_vector() const
+vec3<T> rotation3<T>::get_vector() const
 {
-  return toVector(m_quaternion);
+  return to_vector(m_quaternion);
 }
 
 
 
 template <typename T>
-  mat3x3<T> rotation3<T>::get_matrix() const
+mat3x3<T> rotation3<T>::get_matrix() const
 {
-  return toMatrix(m_quaternion);
+  return to_matrix(m_quaternion);
 }
 
 
 
 template <typename T>
-  rotation3<T>& rotation3<T>::operator*=(const rotation3<T>& rhs)
+rotation3<T>& rotation3<T>::operator*=(const rotation3<T>& rhs)
 {
   m_quaternion *= rhs.m_quaternion;
   m_quaternion.normalize();
@@ -234,7 +230,7 @@ template <typename T>
 
 
 template <typename T>
-  rotation3<T>& rotation3<T>::invert()
+rotation3<T>& rotation3<T>::invert()
 {
   m_quaternion.invert().normalize();
   return *this;
@@ -243,7 +239,7 @@ template <typename T>
 
 
 template <typename T>
-  rotation3<T> operator*(rotation3<T> lhs, const rotation3<T>& rhs)
+rotation3<T> operator*(rotation3<T> lhs, const rotation3<T>& rhs)
 {
   return lhs *= rhs;
 }
@@ -251,7 +247,7 @@ template <typename T>
 
 
 template <typename T>
-  rotation3<T> inverse(rotation3<T> r)
+rotation3<T> inverse(rotation3<T> r)
 {
   return r.invert();
 }
@@ -259,7 +255,7 @@ template <typename T>
 
 
 template <typename T>
-  bool operator==(const rotation3<T>& lhs, const rotation3<T>& rhs)
+bool operator==(const rotation3<T>& lhs, const rotation3<T>& rhs)
 {
   return lhs.get_quaternion() == rhs.get_quaternion();
 }
@@ -267,7 +263,7 @@ template <typename T>
 
 
 template <typename T>
-  bool operator!=(const rotation3<T>& lhs, const rotation3<T>& rhs)
+bool operator!=(const rotation3<T>& lhs, const rotation3<T>& rhs)
 {
   return lhs.get_quaternion() != rhs.get_quaternion();
 }
@@ -275,7 +271,7 @@ template <typename T>
 
 
 template <typename T>
-  bool close(const rotation3<T>& lhs, const rotation3<T>& rhs, T acc)
+bool close(const rotation3<T>& lhs, const rotation3<T>& rhs, T acc)
 {
   return close(lhs.get_quaternion(), rhs.get_quaternion(), acc);
 }
@@ -283,7 +279,7 @@ template <typename T>
 
 
 template <typename T>
-  std::ostream& operator<<(std::ostream& os, const rotation3<T>& r)
+std::ostream& operator<<(std::ostream& os, const rotation3<T>& r)
 {
   return os << r.get_quaternion();
 }
@@ -304,5 +300,4 @@ HOU_INSTANTIATE(double);
 template rotation3<float>::rotation3<double>(const rotation3<double>&);
 template rotation3<double>::rotation3<float>(const rotation3<float>&);
 
-}
-
+}  // namespace hou
