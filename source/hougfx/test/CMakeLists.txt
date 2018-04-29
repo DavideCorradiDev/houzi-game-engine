@@ -35,7 +35,7 @@ INCLUDE_DIRECTORIES(
 
 # Source files.
 SET(EXE_HOUGFX_TEST_SRC
-  ${LIB_HOUTEST_SOURCE_DIR}/src/TestMain.cpp
+  ${LIB_HOUTEST_SOURCE_DIR}/src/test_main.cpp
   hou/gfx/test_data.cpp
   hou/gfx/test_font.cpp
   hou/gfx/test_formatted_text.cpp

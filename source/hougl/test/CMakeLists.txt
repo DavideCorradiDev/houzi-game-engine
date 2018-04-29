@@ -35,7 +35,7 @@ INCLUDE_DIRECTORIES(
 
 # Source files.
 SET(EXE_HOUGL_TEST_SRC
-  ${LIB_HOUTEST_SOURCE_DIR}/src/TestMain.cpp
+  ${LIB_HOUTEST_SOURCE_DIR}/src/test_main.cpp
   hou/gl/test_gl_base.cpp
   hou/gl/test_gl_multiple_contexts.cpp
   hou/gl/test_gl_single_context.cpp

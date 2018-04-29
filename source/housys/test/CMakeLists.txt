@@ -35,7 +35,7 @@ INCLUDE_DIRECTORIES(
 
 # Source files.
 SET(EXE_HOUSYS_TEST_SRC
-  ${LIB_HOUTEST_SOURCE_DIR}/src/TestMain.cpp
+  ${LIB_HOUTEST_SOURCE_DIR}/src/test_main.cpp
   hou/sys/test_binary_file_in.cpp
   hou/sys/test_binary_file_out.cpp
   hou/sys/test_color.cpp

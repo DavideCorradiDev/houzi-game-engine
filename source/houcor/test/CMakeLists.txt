@@ -35,7 +35,7 @@ INCLUDE_DIRECTORIES(
 
 # Source files.
 SET(EXE_HOUCOR_TEST_SRC
-  ${LIB_HOUTEST_SOURCE_DIR}/src/TestMain.cpp
+  ${LIB_HOUTEST_SOURCE_DIR}/src/test_main.cpp
   hou/cor/test_bitwise_operators.cpp
   hou/cor/test_character_encodings.cpp
   hou/cor/test_clock.cpp
