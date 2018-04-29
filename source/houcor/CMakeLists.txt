@@ -5,8 +5,8 @@ MESSAGE(STATUS "--- Configuring target ${LIB_HOUCOR} ---")
 
 # Generate a header with the correct version number.
 CONFIGURE_FILE(
-  "${CMAKE_CURRENT_SOURCE_DIR}/include/hou/Config.hpp.in"
-  "${CMAKE_CURRENT_SOURCE_DIR}/include/hou/Config.hpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/include/hou/config.hpp.in"
+  "${CMAKE_CURRENT_SOURCE_DIR}/include/hou/config.hpp"
 )
 
 
