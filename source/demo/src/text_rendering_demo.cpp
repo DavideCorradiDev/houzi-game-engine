@@ -100,60 +100,60 @@ int main()
       }
       case window_event_type::key_released:
       {
-        if(we.get_key_data().scan_code == scan_code::Down
-          || we.get_key_data().scan_code == scan_code::Up
-          || we.get_key_data().scan_code == scan_code::RShift)
+        if(we.get_key_data().scan_code == scan_code::down
+          || we.get_key_data().scan_code == scan_code::up
+          || we.get_key_data().scan_code == scan_code::r_shift)
         {
-          if(we.get_key_data().scan_code == scan_code::Down)
+          if(we.get_key_data().scan_code == scan_code::down)
           {
             if(currentSizeIdx > 0)
             {
               --currentSizeIdx;
             }
           }
-          else if(we.get_key_data().scan_code == scan_code::Up)
+          else if(we.get_key_data().scan_code == scan_code::up)
           {
             if(currentSizeIdx < fontSizes.size() - 1)
             {
               ++currentSizeIdx;
             }
           }
-          else if(we.get_key_data().scan_code == scan_code::RShift)
+          else if(we.get_key_data().scan_code == scan_code::r_shift)
           {
             printChinese = !printChinese;
           }
           ph_font.set_pixel_height(fontSizes[currentSizeIdx]);
           chineseFont.set_pixel_height(fontSizes[currentSizeIdx]);
         }
-        else if(we.get_key_data().scan_code == scan_code::A)
+        else if(we.get_key_data().scan_code == scan_code::a)
         {
           textFlow = text_flow::RightLeft;
         }
-        else if(we.get_key_data().scan_code == scan_code::D)
+        else if(we.get_key_data().scan_code == scan_code::d)
         {
           textFlow = text_flow::LeftRight;
         }
-        else if(we.get_key_data().scan_code == scan_code::W)
+        else if(we.get_key_data().scan_code == scan_code::w)
         {
           textFlow = text_flow::BottomTop;
         }
-        else if(we.get_key_data().scan_code == scan_code::S)
+        else if(we.get_key_data().scan_code == scan_code::s)
         {
           textFlow = text_flow::TopBottom;
         }
-        else if(we.get_key_data().scan_code == scan_code::K)
+        else if(we.get_key_data().scan_code == scan_code::k)
         {
           maxTBoxSize.x() = std::max(0.f, maxTBoxSize.x() - maxTBoxIncrement);
         }
-        else if(we.get_key_data().scan_code == scan_code::Semicolon)
+        else if(we.get_key_data().scan_code == scan_code::semicolon)
         {
           maxTBoxSize.x() = std::min(640.f, maxTBoxSize.x() + maxTBoxIncrement);
         }
-        else if(we.get_key_data().scan_code == scan_code::O)
+        else if(we.get_key_data().scan_code == scan_code::o)
         {
           maxTBoxSize.y() = std::max(0.f, maxTBoxSize.y() - maxTBoxIncrement);
         }
-        else if(we.get_key_data().scan_code == scan_code::L)
+        else if(we.get_key_data().scan_code == scan_code::l)
         {
           maxTBoxSize.y() = std::min(640.f, maxTBoxSize.y() + maxTBoxIncrement);
         }

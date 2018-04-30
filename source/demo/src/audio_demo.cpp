@@ -89,15 +89,15 @@ int main()
           running = false;
           break;
         case window_event_type::key_pressed:
-          if(we.get_key_data().scan_code == scan_code::Enter)
+          if(we.get_key_data().scan_code == scan_code::enter)
           {
             sas.play();
           }
-          else if(we.get_key_data().scan_code == scan_code::Backspace)
+          else if(we.get_key_data().scan_code == scan_code::backspace)
           {
             sas.stop();
           }
-          else if(we.get_key_data().scan_code == scan_code::RShift)
+          else if(we.get_key_data().scan_code == scan_code::r_shift)
           {
             sas.pause();
           }

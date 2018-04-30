@@ -18,223 +18,223 @@ namespace hou
 enum class scan_code
 {
   /** Escape */
-  Escape = 0x01u,
+  escape = 0x01u,
 
   /** Num1 */
-  Num1 = 0x02u,
+  num1 = 0x02u,
   /** Num2 */
-  Num2 = 0x03u,
+  num2 = 0x03u,
   /** Num3 */
-  Num3 = 0x04u,
+  num3 = 0x04u,
   /** Num4 */
-  Num4 = 0x05u,
+  num4 = 0x05u,
   /** Num5 */
-  Num5 = 0x06u,
+  num5 = 0x06u,
   /** Num6 */
-  Num6 = 0x07u,
+  num6 = 0x07u,
   /** Num7 */
-  Num7 = 0x08u,
+  num7 = 0x08u,
   /** Num8 */
-  Num8 = 0x09u,
+  num8 = 0x09u,
   /** Num9 */
-  Num9 = 0x0au,
+  num9 = 0x0au,
   /** Num0 */
-  Num0 = 0x0bu,
+  num0 = 0x0bu,
   /** Dash */
-  Dash = 0x0cu,
+  dash = 0x0cu,
   /** Equal */
-  Equal = 0x0du,
+  equal = 0x0du,
   /** Backspace */
-  Backspace = 0x0eu,
+  backspace = 0x0eu,
 
   /** Tab */
-  Tab = 0x0fu,
+  tab = 0x0fu,
   /** Q */
-  Q = 0x10u,
+  q = 0x10u,
   /** W */
-  W = 0x11u,
+  w = 0x11u,
   /** E */
-  E = 0x12u,
+  e = 0x12u,
   /** r */
-  R = 0x13u,
+  r = 0x13u,
   /** T */
-  T = 0x14u,
+  t = 0x14u,
   /** Y */
-  Y = 0x15u,
+  y = 0x15u,
   /** U */
-  U = 0x16u,
+  u = 0x16u,
   /** I */
-  I = 0x17u,
+  i = 0x17u,
   /** O */
-  O = 0x18u,
+  o = 0x18u,
   /** P */
-  P = 0x19u,
+  p = 0x19u,
   /** LBracket */
-  LBracket = 0x1au,
+  l_bracket = 0x1au,
   /** RBracket */
-  RBracket = 0x1bu,
+  r_bracket = 0x1bu,
   /** Enter */
-  Enter = 0x1cu,
+  enter = 0x1cu,
   /** NumpadEnter */
-  NumpadEnter = 0xe01cu,
+  numpad_enter = 0xe01cu,
 
   /** LCtrl */
-  LCtrl = 0x1du,
+  l_ctrl = 0x1du,
   /** RCtrl */
-  RCtrl = 0xe01du,
+  r_ctrl = 0xe01du,
   /** a */
-  A = 0x1eu,
+  a = 0x1eu,
   /** S */
-  S = 0x1fu,
+  s = 0x1fu,
   /** D */
-  D = 0x20u,
+  d = 0x20u,
   /** F */
-  F = 0x21u,
+  f = 0x21u,
   /** g */
-  G = 0x22u,
+  g = 0x22u,
   /** H */
-  H = 0x23u,
+  h = 0x23u,
   /** J */
-  J = 0x24u,
+  j = 0x24u,
   /** K */
-  K = 0x25u,
+  k = 0x25u,
   /** L */
-  L = 0x26u,
+  l = 0x26u,
   /** Semicolon */
-  Semicolon = 0x27u,
+  semicolon = 0x27u,
   /** Quote */
-  Quote = 0x28u,
+  quote = 0x28u,
   /** Tilde */
-  Tilde = 0x29u,
+  tilde = 0x29u,
 
   /** LShift */
-  LShift = 0x2au,
+  l_shift = 0x2au,
   /** Backslash */
-  Backslash = 0x2bu,
+  backslash = 0x2bu,
   /** Z */
-  Z = 0x2cu,
+  z = 0x2cu,
   /** X */
-  X = 0x2du,
+  x = 0x2du,
   /** C */
-  C = 0x2eu,
+  c = 0x2eu,
   /** V */
-  V = 0x2fu,
+  v = 0x2fu,
   /** b */
-  B = 0x30u,
+  b = 0x30u,
   /** N */
-  N = 0x31u,
+  n = 0x31u,
   /** M */
-  M = 0x32u,
+  m = 0x32u,
   /** Comma */
-  Comma = 0x33u,
+  comma = 0x33u,
   /** Period */
-  Period = 0x34u,
+  period = 0x34u,
   /** Slash */
-  Slash = 0x35u,
+  slash = 0x35u,
   /** Divide */
-  Divide = 0xe035u,
+  divide = 0xe035u,
   /** RShift */
-  RShift = 0x36u,
+  r_shift = 0x36u,
 
   /** Multiply */
-  Multiply = 0x37u,
+  multiply = 0x37u,
   /** PrintScreen */
-  PrintScreen = 0xe037u,
+  print_screen = 0xe037u,
   /** LAlt */
-  LAlt = 0x38u,
+  l_alt = 0x38u,
   /** RAlt */
-  RAlt = 0xe038u,
+  r_alt = 0xe038u,
   /** Space */
-  Space = 0x39u,
+  space = 0x39u,
   /** CapsLock */
-  CapsLock = 0x3au,
+  caps_lock = 0x3au,
 
   /** F1 */
-  F1 = 0x3bu,
+  f1 = 0x3bu,
   /** F2 */
-  F2 = 0x3cu,
+  f2 = 0x3cu,
   /** F3 */
-  F3 = 0x3du,
+  f3 = 0x3du,
   /** F4 */
-  F4 = 0x3eu,
+  f4 = 0x3eu,
   /** F5 */
-  F5 = 0x3fu,
+  f5 = 0x3fu,
   /** F6 */
-  F6 = 0x40u,
+  f6 = 0x40u,
   /** F7 */
-  F7 = 0x41u,
+  f7 = 0x41u,
   /** F8 */
-  F8 = 0x42u,
+  f8 = 0x42u,
   /** F9 */
-  F9 = 0x43u,
+  f9 = 0x43u,
   /** F10 */
-  F10 = 0x44u,
+  f10 = 0x44u,
 
   /** Pause */
-  Pause = 0x45u,
+  pause = 0x45u,
   /** NumLock */
-  NumLock = 0xe045u,
+  num_lock = 0xe045u,
   /** ScrollLock */
-  ScrollLock = 0x46u,
+  scroll_lock = 0x46u,
 
   /** Numpad7 */
-  Numpad7 = 0x47u,
+  numpad7 = 0x47u,
   /** Home */
-  Home = 0xe047u,
+  home = 0xe047u,
   /** Numpad8 */
-  Numpad8 = 0x48u,
+  numpad8 = 0x48u,
   /** Up */
-  Up = 0xe048u,
+  up = 0xe048u,
   /** Numpad9 */
-  Numpad9 = 0x49u,
+  numpad9 = 0x49u,
   /** PageUp */
-  PageUp = 0xe049u,
+  page_up = 0xe049u,
   /** Subtract */
-  Subtract = 0x4au,
+  subtract = 0x4au,
   /** Numpad4 */
-  Numpad4 = 0x4bu,
+  numpad4 = 0x4bu,
   /** Left */
-  Left = 0xe04bu,
+  left = 0xe04bu,
   /** Numpad5 */
-  Numpad5 = 0x4cu,
+  numpad5 = 0x4cu,
   /** Numpad6 */
-  Numpad6 = 0x4du,
+  numpad6 = 0x4du,
   /** Right */
-  Right = 0xe04du,
+  right = 0xe04du,
   /** Add */
-  Add = 0x4eu,
+  add = 0x4eu,
   /** Numpad1 */
-  Numpad1 = 0x4fu,
+  numpad1 = 0x4fu,
   /** End */
-  End = 0xe04fu,
+  end = 0xe04fu,
   /** Numpad2 */
-  Numpad2 = 0x50u,
+  numpad2 = 0x50u,
   /** Down */
-  Down = 0xe050u,
+  down = 0xe050u,
   /** Numpad3 */
-  Numpad3 = 0x51u,
+  numpad3 = 0x51u,
   /** PageDown */
-  PageDown = 0xe051u,
+  page_down = 0xe051u,
   /** Numpad0 */
-  Numpad0 = 0x52u,
+  numpad0 = 0x52u,
   /** Insert */
-  Insert = 0xe052u,
+  ins = 0xe052u,
   /** Decimal */
-  Decimal = 0x53u,
+  decimal = 0x53u,
   /** Delete */
-  Delete = 0xe053u,
+  del = 0xe053u,
 
   /** F11 */
-  F11 = 0x57u,
+  f11 = 0x57u,
   /** F12 */
-  F12 = 0x58u,
+  f12 = 0x58u,
 
   /** LSystem */
-  LSystem = 0xe05b,
+  l_system = 0xe05b,
   /** RSystem */
-  RSystem = 0xe05c,
+  r_system = 0xe05c,
   /** Apps */
-  Apps = 0xe05d,
+  apps = 0xe05d,
 };
 
 

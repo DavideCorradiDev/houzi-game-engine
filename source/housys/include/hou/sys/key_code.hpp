@@ -19,343 +19,344 @@ enum class key_code
 {
   // Function keys
   /** Escape */
-  Escape,
+  escape,
   /** Print */
-  Print,
+  print,
   /** PrintScreen */
-  PrintScreen,
+  print_screen,
   /** Pause */
-  Pause,
+  pause,
   /** Execute */
-  Execute,
+  execute,
   /** Select */
-  Select,
+  select,
   /** Help */
-  Help,
+  help,
   /** Sleep */
-  Sleep,
+  sleep,
   /** Apps */
-  Apps,
+  apps,
   /** F1 */
-  F1,
+  f1,
   /** F2 */
-  F2,
+  f2,
   /** F3 */
-  F3,
+  f3,
   /** F4 */
-  F4,
+  f4,
   /** F5 */
-  F5,
+  f5,
   /** F6 */
-  F6,
+  f6,
   /** F7 */
-  F7,
+  f7,
   /** F8 */
-  F8,
+  f8,
   /** F9 */
-  F9,
+  f9,
   /** F10 */
-  F10,
+  f10,
   /** F11 */
-  F11,
+  f11,
   /** F12 */
-  F12,
-  F13,
+  f12,
+  /** F13 */
+  f13,
   /** F14 */
-  F14,
+  f14,
   /** F15 */
-  F15,
+  f15,
   /** F16 */
-  F16,
+  f16,
   /** F17 */
-  F17,
+  f17,
   /** F18 */
-  F18,
+  f18,
   /** F19 */
-  F19,
+  f19,
   /** F20 */
-  F20,
+  f20,
   /** F21 */
-  F21,
+  f21,
   /** F22 */
-  F22,
+  f22,
   /** F23 */
-  F23,
+  f23,
   /** F24 */
-  F24,
+  f24,
 
   // Numpad keys
   /** Numpad0 */
-  Numpad0,
+  numpad0,
   /** Numpad1 */
-  Numpad1,
+  numpad1,
   /** Numpad2 */
-  Numpad2,
+  numpad2,
   /** Numpad3 */
-  Numpad3,
+  numpad3,
   /** Numpad4 */
-  Numpad4,
+  numpad4,
   /** Numpad5 */
-  Numpad5,
+  numpad5,
   /** Numpad6 */
-  Numpad6,
+  numpad6,
   /** Numpad7 */
-  Numpad7,
+  numpad7,
   /** Numpad8 */
-  Numpad8,
+  numpad8,
   /** Numpad9 */
-  Numpad9,
+  numpad9,
   /** Add */
-  Add,
+  add,
   /** Subtract */
-  Subtract,
+  subtract,
   /** Multiply */
-  Multiply,
+  multiply,
   /** Divide */
-  Divide,
+  divide,
   /** Decimal */
-  Decimal,
+  decimal,
   /** Separator */
-  Separator,
+  separator,
 
   // Navigation keys
   /** PageUp */
-  PageUp,
+  page_up,
   /** PageDown */
-  PageDown,
+  page_down,
   /** End */
-  End,
+  end,
   /** Home */
-  Home,
+  home,
   /** Insert */
-  Insert,
+  ins,
   /** Delete */
-  Delete,
+  del,
   /** Backspace */
-  Backspace,
+  backspace,
   /** Left */
-  Left,
+  left,
   /** Right */
-  Right,
+  right,
   /** Up */
-  Up,
+  up,
   /** Down */
-  Down,
+  down,
 
   // Character keys
   /** Num0 */
-  Num0,
+  num0,
   /** Num1 */
-  Num1,
+  num1,
   /** Num2 */
-  Num2,
+  num2,
   /** Num3 */
-  Num3,
+  num3,
   /** Num4 */
-  Num4,
+  num4,
   /** Num5 */
-  Num5,
+  num5,
   /** Num6 */
-  Num6,
+  num6,
   /** Num7 */
-  Num7,
+  num7,
   /** Num8 */
-  Num8,
+  num8,
   /** Num9 */
-  Num9,
+  num9,
   /** a */
-  A,
+  a,
   /** b */
-  B,
+  b,
   /** C */
-  C,
+  c,
   /** D */
-  D,
+  d,
   /** E */
-  E,
+  e,
   /** F */
-  F,
+  f,
   /** g */
-  G,
+  g,
   /** H */
-  H,
+  h,
   /** I */
-  I,
+  i,
   /** J */
-  J,
+  j,
   /** K */
-  K,
+  k,
   /** L */
-  L,
+  l,
   /** M */
-  M,
+  m,
   /** N */
-  N,
+  n,
   /** O */
-  O,
+  o,
   /** P */
-  P,
+  p,
   /** Q */
-  Q,
+  q,
   /** R */
-  R,
+  r,
   /** S */
-  S,
+  s,
   /** T */
-  T,
+  t,
   /** U */
-  U,
+  u,
   /** V */
-  V,
+  v,
   /** X */
-  X,
+  x,
   /** Y */
-  Y,
+  y,
   /** W */
-  W,
+  w,
   /** Z */
-  Z,
+  z,
   /** LBracket */
-  LBracket,
+  l_bracket,
   /** RBracket */
-  RBracket,
+  r_bracket,
   /** Semicolon */
-  Semicolon,
+  semicolon,
   /** Comma */
-  Comma,
+  comma,
   /** Period */
-  Period,
+  period,
   /** Quote */
-  Quote,
+  quote,
   /** Slash */
-  Slash,
+  slash,
   /** Backslash */
-  Backslash,
+  backslash,
   /** Tilde */
-  Tilde,
+  tilde,
   /** Dash */
-  Dash,
+  dash,
   /** Enter */
-  Enter,
+  enter,
   /** Tab */
-  Tab,
+  tab,
   /** Space */
-  Space,
+  space,
   /** Equal */
-  Equal,
+  equal,
   /** Special1 */
-  Special1,
+  special1,
   /** Special2 */
-  Special2,
+  special2,
 
   // Modifier keys
   /** CapsLock */
-  CapsLock,
+  caps_lock,
   /** NumLock */
-  NumLock,
+  num_lock,
   /** ScrollLock */
-  ScrollLock,
+  scroll_lock,
   /** LCtrl */
-  LCtrl,
+  l_ctrl,
   /** RCtrl */
-  RCtrl,
+  r_ctrl,
   /** LAlt */
-  LAlt,
+  l_alt,
   /** RAlt */
-  RAlt,
+  r_alt,
   /** LShift */
-  LShift,
+  l_shift,
   /** RShift */
-  RShift,
+  r_shift,
   /** LSystem */
-  LSystem,
+  l_system,
   /** RSystem */
-  RSystem,
+  r_system,
 
   // IME (input method editor)
   /** Kana */
-  Kana,
+  kana,
   /** Hangul */
-  Hangul,
+  hangul,
   /** Junja */
-  Junja,
+  junja,
   /** Final */
-  Final,
+  final,
   /** Hanja */
-  Hanja,
+  hanja,
   /** Kanji */
-  Kanji,
+  kanji,
   /** Convert */
-  Convert,
+  convert,
   /** NonConvert */
-  NonConvert,
+  non_convert,
   /** Accept */
-  Accept,
+  accept,
   /** ModeChange */
-  ModeChange,
+  mode_change,
   /** ProcessKey */
-  ProcessKey,
+  process_key,
 
   // Browser
   /** BrowserBack */
-  BrowserBack,
+  browser_back,
   /** BrowserForward */
-  BrowserForward,
+  browser_forward,
   /** BrowserRefresh */
-  BrowserRefresh,
+  browser_refresh,
   /** BrowserStop */
-  BrowserStop,
+  browser_stop,
   /** BrowserSearch */
-  BrowserSearch,
+  browser_search,
 
   /** BrowserFavorites */
-  BrowserFavorites,
+  browser_favorites,
   /** BrowserHome */
-  BrowserHome,
+  browser_home,
 
   // Sound and media.
   /** VolumeUp  */
-  VolumeUp,
+  volume_up,
   /** VolumeDown */
-  VolumeDown,
+  volume_down,
   /** VolumeMute */
-  VolumeMute,
+  volume_mute,
   /** MediaNextTrack */
-  MediaNextTrack,
+  media_next_track,
   /** MediaPreviousTrack */
-  MediaPreviousTrack,
+  media_previous_track,
   /** MediaStop */
-  MediaStop,
+  media_stop,
   /** MediaPlayPause */
-  MediaPlayPause,
+  media_play_pause,
   /** LaunchMediaSelect */
-  LaunchMediaSelect,
+  launch_media_select,
   /** LaunchMail */
-  LaunchMail,
+  launch_mail,
   /** LaunchApp1 */
-  LaunchApp1,
+  launch_app1,
   /** LaunchApp2 */
-  LaunchApp2,
+  launch_app2,
 
   // Others
   /** Attn */
-  Attn,
+  attn,
   /** CrSel */
-  CrSel,
+  cr_sel,
   /** ExSel */
-  ExSel,
+  ex_sel,
   /** EraseEOF */
-  EraseEOF,
+  erase_eof,
   /** Play */
-  Play,
+  play,
   /** Zoom */
-  Zoom,
+  zoom,
   /** PA1 */
-  PA1,
+  pa1,
   /** Clear */
-  Clear,
+  clear,
   /** Packet */
-  Packet,
+  packet,
 };
 
 /** Writes a key_code enum into a ph_stream.

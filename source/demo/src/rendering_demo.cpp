@@ -119,147 +119,147 @@ void DrawableShape::handleInput()
   static const uint deltaPoints = 4u;
   static const uint minPoints = 2u;
 
-  if(keyboard::is_key_pressed(scan_code::A))
+  if(keyboard::is_key_pressed(scan_code::a))
   {
     mTransformData.m_position.x() += deltaPos;
   }
-  if(keyboard::is_key_pressed(scan_code::Z))
+  if(keyboard::is_key_pressed(scan_code::z))
   {
     mTransformData.m_position.x() -= deltaPos;
   }
-  if(keyboard::is_key_pressed(scan_code::S))
+  if(keyboard::is_key_pressed(scan_code::s))
   {
     mTransformData.m_position.y() += deltaPos;
   }
-  if(keyboard::is_key_pressed(scan_code::X))
+  if(keyboard::is_key_pressed(scan_code::x))
   {
     mTransformData.m_position.y() -= deltaPos;
   }
 
-  if(keyboard::is_key_pressed(scan_code::D))
+  if(keyboard::is_key_pressed(scan_code::d))
   {
     mTransformData.mRotation += deltaRot;
   }
-  if(keyboard::is_key_pressed(scan_code::C))
+  if(keyboard::is_key_pressed(scan_code::c))
   {
     mTransformData.mRotation -= deltaRot;
   }
 
-  if(keyboard::is_key_pressed(scan_code::F))
+  if(keyboard::is_key_pressed(scan_code::f))
   {
     mTransformData.mScale.x() += deltaScale;
   }
-  if(keyboard::is_key_pressed(scan_code::V))
+  if(keyboard::is_key_pressed(scan_code::v))
   {
     mTransformData.mScale.x() -= deltaScale;
   }
-  if(keyboard::is_key_pressed(scan_code::G))
+  if(keyboard::is_key_pressed(scan_code::g))
   {
     mTransformData.mScale.y() += deltaScale;
   }
-  if(keyboard::is_key_pressed(scan_code::B))
+  if(keyboard::is_key_pressed(scan_code::b))
   {
     mTransformData.mScale.y() -= deltaScale;
   }
 
-  if(keyboard::is_key_pressed(scan_code::H))
+  if(keyboard::is_key_pressed(scan_code::h))
   {
     mTransformData.mShear.x() += deltaShear;
   }
-  if(keyboard::is_key_pressed(scan_code::N))
+  if(keyboard::is_key_pressed(scan_code::n))
   {
     mTransformData.mShear.x() -= deltaShear;
   }
-  if(keyboard::is_key_pressed(scan_code::J))
+  if(keyboard::is_key_pressed(scan_code::j))
   {
     mTransformData.mShear.y() += deltaShear;
   }
-  if(keyboard::is_key_pressed(scan_code::M))
+  if(keyboard::is_key_pressed(scan_code::m))
   {
     mTransformData.mShear.y() -= deltaShear;
   }
 
-  if(keyboard::is_key_pressed(scan_code::Num1))
+  if(keyboard::is_key_pressed(scan_code::num1))
   {
     m_color.set_red(m_color.get_red() + deltaCol);
   }
-  if(keyboard::is_key_pressed(scan_code::Q))
+  if(keyboard::is_key_pressed(scan_code::q))
   {
     m_color.set_red(m_color.get_red() - deltaCol);
   }
-  if(keyboard::is_key_pressed(scan_code::Num2))
+  if(keyboard::is_key_pressed(scan_code::num2))
   {
     m_color.set_green(m_color.get_green() + deltaCol);
   }
-  if(keyboard::is_key_pressed(scan_code::W))
+  if(keyboard::is_key_pressed(scan_code::w))
   {
     m_color.set_green(m_color.get_green() - deltaCol);
   }
-  if(keyboard::is_key_pressed(scan_code::Num3))
+  if(keyboard::is_key_pressed(scan_code::num3))
   {
     m_color.set_blue(m_color.get_blue() + deltaCol);
   }
-  if(keyboard::is_key_pressed(scan_code::E))
+  if(keyboard::is_key_pressed(scan_code::e))
   {
     m_color.set_blue(m_color.get_blue() - deltaCol);
   }
-  if(keyboard::is_key_pressed(scan_code::Num4))
+  if(keyboard::is_key_pressed(scan_code::num4))
   {
     m_color.set_alpha(m_color.get_alpha() + deltaCol);
   }
-  if(keyboard::is_key_pressed(scan_code::R))
+  if(keyboard::is_key_pressed(scan_code::r))
   {
     m_color.set_alpha(m_color.get_alpha() - deltaCol);
   }
 
-  if(keyboard::is_key_pressed(scan_code::Num5))
+  if(keyboard::is_key_pressed(scan_code::num5))
   {
     mOrigin.x() += deltaPos;
   }
-  if(keyboard::is_key_pressed(scan_code::T))
+  if(keyboard::is_key_pressed(scan_code::t))
   {
     mOrigin.x() -= deltaPos;
   }
-  if(keyboard::is_key_pressed(scan_code::Num6))
+  if(keyboard::is_key_pressed(scan_code::num6))
   {
     mOrigin.y() += deltaPos;
   }
-  if(keyboard::is_key_pressed(scan_code::Y))
+  if(keyboard::is_key_pressed(scan_code::y))
   {
     mOrigin.y() -= deltaPos;
   }
 
-  if(keyboard::is_key_pressed(scan_code::Num7))
+  if(keyboard::is_key_pressed(scan_code::num7))
   {
     m_size.x() += deltaPos;
   }
-  if(keyboard::is_key_pressed(scan_code::U))
+  if(keyboard::is_key_pressed(scan_code::u))
   {
     m_size.x() -= deltaPos;
   }
-  if(keyboard::is_key_pressed(scan_code::Num8))
+  if(keyboard::is_key_pressed(scan_code::num8))
   {
     m_size.y() += deltaPos;
   }
-  if(keyboard::is_key_pressed(scan_code::I))
+  if(keyboard::is_key_pressed(scan_code::i))
   {
     m_size.y() -= deltaPos;
   }
 
-  if(keyboard::is_key_pressed(scan_code::Num9))
+  if(keyboard::is_key_pressed(scan_code::num9))
   {
     mThickness += deltaThickness;
   }
-  if(keyboard::is_key_pressed(scan_code::O))
+  if(keyboard::is_key_pressed(scan_code::o))
   {
     mThickness -= deltaThickness;
   }
 
-  if(keyboard::is_key_pressed(scan_code::Num0))
+  if(keyboard::is_key_pressed(scan_code::num0))
   {
     mPoints += deltaPoints;
   }
-  if(keyboard::is_key_pressed(scan_code::P))
+  if(keyboard::is_key_pressed(scan_code::p))
   {
     mPoints -= deltaPoints;
     if(mPoints < minPoints)
@@ -268,11 +268,11 @@ void DrawableShape::handleInput()
     }
   }
 
-  if(keyboard::is_key_pressed(scan_code::K))
+  if(keyboard::is_key_pressed(scan_code::k))
   {
     mDrawWithTexture = true;
   }
-  if(keyboard::is_key_pressed(scan_code::Comma))
+  if(keyboard::is_key_pressed(scan_code::comma))
   {
     mDrawWithTexture = false;
   }
@@ -421,31 +421,31 @@ int main()
         case window_event_type::key_released:
         {
           const auto& data = we.get_key_data();
-          if(data.scan_code == scan_code::Escape)
+          if(data.scan_code == scan_code::escape)
           {
             running = false;
           }
-          else if(data.scan_code == scan_code::F1)
+          else if(data.scan_code == scan_code::f1)
           {
             currentShape = 0;
           }
-          else if(data.scan_code == scan_code::F2)
+          else if(data.scan_code == scan_code::f2)
           {
             currentShape = 1;
           }
-          else if(data.scan_code == scan_code::F3)
+          else if(data.scan_code == scan_code::f3)
           {
             currentShape = 2;
           }
-          else if(data.scan_code == scan_code::F4)
+          else if(data.scan_code == scan_code::f4)
           {
             currentShape = 3;
           }
-          else if(data.scan_code == scan_code::F5)
+          else if(data.scan_code == scan_code::f5)
           {
             currentShape = 4;
           }
-          else if(data.scan_code == scan_code::Add)
+          else if(data.scan_code == scan_code::add)
           {
             if(wndSamples < 32)
             {
@@ -454,7 +454,7 @@ int main()
             std::cout << "Samples: " << wndSamples << std::endl;
             wnd->set_sample_count(wndSamples);
           }
-          else if(data.scan_code == scan_code::Subtract)
+          else if(data.scan_code == scan_code::subtract)
           {
             if(wndSamples > 1)
             {
@@ -463,7 +463,7 @@ int main()
             std::cout << "Samples: " << wndSamples << std::endl;
             wnd->set_sample_count(wndSamples);
           }
-          else if(data.scan_code == scan_code::Decimal)
+          else if(data.scan_code == scan_code::decimal)
           {
             wndStyle = window_style::fullscreen;
             wnd.reset();
@@ -471,7 +471,7 @@ int main()
               , wndStyle, wndSamples);
             wnd->set_visible(true);
           }
-          else if(data.scan_code == scan_code::Numpad0)
+          else if(data.scan_code == scan_code::numpad0)
           {
             wndStyle = window_style::windowed;
             wnd.reset();
@@ -504,49 +504,49 @@ int main()
       shapes[currentShape]->handleInput();
 
       static const int viewportDelta = 4;
-      if(keyboard::is_key_pressed(scan_code::Divide))
+      if(keyboard::is_key_pressed(scan_code::divide))
       {
         recti currentViewport = wnd->get_viewport();
         currentViewport.x() += viewportDelta;
         wnd->set_viewport(currentViewport);
       }
-      if(keyboard::is_key_pressed(scan_code::Numpad8))
+      if(keyboard::is_key_pressed(scan_code::numpad8))
       {
         recti currentViewport = wnd->get_viewport();
         currentViewport.x() -= viewportDelta;
         wnd->set_viewport(currentViewport);
       }
-      if(keyboard::is_key_pressed(scan_code::Multiply))
+      if(keyboard::is_key_pressed(scan_code::multiply))
       {
         recti currentViewport = wnd->get_viewport();
         currentViewport.y() += viewportDelta;
         wnd->set_viewport(currentViewport);
       }
-      if(keyboard::is_key_pressed(scan_code::Numpad9))
+      if(keyboard::is_key_pressed(scan_code::numpad9))
       {
         recti currentViewport = wnd->get_viewport();
         currentViewport.y() -= viewportDelta;
         wnd->set_viewport(currentViewport);
       }
-      if(keyboard::is_key_pressed(scan_code::Numpad5))
+      if(keyboard::is_key_pressed(scan_code::numpad5))
       {
         recti currentViewport = wnd->get_viewport();
         currentViewport.w() += viewportDelta;
         wnd->set_viewport(currentViewport);
       }
-      if(keyboard::is_key_pressed(scan_code::Numpad2))
+      if(keyboard::is_key_pressed(scan_code::numpad2))
       {
         recti currentViewport = wnd->get_viewport();
         currentViewport.w() -= viewportDelta;
         wnd->set_viewport(currentViewport);
       }
-      if(keyboard::is_key_pressed(scan_code::Numpad6))
+      if(keyboard::is_key_pressed(scan_code::numpad6))
       {
         recti currentViewport = wnd->get_viewport();
         currentViewport.h() += viewportDelta;
         wnd->set_viewport(currentViewport);
       }
-      if(keyboard::is_key_pressed(scan_code::Numpad3))
+      if(keyboard::is_key_pressed(scan_code::numpad3))
       {
         recti currentViewport = wnd->get_viewport();
         currentViewport.h() -= viewportDelta;

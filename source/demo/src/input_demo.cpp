@@ -182,236 +182,236 @@ int main()
   std::vector<KeyInfo> keyMap;
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(16.f, 8.f)), key1Quad
-    , hou::key_code::Escape, hou::scan_code::Escape));
+    , hou::key_code::escape, hou::scan_code::escape));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(40.f, 8.f)), key1Quad
-    , hou::key_code::F1, hou::scan_code::F1));
+    , hou::key_code::f1, hou::scan_code::f1));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(56.f, 8.f)), key1Quad
-    , hou::key_code::F2, hou::scan_code::F2));
+    , hou::key_code::f2, hou::scan_code::f2));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(72.f, 8.f)), key1Quad
-    , hou::key_code::F3, hou::scan_code::F3));
+    , hou::key_code::f3, hou::scan_code::f3));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(88.f, 8.f)), key1Quad
-    , hou::key_code::F4, hou::scan_code::F4));
+    , hou::key_code::f4, hou::scan_code::f4));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(112.f, 8.f)), key1Quad
-    , hou::key_code::F5, hou::scan_code::F5));
+    , hou::key_code::f5, hou::scan_code::f5));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(128.f, 8.f)), key1Quad
-    , hou::key_code::F6, hou::scan_code::F6));
+    , hou::key_code::f6, hou::scan_code::f6));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(144.f, 8.f)), key1Quad
-    , hou::key_code::F7, hou::scan_code::F7));
+    , hou::key_code::f7, hou::scan_code::f7));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(160.f, 8.f)), key1Quad
-    , hou::key_code::F8, hou::scan_code::F8));
+    , hou::key_code::f8, hou::scan_code::f8));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(184.f, 8.f)), key1Quad
-    , hou::key_code::F9, hou::scan_code::F9));
+    , hou::key_code::f9, hou::scan_code::f9));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(200.f, 8.f)), key1Quad
-    , hou::key_code::F10, hou::scan_code::F10));
+    , hou::key_code::f10, hou::scan_code::f10));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(216.f, 8.f)), key1Quad
-    , hou::key_code::F11, hou::scan_code::F11));
+    , hou::key_code::f11, hou::scan_code::f11));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(232.f, 8.f)), key1Quad
-    , hou::key_code::F12, hou::scan_code::F12));
+    , hou::key_code::f12, hou::scan_code::f12));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(256.f, 8.f)), key1Quad
-    , hou::key_code::PrintScreen, hou::scan_code::PrintScreen));
+    , hou::key_code::print_screen, hou::scan_code::print_screen));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(272.f, 8.f)), key1Quad
-    , hou::key_code::ScrollLock, hou::scan_code::ScrollLock));
+    , hou::key_code::scroll_lock, hou::scan_code::scroll_lock));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(288.f, 8.f)), key1Quad
-    , hou::key_code::Pause, hou::scan_code::Pause));
+    , hou::key_code::pause, hou::scan_code::pause));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(256.f, 32.f)), key1Quad
-    , hou::key_code::Insert, hou::scan_code::Insert));
+    , hou::key_code::ins, hou::scan_code::ins));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(272.f, 32.f)), key1Quad
-    , hou::key_code::Home, hou::scan_code::Home));
+    , hou::key_code::home, hou::scan_code::home));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(288.f, 32.f)), key1Quad
-    , hou::key_code::PageUp, hou::scan_code::PageUp));
+    , hou::key_code::page_up, hou::scan_code::page_up));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(256.f, 48.f)), key1Quad
-    , hou::key_code::Delete, hou::scan_code::Delete));
+    , hou::key_code::del, hou::scan_code::del));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(272.f, 48.f)), key1Quad
-    , hou::key_code::End, hou::scan_code::End));
+    , hou::key_code::end, hou::scan_code::end));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(288.f, 48.f)), key1Quad
-    , hou::key_code::PageDown, hou::scan_code::PageDown));
+    , hou::key_code::page_down, hou::scan_code::page_down));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(272.f, 80.f)), key1Quad
-    , hou::key_code::Up, hou::scan_code::Up));
+    , hou::key_code::up, hou::scan_code::up));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(256.f, 96.f)), key1Quad
-    , hou::key_code::Left, hou::scan_code::Left));
+    , hou::key_code::left, hou::scan_code::left));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(272.f, 96.f)), key1Quad
-    , hou::key_code::Down, hou::scan_code::Down));
+    , hou::key_code::down, hou::scan_code::down));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(288.f, 96.f)), key1Quad
-    , hou::key_code::Right, hou::scan_code::Right));
+    , hou::key_code::right, hou::scan_code::right));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(8.f, 32.f)), key1Quad
-    , hou::key_code::Tilde, hou::scan_code::Tilde));
+    , hou::key_code::tilde, hou::scan_code::tilde));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(24.f, 32.f)), key1Quad
-    , hou::key_code::Num1, hou::scan_code::Num1));
+    , hou::key_code::num1, hou::scan_code::num1));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(40.f, 32.f)), key1Quad
-    , hou::key_code::Num2, hou::scan_code::Num2));
+    , hou::key_code::num2, hou::scan_code::num2));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(56.f, 32.f)), key1Quad
-    , hou::key_code::Num3, hou::scan_code::Num3));
+    , hou::key_code::num3, hou::scan_code::num3));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(72.f, 32.f)), key1Quad
-    , hou::key_code::Num4, hou::scan_code::Num4));
+    , hou::key_code::num4, hou::scan_code::num4));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(88.f, 32.f)), key1Quad
-    , hou::key_code::Num5, hou::scan_code::Num5));
+    , hou::key_code::num5, hou::scan_code::num5));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(104.f, 32.f)), key1Quad
-    , hou::key_code::Num6, hou::scan_code::Num6));
+    , hou::key_code::num6, hou::scan_code::num6));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(120.f, 32.f)), key1Quad
-    , hou::key_code::Num7, hou::scan_code::Num7));
+    , hou::key_code::num7, hou::scan_code::num7));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(136.f, 32.f)), key1Quad
-    , hou::key_code::Num8, hou::scan_code::Num8));
+    , hou::key_code::num8, hou::scan_code::num8));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(152.f, 32.f)), key1Quad
-    , hou::key_code::Num9, hou::scan_code::Num9));
+    , hou::key_code::num9, hou::scan_code::num9));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(168.f, 32.f)), key1Quad
-    , hou::key_code::Num0, hou::scan_code::Num0));
+    , hou::key_code::num0, hou::scan_code::num0));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(184.f, 32.f)), key1Quad
-    , hou::key_code::Dash, hou::scan_code::Dash));
+    , hou::key_code::dash, hou::scan_code::dash));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(200.f, 32.f)), key1Quad
-    , hou::key_code::Equal, hou::scan_code::Equal));
+    , hou::key_code::equal, hou::scan_code::equal));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(216.f, 32.f)), key2Quad
-    , hou::key_code::Backspace, hou::scan_code::Backspace));
+    , hou::key_code::backspace, hou::scan_code::backspace));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(8.f, 48.f)), key1hQuad
-    , hou::key_code::Tab, hou::scan_code::Tab));
+    , hou::key_code::tab, hou::scan_code::tab));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(32.f, 48.f)), key1Quad
-    , hou::key_code::Q, hou::scan_code::Q));
+    , hou::key_code::q, hou::scan_code::q));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(48.f, 48.f)), key1Quad
-    , hou::key_code::W, hou::scan_code::W));
+    , hou::key_code::w, hou::scan_code::w));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(64.f, 48.f)), key1Quad
-    , hou::key_code::E, hou::scan_code::E));
+    , hou::key_code::e, hou::scan_code::e));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(80.f, 48.f)), key1Quad
-    , hou::key_code::R, hou::scan_code::R));
+    , hou::key_code::r, hou::scan_code::r));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(96.f, 48.f)), key1Quad
-    , hou::key_code::T, hou::scan_code::T));
+    , hou::key_code::t, hou::scan_code::t));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(112.f, 48.f)), key1Quad
-    , hou::key_code::Y, hou::scan_code::Y));
+    , hou::key_code::y, hou::scan_code::y));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(128.f, 48.f)), key1Quad
-    , hou::key_code::U, hou::scan_code::U));
+    , hou::key_code::u, hou::scan_code::u));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(144.f, 48.f)), key1Quad
-    , hou::key_code::I, hou::scan_code::I));
+    , hou::key_code::i, hou::scan_code::i));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(160.f, 48.f)), key1Quad
-    , hou::key_code::O, hou::scan_code::O));
+    , hou::key_code::o, hou::scan_code::o));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(176.f, 48.f)), key1Quad
-    , hou::key_code::P, hou::scan_code::P));
+    , hou::key_code::p, hou::scan_code::p));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(192.f, 48.f)), key1Quad
-    , hou::key_code::LBracket, hou::scan_code::LBracket));
+    , hou::key_code::l_bracket, hou::scan_code::l_bracket));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(208.f, 48.f)), key1Quad
-    , hou::key_code::RBracket, hou::scan_code::RBracket));
+    , hou::key_code::r_bracket, hou::scan_code::r_bracket));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(224.f, 48.f)), keyEnterQuad
-    , hou::key_code::Enter, hou::scan_code::Enter));
+    , hou::key_code::enter, hou::scan_code::enter));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(8.f, 64.f)), key2Quad
-    , hou::key_code::CapsLock, hou::scan_code::CapsLock));
+    , hou::key_code::caps_lock, hou::scan_code::caps_lock));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(40.f, 64.f)), key1Quad
-    , hou::key_code::A, hou::scan_code::A));
+    , hou::key_code::a, hou::scan_code::a));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(56.f, 64.f)), key1Quad
-    , hou::key_code::S, hou::scan_code::S));
+    , hou::key_code::s, hou::scan_code::s));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(72.f, 64.f)), key1Quad
-    , hou::key_code::D, hou::scan_code::D));
+    , hou::key_code::d, hou::scan_code::d));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(88.f, 64.f)), key1Quad
-    , hou::key_code::F, hou::scan_code::F));
+    , hou::key_code::f, hou::scan_code::f));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(104.f, 64.f)), key1Quad
-    , hou::key_code::G, hou::scan_code::G));
+    , hou::key_code::g, hou::scan_code::g));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(120.f, 64.f)), key1Quad
-    , hou::key_code::H, hou::scan_code::H));
+    , hou::key_code::h, hou::scan_code::h));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(136.f, 64.f)), key1Quad
-    , hou::key_code::J, hou::scan_code::J));
+    , hou::key_code::j, hou::scan_code::j));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(152.f, 64.f)), key1Quad
-    , hou::key_code::K, hou::scan_code::K));
+    , hou::key_code::k, hou::scan_code::k));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(168.f, 64.f)), key1Quad
-    , hou::key_code::L, hou::scan_code::L));
+    , hou::key_code::l, hou::scan_code::l));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(184.f, 64.f)), key1Quad
-    , hou::key_code::Semicolon, hou::scan_code::Semicolon));
+    , hou::key_code::semicolon, hou::scan_code::semicolon));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(200.f, 64.f)), key1Quad
-    , hou::key_code::Quote, hou::scan_code::Quote));
+    , hou::key_code::quote, hou::scan_code::quote));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(216.f, 64.f)), key1Quad
-    , hou::key_code::Backslash, hou::scan_code::Backslash));
+    , hou::key_code::backslash, hou::scan_code::backslash));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(8.f, 80.f)), key2hQuad
-    , hou::key_code::LShift, hou::scan_code::LShift));
+    , hou::key_code::l_shift, hou::scan_code::l_shift));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(48.f, 80.f)), key1Quad
-    , hou::key_code::Z, hou::scan_code::Z));
+    , hou::key_code::z, hou::scan_code::z));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(64.f, 80.f)), key1Quad
-    , hou::key_code::X, hou::scan_code::X));
+    , hou::key_code::x, hou::scan_code::x));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(80.f, 80.f)), key1Quad
-    , hou::key_code::C, hou::scan_code::C));
+    , hou::key_code::c, hou::scan_code::c));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(96.f, 80.f)), key1Quad
-    , hou::key_code::V, hou::scan_code::V));
+    , hou::key_code::v, hou::scan_code::v));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(112.f, 80.f)), key1Quad
-    , hou::key_code::B, hou::scan_code::B));
+    , hou::key_code::b, hou::scan_code::b));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(128.f, 80.f)), key1Quad
-    , hou::key_code::N, hou::scan_code::N));
+    , hou::key_code::n, hou::scan_code::n));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(144.f, 80.f)), key1Quad
-    , hou::key_code::M, hou::scan_code::M));
+    , hou::key_code::m, hou::scan_code::m));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(160.f, 80.f)), key1Quad
-    , hou::key_code::Comma, hou::scan_code::Comma));
+    , hou::key_code::comma, hou::scan_code::comma));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(176.f, 80.f)), key1Quad
-    , hou::key_code::Period, hou::scan_code::Period));
+    , hou::key_code::period, hou::scan_code::period));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(192.f, 80.f)), key1Quad
-    , hou::key_code::Slash, hou::scan_code::Slash));
+    , hou::key_code::slash, hou::scan_code::slash));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(208.f, 80.f)), key2hQuad
-    , hou::key_code::RShift, hou::scan_code::RShift));
+    , hou::key_code::r_shift, hou::scan_code::r_shift));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(8.f, 96.f)), key1hQuad
-    , hou::key_code::LCtrl, hou::scan_code::LCtrl));
+    , hou::key_code::l_ctrl, hou::scan_code::l_ctrl));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(32.f, 96.f)), key1hQuad
-    , hou::key_code::LSystem, hou::scan_code::LSystem));
+    , hou::key_code::l_system, hou::scan_code::l_system));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(56.f, 96.f)), key1hQuad
-    , hou::key_code::LAlt, hou::scan_code::LAlt));
+    , hou::key_code::l_alt, hou::scan_code::l_alt));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(80.f, 96.f)), key4hQuad
-    , hou::key_code::Space, hou::scan_code::Space));
+    , hou::key_code::space, hou::scan_code::space));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(152.f, 96.f)), key1hQuad
-    , hou::key_code::RAlt, hou::scan_code::RAlt));
+    , hou::key_code::r_alt, hou::scan_code::r_alt));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(176.f, 96.f)), key1hQuad
-    , hou::key_code::RSystem, hou::scan_code::RSystem));
+    , hou::key_code::r_system, hou::scan_code::r_system));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(200.f, 96.f)), key1hQuad
-    , hou::key_code::Apps, hou::scan_code::Apps));
+    , hou::key_code::apps, hou::scan_code::apps));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(224.f, 96.f)), key1hQuad
-    , hou::key_code::RCtrl, hou::scan_code::RCtrl));
+    , hou::key_code::r_ctrl, hou::scan_code::r_ctrl));
 
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(312.f, 32.f)), key1Quad
-    , hou::key_code::NumLock, hou::scan_code::NumLock));
+    , hou::key_code::num_lock, hou::scan_code::num_lock));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(328.f, 32.f)), key1Quad
-    , hou::key_code::Divide, hou::scan_code::Divide));
+    , hou::key_code::divide, hou::scan_code::divide));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(344.f, 32.f)), key1Quad
-    , hou::key_code::Multiply, hou::scan_code::Multiply));
+    , hou::key_code::multiply, hou::scan_code::multiply));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(360.f, 32.f)), key1Quad
-    , hou::key_code::Subtract, hou::scan_code::Subtract));
+    , hou::key_code::subtract, hou::scan_code::subtract));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(312.f, 48.f)), key1Quad
-    , hou::key_code::Numpad7, hou::scan_code::Numpad7));
+    , hou::key_code::numpad7, hou::scan_code::numpad7));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(328.f, 48.f)), key1Quad
-    , hou::key_code::Numpad8, hou::scan_code::Numpad8));
+    , hou::key_code::numpad8, hou::scan_code::numpad8));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(344.f, 48.f)), key1Quad
-    , hou::key_code::Numpad9, hou::scan_code::Numpad9));
+    , hou::key_code::numpad9, hou::scan_code::numpad9));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(360.f, 48.f)), keyVertQuad
-    , hou::key_code::Add, hou::scan_code::Add));
+    , hou::key_code::add, hou::scan_code::add));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(312.f, 64.f)), key1Quad
-    , hou::key_code::Numpad4, hou::scan_code::Numpad4));
+    , hou::key_code::numpad4, hou::scan_code::numpad4));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(328.f, 64.f)), key1Quad
-    , hou::key_code::Numpad5, hou::scan_code::Numpad5));
+    , hou::key_code::numpad5, hou::scan_code::numpad5));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(344.f, 64.f)), key1Quad
-    , hou::key_code::Numpad6, hou::scan_code::Numpad6));
+    , hou::key_code::numpad6, hou::scan_code::numpad6));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(312.f, 80.f)), key1Quad
-    , hou::key_code::Numpad1, hou::scan_code::Numpad1));
+    , hou::key_code::numpad1, hou::scan_code::numpad1));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(328.f, 80.f)), key1Quad
-    , hou::key_code::Numpad2, hou::scan_code::Numpad2));
+    , hou::key_code::numpad2, hou::scan_code::numpad2));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(344.f, 80.f)), key1Quad
-    , hou::key_code::Numpad3, hou::scan_code::Numpad3));
+    , hou::key_code::numpad3, hou::scan_code::numpad3));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(360.f, 80.f)), keyVertQuad
-    , hou::key_code::Enter, hou::scan_code::Enter));
+    , hou::key_code::enter, hou::scan_code::enter));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(312.f, 96.f)), key2Quad
-    , hou::key_code::Numpad0, hou::scan_code::Numpad0));
+    , hou::key_code::numpad0, hou::scan_code::numpad0));
   keyMap.push_back(KeyInfo(hou::trans2f::translation(hou::vec2f(344.f, 96.f)), key1Quad
-    , hou::key_code::Decimal, hou::scan_code::Decimal));
+    , hou::key_code::decimal, hou::scan_code::decimal));
 
   // Main loop.
   bool running = true;
@@ -436,23 +436,23 @@ int main()
           auto data = we.get_key_data();
           if(hou::check_bit(data.modifier_keys, hou::modifier_keys::ctrl))
           {
-            if(data.scan_code == hou::scan_code::Num1)
+            if(data.scan_code == hou::scan_code::num1)
             {
               wnd.set_icon(iconR);
             }
-            else if(data.scan_code == hou::scan_code::Num2)
+            else if(data.scan_code == hou::scan_code::num2)
             {
               wnd.set_icon(iconRG);
             }
-            else if(data.scan_code == hou::scan_code::Num3)
+            else if(data.scan_code == hou::scan_code::num3)
             {
               wnd.set_icon(iconRGB);
             }
-            else if(data.scan_code == hou::scan_code::Num4)
+            else if(data.scan_code == hou::scan_code::num4)
             {
               wnd.set_icon(iconRGBA);
             }
-            else if(data.scan_code == hou::scan_code::Num5)
+            else if(data.scan_code == hou::scan_code::num5)
             {
               wnd.set_system_icon();
             }
@@ -550,33 +550,33 @@ int main()
       // Draw keyboard LEDs
       meshRnd.draw(wnd
         , keyboardLed
-        , hou::keyboard::is_key_toggled(hou::key_code::NumLock)
+        , hou::keyboard::is_key_toggled(hou::key_code::num_lock)
         ? hou::color::red : hou::color::black
         , projTrans * keyboard1Trans * hou::trans2f::translation(hou::vec2f(312.f, 8.f)));
       meshRnd.draw(wnd
         , keyboardLed
-        , hou::keyboard::is_key_toggled(hou::key_code::CapsLock)
+        , hou::keyboard::is_key_toggled(hou::key_code::caps_lock)
         ? hou::color::red : hou::color::black
         , projTrans * keyboard1Trans * hou::trans2f::translation(hou::vec2f(328.f, 8.f)));
       meshRnd.draw(wnd
         , keyboardLed
-        , hou::keyboard::is_key_toggled(hou::key_code::ScrollLock)
+        , hou::keyboard::is_key_toggled(hou::key_code::scroll_lock)
         ? hou::color::red : hou::color::black
         , projTrans * keyboard1Trans * hou::trans2f::translation(hou::vec2f(344.f, 8.f)));
 
       meshRnd.draw(wnd
         , keyboardLed
-        , hou::keyboard::is_key_toggled(hou::scan_code::NumLock)
+        , hou::keyboard::is_key_toggled(hou::scan_code::num_lock)
         ? hou::color::yellow : hou::color::black
         , projTrans * keyboard2Trans * hou::trans2f::translation(hou::vec2f(312.f, 8.f)));
       meshRnd.draw(wnd
         , keyboardLed
-        , hou::keyboard::is_key_toggled(hou::scan_code::CapsLock)
+        , hou::keyboard::is_key_toggled(hou::scan_code::caps_lock)
         ? hou::color::yellow : hou::color::black
         , projTrans * keyboard2Trans * hou::trans2f::translation(hou::vec2f(328.f, 8.f)));
       meshRnd.draw(wnd
         , keyboardLed
-        , hou::keyboard::is_key_toggled(hou::scan_code::ScrollLock)
+        , hou::keyboard::is_key_toggled(hou::scan_code::scroll_lock)
         ? hou::color::yellow : hou::color::black
         , projTrans * keyboard2Trans * hou::trans2f::translation(hou::vec2f(344.f, 8.f)));
 
@@ -622,13 +622,13 @@ int main()
           , projTrans * mouseTrans * hou::trans2f::translation(hou::vec2f(54.f, 32.f)));
       }
 
-      if(hou::keyboard::is_key_pressed(hou::key_code::LCtrl)
-        && hou::keyboard::is_key_pressed(hou::key_code::O))
+      if(hou::keyboard::is_key_pressed(hou::key_code::l_ctrl)
+        && hou::keyboard::is_key_pressed(hou::key_code::o))
       {
         hou::mouse::set_position(hou::vec2i(0, 0));
       }
-      else if(hou::keyboard::is_key_pressed(hou::key_code::LCtrl)
-        && hou::keyboard::is_key_pressed(hou::key_code::P))
+      else if(hou::keyboard::is_key_pressed(hou::key_code::l_ctrl)
+        && hou::keyboard::is_key_pressed(hou::key_code::p))
       {
         hou::mouse::set_position(hou::vec2i(0, 0), wnd);
       }

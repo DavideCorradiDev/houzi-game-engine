@@ -164,10 +164,10 @@ TEST_F(test_window_event_death_test, resized_wrong_data)
 TEST_F(test_window_event, key_pressed)
 {
   window_event ev = window_event::key_pressed(
-    key_code::A, scan_code::Q, modifier_keys::alt | modifier_keys::shift);
+    key_code::a, scan_code::q, modifier_keys::alt | modifier_keys::shift);
   EXPECT_EQ(window_event_type::key_pressed, ev.get_type());
-  EXPECT_EQ(key_code::A, ev.get_key_data().key_code);
-  EXPECT_EQ(scan_code::Q, ev.get_key_data().scan_code);
+  EXPECT_EQ(key_code::a, ev.get_key_data().key_code);
+  EXPECT_EQ(scan_code::q, ev.get_key_data().scan_code);
   EXPECT_EQ(
     modifier_keys::alt | modifier_keys::shift, ev.get_key_data().modifier_keys);
 }
@@ -177,7 +177,7 @@ TEST_F(test_window_event, key_pressed)
 TEST_F(test_window_event_death_test, key_pressed_wrong_data)
 {
   window_event ev = window_event::key_pressed(
-    key_code::A, scan_code::Q, modifier_keys::alt | modifier_keys::shift);
+    key_code::a, scan_code::q, modifier_keys::alt | modifier_keys::shift);
   HOU_EXPECT_ERROR(
     ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(
@@ -195,10 +195,10 @@ TEST_F(test_window_event_death_test, key_pressed_wrong_data)
 TEST_F(test_window_event, key_released)
 {
   window_event ev = window_event::key_released(
-    key_code::A, scan_code::Q, modifier_keys::alt | modifier_keys::shift);
+    key_code::a, scan_code::q, modifier_keys::alt | modifier_keys::shift);
   EXPECT_EQ(window_event_type::key_released, ev.get_type());
-  EXPECT_EQ(key_code::A, ev.get_key_data().key_code);
-  EXPECT_EQ(scan_code::Q, ev.get_key_data().scan_code);
+  EXPECT_EQ(key_code::a, ev.get_key_data().key_code);
+  EXPECT_EQ(scan_code::q, ev.get_key_data().scan_code);
   EXPECT_EQ(
     modifier_keys::alt | modifier_keys::shift, ev.get_key_data().modifier_keys);
 }
@@ -208,7 +208,7 @@ TEST_F(test_window_event, key_released)
 TEST_F(test_window_event_death_test, key_released_wrong_data)
 {
   window_event ev = window_event::key_released(
-    key_code::A, scan_code::Q, modifier_keys::alt | modifier_keys::shift);
+    key_code::a, scan_code::q, modifier_keys::alt | modifier_keys::shift);
   HOU_EXPECT_ERROR(
     ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(
@@ -430,45 +430,45 @@ TEST_F(test_window_event, comparison)
   window_event rs1 = window_event::resized(1, 2);
   window_event rs2 = window_event::resized(3, 2);
   window_event rs3 = window_event::resized(1, 4);
-  window_event kp0 = window_event::key_pressed(key_code::A, scan_code::A,
+  window_event kp0 = window_event::key_pressed(key_code::a, scan_code::a,
     modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift
       | modifier_keys::system);
-  window_event kp1 = window_event::key_pressed(key_code::A, scan_code::A,
+  window_event kp1 = window_event::key_pressed(key_code::a, scan_code::a,
     modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift
       | modifier_keys::system);
-  window_event kp2 = window_event::key_pressed(key_code::B, scan_code::A,
+  window_event kp2 = window_event::key_pressed(key_code::b, scan_code::a,
     modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift
       | modifier_keys::system);
-  window_event kp3 = window_event::key_pressed(key_code::A, scan_code::B,
+  window_event kp3 = window_event::key_pressed(key_code::a, scan_code::b,
     modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift
       | modifier_keys::system);
-  window_event kp4 = window_event::key_pressed(key_code::A, scan_code::A,
+  window_event kp4 = window_event::key_pressed(key_code::a, scan_code::a,
     modifier_keys::ctrl | modifier_keys::shift | modifier_keys::system);
-  window_event kp5 = window_event::key_pressed(key_code::A, scan_code::A,
+  window_event kp5 = window_event::key_pressed(key_code::a, scan_code::a,
     modifier_keys::alt | modifier_keys::shift | modifier_keys::system);
-  window_event kp6 = window_event::key_pressed(key_code::A, scan_code::A,
+  window_event kp6 = window_event::key_pressed(key_code::a, scan_code::a,
     modifier_keys::alt | modifier_keys::ctrl | modifier_keys::system);
-  window_event kp7 = window_event::key_pressed(key_code::A, scan_code::A,
+  window_event kp7 = window_event::key_pressed(key_code::a, scan_code::a,
     modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift);
-  window_event kr0 = window_event::key_released(key_code::A, scan_code::A,
+  window_event kr0 = window_event::key_released(key_code::a, scan_code::a,
     modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift
       | modifier_keys::system);
-  window_event kr1 = window_event::key_released(key_code::A, scan_code::A,
+  window_event kr1 = window_event::key_released(key_code::a, scan_code::a,
     modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift
       | modifier_keys::system);
-  window_event kr2 = window_event::key_released(key_code::B, scan_code::A,
+  window_event kr2 = window_event::key_released(key_code::b, scan_code::a,
     modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift
       | modifier_keys::system);
-  window_event kr3 = window_event::key_released(key_code::A, scan_code::B,
+  window_event kr3 = window_event::key_released(key_code::a, scan_code::b,
     modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift
       | modifier_keys::system);
-  window_event kr4 = window_event::key_released(key_code::A, scan_code::A,
+  window_event kr4 = window_event::key_released(key_code::a, scan_code::a,
     modifier_keys::ctrl | modifier_keys::shift | modifier_keys::system);
-  window_event kr5 = window_event::key_released(key_code::A, scan_code::A,
+  window_event kr5 = window_event::key_released(key_code::a, scan_code::a,
     modifier_keys::alt | modifier_keys::shift | modifier_keys::system);
-  window_event kr6 = window_event::key_released(key_code::A, scan_code::A,
+  window_event kr6 = window_event::key_released(key_code::a, scan_code::a,
     modifier_keys::alt | modifier_keys::ctrl | modifier_keys::system);
-  window_event kr7 = window_event::key_released(key_code::A, scan_code::A,
+  window_event kr7 = window_event::key_released(key_code::a, scan_code::a,
     modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift);
   window_event te0 = window_event::text_entered(12);
   window_event te1 = window_event::text_entered(12);
@@ -1736,9 +1736,9 @@ TEST_F(test_window_event, resized_output_stream_operator)
 TEST_F(test_window_event, key_pressed_output_stream_operator)
 {
   window_event ev = window_event::key_pressed(
-    key_code::A, scan_code::Q, modifier_keys::alt | modifier_keys::shift);
+    key_code::a, scan_code::q, modifier_keys::alt | modifier_keys::shift);
   const char* os_ref
-    = "{type = key_pressed, data = {key_code = A, scan_code = Q, "
+    = "{type = key_pressed, data = {key_code = a, scan_code = q, "
       "modifier_keys = alt | 0 | shift | 0}}";
   HOU_EXPECT_OUTPUT(os_ref, ev);
 }
@@ -1747,10 +1747,10 @@ TEST_F(test_window_event, key_pressed_output_stream_operator)
 
 TEST_F(test_window_event, key_released_output_stream_operator)
 {
-  window_event ev = window_event::key_released(key_code::A, scan_code::Q,
+  window_event ev = window_event::key_released(key_code::a, scan_code::q,
     modifier_keys::alt | modifier_keys::ctrl | modifier_keys::system);
   const char* os_ref
-    = "{type = key_released, data = {key_code = A, scan_code = Q, "
+    = "{type = key_released, data = {key_code = a, scan_code = q, "
       "modifier_keys = alt | ctrl | 0 | system}}";
   HOU_EXPECT_OUTPUT(os_ref, ev);
 }
