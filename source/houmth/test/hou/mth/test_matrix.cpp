@@ -429,52 +429,52 @@ TEST_F(test_matrix, reduce3x2)
     5, 6
   };
   {
-    mat2x1i mReducedRef =
+    mat2x1i mReduced_ref =
     {
       4,
       6
     };
-    EXPECT_EQ(mReducedRef, reduce(m, 0, 0));
+    EXPECT_EQ(mReduced_ref, reduce(m, 0, 0));
   }
   {
-    mat2x1i mReducedRef =
+    mat2x1i mReduced_ref =
     {
       3,
       5
     };
-    EXPECT_EQ(mReducedRef, reduce(m, 0, 1));
+    EXPECT_EQ(mReduced_ref, reduce(m, 0, 1));
   }
   {
-    mat2x1i mReducedRef =
+    mat2x1i mReduced_ref =
     {
       2,
       6
     };
-    EXPECT_EQ(mReducedRef, reduce(m, 1, 0));
+    EXPECT_EQ(mReduced_ref, reduce(m, 1, 0));
   }
   {
-    mat2x1i mReducedRef =
+    mat2x1i mReduced_ref =
     {
       1,
       5
     };
-    EXPECT_EQ(mReducedRef, reduce(m, 1, 1));
+    EXPECT_EQ(mReduced_ref, reduce(m, 1, 1));
   }
   {
-    mat2x1i mReducedRef =
+    mat2x1i mReduced_ref =
     {
       2,
       4
     };
-    EXPECT_EQ(mReducedRef, reduce(m, 2, 0));
+    EXPECT_EQ(mReduced_ref, reduce(m, 2, 0));
   }
   {
-    mat2x1i mReducedRef =
+    mat2x1i mReduced_ref =
     {
       1,
       3
     };
-    EXPECT_EQ(mReducedRef, reduce(m, 2, 1));
+    EXPECT_EQ(mReduced_ref, reduce(m, 2, 1));
   }
   // clang-format on
 }
@@ -491,76 +491,76 @@ TEST_F(test_matrix, reduce3x3)
     7, 8, 9
   };
   {
-    mat2x2i mReducedRef =
+    mat2x2i mReduced_ref =
     {
       5, 6,
       8, 9
     };
-    EXPECT_EQ(mReducedRef, reduce(m, 0, 0));
+    EXPECT_EQ(mReduced_ref, reduce(m, 0, 0));
   }
   {
-    mat2x2i mReducedRef =
+    mat2x2i mReduced_ref =
     {
       4, 6,
       7, 9
     };
-    EXPECT_EQ(mReducedRef, reduce(m, 0, 1));
+    EXPECT_EQ(mReduced_ref, reduce(m, 0, 1));
   }
   {
-    mat2x2i mReducedRef =
+    mat2x2i mReduced_ref =
     {
       4, 5,
       7, 8
     };
-    EXPECT_EQ(mReducedRef, reduce(m, 0, 2));
+    EXPECT_EQ(mReduced_ref, reduce(m, 0, 2));
   }
   {
-    mat2x2i mReducedRef =
+    mat2x2i mReduced_ref =
     {
       2, 3,
       8, 9
     };
-    EXPECT_EQ(mReducedRef, reduce(m, 1, 0));
+    EXPECT_EQ(mReduced_ref, reduce(m, 1, 0));
   }
   {
-    mat2x2i mReducedRef =
+    mat2x2i mReduced_ref =
     {
       1, 3,
       7, 9
     };
-    EXPECT_EQ(mReducedRef, reduce(m, 1, 1));
+    EXPECT_EQ(mReduced_ref, reduce(m, 1, 1));
   }
   {
-    mat2x2i mReducedRef =
+    mat2x2i mReduced_ref =
     {
       1, 2,
       7, 8
     };
-    EXPECT_EQ(mReducedRef, reduce(m, 1, 2));
+    EXPECT_EQ(mReduced_ref, reduce(m, 1, 2));
   }
   {
-    mat2x2i mReducedRef =
+    mat2x2i mReduced_ref =
     {
       2, 3,
       5, 6
     };
-    EXPECT_EQ(mReducedRef, reduce(m, 2, 0));
+    EXPECT_EQ(mReduced_ref, reduce(m, 2, 0));
   }
   {
-    mat2x2i mReducedRef =
+    mat2x2i mReduced_ref =
     {
       1, 3,
       4, 6
     };
-    EXPECT_EQ(mReducedRef, reduce(m, 2, 1));
+    EXPECT_EQ(mReduced_ref, reduce(m, 2, 1));
   }
   {
-    mat2x2i mReducedRef =
+    mat2x2i mReduced_ref =
     {
       1, 2,
       4, 5
     };
-    EXPECT_EQ(mReducedRef, reduce(m, 2, 2));
+    EXPECT_EQ(mReduced_ref, reduce(m, 2, 2));
   }
   // clang-format on
 }
@@ -571,8 +571,8 @@ TEST_F(test_matrix, transpose)
 {
   mat3x2i m = {1, 2, 3, 4, 5, 6};
   mat2x3i mTranspose = transpose(m);
-  mat2x3i mTransposeRef = {1, 3, 5, 2, 4, 6};
-  EXPECT_EQ(mTransposeRef, mTranspose);
+  mat2x3i mTranspose_ref = {1, 3, 5, 2, 4, 6};
+  EXPECT_EQ(mTranspose_ref, mTranspose);
 }
 
 
@@ -590,10 +590,10 @@ TEST_F(test_matrix, adjugate1x1)
 TEST_F(test_matrix, adjugate2x2)
 {
   mat2x2i m = {1, 2, 3, 4};
-  mat2x2i mAdjugateRef = {4, -2, -3, 1};
-  EXPECT_EQ(mAdjugateRef, adjugate(m));
+  mat2x2i mAdjugate_ref = {4, -2, -3, 1};
+  EXPECT_EQ(mAdjugate_ref, adjugate(m));
   m.adjugate();
-  EXPECT_EQ(mAdjugateRef, m);
+  EXPECT_EQ(mAdjugate_ref, m);
 }
 
 
@@ -607,16 +607,16 @@ TEST_F(test_matrix, adjugate3x3)
     4, 5, 6,
     7, 8, 9
   };
-  mat3x3i mAdjugateRef =
+  mat3x3i mAdjugate_ref =
   {
     -3, 6, -3,
     6, -12, 6,
     -3, 6, -3
   };
   // clang-format on
-  EXPECT_EQ(mAdjugateRef, adjugate(m));
+  EXPECT_EQ(mAdjugate_ref, adjugate(m));
   m.adjugate();
-  EXPECT_EQ(mAdjugateRef, m);
+  EXPECT_EQ(mAdjugate_ref, m);
 }
 
 
@@ -625,11 +625,11 @@ TEST_F(test_matrix, inverse1x1)
 {
   mat1x1f m = {2.f};
   mat1x1f mInv = inverse(m);
-  mat1x1f mInvRef = {0.5f};
-  HOU_EXPECT_FLOAT_CLOSE(mInvRef, mInv);
+  mat1x1f mInv_ref = {0.5f};
+  HOU_EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
   HOU_EXPECT_FLOAT_CLOSE(mat1x1f::identity(), m * mInv);
   m.invert();
-  HOU_EXPECT_FLOAT_CLOSE(mInvRef, mInv);
+  HOU_EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
 }
 
 
@@ -638,11 +638,11 @@ TEST_F(test_matrix, inverse2x2)
 {
   mat2x2f m = {1.f, 2.f, 3.f, 4.f};
   mat2x2f mInv = inverse(m);
-  mat2x2f mInvRef = {-2.f, 1.f, 1.5f, -0.5f};
-  HOU_EXPECT_FLOAT_CLOSE(mInvRef, mInv);
+  mat2x2f mInv_ref = {-2.f, 1.f, 1.5f, -0.5f};
+  HOU_EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
   HOU_EXPECT_FLOAT_CLOSE(mat2x2f::identity(), m * mInv);
   m.invert();
-  HOU_EXPECT_FLOAT_CLOSE(mInvRef, mInv);
+  HOU_EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
 }
 
 
@@ -656,7 +656,7 @@ TEST_F(test_matrix, inverse3x3)
     3.f, 2.f, 1.f,
     1.f, 3.f, 2.f
   };
-  mat3x3f mInvRef =
+  mat3x3f mInv_ref =
   {
     1.f / 12.f, 5.f / 12.f, -1.f / 3.f,
     -5.f / 12.f, -1.f / 12.f, 2.f / 3.f,
@@ -664,10 +664,10 @@ TEST_F(test_matrix, inverse3x3)
   };
   // clang-format on
   mat3x3f mInv = inverse(m);
-  HOU_EXPECT_FLOAT_CLOSE(mInvRef, mInv);
+  HOU_EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
   HOU_EXPECT_FLOAT_CLOSE(mat3x3f::identity(), m * mInv);
   m.invert();
-  HOU_EXPECT_FLOAT_CLOSE(mInvRef, mInv);
+  HOU_EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
 }
 
 

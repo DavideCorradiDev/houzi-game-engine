@@ -37,8 +37,8 @@ image2RGBA generateBlitResultImage(const vec2u& dstSize, const recti& dstRect,
 image2RGBA generateBlitResultImage(const vec2u& dstSize, const recti& dstRect,
   const color& dstColor, const color& srcColor)
 {
-  image2RGBA imRef(dstSize);
-  imRef.clear(image2RGBA::pixel(dstColor.get_red(), dstColor.get_green(),
+  image2RGBA im_ref(dstSize);
+  im_ref.clear(image2RGBA::pixel(dstColor.get_red(), dstColor.get_green(),
     dstColor.get_blue(), dstColor.get_alpha()));
 
   uint xMax = std::min(static_cast<uint>(dstRect.r()), dstSize.x());
@@ -47,12 +47,12 @@ image2RGBA generateBlitResultImage(const vec2u& dstSize, const recti& dstRect,
   {
     for(uint x = dstRect.l(); x < xMax; ++x)
     {
-      imRef.set_pixel(vec2u(x, y),
+      im_ref.set_pixel(vec2u(x, y),
         image2RGBA::pixel(srcColor.get_red(), srcColor.get_green(),
           srcColor.get_blue(), srcColor.get_alpha()));
     }
   }
-  return imRef;
+  return im_ref;
 }
 
 }  // namespace
@@ -215,10 +215,10 @@ TEST_F(TestRenderCanvas, Clear)
 
   rs.clear(col);
 
-  image2RGBA imRef(size);
-  imRef.clear(image2RGBA::pixel(
+  image2RGBA im_ref(size);
+  im_ref.clear(image2RGBA::pixel(
     col.get_red(), col.get_green(), col.get_blue(), col.get_alpha()));
-  EXPECT_EQ(imRef, rs.to_texture().get_image<pixel_format::rgba>());
+  EXPECT_EQ(im_ref, rs.to_texture().get_image<pixel_format::rgba>());
 }
 
 
@@ -250,9 +250,9 @@ TEST_F(TestRenderCanvas, BlitSmallRect)
   rsSrc.clear(blitCol);
   blit(rsSrc, blitRect, rsDst, blitRect);
 
-  image2RGBA imRef
+  image2RGBA im_ref
     = generateBlitResultImage(size, blitRect, color::transparent, blitCol);
-  EXPECT_EQ(imRef, rsDst.to_texture().get_image<pixel_format::rgba>());
+  EXPECT_EQ(im_ref, rsDst.to_texture().get_image<pixel_format::rgba>());
 }
 
 
@@ -269,9 +269,9 @@ TEST_F(TestRenderCanvas, BlitDifferentSourceAndDestinationRect)
   rsSrc.clear(blitCol);
   blit(rsSrc, srcRect, rsDst, dstRect);
 
-  image2RGBA imRef
+  image2RGBA im_ref
     = generateBlitResultImage(size, dstRect, color::transparent, blitCol);
-  EXPECT_EQ(imRef, rsDst.to_texture().get_image<pixel_format::rgba>());
+  EXPECT_EQ(im_ref, rsDst.to_texture().get_image<pixel_format::rgba>());
 }
 
 
@@ -288,9 +288,9 @@ TEST_F(TestRenderCanvas, BlitOverFlowingSourceRect)
   rsSrc.clear(blitCol);
   blit(rsSrc, srcRect, rsDst, dstRect);
 
-  image2RGBA imRef = generateBlitResultImage(
+  image2RGBA im_ref = generateBlitResultImage(
     size, recti(0, 0, 1, 2), color::transparent, blitCol);
-  EXPECT_EQ(imRef, rsDst.to_texture().get_image<pixel_format::rgba>());
+  EXPECT_EQ(im_ref, rsDst.to_texture().get_image<pixel_format::rgba>());
 }
 
 
@@ -307,9 +307,9 @@ TEST_F(TestRenderCanvas, BlitOverFlowingDestinationRect)
   rsSrc.clear(blitCol);
   blit(rsSrc, srcRect, rsDst, dstRect);
 
-  image2RGBA imRef
+  image2RGBA im_ref
     = generateBlitResultImage(size, dstRect, color::transparent, blitCol);
-  EXPECT_EQ(imRef, rsDst.to_texture().get_image<pixel_format::rgba>());
+  EXPECT_EQ(im_ref, rsDst.to_texture().get_image<pixel_format::rgba>());
 }
 
 
@@ -326,9 +326,9 @@ TEST_F(TestRenderCanvas, BlitInvertedSourceRect)
   rsSrc.clear(blitCol);
   blit(rsSrc, srcRect, rsDst, dstRect);
 
-  image2RGBA imRef = generateBlitResultImage(
+  image2RGBA im_ref = generateBlitResultImage(
     size, recti(0, 0, 2, 1), color::transparent, blitCol);
-  EXPECT_EQ(imRef, rsDst.to_texture().get_image<pixel_format::rgba>());
+  EXPECT_EQ(im_ref, rsDst.to_texture().get_image<pixel_format::rgba>());
 }
 
 
@@ -345,9 +345,9 @@ TEST_F(TestRenderCanvas, BlitInvertedDestinationRect)
   rsSrc.clear(blitCol);
   blit(rsSrc, srcRect, rsDst, dstRect);
 
-  image2RGBA imRef = generateBlitResultImage(
+  image2RGBA im_ref = generateBlitResultImage(
     size, recti(0, 0, 2, 1), color::transparent, blitCol);
-  EXPECT_EQ(imRef, rsDst.to_texture().get_image<pixel_format::rgba>());
+  EXPECT_EQ(im_ref, rsDst.to_texture().get_image<pixel_format::rgba>());
 }
 
 
@@ -364,9 +364,9 @@ TEST_F(TestRenderCanvas, BlitDifferentSampleSizeSameRectSize)
   rsSrc.clear(blitCol);
   blit(rsSrc, srcRect, rsDst, dstRect);
 
-  image2RGBA imRef
+  image2RGBA im_ref
     = generateBlitResultImage(size, dstRect, color::transparent, blitCol);
-  EXPECT_EQ(imRef, rsDst.to_texture().get_image<pixel_format::rgba>());
+  EXPECT_EQ(im_ref, rsDst.to_texture().get_image<pixel_format::rgba>());
 }
 
 
@@ -383,9 +383,9 @@ TEST_F(TestRenderCanvas, BlitDifferentSampleSizeSameRectSizeInverted)
   rsSrc.clear(blitCol);
   blit(rsSrc, srcRect, rsDst, dstRect);
 
-  image2RGBA imRef = generateBlitResultImage(
+  image2RGBA im_ref = generateBlitResultImage(
     size, recti(0, 1, 2, 3), color::transparent, blitCol);
-  EXPECT_EQ(imRef, rsDst.to_texture().get_image<pixel_format::rgba>());
+  EXPECT_EQ(im_ref, rsDst.to_texture().get_image<pixel_format::rgba>());
 }
 
 
@@ -410,8 +410,8 @@ TEST_F(TestRenderCanvas, ToTextureMultisampled)
   rs.clear(col);
 
   texture2 tex = rs.to_texture();
-  image2RGBA imRef(tex.get_size(), pixelrgba(col));
-  EXPECT_EQ(imRef, tex.get_image<pixel_format::rgba>());
+  image2RGBA im_ref(tex.get_size(), pixelrgba(col));
+  EXPECT_EQ(im_ref, tex.get_image<pixel_format::rgba>());
 }
 
 

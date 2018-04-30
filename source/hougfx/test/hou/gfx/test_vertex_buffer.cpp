@@ -83,69 +83,69 @@ TEST_F(TestVertexBuffer, Binding)
 
 TEST_F(TestVertexBuffer, SizeConstructor)
 {
-  uint sizeRef = 7u;
-  IntBuffer vb(sizeRef);
+  uint size_ref = 7u;
+  IntBuffer vb(size_ref);
 
   EXPECT_NE(0u, vb.get_handle().get_name());
-  EXPECT_EQ(sizeRef * sizeof(IntBuffer::ValueType), vb.get_byte_count());
-  EXPECT_EQ(sizeRef, vb.get_size());
-  EXPECT_EQ(std::vector<int>(sizeRef, 0u), vb.get_data());
+  EXPECT_EQ(size_ref * sizeof(IntBuffer::ValueType), vb.get_byte_count());
+  EXPECT_EQ(size_ref, vb.get_size());
+  EXPECT_EQ(std::vector<int>(size_ref, 0u), vb.get_data());
 }
 
 
 
 TEST_F(TestVertexBuffer, DataConstructor)
 {
-  DynamicFloatBuffer::DataType dataRef = {1.f, 2.f, 3.f, 4.f, 5.f};
-  FloatBuffer vb(dataRef);
+  DynamicFloatBuffer::DataType data_ref = {1.f, 2.f, 3.f, 4.f, 5.f};
+  FloatBuffer vb(data_ref);
 
   EXPECT_NE(0u, vb.get_handle().get_name());
-  EXPECT_EQ(dataRef.size() * sizeof(float), vb.get_byte_count());
-  EXPECT_EQ(dataRef, vb.get_data());
+  EXPECT_EQ(data_ref.size() * sizeof(float), vb.get_byte_count());
+  EXPECT_EQ(data_ref, vb.get_data());
 }
 
 
 
 TEST_F(TestVertexBuffer, MoveConstructor)
 {
-  DynamicFloatBuffer::DataType dataRef = {1.f, 2.f, 3.f, 4.f, 5.f};
-  FloatBuffer vbDummy(dataRef);
-  GLuint name = vbDummy.get_handle().get_name();
-  FloatBuffer vb(std::move(vbDummy));
+  DynamicFloatBuffer::DataType data_ref = {1.f, 2.f, 3.f, 4.f, 5.f};
+  FloatBuffer vb_dummy(data_ref);
+  GLuint name = vb_dummy.get_handle().get_name();
+  FloatBuffer vb(std::move(vb_dummy));
 
-  EXPECT_EQ(0u, vbDummy.get_handle().get_name());
+  EXPECT_EQ(0u, vb_dummy.get_handle().get_name());
   EXPECT_EQ(name, vb.get_handle().get_name());
-  EXPECT_EQ(dataRef.size() * sizeof(float), vb.get_byte_count());
-  EXPECT_EQ(dataRef, vb.get_data());
+  EXPECT_EQ(data_ref.size() * sizeof(float), vb.get_byte_count());
+  EXPECT_EQ(data_ref, vb.get_data());
 }
 
 
 
 TEST_F(TestVertexBuffer, GetSubData)
 {
-  DynamicFloatBuffer::DataType dataRef = {1.f, 2.f, 3.f, 4.f, 5.f};
-  DynamicFloatBuffer::DataType subDataRef = {2.f, 3.f};
-  FloatBuffer vb(dataRef);
-  EXPECT_EQ(subDataRef, vb.get_sub_data(1u, 2u));
+  DynamicFloatBuffer::DataType data_ref = {1.f, 2.f, 3.f, 4.f, 5.f};
+  DynamicFloatBuffer::DataType subData_ref = {2.f, 3.f};
+  FloatBuffer vb(data_ref);
+  EXPECT_EQ(subData_ref, vb.get_sub_data(1u, 2u));
 }
 
 
 
 TEST_F(TestVertexBuffer, GetSubDataLimit)
 {
-  DynamicFloatBuffer::DataType dataRef = {1.f, 2.f, 3.f, 4.f, 5.f};
-  DynamicFloatBuffer::DataType subDataRef = {3.f, 4.f, 5.f};
-  FloatBuffer vb(dataRef);
-  EXPECT_EQ(dataRef, vb.get_sub_data(0u, vb.get_size()));
-  EXPECT_EQ(subDataRef, vb.get_sub_data(2u, 3u));
+  DynamicFloatBuffer::DataType data_ref = {1.f, 2.f, 3.f, 4.f, 5.f};
+  DynamicFloatBuffer::DataType subData_ref = {3.f, 4.f, 5.f};
+  FloatBuffer vb(data_ref);
+  EXPECT_EQ(data_ref, vb.get_sub_data(0u, vb.get_size()));
+  EXPECT_EQ(subData_ref, vb.get_sub_data(2u, 3u));
 }
 
 
 
 TEST_F(TestVertexBufferDeathTest, GetSubDataErrorOverflow)
 {
-  DynamicFloatBuffer::DataType dataRef = {1.f, 2.f, 3.f, 4.f, 5.f};
-  FloatBuffer vb(dataRef);
+  DynamicFloatBuffer::DataType data_ref = {1.f, 2.f, 3.f, 4.f, 5.f};
+  FloatBuffer vb(data_ref);
   HOU_EXPECT_PRECONDITION(vb.get_sub_data(0u, vb.get_size() + 1u));
   HOU_EXPECT_PRECONDITION(vb.get_sub_data(2u, vb.get_size() - 1u));
 }
@@ -157,11 +157,11 @@ TEST_F(TestVertexBuffer, SetSubData)
   DynamicFloatBuffer vb(6u);
   EXPECT_EQ(DynamicFloatBuffer::DataType(6u, 0.f), vb.get_data());
 
-  DynamicFloatBuffer::DataType subDataRef = {1.f, 2.f, 3.f};
-  DynamicFloatBuffer::DataType dataRef = {0.0f, 1.f, 2.f, 3.f, 0.f, 0.f};
-  vb.set_sub_data(1u, subDataRef);
-  EXPECT_EQ(dataRef, vb.get_data());
-  EXPECT_EQ(subDataRef, vb.get_sub_data(1u, 3u));
+  DynamicFloatBuffer::DataType subData_ref = {1.f, 2.f, 3.f};
+  DynamicFloatBuffer::DataType data_ref = {0.0f, 1.f, 2.f, 3.f, 0.f, 0.f};
+  vb.set_sub_data(1u, subData_ref);
+  EXPECT_EQ(data_ref, vb.get_data());
+  EXPECT_EQ(subData_ref, vb.get_sub_data(1u, 3u));
 }
 
 
@@ -171,11 +171,11 @@ TEST_F(TestVertexBuffer, SetSubDataLimit)
   DynamicFloatBuffer vb(6u);
   EXPECT_EQ(DynamicFloatBuffer::DataType(6u, 0.f), vb.get_data());
 
-  DynamicFloatBuffer::DataType subDataRef = {1.f, 2.f, 3.f};
-  DynamicFloatBuffer::DataType dataRef = {0.f, 0.f, 0.f, 1.f, 2.f, 3.f};
-  vb.set_sub_data(3u, subDataRef);
-  EXPECT_EQ(dataRef, vb.get_data());
-  EXPECT_EQ(subDataRef, vb.get_sub_data(3u, 3u));
+  DynamicFloatBuffer::DataType subData_ref = {1.f, 2.f, 3.f};
+  DynamicFloatBuffer::DataType data_ref = {0.f, 0.f, 0.f, 1.f, 2.f, 3.f};
+  vb.set_sub_data(3u, subData_ref);
+  EXPECT_EQ(data_ref, vb.get_data());
+  EXPECT_EQ(subData_ref, vb.get_sub_data(3u, 3u));
 
   DynamicFloatBuffer::DataType dataRef2 = {4.f, 5.f, 6.f, 7.f, 8.f, 9.f};
   vb.set_sub_data(0u, dataRef2);
@@ -199,9 +199,9 @@ TEST_F(TestVertexBuffer, SetData)
   DynamicFloatBuffer vb(3u);
   EXPECT_EQ(DynamicFloatBuffer::DataType(vb.get_size(), 0.f), vb.get_data());
 
-  DynamicFloatBuffer::DataType dataRef = {0.1f, 0.2f, 0.3f};
-  vb.set_data(dataRef);
-  EXPECT_EQ(dataRef, vb.get_data());
+  DynamicFloatBuffer::DataType data_ref = {0.1f, 0.2f, 0.3f};
+  vb.set_data(data_ref);
+  EXPECT_EQ(data_ref, vb.get_data());
 }
 
 

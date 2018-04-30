@@ -47,7 +47,7 @@ void TestStreamingAudioSource::SetUpTestCase()
 
 
 const std::string TestStreamingAudioSource::audioFileName
-  = getDataDir() + u8"TestOgg-Stereo-16-44100.ogg";
+  = get_data_dir() + u8"TestOgg-Stereo-16-44100.ogg";
 
 }  // namespace
 

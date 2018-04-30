@@ -40,16 +40,16 @@ void testColorBlit(texture_format srcFormat,
   using pixel = pixelrgba;
 
   // Build the framebuffers.
-  color colorRef(2u, 3u, 5u, 7u);
-  pixel pixelRef(colorRef);
+  color color_ref(2u, 3u, 5u, 7u);
+  pixel pixel_ref(color_ref);
 
   framebuffer srcFb;
   SrcTexType srcTex(srcSize, srcFormat);
   srcFb.set_color_attachment(0u, srcTex);
 
   framebuffer::bind(srcFb);
-  gl::set_clear_color(colorRef.get_red_f(), colorRef.get_green_f(),
-    colorRef.get_blue_f(), colorRef.get_alpha_f());
+  gl::set_clear_color(color_ref.get_red_f(), color_ref.get_green_f(),
+    color_ref.get_blue_f(), color_ref.get_alpha_f());
   gl::clear(GL_COLOR_BUFFER_BIT);
   framebuffer::unbind();
 
@@ -69,7 +69,7 @@ void testColorBlit(texture_format srcFormat,
 
     // Create the reference ph_image (the rectangles can assume negative values, so
     // pay attention to that).
-    image imageRef(dstSize);
+    image image_ref(dstSize);
     image::size_type subImageSize;
 
     int left = std::min(dstRect.l(), dstRect.r());
@@ -82,14 +82,14 @@ void testColorBlit(texture_format srcFormat,
     subImageSize.y() = static_cast<int>(dstSize.y()) >= bottom
       ? std::abs(dstRect.h())
       : static_cast<int>(dstSize.y()) - top;
-    imageRef.set_sub_image(vec2i(left, top), image(subImageSize, pixelRef));
+    image_ref.set_sub_image(vec2i(left, top), image(subImageSize, pixel_ref));
 
     // Adjust channels in case the destination format is not rgba.
-    DstTexType textureRef(imageRef, dstFormat);
-    imageRef = textureRef.template get_image<pixel_format::rgba>();
+    DstTexType texture_ref(image_ref, dstFormat);
+    image_ref = texture_ref.template get_image<pixel_format::rgba>();
 
     // Check if the blit was executed as expected
-    EXPECT_EQ(imageRef, dstTex.template get_image<pixel_format::rgba>());
+    EXPECT_EQ(image_ref, dstTex.template get_image<pixel_format::rgba>());
   }
 }
 
@@ -209,11 +209,11 @@ TEST_F(TestFrameBuffer, DefaultConstructor)
 
 TEST_F(TestFrameBuffer, MoveConstructor)
 {
-  framebuffer fbDummy;
-  GLuint fbName = fbDummy.get_handle().get_name();
-  framebuffer fb(std::move(fbDummy));
+  framebuffer fb_dummy;
+  GLuint fbName = fb_dummy.get_handle().get_name();
+  framebuffer fb(std::move(fb_dummy));
 
-  EXPECT_EQ(0u, fbDummy.get_handle().get_name());
+  EXPECT_EQ(0u, fb_dummy.get_handle().get_name());
   EXPECT_EQ(fbName, fb.get_handle().get_name());
   EXPECT_FALSE(fb.is_bound_to_draw_target());
   EXPECT_FALSE(fb.is_bound_to_read_target());
@@ -1043,17 +1043,17 @@ TEST_F(TestFrameBufferDeathTest, BlitErrorLinearFilterWithDepthStencilMask)
 
 TEST_F(TestFrameBuffer, BlitToTexture)
 {
-  vec2u sizeRef(4u, 8u);
-  recti rectRef(vec2i::zero(), sizeRef);
+  vec2u size_ref(4u, 8u);
+  recti rect_ref(vec2i::zero(), size_ref);
 
   framebuffer src;
-  texture2 srcTex(sizeRef);
+  texture2 srcTex(size_ref);
   srcTex.clear(pixelrgba(1u, 2u, 3u, 4u));
   src.set_color_attachment(0u, srcTex);
 
-  texture2 dstTex(sizeRef);
+  texture2 dstTex(size_ref);
 
-  blit(src, rectRef, dstTex, rectRef, framebuffer_blit_filter::linear);
+  blit(src, rect_ref, dstTex, rect_ref, framebuffer_blit_filter::linear);
   EXPECT_EQ(
     srcTex.get_image<pixel_format::rgba>(), dstTex.get_image<pixel_format::rgba>());
 }
@@ -1062,17 +1062,17 @@ TEST_F(TestFrameBuffer, BlitToTexture)
 
 TEST_F(TestFrameBuffer, BlitFromTexture)
 {
-  vec2u sizeRef(4u, 8u);
-  recti rectRef(vec2i::zero(), sizeRef);
+  vec2u size_ref(4u, 8u);
+  recti rect_ref(vec2i::zero(), size_ref);
 
-  texture2 srcTex(sizeRef);
+  texture2 srcTex(size_ref);
   srcTex.clear(pixelrgba(1u, 2u, 3u, 4u));
 
   framebuffer dst;
-  texture2 dstTex(sizeRef);
+  texture2 dstTex(size_ref);
   dst.set_color_attachment(0u, dstTex);
 
-  blit(srcTex, rectRef, dst, rectRef, framebuffer_blit_filter::linear);
+  blit(srcTex, rect_ref, dst, rect_ref, framebuffer_blit_filter::linear);
   EXPECT_EQ(
     srcTex.get_image<pixel_format::rgba>(), dstTex.get_image<pixel_format::rgba>());
 }
@@ -1081,15 +1081,15 @@ TEST_F(TestFrameBuffer, BlitFromTexture)
 
 TEST_F(TestFrameBuffer, BlitFromAndToTexture)
 {
-  vec2u sizeRef(4u, 8u);
-  recti rectRef(vec2i::zero(), sizeRef);
+  vec2u size_ref(4u, 8u);
+  recti rect_ref(vec2i::zero(), size_ref);
 
-  texture2 srcTex(sizeRef);
+  texture2 srcTex(size_ref);
   srcTex.clear(pixelrgba(1u, 2u, 3u, 4u));
 
-  texture2 dstTex(sizeRef);
+  texture2 dstTex(size_ref);
 
-  blit(srcTex, rectRef, dstTex, rectRef, framebuffer_blit_filter::linear);
+  blit(srcTex, rect_ref, dstTex, rect_ref, framebuffer_blit_filter::linear);
   EXPECT_EQ(
     srcTex.get_image<pixel_format::rgba>(), dstTex.get_image<pixel_format::rgba>());
 }

@@ -69,12 +69,12 @@ TEST_F(TestVertexFormat, VafMoveConstructor)
     vertex_attrib_format(gl_type::float_decimal, 3u, 12u, false),
     vertex_attrib_format(gl_type::float_decimal, 6u, 24u, true),
   };
-  std::vector<vertex_attrib_format> vafsRef = vafs;
+  std::vector<vertex_attrib_format> vafs_ref = vafs;
   vertex_format vf(2u, 3u, std::move(vafs));
 
   EXPECT_EQ(2, vf.get_offset());
   EXPECT_EQ(3u, vf.get_stride());
-  EXPECT_EQ(vafsRef, vf.get_vertex_attrib_formats());
+  EXPECT_EQ(vafs_ref, vf.get_vertex_attrib_formats());
 }
 
 
@@ -84,12 +84,12 @@ TEST_F(TestVertexFormat, VafMoveConstructorAttribLimit)
   vertex_attrib_format vaf(gl_type::float_decimal, 3u, 12u, false);
   std::vector<vertex_attrib_format> vafs(
     vertex_format::get_max_attrib_format_count(), vaf);
-  std::vector<vertex_attrib_format> vafsRef = vafs;
+  std::vector<vertex_attrib_format> vafs_ref = vafs;
   vertex_format vf(2u, 3u, std::move(vafs));
 
   EXPECT_EQ(2, vf.get_offset());
   EXPECT_EQ(3u, vf.get_stride());
-  EXPECT_EQ(vafsRef, vf.get_vertex_attrib_formats());
+  EXPECT_EQ(vafs_ref, vf.get_vertex_attrib_formats());
 }
 
 
@@ -140,9 +140,9 @@ TEST_F(TestVertexFormat, OutputStreamOperator)
     vertex_attrib_format(gl_type::float_decimal, 6u, 24u, true),
   };
   vertex_format vf(2, 3u, vafs);
-  const char* outRef
+  const char* out_ref
     = "{Offset = 2, Stride = 3, VertexAttribFormats = {{Type = float_decimal, "
       "ElementCount = 3, byte_offset = 12, MustBeNormalized = false}, {Type = "
       "float_decimal, ElementCount = 6, byte_offset = 24, MustBeNormalized = true}}}";
-  HOU_EXPECT_OUTPUT(outRef, vf);
+  HOU_EXPECT_OUTPUT(out_ref, vf);
 }

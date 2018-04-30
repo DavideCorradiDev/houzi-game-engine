@@ -96,27 +96,27 @@ TEST_F(TestGlObjectHandle, NonSharedCreation)
 
 TEST_F(TestGlObjectHandle, MoveConstructor)
 {
-  ConcreteGlObjectHandle ohDummy(1u);
-  ConcreteGlObjectHandle oh(std::move(ohDummy));
-  uint32_t ohUidRef = oh.get_uid();
-  EXPECT_EQ(0u, ohDummy.get_name());
-  EXPECT_EQ(0u, ohDummy.get_uid());
+  ConcreteGlObjectHandle oh_dummy(1u);
+  ConcreteGlObjectHandle oh(std::move(oh_dummy));
+  uint32_t ohUid_ref = oh.get_uid();
+  EXPECT_EQ(0u, oh_dummy.get_name());
+  EXPECT_EQ(0u, oh_dummy.get_uid());
   EXPECT_EQ(1u, oh.get_name());
-  EXPECT_EQ(ohUidRef, oh.get_uid());
+  EXPECT_EQ(ohUid_ref, oh.get_uid());
 }
 
 
 
 TEST_F(TestGlObjectHandle, SharedMoveConstructor)
 {
-  ConcreteGlSharedObjectHandle ohDummy(1u);
-  ConcreteGlSharedObjectHandle oh(std::move(ohDummy));
-  uint32_t ohUidRef = oh.get_uid();
-  EXPECT_EQ(0u, ohDummy.get_name());
-  EXPECT_EQ(0u, ohDummy.get_uid());
-  EXPECT_EQ(mContext.getSharingGroupUid(), ohDummy.get_owning_sharing_group_uid());
+  ConcreteGlSharedObjectHandle oh_dummy(1u);
+  ConcreteGlSharedObjectHandle oh(std::move(oh_dummy));
+  uint32_t ohUid_ref = oh.get_uid();
+  EXPECT_EQ(0u, oh_dummy.get_name());
+  EXPECT_EQ(0u, oh_dummy.get_uid());
+  EXPECT_EQ(mContext.getSharingGroupUid(), oh_dummy.get_owning_sharing_group_uid());
   EXPECT_EQ(1u, oh.get_name());
-  EXPECT_EQ(ohUidRef, oh.get_uid());
+  EXPECT_EQ(ohUid_ref, oh.get_uid());
   EXPECT_EQ(mContext.getSharingGroupUid(), oh.get_owning_sharing_group_uid());
 }
 
@@ -124,14 +124,14 @@ TEST_F(TestGlObjectHandle, SharedMoveConstructor)
 
 TEST_F(TestGlObjectHandle, NonSharedMoveConstructor)
 {
-  ConcreteGlNonSharedObjectHandle ohDummy(1u);
-  ConcreteGlNonSharedObjectHandle oh(std::move(ohDummy));
-  uint32_t ohUidRef = oh.get_uid();
-  EXPECT_EQ(0u, ohDummy.get_name());
-  EXPECT_EQ(0u, ohDummy.get_uid());
-  EXPECT_EQ(mContext.get_uid(), ohDummy.get_owning_context_uid());
+  ConcreteGlNonSharedObjectHandle oh_dummy(1u);
+  ConcreteGlNonSharedObjectHandle oh(std::move(oh_dummy));
+  uint32_t ohUid_ref = oh.get_uid();
+  EXPECT_EQ(0u, oh_dummy.get_name());
+  EXPECT_EQ(0u, oh_dummy.get_uid());
+  EXPECT_EQ(mContext.get_uid(), oh_dummy.get_owning_context_uid());
   EXPECT_EQ(1u, oh.get_name());
-  EXPECT_EQ(ohUidRef, oh.get_uid());
+  EXPECT_EQ(ohUid_ref, oh.get_uid());
   EXPECT_EQ(mContext.get_uid(), oh.get_owning_context_uid());
 }
 

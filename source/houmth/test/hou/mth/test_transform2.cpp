@@ -229,9 +229,9 @@ TEST_F(test_transform2, vector_transformation)
   // 4th element == 0 -> vector
   matrix<float, 4, 1> hv{3.f, -13.f, 0.f, 0.f};
   hv = t.to_mat4x4() * hv;
-  vec2f vRef(hv(0), hv(1));
+  vec2f v_ref(hv(0), hv(1));
 
-  HOU_EXPECT_FLOAT_CLOSE(vRef, v);
+  HOU_EXPECT_FLOAT_CLOSE(v_ref, v);
 }
 
 
@@ -249,9 +249,9 @@ TEST_F(test_transform2, point_transformation)
   // 4th element == 1 -> point
   matrix<float, 4, 1> hv{3.f, -13.f, 0.f, 1.f};
   hv = t.to_mat4x4() * hv;
-  vec2f vRef(hv(0), hv(1));
+  vec2f v_ref(hv(0), hv(1));
 
-  HOU_EXPECT_FLOAT_CLOSE(vRef, v);
+  HOU_EXPECT_FLOAT_CLOSE(v_ref, v);
 }
 
 

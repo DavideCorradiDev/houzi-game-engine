@@ -14,13 +14,14 @@ using namespace testing;
 namespace
 {
 
-class TestVideoMode : public Test {};
+class test_video_mode : public Test
+{};
 
-}
+}  // namespace
 
 
 
-TEST_F(TestVideoMode, Constructor)
+TEST_F(test_video_mode, constructor)
 {
   video_mode v(vec2u(1200u, 400u), 8u);
   EXPECT_EQ(8u, v.get_bytes_per_pixel());
@@ -29,7 +30,7 @@ TEST_F(TestVideoMode, Constructor)
 
 
 
-TEST_F(TestVideoMode, FullscreenModeCheck)
+TEST_F(test_video_mode, fullscreen_mode_check)
 {
   std::vector<video_mode> vmodes = video_mode::get_fullscreen_modes();
   for(const auto& mode : vmodes)
@@ -42,14 +43,14 @@ TEST_F(TestVideoMode, FullscreenModeCheck)
 
 
 
-TEST_F(TestVideoMode, DesktopModeIsFullscreen)
+TEST_F(test_video_mode, desktop_mode_is_fullscreen)
 {
   EXPECT_TRUE(video_mode::get_desktop_mode().is_fullscreen_mode());
 }
 
 
 
-TEST_F(TestVideoMode, ComparisonOperators)
+TEST_F(test_video_mode, comparison_operators)
 {
   video_mode v0(vec2u(640u, 320u), 4u);
   video_mode v1(vec2u(640u, 320u), 4u);
@@ -67,7 +68,7 @@ TEST_F(TestVideoMode, ComparisonOperators)
 
 
 
-TEST_F(TestVideoMode, OrderingOperators)
+TEST_F(test_video_mode, ordering_operators)
 {
   video_mode v0(vec2u(640u, 320u), 4u);
   video_mode v1(vec2u(640u, 600u), 4u);
@@ -150,10 +151,9 @@ TEST_F(TestVideoMode, OrderingOperators)
 
 
 
-TEST_F(TestVideoMode, OutputStreamOperator)
+TEST_F(test_video_mode, output_stream_operator)
 {
   video_mode vm(vec2u(300u, 400u), 8u);
-  const char* outputRef = "{Resolution = (300, 400), BytesPerPixel = 8}";
-  HOU_EXPECT_OUTPUT(outputRef, vm);
+  const char* output_ref = "{resolution = (300, 400), bytes_per_pixel = 8}";
+  HOU_EXPECT_OUTPUT(output_ref, vm);
 }
-

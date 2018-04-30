@@ -44,7 +44,7 @@ public:
    * Throws if pos is negative.
    * Derived classes may have different behaviour when the position is set
    * over the end of the file.
-   * a value in the interval [0; byteCount] is always valid.
+   * a value in the interval [0; byte_count] is always valid.
    *
    * \param pos the byte position indicator value.
    *
@@ -57,7 +57,7 @@ public:
    * Throws if the offset moves the position indicator to a negative position.
    * Derived classes may have different behaviour when the position is set
    * over the end of the file.
-   * a value in the interval [0; byteCount] is always valid.
+   * a value in the interval [0; byte_count] is always valid.
    *
    * \param offset the byte position indicator offset.
    *

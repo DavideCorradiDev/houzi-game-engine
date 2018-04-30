@@ -31,11 +31,11 @@ TEST(TestAlContext, Creation)
 TEST(TestAlContext, MoveConstructor)
 {
   al::device ph_device;
-  al::context contextDummy(ph_device);
-  uint32_t uidRef = contextDummy.get_uid();
-  al::context ph_context(std::move(contextDummy));
+  al::context context_dummy(ph_device);
+  uint32_t uid_ref = context_dummy.get_uid();
+  al::context ph_context(std::move(context_dummy));
 
-  EXPECT_EQ(uidRef, ph_context.get_uid());
+  EXPECT_EQ(uid_ref, ph_context.get_uid());
   EXPECT_EQ(ph_device.get_uid(), ph_context.get_device_uid());
   EXPECT_FALSE(ph_context.is_current());
 }
@@ -45,12 +45,12 @@ TEST(TestAlContext, MoveConstructor)
 TEST(TestAlContext, CurrentContextMoveConstructor)
 {
   al::device ph_device;
-  al::context contextDummy(ph_device);
-  al::context::set_current(contextDummy);
-  EXPECT_TRUE(contextDummy.is_current());
-  EXPECT_EQ(&contextDummy, al::context::getCurrent());
+  al::context context_dummy(ph_device);
+  al::context::set_current(context_dummy);
+  EXPECT_TRUE(context_dummy.is_current());
+  EXPECT_EQ(&context_dummy, al::context::getCurrent());
 
-  al::context ph_context(std::move(contextDummy));
+  al::context ph_context(std::move(context_dummy));
   EXPECT_TRUE(ph_context.is_current());
   EXPECT_EQ(&ph_context, al::context::getCurrent());
 }

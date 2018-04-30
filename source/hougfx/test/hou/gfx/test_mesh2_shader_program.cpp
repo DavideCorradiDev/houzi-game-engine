@@ -32,8 +32,8 @@ image2RGBA generateResultImage(const vec2u& dstSize, const recti& dstRect,
 image2RGBA generateResultImage(const vec2u& dstSize, const recti& dstRect,
   const color& dstColor, const color& srcColor)
 {
-  image2RGBA imRef(dstSize);
-  imRef.clear(image2RGBA::pixel(dstColor));
+  image2RGBA im_ref(dstSize);
+  im_ref.clear(image2RGBA::pixel(dstColor));
 
   uint xMax = std::min(static_cast<uint>(dstRect.r()), dstSize.x());
   uint yMax = std::min(static_cast<uint>(dstRect.b()), dstSize.y());
@@ -41,10 +41,10 @@ image2RGBA generateResultImage(const vec2u& dstSize, const recti& dstRect,
   {
     for(uint x = dstRect.l(); x < xMax; ++x)
     {
-      imRef.set_pixel(vec2u(x, y), image2RGBA::pixel(srcColor));
+      im_ref.set_pixel(vec2u(x, y), image2RGBA::pixel(srcColor));
     }
   }
-  return imRef;
+  return im_ref;
 }
 
 }  // namespace
@@ -61,8 +61,8 @@ TEST_F(TestMesh2ShaderProgram, Creation)
 
 TEST_F(TestMesh2ShaderProgram, MoveConstructor)
 {
-  mesh2_shader_program spDummy;
-  mesh2_shader_program sp(std::move(spDummy));
+  mesh2_shader_program sp_dummy;
+  mesh2_shader_program sp(std::move(sp_dummy));
   SUCCEED();
 }
 
@@ -108,9 +108,9 @@ TEST_F(TestMesh2ShaderProgram, DrawRectangle)
 
   mr.draw(rt, rect, col, t);
 
-  image2RGBA imRef
+  image2RGBA im_ref
     = generateResultImage(size, recti(1, 2, 2, 3), color::transparent, col);
-  EXPECT_EQ(imRef, rt.to_texture().get_image<pixel_format::rgba>());
+  EXPECT_EQ(im_ref, rt.to_texture().get_image<pixel_format::rgba>());
 }
 
 
@@ -131,7 +131,7 @@ TEST_F(TestMesh2ShaderProgram, DrawTexturedRectangle)
 
   mr.draw(rt, rect, tex, color::white, t);
 
-  image2RGBA imRef
+  image2RGBA im_ref
     = generateResultImage(size, recti(1, 2, 3, 4), color::transparent, col);
-  EXPECT_EQ(imRef, rt.to_texture().get_image<pixel_format::rgba>());
+  EXPECT_EQ(im_ref, rt.to_texture().get_image<pixel_format::rgba>());
 }

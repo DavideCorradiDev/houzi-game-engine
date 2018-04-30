@@ -95,8 +95,8 @@ TEST_F(test_quaternion, element_access_operators)
 TEST_F(test_quaternion, data)
 {
   quatf q{1.f, 2.f, 3.f, 4.f};
-  float dataRef[] = {1.f, 2.f, 3.f, 4.f};
-  HOU_EXPECT_ARRAY_FLOAT_CLOSE(dataRef, q.data(), 4u);
+  float data_ref[] = {1.f, 2.f, 3.f, 4.f};
+  HOU_EXPECT_ARRAY_FLOAT_CLOSE(data_ref, q.data(), 4u);
 }
 
 

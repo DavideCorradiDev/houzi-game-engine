@@ -143,7 +143,7 @@ TEST_F(TestTextureChannelMapping, OutputStreamOperator)
     , texture_channel::a
     , texture_channel::one
     , texture_channel::r);
-  const char outRef[] = "{b -> r, a -> g, one -> b, r -> a}";
-  HOU_EXPECT_OUTPUT(outRef, tcm);
+  const char out_ref[] = "{b -> r, a -> g, one -> b, r -> a}";
+  HOU_EXPECT_OUTPUT(out_ref, tcm);
 }
 

@@ -29,7 +29,7 @@ class TestFont : public Test
 class TestFontDeathTest : public TestFont
 {};
 
-const std::string fontName = getDataDir() + u8"NotoSans-Regular.ttf";
+const std::string fontName = get_data_dir() + u8"NotoSans-Regular.ttf";
 
 }  // namespace
 
@@ -97,8 +97,8 @@ TEST_F(TestFont, StreamConstructor)
 
 TEST_F(TestFont, MoveConstructor)
 {
-  font fDummy(std::make_unique<binary_file_in>(fontName));
-  font f(std::move(fDummy));
+  font f_dummy(std::make_unique<binary_file_in>(fontName));
+  font f(std::move(f_dummy));
 
   EXPECT_EQ(1u, f.get_face_index_count());
   EXPECT_EQ(0u, f.get_face_index());
@@ -165,7 +165,7 @@ TEST_F(TestFontDeathTest, FailedCreation)
 {
   // Valid file but not a ph_font file.
   HOU_EXPECT_ERROR(
-    font f(std::make_unique<binary_file_in>(getDataDir() + u8"TestImage.png")),
+    font f(std::make_unique<binary_file_in>(get_data_dir() + u8"TestImage.png")),
     std::runtime_error, get_text(gfx_error::font_load_face));
 }
 
@@ -217,7 +217,7 @@ TEST_F(TestFont, GetGlyph)
 {
   font f(std::make_unique<binary_file_in>(fontName));
 
-  glyph g1Ref(
+  glyph g1_ref(
     image2R(vec2u(5u, 5u),
       std::vector<image2R::pixel>{image2R::pixel(0u), image2R::pixel(152u),
         image2R::pixel(180u), image2R::pixel(199u), image2R::pixel(87u),
@@ -229,7 +229,7 @@ TEST_F(TestFont, GetGlyph)
         image2R::pixel(51u), image2R::pixel(208u), image2R::pixel(177u),
         image2R::pixel(142u), image2R::pixel(191u)}),
     glyph_metrics(vec2u(320u, 320u), vec2i(0, -320), 384, vec2i(0, 0), 0));
-  glyph g2Ref(
+  glyph g2_ref(
     image2R(vec2u(6u, 7u),
       std::vector<image2R::pixel>{image2R::pixel(40u), image2R::pixel(188u),
         image2R::pixel(0u), image2R::pixel(0u), image2R::pixel(0u),
@@ -248,8 +248,8 @@ TEST_F(TestFont, GetGlyph)
         image2R::pixel(8u)}),
     glyph_metrics(vec2u(384u, 448u), vec2i(0, -448), 384, vec2i(0, 0), 0));
 
-  EXPECT_EQ(g1Ref, f.get_glyph('a'));
-  EXPECT_EQ(g2Ref, f.get_glyph('b'));
+  EXPECT_EQ(g1_ref, f.get_glyph('a'));
+  EXPECT_EQ(g2_ref, f.get_glyph('b'));
 }
 
 
@@ -257,13 +257,13 @@ TEST_F(TestFont, GetGlyph)
 TEST_F(TestFont, GetGlyphNotExisting)
 {
   font f(std::make_unique<binary_file_in>(fontName));
-  glyph gRef(
+  glyph g_ref(
     image2R(vec2u(6u, 7u),
       std::vector<image2R::pixel>{16, 188, 132, 132, 188, 12, 16, 116, 0, 0,
         116, 12, 16, 116, 0, 0, 116, 12, 16, 116, 0, 0, 116, 12, 16, 116, 0, 0,
         116, 12, 16, 116, 0, 0, 116, 12, 16, 188, 132, 132, 188, 12}),
     glyph_metrics(vec2u(384u, 448u), vec2i(0, -448), 384, vec2i(0, 0), 0));
-  EXPECT_EQ(gRef, f.get_glyph(U'\U00004f68'));
+  EXPECT_EQ(g_ref, f.get_glyph(U'\U00004f68'));
 }
 
 

@@ -23,12 +23,12 @@ void vertex_buffer::unbind(vertex_buffer_target target)
 
 
 
-vertex_buffer::vertex_buffer(uint byteCount, bool dynamicStorage)
+vertex_buffer::vertex_buffer(uint byte_count, bool dynamicStorage)
   : non_copyable()
   , m_handle(gl::buffer_handle::create())
-  , m_byte_count(byteCount)
+  , m_byte_count(byte_count)
 {
-  std::vector<uint8_t> data(byteCount, 0u);
+  std::vector<uint8_t> data(byte_count, 0u);
   gl::set_buffer_storage(m_handle, static_cast<GLsizei>(data.size()),
     reinterpret_cast<const GLvoid*>(data.data()),
     dynamicStorage ? GL_DYNAMIC_STORAGE_BIT : 0);

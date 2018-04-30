@@ -295,26 +295,26 @@ TEST_F(TestGlTextureHandle, SwizzleRGBA)
 {
   gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_2D);
   std::array<GLenum, 4u> swizzle;
-  std::array<GLenum, 4u> swizzleRef;
+  std::array<GLenum, 4u> swizzle_ref;
 
-  swizzleRef = {
+  swizzle_ref = {
     GL_RED,
     GL_GREEN,
     GL_BLUE,
     GL_ALPHA,
   };
   gl::get_texture_swizzle(th, swizzle.data());
-  EXPECT_EQ(swizzleRef, swizzle);
+  EXPECT_EQ(swizzle_ref, swizzle);
 
-  swizzleRef = {
+  swizzle_ref = {
     GL_ONE,
     GL_GREEN,
     GL_ZERO,
     GL_RED,
   };
-  gl::set_texture_swizzle(th, swizzleRef.data());
+  gl::set_texture_swizzle(th, swizzle_ref.data());
   gl::get_texture_swizzle(th, swizzle.data());
-  EXPECT_EQ(swizzleRef, swizzle);
+  EXPECT_EQ(swizzle_ref, swizzle);
 }
 
 

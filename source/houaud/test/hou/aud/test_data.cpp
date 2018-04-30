@@ -6,14 +6,14 @@
 
 
 
-std::string getOutputDir()
+std::string get_output_dir()
 {
   return u8"source/houaud/test/output/";
 }
 
 
 
-std::string getDataDir()
+std::string get_data_dir()
 {
   return u8"source/houaud/test/data/";
 }

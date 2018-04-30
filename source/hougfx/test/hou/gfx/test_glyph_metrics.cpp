@@ -48,9 +48,9 @@ TEST_F(TestGlyphMetrics, ParameterConstructor)
 TEST_F(TestGlyphMetrics, SetSize)
 {
   glyph_metrics gm;
-  vec2u sizeRef(2u, 7u);
-  gm.set_size(sizeRef);
-  EXPECT_EQ(sizeRef, gm.get_size());
+  vec2u size_ref(2u, 7u);
+  gm.set_size(size_ref);
+  EXPECT_EQ(size_ref, gm.get_size());
 }
 
 
@@ -58,9 +58,9 @@ TEST_F(TestGlyphMetrics, SetSize)
 TEST_F(TestGlyphMetrics, SetHorizontalBearing)
 {
   glyph_metrics gm;
-  vec2i bearingRef(3, 5);
-  gm.setHorizontalBearing(bearingRef);
-  EXPECT_EQ(bearingRef, gm.get_horizontal_bearing());
+  vec2i bearing_ref(3, 5);
+  gm.setHorizontalBearing(bearing_ref);
+  EXPECT_EQ(bearing_ref, gm.get_horizontal_bearing());
 }
 
 
@@ -68,9 +68,9 @@ TEST_F(TestGlyphMetrics, SetHorizontalBearing)
 TEST_F(TestGlyphMetrics, SetHorizontalAdvance)
 {
   glyph_metrics gm;
-  int advanceRef = 7;
-  gm.set_horizontal_advance(advanceRef);
-  EXPECT_EQ(advanceRef, gm.get_horizontal_advance());
+  int advance_ref = 7;
+  gm.set_horizontal_advance(advance_ref);
+  EXPECT_EQ(advance_ref, gm.get_horizontal_advance());
 }
 
 
@@ -78,9 +78,9 @@ TEST_F(TestGlyphMetrics, SetHorizontalAdvance)
 TEST_F(TestGlyphMetrics, SetVerticalBearing)
 {
   glyph_metrics gm;
-  vec2i bearingRef(5, 3);
-  gm.set_vertical_bearing(bearingRef);
-  EXPECT_EQ(bearingRef, gm.get_vertical_bearing());
+  vec2i bearing_ref(5, 3);
+  gm.set_vertical_bearing(bearing_ref);
+  EXPECT_EQ(bearing_ref, gm.get_vertical_bearing());
 }
 
 
@@ -88,9 +88,9 @@ TEST_F(TestGlyphMetrics, SetVerticalBearing)
 TEST_F(TestGlyphMetrics, SetVerticalAdvance)
 {
   glyph_metrics gm;
-  int advanceRef = 9;
-  gm.set_vertical_advance(advanceRef);
-  EXPECT_EQ(advanceRef, gm.get_vertical_advance());
+  int advance_ref = 9;
+  gm.set_vertical_advance(advance_ref);
+  EXPECT_EQ(advance_ref, gm.get_vertical_advance());
 }
 
 

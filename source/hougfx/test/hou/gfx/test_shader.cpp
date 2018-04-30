@@ -79,8 +79,8 @@ TEST_F(TestShader, GlVertexShaderCreation)
 
 TEST_F(TestShader, GlVertexShaderMoveConstructor)
 {
-  vertex_shader vsDummy = vertex_shader(getVsSource());
-  vertex_shader vs = std::move(vsDummy);
+  vertex_shader vs_dummy = vertex_shader(getVsSource());
+  vertex_shader vs = std::move(vs_dummy);
   SUCCEED();
 }
 
@@ -108,8 +108,8 @@ TEST_F(TestShader, GlFragmentShaderCreation)
 
 TEST_F(TestShader, GlFragmentShaderMoveConstructor)
 {
-  fragment_shader fsDummy = fragment_shader(getFsSource());
-  fragment_shader fs = std::move(fsDummy);
+  fragment_shader fs_dummy = fragment_shader(getFsSource());
+  fragment_shader fs = std::move(fs_dummy);
   SUCCEED();
 }
 
@@ -137,8 +137,8 @@ TEST_F(TestShader, GlGeometryShaderCreation)
 
 TEST_F(TestShader, GlGeometryShaderMoveConstructor)
 {
-  geometry_shader gsDummy = geometry_shader(getGsSource());
-  geometry_shader gs = std::move(gsDummy);
+  geometry_shader gs_dummy = geometry_shader(getGsSource());
+  geometry_shader gs = std::move(gs_dummy);
   SUCCEED();
 }
 

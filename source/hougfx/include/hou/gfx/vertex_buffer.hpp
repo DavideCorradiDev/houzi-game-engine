@@ -74,18 +74,18 @@ protected:
    *  \param dynamicStorage if true, the vertex_buffer is modifiable, otherwise
    * it is not.
    */
-  vertex_buffer(uint byteCount, bool dynamicStorage);
+  vertex_buffer(uint byte_count, bool dynamicStorage);
 
   /** Data constructor
    *
    *  Builds a vertex_buffer with the given data.
    *
-   *  \param byteCount the size of the buffer in bytes.
+   *  \param byte_count the size of the buffer in bytes.
    *  \param data a pointer to a data buffer.
    *  \param dynamicStorage if true, the vertex_buffer is modifiable, otherwise
    * it is not.
    */
-  vertex_buffer(uint byteCount, const void* data, bool dynamicStorage);
+  vertex_buffer(uint byte_count, const void* data, bool dynamicStorage);
 
   /** Move constructor.
    *

@@ -21,36 +21,36 @@ using namespace testing;
 namespace
 {
 
-class TestSystemWindow : public Test
+class test_system_window : public Test
 {};
 
-class TestSystemWindowDeathTest : public TestSystemWindow
+class test_system_window_death_test : public test_system_window
 {};
 
 }  // namespace
 
 
 
-TEST_F(TestSystemWindow, CreateWindowed)
+TEST_F(test_system_window, create_windowed)
 {
-  std::string titleRef("system_window");
-  vec2u sizeRef(300u, 600u);
-  vec2u screenSize = video_mode::get_desktop_mode().get_resolution();
-  vec2i posRef = static_cast<vec2i>(screenSize - sizeRef) / 2;
-  uint bbpRef = 4u;
-  window_style styleRef = window_style::windowed;
-  image2RGBA iconRef;
+  std::string title_ref("system_window");
+  vec2u size_ref(300u, 600u);
+  vec2u screen_size = video_mode::get_desktop_mode().get_resolution();
+  vec2i pos_ref = static_cast<vec2i>(screen_size - size_ref) / 2;
+  uint bbp_ref = 4u;
+  window_style style_ref = window_style::windowed;
+  image2RGBA icon_ref;
 
-  system_window w(titleRef, video_mode(sizeRef, bbpRef), styleRef);
+  system_window w(title_ref, video_mode(size_ref, bbp_ref), style_ref);
 
   EXPECT_NE(nullptr, w.get_handle());
   EXPECT_NE(0u, w.get_uid());
-  EXPECT_EQ(titleRef, w.get_title());
-  EXPECT_EQ(posRef, w.get_client_position());
-  EXPECT_EQ(sizeRef, w.get_client_size());
-  EXPECT_EQ(bbpRef, w.get_bytes_per_pixel());
-  EXPECT_EQ(styleRef, w.get_style());
-  EXPECT_EQ(iconRef, w.get_icon());
+  EXPECT_EQ(title_ref, w.get_title());
+  EXPECT_EQ(pos_ref, w.get_client_position());
+  EXPECT_EQ(size_ref, w.get_client_size());
+  EXPECT_EQ(bbp_ref, w.get_bytes_per_pixel());
+  EXPECT_EQ(style_ref, w.get_style());
+  EXPECT_EQ(icon_ref, w.get_icon());
   EXPECT_FALSE(w.is_visible());
   EXPECT_FALSE(w.is_mouse_cursor_grabbed());
   EXPECT_FALSE(w.is_key_repeat_enabled());
@@ -58,26 +58,26 @@ TEST_F(TestSystemWindow, CreateWindowed)
 
 
 
-TEST_F(TestSystemWindow, CreateWindowedResizable)
+TEST_F(test_system_window, create_windowed_resizable)
 {
-  std::string titleRef("system_window");
-  vec2u sizeRef(300u, 600u);
-  vec2u screenSize = video_mode::get_desktop_mode().get_resolution();
-  vec2i posRef = static_cast<vec2i>(screenSize - sizeRef) / 2;
-  uint bbpRef = 4u;
-  window_style styleRef = window_style::windowed_resizable;
-  image2RGBA iconRef;
+  std::string title_ref("system_window");
+  vec2u size_ref(300u, 600u);
+  vec2u screen_size = video_mode::get_desktop_mode().get_resolution();
+  vec2i pos_ref = static_cast<vec2i>(screen_size - size_ref) / 2;
+  uint bbp_ref = 4u;
+  window_style style_ref = window_style::windowed_resizable;
+  image2RGBA icon_ref;
 
-  system_window w(titleRef, video_mode(sizeRef, bbpRef), styleRef);
+  system_window w(title_ref, video_mode(size_ref, bbp_ref), style_ref);
 
   EXPECT_NE(nullptr, w.get_handle());
   EXPECT_NE(0u, w.get_uid());
-  EXPECT_EQ(titleRef, w.get_title());
-  EXPECT_EQ(posRef, w.get_client_position());
-  EXPECT_EQ(sizeRef, w.get_client_size());
-  EXPECT_EQ(bbpRef, w.get_bytes_per_pixel());
-  EXPECT_EQ(styleRef, w.get_style());
-  EXPECT_EQ(iconRef, w.get_icon());
+  EXPECT_EQ(title_ref, w.get_title());
+  EXPECT_EQ(pos_ref, w.get_client_position());
+  EXPECT_EQ(size_ref, w.get_client_size());
+  EXPECT_EQ(bbp_ref, w.get_bytes_per_pixel());
+  EXPECT_EQ(style_ref, w.get_style());
+  EXPECT_EQ(icon_ref, w.get_icon());
   EXPECT_FALSE(w.is_visible());
   EXPECT_FALSE(w.is_mouse_cursor_grabbed());
   EXPECT_FALSE(w.is_key_repeat_enabled());
@@ -85,27 +85,27 @@ TEST_F(TestSystemWindow, CreateWindowedResizable)
 
 
 
-TEST_F(TestSystemWindow, CreateFullscreen)
+TEST_F(test_system_window, create_fullscreen)
 {
-  std::string titleRef("system_window");
-  vec2u sizeRef(video_mode::get_desktop_mode().get_resolution());
-  vec2i posRef(0, 0);
-  uint bbpRef(video_mode::get_desktop_mode().get_bytes_per_pixel());
-  window_style styleRef = window_style::fullscreen;
-  image2RGBA iconRef;
+  std::string title_ref("system_window");
+  vec2u size_ref(video_mode::get_desktop_mode().get_resolution());
+  vec2i pos_ref(0, 0);
+  uint bbp_ref(video_mode::get_desktop_mode().get_bytes_per_pixel());
+  window_style style_ref = window_style::fullscreen;
+  image2RGBA icon_ref;
 
-  system_window w(titleRef, video_mode(sizeRef, bbpRef), styleRef);
+  system_window w(title_ref, video_mode(size_ref, bbp_ref), style_ref);
 
   EXPECT_NE(nullptr, w.get_handle());
   EXPECT_NE(0u, w.get_uid());
-  EXPECT_EQ(titleRef, w.get_title());
-  EXPECT_EQ(posRef, w.get_client_position());
-  EXPECT_EQ(posRef, w.get_frame_position());
-  EXPECT_EQ(sizeRef, w.get_client_size());
-  EXPECT_EQ(sizeRef, w.get_frame_size());
-  EXPECT_EQ(bbpRef, w.get_bytes_per_pixel());
-  EXPECT_EQ(styleRef, w.get_style());
-  EXPECT_EQ(iconRef, w.get_icon());
+  EXPECT_EQ(title_ref, w.get_title());
+  EXPECT_EQ(pos_ref, w.get_client_position());
+  EXPECT_EQ(pos_ref, w.get_frame_position());
+  EXPECT_EQ(size_ref, w.get_client_size());
+  EXPECT_EQ(size_ref, w.get_frame_size());
+  EXPECT_EQ(bbp_ref, w.get_bytes_per_pixel());
+  EXPECT_EQ(style_ref, w.get_style());
+  EXPECT_EQ(icon_ref, w.get_icon());
   EXPECT_FALSE(w.is_visible());
   EXPECT_FALSE(w.is_mouse_cursor_grabbed());
   EXPECT_FALSE(w.is_key_repeat_enabled());
@@ -113,7 +113,8 @@ TEST_F(TestSystemWindow, CreateFullscreen)
 
 
 
-TEST_F(TestSystemWindowDeathTest, CreateFullscreenErrorInvalidVideoMode)
+TEST_F(
+  test_system_window_death_test, create_fullscreen_error_invalid_video_mode)
 {
   HOU_EXPECT_ERROR(system_window w1("Win", video_mode(vec2u::zero(), 32),
                      window_style::fullscreen),
@@ -122,10 +123,11 @@ TEST_F(TestSystemWindowDeathTest, CreateFullscreenErrorInvalidVideoMode)
 
 
 
-TEST_F(TestSystemWindowDeathTest,
-  CreateFullscreenErrorFullscreenWindowAlreadyExisting)
+TEST_F(test_system_window_death_test,
+  create_fullscreen_error_fullscreen_window_already_existing)
 {
-  system_window w2("Win", video_mode::get_desktop_mode(), window_style::fullscreen);
+  system_window w2(
+    "Win", video_mode::get_desktop_mode(), window_style::fullscreen);
   HOU_EXPECT_ERROR(system_window w3("Win", video_mode::get_desktop_mode(),
                      window_style::fullscreen),
     std::logic_error, get_text(cor_error::pre_condition));
@@ -133,17 +135,19 @@ TEST_F(TestSystemWindowDeathTest,
 
 
 
-TEST_F(TestSystemWindow, CreateWindowMultithreadedEnvironment)
+TEST_F(test_system_window, create_window_multithreaded_environment)
 {
   // When creating windows some global system state is modified.
   // This test checks if everything runs fine when multiple threads try to
   // create a ph_window.
   auto threadFun = []() {
-    system_window w("Win", video_mode(vec2u::zero(), 0), window_style::windowed);
+    system_window w(
+      "Win", video_mode(vec2u::zero(), 0), window_style::windowed);
     std::this_thread::sleep_for(std::chrono::milliseconds(2));
   };
 
-  system_window w("Win", video_mode::get_desktop_mode(), window_style::fullscreen);
+  system_window w(
+    "Win", video_mode::get_desktop_mode(), window_style::fullscreen);
 
   std::thread t1(threadFun);
   std::thread t2(threadFun);
@@ -160,29 +164,29 @@ TEST_F(TestSystemWindow, CreateWindowMultithreadedEnvironment)
 
 
 
-TEST_F(TestSystemWindow, MoveConstructor)
+TEST_F(test_system_window, move_constructor)
 {
-  std::string titleRef("system_window");
-  vec2u sizeRef(300u, 600u);
-  vec2u screenSize = video_mode::get_desktop_mode().get_resolution();
-  vec2i posRef = static_cast<vec2i>(screenSize - sizeRef) / 2;
-  uint bbpRef = 4u;
-  window_style styleRef = window_style::windowed;
-  image2RGBA iconRef;
+  std::string title_ref("system_window");
+  vec2u size_ref(300u, 600u);
+  vec2u screen_size = video_mode::get_desktop_mode().get_resolution();
+  vec2i pos_ref = static_cast<vec2i>(screen_size - size_ref) / 2;
+  uint bbp_ref = 4u;
+  window_style style_ref = window_style::windowed;
+  image2RGBA icon_ref;
 
-  system_window wDummy(titleRef, video_mode(sizeRef, bbpRef), styleRef);
-  window_handle handleRef = wDummy.get_handle();
+  system_window w_dummy(title_ref, video_mode(size_ref, bbp_ref), style_ref);
+  window_handle handle_ref = w_dummy.get_handle();
 
-  system_window w(std::move(wDummy));
+  system_window w(std::move(w_dummy));
 
-  EXPECT_EQ(handleRef, w.get_handle());
+  EXPECT_EQ(handle_ref, w.get_handle());
   EXPECT_NE(0u, w.get_uid());
-  EXPECT_EQ(titleRef, w.get_title());
-  EXPECT_EQ(posRef, w.get_client_position());
-  EXPECT_EQ(sizeRef, w.get_client_size());
-  EXPECT_EQ(bbpRef, w.get_bytes_per_pixel());
-  EXPECT_EQ(styleRef, w.get_style());
-  EXPECT_EQ(iconRef, w.get_icon());
+  EXPECT_EQ(title_ref, w.get_title());
+  EXPECT_EQ(pos_ref, w.get_client_position());
+  EXPECT_EQ(size_ref, w.get_client_size());
+  EXPECT_EQ(bbp_ref, w.get_bytes_per_pixel());
+  EXPECT_EQ(style_ref, w.get_style());
+  EXPECT_EQ(icon_ref, w.get_icon());
   EXPECT_FALSE(w.is_visible());
   EXPECT_FALSE(w.is_mouse_cursor_grabbed());
   EXPECT_FALSE(w.is_key_repeat_enabled());
@@ -190,22 +194,23 @@ TEST_F(TestSystemWindow, MoveConstructor)
 
 
 
-TEST_F(TestSystemWindow, UidGeneration)
+TEST_F(test_system_window, uid_generation)
 {
-  system_window firstWindow(
+  system_window first_window(
     "Win", video_mode(vec2u::zero(), 0), window_style::windowed);
-  uint32_t firstUid = firstWindow.get_uid() + 1u;
+  uint32_t firstUid = first_window.get_uid() + 1u;
 
   for(size_t i = 0; i < 5u; ++i)
   {
-    system_window w("Win", video_mode(vec2u::zero(), 0), window_style::windowed);
+    system_window w(
+      "Win", video_mode(vec2u::zero(), 0), window_style::windowed);
     EXPECT_EQ(firstUid + i, w.get_uid());
   }
 }
 
 
 
-TEST_F(TestSystemWindow, FrameRect)
+TEST_F(test_system_window, frame_rect)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
@@ -219,7 +224,7 @@ TEST_F(TestSystemWindow, FrameRect)
 
 
 
-TEST_F(TestSystemWindow, FramePosition)
+TEST_F(test_system_window, frame_position)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
@@ -230,7 +235,7 @@ TEST_F(TestSystemWindow, FramePosition)
 
 
 
-TEST_F(TestSystemWindow, FrameSize)
+TEST_F(test_system_window, frame_size)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
@@ -241,7 +246,7 @@ TEST_F(TestSystemWindow, FrameSize)
 
 
 
-TEST_F(TestSystemWindow, ClientRect)
+TEST_F(test_system_window, client_rect)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
@@ -255,7 +260,7 @@ TEST_F(TestSystemWindow, ClientRect)
 
 
 
-TEST_F(TestSystemWindow, ClientPosition)
+TEST_F(test_system_window, client_position)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
@@ -266,7 +271,7 @@ TEST_F(TestSystemWindow, ClientPosition)
 
 
 
-TEST_F(TestSystemWindow, ClientSize)
+TEST_F(test_system_window, client_size)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
@@ -277,7 +282,7 @@ TEST_F(TestSystemWindow, ClientSize)
 
 
 
-TEST_F(TestSystemWindow, Title)
+TEST_F(test_system_window, title)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
@@ -288,13 +293,13 @@ TEST_F(TestSystemWindow, Title)
 
 
 
-TEST_F(TestSystemWindow, Icon)
+TEST_F(test_system_window, icon)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
   EXPECT_EQ(image2RGBA(), w.get_icon());
   image2RGBA refIcon(
-    png_read_file<pixel_format::rgba>(getDataDir() + u8"TestImage.png"));
+    png_read_file<pixel_format::rgba>(get_data_dir() + u8"TestImage.png"));
   w.set_icon(refIcon);
   EXPECT_EQ(refIcon, w.get_icon());
   w.set_system_icon();
@@ -303,7 +308,7 @@ TEST_F(TestSystemWindow, Icon)
 
 
 
-TEST_F(TestSystemWindow, Visibility)
+TEST_F(test_system_window, visibility)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
@@ -318,7 +323,7 @@ TEST_F(TestSystemWindow, Visibility)
 
 
 
-TEST_F(TestSystemWindow, CursorGrabbed)
+TEST_F(test_system_window, cursor_grabbed)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
@@ -333,7 +338,7 @@ TEST_F(TestSystemWindow, CursorGrabbed)
 
 
 
-TEST_F(TestSystemWindow, KeyRepeatEnabled)
+TEST_F(test_system_window, key_repeat_enabled)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
@@ -348,7 +353,7 @@ TEST_F(TestSystemWindow, KeyRepeatEnabled)
 
 
 
-TEST_F(TestSystemWindow, Focus)
+TEST_F(test_system_window, focus)
 {
   system_window w1(
     "Win1", video_mode(vec2u(640u, 480u), 32u), window_style::windowed);
@@ -371,7 +376,7 @@ TEST_F(TestSystemWindow, Focus)
 
 
 
-TEST_F(TestSystemWindow, EventQueuePushAndPop)
+TEST_F(test_system_window, event_queue_push_and_pop)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
@@ -398,19 +403,19 @@ TEST_F(TestSystemWindow, EventQueuePushAndPop)
 
 
 
-TEST_F(TestSystemWindow, EventQueueWaitEvent)
+TEST_F(test_system_window, event_queue_wait_event)
 {
-  window_event evRef = window_event::focus_gained();
+  window_event ev_ref = window_event::focus_gained();
   system_window w("Win", video_mode(vec2u::zero(), 0), window_style::windowed);
-  auto threadFun = [&evRef, &w]() {
+  auto threadFun = [&ev_ref, &w]() {
     // This thread will wait for an event, which will be generated by the
     // main thread.
     window_event ev = w.wait_event();
-    EXPECT_EQ(evRef, ev);
+    EXPECT_EQ(ev_ref, ev);
   };
   std::thread t1(threadFun);
 
-  w.push_event(evRef);
+  w.push_event(ev_ref);
 
   t1.join();
 
@@ -419,23 +424,24 @@ TEST_F(TestSystemWindow, EventQueueWaitEvent)
 
 
 
-TEST_F(TestSystemWindow, GenerateResizeEventOnSetFrameSize)
+TEST_F(test_system_window, generate_resize_event_on_set_frame_size)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
   EXPECT_TRUE(w.is_event_queue_empty());
 
   w.setFrameSize(vec2u(200u, 400u));
-  window_event eventRef
+  window_event ev_ref
     = window_event::resized(w.get_client_size().x(), w.get_client_size().y());
   EXPECT_FALSE(w.is_event_queue_empty());
-  EXPECT_EQ(eventRef, w.pop_event());
+  EXPECT_EQ(ev_ref, w.pop_event());
   EXPECT_TRUE(w.is_event_queue_empty());
 }
 
 
 
-TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetFrameSizeWithSameSize)
+TEST_F(test_system_window,
+  do_not_generate_resize_event_on_set_frame_size_with_same_size)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
@@ -447,23 +453,24 @@ TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetFrameSizeWithSameSize)
 
 
 
-TEST_F(TestSystemWindow, GenerateResizeEventOnSetFrameRect)
+TEST_F(test_system_window, generate_resize_event_on_set_frame_rect)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
   EXPECT_TRUE(w.is_event_queue_empty());
 
   w.set_frame_rect(vec2i(32, 64), vec2u(200u, 400u));
-  window_event eventRef
+  window_event ev_ref
     = window_event::resized(w.get_client_size().x(), w.get_client_size().y());
   EXPECT_FALSE(w.is_event_queue_empty());
-  EXPECT_EQ(eventRef, w.pop_event());
+  EXPECT_EQ(ev_ref, w.pop_event());
   EXPECT_TRUE(w.is_event_queue_empty());
 }
 
 
 
-TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetFrameRectWithSameSize)
+TEST_F(test_system_window,
+  do_not_generate_resize_event_on_set_frame_rect_with_same_size)
 {
   system_window w(
     "Win", video_mode(vec2u(200u, 400u), 32u), window_style::windowed);
@@ -475,7 +482,7 @@ TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetFrameRectWithSameSize)
 
 
 
-TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetFramePos)
+TEST_F(test_system_window, do_not_generate_resize_event_on_set_frame_pos)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
@@ -487,23 +494,24 @@ TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetFramePos)
 
 
 
-TEST_F(TestSystemWindow, GenerateResizeEventOnSetClientSize)
+TEST_F(test_system_window, generate_resize_event_on_set_client_size)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
   EXPECT_TRUE(w.is_event_queue_empty());
 
   w.set_client_size(vec2u(200u, 400u));
-  window_event eventRef
+  window_event ev_ref
     = window_event::resized(w.get_client_size().x(), w.get_client_size().y());
   EXPECT_FALSE(w.is_event_queue_empty());
-  EXPECT_EQ(eventRef, w.pop_event());
+  EXPECT_EQ(ev_ref, w.pop_event());
   EXPECT_TRUE(w.is_event_queue_empty());
 }
 
 
 
-TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetClientSizeWithSameSize)
+TEST_F(test_system_window,
+  do_not_generate_resize_event_on_set_client_size_with_same_size)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
@@ -515,23 +523,24 @@ TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetClientSizeWithSameSize)
 
 
 
-TEST_F(TestSystemWindow, GenerateResizeEventOnSetClientRect)
+TEST_F(test_system_window, generate_resize_event_on_set_client_rect)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
   EXPECT_TRUE(w.is_event_queue_empty());
 
   w.set_client_rect(vec2i(32, 64), vec2u(200u, 400u));
-  window_event eventRef
+  window_event ev_ref
     = window_event::resized(w.get_client_size().x(), w.get_client_size().y());
   EXPECT_FALSE(w.is_event_queue_empty());
-  EXPECT_EQ(eventRef, w.pop_event());
+  EXPECT_EQ(ev_ref, w.pop_event());
   EXPECT_TRUE(w.is_event_queue_empty());
 }
 
 
 
-TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetClientRectWithSameSize)
+TEST_F(test_system_window,
+  do_not_generate_resize_event_on_set_client_rect_with_same_size)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
@@ -543,7 +552,7 @@ TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetClientRectWithSameSize)
 
 
 
-TEST_F(TestSystemWindow, DoNotGenerateResizeEventOnSetClientPos)
+TEST_F(test_system_window, do_not_generate_resize_event_on_set_client_pos)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);

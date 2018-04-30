@@ -14,13 +14,14 @@ using namespace testing;
 namespace
 {
 
-class TestColor : public Test {};
+class test_color : public Test
+{};
 
-}
+}  // namespace
 
 
 
-TEST_F(TestColor, ValueConstructor)
+TEST_F(test_color, value_constructor)
 {
   color c(20u, 30u, 40u, 50u);
   EXPECT_EQ(20u, c.get_red());
@@ -35,7 +36,7 @@ TEST_F(TestColor, ValueConstructor)
 
 
 
-TEST_F(TestColor, SetRed)
+TEST_F(test_color, set_red)
 {
   color c(20u, 30u, 40u, 50u);
   c.set_red(100u);
@@ -48,7 +49,7 @@ TEST_F(TestColor, SetRed)
 
 
 
-TEST_F(TestColor, SetGreen)
+TEST_F(test_color, set_green)
 {
   color c(20u, 30u, 40u, 50u);
   c.set_green(100u);
@@ -61,7 +62,7 @@ TEST_F(TestColor, SetGreen)
 
 
 
-TEST_F(TestColor, SetBlue)
+TEST_F(test_color, set_blue)
 {
   color c(20u, 30u, 40u, 50u);
   c.set_blue(100u);
@@ -74,7 +75,7 @@ TEST_F(TestColor, SetBlue)
 
 
 
-TEST_F(TestColor, SetAlpha)
+TEST_F(test_color, set_alpha)
 {
   color c(20u, 30u, 40u, 50u);
   c.set_alpha(100u);
@@ -87,7 +88,7 @@ TEST_F(TestColor, SetAlpha)
 
 
 
-TEST_F(TestColor, FloatConversion)
+TEST_F(test_color, float_conversion)
 {
   color c(0u, 0u, 0u, 0u);
   for(uint i = 0; i < 256; ++i)
@@ -101,7 +102,7 @@ TEST_F(TestColor, FloatConversion)
 
 
 
-TEST_F(TestColor, FloatValueThresholds)
+TEST_F(test_color, float_value_thresholds)
 {
   color c(0u, 0u, 0u, 0u);
   c.set_red_f(1.1f);
@@ -114,7 +115,7 @@ TEST_F(TestColor, FloatValueThresholds)
 
 
 
-TEST_F(TestColor, Comparison)
+TEST_F(test_color, comparison)
 {
   color c1(100u, 100u, 100u, 100u);
   color c2(110u, 100u, 100u, 100u);
@@ -138,9 +139,8 @@ TEST_F(TestColor, Comparison)
 
 
 
-TEST_F(TestColor, OutputStreamOperator)
+TEST_F(test_color, output_stream_operator)
 {
-  HOU_EXPECT_OUTPUT("{red = 1, green = 2, blue = 3, alpha = 4}"
-    , color(1u, 2u, 3u, 4u));
+  HOU_EXPECT_OUTPUT(
+    "{red = 1, green = 2, blue = 3, alpha = 4}", color(1u, 2u, 3u, 4u));
 }
-

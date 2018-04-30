@@ -31,13 +31,13 @@ font TestFormattedText::loadFont(const std::string& path)
   return font(std::make_unique<binary_file_in>(path));
 }
 
-const std::string fontPath = getDataDir() + u8"NotoSans-Regular.ttf";
+const std::string fontPath = get_data_dir() + u8"NotoSans-Regular.ttf";
 
 
 
 // void print(const image3R& ph_image)
 // {
-//   std::cout << "image3R imageRef(vec3u(" << ph_image.get_size().x() << "u, "
+//   std::cout << "image3R image_ref(vec3u(" << ph_image.get_size().x() << "u, "
 //             << ph_image.get_size().y() << "u, " << ph_image.get_size().z() << "u), {";
 //   for(size_t i = 0; i < ph_image.get_pixels().size(); ++i)
 //   {
@@ -67,7 +67,7 @@ const std::string fontPath = getDataDir() + u8"NotoSans-Regular.ttf";
 //
 // void print(const std::vector<text_vertex>& vertices)
 // {
-//   std::cout << "std::vector<text_vertex> verticesRef{";
+//   std::cout << "std::vector<text_vertex> vertices_ref{";
 //   for(size_t i = 0; i < vertices.size(); ++i)
 //   {
 //     if(i != 0)
@@ -110,11 +110,11 @@ TEST_F(TestFormattedText, Utf8Constructor)
   std::string s = u8"A";
   formatted_text ft(s, f);
 
-  image3R imageRef(vec3u(7u, 7u, 1u),
+  image3R image_ref(vec3u(7u, 7u, 1u),
     {0, 0, 107, 201, 0, 0, 0, 0, 0, 200, 167, 47, 0, 0, 0, 55, 166, 64, 150, 0,
       0, 0, 156, 66, 1, 205, 10, 0, 13, 229, 204, 204, 223, 97, 0, 104, 123, 0,
       0, 38, 198, 0, 202, 28, 0, 0, 0, 193, 45});
-  text_mesh::vertex_collection verticesRef{
+  text_mesh::vertex_collection vertices_ref{
     text_vertex(vec2f(0.f, -7.f), vec3f(0.f, 0.f, 0.f)),
     text_vertex(vec2f(7.f, -7.f), vec3f(1.f, 0.f, 0.f)),
     text_vertex(vec2f(0.f, 0.f), vec3f(0.f, 1.f, 0.f)),
@@ -122,11 +122,11 @@ TEST_F(TestFormattedText, Utf8Constructor)
     text_vertex(vec2f(7.f, -7.f), vec3f(1.f, 0.f, 0.f)),
     text_vertex(vec2f(7.f, 0.f), vec3f(1.f, 1.f, 0.f)),
   };
-  rectf rectRef(0.f, -7.f, 7.f, 7.f);
+  rectf rect_ref(0.f, -7.f, 7.f, 7.f);
 
-  EXPECT_EQ(imageRef, ft.get_atlas().get_image<pixel_format::r>());
-  HOU_EXPECT_CLOSE(verticesRef, ft.get_mesh().getVertices(), testAcc);
-  HOU_EXPECT_CLOSE(rectRef, ft.get_bounding_box(), testAcc);
+  EXPECT_EQ(image_ref, ft.get_atlas().get_image<pixel_format::r>());
+  HOU_EXPECT_CLOSE(vertices_ref, ft.get_mesh().getVertices(), testAcc);
+  HOU_EXPECT_CLOSE(rect_ref, ft.get_bounding_box(), testAcc);
 }
 
 
@@ -137,11 +137,11 @@ TEST_F(TestFormattedText, Utf32Constructor)
   std::u32string s = U"A";
   formatted_text ft(s, f);
 
-  image3R imageRef(vec3u(7u, 7u, 1u),
+  image3R image_ref(vec3u(7u, 7u, 1u),
     {0, 0, 107, 201, 0, 0, 0, 0, 0, 200, 167, 47, 0, 0, 0, 55, 166, 64, 150, 0,
       0, 0, 156, 66, 1, 205, 10, 0, 13, 229, 204, 204, 223, 97, 0, 104, 123, 0,
       0, 38, 198, 0, 202, 28, 0, 0, 0, 193, 45});
-  text_mesh::vertex_collection verticesRef{
+  text_mesh::vertex_collection vertices_ref{
     text_vertex(vec2f(0.f, -7.f), vec3f(0.f, 0.f, 0.f)),
     text_vertex(vec2f(7.f, -7.f), vec3f(1.f, 0.f, 0.f)),
     text_vertex(vec2f(0.f, 0.f), vec3f(0.f, 1.f, 0.f)),
@@ -149,11 +149,11 @@ TEST_F(TestFormattedText, Utf32Constructor)
     text_vertex(vec2f(7.f, -7.f), vec3f(1.f, 0.f, 0.f)),
     text_vertex(vec2f(7.f, 0.f), vec3f(1.f, 1.f, 0.f)),
   };
-  rectf rectRef(0.f, -7.f, 7.f, 7.f);
+  rectf rect_ref(0.f, -7.f, 7.f, 7.f);
 
-  EXPECT_EQ(imageRef, ft.get_atlas().get_image<pixel_format::r>());
-  HOU_EXPECT_CLOSE(verticesRef, ft.get_mesh().getVertices(), testAcc);
-  HOU_EXPECT_CLOSE(rectRef, ft.get_bounding_box(), testAcc);
+  EXPECT_EQ(image_ref, ft.get_atlas().get_image<pixel_format::r>());
+  HOU_EXPECT_CLOSE(vertices_ref, ft.get_mesh().getVertices(), testAcc);
+  HOU_EXPECT_CLOSE(rect_ref, ft.get_bounding_box(), testAcc);
 }
 
 
@@ -162,14 +162,14 @@ TEST_F(TestFormattedText, MoveConstructor)
 {
   font f = loadFont(fontPath);
   std::u32string s = U"A";
-  formatted_text ftDummy(s, f);
-  formatted_text ft(std::move(ftDummy));
+  formatted_text ft_dummy(s, f);
+  formatted_text ft(std::move(ft_dummy));
 
-  image3R imageRef(vec3u(7u, 7u, 1u),
+  image3R image_ref(vec3u(7u, 7u, 1u),
     {0, 0, 107, 201, 0, 0, 0, 0, 0, 200, 167, 47, 0, 0, 0, 55, 166, 64, 150, 0,
       0, 0, 156, 66, 1, 205, 10, 0, 13, 229, 204, 204, 223, 97, 0, 104, 123, 0,
       0, 38, 198, 0, 202, 28, 0, 0, 0, 193, 45});
-  text_mesh::vertex_collection verticesRef{
+  text_mesh::vertex_collection vertices_ref{
     text_vertex(vec2f(0.f, -7.f), vec3f(0.f, 0.f, 0.f)),
     text_vertex(vec2f(7.f, -7.f), vec3f(1.f, 0.f, 0.f)),
     text_vertex(vec2f(0.f, 0.f), vec3f(0.f, 1.f, 0.f)),
@@ -177,11 +177,11 @@ TEST_F(TestFormattedText, MoveConstructor)
     text_vertex(vec2f(7.f, -7.f), vec3f(1.f, 0.f, 0.f)),
     text_vertex(vec2f(7.f, 0.f), vec3f(1.f, 1.f, 0.f))
   };
-  rectf rectRef(0.f, -7.f, 7.f, 7.f);
+  rectf rect_ref(0.f, -7.f, 7.f, 7.f);
 
-  EXPECT_EQ(imageRef, ft.get_atlas().get_image<pixel_format::r>());
-  HOU_EXPECT_CLOSE(verticesRef, ft.get_mesh().getVertices(), testAcc);
-  HOU_EXPECT_CLOSE(rectRef, ft.get_bounding_box(), testAcc);
+  EXPECT_EQ(image_ref, ft.get_atlas().get_image<pixel_format::r>());
+  HOU_EXPECT_CLOSE(vertices_ref, ft.get_mesh().getVertices(), testAcc);
+  HOU_EXPECT_CLOSE(rect_ref, ft.get_bounding_box(), testAcc);
 }
 
 
@@ -191,7 +191,7 @@ TEST_F(TestFormattedText, TwoCharacters)
   font f = loadFont(fontPath);
   std::u32string s = U"AB";
   formatted_text ft(s, f);
-  image3R imageRef(vec3u(14u, 7u, 1u),
+  image3R image_ref(vec3u(14u, 7u, 1u),
     {0u, 0u, 107u, 201u, 0u, 0u, 0u, 8u, 248u, 196u, 195u, 197u, 49u, 0u, 0u,
       0u, 200u, 167u, 47u, 0u, 0u, 8u, 224u, 0u, 0u, 85u, 167u, 0u, 0u, 55u,
       166u, 64u, 150u, 0u, 0u, 8u, 224u, 0u, 7u, 125u, 126u, 0u, 0u, 156u, 66u,
@@ -199,7 +199,7 @@ TEST_F(TestFormattedText, TwoCharacters)
       204u, 223u, 97u, 0u, 8u, 224u, 0u, 0u, 39u, 217u, 0u, 104u, 123u, 0u, 0u,
       38u, 198u, 0u, 8u, 224u, 0u, 0u, 45u, 221u, 0u, 202u, 28u, 0u, 0u, 0u,
       193u, 45u, 8u, 248u, 196u, 198u, 204u, 68u, 0u});
-  std::vector<text_vertex> verticesRef{
+  std::vector<text_vertex> vertices_ref{
     text_vertex(vec2f(0.f, -7.f), vec3f(0.f, 0.f, 0.f)),
     text_vertex(vec2f(7.f, -7.f), vec3f(0.5f, 0.f, 0.f)),
     text_vertex(vec2f(0.f, 0.f), vec3f(0.f, 1.f, 0.f)),
@@ -212,11 +212,11 @@ TEST_F(TestFormattedText, TwoCharacters)
     text_vertex(vec2f(6.f, 0.f), vec3f(0.5f, 1.f, 0.f)),
     text_vertex(vec2f(12.f, -7.f), vec3f(0.928571f, 0.f, 0.f)),
     text_vertex(vec2f(12.f, 0.f), vec3f(0.928571f, 1.f, 0.f))};
-  rectf rectRef(0.f, -7.f, 12.f, 7.f);
+  rectf rect_ref(0.f, -7.f, 12.f, 7.f);
 
-  EXPECT_EQ(imageRef, ft.get_atlas().get_image<pixel_format::r>());
-  HOU_EXPECT_CLOSE(verticesRef, ft.get_mesh().getVertices(), testAcc);
-  HOU_EXPECT_CLOSE(rectRef, ft.get_bounding_box(), testAcc);
+  EXPECT_EQ(image_ref, ft.get_atlas().get_image<pixel_format::r>());
+  HOU_EXPECT_CLOSE(vertices_ref, ft.get_mesh().getVertices(), testAcc);
+  HOU_EXPECT_CLOSE(rect_ref, ft.get_bounding_box(), testAcc);
 }
 
 
@@ -226,7 +226,7 @@ TEST_F(TestFormattedText, StringWithSpace)
   font f = loadFont(fontPath);
   std::u32string s = U"I love cakes";
   formatted_text ft(s, f);
-  image3R imageRef(vec3u(60u, 7u, 1u),
+  image3R image_ref(vec3u(60u, 7u, 1u),
     {0u, 0u, 0u, 0u, 0u, 0u, 89u, 237u, 169u, 0u, 0u, 0u, 0u, 152u, 180u, 199u,
       87u, 0u, 0u, 129u, 200u, 208u, 70u, 0u, 0u, 130u, 187u, 193u, 88u, 0u,
       40u, 184u, 0u, 0u, 0u, 0u, 40u, 188u, 0u, 0u, 0u, 0u, 0u, 130u, 193u,
@@ -254,7 +254,7 @@ TEST_F(TestFormattedText, StringWithSpace)
       0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
       0u, 40u, 184u, 0u, 58u, 203u, 10u, 40u, 188u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
       0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u});
-  std::vector<text_vertex> verticesRef{
+  std::vector<text_vertex> vertices_ref{
     text_vertex(vec2f(0.f, -7.f), vec3f(0.1f, 0.f, 0.f)),
     text_vertex(vec2f(3.f, -7.f), vec3f(0.15f, 0.f, 0.f)),
     text_vertex(vec2f(0.f, 0.f), vec3f(0.1f, 1.f, 0.f)),
@@ -327,11 +327,11 @@ TEST_F(TestFormattedText, StringWithSpace)
     text_vertex(vec2f(51.f, 0.f), vec3f(0.8f, 0.714286f, 0.f)),
     text_vertex(vec2f(56.f, -5.f), vec3f(0.883333f, 0.f, 0.f)),
     text_vertex(vec2f(56.f, 0.f), vec3f(0.883333f, 0.714286f, 0.f))};
-  rectf rectRef(0.f, -7.f, 56.f, 7.f);
+  rectf rect_ref(0.f, -7.f, 56.f, 7.f);
 
-  EXPECT_EQ(imageRef, ft.get_atlas().get_image<pixel_format::r>());
-  HOU_EXPECT_CLOSE(verticesRef, ft.get_mesh().getVertices(), testAcc);
-  HOU_EXPECT_CLOSE(rectRef, ft.get_bounding_box(), testAcc);
+  EXPECT_EQ(image_ref, ft.get_atlas().get_image<pixel_format::r>());
+  HOU_EXPECT_CLOSE(vertices_ref, ft.get_mesh().getVertices(), testAcc);
+  HOU_EXPECT_CLOSE(rect_ref, ft.get_bounding_box(), testAcc);
 }
 
 
@@ -342,7 +342,7 @@ TEST_F(TestFormattedText, StringWithNewLine)
   std::u32string s = U"I love\n cheese \ncakes";
 
   formatted_text ft(s, f);
-  image3R imageRef(vec3u(72u, 7u, 1u),
+  image3R image_ref(vec3u(72u, 7u, 1u),
     {16u, 188u, 132u, 132u, 188u, 12u, 0u, 0u, 0u, 0u, 0u, 0u, 89u, 237u, 169u,
       0u, 0u, 0u, 0u, 152u, 180u, 199u, 87u, 0u, 0u, 129u, 200u, 208u, 70u, 0u,
       0u, 130u, 187u, 193u, 88u, 0u, 40u, 188u, 0u, 0u, 0u, 0u, 40u, 184u, 0u,
@@ -376,7 +376,7 @@ TEST_F(TestFormattedText, StringWithNewLine)
       0u, 0u, 0u, 0u, 0u, 0u, 40u, 188u, 0u, 0u, 128u, 96u, 40u, 184u, 0u, 58u,
       203u, 10u, 40u, 188u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
       0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u});
-  std::vector<text_vertex> verticesRef{
+  std::vector<text_vertex> vertices_ref{
     text_vertex(vec2f(0.f, -7.f), vec3f(0.166667f, 0.f, 0.f)),
     text_vertex(vec2f(3.f, -7.f), vec3f(0.208333f, 0.f, 0.f)),
     text_vertex(vec2f(0.f, 0.f), vec3f(0.166667f, 1.f, 0.f)),
@@ -503,9 +503,9 @@ TEST_F(TestFormattedText, StringWithNewLine)
     text_vertex(vec2f(22.f, 28.f), vec3f(0.833333f, 0.714286f, 0.f)),
     text_vertex(vec2f(27.f, 23.f), vec3f(0.902778f, 0.f, 0.f)),
     text_vertex(vec2f(27.f, 28.f), vec3f(0.902778f, 0.714286f, 0.f))};
-  rectf rectRef(0.f, -7.f, 37.f, 35.f);
+  rectf rect_ref(0.f, -7.f, 37.f, 35.f);
 
-  EXPECT_EQ(imageRef, ft.get_atlas().get_image<pixel_format::r>());
-  HOU_EXPECT_CLOSE(verticesRef, ft.get_mesh().getVertices(), testAcc);
-  HOU_EXPECT_CLOSE(rectRef, ft.get_bounding_box(), testAcc);
+  EXPECT_EQ(image_ref, ft.get_atlas().get_image<pixel_format::r>());
+  HOU_EXPECT_CLOSE(vertices_ref, ft.get_mesh().getVertices(), testAcc);
+  HOU_EXPECT_CLOSE(rect_ref, ft.get_bounding_box(), testAcc);
 }

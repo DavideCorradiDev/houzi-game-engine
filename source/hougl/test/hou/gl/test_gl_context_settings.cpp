@@ -82,7 +82,7 @@ TEST(TestGlContextSettings, Comparison)
 
 TEST(TestGlContextSettings, DefaultSettings)
 {
-  gl::context_settings csRef(
+  gl::context_settings cs_ref(
     gl::version::standard, gl::context_profile::core, 3u, 1u, 0u);
-  EXPECT_EQ(csRef, gl::context_settings::standard);
+  EXPECT_EQ(cs_ref, gl::context_settings::standard);
 }

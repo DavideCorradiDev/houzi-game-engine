@@ -16,14 +16,17 @@ using namespace testing;
 namespace
 {
 
-class TestWindowEvent : public Test {};
-class TestWindowEventDeathTest : public TestWindowEvent {};
+class test_window_event : public Test
+{};
 
-}
+class test_window_event_death_test : public test_window_event
+{};
+
+}  // namespace
 
 
 
-TEST_F(TestWindowEvent, empty)
+TEST_F(test_window_event, empty)
 {
   window_event ev = window_event::empty();
   EXPECT_EQ(window_event_type::empty, ev.get_type());
@@ -31,26 +34,26 @@ TEST_F(TestWindowEvent, empty)
 
 
 
-TEST_F(TestWindowEventDeathTest, EmptyWrongData)
+TEST_F(test_window_event_death_test, empty_wrong_data)
 {
   window_event ev = window_event::empty();
-  HOU_EXPECT_ERROR(ev.get_size_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_key_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_text_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_key_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestWindowEvent, closed)
+TEST_F(test_window_event, closed)
 {
   window_event ev = window_event::closed();
   EXPECT_EQ(window_event_type::closed, ev.get_type());
@@ -58,26 +61,26 @@ TEST_F(TestWindowEvent, closed)
 
 
 
-TEST_F(TestWindowEventDeathTest, ClosedWrongData)
+TEST_F(test_window_event_death_test, closed_wrong_data)
 {
   window_event ev = window_event::closed();
-  HOU_EXPECT_ERROR(ev.get_size_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_key_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_text_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_key_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestWindowEvent, focus_gained)
+TEST_F(test_window_event, focus_gained)
 {
   window_event ev = window_event::focus_gained();
   EXPECT_EQ(window_event_type::focus_gained, ev.get_type());
@@ -85,26 +88,26 @@ TEST_F(TestWindowEvent, focus_gained)
 
 
 
-TEST_F(TestWindowEventDeathTest, FocusGainedWrongData)
+TEST_F(test_window_event_death_test, focus_gained_wrong_data)
 {
   window_event ev = window_event::focus_gained();
-  HOU_EXPECT_ERROR(ev.get_size_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_key_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_text_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_key_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestWindowEvent, focus_lost)
+TEST_F(test_window_event, focus_lost)
 {
   window_event ev = window_event::focus_lost();
   EXPECT_EQ(window_event_type::focus_lost, ev.get_type());
@@ -112,26 +115,26 @@ TEST_F(TestWindowEvent, focus_lost)
 
 
 
-TEST_F(TestWindowEventDeathTest, FocusLostWrongData)
+TEST_F(test_window_event_death_test, focus_lost_wrong_data)
 {
   window_event ev = window_event::focus_lost();
-  HOU_EXPECT_ERROR(ev.get_size_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_key_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_text_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_key_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestWindowEvent, resized)
+TEST_F(test_window_event, resized)
 {
   window_event ev = window_event::resized(1u, 3u);
   EXPECT_EQ(window_event_type::resized, ev.get_type());
@@ -141,84 +144,86 @@ TEST_F(TestWindowEvent, resized)
 
 
 
-TEST_F(TestWindowEventDeathTest, ResizedWrongData)
+TEST_F(test_window_event_death_test, resized_wrong_data)
 {
   window_event ev = window_event::resized(1, 3);
-  HOU_EXPECT_ERROR(ev.get_key_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_text_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_key_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestWindowEvent, key_pressed)
+TEST_F(test_window_event, key_pressed)
 {
-  window_event ev = window_event::key_pressed(key_code::A, scan_code::Q
-    , modifier_keys::alt | modifier_keys::shift);
+  window_event ev = window_event::key_pressed(
+    key_code::A, scan_code::Q, modifier_keys::alt | modifier_keys::shift);
   EXPECT_EQ(window_event_type::key_pressed, ev.get_type());
   EXPECT_EQ(key_code::A, ev.get_key_data().key_code);
   EXPECT_EQ(scan_code::Q, ev.get_key_data().scan_code);
-  EXPECT_EQ(modifier_keys::alt | modifier_keys::shift, ev.get_key_data().modifier_keys);
+  EXPECT_EQ(
+    modifier_keys::alt | modifier_keys::shift, ev.get_key_data().modifier_keys);
 }
 
 
 
-TEST_F(TestWindowEventDeathTest, KeyPressedWrongData)
+TEST_F(test_window_event_death_test, key_pressed_wrong_data)
 {
-  window_event ev = window_event::key_pressed(key_code::A, scan_code::Q
-    , modifier_keys::alt | modifier_keys::shift);
-  HOU_EXPECT_ERROR(ev.get_size_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_text_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
+  window_event ev = window_event::key_pressed(
+    key_code::A, scan_code::Q, modifier_keys::alt | modifier_keys::shift);
+  HOU_EXPECT_ERROR(
+    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestWindowEvent, key_released)
+TEST_F(test_window_event, key_released)
 {
-  window_event ev = window_event::key_released(key_code::A, scan_code::Q
-    , modifier_keys::alt | modifier_keys::shift);
+  window_event ev = window_event::key_released(
+    key_code::A, scan_code::Q, modifier_keys::alt | modifier_keys::shift);
   EXPECT_EQ(window_event_type::key_released, ev.get_type());
   EXPECT_EQ(key_code::A, ev.get_key_data().key_code);
   EXPECT_EQ(scan_code::Q, ev.get_key_data().scan_code);
-  EXPECT_EQ(modifier_keys::alt | modifier_keys::shift, ev.get_key_data().modifier_keys);
+  EXPECT_EQ(
+    modifier_keys::alt | modifier_keys::shift, ev.get_key_data().modifier_keys);
 }
 
 
 
-TEST_F(TestWindowEventDeathTest, KeyReleasedWrongData)
+TEST_F(test_window_event_death_test, key_released_wrong_data)
 {
-  window_event ev = window_event::key_released(key_code::A, scan_code::Q
-    , modifier_keys::alt | modifier_keys::shift);
-  HOU_EXPECT_ERROR(ev.get_size_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_text_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
+  window_event ev = window_event::key_released(
+    key_code::A, scan_code::Q, modifier_keys::alt | modifier_keys::shift);
+  HOU_EXPECT_ERROR(
+    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestWindowEvent, TextEntered)
+TEST_F(test_window_event, text_entered)
 {
   window_event ev = window_event::text_entered(1234u);
   EXPECT_EQ(window_event_type::TextEntered, ev.get_type());
@@ -227,24 +232,24 @@ TEST_F(TestWindowEvent, TextEntered)
 
 
 
-TEST_F(TestWindowEventDeathTest, TextEnteredWrongData)
+TEST_F(test_window_event_death_test, text_entered_wrong_data)
 {
   window_event ev = window_event::text_entered(1234u);
-  HOU_EXPECT_ERROR(ev.get_size_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_key_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_key_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestWindowEvent, mouse_moved)
+TEST_F(test_window_event, mouse_moved)
 {
   window_event ev = window_event::mouse_moved(1, 3);
   EXPECT_EQ(window_event_type::mouse_moved, ev.get_type());
@@ -254,24 +259,24 @@ TEST_F(TestWindowEvent, mouse_moved)
 
 
 
-TEST_F(TestWindowEventDeathTest, MouseMovedWrongData)
+TEST_F(test_window_event_death_test, mouse_moved_wrong_data)
 {
   window_event ev = window_event::mouse_moved(1, 3);
-  HOU_EXPECT_ERROR(ev.get_size_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_key_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_text_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_key_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestWindowEvent, mouse_entered)
+TEST_F(test_window_event, mouse_entered)
 {
   window_event ev = window_event::mouse_entered();
   EXPECT_EQ(window_event_type::mouse_entered, ev.get_type());
@@ -279,26 +284,26 @@ TEST_F(TestWindowEvent, mouse_entered)
 
 
 
-TEST_F(TestWindowEventDeathTest, MouseEnteredWrongData)
+TEST_F(test_window_event_death_test, mouse_entered_wrong_data)
 {
   window_event ev = window_event::mouse_entered();
-  HOU_EXPECT_ERROR(ev.get_size_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_key_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_text_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_key_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestWindowEvent, mouse_left)
+TEST_F(test_window_event, mouse_left)
 {
   window_event ev = window_event::mouse_left();
   EXPECT_EQ(window_event_type::mouse_left, ev.get_type());
@@ -306,26 +311,26 @@ TEST_F(TestWindowEvent, mouse_left)
 
 
 
-TEST_F(TestWindowEventDeathTest, MouseLeftWrongData)
+TEST_F(test_window_event_death_test, mouse_left_wrong_data)
 {
   window_event ev = window_event::mouse_left();
-  HOU_EXPECT_ERROR(ev.get_size_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_key_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_text_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_key_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestWindowEvent, mouse_button_pressed)
+TEST_F(test_window_event, mouse_button_pressed)
 {
   window_event ev = window_event::mouse_button_pressed(mouse_button::lb, 1, 3);
   EXPECT_EQ(window_event_type::mouse_button_pressed, ev.get_type());
@@ -336,24 +341,24 @@ TEST_F(TestWindowEvent, mouse_button_pressed)
 
 
 
-TEST_F(TestWindowEventDeathTest, MouseButtonPressedWrongData)
+TEST_F(test_window_event_death_test, mouse_button_pressed_wrong_data)
 {
   window_event ev = window_event::mouse_button_pressed(mouse_button::lb, 1, 3);
-  HOU_EXPECT_ERROR(ev.get_size_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_key_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_text_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_key_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestWindowEvent, mouse_button_released)
+TEST_F(test_window_event, mouse_button_released)
 {
   window_event ev = window_event::mouse_button_released(mouse_button::lb, 1, 3);
   EXPECT_EQ(window_event_type::mouse_button_released, ev.get_type());
@@ -364,26 +369,27 @@ TEST_F(TestWindowEvent, mouse_button_released)
 
 
 
-TEST_F(TestWindowEventDeathTest, MouseButtonReleasedWrongData)
+TEST_F(test_window_event_death_test, mouse_button_released_wrong_data)
 {
   window_event ev = window_event::mouse_button_released(mouse_button::lb, 1, 3);
-  HOU_EXPECT_ERROR(ev.get_size_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_key_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_text_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_key_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestWindowEvent, mouse_wheel_moved)
+TEST_F(test_window_event, mouse_wheel_moved)
 {
-  window_event ev = window_event::mouse_wheel_moved(mouse_wheel::vertical, 5, 1, 3);
+  window_event ev
+    = window_event::mouse_wheel_moved(mouse_wheel::vertical, 5, 1, 3);
   EXPECT_EQ(window_event_type::mouse_wheel_moved, ev.get_type());
   EXPECT_EQ(mouse_wheel::vertical, ev.get_mouse_wheel_data().wheel);
   EXPECT_EQ(5, ev.get_mouse_wheel_data().delta);
@@ -393,23 +399,24 @@ TEST_F(TestWindowEvent, mouse_wheel_moved)
 
 
 
-TEST_F(TestWindowEventDeathTest, MouseWheelMovedWrongData)
+TEST_F(test_window_event_death_test, mouse_wheel_moved_wrong_data)
 {
-  window_event ev = window_event::mouse_wheel_moved(mouse_wheel::vertical, 5, 1, 3);
-  HOU_EXPECT_ERROR(ev.get_size_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_key_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_text_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error
-    , get_text(cor_error::pre_condition));
+  window_event ev
+    = window_event::mouse_wheel_moved(mouse_wheel::vertical, 5, 1, 3);
+  HOU_EXPECT_ERROR(
+    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_key_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error,
+    get_text(cor_error::pre_condition));
 }
 
 
-TEST_F(TestWindowEvent, Comparison)
+TEST_F(test_window_event, comparison)
 {
   window_event em0 = window_event::empty();
   window_event em1 = window_event::empty();
@@ -423,46 +430,46 @@ TEST_F(TestWindowEvent, Comparison)
   window_event rs1 = window_event::resized(1, 2);
   window_event rs2 = window_event::resized(3, 2);
   window_event rs3 = window_event::resized(1, 4);
-  window_event kp0 = window_event::key_pressed(key_code::A, scan_code::A
-    , modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift
-    | modifier_keys::system);
-  window_event kp1 = window_event::key_pressed(key_code::A, scan_code::A
-    , modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift
-    | modifier_keys::system);
-  window_event kp2 = window_event::key_pressed(key_code::B, scan_code::A
-    , modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift
-    | modifier_keys::system);
-  window_event kp3 = window_event::key_pressed(key_code::A, scan_code::B
-    , modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift
-    | modifier_keys::system);
-  window_event kp4 = window_event::key_pressed(key_code::A, scan_code::A
-    , modifier_keys::ctrl | modifier_keys::shift | modifier_keys::system);
-  window_event kp5 = window_event::key_pressed(key_code::A, scan_code::A
-    , modifier_keys::alt | modifier_keys::shift | modifier_keys::system);
-  window_event kp6 = window_event::key_pressed(key_code::A, scan_code::A
-    , modifier_keys::alt | modifier_keys::ctrl | modifier_keys::system);
-  window_event kp7 = window_event::key_pressed(key_code::A, scan_code::A
-    , modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift);
-  window_event kr0 = window_event::key_released(key_code::A, scan_code::A
-    , modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift
-    | modifier_keys::system);
-  window_event kr1 = window_event::key_released(key_code::A, scan_code::A
-    , modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift
-    | modifier_keys::system);
-  window_event kr2 = window_event::key_released(key_code::B, scan_code::A
-    , modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift
-    | modifier_keys::system);
-  window_event kr3 = window_event::key_released(key_code::A, scan_code::B
-    , modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift
-    | modifier_keys::system);
-  window_event kr4 = window_event::key_released(key_code::A, scan_code::A
-    , modifier_keys::ctrl | modifier_keys::shift | modifier_keys::system);
-  window_event kr5 = window_event::key_released(key_code::A, scan_code::A
-    , modifier_keys::alt | modifier_keys::shift | modifier_keys::system);
-  window_event kr6 = window_event::key_released(key_code::A, scan_code::A
-    , modifier_keys::alt | modifier_keys::ctrl | modifier_keys::system);
-  window_event kr7 = window_event::key_released(key_code::A, scan_code::A
-    , modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift);
+  window_event kp0 = window_event::key_pressed(key_code::A, scan_code::A,
+    modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift
+      | modifier_keys::system);
+  window_event kp1 = window_event::key_pressed(key_code::A, scan_code::A,
+    modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift
+      | modifier_keys::system);
+  window_event kp2 = window_event::key_pressed(key_code::B, scan_code::A,
+    modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift
+      | modifier_keys::system);
+  window_event kp3 = window_event::key_pressed(key_code::A, scan_code::B,
+    modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift
+      | modifier_keys::system);
+  window_event kp4 = window_event::key_pressed(key_code::A, scan_code::A,
+    modifier_keys::ctrl | modifier_keys::shift | modifier_keys::system);
+  window_event kp5 = window_event::key_pressed(key_code::A, scan_code::A,
+    modifier_keys::alt | modifier_keys::shift | modifier_keys::system);
+  window_event kp6 = window_event::key_pressed(key_code::A, scan_code::A,
+    modifier_keys::alt | modifier_keys::ctrl | modifier_keys::system);
+  window_event kp7 = window_event::key_pressed(key_code::A, scan_code::A,
+    modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift);
+  window_event kr0 = window_event::key_released(key_code::A, scan_code::A,
+    modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift
+      | modifier_keys::system);
+  window_event kr1 = window_event::key_released(key_code::A, scan_code::A,
+    modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift
+      | modifier_keys::system);
+  window_event kr2 = window_event::key_released(key_code::B, scan_code::A,
+    modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift
+      | modifier_keys::system);
+  window_event kr3 = window_event::key_released(key_code::A, scan_code::B,
+    modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift
+      | modifier_keys::system);
+  window_event kr4 = window_event::key_released(key_code::A, scan_code::A,
+    modifier_keys::ctrl | modifier_keys::shift | modifier_keys::system);
+  window_event kr5 = window_event::key_released(key_code::A, scan_code::A,
+    modifier_keys::alt | modifier_keys::shift | modifier_keys::system);
+  window_event kr6 = window_event::key_released(key_code::A, scan_code::A,
+    modifier_keys::alt | modifier_keys::ctrl | modifier_keys::system);
+  window_event kr7 = window_event::key_released(key_code::A, scan_code::A,
+    modifier_keys::alt | modifier_keys::ctrl | modifier_keys::shift);
   window_event te0 = window_event::text_entered(12);
   window_event te1 = window_event::text_entered(12);
   window_event te2 = window_event::text_entered(24);
@@ -479,18 +486,28 @@ TEST_F(TestWindowEvent, Comparison)
   window_event mp2 = window_event::mouse_button_pressed(mouse_button::rb, 3, 5);
   window_event mp3 = window_event::mouse_button_pressed(mouse_button::lb, 6, 5);
   window_event mp4 = window_event::mouse_button_pressed(mouse_button::lb, 3, 8);
-  window_event mr0 = window_event::mouse_button_released(mouse_button::lb, 3, 5);
-  window_event mr1 = window_event::mouse_button_released(mouse_button::lb, 3, 5);
-  window_event mr2 = window_event::mouse_button_released(mouse_button::rb, 3, 5);
-  window_event mr3 = window_event::mouse_button_released(mouse_button::lb, 6, 5);
-  window_event mr4 = window_event::mouse_button_released(mouse_button::lb, 3, 8);
-  window_event mw0 = window_event::mouse_wheel_moved(mouse_wheel::vertical, 7, 3, 5);
-  window_event mw1 = window_event::mouse_wheel_moved(mouse_wheel::vertical, 7, 3, 5);
-  window_event mw2 = window_event::mouse_wheel_moved(mouse_wheel::vertical, 9, 3, 5);
-  window_event mw3 = window_event::mouse_wheel_moved(mouse_wheel::vertical, 7, 6, 5);
-  window_event mw4 = window_event::mouse_wheel_moved(mouse_wheel::vertical, 7, 3, 8);
-  window_event mw5 = window_event::mouse_wheel_moved(mouse_wheel::horizontal, 7, 3
-    , 5);
+  window_event mr0
+    = window_event::mouse_button_released(mouse_button::lb, 3, 5);
+  window_event mr1
+    = window_event::mouse_button_released(mouse_button::lb, 3, 5);
+  window_event mr2
+    = window_event::mouse_button_released(mouse_button::rb, 3, 5);
+  window_event mr3
+    = window_event::mouse_button_released(mouse_button::lb, 6, 5);
+  window_event mr4
+    = window_event::mouse_button_released(mouse_button::lb, 3, 8);
+  window_event mw0
+    = window_event::mouse_wheel_moved(mouse_wheel::vertical, 7, 3, 5);
+  window_event mw1
+    = window_event::mouse_wheel_moved(mouse_wheel::vertical, 7, 3, 5);
+  window_event mw2
+    = window_event::mouse_wheel_moved(mouse_wheel::vertical, 9, 3, 5);
+  window_event mw3
+    = window_event::mouse_wheel_moved(mouse_wheel::vertical, 7, 6, 5);
+  window_event mw4
+    = window_event::mouse_wheel_moved(mouse_wheel::vertical, 7, 3, 8);
+  window_event mw5
+    = window_event::mouse_wheel_moved(mouse_wheel::horizontal, 7, 3, 5);
 
   EXPECT_TRUE(em0 == em1);
   EXPECT_FALSE(em0 == cl1);
@@ -1671,134 +1688,139 @@ TEST_F(TestWindowEvent, Comparison)
 
 
 
-TEST_F(TestWindowEvent, EmptyOutputStreamOperator)
+TEST_F(test_window_event, empty_output_stream_operator)
 {
   window_event ev = window_event::empty();
-  const char* osRef = "{Type = empty, Data = {}}";
-  HOU_EXPECT_OUTPUT(osRef, ev);
+  const char* os_ref = "{type = empty, data = {}}";
+  HOU_EXPECT_OUTPUT(os_ref, ev);
 }
 
 
 
-TEST_F(TestWindowEvent, ClosedOutputStreamOperator)
+TEST_F(test_window_event, closed_output_stream_operator)
 {
   window_event ev = window_event::closed();
-  const char* osRef = "{Type = closed, Data = {}}";
-  HOU_EXPECT_OUTPUT(osRef, ev);
+  const char* os_ref = "{type = closed, data = {}}";
+  HOU_EXPECT_OUTPUT(os_ref, ev);
 }
 
 
 
-TEST_F(TestWindowEvent, FocusGainedOutputStreamOperator)
+TEST_F(test_window_event, focus_gained_output_stream_operator)
 {
   window_event ev = window_event::focus_gained();
-  const char* osRef = "{Type = focus_gained, Data = {}}";
-  HOU_EXPECT_OUTPUT(osRef, ev);
+  const char* os_ref = "{type = focus_gained, data = {}}";
+  HOU_EXPECT_OUTPUT(os_ref, ev);
 }
 
 
 
-TEST_F(TestWindowEvent, FocusLostOutputStreamOperator)
+TEST_F(test_window_event, focus_lost_output_stream_operator)
 {
   window_event ev = window_event::focus_lost();
-  const char* osRef = "{Type = focus_lost, Data = {}}";
-  HOU_EXPECT_OUTPUT(osRef, ev);
+  const char* os_ref = "{type = focus_lost, data = {}}";
+  HOU_EXPECT_OUTPUT(os_ref, ev);
 }
 
 
 
-TEST_F(TestWindowEvent, ResizedOutputStreamOperator)
+TEST_F(test_window_event, resized_output_stream_operator)
 {
   window_event ev = window_event::resized(1u, 3u);
-  const char* osRef = "{Type = resized, Data = {size_type = (1, 3)}}";
-  HOU_EXPECT_OUTPUT(osRef, ev);
+  const char* os_ref = "{type = resized, data = {size_type = (1, 3)}}";
+  HOU_EXPECT_OUTPUT(os_ref, ev);
 }
 
 
 
-TEST_F(TestWindowEvent, KeyPressedOutputStreamOperator)
+TEST_F(test_window_event, key_pressed_output_stream_operator)
 {
-  window_event ev = window_event::key_pressed(key_code::A, scan_code::Q
-    , modifier_keys::alt | modifier_keys::shift);
-  const char* osRef = "{Type = key_pressed, Data = {key_code = A, scan_code = Q, "
-    "modifier_keys = alt | 0 | shift | 0}}";
-  HOU_EXPECT_OUTPUT(osRef, ev);
+  window_event ev = window_event::key_pressed(
+    key_code::A, scan_code::Q, modifier_keys::alt | modifier_keys::shift);
+  const char* os_ref
+    = "{type = key_pressed, data = {key_code = A, scan_code = Q, "
+      "modifier_keys = alt | 0 | shift | 0}}";
+  HOU_EXPECT_OUTPUT(os_ref, ev);
 }
 
 
 
-TEST_F(TestWindowEvent, KeyReleasedOutputStreamOperator)
+TEST_F(test_window_event, key_released_output_stream_operator)
 {
-  window_event ev = window_event::key_released(key_code::A, scan_code::Q
-    , modifier_keys::alt | modifier_keys::ctrl | modifier_keys::system);
-  const char* osRef = "{Type = key_released, Data = {key_code = A, scan_code = Q, "
-    "modifier_keys = alt | ctrl | 0 | system}}";
-  HOU_EXPECT_OUTPUT(osRef, ev);
+  window_event ev = window_event::key_released(key_code::A, scan_code::Q,
+    modifier_keys::alt | modifier_keys::ctrl | modifier_keys::system);
+  const char* os_ref
+    = "{type = key_released, data = {key_code = A, scan_code = Q, "
+      "modifier_keys = alt | ctrl | 0 | system}}";
+  HOU_EXPECT_OUTPUT(os_ref, ev);
 }
 
 
 
-TEST_F(TestWindowEvent, TextEnteredOutputStreamOperator)
+TEST_F(test_window_event, text_entered_output_stream_operator)
 {
   window_event ev = window_event::text_entered(0x13fa);
-  const char* osRef = "{Type = TextEntered, Data = {code_point = 0x000013fa}}";
-  HOU_EXPECT_OUTPUT(osRef, ev);
+  const char* os_ref = "{type = TextEntered, data = {code_point = 0x000013fa}}";
+  HOU_EXPECT_OUTPUT(os_ref, ev);
 }
 
 
 
-TEST_F(TestWindowEvent, MouseMovedOutputStreamOperator)
+TEST_F(test_window_event, mouse_moved_output_stream_operator)
 {
   window_event ev = window_event::mouse_moved(1, 3);
-  const char* osRef = "{Type = mouse_moved, Data = {Position = (1, 3)}}";
-  HOU_EXPECT_OUTPUT(osRef, ev);
+  const char* os_ref = "{type = mouse_moved, data = {position = (1, 3)}}";
+  HOU_EXPECT_OUTPUT(os_ref, ev);
 }
 
 
 
-TEST_F(TestWindowEvent, MouseEnteredOutputStreamOperator)
+TEST_F(test_window_event, mouse_entered_output_stream_operator)
 {
   window_event ev = window_event::mouse_entered();
-  const char* osRef = "{Type = mouse_entered, Data = {}}";
-  HOU_EXPECT_OUTPUT(osRef, ev);
+  const char* os_ref = "{type = mouse_entered, data = {}}";
+  HOU_EXPECT_OUTPUT(os_ref, ev);
 }
 
 
 
-TEST_F(TestWindowEvent, MouseLeftOutputStreamOperator)
+TEST_F(test_window_event, mouse_left_output_stream_operator)
 {
   window_event ev = window_event::mouse_left();
-  const char* osRef = "{Type = mouse_left, Data = {}}";
-  HOU_EXPECT_OUTPUT(osRef, ev);
+  const char* os_ref = "{type = mouse_left, data = {}}";
+  HOU_EXPECT_OUTPUT(os_ref, ev);
 }
 
 
 
-TEST_F(TestWindowEvent, MouseButtonPressedOutputStreamOperator)
+TEST_F(test_window_event, mouse_button_pressed_output_stream_operator)
 {
   window_event ev = window_event::mouse_button_pressed(mouse_button::lb, 1, 3);
-  const char* osRef = "{Type = mouse_button_pressed, Data = {Button = lb, "
-    "Position = (1, 3)}}";
-  HOU_EXPECT_OUTPUT(osRef, ev);
+  const char* os_ref
+    = "{type = mouse_button_pressed, data = {button = lb, "
+      "position = (1, 3)}}";
+  HOU_EXPECT_OUTPUT(os_ref, ev);
 }
 
 
 
-TEST_F(TestWindowEvent, MouseButtonReleasedOutputStreamOperator)
+TEST_F(test_window_event, mouse_button_released_output_stream_operator)
 {
   window_event ev = window_event::mouse_button_released(mouse_button::lb, 1, 3);
-  const char* osRef = "{Type = mouse_button_released, Data = {Button = lb, "
-    "Position = (1, 3)}}";
-  HOU_EXPECT_OUTPUT(osRef, ev);
+  const char* os_ref
+    = "{type = mouse_button_released, data = {button = lb, "
+      "position = (1, 3)}}";
+  HOU_EXPECT_OUTPUT(os_ref, ev);
 }
 
 
 
-TEST_F(TestWindowEvent, MouseWheelMovedOutputStreamOperator)
+TEST_F(test_window_event, mouse_wheel_moved_output_stream_operator)
 {
-  window_event ev = window_event::mouse_wheel_moved(mouse_wheel::vertical, 5, 1, 3);
-  const char* osRef = "{Type = mouse_wheel_moved, Data = {Wheel = vertical, "
-    "Delta = 5, Position = (1, 3)}}";
-  HOU_EXPECT_OUTPUT(osRef, ev);
+  window_event ev
+    = window_event::mouse_wheel_moved(mouse_wheel::vertical, 5, 1, 3);
+  const char* os_ref
+    = "{type = mouse_wheel_moved, data = {wheel = vertical, "
+      "delta = 5, position = (1, 3)}}";
+  HOU_EXPECT_OUTPUT(os_ref, ev);
 }
-

@@ -66,8 +66,8 @@ TEST_F(TestListener, Orientation)
 {
   HOU_EXPECT_FLOAT_CLOSE(rot3f::identity(), listener::get_orientation());
 
-  rot3f orRef
+  rot3f or_ref
     = rot3f::x(pi_f / 3.f) * rot3f::z(pi_f / 4.f) * rot3f::y(pi_f / 2.f);
-  listener::set_orientation(orRef);
-  HOU_EXPECT_FLOAT_CLOSE(orRef, listener::get_orientation());
+  listener::set_orientation(or_ref);
+  HOU_EXPECT_FLOAT_CLOSE(or_ref, listener::get_orientation());
 }

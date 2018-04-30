@@ -34,9 +34,9 @@ TEST_F(TestGraphicContext, Creation)
 
 TEST_F(TestGraphicContext, MoveConstructor)
 {
-  graphic_context rcDummy;
-  graphic_context::set_current(rcDummy);
-  graphic_context rc = std::move(rcDummy);
+  graphic_context rc_dummy;
+  graphic_context::set_current(rc_dummy);
+  graphic_context rc = std::move(rc_dummy);
   EXPECT_TRUE(rc.is_current());
 }
 

@@ -34,9 +34,9 @@ TEST_F(test_error, format_error_message)
   std::string msg = format_error_message(
     file_path, 42, u8"This is a \u5436%s error with code %d \u3245",
     u8"BIG\u1234", 33);
-  std::string msgRef
+  std::string msg_ref
     = u8"myfile.txt:42 - This is a \u5436BIG\u1234 error with code 33 \u3245";
-  EXPECT_EQ(msgRef, msg);
+  EXPECT_EQ(msg_ref, msg);
 }
 
 

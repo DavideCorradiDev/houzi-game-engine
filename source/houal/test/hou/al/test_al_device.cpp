@@ -44,13 +44,13 @@ TEST(TestAlDeviceDeathTest, CreationFailure)
 
 TEST(TestAlDevice, MoveConstructor)
 {
-  al::device dDummy;
-  ALCdevice* handleRef = dDummy.get_handle();
-  uint32_t uidRef = dDummy.get_uid();
-  al::device d(std::move(dDummy));
+  al::device d_dummy;
+  ALCdevice* handle_ref = d_dummy.get_handle();
+  uint32_t uid_ref = d_dummy.get_uid();
+  al::device d(std::move(d_dummy));
 
-  EXPECT_EQ(handleRef, d.get_handle());
-  EXPECT_EQ(uidRef, d.get_uid());
-  EXPECT_EQ(nullptr, dDummy.get_handle());
+  EXPECT_EQ(handle_ref, d.get_handle());
+  EXPECT_EQ(uid_ref, d.get_uid());
+  EXPECT_EQ(nullptr, d_dummy.get_handle());
 }
 

@@ -59,7 +59,7 @@ TEST_F(TestVertexAttribFormat, Comparison)
 TEST_F(TestVertexAttribFormat, OutputStreamOperator)
 {
   vertex_attrib_format vaf(gl_type::float_decimal, 3u, 12u, false);
-  const char* outRef = "{Type = float_decimal, ElementCount = 3, byte_offset = 12, "
+  const char* out_ref = "{Type = float_decimal, ElementCount = 3, byte_offset = 12, "
                        "MustBeNormalized = false}";
-  HOU_EXPECT_OUTPUT(outRef, vaf);
+  HOU_EXPECT_OUTPUT(out_ref, vaf);
 }

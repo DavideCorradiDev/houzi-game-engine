@@ -32,9 +32,9 @@ TEST(TestAudioContext, DeviceNameCreation)
 
 TEST(TestAudioContext, MoveConstructor)
 {
-  audio_context ctxDummy;
-  audio_context::set_current(ctxDummy);
-  audio_context ctx = std::move(ctxDummy);
+  audio_context ctx_dummy;
+  audio_context::set_current(ctx_dummy);
+  audio_context ctx = std::move(ctx_dummy);
   EXPECT_TRUE(ctx.is_current());
 }
 

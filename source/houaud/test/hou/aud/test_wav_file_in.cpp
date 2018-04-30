@@ -36,19 +36,19 @@ class TestWavFileInDeathTest : public TestWavFileIn
 
 
 const std::string TestWavFileIn::mono16UnicodeFileName
-  = getDataDir() + u8"TestWav\U00004f60\U0000597d.wav";
+  = get_data_dir() + u8"TestWav\U00004f60\U0000597d.wav";
 const std::string TestWavFileIn::mono8FileName
-  = getDataDir() + u8"TestWav-Mono-8-44100.wav";
+  = get_data_dir() + u8"TestWav-Mono-8-44100.wav";
 const std::string TestWavFileIn::mono16FileName
-  = getDataDir() + u8"TestWav-Mono-16-44100.wav";
+  = get_data_dir() + u8"TestWav-Mono-16-44100.wav";
 const std::string TestWavFileIn::stereo8FileName
-  = getDataDir() + u8"TestWav-Stereo-8-44100.wav";
+  = get_data_dir() + u8"TestWav-Stereo-8-44100.wav";
 const std::string TestWavFileIn::stereo16FileName
-  = getDataDir() + u8"TestWav-Stereo-16-44100.wav";
+  = get_data_dir() + u8"TestWav-Stereo-16-44100.wav";
 const std::string TestWavFileIn::lowSampleRateFileName
-  = getDataDir() + u8"TestWav-Mono-16-22050.wav";
+  = get_data_dir() + u8"TestWav-Mono-16-22050.wav";
 const std::string TestWavFileIn::oggFileName
-  = getDataDir() + u8"TestOgg\U00004f60\U0000597d.ogg";
+  = get_data_dir() + u8"TestOgg\U00004f60\U0000597d.ogg";
 
 }  // namespace
 
@@ -70,9 +70,9 @@ TEST_F(TestWavFileIn, CheckFailureInvalidFormat)
 
 TEST_F(TestWavFileInDeathTest, CheckFailureInvalidFile)
 {
-  std::string invalidFileName = u8"Invalidfile";
-  HOU_EXPECT_ERROR(wav_file_in::check(invalidFileName), std::runtime_error,
-    format_string(get_text(sys_error::file_open), invalidFileName.c_str()));
+  std::string invalid_filename = u8"Invalidfile";
+  HOU_EXPECT_ERROR(wav_file_in::check(invalid_filename), std::runtime_error,
+    format_string(get_text(sys_error::file_open), invalid_filename.c_str()));
 }
 
 
@@ -98,9 +98,9 @@ TEST_F(TestWavFileIn, PathConstructor)
 
 TEST_F(TestWavFileInDeathTest, PathConstructorFailureFileNotExisting)
 {
-  std::string invalidFileName = u8"InvalidFileName";
-  HOU_EXPECT_ERROR(wav_file_in fi(invalidFileName), std::runtime_error,
-    format_string(get_text(sys_error::file_open), invalidFileName.c_str()));
+  std::string invalid_filename = u8"InvalidFileName";
+  HOU_EXPECT_ERROR(wav_file_in fi(invalid_filename), std::runtime_error,
+    format_string(get_text(sys_error::file_open), invalid_filename.c_str()));
 }
 
 
@@ -125,7 +125,7 @@ TEST_F(TestWavFileInDeathTest, PathConstructorFailureInvalidWavFile)
     uint32_t sc2Size;
   };
 
-  std::string dummyWavFileName = getOutputDir() + u8"dummyWavFile.wav";
+  std::string dummyWavFileName = get_output_dir() + u8"dummyWavFile.wav";
 
   {
     file dummyWavFile(dummyWavFileName, file_open_mode::write, file_type::binary);
@@ -148,7 +148,7 @@ TEST_F(TestWavFileInDeathTest, PathConstructorFailureInvalidWavFile)
 
 TEST_F(TestWavFileInDeathTest, PathConstructorFailureNoWavHeader)
 {
-  std::string dummyWavFileName = getOutputDir() + u8"dummyWavFile.wav";
+  std::string dummyWavFileName = get_output_dir() + u8"dummyWavFile.wav";
 
   {
     file dummyWavFile(dummyWavFileName, file_open_mode::write, file_type::binary);
@@ -165,8 +165,8 @@ TEST_F(TestWavFileInDeathTest, PathConstructorFailureNoWavHeader)
 
 TEST_F(TestWavFileIn, MoveConstructor)
 {
-  wav_file_in fiDummy(mono16UnicodeFileName);
-  wav_file_in fi(std::move(fiDummy));
+  wav_file_in fi_dummy(mono16UnicodeFileName);
+  wav_file_in fi(std::move(fi_dummy));
   EXPECT_FALSE(fi.eof());
   EXPECT_FALSE(fi.error());
   EXPECT_EQ(42206u, fi.get_byte_count());
@@ -508,23 +508,23 @@ TEST_F(TestWavFileInDeathTest, MoveSamplePosErrorInvalidPosition)
 
 TEST_F(TestWavFileIn, ReadToVariable)
 {
-  using BufferType = uint16_t;
-  static constexpr size_t bufferSize = 1u;
-  static constexpr size_t bufferByteSize = sizeof(BufferType) * bufferSize;
+  using buffer_type = uint16_t;
+  static constexpr size_t buffer_size = 1u;
+  static constexpr size_t buffer_byte_size = sizeof(buffer_type) * buffer_size;
 
   wav_file_in fi(mono16UnicodeFileName);
-  BufferType buffer;
+  buffer_type buffer;
 
   fi.read(buffer);
-  EXPECT_EQ(bufferByteSize, fi.get_read_byte_count());
-  EXPECT_EQ(bufferSize, fi.get_read_element_count());
-  EXPECT_EQ(bufferSize, fi.get_read_sample_count());
+  EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
+  EXPECT_EQ(buffer_size, fi.get_read_element_count());
+  EXPECT_EQ(buffer_size, fi.get_read_sample_count());
   EXPECT_EQ(12480u, buffer);
 
   fi.read(buffer);
-  EXPECT_EQ(bufferByteSize, fi.get_read_byte_count());
-  EXPECT_EQ(bufferSize, fi.get_read_element_count());
-  EXPECT_EQ(bufferSize, fi.get_read_sample_count());
+  EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
+  EXPECT_EQ(buffer_size, fi.get_read_element_count());
+  EXPECT_EQ(buffer_size, fi.get_read_sample_count());
   EXPECT_EQ(12460, buffer);
 }
 
@@ -532,51 +532,51 @@ TEST_F(TestWavFileIn, ReadToVariable)
 
 TEST_F(TestWavFileIn, ReadToBasicArray)
 {
-  using BufferType = uint16_t;
-  static constexpr size_t bufferSize = 3u;
-  static constexpr size_t bufferByteSize = sizeof(BufferType) * bufferSize;
+  using buffer_type = uint16_t;
+  static constexpr size_t buffer_size = 3u;
+  static constexpr size_t buffer_byte_size = sizeof(buffer_type) * buffer_size;
 
   wav_file_in fi(mono16UnicodeFileName);
-  BufferType buffer[bufferSize];
+  buffer_type buffer[buffer_size];
 
-  fi.read(buffer, bufferSize);
-  BufferType bufferRef1[bufferSize] = {12480u, 12460u, 12440u};
-  EXPECT_EQ(bufferByteSize, fi.get_read_byte_count());
-  EXPECT_EQ(bufferSize, fi.get_read_element_count());
-  EXPECT_EQ(bufferSize, fi.get_read_sample_count());
-  HOU_EXPECT_ARRAY_EQ(bufferRef1, buffer, bufferSize);
+  fi.read(buffer, buffer_size);
+  buffer_type bufferRef1[buffer_size] = {12480u, 12460u, 12440u};
+  EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
+  EXPECT_EQ(buffer_size, fi.get_read_element_count());
+  EXPECT_EQ(buffer_size, fi.get_read_sample_count());
+  HOU_EXPECT_ARRAY_EQ(bufferRef1, buffer, buffer_size);
 
-  fi.read(buffer, bufferSize);
-  BufferType bufferRef2[bufferSize] = {12420u, 12400u, 12380u};
-  EXPECT_EQ(bufferByteSize, fi.get_read_byte_count());
-  EXPECT_EQ(bufferSize, fi.get_read_element_count());
-  EXPECT_EQ(bufferSize, fi.get_read_sample_count());
-  HOU_EXPECT_ARRAY_EQ(bufferRef2, buffer, bufferSize);
+  fi.read(buffer, buffer_size);
+  buffer_type bufferRef2[buffer_size] = {12420u, 12400u, 12380u};
+  EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
+  EXPECT_EQ(buffer_size, fi.get_read_element_count());
+  EXPECT_EQ(buffer_size, fi.get_read_sample_count());
+  HOU_EXPECT_ARRAY_EQ(bufferRef2, buffer, buffer_size);
 }
 
 
 
 TEST_F(TestWavFileIn, ReadToArray)
 {
-  using BufferType = uint16_t;
-  static constexpr size_t bufferSize = 3u;
-  static constexpr size_t bufferByteSize = sizeof(BufferType) * bufferSize;
+  using buffer_type = uint16_t;
+  static constexpr size_t buffer_size = 3u;
+  static constexpr size_t buffer_byte_size = sizeof(buffer_type) * buffer_size;
 
   wav_file_in fi(mono16UnicodeFileName);
-  std::array<BufferType, bufferSize> buffer = {0, 0, 0};
+  std::array<buffer_type, buffer_size> buffer = {0, 0, 0};
 
   fi.read(buffer);
-  std::array<BufferType, bufferSize> bufferRef1 = {12480u, 12460u, 12440u};
-  EXPECT_EQ(bufferByteSize, fi.get_read_byte_count());
-  EXPECT_EQ(bufferSize, fi.get_read_element_count());
-  EXPECT_EQ(bufferSize, fi.get_read_sample_count());
+  std::array<buffer_type, buffer_size> bufferRef1 = {12480u, 12460u, 12440u};
+  EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
+  EXPECT_EQ(buffer_size, fi.get_read_element_count());
+  EXPECT_EQ(buffer_size, fi.get_read_sample_count());
   EXPECT_EQ(bufferRef1, buffer);
 
   fi.read(buffer);
-  std::array<BufferType, bufferSize> bufferRef2 = {12420u, 12400u, 12380u};
-  EXPECT_EQ(bufferByteSize, fi.get_read_byte_count());
-  EXPECT_EQ(bufferSize, fi.get_read_element_count());
-  EXPECT_EQ(bufferSize, fi.get_read_sample_count());
+  std::array<buffer_type, buffer_size> bufferRef2 = {12420u, 12400u, 12380u};
+  EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
+  EXPECT_EQ(buffer_size, fi.get_read_element_count());
+  EXPECT_EQ(buffer_size, fi.get_read_sample_count());
   EXPECT_EQ(bufferRef2, buffer);
 }
 
@@ -584,25 +584,25 @@ TEST_F(TestWavFileIn, ReadToArray)
 
 TEST_F(TestWavFileIn, ReadToVector)
 {
-  using BufferType = uint16_t;
-  static constexpr size_t bufferSize = 3u;
-  static constexpr size_t bufferByteSize = sizeof(BufferType) * bufferSize;
+  using buffer_type = uint16_t;
+  static constexpr size_t buffer_size = 3u;
+  static constexpr size_t buffer_byte_size = sizeof(buffer_type) * buffer_size;
 
   wav_file_in fi(mono16UnicodeFileName);
-  std::vector<BufferType> buffer(bufferSize, 0u);
+  std::vector<buffer_type> buffer(buffer_size, 0u);
 
   fi.read(buffer);
-  std::vector<BufferType> bufferRef1 = {12480u, 12460u, 12440u};
-  EXPECT_EQ(bufferByteSize, fi.get_read_byte_count());
-  EXPECT_EQ(bufferSize, fi.get_read_element_count());
-  EXPECT_EQ(bufferSize, fi.get_read_sample_count());
+  std::vector<buffer_type> bufferRef1 = {12480u, 12460u, 12440u};
+  EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
+  EXPECT_EQ(buffer_size, fi.get_read_element_count());
+  EXPECT_EQ(buffer_size, fi.get_read_sample_count());
   EXPECT_EQ(bufferRef1, buffer);
 
   fi.read(buffer);
-  std::vector<BufferType> bufferRef2 = {12420u, 12400u, 12380u};
-  EXPECT_EQ(bufferByteSize, fi.get_read_byte_count());
-  EXPECT_EQ(bufferSize, fi.get_read_element_count());
-  EXPECT_EQ(bufferSize, fi.get_read_sample_count());
+  std::vector<buffer_type> bufferRef2 = {12420u, 12400u, 12380u};
+  EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
+  EXPECT_EQ(buffer_size, fi.get_read_element_count());
+  EXPECT_EQ(buffer_size, fi.get_read_sample_count());
   EXPECT_EQ(bufferRef2, buffer);
 }
 
@@ -610,25 +610,25 @@ TEST_F(TestWavFileIn, ReadToVector)
 
 TEST_F(TestWavFileIn, ReadToString)
 {
-  using BufferType = std::string::value_type;
-  static constexpr size_t bufferSize = 4u;
-  static constexpr size_t bufferByteSize = sizeof(BufferType) * bufferSize;
+  using buffer_type = std::string::value_type;
+  static constexpr size_t buffer_size = 4u;
+  static constexpr size_t buffer_byte_size = sizeof(buffer_type) * buffer_size;
 
   wav_file_in fi(mono16UnicodeFileName);
-  std::string buffer(bufferSize, 0);
+  std::string buffer(buffer_size, 0);
 
   fi.read(buffer);
   std::string bufferRef1 = {-64, 48, -84, 48};
-  EXPECT_EQ(bufferByteSize, fi.get_read_byte_count());
-  EXPECT_EQ(bufferSize, fi.get_read_element_count());
-  EXPECT_EQ(bufferSize / 2, fi.get_read_sample_count());
+  EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
+  EXPECT_EQ(buffer_size, fi.get_read_element_count());
+  EXPECT_EQ(buffer_size / 2, fi.get_read_sample_count());
   EXPECT_EQ(bufferRef1, buffer);
 
   fi.read(buffer);
   std::string bufferRef2 = {-104, 48, -124, 48};
-  EXPECT_EQ(bufferByteSize, fi.get_read_byte_count());
-  EXPECT_EQ(bufferSize, fi.get_read_element_count());
-  EXPECT_EQ(bufferSize / 2, fi.get_read_sample_count());
+  EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
+  EXPECT_EQ(buffer_size, fi.get_read_element_count());
+  EXPECT_EQ(buffer_size / 2, fi.get_read_sample_count());
   EXPECT_EQ(bufferRef2, buffer);
 }
 
@@ -636,9 +636,9 @@ TEST_F(TestWavFileIn, ReadToString)
 
 TEST_F(TestWavFileInDeathTest, ReadToInvalidSizeBuffer)
 {
-  using BufferType = uint8_t;
-  static constexpr size_t bufferSize = 3u;
-  std::vector<BufferType> buffer(bufferSize, 0u);
+  using buffer_type = uint8_t;
+  static constexpr size_t buffer_size = 3u;
+  std::vector<buffer_type> buffer(buffer_size, 0u);
 
   wav_file_in fi(mono16FileName);
   EXPECT_EQ(audio_buffer_format::mono16, fi.get_format());
@@ -652,14 +652,14 @@ TEST_F(TestWavFileInDeathTest, ReadToInvalidSizeBuffer)
 TEST_F(TestWavFileIn, ReadAllToVector)
 {
   wav_file_in fi(mono8FileName);
-  std::vector<uint8_t> fileContent(fi.get_byte_count());
-  fi.read(fileContent);
+  std::vector<uint8_t> file_content(fi.get_byte_count());
+  fi.read(file_content);
   fi.set_byte_pos(0u);
 
-  auto fiContent = fi.read_all<std::vector<uint8_t>>();
-  EXPECT_EQ(fileContent, fiContent);
-  EXPECT_EQ(fileContent.size(), fi.get_read_byte_count());
-  EXPECT_EQ(fileContent.size(), static_cast<size_t>(fi.get_byte_pos()));
+  auto fi_content = fi.read_all<std::vector<uint8_t>>();
+  EXPECT_EQ(file_content, fi_content);
+  EXPECT_EQ(file_content.size(), fi.get_read_byte_count());
+  EXPECT_EQ(file_content.size(), static_cast<size_t>(fi.get_byte_pos()));
 }
 
 
@@ -667,14 +667,14 @@ TEST_F(TestWavFileIn, ReadAllToVector)
 TEST_F(TestWavFileIn, ReadAllToVectorNotFromStart)
 {
   wav_file_in fi(mono8FileName);
-  std::vector<uint8_t> fileContent(fi.get_byte_count());
-  fi.read(fileContent);
+  std::vector<uint8_t> file_content(fi.get_byte_count());
+  fi.read(file_content);
   fi.set_byte_pos(2u);
 
-  auto fiContent = fi.read_all<std::vector<uint8_t>>();
-  EXPECT_EQ(fileContent, fiContent);
-  EXPECT_EQ(fileContent.size(), fi.get_read_byte_count());
-  EXPECT_EQ(fileContent.size(), static_cast<size_t>(fi.get_byte_pos()));
+  auto fi_content = fi.read_all<std::vector<uint8_t>>();
+  EXPECT_EQ(file_content, fi_content);
+  EXPECT_EQ(file_content.size(), fi.get_read_byte_count());
+  EXPECT_EQ(file_content.size(), static_cast<size_t>(fi.get_byte_pos()));
 }
 
 

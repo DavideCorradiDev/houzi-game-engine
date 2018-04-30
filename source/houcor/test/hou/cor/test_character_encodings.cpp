@@ -634,54 +634,54 @@ TEST_F(test_character_encodings_death_test, wide_count_failure)
 
 TEST_F(test_character_encodings, utf32_utf16_conversion)
 {
-  utf32::code_unit utf32Ref[]
+  utf32::code_unit utf32_ref[]
     = {U'\U00000061', U'\U00011AC0', U'\U00000101', U'\U00000904'};
   utf32::code_unit utf32Str[4] = {0};
-  utf16::code_unit utf16Ref[]
+  utf16::code_unit utf16_ref[]
     = {u'\x0061', u'\xD806', u'\xDEC0', u'\x0101', u'\x0904'};
   utf16::code_unit utf16Str[5] = {0};
 
-  convert_encoding<utf32, utf16>(utf32Ref, utf32Ref + 4, utf16Str);
-  convert_encoding<utf16, utf32>(utf16Ref, utf16Ref + 5, utf32Str);
+  convert_encoding<utf32, utf16>(utf32_ref, utf32_ref + 4, utf16Str);
+  convert_encoding<utf16, utf32>(utf16_ref, utf16_ref + 5, utf32Str);
 
-  HOU_EXPECT_ARRAY_EQ(utf32Ref, utf32Str, 4);
-  HOU_EXPECT_ARRAY_EQ(utf16Ref, utf16Str, 5);
+  HOU_EXPECT_ARRAY_EQ(utf32_ref, utf32Str, 4);
+  HOU_EXPECT_ARRAY_EQ(utf16_ref, utf16Str, 5);
 }
 
 
 
 TEST_F(test_character_encodings, utf32_utf8_conversion)
 {
-  utf32::code_unit utf32Ref[]
+  utf32::code_unit utf32_ref[]
     = {U'\U00000061', U'\U00011AC0', U'\U00000101', U'\U00000904'};
   utf32::code_unit utf32Str[4] = {0};
-  utf8::code_unit utf8Ref[] = {'\x61', '\xF0', '\x91', '\xAB', '\x80',
+  utf8::code_unit utf8_ref[] = {'\x61', '\xF0', '\x91', '\xAB', '\x80',
                                '\xC4', '\x81', '\xE0', '\xA4', '\x84'};
   utf8::code_unit utf8Str[10] = {0};
 
-  convert_encoding<utf32, utf8>(utf32Ref, utf32Ref + 4, utf8Str);
-  convert_encoding<utf8, utf32>(utf8Ref, utf8Ref + 10, utf32Str);
+  convert_encoding<utf32, utf8>(utf32_ref, utf32_ref + 4, utf8Str);
+  convert_encoding<utf8, utf32>(utf8_ref, utf8_ref + 10, utf32Str);
 
-  HOU_EXPECT_ARRAY_EQ(utf32Ref, utf32Str, 4);
-  HOU_EXPECT_ARRAY_EQ(utf8Ref, utf8Str, 10);
+  HOU_EXPECT_ARRAY_EQ(utf32_ref, utf32Str, 4);
+  HOU_EXPECT_ARRAY_EQ(utf8_ref, utf8Str, 10);
 }
 
 
 
 TEST_F(test_character_encodings, utf16_utf8_conversion)
 {
-  utf16::code_unit utf16Ref[]
+  utf16::code_unit utf16_ref[]
     = {u'\x0061', u'\xD806', u'\xDEC0', u'\x0101', u'\x0904'};
   utf16::code_unit utf16Str[5] = {0};
-  utf8::code_unit utf8Ref[] = {'\x61', '\xF0', '\x91', '\xAB', '\x80',
+  utf8::code_unit utf8_ref[] = {'\x61', '\xF0', '\x91', '\xAB', '\x80',
                                '\xC4', '\x81', '\xE0', '\xA4', '\x84'};
   utf8::code_unit utf8Str[10] = {0};
 
-  convert_encoding<utf16, utf8>(utf16Ref, utf16Ref + 5, utf8Str);
-  convert_encoding<utf8, utf16>(utf8Ref, utf8Ref + 10, utf16Str);
+  convert_encoding<utf16, utf8>(utf16_ref, utf16_ref + 5, utf8Str);
+  convert_encoding<utf8, utf16>(utf8_ref, utf8_ref + 10, utf16Str);
 
-  HOU_EXPECT_ARRAY_EQ(utf16Ref, utf16Str, 5);
-  HOU_EXPECT_ARRAY_EQ(utf8Ref, utf8Str, 10);
+  HOU_EXPECT_ARRAY_EQ(utf16_ref, utf16Str, 5);
+  HOU_EXPECT_ARRAY_EQ(utf8_ref, utf8Str, 10);
 }
 
 

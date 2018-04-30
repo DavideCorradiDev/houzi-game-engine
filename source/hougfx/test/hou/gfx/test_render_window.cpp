@@ -28,102 +28,102 @@ class TestRenderWindowDeathTest : public TestRenderWindow {};
 
 TEST_F(TestRenderWindow, CreationWindowed)
 {
-  std::string titleRef(u8"Test");
-  vec2u sizeRef(16u, 32u);
+  std::string title_ref(u8"Test");
+  vec2u size_ref(16u, 32u);
   vec2u screenSize = video_mode::get_desktop_mode().get_resolution();
-  vec2i posRef = static_cast<vec2i>(screenSize - sizeRef) / 2;
-  window_style styleRef = window_style::windowed;
-  image2RGBA iconRef;
-  uint samplesRef = 1u;
+  vec2i pos_ref = static_cast<vec2i>(screenSize - size_ref) / 2;
+  window_style style_ref = window_style::windowed;
+  image2RGBA icon_ref;
+  uint samples_ref = 1u;
 
-  render_window w(titleRef, sizeRef, styleRef, samplesRef);
+  render_window w(title_ref, size_ref, style_ref, samples_ref);
 
   EXPECT_NE(0u, w.get_uid());
   EXPECT_NE(nullptr, w.get_handle());
-  EXPECT_EQ(styleRef, w.get_style());
-  EXPECT_EQ(posRef, w.get_client_position());
-  EXPECT_EQ(sizeRef, w.get_client_size());
+  EXPECT_EQ(style_ref, w.get_style());
+  EXPECT_EQ(pos_ref, w.get_client_position());
+  EXPECT_EQ(size_ref, w.get_client_size());
   EXPECT_EQ(graphic_context::get_rendering_color_byte_count(), w.get_bytes_per_pixel());
-  EXPECT_EQ(titleRef, w.get_title());
-  EXPECT_EQ(iconRef, w.get_icon());
+  EXPECT_EQ(title_ref, w.get_title());
+  EXPECT_EQ(icon_ref, w.get_icon());
   EXPECT_FALSE(w.is_visible());
   EXPECT_FALSE(w.is_mouse_cursor_grabbed());
   EXPECT_FALSE(w.is_key_repeat_enabled());
 
-  EXPECT_EQ(recti(vec2i::zero(), sizeRef), w.get_default_viewport());
-  EXPECT_EQ(recti(vec2i::zero(), sizeRef), w.get_viewport());
-  EXPECT_EQ(sizeRef, w.get_size());
-  EXPECT_EQ(samplesRef, w.get_sample_count());
+  EXPECT_EQ(recti(vec2i::zero(), size_ref), w.get_default_viewport());
+  EXPECT_EQ(recti(vec2i::zero(), size_ref), w.get_viewport());
+  EXPECT_EQ(size_ref, w.get_size());
+  EXPECT_EQ(samples_ref, w.get_sample_count());
   EXPECT_FALSE(w.is_multisampled());
-  EXPECT_EQ(texture2(sizeRef).get_image<pixel_format::rgba>(), w.to_texture().get_image<pixel_format::rgba>());
+  EXPECT_EQ(texture2(size_ref).get_image<pixel_format::rgba>(), w.to_texture().get_image<pixel_format::rgba>());
 }
 
 
 
 TEST_F(TestRenderWindow, CreationWindowedMultisampled)
 {
-  std::string titleRef(u8"Test");
-  vec2u sizeRef(16u, 32u);
+  std::string title_ref(u8"Test");
+  vec2u size_ref(16u, 32u);
   vec2u screenSize = video_mode::get_desktop_mode().get_resolution();
-  vec2i posRef = static_cast<vec2i>(screenSize - sizeRef) / 2;
-  window_style styleRef = window_style::windowed;
-  image2RGBA iconRef;
-  uint samplesRef = 4u;
+  vec2i pos_ref = static_cast<vec2i>(screenSize - size_ref) / 2;
+  window_style style_ref = window_style::windowed;
+  image2RGBA icon_ref;
+  uint samples_ref = 4u;
 
-  render_window w(titleRef, sizeRef, styleRef, samplesRef);
+  render_window w(title_ref, size_ref, style_ref, samples_ref);
 
   EXPECT_NE(0u, w.get_uid());
   EXPECT_NE(nullptr, w.get_handle());
-  EXPECT_EQ(styleRef, w.get_style());
-  EXPECT_EQ(posRef, w.get_client_position());
-  EXPECT_EQ(sizeRef, w.get_client_size());
+  EXPECT_EQ(style_ref, w.get_style());
+  EXPECT_EQ(pos_ref, w.get_client_position());
+  EXPECT_EQ(size_ref, w.get_client_size());
   EXPECT_EQ(graphic_context::get_rendering_color_byte_count(), w.get_bytes_per_pixel());
-  EXPECT_EQ(titleRef, w.get_title());
-  EXPECT_EQ(iconRef, w.get_icon());
+  EXPECT_EQ(title_ref, w.get_title());
+  EXPECT_EQ(icon_ref, w.get_icon());
   EXPECT_FALSE(w.is_visible());
   EXPECT_FALSE(w.is_mouse_cursor_grabbed());
   EXPECT_FALSE(w.is_key_repeat_enabled());
 
-  EXPECT_EQ(recti(vec2i::zero(), sizeRef), w.get_default_viewport());
-  EXPECT_EQ(recti(vec2i::zero(), sizeRef), w.get_viewport());
-  EXPECT_EQ(sizeRef, w.get_size());
-  EXPECT_EQ(samplesRef, w.get_sample_count());
+  EXPECT_EQ(recti(vec2i::zero(), size_ref), w.get_default_viewport());
+  EXPECT_EQ(recti(vec2i::zero(), size_ref), w.get_viewport());
+  EXPECT_EQ(size_ref, w.get_size());
+  EXPECT_EQ(samples_ref, w.get_sample_count());
   EXPECT_TRUE(w.is_multisampled());
-  EXPECT_EQ(texture2(sizeRef).get_image<pixel_format::rgba>(), w.to_texture().get_image<pixel_format::rgba>());
+  EXPECT_EQ(texture2(size_ref).get_image<pixel_format::rgba>(), w.to_texture().get_image<pixel_format::rgba>());
 }
 
 
 
 TEST_F(TestRenderWindow, CreationFullscreen)
 {
-  std::string titleRef(u8"Test");
+  std::string title_ref(u8"Test");
   vec2u screenSize = video_mode::get_desktop_mode().get_resolution();
-  vec2u sizeRef = screenSize;
-  vec2i posRef = static_cast<vec2i>(screenSize - sizeRef) / 2;
-  window_style styleRef = window_style::fullscreen;
-  image2RGBA iconRef;
-  uint samplesRef = 1u;
+  vec2u size_ref = screenSize;
+  vec2i pos_ref = static_cast<vec2i>(screenSize - size_ref) / 2;
+  window_style style_ref = window_style::fullscreen;
+  image2RGBA icon_ref;
+  uint samples_ref = 1u;
 
-  render_window w(titleRef, sizeRef, styleRef, samplesRef);
+  render_window w(title_ref, size_ref, style_ref, samples_ref);
 
   EXPECT_NE(0u, w.get_uid());
   EXPECT_NE(nullptr, w.get_handle());
-  EXPECT_EQ(styleRef, w.get_style());
-  EXPECT_EQ(posRef, w.get_client_position());
-  EXPECT_EQ(sizeRef, w.get_client_size());
+  EXPECT_EQ(style_ref, w.get_style());
+  EXPECT_EQ(pos_ref, w.get_client_position());
+  EXPECT_EQ(size_ref, w.get_client_size());
   EXPECT_EQ(graphic_context::get_rendering_color_byte_count(), w.get_bytes_per_pixel());
-  EXPECT_EQ(titleRef, w.get_title());
-  EXPECT_EQ(iconRef, w.get_icon());
+  EXPECT_EQ(title_ref, w.get_title());
+  EXPECT_EQ(icon_ref, w.get_icon());
   EXPECT_FALSE(w.is_visible());
   EXPECT_FALSE(w.is_mouse_cursor_grabbed());
   EXPECT_FALSE(w.is_key_repeat_enabled());
 
-  EXPECT_EQ(recti(vec2i::zero(), sizeRef), w.get_default_viewport());
-  EXPECT_EQ(recti(vec2i::zero(), sizeRef), w.get_viewport());
-  EXPECT_EQ(sizeRef, w.get_size());
-  EXPECT_EQ(samplesRef, w.get_sample_count());
+  EXPECT_EQ(recti(vec2i::zero(), size_ref), w.get_default_viewport());
+  EXPECT_EQ(recti(vec2i::zero(), size_ref), w.get_viewport());
+  EXPECT_EQ(size_ref, w.get_size());
+  EXPECT_EQ(samples_ref, w.get_sample_count());
   EXPECT_FALSE(w.is_multisampled());
-  EXPECT_EQ(texture2(sizeRef).get_image<pixel_format::rgba>(), w.to_texture().get_image<pixel_format::rgba>());
+  EXPECT_EQ(texture2(size_ref).get_image<pixel_format::rgba>(), w.to_texture().get_image<pixel_format::rgba>());
 }
 
 
@@ -132,13 +132,13 @@ TEST_F(TestRenderWindow, SetClientRect)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
-  vec2i posRef(2, 3);
-  vec2u sizeRef(14u, 17u);
-  w.set_client_rect(posRef, sizeRef);
+  vec2i pos_ref(2, 3);
+  vec2u size_ref(14u, 17u);
+  w.set_client_rect(pos_ref, size_ref);
 
-  EXPECT_EQ(posRef, w.get_client_position());
-  EXPECT_EQ(sizeRef, w.get_client_size());
-  EXPECT_EQ(sizeRef, w.get_size());
+  EXPECT_EQ(pos_ref, w.get_client_position());
+  EXPECT_EQ(size_ref, w.get_client_size());
+  EXPECT_EQ(size_ref, w.get_size());
 }
 
 
@@ -147,12 +147,12 @@ TEST_F(TestRenderWindow, SetClientRectNullSizeX)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
-  vec2u sizeRef(0u, 17u);
-  w.set_client_rect(vec2i::zero(), sizeRef);
-  EXPECT_EQ(sizeRef, w.get_client_size());
+  vec2u size_ref(0u, 17u);
+  w.set_client_rect(vec2i::zero(), size_ref);
+  EXPECT_EQ(size_ref, w.get_client_size());
 
-  sizeRef.x() = 1u;
-  EXPECT_EQ(sizeRef, w.get_size());
+  size_ref.x() = 1u;
+  EXPECT_EQ(size_ref, w.get_size());
 }
 
 
@@ -161,12 +161,12 @@ TEST_F(TestRenderWindow, SetClientRectNullSizeY)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
-  vec2u sizeRef(13u, 0u);
-  w.set_client_rect(vec2i::zero(), sizeRef);
-  EXPECT_EQ(sizeRef, w.get_client_size());
+  vec2u size_ref(13u, 0u);
+  w.set_client_rect(vec2i::zero(), size_ref);
+  EXPECT_EQ(size_ref, w.get_client_size());
 
-  sizeRef.y() = 1u;
-  EXPECT_EQ(sizeRef, w.get_size());
+  size_ref.y() = 1u;
+  EXPECT_EQ(size_ref, w.get_size());
 }
 
 
@@ -175,13 +175,13 @@ TEST_F(TestRenderWindow, SetClientRectNullSize)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
-  vec2u sizeRef = vec2u::zero();
-  w.set_client_rect(vec2i::zero(), sizeRef);
-  EXPECT_EQ(sizeRef, w.get_client_size());
+  vec2u size_ref = vec2u::zero();
+  w.set_client_rect(vec2i::zero(), size_ref);
+  EXPECT_EQ(size_ref, w.get_client_size());
 
-  sizeRef.x() = 1u;
-  sizeRef.y() = 1u;
-  EXPECT_EQ(sizeRef, w.get_size());
+  size_ref.x() = 1u;
+  size_ref.y() = 1u;
+  EXPECT_EQ(size_ref, w.get_size());
 }
 
 
@@ -190,11 +190,11 @@ TEST_F(TestRenderWindow, SetClientSize)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
-  vec2u sizeRef(14u, 17u);
-  w.set_client_size(sizeRef);
+  vec2u size_ref(14u, 17u);
+  w.set_client_size(size_ref);
 
-  EXPECT_EQ(sizeRef, w.get_client_size());
-  EXPECT_EQ(sizeRef, w.get_size());
+  EXPECT_EQ(size_ref, w.get_client_size());
+  EXPECT_EQ(size_ref, w.get_size());
 }
 
 
@@ -203,12 +203,12 @@ TEST_F(TestRenderWindow, SetClientSizeNullSizeX)
 {
   render_window w(u8"Test", vec2u(32u, 16u),  window_style::windowed, 4u);
 
-  vec2u sizeRef(0u, 17u);
-  w.set_client_size(sizeRef);
-  EXPECT_EQ(sizeRef, w.get_client_size());
+  vec2u size_ref(0u, 17u);
+  w.set_client_size(size_ref);
+  EXPECT_EQ(size_ref, w.get_client_size());
 
-  sizeRef.x() = 1u;
-  EXPECT_EQ(sizeRef, w.get_size());
+  size_ref.x() = 1u;
+  EXPECT_EQ(size_ref, w.get_size());
 }
 
 
@@ -217,12 +217,12 @@ TEST_F(TestRenderWindow, SetClientSizeNullSizeY)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
-  vec2u sizeRef(13u, 0u);
-  w.set_client_size(sizeRef);
-  EXPECT_EQ(sizeRef, w.get_client_size());
+  vec2u size_ref(13u, 0u);
+  w.set_client_size(size_ref);
+  EXPECT_EQ(size_ref, w.get_client_size());
 
-  sizeRef.y() = 1u;
-  EXPECT_EQ(sizeRef, w.get_size());
+  size_ref.y() = 1u;
+  EXPECT_EQ(size_ref, w.get_size());
 }
 
 
@@ -231,13 +231,13 @@ TEST_F(TestRenderWindow, SetClientSizeNullSize)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
-  vec2u sizeRef = vec2u::zero();
-  w.set_client_size(sizeRef);
-  EXPECT_EQ(sizeRef, w.get_client_size());
+  vec2u size_ref = vec2u::zero();
+  w.set_client_size(size_ref);
+  EXPECT_EQ(size_ref, w.get_client_size());
 
-  sizeRef.x() = 1u;
-  sizeRef.y() = 1u;
-  EXPECT_EQ(sizeRef, w.get_size());
+  size_ref.x() = 1u;
+  size_ref.y() = 1u;
+  EXPECT_EQ(size_ref, w.get_size());
 }
 
 
@@ -246,12 +246,12 @@ TEST_F(TestRenderWindow, SetFrameRect)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
-  vec2i posRef(12, 13);
-  vec2u sizeRef(60u, 100u);
-  w.set_frame_rect(posRef, sizeRef);
+  vec2i pos_ref(12, 13);
+  vec2u size_ref(60u, 100u);
+  w.set_frame_rect(pos_ref, size_ref);
 
-  EXPECT_EQ(posRef, w.get_frame_position());
-  EXPECT_EQ(sizeRef, w.get_frame_size());
+  EXPECT_EQ(pos_ref, w.get_frame_position());
+  EXPECT_EQ(size_ref, w.get_frame_size());
   EXPECT_EQ(w.get_client_size(), w.get_size());
 }
 
@@ -261,13 +261,13 @@ TEST_F(TestRenderWindow, SetFrameRectNullSizeX)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
-  vec2u sizeRef(0u, 42u);
-  w.set_frame_rect(vec2i::zero(), sizeRef);
-  EXPECT_EQ(sizeRef, w.get_frame_size());
+  vec2u size_ref(0u, 42u);
+  w.set_frame_rect(vec2i::zero(), size_ref);
+  EXPECT_EQ(size_ref, w.get_frame_size());
 
-  vec2u texSizeRef = w.get_client_size();
-  texSizeRef.x() = 1u;
-  EXPECT_EQ(texSizeRef, w.get_size());
+  vec2u texSize_ref = w.get_client_size();
+  texSize_ref.x() = 1u;
+  EXPECT_EQ(texSize_ref, w.get_size());
 }
 
 
@@ -276,13 +276,13 @@ TEST_F(TestRenderWindow, SetFrameRectNullSizeY)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
-  vec2u sizeRef(42u, 0u);
-  w.set_frame_rect(vec2i::zero(), sizeRef);
-  EXPECT_EQ(sizeRef, w.get_frame_size());
+  vec2u size_ref(42u, 0u);
+  w.set_frame_rect(vec2i::zero(), size_ref);
+  EXPECT_EQ(size_ref, w.get_frame_size());
 
-  vec2u texSizeRef = w.get_client_size();
-  texSizeRef.y() = 1u;
-  EXPECT_EQ(texSizeRef, w.get_size());
+  vec2u texSize_ref = w.get_client_size();
+  texSize_ref.y() = 1u;
+  EXPECT_EQ(texSize_ref, w.get_size());
 }
 
 
@@ -291,14 +291,14 @@ TEST_F(TestRenderWindow, SetFrameRectNullSize)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
-  vec2u sizeRef = vec2u::zero();
-  w.set_frame_rect(vec2i::zero(), sizeRef);
-  EXPECT_EQ(sizeRef, w.get_frame_size());
+  vec2u size_ref = vec2u::zero();
+  w.set_frame_rect(vec2i::zero(), size_ref);
+  EXPECT_EQ(size_ref, w.get_frame_size());
 
-  vec2u texSizeRef = w.get_client_size();
-  texSizeRef.x() = 1u;
-  texSizeRef.y() = 1u;
-  EXPECT_EQ(texSizeRef, w.get_size());
+  vec2u texSize_ref = w.get_client_size();
+  texSize_ref.x() = 1u;
+  texSize_ref.y() = 1u;
+  EXPECT_EQ(texSize_ref, w.get_size());
 }
 
 
@@ -318,13 +318,13 @@ TEST_F(TestRenderWindow, SetFrameSizeNullSizeX)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
-  vec2u sizeRef(0u, 42u);
-  w.setFrameSize(sizeRef);
-  EXPECT_EQ(sizeRef, w.get_frame_size());
+  vec2u size_ref(0u, 42u);
+  w.setFrameSize(size_ref);
+  EXPECT_EQ(size_ref, w.get_frame_size());
 
-  vec2u texSizeRef = w.get_client_size();
-  texSizeRef.x() = 1u;
-  EXPECT_EQ(texSizeRef, w.get_size());
+  vec2u texSize_ref = w.get_client_size();
+  texSize_ref.x() = 1u;
+  EXPECT_EQ(texSize_ref, w.get_size());
 }
 
 
@@ -333,13 +333,13 @@ TEST_F(TestRenderWindow, SetFrameSizeNullSizeY)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
-  vec2u sizeRef(42u, 0u);
-  w.setFrameSize(sizeRef);
-  EXPECT_EQ(sizeRef, w.get_frame_size());
+  vec2u size_ref(42u, 0u);
+  w.setFrameSize(size_ref);
+  EXPECT_EQ(size_ref, w.get_frame_size());
 
-  vec2u texSizeRef = w.get_client_size();
-  texSizeRef.y() = 1u;
-  EXPECT_EQ(texSizeRef, w.get_size());
+  vec2u texSize_ref = w.get_client_size();
+  texSize_ref.y() = 1u;
+  EXPECT_EQ(texSize_ref, w.get_size());
 }
 
 
@@ -348,14 +348,14 @@ TEST_F(TestRenderWindow, SetFrameSizeNullSize)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
-  vec2u sizeRef = vec2u::zero();
-  w.setFrameSize(sizeRef);
-  EXPECT_EQ(sizeRef, w.get_frame_size());
+  vec2u size_ref = vec2u::zero();
+  w.setFrameSize(size_ref);
+  EXPECT_EQ(size_ref, w.get_frame_size());
 
-  vec2u texSizeRef = w.get_client_size();
-  texSizeRef.x() = 1u;
-  texSizeRef.y() = 1u;
-  EXPECT_EQ(texSizeRef, w.get_size());
+  vec2u texSize_ref = w.get_client_size();
+  texSize_ref.x() = 1u;
+  texSize_ref.y() = 1u;
+  EXPECT_EQ(texSize_ref, w.get_size());
 }
 
 

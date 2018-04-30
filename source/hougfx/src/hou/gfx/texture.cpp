@@ -189,12 +189,12 @@ template <size_t dim>
 size_t computeImageBufferSize(const vec<uint, dim>& imSize, pixel_format fmt)
 {
   HOU_EXPECT_DEV(gl::get_unpack_alignment() == 1u);
-  size_t byteCount = 1u;
+  size_t byte_count = 1u;
   for(size_t i = 0; i < imSize.get_size(); ++i)
   {
-    byteCount *= imSize(i);
+    byte_count *= imSize(i);
   }
-  return byteCount * get_pixel_format_byte_count(fmt);
+  return byte_count * get_pixel_format_byte_count(fmt);
 }
 
 

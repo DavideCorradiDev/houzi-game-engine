@@ -142,10 +142,10 @@ TEST_F(test_rotation3, constructor_matrix_small_root_function)
 
 TEST_F(test_rotation3, constructor_matrix_low_precision)
 {
-  rot3f rotRef
+  rot3f rot_ref
     = rot3f::x(pi_f / 3.f) * rot3f::z(pi_f / 4.f) * rot3f::y(pi_f / 2.f);
-  rot3f rot(rotRef.get_matrix());
-  HOU_EXPECT_FLOAT_CLOSE(rotRef, rot);
+  rot3f rot(rot_ref.get_matrix());
+  HOU_EXPECT_FLOAT_CLOSE(rot_ref, rot);
 }
 
 
@@ -199,10 +199,10 @@ TEST_F(test_rotation3, conversion_constructor)
 {
   quatd qd(1., 2., 3., 4.);
   rot3d rd(qd);
-  quatf qfRef(rd.get_quaternion());
+  quatf qf_ref(rd.get_quaternion());
   rot3f rf(rd);
 
-  HOU_EXPECT_FLOAT_CLOSE(qfRef, rf.get_quaternion());
+  HOU_EXPECT_FLOAT_CLOSE(qf_ref, rf.get_quaternion());
 }
 
 
@@ -263,10 +263,10 @@ TEST_F(test_rotation3, multiplication)
 
   rot3f r1(q1);
   rot3f r2(q2);
-  rot3f rRef(q_ref);
-  HOU_EXPECT_FLOAT_CLOSE(rRef, r1 * r2);
+  rot3f r_ref(q_ref);
+  HOU_EXPECT_FLOAT_CLOSE(r_ref, r1 * r2);
   r1 *= r2;
-  HOU_EXPECT_FLOAT_CLOSE(rRef, r1);
+  HOU_EXPECT_FLOAT_CLOSE(r_ref, r1);
 }
 
 
@@ -278,10 +278,10 @@ TEST_F(test_rotation3, inversion)
   quatf q_ref = inverse(q);
 
   rot3f r(q);
-  rot3f rRef(q_ref);
-  HOU_EXPECT_FLOAT_CLOSE(rRef, inverse(r));
+  rot3f r_ref(q_ref);
+  HOU_EXPECT_FLOAT_CLOSE(r_ref, inverse(r));
   r.invert();
-  HOU_EXPECT_FLOAT_CLOSE(rRef, r);
+  HOU_EXPECT_FLOAT_CLOSE(r_ref, r);
 }
 
 

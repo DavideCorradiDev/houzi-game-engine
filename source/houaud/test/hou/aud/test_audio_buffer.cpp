@@ -30,7 +30,7 @@ class TestAudioBufferDeathTest : public TestAudioBuffer
 
 
 const std::string TestAudioBuffer::wavStereo16FileName
-  = getDataDir() + u8"TestWav-Stereo-16-44100.wav";
+  = get_data_dir() + u8"TestWav-Stereo-16-44100.wav";
 
 }  // namespace
 
@@ -126,12 +126,12 @@ TEST_F(TestAudioBuffer, StreamMoveConstructor)
 TEST_F(TestAudioBuffer, MoveConstructor)
 {
   std::vector<uint8_t> data{1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u};
-  audio_buffer abDummy(data, audio_buffer_format::stereo16, 345);
-  ALuint nameRef = abDummy.get_handle().get_name();
-  audio_buffer ab(std::move(abDummy));
+  audio_buffer ab_dummy(data, audio_buffer_format::stereo16, 345);
+  ALuint name_ref = ab_dummy.get_handle().get_name();
+  audio_buffer ab(std::move(ab_dummy));
 
-  EXPECT_EQ(0u, abDummy.get_handle().get_name());
-  EXPECT_EQ(nameRef, ab.get_handle().get_name());
+  EXPECT_EQ(0u, ab_dummy.get_handle().get_name());
+  EXPECT_EQ(name_ref, ab.get_handle().get_name());
   EXPECT_EQ(data.size(), ab.get_byte_count());
   EXPECT_EQ(data.size()
       / (get_audio_buffer_format_channel_count(ab.get_format())

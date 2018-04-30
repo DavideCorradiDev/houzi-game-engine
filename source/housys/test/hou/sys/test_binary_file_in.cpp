@@ -18,120 +18,120 @@ using namespace testing;
 namespace
 {
 
-class TestBinaryFileIn
-  : public Test
+class test_binary_file_in : public Test
 {
 public:
   static void SetUpTestCase();
   static void TearDownTestCase();
 
 public:
-  static const std::string fileName;
-  static const std::vector<uint8_t> fileContent;
+  static const std::string filename;
+  static const std::vector<uint8_t> file_content;
 };
 
 
 
-class TestBinaryFileInDeathTest : public TestBinaryFileIn {};
+class test_binary_file_death_test : public test_binary_file_in
+{};
 
 
 
-void TestBinaryFileIn::SetUpTestCase()
+void test_binary_file_in::SetUpTestCase()
 {
-  file f(fileName, file_open_mode::write, file_type::binary);
-  f.write(fileContent.data(), fileContent.size());
+  file f(filename, file_open_mode::write, file_type::binary);
+  f.write(file_content.data(), file_content.size());
 }
 
 
 
-void TestBinaryFileIn::TearDownTestCase()
+void test_binary_file_in::TearDownTestCase()
 {
-  remove_dir(fileName);
+  remove_dir(filename);
 }
 
 
 
-const std::string TestBinaryFileIn::fileName = getOutputDir()
-  + u8"TestBinaryFileIn-\U00004f60\U0000597d.txt";
-const std::vector<uint8_t> TestBinaryFileIn::fileContent
+const std::string test_binary_file_in::filename
+  = get_output_dir() + u8"test_binary_file_in-\U00004f60\U0000597d.txt";
+const std::vector<uint8_t> test_binary_file_in::file_content
   = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19};
 
-}
+}  // namespace
 
 
 
-TEST_F(TestBinaryFileIn, PathConstructor)
+TEST_F(test_binary_file_in, path_constructor)
 {
-  binary_file_in fi(fileName);
+  binary_file_in fi(filename);
   EXPECT_FALSE(fi.eof());
   EXPECT_FALSE(fi.error());
-  EXPECT_EQ(fileContent.size(), fi.get_byte_count());
+  EXPECT_EQ(file_content.size(), fi.get_byte_count());
   EXPECT_EQ(0u, fi.get_read_byte_count());
   EXPECT_EQ(0u, fi.get_read_element_count());
   EXPECT_EQ(0, fi.get_byte_pos());
-  std::vector<uint8_t> buffer(fileContent.size(), 0u);
+  std::vector<uint8_t> buffer(file_content.size(), 0u);
   fi.read(buffer);
-  EXPECT_EQ(buffer, fileContent);
+  EXPECT_EQ(buffer, file_content);
 }
 
 
 
-TEST_F(TestBinaryFileInDeathTest, PathConstructorFailure)
+TEST_F(test_binary_file_death_test, path_constructor_failure)
 {
-  std::string invalidFileName = u8"InvalidFileName";
-  HOU_EXPECT_ERROR(binary_file_in fi(invalidFileName), std::runtime_error
-    , format_string(get_text(sys_error::file_open), invalidFileName.c_str()));
+  std::string invalid_filename = u8"InvalidFileName";
+  HOU_EXPECT_ERROR(binary_file_in fi(invalid_filename), std::runtime_error,
+    format_string(get_text(sys_error::file_open), invalid_filename.c_str()));
 }
 
 
 
-TEST_F(TestBinaryFileIn, MoveConstructor)
+TEST_F(test_binary_file_in, move_constructor)
 {
-  binary_file_in fiDummy(fileName);
-  binary_file_in fi(std::move(fiDummy));
+  binary_file_in fi_dummy(filename);
+  binary_file_in fi(std::move(fi_dummy));
   EXPECT_FALSE(fi.eof());
   EXPECT_FALSE(fi.error());
-  EXPECT_EQ(fileContent.size(), fi.get_byte_count());
+  EXPECT_EQ(file_content.size(), fi.get_byte_count());
   EXPECT_EQ(0u, fi.get_read_byte_count());
   EXPECT_EQ(0u, fi.get_read_element_count());
   EXPECT_EQ(0, fi.get_byte_pos());
-  std::vector<uint8_t> buffer(fileContent.size(), 0u);
+  std::vector<uint8_t> buffer(file_content.size(), 0u);
   fi.read(buffer);
-  EXPECT_EQ(buffer, fileContent);
+  EXPECT_EQ(buffer, file_content);
 }
 
 
 
-TEST_F(TestBinaryFileIn, SetBytePos)
+TEST_F(test_binary_file_in, set_byte_pos)
 {
-  binary_file_in fi(fileName);
+  binary_file_in fi(filename);
   EXPECT_EQ(0, fi.get_byte_pos());
   fi.set_byte_pos(3);
   EXPECT_EQ(3, fi.get_byte_pos());
   fi.set_byte_pos(0);
   EXPECT_EQ(0, fi.get_byte_pos());
   fi.set_byte_pos(fi.get_byte_count());
-  EXPECT_EQ(static_cast<binary_file_in::byte_position>(fi.get_byte_count())
-    , fi.get_byte_pos());
+  EXPECT_EQ(static_cast<binary_file_in::byte_position>(fi.get_byte_count()),
+    fi.get_byte_pos());
   fi.set_byte_pos(fi.get_byte_count() + 6);
-  EXPECT_EQ(static_cast<binary_file_in::byte_position>(fi.get_byte_count() + 6)
-    , fi.get_byte_pos());
+  EXPECT_EQ(static_cast<binary_file_in::byte_position>(fi.get_byte_count() + 6),
+    fi.get_byte_pos());
 }
 
 
 
-TEST_F(TestBinaryFileInDeathTest, SetBytePosError)
+TEST_F(test_binary_file_death_test, set_byte_pos_error)
 {
-  binary_file_in fi(fileName);
-  HOU_EXPECT_ERROR(fi.set_byte_pos(-1), std::runtime_error
-    , get_text(sys_error::file_seek));
+  binary_file_in fi(filename);
+  HOU_EXPECT_ERROR(
+    fi.set_byte_pos(-1), std::runtime_error, get_text(sys_error::file_seek));
 }
 
 
 
-TEST_F(TestBinaryFileIn, MoveBytePos)
+TEST_F(test_binary_file_in, move_byte_pos)
 {
-  binary_file_in fi(fileName);
+  binary_file_in fi(filename);
   EXPECT_EQ(0, fi.get_byte_pos());
   fi.move_byte_pos(3);
   EXPECT_EQ(3, fi.get_byte_pos());
@@ -140,202 +140,202 @@ TEST_F(TestBinaryFileIn, MoveBytePos)
   fi.move_byte_pos(-1);
   EXPECT_EQ(0, fi.get_byte_pos());
   fi.move_byte_pos(fi.get_byte_count());
-  EXPECT_EQ(static_cast<binary_file_in::byte_position>(fi.get_byte_count())
-    , fi.get_byte_pos());
+  EXPECT_EQ(static_cast<binary_file_in::byte_position>(fi.get_byte_count()),
+    fi.get_byte_pos());
   fi.move_byte_pos(6);
-  EXPECT_EQ(static_cast<binary_file_in::byte_position>(fi.get_byte_count() + 6)
-    , fi.get_byte_pos());
+  EXPECT_EQ(static_cast<binary_file_in::byte_position>(fi.get_byte_count() + 6),
+    fi.get_byte_pos());
 }
 
 
 
-TEST_F(TestBinaryFileInDeathTest, MoveBytePosError)
+TEST_F(test_binary_file_death_test, move_byte_pos_error)
 {
-  binary_file_in fi(fileName);
-  HOU_EXPECT_ERROR(fi.move_byte_pos(-1), std::runtime_error
-    , get_text(sys_error::file_seek));
+  binary_file_in fi(filename);
+  HOU_EXPECT_ERROR(
+    fi.move_byte_pos(-1), std::runtime_error, get_text(sys_error::file_seek));
 }
 
 
 
-TEST_F(TestBinaryFileIn, ReadToVariable)
+TEST_F(test_binary_file_in, read_to_variable)
 {
-  using BufferType = uint16_t;
-  static constexpr size_t bufferByteSize = sizeof(BufferType);
+  using buffer_type = uint16_t;
+  static constexpr size_t buffer_byte_size = sizeof(buffer_type);
 
-  binary_file_in fi(fileName);
-  BufferType buffer;
+  binary_file_in fi(filename);
+  buffer_type buffer;
 
   fi.read(buffer);
-  EXPECT_EQ(bufferByteSize, fi.get_read_byte_count());
+  EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(1u, fi.get_read_element_count());
-  HOU_EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(&buffer), fileContent.data()
-    , bufferByteSize);
+  HOU_EXPECT_ARRAY_EQ(
+    reinterpret_cast<uint8_t*>(&buffer), file_content.data(), buffer_byte_size);
 
   fi.read(buffer);
-  EXPECT_EQ(bufferByteSize, fi.get_read_byte_count());
+  EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(1u, fi.get_read_element_count());
-  const uint8_t* offsetData = fileContent.data() + bufferByteSize;
-  HOU_EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(&buffer), offsetData
-    , bufferByteSize);
+  const uint8_t* offset_data = file_content.data() + buffer_byte_size;
+  HOU_EXPECT_ARRAY_EQ(
+    reinterpret_cast<uint8_t*>(&buffer), offset_data, buffer_byte_size);
 }
 
 
 
-TEST_F(TestBinaryFileIn, ReadToBasicArray)
+TEST_F(test_binary_file_in, read_to_basic_array)
 {
-  using BufferType = uint16_t;
-  static constexpr size_t bufferSize = 3u;
-  static constexpr size_t bufferByteSize = sizeof(BufferType) * bufferSize;
+  using buffer_type = uint16_t;
+  static constexpr size_t buffer_size = 3u;
+  static constexpr size_t buffer_byte_size = sizeof(buffer_type) * buffer_size;
 
-  binary_file_in fi(fileName);
-  BufferType buffer[bufferSize];
+  binary_file_in fi(filename);
+  buffer_type buffer[buffer_size];
 
-  fi.read(buffer, bufferSize);
-  EXPECT_EQ(bufferByteSize, fi.get_read_byte_count());
-  EXPECT_EQ(bufferSize, fi.get_read_element_count());
-  HOU_EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(buffer), fileContent.data()
-    , bufferByteSize);
+  fi.read(buffer, buffer_size);
+  EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
+  EXPECT_EQ(buffer_size, fi.get_read_element_count());
+  HOU_EXPECT_ARRAY_EQ(
+    reinterpret_cast<uint8_t*>(buffer), file_content.data(), buffer_byte_size);
 
-  fi.read(buffer, bufferSize);
-  EXPECT_EQ(bufferByteSize, fi.get_read_byte_count());
-  EXPECT_EQ(bufferSize, fi.get_read_element_count());
-  const uint8_t* offsetData = fileContent.data() + bufferByteSize;
-  HOU_EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(buffer), offsetData
-    , bufferByteSize);
+  fi.read(buffer, buffer_size);
+  EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
+  EXPECT_EQ(buffer_size, fi.get_read_element_count());
+  const uint8_t* offset_data = file_content.data() + buffer_byte_size;
+  HOU_EXPECT_ARRAY_EQ(
+    reinterpret_cast<uint8_t*>(buffer), offset_data, buffer_byte_size);
 }
 
 
 
-TEST_F(TestBinaryFileIn, ReadToArray)
+TEST_F(test_binary_file_in, read_to_array)
 {
-  using BufferType = uint16_t;
-  static constexpr size_t bufferSize = 3u;
-  static constexpr size_t bufferByteSize = sizeof(BufferType) * bufferSize;
+  using buffer_type = uint16_t;
+  static constexpr size_t buffer_size = 3u;
+  static constexpr size_t buffer_byte_size = sizeof(buffer_type) * buffer_size;
 
-  binary_file_in fi(fileName);
-  std::array<BufferType, bufferSize> buffer = {0, 0, 0};
-
-  fi.read(buffer);
-  EXPECT_EQ(bufferByteSize, fi.get_read_byte_count());
-  EXPECT_EQ(bufferSize, fi.get_read_element_count());
-  HOU_EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(buffer.data())
-    , fileContent.data(), bufferByteSize);
+  binary_file_in fi(filename);
+  std::array<buffer_type, buffer_size> buffer = {0, 0, 0};
 
   fi.read(buffer);
-  EXPECT_EQ(bufferByteSize, fi.get_read_byte_count());
-  EXPECT_EQ(bufferSize, fi.get_read_element_count());
-  const uint8_t* offsetData = fileContent.data() + bufferByteSize;
-  HOU_EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(buffer.data()), offsetData
-    , bufferByteSize);
+  EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
+  EXPECT_EQ(buffer_size, fi.get_read_element_count());
+  HOU_EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(buffer.data()),
+    file_content.data(), buffer_byte_size);
+
+  fi.read(buffer);
+  EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
+  EXPECT_EQ(buffer_size, fi.get_read_element_count());
+  const uint8_t* offset_data = file_content.data() + buffer_byte_size;
+  HOU_EXPECT_ARRAY_EQ(
+    reinterpret_cast<uint8_t*>(buffer.data()), offset_data, buffer_byte_size);
 }
 
 
 
-TEST_F(TestBinaryFileIn, ReadToVector)
+TEST_F(test_binary_file_in, read_to_vector)
 {
-  using BufferType = uint16_t;
-  static constexpr size_t bufferSize = 3u;
-  static constexpr size_t bufferByteSize = sizeof(BufferType) * bufferSize;
+  using buffer_type = uint16_t;
+  static constexpr size_t buffer_size = 3u;
+  static constexpr size_t buffer_byte_size = sizeof(buffer_type) * buffer_size;
 
-  binary_file_in fi(fileName);
-  std::vector<BufferType> buffer(bufferSize, 0u);
-
-  fi.read(buffer);
-  EXPECT_EQ(bufferByteSize, fi.get_read_byte_count());
-  EXPECT_EQ(bufferSize, fi.get_read_element_count());
-  HOU_EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(buffer.data())
-    , fileContent.data(), bufferByteSize);
+  binary_file_in fi(filename);
+  std::vector<buffer_type> buffer(buffer_size, 0u);
 
   fi.read(buffer);
-  EXPECT_EQ(bufferByteSize, fi.get_read_byte_count());
-  EXPECT_EQ(bufferSize, fi.get_read_element_count());
-  const uint8_t* offsetData = fileContent.data() + bufferByteSize;
-  HOU_EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(buffer.data()), offsetData
-    , bufferByteSize);
+  EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
+  EXPECT_EQ(buffer_size, fi.get_read_element_count());
+  HOU_EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(buffer.data()),
+    file_content.data(), buffer_byte_size);
+
+  fi.read(buffer);
+  EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
+  EXPECT_EQ(buffer_size, fi.get_read_element_count());
+  const uint8_t* offset_data = file_content.data() + buffer_byte_size;
+  HOU_EXPECT_ARRAY_EQ(
+    reinterpret_cast<uint8_t*>(buffer.data()), offset_data, buffer_byte_size);
 }
 
 
 
-TEST_F(TestBinaryFileIn, ReadToString)
+TEST_F(test_binary_file_in, read_to_string)
 {
-  using BufferType = std::string::value_type;
-  static constexpr size_t bufferSize = 3u;
-  static constexpr size_t bufferByteSize = sizeof(BufferType) * bufferSize;
+  using buffer_type = std::string::value_type;
+  static constexpr size_t buffer_size = 3u;
+  static constexpr size_t buffer_byte_size = sizeof(buffer_type) * buffer_size;
 
-  binary_file_in fi(fileName);
-  std::string buffer(bufferSize, 0);
-
-  fi.read(buffer);
-  EXPECT_EQ(bufferByteSize, fi.get_read_byte_count());
-  EXPECT_EQ(bufferSize, fi.get_read_element_count());
-  HOU_EXPECT_ARRAY_EQ(reinterpret_cast<const uint8_t*>(buffer.data())
-    , fileContent.data(), bufferByteSize);
+  binary_file_in fi(filename);
+  std::string buffer(buffer_size, 0);
 
   fi.read(buffer);
-  EXPECT_EQ(bufferByteSize, fi.get_read_byte_count());
-  EXPECT_EQ(bufferSize, fi.get_read_element_count());
-  const uint8_t* offsetData = fileContent.data() + bufferByteSize;
-  HOU_EXPECT_ARRAY_EQ(reinterpret_cast<const uint8_t*>(buffer.data()), offsetData
-    , bufferByteSize);
+  EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
+  EXPECT_EQ(buffer_size, fi.get_read_element_count());
+  HOU_EXPECT_ARRAY_EQ(reinterpret_cast<const uint8_t*>(buffer.data()),
+    file_content.data(), buffer_byte_size);
+
+  fi.read(buffer);
+  EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
+  EXPECT_EQ(buffer_size, fi.get_read_element_count());
+  const uint8_t* offset_data = file_content.data() + buffer_byte_size;
+  HOU_EXPECT_ARRAY_EQ(reinterpret_cast<const uint8_t*>(buffer.data()),
+    offset_data, buffer_byte_size);
 }
 
 
 
-TEST_F(TestBinaryFileIn, ReadToSpan)
+TEST_F(test_binary_file_in, read_to_span)
 {
-  using BufferType = uint16_t;
-  static constexpr size_t bufferSize = 3u;
-  static constexpr size_t bufferByteSize = sizeof(BufferType) * bufferSize;
+  using buffer_type = uint16_t;
+  static constexpr size_t buffer_size = 3u;
+  static constexpr size_t buffer_byte_size = sizeof(buffer_type) * buffer_size;
 
-  binary_file_in fi(fileName);
-  std::vector<BufferType> vec(bufferSize, 0u);
-  span<BufferType> buffer(vec);
-
-  fi.read(buffer);
-  EXPECT_EQ(bufferByteSize, fi.get_read_byte_count());
-  EXPECT_EQ(bufferSize, fi.get_read_element_count());
-  HOU_EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(buffer.data())
-    , fileContent.data(), bufferByteSize);
+  binary_file_in fi(filename);
+  std::vector<buffer_type> vec(buffer_size, 0u);
+  span<buffer_type> buffer(vec);
 
   fi.read(buffer);
-  EXPECT_EQ(bufferByteSize, fi.get_read_byte_count());
-  EXPECT_EQ(bufferSize, fi.get_read_element_count());
-  const uint8_t* offsetData = fileContent.data() + bufferByteSize;
-  HOU_EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(buffer.data()), offsetData
-    , bufferByteSize);
+  EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
+  EXPECT_EQ(buffer_size, fi.get_read_element_count());
+  HOU_EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(buffer.data()),
+    file_content.data(), buffer_byte_size);
+
+  fi.read(buffer);
+  EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
+  EXPECT_EQ(buffer_size, fi.get_read_element_count());
+  const uint8_t* offset_data = file_content.data() + buffer_byte_size;
+  HOU_EXPECT_ARRAY_EQ(
+    reinterpret_cast<uint8_t*>(buffer.data()), offset_data, buffer_byte_size);
 }
 
 
 
-TEST_F(TestBinaryFileIn, ReadAllToVector)
+TEST_F(test_binary_file_in, read_all_to_vector)
 {
-  binary_file_in fi(fileName);
-  auto fiContent = fi.read_all<std::vector<uint8_t>>();
+  binary_file_in fi(filename);
+  auto fi_content = fi.read_all<std::vector<uint8_t>>();
 
-  EXPECT_EQ(fileContent, fiContent);
-  EXPECT_EQ(fileContent.size(), fi.get_read_byte_count());
-  EXPECT_EQ(fileContent.size(), static_cast<size_t>(fi.get_byte_pos()));
+  EXPECT_EQ(file_content, fi_content);
+  EXPECT_EQ(file_content.size(), fi.get_read_byte_count());
+  EXPECT_EQ(file_content.size(), static_cast<size_t>(fi.get_byte_pos()));
 }
 
 
 
-TEST_F(TestBinaryFileIn, ReadAllToVectorNotFromStart)
+TEST_F(test_binary_file_in, read_all_to_vector_not_from_start)
 {
-  binary_file_in fi(fileName);
+  binary_file_in fi(filename);
   fi.set_byte_pos(2u);
-  auto fiContent = fi.read_all<std::vector<uint8_t>>();
+  auto fi_content = fi.read_all<std::vector<uint8_t>>();
 
-  EXPECT_EQ(fileContent, fiContent);
-  EXPECT_EQ(fileContent.size(), fi.get_read_byte_count());
-  EXPECT_EQ(fileContent.size(), static_cast<size_t>(fi.get_byte_pos()));
+  EXPECT_EQ(file_content, fi_content);
+  EXPECT_EQ(file_content.size(), fi.get_read_byte_count());
+  EXPECT_EQ(file_content.size(), static_cast<size_t>(fi.get_byte_pos()));
 }
 
 
 
-TEST_F(TestBinaryFileIn, Eof)
+TEST_F(test_binary_file_in, eof)
 {
-  binary_file_in fi(fileName);
+  binary_file_in fi(filename);
   uint count = 0;
   while(!fi.eof())
   {
@@ -345,4 +345,3 @@ TEST_F(TestBinaryFileIn, Eof)
   }
   EXPECT_EQ(fi.get_byte_count() + 1u, count);
 }
-

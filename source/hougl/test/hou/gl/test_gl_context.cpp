@@ -150,17 +150,17 @@ TEST_F(TestGlContext, GetSharingGroupUid)
 TEST_F(TestGlContext, MoveConstructor)
 {
   system_window w("Test", video_mode(vec2u::zero(), 0u), window_style::windowed);
-  gl::context cDummy(gl::context_settings::standard, w);
-  gl::context::set_current(cDummy, w);
-  ASSERT_EQ(&cDummy, gl::context::getCurrent());
-  uint32_t uidRef = cDummy.get_uid();
-  uint32_t sharedUidRef = cDummy.getSharingGroupUid();
+  gl::context c_dummy(gl::context_settings::standard, w);
+  gl::context::set_current(c_dummy, w);
+  ASSERT_EQ(&c_dummy, gl::context::getCurrent());
+  uint32_t uid_ref = c_dummy.get_uid();
+  uint32_t sharedUid_ref = c_dummy.getSharingGroupUid();
 
-  gl::context c = std::move(cDummy);
-  ASSERT_NE(&cDummy, gl::context::getCurrent());
+  gl::context c = std::move(c_dummy);
+  ASSERT_NE(&c_dummy, gl::context::getCurrent());
   ASSERT_EQ(&c, gl::context::getCurrent());
-  ASSERT_EQ(uidRef, c.get_uid());
-  ASSERT_EQ(sharedUidRef, c.getSharingGroupUid());
+  ASSERT_EQ(uid_ref, c.get_uid());
+  ASSERT_EQ(sharedUid_ref, c.getSharingGroupUid());
 }
 
 

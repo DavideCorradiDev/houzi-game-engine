@@ -195,8 +195,8 @@ TEST_F(TestAudioSource, DefaultConstructor)
 
 TEST_F(TestAudioSource, MoveConstructor)
 {
-  ConcreteAudioSource asDummy(mBuffer);
-  ConcreteAudioSource as(std::move(asDummy));
+  ConcreteAudioSource as_dummy(mBuffer);
+  ConcreteAudioSource as(std::move(as_dummy));
   EXPECT_EQ(audio_source_state::stopped, as.get_state());
   EXPECT_EQ(2u, as.get_channel_count());
   EXPECT_EQ(2u, as.get_bytes_per_sample());
@@ -639,9 +639,9 @@ TEST_F(TestAudioSourceDeathTest, InvalidConeOuterAngle)
 TEST_F(TestAudioSource, Position)
 {
   ConcreteAudioSource as(mBuffer);
-  vec3f posRef(1.f, -2.f, 3.f);
-  as.set_position(posRef);
-  HOU_EXPECT_FLOAT_CLOSE(posRef, as.get_position());
+  vec3f pos_ref(1.f, -2.f, 3.f);
+  as.set_position(pos_ref);
+  HOU_EXPECT_FLOAT_CLOSE(pos_ref, as.get_position());
 }
 
 
@@ -649,9 +649,9 @@ TEST_F(TestAudioSource, Position)
 TEST_F(TestAudioSource, Velocity)
 {
   ConcreteAudioSource as(mBuffer);
-  vec3f velRef(1.f, -2.f, 3.f);
-  as.set_velocity(velRef);
-  HOU_EXPECT_FLOAT_CLOSE(velRef, as.get_velocity());
+  vec3f vel_ref(1.f, -2.f, 3.f);
+  as.set_velocity(vel_ref);
+  HOU_EXPECT_FLOAT_CLOSE(vel_ref, as.get_velocity());
 }
 
 
@@ -659,7 +659,7 @@ TEST_F(TestAudioSource, Velocity)
 TEST_F(TestAudioSource, Direction)
 {
   ConcreteAudioSource as(mBuffer);
-  vec3f dirRef(1.f, -2.f, 3.f);
-  as.set_direction(dirRef);
-  HOU_EXPECT_FLOAT_CLOSE(dirRef, as.get_direction());
+  vec3f dir_ref(1.f, -2.f, 3.f);
+  as.set_direction(dir_ref);
+  HOU_EXPECT_FLOAT_CLOSE(dir_ref, as.get_direction());
 }

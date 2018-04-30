@@ -21,12 +21,12 @@ class TestTextBoxFormattingParams : public Test
 
 TEST_F(TestTextBoxFormattingParams, Constructor)
 {
-  text_flow textFlowRef = text_flow::LeftRight;
-  vec2f maxSizeRef(1.f, 2.f);
-  text_box_formatting_params tbfp(textFlowRef, maxSizeRef);
+  text_flow textFlow_ref = text_flow::LeftRight;
+  vec2f maxSize_ref(1.f, 2.f);
+  text_box_formatting_params tbfp(textFlow_ref, maxSize_ref);
 
-  EXPECT_EQ(textFlowRef, tbfp.get_text_flow());
-  HOU_EXPECT_FLOAT_CLOSE(maxSizeRef, tbfp.get_max_size());
+  EXPECT_EQ(textFlow_ref, tbfp.get_text_flow());
+  HOU_EXPECT_FLOAT_CLOSE(maxSize_ref, tbfp.get_max_size());
 }
 
 

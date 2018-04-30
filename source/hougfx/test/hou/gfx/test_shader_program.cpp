@@ -134,11 +134,11 @@ TEST_F(TestShaderProgram, MoveConstructor)
   vertex_shader vs(getVsSource());
   geometry_shader gs(getGsSource());
   fragment_shader fs(getFsSource());
-  ConcreteShaderProgram pDummy(vs, fs, gs);
-  uint programId = pDummy.get_handle().get_name();
-  ConcreteShaderProgram p = std::move(pDummy);
+  ConcreteShaderProgram p_dummy(vs, fs, gs);
+  uint programId = p_dummy.get_handle().get_name();
+  ConcreteShaderProgram p = std::move(p_dummy);
   EXPECT_EQ(programId, p.get_handle().get_name());
-  EXPECT_EQ(0u, pDummy.get_handle().get_name());
+  EXPECT_EQ(0u, p_dummy.get_handle().get_name());
 }
 
 

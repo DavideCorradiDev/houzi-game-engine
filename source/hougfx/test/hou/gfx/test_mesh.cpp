@@ -106,35 +106,35 @@ std::ostream& operator<<(std::ostream& os, const vertex_type& v)
 
 TEST_F(TestMesh, Constructor)
 {
-  mesh_draw_mode drawModeRef = mesh_draw_mode::points;
-  mesh_fill_mode polygonModeRef = mesh_fill_mode::line;
-  MeshType::vertex_collection verticesRef{
+  mesh_draw_mode drawMode_ref = mesh_draw_mode::points;
+  mesh_fill_mode polygonMode_ref = mesh_fill_mode::line;
+  MeshType::vertex_collection vertices_ref{
     vertex_type(1.f), vertex_type(1.3f), vertex_type(3.5f)};
 
-  MeshType m(drawModeRef, polygonModeRef, verticesRef);
+  MeshType m(drawMode_ref, polygonMode_ref, vertices_ref);
 
   EXPECT_EQ(mesh_draw_mode::points, m.get_draw_mode());
   EXPECT_EQ(mesh_fill_mode::line, m.get_fill_mode());
-  EXPECT_EQ(verticesRef.size(), m.get_vertex_count());
-  EXPECT_EQ(verticesRef, m.getVertices());
+  EXPECT_EQ(vertices_ref.size(), m.get_vertex_count());
+  EXPECT_EQ(vertices_ref, m.getVertices());
 }
 
 
 
 TEST_F(TestMesh, MoveConstructor)
 {
-  mesh_draw_mode drawModeRef = mesh_draw_mode::points;
-  mesh_fill_mode polygonModeRef = mesh_fill_mode::line;
-  MeshType::vertex_collection verticesRef{
+  mesh_draw_mode drawMode_ref = mesh_draw_mode::points;
+  mesh_fill_mode polygonMode_ref = mesh_fill_mode::line;
+  MeshType::vertex_collection vertices_ref{
     vertex_type(1.f), vertex_type(1.3f), vertex_type(3.5f)};
 
-  MeshType mDummy(drawModeRef, polygonModeRef, verticesRef);
-  MeshType m(std::move(mDummy));
+  MeshType m_dummy(drawMode_ref, polygonMode_ref, vertices_ref);
+  MeshType m(std::move(m_dummy));
 
   EXPECT_EQ(mesh_draw_mode::points, m.get_draw_mode());
   EXPECT_EQ(mesh_fill_mode::line, m.get_fill_mode());
-  EXPECT_EQ(verticesRef.size(), m.get_vertex_count());
-  EXPECT_EQ(verticesRef, m.getVertices());
+  EXPECT_EQ(vertices_ref.size(), m.get_vertex_count());
+  EXPECT_EQ(vertices_ref, m.getVertices());
 }
 
 
@@ -199,7 +199,7 @@ TEST_F(TestMesh, OutputStreamOperator)
   MeshType::vertex_collection vertices{vertex_type(1.f), vertex_type(2.f)};
   MeshType m(mesh_draw_mode::triangle_strip, mesh_fill_mode::fill, vertices);
 
-  const char outRef[]
+  const char out_ref[]
     = "{DrawMode = triangle_strip, FillMode = fill, Vertices = {{1}, {2}}}";
-  HOU_EXPECT_OUTPUT(outRef, m);
+  HOU_EXPECT_OUTPUT(out_ref, m);
 }

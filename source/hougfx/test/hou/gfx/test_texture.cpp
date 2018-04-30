@@ -323,15 +323,15 @@ TYPED_TEST(TestTextureCommon, SizeConstructor)
 {
   using size_type = typename TypeParam::size_type;
 
-  size_type sizeRef = this->generateSize();
-  TypeParam tex(sizeRef);
+  size_type size_ref = this->generateSize();
+  TypeParam tex(size_ref);
 
   EXPECT_NE(0u, tex.get_handle().get_name());
   EXPECT_EQ(texture_format::rgba, tex.get_format());
   EXPECT_EQ(1u, tex.get_mipmap_level_count());
   EXPECT_EQ(1u, tex.get_sample_count());
   EXPECT_TRUE(tex.has_fixed_sample_locations());
-  EXPECT_EQ(sizeRef, tex.get_size());
+  EXPECT_EQ(size_ref, tex.get_size());
   EXPECT_EQ(texture_channel_mapping::standard, tex.get_channel_mapping());
 }
 
@@ -341,16 +341,16 @@ TYPED_TEST(TestTextureCommon, SizeConstructorSizeLimits)
 {
   using size_type = typename TypeParam::size_type;
 
-  size_type sizeRef = this->generateSize();
+  size_type size_ref = this->generateSize();
   size_type maxSize = TypeParam::get_max_size();
-  for(size_t i = 0u; i < sizeRef.get_size(); ++i)
+  for(size_t i = 0u; i < size_ref.get_size(); ++i)
   {
-    size_type sizeWithOne = sizeRef;
+    size_type sizeWithOne = size_ref;
     sizeWithOne(i) = 1u;
     TypeParam texWithOne(sizeWithOne);
     EXPECT_EQ(sizeWithOne, texWithOne.get_size());
 
-    size_type sizeWithMax = sizeRef;
+    size_type sizeWithMax = size_ref;
     sizeWithMax(i) = maxSize(i);
     TypeParam texWithMax(sizeWithMax);
     EXPECT_EQ(sizeWithMax, texWithMax.get_size());
@@ -363,14 +363,14 @@ TYPED_TEST(TestTextureCommonDeathTest, SizeConstructorErrorInvalidSize)
 {
   using size_type = typename TypeParam::size_type;
 
-  size_type sizeRef = this->generateSize();
+  size_type size_ref = this->generateSize();
   size_type maxSize = TypeParam::get_max_size();
-  for(size_t i = 0u; i < sizeRef.get_size(); ++i)
+  for(size_t i = 0u; i < size_ref.get_size(); ++i)
   {
-    size_type sizeWithNull = sizeRef;
+    size_type sizeWithNull = size_ref;
     sizeWithNull(i) = 0u;
     HOU_EXPECT_PRECONDITION(TypeParam tex(sizeWithNull));
-    size_type sizeTooBig = sizeRef;
+    size_type sizeTooBig = size_ref;
     sizeTooBig(i) = maxSize(i) + 1;
     HOU_EXPECT_PRECONDITION(TypeParam tex(sizeTooBig));
   }
@@ -393,15 +393,15 @@ TYPED_TEST(TestTextureCommon, SetChannelMapping)
 TYPED_TEST(TestTextureCommon, GetSingleSizeElements)
 {
   TypeParam tex(this->generateSize());
-  vec3u sizeRef(1u, 1u, 1u);
+  vec3u size_ref(1u, 1u, 1u);
   for(size_t i = 0; i < tex.get_size().get_size(); ++i)
   {
-    sizeRef(i) = tex.get_size()(i);
+    size_ref(i) = tex.get_size()(i);
   }
 
-  EXPECT_EQ(tex.get_width(), sizeRef.x());
-  EXPECT_EQ(tex.get_height(), sizeRef.y());
-  EXPECT_EQ(tex.get_depth(), sizeRef.z());
+  EXPECT_EQ(tex.get_width(), size_ref.x());
+  EXPECT_EQ(tex.get_height(), size_ref.y());
+  EXPECT_EQ(tex.get_depth(), size_ref.z());
 }
 
 
@@ -409,13 +409,13 @@ TYPED_TEST(TestTextureCommon, GetSingleSizeElements)
 TYPED_TEST(TestTextureCommon, GetSize1)
 {
   TypeParam tex(this->generateSize());
-  vec1u sizeRef(1u);
-  for(size_t i = 0; i < std::min(sizeRef.get_size(), tex.get_size().get_size());
+  vec1u size_ref(1u);
+  for(size_t i = 0; i < std::min(size_ref.get_size(), tex.get_size().get_size());
       ++i)
   {
-    sizeRef(i) = tex.get_size()(i);
+    size_ref(i) = tex.get_size()(i);
   }
-  EXPECT_EQ(sizeRef, tex.get_size1());
+  EXPECT_EQ(size_ref, tex.get_size1());
 }
 
 
@@ -423,13 +423,13 @@ TYPED_TEST(TestTextureCommon, GetSize1)
 TYPED_TEST(TestTextureCommon, GetSize2)
 {
   TypeParam tex(this->generateSize());
-  vec2u sizeRef(1u, 1u);
-  for(size_t i = 0; i < std::min(sizeRef.get_size(), tex.get_size().get_size());
+  vec2u size_ref(1u, 1u);
+  for(size_t i = 0; i < std::min(size_ref.get_size(), tex.get_size().get_size());
       ++i)
   {
-    sizeRef(i) = tex.get_size()(i);
+    size_ref(i) = tex.get_size()(i);
   }
-  EXPECT_EQ(sizeRef, tex.get_size2());
+  EXPECT_EQ(size_ref, tex.get_size2());
 }
 
 
@@ -437,13 +437,13 @@ TYPED_TEST(TestTextureCommon, GetSize2)
 TYPED_TEST(TestTextureCommon, GetSize3)
 {
   TypeParam tex(this->generateSize());
-  vec3u sizeRef(1u, 1u, 1u);
-  for(size_t i = 0; i < std::min(sizeRef.get_size(), tex.get_size().get_size());
+  vec3u size_ref(1u, 1u, 1u);
+  for(size_t i = 0; i < std::min(size_ref.get_size(), tex.get_size().get_size());
       ++i)
   {
-    sizeRef(i) = tex.get_size()(i);
+    size_ref(i) = tex.get_size()(i);
   }
-  EXPECT_EQ(sizeRef, tex.get_size3());
+  EXPECT_EQ(size_ref, tex.get_size3());
 }
 
 
@@ -453,17 +453,17 @@ TYPED_TEST(TestTextureNotMultisampled, MipMapConstructor)
   using image = typename TypeParam::template image<pixel_format::rgb>;
   using size_type = typename TypeParam::size_type;
 
-  size_type sizeRef = this->generateSize();
-  texture_format formatRef = texture_format::rgb;
-  uint mipMapLevelCountRef = 3u;
-  TypeParam tex(sizeRef, formatRef, mipMapLevelCountRef);
+  size_type size_ref = this->generateSize();
+  texture_format format_ref = texture_format::rgb;
+  uint mipMapLevelCount_ref = 3u;
+  TypeParam tex(size_ref, format_ref, mipMapLevelCount_ref);
 
   EXPECT_NE(0u, tex.get_handle().get_name());
-  EXPECT_EQ(formatRef, tex.get_format());
-  EXPECT_EQ(mipMapLevelCountRef, tex.get_mipmap_level_count());
+  EXPECT_EQ(format_ref, tex.get_format());
+  EXPECT_EQ(mipMapLevelCount_ref, tex.get_mipmap_level_count());
   EXPECT_EQ(1u, tex.get_sample_count());
   EXPECT_TRUE(tex.has_fixed_sample_locations());
-  EXPECT_EQ(sizeRef, tex.get_size());
+  EXPECT_EQ(size_ref, tex.get_size());
   EXPECT_EQ(texture_channel_mapping::standard, tex.get_channel_mapping());
   EXPECT_EQ(texture_filter::linear, tex.get_filter());
   EXPECT_EQ(this->getDefaultWrapMode(), tex.get_wrap_mode());
@@ -476,16 +476,16 @@ TYPED_TEST(TestTextureNotMultisampled, MipMapConstructorSizeLimits)
 {
   using size_type = typename TypeParam::size_type;
 
-  size_type sizeRef = this->generateSize();
+  size_type size_ref = this->generateSize();
   size_type maxSize = TypeParam::get_max_size();
-  for(size_t i = 0u; i < sizeRef.get_size(); ++i)
+  for(size_t i = 0u; i < size_ref.get_size(); ++i)
   {
-    size_type sizeWithOne = sizeRef;
+    size_type sizeWithOne = size_ref;
     sizeWithOne(i) = 1u;
     TypeParam texWithOne(sizeWithOne, texture_format::rgba, 1u);
     EXPECT_EQ(sizeWithOne, texWithOne.get_size());
 
-    size_type sizeWithMax = sizeRef;
+    size_type sizeWithMax = size_ref;
     sizeWithMax(i) = maxSize(i);
     TypeParam texWithMax(sizeWithMax, texture_format::rgba, 1u);
     EXPECT_EQ(sizeWithMax, texWithMax.get_size());
@@ -498,12 +498,12 @@ TYPED_TEST(TestTextureNotMultisampled, MipMapConstructorMipMapLevelCountLimits)
 {
   using size_type = typename TypeParam::size_type;
 
-  size_type sizeRef = this->generateSize();
-  TypeParam texWithMinMipMapLevelcount(sizeRef, texture_format::rgba, 1u);
+  size_type size_ref = this->generateSize();
+  TypeParam texWithMinMipMapLevelcount(size_ref, texture_format::rgba, 1u);
   EXPECT_EQ(1u, texWithMinMipMapLevelcount.get_mipmap_level_count());
   TypeParam texWithMaxMipMapLevelcount(
-    sizeRef, texture_format::rgba, TypeParam::get_max_mipmap_level_count(sizeRef));
-  EXPECT_EQ(TypeParam::get_max_mipmap_level_count(sizeRef),
+    size_ref, texture_format::rgba, TypeParam::get_max_mipmap_level_count(size_ref));
+  EXPECT_EQ(TypeParam::get_max_mipmap_level_count(size_ref),
     texWithMaxMipMapLevelcount.get_mipmap_level_count());
 }
 
@@ -514,15 +514,15 @@ TYPED_TEST(
 {
   using size_type = typename TypeParam::size_type;
 
-  size_type sizeRef = this->generateSize();
+  size_type size_ref = this->generateSize();
   size_type maxSize = TypeParam::get_max_size();
-  for(size_t i = 0u; i < sizeRef.get_size(); ++i)
+  for(size_t i = 0u; i < size_ref.get_size(); ++i)
   {
-    size_type sizeWithNull = sizeRef;
+    size_type sizeWithNull = size_ref;
     sizeWithNull(i) = 0u;
     HOU_EXPECT_PRECONDITION(
       TypeParam tex(sizeWithNull, texture_format::rgba, 1u));
-    size_type sizeTooBig = sizeRef;
+    size_type sizeTooBig = size_ref;
     sizeTooBig(i) = maxSize(i) + 1;
     HOU_EXPECT_PRECONDITION(TypeParam tex(sizeTooBig, texture_format::rgba, 1u));
   }
@@ -535,50 +535,50 @@ TYPED_TEST(TestTextureNotMultisampledDeathTest,
 {
   using size_type = typename TypeParam::size_type;
 
-  size_type sizeRef = this->generateSize();
-  HOU_EXPECT_PRECONDITION(TypeParam tex(sizeRef, texture_format::rgba, 0u));
-  HOU_EXPECT_PRECONDITION(TypeParam tex(sizeRef, texture_format::rgba,
-    TypeParam::get_max_mipmap_level_count(sizeRef) + 1));
+  size_type size_ref = this->generateSize();
+  HOU_EXPECT_PRECONDITION(TypeParam tex(size_ref, texture_format::rgba, 0u));
+  HOU_EXPECT_PRECONDITION(TypeParam tex(size_ref, texture_format::rgba,
+    TypeParam::get_max_mipmap_level_count(size_ref) + 1));
 }
 
 
 
 TYPED_TEST(TestTextureNotMultisampled, ImageConstructor)
 {
-  auto imageRef = this->generateImage(this->generateSize());
-  texture_format formatRef = texture_format::rgba;
-  uint mipMapLevelCountRef = 3u;
-  TypeParam tex(imageRef, texture_format::rgba, mipMapLevelCountRef);
+  auto image_ref = this->generateImage(this->generateSize());
+  texture_format format_ref = texture_format::rgba;
+  uint mipMapLevelCount_ref = 3u;
+  TypeParam tex(image_ref, texture_format::rgba, mipMapLevelCount_ref);
 
   EXPECT_NE(0u, tex.get_handle().get_name());
-  EXPECT_EQ(formatRef, tex.get_format());
-  EXPECT_EQ(mipMapLevelCountRef, tex.get_mipmap_level_count());
+  EXPECT_EQ(format_ref, tex.get_format());
+  EXPECT_EQ(mipMapLevelCount_ref, tex.get_mipmap_level_count());
   EXPECT_EQ(1u, tex.get_sample_count());
   EXPECT_TRUE(tex.has_fixed_sample_locations());
-  EXPECT_EQ(imageRef.get_size(), tex.get_size());
+  EXPECT_EQ(image_ref.get_size(), tex.get_size());
   EXPECT_EQ(texture_channel_mapping::standard, tex.get_channel_mapping());
   EXPECT_EQ(texture_filter::linear, tex.get_filter());
   EXPECT_EQ(this->getDefaultWrapMode(), tex.get_wrap_mode());
-  EXPECT_EQ(imageRef, tex.template get_image<pixel_format::rgba>());
+  EXPECT_EQ(image_ref, tex.template get_image<pixel_format::rgba>());
 }
 
 
 
 TYPED_TEST(TestTextureNotMultisampled, ImageConstructorDefaultArguments)
 {
-  auto imageRef = this->generateImage(this->generateSize());
-  TypeParam tex(imageRef);
+  auto image_ref = this->generateImage(this->generateSize());
+  TypeParam tex(image_ref);
 
   EXPECT_NE(0u, tex.get_handle().get_name());
   EXPECT_EQ(texture_format::rgba, tex.get_format());
   EXPECT_EQ(1u, tex.get_mipmap_level_count());
   EXPECT_EQ(1u, tex.get_sample_count());
   EXPECT_TRUE(tex.has_fixed_sample_locations());
-  EXPECT_EQ(imageRef.get_size(), tex.get_size());
+  EXPECT_EQ(image_ref.get_size(), tex.get_size());
   EXPECT_EQ(texture_channel_mapping::standard, tex.get_channel_mapping());
   EXPECT_EQ(texture_filter::linear, tex.get_filter());
   EXPECT_EQ(this->getDefaultWrapMode(), tex.get_wrap_mode());
-  EXPECT_EQ(imageRef, tex.template get_image<pixel_format::rgba>());
+  EXPECT_EQ(image_ref, tex.template get_image<pixel_format::rgba>());
 }
 
 
@@ -587,17 +587,17 @@ TYPED_TEST(TestTextureNotMultisampled, ImageConstructorSizeLimits)
 {
   using size_type = typename TypeParam::size_type;
 
-  size_type sizeRef = this->generateSize();
+  size_type size_ref = this->generateSize();
   size_type maxSize = TypeParam::get_max_size();
-  for(size_t i = 0u; i < sizeRef.get_size(); ++i)
+  for(size_t i = 0u; i < size_ref.get_size(); ++i)
   {
-    size_type sizeWithOne = sizeRef;
+    size_type sizeWithOne = size_ref;
     sizeWithOne(i) = 1u;
     auto imageWithOne = this->generateImage(sizeWithOne);
     TypeParam texWithOne(imageWithOne, texture_format::rgba, 1u);
     EXPECT_EQ(imageWithOne, texWithOne.template get_image<pixel_format::rgba>());
 
-    size_type sizeWithMax = sizeRef;
+    size_type sizeWithMax = size_ref;
     sizeWithMax(i) = maxSize(i);
     auto imageWithMax = this->generateImage(sizeWithMax);
     TypeParam texWithMax(imageWithMax, texture_format::rgba, 1u);
@@ -612,12 +612,12 @@ TYPED_TEST(TestTextureNotMultisampled, ImageConstructorMipMapLevelCountLimits)
   using image = typename TypeParam::template image<pixel_format::rgba>;
   using size_type = typename TypeParam::size_type;
 
-  size_type sizeRef = this->generateSize();
-  TypeParam texWithMinMipMapLevelcount(image(sizeRef), texture_format::rgba, 1u);
+  size_type size_ref = this->generateSize();
+  TypeParam texWithMinMipMapLevelcount(image(size_ref), texture_format::rgba, 1u);
   EXPECT_EQ(1u, texWithMinMipMapLevelcount.get_mipmap_level_count());
-  TypeParam texWithMaxMipMapLevelcount(image(sizeRef), texture_format::rgba,
-    TypeParam::get_max_mipmap_level_count(sizeRef));
-  EXPECT_EQ(TypeParam::get_max_mipmap_level_count(sizeRef),
+  TypeParam texWithMaxMipMapLevelcount(image(size_ref), texture_format::rgba,
+    TypeParam::get_max_mipmap_level_count(size_ref));
+  EXPECT_EQ(TypeParam::get_max_mipmap_level_count(size_ref),
     texWithMaxMipMapLevelcount.get_mipmap_level_count());
 }
 
@@ -629,15 +629,15 @@ TYPED_TEST(
   using image = typename TypeParam::template image<pixel_format::rgba>;
   using size_type = typename TypeParam::size_type;
 
-  size_type sizeRef = this->generateSize();
+  size_type size_ref = this->generateSize();
   size_type maxSize = TypeParam::get_max_size();
-  for(size_t i = 0u; i < sizeRef.get_size(); ++i)
+  for(size_t i = 0u; i < size_ref.get_size(); ++i)
   {
-    size_type sizeWithNull = sizeRef;
+    size_type sizeWithNull = size_ref;
     sizeWithNull(i) = 0u;
     HOU_EXPECT_PRECONDITION(
       TypeParam tex(image(sizeWithNull), texture_format::rgba, 1u));
-    size_type sizeTooBig = sizeRef;
+    size_type sizeTooBig = size_ref;
     sizeTooBig(i) = maxSize(i) + 1;
     HOU_EXPECT_PRECONDITION(
       TypeParam tex(image(sizeTooBig), texture_format::rgba, 1u));
@@ -652,11 +652,11 @@ TYPED_TEST(TestTextureNotMultisampledDeathTest,
   using image = typename TypeParam::template image<pixel_format::rgba>;
   using size_type = typename TypeParam::size_type;
 
-  size_type sizeRef = this->generateSize();
+  size_type size_ref = this->generateSize();
   HOU_EXPECT_PRECONDITION(
-    TypeParam tex(image(sizeRef), texture_format::rgba, 0u));
-  HOU_EXPECT_PRECONDITION(TypeParam tex(image(sizeRef), texture_format::rgba,
-    TypeParam::get_max_mipmap_level_count(sizeRef) + 1));
+    TypeParam tex(image(size_ref), texture_format::rgba, 0u));
+  HOU_EXPECT_PRECONDITION(TypeParam tex(image(size_ref), texture_format::rgba,
+    TypeParam::get_max_mipmap_level_count(size_ref) + 1));
 }
 
 
@@ -692,9 +692,9 @@ TYPED_TEST(TestTextureNotMultisampled, SetImage)
 
   TypeParam tex(this->generateSize());
   EXPECT_EQ(image(tex.get_size()), tex.template get_image<pixel_format::rgba>());
-  image imageRef = this->generateImage(tex.get_size());
-  tex.set_image(imageRef);
-  EXPECT_EQ(imageRef, tex.template get_image<pixel_format::rgba>());
+  image image_ref = this->generateImage(tex.get_size());
+  tex.set_image(image_ref);
+  EXPECT_EQ(image_ref, tex.template get_image<pixel_format::rgba>());
 }
 
 
@@ -725,11 +725,11 @@ TYPED_TEST(TestTextureNotMultisampled, GetSubImage)
     subImageOffset(i) = i + 1;
   }
 
-  image imageRef = this->generateImage(texSize);
-  image subImageRef = imageRef.get_sub_image(subImageOffset, subImageSize);
-  TypeParam tex(imageRef);
+  image image_ref = this->generateImage(texSize);
+  image subImage_ref = image_ref.get_sub_image(subImageOffset, subImageSize);
+  TypeParam tex(image_ref);
 
-  EXPECT_EQ(subImageRef,
+  EXPECT_EQ(subImage_ref,
     tex.template get_sub_image<pixel_format::rgba>(subImageOffset, subImageSize));
 }
 
@@ -772,15 +772,15 @@ TYPED_TEST(TestTextureNotMultisampled, SetSubImage)
     subImageOffset(i) = i + 1;
   }
 
-  typename image::pixel pixelRef(1u, 2u, 3u, 4u);
-  image subImageRef(subImageSize, pixelRef);
-  image imageRef(texSize);
-  imageRef.set_sub_image(subImageOffset, subImageRef);
+  typename image::pixel pixel_ref(1u, 2u, 3u, 4u);
+  image subImage_ref(subImageSize, pixel_ref);
+  image image_ref(texSize);
+  image_ref.set_sub_image(subImageOffset, subImage_ref);
   TypeParam tex(texSize);
-  tex.set_sub_image(subImageOffset, subImageRef);
+  tex.set_sub_image(subImageOffset, subImage_ref);
 
-  EXPECT_EQ(imageRef, tex.template get_image<pixel_format::rgba>());
-  EXPECT_EQ(subImageRef,
+  EXPECT_EQ(image_ref, tex.template get_image<pixel_format::rgba>());
+  EXPECT_EQ(subImage_ref,
     tex.template get_sub_image<pixel_format::rgba>(subImageOffset, subImageSize));
 }
 
@@ -803,8 +803,8 @@ TYPED_TEST(TestTextureNotMultisampledDeathTest, SetSubImageErrorOverflow)
   }
 
   TypeParam tex(texSize);
-  image subImageRef(subImageSize);
-  HOU_EXPECT_PRECONDITION(tex.set_sub_image(subImageOffset, subImageRef));
+  image subImage_ref(subImageSize);
+  HOU_EXPECT_PRECONDITION(tex.set_sub_image(subImageOffset, subImage_ref));
 }
 
 
@@ -815,10 +815,10 @@ TYPED_TEST(TestTextureNotMultisampled, Clear)
 
   TypeParam tex(this->generateSize());
   EXPECT_EQ(image(tex.get_size()), tex.template get_image<pixel_format::rgba>());
-  pixelrgba pixelRef(1u, 2u, 3u, 4u);
-  tex.clear(pixelRef);
+  pixelrgba pixel_ref(1u, 2u, 3u, 4u);
+  tex.clear(pixel_ref);
   EXPECT_EQ(
-    image(tex.get_size(), pixelRef), tex.template get_image<pixel_format::rgba>());
+    image(tex.get_size(), pixel_ref), tex.template get_image<pixel_format::rgba>());
 }
 
 
@@ -827,12 +827,12 @@ TYPED_TEST(TestTextureNotMultisampled, GetMipMapSize)
 {
   using size_type = typename TypeParam::size_type;
 
-  size_type sizeRef = this->generateSize();
-  TypeParam tex(sizeRef, texture_format::rgba, 3u);
+  size_type size_ref = this->generateSize();
+  TypeParam tex(size_ref, texture_format::rgba, 3u);
 
   for(size_t i = 0; i < tex.get_mipmap_level_count(); ++i)
   {
-    EXPECT_EQ(this->computeMipMapSize(sizeRef, i), tex.get_mipmap_size(i));
+    EXPECT_EQ(this->computeMipMapSize(size_ref, i), tex.get_mipmap_size(i));
   }
 }
 
@@ -917,11 +917,11 @@ TYPED_TEST(TestTextureNotMultisampled, ClearGetMipMapImage)
   using image = typename TypeParam::template image<pixel_format::rgba>;
 
   TypeParam tex(this->generateSize(), texture_format::rgba, 3u);
-  pixelrgba pixelRef(2u, 3u, 5u, 7u);
-  tex.clear(pixelRef);
+  pixelrgba pixel_ref(2u, 3u, 5u, 7u);
+  tex.clear(pixel_ref);
   for(size_t i = 0; i < tex.get_mipmap_level_count(); ++i)
   {
-    EXPECT_EQ(image(tex.get_mipmap_size(i), pixelRef),
+    EXPECT_EQ(image(tex.get_mipmap_size(i), pixel_ref),
       tex.template get_mipmap_image<pixel_format::rgba>(i));
   }
 }
@@ -978,17 +978,17 @@ TYPED_TEST(TestTextureMultisampled, MultisampleConstructor)
 {
   using size_type = typename TypeParam::size_type;
 
-  size_type sizeRef = this->generateSize();
-  texture_format formatRef = texture_format::rgb;
-  uint sampleCountRef = 3u;
-  TypeParam tex(sizeRef, formatRef, sampleCountRef, false);
+  size_type size_ref = this->generateSize();
+  texture_format format_ref = texture_format::rgb;
+  uint sampleCount_ref = 3u;
+  TypeParam tex(size_ref, format_ref, sampleCount_ref, false);
 
   EXPECT_NE(0u, tex.get_handle().get_name());
-  EXPECT_EQ(formatRef, tex.get_format());
+  EXPECT_EQ(format_ref, tex.get_format());
   EXPECT_EQ(1u, tex.get_mipmap_level_count());
-  EXPECT_EQ(sampleCountRef, tex.get_sample_count());
+  EXPECT_EQ(sampleCount_ref, tex.get_sample_count());
   EXPECT_FALSE(tex.has_fixed_sample_locations());
-  EXPECT_EQ(sizeRef, tex.get_size());
+  EXPECT_EQ(size_ref, tex.get_size());
   EXPECT_EQ(texture_channel_mapping::standard, tex.get_channel_mapping());
 }
 
@@ -998,16 +998,16 @@ TYPED_TEST(TestTextureMultisampled, MultisampleConstructorSizeLimits)
 {
   using size_type = typename TypeParam::size_type;
 
-  size_type sizeRef = this->generateSize();
+  size_type size_ref = this->generateSize();
   size_type maxSize = TypeParam::get_max_size();
-  for(size_t i = 0u; i < sizeRef.get_size(); ++i)
+  for(size_t i = 0u; i < size_ref.get_size(); ++i)
   {
-    size_type sizeWithOne = sizeRef;
+    size_type sizeWithOne = size_ref;
     sizeWithOne(i) = 1u;
     TypeParam texWithOne(sizeWithOne, texture_format::rgba, 1u, true);
     EXPECT_EQ(sizeWithOne, texWithOne.get_size());
 
-    size_type sizeWithMax = sizeRef;
+    size_type sizeWithMax = size_ref;
     sizeWithMax(i) = maxSize(i);
     TypeParam texWithMax(sizeWithMax, texture_format::rgba, 1u, true);
     EXPECT_EQ(sizeWithMax, texWithMax.get_size());
@@ -1020,11 +1020,11 @@ TYPED_TEST(TestTextureMultisampled, MultisampleConstructorSampleCountLimits)
 {
   using size_type = typename TypeParam::size_type;
 
-  size_type sizeRef = this->generateSize();
-  TypeParam texWithMinSampleCount(sizeRef, texture_format::rgba, 1u, true);
+  size_type size_ref = this->generateSize();
+  TypeParam texWithMinSampleCount(size_ref, texture_format::rgba, 1u, true);
   EXPECT_EQ(1u, texWithMinSampleCount.get_sample_count());
   TypeParam texWithMaxSampleCount(
-    sizeRef, texture_format::rgba, TypeParam::get_max_sample_count(), true);
+    size_ref, texture_format::rgba, TypeParam::get_max_sample_count(), true);
   EXPECT_EQ(
     TypeParam::get_max_sample_count(), texWithMaxSampleCount.get_sample_count());
 }
@@ -1035,10 +1035,10 @@ TYPED_TEST(TestTextureMultisampled, MultisampleConstructorSamplePositionValues)
 {
   using size_type = typename TypeParam::size_type;
 
-  size_type sizeRef = this->generateSize();
-  TypeParam texTrue(sizeRef, texture_format::rgba, 1u, true);
+  size_type size_ref = this->generateSize();
+  TypeParam texTrue(size_ref, texture_format::rgba, 1u, true);
   EXPECT_TRUE(texTrue.has_fixed_sample_locations());
-  TypeParam texFalse(sizeRef, texture_format::rgba, 1u, false);
+  TypeParam texFalse(size_ref, texture_format::rgba, 1u, false);
   EXPECT_FALSE(texFalse.has_fixed_sample_locations());
 }
 
@@ -1049,15 +1049,15 @@ TYPED_TEST(
 {
   using size_type = typename TypeParam::size_type;
 
-  size_type sizeRef = this->generateSize();
+  size_type size_ref = this->generateSize();
   size_type maxSize = TypeParam::get_max_size();
-  for(size_t i = 0u; i < sizeRef.get_size(); ++i)
+  for(size_t i = 0u; i < size_ref.get_size(); ++i)
   {
-    size_type sizeWithNull = sizeRef;
+    size_type sizeWithNull = size_ref;
     sizeWithNull(i) = 0u;
     HOU_EXPECT_PRECONDITION(
       TypeParam tex(sizeWithNull, texture_format::rgba, 1u, true));
-    size_type sizeTooBig = sizeRef;
+    size_type sizeTooBig = size_ref;
     sizeTooBig(i) = maxSize(i) + 1;
     HOU_EXPECT_PRECONDITION(
       TypeParam tex(sizeTooBig, texture_format::rgba, 1u, true));
@@ -1071,9 +1071,9 @@ TYPED_TEST(
 {
   using size_type = typename TypeParam::size_type;
 
-  size_type sizeRef = this->generateSize();
+  size_type size_ref = this->generateSize();
   HOU_EXPECT_PRECONDITION(
-    TypeParam tex(sizeRef, texture_format::rgba, 0u, true));
+    TypeParam tex(size_ref, texture_format::rgba, 0u, true));
   HOU_EXPECT_PRECONDITION(TypeParam tex(
-    sizeRef, texture_format::rgba, TypeParam::get_max_sample_count() + 1, true));
+    size_ref, texture_format::rgba, TypeParam::get_max_sample_count() + 1, true));
 }

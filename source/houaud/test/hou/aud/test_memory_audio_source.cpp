@@ -105,8 +105,8 @@ TEST_F(TestMemoryAudioSource, BufferConstructor)
 
 TEST_F(TestMemoryAudioSource, MoveConstructor)
 {
-  memory_audio_source asDummy(&mBuffer);
-  memory_audio_source as(std::move(asDummy));
+  memory_audio_source as_dummy(&mBuffer);
+  memory_audio_source as(std::move(as_dummy));
   EXPECT_EQ(&mBuffer, as.get_buffer());
   EXPECT_EQ(audio_source_state::stopped, as.get_state());
   EXPECT_EQ(audio_buffer_format::stereo16, as.get_format());
