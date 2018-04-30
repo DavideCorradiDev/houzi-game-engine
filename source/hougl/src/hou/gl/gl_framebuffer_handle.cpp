@@ -84,9 +84,9 @@ void bind_framebuffer(const framebuffer_handle& framebuffer)
   {
     glBindFramebuffer(GL_FRAMEBUFFER, framebuffer.get_name());
     HOU_GL_CHECK_ERROR();
-    context::getCurrent()->mTrackingData.set_bound_framebuffer(
+    context::getCurrent()->m_tracking_data.set_bound_framebuffer(
       framebuffer.get_uid(), GL_DRAW_FRAMEBUFFER);
-    context::getCurrent()->mTrackingData.set_bound_framebuffer(
+    context::getCurrent()->m_tracking_data.set_bound_framebuffer(
       framebuffer.get_uid(), GL_READ_FRAMEBUFFER);
   }
 }
@@ -101,7 +101,7 @@ void bind_framebuffer(const framebuffer_handle& framebuffer, GLenum target)
   {
     glBindFramebuffer(target, framebuffer.get_name());
     HOU_GL_CHECK_ERROR();
-    context::getCurrent()->mTrackingData.set_bound_framebuffer(
+    context::getCurrent()->m_tracking_data.set_bound_framebuffer(
       framebuffer.get_uid(), target);
   }
 }
@@ -115,9 +115,9 @@ void unbind_framebuffer()
   {
     glBindFramebuffer(GL_FRAMEBUFFER, 0u);
     HOU_GL_CHECK_ERROR();
-    context::getCurrent()->mTrackingData.set_bound_framebuffer(
+    context::getCurrent()->m_tracking_data.set_bound_framebuffer(
       0u, GL_DRAW_FRAMEBUFFER);
-    context::getCurrent()->mTrackingData.set_bound_framebuffer(
+    context::getCurrent()->m_tracking_data.set_bound_framebuffer(
       0u, GL_READ_FRAMEBUFFER);
   }
 }
@@ -131,7 +131,7 @@ void unbind_framebuffer(GLenum target)
   {
     glBindFramebuffer(target, 0u);
     HOU_GL_CHECK_ERROR();
-    context::getCurrent()->mTrackingData.set_bound_framebuffer(0u, target);
+    context::getCurrent()->m_tracking_data.set_bound_framebuffer(0u, target);
   }
 }
 
@@ -141,7 +141,7 @@ bool is_framebuffer_bound(const framebuffer_handle& framebuffer, GLenum target)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(framebuffer);
-  return context::getCurrent()->mTrackingData.get_bound_framebuffer(target)
+  return context::getCurrent()->m_tracking_data.get_bound_framebuffer(target)
     == framebuffer.get_uid();
 }
 
@@ -150,7 +150,7 @@ bool is_framebuffer_bound(const framebuffer_handle& framebuffer, GLenum target)
 bool is_framebuffer_bound(GLenum target)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  return context::getCurrent()->mTrackingData.get_bound_framebuffer(target)
+  return context::getCurrent()->m_tracking_data.get_bound_framebuffer(target)
     != 0u;
 }
 

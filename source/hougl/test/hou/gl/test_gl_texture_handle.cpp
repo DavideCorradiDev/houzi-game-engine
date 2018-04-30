@@ -15,16 +15,17 @@ using namespace hou;
 namespace
 {
 
-class TestGlTextureHandle : public test_gl_multiple_contexts
+class test_gl_texture_handle : public test_gl_multiple_contexts
 {};
-class TestGlTextureHandleDeathTest : public TestGlTextureHandle
+
+class test_gl_texture_handle_death_test : public test_gl_texture_handle
 {};
 
 }  // namespace
 
 
 
-TEST_F(TestGlTextureHandle, Creation)
+TEST_F(test_gl_texture_handle, creation)
 {
   gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_2D);
   EXPECT_NE(0u, th.get_name());
@@ -34,9 +35,9 @@ TEST_F(TestGlTextureHandle, Creation)
 
 
 #ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
-TEST_F(TestGlTextureHandleDeathTest, NoContextCreation)
+TEST_F(test_gl_texture_handle_death_test, no_context_creation)
 #else
-TEST_F(TestGlTextureHandleDeathTest, DISABLED_NoContextCreation)
+TEST_F(test_gl_texture_handle_death_test, DISABLED_no_context_creation)
 #endif
 {
   gl::context::unset_current();
@@ -46,7 +47,7 @@ TEST_F(TestGlTextureHandleDeathTest, DISABLED_NoContextCreation)
 
 
 
-TEST_F(TestGlTextureHandle, Tracking)
+TEST_F(test_gl_texture_handle, tracking)
 {
   gl::texture_handle th1 = gl::texture_handle::create(GL_TEXTURE_2D);
   gl::texture_handle th2 = gl::texture_handle::create(GL_TEXTURE_1D);
@@ -77,7 +78,7 @@ TEST_F(TestGlTextureHandle, Tracking)
   EXPECT_FALSE(gl::is_texture_bound(th1));
   EXPECT_TRUE(gl::is_texture_bound(th2));
 
-  setSharingContextCurrent();
+  set_sharing_context_current();
   EXPECT_EQ(0u, gl::get_active_texture());
   EXPECT_EQ(0u, gl::get_bound_texture_name());
   EXPECT_FALSE(gl::is_texture_bound(th1));
@@ -89,7 +90,7 @@ TEST_F(TestGlTextureHandle, Tracking)
   EXPECT_FALSE(gl::is_texture_bound(th1));
   EXPECT_TRUE(gl::is_texture_bound(th2));
 
-  setContextCurrent();
+  set_context_current();
   EXPECT_EQ(1u, gl::get_active_texture());
   EXPECT_EQ(th2.get_name(), gl::get_bound_texture_name());
   EXPECT_FALSE(gl::is_texture_bound(th1));
@@ -110,7 +111,7 @@ TEST_F(TestGlTextureHandle, Tracking)
 
 
 
-TEST_F(TestGlTextureHandle, UnitTracking)
+TEST_F(test_gl_texture_handle, unit_tracking)
 {
   gl::texture_handle th1 = gl::texture_handle::create(GL_TEXTURE_2D);
   gl::texture_handle th2 = gl::texture_handle::create(GL_TEXTURE_1D);
@@ -132,7 +133,7 @@ TEST_F(TestGlTextureHandle, UnitTracking)
   EXPECT_FALSE(gl::is_texture_bound(th1, 2));
   EXPECT_TRUE(gl::is_texture_bound(th2, 2));
 
-  setSharingContextCurrent();
+  set_sharing_context_current();
   EXPECT_FALSE(gl::is_texture_bound(th1, 0));
   EXPECT_FALSE(gl::is_texture_bound(th2, 0));
   EXPECT_FALSE(gl::is_texture_bound(th1, 2));
@@ -144,7 +145,7 @@ TEST_F(TestGlTextureHandle, UnitTracking)
   EXPECT_FALSE(gl::is_texture_bound(th1, 2));
   EXPECT_TRUE(gl::is_texture_bound(th2, 2));
 
-  setContextCurrent();
+  set_context_current();
   EXPECT_TRUE(gl::is_texture_bound(th1, 0));
   EXPECT_FALSE(gl::is_texture_bound(th2, 0));
   EXPECT_FALSE(gl::is_texture_bound(th1, 2));
@@ -165,10 +166,10 @@ TEST_F(TestGlTextureHandle, UnitTracking)
 
 
 
-TEST_F(TestGlTextureHandle, SharingContextBinding)
+TEST_F(test_gl_texture_handle, sharing_context_binding)
 {
   gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_1D);
-  setSharingContextCurrent();
+  set_sharing_context_current();
   gl::bind_texture(th);
   EXPECT_TRUE(is_texture_bound(th));
 }
@@ -176,36 +177,36 @@ TEST_F(TestGlTextureHandle, SharingContextBinding)
 
 
 #ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
-TEST_F(TestGlTextureHandleDeathTest, NonSharingContextBinding)
+TEST_F(test_gl_texture_handle_death_test, non_sharing_context_binding)
 #else
-TEST_F(TestGlTextureHandleDeathTest, DISABLED_NonSharingContextBinding)
+TEST_F(test_gl_texture_handle_death_test, DISABLED_non_sharing_context_binding)
 #endif
 {
   gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_1D);
-  setNonSharingContextCurrent();
-  HOU_EXPECT_ERROR(
-    gl::bind_texture(th), std::logic_error, get_text(gl_error::invalid_ownership));
-  setContextCurrent();
+  set_non_sharing_context_current();
+  HOU_EXPECT_ERROR(gl::bind_texture(th), std::logic_error,
+    get_text(gl_error::invalid_ownership));
+  set_context_current();
 }
 
 
 
 #ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
-TEST_F(TestGlTextureHandleDeathTest, NoContextBinding)
+TEST_F(test_gl_texture_handle_death_test, no_context_binding)
 #else
-TEST_F(TestGlTextureHandleDeathTest, DISABLED_NoContextBinding)
+TEST_F(test_gl_texture_handle_death_test, DISABLED_no_context_binding)
 #endif
 {
   gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_1D);
   gl::context::unset_current();
-  HOU_EXPECT_ERROR(
-    gl::bind_texture(th), std::logic_error, get_text(gl_error::context_existence));
-  setContextCurrent();
+  HOU_EXPECT_ERROR(gl::bind_texture(th), std::logic_error,
+    get_text(gl_error::context_existence));
+  set_context_current();
 }
 
 
 
-TEST_F(TestGlTextureHandle, MinFilter)
+TEST_F(test_gl_texture_handle, min_filter)
 {
   gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_2D);
 
@@ -220,21 +221,21 @@ TEST_F(TestGlTextureHandle, MinFilter)
     gl::get_texture_min_filter(th));
 
   gl::set_texture_min_filter(th, GL_NEAREST_MIPMAP_LINEAR);
-  EXPECT_EQ(
-    static_cast<GLenum>(GL_NEAREST_MIPMAP_LINEAR), gl::get_texture_min_filter(th));
+  EXPECT_EQ(static_cast<GLenum>(GL_NEAREST_MIPMAP_LINEAR),
+    gl::get_texture_min_filter(th));
 
   gl::set_texture_min_filter(th, GL_LINEAR_MIPMAP_NEAREST);
-  EXPECT_EQ(
-    static_cast<GLenum>(GL_LINEAR_MIPMAP_NEAREST), gl::get_texture_min_filter(th));
+  EXPECT_EQ(static_cast<GLenum>(GL_LINEAR_MIPMAP_NEAREST),
+    gl::get_texture_min_filter(th));
 
   gl::set_texture_min_filter(th, GL_LINEAR_MIPMAP_LINEAR);
-  EXPECT_EQ(
-    static_cast<GLenum>(GL_LINEAR_MIPMAP_LINEAR), gl::get_texture_min_filter(th));
+  EXPECT_EQ(static_cast<GLenum>(GL_LINEAR_MIPMAP_LINEAR),
+    gl::get_texture_min_filter(th));
 }
 
 
 
-TEST_F(TestGlTextureHandle, MagFilter)
+TEST_F(test_gl_texture_handle, mag_filter)
 {
   gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_2D);
 
@@ -247,7 +248,7 @@ TEST_F(TestGlTextureHandle, MagFilter)
 
 
 
-TEST_F(TestGlTextureHandle, SwizzleR)
+TEST_F(test_gl_texture_handle, swizzle_r)
 {
   gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_2D);
 
@@ -258,7 +259,7 @@ TEST_F(TestGlTextureHandle, SwizzleR)
 
 
 
-TEST_F(TestGlTextureHandle, SwizzleG)
+TEST_F(test_gl_texture_handle, swizzle_g)
 {
   gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_2D);
 
@@ -269,7 +270,7 @@ TEST_F(TestGlTextureHandle, SwizzleG)
 
 
 
-TEST_F(TestGlTextureHandle, SwizzleB)
+TEST_F(test_gl_texture_handle, swizzle_b)
 {
   gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_2D);
 
@@ -280,7 +281,7 @@ TEST_F(TestGlTextureHandle, SwizzleB)
 
 
 
-TEST_F(TestGlTextureHandle, SwizzleA)
+TEST_F(test_gl_texture_handle, swizzle_a)
 {
   gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_2D);
 
@@ -291,7 +292,7 @@ TEST_F(TestGlTextureHandle, SwizzleA)
 
 
 
-TEST_F(TestGlTextureHandle, SwizzleRGBA)
+TEST_F(test_gl_texture_handle, swizzle_rgba)
 {
   gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_2D);
   std::array<GLenum, 4u> swizzle;
@@ -319,30 +320,33 @@ TEST_F(TestGlTextureHandle, SwizzleRGBA)
 
 
 
-TEST_F(TestGlTextureHandle, TextureWrapModeS)
+TEST_F(test_gl_texture_handle, texture_wrap_mode_s)
 {
   gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_2D);
   EXPECT_EQ(static_cast<GLenum>(GL_REPEAT), gl::get_texture_wrap_mode_s(th));
   gl::set_texture_wrap_mode_s(th, GL_CLAMP_TO_EDGE);
-  EXPECT_EQ(static_cast<GLenum>(GL_CLAMP_TO_EDGE), gl::get_texture_wrap_mode_s(th));
+  EXPECT_EQ(
+    static_cast<GLenum>(GL_CLAMP_TO_EDGE), gl::get_texture_wrap_mode_s(th));
 }
 
 
 
-TEST_F(TestGlTextureHandle, TextureWrapModeT)
+TEST_F(test_gl_texture_handle, texture_wrap_mode_t)
 {
   gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_2D);
   EXPECT_EQ(static_cast<GLenum>(GL_REPEAT), gl::get_texture_wrap_mode_t(th));
   gl::set_texture_wrap_mode_t(th, GL_CLAMP_TO_EDGE);
-  EXPECT_EQ(static_cast<GLenum>(GL_CLAMP_TO_EDGE), gl::get_texture_wrap_mode_t(th));
+  EXPECT_EQ(
+    static_cast<GLenum>(GL_CLAMP_TO_EDGE), gl::get_texture_wrap_mode_t(th));
 }
 
 
 
-TEST_F(TestGlTextureHandle, TextureWrapModeR)
+TEST_F(test_gl_texture_handle, texture_wrap_mode_r)
 {
   gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_2D);
   EXPECT_EQ(static_cast<GLenum>(GL_REPEAT), gl::get_texture_wrap_mode_r(th));
   gl::set_texture_wrap_mode_r(th, GL_CLAMP_TO_EDGE);
-  EXPECT_EQ(static_cast<GLenum>(GL_CLAMP_TO_EDGE), gl::get_texture_wrap_mode_r(th));
+  EXPECT_EQ(
+    static_cast<GLenum>(GL_CLAMP_TO_EDGE), gl::get_texture_wrap_mode_r(th));
 }

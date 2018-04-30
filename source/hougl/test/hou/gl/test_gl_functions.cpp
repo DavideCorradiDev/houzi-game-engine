@@ -18,16 +18,17 @@ using namespace hou;
 namespace
 {
 
-class TestGlFunctions : public test_gl_single_context
+class test_gl_functions : public test_gl_single_context
 {};
-class TestGlFunctionsDeathTest : public TestGlFunctions
+
+class test_gl_functions_death_test : public test_gl_functions
 {};
 
 }  // namespace
 
 
 
-TEST_F(TestGlFunctions, VerticalSync)
+TEST_F(test_gl_functions, vertical_sync)
 {
   gl::set_vertical_sync_mode(gl::vertical_sync_mode::disabled);
   gl::set_vertical_sync_mode(gl::vertical_sync_mode::enabled);
@@ -36,7 +37,7 @@ TEST_F(TestGlFunctions, VerticalSync)
 
 
 
-TEST_F(TestGlFunctions, UnpackAlignment)
+TEST_F(test_gl_functions, unpack_alignment)
 {
   gl::set_unpack_alignment(1);
   EXPECT_EQ(1, gl::get_unpack_alignment());
@@ -46,7 +47,7 @@ TEST_F(TestGlFunctions, UnpackAlignment)
 
 
 
-TEST_F(TestGlFunctionsDeathTest, InvalidUnpackAlignment)
+TEST_F(test_gl_functions_death_test, invalid_unpack_alignment)
 {
 #ifdef HOU_ENABLE_GL_ERROR_CHECKS
   HOU_EXPECT_ERROR(gl::set_unpack_alignment(3), std::logic_error,
@@ -58,7 +59,7 @@ TEST_F(TestGlFunctionsDeathTest, InvalidUnpackAlignment)
 
 
 
-TEST_F(TestGlFunctions, PackAlignment)
+TEST_F(test_gl_functions, pack_alignment)
 {
   gl::set_pack_alignment(1);
   EXPECT_EQ(1, gl::get_pack_alignment());
@@ -68,7 +69,7 @@ TEST_F(TestGlFunctions, PackAlignment)
 
 
 
-TEST_F(TestGlFunctionsDeathTest, InvalidPackAlignment)
+TEST_F(test_gl_functions_death_test, invalid_pack_alignment)
 {
 #ifdef HOU_ENABLE_GL_ERROR_CHECKS
   HOU_EXPECT_ERROR(
@@ -80,7 +81,7 @@ TEST_F(TestGlFunctionsDeathTest, InvalidPackAlignment)
 
 
 
-TEST_F(TestGlFunctions, get_pixel_size_bytes)
+TEST_F(test_gl_functions, get_pixel_size_bytes)
 {
   EXPECT_EQ(1, gl::get_pixel_size_bytes(GL_RED));
   EXPECT_EQ(2, gl::get_pixel_size_bytes(GL_RG));
@@ -92,7 +93,7 @@ TEST_F(TestGlFunctions, get_pixel_size_bytes)
 
 
 
-TEST_F(TestGlFunctions, ComputeTextureSizeBytes)
+TEST_F(test_gl_functions, compute_texture_size_bytes)
 {
   gl::set_unpack_alignment(4);
   EXPECT_EQ(48, gl::compute_texture_size_bytes(7, 3, 2, GL_RED));
@@ -113,17 +114,17 @@ TEST_F(TestGlFunctions, ComputeTextureSizeBytes)
 
 
 
-TEST_F(TestGlFunctions, BindWindow)
+TEST_F(test_gl_functions, bind_window)
 {
-  ASSERT_TRUE(mContext.is_current());
+  ASSERT_TRUE(m_context.is_current());
   system_window w("Test", video_mode(vec2u(40u, 30u), 32u), window_style::windowed);
   gl::bind_window(w);
-  EXPECT_TRUE(mContext.is_current());
+  EXPECT_TRUE(m_context.is_current());
 }
 
 
 
-TEST_F(TestGlFunctions, EnableBlending)
+TEST_F(test_gl_functions, enable_blending)
 {
   EXPECT_FALSE(gl::is_blending_enabled());
   gl::enable_blending();
@@ -138,7 +139,7 @@ TEST_F(TestGlFunctions, EnableBlending)
 
 
 
-TEST_F(TestGlFunctions, GetBlendingFactors)
+TEST_F(test_gl_functions, get_blending_factors)
 {
   EXPECT_EQ(static_cast<GLenum>(GL_ONE), gl::get_source_blending());
   EXPECT_EQ(static_cast<GLenum>(GL_ZERO), gl::get_destination_blending());
@@ -155,7 +156,7 @@ TEST_F(TestGlFunctions, GetBlendingFactors)
 
 
 
-TEST_F(TestGlFunctions, EnableMultisampling)
+TEST_F(test_gl_functions, enable_multisampling)
 {
   EXPECT_TRUE(gl::is_multisampling_enabled());
   gl::enable_multisampling();

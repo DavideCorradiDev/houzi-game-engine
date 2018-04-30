@@ -6,10 +6,21 @@
 #include "hou/gl/gl_context_settings.hpp"
 
 using namespace hou;
+using namespace testing;
 
 
 
-TEST(TestGlContextSettings, Creation)
+namespace
+{
+
+class test_gl_context_settings : public Test
+{};
+
+}  // namespace
+
+
+
+TEST_F(test_gl_context_settings, creation)
 {
   gl::context_settings cs(
     gl::version(4u, 5u), gl::context_profile::core, 3u, 1u, 0u);
@@ -23,7 +34,7 @@ TEST(TestGlContextSettings, Creation)
 
 
 
-TEST(TestGlContextSettings, SettersAndGetters)
+TEST_F(test_gl_context_settings, setters_and_getters)
 {
   gl::context_settings cs(
     gl::version(4u, 5u), gl::context_profile::core, 3u, 1u, 0u);
@@ -46,7 +57,7 @@ TEST(TestGlContextSettings, SettersAndGetters)
 
 
 
-TEST(TestGlContextSettings, Comparison)
+TEST_F(test_gl_context_settings, comparison)
 {
   gl::context_settings cs1(
     gl::version(4u, 5u), gl::context_profile::core, 3u, 1u, 0u);
@@ -80,7 +91,7 @@ TEST(TestGlContextSettings, Comparison)
 
 
 
-TEST(TestGlContextSettings, DefaultSettings)
+TEST_F(test_gl_context_settings, default_settings)
 {
   gl::context_settings cs_ref(
     gl::version::standard, gl::context_profile::core, 3u, 1u, 0u);

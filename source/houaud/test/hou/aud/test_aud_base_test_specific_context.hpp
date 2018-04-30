@@ -20,7 +20,7 @@ public:
   virtual ~test_aud_base_test_specific_context() = 0;
 
 public:
-  hou::audio_context mContext;
+  hou::audio_context m_context;
 };
 
 #endif

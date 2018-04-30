@@ -10,8 +10,8 @@
 
 test_gl_multiple_contexts::test_gl_multiple_contexts()
   : test_gl_base()
-  , mSharingContext(hou::gl::context_settings::standard, mWindow, mContext)
-  , mNonSharingContext(hou::gl::context_settings::standard, mWindow)
+  , m_sharing_context(hou::gl::context_settings::standard, m_window, m_context)
+  , m_non_sharing_context(hou::gl::context_settings::standard, m_window)
 {}
 
 
@@ -20,15 +20,15 @@ test_gl_multiple_contexts::~test_gl_multiple_contexts() {}
 
 
 
-void test_gl_multiple_contexts::setSharingContextCurrent()
+void test_gl_multiple_contexts::set_sharing_context_current()
 {
-  hou::gl::context::set_current(mSharingContext, mWindow);
+  hou::gl::context::set_current(m_sharing_context, m_window);
 }
 
 
 
-void test_gl_multiple_contexts::setNonSharingContextCurrent()
+void test_gl_multiple_contexts::set_non_sharing_context_current()
 {
-  hou::gl::context::set_current(mNonSharingContext, mWindow);
+  hou::gl::context::set_current(m_non_sharing_context, m_window);
 }
 

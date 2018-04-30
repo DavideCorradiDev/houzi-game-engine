@@ -15,14 +15,17 @@ using namespace hou;
 namespace
 {
 
-class TestGlFramebufferHandle : public test_gl_multiple_contexts {};
-class TestGlFramebufferHandleDeathTest : public TestGlFramebufferHandle {};
+class test_gl_framebuffer_handle : public test_gl_multiple_contexts
+{};
 
-}
+class test_gl_framebuffer_handle_death_test : public test_gl_framebuffer_handle
+{};
+
+}  // namespace
 
 
 
-TEST_F(TestGlFramebufferHandle, Creation)
+TEST_F(test_gl_framebuffer_handle, creation)
 {
   gl::framebuffer_handle fbh = gl::framebuffer_handle::create();
   EXPECT_NE(0u, fbh.get_name());
@@ -31,19 +34,19 @@ TEST_F(TestGlFramebufferHandle, Creation)
 
 
 #ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
-TEST_F(TestGlFramebufferHandleDeathTest, NoContextCreation)
+TEST_F(test_gl_framebuffer_handle_death_test, no_context_creation)
 #else
-TEST_F(TestGlFramebufferHandleDeathTest, DISABLED_NoContextCreation)
+TEST_F(test_gl_framebuffer_handle_death_test, DISABLED_no_context_creation)
 #endif
 {
   gl::context::unset_current();
-  HOU_EXPECT_ERROR(gl::framebuffer_handle::create(), std::logic_error
-    , get_text(gl_error::context_existence));
+  HOU_EXPECT_ERROR(gl::framebuffer_handle::create(), std::logic_error,
+    get_text(gl_error::context_existence));
 }
 
 
 
-TEST_F(TestGlFramebufferHandle, Tracking)
+TEST_F(test_gl_framebuffer_handle, tracking)
 {
   gl::framebuffer_handle fbh1 = gl::framebuffer_handle::create();
   gl::framebuffer_handle fbh2 = gl::framebuffer_handle::create();
@@ -58,7 +61,8 @@ TEST_F(TestGlFramebufferHandle, Tracking)
   EXPECT_FALSE(gl::is_framebuffer_bound(GL_READ_FRAMEBUFFER));
 
   gl::bind_framebuffer(fbh1, GL_DRAW_FRAMEBUFFER);
-  EXPECT_EQ(fbh1.get_name(), gl::get_bound_framebuffer_name(GL_DRAW_FRAMEBUFFER));
+  EXPECT_EQ(
+    fbh1.get_name(), gl::get_bound_framebuffer_name(GL_DRAW_FRAMEBUFFER));
   EXPECT_EQ(0u, gl::get_bound_framebuffer_name(GL_READ_FRAMEBUFFER));
   EXPECT_TRUE(gl::is_framebuffer_bound(fbh1, GL_DRAW_FRAMEBUFFER));
   EXPECT_FALSE(gl::is_framebuffer_bound(fbh1, GL_READ_FRAMEBUFFER));
@@ -68,7 +72,7 @@ TEST_F(TestGlFramebufferHandle, Tracking)
   EXPECT_FALSE(gl::is_framebuffer_bound(GL_READ_FRAMEBUFFER));
 
   {
-    setSharingContextCurrent();
+    set_sharing_context_current();
     gl::framebuffer_handle fbh3 = gl::framebuffer_handle::create();
     gl::framebuffer_handle fbh4 = gl::framebuffer_handle::create();
 
@@ -82,8 +86,10 @@ TEST_F(TestGlFramebufferHandle, Tracking)
     EXPECT_FALSE(gl::is_framebuffer_bound(GL_READ_FRAMEBUFFER));
 
     gl::bind_framebuffer(fbh4);
-    EXPECT_EQ(fbh4.get_name(), gl::get_bound_framebuffer_name(GL_DRAW_FRAMEBUFFER));
-    EXPECT_EQ(fbh4.get_name(), gl::get_bound_framebuffer_name(GL_READ_FRAMEBUFFER));
+    EXPECT_EQ(
+      fbh4.get_name(), gl::get_bound_framebuffer_name(GL_DRAW_FRAMEBUFFER));
+    EXPECT_EQ(
+      fbh4.get_name(), gl::get_bound_framebuffer_name(GL_READ_FRAMEBUFFER));
     EXPECT_FALSE(gl::is_framebuffer_bound(fbh3, GL_DRAW_FRAMEBUFFER));
     EXPECT_FALSE(gl::is_framebuffer_bound(fbh3, GL_READ_FRAMEBUFFER));
     EXPECT_TRUE(gl::is_framebuffer_bound(fbh4, GL_DRAW_FRAMEBUFFER));
@@ -101,8 +107,9 @@ TEST_F(TestGlFramebufferHandle, Tracking)
     EXPECT_FALSE(gl::is_framebuffer_bound(GL_DRAW_FRAMEBUFFER));
     EXPECT_FALSE(gl::is_framebuffer_bound(GL_READ_FRAMEBUFFER));
 
-    setContextCurrent();
-    EXPECT_EQ(fbh1.get_name(), gl::get_bound_framebuffer_name(GL_DRAW_FRAMEBUFFER));
+    set_context_current();
+    EXPECT_EQ(
+      fbh1.get_name(), gl::get_bound_framebuffer_name(GL_DRAW_FRAMEBUFFER));
     EXPECT_EQ(0u, gl::get_bound_framebuffer_name(GL_READ_FRAMEBUFFER));
     EXPECT_TRUE(gl::is_framebuffer_bound(fbh1, GL_DRAW_FRAMEBUFFER));
     EXPECT_FALSE(gl::is_framebuffer_bound(fbh1, GL_READ_FRAMEBUFFER));
@@ -121,53 +128,53 @@ TEST_F(TestGlFramebufferHandle, Tracking)
     EXPECT_FALSE(gl::is_framebuffer_bound(GL_DRAW_FRAMEBUFFER));
     EXPECT_FALSE(gl::is_framebuffer_bound(GL_READ_FRAMEBUFFER));
 
-    setSharingContextCurrent();
+    set_sharing_context_current();
   }
-  setContextCurrent();
+  set_context_current();
 }
 
 
 
 #ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
-TEST_F(TestGlFramebufferHandleDeathTest, SharingContextBinding)
+TEST_F(test_gl_framebuffer_handle_death_test, sharing_context_binding)
 #else
-TEST_F(TestGlFramebufferHandleDeathTest, DISABLED_SharingContextBinding)
+TEST_F(test_gl_framebuffer_handle_death_test, DISABLED_sharing_context_binding)
 #endif
 {
   gl::framebuffer_handle fbh = gl::framebuffer_handle::create();
-  setSharingContextCurrent();
-  HOU_EXPECT_ERROR(gl::bind_framebuffer(fbh, GL_DRAW_FRAMEBUFFER)
-    , std::logic_error, get_text(gl_error::invalid_ownership));
-  setContextCurrent();
+  set_sharing_context_current();
+  HOU_EXPECT_ERROR(gl::bind_framebuffer(fbh, GL_DRAW_FRAMEBUFFER),
+    std::logic_error, get_text(gl_error::invalid_ownership));
+  set_context_current();
 }
 
 
 
 #ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
-TEST_F(TestGlFramebufferHandleDeathTest, NonSharingContextBinding)
+TEST_F(test_gl_framebuffer_handle_death_test, non_sharing_context_binding)
 #else
-TEST_F(TestGlFramebufferHandleDeathTest, DISABLED_NonSharingContextBinding)
+TEST_F(
+  test_gl_framebuffer_handle_death_test, DISABLED_non_sharing_context_binding)
 #endif
 {
   gl::framebuffer_handle fbh = gl::framebuffer_handle::create();
-  setNonSharingContextCurrent();
-  HOU_EXPECT_ERROR(gl::bind_framebuffer(fbh, GL_DRAW_FRAMEBUFFER)
-    , std::logic_error, get_text(gl_error::invalid_ownership));
-  setContextCurrent();
+  set_non_sharing_context_current();
+  HOU_EXPECT_ERROR(gl::bind_framebuffer(fbh, GL_DRAW_FRAMEBUFFER),
+    std::logic_error, get_text(gl_error::invalid_ownership));
+  set_context_current();
 }
 
 
 
 #ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
-TEST_F(TestGlFramebufferHandleDeathTest, NoContextBinding)
+TEST_F(test_gl_framebuffer_handle_death_test, no_context_binding)
 #else
-TEST_F(TestGlFramebufferHandleDeathTest, DISABLED_NoContextBinding)
+TEST_F(test_gl_framebuffer_handle_death_test, DISABLED_no_context_binding)
 #endif
 {
   gl::framebuffer_handle fbh = gl::framebuffer_handle::create();
   gl::context::unset_current();
-  HOU_EXPECT_ERROR(gl::bind_framebuffer(fbh, GL_DRAW_FRAMEBUFFER)
-    , std::logic_error, get_text(gl_error::context_existence));
-  setContextCurrent();
+  HOU_EXPECT_ERROR(gl::bind_framebuffer(fbh, GL_DRAW_FRAMEBUFFER),
+    std::logic_error, get_text(gl_error::context_existence));
+  set_context_current();
 }
-

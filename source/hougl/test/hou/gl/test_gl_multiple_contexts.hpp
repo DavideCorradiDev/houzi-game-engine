@@ -9,20 +9,18 @@
 
 
 
-class test_gl_multiple_contexts
-  : public test_gl_base
+class test_gl_multiple_contexts : public test_gl_base
 {
 public:
   test_gl_multiple_contexts();
   virtual ~test_gl_multiple_contexts();
 
-  void setSharingContextCurrent();
-  void setNonSharingContextCurrent();
+  void set_sharing_context_current();
+  void set_non_sharing_context_current();
 
 protected:
-  hou::gl::context mSharingContext;
-  hou::gl::context mNonSharingContext;
+  hou::gl::context m_sharing_context;
+  hou::gl::context m_non_sharing_context;
 };
 
 #endif
-

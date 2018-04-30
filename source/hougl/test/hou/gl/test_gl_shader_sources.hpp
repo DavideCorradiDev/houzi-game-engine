@@ -9,9 +9,8 @@
 
 
 
-std::string getFsSource();
-std::string getGsSource();
-std::string getVsSource();
+std::string get_fs_source();
+std::string get_gs_source();
+std::string get_vs_source();
 
 #endif
-

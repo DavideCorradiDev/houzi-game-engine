@@ -6,9 +6,10 @@
 
 
 test_gl_single_context::test_gl_single_context()
-  : test_gl_base() {}
+  : test_gl_base()
+{}
 
 
 
-test_gl_single_context::~test_gl_single_context() {}
-
+test_gl_single_context::~test_gl_single_context()
+{}

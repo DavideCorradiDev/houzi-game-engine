@@ -5,8 +5,8 @@
 #include "hou/Test.hpp"
 #include "hou/gl/test_gl_multiple_contexts.hpp"
 
-#include "hou/gl/gl_vertex_array_handle.hpp"
 #include "hou/gl/gl_error.hpp"
+#include "hou/gl/gl_vertex_array_handle.hpp"
 
 using namespace hou;
 
@@ -15,14 +15,18 @@ using namespace hou;
 namespace
 {
 
-class TestGlVertexArrayHandle: public test_gl_multiple_contexts {};
-class TestGlVertexArrayHandleDeathTest : public TestGlVertexArrayHandle {};
+class test_gl_vertex_array_handle : public test_gl_multiple_contexts
+{};
 
-}
+class test_gl_vertex_array_handle_death_test
+  : public test_gl_vertex_array_handle
+{};
+
+}  // namespace
 
 
 
-TEST_F(TestGlVertexArrayHandle, Creation)
+TEST_F(test_gl_vertex_array_handle, Creation)
 {
   gl::vertex_array_handle vah = gl::vertex_array_handle::create();
   EXPECT_NE(0u, vah.get_name());
@@ -31,27 +35,27 @@ TEST_F(TestGlVertexArrayHandle, Creation)
 
 
 #ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
-TEST_F(TestGlVertexArrayHandleDeathTest, NoContextCreation)
+TEST_F(test_gl_vertex_array_handle_death_test, no_context_creation)
 #else
-TEST_F(TestGlVertexArrayHandleDeathTest, DISABLED_NoContextCreation)
+TEST_F(test_gl_vertex_array_handle_death_test, DISABLED_no_context_creation)
 #endif
 {
   gl::context::unset_current();
-  HOU_EXPECT_ERROR(gl::vertex_array_handle::create(), std::logic_error
-    , get_text(gl_error::context_existence));
+  HOU_EXPECT_ERROR(gl::vertex_array_handle::create(), std::logic_error,
+    get_text(gl_error::context_existence));
 }
 
 
 
-TEST_F(TestGlVertexArrayHandle, Tracking)
+TEST_F(test_gl_vertex_array_handle, tracking)
 {
   gl::vertex_array_handle vah1 = gl::vertex_array_handle::create();
 
   {
-    setSharingContextCurrent();
+    set_sharing_context_current();
     gl::vertex_array_handle vah2 = gl::vertex_array_handle::create();
 
-    setContextCurrent();
+    set_context_current();
     EXPECT_EQ(0u, gl::get_bound_vertex_array_name());
     EXPECT_FALSE(gl::is_vertex_array_bound(vah1));
     EXPECT_FALSE(gl::is_vertex_array_bound());
@@ -61,7 +65,7 @@ TEST_F(TestGlVertexArrayHandle, Tracking)
     EXPECT_TRUE(gl::is_vertex_array_bound(vah1));
     EXPECT_TRUE(gl::is_vertex_array_bound());
 
-    setSharingContextCurrent();
+    set_sharing_context_current();
     EXPECT_EQ(0u, gl::get_bound_vertex_array_name());
     EXPECT_FALSE(gl::is_vertex_array_bound(vah2));
     EXPECT_FALSE(gl::is_vertex_array_bound());
@@ -71,7 +75,7 @@ TEST_F(TestGlVertexArrayHandle, Tracking)
     EXPECT_TRUE(gl::is_vertex_array_bound(vah2));
     EXPECT_TRUE(gl::is_vertex_array_bound());
 
-    setContextCurrent();
+    set_context_current();
     EXPECT_EQ(vah1.get_name(), gl::get_bound_vertex_array_name());
     EXPECT_TRUE(gl::is_vertex_array_bound(vah1));
     EXPECT_TRUE(gl::is_vertex_array_bound());
@@ -81,53 +85,53 @@ TEST_F(TestGlVertexArrayHandle, Tracking)
     EXPECT_FALSE(gl::is_vertex_array_bound(vah1));
     EXPECT_FALSE(gl::is_vertex_array_bound());
 
-    setSharingContextCurrent();
+    set_sharing_context_current();
   }
-  setContextCurrent();
+  set_context_current();
 }
 
 
 
 #ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
-TEST_F(TestGlVertexArrayHandleDeathTest, SharingContextBinding)
+TEST_F(test_gl_vertex_array_handle_death_test, sharing_context_binding)
 #else
-TEST_F(TestGlVertexArrayHandleDeathTest, DISABLED_SharingContextBinding)
+TEST_F(test_gl_vertex_array_handle_death_test, DISABLED_sharing_context_binding)
 #endif
 {
   gl::vertex_array_handle vah = gl::vertex_array_handle::create();
-  setSharingContextCurrent();
-  HOU_EXPECT_ERROR(gl::bind_vertex_array(vah), std::logic_error
-    , get_text(gl_error::invalid_ownership));
-  setContextCurrent();
+  set_sharing_context_current();
+  HOU_EXPECT_ERROR(gl::bind_vertex_array(vah), std::logic_error,
+    get_text(gl_error::invalid_ownership));
+  set_context_current();
 }
 
 
 
 #ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
-TEST_F(TestGlVertexArrayHandleDeathTest, NonSharingContextBinding)
+TEST_F(test_gl_vertex_array_handle_death_test, non_sharing_context_binding)
 #else
-TEST_F(TestGlVertexArrayHandleDeathTest, DISABLED_NonSharingContextBinding)
+TEST_F(
+  test_gl_vertex_array_handle_death_test, DISABLED_non_sharing_context_binding)
 #endif
 {
   gl::vertex_array_handle vah = gl::vertex_array_handle::create();
-  setNonSharingContextCurrent();
-  HOU_EXPECT_ERROR(gl::bind_vertex_array(vah), std::logic_error
-    , get_text(gl_error::invalid_ownership));
-  setContextCurrent();
+  set_non_sharing_context_current();
+  HOU_EXPECT_ERROR(gl::bind_vertex_array(vah), std::logic_error,
+    get_text(gl_error::invalid_ownership));
+  set_context_current();
 }
 
 
 
 #ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
-TEST_F(TestGlVertexArrayHandleDeathTest, NoContextBinding)
+TEST_F(test_gl_vertex_array_handle_death_test, no_context_binding)
 #else
-TEST_F(TestGlVertexArrayHandleDeathTest, DISABLED_NoContextBinding)
+TEST_F(test_gl_vertex_array_handle_death_test, DISABLED_no_context_binding)
 #endif
 {
   gl::vertex_array_handle vah = gl::vertex_array_handle::create();
   gl::context::unset_current();
-  HOU_EXPECT_ERROR(gl::bind_vertex_array(vah), std::logic_error
-    , get_text(gl_error::context_existence));
-  setContextCurrent();
+  HOU_EXPECT_ERROR(gl::bind_vertex_array(vah), std::logic_error,
+    get_text(gl_error::context_existence));
+  set_context_current();
 }
-

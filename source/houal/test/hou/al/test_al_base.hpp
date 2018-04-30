@@ -19,11 +19,11 @@ public:
   test_al_base();
   virtual ~test_al_base() = 0;
 
-  void setContextCurrent();
+  void set_context_current();
 
 protected:
   hou::al::device m_device;
-  hou::al::context mContext;
+  hou::al::context m_context;
 };
 
 #endif

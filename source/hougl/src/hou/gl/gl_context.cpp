@@ -36,11 +36,11 @@ uint32_t generate_uid()
 
 void context::set_current(context& ph_context, window& wnd)
 {
-  if(!ph_context.is_current() || sCurrentWindowUid != wnd.get_uid())
+  if(!ph_context.is_current() || s_current_window_uid != wnd.get_uid())
   {
     prv::context_impl::set_current(ph_context.m_impl, wnd);
-    sCurrentContext = &ph_context;
-    sCurrentWindowUid = wnd.get_uid();
+    s_current_context = &ph_context;
+    s_current_window_uid = wnd.get_uid();
   }
 }
 
@@ -51,8 +51,8 @@ void context::unset_current()
   if(getCurrent() != nullptr)
   {
     prv::context_impl::unset_current();
-    sCurrentContext = nullptr;
-    sCurrentWindowUid = 0u;
+    s_current_context = nullptr;
+    s_current_window_uid = 0u;
   }
 }
 
@@ -60,7 +60,7 @@ void context::unset_current()
 
 context* context::getCurrent()
 {
-  return sCurrentContext;
+  return s_current_context;
 }
 
 
@@ -82,12 +82,12 @@ context::context(context&& other)
   : non_copyable()
   , m_impl(std::move(other.m_impl))
   , m_uid(std::move(other.m_uid))
-  , m_sharing_group_id(std::move(other.m_sharing_group_id))
+  , m_sharing_group_uid(std::move(other.m_sharing_group_uid))
   , m_tracking_data(std::move(other.m_tracking_data))
 {
   if(getCurrent() == &other)
   {
-    sCurrentContext = this;
+    s_current_context = this;
   }
 }
 
@@ -112,20 +112,20 @@ uint32_t context::get_uid() const
 
 uint32_t context::get_sharing_group_uid() const
 {
-  return m_sharing_group_id;
+  return m_sharing_group_uid;
 }
 
 
 
 bool context::is_current() const
 {
-  return this == sCurrentContext;
+  return this == s_current_context;
 }
 
 
 
-thread_local context* context::sCurrentContext(nullptr);
-thread_local uint32_t context::sCurrentWindowUid(0u);
+thread_local context* context::s_current_context(nullptr);
+thread_local uint32_t context::s_current_window_uid(0u);
 
 
 
@@ -135,8 +135,8 @@ context::context(const context_settings& settings, const window& wnd,
   , m_impl(settings, wnd,
       (shared_context == nullptr) ? nullptr : &(shared_context->m_impl))
   , m_uid(generate_uid())
-  , m_sharing_group_id(
-      (shared_context == nullptr) ? m_uid : shared_context->m_sharing_group_id)
+  , m_sharing_group_uid(
+      (shared_context == nullptr) ? m_uid : shared_context->m_sharing_group_uid)
   , m_tracking_data()
 {}
 

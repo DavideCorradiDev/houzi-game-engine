@@ -9,9 +9,9 @@
 test_al_base::test_al_base()
   : testing::Test()
   , m_device()
-  , mContext(m_device)
+  , m_context(m_device)
 {
-  setContextCurrent();
+  set_context_current();
 }
 
 
@@ -21,8 +21,8 @@ test_al_base::~test_al_base()
 
 
 
-void test_al_base::setContextCurrent()
+void test_al_base::set_context_current()
 {
-  hou::al::context::set_current(mContext);
+  hou::al::context::set_current(m_context);
 }
 

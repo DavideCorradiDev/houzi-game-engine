@@ -59,7 +59,7 @@ void bind_vertex_array(const vertex_array_handle& vertex_array)
   {
     glBindVertexArray(vertex_array.get_name());
     HOU_GL_CHECK_ERROR();
-    context::getCurrent()->mTrackingData.set_bound_vertex_array(
+    context::getCurrent()->m_tracking_data.set_bound_vertex_array(
       vertex_array.get_uid());
   }
 }
@@ -73,7 +73,7 @@ void unbind_vertex_array()
   {
     glBindVertexArray(0u);
     HOU_GL_CHECK_ERROR();
-    context::getCurrent()->mTrackingData.set_bound_vertex_array(0u);
+    context::getCurrent()->m_tracking_data.set_bound_vertex_array(0u);
   }
 }
 
@@ -83,7 +83,7 @@ bool is_vertex_array_bound(const vertex_array_handle& vertex_array)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(vertex_array);
-  return context::getCurrent()->mTrackingData.get_bound_vertex_array()
+  return context::getCurrent()->m_tracking_data.get_bound_vertex_array()
     == vertex_array.get_uid();
 }
 
@@ -92,7 +92,7 @@ bool is_vertex_array_bound(const vertex_array_handle& vertex_array)
 bool is_vertex_array_bound()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  return context::getCurrent()->mTrackingData.get_bound_vertex_array() != 0u;
+  return context::getCurrent()->m_tracking_data.get_bound_vertex_array() != 0u;
 }
 
 

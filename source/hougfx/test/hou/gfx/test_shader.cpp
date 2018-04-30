@@ -19,13 +19,13 @@ namespace
 class TestShader : public test_gfx_base {};
 class TestShaderDeathTest : public TestShader {};
 
-std::string getFsSource();
-std::string getGsSource();
-std::string getVsSource();
+std::string get_fs_source();
+std::string get_gs_source();
+std::string get_vs_source();
 
 
 
-std::string getFsSource()
+std::string get_fs_source()
 {
   return "#version 330 core\n"
     "uniform vec4 colorUni;"
@@ -38,7 +38,7 @@ std::string getFsSource()
 
 
 
-std::string getGsSource()
+std::string get_gs_source()
 {
   return "#version 330 core\n"
     "layout(points) in;"
@@ -55,7 +55,7 @@ std::string getGsSource()
 
 
 
-std::string getVsSource()
+std::string get_vs_source()
 {
   return "#version 330 core\n"
     "in vec2 pos;"
@@ -71,7 +71,7 @@ std::string getVsSource()
 
 TEST_F(TestShader, GlVertexShaderCreation)
 {
-  vertex_shader vs(getVsSource());
+  vertex_shader vs(get_vs_source());
   SUCCEED();
 }
 
@@ -79,7 +79,7 @@ TEST_F(TestShader, GlVertexShaderCreation)
 
 TEST_F(TestShader, GlVertexShaderMoveConstructor)
 {
-  vertex_shader vs_dummy = vertex_shader(getVsSource());
+  vertex_shader vs_dummy = vertex_shader(get_vs_source());
   vertex_shader vs = std::move(vs_dummy);
   SUCCEED();
 }
@@ -100,7 +100,7 @@ TEST_F(TestShaderDeathTest, GlVertexShaderCreation)
 
 TEST_F(TestShader, GlFragmentShaderCreation)
 {
-  fragment_shader fs(getFsSource());
+  fragment_shader fs(get_fs_source());
   SUCCEED();
 }
 
@@ -108,7 +108,7 @@ TEST_F(TestShader, GlFragmentShaderCreation)
 
 TEST_F(TestShader, GlFragmentShaderMoveConstructor)
 {
-  fragment_shader fs_dummy = fragment_shader(getFsSource());
+  fragment_shader fs_dummy = fragment_shader(get_fs_source());
   fragment_shader fs = std::move(fs_dummy);
   SUCCEED();
 }
@@ -129,7 +129,7 @@ TEST_F(TestShaderDeathTest, GlFragmentShaderCreation)
 
 TEST_F(TestShader, GlGeometryShaderCreation)
 {
-  geometry_shader gs(getGsSource());
+  geometry_shader gs(get_gs_source());
   SUCCEED();
 }
 
@@ -137,7 +137,7 @@ TEST_F(TestShader, GlGeometryShaderCreation)
 
 TEST_F(TestShader, GlGeometryShaderMoveConstructor)
 {
-  geometry_shader gs_dummy = geometry_shader(getGsSource());
+  geometry_shader gs_dummy = geometry_shader(get_gs_source());
   geometry_shader gs = std::move(gs_dummy);
   SUCCEED();
 }

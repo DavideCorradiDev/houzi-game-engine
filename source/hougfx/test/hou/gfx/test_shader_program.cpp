@@ -33,13 +33,13 @@ public:
 
 
 
-std::string getFsSource();
-std::string getGsSource();
-std::string getVsSource();
+std::string get_fs_source();
+std::string get_gs_source();
+std::string get_vs_source();
 
 
 
-std::string getFsSource()
+std::string get_fs_source()
 {
   return "#version 330 core\n"
          "uniform vec4 colorUni;"
@@ -52,7 +52,7 @@ std::string getFsSource()
 
 
 
-std::string getGsSource()
+std::string get_gs_source()
 {
   return "#version 330 core\n"
          "layout(points) in;"
@@ -69,7 +69,7 @@ std::string getGsSource()
 
 
 
-std::string getVsSource()
+std::string get_vs_source()
 {
   return "#version 330 core\n"
          "in vec2 pos;"
@@ -85,8 +85,8 @@ std::string getVsSource()
 
 TEST_F(TestShaderProgram, Binding)
 {
-  vertex_shader vs(getVsSource());
-  fragment_shader fs(getFsSource());
+  vertex_shader vs(get_vs_source());
+  fragment_shader fs(get_fs_source());
   ConcreteShaderProgram p1(vs, fs);
   ConcreteShaderProgram p2(vs, fs);
 
@@ -110,8 +110,8 @@ TEST_F(TestShaderProgram, Binding)
 
 TEST_F(TestShaderProgram, ConstructorWithoutGlGeometryShader)
 {
-  vertex_shader vs(getVsSource());
-  fragment_shader fs(getFsSource());
+  vertex_shader vs(get_vs_source());
+  fragment_shader fs(get_fs_source());
   ConcreteShaderProgram p(vs, fs);
   EXPECT_NE(0u, p.get_handle().get_name());
 }
@@ -120,9 +120,9 @@ TEST_F(TestShaderProgram, ConstructorWithoutGlGeometryShader)
 
 TEST_F(TestShaderProgram, ConstructorWithGlGeometryShader)
 {
-  vertex_shader vs(getVsSource());
-  geometry_shader gs(getGsSource());
-  fragment_shader fs(getFsSource());
+  vertex_shader vs(get_vs_source());
+  geometry_shader gs(get_gs_source());
+  fragment_shader fs(get_fs_source());
   ConcreteShaderProgram p(vs, fs, gs);
   EXPECT_NE(0u, p.get_handle().get_name());
 }
@@ -131,9 +131,9 @@ TEST_F(TestShaderProgram, ConstructorWithGlGeometryShader)
 
 TEST_F(TestShaderProgram, MoveConstructor)
 {
-  vertex_shader vs(getVsSource());
-  geometry_shader gs(getGsSource());
-  fragment_shader fs(getFsSource());
+  vertex_shader vs(get_vs_source());
+  geometry_shader gs(get_gs_source());
+  fragment_shader fs(get_fs_source());
   ConcreteShaderProgram p_dummy(vs, fs, gs);
   uint programId = p_dummy.get_handle().get_name();
   ConcreteShaderProgram p = std::move(p_dummy);
@@ -145,9 +145,9 @@ TEST_F(TestShaderProgram, MoveConstructor)
 
 TEST_F(TestShaderProgram, GetUniformLocation)
 {
-  vertex_shader vs(getVsSource());
-  geometry_shader gs(getGsSource());
-  fragment_shader fs(getFsSource());
+  vertex_shader vs(get_vs_source());
+  geometry_shader gs(get_gs_source());
+  fragment_shader fs(get_fs_source());
   ConcreteShaderProgram p(vs, fs, gs);
   EXPECT_EQ(0u, p.get_uniform_location("colorUni"));
 }
@@ -156,9 +156,9 @@ TEST_F(TestShaderProgram, GetUniformLocation)
 
 TEST_F(TestShaderProgramDeathTest, GetUniformLocationInvalidName)
 {
-  vertex_shader vs(getVsSource());
-  geometry_shader gs(getGsSource());
-  fragment_shader fs(getFsSource());
+  vertex_shader vs(get_vs_source());
+  geometry_shader gs(get_gs_source());
+  fragment_shader fs(get_fs_source());
   ConcreteShaderProgram p(vs, fs, gs);
   std::string invalidName = "trololol";
   HOU_EXPECT_ERROR(p.get_uniform_location(invalidName), std::runtime_error,
@@ -169,9 +169,9 @@ TEST_F(TestShaderProgramDeathTest, GetUniformLocationInvalidName)
 
 TEST_F(TestShaderProgramDeathTest, ConstructorErrorLinkFailure)
 {
-  vertex_shader vs(getVsSource());
-  geometry_shader gs(getVsSource());
-  fragment_shader fs(getFsSource());
+  vertex_shader vs(get_vs_source());
+  geometry_shader gs(get_vs_source());
+  fragment_shader fs(get_fs_source());
   HOU_EXPECT_ERROR(ConcreteShaderProgram(vs, fs, gs), std::runtime_error,
     format_string(get_text(gl_error::program_linking),
       "Geometry info\n"

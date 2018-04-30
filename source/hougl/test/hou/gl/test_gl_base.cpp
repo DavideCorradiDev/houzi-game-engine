@@ -20,11 +20,11 @@ void test_gl_base::SetUpTestCase()
 
 test_gl_base::test_gl_base()
   : testing::Test()
-  , mWindow("TestGfxWindow", hou::video_mode(hou::vec2u::zero(), 4u)
+  , m_window("TestGfxWindow", hou::video_mode(hou::vec2u::zero(), 4u)
     , hou::window_style::windowed)
-  , mContext(hou::gl::context_settings::standard, mWindow)
+  , m_context(hou::gl::context_settings::standard, m_window)
 {
-  setContextCurrent();
+  set_context_current();
 }
 
 
@@ -34,8 +34,8 @@ test_gl_base::~test_gl_base()
 
 
 
-void test_gl_base::setContextCurrent()
+void test_gl_base::set_context_current()
 {
-  hou::gl::context::set_current(mContext, mWindow);
+  hou::gl::context::set_current(m_context, m_window);
 }
 

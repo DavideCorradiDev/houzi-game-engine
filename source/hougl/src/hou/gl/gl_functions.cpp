@@ -265,7 +265,7 @@ void set_viewport(GLint x, GLint y, GLsizei w, GLsizei h)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   const recti& currVp
-    = context::getCurrent()->mTrackingData.get_current_viewport();
+    = context::getCurrent()->m_tracking_data.get_current_viewport();
   if(x != currVp.x() || y != currVp.y() || w != currVp.w() || h != currVp.h())
   {
     glViewport(x, y, w, h);

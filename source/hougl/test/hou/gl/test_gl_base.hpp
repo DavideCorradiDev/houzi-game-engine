@@ -13,8 +13,7 @@
 
 
 
-class test_gl_base
-  : public testing::Test
+class test_gl_base : public testing::Test
 {
 public:
   static void SetUpTestCase();
@@ -22,12 +21,11 @@ public:
   test_gl_base();
   virtual ~test_gl_base() = 0;
 
-  void setContextCurrent();
+  void set_context_current();
 
 protected:
-  hou::system_window mWindow;
-  hou::gl::context mContext;
+  hou::system_window m_window;
+  hou::gl::context m_context;
 };
 
 #endif
-

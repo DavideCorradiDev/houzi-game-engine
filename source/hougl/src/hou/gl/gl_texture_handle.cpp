@@ -150,7 +150,7 @@ void bind_texture(const texture_handle& tex)
   {
     glBindTexture(tex.getTarget(), tex.get_name());
     HOU_GL_CHECK_ERROR();
-    context::getCurrent()->mTrackingData.set_bound_texture(
+    context::getCurrent()->m_tracking_data.set_bound_texture(
       tex.get_uid(), tex.getTarget());
   }
 }
@@ -163,9 +163,9 @@ void unbind_texture()
   if(is_texture_bound())
   {
     glBindTexture(
-      context::getCurrent()->mTrackingData.get_bound_texture_target(), 0u);
+      context::getCurrent()->m_tracking_data.get_bound_texture_target(), 0u);
     HOU_GL_CHECK_ERROR();
-    context::getCurrent()->mTrackingData.set_bound_texture(0u, GL_TEXTURE_1D);
+    context::getCurrent()->m_tracking_data.set_bound_texture(0u, GL_TEXTURE_1D);
   }
 }
 
@@ -179,7 +179,7 @@ void bind_texture(const texture_handle& tex, GLuint unit)
   {
     glBindTextureUnit(unit, tex.get_name());
     HOU_GL_CHECK_ERROR();
-    context::getCurrent()->mTrackingData.set_bound_texture(
+    context::getCurrent()->m_tracking_data.set_bound_texture(
       tex.get_uid(), unit, tex.getTarget());
   }
 }
@@ -193,7 +193,7 @@ void unbind_texture(GLuint unit)
   {
     glBindTextureUnit(unit, 0u);
     HOU_GL_CHECK_ERROR();
-    context::getCurrent()->mTrackingData.set_bound_texture(
+    context::getCurrent()->m_tracking_data.set_bound_texture(
       0u, unit, GL_TEXTURE_1D);
   }
 }
@@ -204,7 +204,7 @@ bool is_texture_bound(const texture_handle& tex)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
-  return context::getCurrent()->mTrackingData.get_bound_texture()
+  return context::getCurrent()->m_tracking_data.get_bound_texture()
     == tex.get_uid();
 }
 
@@ -213,7 +213,7 @@ bool is_texture_bound(const texture_handle& tex)
 bool is_texture_bound()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  return context::getCurrent()->mTrackingData.get_bound_texture() != 0u;
+  return context::getCurrent()->m_tracking_data.get_bound_texture() != 0u;
 }
 
 
@@ -222,7 +222,7 @@ bool is_texture_bound(const texture_handle& tex, uint unit)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
-  return context::getCurrent()->mTrackingData.get_bound_texture(unit)
+  return context::getCurrent()->m_tracking_data.get_bound_texture(unit)
     == tex.get_uid();
 }
 
@@ -231,7 +231,7 @@ bool is_texture_bound(const texture_handle& tex, uint unit)
 bool is_texture_bound(uint unit)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  return context::getCurrent()->mTrackingData.get_bound_texture(unit) != 0u;
+  return context::getCurrent()->m_tracking_data.get_bound_texture(unit) != 0u;
 }
 
 
@@ -239,7 +239,7 @@ bool is_texture_bound(uint unit)
 GLuint get_bound_texture_name()
 {
   return static_cast<GLuint>(get_integer(to_get_gl_enum(
-    context::getCurrent()->mTrackingData.get_bound_texture_target())));
+    context::getCurrent()->m_tracking_data.get_bound_texture_target())));
 }
 
 
@@ -248,7 +248,7 @@ void set_active_texture(GLuint unit)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   glActiveTexture(GL_TEXTURE0 + unit);
-  context::getCurrent()->mTrackingData.set_active_texture(unit);
+  context::getCurrent()->m_tracking_data.set_active_texture(unit);
   HOU_GL_CHECK_ERROR();
 }
 

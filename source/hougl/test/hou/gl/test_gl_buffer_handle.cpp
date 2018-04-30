@@ -15,14 +15,15 @@ using namespace hou;
 namespace
 {
 
-class TestGlBufferHandle: public test_gl_multiple_contexts {};
-class TestGlBufferHandleDeathTest : public TestGlBufferHandle {};
+class test_gl_buffer_handle: public test_gl_multiple_contexts {};
+
+class test_gl_buffer_handle_death_test : public test_gl_buffer_handle {};
 
 }
 
 
 
-TEST_F(TestGlBufferHandle, Creation)
+TEST_F(test_gl_buffer_handle, creation)
 {
   gl::buffer_handle bh = gl::buffer_handle::create();
   EXPECT_NE(0u, bh.get_name());
@@ -31,9 +32,9 @@ TEST_F(TestGlBufferHandle, Creation)
 
 
 #ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
-TEST_F(TestGlBufferHandleDeathTest, NoContextCreation)
+TEST_F(test_gl_buffer_handle_death_test, no_context_creation)
 #else
-TEST_F(TestGlBufferHandleDeathTest, DISABLED_NoContextCreation)
+TEST_F(test_gl_buffer_handle_death_test, DISABLED_no_context_creation)
 #endif
 {
   gl::context::unset_current();
@@ -43,7 +44,7 @@ TEST_F(TestGlBufferHandleDeathTest, DISABLED_NoContextCreation)
 
 
 
-TEST_F(TestGlBufferHandle, Tracking)
+TEST_F(test_gl_buffer_handle, tracking)
 {
   gl::buffer_handle bh1 = gl::buffer_handle::create();
   gl::buffer_handle bh2 = gl::buffer_handle::create();
@@ -67,7 +68,7 @@ TEST_F(TestGlBufferHandle, Tracking)
   EXPECT_TRUE(gl::is_buffer_bound(GL_ARRAY_BUFFER));
   EXPECT_FALSE(gl::is_buffer_bound(GL_ELEMENT_ARRAY_BUFFER));
 
-  setSharingContextCurrent();
+  set_sharing_context_current();
   EXPECT_EQ(0u, gl::get_bound_buffer_name(GL_ARRAY_BUFFER));
   EXPECT_EQ(0u, gl::get_bound_buffer_name(GL_ELEMENT_ARRAY_BUFFER));
   EXPECT_FALSE(gl::is_buffer_bound(bh1, GL_ARRAY_BUFFER));
@@ -87,7 +88,7 @@ TEST_F(TestGlBufferHandle, Tracking)
   EXPECT_FALSE(gl::is_buffer_bound(GL_ARRAY_BUFFER));
   EXPECT_TRUE(gl::is_buffer_bound(GL_ELEMENT_ARRAY_BUFFER));
 
-  setContextCurrent();
+  set_context_current();
   EXPECT_EQ(bh1.get_name(), gl::get_bound_buffer_name(GL_ARRAY_BUFFER));
   EXPECT_EQ(0u, gl::get_bound_buffer_name(GL_ELEMENT_ARRAY_BUFFER));
   EXPECT_TRUE(gl::is_buffer_bound(bh1, GL_ARRAY_BUFFER));
@@ -110,10 +111,10 @@ TEST_F(TestGlBufferHandle, Tracking)
 
 
 
-TEST_F(TestGlBufferHandle, SharingContextBinding)
+TEST_F(test_gl_buffer_handle, sharing_context_binding)
 {
   gl::buffer_handle bh = gl::buffer_handle::create();
-  setSharingContextCurrent();
+  set_sharing_context_current();
   gl::bind_buffer(bh, GL_ARRAY_BUFFER);
   EXPECT_TRUE(gl::is_buffer_bound(bh, GL_ARRAY_BUFFER));
 }
@@ -121,31 +122,31 @@ TEST_F(TestGlBufferHandle, SharingContextBinding)
 
 
 #ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
-TEST_F(TestGlBufferHandleDeathTest, NonSharingContextBinding)
+TEST_F(test_gl_buffer_handle_death_test, non_sharing_context_binding)
 #else
-TEST_F(TestGlBufferHandleDeathTest, DISABLED_NonSharingContextBinding)
+TEST_F(test_gl_buffer_handle_death_test, DISABLED_non_sharing_context_binding)
 #endif
 {
   gl::buffer_handle bh = gl::buffer_handle::create();
-  setNonSharingContextCurrent();
+  set_non_sharing_context_current();
   HOU_EXPECT_ERROR(gl::bind_buffer(bh, GL_ARRAY_BUFFER)
     , std::logic_error, get_text(gl_error::invalid_ownership));
-  setContextCurrent();
+  set_context_current();
 }
 
 
 
 #ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
-TEST_F(TestGlBufferHandleDeathTest, NoContextBinding)
+TEST_F(test_gl_buffer_handle_death_test, no_context_binding)
 #else
-TEST_F(TestGlBufferHandleDeathTest, DISABLED_NoContextBinding)
+TEST_F(test_gl_buffer_handle_death_test, DISABLED_no_context_binding)
 #endif
 {
   gl::buffer_handle bh = gl::buffer_handle::create();
   gl::context::unset_current();
   HOU_EXPECT_ERROR(gl::bind_buffer(bh, GL_ARRAY_BUFFER)
     , std::logic_error, get_text(gl_error::context_existence));
-  setContextCurrent();
+  set_context_current();
 }
 
 
