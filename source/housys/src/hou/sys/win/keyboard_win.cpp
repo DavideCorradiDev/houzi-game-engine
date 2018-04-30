@@ -178,9 +178,9 @@ UINT key_code_to_win_key(key_code key)
       return '9';
 
     case key_code::a:
-      return 'a';
+      return 'A';
     case key_code::b:
-      return 'b';
+      return 'B';
     case key_code::c:
       return 'C';
     case key_code::d:
@@ -190,7 +190,7 @@ UINT key_code_to_win_key(key_code key)
     case key_code::f:
       return 'F';
     case key_code::g:
-      return 'g';
+      return 'G';
     case key_code::h:
       return 'H';
     case key_code::i:
@@ -373,66 +373,65 @@ UINT key_code_to_win_key(key_code key)
 UINT scan_code_to_win_key(scan_code sc)
 {
   // Special handling for some scan codes is needed for consistency with
-  // scan codes in ph_window messages.
+  // scan codes in window messages.
 
   // When numlock is on, windows checks nothing when one of the numpad keys is
   // pressed.
-  if(keyboard::is_key_toggled(key_code::num_lock))
+  // When numlock is off, if a numpad key is pressed both the numpad key and the
+  // corresponding alternative key are seen as pressed.
+  // To avoid these problems, these scan codes must be explicitly converted.
+  if(sc == scan_code::numpad0)
   {
-    if(sc == scan_code::numpad0)
-    {
-      return VK_NUMPAD0;
-    }
-    if(sc == scan_code::numpad1)
-    {
-      return VK_NUMPAD1;
-    }
-    if(sc == scan_code::numpad2)
-    {
-      return VK_NUMPAD2;
-    }
-    if(sc == scan_code::numpad3)
-    {
-      return VK_NUMPAD3;
-    }
-    if(sc == scan_code::numpad4)
-    {
-      return VK_NUMPAD4;
-    }
-    if(sc == scan_code::numpad5)
-    {
-      return VK_NUMPAD5;
-    }
-    if(sc == scan_code::numpad6)
-    {
-      return VK_NUMPAD6;
-    }
-    if(sc == scan_code::numpad7)
-    {
-      return VK_NUMPAD7;
-    }
-    if(sc == scan_code::numpad8)
-    {
-      return VK_NUMPAD8;
-    }
-    if(sc == scan_code::numpad9)
-    {
-      return VK_NUMPAD9;
-    }
-    if(sc == scan_code::decimal)
-    {
-      return VK_DECIMAL;
-    }
+    return VK_NUMPAD0;
   }
-
+  else if(sc == scan_code::numpad1)
+  {
+    return VK_NUMPAD1;
+  }
+  else if(sc == scan_code::numpad2)
+  {
+    return VK_NUMPAD2;
+  }
+  else if(sc == scan_code::numpad3)
+  {
+    return VK_NUMPAD3;
+  }
+  else if(sc == scan_code::numpad4)
+  {
+    return VK_NUMPAD4;
+  }
+  else if(sc == scan_code::numpad5)
+  {
+    return VK_NUMPAD5;
+  }
+  else if(sc == scan_code::numpad6)
+  {
+    return VK_NUMPAD6;
+  }
+  else if(sc == scan_code::numpad7)
+  {
+    return VK_NUMPAD7;
+  }
+  else if(sc == scan_code::numpad8)
+  {
+    return VK_NUMPAD8;
+  }
+  else if(sc == scan_code::numpad9)
+  {
+    return VK_NUMPAD9;
+  }
+  else if(sc == scan_code::decimal)
+  {
+    return VK_DECIMAL;
+  }
   // Without these lines, Windows checks the pause key when the numlock key
   // is requested, and checks nothing when the print key is requested. This
-  // is in disagreement with the scancodes received by the ph_window messages.
-  if(sc == scan_code::pause)
+  // is in disagreement with the scancodes received by the window messages.
+  else if(sc == scan_code::pause)
   {
     return VK_PAUSE;
   }
-  if(sc == scan_code::num_lock)
+  else if(sc == scan_code::num_lock)
   {
     return VK_NUMLOCK;
   }
