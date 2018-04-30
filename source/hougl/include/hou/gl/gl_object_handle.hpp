@@ -5,8 +5,8 @@
 #ifndef HOU_GL_GL_OBJECT_HANDLE_HPP
 #define HOU_GL_GL_OBJECT_HANDLE_HPP
 
-#include "hou/gl/gl_export.hpp"
 #include "hou/cor/non_copyable.hpp"
+#include "hou/gl/gl_export.hpp"
 
 #include "hou/gl/open_gl.hpp"
 
@@ -20,8 +20,7 @@ namespace hou
 namespace gl
 {
 
-class HOU_GL_API object_handle
-  : public non_copyable
+class HOU_GL_API object_handle : public non_copyable
 {
 public:
   object_handle(GLuint name);
@@ -38,8 +37,7 @@ private:
 
 
 
-class HOU_GL_API shared_object_handle
-  : public object_handle
+class HOU_GL_API shared_object_handle : public object_handle
 {
 public:
   shared_object_handle(GLuint name);
@@ -54,8 +52,7 @@ private:
 
 
 
-class HOU_GL_API non_shared_object_handle
-  : public object_handle
+class HOU_GL_API non_shared_object_handle : public object_handle
 {
 public:
   non_shared_object_handle(GLuint name);
@@ -68,9 +65,8 @@ private:
   uint32_t m_owning_context_uid;
 };
 
-}
+}  // namespace gl
 
-}
+}  // namespace hou
 
 #endif
-

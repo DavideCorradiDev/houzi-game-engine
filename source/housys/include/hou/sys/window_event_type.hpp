@@ -39,7 +39,7 @@ enum class window_event_type
   key_released,
 
   /** text entered event. It is associated to text_data. */
-  TextEntered,
+  text_entered,
 
   /** mouse moved event. It is associated to mouse_move_data. */
   mouse_moved,

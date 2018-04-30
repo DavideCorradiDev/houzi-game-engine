@@ -242,7 +242,7 @@ public:
 
   /** Returns the text data of this event.
    *
-   * Throws if the event is not of type TextEntered.
+   * Throws if the event is not of type text_entered.
    *
    * \return the event data.
    */

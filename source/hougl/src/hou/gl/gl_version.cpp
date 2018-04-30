@@ -17,11 +17,9 @@ namespace gl
 namespace
 {
 
-const std::vector<version> supportedVersions =
-{
+const std::vector<version> supported_versions = {
   version(4u, 5u),
 };
-
 }
 
 
@@ -32,7 +30,8 @@ version version::standard(4u, 5u);
 
 version::version(uint major, uint minor)
   : m_major(major)
-  , m_minor(minor) {}
+  , m_minor(minor)
+{}
 
 
 
@@ -52,8 +51,8 @@ uint version::get_minor() const
 
 bool version::is_supported() const
 {
-  return(std::find(supportedVersions.begin(), supportedVersions.end(), *this)
-    != supportedVersions.end());
+  return (std::find(supported_versions.begin(), supported_versions.end(), *this)
+    != supported_versions.end());
 }
 
 
@@ -74,32 +73,32 @@ bool operator!=(const version& l, const version& r)
 
 bool operator>(const version& l, const version& r)
 {
-  return l.get_major() > r.get_major() || (l.get_major() == r.get_major()
-    && l.get_minor() > r.get_minor());
+  return l.get_major() > r.get_major()
+    || (l.get_major() == r.get_major() && l.get_minor() > r.get_minor());
 }
 
 
 
 bool operator>=(const version& l, const version& r)
 {
-  return l.get_major() > r.get_major() || (l.get_major() == r.get_major()
-    && l.get_minor() >= r.get_minor());
+  return l.get_major() > r.get_major()
+    || (l.get_major() == r.get_major() && l.get_minor() >= r.get_minor());
 }
 
 
 
 bool operator<(const version& l, const version& r)
 {
-  return l.get_major() < r.get_major() || (l.get_major() == r.get_major()
-    && l.get_minor() < r.get_minor());
+  return l.get_major() < r.get_major()
+    || (l.get_major() == r.get_major() && l.get_minor() < r.get_minor());
 }
 
 
 
 bool operator<=(const version& l, const version& r)
 {
-  return l.get_major() < r.get_major() || (l.get_major() == r.get_major()
-    && l.get_minor() <= r.get_minor());
+  return l.get_major() < r.get_major()
+    || (l.get_major() == r.get_major() && l.get_minor() <= r.get_minor());
 }
 
 
@@ -109,7 +108,6 @@ std::ostream& operator<<(std::ostream& os, const version& v)
   return os << v.get_major() << "." << v.get_minor();
 }
 
-}
+}  // namespace gl
 
-}
-
+}  // namespace hou

@@ -51,7 +51,7 @@ TEST_F(TestGlContext, Creation)
   gl::context c(gl::context_settings::standard, w);
 
   EXPECT_NE(0u, c.get_uid());
-  EXPECT_NE(0u, c.getSharingGroupUid());
+  EXPECT_NE(0u, c.get_sharing_group_uid());
   EXPECT_FALSE(c.is_current());
 }
 
@@ -65,14 +65,14 @@ TEST_F(TestGlContext, SharedCreation)
   gl::context c2(gl::context_settings::standard, w2, c1);
 
   EXPECT_NE(0u, c1.get_uid());
-  EXPECT_NE(0u, c1.getSharingGroupUid());
+  EXPECT_NE(0u, c1.get_sharing_group_uid());
   EXPECT_FALSE(c1.is_current());
 
   EXPECT_NE(0u, c2.get_uid());
-  EXPECT_NE(0u, c2.getSharingGroupUid());
+  EXPECT_NE(0u, c2.get_sharing_group_uid());
   EXPECT_FALSE(c2.is_current());
 
-  EXPECT_EQ(c1.getSharingGroupUid(), c2.getSharingGroupUid());
+  EXPECT_EQ(c1.get_sharing_group_uid(), c2.get_sharing_group_uid());
 }
 
 
@@ -91,7 +91,7 @@ TEST_F(TestGlContext, GetUid)
   {
     gl::context c(gl::context_settings::standard, w);
     EXPECT_EQ(firstId + i, c.get_uid());
-    EXPECT_EQ(firstId + i, c.getSharingGroupUid());
+    EXPECT_EQ(firstId + i, c.get_sharing_group_uid());
   }
 }
 
@@ -109,40 +109,40 @@ TEST_F(TestGlContext, GetSharingGroupUid)
   gl::context c7(gl::context_settings::standard, w, c2);
   gl::context c8(gl::context_settings::standard, w, c5);
 
-  EXPECT_NE(c1.getSharingGroupUid(), c2.getSharingGroupUid());
-  EXPECT_EQ(c1.getSharingGroupUid(), c3.getSharingGroupUid());
-  EXPECT_EQ(c1.getSharingGroupUid(), c4.getSharingGroupUid());
-  EXPECT_EQ(c1.getSharingGroupUid(), c5.getSharingGroupUid());
-  EXPECT_NE(c1.getSharingGroupUid(), c6.getSharingGroupUid());
-  EXPECT_NE(c1.getSharingGroupUid(), c7.getSharingGroupUid());
-  EXPECT_EQ(c1.getSharingGroupUid(), c8.getSharingGroupUid());
+  EXPECT_NE(c1.get_sharing_group_uid(), c2.get_sharing_group_uid());
+  EXPECT_EQ(c1.get_sharing_group_uid(), c3.get_sharing_group_uid());
+  EXPECT_EQ(c1.get_sharing_group_uid(), c4.get_sharing_group_uid());
+  EXPECT_EQ(c1.get_sharing_group_uid(), c5.get_sharing_group_uid());
+  EXPECT_NE(c1.get_sharing_group_uid(), c6.get_sharing_group_uid());
+  EXPECT_NE(c1.get_sharing_group_uid(), c7.get_sharing_group_uid());
+  EXPECT_EQ(c1.get_sharing_group_uid(), c8.get_sharing_group_uid());
 
-  EXPECT_NE(c2.getSharingGroupUid(), c3.getSharingGroupUid());
-  EXPECT_NE(c2.getSharingGroupUid(), c4.getSharingGroupUid());
-  EXPECT_NE(c2.getSharingGroupUid(), c5.getSharingGroupUid());
-  EXPECT_NE(c2.getSharingGroupUid(), c6.getSharingGroupUid());
-  EXPECT_EQ(c2.getSharingGroupUid(), c7.getSharingGroupUid());
-  EXPECT_NE(c2.getSharingGroupUid(), c8.getSharingGroupUid());
+  EXPECT_NE(c2.get_sharing_group_uid(), c3.get_sharing_group_uid());
+  EXPECT_NE(c2.get_sharing_group_uid(), c4.get_sharing_group_uid());
+  EXPECT_NE(c2.get_sharing_group_uid(), c5.get_sharing_group_uid());
+  EXPECT_NE(c2.get_sharing_group_uid(), c6.get_sharing_group_uid());
+  EXPECT_EQ(c2.get_sharing_group_uid(), c7.get_sharing_group_uid());
+  EXPECT_NE(c2.get_sharing_group_uid(), c8.get_sharing_group_uid());
 
-  EXPECT_EQ(c3.getSharingGroupUid(), c4.getSharingGroupUid());
-  EXPECT_EQ(c3.getSharingGroupUid(), c5.getSharingGroupUid());
-  EXPECT_NE(c3.getSharingGroupUid(), c6.getSharingGroupUid());
-  EXPECT_NE(c3.getSharingGroupUid(), c7.getSharingGroupUid());
-  EXPECT_EQ(c3.getSharingGroupUid(), c8.getSharingGroupUid());
+  EXPECT_EQ(c3.get_sharing_group_uid(), c4.get_sharing_group_uid());
+  EXPECT_EQ(c3.get_sharing_group_uid(), c5.get_sharing_group_uid());
+  EXPECT_NE(c3.get_sharing_group_uid(), c6.get_sharing_group_uid());
+  EXPECT_NE(c3.get_sharing_group_uid(), c7.get_sharing_group_uid());
+  EXPECT_EQ(c3.get_sharing_group_uid(), c8.get_sharing_group_uid());
 
-  EXPECT_EQ(c4.getSharingGroupUid(), c5.getSharingGroupUid());
-  EXPECT_NE(c4.getSharingGroupUid(), c6.getSharingGroupUid());
-  EXPECT_NE(c4.getSharingGroupUid(), c7.getSharingGroupUid());
-  EXPECT_EQ(c4.getSharingGroupUid(), c8.getSharingGroupUid());
+  EXPECT_EQ(c4.get_sharing_group_uid(), c5.get_sharing_group_uid());
+  EXPECT_NE(c4.get_sharing_group_uid(), c6.get_sharing_group_uid());
+  EXPECT_NE(c4.get_sharing_group_uid(), c7.get_sharing_group_uid());
+  EXPECT_EQ(c4.get_sharing_group_uid(), c8.get_sharing_group_uid());
 
-  EXPECT_NE(c5.getSharingGroupUid(), c6.getSharingGroupUid());
-  EXPECT_NE(c5.getSharingGroupUid(), c7.getSharingGroupUid());
-  EXPECT_EQ(c5.getSharingGroupUid(), c8.getSharingGroupUid());
+  EXPECT_NE(c5.get_sharing_group_uid(), c6.get_sharing_group_uid());
+  EXPECT_NE(c5.get_sharing_group_uid(), c7.get_sharing_group_uid());
+  EXPECT_EQ(c5.get_sharing_group_uid(), c8.get_sharing_group_uid());
 
-  EXPECT_NE(c6.getSharingGroupUid(), c7.getSharingGroupUid());
-  EXPECT_NE(c6.getSharingGroupUid(), c8.getSharingGroupUid());
+  EXPECT_NE(c6.get_sharing_group_uid(), c7.get_sharing_group_uid());
+  EXPECT_NE(c6.get_sharing_group_uid(), c8.get_sharing_group_uid());
 
-  EXPECT_NE(c7.getSharingGroupUid(), c8.getSharingGroupUid());
+  EXPECT_NE(c7.get_sharing_group_uid(), c8.get_sharing_group_uid());
 }
 
 
@@ -154,13 +154,13 @@ TEST_F(TestGlContext, MoveConstructor)
   gl::context::set_current(c_dummy, w);
   ASSERT_EQ(&c_dummy, gl::context::getCurrent());
   uint32_t uid_ref = c_dummy.get_uid();
-  uint32_t sharedUid_ref = c_dummy.getSharingGroupUid();
+  uint32_t sharedUid_ref = c_dummy.get_sharing_group_uid();
 
   gl::context c = std::move(c_dummy);
   ASSERT_NE(&c_dummy, gl::context::getCurrent());
   ASSERT_EQ(&c, gl::context::getCurrent());
   ASSERT_EQ(uid_ref, c.get_uid());
-  ASSERT_EQ(sharedUid_ref, c.getSharingGroupUid());
+  ASSERT_EQ(sharedUid_ref, c.get_sharing_group_uid());
 }
 
 

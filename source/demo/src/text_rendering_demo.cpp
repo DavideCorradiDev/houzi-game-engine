@@ -172,7 +172,7 @@ int main()
       case hou::window_event_type::focus_gained:
       case hou::window_event_type::focus_lost:
       case hou::window_event_type::key_pressed:
-      case hou::window_event_type::TextEntered:
+      case hou::window_event_type::text_entered:
       case hou::window_event_type::mouse_moved:
       case hou::window_event_type::mouse_entered:
       case hou::window_event_type::mouse_left:

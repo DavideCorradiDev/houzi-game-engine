@@ -73,7 +73,7 @@ TEST_F(TestGlObjectHandle, SharedCreation)
   ConcreteGlSharedObjectHandle oh(2u);
   EXPECT_EQ(2u, oh.get_name());
   EXPECT_NE(0u, oh.get_uid());
-  EXPECT_EQ(mContext.getSharingGroupUid(), oh.get_owning_sharing_group_uid());
+  EXPECT_EQ(mContext.get_sharing_group_uid(), oh.get_owning_sharing_group_uid());
 
   ConcreteGlObjectHandle oh2(1u);
   EXPECT_NE(oh.get_uid(), oh2.get_uid());
@@ -114,10 +114,10 @@ TEST_F(TestGlObjectHandle, SharedMoveConstructor)
   uint32_t ohUid_ref = oh.get_uid();
   EXPECT_EQ(0u, oh_dummy.get_name());
   EXPECT_EQ(0u, oh_dummy.get_uid());
-  EXPECT_EQ(mContext.getSharingGroupUid(), oh_dummy.get_owning_sharing_group_uid());
+  EXPECT_EQ(mContext.get_sharing_group_uid(), oh_dummy.get_owning_sharing_group_uid());
   EXPECT_EQ(1u, oh.get_name());
   EXPECT_EQ(ohUid_ref, oh.get_uid());
-  EXPECT_EQ(mContext.getSharingGroupUid(), oh.get_owning_sharing_group_uid());
+  EXPECT_EQ(mContext.get_sharing_group_uid(), oh.get_owning_sharing_group_uid());
 }
 
 
@@ -153,9 +153,9 @@ TEST_F(TestGlObjectHandle, SharedOwnerUid)
   gl::context::set_current(c3, w);
   ConcreteGlSharedObjectHandle sh3(0u);
 
-  EXPECT_EQ(c1.getSharingGroupUid(), sh1.get_owning_sharing_group_uid());
-  EXPECT_EQ(c2.getSharingGroupUid(), sh2.get_owning_sharing_group_uid());
-  EXPECT_EQ(c3.getSharingGroupUid(), sh3.get_owning_sharing_group_uid());
+  EXPECT_EQ(c1.get_sharing_group_uid(), sh1.get_owning_sharing_group_uid());
+  EXPECT_EQ(c2.get_sharing_group_uid(), sh2.get_owning_sharing_group_uid());
+  EXPECT_EQ(c3.get_sharing_group_uid(), sh3.get_owning_sharing_group_uid());
 
   EXPECT_EQ(sh1.get_owning_sharing_group_uid(), sh2.get_owning_sharing_group_uid());
   EXPECT_NE(sh1.get_owning_sharing_group_uid(), sh3.get_owning_sharing_group_uid());

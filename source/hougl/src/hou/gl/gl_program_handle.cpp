@@ -9,8 +9,8 @@
 #include "hou/gl/gl_error.hpp"
 #include "hou/gl/gl_shader_handle.hpp"
 
-#include "hou/cor/error.hpp"
 #include "hou/cor/character_encodings.hpp"
+#include "hou/cor/error.hpp"
 
 
 
@@ -108,10 +108,11 @@ GLuint get_bound_program_name()
 
 
 
-void attach_shader(const program_handle& program, const shader_handle& ph_shader)
+void attach_shader(
+  const program_handle& program, const shader_handle& shd)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  glAttachShader(program.get_name(), ph_shader.get_name());
+  glAttachShader(program.get_name(), shd.get_name());
   HOU_GL_CHECK_ERROR();
 }
 
@@ -119,7 +120,7 @@ void attach_shader(const program_handle& program, const shader_handle& ph_shader
 
 void link_program(const program_handle& program)
 {
-  static constexpr size_t maxInfoLogSize = 1024;
+  static constexpr size_t max_info_log_size = 1024;
 
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
 
@@ -131,8 +132,8 @@ void link_program(const program_handle& program)
   HOU_GL_CHECK_ERROR();
   if(success == 0)
   {
-    GLchar infoLog[maxInfoLogSize];
-    glGetProgramInfoLog(program.get_name(), maxInfoLogSize, nullptr, infoLog);
+    GLchar infoLog[max_info_log_size];
+    glGetProgramInfoLog(program.get_name(), max_info_log_size, nullptr, infoLog);
     HOU_GL_CHECK_ERROR();
     HOU_RUNTIME_ERROR(get_text(gl_error::program_linking), infoLog);
   }
@@ -140,22 +141,22 @@ void link_program(const program_handle& program)
 
 
 
-GLint get_program_uniform_location(const program_handle& program
-  , const GLchar* name)
+GLint get_program_uniform_location(
+  const program_handle& program, const GLchar* name)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(program);
   GLint location = glGetUniformLocation(program.get_name(), name);
   HOU_GL_CHECK_ERROR();
-  HOU_RUNTIME_CHECK(location != -1, get_text(gl_error::program_invalid_uniform)
-    , name);
+  HOU_RUNTIME_CHECK(
+    location != -1, get_text(gl_error::program_invalid_uniform), name);
   return location;
 }
 
 
 
-void set_program_uniform_i(const program_handle& program, GLint location
-  , GLint v0)
+void set_program_uniform_i(
+  const program_handle& program, GLint location, GLint v0)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(program);
@@ -165,8 +166,8 @@ void set_program_uniform_i(const program_handle& program, GLint location
 
 
 
-void set_program_uniform_i(const program_handle& program, GLint location
-  , GLint v0, GLint v1)
+void set_program_uniform_i(
+  const program_handle& program, GLint location, GLint v0, GLint v1)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(program);
@@ -176,8 +177,8 @@ void set_program_uniform_i(const program_handle& program, GLint location
 
 
 
-void set_program_uniform_i(const program_handle& program, GLint location
-  , GLint v0, GLint v1, GLint v2)
+void set_program_uniform_i(
+  const program_handle& program, GLint location, GLint v0, GLint v1, GLint v2)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(program);
@@ -187,8 +188,8 @@ void set_program_uniform_i(const program_handle& program, GLint location
 
 
 
-void set_program_uniform_i(const program_handle& program, GLint location
-  , GLint v0, GLint v1, GLint v2, GLint v3)
+void set_program_uniform_i(const program_handle& program, GLint location,
+  GLint v0, GLint v1, GLint v2, GLint v3)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(program);
@@ -198,8 +199,8 @@ void set_program_uniform_i(const program_handle& program, GLint location
 
 
 
-void set_program_uniform_u(const program_handle& program, GLuint location
-  , GLuint v0)
+void set_program_uniform_u(
+  const program_handle& program, GLuint location, GLuint v0)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(program);
@@ -209,8 +210,8 @@ void set_program_uniform_u(const program_handle& program, GLuint location
 
 
 
-void set_program_uniform_u(const program_handle& program, GLuint location
-  , GLuint v0, GLuint v1)
+void set_program_uniform_u(
+  const program_handle& program, GLuint location, GLuint v0, GLuint v1)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(program);
@@ -220,8 +221,8 @@ void set_program_uniform_u(const program_handle& program, GLuint location
 
 
 
-void set_program_uniform_u(const program_handle& program, GLuint location
-  , GLuint v0, GLuint v1, GLuint v2)
+void set_program_uniform_u(const program_handle& program, GLuint location,
+  GLuint v0, GLuint v1, GLuint v2)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(program);
@@ -231,8 +232,8 @@ void set_program_uniform_u(const program_handle& program, GLuint location
 
 
 
-void set_program_uniform_u(const program_handle& program, GLuint location
-  , GLuint v0, GLuint v1, GLuint v2, GLuint v3)
+void set_program_uniform_u(const program_handle& program, GLuint location,
+  GLuint v0, GLuint v1, GLuint v2, GLuint v3)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(program);
@@ -242,8 +243,8 @@ void set_program_uniform_u(const program_handle& program, GLuint location
 
 
 
-void set_program_uniform_f(const program_handle& program, GLint location
-  , GLfloat v0)
+void set_program_uniform_f(
+  const program_handle& program, GLint location, GLfloat v0)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(program);
@@ -253,8 +254,8 @@ void set_program_uniform_f(const program_handle& program, GLint location
 
 
 
-void set_program_uniform_f(const program_handle& program, GLint location
-  , GLfloat v0, GLfloat v1)
+void set_program_uniform_f(
+  const program_handle& program, GLint location, GLfloat v0, GLfloat v1)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(program);
@@ -264,8 +265,8 @@ void set_program_uniform_f(const program_handle& program, GLint location
 
 
 
-void set_program_uniform_f(const program_handle& program, GLint location
-  , GLfloat v0, GLfloat v1, GLfloat v2)
+void set_program_uniform_f(const program_handle& program, GLint location,
+  GLfloat v0, GLfloat v1, GLfloat v2)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(program);
@@ -275,8 +276,8 @@ void set_program_uniform_f(const program_handle& program, GLint location
 
 
 
-void set_program_uniform_f(const program_handle& program, GLint location
-  , GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3)
+void set_program_uniform_f(const program_handle& program, GLint location,
+  GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(program);
@@ -286,18 +287,16 @@ void set_program_uniform_f(const program_handle& program, GLint location
 
 
 
-void set_program_uniform_mat4x4f(const program_handle& program, GLint location
-  , GLsizei count, GLboolean transpose, const GLfloat* values)
+void set_program_uniform_mat4x4f(const program_handle& program, GLint location,
+  GLsizei count, GLboolean transpose, const GLfloat* values)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(program);
-  glProgramUniformMatrix4fv(program.get_name(), location, count, transpose
-    , values);
+  glProgramUniformMatrix4fv(
+    program.get_name(), location, count, transpose, values);
   HOU_GL_CHECK_ERROR();
 }
 
+}  // namespace gl
 
-}
-
-}
-
+}  // namespace hou

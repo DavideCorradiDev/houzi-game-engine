@@ -40,15 +40,17 @@ HOU_GL_API bool is_framebuffer_bound(
 HOU_GL_API bool is_framebuffer_bound(GLenum target);
 HOU_GL_API GLuint get_bound_framebuffer_name(GLenum target);
 
-HOU_GL_API void set_framebuffer_color_texture(const framebuffer_handle& framebuffer,
-  GLuint attachment, const texture_handle& ph_texture, GLint level);
-HOU_GL_API void set_framebuffer_depth_texture(const framebuffer_handle& framebuffer,
-  const texture_handle& ph_texture, GLint level);
+HOU_GL_API void set_framebuffer_color_texture(
+  const framebuffer_handle& framebuffer, GLuint attachment,
+  const texture_handle& tex, GLint level);
+HOU_GL_API void set_framebuffer_depth_texture(
+  const framebuffer_handle& framebuffer, const texture_handle& tex,
+  GLint level);
 HOU_GL_API void set_framebuffer_stencil_texture(
-  const framebuffer_handle& framebuffer, const texture_handle& ph_texture,
+  const framebuffer_handle& framebuffer, const texture_handle& tex,
   GLint level);
 HOU_GL_API void set_framebuffer_depth_stencil_texture(
-  const framebuffer_handle& framebuffer, const texture_handle& ph_texture,
+  const framebuffer_handle& framebuffer, const texture_handle& tex,
   GLint level);
 HOU_GL_API GLenum get_framebuffer_status(const framebuffer_handle& framebuffer);
 HOU_GL_API void blit_framebuffer(GLint srcX0, GLint srcY0, GLint srcX1,

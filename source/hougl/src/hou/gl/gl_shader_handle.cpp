@@ -8,8 +8,8 @@
 #include "hou/gl/gl_context.hpp"
 #include "hou/gl/gl_error.hpp"
 
-#include "hou/cor/error.hpp"
 #include "hou/cor/character_encodings.hpp"
+#include "hou/cor/error.hpp"
 
 
 
@@ -26,24 +26,24 @@ std::string shaderTypeToString(GLenum type)
 {
   switch(type)
   {
-  case GL_COMPUTE_SHADER:
-    return "Compute";
-  case GL_FRAGMENT_SHADER:
-    return "fragment";
-  case GL_GEOMETRY_SHADER:
-    return "geometry";
-  case GL_TESS_CONTROL_SHADER:
-    return "TessControl";
-  case GL_TESS_EVALUATION_SHADER:
-    return "TessEvaluation";
-  case GL_VERTEX_SHADER:
-    return "vertex";
-  default:
-    return "";
+    case GL_COMPUTE_SHADER:
+      return "Compute";
+    case GL_FRAGMENT_SHADER:
+      return "fragment";
+    case GL_GEOMETRY_SHADER:
+      return "geometry";
+    case GL_TESS_CONTROL_SHADER:
+      return "TessControl";
+    case GL_TESS_EVALUATION_SHADER:
+      return "TessEvaluation";
+    case GL_VERTEX_SHADER:
+      return "vertex";
+    default:
+      return "";
   }
 }
 
-}
+}  // namespace
 
 
 
@@ -88,32 +88,31 @@ shader_handle::shader_handle(GLuint name, GLenum type)
 
 
 
-void compile_shader(const shader_handle& ph_shader, const GLchar* src)
+void compile_shader(const shader_handle& shd, const GLchar* src)
 {
   static constexpr size_t maxInfoLogSize = 1024;
 
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(ph_shader);
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(shd);
 
-  glShaderSource(ph_shader.get_name(), 1, &src, nullptr);
+  glShaderSource(shd.get_name(), 1, &src, nullptr);
   HOU_GL_CHECK_ERROR();
-  glCompileShader(ph_shader.get_name());
+  glCompileShader(shd.get_name());
   HOU_GL_CHECK_ERROR();
 
   GLint success = 0;
-  glGetShaderiv(ph_shader.get_name(), GL_COMPILE_STATUS, &success);
+  glGetShaderiv(shd.get_name(), GL_COMPILE_STATUS, &success);
   HOU_GL_CHECK_ERROR();
   if(success == 0)
   {
     GLchar infoLog[maxInfoLogSize];
-    glGetShaderInfoLog(ph_shader.get_name(), maxInfoLogSize, nullptr, infoLog);
+    glGetShaderInfoLog(shd.get_name(), maxInfoLogSize, nullptr, infoLog);
     HOU_GL_CHECK_ERROR();
-    HOU_RUNTIME_ERROR(get_text(gl_error::shader_compilation)
-      , shaderTypeToString(ph_shader.get_type()).c_str(), infoLog);
+    HOU_RUNTIME_ERROR(get_text(gl_error::shader_compilation),
+      shaderTypeToString(shd.get_type()).c_str(), infoLog);
   }
 }
 
-}
+}  // namespace gl
 
-}
-
+}  // namespace hou

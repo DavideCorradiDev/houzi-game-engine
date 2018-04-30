@@ -21,10 +21,8 @@ enum class vertical_sync_mode : int
   enabled = 1,
   adaptive = -1,
 };
-
 }
 
-}
+}  // namespace hou
 
 #endif
-

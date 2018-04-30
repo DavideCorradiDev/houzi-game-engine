@@ -463,7 +463,7 @@ int main()
         case hou::window_event_type::focus_lost:
         case hou::window_event_type::resized:
         case hou::window_event_type::key_released:
-        case hou::window_event_type::TextEntered:
+        case hou::window_event_type::text_entered:
         case hou::window_event_type::mouse_moved:
         case hou::window_event_type::mouse_entered:
         case hou::window_event_type::mouse_left:
@@ -517,7 +517,7 @@ int main()
         meshRnd.draw(wnd, eventRect, hou::color::green, projTrans * eventQueueTrans * evTrans);
         std::stringstream ss;
         ss << ev;
-        if(ev.get_type() == hou::window_event_type::TextEntered)
+        if(ev.get_type() == hou::window_event_type::text_entered)
         {
           ss << "  " <<  hou::convert_encoding<hou::utf32, hou::utf8>(std::u32string(1, ev.get_text_data().code_point)) << "\n";
         }

@@ -23,11 +23,11 @@ namespace gl
 class HOU_GL_API context_settings
 {
 public:
-  context_settings(const version& ph_version, context_profile profile,
-    uint depthByteCount, uint stencilByteCount, uint sampleCount);
+  context_settings(const version& vrs, context_profile profile,
+    uint depth_byte_count, uint stencil_byte_count, uint sample_count);
 
   const version& get_version() const;
-  void set_version(const version& ph_version);
+  void set_version(const version& vrs);
   context_profile get_profile() const;
   void set_profile(context_profile value);
   uint get_depth_byte_count() const;
@@ -48,8 +48,10 @@ private:
   uint m_sample_count;
 };
 
-HOU_GL_API bool operator==(const context_settings& l, const context_settings& r);
-HOU_GL_API bool operator!=(const context_settings& l, const context_settings& r);
+HOU_GL_API bool operator==(
+  const context_settings& l, const context_settings& r);
+HOU_GL_API bool operator!=(
+  const context_settings& l, const context_settings& r);
 
 }  // namespace gl
 

@@ -15,20 +15,20 @@ const context_settings context_settings::standard
 
 
 
-context_settings::context_settings(const version& ph_version, context_profile profile,
-  uint depthByteCount, uint stencilByteCount, uint sampleCount)
-  : m_version(ph_version)
+context_settings::context_settings(const version& vrs, context_profile profile,
+  uint depth_byte_count, uint stencil_byte_count, uint sample_count)
+  : m_version(vrs)
   , m_profile(profile)
-  , m_depth_byte_count(depthByteCount)
-  , m_stencil_byte_count(stencilByteCount)
-  , m_sample_count(sampleCount)
+  , m_depth_byte_count(depth_byte_count)
+  , m_stencil_byte_count(stencil_byte_count)
+  , m_sample_count(sample_count)
 {}
 
 
 
-void context_settings::set_version(const version& ph_version)
+void context_settings::set_version(const version& vrs)
 {
-  m_version = ph_version;
+  m_version = vrs;
 }
 
 
@@ -98,7 +98,8 @@ void context_settings::set_sample_count(uint value)
 
 bool operator==(const context_settings& l, const context_settings& r)
 {
-  return l.get_version() == r.get_version() && l.get_profile() == r.get_profile()
+  return l.get_version() == r.get_version()
+    && l.get_profile() == r.get_profile()
     && l.get_depth_byte_count() == r.get_depth_byte_count()
     && l.get_stencil_byte_count() == r.get_stencil_byte_count()
     && l.get_sample_count() == r.get_sample_count();

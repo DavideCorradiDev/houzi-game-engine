@@ -6,8 +6,8 @@
 
 #include "hou/gl/gl_check.hpp"
 #include "hou/gl/gl_context.hpp"
-#include "hou/gl/gl_texture_handle.hpp"
 #include "hou/gl/gl_functions.hpp"
+#include "hou/gl/gl_texture_handle.hpp"
 
 
 
@@ -28,12 +28,12 @@ GLenum toGetGLenum(GLenum target)
 {
   switch(target)
   {
-  case GL_DRAW_FRAMEBUFFER:
-    return GL_DRAW_FRAMEBUFFER_BINDING;
-  case GL_READ_FRAMEBUFFER:
-    return GL_READ_FRAMEBUFFER_BINDING;
-  default:
-    return 0u;
+    case GL_DRAW_FRAMEBUFFER:
+      return GL_DRAW_FRAMEBUFFER_BINDING;
+    case GL_READ_FRAMEBUFFER:
+      return GL_READ_FRAMEBUFFER_BINDING;
+    default:
+      return 0u;
   }
 }
 
@@ -150,7 +150,8 @@ bool is_framebuffer_bound(const framebuffer_handle& framebuffer, GLenum target)
 bool is_framebuffer_bound(GLenum target)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  return context::getCurrent()->mTrackingData.get_bound_framebuffer(target) != 0u;
+  return context::getCurrent()->mTrackingData.get_bound_framebuffer(target)
+    != 0u;
 }
 
 
@@ -167,52 +168,52 @@ GLuint get_bound_framebuffer_name(GLenum target)
 
 
 void set_framebuffer_color_texture(const framebuffer_handle& framebuffer,
-  GLuint attachment, const texture_handle& ph_texture, GLint level)
+  GLuint attachment, const texture_handle& tex, GLint level)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(framebuffer);
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(ph_texture);
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
   glNamedFramebufferTexture(framebuffer.get_name(),
-    GL_COLOR_ATTACHMENT0 + attachment, ph_texture.get_name(), level);
+    GL_COLOR_ATTACHMENT0 + attachment, tex.get_name(), level);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-void set_framebuffer_depth_texture(const framebuffer_handle& framebuffer,
-  const texture_handle& ph_texture, GLint level)
+void set_framebuffer_depth_texture(
+  const framebuffer_handle& framebuffer, const texture_handle& tex, GLint level)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(framebuffer);
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(ph_texture);
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
   glNamedFramebufferTexture(
-    framebuffer.get_name(), GL_DEPTH_ATTACHMENT, ph_texture.get_name(), level);
+    framebuffer.get_name(), GL_DEPTH_ATTACHMENT, tex.get_name(), level);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-void set_framebuffer_stencil_texture(const framebuffer_handle& framebuffer,
-  const texture_handle& ph_texture, GLint level)
+void set_framebuffer_stencil_texture(
+  const framebuffer_handle& framebuffer, const texture_handle& tex, GLint level)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(framebuffer);
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(ph_texture);
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
   glNamedFramebufferTexture(
-    framebuffer.get_name(), GL_STENCIL_ATTACHMENT, ph_texture.get_name(), level);
+    framebuffer.get_name(), GL_STENCIL_ATTACHMENT, tex.get_name(), level);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-void set_framebuffer_depth_stencil_texture(const framebuffer_handle& framebuffer,
-  const texture_handle& ph_texture, GLint level)
+void set_framebuffer_depth_stencil_texture(
+  const framebuffer_handle& framebuffer, const texture_handle& tex, GLint level)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(framebuffer);
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(ph_texture);
-  glNamedFramebufferTexture(framebuffer.get_name(), GL_DEPTH_STENCIL_ATTACHMENT,
-    ph_texture.get_name(), level);
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
+  glNamedFramebufferTexture(
+    framebuffer.get_name(), GL_DEPTH_STENCIL_ATTACHMENT, tex.get_name(), level);
   HOU_GL_CHECK_ERROR();
 }
 
@@ -242,9 +243,10 @@ void blit_framebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1,
 
 
 
-void blit_framebuffer(const framebuffer_handle& src, const framebuffer_handle& dst,
-  GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0,
-  GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter)
+void blit_framebuffer(const framebuffer_handle& src,
+  const framebuffer_handle& dst, GLint srcX0, GLint srcY0, GLint srcX1,
+  GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1,
+  GLbitfield mask, GLenum filter)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(src);

@@ -51,16 +51,16 @@ vertex_array_handle::vertex_array_handle(GLuint name)
 
 
 
-void bind_vertex_array(const vertex_array_handle& vertexArray)
+void bind_vertex_array(const vertex_array_handle& vertex_array)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(vertexArray);
-  if(!is_vertex_array_bound(vertexArray))
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(vertex_array);
+  if(!is_vertex_array_bound(vertex_array))
   {
-    glBindVertexArray(vertexArray.get_name());
+    glBindVertexArray(vertex_array.get_name());
     HOU_GL_CHECK_ERROR();
-    context::getCurrent()->mTrackingData.set_bound_vertex_array
-      (vertexArray.get_uid());
+    context::getCurrent()->mTrackingData.set_bound_vertex_array(
+      vertex_array.get_uid());
   }
 }
 
@@ -79,12 +79,12 @@ void unbind_vertex_array()
 
 
 
-bool is_vertex_array_bound(const vertex_array_handle& vertexArray)
+bool is_vertex_array_bound(const vertex_array_handle& vertex_array)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(vertexArray);
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(vertex_array);
   return context::getCurrent()->mTrackingData.get_bound_vertex_array()
-    == vertexArray.get_uid();
+    == vertex_array.get_uid();
 }
 
 
@@ -108,62 +108,63 @@ GLuint get_bound_vertex_array_name()
 
 
 
-void set_vertex_array_vertex_buffer(const vertex_array_handle& vertexArray
-  , GLuint bindingIndex, const buffer_handle& buffer, GLintptr offset
-  , GLsizei stride)
+void set_vertex_array_vertex_buffer(const vertex_array_handle& vertex_array,
+  GLuint bindingIndex, const buffer_handle& buffer, GLintptr offset,
+  GLsizei stride)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(vertexArray);
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(vertex_array);
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(buffer);
-  glVertexArrayVertexBuffer(vertexArray.get_name(), bindingIndex
-    , buffer.get_name(), offset, stride);
+  glVertexArrayVertexBuffer(
+    vertex_array.get_name(), bindingIndex, buffer.get_name(), offset, stride);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-void set_vertex_array_attrib_format(const vertex_array_handle& vertexArray
-  , GLuint attribIndex, GLint size, GLenum type, GLboolean normalized
-  , GLuint relativeOffset)
+void set_vertex_array_attrib_format(const vertex_array_handle& vertex_array,
+  GLuint attribIndex, GLint size, GLenum type, GLboolean normalized,
+  GLuint relative_offset)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(vertexArray);
-  glVertexArrayAttribFormat(vertexArray.get_name(), attribIndex, size
-    , type, normalized, relativeOffset);
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(vertex_array);
+  glVertexArrayAttribFormat(vertex_array.get_name(), attribIndex, size, type,
+    normalized, relative_offset);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-void set_vertex_array_attrib_binding(const vertex_array_handle& vertexArray
-  , GLuint attribIndex, GLuint bindingIndex)
+void set_vertex_array_attrib_binding(const vertex_array_handle& vertex_array,
+  GLuint attribIndex, GLuint bindingIndex)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(vertexArray);
-  glVertexArrayAttribBinding(vertexArray.get_name(), attribIndex, bindingIndex);
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(vertex_array);
+  glVertexArrayAttribBinding(
+    vertex_array.get_name(), attribIndex, bindingIndex);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-void enable_vertex_array_attrib(const vertex_array_handle& vertexArray
-  , GLuint index)
+void enable_vertex_array_attrib(
+  const vertex_array_handle& vertex_array, GLuint index)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(vertexArray);
-  glEnableVertexArrayAttrib(vertexArray.get_name(), index);
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(vertex_array);
+  glEnableVertexArrayAttrib(vertex_array.get_name(), index);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-void setVertexArrayElementBuffer(const vertex_array_handle& vertexArray
-  , const buffer_handle& buffer)
+void setVertexArrayElementBuffer(
+  const vertex_array_handle& vertex_array, const buffer_handle& buffer)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(vertexArray);
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(vertex_array);
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(buffer);
-  glVertexArrayElementBuffer(vertexArray.get_name(), buffer.get_name());
+  glVertexArrayElementBuffer(vertex_array.get_name(), buffer.get_name());
   HOU_GL_CHECK_ERROR();
 }
 
@@ -181,7 +182,6 @@ GLint get_max_vertex_attrib_bindings()
   return get_integer(GL_MAX_VERTEX_ATTRIB_BINDINGS);
 }
 
-}
+}  // namespace gl
 
-}
-
+}  // namespace hou

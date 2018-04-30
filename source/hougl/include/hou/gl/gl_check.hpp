@@ -27,11 +27,10 @@ class non_shared_object_handle;
 
 void HOU_GL_API check_error(const std::string& filename, int line);
 void HOU_GL_API check_context_existence(const std::string& filename, int line);
-void HOU_GL_API check_context_ownership(const shared_object_handle& o
-  , const std::string& filename, int line);
-void HOU_GL_API check_context_ownership(const non_shared_object_handle& o
-  , const std::string& filename, int line);
-
+void HOU_GL_API check_context_ownership(
+  const shared_object_handle& o, const std::string& filename, int line);
+void HOU_GL_API check_context_ownership(
+  const non_shared_object_handle& o, const std::string& filename, int line);
 }
 
 }
@@ -63,7 +62,4 @@ void HOU_GL_API check_context_ownership(const non_shared_object_handle& o
   #define HOU_GL_CHECK_CONTEXT_OWNERSHIP(objectHandle)
 #endif
 
-
-
 #endif
-

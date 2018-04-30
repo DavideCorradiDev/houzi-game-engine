@@ -11,8 +11,8 @@
 
 #include "hou/mth/rectangle.hpp"
 
-#include "hou/sys/video_mode.hpp"
 #include "hou/sys/system_window.hpp"
+#include "hou/sys/video_mode.hpp"
 
 #if defined(HOU_SYSTEM_WINDOWS)
 #include "hou/sys/win/win_error.hpp"
@@ -32,7 +32,7 @@ namespace
 {
 void enable(GLenum val);
 void disable(GLenum val);
-GLboolean isEnabled(GLenum val);
+GLboolean is_enabed(GLenum val);
 
 void enable(GLenum val)
 {
@@ -52,7 +52,7 @@ void disable(GLenum val)
 
 
 
-GLboolean isEnabled(GLenum val)
+GLboolean is_enabed(GLenum val)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   GLboolean retval = glIsEnabled(val);
@@ -172,7 +172,7 @@ void disable_blending()
 
 GLboolean is_blending_enabled()
 {
-  return isEnabled(GL_BLEND);
+  return is_enabed(GL_BLEND);
 }
 
 
@@ -216,7 +216,7 @@ void disable_multisampling()
 
 GLboolean is_multisampling_enabled()
 {
-  return isEnabled(GL_MULTISAMPLE);
+  return is_enabed(GL_MULTISAMPLE);
 }
 
 
@@ -275,19 +275,19 @@ void set_viewport(GLint x, GLint y, GLsizei w, GLsizei h)
 
 
 
-void set_polygon_mode(GLenum polygonFace, GLenum polygonMode)
+void set_polygon_mode(GLenum polygon_face, GLenum polygon_mode)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  glPolygonMode(polygonFace, polygonMode);
+  glPolygonMode(polygon_face, polygon_mode);
   HOU_GL_CHECK_ERROR();
 }
 
 
 
-void draw_arrays(GLenum drawMode, GLint first, GLsizei count)
+void draw_arrays(GLenum draw_mode, GLint first, GLsizei count)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  glDrawArrays(drawMode, first, count);
+  glDrawArrays(draw_mode, first, count);
   HOU_GL_CHECK_ERROR();
 }
 
@@ -305,18 +305,18 @@ GLsizei get_pixel_size_bytes(GLenum format)
 {
   switch(format)
   {
-  case GL_RED:
-    return 1u;
-  case GL_RG:
-    return 2u;
-  case GL_RGB:
-  case GL_BGR:
-    return 3u;
-  case GL_RGBA:
-  case GL_BGRA:
-    return 4u;
-  default:
-    return 1u;
+    case GL_RED:
+      return 1u;
+    case GL_RG:
+      return 2u;
+    case GL_RGB:
+    case GL_BGR:
+      return 3u;
+    case GL_RGBA:
+    case GL_BGRA:
+      return 4u;
+    default:
+      return 1u;
   }
 }
 
@@ -325,12 +325,12 @@ GLsizei get_pixel_size_bytes(GLenum format)
 GLsizei compute_texture_size_bytes(
   GLsizei width, GLsizei height, GLsizei depth, GLenum format)
 {
-  GLsizei unpackAlignment = static_cast<GLsizei>(gl::get_unpack_alignment());
-  GLsizei pixelSize = get_pixel_size_bytes(format);
-  GLsizei rowSize = pixelSize * width;
-  GLsizei offset = rowSize % unpackAlignment;
-  rowSize += (unpackAlignment - offset) % unpackAlignment;
-  return rowSize * height * depth;
+  GLsizei unpack_alignment = static_cast<GLsizei>(gl::get_unpack_alignment());
+  GLsizei pixel_size = get_pixel_size_bytes(format);
+  GLsizei row_size = pixel_size * width;
+  GLsizei offset = row_size % unpack_alignment;
+  row_size += (unpack_alignment - offset) % unpack_alignment;
+  return row_size * height * depth;
 }
 
 

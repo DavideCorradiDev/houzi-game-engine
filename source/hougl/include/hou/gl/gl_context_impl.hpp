@@ -12,7 +12,7 @@
 #include "hou/cor/basic_types.hpp"
 
 #if defined(HOU_SYSTEM_WINDOWS)
-  #include "hou/sys/win/win.hpp"
+#include "hou/sys/win/win.hpp"
 #endif
 
 
@@ -30,15 +30,14 @@ class context_settings;
 namespace prv
 {
 
-class context_impl
-  : public non_copyable
+class context_impl : public non_copyable
 {
 public:
-  static void set_current(context_impl& ph_context, window& ph_window);
+  static void set_current(context_impl& ctx, window& wnd);
   static void unset_current();
 
-  context_impl(const context_settings& settings, const window& ph_window
-    , const context_impl* sharedContext);
+  context_impl(const context_settings& settings, const window& wnd,
+    const context_impl* shared_context);
   context_impl(context_impl&& other);
   ~context_impl();
 
@@ -50,11 +49,10 @@ private:
 #endif
 };
 
-}
+}  // namespace prv
 
-}
+}  // namespace gl
 
-}
+}  // namespace hou
 
 #endif
-

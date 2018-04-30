@@ -24,7 +24,7 @@ std::ostream& operator<<(std::ostream& os, window_event_type we)
     WINDOW_EVENT_TYPE_CASE(resized, os);
     WINDOW_EVENT_TYPE_CASE(key_pressed, os);
     WINDOW_EVENT_TYPE_CASE(key_released, os);
-    WINDOW_EVENT_TYPE_CASE(TextEntered, os);
+    WINDOW_EVENT_TYPE_CASE(text_entered, os);
     WINDOW_EVENT_TYPE_CASE(mouse_moved, os);
     WINDOW_EVENT_TYPE_CASE(mouse_entered, os);
     WINDOW_EVENT_TYPE_CASE(mouse_left, os);

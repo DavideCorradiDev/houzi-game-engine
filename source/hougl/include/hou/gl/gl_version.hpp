@@ -44,9 +44,8 @@ HOU_GL_API bool operator<(const version& l, const version& r);
 HOU_GL_API bool operator<=(const version& l, const version& r);
 HOU_GL_API std::ostream& operator<<(std::ostream& os, const version& v);
 
-}
+}  // namespace gl
 
-}
+}  // namespace hou
 
 #endif
-

@@ -51,8 +51,8 @@ HOU_GL_API void set_pack_alignment(GLint value);
 HOU_GL_API GLint get_pack_alignment();
 
 HOU_GL_API void set_viewport(GLint x, GLint y, GLsizei w, GLsizei h);
-HOU_GL_API void set_polygon_mode(GLenum polygonFace, GLenum polygonMode);
-HOU_GL_API void draw_arrays(GLenum drawMode, GLint first, GLsizei count);
+HOU_GL_API void set_polygon_mode(GLenum polygon_face, GLenum polygon_mode);
+HOU_GL_API void draw_arrays(GLenum draw_mode, GLint first, GLsizei count);
 HOU_GL_API void bind_window(window& w);
 
 HOU_GL_API GLsizei get_pixel_size_bytes(GLenum format);

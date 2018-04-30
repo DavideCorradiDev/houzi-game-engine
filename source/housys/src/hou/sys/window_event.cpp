@@ -89,7 +89,7 @@ window_event window_event::key_released(
 window_event window_event::text_entered(char32_t code_point)
 {
   window_event ev;
-  ev.m_type = window_event_type::TextEntered;
+  ev.m_type = window_event_type::text_entered;
   ev.m_text.code_point = code_point;
   return ev;
 }
@@ -189,7 +189,7 @@ const window_event::key_data& window_event::get_key_data() const
 
 const window_event::text_data& window_event::get_text_data() const
 {
-  HOU_EXPECT(m_type == window_event_type::TextEntered);
+  HOU_EXPECT(m_type == window_event_type::text_entered);
   return m_text;
 }
 
@@ -240,7 +240,7 @@ bool operator==(const window_event& l, const window_event& r)
     case window_event_type::key_pressed:
     case window_event_type::key_released:
       return l.get_key_data() == r.get_key_data();
-    case window_event_type::TextEntered:
+    case window_event_type::text_entered:
       return l.get_text_data() == r.get_text_data();
     case window_event_type::mouse_moved:
       return l.get_mouse_move_data() == r.get_mouse_move_data();
@@ -378,7 +378,7 @@ std::ostream& operator<<(std::ostream& os, const window_event& e)
     case window_event_type::key_released:
       os << e.get_key_data();
       break;
-    case window_event_type::TextEntered:
+    case window_event_type::text_entered:
       os << e.get_text_data();
       break;
     case window_event_type::mouse_moved:

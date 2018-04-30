@@ -78,41 +78,43 @@ private:
   };
 
 public:
-  static void set_current(context& ph_context, window& ph_window);
+  static void set_current(context& ph_context, window& wnd);
   static void unset_current();
   static context* getCurrent();
 
-  context(const context_settings& settings, const window& ph_window);
-  context(const context_settings& settings, const window& ph_window,
+  context(const context_settings& settings, const window& wnd);
+  context(const context_settings& settings, const window& wnd,
     const context& sharedContext);
   context(context&& other);
   ~context();
 
   uint32_t get_uid() const;
-  uint32_t getSharingGroupUid() const;
+  uint32_t get_sharing_group_uid() const;
   bool is_current() const;
 
 private:
-  context(const context_settings& settings, const window& ph_window,
-    const context* sharedContext);
+  context(const context_settings& settings, const window& wnd,
+    const context* shared_context);
 
 private:
-  thread_local static context* sCurrentContext;
-  thread_local static uint32_t sCurrentWindowUid;
+  thread_local static context* s_current_context;
+  thread_local static uint32_t s_current_window_uid;
 
   prv::context_impl m_impl;
   uint32_t m_uid;
-  uint32_t mSharingGroupUid;
-  TrackingData mTrackingData;
+  uint32_t m_sharing_group_uid;
+  TrackingData m_tracking_data;
 
 public:
-  friend HOU_GL_API void bind_buffer(const buffer_handle& buffer, GLenum target);
+  friend HOU_GL_API void bind_buffer(
+    const buffer_handle& buffer, GLenum target);
   friend HOU_GL_API void unbind_buffer(GLenum target);
   friend HOU_GL_API bool is_buffer_bound(
     const buffer_handle& buffer, GLenum target);
   friend HOU_GL_API bool is_buffer_bound(GLenum target);
 
-  friend HOU_GL_API void bind_framebuffer(const framebuffer_handle& framebuffer);
+  friend HOU_GL_API void bind_framebuffer(
+    const framebuffer_handle& framebuffer);
   friend HOU_GL_API void bind_framebuffer(
     const framebuffer_handle& framebuffer, GLenum target);
   friend HOU_GL_API void unbind_framebuffer();
@@ -131,7 +133,8 @@ public:
   friend HOU_GL_API bool is_texture_bound(const texture_handle& ph_texture);
   friend HOU_GL_API bool is_texture_bound();
 
-  friend HOU_GL_API void bind_texture(const texture_handle& ph_texture, GLuint unit);
+  friend HOU_GL_API void bind_texture(
+    const texture_handle& ph_texture, GLuint unit);
   friend HOU_GL_API void unbind_texture(GLuint unit);
   friend HOU_GL_API bool is_texture_bound(
     const texture_handle& ph_texture, GLuint unit);
@@ -140,7 +143,8 @@ public:
   friend HOU_GL_API void set_active_texture(GLuint unit);
   friend HOU_GL_API GLuint get_bound_texture_name();
 
-  friend HOU_GL_API void bind_vertex_array(const vertex_array_handle& vertexArray);
+  friend HOU_GL_API void bind_vertex_array(
+    const vertex_array_handle& vertexArray);
   friend HOU_GL_API void unbind_vertex_array();
   friend HOU_GL_API bool is_vertex_array_bound(
     const vertex_array_handle& vertexArray);

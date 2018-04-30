@@ -30,7 +30,7 @@ uint32_t generate_uid()
   return gen.generate();
 }
 
-}
+}  // namespace
 
 
 
@@ -77,7 +77,7 @@ shared_object_handle::shared_object_handle(GLuint name)
   , m_owning_sharing_group_uid(0u)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  m_owning_sharing_group_uid = context::getCurrent()->getSharingGroupUid();
+  m_owning_sharing_group_uid = context::getCurrent()->get_sharing_group_uid();
 }
 
 
@@ -111,7 +111,8 @@ non_shared_object_handle::non_shared_object_handle(GLuint name)
 
 
 
-non_shared_object_handle::non_shared_object_handle(non_shared_object_handle&& other)
+non_shared_object_handle::non_shared_object_handle(
+  non_shared_object_handle&& other)
   : object_handle(std::move(other))
   , m_owning_context_uid(other.m_owning_context_uid)
 {}
@@ -128,7 +129,6 @@ uint32_t non_shared_object_handle::get_owning_context_uid() const
   return m_owning_context_uid;
 }
 
-}
+}  // namespace gl
 
-}
-
+}  // namespace hou

@@ -34,13 +34,13 @@ uint32_t generate_uid()
 
 
 
-void context::set_current(context& ph_context, window& ph_window)
+void context::set_current(context& ph_context, window& wnd)
 {
-  if(!ph_context.is_current() || sCurrentWindowUid != ph_window.get_uid())
+  if(!ph_context.is_current() || sCurrentWindowUid != wnd.get_uid())
   {
-    prv::context_impl::set_current(ph_context.m_impl, ph_window);
+    prv::context_impl::set_current(ph_context.m_impl, wnd);
     sCurrentContext = &ph_context;
-    sCurrentWindowUid = ph_window.get_uid();
+    sCurrentWindowUid = wnd.get_uid();
   }
 }
 
@@ -65,15 +65,15 @@ context* context::getCurrent()
 
 
 
-context::context(const context_settings& settings, const window& ph_window)
-  : context(settings, ph_window, nullptr)
+context::context(const context_settings& settings, const window& wnd)
+  : context(settings, wnd, nullptr)
 {}
 
 
 
-context::context(const context_settings& settings, const window& ph_window,
-  const context& sharedContext)
-  : context(settings, ph_window, &sharedContext)
+context::context(const context_settings& settings, const window& wnd,
+  const context& shared_context)
+  : context(settings, wnd, &shared_context)
 {}
 
 
@@ -82,8 +82,8 @@ context::context(context&& other)
   : non_copyable()
   , m_impl(std::move(other.m_impl))
   , m_uid(std::move(other.m_uid))
-  , mSharingGroupUid(std::move(other.mSharingGroupUid))
-  , mTrackingData(std::move(other.mTrackingData))
+  , m_sharing_group_id(std::move(other.m_sharing_group_id))
+  , m_tracking_data(std::move(other.m_tracking_data))
 {
   if(getCurrent() == &other)
   {
@@ -110,9 +110,9 @@ uint32_t context::get_uid() const
 
 
 
-uint32_t context::getSharingGroupUid() const
+uint32_t context::get_sharing_group_uid() const
 {
-  return mSharingGroupUid;
+  return m_sharing_group_id;
 }
 
 
@@ -129,15 +129,15 @@ thread_local uint32_t context::sCurrentWindowUid(0u);
 
 
 
-context::context(const context_settings& settings, const window& ph_window,
-  const context* sharedContext)
+context::context(const context_settings& settings, const window& wnd,
+  const context* shared_context)
   : non_copyable()
-  , m_impl(settings, ph_window,
-      (sharedContext == nullptr) ? nullptr : &(sharedContext->m_impl))
+  , m_impl(settings, wnd,
+      (shared_context == nullptr) ? nullptr : &(shared_context->m_impl))
   , m_uid(generate_uid())
-  , mSharingGroupUid(
-      (sharedContext == nullptr) ? m_uid : sharedContext->mSharingGroupUid)
-  , mTrackingData()
+  , m_sharing_group_id(
+      (shared_context == nullptr) ? m_uid : shared_context->m_sharing_group_id)
+  , m_tracking_data()
 {}
 
 
@@ -161,12 +161,12 @@ uint32_t context::TrackingData::get_bound_buffer(GLenum target) const
 {
   switch(target)
   {
-  case GL_ARRAY_BUFFER:
-    return m_bound_array_buffer;
-  case GL_ELEMENT_ARRAY_BUFFER:
-    return m_bound_element_array_buffer;
-  default:
-    return 0u;
+    case GL_ARRAY_BUFFER:
+      return m_bound_array_buffer;
+    case GL_ELEMENT_ARRAY_BUFFER:
+      return m_bound_element_array_buffer;
+    default:
+      return 0u;
   }
 }
 
@@ -176,14 +176,14 @@ void context::TrackingData::set_bound_buffer(uint32_t uid, GLenum target)
 {
   switch(target)
   {
-  case GL_ARRAY_BUFFER:
-    m_bound_array_buffer = uid;
-    break;
-  case GL_ELEMENT_ARRAY_BUFFER:
-    m_bound_element_array_buffer = uid;
-    break;
-  default:
-    break;
+    case GL_ARRAY_BUFFER:
+      m_bound_array_buffer = uid;
+      break;
+    case GL_ELEMENT_ARRAY_BUFFER:
+      m_bound_element_array_buffer = uid;
+      break;
+    default:
+      break;
   }
 }
 
@@ -193,12 +193,12 @@ uint32_t context::TrackingData::get_bound_framebuffer(GLenum target) const
 {
   switch(target)
   {
-  case GL_DRAW_FRAMEBUFFER:
-    return m_bound_draw_framebuffer;
-  case GL_READ_FRAMEBUFFER:
-    return m_bound_read_framebuffer;
-  default:
-    return 0u;
+    case GL_DRAW_FRAMEBUFFER:
+      return m_bound_draw_framebuffer;
+    case GL_READ_FRAMEBUFFER:
+      return m_bound_read_framebuffer;
+    default:
+      return 0u;
   }
 }
 
@@ -208,14 +208,14 @@ void context::TrackingData::set_bound_framebuffer(uint32_t uid, GLenum target)
 {
   switch(target)
   {
-  case GL_DRAW_FRAMEBUFFER:
-    m_bound_draw_framebuffer = uid;
-    break;
-  case GL_READ_FRAMEBUFFER:
-    m_bound_read_framebuffer = uid;
-    break;
-  default:
-    break;
+    case GL_DRAW_FRAMEBUFFER:
+      m_bound_draw_framebuffer = uid;
+      break;
+    case GL_READ_FRAMEBUFFER:
+      m_bound_read_framebuffer = uid;
+      break;
+    default:
+      break;
   }
 }
 

@@ -81,7 +81,7 @@ void check_context_ownership(const shared_object_handle& object
   , const std::string& filename, int line)
 {
   check_context_existence(filename, line);
-  if(context::getCurrent()->getSharingGroupUid()
+  if(context::getCurrent()->get_sharing_group_uid()
     != object.get_owning_sharing_group_uid())
   {
     HOU_THROW(std::logic_error, format_error_message(filename, line

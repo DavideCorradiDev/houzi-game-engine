@@ -16,8 +16,7 @@ namespace hou
 namespace gl
 {
 
-class HOU_GL_API shader_handle
-  : public shared_object_handle
+class HOU_GL_API shader_handle : public shared_object_handle
 {
 public:
   static shader_handle create(GLenum type);
@@ -34,11 +33,11 @@ private:
   GLenum m_type;
 };
 
-HOU_GL_API void compile_shader(const shader_handle& ph_shader, const GLchar* src);
+HOU_GL_API void compile_shader(
+  const shader_handle& shd, const GLchar* src);
 
-}
+}  // namespace gl
 
-}
+}  // namespace hou
 
 #endif
-

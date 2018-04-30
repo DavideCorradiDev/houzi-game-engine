@@ -56,5 +56,4 @@ std::string get_text(gl_error ec)
   }
 }
 
-}
-
+}  // namespace hou

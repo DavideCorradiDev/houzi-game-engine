@@ -226,7 +226,7 @@ TEST_F(test_window_event_death_test, key_released_wrong_data)
 TEST_F(test_window_event, text_entered)
 {
   window_event ev = window_event::text_entered(1234u);
-  EXPECT_EQ(window_event_type::TextEntered, ev.get_type());
+  EXPECT_EQ(window_event_type::text_entered, ev.get_type());
   EXPECT_EQ(1234u, ev.get_text_data().code_point);
 }
 
@@ -1760,7 +1760,7 @@ TEST_F(test_window_event, key_released_output_stream_operator)
 TEST_F(test_window_event, text_entered_output_stream_operator)
 {
   window_event ev = window_event::text_entered(0x13fa);
-  const char* os_ref = "{type = TextEntered, data = {code_point = 0x000013fa}}";
+  const char* os_ref = "{type = text_entered, data = {code_point = 0x000013fa}}";
   HOU_EXPECT_OUTPUT(os_ref, ev);
 }
 
