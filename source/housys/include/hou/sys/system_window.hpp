@@ -19,7 +19,7 @@ class HOU_SYS_API system_window : public window
 public:
   /** Creates a window object.
    *
-   * The ph_window client size corresponds to the resolution in videoMode.
+   * The ph_window client size corresponds to the resolution in vm.
    * The ph_window client is be positioned in the middle of the screen.
    * The ph_window uses the default system icon.
    * The ph_window is not visible.
@@ -27,15 +27,15 @@ public:
    * Key repeat is disabled for the ph_window.
    *
    * \param title the title of the window.
-   * \param videoMode the video mode of the window, specifying its size and
+   * \param vm the video mode of the window, specifying its size and
    * bytes per ph_pixel.
    * \param style the style of the window.
    * Only one window can be fullscreen.
-   * If fullscreen mode is specified and videoMode is not a valid fullscreen
+   * If fullscreen mode is specified and vm is not a valid fullscreen
    * video_mode, an error will be thrown.
    */
   system_window(
-    const std::string& title, const video_mode& videoMode, window_style style);
+    const std::string& title, const video_mode& vm, window_style style);
 
   /** Move constructor.
    *

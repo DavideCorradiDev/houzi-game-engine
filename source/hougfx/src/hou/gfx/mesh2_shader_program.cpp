@@ -87,10 +87,10 @@ mesh2_shader_program::mesh2_shader_program(mesh2_shader_program&& other)
 
 
 
-void mesh2_shader_program::set_color(const color& ph_color)
+void mesh2_shader_program::set_color(const color& color)
 {
-  gl::set_program_uniform_f(get_handle(), m_uni_color, ph_color.get_red_f(),
-    ph_color.get_green_f(), ph_color.get_blue_f(), ph_color.get_alpha_f());
+  gl::set_program_uniform_f(get_handle(), m_uni_color, color.get_red_f(),
+    color.get_green_f(), color.get_blue_f(), color.get_alpha_f());
 }
 
 

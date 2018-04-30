@@ -26,7 +26,6 @@ file::file(const std::string& filename, file_open_mode mode, file_type type)
 
 
 
-
 file::file(file&& other)
   : non_copyable()
   , m_handle(std::move(other.m_handle))
@@ -97,7 +96,6 @@ void file::flush() const
 
 
 
-
 bool file::getc(char& c)
 {
   int retval = fgetc(m_handle);
@@ -124,8 +122,8 @@ void file::putc(char c)
 
 size_t file::gets(std::string& str)
 {
-  const char* retval = fgets(const_cast<char*>(str.data()), str.size()
-    , m_handle);
+  const char* retval
+    = fgets(const_cast<char*>(str.data()), str.size(), m_handle);
   update_flags();
   if(retval == nullptr)
   {
@@ -146,29 +144,30 @@ void file::puts(const std::string& str)
 
 
 
-size_t file::read(void* buf, size_t elementSize, size_t bufSize)
+size_t file::read(void* buf, size_t element_size, size_t buf_size)
 {
-  size_t count = fread(buf, elementSize, bufSize, m_handle);
+  size_t count = fread(buf, element_size, buf_size, m_handle);
   update_flags();
-  HOU_RUNTIME_CHECK(count == bufSize || !error(), get_text(sys_error::file_read));
+  HOU_RUNTIME_CHECK(
+    count == buf_size || !error(), get_text(sys_error::file_read));
   return count;
 }
 
 
 
-void file::write(const void* buf, size_t elementSize, size_t bufSize)
+void file::write(const void* buf, size_t element_size, size_t buf_size)
 {
-  size_t count = fwrite(buf, elementSize, bufSize, m_handle);
+  size_t count = fwrite(buf, element_size, buf_size, m_handle);
   update_flags();
-  HOU_RUNTIME_CHECK(count == bufSize, get_text(sys_error::file_write));
+  HOU_RUNTIME_CHECK(count == buf_size, get_text(sys_error::file_write));
 }
 
 
 
 void file::seek(long pos, int origin) const
 {
-  HOU_RUNTIME_CHECK(fseek(m_handle, pos, origin) == 0
-    , get_text(sys_error::file_seek));
+  HOU_RUNTIME_CHECK(
+    fseek(m_handle, pos, origin) == 0, get_text(sys_error::file_seek));
 }
 
 
@@ -179,5 +178,4 @@ void file::update_flags()
   m_error = (ferror(m_handle) != 0);
 }
 
-}
-
+}  // namespace hou

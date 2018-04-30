@@ -33,7 +33,7 @@ public:
   text_shader_program();
   text_shader_program(text_shader_program&& other);
 
-  void set_color(const color& ph_color);
+  void set_color(const color& color);
   void set_texture_unit(uint unit);
   void set_transform(const trans2f& trans);
 

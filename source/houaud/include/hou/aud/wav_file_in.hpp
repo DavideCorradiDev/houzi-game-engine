@@ -16,17 +16,17 @@
 namespace hou
 {
 
-/** Input wav ph_file ph_stream.
+/** Input wav file ph_stream.
  */
 class HOU_AUD_API wav_file_in
   : public non_copyable
   , public audio_stream_in
 {
 public:
-  /** Checks if the ph_file corresponding to the given path is a wav ph_file.
+  /** Checks if the file corresponding to the given path is a wav file.
    *
-   *  \param path the ph_file path.
-   *  \return true if the specified ph_file is a wav ph_file.
+   *  \param path the file path.
+   *  \return true if the specified file is a wav file.
    */
   static bool check(const std::string& path);
 
@@ -34,9 +34,9 @@ public:
   /** Path constructor.
    *
    *  Throws if the provided path is not valid or does not correspond to a wav
-   *  ph_file.
+   *  file.
    *
-   *  \param path the path to the ph_file to be opened.
+   *  \param path the path to the file to be opened.
    */
   explicit wav_file_in(const std::string& path);
 
@@ -89,7 +89,7 @@ public:
 
 private:
   void read_metadata(const std::string& path);
-  void on_read(void* buf, size_t elementSize, size_t bufSize) final;
+  void on_read(void* buf, size_t element_size, size_t buf_size) final;
 
 private:
   file m_file;

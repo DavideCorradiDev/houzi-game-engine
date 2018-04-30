@@ -131,11 +131,11 @@ public:
    */
   uint get_sample_count() const;
 
-  /** Clears the render_surface to the desired ph_color.
+  /** Clears the render_surface to the desired color.
    *
-   *  \param ph_color the desired ph_color.
+   *  \param color the desired color.
    */
-  void clear(const color& ph_color);
+  void clear(const color& color);
 
   /** Creates a texture2 from this render_surface.
    *

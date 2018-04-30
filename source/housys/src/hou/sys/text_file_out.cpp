@@ -83,12 +83,12 @@ text_stream& text_file_out::set_text_pos(text_file_out::text_position pos)
 
 
 
-void text_file_out::on_write(const void* buf, size_t elementSize, size_t bufSize)
+void text_file_out::on_write(
+  const void* buf, size_t element_size, size_t buf_size)
 {
-  m_file.write(buf, elementSize, bufSize);
-  m_element_count = bufSize;
-  m_byte_count = elementSize * bufSize;
+  m_file.write(buf, element_size, buf_size);
+  m_element_count = buf_size;
+  m_byte_count = element_size * buf_size;
 }
 
-}
-
+}  // namespace hou

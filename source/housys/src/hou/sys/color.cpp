@@ -12,10 +12,10 @@ namespace hou
 namespace
 {
 
-uint8_t floatToUInt8(float v);
-float uint8ToFloat(uint8_t v);
+uint8_t float_to_uint8(float v);
+float uint8_to_float(uint8_t v);
 
-uint8_t floatToUInt8(float v)
+uint8_t float_to_uint8(float v)
 {
   if(v > 1.f)
   {
@@ -30,12 +30,12 @@ uint8_t floatToUInt8(float v)
 
 
 
-float uint8ToFloat(uint8_t v)
+float uint8_to_float(uint8_t v)
 {
-   return static_cast<float>(v) / 255.f;
+  return static_cast<float>(v) / 255.f;
 }
 
-}
+}  // namespace
 
 
 
@@ -56,7 +56,8 @@ color::color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
   : m_red(red)
   , m_green(green)
   , m_blue(blue)
-  , m_alpha(alpha) {}
+  , m_alpha(alpha)
+{}
 
 
 
@@ -69,7 +70,7 @@ uint8_t color::get_red() const
 
 float color::get_red_f() const
 {
-  return uint8ToFloat(m_red);
+  return uint8_to_float(m_red);
 }
 
 
@@ -83,7 +84,7 @@ void color::set_red(uint8_t value)
 
 void color::set_red_f(float value)
 {
-  m_red = floatToUInt8(value);
+  m_red = float_to_uint8(value);
 }
 
 
@@ -97,7 +98,7 @@ uint8_t color::get_green() const
 
 float color::get_green_f() const
 {
-  return uint8ToFloat(m_green);
+  return uint8_to_float(m_green);
 }
 
 
@@ -111,7 +112,7 @@ void color::set_green(uint8_t value)
 
 void color::set_green_f(float value)
 {
-  m_green = floatToUInt8(value);
+  m_green = float_to_uint8(value);
 }
 
 
@@ -125,7 +126,7 @@ uint8_t color::get_blue() const
 
 float color::get_blue_f() const
 {
-  return uint8ToFloat(m_blue);
+  return uint8_to_float(m_blue);
 }
 
 
@@ -139,7 +140,7 @@ void color::set_blue(uint8_t value)
 
 void color::set_blue_f(float value)
 {
-  m_blue = floatToUInt8(value);
+  m_blue = float_to_uint8(value);
 }
 
 
@@ -153,7 +154,7 @@ uint8_t color::get_alpha() const
 
 float color::get_alpha_f() const
 {
-  return uint8ToFloat(m_alpha);
+  return uint8_to_float(m_alpha);
 }
 
 
@@ -167,9 +168,8 @@ void color::set_alpha(uint8_t value)
 
 void color::set_alpha_f(float value)
 {
-  m_alpha = floatToUInt8(value);
+  m_alpha = float_to_uint8(value);
 }
-
 
 
 
@@ -190,14 +190,10 @@ bool operator!=(const color& lhs, const color& rhs)
 
 std::ostream& operator<<(std::ostream& os, const color& c)
 {
-  return os
-    << "{red = " << static_cast<int>(c.get_red())
-    << ", green = " << static_cast<int>(c.get_green())
-    << ", blue = " << static_cast<int>(c.get_blue())
-    << ", alpha = " << static_cast<int>(c.get_alpha()) << "}";
+  return os << "{red = " << static_cast<int>(c.get_red())
+            << ", green = " << static_cast<int>(c.get_green())
+            << ", blue = " << static_cast<int>(c.get_blue())
+            << ", alpha = " << static_cast<int>(c.get_alpha()) << "}";
 }
 
-
-
-}
-
+}  // namespace hou

@@ -42,9 +42,9 @@ public:
    */
   static void unset_current();
 
-  /** Gets the number of ph_color bits used in rendering.
+  /** Gets the number of color bits used in rendering.
    *
-   * \return the number of ph_color bits.
+   * \return the number of color bits.
    */
   static uint get_rendering_color_byte_count();
 

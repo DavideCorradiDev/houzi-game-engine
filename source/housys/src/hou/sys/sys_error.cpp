@@ -14,19 +14,19 @@ std::string get_text(sys_error ec)
   switch(ec)
   {
     case sys_error::file_close:
-      return u8"Error closing ph_file (fid = %d).";
+      return u8"Error closing file (fid = %d).";
     case sys_error::file_flush:
-      return u8"Error flushing ph_file buffer.";
+      return u8"Error flushing file buffer.";
     case sys_error::file_open:
-      return u8"Error opening ph_file: '%s'.";
+      return u8"Error opening file: '%s'.";
     case sys_error::file_read:
-      return u8"Error reading from ph_file.";
+      return u8"Error reading from file.";
     case sys_error::file_seek:
-      return u8"Error setting ph_file cursor.";
+      return u8"Error setting file cursor.";
     case sys_error::file_tell:
-      return u8"Error getting ph_file cursor.";
+      return u8"Error getting file cursor.";
     case sys_error::file_write:
-      return u8"Error writing to ph_file.";
+      return u8"Error writing to file.";
     case sys_error::image_bmp_read:
       return u8"Error reading BMP ph_image from path '%s'.";
     case sys_error::image_bmp_write:
@@ -40,5 +40,4 @@ std::string get_text(sys_error ec)
   }
 }
 
-}
-
+}  // namespace hou

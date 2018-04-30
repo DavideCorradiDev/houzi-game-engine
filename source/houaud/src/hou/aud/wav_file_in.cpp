@@ -234,12 +234,12 @@ void wav_file_in::read_metadata(const std::string& path)
 
 
 
-void wav_file_in::on_read(void* buf, size_t elementSize, size_t bufSize)
+void wav_file_in::on_read(void* buf, size_t element_size, size_t buf_size)
 {
-  HOU_EXPECT(((elementSize * bufSize) % (get_channel_count() * get_bytes_per_sample()))
+  HOU_EXPECT(((element_size * buf_size) % (get_channel_count() * get_bytes_per_sample()))
     == 0u);
-  m_element_count = m_file.read(buf, elementSize, bufSize);
-  m_byte_count = m_element_count * elementSize;
+  m_element_count = m_file.read(buf, element_size, buf_size);
+  m_byte_count = m_element_count * element_size;
 }
 
 }

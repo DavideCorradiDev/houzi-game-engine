@@ -15,13 +15,13 @@
 
 
 
-namespace hou {
+namespace hou
+{
 
 #if defined(HOU_SYSTEM_WINDOWS)
   using window_handle = HWND__*;
 #endif
 
-}
+}  // namespace hou
 
 #endif
-

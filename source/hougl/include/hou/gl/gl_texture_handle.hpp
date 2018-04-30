@@ -82,10 +82,10 @@ HOU_GL_API void copy_texture_sub_image_3d(const texture_handle& ph_texture, GLin
   GLsizei height);
 
 HOU_GL_API void get_texture_image(const texture_handle& ph_texture, GLint level,
-  GLenum format, GLenum type, GLsizei bufSize, void* pixels);
+  GLenum format, GLenum type, GLsizei buf_size, void* pixels);
 HOU_GL_API void get_texture_sub_image(const texture_handle& ph_texture, GLint xoffset,
   GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth,
-  GLint level, GLenum format, GLenum type, GLsizei bufSize, void* pixels);
+  GLint level, GLenum format, GLenum type, GLsizei buf_size, void* pixels);
 
 HOU_GL_API GLsizei get_texture_width(const texture_handle& handle, GLint level);
 HOU_GL_API GLsizei get_texture_width(const texture_handle& handle);

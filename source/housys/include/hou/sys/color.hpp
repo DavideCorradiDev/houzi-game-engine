@@ -16,148 +16,151 @@
 namespace hou
 {
 
-/** Represents a ph_color in rgba format.
+/** Represents a color in rgba format.
  */
 class HOU_SYS_API color
 {
 public:
-  /** white ph_color constant. */
+  /** White color constant. */
   static const color white;
 
-  /** grey ph_color constant. */
+  /** Grey color constant. */
   static const color grey;
 
-  /** black ph_color constant. */
+  /** Black color constant. */
   static const color black;
 
-  /** red ph_color constant. */
+  /** Red color constant. */
   static const color red;
 
-  /** yellow ph_color constant. */
+  /** Yellow color constant. */
   static const color yellow;
 
-  /** green ph_color constant. */
+  /** Green color constant. */
   static const color green;
 
-  /** cyan ph_color constant. */
+  /** Cyan color constant. */
   static const color cyan;
 
-  /** blue ph_color constant. */
+  /** Blue color constant. */
   static const color blue;
 
-  /** magenta ph_color constant. */
+  /** Magenta color constant. */
   static const color magenta;
 
-  /** transparent ph_color constant. */
+  /** Transparent color constant. */
   static const color transparent;
 
 public:
   /** Creates a color object with the given rgba values.
    *
-   *  \param red the red value.
-   *  \param green the green value.
-   *  \param blue the blue value.
-   *  \param alpha the alpha value.
+   * \param red the red value.
+   *
+   * \param green the green value.
+   *
+   * \param blue the blue value.
+   *
+   * \param alpha the alpha value.
    */
   color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
 
   /** Retrieves the red value as an integer between 0 and 255.
    *
-   *  \return the red value as an integer between 0 and 255.
+   * \return the red value as an integer between 0 and 255.
    */
   uint8_t get_red() const;
 
   /** Retrieves the red value as a float between 0 and 1.
    *
-   *  \return the red value as a float between 0 and 1.
+   * \return the red value as a float between 0 and 1.
    */
   float get_red_f() const;
 
   /** Sets the red value.
    *
-   *  \param value the red value as an integer between 0 and 255.
+   * \param value the red value as an integer between 0 and 255.
    */
   void set_red(uint8_t value);
 
   /** Sets the red value.
    *
-   *  \param value the red value as a float between 0 and 1.
-   *  Values outside this range are truncated.
+   * \param value the red value as a float between 0 and 1.
+   * Values outside this range are truncated.
    */
   void set_red_f(float value);
 
   /** Retrieves the green value as an integer between 0 and 255.
    *
-   *  \return the green value as an integer between 0 and 255.
+   * \return the green value as an integer between 0 and 255.
    */
   uint8_t get_green() const;
 
   /** Retrieves the green value as a float between 0 and 1.
    *
-   *  \return the green value as a float between 0 and 1.
+   * \return the green value as a float between 0 and 1.
    */
   float get_green_f() const;
 
   /** Sets the green value.
    *
-   *  \param value the green value as an integer between 0 and 255.
+   * \param value the green value as an integer between 0 and 255.
    */
   void set_green(uint8_t value);
 
   /** Sets the green value.
    *
-   *  \param value the green value as a float between 0 and 1.
-   *  Values outside this range are truncated.
+   * \param value the green value as a float between 0 and 1.
+   * Values outside this range are truncated.
    */
   void set_green_f(float value);
 
   /** Retrieves the blue value as an integer between 0 and 255.
    *
-   *  \return the blue value as an integer between 0 and 255.
+   * \return the blue value as an integer between 0 and 255.
    */
   uint8_t get_blue() const;
 
   /** Retrieves the blue value as a float between 0 and 1.
    *
-   *  \return the blue value as a float between 0 and 1.
+   * \return the blue value as a float between 0 and 1.
    */
   float get_blue_f() const;
 
   /** Sets the blue value.
    *
-   *  \param value the blue value as an integer between 0 and 255.
+   * \param value the blue value as an integer between 0 and 255.
    */
   void set_blue(uint8_t value);
 
   /** Sets the blue value.
    *
-   *  \param value the blue value as a float between 0 and 1.
-   *  Values outside this range are truncated.
+   * \param value the blue value as a float between 0 and 1.
+   * Values outside this range are truncated.
    */
   void set_blue_f(float value);
 
   /** Retrieves the alpha value as an integer between 0 and 255.
    *
-   *  \return the alpha value as an integer between 0 and 255.
+   * \return the alpha value as an integer between 0 and 255.
    */
   uint8_t get_alpha() const;
 
   /** Retrieves the alpha value as a float between 0 and 1.
    *
-   *  \return the alpha value as a float between 0 and 1.
+   * \return the alpha value as a float between 0 and 1.
    */
   float get_alpha_f() const;
 
   /** Sets the alpha value.
    *
-   *  \param value the alpha value as an integer between 0 and 255.
+   * \param value the alpha value as an integer between 0 and 255.
    */
   void set_alpha(uint8_t value);
 
   /** Sets the alpha value.
    *
-   *  \param value the alpha value as a float between 0 and 1.
-   *  Values outside this range are truncated.
+   * \param value the alpha value as a float between 0 and 1.
+   * Values outside this range are truncated.
    */
   void set_alpha_f(float value);
 
@@ -170,29 +173,34 @@ private:
 
 /** Checks if two color objects are equal.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return the result of the check.
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return the result of the check.
  */
 HOU_SYS_API bool operator==(const color& lhs, const color& rhs);
 
 /** Checks if two color objects are not equal.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return the result of the check.
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return the result of the check.
  */
 HOU_SYS_API bool operator!=(const color& lhs, const color& rhs);
 
 /** Writes a color object into a ph_stream.
  *
- *  \param os the ph_stream.
- *  \param c the color object.
- *  \return a reference to the ph_stream.
+ * \param os the ph_stream.
+ *
+ * \param c the color object.
+ *
+ * \return a reference to the ph_stream.
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, const color& c);
 
-}
+}  // namespace hou
 
 #endif
-

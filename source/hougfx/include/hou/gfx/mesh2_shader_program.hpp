@@ -38,13 +38,13 @@ public:
    */
   mesh2_shader_program(mesh2_shader_program&& other);
 
-  /** Sets the ph_color used when rendering Mesh2d objects.
+  /** Sets the color used when rendering Mesh2d objects.
    *
    *  The default value is white.
    *
-   *  \param ph_color the ph_color.
+   *  \param color the color.
    */
-  void set_color(const color& ph_color);
+  void set_color(const color& color);
 
   /** Sets the ph_texture unit used when rendering Mesh2d objects.
    *

@@ -403,11 +403,11 @@ void copy_texture_sub_image_3d(const texture_handle& ph_texture, GLint level,
 
 
 void get_texture_image(const texture_handle& ph_texture, GLint level, GLenum format,
-  GLenum type, GLsizei bufSize, void* pixels)
+  GLenum type, GLsizei buf_size, void* pixels)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(ph_texture);
-  glGetTextureImage(ph_texture.get_name(), level, format, type, bufSize, pixels);
+  glGetTextureImage(ph_texture.get_name(), level, format, type, buf_size, pixels);
   HOU_GL_CHECK_ERROR();
 }
 
@@ -415,12 +415,12 @@ void get_texture_image(const texture_handle& ph_texture, GLint level, GLenum for
 
 void get_texture_sub_image(const texture_handle& ph_texture, GLint xoffset,
   GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth,
-  GLint level, GLenum format, GLenum type, GLsizei bufSize, void* pixels)
+  GLint level, GLenum format, GLenum type, GLsizei buf_size, void* pixels)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(ph_texture);
   glGetTextureSubImage(ph_texture.get_name(), level, xoffset, yoffset, zoffset,
-    width, height, depth, format, type, bufSize, pixels);
+    width, height, depth, format, type, buf_size, pixels);
   HOU_GL_CHECK_ERROR();
 }
 

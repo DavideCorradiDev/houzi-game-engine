@@ -25,7 +25,7 @@ enum class framebuffer_blit_mask : GLenum
 {
   /** Don't blit any attachment. */
   none = 0,
-  /** Blit the ph_color attachment. */
+  /** Blit the color attachment. */
   color = GL_COLOR_BUFFER_BIT,
   /** Blit the depth attachment. */
   depth = GL_DEPTH_BUFFER_BIT,

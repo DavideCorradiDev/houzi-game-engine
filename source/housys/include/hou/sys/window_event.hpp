@@ -27,7 +27,7 @@ namespace hou
 class HOU_SYS_API window_event
 {
 public:
-  /** Struct containing data for ph_window resized events. */
+  /** Struct containing data for window resized events. */
   struct size_data
   {
     /** The new size on the x axis. */
@@ -88,164 +88,188 @@ public:
   };
 
 public:
-  /** Creates an empty ph_window event.
+  /** Creates an empty window event.
    *
-   *  \return the ph_window event.
+   * \return the window event.
    */
   static window_event empty();
 
-  /** Creates a ph_window closed event.
+  /** Creates a window closed event.
    *
-   *  \return the ph_window event.
+   * \return the window event.
    */
   static window_event closed();
 
-  /** Creates a ph_window focus gained event.
+  /** Creates a window focus gained event.
    *
-   *  \return the ph_window event.
+   * \return the window event.
    */
   static window_event focus_gained();
 
-  /** Creates a ph_window focus lost event.
+  /** Creates a window focus lost event.
    *
-   *  \return the ph_window event.
+   * \return the window event.
    */
   static window_event focus_lost();
 
-  /** Creates a mouse entered ph_window event.
+  /** Creates a mouse entered window event.
    *
-   *  \return the ph_window event.
+   * \return the window event.
    */
   static window_event mouse_entered();
 
-  /** Creates a mouse left ph_window event.
+  /** Creates a mouse left window event.
    *
-   *  \return the ph_window event.
+   * \return the window event.
    */
   static window_event mouse_left();
 
-  /** Creates a ph_window resized lost event.
+  /** Creates a window resized lost event.
    *
-   *  \param x the x size after the resizing.
-   *  \param y the y size after the resizing.
-   *  \return the ph_window event.
+   * \param x the x size after the resizing.
+   *
+   * \param y the y size after the resizing.
+   *
+   * \return the window event.
    */
   static window_event resized(uint x, uint y);
 
-  /** Creates a key pressed ph_window event.
+  /** Creates a key pressed window event.
    *
-   *  \param kc the key code.
-   *  \param sc the scan code.
-   *  \param modKeys a bitfield indicating what modifier keys were pressed.
-   *  \return the ph_window event.
+   * \param kc the key code.
+   *
+   * \param sc the scan code.
+   *
+   * \param mod_keys a bitfield indicating what modifier keys were pressed.
+   *
+   * \return the window event.
    */
-  static window_event key_pressed(key_code kc, scan_code sc, modifier_keys modKeys);
+  static window_event key_pressed(
+    key_code kc, scan_code sc, modifier_keys mod_keys);
 
-  /** Creates a key released ph_window event.
+  /** Creates a key released window event.
    *
-   *  \param kc the key code.
-   *  \param sc the scan code.
-   *  \param modKeys a bitfield indicating what modifier keys were pressed.
-   *  \return the ph_window event.
+   * \param kc the key code.
+   *
+   * \param sc the scan code.
+   *
+   * \param mod_keys a bitfield indicating what modifier keys were pressed.
+   *
+   * \return the window event.
    */
-  static window_event key_released(key_code kc, scan_code sc, modifier_keys modKeys);
+  static window_event key_released(
+    key_code kc, scan_code sc, modifier_keys mod_keys);
 
-  /** Creates a text entered ph_window event.
+  /** Creates a text entered window event.
    *
-   *  \param code_point the Unicode code point of the entere character.
-   *  \return the ph_window event.
+   * \param code_point the Unicode code point of the entere character.
+   *
+   * \return the window event.
    */
   static window_event text_entered(char32_t code_point);
 
-  /** Creates a mouse moved ph_window event.
+  /** Creates a mouse moved window event.
    *
-   *  \param x the position of the cursor on the x axis.
-   *  \param y the position of the cursor on the y axis.
-   *  \return the ph_window event.
+   * \param x the position of the cursor on the x axis.
+   *
+   * \param y the position of the cursor on the y axis.
+   *
+   * \return the window event.
    */
   static window_event mouse_moved(int x, int y);
 
-  /** Creates a mouse button pressed ph_window event.
+  /** Creates a mouse button pressed window event.
    *
-   *  \param mb the mouse button.
-   *  \param x the position of the cursor on the x axis.
-   *  \param y the position of the cursor on the y axis.
-   *  \return the ph_window event.
+   * \param mb the mouse button.
+   *
+   * \param x the position of the cursor on the x axis.
+   *
+   * \param y the position of the cursor on the y axis.
+   *
+   * \return the window event.
    */
   static window_event mouse_button_pressed(mouse_button mb, int x, int y);
 
-  /** Creates a mouse button released ph_window event.
+  /** Creates a mouse button released window event.
    *
-   *  \param mb the mouse button.
-   *  \param x the position of the cursor on the x axis.
-   *  \param y the position of the cursor on the y axis.
-   *  \return the ph_window event.
+   * \param mb the mouse button.
+   *
+   * \param x the position of the cursor on the x axis.
+   *
+   * \param y the position of the cursor on the y axis.
+   *
+   * \return the window event.
    */
   static window_event mouse_button_released(mouse_button mb, int x, int y);
 
-  /** Creates a mouse wheel moved ph_window event.
+  /** Creates a mouse wheel moved window event.
    *
-   *  \param wheel the mouse wheel.
-   *  \param delta the wheel position delta.
-   *  \param x the position of the cursor on the x axis.
-   *  \param y the position of the cursor on the y axis.
-   *  \return the ph_window event.
+   * \param wheel the mouse wheel.
+   *
+   * \param delta the wheel position delta.
+   *
+   * \param x the position of the cursor on the x axis.
+   *
+   * \param y the position of the cursor on the y axis.
+   *
+   * \return the window event.
    */
-  static window_event mouse_wheel_moved(mouse_wheel wheel, int delta, int x
-    , int y);
+  static window_event mouse_wheel_moved(
+    mouse_wheel wheel, int delta, int x, int y);
 
 public:
-  /** Retrieves the type of the ph_window event.
+  /** Retrieves the type of the window event.
    *
-   *  \return the type of the ph_window event.
+   * \return the type of the window event.
    */
   window_event_type get_type() const;
 
   /** Returns the size data of this event.
    *
-   *  Throws if the event is not of type resized.
+   * Throws if the event is not of type resized.
    *
-   *  \return the event data.
+   * \return the event data.
    */
   const size_data& get_size_data() const;
 
   /** Returns the key data of this event.
    *
-   *  Throws if the event is not of type key_pressed or key_released.
+   * Throws if the event is not of type key_pressed or key_released.
    *
-   *  \return the event data.
+   * \return the event data.
    */
   const key_data& get_key_data() const;
 
   /** Returns the text data of this event.
    *
-   *  Throws if the event is not of type TextEntered.
+   * Throws if the event is not of type TextEntered.
    *
-   *  \return the event data.
+   * \return the event data.
    */
   const text_data& get_text_data() const;
 
   /** Returns the mouse moved data of this event.
    *
-   *  Throws if the event is not of type mouse_moved.
+   * Throws if the event is not of type mouse_moved.
    *
-   *  \return the event data.
+   * \return the event data.
    */
   const mouse_move_data& get_mouse_move_data() const;
 
   /** Returns the mouse button data of this event.
    *
-   *  Throws if the event is not of type mouse_button_pressed or mouse_button_released.
+   * Throws if the event is not of type mouse_button_pressed or
+   * mouse_button_released.
    *
-   *  \return the event data.
+   * \return the event data.
    */
   const mouse_button_data& get_mouse_button_data() const;
 
   /** Returns the mouse wheel moved data of this event.
    *
-   *  Throws if the event is not of type mouse_wheel_moved.
+   * Throws if the event is not of type mouse_wheel_moved.
    *
-   *  \return the event data.
+   * \return the event data.
    */
   const mouse_wheel_data& get_mouse_wheel_data() const;
 
@@ -267,191 +291,232 @@ private:
 
 /** Checks if two window_event objects are equal.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return the result of the check.
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return the result of the check.
  */
 HOU_SYS_API bool operator==(const window_event& lhs, const window_event& rhs);
 
 /** Checks if two size_data objects are equal.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return the result of the check.
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return the result of the check.
  */
-HOU_SYS_API bool operator==(const window_event::size_data& lhs
-  , const window_event::size_data& rhs);
+HOU_SYS_API bool operator==(
+  const window_event::size_data& lhs, const window_event::size_data& rhs);
 
 /** Checks if two key_data objects are equal.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return the result of the check.
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return the result of the check.
  */
-HOU_SYS_API bool operator==(const window_event::key_data& lhs
-  , const window_event::key_data& rhs);
+HOU_SYS_API bool operator==(
+  const window_event::key_data& lhs, const window_event::key_data& rhs);
 
 /** Checks if two text_data objects are equal.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return the result of the check.
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return the result of the check.
  */
-HOU_SYS_API bool operator==(const window_event::text_data& lhs
-  , const window_event::text_data& rhs);
+HOU_SYS_API bool operator==(
+  const window_event::text_data& lhs, const window_event::text_data& rhs);
 
 /** Checks if two mouse_move_data objects are equal.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return the result of the check.
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return the result of the check.
  */
-HOU_SYS_API bool operator==(const window_event::mouse_move_data& lhs
-  , const window_event::mouse_move_data& rhs);
+HOU_SYS_API bool operator==(const window_event::mouse_move_data& lhs,
+  const window_event::mouse_move_data& rhs);
 
 /** Checks if two mouse_button_data objects are equal.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return the result of the check.
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return the result of the check.
  */
-HOU_SYS_API bool operator==(const window_event::mouse_button_data& lhs
-  , const window_event::mouse_button_data& rhs);
+HOU_SYS_API bool operator==(const window_event::mouse_button_data& lhs,
+  const window_event::mouse_button_data& rhs);
 
 /** Checks if two mouse_wheel_data objects are equal.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return the result of the check.
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return the result of the check.
  */
-HOU_SYS_API bool operator==(const window_event::mouse_wheel_data& lhs
-  , const window_event::mouse_wheel_data& rhs);
+HOU_SYS_API bool operator==(const window_event::mouse_wheel_data& lhs,
+  const window_event::mouse_wheel_data& rhs);
 
 /** Checks if two window_event objects are not equal.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return the result of the check.
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return the result of the check.
  */
 HOU_SYS_API bool operator!=(const window_event& lhs, const window_event& rhs);
 
 /** Checks if two size_data objects are not equal.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return the result of the check.
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return the result of the check.
  */
-HOU_SYS_API bool operator!=(const window_event::size_data& lhs
-  , const window_event::size_data& rhs);
+HOU_SYS_API bool operator!=(
+  const window_event::size_data& lhs, const window_event::size_data& rhs);
 
 /** Checks if two key_data objects are not equal.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return the result of the check.
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return the result of the check.
  */
-HOU_SYS_API bool operator!=(const window_event::key_data& lhs
-  , const window_event::key_data& rhs);
+HOU_SYS_API bool operator!=(
+  const window_event::key_data& lhs, const window_event::key_data& rhs);
 
 /** Checks if two text_data objects are not equal.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return the result of the check.
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return the result of the check.
  */
-HOU_SYS_API bool operator!=(const window_event::text_data& lhs
-  , const window_event::text_data& rhs);
+HOU_SYS_API bool operator!=(
+  const window_event::text_data& lhs, const window_event::text_data& rhs);
 
 /** Checks if two mouse_move_data objects are not equal.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return the result of the check.
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return the result of the check.
  */
-HOU_SYS_API bool operator!=(const window_event::mouse_move_data& lhs
-  , const window_event::mouse_move_data& rhs);
+HOU_SYS_API bool operator!=(const window_event::mouse_move_data& lhs,
+  const window_event::mouse_move_data& rhs);
 
 /** Checks if two mouse_button_data objects are not equal.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return the result of the check.
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return the result of the check.
  */
-HOU_SYS_API bool operator!=(const window_event::mouse_button_data& lhs
-  , const window_event::mouse_button_data& rhs);
+HOU_SYS_API bool operator!=(const window_event::mouse_button_data& lhs,
+  const window_event::mouse_button_data& rhs);
 
 /** Checks if two mouse_wheel_data objects are not equal.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return the result of the check.
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return the result of the check.
  */
-HOU_SYS_API bool operator!=(const window_event::mouse_wheel_data& lhs
-  , const window_event::mouse_wheel_data& rhs);
+HOU_SYS_API bool operator!=(const window_event::mouse_wheel_data& lhs,
+  const window_event::mouse_wheel_data& rhs);
 
 /** Writes a window_event object into a ph_stream.
  *
- *  \param os the ph_stream.
- *  \param e the window_event object.
- *  \return a reference to the ph_stream.
+ * \param os the ph_stream.
+ *
+ * \param e the window_event object.
+ *
+ * \return a reference to the ph_stream.
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, const window_event& e);
 
 /** Writes a size_data object into a ph_stream.
  *
- *  \param os the ph_stream.
- *  \param e the size_data object.
- *  \return a reference to the ph_stream.
+ * \param os the ph_stream.
+ *
+ * \param e the size_data object.
+ *
+ * \return a reference to the ph_stream.
  */
-HOU_SYS_API std::ostream& operator<<(std::ostream& os
-  , const window_event::size_data& e);
+HOU_SYS_API std::ostream& operator<<(
+  std::ostream& os, const window_event::size_data& e);
 
 /** Writes a key_data object into a ph_stream.
  *
- *  \param os the ph_stream.
- *  \param e the key_data object.
- *  \return a reference to the ph_stream.
+ * \param os the ph_stream.
+ *
+ * \param e the key_data object.
+ *
+ * \return a reference to the ph_stream.
  */
-HOU_SYS_API std::ostream& operator<<(std::ostream& os
-  , const window_event::key_data& e);
+HOU_SYS_API std::ostream& operator<<(
+  std::ostream& os, const window_event::key_data& e);
 
 /** Writes a text_data object into a ph_stream.
  *
- *  \param os the ph_stream.
- *  \param e the text_data object.
- *  \return a reference to the ph_stream.
+ * \param os the ph_stream.
+ *
+ * \param e the text_data object.
+ *
+ * \return a reference to the ph_stream.
  */
-HOU_SYS_API std::ostream& operator<<(std::ostream& os
-  , const window_event::text_data& e);
+HOU_SYS_API std::ostream& operator<<(
+  std::ostream& os, const window_event::text_data& e);
 
 /** Writes a mouse_move_data object into a ph_stream.
  *
- *  \param os the ph_stream.
- *  \param e the mouse_move_data object.
- *  \return a reference to the ph_stream.
+ * \param os the ph_stream.
+ *
+ * \param e the mouse_move_data object.
+ *
+ * \return a reference to the ph_stream.
  */
-HOU_SYS_API std::ostream& operator<<(std::ostream& os
-  , const window_event::mouse_move_data& e);
+HOU_SYS_API std::ostream& operator<<(
+  std::ostream& os, const window_event::mouse_move_data& e);
 
 /** Writes a mouse_button_data object into a ph_stream.
  *
- *  \param os the ph_stream.
- *  \param e the mouse_button_data object.
- *  \return a reference to the ph_stream.
+ * \param os the ph_stream.
+ *
+ * \param e the mouse_button_data object.
+ *
+ * \return a reference to the ph_stream.
  */
-HOU_SYS_API std::ostream& operator<<(std::ostream& os
-  , const window_event::mouse_button_data& e);
+HOU_SYS_API std::ostream& operator<<(
+  std::ostream& os, const window_event::mouse_button_data& e);
 
 /** Writes a mouse_wheel_data object into a ph_stream.
  *
- *  \param os the ph_stream.
- *  \param e the mouse_wheel_data object.
- *  \return a reference to the ph_stream.
+ * \param os the ph_stream.
+ *
+ * \param e the mouse_wheel_data object.
+ *
+ * \return a reference to the ph_stream.
  */
-HOU_SYS_API std::ostream& operator<<(std::ostream& os
-  , const window_event::mouse_wheel_data& e);
+HOU_SYS_API std::ostream& operator<<(
+  std::ostream& os, const window_event::mouse_wheel_data& e);
 
-}
+}  // namespace hou
 
 #endif
-

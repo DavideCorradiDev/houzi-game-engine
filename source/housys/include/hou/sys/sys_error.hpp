@@ -32,11 +32,10 @@ enum class sys_error
 
 /** Retrieves the message string associated to a system module error code.
  *
- *  \param ec the error code.
+ * \param ec the error code.
  */
 HOU_SYS_API std::string get_text(sys_error ec);
 
-}
+}  // namespace hou
 
 #endif
-

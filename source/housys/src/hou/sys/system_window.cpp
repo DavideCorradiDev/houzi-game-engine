@@ -6,8 +6,8 @@ namespace hou
 {
 
 system_window::system_window(
-  const std::string& title, const video_mode& videoMode, window_style style)
-  : window(title, videoMode, style)
+  const std::string& title, const video_mode& vm, window_style style)
+  : window(title, vm, style)
 {}
 
 

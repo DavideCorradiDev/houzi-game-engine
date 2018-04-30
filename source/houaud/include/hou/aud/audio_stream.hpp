@@ -25,7 +25,7 @@ class HOU_AUD_API audio_stream : public binary_stream
 {
 public:
   /** Position indicator representing the number of samples from the beginning
-   *  of the ph_file
+   *  of the file
    */
   using sample_position = long;
 

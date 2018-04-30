@@ -14,26 +14,27 @@
 namespace hou
 {
 
-/** Enumeration for ph_file open mode. */
+/** Enumeration for file open mode. */
 enum class file_open_mode
 {
-  /** read mode. */
+  /** Read mode. */
   read,
-  /** write mode. */
+  /** Write mode. */
   write,
-  /** append mode. */
+  /** Append mode. */
   append,
 };
 
 /** Writes a file_open_mode enum into a ph_stream.
  *
- *  \param os the ph_stream.
- *  \param fom the file_open_mode enum.
- *  \return a reference to the ph_stream.
+ * \param os the ph_stream.
+ *
+ * \param fom the file_open_mode enum.
+ *
+ * \return a reference to the ph_stream.
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, file_open_mode fom);
 
-}
+}  // namespace hou
 
 #endif
-

@@ -19,13 +19,13 @@ namespace hou
 /** Enumeration for the clamp mode of a ph_texture. */
 enum class texture_wrap_mode : GLenum
 {
-  /** Pixels sampled outside the ph_texture will have the ph_color of the
+  /** Pixels sampled outside the ph_texture will have the color of the
    * corresponding edge ph_pixel. */
   clamp_to_edge = GL_CLAMP_TO_EDGE,
-  /** Pixels sampled outside the ph_texture  will have the ph_color of the mirrored
+  /** Pixels sampled outside the ph_texture  will have the color of the mirrored
    *  edge ph_pixel. */
   mirror_clamp_to_edge = GL_MIRROR_CLAMP_TO_EDGE,
-  /** Pixels sampled outside the ph_texture will have the border ph_color. */
+  /** Pixels sampled outside the ph_texture will have the border color. */
   clamp_to_border = GL_CLAMP_TO_BORDER,
   /** The ph_texture will be repeated. */
   repeat = GL_REPEAT,

@@ -20,14 +20,14 @@ namespace gl
 namespace
 {
 
-uint32_t generateUid();
+uint32_t generate_uid();
 
 
 
-uint32_t generateUid()
+uint32_t generate_uid()
 {
-  static uid_generator uidGenerator(1u);
-  return uidGenerator.generate();
+  static uid_generator uid_gen(1u);
+  return uid_gen.generate();
 }
 
 }  // namespace
@@ -134,7 +134,7 @@ context::context(const context_settings& settings, const window& ph_window,
   : non_copyable()
   , m_impl(settings, ph_window,
       (sharedContext == nullptr) ? nullptr : &(sharedContext->m_impl))
-  , m_uid(generateUid())
+  , m_uid(generate_uid())
   , mSharingGroupUid(
       (sharedContext == nullptr) ? m_uid : sharedContext->mSharingGroupUid)
   , mTrackingData()

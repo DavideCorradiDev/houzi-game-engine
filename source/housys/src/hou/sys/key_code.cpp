@@ -5,7 +5,8 @@
 #include "hou/sys/key_code.hpp"
 
 #define KEY_CODE_CASE(kc, os) \
-  case key_code::kc: return (os) << #kc
+  case key_code::kc: \
+    return (os) << #kc
 
 
 
@@ -194,8 +195,9 @@ std::ostream& operator<<(std::ostream& os, key_code kc)
     KEY_CODE_CASE(Clear, os);
     KEY_CODE_CASE(Packet, os);
 
-    default: return os;
+    default:
+      return os;
   }
 }
 
-}
+}  // namespace hou

@@ -21,28 +21,27 @@ class HOU_SYS_API stream
 public:
   /** Destructor.
    */
-  virtual ~stream() {};
+  virtual ~stream(){};
 
-  /** Checks the end of ph_file indicator.
+  /** Checks the end of file indicator.
    *
-   *  \return true if the end of ph_file indicator is set.
+   * \return true if the end of file indicator is set.
    */
   virtual bool eof() const = 0;
 
   /** Checks the error indicator.
    *
-   *  \return true if the error indicator is set.
+   * \return true if the error indicator is set.
    */
   virtual bool error() const = 0;
 
   /** Retrieves the total number of bytes in the ph_stream.
    *
-   *  \return the size of the ph_stream in bytes.
+   * \return the size of the ph_stream in bytes.
    */
   virtual size_t get_byte_count() const = 0;
 };
 
-}
+}  // namespace hou
 
 #endif
-

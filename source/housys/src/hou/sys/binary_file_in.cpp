@@ -91,11 +91,10 @@ binary_stream& binary_file_in::move_byte_pos(binary_file_in::byte_offset offset)
 
 
 
-void binary_file_in::on_read(void* buf, size_t elementSize, size_t bufSize)
+void binary_file_in::on_read(void* buf, size_t element_size, size_t buf_size)
 {
-  m_element_count = m_file.read(buf, elementSize, bufSize);
-  m_byte_count = m_element_count * elementSize;
+  m_element_count = m_file.read(buf, element_size, buf_size);
+  m_byte_count = m_element_count * element_size;
 }
 
-}
-
+}  // namespace hou

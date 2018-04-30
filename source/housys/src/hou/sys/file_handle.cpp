@@ -13,11 +13,13 @@
 namespace hou
 {
 
-file_handle::file_handle(const std::string& path, file_open_mode mode, file_type type)
+file_handle::file_handle(
+  const std::string& path, file_open_mode mode, file_type type)
   : non_copyable()
   , m_file(open_file(path, get_file_mode_string(mode, type)))
 {
-  HOU_RUNTIME_CHECK(m_file != nullptr, get_text(sys_error::file_open), path.c_str());
+  HOU_RUNTIME_CHECK(
+    m_file != nullptr, get_text(sys_error::file_open), path.c_str());
 }
 
 
@@ -35,8 +37,8 @@ file_handle::~file_handle()
 {
   if(m_file != nullptr)
   {
-    HOU_FATAL_CHECK(fclose(m_file) != EOF, get_text(sys_error::file_close)
-      , get_file_descriptor(m_file));
+    HOU_FATAL_CHECK(fclose(m_file) != EOF, get_text(sys_error::file_close),
+      get_file_descriptor(m_file));
   }
 }
 
@@ -68,15 +70,14 @@ std::string get_file_mode_string(file_open_mode mode, file_type type)
 
 std::string get_filename_extension(const std::string& path)
 {
-  std::vector<std::string> pointSeparatedStrings;
-  split_string(path, '.', std::back_inserter(pointSeparatedStrings));
+  std::vector<std::string> point_separated_strings;
+  split_string(path, '.', std::back_inserter(point_separated_strings));
   // If filename is empty, or if there is no point, return empty extension.
-  if(pointSeparatedStrings.size() < 2u)
+  if(point_separated_strings.size() < 2u)
   {
     return std::string();
   }
-  return pointSeparatedStrings.back();
+  return point_separated_strings.back();
 }
 
-}
-
+}  // namespace hou

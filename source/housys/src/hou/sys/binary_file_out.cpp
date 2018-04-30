@@ -83,7 +83,8 @@ binary_stream& binary_file_out::set_byte_pos(binary_file_out::byte_position pos)
 
 
 
-binary_stream& binary_file_out::move_byte_pos(binary_file_out::byte_offset offset)
+binary_stream& binary_file_out::move_byte_pos(
+  binary_file_out::byte_offset offset)
 {
   m_file.seek_offset(offset);
   return *this;
@@ -91,12 +92,12 @@ binary_stream& binary_file_out::move_byte_pos(binary_file_out::byte_offset offse
 
 
 
-void binary_file_out::on_write(const void* buf, size_t elementSize, size_t bufSize)
+void binary_file_out::on_write(
+  const void* buf, size_t element_size, size_t buf_size)
 {
-  m_file.write(buf, elementSize, bufSize);
-  m_element_count = bufSize;
-  m_byte_count = elementSize * bufSize;
+  m_file.write(buf, element_size, buf_size);
+  m_element_count = buf_size;
+  m_byte_count = element_size * buf_size;
 }
 
-}
-
+}  // namespace hou

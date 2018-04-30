@@ -5,7 +5,8 @@
 #include "hou/sys/scan_code.hpp"
 
 #define SCAN_CODE_CASE(sc, os) \
-  case scan_code::sc: return (os) << #sc
+  case scan_code::sc: \
+    return (os) << #sc
 
 
 
@@ -132,9 +133,9 @@ std::ostream& operator<<(std::ostream& os, scan_code sc)
     SCAN_CODE_CASE(RSystem, os);
     SCAN_CODE_CASE(Apps, os);
 
-    default: return os;
+    default:
+      return os;
   }
 }
 
-}
-
+}  // namespace hou

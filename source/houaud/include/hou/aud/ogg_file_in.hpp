@@ -23,17 +23,17 @@ struct OggVorbis_File;
 namespace hou
 {
 
-/** Input ogg ph_file ph_stream.
+/** Input ogg file ph_stream.
  */
 class HOU_AUD_API ogg_file_in
   : public non_copyable
   , public audio_stream_in
 {
 public:
-  /** Checks if the ph_file corresponding to the given path is a ogg ph_file.
+  /** Checks if the file corresponding to the given path is a ogg file.
    *
-   *  \param path the ph_file path.
-   *  \return true if the specified ph_file is a ogg ph_file.
+   *  \param path the file path.
+   *  \return true if the specified file is a ogg file.
    */
   static bool check(const std::string& path);
 
@@ -41,9 +41,9 @@ public:
   /** Path constructor.
    *
    *  Throws if the provided path is not valid or does not correspond to a ogg
-   *  ph_file.
+   *  file.
    *
-   *  \param path the path to the ph_file to be opened.
+   *  \param path the path to the file to be opened.
    */
   explicit ogg_file_in(const std::string& path);
 
@@ -96,7 +96,7 @@ public:
 
 private:
   void read_metadata();
-  void on_read(void* buf, size_t elementSize, size_t bufSize) final;
+  void on_read(void* buf, size_t element_size, size_t buf_size) final;
 
 private:
   std::unique_ptr<OggVorbis_File> m_vorbis_file;

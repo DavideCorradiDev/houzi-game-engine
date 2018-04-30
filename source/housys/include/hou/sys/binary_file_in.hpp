@@ -5,8 +5,8 @@
 #ifndef HOU_SYS_BINARY_FILE_IN_HPP
 #define HOU_SYS_BINARY_FILE_IN_HPP
 
-#include "hou/sys/sys_export.hpp"
 #include "hou/sys/binary_stream_in.hpp"
+#include "hou/sys/sys_export.hpp"
 
 #include "hou/cor/non_copyable.hpp"
 
@@ -17,7 +17,7 @@
 namespace hou
 {
 
-/** Input binary ph_file ph_stream.
+/** Input binary file ph_stream.
  */
 class HOU_SYS_API binary_file_in
   : public non_copyable
@@ -26,15 +26,15 @@ class HOU_SYS_API binary_file_in
 public:
   /** Path constructor.
    *
-   *  Throws if the provided path is not valid.
+   * Throws if the provided path is not valid.
    *
-   *  \param path the path to the ph_file to be opened.
+   * \param path the path to the file to be opened.
    */
   explicit binary_file_in(const std::string& path);
 
   /** Move constructor.
    *
-   *  \param other the other object.
+   * \param other the other object.
    */
   binary_file_in(binary_file_in&& other);
 
@@ -56,27 +56,29 @@ public:
 
   /** Sets the current byte position indicator.
    *
-   *  Throws if pos is negative.
-   *  The position may be over the end of the ph_file.
+   * Throws if pos is negative.
+   * The position may be over the end of the file.
    *
-   *  \param pos the byte position indicator value.
-   *  \return a reference to this ph_stream.
+   * \param pos the byte position indicator value.
+   *
+   * \return a reference to this ph_stream.
    */
   binary_stream& set_byte_pos(byte_position pos) final;
 
   /** Moves the current byte position indicator.
    *
-   *  Throws if the offset moves the position indicator to a negative position.
-   *  The position may be over the end of the ph_file.
+   * Throws if the offset moves the position indicator to a negative position.
+   * The position may be over the end of the file.
    *
-   *  \param offset the byte position indicator offset.
-   *  \return a reference to this ph_stream.
+   * \param offset the byte position indicator offset.
+   *
+   * \return a reference to this ph_stream.
    */
   binary_stream& move_byte_pos(byte_offset offset) final;
 
 protected:
   // stream_in overrides.
-  void on_read(void* buf, size_t elementSize, size_t bufSize) final;
+  void on_read(void* buf, size_t element_size, size_t buf_size) final;
 
 private:
   file m_file;
@@ -84,7 +86,6 @@ private:
   size_t m_element_count;
 };
 
-}
+}  // namespace hou
 
 #endif
-

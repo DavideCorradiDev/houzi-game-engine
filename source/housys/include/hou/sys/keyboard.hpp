@@ -25,43 +25,45 @@ namespace keyboard
 
 /** Checks if the key corresponding to the given key code is pressed.
  *
- *  \param kc the key code.
- *  \return true if the key is pressed.
+ * \param kc the key code.
+ *
+ * \return true if the key is pressed.
  */
 HOU_SYS_API bool is_key_pressed(key_code kc);
 
 /** Checks if the key corresponding to the given scan code is pressed.
  *
- *  \param sc the scan code.
- *  \return true if the key is pressed.
+ * \param sc the scan code.
+ *
+ * \return true if the key is pressed.
  */
 HOU_SYS_API bool is_key_pressed(scan_code sc);
 
 /** Checks if the key corresponding to the given key code is currently on.
  *
- *  \param kc the key code.
- *  \return true if the key is on.
+ * \param kc the key code.
+ *
+ * \return true if the key is on.
  */
 HOU_SYS_API bool is_key_toggled(key_code kc);
 
 /** Checks if the key corresponding to the given scan code is currently on.
  *
- *  \param sc the scan code.
- *  \return true if the key is on.
+ * \param sc the scan code.
+ *
+ * \return true if the key is on.
  */
 HOU_SYS_API bool is_key_toggled(scan_code sc);
 
 /** Returns a bitfield representing the current state of the modifier keys.
  *
- *  \return a bitfield with the bits of the modifier keys currentle pressed
- *  set to 1.
+ * \return a bitfield with the bits of the modifier keys currentle pressed
+ * set to 1.
  */
 HOU_SYS_API modifier_keys get_modifier_keys_state();
 
-}
+}  // namespace keyboard
 
-}
-
+}  // namespace hou
 
 #endif
-

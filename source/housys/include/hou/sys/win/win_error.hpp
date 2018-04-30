@@ -16,12 +16,12 @@ namespace hou
 {
 
 template <typename... FormattingVariables>
-  std::string format_win_error_message(std::string filename, int line
-    , std::string message, FormattingVariables... vars);
+std::string format_win_error_message(std::string filename, int line,
+  std::string message, FormattingVariables... vars);
 
-HOU_SYS_API std::string getLastWinErrorMessage();
+HOU_SYS_API std::string get_last_win_error_message();
 
-}
+}  // namespace hou
 
 
 
@@ -30,19 +30,18 @@ HOU_SYS_API std::string getLastWinErrorMessage();
 
 
 
-#define HOU_WIN_FATAL_ERROR(...) \
-  HOU_TERMINATE(HOU_WIN_ERRMSG(__VA_ARGS__))
+#define HOU_WIN_FATAL_ERROR(...) HOU_TERMINATE(HOU_WIN_ERRMSG(__VA_ARGS__))
 
 
 
 #define HOU_WIN_FATAL_CHECK(condition, ...) \
-  do { \
+  do \
+  { \
     if(!(condition)) \
     { \
       HOU_WIN_FATAL_ERROR(__VA_ARGS__); \
     } \
   } while(false)
-
 
 
 
@@ -61,7 +60,8 @@ HOU_SYS_API std::string getLastWinErrorMessage();
 
 
 #define HOU_WIN_LOGIC_CHECK(condition, ...) \
-  do { \
+  do \
+  { \
     if(!(condition)) \
     { \
       HOU_WIN_LOGIC_ERROR(__VA_ARGS__); \
@@ -85,13 +85,13 @@ HOU_SYS_API std::string getLastWinErrorMessage();
 
 
 #define HOU_WIN_RUNTIME_CHECK(condition, ...) \
-  do { \
+  do \
+  { \
     if(!(condition)) \
     { \
       HOU_WIN_RUNTIME_ERROR(__VA_ARGS__); \
     } \
   } while(false)
-
 
 
 
@@ -105,8 +105,9 @@ HOU_SYS_API std::string getLastWinErrorMessage();
 
 
 #define HOU_WIN_EXPECT(condition) \
-  HOU_LOGIC_CHECK(condition \
-    , get_text(hou::cor_error::pre_condition) + std::string(" (" #condition ")."))
+  HOU_LOGIC_CHECK(condition, \
+    get_text(hou::cor_error::pre_condition) \
+      + std::string(" (" #condition ")."))
 
 
 
@@ -119,8 +120,9 @@ HOU_SYS_API std::string getLastWinErrorMessage();
 
 
 #define HOU_WIN_ENSURE(condition) \
-  HOU_WIN_LOGIC_CHECK(condition \
-    , get_text(hou::cor_error::post_condition) + std::string(" (" #condition ")."))
+  HOU_WIN_LOGIC_CHECK(condition, \
+    get_text(hou::cor_error::post_condition) \
+      + std::string(" (" #condition ")."))
 
 
 
@@ -135,4 +137,3 @@ HOU_SYS_API std::string getLastWinErrorMessage();
 #include "hou/sys/win/win_error.inl"
 
 #endif
-

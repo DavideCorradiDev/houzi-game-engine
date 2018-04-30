@@ -18,8 +18,8 @@ namespace hou
 
 FILE* open_file(const std::string& path, const std::string& mode)
 {
-  return _wfopen(convert_encoding<utf8, wide>(path).c_str()
-    , convert_encoding<utf8, wide>(mode).c_str());
+  return _wfopen(convert_encoding<utf8, wide>(path).c_str(),
+    convert_encoding<utf8, wide>(mode).c_str());
 }
 
 
@@ -39,10 +39,11 @@ bool remove_dir(const std::string& path)
 
 
 
-bool rename_dir(const std::string& oldPath, const std::string& newPath)
+bool rename_dir(const std::string& old_path, const std::string& new_path)
 {
-  return _wrename(convert_encoding<utf8, wide>(oldPath).c_str()
-    , convert_encoding<utf8, wide>(newPath).c_str()) == 0;
+  return _wrename(convert_encoding<utf8, wide>(old_path).c_str(),
+           convert_encoding<utf8, wide>(new_path).c_str())
+    == 0;
 }
 
 
@@ -63,17 +64,16 @@ size_t get_dir_byte_size(const std::string& path)
 
 
 
-int get_file_descriptor(not_null<FILE*> ph_file)
+int get_file_descriptor(not_null<FILE*> file)
 {
-  return _fileno(ph_file.get());
+  return _fileno(file.get());
 }
 
 
 
-size_t get_file_byte_size(int fileDescriptor)
+size_t get_file_byte_size(int file_descriptor)
 {
-  return static_cast<size_t>(_filelength(fileDescriptor));
+  return static_cast<size_t>(_filelength(file_descriptor));
 }
 
-}
-
+}  // namespace hou

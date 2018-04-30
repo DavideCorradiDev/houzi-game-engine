@@ -21,27 +21,27 @@ namespace hou
 namespace
 {
 
-uint32_t generateUid();
+uint32_t generate_uid();
 
 
 
-uint32_t generateUid()
+uint32_t generate_uid()
 {
-  static uid_generator uidGenerator(1u);
-  return uidGenerator.generate();
+  static uid_generator uid_gen(1u);
+  return uid_gen.generate();
 }
 
-}
+}  // namespace
 
 
 
-window::window(const std::string& title, const video_mode& videoMode
-  , window_style style)
+window::window(
+  const std::string& title, const video_mode& vm, window_style style)
   : non_copyable()
-  , m_impl(title, videoMode, style)
-  , m_uid(generateUid())
+  , m_impl(title, vm, style)
+  , m_uid(generate_uid())
   , m_style(style)
-  , m_bytes_per_pixel(videoMode.get_bytes_per_pixel())
+  , m_bytes_per_pixel(vm.get_bytes_per_pixel())
   , m_title(title)
   , m_icon_image()
 {}
@@ -109,12 +109,12 @@ vec2u window::get_frame_size() const
 
 void window::set_frame_rect(const vec2i& pos, const vec2u& size)
 {
-  vec2u oldClientSize = get_client_size();
+  vec2u old_client_size = get_client_size();
   m_impl.set_frame_rect(recti(pos, static_cast<vec2i>(size)));
-  vec2u newClientSize = get_client_size();
-  if(oldClientSize != newClientSize)
+  vec2u new_client_size = get_client_size();
+  if(old_client_size != new_client_size)
   {
-    push_event(window_event::resized(newClientSize.x(), newClientSize.y()));
+    push_event(window_event::resized(new_client_size.x(), new_client_size.y()));
   }
 }
 
@@ -150,12 +150,12 @@ vec2u window::get_client_size() const
 
 void window::set_client_rect(const vec2i& pos, const vec2u& size)
 {
-  vec2u oldClientSize = get_client_size();
+  vec2u old_client_size = get_client_size();
   m_impl.set_client_rect(recti(pos, static_cast<vec2i>(size)));
-  vec2u newClientSize = get_client_size();
-  if(oldClientSize != newClientSize)
+  vec2u new_client_size = get_client_size();
+  if(old_client_size != new_client_size)
   {
-    push_event(window_event::resized(newClientSize.x(), newClientSize.y()));
+    push_event(window_event::resized(new_client_size.x(), new_client_size.y()));
   }
 }
 
@@ -322,8 +322,8 @@ void window::swap_buffers()
 
 void window::react_to_event(const window_event& event)
 {
-  // If the ph_window has been resized by the OS user, call set_client_size to make
-  // sure that special handling for the derived class is performed as well.
+  // If the window has been resized by the OS user, call set_client_size to
+  // make sure that special handling for the derived class is performed as well.
   // Example: render_window also resizes the framebuffer on resize.
   if(event.get_type() == window_event_type::resized)
   {
@@ -332,5 +332,4 @@ void window::react_to_event(const window_event& event)
   }
 }
 
-}
-
+}  // namespace hou

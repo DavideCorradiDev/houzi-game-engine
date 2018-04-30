@@ -31,7 +31,7 @@ HOU_PRAGMA_PACK_PUSH(1)
 /** Represents a ph_vertex in 2d space.
  *
  *  The ph_vertex contains information about its position, ph_texture coordinates,
- *  and ph_color.
+ *  and color.
  */
 class HOU_GFX_API vertex2
 {
@@ -51,14 +51,14 @@ public:
   vertex2();
 
   /** Builds a vertex2 object with the given position, ph_texture coordinates,
-   *  and ph_color.
+   *  and color.
    *
    *  \param position the ph_vertex position.
    *  \param textureCoordinates the ph_vertex ph_texture coordinates.
-   *  \param ph_color the ph_vertex ph_color.
+   *  \param color the ph_vertex color.
    */
   vertex2(
-    const vec2f& position, const vec2f& textureCoordinates, const color& ph_color);
+    const vec2f& position, const vec2f& textureCoordinates, const color& color);
 
   /** Gets the ph_vertex position.
    *
@@ -84,17 +84,17 @@ public:
    */
   void set_texture_coordinates(const vec2f& textureCoordinates);
 
-  /** Gets the ph_vertex ph_color.
+  /** Gets the ph_vertex color.
    *
-   *  \return the ph_vertex ph_color.
+   *  \return the ph_vertex color.
    */
   color get_color() const;
 
-  /** Sets the ph_vertex ph_color.
+  /** Sets the ph_vertex color.
    *
-   *  \param ph_color the ph_vertex ph_color.
+   *  \param color the ph_vertex color.
    */
-  void set_color(const color& ph_color);
+  void set_color(const color& color);
 
 private:
   static constexpr size_t s_position_size = 2u;
@@ -148,7 +148,7 @@ HOU_GFX_API std::ostream& operator<<(std::ostream& os, const vertex2& v);
  *
  *  The ph_texture coordinates are defined so that a ph_texture is stretched to cover
  *  the entire ph_rectangle.
- *  The ph_color is always white.
+ *  The color is always white.
  *
  *  \param size the size of the ph_rectangle.
  *  \return the mesh representing the ph_rectangle.
@@ -159,7 +159,7 @@ HOU_GFX_API mesh2 create_rectangle_mesh2(const vec2f& size);
  *  given size and border thickness.
  *
  *  The ph_texture coordinates are always equal to zero.
- *  The ph_color is always white.
+ *  The color is always white.
  *  The size refers to the outside of the border.
  *
  *  \param size the size of the ph_rectangle.
@@ -173,7 +173,7 @@ HOU_GFX_API mesh2 create_rectangle_outline_mesh2(
  *  the given size and drawn with the given number of points.
  *
  *  The ph_texture coordinates are always equal to zero.
- *  The ph_color is always white.
+ *  The color is always white.
  *  The actual ph_vertex count is equal to pointCount plus 2, as the center of
  *  the ellipse is also defined as a ph_vertex and one ph_vertex has to be repeated
  *  twice to close the shape.
@@ -189,7 +189,7 @@ HOU_GFX_API mesh2 create_ellipse_mesh2(const vec2f& size, uint pointCount);
  *  with the given size and drawn with the given number of points.
  *
  *  The ph_texture coordinates are always equal to zero.
- *  The ph_color is always white.
+ *  The color is always white.
  *  The number of points refers to the number of points used to draw the outer
  *  and inner perimiter of the outline each.
  *  The size refers to the outside of the border.
@@ -216,7 +216,7 @@ HOU_GFX_API mesh2 create_ellipse_outline_mesh2(
  *  The same ph_texture quad may be used with different textures with the same
  * size. If a ph_texture quad is used with a ph_texture of a different size than the
  * one it was defined with, it will work, but the section of ph_texture shown will
- * not correspond to the values of rect anymore. The ph_color is always white.
+ * not correspond to the values of rect anymore. The color is always white.
  *
  *  \param rect the part of the ph_texture to be shown.
  *  \param textureSize the size of the ph_texture to be used with the quad.

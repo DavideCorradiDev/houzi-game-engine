@@ -18,12 +18,10 @@ namespace hou
 
 std::ostream& operator<<(std::ostream& os, modifier_keys mkf)
 {
-  return os
-    << MODIFIER_KEY_BITFIELD_CASE(mkf, alt) << " | "
-    << MODIFIER_KEY_BITFIELD_CASE(mkf, ctrl) << " | "
-    << MODIFIER_KEY_BITFIELD_CASE(mkf, shift) << " | "
-    << MODIFIER_KEY_BITFIELD_CASE(mkf, system);
+  return os << MODIFIER_KEY_BITFIELD_CASE(mkf, alt) << " | "
+            << MODIFIER_KEY_BITFIELD_CASE(mkf, ctrl) << " | "
+            << MODIFIER_KEY_BITFIELD_CASE(mkf, shift) << " | "
+            << MODIFIER_KEY_BITFIELD_CASE(mkf, system);
 }
 
-}
-
+}  // namespace hou

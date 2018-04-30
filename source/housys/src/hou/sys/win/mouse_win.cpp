@@ -4,8 +4,8 @@
 
 #include "hou/sys/mouse.hpp"
 
-#include "hou/sys/window.hpp"
 #include "hou/sys/win/win.hpp"
+#include "hou/sys/window.hpp"
 
 #include "hou/cor/error.hpp"
 
@@ -19,19 +19,19 @@ namespace hou
 namespace
 {
 
-UINT mouseButtonToWinKey(mouse_button button);
+UINT mouse_button_to_win_key(mouse_button button);
 
 
 
-UINT mouseButtonToWinKey(mouse_button button)
+UINT mouse_button_to_win_key(mouse_button button)
 {
-  bool lrSwapped = GetSystemMetrics(SM_SWAPBUTTON);
+  bool lr_swapped = GetSystemMetrics(SM_SWAPBUTTON);
   switch(button)
   {
     case mouse_button::lb:
-      return lrSwapped ? VK_RBUTTON : VK_LBUTTON;
+      return lr_swapped ? VK_RBUTTON : VK_LBUTTON;
     case mouse_button::rb:
-      return lrSwapped ? VK_LBUTTON : VK_RBUTTON;
+      return lr_swapped ? VK_LBUTTON : VK_RBUTTON;
     case mouse_button::mb:
       return VK_MBUTTON;
     case mouse_button::xb1:
@@ -43,7 +43,7 @@ UINT mouseButtonToWinKey(mouse_button button)
   }
 }
 
-}
+}  // namespace
 
 
 
@@ -53,7 +53,7 @@ namespace mouse
 bool is_button_pressed(mouse_button button)
 {
   // Most significant bit set if the button is pressed.
-  return (GetKeyState(mouseButtonToWinKey(button)) & 0x8000) != 0;
+  return (GetKeyState(mouse_button_to_win_key(button)) & 0x8000) != 0;
 }
 
 
@@ -67,13 +67,13 @@ vec2i get_position()
 
 
 
-vec2i get_position(const window& ph_window)
+vec2i get_position(const window& w)
 {
-  HOU_EXPECT_DEV(ph_window.get_handle() != nullptr);
+  HOU_EXPECT_DEV(w.get_handle() != nullptr);
 
   POINT position;
   GetCursorPos(&position);
-  ScreenToClient(ph_window.get_handle(), &position);
+  ScreenToClient(w.get_handle(), &position);
   return vec2i(position.x, position.y);
 }
 
@@ -86,16 +86,15 @@ void set_position(const vec2i& value)
 
 
 
-void set_position(const vec2i& value, const window& ph_window)
+void set_position(const vec2i& value, const window& w)
 {
-  HOU_EXPECT_DEV(ph_window.get_handle() != nullptr);
+  HOU_EXPECT_DEV(w.get_handle() != nullptr);
 
   POINT position = {value.x(), value.y()};
-  ClientToScreen(ph_window.get_handle(), &position);
+  ClientToScreen(w.get_handle(), &position);
   SetCursorPos(position.x, position.y);
 }
 
-}
+}  // namespace mouse
 
-}
-
+}  // namespace hou

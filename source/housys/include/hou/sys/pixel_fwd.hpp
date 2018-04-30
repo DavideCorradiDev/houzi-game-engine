@@ -15,14 +15,13 @@ namespace hou
 {
 
 template <pixel_format format>
-  class pixel_t;
+class pixel_t;
 
 using pixelr = pixel_t<pixel_format::r>;
 using pixelrg = pixel_t<pixel_format::rg>;
 using pixelrgb = pixel_t<pixel_format::rgb>;
 using pixelrgba = pixel_t<pixel_format::rgba>;
 
-}
+}  // namespace hou
 
 #endif
-

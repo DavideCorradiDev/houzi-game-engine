@@ -22,7 +22,7 @@ enum class pixel_format
 {
   /** Single channel (red) format. */
   r,
-  /** double channel (red-green) format. */
+  /** Double channel (red-green) format. */
   rg,
   /** Triple channel (red-green-blue) format. */
   rgb,
@@ -32,16 +32,19 @@ enum class pixel_format
 
 /** Writes a pixel_format enum into a ph_stream.
  *
- *  \param os the ph_stream.
- *  \param format the pixel_format enum.
- *  \return a reference to the ph_stream.
+ * \param os the ph_stream.
+ *
+ * \param format the pixel_format enum.
+ *
+ * \return a reference to the ph_stream.
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, pixel_format format);
 
 /** Returns the number of bytes of a ph_pixel with the given format.
  *
- *  \param format the pixel_format.
- *  \return the number of bytes.
+ * \param format the pixel_format.
+ *
+ * \return the number of bytes.
  */
 constexpr uint get_pixel_format_byte_count(pixel_format format);
 

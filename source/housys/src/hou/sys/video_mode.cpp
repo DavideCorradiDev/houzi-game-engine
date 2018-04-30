@@ -11,18 +11,18 @@
 namespace hou
 {
 
-std::vector<video_mode> video_mode::getFullscreenModes()
+std::vector<video_mode> video_mode::get_fullscreen_modes()
 {
-  std::vector<video_mode> modes = createFullscreenModesVector();
+  std::vector<video_mode> modes = create_fullscreen_modes_vector();
   std::sort(modes.begin(), modes.end(), std::greater<video_mode>());
   return modes;
 }
 
 
 
-video_mode::video_mode(const vec2u& resolution, uint bytesPerPixel)
+video_mode::video_mode(const vec2u& resolution, uint bytes_per_pixel)
   : m_resolution(resolution)
-  , m_bytes_per_pixel(bytesPerPixel)
+  , m_bytes_per_pixel(bytes_per_pixel)
 {}
 
 
@@ -43,7 +43,7 @@ uint video_mode::get_bytes_per_pixel() const
 
 bool video_mode::is_fullscreen_mode() const
 {
-  static const std::vector<video_mode> modes = getFullscreenModes();
+  static const std::vector<video_mode> modes = get_fullscreen_modes();
   return std::find(modes.begin(), modes.end(), *this) != modes.end();
 }
 
@@ -108,9 +108,8 @@ bool operator>=(const video_mode& lhs, const video_mode& rhs)
 
 std::ostream& operator<<(std::ostream& os, const video_mode& vm)
 {
-  return os << "{Resolution = " << transpose(vm.get_resolution())
-    << ", BytesPerPixel = " << vm.get_bytes_per_pixel() << "}";
+  return os << "{resolution = " << transpose(vm.get_resolution())
+            << ", bytes_per_pixel = " << vm.get_bytes_per_pixel() << "}";
 }
 
-}
-
+}  // namespace hou

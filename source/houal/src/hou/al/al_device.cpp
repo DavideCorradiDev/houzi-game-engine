@@ -24,14 +24,14 @@ namespace al
 namespace
 {
 
-uint32_t generateUid();
+uint32_t generate_uid();
 
 
 
-uint32_t generateUid()
+uint32_t generate_uid()
 {
-  static uid_generator uidGenerator(1u);
-  return uidGenerator.generate();
+  static uid_generator uid_gen(1u);
+  return uid_gen.generate();
 }
 
 }
@@ -54,7 +54,7 @@ std::vector<std::string> device::get_device_names()
 device::device()
   : non_copyable()
   , m_device(alcOpenDevice(nullptr))
-  , m_uid(generateUid())
+  , m_uid(generate_uid())
 {
   HOU_RUNTIME_CHECK(m_device != nullptr, get_text(al_error::device_open)
     , u8"default device");
@@ -65,7 +65,7 @@ device::device()
 device::device(const std::string& deviceName)
   : non_copyable()
   , m_device(alcOpenDevice(deviceName.c_str()))
-  , m_uid(generateUid())
+  , m_uid(generate_uid())
 {
   HOU_RUNTIME_CHECK(m_device != nullptr, get_text(al_error::device_open)
     , deviceName.c_str());

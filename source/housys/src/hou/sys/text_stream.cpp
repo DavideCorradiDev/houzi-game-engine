@@ -52,6 +52,4 @@ std::ostream& operator<<(std::ostream& os, text_stream::text_position p)
   return os << p;
 }
 
-}
-
-
+}  // namespace hou

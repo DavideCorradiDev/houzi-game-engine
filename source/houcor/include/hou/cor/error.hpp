@@ -33,7 +33,7 @@ namespace hou
  *
  * \tparam FormattingVariables types of the formatting variables.
  *
- * \param file_path the ph_file path to be included in the message.
+ * \param file_path the file path to be included in the message.
  *
  * \param line the file line to be included in the message.
  *

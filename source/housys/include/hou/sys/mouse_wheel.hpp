@@ -25,13 +25,14 @@ enum class mouse_wheel
 
 /** Writes a mouse_wheel enum into a ph_stream.
  *
- *  \param os the ph_stream.
- *  \param mw the mouse_wheel enum.
- *  \return a reference to the ph_stream.
+ * \param os the ph_stream.
+ *
+ * \param mw the mouse_wheel enum.
+ *
+ * \return a reference to the ph_stream.
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, mouse_wheel mw);
 
-}
+}  // namespace hou
 
 #endif
-

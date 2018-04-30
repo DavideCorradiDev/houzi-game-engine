@@ -14,26 +14,27 @@
 namespace hou
 {
 
-/** Enumeration for ph_window style. */
+/** Enumeration for window style. */
 enum class window_style
 {
-  /** windowed. The ph_window cannot be resized by the user. */
+  /** windowed. The window cannot be resized by the user. */
   windowed,
-  /** windowed. The ph_window can be resized by the user. */
+  /** windowed. The window can be resized by the user. */
   windowed_resizable,
-  /** fullscreen. Only a single fullscreen ph_window is allowed. */
+  /** fullscreen. Only a single fullscreen window is allowed. */
   fullscreen,
 };
 
 /** Writes a window_style enum into a ph_stream.
  *
- *  \param os the ph_stream.
- *  \param ws the window_style enum.
- *  \return a reference to the ph_stream.
+ * \param os the ph_stream.
+ *
+ * \param ws the window_style enum.
+ *
+ * \return a reference to the ph_stream.
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, window_style ws);
 
-}
+}  // namespace hou
 
 #endif
-

@@ -60,25 +60,27 @@ window_event window_event::resized(uint x, uint y)
 
 
 
-window_event window_event::key_pressed(key_code kc, scan_code sc, modifier_keys modKeys)
+window_event window_event::key_pressed(
+  key_code kc, scan_code sc, modifier_keys mod_keys)
 {
   window_event ev;
   ev.m_type = window_event_type::key_pressed;
   ev.m_key.key_code = kc;
   ev.m_key.scan_code = sc;
-  ev.m_key.modifier_keys = modKeys;
+  ev.m_key.modifier_keys = mod_keys;
   return ev;
 }
 
 
 
-window_event window_event::key_released(key_code kc, scan_code sc, modifier_keys modKeys)
+window_event window_event::key_released(
+  key_code kc, scan_code sc, modifier_keys mod_keys)
 {
   window_event ev;
   ev.m_type = window_event_type::key_released;
   ev.m_key.key_code = kc;
   ev.m_key.scan_code = sc;
-  ev.m_key.modifier_keys = modKeys;
+  ev.m_key.modifier_keys = mod_keys;
   return ev;
 }
 
@@ -147,8 +149,8 @@ window_event window_event::mouse_button_released(mouse_button mb, int x, int y)
 
 
 
-window_event window_event::mouse_wheel_moved(mouse_wheel wheel, int delta, int x
-  , int y)
+window_event window_event::mouse_wheel_moved(
+  mouse_wheel wheel, int delta, int x, int y)
 {
   window_event ev;
   ev.m_type = window_event_type::mouse_wheel_moved;
@@ -201,7 +203,8 @@ const window_event::mouse_move_data& window_event::get_mouse_move_data() const
 
 
 
-const window_event::mouse_button_data& window_event::get_mouse_button_data() const
+const window_event::mouse_button_data& window_event::get_mouse_button_data()
+  const
 {
   HOU_EXPECT(m_type == window_event_type::mouse_button_pressed
     || m_type == window_event_type::mouse_button_released);
@@ -266,14 +269,16 @@ bool operator!=(const window_event& l, const window_event& r)
 
 
 
-bool operator==(const window_event::size_data& l, const window_event::size_data& r)
+bool operator==(
+  const window_event::size_data& l, const window_event::size_data& r)
 {
   return l.x == r.x && l.y == r.y;
 }
 
 
 
-bool operator==(const window_event::key_data& l, const window_event::key_data& r)
+bool operator==(
+  const window_event::key_data& l, const window_event::key_data& r)
 {
   return l.key_code == r.key_code && l.scan_code == r.scan_code
     && l.modifier_keys == r.modifier_keys;
@@ -281,77 +286,80 @@ bool operator==(const window_event::key_data& l, const window_event::key_data& r
 
 
 
-bool operator==(const window_event::text_data& l, const window_event::text_data& r)
+bool operator==(
+  const window_event::text_data& l, const window_event::text_data& r)
 {
   return l.code_point == r.code_point;
 }
 
 
 
-bool operator==(const window_event::mouse_move_data& l
-  , const window_event::mouse_move_data& r)
+bool operator==(const window_event::mouse_move_data& l,
+  const window_event::mouse_move_data& r)
 {
   return l.x == r.x && l.y == r.y;
 }
 
 
 
-bool operator==(const window_event::mouse_button_data& l
-  , const window_event::mouse_button_data& r)
+bool operator==(const window_event::mouse_button_data& l,
+  const window_event::mouse_button_data& r)
 {
   return l.button == r.button && l.x == r.x && l.y == r.y;
 }
 
 
 
-bool operator==(const window_event::mouse_wheel_data& l
-  , const window_event::mouse_wheel_data& r)
+bool operator==(const window_event::mouse_wheel_data& l,
+  const window_event::mouse_wheel_data& r)
 {
-  return l.wheel == r.wheel && l.delta == r.delta && l.x == r.x
-    && l.y == r.y;
+  return l.wheel == r.wheel && l.delta == r.delta && l.x == r.x && l.y == r.y;
 }
 
 
 
-bool operator!=(const window_event::size_data& l, const window_event::size_data& r)
-{
-  return !(l == r);
-}
-
-
-
-bool operator!=(const window_event::key_data& l, const window_event::key_data& r)
+bool operator!=(
+  const window_event::size_data& l, const window_event::size_data& r)
 {
   return !(l == r);
 }
 
 
 
-bool operator!=(const window_event::text_data& l, const window_event::text_data& r)
+bool operator!=(
+  const window_event::key_data& l, const window_event::key_data& r)
 {
   return !(l == r);
 }
 
 
 
-bool operator!=(const window_event::mouse_move_data& l
-  , const window_event::mouse_move_data& r)
+bool operator!=(
+  const window_event::text_data& l, const window_event::text_data& r)
 {
   return !(l == r);
 }
 
 
 
-bool operator!=(const window_event::mouse_button_data& l
-  , const window_event::mouse_button_data& r)
+bool operator!=(const window_event::mouse_move_data& l,
+  const window_event::mouse_move_data& r)
 {
   return !(l == r);
 }
 
 
 
-bool operator!=(const window_event::mouse_wheel_data& l
-  , const window_event::mouse_wheel_data& r)
+bool operator!=(const window_event::mouse_button_data& l,
+  const window_event::mouse_button_data& r)
+{
+  return !(l == r);
+}
+
+
+
+bool operator!=(const window_event::mouse_wheel_data& l,
+  const window_event::mouse_wheel_data& r)
 {
   return !(l == r);
 }
@@ -360,7 +368,7 @@ bool operator!=(const window_event::mouse_wheel_data& l
 
 std::ostream& operator<<(std::ostream& os, const window_event& e)
 {
-  os << "{Type = " << e.get_type() << ", Data = ";
+  os << "{type = " << e.get_type() << ", data = ";
   switch(e.get_type())
   {
     case window_event_type::resized:
@@ -389,7 +397,7 @@ std::ostream& operator<<(std::ostream& os, const window_event& e)
     case window_event_type::focus_lost:
     case window_event_type::mouse_entered:
     case window_event_type::mouse_left:
-        os << "{}";
+      os << "{}";
     default:
       break;
   }
@@ -407,26 +415,25 @@ std::ostream& operator<<(std::ostream& os, const window_event::size_data& e)
 
 std::ostream& operator<<(std::ostream& os, const window_event::key_data& e)
 {
-  return os << "{key_code = " << e.key_code
-    << ", scan_code = " << e.scan_code
-    << ", modifier_keys = " << e.modifier_keys << "}";
+  return os << "{key_code = " << e.key_code << ", scan_code = " << e.scan_code
+            << ", modifier_keys = " << e.modifier_keys << "}";
 }
 
 
 
 std::ostream& operator<<(std::ostream& os, const window_event::text_data& e)
 {
-  class OutputFormatter
+  class unicode_output_formatter
   {
   public:
-    OutputFormatter(std::ostream& os)
+    unicode_output_formatter(std::ostream& os)
       : mOldState(nullptr)
     {
       mOldState.copyfmt(os);
       os << std::setfill('0') << std::setw(8) << std::hex;
     }
 
-    ~OutputFormatter()
+    ~unicode_output_formatter()
     {
       std::cout.copyfmt(mOldState);
     }
@@ -437,7 +444,7 @@ std::ostream& operator<<(std::ostream& os, const window_event::text_data& e)
 
   os << "{code_point = 0x";
   {
-    OutputFormatter of(os);
+    unicode_output_formatter of(os);
     os << static_cast<uint32_t>(e.code_point);
   }
   return os << "}";
@@ -445,29 +452,28 @@ std::ostream& operator<<(std::ostream& os, const window_event::text_data& e)
 
 
 
-std::ostream& operator<<(std::ostream& os, const window_event::mouse_move_data& e)
+std::ostream& operator<<(
+  std::ostream& os, const window_event::mouse_move_data& e)
 {
-  return os << "{Position = (" << e.x << ", " << e.y << ")}";
+  return os << "{position = (" << e.x << ", " << e.y << ")}";
 }
 
 
 
-std::ostream& operator<<(std::ostream& os
-  , const window_event::mouse_button_data& e)
+std::ostream& operator<<(
+  std::ostream& os, const window_event::mouse_button_data& e)
 {
-  return os << "{Button = " << e.button
-    << ", Position = (" << e.x << ", " << e.y << ")}";
+  return os << "{button = " << e.button << ", position = (" << e.x << ", "
+            << e.y << ")}";
 }
 
 
 
-std::ostream& operator<<(std::ostream& os
-  , const window_event::mouse_wheel_data& e)
+std::ostream& operator<<(
+  std::ostream& os, const window_event::mouse_wheel_data& e)
 {
-  return os << "{Wheel = " << e.wheel
-    << ", Delta = " << e.delta
-    << ", Position = (" << e.x << ", " << e.y << ")}";
+  return os << "{wheel = " << e.wheel << ", delta = " << e.delta
+            << ", position = (" << e.x << ", " << e.y << ")}";
 }
 
-}
-
+}  // namespace hou

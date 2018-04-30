@@ -366,7 +366,6 @@ enum class key_code
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, key_code kc);
 
-}
+}  // namespace hou
 
 #endif
-

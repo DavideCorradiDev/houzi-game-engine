@@ -13,11 +13,12 @@
 namespace hou
 {
 
-std::string getLastWinErrorMessage()
+std::string get_last_win_error_message()
 {
   LPVOID lpMsgBuf = nullptr;
   DWORD ec = GetLastError();
 
+  // clang-format off
   FormatMessageW
     ( FORMAT_MESSAGE_ALLOCATE_BUFFER
     | FORMAT_MESSAGE_FROM_SYSTEM
@@ -28,6 +29,7 @@ std::string getLastWinErrorMessage()
     , (LPWSTR)&lpMsgBuf
     , 0
     , nullptr);
+  // clang-format on
 
   if(lpMsgBuf == nullptr)
   {
@@ -37,8 +39,8 @@ std::string getLastWinErrorMessage()
   {
     // Convert Windows UNICODE encoding to utf-8 to store it in a std::string.
     std::string messageUtf8(convert_encoding<wide, utf8>((LPWSTR)lpMsgBuf));
-    std::string winError = format_string(u8"Error code %d: %s", ec
-      , messageUtf8.c_str());
+    std::string winError
+      = format_string(u8"Error code %d: %s", ec, messageUtf8.c_str());
     LocalFree(lpMsgBuf);
     // Remove the \r\n appended at the end.
     winError.resize(winError.size() - 2);
@@ -46,5 +48,4 @@ std::string getLastWinErrorMessage()
   }
 }
 
-}
-
+}  // namespace hou

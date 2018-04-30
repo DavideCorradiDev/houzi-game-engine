@@ -26,14 +26,14 @@ namespace
 std::mutex gCurrentContextMutex;
 context* gCurrentContext;
 
-uint32_t generateUid();
+uint32_t generate_uid();
 
 
 
-uint32_t generateUid()
+uint32_t generate_uid()
 {
-  static uid_generator uidGenerator(1u);
-  return uidGenerator.generate();
+  static uid_generator uid_gen(1u);
+  return uid_gen.generate();
 }
 
 }
@@ -75,7 +75,7 @@ context* context::getCurrent()
 context::context(device& ph_device)
   : non_copyable()
   , m_handle(alcCreateContext(ph_device.get_handle(), nullptr))
-  , m_uid(generateUid())
+  , m_uid(generate_uid())
   , m_device_uid(ph_device.get_uid())
 {
   HOU_RUNTIME_CHECK(m_handle != nullptr, get_text(al_error::context_create));

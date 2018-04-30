@@ -109,12 +109,12 @@ color vertex2::get_color() const
 
 
 
-void vertex2::set_color(const color& ph_color)
+void vertex2::set_color(const color& color)
 {
-  m_color[0] = ph_color.get_red_f();
-  m_color[1] = ph_color.get_green_f();
-  m_color[2] = ph_color.get_blue_f();
-  m_color[3] = ph_color.get_alpha_f();
+  m_color[0] = color.get_red_f();
+  m_color[1] = color.get_green_f();
+  m_color[2] = color.get_blue_f();
+  m_color[3] = color.get_alpha_f();
 }
 
 

@@ -20,11 +20,11 @@ namespace gl
 namespace
 {
 
-uint32_t generateUid();
+uint32_t generate_uid();
 
 
 
-uint32_t generateUid()
+uint32_t generate_uid()
 {
   static uid_generator gen(1u);
   return gen.generate();
@@ -37,7 +37,7 @@ uint32_t generateUid()
 object_handle::object_handle(GLuint name)
   : non_copyable()
   , m_name(name)
-  , m_uid(generateUid())
+  , m_uid(generate_uid())
 {}
 
 

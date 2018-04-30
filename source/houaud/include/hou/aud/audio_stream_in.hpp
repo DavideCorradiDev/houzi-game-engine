@@ -40,7 +40,7 @@ public:
    *
    *  \tparam T the container type to return.
    *
-   *  \return a container containing the whole content of the ph_file.
+   *  \return a container containing the whole content of the file.
    */
   template <typename T>
     std::enable_if_t<is_contiguous_container<T>::value, T> read_all();

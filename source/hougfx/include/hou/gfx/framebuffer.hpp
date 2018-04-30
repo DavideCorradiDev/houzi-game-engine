@@ -64,10 +64,10 @@ public:
    */
   static void unbind();
 
-  /** Retrieves the number of available slots for ph_color attachments in a
+  /** Retrieves the number of available slots for color attachments in a
    *  framebuffer.
    *
-   *  \return the number of available slots for ph_color attachments.
+   *  \return the number of available slots for color attachments.
    */
   static uint get_color_attachment_point_count();
 
@@ -110,7 +110,7 @@ public:
    */
   bool is_complete() const;
 
-  /** Sets a ph_color attachment for this framebuffer.
+  /** Sets a color attachment for this framebuffer.
    *
    *  \param attachmentPoint an index representing the desired attachment point.
    *  Its value must be lower than the maximum number of available attachment

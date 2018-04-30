@@ -12,9 +12,9 @@ namespace hou
 namespace
 {
 
-uint8_t averageChannels(uint8_t r, uint8_t g, uint8_t b);
+uint8_t average_channels(uint8_t r, uint8_t g, uint8_t b);
 
-uint8_t averageChannels(uint8_t r, uint8_t g, uint8_t b)
+uint8_t average_channels(uint8_t r, uint8_t g, uint8_t b)
 {
   return static_cast<uint8_t>(
     (static_cast<int>(r) * 77u + static_cast<int>(g) * 150u
@@ -26,8 +26,8 @@ uint8_t averageChannels(uint8_t r, uint8_t g, uint8_t b)
 
 
 
-template <pixel_format pf>
-pixel_t<pf>::pixel_t()
+template <pixel_format PF>
+pixel_t<PF>::pixel_t()
   : m_channels()
 {
   m_channels.fill(0u);
@@ -35,41 +35,41 @@ pixel_t<pf>::pixel_t()
 
 
 
-template <pixel_format pf>
-template <pixel_format f, typename Enable>
-pixel_t<pf>::pixel_t(uint8_t r)
+template <pixel_format PF>
+template <pixel_format PF2, typename Enable>
+pixel_t<PF>::pixel_t(uint8_t r)
   : m_channels{r}
 {}
 
 
 
-template <pixel_format pf>
-template <pixel_format f, typename Enable>
-pixel_t<pf>::pixel_t(uint8_t r, uint8_t g)
+template <pixel_format PF>
+template <pixel_format PF2, typename Enable>
+pixel_t<PF>::pixel_t(uint8_t r, uint8_t g)
   : m_channels{r, g}
 {}
 
 
 
-template <pixel_format pf>
-template <pixel_format f, typename Enable>
-pixel_t<pf>::pixel_t(uint8_t r, uint8_t g, uint8_t b)
+template <pixel_format PF>
+template <pixel_format PF2, typename Enable>
+pixel_t<PF>::pixel_t(uint8_t r, uint8_t g, uint8_t b)
   : m_channels{r, g, b}
 {}
 
 
 
-template <pixel_format pf>
-template <pixel_format f, typename Enable>
-pixel_t<pf>::pixel_t(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+template <pixel_format PF>
+template <pixel_format PF2, typename Enable>
+pixel_t<PF>::pixel_t(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
   : m_channels{r, g, b, a}
 {}
 
 
 
-template <pixel_format pf>
-template <pixel_format f, typename Enable>
-pixel_t<pf>::pixel_t(const color& c)
+template <pixel_format PF>
+template <pixel_format PF2, typename Enable>
+pixel_t<PF>::pixel_t(const color& c)
   : m_channels{c.get_red(), c.get_green(), c.get_blue(), c.get_alpha()}
 {}
 
@@ -79,7 +79,7 @@ template <>
 template <>
 pixel_t<pixel_format::r>::pixel_t<pixel_format::rgb, void>(
   const pixel_t<pixel_format::rgb>& other)
-  : m_channels{averageChannels(other.get_r(), other.get_g(), other.get_b())}
+  : m_channels{average_channels(other.get_r(), other.get_g(), other.get_b())}
 {}
 
 
@@ -88,7 +88,7 @@ template <>
 template <>
 pixel_t<pixel_format::r>::pixel_t<pixel_format::rgba, void>(
   const pixel_t<pixel_format::rgba>& other)
-  : m_channels{averageChannels(other.get_r(), other.get_g(), other.get_b())}
+  : m_channels{average_channels(other.get_r(), other.get_g(), other.get_b())}
 {}
 
 
@@ -106,7 +106,8 @@ template <>
 template <>
 pixel_t<pixel_format::rg>::pixel_t<pixel_format::rgb, void>(
   const pixel_t<pixel_format::rgb>& other)
-  : m_channels{averageChannels(other.get_r(), other.get_g(), other.get_b()), 255u}
+  : m_channels{
+      average_channels(other.get_r(), other.get_g(), other.get_b()), 255u}
 {}
 
 
@@ -115,8 +116,8 @@ template <>
 template <>
 pixel_t<pixel_format::rg>::pixel_t<pixel_format::rgba, void>(
   const pixel_t<pixel_format::rgba>& other)
-  : m_channels{
-      averageChannels(other.get_r(), other.get_g(), other.get_b()), other.get_a()}
+  : m_channels{average_channels(other.get_r(), other.get_g(), other.get_b()),
+      other.get_a()}
 {}
 
 
@@ -175,88 +176,88 @@ pixel_t<pixel_format::rgba>::pixel_t<pixel_format::rgb, void>(
 
 
 
-template <pixel_format pf>
-uint8_t pixel_t<pf>::get_r() const
+template <pixel_format PF>
+uint8_t pixel_t<PF>::get_r() const
 {
   return m_channels[0];
 }
 
 
 
-template <pixel_format pf>
-void pixel_t<pf>::set_r(uint8_t value)
+template <pixel_format PF>
+void pixel_t<PF>::set_r(uint8_t value)
 {
   m_channels[0] = value;
 }
 
 
 
-template <pixel_format pf>
-template <pixel_format f, typename Enable>
-uint8_t pixel_t<pf>::get_g() const
+template <pixel_format PF>
+template <pixel_format PF2, typename Enable>
+uint8_t pixel_t<PF>::get_g() const
 {
   return m_channels[1];
 }
 
 
 
-template <pixel_format pf>
-template <pixel_format f, typename Enable>
-void pixel_t<pf>::set_g(uint8_t value)
+template <pixel_format PF>
+template <pixel_format PF2, typename Enable>
+void pixel_t<PF>::set_g(uint8_t value)
 {
   m_channels[1] = value;
 }
 
 
 
-template <pixel_format pf>
-template <pixel_format f, typename Enable>
-uint8_t pixel_t<pf>::get_b() const
+template <pixel_format PF>
+template <pixel_format PF2, typename Enable>
+uint8_t pixel_t<PF>::get_b() const
 {
   return m_channels[2];
 }
 
 
 
-template <pixel_format pf>
-template <pixel_format f, typename Enable>
-void pixel_t<pf>::set_b(uint8_t value)
+template <pixel_format PF>
+template <pixel_format PF2, typename Enable>
+void pixel_t<PF>::set_b(uint8_t value)
 {
   m_channels[2] = value;
 }
 
 
 
-template <pixel_format pf>
-template <pixel_format f, typename Enable>
-uint8_t pixel_t<pf>::get_a() const
+template <pixel_format PF>
+template <pixel_format PF2, typename Enable>
+uint8_t pixel_t<PF>::get_a() const
 {
   return m_channels[3];
 }
 
 
 
-template <pixel_format pf>
-template <pixel_format f, typename Enable>
-void pixel_t<pf>::set_a(uint8_t value)
+template <pixel_format PF>
+template <pixel_format PF2, typename Enable>
+void pixel_t<PF>::set_a(uint8_t value)
 {
   m_channels[3] = value;
 }
 
 
 
-template <pixel_format pf>
-template <pixel_format f, typename Enable>
-color pixel_t<pf>::get_color() const
+template <pixel_format PF>
+template <pixel_format PF2, typename Enable>
+color pixel_t<PF>::get_color() const
 {
   return color(m_channels[0], m_channels[1], m_channels[2], m_channels[3]);
 }
 
 
 
-template <pixel_format pf>
-template <pixel_format f, typename Enable>
-void pixel_t<pf>::set_color(const color& c)
+template <pixel_format PF>
+template <pixel_format PF2, typename Enable>
+void pixel_t<PF>::set_color(const color& c)
 {
   m_channels[0] = c.get_red();
   m_channels[1] = c.get_green();
@@ -266,18 +267,18 @@ void pixel_t<pf>::set_color(const color& c)
 
 
 
-template <pixel_format pf>
-template <pixel_format f, typename Enable>
-void pixel_t<pf>::set(uint8_t r)
+template <pixel_format PF>
+template <pixel_format PF2, typename Enable>
+void pixel_t<PF>::set(uint8_t r)
 {
   m_channels[0] = r;
 }
 
 
 
-template <pixel_format pf>
-template <pixel_format f, typename Enable>
-void pixel_t<pf>::set(uint8_t r, uint8_t g)
+template <pixel_format PF>
+template <pixel_format PF2, typename Enable>
+void pixel_t<PF>::set(uint8_t r, uint8_t g)
 {
   m_channels[0] = r;
   m_channels[1] = g;
@@ -285,9 +286,9 @@ void pixel_t<pf>::set(uint8_t r, uint8_t g)
 
 
 
-template <pixel_format pf>
-template <pixel_format f, typename Enable>
-void pixel_t<pf>::set(uint8_t r, uint8_t g, uint8_t b)
+template <pixel_format PF>
+template <pixel_format PF2, typename Enable>
+void pixel_t<PF>::set(uint8_t r, uint8_t g, uint8_t b)
 {
   m_channels[0] = r;
   m_channels[1] = g;
@@ -296,9 +297,9 @@ void pixel_t<pf>::set(uint8_t r, uint8_t g, uint8_t b)
 
 
 
-template <pixel_format pf>
-template <pixel_format f, typename Enable>
-void pixel_t<pf>::set(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+template <pixel_format PF>
+template <pixel_format PF2, typename Enable>
+void pixel_t<PF>::set(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 {
   m_channels[0] = r;
   m_channels[1] = g;
@@ -315,7 +316,8 @@ pixel_t<pixel_format::r>::pixel_t<pixel_format::rg, void>(
 
 
 template <>
-std::ostream& operator<<<pixel_format::r>(std::ostream& os, const pixelr& ph_pixel)
+std::ostream& operator<<<pixel_format::r>(
+  std::ostream& os, const pixelr& ph_pixel)
 {
   return os << "{r = " << static_cast<int>(ph_pixel.get_r()) << "}";
 }
@@ -360,9 +362,9 @@ std::ostream& operator<<<pixel_format::rgba>(
 
 
 
-#define INSTANTIATE_CHANNEL_FUNCTIONS(pf, Channel)             \
-  template uint8_t pixel_t<pf>::get_##Channel<pf, void>() const; \
-  template void pixel_t<pf>::set_##Channel<pf, void>(uint8_t);
+#define INSTANTIATE_CHANNEL_FUNCTIONS(PF, Channel) \
+  template uint8_t pixel_t<PF>::get_##Channel<PF, void>() const; \
+  template void pixel_t<PF>::set_##Channel<PF, void>(uint8_t);
 
 
 
@@ -401,8 +403,8 @@ template void pixel_t<pixel_format::rgba>::set<pixel_format::rgba, void>(
   uint8_t, uint8_t, uint8_t, uint8_t);
 template pixel_t<pixel_format::rgba>::pixel_t<pixel_format::rgba, void>(
   const color&);
-template color pixel_t<pixel_format::rgba>::get_color<pixel_format::rgba, void>()
-  const;
+template color
+  pixel_t<pixel_format::rgba>::get_color<pixel_format::rgba, void>() const;
 template void pixel_t<pixel_format::rgba>::set_color<pixel_format::rgba, void>(
   const color&);
 INSTANTIATE_CONVERSION_CONSTRUCTOR(pixel_format::rgba, pixel_format::r)
@@ -413,4 +415,3 @@ INSTANTIATE_CHANNEL_FUNCTIONS(pixel_format::rgba, b)
 INSTANTIATE_CHANNEL_FUNCTIONS(pixel_format::rgba, a)
 
 }  // namespace hou
-

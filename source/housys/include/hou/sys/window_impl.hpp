@@ -5,19 +5,19 @@
 #ifndef HOU_SYS_WINDOW_IMPL_HPP
 #define HOU_SYS_WINDOW_IMPL_HPP
 
-#include "hou/sys/sys_export.hpp"
 #include "hou/cor/non_copyable.hpp"
+#include "hou/sys/sys_export.hpp"
 
 #include "hou/cor/character_encodings.hpp"
 
-#include "hou/mth/rectangle_fwd.hpp"
 #include "hou/mth/matrix.hpp"
+#include "hou/mth/rectangle_fwd.hpp"
 
 #include "hou/sys/image_fwd.hpp"
 #include "hou/sys/window_handle.hpp"
 #include "hou/sys/window_style.hpp"
 #if defined(HOU_SYSTEM_WINDOWS)
-  #include "hou/sys/Win/win.hpp"
+#include "hou/sys/Win/win.hpp"
 #endif
 
 #include <queue>
@@ -35,12 +35,11 @@ class window_event;
 namespace prv
 {
 
-class window_impl
-  : public non_copyable
+class window_impl : public non_copyable
 {
 public:
-  window_impl(const std::string& title, const video_mode& videoMode
-    , window_style style);
+  window_impl(
+    const std::string& title, const video_mode& vm, window_style style);
   window_impl(window_impl&& other);
   ~window_impl();
 
@@ -77,22 +76,22 @@ public:
   void swap_buffers();
 
 private:
-  void grabMouseCursor();
-  void ungrabMouseCursor();
-  bool isMouseCaptured() const;
-  void setMouseCaptured(bool value);
+  void grab_mouse_cursor();
+  void ungrab_mouse_cursor();
+  bool is_mouse_captured() const;
+  void set_mouse_captured(bool value);
 
 #if defined(HOU_SYSTEM_WINDOWS)
   static void register_window_class();
   static void unregister_window_class();
-  static LRESULT CALLBACK wnd_procedure(HWND hwnd, UINT uMsg, WPARAM wParam
-    , LPARAM lParam);
+  static LRESULT CALLBACK wnd_procedure(
+    HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
   void destroy_icon();
   void destroy_cursor();
   void destroy_window();
 
-  void filter_event(UINT uMsg, WPARAM wParam , LPARAM lParam);
+  void filter_event(UINT uMsg, WPARAM wParam, LPARAM lParam);
 #endif
 
 private:
@@ -104,15 +103,14 @@ private:
   HDC m_hdc;
   HCURSOR m_cursor_handle;
   HICON m_icon_handle;
-  wide::code_unit mCachedUtf16Char;
+  wide::code_unit m_cached_utf16_char;
   bool m_mouse_in_window;
   vec2u m_previous_size;
 #endif
 };
 
-}
+}  // namespace prv
 
-}
+}  // namespace hou
 
 #endif
-

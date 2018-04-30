@@ -33,7 +33,7 @@ bool window_impl::is_mouse_cursor_grabbed() const
 void window_impl::set_mouse_cursor_grabbed(bool value)
 {
   m_cursor_grabbed = value;
-  value ? grabMouseCursor() : ungrabMouseCursor();
+  value ? grab_mouse_cursor() : ungrab_mouse_cursor();
 }
 
 
@@ -80,7 +80,6 @@ void window_impl::push_event(const window_event& event)
   m_event_queue.push(event);
 }
 
-}
+}  // namespace prv
 
-}
-
+}  // namespace hou

@@ -85,11 +85,10 @@ text_stream& text_file_in::set_text_pos(text_file_in::text_position pos)
 
 
 
-void text_file_in::on_read(void* buf, size_t elementSize, size_t bufSize)
+void text_file_in::on_read(void* buf, size_t element_size, size_t buf_size)
 {
-  m_element_count = m_file.read(buf, elementSize, bufSize);
-  m_byte_count = m_element_count * elementSize;
+  m_element_count = m_file.read(buf, element_size, buf_size);
+  m_byte_count = m_element_count * element_size;
 }
 
-}
-
+}  // namespace hou

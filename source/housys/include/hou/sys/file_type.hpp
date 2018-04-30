@@ -14,24 +14,25 @@
 namespace hou
 {
 
-/** Enumeration for a ph_file type. */
+/** Enumeration for a file type. */
 enum class file_type
 {
-  /** binary ph_file. */
+  /** Binary file. */
   binary,
-  /** text ph_file. */
+  /** Text file. */
   text,
 };
 
 /** Writes a file_type enum into a ph_stream.
  *
- *  \param os the ph_stream.
- *  \param fom the file_type enum.
- *  \return a reference to the ph_stream.
+ * \param os the ph_stream.
+ *
+ * \param fom the file_type enum.
+ *
+ * \return a reference to the ph_stream.
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, file_type fom);
 
-}
+}  // namespace hou
 
 #endif
-

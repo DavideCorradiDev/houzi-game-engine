@@ -5,7 +5,8 @@
 #include "hou/sys/file_open_mode.hpp"
 
 #define FILE_OPEN_MODE_CASE(fom, os) \
-  case file_open_mode::fom: return (os) << #fom
+  case file_open_mode::fom: \
+    return (os) << #fom
 
 
 
@@ -19,11 +20,9 @@ std::ostream& operator<<(std::ostream& os, file_open_mode fom)
     FILE_OPEN_MODE_CASE(read, os);
     FILE_OPEN_MODE_CASE(write, os);
     FILE_OPEN_MODE_CASE(append, os);
-    default: return os;
+    default:
+      return os;
   }
 }
 
-}
-
-
-
+}  // namespace hou

@@ -162,7 +162,7 @@ TEST_F(TestFile, FileSize)
 TEST_F(TestFile, FileSizeCursorPosition)
 {
   // Test if the size is correct if the cursor is not at the beginning, and if
-  // requesting the ph_file size does not change the cursor position.
+  // requesting the file size does not change the cursor position.
   file f(fileName, file_open_mode::read, file_type::binary);
 
   char c;
@@ -394,7 +394,7 @@ TEST_F(TestFile, Eof)
 TEST_F(TestFile, GetSizeAfterPutc)
 {
   // Note: on some filesystems the size is not immediately updated.
-  // For this reason it is necessary to open the ph_file again to check the size.
+  // For this reason it is necessary to open the file again to check the size.
   {
     file f(fileName, file_open_mode::append, file_type::binary);
     EXPECT_EQ(fileContent.size(), f.get_byte_count());
@@ -411,7 +411,7 @@ TEST_F(TestFile, GetSizeAfterPutc)
 TEST_F(TestFile, GetSizeAfterPuts)
 {
   // Note: on some filesystems the size is not immediately updated.
-  // For this reason it is necessary to open the ph_file again to check the size.
+  // For this reason it is necessary to open the file again to check the size.
   std::string toWrite = u8"New stuff!";
   {
     file f(fileName, file_open_mode::append, file_type::binary);
@@ -429,7 +429,7 @@ TEST_F(TestFile, GetSizeAfterPuts)
 TEST_F(TestFile, GetSizeAfterWrite)
 {
   // Note: on some filesystems the size is not immediately updated.
-  // For this reason it is necessary to open the ph_file again to check the size.
+  // For this reason it is necessary to open the file again to check the size.
   std::vector<uint16_t> toWrite{23, 12, 15, 0, 14, 1};
   {
     file f(fileName, file_open_mode::append, file_type::binary);

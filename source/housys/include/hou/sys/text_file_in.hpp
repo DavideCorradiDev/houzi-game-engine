@@ -17,7 +17,7 @@
 namespace hou
 {
 
-/** Input text ph_file ph_stream.
+/** Input text file ph_stream.
  */
 class HOU_SYS_API text_file_in
   : public non_copyable
@@ -26,15 +26,15 @@ class HOU_SYS_API text_file_in
 public:
   /** Path constructor.
    *
-   *  Throws if the provided path is not valid.
+   * Throws if the provided path is not valid.
    *
-   *  \param path the path to the ph_file to be opened.
+   * \param path the path to the file to be opened.
    */
   explicit text_file_in(const std::string& path);
 
   /** Move constructor.
    *
-   *  \param other the other object.
+   * \param other the other object.
    */
   text_file_in(text_file_in&& other);
 
@@ -57,7 +57,7 @@ public:
 
 protected:
   // stream_in overrides.
-  void on_read(void* buf, size_t elementSize, size_t bufSize) final;
+  void on_read(void* buf, size_t element_size, size_t buf_size) final;
 
 private:
   file m_file;
@@ -65,7 +65,6 @@ private:
   size_t m_element_count;
 };
 
-}
+}  // namespace hou
 
 #endif
-

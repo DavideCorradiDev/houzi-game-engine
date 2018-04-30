@@ -31,7 +31,7 @@ TEST_F(TestVideoMode, Constructor)
 
 TEST_F(TestVideoMode, FullscreenModeCheck)
 {
-  std::vector<video_mode> vmodes = video_mode::getFullscreenModes();
+  std::vector<video_mode> vmodes = video_mode::get_fullscreen_modes();
   for(const auto& mode : vmodes)
   {
     EXPECT_TRUE(mode.is_fullscreen_mode());

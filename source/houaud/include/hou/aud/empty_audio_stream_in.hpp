@@ -65,7 +65,7 @@ public:
   audio_stream_in& move_sample_pos(sample_offset offset) final;
 
 private:
-  void on_read(void* buf, size_t elementSize, size_t bufSize) final;
+  void on_read(void* buf, size_t element_size, size_t buf_size) final;
 };
 
 }

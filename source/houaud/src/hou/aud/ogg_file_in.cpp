@@ -33,14 +33,14 @@ static constexpr size_t bytesPerSample = 2u;
 
 bool ogg_file_in::check(const std::string& path)
 {
-  FILE* ph_file = open_file(path, "rb");
-  HOU_RUNTIME_CHECK(ph_file != nullptr, get_text(sys_error::file_open)
+  FILE* file = open_file(path, "rb");
+  HOU_RUNTIME_CHECK(file != nullptr, get_text(sys_error::file_open)
     , path.c_str());
 
   OggVorbis_File vorbisFile;
-  if(ov_test(ph_file, &vorbisFile, nullptr, 0) != 0)
+  if(ov_test(file, &vorbisFile, nullptr, 0) != 0)
   {
-    fclose(ph_file);
+    fclose(file);
     return false;
   }
   else
@@ -63,15 +63,15 @@ ogg_file_in::ogg_file_in(const std::string& path)
   , m_eof(false)
   , m_error(false)
 {
-  FILE* ph_file = open_file(path, "rb");
-  HOU_RUNTIME_CHECK(ph_file != nullptr, get_text(sys_error::file_open)
+  FILE* file = open_file(path, "rb");
+  HOU_RUNTIME_CHECK(file != nullptr, get_text(sys_error::file_open)
     , path.c_str());
 
   // The last two parameters are used to point to initial data.
   // They are irrelevant in this case.
-  if(ov_open(ph_file, m_vorbis_file.get(), nullptr, 0) != 0)
+  if(ov_open(file, m_vorbis_file.get(), nullptr, 0) != 0)
   {
-    fclose(ph_file);
+    fclose(file);
     HOU_RUNTIME_ERROR(get_text(aud_error::ogg_invalid_header), path.c_str());
   }
 
@@ -212,7 +212,7 @@ void ogg_file_in::read_metadata()
 
 
 
-void ogg_file_in::on_read(void* buf, size_t elementSize, size_t bufSize)
+void ogg_file_in::on_read(void* buf, size_t element_size, size_t buf_size)
 {
   // Constant read parameters.
   static constexpr int bigEndianData = 0;
@@ -222,7 +222,7 @@ void ogg_file_in::on_read(void* buf, size_t elementSize, size_t bufSize)
 
   // ov_read reads one packet at most, so it has to be called repeatedly.
   // This is done by the following loop.
-  size_t sizeBytes = elementSize * bufSize;
+  size_t sizeBytes = element_size * buf_size;
   HOU_EXPECT((sizeBytes % (get_channel_count() * get_bytes_per_sample())) == 0u);
   size_t countBytes = 0u;
   m_eof = false;
@@ -233,7 +233,7 @@ void ogg_file_in::on_read(void* buf, size_t elementSize, size_t bufSize)
     , reinterpret_cast<char*>(buf) + countBytes, sizeBytes - countBytes
     , bigEndianData, bytesPerSample, signedData, &m_logical_bit_stream);
 
-    // No bytes read: end of ph_file.
+    // No bytes read: end of file.
     if(bytesRead == 0)
     {
       m_eof = true;
@@ -255,9 +255,9 @@ void ogg_file_in::on_read(void* buf, size_t elementSize, size_t bufSize)
   // Check that no error happened during the read operation.
   HOU_RUNTIME_CHECK(countBytes == sizeBytes || !error()
     , get_text(sys_error::file_read));
-  HOU_ENSURE_DEV(countBytes % elementSize == 0u);
+  HOU_ENSURE_DEV(countBytes % element_size == 0u);
   m_byte_count = countBytes;
-  m_element_count = countBytes / elementSize;
+  m_element_count = countBytes / element_size;
 }
 
 }

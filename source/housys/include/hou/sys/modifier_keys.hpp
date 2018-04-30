@@ -16,7 +16,8 @@
 namespace hou
 {
 
-/** Enumeration for the modifier key flags, used for key related ph_window events.
+/** Enumeration for the modifier key flags, used for key related ph_window
+ * events.
  */
 enum class modifier_keys
 {
@@ -43,14 +44,12 @@ HOU_SYS_API std::ostream& operator<<(std::ostream& os, modifier_keys mkf);
 /** Enables bitwise operators for modifier_keys.
  */
 template <>
-  struct enable_bitwise_operators<modifier_keys>
+struct enable_bitwise_operators<modifier_keys>
 {
   /** Enabling variable. */
   static constexpr bool enable = true;
 };
 
-}
+}  // namespace hou
 
 #endif
-
-

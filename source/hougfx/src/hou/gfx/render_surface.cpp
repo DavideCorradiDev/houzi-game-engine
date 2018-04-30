@@ -132,12 +132,12 @@ uint render_surface::get_sample_count() const
 
 
 
-void render_surface::clear(const color& ph_color)
+void render_surface::clear(const color& color)
 {
   set_current_render_target(*this);
 
   gl::set_clear_color(
-    ph_color.get_red_f(), ph_color.get_green_f(), ph_color.get_blue_f(), ph_color.get_alpha_f());
+    color.get_red_f(), color.get_green_f(), color.get_blue_f(), color.get_alpha_f());
   gl::set_clear_depth(1.f);
   gl::set_clear_stencil(0u);
   gl::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);

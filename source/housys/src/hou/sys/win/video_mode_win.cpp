@@ -34,7 +34,7 @@ video_mode video_mode::get_desktop_mode()
 
 
 
-std::vector<video_mode> video_mode::createFullscreenModesVector()
+std::vector<video_mode> video_mode::create_fullscreen_modes_vector()
 {
   std::vector<video_mode> modes;
 

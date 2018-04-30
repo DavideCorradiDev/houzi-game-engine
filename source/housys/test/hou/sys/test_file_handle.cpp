@@ -41,7 +41,7 @@ public:
 
 const std::string TestFileHandle::fileName = getOutputDir()
   + u8"TestFileHandle-\U00004f60\U0000597d.txt";
-const std::string TestFileHandle::fileContent = u8"This is\na test ph_file";
+const std::string TestFileHandle::fileContent = u8"This is\na test file";
 
 
 
@@ -141,7 +141,7 @@ TEST_F(TestFileHandle, RenameDir)
   EXPECT_TRUE(check_dir(fileName));
   EXPECT_FALSE(check_dir(newName));
 
-  // Just for safety reason... If the test fails and the ph_file does not get
+  // Just for safety reason... If the test fails and the file does not get
   // renamed back, it will not be cleaned up at the end of the test.
   if(check_dir(newName))
   {
