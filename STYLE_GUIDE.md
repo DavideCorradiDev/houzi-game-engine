@@ -1,11 +1,11 @@
 # Style guide
 
-## Code structure
+## Code structure conventions
 
 ### File structure
 Headers contain only declarations.
 Definitions should be contained in a corresponding source file, or in an inlined file included in the header (for template and inline function definitions).
-This keeps the interfaces clean while complying to the C++ rules.
+This is done to keep interface and implementation details separate for templates as well.
 
 Each header file normally has a corresponding source file (not always), and sometimes a corresponding inlined file.
 The three files have the same name, save for the extension.
@@ -13,6 +13,9 @@ Header files have the .hpp extension, source files the .cpp extension, and inlin
 The exception to this rule is when the definitions must be different according to the target compilation platform.
 In that case, there can be multiple source files, one for each platform (and potentially one common one for the definitions that are the same for all platforms).
 In this case the extra source files have a suffix identifying the type of platform (e.g. window\_impl.cpp and window\_impl\_win.cpp).
+
+Ideally, each header file should only contain the declaration of a single class, of a single enum class together with associated functions, or of multiple functions which can be logically grouped together.
+It is allowed to have multiple class declarations in a single header, as long as the classes are not too complex, but this should be avoided.
 
 
 
@@ -40,7 +43,7 @@ root
 * Each **source/\[module\_name\]/src** directory contains the all the .cpp files.
 * Each **source/\[module\_name\]/test** directory contains the all the test related files.
 
-The user of the library should include the paths to the include folder of each used module in order to be able to include header files conveniently:
+The user of the library can add the paths to the include folder of each used module to his project in order to be able to include header files conveniently:
 ```
 #include "hou/gfx/texture.hpp"
 #include "hou/mth/transform.hpp"
@@ -49,12 +52,13 @@ The user of the library should include the paths to the include folder of each u
 
 
 ## Code style
-In the following the reasons why specific formatting rules have been chosen is explained.
+In the following section the style rules observed in the source code and the reasons behind them are explained.
 
 
 
-## Naming conventions
+### Naming conventions
 
+#### Main naming conventions
 The following rules should be strictly adhered to:
 * By default all names must be written in lower-case snake case, except when differently specified below.
 ```
@@ -75,7 +79,7 @@ int myVariable;
 #define hou_my_symbol 0
 #define HouMySymbol 0
 ```
-* Template parameter and concept names must be written in camel case.
+* Template parameter names must be written in camel case.
 ```
 // Good
 template <typename TemplateParam>
@@ -85,16 +89,17 @@ TemplateParam max(TemplateParam, TemplateParam b);
 template <typename template_param>
 TemplateParam max(TemplateParam, TemplateParam b);
 ```
-* It is forbidden to start names with an underscore, as such names might be reserved.
+* It is forbidden to use names starting with an underscore, because such names are reserved to the implementation.
 ```
 // Bad
 int _my_variable;
 ```
-* It is forbidden to use two or more consecutive underscores in names, as such names might be reserved.
+* It is forbidden to use names containing two consecutive underscores, becuase such names are reserved to the implementation.
 ```
 int my__variable;
 ```
 
+#### Optional naming conventions
 The following rules are preferences which do not need be necessarly respected, but it is preferred if they are:
 * Non-public, non-static, class-scope variables should be prefixed with 'm\_' to reduce the likelihood of name clashes.
 ```
@@ -126,28 +131,27 @@ public:
   int apples;
 };
 ```
-* Function parameter names should be prefixed with 'p\_' to reduce the likelihood of name clashes.
-```
-void my_function(int p_apples, int p_pies);
-```
 * Namespace names should be 2 to 4 characters long to reduce the verbosity of the code.
 ```
 namespace hou {}
 namespace std {}
 ```
-* Preprocessor symbol names should be prefixed with 'HOU\_' to reduce the likelihood of name clashes.
+* Preprocessor symbol names should be prefixed with 'HOU\_' to reduce the likelihood of name clashes with symbols defined in other libraries.
 ```
 #define HOU_DO_STUFF(x) (x)*(x)
 ```
 
+#### Reasons behind the naming conventions
 The main reasons behind these naming conventions are:
-* Consistency with the standard library.
-* Simplicity.
+* Consistency: these rules are consistent with the rules followed in the standard library.
+* Simplicity: almost all names, with few exceptions, follow the same rules.
 * Reduce the change of name clashing and the verbosity of the code.
 
 
 
-### Basic formatting
+### Formatting conventions
+
+#### Basic formatting conventions
 The code is formatted using clang-format, according to the content of the .clang-format file.
 Simply running clang-format should format the code in an acceptable way.
 It does sometime happen that clang-format formats some lines of code in a slightly weird way.
@@ -161,16 +165,30 @@ If desired, clang-format can be disabled around such areas of code with the foll
 
 
 
-### Maximum line width
+#### Indentation style
+The code must be indented using spaces.
+Tabs are forbidden.
+An indentation level must be exactly two spaces long.
+
+Spaces are chosen over tabs for visual consistency's sake: the code will look the same and will be properly formatted no matter what editor it is opened with.
+
+The indentation has been chosen to be two spaces because:
+* One space would be too little and easy to confuse with normal spacing.
+* Two spaces already make it very clear where the scopes are.
+* Having a longer indentation would require more frequent line breaks, thus reducing code readability.
+
+
+
+#### Maximum line width
 The maximum line width is 80 characters.
 The reasons for this choice are:
-* It is easier to the eyes to read shorter lines.
-* It is possible to keep two or even three files side by side, even inside an IDE.
-* It is possible for anyone to view the code properly in a small monitor, tablet screen, printed sheet of paper.
-* It is a motivation to keep lines as short as possible and to avoid excessive indentation levels.
+* It is easier to read shorter lines.
+* It is possible to read two or even three files side by side without word wrapping or the necessity to scroll horizontally.
+* It is possible to comfortably read the code even when without access to a large widescreen monitor (e.g. on a tablet screen).
+* It gives motivation to keep lines as short as possible and to avoid excessive indentation levels.
 
-Any line longer than that must be split into multiple lines.
-Lines which are a continuation of a previous line must be indented according to the standard indentation (i.e. they shouldn't be aligned with the brackets).
+Any line longer than the limit must be split into multiple lines.
+Lines which are a continuation of a previous line must be indented following the normal indentation rules (they shouldn't be aligned with brackets, assignment operators, and so on).
 ```
 // Good
 template <typename LongishTypename>
@@ -183,18 +201,39 @@ typename LongishTypename::internal_scope_type longish_function_name(int p_ie,
                                                                     my_class p_stuff);
 ```
 
-
 Line breaks should start with an operator, when possible.
 This is to make it clearer at a glance that this line is a continuation of the previous one, and not a new statement.
-I personally like to also start lines with a comma ',' when breaking parameter lists for the same reason, but it appears that clang-format doesn't have an option for that, so this is an exception to the rule.
+```
+// Good
+int very_long_sum = 8888 + 8888 + 8888 + 8888 + 8888 + 8888 + 8888 + 8888 + 8888 + 8888
+  + 8888 + 8888;
+
+// Bad
+int very_long_sum = 8888 + 8888 + 8888 + 8888 + 8888 + 8888 + 8888 + 8888 + 8888 + 8888 +
+  8888 + 8888;
+```
+
+Note: feel free to break lines manually if this can improve code readability.
+Remember to deactivet clang-format around the formatted code.
+```
+// Good
+// clang-format off
+mat4x4i magic{
+  0,  1,  2,  3,
+  4,  5,  6,  7,
+  8,  9, 10, 11,
+ 12, 13, 14, 15,
+};
+// clang-format on
+```
 
 
 
-### Brace style
+#### Bracing style
 Braces always occupy their own line.
 This improves readability when a line before a scope has to be split.
-Since both the line continuation and the scope content are indented, they tend to mix together without the separating brace line.
-The brace makes it clear when the actual scope starts and when it ends.
+Since both line continuations and the inner scopes are indented, they tend to mix together without the separating brace line.
+The brace makes it clear at a glance where an actual inner scope is starting.
 ```
 // Good
 template <typename LongishTypename>
@@ -243,51 +282,44 @@ if(a == 2)
 ```
 
 
-### Indentation style
-Spaces, never tabs, are used for indentation.
-An indentation level must be exactly two spaces long.
 
-Spaces are chosen over tabs for visual consistency's sake.
-The code will look the same and will be properly formatted no matter what editor it is opened with.
-
-The indentation has been chosen to be two spaces because:
-* One space would be too little, easy to confuse with normal spacing.
-* Two spaces already make it very clear where the scopes are.
-* Having a longer indentation would require more frequent line breaks, thus reducing code readability.
-
-
-
-### Line spacing
+#### Line spacing
 In header files, declarations are normally separated by a single line.
 In source files (and inlined files), declarations and definitions are normally separated by three lines in a row.
 
-The extra spacing in source files is done to improve readability by making it clearer where the boundaries between different definitions are.
+The extra spacing in source files is there to improve readability by making it clearer where the boundaries between different function definitions are.
 Single empty lines often come up inside the actual code blocks, therefore separating with a only single line (or no line) tends to mesh everything together.
-The extra spacing is not required in header files because the documentation comments already separate the different elements well.
+The extra spacing is not neeeded for this purpose in header files because the documentation comments already separate the different elements well.
 Even without the comments, since only definitions are present, readability would be satisfying without the extra line spacing.
 
 Note: this is not enforced by clang-format. Just do what is best to improve code readability.
 
 
 
-### Namespaces
-All code should be included in the **hou** namespace.
-Code which is not supposed to be used by the user should be included in the **hou::prv** namespace.
+### Other conventions
 
-The **using namespace** directive should never be used in .hpp or .inl files.
-It may be used in .cpp files.
-
+#### Namespaces
+All code is included in the **hou** namespace.
+Code which is not supposed to be directly used by the user should be included in the **hou::prv** namespace.
 
 
-### Comments
+
+#### Comments
 Avoid comments that say what the code does, strive to write the code in a self-explanatory way.
 Do add comments that say why the code does something if it may not be immediately clear.
 Keep comments as short and crisp as possible.
 Comments must be written in English.
+```
+a += 88;
+// Good: a is increased by 88 because it is a lucky number.
+// Bad: add 88 to a.
+// Bad: a viene incrementata di 88 in quanto numbero fortunato.
+// Bad: we have decided to use the 88 number because it has proven to increase the luck amount factor n-fold.
+```
 
 
 
-### Order of class member declarations
+#### Order of class member declarations
 Declare public before protected before private members.
 Declare members in the following orders:
 * Types: classes, enums, aliases.
@@ -330,7 +362,7 @@ private:
 ```
 
 
-### Header inclusion
+#### Header inclusion
 Headers should be included only when  necessary to reduce compilation times and number of recompilations when a header is modified.
 In all other cases forward declarations should be preferred.
 
@@ -341,20 +373,6 @@ Nested aliases are allowed.
 When using forward declarations can be cumbersome, an extra forward declaration header can be added.
 This header should have the same name of the normal header, with the suffix \_fwd (e.g. matrix.hpp and matrix\_fwd.hpp).
 The forward declaration header should be included in the main header, to ensure that all symbols defined there are respected.
-
-```
-template <typename T size_t rows, size_t cols>
-class matrix;
-
-template <typename T, size_t cols>
-using vec = matrix<T, 1u, cols>;
-
-template <typename T>
-using vec2 = vec<T, 2u>;
-
-using vec2i = vec2<int>;
-using vec2f = vec2<float>;
-```
 
 Files should be included in the following order:
 * Headers containing where parent classes are declared.
