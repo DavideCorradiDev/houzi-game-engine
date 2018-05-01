@@ -189,14 +189,14 @@ window_style window::get_style() const
 
 
 
-const image2RGBA& window::get_icon() const
+const image2rgba& window::get_icon() const
 {
   return m_icon_image;
 }
 
 
 
-void window::set_icon(const image2RGBA& icon)
+void window::set_icon(const image2rgba& icon)
 {
   m_icon_image = icon;
   m_impl.set_icon(icon);
@@ -206,7 +206,7 @@ void window::set_icon(const image2RGBA& icon)
 
 void window::set_system_icon()
 {
-  m_icon_image = image2RGBA();
+  m_icon_image = image2rgba();
   m_impl.set_system_icon();
 }
 

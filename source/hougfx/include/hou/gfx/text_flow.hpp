@@ -19,16 +19,16 @@ namespace hou
 enum class text_flow
 {
   /** Left to right. */
-  LeftRight,
+  left_right,
 
   /** Right to left. */
-  RightLeft,
+  right_left,
 
   /** Top to bottom. */
-  TopBottom,
+  top_bottom,
 
   /** Bottom to top. */
-  BottomTop,
+  bottom_top,
 };
 
 /** Writes the object into a ph_stream.

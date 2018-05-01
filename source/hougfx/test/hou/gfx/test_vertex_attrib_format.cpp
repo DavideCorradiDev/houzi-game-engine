@@ -14,14 +14,14 @@ using namespace hou;
 namespace
 {
 
-class TestVertexAttribFormat : public test_gfx_base
+class test_vertex_attrib_format : public test_gfx_base
 {};
 
 }  // namespace
 
 
 
-TEST_F(TestVertexAttribFormat, Constructor)
+TEST_F(test_vertex_attrib_format, constructor)
 {
   vertex_attrib_format vaf(gl_type::float_decimal, 3u, 12u, false);
   EXPECT_EQ(gl_type::float_decimal, vaf.get_type());
@@ -32,7 +32,7 @@ TEST_F(TestVertexAttribFormat, Constructor)
 
 
 
-TEST_F(TestVertexAttribFormat, Comparison)
+TEST_F(test_vertex_attrib_format, comparison)
 {
   vertex_attrib_format vaf1(gl_type::float_decimal, 3u, 12u, false);
   vertex_attrib_format vaf2(gl_type::byte, 3u, 12u, false);
@@ -56,10 +56,11 @@ TEST_F(TestVertexAttribFormat, Comparison)
 
 
 
-TEST_F(TestVertexAttribFormat, OutputStreamOperator)
+TEST_F(test_vertex_attrib_format, output_stream_operator)
 {
   vertex_attrib_format vaf(gl_type::float_decimal, 3u, 12u, false);
-  const char* out_ref = "{Type = float_decimal, ElementCount = 3, byte_offset = 12, "
-                       "MustBeNormalized = false}";
+  const char* out_ref
+    = "{type = float_decimal, element_count = 3, byte_offset = 12, "
+      "must_be_normalized = false}";
   HOU_EXPECT_OUTPUT(out_ref, vaf);
 }

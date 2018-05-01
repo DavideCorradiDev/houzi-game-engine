@@ -53,7 +53,7 @@ public:
 
   void set_title(const std::string& value);
 
-  void set_icon(const image2RGBA& icon);
+  void set_icon(const image2rgba& icon);
   void set_system_icon();
 
   bool is_visible() const;

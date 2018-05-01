@@ -15,10 +15,10 @@ std::ostream& operator<<(std::ostream& os, text_flow tf)
 {
   switch(tf)
   {
-    TEXT_FLOW_CASE(LeftRight, os);
-    TEXT_FLOW_CASE(RightLeft, os);
-    TEXT_FLOW_CASE(TopBottom, os);
-    TEXT_FLOW_CASE(BottomTop, os);
+    TEXT_FLOW_CASE(left_right, os);
+    TEXT_FLOW_CASE(right_left, os);
+    TEXT_FLOW_CASE(top_bottom, os);
+    TEXT_FLOW_CASE(bottom_top, os);
     default:
       return os;
   }

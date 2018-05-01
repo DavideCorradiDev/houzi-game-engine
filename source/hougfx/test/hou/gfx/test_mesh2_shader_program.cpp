@@ -21,27 +21,27 @@ using namespace hou;
 namespace
 {
 
-class TestMesh2ShaderProgram : public test_gfx_base
+class test_mesh2_shader_program : public test_gfx_base
 {};
 
-image2RGBA generateResultImage(const vec2u& dstSize, const recti& dst_rect,
-  const color& dstColor, const color& srcColor);
+image2rgba generate_result_image(const vec2u& dst_size, const recti& dst_rect,
+  const color& dst_color, const color& src_color);
 
 
 
-image2RGBA generateResultImage(const vec2u& dstSize, const recti& dst_rect,
-  const color& dstColor, const color& srcColor)
+image2rgba generate_result_image(const vec2u& dst_size, const recti& dst_rect,
+  const color& dst_color, const color& src_color)
 {
-  image2RGBA im_ref(dstSize);
-  im_ref.clear(image2RGBA::pixel(dstColor));
+  image2rgba im_ref(dst_size);
+  im_ref.clear(image2rgba::pixel(dst_color));
 
-  uint xMax = std::min(static_cast<uint>(dst_rect.r()), dstSize.x());
-  uint yMax = std::min(static_cast<uint>(dst_rect.b()), dstSize.y());
-  for(uint y = dst_rect.t(); y < yMax; ++y)
+  uint x_max = std::min(static_cast<uint>(dst_rect.r()), dst_size.x());
+  uint y_max = std::min(static_cast<uint>(dst_rect.b()), dst_size.y());
+  for(uint y = dst_rect.t(); y < y_max; ++y)
   {
-    for(uint x = dst_rect.l(); x < xMax; ++x)
+    for(uint x = dst_rect.l(); x < x_max; ++x)
     {
-      im_ref.set_pixel(vec2u(x, y), image2RGBA::pixel(srcColor));
+      im_ref.set_pixel(vec2u(x, y), image2rgba::pixel(src_color));
     }
   }
   return im_ref;
@@ -51,7 +51,7 @@ image2RGBA generateResultImage(const vec2u& dstSize, const recti& dst_rect,
 
 
 
-TEST_F(TestMesh2ShaderProgram, Creation)
+TEST_F(test_mesh2_shader_program, creation)
 {
   mesh2_shader_program sp;
   SUCCEED();
@@ -59,7 +59,7 @@ TEST_F(TestMesh2ShaderProgram, Creation)
 
 
 
-TEST_F(TestMesh2ShaderProgram, MoveConstructor)
+TEST_F(test_mesh2_shader_program, move_constructor)
 {
   mesh2_shader_program sp_dummy;
   mesh2_shader_program sp(std::move(sp_dummy));
@@ -68,7 +68,7 @@ TEST_F(TestMesh2ShaderProgram, MoveConstructor)
 
 
 
-TEST_F(TestMesh2ShaderProgram, SetColor)
+TEST_F(test_mesh2_shader_program, set_color)
 {
   mesh2_shader_program sp;
   sp.set_color(color::red);
@@ -77,7 +77,7 @@ TEST_F(TestMesh2ShaderProgram, SetColor)
 
 
 
-TEST_F(TestMesh2ShaderProgram, SetTextureUnit)
+TEST_F(test_mesh2_shader_program, set_texture_unit)
 {
   mesh2_shader_program sp;
   sp.set_texture_unit(1u);
@@ -86,7 +86,7 @@ TEST_F(TestMesh2ShaderProgram, SetTextureUnit)
 
 
 
-TEST_F(TestMesh2ShaderProgram, SetTransform)
+TEST_F(test_mesh2_shader_program, set_transform)
 {
   mesh2_shader_program sp;
   sp.set_transform(trans2f::translation(vec2f(2.f, 3.f)));
@@ -95,7 +95,7 @@ TEST_F(TestMesh2ShaderProgram, SetTransform)
 
 
 
-TEST_F(TestMesh2ShaderProgram, DrawRectangle)
+TEST_F(test_mesh2_shader_program, draw_rectangle)
 {
   mesh2_shader_program mr;
   vec2u size(4u, 6u);
@@ -108,30 +108,30 @@ TEST_F(TestMesh2ShaderProgram, DrawRectangle)
 
   mr.draw(rt, rect, col, t);
 
-  image2RGBA im_ref
-    = generateResultImage(size, recti(1, 2, 2, 3), color::transparent, col);
+  image2rgba im_ref
+    = generate_result_image(size, recti(1, 2, 2, 3), color::transparent, col);
   EXPECT_EQ(im_ref, rt.to_texture().get_image<pixel_format::rgba>());
 }
 
 
 
-TEST_F(TestMesh2ShaderProgram, DrawTexturedRectangle)
+TEST_F(test_mesh2_shader_program, draw_textured_rectangle)
 {
   mesh2_shader_program mr;
   vec2u size(8u, 10u);
   render_canvas rt(size);
   mesh2 rect = create_rectangle_mesh2(vec2f(3.f, 4.f));
-  image2RGBA ph_image(vec2u(3u, 4u));
+  image2rgba im(vec2u(3u, 4u));
   color col(20u, 30u, 40u, 255u);
-  ph_image.clear(image2RGBA::pixel(col));
-  texture2 tex(ph_image);
+  im.clear(image2rgba::pixel(col));
+  texture2 tex(im);
   trans2f t
     = trans2f::orthographic_projection(rectf(0.f, 0.f, size.x(), size.y()))
     * trans2f::translation(vec2f(1.f, 2.f));
 
   mr.draw(rt, rect, tex, color::white, t);
 
-  image2RGBA im_ref
-    = generateResultImage(size, recti(1, 2, 3, 4), color::transparent, col);
+  image2rgba im_ref = generate_result_image(
+    size, recti(1, 2, 3, 4), color::transparent, col);
   EXPECT_EQ(im_ref, rt.to_texture().get_image<pixel_format::rgba>());
 }

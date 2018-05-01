@@ -11,8 +11,7 @@
 
 
 
-class test_gfx_base
-  : public ::testing::Test
+class test_gfx_base : public ::testing::Test
 {
 public:
   static void SetUpTestCase();
@@ -23,8 +22,7 @@ public:
   virtual ~test_gfx_base() = 0;
 
 public:
-  static std::unique_ptr<hou::graphic_context> sContext;
+  static std::unique_ptr<hou::graphic_context> s_context;
 };
 
 #endif
-

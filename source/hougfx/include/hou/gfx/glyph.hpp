@@ -36,19 +36,19 @@ public:
    *
    * \param metrics the metrics.
    */
-  glyph(const image2R& im, const glyph_metrics& metrics);
+  glyph(const image2r& im, const glyph_metrics& metrics);
 
   /** Gets the image.
    *
    * \return the image.
    */
-  const image2R& get_image() const;
+  const image2r& get_image() const;
 
   /** Sets the image.
    *
    * \param im the image.
    */
-  void set_image(const image2R& im);
+  void set_image(const image2r& im);
 
   /** Gets the metrics.
    *
@@ -63,7 +63,7 @@ public:
   void set_metrics(const glyph_metrics& metrics);
 
 private:
-  image2R m_image;
+  image2r m_image;
   glyph_metrics m_metrics;
 };
 

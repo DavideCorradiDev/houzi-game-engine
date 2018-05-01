@@ -120,10 +120,10 @@ int main()
   hou::text_shader_program textRnd;
 
   std::string iconFilename = dataDir + u8"monkey.png";
-  hou::image2RGBA iconRGBA = hou::png_read_file<hou::pixel_format::rgba>(iconFilename);
-  hou::image2RGB iconRGB = hou::png_read_file<hou::pixel_format::rgb>(iconFilename);
-  hou::image2RG iconRG = hou::png_read_file<hou::pixel_format::rg>(iconFilename);
-  hou::image2R iconR = hou::png_read_file<hou::pixel_format::r>(iconFilename);
+  hou::image2rgba iconRGBA = hou::png_read_file<hou::pixel_format::rgba>(iconFilename);
+  hou::image2rgb iconRGB = hou::png_read_file<hou::pixel_format::rgb>(iconFilename);
+  hou::image2rg iconRG = hou::png_read_file<hou::pixel_format::rg>(iconFilename);
+  hou::image2r iconR = hou::png_read_file<hou::pixel_format::r>(iconFilename);
 
   hou::texture2 keyboardTex(hou::png_read_file<hou::pixel_format::rgba>(dataDir + u8"keyboard.png"));
   hou::texture2 keyboardKeysTex(hou::png_read_file<hou::pixel_format::rgba>(dataDir + u8"keyboardkeys.png"));

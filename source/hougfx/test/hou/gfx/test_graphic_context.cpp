@@ -6,8 +6,8 @@
 
 #include "hou/gfx/graphic_context.hpp"
 
-#include "hou/gl/gl_texture_handle.hpp"
 #include "hou/gl/gl_functions.hpp"
+#include "hou/gl/gl_texture_handle.hpp"
 
 using namespace testing;
 using namespace hou;
@@ -17,14 +17,14 @@ using namespace hou;
 namespace
 {
 
-class TestGraphicContext : public Test
+class test_graphic_context : public Test
 {};
 
 }  // namespace
 
 
 
-TEST_F(TestGraphicContext, Creation)
+TEST_F(test_graphic_context, creation)
 {
   graphic_context rc;
   SUCCEED();
@@ -32,7 +32,7 @@ TEST_F(TestGraphicContext, Creation)
 
 
 
-TEST_F(TestGraphicContext, MoveConstructor)
+TEST_F(test_graphic_context, move_constructor)
 {
   graphic_context rc_dummy;
   graphic_context::set_current(rc_dummy);
@@ -42,7 +42,7 @@ TEST_F(TestGraphicContext, MoveConstructor)
 
 
 
-TEST_F(TestGraphicContext, SetCurrent)
+TEST_F(test_graphic_context, set_current)
 {
   {
     graphic_context rc1;
@@ -76,7 +76,7 @@ TEST_F(TestGraphicContext, SetCurrent)
 
 
 
-TEST_F(TestGraphicContext, UnsetCurrentOnDeletion)
+TEST_F(test_graphic_context, unset_current_on_deletion)
 {
   {
     graphic_context rc;
@@ -89,7 +89,7 @@ TEST_F(TestGraphicContext, UnsetCurrentOnDeletion)
 
 
 
-TEST_F(TestGraphicContext, DefaultContextParameters)
+TEST_F(test_graphic_context, default_context_parameters)
 {
   graphic_context rc;
   graphic_context::set_current(rc);
@@ -101,13 +101,13 @@ TEST_F(TestGraphicContext, DefaultContextParameters)
 
   EXPECT_TRUE(gl::is_blending_enabled());
   EXPECT_EQ(static_cast<GLenum>(GL_SRC_ALPHA), gl::get_source_blending());
-  EXPECT_EQ(
-    static_cast<GLenum>(GL_ONE_MINUS_SRC_ALPHA), gl::get_destination_blending());
+  EXPECT_EQ(static_cast<GLenum>(GL_ONE_MINUS_SRC_ALPHA),
+    gl::get_destination_blending());
 }
 
 
 
-TEST_F(TestGraphicContext, ContextParametersWithContextSwitch)
+TEST_F(test_graphic_context, context_parameters_with_context_switch)
 {
   graphic_context rc1;
   graphic_context rc2;
@@ -126,21 +126,21 @@ TEST_F(TestGraphicContext, ContextParametersWithContextSwitch)
 
 
 
-TEST_F(TestGraphicContext, GetRenderingColorByteCount)
+TEST_F(test_graphic_context, get_rendering_color_byte_count)
 {
   EXPECT_EQ(4u, graphic_context::get_rendering_color_byte_count());
 }
 
 
 
-TEST_F(TestGraphicContext, GetRenderingDepthByteCount)
+TEST_F(test_graphic_context, get_rendering_depth_byte_count)
 {
   EXPECT_EQ(3u, graphic_context::get_rendering_depth_byte_count());
 }
 
 
 
-TEST_F(TestGraphicContext, GetRenderingStencilByteCount)
+TEST_F(test_graphic_context, get_rendering_stencil_byte_count)
 {
   EXPECT_EQ(1u, graphic_context::get_rendering_stencil_byte_count());
 }

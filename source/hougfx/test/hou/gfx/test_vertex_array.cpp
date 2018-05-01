@@ -5,9 +5,9 @@
 #include "hou/Test.hpp"
 #include "hou/gfx/test_gfx_base.hpp"
 
-#include "hou/gfx/vertex_buffer.hpp"
 #include "hou/gfx/vertex_array.hpp"
 #include "hou/gfx/vertex_attrib_format.hpp"
+#include "hou/gfx/vertex_buffer.hpp"
 #include "hou/gfx/vertex_format.hpp"
 
 using namespace hou;
@@ -17,19 +17,19 @@ using namespace hou;
 namespace
 {
 
-using FloatBuffer = static_vertex_buffer<float>;
+using float_buffer = static_vertex_buffer<float>;
 
-class TestVertexArray : public test_gfx_base
+class test_vertex_array : public test_gfx_base
 {};
 
-class TestVertexArrayDeathTest : public TestVertexArray
+class test_vertex_array_death_test : public test_vertex_array
 {};
 
 }  // namespace
 
 
 
-TEST_F(TestVertexArray, Binding)
+TEST_F(test_vertex_array, binding)
 {
   vertex_array va1;
   vertex_array va2;
@@ -52,7 +52,7 @@ TEST_F(TestVertexArray, Binding)
 
 
 
-TEST_F(TestVertexArray, DefaultConstructor)
+TEST_F(test_vertex_array, default_constructor)
 {
   vertex_array va;
   EXPECT_NE(0u, va.get_handle().get_name());
@@ -60,7 +60,7 @@ TEST_F(TestVertexArray, DefaultConstructor)
 
 
 
-TEST_F(TestVertexArray, MoveConstructor)
+TEST_F(test_vertex_array, move_constructor)
 {
   vertex_array va1;
   uint va1Id = va1.get_handle().get_name();
@@ -72,10 +72,10 @@ TEST_F(TestVertexArray, MoveConstructor)
 
 
 
-TEST_F(TestVertexArray, SetVertexData)
+TEST_F(test_vertex_array, set_vertex_data)
 {
   vertex_array va;
-  FloatBuffer vb(std::vector<float>{1, 2, 3, 4, 5, 6});
+  float_buffer vb(std::vector<float>{1, 2, 3, 4, 5, 6});
   vertex_format vf(0, 3,
     {vertex_attrib_format(gl_type::float_decimal, 2, 0, false),
       vertex_attrib_format(gl_type::float_decimal, 1, 2, true)});
@@ -85,10 +85,10 @@ TEST_F(TestVertexArray, SetVertexData)
 
 
 
-TEST_F(TestVertexArray, SetVertexDataMaxBindingIndex)
+TEST_F(test_vertex_array, set_vertex_data_max_binding_index)
 {
   vertex_array va;
-  FloatBuffer vb(std::vector<float>{1, 2, 3, 4, 5, 6});
+  float_buffer vb(std::vector<float>{1, 2, 3, 4, 5, 6});
   vertex_format vf(0, 3,
     {vertex_attrib_format(gl_type::float_decimal, 2, 0, false),
       vertex_attrib_format(gl_type::float_decimal, 1, 2, true)});
@@ -98,10 +98,11 @@ TEST_F(TestVertexArray, SetVertexDataMaxBindingIndex)
 
 
 
-TEST_F(TestVertexArrayDeathTest, SetVertexDataErrorInvalidBindingIndex)
+TEST_F(
+  test_vertex_array_death_test, set_vertex_data_error_invalid_binding_index)
 {
   vertex_array va;
-  FloatBuffer vb(std::vector<float>{1, 2, 3, 4, 5, 6});
+  float_buffer vb(std::vector<float>{1, 2, 3, 4, 5, 6});
   vertex_format vf(0, 3,
     {vertex_attrib_format(gl_type::float_decimal, 2, 0, false),
       vertex_attrib_format(gl_type::float_decimal, 1, 2, true)});
@@ -111,10 +112,10 @@ TEST_F(TestVertexArrayDeathTest, SetVertexDataErrorInvalidBindingIndex)
 
 
 
-TEST_F(TestVertexArray, SetVertexDataMaxAttribFormats)
+TEST_F(test_vertex_array, set_vertex_data_max_attrib_formats)
 {
   vertex_array va;
-  FloatBuffer vb(std::vector<float>{1, 2, 3, 4, 5, 6});
+  float_buffer vb(std::vector<float>{1, 2, 3, 4, 5, 6});
   vertex_attrib_format vaf(gl_type::float_decimal, 2, 0, false);
   HOU_EXPECT_PRECONDITION(
     va.set_vertex_data(vb, vertex_array::get_max_binding_index(),
@@ -125,9 +126,9 @@ TEST_F(TestVertexArray, SetVertexDataMaxAttribFormats)
 
 
 
-TEST_F(TestVertexArray, SetElementData)
+TEST_F(test_vertex_array, set_element_data)
 {
   vertex_array va;
-  FloatBuffer vb(std::vector<float>{0, 1});
+  float_buffer vb(std::vector<float>{0, 1});
   va.set_element_data(vb);
 }

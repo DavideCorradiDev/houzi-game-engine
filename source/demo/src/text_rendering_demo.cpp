@@ -78,7 +78,7 @@ int main()
 
   std::cout << "Drawing " << textLine.size() * linesNum << " characters."
             << std::endl;
-  text_flow textFlow = text_flow::LeftRight;
+  text_flow textFlow = text_flow::left_right;
   vec2f maxTBoxSize;
   const float maxTBoxIncrement = 32.f;
 
@@ -127,19 +127,19 @@ int main()
         }
         else if(we.get_key_data().scan_code == scan_code::a)
         {
-          textFlow = text_flow::RightLeft;
+          textFlow = text_flow::right_left;
         }
         else if(we.get_key_data().scan_code == scan_code::d)
         {
-          textFlow = text_flow::LeftRight;
+          textFlow = text_flow::left_right;
         }
         else if(we.get_key_data().scan_code == scan_code::w)
         {
-          textFlow = text_flow::BottomTop;
+          textFlow = text_flow::bottom_top;
         }
         else if(we.get_key_data().scan_code == scan_code::s)
         {
-          textFlow = text_flow::TopBottom;
+          textFlow = text_flow::top_bottom;
         }
         else if(we.get_key_data().scan_code == scan_code::k)
         {
@@ -200,17 +200,17 @@ int main()
       vec2f bboxTrans;
       switch(textFlow)
       {
-      case text_flow::LeftRight:
+      case text_flow::left_right:
         bboxTrans.y() = -fontToRender.get_pixel_line_spacing();
         break;
-      case text_flow::RightLeft:
+      case text_flow::right_left:
         bboxTrans.x() = -maxTBoxSize.x();
         bboxTrans.y() = -fontToRender.get_pixel_line_spacing();
         break;
-      case text_flow::TopBottom:
+      case text_flow::top_bottom:
         bboxTrans.x() = -0.5f * fontToRender.get_pixel_max_advance();
         break;
-      case text_flow::BottomTop:
+      case text_flow::bottom_top:
         bboxTrans.x() = -0.5f * fontToRender.get_pixel_max_advance();
         bboxTrans.y() = -maxTBoxSize.y();
         break;

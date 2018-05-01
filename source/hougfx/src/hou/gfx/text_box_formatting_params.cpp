@@ -6,7 +6,7 @@ namespace hou
 {
 
 const text_box_formatting_params text_box_formatting_params::standard(
-  text_flow::LeftRight, vec2f::zero());
+  text_flow::left_right, vec2f::zero());
 
 
 

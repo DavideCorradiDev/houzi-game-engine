@@ -18,22 +18,24 @@ using namespace hou;
 namespace
 {
 
-class TestRenderWindow : public test_gfx_base {};
+class test_render_window : public test_gfx_base
+{};
 
-class TestRenderWindowDeathTest : public TestRenderWindow {};
+class test_render_window_death_test : public test_render_window
+{};
 
-}
+}  // namespace
 
 
 
-TEST_F(TestRenderWindow, CreationWindowed)
+TEST_F(test_render_window, creation_windowed)
 {
   std::string title_ref(u8"Test");
   vec2u size_ref(16u, 32u);
-  vec2u screenSize = video_mode::get_desktop_mode().get_resolution();
-  vec2i pos_ref = static_cast<vec2i>(screenSize - size_ref) / 2;
+  vec2u screen_size = video_mode::get_desktop_mode().get_resolution();
+  vec2i pos_ref = static_cast<vec2i>(screen_size - size_ref) / 2;
   window_style style_ref = window_style::windowed;
-  image2RGBA icon_ref;
+  image2rgba icon_ref;
   uint samples_ref = 1u;
 
   render_window w(title_ref, size_ref, style_ref, samples_ref);
@@ -43,7 +45,8 @@ TEST_F(TestRenderWindow, CreationWindowed)
   EXPECT_EQ(style_ref, w.get_style());
   EXPECT_EQ(pos_ref, w.get_client_position());
   EXPECT_EQ(size_ref, w.get_client_size());
-  EXPECT_EQ(graphic_context::get_rendering_color_byte_count(), w.get_bytes_per_pixel());
+  EXPECT_EQ(
+    graphic_context::get_rendering_color_byte_count(), w.get_bytes_per_pixel());
   EXPECT_EQ(title_ref, w.get_title());
   EXPECT_EQ(icon_ref, w.get_icon());
   EXPECT_FALSE(w.is_visible());
@@ -55,19 +58,20 @@ TEST_F(TestRenderWindow, CreationWindowed)
   EXPECT_EQ(size_ref, w.get_size());
   EXPECT_EQ(samples_ref, w.get_sample_count());
   EXPECT_FALSE(w.is_multisampled());
-  EXPECT_EQ(texture2(size_ref).get_image<pixel_format::rgba>(), w.to_texture().get_image<pixel_format::rgba>());
+  EXPECT_EQ(texture2(size_ref).get_image<pixel_format::rgba>(),
+    w.to_texture().get_image<pixel_format::rgba>());
 }
 
 
 
-TEST_F(TestRenderWindow, CreationWindowedMultisampled)
+TEST_F(test_render_window, creation_windowed_multisampled)
 {
   std::string title_ref(u8"Test");
   vec2u size_ref(16u, 32u);
-  vec2u screenSize = video_mode::get_desktop_mode().get_resolution();
-  vec2i pos_ref = static_cast<vec2i>(screenSize - size_ref) / 2;
+  vec2u screen_size = video_mode::get_desktop_mode().get_resolution();
+  vec2i pos_ref = static_cast<vec2i>(screen_size - size_ref) / 2;
   window_style style_ref = window_style::windowed;
-  image2RGBA icon_ref;
+  image2rgba icon_ref;
   uint samples_ref = 4u;
 
   render_window w(title_ref, size_ref, style_ref, samples_ref);
@@ -77,7 +81,8 @@ TEST_F(TestRenderWindow, CreationWindowedMultisampled)
   EXPECT_EQ(style_ref, w.get_style());
   EXPECT_EQ(pos_ref, w.get_client_position());
   EXPECT_EQ(size_ref, w.get_client_size());
-  EXPECT_EQ(graphic_context::get_rendering_color_byte_count(), w.get_bytes_per_pixel());
+  EXPECT_EQ(
+    graphic_context::get_rendering_color_byte_count(), w.get_bytes_per_pixel());
   EXPECT_EQ(title_ref, w.get_title());
   EXPECT_EQ(icon_ref, w.get_icon());
   EXPECT_FALSE(w.is_visible());
@@ -89,19 +94,20 @@ TEST_F(TestRenderWindow, CreationWindowedMultisampled)
   EXPECT_EQ(size_ref, w.get_size());
   EXPECT_EQ(samples_ref, w.get_sample_count());
   EXPECT_TRUE(w.is_multisampled());
-  EXPECT_EQ(texture2(size_ref).get_image<pixel_format::rgba>(), w.to_texture().get_image<pixel_format::rgba>());
+  EXPECT_EQ(texture2(size_ref).get_image<pixel_format::rgba>(),
+    w.to_texture().get_image<pixel_format::rgba>());
 }
 
 
 
-TEST_F(TestRenderWindow, CreationFullscreen)
+TEST_F(test_render_window, creation_fullscreen)
 {
   std::string title_ref(u8"Test");
-  vec2u screenSize = video_mode::get_desktop_mode().get_resolution();
-  vec2u size_ref = screenSize;
-  vec2i pos_ref = static_cast<vec2i>(screenSize - size_ref) / 2;
+  vec2u screen_size = video_mode::get_desktop_mode().get_resolution();
+  vec2u size_ref = screen_size;
+  vec2i pos_ref = static_cast<vec2i>(screen_size - size_ref) / 2;
   window_style style_ref = window_style::fullscreen;
-  image2RGBA icon_ref;
+  image2rgba icon_ref;
   uint samples_ref = 1u;
 
   render_window w(title_ref, size_ref, style_ref, samples_ref);
@@ -111,7 +117,8 @@ TEST_F(TestRenderWindow, CreationFullscreen)
   EXPECT_EQ(style_ref, w.get_style());
   EXPECT_EQ(pos_ref, w.get_client_position());
   EXPECT_EQ(size_ref, w.get_client_size());
-  EXPECT_EQ(graphic_context::get_rendering_color_byte_count(), w.get_bytes_per_pixel());
+  EXPECT_EQ(
+    graphic_context::get_rendering_color_byte_count(), w.get_bytes_per_pixel());
   EXPECT_EQ(title_ref, w.get_title());
   EXPECT_EQ(icon_ref, w.get_icon());
   EXPECT_FALSE(w.is_visible());
@@ -123,12 +130,13 @@ TEST_F(TestRenderWindow, CreationFullscreen)
   EXPECT_EQ(size_ref, w.get_size());
   EXPECT_EQ(samples_ref, w.get_sample_count());
   EXPECT_FALSE(w.is_multisampled());
-  EXPECT_EQ(texture2(size_ref).get_image<pixel_format::rgba>(), w.to_texture().get_image<pixel_format::rgba>());
+  EXPECT_EQ(texture2(size_ref).get_image<pixel_format::rgba>(),
+    w.to_texture().get_image<pixel_format::rgba>());
 }
 
 
 
-TEST_F(TestRenderWindow, SetClientRect)
+TEST_F(test_render_window, set_client_rect)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
@@ -143,7 +151,7 @@ TEST_F(TestRenderWindow, SetClientRect)
 
 
 
-TEST_F(TestRenderWindow, SetClientRectNullSizeX)
+TEST_F(test_render_window, set_client_rect_null_size_x)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
@@ -157,7 +165,7 @@ TEST_F(TestRenderWindow, SetClientRectNullSizeX)
 
 
 
-TEST_F(TestRenderWindow, SetClientRectNullSizeY)
+TEST_F(test_render_window, set_client_rect_null_size_y)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
@@ -171,7 +179,7 @@ TEST_F(TestRenderWindow, SetClientRectNullSizeY)
 
 
 
-TEST_F(TestRenderWindow, SetClientRectNullSize)
+TEST_F(test_render_window, set_client_rect_null_size)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
@@ -186,7 +194,7 @@ TEST_F(TestRenderWindow, SetClientRectNullSize)
 
 
 
-TEST_F(TestRenderWindow, SetClientSize)
+TEST_F(test_render_window, set_client_size)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
@@ -199,9 +207,9 @@ TEST_F(TestRenderWindow, SetClientSize)
 
 
 
-TEST_F(TestRenderWindow, SetClientSizeNullSizeX)
+TEST_F(test_render_window, set_client_size_null_size_x)
 {
-  render_window w(u8"Test", vec2u(32u, 16u),  window_style::windowed, 4u);
+  render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
   vec2u size_ref(0u, 17u);
   w.set_client_size(size_ref);
@@ -213,7 +221,7 @@ TEST_F(TestRenderWindow, SetClientSizeNullSizeX)
 
 
 
-TEST_F(TestRenderWindow, SetClientSizeNullSizeY)
+TEST_F(test_render_window, set_client_size_null_size_y)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
@@ -227,7 +235,7 @@ TEST_F(TestRenderWindow, SetClientSizeNullSizeY)
 
 
 
-TEST_F(TestRenderWindow, SetClientSizeNullSize)
+TEST_F(test_render_window, set_client_size_null_size)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
@@ -242,7 +250,7 @@ TEST_F(TestRenderWindow, SetClientSizeNullSize)
 
 
 
-TEST_F(TestRenderWindow, SetFrameRect)
+TEST_F(test_render_window, set_frame_rect)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
@@ -257,7 +265,7 @@ TEST_F(TestRenderWindow, SetFrameRect)
 
 
 
-TEST_F(TestRenderWindow, SetFrameRectNullSizeX)
+TEST_F(test_render_window, set_frame_rect_null_size_x)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
@@ -272,7 +280,7 @@ TEST_F(TestRenderWindow, SetFrameRectNullSizeX)
 
 
 
-TEST_F(TestRenderWindow, SetFrameRectNullSizeY)
+TEST_F(test_render_window, set_frame_rect_null_size_y)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
@@ -287,7 +295,7 @@ TEST_F(TestRenderWindow, SetFrameRectNullSizeY)
 
 
 
-TEST_F(TestRenderWindow, SetFrameRectNullSize)
+TEST_F(test_render_window, set_frame_rect_null_size)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
@@ -303,7 +311,7 @@ TEST_F(TestRenderWindow, SetFrameRectNullSize)
 
 
 
-TEST_F(TestRenderWindow, SetFrameSize)
+TEST_F(test_render_window, set_frame_size)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
@@ -314,7 +322,7 @@ TEST_F(TestRenderWindow, SetFrameSize)
 
 
 
-TEST_F(TestRenderWindow, SetFrameSizeNullSizeX)
+TEST_F(test_render_window, set_frame_size_null_size_x)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
@@ -329,7 +337,7 @@ TEST_F(TestRenderWindow, SetFrameSizeNullSizeX)
 
 
 
-TEST_F(TestRenderWindow, SetFrameSizeNullSizeY)
+TEST_F(test_render_window, set_frame_size_null_size_y)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
@@ -344,7 +352,7 @@ TEST_F(TestRenderWindow, SetFrameSizeNullSizeY)
 
 
 
-TEST_F(TestRenderWindow, SetFrameSizeNullSize)
+TEST_F(test_render_window, set_frame_size_null_size)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
 
@@ -360,7 +368,7 @@ TEST_F(TestRenderWindow, SetFrameSizeNullSize)
 
 
 
-TEST_F(TestRenderWindow, SetVerticalSyncMode)
+TEST_F(test_render_window, set_vertical_sync_mode)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 4u);
   w.set_vertical_sync_mode(vertical_sync_mode::enabled);
@@ -370,7 +378,7 @@ TEST_F(TestRenderWindow, SetVerticalSyncMode)
 
 
 
-TEST_F(TestRenderWindow, SetSamples)
+TEST_F(test_render_window, set_samples)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 1u);
 
@@ -389,7 +397,7 @@ TEST_F(TestRenderWindow, SetSamples)
 
 
 
-TEST_F(TestRenderWindowDeathTest, SetSamplesTooLarge)
+TEST_F(test_render_window_death_test, set_samples_too_large)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 1u);
   HOU_EXPECT_PRECONDITION(
@@ -398,7 +406,7 @@ TEST_F(TestRenderWindowDeathTest, SetSamplesTooLarge)
 
 
 
-TEST_F(TestRenderWindow, ResizeFrameBufferOnPopResizedEvent)
+TEST_F(test_render_window, resize_frame_buffer_on_pop_resized_event)
 {
   vec2u oldSize(vec2u(32u, 16u));
   render_window w(u8"Test", oldSize, window_style::windowed, 4u);

@@ -319,10 +319,10 @@ glyph font::get_glyph(utf32::code_unit char_code) const
 
   // clang-format off
   return glyph(
-    image2R(
+    image2r(
       bmp_size,
-      span<const image2R::pixel>(
-        reinterpret_cast<image2R::pixel*>(g->bitmap.buffer),
+      span<const image2r::pixel>(
+        reinterpret_cast<image2r::pixel*>(g->bitmap.buffer),
         bmp_size.x() * bmp_size.y())),
     glyph_metrics(
       size,

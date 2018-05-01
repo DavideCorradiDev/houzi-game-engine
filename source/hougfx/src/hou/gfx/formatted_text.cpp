@@ -61,7 +61,7 @@ class glyph_atlas
 public:
   glyph_atlas(const glyph_cache& cache);
 
-  const image3R& get_image() const;
+  const image3r& get_image() const;
   const atlas_glyph_coordinates& get_atlas_glyph_coordinates(
     utf32::code_unit c) const;
 
@@ -70,7 +70,7 @@ private:
 
 private:
   vec3u m_atlas_grid_size;
-  image3R m_image;
+  image3r m_image;
   std::map<utf32::code_unit, atlas_glyph_coordinates> m_glyph_coords;
 };
 
@@ -281,7 +281,7 @@ glyph_atlas::glyph_atlas(const glyph_cache& cache)
 
 
 
-const image3R& glyph_atlas::get_image() const
+const image3r& glyph_atlas::get_image() const
 {
   return m_image;
 }
@@ -301,15 +301,15 @@ text_formatter::text_formatter(std::u32string text, const font& f,
   const text_box_formatting_params tbfp)
   : m_text(text)
   , m_vertices(s_vertices_per_glyph * text.size(), text_vertex())
-  , m_line_coord((tbfp.get_text_flow() == text_flow::LeftRight
-                   || tbfp.get_text_flow() == text_flow::RightLeft)
+  , m_line_coord((tbfp.get_text_flow() == text_flow::left_right
+                   || tbfp.get_text_flow() == text_flow::right_left)
         ? 0u
         : 1u)
   , m_column_coord(m_line_coord == 0u ? 1u : 0u)
   , m_line_spacing(m_line_coord == 0u ? f.get_pixel_line_spacing()
                                       : 0.5f * f.get_pixel_max_advance())
-  , m_char_spacing_factor(tbfp.get_text_flow() == text_flow::LeftRight
-          || tbfp.get_text_flow() == text_flow::TopBottom
+  , m_char_spacing_factor(tbfp.get_text_flow() == text_flow::left_right
+          || tbfp.get_text_flow() == text_flow::top_bottom
         ? 1.f
         : -1.f)
   , m_bounding_box()

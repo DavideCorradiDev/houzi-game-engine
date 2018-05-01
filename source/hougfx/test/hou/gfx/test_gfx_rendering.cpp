@@ -6,6 +6,5 @@
 
 test_gfx_rendering::test_gfx_rendering()
   : test_gfx_base()
-  , mRenderTexture()
+  , m_render_texture()
 {}
-

@@ -91,10 +91,10 @@ template <texture_type Type>
 bool is_texture_size_valid(const typename texture_t<Type>::size_type& size)
 {
   using tex = texture_t<Type>;
-  typename tex::size_type maxSize = tex::get_max_size();
+  typename tex::size_type max_size = tex::get_max_size();
   for(size_t i = 0; i < size.get_size(); ++i)
   {
-    if(size(i) < 1u || size(i) > maxSize(i))
+    if(size(i) < 1u || size(i) > max_size(i))
     {
       return false;
     }

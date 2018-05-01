@@ -21,7 +21,7 @@ using namespace hou;
 namespace
 {
 
-class TestMesh : public test_gfx_base
+class test_mesh : public test_gfx_base
 {};
 
 class vertex_type
@@ -36,10 +36,10 @@ public:
   vertex_type();
   explicit vertex_type(float value);
 
-  float getValue() const;
+  float get_value() const;
 
 private:
-  GLfloat mValue;
+  GLfloat m_value;
 };
 
 bool operator==(const vertex_type& lhs, const vertex_type& rhs);
@@ -55,56 +55,56 @@ const vertex_format& vertex_type::get_vertex_format()
 {
   static constexpr bool must_be_normalized = true;
   static const vertex_format vf(0, sizeof(vertex_type),
-    {vertex_attrib_format(
-      gl_type::float_decimal, 1, offsetof(vertex_type, mValue), !must_be_normalized)});
+    {vertex_attrib_format(gl_type::float_decimal, 1,
+      offsetof(vertex_type, m_value), !must_be_normalized)});
   return vf;
 }
 
 
 
 vertex_type::vertex_type()
-  : mValue(0.f)
+  : m_value(0.f)
 {}
 
 
 
 vertex_type::vertex_type(float value)
-  : mValue(value)
+  : m_value(value)
 {}
 
 
 
-float vertex_type::getValue() const
+float vertex_type::get_value() const
 {
-  return mValue;
+  return m_value;
 }
 
 
 
 bool operator==(const vertex_type& lhs, const vertex_type& rhs)
 {
-  return lhs.getValue() == rhs.getValue();
+  return lhs.get_value() == rhs.get_value();
 }
 
 
 
 bool close(const vertex_type& lhs, const vertex_type& rhs, float acc)
 {
-  return hou::close(lhs.getValue(), rhs.getValue(), acc);
+  return hou::close(lhs.get_value(), rhs.get_value(), acc);
 }
 
 
 
 std::ostream& operator<<(std::ostream& os, const vertex_type& v)
 {
-  return os << "{" << v.getValue() << "}";
+  return os << "{" << v.get_value() << "}";
 }
 
 }  // namespace
 
 
 
-TEST_F(TestMesh, Constructor)
+TEST_F(test_mesh, constructor)
 {
   mesh_draw_mode drawMode_ref = mesh_draw_mode::points;
   mesh_fill_mode polygonMode_ref = mesh_fill_mode::line;
@@ -121,7 +121,7 @@ TEST_F(TestMesh, Constructor)
 
 
 
-TEST_F(TestMesh, MoveConstructor)
+TEST_F(test_mesh, move_constructor)
 {
   mesh_draw_mode drawMode_ref = mesh_draw_mode::points;
   mesh_fill_mode polygonMode_ref = mesh_fill_mode::line;
@@ -139,7 +139,7 @@ TEST_F(TestMesh, MoveConstructor)
 
 
 
-TEST_F(TestMesh, Comparison)
+TEST_F(test_mesh, comparison)
 {
   MeshType::vertex_collection vertices1{vertex_type(1.f), vertex_type(2.f)};
   MeshType::vertex_collection vertices2{vertex_type(3.f), vertex_type(2.f)};
@@ -163,12 +163,10 @@ TEST_F(TestMesh, Comparison)
 
 
 
-TEST_F(TestMesh, CloseComparison)
+TEST_F(test_mesh, close_comparison)
 {
-  MeshType::vertex_collection vertices1{
-    vertex_type(1.1234f), vertex_type(2.f)};
-  MeshType::vertex_collection vertices2{
-    vertex_type(1.1238f), vertex_type(2.f)};
+  MeshType::vertex_collection vertices1{vertex_type(1.1234f), vertex_type(2.f)};
+  MeshType::vertex_collection vertices2{vertex_type(1.1238f), vertex_type(2.f)};
 
   MeshType m1(mesh_draw_mode::triangle_strip, mesh_fill_mode::fill, vertices1);
   MeshType m2(mesh_draw_mode::triangle_strip, mesh_fill_mode::fill, vertices1);
@@ -194,12 +192,12 @@ TEST_F(TestMesh, CloseComparison)
 
 
 
-TEST_F(TestMesh, OutputStreamOperator)
+TEST_F(test_mesh, output_stream_operator)
 {
   MeshType::vertex_collection vertices{vertex_type(1.f), vertex_type(2.f)};
   MeshType m(mesh_draw_mode::triangle_strip, mesh_fill_mode::fill, vertices);
 
   const char out_ref[]
-    = "{DrawMode = triangle_strip, FillMode = fill, Vertices = {{1}, {2}}}";
+    = "{draw_mode = triangle_strip, fill_mode = fill, vertices = {{1}, {2}}}";
   HOU_EXPECT_OUTPUT(out_ref, m);
 }

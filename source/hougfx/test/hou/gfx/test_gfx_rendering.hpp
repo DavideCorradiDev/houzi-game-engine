@@ -9,16 +9,14 @@
 
 
 
-class test_gfx_rendering
-  : public test_gfx_base
+class test_gfx_rendering : public test_gfx_base
 {
 public:
   test_gfx_rendering();
   virtual ~test_gfx_rendering() = 0;
 
 public:
-  hou::RenderTexture mRenderTexture;
+  hou::RenderTexture m_render_texture;
 };
 
 #endif
-

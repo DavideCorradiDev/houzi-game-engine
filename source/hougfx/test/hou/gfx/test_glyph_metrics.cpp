@@ -12,14 +12,14 @@ using namespace testing;
 namespace
 {
 
-class TestGlyphMetrics : public Test
+class test_glyph_metrics : public Test
 {};
 
 }  // namespace
 
 
 
-TEST_F(TestGlyphMetrics, DefaultConstructor)
+TEST_F(test_glyph_metrics, default_constructor)
 {
   glyph_metrics gm;
 
@@ -32,7 +32,7 @@ TEST_F(TestGlyphMetrics, DefaultConstructor)
 
 
 
-TEST_F(TestGlyphMetrics, ParameterConstructor)
+TEST_F(test_glyph_metrics, parameter_constructor)
 {
   glyph_metrics gm(vec2u(1u, 2u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
 
@@ -45,7 +45,7 @@ TEST_F(TestGlyphMetrics, ParameterConstructor)
 
 
 
-TEST_F(TestGlyphMetrics, SetSize)
+TEST_F(test_glyph_metrics, set_size)
 {
   glyph_metrics gm;
   vec2u size_ref(2u, 7u);
@@ -55,7 +55,7 @@ TEST_F(TestGlyphMetrics, SetSize)
 
 
 
-TEST_F(TestGlyphMetrics, SetHorizontalBearing)
+TEST_F(test_glyph_metrics, set_horizontal_bearing)
 {
   glyph_metrics gm;
   vec2i bearing_ref(3, 5);
@@ -65,7 +65,7 @@ TEST_F(TestGlyphMetrics, SetHorizontalBearing)
 
 
 
-TEST_F(TestGlyphMetrics, SetHorizontalAdvance)
+TEST_F(test_glyph_metrics, set_horizontal_advance)
 {
   glyph_metrics gm;
   int advance_ref = 7;
@@ -75,7 +75,7 @@ TEST_F(TestGlyphMetrics, SetHorizontalAdvance)
 
 
 
-TEST_F(TestGlyphMetrics, SetVerticalBearing)
+TEST_F(test_glyph_metrics, set_vertical_bearing)
 {
   glyph_metrics gm;
   vec2i bearing_ref(5, 3);
@@ -85,7 +85,7 @@ TEST_F(TestGlyphMetrics, SetVerticalBearing)
 
 
 
-TEST_F(TestGlyphMetrics, SetVerticalAdvance)
+TEST_F(test_glyph_metrics, set_vertical_advance)
 {
   glyph_metrics gm;
   int advance_ref = 9;
@@ -95,7 +95,7 @@ TEST_F(TestGlyphMetrics, SetVerticalAdvance)
 
 
 
-TEST_F(TestGlyphMetrics, GetPixelSize)
+TEST_F(test_glyph_metrics, get_pixel_size)
 {
   glyph_metrics gm;
   EXPECT_EQ(vec2u::zero(), gm.get_size());
@@ -112,7 +112,7 @@ TEST_F(TestGlyphMetrics, GetPixelSize)
 
 
 
-TEST_F(TestGlyphMetrics, GetPixelHorizontalBearing)
+TEST_F(test_glyph_metrics, get_pixel_horizontal_bearing)
 {
   glyph_metrics gm;
   EXPECT_EQ(vec2i::zero(), gm.get_horizontal_bearing());
@@ -129,7 +129,7 @@ TEST_F(TestGlyphMetrics, GetPixelHorizontalBearing)
 
 
 
-TEST_F(TestGlyphMetrics, GetPixelHorizontalAdvance)
+TEST_F(test_glyph_metrics, get_pixel_horizontal_advance)
 {
   glyph_metrics gm;
   EXPECT_EQ(0, gm.get_horizontal_advance());
@@ -146,7 +146,7 @@ TEST_F(TestGlyphMetrics, GetPixelHorizontalAdvance)
 
 
 
-TEST_F(TestGlyphMetrics, GetPixelVerticalBearing)
+TEST_F(test_glyph_metrics, get_pixel_vertical_bearing)
 {
   glyph_metrics gm;
   EXPECT_EQ(vec2i::zero(), gm.get_vertical_bearing());
@@ -163,7 +163,7 @@ TEST_F(TestGlyphMetrics, GetPixelVerticalBearing)
 
 
 
-TEST_F(TestGlyphMetrics, GetPixelVerticalAdvance)
+TEST_F(test_glyph_metrics, get_pixel_vertical_advance)
 {
   glyph_metrics gm;
   EXPECT_EQ(0, gm.get_vertical_advance());
@@ -180,7 +180,7 @@ TEST_F(TestGlyphMetrics, GetPixelVerticalAdvance)
 
 
 
-TEST_F(TestGlyphMetrics, Comparison)
+TEST_F(test_glyph_metrics, comparison)
 {
   glyph_metrics gm1(vec2u(1u, 2u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
   glyph_metrics gm2(vec2u(1u, 2u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
@@ -207,14 +207,14 @@ TEST_F(TestGlyphMetrics, Comparison)
 
 
 
-TEST_F(TestGlyphMetrics, OutputStreamOperator)
+TEST_F(test_glyph_metrics, output_stream_operator)
 {
   glyph_metrics gm(vec2u(1u, 2u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
-  const char* refOutput
+  const char* ref_output
     = "{size_type = (1, 2)"
-      ", HorizontalBearing = (-1, 3)"
-      ", HorizontalAdvance = 4"
-      ", VerticalBearing = (5, -7)"
-      ", VerticalAdvance = -11}";
-  HOU_EXPECT_OUTPUT(refOutput, gm);
+      ", horizontal_bearing = (-1, 3)"
+      ", horizontal_advance = 4"
+      ", vertical_bearing = (5, -7)"
+      ", vertical_advance = -11}";
+  HOU_EXPECT_OUTPUT(ref_output, gm);
 }

@@ -15,21 +15,21 @@ using namespace hou;
 namespace
 {
 
-class TestTextVertex : public Test
+class test_text_vertex : public Test
 {};
 
 }  // namespace
 
 
 
-TEST_F(TestTextVertex, size_type)
+TEST_F(test_text_vertex, type_size)
 {
   EXPECT_EQ(5u * sizeof(GLfloat), sizeof(text_vertex));
 }
 
 
 
-TEST_F(TestTextVertex, DefaultConstructor)
+TEST_F(test_text_vertex, default_constructor)
 {
   text_vertex v;
   HOU_EXPECT_FLOAT_CLOSE(vec2f(0.f, 0.f), v.get_position());
@@ -38,7 +38,7 @@ TEST_F(TestTextVertex, DefaultConstructor)
 
 
 
-TEST_F(TestTextVertex, Constructor)
+TEST_F(test_text_vertex, constructor)
 {
   vec2f pos_ref(1.f, 2.f);
   vec3f tc_ref(3.f, 4.f, 5.f);
@@ -50,7 +50,7 @@ TEST_F(TestTextVertex, Constructor)
 
 
 
-TEST_F(TestTextVertex, SetPosition)
+TEST_F(test_text_vertex, set_position)
 {
   text_vertex v;
   HOU_EXPECT_FLOAT_CLOSE(vec2f(0.f, 0.f), v.get_position());
@@ -62,7 +62,7 @@ TEST_F(TestTextVertex, SetPosition)
 
 
 
-TEST_F(TestTextVertex, SetTextureCoordinates)
+TEST_F(test_text_vertex, set_texture_coordinates)
 {
   text_vertex v;
   HOU_EXPECT_FLOAT_CLOSE(vec3f(0.f, 0.f, 0.f), v.get_texture_coordinates());
@@ -74,7 +74,7 @@ TEST_F(TestTextVertex, SetTextureCoordinates)
 
 
 
-TEST_F(TestTextVertex, Comparison)
+TEST_F(test_text_vertex, comparison)
 {
   text_vertex v1(vec2f(1.f, 2.f), vec3f(3.f, 4.f, 5.f));
   text_vertex v2(vec2f(1.f, 2.f), vec3f(3.f, 4.f, 5.f));
@@ -92,7 +92,7 @@ TEST_F(TestTextVertex, Comparison)
 
 
 
-TEST_F(TestTextVertex, CloseComparison)
+TEST_F(test_text_vertex, close_comparison)
 {
   vec2f pos1(1.1234f, 3.3456f);
   vec2f pos2(1.1238f, 3.3456f);
@@ -119,9 +119,10 @@ TEST_F(TestTextVertex, CloseComparison)
 
 
 
-TEST_F(TestTextVertex, OutputStreamOperator)
+TEST_F(test_text_vertex, output_stream_operator)
 {
   text_vertex v(vec2f(1.f, 2.f), vec3f(3.f, 4.f, 5.f));
-  const char* refOutput = "{Position = (1, 2), TextureCoordinates = (3, 4, 5)}";
-  HOU_EXPECT_OUTPUT(refOutput, v);
+  const char* ref_output
+    = "{position = (1, 2), texture_coordinates = (3, 4, 5)}";
+  HOU_EXPECT_OUTPUT(ref_output, v);
 }

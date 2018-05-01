@@ -24,7 +24,7 @@ public:
   virtual ~test_aud_base() = 0;
 
 public:
-  static std::unique_ptr<hou::audio_context> sContext;
+  static std::unique_ptr<hou::audio_context> s_context;
 };
 
 #endif

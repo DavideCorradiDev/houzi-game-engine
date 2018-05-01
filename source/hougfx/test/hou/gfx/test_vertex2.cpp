@@ -19,24 +19,24 @@ using namespace hou;
 namespace
 {
 
-class TestVertex2 : public Test
+class test_vertex2 : public Test
 {};
 
-class TestMesh2 : public test_gfx_base
+class test_mesh2 : public test_gfx_base
 {};
 
 }  // namespace
 
 
 
-TEST_F(TestVertex2, size_type)
+TEST_F(test_vertex2, type_size)
 {
   EXPECT_EQ(8u * sizeof(GLfloat), sizeof(vertex2));
 }
 
 
 
-TEST_F(TestVertex2, DefaultConstructor)
+TEST_F(test_vertex2, default_constructor)
 {
   vertex2 v;
   HOU_EXPECT_FLOAT_CLOSE(vec2f(0.f, 0.f), v.get_position());
@@ -46,7 +46,7 @@ TEST_F(TestVertex2, DefaultConstructor)
 
 
 
-TEST_F(TestVertex2, Constructor)
+TEST_F(test_vertex2, constructor)
 {
   vec2f pos_ref(1.f, 2.f);
   vec2f tc_ref(3.f, 4.f);
@@ -60,7 +60,7 @@ TEST_F(TestVertex2, Constructor)
 
 
 
-TEST_F(TestVertex2, SetPosition)
+TEST_F(test_vertex2, set_position)
 {
   vertex2 v;
   HOU_EXPECT_FLOAT_CLOSE(vec2f(0.f, 0.f), v.get_position());
@@ -72,7 +72,7 @@ TEST_F(TestVertex2, SetPosition)
 
 
 
-TEST_F(TestVertex2, SetTextureCoordinates)
+TEST_F(test_vertex2, set_texture_coordinates)
 {
   vertex2 v;
   HOU_EXPECT_FLOAT_CLOSE(vec2f(0.f, 0.f), v.get_texture_coordinates());
@@ -84,7 +84,7 @@ TEST_F(TestVertex2, SetTextureCoordinates)
 
 
 
-TEST_F(TestVertex2, SetColor)
+TEST_F(test_vertex2, set_color)
 {
   vertex2 v;
   EXPECT_EQ(color(0u, 0u, 0u, 0u), v.get_color());
@@ -96,7 +96,7 @@ TEST_F(TestVertex2, SetColor)
 
 
 
-TEST_F(TestVertex2, Comparison)
+TEST_F(test_vertex2, comparison)
 {
   vertex2 v1(vec2f(1.f, 2.f), vec2f(3.f, 4.f), color(5u, 6u, 7u, 8u));
   vertex2 v2(vec2f(1.f, 2.f), vec2f(3.f, 4.f), color(5u, 6u, 7u, 8u));
@@ -117,7 +117,7 @@ TEST_F(TestVertex2, Comparison)
 
 
 
-TEST_F(TestVertex2, CloseComparison)
+TEST_F(test_vertex2, close_comparison)
 {
   vec2f pos1(1.1234f, 3.3456f);
   vec2f pos2(1.1238f, 3.3456f);
@@ -150,17 +150,18 @@ TEST_F(TestVertex2, CloseComparison)
 
 
 
-TEST_F(TestVertex2, OutputStreamOperator)
+TEST_F(test_vertex2, output_stream_operator)
 {
   vertex2 v(vec2f(1.f, 2.f), vec2f(3.f, 4.f), color(5u, 6u, 7u, 8u));
-  const char* refOutput = "{Position = (1, 2), TextureCoordinates = (3, 4), "
-                          "color = {red = 5, green = 6, blue = 7, alpha = 8}}";
-  HOU_EXPECT_OUTPUT(refOutput, v);
+  const char* ref_output
+    = "{position = (1, 2), texture_coordinates = (3, 4), "
+      "color = {red = 5, green = 6, blue = 7, alpha = 8}}";
+  HOU_EXPECT_OUTPUT(ref_output, v);
 }
 
 
 
-TEST_F(TestMesh2, rectangle)
+TEST_F(test_mesh2, rectangle)
 {
   mesh2 m = create_rectangle_mesh2(vec2f(1.f, 2.f));
 
@@ -178,7 +179,7 @@ TEST_F(TestMesh2, rectangle)
 
 
 
-TEST_F(TestMesh2, RectangleOutline)
+TEST_F(test_mesh2, rectangle_outline)
 {
   mesh2 m = create_rectangle_outline_mesh2(vec2f(6.f, 8.f), 2);
 
@@ -202,7 +203,7 @@ TEST_F(TestMesh2, RectangleOutline)
 
 
 
-TEST_F(TestMesh2, Ellipse)
+TEST_F(test_mesh2, ellipse)
 {
   mesh2 m = create_ellipse_mesh2(vec2f(1.f, 2.f), 8);
 
@@ -226,7 +227,7 @@ TEST_F(TestMesh2, Ellipse)
 
 
 
-TEST_F(TestMesh2, EllipseOutline)
+TEST_F(test_mesh2, ellipse_outline)
 {
   mesh2 m = create_ellipse_outline_mesh2(vec2f(1.f, 2.f), 8, 0.25);
 
@@ -258,7 +259,7 @@ TEST_F(TestMesh2, EllipseOutline)
 
 
 
-TEST_F(TestMesh2, TextureQuad)
+TEST_F(test_mesh2, texture_quad)
 {
   mesh2 m
     = create_texture_quad_mesh2(rectf(3.f, 8.f, 6.f, 4.f), vec2f(12.f, 16.f));

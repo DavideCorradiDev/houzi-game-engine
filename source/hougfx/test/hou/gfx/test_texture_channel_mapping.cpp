@@ -12,17 +12,17 @@ using namespace hou;
 namespace
 {
 
-class TestTextureChannelMapping : public Test {};
+class test_texture_channel_mapping : public Test
+{};
 
-}
+}  // namespace
 
 
 
-
-TEST_F(TestTextureChannelMapping, Creation)
+TEST_F(test_texture_channel_mapping, creation)
 {
-  texture_channel_mapping tcm(texture_channel::b, texture_channel::one
-    , texture_channel::g, texture_channel::zero);
+  texture_channel_mapping tcm(texture_channel::b, texture_channel::one,
+    texture_channel::g, texture_channel::zero);
 
   EXPECT_EQ(texture_channel::b, tcm.get_r());
   EXPECT_EQ(texture_channel::one, tcm.get_g());
@@ -32,10 +32,10 @@ TEST_F(TestTextureChannelMapping, Creation)
 
 
 
-TEST_F(TestTextureChannelMapping, SetR)
+TEST_F(test_texture_channel_mapping, set_r)
 {
-  texture_channel_mapping tcm(texture_channel::b, texture_channel::one
-    , texture_channel::b, texture_channel::zero);
+  texture_channel_mapping tcm(texture_channel::b, texture_channel::one,
+    texture_channel::b, texture_channel::zero);
 
   tcm.set_r(texture_channel::g);
   EXPECT_EQ(texture_channel::g, tcm.get_r());
@@ -46,10 +46,10 @@ TEST_F(TestTextureChannelMapping, SetR)
 
 
 
-TEST_F(TestTextureChannelMapping, SetG)
+TEST_F(test_texture_channel_mapping, set_g)
 {
-  texture_channel_mapping tcm(texture_channel::b, texture_channel::one
-    , texture_channel::b, texture_channel::zero);
+  texture_channel_mapping tcm(texture_channel::b, texture_channel::one,
+    texture_channel::b, texture_channel::zero);
 
   tcm.set_g(texture_channel::g);
   EXPECT_EQ(texture_channel::b, tcm.get_r());
@@ -60,10 +60,10 @@ TEST_F(TestTextureChannelMapping, SetG)
 
 
 
-TEST_F(TestTextureChannelMapping, SetB)
+TEST_F(test_texture_channel_mapping, set_b)
 {
-  texture_channel_mapping tcm(texture_channel::b, texture_channel::one
-    , texture_channel::b, texture_channel::zero);
+  texture_channel_mapping tcm(texture_channel::b, texture_channel::one,
+    texture_channel::b, texture_channel::zero);
 
   tcm.set_b(texture_channel::g);
   EXPECT_EQ(texture_channel::b, tcm.get_r());
@@ -74,10 +74,10 @@ TEST_F(TestTextureChannelMapping, SetB)
 
 
 
-TEST_F(TestTextureChannelMapping, SetA)
+TEST_F(test_texture_channel_mapping, set_a)
 {
-  texture_channel_mapping tcm(texture_channel::b, texture_channel::one
-    , texture_channel::b, texture_channel::zero);
+  texture_channel_mapping tcm(texture_channel::b, texture_channel::one,
+    texture_channel::b, texture_channel::zero);
 
   tcm.set_a(texture_channel::g);
   EXPECT_EQ(texture_channel::b, tcm.get_r());
@@ -88,38 +88,20 @@ TEST_F(TestTextureChannelMapping, SetA)
 
 
 
-TEST_F(TestTextureChannelMapping, Comparison)
+TEST_F(test_texture_channel_mapping, comparison)
 {
-  texture_channel_mapping tcm1
-    ( texture_channel::b
-    , texture_channel::a
-    , texture_channel::one
-    , texture_channel::r);
-  texture_channel_mapping tcm2
-    ( texture_channel::b
-    , texture_channel::a
-    , texture_channel::one
-    , texture_channel::r);
-  texture_channel_mapping tcm3
-    ( texture_channel::r
-    , texture_channel::a
-    , texture_channel::one
-    , texture_channel::r);
-  texture_channel_mapping tcm4
-    ( texture_channel::b
-    , texture_channel::r
-    , texture_channel::one
-    , texture_channel::r);
-  texture_channel_mapping tcm5
-    ( texture_channel::b
-    , texture_channel::a
-    , texture_channel::r
-    , texture_channel::r);
-  texture_channel_mapping tcm6
-    ( texture_channel::b
-    , texture_channel::a
-    , texture_channel::one
-    , texture_channel::zero);
+  texture_channel_mapping tcm1(texture_channel::b, texture_channel::a,
+    texture_channel::one, texture_channel::r);
+  texture_channel_mapping tcm2(texture_channel::b, texture_channel::a,
+    texture_channel::one, texture_channel::r);
+  texture_channel_mapping tcm3(texture_channel::r, texture_channel::a,
+    texture_channel::one, texture_channel::r);
+  texture_channel_mapping tcm4(texture_channel::b, texture_channel::r,
+    texture_channel::one, texture_channel::r);
+  texture_channel_mapping tcm5(texture_channel::b, texture_channel::a,
+    texture_channel::r, texture_channel::r);
+  texture_channel_mapping tcm6(texture_channel::b, texture_channel::a,
+    texture_channel::one, texture_channel::zero);
 
   EXPECT_TRUE(tcm1 == tcm2);
   EXPECT_FALSE(tcm1 == tcm3);
@@ -136,14 +118,10 @@ TEST_F(TestTextureChannelMapping, Comparison)
 
 
 
-TEST_F(TestTextureChannelMapping, OutputStreamOperator)
+TEST_F(test_texture_channel_mapping, output_stream_operator)
 {
-  texture_channel_mapping tcm
-    ( texture_channel::b
-    , texture_channel::a
-    , texture_channel::one
-    , texture_channel::r);
+  texture_channel_mapping tcm(texture_channel::b, texture_channel::a,
+    texture_channel::one, texture_channel::r);
   const char out_ref[] = "{b -> r, a -> g, one -> b, r -> a}";
   HOU_EXPECT_OUTPUT(out_ref, tcm);
 }
-

@@ -14,17 +14,17 @@ using namespace hou;
 namespace
 {
 
-class TestVertexFormat : public test_gfx_base
+class test_vertex_format : public test_gfx_base
 {};
 
-class TestVertexFormatDeathTest : public TestVertexFormat
+class test_vertex_format_death_test : public test_vertex_format
 {};
 
 }  // namespace
 
 
 
-TEST_F(TestVertexFormat, VafSpanConstructor)
+TEST_F(test_vertex_format, vaf_span_constructor)
 {
   std::vector<vertex_attrib_format> vafs = {
     vertex_attrib_format(gl_type::float_decimal, 3u, 12u, false),
@@ -39,7 +39,7 @@ TEST_F(TestVertexFormat, VafSpanConstructor)
 
 
 
-TEST_F(TestVertexFormat, VafSpanConstructorAttribLimit)
+TEST_F(test_vertex_format, vaf_span_constructor_attrib_limit)
 {
   vertex_attrib_format vaf(gl_type::float_decimal, 3u, 12u, false);
   std::vector<vertex_attrib_format> vafs(
@@ -53,7 +53,8 @@ TEST_F(TestVertexFormat, VafSpanConstructorAttribLimit)
 
 
 
-TEST_F(TestVertexFormatDeathTest, VafSpanConstructorErrorTooManyAttribFormats)
+TEST_F(test_vertex_format_death_test,
+  vaf_span_constructor_error_too_many_attrib_formats)
 {
   vertex_attrib_format vaf(gl_type::float_decimal, 3u, 12u, false);
   std::vector<vertex_attrib_format> vafs(
@@ -63,7 +64,7 @@ TEST_F(TestVertexFormatDeathTest, VafSpanConstructorErrorTooManyAttribFormats)
 
 
 
-TEST_F(TestVertexFormat, VafMoveConstructor)
+TEST_F(test_vertex_format, vaf_move_constructor)
 {
   std::vector<vertex_attrib_format> vafs = {
     vertex_attrib_format(gl_type::float_decimal, 3u, 12u, false),
@@ -79,7 +80,7 @@ TEST_F(TestVertexFormat, VafMoveConstructor)
 
 
 
-TEST_F(TestVertexFormat, VafMoveConstructorAttribLimit)
+TEST_F(test_vertex_format, vaf_move_constructor_attrib_limit)
 {
   vertex_attrib_format vaf(gl_type::float_decimal, 3u, 12u, false);
   std::vector<vertex_attrib_format> vafs(
@@ -94,7 +95,8 @@ TEST_F(TestVertexFormat, VafMoveConstructorAttribLimit)
 
 
 
-TEST_F(TestVertexFormatDeathTest, VafMoveConstructorErrorTooManyAttribFormats)
+TEST_F(test_vertex_format_death_test,
+  vaf_move_constructor_error_too_many_attrib_formats)
 {
   vertex_attrib_format vaf(gl_type::float_decimal, 3u, 12u, false);
   std::vector<vertex_attrib_format> vafs(
@@ -104,7 +106,7 @@ TEST_F(TestVertexFormatDeathTest, VafMoveConstructorErrorTooManyAttribFormats)
 
 
 
-TEST_F(TestVertexFormat, Comparison)
+TEST_F(test_vertex_format, comparison)
 {
   std::vector<vertex_attrib_format> vafs1 = {
     vertex_attrib_format(gl_type::float_decimal, 3u, 12u, false),
@@ -133,7 +135,7 @@ TEST_F(TestVertexFormat, Comparison)
 
 
 
-TEST_F(TestVertexFormat, OutputStreamOperator)
+TEST_F(test_vertex_format, output_stream_operator)
 {
   std::vector<vertex_attrib_format> vafs = {
     vertex_attrib_format(gl_type::float_decimal, 3u, 12u, false),
@@ -141,8 +143,9 @@ TEST_F(TestVertexFormat, OutputStreamOperator)
   };
   vertex_format vf(2, 3u, vafs);
   const char* out_ref
-    = "{Offset = 2, Stride = 3, VertexAttribFormats = {{Type = float_decimal, "
-      "ElementCount = 3, byte_offset = 12, MustBeNormalized = false}, {Type = "
-      "float_decimal, ElementCount = 6, byte_offset = 24, MustBeNormalized = true}}}";
+    = "{offset = 2, stride = 3, vertex_attrib_formats = {{type = "
+      "float_decimal, element_count = 3, byte_offset = 12, must_be_normalized "
+      "= false}, {type = float_decimal, element_count = 6, byte_offset = 24, "
+      "must_be_normalized = true}}}";
   HOU_EXPECT_OUTPUT(out_ref, vf);
 }
