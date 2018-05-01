@@ -168,5 +168,5 @@ doxygen Doxyfile
 ## Copyright and license
 The Houzi Game Engine is distributed under the [MIT License](LICENSE).
 
-Copyright and license information for the external libraries used in the Houzi Engine can be found [here](EXTERNAL-LIBS-INFO.md).
+Copyright and license information for the external libraries used in the Houzi Engine can be found [here](EXTERNAL_LIBS_INFO.md).
 
