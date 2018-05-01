@@ -29,16 +29,16 @@ class test_render_canvas_death_test : public test_render_canvas
 
 
 
-image2rgba generate_blit_result_image(const vec2u& dst_size,
+image2_rgba generate_blit_result_image(const vec2u& dst_size,
   const recti& dst_rect, const color& dst_color, const color& src_color);
 
 
 
-image2rgba generate_blit_result_image(const vec2u& dst_size,
+image2_rgba generate_blit_result_image(const vec2u& dst_size,
   const recti& dst_rect, const color& dst_color, const color& src_color)
 {
-  image2rgba im_ref(dst_size);
-  im_ref.clear(image2rgba::pixel(dst_color.get_red(), dst_color.get_green(),
+  image2_rgba im_ref(dst_size);
+  im_ref.clear(image2_rgba::pixel(dst_color.get_red(), dst_color.get_green(),
     dst_color.get_blue(), dst_color.get_alpha()));
 
   uint xMax = std::min(static_cast<uint>(dst_rect.r()), dst_size.x());
@@ -48,7 +48,7 @@ image2rgba generate_blit_result_image(const vec2u& dst_size,
     for(uint x = dst_rect.l(); x < xMax; ++x)
     {
       im_ref.set_pixel(vec2u(x, y),
-        image2rgba::pixel(src_color.get_red(), src_color.get_green(),
+        image2_rgba::pixel(src_color.get_red(), src_color.get_green(),
           src_color.get_blue(), src_color.get_alpha()));
     }
   }
@@ -215,8 +215,8 @@ TEST_F(test_render_canvas, clear)
 
   rs.clear(col);
 
-  image2rgba im_ref(size);
-  im_ref.clear(image2rgba::pixel(
+  image2_rgba im_ref(size);
+  im_ref.clear(image2_rgba::pixel(
     col.get_red(), col.get_green(), col.get_blue(), col.get_alpha()));
   EXPECT_EQ(im_ref, rs.to_texture().get_image<pixel_format::rgba>());
 }
@@ -250,7 +250,7 @@ TEST_F(test_render_canvas, blit_small_rect)
   rs_src.clear(blit_col);
   blit(rs_src, blit_rect, rs_dst, blit_rect);
 
-  image2rgba im_ref
+  image2_rgba im_ref
     = generate_blit_result_image(size, blit_rect, color::transparent, blit_col);
   EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
@@ -269,7 +269,7 @@ TEST_F(test_render_canvas, blit_different_source_and_destination_rect)
   rs_src.clear(blit_col);
   blit(rs_src, src_rect, rs_dst, dst_rect);
 
-  image2rgba im_ref
+  image2_rgba im_ref
     = generate_blit_result_image(size, dst_rect, color::transparent, blit_col);
   EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
@@ -288,7 +288,7 @@ TEST_F(test_render_canvas, blit_over_flowing_source_rect)
   rs_src.clear(blit_col);
   blit(rs_src, src_rect, rs_dst, dst_rect);
 
-  image2rgba im_ref = generate_blit_result_image(
+  image2_rgba im_ref = generate_blit_result_image(
     size, recti(0, 0, 1, 2), color::transparent, blit_col);
   EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
@@ -307,7 +307,7 @@ TEST_F(test_render_canvas, blit_over_flowing_destination_rect)
   rs_src.clear(blit_col);
   blit(rs_src, src_rect, rs_dst, dst_rect);
 
-  image2rgba im_ref
+  image2_rgba im_ref
     = generate_blit_result_image(size, dst_rect, color::transparent, blit_col);
   EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
@@ -326,7 +326,7 @@ TEST_F(test_render_canvas, blit_inverted_source_rect)
   rs_src.clear(blit_col);
   blit(rs_src, src_rect, rs_dst, dst_rect);
 
-  image2rgba im_ref = generate_blit_result_image(
+  image2_rgba im_ref = generate_blit_result_image(
     size, recti(0, 0, 2, 1), color::transparent, blit_col);
   EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
@@ -345,7 +345,7 @@ TEST_F(test_render_canvas, blit_inverted_destination_rect)
   rs_src.clear(blit_col);
   blit(rs_src, src_rect, rs_dst, dst_rect);
 
-  image2rgba im_ref = generate_blit_result_image(
+  image2_rgba im_ref = generate_blit_result_image(
     size, recti(0, 0, 2, 1), color::transparent, blit_col);
   EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
@@ -364,7 +364,7 @@ TEST_F(test_render_canvas, blit_different_sample_size_same_rect_size)
   rs_src.clear(blit_col);
   blit(rs_src, src_rect, rs_dst, dst_rect);
 
-  image2rgba im_ref
+  image2_rgba im_ref
     = generate_blit_result_image(size, dst_rect, color::transparent, blit_col);
   EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
@@ -383,7 +383,7 @@ TEST_F(test_render_canvas, blit_different_sample_size_same_rect_size_inverted)
   rs_src.clear(blit_col);
   blit(rs_src, src_rect, rs_dst, dst_rect);
 
-  image2rgba im_ref = generate_blit_result_image(
+  image2_rgba im_ref = generate_blit_result_image(
     size, recti(0, 1, 2, 3), color::transparent, blit_col);
   EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
@@ -410,7 +410,7 @@ TEST_F(test_render_canvas, to_texture_multisampled)
   rs.clear(col);
 
   texture2 tex = rs.to_texture();
-  image2rgba im_ref(tex.get_size(), pixelrgba(col));
+  image2_rgba im_ref(tex.get_size(), pixel_rgba(col));
   EXPECT_EQ(im_ref, tex.get_image<pixel_format::rgba>());
 }
 

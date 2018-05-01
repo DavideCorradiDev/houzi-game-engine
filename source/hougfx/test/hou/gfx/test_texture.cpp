@@ -839,7 +839,7 @@ TYPED_TEST(test_texture_not_multisampled, clear)
   TypeParam tex(this->generate_size());
   EXPECT_EQ(
     image(tex.get_size()), tex.template get_image<pixel_format::rgba>());
-  pixelrgba pixel_ref(1u, 2u, 3u, 4u);
+  pixel_rgba pixel_ref(1u, 2u, 3u, 4u);
   tex.clear(pixel_ref);
   EXPECT_EQ(image(tex.get_size(), pixel_ref),
     tex.template get_image<pixel_format::rgba>());
@@ -944,7 +944,7 @@ TYPED_TEST(test_texture_not_multisampled, clear_get_mip_map_image)
   using image = typename TypeParam::template image<pixel_format::rgba>;
 
   TypeParam tex(this->generate_size(), texture_format::rgba, 3u);
-  pixelrgba pixel_ref(2u, 3u, 5u, 7u);
+  pixel_rgba pixel_ref(2u, 3u, 5u, 7u);
   tex.clear(pixel_ref);
   for(size_t i = 0; i < tex.get_mipmap_level_count(); ++i)
   {

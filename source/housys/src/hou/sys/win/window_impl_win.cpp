@@ -60,7 +60,7 @@ bool is_fullscreen_window(const window_impl& wnd);
 recti client_to_frame_rect(HWND hwnd, const recti& rect);
 
 void set_window_icon(HWND hwnd, HICON hicon);
-HICON create_custom_icon(const image2rgba& icon);
+HICON create_custom_icon(const image2_rgba& icon);
 HICON get_system_icon();
 
 key_code win_key_to_key_code(UINT key);
@@ -164,7 +164,7 @@ void set_window_icon(HWND hwnd, HICON hicon)
 
 
 
-HICON create_custom_icon(const image2rgba& icon)
+HICON create_custom_icon(const image2_rgba& icon)
 {
   static constexpr size_t bytes_per_pixel = 4u;
 
@@ -749,7 +749,7 @@ void window_impl::set_visible(bool value)
 
 
 
-void window_impl::set_icon(const image2rgba& icon)
+void window_impl::set_icon(const image2_rgba& icon)
 {
   destroy_icon();
   m_icon_handle = create_custom_icon(icon);

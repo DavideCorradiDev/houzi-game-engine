@@ -36,8 +36,8 @@ class test_image_death_test : public test_image<ImageT>
 {};
 
 using image_types
-  = Types<image1r, image2r, image3r, image1rg, image2rg, image3rg, image1rgb,
-    image2rgb, image3rgb, image1rgba, image2rgba, image3rgba>;
+  = Types<image1_r, image2_r, image3_r, image1_rg, image2_rg, image3_rg, image1_rgb,
+    image2_rgb, image3_rgb, image1_rgba, image2_rgba, image3_rgba>;
 
 class test_image_class_attributes : public Test
 {};
@@ -60,7 +60,7 @@ class test_image_file_death_test : public test_image_file
 
 
 template <>
-typename image1r::size_type test_image<image1r>::generate_size()
+typename image1_r::size_type test_image<image1_r>::generate_size()
 {
   return vec1u{4u};
 }
@@ -68,7 +68,7 @@ typename image1r::size_type test_image<image1r>::generate_size()
 
 
 template <>
-typename image1rg::size_type test_image<image1rg>::generate_size()
+typename image1_rg::size_type test_image<image1_rg>::generate_size()
 {
   return vec1u{4u};
 }
@@ -76,7 +76,7 @@ typename image1rg::size_type test_image<image1rg>::generate_size()
 
 
 template <>
-typename image1rgb::size_type test_image<image1rgb>::generate_size()
+typename image1_rgb::size_type test_image<image1_rgb>::generate_size()
 {
   return vec1u{4u};
 }
@@ -84,7 +84,7 @@ typename image1rgb::size_type test_image<image1rgb>::generate_size()
 
 
 template <>
-typename image1rgba::size_type test_image<image1rgba>::generate_size()
+typename image1_rgba::size_type test_image<image1_rgba>::generate_size()
 {
   return vec1u{4u};
 }
@@ -92,7 +92,7 @@ typename image1rgba::size_type test_image<image1rgba>::generate_size()
 
 
 template <>
-typename image2r::size_type test_image<image2r>::generate_size()
+typename image2_r::size_type test_image<image2_r>::generate_size()
 {
   return vec2u{4u, 7u};
 }
@@ -100,7 +100,7 @@ typename image2r::size_type test_image<image2r>::generate_size()
 
 
 template <>
-typename image2rg::size_type test_image<image2rg>::generate_size()
+typename image2_rg::size_type test_image<image2_rg>::generate_size()
 {
   return vec2u{4u, 7u};
 }
@@ -108,7 +108,7 @@ typename image2rg::size_type test_image<image2rg>::generate_size()
 
 
 template <>
-typename image2rgb::size_type test_image<image2rgb>::generate_size()
+typename image2_rgb::size_type test_image<image2_rgb>::generate_size()
 {
   return vec2u{4u, 7u};
 }
@@ -116,7 +116,7 @@ typename image2rgb::size_type test_image<image2rgb>::generate_size()
 
 
 template <>
-typename image2rgba::size_type test_image<image2rgba>::generate_size()
+typename image2_rgba::size_type test_image<image2_rgba>::generate_size()
 {
   return vec2u{4u, 7u};
 }
@@ -124,7 +124,7 @@ typename image2rgba::size_type test_image<image2rgba>::generate_size()
 
 
 template <>
-typename image3r::size_type test_image<image3r>::generate_size()
+typename image3_r::size_type test_image<image3_r>::generate_size()
 {
   return vec3u{4u, 7u, 11u};
 }
@@ -132,7 +132,7 @@ typename image3r::size_type test_image<image3r>::generate_size()
 
 
 template <>
-typename image3rg::size_type test_image<image3rg>::generate_size()
+typename image3_rg::size_type test_image<image3_rg>::generate_size()
 {
   return vec3u{4u, 7u, 11u};
 }
@@ -140,7 +140,7 @@ typename image3rg::size_type test_image<image3rg>::generate_size()
 
 
 template <>
-typename image3rgb::size_type test_image<image3rgb>::generate_size()
+typename image3_rgb::size_type test_image<image3_rgb>::generate_size()
 {
   return vec3u{4u, 7u, 11u};
 }
@@ -148,7 +148,7 @@ typename image3rgb::size_type test_image<image3rgb>::generate_size()
 
 
 template <>
-typename image3rgba::size_type test_image<image3rgba>::generate_size()
+typename image3_rgba::size_type test_image<image3_rgba>::generate_size()
 {
   return vec3u{4u, 7u, 11u};
 }
@@ -681,63 +681,63 @@ TYPED_TEST(test_image, output_stream_operator)
 
 TEST_F(test_image_class_attributes, get_dimension_count)
 {
-  EXPECT_EQ(1u, image1r::get_dimension_count());
-  EXPECT_EQ(1u, image1rg::get_dimension_count());
-  EXPECT_EQ(1u, image1rgb::get_dimension_count());
-  EXPECT_EQ(1u, image1rgba::get_dimension_count());
-  EXPECT_EQ(2u, image2r::get_dimension_count());
-  EXPECT_EQ(2u, image2rg::get_dimension_count());
-  EXPECT_EQ(2u, image2rgb::get_dimension_count());
-  EXPECT_EQ(2u, image2rgba::get_dimension_count());
-  EXPECT_EQ(3u, image3r::get_dimension_count());
-  EXPECT_EQ(3u, image3rg::get_dimension_count());
-  EXPECT_EQ(3u, image3rgb::get_dimension_count());
-  EXPECT_EQ(3u, image3rgba::get_dimension_count());
+  EXPECT_EQ(1u, image1_r::get_dimension_count());
+  EXPECT_EQ(1u, image1_rg::get_dimension_count());
+  EXPECT_EQ(1u, image1_rgb::get_dimension_count());
+  EXPECT_EQ(1u, image1_rgba::get_dimension_count());
+  EXPECT_EQ(2u, image2_r::get_dimension_count());
+  EXPECT_EQ(2u, image2_rg::get_dimension_count());
+  EXPECT_EQ(2u, image2_rgb::get_dimension_count());
+  EXPECT_EQ(2u, image2_rgba::get_dimension_count());
+  EXPECT_EQ(3u, image3_r::get_dimension_count());
+  EXPECT_EQ(3u, image3_rg::get_dimension_count());
+  EXPECT_EQ(3u, image3_rgb::get_dimension_count());
+  EXPECT_EQ(3u, image3_rgba::get_dimension_count());
 }
 
 
 
 TEST_F(test_image_class_attributes, get_pixel_format)
 {
-  EXPECT_EQ(pixel_format::r, image1r::get_pixel_format());
-  EXPECT_EQ(pixel_format::rg, image1rg::get_pixel_format());
-  EXPECT_EQ(pixel_format::rgb, image1rgb::get_pixel_format());
-  EXPECT_EQ(pixel_format::rgba, image1rgba::get_pixel_format());
-  EXPECT_EQ(pixel_format::r, image2r::get_pixel_format());
-  EXPECT_EQ(pixel_format::rg, image2rg::get_pixel_format());
-  EXPECT_EQ(pixel_format::rgb, image2rgb::get_pixel_format());
-  EXPECT_EQ(pixel_format::rgba, image2rgba::get_pixel_format());
-  EXPECT_EQ(pixel_format::r, image3r::get_pixel_format());
-  EXPECT_EQ(pixel_format::rg, image3rg::get_pixel_format());
-  EXPECT_EQ(pixel_format::rgb, image3rgb::get_pixel_format());
-  EXPECT_EQ(pixel_format::rgba, image3rgba::get_pixel_format());
+  EXPECT_EQ(pixel_format::r, image1_r::get_pixel_format());
+  EXPECT_EQ(pixel_format::rg, image1_rg::get_pixel_format());
+  EXPECT_EQ(pixel_format::rgb, image1_rgb::get_pixel_format());
+  EXPECT_EQ(pixel_format::rgba, image1_rgba::get_pixel_format());
+  EXPECT_EQ(pixel_format::r, image2_r::get_pixel_format());
+  EXPECT_EQ(pixel_format::rg, image2_rg::get_pixel_format());
+  EXPECT_EQ(pixel_format::rgb, image2_rgb::get_pixel_format());
+  EXPECT_EQ(pixel_format::rgba, image2_rgba::get_pixel_format());
+  EXPECT_EQ(pixel_format::r, image3_r::get_pixel_format());
+  EXPECT_EQ(pixel_format::rg, image3_rg::get_pixel_format());
+  EXPECT_EQ(pixel_format::rgb, image3_rgb::get_pixel_format());
+  EXPECT_EQ(pixel_format::rgba, image3_rgba::get_pixel_format());
 }
 
 
 
 TEST_F(test_image_conversion_constructor, r2_rgba_constructor)
 {
-  image2r::size_type size(2u, 3u);
-  image2r::pixel_collection pixelsR{
-    image2r::pixel(1u),
-    image2r::pixel(2u),
-    image2r::pixel(3u),
-    image2r::pixel(4u),
-    image2r::pixel(5u),
-    image2r::pixel(6u),
+  image2_r::size_type size(2u, 3u);
+  image2_r::pixel_collection pixelsR{
+    image2_r::pixel(1u),
+    image2_r::pixel(2u),
+    image2_r::pixel(3u),
+    image2_r::pixel(4u),
+    image2_r::pixel(5u),
+    image2_r::pixel(6u),
   };
 
-  image2rgba::pixel_collection pixelsRGBA{
-    image2rgba::pixel(1u, 1u, 1u, 255u),
-    image2rgba::pixel(2u, 2u, 2u, 255u),
-    image2rgba::pixel(3u, 3u, 3u, 255u),
-    image2rgba::pixel(4u, 4u, 4u, 255u),
-    image2rgba::pixel(5u, 5u, 5u, 255u),
-    image2rgba::pixel(6u, 6u, 6u, 255u),
+  image2_rgba::pixel_collection pixelsRGBA{
+    image2_rgba::pixel(1u, 1u, 1u, 255u),
+    image2_rgba::pixel(2u, 2u, 2u, 255u),
+    image2_rgba::pixel(3u, 3u, 3u, 255u),
+    image2_rgba::pixel(4u, 4u, 4u, 255u),
+    image2_rgba::pixel(5u, 5u, 5u, 255u),
+    image2_rgba::pixel(6u, 6u, 6u, 255u),
   };
 
-  image2r imageR(size, pixelsR);
-  image2rgba imageRGBA(imageR);
+  image2_r imageR(size, pixelsR);
+  image2_rgba imageRGBA(imageR);
 
   EXPECT_EQ(size, imageRGBA.get_size());
   EXPECT_EQ(pixelsRGBA, imageRGBA.get_pixels());
@@ -747,27 +747,27 @@ TEST_F(test_image_conversion_constructor, r2_rgba_constructor)
 
 TEST_F(test_image_conversion_constructor, rg2_rgba_constructor)
 {
-  image2rg::size_type size(2u, 3u);
-  image2rg::pixel_collection pixelsRG{
-    image2rg::pixel(1u, 11u),
-    image2rg::pixel(2u, 12u),
-    image2rg::pixel(3u, 13u),
-    image2rg::pixel(4u, 14u),
-    image2rg::pixel(5u, 15u),
-    image2rg::pixel(6u, 16u),
+  image2_rg::size_type size(2u, 3u);
+  image2_rg::pixel_collection pixelsRG{
+    image2_rg::pixel(1u, 11u),
+    image2_rg::pixel(2u, 12u),
+    image2_rg::pixel(3u, 13u),
+    image2_rg::pixel(4u, 14u),
+    image2_rg::pixel(5u, 15u),
+    image2_rg::pixel(6u, 16u),
   };
 
-  image2rgba::pixel_collection pixelsRGBA{
-    image2rgba::pixel(1u, 1u, 1u, 11u),
-    image2rgba::pixel(2u, 2u, 2u, 12u),
-    image2rgba::pixel(3u, 3u, 3u, 13u),
-    image2rgba::pixel(4u, 4u, 4u, 14u),
-    image2rgba::pixel(5u, 5u, 5u, 15u),
-    image2rgba::pixel(6u, 6u, 6u, 16u),
+  image2_rgba::pixel_collection pixelsRGBA{
+    image2_rgba::pixel(1u, 1u, 1u, 11u),
+    image2_rgba::pixel(2u, 2u, 2u, 12u),
+    image2_rgba::pixel(3u, 3u, 3u, 13u),
+    image2_rgba::pixel(4u, 4u, 4u, 14u),
+    image2_rgba::pixel(5u, 5u, 5u, 15u),
+    image2_rgba::pixel(6u, 6u, 6u, 16u),
   };
 
-  image2rg imageRG(size, pixelsRG);
-  image2rgba imageRGBA(imageRG);
+  image2_rg imageRG(size, pixelsRG);
+  image2_rgba imageRGBA(imageRG);
 
   EXPECT_EQ(size, imageRGBA.get_size());
   EXPECT_EQ(pixelsRGBA, imageRGBA.get_pixels());
@@ -777,27 +777,27 @@ TEST_F(test_image_conversion_constructor, rg2_rgba_constructor)
 
 TEST_F(test_image_conversion_constructor, rgb2_rgba_constructor)
 {
-  image2rgb::size_type size(2u, 3u);
-  image2rgb::pixel_collection pixelsRGB{
-    image2rgb::pixel(200u, 118u, 93u),
-    image2rgb::pixel(3u, 12u, 3u),
-    image2rgb::pixel(5u, 11u, 2u),
-    image2rgb::pixel(200u, 100u, 0u),
-    image2rgb::pixel(0u, 21u, 0u),
-    image2rgb::pixel(100u, 20u, 0u),
+  image2_rgb::size_type size(2u, 3u);
+  image2_rgb::pixel_collection pixelsRGB{
+    image2_rgb::pixel(200u, 118u, 93u),
+    image2_rgb::pixel(3u, 12u, 3u),
+    image2_rgb::pixel(5u, 11u, 2u),
+    image2_rgb::pixel(200u, 100u, 0u),
+    image2_rgb::pixel(0u, 21u, 0u),
+    image2_rgb::pixel(100u, 20u, 0u),
   };
 
-  image2rgba::pixel_collection pixelsRGBA{
-    image2rgba::pixel(200u, 118u, 93u, 255u),
-    image2rgba::pixel(3u, 12u, 3u, 255u),
-    image2rgba::pixel(5u, 11u, 2u, 255u),
-    image2rgba::pixel(200u, 100u, 0u, 255u),
-    image2rgba::pixel(0u, 21u, 0u, 255u),
-    image2rgba::pixel(100u, 20u, 0u, 255u),
+  image2_rgba::pixel_collection pixelsRGBA{
+    image2_rgba::pixel(200u, 118u, 93u, 255u),
+    image2_rgba::pixel(3u, 12u, 3u, 255u),
+    image2_rgba::pixel(5u, 11u, 2u, 255u),
+    image2_rgba::pixel(200u, 100u, 0u, 255u),
+    image2_rgba::pixel(0u, 21u, 0u, 255u),
+    image2_rgba::pixel(100u, 20u, 0u, 255u),
   };
 
-  image2rgb imageRGB(size, pixelsRGB);
-  image2rgba imageRGBA(imageRGB);
+  image2_rgb imageRGB(size, pixelsRGB);
+  image2_rgba imageRGBA(imageRGB);
 
   EXPECT_EQ(size, imageRGBA.get_size());
   EXPECT_EQ(pixelsRGBA, imageRGBA.get_pixels());
@@ -807,51 +807,51 @@ TEST_F(test_image_conversion_constructor, rgb2_rgba_constructor)
 
 TEST_F(test_image_conversion_constructor, image1_to_image2_constructor)
 {
-  image1rgb::size_type size(3u);
-  image1rgba::pixel_collection pixelsRGBA{
-    image1rgba::pixel(200u, 118u, 93u, 255u),
-    image1rgba::pixel(3u, 12u, 3u, 255u),
-    image1rgba::pixel(5u, 11u, 2u, 255u),
+  image1_rgb::size_type size(3u);
+  image1_rgba::pixel_collection pixelsRGBA{
+    image1_rgba::pixel(200u, 118u, 93u, 255u),
+    image1_rgba::pixel(3u, 12u, 3u, 255u),
+    image1_rgba::pixel(5u, 11u, 2u, 255u),
   };
-  image1rgba image1rgba(size, pixelsRGBA);
-  image2rgba image2rgba(image1rgba);
-  EXPECT_EQ(vec2u(size.x(), 1u), image2rgba.get_size());
-  EXPECT_EQ(pixelsRGBA, image2rgba.get_pixels());
+  image1_rgba image1_rgba(size, pixelsRGBA);
+  image2_rgba image2_rgba(image1_rgba);
+  EXPECT_EQ(vec2u(size.x(), 1u), image2_rgba.get_size());
+  EXPECT_EQ(pixelsRGBA, image2_rgba.get_pixels());
 }
 
 
 
 TEST_F(test_image_conversion_constructor, image1_to_image3_constructor)
 {
-  image1rgb::size_type size(3u);
-  image1rgba::pixel_collection pixelsRGBA{
-    image1rgba::pixel(200u, 118u, 93u, 255u),
-    image1rgba::pixel(3u, 12u, 3u, 255u),
-    image1rgba::pixel(5u, 11u, 2u, 255u),
+  image1_rgb::size_type size(3u);
+  image1_rgba::pixel_collection pixelsRGBA{
+    image1_rgba::pixel(200u, 118u, 93u, 255u),
+    image1_rgba::pixel(3u, 12u, 3u, 255u),
+    image1_rgba::pixel(5u, 11u, 2u, 255u),
   };
-  image1rgba image1rgba(size, pixelsRGBA);
-  image3rgba image3rgba(image1rgba);
-  EXPECT_EQ(vec3u(size.x(), 1u, 1u), image3rgba.get_size());
-  EXPECT_EQ(pixelsRGBA, image3rgba.get_pixels());
+  image1_rgba image1_rgba(size, pixelsRGBA);
+  image3_rgba image3_rgba(image1_rgba);
+  EXPECT_EQ(vec3u(size.x(), 1u, 1u), image3_rgba.get_size());
+  EXPECT_EQ(pixelsRGBA, image3_rgba.get_pixels());
 }
 
 
 
 TEST_F(test_image_conversion_constructor, image2_to_image3_constructor)
 {
-  image2rgb::size_type size(3u, 2u);
-  image2rgba::pixel_collection pixelsRGBA{
-    image2rgba::pixel(200u, 118u, 93u, 255u),
-    image2rgba::pixel(3u, 12u, 3u, 255u),
-    image2rgba::pixel(5u, 11u, 2u, 255u),
-    image2rgba::pixel(200u, 118u, 93u, 255u),
-    image2rgba::pixel(3u, 12u, 3u, 255u),
-    image2rgba::pixel(5u, 11u, 2u, 255u),
+  image2_rgb::size_type size(3u, 2u);
+  image2_rgba::pixel_collection pixelsRGBA{
+    image2_rgba::pixel(200u, 118u, 93u, 255u),
+    image2_rgba::pixel(3u, 12u, 3u, 255u),
+    image2_rgba::pixel(5u, 11u, 2u, 255u),
+    image2_rgba::pixel(200u, 118u, 93u, 255u),
+    image2_rgba::pixel(3u, 12u, 3u, 255u),
+    image2_rgba::pixel(5u, 11u, 2u, 255u),
   };
-  image2rgba image1rgba(size, pixelsRGBA);
-  image3rgba image3rgba(image1rgba);
-  EXPECT_EQ(vec3u(size.x(), size.y(), 1u), image3rgba.get_size());
-  EXPECT_EQ(pixelsRGBA, image3rgba.get_pixels());
+  image2_rgba image1_rgba(size, pixelsRGBA);
+  image3_rgba image3_rgba(image1_rgba);
+  EXPECT_EQ(vec3u(size.x(), size.y(), 1u), image3_rgba.get_size());
+  EXPECT_EQ(pixelsRGBA, image3_rgba.get_pixels());
 }
 
 
@@ -859,16 +859,16 @@ TEST_F(test_image_conversion_constructor, image2_to_image3_constructor)
 TEST_F(test_image_file, load_bmp_rgba)
 {
   // alpha channel in Bmp not supported.
-  image2rgba im_ref(vec2u(3u, 2u),
-    std::vector<image2rgba::pixel>{
-      image2rgba::pixel(50u, 100u, 150u, 255u),
-      image2rgba::pixel(150u, 100u, 50u, 255u),
-      image2rgba::pixel(255u, 200u, 50u, 255u),
-      image2rgba::pixel(50u, 100u, 150u, 255u),
-      image2rgba::pixel(0u, 255u, 255u, 255u),
-      image2rgba::pixel(255u, 200u, 50u, 255u),
+  image2_rgba im_ref(vec2u(3u, 2u),
+    std::vector<image2_rgba::pixel>{
+      image2_rgba::pixel(50u, 100u, 150u, 255u),
+      image2_rgba::pixel(150u, 100u, 50u, 255u),
+      image2_rgba::pixel(255u, 200u, 50u, 255u),
+      image2_rgba::pixel(50u, 100u, 150u, 255u),
+      image2_rgba::pixel(0u, 255u, 255u, 255u),
+      image2_rgba::pixel(255u, 200u, 50u, 255u),
     });
-  image2rgba im = bmp_read_file<pixel_format::rgba>(test_image_bmp);
+  image2_rgba im = bmp_read_file<pixel_format::rgba>(test_image_bmp);
   EXPECT_EQ(im_ref, im);
 }
 
@@ -885,16 +885,16 @@ TEST_F(test_image_file_death_test, load_bmp_rgba_error)
 
 TEST_F(test_image_file, load_png_rgba)
 {
-  image2rgba im_ref(vec2u(3u, 2u),
-    std::vector<image2rgba::pixel>{
-      image2rgba::pixel(50u, 100u, 150u, 255u),
-      image2rgba::pixel(150u, 100u, 50u, 255u),
-      image2rgba::pixel(255u, 200u, 50u, 255u),
-      image2rgba::pixel(50u, 100u, 150u, 63u),
-      image2rgba::pixel(0u, 0u, 0u, 0u),
-      image2rgba::pixel(255u, 200u, 50u, 127u),
+  image2_rgba im_ref(vec2u(3u, 2u),
+    std::vector<image2_rgba::pixel>{
+      image2_rgba::pixel(50u, 100u, 150u, 255u),
+      image2_rgba::pixel(150u, 100u, 50u, 255u),
+      image2_rgba::pixel(255u, 200u, 50u, 255u),
+      image2_rgba::pixel(50u, 100u, 150u, 63u),
+      image2_rgba::pixel(0u, 0u, 0u, 0u),
+      image2_rgba::pixel(255u, 200u, 50u, 127u),
     });
-  image2rgba im = png_read_file<pixel_format::rgba>(test_image_png);
+  image2_rgba im = png_read_file<pixel_format::rgba>(test_image_png);
   EXPECT_EQ(im_ref, im);
 }
 
@@ -911,16 +911,16 @@ TEST_F(test_image_file_death_test, load_png_rgba_error)
 
 TEST_F(test_image_file, load_jpg_rgba)
 {
-  image2rgba im_ref(vec2u(3u, 2u),
-    std::vector<image2rgba::pixel>{
-      image2rgba::pixel(72u, 86u, 133u, 255u),
-      image2rgba::pixel(134u, 111u, 80u, 255u),
-      image2rgba::pixel(252u, 204u, 46u, 255u),
-      image2rgba::pixel(189u, 225u, 247u, 255u),
-      image2rgba::pixel(255u, 253u, 240u, 255u),
-      image2rgba::pixel(255u, 232u, 139u, 255u),
+  image2_rgba im_ref(vec2u(3u, 2u),
+    std::vector<image2_rgba::pixel>{
+      image2_rgba::pixel(72u, 86u, 133u, 255u),
+      image2_rgba::pixel(134u, 111u, 80u, 255u),
+      image2_rgba::pixel(252u, 204u, 46u, 255u),
+      image2_rgba::pixel(189u, 225u, 247u, 255u),
+      image2_rgba::pixel(255u, 253u, 240u, 255u),
+      image2_rgba::pixel(255u, 232u, 139u, 255u),
     });
-  image2rgba im = jpg_read_file<pixel_format::rgba>(test_image_jpg);
+  image2_rgba im = jpg_read_file<pixel_format::rgba>(test_image_jpg);
   EXPECT_EQ(im_ref, im);
 }
 
@@ -939,9 +939,9 @@ TEST_F(test_image_file, save_bmp_rgba)
 {
   const std::string savePath = get_output_dir() + "savedBmp.bmp";
   remove_dir(savePath);
-  image2rgba im_ref = bmp_read_file<pixel_format::rgba>(test_image_bmp);
+  image2_rgba im_ref = bmp_read_file<pixel_format::rgba>(test_image_bmp);
   bmp_write_file(savePath, im_ref);
-  image2rgba im = bmp_read_file<pixel_format::rgba>(savePath);
+  image2_rgba im = bmp_read_file<pixel_format::rgba>(savePath);
   EXPECT_EQ(im_ref, im);
   EXPECT_TRUE(remove_dir(savePath));
 }
@@ -952,7 +952,7 @@ TEST_F(test_image_file_death_test, save_bmp_error_rgba)
 {
   const std::string savePath = get_output_dir() + "savedBmp.bmp";
   remove_dir(savePath);
-  image2rgba im_ref = bmp_read_file<pixel_format::rgba>(test_image_bmp);
+  image2_rgba im_ref = bmp_read_file<pixel_format::rgba>(test_image_bmp);
   bmp_write_file(savePath, im_ref);
   HOU_EXPECT_ERROR(bmp_write_file<pixel_format::rgba>(savePath, im_ref),
     std::runtime_error,
@@ -965,16 +965,16 @@ TEST_F(test_image_file_death_test, save_bmp_error_rgba)
 TEST_F(test_image_file, load_bmp_rgb)
 {
   // alpha channel in Bmp not supported.
-  image2rgb im_ref(vec2u(3u, 2u),
-    std::vector<image2rgb::pixel>{
-      image2rgb::pixel(50u, 100u, 150u),
-      image2rgb::pixel(150u, 100u, 50u),
-      image2rgb::pixel(255u, 200u, 50u),
-      image2rgb::pixel(50u, 100u, 150u),
-      image2rgb::pixel(0u, 255u, 255u),
-      image2rgb::pixel(255u, 200u, 50u),
+  image2_rgb im_ref(vec2u(3u, 2u),
+    std::vector<image2_rgb::pixel>{
+      image2_rgb::pixel(50u, 100u, 150u),
+      image2_rgb::pixel(150u, 100u, 50u),
+      image2_rgb::pixel(255u, 200u, 50u),
+      image2_rgb::pixel(50u, 100u, 150u),
+      image2_rgb::pixel(0u, 255u, 255u),
+      image2_rgb::pixel(255u, 200u, 50u),
     });
-  image2rgb im = bmp_read_file<pixel_format::rgb>(test_image_bmp);
+  image2_rgb im = bmp_read_file<pixel_format::rgb>(test_image_bmp);
   EXPECT_EQ(im_ref, im);
 }
 
@@ -991,16 +991,16 @@ TEST_F(test_image_file_death_test, load_bmp_rgb_error)
 
 TEST_F(test_image_file, load_png_rgb)
 {
-  image2rgb im_ref(vec2u(3u, 2u),
-    std::vector<image2rgb::pixel>{
-      image2rgb::pixel(50u, 100u, 150u),
-      image2rgb::pixel(150u, 100u, 50u),
-      image2rgb::pixel(255u, 200u, 50u),
-      image2rgb::pixel(50u, 100u, 150u),
-      image2rgb::pixel(0u, 0u, 0u),
-      image2rgb::pixel(255u, 200u, 50u),
+  image2_rgb im_ref(vec2u(3u, 2u),
+    std::vector<image2_rgb::pixel>{
+      image2_rgb::pixel(50u, 100u, 150u),
+      image2_rgb::pixel(150u, 100u, 50u),
+      image2_rgb::pixel(255u, 200u, 50u),
+      image2_rgb::pixel(50u, 100u, 150u),
+      image2_rgb::pixel(0u, 0u, 0u),
+      image2_rgb::pixel(255u, 200u, 50u),
     });
-  image2rgb im = png_read_file<pixel_format::rgb>(test_image_png);
+  image2_rgb im = png_read_file<pixel_format::rgb>(test_image_png);
   EXPECT_EQ(im_ref, im);
 }
 
@@ -1017,16 +1017,16 @@ TEST_F(test_image_file_death_test, load_png_rgb_error)
 
 TEST_F(test_image_file, load_jpg_rgb)
 {
-  image2rgb im_ref(vec2u(3u, 2u),
-    std::vector<image2rgb::pixel>{
-      image2rgb::pixel(72u, 86u, 133u),
-      image2rgb::pixel(134u, 111u, 80u),
-      image2rgb::pixel(252u, 204u, 46u),
-      image2rgb::pixel(189u, 225u, 247u),
-      image2rgb::pixel(255u, 253u, 240u),
-      image2rgb::pixel(255u, 232u, 139u),
+  image2_rgb im_ref(vec2u(3u, 2u),
+    std::vector<image2_rgb::pixel>{
+      image2_rgb::pixel(72u, 86u, 133u),
+      image2_rgb::pixel(134u, 111u, 80u),
+      image2_rgb::pixel(252u, 204u, 46u),
+      image2_rgb::pixel(189u, 225u, 247u),
+      image2_rgb::pixel(255u, 253u, 240u),
+      image2_rgb::pixel(255u, 232u, 139u),
     });
-  image2rgb im = jpg_read_file<pixel_format::rgb>(test_image_jpg);
+  image2_rgb im = jpg_read_file<pixel_format::rgb>(test_image_jpg);
   EXPECT_EQ(im_ref, im);
 }
 
@@ -1044,16 +1044,16 @@ TEST_F(test_image_file_death_test, load_jpg_rgb_error)
 TEST_F(test_image_file, load_bmp_rg)
 {
   // alpha channel in Bmp not supported.
-  image2rg im_ref(vec2u(3u, 2u),
-    std::vector<image2rg::pixel>{
-      image2rg::pixel(90u, 255u),
-      image2rg::pixel(109u, 255u),
-      image2rg::pixel(199u, 255u),
-      image2rg::pixel(90u, 255u),
-      image2rg::pixel(178u, 255u),
-      image2rg::pixel(199u, 255u),
+  image2_rg im_ref(vec2u(3u, 2u),
+    std::vector<image2_rg::pixel>{
+      image2_rg::pixel(90u, 255u),
+      image2_rg::pixel(109u, 255u),
+      image2_rg::pixel(199u, 255u),
+      image2_rg::pixel(90u, 255u),
+      image2_rg::pixel(178u, 255u),
+      image2_rg::pixel(199u, 255u),
     });
-  image2rg im = bmp_read_file<pixel_format::rg>(test_image_bmp);
+  image2_rg im = bmp_read_file<pixel_format::rg>(test_image_bmp);
   EXPECT_EQ(im_ref, im);
 }
 
@@ -1070,16 +1070,16 @@ TEST_F(test_image_file_death_test, load_bmp_rg_error)
 
 TEST_F(test_image_file, load_png_rg)
 {
-  image2rg im_ref(vec2u(3u, 2u),
-    std::vector<image2rg::pixel>{
-      image2rg::pixel(90u, 255u),
-      image2rg::pixel(109u, 255u),
-      image2rg::pixel(199u, 255u),
-      image2rg::pixel(90u, 63u),
-      image2rg::pixel(0u, 0u),
-      image2rg::pixel(199u, 127u),
+  image2_rg im_ref(vec2u(3u, 2u),
+    std::vector<image2_rg::pixel>{
+      image2_rg::pixel(90u, 255u),
+      image2_rg::pixel(109u, 255u),
+      image2_rg::pixel(199u, 255u),
+      image2_rg::pixel(90u, 63u),
+      image2_rg::pixel(0u, 0u),
+      image2_rg::pixel(199u, 127u),
     });
-  image2rg im = png_read_file<pixel_format::rg>(test_image_png);
+  image2_rg im = png_read_file<pixel_format::rg>(test_image_png);
   EXPECT_EQ(im_ref, im);
 }
 
@@ -1096,16 +1096,16 @@ TEST_F(test_image_file_death_test, load_png_rg_error)
 
 TEST_F(test_image_file, load_jpg_rg)
 {
-  image2rg im_ref(vec2u(3u, 2u),
-    std::vector<image2rg::pixel>{
-      image2rg::pixel(87u, 255u),
-      image2rg::pixel(114u, 255u),
-      image2rg::pixel(200u, 255u),
-      image2rg::pixel(217u, 255u),
-      image2rg::pixel(252u, 255u),
-      image2rg::pixel(231u, 255u),
+  image2_rg im_ref(vec2u(3u, 2u),
+    std::vector<image2_rg::pixel>{
+      image2_rg::pixel(87u, 255u),
+      image2_rg::pixel(114u, 255u),
+      image2_rg::pixel(200u, 255u),
+      image2_rg::pixel(217u, 255u),
+      image2_rg::pixel(252u, 255u),
+      image2_rg::pixel(231u, 255u),
     });
-  image2rg im = jpg_read_file<pixel_format::rg>(test_image_jpg);
+  image2_rg im = jpg_read_file<pixel_format::rg>(test_image_jpg);
   EXPECT_EQ(im_ref, im);
 }
 
@@ -1123,16 +1123,16 @@ TEST_F(test_image_file_death_test, load_jpg_rg_error)
 TEST_F(test_image_file, load_bmp_r)
 {
   // alpha channel in Bmp not supported.
-  image2r im_ref(vec2u(3u, 2u),
-    std::vector<image2r::pixel>{
-      image2r::pixel(90u),
-      image2r::pixel(109u),
-      image2r::pixel(199u),
-      image2r::pixel(90u),
-      image2r::pixel(178u),
-      image2r::pixel(199u),
+  image2_r im_ref(vec2u(3u, 2u),
+    std::vector<image2_r::pixel>{
+      image2_r::pixel(90u),
+      image2_r::pixel(109u),
+      image2_r::pixel(199u),
+      image2_r::pixel(90u),
+      image2_r::pixel(178u),
+      image2_r::pixel(199u),
     });
-  image2r im = bmp_read_file<pixel_format::r>(test_image_bmp);
+  image2_r im = bmp_read_file<pixel_format::r>(test_image_bmp);
   EXPECT_EQ(im_ref, im);
 }
 
@@ -1149,16 +1149,16 @@ TEST_F(test_image_file_death_test, load_bmp_r_error)
 
 TEST_F(test_image_file, load_png_r)
 {
-  image2r im_ref(vec2u(3u, 2u),
-    std::vector<image2r::pixel>{
-      image2r::pixel(90u),
-      image2r::pixel(109u),
-      image2r::pixel(199u),
-      image2r::pixel(90u),
-      image2r::pixel(0u),
-      image2r::pixel(199u),
+  image2_r im_ref(vec2u(3u, 2u),
+    std::vector<image2_r::pixel>{
+      image2_r::pixel(90u),
+      image2_r::pixel(109u),
+      image2_r::pixel(199u),
+      image2_r::pixel(90u),
+      image2_r::pixel(0u),
+      image2_r::pixel(199u),
     });
-  image2r im = png_read_file<pixel_format::r>(test_image_png);
+  image2_r im = png_read_file<pixel_format::r>(test_image_png);
   EXPECT_EQ(im_ref, im);
 }
 
@@ -1175,16 +1175,16 @@ TEST_F(test_image_file_death_test, load_png_r_error)
 
 TEST_F(test_image_file, load_jpg_r)
 {
-  image2r im_ref(vec2u(3u, 2u),
-    std::vector<image2r::pixel>{
-      image2r::pixel(87u),
-      image2r::pixel(114u),
-      image2r::pixel(200u),
-      image2r::pixel(217u),
-      image2r::pixel(252u),
-      image2r::pixel(231u),
+  image2_r im_ref(vec2u(3u, 2u),
+    std::vector<image2_r::pixel>{
+      image2_r::pixel(87u),
+      image2_r::pixel(114u),
+      image2_r::pixel(200u),
+      image2_r::pixel(217u),
+      image2_r::pixel(252u),
+      image2_r::pixel(231u),
     });
-  image2r im = jpg_read_file<pixel_format::r>(test_image_jpg);
+  image2_r im = jpg_read_file<pixel_format::r>(test_image_jpg);
   EXPECT_EQ(im_ref, im);
 }
 

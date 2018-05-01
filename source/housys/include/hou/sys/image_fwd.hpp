@@ -19,24 +19,24 @@ class image;
 
 template <pixel_format format>
 using image1 = image<1u, format>;
-using image1r = image1<pixel_format::r>;
-using image1rg = image1<pixel_format::rg>;
-using image1rgb = image1<pixel_format::rgb>;
-using image1rgba = image1<pixel_format::rgba>;
+using image1_r = image1<pixel_format::r>;
+using image1_rg = image1<pixel_format::rg>;
+using image1_rgb = image1<pixel_format::rgb>;
+using image1_rgba = image1<pixel_format::rgba>;
 
 template <pixel_format format>
 using image2 = image<2u, format>;
-using image2r = image2<pixel_format::r>;
-using image2rg = image2<pixel_format::rg>;
-using image2rgb = image2<pixel_format::rgb>;
-using image2rgba = image2<pixel_format::rgba>;
+using image2_r = image2<pixel_format::r>;
+using image2_rg = image2<pixel_format::rg>;
+using image2_rgb = image2<pixel_format::rgb>;
+using image2_rgba = image2<pixel_format::rgba>;
 
 template <pixel_format format>
 using image3 = image<3u, format>;
-using image3r = image3<pixel_format::r>;
-using image3rg = image3<pixel_format::rg>;
-using image3rgb = image3<pixel_format::rgb>;
-using image3rgba = image3<pixel_format::rgba>;
+using image3_r = image3<pixel_format::r>;
+using image3_rg = image3<pixel_format::rg>;
+using image3_rgb = image3<pixel_format::rgb>;
+using image3_rgba = image3<pixel_format::rgba>;
 
 }  // namespace hou
 

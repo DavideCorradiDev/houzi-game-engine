@@ -23,7 +23,7 @@ TEST_F(test_glyph, default_constructor)
 {
   glyph g;
 
-  EXPECT_EQ(image2r(), g.get_image());
+  EXPECT_EQ(image2_r(), g.get_image());
   EXPECT_EQ(glyph_metrics(), g.get_metrics());
 }
 
@@ -31,7 +31,7 @@ TEST_F(test_glyph, default_constructor)
 
 TEST_F(test_glyph, parameter_constructor)
 {
-  image2r ref_im(vec2u(2u, 3u), std::vector<image2r::pixel>{1, 2, 3, 4, 5, 6});
+  image2_r ref_im(vec2u(2u, 3u), std::vector<image2_r::pixel>{1, 2, 3, 4, 5, 6});
   glyph_metrics ref_metrics(vec2u(2u, 3u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
   glyph g(ref_im, ref_metrics);
 
@@ -43,8 +43,8 @@ TEST_F(test_glyph, parameter_constructor)
 
 TEST_F(test_glyph, comparison)
 {
-  image2r ref_im1(vec2u(2u, 3u), std::vector<image2r::pixel>{1, 2, 3, 4, 5, 6});
-  image2r ref_im2(vec2u(2u, 3u), std::vector<image2r::pixel>{1, 3, 3, 4, 5, 6});
+  image2_r ref_im1(vec2u(2u, 3u), std::vector<image2_r::pixel>{1, 2, 3, 4, 5, 6});
+  image2_r ref_im2(vec2u(2u, 3u), std::vector<image2_r::pixel>{1, 3, 3, 4, 5, 6});
   glyph_metrics ref_metrics1(vec2u(2u, 3u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
   glyph_metrics ref_metrics2(vec2u(3u, 3u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
   glyph g1(ref_im1, ref_metrics1);
@@ -65,8 +65,8 @@ TEST_F(test_glyph, comparison)
 
 TEST_F(test_glyph, set_image)
 {
-  image2r ref_im1(vec2u(2u, 3u), std::vector<image2r::pixel>{1, 2, 3, 4, 5, 6});
-  image2r ref_im2(vec2u(2u, 3u), std::vector<image2r::pixel>{1, 3, 3, 4, 5, 6});
+  image2_r ref_im1(vec2u(2u, 3u), std::vector<image2_r::pixel>{1, 2, 3, 4, 5, 6});
+  image2_r ref_im2(vec2u(2u, 3u), std::vector<image2_r::pixel>{1, 3, 3, 4, 5, 6});
   glyph_metrics ref_metrics(vec2u(2u, 3u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
   glyph g(ref_im1, ref_metrics);
   EXPECT_EQ(ref_im1, g.get_image());
@@ -79,7 +79,7 @@ TEST_F(test_glyph, set_image)
 
 TEST_F(test_glyph, set_metrics)
 {
-  image2r ref_im(vec2u(2u, 3u), std::vector<image2r::pixel>{1, 2, 3, 4, 5, 6});
+  image2_r ref_im(vec2u(2u, 3u), std::vector<image2_r::pixel>{1, 2, 3, 4, 5, 6});
   glyph_metrics ref_metrics1(vec2u(2u, 3u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
   glyph_metrics ref_metrics2(vec2u(3u, 3u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
   glyph g(ref_im, ref_metrics1);
@@ -93,7 +93,7 @@ TEST_F(test_glyph, set_metrics)
 
 TEST_F(test_glyph, output_stream_operator)
 {
-  image2r ref_im(vec2u(2u, 3u), std::vector<image2r::pixel>{1, 2, 3, 4, 5, 6});
+  image2_r ref_im(vec2u(2u, 3u), std::vector<image2_r::pixel>{1, 2, 3, 4, 5, 6});
   glyph_metrics ref_metrics(vec2u(2u, 3u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
   glyph g(ref_im, ref_metrics);
 

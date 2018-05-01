@@ -39,7 +39,7 @@ TEST_F(test_system_window, create_windowed)
   vec2i pos_ref = static_cast<vec2i>(screen_size - size_ref) / 2;
   uint bbp_ref = 4u;
   window_style style_ref = window_style::windowed;
-  image2rgba icon_ref;
+  image2_rgba icon_ref;
 
   system_window w(title_ref, video_mode(size_ref, bbp_ref), style_ref);
 
@@ -66,7 +66,7 @@ TEST_F(test_system_window, create_windowed_resizable)
   vec2i pos_ref = static_cast<vec2i>(screen_size - size_ref) / 2;
   uint bbp_ref = 4u;
   window_style style_ref = window_style::windowed_resizable;
-  image2rgba icon_ref;
+  image2_rgba icon_ref;
 
   system_window w(title_ref, video_mode(size_ref, bbp_ref), style_ref);
 
@@ -92,7 +92,7 @@ TEST_F(test_system_window, create_fullscreen)
   vec2i pos_ref(0, 0);
   uint bbp_ref(video_mode::get_desktop_mode().get_bytes_per_pixel());
   window_style style_ref = window_style::fullscreen;
-  image2rgba icon_ref;
+  image2_rgba icon_ref;
 
   system_window w(title_ref, video_mode(size_ref, bbp_ref), style_ref);
 
@@ -172,7 +172,7 @@ TEST_F(test_system_window, move_constructor)
   vec2i pos_ref = static_cast<vec2i>(screen_size - size_ref) / 2;
   uint bbp_ref = 4u;
   window_style style_ref = window_style::windowed;
-  image2rgba icon_ref;
+  image2_rgba icon_ref;
 
   system_window w_dummy(title_ref, video_mode(size_ref, bbp_ref), style_ref);
   window_handle handle_ref = w_dummy.get_handle();
@@ -297,13 +297,13 @@ TEST_F(test_system_window, icon)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
-  EXPECT_EQ(image2rgba(), w.get_icon());
-  image2rgba refIcon(
+  EXPECT_EQ(image2_rgba(), w.get_icon());
+  image2_rgba refIcon(
     png_read_file<pixel_format::rgba>(get_data_dir() + u8"TestImage.png"));
   w.set_icon(refIcon);
   EXPECT_EQ(refIcon, w.get_icon());
   w.set_system_icon();
-  EXPECT_EQ(image2rgba(), w.get_icon());
+  EXPECT_EQ(image2_rgba(), w.get_icon());
 }
 
 

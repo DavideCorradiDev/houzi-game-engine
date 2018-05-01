@@ -61,7 +61,7 @@ class glyph_atlas
 public:
   glyph_atlas(const glyph_cache& cache);
 
-  const image3r& get_image() const;
+  const image3_r& get_image() const;
   const atlas_glyph_coordinates& get_atlas_glyph_coordinates(
     utf32::code_unit c) const;
 
@@ -70,7 +70,7 @@ private:
 
 private:
   vec3u m_atlas_grid_size;
-  image3r m_image;
+  image3_r m_image;
   std::map<utf32::code_unit, atlas_glyph_coordinates> m_glyph_coords;
 };
 
@@ -281,7 +281,7 @@ glyph_atlas::glyph_atlas(const glyph_cache& cache)
 
 
 
-const image3r& glyph_atlas::get_image() const
+const image3_r& glyph_atlas::get_image() const
 {
   return m_image;
 }

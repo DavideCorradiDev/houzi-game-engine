@@ -186,13 +186,13 @@ public:
    * \return the window icon if a custom icon was set, an empty image if the
    * system icon is being used.
    */
-  const image2rgba& get_icon() const;
+  const image2_rgba& get_icon() const;
 
   /** Sets the window icon.
    *
    * \param icon the icon.
    */
-  void set_icon(const image2rgba& icon);
+  void set_icon(const image2_rgba& icon);
 
   /** Resets the window icon to the default system icon.
    */
@@ -311,7 +311,7 @@ private:
   window_style m_style;
   uint m_bytes_per_pixel;
   std::string m_title;
-  image2rgba m_icon_image;
+  image2_rgba m_icon_image;
 };
 
 }  // namespace hou

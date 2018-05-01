@@ -35,7 +35,7 @@ TEST_F(test_render_window, creation_windowed)
   vec2u screen_size = video_mode::get_desktop_mode().get_resolution();
   vec2i pos_ref = static_cast<vec2i>(screen_size - size_ref) / 2;
   window_style style_ref = window_style::windowed;
-  image2rgba icon_ref;
+  image2_rgba icon_ref;
   uint samples_ref = 1u;
 
   render_window w(title_ref, size_ref, style_ref, samples_ref);
@@ -71,7 +71,7 @@ TEST_F(test_render_window, creation_windowed_multisampled)
   vec2u screen_size = video_mode::get_desktop_mode().get_resolution();
   vec2i pos_ref = static_cast<vec2i>(screen_size - size_ref) / 2;
   window_style style_ref = window_style::windowed;
-  image2rgba icon_ref;
+  image2_rgba icon_ref;
   uint samples_ref = 4u;
 
   render_window w(title_ref, size_ref, style_ref, samples_ref);
@@ -107,7 +107,7 @@ TEST_F(test_render_window, creation_fullscreen)
   vec2u size_ref = screen_size;
   vec2i pos_ref = static_cast<vec2i>(screen_size - size_ref) / 2;
   window_style style_ref = window_style::fullscreen;
-  image2rgba icon_ref;
+  image2_rgba icon_ref;
   uint samples_ref = 1u;
 
   render_window w(title_ref, size_ref, style_ref, samples_ref);

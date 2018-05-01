@@ -16,21 +16,21 @@ glyph::glyph()
 
 
 
-glyph::glyph(const image2r& im, const glyph_metrics& metrics)
+glyph::glyph(const image2_r& im, const glyph_metrics& metrics)
   : m_image(im)
   , m_metrics(metrics)
 {}
 
 
 
-const image2r& glyph::get_image() const
+const image2_r& glyph::get_image() const
 {
   return m_image;
 }
 
 
 
-void glyph::set_image(const image2r& im)
+void glyph::set_image(const image2_r& im)
 {
   m_image = im;
 }

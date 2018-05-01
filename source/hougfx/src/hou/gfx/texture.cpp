@@ -551,7 +551,7 @@ texture_t<texture_type::texture1>::texture_t<texture_type::texture1, void>(
          mipmap_level_count, size));
   gl::set_texture_storage_1d(m_gl_texture_handle, mipmap_level_count,
     static_cast<GLenum>(format), size.x());
-  clear(pixelrgba(0u, 0u, 0u, 0u));
+  clear(pixel_rgba(0u, 0u, 0u, 0u));
 }
 
 
@@ -567,7 +567,7 @@ texture_t<texture_type::texture1_array>::texture_t<texture_type::texture1_array,
          mipmap_level_count, size));
   gl::set_texture_storage_2d(m_gl_texture_handle, mipmap_level_count,
     static_cast<GLenum>(format), size.x(), size.y());
-  clear(pixelrgba(0u, 0u, 0u, 0u));
+  clear(pixel_rgba(0u, 0u, 0u, 0u));
 }
 
 
@@ -583,7 +583,7 @@ texture_t<texture_type::texture2>::texture_t<texture_type::texture2, void>(
          mipmap_level_count, size));
   gl::set_texture_storage_2d(m_gl_texture_handle, mipmap_level_count,
     static_cast<GLenum>(format), size.x(), size.y());
-  clear(pixelrgba(0u, 0u, 0u, 0u));
+  clear(pixel_rgba(0u, 0u, 0u, 0u));
 }
 
 
@@ -599,7 +599,7 @@ texture_t<texture_type::texture2_array>::texture_t<texture_type::texture2_array,
          mipmap_level_count, size));
   gl::set_texture_storage_3d(m_gl_texture_handle, mipmap_level_count,
     static_cast<GLenum>(format), size.x(), size.y(), size.z());
-  clear(pixelrgba(0u, 0u, 0u, 0u));
+  clear(pixel_rgba(0u, 0u, 0u, 0u));
 }
 
 
@@ -615,7 +615,7 @@ texture_t<texture_type::texture3>::texture_t<texture_type::texture3, void>(
          mipmap_level_count, size));
   gl::set_texture_storage_3d(m_gl_texture_handle, mipmap_level_count,
     static_cast<GLenum>(format), size.x(), size.y(), size.z());
-  clear(pixelrgba(0u, 0u, 0u, 0u));
+  clear(pixel_rgba(0u, 0u, 0u, 0u));
 }
 
 

@@ -37,8 +37,8 @@ void test_color_blit(texture_format src_format,
   texture_format dst_format, const typename DstTexType::size_type& dst_size,
   const recti& dst_rect, framebuffer_blit_filter filter, bool test_error)
 {
-  using image = image2rgba;
-  using pixel = pixelrgba;
+  using image = image2_rgba;
+  using pixel = pixel_rgba;
 
   // Build the framebuffers.
   color color_ref(2u, 3u, 5u, 7u);
@@ -1064,7 +1064,7 @@ TEST_F(test_framebuffer, blit_to_texture)
 
   framebuffer src;
   texture2 src_tex(size_ref);
-  src_tex.clear(pixelrgba(1u, 2u, 3u, 4u));
+  src_tex.clear(pixel_rgba(1u, 2u, 3u, 4u));
   src.set_color_attachment(0u, src_tex);
 
   texture2 dst_tex(size_ref);
@@ -1082,7 +1082,7 @@ TEST_F(test_framebuffer, blit_from_texture)
   recti rect_ref(vec2i::zero(), size_ref);
 
   texture2 src_tex(size_ref);
-  src_tex.clear(pixelrgba(1u, 2u, 3u, 4u));
+  src_tex.clear(pixel_rgba(1u, 2u, 3u, 4u));
 
   framebuffer dst;
   texture2 dst_tex(size_ref);
@@ -1101,7 +1101,7 @@ TEST_F(test_framebuffer, blit_from_and_to_texture)
   recti rect_ref(vec2i::zero(), size_ref);
 
   texture2 src_tex(size_ref);
-  src_tex.clear(pixelrgba(1u, 2u, 3u, 4u));
+  src_tex.clear(pixel_rgba(1u, 2u, 3u, 4u));
 
   texture2 dst_tex(size_ref);
 
