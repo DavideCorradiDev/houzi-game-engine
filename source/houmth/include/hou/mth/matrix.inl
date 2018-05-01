@@ -5,40 +5,40 @@
 namespace hou
 {
 
-template <typename T, size_t rows, size_t cols>
-constexpr size_t matrix<T, rows, cols>::get_row_count()
+template <typename T, size_t Rows, size_t Cols>
+constexpr size_t matrix<T, Rows, Cols>::get_row_count()
 {
-  return rows;
+  return Rows;
 }
 
 
 
-template <typename T, size_t rows, size_t cols>
-constexpr size_t matrix<T, rows, cols>::get_column_count()
+template <typename T, size_t Rows, size_t Cols>
+constexpr size_t matrix<T, Rows, Cols>::get_column_count()
 {
-  return cols;
+  return Cols;
 }
 
 
 
-template <typename T, size_t rows, size_t cols>
-constexpr size_t matrix<T, rows, cols>::get_size()
+template <typename T, size_t Rows, size_t Cols>
+constexpr size_t matrix<T, Rows, Cols>::get_size()
 {
-  return rows * cols;
+  return Rows * Cols;
 }
 
 
 
-template <typename T, size_t rows, size_t cols>
-matrix<T, rows, cols> matrix<T, rows, cols>::zero()
+template <typename T, size_t Rows, size_t Cols>
+matrix<T, Rows, Cols> matrix<T, Rows, Cols>::zero()
 {
-  return matrix<T, rows, cols>();
+  return matrix<T, Rows, Cols>();
 }
 
 
 
-template <typename T, size_t rows, size_t cols>
-matrix<T, rows, cols> matrix<T, rows, cols>::filled(T value)
+template <typename T, size_t Rows, size_t Cols>
+matrix<T, Rows, Cols> matrix<T, Rows, Cols>::filled(T value)
 {
   matrix m;
   m.fill(value);
@@ -48,12 +48,12 @@ matrix<T, rows, cols> matrix<T, rows, cols>::filled(T value)
 
 
 #ifndef HOU_DOXYGEN
-template <typename T, size_t rows, size_t cols>
-template <size_t rc, typename Enable>
-matrix<T, rows, cols> matrix<T, rows, cols>::identity()
+template <typename T, size_t Rows, size_t Cols>
+template <size_t RC, typename Enable>
+matrix<T, Rows, Cols> matrix<T, Rows, Cols>::identity()
 {
   matrix m;
-  for(size_t i = 0; i < rc; ++i)
+  for(size_t i = 0; i < RC; ++i)
   {
     m(i, i) = 1;
   }
@@ -64,13 +64,13 @@ matrix<T, rows, cols> matrix<T, rows, cols>::identity()
 
 
 #ifndef HOU_DOXYGEN
-template <typename T, size_t rows, size_t cols>
-template <size_t rc, typename Enable>
-matrix<T, rows, cols> matrix<T, rows, cols>::diagonal(
-  const matrix<T, rc, 1u>& elements)
+template <typename T, size_t Rows, size_t Cols>
+template <size_t RC, typename Enable>
+matrix<T, Rows, Cols> matrix<T, Rows, Cols>::diagonal(
+  const matrix<T, RC, 1u>& elements)
 {
   matrix m;
-  for(size_t i = 0; i < rc; ++i)
+  for(size_t i = 0; i < RC; ++i)
   {
     m(i, i) = elements(i);
   }
@@ -81,18 +81,18 @@ matrix<T, rows, cols> matrix<T, rows, cols>::diagonal(
 
 
 #ifndef HOU_DOXYGEN
-template <typename T, size_t rows, size_t cols>
+template <typename T, size_t Rows, size_t Cols>
 template <typename... Args, typename Enable>
-matrix<T, rows, cols> matrix<T, rows, cols>::diagonal(Args... elements)
+matrix<T, Rows, Cols> matrix<T, Rows, Cols>::diagonal(Args... elements)
 {
-  return diagonal(matrix<T, rows, 1u>(elements...));
+  return diagonal(matrix<T, Rows, 1u>(elements...));
 }
 #endif
 
 
 
-template <typename T, size_t rows, size_t cols>
-matrix<T, rows, cols>::matrix()
+template <typename T, size_t Rows, size_t Cols>
+matrix<T, Rows, Cols>::matrix()
   : m_elements()
 {
   fill(0);
@@ -100,9 +100,9 @@ matrix<T, rows, cols>::matrix()
 
 
 
-template <typename T, size_t rows, size_t cols>
+template <typename T, size_t Rows, size_t Cols>
 template <typename U, typename Enable>
-matrix<T, rows, cols>::matrix(const matrix<U, rows, cols>& other)
+matrix<T, Rows, Cols>::matrix(const matrix<U, Rows, Cols>& other)
   : m_elements()
 {
   std::copy(
@@ -111,16 +111,16 @@ matrix<T, rows, cols>::matrix(const matrix<U, rows, cols>& other)
 
 
 
-template <typename T, size_t rows, size_t cols>
+template <typename T, size_t Rows, size_t Cols>
 template <typename... Args, typename Enable>
-matrix<T, rows, cols>::matrix(Args... elements)
+matrix<T, Rows, Cols>::matrix(Args... elements)
   : m_elements{elements...}
 {}
 
 
 
-template <typename T, size_t rows, size_t cols>
-matrix<T, rows, cols>::matrix(std::initializer_list<T> elements)
+template <typename T, size_t Rows, size_t Cols>
+matrix<T, Rows, Cols>::matrix(std::initializer_list<T> elements)
   : m_elements()
 {
   HOU_EXPECT(elements.size() == get_size());
@@ -129,41 +129,32 @@ matrix<T, rows, cols>::matrix(std::initializer_list<T> elements)
 
 
 
-template <typename T, size_t rows, size_t cols>
-matrix<T, rows, cols>::~matrix()
+template <typename T, size_t Rows, size_t Cols>
+matrix<T, Rows, Cols>::~matrix()
 {}
 
 
 
-template <typename T, size_t rows, size_t cols>
-T matrix<T, rows, cols>::operator()(size_t row, size_t col) const
+template <typename T, size_t Rows, size_t Cols>
+T matrix<T, Rows, Cols>::operator()(size_t row, size_t col) const
 {
-  HOU_EXPECT((row < rows) && (col < cols));
-  return m_elements[row * cols + col];
+  HOU_EXPECT((row < Rows) && (col < Cols));
+  return m_elements[row * Cols + col];
 }
 
 
 
-template <typename T, size_t rows, size_t cols>
-T& matrix<T, rows, cols>::operator()(size_t row, size_t col)
+template <typename T, size_t Rows, size_t Cols>
+T& matrix<T, Rows, Cols>::operator()(size_t row, size_t col)
 {
-  HOU_EXPECT((row < rows) && (col < cols));
-  return m_elements[row * cols + col];
+  HOU_EXPECT((row < Rows) && (col < Cols));
+  return m_elements[row * Cols + col];
 }
 
 
 
-template <typename T, size_t rows, size_t cols>
-T matrix<T, rows, cols>::operator()(size_t index) const
-{
-  HOU_EXPECT(index < get_size());
-  return m_elements[index];
-}
-
-
-
-template <typename T, size_t rows, size_t cols>
-T& matrix<T, rows, cols>::operator()(size_t index)
+template <typename T, size_t Rows, size_t Cols>
+T matrix<T, Rows, Cols>::operator()(size_t index) const
 {
   HOU_EXPECT(index < get_size());
   return m_elements[index];
@@ -171,106 +162,115 @@ T& matrix<T, rows, cols>::operator()(size_t index)
 
 
 
-template <typename T, size_t rows, size_t cols>
+template <typename T, size_t Rows, size_t Cols>
+T& matrix<T, Rows, Cols>::operator()(size_t index)
+{
+  HOU_EXPECT(index < get_size());
+  return m_elements[index];
+}
+
+
+
+template <typename T, size_t Rows, size_t Cols>
 template <size_t c, typename Enable>
-T matrix<T, rows, cols>::x() const
+T matrix<T, Rows, Cols>::x() const
 {
   return m_elements[0];
 }
 
 
 
-template <typename T, size_t rows, size_t cols>
+template <typename T, size_t Rows, size_t Cols>
 template <size_t c, typename Enable>
-T& matrix<T, rows, cols>::x()
+T& matrix<T, Rows, Cols>::x()
 {
   return m_elements[0];
 }
 
 
 
-template <typename T, size_t rows, size_t cols>
+template <typename T, size_t Rows, size_t Cols>
 template <size_t r, size_t c, typename Enable>
-T matrix<T, rows, cols>::y() const
+T matrix<T, Rows, Cols>::y() const
 {
   return m_elements[1];
 }
 
 
 
-template <typename T, size_t rows, size_t cols>
+template <typename T, size_t Rows, size_t Cols>
 template <size_t r, size_t c, typename Enable>
-T& matrix<T, rows, cols>::y()
+T& matrix<T, Rows, Cols>::y()
 {
   return m_elements[1];
 }
 
 
 
-template <typename T, size_t rows, size_t cols>
+template <typename T, size_t Rows, size_t Cols>
 template <size_t r, size_t c, typename Enable>
-T matrix<T, rows, cols>::z() const
+T matrix<T, Rows, Cols>::z() const
 {
   return m_elements[2];
 }
 
 
 
-template <typename T, size_t rows, size_t cols>
+template <typename T, size_t Rows, size_t Cols>
 template <size_t r, size_t c, typename Enable>
-T& matrix<T, rows, cols>::z()
+T& matrix<T, Rows, Cols>::z()
 {
   return m_elements[2];
 }
 
 
 
-template <typename T, size_t rows, size_t cols>
+template <typename T, size_t Rows, size_t Cols>
 template <size_t r, size_t c, typename Enable>
-T matrix<T, rows, cols>::w() const
+T matrix<T, Rows, Cols>::w() const
 {
   return m_elements[3];
 }
 
 
 
-template <typename T, size_t rows, size_t cols>
+template <typename T, size_t Rows, size_t Cols>
 template <size_t r, size_t c, typename Enable>
-T& matrix<T, rows, cols>::w()
+T& matrix<T, Rows, Cols>::w()
 {
   return m_elements[3];
 }
 
 
 
-template <typename T, size_t rows, size_t cols>
-const T* matrix<T, rows, cols>::data() const
+template <typename T, size_t Rows, size_t Cols>
+const T* matrix<T, Rows, Cols>::data() const
 {
   return m_elements.data();
 }
 
 
 
-template <typename T, size_t rows, size_t cols>
+template <typename T, size_t Rows, size_t Cols>
 template <typename... Args, typename Enable>
-void matrix<T, rows, cols>::set(Args... elements)
+void matrix<T, Rows, Cols>::set(Args... elements)
 {
   *this = matrix(elements...);
 }
 
 
 
-template <typename T, size_t rows, size_t cols>
-void matrix<T, rows, cols>::fill(T value)
+template <typename T, size_t Rows, size_t Cols>
+void matrix<T, Rows, Cols>::fill(T value)
 {
   m_elements.fill(value);
 }
 
 
 
-template <typename T, size_t rows, size_t cols>
-matrix<T, rows, cols>& matrix<T, rows, cols>::operator+=(
-  const matrix<T, rows, cols>& rhs)
+template <typename T, size_t Rows, size_t Cols>
+matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator+=(
+  const matrix<T, Rows, Cols>& rhs)
 {
   for(size_t i = 0; i < get_size(); ++i)
   {
@@ -281,18 +281,18 @@ matrix<T, rows, cols>& matrix<T, rows, cols>::operator+=(
 
 
 
-template <typename T, size_t rows, size_t cols>
-matrix<T, rows, cols> operator+(
-  matrix<T, rows, cols> lhs, const matrix<T, rows, cols>& rhs)
+template <typename T, size_t Rows, size_t Cols>
+matrix<T, Rows, Cols> operator+(
+  matrix<T, Rows, Cols> lhs, const matrix<T, Rows, Cols>& rhs)
 {
   return lhs += rhs;
 }
 
 
 
-template <typename T, size_t rows, size_t cols>
-matrix<T, rows, cols>& matrix<T, rows, cols>::operator-=(
-  const matrix<T, rows, cols>& rhs)
+template <typename T, size_t Rows, size_t Cols>
+matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator-=(
+  const matrix<T, Rows, Cols>& rhs)
 {
   for(size_t i = 0; i < get_size(); ++i)
   {
@@ -303,17 +303,17 @@ matrix<T, rows, cols>& matrix<T, rows, cols>::operator-=(
 
 
 
-template <typename T, size_t rows, size_t cols>
-matrix<T, rows, cols> operator-(
-  matrix<T, rows, cols> lhs, const matrix<T, rows, cols>& rhs)
+template <typename T, size_t Rows, size_t Cols>
+matrix<T, Rows, Cols> operator-(
+  matrix<T, Rows, Cols> lhs, const matrix<T, Rows, Cols>& rhs)
 {
   return lhs -= rhs;
 }
 
 
 
-template <typename T, size_t rows, size_t cols>
-matrix<T, rows, cols>& matrix<T, rows, cols>::operator*=(T rhs)
+template <typename T, size_t Rows, size_t Cols>
+matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator*=(T rhs)
 {
   for(size_t i = 0; i < get_size(); ++i)
   {
@@ -324,17 +324,17 @@ matrix<T, rows, cols>& matrix<T, rows, cols>::operator*=(T rhs)
 
 
 
-template <typename T, size_t rows, size_t mid, size_t cols>
-matrix<T, rows, cols> operator*(
-  const matrix<T, rows, mid>& lhs, const matrix<T, mid, cols>& rhs)
+template <typename T, size_t Rows, size_t Mid, size_t Cols>
+matrix<T, Rows, Cols> operator*(
+  const matrix<T, Rows, Mid>& lhs, const matrix<T, Mid, Cols>& rhs)
 {
-  matrix<T, rows, cols> retval;
-  for(size_t r = 0; r < rows; ++r)
+  matrix<T, Rows, Cols> retval;
+  for(size_t r = 0; r < Rows; ++r)
   {
-    for(size_t c = 0; c < cols; ++c)
+    for(size_t c = 0; c < Cols; ++c)
     {
       retval(r, c) = 0.f;
-      for(size_t i = 0; i < mid; ++i)
+      for(size_t i = 0; i < Mid; ++i)
       {
         retval(r, c) += lhs(r, i) * rhs(i, c);
       }
@@ -345,8 +345,8 @@ matrix<T, rows, cols> operator*(
 
 
 
-template <typename T, size_t rows, size_t cols>
-matrix<T, rows, cols>& matrix<T, rows, cols>::operator/=(T rhs)
+template <typename T, size_t Rows, size_t Cols>
+matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator/=(T rhs)
 {
   for(size_t i = 0; i < get_size(); ++i)
   {
@@ -383,11 +383,11 @@ T det(const matrix<T, 3, 3>& m)
 
 
 
-template <typename T, size_t rc, typename Enable>
-T det(const matrix<T, rc, rc>& m)
+template <typename T, size_t RC, typename Enable>
+T det(const matrix<T, RC, RC>& m)
 {
   T result(0);
-  for(size_t col = 0; col < rc; ++col)
+  for(size_t col = 0; col < RC; ++col)
   {
     T factor = (col % 2) == 0 ? T(1) : T(-1);
     result += factor * m(0, col) * det(reduce(m, 0, col));
@@ -397,11 +397,11 @@ T det(const matrix<T, rc, rc>& m)
 
 
 
-template <typename T, size_t rc>
-T trace(const matrix<T, rc, rc>& m)
+template <typename T, size_t RC>
+T trace(const matrix<T, RC, RC>& m)
 {
   T result(0);
-  for(size_t i = 0; i < rc; ++i)
+  for(size_t i = 0; i < RC; ++i)
   {
     result += m(i, i);
   }
@@ -410,21 +410,21 @@ T trace(const matrix<T, rc, rc>& m)
 
 
 
-template <typename T, size_t rows, size_t cols, typename Enable>
-matrix<T, rows - 1, cols - 1> reduce(
-  const matrix<T, rows, cols>& m, size_t row, size_t col)
+template <typename T, size_t Rows, size_t Cols, typename Enable>
+matrix<T, Rows - 1, Cols - 1> reduce(
+  const matrix<T, Rows, Cols>& m, size_t row, size_t col)
 {
-  HOU_EXPECT((row < rows) && (col < cols));
-  matrix<T, rows - 1, cols - 1> retval;
+  HOU_EXPECT((row < Rows) && (col < Cols));
+  matrix<T, Rows - 1, Cols - 1> retval;
   size_t rin = 0;
-  for(size_t r = 0; r < rows - 1; ++r)
+  for(size_t r = 0; r < Rows - 1; ++r)
   {
     if(rin == row)
     {
       ++rin;
     }
     size_t cin = 0;
-    for(size_t c = 0; c < cols - 1; ++c)
+    for(size_t c = 0; c < Cols - 1; ++c)
     {
       if(cin == col)
       {
@@ -441,13 +441,13 @@ matrix<T, rows - 1, cols - 1> reduce(
 
 
 #ifndef HOU_DOXYGEN
-template <typename T, size_t rows, size_t cols>
-matrix<T, cols, rows> transpose(const matrix<T, rows, cols>& m)
+template <typename T, size_t Rows, size_t Cols>
+matrix<T, Cols, Rows> transpose(const matrix<T, Rows, Cols>& m)
 {
-  matrix<T, cols, rows> retval;
-  for(size_t r = 0; r < rows; ++r)
+  matrix<T, Cols, Rows> retval;
+  for(size_t r = 0; r < Rows; ++r)
   {
-    for(size_t c = 0; c < cols; ++c)
+    for(size_t c = 0; c < Cols; ++c)
     {
       retval(c, r) = m(r, c);
     }
@@ -459,9 +459,9 @@ matrix<T, cols, rows> transpose(const matrix<T, rows, cols>& m)
 
 
 #ifndef HOU_DOXYGEN
-template <typename T, size_t rows, size_t cols>
-template <size_t rc, typename Enable>
-matrix<T, rows, cols>& matrix<T, rows, cols>::adjugate()
+template <typename T, size_t Rows, size_t Cols>
+template <size_t RC, typename Enable>
+matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::adjugate()
 {
   *this = ::hou::adjugate(*this);
   return *this;
@@ -486,13 +486,13 @@ matrix<T, 2, 2> adjugate(const matrix<T, 2, 2>& m)
 
 
 
-template <typename T, size_t rc, typename Enable>
-matrix<T, rc, rc> adjugate(const matrix<T, rc, rc>& m)
+template <typename T, size_t RC, typename Enable>
+matrix<T, RC, RC> adjugate(const matrix<T, RC, RC>& m)
 {
-  matrix<T, rc, rc> adj;
-  for(size_t r = 0; r < rc; ++r)
+  matrix<T, RC, RC> adj;
+  for(size_t r = 0; r < RC; ++r)
   {
-    for(size_t c = 0; c < rc; ++c)
+    for(size_t c = 0; c < RC; ++c)
     {
       T factor = ((r + c) % 2) == 0 ? T(1) : T(-1);
       adj(r, c) = factor * det(reduce(m, c, r));
@@ -504,9 +504,9 @@ matrix<T, rc, rc> adjugate(const matrix<T, rc, rc>& m)
 
 
 #ifndef HOU_DOXYGEN
-template <typename T, size_t rows, size_t cols>
-template <size_t rc, typename Enable>
-matrix<T, rows, cols>& matrix<T, rows, cols>::invert()
+template <typename T, size_t Rows, size_t Cols>
+template <size_t RC, typename Enable>
+matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::invert()
 {
   T determinant = det(*this);
   HOU_EXPECT(!close(determinant, T(0)));
@@ -516,19 +516,19 @@ matrix<T, rows, cols>& matrix<T, rows, cols>::invert()
 
 
 
-template <typename T, size_t rc>
-matrix<T, rc, rc> inverse(matrix<T, rc, rc> m)
+template <typename T, size_t RC>
+matrix<T, RC, RC> inverse(matrix<T, RC, RC> m)
 {
   return m.invert();
 }
 
 
 
-template <typename T, size_t rows, size_t cols>
-T square_norm(const matrix<T, rows, cols>& m)
+template <typename T, size_t Rows, size_t Cols>
+T square_norm(const matrix<T, Rows, Cols>& m)
 {
   T sn(0);
-  for(size_t i = 0; i < rows * cols; ++i)
+  for(size_t i = 0; i < Rows * Cols; ++i)
   {
     sn += m(i) * m(i);
   }
@@ -537,16 +537,16 @@ T square_norm(const matrix<T, rows, cols>& m)
 
 
 
-template <typename T, size_t rows, size_t cols>
-T norm(const matrix<T, rows, cols>& m)
+template <typename T, size_t Rows, size_t Cols>
+T norm(const matrix<T, Rows, Cols>& m)
 {
   return std::sqrt(square_norm(m));
 }
 
 
 
-template <typename T, size_t rows, size_t cols>
-matrix<T, rows, cols>& matrix<T, rows, cols>::normalize()
+template <typename T, size_t Rows, size_t Cols>
+matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::normalize()
 {
   T matNorm = norm(*this);
   HOU_EXPECT(!close(matNorm, T(0)));
@@ -555,8 +555,8 @@ matrix<T, rows, cols>& matrix<T, rows, cols>::normalize()
 
 
 
-template <typename T, size_t rows, size_t cols>
-matrix<T, rows, cols> normalized(matrix<T, rows, cols> m)
+template <typename T, size_t Rows, size_t Cols>
+matrix<T, Rows, Cols> normalized(matrix<T, Rows, Cols> m)
 {
   return m.normalize();
 }
@@ -612,11 +612,11 @@ matrix<T, 3u, 3u> outer_product(
 
 
 
-template <typename T, size_t rows>
-T dot(const matrix<T, rows, 1u>& lhs, const matrix<T, rows, 1u>& rhs)
+template <typename T, size_t Rows>
+T dot(const matrix<T, Rows, 1u>& lhs, const matrix<T, Rows, 1u>& rhs)
 {
   T result(0);
-  for(size_t i = 0; i < rows; ++i)
+  for(size_t i = 0; i < Rows; ++i)
   {
     result += lhs(i) * rhs(i);
   }
@@ -625,17 +625,17 @@ T dot(const matrix<T, rows, 1u>& lhs, const matrix<T, rows, 1u>& rhs)
 
 
 
-template <typename T, size_t rows, size_t cols>
-std::ostream& operator<<(std::ostream& os, const matrix<T, rows, cols>& m)
+template <typename T, size_t Rows, size_t Cols>
+std::ostream& operator<<(std::ostream& os, const matrix<T, Rows, Cols>& m)
 {
-  for(size_t r = 0; r < rows; ++r)
+  for(size_t r = 0; r < Rows; ++r)
   {
     if(r != 0)
     {
       os << "\n";
     }
     os << "(";
-    for(size_t c = 0; c < cols; ++c)
+    for(size_t c = 0; c < Cols; ++c)
     {
       if(c != 0)
       {

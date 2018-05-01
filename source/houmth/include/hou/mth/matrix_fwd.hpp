@@ -12,7 +12,7 @@
 namespace hou
 {
 
-template <typename T, size_t rows, size_t cols>
+template <typename T, size_t Rows, size_t Cols>
 class matrix;
 
 /** 1x1 matrix */

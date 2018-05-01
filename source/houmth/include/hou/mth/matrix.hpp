@@ -32,14 +32,14 @@ namespace hou
  *
  * \tparam T the scalar type.
  *
- * \tparam rows the number of rows.
+ * \tparam Rows the number of rows.
  *
- * \tparam cols the number of columns.
+ * \tparam Cols the number of columns.
  */
-template <typename T, size_t rows, size_t cols>
+template <typename T, size_t Rows, size_t Cols>
 class matrix
 {
-  static_assert(rows > 0 && cols > 0, "The matrix size must be at least 1x1.");
+  static_assert(Rows > 0 && Cols > 0, "The matrix size must be at least 1x1.");
 
 public:
   template <typename otherT, size_t otherRows, size_t otherCols>
@@ -83,19 +83,19 @@ public:
 
   /** Returns the identity matrix.
    *
-   * \tparam rc the number of rows or columns.
+   * \tparam RC the number of rows or columns.
    *
    * \tparam Enable enabling parameter (can be left to the default value).
    *
    * \return the identity matrix.
    */
-  template <size_t rc = rows,
-    typename Enable = std::enable_if_t<rows == rc && cols == rc>>
+  template <size_t RC = Rows,
+    typename Enable = std::enable_if_t<Rows == RC && Cols == RC>>
   static matrix identity();
 
   /** Returns a diagonal matrix with the given diagonal elements.
    *
-   * \tparam rc the number of rows or columns.
+   * \tparam RC the number of rows or columns.
    *
    * \tparam Enable enabling parameter (can be left to the default value).
    *
@@ -103,13 +103,13 @@ public:
    *
    * \return a diagonal matrix with the given diagonal elements.
    */
-  template <size_t rc = rows,
-    typename Enable = std::enable_if_t<rows == rc && cols == rc>>
-  static matrix diagonal(const matrix<T, rc, 1u>& elements);
+  template <size_t RC = Rows,
+    typename Enable = std::enable_if_t<Rows == RC && Cols == RC>>
+  static matrix diagonal(const matrix<T, RC, 1u>& elements);
 
   /** Returns a diagonal matrix with the given diagonal elements.
    *
-   * \tparam rc the number of rows or columns.
+   * \tparam RC the number of rows or columns.
    *
    * \tparam Enable enabling parameter (can be left to the default value).
    *
@@ -118,7 +118,7 @@ public:
    * \return a diagonal matrix with the given diagonal elements.
    */
   template <typename... Args,
-    typename Enable = std::enable_if_t<rows == cols && sizeof...(Args) == rows>>
+    typename Enable = std::enable_if_t<Rows == Cols && sizeof...(Args) == Rows>>
   static matrix diagonal(Args... elements);
 
 public:
@@ -138,7 +138,7 @@ public:
    */
   template <typename U,
     typename Enable = std::enable_if_t<std::is_convertible<U, T>::value>>
-  matrix(const matrix<U, rows, cols>& other);
+  matrix(const matrix<U, Rows, Cols>& other);
 
   /** Creates a matrix from the given elements.
    *
@@ -159,7 +159,7 @@ public:
    * \param elements the matrix elements.
    */
   template <typename... Args,
-    typename Enable = std::enable_if_t<sizeof...(Args) == rows * cols
+    typename Enable = std::enable_if_t<sizeof...(Args) == Rows * Cols
       && conjunction<std::is_convertible<Args, T>::value...>::value>>
   matrix(Args... elements);
 
@@ -236,8 +236,8 @@ public:
    *
    * \return a copy of the element.
    */
-  template <size_t c = cols,
-    typename Enable = std::enable_if_t<(c == cols && c == 1u)>>
+  template <size_t c = Cols,
+    typename Enable = std::enable_if_t<(c == Cols && c == 1u)>>
   T x() const;
 
   /** Retrieves a reference to the first element of a column vector.
@@ -248,8 +248,8 @@ public:
    *
    * \return a reference to the element.
    */
-  template <size_t c = cols,
-    typename Enable = std::enable_if_t<(c == cols && c == 1u)>>
+  template <size_t c = Cols,
+    typename Enable = std::enable_if_t<(c == Cols && c == 1u)>>
   T& x();
 
   /** Retrieves a copy of the second element of a column vector.
@@ -262,9 +262,9 @@ public:
    *
    * \return a copy of the element.
    */
-  template <size_t r = rows, size_t c = cols,
+  template <size_t r = Rows, size_t c = Cols,
     typename Enable
-    = std::enable_if_t<(r == rows && r > 1u && c == cols && c == 1u)>>
+    = std::enable_if_t<(r == Rows && r > 1u && c == Cols && c == 1u)>>
   T y() const;
 
   /** Retrieves a reference to the second element of a column vector.
@@ -277,9 +277,9 @@ public:
    *
    * \return a reference to the element.
    */
-  template <size_t r = rows, size_t c = cols,
+  template <size_t r = Rows, size_t c = Cols,
     typename Enable
-    = std::enable_if_t<(r == rows && r > 1u && c == cols && c == 1u)>>
+    = std::enable_if_t<(r == Rows && r > 1u && c == Cols && c == 1u)>>
   T& y();
 
   /** Retrieves a copy of the third element of a column vector.
@@ -292,9 +292,9 @@ public:
    *
    * \return a copy of the element.
    */
-  template <size_t r = rows, size_t c = cols,
+  template <size_t r = Rows, size_t c = Cols,
     typename Enable
-    = std::enable_if_t<(r == rows && r > 2u && c == cols && c == 1u)>>
+    = std::enable_if_t<(r == Rows && r > 2u && c == Cols && c == 1u)>>
   T z() const;
 
   /** Retrieves a reference to the third element of a column vector.
@@ -307,9 +307,9 @@ public:
    *
    * \return a reference to the element.
    */
-  template <size_t r = rows, size_t c = cols,
+  template <size_t r = Rows, size_t c = Cols,
     typename Enable
-    = std::enable_if_t<(r == rows && r > 2u && c == cols && c == 1u)>>
+    = std::enable_if_t<(r == Rows && r > 2u && c == Cols && c == 1u)>>
   T& z();
 
   /** Retrieves a copy of the fourth element of a column vector.
@@ -322,9 +322,9 @@ public:
    *
    * \return a copy of the element.
    */
-  template <size_t r = rows, size_t c = cols,
+  template <size_t r = Rows, size_t c = Cols,
     typename Enable
-    = std::enable_if_t<(r == rows && r > 3u && c == cols && c == 1u)>>
+    = std::enable_if_t<(r == Rows && r > 3u && c == Cols && c == 1u)>>
   T w() const;
 
   /** Retrieves a reference to the fourth element of a column vector.
@@ -337,9 +337,9 @@ public:
    *
    * \return a reference to the element.
    */
-  template <size_t r = rows, size_t c = cols,
+  template <size_t r = Rows, size_t c = Cols,
     typename Enable
-    = std::enable_if_t<(r == rows && r > 3u && c == cols && c == 1u)>>
+    = std::enable_if_t<(r == Rows && r > 3u && c == Cols && c == 1u)>>
   T& w();
 
   /** Retrieves a pointer to an array containing the matrix elements.
@@ -362,7 +362,7 @@ public:
    * \param elements the matrix elements.
    */
   template <typename... Args,
-    typename Enable = std::enable_if_t<sizeof...(Args) == rows * cols
+    typename Enable = std::enable_if_t<sizeof...(Args) == Rows * Cols
       && conjunction<std::is_convertible<Args, T>::value...>::value>>
   void set(Args... elements);
 
@@ -414,26 +414,26 @@ public:
 
   /** Adjugates this matrix.
    *
-   * \tparam rc the number of rows or columns.
+   * \tparam RC the number of rows or columns.
    *
    * \tparam Enable enabling parameter (can be left to the default value).
    *
    * \return a reference to this matrix after the operation.
    */
-  template <size_t rc = rows,
-    typename Enable = std::enable_if_t<rows == rc && cols == rc>>
+  template <size_t RC = Rows,
+    typename Enable = std::enable_if_t<Rows == RC && Cols == RC>>
   matrix& adjugate();
 
   /** Inverts this matrix.
    *
-   * \tparam rc the number of rows or columns.
+   * \tparam RC the number of rows or columns.
    *
    * \tparam Enable enabling parameter (can be left to the default value).
    *
    * \return a reference to this matrix after the inversion.
    */
-  template <size_t rc = rows,
-    typename Enable = std::enable_if_t<rows == rc && cols == rc>>
+  template <size_t RC = Rows,
+    typename Enable = std::enable_if_t<Rows == RC && Cols == RC>>
   matrix& invert();
 
   /** Normalizes the matrix.
@@ -541,14 +541,14 @@ public:
    *
    * \return the result of the check.
    */
-  friend bool close(const matrix<T, rows, cols>& lhs,
-    const matrix<T, rows, cols>& rhs, T acc = std::numeric_limits<T>::epsilon())
+  friend bool close(const matrix<T, Rows, Cols>& lhs,
+    const matrix<T, Rows, Cols>& rhs, T acc = std::numeric_limits<T>::epsilon())
   {
     return close(lhs.m_elements, rhs.m_elements, acc);
   }
 
 private:
-  std::array<T, rows * cols> m_elements;
+  std::array<T, Rows * Cols> m_elements;
 };
 
 /** Sums two matrices.
@@ -557,9 +557,9 @@ private:
  *
  * \tparam T the scalar type.
  *
- * \tparam rows the number of rows.
+ * \tparam Rows the number of rows.
  *
- * \tparam cols the number of columns.
+ * \tparam Cols the number of columns.
  *
  * \param lhs the left operand.
  *
@@ -567,9 +567,9 @@ private:
  *
  * \return the sum of the two matrices.
  */
-template <typename T, size_t rows, size_t cols>
-matrix<T, rows, cols> operator+(
-  matrix<T, rows, cols> lhs, const matrix<T, rows, cols>& rhs);
+template <typename T, size_t Rows, size_t Cols>
+matrix<T, Rows, Cols> operator+(
+  matrix<T, Rows, Cols> lhs, const matrix<T, Rows, Cols>& rhs);
 
 /** Subtracts two matrices.
  *
@@ -577,9 +577,9 @@ matrix<T, rows, cols> operator+(
  *
  * \tparam T the scalar type.
  *
- * \tparam rows the number of rows.
+ * \tparam Rows the number of rows.
  *
- * \tparam cols the number of columns.
+ * \tparam Cols the number of columns.
  *
  * \param lhs the left operand.
  *
@@ -587,9 +587,9 @@ matrix<T, rows, cols> operator+(
  *
  * \return the difference of the two matrices.
  */
-template <typename T, size_t rows, size_t cols>
-matrix<T, rows, cols> operator-(
-  matrix<T, rows, cols> lhs, const matrix<T, rows, cols>& rhs);
+template <typename T, size_t Rows, size_t Cols>
+matrix<T, Rows, Cols> operator-(
+  matrix<T, Rows, Cols> lhs, const matrix<T, Rows, Cols>& rhs);
 
 /** Multiplies two matrices.
  *
@@ -599,11 +599,11 @@ matrix<T, rows, cols> operator-(
  *
  * \tparam T the scalar type.
  *
- * \tparam rows the number of rows of lhs.
+ * \tparam Rows the number of rows of lhs.
  *
- * \tparam mid the number of columns of lhs and rows of rhs.
+ * \tparam Mid the number of columns of lhs and rows of rhs.
  *
- * \tparam cols the number of columns of rhs.
+ * \tparam Cols the number of columns of rhs.
  *
  * \param lhs the left operand.
  *
@@ -611,9 +611,9 @@ matrix<T, rows, cols> operator-(
  *
  * \return the row-column product of the two matrices.
  */
-template <typename T, size_t rows, size_t mid, size_t cols>
-matrix<T, rows, cols> operator*(
-  const matrix<T, rows, mid>& lhs, const matrix<T, mid, cols>& rhs);
+template <typename T, size_t Rows, size_t Mid, size_t Cols>
+matrix<T, Rows, Cols> operator*(
+  const matrix<T, Rows, Mid>& lhs, const matrix<T, Mid, Cols>& rhs);
 
 /** Computes the determinant of the given matrix.
  *
@@ -654,20 +654,20 @@ T det(const matrix<T, 3, 3>& m);
  *
  * \tparam T the scalar type.
  *
- * \tparam rc the number of rows and columns of the matrix.
+ * \tparam RC the number of rows and columns of the matrix.
  *
  * \param m the matrix.
  *
  * \return the trace of the given matrix.
  */
-template <typename T, size_t rc>
-T trace(const matrix<T, rc, rc>& m);
+template <typename T, size_t RC>
+T trace(const matrix<T, RC, RC>& m);
 
 /** Computes the determinant of the given matrix.
  *
  * \tparam T the scalar type.
  *
- * \tparam rc = the number of rows or columns.
+ * \tparam RC = the number of rows or columns.
  *
  * \tparam Enable enabling parameter (can be left to the default value).
  *
@@ -675,16 +675,16 @@ T trace(const matrix<T, rc, rc>& m);
  *
  * \return the determinant of the given matrix.
  */
-template <typename T, size_t rc, typename Enable = std::enable_if_t<(rc > 3)>>
-T det(const matrix<T, rc, rc>& m);
+template <typename T, size_t RC, typename Enable = std::enable_if_t<(RC > 3)>>
+T det(const matrix<T, RC, RC>& m);
 
 /** Removes a row and a column from a matrix.
  *
  * \tparam T the scalar type.
  *
- * \tparam rows the number of rows.
+ * \tparam Rows the number of rows.
  *
- * \tparam cols the number of columns.
+ * \tparam Cols the number of columns.
  *
  * \tparam Enable enabling parameter (can be left to the default value).
  *
@@ -698,26 +698,26 @@ T det(const matrix<T, rc, rc>& m);
  * removed.
  */
 // Not a member function because returns a different type.
-template <typename T, size_t rows, size_t cols,
-  typename Enable = std::enable_if_t<(rows > 1 && cols > 1)>>
-matrix<T, rows - 1, cols - 1> reduce(
-  const matrix<T, rows, cols>& m, size_t row, size_t col);
+template <typename T, size_t Rows, size_t Cols,
+  typename Enable = std::enable_if_t<(Rows > 1 && Cols > 1)>>
+matrix<T, Rows - 1, Cols - 1> reduce(
+  const matrix<T, Rows, Cols>& m, size_t row, size_t col);
 
 /** Computes the transpose of the given matrix.
  *
  * \tparam T the scalar type.
  *
- * \tparam rows the number of rows.
+ * \tparam Rows the number of rows.
  *
- * \tparam cols the number of columns.
+ * \tparam Cols the number of columns.
  *
  * \param m the matrix to be transposed.
  *
  * \return the transpose of the given matrix.
  */
 // No member function because returns a different type.
-template <typename T, size_t rows, size_t cols>
-matrix<T, cols, rows> transpose(const matrix<T, rows, cols>& m);
+template <typename T, size_t Rows, size_t Cols>
+matrix<T, Cols, Rows> transpose(const matrix<T, Rows, Cols>& m);
 
 /** Computes the adjugate of the given matrix.
  *
@@ -745,7 +745,7 @@ matrix<T, 2, 2> adjugate(const matrix<T, 2, 2>& m);
  *
  * \tparam T the scalar type.
  *
- * \tparam rc the number of rows or columns.
+ * \tparam RC the number of rows or columns.
  *
  * \tparam Enable enabling parameter (can be left to the default value).
  *
@@ -753,66 +753,66 @@ matrix<T, 2, 2> adjugate(const matrix<T, 2, 2>& m);
  *
  * \return the adjugate of the given matrix.
  */
-template <typename T, size_t rc, typename Enable = std::enable_if_t<(rc > 2)>>
-matrix<T, rc, rc> adjugate(const matrix<T, rc, rc>& m);
+template <typename T, size_t RC, typename Enable = std::enable_if_t<(RC > 2)>>
+matrix<T, RC, RC> adjugate(const matrix<T, RC, RC>& m);
 
 /** Computes the inverse of the given matrix.
  *
  * \tparam T the scalar type.
  *
- * \tparam rc the number of rows or columns.
+ * \tparam RC the number of rows or columns.
  *
  * \param m the input matrix.
  *
  * \return the inverse of the given matrix.
  */
-template <typename T, size_t rc>
-matrix<T, rc, rc> inverse(matrix<T, rc, rc> m);
+template <typename T, size_t RC>
+matrix<T, RC, RC> inverse(matrix<T, RC, RC> m);
 
 /** Computes the square norm of the given matrix.
  *
  * \tparam T the scalar type.
  *
- * \tparam rows the number of rows.
+ * \tparam Rows the number of rows.
  *
- * \tparam cols the number of columns.
+ * \tparam Cols the number of columns.
  *
  * \param m the input matrix.
  *
  * \return the square norm.
  */
-template <typename T, size_t rows, size_t cols>
-T square_norm(const matrix<T, rows, cols>& m);
+template <typename T, size_t Rows, size_t Cols>
+T square_norm(const matrix<T, Rows, Cols>& m);
 
 /** Computes the norm of the given matrix.
  *
  * \tparam T the scalar type.
  *
- * \tparam rows the number of rows.
+ * \tparam Rows the number of rows.
  *
- * \tparam cols the number of columns.
+ * \tparam Cols the number of columns.
  *
  * \param m the input matrix.
  *
  * \return the norm.
  */
-template <typename T, size_t rows, size_t cols>
-T norm(const matrix<T, rows, cols>& m);
+template <typename T, size_t Rows, size_t Cols>
+T norm(const matrix<T, Rows, Cols>& m);
 
 /** Computes the normalized matrix.
  *
  * \tparam T the scalar type.
  *
- * \tparam rows the number of rows.
+ * \tparam Rows the number of rows.
  *
- * \tparam cols the number of columns.
+ * \tparam Cols the number of columns.
  *
  * \param m the input matrix.
  *
  * \return the normalized matrix.
  */
-template <typename T, size_t rows, size_t cols>
-matrix<T, rows, cols> normalized(matrix<T, rows, cols> m);
+template <typename T, size_t Rows, size_t Cols>
+matrix<T, Rows, Cols> normalized(matrix<T, Rows, Cols> m);
 
 /** Computes the cross product matrix associated to the given 3d vector.
  *
@@ -868,7 +868,7 @@ matrix<T, 3u, 3u> outer_product(
  *
  * \tparam T the scalar type.
  *
- * \tparam rows the size of the vector.
+ * \tparam Rows the size of the vector.
  *
  * \param lhs the left operand.
  *
@@ -876,16 +876,16 @@ matrix<T, 3u, 3u> outer_product(
  *
  * \return the result of the dot product.
  */
-template <typename T, size_t rows>
-T dot(const matrix<T, rows, 1u>& lhs, const matrix<T, rows, 1u>& rhs);
+template <typename T, size_t Rows>
+T dot(const matrix<T, Rows, 1u>& lhs, const matrix<T, Rows, 1u>& rhs);
 
 /** Writes the object into a stream.
  *
  * \tparam T the scalar type.
  *
- * \tparam rows the number of rows.
+ * \tparam Rows the number of rows.
  *
- * \tparam cols the number of columns.
+ * \tparam Cols the number of columns.
  *
  * \param os the stream.
  *
@@ -893,8 +893,8 @@ T dot(const matrix<T, rows, 1u>& lhs, const matrix<T, rows, 1u>& rhs);
  *
  * \return a reference to the stream.
  */
-template <typename T, size_t rows, size_t cols>
-std::ostream& operator<<(std::ostream& os, const matrix<T, rows, cols>& m);
+template <typename T, size_t Rows, size_t Cols>
+std::ostream& operator<<(std::ostream& os, const matrix<T, Rows, Cols>& m);
 
 }  // namespace hou
 
