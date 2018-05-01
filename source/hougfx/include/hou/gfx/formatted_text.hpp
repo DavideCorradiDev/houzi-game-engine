@@ -34,12 +34,12 @@ class font;
 /** Formatted, renderable text.
  *
  * The text will be formatted according to the given parameters.
- * The object stores a ph_mesh and a ph_texture atlas for quick rendering.
+ * The object stores a mesh and a texture atlas for quick rendering.
  */
 class HOU_GFX_API formatted_text : public non_copyable
 {
 public:
-  /** Type representing a collection of ph_mesh vertices. */
+  /** Type representing a collection of mesh vertices. */
   using VertexContainer = std::vector<text_vertex>;
 
 public:
@@ -71,15 +71,15 @@ public:
    */
   formatted_text(formatted_text&& other);
 
-  /** Retrieves the ph_texture atlas.
+  /** Retrieves the texture atlas.
    *
-   * \return the ph_texture atlas.
+   * \return the texture atlas.
    */
   const texture2_array& get_atlas() const;
 
-  /** Retrieves the text ph_mesh.
+  /** Retrieves the text mesh.
    *
-   * \return the text ph_mesh.
+   * \return the text mesh.
    */
   const text_mesh& get_mesh() const;
 

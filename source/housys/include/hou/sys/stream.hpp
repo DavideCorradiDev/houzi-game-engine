@@ -14,7 +14,7 @@
 namespace hou
 {
 
-/** Base ph_stream interface.
+/** Base stream interface.
  */
 class HOU_SYS_API stream
 {
@@ -35,9 +35,9 @@ public:
    */
   virtual bool error() const = 0;
 
-  /** Retrieves the total number of bytes in the ph_stream.
+  /** Retrieves the total number of bytes in the stream.
    *
-   * \return the size of the ph_stream in bytes.
+   * \return the size of the stream in bytes.
    */
   virtual size_t get_byte_count() const = 0;
 };

@@ -164,7 +164,7 @@ TEST_F(test_font, multi_threading_creation)
 
 TEST_F(test_font_death_test, failed_creation)
 {
-  // Valid file but not a ph_font file.
+  // Valid file but not a font file.
   HOU_EXPECT_ERROR(font f(std::make_unique<binary_file_in>(
                      get_data_dir() + u8"TestImage.png")),
     std::runtime_error, get_text(gfx_error::font_load_face));

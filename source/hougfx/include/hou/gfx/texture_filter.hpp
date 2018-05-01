@@ -14,7 +14,7 @@
 namespace hou
 {
 
-/** Enumeration for the ph_texture filter type. */
+/** Enumeration for the texture filter type. */
 enum class texture_filter
 {
   /** Nearest filter.
@@ -35,13 +35,13 @@ enum class texture_filter
   trilinear,
 };
 
-/** Writes a texture_filter enum into a ph_stream.
+/** Writes a texture_filter enum into a stream.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param tf the texture_filter enum.
  *
- * \return a reference to the ph_stream.
+ * \return a reference to the stream.
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, texture_filter tf);
 

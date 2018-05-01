@@ -616,7 +616,7 @@ window_impl::window_impl(
   SetWindowLongPtrW(m_handle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
   HOU_WIN_ENSURE(GetLastError() == 0);
 
-  // Initialize handle to ph_device ph_context.
+  // Initialize handle to device context.
   m_hdc = GetDC(m_handle);
   HOU_WIN_ENSURE(m_hdc != nullptr);
 

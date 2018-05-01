@@ -88,9 +88,9 @@ void check_error(const std::string& filename, int line)
 
 
 void check_context_error(
-  device& ph_device, const std::string& filename, int line)
+  device& dev, const std::string& filename, int line)
 {
-  ALCenum errState = alcGetError(ph_device.get_handle());
+  ALCenum errState = alcGetError(dev.get_handle());
   if(errState != ALC_NO_ERROR)
   {
     HOU_THROW(std::logic_error,

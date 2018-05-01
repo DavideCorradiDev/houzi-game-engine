@@ -30,13 +30,13 @@ enum class vertical_sync_mode : int
 
 
 
-/** Writes a vertical_sync_mode enum into a ph_stream.
+/** Writes a vertical_sync_mode enum into a stream.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param vsm the vertical_sync_mode enum.
  *
- * \return a reference to the ph_stream.
+ * \return a reference to the stream.
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, vertical_sync_mode vsm);
 

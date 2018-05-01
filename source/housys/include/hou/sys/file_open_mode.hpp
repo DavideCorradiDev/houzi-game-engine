@@ -25,13 +25,13 @@ enum class file_open_mode
   append,
 };
 
-/** Writes a file_open_mode enum into a ph_stream.
+/** Writes a file_open_mode enum into a stream.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param fom the file_open_mode enum.
  *
- * \return a reference to the ph_stream.
+ * \return a reference to the stream.
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, file_open_mode fom);
 

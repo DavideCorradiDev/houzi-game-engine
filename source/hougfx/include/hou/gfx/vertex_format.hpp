@@ -20,7 +20,7 @@
 namespace hou
 {
 
-/** Describes the format of a ph_vertex.
+/** Describes the format of a vertex.
  */
 class HOU_GFX_API vertex_format
 {
@@ -37,10 +37,10 @@ public:
    *
    * \param offset the offset from the begining of the buffer in bytes.
    *
-   * \param stride the intervals at which the ph_vertex repeats in the buffer in
+   * \param stride the intervals at which the vertex repeats in the buffer in
    * bytes.
    *
-   * \param vafs the format of the ph_vertex attributes.
+   * \param vafs the format of the vertex attributes.
    */
   vertex_format(ptrdiff_t offset, uint stride,
     const span<const vertex_attrib_format>& vafs);
@@ -52,32 +52,32 @@ public:
    *
    * \param offset the offset from the begining of the buffer.
    *
-   * \param stride the intervals at which the ph_vertex repeats in the buffer.
+   * \param stride the intervals at which the vertex repeats in the buffer.
    *
-   * \param vafs the format of the ph_vertex attributes.
+   * \param vafs the format of the vertex attributes.
    */
   vertex_format(
     ptrdiff_t offset, uint stride, std::vector<vertex_attrib_format>&& vafs);
 
-  /** Retrieves the offset of the ph_vertex from the beginning of the buffer in
+  /** Retrieves the offset of the vertex from the beginning of the buffer in
    * bytes
    *
-   * \return the offset of the ph_vertex from the beginning of the buffer in
+   * \return the offset of the vertex from the beginning of the buffer in
    * bytes.
    */
   ptrdiff_t get_offset() const;
 
-  /** Retrieves the intervals at which the ph_vertex repeats in the buffer in
+  /** Retrieves the intervals at which the vertex repeats in the buffer in
    * bytes.
    *
-   * \return the intervals at which the ph_vertex repeats in the buffer in
+   * \return the intervals at which the vertex repeats in the buffer in
    * bytes.
    */
   uint get_stride() const;
 
-  /** Retrieves the format of the ph_vertex attributes.
+  /** Retrieves the format of the vertex attributes.
    *
-   * \return the format of the ph_vertex attributes.
+   * \return the format of the vertex attributes.
    */
   const std::vector<vertex_attrib_format>& get_vertex_attrib_formats() const;
 
@@ -107,9 +107,9 @@ HOU_GFX_API bool operator==(const vertex_format& lhs, const vertex_format& rhs);
  */
 HOU_GFX_API bool operator!=(const vertex_format& lhs, const vertex_format& rhs);
 
-/** Writes the object into a ph_stream.
+/** Writes the object into a stream.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param vf the vertex_format.
  *

@@ -317,42 +317,42 @@ pixel_t<pixel_format::r>::pixel_t<pixel_format::rg, void>(
 
 template <>
 std::ostream& operator<<<pixel_format::r>(
-  std::ostream& os, const pixelr& ph_pixel)
+  std::ostream& os, const pixelr& pixel)
 {
-  return os << "{r = " << static_cast<int>(ph_pixel.get_r()) << "}";
+  return os << "{r = " << static_cast<int>(pixel.get_r()) << "}";
 }
 
 
 
 template <>
 std::ostream& operator<<<pixel_format::rg>(
-  std::ostream& os, const pixelrg& ph_pixel)
+  std::ostream& os, const pixelrg& pixel)
 {
-  return os << "{r = " << static_cast<int>(ph_pixel.get_r())
-            << ", g = " << static_cast<int>(ph_pixel.get_g()) << "}";
+  return os << "{r = " << static_cast<int>(pixel.get_r())
+            << ", g = " << static_cast<int>(pixel.get_g()) << "}";
 }
 
 
 
 template <>
 std::ostream& operator<<<pixel_format::rgb>(
-  std::ostream& os, const pixelrgb& ph_pixel)
+  std::ostream& os, const pixelrgb& pixel)
 {
-  return os << "{r = " << static_cast<int>(ph_pixel.get_r())
-            << ", g = " << static_cast<int>(ph_pixel.get_g())
-            << ", b = " << static_cast<int>(ph_pixel.get_b()) << "}";
+  return os << "{r = " << static_cast<int>(pixel.get_r())
+            << ", g = " << static_cast<int>(pixel.get_g())
+            << ", b = " << static_cast<int>(pixel.get_b()) << "}";
 }
 
 
 
 template <>
 std::ostream& operator<<<pixel_format::rgba>(
-  std::ostream& os, const pixelrgba& ph_pixel)
+  std::ostream& os, const pixelrgba& pixel)
 {
-  return os << "{r = " << static_cast<int>(ph_pixel.get_r())
-            << ", g = " << static_cast<int>(ph_pixel.get_g())
-            << ", b = " << static_cast<int>(ph_pixel.get_b())
-            << ", a = " << static_cast<int>(ph_pixel.get_a()) << "}";
+  return os << "{r = " << static_cast<int>(pixel.get_r())
+            << ", g = " << static_cast<int>(pixel.get_g())
+            << ", b = " << static_cast<int>(pixel.get_b())
+            << ", a = " << static_cast<int>(pixel.get_a()) << "}";
 }
 
 

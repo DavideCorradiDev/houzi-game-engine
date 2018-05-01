@@ -23,7 +23,7 @@ struct OggVorbis_File;
 namespace hou
 {
 
-/** Input ogg file ph_stream.
+/** Input ogg file stream.
  */
 class HOU_AUD_API ogg_file_in
   : public non_copyable
@@ -73,22 +73,22 @@ public:
   /** Sets the current byte position indicator.
    *
    * Throws if pos is negative or greater than the number of bytes in the
-   * ph_stream.
+   * stream.
    *
    * \param pos the byte position indicator value.
    *
-   * \return a reference to this ph_stream.
+   * \return a reference to this stream.
    */
   binary_stream& set_byte_pos(byte_position pos) final;
 
   /** Moves the current byte position indicator.
    *
    * Throws if the offset moves the position indicator to a negative position
-   * or to a position greater than the number of bytes in the ph_stream.
+   * or to a position greater than the number of bytes in the stream.
    *
    * \param offset the byte position indicator offset.
    *
-   * \return a reference to this ph_stream.
+   * \return a reference to this stream.
    */
   binary_stream& move_byte_pos(byte_offset offset) final;
 

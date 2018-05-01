@@ -257,13 +257,13 @@ template <size_t Dim, pixel_format PF>
 HOU_SYS_API bool operator!=(
   const image<Dim, PF>& lhs, const image<Dim, PF>& rhs);
 
-/** Writes the object into a ph_stream.
+/** Writes the object into a stream.
  *
  * \tparam Dim the number of dimensions of the image.
  *
  * \tparam PF the pixel format.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param im the image..
  *

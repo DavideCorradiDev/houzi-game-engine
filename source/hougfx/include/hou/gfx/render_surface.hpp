@@ -36,7 +36,7 @@ public:
 
   /** Sets the default render surface as the render source.
    *
-   * The default render source is that of the currently bound ph_window.
+   * The default render source is that of the currently bound window.
    */
   static void set_default_render_source();
 
@@ -48,7 +48,7 @@ public:
 
   /** Sets the default render surface as the render target.
    *
-   * The default render target is that of the currently bound ph_window.
+   * The default render target is that of the currently bound window.
    */
   static void set_default_render_target();
 
@@ -58,9 +58,9 @@ public:
    */
   static vec2u get_max_size();
 
-  /** Retrieves the maximum amount of samples per ph_pixel.
+  /** Retrieves the maximum amount of samples per pixel.
    *
-   * \return the maximum amount of samples per ph_pixel.
+   * \return the maximum amount of samples per pixel.
    */
   static uint get_max_sample_count();
 
@@ -69,7 +69,7 @@ public:
    *
    * Throws if the required sample count is larger than the maximum supported
    * or 0. Throws if the required area of the surface is 0. Throws if the
-   * required area is larger than the maximum supported ph_texture size.
+   * required area is larger than the maximum supported texture size.
    *
    * \param size the size.
    *

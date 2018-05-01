@@ -11,11 +11,11 @@
 namespace hou
 {
 
-void mesh::draw(const mesh& ph_mesh)
+void mesh::draw(const mesh& mesh)
 {
-  vertex_array::bind(ph_mesh.m_vao);
-  gl::set_polygon_mode(GL_FRONT_AND_BACK, static_cast<GLenum>(ph_mesh.m_fill_mode));
-  gl::draw_arrays(static_cast<GLenum>(ph_mesh.m_draw_mode), 0, ph_mesh.m_vertex_count);
+  vertex_array::bind(mesh.m_vao);
+  gl::set_polygon_mode(GL_FRONT_AND_BACK, static_cast<GLenum>(mesh.m_fill_mode));
+  gl::draw_arrays(static_cast<GLenum>(mesh.m_draw_mode), 0, mesh.m_vertex_count);
 }
 
 

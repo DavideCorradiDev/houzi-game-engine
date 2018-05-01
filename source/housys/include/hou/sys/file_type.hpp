@@ -23,13 +23,13 @@ enum class file_type
   text,
 };
 
-/** Writes a file_type enum into a ph_stream.
+/** Writes a file_type enum into a stream.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param fom the file_type enum.
  *
- * \return a reference to the ph_stream.
+ * \return a reference to the stream.
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, file_type fom);
 

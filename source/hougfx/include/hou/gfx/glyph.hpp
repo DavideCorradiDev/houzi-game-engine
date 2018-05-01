@@ -19,7 +19,7 @@
 namespace hou
 {
 
-/** Class describing a ph_glyph, including its metrics and its bitmap image.
+/** Class describing a glyph, including its metrics and its bitmap image.
  */
 class HOU_GFX_API glyph
 {
@@ -87,9 +87,9 @@ HOU_GFX_API bool operator==(const glyph& lhs, const glyph& rhs);
  */
 HOU_GFX_API bool operator!=(const glyph& lhs, const glyph& rhs);
 
-/** Writes a glyph object into a ph_stream.
+/** Writes a glyph object into a stream.
  *
- * \param os the output ph_stream.
+ * \param os the output stream.
  *
  * \param gm the object.
  *

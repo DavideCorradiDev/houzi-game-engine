@@ -20,7 +20,7 @@ namespace
 
 // Note:
 // EnumDisplaySettings fails (returns 0) if the second argument is greater than
-// the index of the display's ph_device graphics mode.
+// the index of the display's device graphics mode.
 
 video_mode video_mode::get_desktop_mode()
 {

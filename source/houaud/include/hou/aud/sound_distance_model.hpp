@@ -56,11 +56,11 @@ enum class sound_distance_model : ALenum
   exponent_distance_clamped = AL_EXPONENT_DISTANCE_CLAMPED,
 };
 
-/** Writes the object into a ph_stream.
+/** Writes the object into a stream.
  *
- *  \param os the ph_stream.
+ *  \param os the stream.
  *  \param dm the sound_distance_model enum.
- *  \return a reference to the ph_stream.
+ *  \return a reference to the stream.
  */
 HOU_AUD_API std::ostream& operator<<(std::ostream& os, sound_distance_model dm);
 

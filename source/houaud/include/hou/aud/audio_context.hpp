@@ -19,7 +19,7 @@
 namespace hou
 {
 
-/** Represents the global state of the audio ph_device.
+/** Represents the global state of the audio device.
  *
  *  At least one audio_context must exist when creating audio_buffer,
  * audio_source, and streaming_audio_source objects, and when using listener
@@ -33,7 +33,7 @@ namespace hou
 class HOU_AUD_API audio_context : public non_copyable
 {
 public:
-  /** Sets this as the current ph_context.
+  /** Sets this as the current context.
    *
    * \param ctx the context to be bound.
    */
@@ -54,11 +54,11 @@ public:
    */
   audio_context();
 
-  /** Creates an audio_context with the given ph_device.
+  /** Creates an audio_context with the given device.
    *
    *  a list of available devices may be obtained by calling get_device_names.
    *
-   *  \param dev_name the name of the ph_device.
+   *  \param dev_name the name of the device.
    */
   audio_context(const std::string& dev_name);
 
@@ -66,9 +66,9 @@ public:
    */
   audio_context(audio_context&& other);
 
-  /** Checks if this is the current ph_context.
+  /** Checks if this is the current context.
    *
-   *  \return true if this is the current ph_context.
+   *  \return true if this is the current context.
    */
   bool is_current() const;
 

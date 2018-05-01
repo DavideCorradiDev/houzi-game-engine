@@ -253,9 +253,9 @@ TYPED_TEST(test_image, default_constructor)
   using size_type = typename TypeParam::size_type;
   using pixel_collection = typename TypeParam::pixel_collection;
 
-  TypeParam ph_image;
-  EXPECT_EQ(size_type::zero(), ph_image.get_size());
-  EXPECT_EQ(pixel_collection(), ph_image.get_pixels());
+  TypeParam image;
+  EXPECT_EQ(size_type::zero(), image.get_size());
+  EXPECT_EQ(pixel_collection(), image.get_pixels());
 }
 
 
@@ -266,10 +266,10 @@ TYPED_TEST(test_image, size_constructor)
   using pixel_collection = typename TypeParam::pixel_collection;
 
   size_type size_ref = TestFixture::generate_size();
-  TypeParam ph_image(size_ref);
-  EXPECT_EQ(size_ref, ph_image.get_size());
+  TypeParam image(size_ref);
+  EXPECT_EQ(size_ref, image.get_size());
   EXPECT_EQ(pixel_collection(TestFixture::multiply_elements(size_ref)),
-    ph_image.get_pixels());
+    image.get_pixels());
 }
 
 
@@ -284,10 +284,10 @@ TYPED_TEST(test_image, pixel_constructor)
   pixel pixel_ref;
   pixel_ref.set_r(5u);
   pixel_collection pixels_ref(TestFixture::multiply_elements(size_ref), pixel_ref);
-  TypeParam ph_image(size_ref, pixel_ref);
+  TypeParam image(size_ref, pixel_ref);
 
-  EXPECT_EQ(size_ref, ph_image.get_size());
-  EXPECT_EQ(pixels_ref, ph_image.get_pixels());
+  EXPECT_EQ(size_ref, image.get_size());
+  EXPECT_EQ(pixels_ref, image.get_pixels());
 }
 
 
@@ -299,10 +299,10 @@ TYPED_TEST(test_image, pixels_constructor)
 
   size_type size_ref = TestFixture::generate_size();
   pixel_collection pixels_ref = TestFixture::generate_pixels(size_ref);
-  TypeParam ph_image(size_ref, pixels_ref);
+  TypeParam image(size_ref, pixels_ref);
 
-  EXPECT_EQ(size_ref, ph_image.get_size());
-  EXPECT_EQ(pixels_ref, ph_image.get_pixels());
+  EXPECT_EQ(size_ref, image.get_size());
+  EXPECT_EQ(pixels_ref, image.get_pixels());
 }
 
 
@@ -314,7 +314,7 @@ TYPED_TEST(test_image_death_test, pixels_constructor_error_too_few_pixels)
 
   size_type size_ref = TestFixture::generate_size();
   pixel_collection pixels_ref(TestFixture::multiply_elements(size_ref) - 1u);
-  HOU_EXPECT_PRECONDITION(TypeParam ph_image(size_ref, pixels_ref));
+  HOU_EXPECT_PRECONDITION(TypeParam image(size_ref, pixels_ref));
 }
 
 
@@ -326,7 +326,7 @@ TYPED_TEST(test_image_death_test, pixels_constructor_error_too_many_pixels)
 
   size_type size_ref = TestFixture::generate_size();
   pixel_collection pixels_ref(TestFixture::multiply_elements(size_ref) + 1u);
-  HOU_EXPECT_PRECONDITION(TypeParam ph_image(size_ref, pixels_ref));
+  HOU_EXPECT_PRECONDITION(TypeParam image(size_ref, pixels_ref));
 }
 
 
@@ -339,10 +339,10 @@ TYPED_TEST(test_image, pixels_move_constructor)
   size_type size_ref = TestFixture::generate_size();
   pixel_collection pixels_ref = TestFixture::generate_pixels(size_ref);
   pixel_collection pixels(pixels_ref);
-  TypeParam ph_image(size_ref, std::move(pixels));
+  TypeParam image(size_ref, std::move(pixels));
 
-  EXPECT_EQ(size_ref, ph_image.get_size());
-  EXPECT_EQ(pixels_ref, ph_image.get_pixels());
+  EXPECT_EQ(size_ref, image.get_size());
+  EXPECT_EQ(pixels_ref, image.get_pixels());
 }
 
 
@@ -354,7 +354,7 @@ TYPED_TEST(test_image_death_test, pixels_move_constructor_error_too_few_pixels)
 
   size_type size_ref = TestFixture::generate_size();
   pixel_collection pixels_ref(TestFixture::multiply_elements(size_ref) - 1u);
-  HOU_EXPECT_PRECONDITION(TypeParam ph_image(size_ref, std::move(pixels_ref)));
+  HOU_EXPECT_PRECONDITION(TypeParam image(size_ref, std::move(pixels_ref)));
 }
 
 
@@ -366,7 +366,7 @@ TYPED_TEST(test_image_death_test, pixels_move_constructor_error_too_many_pixels)
 
   size_type size_ref = TestFixture::generate_size();
   pixel_collection pixels_ref(TestFixture::multiply_elements(size_ref) + 1u);
-  HOU_EXPECT_PRECONDITION(TypeParam ph_image(size_ref, std::move(pixels_ref)));
+  HOU_EXPECT_PRECONDITION(TypeParam image(size_ref, std::move(pixels_ref)));
 }
 
 
@@ -378,9 +378,9 @@ TYPED_TEST(test_image, set_pixels)
 
   size_type size_ref = TestFixture::generate_size();
   pixel_collection pixels_ref = TestFixture::generate_pixels(size_ref);
-  TypeParam ph_image(size_ref);
-  ph_image.set_pixels(pixels_ref);
-  EXPECT_EQ(pixels_ref, ph_image.get_pixels());
+  TypeParam image(size_ref);
+  image.set_pixels(pixels_ref);
+  EXPECT_EQ(pixels_ref, image.get_pixels());
 }
 
 
@@ -392,8 +392,8 @@ TYPED_TEST(test_image_death_test, set_pixels_error_too_few_pixels)
 
   size_type size_ref = TestFixture::generate_size();
   pixel_collection pixels_ref(TestFixture::multiply_elements(size_ref) - 1u);
-  TypeParam ph_image(size_ref);
-  HOU_EXPECT_PRECONDITION(ph_image.set_pixels(pixels_ref));
+  TypeParam image(size_ref);
+  HOU_EXPECT_PRECONDITION(image.set_pixels(pixels_ref));
 }
 
 
@@ -405,8 +405,8 @@ TYPED_TEST(test_image_death_test, set_pixels_error_too_many_pixels)
 
   size_type size_ref = TestFixture::generate_size();
   pixel_collection pixels_ref(TestFixture::multiply_elements(size_ref) + 1u);
-  TypeParam ph_image(size_ref);
-  HOU_EXPECT_PRECONDITION(ph_image.set_pixels(pixels_ref));
+  TypeParam image(size_ref);
+  HOU_EXPECT_PRECONDITION(image.set_pixels(pixels_ref));
 }
 
 
@@ -418,13 +418,13 @@ TYPED_TEST(test_image, get_pixel)
 
   size_type size_ref = TestFixture::generate_size();
   pixel_collection pixels_ref = TestFixture::generate_pixels(size_ref);
-  TypeParam ph_image(size_ref, pixels_ref);
+  TypeParam image(size_ref, pixels_ref);
 
   for(size_t i = 0; i < pixels_ref.size(); ++i)
   {
     EXPECT_EQ(pixels_ref[i],
-      ph_image.get_pixel(
-        TestFixture::compute_pixel_coordinates(i, ph_image.get_size())));
+      image.get_pixel(
+        TestFixture::compute_pixel_coordinates(i, image.get_size())));
   }
 }
 
@@ -436,15 +436,15 @@ TYPED_TEST(test_image_death_test, get_pixel_error_out_of_range)
   using offset_type = typename TypeParam::offset_type;
 
   size_type size_ref = TestFixture::generate_size();
-  TypeParam ph_image(size_ref);
+  TypeParam image(size_ref);
 
   for(size_t i = 0; i < size_ref.get_size(); ++i)
   {
     offset_type coords;
     coords(i) = size_ref(i);
-    HOU_EXPECT_PRECONDITION(ph_image.get_pixel(coords));
+    HOU_EXPECT_PRECONDITION(image.get_pixel(coords));
   }
-  HOU_EXPECT_PRECONDITION(ph_image.get_pixel(size_ref));
+  HOU_EXPECT_PRECONDITION(image.get_pixel(size_ref));
 }
 
 
@@ -460,14 +460,14 @@ TYPED_TEST(test_image, set_pixel)
   pixel_ref.set_r(42u);
   for(size_t i = 0; i < TestFixture::multiply_elements(size_ref); ++i)
   {
-    TypeParam ph_image(size_ref);
-    pixel_collection pixels_ref = ph_image.get_pixels();
+    TypeParam image(size_ref);
+    pixel_collection pixels_ref = image.get_pixels();
     pixels_ref[i] = pixel_ref;
-    ph_image.set_pixel(
-      TestFixture::compute_pixel_coordinates(i, ph_image.get_size()), pixel_ref);
+    image.set_pixel(
+      TestFixture::compute_pixel_coordinates(i, image.get_size()), pixel_ref);
     EXPECT_EQ(pixels_ref[i],
-      ph_image.get_pixel(
-        TestFixture::compute_pixel_coordinates(i, ph_image.get_size())));
+      image.get_pixel(
+        TestFixture::compute_pixel_coordinates(i, image.get_size())));
   }
 }
 
@@ -480,16 +480,16 @@ TYPED_TEST(test_image_death_test, set_pixel_error_out_of_range)
   using offset_type = typename TypeParam::offset_type;
 
   size_type size_ref = TestFixture::generate_size();
-  TypeParam ph_image(size_ref);
+  TypeParam image(size_ref);
 
   pixel pixel_ref;
   for(size_t i = 0; i < size_ref.get_size(); ++i)
   {
     offset_type coords;
     coords(i) = size_ref(i);
-    HOU_EXPECT_PRECONDITION(ph_image.set_pixel(coords, pixel_ref));
+    HOU_EXPECT_PRECONDITION(image.set_pixel(coords, pixel_ref));
   }
-  HOU_EXPECT_PRECONDITION(ph_image.set_pixel(size_ref, pixel_ref));
+  HOU_EXPECT_PRECONDITION(image.set_pixel(size_ref, pixel_ref));
 }
 
 
@@ -521,9 +521,9 @@ TYPED_TEST(test_image, get_sub_image)
       = pixels_ref[TestFixture::compute_pixel_index(imageCoords, imageSize)];
   }
 
-  TypeParam ph_image(imageSize, pixels_ref);
+  TypeParam image(imageSize, pixels_ref);
   TypeParam sub_image_ref(sub_image_size, subPixels_ref);
-  EXPECT_EQ(sub_image_ref, ph_image.get_sub_image(sub_image_offset, sub_image_size));
+  EXPECT_EQ(sub_image_ref, image.get_sub_image(sub_image_offset, sub_image_size));
 }
 
 
@@ -543,8 +543,8 @@ TYPED_TEST(test_image_death_test, get_sub_image_error_overflow)
     sub_image_size(i) = (i + 1) * 4 - sub_image_offset(i) + 1u;
   }
 
-  TypeParam ph_image(imageSize);
-  HOU_EXPECT_PRECONDITION(ph_image.get_sub_image(sub_image_offset, sub_image_size));
+  TypeParam image(imageSize);
+  HOU_EXPECT_PRECONDITION(image.get_sub_image(sub_image_offset, sub_image_size));
 }
 
 
@@ -576,13 +576,13 @@ TYPED_TEST(test_image, set_sub_image)
       = subPixels_ref[i];
   }
 
-  TypeParam ph_image(imageSize);
+  TypeParam image(imageSize);
   TypeParam image_ref(imageSize, pixels_ref);
   TypeParam sub_image_ref(sub_image_size, subPixels_ref);
-  ph_image.set_sub_image(sub_image_offset, sub_image_ref);
+  image.set_sub_image(sub_image_offset, sub_image_ref);
 
-  EXPECT_EQ(image_ref, ph_image);
-  EXPECT_EQ(sub_image_ref, ph_image.get_sub_image(sub_image_offset, sub_image_size));
+  EXPECT_EQ(image_ref, image);
+  EXPECT_EQ(sub_image_ref, image.get_sub_image(sub_image_offset, sub_image_size));
 }
 
 
@@ -602,9 +602,9 @@ TYPED_TEST(test_image_death_test, set_sub_image_error_overflow)
     sub_image_size(i) = (i + 1) * 4 - sub_image_offset(i) + 1u;
   }
 
-  TypeParam ph_image(imageSize);
+  TypeParam image(imageSize);
   TypeParam subImage(sub_image_size);
-  HOU_EXPECT_PRECONDITION(ph_image.set_sub_image(sub_image_offset, subImage));
+  HOU_EXPECT_PRECONDITION(image.set_sub_image(sub_image_offset, subImage));
 }
 
 
@@ -616,14 +616,14 @@ TYPED_TEST(test_image, clear)
   using pixel_collection = typename TypeParam::pixel_collection;
 
   size_type size_ref = TestFixture::generate_size();
-  TypeParam ph_image(size_ref);
+  TypeParam image(size_ref);
 
   pixel pixel_ref;
   pixel_ref.set_r(42u);
 
   pixel_collection pixels_ref(TestFixture::multiply_elements(size_ref), pixel_ref);
-  ph_image.clear(pixel_ref);
-  EXPECT_EQ(pixels_ref, ph_image.get_pixels());
+  image.clear(pixel_ref);
+  EXPECT_EQ(pixels_ref, image.get_pixels());
 }
 
 
@@ -668,13 +668,13 @@ TYPED_TEST(test_image, output_stream_operator)
   size_type size_ref = TestFixture::generate_size();
   pixel_collection pixels_ref = TestFixture::generate_pixels(size_ref);
 
-  TypeParam ph_image(size_ref, pixels_ref);
+  TypeParam image(size_ref, pixels_ref);
 
   std::stringstream ss;
   ss << "{size_type = " << transpose(size_ref) << ", pixels = " << pixels_ref
      << "}";
 
-  HOU_EXPECT_OUTPUT(ss.str().c_str(), ph_image);
+  HOU_EXPECT_OUTPUT(ss.str().c_str(), image);
 }
 
 

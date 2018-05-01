@@ -19,16 +19,16 @@ class HOU_SYS_API system_window : public window
 public:
   /** Creates a window object.
    *
-   * The ph_window client size corresponds to the resolution in vm.
-   * The ph_window client is be positioned in the middle of the screen.
-   * The ph_window uses the default system icon.
-   * The ph_window is not visible.
-   * The ph_window does not grab the mouse cursor.
-   * Key repeat is disabled for the ph_window.
+   * The window client size corresponds to the resolution in vm.
+   * The window client is be positioned in the middle of the screen.
+   * The window uses the default system icon.
+   * The window is not visible.
+   * The window does not grab the mouse cursor.
+   * Key repeat is disabled for the window.
    *
    * \param title the title of the window.
    * \param vm the video mode of the window, specifying its size and
-   * bytes per ph_pixel.
+   * bytes per pixel.
    * \param style the style of the window.
    * Only one window can be fullscreen.
    * If fullscreen mode is specified and vm is not a valid fullscreen

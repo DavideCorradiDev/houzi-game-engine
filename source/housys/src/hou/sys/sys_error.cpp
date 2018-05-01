@@ -28,13 +28,13 @@ std::string get_text(sys_error ec)
     case sys_error::file_write:
       return u8"Error writing to file.";
     case sys_error::image_bmp_read:
-      return u8"Error reading BMP ph_image from path '%s'.";
+      return u8"Error reading BMP image from path '%s'.";
     case sys_error::image_bmp_write:
-      return u8"Error writing BMP ph_image to path '%s'.";
+      return u8"Error writing BMP image to path '%s'.";
     case sys_error::image_png_read:
-      return u8"Error reading PNG ph_image from path '%s'.";
+      return u8"Error reading PNG image from path '%s'.";
     case sys_error::image_jpg_read:
-      return u8"Error reading JPG ph_image from path '%s'.";
+      return u8"Error reading JPG image from path '%s'.";
     default:
       return u8"";
   }

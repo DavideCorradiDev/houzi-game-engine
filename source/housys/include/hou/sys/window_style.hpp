@@ -25,13 +25,13 @@ enum class window_style
   fullscreen,
 };
 
-/** Writes a window_style enum into a ph_stream.
+/** Writes a window_style enum into a stream.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param ws the window_style enum.
  *
- * \return a reference to the ph_stream.
+ * \return a reference to the stream.
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, window_style ws);
 

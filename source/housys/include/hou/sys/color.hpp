@@ -191,13 +191,13 @@ HOU_SYS_API bool operator==(const color& lhs, const color& rhs);
  */
 HOU_SYS_API bool operator!=(const color& lhs, const color& rhs);
 
-/** Writes a color object into a ph_stream.
+/** Writes a color object into a stream.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param c the color object.
  *
- * \return a reference to the ph_stream.
+ * \return a reference to the stream.
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, const color& c);
 

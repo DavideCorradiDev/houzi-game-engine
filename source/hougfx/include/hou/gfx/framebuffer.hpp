@@ -181,11 +181,11 @@ private:
  *
  * \param src the source framebuffer.
  *
- * \param src_rect the source ph_rectangle.
+ * \param src_rect the source rectangle.
  *
  * \param dst the destination framebuffer.
  *
- * \param dst_rect the destination ph_rectangle.
+ * \param dst_rect the destination rectangle.
  *
  * \param mask a bitfield specifying what attachments to blit.
  *
@@ -206,11 +206,11 @@ HOU_GFX_API void blit(const framebuffer& src, const recti& src_rect,
  *
  * \param src the source framebuffer.
  *
- * \param src_rect the source ph_rectangle.
+ * \param src_rect the source rectangle.
  *
  * \param dst the destination texture.
  *
- * \param dst_rect the destination ph_rectangle.
+ * \param dst_rect the destination rectangle.
  *
  * \param filter the filter to apply for this operation.
  */
@@ -227,11 +227,11 @@ HOU_GFX_API void blit(const framebuffer& src, const recti& src_rect,
  *
  * \param src the source texture.
  *
- * \param src_rect the source ph_rectangle.
+ * \param src_rect the source rectangle.
  *
  * \param dst the destination framebuffer.
  *
- * \param dst_rect the destination ph_rectangle.
+ * \param dst_rect the destination rectangle.
  *
  * \param filter the filter to apply for this operation.
  */
@@ -250,11 +250,11 @@ HOU_GFX_API void blit(const texture& src, const recti& src_rect,
  *
  * \param src the source texture.
  *
- * \param src_rect the source ph_rectangle.
+ * \param src_rect the source rectangle.
  *
  * \param dst the destination texture.
  *
- * \param dst_rect the destination ph_rectangle.
+ * \param dst_rect the destination rectangle.
  *
  * \param filter the filter to apply for this operation.
  */

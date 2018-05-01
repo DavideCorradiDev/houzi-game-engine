@@ -18,7 +18,7 @@
 namespace hou
 {
 
-/** Input audio ph_stream.
+/** Input audio stream.
  *
  *  read operations throw if reading a non-integer number of samples.
  *
@@ -36,7 +36,7 @@ public:
    */
   size_t get_read_sample_count() const;
 
-  /** Reads the whole contents of the ph_stream into memory.
+  /** Reads the whole contents of the stream into memory.
    *
    * \tparam T the container type to return.
    *

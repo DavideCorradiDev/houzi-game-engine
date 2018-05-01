@@ -139,7 +139,7 @@ TEST_F(test_system_window, create_window_multithreaded_environment)
 {
   // When creating windows some global system state is modified.
   // This test checks if everything runs fine when multiple threads try to
-  // create a ph_window.
+  // create a window.
   auto thread_fun = []() {
     system_window w(
       "Win", video_mode(vec2u::zero(), 0), window_style::windowed);

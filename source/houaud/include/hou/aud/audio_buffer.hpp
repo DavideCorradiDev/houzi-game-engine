@@ -65,13 +65,13 @@ public:
   audio_buffer(
     std::vector<uint8_t>&& data, audio_buffer_format format, int smpRate);
 
-  /** Creates an audio_buffer object with the data from the given ph_stream.
+  /** Creates an audio_buffer object with the data from the given stream.
    *
    * \param audioStream the audioStream.
    */
   explicit audio_buffer(audio_stream_in& audioStream);
 
-  /** Creates an audio_buffer object with the data from the given ph_stream.
+  /** Creates an audio_buffer object with the data from the given stream.
    *
    * \param audioStream the audioStream.
    */
@@ -151,13 +151,13 @@ public:
 
   /** Sets the buffer data by reading the provided audio_stream_in)
    *
-   * \param audioStream the audio ph_stream.
+   * \param audioStream the audio stream.
    */
   void set_data(audio_stream_in& audioStream);
 
   /** Sets the buffer data by reading the provided audio_stream_in)
    *
-   * \param audioStream the audio ph_stream.
+   * \param audioStream the audio stream.
    */
   void set_data(audio_stream_in&& audioStream);
 

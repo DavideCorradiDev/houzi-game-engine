@@ -170,7 +170,7 @@ TEST_F(test_gl_program_handle_death_test, LinkProgramFailure)
   gl::shader_handle vsh = gl::shader_handle::create(GL_VERTEX_SHADER);
   gl::compile_shader(vsh, get_vs_source().c_str());
   gl::shader_handle gsh = gl::shader_handle::create(GL_GEOMETRY_SHADER);
-  // vertex ph_shader source here to trigger the error!
+  // vertex shader source here to trigger the error!
   gl::compile_shader(gsh, get_vs_source().c_str());
   gl::shader_handle fsh = gl::shader_handle::create(GL_FRAGMENT_SHADER);
   gl::compile_shader(fsh, get_fs_source().c_str());

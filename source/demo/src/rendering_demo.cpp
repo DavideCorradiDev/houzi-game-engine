@@ -59,7 +59,7 @@ class DrawableShape
   : public non_copyable
 {
 public:
-  DrawableShape(const texture2& ph_texture);
+  DrawableShape(const texture2& tex);
 
   virtual mesh2 generateMesh() const = 0;
   void draw(render_surface& rt, mesh2_shader_program& renderer, const trans2f& t) const;
@@ -80,7 +80,7 @@ public:
 
 
 
-DrawableShape::DrawableShape(const texture2& ph_texture)
+DrawableShape::DrawableShape(const texture2& tex)
   : non_copyable()
   , m_color(color::white)
   , mTransformData()
@@ -89,7 +89,7 @@ DrawableShape::DrawableShape(const texture2& ph_texture)
   , mThickness(1.f)
   , mPoints(16)
   , mDrawWithTexture(false)
-  , mTexture(&ph_texture)
+  , mTexture(&tex)
 {}
 
 
@@ -284,8 +284,8 @@ class RectangleShape
   : public DrawableShape
 {
 public:
-  RectangleShape(const texture2& ph_texture)
-    : DrawableShape(ph_texture)
+  RectangleShape(const texture2& tex)
+    : DrawableShape(tex)
   {}
 
   mesh2 generateMesh() const override
@@ -300,8 +300,8 @@ class RectangleOutlineShape
   : public DrawableShape
 {
 public:
-  RectangleOutlineShape(const texture2& ph_texture)
-    : DrawableShape(ph_texture)
+  RectangleOutlineShape(const texture2& tex)
+    : DrawableShape(tex)
   {}
 
   mesh2 generateMesh() const override
@@ -316,8 +316,8 @@ class EllipseShape
   : public DrawableShape
 {
 public:
-  EllipseShape(texture2& ph_texture)
-    : DrawableShape(ph_texture)
+  EllipseShape(texture2& tex)
+    : DrawableShape(tex)
   {}
 
   mesh2 generateMesh() const override
@@ -332,8 +332,8 @@ class EllipseOutlineShape
   : public DrawableShape
 {
 public:
-  EllipseOutlineShape(const texture2& ph_texture)
-    : DrawableShape(ph_texture)
+  EllipseOutlineShape(const texture2& tex)
+    : DrawableShape(tex)
   {}
 
   mesh2 generateMesh() const override
@@ -348,8 +348,8 @@ class TextureQuadShape
   : public DrawableShape
 {
 public:
-  TextureQuadShape(const texture2& ph_texture)
-    : DrawableShape(ph_texture)
+  TextureQuadShape(const texture2& tex)
+    : DrawableShape(tex)
   {}
 
   mesh2 generateMesh() const override

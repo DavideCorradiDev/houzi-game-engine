@@ -14,10 +14,10 @@
 namespace hou
 {
 
-/** Defines a channel mapping for a ph_texture.
+/** Defines a channel mapping for a texture.
  *
- * A channel mapping allows to efficiently swap ph_texture channel or to replace
- * them with constant zero or one channels when the ph_texture is passed to a
+ * A channel mapping allows to efficiently swap texture channel or to replace
+ * them with constant zero or one channels when the texture is passed to a
  * shader.
  */
 class HOU_GFX_API texture_channel_mapping
@@ -128,9 +128,9 @@ HOU_GFX_API bool operator==(
 HOU_GFX_API bool operator!=(
   const texture_channel_mapping& lhs, const texture_channel_mapping& rhs);
 
-/** Outputs a texture_channel_mapping object into a ph_stream.
+/** Outputs a texture_channel_mapping object into a stream.
  *
- * \param os the output ph_stream.
+ * \param os the output stream.
  *
  * \param tcm the texture_channel_mapping object.
  *

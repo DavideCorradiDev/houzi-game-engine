@@ -34,7 +34,7 @@ class video_mode;
  *
  * * If one of the elements of the client size equals 0, the corresponding
  * element in the render surface size will be equal to 1. The render surface
- * must have at least one ph_pixel.
+ * must have at least one pixel.
  *
  * * If the window is resized by dragging its borders, the rendering surface
  * will be resized accordingly only when popping the resized event from the

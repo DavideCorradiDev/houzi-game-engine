@@ -17,7 +17,7 @@
 namespace hou
 {
 
-/** Enumeration for the format of an ph_image ph_pixel. */
+/** Enumeration for the format of an image pixel. */
 enum class pixel_format
 {
   /** Single channel (red) format. */
@@ -30,17 +30,17 @@ enum class pixel_format
   rgba,
 };
 
-/** Writes a pixel_format enum into a ph_stream.
+/** Writes a pixel_format enum into a stream.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param format the pixel_format enum.
  *
- * \return a reference to the ph_stream.
+ * \return a reference to the stream.
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, pixel_format format);
 
-/** Returns the number of bytes of a ph_pixel with the given format.
+/** Returns the number of bytes of a pixel with the given format.
  *
  * \param format the pixel_format.
  *

@@ -14,7 +14,7 @@
 namespace hou
 {
 
-/** text output ph_stream interface.
+/** text output stream interface.
  */
 class HOU_SYS_API text_stream_out
   : public text_stream

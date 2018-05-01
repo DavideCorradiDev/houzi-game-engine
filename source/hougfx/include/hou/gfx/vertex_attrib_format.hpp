@@ -18,7 +18,7 @@
 namespace hou
 {
 
-/** Class representing the format of an attribute of a ph_vertex.
+/** Class representing the format of an attribute of a vertex.
  */
 class HOU_GFX_API vertex_attrib_format
 {
@@ -29,7 +29,7 @@ public:
    *
    * \param element_count the number of elements forming the attribute.
    *
-   * \param byte_offset the byte offset from the beginning of the ph_vertex.
+   * \param byte_offset the byte offset from the beginning of the vertex.
    *
    * \param must_be_normalized whether the value of this attribute must be
    * normalized or not.
@@ -49,9 +49,9 @@ public:
    */
   uint get_element_count() const;
 
-  /** Retrieves the offset from the start of the ph_vertex object.
+  /** Retrieves the offset from the start of the vertex object.
    *
-   * \return the offset from the start of the ph_vertex object.
+   * \return the offset from the start of the vertex object.
    */
   uint get_byte_offset() const;
 
@@ -90,9 +90,9 @@ HOU_GFX_API bool operator==(
 HOU_GFX_API bool operator!=(
   const vertex_attrib_format& lhs, const vertex_attrib_format& rhs);
 
-/** Writes the object into a ph_stream.
+/** Writes the object into a stream.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param vf the vertex_attrib_format.
  *

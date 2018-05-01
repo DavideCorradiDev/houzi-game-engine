@@ -38,11 +38,11 @@ bool close(
   const std::vector<U>& lhs, const std::vector<U>& rhs,
   T acc = std::numeric_limits<T>::epsilon());
 
-/** Outputs a std::vector to the given ph_stream.
+/** Outputs a std::vector to the given stream.
  *
  * \tparam T the element type.
  *
- * \param os the output ph_stream.
+ * \param os the output stream.
  *
  * \param c the std::vector object.
  *

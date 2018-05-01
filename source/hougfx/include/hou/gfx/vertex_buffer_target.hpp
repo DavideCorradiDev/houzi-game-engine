@@ -26,13 +26,13 @@ enum class vertex_buffer_target : GLenum
   element_array_buffer = GL_ELEMENT_ARRAY_BUFFER,
 };
 
-/** Writes the object into a ph_stream.
+/** Writes the object into a stream.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param vbt the vertex_buffer_target enum.
  *
- * \return a reference to the ph_stream.
+ * \return a reference to the stream.
  */
 HOU_GFX_API std::ostream& operator<<(
   std::ostream& os, vertex_buffer_target vbt);

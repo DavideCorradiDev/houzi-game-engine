@@ -32,7 +32,7 @@ std::string get_text(gl_error ec)
     case gl_error::invalid_operation:
       return u8"Invalid GL operation";
     case gl_error::invalid_ownership:
-      return u8"Current GL ph_context does not own object.";
+      return u8"Current GL context does not own object.";
     case gl_error::invalid_value:
       return u8"Invalid GL value.";
     case gl_error::out_of_memory:

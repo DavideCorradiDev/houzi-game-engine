@@ -122,9 +122,9 @@ HOU_GFX_API bool close(const text_vertex& lhs, const text_vertex& rhs,
   text_vertex::comparison_type acc
   = std::numeric_limits<text_vertex::comparison_type>::epsilon());
 
-/** Writes the object into a ph_stream.
+/** Writes the object into a stream.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param v the text_vertex.
  *

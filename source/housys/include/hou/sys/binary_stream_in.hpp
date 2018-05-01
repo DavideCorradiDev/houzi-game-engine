@@ -14,7 +14,7 @@
 namespace hou
 {
 
-/** Binary input ph_stream interface.
+/** Binary input stream interface.
  */
 class HOU_SYS_API binary_stream_in
   : public binary_stream
@@ -25,7 +25,7 @@ public:
    */
   virtual ~binary_stream_in(){};
 
-  /** Reads the whole contents of the ph_stream into memory.
+  /** Reads the whole contents of the stream into memory.
    *
    * \tparam T the container type to return.
    *

@@ -99,7 +99,7 @@ public:
    */
   virtual uint get_channel_count() const = 0;
 
-  /** Gets the number of bytes per sample of the audio ph_stream, based on its
+  /** Gets the number of bytes per sample of the audio stream, based on its
    * audio format.
    *
    * The number returned is the number of bytes per sample for a single

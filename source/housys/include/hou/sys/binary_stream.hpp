@@ -14,7 +14,7 @@
 namespace hou
 {
 
-/** binary ph_stream interface.
+/** binary stream interface.
  */
 class HOU_SYS_API binary_stream : public stream
 {
@@ -48,7 +48,7 @@ public:
    *
    * \param pos the byte position indicator value.
    *
-   * \return a reference to this ph_stream.
+   * \return a reference to this stream.
    */
   virtual binary_stream& set_byte_pos(byte_position pos) = 0;
 
@@ -61,7 +61,7 @@ public:
    *
    * \param offset the byte position indicator offset.
    *
-   * \return a reference to this ph_stream.
+   * \return a reference to this stream.
    */
   virtual binary_stream& move_byte_pos(byte_offset offset) = 0;
 };

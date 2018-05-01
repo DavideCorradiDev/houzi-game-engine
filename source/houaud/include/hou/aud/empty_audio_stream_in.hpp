@@ -13,7 +13,7 @@
 namespace hou
 {
 
-/** Class representing a dummy empty input audio ph_stream.
+/** Class representing a dummy empty input audio stream.
  */
 class HOU_AUD_API empty_audio_stream_in : public audio_stream_in
 {
@@ -47,22 +47,22 @@ public:
   /** Sets the current byte position indicator.
    *
    * Throws if pos is negative or greater than the number of bytes in the
-   * ph_stream.
+   * stream.
    *
    * \param pos the byte position indicator value.
    *
-   * \return a reference to this ph_stream.
+   * \return a reference to this stream.
    */
   audio_stream_in& set_sample_pos(sample_position pos) final;
 
   /** Moves the current byte position indicator.
    *
    * Throws if the offset moves the position indicator to a negative position
-   * or to a position greater than the number of bytes in the ph_stream.
+   * or to a position greater than the number of bytes in the stream.
    *
    * \param offset the byte position indicator offset.
    *
-   * \return a reference to this ph_stream.
+   * \return a reference to this stream.
    */
   audio_stream_in& move_sample_pos(sample_offset offset) final;
 

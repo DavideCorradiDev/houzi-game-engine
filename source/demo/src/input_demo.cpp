@@ -130,7 +130,7 @@ int main()
   hou::texture2 mouseTex(hou::png_read_file<hou::pixel_format::rgba>(dataDir + u8"mouse.png"));
   hou::texture2 mousebuttonsTex(hou::png_read_file<hou::pixel_format::rgba>(dataDir + u8"mousebuttons.png"));
 
-  hou::font ph_font(std::make_unique<hou::binary_file_in>(dataDir + u8"NotoMono-Regular.ttf"));
+  hou::font fnt(std::make_unique<hou::binary_file_in>(dataDir + u8"NotoMono-Regular.ttf"));
 
   hou::mesh2 keyboardQuad = hou::create_texture_quad_mesh2
     ( hou::rectf(0, 0, keyboardTex.get_size().x(), keyboardTex.get_size().y())
@@ -485,11 +485,11 @@ int main()
 
       // Draw static images.
       wnd.clear(hou::color::black);
-      textRnd.draw(wnd, "KEYBOARD KEY CODE", ph_font, hou::color::red
+      textRnd.draw(wnd, "KEYBOARD KEY CODE", fnt, hou::color::red
         , projTrans * keyboard1TextTrans);
       meshRnd.draw(wnd, keyboardQuad, keyboardTex, hou::color::white
         , projTrans * keyboard1Trans);
-      textRnd.draw(wnd, "KEYBOARD SCAN CODE", ph_font, hou::color::yellow
+      textRnd.draw(wnd, "KEYBOARD SCAN CODE", fnt, hou::color::yellow
         , projTrans * keyboard2TextTrans);
       meshRnd.draw(wnd, keyboardQuad, keyboardTex, hou::color::white
         , projTrans * keyboard2Trans);
@@ -497,17 +497,17 @@ int main()
         , projTrans * mouseTrans);
       std::string mousePosText = hou::format_string("SCREEN MOUSE CURSOR POSITION: (%d, %d)"
         , hou::mouse::get_position().x(), hou::mouse::get_position().y());
-      textRnd.draw(wnd, mousePosText, ph_font, hou::color::green
+      textRnd.draw(wnd, mousePosText, fnt, hou::color::green
         , projTrans * mousePosTextTrans);
       std::string mouseRelPosText = hou::format_string("WINDOW MOUSE CURSOR POSITION: (%d, %d)"
         , hou::mouse::get_position(wnd).x(), hou::mouse::get_position(wnd).y());
-      textRnd.draw(wnd, mouseRelPosText, ph_font, hou::color::green
+      textRnd.draw(wnd, mouseRelPosText, fnt, hou::color::green
         , projTrans * mouseRelPosTextTrans);
       textRnd.draw(wnd
-        , "PRESS CTRL+O TO MOVE THE MOUSE CURSOR TO THE SCREEN ORIGIN", ph_font
+        , "PRESS CTRL+O TO MOVE THE MOUSE CURSOR TO THE SCREEN ORIGIN", fnt
         , hou::color::green, projTrans * mouseHintText1Trans);
       textRnd.draw(wnd
-        , "PRESS CTRL+P TO MOVE THE MOUSE CURSOR TO THE WINDOW ORIGIN", ph_font
+        , "PRESS CTRL+P TO MOVE THE MOUSE CURSOR TO THE WINDOW ORIGIN", fnt
         , hou::color::green, projTrans * mouseHintText2Trans);
 
       // Draw events in queue.
@@ -521,7 +521,7 @@ int main()
         {
           ss << "  " <<  hou::convert_encoding<hou::utf32, hou::utf8>(std::u32string(1, ev.get_text_data().code_point)) << "\n";
         }
-        textRnd.draw(wnd, ss.str(), ph_font, hou::color::black
+        textRnd.draw(wnd, ss.str(), fnt, hou::color::black
           , projTrans * eventQueueTrans * evTrans * hou::trans2f::translation(hou::vec2f(4.f, 16.f)));
         evTrans *= hou::trans2f::translation(hou::vec2f(evSize.x(), 0.f));
       }

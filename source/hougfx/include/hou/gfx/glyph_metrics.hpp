@@ -18,10 +18,10 @@
 namespace hou
 {
 
-/** Class describing the metrics of a ph_glyph.
+/** Class describing the metrics of a glyph.
  *
- * all metrics are internal expressed in 26.6 ph_pixel format, which means the
- * unit is 1/64th of ph_pixel.
+ * all metrics are internal expressed in 26.6 pixel format, which means the
+ * unit is 1/64th of pixel.
  */
 class HOU_GFX_API glyph_metrics
 {
@@ -34,111 +34,111 @@ public:
 
   /** Creates a glyph_metrics object with the given properties.
    *
-   * \param size the size of the ph_glyph bounding box.
+   * \param size the size of the glyph bounding box.
    *
-   * \param horizontal_bearing the horizontal bearing of the ph_glyph, that is
-   * the position of the baseline of the ph_glyph when rendering text
+   * \param horizontal_bearing the horizontal bearing of the glyph, that is
+   * the position of the baseline of the glyph when rendering text
    * horizontally.
    *
-   * \param horizontal_advance the horizontal advance of the ph_glyph, that is
-   * the horizontal offset to the next ph_glyph when rendering text
+   * \param horizontal_advance the horizontal advance of the glyph, that is
+   * the horizontal offset to the next glyph when rendering text
    * horizontally.
    *
-   * \param vertical_bearing the vertical bearing of the ph_glyph, that is the
-   * position of the baseline of the ph_glyph when rendering text vertically.
+   * \param vertical_bearing the vertical bearing of the glyph, that is the
+   * position of the baseline of the glyph when rendering text vertically.
    *
-   * \param vertical_advance the vertical advance of the ph_glyph, that is the
-   * vertical offset to the next ph_glyph when rendering text vertically.
+   * \param vertical_advance the vertical advance of the glyph, that is the
+   * vertical offset to the next glyph when rendering text vertically.
    */
   glyph_metrics(const vec2u& size, const vec2i& horizontal_bearing,
     int horizontal_advance, const vec2i& vertical_bearing,
     int vertical_advance);
 
-  /** Gets the size of the bounding box of the ph_glyph in 26.6 ph_pixel format.
+  /** Gets the size of the bounding box of the glyph in 26.6 pixel format.
    *
-   * \return the size of the bounding box of the ph_glyph.
+   * \return the size of the bounding box of the glyph.
    */
   const vec2u& get_size() const;
 
-  /** Gets the size of the bounding box of the ph_glyph in pixels.
+  /** Gets the size of the bounding box of the glyph in pixels.
    *
-   * \return the size of the bounding box of the ph_glyph.
+   * \return the size of the bounding box of the glyph.
    */
   vec2f get_pixel_size() const;
 
-  /** Sets the size of the bounding box of the ph_glyph.
+  /** Sets the size of the bounding box of the glyph.
    *
-   * \param size the size of the bounding box of the ph_glyph.
+   * \param size the size of the bounding box of the glyph.
    */
   void set_size(const vec2u& size);
 
-  /** Gets the horizontal bearing of the ph_glyph in 26.6 ph_pixel format.
+  /** Gets the horizontal bearing of the glyph in 26.6 pixel format.
    *
-   * \return the horizontal bearing of the ph_glyph.
+   * \return the horizontal bearing of the glyph.
    */
   const vec2i& get_horizontal_bearing() const;
 
-  /** Gets the horizontal bearing of the ph_glyph in pixels.
+  /** Gets the horizontal bearing of the glyph in pixels.
    *
-   * \return the horizontal bearing of the ph_glyph.
+   * \return the horizontal bearing of the glyph.
    */
   vec2f get_pixel_horizontal_bearing() const;
 
-  /** Sets the horizontal bearing of the ph_glyph.
+  /** Sets the horizontal bearing of the glyph.
    *
    * \param horizontal_bearing the horizontal bearing.
    */
   void setHorizontalBearing(const vec2i& horizontal_bearing);
 
-  /** Gets the horizontal advance of the ph_glyph in 26.6 ph_pixel format.
+  /** Gets the horizontal advance of the glyph in 26.6 pixel format.
    *
-   * \return the horizontal advance of the ph_glyph.
+   * \return the horizontal advance of the glyph.
    */
   int get_horizontal_advance() const;
 
-  /** Gets the horizontal advance of the ph_glyph in pixels.
+  /** Gets the horizontal advance of the glyph in pixels.
    *
-   * \return the horizontal advance of the ph_glyph.
+   * \return the horizontal advance of the glyph.
    */
   float get_pixel_horizontal_advance() const;
 
-  /** Sets the horizontal advance of the ph_glyph.
+  /** Sets the horizontal advance of the glyph.
    *
    * \param horizontal_advance the horizontal advance.
    */
   void set_horizontal_advance(int horizontal_advance);
 
-  /** Gets the vertical bearing of the ph_glyph in 26.6 ph_pixel format.
+  /** Gets the vertical bearing of the glyph in 26.6 pixel format.
    *
-   * \return the vertical bearing of the ph_glyph.
+   * \return the vertical bearing of the glyph.
    */
   const vec2i& get_vertical_bearing() const;
 
-  /** Gets the vertical bearing of the ph_glyph in pixels.
+  /** Gets the vertical bearing of the glyph in pixels.
    *
-   * \return the vertical bearing of the ph_glyph.
+   * \return the vertical bearing of the glyph.
    */
   vec2f get_pixel_vertical_bearing() const;
 
-  /** Sets the vertical bearing of the ph_glyph.
+  /** Sets the vertical bearing of the glyph.
    *
    * \param vertical_bearing the vertical bearing.
    */
   void set_vertical_bearing(const vec2i& vertical_bearing);
 
-  /** Gets the vertical advance of the ph_glyph in 26.6 ph_pixel format.
+  /** Gets the vertical advance of the glyph in 26.6 pixel format.
    *
-   * \return the vertical advance of the ph_glyph.
+   * \return the vertical advance of the glyph.
    */
   int get_vertical_advance() const;
 
-  /** Gets the vertical advance of the ph_glyph in pixels.
+  /** Gets the vertical advance of the glyph in pixels.
    *
-   * \return the vertical advance of the ph_glyph.
+   * \return the vertical advance of the glyph.
    */
   float get_pixel_vertical_advance() const;
 
-  /** Sets the vertical advance of the ph_glyph.
+  /** Sets the vertical advance of the glyph.
    *
    * \param vertical_advance the vertical advance.
    */
@@ -172,9 +172,9 @@ HOU_GFX_API bool operator==(const glyph_metrics& lhs, const glyph_metrics& rhs);
  */
 HOU_GFX_API bool operator!=(const glyph_metrics& lhs, const glyph_metrics& rhs);
 
-/** Writes a glyph_metrics object into a ph_stream.
+/** Writes a glyph_metrics object into a stream.
  *
- * \param os the output ph_stream.
+ * \param os the output stream.
  *
  * \param gm the object.
  *

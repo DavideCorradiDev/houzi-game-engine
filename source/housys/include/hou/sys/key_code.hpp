@@ -359,11 +359,11 @@ enum class key_code
   packet,
 };
 
-/** Writes a key_code enum into a ph_stream.
+/** Writes a key_code enum into a stream.
  *
- *  \param os the ph_stream.
+ *  \param os the stream.
  *  \param kc the key_code enum.
- *  \return a reference to the ph_stream.
+ *  \return a reference to the stream.
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, key_code kc);
 

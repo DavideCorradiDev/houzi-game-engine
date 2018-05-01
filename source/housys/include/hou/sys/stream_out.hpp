@@ -19,7 +19,7 @@
 namespace hou
 {
 
-/** Output ph_stream interface.
+/** Output stream interface.
  */
 class HOU_SYS_API stream_out
 {
@@ -48,7 +48,7 @@ public:
    *
    * \param buf the variable to be written.
    *
-   * \return a reference to this ph_stream.
+   * \return a reference to this stream.
    */
   template <typename T>
   std::enable_if_t<std::is_pod<T>::value && !is_contiguous_container<T>::value,
@@ -65,7 +65,7 @@ public:
    *
    * \param buf the container to be written.
    *
-   * \return a reference to this ph_stream.
+   * \return a reference to this stream.
    */
   template <typename T>
   std::enable_if_t<is_contiguous_container<T>::value, stream_out>& write(
@@ -86,7 +86,7 @@ public:
    *
    * \param buf_size the number of elements to be written.
    *
-   * \return a reference to this ph_stream.
+   * \return a reference to this stream.
    */
   template <typename T>
   stream_out& write(const T* buf, size_t buf_size);

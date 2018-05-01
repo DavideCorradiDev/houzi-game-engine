@@ -30,7 +30,7 @@ int main()
   mesh2 fpsRect = create_rectangle_mesh2(vec2f(128.f, 32.f));
   std::vector<uint> fontSizes{0, 2, 4, 8, 16, 32, 64};
   size_t currentSizeIdx = 3;
-  font ph_font(std::make_unique<binary_file_in>(dataDir + u8"NotoSans-Regular.ttf"));
+  font fnt(std::make_unique<binary_file_in>(dataDir + u8"NotoSans-Regular.ttf"));
   font chineseFont(
     std::make_unique<binary_file_in>(dataDir + u8"NotoSansCJKsc-Regular.otf"));
   std::vector<utf32::code_unit> characters;
@@ -65,7 +65,7 @@ int main()
     = u8"\u5154\u5B50\u6CA1\u6709\u6C57\u817A\uFF0C\u6240\u4EE5\u4E0D\u4F1A"
       u8"\u6D41\u6C57\uFF0C\u8033\u6735\u53EF\u4EE5\u6563\u70ED\u3002\n";
   std::string chineseText;
-  ph_font.set_pixel_height(fontSizes[currentSizeIdx]);
+  fnt.set_pixel_height(fontSizes[currentSizeIdx]);
   chineseFont.set_pixel_height(fontSizes[currentSizeIdx]);
   uint linesNum = 38;
   for(uint i = 0u; i < linesNum; ++i)
@@ -122,7 +122,7 @@ int main()
           {
             printChinese = !printChinese;
           }
-          ph_font.set_pixel_height(fontSizes[currentSizeIdx]);
+          fnt.set_pixel_height(fontSizes[currentSizeIdx]);
           chineseFont.set_pixel_height(fontSizes[currentSizeIdx]);
         }
         else if(we.get_key_data().scan_code == scan_code::a)
@@ -187,7 +187,7 @@ int main()
     rw.clear(color::black);
 
     const std::string& textToRender = printChinese ? chineseText : text;
-    font& fontToRender = printChinese ? chineseFont : ph_font;
+    font& fontToRender = printChinese ? chineseFont : fnt;
 
     if(maxTBoxSize.x() == 0.f || maxTBoxSize.y() == 0.f)
     {
@@ -239,7 +239,7 @@ int main()
         /
         std::chrono::duration_cast<std::chrono::duration<float>>(timePerFrame)
             .count()),
-      ph_font);
+      fnt);
     textRnd.draw(rw, fpsText, color::white, proj * trans2f::translation(-fpsText.get_bounding_box().get_position()));
     rw.display();
   }

@@ -16,7 +16,7 @@
 namespace hou
 {
 
-/** Enumeration for the draw mode of a ph_mesh. */
+/** Enumeration for the draw mode of a mesh. */
 enum class mesh_draw_mode : GLenum
 {
   /** Single points draw mode. */
@@ -43,11 +43,11 @@ enum class mesh_draw_mode : GLenum
   patches = GL_PATCHES,
 };
 
-/** Writes a mesh_draw_mode enum into a ph_stream.
+/** Writes a mesh_draw_mode enum into a stream.
  *
- *  \param os the ph_stream.
+ *  \param os the stream.
  *  \param mdm the mesh_draw_mode enum.
- *  \return a reference to the ph_stream.
+ *  \return a reference to the stream.
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, mesh_draw_mode mdm);
 

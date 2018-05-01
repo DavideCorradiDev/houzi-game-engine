@@ -19,7 +19,7 @@
 namespace hou
 {
 
-/** Represents the global state of the rendering ph_device.
+/** Represents the global state of the rendering device.
  *
  * At least one graphic_context must exist when creating rendering objects.
  * For most applications, it is sufficient to create and set as current a

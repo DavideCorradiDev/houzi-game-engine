@@ -238,13 +238,13 @@ enum class scan_code
 };
 
 
-/** Writes a scan_code enum into a ph_stream.
+/** Writes a scan_code enum into a stream.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param sc the scan_code enum.
  *
- * \return a reference to the ph_stream.
+ * \return a reference to the stream.
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, scan_code sc);
 

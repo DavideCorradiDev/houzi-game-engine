@@ -16,7 +16,7 @@
 namespace hou
 {
 
-/** Enumeration for the modifier key flags, used for key related ph_window
+/** Enumeration for the modifier key flags, used for key related window
  * events.
  */
 enum class modifier_keys
@@ -33,11 +33,11 @@ enum class modifier_keys
   system = 1 << 3,
 };
 
-/** Writes a modifier_keys enum into a ph_stream.
+/** Writes a modifier_keys enum into a stream.
  *
- *  \param os the ph_stream.
+ *  \param os the stream.
  *  \param mkf the modifier_keys enum.
- *  \return a reference to the ph_stream.
+ *  \return a reference to the stream.
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, modifier_keys mkf);
 

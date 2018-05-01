@@ -17,7 +17,7 @@
 namespace hou
 {
 
-/** Output binary file ph_stream.
+/** Output binary file stream.
  */
 class HOU_SYS_API binary_file_out
   : public non_copyable
@@ -61,7 +61,7 @@ public:
    *
    * \param pos the byte position indicator value.
    *
-   * \return a reference to this ph_stream.
+   * \return a reference to this stream.
    */
   binary_stream& set_byte_pos(byte_position pos) final;
 
@@ -72,7 +72,7 @@ public:
    *
    * \param offset the byte position indicator offset.
    *
-   * \return a reference to this ph_stream.
+   * \return a reference to this stream.
    */
   binary_stream& move_byte_pos(byte_offset offset) final;
 

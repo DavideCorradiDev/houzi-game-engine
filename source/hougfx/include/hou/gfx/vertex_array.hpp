@@ -53,9 +53,9 @@ public:
    */
   vertex_array(vertex_array&& other);
 
-  /** Retrieves the reference to the OpenGL ph_vertex array object.
+  /** Retrieves the reference to the OpenGL vertex array object.
    *
-   * \return the reference to the OpenGL ph_vertex array object.
+   * \return the reference to the OpenGL vertex array object.
    */
   const gl::vertex_array_handle& get_handle() const;
 
@@ -65,9 +65,9 @@ public:
    */
   bool is_bound() const;
 
-  /** Binds a vertex_buffer as a ph_vertex buffer.
+  /** Binds a vertex_buffer as a vertex buffer.
    *
-   * The data in the vertex_buffer represents ph_vertex data.
+   * The data in the vertex_buffer represents vertex data.
    * Throws if binding index is greater than the maximum binding index.
    *
    * \param vb the vertex_buffer to be bound.
@@ -82,7 +82,7 @@ public:
   /** Binds a vertex_buffer as an element buffer.
    *
    * The data in the vertex_buffer represents indices referring to element of
-   * the bound ph_vertex buffer.
+   * the bound vertex buffer.
    *
    * \param eb the vertex_buffer to be bound.
    */

@@ -17,7 +17,7 @@
 namespace hou
 {
 
-/** Output text file ph_stream.
+/** Output text file stream.
  */
 class HOU_SYS_API text_file_out
   : public non_copyable

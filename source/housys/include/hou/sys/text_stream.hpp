@@ -16,7 +16,7 @@
 namespace hou
 {
 
-/** text ph_stream interface.
+/** text stream interface.
  */
 class HOU_SYS_API text_stream : public stream
 {
@@ -53,13 +53,13 @@ public:
      */
     friend HOU_SYS_API bool operator!=(text_position lhs, text_position rhs);
 
-    /** Writes a text position indicator into a ph_stream.
+    /** Writes a text position indicator into a stream.
      *
-     * \param os the ph_stream.
+     * \param os the stream.
      *
      * \param p the text position indicator.
      *
-     * \return a reference to the ph_stream.
+     * \return a reference to the stream.
      */
     friend HOU_SYS_API std::ostream& operator<<(
       std::ostream& os, text_position p);
@@ -90,11 +90,11 @@ public:
   /** Sets the current text position indicator.
    *
    * \param pos the current text position indicator. It must either be start or
-   * a value obtained by calling get_text_pos on this ph_stream. Using a value
+   * a value obtained by calling get_text_pos on this stream. Using a value
    * obtained by calling get_text_pos on another text_stream is undefined
    * behaviour.
    *
-   * \return a reference to this ph_stream.
+   * \return a reference to this stream.
    */
   virtual text_stream& set_text_pos(text_position pos) = 0;
 

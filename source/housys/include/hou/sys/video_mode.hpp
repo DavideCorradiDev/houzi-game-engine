@@ -20,7 +20,7 @@ namespace hou
 {
 
 /** Class representing a video mode, defined by the resolution and the number
- * of bits per ph_pixel.
+ * of bits per pixel.
  */
 class HOU_SYS_API video_mode
 {
@@ -41,7 +41,7 @@ public:
    *
    * \param resolution the screen resolution.
    *
-   * \param bytes_per_pixel the number of bits per ph_pixel.
+   * \param bytes_per_pixel the number of bits per pixel.
    */
   video_mode(const vec2u& resolution, uint bytes_per_pixel);
 
@@ -51,9 +51,9 @@ public:
    */
   const vec2u& get_resolution() const;
 
-  /** Retrieves the number of bits per ph_pixel.
+  /** Retrieves the number of bits per pixel.
    *
-   * \return the number of bits per ph_pixel.
+   * \return the number of bits per pixel.
    */
   uint get_bytes_per_pixel() const;
 
@@ -93,7 +93,7 @@ HOU_SYS_API bool operator!=(const video_mode& lhs, const video_mode& rhs);
 
 /** Checks if lhs is lower than rhs.
  *
- * Comparisons happen in the following order: bits per ph_pixel, x resolution,
+ * Comparisons happen in the following order: bits per pixel, x resolution,
  * y resolution.
  *
  * \param lhs the left operand.
@@ -106,7 +106,7 @@ HOU_SYS_API bool operator<(const video_mode& lhs, const video_mode& rhs);
 
 /** Checks if lhs is greater than rhs.
  *
- * Comparisons happen in the following order: bits per ph_pixel, x resolution,
+ * Comparisons happen in the following order: bits per pixel, x resolution,
  * y resolution.
  *
  * \param lhs the left operand.
@@ -119,7 +119,7 @@ HOU_SYS_API bool operator>(const video_mode& lhs, const video_mode& rhs);
 
 /** Checks if lhs is lower or equal to rhs.
  *
- * Comparisons happen in the following order: bits per ph_pixel, x resolution,
+ * Comparisons happen in the following order: bits per pixel, x resolution,
  * y resolution.
  *
  * \param lhs the left operand.
@@ -132,7 +132,7 @@ HOU_SYS_API bool operator<=(const video_mode& lhs, const video_mode& rhs);
 
 /** Checks if lhs is greater or equal to rhs.
  *
- * Comparisons happen in the following order: bits per ph_pixel, x resolution,
+ * Comparisons happen in the following order: bits per pixel, x resolution,
  * y resolution.
  *
  * \param lhs the left operand.
@@ -143,16 +143,16 @@ HOU_SYS_API bool operator<=(const video_mode& lhs, const video_mode& rhs);
  */
 HOU_SYS_API bool operator>=(const video_mode& lhs, const video_mode& rhs);
 
-/** Writes a video_mode object into a ph_stream.
+/** Writes a video_mode object into a stream.
  *
- * Comparisons happen in the following order: bits per ph_pixel, x resolution,
+ * Comparisons happen in the following order: bits per pixel, x resolution,
  * y resolution.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param vm the video_mode object.
  *
- * \return a reference to the ph_stream.
+ * \return a reference to the stream.
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, const video_mode& vm);
 

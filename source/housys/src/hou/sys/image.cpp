@@ -329,16 +329,16 @@ image2<PF> soil_load_from_file_with_check(SoilLoadFunction load_fun,
 
 template <pixel_format PF>
 bool soil_write_to_file(
-  const std::string& path, int imageType, const image2<PF>& ph_image)
+  const std::string& path, int imageType, const image2<PF>& image)
 {
-  // Since SOIL does not support UNICODE filenames, first save the ph_image to
+  // Since SOIL does not support UNICODE filenames, first save the image to
   // a file with a standardized name, then rename the file to what is requested.
   static constexpr char tmpFileName[] = ".HziTmpImageFileName.hou";
 
   int saveResult
-    = SOIL_save_image(tmpFileName, imageType, ph_image.get_size().x(),
-      ph_image.get_size().y(), image2<PF>::pixel::get_byte_count(),
-      reinterpret_cast<const uchar*>(ph_image.get_pixels().data()));
+    = SOIL_save_image(tmpFileName, imageType, image.get_size().x(),
+      image.get_size().y(), image2<PF>::pixel::get_byte_count(),
+      reinterpret_cast<const uchar*>(image.get_pixels().data()));
   return saveResult && rename_dir(tmpFileName, path);
 }
 
@@ -373,10 +373,10 @@ image2<PF> bmp_read_file(const std::string& path)
 
 
 template <pixel_format PF>
-void bmp_write_file(const std::string& path, const image2<PF>& ph_image)
+void bmp_write_file(const std::string& path, const image2<PF>& image)
 {
   soil_write_to_file_with_check<PF>(
-    path, SOIL_SAVE_TYPE_BMP, ph_image, sys_error::image_bmp_write);
+    path, SOIL_SAVE_TYPE_BMP, image, sys_error::image_bmp_write);
 }
 
 
@@ -430,9 +430,9 @@ image<Dim, PF>::image(const size_type& size)
 
 
 template <size_t Dim, pixel_format PF>
-image<Dim, PF>::image(const size_type& size, const pixel& ph_pixel)
+image<Dim, PF>::image(const size_type& size, const pixel& pixel)
   : m_size(size)
-  , m_pixels(compute_pixel_count(), ph_pixel)
+  , m_pixels(compute_pixel_count(), pixel)
 {}
 
 
@@ -516,9 +516,9 @@ void image<Dim, PF>::set_pixel(
 
 
 template <size_t Dim, pixel_format PF>
-void image<Dim, PF>::clear(const pixel& ph_pixel)
+void image<Dim, PF>::clear(const pixel& pixel)
 {
-  m_pixels = pixel_collection(compute_pixel_count(), ph_pixel);
+  m_pixels = pixel_collection(compute_pixel_count(), pixel);
 }
 
 
@@ -534,9 +534,9 @@ image<Dim, PF> image<Dim, PF>::get_sub_image(
 
 template <size_t Dim, pixel_format PF>
 void image<Dim, PF>::set_sub_image(
-  const offset_type& offset, const image& ph_image)
+  const offset_type& offset, const image& im)
 {
-  return set_image_sub_image(*this, offset, ph_image);
+  return set_image_sub_image(*this, offset, im);
 }
 
 
@@ -616,7 +616,7 @@ std::ostream& operator<<(std::ostream& os, const image<Dim, PF>& im)
 
 
 
-#define INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DimENSIONS(Dim1, Dim2) \
+#define INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIMENSIONS(Dim1, Dim2) \
   INSTANTIATE_CONVERSION_CONSTRUCTOR( \
     Dim1, Dim2, pixel_format::r, pixel_format::rg) \
   INSTANTIATE_CONVERSION_CONSTRUCTOR( \
@@ -644,14 +644,14 @@ std::ostream& operator<<(std::ostream& os, const image<Dim, PF>& im)
 
 
 
-#define INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DimENSION(Dim) \
-  INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DimENSIONS(Dim, Dim)
+#define INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DIMENSION(Dim) \
+  INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIMENSIONS(Dim, Dim)
 
 
 
-#define INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIFFERENT_DimENSIONS( \
+#define INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIFFERENT_DIMENSIONS( \
   Dim1, Dim2) \
-  INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DimENSIONS(Dim1, Dim2) \
+  INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIMENSIONS(Dim1, Dim2) \
     INSTANTIATE_CONVERSION_CONSTRUCTOR(Dim1, Dim2, pixel_format::r, \
       pixel_format::r) INSTANTIATE_CONVERSION_CONSTRUCTOR(Dim1, Dim2, \
       pixel_format::rg, pixel_format::rg) \
@@ -661,7 +661,7 @@ std::ostream& operator<<(std::ostream& os, const image<Dim, PF>& im)
 
 
 
-#define INSTANTIATE_IMAGE_WITH_DimENSION(Dim) \
+#define INSTANTIATE_IMAGE_WITH_DIMENSION(Dim) \
   INSTANTIATE_IMAGE_BASE(Dim, pixel_format::r) \
   INSTANTIATE_IMAGE_BASE(Dim, pixel_format::rg) \
   INSTANTIATE_IMAGE_BASE(Dim, pixel_format::rgb) \
@@ -669,15 +669,15 @@ std::ostream& operator<<(std::ostream& os, const image<Dim, PF>& im)
 
 
 
-INSTANTIATE_IMAGE_WITH_DimENSION(
-  1u) INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DimENSION(1u)
-  INSTANTIATE_IMAGE_WITH_DimENSION(
-    2u) INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIFFERENT_DimENSIONS(2u, 1u)
-    INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DimENSION(2u)
-      INSTANTIATE_IMAGE_WITH_DimENSION(3u)
-        INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIFFERENT_DimENSIONS(3u, 1u)
-          INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIFFERENT_DimENSIONS(3u, 2u)
-            INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DimENSION(3u)
+INSTANTIATE_IMAGE_WITH_DIMENSION(
+  1u) INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DIMENSION(1u)
+  INSTANTIATE_IMAGE_WITH_DIMENSION(
+    2u) INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIFFERENT_DIMENSIONS(2u, 1u)
+    INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DIMENSION(2u)
+      INSTANTIATE_IMAGE_WITH_DIMENSION(3u)
+        INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIFFERENT_DIMENSIONS(3u, 1u)
+          INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIFFERENT_DIMENSIONS(3u, 2u)
+            INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DIMENSION(3u)
 
 
 

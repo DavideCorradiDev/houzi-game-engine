@@ -70,7 +70,7 @@ void init_extensions()
   // Initialize only once.
   if(!extensionsInitialized)
   {
-    // Create temporary dummy ph_context, needed to call any GL function.
+    // Create temporary dummy context, needed to call any GL function.
     system_window w("", video_mode(vec2u(0u, 0u), 32u), window_style::windowed);
     gl::context_settings cs(gl::context_settings::standard);
     gl::context c(cs, w);

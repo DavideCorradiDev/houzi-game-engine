@@ -69,7 +69,7 @@ void test_color_blit(texture_format src_format,
     blit(
       srf_fb, src_rect, dst_fb, dst_rect, framebuffer_blit_mask::color, filter);
 
-    // Create the reference ph_image (the rectangles can assume negative values,
+    // Create the reference image (the rectangles can assume negative values,
     // so pay attention to that).
     image image_ref(dst_size);
     image::size_type sub_image_size;

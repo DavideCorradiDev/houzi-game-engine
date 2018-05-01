@@ -879,7 +879,7 @@ matrix<T, 3u, 3u> outer_product(
 template <typename T, size_t rows>
 T dot(const matrix<T, rows, 1u>& lhs, const matrix<T, rows, 1u>& rhs);
 
-/** Writes the object into a ph_stream.
+/** Writes the object into a stream.
  *
  * \tparam T the scalar type.
  *
@@ -887,11 +887,11 @@ T dot(const matrix<T, rows, 1u>& lhs, const matrix<T, rows, 1u>& rhs);
  *
  * \tparam cols the number of columns.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param m the matrix.
  *
- * \return a reference to the ph_stream.
+ * \return a reference to the stream.
  */
 template <typename T, size_t rows, size_t cols>
 std::ostream& operator<<(std::ostream& os, const matrix<T, rows, cols>& m);

@@ -29,13 +29,13 @@ enum class mouse_button
   xb2,
 };
 
-/** Writes a mouse_button enum into a ph_stream.
+/** Writes a mouse_button enum into a stream.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param mb the mouse_button enum.
  *
- * \return a reference to the ph_stream.
+ * \return a reference to the stream.
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, mouse_button mb);
 

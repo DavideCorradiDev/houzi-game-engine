@@ -19,7 +19,7 @@
 namespace hou
 {
 
-/** Input ph_stream interface.
+/** Input stream interface.
  */
 class HOU_SYS_API stream_in
 {
@@ -49,7 +49,7 @@ public:
    *
    * \param buf the variable to write into.
    *
-   * \return a reference to this ph_stream.
+   * \return a reference to this stream.
    */
   template <typename T>
   std::enable_if_t<std::is_pod<T>::value && !is_contiguous_container<T>::value,
@@ -59,7 +59,7 @@ public:
   /** Reads into a contiguous container.
    *
    * This function will try to read as many elements as the size of buf.
-   * If the end of the ph_stream is reached, only part of buf will be written.
+   * If the end of the stream is reached, only part of buf will be written.
    * Use get_read_element_count to determine how many elements were read.
    *
    * Sets eof if reading over the end of the file.
@@ -69,7 +69,7 @@ public:
    *
    * \param buf the container to write into.
    *
-   * \return a reference to this ph_stream.
+   * \return a reference to this stream.
    */
   template <typename T>
   std::enable_if_t<is_contiguous_container<T>::value, stream_in>& read(T& buf);
@@ -82,7 +82,7 @@ public:
    * behaviour.
    *
    * This function will try to read buf_size elements.
-   * If the end of the ph_stream is reached, only part of buf will be written.
+   * If the end of the stream is reached, only part of buf will be written.
    * Use get_read_element_count to determine how many elements were read.
    *
    * Sets eof if reading over the end of the file.
@@ -94,7 +94,7 @@ public:
    *
    * \param buf_size the number of elements to be read.
    *
-   * \return a reference to this ph_stream.
+   * \return a reference to this stream.
    */
   template <typename T>
   stream_in& read(T* buf, size_t buf_size);
@@ -108,7 +108,7 @@ protected:
    * behaviour.
    *
    * This function will try to read buf_size elements.
-   * If the end of the ph_stream is reached, only part of buf will be written.
+   * If the end of the stream is reached, only part of buf will be written.
    * Use get_read_element_count to determine how many elements were read.
    *
    * Sets eof if reading over the end of the file.

@@ -441,78 +441,78 @@ HOU_SYS_API bool operator!=(const window_event::mouse_button_data& lhs,
 HOU_SYS_API bool operator!=(const window_event::mouse_wheel_data& lhs,
   const window_event::mouse_wheel_data& rhs);
 
-/** Writes a window_event object into a ph_stream.
+/** Writes a window_event object into a stream.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param e the window_event object.
  *
- * \return a reference to the ph_stream.
+ * \return a reference to the stream.
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, const window_event& e);
 
-/** Writes a size_data object into a ph_stream.
+/** Writes a size_data object into a stream.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param e the size_data object.
  *
- * \return a reference to the ph_stream.
+ * \return a reference to the stream.
  */
 HOU_SYS_API std::ostream& operator<<(
   std::ostream& os, const window_event::size_data& e);
 
-/** Writes a key_data object into a ph_stream.
+/** Writes a key_data object into a stream.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param e the key_data object.
  *
- * \return a reference to the ph_stream.
+ * \return a reference to the stream.
  */
 HOU_SYS_API std::ostream& operator<<(
   std::ostream& os, const window_event::key_data& e);
 
-/** Writes a text_data object into a ph_stream.
+/** Writes a text_data object into a stream.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param e the text_data object.
  *
- * \return a reference to the ph_stream.
+ * \return a reference to the stream.
  */
 HOU_SYS_API std::ostream& operator<<(
   std::ostream& os, const window_event::text_data& e);
 
-/** Writes a mouse_move_data object into a ph_stream.
+/** Writes a mouse_move_data object into a stream.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param e the mouse_move_data object.
  *
- * \return a reference to the ph_stream.
+ * \return a reference to the stream.
  */
 HOU_SYS_API std::ostream& operator<<(
   std::ostream& os, const window_event::mouse_move_data& e);
 
-/** Writes a mouse_button_data object into a ph_stream.
+/** Writes a mouse_button_data object into a stream.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param e the mouse_button_data object.
  *
- * \return a reference to the ph_stream.
+ * \return a reference to the stream.
  */
 HOU_SYS_API std::ostream& operator<<(
   std::ostream& os, const window_event::mouse_button_data& e);
 
-/** Writes a mouse_wheel_data object into a ph_stream.
+/** Writes a mouse_wheel_data object into a stream.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param e the mouse_wheel_data object.
  *
- * \return a reference to the ph_stream.
+ * \return a reference to the stream.
  */
 HOU_SYS_API std::ostream& operator<<(
   std::ostream& os, const window_event::mouse_wheel_data& e);

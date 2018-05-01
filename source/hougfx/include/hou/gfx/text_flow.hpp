@@ -31,9 +31,9 @@ enum class text_flow
   bottom_top,
 };
 
-/** Writes the object into a ph_stream.
+/** Writes the object into a stream.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param tf the object.
  *

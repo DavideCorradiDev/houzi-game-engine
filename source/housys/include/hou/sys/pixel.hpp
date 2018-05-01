@@ -359,11 +359,11 @@ private:
   std::array<uint8_t, get_pixel_format_byte_count(PF)> m_channels;
 };
 
-/** Writes the object into a ph_stream.
+/** Writes the object into a stream.
  *
  * \tparam PF the pixel format.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param pixel the pixel.
  *

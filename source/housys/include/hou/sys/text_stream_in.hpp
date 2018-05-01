@@ -14,7 +14,7 @@
 namespace hou
 {
 
-/** text input ph_stream interface.
+/** text input stream interface.
  */
 class HOU_SYS_API text_stream_in
   : public text_stream
@@ -25,7 +25,7 @@ public:
    */
   virtual ~text_stream_in(){};
 
-  /** Reads the whole contents of the ph_stream into memory.
+  /** Reads the whole contents of the stream into memory.
    *
    * \tparam T the container type to return.
    *

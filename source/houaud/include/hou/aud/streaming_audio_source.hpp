@@ -59,10 +59,10 @@ public:
 
   /** stream constructor.
    *
-   * Creates a streaming_audio_source object with the given audio ph_stream,
+   * Creates a streaming_audio_source object with the given audio stream,
    * taking ownership of it.
    *
-   * \param as the audio ph_stream.
+   * \param as the audio stream.
    */
   explicit streaming_audio_source(
     not_null<std::unique_ptr<audio_stream_in>> as);
@@ -74,9 +74,9 @@ public:
   // difficulty with the streaming thread. The thread should be stopped before
   // copying data around.
 
-  /** Sets the ph_stream and transfers ownership to this object.
+  /** Sets the stream and transfers ownership to this object.
    *
-   * \param as the ph_stream.
+   * \param as the stream.
    */
   void set_stream(not_null<std::unique_ptr<audio_stream_in>> as);
 

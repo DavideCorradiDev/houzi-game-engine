@@ -14,7 +14,7 @@ std::string get_text(gfx_error ec)
   switch(ec)
   {
     case gfx_error::font_load_face:
-      return u8"Failed to load ph_font face.";
+      return u8"Failed to load font face.";
     default:
       return u8"";
   }

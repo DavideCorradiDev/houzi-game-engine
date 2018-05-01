@@ -27,16 +27,16 @@ namespace hou
 
 /** Represents a mesh.
  *
- * The ph_vertex information of a mesh object is stored in the VRAM.
- * There must be a current ph_context to create a mesh object.
- * a mesh object should be used only if the owning ph_context is current.
+ * The vertex information of a mesh object is stored in the VRAM.
+ * There must be a current context to create a mesh object.
+ * a mesh object should be used only if the owning context is current.
  *
- * \tparam T the type of ph_vertex stored by the mesh.
+ * \tparam T the type of vertex stored by the mesh.
  */
 class HOU_GFX_API mesh : public non_copyable
 {
 public:
-  /** Draws a mesh object with the current ph_shader and ph_texture.
+  /** Draws a mesh object with the current shader and texture.
    *
    * The draw operation automatically binds the mesh to the current
    * graphic_context.
@@ -96,11 +96,11 @@ protected:
 
 /** Represents a mesh.
  *
- * The ph_vertex information of a mesh object is stored in the VRAM.
- * There must be a current ph_context to create a mesh object.
- * a mesh object should be used only if the owning ph_context is current.
+ * The vertex information of a mesh object is stored in the VRAM.
+ * There must be a current context to create a mesh object.
+ * a mesh object should be used only if the owning context is current.
  *
- * \tparam T the type of ph_vertex stored by the mesh.
+ * \tparam T the type of vertex stored by the mesh.
  */
 template <typename T>
 class mesh_t : public mesh
@@ -178,9 +178,9 @@ bool close(const mesh_t<T>& lhs, const mesh_t<T>& rhs,
   typename T::comparison_type acc
   = std::numeric_limits<typename T::comparison_type>::epsilon());
 
-/** Writes the object into a ph_stream.
+/** Writes the object into a stream.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param m the mesh_t.
  *

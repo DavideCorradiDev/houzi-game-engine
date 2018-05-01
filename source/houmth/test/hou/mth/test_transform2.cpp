@@ -163,7 +163,7 @@ TEST_F(test_transform2, build_orthographic_projection)
 
 TEST_F(test_transform2, inversion)
 {
-  // TODO: this ph_matrix inversion has lower precision than 1.e-6. Check if it
+  // TODO: this matrix inversion has lower precision than 1.e-6. Check if it
   // can be improved. trans2f t
   //   = trans2f::scale(vec2f(0.5f, -5.f);
   //   * trans2f::shear(vec2f(-025.f, 0.3f);
@@ -224,7 +224,7 @@ TEST_F(test_transform2, vector_transformation)
   vec2f v(3.f, -13.f);
   v = t.transform_vector(v);
 
-  // Perform the transformation using the homogeneous transformation ph_matrix
+  // Perform the transformation using the homogeneous transformation matrix
   // and a 4d vector and compare the results.
   // 4th element == 0 -> vector
   matrix<float, 4, 1> hv{3.f, -13.f, 0.f, 0.f};
@@ -244,7 +244,7 @@ TEST_F(test_transform2, point_transformation)
   vec2f v(3.f, -13.f);
   v = t.transform_point(v);
 
-  // Perform the transformation using the homogeneous transformation ph_matrix
+  // Perform the transformation using the homogeneous transformation matrix
   // and a 4d point and compare the results.
   // 4th element == 1 -> point
   matrix<float, 4, 1> hv{3.f, -13.f, 0.f, 1.f};

@@ -42,10 +42,10 @@ int main()
   rw.set_vertical_sync_mode(vertical_sync_mode::disabled);
 
   text_shader_program rnd;
-  font ph_font(std::make_unique<binary_file_in>(dataDir + u8"NotoMono-Regular.ttf"));
+  font fnt(std::make_unique<binary_file_in>(dataDir + u8"NotoMono-Regular.ttf"));
   trans2f proj = trans2f::orthographic_projection(rw.get_viewport());
-  trans2f textTrans = trans2f::translation(vec2f(0.f, static_cast<float>(ph_font.get_line_spacing())));
-  trans2f offsetTrans = trans2f::translation(vec2f(100.f, static_cast<float>(ph_font.get_line_spacing())));
+  trans2f textTrans = trans2f::translation(vec2f(0.f, static_cast<float>(fnt.get_line_spacing())));
+  trans2f offsetTrans = trans2f::translation(vec2f(100.f, static_cast<float>(fnt.get_line_spacing())));
 
   //****************
 
@@ -113,7 +113,7 @@ int main()
     rw.clear(color::black);
     std::chrono::nanoseconds timePerFrame = timer.reset();
     rnd.draw(rw, to_string(sas.get_sample_pos()) + " / " + to_string(sas.get_sample_count())
-      , ph_font, color::white, proj * offsetTrans);
+      , fnt, color::white, proj * offsetTrans);
     rw.display();
   }
 

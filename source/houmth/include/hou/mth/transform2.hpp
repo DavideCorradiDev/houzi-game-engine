@@ -82,7 +82,7 @@ public:
    * The transform transforms from the rect specified by clipping plane into
    * a rect with normalized coordinates going from -1 to +1.
    *
-   * \param clippingPlane the ph_rectangle to be transformed into normalized
+   * \param clippingPlane the rectangle to be transformed into normalized
    * coordinates.
    *
    * \return a transform2 object representing the ortographic projection.
@@ -103,10 +103,10 @@ public:
   template <typename U>
   HOU_MTH_API transform2(const transform2<U>& other);
 
-  /** Builds a homogeneous transformation ph_matrix corresponding to the
+  /** Builds a homogeneous transformation matrix corresponding to the
    * transform.
    *
-   * \return the homogeneous transformation ph_matrix corresponding to the
+   * \return the homogeneous transformation matrix corresponding to the
    * transform.
    */
   mat4x4<T> to_mat4x4() const;
@@ -216,15 +216,15 @@ HOU_MTH_API transform2<T> operator*(
 template <typename T>
 HOU_MTH_API transform2<T> inverse(transform2<T> t);
 
-/** Writes the object into a ph_stream.
+/** Writes the object into a stream.
  *
  * \tparam T the scalar type.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param t the transform.
  *
- * \return a reference to the ph_stream.
+ * \return a reference to the stream.
  */
 template <typename T>
 HOU_MTH_API std::ostream& operator<<(std::ostream& os, const transform2<T>& t);

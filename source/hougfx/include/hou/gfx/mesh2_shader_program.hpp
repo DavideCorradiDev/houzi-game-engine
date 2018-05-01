@@ -46,11 +46,11 @@ public:
    */
   void set_color(const color& color);
 
-  /** Sets the ph_texture unit used when rendering Mesh2d objects.
+  /** Sets the texture unit used when rendering Mesh2d objects.
    *
    * The default value is 0.
    *
-   * \param unit the ph_texture unit to be used.
+   * \param unit the texture unit to be used.
    */
   void set_texture_unit(uint unit);
 

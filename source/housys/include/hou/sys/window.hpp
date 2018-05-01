@@ -38,7 +38,7 @@ public:
    * \param title the title of the window.
    *
    * \param vm the video mode of the window, specifying its client size and
-   * bytes per ph_pixel.
+   * bytes per pixel.
    *
    * \param style the style of the window.
    * Only one window can be fullscreen.
@@ -98,9 +98,9 @@ public:
    */
   vec2u get_frame_size() const;
 
-  /** Sets the window frame ph_rectangle.
+  /** Sets the window frame rectangle.
    *
-   * The window frame ph_rectangle includes the borders.
+   * The window frame rectangle includes the borders.
    *
    * \param pos the window frame position.
    *
@@ -142,9 +142,9 @@ public:
    */
   vec2u get_client_size() const;
 
-  /** Sets the window client ph_rectangle.
+  /** Sets the window client rectangle.
    *
-   * The window client ph_rectangle does not include the borders.
+   * The window client rectangle does not include the borders.
    *
    * \param pos the window client position.
    *
@@ -169,9 +169,9 @@ public:
    */
   void set_client_size(const vec2u& size);
 
-  /** Gets the number of bytes per ph_pixel of this window.
+  /** Gets the number of bytes per pixel of this window.
    *
-   * \return the number of bytes per ph_pixel of this window.
+   * \return the number of bytes per pixel of this window.
    */
   uint get_bytes_per_pixel() const;
 

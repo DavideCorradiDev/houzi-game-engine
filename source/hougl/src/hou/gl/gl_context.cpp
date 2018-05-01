@@ -34,12 +34,12 @@ uint32_t generate_uid()
 
 
 
-void context::set_current(context& ph_context, window& wnd)
+void context::set_current(context& ctx, window& wnd)
 {
-  if(!ph_context.is_current() || s_current_window_uid != wnd.get_uid())
+  if(!ctx.is_current() || s_current_window_uid != wnd.get_uid())
   {
-    prv::context_impl::set_current(ph_context.m_impl, wnd);
-    s_current_context = &ph_context;
+    prv::context_impl::set_current(ctx.m_impl, wnd);
+    s_current_context = &ctx;
     s_current_window_uid = wnd.get_uid();
   }
 }

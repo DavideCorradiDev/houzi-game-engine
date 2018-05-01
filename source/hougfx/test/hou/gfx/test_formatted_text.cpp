@@ -35,18 +35,18 @@ const std::string font_path = get_data_dir() + u8"NotoSans-Regular.ttf";
 
 
 
-// void print(const image3r& ph_image)
+// void print(const image3r& image)
 // {
-//   std::cout << "image3r image_ref(vec3u(" << ph_image.get_size().x() << "u, "
-//             << ph_image.get_size().y() << "u, " << ph_image.get_size().z() <<
+//   std::cout << "image3r image_ref(vec3u(" << image.get_size().x() << "u, "
+//             << image.get_size().y() << "u, " << image.get_size().z() <<
 //             "u), {";
-//   for(size_t i = 0; i < ph_image.get_pixels().size(); ++i)
+//   for(size_t i = 0; i < image.get_pixels().size(); ++i)
 //   {
 //     if(i != 0)
 //     {
 //       std::cout << ",";
 //     }
-//     std::cout << static_cast<int>(ph_image.get_pixels()[i].get_r()) << "u";
+//     std::cout << static_cast<int>(image.get_pixels()[i].get_r()) << "u";
 //   }
 //   std::cout << "});" << std::endl;
 // }

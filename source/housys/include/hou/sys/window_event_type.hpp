@@ -14,7 +14,7 @@
 namespace hou
 {
 
-/** Enumeration for ph_window event type. */
+/** Enumeration for window event type. */
 enum class window_event_type
 {
   /** empty or invalid event. */
@@ -25,9 +25,9 @@ enum class window_event_type
   focus_gained,
   /** window focus lost event. */
   focus_lost,
-  /** mouse entered ph_window event. */
+  /** mouse entered window event. */
   mouse_entered,
-  /** mouse left ph_window event. */
+  /** mouse left window event. */
   mouse_left,
 
   /** window resized event. It is associated to size_data. */
@@ -53,13 +53,13 @@ enum class window_event_type
   mouse_wheel_moved,
 };
 
-/** Writes a window_event_type enum into a ph_stream.
+/** Writes a window_event_type enum into a stream.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param we the window_event_type enum.
  *
- * \return a reference to the ph_stream.
+ * \return a reference to the stream.
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, window_event_type we);
 

@@ -50,12 +50,12 @@ public:
    */
   explicit rotation2(T angle);
 
-  /** Creates a rotation with the given rotation ph_matrix.
+  /** Creates a rotation with the given rotation matrix.
    *
-   * Throws if the ph_matrix is not a valid rotation ph_matrix (determinant
+   * Throws if the matrix is not a valid rotation matrix (determinant
    * equal to one and transpose equal to its inverse).
    *
-   * \param m the rotation ph_matrix.
+   * \param m the rotation matrix.
    */
   explicit rotation2(const mat2x2<T>& m);
 
@@ -76,9 +76,9 @@ public:
    */
   T get_angle() const;
 
-  /** Returns the rotation ph_matrix.
+  /** Returns the rotation matrix.
    *
-   * \return the rotation ph_matrix.
+   * \return the rotation matrix.
    */
   mat2x2<T> get_matrix() const;
 
@@ -166,15 +166,15 @@ template <typename T>
 HOU_MTH_API bool close(const rotation2<T>& lhs, const rotation2<T>& rhs,
   T acc = std::numeric_limits<T>::epsilon());
 
-/** Writes the object into a ph_stream.
+/** Writes the object into a stream.
  *
  * \tparam T the scalar type.
  *
- * \param os the output ph_stream.
+ * \param os the output stream.
  *
  * \param r the rotation.
  *
- * \return a reference to the ph_stream.
+ * \return a reference to the stream.
  */
 template <typename T>
 HOU_MTH_API std::ostream& operator<<(std::ostream& os, const rotation2<T>& r);

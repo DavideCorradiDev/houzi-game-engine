@@ -9,7 +9,7 @@
 
 
 
-// Define minimum Windows ph_version.
+// Define minimum Windows version.
 #ifdef _WIN32_WINDOWS
   #undef _WIN32_WINDOWS
 #endif

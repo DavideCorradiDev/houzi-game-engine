@@ -16,30 +16,30 @@
 namespace hou
 {
 
-/** Enumeration for the clamp mode of a ph_texture. */
+/** Enumeration for the clamp mode of a texture. */
 enum class texture_wrap_mode : GLenum
 {
-  /** Pixels sampled outside the ph_texture will have the color of the
-   * corresponding edge ph_pixel. */
+  /** Pixels sampled outside the texture will have the color of the
+   * corresponding edge pixel. */
   clamp_to_edge = GL_CLAMP_TO_EDGE,
-  /** Pixels sampled outside the ph_texture  will have the color of the mirrored
-   *  edge ph_pixel. */
+  /** Pixels sampled outside the texture  will have the color of the mirrored
+   *  edge pixel. */
   mirror_clamp_to_edge = GL_MIRROR_CLAMP_TO_EDGE,
-  /** Pixels sampled outside the ph_texture will have the border color. */
+  /** Pixels sampled outside the texture will have the border color. */
   clamp_to_border = GL_CLAMP_TO_BORDER,
-  /** The ph_texture will be repeated. */
+  /** The texture will be repeated. */
   repeat = GL_REPEAT,
-  /** The ph_texture will be mirrored and repeated. */
+  /** The texture will be mirrored and repeated. */
   mirrored_repeat = GL_MIRRORED_REPEAT,
 };
 
-/** Writes a texture_wrap_mode enum into a ph_stream.
+/** Writes a texture_wrap_mode enum into a stream.
  *
- *  \param os the ph_stream.
+ *  \param os the stream.
  *
  *  \param twm the texture_wrap_mode enum.
  *
- *  \return a reference to the ph_stream.
+ *  \return a reference to the stream.
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, texture_wrap_mode twm);
 

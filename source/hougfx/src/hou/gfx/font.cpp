@@ -369,7 +369,7 @@ void font::load()
   }
   HOU_EXPECT_DEV(m_face != nullptr);
 
-  // Calling set ph_pixel height here is wrong. The ph_pixel size will not be
+  // Calling set pixel height here is wrong. The pixel size will not be
   // adjusted because m_pixel_height is not modified.
   HOU_ENSURE(FT_Set_Pixel_Sizes(m_face, 0, m_pixel_height) == 0);
   HOU_ENSURE(FT_Select_Charmap(m_face, FT_ENCODING_UNICODE) == 0);

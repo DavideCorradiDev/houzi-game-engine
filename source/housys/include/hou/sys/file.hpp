@@ -158,7 +158,7 @@ public:
    * behaviour.
    *
    * This function will try to read buf_size elements.
-   * If the end of the ph_stream is reached, only part of buf will be written.
+   * If the end of the stream is reached, only part of buf will be written.
    * Check the return value to see how many elements were read.
    *
    * Sets eof if reading over the end of the file.
@@ -199,7 +199,7 @@ public:
    * behaviour.
    *
    * This function will try to read buf_size elements.
-   * If the end of the ph_stream is reached, only part of buf will be written.
+   * If the end of the stream is reached, only part of buf will be written.
    * Check the return value to see how many elements were read.
    *
    * Sets eof if reading over the end of the file.
@@ -231,7 +231,7 @@ public:
    *
    * \param buf_size the number of elements to be written.
    *
-   * \return a reference to this ph_stream.
+   * \return a reference to this stream.
    */
   template <typename T>
   void write(const T* buf, size_t buf_size);
@@ -239,7 +239,7 @@ public:
   /** Reads into a container.
    *
    * This function will try to read as many elements as the size of buffer.
-   * If the end of the ph_stream is reached, only part of buf will be written.
+   * If the end of the stream is reached, only part of buf will be written.
    * Check the return value to see how many elements were read.
    *
    * Sets eof if reading over the end of the file.
@@ -264,7 +264,7 @@ public:
    *
    * \param buffer the container to be written.
    *
-   * \return a reference to this ph_stream.
+   * \return a reference to this stream.
    */
   template <typename Container>
   void write(const Container& buffer);

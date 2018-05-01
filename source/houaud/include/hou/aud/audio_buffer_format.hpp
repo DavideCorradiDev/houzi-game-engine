@@ -69,13 +69,13 @@ HOU_AUD_API uint get_audio_buffer_format_channel_count(
 HOU_AUD_API uint get_audio_buffer_format_bytes_per_sample(
   audio_buffer_format format);
 
-/** Writes a audio_buffer_format enum into a ph_stream.
+/** Writes a audio_buffer_format enum into a stream.
  *
- * \param os the ph_stream.
+ * \param os the stream.
  *
  * \param format the audio_buffer_format enum.
  *
- * \return a reference to the ph_stream.
+ * \return a reference to the stream.
  */
 HOU_AUD_API std::ostream& operator<<(
   std::ostream& os, audio_buffer_format format);

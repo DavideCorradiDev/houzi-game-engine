@@ -78,7 +78,7 @@ private:
   };
 
 public:
-  static void set_current(context& ph_context, window& wnd);
+  static void set_current(context& ctx, window& wnd);
   static void unset_current();
   static context* get_current();
 
@@ -128,16 +128,16 @@ public:
   friend HOU_GL_API bool is_program_bound(const program_handle& program);
   friend HOU_GL_API bool is_program_bound();
 
-  friend HOU_GL_API void bind_texture(const texture_handle& ph_texture);
+  friend HOU_GL_API void bind_texture(const texture_handle& texture);
   friend HOU_GL_API void unbind_texture();
-  friend HOU_GL_API bool is_texture_bound(const texture_handle& ph_texture);
+  friend HOU_GL_API bool is_texture_bound(const texture_handle& texture);
   friend HOU_GL_API bool is_texture_bound();
 
   friend HOU_GL_API void bind_texture(
-    const texture_handle& ph_texture, GLuint unit);
+    const texture_handle& texture, GLuint unit);
   friend HOU_GL_API void unbind_texture(GLuint unit);
   friend HOU_GL_API bool is_texture_bound(
-    const texture_handle& ph_texture, GLuint unit);
+    const texture_handle& texture, GLuint unit);
   friend HOU_GL_API bool is_texture_bound(GLuint unit);
 
   friend HOU_GL_API void set_active_texture(GLuint unit);

@@ -73,11 +73,11 @@ bool container_close(
   InputIt1 begin1, InputIt1 end1, InputIt2 begin2,
   T acc = std::numeric_limits<T>::epsilon());
 
-/** Outputs a container to the given ph_stream.
+/** Outputs a container to the given stream.
  *
  * \tparam Iterator the input iterator type.
  *
- * \param os the output ph_stream.
+ * \param os the output stream.
  *
  * \param begin the iterator to the begin of the input container.
  *
