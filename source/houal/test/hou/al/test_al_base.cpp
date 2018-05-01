@@ -25,4 +25,3 @@ void test_al_base::set_context_current()
 {
   hou::al::context::set_current(m_context);
 }
-

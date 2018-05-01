@@ -12,8 +12,7 @@
 
 
 
-class test_al_base
-  : public testing::Test
+class test_al_base : public testing::Test
 {
 public:
   test_al_base();
@@ -27,4 +26,3 @@ protected:
 };
 
 #endif
-

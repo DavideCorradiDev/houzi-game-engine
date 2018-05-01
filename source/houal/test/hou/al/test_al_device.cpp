@@ -8,10 +8,23 @@
 #include "hou/al/al_error.hpp"
 
 using namespace hou;
+using namespace testing;
 
 
 
-TEST(TestAlDevice, DefaultDeviceCreation)
+namespace
+{
+
+class test_al_device : public Test
+{};
+
+class test_al_device_death_test : public test_al_device
+{};
+}  // namespace
+
+
+
+TEST_F(test_al_device, default_device_creation)
 {
   al::device d;
   EXPECT_NE(nullptr, d.get_handle());
@@ -20,10 +33,10 @@ TEST(TestAlDevice, DefaultDeviceCreation)
 
 
 
-TEST(TestAlDevice, Creation)
+TEST_F(test_al_device, creation)
 {
-  std::vector<std::string> deviceNames = al::device::get_device_names();
-  for(const auto& dev_name : deviceNames)
+  std::vector<std::string> device_names = al::device::get_device_names();
+  for(const auto& dev_name : device_names)
   {
     al::device d(dev_name);
     EXPECT_NE(nullptr, d.get_handle());
@@ -33,16 +46,17 @@ TEST(TestAlDevice, Creation)
 
 
 
-TEST(TestAlDeviceDeathTest, CreationFailure)
+TEST_F(test_al_device_death_test, creation_failure)
 {
-  std::string invalidDeviceName = u8"Invalid ph_device name";
-  HOU_EXPECT_ERROR(al::device d(invalidDeviceName), std::runtime_error
-    , format_string(get_text(al_error::device_open), invalidDeviceName.c_str()));
+  std::string invalid_device_name = u8"Invalid ph_device name";
+  HOU_EXPECT_ERROR(al::device d(invalid_device_name), std::runtime_error,
+    format_string(
+      get_text(al_error::device_open), invalid_device_name.c_str()));
 }
 
 
 
-TEST(TestAlDevice, MoveConstructor)
+TEST_F(test_al_device, move_constructor)
 {
   al::device d_dummy;
   ALCdevice* handle_ref = d_dummy.get_handle();
@@ -53,4 +67,3 @@ TEST(TestAlDevice, MoveConstructor)
   EXPECT_EQ(uid_ref, d.get_uid());
   EXPECT_EQ(nullptr, d_dummy.get_handle());
 }
-

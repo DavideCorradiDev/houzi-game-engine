@@ -13,63 +13,77 @@
 #include <vector>
 
 using namespace hou;
+using namespace testing;
 
 
 
-TEST(TestAlContext, Creation)
+namespace
 {
-  al::device ph_device;
-  al::context ph_context(ph_device);
 
-  EXPECT_NE(0u, ph_context.get_uid());
-  EXPECT_EQ(ph_device.get_uid(), ph_context.get_device_uid());
-  EXPECT_FALSE(ph_context.is_current());
+class test_al_context : public Test
+{};
+
+class test_al_context_death_test : public test_al_context
+{};
+
+}  // namespace
+
+
+
+TEST_F(test_al_context, creation)
+{
+  al::device dev;
+  al::context ctx(dev);
+
+  EXPECT_NE(0u, ctx.get_uid());
+  EXPECT_EQ(dev.get_uid(), ctx.get_device_uid());
+  EXPECT_FALSE(ctx.is_current());
 }
 
 
 
-TEST(TestAlContext, MoveConstructor)
+TEST_F(test_al_context, move_constructor)
 {
-  al::device ph_device;
-  al::context context_dummy(ph_device);
+  al::device dev;
+  al::context context_dummy(dev);
   uint32_t uid_ref = context_dummy.get_uid();
-  al::context ph_context(std::move(context_dummy));
+  al::context ctx(std::move(context_dummy));
 
-  EXPECT_EQ(uid_ref, ph_context.get_uid());
-  EXPECT_EQ(ph_device.get_uid(), ph_context.get_device_uid());
-  EXPECT_FALSE(ph_context.is_current());
+  EXPECT_EQ(uid_ref, ctx.get_uid());
+  EXPECT_EQ(dev.get_uid(), ctx.get_device_uid());
+  EXPECT_FALSE(ctx.is_current());
 }
 
 
 
-TEST(TestAlContext, CurrentContextMoveConstructor)
+TEST_F(test_al_context, current_context_move_constructor)
 {
-  al::device ph_device;
-  al::context context_dummy(ph_device);
+  al::device dev;
+  al::context context_dummy(dev);
   al::context::set_current(context_dummy);
   EXPECT_TRUE(context_dummy.is_current());
   EXPECT_EQ(&context_dummy, al::context::get_current());
 
-  al::context ph_context(std::move(context_dummy));
-  EXPECT_TRUE(ph_context.is_current());
-  EXPECT_EQ(&ph_context, al::context::get_current());
+  al::context ctx(std::move(context_dummy));
+  EXPECT_TRUE(ctx.is_current());
+  EXPECT_EQ(&ctx, al::context::get_current());
 }
 
 
 
-TEST(TestAlContextDeathTest, ContextCreationFailed)
+TEST_F(test_al_context_death_test, context_creation_failed)
 {
-  // Artificially create an invalid ph_context by improper use of std::move.
+  // Artificially create an invalid ctx by improper use of std::move.
   al::device d1;
   al::device d2(std::move(d1));
 
-  HOU_EXPECT_ERROR(al::context c(d1), std::runtime_error
-    , get_text(al_error::context_create));
+  HOU_EXPECT_ERROR(
+    al::context c(d1), std::runtime_error, get_text(al_error::context_create));
 }
 
 
 
-TEST(TestAlContext, SetCurrent)
+TEST_F(test_al_context, set_current)
 {
   al::device d1;
   al::context c1(d1);
@@ -103,7 +117,7 @@ TEST(TestAlContext, SetCurrent)
 
 
 
-TEST(TestAlContext, CurrentContextResetOnDestruction)
+TEST_F(test_al_context, current_context_reset_on_destruction)
 {
   {
     al::device d;
@@ -125,9 +139,9 @@ TEST(TestAlContext, CurrentContextResetOnDestruction)
 
 
 
-TEST(TestAlContext, MultithreadedGetCurrent)
+TEST_F(test_al_context, multithreaded_get_current)
 {
-  static constexpr size_t numThreads = 8u;
+  static constexpr size_t num_threads = 8u;
 
   al::device d;
   al::context c(d);
@@ -136,16 +150,15 @@ TEST(TestAlContext, MultithreadedGetCurrent)
   EXPECT_EQ(&c, al::context::get_current());
   EXPECT_TRUE(c.is_current());
 
-  auto threadFun = [&c]()
-  {
+  auto thread_fun = [&c]() {
     EXPECT_EQ(&c, al::context::get_current());
     EXPECT_TRUE(c.is_current());
   };
 
   std::vector<std::unique_ptr<std::thread>> threads;
-  for(size_t i = 0; i < numThreads; ++i)
+  for(size_t i = 0; i < num_threads; ++i)
   {
-    threads.push_back(std::make_unique<std::thread>(threadFun));
+    threads.push_back(std::make_unique<std::thread>(thread_fun));
   }
 
   for(size_t i = 0; i < threads.size(); ++i)
@@ -156,28 +169,25 @@ TEST(TestAlContext, MultithreadedGetCurrent)
 
 
 
-TEST(TestAlContext, MultithreadedSetCurrent)
+TEST_F(test_al_context, multithreaded_set_current)
 {
-  static constexpr size_t numThreads = 8u;
+  static constexpr size_t num_threads = 8u;
 
   std::vector<al::device> devices;
   std::vector<al::context> contexts;
-  for(size_t i = 0; i < numThreads; ++i)
+  for(size_t i = 0; i < num_threads; ++i)
   {
     devices.push_back(al::device());
     contexts.push_back(al::context(devices[i]));
   }
 
-  auto threadFun = [](al::context& ctx)
-  {
-    al::context::set_current(ctx);
-  };
+  auto thread_fun = [](al::context& ctx) { al::context::set_current(ctx); };
 
   std::vector<std::unique_ptr<std::thread>> threads;
   for(size_t i = 0; i < contexts.size(); ++i)
   {
-    threads.push_back(std::make_unique<std::thread>(threadFun
-      , std::ref(contexts[i])));
+    threads.push_back(
+      std::make_unique<std::thread>(thread_fun, std::ref(contexts[i])));
   }
 
   for(size_t i = 0; i < threads.size(); ++i)
@@ -185,14 +195,13 @@ TEST(TestAlContext, MultithreadedSetCurrent)
     threads[i]->join();
   }
 
-  bool currentContextFound = false;
+  bool current_ctx_found = false;
   for(const auto& c : contexts)
   {
     if(&c == al::context::get_current())
     {
-      currentContextFound = true;
+      current_ctx_found = true;
     }
   }
-  EXPECT_TRUE(currentContextFound);
+  EXPECT_TRUE(current_ctx_found);
 }
-

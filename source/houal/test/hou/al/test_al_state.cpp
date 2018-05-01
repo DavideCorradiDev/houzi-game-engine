@@ -14,13 +14,14 @@ using namespace hou;
 namespace
 {
 
-class TestAlState : public test_al_base {};
+class test_al_state : public test_al_base
+{};
 
-}
+}  // namespace
 
 
 
-TEST_F(TestAlState, SetDistanceModel)
+TEST_F(test_al_state, set_distance_model)
 {
   EXPECT_EQ(AL_INVERSE_DISTANCE_CLAMPED, al::get_distance_model());
   al::set_distance_model(AL_INVERSE_DISTANCE);
@@ -29,7 +30,7 @@ TEST_F(TestAlState, SetDistanceModel)
 
 
 
-TEST_F(TestAlState, SetDopplerFactor)
+TEST_F(test_al_state, set_doppler_factor)
 {
   EXPECT_FLOAT_EQ(1.f, al::get_doppler_factor());
   al::set_doppler_factor(0.5f);
@@ -38,10 +39,9 @@ TEST_F(TestAlState, SetDopplerFactor)
 
 
 
-TEST_F(TestAlState, SetSpeedOfSound)
+TEST_F(test_al_state, set_speed_of_sound)
 {
   EXPECT_FLOAT_EQ(343.3f, al::get_speed_of_sound());
   al::set_speed_of_sound(0.5f);
   EXPECT_FLOAT_EQ(0.5f, al::get_speed_of_sound());
 }
-
