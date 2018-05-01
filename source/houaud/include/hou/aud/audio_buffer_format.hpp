@@ -33,41 +33,49 @@ enum class audio_buffer_format : ALenum
 };
 
 /** Gets the appropriate audio format given the number of channels and bytes per
- *  sample.
+ * sample.
  *
- *  Throws if the values of the arguments is invalid.
+ * Throws if the values of the arguments is invalid.
  *
- *  \param channels the number of channels. It must be 1 (single channel, mono
- *  format) or 2 (double channel, stereo format).
- *  \param bytesPerSample the number of bytes per sample. It must be 1 (8-bit
- *  format) or 2 (16-bit format).
- *  \return the audio format corresponding to the given number of channels and
- *  bytes per sample.
+ * \param channels the number of channels. It must be 1 (single channel, mono
+ * format) or 2 (double channel, stereo format).
+ *
+ * \param bytes_per_sample the number of bytes per sample. It must be 1 (8-bit
+ * format) or 2 (16-bit format).
+ *
+ * \return the audio format corresponding to the given number of channels and
+ * bytes per sample.
  */
 HOU_AUD_API audio_buffer_format get_audio_buffer_format_enum(
-  uint channels, uint bytesPerSample);
+  uint channels, uint bytes_per_sample);
 
 /** Gets the number of channels associated to an audio format.
  *
- *  \param format the audio format.
- *  \return the number of channels of the format, either 1 (single channel, mono
- *  format) or 2 (double channel, stereo format).
+ * \param format the audio format.
+ *
+ * \return the number of channels of the format, either 1 (single channel, mono
+ * format) or 2 (double channel, stereo format).
  */
-HOU_AUD_API uint get_audio_buffer_format_channel_count(audio_buffer_format format);
+HOU_AUD_API uint get_audio_buffer_format_channel_count(
+  audio_buffer_format format);
 
 /** Gets the number of bytes per sample associated to an audio format.
  *
- *  \param format the audio format.
- *  \return the number of bytes per sample of the format, either 1 (8-bit
- *  format) or 2 (16-bit format).
+ * \param format the audio format.
+ *
+ * \return the number of bytes per sample of the format, either 1 (8-bit
+ * format) or 2 (16-bit format).
  */
-HOU_AUD_API uint get_audio_buffer_format_bytes_per_sample(audio_buffer_format format);
+HOU_AUD_API uint get_audio_buffer_format_bytes_per_sample(
+  audio_buffer_format format);
 
 /** Writes a audio_buffer_format enum into a ph_stream.
  *
- *  \param os the ph_stream.
- *  \param format the audio_buffer_format enum.
- *  \return a reference to the ph_stream.
+ * \param os the ph_stream.
+ *
+ * \param format the audio_buffer_format enum.
+ *
+ * \return a reference to the ph_stream.
  */
 HOU_AUD_API std::ostream& operator<<(
   std::ostream& os, audio_buffer_format format);

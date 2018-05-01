@@ -33,11 +33,11 @@ namespace hou
  *  For short audio files, it is suggested to use an memory_audio_source and an
  *  audio_buffer, as performance is better and as the audio_buffer can be shared
  *  by multiple AudioSources.
- *  Each streaming_audio_source object spawns a thread that takes care of loading
- *  part of the audio into a queue of memory buffers.
- *  The thread is destroyed when the streaming_audio_source is destroyed.
- *  a streaming_audio_source must be given an audio_stream to play a sound.
- *  The streaming_audio_source will retain unique ownership of the audio_stream and
+ *  Each streaming_audio_source object spawns a thread that takes care of
+ * loading part of the audio into a queue of memory buffers. The thread is
+ * destroyed when the streaming_audio_source is destroyed. a
+ * streaming_audio_source must be given an audio_stream to play a sound. The
+ * streaming_audio_source will retain unique ownership of the audio_stream and
  *  will automatically destroy it when necessary.
  *
  *  The buffer queue is defined by the number of buffers and the size of
@@ -53,19 +53,19 @@ class HOU_AUD_API streaming_audio_source : public audio_source
 public:
   /** default constructor.
    *
-   *  Creates a streaming_audio_source object with an EmptyStream.
+   * Creates a streaming_audio_source object with an EmptyStream.
    */
   streaming_audio_source();
 
   /** stream constructor.
    *
-   *  Creates a streaming_audio_source object with the given audio ph_stream, taking
-   *  ownership of it.
+   * Creates a streaming_audio_source object with the given audio ph_stream,
+   * taking ownership of it.
    *
-   *  \param audioStream the audio ph_stream.
+   * \param as the audio ph_stream.
    */
   explicit streaming_audio_source(
-    not_null<std::unique_ptr<audio_stream_in>> audioStream);
+    not_null<std::unique_ptr<audio_stream_in>> as);
 
   /** Destructor.
    */
@@ -76,33 +76,33 @@ public:
 
   /** Sets the ph_stream and transfers ownership to this object.
    *
-   *  \param audioStream the ph_stream.
+   * \param as the ph_stream.
    */
-  void set_stream(not_null<std::unique_ptr<audio_stream_in>> audioStream);
+  void set_stream(not_null<std::unique_ptr<audio_stream_in>> as);
 
   /** Sets the number of buffers in the buffer queue.
    *
-   *  Throws if passed zero.
+   * Throws if passed zero.
    *
-   *  \param bufferCount the number of buffers.
+   * \param buffer_count the number of buffers.
    */
-  void set_buffer_count(size_t bufferCount);
+  void set_buffer_count(size_t buffer_count);
 
   /** Gets the number of buffers in the buffer queue.
    *
-   *  \return the number of buffers.
+   * \return the number of buffers.
    */
   size_t get_buffer_count() const;
 
   /** Sets the size in samples of each buffer in the buffer queue.
    *
-   *  \param bufferSampleCount the size in samples of each buffer.
+   * \param buffer_sample_count the size in samples of each buffer.
    */
-  void set_buffer_sample_count(size_t bufferSampleCount);
+  void set_buffer_sample_count(size_t buffer_sample_count);
 
   /** Gets the size in samples of each buffer in the buffer queue.
    *
-   *  \return the size in samples of each buffer.
+   * \return the size in samples of each buffer.
    */
   size_t get_buffer_sample_count() const;
 
@@ -119,10 +119,10 @@ private:
   class buffer_queue
   {
   public:
-    buffer_queue(size_t bufferCount);
+    buffer_queue(size_t buffer_count);
     size_t free_buffers(size_t count);
     const audio_buffer& fill_buffer(const std::vector<uint8_t>& data,
-      audio_buffer_format format, int sampleRate);
+      audio_buffer_format format, int sample_rate);
     size_t get_free_buffer_count() const;
     size_t get_used_buffer_count() const;
     size_t get_buffer_count() const;
@@ -139,7 +139,7 @@ private:
   uint on_get_sample_pos() const final;
 
   void thread_function();
-  std::vector<uint8_t> read_data_chunk(size_t chunkSize);
+  std::vector<uint8_t> read_data_chunk(size_t chunk_size);
   void free_buffers();
   void fill_buffers();
   void set_sample_pos_variable(size_t pos);

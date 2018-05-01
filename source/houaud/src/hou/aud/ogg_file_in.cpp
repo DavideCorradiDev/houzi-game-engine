@@ -12,7 +12,7 @@
 #include "hou/sys/sys_error.hpp"
 
 HOU_PRAGMA_GCC_DIAGNOSTIC_PUSH()
-HOU_PRAGMA_GCC_DIAGNOSTIC_IGNORED(-Wunused-variable)
+HOU_PRAGMA_GCC_DIAGNOSTIC_IGNORED(-Wunused - variable)
 #include <vorbis/vorbisfile.h>
 HOU_PRAGMA_GCC_DIAGNOSTIC_POP()
 
@@ -25,27 +25,27 @@ namespace
 
 // It is possible to decide whether to decode data in 8 or 16 bits format.
 // We just set 16 bits by default.
-static constexpr size_t bytesPerSample = 2u;
+static constexpr size_t bytes_per_sample = 2u;
 
-}
+}  // namespace
 
 
 
 bool ogg_file_in::check(const std::string& path)
 {
   FILE* file = open_file(path, "rb");
-  HOU_RUNTIME_CHECK(file != nullptr, get_text(sys_error::file_open)
-    , path.c_str());
+  HOU_RUNTIME_CHECK(
+    file != nullptr, get_text(sys_error::file_open), path.c_str());
 
-  OggVorbis_File vorbisFile;
-  if(ov_test(file, &vorbisFile, nullptr, 0) != 0)
+  OggVorbis_File vorbis_file;
+  if(ov_test(file, &vorbis_file, nullptr, 0) != 0)
   {
     fclose(file);
     return false;
   }
   else
   {
-    ov_clear(&vorbisFile);
+    ov_clear(&vorbis_file);
     return true;
   }
 }
@@ -64,8 +64,8 @@ ogg_file_in::ogg_file_in(const std::string& path)
   , m_error(false)
 {
   FILE* file = open_file(path, "rb");
-  HOU_RUNTIME_CHECK(file != nullptr, get_text(sys_error::file_open)
-    , path.c_str());
+  HOU_RUNTIME_CHECK(
+    file != nullptr, get_text(sys_error::file_open), path.c_str());
 
   // The last two parameters are used to point to initial data.
   // They are irrelevant in this case.
@@ -99,7 +99,8 @@ ogg_file_in::~ogg_file_in()
 {
   if(m_vorbis_file != nullptr)
   {
-    HOU_FATAL_CHECK(ov_clear(m_vorbis_file.get()) == 0, get_text(sys_error::file_close));
+    HOU_FATAL_CHECK(
+      ov_clear(m_vorbis_file.get()) == 0, get_text(sys_error::file_close));
   }
 }
 
@@ -158,8 +159,8 @@ binary_stream& ogg_file_in::set_byte_pos(ogg_file_in::byte_position pos)
 
 binary_stream& ogg_file_in::move_byte_pos(ogg_file_in::byte_offset offset)
 {
-  set_byte_pos(static_cast<byte_position>(static_cast<byte_offset>
-    (get_byte_pos()) + offset));
+  set_byte_pos(static_cast<byte_position>(
+    static_cast<byte_offset>(get_byte_pos()) + offset));
   return *this;
 }
 
@@ -174,8 +175,8 @@ size_t ogg_file_in::get_sample_count() const
 
 ogg_file_in::sample_position ogg_file_in::get_sample_pos() const
 {
-  return static_cast<sample_position>(ov_pcm_tell
-    (const_cast<OggVorbis_File*>(m_vorbis_file.get())));
+  return static_cast<sample_position>(
+    ov_pcm_tell(const_cast<OggVorbis_File*>(m_vorbis_file.get())));
 }
 
 
@@ -183,8 +184,9 @@ ogg_file_in::sample_position ogg_file_in::get_sample_pos() const
 audio_stream_in& ogg_file_in::set_sample_pos(ogg_file_in::sample_position pos)
 {
   m_eof = false;
-  HOU_RUNTIME_CHECK(ov_pcm_seek(m_vorbis_file.get()
-    , static_cast<ogg_int64_t>(pos)) == 0, get_text(sys_error::file_seek));
+  HOU_RUNTIME_CHECK(
+    ov_pcm_seek(m_vorbis_file.get(), static_cast<ogg_int64_t>(pos)) == 0,
+    get_text(sys_error::file_seek));
   return *this;
 }
 
@@ -193,9 +195,12 @@ audio_stream_in& ogg_file_in::set_sample_pos(ogg_file_in::sample_position pos)
 audio_stream_in& ogg_file_in::move_sample_pos(ogg_file_in::sample_offset offset)
 {
   m_eof = false;
-  HOU_RUNTIME_CHECK(ov_pcm_seek(m_vorbis_file.get(), static_cast<ogg_int64_t>
-    (static_cast<ogg_file_in::sample_offset>(get_sample_pos()) + offset)) == 0
-    , get_text(sys_error::file_seek));
+  HOU_RUNTIME_CHECK(
+    ov_pcm_seek(m_vorbis_file.get(),
+      static_cast<ogg_int64_t>(
+        static_cast<ogg_file_in::sample_offset>(get_sample_pos()) + offset))
+      == 0,
+    get_text(sys_error::file_seek));
   return *this;
 }
 
@@ -205,7 +210,7 @@ void ogg_file_in::read_metadata()
 {
   vorbis_info* info = ov_info(m_vorbis_file.get(), -1);
   HOU_EXPECT(info != nullptr);
-  set_format(info->channels, bytesPerSample);
+  set_format(info->channels, bytes_per_sample);
   set_sample_rate(info->rate);
   m_pcm_size = ov_pcm_total(m_vorbis_file.get(), -1);
 }
@@ -215,23 +220,24 @@ void ogg_file_in::read_metadata()
 void ogg_file_in::on_read(void* buf, size_t element_size, size_t buf_size)
 {
   // Constant read parameters.
-  static constexpr int bigEndianData = 0;
-  static constexpr int signedData = 1;
+  static constexpr int big_endian_data = 0;
+  static constexpr int signed_data = 1;
 
-  HOU_EXPECT_DEV(get_bytes_per_sample() == bytesPerSample);
+  HOU_EXPECT_DEV(get_bytes_per_sample() == bytes_per_sample);
 
   // ov_read reads one packet at most, so it has to be called repeatedly.
   // This is done by the following loop.
   size_t sizeBytes = element_size * buf_size;
-  HOU_EXPECT((sizeBytes % (get_channel_count() * get_bytes_per_sample())) == 0u);
+  HOU_EXPECT(
+    (sizeBytes % (get_channel_count() * get_bytes_per_sample())) == 0u);
   size_t countBytes = 0u;
   m_eof = false;
   while(countBytes < sizeBytes)
   {
     // If there is still room in the buffer, perform a read.
-    long bytesRead = ov_read(m_vorbis_file.get()
-    , reinterpret_cast<char*>(buf) + countBytes, sizeBytes - countBytes
-    , bigEndianData, bytesPerSample, signedData, &m_logical_bit_stream);
+    long bytesRead = ov_read(m_vorbis_file.get(),
+      reinterpret_cast<char*>(buf) + countBytes, sizeBytes - countBytes,
+      big_endian_data, bytes_per_sample, signed_data, &m_logical_bit_stream);
 
     // No bytes read: end of file.
     if(bytesRead == 0)
@@ -253,12 +259,11 @@ void ogg_file_in::on_read(void* buf, size_t element_size, size_t buf_size)
     }
   }
   // Check that no error happened during the read operation.
-  HOU_RUNTIME_CHECK(countBytes == sizeBytes || !error()
-    , get_text(sys_error::file_read));
+  HOU_RUNTIME_CHECK(
+    countBytes == sizeBytes || !error(), get_text(sys_error::file_read));
   HOU_ENSURE_DEV(countBytes % element_size == 0u);
   m_byte_count = countBytes;
   m_element_count = countBytes / element_size;
 }
 
-}
-
+}  // namespace hou

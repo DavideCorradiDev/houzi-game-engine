@@ -25,24 +25,25 @@ class HOU_AUD_API wav_file_in
 public:
   /** Checks if the file corresponding to the given path is a wav file.
    *
-   *  \param path the file path.
-   *  \return true if the specified file is a wav file.
+   * \param path the file path.
+   *
+   * \return true if the specified file is a wav file.
    */
   static bool check(const std::string& path);
 
 public:
   /** Path constructor.
    *
-   *  Throws if the provided path is not valid or does not correspond to a wav
-   *  file.
+   * Throws if the provided path is not valid or does not correspond to a wav
+   * file.
    *
-   *  \param path the path to the file to be opened.
+   * \param path the path to the file to be opened.
    */
   explicit wav_file_in(const std::string& path);
 
   /** Move constructor.
    *
-   *  \param other the other object.
+   * \param other the other object.
    */
   wav_file_in(wav_file_in&& other);
 
@@ -64,20 +65,23 @@ public:
 
   /** Sets the current byte position indicator.
    *
-   *  Throws if pos is negative or greater than the number of bytes in the ph_stream.
+   * Throws if pos is negative or greater than the number of bytes in the
+   * ph_stream.
    *
-   *  \param pos the byte position indicator value.
-   *  \return a reference to this ph_stream.
+   * \param pos the byte position indicator value.
+   *
+   * \return a reference to this ph_stream.
    */
   binary_stream& set_byte_pos(byte_position pos) final;
 
   /** Moves the current byte position indicator.
    *
-   *  Throws if the offset moves the position indicator to a negative position
-   *  or to a position greater than the number of bytes in the ph_stream.
+   * Throws if the offset moves the position indicator to a negative position
+   * or to a position greater than the number of bytes in the ph_stream.
    *
-   *  \param offset the byte position indicator offset.
-   *  \return a reference to this ph_stream.
+   * \param offset the byte position indicator offset.
+   *
+   * \return a reference to this ph_stream.
    */
   binary_stream& move_byte_pos(byte_offset offset) final;
 
@@ -98,7 +102,6 @@ private:
   size_t m_element_count;
 };
 
-}
+}  // namespace hou
 
 #endif
-

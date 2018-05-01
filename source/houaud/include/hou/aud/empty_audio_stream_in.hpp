@@ -15,8 +15,7 @@ namespace hou
 
 /** Class representing a dummy empty input audio ph_stream.
  */
-class HOU_AUD_API empty_audio_stream_in
-  : public audio_stream_in
+class HOU_AUD_API empty_audio_stream_in : public audio_stream_in
 {
 public:
   /** default constructor.
@@ -47,20 +46,23 @@ public:
 
   /** Sets the current byte position indicator.
    *
-   *  Throws if pos is negative or greater than the number of bytes in the ph_stream.
+   * Throws if pos is negative or greater than the number of bytes in the
+   * ph_stream.
    *
-   *  \param pos the byte position indicator value.
-   *  \return a reference to this ph_stream.
+   * \param pos the byte position indicator value.
+   *
+   * \return a reference to this ph_stream.
    */
   audio_stream_in& set_sample_pos(sample_position pos) final;
 
   /** Moves the current byte position indicator.
    *
-   *  Throws if the offset moves the position indicator to a negative position
-   *  or to a position greater than the number of bytes in the ph_stream.
+   * Throws if the offset moves the position indicator to a negative position
+   * or to a position greater than the number of bytes in the ph_stream.
    *
-   *  \param offset the byte position indicator offset.
-   *  \return a reference to this ph_stream.
+   * \param offset the byte position indicator offset.
+   *
+   * \return a reference to this ph_stream.
    */
   audio_stream_in& move_sample_pos(sample_offset offset) final;
 
@@ -68,7 +70,6 @@ private:
   void on_read(void* buf, size_t element_size, size_t buf_size) final;
 };
 
-}
+}  // namespace hou
 
 #endif
-

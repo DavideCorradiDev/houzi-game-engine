@@ -21,23 +21,23 @@ namespace hou
 
 /** Represents the global state of the audio ph_device.
  *
- *  At least one audio_context must exist when creating audio_buffer, audio_source,
- *  and streaming_audio_source objects, and when using listener functions.
- *  An audio_context can be shared among multiple threads.
- *  The audio drivers may limit the number of AudioContexts that can be created
- *  at one time.
- *  For most applications, it is sufficient to create a single audio_context
- *  at the start of the application and destroy it at shutdown.
- *  If an audio_context is destroyed while it is current, there will be no current
+ *  At least one audio_context must exist when creating audio_buffer,
+ * audio_source, and streaming_audio_source objects, and when using listener
+ * functions. An audio_context can be shared among multiple threads. The audio
+ * drivers may limit the number of AudioContexts that can be created at one
+ * time. For most applications, it is sufficient to create a single
+ * audio_context at the start of the application and destroy it at shutdown. If
+ * an audio_context is destroyed while it is current, there will be no current
  *  audio_context until another audio_context is created or set as current.
  */
-class HOU_AUD_API audio_context
-  : public non_copyable
+class HOU_AUD_API audio_context : public non_copyable
 {
 public:
   /** Sets this as the current ph_context.
+   *
+   * \param ctx the context to be bound.
    */
-  static void set_current(audio_context& ph_context);
+  static void set_current(audio_context& ctx);
 
   /** Unsets the current audio_context.
    */
@@ -77,7 +77,6 @@ private:
   al::context m_al_context;
 };
 
-}
+}  // namespace hou
 
 #endif
-

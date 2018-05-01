@@ -84,7 +84,8 @@ size_t empty_audio_stream_in::get_sample_count() const
 
 
 
-empty_audio_stream_in::sample_position empty_audio_stream_in::get_sample_pos() const
+empty_audio_stream_in::sample_position empty_audio_stream_in::get_sample_pos()
+  const
 {
   return 0u;
 }
@@ -117,5 +118,4 @@ size_t empty_audio_stream_in::get_read_byte_count() const
 void empty_audio_stream_in::on_read(void*, size_t, size_t)
 {}
 
-}
-
+}  // namespace hou

@@ -38,17 +38,16 @@ public:
 
   /** Reads the whole contents of the ph_stream into memory.
    *
-   *  \tparam T the container type to return.
+   * \tparam T the container type to return.
    *
-   *  \return a container containing the whole content of the file.
+   * \return a container containing the whole content of the file.
    */
   template <typename T>
-    std::enable_if_t<is_contiguous_container<T>::value, T> read_all();
+  std::enable_if_t<is_contiguous_container<T>::value, T> read_all();
 };
 
-}
+}  // namespace hou
 
 #include "hou/aud/audio_stream_in.inl"
 
 #endif
-

@@ -17,23 +17,24 @@ namespace hou
 namespace
 {
 
-audio_source_state alSourceStateToAudioSourceState(ALenum state);
+audio_source_state al_source_state_to_audio_source_state(ALenum state);
 uint normalize(uint value, uint max);
 
-audio_source_state alSourceStateToAudioSourceState(ALenum state)
+audio_source_state al_source_state_to_audio_source_state(ALenum state)
 {
   switch(state)
   {
-  case AL_PLAYING:
-    return audio_source_state::playing;
-  case AL_PAUSED:
-    return audio_source_state::paused;
-  case AL_INITIAL:
-  case AL_STOPPED:
-    return audio_source_state::stopped;
-  default:
-    HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(state));
-    return audio_source_state::stopped;
+    case AL_PLAYING:
+      return audio_source_state::playing;
+    case AL_PAUSED:
+      return audio_source_state::paused;
+    case AL_INITIAL:
+    case AL_STOPPED:
+      return audio_source_state::stopped;
+    default:
+      HOU_LOGIC_ERROR(
+        get_text(cor_error::invalid_enum), static_cast<int>(state));
+      return audio_source_state::stopped;
   }
 }
 
@@ -124,7 +125,7 @@ void audio_source::replay()
 
 audio_source_state audio_source::get_state() const
 {
-  return alSourceStateToAudioSourceState(al::get_source_state(m_handle));
+  return al_source_state_to_audio_source_state(al::get_source_state(m_handle));
 }
 
 
@@ -332,14 +333,16 @@ float audio_source::get_cone_outer_gain() const
 void audio_source::set_cone_inner_angle(float value)
 {
   HOU_EXPECT(value >= 0.f && value <= 2.f * pi_f);
-  al::set_source_cone_inner_angle(m_handle, static_cast<ALfloat>(rad_to_deg(value)));
+  al::set_source_cone_inner_angle(
+    m_handle, static_cast<ALfloat>(rad_to_deg(value)));
 }
 
 
 
 float audio_source::get_cone_inner_angle() const
 {
-  return deg_to_rad(static_cast<float>(al::get_source_cone_inner_angle(m_handle)));
+  return deg_to_rad(
+    static_cast<float>(al::get_source_cone_inner_angle(m_handle)));
 }
 
 
@@ -347,7 +350,8 @@ float audio_source::get_cone_inner_angle() const
 void audio_source::set_cone_outer_angle(float value)
 {
   HOU_EXPECT(value >= 0.f && value <= 2.f * pi_f);
-  al::set_source_cone_outer_angle(m_handle, static_cast<ALfloat>(rad_to_deg(value)));
+  al::set_source_cone_outer_angle(
+    m_handle, static_cast<ALfloat>(rad_to_deg(value)));
 }
 
 

@@ -13,7 +13,7 @@ namespace hou
 
 namespace
 {
-static constexpr uint bitsPerByte = 8u;
+static constexpr uint bits_per_byte = 8u;
 }
 
 
@@ -74,14 +74,15 @@ const al::buffer_handle& audio_buffer::get_handle() const
 
 audio_buffer_format audio_buffer::get_format() const
 {
-  return get_audio_buffer_format_enum(get_channel_count(), get_bytes_per_sample());
+  return get_audio_buffer_format_enum(
+    get_channel_count(), get_bytes_per_sample());
 }
 
 
 
 uint audio_buffer::get_bytes_per_sample() const
 {
-  return static_cast<uint>(al::get_buffer_bits(m_handle) / bitsPerByte);
+  return static_cast<uint>(al::get_buffer_bits(m_handle) / bits_per_byte);
 }
 
 
@@ -138,16 +139,16 @@ void audio_buffer::set_data(
 
 void audio_buffer::set_data(audio_stream_in& audioStream)
 {
-  set_data(audioStream.read_all<std::vector<uint8_t>>(), audioStream.get_format(),
-    audioStream.get_sample_rate());
+  set_data(audioStream.read_all<std::vector<uint8_t>>(),
+    audioStream.get_format(), audioStream.get_sample_rate());
 }
 
 
 
 void audio_buffer::set_data(audio_stream_in&& audioStream)
 {
-  set_data(audioStream.read_all<std::vector<uint8_t>>(), audioStream.get_format(),
-    audioStream.get_sample_rate());
+  set_data(audioStream.read_all<std::vector<uint8_t>>(),
+    audioStream.get_format(), audioStream.get_sample_rate());
 }
 
 }  // namespace hou

@@ -50,16 +50,16 @@ uint audio_stream::get_sample_rate() const
 
 
 
-void audio_stream::set_format(uint channels, uint bytesPerSample)
+void audio_stream::set_format(uint channels, uint bytes_per_sample)
 {
-  m_format = get_audio_buffer_format_enum(channels, bytesPerSample);
+  m_format = get_audio_buffer_format_enum(channels, bytes_per_sample);
 }
 
 
 
-void audio_stream::set_sample_rate(uint sampleRate)
+void audio_stream::set_sample_rate(uint sample_rate)
 {
-  m_sample_rate = sampleRate;
+  m_sample_rate = sample_rate;
 }
 
 }  // namespace hou

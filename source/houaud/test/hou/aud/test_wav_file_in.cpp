@@ -111,13 +111,13 @@ TEST_F(TestWavFileInDeathTest, PathConstructorFailureInvalidWavFile)
   struct WavMetadata
   {
     char id[stringSize];
-    uint32_t chunkSize;
+    uint32_t chunk_size;
     char form[stringSize];
     char sc1Id[stringSize];
     uint32_t sc1Size;
     uint16_t format;
     uint16_t channels;
-    uint32_t sampleRate;
+    uint32_t sample_rate;
     uint32_t byteRate;
     uint16_t blockAlign;
     uint16_t bitsPerSample;

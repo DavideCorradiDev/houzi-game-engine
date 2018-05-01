@@ -26,9 +26,9 @@ class audio_buffer;
  * a memory_audio_source must be associated to an audio_buffer to play a sound.
  * Many memory_audio_source objects may share an audio_buffer.
  *
- * It must be ensured that the audio_buffer associated to a memory_audio_source is
- * not destroyed while the memory_audio_source is still existing, failing to do so
- * will result in undefined behaviour.
+ * It must be ensured that the audio_buffer associated to a memory_audio_source
+ * is not destroyed while the memory_audio_source is still existing, failing to
+ * do so will result in undefined behaviour.
  */
 class HOU_AUD_API memory_audio_source : public audio_source
 {

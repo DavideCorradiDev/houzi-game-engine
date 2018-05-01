@@ -5,7 +5,7 @@
 #include "hou/aud/audio_source_state.hpp"
 
 #define AUDIO_SOURCE_STATE_CASE(state, os) \
-  case audio_source_state::state:            \
+  case audio_source_state::state: \
     return (os) << #state
 
 
@@ -20,8 +20,8 @@ std::ostream& operator<<(std::ostream& os, audio_source_state state)
     AUDIO_SOURCE_STATE_CASE(stopped, os);
     AUDIO_SOURCE_STATE_CASE(playing, os);
     AUDIO_SOURCE_STATE_CASE(paused, os);
-  default:
-    return os;
+    default:
+      return os;
   }
 }
 

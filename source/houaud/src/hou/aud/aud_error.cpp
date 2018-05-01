@@ -24,5 +24,4 @@ std::string get_text(aud_error ec)
   }
 }
 
-}
-
+}  // namespace hou

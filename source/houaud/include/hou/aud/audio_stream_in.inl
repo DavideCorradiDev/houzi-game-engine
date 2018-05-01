@@ -8,7 +8,8 @@ namespace hou
 {
 
 template <typename T>
-std::enable_if_t<is_contiguous_container<T>::value, T> audio_stream_in::read_all()
+std::enable_if_t<is_contiguous_container<T>::value, T>
+  audio_stream_in::read_all()
 {
   T data(get_byte_count());
   set_byte_pos(0u);
@@ -18,4 +19,3 @@ std::enable_if_t<is_contiguous_container<T>::value, T> audio_stream_in::read_all
 }
 
 }  // namespace hou
-

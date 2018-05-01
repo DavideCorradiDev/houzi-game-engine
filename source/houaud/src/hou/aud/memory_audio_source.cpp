@@ -58,7 +58,7 @@ const audio_buffer* memory_audio_source::get_buffer() const
 audio_buffer_format memory_audio_source::get_format() const
 {
   return m_buffer_ref == nullptr ? audio_buffer_format::mono8
-                               : m_buffer_ref->get_format();
+                                 : m_buffer_ref->get_format();
 }
 
 

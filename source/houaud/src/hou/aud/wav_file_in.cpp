@@ -7,6 +7,7 @@
 #include "hou/aud/aud_error.hpp"
 
 #include "hou/cor/error.hpp"
+#include "hou/cor/pragmas.hpp"
 
 #include "hou/sys/binary_file_in.hpp"
 #include "hou/sys/sys_error.hpp"
@@ -18,43 +19,51 @@ namespace hou
 
 namespace
 {
-  constexpr size_t wavHeaderStringSize = 4u;
 
-  struct WavSignature
-  {
-    char id[wavHeaderStringSize];
-    uint32_t size;
-    char form[wavHeaderStringSize];
-  };
+constexpr size_t g_wav_header_string_size = 4u;
 
-  struct WavChunkSignature
-  {
-    char id[wavHeaderStringSize];
-    uint32_t size;
-  };
+HOU_PRAGMA_PACK_PUSH(1)
+struct wav_signature
+{
+  char id[g_wav_header_string_size];
+  uint32_t size;
+  char form[g_wav_header_string_size];
+};
+HOU_PRAGMA_PACK_POP()
 
-  struct WavFormat
-  {
-    WavChunkSignature signature;
-    uint16_t format;
-    uint16_t channels;
-    uint32_t sampleRate;
-    uint32_t byteRate;
-    uint16_t blockAlign;
-    uint16_t bitsPerSample;
-  };
-}
+HOU_PRAGMA_PACK_PUSH(1)
+struct wav_chunk_signature
+{
+  char id[g_wav_header_string_size];
+  uint32_t size;
+};
+HOU_PRAGMA_PACK_POP()
+
+HOU_PRAGMA_PACK_PUSH(1)
+struct wav_format
+{
+  wav_chunk_signature signature;
+  uint16_t format;
+  uint16_t channels;
+  uint32_t sample_rate;
+  uint32_t byte_rate;
+  uint16_t block_align;
+  uint16_t bits_per_sample;
+};
+HOU_PRAGMA_PACK_POP()
+
+}  // namespace
 
 
 
 bool wav_file_in::check(const std::string& path)
 {
   binary_file_in f(path);
-  WavSignature signature;
+  wav_signature signature;
   f.read(signature);
 
-  return std::string(signature.id, wavHeaderStringSize) == u8"RIFF"
-    && std::string(signature.form, wavHeaderStringSize) == u8"WAVE";
+  return std::string(signature.id, g_wav_header_string_size) == u8"RIFF"
+    && std::string(signature.form, g_wav_header_string_size) == u8"WAVE";
 }
 
 
@@ -135,8 +144,8 @@ binary_stream& wav_file_in::set_byte_pos(wav_file_in::byte_position pos)
   // a check must be done here.
   HOU_EXPECT((pos % (get_channel_count() * get_bytes_per_sample())) == 0u);
   HOU_RUNTIME_CHECK(pos >= 0
-    && pos <= static_cast<wav_file_in::byte_position>(get_byte_count())
-    , get_text(sys_error::file_seek));
+      && pos <= static_cast<wav_file_in::byte_position>(get_byte_count()),
+    get_text(sys_error::file_seek));
   m_file.seek_set(pos + m_data_offset);
   return *this;
 }
@@ -185,62 +194,66 @@ void wav_file_in::read_metadata(const std::string& path)
 {
 
   // read metadata from header.
-  WavSignature signature;
-  WavFormat format;
+  wav_signature signature;
+  wav_format format;
   read(signature);
   read(format);
 
   // Check if the read opeartion was performed correctly.
-  HOU_RUNTIME_CHECK(!m_file.eof(), get_text(aud_error::wav_invalid_header)
-    , path.c_str());
+  HOU_RUNTIME_CHECK(
+    !m_file.eof(), get_text(aud_error::wav_invalid_header), path.c_str());
 
   // Consistency checks.
-  HOU_RUNTIME_CHECK(std::string(signature.id, wavHeaderStringSize) == u8"RIFF"
-    , get_text(aud_error::wav_invalid_header), path.c_str());
-  HOU_RUNTIME_CHECK(std::string(signature.form, wavHeaderStringSize) == u8"WAVE"
-    , get_text(aud_error::wav_invalid_header), path.c_str());
-  HOU_RUNTIME_CHECK(std::string(format.signature.id, wavHeaderStringSize)
-    == u8"fmt ", get_text(aud_error::wav_invalid_header), path.c_str());
-  HOU_RUNTIME_CHECK(format.byteRate == (format.sampleRate * format.channels
-    * format.bitsPerSample / 8), get_text(aud_error::wav_invalid_header)
-    , path.c_str());
-  HOU_RUNTIME_CHECK(format.blockAlign == (format.channels * format.bitsPerSample
-    / 8u), get_text(aud_error::wav_invalid_header), path.c_str());
+  HOU_RUNTIME_CHECK(
+    std::string(signature.id, g_wav_header_string_size) == u8"RIFF",
+    get_text(aud_error::wav_invalid_header), path.c_str());
+  HOU_RUNTIME_CHECK(
+    std::string(signature.form, g_wav_header_string_size) == u8"WAVE",
+    get_text(aud_error::wav_invalid_header), path.c_str());
+  HOU_RUNTIME_CHECK(
+    std::string(format.signature.id, g_wav_header_string_size) == u8"fmt ",
+    get_text(aud_error::wav_invalid_header), path.c_str());
+  HOU_RUNTIME_CHECK(format.byte_rate
+      == (format.sample_rate * format.channels * format.bits_per_sample / 8),
+    get_text(aud_error::wav_invalid_header), path.c_str());
+  HOU_RUNTIME_CHECK(
+    format.block_align == (format.channels * format.bits_per_sample / 8u),
+    get_text(aud_error::wav_invalid_header), path.c_str());
 
   // Look for the data subchunk.and set the data offset.
-  WavChunkSignature chunkSignature;
-  read(chunkSignature);
-  while(std::string(chunkSignature.id, wavHeaderStringSize) != u8"data")
+  wav_chunk_signature chunk_signature;
+  read(chunk_signature);
+  while(std::string(chunk_signature.id, g_wav_header_string_size) != u8"data")
   {
-    m_file.seek_offset(chunkSignature.size);
-    read(chunkSignature);
-    HOU_RUNTIME_CHECK(!eof(), get_text(aud_error::wav_invalid_header)
-      , path.c_str());
+    m_file.seek_offset(chunk_signature.size);
+    read(chunk_signature);
+    HOU_RUNTIME_CHECK(
+      !eof(), get_text(aud_error::wav_invalid_header), path.c_str());
   }
 
   // Set data offset.
   m_data_offset = m_file.tell();
   HOU_ENSURE_DEV(get_byte_pos() == 0u);
-  HOU_ENSURE_DEV(get_byte_count() == chunkSignature.size);
+  HOU_ENSURE_DEV(get_byte_count() == chunk_signature.size);
 
   // Reset read counter (it is set to 1 by the metadata read operation);
   m_byte_count = 0;
   m_element_count = 0;
 
   // Update internal metadata.
-  set_format(format.channels, format.bitsPerSample / 8u);
-  set_sample_rate(format.sampleRate);
+  set_format(format.channels, format.bits_per_sample / 8u);
+  set_sample_rate(format.sample_rate);
 }
 
 
 
 void wav_file_in::on_read(void* buf, size_t element_size, size_t buf_size)
 {
-  HOU_EXPECT(((element_size * buf_size) % (get_channel_count() * get_bytes_per_sample()))
+  HOU_EXPECT(
+    ((element_size * buf_size) % (get_channel_count() * get_bytes_per_sample()))
     == 0u);
   m_element_count = m_file.read(buf, element_size, buf_size);
   m_byte_count = m_element_count * element_size;
 }
 
-}
-
+}  // namespace hou

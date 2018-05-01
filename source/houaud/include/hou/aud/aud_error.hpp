@@ -24,11 +24,10 @@ enum class aud_error
 
 /** Retrieves the message string associated to an audio module error code.
  *
- *  \param ec the error code.
+ * \param ec the error code.
  */
 HOU_AUD_API std::string get_text(aud_error ec);
 
-}
+}  // namespace hou
 
 #endif
-
