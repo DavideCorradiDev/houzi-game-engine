@@ -177,10 +177,10 @@ TEST_F(test_vertex_buffer, set_sub_data_limit)
   EXPECT_EQ(data_ref, vb.get_data());
   EXPECT_EQ(sub_data_ref, vb.get_sub_data(3u, 3u));
 
-  dynamic_float_buffer::data_type dataRef2 = {4.f, 5.f, 6.f, 7.f, 8.f, 9.f};
-  vb.set_sub_data(0u, dataRef2);
-  EXPECT_EQ(dataRef2, vb.get_data());
-  EXPECT_EQ(dataRef2, vb.get_sub_data(0u, 6u));
+  dynamic_float_buffer::data_type data_ref2 = {4.f, 5.f, 6.f, 7.f, 8.f, 9.f};
+  vb.set_sub_data(0u, data_ref2);
+  EXPECT_EQ(data_ref2, vb.get_data());
+  EXPECT_EQ(data_ref2, vb.get_sub_data(0u, 6u));
 }
 
 

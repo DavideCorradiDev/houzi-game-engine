@@ -17,11 +17,10 @@ using namespace hou;
 namespace
 {
 
-class TestMemoryAudioSource
-  : public test_aud_base
+class test_memory_audio_source : public test_aud_base
 {
 public:
-  TestMemoryAudioSource();
+  test_memory_audio_source();
 
 public:
   audio_buffer mBuffer;
@@ -29,17 +28,18 @@ public:
 
 
 
-TestMemoryAudioSource::TestMemoryAudioSource()
+test_memory_audio_source::test_memory_audio_source()
   : test_aud_base()
-  , mBuffer(std::vector<uint8_t>{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-    , audio_buffer_format::stereo16, 2)
+  , mBuffer(
+      std::vector<uint8_t>{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+      audio_buffer_format::stereo16, 2)
 {}
 
-}
+}  // namespace
 
 
 
-TEST_F(TestMemoryAudioSource, DefaultConstructor)
+TEST_F(test_memory_audio_source, default_constructor)
 {
   memory_audio_source as;
   EXPECT_EQ(nullptr, as.get_buffer());
@@ -71,7 +71,7 @@ TEST_F(TestMemoryAudioSource, DefaultConstructor)
 
 
 
-TEST_F(TestMemoryAudioSource, BufferConstructor)
+TEST_F(test_memory_audio_source, buffer_constructor)
 {
   memory_audio_source as(&mBuffer);
   EXPECT_EQ(&mBuffer, as.get_buffer());
@@ -103,7 +103,7 @@ TEST_F(TestMemoryAudioSource, BufferConstructor)
 
 
 
-TEST_F(TestMemoryAudioSource, MoveConstructor)
+TEST_F(test_memory_audio_source, move_constructor)
 {
   memory_audio_source as_dummy(&mBuffer);
   memory_audio_source as(std::move(as_dummy));
@@ -136,7 +136,7 @@ TEST_F(TestMemoryAudioSource, MoveConstructor)
 
 
 
-TEST_F(TestMemoryAudioSource, SetBufferWhileStopped)
+TEST_F(test_memory_audio_source, set_buffer_while_stopped)
 {
   memory_audio_source as;
   as.set_buffer(&mBuffer);
@@ -146,7 +146,7 @@ TEST_F(TestMemoryAudioSource, SetBufferWhileStopped)
 
 
 
-TEST_F(TestMemoryAudioSource, SetBufferWhilePlaying)
+TEST_F(test_memory_audio_source, set_buffer_while_playing)
 {
   memory_audio_source as(&mBuffer);
   as.set_looping(true);
@@ -157,7 +157,7 @@ TEST_F(TestMemoryAudioSource, SetBufferWhilePlaying)
 
 
 
-TEST_F(TestMemoryAudioSource, SetBufferWhilePaused)
+TEST_F(test_memory_audio_source, set_buffer_while_paused)
 {
   memory_audio_source as(&mBuffer);
   as.set_looping(true);
@@ -169,7 +169,7 @@ TEST_F(TestMemoryAudioSource, SetBufferWhilePaused)
 
 
 
-TEST_F(TestMemoryAudioSource, SetTimePosWhileStopped)
+TEST_F(test_memory_audio_source, set_time_pos_while_stopped)
 {
   memory_audio_source as(&mBuffer);
   as.set_sample_pos(3u);
@@ -179,7 +179,7 @@ TEST_F(TestMemoryAudioSource, SetTimePosWhileStopped)
 
 
 
-TEST_F(TestMemoryAudioSource, SetTimePosWhilePlaying)
+TEST_F(test_memory_audio_source, set_time_pos_while_playing)
 {
   memory_audio_source as(&mBuffer);
   as.set_looping(true);
@@ -190,7 +190,7 @@ TEST_F(TestMemoryAudioSource, SetTimePosWhilePlaying)
 
 
 
-TEST_F(TestMemoryAudioSource, SetTimePosWhilePaused)
+TEST_F(test_memory_audio_source, set_time_pos_while_paused)
 {
   memory_audio_source as(&mBuffer);
   as.set_looping(true);
@@ -203,7 +203,7 @@ TEST_F(TestMemoryAudioSource, SetTimePosWhilePaused)
 
 
 
-TEST_F(TestMemoryAudioSource, SetTimePosOverflow)
+TEST_F(test_memory_audio_source, set_time_pos_overflow)
 {
   memory_audio_source as(&mBuffer);
   as.set_sample_pos(6u);
@@ -212,7 +212,7 @@ TEST_F(TestMemoryAudioSource, SetTimePosOverflow)
 
 
 
-TEST_F(TestMemoryAudioSource, SetTimePosMicroseconds)
+TEST_F(test_memory_audio_source, set_time_pos_microseconds)
 {
   memory_audio_source as(&mBuffer);
   EXPECT_EQ(std::chrono::microseconds(0), as.get_time_pos());
@@ -227,7 +227,7 @@ TEST_F(TestMemoryAudioSource, SetTimePosMicroseconds)
 
 
 
-TEST_F(TestMemoryAudioSource, SetLooping)
+TEST_F(test_memory_audio_source, set_looping)
 {
   memory_audio_source as(&mBuffer);
   as.set_looping(true);
@@ -238,7 +238,7 @@ TEST_F(TestMemoryAudioSource, SetLooping)
 
 
 
-TEST_F(TestMemoryAudioSource, StopWhileStopped)
+TEST_F(test_memory_audio_source, stop_while_stopped)
 {
   memory_audio_source as(&mBuffer);
   as.set_looping(true);
@@ -250,7 +250,7 @@ TEST_F(TestMemoryAudioSource, StopWhileStopped)
 
 
 
-TEST_F(TestMemoryAudioSource, StopWhilePlaying)
+TEST_F(test_memory_audio_source, stop_while_playing)
 {
   memory_audio_source as(&mBuffer);
   as.set_looping(true);
@@ -263,7 +263,7 @@ TEST_F(TestMemoryAudioSource, StopWhilePlaying)
 
 
 
-TEST_F(TestMemoryAudioSource, StopWhilePaused)
+TEST_F(test_memory_audio_source, stop_while_paused)
 {
   memory_audio_source as(&mBuffer);
   as.set_looping(true);
@@ -277,7 +277,7 @@ TEST_F(TestMemoryAudioSource, StopWhilePaused)
 
 
 
-TEST_F(TestMemoryAudioSource, PlayWhileStopped)
+TEST_F(test_memory_audio_source, play_while_stopped)
 {
   memory_audio_source as(&mBuffer);
   as.set_looping(true);
@@ -287,7 +287,7 @@ TEST_F(TestMemoryAudioSource, PlayWhileStopped)
 
 
 
-TEST_F(TestMemoryAudioSource, PlayWhilePlaying)
+TEST_F(test_memory_audio_source, play_while_playing)
 {
   memory_audio_source as(&mBuffer);
   as.set_looping(true);
@@ -298,7 +298,7 @@ TEST_F(TestMemoryAudioSource, PlayWhilePlaying)
 
 
 
-TEST_F(TestMemoryAudioSource, PlayWhilePaused)
+TEST_F(test_memory_audio_source, play_while_paused)
 {
   memory_audio_source as(&mBuffer);
   as.set_looping(true);
@@ -310,7 +310,7 @@ TEST_F(TestMemoryAudioSource, PlayWhilePaused)
 
 
 
-TEST_F(TestMemoryAudioSource, PauseWhileStopped)
+TEST_F(test_memory_audio_source, pause_while_stopped)
 {
   memory_audio_source as(&mBuffer);
   as.set_looping(true);
@@ -322,7 +322,7 @@ TEST_F(TestMemoryAudioSource, PauseWhileStopped)
 
 
 
-TEST_F(TestMemoryAudioSource, PauseWhilePlaying)
+TEST_F(test_memory_audio_source, pause_while_playing)
 {
   memory_audio_source as(&mBuffer);
   as.set_looping(true);
@@ -333,7 +333,7 @@ TEST_F(TestMemoryAudioSource, PauseWhilePlaying)
 
 
 
-TEST_F(TestMemoryAudioSource, PauseWhilePaused)
+TEST_F(test_memory_audio_source, pause_while_paused)
 {
   memory_audio_source as(&mBuffer);
   as.set_looping(true);
@@ -345,7 +345,7 @@ TEST_F(TestMemoryAudioSource, PauseWhilePaused)
 
 
 
-TEST_F(TestMemoryAudioSource, ReplayWhileStopped)
+TEST_F(test_memory_audio_source, replay_while_stopped)
 {
   memory_audio_source as(&mBuffer);
   as.set_looping(true);
@@ -355,7 +355,7 @@ TEST_F(TestMemoryAudioSource, ReplayWhileStopped)
 
 
 
-TEST_F(TestMemoryAudioSource, ReplayWhilePlaying)
+TEST_F(test_memory_audio_source, replay_while_playing)
 {
   memory_audio_source as(&mBuffer);
   as.set_looping(true);
@@ -366,7 +366,7 @@ TEST_F(TestMemoryAudioSource, ReplayWhilePlaying)
 
 
 
-TEST_F(TestMemoryAudioSource, ReplayWhilePaused)
+TEST_F(test_memory_audio_source, replay_while_paused)
 {
   memory_audio_source as(&mBuffer);
   as.set_looping(true);
@@ -378,11 +378,10 @@ TEST_F(TestMemoryAudioSource, ReplayWhilePaused)
 
 
 
-TEST_F(TestMemoryAudioSource, PlayWithoutBuffer)
+TEST_F(test_memory_audio_source, play_without_buffer)
 {
   memory_audio_source as;
   as.set_looping(true);
   as.play();
   EXPECT_EQ(audio_source_state::stopped, as.get_state());
 }
-

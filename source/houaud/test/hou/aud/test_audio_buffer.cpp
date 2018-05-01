@@ -16,27 +16,27 @@ using namespace hou;
 namespace
 {
 
-class TestAudioBuffer : public test_aud_base
+class test_audio_buffer : public test_aud_base
 {
 public:
-  static const std::string wavStereo16FileName;
+  static const std::string wav_stereo16_filename;
 };
 
 
 
-class TestAudioBufferDeathTest : public TestAudioBuffer
+class test_audio_buffer_death_test : public test_audio_buffer
 {};
 
 
 
-const std::string TestAudioBuffer::wavStereo16FileName
+const std::string test_audio_buffer::wav_stereo16_filename
   = get_data_dir() + u8"TestWav-Stereo-16-44100.wav";
 
 }  // namespace
 
 
 
-TEST_F(TestAudioBuffer, DefaultConstructor)
+TEST_F(test_audio_buffer, default_constructor)
 {
   audio_buffer ab;
 
@@ -51,7 +51,7 @@ TEST_F(TestAudioBuffer, DefaultConstructor)
 
 
 
-TEST_F(TestAudioBuffer, DataConstructor)
+TEST_F(test_audio_buffer, data_constructor)
 {
   std::vector<uint8_t> data{1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u};
   audio_buffer ab(data, audio_buffer_format::stereo16, 345);
@@ -70,7 +70,7 @@ TEST_F(TestAudioBuffer, DataConstructor)
 
 
 
-TEST_F(TestAudioBuffer, DataMoveConstructor)
+TEST_F(test_audio_buffer, data_move_constructor)
 {
   std::vector<uint8_t> data{1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u};
   audio_buffer ab(
@@ -90,9 +90,9 @@ TEST_F(TestAudioBuffer, DataMoveConstructor)
 
 
 
-TEST_F(TestAudioBuffer, StreamConstructor)
+TEST_F(test_audio_buffer, stream_constructor)
 {
-  wav_file_in fi(wavStereo16FileName);
+  wav_file_in fi(wav_stereo16_filename);
   fi.set_sample_pos(12u);
   audio_buffer ab(fi);
 
@@ -108,9 +108,9 @@ TEST_F(TestAudioBuffer, StreamConstructor)
 
 
 
-TEST_F(TestAudioBuffer, StreamMoveConstructor)
+TEST_F(test_audio_buffer, stream_move_constructor)
 {
-  audio_buffer ab = audio_buffer(wav_file_in(wavStereo16FileName));
+  audio_buffer ab = audio_buffer(wav_file_in(wav_stereo16_filename));
 
   EXPECT_NE(0u, ab.get_handle().get_name());
   EXPECT_EQ(84924u, ab.get_byte_count());
@@ -123,7 +123,7 @@ TEST_F(TestAudioBuffer, StreamMoveConstructor)
 
 
 
-TEST_F(TestAudioBuffer, MoveConstructor)
+TEST_F(test_audio_buffer, move_constructor)
 {
   std::vector<uint8_t> data{1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u};
   audio_buffer ab_dummy(data, audio_buffer_format::stereo16, 345);
@@ -145,13 +145,13 @@ TEST_F(TestAudioBuffer, MoveConstructor)
 
 
 
-TEST_F(TestAudioBuffer, SetData)
+TEST_F(test_audio_buffer, set_data)
 {
-  std::vector<uint8_t> dataRef1{1u, 2u, 3u, 4u};
-  audio_buffer ab(dataRef1, audio_buffer_format::stereo16, 114);
+  std::vector<uint8_t> data_ref1{1u, 2u, 3u, 4u};
+  audio_buffer ab(data_ref1, audio_buffer_format::stereo16, 114);
 
-  EXPECT_EQ(dataRef1.size(), ab.get_byte_count());
-  EXPECT_EQ(dataRef1.size()
+  EXPECT_EQ(data_ref1.size(), ab.get_byte_count());
+  EXPECT_EQ(data_ref1.size()
       / (get_audio_buffer_format_channel_count(ab.get_format())
           * get_audio_buffer_format_bytes_per_sample(ab.get_format())),
     ab.get_sample_count());
@@ -160,12 +160,12 @@ TEST_F(TestAudioBuffer, SetData)
   EXPECT_EQ(2u, ab.get_bytes_per_sample());
   EXPECT_EQ(114, ab.get_sample_rate());
 
-  std::vector<uint8_t> dataRef2{1u, 2u, 3u, 4u, 5u, 6u};
-  ab.set_data(dataRef2, audio_buffer_format::mono16, 228);
+  std::vector<uint8_t> data_ref2{1u, 2u, 3u, 4u, 5u, 6u};
+  ab.set_data(data_ref2, audio_buffer_format::mono16, 228);
 
-  EXPECT_EQ(dataRef2.size(), ab.get_byte_count());
-  EXPECT_EQ(
-    dataRef2.size() / get_audio_buffer_format_bytes_per_sample(ab.get_format()),
+  EXPECT_EQ(data_ref2.size(), ab.get_byte_count());
+  EXPECT_EQ(data_ref2.size()
+      / get_audio_buffer_format_bytes_per_sample(ab.get_format()),
     ab.get_sample_count());
   EXPECT_EQ(audio_buffer_format::mono16, ab.get_format());
   EXPECT_EQ(1u, ab.get_channel_count());
@@ -175,13 +175,13 @@ TEST_F(TestAudioBuffer, SetData)
 
 
 
-TEST_F(TestAudioBuffer, SetDataWithMove)
+TEST_F(test_audio_buffer, set_data_with_move)
 {
-  std::vector<uint8_t> dataRef1{1u, 2u, 3u, 4u};
+  std::vector<uint8_t> data_ref1{1u, 2u, 3u, 4u};
   audio_buffer ab({1u, 2u, 3u, 4u}, audio_buffer_format::stereo16, 114);
 
-  EXPECT_EQ(dataRef1.size(), ab.get_byte_count());
-  EXPECT_EQ(dataRef1.size()
+  EXPECT_EQ(data_ref1.size(), ab.get_byte_count());
+  EXPECT_EQ(data_ref1.size()
       / (get_audio_buffer_format_channel_count(ab.get_format())
           * get_audio_buffer_format_bytes_per_sample(ab.get_format())),
     ab.get_sample_count());
@@ -190,12 +190,12 @@ TEST_F(TestAudioBuffer, SetDataWithMove)
   EXPECT_EQ(2u, ab.get_bytes_per_sample());
   EXPECT_EQ(114, ab.get_sample_rate());
 
-  std::vector<uint8_t> dataRef2{1u, 2u, 3u, 4u, 5u, 6u};
+  std::vector<uint8_t> data_ref2{1u, 2u, 3u, 4u, 5u, 6u};
   ab.set_data({1u, 2u, 3u, 4u, 5u, 6u}, audio_buffer_format::mono16, 228);
 
-  EXPECT_EQ(dataRef2.size(), ab.get_byte_count());
-  EXPECT_EQ(
-    dataRef2.size() / get_audio_buffer_format_bytes_per_sample(ab.get_format()),
+  EXPECT_EQ(data_ref2.size(), ab.get_byte_count());
+  EXPECT_EQ(data_ref2.size()
+      / get_audio_buffer_format_bytes_per_sample(ab.get_format()),
     ab.get_sample_count());
   EXPECT_EQ(audio_buffer_format::mono16, ab.get_format());
   EXPECT_EQ(1u, ab.get_channel_count());
@@ -205,13 +205,13 @@ TEST_F(TestAudioBuffer, SetDataWithMove)
 
 
 
-TEST_F(TestAudioBuffer, setDataFromStream)
+TEST_F(test_audio_buffer, set_data_from_stream)
 {
-  std::vector<uint8_t> dataRef1{1u, 2u, 3u, 4u};
-  audio_buffer ab(dataRef1, audio_buffer_format::stereo16, 114);
+  std::vector<uint8_t> data_ref1{1u, 2u, 3u, 4u};
+  audio_buffer ab(data_ref1, audio_buffer_format::stereo16, 114);
 
-  EXPECT_EQ(dataRef1.size(), ab.get_byte_count());
-  EXPECT_EQ(dataRef1.size()
+  EXPECT_EQ(data_ref1.size(), ab.get_byte_count());
+  EXPECT_EQ(data_ref1.size()
       / (get_audio_buffer_format_channel_count(ab.get_format())
           * get_audio_buffer_format_bytes_per_sample(ab.get_format())),
     ab.get_sample_count());
@@ -220,7 +220,7 @@ TEST_F(TestAudioBuffer, setDataFromStream)
   EXPECT_EQ(2u, ab.get_bytes_per_sample());
   EXPECT_EQ(114, ab.get_sample_rate());
 
-  wav_file_in fi(wavStereo16FileName);
+  wav_file_in fi(wav_stereo16_filename);
   fi.set_sample_pos(4u);
   ab.set_data(fi);
 
@@ -234,13 +234,13 @@ TEST_F(TestAudioBuffer, setDataFromStream)
 
 
 
-TEST_F(TestAudioBuffer, setDataFromStreamWithMove)
+TEST_F(test_audio_buffer, set_data_from_stream_with_move)
 {
-  std::vector<uint8_t> dataRef1{1u, 2u, 3u, 4u};
-  audio_buffer ab(dataRef1, audio_buffer_format::stereo16, 114);
+  std::vector<uint8_t> data_ref1{1u, 2u, 3u, 4u};
+  audio_buffer ab(data_ref1, audio_buffer_format::stereo16, 114);
 
-  EXPECT_EQ(dataRef1.size(), ab.get_byte_count());
-  EXPECT_EQ(dataRef1.size()
+  EXPECT_EQ(data_ref1.size(), ab.get_byte_count());
+  EXPECT_EQ(data_ref1.size()
       / (get_audio_buffer_format_channel_count(ab.get_format())
           * get_audio_buffer_format_bytes_per_sample(ab.get_format())),
     ab.get_sample_count());
@@ -249,7 +249,7 @@ TEST_F(TestAudioBuffer, setDataFromStreamWithMove)
   EXPECT_EQ(2u, ab.get_bytes_per_sample());
   EXPECT_EQ(114, ab.get_sample_rate());
 
-  ab.set_data(wav_file_in(wavStereo16FileName));
+  ab.set_data(wav_file_in(wav_stereo16_filename));
 
   EXPECT_EQ(84924u, ab.get_byte_count());
   EXPECT_EQ(21231u, ab.get_sample_count());
@@ -261,7 +261,7 @@ TEST_F(TestAudioBuffer, setDataFromStreamWithMove)
 
 
 
-TEST_F(TestAudioBuffer, GetMono8FormatMeasures)
+TEST_F(test_audio_buffer, get_mono8_format_measures)
 {
   // Note: the implementation might convert the format to a different one.
   // Bits per sample might change from 8 to 16. Samples will then be padded and
@@ -269,7 +269,7 @@ TEST_F(TestAudioBuffer, GetMono8FormatMeasures)
   std::vector<uint8_t> data{1, 2, 3, 4};
   audio_buffer b(data, audio_buffer_format::mono8, 144);
   EXPECT_EQ(b.get_bytes_per_sample() == 1u ? audio_buffer_format::mono8
-                                        : audio_buffer_format::mono16,
+                                           : audio_buffer_format::mono16,
     b.get_format());
   EXPECT_EQ(1u, b.get_channel_count());
   EXPECT_TRUE(b.get_bytes_per_sample() == 1u || b.get_bytes_per_sample() == 2u);
@@ -278,7 +278,7 @@ TEST_F(TestAudioBuffer, GetMono8FormatMeasures)
 
 
 
-TEST_F(TestAudioBuffer, GetMono16FormatMeasures)
+TEST_F(test_audio_buffer, get_mono16_format_measures)
 {
   std::vector<uint8_t> data{1, 2, 3, 4};
   audio_buffer b(data, audio_buffer_format::mono16, 144);
@@ -290,7 +290,7 @@ TEST_F(TestAudioBuffer, GetMono16FormatMeasures)
 
 
 
-TEST_F(TestAudioBuffer, GetStereo8FormatMeasures)
+TEST_F(test_audio_buffer, get_stereo8_format_measures)
 {
   // Note: the implementation might convert the format to a different one.
   // Bits per sample might change from 8 to 16. Samples will then be padded and
@@ -298,7 +298,7 @@ TEST_F(TestAudioBuffer, GetStereo8FormatMeasures)
   std::vector<uint8_t> data{1, 2, 3, 4};
   audio_buffer b(data, audio_buffer_format::stereo8, 144);
   EXPECT_EQ(b.get_bytes_per_sample() == 1u ? audio_buffer_format::stereo8
-                                        : audio_buffer_format::stereo16,
+                                           : audio_buffer_format::stereo16,
     b.get_format());
   EXPECT_EQ(2u, b.get_channel_count());
   EXPECT_TRUE(b.get_bytes_per_sample() == 1u || b.get_bytes_per_sample() == 2u);
@@ -307,7 +307,7 @@ TEST_F(TestAudioBuffer, GetStereo8FormatMeasures)
 
 
 
-TEST_F(TestAudioBuffer, GetStereo16FormatMeasures)
+TEST_F(test_audio_buffer, get_stereo16_format_measures)
 {
   std::vector<uint8_t> data{1, 2, 3, 4};
   audio_buffer b(data, audio_buffer_format::stereo16, 144);

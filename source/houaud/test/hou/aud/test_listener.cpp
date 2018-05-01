@@ -7,8 +7,8 @@
 
 #include "hou/aud/listener.hpp"
 
-#include "hou/mth/matrix.hpp"
 #include "hou/mth/math_functions.hpp"
+#include "hou/mth/matrix.hpp"
 #include "hou/mth/rotation3.hpp"
 
 using namespace hou;
@@ -18,17 +18,17 @@ using namespace hou;
 namespace
 {
 
-class TestListener : public test_aud_base_test_specific_context
+class test_listener : public test_aud_base_test_specific_context
 {};
 
-class TestListenerDeathTest : public TestListener
+class test_listener_death_test : public test_listener
 {};
 
 }  // namespace
 
 
 
-TEST_F(TestListener, Gain)
+TEST_F(test_listener, gain)
 {
   EXPECT_FLOAT_EQ(1.f, listener::get_gain());
   listener::set_gain(0.5f);
@@ -37,14 +37,14 @@ TEST_F(TestListener, Gain)
 
 
 
-TEST_F(TestListenerDeathTest, InvalidGain)
+TEST_F(test_listener_death_test, invalid_gain)
 {
   HOU_EXPECT_PRECONDITION(listener::set_gain(-1.f));
 }
 
 
 
-TEST_F(TestListener, Position)
+TEST_F(test_listener, position)
 {
   HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), listener::get_position());
   listener::set_position(vec3f(1.f, 2.f, 3.f));
@@ -53,7 +53,7 @@ TEST_F(TestListener, Position)
 
 
 
-TEST_F(TestListener, Velocity)
+TEST_F(test_listener, velocity)
 {
   HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), listener::get_velocity());
   listener::set_velocity(vec3f(1.f, 2.f, 3.f));
@@ -62,7 +62,7 @@ TEST_F(TestListener, Velocity)
 
 
 
-TEST_F(TestListener, Orientation)
+TEST_F(test_listener, orientation)
 {
   HOU_EXPECT_FLOAT_CLOSE(rot3f::identity(), listener::get_orientation());
 

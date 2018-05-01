@@ -19,28 +19,28 @@ using namespace hou;
 namespace
 {
 
-class TestAudioSource : public test_aud_base
+class test_audio_source : public test_aud_base
 {
 public:
-  TestAudioSource();
+  test_audio_source();
 
 public:
-  audio_buffer mBuffer;
+  audio_buffer m_buffer;
 };
 
 
 
-class TestAudioSourceDeathTest : public TestAudioSource
+class test_audio_source_death_test : public test_audio_source
 {};
 
 
 
-class ConcreteAudioSource : public audio_source
+class concrete_audio_source : public audio_source
 {
 public:
-  ConcreteAudioSource(const audio_buffer& buffer);
-  ConcreteAudioSource(ConcreteAudioSource&& other);
-  virtual ~ConcreteAudioSource();
+  concrete_audio_source(const audio_buffer& buffer);
+  concrete_audio_source(concrete_audio_source&& other);
+  virtual ~concrete_audio_source();
 
   audio_buffer_format get_format() const final;
   uint get_channel_count() const final;
@@ -57,25 +57,25 @@ private:
 
 private:
   uint m_sample_count;
-  audio_buffer_format mAudioBufferFormat;
+  audio_buffer_format m_format;
   int m_sample_rate;
 };
 
 
 
-TestAudioSource::TestAudioSource()
+test_audio_source::test_audio_source()
   : test_aud_base()
-  , mBuffer(
+  , m_buffer(
       std::vector<uint8_t>{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
       audio_buffer_format::stereo16, 2)
 {}
 
 
 
-ConcreteAudioSource::ConcreteAudioSource(const audio_buffer& buffer)
+concrete_audio_source::concrete_audio_source(const audio_buffer& buffer)
   : audio_source()
   , m_sample_count(buffer.get_sample_count())
-  , mAudioBufferFormat(buffer.get_format())
+  , m_format(buffer.get_format())
   , m_sample_rate(buffer.get_sample_rate())
 {
   al::set_source_buffer(get_handle(), buffer.get_handle().get_name());
@@ -83,77 +83,77 @@ ConcreteAudioSource::ConcreteAudioSource(const audio_buffer& buffer)
 
 
 
-ConcreteAudioSource::ConcreteAudioSource(ConcreteAudioSource&& other)
+concrete_audio_source::concrete_audio_source(concrete_audio_source&& other)
   : audio_source(std::move(other))
   , m_sample_count(std::move(other.m_sample_count))
-  , mAudioBufferFormat(std::move(other.mAudioBufferFormat))
+  , m_format(std::move(other.m_format))
   , m_sample_rate(std::move(other.m_sample_rate))
 {}
 
 
 
-ConcreteAudioSource::~ConcreteAudioSource()
+concrete_audio_source::~concrete_audio_source()
 {}
 
 
 
-audio_buffer_format ConcreteAudioSource::get_format() const
+audio_buffer_format concrete_audio_source::get_format() const
 {
-  return mAudioBufferFormat;
+  return m_format;
 }
 
 
 
-uint ConcreteAudioSource::get_channel_count() const
+uint concrete_audio_source::get_channel_count() const
 {
-  return get_audio_buffer_format_channel_count(mAudioBufferFormat);
+  return get_audio_buffer_format_channel_count(m_format);
 }
 
 
 
-uint ConcreteAudioSource::get_bytes_per_sample() const
+uint concrete_audio_source::get_bytes_per_sample() const
 {
-  return get_audio_buffer_format_bytes_per_sample(mAudioBufferFormat);
+  return get_audio_buffer_format_bytes_per_sample(m_format);
 }
 
 
 
-uint ConcreteAudioSource::get_sample_rate() const
+uint concrete_audio_source::get_sample_rate() const
 {
   return m_sample_rate;
 }
 
 
 
-uint ConcreteAudioSource::get_sample_count() const
+uint concrete_audio_source::get_sample_count() const
 {
   return m_sample_count;
 }
 
 
 
-void ConcreteAudioSource::set_looping(bool looping)
+void concrete_audio_source::set_looping(bool looping)
 {
   audio_source::set_looping(looping);
 }
 
 
 
-bool ConcreteAudioSource::is_looping() const
+bool concrete_audio_source::is_looping() const
 {
   return audio_source::is_looping();
 }
 
 
 
-void ConcreteAudioSource::on_set_sample_pos(uint value)
+void concrete_audio_source::on_set_sample_pos(uint value)
 {
   audio_source::on_set_sample_pos(value);
 }
 
 
 
-uint ConcreteAudioSource::on_get_sample_pos() const
+uint concrete_audio_source::on_get_sample_pos() const
 {
   return audio_source::on_get_sample_pos();
 }
@@ -162,9 +162,9 @@ uint ConcreteAudioSource::on_get_sample_pos() const
 
 
 
-TEST_F(TestAudioSource, DefaultConstructor)
+TEST_F(test_audio_source, default_constructor)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   EXPECT_EQ(audio_source_state::stopped, as.get_state());
   EXPECT_EQ(audio_buffer_format::stereo16, as.get_format());
   EXPECT_EQ(2u, as.get_channel_count());
@@ -193,10 +193,10 @@ TEST_F(TestAudioSource, DefaultConstructor)
 
 
 
-TEST_F(TestAudioSource, MoveConstructor)
+TEST_F(test_audio_source, move_constructor)
 {
-  ConcreteAudioSource as_dummy(mBuffer);
-  ConcreteAudioSource as(std::move(as_dummy));
+  concrete_audio_source as_dummy(m_buffer);
+  concrete_audio_source as(std::move(as_dummy));
   EXPECT_EQ(audio_source_state::stopped, as.get_state());
   EXPECT_EQ(2u, as.get_channel_count());
   EXPECT_EQ(2u, as.get_bytes_per_sample());
@@ -224,9 +224,9 @@ TEST_F(TestAudioSource, MoveConstructor)
 
 
 
-TEST_F(TestAudioSource, SetTimePosWhileStopped)
+TEST_F(test_audio_source, set_time_pos_while_stopped)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_sample_pos(3u);
   EXPECT_EQ(3u, as.get_sample_pos());
   EXPECT_EQ(audio_source_state::stopped, as.get_state());
@@ -234,9 +234,9 @@ TEST_F(TestAudioSource, SetTimePosWhileStopped)
 
 
 
-TEST_F(TestAudioSource, SetTimePosWhilePlaying)
+TEST_F(test_audio_source, set_time_pos_while_playing)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_looping(true);
   as.play();
   as.set_sample_pos(3u);
@@ -245,9 +245,9 @@ TEST_F(TestAudioSource, SetTimePosWhilePlaying)
 
 
 
-TEST_F(TestAudioSource, SetTimePosWhilePaused)
+TEST_F(test_audio_source, set_time_pos_while_paused)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_looping(true);
   as.play();
   as.pause();
@@ -258,18 +258,18 @@ TEST_F(TestAudioSource, SetTimePosWhilePaused)
 
 
 
-TEST_F(TestAudioSource, SetTimePosOverflow)
+TEST_F(test_audio_source, set_time_pos_overflow)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_sample_pos(6u);
   EXPECT_EQ(2u, as.get_sample_pos());
 }
 
 
 
-TEST_F(TestAudioSource, SetTimePosMicroseconds)
+TEST_F(test_audio_source, set_time_pos_microseconds)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   EXPECT_EQ(std::chrono::microseconds(0), as.get_time_pos());
   EXPECT_EQ(0u, as.get_sample_pos());
   as.set_time_pos(std::chrono::microseconds(1500000));
@@ -282,9 +282,9 @@ TEST_F(TestAudioSource, SetTimePosMicroseconds)
 
 
 
-TEST_F(TestAudioSource, PosSeconds)
+TEST_F(test_audio_source, pos_seconds)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_time_pos(std::chrono::duration<double>(1.5f));
   EXPECT_EQ(std::chrono::duration<double>(1.5f), as.get_time_pos());
   EXPECT_EQ(3u, as.get_sample_pos());
@@ -292,9 +292,9 @@ TEST_F(TestAudioSource, PosSeconds)
 
 
 
-TEST_F(TestAudioSource, Looping)
+TEST_F(test_audio_source, looping)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   EXPECT_FALSE(as.is_looping());
   as.set_looping(true);
   EXPECT_TRUE(as.is_looping());
@@ -304,9 +304,9 @@ TEST_F(TestAudioSource, Looping)
 
 
 
-TEST_F(TestAudioSource, StopWhileStopped)
+TEST_F(test_audio_source, stop_while_stopped)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_looping(true);
   as.set_sample_pos(3u);
   as.stop();
@@ -316,9 +316,9 @@ TEST_F(TestAudioSource, StopWhileStopped)
 
 
 
-TEST_F(TestAudioSource, StopWhilePlaying)
+TEST_F(test_audio_source, stop_while_playing)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_looping(true);
   as.set_sample_pos(3u);
   as.play();
@@ -329,9 +329,9 @@ TEST_F(TestAudioSource, StopWhilePlaying)
 
 
 
-TEST_F(TestAudioSource, StopWhilePaused)
+TEST_F(test_audio_source, stop_while_paused)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_looping(true);
   as.set_sample_pos(3u);
   as.play();
@@ -343,9 +343,9 @@ TEST_F(TestAudioSource, StopWhilePaused)
 
 
 
-TEST_F(TestAudioSource, PlayWhileStopped)
+TEST_F(test_audio_source, play_while_stopped)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_looping(true);
   as.play();
   EXPECT_EQ(audio_source_state::playing, as.get_state());
@@ -353,9 +353,9 @@ TEST_F(TestAudioSource, PlayWhileStopped)
 
 
 
-TEST_F(TestAudioSource, PlayWhilePlaying)
+TEST_F(test_audio_source, play_while_playing)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_looping(true);
   as.play();
   as.play();
@@ -364,9 +364,9 @@ TEST_F(TestAudioSource, PlayWhilePlaying)
 
 
 
-TEST_F(TestAudioSource, PlayWhilePaused)
+TEST_F(test_audio_source, play_while_paused)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_looping(true);
   as.play();
   as.pause();
@@ -376,9 +376,9 @@ TEST_F(TestAudioSource, PlayWhilePaused)
 
 
 
-TEST_F(TestAudioSource, PauseWhileStopped)
+TEST_F(test_audio_source, pause_while_stopped)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_looping(true);
   as.set_sample_pos(3u);
   as.pause();
@@ -388,9 +388,9 @@ TEST_F(TestAudioSource, PauseWhileStopped)
 
 
 
-TEST_F(TestAudioSource, PauseWhilePlaying)
+TEST_F(test_audio_source, pause_while_playing)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_looping(true);
   as.play();
   as.pause();
@@ -399,9 +399,9 @@ TEST_F(TestAudioSource, PauseWhilePlaying)
 
 
 
-TEST_F(TestAudioSource, PauseWhilePaused)
+TEST_F(test_audio_source, pause_while_paused)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_looping(true);
   as.play();
   as.pause();
@@ -411,9 +411,9 @@ TEST_F(TestAudioSource, PauseWhilePaused)
 
 
 
-TEST_F(TestAudioSource, ReplayWhileStopped)
+TEST_F(test_audio_source, replay_while_stopped)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_looping(true);
   as.replay();
   EXPECT_EQ(audio_source_state::playing, as.get_state());
@@ -421,9 +421,9 @@ TEST_F(TestAudioSource, ReplayWhileStopped)
 
 
 
-TEST_F(TestAudioSource, ReplayWhilePlaying)
+TEST_F(test_audio_source, replay_while_playing)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_looping(true);
   as.play();
   as.replay();
@@ -432,9 +432,9 @@ TEST_F(TestAudioSource, ReplayWhilePlaying)
 
 
 
-TEST_F(TestAudioSource, ReplayWhilePaused)
+TEST_F(test_audio_source, replay_while_paused)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_looping(true);
   as.play();
   as.pause();
@@ -444,153 +444,153 @@ TEST_F(TestAudioSource, ReplayWhilePaused)
 
 
 
-TEST_F(TestAudioSource, Pitch)
+TEST_F(test_audio_source, pitch)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_pitch(3.f);
   EXPECT_FLOAT_EQ(3.f, as.get_pitch());
 }
 
 
 
-TEST_F(TestAudioSource, Gain)
+TEST_F(test_audio_source, gain)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_gain(3.f);
   EXPECT_FLOAT_EQ(3.f, as.get_gain());
 }
 
 
 
-TEST_F(TestAudioSourceDeathTest, InvalidGain)
+TEST_F(test_audio_source_death_test, invalid_gain)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   HOU_EXPECT_ERROR(
     as.set_gain(-3.f), std::logic_error, get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestAudioSource, MaxGain)
+TEST_F(test_audio_source, max_gain)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_max_gain(0.5f);
   EXPECT_FLOAT_EQ(0.5f, as.get_max_gain());
 }
 
 
 
-TEST_F(TestAudioSourceDeathTest, InvalidMaxGain)
+TEST_F(test_audio_source_death_test, invalid_max_gain)
 {
-  ConcreteAudioSource as(mBuffer);
-  HOU_EXPECT_ERROR(
-    as.set_max_gain(-3.f), std::logic_error, get_text(cor_error::pre_condition));
+  concrete_audio_source as(m_buffer);
+  HOU_EXPECT_ERROR(as.set_max_gain(-3.f), std::logic_error,
+    get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestAudioSource, MinGain)
+TEST_F(test_audio_source, min_gain)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_min_gain(0.5f);
   EXPECT_FLOAT_EQ(0.5f, as.get_min_gain());
 }
 
 
 
-TEST_F(TestAudioSourceDeathTest, InvalidMinGain)
+TEST_F(test_audio_source_death_test, invalid_min_gain)
 {
-  ConcreteAudioSource as(mBuffer);
-  HOU_EXPECT_ERROR(
-    as.set_min_gain(-3.f), std::logic_error, get_text(cor_error::pre_condition));
+  concrete_audio_source as(m_buffer);
+  HOU_EXPECT_ERROR(as.set_min_gain(-3.f), std::logic_error,
+    get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestAudioSource, MaxDistance)
+TEST_F(test_audio_source, max_distance)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_max_distance(3.f);
   EXPECT_FLOAT_EQ(3.f, as.get_max_distance());
 }
 
 
 
-TEST_F(TestAudioSourceDeathTest, InvalidMaxDistance)
+TEST_F(test_audio_source_death_test, invalid_max_distance)
 {
-  ConcreteAudioSource as(mBuffer);
-  HOU_EXPECT_ERROR(
-    as.set_max_distance(-3.f), std::logic_error, get_text(cor_error::pre_condition));
+  concrete_audio_source as(m_buffer);
+  HOU_EXPECT_ERROR(as.set_max_distance(-3.f), std::logic_error,
+    get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestAudioSource, RolloffFactor)
+TEST_F(test_audio_source, rolloff_factor)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_rolloff_factor(3.f);
   EXPECT_FLOAT_EQ(3.f, as.get_rolloff_factor());
 }
 
 
 
-TEST_F(TestAudioSourceDeathTest, InvalidRolloffFactor)
+TEST_F(test_audio_source_death_test, invalid_rolloff_factor)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   HOU_EXPECT_ERROR(as.set_rolloff_factor(-3.f), std::logic_error,
     get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestAudioSource, ReferenceDistance)
+TEST_F(test_audio_source, reference_distance)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_reference_distance(3.f);
   EXPECT_FLOAT_EQ(3.f, as.get_reference_distance());
 }
 
 
 
-TEST_F(TestAudioSourceDeathTest, InvalidReferenceDistance)
+TEST_F(test_audio_source_death_test, invalid_reference_distance)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   HOU_EXPECT_ERROR(as.set_reference_distance(-3.f), std::logic_error,
     get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestAudioSource, Relative)
+TEST_F(test_audio_source, relative)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_relative(true);
   EXPECT_TRUE(as.is_relative());
 }
 
 
 
-TEST_F(TestAudioSource, ConeOuterGain)
+TEST_F(test_audio_source, cone_outer_gain)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_cone_outer_gain(1.f);
   EXPECT_FLOAT_EQ(1.f, as.get_cone_outer_gain());
 }
 
 
 
-TEST_F(TestAudioSourceDeathTest, InvalidConeOuterGain)
+TEST_F(test_audio_source_death_test, invalid_cone_outer_gain)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   HOU_EXPECT_ERROR(as.set_cone_outer_gain(-3.f), std::logic_error,
     get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestAudioSource, ConeInnerAngle)
+TEST_F(test_audio_source, cone_inner_angle)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_cone_inner_angle(0.f);
   EXPECT_FLOAT_EQ(0.f, as.get_cone_inner_angle());
   as.set_cone_inner_angle(pi_f);
@@ -601,9 +601,9 @@ TEST_F(TestAudioSource, ConeInnerAngle)
 
 
 
-TEST_F(TestAudioSourceDeathTest, InvalidConeInnerAngle)
+TEST_F(test_audio_source_death_test, invalid_cone_inner_angle)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   HOU_EXPECT_ERROR(as.set_cone_inner_angle(-pi_f), std::logic_error,
     get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(as.set_cone_inner_angle(3 * pi_f), std::logic_error,
@@ -612,9 +612,9 @@ TEST_F(TestAudioSourceDeathTest, InvalidConeInnerAngle)
 
 
 
-TEST_F(TestAudioSource, ConeOuterAngle)
+TEST_F(test_audio_source, cone_outer_angle)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   as.set_cone_outer_angle(0.f);
   EXPECT_FLOAT_EQ(0.f, as.get_cone_outer_angle());
   as.set_cone_outer_angle(pi_f);
@@ -625,9 +625,9 @@ TEST_F(TestAudioSource, ConeOuterAngle)
 
 
 
-TEST_F(TestAudioSourceDeathTest, InvalidConeOuterAngle)
+TEST_F(test_audio_source_death_test, invalid_cone_outer_angle)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   HOU_EXPECT_ERROR(as.set_cone_outer_angle(-pi_f), std::logic_error,
     get_text(cor_error::pre_condition));
   HOU_EXPECT_ERROR(as.set_cone_outer_angle(3 * pi_f), std::logic_error,
@@ -636,9 +636,9 @@ TEST_F(TestAudioSourceDeathTest, InvalidConeOuterAngle)
 
 
 
-TEST_F(TestAudioSource, Position)
+TEST_F(test_audio_source, position)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   vec3f pos_ref(1.f, -2.f, 3.f);
   as.set_position(pos_ref);
   HOU_EXPECT_FLOAT_CLOSE(pos_ref, as.get_position());
@@ -646,9 +646,9 @@ TEST_F(TestAudioSource, Position)
 
 
 
-TEST_F(TestAudioSource, Velocity)
+TEST_F(test_audio_source, velocity)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   vec3f vel_ref(1.f, -2.f, 3.f);
   as.set_velocity(vel_ref);
   HOU_EXPECT_FLOAT_CLOSE(vel_ref, as.get_velocity());
@@ -656,9 +656,9 @@ TEST_F(TestAudioSource, Velocity)
 
 
 
-TEST_F(TestAudioSource, Direction)
+TEST_F(test_audio_source, direction)
 {
-  ConcreteAudioSource as(mBuffer);
+  concrete_audio_source as(m_buffer);
   vec3f dir_ref(1.f, -2.f, 3.f);
   as.set_direction(dir_ref);
   HOU_EXPECT_FLOAT_CLOSE(dir_ref, as.get_direction());

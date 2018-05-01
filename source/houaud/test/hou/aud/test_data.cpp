@@ -17,6 +17,3 @@ std::string get_data_dir()
 {
   return u8"source/houaud/test/data/";
 }
-
-
-

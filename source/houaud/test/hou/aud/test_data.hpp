@@ -13,4 +13,3 @@ std::string get_output_dir();
 std::string get_data_dir();
 
 #endif
-

@@ -19,66 +19,67 @@ using namespace testing;
 namespace
 {
 
-class TestOggFileIn
-  : public Test
+class test_ogg_file_in : public Test
 {
 public:
-  // Note: OGG files are always read with 16 bits per sample in the Houzi library.
-  // For this reason there are no tests involving buffers with 8 bits per sample.
-  static const std::string mono16UnicodeFileName;
-  static const std::string mono16FileName;
-  static const std::string stereo16FileName;
-  static const std::string lowSampleRateFileName;
-  static const std::string wavFileName;
+  // Note: OGG files are always read with 16 bits per sample in the Houzi
+  // library. For this reason there are no tests involving buffers with 8 bits
+  // per sample.
+  static const std::string mono16_unicode_filename;
+  static const std::string mono16_filename;
+  static const std::string stereo16_filename;
+  static const std::string low_sample_rate_filename;
+  static const std::string wav_filename;
 };
 
 
 
-class TestOggFileInDeathTest : public TestOggFileIn {};
+class TestOggFileInDeathTest : public test_ogg_file_in
+{};
 
 
 
-const std::string TestOggFileIn::mono16UnicodeFileName = get_data_dir()
-  + u8"TestOgg\U00004f60\U0000597d.ogg";
-const std::string TestOggFileIn::mono16FileName = get_data_dir()
-  + u8"TestOgg-Mono-16-44100.ogg";
-const std::string TestOggFileIn::stereo16FileName = get_data_dir()
-  + u8"TestOgg-Stereo-16-44100.ogg";
-const std::string TestOggFileIn::lowSampleRateFileName = get_data_dir()
-  + u8"TestOgg-Mono-16-22050.ogg";
-const std::string TestOggFileIn::wavFileName = get_data_dir()
-  + u8"TestWav-Mono-16-44100.wav";
+const std::string test_ogg_file_in::mono16_unicode_filename
+  = get_data_dir() + u8"TestOgg\U00004f60\U0000597d.ogg";
+const std::string test_ogg_file_in::mono16_filename
+  = get_data_dir() + u8"TestOgg-Mono-16-44100.ogg";
+const std::string test_ogg_file_in::stereo16_filename
+  = get_data_dir() + u8"TestOgg-Stereo-16-44100.ogg";
+const std::string test_ogg_file_in::low_sample_rate_filename
+  = get_data_dir() + u8"TestOgg-Mono-16-22050.ogg";
+const std::string test_ogg_file_in::wav_filename
+  = get_data_dir() + u8"TestWav-Mono-16-44100.wav";
 
-}
+}  // namespace
 
 
 
-TEST_F(TestOggFileIn, CheckSuccess)
+TEST_F(test_ogg_file_in, check_success)
 {
-  EXPECT_TRUE(ogg_file_in::check(mono16UnicodeFileName));
+  EXPECT_TRUE(ogg_file_in::check(mono16_unicode_filename));
 }
 
 
 
-TEST_F(TestOggFileIn, CheckFailureInvalidFormat)
+TEST_F(test_ogg_file_in, check_failure_invalid_format)
 {
-  EXPECT_FALSE(ogg_file_in::check(wavFileName));
+  EXPECT_FALSE(ogg_file_in::check(wav_filename));
 }
 
 
 
-TEST_F(TestOggFileInDeathTest, CheckFailureInvalidFile)
+TEST_F(TestOggFileInDeathTest, check_failure_invalid_file)
 {
   std::string invalid_filename = u8"Invalidfile";
-  HOU_EXPECT_ERROR(ogg_file_in::check(invalid_filename), std::runtime_error
-    , format_string(get_text(sys_error::file_open), invalid_filename.c_str()));
+  HOU_EXPECT_ERROR(ogg_file_in::check(invalid_filename), std::runtime_error,
+    format_string(get_text(sys_error::file_open), invalid_filename.c_str()));
 }
 
 
 
-TEST_F(TestOggFileIn, PathConstructor)
+TEST_F(test_ogg_file_in, path_constructor)
 {
-  ogg_file_in fi(mono16UnicodeFileName);
+  ogg_file_in fi(mono16_unicode_filename);
   EXPECT_FALSE(fi.eof());
   EXPECT_FALSE(fi.error());
   EXPECT_EQ(42206u, fi.get_byte_count());
@@ -95,16 +96,16 @@ TEST_F(TestOggFileIn, PathConstructor)
 
 
 
-TEST_F(TestOggFileInDeathTest, PathConstructorFailureFileNotExisting)
+TEST_F(TestOggFileInDeathTest, path_constructor_failure_file_not_existing)
 {
   std::string invalid_filename = u8"InvalidFileName";
-  HOU_EXPECT_ERROR(ogg_file_in fi(invalid_filename), std::runtime_error
-    , format_string(get_text(sys_error::file_open), invalid_filename.c_str()));
+  HOU_EXPECT_ERROR(ogg_file_in fi(invalid_filename), std::runtime_error,
+    format_string(get_text(sys_error::file_open), invalid_filename.c_str()));
 }
 
 
 
-TEST_F(TestOggFileInDeathTest, PathConstructorFailureInvalidOggFile)
+TEST_F(TestOggFileInDeathTest, path_constructor_failure_invalid_ogg_file)
 {
   static constexpr size_t stringSize = 4u;
   struct OggMetadata
@@ -127,7 +128,8 @@ TEST_F(TestOggFileInDeathTest, PathConstructorFailureInvalidOggFile)
   std::string dummyOggFileName = get_output_dir() + u8"dummyOggFile.wav";
 
   {
-    file dummyOggFile(dummyOggFileName, file_open_mode::write, file_type::binary);
+    file dummyOggFile(
+      dummyOggFileName, file_open_mode::write, file_type::binary);
     OggMetadata data;
     data.id[0] = 'F';
     data.id[1] = 'a';
@@ -136,35 +138,36 @@ TEST_F(TestOggFileInDeathTest, PathConstructorFailureInvalidOggFile)
     dummyOggFile.write(&data, 1u);
   }
 
-  HOU_EXPECT_ERROR(ogg_file_in fi(dummyOggFileName), std::runtime_error
-    , format_string(get_text(aud_error::ogg_invalid_header)
-    , dummyOggFileName.c_str()));
+  HOU_EXPECT_ERROR(ogg_file_in fi(dummyOggFileName), std::runtime_error,
+    format_string(
+      get_text(aud_error::ogg_invalid_header), dummyOggFileName.c_str()));
 
   remove_dir(dummyOggFileName);
 }
 
 
 
-TEST_F(TestOggFileInDeathTest, PathConstructorFailureNoOggHeader)
+TEST_F(TestOggFileInDeathTest, path_constructor_failure_no_ogg_header)
 {
   std::string dummyOggFileName = get_output_dir() + u8"dummyOggFile.wav";
 
   {
-    file dummyOggFile(dummyOggFileName, file_open_mode::write, file_type::binary);
+    file dummyOggFile(
+      dummyOggFileName, file_open_mode::write, file_type::binary);
   }
 
-  HOU_EXPECT_ERROR(ogg_file_in fi(dummyOggFileName), std::runtime_error
-    , format_string(get_text(aud_error::ogg_invalid_header)
-    , dummyOggFileName.c_str()));
+  HOU_EXPECT_ERROR(ogg_file_in fi(dummyOggFileName), std::runtime_error,
+    format_string(
+      get_text(aud_error::ogg_invalid_header), dummyOggFileName.c_str()));
 
   remove_dir(dummyOggFileName);
 }
 
 
 
-TEST_F(TestOggFileIn, MoveConstructor)
+TEST_F(test_ogg_file_in, move_constructor)
 {
-  ogg_file_in fi_dummy(mono16UnicodeFileName);
+  ogg_file_in fi_dummy(mono16_unicode_filename);
   ogg_file_in fi(std::move(fi_dummy));
   EXPECT_FALSE(fi.eof());
   EXPECT_FALSE(fi.error());
@@ -182,86 +185,86 @@ TEST_F(TestOggFileIn, MoveConstructor)
 
 
 
-TEST_F(TestOggFileIn, AudioBufferFormatAttributes)
+TEST_F(test_ogg_file_in, audio_buffer_format_attributes)
 {
-  ogg_file_in fiMono16(mono16FileName);
-  ogg_file_in fiStereo16(stereo16FileName);
+  ogg_file_in fi_mono16(mono16_filename);
+  ogg_file_in fi_stereo16(stereo16_filename);
 
-  EXPECT_EQ(audio_buffer_format::mono16, fiMono16.get_format());
-  EXPECT_EQ(1u, fiMono16.get_channel_count());
-  EXPECT_EQ(2u, fiMono16.get_bytes_per_sample());
-  EXPECT_EQ(audio_buffer_format::stereo16, fiStereo16.get_format());
-  EXPECT_EQ(2u, fiStereo16.get_channel_count());
-  EXPECT_EQ(2u, fiStereo16.get_bytes_per_sample());
+  EXPECT_EQ(audio_buffer_format::mono16, fi_mono16.get_format());
+  EXPECT_EQ(1u, fi_mono16.get_channel_count());
+  EXPECT_EQ(2u, fi_mono16.get_bytes_per_sample());
+  EXPECT_EQ(audio_buffer_format::stereo16, fi_stereo16.get_format());
+  EXPECT_EQ(2u, fi_stereo16.get_channel_count());
+  EXPECT_EQ(2u, fi_stereo16.get_bytes_per_sample());
 }
 
 
 
-TEST_F(TestOggFileIn, SampleRateAttributes)
+TEST_F(test_ogg_file_in, sample_rate_attributes)
 {
-  ogg_file_in fiNormalRate(mono16FileName);
-  ogg_file_in fiLowRate(lowSampleRateFileName);
+  ogg_file_in fi_normal_rate(mono16_filename);
+  ogg_file_in fi_low_rate(low_sample_rate_filename);
 
-  EXPECT_EQ(44100u, fiNormalRate.get_sample_rate());
-  EXPECT_EQ(22050u, fiLowRate.get_sample_rate());
+  EXPECT_EQ(44100u, fi_normal_rate.get_sample_rate());
+  EXPECT_EQ(22050u, fi_low_rate.get_sample_rate());
 }
 
 
 
-TEST_F(TestOggFileIn, GetSampleCount)
+TEST_F(test_ogg_file_in, get_sample_count)
 {
-  ogg_file_in fiMono16(mono16FileName);
-  ogg_file_in fiStereo16(stereo16FileName);
+  ogg_file_in fi_mono16(mono16_filename);
+  ogg_file_in fi_stereo16(stereo16_filename);
 
-  EXPECT_EQ(21231u, fiMono16.get_sample_count());
-  EXPECT_EQ(21231u, fiStereo16.get_sample_count());
+  EXPECT_EQ(21231u, fi_mono16.get_sample_count());
+  EXPECT_EQ(21231u, fi_stereo16.get_sample_count());
 
-  EXPECT_EQ(42462u, fiMono16.get_byte_count());
-  EXPECT_EQ(84924u, fiStereo16.get_byte_count());
+  EXPECT_EQ(42462u, fi_mono16.get_byte_count());
+  EXPECT_EQ(84924u, fi_stereo16.get_byte_count());
 }
 
 
 
-TEST_F(TestOggFileIn, SetBytePos)
+TEST_F(test_ogg_file_in, set_byte_pos)
 {
-  ogg_file_in fi(mono16FileName);
+  ogg_file_in fi(mono16_filename);
   EXPECT_EQ(0, fi.get_byte_pos());
   fi.set_byte_pos(6);
   EXPECT_EQ(6, fi.get_byte_pos());
   fi.set_byte_pos(0);
   EXPECT_EQ(0, fi.get_byte_pos());
   fi.set_byte_pos(fi.get_byte_count());
-  EXPECT_EQ(static_cast<ogg_file_in::byte_position>(fi.get_byte_count())
-    , fi.get_byte_pos());
+  EXPECT_EQ(static_cast<ogg_file_in::byte_position>(fi.get_byte_count()),
+    fi.get_byte_pos());
 }
 
 
 
-TEST_F(TestOggFileInDeathTest, SetBytePosErrorPositionInSample)
+TEST_F(TestOggFileInDeathTest, set_byte_pos_error_position_in_sample)
 {
-  ogg_file_in fi(mono16FileName);
-  HOU_EXPECT_ERROR(fi.set_byte_pos(3), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(fi.set_byte_pos(fi.get_byte_count() + 3), std::logic_error
-    , get_text(cor_error::pre_condition));
+  ogg_file_in fi(mono16_filename);
+  HOU_EXPECT_ERROR(
+    fi.set_byte_pos(3), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(fi.set_byte_pos(fi.get_byte_count() + 3), std::logic_error,
+    get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestOggFileInDeathTest, SetBytePosErrorInvalidPosition)
+TEST_F(TestOggFileInDeathTest, set_byte_pos_error_invalid_position)
 {
-  ogg_file_in fi(mono16FileName);
-  HOU_EXPECT_ERROR(fi.set_byte_pos(-2), std::runtime_error
-    , get_text(sys_error::file_seek));
-  HOU_EXPECT_ERROR(fi.set_byte_pos(fi.get_byte_count() + 2), std::runtime_error
-    , get_text(sys_error::file_seek));
+  ogg_file_in fi(mono16_filename);
+  HOU_EXPECT_ERROR(
+    fi.set_byte_pos(-2), std::runtime_error, get_text(sys_error::file_seek));
+  HOU_EXPECT_ERROR(fi.set_byte_pos(fi.get_byte_count() + 2), std::runtime_error,
+    get_text(sys_error::file_seek));
 }
 
 
 
-TEST_F(TestOggFileIn, MoveBytePos)
+TEST_F(test_ogg_file_in, move_byte_pos)
 {
-  ogg_file_in fi(mono16FileName);
+  ogg_file_in fi(mono16_filename);
   EXPECT_EQ(0, fi.get_byte_pos());
   fi.move_byte_pos(6);
   EXPECT_EQ(6, fi.get_byte_pos());
@@ -270,39 +273,39 @@ TEST_F(TestOggFileIn, MoveBytePos)
   fi.move_byte_pos(-4);
   EXPECT_EQ(0, fi.get_byte_pos());
   fi.move_byte_pos(fi.get_byte_count());
-  EXPECT_EQ(static_cast<ogg_file_in::byte_position>(fi.get_byte_count())
-    , fi.get_byte_pos());
+  EXPECT_EQ(static_cast<ogg_file_in::byte_position>(fi.get_byte_count()),
+    fi.get_byte_pos());
 }
 
 
 
-TEST_F(TestOggFileInDeathTest, MoveBytePosErrorPositionInSample)
+TEST_F(TestOggFileInDeathTest, move_byte_pos_error_position_in_sample)
 {
-  ogg_file_in fi(mono16FileName);
+  ogg_file_in fi(mono16_filename);
   fi.move_byte_pos(4);
-  HOU_EXPECT_ERROR(fi.move_byte_pos(3), std::logic_error
-    , get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(fi.move_byte_pos(fi.get_byte_count() + 3), std::logic_error
-    , get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    fi.move_byte_pos(3), std::logic_error, get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(fi.move_byte_pos(fi.get_byte_count() + 3), std::logic_error,
+    get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestOggFileInDeathTest, MoveBytePosErrorInvalidPosition)
+TEST_F(TestOggFileInDeathTest, move_byte_pos_error_invalid_position)
 {
-  ogg_file_in fi(mono16FileName);
+  ogg_file_in fi(mono16_filename);
   fi.move_byte_pos(4);
-  HOU_EXPECT_ERROR(fi.move_byte_pos(-6), std::runtime_error
-    , get_text(sys_error::file_seek));
-  HOU_EXPECT_ERROR(fi.move_byte_pos(fi.get_byte_count() - 2), std::runtime_error
-    , get_text(sys_error::file_seek));
+  HOU_EXPECT_ERROR(
+    fi.move_byte_pos(-6), std::runtime_error, get_text(sys_error::file_seek));
+  HOU_EXPECT_ERROR(fi.move_byte_pos(fi.get_byte_count() - 2),
+    std::runtime_error, get_text(sys_error::file_seek));
 }
 
 
 
-TEST_F(TestOggFileIn, SetSamplePosMono16)
+TEST_F(test_ogg_file_in, set_sample_pos_mono16)
 {
-  ogg_file_in fi(mono16FileName);
+  ogg_file_in fi(mono16_filename);
 
   EXPECT_EQ(0, fi.get_byte_pos());
   EXPECT_EQ(0, fi.get_sample_pos());
@@ -310,17 +313,17 @@ TEST_F(TestOggFileIn, SetSamplePosMono16)
   EXPECT_EQ(6, fi.get_byte_pos());
   EXPECT_EQ(3, fi.get_sample_pos());
   fi.set_sample_pos(fi.get_sample_count());
-  EXPECT_EQ(static_cast<ogg_file_in::byte_position>(fi.get_byte_count())
-    , fi.get_byte_pos());
-  EXPECT_EQ(static_cast<ogg_file_in::sample_position>(fi.get_sample_count())
-    , fi.get_sample_pos());
+  EXPECT_EQ(static_cast<ogg_file_in::byte_position>(fi.get_byte_count()),
+    fi.get_byte_pos());
+  EXPECT_EQ(static_cast<ogg_file_in::sample_position>(fi.get_sample_count()),
+    fi.get_sample_pos());
 }
 
 
 
-TEST_F(TestOggFileIn, SetSamplePosStereo16)
+TEST_F(test_ogg_file_in, set_sample_pos_stereo16)
 {
-  ogg_file_in fi(stereo16FileName);
+  ogg_file_in fi(stereo16_filename);
 
   EXPECT_EQ(0, fi.get_byte_pos());
   EXPECT_EQ(0, fi.get_sample_pos());
@@ -328,28 +331,28 @@ TEST_F(TestOggFileIn, SetSamplePosStereo16)
   EXPECT_EQ(12, fi.get_byte_pos());
   EXPECT_EQ(3, fi.get_sample_pos());
   fi.set_sample_pos(fi.get_sample_count());
-  EXPECT_EQ(static_cast<ogg_file_in::byte_position>(fi.get_byte_count())
-    , fi.get_byte_pos());
-  EXPECT_EQ(static_cast<ogg_file_in::sample_position>(fi.get_sample_count())
-    , fi.get_sample_pos());
+  EXPECT_EQ(static_cast<ogg_file_in::byte_position>(fi.get_byte_count()),
+    fi.get_byte_pos());
+  EXPECT_EQ(static_cast<ogg_file_in::sample_position>(fi.get_sample_count()),
+    fi.get_sample_pos());
 }
 
 
 
-TEST_F(TestOggFileInDeathTest, SetSamplePosErrorInvalidPosition)
+TEST_F(TestOggFileInDeathTest, set_sample_pos_error_invalid_position)
 {
-  ogg_file_in fi(mono16FileName);
-  HOU_EXPECT_ERROR(fi.set_sample_pos(-1), std::runtime_error
-    , get_text(sys_error::file_seek));
-  HOU_EXPECT_ERROR(fi.set_sample_pos(fi.get_sample_count() + 1), std::runtime_error
-    , get_text(sys_error::file_seek));
+  ogg_file_in fi(mono16_filename);
+  HOU_EXPECT_ERROR(
+    fi.set_sample_pos(-1), std::runtime_error, get_text(sys_error::file_seek));
+  HOU_EXPECT_ERROR(fi.set_sample_pos(fi.get_sample_count() + 1),
+    std::runtime_error, get_text(sys_error::file_seek));
 }
 
 
 
-TEST_F(TestOggFileIn, MoveSamplePosMono16)
+TEST_F(test_ogg_file_in, move_sample_pos_mono16)
 {
-  ogg_file_in fi(mono16FileName);
+  ogg_file_in fi(mono16_filename);
 
   EXPECT_EQ(0, fi.get_byte_pos());
   EXPECT_EQ(0, fi.get_sample_pos());
@@ -363,17 +366,17 @@ TEST_F(TestOggFileIn, MoveSamplePosMono16)
   EXPECT_EQ(0, fi.get_byte_pos());
   EXPECT_EQ(0, fi.get_sample_pos());
   fi.move_sample_pos(fi.get_sample_count());
-  EXPECT_EQ(static_cast<ogg_file_in::byte_position>(fi.get_byte_count())
-    , fi.get_byte_pos());
-  EXPECT_EQ(static_cast<ogg_file_in::sample_position>(fi.get_sample_count())
-    , fi.get_sample_pos());
+  EXPECT_EQ(static_cast<ogg_file_in::byte_position>(fi.get_byte_count()),
+    fi.get_byte_pos());
+  EXPECT_EQ(static_cast<ogg_file_in::sample_position>(fi.get_sample_count()),
+    fi.get_sample_pos());
 }
 
 
 
-TEST_F(TestOggFileIn, MoveSamplePosStereo16)
+TEST_F(test_ogg_file_in, move_sample_pos_stereo16)
 {
-  ogg_file_in fi(stereo16FileName);
+  ogg_file_in fi(stereo16_filename);
 
   EXPECT_EQ(0, fi.get_byte_pos());
   EXPECT_EQ(0, fi.get_sample_pos());
@@ -387,33 +390,33 @@ TEST_F(TestOggFileIn, MoveSamplePosStereo16)
   EXPECT_EQ(0, fi.get_byte_pos());
   EXPECT_EQ(0, fi.get_sample_pos());
   fi.move_sample_pos(fi.get_sample_count());
-  EXPECT_EQ(static_cast<ogg_file_in::byte_position>(fi.get_byte_count())
-    , fi.get_byte_pos());
-  EXPECT_EQ(static_cast<ogg_file_in::sample_position>(fi.get_sample_count())
-    , fi.get_sample_pos());
+  EXPECT_EQ(static_cast<ogg_file_in::byte_position>(fi.get_byte_count()),
+    fi.get_byte_pos());
+  EXPECT_EQ(static_cast<ogg_file_in::sample_position>(fi.get_sample_count()),
+    fi.get_sample_pos());
 }
 
 
 
-TEST_F(TestOggFileInDeathTest, MoveSamplePosErrorInvalidPosition)
+TEST_F(TestOggFileInDeathTest, move_sample_pos_error_invalid_position)
 {
-  ogg_file_in fi(mono16FileName);
+  ogg_file_in fi(mono16_filename);
   fi.move_sample_pos(2);
-  HOU_EXPECT_ERROR(fi.move_sample_pos(-3), std::runtime_error
-    , get_text(sys_error::file_seek));
-  HOU_EXPECT_ERROR(fi.move_sample_pos(fi.get_sample_count() + 1), std::runtime_error
-    , get_text(sys_error::file_seek));
+  HOU_EXPECT_ERROR(
+    fi.move_sample_pos(-3), std::runtime_error, get_text(sys_error::file_seek));
+  HOU_EXPECT_ERROR(fi.move_sample_pos(fi.get_sample_count() + 1),
+    std::runtime_error, get_text(sys_error::file_seek));
 }
 
 
 
-TEST_F(TestOggFileIn, ReadToVariable)
+TEST_F(test_ogg_file_in, read_to_variable)
 {
   using buffer_type = uint16_t;
   static constexpr size_t buffer_size = 1u;
   static constexpr size_t buffer_byte_size = sizeof(buffer_type) * buffer_size;
 
-  ogg_file_in fi(mono16UnicodeFileName);
+  ogg_file_in fi(mono16_unicode_filename);
   buffer_type buffer;
 
   fi.read(buffer);
@@ -431,128 +434,128 @@ TEST_F(TestOggFileIn, ReadToVariable)
 
 
 
-TEST_F(TestOggFileIn, ReadToBasicArray)
+TEST_F(test_ogg_file_in, read_to_basic_array)
 {
   using buffer_type = uint16_t;
   static constexpr size_t buffer_size = 3u;
   static constexpr size_t buffer_byte_size = sizeof(buffer_type) * buffer_size;
 
-  ogg_file_in fi(mono16UnicodeFileName);
+  ogg_file_in fi(mono16_unicode_filename);
   buffer_type buffer[buffer_size];
 
   fi.read(buffer, buffer_size);
-  buffer_type bufferRef1[buffer_size] = {10124u, 11584u, 9754u};
+  buffer_type buffer_ref1[buffer_size] = {10124u, 11584u, 9754u};
   EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(buffer_size, fi.get_read_element_count());
   EXPECT_EQ(buffer_size, fi.get_read_sample_count());
-  HOU_EXPECT_ARRAY_EQ(bufferRef1, buffer, buffer_size);
+  HOU_EXPECT_ARRAY_EQ(buffer_ref1, buffer, buffer_size);
 
   fi.read(buffer, buffer_size);
-  buffer_type bufferRef2[buffer_size] = {11404u, 10203u, 11732u};
+  buffer_type buffer_ref2[buffer_size] = {11404u, 10203u, 11732u};
   EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(buffer_size, fi.get_read_element_count());
   EXPECT_EQ(buffer_size, fi.get_read_sample_count());
-  HOU_EXPECT_ARRAY_EQ(bufferRef2, buffer, buffer_size);
+  HOU_EXPECT_ARRAY_EQ(buffer_ref2, buffer, buffer_size);
 }
 
 
 
-TEST_F(TestOggFileIn, ReadToArray)
+TEST_F(test_ogg_file_in, read_to_array)
 {
   using buffer_type = uint16_t;
   static constexpr size_t buffer_size = 3u;
   static constexpr size_t buffer_byte_size = sizeof(buffer_type) * buffer_size;
 
-  ogg_file_in fi(mono16UnicodeFileName);
+  ogg_file_in fi(mono16_unicode_filename);
   std::array<buffer_type, buffer_size> buffer = {0, 0, 0};
 
   fi.read(buffer);
-  std::array<buffer_type, buffer_size> bufferRef1 = {10124u, 11584u, 9754u};
+  std::array<buffer_type, buffer_size> buffer_ref1 = {10124u, 11584u, 9754u};
   EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(buffer_size, fi.get_read_element_count());
   EXPECT_EQ(buffer_size, fi.get_read_sample_count());
-  EXPECT_EQ(bufferRef1, buffer);
+  EXPECT_EQ(buffer_ref1, buffer);
 
   fi.read(buffer);
-  std::array<buffer_type, buffer_size> bufferRef2 = {11404u, 10203u, 11732u};
+  std::array<buffer_type, buffer_size> buffer_ref2 = {11404u, 10203u, 11732u};
   EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(buffer_size, fi.get_read_element_count());
   EXPECT_EQ(buffer_size, fi.get_read_sample_count());
-  EXPECT_EQ(bufferRef2, buffer);
+  EXPECT_EQ(buffer_ref2, buffer);
 }
 
 
 
-TEST_F(TestOggFileIn, ReadToVector)
+TEST_F(test_ogg_file_in, read_to_vector)
 {
   using buffer_type = uint16_t;
   static constexpr size_t buffer_size = 3u;
   static constexpr size_t buffer_byte_size = sizeof(buffer_type) * buffer_size;
 
-  ogg_file_in fi(mono16UnicodeFileName);
+  ogg_file_in fi(mono16_unicode_filename);
   std::vector<buffer_type> buffer(buffer_size, 0u);
 
   fi.read(buffer);
-  std::vector<buffer_type> bufferRef1 = {10124u, 11584u, 9754u};
+  std::vector<buffer_type> buffer_ref1 = {10124u, 11584u, 9754u};
   EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(buffer_size, fi.get_read_element_count());
   EXPECT_EQ(buffer_size, fi.get_read_sample_count());
-  EXPECT_EQ(bufferRef1, buffer);
+  EXPECT_EQ(buffer_ref1, buffer);
 
   fi.read(buffer);
-  std::vector<buffer_type> bufferRef2 = {11404u, 10203u, 11732u};
+  std::vector<buffer_type> buffer_ref2 = {11404u, 10203u, 11732u};
   EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(buffer_size, fi.get_read_element_count());
   EXPECT_EQ(buffer_size, fi.get_read_sample_count());
-  EXPECT_EQ(bufferRef2, buffer);
+  EXPECT_EQ(buffer_ref2, buffer);
 }
 
 
 
-TEST_F(TestOggFileIn, ReadToString)
+TEST_F(test_ogg_file_in, read_to_string)
 {
   using buffer_type = std::string::value_type;
   static constexpr size_t buffer_size = 4u;
   static constexpr size_t buffer_byte_size = sizeof(buffer_type) * buffer_size;
 
-  ogg_file_in fi(mono16UnicodeFileName);
+  ogg_file_in fi(mono16_unicode_filename);
   std::string buffer(buffer_size, 0);
 
   fi.read(buffer);
-  std::string bufferRef1 = {-116, 39, 64, 45};
+  std::string buffer_ref1 = {-116, 39, 64, 45};
   EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(buffer_size, fi.get_read_element_count());
   EXPECT_EQ(buffer_size / 2, fi.get_read_sample_count());
-  EXPECT_EQ(bufferRef1, buffer);
+  EXPECT_EQ(buffer_ref1, buffer);
 
   fi.read(buffer);
-  std::string bufferRef2 = {26, 38, -116, 44};
+  std::string buffer_ref2 = {26, 38, -116, 44};
   EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(buffer_size, fi.get_read_element_count());
   EXPECT_EQ(buffer_size / 2, fi.get_read_sample_count());
-  EXPECT_EQ(bufferRef2, buffer);
+  EXPECT_EQ(buffer_ref2, buffer);
 }
 
 
 
-TEST_F(TestOggFileInDeathTest, ReadToInvalidSizeBuffer)
+TEST_F(TestOggFileInDeathTest, read_to_invalid_size_buffer)
 {
   using buffer_type = uint8_t;
   static constexpr size_t buffer_size = 3u;
   std::vector<buffer_type> buffer(buffer_size, 0u);
 
-  ogg_file_in fi(mono16FileName);
+  ogg_file_in fi(mono16_filename);
   EXPECT_EQ(audio_buffer_format::mono16, fi.get_format());
 
-  HOU_EXPECT_ERROR(fi.read(buffer), std::logic_error
-    , get_text(cor_error::pre_condition));
+  HOU_EXPECT_ERROR(
+    fi.read(buffer), std::logic_error, get_text(cor_error::pre_condition));
 }
 
 
 
-TEST_F(TestOggFileIn, ReadAllToVector)
+TEST_F(test_ogg_file_in, read_all_to_vector)
 {
-  ogg_file_in fi(mono16FileName);
+  ogg_file_in fi(mono16_filename);
   std::vector<uint8_t> file_content(fi.get_byte_count());
   fi.read(file_content);
   fi.set_byte_pos(0u);
@@ -565,9 +568,9 @@ TEST_F(TestOggFileIn, ReadAllToVector)
 
 
 
-TEST_F(TestOggFileIn, ReadAllToVectorNotFromStart)
+TEST_F(test_ogg_file_in, read_all_to_vector_not_from_start)
 {
-  ogg_file_in fi(mono16FileName);
+  ogg_file_in fi(mono16_filename);
   std::vector<uint8_t> file_content(fi.get_byte_count());
   fi.read(file_content);
   fi.set_byte_pos(2u);
@@ -580,9 +583,9 @@ TEST_F(TestOggFileIn, ReadAllToVectorNotFromStart)
 
 
 
-TEST_F(TestOggFileIn, Eof)
+TEST_F(test_ogg_file_in, eof)
 {
-  ogg_file_in fi(mono16FileName);
+  ogg_file_in fi(mono16_filename);
   std::vector<uint8_t> buffer(fi.get_byte_count() + 2u, 0u);
 
   fi.read(buffer);
@@ -599,4 +602,3 @@ TEST_F(TestOggFileIn, Eof)
 
   EXPECT_FALSE(fi.error());
 }
-

@@ -7,10 +7,21 @@
 #include "hou/aud/audio_context.hpp"
 
 using namespace hou;
+using namespace testing;
 
 
 
-TEST(TestAudioContext, DefaultCreation)
+namespace
+{
+
+class test_audio_context : public Test
+{};
+
+}  // namespace
+
+
+
+TEST_F(test_audio_context, default_creation)
 {
   audio_context ctx;
   SUCCEED();
@@ -18,10 +29,10 @@ TEST(TestAudioContext, DefaultCreation)
 
 
 
-TEST(TestAudioContext, DeviceNameCreation)
+TEST_F(test_audio_context, device_name_creation)
 {
-  std::vector<std::string> deviceNames = audio_context::get_device_names();
-  for(const auto& dev_name : deviceNames)
+  std::vector<std::string> device_names = audio_context::get_device_names();
+  for(const auto& dev_name : device_names)
   {
     audio_context ctx(dev_name);
   }
@@ -30,7 +41,7 @@ TEST(TestAudioContext, DeviceNameCreation)
 
 
 
-TEST(TestAudioContext, MoveConstructor)
+TEST_F(test_audio_context, move_constructor)
 {
   audio_context ctx_dummy;
   audio_context::set_current(ctx_dummy);
@@ -40,7 +51,7 @@ TEST(TestAudioContext, MoveConstructor)
 
 
 
-TEST(TestAudioContext, SetCurrent)
+TEST_F(test_audio_context, set_current)
 {
   {
     audio_context ctx1;
@@ -71,4 +82,3 @@ TEST(TestAudioContext, SetCurrent)
   }
   EXPECT_EQ(nullptr, al::context::get_current());
 }
-
