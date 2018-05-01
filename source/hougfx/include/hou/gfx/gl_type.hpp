@@ -31,7 +31,7 @@ enum class gl_type : GLenum
 };
 
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, gl_type type);
-template <typename DataType>
+template <typename data_type>
 HOU_GFX_API gl_type to_gl_type();
 
 }  // namespace hou

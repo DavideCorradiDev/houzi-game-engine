@@ -167,8 +167,8 @@ void streaming_audio_source::on_set_sample_pos(uint value)
 
 uint streaming_audio_source::on_get_sample_pos() const
 {
-  uint sampleCount = get_sample_count();
-  return sampleCount == 0u
+  uint sample_count = get_sample_count();
+  return sample_count == 0u
     ? 0u
     : (m_sample_pos + audio_source::on_get_sample_pos()) % get_sample_count();
 }
@@ -246,8 +246,8 @@ void streaming_audio_source::fill_buffers()
 
 void streaming_audio_source::set_sample_pos_variable(size_t pos)
 {
-  uint sampleCount = get_sample_count();
-  m_sample_pos = sampleCount == 0u ? 0u : pos % get_sample_count();
+  uint sample_count = get_sample_count();
+  m_sample_pos = sample_count == 0u ? 0u : pos % get_sample_count();
 }
 
 

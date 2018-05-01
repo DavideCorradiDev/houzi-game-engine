@@ -7,7 +7,7 @@
 #include "hou/cor/error.hpp"
 
 #define MESH_FILL_MODE_CASE(mfm, os) \
-  case mesh_fill_mode::mfm:            \
+  case mesh_fill_mode::mfm: \
     return (os) << #mfm
 
 
@@ -22,8 +22,8 @@ std::ostream& operator<<(std::ostream& os, mesh_fill_mode mfm)
     MESH_FILL_MODE_CASE(point, os);
     MESH_FILL_MODE_CASE(line, os);
     MESH_FILL_MODE_CASE(fill, os);
-  default:
-    return os;
+    default:
+      return os;
   }
 }
 

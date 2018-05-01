@@ -33,7 +33,7 @@ public:
   // not be possible to write generic tests.
   typename Tex::size_type generateSize();
   typename Tex::size_type computeMipMapSize(
-    const typename Tex::size_type& size, uint mipMapLevel);
+    const typename Tex::size_type& size, uint mipmap_level);
   typename Tex::template image<pixel_format::rgba> generateImage(
     const typename Tex::size_type& size);
   typename Tex::wrap_mode getDefaultWrapMode() const;
@@ -108,18 +108,18 @@ typename multisample_texture2_array::size_type
 
 template <>
 typename texture1::size_type TestTextureBase<texture1>::computeMipMapSize(
-  const typename texture1::size_type& size, uint mipMapLevel)
+  const typename texture1::size_type& size, uint mipmap_level)
 {
-  return size / std::pow(2, mipMapLevel);
+  return size / std::pow(2, mipmap_level);
 }
 
 
 
 template <>
 typename texture1_array::size_type TestTextureBase<texture1_array>::computeMipMapSize(
-  const typename texture1_array::size_type& size, uint mipMapLevel)
+  const typename texture1_array::size_type& size, uint mipmap_level)
 {
-  texture1_array::size_type retval = size / std::pow(2, mipMapLevel);
+  texture1_array::size_type retval = size / std::pow(2, mipmap_level);
   retval.y() = size.y();
   return retval;
 }
@@ -128,18 +128,18 @@ typename texture1_array::size_type TestTextureBase<texture1_array>::computeMipMa
 
 template <>
 typename texture2::size_type TestTextureBase<texture2>::computeMipMapSize(
-  const typename texture2::size_type& size, uint mipMapLevel)
+  const typename texture2::size_type& size, uint mipmap_level)
 {
-  return size / std::pow(2, mipMapLevel);
+  return size / std::pow(2, mipmap_level);
 }
 
 
 
 template <>
 typename texture2_array::size_type TestTextureBase<texture2_array>::computeMipMapSize(
-  const typename texture2_array::size_type& size, uint mipMapLevel)
+  const typename texture2_array::size_type& size, uint mipmap_level)
 {
-  texture2_array::size_type retval = size / std::pow(2, mipMapLevel);
+  texture2_array::size_type retval = size / std::pow(2, mipmap_level);
   retval.z() = size.z();
   return retval;
 }
@@ -148,9 +148,9 @@ typename texture2_array::size_type TestTextureBase<texture2_array>::computeMipMa
 
 template <>
 typename texture3::size_type TestTextureBase<texture3>::computeMipMapSize(
-  const typename texture3::size_type& size, uint mipMapLevel)
+  const typename texture3::size_type& size, uint mipmap_level)
 {
-  return size / std::pow(2, mipMapLevel);
+  return size / std::pow(2, mipmap_level);
 }
 
 

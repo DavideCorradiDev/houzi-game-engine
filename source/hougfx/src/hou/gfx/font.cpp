@@ -9,8 +9,8 @@
 
 #include "hou/cor/error.hpp"
 
-#include "hou/mth/rectangle.hpp"
 #include "hou/mth/matrix.hpp"
+#include "hou/mth/rectangle.hpp"
 
 #include "hou/sys/binary_file_in.hpp"
 
@@ -29,23 +29,22 @@ namespace hou
 namespace
 {
 
-static constexpr float pf266ToPixelFactor = 1.f / 64.f;
+static constexpr float pf266_to_pixel_factor = 1.f / 64.f;
 
-class FtLibraryWrapper
-  : public non_copyable
+class ft_library_wrapper : public non_copyable
 {
 public:
-  FtLibraryWrapper();
-  ~FtLibraryWrapper();
+  ft_library_wrapper();
+  ~ft_library_wrapper();
   FT_Library library;
 };
 
 // FT_Library is a pointer, can return by value.
-FT_Library getFtLibrary();
+FT_Library get_ft_library();
 
 
 
-FtLibraryWrapper::FtLibraryWrapper()
+ft_library_wrapper::ft_library_wrapper()
   : non_copyable()
   , library(nullptr)
 {
@@ -55,7 +54,7 @@ FtLibraryWrapper::FtLibraryWrapper()
 
 
 
-FtLibraryWrapper::~FtLibraryWrapper()
+ft_library_wrapper::~ft_library_wrapper()
 {
   if(library != nullptr)
   {
@@ -68,15 +67,15 @@ FtLibraryWrapper::~FtLibraryWrapper()
 // Declaring a static thread_local variable inside a function causes a sef fault
 // at execution end. This is probably a minGW bug. Usnig a single global with
 // locks momentarily...
-std::mutex ftLibraryMutex;
+std::mutex ft_library_mutex;
 
-FT_Library getFtLibrary()
+FT_Library get_ft_library()
 {
-  static FtLibraryWrapper ftLibraryWrapper;
-  return ftLibraryWrapper.library;
+  static ft_library_wrapper wrapper;
+  return wrapper.library;
 }
 
-}
+}  // namespace
 
 
 
@@ -91,15 +90,15 @@ font::font(const span<const uint8_t>& data)
 
 
 
-font::font(not_null<std::unique_ptr<binary_stream_in>> fontStream)
+font::font(not_null<std::unique_ptr<binary_stream_in>> font_stream)
   : m_face()
   , m_face_index(0u)
   , m_pixel_height(10u)
   , m_data()
 {
-  fontStream->set_byte_pos(0u);
-  m_data.resize(fontStream->get_byte_count());
-  fontStream->read(m_data);
+  font_stream->set_byte_pos(0u);
+  m_data.resize(font_stream->get_byte_count());
+  font_stream->read(m_data);
   load();
 }
 
@@ -141,13 +140,13 @@ uint font::get_face_index() const
 
 
 
-void font::set_face_index(uint faceIndex)
+void font::set_face_index(uint face_index)
 {
-  if(m_face_index != faceIndex)
+  if(m_face_index != face_index)
   {
     HOU_EXPECT_DEV(m_face != nullptr);
-    HOU_EXPECT(faceIndex < get_face_index_count());
-    m_face_index = faceIndex;
+    HOU_EXPECT(face_index < get_face_index_count());
+    m_face_index = face_index;
     destroy();
     load();
   }
@@ -162,13 +161,13 @@ uint font::get_pixel_height() const
 
 
 
-void font::set_pixel_height(uint pixelHeight)
+void font::set_pixel_height(uint pixel_height)
 {
-  if(m_pixel_height != pixelHeight)
+  if(m_pixel_height != pixel_height)
   {
     HOU_EXPECT_DEV(m_face != nullptr);
-    m_pixel_height = pixelHeight;
-    HOU_ENSURE(FT_Set_Pixel_Sizes(m_face, 0, pixelHeight) == 0);
+    m_pixel_height = pixel_height;
+    HOU_ENSURE(FT_Set_Pixel_Sizes(m_face, 0, pixel_height) == 0);
   }
 }
 
@@ -209,13 +208,12 @@ bool font::is_scalable() const
 recti font::get_glyph_bounding_box() const
 {
   HOU_EXPECT_DEV(m_face != nullptr);
-  return recti
-    ( FT_MulFix(m_face->bbox.xMin, m_face->size->metrics.x_scale)
-    , FT_MulFix(m_face->bbox.yMin, m_face->size->metrics.y_scale)
-    , FT_MulFix(m_face->bbox.xMax - m_face->bbox.xMin
-      , m_face->size->metrics.x_scale)
-    , FT_MulFix(m_face->bbox.yMax - m_face->bbox.yMin
-      , m_face->size->metrics.y_scale));
+  return recti(FT_MulFix(m_face->bbox.xMin, m_face->size->metrics.x_scale),
+    FT_MulFix(m_face->bbox.yMin, m_face->size->metrics.y_scale),
+    FT_MulFix(
+      m_face->bbox.xMax - m_face->bbox.xMin, m_face->size->metrics.x_scale),
+    FT_MulFix(
+      m_face->bbox.yMax - m_face->bbox.yMin, m_face->size->metrics.y_scale));
 }
 
 
@@ -223,8 +221,9 @@ recti font::get_glyph_bounding_box() const
 rectf font::get_pixel_glyph_bounding_box() const
 {
   recti pf266Rect = get_glyph_bounding_box();
-  return rectf(static_cast<vec2f>(pf266Rect.get_position()) * pf266ToPixelFactor,
-    static_cast<vec2f>(pf266Rect.get_size()) * pf266ToPixelFactor);
+  return rectf(
+    static_cast<vec2f>(pf266Rect.get_position()) * pf266_to_pixel_factor,
+    static_cast<vec2f>(pf266Rect.get_size()) * pf266_to_pixel_factor);
 }
 
 
@@ -239,7 +238,7 @@ int font::get_line_spacing() const
 
 float font::get_pixel_line_spacing() const
 {
-  return static_cast<float>(get_line_spacing()) * pf266ToPixelFactor;
+  return static_cast<float>(get_line_spacing()) * pf266_to_pixel_factor;
 }
 
 
@@ -254,7 +253,7 @@ int font::get_max_advance() const
 
 float font::get_pixel_max_advance() const
 {
-  return static_cast<float>(get_max_advance()) * pf266ToPixelFactor;
+  return static_cast<float>(get_max_advance()) * pf266_to_pixel_factor;
 }
 
 
@@ -269,7 +268,8 @@ int font::get_max_horizontal_advance() const
 
 float font::get_pixel_max_horizontal_advance() const
 {
-  return static_cast<float>(get_max_horizontal_advance()) * pf266ToPixelFactor;
+  return static_cast<float>(get_max_horizontal_advance())
+    * pf266_to_pixel_factor;
 }
 
 
@@ -283,7 +283,7 @@ int font::get_max_vertical_advance() const
 
 float font::get_pixel_max_vertical_advance() const
 {
-  return static_cast<float>(get_max_vertical_advance()) * pf266ToPixelFactor;
+  return static_cast<float>(get_max_vertical_advance()) * pf266_to_pixel_factor;
 }
 
 
@@ -296,34 +296,41 @@ uint font::get_glyph_count() const
 
 
 
-glyph font::get_glyph(utf32::code_unit charCode) const
+glyph font::get_glyph(utf32::code_unit char_code) const
 {
   HOU_EXPECT_DEV(m_face != nullptr);
-  HOU_ENSURE(FT_Load_Char(m_face, charCode, FT_LOAD_RENDER) == 0);
+  HOU_ENSURE(FT_Load_Char(m_face, char_code, FT_LOAD_RENDER) == 0);
 
   const auto& g = m_face->glyph;
 
-  vec2u bmpSize(g->bitmap.width, g->bitmap.rows);
+  vec2u bmp_size(g->bitmap.width, g->bitmap.rows);
 
   vec2u size(vec2<long>(g->metrics.width, g->metrics.height));
 
-  vec2i horiBearing = has_horizontal()
+  vec2i hori_bearing = has_horizontal()
     ? vec2i(g->metrics.horiBearingX, -g->metrics.horiBearingY)
     : vec2i::zero();
-  int horiAdvance = has_horizontal() ? g->metrics.horiAdvance : 0;
+  int hori_advance = has_horizontal() ? g->metrics.horiAdvance : 0;
 
-  vec2i vertBearing = has_vertical()
+  vec2i vert_bearing = has_vertical()
     ? vec2i(g->metrics.vertBearingX, -g->metrics.vertBearingY)
     : vec2i::zero();
-  int vertAdvance = has_vertical() ? g->metrics.vertAdvance : 0;
+  int vert_advance = has_vertical() ? g->metrics.vertAdvance : 0;
 
-  return glyph
-    ( image2R
-      ( bmpSize
-      , span<const image2R::pixel>
-        ( reinterpret_cast<image2R::pixel*>(g->bitmap.buffer)
-        , bmpSize.x() * bmpSize.y()))
-    , glyph_metrics(size, horiBearing, horiAdvance, vertBearing, vertAdvance));
+  // clang-format off
+  return glyph(
+    image2R(
+      bmp_size,
+      span<const image2R::pixel>(
+        reinterpret_cast<image2R::pixel*>(g->bitmap.buffer),
+        bmp_size.x() * bmp_size.y())),
+    glyph_metrics(
+      size,
+      hori_bearing,
+      hori_advance,
+      vert_bearing,
+      vert_advance));
+  // clang-format on
 }
 
 
@@ -331,18 +338,20 @@ glyph font::get_glyph(utf32::code_unit charCode) const
 vec2i font::get_kerning(utf32::code_unit first, utf32::code_unit second) const
 {
   FT_Vector kerning;
-  FT_UInt firstIndex = FT_Get_Char_Index(m_face, first);
-  FT_UInt secondIndex = FT_Get_Char_Index(m_face, second);
-  HOU_ENSURE(FT_Get_Kerning(m_face, firstIndex, secondIndex
-    , FT_KERNING_DEFAULT, &kerning) == 0);
+  FT_UInt first_index = FT_Get_Char_Index(m_face, first);
+  FT_UInt second_index = FT_Get_Char_Index(m_face, second);
+  HOU_ENSURE(FT_Get_Kerning(
+               m_face, first_index, second_index, FT_KERNING_DEFAULT, &kerning)
+    == 0);
   return vec2i(kerning.x, kerning.y);
 }
 
 
 
-vec2f font::get_pixel_kerning(utf32::code_unit first, utf32::code_unit second) const
+vec2f font::get_pixel_kerning(
+  utf32::code_unit first, utf32::code_unit second) const
 {
-  return static_cast<vec2f>(get_kerning(first, second)) * pf266ToPixelFactor;
+  return static_cast<vec2f>(get_kerning(first, second)) * pf266_to_pixel_factor;
 }
 
 
@@ -350,11 +359,13 @@ vec2f font::get_pixel_kerning(utf32::code_unit first, utf32::code_unit second) c
 void font::load()
 {
   HOU_EXPECT_DEV(m_face == nullptr);
-  FT_Library ftLibrary = getFtLibrary();
+  FT_Library ftLibrary = get_ft_library();
   {
-    std::lock_guard<std::mutex> lock(ftLibraryMutex);
-    HOU_RUNTIME_CHECK(FT_New_Memory_Face(ftLibrary, m_data.data(), m_data.size()
-      , m_face_index, &m_face) == 0, get_text(gfx_error::font_load_face));
+    std::lock_guard<std::mutex> lock(ft_library_mutex);
+    HOU_RUNTIME_CHECK(FT_New_Memory_Face(ftLibrary, m_data.data(),
+                        m_data.size(), m_face_index, &m_face)
+        == 0,
+      get_text(gfx_error::font_load_face));
   }
   HOU_EXPECT_DEV(m_face != nullptr);
 
@@ -370,10 +381,10 @@ void font::destroy()
 {
   HOU_EXPECT_DEV(m_face != nullptr);
   {
-    std::lock_guard<std::mutex> lock(ftLibraryMutex);
+    std::lock_guard<std::mutex> lock(ft_library_mutex);
     HOU_ENSURE_FATAL(FT_Done_Face(m_face) == 0);
   }
   m_face = nullptr;
 }
 
-}
+}  // namespace hou

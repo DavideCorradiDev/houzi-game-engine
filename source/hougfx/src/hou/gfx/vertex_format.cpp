@@ -18,22 +18,22 @@ uint vertex_format::get_max_attrib_format_count()
 
 
 
-vertex_format::vertex_format(ptrdiff_t offset, uint stride,
-  const span<const vertex_attrib_format>& vertexAttribFormats)
+vertex_format::vertex_format(
+  ptrdiff_t offset, uint stride, const span<const vertex_attrib_format>& vafs)
   : m_offset(offset)
   , m_stride(stride)
-  , m_vertex_attrib_formats(vertexAttribFormats.begin(), vertexAttribFormats.end())
+  , m_vertex_attrib_formats(vafs.begin(), vafs.end())
 {
   HOU_EXPECT(m_vertex_attrib_formats.size() <= get_max_attrib_format_count());
 }
 
 
 
-vertex_format::vertex_format(ptrdiff_t offset, uint stride,
-  std::vector<vertex_attrib_format>&& vertexAttribFormats)
+vertex_format::vertex_format(
+  ptrdiff_t offset, uint stride, std::vector<vertex_attrib_format>&& vafs)
   : m_offset(offset)
   , m_stride(stride)
-  , m_vertex_attrib_formats(std::move(vertexAttribFormats))
+  , m_vertex_attrib_formats(std::move(vafs))
 {
   HOU_EXPECT(m_vertex_attrib_formats.size() <= get_max_attrib_format_count());
 }
@@ -54,8 +54,8 @@ uint vertex_format::get_stride() const
 
 
 
-const std::vector<vertex_attrib_format>& vertex_format::get_vertex_attrib_formats()
-  const
+const std::vector<vertex_attrib_format>&
+  vertex_format::get_vertex_attrib_formats() const
 {
   return m_vertex_attrib_formats;
 }
@@ -80,8 +80,10 @@ bool operator!=(const vertex_format& lhs, const vertex_format& rhs)
 
 std::ostream& operator<<(std::ostream& os, const vertex_format& vf)
 {
-  return os << "{Offset = " << vf.get_offset() << ", Stride = " << vf.get_stride()
-            << ", VertexAttribFormats = " << vf.get_vertex_attrib_formats() << "}";
+  return os << "{offset = " << vf.get_offset()
+            << ", stride = " << vf.get_stride()
+            << ", vertex_attrib_formats = " << vf.get_vertex_attrib_formats()
+            << "}";
 }
 
 }  // namespace hou

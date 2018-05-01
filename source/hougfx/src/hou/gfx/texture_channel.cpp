@@ -7,7 +7,7 @@
 #include "hou/cor/error.hpp"
 
 #define TEXTURE_CHANNEL_CASE(tc, os) \
-  case texture_channel::tc:           \
+  case texture_channel::tc: \
     return (os) << #tc
 
 
@@ -25,8 +25,8 @@ std::ostream& operator<<(std::ostream& os, texture_channel tc)
     TEXTURE_CHANNEL_CASE(a, os);
     TEXTURE_CHANNEL_CASE(zero, os);
     TEXTURE_CHANNEL_CASE(one, os);
-  default:
-    return os;
+    default:
+      return os;
   }
 }
 

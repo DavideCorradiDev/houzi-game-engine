@@ -20,11 +20,11 @@ void mesh::draw(const mesh& ph_mesh)
 
 
 
-mesh::mesh(mesh_draw_mode drawMode, mesh_fill_mode fillMode, uint vertexCount)
+mesh::mesh(mesh_draw_mode dm, mesh_fill_mode fm, uint vertex_count)
   : non_copyable()
-  , m_draw_mode(drawMode)
-  , m_fill_mode(fillMode)
-  , m_vertex_count(vertexCount)
+  , m_draw_mode(dm)
+  , m_fill_mode(fm)
+  , m_vertex_count(vertex_count)
   , m_vao()
 {}
 

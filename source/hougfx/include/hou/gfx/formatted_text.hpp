@@ -43,23 +43,27 @@ public:
   using VertexContainer = std::vector<text_vertex>;
 
 public:
-  /** Create a formatted_text with the given utf-8 string and formatting parameters.
+  /** Create a formatted_text with the given utf-8 string and formatting
+   * parameters.
    *
    * \param text the text.
-   * \param ph_font the ph_font.
+   * \param f the font.
    * \param tbfp the text box formatting parameters.
    */
-  formatted_text(const std::string& text, const font& ph_font,
-    const text_box_formatting_params& tbfp = text_box_formatting_params::standard);
+  formatted_text(const std::string& text, const font& f,
+    const text_box_formatting_params& tbfp
+    = text_box_formatting_params::standard);
 
-  /** Create a formatted_text with the given utf-32 string and formatting parameters.
+  /** Create a formatted_text with the given utf-32 string and formatting
+   * parameters.
    *
    * \param text the text.
-   * \param ph_font the ph_font.
+   * \param f the font.
    * \param tbfp the text box formatting parameters.
    */
-  formatted_text(std::u32string text, const font& ph_font,
-    const text_box_formatting_params& tbfp = text_box_formatting_params::standard);
+  formatted_text(std::u32string text, const font& f,
+    const text_box_formatting_params& tbfp
+    = text_box_formatting_params::standard);
 
   /** Move constructor.
    *

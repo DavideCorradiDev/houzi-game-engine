@@ -36,7 +36,9 @@ enum class texture_wrap_mode : GLenum
 /** Writes a texture_wrap_mode enum into a ph_stream.
  *
  *  \param os the ph_stream.
+ *
  *  \param twm the texture_wrap_mode enum.
+ *
  *  \return a reference to the ph_stream.
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, texture_wrap_mode twm);

@@ -35,9 +35,11 @@ enum class texture_channel : GLenum
 
 /** Writes a texture_channel enum into a ph_stream.
  *
- *  \param os the ph_stream.
- *  \param tc the texture_channel enum.
- *  \return a reference to the ph_stream.
+ * \param os the ph_stream.
+ *
+ * \param tc the texture_channel enum.
+ *
+ * \return a reference to the ph_stream.
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, texture_channel tc);
 

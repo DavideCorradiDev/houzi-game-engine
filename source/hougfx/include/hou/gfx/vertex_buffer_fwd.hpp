@@ -10,7 +10,7 @@ namespace hou
 
 class vertex_buffer;
 
-template <typename T, bool dynamicStorage>
+template <typename T, bool DynamicStorage>
 class vertex_buffer_t;
 
 template <typename T>

@@ -40,16 +40,19 @@ enum class texture_type : GLenum
 
   /** array_buffer of multisample two-dimensional textures. */
   multisample_texture2_array = GL_TEXTURE_2D_MULTISAMPLE_ARRAY,
-  // BufferTexture = GL_TEXTURE_BUFFER,
-  // RectangleTexture = GL_TEXTURE_RECTANGLE,
-  // CubeMapTexture = GL_TEXTURE_CUBE_MAP,
-  // CubeMapArrayTexture = GL_TEXTURE_CUBE_MAP_ARRAY,
+
+  // buffer_texture = GL_TEXTURE_BUFFER,
+  // rectangle_texture = GL_TEXTURE_RECTANGLE,
+  // cube_map_texture = GL_TEXTURE_CUBE_MAP,
+  // cube_map_array_texture = GL_TEXTURE_CUBE_MAP_ARRAY,
 };
 
 /** Writes the object into a ph_stream.
  *
  * \param os the ph_stream.
+ *
  * \param type the texture_type enum.
+ *
  * \return a reference to the ph_stream.
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, texture_type type);

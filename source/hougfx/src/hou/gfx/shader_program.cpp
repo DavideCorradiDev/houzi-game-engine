@@ -27,7 +27,8 @@ void shader_program::unbind()
 
 
 
-shader_program::shader_program(const vertex_shader& vs, const fragment_shader& fs)
+shader_program::shader_program(
+  const vertex_shader& vs, const fragment_shader& fs)
   : shader_program(vs, fs, nullptr)
 {}
 
@@ -66,10 +67,10 @@ bool shader_program::is_bound() const
 
 
 
-uint shader_program::get_uniform_location(const std::string& uniformName) const
+uint shader_program::get_uniform_location(const std::string& uniform_name) const
 {
   return static_cast<uint>(
-    gl::get_program_uniform_location(m_handle, uniformName.c_str()));
+    gl::get_program_uniform_location(m_handle, uniform_name.c_str()));
 }
 
 

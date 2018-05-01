@@ -11,9 +11,9 @@ const text_box_formatting_params text_box_formatting_params::standard(
 
 
 text_box_formatting_params::text_box_formatting_params(
-  text_flow textFlow, const vec2f& maxSize)
-  : m_text_flow(textFlow)
-  , m_max_size(maxSize)
+  text_flow text_flow, const vec2f& max_size)
+  : m_text_flow(text_flow)
+  , m_max_size(max_size)
 {}
 
 

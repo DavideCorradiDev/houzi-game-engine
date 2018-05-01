@@ -19,13 +19,35 @@
 namespace hou
 {
 
+/** Represents a generic interface for a shader.
+ */
 class HOU_GFX_API shader : public non_copyable
 {
 public:
+  /** Creates a shader with the given source code and type.
+   *
+   * Throws if the source code cannot be compiled.
+   *
+   * \param source the shader source code.
+   *
+   * \param type the shader type.
+   */
   shader(const std::string& source, shader_type type);
+
+  /** Move constructor.
+   *
+   * \param other the other shader.
+   */
   shader(shader&& other);
+
+  /** Destructor.
+   */
   virtual ~shader() = 0;
 
+  /** Retrieves the OpenGL shader handle.
+   *
+   * \return the OpenGL shader handle.
+   */
   const gl::shader_handle& get_handle() const;
 
 private:
@@ -34,11 +56,26 @@ private:
 
 
 
-template <shader_type type>
+/** Represents a concrete instance of a type of shader.
+ *
+ * \tparam Type the shader type.
+ */
+template <shader_type Type>
 class HOU_GFX_API shader_t : public shader
 {
 public:
+  /** Creates a shader with the given source code.
+   *
+   * Throws if the source code cannot be compiled.
+   *
+   * \param source the shader source code.
+   */
   explicit shader_t(const std::string& source);
+
+  /** Move constructor.
+   *
+   * \param other the other shader.
+   */
   shader_t(shader_t&& other);
 };
 

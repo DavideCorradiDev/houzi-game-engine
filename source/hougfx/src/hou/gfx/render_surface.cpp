@@ -60,15 +60,15 @@ uint render_surface::get_max_sample_count()
 
 
 
-render_surface::render_surface(const vec2u& size, uint sampleCount)
+render_surface::render_surface(const vec2u& size, uint sample_count)
   : non_copyable()
   , m_framebuffer()
   , m_color_attachment(nullptr)
   , m_depth_stencil_attachment(nullptr)
-  , m_sample_count(sampleCount)
+  , m_sample_count(sample_count)
   , m_viewport(recti(0, 0, size.x(), size.y()))
 {
-  build_framebuffer(size, sampleCount);
+  build_framebuffer(size, sample_count);
 }
 
 
@@ -136,8 +136,8 @@ void render_surface::clear(const color& color)
 {
   set_current_render_target(*this);
 
-  gl::set_clear_color(
-    color.get_red_f(), color.get_green_f(), color.get_blue_f(), color.get_alpha_f());
+  gl::set_clear_color(color.get_red_f(), color.get_green_f(),
+    color.get_blue_f(), color.get_alpha_f());
   gl::set_clear_depth(1.f);
   gl::set_clear_stencil(0u);
   gl::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -149,7 +149,8 @@ texture2 render_surface::to_texture() const
 {
   texture2 tex(get_size());
   recti blitRect(vec2i::zero(), static_cast<vec2i>(get_size()));
-  blit(m_framebuffer, blitRect, tex, blitRect, framebuffer_blit_filter::nearest);
+  blit(
+    m_framebuffer, blitRect, tex, blitRect, framebuffer_blit_filter::nearest);
   return tex;
 }
 
@@ -169,65 +170,66 @@ bool render_surface::is_current_render_target() const
 
 
 
-void render_surface::build_framebuffer(const vec2u& size, uint sampleCount)
+void render_surface::build_framebuffer(const vec2u& size, uint sample_count)
 {
   HOU_ENSURE_DEV(graphic_context::get_rendering_color_byte_count() == 4u);
   HOU_ENSURE_DEV(graphic_context::get_rendering_depth_byte_count() == 3u);
   HOU_ENSURE_DEV(graphic_context::get_rendering_stencil_byte_count() == 1u);
-  HOU_EXPECT(sampleCount > 0u);
+  HOU_EXPECT(sample_count > 0u);
 
-  m_sample_count = sampleCount;
-  if(sampleCount <= 1)
+  m_sample_count = sample_count;
+  if(sample_count <= 1)
   {
-    static constexpr uint mipMapLevelCount = 1u;
-    m_color_attachment
-      = std::make_unique<texture2>(size, texture_format::rgba, mipMapLevelCount);
+    static constexpr uint mipmap_level_count = 1u;
+    m_color_attachment = std::make_unique<texture2>(
+      size, texture_format::rgba, mipmap_level_count);
     m_depth_stencil_attachment = std::make_unique<texture2>(
-      size, texture_format::depth_stencil, mipMapLevelCount);
+      size, texture_format::depth_stencil, mipmap_level_count);
   }
   else
   {
-    static constexpr bool fixedSampleLocations = true;
+    static constexpr bool fixed_sample_locations = true;
     m_color_attachment = std::make_unique<multisample_texture2>(
-      size, texture_format::rgba, sampleCount, fixedSampleLocations);
-    m_depth_stencil_attachment = std::make_unique<multisample_texture2>(
-      size, texture_format::depth_stencil, sampleCount, fixedSampleLocations);
+      size, texture_format::rgba, sample_count, fixed_sample_locations);
+    m_depth_stencil_attachment = std::make_unique<multisample_texture2>(size,
+      texture_format::depth_stencil, sample_count, fixed_sample_locations);
   }
   HOU_ENSURE_DEV(m_color_attachment != nullptr);
   HOU_ENSURE_DEV(m_depth_stencil_attachment != nullptr);
 
-  static constexpr uint attachmentPoint = 0u;
-  static constexpr uint mipMapLevel = 0u;
+  static constexpr uint attachment_point = 0u;
+  static constexpr uint mipmap_level = 0u;
   m_framebuffer.set_color_attachment(
-    attachmentPoint, *m_color_attachment, mipMapLevel);
-  m_framebuffer.set_depth_stencil_attachment(*m_depth_stencil_attachment, mipMapLevel);
+    attachment_point, *m_color_attachment, mipmap_level);
+  m_framebuffer.set_depth_stencil_attachment(
+    *m_depth_stencil_attachment, mipmap_level);
 
   HOU_ENSURE_DEV(m_framebuffer.is_complete());
 }
 
 
 
-void blit(const render_surface& src, const recti& srcRect, render_surface& dst,
-  const recti& dstRect, framebuffer_blit_filter filter)
+void blit(const render_surface& src, const recti& src_rect, render_surface& dst,
+  const recti& dst_rect, framebuffer_blit_filter filter)
 {
-  blit(src.m_framebuffer, srcRect, dst.m_framebuffer, dstRect,
+  blit(src.m_framebuffer, src_rect, dst.m_framebuffer, dst_rect,
     framebuffer_blit_mask::all, filter);
 }
 
 
 
-void blit(const render_surface& src, const recti& srcRect, texture& dst,
-  const recti& dstRect, framebuffer_blit_filter filter)
+void blit(const render_surface& src, const recti& src_rect, texture& dst,
+  const recti& dst_rect, framebuffer_blit_filter filter)
 {
-  blit(src.m_framebuffer, srcRect, dst, dstRect, filter);
+  blit(src.m_framebuffer, src_rect, dst, dst_rect, filter);
 }
 
 
 
-void blit(const texture& src, const recti& srcRect, render_surface& dst,
-  const recti& dstRect, framebuffer_blit_filter filter)
+void blit(const texture& src, const recti& src_rect, render_surface& dst,
+  const recti& dst_rect, framebuffer_blit_filter filter)
 {
-  blit(src, srcRect, dst.m_framebuffer, dstRect, filter);
+  blit(src, src_rect, dst.m_framebuffer, dst_rect, filter);
 }
 
 }  // namespace hou

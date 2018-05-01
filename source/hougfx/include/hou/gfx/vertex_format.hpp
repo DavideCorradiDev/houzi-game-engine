@@ -32,32 +32,37 @@ public:
 public:
   /** span constructor.
    *
-   *  Creates a vertex_format with the specified offset, stride, and
+   * Creates a vertex_format with the specified offset, stride, and
    * vertex_attrib_format objects.
    *
-   *  \param offset the offset from the begining of the buffer in bytes.
-   *  \param stride the intervals at which the ph_vertex repeats in the buffer in
-   * bytes. \param vertexAttribFormats the format of the ph_vertex attributes.
+   * \param offset the offset from the begining of the buffer in bytes.
+   *
+   * \param stride the intervals at which the ph_vertex repeats in the buffer in
+   * bytes.
+   *
+   * \param vafs the format of the ph_vertex attributes.
    */
   vertex_format(ptrdiff_t offset, uint stride,
-    const span<const vertex_attrib_format>& vertexAttribFormats);
+    const span<const vertex_attrib_format>& vafs);
 
   /** vertex_attrib_format move constructor.
    *
-   *  Creates a vertex_format with the specified offset, stride, and
+   * Creates a vertex_format with the specified offset, stride, and
    * vertex_attrib_format objects.
    *
-   *  \param offset the offset from the begining of the buffer.
-   *  \param stride the intervals at which the ph_vertex repeats in the buffer.
-   *  \param vertexAttribFormats the format of the ph_vertex attributes.
+   * \param offset the offset from the begining of the buffer.
+   *
+   * \param stride the intervals at which the ph_vertex repeats in the buffer.
+   *
+   * \param vafs the format of the ph_vertex attributes.
    */
-  vertex_format(ptrdiff_t offset, uint stride,
-    std::vector<vertex_attrib_format>&& vertexAttribFormats);
+  vertex_format(
+    ptrdiff_t offset, uint stride, std::vector<vertex_attrib_format>&& vafs);
 
   /** Retrieves the offset of the ph_vertex from the beginning of the buffer in
    * bytes
    *
-   *  \return the offset of the ph_vertex from the beginning of the buffer in
+   * \return the offset of the ph_vertex from the beginning of the buffer in
    * bytes.
    */
   ptrdiff_t get_offset() const;
@@ -65,13 +70,14 @@ public:
   /** Retrieves the intervals at which the ph_vertex repeats in the buffer in
    * bytes.
    *
-   *  \return the intervals at which the ph_vertex repeats in the buffer in bytes.
+   * \return the intervals at which the ph_vertex repeats in the buffer in
+   * bytes.
    */
   uint get_stride() const;
 
   /** Retrieves the format of the ph_vertex attributes.
    *
-   *  \return the format of the ph_vertex attributes.
+   * \return the format of the ph_vertex attributes.
    */
   const std::vector<vertex_attrib_format>& get_vertex_attrib_formats() const;
 
@@ -83,25 +89,31 @@ private:
 
 /** Checks if two vertex_format objects are equal.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return the result of the check.
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return the result of the check.
  */
 HOU_GFX_API bool operator==(const vertex_format& lhs, const vertex_format& rhs);
 
 /** Checks if two vertex_format objects are not equal.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return the result of the check.
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return the result of the check.
  */
 HOU_GFX_API bool operator!=(const vertex_format& lhs, const vertex_format& rhs);
 
 /** Writes the object into a ph_stream.
  *
- *  \param os the ph_stream.
- *  \param vf the vertex_format.
- *  \return a reference to os.
+ * \param os the ph_stream.
+ *
+ * \param vf the vertex_format.
+ *
+ * \return a reference to os.
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, const vertex_format& vf);
 

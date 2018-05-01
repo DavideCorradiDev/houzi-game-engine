@@ -14,7 +14,8 @@ namespace hou
 
 class vertex2;
 
-template <typename vertex> class mesh_t;
+template <typename vertex>
+class mesh_t;
 
 /** mesh of vertex2.
  *
@@ -22,6 +23,6 @@ template <typename vertex> class mesh_t;
  */
 using mesh2 = mesh_t<vertex2>;
 
-}
+}  // namespace hou
 
 #endif

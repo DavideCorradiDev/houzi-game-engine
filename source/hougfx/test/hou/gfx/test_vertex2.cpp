@@ -173,7 +173,7 @@ TEST_F(TestMesh2, rectangle)
     vertex2(vec2f(0.f, 2.f), vec2f(0.f, 1.f), color::white),
     vertex2(vec2f(1.f, 2.f), vec2f(1.f, 1.f), color::white),
     vertex2(vec2f(1.f, 0.f), vec2f(1.f, 0.f), color::white)};
-  EXPECT_EQ(vertices_ref, m.getVertices());
+  EXPECT_EQ(vertices_ref, m.get_vertices());
 }
 
 
@@ -197,7 +197,7 @@ TEST_F(TestMesh2, RectangleOutline)
     vertex2(vec2f(4.f, 2.f), vec2f::zero(), color::white),
     vertex2(vec2f(0.f, 0.f), vec2f::zero(), color::white),
     vertex2(vec2f(2.f, 2.f), vec2f::zero(), color::white)};
-  EXPECT_EQ(vertices_ref, m.getVertices());
+  EXPECT_EQ(vertices_ref, m.get_vertices());
 }
 
 
@@ -221,7 +221,7 @@ TEST_F(TestMesh2, Ellipse)
     vertex2(vec2f(0.5f, 0.f), vec2f::zero(), color::white),
     vertex2(vec2f(0.853553f, 0.292893f), vec2f::zero(), color::white),
     vertex2(vec2f(1.f, 1.f), vec2f::zero(), color::white)};
-  HOU_EXPECT_CLOSE(vertices_ref, m.getVertices(), 1e-5f);
+  HOU_EXPECT_CLOSE(vertices_ref, m.get_vertices(), 1e-5f);
 }
 
 
@@ -253,7 +253,7 @@ TEST_F(TestMesh2, EllipseOutline)
     vertex2(vec2f(0.676777f, 0.46967f), vec2f::zero(), color::white),
     vertex2(vec2f(1.f, 1.f), vec2f::zero(), color::white),
     vertex2(vec2f(0.75f, 1.f), vec2f::zero(), color::white)};
-  HOU_EXPECT_CLOSE(vertices_ref, m.getVertices(), 1e-5f);
+  HOU_EXPECT_CLOSE(vertices_ref, m.get_vertices(), 1e-5f);
 }
 
 
@@ -272,5 +272,5 @@ TEST_F(TestMesh2, TextureQuad)
     vertex2(vec2f(0.f, 4.f), vec2f(0.25f, 0.75f), color::white),
     vertex2(vec2f(6.f, 4.f), vec2f(0.75f, 0.75f), color::white),
     vertex2(vec2f(6.f, 0.f), vec2f(0.75f, 0.5f), color::white)};
-  EXPECT_EQ(vertices_ref, m.getVertices());
+  EXPECT_EQ(vertices_ref, m.get_vertices());
 }

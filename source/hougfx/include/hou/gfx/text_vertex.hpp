@@ -23,9 +23,9 @@ class vertex_format;
 
 HOU_PRAGMA_PACK_PUSH(1)
 
-/** Represents a ph_vertex used to render text.
+/** Represents a vertex used to render text.
  *
- *  The ph_vertex contains information about its position and ph_texture coordinates.
+ * The vertex contains information about its position and texture coordinates.
  */
 class HOU_GFX_API text_vertex
 {
@@ -44,37 +44,38 @@ public:
    */
   text_vertex();
 
-  /** Builds a text_vertex object with the given position and ph_texture
+  /** Builds a text_vertex object with the given position and texture
    * coordinates.
    *
-   *  \param position the ph_vertex position.
-   *  \param textureCoordinates the ph_vertex ph_texture coordinates.
-   */
-  text_vertex(const vec2f& position, const vec3f& textureCoordinates);
-
-  /** Gets the ph_vertex position.
+   * \param position the vertex position.
    *
-   *  \return the ph_vertex position.
+   * \param tex_coords the vertex texture coordinates.
+   */
+  text_vertex(const vec2f& position, const vec3f& tex_coords);
+
+  /** Gets the vertex position.
+   *
+   * \return the vertex position.
    */
   vec2f get_position() const;
 
-  /** Sets the ph_vertex position.
+  /** Sets the vertex position.
    *
-   *  \param pos the ph_vertex position.
+   * \param pos the vertex position.
    */
   void set_position(const vec2f& pos);
 
-  /** Gets the ph_vertex ph_texture coordinates.
+  /** Gets the vertex texture coordinates.
    *
-   *  \return the ph_vertex ph_texture coordinates.
+   * \return the vertex texture coordinates.
    */
   vec3f get_texture_coordinates() const;
 
-  /** Sets the ph_vertex ph_texture coordinates.
+  /** Sets the vertex texture coordinates.
    *
-   *  \param textureCoordinates the ph_vertex ph_texture coordinates.
+   * \param tex_coords the vertex texture coordinates.
    */
-  void set_texture_coordinates(const vec3f& textureCoordinates);
+  void set_texture_coordinates(const vec3f& tex_coords);
 
 private:
   static constexpr size_t s_position_size = 2u;
@@ -89,26 +90,33 @@ HOU_PRAGMA_PACK_POP()
 
 /** Checks if two text_vertex objects are equal.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return true if the two objects are equal.
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return true if the two objects are equal.
  */
 HOU_GFX_API bool operator==(const text_vertex& lhs, const text_vertex& rhs);
 
 /** Checks if two text_vertex objects are not equal.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return true if the two objects are not equal.
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return true if the two objects are not equal.
  */
 HOU_GFX_API bool operator!=(const text_vertex& lhs, const text_vertex& rhs);
 
 /** Checks if two text_vertex objects are equal with the specified accuracy.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \param acc the accuracy.
- *  \return true if the two objects are equal.
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \param acc the accuracy.
+ *
+ * \return true if the two objects are equal.
  */
 HOU_GFX_API bool close(const text_vertex& lhs, const text_vertex& rhs,
   text_vertex::comparison_type acc
@@ -116,15 +124,17 @@ HOU_GFX_API bool close(const text_vertex& lhs, const text_vertex& rhs,
 
 /** Writes the object into a ph_stream.
  *
- *  \param os the ph_stream.
- *  \param v the text_vertex.
- *  \return a reference to os.
+ * \param os the ph_stream.
+ *
+ * \param v the text_vertex.
+ *
+ * \return a reference to os.
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, const text_vertex& v);
 
 /** mesh text_vertex.
  *
- *  Used to represent renderable text blocks.
+ * Used to represent renderable text blocks.
  */
 using text_mesh = mesh_t<text_vertex>;
 

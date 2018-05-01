@@ -34,44 +34,84 @@ public:
 
   /** Move constructor.
    *
-   *  \param other the other mesh2_shader_program.
+   * \param other the other mesh2_shader_program.
    */
   mesh2_shader_program(mesh2_shader_program&& other);
 
   /** Sets the color used when rendering Mesh2d objects.
    *
-   *  The default value is white.
+   * The default value is white.
    *
-   *  \param color the color.
+   * \param color the color.
    */
   void set_color(const color& color);
 
   /** Sets the ph_texture unit used when rendering Mesh2d objects.
    *
-   *  The default value is 0.
+   * The default value is 0.
    *
-   *  \param unit the ph_texture unit to be used.
+   * \param unit the ph_texture unit to be used.
    */
   void set_texture_unit(uint unit);
 
   /** Sets the transform to be used when rendering Mesh2d objects.
    *
-   *  The default is the identity transform.
+   * The default is the identity transform.
    *
-   *  \param trans the transform to be used.
+   * \param trans the transform to be used.
    */
   void set_transform(const trans2f& trans);
 
-  void draw(render_surface& target, const mesh2& ph_mesh, const texture2& tex,
+  /** Draws a mesh onto a render_surface with the given parameters.
+   *
+   * \param target the rendering target.
+   *
+   * \param m the mesh.
+   *
+   * \param tex the texture.
+   *
+   * \param col the color.
+   *
+   * \param trn the transform.
+   */
+  void draw(render_surface& target, const mesh2& m, const texture2& tex,
     const color& col = color::white, const trans2f& trn = trans2f::identity());
 
-  void draw(render_surface& target, const mesh2& ph_mesh,
+  /** Draws a mesh onto a render_surface with the given parameters.
+   *
+   * \param target the rendering target.
+   *
+   * \param m the mesh.
+   *
+   * \param col the color.
+   *
+   * \param trn the transform.
+   */
+  void draw(render_surface& target, const mesh2& m,
     const color& col = color::white, const trans2f& trn = trans2f::identity());
 
-  void draw(render_surface& target, const mesh2& ph_mesh, const texture2& tex,
+  /** Draws a mesh onto a render_surface with the given parameters.
+   *
+   * \param target the rendering target.
+   *
+   * \param m the mesh.
+   *
+   * \param tex the texture.
+   *
+   * \param trn the transform.
+   */
+  void draw(render_surface& target, const mesh2& m, const texture2& tex,
     const trans2f& trn);
 
-  void draw(render_surface& target, const mesh2& ph_mesh, const trans2f& trn);
+  /** Draws a mesh onto a render_surface with the given parameters.
+   *
+   * \param target the rendering target.
+   *
+   * \param m the mesh.
+   *
+   * \param trn the transform.
+   */
+  void draw(render_surface& target, const mesh2& m, const trans2f& trn);
 
 private:
   texture2 m_blank_texture;

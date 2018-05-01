@@ -8,7 +8,7 @@
 #include "hou/cor/error.hpp"
 
 #define TEXTURE_FILTER_CASE(tf, os) \
-  case texture_filter::tf:           \
+  case texture_filter::tf: \
     return (os) << #tf
 
 
@@ -24,8 +24,8 @@ std::ostream& operator<<(std::ostream& os, texture_filter tf)
     TEXTURE_FILTER_CASE(linear, os);
     TEXTURE_FILTER_CASE(bilinear, os);
     TEXTURE_FILTER_CASE(trilinear, os);
-  default:
-    return os;
+    default:
+      return os;
   }
 }
 

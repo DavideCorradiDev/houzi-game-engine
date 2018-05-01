@@ -29,23 +29,23 @@ class TestRenderCanvasDeathTest : public TestRenderCanvas
 
 
 
-image2RGBA generateBlitResultImage(const vec2u& dstSize, const recti& dstRect,
+image2RGBA generateBlitResultImage(const vec2u& dstSize, const recti& dst_rect,
   const color& dstColor, const color& srcColor);
 
 
 
-image2RGBA generateBlitResultImage(const vec2u& dstSize, const recti& dstRect,
+image2RGBA generateBlitResultImage(const vec2u& dstSize, const recti& dst_rect,
   const color& dstColor, const color& srcColor)
 {
   image2RGBA im_ref(dstSize);
   im_ref.clear(image2RGBA::pixel(dstColor.get_red(), dstColor.get_green(),
     dstColor.get_blue(), dstColor.get_alpha()));
 
-  uint xMax = std::min(static_cast<uint>(dstRect.r()), dstSize.x());
-  uint yMax = std::min(static_cast<uint>(dstRect.b()), dstSize.y());
-  for(uint y = dstRect.t(); y < yMax; ++y)
+  uint xMax = std::min(static_cast<uint>(dst_rect.r()), dstSize.x());
+  uint yMax = std::min(static_cast<uint>(dst_rect.b()), dstSize.y());
+  for(uint y = dst_rect.t(); y < yMax; ++y)
   {
-    for(uint x = dstRect.l(); x < xMax; ++x)
+    for(uint x = dst_rect.l(); x < xMax; ++x)
     {
       im_ref.set_pixel(vec2u(x, y),
         image2RGBA::pixel(srcColor.get_red(), srcColor.get_green(),
@@ -263,14 +263,14 @@ TEST_F(TestRenderCanvas, BlitDifferentSourceAndDestinationRect)
   render_canvas rsSrc(size);
   render_canvas rsDst(size);
 
-  recti srcRect(vec2i(1, 2), vec2i(2, 1));
-  recti dstRect(vec2i(0, 1), vec2i(2, 3));
+  recti src_rect(vec2i(1, 2), vec2i(2, 1));
+  recti dst_rect(vec2i(0, 1), vec2i(2, 3));
   color blitCol(3, 5, 8, 9);
   rsSrc.clear(blitCol);
-  blit(rsSrc, srcRect, rsDst, dstRect);
+  blit(rsSrc, src_rect, rsDst, dst_rect);
 
   image2RGBA im_ref
-    = generateBlitResultImage(size, dstRect, color::transparent, blitCol);
+    = generateBlitResultImage(size, dst_rect, color::transparent, blitCol);
   EXPECT_EQ(im_ref, rsDst.to_texture().get_image<pixel_format::rgba>());
 }
 
@@ -282,11 +282,11 @@ TEST_F(TestRenderCanvas, BlitOverFlowingSourceRect)
   render_canvas rsSrc(size);
   render_canvas rsDst(size);
 
-  recti srcRect(vec2i(2, 2), vec2i(2, 3));
-  recti dstRect(vec2i(0, 0), vec2i(2, 3));
+  recti src_rect(vec2i(2, 2), vec2i(2, 3));
+  recti dst_rect(vec2i(0, 0), vec2i(2, 3));
   color blitCol(3, 5, 8, 9);
   rsSrc.clear(blitCol);
-  blit(rsSrc, srcRect, rsDst, dstRect);
+  blit(rsSrc, src_rect, rsDst, dst_rect);
 
   image2RGBA im_ref = generateBlitResultImage(
     size, recti(0, 0, 1, 2), color::transparent, blitCol);
@@ -301,14 +301,14 @@ TEST_F(TestRenderCanvas, BlitOverFlowingDestinationRect)
   render_canvas rsSrc(size);
   render_canvas rsDst(size);
 
-  recti srcRect(vec2i(0, 0), vec2i(2, 3));
-  recti dstRect(vec2i(2, 2), vec2i(2, 3));
+  recti src_rect(vec2i(0, 0), vec2i(2, 3));
+  recti dst_rect(vec2i(2, 2), vec2i(2, 3));
   color blitCol(3, 5, 8, 9);
   rsSrc.clear(blitCol);
-  blit(rsSrc, srcRect, rsDst, dstRect);
+  blit(rsSrc, src_rect, rsDst, dst_rect);
 
   image2RGBA im_ref
-    = generateBlitResultImage(size, dstRect, color::transparent, blitCol);
+    = generateBlitResultImage(size, dst_rect, color::transparent, blitCol);
   EXPECT_EQ(im_ref, rsDst.to_texture().get_image<pixel_format::rgba>());
 }
 
@@ -320,11 +320,11 @@ TEST_F(TestRenderCanvas, BlitInvertedSourceRect)
   render_canvas rsSrc(size);
   render_canvas rsDst(size);
 
-  recti srcRect(vec2i(0, 1), vec2i(2, -3));
-  recti dstRect(vec2i(0, 0), vec2i(2, 3));
+  recti src_rect(vec2i(0, 1), vec2i(2, -3));
+  recti dst_rect(vec2i(0, 0), vec2i(2, 3));
   color blitCol(3, 5, 8, 9);
   rsSrc.clear(blitCol);
-  blit(rsSrc, srcRect, rsDst, dstRect);
+  blit(rsSrc, src_rect, rsDst, dst_rect);
 
   image2RGBA im_ref = generateBlitResultImage(
     size, recti(0, 0, 2, 1), color::transparent, blitCol);
@@ -339,11 +339,11 @@ TEST_F(TestRenderCanvas, BlitInvertedDestinationRect)
   render_canvas rsSrc(size);
   render_canvas rsDst(size);
 
-  recti srcRect(vec2i(0, 0), vec2i(2, 3));
-  recti dstRect(vec2i(0, 1), vec2i(2, -3));
+  recti src_rect(vec2i(0, 0), vec2i(2, 3));
+  recti dst_rect(vec2i(0, 1), vec2i(2, -3));
   color blitCol(3, 5, 8, 9);
   rsSrc.clear(blitCol);
-  blit(rsSrc, srcRect, rsDst, dstRect);
+  blit(rsSrc, src_rect, rsDst, dst_rect);
 
   image2RGBA im_ref = generateBlitResultImage(
     size, recti(0, 0, 2, 1), color::transparent, blitCol);
@@ -358,14 +358,14 @@ TEST_F(TestRenderCanvas, BlitDifferentSampleSizeSameRectSize)
   render_canvas rsSrc(size, 2u);
   render_canvas rsDst(size, 1u);
 
-  recti srcRect(vec2i(0, 0), vec2i(2, 3));
-  recti dstRect(vec2i(0, 0), vec2i(2, 3));
+  recti src_rect(vec2i(0, 0), vec2i(2, 3));
+  recti dst_rect(vec2i(0, 0), vec2i(2, 3));
   color blitCol(3, 5, 8, 9);
   rsSrc.clear(blitCol);
-  blit(rsSrc, srcRect, rsDst, dstRect);
+  blit(rsSrc, src_rect, rsDst, dst_rect);
 
   image2RGBA im_ref
-    = generateBlitResultImage(size, dstRect, color::transparent, blitCol);
+    = generateBlitResultImage(size, dst_rect, color::transparent, blitCol);
   EXPECT_EQ(im_ref, rsDst.to_texture().get_image<pixel_format::rgba>());
 }
 
@@ -377,11 +377,11 @@ TEST_F(TestRenderCanvas, BlitDifferentSampleSizeSameRectSizeInverted)
   render_canvas rsSrc(size, 2u);
   render_canvas rsDst(size, 1u);
 
-  recti srcRect(vec2i(0, 0), vec2i(2, 3));
-  recti dstRect(vec2i(0, 4), vec2i(2, -3));
+  recti src_rect(vec2i(0, 0), vec2i(2, 3));
+  recti dst_rect(vec2i(0, 4), vec2i(2, -3));
   color blitCol(3, 5, 8, 9);
   rsSrc.clear(blitCol);
-  blit(rsSrc, srcRect, rsDst, dstRect);
+  blit(rsSrc, src_rect, rsDst, dst_rect);
 
   image2RGBA im_ref = generateBlitResultImage(
     size, recti(0, 1, 2, 3), color::transparent, blitCol);
@@ -395,10 +395,10 @@ TEST_F(TestRenderCanvasDeathTest, BlitDifferentSampleSizeDifferentRectSize)
   render_canvas rsSrc(size, 2u);
   render_canvas rsDst(size, 1u);
 
-  recti srcRect(vec2i(0, 0), vec2i(2, 3));
-  recti dstRect(vec2i(0, 0), vec2i(1, 2));
+  recti src_rect(vec2i(0, 0), vec2i(2, 3));
+  recti dst_rect(vec2i(0, 0), vec2i(1, 2));
   rsSrc.clear(color::red);
-  HOU_EXPECT_PRECONDITION(blit(rsSrc, srcRect, rsDst, dstRect));
+  HOU_EXPECT_PRECONDITION(blit(rsSrc, src_rect, rsDst, dst_rect));
 }
 
 

@@ -34,9 +34,11 @@ namespace hou
 class HOU_GFX_API graphic_context : public non_copyable
 {
 public:
-  /** Sets this as the current ph_context for the current thread.
+  /** Sets this as the current context for the current thread.
+   *
+   * \param cts the context.
    */
-  static void set_current(graphic_context& ph_context);
+  static void set_current(graphic_context& ctx);
 
   /** Unsets the current graphic_context.
    */
@@ -70,9 +72,9 @@ public:
    */
   graphic_context(graphic_context&& other);
 
-  /** Checks if this ph_context is current in the current thread.
+  /** Checks if this context is current in the current thread.
    *
-   * \return true if this ph_context is current in the current thread.
+   * \return true if this context is current in the current thread.
    */
   bool is_current() const;
 
@@ -84,15 +86,15 @@ private:
   };
 
 private:
-  // Initializes some ph_context variables when binding the ph_context for the first
+  // Initializes some context variables when binding the context for the first
   // time. These variables should only be set the first time to provide a
-  // consistent "clean state" for the ph_context, but should not be set for
-  // subsequent bindings to prevent resetting the state of the ph_context.
+  // consistent "clean state" for the context, but should not be set for
+  // subsequent bindings to prevent resetting the state of the context.
   void initialize();
 
 private:
-  extension_initializer mExtensionInitializer;
-  system_window mDefaultWindow;
+  extension_initializer m_extension_initializer;
+  system_window m_default_window;
   gl::context gl_context;
   bool m_initialized;
 };

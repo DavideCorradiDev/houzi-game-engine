@@ -16,8 +16,8 @@ glyph::glyph()
 
 
 
-glyph::glyph(const image2R& ph_image, const glyph_metrics& metrics)
-  : m_image(ph_image)
+glyph::glyph(const image2R& im, const glyph_metrics& metrics)
+  : m_image(im)
   , m_metrics(metrics)
 {}
 
@@ -30,9 +30,9 @@ const image2R& glyph::get_image() const
 
 
 
-void glyph::set_image(const image2R& ph_image)
+void glyph::set_image(const image2R& im)
 {
-  m_image = ph_image;
+  m_image = im;
 }
 
 
@@ -53,7 +53,8 @@ void glyph::set_metrics(const glyph_metrics& metrics)
 
 bool operator==(const glyph& lhs, const glyph& rhs)
 {
-  return lhs.get_image() == rhs.get_image() && lhs.get_metrics() == rhs.get_metrics();
+  return lhs.get_image() == rhs.get_image()
+    && lhs.get_metrics() == rhs.get_metrics();
 }
 
 
@@ -67,11 +68,8 @@ bool operator!=(const glyph& lhs, const glyph& rhs)
 
 std::ostream& operator<<(std::ostream& os, const glyph& gm)
 {
-  return os
-    << "{image = " << gm.get_image()
-    << ", Metrics = " << gm.get_metrics()
-    << "}";
+  return os << "{image = " << gm.get_image()
+            << ", metrics = " << gm.get_metrics() << "}";
 }
 
-}
-
+}  // namespace hou

@@ -15,8 +15,8 @@
 
 #include "hou/gfx/mesh_draw_mode.hpp"
 #include "hou/gfx/mesh_fill_mode.hpp"
-#include "hou/gfx/vertex_buffer.hpp"
 #include "hou/gfx/vertex_array.hpp"
+#include "hou/gfx/vertex_buffer.hpp"
 
 #include <iostream>
 
@@ -25,25 +25,25 @@
 namespace hou
 {
 
-/** Represents a ph_mesh.
+/** Represents a mesh.
  *
- *  The ph_vertex information of a mesh object is stored in the VRAM.
- *  There must be a current ph_context to create a mesh object.
- *  a mesh object should be used only if the owning ph_context is current.
+ * The ph_vertex information of a mesh object is stored in the VRAM.
+ * There must be a current ph_context to create a mesh object.
+ * a mesh object should be used only if the owning ph_context is current.
  *
- *  \tparam T the type of ph_vertex stored by the ph_mesh.
+ * \tparam T the type of ph_vertex stored by the mesh.
  */
 class HOU_GFX_API mesh : public non_copyable
 {
 public:
   /** Draws a mesh object with the current ph_shader and ph_texture.
    *
-   *  The draw operation automatically binds the ph_mesh to the current
+   * The draw operation automatically binds the mesh to the current
    * graphic_context.
    *
-   *  \param ph_mesh the mesh to be drawn.
+   * \param m the mesh to be drawn.
    */
-  static void draw(const mesh& ph_mesh);
+  static void draw(const mesh& m);
 
 public:
   /** Destructor.
@@ -52,36 +52,38 @@ public:
 
   /** Gets the mesh_draw_mode.
    *
-   *  \return the mesh_draw_mode.
+   * \return the mesh_draw_mode.
    */
   mesh_draw_mode get_draw_mode() const;
 
   /** Gets the mesh_fill_mode.
    *
-   *  \return the mesh_fill_mode.
+   * \return the mesh_fill_mode.
    */
   mesh_fill_mode get_fill_mode() const;
 
-  /** Gets the number of vertices in the ph_mesh.
+  /** Gets the number of vertices in the mesh.
    *
-   *  \return the number of vertices in the ph_mesh.
+   * \return the number of vertices in the mesh.
    */
   uint get_vertex_count() const;
 
 protected:
   /** Generic constructor.
    *
-   *  To be used by derived classes.
+   * To be used by derived classes.
    *
-   *  \param drawMode the mesh_draw_mode.
-   *  \param fillMode the mesh_fill_mode.
-   *  \param vertexCount the number of vertices.
+   * \param dm the mesh_draw_mode.
+   *
+   * \param fm the mesh_fill_mode.
+   *
+   * \param vertex_count the number of vertices.
    */
-  mesh(mesh_draw_mode drawMode, mesh_fill_mode fillMode, uint vertexCount);
+  mesh(mesh_draw_mode dm, mesh_fill_mode fm, uint vertex_count);
 
   /** Move constructor.
    *
-   *  \param other the other mesh_t object.
+   * \param other the other mesh_t object.
    */
   mesh(mesh&& other);
 
@@ -92,13 +94,13 @@ protected:
   vertex_array m_vao;
 };
 
-/** Represents a ph_mesh.
+/** Represents a mesh.
  *
- *  The ph_vertex information of a mesh object is stored in the VRAM.
- *  There must be a current ph_context to create a mesh object.
- *  a mesh object should be used only if the owning ph_context is current.
+ * The ph_vertex information of a mesh object is stored in the VRAM.
+ * There must be a current ph_context to create a mesh object.
+ * a mesh object should be used only if the owning ph_context is current.
  *
- *  \tparam T the type of ph_vertex stored by the ph_mesh.
+ * \tparam T the type of ph_vertex stored by the mesh.
  */
 template <typename T>
 class mesh_t : public mesh
@@ -111,26 +113,28 @@ public:
   using vertex_collection = std::vector<T>;
 
 public:
-  /** Creates a mesh with the given mesh_draw_mode, mesh_fill_mode, and vertices.
+  /** Creates a mesh with the given mesh_draw_mode, mesh_fill_mode, and
+   * vertices.
    *
-   *  \param drawMode the mesh_draw_mode.
-   *  \param fillMode the mesh_fill_mode.
-   *  \param vertices the vertices.
+   * \param dm the mesh_draw_mode.
+   *
+   * \param fm the mesh_fill_mode.
+   *
+   * \param vertices the vertices.
    */
-  mesh_t(mesh_draw_mode drawMode, mesh_fill_mode fillMode,
-    const span<const T>& vertices);
+  mesh_t(mesh_draw_mode dm, mesh_fill_mode fm, const span<const T>& vertices);
 
   /** Move constructor.
    *
-   *  \param other the other mesh_t object.
+   * \param other the other mesh_t object.
    */
   mesh_t(mesh_t&& other);
 
-  /** Gets the vertices in the ph_mesh inside a vector.
+  /** Gets the vertices in the mesh inside a vector.
    *
-   *  \return a vector containing the vertices of the ph_mesh.
+   * \return a vector containing the vertices of the mesh.
    */
-  vertex_collection getVertices() const;
+  vertex_collection get_vertices() const;
 
 private:
   static_vertex_buffer<T> m_vbo;
@@ -139,28 +143,35 @@ private:
 
 /** Checks if two mesh objects are equal.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return true if the two objects are equal.
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return true if the two objects are equal.
  */
 template <typename T>
 bool operator==(const mesh_t<T>& lhs, const mesh_t<T>& rhs);
 
 /** Checks if two mesh_t objects are not equal.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return true if the two objects are not equal.
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return true if the two objects are not equal.
  */
 template <typename T>
 bool operator!=(const mesh_t<T>& lhs, const mesh_t<T>& rhs);
 
 /** Checks if two mesh_t objects are equal with the specified accuracy.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \param acc the accuracy.
- *  \return true if the two objects are equal.
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \param acc the accuracy.
+ *
+ * \return true if the two objects are equal.
  */
 template <typename T>
 bool close(const mesh_t<T>& lhs, const mesh_t<T>& rhs,
@@ -169,9 +180,11 @@ bool close(const mesh_t<T>& lhs, const mesh_t<T>& rhs,
 
 /** Writes the object into a ph_stream.
  *
- *  \param os the ph_stream.
- *  \param m the mesh_t.
- *  \return a reference to os.
+ * \param os the ph_stream.
+ *
+ * \param m the mesh_t.
+ *
+ * \return a reference to os.
  */
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const mesh_t<T>& m);

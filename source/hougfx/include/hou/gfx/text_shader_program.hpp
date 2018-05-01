@@ -37,15 +37,16 @@ public:
   void set_texture_unit(uint unit);
   void set_transform(const trans2f& trans);
 
-  void draw(render_surface& target, const text_mesh& ph_mesh,
+  void draw(render_surface& target, const text_mesh& m,
     const texture2_array& tex, const color& col = color::white,
     const trans2f& trn = trans2f::identity());
 
   void draw(render_surface& target, const formatted_text& text,
     const color& col = color::white, const trans2f& trn = trans2f::identity());
 
-  void draw(render_surface& target, const std::string& text, const font& ph_font,
-    const color& col = color::white, const trans2f& trn = trans2f::identity());
+  void draw(render_surface& target, const std::string& text,
+    const font& f, const color& col = color::white,
+    const trans2f& trn = trans2f::identity());
 
 private:
   int m_uni_color;

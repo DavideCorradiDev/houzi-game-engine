@@ -26,7 +26,6 @@ enum class gfx_error
  */
 HOU_GFX_API std::string get_text(gfx_error ec);
 
-}
+}  // namespace hou
 
 #endif
-

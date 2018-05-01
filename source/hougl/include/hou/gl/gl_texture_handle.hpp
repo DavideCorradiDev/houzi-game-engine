@@ -58,10 +58,10 @@ HOU_GL_API void set_texture_storage_3d(const texture_handle& tex,
   GLsizei depth);
 HOU_GL_API void set_texture_storage_2d_multisample(const texture_handle& tex,
   GLsizei samples, GLenum internalFormat, GLsizei width, GLsizei height,
-  GLboolean fixedSampleLocations);
+  GLboolean fixed_sample_locations);
 HOU_GL_API void set_texture_storage_3d_multisample(const texture_handle& tex,
   GLsizei samples, GLenum internalFormat, GLsizei width, GLsizei height,
-  GLsizei depth, GLboolean fixedSampleLocations);
+  GLsizei depth, GLboolean fixed_sample_locations);
 
 HOU_GL_API void set_texture_sub_image_1d(const texture_handle& tex, GLint level,
   GLint xoffset, GLsizei width, GLenum format, GLenum type, const void* pixels);

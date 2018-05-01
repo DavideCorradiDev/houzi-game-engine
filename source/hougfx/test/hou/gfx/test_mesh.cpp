@@ -116,7 +116,7 @@ TEST_F(TestMesh, Constructor)
   EXPECT_EQ(mesh_draw_mode::points, m.get_draw_mode());
   EXPECT_EQ(mesh_fill_mode::line, m.get_fill_mode());
   EXPECT_EQ(vertices_ref.size(), m.get_vertex_count());
-  EXPECT_EQ(vertices_ref, m.getVertices());
+  EXPECT_EQ(vertices_ref, m.get_vertices());
 }
 
 
@@ -134,7 +134,7 @@ TEST_F(TestMesh, MoveConstructor)
   EXPECT_EQ(mesh_draw_mode::points, m.get_draw_mode());
   EXPECT_EQ(mesh_fill_mode::line, m.get_fill_mode());
   EXPECT_EQ(vertices_ref.size(), m.get_vertex_count());
-  EXPECT_EQ(vertices_ref, m.getVertices());
+  EXPECT_EQ(vertices_ref, m.get_vertices());
 }
 
 

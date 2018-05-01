@@ -17,7 +17,8 @@ const vertex_format& text_vertex::get_vertex_format()
   static const vertex_format vf(0, sizeof(text_vertex),
     {vertex_attrib_format(gl_type::float_decimal, text_vertex::s_position_size,
        offsetof(text_vertex, m_position), !must_be_normalized),
-      vertex_attrib_format(gl_type::float_decimal, text_vertex::s_texture_coordinates_size,
+      vertex_attrib_format(gl_type::float_decimal,
+        text_vertex::s_texture_coordinates_size,
         offsetof(text_vertex, m_tex_coords), must_be_normalized)});
   return vf;
 }
@@ -30,9 +31,9 @@ text_vertex::text_vertex()
 
 
 
-text_vertex::text_vertex(const vec2f& position, const vec3f& texCoords)
+text_vertex::text_vertex(const vec2f& position, const vec3f& tex_coords)
   : m_position{position.x(), position.y()}
-  , m_tex_coords{texCoords.x(), texCoords.y(), texCoords.z()}
+  , m_tex_coords{tex_coords.x(), tex_coords.y(), tex_coords.z()}
 {}
 
 
@@ -59,11 +60,11 @@ vec3f text_vertex::get_texture_coordinates() const
 
 
 
-void text_vertex::set_texture_coordinates(const vec3f& texCoords)
+void text_vertex::set_texture_coordinates(const vec3f& tex_coords)
 {
-  m_tex_coords[0] = texCoords.x();
-  m_tex_coords[1] = texCoords.y();
-  m_tex_coords[2] = texCoords.z();
+  m_tex_coords[0] = tex_coords.x();
+  m_tex_coords[1] = tex_coords.y();
+  m_tex_coords[2] = tex_coords.z();
 }
 
 
@@ -83,8 +84,8 @@ bool operator!=(const text_vertex& lhs, const text_vertex& rhs)
 
 
 
-bool close(
-  const text_vertex& lhs, const text_vertex& rhs, text_vertex::comparison_type acc)
+bool close(const text_vertex& lhs, const text_vertex& rhs,
+  text_vertex::comparison_type acc)
 {
   return close(lhs.get_position(), rhs.get_position(), acc)
     && close(lhs.get_texture_coordinates(), rhs.get_texture_coordinates(), acc);
@@ -94,9 +95,9 @@ bool close(
 
 std::ostream& operator<<(std::ostream& os, const text_vertex& v)
 {
-  return os << "{Position = " << transpose(v.get_position())
-            << ", TextureCoordinates = " << transpose(v.get_texture_coordinates())
-            << "}";
+  return os << "{position = " << transpose(v.get_position())
+            << ", texture_coordinates = "
+            << transpose(v.get_texture_coordinates()) << "}";
 }
 
 }  // namespace hou

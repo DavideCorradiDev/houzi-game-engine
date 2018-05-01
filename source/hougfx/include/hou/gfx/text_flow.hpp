@@ -34,7 +34,9 @@ enum class text_flow
 /** Writes the object into a ph_stream.
  *
  * \param os the ph_stream.
+ *
  * \param tf the object.
+ *
  * \return a reference to os.
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, text_flow tf);

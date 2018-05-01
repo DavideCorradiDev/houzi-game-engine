@@ -16,15 +16,27 @@
 namespace hou
 {
 
+/** Target for vertex buffer binding.
+ */
 enum class vertex_buffer_target : GLenum
 {
+  /** Array buffer. */
   array_buffer = GL_ARRAY_BUFFER,
+  /** Element array buffer. */
   element_array_buffer = GL_ELEMENT_ARRAY_BUFFER,
 };
 
-HOU_GFX_API std::ostream& operator<<(std::ostream& os, vertex_buffer_target vbt);
+/** Writes the object into a ph_stream.
+ *
+ * \param os the ph_stream.
+ *
+ * \param vbt the vertex_buffer_target enum.
+ *
+ * \return a reference to the ph_stream.
+ */
+HOU_GFX_API std::ostream& operator<<(
+  std::ostream& os, vertex_buffer_target vbt);
 
-}
+}  // namespace hou
 
-#endif 
-
+#endif

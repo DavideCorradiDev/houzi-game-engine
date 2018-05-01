@@ -5,13 +5,13 @@
 #include "hou/gfx/text_flow.hpp"
 
 #define TEXT_FLOW_CASE(tf, os) \
-  case text_flow::tf:           \
+  case text_flow::tf: \
     return (os) << #tf
 
 namespace hou
 {
 
-std::ostream &operator<<(std::ostream &os, text_flow tf)
+std::ostream& operator<<(std::ostream& os, text_flow tf)
 {
   switch(tf)
   {
@@ -19,8 +19,8 @@ std::ostream &operator<<(std::ostream &os, text_flow tf)
     TEXT_FLOW_CASE(RightLeft, os);
     TEXT_FLOW_CASE(TopBottom, os);
     TEXT_FLOW_CASE(BottomTop, os);
-  default:
-    return os;
+    default:
+      return os;
   }
 }
 

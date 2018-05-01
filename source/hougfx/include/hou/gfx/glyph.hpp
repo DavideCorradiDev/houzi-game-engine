@@ -19,42 +19,46 @@
 namespace hou
 {
 
-/** Class describing a ph_glyph, including its metrics and its bitmap ph_image.
+/** Class describing a ph_glyph, including its metrics and its bitmap image.
  */
 class HOU_GFX_API glyph
 {
 public:
   /** default constructor.
    *
-   *  The ph_image is empty and the metrics are all null.
+   * The image is empty and the metrics are all null.
    */
   glyph();
 
-  /** Creates a glyph object with the given ph_image and metrics.
-   */
-  glyph(const image2R& ph_image, const glyph_metrics& metrics);
-
-  /** Gets the ph_image.
+  /** Creates a glyph object with the given image and metrics.
    *
-   *  \return the ph_image.
+   * \param im the image.
+   *
+   * \param metrics the metrics.
+   */
+  glyph(const image2R& im, const glyph_metrics& metrics);
+
+  /** Gets the image.
+   *
+   * \return the image.
    */
   const image2R& get_image() const;
 
-  /** Sets the ph_image.
+  /** Sets the image.
    *
-   *  \param ph_image the ph_image.
+   * \param im the image.
    */
-  void set_image(const image2R& ph_image);
+  void set_image(const image2R& im);
 
   /** Gets the metrics.
    *
-   *  \return the metrics.
+   * \return the metrics.
    */
   const glyph_metrics& get_metrics() const;
 
   /** Sets the metrics.
    *
-   *  \param metrics the metrics.
+   * \param metrics the metrics.
    */
   void set_metrics(const glyph_metrics& metrics);
 
@@ -65,29 +69,34 @@ private:
 
 /** Checks if two glyph objects are equal.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return true if the two objects are equal,
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return true if the two objects are equal,
  */
 HOU_GFX_API bool operator==(const glyph& lhs, const glyph& rhs);
 
 /** Checks if two glyph objects are not equal.
  *
- *  \param lhs the left operand.
- *  \param rhs the right operand.
- *  \return true if the two objects are not equal,
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return true if the two objects are not equal,
  */
 HOU_GFX_API bool operator!=(const glyph& lhs, const glyph& rhs);
 
 /** Writes a glyph object into a ph_stream.
  *
- *  \param os the output ph_stream.
- *  \param gm the object.
- *  \return a reference to os.
+ * \param os the output ph_stream.
+ *
+ * \param gm the object.
+ *
+ * \return a reference to os.
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, const glyph& gm);
 
-}
+}  // namespace hou
 
 #endif
-

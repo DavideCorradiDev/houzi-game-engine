@@ -11,7 +11,7 @@ namespace hou
 
 namespace
 {
-static constexpr float pf266ToPixelFactor = 1.f / 64.f;
+static constexpr float pf266_to_pixel_factor = 1.f / 64.f;
 }
 
 
@@ -26,13 +26,13 @@ glyph_metrics::glyph_metrics()
 
 
 
-glyph_metrics::glyph_metrics(const vec2u& size, const vec2i& horizontalBearing,
-  int horizontalAdvance, const vec2i& verticalBearing, int verticalAdvance)
+glyph_metrics::glyph_metrics(const vec2u& size, const vec2i& horizontal_bearing,
+  int horizontal_advance, const vec2i& vertical_bearing, int vertical_advance)
   : m_size(size)
-  , m_horizontal_bearing(horizontalBearing)
-  , m_horizontal_advance(horizontalAdvance)
-  , m_vertical_bearing(verticalBearing)
-  , m_vertical_advance(verticalAdvance)
+  , m_horizontal_bearing(horizontal_bearing)
+  , m_horizontal_advance(horizontal_advance)
+  , m_vertical_bearing(vertical_bearing)
+  , m_vertical_advance(vertical_advance)
 {}
 
 
@@ -46,7 +46,7 @@ const vec2u& glyph_metrics::get_size() const
 
 vec2f glyph_metrics::get_pixel_size() const
 {
-  return static_cast<vec2f>(m_size) * pf266ToPixelFactor;
+  return static_cast<vec2f>(m_size) * pf266_to_pixel_factor;
 }
 
 
@@ -67,14 +67,14 @@ const vec2i& glyph_metrics::get_horizontal_bearing() const
 
 vec2f glyph_metrics::get_pixel_horizontal_bearing() const
 {
-  return static_cast<vec2f>(m_horizontal_bearing) * pf266ToPixelFactor;
+  return static_cast<vec2f>(m_horizontal_bearing) * pf266_to_pixel_factor;
 }
 
 
 
-void glyph_metrics::setHorizontalBearing(const vec2i& horizontalBearing)
+void glyph_metrics::setHorizontalBearing(const vec2i& horizontal_bearing)
 {
-  m_horizontal_bearing = horizontalBearing;
+  m_horizontal_bearing = horizontal_bearing;
 }
 
 
@@ -88,14 +88,14 @@ int glyph_metrics::get_horizontal_advance() const
 
 float glyph_metrics::get_pixel_horizontal_advance() const
 {
-  return static_cast<float>(m_horizontal_advance) * pf266ToPixelFactor;
+  return static_cast<float>(m_horizontal_advance) * pf266_to_pixel_factor;
 }
 
 
 
-void glyph_metrics::set_horizontal_advance(int horizontalAdvance)
+void glyph_metrics::set_horizontal_advance(int horizontal_advance)
 {
-  m_horizontal_advance = horizontalAdvance;
+  m_horizontal_advance = horizontal_advance;
 }
 
 
@@ -109,14 +109,14 @@ const vec2i& glyph_metrics::get_vertical_bearing() const
 
 vec2f glyph_metrics::get_pixel_vertical_bearing() const
 {
-  return static_cast<vec2f>(m_vertical_bearing) * pf266ToPixelFactor;
+  return static_cast<vec2f>(m_vertical_bearing) * pf266_to_pixel_factor;
 }
 
 
 
-void glyph_metrics::set_vertical_bearing(const vec2i& verticalBearing)
+void glyph_metrics::set_vertical_bearing(const vec2i& vertical_bearing)
 {
-  m_vertical_bearing = verticalBearing;
+  m_vertical_bearing = vertical_bearing;
 }
 
 
@@ -130,14 +130,14 @@ int glyph_metrics::get_vertical_advance() const
 
 float glyph_metrics::get_pixel_vertical_advance() const
 {
-  return static_cast<float>(m_vertical_advance) * pf266ToPixelFactor;
+  return static_cast<float>(m_vertical_advance) * pf266_to_pixel_factor;
 }
 
 
 
-void glyph_metrics::set_vertical_advance(int verticalAdvance)
+void glyph_metrics::set_vertical_advance(int vertical_advance)
 {
-  m_vertical_advance = verticalAdvance;
+  m_vertical_advance = vertical_advance;
 }
 
 
@@ -163,10 +163,11 @@ bool operator!=(const glyph_metrics& lhs, const glyph_metrics& rhs)
 std::ostream& operator<<(std::ostream& os, const glyph_metrics& gm)
 {
   return os << "{size_type = " << transpose(gm.get_size())
-            << ", HorizontalBearing = " << transpose(gm.get_horizontal_bearing())
-            << ", HorizontalAdvance = " << gm.get_horizontal_advance()
-            << ", VerticalBearing = " << transpose(gm.get_vertical_bearing())
-            << ", VerticalAdvance = " << gm.get_vertical_advance() << "}";
+            << ", horizontal_bearing = "
+            << transpose(gm.get_horizontal_bearing())
+            << ", horizontal_advance = " << gm.get_horizontal_advance()
+            << ", vertical_bearing = " << transpose(gm.get_vertical_bearing())
+            << ", vertical_advance = " << gm.get_vertical_advance() << "}";
 }
 
 }  // namespace hou

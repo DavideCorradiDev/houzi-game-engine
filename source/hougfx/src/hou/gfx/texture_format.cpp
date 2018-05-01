@@ -5,13 +5,13 @@
 #include "hou/gfx/texture_format.hpp"
 
 #define TEXTURE_FORMAT_CASE(format, os) \
-  case texture_format::format:           \
+  case texture_format::format: \
     return (os) << #format
 
 namespace hou
 {
 
-std::ostream &operator<<(std::ostream &os, texture_format format)
+std::ostream& operator<<(std::ostream& os, texture_format format)
 {
   switch(format)
   {
@@ -22,8 +22,8 @@ std::ostream &operator<<(std::ostream &os, texture_format format)
     TEXTURE_FORMAT_CASE(depth, os);
     TEXTURE_FORMAT_CASE(stencil, os);
     TEXTURE_FORMAT_CASE(depth_stencil, os);
-  default:
-    return os;
+    default:
+      return os;
   }
 }
 

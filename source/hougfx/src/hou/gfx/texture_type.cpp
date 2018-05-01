@@ -5,7 +5,7 @@
 #include "hou/gfx/texture_type.hpp"
 
 #define TEXTURE_TYPE_CASE(type, os) \
-  case texture_type::type:           \
+  case texture_type::type: \
     return (os) << #type
 
 
@@ -24,8 +24,8 @@ std::ostream& operator<<(std::ostream& os, texture_type type)
     TEXTURE_TYPE_CASE(texture3, os);
     TEXTURE_TYPE_CASE(multisample_texture2, os);
     TEXTURE_TYPE_CASE(multisample_texture2_array, os);
-  default:
-    return os;
+    default:
+      return os;
   }
 }
 

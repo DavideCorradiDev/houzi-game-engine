@@ -38,7 +38,9 @@ enum class texture_format : GLenum
 /** Writes a texture_format enum into a ph_stream.
  *
  * \param os the ph_stream.
+ *
  * \param format the texture_format enum.
+ *
  * \return a reference to the ph_stream.
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, texture_format format);

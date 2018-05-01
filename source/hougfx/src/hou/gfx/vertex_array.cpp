@@ -12,9 +12,9 @@
 namespace hou
 {
 
-void vertex_array::bind(const vertex_array& vertexArray)
+void vertex_array::bind(const vertex_array& va)
 {
-  gl::bind_vertex_array(vertexArray.m_handle);
+  gl::bind_vertex_array(va.m_handle);
 }
 
 
@@ -62,15 +62,17 @@ bool vertex_array::is_bound() const
 
 
 void vertex_array::set_vertex_data(
-  const vertex_buffer& vb, uint bindingIndex, const vertex_format& vf)
+  const vertex_buffer& vb, uint binding_index, const vertex_format& vf)
 {
-  HOU_EXPECT(bindingIndex <= get_max_binding_index());
+  HOU_EXPECT(binding_index <= get_max_binding_index());
 
-  gl::set_vertex_array_vertex_buffer(m_handle, static_cast<GLuint>(bindingIndex),
-    vb.get_handle(), static_cast<GLintptr>(vf.get_offset()),
+  gl::set_vertex_array_vertex_buffer(m_handle,
+    static_cast<GLuint>(binding_index), vb.get_handle(),
+    static_cast<GLintptr>(vf.get_offset()),
     static_cast<GLsizei>(vf.get_stride()));
 
-  const std::vector<vertex_attrib_format>& vafs = vf.get_vertex_attrib_formats();
+  const std::vector<vertex_attrib_format>& vafs
+    = vf.get_vertex_attrib_formats();
   for(GLuint i = 0; i < vafs.size(); ++i)
   {
     gl::set_vertex_array_attrib_format(m_handle, static_cast<GLuint>(i),
@@ -79,7 +81,7 @@ void vertex_array::set_vertex_data(
       static_cast<GLboolean>(vafs[i].must_be_normalized()),
       static_cast<GLuint>(vafs[i].get_byte_offset()));
     gl::set_vertex_array_attrib_binding(
-      m_handle, static_cast<GLuint>(i), static_cast<GLuint>(bindingIndex));
+      m_handle, static_cast<GLuint>(i), static_cast<GLuint>(binding_index));
     gl::enable_vertex_array_attrib(m_handle, static_cast<GLuint>(i));
   }
 }

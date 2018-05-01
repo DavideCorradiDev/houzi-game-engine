@@ -39,15 +39,15 @@ const gl::shader_handle& shader::get_handle() const
 
 
 
-template <shader_type type>
-shader_t<type>::shader_t(const std::string& source)
-  : shader(source, type)
+template <shader_type Type>
+shader_t<Type>::shader_t(const std::string& source)
+  : shader(source, Type)
 {}
 
 
 
-template <shader_type type>
-shader_t<type>::shader_t(shader_t&& other)
+template <shader_type Type>
+shader_t<Type>::shader_t(shader_t&& other)
   : shader(std::move(other))
 {}
 

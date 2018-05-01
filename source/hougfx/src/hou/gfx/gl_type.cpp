@@ -7,7 +7,7 @@
 #include "hou/cor/basic_types.hpp"
 
 #define GFX_GL_TYPE_CASE(type, os) \
-  case gl_type::type:            \
+  case gl_type::type: \
     return (os) << #type
 
 
@@ -29,8 +29,8 @@ std::ostream& operator<<(std::ostream& os, gl_type type)
     GFX_GL_TYPE_CASE(float_decimal, os);
     GFX_GL_TYPE_CASE(double_decimal, os);
     GFX_GL_TYPE_CASE(fixed_decimal, os);
-  default:
-    return os;
+    default:
+      return os;
   }
 }
 

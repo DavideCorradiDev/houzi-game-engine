@@ -27,9 +27,9 @@ class HOU_GFX_API vertex_array : public non_copyable
 public:
   /** Binds the vertex_array to the current graphic_context.
    *
-   *  \param vertexArray the vertex_array to be bound.
+   * \param va the vertex_array to be bound.
    */
-  static void bind(const vertex_array& vertexArray);
+  static void bind(const vertex_array& va);
 
   /** Unbinds the currently bound vertex_array, if present.
    */
@@ -38,7 +38,7 @@ public:
   /** Retrieves the maximum number of vertex_buffer objects that can be bound to
    * a single vertex_array object.
    *
-   *  \return the maximum number of vertex_buffer objects that can be bound.
+   * \return the maximum number of vertex_buffer objects that can be bound.
    */
   static uint get_max_binding_index();
 
@@ -49,40 +49,42 @@ public:
 
   /** Move constructor.
    *
-   *  \param other the other vertex_array.
+   * \param other the other vertex_array.
    */
   vertex_array(vertex_array&& other);
 
   /** Retrieves the reference to the OpenGL ph_vertex array object.
    *
-   *  \return the reference to the OpenGL ph_vertex array object.
+   * \return the reference to the OpenGL ph_vertex array object.
    */
   const gl::vertex_array_handle& get_handle() const;
 
   /** Checks if the vertex_array is currently bound.
    *
-   *  \return the result of the check.
+   * \return the result of the check.
    */
   bool is_bound() const;
 
   /** Binds a vertex_buffer as a ph_vertex buffer.
    *
-   *  The data in the vertex_buffer represents ph_vertex data.
-   *  Throws if binding index is greater than the maximum binding index.
+   * The data in the vertex_buffer represents ph_vertex data.
+   * Throws if binding index is greater than the maximum binding index.
    *
-   *  \param vb the vertex_buffer to be bound.
-   *  \param bindingIndex the binding index to be used.
-   *  \param vf the format of the vertices contained in vb.
+   * \param vb the vertex_buffer to be bound.
+   *
+   * \param binding_index the binding index to be used.
+   *
+   * \param vf the format of the vertices contained in vb.
    */
   void set_vertex_data(
-    const vertex_buffer& vb, uint bindingIndex, const vertex_format& vf);
+    const vertex_buffer& vb, uint binding_index, const vertex_format& vf);
 
   /** Binds a vertex_buffer as an element buffer.
    *
-   *  The data in the vertex_buffer represents indices referring to element of
-   *  the bound ph_vertex buffer.
+   * The data in the vertex_buffer represents indices referring to element of
+   * the bound ph_vertex buffer.
    *
-   *  \param eb the vertex_buffer to be bound.
+   * \param eb the vertex_buffer to be bound.
    */
   void set_element_data(const vertex_buffer& eb);
 

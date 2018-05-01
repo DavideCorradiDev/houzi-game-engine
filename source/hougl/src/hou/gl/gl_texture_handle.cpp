@@ -304,12 +304,12 @@ void set_texture_storage_3d(const texture_handle& tex, GLsizei levels,
 
 void set_texture_storage_2d_multisample(const texture_handle& tex,
   GLsizei samples, GLenum internalFormat, GLsizei width, GLsizei height,
-  GLboolean fixedSampleLocations)
+  GLboolean fixed_sample_locations)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
   glTextureStorage2DMultisample(tex.get_name(), samples, internalFormat, width,
-    height, fixedSampleLocations);
+    height, fixed_sample_locations);
   HOU_GL_CHECK_ERROR();
 }
 
@@ -317,12 +317,12 @@ void set_texture_storage_2d_multisample(const texture_handle& tex,
 
 void set_texture_storage_3d_multisample(const texture_handle& tex,
   GLsizei samples, GLenum internalFormat, GLsizei width, GLsizei height,
-  GLsizei depth, GLboolean fixedSampleLocations)
+  GLsizei depth, GLboolean fixed_sample_locations)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
   glTextureStorage3DMultisample(tex.get_name(), samples, internalFormat, width,
-    height, depth, fixedSampleLocations);
+    height, depth, fixed_sample_locations);
   HOU_GL_CHECK_ERROR();
 }
 

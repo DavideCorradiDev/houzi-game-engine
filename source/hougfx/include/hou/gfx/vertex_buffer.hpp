@@ -33,63 +33,68 @@ class HOU_GFX_API vertex_buffer : public non_copyable
 public:
   /** Binds the vertex_buffer to the current graphic_context.
    *
-   *  \param buffer the vertex_buffer to be bound.
-   *  \param target the target to bound the buffer to.
+   * \param buffer the vertex_buffer to be bound.
+   *
+   * \param target the target to bound the buffer to.
    */
   static void bind(const vertex_buffer& buffer, vertex_buffer_target target);
 
   /** Unbinds the vertex_buffer for the given target, if present.
    *
-   *  \param target the target.
+   * \param target the target.
    */
   static void unbind(vertex_buffer_target target);
 
 public:
   /** Retrieves the reference to the OpenGL buffer.
    *
-   *  \return the reference to the OpenGL buffer.
+   * \return the reference to the OpenGL buffer.
    */
   const gl::buffer_handle& get_handle() const;
 
   /** Checks if this vertex_buffer is bound to the given target.
    *
-   *  \target target the target to check.
-   *  \return the result of the check.
+   * \target target the target to check.
+   *
+   * \return the result of the check.
    */
   bool is_bound(vertex_buffer_target target) const;
 
   /** Returns the number of bytes used by the vertex_buffer.
    *
-   *  \return the number of bytes used by the vertex_buffer.
+   * \return the number of bytes used by the vertex_buffer.
    */
   uint get_byte_count() const;
 
 protected:
   /** size_type constructor.
    *
-   *  Builds a vertex_buffer with the given size.
-   *  The buffer is initialized to 0.
+   * Builds a vertex_buffer with the given size.
+   * The buffer is initialized to 0.
    *
-   *  \param size the size of the buffer in bytes.
-   *  \param dynamicStorage if true, the vertex_buffer is modifiable, otherwise
+   * \param size the size of the buffer in bytes.
+   *
+   * \param dynamic_storage if true, the vertex_buffer is modifiable, otherwise
    * it is not.
    */
-  vertex_buffer(uint byte_count, bool dynamicStorage);
+  vertex_buffer(uint byte_count, bool dynamic_storage);
 
   /** Data constructor
    *
-   *  Builds a vertex_buffer with the given data.
+   * Builds a vertex_buffer with the given data.
    *
-   *  \param byte_count the size of the buffer in bytes.
-   *  \param data a pointer to a data buffer.
-   *  \param dynamicStorage if true, the vertex_buffer is modifiable, otherwise
+   * \param byte_count the size of the buffer in bytes.
+   *
+   * \param data a pointer to a data buffer.
+   *
+   * \param dynamic_storage if true, the vertex_buffer is modifiable, otherwise
    * it is not.
    */
-  vertex_buffer(uint byte_count, const void* data, bool dynamicStorage);
+  vertex_buffer(uint byte_count, const void* data, bool dynamic_storage);
 
   /** Move constructor.
    *
-   *  \param other the other vertex_buffer.
+   * \param other the other vertex_buffer.
    */
   vertex_buffer(vertex_buffer&& other);
 
@@ -100,91 +105,99 @@ private:
 
 /** Represents a concrete instance of a type of graphical memory buffer.
  *
- *  \tparam T the type of objects stored in the buffer.
- *  \tparam dynamicStorage if true, the buffer can be modified after creation.
- *  If false, this is not possible.
+ * \tparam T the type of objects stored in the buffer.
+ *
+ * \tparam DynamicStorage if true, the buffer can be modified after creation.
+ * If false, this is not possible.
  */
-template <typename T, bool dynamicStorage = false>
+template <typename T, bool DynamicStorage = false>
 class vertex_buffer_t : public vertex_buffer
 {
 public:
   /** Type of the objects stored in the buffer. */
-  using ValueType = T;
+  using value_type = T;
 
   /** Type representing the whole data stored in the buffer. */
-  using DataType = std::vector<T>;
+  using data_type = std::vector<T>;
 
 public:
   /** size_type constructor.
    *
-   *  Builds a vertex_buffer with the given number of elements of type T.
-   *  The buffer is initialized to 0.
+   * Builds a vertex_buffer with the given number of elements of type T.
+   * The buffer is initialized to 0.
    *
-   *  \param size the number of elements composing the buffer.
+   * \param size the number of elements composing the buffer.
    */
   vertex_buffer_t(uint size);
 
   /** Data constructor.
    *
-   *  Builds a vertex_buffer with the given data.
+   * Builds a vertex_buffer with the given data.
    *
-   *  \param data the data.
+   * \param data the data.
    */
   vertex_buffer_t(const span<const T>& data);
 
   /** Move constructor.
    *
-   *  \param other the other vertex_buffer.
+   * \param other the other vertex_buffer.
    */
   vertex_buffer_t(vertex_buffer&& other);
 
   /** Retrieves the number of elements in the buffer.
    *
-   *  \return the number of elements in the buffer.
+   * \return the number of elements in the buffer.
    */
   uint get_size() const;
 
   /** Retrieves the data contained in the buffer.
    *
-   *  \return the data contained in the buffer.
+   * \return the data contained in the buffer.
    */
-  DataType get_data() const;
+  data_type get_data() const;
 
   /** Retrieves a sub-set of the data contained in the buffer.
    *
-   *  Throws if offset plus size is greater than the size of the buffer.
+   * Throws if offset plus size is greater than the size of the buffer.
    *
-   *  \param offset the number of elements to skip at the beginning of the
-   *  buffer.
-   *  \param elementCount the number of elements to read.
-   *  \return a collection with elementCount elements taken from the
-   *  vertex_buffer starting from the given offset.
+   * \param offset the number of elements to skip at the beginning of the
+   * buffer.
+   *
+   * \param element_count the number of elements to read.
+   *
+   * \return a collection with element_count elements taken from the
+   * vertex_buffer starting from the given offset.
    */
-  DataType get_sub_data(uint offset, uint elementCount) const;
+  data_type get_sub_data(uint offset, uint element_count) const;
 
   /** Sets the data contained in the buffer.
    *
-   *  This function is defined only for dynamic render buffers.
+   * This function is defined only for dynamic render buffers.
    *
-   *  \tparam ds dummy template parameter.
-   *  \tparam Enable enabling parameter.
-   *  \param data the data.
+   * \tparam DS dummy template parameter.
+   *
+   * \tparam Enable enabling parameter.
+   *
+   * \param data the data.
    */
-  template <bool ds = dynamicStorage, typename Enable = std::enable_if_t<ds>>
+  template <bool DS = DynamicStorage, typename Enable = std::enable_if_t<DS>>
   void set_data(const span<const T>& data);
 
   /** Sets a sub-set of the data contained in the buffer.
    *
-   *  This function is defined only for dynamic render buffers.
-   *  Throws if offset plus the size of data is greater then the size of the
-   *  vertex_buffer.
+   * This function is defined only for dynamic render buffers.
+   * Throws if offset plus the size of data is greater then the size of the
+   * vertex_buffer.
    *
-   *  \tparam ds dummy template parameter.
-   *  \tparam Enable enabling parameter.
-   *  \param offset the offset.
-   *  \param data the data.
+   * \tparam DS dummy template parameter.
+   *
+   * \tparam Enable enabling parameter.
+   *
+   * \param offset the offset.
+   *
+   * \param data the data.
    */
-  template <bool ds = dynamicStorage, typename Enable = std::enable_if_t<ds>>
+  template <bool DS = DynamicStorage, typename Enable = std::enable_if_t<DS>>
   void set_sub_data(uint offset, const span<const T>& data);
 };
 

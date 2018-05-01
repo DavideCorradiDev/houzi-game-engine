@@ -24,22 +24,22 @@ namespace
 class TestMesh2ShaderProgram : public test_gfx_base
 {};
 
-image2RGBA generateResultImage(const vec2u& dstSize, const recti& dstRect,
+image2RGBA generateResultImage(const vec2u& dstSize, const recti& dst_rect,
   const color& dstColor, const color& srcColor);
 
 
 
-image2RGBA generateResultImage(const vec2u& dstSize, const recti& dstRect,
+image2RGBA generateResultImage(const vec2u& dstSize, const recti& dst_rect,
   const color& dstColor, const color& srcColor)
 {
   image2RGBA im_ref(dstSize);
   im_ref.clear(image2RGBA::pixel(dstColor));
 
-  uint xMax = std::min(static_cast<uint>(dstRect.r()), dstSize.x());
-  uint yMax = std::min(static_cast<uint>(dstRect.b()), dstSize.y());
-  for(uint y = dstRect.t(); y < yMax; ++y)
+  uint xMax = std::min(static_cast<uint>(dst_rect.r()), dstSize.x());
+  uint yMax = std::min(static_cast<uint>(dst_rect.b()), dstSize.y());
+  for(uint y = dst_rect.t(); y < yMax; ++y)
   {
-    for(uint x = dstRect.l(); x < xMax; ++x)
+    for(uint x = dst_rect.l(); x < xMax; ++x)
     {
       im_ref.set_pixel(vec2u(x, y), image2RGBA::pixel(srcColor));
     }

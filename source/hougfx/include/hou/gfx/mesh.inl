@@ -3,8 +3,8 @@ namespace hou
 
 template <typename T>
 mesh_t<T>::mesh_t(
-  mesh_draw_mode drawMode, mesh_fill_mode fillMode, const span<const T>& vertices)
-  : mesh(drawMode, fillMode, vertices.size())
+  mesh_draw_mode dm, mesh_fill_mode fm, const span<const T>& vertices)
+  : mesh(dm, fm, vertices.size())
   , m_vbo(vertices)
 {
   m_vao.set_vertex_data(m_vbo, 0u, T::get_vertex_format());
@@ -21,7 +21,7 @@ mesh_t<T>::mesh_t(mesh_t&& other)
 
 
 template <typename T>
-typename mesh_t<T>::vertex_collection mesh_t<T>::getVertices() const
+typename mesh_t<T>::vertex_collection mesh_t<T>::get_vertices() const
 {
   return m_vbo.get_data();
 }
@@ -34,7 +34,7 @@ bool operator==(const mesh_t<T>& lhs, const mesh_t<T>& rhs)
   return lhs.get_vertex_count() == rhs.get_vertex_count()
     && lhs.get_draw_mode() == rhs.get_draw_mode()
     && lhs.get_fill_mode() == rhs.get_fill_mode()
-    && lhs.getVertices() == rhs.getVertices();
+    && lhs.get_vertices() == rhs.get_vertices();
 }
 
 
@@ -54,7 +54,7 @@ bool close(
   return lhs.get_vertex_count() == rhs.get_vertex_count()
     && lhs.get_draw_mode() == rhs.get_draw_mode()
     && lhs.get_fill_mode() == rhs.get_fill_mode()
-    && close(lhs.getVertices(), rhs.getVertices(), acc);
+    && close(lhs.get_vertices(), rhs.get_vertices(), acc);
 }
 
 
@@ -62,9 +62,9 @@ bool close(
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const mesh_t<T>& m)
 {
-  return os << "{DrawMode = " << m.get_draw_mode()
-            << ", FillMode = " << m.get_fill_mode()
-            << ", Vertices = " << m.getVertices() << "}";
+  return os << "{draw_mode = " << m.get_draw_mode()
+            << ", fill_mode = " << m.get_fill_mode()
+            << ", vertices = " << m.get_vertices() << "}";
 }
 
 }  // namespace hou

@@ -12,10 +12,10 @@ namespace hou
 {
 
 vertex_attrib_format::vertex_attrib_format(
-  gl_type type, uint elementCount, uint byteOffset, bool must_be_normalized)
+  gl_type type, uint element_count, uint byte_offset, bool must_be_normalized)
   : m_type(type)
-  , m_element_count(elementCount)
-  , m_byte_offset(byteOffset)
+  , m_element_count(element_count)
+  , m_byte_offset(byte_offset)
   , m_must_be_normalized(must_be_normalized)
 {}
 
@@ -49,7 +49,8 @@ bool vertex_attrib_format::must_be_normalized() const
 
 
 
-bool operator==(const vertex_attrib_format& lhs, const vertex_attrib_format& rhs)
+bool operator==(
+  const vertex_attrib_format& lhs, const vertex_attrib_format& rhs)
 {
   return lhs.get_type() == rhs.get_type()
     && lhs.get_element_count() == rhs.get_element_count()
@@ -59,7 +60,8 @@ bool operator==(const vertex_attrib_format& lhs, const vertex_attrib_format& rhs
 
 
 
-bool operator!=(const vertex_attrib_format& lhs, const vertex_attrib_format& rhs)
+bool operator!=(
+  const vertex_attrib_format& lhs, const vertex_attrib_format& rhs)
 {
   return !(lhs == rhs);
 }
@@ -68,10 +70,10 @@ bool operator!=(const vertex_attrib_format& lhs, const vertex_attrib_format& rhs
 
 std::ostream& operator<<(std::ostream& os, const vertex_attrib_format& vf)
 {
-  return os << "{Type = " << vf.get_type()
-            << ", ElementCount = " << vf.get_element_count()
+  return os << "{type = " << vf.get_type()
+            << ", element_count = " << vf.get_element_count()
             << ", byte_offset = " << vf.get_byte_offset()
-            << ", MustBeNormalized = " << to_string(vf.must_be_normalized())
+            << ", must_be_normalized = " << to_string(vf.must_be_normalized())
             << "}";
 }
 

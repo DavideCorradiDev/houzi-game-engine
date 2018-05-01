@@ -15,16 +15,16 @@ namespace hou
 
 /** Surface for off-screen rendering.
  */
-class HOU_GFX_API render_canvas
-  : public render_surface
+class HOU_GFX_API render_canvas : public render_surface
 {
 public:
   /** Creates a RenderTexutre with the desired size and sample count.
    *
-   *  \param size the size.
-   *  \param sampleCount the sample count.
+   * \param size the size.
+   *
+   * \param sample_count the sample count.
    */
-  render_canvas(const vec2u& size, uint sampleCount = 1u);
+  render_canvas(const vec2u& size, uint sample_count = 1u);
 
   /** Move constructor.
    *
@@ -37,7 +37,6 @@ public:
   virtual ~render_canvas();
 };
 
-}
+}  // namespace hou
 
 #endif
-

@@ -17,18 +17,18 @@ namespace hou
 namespace
 {
 
-constexpr const char* defaultWindowName = "HouziHiddenWindow";
+constexpr const char* default_window_name = "HouziHiddenWindow";
 
 }  // namespace
 
 
 
-void graphic_context::set_current(graphic_context& ph_context)
+void graphic_context::set_current(graphic_context& ctx)
 {
-  gl::context::set_current(ph_context.gl_context, ph_context.mDefaultWindow);
-  if(!ph_context.m_initialized)
+  gl::context::set_current(ctx.gl_context, ctx.m_default_window);
+  if(!ctx.m_initialized)
   {
-    ph_context.initialize();
+    ctx.initialize();
   }
 }
 
@@ -62,23 +62,29 @@ uint graphic_context::get_rendering_stencil_byte_count()
 
 
 
+// clang-format off
 graphic_context::graphic_context()
-  : mExtensionInitializer()
-  , mDefaultWindow(defaultWindowName,
+  : m_extension_initializer()
+  , m_default_window(default_window_name,
       video_mode(vec2u::zero(), get_rendering_color_byte_count()),
       window_style::windowed)
   , gl_context(
-      gl::context_settings(gl::version(4u, 5u), gl::context_profile::core,
-        get_rendering_depth_byte_count(), get_rendering_stencil_byte_count(), 0u),
-      mDefaultWindow)
+      gl::context_settings(
+        gl::version(4u, 5u),
+        gl::context_profile::core,
+        get_rendering_depth_byte_count(),
+        get_rendering_stencil_byte_count(),
+        0u),
+      m_default_window)
   , m_initialized(false)
 {}
+// clang-format on
 
 
 
 graphic_context::graphic_context(graphic_context&& other)
-  : mExtensionInitializer()
-  , mDefaultWindow(std::move(other.mDefaultWindow))
+  : m_extension_initializer()
+  , m_default_window(std::move(other.m_default_window))
   , gl_context(std::move(other.gl_context))
   , m_initialized(std::move(other.m_initialized))
 {}

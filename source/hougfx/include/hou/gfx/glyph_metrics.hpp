@@ -20,8 +20,8 @@ namespace hou
 
 /** Class describing the metrics of a ph_glyph.
  *
- * all metrics are internal expressed in 26.6 ph_pixel format, which means the unit
- * is 1/64th of ph_pixel.
+ * all metrics are internal expressed in 26.6 ph_pixel format, which means the
+ * unit is 1/64th of ph_pixel.
  */
 class HOU_GFX_API glyph_metrics
 {
@@ -36,20 +36,23 @@ public:
    *
    * \param size the size of the ph_glyph bounding box.
    *
-   * \param horizontalBearing the horizontal bearing of the ph_glyph, that is the
-   * position of the baseline of the ph_glyph when rendering text horizontally.
+   * \param horizontal_bearing the horizontal bearing of the ph_glyph, that is
+   * the position of the baseline of the ph_glyph when rendering text
+   * horizontally.
    *
-   * \param horizontalAdvance the horizontal advance of the ph_glyph, that is the
-   * horizontal offset to the next ph_glyph when rendering text horizontally.
+   * \param horizontal_advance the horizontal advance of the ph_glyph, that is
+   * the horizontal offset to the next ph_glyph when rendering text
+   * horizontally.
    *
-   * \param verticalBearing the vertical bearing of the ph_glyph, that is the
+   * \param vertical_bearing the vertical bearing of the ph_glyph, that is the
    * position of the baseline of the ph_glyph when rendering text vertically.
    *
-   * \param verticalAdvance the vertical advance of the ph_glyph, that is the
+   * \param vertical_advance the vertical advance of the ph_glyph, that is the
    * vertical offset to the next ph_glyph when rendering text vertically.
    */
-  glyph_metrics(const vec2u& size, const vec2i& horizontalBearing,
-    int horizontalAdvance, const vec2i& verticalBearing, int verticalAdvance);
+  glyph_metrics(const vec2u& size, const vec2i& horizontal_bearing,
+    int horizontal_advance, const vec2i& vertical_bearing,
+    int vertical_advance);
 
   /** Gets the size of the bounding box of the ph_glyph in 26.6 ph_pixel format.
    *
@@ -83,9 +86,9 @@ public:
 
   /** Sets the horizontal bearing of the ph_glyph.
    *
-   * \param horizontalBearing the horizontal bearing.
+   * \param horizontal_bearing the horizontal bearing.
    */
-  void setHorizontalBearing(const vec2i& horizontalBearing);
+  void setHorizontalBearing(const vec2i& horizontal_bearing);
 
   /** Gets the horizontal advance of the ph_glyph in 26.6 ph_pixel format.
    *
@@ -101,9 +104,9 @@ public:
 
   /** Sets the horizontal advance of the ph_glyph.
    *
-   * \param horizontalAdvance the horizontal advance.
+   * \param horizontal_advance the horizontal advance.
    */
-  void set_horizontal_advance(int horizontalAdvance);
+  void set_horizontal_advance(int horizontal_advance);
 
   /** Gets the vertical bearing of the ph_glyph in 26.6 ph_pixel format.
    *
@@ -119,9 +122,9 @@ public:
 
   /** Sets the vertical bearing of the ph_glyph.
    *
-   * \param verticalBearing the vertical bearing.
+   * \param vertical_bearing the vertical bearing.
    */
-  void set_vertical_bearing(const vec2i& verticalBearing);
+  void set_vertical_bearing(const vec2i& vertical_bearing);
 
   /** Gets the vertical advance of the ph_glyph in 26.6 ph_pixel format.
    *
@@ -137,9 +140,9 @@ public:
 
   /** Sets the vertical advance of the ph_glyph.
    *
-   * \param verticalAdvance the vertical advance.
+   * \param vertical_advance the vertical advance.
    */
-  void set_vertical_advance(int verticalAdvance);
+  void set_vertical_advance(int vertical_advance);
 
 private:
   vec2u m_size;

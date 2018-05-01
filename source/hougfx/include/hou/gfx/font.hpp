@@ -31,36 +31,36 @@ namespace hou
 
 class glyph;
 
-/** Allows reading metadata and glyphs from ph_font raw data.
+/** Allows reading metadata and glyphs from font raw data.
  *
  * Supported formats: TTF, TTC, CFF, WOFF, OTF, OTC, PFA, PFB, CID-keyed Type
  * 1, SFNT-based bitmap fonts, X11 PCF, Windows FNT, BDF, PFR.
  *
- * all metrics are expressed in 26.6 ph_pixel format, which means the unit is
- * 1/64th of ph_pixel.
+ * all metrics are expressed in 26.6 pixel format, which means the unit is
+ * 1/64th of pixel.
  */
 class HOU_GFX_API font : public non_copyable
 {
 public:
-  /** Creates a font object from the given ph_font raw data.
+  /** Creates a font object from the given font raw data.
    *
-   * Throws if data does not represent valid ph_font data.
+   * Throws if data does not represent valid font data.
    * The data will be copied inside the object, therefore the memory can be
    * freed after the construction of the font object.
    *
-   * \param data the ph_font data.
+   * \param data the font data.
    */
   explicit font(const span<const uint8_t>& data);
 
-  /** Creates a font object from the given binary input ph_stream.
+  /** Creates a font object from the given binary input stream.
    *
-   * This constructor reads the entire content of the binary ph_stream and makes
+   * This constructor reads the entire content of the binary stream and makes
    * a copy of it in memory.
-   * Throws if the data does not represent valid ph_font data.
+   * Throws if the data does not represent valid font data.
    *
-   * \param fontStream the ph_font ph_stream.
+   * \param font_stream the font stream.
    */
-  explicit font(not_null<std::unique_ptr<binary_stream_in>> fontStream);
+  explicit font(not_null<std::unique_ptr<binary_stream_in>> font_stream);
 
   /** Move constructor.
    *
@@ -72,78 +72,78 @@ public:
    */
   ~font();
 
-  /** Gets the number of available ph_font faces.
+  /** Gets the number of available font faces.
    *
-   * \return the number of available ph_font faces.
+   * \return the number of available font faces.
    */
   uint get_face_index_count() const;
 
-  /** Gets the index of the currently selected ph_font face.
+  /** Gets the index of the currently selected font face.
    *
    * The default value is 0.
    *
-   * \return the index of the currently selected ph_font face.
+   * \return the index of the currently selected font face.
    */
   uint get_face_index() const;
 
   /** Selects the specified face.
    *
-   * \param faceIndex the index of the face to be selected.
+   * \param face_index the index of the face to be selected.
    */
-  void set_face_index(uint faceIndex);
+  void set_face_index(uint face_index);
 
-  /** Gets the currently selected ph_pixel height.
+  /** Gets the currently selected pixel height.
    *
    * The default value is 10.
    *
-   * \return the currently selected ph_pixel height.
+   * \return the currently selected pixel height.
    */
   uint get_pixel_height() const;
 
-  /** Sets the current ph_pixel height.
+  /** Sets the current pixel height.
    *
-   * \param pixelHeight the desired ph_pixel height.
+   * \param pixel_height the desired pixel height.
    */
-  void set_pixel_height(uint pixelHeight);
+  void set_pixel_height(uint pixel_height);
 
-  /** Checks if the ph_font has horizontal rendering metrics.
+  /** Checks if the font has horizontal rendering metrics.
    *
-   * \return true if the ph_font has horizontal rendering metrics.
+   * \return true if the font has horizontal rendering metrics.
    */
   bool has_horizontal() const;
 
-  /** Checks if the ph_font has vertical rendering metrics.
+  /** Checks if the font has vertical rendering metrics.
    *
-   * \return true if the ph_font has vertical rendering metrics.
+   * \return true if the font has vertical rendering metrics.
    */
   bool has_vertical() const;
 
-  /** Checks if the ph_font has kerning metrics.
+  /** Checks if the font has kerning metrics.
    *
-   * \return true if the ph_font has kerning metrics.
+   * \return true if the font has kerning metrics.
    */
   bool has_kerning() const;
 
-  /** Checks if the ph_font is scalable.
+  /** Checks if the font is scalable.
    *
-   * \return true if the ph_font is scalable.
+   * \return true if the font is scalable.
    */
   bool is_scalable() const;
 
-  /** Get a bounding box capable of containing any ph_glyph in the ph_font in 26.6
-   * ph_pixel format.
+  /** Get a bounding box capable of containing any glyph in the font in 26.6
+   * pixel format.
    *
    * \return the bounding box.
    */
   recti get_glyph_bounding_box() const;
 
-  /** Get a bounding box capable of containing any ph_glyph in the ph_font in pixels.
+  /** Get a bounding box capable of containing any glyph in the font in pixels.
    *
    * \return the bounding box.
    */
   rectf get_pixel_glyph_bounding_box() const;
 
-  /** Get the line spacing in 26.6 ph_pixel format.
+  /** Get the line spacing in 26.6 pixel format.
    *
    * \return the line spacing.
    */
@@ -155,7 +155,7 @@ public:
    */
   float get_pixel_line_spacing() const;
 
-  /** Get the maximum horizontal advance in 26.6 ph_pixel format.
+  /** Get the maximum horizontal advance in 26.6 pixel format.
    *
    * \return the maximum horizontal advance.
    */
@@ -167,7 +167,7 @@ public:
    */
   float get_pixel_max_advance() const;
 
-  /** Get the maximum horizontal advance in 26.6 ph_pixel format.
+  /** Get the maximum horizontal advance in 26.6 pixel format.
    *
    * \return the maximum horizontal advance.
    */
@@ -179,7 +179,7 @@ public:
    */
   float get_pixel_max_horizontal_advance() const;
 
-  /** Get the maximum vertical advance in 26.6 ph_pixel format.
+  /** Get the maximum vertical advance in 26.6 pixel format.
    *
    * \return the maximum vertical advance.
    */
@@ -197,21 +197,24 @@ public:
    */
   uint get_glyph_count() const;
 
-  /** Generates and returns information for a ph_glyph.
+  /** Generates and returns information for a glyph.
    *
-   * The ph_glyph is generated with the currently selected face and ph_pixel height.
-   * If the requested ph_glyph is not present in the ph_font a placeholder ph_glyph is
-   * returned.
+   * The glyph is generated with the currently selected face and pixel
+   * height. If the requested glyph is not present in the font a placeholder
+   * glyph is returned.
    *
-   * \param charCode the ph_glyph code point.
-   * \return the requested ph_glyph.
+   * \param char_code the glyph code point.
+   *
+   * \return the requested glyph.
    */
-  glyph get_glyph(utf32::code_unit charCode) const;
+  glyph get_glyph(utf32::code_unit char_code) const;
 
-  /** Gets the kerning between two characters in 26.6 ph_pixel format.
+  /** Gets the kerning between two characters in 26.6 pixel format.
    *
    * \param first the first character.
+   *
    * \param second the second character.
+   *
    * \return the kerning between the two characters.
    */
   vec2i get_kerning(utf32::code_unit first, utf32::code_unit second) const;
@@ -219,19 +222,22 @@ public:
   /** Gets the kerning between two characters in pixels.
    *
    * \param first the first character.
+   *
    * \param second the second character.
+   *
    * \return the kerning between the two characters.
    */
-  vec2f get_pixel_kerning(utf32::code_unit first, utf32::code_unit second) const;
+  vec2f get_pixel_kerning(
+    utf32::code_unit first, utf32::code_unit second) const;
 
   // Values of ascender and descender are not standardized and therefore not
   // reliable.
-  // int getAscender() const;
-  // int getDescender() const;
+  // int get_ascender() const;
+  // int get_descender() const;
   //
   // Underline not currently supported.
-  // int getUnderlinePosition() const;
-  // int getUnderlineThickness() const;
+  // int get_underline_position() const;
+  // int get_underline_thickness() const;
 
 private:
   void load();

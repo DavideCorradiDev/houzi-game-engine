@@ -28,10 +28,11 @@ public:
 public:
   /** Creates an object with the given parameters.
    *
-   * \param textFlow the text flow direction.
-   * \param maxSize the maximum text box size.
+   * \param text_flow the text flow direction.
+   *
+   * \param max_size the maximum text box size.
    */
-  text_box_formatting_params(text_flow textFlow, const vec2f& maxSize);
+  text_box_formatting_params(text_flow text_flow, const vec2f& max_size);
 
   /** Retrieves the text flow parameter.
    *

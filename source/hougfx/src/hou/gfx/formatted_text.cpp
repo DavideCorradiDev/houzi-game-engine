@@ -17,117 +17,117 @@ namespace hou
 namespace
 {
 
-class GlyphCache
+class glyph_cache
 {
 public:
-  GlyphCache(const span<const utf32::code_unit>& characters, const font& ph_font);
+  glyph_cache(const span<const utf32::code_unit>& characters, const font& f);
 
-  const std::map<utf32::code_unit, glyph>& getGlyphs() const;
+  const std::map<utf32::code_unit, glyph>& get_glyphs() const;
   const glyph& get_glyph(utf32::code_unit c) const;
-  const vec2u& getMaxGlyphSize() const;
+  const vec2u& get_max_glyph_size() const;
   uint get_size() const;
 
 private:
-  std::map<utf32::code_unit, glyph> mGlyphs;
-  vec2u mMaxGlyphSize;
+  std::map<utf32::code_unit, glyph> m_glyphs;
+  vec2u m_max_glyph_size;
 };
 
 
-class AtlasGlyphCoordinates
+class atlas_glyph_coordinates
 {
 public:
-  AtlasGlyphCoordinates(
-    const vec3u& pos, const vec2u& size, const vec3u& texSize);
+  atlas_glyph_coordinates(
+    const vec3u& pos, const vec2u& size, const vec3u& tex_size);
 
-  vec2f getTopLeftPos() const;
-  vec2f getTopRightPos() const;
-  vec2f getBottomRightPos() const;
-  vec2f getBottomLeftPos() const;
-  vec3f getTopLeftTex() const;
-  vec3f getTopRightTex() const;
-  vec3f getBottomRightTex() const;
-  vec3f getBottomLeftTex() const;
+  vec2f get_top_left_pos() const;
+  vec2f get_top_right_pos() const;
+  vec2f get_bottom_right_pos() const;
+  vec2f get_bottom_left_pos() const;
+  vec3f get_top_left_tex() const;
+  vec3f get_top_right_tex() const;
+  vec3f get_bottom_right_tex() const;
+  vec3f get_bottom_left_tex() const;
 
 private:
-  vec3f mPos;
+  vec3f m_pos;
   vec2f m_size;
-  vec3f mTexSize;
+  vec3f m_tex_size;
 };
 
 
 
-class GlyphAtlas
+class glyph_atlas
 {
 public:
-  GlyphAtlas(const GlyphCache& cache);
+  glyph_atlas(const glyph_cache& cache);
 
   const image3R& get_image() const;
-  const AtlasGlyphCoordinates& getAtlasGlyphCoordinates(
+  const atlas_glyph_coordinates& get_atlas_glyph_coordinates(
     utf32::code_unit c) const;
 
 private:
-  static vec3u computeAtlasGridSize(const GlyphCache& cache);
+  static vec3u compute_atlas_grid_size(const glyph_cache& cache);
 
 private:
-  vec3u mAtlasGridSize;
+  vec3u m_atlas_grid_size;
   image3R m_image;
-  std::map<utf32::code_unit, AtlasGlyphCoordinates> mGlyphCoords;
+  std::map<utf32::code_unit, atlas_glyph_coordinates> m_glyph_coords;
 };
 
 
 
-class TextFormatter
+class text_formatter
 {
 public:
-  TextFormatter(std::u32string text, const font&, const GlyphCache& cache,
-    const GlyphAtlas& atlas, const text_box_formatting_params params);
+  text_formatter(std::u32string text, const font&, const glyph_cache& cache,
+    const glyph_atlas& atlas, const text_box_formatting_params params);
 
-  const std::vector<text_vertex>& getVertices() const;
+  const std::vector<text_vertex>& get_vertices() const;
   const rectf& get_bounding_box() const;
 
 private:
-  static constexpr uint VerticesPerGlyph = 6u;
-  static constexpr utf32::code_unit LineFeed = 0x0000000A;
-  static constexpr utf32::code_unit WhiteSpace = 0x00000020;
+  static constexpr uint s_vertices_per_glyph = 6u;
+  static constexpr utf32::code_unit s_line_feed = 0x0000000A;
+  static constexpr utf32::code_unit s_whitespace = 0x00000020;
 
 private:
-  float computeGlyphAdvance(const glyph_metrics& gm, const font& ph_font) const;
-  vec2f computeGlyphBearing(const glyph_metrics& gm, const font& ph_font) const;
-  void insertLineBreaks(const font& ph_font, const GlyphCache& cache,
+  float compute_glyph_advance(const glyph_metrics& gm, const font& f) const;
+  vec2f compute_glyph_bearing(const glyph_metrics& gm, const font& f) const;
+  void insert_line_breaks(const font& f, const glyph_cache& cache,
     const text_box_formatting_params& tbfp);
-  void generateVertices(
-    const font& ph_font, const GlyphCache& cache, const GlyphAtlas& atlas);
-  void computeBoundingBox();
+  void generate_vertices(
+    const font& f, const glyph_cache& cache, const glyph_atlas& atlas);
+  void compute_bounding_box();
 
 private:
   std::u32string m_text;
-  std::vector<text_vertex> mVertices;
-  size_t mLineCoord;
-  size_t mColumnCoord;
-  float mLineSpacing;
-  float mCharSpacingFactor;
+  std::vector<text_vertex> m_vertices;
+  size_t m_line_coord;
+  size_t m_column_coord;
+  float m_line_spacing;
+  float m_char_spacing_factor;
   rectf m_bounding_box;
 };
 
 
 
-GlyphCache::GlyphCache(
-  const span<const utf32::code_unit>& characters, const font& ph_font)
-  : mGlyphs()
-  , mMaxGlyphSize()
+glyph_cache::glyph_cache(
+  const span<const utf32::code_unit>& characters, const font& f)
+  : m_glyphs()
+  , m_max_glyph_size()
 {
   for(auto c : characters)
   {
-    if(mGlyphs.count(c) == 0u)
+    if(m_glyphs.count(c) == 0u)
     {
-      auto inserted = mGlyphs.insert(std::make_pair(c, ph_font.get_glyph(c)));
+      auto inserted = m_glyphs.insert(std::make_pair(c, f.get_glyph(c)));
       HOU_EXPECT_DEV(inserted.second);
-      const vec2u& glyphSize = inserted.first->second.get_image().get_size();
+      const vec2u& glyph_size = inserted.first->second.get_image().get_size();
       for(size_t i = 0; i < vec2u::get_size(); ++i)
       {
-        if(glyphSize(i) > mMaxGlyphSize(i))
+        if(glyph_size(i) > m_max_glyph_size(i))
         {
-          mMaxGlyphSize(i) = glyphSize(i);
+          m_max_glyph_size(i) = glyph_size(i);
         }
       }
     }
@@ -136,215 +136,219 @@ GlyphCache::GlyphCache(
 
 
 
-const std::map<utf32::code_unit, glyph>& GlyphCache::getGlyphs() const
+const std::map<utf32::code_unit, glyph>& glyph_cache::get_glyphs() const
 {
-  return mGlyphs;
+  return m_glyphs;
 }
 
 
 
-const glyph& GlyphCache::get_glyph(utf32::code_unit c) const
+const glyph& glyph_cache::get_glyph(utf32::code_unit c) const
 {
-  return mGlyphs.at(c);
+  return m_glyphs.at(c);
 }
 
 
 
-const vec2u& GlyphCache::getMaxGlyphSize() const
+const vec2u& glyph_cache::get_max_glyph_size() const
 {
-  return mMaxGlyphSize;
+  return m_max_glyph_size;
 }
 
 
 
-vec3u GlyphAtlas::computeAtlasGridSize(const GlyphCache& cache)
+vec3u glyph_atlas::compute_atlas_grid_size(const glyph_cache& cache)
 {
-  static const vec3u maxAtlasSize(
+  static const vec3u max_atlas_size(
     std::min(2048u, static_cast<uint>(gl::get_max_texture_size())),
     std::min(2048u, static_cast<uint>(gl::get_max_texture_size())),
     std::min(256u, static_cast<uint>(gl::get_max_texture_layers())));
 
-  vec3u maxAtlasGridSize = maxAtlasSize;
-  maxAtlasGridSize.x() /= cache.getMaxGlyphSize().x();
-  maxAtlasGridSize.y() /= cache.getMaxGlyphSize().y();
+  vec3u maxAtlasGridSize = max_atlas_size;
+  maxAtlasGridSize.x() /= cache.get_max_glyph_size().x();
+  maxAtlasGridSize.y() /= cache.get_max_glyph_size().y();
 
-  uint charCount = cache.get_size();
-  return vec3u(std::min(charCount, maxAtlasGridSize.x()),
-    std::min(charCount / maxAtlasGridSize.x(), maxAtlasGridSize.y() - 1u) + 1u,
-    std::min(charCount / (maxAtlasGridSize.x() * maxAtlasGridSize.y()),
+  uint char_count = cache.get_size();
+  return vec3u(std::min(char_count, maxAtlasGridSize.x()),
+    std::min(char_count / maxAtlasGridSize.x(), maxAtlasGridSize.y() - 1u) + 1u,
+    std::min(char_count / (maxAtlasGridSize.x() * maxAtlasGridSize.y()),
       maxAtlasGridSize.z() - 1u)
       + 1u);
 }
 
 
 
-AtlasGlyphCoordinates::AtlasGlyphCoordinates(
-  const vec3u& pos, const vec2u& size, const vec3u& texSize)
-  : mPos(static_cast<vec3f>(pos))
+atlas_glyph_coordinates::atlas_glyph_coordinates(
+  const vec3u& pos, const vec2u& size, const vec3u& tex_size)
+  : m_pos(static_cast<vec3f>(pos))
   , m_size(static_cast<vec2f>(size))
-  , mTexSize(static_cast<vec3f>(texSize))
+  , m_tex_size(static_cast<vec3f>(tex_size))
 {}
 
 
 
-vec2f AtlasGlyphCoordinates::getTopLeftPos() const
+vec2f atlas_glyph_coordinates::get_top_left_pos() const
 {
   return vec2f();
 }
 
 
 
-vec2f AtlasGlyphCoordinates::getTopRightPos() const
+vec2f atlas_glyph_coordinates::get_top_right_pos() const
 {
   return vec2f(m_size.x(), 0.f);
 }
 
 
 
-vec2f AtlasGlyphCoordinates::getBottomRightPos() const
+vec2f atlas_glyph_coordinates::get_bottom_right_pos() const
 {
   return vec2f(m_size.x(), m_size.y());
 }
 
 
 
-vec2f AtlasGlyphCoordinates::getBottomLeftPos() const
+vec2f atlas_glyph_coordinates::get_bottom_left_pos() const
 {
   return vec2f(0.f, m_size.y());
 }
 
 
 
-vec3f AtlasGlyphCoordinates::getTopLeftTex() const
+vec3f atlas_glyph_coordinates::get_top_left_tex() const
 {
-  return vec3f(mPos.x() / mTexSize.x(), mPos.y() / mTexSize.y(), mPos.z());
+  return vec3f(
+    m_pos.x() / m_tex_size.x(), m_pos.y() / m_tex_size.y(), m_pos.z());
   ;
 }
 
 
 
-vec3f AtlasGlyphCoordinates::getTopRightTex() const
+vec3f atlas_glyph_coordinates::get_top_right_tex() const
 {
-  return vec3f(
-    (mPos.x() + m_size.x()) / mTexSize.x(), mPos.y() / mTexSize.y(), mPos.z());
+  return vec3f((m_pos.x() + m_size.x()) / m_tex_size.x(),
+    m_pos.y() / m_tex_size.y(), m_pos.z());
 }
 
 
 
-vec3f AtlasGlyphCoordinates::getBottomRightTex() const
+vec3f atlas_glyph_coordinates::get_bottom_right_tex() const
 {
-  return vec3f((mPos.x() + m_size.x()) / mTexSize.x(),
-    (mPos.y() + m_size.y()) / mTexSize.y(), mPos.z());
+  return vec3f((m_pos.x() + m_size.x()) / m_tex_size.x(),
+    (m_pos.y() + m_size.y()) / m_tex_size.y(), m_pos.z());
 }
 
 
 
-vec3f AtlasGlyphCoordinates::getBottomLeftTex() const
+vec3f atlas_glyph_coordinates::get_bottom_left_tex() const
 {
-  return vec3f(
-    mPos.x() / mTexSize.x(), (mPos.y() + m_size.y()) / mTexSize.y(), mPos.z());
+  return vec3f(m_pos.x() / m_tex_size.x(),
+    (m_pos.y() + m_size.y()) / m_tex_size.y(), m_pos.z());
 }
 
 
 
-uint GlyphCache::get_size() const
+uint glyph_cache::get_size() const
 {
-  return mGlyphs.size();
+  return m_glyphs.size();
 }
 
 
 
-GlyphAtlas::GlyphAtlas(const GlyphCache& cache)
-  : mAtlasGridSize(computeAtlasGridSize(cache))
-  , m_image(vec3u(mAtlasGridSize.x() * cache.getMaxGlyphSize().x(),
-      mAtlasGridSize.y() * cache.getMaxGlyphSize().y(), mAtlasGridSize.z()))
-  , mGlyphCoords()
+glyph_atlas::glyph_atlas(const glyph_cache& cache)
+  : m_atlas_grid_size(compute_atlas_grid_size(cache))
+  , m_image(vec3u(m_atlas_grid_size.x() * cache.get_max_glyph_size().x(),
+      m_atlas_grid_size.y() * cache.get_max_glyph_size().y(),
+      m_atlas_grid_size.z()))
+  , m_glyph_coords()
 {
-  uint atlasGridLayer = mAtlasGridSize.x() * mAtlasGridSize.y();
+  uint atlas_grid_layer_size = m_atlas_grid_size.x() * m_atlas_grid_size.y();
   uint idx = 0;
-  for(const auto& kv : cache.getGlyphs())
+  for(const auto& kv : cache.get_glyphs())
   {
-    vec3u glyphPosition(
-      idx % atlasGridLayer % mAtlasGridSize.x() * cache.getMaxGlyphSize().x(),
-      idx % atlasGridLayer / mAtlasGridSize.x() * cache.getMaxGlyphSize().y(),
-      idx / atlasGridLayer);
-    m_image.set_sub_image(glyphPosition, kv.second.get_image());
-    mGlyphCoords.insert(std::make_pair(kv.first,
-      AtlasGlyphCoordinates(
-        glyphPosition, kv.second.get_image().get_size(), m_image.get_size())));
+    vec3u glyph_position(idx % atlas_grid_layer_size % m_atlas_grid_size.x()
+        * cache.get_max_glyph_size().x(),
+      idx % atlas_grid_layer_size / m_atlas_grid_size.x()
+        * cache.get_max_glyph_size().y(),
+      idx / atlas_grid_layer_size);
+    m_image.set_sub_image(glyph_position, kv.second.get_image());
+    m_glyph_coords.insert(std::make_pair(kv.first,
+      atlas_glyph_coordinates(
+        glyph_position, kv.second.get_image().get_size(), m_image.get_size())));
     ++idx;
   }
 }
 
 
 
-const image3R& GlyphAtlas::get_image() const
+const image3R& glyph_atlas::get_image() const
 {
   return m_image;
 }
 
 
 
-const AtlasGlyphCoordinates& GlyphAtlas::getAtlasGlyphCoordinates(
+const atlas_glyph_coordinates& glyph_atlas::get_atlas_glyph_coordinates(
   utf32::code_unit c) const
 {
-  return mGlyphCoords.at(c);
+  return m_glyph_coords.at(c);
 }
 
 
 
-TextFormatter::TextFormatter(std::u32string text, const font& ph_font,
-  const GlyphCache& cache, const GlyphAtlas& atlas,
+text_formatter::text_formatter(std::u32string text, const font& f,
+  const glyph_cache& cache, const glyph_atlas& atlas,
   const text_box_formatting_params tbfp)
   : m_text(text)
-  , mVertices(VerticesPerGlyph * text.size(), text_vertex())
-  , mLineCoord((tbfp.get_text_flow() == text_flow::LeftRight
-                 || tbfp.get_text_flow() == text_flow::RightLeft)
+  , m_vertices(s_vertices_per_glyph * text.size(), text_vertex())
+  , m_line_coord((tbfp.get_text_flow() == text_flow::LeftRight
+                   || tbfp.get_text_flow() == text_flow::RightLeft)
         ? 0u
         : 1u)
-  , mColumnCoord(mLineCoord == 0u ? 1u : 0u)
-  , mLineSpacing(mLineCoord == 0u ? ph_font.get_pixel_line_spacing()
-                                  : 0.5f * ph_font.get_pixel_max_advance())
-  , mCharSpacingFactor(tbfp.get_text_flow() == text_flow::LeftRight
+  , m_column_coord(m_line_coord == 0u ? 1u : 0u)
+  , m_line_spacing(m_line_coord == 0u ? f.get_pixel_line_spacing()
+                                      : 0.5f * f.get_pixel_max_advance())
+  , m_char_spacing_factor(tbfp.get_text_flow() == text_flow::LeftRight
           || tbfp.get_text_flow() == text_flow::TopBottom
         ? 1.f
         : -1.f)
   , m_bounding_box()
 {
-  insertLineBreaks(ph_font, cache, tbfp);
-  generateVertices(ph_font, cache, atlas);
-  computeBoundingBox();
+  insert_line_breaks(f, cache, tbfp);
+  generate_vertices(f, cache, atlas);
+  compute_bounding_box();
 }
 
 
 
-float TextFormatter::computeGlyphAdvance(
-  const glyph_metrics& gm, const font& ph_font) const
+float text_formatter::compute_glyph_advance(
+  const glyph_metrics& gm, const font& f) const
 {
-  return mCharSpacingFactor
-    * (mLineCoord == 0u ? gm.get_pixel_horizontal_advance()
-                        : (ph_font.has_vertical() ? gm.get_pixel_vertical_advance()
-                                              : gm.get_pixel_size().y() * 1.5f));
+  return m_char_spacing_factor
+    * (m_line_coord == 0u
+          ? gm.get_pixel_horizontal_advance()
+          : (f.has_vertical() ? gm.get_pixel_vertical_advance()
+                              : gm.get_pixel_size().y() * 1.5f));
 }
 
 
 
-vec2f TextFormatter::computeGlyphBearing(
-  const glyph_metrics& gm, const font& ph_font) const
+vec2f text_formatter::compute_glyph_bearing(
+  const glyph_metrics& gm, const font& f) const
 {
-  vec2f vertBearing = ph_font.has_vertical()
+  vec2f vert_bearing = f.has_vertical()
     ? gm.get_pixel_vertical_bearing()
     : vec2f(-0.5f * gm.get_pixel_size().x(), 0.f);
 
   const vec2f& bearing
-    = mLineCoord == 0 ? gm.get_pixel_horizontal_bearing() : vertBearing;
+    = m_line_coord == 0 ? gm.get_pixel_horizontal_bearing() : vert_bearing;
 
   return bearing;
 }
 
 
 
-void TextFormatter::insertLineBreaks(const font& ph_font, const GlyphCache& cache,
+void text_formatter::insert_line_breaks(const font& f, const glyph_cache& cache,
   const text_box_formatting_params& tbfp)
 {
   // This function wraps text inside the bounding box.
@@ -355,50 +359,50 @@ void TextFormatter::insertLineBreaks(const font& ph_font, const GlyphCache& cach
     return;
   }
 
-  const float maxLineSize = tbfp.get_max_size()(mLineCoord);
-  const float maxColumnSize = tbfp.get_max_size()(mColumnCoord);
+  const float max_line_size = tbfp.get_max_size()(m_line_coord);
+  const float max_column_size = tbfp.get_max_size()(m_column_coord);
 
-  float lineSize = 0.f;
-  float columnSize = mLineSpacing;
+  float line_size = 0.f;
+  float column_size = m_line_spacing;
   size_t pos = 0;
-  size_t newlinepos = m_text.find_first_of(LineFeed);
+  size_t new_line_pos = m_text.find_first_of(s_line_feed);
   while(pos < m_text.size())
   {
     // If the new line makes the m_text box overflow, delete the rest of the
     // string.
-    if(columnSize > maxColumnSize)
+    if(column_size > max_column_size)
     {
       m_text.erase(pos);
       break;
     }
 
     size_t wordStart = pos < m_text.size()
-      ? std::min(m_text.find_first_not_of(WhiteSpace, pos), newlinepos)
+      ? std::min(m_text.find_first_not_of(s_whitespace, pos), new_line_pos)
       : m_text.size();
-    size_t wordEnd = wordStart < m_text.size()
-      ? std::min(m_text.find_first_of(WhiteSpace, wordStart), newlinepos)
+    size_t word_end = wordStart < m_text.size()
+      ? std::min(m_text.find_first_of(s_whitespace, wordStart), new_line_pos)
       : m_text.size();
 
     // Compute the size of the next word.
-    float wordSize = 0.f;
-    for(size_t i = pos; i < wordEnd; ++i)
+    float word_size = 0.f;
+    for(size_t i = pos; i < word_end; ++i)
     {
       HOU_ENSURE_DEV(i < m_text.size());
-      wordSize += std::fabs(
-        computeGlyphAdvance(cache.get_glyph(m_text[i]).get_metrics(), ph_font));
+      word_size += std::fabs(
+        compute_glyph_advance(cache.get_glyph(m_text[i]).get_metrics(), f));
     }
 
     // If the first word is a space, remove it for size computations.
-    float wordSizeAdjustment = 0.f;
-    if(m_text[pos] == WhiteSpace)
+    float word_size_adjustment = 0.f;
+    if(m_text[pos] == s_whitespace)
     {
-      wordSizeAdjustment = std::fabs(
-        computeGlyphAdvance(cache.get_glyph(WhiteSpace).get_metrics(), ph_font));
+      word_size_adjustment = std::fabs(
+        compute_glyph_advance(cache.get_glyph(s_whitespace).get_metrics(), f));
     }
 
     // If the word can't possibly fit on any line.
     // The rest of the string need not be rendered.
-    if((wordSize - wordSizeAdjustment) > maxLineSize)
+    if((word_size - word_size_adjustment) > max_line_size)
     {
       m_text.erase(pos);
       break;
@@ -406,144 +410,145 @@ void TextFormatter::insertLineBreaks(const font& ph_font, const GlyphCache& cach
 
     // If the word doesn't fit on this line Add a line break in place of the
     // first space.
-    lineSize += wordSize;
-    if(lineSize > maxLineSize)
+    line_size += word_size;
+    if(line_size > max_line_size)
     {
       m_text[pos] = '\n';
-      columnSize += mLineSpacing;
-      lineSize = wordSize - wordSizeAdjustment;
+      column_size += m_line_spacing;
+      line_size = word_size - word_size_adjustment;
     }
 
     // If the new line makes the m_text box overflow, delete the rest of the
     // string.
-    if(columnSize > maxColumnSize)
+    if(column_size > max_column_size)
     {
       m_text.erase(pos);
       break;
     }
 
     // If new line character, start a new line.
-    pos = wordEnd;
-    if(m_text[wordEnd] == LineFeed)
+    pos = word_end;
+    if(m_text[word_end] == s_line_feed)
     {
-      newlinepos = wordEnd + 1 < m_text.size()
-        ? m_text.find_first_of(LineFeed, wordEnd + 1)
+      new_line_pos = word_end + 1 < m_text.size()
+        ? m_text.find_first_of(s_line_feed, word_end + 1)
         : m_text.size();
-      columnSize += mLineSpacing;
-      lineSize = 0.f;
+      column_size += m_line_spacing;
+      line_size = 0.f;
     }
   }
 }
 
 
 
-void TextFormatter::generateVertices(
-  const font& ph_font, const GlyphCache& cache, const GlyphAtlas& atlas)
+void text_formatter::generate_vertices(
+  const font& f, const glyph_cache& cache, const glyph_atlas& atlas)
 {
-  vec2f penPos(0.f, 0.f);
+  vec2f pen_pos(0.f, 0.f);
   for(size_t i = 0; i < m_text.size(); ++i)
   {
     utf32::code_unit c = m_text[i];
-    if(c == LineFeed)
+    if(c == s_line_feed)
     {
-      penPos(mLineCoord) = 0.f;
-      penPos(mColumnCoord) += mLineSpacing;
+      pen_pos(m_line_coord) = 0.f;
+      pen_pos(m_column_coord) += m_line_spacing;
     }
     else
     {
       const glyph_metrics& gm = cache.get_glyph(c).get_metrics();
-      const AtlasGlyphCoordinates& ac = atlas.getAtlasGlyphCoordinates(c);
+      const atlas_glyph_coordinates& ac = atlas.get_atlas_glyph_coordinates(c);
 
-      float advance = computeGlyphAdvance(gm, ph_font);
+      float advance = compute_glyph_advance(gm, f);
 
       if(advance < 0.f)
       {
-        penPos(mLineCoord) += advance;
+        pen_pos(m_line_coord) += advance;
       }
 
-      vec2f bearing = computeGlyphBearing(gm, ph_font);
+      vec2f bearing = compute_glyph_bearing(gm, f);
 
-      vec2f v0Pos = penPos + bearing + ac.getTopLeftPos();
-      vec3f v0Tex = ac.getTopLeftTex();
-      text_vertex v0(v0Pos, v0Tex);
+      vec2f v0_pos = pen_pos + bearing + ac.get_top_left_pos();
+      vec3f v0_tex = ac.get_top_left_tex();
+      text_vertex v0(v0_pos, v0_tex);
 
-      vec2f v1Pos = v0Pos + ac.getTopRightPos();
-      vec3f v1Tex = ac.getTopRightTex();
-      text_vertex v1(v1Pos, v1Tex);
+      vec2f v1_pos = v0_pos + ac.get_top_right_pos();
+      vec3f v1_tex = ac.get_top_right_tex();
+      text_vertex v1(v1_pos, v1_tex);
 
-      vec2f v2Pos = v0Pos + ac.getBottomLeftPos();
-      vec3f v2Tex = ac.getBottomLeftTex();
-      text_vertex v2(v2Pos, v2Tex);
+      vec2f v2_pos = v0_pos + ac.get_bottom_left_pos();
+      vec3f v2_tex = ac.get_bottom_left_tex();
+      text_vertex v2(v2_pos, v2_tex);
 
-      vec2f v3Pos = v0Pos + ac.getBottomRightPos();
-      vec3f v3Tex = ac.getBottomRightTex();
-      text_vertex v3(v3Pos, v3Tex);
+      vec2f v3_pos = v0_pos + ac.get_bottom_right_pos();
+      vec3f v3_tex = ac.get_bottom_right_tex();
+      text_vertex v3(v3_pos, v3_tex);
 
-      mVertices[i * 6 + 0] = v0;
-      mVertices[i * 6 + 1] = v1;
-      mVertices[i * 6 + 2] = v2;
-      mVertices[i * 6 + 3] = v2;
-      mVertices[i * 6 + 4] = v1;
-      mVertices[i * 6 + 5] = v3;
+      m_vertices[i * 6 + 0] = v0;
+      m_vertices[i * 6 + 1] = v1;
+      m_vertices[i * 6 + 2] = v2;
+      m_vertices[i * 6 + 3] = v2;
+      m_vertices[i * 6 + 4] = v1;
+      m_vertices[i * 6 + 5] = v3;
 
       if(advance > 0.f)
       {
-        penPos(mLineCoord) += advance;
+        pen_pos(m_line_coord) += advance;
       }
     }
   }
 }
 
 
-void TextFormatter::computeBoundingBox()
+void text_formatter::compute_bounding_box()
 {
-  if(mVertices.empty())
+  if(m_vertices.empty())
   {
     return;
   }
 
-  static constexpr size_t tlOffset = 0u;
-  static constexpr size_t brOffset = 5u;
+  static constexpr size_t tl_offset = 0u;
+  static constexpr size_t br_offset = 5u;
 
-  vec2f topLeft = mVertices[tlOffset].get_position();
-  vec2f bottomRight = mVertices[brOffset].get_position();
+  vec2f top_left = m_vertices[tl_offset].get_position();
+  vec2f bottom_right = m_vertices[br_offset].get_position();
 
-  for(size_t i = VerticesPerGlyph; i < mVertices.size(); i += VerticesPerGlyph)
+  for(size_t i = s_vertices_per_glyph; i < m_vertices.size();
+      i += s_vertices_per_glyph)
   {
-    const vec2f& tlPos = mVertices[i + tlOffset].get_position();
-    const vec2f& brPos = mVertices[i + brOffset].get_position();
-    if(tlPos.x() < topLeft.x())
+    const vec2f& tl_pos = m_vertices[i + tl_offset].get_position();
+    const vec2f& br_pos = m_vertices[i + br_offset].get_position();
+    if(tl_pos.x() < top_left.x())
     {
-      topLeft.x() = tlPos.x();
+      top_left.x() = tl_pos.x();
     }
-    if(tlPos.y() < topLeft.y())
+    if(tl_pos.y() < top_left.y())
     {
-      topLeft.y() = tlPos.y();
+      top_left.y() = tl_pos.y();
     }
-    if(brPos.x() > bottomRight.x())
+    if(br_pos.x() > bottom_right.x())
     {
-      bottomRight.x() = brPos.x();
+      bottom_right.x() = br_pos.x();
     }
-    if(brPos.y() > bottomRight.y())
+    if(br_pos.y() > bottom_right.y())
     {
-      bottomRight.y() = brPos.y();
+      bottom_right.y() = br_pos.y();
     }
   }
 
-  m_bounding_box.set_position(topLeft);
-  m_bounding_box.set_size(bottomRight - topLeft);
+  m_bounding_box.set_position(top_left);
+  m_bounding_box.set_size(bottom_right - top_left);
 }
 
 
 
-const std::vector<text_vertex>& TextFormatter::getVertices() const
+const std::vector<text_vertex>& text_formatter::get_vertices() const
 {
-  return mVertices;
+  return m_vertices;
 }
 
 
 
-const rectf& TextFormatter::get_bounding_box() const
+const rectf& text_formatter::get_bounding_box() const
 {
   return m_bounding_box;
 }
@@ -552,29 +557,29 @@ const rectf& TextFormatter::get_bounding_box() const
 
 
 
-formatted_text::formatted_text(const std::string& text, const font& ph_font,
+formatted_text::formatted_text(const std::string& text, const font& f,
   const text_box_formatting_params& tbfp)
-  : formatted_text(convert_encoding<utf8, utf32>(text), ph_font, tbfp)
+  : formatted_text(convert_encoding<utf8, utf32>(text), f, tbfp)
 {}
 
 
 
 formatted_text::formatted_text(
-  std::u32string text, const font& ph_font, const text_box_formatting_params& tbfp)
+  std::u32string text, const font& f, const text_box_formatting_params& tbfp)
   : non_copyable()
   , m_atlas(nullptr)
   , m_mesh(nullptr)
   , m_bounding_box()
 {
-  GlyphCache glyphCache(text, ph_font);
-  GlyphAtlas glyphAtlas(glyphCache);
-  TextFormatter formatter(text, ph_font, glyphCache, glyphAtlas, tbfp);
+  glyph_cache gc(text, f);
+  glyph_atlas ga(gc);
+  text_formatter formatter(text, f, gc, ga, tbfp);
 
-  m_atlas = std::make_unique<texture2_array>(
-    glyphAtlas.get_image(), texture_format::r, 1u);
+  m_atlas
+    = std::make_unique<texture2_array>(ga.get_image(), texture_format::r, 1u);
   m_atlas->setChannelMapping(texture_channel_mapping::alpha);
   m_mesh = std::make_unique<text_mesh>(
-    mesh_draw_mode::triangles, mesh_fill_mode::fill, formatter.getVertices());
+    mesh_draw_mode::triangles, mesh_fill_mode::fill, formatter.get_vertices());
   m_bounding_box = formatter.get_bounding_box();
 }
 
