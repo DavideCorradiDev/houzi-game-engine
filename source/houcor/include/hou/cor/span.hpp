@@ -112,11 +112,9 @@ public:
    *
    * \param c the container.
    */
-  template <
-    typename Container,
-    typename Enable = std::enable_if_t<
-      std::is_const<T>::value && !std::is_const<Container>::value
-      && !is_span<Container>::value
+  template <typename Container,
+    typename Enable = std::enable_if_t<std::is_const<T>::value
+      && !std::is_const<Container>::value && !is_span<Container>::value
       && std::is_convertible<typename Container::pointer, pointer>::value
       && is_contiguous_container<Container>::value>>
   span(const Container& c);
@@ -129,10 +127,9 @@ public:
    *
    * \param c the container.
    */
-  template <
-    typename Container,
-    typename Enable = std::enable_if_t<
-      !std::is_const<Container>::value && !is_span<Container>::value
+  template <typename Container,
+    typename Enable = std::enable_if_t<!std::is_const<Container>::value
+      && !is_span<Container>::value
       && std::is_convertible<typename Container::pointer, pointer>::value
       && is_contiguous_container<Container>::value>>
   span(Container& c);

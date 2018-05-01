@@ -28,8 +28,7 @@ template <typename PtrType>
 class HOU_COR_API not_null
 {
 public:
-  static_assert(
-    std::is_assignable<PtrType&, std::nullptr_t>::value,
+  static_assert(std::is_assignable<PtrType&, std::nullptr_t>::value,
     "PtrType cannot be assigned nullptr.");
 
 public:
@@ -41,8 +40,7 @@ public:
    *
    * \param other pointer type.
    */
-  template <
-    typename OtherPtrType,
+  template <typename OtherPtrType,
     typename Enable
     = std::enable_if_t<std::is_convertible<OtherPtrType, PtrType>::value>>
   not_null(OtherPtrType&& other);
@@ -55,8 +53,7 @@ public:
    *
    * \param other the other not_null object.
    */
-  template <
-    typename OtherPtrType,
+  template <typename OtherPtrType,
     typename Enable
     = std::enable_if_t<std::is_convertible<OtherPtrType, PtrType>::value>>
   not_null(const not_null<OtherPtrType>& other);

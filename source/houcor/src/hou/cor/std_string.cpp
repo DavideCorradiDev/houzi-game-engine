@@ -27,8 +27,18 @@ std::string escape_regex(std::string s)
 {
   static const std::vector<std::string> reserved_chars = {
     // \ must be first in the list to avoid replacing it recursively.
-    u8"\\", u8".", u8"^", u8"$", u8"*", u8"+",
-    u8"?",  u8"(", u8")", u8"[", u8"{", u8"|",
+    u8"\\",
+    u8".",
+    u8"^",
+    u8"$",
+    u8"*",
+    u8"+",
+    u8"?",
+    u8"(",
+    u8")",
+    u8"[",
+    u8"{",
+    u8"|",
   };
 
   for(const auto& c : reserved_chars)

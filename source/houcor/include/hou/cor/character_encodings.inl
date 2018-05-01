@@ -96,7 +96,22 @@ size_t utf8::count(InputIt in_first, InputIt in_last)
 size_t utf8::count_trailing_units(code_unit cu)
 {
   static constexpr std::array<code_unit, 16u> trailing_units{
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 3,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    2,
+    3,
   };
   return trailing_units[(*reinterpret_cast<uchar*>(&cu)) >> 4];
 }
@@ -261,8 +276,7 @@ size_t wide::count(InputIt in_first, InputIt in_last)
 
 
 
-template <
-  typename InputEncoding, typename OutputEncoding, typename InputIt,
+template <typename InputEncoding, typename OutputEncoding, typename InputIt,
   typename OutputIt>
 OutputIt convert_encoding(InputIt in_first, InputIt in_last, OutputIt out_first)
 {
@@ -282,9 +296,8 @@ std::basic_string<typename OutputEncoding::code_unit> convert_encoding(
   const std::basic_string<typename InputEncoding::code_unit>& s)
 {
   std::basic_string<typename OutputEncoding::code_unit> retval;
-  convert_encoding<
-    InputEncoding,
-    OutputEncoding>(s.begin(), s.end(), std::back_inserter(retval));
+  convert_encoding<InputEncoding, OutputEncoding>(
+    s.begin(), s.end(), std::back_inserter(retval));
   return retval;
 }
 

@@ -22,8 +22,7 @@ uid_generator::uid_generator(uint32_t starting_value)
 
 uint32_t uid_generator::generate()
 {
-  HOU_RUNTIME_CHECK(
-    m_counter != std::numeric_limits<uint32_t>::max(),
+  HOU_RUNTIME_CHECK(m_counter != std::numeric_limits<uint32_t>::max(),
     get_text(cor_error::overflow));
   return m_counter.fetch_add(1);
 }

@@ -170,8 +170,7 @@ span<Out> reinterpret_span(const span<In>& in)
 {
   size_t in_byte_count = in.size() * sizeof(In);
   HOU_EXPECT(in_byte_count % sizeof(Out) == 0);
-  return span<Out>(
-    reinterpret_cast<typename span<Out>::pointer>(in.data()),
+  return span<Out>(reinterpret_cast<typename span<Out>::pointer>(in.data()),
     in_byte_count / sizeof(Out));
 }
 

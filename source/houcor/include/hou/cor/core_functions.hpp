@@ -33,8 +33,7 @@ namespace hou
  *
  * \return the result of the check.
  */
-template <
-  typename T,
+template <typename T,
   typename Enable = std::enable_if_t<std::is_floating_point<T>::value>>
 HOU_COR_API bool close(T lhs, T rhs, T acc = std::numeric_limits<T>::epsilon());
 
@@ -66,11 +65,9 @@ HOU_COR_API bool close(T lhs, T rhs, T acc = std::numeric_limits<T>::epsilon());
  *
  * \return the result of the check.
  */
-template <
-  typename T, typename InputIt1, typename InputIt2,
+template <typename T, typename InputIt1, typename InputIt2,
   typename Enable = std::enable_if_t<std::is_floating_point<T>::value>>
-bool container_close(
-  InputIt1 begin1, InputIt1 end1, InputIt2 begin2,
+bool container_close(InputIt1 begin1, InputIt1 end1, InputIt2 begin2,
   T acc = std::numeric_limits<T>::epsilon());
 
 /** Outputs a container to the given stream.

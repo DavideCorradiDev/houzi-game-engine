@@ -371,8 +371,7 @@ public:
  *
  * \return an iterator to the output code unit after the converted code point.
  */
-template <
-  typename InputEncoding, typename OutputEncoding, typename InputIt,
+template <typename InputEncoding, typename OutputEncoding, typename InputIt,
   typename OutputIt>
 OutputIt convert_encoding(
   InputIt in_first, InputIt in_last, OutputIt out_first);

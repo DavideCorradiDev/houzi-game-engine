@@ -33,11 +33,9 @@ namespace hou
  *
  * \return the result of the check.
  */
-template <
-  typename T, typename U, std::size_t N,
+template <typename T, typename U, std::size_t N,
   typename Enable = std::enable_if_t<std::is_floating_point<T>::value>>
-bool close(
-  const std::array<U, N>& lhs, const std::array<U, N>& rhs,
+bool close(const std::array<U, N>& lhs, const std::array<U, N>& rhs,
   T acc = std::numeric_limits<T>::epsilon());
 
 /** Outputs a std::array to the given stream.

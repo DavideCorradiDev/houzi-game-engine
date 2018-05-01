@@ -13,11 +13,10 @@ namespace hou
 
 std::chrono::nanoseconds clock::get_resolution()
 {
-  return std::chrono::nanoseconds(static_cast<int64_t>(
-    1000000000.
+  return std::chrono::nanoseconds(static_cast<int64_t>(1000000000.
     * (static_cast<double>(std::chrono::high_resolution_clock::period::num)
-       / static_cast<double>(
-           std::chrono::high_resolution_clock::period::den))));
+        / static_cast<double>(
+            std::chrono::high_resolution_clock::period::den))));
 }
 
 
