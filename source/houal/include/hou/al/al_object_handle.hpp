@@ -20,8 +20,7 @@ namespace hou
 namespace al
 {
 
-class HOU_AL_API object_handle
-  : public non_copyable
+class HOU_AL_API object_handle : public non_copyable
 {
 public:
   object_handle(ALuint name);
@@ -36,8 +35,7 @@ private:
 
 
 
-class HOU_AL_API device_owned_object_handle
-  : public object_handle
+class HOU_AL_API device_owned_object_handle : public object_handle
 {
 public:
   device_owned_object_handle(ALuint name);
@@ -52,8 +50,7 @@ private:
 
 
 
-class HOU_AL_API context_owned_object_handle
-  : public object_handle
+class HOU_AL_API context_owned_object_handle : public object_handle
 {
 public:
   context_owned_object_handle(ALuint name);
@@ -66,9 +63,8 @@ private:
   uint32_t m_owning_context_uid;
 };
 
-}
+}  // namespace al
 
-}
+}  // namespace hou
 
 #endif
-

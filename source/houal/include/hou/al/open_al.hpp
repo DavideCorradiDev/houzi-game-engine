@@ -10,10 +10,10 @@
 #ifndef TARGET_OS_MAC
   #define TARGET_OS_MAC 0
 #endif
+
 #include <AL/al.h>
 #undef TARGET_OS_MAC
 
 #include <AL/alc.h>
 
 #endif
-

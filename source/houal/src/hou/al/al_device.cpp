@@ -34,7 +34,7 @@ uint32_t generate_uid()
   return uid_gen.generate();
 }
 
-}
+}  // namespace
 
 
 
@@ -56,19 +56,19 @@ device::device()
   , m_device(alcOpenDevice(nullptr))
   , m_uid(generate_uid())
 {
-  HOU_RUNTIME_CHECK(m_device != nullptr, get_text(al_error::device_open)
-    , u8"default device");
+  HOU_RUNTIME_CHECK(
+    m_device != nullptr, get_text(al_error::device_open), u8"default device");
 }
 
 
 
-device::device(const std::string& deviceName)
+device::device(const std::string& dev_name)
   : non_copyable()
-  , m_device(alcOpenDevice(deviceName.c_str()))
+  , m_device(alcOpenDevice(dev_name.c_str()))
   , m_uid(generate_uid())
 {
-  HOU_RUNTIME_CHECK(m_device != nullptr, get_text(al_error::device_open)
-    , deviceName.c_str());
+  HOU_RUNTIME_CHECK(
+    m_device != nullptr, get_text(al_error::device_open), dev_name.c_str());
 }
 
 
@@ -86,8 +86,8 @@ device::~device()
 {
   if(m_device != nullptr)
   {
-    HOU_FATAL_CHECK(alcCloseDevice(m_device) == AL_TRUE
-      , get_text(al_error::device_close));
+    HOU_FATAL_CHECK(
+      alcCloseDevice(m_device) == AL_TRUE, get_text(al_error::device_close));
   }
 }
 
@@ -112,7 +112,6 @@ uint32_t device::get_uid() const
   return m_uid;
 }
 
-}
+}  // namespace al
 
-}
-
+}  // namespace hou

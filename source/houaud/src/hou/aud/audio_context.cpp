@@ -40,9 +40,9 @@ audio_context::audio_context()
 
 
 
-audio_context::audio_context(const std::string& deviceName)
+audio_context::audio_context(const std::string& dev_name)
   : non_copyable()
-  , m_al_device(deviceName)
+  , m_al_device(dev_name)
   , m_al_context(m_al_device)
 {
   alGetError();

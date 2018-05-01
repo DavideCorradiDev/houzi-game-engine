@@ -23,15 +23,14 @@ namespace hou
 namespace al
 {
 
-class HOU_AL_API device
-  : public non_copyable
+class HOU_AL_API device : public non_copyable
 {
 public:
   static std::vector<std::string> get_device_names();
 
 public:
   device();
-  device(const std::string& deviceName);
+  device(const std::string& dev_name);
   device(device&& other);
   ~device();
 
@@ -44,9 +43,8 @@ private:
   uint32_t m_uid;
 };
 
-}
+}  // namespace al
 
-}
+}  // namespace hou
 
 #endif
-

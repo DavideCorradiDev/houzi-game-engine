@@ -88,7 +88,6 @@ void get_listener_orientation(ALfloat* value)
 
 
 
-}
+}  // namespace al
 
-}
-
+}  // namespace hou

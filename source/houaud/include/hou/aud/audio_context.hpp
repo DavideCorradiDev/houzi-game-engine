@@ -58,9 +58,9 @@ public:
    *
    *  a list of available devices may be obtained by calling get_device_names.
    *
-   *  \param deviceName the name of the ph_device.
+   *  \param dev_name the name of the ph_device.
    */
-  audio_context(const std::string& deviceName);
+  audio_context(const std::string& dev_name);
 
   /** Move constructor.
    */

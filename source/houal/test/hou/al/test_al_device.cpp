@@ -23,9 +23,9 @@ TEST(TestAlDevice, DefaultDeviceCreation)
 TEST(TestAlDevice, Creation)
 {
   std::vector<std::string> deviceNames = al::device::get_device_names();
-  for(const auto& deviceName : deviceNames)
+  for(const auto& dev_name : deviceNames)
   {
-    al::device d(deviceName);
+    al::device d(dev_name);
     EXPECT_NE(nullptr, d.get_handle());
     EXPECT_NE(0u, d.get_uid());
   }

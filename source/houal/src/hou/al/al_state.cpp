@@ -69,7 +69,6 @@ ALfloat get_speed_of_sound()
   return value;
 }
 
-}
+}  // namespace al
 
-}
-
+}  // namespace hou

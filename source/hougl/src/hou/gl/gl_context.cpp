@@ -48,7 +48,7 @@ void context::set_current(context& ph_context, window& wnd)
 
 void context::unset_current()
 {
-  if(getCurrent() != nullptr)
+  if(get_current() != nullptr)
   {
     prv::context_impl::unset_current();
     s_current_context = nullptr;
@@ -58,7 +58,7 @@ void context::unset_current()
 
 
 
-context* context::getCurrent()
+context* context::get_current()
 {
   return s_current_context;
 }
@@ -85,7 +85,7 @@ context::context(context&& other)
   , m_sharing_group_uid(std::move(other.m_sharing_group_uid))
   , m_tracking_data(std::move(other.m_tracking_data))
 {
-  if(getCurrent() == &other)
+  if(get_current() == &other)
   {
     s_current_context = this;
   }

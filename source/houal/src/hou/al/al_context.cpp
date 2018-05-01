@@ -23,8 +23,8 @@ namespace al
 namespace
 {
 
-std::mutex gCurrentContextMutex;
-context* gCurrentContext;
+std::mutex g_current_context_mutex;
+context* g_current_context;
 
 uint32_t generate_uid();
 
@@ -40,43 +40,43 @@ uint32_t generate_uid()
 
 
 
-void context::set_current(context& ph_context)
+void context::set_current(context& ctx)
 {
-  std::lock_guard<std::mutex> lock(gCurrentContextMutex);
-  HOU_RUNTIME_CHECK(alcMakeContextCurrent(ph_context.m_handle) == AL_TRUE
+  std::lock_guard<std::mutex> lock(g_current_context_mutex);
+  HOU_RUNTIME_CHECK(alcMakeContextCurrent(ctx.m_handle) == AL_TRUE
     , get_text(al_error::context_make_current));
-  gCurrentContext = &ph_context;
+  g_current_context = &ctx;
 }
 
 
 
 void context::unset_current()
 {
-  std::lock_guard<std::mutex> lock(gCurrentContextMutex);
+  std::lock_guard<std::mutex> lock(g_current_context_mutex);
   HOU_RUNTIME_CHECK(alcMakeContextCurrent(nullptr) == AL_TRUE
     , get_text(al_error::context_make_current));
-  gCurrentContext = nullptr;
+  g_current_context = nullptr;
 }
 
 
 
-context* context::getCurrent()
+context* context::get_current()
 {
   context* retval = nullptr;
   {
-    std::lock_guard<std::mutex> lock(gCurrentContextMutex);
-    retval = gCurrentContext;
+    std::lock_guard<std::mutex> lock(g_current_context_mutex);
+    retval = g_current_context;
   }
   return retval;
 }
 
 
 
-context::context(device& ph_device)
+context::context(device& dev)
   : non_copyable()
-  , m_handle(alcCreateContext(ph_device.get_handle(), nullptr))
+  , m_handle(alcCreateContext(dev.get_handle(), nullptr))
   , m_uid(generate_uid())
-  , m_device_uid(ph_device.get_uid())
+  , m_device_uid(dev.get_uid())
 {
   HOU_RUNTIME_CHECK(m_handle != nullptr, get_text(al_error::context_create));
 }
@@ -89,9 +89,9 @@ context::context(context&& other)
   , m_device_uid(std::move(other.m_device_uid))
 {
   other.m_handle = nullptr;
-  if(getCurrent() == &other)
+  if(get_current() == &other)
   {
-    gCurrentContext = this;
+    g_current_context = this;
   }
 }
 

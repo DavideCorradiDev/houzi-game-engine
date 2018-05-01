@@ -159,13 +159,13 @@ TEST_F(test_gl_context, move_constructor)
     "Test", video_mode(vec2u::zero(), 0u), window_style::windowed);
   gl::context c_dummy(gl::context_settings::standard, w);
   gl::context::set_current(c_dummy, w);
-  ASSERT_EQ(&c_dummy, gl::context::getCurrent());
+  ASSERT_EQ(&c_dummy, gl::context::get_current());
   uint32_t uid_ref = c_dummy.get_uid();
   uint32_t shared_uid_ref = c_dummy.get_sharing_group_uid();
 
   gl::context c = std::move(c_dummy);
-  ASSERT_NE(&c_dummy, gl::context::getCurrent());
-  ASSERT_EQ(&c, gl::context::getCurrent());
+  ASSERT_NE(&c_dummy, gl::context::get_current());
+  ASSERT_EQ(&c, gl::context::get_current());
   ASSERT_EQ(uid_ref, c.get_uid());
   ASSERT_EQ(shared_uid_ref, c.get_sharing_group_uid());
 }
@@ -183,27 +183,27 @@ TEST_F(test_gl_context, current_gl_context)
 
   EXPECT_FALSE(c1.is_current());
   EXPECT_FALSE(c2.is_current());
-  EXPECT_EQ(nullptr, gl::context::getCurrent());
+  EXPECT_EQ(nullptr, gl::context::get_current());
 
   gl::context::set_current(c1, w1);
   EXPECT_TRUE(c1.is_current());
   EXPECT_FALSE(c2.is_current());
-  EXPECT_EQ(&c1, gl::context::getCurrent());
+  EXPECT_EQ(&c1, gl::context::get_current());
 
   gl::context::set_current(c2, w2);
   EXPECT_FALSE(c1.is_current());
   EXPECT_TRUE(c2.is_current());
-  EXPECT_EQ(&c2, gl::context::getCurrent());
+  EXPECT_EQ(&c2, gl::context::get_current());
 
   gl::context::set_current(c2, w2);
   EXPECT_FALSE(c1.is_current());
   EXPECT_TRUE(c2.is_current());
-  EXPECT_EQ(&c2, gl::context::getCurrent());
+  EXPECT_EQ(&c2, gl::context::get_current());
 
   gl::context::unset_current();
   EXPECT_FALSE(c1.is_current());
   EXPECT_FALSE(c2.is_current());
-  EXPECT_EQ(nullptr, gl::context::getCurrent());
+  EXPECT_EQ(nullptr, gl::context::get_current());
 }
 
 

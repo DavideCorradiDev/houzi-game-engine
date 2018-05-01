@@ -22,16 +22,15 @@ namespace al
 
 class device;
 
-class HOU_AL_API context
-  : public non_copyable
+class HOU_AL_API context : public non_copyable
 {
 public:
-  static void set_current(context& ph_context);
+  static void set_current(context& ctx);
   static void unset_current();
-  static context* getCurrent();
+  static context* get_current();
 
 public:
-  context(device& ph_device);
+  context(device& dev);
   context(context&& other);
   ~context();
 
@@ -46,9 +45,8 @@ private:
   uint32_t m_device_uid;
 };
 
-}
+}  // namespace al
 
-}
+}  // namespace hou
 
 #endif
-

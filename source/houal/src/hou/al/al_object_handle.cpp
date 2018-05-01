@@ -50,13 +50,13 @@ device_owned_object_handle::device_owned_object_handle(ALuint name)
   , m_owning_device_uid(0u)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
-  m_owning_device_uid = al::context::getCurrent()->get_device_uid();
+  m_owning_device_uid = al::context::get_current()->get_device_uid();
 }
 
 
 
-device_owned_object_handle::device_owned_object_handle
-  (device_owned_object_handle&& other)
+device_owned_object_handle::device_owned_object_handle(
+  device_owned_object_handle&& other)
   : object_handle(std::move(other))
   , m_owning_device_uid(std::move(other.m_owning_device_uid))
 {}
@@ -80,13 +80,13 @@ context_owned_object_handle::context_owned_object_handle(ALuint name)
   , m_owning_context_uid(0u)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
-  m_owning_context_uid = al::context::getCurrent()->get_uid();
+  m_owning_context_uid = al::context::get_current()->get_uid();
 }
 
 
 
-context_owned_object_handle::context_owned_object_handle
-  (context_owned_object_handle&& other)
+context_owned_object_handle::context_owned_object_handle(
+  context_owned_object_handle&& other)
   : object_handle(std::move(other))
   , m_owning_context_uid(std::move(other.m_owning_context_uid))
 {}
@@ -103,7 +103,6 @@ uint32_t context_owned_object_handle::get_owning_context_uid() const
   return m_owning_context_uid;
 }
 
-}
+}  // namespace al
 
-}
-
+}  // namespace hou

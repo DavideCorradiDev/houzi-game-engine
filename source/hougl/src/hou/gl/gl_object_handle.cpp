@@ -77,7 +77,7 @@ shared_object_handle::shared_object_handle(GLuint name)
   , m_owning_sharing_group_uid(0u)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  m_owning_sharing_group_uid = context::getCurrent()->get_sharing_group_uid();
+  m_owning_sharing_group_uid = context::get_current()->get_sharing_group_uid();
 }
 
 
@@ -106,7 +106,7 @@ non_shared_object_handle::non_shared_object_handle(GLuint name)
   , m_owning_context_uid(0u)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  m_owning_context_uid = context::getCurrent()->get_uid();
+  m_owning_context_uid = context::get_current()->get_uid();
 }
 
 

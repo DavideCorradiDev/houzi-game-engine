@@ -34,7 +34,6 @@ enum class al_error
 
 HOU_AL_API std::string get_text(al_error ec);
 
-}
+}  // namespace hou
 
 #endif
-

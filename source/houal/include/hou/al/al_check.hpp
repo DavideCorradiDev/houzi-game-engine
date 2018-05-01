@@ -24,23 +24,22 @@ class device;
 class device_owned_object_handle;
 
 void HOU_AL_API check_error(const std::string& filename, int line);
-void HOU_AL_API check_context_error(device& ph_device, const std::string& filename
-  , int line);
+void HOU_AL_API check_context_error(
+  device& ph_device, const std::string& filename, int line);
 void HOU_AL_API check_context_existence(const std::string& filename, int line);
-void HOU_AL_API check_context_ownership(const device_owned_object_handle& o
-  , const std::string& filename, int line);
-void HOU_AL_API check_context_ownership(const context_owned_object_handle& o
-  , const std::string& filename, int line);
+void HOU_AL_API check_context_ownership(
+  const device_owned_object_handle& o, const std::string& filename, int line);
+void HOU_AL_API check_context_ownership(
+  const context_owned_object_handle& o, const std::string& filename, int line);
 
-}
+}  // namespace al
 
-}
+}  // namespace hou
 
 
 
 #ifdef HOU_ENABLE_AL_ERROR_CHECKS
-  #define HOU_AL_CHECK_ERROR() \
-    hou::al::check_error(__FILE__, __LINE__)
+  #define HOU_AL_CHECK_ERROR() hou::al::check_error(__FILE__, __LINE__)
 #else
   #define HOU_AL_CHECK_ERROR()
 #endif
@@ -48,8 +47,8 @@ void HOU_AL_API check_context_ownership(const context_owned_object_handle& o
 
 
 #ifdef HOU_ENABLE_AL_CONTEXT_ERROR_CHECKS
-  #define HOU_AL_CHECK_CONTEXT_ERROR(ph_device) \
-    hou::al::check_context_error(ph_device, __FILE__, __LINE__)
+#define HOU_AL_CHECK_CONTEXT_ERROR(ph_device) \
+  hou::al::check_context_error(ph_device, __FILE__, __LINE__)
 #else
   #define HOU_AL_CHECK_CONTEXT_ERROR(ph_device)
 #endif
@@ -57,8 +56,8 @@ void HOU_AL_API check_context_ownership(const context_owned_object_handle& o
 
 
 #ifdef HOU_ENABLE_AL_CONTEXT_EXISTENCE_CHECKS
-  #define HOU_AL_CHECK_CONTEXT_EXISTENCE() \
-    hou::al::check_context_existence(__FILE__, __LINE__)
+#define HOU_AL_CHECK_CONTEXT_EXISTENCE() \
+  hou::al::check_context_existence(__FILE__, __LINE__)
 #else
   #define HOU_AL_CHECK_CONTEXT_EXISTENCE()
 #endif
@@ -66,11 +65,10 @@ void HOU_AL_API check_context_ownership(const context_owned_object_handle& o
 
 
 #ifdef HOU_ENABLE_AL_CONTEXT_OWNERSHIP_CHECKS
-  #define HOU_AL_CHECK_CONTEXT_OWNERSHIP(objectHandle) \
-    hou::al::check_context_ownership(objectHandle, __FILE__, __LINE__)
+#define HOU_AL_CHECK_CONTEXT_OWNERSHIP(objectHandle) \
+  hou::al::check_context_ownership(objectHandle, __FILE__, __LINE__)
 #else
   #define HOU_AL_CHECK_CONTEXT_OWNERSHIP(objectHandle)
 #endif
 
 #endif
-

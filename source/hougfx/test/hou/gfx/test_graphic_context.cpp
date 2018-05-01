@@ -71,7 +71,7 @@ TEST_F(test_graphic_context, set_current)
     EXPECT_FALSE(rc1.is_current());
     EXPECT_FALSE(rc2.is_current());
   }
-  EXPECT_EQ(nullptr, gl::context::getCurrent());
+  EXPECT_EQ(nullptr, gl::context::get_current());
 }
 
 
@@ -84,7 +84,7 @@ TEST_F(test_graphic_context, unset_current_on_deletion)
     graphic_context::set_current(rc);
     EXPECT_TRUE(rc.is_current());
   }
-  EXPECT_EQ(nullptr, gl::context::getCurrent());
+  EXPECT_EQ(nullptr, gl::context::get_current());
 }
 
 

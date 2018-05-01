@@ -51,8 +51,8 @@ int main()
 
   std::vector<std::string> deviceNames = audio_context::get_device_names();
   std::cout << "Available devices:" << std::endl;
-  for(const auto& deviceName : deviceNames) {
-    std::cout << deviceName << std::endl;
+  for(const auto& dev_name : deviceNames) {
+    std::cout << dev_name << std::endl;
   }
 
   audio_context ac;

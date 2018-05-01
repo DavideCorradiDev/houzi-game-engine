@@ -68,7 +68,7 @@ void check_error(const std::string& filename, int line)
 
 void check_context_existence(const std::string& filename, int line)
 {
-  if(context::getCurrent() == nullptr)
+  if(context::get_current() == nullptr)
   {
     HOU_THROW(std::logic_error, format_error_message(filename, line
       , get_text(gl_error::context_existence)));
@@ -81,7 +81,7 @@ void check_context_ownership(const shared_object_handle& object
   , const std::string& filename, int line)
 {
   check_context_existence(filename, line);
-  if(context::getCurrent()->get_sharing_group_uid()
+  if(context::get_current()->get_sharing_group_uid()
     != object.get_owning_sharing_group_uid())
   {
     HOU_THROW(std::logic_error, format_error_message(filename, line
@@ -95,7 +95,7 @@ void check_context_ownership(const non_shared_object_handle& object
   , const std::string& filename, int line)
 {
   check_context_existence(filename, line);
-  if(context::getCurrent()->get_uid()
+  if(context::get_current()->get_uid()
     != object.get_owning_context_uid())
   {
     HOU_THROW(std::logic_error, format_error_message(filename, line

@@ -62,7 +62,6 @@ void set_source_pitch(const source_handle& s, ALfloat pitch)
 
 
 
-
 ALfloat get_source_pitch(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
@@ -82,7 +81,6 @@ void set_source_gain(const source_handle& s, ALfloat gain)
   alSourcef(s.get_name(), AL_GAIN, gain);
   HOU_AL_CHECK_ERROR();
 }
-
 
 
 
@@ -108,7 +106,6 @@ void set_source_max_gain(const source_handle& s, ALfloat maxGain)
 
 
 
-
 ALfloat get_source_max_gain(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
@@ -128,7 +125,6 @@ void set_source_min_gain(const source_handle& s, ALfloat minGain)
   alSourcef(s.get_name(), AL_MIN_GAIN, minGain);
   HOU_AL_CHECK_ERROR();
 }
-
 
 
 
@@ -154,7 +150,6 @@ void set_source_max_distance(const source_handle& s, ALfloat distance)
 
 
 
-
 ALfloat get_source_max_distance(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
@@ -174,7 +169,6 @@ void set_source_rolloff_factor(const source_handle& s, ALfloat factor)
   alSourcef(s.get_name(), AL_ROLLOFF_FACTOR, factor);
   HOU_AL_CHECK_ERROR();
 }
-
 
 
 
@@ -200,7 +194,6 @@ void set_source_cone_outer_gain(const source_handle& s, ALfloat gain)
 
 
 
-
 ALfloat get_source_cone_outer_gain(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
@@ -220,7 +213,6 @@ void set_source_cone_inner_angle(const source_handle& s, ALfloat angle)
   alSourcef(s.get_name(), AL_CONE_INNER_ANGLE, angle);
   HOU_AL_CHECK_ERROR();
 }
-
 
 
 
@@ -246,7 +238,6 @@ void set_source_cone_outer_angle(const source_handle& s, ALfloat angle)
 
 
 
-
 ALfloat getSourceConeOuterAngle(const source_handle& s)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
@@ -266,7 +257,6 @@ void set_source_reference_distance(const source_handle& s, ALfloat dist)
   alSourcef(s.get_name(), AL_REFERENCE_DISTANCE, dist);
   HOU_AL_CHECK_ERROR();
 }
-
 
 
 
@@ -292,7 +282,6 @@ void set_source_position(const source_handle& s, const ALfloat* pos)
 
 
 
-
 void get_source_position(const source_handle& s, ALfloat* pos)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
@@ -310,7 +299,6 @@ void set_source_velocity(const source_handle& s, const ALfloat* vel)
   alSourcefv(s.get_name(), AL_VELOCITY, const_cast<ALfloat*>(vel));
   HOU_AL_CHECK_ERROR();
 }
-
 
 
 
@@ -344,7 +332,6 @@ void get_source_direction(const source_handle& s, ALfloat* dir)
 
 
 
-
 void set_source_relative(const source_handle& s, ALboolean relative)
 {
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
@@ -352,7 +339,6 @@ void set_source_relative(const source_handle& s, ALboolean relative)
   alSourcei(s.get_name(), AL_SOURCE_RELATIVE, static_cast<ALint>(relative));
   HOU_AL_CHECK_ERROR();
 }
-
 
 
 
@@ -449,7 +435,6 @@ void rewind_source(const source_handle& s)
   alSourceRewind(s.get_name());
   HOU_AL_CHECK_ERROR();
 }
-
 
 
 
@@ -583,7 +568,6 @@ void set_source_byte_offset(const source_handle& s, ALint offset)
   HOU_AL_CHECK_ERROR();
 }
 
-}
+}  // namespace al
 
-}
-
+}  // namespace hou

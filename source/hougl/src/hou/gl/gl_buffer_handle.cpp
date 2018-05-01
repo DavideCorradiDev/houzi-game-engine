@@ -82,7 +82,7 @@ void bind_buffer(const buffer_handle& buffer, GLenum target)
   {
     glBindBuffer(target, buffer.get_name());
     HOU_GL_CHECK_ERROR();
-    context::getCurrent()->m_tracking_data.set_bound_buffer(buffer.get_uid()
+    context::get_current()->m_tracking_data.set_bound_buffer(buffer.get_uid()
       , target);
   }
 }
@@ -96,7 +96,7 @@ void unbind_buffer(GLenum target)
   {
     glBindBuffer(target, 0u);
     HOU_GL_CHECK_ERROR();
-    context::getCurrent()->m_tracking_data.set_bound_buffer(0u, target);
+    context::get_current()->m_tracking_data.set_bound_buffer(0u, target);
   }
 }
 
@@ -106,7 +106,7 @@ bool is_buffer_bound(const buffer_handle& buffer, GLenum target)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(buffer);
-  return context::getCurrent()->m_tracking_data.get_bound_buffer(target)
+  return context::get_current()->m_tracking_data.get_bound_buffer(target)
     == buffer.get_uid();
 }
 
@@ -115,7 +115,7 @@ bool is_buffer_bound(const buffer_handle& buffer, GLenum target)
 bool is_buffer_bound(GLenum target)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  return context::getCurrent()->m_tracking_data.get_bound_buffer(target) != 0u;
+  return context::get_current()->m_tracking_data.get_bound_buffer(target) != 0u;
 }
 
 

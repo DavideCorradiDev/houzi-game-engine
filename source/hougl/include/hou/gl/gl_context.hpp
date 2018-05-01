@@ -80,7 +80,7 @@ private:
 public:
   static void set_current(context& ph_context, window& wnd);
   static void unset_current();
-  static context* getCurrent();
+  static context* get_current();
 
   context(const context_settings& settings, const window& wnd);
   context(const context_settings& settings, const window& wnd,

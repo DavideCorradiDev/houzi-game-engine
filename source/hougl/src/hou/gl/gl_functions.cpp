@@ -265,7 +265,7 @@ void set_viewport(GLint x, GLint y, GLsizei w, GLsizei h)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   const recti& currVp
-    = context::getCurrent()->m_tracking_data.get_current_viewport();
+    = context::get_current()->m_tracking_data.get_current_viewport();
   if(x != currVp.x() || y != currVp.y() || w != currVp.w() || h != currVp.h())
   {
     glViewport(x, y, w, h);
@@ -296,7 +296,7 @@ void draw_arrays(GLenum draw_mode, GLint first, GLsizei count)
 void bind_window(window& w)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  gl::context::set_current(*gl::context::getCurrent(), w);
+  gl::context::set_current(*gl::context::get_current(), w);
 }
 
 

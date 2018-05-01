@@ -71,7 +71,7 @@ std::string getContextErrorMessage(ALCenum err)
   }
 }
 
-}
+}  // namespace
 
 
 
@@ -80,20 +80,21 @@ void check_error(const std::string& filename, int line)
   ALenum errState = alGetError();
   if(errState != AL_NO_ERROR)
   {
-    HOU_THROW(std::logic_error, format_error_message(filename, line
-      , getErrorMessage(errState)));
+    HOU_THROW(std::logic_error,
+      format_error_message(filename, line, getErrorMessage(errState)));
   }
 }
 
 
 
-void check_context_error(device& ph_device, const std::string& filename, int line)
+void check_context_error(
+  device& ph_device, const std::string& filename, int line)
 {
   ALCenum errState = alcGetError(ph_device.get_handle());
   if(errState != ALC_NO_ERROR)
   {
-    HOU_THROW(std::logic_error, format_error_message(filename, line
-      , getContextErrorMessage(errState)));
+    HOU_THROW(std::logic_error,
+      format_error_message(filename, line, getContextErrorMessage(errState)));
   }
 }
 
@@ -101,41 +102,42 @@ void check_context_error(device& ph_device, const std::string& filename, int lin
 
 void check_context_existence(const std::string& filename, int line)
 {
-  if(context::getCurrent() == nullptr)
+  if(context::get_current() == nullptr)
   {
-    HOU_THROW(std::logic_error, format_error_message(filename, line
-      , get_text(al_error::context_existence)));
+    HOU_THROW(std::logic_error,
+      format_error_message(
+        filename, line, get_text(al_error::context_existence)));
   }
 }
 
 
 
-
-void check_context_ownership(const device_owned_object_handle& o
-  , const std::string& filename, int line)
+void check_context_ownership(
+  const device_owned_object_handle& o, const std::string& filename, int line)
 {
   check_context_existence(filename, line);
-  if(context::getCurrent()->get_device_uid() != o.get_owning_device_uid())
+  if(context::get_current()->get_device_uid() != o.get_owning_device_uid())
   {
-    HOU_THROW(std::logic_error, format_error_message(filename, line
-      , get_text(al_error::invalid_ownership)));
+    HOU_THROW(std::logic_error,
+      format_error_message(
+        filename, line, get_text(al_error::invalid_ownership)));
   }
 }
 
 
 
-void check_context_ownership(const context_owned_object_handle& o
-  , const std::string& filename, int line)
+void check_context_ownership(
+  const context_owned_object_handle& o, const std::string& filename, int line)
 {
   check_context_existence(filename, line);
-  if(context::getCurrent()->get_uid() != o.get_owning_context_uid())
+  if(context::get_current()->get_uid() != o.get_owning_context_uid())
   {
-    HOU_THROW(std::logic_error, format_error_message(filename, line
-      , get_text(al_error::invalid_ownership)));
+    HOU_THROW(std::logic_error,
+      format_error_message(
+        filename, line, get_text(al_error::invalid_ownership)));
   }
 }
 
-}
+}  // namespace al
 
-}
-
+}  // namespace hou

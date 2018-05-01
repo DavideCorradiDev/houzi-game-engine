@@ -25,9 +25,8 @@ ALfloat HOU_AL_API get_doppler_factor();
 void HOU_AL_API set_speed_of_sound(ALfloat value);
 ALfloat HOU_AL_API get_speed_of_sound();
 
-}
+}  // namespace al
 
-}
+}  // namespace hou
 
 #endif
-

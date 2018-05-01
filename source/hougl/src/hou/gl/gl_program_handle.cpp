@@ -60,7 +60,7 @@ void bind_program(const program_handle& program)
   {
     glUseProgram(program.get_name());
     HOU_GL_CHECK_ERROR();
-    context::getCurrent()->m_tracking_data.set_bound_program(program.get_uid());
+    context::get_current()->m_tracking_data.set_bound_program(program.get_uid());
   }
 }
 
@@ -73,7 +73,7 @@ void unbind_program()
   {
     glUseProgram(0u);
     HOU_GL_CHECK_ERROR();
-    context::getCurrent()->m_tracking_data.set_bound_program(0u);
+    context::get_current()->m_tracking_data.set_bound_program(0u);
   }
 }
 
@@ -83,7 +83,7 @@ bool is_program_bound(const program_handle& program)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(program);
-  return context::getCurrent()->m_tracking_data.get_bound_program()
+  return context::get_current()->m_tracking_data.get_bound_program()
     == program.get_uid();
 }
 
@@ -92,7 +92,7 @@ bool is_program_bound(const program_handle& program)
 bool is_program_bound()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  return context::getCurrent()->m_tracking_data.get_bound_program() != 0u;
+  return context::get_current()->m_tracking_data.get_bound_program() != 0u;
 }
 
 

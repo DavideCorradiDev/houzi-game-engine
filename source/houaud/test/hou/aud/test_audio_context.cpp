@@ -21,9 +21,9 @@ TEST(TestAudioContext, DefaultCreation)
 TEST(TestAudioContext, DeviceNameCreation)
 {
   std::vector<std::string> deviceNames = audio_context::get_device_names();
-  for(const auto& deviceName : deviceNames)
+  for(const auto& dev_name : deviceNames)
   {
-    audio_context ctx(deviceName);
+    audio_context ctx(dev_name);
   }
   SUCCEED();
 }
@@ -69,6 +69,6 @@ TEST(TestAudioContext, SetCurrent)
     EXPECT_FALSE(ctx1.is_current());
     EXPECT_FALSE(ctx2.is_current());
   }
-  EXPECT_EQ(nullptr, al::context::getCurrent());
+  EXPECT_EQ(nullptr, al::context::get_current());
 }
 

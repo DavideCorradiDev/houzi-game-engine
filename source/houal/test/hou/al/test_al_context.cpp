@@ -48,11 +48,11 @@ TEST(TestAlContext, CurrentContextMoveConstructor)
   al::context context_dummy(ph_device);
   al::context::set_current(context_dummy);
   EXPECT_TRUE(context_dummy.is_current());
-  EXPECT_EQ(&context_dummy, al::context::getCurrent());
+  EXPECT_EQ(&context_dummy, al::context::get_current());
 
   al::context ph_context(std::move(context_dummy));
   EXPECT_TRUE(ph_context.is_current());
-  EXPECT_EQ(&ph_context, al::context::getCurrent());
+  EXPECT_EQ(&ph_context, al::context::get_current());
 }
 
 
@@ -78,27 +78,27 @@ TEST(TestAlContext, SetCurrent)
 
   EXPECT_FALSE(c1.is_current());
   EXPECT_FALSE(c2.is_current());
-  EXPECT_EQ(nullptr, al::context::getCurrent());
+  EXPECT_EQ(nullptr, al::context::get_current());
 
   al::context::set_current(c1);
   EXPECT_TRUE(c1.is_current());
   EXPECT_FALSE(c2.is_current());
-  EXPECT_EQ(&c1, al::context::getCurrent());
+  EXPECT_EQ(&c1, al::context::get_current());
 
   al::context::set_current(c2);
   EXPECT_FALSE(c1.is_current());
   EXPECT_TRUE(c2.is_current());
-  EXPECT_EQ(&c2, al::context::getCurrent());
+  EXPECT_EQ(&c2, al::context::get_current());
 
   al::context::unset_current();
   EXPECT_FALSE(c1.is_current());
   EXPECT_FALSE(c2.is_current());
-  EXPECT_EQ(nullptr, al::context::getCurrent());
+  EXPECT_EQ(nullptr, al::context::get_current());
 
   al::context::unset_current();
   EXPECT_FALSE(c1.is_current());
   EXPECT_FALSE(c2.is_current());
-  EXPECT_EQ(nullptr, al::context::getCurrent());
+  EXPECT_EQ(nullptr, al::context::get_current());
 }
 
 
@@ -109,9 +109,9 @@ TEST(TestAlContext, CurrentContextResetOnDestruction)
     al::device d;
     al::context c(d);
     al::context::set_current(c);
-    EXPECT_EQ(&c, al::context::getCurrent());
+    EXPECT_EQ(&c, al::context::get_current());
   }
-  EXPECT_EQ(nullptr, al::context::getCurrent());
+  EXPECT_EQ(nullptr, al::context::get_current());
 
   al::device d1;
   al::context c1(d1);
@@ -120,7 +120,7 @@ TEST(TestAlContext, CurrentContextResetOnDestruction)
     al::device d2;
     al::context c2(d2);
   }
-  EXPECT_EQ(&c1, al::context::getCurrent());
+  EXPECT_EQ(&c1, al::context::get_current());
 }
 
 
@@ -133,12 +133,12 @@ TEST(TestAlContext, MultithreadedGetCurrent)
   al::context c(d);
   al::context::set_current(c);
 
-  EXPECT_EQ(&c, al::context::getCurrent());
+  EXPECT_EQ(&c, al::context::get_current());
   EXPECT_TRUE(c.is_current());
 
   auto threadFun = [&c]()
   {
-    EXPECT_EQ(&c, al::context::getCurrent());
+    EXPECT_EQ(&c, al::context::get_current());
     EXPECT_TRUE(c.is_current());
   };
 
@@ -188,7 +188,7 @@ TEST(TestAlContext, MultithreadedSetCurrent)
   bool currentContextFound = false;
   for(const auto& c : contexts)
   {
-    if(&c == al::context::getCurrent())
+    if(&c == al::context::get_current())
     {
       currentContextFound = true;
     }
