@@ -1,3 +1,5 @@
+# External libraries
+
 [**Freetype**](https://www.freetype.org/) - Copyright (c) 1996-2002, 2006 David Turner, Robert Wilhelm, and Werner Lemberg.
 Distributed under the [Freetype Project License (FPL)](external-libs/freetype/ftl.txt).
 
