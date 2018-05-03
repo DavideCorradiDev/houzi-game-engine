@@ -9,7 +9,9 @@ template <typename CharT, size_t N, typename Traits>
 basic_static_string<CharT, N, Traits>::basic_static_string() noexcept
   : m_buffer()
   , m_size(0u)
-{}
+{
+  m_buffer[0] = 0;
+}
 
 
 
