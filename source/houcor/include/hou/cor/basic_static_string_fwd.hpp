@@ -9,6 +9,8 @@
 
 #include "hou/cor/basic_types.hpp"
 
+#include <string>
+
 
 
 namespace hou
