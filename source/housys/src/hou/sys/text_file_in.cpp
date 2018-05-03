@@ -4,7 +4,7 @@
 
 #include "hou/sys/text_file_in.hpp"
 
-#include "hou/cor/error.hpp"
+#include "hou/cor/deprecated_error.hpp"
 
 
 

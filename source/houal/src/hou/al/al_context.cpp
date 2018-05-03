@@ -7,7 +7,7 @@
 #include "hou/al/al_device.hpp"
 #include "hou/al/al_error.hpp"
 
-#include "hou/cor/error.hpp"
+#include "hou/cor/deprecated_error.hpp"
 #include "hou/cor/uid_generator.hpp"
 
 #include <mutex>
@@ -43,7 +43,7 @@ uint32_t generate_uid()
 void context::set_current(context& ctx)
 {
   std::lock_guard<std::mutex> lock(g_current_context_mutex);
-  HOU_RUNTIME_CHECK(alcMakeContextCurrent(ctx.m_handle) == AL_TRUE
+  DEPRECATED_HOU_RUNTIME_CHECK(alcMakeContextCurrent(ctx.m_handle) == AL_TRUE
     , get_text(al_error::context_make_current));
   g_current_context = &ctx;
 }
@@ -53,7 +53,7 @@ void context::set_current(context& ctx)
 void context::unset_current()
 {
   std::lock_guard<std::mutex> lock(g_current_context_mutex);
-  HOU_RUNTIME_CHECK(alcMakeContextCurrent(nullptr) == AL_TRUE
+  DEPRECATED_HOU_RUNTIME_CHECK(alcMakeContextCurrent(nullptr) == AL_TRUE
     , get_text(al_error::context_make_current));
   g_current_context = nullptr;
 }
@@ -78,7 +78,7 @@ context::context(device& dev)
   , m_uid(generate_uid())
   , m_device_uid(dev.get_uid())
 {
-  HOU_RUNTIME_CHECK(m_handle != nullptr, get_text(al_error::context_create));
+  DEPRECATED_HOU_RUNTIME_CHECK(m_handle != nullptr, get_text(al_error::context_create));
 }
 
 

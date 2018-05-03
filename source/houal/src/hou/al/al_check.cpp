@@ -10,7 +10,7 @@
 #include "hou/al/al_object_handle.hpp"
 
 #include "hou/cor/cor_error.hpp"
-#include "hou/cor/error.hpp"
+#include "hou/cor/deprecated_error.hpp"
 
 #include <AL/al.h>
 #include <AL/alc.h>
@@ -44,7 +44,7 @@ std::string getErrorMessage(ALenum err)
     case AL_OUT_OF_MEMORY:
       return get_text(al_error::out_of_memory);
     default:
-      HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(err));
+      DEPRECATED_HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(err));
       return u8"";
   }
 }
@@ -66,7 +66,7 @@ std::string getContextErrorMessage(ALCenum err)
     case ALC_OUT_OF_MEMORY:
       return get_text(al_error::out_of_memory);
     default:
-      HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(err));
+      DEPRECATED_HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(err));
       return u8"";
   }
 }
@@ -80,8 +80,8 @@ void check_error(const std::string& filename, int line)
   ALenum errState = alGetError();
   if(errState != AL_NO_ERROR)
   {
-    HOU_THROW(std::logic_error,
-      format_error_message(filename, line, getErrorMessage(errState)));
+    DEPRECATED_HOU_THROW(std::logic_error,
+      deprecated_format_error_message(filename, line, getErrorMessage(errState)));
   }
 }
 
@@ -93,8 +93,8 @@ void check_context_error(
   ALCenum errState = alcGetError(dev.get_handle());
   if(errState != ALC_NO_ERROR)
   {
-    HOU_THROW(std::logic_error,
-      format_error_message(filename, line, getContextErrorMessage(errState)));
+    DEPRECATED_HOU_THROW(std::logic_error,
+      deprecated_format_error_message(filename, line, getContextErrorMessage(errState)));
   }
 }
 
@@ -104,8 +104,8 @@ void check_context_existence(const std::string& filename, int line)
 {
   if(context::get_current() == nullptr)
   {
-    HOU_THROW(std::logic_error,
-      format_error_message(
+    DEPRECATED_HOU_THROW(std::logic_error,
+      deprecated_format_error_message(
         filename, line, get_text(al_error::context_existence)));
   }
 }
@@ -118,8 +118,8 @@ void check_context_ownership(
   check_context_existence(filename, line);
   if(context::get_current()->get_device_uid() != o.get_owning_device_uid())
   {
-    HOU_THROW(std::logic_error,
-      format_error_message(
+    DEPRECATED_HOU_THROW(std::logic_error,
+      deprecated_format_error_message(
         filename, line, get_text(al_error::invalid_ownership)));
   }
 }
@@ -132,8 +132,8 @@ void check_context_ownership(
   check_context_existence(filename, line);
   if(context::get_current()->get_uid() != o.get_owning_context_uid())
   {
-    HOU_THROW(std::logic_error,
-      format_error_message(
+    DEPRECATED_HOU_THROW(std::logic_error,
+      deprecated_format_error_message(
         filename, line, get_text(al_error::invalid_ownership)));
   }
 }

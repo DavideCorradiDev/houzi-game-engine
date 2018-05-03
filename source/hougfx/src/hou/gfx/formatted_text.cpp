@@ -121,7 +121,7 @@ glyph_cache::glyph_cache(
     if(m_glyphs.count(c) == 0u)
     {
       auto inserted = m_glyphs.insert(std::make_pair(c, f.get_glyph(c)));
-      HOU_EXPECT_DEV(inserted.second);
+      DEPRECATED_HOU_EXPECT_DEV(inserted.second);
       const vec2u& glyph_size = inserted.first->second.get_image().get_size();
       for(size_t i = 0; i < vec2u::get_size(); ++i)
       {
@@ -387,7 +387,7 @@ void text_formatter::insert_line_breaks(const font& f, const glyph_cache& cache,
     float word_size = 0.f;
     for(size_t i = pos; i < word_end; ++i)
     {
-      HOU_ENSURE_DEV(i < m_text.size());
+      DEPRECATED_HOU_ENSURE_DEV(i < m_text.size());
       word_size += std::fabs(
         compute_glyph_advance(cache.get_glyph(m_text[i]).get_metrics(), f));
     }
@@ -596,7 +596,7 @@ formatted_text::formatted_text(formatted_text&& other)
 
 const texture2_array& formatted_text::get_atlas() const
 {
-  HOU_EXPECT_DEV(m_atlas != nullptr);
+  DEPRECATED_HOU_EXPECT_DEV(m_atlas != nullptr);
   return *m_atlas;
 }
 
@@ -604,7 +604,7 @@ const texture2_array& formatted_text::get_atlas() const
 
 const text_mesh& formatted_text::get_mesh() const
 {
-  HOU_EXPECT_DEV(m_mesh != nullptr);
+  DEPRECATED_HOU_EXPECT_DEV(m_mesh != nullptr);
   return *m_mesh;
 }
 

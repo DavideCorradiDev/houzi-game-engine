@@ -44,7 +44,7 @@ namespace hou
  * \return the formatted error message.
  */
 template <typename... FormattingVariables>
-std::string format_error_message(
+std::string deprecated_format_error_message(
   const std::string& file_path, int line, const std::string& message,
   const FormattingVariables&... vars);
 
@@ -52,12 +52,12 @@ std::string format_error_message(
 
 
 
-#define HOU_ERRMSG(...) \
-  ::hou::format_error_message(__FILE__, __LINE__, __VA_ARGS__)
+#define DEPRECATED_HOU_ERRMSG(...) \
+  ::hou::deprecated_format_error_message(__FILE__, __LINE__, __VA_ARGS__)
 
 
 
-#define HOU_TERMINATE(message) \
+#define DEPRECATED_HOU_TERMINATE(message) \
   do \
   { \
     std::cerr << message << std::endl; \
@@ -67,15 +67,15 @@ std::string format_error_message(
 
 
 #if defined(HOU_DISABLE_EXCEPTIONS)
-#define HOU_THROW(ExceptionType, ...) \
+#define DEPRECATED_HOU_THROW(ExceptionType, ...) \
   do \
   { \
-    HOU_TERMINATE( \
+    DEPRECATED_HOU_TERMINATE( \
       std::string(#ExceptionType) + std::string(u8" - ") \
       + std::string(ExceptionType(__VA_ARGS__).what())); \
   } while(false)
 #else
-#define HOU_THROW(ExceptionType, ...) \
+#define DEPRECATED_HOU_THROW(ExceptionType, ...) \
   do \
   { \
     throw ExceptionType(__VA_ARGS__); \
@@ -84,16 +84,16 @@ std::string format_error_message(
 
 
 
-#define HOU_FATAL_ERROR(...) HOU_TERMINATE(HOU_ERRMSG(__VA_ARGS__))
+#define DEPRECATED_HOU_FATAL_ERROR(...) DEPRECATED_HOU_TERMINATE(DEPRECATED_HOU_ERRMSG(__VA_ARGS__))
 
 
 
-#define HOU_FATAL_CHECK(condition, ...) \
+#define DEPRECATED_HOU_FATAL_CHECK(condition, ...) \
   do \
   { \
     if(!(condition)) \
     { \
-      HOU_FATAL_ERROR(__VA_ARGS__); \
+      DEPRECATED_HOU_FATAL_ERROR(__VA_ARGS__); \
     } \
   } while(false)
 
@@ -103,63 +103,63 @@ std::string format_error_message(
 #define HOU_FATAL_CHECK_DEV(condition, ...)
 #else
 #define HOU_FATAL_CHECK_DEV(condition, ...) \
-  HOU_FATAL_CHECK(condition, __VA_ARGS__)
+  DEPRECATED_HOU_FATAL_CHECK(condition, __VA_ARGS__)
 #endif
 
 
 
-#define HOU_LOGIC_ERROR(...) \
-  HOU_THROW(std::logic_error, HOU_ERRMSG(__VA_ARGS__))
+#define DEPRECATED_HOU_LOGIC_ERROR(...) \
+  DEPRECATED_HOU_THROW(std::logic_error, DEPRECATED_HOU_ERRMSG(__VA_ARGS__))
 
 
 
-#define HOU_LOGIC_CHECK(condition, ...) \
+#define DEPRECATED_HOU_LOGIC_CHECK(condition, ...) \
   do \
   { \
     if(!(condition)) \
     { \
-      HOU_LOGIC_ERROR(__VA_ARGS__); \
+      DEPRECATED_HOU_LOGIC_ERROR(__VA_ARGS__); \
     } \
   } while(false)
 
 
 
 #if defined(NDEBUG)
-#define HOU_LOGIC_CHECK_DEV(condition, ...)
+#define DEPRECATED_HOU_LOGIC_CHECK_DEV(condition, ...)
 #else
-#define HOU_LOGIC_CHECK_DEV(condition, ...) \
-  HOU_LOGIC_CHECK(condition, __VA_ARGS__)
+#define DEPRECATED_HOU_LOGIC_CHECK_DEV(condition, ...) \
+  DEPRECATED_HOU_LOGIC_CHECK(condition, __VA_ARGS__)
 #endif
 
 
 
-#define HOU_RUNTIME_ERROR(...) \
-  HOU_THROW(std::runtime_error, HOU_ERRMSG(__VA_ARGS__))
+#define DEPRECATED_HOU_RUNTIME_ERROR(...) \
+  DEPRECATED_HOU_THROW(std::runtime_error, DEPRECATED_HOU_ERRMSG(__VA_ARGS__))
 
 
 
-#define HOU_RUNTIME_CHECK(condition, ...) \
+#define DEPRECATED_HOU_RUNTIME_CHECK(condition, ...) \
   do \
   { \
     if(!(condition)) \
     { \
-      HOU_RUNTIME_ERROR(__VA_ARGS__); \
+      DEPRECATED_HOU_RUNTIME_ERROR(__VA_ARGS__); \
     } \
   } while(false)
 
 
 
 #if defined(NDEBUG)
-#define HOU_RUNTIME_CHECK_DEV(condition, ...)
+#define DEPRECATED_HOU_RUNTIME_CHECK_DEV(condition, ...)
 #else
-#define HOU_RUNTIME_CHECK_DEV(condition, ...) \
-  HOU_RUNTIME_CHECK(condition, __VA_ARGS__)
+#define DEPRECATED_HOU_RUNTIME_CHECK_DEV(condition, ...) \
+  DEPRECATED_HOU_RUNTIME_CHECK(condition, __VA_ARGS__)
 #endif
 
 
 
-#define HOU_EXPECT(condition) \
-  HOU_LOGIC_CHECK( \
+#define DEPRECATED_HOU_EXPECT(condition) \
+  DEPRECATED_HOU_LOGIC_CHECK( \
     condition, \
     get_text(::hou::cor_error::pre_condition) \
       + std::string(" (" #condition ")."))
@@ -167,15 +167,15 @@ std::string format_error_message(
 
 
 #if defined(NDEBUG)
-#define HOU_EXPECT_DEV(condition)
+#define DEPRECATED_HOU_EXPECT_DEV(condition)
 #else
-#define HOU_EXPECT_DEV(condition) HOU_EXPECT(condition)
+#define DEPRECATED_HOU_EXPECT_DEV(condition) DEPRECATED_HOU_EXPECT(condition)
 #endif
 
 
 
-#define HOU_ENSURE(condition) \
-  HOU_LOGIC_CHECK( \
+#define DEPRECATED_HOU_ENSURE(condition) \
+  DEPRECATED_HOU_LOGIC_CHECK( \
     condition, \
     get_text(::hou::cor_error::post_condition) \
       + std::string(" (" #condition ")."))
@@ -183,15 +183,15 @@ std::string format_error_message(
 
 
 #if defined(NDEBUG)
-#define HOU_ENSURE_DEV(condition)
+#define DEPRECATED_HOU_ENSURE_DEV(condition)
 #else
-#define HOU_ENSURE_DEV(condition) HOU_ENSURE(condition)
+#define DEPRECATED_HOU_ENSURE_DEV(condition) DEPRECATED_HOU_ENSURE(condition)
 #endif
 
 
 
-#define HOU_EXPECT_FATAL(condition) \
-  HOU_FATAL_CHECK( \
+#define DEPRECATED_HOU_EXPECT_FATAL(condition) \
+  DEPRECATED_HOU_FATAL_CHECK( \
     condition, \
     get_text(::hou::cor_error::pre_condition) \
       + std::string(" (" #condition ")."))
@@ -199,15 +199,15 @@ std::string format_error_message(
 
 
 #if defined(NDEBUG)
-#define HOU_EXPECT_FATAL_DEV(condition)
+#define DEPRECATED_HOU_EXPECT_FATAL_DEV(condition)
 #else
-#define HOU_EXPECT_FATAL_DEV(condition) HOU_EXPECT_FATAL(condition)
+#define DEPRECATED_HOU_EXPECT_FATAL_DEV(condition) DEPRECATED_HOU_EXPECT_FATAL(condition)
 #endif
 
 
 
-#define HOU_ENSURE_FATAL(condition) \
-  HOU_FATAL_CHECK( \
+#define DEPRECATED_HOU_ENSURE_FATAL(condition) \
+  DEPRECATED_HOU_FATAL_CHECK( \
     condition, \
     get_text(::hou::cor_error::post_condition) \
       + std::string(" (" #condition ")."))
@@ -215,13 +215,13 @@ std::string format_error_message(
 
 
 #if defined(NDEBUG)
-#define HOU_ENSURE_FATAL_DEV(condition)
+#define DEPRECATED_HOU_ENSURE_FATAL_DEV(condition)
 #else
-#define HOU_ENSURE_FATAL_DEV(condition) HOU_ENSURE_FATAL(condition)
+#define DEPRECATED_HOU_ENSURE_FATAL_DEV(condition) DEPRECATED_HOU_ENSURE_FATAL(condition)
 #endif
 
 
 
-#include "hou/cor/error.inl"
+#include "hou/cor/deprecated_error.inl"
 
 #endif

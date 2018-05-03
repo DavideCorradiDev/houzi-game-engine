@@ -6,7 +6,7 @@
 
 #include "hou/sys/sys_error.hpp"
 
-#include "hou/cor/error.hpp"
+#include "hou/cor/deprecated_error.hpp"
 #include "hou/cor/std_string.hpp"
 
 #include <cstdio>
@@ -59,7 +59,7 @@ size_t file::get_byte_count() const
 long file::tell() const
 {
   long pos = ftell(m_handle);
-  HOU_RUNTIME_CHECK(pos != -1L, get_text(sys_error::file_tell));
+  DEPRECATED_HOU_RUNTIME_CHECK(pos != -1L, get_text(sys_error::file_tell));
   return pos;
 }
 
@@ -91,7 +91,7 @@ void file::seek_offset(long offset)
 
 void file::flush() const
 {
-  HOU_RUNTIME_CHECK(fflush(m_handle) != EOF, get_text(sys_error::file_flush));
+  DEPRECATED_HOU_RUNTIME_CHECK(fflush(m_handle) != EOF, get_text(sys_error::file_flush));
 }
 
 
@@ -103,7 +103,7 @@ bool file::getc(char& c)
   c = static_cast<char>(retval);
   if(retval == EOF)
   {
-    HOU_RUNTIME_CHECK(!error(), get_text(sys_error::file_read));
+    DEPRECATED_HOU_RUNTIME_CHECK(!error(), get_text(sys_error::file_read));
     return false;
   }
   return true;
@@ -115,7 +115,7 @@ void file::putc(char c)
 {
   int retval = fputc(c, m_handle);
   update_flags();
-  HOU_RUNTIME_CHECK(retval != EOF, get_text(sys_error::file_write));
+  DEPRECATED_HOU_RUNTIME_CHECK(retval != EOF, get_text(sys_error::file_write));
 }
 
 
@@ -127,7 +127,7 @@ size_t file::gets(std::string& str)
   update_flags();
   if(retval == nullptr)
   {
-    HOU_RUNTIME_CHECK(!error(), get_text(sys_error::file_read));
+    DEPRECATED_HOU_RUNTIME_CHECK(!error(), get_text(sys_error::file_read));
     return 0u;
   }
   return std::char_traits<char>::length(retval);
@@ -139,7 +139,7 @@ void file::puts(const std::string& str)
 {
   int retval = fputs(str.c_str(), m_handle);
   update_flags();
-  HOU_RUNTIME_CHECK(retval != EOF, get_text(sys_error::file_write));
+  DEPRECATED_HOU_RUNTIME_CHECK(retval != EOF, get_text(sys_error::file_write));
 }
 
 
@@ -148,7 +148,7 @@ size_t file::read(void* buf, size_t element_size, size_t buf_size)
 {
   size_t count = fread(buf, element_size, buf_size, m_handle);
   update_flags();
-  HOU_RUNTIME_CHECK(
+  DEPRECATED_HOU_RUNTIME_CHECK(
     count == buf_size || !error(), get_text(sys_error::file_read));
   return count;
 }
@@ -159,14 +159,14 @@ void file::write(const void* buf, size_t element_size, size_t buf_size)
 {
   size_t count = fwrite(buf, element_size, buf_size, m_handle);
   update_flags();
-  HOU_RUNTIME_CHECK(count == buf_size, get_text(sys_error::file_write));
+  DEPRECATED_HOU_RUNTIME_CHECK(count == buf_size, get_text(sys_error::file_write));
 }
 
 
 
 void file::seek(long pos, int origin) const
 {
-  HOU_RUNTIME_CHECK(
+  DEPRECATED_HOU_RUNTIME_CHECK(
     fseek(m_handle, pos, origin) == 0, get_text(sys_error::file_seek));
 }
 

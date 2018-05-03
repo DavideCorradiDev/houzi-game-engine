@@ -112,7 +112,7 @@ void render_surface::set_viewport(const recti& viewport)
 
 vec2u render_surface::get_size() const
 {
-  HOU_EXPECT_DEV(m_color_attachment != nullptr);
+  DEPRECATED_HOU_EXPECT_DEV(m_color_attachment != nullptr);
   return m_color_attachment->get_size2();
 }
 
@@ -172,10 +172,10 @@ bool render_surface::is_current_render_target() const
 
 void render_surface::build_framebuffer(const vec2u& size, uint sample_count)
 {
-  HOU_ENSURE_DEV(graphic_context::get_rendering_color_byte_count() == 4u);
-  HOU_ENSURE_DEV(graphic_context::get_rendering_depth_byte_count() == 3u);
-  HOU_ENSURE_DEV(graphic_context::get_rendering_stencil_byte_count() == 1u);
-  HOU_EXPECT(sample_count > 0u);
+  DEPRECATED_HOU_ENSURE_DEV(graphic_context::get_rendering_color_byte_count() == 4u);
+  DEPRECATED_HOU_ENSURE_DEV(graphic_context::get_rendering_depth_byte_count() == 3u);
+  DEPRECATED_HOU_ENSURE_DEV(graphic_context::get_rendering_stencil_byte_count() == 1u);
+  DEPRECATED_HOU_EXPECT(sample_count > 0u);
 
   m_sample_count = sample_count;
   if(sample_count <= 1)
@@ -194,8 +194,8 @@ void render_surface::build_framebuffer(const vec2u& size, uint sample_count)
     m_depth_stencil_attachment = std::make_unique<multisample_texture2>(size,
       texture_format::depth_stencil, sample_count, fixed_sample_locations);
   }
-  HOU_ENSURE_DEV(m_color_attachment != nullptr);
-  HOU_ENSURE_DEV(m_depth_stencil_attachment != nullptr);
+  DEPRECATED_HOU_ENSURE_DEV(m_color_attachment != nullptr);
+  DEPRECATED_HOU_ENSURE_DEV(m_depth_stencil_attachment != nullptr);
 
   static constexpr uint attachment_point = 0u;
   static constexpr uint mipmap_level = 0u;
@@ -204,7 +204,7 @@ void render_surface::build_framebuffer(const vec2u& size, uint sample_count)
   m_framebuffer.set_depth_stencil_attachment(
     *m_depth_stencil_attachment, mipmap_level);
 
-  HOU_ENSURE_DEV(m_framebuffer.is_complete());
+  DEPRECATED_HOU_ENSURE_DEV(m_framebuffer.is_complete());
 }
 
 

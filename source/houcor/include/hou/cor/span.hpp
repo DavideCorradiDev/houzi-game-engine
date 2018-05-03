@@ -7,7 +7,7 @@
 
 #include "hou/cor/cor_export.hpp"
 
-#include "hou/cor/error.hpp"
+#include "hou/cor/deprecated_error.hpp"
 #include "hou/cor/template_utils.hpp"
 
 #include <iostream>
@@ -347,8 +347,8 @@ public:
   friend constexpr difference_type operator-(
     const span_iterator& lhs, const span_iterator& rhs)
   {
-    HOU_EXPECT(lhs.m_span == rhs.m_span);
-    HOU_EXPECT(lhs.m_index >= rhs.m_index);
+    DEPRECATED_HOU_EXPECT(lhs.m_span == rhs.m_span);
+    DEPRECATED_HOU_EXPECT(lhs.m_index >= rhs.m_index);
     return lhs.m_index - rhs.m_index;
   }
 
@@ -367,28 +367,28 @@ public:
   friend constexpr bool operator<(
     const span_iterator& lhs, const span_iterator& rhs)
   {
-    HOU_EXPECT(lhs.m_span == rhs.m_span);
+    DEPRECATED_HOU_EXPECT(lhs.m_span == rhs.m_span);
     return lhs.m_index < rhs.m_index;
   }
 
   friend constexpr bool operator<=(
     const span_iterator& lhs, const span_iterator& rhs)
   {
-    HOU_EXPECT(lhs.m_span == rhs.m_span);
+    DEPRECATED_HOU_EXPECT(lhs.m_span == rhs.m_span);
     return lhs.m_index <= rhs.m_index;
   }
 
   friend constexpr bool operator>(
     const span_iterator& lhs, const span_iterator& rhs)
   {
-    HOU_EXPECT(lhs.m_span == rhs.m_span);
+    DEPRECATED_HOU_EXPECT(lhs.m_span == rhs.m_span);
     return lhs.m_index > rhs.m_index;
   }
 
   friend constexpr bool operator>=(
     const span_iterator& lhs, const span_iterator& rhs)
   {
-    HOU_EXPECT(lhs.m_span == rhs.m_span);
+    DEPRECATED_HOU_EXPECT(lhs.m_span == rhs.m_span);
     return lhs.m_index >= rhs.m_index;
   }
 

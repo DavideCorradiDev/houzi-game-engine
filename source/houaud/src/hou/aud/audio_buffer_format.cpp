@@ -5,7 +5,7 @@
 #include "hou/aud/audio_buffer_format.hpp"
 
 #include "hou/cor/cor_error.hpp"
-#include "hou/cor/error.hpp"
+#include "hou/cor/deprecated_error.hpp"
 
 #define AUDIO_BUFFER_FORMAT_CASE(format, os) \
   case audio_buffer_format::format: \
@@ -19,7 +19,7 @@ namespace hou
 audio_buffer_format get_audio_buffer_format_enum(
   uint channels, uint bytes_per_sample)
 {
-  HOU_EXPECT((channels == 1u || channels == 2u)
+  DEPRECATED_HOU_EXPECT((channels == 1u || channels == 2u)
     && (bytes_per_sample == 1u || bytes_per_sample == 2u));
   if(channels == 1u)
   {
@@ -59,7 +59,7 @@ uint get_audio_buffer_format_channel_count(audio_buffer_format format)
     case audio_buffer_format::stereo16:
       return 2u;
     default:
-      HOU_LOGIC_ERROR(
+      DEPRECATED_HOU_LOGIC_ERROR(
         get_text(cor_error::invalid_enum), static_cast<int>(format));
       return 1u;
   }
@@ -78,7 +78,7 @@ uint get_audio_buffer_format_bytes_per_sample(audio_buffer_format format)
     case audio_buffer_format::mono16:
       return 2u;
     default:
-      HOU_LOGIC_ERROR(
+      DEPRECATED_HOU_LOGIC_ERROR(
         get_text(cor_error::invalid_enum), static_cast<int>(format));
       return 0u;
   }

@@ -8,7 +8,7 @@
 #include "hou/gl/gl_error.hpp"
 #include "hou/gl/gl_object_handle.hpp"
 
-#include "hou/cor/error.hpp"
+#include "hou/cor/deprecated_error.hpp"
 
 
 
@@ -46,7 +46,7 @@ std::string getErrorMessage(GLenum err)
     case GL_TABLE_TOO_LARGE:
       return get_text(gl_error::table_too_large);
     default:
-      HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(err));
+      DEPRECATED_HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(err));
       return u8"";
   }
 }
@@ -59,7 +59,7 @@ void check_error(const std::string& filename, int line)
 {
   for(GLenum err; (err = glGetError()) != GL_NO_ERROR;)
   {
-    HOU_THROW(std::logic_error, format_error_message(filename, line
+    DEPRECATED_HOU_THROW(std::logic_error, deprecated_format_error_message(filename, line
       , getErrorMessage(err)));
   }
 }
@@ -70,7 +70,7 @@ void check_context_existence(const std::string& filename, int line)
 {
   if(context::get_current() == nullptr)
   {
-    HOU_THROW(std::logic_error, format_error_message(filename, line
+    DEPRECATED_HOU_THROW(std::logic_error, deprecated_format_error_message(filename, line
       , get_text(gl_error::context_existence)));
   }
 }
@@ -84,7 +84,7 @@ void check_context_ownership(const shared_object_handle& object
   if(context::get_current()->get_sharing_group_uid()
     != object.get_owning_sharing_group_uid())
   {
-    HOU_THROW(std::logic_error, format_error_message(filename, line
+    DEPRECATED_HOU_THROW(std::logic_error, deprecated_format_error_message(filename, line
       , get_text(gl_error::invalid_ownership)));
   }
 }
@@ -98,7 +98,7 @@ void check_context_ownership(const non_shared_object_handle& object
   if(context::get_current()->get_uid()
     != object.get_owning_context_uid())
   {
-    HOU_THROW(std::logic_error, format_error_message(filename, line
+    DEPRECATED_HOU_THROW(std::logic_error, deprecated_format_error_message(filename, line
       , get_text(gl_error::invalid_ownership)));
   }
 }

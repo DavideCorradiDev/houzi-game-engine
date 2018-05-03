@@ -6,7 +6,7 @@
 
 #include "hou/sys/sys_error.hpp"
 
-#include "hou/cor/error.hpp"
+#include "hou/cor/deprecated_error.hpp"
 
 
 
@@ -18,7 +18,7 @@ file_handle::file_handle(
   : non_copyable()
   , m_file(open_file(path, get_file_mode_string(mode, type)))
 {
-  HOU_RUNTIME_CHECK(
+  DEPRECATED_HOU_RUNTIME_CHECK(
     m_file != nullptr, get_text(sys_error::file_open), path.c_str());
 }
 
@@ -37,7 +37,7 @@ file_handle::~file_handle()
 {
   if(m_file != nullptr)
   {
-    HOU_FATAL_CHECK(fclose(m_file) != EOF, get_text(sys_error::file_close),
+    DEPRECATED_HOU_FATAL_CHECK(fclose(m_file) != EOF, get_text(sys_error::file_close),
       get_file_descriptor(m_file));
   }
 }

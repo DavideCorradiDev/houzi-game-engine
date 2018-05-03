@@ -10,7 +10,7 @@
 #include "hou/gl/gl_shader_handle.hpp"
 
 #include "hou/cor/character_encodings.hpp"
-#include "hou/cor/error.hpp"
+#include "hou/cor/deprecated_error.hpp"
 
 
 
@@ -135,7 +135,7 @@ void link_program(const program_handle& program)
     GLchar infoLog[max_info_log_size];
     glGetProgramInfoLog(program.get_name(), max_info_log_size, nullptr, infoLog);
     HOU_GL_CHECK_ERROR();
-    HOU_RUNTIME_ERROR(get_text(gl_error::program_linking), infoLog);
+    DEPRECATED_HOU_RUNTIME_ERROR(get_text(gl_error::program_linking), infoLog);
   }
 }
 
@@ -148,7 +148,7 @@ GLint get_program_uniform_location(
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(program);
   GLint location = glGetUniformLocation(program.get_name(), name);
   HOU_GL_CHECK_ERROR();
-  HOU_RUNTIME_CHECK(
+  DEPRECATED_HOU_RUNTIME_CHECK(
     location != -1, get_text(gl_error::program_invalid_uniform), name);
   return location;
 }

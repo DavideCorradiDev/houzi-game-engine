@@ -64,7 +64,7 @@ bool vertex_array::is_bound() const
 void vertex_array::set_vertex_data(
   const vertex_buffer& vb, uint binding_index, const vertex_format& vf)
 {
-  HOU_EXPECT(binding_index <= get_max_binding_index());
+  DEPRECATED_HOU_EXPECT(binding_index <= get_max_binding_index());
 
   gl::set_vertex_array_vertex_buffer(m_handle,
     static_cast<GLuint>(binding_index), vb.get_handle(),

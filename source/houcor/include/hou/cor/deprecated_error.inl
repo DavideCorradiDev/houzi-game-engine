@@ -6,7 +6,7 @@ namespace hou
 {
 
 template <typename... FormattingVariables>
-std::string format_error_message(
+std::string deprecated_format_error_message(
   const std::string& file_path, int line, const std::string& message,
   const FormattingVariables&... vars)
 {

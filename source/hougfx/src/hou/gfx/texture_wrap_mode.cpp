@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/gfx/texture_wrap_mode.hpp"
-#include "hou/cor/error.hpp"
+#include "hou/cor/deprecated_error.hpp"
 
 #define TEXTURE_WRAP_MODE_CASE(twm, os) \
   case texture_wrap_mode::twm: \
@@ -24,7 +24,7 @@ std::ostream& operator<<(std::ostream& os, texture_wrap_mode twm)
     TEXTURE_WRAP_MODE_CASE(repeat, os);
     TEXTURE_WRAP_MODE_CASE(mirrored_repeat, os);
     default:
-      HOU_LOGIC_ERROR(
+      DEPRECATED_HOU_LOGIC_ERROR(
         get_text(cor_error::invalid_enum), static_cast<GLenum>(twm));
       return os;
   }

@@ -7,7 +7,7 @@
 #include "hou/sys/win/win.hpp"
 #include "hou/sys/window.hpp"
 
-#include "hou/cor/error.hpp"
+#include "hou/cor/deprecated_error.hpp"
 
 #include "hou/mth/matrix.hpp"
 
@@ -69,7 +69,7 @@ vec2i get_position()
 
 vec2i get_position(const window& w)
 {
-  HOU_EXPECT_DEV(w.get_handle() != nullptr);
+  DEPRECATED_HOU_EXPECT_DEV(w.get_handle() != nullptr);
 
   POINT position;
   GetCursorPos(&position);
@@ -88,7 +88,7 @@ void set_position(const vec2i& value)
 
 void set_position(const vec2i& value, const window& w)
 {
-  HOU_EXPECT_DEV(w.get_handle() != nullptr);
+  DEPRECATED_HOU_EXPECT_DEV(w.get_handle() != nullptr);
 
   POINT position = {value.x(), value.y()};
   ClientToScreen(w.get_handle(), &position);

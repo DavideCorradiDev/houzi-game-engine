@@ -7,7 +7,7 @@
 #include "hou/al/al_check.hpp"
 #include "hou/al/al_error.hpp"
 
-#include "hou/cor/error.hpp"
+#include "hou/cor/deprecated_error.hpp"
 #include "hou/cor/std_string.hpp"
 #include "hou/cor/uid_generator.hpp"
 
@@ -56,7 +56,7 @@ device::device()
   , m_device(alcOpenDevice(nullptr))
   , m_uid(generate_uid())
 {
-  HOU_RUNTIME_CHECK(
+  DEPRECATED_HOU_RUNTIME_CHECK(
     m_device != nullptr, get_text(al_error::device_open), u8"default device");
 }
 
@@ -67,7 +67,7 @@ device::device(const std::string& dev_name)
   , m_device(alcOpenDevice(dev_name.c_str()))
   , m_uid(generate_uid())
 {
-  HOU_RUNTIME_CHECK(
+  DEPRECATED_HOU_RUNTIME_CHECK(
     m_device != nullptr, get_text(al_error::device_open), dev_name.c_str());
 }
 
@@ -86,7 +86,7 @@ device::~device()
 {
   if(m_device != nullptr)
   {
-    HOU_FATAL_CHECK(
+    DEPRECATED_HOU_FATAL_CHECK(
       alcCloseDevice(m_device) == AL_TRUE, get_text(al_error::device_close));
   }
 }

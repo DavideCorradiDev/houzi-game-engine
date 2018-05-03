@@ -9,7 +9,7 @@
 #include "hou/gl/gl_error.hpp"
 
 #include "hou/cor/character_encodings.hpp"
-#include "hou/cor/error.hpp"
+#include "hou/cor/deprecated_error.hpp"
 
 
 
@@ -108,7 +108,7 @@ void compile_shader(const shader_handle& shd, const GLchar* src)
     GLchar infoLog[maxInfoLogSize];
     glGetShaderInfoLog(shd.get_name(), maxInfoLogSize, nullptr, infoLog);
     HOU_GL_CHECK_ERROR();
-    HOU_RUNTIME_ERROR(get_text(gl_error::shader_compilation),
+    DEPRECATED_HOU_RUNTIME_ERROR(get_text(gl_error::shader_compilation),
       shaderTypeToString(shd.get_type()).c_str(), infoLog);
   }
 }

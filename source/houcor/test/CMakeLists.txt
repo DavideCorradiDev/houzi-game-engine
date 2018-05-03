@@ -41,7 +41,7 @@ SET(EXE_HOUCOR_TEST_SRC
   hou/cor/test_character_encodings.cpp
   hou/cor/test_clock.cpp
   hou/cor/test_core_functions.cpp
-  hou/cor/test_error.cpp
+  hou/cor/test_deprecated_error.cpp
   hou/cor/test_not_null.cpp
   hou/cor/test_span.cpp
   hou/cor/test_std_array.cpp

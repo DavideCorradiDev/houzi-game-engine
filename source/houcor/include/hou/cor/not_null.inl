@@ -10,7 +10,7 @@ template <typename OtherPtrType, typename Enable>
 not_null<PtrType>::not_null(OtherPtrType&& other)
   : m_ptr(std::move(other))
 {
-  HOU_EXPECT(m_ptr != nullptr);
+  DEPRECATED_HOU_EXPECT(m_ptr != nullptr);
 }
 
 
@@ -20,7 +20,7 @@ template <typename OtherPtrType, typename Enable>
 not_null<PtrType>::not_null(const not_null<OtherPtrType>& other)
   : m_ptr(other.get())
 {
-  HOU_EXPECT_DEV(m_ptr != nullptr);
+  DEPRECATED_HOU_EXPECT_DEV(m_ptr != nullptr);
 }
 
 
@@ -28,7 +28,7 @@ not_null<PtrType>::not_null(const not_null<OtherPtrType>& other)
 template <typename PtrType>
 const PtrType& not_null<PtrType>::get() const
 {
-  HOU_EXPECT_DEV(m_ptr != nullptr);
+  DEPRECATED_HOU_EXPECT_DEV(m_ptr != nullptr);
   return m_ptr;
 }
 
@@ -37,7 +37,7 @@ const PtrType& not_null<PtrType>::get() const
 template <typename PtrType>
 PtrType& not_null<PtrType>::get()
 {
-  HOU_EXPECT_DEV(m_ptr != nullptr);
+  DEPRECATED_HOU_EXPECT_DEV(m_ptr != nullptr);
   return m_ptr;
 }
 

@@ -5,7 +5,7 @@
 #include "hou/cor/uid_generator.hpp"
 
 #include "hou/cor/cor_error.hpp"
-#include "hou/cor/error.hpp"
+#include "hou/cor/deprecated_error.hpp"
 
 #include <limits>
 
@@ -22,7 +22,7 @@ uid_generator::uid_generator(uint32_t starting_value)
 
 uint32_t uid_generator::generate()
 {
-  HOU_RUNTIME_CHECK(m_counter != std::numeric_limits<uint32_t>::max(),
+  DEPRECATED_HOU_RUNTIME_CHECK(m_counter != std::numeric_limits<uint32_t>::max(),
     get_text(cor_error::overflow));
   return m_counter.fetch_add(1);
 }

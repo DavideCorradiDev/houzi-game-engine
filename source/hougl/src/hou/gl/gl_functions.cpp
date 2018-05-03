@@ -79,12 +79,12 @@ void init_extensions()
 
     // Initialize extenstions through GLAD.
     int gladInitRetval = gladLoadGL();
-    HOU_RUNTIME_CHECK(gladInitRetval != 0,
+    DEPRECATED_HOU_RUNTIME_CHECK(gladInitRetval != 0,
       get_text(gl_error::extensions_initialization), gladInitRetval);
 
 #if defined(HOU_SYSTEM_WINDOWS)
     int wglGladInitRetval = gladLoadWGL(GetDC(w.get_handle()));
-    HOU_RUNTIME_CHECK(wglGladInitRetval != 0,
+    DEPRECATED_HOU_RUNTIME_CHECK(wglGladInitRetval != 0,
       get_text(gl_error::extensions_initialization), wglGladInitRetval);
 #endif
 
@@ -114,7 +114,7 @@ void set_vertical_sync_mode(vertical_sync_mode mode)
       get_text(gl_error::vertical_sync_set));
   }
 #else
-  HOU_LOGIC_ERROR("Unsupported OS");
+  DEPRECATED_HOU_LOGIC_ERROR("Unsupported OS");
 #endif
 }
 

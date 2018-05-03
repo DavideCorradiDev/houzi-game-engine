@@ -2,7 +2,7 @@
 
 #include "hou/al/al_state.hpp"
 
-#include "hou/cor/error.hpp"
+#include "hou/cor/deprecated_error.hpp"
 
 
 
@@ -35,7 +35,7 @@ float get_doppler_factor()
 
 void set_doppler_factor(float dopplerFactor)
 {
-  HOU_EXPECT(dopplerFactor >= 0.f);
+  DEPRECATED_HOU_EXPECT(dopplerFactor >= 0.f);
   al::set_doppler_factor(static_cast<ALfloat>(dopplerFactor));
 }
 
@@ -50,7 +50,7 @@ float get_speed_of_sound()
 
 void set_speed_of_sound(float speedOfSound)
 {
-  HOU_EXPECT(speedOfSound > 0.f);
+  DEPRECATED_HOU_EXPECT(speedOfSound > 0.f);
   al::set_speed_of_sound(static_cast<ALfloat>(speedOfSound));
 }
 

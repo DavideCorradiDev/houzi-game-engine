@@ -10,7 +10,7 @@
 #include "hou/cor/non_copyable.hpp"
 
 #include "hou/cor/basic_types.hpp"
-#include "hou/cor/error.hpp"
+#include "hou/cor/deprecated_error.hpp"
 #include "hou/cor/span.hpp"
 #include "hou/cor/template_utils.hpp"
 

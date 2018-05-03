@@ -8,7 +8,7 @@
 #include "hou/sys/sys_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
-#include "hou/cor/error.hpp"
+#include "hou/cor/deprecated_error.hpp"
 
 
 
@@ -30,7 +30,7 @@ HOU_SYS_API std::string get_last_win_error_message();
 
 
 
-#define HOU_WIN_FATAL_ERROR(...) HOU_TERMINATE(HOU_WIN_ERRMSG(__VA_ARGS__))
+#define HOU_WIN_FATAL_ERROR(...) DEPRECATED_HOU_TERMINATE(HOU_WIN_ERRMSG(__VA_ARGS__))
 
 
 
@@ -55,7 +55,7 @@ HOU_SYS_API std::string get_last_win_error_message();
 
 
 #define HOU_WIN_LOGIC_ERROR(...) \
-  HOU_THROW(std::logic_error, HOU_WIN_ERRMSG(__VA_ARGS__))
+  DEPRECATED_HOU_THROW(std::logic_error, HOU_WIN_ERRMSG(__VA_ARGS__))
 
 
 
@@ -80,7 +80,7 @@ HOU_SYS_API std::string get_last_win_error_message();
 
 
 #define HOU_WIN_RUNTIME_ERROR(...) \
-  HOU_THROW(std::runtime_error, HOU_WIN_ERRMSG(__VA_ARGS__))
+  DEPRECATED_HOU_THROW(std::runtime_error, HOU_WIN_ERRMSG(__VA_ARGS__))
 
 
 
@@ -105,7 +105,7 @@ HOU_SYS_API std::string get_last_win_error_message();
 
 
 #define HOU_WIN_EXPECT(condition) \
-  HOU_LOGIC_CHECK(condition, \
+  DEPRECATED_HOU_LOGIC_CHECK(condition, \
     get_text(hou::cor_error::pre_condition) \
       + std::string(" (" #condition ")."))
 

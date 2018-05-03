@@ -43,7 +43,7 @@ template <typename T>
 quaternion<T>::quaternion(std::initializer_list<T> elements)
   : m_elements()
 {
-  HOU_EXPECT(elements.size() == m_elements.size());
+  DEPRECATED_HOU_EXPECT(elements.size() == m_elements.size());
   std::copy(elements.begin(), elements.end(), m_elements.begin());
 }
 
@@ -196,7 +196,7 @@ template <typename T>
 quaternion<T>& quaternion<T>::invert()
 {
   T sqNorm = square_norm(*this);
-  HOU_EXPECT(!close(sqNorm, T(0)));
+  DEPRECATED_HOU_EXPECT(!close(sqNorm, T(0)));
   return this->conjugate() /= sqNorm;
 }
 
@@ -217,7 +217,7 @@ template <typename T>
 quaternion<T>& quaternion<T>::normalize()
 {
   T quatNorm = norm(*this);
-  HOU_EXPECT(!close(quatNorm, T(0)));
+  DEPRECATED_HOU_EXPECT(!close(quatNorm, T(0)));
   return *this /= quatNorm;
 }
 

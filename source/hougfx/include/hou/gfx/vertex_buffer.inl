@@ -30,7 +30,7 @@ vertex_buffer_t<T, DynamicStorage>::vertex_buffer_t(vertex_buffer&& other)
 template <typename T, bool DynamicStorage>
 uint vertex_buffer_t<T, DynamicStorage>::get_size() const
 {
-  HOU_EXPECT_DEV(get_byte_count() % sizeof(T) == 0u);
+  DEPRECATED_HOU_EXPECT_DEV(get_byte_count() % sizeof(T) == 0u);
   return get_byte_count() / sizeof(T);
 }
 
@@ -50,8 +50,8 @@ typename vertex_buffer_t<T, DynamicStorage>::data_type
   vertex_buffer_t<T, DynamicStorage>::get_sub_data(
     uint offset, uint element_count) const
 {
-  HOU_EXPECT_DEV(get_byte_count() % sizeof(T) == 0u);
-  HOU_EXPECT(offset + element_count <= get_size());
+  DEPRECATED_HOU_EXPECT_DEV(get_byte_count() % sizeof(T) == 0u);
+  DEPRECATED_HOU_EXPECT(offset + element_count <= get_size());
   typename vertex_buffer_t<T, DynamicStorage>::data_type dataOut(
     element_count, T());
   gl::get_buffer_sub_data(get_handle(),
@@ -67,7 +67,7 @@ template <typename T, bool DynamicStorage>
 template <bool DS, typename Enable>
 void vertex_buffer_t<T, DynamicStorage>::set_data(const span<const T>& data)
 {
-  HOU_EXPECT(data.size() == get_size());
+  DEPRECATED_HOU_EXPECT(data.size() == get_size());
   set_sub_data(0u, data);
 }
 
@@ -78,8 +78,8 @@ template <bool DS, typename Enable>
 void vertex_buffer_t<T, DynamicStorage>::set_sub_data(
   uint offset, const span<const T>& data)
 {
-  HOU_EXPECT_DEV(get_byte_count() % sizeof(T) == 0u);
-  HOU_EXPECT(offset + data.size() <= get_size());
+  DEPRECATED_HOU_EXPECT_DEV(get_byte_count() % sizeof(T) == 0u);
+  DEPRECATED_HOU_EXPECT(offset + data.size() <= get_size());
   gl::set_buffer_sub_data(get_handle(),
     static_cast<GLintptr>(offset * sizeof(T)),
     static_cast<GLsizei>(data.size() * sizeof(T)),

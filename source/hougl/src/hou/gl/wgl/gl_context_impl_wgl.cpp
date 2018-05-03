@@ -37,7 +37,7 @@ bool has_pixel_format(HDC hdc);
 int choose_pixel_format(
   HDC hdc, uint color_byte_count, const context_settings& settings)
 {
-  HOU_EXPECT_DEV(hdc != nullptr);
+  DEPRECATED_HOU_EXPECT_DEV(hdc != nullptr);
 
   int format;
 
@@ -81,7 +81,7 @@ int choose_pixel_format(
     format = ChoosePixelFormat(hdc, &pfd);
   }
 
-  HOU_RUNTIME_CHECK(format != 0, get_text(gl_error::context_create));
+  DEPRECATED_HOU_RUNTIME_CHECK(format != 0, get_text(gl_error::context_create));
   return format;
 }
 
@@ -89,8 +89,8 @@ int choose_pixel_format(
 
 void set_pixel_format(HDC hdc, int format_number)
 {
-  HOU_EXPECT_DEV(hdc != nullptr);
-  HOU_EXPECT_DEV(format_number != 0);
+  DEPRECATED_HOU_EXPECT_DEV(hdc != nullptr);
+  DEPRECATED_HOU_EXPECT_DEV(format_number != 0);
 
   if(!has_pixel_format(hdc))
   {
@@ -109,7 +109,7 @@ void set_pixel_format(HDC hdc, int format_number)
 
 bool has_pixel_format(HDC hdc)
 {
-  HOU_EXPECT_DEV(hdc != nullptr);
+  DEPRECATED_HOU_EXPECT_DEV(hdc != nullptr);
   return GetPixelFormat(hdc) != 0;
 }
 
@@ -120,7 +120,7 @@ bool has_pixel_format(HDC hdc)
 void context_impl::set_current(context_impl& ctx, window& wnd)
 {
   ctx.m_hdc = GetDC(wnd.get_handle());
-  HOU_ENSURE(ctx.m_hdc != nullptr);
+  DEPRECATED_HOU_ENSURE(ctx.m_hdc != nullptr);
 
   set_pixel_format(ctx.m_hdc, ctx.m_pixel_format);
 
@@ -146,7 +146,7 @@ context_impl::context_impl(const context_settings& settings, const window& wnd,
   , m_pixel_format(
       choose_pixel_format(m_hdc, wnd.get_bytes_per_pixel(), settings))
 {
-  HOU_EXPECT(m_hdc != nullptr);
+  DEPRECATED_HOU_EXPECT(m_hdc != nullptr);
 
   set_pixel_format(m_hdc, m_pixel_format);
 
@@ -189,7 +189,7 @@ context_impl::context_impl(const context_settings& settings, const window& wnd,
     }
   }
 
-  HOU_ENSURE_DEV(m_handle != nullptr);
+  DEPRECATED_HOU_ENSURE_DEV(m_handle != nullptr);
 }
 
 
@@ -210,7 +210,7 @@ context_impl::~context_impl()
 {
   if(m_handle != nullptr)
   {
-    HOU_FATAL_CHECK(
+    DEPRECATED_HOU_FATAL_CHECK(
       wglDeleteContext(m_handle) != 0, get_text(gl_error::context_destroy));
   }
 }

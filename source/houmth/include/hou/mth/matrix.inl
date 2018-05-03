@@ -123,7 +123,7 @@ template <typename T, size_t Rows, size_t Cols>
 matrix<T, Rows, Cols>::matrix(std::initializer_list<T> elements)
   : m_elements()
 {
-  HOU_EXPECT(elements.size() == get_size());
+  DEPRECATED_HOU_EXPECT(elements.size() == get_size());
   std::copy(elements.begin(), elements.end(), m_elements.begin());
 }
 
@@ -138,7 +138,7 @@ matrix<T, Rows, Cols>::~matrix()
 template <typename T, size_t Rows, size_t Cols>
 T matrix<T, Rows, Cols>::operator()(size_t row, size_t col) const
 {
-  HOU_EXPECT((row < Rows) && (col < Cols));
+  DEPRECATED_HOU_EXPECT((row < Rows) && (col < Cols));
   return m_elements[row * Cols + col];
 }
 
@@ -147,7 +147,7 @@ T matrix<T, Rows, Cols>::operator()(size_t row, size_t col) const
 template <typename T, size_t Rows, size_t Cols>
 T& matrix<T, Rows, Cols>::operator()(size_t row, size_t col)
 {
-  HOU_EXPECT((row < Rows) && (col < Cols));
+  DEPRECATED_HOU_EXPECT((row < Rows) && (col < Cols));
   return m_elements[row * Cols + col];
 }
 
@@ -156,7 +156,7 @@ T& matrix<T, Rows, Cols>::operator()(size_t row, size_t col)
 template <typename T, size_t Rows, size_t Cols>
 T matrix<T, Rows, Cols>::operator()(size_t index) const
 {
-  HOU_EXPECT(index < get_size());
+  DEPRECATED_HOU_EXPECT(index < get_size());
   return m_elements[index];
 }
 
@@ -165,7 +165,7 @@ T matrix<T, Rows, Cols>::operator()(size_t index) const
 template <typename T, size_t Rows, size_t Cols>
 T& matrix<T, Rows, Cols>::operator()(size_t index)
 {
-  HOU_EXPECT(index < get_size());
+  DEPRECATED_HOU_EXPECT(index < get_size());
   return m_elements[index];
 }
 
@@ -414,7 +414,7 @@ template <typename T, size_t Rows, size_t Cols, typename Enable>
 matrix<T, Rows - 1, Cols - 1> reduce(
   const matrix<T, Rows, Cols>& m, size_t row, size_t col)
 {
-  HOU_EXPECT((row < Rows) && (col < Cols));
+  DEPRECATED_HOU_EXPECT((row < Rows) && (col < Cols));
   matrix<T, Rows - 1, Cols - 1> retval;
   size_t rin = 0;
   for(size_t r = 0; r < Rows - 1; ++r)
@@ -509,7 +509,7 @@ template <size_t RC, typename Enable>
 matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::invert()
 {
   T determinant = det(*this);
-  HOU_EXPECT(!close(determinant, T(0)));
+  DEPRECATED_HOU_EXPECT(!close(determinant, T(0)));
   return this->adjugate() /= determinant;
 }
 #endif
@@ -549,7 +549,7 @@ template <typename T, size_t Rows, size_t Cols>
 matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::normalize()
 {
   T matNorm = norm(*this);
-  HOU_EXPECT(!close(matNorm, T(0)));
+  DEPRECATED_HOU_EXPECT(!close(matNorm, T(0)));
   return *this /= matNorm;
 }
 

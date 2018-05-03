@@ -62,8 +62,8 @@ empty_audio_stream_in::byte_position empty_audio_stream_in::get_byte_pos() const
 
 binary_stream& empty_audio_stream_in::set_byte_pos(byte_position pos)
 {
-  HOU_RUNTIME_CHECK(pos == 0, get_text(sys_error::file_seek));
-  HOU_EXPECT(pos == 0);
+  DEPRECATED_HOU_RUNTIME_CHECK(pos == 0, get_text(sys_error::file_seek));
+  DEPRECATED_HOU_EXPECT(pos == 0);
   return *this;
 }
 
@@ -71,7 +71,7 @@ binary_stream& empty_audio_stream_in::set_byte_pos(byte_position pos)
 
 binary_stream& empty_audio_stream_in::move_byte_pos(byte_offset offset)
 {
-  HOU_RUNTIME_CHECK(offset == 0, get_text(sys_error::file_seek));
+  DEPRECATED_HOU_RUNTIME_CHECK(offset == 0, get_text(sys_error::file_seek));
   return *this;
 }
 
@@ -94,7 +94,7 @@ empty_audio_stream_in::sample_position empty_audio_stream_in::get_sample_pos()
 
 audio_stream_in& empty_audio_stream_in::set_sample_pos(sample_position pos)
 {
-  HOU_RUNTIME_CHECK(pos == 0, get_text(sys_error::file_seek));
+  DEPRECATED_HOU_RUNTIME_CHECK(pos == 0, get_text(sys_error::file_seek));
   return *this;
 }
 
@@ -102,7 +102,7 @@ audio_stream_in& empty_audio_stream_in::set_sample_pos(sample_position pos)
 
 audio_stream_in& empty_audio_stream_in::move_sample_pos(sample_offset offset)
 {
-  HOU_RUNTIME_CHECK(offset == 0, get_text(sys_error::file_seek));
+  DEPRECATED_HOU_RUNTIME_CHECK(offset == 0, get_text(sys_error::file_seek));
   return *this;
 }
 

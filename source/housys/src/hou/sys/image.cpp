@@ -4,7 +4,7 @@
 
 #include "hou/sys/image.hpp"
 
-#include "hou/cor/error.hpp"
+#include "hou/cor/deprecated_error.hpp"
 
 #include "hou/sys/binary_file_in.hpp"
 #include "hou/sys/sys_error.hpp"
@@ -128,7 +128,7 @@ template <pixel_format PF>
 image1<PF> get_image_sub_image(
   const image1<PF>& in, const vec1u& offset, const vec1u& size)
 {
-  HOU_EXPECT(element_wise_lower_or_equal(offset + size, in.get_size()));
+  DEPRECATED_HOU_EXPECT(element_wise_lower_or_equal(offset + size, in.get_size()));
   image1<PF> out(size);
   for(uint x = 0; x < size.x(); ++x)
   {
@@ -144,7 +144,7 @@ template <pixel_format PF>
 image2<PF> get_image_sub_image(
   const image2<PF>& in, const vec2u& offset, const vec2u& size)
 {
-  HOU_EXPECT(element_wise_lower_or_equal(offset + size, in.get_size()));
+  DEPRECATED_HOU_EXPECT(element_wise_lower_or_equal(offset + size, in.get_size()));
   image2<PF> out(size);
   for(uint x = 0; x < size.x(); ++x)
   {
@@ -163,7 +163,7 @@ template <pixel_format PF>
 image3<PF> get_image_sub_image(
   const image3<PF>& in, const vec3u& offset, const vec3u& size)
 {
-  HOU_EXPECT(element_wise_lower_or_equal(offset + size, in.get_size()));
+  DEPRECATED_HOU_EXPECT(element_wise_lower_or_equal(offset + size, in.get_size()));
   image3<PF> out(size);
   for(uint x = 0; x < size.x(); ++x)
   {
@@ -185,7 +185,7 @@ template <pixel_format PF>
 void set_image_sub_image(
   image1<PF>& out, const vec1u& offset, const image1<PF>& in)
 {
-  HOU_EXPECT(
+  DEPRECATED_HOU_EXPECT(
     element_wise_lower_or_equal(offset + in.get_size(), out.get_size()));
   for(uint x = 0; x < in.get_size().x(); ++x)
   {
@@ -200,7 +200,7 @@ template <pixel_format PF>
 void set_image_sub_image(
   image2<PF>& out, const vec2u& offset, const image2<PF>& in)
 {
-  HOU_EXPECT(
+  DEPRECATED_HOU_EXPECT(
     element_wise_lower_or_equal(offset + in.get_size(), out.get_size()));
   for(uint x = 0; x < in.get_size().x(); ++x)
   {
@@ -218,7 +218,7 @@ template <pixel_format PF>
 void set_image_sub_image(
   image3<PF>& out, const vec3u& offset, const image3<PF>& in)
 {
-  HOU_EXPECT(
+  DEPRECATED_HOU_EXPECT(
     element_wise_lower_or_equal(offset + in.get_size(), out.get_size()));
   for(uint x = 0; x < in.get_size().x(); ++x)
   {
@@ -248,7 +248,7 @@ int pixel_format_to_soil_format(pixel_format PF)
     case pixel_format::rgba:
       return SOIL_LOAD_RGBA;
     default:
-      HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(PF));
+      DEPRECATED_HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(PF));
       return 0u;
   }
 }
@@ -321,7 +321,7 @@ image2<PF> soil_load_from_file_with_check(SoilLoadFunction load_fun,
   image2<PF> im;
   bool rv = false;
   std::tie(im, rv) = soil_load_from_file<PF>(load_fun, test_fun, path);
-  HOU_RUNTIME_CHECK(rv, get_text(ec), path.c_str());
+  DEPRECATED_HOU_RUNTIME_CHECK(rv, get_text(ec), path.c_str());
   return im;
 }
 
@@ -348,7 +348,7 @@ template <pixel_format PF>
 void soil_write_to_file_with_check(
   const std::string& path, int imageType, const image2<PF>& im, sys_error ec)
 {
-  HOU_RUNTIME_CHECK(
+  DEPRECATED_HOU_RUNTIME_CHECK(
     soil_write_to_file<PF>(path, imageType, im), get_text(ec), path.c_str());
 }
 
@@ -442,7 +442,7 @@ image<Dim, PF>::image(const size_type& size, const span<const pixel>& pixels)
   : m_size(size)
   , m_pixels(pixels.begin(), pixels.end())
 {
-  HOU_EXPECT(pixels.size() == compute_pixel_count());
+  DEPRECATED_HOU_EXPECT(pixels.size() == compute_pixel_count());
 }
 
 
@@ -452,7 +452,7 @@ image<Dim, PF>::image(const size_type& size, pixel_collection&& pixels)
   : m_size(size)
   , m_pixels(pixels)
 {
-  HOU_EXPECT(m_pixels.size() == compute_pixel_count());
+  DEPRECATED_HOU_EXPECT(m_pixels.size() == compute_pixel_count());
 }
 
 
@@ -491,7 +491,7 @@ const typename image<Dim, PF>::pixel_collection& image<Dim, PF>::get_pixels()
 template <size_t Dim, pixel_format PF>
 void image<Dim, PF>::set_pixels(const span<const pixel>& pixels)
 {
-  HOU_EXPECT(pixels.size() == m_pixels.size());
+  DEPRECATED_HOU_EXPECT(pixels.size() == m_pixels.size());
   std::copy(pixels.begin(), pixels.end(), m_pixels.begin());
 }
 
@@ -559,7 +559,7 @@ size_t image<Dim, PF>::compute_pixel_index(const offset_type& coordinates) const
 {
   for(size_t i = 0; i < Dim; ++i)
   {
-    HOU_EXPECT(coordinates(i) < m_size(i));
+    DEPRECATED_HOU_EXPECT(coordinates(i) < m_size(i));
   }
 
   size_t idx = 0;

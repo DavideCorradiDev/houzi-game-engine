@@ -15,7 +15,7 @@ namespace hou
 
 void framebuffer::bind_draw_target(const framebuffer& fb)
 {
-  HOU_EXPECT(fb.is_complete());
+  DEPRECATED_HOU_EXPECT(fb.is_complete());
   gl::bind_framebuffer(fb.get_handle(), GL_DRAW_FRAMEBUFFER);
 }
 
@@ -23,7 +23,7 @@ void framebuffer::bind_draw_target(const framebuffer& fb)
 
 void framebuffer::bind_read_target(const framebuffer& fb)
 {
-  HOU_EXPECT(fb.is_complete());
+  DEPRECATED_HOU_EXPECT(fb.is_complete());
   gl::bind_framebuffer(fb.get_handle(), GL_READ_FRAMEBUFFER);
 }
 
@@ -31,7 +31,7 @@ void framebuffer::bind_read_target(const framebuffer& fb)
 
 void framebuffer::bind(const framebuffer& fb)
 {
-  HOU_EXPECT(fb.is_complete());
+  DEPRECATED_HOU_EXPECT(fb.is_complete());
   gl::bind_framebuffer(fb.get_handle());
 }
 
@@ -121,9 +121,9 @@ bool framebuffer::is_complete() const
 void framebuffer::set_color_attachment(
   uint attachmentPoint, const texture& tex, uint mipmap_level)
 {
-  HOU_EXPECT(attachmentPoint < get_color_attachment_point_count());
-  HOU_EXPECT(mipmap_level < tex.get_mipmap_level_count());
-  HOU_EXPECT(tex.get_format() == texture_format::rgba
+  DEPRECATED_HOU_EXPECT(attachmentPoint < get_color_attachment_point_count());
+  DEPRECATED_HOU_EXPECT(mipmap_level < tex.get_mipmap_level_count());
+  DEPRECATED_HOU_EXPECT(tex.get_format() == texture_format::rgba
     || tex.get_format() == texture_format::rgb
     || tex.get_format() == texture_format::rg
     || tex.get_format() == texture_format::r);
@@ -138,8 +138,8 @@ void framebuffer::set_color_attachment(
 
 void framebuffer::set_depth_attachment(const texture& tex, uint mipmap_level)
 {
-  HOU_EXPECT(mipmap_level < tex.get_mipmap_level_count());
-  HOU_EXPECT(tex.get_format() == texture_format::depth
+  DEPRECATED_HOU_EXPECT(mipmap_level < tex.get_mipmap_level_count());
+  DEPRECATED_HOU_EXPECT(tex.get_format() == texture_format::depth
     || tex.get_format() == texture_format::depth_stencil);
   gl::set_framebuffer_depth_texture(m_handle, tex.get_handle(), mipmap_level);
   m_has_multisample_depth_attachment
@@ -150,8 +150,8 @@ void framebuffer::set_depth_attachment(const texture& tex, uint mipmap_level)
 
 void framebuffer::set_stencil_attachment(const texture& tex, uint mipmap_level)
 {
-  HOU_EXPECT(mipmap_level < tex.get_mipmap_level_count());
-  HOU_EXPECT(tex.get_format() == texture_format::stencil
+  DEPRECATED_HOU_EXPECT(mipmap_level < tex.get_mipmap_level_count());
+  DEPRECATED_HOU_EXPECT(tex.get_format() == texture_format::stencil
     || tex.get_format() == texture_format::depth_stencil);
   gl::set_framebuffer_stencil_texture(m_handle, tex.get_handle(), mipmap_level);
   m_has_multisample_stencil_attachment
@@ -163,8 +163,8 @@ void framebuffer::set_stencil_attachment(const texture& tex, uint mipmap_level)
 void framebuffer::set_depth_stencil_attachment(
   const texture& tex, uint mipmap_level)
 {
-  HOU_EXPECT(mipmap_level < tex.get_mipmap_level_count());
-  HOU_EXPECT(tex.get_format() == texture_format::depth_stencil);
+  DEPRECATED_HOU_EXPECT(mipmap_level < tex.get_mipmap_level_count());
+  DEPRECATED_HOU_EXPECT(tex.get_format() == texture_format::depth_stencil);
   gl::set_framebuffer_depth_stencil_texture(
     m_handle, tex.get_handle(), mipmap_level);
   m_has_multisample_depth_attachment
@@ -188,12 +188,12 @@ void blit(const framebuffer& src, const recti& src_rect, framebuffer& dst,
   const recti& dst_rect, framebuffer_blit_mask mask,
   framebuffer_blit_filter filter)
 {
-  HOU_EXPECT((filter == framebuffer_blit_filter::nearest
+  DEPRECATED_HOU_EXPECT((filter == framebuffer_blit_filter::nearest
     || mask == framebuffer_blit_mask::none
     || mask == framebuffer_blit_mask::color));
-  HOU_EXPECT(src.is_complete());
-  HOU_EXPECT(dst.is_complete());
-  HOU_EXPECT(
+  DEPRECATED_HOU_EXPECT(src.is_complete());
+  DEPRECATED_HOU_EXPECT(dst.is_complete());
+  DEPRECATED_HOU_EXPECT(
     (!src.has_multisample_attachment() && !dst.has_multisample_attachment())
     || (std::abs(src_rect.w()) == std::abs(dst_rect.w())
          && std::abs(src_rect.h()) == std::abs(src_rect.h())));

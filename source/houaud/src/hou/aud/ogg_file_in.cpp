@@ -6,7 +6,7 @@
 
 #include "hou/aud/aud_error.hpp"
 
-#include "hou/cor/error.hpp"
+#include "hou/cor/deprecated_error.hpp"
 #include "hou/cor/pragmas.hpp"
 
 #include "hou/sys/sys_error.hpp"
@@ -37,7 +37,7 @@ static constexpr size_t bytes_per_sample = 2u;
 bool ogg_file_in::check(const std::string& path)
 {
   FILE* file = open_file(path, "rb");
-  HOU_RUNTIME_CHECK(
+  DEPRECATED_HOU_RUNTIME_CHECK(
     file != nullptr, get_text(sys_error::file_open), path.c_str());
 
   OggVorbis_File vorbis_file;
@@ -67,7 +67,7 @@ ogg_file_in::ogg_file_in(const std::string& path)
   , m_error(false)
 {
   FILE* file = open_file(path, "rb");
-  HOU_RUNTIME_CHECK(
+  DEPRECATED_HOU_RUNTIME_CHECK(
     file != nullptr, get_text(sys_error::file_open), path.c_str());
 
   // The last two parameters are used to point to initial data.
@@ -75,7 +75,7 @@ ogg_file_in::ogg_file_in(const std::string& path)
   if(ov_open(file, m_vorbis_file.get(), nullptr, 0) != 0)
   {
     fclose(file);
-    HOU_RUNTIME_ERROR(get_text(aud_error::ogg_invalid_header), path.c_str());
+    DEPRECATED_HOU_RUNTIME_ERROR(get_text(aud_error::ogg_invalid_header), path.c_str());
   }
 
   read_metadata();
@@ -102,7 +102,7 @@ ogg_file_in::~ogg_file_in()
 {
   if(m_vorbis_file != nullptr)
   {
-    HOU_FATAL_CHECK(
+    DEPRECATED_HOU_FATAL_CHECK(
       ov_clear(m_vorbis_file.get()) == 0, get_text(sys_error::file_close));
   }
 }
@@ -153,7 +153,7 @@ ogg_file_in::byte_position ogg_file_in::get_byte_pos() const
 
 binary_stream& ogg_file_in::set_byte_pos(ogg_file_in::byte_position pos)
 {
-  HOU_EXPECT((pos % (get_channel_count() * get_bytes_per_sample())) == 0u);
+  DEPRECATED_HOU_EXPECT((pos % (get_channel_count() * get_bytes_per_sample())) == 0u);
   set_sample_pos(pos / (get_channel_count() * get_bytes_per_sample()));
   return *this;
 }
@@ -187,7 +187,7 @@ ogg_file_in::sample_position ogg_file_in::get_sample_pos() const
 audio_stream_in& ogg_file_in::set_sample_pos(ogg_file_in::sample_position pos)
 {
   m_eof = false;
-  HOU_RUNTIME_CHECK(
+  DEPRECATED_HOU_RUNTIME_CHECK(
     ov_pcm_seek(m_vorbis_file.get(), static_cast<ogg_int64_t>(pos)) == 0,
     get_text(sys_error::file_seek));
   return *this;
@@ -198,7 +198,7 @@ audio_stream_in& ogg_file_in::set_sample_pos(ogg_file_in::sample_position pos)
 audio_stream_in& ogg_file_in::move_sample_pos(ogg_file_in::sample_offset offset)
 {
   m_eof = false;
-  HOU_RUNTIME_CHECK(
+  DEPRECATED_HOU_RUNTIME_CHECK(
     ov_pcm_seek(m_vorbis_file.get(),
       static_cast<ogg_int64_t>(
         static_cast<ogg_file_in::sample_offset>(get_sample_pos()) + offset))
@@ -212,7 +212,7 @@ audio_stream_in& ogg_file_in::move_sample_pos(ogg_file_in::sample_offset offset)
 void ogg_file_in::read_metadata()
 {
   vorbis_info* info = ov_info(m_vorbis_file.get(), -1);
-  HOU_EXPECT(info != nullptr);
+  DEPRECATED_HOU_EXPECT(info != nullptr);
   set_format(info->channels, bytes_per_sample);
   set_sample_rate(info->rate);
   m_pcm_size = ov_pcm_total(m_vorbis_file.get(), -1);
@@ -226,12 +226,12 @@ void ogg_file_in::on_read(void* buf, size_t element_size, size_t buf_size)
   static constexpr int big_endian_data = 0;
   static constexpr int signed_data = 1;
 
-  HOU_EXPECT_DEV(get_bytes_per_sample() == bytes_per_sample);
+  DEPRECATED_HOU_EXPECT_DEV(get_bytes_per_sample() == bytes_per_sample);
 
   // ov_read reads one packet at most, so it has to be called repeatedly.
   // This is done by the following loop.
   size_t sizeBytes = element_size * buf_size;
-  HOU_EXPECT(
+  DEPRECATED_HOU_EXPECT(
     (sizeBytes % (get_channel_count() * get_bytes_per_sample())) == 0u);
   size_t countBytes = 0u;
   m_eof = false;
@@ -258,13 +258,13 @@ void ogg_file_in::on_read(void* buf, size_t element_size, size_t buf_size)
     else
     {
       countBytes += bytesRead;
-      HOU_ENSURE_DEV(countBytes <= sizeBytes);
+      DEPRECATED_HOU_ENSURE_DEV(countBytes <= sizeBytes);
     }
   }
   // Check that no error happened during the read operation.
-  HOU_RUNTIME_CHECK(
+  DEPRECATED_HOU_RUNTIME_CHECK(
     countBytes == sizeBytes || !error(), get_text(sys_error::file_read));
-  HOU_ENSURE_DEV(countBytes % element_size == 0u);
+  DEPRECATED_HOU_ENSURE_DEV(countBytes % element_size == 0u);
   m_byte_count = countBytes;
   m_element_count = countBytes / element_size;
 }

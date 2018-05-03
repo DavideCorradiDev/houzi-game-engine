@@ -14,7 +14,7 @@ constexpr uint get_pixel_format_byte_count(pixel_format format)
     case pixel_format::rgba:
       return 4u;
     default:
-      HOU_LOGIC_ERROR(
+      DEPRECATED_HOU_LOGIC_ERROR(
         get_text(cor_error::invalid_enum), static_cast<int>(format));
       return 1u;
   };
