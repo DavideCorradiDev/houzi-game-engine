@@ -43,7 +43,7 @@ TEST_F(test_gl_shader_handle_death_test, DISABLED_no_context_creation)
 #endif
 {
   gl::context::unset_current();
-  HOU_EXPECT_ERROR(gl::shader_handle::create(GL_VERTEX_SHADER),
+  DEPRECATED_HOU_EXPECT_ERROR(gl::shader_handle::create(GL_VERTEX_SHADER),
     std::logic_error, get_text(gl_error::context_existence));
 }
 
@@ -62,7 +62,7 @@ TEST_F(test_gl_shader_handle_death_test, compile_fragment_shader_failure)
 {
   gl::shader_handle sh = gl::shader_handle::create(GL_FRAGMENT_SHADER);
   const char fragmentGlShaderSrc[] = "I like trains.";
-  HOU_EXPECT_ERROR(compile_shader(sh, fragmentGlShaderSrc), std::runtime_error,
+  DEPRECATED_HOU_EXPECT_ERROR(compile_shader(sh, fragmentGlShaderSrc), std::runtime_error,
     format_string(get_text(gl_error::shader_compilation), "fragment",
       "0(1) : error C0000: syntax error, "
       "unexpected '.', expecting \"::\" at token \".\"\n"));
@@ -83,7 +83,7 @@ TEST_F(test_gl_shader_handle_death_test, compile_geometry_shader_failure)
 {
   gl::shader_handle sh = gl::shader_handle::create(GL_GEOMETRY_SHADER);
   const char geometryGlShaderSrc[] = "I like trains.";
-  HOU_EXPECT_ERROR(compile_shader(sh, geometryGlShaderSrc), std::runtime_error,
+  DEPRECATED_HOU_EXPECT_ERROR(compile_shader(sh, geometryGlShaderSrc), std::runtime_error,
     format_string(get_text(gl_error::shader_compilation), "geometry",
       "0(1) : error C0000: syntax error, "
       "unexpected '.', expecting \"::\" at token \".\"\n"));
@@ -104,7 +104,7 @@ TEST_F(test_gl_shader_handle_death_test, compile_vertex_shader_failure)
 {
   gl::shader_handle sh = gl::shader_handle::create(GL_VERTEX_SHADER);
   const char vertexGlShaderSrc[] = "I like trains.";
-  HOU_EXPECT_ERROR(compile_shader(sh, vertexGlShaderSrc), std::runtime_error,
+  DEPRECATED_HOU_EXPECT_ERROR(compile_shader(sh, vertexGlShaderSrc), std::runtime_error,
     format_string(get_text(gl_error::shader_compilation), "vertex",
       "0(1) : error C0000: syntax error, "
       "unexpected '.', expecting \"::\" at token \".\"\n"));

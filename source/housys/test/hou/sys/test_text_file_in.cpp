@@ -79,7 +79,7 @@ TEST_F(test_text_file_in, path_constructor)
 TEST_F(test_text_file_in_death_test, path_constructor_failure)
 {
   std::string invalid_filename = u8"InvalidFileName";
-  HOU_EXPECT_ERROR(text_file_in fi(invalid_filename), std::runtime_error,
+  DEPRECATED_HOU_EXPECT_ERROR(text_file_in fi(invalid_filename), std::runtime_error,
     format_string(get_text(sys_error::file_open), invalid_filename.c_str()));
 }
 

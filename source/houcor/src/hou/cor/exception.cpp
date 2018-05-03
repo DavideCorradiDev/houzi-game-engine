@@ -6,41 +6,62 @@
 
 #include "hou/cor/std_string.hpp"
 
+#include <iostream>
+
 
 
 namespace hou
 {
 
-const std::string exception::what_msg
-  = u8"A generic error has been encountered.";
+namespace
+{
+#if defined(HOU_SYSTEM_WINDOWS)
+constexpr char path_separator = '\\';
+#else
+constexpr char path_separator = '/';
+#endif
+
+
+}  // namespace
 
 
 
-exception::exception(const filename_type& filename, uint line) noexcept
+namespace prv
+{
+
+std::string format_error_message(
+  const std::string& path, uint line, const std::string& message)
+{
+  std::stringstream ss;
+  ss << path.substr(path.find_last_of(path_separator) + 1) << ':' << line
+     << " - " << message;
+  return ss.str();
+}
+
+}
+
+
+
+exception::exception(
+  const std::string& path, uint line, const std::string& message)
   : std::exception()
-  , m_filename(filename)
-  , m_line(line)
+  , m_message(std::make_shared<std::string>(
+      prv::format_error_message(path, line, message)))
 {}
 
 
 
 const char* exception::what() const noexcept
 {
-  return what_msg.c_str();
+  return m_message->c_str();
 }
 
 
 
-std::string exception::message() const
+void terminate(const std::string& message) noexcept
 {
-  return format_string("%s:%d - ", m_filename, m_line) + message_extension();
-}
-
-
-
-std::string exception::message_extension() const
-{
-  return what_msg;
+  std::cerr << message << std::endl;
+  std::terminate();
 }
 
 }  // namespace hou

@@ -40,6 +40,6 @@ TEST_F(test_al_buffer_handle_death_test, DISABLED_no_context_creation)
 #endif
 {
   al::context::unset_current();
-  HOU_EXPECT_ERROR(al::buffer_handle::generate(), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(al::buffer_handle::generate(), std::logic_error,
     get_text(al_error::context_existence));
 }

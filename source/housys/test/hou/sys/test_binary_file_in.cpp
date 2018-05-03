@@ -79,7 +79,7 @@ TEST_F(test_binary_file_in, path_constructor)
 TEST_F(test_binary_file_death_test, path_constructor_failure)
 {
   std::string invalid_filename = u8"InvalidFileName";
-  HOU_EXPECT_ERROR(binary_file_in fi(invalid_filename), std::runtime_error,
+  DEPRECATED_HOU_EXPECT_ERROR(binary_file_in fi(invalid_filename), std::runtime_error,
     format_string(get_text(sys_error::file_open), invalid_filename.c_str()));
 }
 
@@ -123,7 +123,7 @@ TEST_F(test_binary_file_in, set_byte_pos)
 TEST_F(test_binary_file_death_test, set_byte_pos_error)
 {
   binary_file_in fi(filename);
-  HOU_EXPECT_ERROR(
+  DEPRECATED_HOU_EXPECT_ERROR(
     fi.set_byte_pos(-1), std::runtime_error, get_text(sys_error::file_seek));
 }
 
@@ -152,7 +152,7 @@ TEST_F(test_binary_file_in, move_byte_pos)
 TEST_F(test_binary_file_death_test, move_byte_pos_error)
 {
   binary_file_in fi(filename);
-  HOU_EXPECT_ERROR(
+  DEPRECATED_HOU_EXPECT_ERROR(
     fi.move_byte_pos(-1), std::runtime_error, get_text(sys_error::file_seek));
 }
 

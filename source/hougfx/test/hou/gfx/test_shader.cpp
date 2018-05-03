@@ -99,7 +99,7 @@ TEST_F(test_shader, gl_vertex_shader_move_constructor)
 TEST_F(test_shader_death_test, gl_vertex_shader_creation)
 {
   const char vs_src[] = "I like trains.";
-  HOU_EXPECT_ERROR(vertex_shader vs(vs_src), std::runtime_error
+  DEPRECATED_HOU_EXPECT_ERROR(vertex_shader vs(vs_src), std::runtime_error
     , format_string(get_text(gl_error::shader_compilation)
     , to_string(shader_type::vertex).c_str()
     , "0(1) : error C0000: syntax error, "
@@ -128,7 +128,7 @@ TEST_F(test_shader, gl_fragment_shader_move_constructor)
 TEST_F(test_shader_death_test, gl_fragment_shader_creation)
 {
   const char fs_src[] = "I like trains.";
-  HOU_EXPECT_ERROR(fragment_shader vs(fs_src), std::runtime_error
+  DEPRECATED_HOU_EXPECT_ERROR(fragment_shader vs(fs_src), std::runtime_error
     , format_string(get_text(gl_error::shader_compilation)
     , to_string(shader_type::fragment).c_str()
     , "0(1) : error C0000: syntax error, "
@@ -157,7 +157,7 @@ TEST_F(test_shader, gl_geometry_shader_move_constructor)
 TEST_F(test_shader_death_test, gl_geometry_shader_creation)
 {
   const char gs_src[] = "I like trains.";
-  HOU_EXPECT_ERROR(geometry_shader vs(gs_src), std::runtime_error
+  DEPRECATED_HOU_EXPECT_ERROR(geometry_shader vs(gs_src), std::runtime_error
     , format_string(get_text(gl_error::shader_compilation)
     , to_string(shader_type::geometry).c_str()
     , "0(1) : error C0000: syntax error, "

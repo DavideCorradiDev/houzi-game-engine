@@ -59,7 +59,7 @@ TEST_F(test_gl_check, gl_check_error_function)
 TEST_F(test_gl_check_death_test, gl_check_error_function)
 {
   glClear(GL_COLOR);
-  HOU_EXPECT_ERROR(gl::check_error("", 0), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(gl::check_error("", 0), std::logic_error,
     get_text(gl_error::invalid_value));
 }
 
@@ -78,7 +78,7 @@ TEST_F(test_gl_check_death_test, gl_check_error_macro)
 {
   glClear(GL_COLOR);
 #ifdef HOU_ENABLE_GL_ERROR_CHECKS
-  HOU_EXPECT_ERROR(
+  DEPRECATED_HOU_EXPECT_ERROR(
     HOU_GL_CHECK_ERROR(), std::logic_error, get_text(gl_error::invalid_value));
 #else
   HOU_GL_CHECK_ERROR();
@@ -99,7 +99,7 @@ TEST_F(test_gl_check, gl_context_existence_function)
 TEST_F(test_gl_check_death_test, gl_context_existence_function)
 {
   gl::context::unset_current();
-  HOU_EXPECT_ERROR(gl::check_context_existence("", 0), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(gl::check_context_existence("", 0), std::logic_error,
     get_text(gl_error::context_existence));
 }
 
@@ -117,7 +117,7 @@ TEST_F(test_gl_check_death_test, gl_context_existence_macro)
 {
   gl::context::unset_current();
 #ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
-  HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_EXISTENCE(), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_EXISTENCE(), std::logic_error,
     get_text(gl_error::context_existence));
 #else
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
@@ -176,17 +176,17 @@ TEST_F(test_gl_check_death_test, gl_context_ownership_shared_function)
   concrete_gl_shared_object_handle o3(0u);
 
   gl::context::set_current(c1, w);
-  HOU_EXPECT_ERROR(gl::check_context_ownership(o3, "", 0), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(gl::check_context_ownership(o3, "", 0), std::logic_error,
     get_text(gl_error::invalid_ownership));
 
   gl::context::set_current(c2, w);
-  HOU_EXPECT_ERROR(gl::check_context_ownership(o3, "", 0), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(gl::check_context_ownership(o3, "", 0), std::logic_error,
     get_text(gl_error::invalid_ownership));
 
   gl::context::set_current(c3, w);
-  HOU_EXPECT_ERROR(gl::check_context_ownership(o1, "", 0), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(gl::check_context_ownership(o1, "", 0), std::logic_error,
     get_text(gl_error::invalid_ownership));
-  HOU_EXPECT_ERROR(gl::check_context_ownership(o2, "", 0), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(gl::check_context_ownership(o2, "", 0), std::logic_error,
     get_text(gl_error::invalid_ownership));
 }
 
@@ -242,7 +242,7 @@ TEST_F(test_gl_check_death_test, gl_context_ownership_shared_macro)
 
   gl::context::set_current(c1, w);
 #ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
-  HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3), std::logic_error,
     get_text(gl_error::invalid_ownership));
 #else
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3);
@@ -251,7 +251,7 @@ TEST_F(test_gl_check_death_test, gl_context_ownership_shared_macro)
 
   gl::context::set_current(c2, w);
 #ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
-  HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3), std::logic_error,
     get_text(gl_error::invalid_ownership));
 #else
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3);
@@ -260,9 +260,9 @@ TEST_F(test_gl_check_death_test, gl_context_ownership_shared_macro)
 
   gl::context::set_current(c3, w);
 #ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
-  HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1), std::logic_error,
     get_text(gl_error::invalid_ownership));
-  HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2), std::logic_error,
     get_text(gl_error::invalid_ownership));
 #else
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1);
@@ -320,21 +320,21 @@ TEST_F(test_gl_check_death_test, gl_context_ownership_non_shared_function)
   concrete_non_shared_object_handle o3(0u);
 
   gl::context::set_current(c1, w);
-  HOU_EXPECT_ERROR(gl::check_context_ownership(o2, "", 0), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(gl::check_context_ownership(o2, "", 0), std::logic_error,
     get_text(gl_error::invalid_ownership));
-  HOU_EXPECT_ERROR(gl::check_context_ownership(o3, "", 0), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(gl::check_context_ownership(o3, "", 0), std::logic_error,
     get_text(gl_error::invalid_ownership));
 
   gl::context::set_current(c2, w);
-  HOU_EXPECT_ERROR(gl::check_context_ownership(o1, "", 0), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(gl::check_context_ownership(o1, "", 0), std::logic_error,
     get_text(gl_error::invalid_ownership));
-  HOU_EXPECT_ERROR(gl::check_context_ownership(o3, "", 0), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(gl::check_context_ownership(o3, "", 0), std::logic_error,
     get_text(gl_error::invalid_ownership));
 
   gl::context::set_current(c3, w);
-  HOU_EXPECT_ERROR(gl::check_context_ownership(o1, "", 0), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(gl::check_context_ownership(o1, "", 0), std::logic_error,
     get_text(gl_error::invalid_ownership));
-  HOU_EXPECT_ERROR(gl::check_context_ownership(o2, "", 0), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(gl::check_context_ownership(o2, "", 0), std::logic_error,
     get_text(gl_error::invalid_ownership));
 }
 
@@ -388,9 +388,9 @@ TEST_F(test_gl_check_death_test, gl_context_ownership_non_shared_macro)
 
   gl::context::set_current(c1, w);
 #ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
-  HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2), std::logic_error,
     get_text(gl_error::invalid_ownership));
-  HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3), std::logic_error,
     get_text(gl_error::invalid_ownership));
 #else
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2);
@@ -400,9 +400,9 @@ TEST_F(test_gl_check_death_test, gl_context_ownership_non_shared_macro)
 
   gl::context::set_current(c2, w);
 #ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
-  HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1), std::logic_error,
     get_text(gl_error::invalid_ownership));
-  HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3), std::logic_error,
     get_text(gl_error::invalid_ownership));
 #else
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1);
@@ -412,9 +412,9 @@ TEST_F(test_gl_check_death_test, gl_context_ownership_non_shared_macro)
 
   gl::context::set_current(c3, w);
 #ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
-  HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1), std::logic_error,
     get_text(gl_error::invalid_ownership));
-  HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2), std::logic_error,
     get_text(gl_error::invalid_ownership));
 #else
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1);

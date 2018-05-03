@@ -38,7 +38,7 @@ TEST_F(test_gl_buffer_handle_death_test, DISABLED_no_context_creation)
 #endif
 {
   gl::context::unset_current();
-  HOU_EXPECT_ERROR(gl::buffer_handle::create(), std::logic_error
+  DEPRECATED_HOU_EXPECT_ERROR(gl::buffer_handle::create(), std::logic_error
     , get_text(gl_error::context_existence));
 }
 
@@ -129,7 +129,7 @@ TEST_F(test_gl_buffer_handle_death_test, DISABLED_non_sharing_context_binding)
 {
   gl::buffer_handle bh = gl::buffer_handle::create();
   set_non_sharing_context_current();
-  HOU_EXPECT_ERROR(gl::bind_buffer(bh, GL_ARRAY_BUFFER)
+  DEPRECATED_HOU_EXPECT_ERROR(gl::bind_buffer(bh, GL_ARRAY_BUFFER)
     , std::logic_error, get_text(gl_error::invalid_ownership));
   set_context_current();
 }
@@ -144,7 +144,7 @@ TEST_F(test_gl_buffer_handle_death_test, DISABLED_no_context_binding)
 {
   gl::buffer_handle bh = gl::buffer_handle::create();
   gl::context::unset_current();
-  HOU_EXPECT_ERROR(gl::bind_buffer(bh, GL_ARRAY_BUFFER)
+  DEPRECATED_HOU_EXPECT_ERROR(gl::bind_buffer(bh, GL_ARRAY_BUFFER)
     , std::logic_error, get_text(gl_error::context_existence));
   set_context_current();
 }

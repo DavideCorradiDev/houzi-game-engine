@@ -66,6 +66,6 @@ TEST_F(test_uid_generator_death_test, overflow)
   uid_generator uid_gen(std::numeric_limits<uint32_t>::max() - 1);
 
   uid_gen.generate();
-  HOU_EXPECT_ERROR(
+  DEPRECATED_HOU_EXPECT_ERROR(
     uid_gen.generate(), std::runtime_error, get_text(cor_error::overflow));
 }

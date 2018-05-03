@@ -17,53 +17,39 @@ namespace
 class test_exception : public Test
 {};
 
+class test_exception_death_test : public test_exception
+{};
 
 
-class exception_with_args : public exception
+
+class exception_0_args : public exception
 {
 public:
-  exception_with_args(
-    const filename_type& filename, uint line, int value, char c) noexcept;
-  const char* what() const noexcept override;
-
-protected:
-  std::string message_extension() const override;
-
-private:
-  static const std::string what_msg;
-
-private:
-  int m_value;
-  char m_char;
+  exception_0_args(const std::string& filename, uint line) noexcept;
 };
 
 
 
-exception_with_args::exception_with_args(
-  const filename_type& filename, uint line, int value, char c) noexcept
-  : exception(filename, line)
-  , m_value(value)
-  , m_char(c)
+exception_0_args::exception_0_args(
+  const std::string& filename, uint line) noexcept
+  : exception(filename, line, "No arguments.")
 {}
 
 
 
-const char* exception_with_args::what() const noexcept
+class exception_2_args : public exception
 {
-  return what_msg.c_str();
-}
+public:
+  exception_2_args(
+    const std::string& filename, uint line, int num, char c) noexcept;
+};
 
 
 
-std::string exception_with_args::message_extension() const
-{
-  return format_string(what_msg, m_value, m_char);
-}
-
-
-
-const std::string exception_with_args::what_msg
-  = u8"Dummy exception with value %d and char %c.";
+exception_2_args::exception_2_args(
+  const std::string& filename, uint line, int num, char c) noexcept
+  : exception(filename, line, format_string("Num %d, char %c", num, c))
+{}
 
 }  // namespace
 
@@ -71,23 +57,159 @@ const std::string exception_with_args::what_msg
 
 TEST_F(test_exception, constructor)
 {
-  exception ex("file1.txt", 88u);
-
-  EXPECT_STREQ("A generic error has been encountered.", ex.what());
-  EXPECT_EQ(
-    "file1.txt:88 - A generic error has been encountered.", ex.message());
+  exception ex("file1.txt", 88u, "Message.");
+  EXPECT_STREQ("file1.txt:88 - Message.", ex.what());
 }
 
 
 
-TEST_F(test_exception, hou_throw_0_macro)
+TEST_F(test_exception, copy_constructor)
 {
-  HOU_THROW_0(exception);
+  auto ex1 = std::make_unique<exception>("file1.txt", 88u, "Message.");
+  exception ex2(*ex1);
+  ex1.reset();
+  EXPECT_STREQ("file1.txt:88 - Message.", ex2.what());
 }
 
 
 
-TEST_F(test_exception, hou_throw_n_macro)
+TEST_F(test_exception_death_test, terminate)
 {
-  HOU_THROW_N(exception_with_args, 3, 'a');
+  EXPECT_DEATH(terminate("Message."), "Message.");
+}
+
+
+
+TEST_F(test_exception_death_test, terminate_macro)
+{
+  EXPECT_DEATH(HOU_TERMINATE("Message."), ".*:.* - Message.");
+}
+
+
+#ifndef HOU_DISABLE_EXCEPTIONS
+TEST_F(test_exception_death_test, expect_throw_std_0_macro)
+{
+  EXPECT_THROW_STD_0(throw std::exception(), std::exception);
+}
+#endif
+
+
+
+#ifndef HOU_DISABLE_EXCEPTIONS
+TEST_F(test_exception_death_test, expect_throw_std_n_macro)
+{
+  EXPECT_THROW_STD_N(
+    throw std::runtime_error("message"), std::runtime_error, "message");
+}
+#endif
+
+
+
+#ifndef HOU_DISABLE_EXCEPTIONS
+TEST_F(test_exception_death_test, expect_throw_0_macro)
+{
+  EXPECT_THROW_0(throw exception_0_args("a", 2), exception_0_args);
+}
+#endif
+
+
+
+#ifndef HOU_DISABLE_EXCEPTIONS
+TEST_F(test_exception_death_test, expect_throw_n_macro)
+{
+  EXPECT_THROW_N(
+    throw exception_2_args("a", 2, 88, 'b'), exception_2_args, 88, 'b');
+}
+#endif
+
+
+
+TEST_F(test_exception_death_test, hou_throw_std_0_macro)
+{
+  EXPECT_THROW_STD_0(HOU_THROW_STD_0(std::exception), std::exception);
+}
+
+
+
+TEST_F(test_exception_death_test, hou_throw_std_n_macro)
+{
+  EXPECT_THROW_STD_N(HOU_THROW_STD_N(std::runtime_error, "Message."),
+    std::runtime_error, "Message.");
+}
+
+
+
+TEST_F(test_exception_death_test, hou_throw_0_macro)
+{
+  EXPECT_THROW_0(HOU_THROW_0(exception_0_args), exception_0_args);
+}
+
+
+
+TEST_F(test_exception_death_test, hou_throw_n_macro)
+{
+  EXPECT_THROW_N(
+    HOU_THROW_N(exception_2_args, 88, 'a'), exception_2_args, 88, 'a');
+}
+
+
+
+TEST_F(test_exception, hou_check_std_0_macro_success)
+{
+  HOU_CHECK_STD_0(2 == 2, std::exception);
+  SUCCEED();
+}
+
+
+
+TEST_F(test_exception_death_test, hou_check_std_0_macro_failure)
+{
+  EXPECT_THROW_STD_0(HOU_CHECK_STD_0(0 == 2, std::exception), std::exception);
+}
+
+
+
+TEST_F(test_exception, hou_check_std_n_macro_success)
+{
+  HOU_CHECK_STD_N(2 == 2, std::runtime_error, "Message.");
+  SUCCEED();
+}
+
+
+
+TEST_F(test_exception_death_test, hou_check_std_n_macro_failure)
+{
+  EXPECT_THROW_STD_N(HOU_CHECK_STD_N(0 == 2, std::runtime_error, "Message."),
+    std::runtime_error, "Message.");
+}
+
+
+
+TEST_F(test_exception, hou_check_0_macro_success)
+{
+  HOU_CHECK_0(2 == 2, exception_0_args);
+  SUCCEED();
+}
+
+
+
+TEST_F(test_exception_death_test, hou_check_0_macro_failure)
+{
+  EXPECT_THROW_0(HOU_CHECK_0(0 == 2, exception_0_args), exception_0_args);
+}
+
+
+
+TEST_F(test_exception, hou_check_n_macro_success)
+{
+  HOU_CHECK_N(2 == 2, exception_2_args, 88, 'a');
+  SUCCEED();
+}
+
+
+
+TEST_F(test_exception_death_test, hou_check_n_macro_failure)
+{
+  EXPECT_THROW_N(
+    HOU_CHECK_N(0 == 2, exception_2_args, 88, 'a'), exception_2_args, 88, 'a');
 }

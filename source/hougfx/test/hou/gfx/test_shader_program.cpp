@@ -168,7 +168,7 @@ TEST_F(test_shader_program_death_test, get_uniform_location_invalid_name)
   fragment_shader fs(get_fs_source());
   concrete_shader_program p(vs, fs, gs);
   std::string invalidName = "trololol";
-  HOU_EXPECT_ERROR(p.get_uniform_location(invalidName), std::runtime_error,
+  DEPRECATED_HOU_EXPECT_ERROR(p.get_uniform_location(invalidName), std::runtime_error,
     format_string(
       get_text(gl_error::program_invalid_uniform), invalidName.c_str()));
 }
@@ -180,7 +180,7 @@ TEST_F(test_shader_program_death_test, constructor_error_link_failure)
   vertex_shader vs(get_vs_source());
   geometry_shader gs(get_vs_source());
   fragment_shader fs(get_fs_source());
-  HOU_EXPECT_ERROR(concrete_shader_program(vs, fs, gs), std::runtime_error,
+  DEPRECATED_HOU_EXPECT_ERROR(concrete_shader_program(vs, fs, gs), std::runtime_error,
     format_string(get_text(gl_error::program_linking),
       "Geometry info\n"
       "-------------\n"

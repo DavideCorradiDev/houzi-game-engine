@@ -79,7 +79,7 @@ TEST_F(test_rotation2, constructor_matrix)
 
 TEST_F(test_rotation2_death_test, constructor_matrix_failure_invalid_matrix)
 {
-  HOU_EXPECT_ERROR(rot2f(mat2x2f::zero()), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(rot2f(mat2x2f::zero()), std::logic_error,
     get_text(cor_error::pre_condition));
 }
 

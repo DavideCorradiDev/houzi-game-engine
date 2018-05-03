@@ -69,9 +69,9 @@ TEST_F(test_quaternion, conversion_constructor)
 
 TEST_F(test_quaternion_death_test, initializer_list_constructor_wrong_size)
 {
-  HOU_EXPECT_ERROR(quatf q({1.f, 2.f, 3.f}), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(quatf q({1.f, 2.f, 3.f}), std::logic_error,
     get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(quatf q({1.f, 2.f, 3.f, 4.f, 5.f}), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(quatf q({1.f, 2.f, 3.f, 4.f, 5.f}), std::logic_error,
     get_text(cor_error::pre_condition));
 }
 
@@ -238,7 +238,7 @@ TEST_F(test_quaternion, inversion)
 TEST_F(test_quaternion, inversion_failure_null_determinant)
 {
   quatf q;
-  HOU_EXPECT_ERROR(
+  DEPRECATED_HOU_EXPECT_ERROR(
     inverse(q), std::logic_error, get_text(cor_error::pre_condition));
 }
 
@@ -283,7 +283,7 @@ TEST_F(test_quaternion, normalization)
 
 TEST_F(test_quaternion, normalization_failure_null_norm)
 {
-  HOU_EXPECT_ERROR(normalized(quatf::zero()), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(normalized(quatf::zero()), std::logic_error,
     get_text(cor_error::pre_condition));
 }
 

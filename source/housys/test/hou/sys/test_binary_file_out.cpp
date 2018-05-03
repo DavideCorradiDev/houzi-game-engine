@@ -106,7 +106,7 @@ TEST_F(test_binary_file_out, set_byte_pos)
 TEST_F(test_binary_file_out_death_test, set_byte_pos_error)
 {
   binary_file_out fo(filename);
-  HOU_EXPECT_ERROR(
+  DEPRECATED_HOU_EXPECT_ERROR(
     fo.set_byte_pos(-1), std::runtime_error, get_text(sys_error::file_seek));
 }
 
@@ -136,7 +136,7 @@ TEST_F(test_binary_file_out, move_byte_pos)
 TEST_F(test_binary_file_out_death_test, move_byte_pos_error)
 {
   binary_file_out fo(filename);
-  HOU_EXPECT_ERROR(
+  DEPRECATED_HOU_EXPECT_ERROR(
     fo.move_byte_pos(-1), std::runtime_error, get_text(sys_error::file_seek));
 }
 

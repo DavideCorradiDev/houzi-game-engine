@@ -411,7 +411,7 @@ TEST_F(test_streaming_audio_source, set_buffer_count_while_paused)
 TEST_F(test_streaming_audio_source_death_test, set_buffer_count_error)
 {
   streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
-  HOU_EXPECT_ERROR(as.set_buffer_count(0u), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(as.set_buffer_count(0u), std::logic_error,
     get_text(cor_error::pre_condition));
 }
 
@@ -455,6 +455,6 @@ TEST_F(test_streaming_audio_source, set_buffer_sample_count_while_paused)
 TEST_F(test_streaming_audio_source_death_test, set_buffer_sample_count_error)
 {
   streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
-  HOU_EXPECT_ERROR(as.set_buffer_sample_count(0u), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(as.set_buffer_sample_count(0u), std::logic_error,
     get_text(cor_error::pre_condition));
 }

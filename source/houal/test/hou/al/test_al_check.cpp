@@ -61,7 +61,7 @@ TEST_F(test_al_check, al_check_error_function)
 TEST_F(test_al_check_death_test, al_check_error_function)
 {
   alGetString(AL_INVERSE_DISTANCE);
-  HOU_EXPECT_ERROR(
+  DEPRECATED_HOU_EXPECT_ERROR(
     al::check_error("", 0), std::logic_error, get_text(al_error::invalid_enum));
 }
 
@@ -80,7 +80,7 @@ TEST_F(test_al_check_death_test, al_check_error_macro)
 {
   alGetString(AL_INVERSE_DISTANCE);
 #ifdef HOU_ENABLE_AL_ERROR_CHECKS
-  HOU_EXPECT_ERROR(
+  DEPRECATED_HOU_EXPECT_ERROR(
     HOU_AL_CHECK_ERROR(), std::logic_error, get_text(al_error::invalid_enum));
 #else
   HOU_AL_CHECK_ERROR();
@@ -102,7 +102,7 @@ TEST_F(test_al_check, al_check_context_error_function)
 TEST_F(test_al_check_death_test, al_check_context_error_function)
 {
   alcGetString(m_device.get_handle(), ALC_MAJOR_VERSION);
-  HOU_EXPECT_ERROR(al::check_context_error(m_device, "", 0), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(al::check_context_error(m_device, "", 0), std::logic_error,
     get_text(al_error::invalid_enum));
 }
 
@@ -121,7 +121,7 @@ TEST_F(test_al_check_death_test, al_check_context_error_macro)
 {
   alcGetString(m_device.get_handle(), ALC_MAJOR_VERSION);
 #ifdef HOU_ENABLE_AL_CONTEXT_ERROR_CHECKS
-  HOU_EXPECT_ERROR(HOU_AL_CHECK_CONTEXT_ERROR(m_device), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(HOU_AL_CHECK_CONTEXT_ERROR(m_device), std::logic_error,
     get_text(al_error::invalid_enum));
 #else
   HOU_AL_CHECK_CONTEXT_ERROR(m_device);
@@ -142,7 +142,7 @@ TEST_F(test_al_check, al_check_context_existence_function)
 TEST_F(test_al_check_death_test, al_check_context_existence_function)
 {
   al::context::unset_current();
-  HOU_EXPECT_ERROR(al::check_context_existence("", 0), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(al::check_context_existence("", 0), std::logic_error,
     get_text(al_error::context_existence));
 }
 
@@ -160,7 +160,7 @@ TEST_F(test_al_check_death_test, al_check_context_existence_macro)
 {
   al::context::unset_current();
 #ifdef HOU_ENABLE_AL_CONTEXT_EXISTENCE_CHECKS
-  HOU_EXPECT_ERROR(HOU_AL_CHECK_CONTEXT_EXISTENCE(), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(HOU_AL_CHECK_CONTEXT_EXISTENCE(), std::logic_error,
     get_text(al_error::context_existence));
 #else
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
@@ -202,7 +202,7 @@ TEST_F(test_al_check_death_test,
   concrete_device_owned_object_handle o1(1u);
 
   al::context::set_current(c2);
-  HOU_EXPECT_ERROR(al::check_context_ownership(o1, "", 0), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(al::check_context_ownership(o1, "", 0), std::logic_error,
     get_text(al_error::invalid_ownership));
 }
 
@@ -243,7 +243,7 @@ TEST_F(test_al_check_death_test,
   al::context::set_current(c2);
 
 #ifdef HOU_ENABLE_AL_CONTEXT_OWNERSHIP_CHECKS
-  HOU_EXPECT_ERROR(HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1), std::logic_error,
     get_text(al_error::invalid_ownership));
 #else
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1);
@@ -285,7 +285,7 @@ TEST_F(test_al_check_death_test,
   concrete_context_owned_object_handle o1(1u);
 
   al::context::set_current(c2);
-  HOU_EXPECT_ERROR(al::check_context_ownership(o1, "", 0), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(al::check_context_ownership(o1, "", 0), std::logic_error,
     get_text(al_error::invalid_ownership));
 }
 
@@ -324,7 +324,7 @@ TEST_F(test_al_check_death_test,
 
   al::context::set_current(c2);
 #ifdef HOU_ENABLE_AL_CONTEXT_OWNERSHIP_CHECKS
-  HOU_EXPECT_ERROR(HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1), std::logic_error,
     get_text(al_error::invalid_ownership));
 #else
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1);

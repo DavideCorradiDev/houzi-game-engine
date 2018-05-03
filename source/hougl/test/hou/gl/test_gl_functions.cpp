@@ -50,7 +50,7 @@ TEST_F(test_gl_functions, unpack_alignment)
 TEST_F(test_gl_functions_death_test, invalid_unpack_alignment)
 {
 #ifdef HOU_ENABLE_GL_ERROR_CHECKS
-  HOU_EXPECT_ERROR(gl::set_unpack_alignment(3), std::logic_error,
+  DEPRECATED_HOU_EXPECT_ERROR(gl::set_unpack_alignment(3), std::logic_error,
     get_text(gl_error::invalid_value));
 #else
   SUCCEED();
@@ -72,7 +72,7 @@ TEST_F(test_gl_functions, pack_alignment)
 TEST_F(test_gl_functions_death_test, invalid_pack_alignment)
 {
 #ifdef HOU_ENABLE_GL_ERROR_CHECKS
-  HOU_EXPECT_ERROR(
+  DEPRECATED_HOU_EXPECT_ERROR(
     gl::set_pack_alignment(3), std::logic_error, get_text(gl_error::invalid_value));
 #else
   SUCCEED();

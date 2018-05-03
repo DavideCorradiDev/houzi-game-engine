@@ -49,7 +49,7 @@ TEST_F(test_al_device, creation)
 TEST_F(test_al_device_death_test, creation_failure)
 {
   std::string invalid_device_name = u8"Invalid device name";
-  HOU_EXPECT_ERROR(al::device d(invalid_device_name), std::runtime_error,
+  DEPRECATED_HOU_EXPECT_ERROR(al::device d(invalid_device_name), std::runtime_error,
     format_string(
       get_text(al_error::device_open), invalid_device_name.c_str()));
 }

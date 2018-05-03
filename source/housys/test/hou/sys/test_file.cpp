@@ -93,7 +93,7 @@ TEST_F(test_file, creation)
 
 TEST_F(test_file_death_test, creation_error)
 {
-  HOU_EXPECT_ERROR(
+  DEPRECATED_HOU_EXPECT_ERROR(
     file f("NotAValidName.txt", file_open_mode::read, file_type::binary),
     std::runtime_error,
     format_string(get_text(sys_error::file_open), "NotAValidName.txt"));
@@ -138,10 +138,10 @@ TEST_F(test_file_death_test, cursor_positioning_error)
 {
   file f(filename, file_open_mode::read, file_type::binary);
 
-  HOU_EXPECT_ERROR(
+  DEPRECATED_HOU_EXPECT_ERROR(
     f.seek_set(-1), std::runtime_error, get_text(sys_error::file_seek));
 
-  HOU_EXPECT_ERROR(
+  DEPRECATED_HOU_EXPECT_ERROR(
     f.seek_offset(-2), std::runtime_error, get_text(sys_error::file_seek));
 
   // error flag is not set, only for read / write errors!
@@ -343,15 +343,15 @@ TEST_F(test_file_death_test, read_from_write_only_file)
   file f(filename, file_open_mode::write, file_type::binary);
 
   char c;
-  HOU_EXPECT_ERROR(
+  DEPRECATED_HOU_EXPECT_ERROR(
     f.getc(c), std::runtime_error, get_text(sys_error::file_read));
 
   std::string buffer(3u, 0);
-  HOU_EXPECT_ERROR(
+  DEPRECATED_HOU_EXPECT_ERROR(
     f.read(buffer), std::runtime_error, get_text(sys_error::file_read));
 
 #if defined(HOU_USE_EXCEPTIONS)
-  // With no exceptions handling, the HOU_EXPECT_ERROR macro does some magic,
+  // With no exceptions handling, the DEPRECATED_HOU_EXPECT_ERROR macro does some magic,
   // so that in the end the error flag is not set for f.
   EXPECT_TRUE(f.error());
 #endif
@@ -363,15 +363,15 @@ TEST_F(test_file_death_test, write_to_read_only_file)
 {
   file f(filename, file_open_mode::read, file_type::binary);
 
-  HOU_EXPECT_ERROR(
+  DEPRECATED_HOU_EXPECT_ERROR(
     f.putc('a'), std::runtime_error, get_text(sys_error::file_write));
 
   std::string to_write = u8"I have\nwritten this";
-  HOU_EXPECT_ERROR(
+  DEPRECATED_HOU_EXPECT_ERROR(
     f.write(to_write), std::runtime_error, get_text(sys_error::file_write));
 
 #ifndef HOU_DISABLE_EXCEPTIONS
-  // With no exceptions handling, the HOU_EXPECT_ERROR macro does some magic,
+  // With no exceptions handling, the DEPRECATED_HOU_EXPECT_ERROR macro does some magic,
   // so that in the end the error flag is not set for f.
   EXPECT_TRUE(f.error());
 #endif

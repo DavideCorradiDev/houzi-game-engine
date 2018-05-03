@@ -77,7 +77,7 @@ TEST_F(test_al_context_death_test, context_creation_failed)
   al::device d1;
   al::device d2(std::move(d1));
 
-  HOU_EXPECT_ERROR(
+  DEPRECATED_HOU_EXPECT_ERROR(
     al::context c(d1), std::runtime_error, get_text(al_error::context_create));
 }
 
