@@ -23,16 +23,16 @@ public:
   invalid_enum(const std::string& path, uint line, T enum_value);
 };
 
-class HOU_COR_API numeric_overflow : public exception
+class HOU_COR_API overflow_error : public exception
 {
 public:
-  numeric_overflow(const std::string& path, uint line);
+  overflow_error(const std::string& path, uint line);
 };
 
-class HOU_COR_API numeric_underflow : public exception
+class HOU_COR_API underflow_error : public exception
 {
 public:
-  numeric_underflow(const std::string& path, uint line);
+  underflow_error(const std::string& path, uint line);
 };
 
 }  // namespace hou

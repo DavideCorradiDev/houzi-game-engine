@@ -106,7 +106,7 @@ TEST_F(
   vertex_format vf(0, 3,
     {vertex_attrib_format(gl_type::float_decimal, 2, 0, false),
       vertex_attrib_format(gl_type::float_decimal, 1, 2, true)});
-  HOU_EXPECT_PRECONDITION(
+  EXPECT_PRECOND_ERROR(
     va.set_vertex_data(vb, vertex_array::get_max_binding_index() + 1u, vf));
 }
 
@@ -117,7 +117,7 @@ TEST_F(test_vertex_array, set_vertex_data_max_attrib_formats)
   vertex_array va;
   float_buffer vb(std::vector<float>{1, 2, 3, 4, 5, 6});
   vertex_attrib_format vaf(gl_type::float_decimal, 2, 0, false);
-  HOU_EXPECT_PRECONDITION(
+  EXPECT_PRECOND_ERROR(
     va.set_vertex_data(vb, vertex_array::get_max_binding_index(),
       vertex_format(0, 3,
         std::vector<vertex_attrib_format>(

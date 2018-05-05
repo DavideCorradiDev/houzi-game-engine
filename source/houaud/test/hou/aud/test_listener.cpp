@@ -39,7 +39,7 @@ TEST_F(test_listener, gain)
 
 TEST_F(test_listener_death_test, invalid_gain)
 {
-  HOU_EXPECT_PRECONDITION(listener::set_gain(-1.f));
+  EXPECT_PRECOND_ERROR(listener::set_gain(-1.f));
 }
 
 

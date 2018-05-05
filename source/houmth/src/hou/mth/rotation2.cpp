@@ -89,9 +89,9 @@ template <typename T>
 rotation2<T>::rotation2(const mat2x2<T>& m)
   : m_angle(toAngle(m))
 {
-  DEPRECATED_HOU_EXPECT(
+  HOU_PRECOND(
     close(T(1), det(m)) && close(mat2x2<T>::identity(), m * transpose(m)));
-  DEPRECATED_HOU_EXPECT_DEV(m_angle > -pi_f && m_angle <= pi_f);
+  HOU_DEV_PRECOND(m_angle > -pi_f && m_angle <= pi_f);
 }
 
 

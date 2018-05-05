@@ -26,7 +26,7 @@ float get_gain()
 
 void set_gain(float gain)
 {
-  DEPRECATED_HOU_EXPECT(gain >= 0.f);
+  HOU_PRECOND(gain >= 0.f);
   al::set_listener_gain(static_cast<ALfloat>(gain));
 }
 

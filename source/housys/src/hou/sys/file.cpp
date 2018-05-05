@@ -6,7 +6,7 @@
 
 #include "hou/sys/sys_error.hpp"
 
-#include "hou/cor/deprecated_error.hpp"
+#include "hou/cor/assertions.hpp"
 #include "hou/cor/std_string.hpp"
 
 #include <cstdio>

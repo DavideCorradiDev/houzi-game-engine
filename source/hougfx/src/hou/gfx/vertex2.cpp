@@ -222,7 +222,7 @@ mesh2 create_ellipse_outline_mesh2(
     vertices[i].set_position(e_radius + ed_pos);
     vertices[i].set_color(color::white);
     ++i;
-    DEPRECATED_HOU_ENSURE_DEV(i < vertices.size());
+    HOU_DEV_POSTCOND(i < vertices.size());
 
     vec2f idPos(i_radius.x() * c, i_radius.y() * s);
     vertices[i].set_position(e_radius + idPos);

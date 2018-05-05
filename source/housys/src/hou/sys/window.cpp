@@ -307,7 +307,7 @@ window_event window::wait_event()
     std::this_thread::sleep_for(sleepTime);
     update_event_queue();
   }
-  DEPRECATED_HOU_ENSURE_DEV(!is_event_queue_empty());
+  HOU_DEV_POSTCOND(!is_event_queue_empty());
   return pop_event();
 }
 

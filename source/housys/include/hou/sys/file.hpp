@@ -6,11 +6,12 @@
 #define HOU_SYS_FILE_HPP
 
 #include "hou/cor/non_copyable.hpp"
-#include "hou/sys/sys_export.hpp"
+
+#include "hou/cor/basic_types.hpp"
 
 #include "hou/sys/file_handle.hpp"
 
-#include "hou/cor/basic_types.hpp"
+#include "hou/sys/sys_export.hpp"
 
 #include <string>
 

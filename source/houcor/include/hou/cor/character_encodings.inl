@@ -47,7 +47,7 @@ InputIt utf8::decode(InputIt in_first, InputIt in_last, code_point& out)
 
   size_t trailing_unit_count = count_trailing_units(*in_first);
 
-  DEPRECATED_HOU_EXPECT(in_first + trailing_unit_count < in_last);
+  HOU_PRECOND(in_first + trailing_unit_count < in_last);
 
   out = 0;
   for(size_t i = 0; i < trailing_unit_count; ++i)
@@ -72,7 +72,7 @@ template <typename InputIt>
 InputIt utf8::next(InputIt in_first, InputIt in_last)
 {
   InputIt next = in_first + count_trailing_units(*in_first) + 1;
-  DEPRECATED_HOU_EXPECT(next <= in_last);
+  HOU_PRECOND(next <= in_last);
   return next;
 }
 
@@ -81,7 +81,7 @@ InputIt utf8::next(InputIt in_first, InputIt in_last)
 template <typename InputIt>
 size_t utf8::count(InputIt in_first, InputIt in_last)
 {
-  DEPRECATED_HOU_EXPECT(in_first <= in_last);
+  HOU_PRECOND(in_first <= in_last);
   size_t count = 0;
   while(in_first < in_last)
   {
@@ -147,15 +147,15 @@ InputIt utf16::decode(InputIt in_first, InputIt in_last, code_point& out)
   if(e1 < 0xD800 || e1 > 0xDBFF)
   {
     // one code unit.
-    DEPRECATED_HOU_EXPECT(in_first <= in_last);
+    HOU_PRECOND(in_first <= in_last);
     out = e1;
   }
   else
   {
     // Two code units
-    DEPRECATED_HOU_EXPECT(in_first < in_last);
+    HOU_PRECOND(in_first < in_last);
     code_unit e2 = *in_first++;
-    DEPRECATED_HOU_EXPECT(((e2 >= 0xDC00) && (e2 <= 0xDFFF)));
+    HOU_PRECOND(((e2 >= 0xDC00) && (e2 <= 0xDFFF)));
     out = static_cast<code_point>(
       ((e1 - 0xD800) << 10) + (e2 - 0xDC00) + 0x0010000);
   }
@@ -170,7 +170,7 @@ InputIt utf16::next(InputIt in_first, InputIt in_last)
 {
   InputIt next
     = in_first + ((*in_first < 0xD800 || *in_first > 0xDBFF) ? 1 : 2);
-  DEPRECATED_HOU_EXPECT(next <= in_last);
+  HOU_PRECOND(next <= in_last);
   return next;
 }
 
@@ -179,7 +179,7 @@ InputIt utf16::next(InputIt in_first, InputIt in_last)
 template <typename InputIt>
 size_t utf16::count(InputIt in_first, InputIt in_last)
 {
-  DEPRECATED_HOU_EXPECT(in_first <= in_last);
+  HOU_PRECOND(in_first <= in_last);
   size_t length = 0;
   while(in_first < in_last)
   {
@@ -203,7 +203,7 @@ OutputIt utf32::encode(code_point in, OutputIt out_first)
 template <typename InputIt>
 InputIt utf32::decode(InputIt in_first, InputIt in_last, code_point& out)
 {
-  DEPRECATED_HOU_EXPECT(in_first < in_last);
+  HOU_PRECOND(in_first < in_last);
   out = *in_first;
   return ++in_first;
 }
@@ -213,7 +213,7 @@ InputIt utf32::decode(InputIt in_first, InputIt in_last, code_point& out)
 template <typename InputIt>
 InputIt utf32::next(InputIt in_first, InputIt in_last)
 {
-  DEPRECATED_HOU_EXPECT(in_first < in_last);
+  HOU_PRECOND(in_first < in_last);
   return ++in_first;
 }
 
@@ -222,7 +222,7 @@ InputIt utf32::next(InputIt in_first, InputIt in_last)
 template <typename InputIt>
 size_t utf32::count(InputIt in_first, InputIt in_last)
 {
-  DEPRECATED_HOU_EXPECT(in_first <= in_last);
+  HOU_PRECOND(in_first <= in_last);
   return in_last - in_first;
 }
 

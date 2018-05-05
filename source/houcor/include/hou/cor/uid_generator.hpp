@@ -5,11 +5,11 @@
 #ifndef HOU_COR_UID_GENERATOR_HPP
 #define HOU_COR_UID_GENERATOR_HPP
 
-#include "hou/cor/cor_export.hpp"
-
 #include "hou/cor/basic_types.hpp"
 
 #include <atomic>
+
+#include "hou/cor/cor_export.hpp"
 
 
 

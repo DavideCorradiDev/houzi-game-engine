@@ -7,7 +7,7 @@
 
 #include "hou/cor/cor_export.hpp"
 
-#include "hou/cor/deprecated_error.hpp"
+#include "hou/cor/assertions.hpp"
 
 #include <type_traits>
 

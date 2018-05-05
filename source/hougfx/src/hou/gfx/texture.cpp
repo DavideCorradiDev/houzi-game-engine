@@ -192,7 +192,7 @@ uint get_mipmap_relevant_size<texture_type::multisample_texture2_array>(
 template <size_t dim>
 size_t compute_image_buffer_size(const vec<uint, dim>& imSize, pixel_format fmt)
 {
-  DEPRECATED_HOU_EXPECT_DEV(gl::get_unpack_alignment() == 1u);
+  HOU_DEV_PRECOND(gl::get_unpack_alignment() == 1u);
   size_t byte_count = 1u;
   for(size_t i = 0; i < imSize.get_size(); ++i)
   {
@@ -301,7 +301,7 @@ void set_texture3_wrap_mode(
 
 void texture::bind(const texture& tex, uint tu)
 {
-  DEPRECATED_HOU_EXPECT(tu < get_texture_unit_count());
+  HOU_PRECOND(tu < get_texture_unit_count());
   gl::bind_texture(tex.m_gl_texture_handle, tu);
 }
 
@@ -309,7 +309,7 @@ void texture::bind(const texture& tex, uint tu)
 
 void texture::unbind(uint tu)
 {
-  DEPRECATED_HOU_EXPECT(tu < get_texture_unit_count());
+  HOU_PRECOND(tu < get_texture_unit_count());
   gl::unbind_texture(tu);
 }
 
@@ -355,7 +355,7 @@ const gl::texture_handle& texture::get_handle() const
 
 bool texture::is_bound(uint tu) const
 {
-  DEPRECATED_HOU_EXPECT(tu < get_texture_unit_count());
+  HOU_PRECOND(tu < get_texture_unit_count());
   return gl::is_texture_bound(m_gl_texture_handle, tu);
 }
 
@@ -546,7 +546,7 @@ texture_t<texture_type::texture1>::texture_t<texture_type::texture1, void>(
   const size_type& size, texture_format format, uint mipmap_level_count)
   : texture(texture_type::texture1, mipmap_level_count, 1u, true)
 {
-  DEPRECATED_HOU_EXPECT(is_texture_size_valid<texture_type::texture1>(size)
+  HOU_PRECOND(is_texture_size_valid<texture_type::texture1>(size)
     && is_mipmap_level_count_valid<texture_type::texture1>(
          mipmap_level_count, size));
   gl::set_texture_storage_1d(m_gl_texture_handle, mipmap_level_count,
@@ -562,7 +562,7 @@ texture_t<texture_type::texture1_array>::texture_t<texture_type::texture1_array,
   void>(const size_type& size, texture_format format, uint mipmap_level_count)
   : texture(texture_type::texture1_array, mipmap_level_count, 1u, true)
 {
-  DEPRECATED_HOU_EXPECT(is_texture_size_valid<texture_type::texture1_array>(size)
+  HOU_PRECOND(is_texture_size_valid<texture_type::texture1_array>(size)
     && is_mipmap_level_count_valid<texture_type::texture1_array>(
          mipmap_level_count, size));
   gl::set_texture_storage_2d(m_gl_texture_handle, mipmap_level_count,
@@ -578,7 +578,7 @@ texture_t<texture_type::texture2>::texture_t<texture_type::texture2, void>(
   const size_type& size, texture_format format, uint mipmap_level_count)
   : texture(texture_type::texture2, mipmap_level_count, 1u, true)
 {
-  DEPRECATED_HOU_EXPECT(is_texture_size_valid<texture_type::texture2>(size)
+  HOU_PRECOND(is_texture_size_valid<texture_type::texture2>(size)
     && is_mipmap_level_count_valid<texture_type::texture2>(
          mipmap_level_count, size));
   gl::set_texture_storage_2d(m_gl_texture_handle, mipmap_level_count,
@@ -594,7 +594,7 @@ texture_t<texture_type::texture2_array>::texture_t<texture_type::texture2_array,
   void>(const size_type& size, texture_format format, uint mipmap_level_count)
   : texture(texture_type::texture2_array, mipmap_level_count, 1u, true)
 {
-  DEPRECATED_HOU_EXPECT(is_texture_size_valid<texture_type::texture2_array>(size)
+  HOU_PRECOND(is_texture_size_valid<texture_type::texture2_array>(size)
     && is_mipmap_level_count_valid<texture_type::texture2_array>(
          mipmap_level_count, size));
   gl::set_texture_storage_3d(m_gl_texture_handle, mipmap_level_count,
@@ -610,7 +610,7 @@ texture_t<texture_type::texture3>::texture_t<texture_type::texture3, void>(
   const size_type& size, texture_format format, uint mipmap_level_count)
   : texture(texture_type::texture3, mipmap_level_count, 1u, true)
 {
-  DEPRECATED_HOU_EXPECT(is_texture_size_valid<texture_type::texture3>(size)
+  HOU_PRECOND(is_texture_size_valid<texture_type::texture3>(size)
     && is_mipmap_level_count_valid<texture_type::texture3>(
          mipmap_level_count, size));
   gl::set_texture_storage_3d(m_gl_texture_handle, mipmap_level_count,
@@ -638,7 +638,7 @@ texture_t<texture_type::multisample_texture2>::texture_t(const size_type& size,
   : texture(texture_type::multisample_texture2, 1u, sample_count,
       fixed_sample_locations)
 {
-  DEPRECATED_HOU_EXPECT(is_texture_size_valid<texture_type::multisample_texture2>(size)
+  HOU_PRECOND(is_texture_size_valid<texture_type::multisample_texture2>(size)
     && sample_count > 0u
     && sample_count <= static_cast<uint>(gl::get_max_texture_samples()));
   set_texture_storage_2d_multisample(m_gl_texture_handle, sample_count,
@@ -655,7 +655,7 @@ texture_t<texture_type::multisample_texture2_array>::texture_t(
   : texture(texture_type::multisample_texture2_array, 1u, sample_count,
       fixed_sample_locations)
 {
-  DEPRECATED_HOU_EXPECT(
+  HOU_PRECOND(
     is_texture_size_valid<texture_type::multisample_texture2_array>(size)
     && sample_count > 0u
     && sample_count <= static_cast<uint>(gl::get_max_texture_samples()));
@@ -917,7 +917,7 @@ typename texture_t<texture_type::texture1>::template image<PF>
   texture_t<texture_type::texture1>::get_sub_image(
     const offset_type& offset, const size_type& size) const
 {
-  DEPRECATED_HOU_EXPECT(element_wise_lower_or_equal(offset + size, get_size()));
+  HOU_PRECOND(element_wise_lower_or_equal(offset + size, get_size()));
   gl::set_unpack_alignment(1);
   std::vector<uint8_t> buffer(compute_image_buffer_size(size, PF));
   gl::get_texture_sub_image(m_gl_texture_handle, offset.x(), 0, 0, size.x(), 1,
@@ -935,7 +935,7 @@ typename texture_t<texture_type::texture1_array>::template image<PF>
   texture_t<texture_type::texture1_array>::get_sub_image(
     const offset_type& offset, const size_type& size) const
 {
-  DEPRECATED_HOU_EXPECT(element_wise_lower_or_equal(offset + size, get_size()));
+  HOU_PRECOND(element_wise_lower_or_equal(offset + size, get_size()));
   gl::set_unpack_alignment(1);
   std::vector<uint8_t> buffer(compute_image_buffer_size(size, PF));
   gl::get_texture_sub_image(m_gl_texture_handle, offset.x(), offset.y(), 0,
@@ -953,7 +953,7 @@ typename texture_t<texture_type::texture2>::template image<PF>
   texture_t<texture_type::texture2>::get_sub_image(
     const offset_type& offset, const size_type& size) const
 {
-  DEPRECATED_HOU_EXPECT(element_wise_lower_or_equal(offset + size, get_size()));
+  HOU_PRECOND(element_wise_lower_or_equal(offset + size, get_size()));
   gl::set_unpack_alignment(1);
   std::vector<uint8_t> buffer(compute_image_buffer_size(size, PF));
   gl::get_texture_sub_image(m_gl_texture_handle, offset.x(), offset.y(), 0,
@@ -971,7 +971,7 @@ typename texture_t<texture_type::texture2_array>::template image<PF>
   texture_t<texture_type::texture2_array>::get_sub_image(
     const offset_type& offset, const size_type& size) const
 {
-  DEPRECATED_HOU_EXPECT(element_wise_lower_or_equal(offset + size, get_size()));
+  HOU_PRECOND(element_wise_lower_or_equal(offset + size, get_size()));
   gl::set_unpack_alignment(1);
   std::vector<uint8_t> buffer(compute_image_buffer_size(size, PF));
   gl::get_texture_sub_image(m_gl_texture_handle, offset.x(), offset.y(),
@@ -990,7 +990,7 @@ typename texture_t<texture_type::texture3>::template image<PF>
   texture_t<texture_type::texture3>::get_sub_image(
     const offset_type& offset, const size_type& size) const
 {
-  DEPRECATED_HOU_EXPECT(element_wise_lower_or_equal(offset + size, get_size()));
+  HOU_PRECOND(element_wise_lower_or_equal(offset + size, get_size()));
   gl::set_unpack_alignment(1);
   std::vector<uint8_t> buffer(compute_image_buffer_size(size, PF));
   gl::get_texture_sub_image(m_gl_texture_handle, offset.x(), offset.y(),
@@ -1007,7 +1007,7 @@ template <texture_type Type>
 template <pixel_format PF, texture_type Type2, typename Enable>
 void texture_t<Type>::set_image(const image<PF>& im)
 {
-  DEPRECATED_HOU_EXPECT(im.get_size() == get_size());
+  HOU_PRECOND(im.get_size() == get_size());
   set_sub_image<PF>(offset_type::zero(), im);
 }
 
@@ -1018,7 +1018,7 @@ template <pixel_format PF, texture_type Type2, typename Enable>
 void texture_t<texture_type::texture1>::set_sub_image(
   const offset_type& offset, const image<PF>& im)
 {
-  DEPRECATED_HOU_EXPECT(element_wise_lower_or_equal(offset + im.get_size(), get_size()));
+  HOU_PRECOND(element_wise_lower_or_equal(offset + im.get_size(), get_size()));
   gl::set_texture_sub_image_1d(m_gl_texture_handle, 0u, offset.x(),
     im.get_size().x(), pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()),
@@ -1033,7 +1033,7 @@ template <pixel_format PF, texture_type Type2, typename Enable>
 void texture_t<texture_type::texture1_array>::set_sub_image(
   const offset_type& offset, const image<PF>& im)
 {
-  DEPRECATED_HOU_EXPECT(element_wise_lower_or_equal(offset + im.get_size(), get_size()));
+  HOU_PRECOND(element_wise_lower_or_equal(offset + im.get_size(), get_size()));
   gl::set_texture_sub_image_2d(m_gl_texture_handle, 0, offset.x(), offset.y(),
     im.get_size().x(), im.get_size().y(), pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()),
@@ -1048,7 +1048,7 @@ template <pixel_format PF, texture_type Type2, typename Enable>
 void texture_t<texture_type::texture2>::set_sub_image(
   const offset_type& offset, const image<PF>& im)
 {
-  DEPRECATED_HOU_EXPECT(element_wise_lower_or_equal(offset + im.get_size(), get_size()));
+  HOU_PRECOND(element_wise_lower_or_equal(offset + im.get_size(), get_size()));
   gl::set_texture_sub_image_2d(m_gl_texture_handle, 0, offset.x(), offset.y(),
     im.get_size().x(), im.get_size().y(), pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()),
@@ -1063,7 +1063,7 @@ template <pixel_format PF, texture_type Type2, typename Enable>
 void texture_t<texture_type::texture2_array>::set_sub_image(
   const offset_type& offset, const image<PF>& im)
 {
-  DEPRECATED_HOU_EXPECT(element_wise_lower_or_equal(offset + im.get_size(), get_size()));
+  HOU_PRECOND(element_wise_lower_or_equal(offset + im.get_size(), get_size()));
   gl::set_texture_sub_image_3d(m_gl_texture_handle, 0, offset.x(), offset.y(),
     offset.z(), im.get_size().x(), im.get_size().y(), im.get_size().z(),
     pixel_format_to_gl_pixel_format(PF),
@@ -1079,7 +1079,7 @@ template <pixel_format PF, texture_type Type2, typename Enable>
 void texture_t<texture_type::texture3>::set_sub_image(
   const offset_type& offset, const image<PF>& im)
 {
-  DEPRECATED_HOU_EXPECT(element_wise_lower_or_equal(offset + im.get_size(), get_size()));
+  HOU_PRECOND(element_wise_lower_or_equal(offset + im.get_size(), get_size()));
   gl::set_texture_sub_image_3d(m_gl_texture_handle, 0, offset.x(), offset.y(),
     offset.z(), im.get_size().x(), im.get_size().y(), im.get_size().z(),
     pixel_format_to_gl_pixel_format(PF),
@@ -1104,7 +1104,7 @@ template <texture_type Type2, typename Enable>
 typename texture_t<texture_type::texture1>::size_type
   texture_t<texture_type::texture1>::get_mipmap_size(uint mipmap_level) const
 {
-  DEPRECATED_HOU_EXPECT(mipmap_level < m_mipmap_level_count);
+  HOU_PRECOND(mipmap_level < m_mipmap_level_count);
   return get_texture1_size(m_gl_texture_handle, mipmap_level);
 }
 
@@ -1116,7 +1116,7 @@ typename texture_t<texture_type::texture1_array>::size_type
   texture_t<texture_type::texture1_array>::get_mipmap_size(
     uint mipmap_level) const
 {
-  DEPRECATED_HOU_EXPECT(mipmap_level < m_mipmap_level_count);
+  HOU_PRECOND(mipmap_level < m_mipmap_level_count);
   return get_texture2_size(m_gl_texture_handle, mipmap_level);
 }
 
@@ -1127,7 +1127,7 @@ template <texture_type Type2, typename Enable>
 typename texture_t<texture_type::texture2>::size_type
   texture_t<texture_type::texture2>::get_mipmap_size(uint mipmap_level) const
 {
-  DEPRECATED_HOU_EXPECT(mipmap_level < m_mipmap_level_count);
+  HOU_PRECOND(mipmap_level < m_mipmap_level_count);
   return get_texture2_size(m_gl_texture_handle, mipmap_level);
 }
 
@@ -1139,7 +1139,7 @@ typename texture_t<texture_type::texture2_array>::size_type
   texture_t<texture_type::texture2_array>::get_mipmap_size(
     uint mipmap_level) const
 {
-  DEPRECATED_HOU_EXPECT(mipmap_level < m_mipmap_level_count);
+  HOU_PRECOND(mipmap_level < m_mipmap_level_count);
   return get_texture3_size(m_gl_texture_handle, mipmap_level);
 }
 
@@ -1150,7 +1150,7 @@ template <texture_type Type2, typename Enable>
 typename texture_t<texture_type::texture3>::size_type
   texture_t<texture_type::texture3>::get_mipmap_size(uint mipmap_level) const
 {
-  DEPRECATED_HOU_EXPECT(mipmap_level < m_mipmap_level_count);
+  HOU_PRECOND(mipmap_level < m_mipmap_level_count);
   return get_texture3_size(m_gl_texture_handle, mipmap_level);
 }
 
@@ -1161,7 +1161,7 @@ template <pixel_format PF, texture_type Type2, typename Enable>
 typename texture_t<Type>::template image<PF> texture_t<Type>::get_mipmap_image(
   uint mipmap_level) const
 {
-  DEPRECATED_HOU_EXPECT(mipmap_level < m_mipmap_level_count);
+  HOU_PRECOND(mipmap_level < m_mipmap_level_count);
   gl::set_unpack_alignment(1);
   size_type mipMapSize = get_mipmap_size(mipmap_level);
   std::vector<uint8_t> buffer(compute_image_buffer_size(mipMapSize, PF));

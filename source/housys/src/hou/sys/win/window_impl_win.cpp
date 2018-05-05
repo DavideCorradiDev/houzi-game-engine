@@ -11,7 +11,7 @@
 #include "hou/sys/win/win_error.hpp"
 #include "hou/sys/window_event.hpp"
 
-#include "hou/cor/deprecated_error.hpp"
+#include "hou/cor/assertions.hpp"
 
 #include "hou/mth/rectangle.hpp"
 #include "hou/sys/window_style.hpp"
@@ -108,7 +108,7 @@ void activate_fullscreen_mode(window_impl& wnd, const video_mode& vm)
 {
   std::lock_guard<std::mutex> lock(fullscreen_mutex);
 
-  DEPRECATED_HOU_EXPECT_DEV(fullscreen_window == nullptr);
+  HOU_DEV_PRECOND(fullscreen_window == nullptr);
 
   DEVMODE devmode;
   devmode.dmSize = sizeof(DEVMODE);
@@ -128,7 +128,7 @@ void deactivate_fullscreen_mode()
 {
   std::lock_guard<std::mutex> lock(fullscreen_mutex);
 
-  DEPRECATED_HOU_EXPECT_DEV(fullscreen_window != nullptr);
+  HOU_DEV_PRECOND(fullscreen_window != nullptr);
 
   HOU_WIN_ENSURE(ChangeDisplaySettings(nullptr, 0) == DISP_CHANGE_SUCCESSFUL);
   fullscreen_window = nullptr;
@@ -147,7 +147,7 @@ bool is_fullscreen_window(const window_impl& wnd)
 recti client_to_frame_rect(HWND hwnd, const recti& rect)
 {
   RECT win_rect = {rect.l(), rect.t(), rect.r(), rect.b()};
-  DEPRECATED_HOU_ENSURE(
+  HOU_POSTCOND(
     AdjustWindowRect(&win_rect, GetWindowLong(hwnd, GWL_STYLE), false) != 0);
   return recti(win_rect.left, win_rect.top, win_rect.right - win_rect.left,
     win_rect.bottom - win_rect.top);
@@ -581,7 +581,7 @@ window_impl::window_impl(
   , m_mouse_in_window(false)
   , m_previous_size(vm.get_resolution())
 {
-  DEPRECATED_HOU_EXPECT(style != window_style::fullscreen
+  HOU_PRECOND(style != window_style::fullscreen
     || (vm.is_fullscreen_mode() && fullscreen_window == nullptr));
 
   register_window_class();
@@ -896,7 +896,7 @@ void window_impl::register_window_class()
     HOU_WIN_ENSURE(RegisterClassExW(&wcex) != 0);
   }
   ++window_count;
-  DEPRECATED_HOU_ENSURE_DEV(window_count > 0);
+  HOU_DEV_POSTCOND(window_count > 0);
 }
 
 
@@ -904,7 +904,7 @@ void window_impl::register_window_class()
 void window_impl::unregister_window_class()
 {
   std::lock_guard<std::mutex> lock(hou_wnd_class_mutex);
-  DEPRECATED_HOU_EXPECT_DEV(window_count > 0);
+  HOU_DEV_PRECOND(window_count > 0);
   --window_count;
   if(window_count == 0)
   {
@@ -940,7 +940,7 @@ LRESULT CALLBACK window_impl::wnd_procedure(
 
 void window_impl::filter_event(UINT umsg, WPARAM wparam, LPARAM lparam)
 {
-  DEPRECATED_HOU_EXPECT_DEV(m_handle != nullptr);
+  HOU_DEV_PRECOND(m_handle != nullptr);
 
   switch(umsg)
   {

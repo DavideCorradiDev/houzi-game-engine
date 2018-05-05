@@ -73,8 +73,7 @@ TEST_F(test_rotation3, constructor_non_unit_quaternion)
 
 TEST_F(test_rotation3_death_test, constructor_failure_zero_quaternion)
 {
-  DEPRECATED_HOU_EXPECT_ERROR(
-    rot3f(quatf::zero()), std::logic_error, get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(rot3f(quatf::zero()));
 }
 
 

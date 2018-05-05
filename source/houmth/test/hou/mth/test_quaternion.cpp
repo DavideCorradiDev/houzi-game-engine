@@ -1,7 +1,5 @@
 #include "hou/Test.hpp"
 
-#include "hou/cor/cor_error.hpp"
-
 #include "hou/mth/quaternion.hpp"
 
 using namespace hou;
@@ -69,10 +67,8 @@ TEST_F(test_quaternion, conversion_constructor)
 
 TEST_F(test_quaternion_death_test, initializer_list_constructor_wrong_size)
 {
-  DEPRECATED_HOU_EXPECT_ERROR(quatf q({1.f, 2.f, 3.f}), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(quatf q({1.f, 2.f, 3.f, 4.f, 5.f}), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(quatf q({1.f, 2.f, 3.f}));
+  EXPECT_PRECOND_ERROR(quatf q({1.f, 2.f, 3.f, 4.f, 5.f}));
 }
 
 
@@ -238,8 +234,7 @@ TEST_F(test_quaternion, inversion)
 TEST_F(test_quaternion, inversion_failure_null_determinant)
 {
   quatf q;
-  DEPRECATED_HOU_EXPECT_ERROR(
-    inverse(q), std::logic_error, get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(inverse(q));
 }
 
 
@@ -283,8 +278,7 @@ TEST_F(test_quaternion, normalization)
 
 TEST_F(test_quaternion, normalization_failure_null_norm)
 {
-  DEPRECATED_HOU_EXPECT_ERROR(normalized(quatf::zero()), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(normalized(quatf::zero()));
 }
 
 

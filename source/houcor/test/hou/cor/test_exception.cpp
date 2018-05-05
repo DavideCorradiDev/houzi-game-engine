@@ -86,6 +86,7 @@ TEST_F(test_exception_death_test, terminate_macro)
 }
 
 
+
 #ifndef HOU_DISABLE_EXCEPTIONS
 TEST_F(test_exception_death_test, expect_error_std_0_macro)
 {
@@ -154,6 +155,20 @@ TEST_F(test_exception_death_test, hou_error_n_macro)
 
 
 
+TEST_F(test_exception, dev_assert_macro_success)
+{
+  HOU_ASSERT(2 == 2, "Message.");
+}
+
+
+
+TEST_F(test_exception_death_test, dev_assert_macro_failure)
+{
+  EXPECT_DEATH(HOU_ASSERT(0 == 2, "Message."), ".*:.* - Message.");
+}
+
+
+
 TEST_F(test_exception, hou_check_std_0_macro_success)
 {
   EXPECT_NO_ERROR(HOU_CHECK_STD_0(2 == 2, std::exception));
@@ -212,13 +227,28 @@ TEST_F(test_exception_death_test, hou_check_n_macro_failure)
 
 
 
-TEST_F(test_exception, hou_dev_check_std_0_macro_success)
+TEST_F(test_exception, hou_dev_assert_macro_success)
+{
+  HOU_DEV_ASSERT(2 == 2, "Message.");
+}
+
+
+
+TEST_F(test_exception_death_test, hou_dev_assert_macro_failure)
 {
 #ifdef NDEBUG
-  EXPECT_NO_ERROR(HOU_DEV_CHECK_STD_0(2 == 2, std::exception));
+  HOU_DEV_ASSERT(0 == 2, "Message.");
+  SUCCEED();
 #else
-  EXPECT_NO_ERROR(HOU_DEV_CHECK_STD_0(2 == 2, std::exception));
+  EXPECT_DEATH(HOU_ASSERT(0 == 2, "Message."), ".*:.* - Message.");
 #endif
+}
+
+
+
+TEST_F(test_exception, hou_dev_check_std_0_macro_success)
+{
+  EXPECT_NO_ERROR(HOU_DEV_CHECK_STD_0(2 == 2, std::exception));
 }
 
 
@@ -237,11 +267,7 @@ TEST_F(test_exception_death_test, hou_dev_check_std_0_macro_failure)
 
 TEST_F(test_exception, hou_dev_check_std_n_macro_success)
 {
-#ifdef NDEBUG
   EXPECT_NO_ERROR(HOU_DEV_CHECK_STD_N(2 == 2, std::runtime_error, "Message."));
-#else
-  EXPECT_NO_ERROR(HOU_DEV_CHECK_STD_N(2 == 2, std::runtime_error, "Message."));
-#endif
 }
 
 
@@ -261,11 +287,7 @@ TEST_F(test_exception_death_test, hou_dev_check_std_n_macro_failure)
 
 TEST_F(test_exception, hou_dev_check_0_macro_success)
 {
-#ifdef NDEBUG
   EXPECT_NO_ERROR(HOU_DEV_CHECK_0(2 == 2, exception_0_args));
-#else
-  EXPECT_NO_ERROR(HOU_DEV_CHECK_0(2 == 2, exception_0_args));
-#endif
 }
 
 
@@ -283,11 +305,7 @@ TEST_F(test_exception_death_test, hou_dev_check_0_macro_failure)
 
 TEST_F(test_exception, hou_dev_check_n_macro_success)
 {
-#ifdef NDEBUG
   EXPECT_NO_ERROR(HOU_DEV_CHECK_N(2 == 2, exception_2_args, 88, 'a'));
-#else
-  EXPECT_NO_ERROR(HOU_DEV_CHECK_N(2 == 2, exception_2_args, 88, 'a'));
-#endif
 }
 
 

@@ -37,7 +37,7 @@ bool has_pixel_format(HDC hdc);
 int choose_pixel_format(
   HDC hdc, uint color_byte_count, const context_settings& settings)
 {
-  DEPRECATED_HOU_EXPECT_DEV(hdc != nullptr);
+  HOU_DEV_PRECOND(hdc != nullptr);
 
   int format;
 
@@ -89,8 +89,8 @@ int choose_pixel_format(
 
 void set_pixel_format(HDC hdc, int format_number)
 {
-  DEPRECATED_HOU_EXPECT_DEV(hdc != nullptr);
-  DEPRECATED_HOU_EXPECT_DEV(format_number != 0);
+  HOU_DEV_PRECOND(hdc != nullptr);
+  HOU_DEV_PRECOND(format_number != 0);
 
   if(!has_pixel_format(hdc))
   {
@@ -109,7 +109,7 @@ void set_pixel_format(HDC hdc, int format_number)
 
 bool has_pixel_format(HDC hdc)
 {
-  DEPRECATED_HOU_EXPECT_DEV(hdc != nullptr);
+  HOU_DEV_PRECOND(hdc != nullptr);
   return GetPixelFormat(hdc) != 0;
 }
 
@@ -120,7 +120,7 @@ bool has_pixel_format(HDC hdc)
 void context_impl::set_current(context_impl& ctx, window& wnd)
 {
   ctx.m_hdc = GetDC(wnd.get_handle());
-  DEPRECATED_HOU_ENSURE(ctx.m_hdc != nullptr);
+  HOU_POSTCOND(ctx.m_hdc != nullptr);
 
   set_pixel_format(ctx.m_hdc, ctx.m_pixel_format);
 
@@ -146,7 +146,7 @@ context_impl::context_impl(const context_settings& settings, const window& wnd,
   , m_pixel_format(
       choose_pixel_format(m_hdc, wnd.get_bytes_per_pixel(), settings))
 {
-  DEPRECATED_HOU_EXPECT(m_hdc != nullptr);
+  HOU_PRECOND(m_hdc != nullptr);
 
   set_pixel_format(m_hdc, m_pixel_format);
 
@@ -189,7 +189,7 @@ context_impl::context_impl(const context_settings& settings, const window& wnd,
     }
   }
 
-  DEPRECATED_HOU_ENSURE_DEV(m_handle != nullptr);
+  HOU_DEV_POSTCOND(m_handle != nullptr);
 }
 
 

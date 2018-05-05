@@ -63,7 +63,7 @@ empty_audio_stream_in::byte_position empty_audio_stream_in::get_byte_pos() const
 binary_stream& empty_audio_stream_in::set_byte_pos(byte_position pos)
 {
   DEPRECATED_HOU_RUNTIME_CHECK(pos == 0, get_text(sys_error::file_seek));
-  DEPRECATED_HOU_EXPECT(pos == 0);
+  HOU_PRECOND(pos == 0);
   return *this;
 }
 

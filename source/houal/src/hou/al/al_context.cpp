@@ -7,7 +7,7 @@
 #include "hou/al/al_device.hpp"
 #include "hou/al/al_error.hpp"
 
-#include "hou/cor/deprecated_error.hpp"
+#include "hou/cor/assertions.hpp"
 #include "hou/cor/uid_generator.hpp"
 
 #include <mutex>

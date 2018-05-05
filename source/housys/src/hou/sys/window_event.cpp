@@ -4,7 +4,7 @@
 
 #include "hou/sys/window_event.hpp"
 
-#include "hou/cor/deprecated_error.hpp"
+#include "hou/cor/assertions.hpp"
 
 #include <iomanip>
 
@@ -172,7 +172,7 @@ window_event_type window_event::get_type() const
 
 const window_event::size_data& window_event::get_size_data() const
 {
-  DEPRECATED_HOU_EXPECT(m_type == window_event_type::resized);
+  HOU_PRECOND(m_type == window_event_type::resized);
   return m_size;
 }
 
@@ -180,7 +180,7 @@ const window_event::size_data& window_event::get_size_data() const
 
 const window_event::key_data& window_event::get_key_data() const
 {
-  DEPRECATED_HOU_EXPECT(m_type == window_event_type::key_pressed
+  HOU_PRECOND(m_type == window_event_type::key_pressed
     || m_type == window_event_type::key_released);
   return m_key;
 }
@@ -189,7 +189,7 @@ const window_event::key_data& window_event::get_key_data() const
 
 const window_event::text_data& window_event::get_text_data() const
 {
-  DEPRECATED_HOU_EXPECT(m_type == window_event_type::text_entered);
+  HOU_PRECOND(m_type == window_event_type::text_entered);
   return m_text;
 }
 
@@ -197,7 +197,7 @@ const window_event::text_data& window_event::get_text_data() const
 
 const window_event::mouse_move_data& window_event::get_mouse_move_data() const
 {
-  DEPRECATED_HOU_EXPECT(m_type == window_event_type::mouse_moved);
+  HOU_PRECOND(m_type == window_event_type::mouse_moved);
   return m_mouse_move;
 }
 
@@ -206,7 +206,7 @@ const window_event::mouse_move_data& window_event::get_mouse_move_data() const
 const window_event::mouse_button_data& window_event::get_mouse_button_data()
   const
 {
-  DEPRECATED_HOU_EXPECT(m_type == window_event_type::mouse_button_pressed
+  HOU_PRECOND(m_type == window_event_type::mouse_button_pressed
     || m_type == window_event_type::mouse_button_released);
   return m_mouse_button;
 }
@@ -215,7 +215,7 @@ const window_event::mouse_button_data& window_event::get_mouse_button_data()
 
 const window_event::mouse_wheel_data& window_event::get_mouse_wheel_data() const
 {
-  DEPRECATED_HOU_EXPECT(m_type == window_event_type::mouse_wheel_moved);
+  HOU_PRECOND(m_type == window_event_type::mouse_wheel_moved);
   return m_mouse_wheel;
 }
 

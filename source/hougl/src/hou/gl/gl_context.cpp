@@ -4,7 +4,7 @@
 
 #include "hou/gl/gl_context.hpp"
 
-#include "hou/cor/deprecated_error.hpp"
+#include "hou/cor/assertions.hpp"
 #include "hou/cor/uid_generator.hpp"
 
 #include "hou/sys/window.hpp"
@@ -314,8 +314,8 @@ void context::TrackingData::set_bound_texture(
   uint32_t uid, GLuint unit, GLenum target)
 {
   resize_texture_vectors(unit + 1);
-  DEPRECATED_HOU_EXPECT_DEV(m_bound_textures.size() > unit);
-  DEPRECATED_HOU_EXPECT_DEV(m_bound_texture_targets.size() > unit);
+  HOU_DEV_PRECOND(m_bound_textures.size() > unit);
+  HOU_DEV_PRECOND(m_bound_texture_targets.size() > unit);
   m_bound_textures[unit] = uid;
   m_bound_texture_targets[unit] = target;
 }

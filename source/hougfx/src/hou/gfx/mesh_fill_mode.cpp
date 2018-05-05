@@ -4,7 +4,7 @@
 
 #include "hou/gfx/mesh_fill_mode.hpp"
 
-#include "hou/cor/deprecated_error.hpp"
+#include "hou/cor/assertions.hpp"
 
 #define MESH_FILL_MODE_CASE(mfm, os) \
   case mesh_fill_mode::mfm: \

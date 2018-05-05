@@ -9,7 +9,7 @@
 #include "hou/cor/non_instantiable.hpp"
 
 #include "hou/cor/basic_types.hpp"
-#include "hou/cor/deprecated_error.hpp"
+#include "hou/cor/assertions.hpp"
 
 #include <array>
 #include <limits>

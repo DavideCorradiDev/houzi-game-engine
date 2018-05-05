@@ -6,8 +6,6 @@
 
 #include "hou/mth/matrix.hpp"
 
-#include "hou/cor/cor_error.hpp"
-
 using namespace hou;
 using namespace testing;
 
@@ -62,10 +60,8 @@ TEST_F(test_matrix, initializer_list_constructor)
 
 TEST_F(test_matrix_death_test, initializer_list_constructor_wrong_size)
 {
-  DEPRECATED_HOU_EXPECT_ERROR(
-    mat3x2i({1, 2, 3}), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(mat3x2i({1, 2, 3, 4, 5, 6, 7}), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(mat3x2i({1, 2, 3}));
+  EXPECT_PRECOND_ERROR(mat3x2i({1, 2, 3, 4, 5, 6, 7}));
 }
 
 
@@ -157,13 +153,10 @@ TEST_F(test_matrix, element_access_operators)
 TEST_F(test_matrix_death_test, element_access_out_of_bounds)
 {
   mat3x2i m;
-  DEPRECATED_HOU_EXPECT_ERROR(
-    m(3, 1), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    m(2, 2), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    m(3, 2), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(m(7), std::logic_error, get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(m(3, 1));
+  EXPECT_PRECOND_ERROR(m(2, 2));
+  EXPECT_PRECOND_ERROR(m(3, 2));
+  EXPECT_PRECOND_ERROR(m(7));
 }
 
 
@@ -675,8 +668,7 @@ TEST_F(test_matrix, inverse3x3)
 TEST_F(test_matrix_death_test, inverse_failure_null_determinant)
 {
   mat2x2f m = mat2x2f::zero();
-  DEPRECATED_HOU_EXPECT_ERROR(
-    inverse(m), std::logic_error, get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(inverse(m));
 }
 
 
@@ -808,8 +800,7 @@ TEST_F(test_matrix, normalization_mat3x1f)
 
 TEST_F(test_matrix, normalization_failure_null_norm)
 {
-  DEPRECATED_HOU_EXPECT_ERROR(normalized(mat3x1f::zero()), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(normalized(mat3x1f::zero()));
 }
 
 

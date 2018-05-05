@@ -97,6 +97,9 @@ void HOU_COR_API terminate(const std::string& message) noexcept;
     }                                                                          \
   } while(false)
 
+#define HOU_ASSERT(statement, message)                                         \
+  HOU_CHECK_TEMPLATE(statement, HOU_TERMINATE(message))
+
 #define HOU_CHECK_STD_0(condition, exception_type)                             \
   HOU_CHECK_TEMPLATE(condition, HOU_ERROR_STD_0(exception_type))
 
@@ -115,6 +118,9 @@ void HOU_COR_API terminate(const std::string& message) noexcept;
 #define HOU_DEV_CHECK_TEMPLATE(condition, failure_action)                      \
   HOU_CHECK_TEMPLATE(condition, failure_action)
 #endif
+
+#define HOU_DEV_ASSERT(statement, message)                                     \
+  HOU_DEV_CHECK_TEMPLATE(statement, HOU_TERMINATE(message))
 
 #define HOU_DEV_CHECK_STD_0(condition, exception_type)                         \
   HOU_DEV_CHECK_TEMPLATE(condition, HOU_ERROR_STD_0(exception_type))

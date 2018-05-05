@@ -163,8 +163,8 @@ TYPED_TEST(test_basic_static_string_death_test, at_error_out_of_range)
   std::basic_string<TypeParam> stdstr = {'a', 'b', 'c'};
   string4 s(stdstr);
 
-  HOU_EXPECT_PRECONDITION(s.at(4u));
-  HOU_EXPECT_PRECONDITION(s.at(5u));
+  EXPECT_PRECOND_ERROR(s.at(4u));
+  EXPECT_PRECOND_ERROR(s.at(5u));
 }
 
 
@@ -191,8 +191,8 @@ TYPED_TEST(test_basic_static_string_death_test, const_at_error_out_of_range)
   std::basic_string<TypeParam> stdstr = {'a', 'b', 'c'};
   const string4 s(stdstr);
 
-  HOU_EXPECT_PRECONDITION(s.at(4u));
-  HOU_EXPECT_PRECONDITION(s.at(5u));
+  EXPECT_PRECOND_ERROR(s.at(4u));
+  EXPECT_PRECOND_ERROR(s.at(5u));
 }
 
 

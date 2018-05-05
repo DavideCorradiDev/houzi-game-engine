@@ -10,7 +10,7 @@
 #include "hou/al/al_object_handle.hpp"
 
 #include "hou/cor/cor_error.hpp"
-#include "hou/cor/deprecated_error.hpp"
+#include "hou/cor/assertions.hpp"
 
 #include <AL/al.h>
 #include <AL/alc.h>

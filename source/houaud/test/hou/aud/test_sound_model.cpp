@@ -64,7 +64,7 @@ TEST_F(test_sound_model, doppler_factor)
 
 TEST_F(test_sound_model, doppler_factor_error_negative_value)
 {
-  HOU_EXPECT_PRECONDITION(sound_model::set_doppler_factor(-1.f));
+  EXPECT_PRECOND_ERROR(sound_model::set_doppler_factor(-1.f));
 }
 
 
@@ -86,6 +86,6 @@ TEST_F(test_sound_model, speed_of_sound)
 
 TEST_F(test_sound_model, speed_of_sound_error_negative_or_null_value)
 {
-  HOU_EXPECT_PRECONDITION(sound_model::set_speed_of_sound(0.f));
-  HOU_EXPECT_PRECONDITION(sound_model::set_speed_of_sound(-1.f));
+  EXPECT_PRECOND_ERROR(sound_model::set_speed_of_sound(0.f));
+  EXPECT_PRECOND_ERROR(sound_model::set_speed_of_sound(-1.f));
 }

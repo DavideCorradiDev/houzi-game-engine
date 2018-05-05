@@ -79,7 +79,7 @@ TEST_F(test_render_canvas, creation)
 TEST_F(test_render_canvas, creation_error_zero_samples)
 {
   vec2u size(3u, 4u);
-  HOU_EXPECT_PRECONDITION(render_canvas rs(size, 0u));
+  EXPECT_PRECOND_ERROR(render_canvas rs(size, 0u));
 }
 
 
@@ -123,16 +123,16 @@ TEST_F(test_render_canvas, creation_multisampled)
 
 TEST_F(test_render_canvas_death_test, creation_samples_too_large)
 {
-  HOU_EXPECT_PRECONDITION(render_canvas rs(vec2u(3u, 4u), 40000u));
+  EXPECT_PRECOND_ERROR(render_canvas rs(vec2u(3u, 4u), 40000u));
 }
 
 
 
 TEST_F(test_render_canvas_death_test, creation_size_null)
 {
-  HOU_EXPECT_PRECONDITION(render_canvas rs(vec2u(0u, 0u), 1u));
-  HOU_EXPECT_PRECONDITION(render_canvas rs(vec2u(1u, 0u), 1u));
-  HOU_EXPECT_PRECONDITION(render_canvas rs(vec2u(0u, 1u), 1u));
+  EXPECT_PRECOND_ERROR(render_canvas rs(vec2u(0u, 0u), 1u));
+  EXPECT_PRECOND_ERROR(render_canvas rs(vec2u(1u, 0u), 1u));
+  EXPECT_PRECOND_ERROR(render_canvas rs(vec2u(0u, 1u), 1u));
 }
 
 
@@ -140,9 +140,9 @@ TEST_F(test_render_canvas_death_test, creation_size_null)
 TEST_F(test_render_canvas_death_test, creation_size_too_large)
 {
   const uint size = gl::get_max_texture_size() + 1;
-  HOU_EXPECT_PRECONDITION(render_canvas rs(vec2u(size, size), 1u));
-  HOU_EXPECT_PRECONDITION(render_canvas rs(vec2u(1u, size), 1u));
-  HOU_EXPECT_PRECONDITION(render_canvas rs(vec2u(size, 1u), 1u));
+  EXPECT_PRECOND_ERROR(render_canvas rs(vec2u(size, size), 1u));
+  EXPECT_PRECOND_ERROR(render_canvas rs(vec2u(1u, size), 1u));
+  EXPECT_PRECOND_ERROR(render_canvas rs(vec2u(size, 1u), 1u));
 }
 
 
@@ -398,7 +398,7 @@ TEST_F(test_render_canvas_death_test, blit_different_sample_size_different_rect_
   recti src_rect(vec2i(0, 0), vec2i(2, 3));
   recti dst_rect(vec2i(0, 0), vec2i(1, 2));
   rs_src.clear(color::red);
-  HOU_EXPECT_PRECONDITION(blit(rs_src, src_rect, rs_dst, dst_rect));
+  EXPECT_PRECOND_ERROR(blit(rs_src, src_rect, rs_dst, dst_rect));
 }
 
 

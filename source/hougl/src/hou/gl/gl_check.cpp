@@ -8,7 +8,7 @@
 #include "hou/gl/gl_error.hpp"
 #include "hou/gl/gl_object_handle.hpp"
 
-#include "hou/cor/deprecated_error.hpp"
+#include "hou/cor/assertions.hpp"
 
 
 

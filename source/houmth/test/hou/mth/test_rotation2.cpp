@@ -1,7 +1,5 @@
 #include "hou/Test.hpp"
 
-#include "hou/cor/cor_error.hpp"
-
 #include "hou/mth/math_functions.hpp"
 #include "hou/mth/matrix.hpp"
 #include "hou/mth/rotation2.hpp"
@@ -79,8 +77,7 @@ TEST_F(test_rotation2, constructor_matrix)
 
 TEST_F(test_rotation2_death_test, constructor_matrix_failure_invalid_matrix)
 {
-  DEPRECATED_HOU_EXPECT_ERROR(rot2f(mat2x2f::zero()), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(rot2f(mat2x2f::zero()));
 }
 
 

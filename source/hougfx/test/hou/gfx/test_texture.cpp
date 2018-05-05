@@ -319,10 +319,10 @@ TYPED_TEST(test_texture_common, binding_unit_limit)
 TYPED_TEST(test_texture_common_death_test, binding_error_unit_too_large)
 {
   TypeParam t(this->generate_size());
-  HOU_EXPECT_PRECONDITION(t.is_bound(TypeParam::get_texture_unit_count()));
-  HOU_EXPECT_PRECONDITION(
+  EXPECT_PRECOND_ERROR(t.is_bound(TypeParam::get_texture_unit_count()));
+  EXPECT_PRECOND_ERROR(
     TypeParam::bind(t, TypeParam::get_texture_unit_count()));
-  HOU_EXPECT_PRECONDITION(
+  EXPECT_PRECOND_ERROR(
     TypeParam::unbind(TypeParam::get_texture_unit_count()));
 }
 
@@ -378,10 +378,10 @@ TYPED_TEST(test_texture_common_death_test, size_constructor_error_invalid_size)
   {
     size_type size_with_zero = size_ref;
     size_with_zero(i) = 0u;
-    HOU_EXPECT_PRECONDITION(TypeParam tex(size_with_zero));
+    EXPECT_PRECOND_ERROR(TypeParam tex(size_with_zero));
     size_type size_too_large = size_ref;
     size_too_large(i) = max_size(i) + 1;
-    HOU_EXPECT_PRECONDITION(TypeParam tex(size_too_large));
+    EXPECT_PRECOND_ERROR(TypeParam tex(size_too_large));
   }
 }
 
@@ -530,11 +530,11 @@ TYPED_TEST(test_texture_not_multisampled_death_test,
   {
     size_type size_with_zero = size_ref;
     size_with_zero(i) = 0u;
-    HOU_EXPECT_PRECONDITION(
+    EXPECT_PRECOND_ERROR(
       TypeParam tex(size_with_zero, texture_format::rgba, 1u));
     size_type size_too_large = size_ref;
     size_too_large(i) = max_size(i) + 1;
-    HOU_EXPECT_PRECONDITION(
+    EXPECT_PRECOND_ERROR(
       TypeParam tex(size_too_large, texture_format::rgba, 1u));
   }
 }
@@ -547,8 +547,8 @@ TYPED_TEST(test_texture_not_multisampled_death_test,
   using size_type = typename TypeParam::size_type;
 
   size_type size_ref = this->generate_size();
-  HOU_EXPECT_PRECONDITION(TypeParam tex(size_ref, texture_format::rgba, 0u));
-  HOU_EXPECT_PRECONDITION(TypeParam tex(size_ref, texture_format::rgba,
+  EXPECT_PRECOND_ERROR(TypeParam tex(size_ref, texture_format::rgba, 0u));
+  EXPECT_PRECOND_ERROR(TypeParam tex(size_ref, texture_format::rgba,
     TypeParam::get_max_mipmap_level_count(size_ref) + 1));
 }
 
@@ -650,11 +650,11 @@ TYPED_TEST(test_texture_not_multisampled_death_test,
   {
     size_type size_with_zero = size_ref;
     size_with_zero(i) = 0u;
-    HOU_EXPECT_PRECONDITION(
+    EXPECT_PRECOND_ERROR(
       TypeParam tex(image(size_with_zero), texture_format::rgba, 1u));
     size_type size_too_large = size_ref;
     size_too_large(i) = max_size(i) + 1;
-    HOU_EXPECT_PRECONDITION(
+    EXPECT_PRECOND_ERROR(
       TypeParam tex(image(size_too_large), texture_format::rgba, 1u));
   }
 }
@@ -668,9 +668,9 @@ TYPED_TEST(test_texture_not_multisampled_death_test,
   using size_type = typename TypeParam::size_type;
 
   size_type size_ref = this->generate_size();
-  HOU_EXPECT_PRECONDITION(
+  EXPECT_PRECOND_ERROR(
     TypeParam tex(image(size_ref), texture_format::rgba, 0u));
-  HOU_EXPECT_PRECONDITION(TypeParam tex(image(size_ref), texture_format::rgba,
+  EXPECT_PRECOND_ERROR(TypeParam tex(image(size_ref), texture_format::rgba,
     TypeParam::get_max_mipmap_level_count(size_ref) + 1));
 }
 
@@ -722,7 +722,7 @@ TYPED_TEST(
   using image = typename TypeParam::template image<pixel_format::rgba>;
 
   TypeParam tex(this->generate_size());
-  HOU_EXPECT_PRECONDITION(tex.set_image(image(tex.get_size() * 2)));
+  EXPECT_PRECOND_ERROR(tex.set_image(image(tex.get_size() * 2)));
 }
 
 
@@ -771,7 +771,7 @@ TYPED_TEST(
     sub_image_size(i) = (i + 1) * 4 - sub_image_offset(i) + 1u;
   }
   TypeParam tex(this->generate_image(tex_size));
-  HOU_EXPECT_PRECONDITION(tex.template get_sub_image<pixel_format::rgba>(
+  EXPECT_PRECOND_ERROR(tex.template get_sub_image<pixel_format::rgba>(
     sub_image_offset, sub_image_size));
 }
 
@@ -827,7 +827,7 @@ TYPED_TEST(
 
   TypeParam tex(tex_size);
   image sub_image_ref(sub_image_size);
-  HOU_EXPECT_PRECONDITION(tex.set_sub_image(sub_image_offset, sub_image_ref));
+  EXPECT_PRECOND_ERROR(tex.set_sub_image(sub_image_offset, sub_image_ref));
 }
 
 
@@ -866,7 +866,7 @@ TYPED_TEST(test_texture_not_multisampled_death_test,
   get_mip_map_size_error_invalid_mip_map_level)
 {
   TypeParam tex(this->generate_size(), texture_format::rgba, 3u);
-  HOU_EXPECT_PRECONDITION(
+  EXPECT_PRECOND_ERROR(
     tex.get_mipmap_size(tex.get_mipmap_level_count() + 1u));
 }
 
@@ -959,7 +959,7 @@ TYPED_TEST(test_texture_not_multisampled_death_test,
   get_mip_map_image_error_invalid_mip_map_level)
 {
   TypeParam tex(this->generate_size(), texture_format::rgba, 3u);
-  HOU_EXPECT_PRECONDITION(tex.template get_mipmap_image<pixel_format::rgba>(
+  EXPECT_PRECOND_ERROR(tex.template get_mipmap_image<pixel_format::rgba>(
     tex.get_mipmap_level_count() + 1u));
 }
 
@@ -1048,11 +1048,11 @@ TYPED_TEST(test_texture_multisampled_death_test,
   {
     size_type size_with_zero = size_ref;
     size_with_zero(i) = 0u;
-    HOU_EXPECT_PRECONDITION(
+    EXPECT_PRECOND_ERROR(
       TypeParam tex(size_with_zero, texture_format::rgba, 1u, true));
     size_type size_too_large = size_ref;
     size_too_large(i) = max_size(i) + 1;
-    HOU_EXPECT_PRECONDITION(
+    EXPECT_PRECOND_ERROR(
       TypeParam tex(size_too_large, texture_format::rgba, 1u, true));
   }
 }
@@ -1065,8 +1065,8 @@ TYPED_TEST(test_texture_multisampled_death_test,
   using size_type = typename TypeParam::size_type;
 
   size_type size_ref = this->generate_size();
-  HOU_EXPECT_PRECONDITION(
+  EXPECT_PRECOND_ERROR(
     TypeParam tex(size_ref, texture_format::rgba, 0u, true));
-  HOU_EXPECT_PRECONDITION(TypeParam tex(size_ref, texture_format::rgba,
+  EXPECT_PRECOND_ERROR(TypeParam tex(size_ref, texture_format::rgba,
     TypeParam::get_max_sample_count() + 1, true));
 }

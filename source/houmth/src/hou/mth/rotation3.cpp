@@ -90,7 +90,7 @@ quaternion<T> to_quaternion(const mat3x3<T>& m)
 template <typename T>
 vec3<T> to_vector(const quaternion<T>& q)
 {
-  DEPRECATED_HOU_EXPECT_DEV(close(T(1), norm(q)));
+  HOU_DEV_PRECOND(close(T(1), norm(q)));
   vec3<T> v(q.x(), q.y(), q.z());
   T vecNorm = norm(v);
   if(!close(T(0), vecNorm))
@@ -105,7 +105,7 @@ vec3<T> to_vector(const quaternion<T>& q)
 template <typename T>
 mat3x3<T> to_matrix(const quaternion<T>& q)
 {
-  DEPRECATED_HOU_EXPECT_DEV(close(T(1), norm(q)));
+  HOU_DEV_PRECOND(close(T(1), norm(q)));
   T xx = 2 * q.x() * q.x();
   T xy = 2 * q.x() * q.y();
   T xz = 2 * q.x() * q.z();

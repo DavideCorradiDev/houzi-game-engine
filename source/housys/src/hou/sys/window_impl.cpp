@@ -4,7 +4,7 @@
 
 #include "hou/sys/window_impl.hpp"
 
-#include "hou/cor/deprecated_error.hpp"
+#include "hou/cor/assertions.hpp"
 
 #include "hou/sys/window_event.hpp"
 

@@ -5,7 +5,7 @@
 #include "hou/aud/audio_source.hpp"
 
 #include "hou/cor/cor_error.hpp"
-#include "hou/cor/deprecated_error.hpp"
+#include "hou/cor/assertions.hpp"
 
 #include "hou/mth/math_functions.hpp"
 
@@ -198,7 +198,7 @@ bool audio_source::is_looping() const
 
 void audio_source::set_pitch(float value)
 {
-  DEPRECATED_HOU_EXPECT(value >= 0.f);
+  HOU_PRECOND(value >= 0.f);
   al::set_source_pitch(m_handle, static_cast<ALfloat>(value));
 }
 
@@ -213,7 +213,7 @@ float audio_source::get_pitch() const
 
 void audio_source::set_gain(float value)
 {
-  DEPRECATED_HOU_EXPECT(value >= 0.f);
+  HOU_PRECOND(value >= 0.f);
   al::set_source_gain(m_handle, static_cast<ALfloat>(value));
 }
 
@@ -228,7 +228,7 @@ float audio_source::get_gain() const
 
 void audio_source::set_max_gain(float value)
 {
-  DEPRECATED_HOU_EXPECT(value >= 0.f);
+  HOU_PRECOND(value >= 0.f);
   al::set_source_max_gain(m_handle, static_cast<ALfloat>(value));
 }
 
@@ -243,7 +243,7 @@ float audio_source::get_max_gain() const
 
 void audio_source::set_min_gain(float value)
 {
-  DEPRECATED_HOU_EXPECT(value >= 0.f);
+  HOU_PRECOND(value >= 0.f);
   al::set_source_min_gain(m_handle, static_cast<ALfloat>(value));
 }
 
@@ -258,7 +258,7 @@ float audio_source::get_min_gain() const
 
 void audio_source::set_max_distance(float value)
 {
-  DEPRECATED_HOU_EXPECT(value >= 0.f);
+  HOU_PRECOND(value >= 0.f);
   al::set_source_max_distance(m_handle, static_cast<ALfloat>(value));
 }
 
@@ -273,7 +273,7 @@ float audio_source::get_max_distance() const
 
 void audio_source::set_rolloff_factor(float value)
 {
-  DEPRECATED_HOU_EXPECT(value >= 0.f);
+  HOU_PRECOND(value >= 0.f);
   al::set_source_rolloff_factor(m_handle, static_cast<ALfloat>(value));
 }
 
@@ -288,7 +288,7 @@ float audio_source::get_rolloff_factor() const
 
 void audio_source::set_reference_distance(float value)
 {
-  DEPRECATED_HOU_EXPECT(value >= 0.f);
+  HOU_PRECOND(value >= 0.f);
   al::set_source_reference_distance(m_handle, static_cast<ALfloat>(value));
 }
 
@@ -317,7 +317,7 @@ bool audio_source::is_relative() const
 
 void audio_source::set_cone_outer_gain(float value)
 {
-  DEPRECATED_HOU_EXPECT(value >= 0.f);
+  HOU_PRECOND(value >= 0.f);
   al::set_source_cone_outer_gain(m_handle, static_cast<ALfloat>(value));
 }
 
@@ -332,7 +332,7 @@ float audio_source::get_cone_outer_gain() const
 
 void audio_source::set_cone_inner_angle(float value)
 {
-  DEPRECATED_HOU_EXPECT(value >= 0.f && value <= 2.f * pi_f);
+  HOU_PRECOND(value >= 0.f && value <= 2.f * pi_f);
   al::set_source_cone_inner_angle(
     m_handle, static_cast<ALfloat>(rad_to_deg(value)));
 }
@@ -349,7 +349,7 @@ float audio_source::get_cone_inner_angle() const
 
 void audio_source::set_cone_outer_angle(float value)
 {
-  DEPRECATED_HOU_EXPECT(value >= 0.f && value <= 2.f * pi_f);
+  HOU_PRECOND(value >= 0.f && value <= 2.f * pi_f);
   al::set_source_cone_outer_angle(
     m_handle, static_cast<ALfloat>(rad_to_deg(value)));
 }

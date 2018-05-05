@@ -5,7 +5,7 @@
 #include "hou/aud/audio_buffer_format.hpp"
 
 #include "hou/cor/cor_error.hpp"
-#include "hou/cor/deprecated_error.hpp"
+#include "hou/cor/assertions.hpp"
 
 #define AUDIO_BUFFER_FORMAT_CASE(format, os) \
   case audio_buffer_format::format: \
@@ -19,7 +19,7 @@ namespace hou
 audio_buffer_format get_audio_buffer_format_enum(
   uint channels, uint bytes_per_sample)
 {
-  DEPRECATED_HOU_EXPECT((channels == 1u || channels == 2u)
+  HOU_PRECOND((channels == 1u || channels == 2u)
     && (bytes_per_sample == 1u || bytes_per_sample == 2u));
   if(channels == 1u)
   {

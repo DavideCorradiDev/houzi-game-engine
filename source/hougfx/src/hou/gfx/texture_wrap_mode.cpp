@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/gfx/texture_wrap_mode.hpp"
-#include "hou/cor/deprecated_error.hpp"
+#include "hou/cor/assertions.hpp"
 
 #define TEXTURE_WRAP_MODE_CASE(twm, os) \
   case texture_wrap_mode::twm: \

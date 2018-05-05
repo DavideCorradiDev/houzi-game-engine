@@ -9,7 +9,7 @@
 #include "hou/gl/gl_error.hpp"
 
 #include "hou/cor/character_encodings.hpp"
-#include "hou/cor/deprecated_error.hpp"
+#include "hou/cor/assertions.hpp"
 
 
 

@@ -54,16 +54,16 @@ TEST_F(test_core_exceptions, invalid_enumeration_value_enum)
 
 
 
-TEST_F(test_core_exceptions, numeric_overflow)
+TEST_F(test_core_exceptions, overflow_error)
 {
-  numeric_overflow ex("foo.cpp", 42u);
+  overflow_error ex("foo.cpp", 42u);
   EXPECT_STREQ("foo.cpp:42 - Numeric overflow.", ex.what());
 }
 
 
 
-TEST_F(test_core_exceptions, numeric_underflow)
+TEST_F(test_core_exceptions, underflow_error)
 {
-  numeric_underflow ex("foo.cpp", 42u);
+  underflow_error ex("foo.cpp", 42u);
   EXPECT_STREQ("foo.cpp:42 - Numeric underflow.", ex.what());
 }

@@ -5,7 +5,7 @@
 #include "hou/gfx/texture_filter.hpp"
 
 #include "hou/cor/cor_error.hpp"
-#include "hou/cor/deprecated_error.hpp"
+#include "hou/cor/assertions.hpp"
 
 #define TEXTURE_FILTER_CASE(tf, os) \
   case texture_filter::tf: \

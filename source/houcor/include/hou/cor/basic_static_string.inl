@@ -55,7 +55,7 @@ basic_static_string<CharT, N, Traits>::basic_static_string(
 template <typename CharT, size_t N, typename Traits>
 CharT& basic_static_string<CharT, N, Traits>::at(size_type pos)
 {
-  DEPRECATED_HOU_EXPECT(pos < m_size);
+  HOU_PRECOND(pos < m_size);
   return m_buffer[pos];
 }
 
@@ -64,7 +64,7 @@ CharT& basic_static_string<CharT, N, Traits>::at(size_type pos)
 template <typename CharT, size_t N, typename Traits>
 const CharT& basic_static_string<CharT, N, Traits>::at(size_type pos) const
 {
-  DEPRECATED_HOU_EXPECT(pos < m_size);
+  HOU_PRECOND(pos < m_size);
   return m_buffer[pos];
 }
 

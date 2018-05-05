@@ -200,7 +200,7 @@ TEST_F(test_font, set_face_index_same_value)
 TEST_F(test_font_death_test, set_face_index_error_out_of_bounds)
 {
   font f(std::make_unique<binary_file_in>(font_name));
-  HOU_EXPECT_PRECONDITION(f.set_face_index(f.get_face_index_count()));
+  EXPECT_PRECOND_ERROR(f.set_face_index(f.get_face_index_count()));
 }
 
 

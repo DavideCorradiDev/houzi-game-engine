@@ -9,7 +9,7 @@
 #include "hou/aud/wav_file_in.hpp"
 
 #include "hou/cor/cor_error.hpp"
-#include "hou/cor/deprecated_error.hpp"
+#include "hou/cor/assertions.hpp"
 
 
 

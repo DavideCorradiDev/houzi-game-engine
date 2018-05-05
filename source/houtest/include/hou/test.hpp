@@ -5,7 +5,7 @@
 #ifndef HOU_TEST
 #define HOU_TEST
 
-#include "hou/cor/cor_error.hpp"
+#include "hou/cor/assertions.hpp"
 #include "hou/cor/exception.hpp"
 #include "hou/cor/std_string.hpp"
 
@@ -197,18 +197,6 @@ inline std::string get_no_exception_message_regex(
     }                                                                          \
   }
 #endif
-
-
-
-#define HOU_EXPECT_PRECONDITION(statement)                                     \
-  DEPRECATED_HOU_EXPECT_ERROR(                                                 \
-    statement, std::logic_error, get_text(cor_error::pre_condition));
-
-
-
-#define HOU_EXPECT_POSTCONDITION(statement)                                    \
-  DEPRECATED_HOU_EXPECT_ERROR(                                                 \
-    statement, std::logic_error, get_text(cor_error::post_condition));
 
 
 

@@ -8,7 +8,7 @@
 #include "hou/cor/cor_export.hpp"
 
 #include "hou/cor/basic_static_string_fwd.hpp"
-#include "hou/cor/deprecated_error.hpp"
+#include "hou/cor/assertions.hpp"
 
 #include <array>
 #include <cstring>

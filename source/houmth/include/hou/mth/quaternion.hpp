@@ -8,7 +8,7 @@
 #include "hou/mth/mth_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
-#include "hou/cor/deprecated_error.hpp"
+#include "hou/cor/assertions.hpp"
 #include "hou/cor/std_array.hpp"
 
 #include "hou/mth/quaternion_fwd.hpp"

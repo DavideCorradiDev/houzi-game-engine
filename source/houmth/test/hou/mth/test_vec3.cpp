@@ -4,8 +4,6 @@
 
 #include "hou/Test.hpp"
 
-#include "hou/cor/cor_error.hpp"
-
 #include "hou/mth/matrix.hpp"
 
 using namespace hou;

@@ -24,7 +24,7 @@ vertex_format::vertex_format(
   , m_stride(stride)
   , m_vertex_attrib_formats(vafs.begin(), vafs.end())
 {
-  DEPRECATED_HOU_EXPECT(m_vertex_attrib_formats.size() <= get_max_attrib_format_count());
+  HOU_PRECOND(m_vertex_attrib_formats.size() <= get_max_attrib_format_count());
 }
 
 
@@ -35,7 +35,7 @@ vertex_format::vertex_format(
   , m_stride(stride)
   , m_vertex_attrib_formats(std::move(vafs))
 {
-  DEPRECATED_HOU_EXPECT(m_vertex_attrib_formats.size() <= get_max_attrib_format_count());
+  HOU_PRECOND(m_vertex_attrib_formats.size() <= get_max_attrib_format_count());
 }
 
 
