@@ -7,7 +7,7 @@
 
 #include "hou/sys/file.hpp"
 #include "hou/sys/image.hpp"
-#include "hou/sys/sys_error.hpp"
+#include "hou/sys/system_exceptions.hpp"
 
 using namespace hou;
 using namespace testing;
@@ -36,8 +36,8 @@ class test_image_death_test : public test_image<ImageT>
 {};
 
 using image_types
-  = Types<image1_r, image2_r, image3_r, image1_rg, image2_rg, image3_rg, image1_rgb,
-    image2_rgb, image3_rgb, image1_rgba, image2_rgba, image3_rgba>;
+  = Types<image1_r, image2_r, image3_r, image1_rg, image2_rg, image3_rg,
+    image1_rgb, image2_rgb, image3_rgb, image1_rgba, image2_rgba, image3_rgba>;
 
 class test_image_class_attributes : public Test
 {};
@@ -283,7 +283,8 @@ TYPED_TEST(test_image, pixel_constructor)
   size_type size_ref = TestFixture::generate_size();
   pixel pixel_ref;
   pixel_ref.set_r(5u);
-  pixel_collection pixels_ref(TestFixture::multiply_elements(size_ref), pixel_ref);
+  pixel_collection pixels_ref(
+    TestFixture::multiply_elements(size_ref), pixel_ref);
   TypeParam image(size_ref, pixel_ref);
 
   EXPECT_EQ(size_ref, image.get_size());
@@ -511,7 +512,8 @@ TYPED_TEST(test_image, get_sub_image)
   }
 
   pixel_collection pixels_ref = TestFixture::generate_pixels(imageSize);
-  pixel_collection subPixels_ref(TestFixture::multiply_elements(sub_image_size));
+  pixel_collection subPixels_ref(
+    TestFixture::multiply_elements(sub_image_size));
   for(size_t i = 0; i < subPixels_ref.size(); ++i)
   {
     offset_type subImageCoords
@@ -523,7 +525,8 @@ TYPED_TEST(test_image, get_sub_image)
 
   TypeParam image(imageSize, pixels_ref);
   TypeParam sub_image_ref(sub_image_size, subPixels_ref);
-  EXPECT_EQ(sub_image_ref, image.get_sub_image(sub_image_offset, sub_image_size));
+  EXPECT_EQ(
+    sub_image_ref, image.get_sub_image(sub_image_offset, sub_image_size));
 }
 
 
@@ -582,7 +585,8 @@ TYPED_TEST(test_image, set_sub_image)
   image.set_sub_image(sub_image_offset, sub_image_ref);
 
   EXPECT_EQ(image_ref, image);
-  EXPECT_EQ(sub_image_ref, image.get_sub_image(sub_image_offset, sub_image_size));
+  EXPECT_EQ(
+    sub_image_ref, image.get_sub_image(sub_image_offset, sub_image_size));
 }
 
 
@@ -621,7 +625,8 @@ TYPED_TEST(test_image, clear)
   pixel pixel_ref;
   pixel_ref.set_r(42u);
 
-  pixel_collection pixels_ref(TestFixture::multiply_elements(size_ref), pixel_ref);
+  pixel_collection pixels_ref(
+    TestFixture::multiply_elements(size_ref), pixel_ref);
   image.clear(pixel_ref);
   EXPECT_EQ(pixels_ref, image.get_pixels());
 }
@@ -876,9 +881,8 @@ TEST_F(test_image_file, load_bmp_rgba)
 
 TEST_F(test_image_file_death_test, load_bmp_rgba_error)
 {
-  DEPRECATED_HOU_EXPECT_ERROR(bmp_read_file<pixel_format::rgba>(test_image_png),
-    std::runtime_error,
-    format_string(get_text(sys_error::image_bmp_read), test_image_png.c_str()));
+  EXPECT_ERROR_N(bmp_read_file<pixel_format::rgba>(test_image_png),
+    image_read_error, test_image_png);
 }
 
 
@@ -902,9 +906,8 @@ TEST_F(test_image_file, load_png_rgba)
 
 TEST_F(test_image_file_death_test, load_png_rgba_error)
 {
-  DEPRECATED_HOU_EXPECT_ERROR(png_read_file<pixel_format::rgba>(test_image_jpg),
-    std::runtime_error,
-    format_string(get_text(sys_error::image_png_read), test_image_jpg.c_str()));
+  EXPECT_ERROR_N(png_read_file<pixel_format::rgba>(test_image_jpg),
+    image_read_error, test_image_jpg);
 }
 
 
@@ -928,36 +931,34 @@ TEST_F(test_image_file, load_jpg_rgba)
 
 TEST_F(test_image_file_death_test, load_jpg_rgba_error)
 {
-  DEPRECATED_HOU_EXPECT_ERROR(jpg_read_file<pixel_format::rgba>(test_image_png),
-    std::runtime_error,
-    format_string(get_text(sys_error::image_jpg_read), test_image_png.c_str()));
+  EXPECT_ERROR_N(jpg_read_file<pixel_format::rgba>(test_image_png),
+    image_read_error, test_image_png);
 }
 
 
 
 TEST_F(test_image_file, save_bmp_rgba)
 {
-  const std::string savePath = get_output_dir() + "savedBmp.bmp";
-  remove_dir(savePath);
+  const std::string save_path = get_output_dir() + "savedBmp.bmp";
+  remove_dir(save_path);
   image2_rgba im_ref = bmp_read_file<pixel_format::rgba>(test_image_bmp);
-  bmp_write_file(savePath, im_ref);
-  image2_rgba im = bmp_read_file<pixel_format::rgba>(savePath);
+  bmp_write_file(save_path, im_ref);
+  image2_rgba im = bmp_read_file<pixel_format::rgba>(save_path);
   EXPECT_EQ(im_ref, im);
-  EXPECT_TRUE(remove_dir(savePath));
+  EXPECT_TRUE(remove_dir(save_path));
 }
 
 
 
 TEST_F(test_image_file_death_test, save_bmp_error_rgba)
 {
-  const std::string savePath = get_output_dir() + "savedBmp.bmp";
-  remove_dir(savePath);
+  const std::string save_path = get_output_dir() + "savedBmp.bmp";
+  remove_dir(save_path);
   image2_rgba im_ref = bmp_read_file<pixel_format::rgba>(test_image_bmp);
-  bmp_write_file(savePath, im_ref);
-  DEPRECATED_HOU_EXPECT_ERROR(bmp_write_file<pixel_format::rgba>(savePath, im_ref),
-    std::runtime_error,
-    format_string(get_text(sys_error::image_bmp_write), savePath.c_str()));
-  EXPECT_TRUE(remove_dir(savePath));
+  bmp_write_file(save_path, im_ref);
+  EXPECT_ERROR_N(bmp_write_file<pixel_format::rgba>(save_path, im_ref),
+    image_write_error, save_path);
+  EXPECT_TRUE(remove_dir(save_path));
 }
 
 
@@ -982,9 +983,8 @@ TEST_F(test_image_file, load_bmp_rgb)
 
 TEST_F(test_image_file_death_test, load_bmp_rgb_error)
 {
-  DEPRECATED_HOU_EXPECT_ERROR(bmp_read_file<pixel_format::rgb>(test_image_png),
-    std::runtime_error,
-    format_string(get_text(sys_error::image_bmp_read), test_image_png.c_str()));
+  EXPECT_ERROR_N(bmp_read_file<pixel_format::rgb>(test_image_png),
+    image_read_error, test_image_png);
 }
 
 
@@ -1008,9 +1008,8 @@ TEST_F(test_image_file, load_png_rgb)
 
 TEST_F(test_image_file_death_test, load_png_rgb_error)
 {
-  DEPRECATED_HOU_EXPECT_ERROR(png_read_file<pixel_format::rgb>(test_image_jpg),
-    std::runtime_error,
-    format_string(get_text(sys_error::image_png_read), test_image_jpg.c_str()));
+  EXPECT_ERROR_N(png_read_file<pixel_format::rgb>(test_image_jpg),
+    image_read_error, test_image_jpg);
 }
 
 
@@ -1034,9 +1033,8 @@ TEST_F(test_image_file, load_jpg_rgb)
 
 TEST_F(test_image_file_death_test, load_jpg_rgb_error)
 {
-  DEPRECATED_HOU_EXPECT_ERROR(jpg_read_file<pixel_format::rgb>(test_image_png),
-    std::runtime_error,
-    format_string(get_text(sys_error::image_jpg_read), test_image_png.c_str()));
+  EXPECT_ERROR_N(jpg_read_file<pixel_format::rgb>(test_image_png),
+    image_read_error, test_image_png);
 }
 
 
@@ -1061,9 +1059,8 @@ TEST_F(test_image_file, load_bmp_rg)
 
 TEST_F(test_image_file_death_test, load_bmp_rg_error)
 {
-  DEPRECATED_HOU_EXPECT_ERROR(bmp_read_file<pixel_format::rg>(test_image_png),
-    std::runtime_error,
-    format_string(get_text(sys_error::image_bmp_read), test_image_png.c_str()));
+  EXPECT_ERROR_N(bmp_read_file<pixel_format::rg>(test_image_png),
+    image_read_error, test_image_png);
 }
 
 
@@ -1087,9 +1084,8 @@ TEST_F(test_image_file, load_png_rg)
 
 TEST_F(test_image_file_death_test, load_png_rg_error)
 {
-  DEPRECATED_HOU_EXPECT_ERROR(png_read_file<pixel_format::rg>(test_image_jpg),
-    std::runtime_error,
-    format_string(get_text(sys_error::image_png_read), test_image_jpg.c_str()));
+  EXPECT_ERROR_N(png_read_file<pixel_format::rg>(test_image_jpg),
+    image_read_error, test_image_jpg);
 }
 
 
@@ -1113,9 +1109,8 @@ TEST_F(test_image_file, load_jpg_rg)
 
 TEST_F(test_image_file_death_test, load_jpg_rg_error)
 {
-  DEPRECATED_HOU_EXPECT_ERROR(jpg_read_file<pixel_format::rg>(test_image_png),
-    std::runtime_error,
-    format_string(get_text(sys_error::image_jpg_read), test_image_png.c_str()));
+  EXPECT_ERROR_N(jpg_read_file<pixel_format::rg>(test_image_png),
+    image_read_error, test_image_png);
 }
 
 
@@ -1140,9 +1135,8 @@ TEST_F(test_image_file, load_bmp_r)
 
 TEST_F(test_image_file_death_test, load_bmp_r_error)
 {
-  DEPRECATED_HOU_EXPECT_ERROR(bmp_read_file<pixel_format::r>(test_image_png),
-    std::runtime_error,
-    format_string(get_text(sys_error::image_bmp_read), test_image_png.c_str()));
+  EXPECT_ERROR_N(bmp_read_file<pixel_format::r>(test_image_png),
+    image_read_error, test_image_png);
 }
 
 
@@ -1166,9 +1160,8 @@ TEST_F(test_image_file, load_png_r)
 
 TEST_F(test_image_file_death_test, load_png_r_error)
 {
-  DEPRECATED_HOU_EXPECT_ERROR(png_read_file<pixel_format::r>(test_image_jpg),
-    std::runtime_error,
-    format_string(get_text(sys_error::image_png_read), test_image_jpg.c_str()));
+  EXPECT_ERROR_N(png_read_file<pixel_format::r>(test_image_jpg),
+    image_read_error, test_image_jpg);
 }
 
 
@@ -1192,7 +1185,6 @@ TEST_F(test_image_file, load_jpg_r)
 
 TEST_F(test_image_file_death_test, load_jpg_r_error)
 {
-  DEPRECATED_HOU_EXPECT_ERROR(jpg_read_file<pixel_format::r>(test_image_png),
-    std::runtime_error,
-    format_string(get_text(sys_error::image_jpg_read), test_image_png.c_str()));
+  EXPECT_ERROR_N(jpg_read_file<pixel_format::r>(test_image_png),
+    image_read_error, test_image_png);
 }

@@ -4,8 +4,6 @@
 
 #include "hou/Test.hpp"
 
-#include "hou/cor/cor_error.hpp"
-
 #include "hou/sys/window_event.hpp"
 
 using namespace hou;
@@ -37,18 +35,12 @@ TEST_F(test_window_event, empty)
 TEST_F(test_window_event_death_test, empty_wrong_data)
 {
   window_event ev = window_event::empty();
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_key_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(ev.get_size_data());
+  EXPECT_PRECOND_ERROR(ev.get_key_data());
+  EXPECT_PRECOND_ERROR(ev.get_text_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_button_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
 }
 
 
@@ -64,18 +56,12 @@ TEST_F(test_window_event, closed)
 TEST_F(test_window_event_death_test, closed_wrong_data)
 {
   window_event ev = window_event::closed();
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_key_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(ev.get_size_data());
+  EXPECT_PRECOND_ERROR(ev.get_key_data());
+  EXPECT_PRECOND_ERROR(ev.get_text_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_button_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
 }
 
 
@@ -91,18 +77,12 @@ TEST_F(test_window_event, focus_gained)
 TEST_F(test_window_event_death_test, focus_gained_wrong_data)
 {
   window_event ev = window_event::focus_gained();
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_key_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(ev.get_size_data());
+  EXPECT_PRECOND_ERROR(ev.get_key_data());
+  EXPECT_PRECOND_ERROR(ev.get_text_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_button_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
 }
 
 
@@ -118,18 +98,12 @@ TEST_F(test_window_event, focus_lost)
 TEST_F(test_window_event_death_test, focus_lost_wrong_data)
 {
   window_event ev = window_event::focus_lost();
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_key_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(ev.get_size_data());
+  EXPECT_PRECOND_ERROR(ev.get_key_data());
+  EXPECT_PRECOND_ERROR(ev.get_text_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_button_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
 }
 
 
@@ -147,16 +121,11 @@ TEST_F(test_window_event, resized)
 TEST_F(test_window_event_death_test, resized_wrong_data)
 {
   window_event ev = window_event::resized(1, 3);
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_key_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(ev.get_key_data());
+  EXPECT_PRECOND_ERROR(ev.get_text_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_button_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
 }
 
 
@@ -178,16 +147,11 @@ TEST_F(test_window_event_death_test, key_pressed_wrong_data)
 {
   window_event ev = window_event::key_pressed(
     key_code::a, scan_code::q, modifier_keys::alt | modifier_keys::shift);
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(ev.get_size_data());
+  EXPECT_PRECOND_ERROR(ev.get_text_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_button_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
 }
 
 
@@ -209,16 +173,11 @@ TEST_F(test_window_event_death_test, key_released_wrong_data)
 {
   window_event ev = window_event::key_released(
     key_code::a, scan_code::q, modifier_keys::alt | modifier_keys::shift);
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(ev.get_size_data());
+  EXPECT_PRECOND_ERROR(ev.get_text_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_button_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
 }
 
 
@@ -235,16 +194,11 @@ TEST_F(test_window_event, text_entered)
 TEST_F(test_window_event_death_test, text_entered_wrong_data)
 {
   window_event ev = window_event::text_entered(1234u);
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_key_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(ev.get_size_data());
+  EXPECT_PRECOND_ERROR(ev.get_key_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_button_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
 }
 
 
@@ -262,16 +216,11 @@ TEST_F(test_window_event, mouse_moved)
 TEST_F(test_window_event_death_test, mouse_moved_wrong_data)
 {
   window_event ev = window_event::mouse_moved(1, 3);
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_key_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(ev.get_size_data());
+  EXPECT_PRECOND_ERROR(ev.get_key_data());
+  EXPECT_PRECOND_ERROR(ev.get_text_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_button_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
 }
 
 
@@ -287,18 +236,12 @@ TEST_F(test_window_event, mouse_entered)
 TEST_F(test_window_event_death_test, mouse_entered_wrong_data)
 {
   window_event ev = window_event::mouse_entered();
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_key_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(ev.get_size_data());
+  EXPECT_PRECOND_ERROR(ev.get_key_data());
+  EXPECT_PRECOND_ERROR(ev.get_text_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_button_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
 }
 
 
@@ -314,18 +257,12 @@ TEST_F(test_window_event, mouse_left)
 TEST_F(test_window_event_death_test, mouse_left_wrong_data)
 {
   window_event ev = window_event::mouse_left();
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_key_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(ev.get_size_data());
+  EXPECT_PRECOND_ERROR(ev.get_key_data());
+  EXPECT_PRECOND_ERROR(ev.get_text_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_button_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
 }
 
 
@@ -344,16 +281,11 @@ TEST_F(test_window_event, mouse_button_pressed)
 TEST_F(test_window_event_death_test, mouse_button_pressed_wrong_data)
 {
   window_event ev = window_event::mouse_button_pressed(mouse_button::lb, 1, 3);
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_key_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(ev.get_size_data());
+  EXPECT_PRECOND_ERROR(ev.get_key_data());
+  EXPECT_PRECOND_ERROR(ev.get_text_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
 }
 
 
@@ -372,16 +304,11 @@ TEST_F(test_window_event, mouse_button_released)
 TEST_F(test_window_event_death_test, mouse_button_released_wrong_data)
 {
   window_event ev = window_event::mouse_button_released(mouse_button::lb, 1, 3);
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_key_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_wheel_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(ev.get_size_data());
+  EXPECT_PRECOND_ERROR(ev.get_key_data());
+  EXPECT_PRECOND_ERROR(ev.get_text_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
 }
 
 
@@ -403,16 +330,11 @@ TEST_F(test_window_event_death_test, mouse_wheel_moved_wrong_data)
 {
   window_event ev
     = window_event::mouse_wheel_moved(mouse_wheel::vertical, 5, 1, 3);
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_size_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_key_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(
-    ev.get_text_data(), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_move_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(ev.get_mouse_button_data(), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(ev.get_size_data());
+  EXPECT_PRECOND_ERROR(ev.get_key_data());
+  EXPECT_PRECOND_ERROR(ev.get_text_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
+  EXPECT_PRECOND_ERROR(ev.get_mouse_button_data());
 }
 
 
@@ -1760,7 +1682,8 @@ TEST_F(test_window_event, key_released_output_stream_operator)
 TEST_F(test_window_event, text_entered_output_stream_operator)
 {
   window_event ev = window_event::text_entered(0x13fa);
-  const char* os_ref = "{type = text_entered, data = {code_point = 0x000013fa}}";
+  const char* os_ref
+    = "{type = text_entered, data = {code_point = 0x000013fa}}";
   HOU_EXPECT_OUTPUT(os_ref, ev);
 }
 

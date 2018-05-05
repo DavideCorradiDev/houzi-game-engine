@@ -116,9 +116,8 @@ TEST_F(test_system_window, create_fullscreen)
 TEST_F(
   test_system_window_death_test, create_fullscreen_error_invalid_video_mode)
 {
-  DEPRECATED_HOU_EXPECT_ERROR(system_window w1("Win", video_mode(vec2u::zero(), 32),
-                     window_style::fullscreen),
-    std::logic_error, get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(system_window w1(
+    "Win", video_mode(vec2u::zero(), 32), window_style::fullscreen));
 }
 
 
@@ -128,9 +127,8 @@ TEST_F(test_system_window_death_test,
 {
   system_window w2(
     "Win", video_mode::get_desktop_mode(), window_style::fullscreen);
-  DEPRECATED_HOU_EXPECT_ERROR(system_window w3("Win", video_mode::get_desktop_mode(),
-                     window_style::fullscreen),
-    std::logic_error, get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(system_window w3(
+    "Win", video_mode::get_desktop_mode(), window_style::fullscreen));
 }
 
 

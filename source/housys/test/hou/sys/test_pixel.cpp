@@ -89,10 +89,9 @@ TEST_F(test_pixel_format, get_pixel_format_byte_count)
 TEST_F(
   test_pixel_format_death_test, get_pixel_format_byte_count_error_invalid_enum)
 {
-  int enumVal = 5;
-  DEPRECATED_HOU_EXPECT_ERROR(get_pixel_format_byte_count(pixel_format(enumVal)),
-    std::logic_error,
-    format_string(get_text(cor_error::invalid_enum), enumVal));
+  pixel_format fake_pf = static_cast<pixel_format>(5);
+  EXPECT_ERROR_N(get_pixel_format_byte_count(pixel_format(fake_pf)),
+    invalid_enum<pixel_format>, fake_pf);
 }
 
 

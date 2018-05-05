@@ -7,7 +7,7 @@
 
 #include "hou/cor/span.hpp"
 
-#include "hou/sys/sys_error.hpp"
+#include "hou/sys/system_exceptions.hpp"
 #include "hou/sys/text_file_in.hpp"
 
 using namespace hou;
@@ -79,8 +79,8 @@ TEST_F(test_text_file_in, path_constructor)
 TEST_F(test_text_file_in_death_test, path_constructor_failure)
 {
   std::string invalid_filename = u8"InvalidFileName";
-  DEPRECATED_HOU_EXPECT_ERROR(text_file_in fi(invalid_filename), std::runtime_error,
-    format_string(get_text(sys_error::file_open), invalid_filename.c_str()));
+  EXPECT_ERROR_N(
+    text_file_in fi(invalid_filename), file_open_error, invalid_filename);
 }
 
 

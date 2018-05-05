@@ -8,7 +8,7 @@
 #include "hou/cor/span.hpp"
 
 #include "hou/sys/binary_file_in.hpp"
-#include "hou/sys/sys_error.hpp"
+#include "hou/sys/system_exceptions.hpp"
 
 using namespace hou;
 using namespace testing;
@@ -31,7 +31,7 @@ public:
 
 
 
-class test_binary_file_death_test : public test_binary_file_in
+class test_binary_file_in_death_test : public test_binary_file_in
 {};
 
 
@@ -76,11 +76,11 @@ TEST_F(test_binary_file_in, path_constructor)
 
 
 
-TEST_F(test_binary_file_death_test, path_constructor_failure)
+TEST_F(test_binary_file_in_death_test, path_constructor_failure)
 {
   std::string invalid_filename = u8"InvalidFileName";
-  DEPRECATED_HOU_EXPECT_ERROR(binary_file_in fi(invalid_filename), std::runtime_error,
-    format_string(get_text(sys_error::file_open), invalid_filename.c_str()));
+  EXPECT_ERROR_N(
+    binary_file_in fi(invalid_filename), file_open_error, invalid_filename);
 }
 
 
@@ -120,11 +120,10 @@ TEST_F(test_binary_file_in, set_byte_pos)
 
 
 
-TEST_F(test_binary_file_death_test, set_byte_pos_error)
+TEST_F(test_binary_file_in_death_test, set_byte_pos_error)
 {
   binary_file_in fi(filename);
-  DEPRECATED_HOU_EXPECT_ERROR(
-    fi.set_byte_pos(-1), std::runtime_error, get_text(sys_error::file_seek));
+  EXPECT_ERROR_0(fi.set_byte_pos(-1), file_cursor_error);
 }
 
 
@@ -149,11 +148,10 @@ TEST_F(test_binary_file_in, move_byte_pos)
 
 
 
-TEST_F(test_binary_file_death_test, move_byte_pos_error)
+TEST_F(test_binary_file_in_death_test, move_byte_pos_error)
 {
   binary_file_in fi(filename);
-  DEPRECATED_HOU_EXPECT_ERROR(
-    fi.move_byte_pos(-1), std::runtime_error, get_text(sys_error::file_seek));
+  EXPECT_ERROR_0(fi.move_byte_pos(-1), file_cursor_error);
 }
 
 
