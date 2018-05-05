@@ -67,3 +67,12 @@ TEST_F(test_core_exceptions, underflow_error)
   underflow_error ex("foo.cpp", 42u);
   EXPECT_STREQ("foo.cpp:42 - Numeric underflow.", ex.what());
 }
+
+
+
+TEST_F(test_core_exceptions, unreachable_code_error)
+{
+  unreachable_code_error ex("foo.cpp", 42u);
+  EXPECT_STREQ(
+    "foo.cpp:42 - An unreachable part of code has been reached", ex.what());
+}

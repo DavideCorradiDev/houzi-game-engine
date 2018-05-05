@@ -7,7 +7,7 @@
 #include "hou/cor/assertions.hpp"
 
 #include "hou/sys/binary_file_in.hpp"
-#include "hou/sys/sys_error.hpp"
+#include "hou/sys/system_exceptions.hpp"
 
 #include "soil/SOIL.h"
 
@@ -73,7 +73,7 @@ using SoilTestFunction = std::function<int(uchar const*, int)>;
 using SoilLoadFunction
   = std::function<uchar*(uchar const*, int, int*, int*, int*, int)>;
 
-int pixel_format_to_soil_format(pixel_format PF);
+int pixel_format_to_soil_format(pixel_format pf);
 
 bool soil_test_memory(SoilTestFunction test_fun, uchar* buffer, size_t size);
 bool soil_test_file(SoilTestFunction test_fun, const std::string& path);
@@ -85,13 +85,13 @@ std::tuple<image2<PF>, bool> soil_load_from_file(SoilLoadFunction load_fun,
   SoilTestFunction test_fun, const std::string& path);
 template <pixel_format PF>
 image2<PF> soil_load_from_file_with_check(SoilLoadFunction load_fun,
-  SoilTestFunction test_fun, const std::string& path, sys_error ec);
+  SoilTestFunction test_fun, const std::string& path);
 template <pixel_format PF>
 bool soil_write_to_file(
   const std::string& path, int imageType, const image2<PF>& im);
 template <pixel_format PF>
 void soil_write_to_file_with_check(
-  const std::string& path, int imageType, const image2<PF>& im, sys_error ec);
+  const std::string& path, int imageType, const image2<PF>& im);
 
 
 
@@ -235,9 +235,9 @@ void set_image_sub_image(
 
 
 
-int pixel_format_to_soil_format(pixel_format PF)
+int pixel_format_to_soil_format(pixel_format pf)
 {
-  switch(PF)
+  switch(pf)
   {
     case pixel_format::r:
       return SOIL_LOAD_L;
@@ -248,7 +248,7 @@ int pixel_format_to_soil_format(pixel_format PF)
     case pixel_format::rgba:
       return SOIL_LOAD_RGBA;
     default:
-      DEPRECATED_HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), static_cast<int>(PF));
+      HOU_ERROR_N(invalid_enum<pixel_format>, pf);
       return 0u;
   }
 }
@@ -315,13 +315,13 @@ std::tuple<image2<PF>, bool> soil_load_from_file(
 
 
 template <pixel_format PF>
-image2<PF> soil_load_from_file_with_check(SoilLoadFunction load_fun,
-  SoilTestFunction test_fun, const std::string& path, sys_error ec)
+image2<PF> soil_load_from_file_with_check(
+  SoilLoadFunction load_fun, SoilTestFunction test_fun, const std::string& path)
 {
   image2<PF> im;
   bool rv = false;
   std::tie(im, rv) = soil_load_from_file<PF>(load_fun, test_fun, path);
-  DEPRECATED_HOU_RUNTIME_CHECK(rv, get_text(ec), path.c_str());
+  HOU_CHECK_N(rv, image_read_error, path);
   return im;
 }
 
@@ -335,10 +335,9 @@ bool soil_write_to_file(
   // a file with a standardized name, then rename the file to what is requested.
   static constexpr char tmpFileName[] = ".HziTmpImageFileName.hou";
 
-  int saveResult
-    = SOIL_save_image(tmpFileName, imageType, image.get_size().x(),
-      image.get_size().y(), image2<PF>::pixel::get_byte_count(),
-      reinterpret_cast<const uchar*>(image.get_pixels().data()));
+  int saveResult = SOIL_save_image(tmpFileName, imageType, image.get_size().x(),
+    image.get_size().y(), image2<PF>::pixel::get_byte_count(),
+    reinterpret_cast<const uchar*>(image.get_pixels().data()));
   return saveResult && rename_dir(tmpFileName, path);
 }
 
@@ -346,10 +345,10 @@ bool soil_write_to_file(
 
 template <pixel_format PF>
 void soil_write_to_file_with_check(
-  const std::string& path, int imageType, const image2<PF>& im, sys_error ec)
+  const std::string& path, int imageType, const image2<PF>& im)
 {
-  DEPRECATED_HOU_RUNTIME_CHECK(
-    soil_write_to_file<PF>(path, imageType, im), get_text(ec), path.c_str());
+  HOU_CHECK_N(
+    soil_write_to_file<PF>(path, imageType, im), image_write_error, path);
 }
 
 }  // namespace
@@ -366,8 +365,8 @@ bool bmp_check_file(const std::string& path)
 template <pixel_format PF>
 image2<PF> bmp_read_file(const std::string& path)
 {
-  return soil_load_from_file_with_check<PF>(stbi_bmp_load_from_memory,
-    stbi_bmp_test_memory, path, sys_error::image_bmp_read);
+  return soil_load_from_file_with_check<PF>(
+    stbi_bmp_load_from_memory, stbi_bmp_test_memory, path);
 }
 
 
@@ -375,8 +374,7 @@ image2<PF> bmp_read_file(const std::string& path)
 template <pixel_format PF>
 void bmp_write_file(const std::string& path, const image2<PF>& image)
 {
-  soil_write_to_file_with_check<PF>(
-    path, SOIL_SAVE_TYPE_BMP, image, sys_error::image_bmp_write);
+  soil_write_to_file_with_check<PF>(path, SOIL_SAVE_TYPE_BMP, image);
 }
 
 
@@ -391,8 +389,8 @@ bool png_check_file(const std::string& path)
 template <pixel_format PF>
 image2<PF> png_read_file(const std::string& path)
 {
-  return soil_load_from_file_with_check<PF>(stbi_png_load_from_memory,
-    stbi_png_test_memory, path, sys_error::image_png_read);
+  return soil_load_from_file_with_check<PF>(
+    stbi_png_load_from_memory, stbi_png_test_memory, path);
 }
 
 
@@ -407,8 +405,8 @@ bool jpg_check_file(const std::string& path)
 template <pixel_format PF>
 image2<PF> jpg_read_file(const std::string& path)
 {
-  return soil_load_from_file_with_check<PF>(stbi_jpeg_load_from_memory,
-    stbi_jpeg_test_memory, path, sys_error::image_jpg_read);
+  return soil_load_from_file_with_check<PF>(
+    stbi_jpeg_load_from_memory, stbi_jpeg_test_memory, path);
 }
 
 
@@ -533,8 +531,7 @@ image<Dim, PF> image<Dim, PF>::get_sub_image(
 
 
 template <size_t Dim, pixel_format PF>
-void image<Dim, PF>::set_sub_image(
-  const offset_type& offset, const image& im)
+void image<Dim, PF>::set_sub_image(const offset_type& offset, const image& im)
 {
   return set_image_sub_image(*this, offset, im);
 }
@@ -600,79 +597,80 @@ std::ostream& operator<<(std::ostream& os, const image<Dim, PF>& im)
 
 
 
-#define INSTANTIATE_IMAGE_BASE(Dim, PF) \
-  template class image<Dim, PF>; \
-  template bool operator==<Dim, PF>( \
-    const image<Dim, PF>&, const image<Dim, PF>&); \
-  template bool operator!=<Dim, PF>( \
-    const image<Dim, PF>&, const image<Dim, PF>&); \
-  template std::ostream& operator<<<Dim, PF>( \
+#define INSTANTIATE_IMAGE_BASE(Dim, PF)                                        \
+  template class image<Dim, PF>;                                               \
+  template bool operator==<Dim, PF>(                                           \
+    const image<Dim, PF>&, const image<Dim, PF>&);                             \
+  template bool operator!=<Dim, PF>(                                           \
+    const image<Dim, PF>&, const image<Dim, PF>&);                             \
+  template std::ostream& operator<<<Dim, PF>(                                  \
     std::ostream&, const image<Dim, PF>&);
 
 
 
-#define INSTANTIATE_CONVERSION_CONSTRUCTOR(Dim1, Dim2, pf1, pf2) \
+#define INSTANTIATE_CONVERSION_CONSTRUCTOR(Dim1, Dim2, pf1, pf2)               \
   template image<Dim1, pf1>::image<Dim2, pf2, void>(const image<Dim2, pf2>&);
 
 
 
-#define INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIMENSIONS(Dim1, Dim2) \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR( \
-    Dim1, Dim2, pixel_format::r, pixel_format::rg) \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR( \
-    Dim1, Dim2, pixel_format::r, pixel_format::rgb) \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR( \
-    Dim1, Dim2, pixel_format::r, pixel_format::rgba) \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR( \
-    Dim1, Dim2, pixel_format::rg, pixel_format::r) \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR( \
-    Dim1, Dim2, pixel_format::rg, pixel_format::rgb) \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR( \
-    Dim1, Dim2, pixel_format::rg, pixel_format::rgba) \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR( \
-    Dim1, Dim2, pixel_format::rgb, pixel_format::r) \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR( \
-    Dim1, Dim2, pixel_format::rgb, pixel_format::rg) \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR( \
-    Dim1, Dim2, pixel_format::rgb, pixel_format::rgba) \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR( \
-    Dim1, Dim2, pixel_format::rgba, pixel_format::r) \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR( \
-    Dim1, Dim2, pixel_format::rgba, pixel_format::rg) \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR( \
+#define INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIMENSIONS(Dim1, Dim2)        \
+  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
+    Dim1, Dim2, pixel_format::r, pixel_format::rg)                             \
+  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
+    Dim1, Dim2, pixel_format::r, pixel_format::rgb)                            \
+  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
+    Dim1, Dim2, pixel_format::r, pixel_format::rgba)                           \
+  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
+    Dim1, Dim2, pixel_format::rg, pixel_format::r)                             \
+  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
+    Dim1, Dim2, pixel_format::rg, pixel_format::rgb)                           \
+  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
+    Dim1, Dim2, pixel_format::rg, pixel_format::rgba)                          \
+  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
+    Dim1, Dim2, pixel_format::rgb, pixel_format::r)                            \
+  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
+    Dim1, Dim2, pixel_format::rgb, pixel_format::rg)                           \
+  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
+    Dim1, Dim2, pixel_format::rgb, pixel_format::rgba)                         \
+  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
+    Dim1, Dim2, pixel_format::rgba, pixel_format::r)                           \
+  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
+    Dim1, Dim2, pixel_format::rgba, pixel_format::rg)                          \
+  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
     Dim1, Dim2, pixel_format::rgba, pixel_format::rgb)
 
 
 
-#define INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DIMENSION(Dim) \
+#define INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DIMENSION(Dim)           \
   INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIMENSIONS(Dim, Dim)
 
 
 
-#define INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIFFERENT_DIMENSIONS( \
-  Dim1, Dim2) \
-  INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIMENSIONS(Dim1, Dim2) \
-    INSTANTIATE_CONVERSION_CONSTRUCTOR(Dim1, Dim2, pixel_format::r, \
-      pixel_format::r) INSTANTIATE_CONVERSION_CONSTRUCTOR(Dim1, Dim2, \
-      pixel_format::rg, pixel_format::rg) \
-      INSTANTIATE_CONVERSION_CONSTRUCTOR(Dim1, Dim2, pixel_format::rgb, \
-        pixel_format::rgb) INSTANTIATE_CONVERSION_CONSTRUCTOR(Dim1, Dim2, \
-        pixel_format::rgba, pixel_format::rgba)
+#define INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIFFERENT_DIMENSIONS(         \
+  Dim1, Dim2)                                                                  \
+  INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIMENSIONS(Dim1, Dim2)              \
+  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
+    Dim1, Dim2, pixel_format::r, pixel_format::r)                              \
+  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
+    Dim1, Dim2, pixel_format::rg, pixel_format::rg)                            \
+    INSTANTIATE_CONVERSION_CONSTRUCTOR(Dim1, Dim2, pixel_format::rgb,          \
+      pixel_format::rgb) INSTANTIATE_CONVERSION_CONSTRUCTOR(Dim1, Dim2,        \
+      pixel_format::rgba, pixel_format::rgba)
 
 
 
-#define INSTANTIATE_IMAGE_WITH_DIMENSION(Dim) \
-  INSTANTIATE_IMAGE_BASE(Dim, pixel_format::r) \
-  INSTANTIATE_IMAGE_BASE(Dim, pixel_format::rg) \
-  INSTANTIATE_IMAGE_BASE(Dim, pixel_format::rgb) \
+#define INSTANTIATE_IMAGE_WITH_DIMENSION(Dim)                                  \
+  INSTANTIATE_IMAGE_BASE(Dim, pixel_format::r)                                 \
+  INSTANTIATE_IMAGE_BASE(Dim, pixel_format::rg)                                \
+  INSTANTIATE_IMAGE_BASE(Dim, pixel_format::rgb)                               \
   INSTANTIATE_IMAGE_BASE(Dim, pixel_format::rgba)
 
 
 
-INSTANTIATE_IMAGE_WITH_DIMENSION(
-  1u) INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DIMENSION(1u)
-  INSTANTIATE_IMAGE_WITH_DIMENSION(
-    2u) INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIFFERENT_DIMENSIONS(2u, 1u)
+INSTANTIATE_IMAGE_WITH_DIMENSION(1u)
+INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DIMENSION(
+  1u) INSTANTIATE_IMAGE_WITH_DIMENSION(2u)
+  INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIFFERENT_DIMENSIONS(2u, 1u)
     INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DIMENSION(2u)
       INSTANTIATE_IMAGE_WITH_DIMENSION(3u)
         INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIFFERENT_DIMENSIONS(3u, 1u)
@@ -681,28 +679,28 @@ INSTANTIATE_IMAGE_WITH_DIMENSION(
 
 
 
-#define INSTANTIATE_READ_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, PF) \
+#define INSTANTIATE_READ_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, PF)            \
   template image2<PF> imType##_read_file<PF>(const std::string&);
 
 
 
-#define INSTANTIATE_READ_FILE_FUNCTION(imType) \
-  INSTANTIATE_READ_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pixel_format::r) \
-  INSTANTIATE_READ_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pixel_format::rg) \
-  INSTANTIATE_READ_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pixel_format::rgb) \
+#define INSTANTIATE_READ_FILE_FUNCTION(imType)                                 \
+  INSTANTIATE_READ_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pixel_format::r)     \
+  INSTANTIATE_READ_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pixel_format::rg)    \
+  INSTANTIATE_READ_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pixel_format::rgb)   \
   INSTANTIATE_READ_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pixel_format::rgba)
 
 
 
-#define INSTANTIATE_WRITE_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, PF) \
+#define INSTANTIATE_WRITE_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, PF)           \
   template void imType##_write_file<PF>(const std::string&, const image2<PF>&);
 
 
 
-#define INSTANTIATE_WRITE_FILE_FUNCTION(imType) \
-  INSTANTIATE_WRITE_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pixel_format::r) \
-  INSTANTIATE_WRITE_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pixel_format::rg) \
-  INSTANTIATE_WRITE_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pixel_format::rgb) \
+#define INSTANTIATE_WRITE_FILE_FUNCTION(imType)                                \
+  INSTANTIATE_WRITE_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pixel_format::r)    \
+  INSTANTIATE_WRITE_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pixel_format::rg)   \
+  INSTANTIATE_WRITE_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pixel_format::rgb)  \
   INSTANTIATE_WRITE_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pixel_format::rgba)
 
               INSTANTIATE_READ_FILE_FUNCTION(bmp)

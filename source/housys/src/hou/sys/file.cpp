@@ -4,7 +4,7 @@
 
 #include "hou/sys/file.hpp"
 
-#include "hou/sys/sys_error.hpp"
+#include "hou/sys/system_exceptions.hpp"
 
 #include "hou/cor/assertions.hpp"
 #include "hou/cor/std_string.hpp"
@@ -16,6 +16,17 @@
 
 namespace hou
 {
+
+namespace
+{
+
+const std::string assert_msg_file_flush = u8"Could not flush a file buffer.";
+const std::string assert_msg_file_tell
+  = u8"Could not read a file cursor position.";
+
+}  // namespace
+
+
 
 file::file(const std::string& filename, file_open_mode mode, file_type type)
   : non_copyable()
@@ -59,7 +70,7 @@ size_t file::get_byte_count() const
 long file::tell() const
 {
   long pos = ftell(m_handle);
-  DEPRECATED_HOU_RUNTIME_CHECK(pos != -1L, get_text(sys_error::file_tell));
+  HOU_ASSERT(pos != -1L, assert_msg_file_tell);
   return pos;
 }
 
@@ -91,7 +102,7 @@ void file::seek_offset(long offset)
 
 void file::flush() const
 {
-  DEPRECATED_HOU_RUNTIME_CHECK(fflush(m_handle) != EOF, get_text(sys_error::file_flush));
+  HOU_ASSERT(fflush(m_handle) != EOF, assert_msg_file_flush);
 }
 
 
@@ -103,7 +114,7 @@ bool file::getc(char& c)
   c = static_cast<char>(retval);
   if(retval == EOF)
   {
-    DEPRECATED_HOU_RUNTIME_CHECK(!error(), get_text(sys_error::file_read));
+    HOU_CHECK_0(!error(), file_read_error);
     return false;
   }
   return true;
@@ -115,7 +126,7 @@ void file::putc(char c)
 {
   int retval = fputc(c, m_handle);
   update_flags();
-  DEPRECATED_HOU_RUNTIME_CHECK(retval != EOF, get_text(sys_error::file_write));
+  HOU_CHECK_0(retval != EOF, file_write_error);
 }
 
 
@@ -127,7 +138,7 @@ size_t file::gets(std::string& str)
   update_flags();
   if(retval == nullptr)
   {
-    DEPRECATED_HOU_RUNTIME_CHECK(!error(), get_text(sys_error::file_read));
+    HOU_CHECK_0(!error(), file_read_error);
     return 0u;
   }
   return std::char_traits<char>::length(retval);
@@ -139,7 +150,7 @@ void file::puts(const std::string& str)
 {
   int retval = fputs(str.c_str(), m_handle);
   update_flags();
-  DEPRECATED_HOU_RUNTIME_CHECK(retval != EOF, get_text(sys_error::file_write));
+  HOU_CHECK_0(retval != EOF, file_write_error);
 }
 
 
@@ -148,8 +159,7 @@ size_t file::read(void* buf, size_t element_size, size_t buf_size)
 {
   size_t count = fread(buf, element_size, buf_size, m_handle);
   update_flags();
-  DEPRECATED_HOU_RUNTIME_CHECK(
-    count == buf_size || !error(), get_text(sys_error::file_read));
+  HOU_CHECK_0(count == buf_size || !error(), file_read_error);
   return count;
 }
 
@@ -159,15 +169,14 @@ void file::write(const void* buf, size_t element_size, size_t buf_size)
 {
   size_t count = fwrite(buf, element_size, buf_size, m_handle);
   update_flags();
-  DEPRECATED_HOU_RUNTIME_CHECK(count == buf_size, get_text(sys_error::file_write));
+  HOU_CHECK_0(count == buf_size, file_write_error);
 }
 
 
 
 void file::seek(long pos, int origin) const
 {
-  DEPRECATED_HOU_RUNTIME_CHECK(
-    fseek(m_handle, pos, origin) == 0, get_text(sys_error::file_seek));
+  HOU_CHECK_0(fseek(m_handle, pos, origin) == 0, file_cursor_error);
 }
 
 

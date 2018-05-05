@@ -4,7 +4,7 @@
 
 #include "hou/sys/file_handle.hpp"
 
-#include "hou/sys/sys_error.hpp"
+#include "hou/sys/system_exceptions.hpp"
 
 #include "hou/cor/assertions.hpp"
 
@@ -12,6 +12,13 @@
 
 namespace hou
 {
+
+namespace
+{
+
+const std::string assert_msg_file_close = u8"Could not close a file.";
+
+}
 
 file_handle::file_handle(
   const std::string& path, file_open_mode mode, file_type type)
@@ -36,8 +43,7 @@ file_handle::~file_handle()
 {
   if(m_file != nullptr)
   {
-    DEPRECATED_HOU_FATAL_CHECK(fclose(m_file) != EOF, get_text(sys_error::file_close),
-      get_file_descriptor(m_file));
+    HOU_ASSERT(fclose(m_file) != EOF, assert_msg_file_close);
   }
 }
 

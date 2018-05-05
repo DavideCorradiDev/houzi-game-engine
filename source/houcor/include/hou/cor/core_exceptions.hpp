@@ -35,6 +35,12 @@ public:
   underflow_error(const std::string& path, uint line);
 };
 
+class HOU_COR_API unreachable_code_error : public exception
+{
+public:
+  unreachable_code_error(const std::string& path, uint line);
+};
+
 }  // namespace hou
 
 #include "hou/cor/core_exceptions.inl"

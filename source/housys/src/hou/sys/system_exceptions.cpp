@@ -2,11 +2,11 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/cor/system_exceptions.hpp"
+#include "hou/sys/system_exceptions.hpp"
 
 
 
-namespace
+namespace hou
 {
 
 file_open_error::file_open_error(

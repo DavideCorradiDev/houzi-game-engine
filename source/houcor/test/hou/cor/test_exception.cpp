@@ -319,3 +319,17 @@ TEST_F(test_exception_death_test, hou_dev_check_n_macro_failure)
     exception_2_args, 88, 'a');
 #endif
 }
+
+
+
+// TEST_F(test_exception_death_test, hou_try_catch)
+// {
+//   HOU_TRY
+//     HOU_THROW_STD_0(std::exception);
+//   HOU_CATCH(const std::runtime_error& ex)
+//     FAIL();
+//   HOU_CATCH(const std::exception& ex)
+//     SUCCEED();
+//   HOU_TRY_END
+// 
+// }

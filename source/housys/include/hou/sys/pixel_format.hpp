@@ -5,10 +5,10 @@
 #ifndef HOU_SYS_PIXEL_FORMAT_HPP
 #define HOU_SYS_PIXEL_FORMAT_HPP
 
-#include "hou/sys/sys_export.hpp"
-
 #include "hou/cor/basic_types.hpp"
-#include "hou/cor/assertions.hpp"
+#include "hou/cor/core_exceptions.hpp"
+
+#include "hou/sys/sys_export.hpp"
 
 #include <iostream>
 

@@ -39,11 +39,12 @@ SET(LIB_HOUSYS_SRC
   src/hou/sys/file_open_mode.cpp
   src/hou/sys/file_type.cpp
   src/hou/sys/image.cpp
+  src/hou/sys/key_code.cpp
   src/hou/sys/keyboard.cpp
   src/hou/sys/modifier_keys.cpp
   src/hou/sys/mouse_button.cpp
   src/hou/sys/mouse_wheel.cpp
-  src/hou/sys/key_code.cpp
+  src/hou/sys/os_error.cpp
   src/hou/sys/pixel.cpp
   src/hou/sys/pixel_format.cpp
   src/hou/sys/scan_code.cpp
@@ -67,6 +68,7 @@ IF(WIN32)
     src/hou/sys/win/file_handle_win.cpp
     src/hou/sys/win/keyboard_win.cpp
     src/hou/sys/win/mouse_win.cpp
+    src/hou/sys/win/os_error_win.cpp
     src/hou/sys/win/video_mode_win.cpp
     src/hou/sys/win/win_error.cpp
     src/hou/sys/win/window_impl_win.cpp
