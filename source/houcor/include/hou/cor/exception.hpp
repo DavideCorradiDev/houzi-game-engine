@@ -44,7 +44,7 @@ void HOU_COR_API terminate(const std::string& message) noexcept;
   ::hou::terminate(                                                            \
     ::hou::prv::format_error_message(__FILE__, __LINE__, message));
 
-#if defined(HOU_DISABLE_EXCEPTIONS)
+#ifdef HOU_DISABLE_EXCEPTIONS
 
 #define HOU_THROW_STD_0(exception_type)                                        \
   do                                                                           \
@@ -105,6 +105,27 @@ void HOU_COR_API terminate(const std::string& message) noexcept;
 
 #define HOU_CHECK_N(condition, exception_type, ...)                            \
   HOU_CHECK_TEMPLATE(condition, HOU_THROW_N(exception_type, __VA_ARGS__))
+
+#ifdef NDEBUG
+#define HOU_DEV_CHECK_TEMPLATE(condition, failure_action)
+#else
+#define HOU_DEV_CHECK_TEMPLATE(condition, failure_action)                      \
+  HOU_CHECK_TEMPLATE(condition, failure_action)
+#endif
+
+#define HOU_DEV_CHECK_STD_0(condition, exception_type)                         \
+  HOU_DEV_CHECK_TEMPLATE(condition, HOU_THROW_STD_0(exception_type))
+
+#define HOU_DEV_CHECK_STD_N(condition, exception_type, ...)                    \
+  HOU_DEV_CHECK_TEMPLATE(                                                      \
+    condition, HOU_THROW_STD_N(exception_type, __VA_ARGS__))
+
+#define HOU_DEV_CHECK_0(condition, exception_type)                             \
+  HOU_DEV_CHECK_TEMPLATE(condition, HOU_THROW_0(exception_type))
+
+#define HOU_DEV_CHECK_N(condition, exception_type, ...)                        \
+  HOU_DEV_CHECK_TEMPLATE(condition, HOU_THROW_N(exception_type, __VA_ARGS__))
+
 
 }  // namespace hou
 

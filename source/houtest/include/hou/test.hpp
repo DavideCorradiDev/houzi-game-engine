@@ -129,6 +129,31 @@ inline std::string get_no_exception_message_regex(
 #define EXPECT_THROW_N(statement, exception_type, ...)                         \
   EXPECT_THROW_TEMPLATE(statement, exception_type, "", 0, __VA_ARGS__)
 
+#undef EXPECT_NO_THROW
+
+#if defined(HOU_DISABLE_EXCEPTIONS)
+#define EXPECT_NO_THROW(statement)                                             \
+  do                                                                           \
+  {                                                                            \
+    statement;                                                                 \
+    SUCCEED();                                                                 \
+  } while(false)
+#else
+#define EXPECT_NO_THROW(statement)                                             \
+  do                                                                           \
+  {                                                                            \
+    try                                                                        \
+    {                                                                          \
+      statement;                                                               \
+    }                                                                          \
+    catch(...)                                                                 \
+    {                                                                          \
+      ADD_FAILURE() << "Expected: " #statement                                 \
+                       " throws nothing.\n  Actual: it throws.";               \
+    }                                                                          \
+  } while(false)
+#endif
+
 
 
 #if defined(HOU_DISABLE_EXCEPTIONS)
