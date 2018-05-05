@@ -14,77 +14,39 @@
 namespace hou
 {
 
-class HOU_COR_API precondition_violated : public exception
+class HOU_COR_API precondition_violation : public exception
 {
 public:
-  precondition_violated(const std::string& path, uint line);
+  precondition_violation(const std::string& path, uint line);
 };
 
-class HOU_COR_API postcondition_violated : public exception
+class HOU_COR_API postcondition_violation : public exception
 {
 public:
-  postcondition_violated(const std::string& path, uint line);
+  postcondition_violation(const std::string& path, uint line);
 };
 
-class HOU_COR_API invariant_violated : public exception
+class HOU_COR_API invariant_violation : public exception
 {
 public:
-  invariant_violated(const std::string& path, uint line);
+  invariant_violation(const std::string& path, uint line);
 };
 
-}
+}  // namespace hou
 
+#define HOU_PRECOND(condition) HOU_CHECK_0(condition, precondition_violation)
+
+#define HOU_DEV_PRECOND(condition)                                             \
+  HOU_DEV_CHECK_0(condition, precondition_violation)
+
+#define HOU_POSTCOND(condition) HOU_CHECK_0(condition, postcondition_violation)
+
+#define HOU_DEV_POSTCOND(condition)                                            \
+  HOU_DEV_CHECK_0(condition, postcondition_violation)
+
+#define HOU_INVARIANT(condition) HOU_CHECK_0(condition, invariant_violation)
+
+#define HOU_DEV_INVARIANT(condition)                                           \
+  HOU_DEV_CHECK_0(condition, invariant_violation)
 
 #endif
-// namespace hou
-// {
-// 
-// class HOU_COR_API precondition_violated : public exception
-// {
-// public:
-//   precondition_violated(const filename_type& filename, uint line) noexcept;
-// 
-//   const char* what() const noexcept override;
-// 
-// protected:
-//   std::string message_extension() const override;
-// 
-// private:
-//   static const std::string what_msg;
-// };
-// 
-// 
-// 
-// class HOU_COR_API postcondition_violated : public exception
-// {
-// public:
-//   postcondition_violated(const filename_type& filename, uint line) noexcept;
-// 
-//   const char* what() const noexcept override;
-// 
-// protected:
-//   std::string message_extension() const override;
-// 
-// private:
-//   static const std::string what_msg;
-// };
-// 
-// 
-// 
-// class HOU_COR_API invariant_violated : public exception
-// {
-// public:
-//   invariant_violated(const filename_type& filename, uint line) noexcept;
-// 
-//   const char* what() const noexcept override;
-// 
-// protected:
-//   std::string message_extension() const override;
-// 
-// private:
-//   static const std::string what_msg;
-// };
-// 
-// }  // namespace hou
-// 
-// #endif

@@ -9,16 +9,17 @@
 namespace hou
 {
 
-precondition_violated::precondition_violated(const std::string& path, uint line)
+precondition_violation::precondition_violation(
+  const std::string& path, uint line)
   : exception(path, line, u8"A precondition has been violated.")
 {}
 
-postcondition_violated::postcondition_violated(
+postcondition_violation::postcondition_violation(
   const std::string& path, uint line)
   : exception(path, line, u8"A postcondition has been violated.")
 {}
 
-invariant_violated::invariant_violated(const std::string& path, uint line)
+invariant_violation::invariant_violation(const std::string& path, uint line)
   : exception(path, line, u8"An invariant has been violated.")
 {}
 

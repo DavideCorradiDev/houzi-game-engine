@@ -129,6 +129,15 @@ inline std::string get_no_exception_message_regex(
 #define EXPECT_ERROR_N(statement, exception_type, ...)                         \
   EXPECT_ERROR_TEMPLATE(statement, exception_type, "", 0, __VA_ARGS__)
 
+#define EXPECT_PRECOND_ERROR(statement)                                        \
+  EXPECT_ERROR_0(statement, precondition_violation)
+
+#define EXPECT_POSTCOND_ERROR(statement)                                       \
+  EXPECT_ERROR_0(statement, postcondition_violation)
+
+#define EXPECT_INVARIANT_ERROR(statement)                                      \
+  EXPECT_ERROR_0(statement, invariant_violation)
+
 #if defined(HOU_DISABLE_EXCEPTIONS)
 #define EXPECT_NO_ERROR(statement)                                             \
   do                                                                           \

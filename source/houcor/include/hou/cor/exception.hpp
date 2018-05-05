@@ -38,6 +38,8 @@ private:
 
 void HOU_COR_API terminate(const std::string& message) noexcept;
 
+}  // namespace hou
+
 
 
 #define HOU_TERMINATE(message)                                                 \
@@ -125,8 +127,5 @@ void HOU_COR_API terminate(const std::string& message) noexcept;
 
 #define HOU_DEV_CHECK_N(condition, exception_type, ...)                        \
   HOU_DEV_CHECK_TEMPLATE(condition, HOU_ERROR_N(exception_type, __VA_ARGS__))
-
-
-}  // namespace hou
 
 #endif
