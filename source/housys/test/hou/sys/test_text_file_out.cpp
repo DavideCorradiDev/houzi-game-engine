@@ -9,7 +9,6 @@
 
 #include "hou/sys/text_file_in.hpp"
 #include "hou/sys/text_file_out.hpp"
-#include "hou/sys/sys_error.hpp"
 
 using namespace hou;
 using namespace testing;
