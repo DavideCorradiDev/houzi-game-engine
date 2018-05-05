@@ -4,12 +4,11 @@
 
 #include "hou/gl/gl_shader_handle.hpp"
 
-#include "hou/gl/gl_check.hpp"
 #include "hou/gl/gl_context.hpp"
-#include "hou/gl/gl_error.hpp"
+#include "hou/gl/gl_exceptions.hpp"
 
-#include "hou/cor/character_encodings.hpp"
 #include "hou/cor/assertions.hpp"
+#include "hou/cor/character_encodings.hpp"
 
 
 
@@ -18,34 +17,6 @@ namespace hou
 
 namespace gl
 {
-
-namespace
-{
-
-std::string shaderTypeToString(GLenum type)
-{
-  switch(type)
-  {
-    case GL_COMPUTE_SHADER:
-      return "Compute";
-    case GL_FRAGMENT_SHADER:
-      return "fragment";
-    case GL_GEOMETRY_SHADER:
-      return "geometry";
-    case GL_TESS_CONTROL_SHADER:
-      return "TessControl";
-    case GL_TESS_EVALUATION_SHADER:
-      return "TessEvaluation";
-    case GL_VERTEX_SHADER:
-      return "vertex";
-    default:
-      return "";
-  }
-}
-
-}  // namespace
-
-
 
 shader_handle shader_handle::create(GLenum type)
 {
@@ -108,8 +79,7 @@ void compile_shader(const shader_handle& shd, const GLchar* src)
     GLchar infoLog[maxInfoLogSize];
     glGetShaderInfoLog(shd.get_name(), maxInfoLogSize, nullptr, infoLog);
     HOU_GL_CHECK_ERROR();
-    DEPRECATED_HOU_RUNTIME_ERROR(get_text(gl_error::shader_compilation),
-      shaderTypeToString(shd.get_type()).c_str(), infoLog);
+    HOU_ERROR_N(shader_compiler_error, shd.get_type(), infoLog);
   }
 }
 

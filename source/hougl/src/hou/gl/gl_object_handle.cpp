@@ -4,7 +4,7 @@
 
 #include "hou/gl/gl_object_handle.hpp"
 
-#include "hou/gl/gl_check.hpp"
+#include "hou/gl/gl_exceptions.hpp"
 #include "hou/gl/gl_context.hpp"
 
 #include "hou/cor/uid_generator.hpp"

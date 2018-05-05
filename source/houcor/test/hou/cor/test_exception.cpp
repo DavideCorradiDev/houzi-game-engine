@@ -322,6 +322,19 @@ TEST_F(test_exception_death_test, hou_dev_check_n_macro_failure)
 
 
 
+TEST_F(test_exception_death_test, hou_disable_exceptions_scope)
+{
+  // clang-format off
+  EXPECT_DEATH(
+    HOU_DISABLE_EXCEPTIONS_BEGIN
+      HOU_ERROR_STD_N(std::runtime_error, "Message.");
+    HOU_DISABLE_EXCEPTIONS_END, 
+    std::runtime_error("Message.").what());
+  // clang-format on
+}
+
+
+
 // TEST_F(test_exception_death_test, hou_try_catch)
 // {
 //   HOU_TRY
@@ -331,5 +344,5 @@ TEST_F(test_exception_death_test, hou_dev_check_n_macro_failure)
 //   HOU_CATCH(const std::exception& ex)
 //     SUCCEED();
 //   HOU_TRY_END
-// 
+//
 // }

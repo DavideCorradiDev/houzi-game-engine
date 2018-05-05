@@ -19,32 +19,32 @@
 
 
 // Error assertions
-inline std::string get_exception_message(const hou::exception& ex)
+inline std::string get_exception_msg_regex(const hou::exception& ex)
 {
   std::string what_str = ex.what();
-  return what_str.substr(what_str.find_first_not_of(
-    ' ', 1 + what_str.find_first_of('-', what_str.find_first_of(':'))));
+  return std::string(".*:.* - ")
+    + hou::escape_regex(what_str.substr(what_str.find_first_not_of(
+        ' ', 1 + what_str.find_first_of('-', what_str.find_first_of(':')))));
 }
 
-inline std::string get_exception_message(const std::exception& ex)
+inline std::string get_exception_msg_regex(const std::exception& ex)
 {
-  return ex.what();
+  return hou::escape_regex(ex.what());
 }
 
-inline std::string get_no_exception_message_regex(
+inline std::string get_terminate_msg_regex(
   const std::string& ex_name, const hou::exception& ex)
 {
   std::stringstream ss;
-  ss << ex_name << " - .*:.* - "
-     << hou::escape_regex(get_exception_message(ex));
+  ss << ex_name << " - " << get_exception_msg_regex(ex);
   return ss.str();
 }
 
-inline std::string get_no_exception_message_regex(
+inline std::string get_terminate_msg_regex(
   const std::string& ex_name, const std::exception& ex)
 {
   std::stringstream ss;
-  ss << ex_name << " - " << hou::escape_regex(get_exception_message(ex));
+  ss << ex_name << " - " << get_exception_msg_regex(ex);
   return ss.str();
 }
 
@@ -54,16 +54,14 @@ inline std::string get_no_exception_message_regex(
   do                                                                           \
   {                                                                            \
     EXPECT_DEATH(statement,                                                    \
-      get_no_exception_message_regex(#exception_type, exception_type())        \
-        .c_str());                                                             \
+      get_terminate_msg_regex(#exception_type, exception_type()).c_str());     \
   } while(false)
 
 #define EXPECT_ERROR_TEMPLATE(statement, exception_type, ...)                  \
   do                                                                           \
   {                                                                            \
     EXPECT_DEATH(statement,                                                    \
-      get_no_exception_message_regex(                                          \
-        #exception_type, exception_type(__VA_ARGS__))                          \
+      get_terminate_msg_regex(#exception_type, exception_type(__VA_ARGS__))    \
         .c_str());                                                             \
   } while(false)
 
@@ -90,7 +88,7 @@ inline std::string get_no_exception_message_regex(
     catch(const exception_type& e)                                             \
     {                                                                          \
       EXPECT_THAT(e.what(),                                                    \
-        ::testing::MatchesRegex(get_exception_message(exception_type())));     \
+        ::testing::MatchesRegex(get_exception_msg_regex(exception_type())));   \
     }                                                                          \
     catch(...)                                                                 \
     {                                                                          \
@@ -109,8 +107,8 @@ inline std::string get_no_exception_message_regex(
     catch(const exception_type& e)                                             \
     {                                                                          \
       EXPECT_THAT(e.what(),                                                    \
-        ::testing::MatchesRegex(std::string(".*")                              \
-          + get_exception_message(exception_type(__VA_ARGS__))));              \
+        ::testing::MatchesRegex(                                               \
+          get_exception_msg_regex(exception_type(__VA_ARGS__))));              \
     }                                                                          \
     catch(...)                                                                 \
     {                                                                          \

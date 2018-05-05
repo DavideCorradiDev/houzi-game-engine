@@ -5,7 +5,7 @@
 #include "hou/Test.hpp"
 #include "hou/gl/test_gl_multiple_contexts.hpp"
 
-#include "hou/gl/gl_error.hpp"
+#include "hou/gl/gl_exceptions.hpp"
 #include "hou/gl/gl_vertex_array_handle.hpp"
 
 using namespace hou;
@@ -41,8 +41,7 @@ TEST_F(test_gl_vertex_array_handle_death_test, DISABLED_no_context_creation)
 #endif
 {
   gl::context::unset_current();
-  DEPRECATED_HOU_EXPECT_ERROR(gl::vertex_array_handle::create(), std::logic_error,
-    get_text(gl_error::context_existence));
+  EXPECT_ERROR_0(gl::vertex_array_handle::create(), gl::missing_context_error);
 }
 
 
@@ -100,8 +99,7 @@ TEST_F(test_gl_vertex_array_handle_death_test, DISABLED_sharing_context_binding)
 {
   gl::vertex_array_handle vah = gl::vertex_array_handle::create();
   set_sharing_context_current();
-  DEPRECATED_HOU_EXPECT_ERROR(gl::bind_vertex_array(vah), std::logic_error,
-    get_text(gl_error::invalid_ownership));
+  EXPECT_ERROR_0(gl::bind_vertex_array(vah), gl::invalid_context_error);
   set_context_current();
 }
 
@@ -116,8 +114,7 @@ TEST_F(
 {
   gl::vertex_array_handle vah = gl::vertex_array_handle::create();
   set_non_sharing_context_current();
-  DEPRECATED_HOU_EXPECT_ERROR(gl::bind_vertex_array(vah), std::logic_error,
-    get_text(gl_error::invalid_ownership));
+  EXPECT_ERROR_0(gl::bind_vertex_array(vah), gl::invalid_context_error);
   set_context_current();
 }
 
@@ -131,7 +128,6 @@ TEST_F(test_gl_vertex_array_handle_death_test, DISABLED_no_context_binding)
 {
   gl::vertex_array_handle vah = gl::vertex_array_handle::create();
   gl::context::unset_current();
-  DEPRECATED_HOU_EXPECT_ERROR(gl::bind_vertex_array(vah), std::logic_error,
-    get_text(gl_error::context_existence));
+  EXPECT_ERROR_0(gl::bind_vertex_array(vah), gl::missing_context_error);
   set_context_current();
 }

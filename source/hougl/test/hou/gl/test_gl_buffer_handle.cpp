@@ -6,7 +6,7 @@
 #include "hou/gl/test_gl_multiple_contexts.hpp"
 
 #include "hou/gl/gl_buffer_handle.hpp"
-#include "hou/gl/gl_error.hpp"
+#include "hou/gl/gl_exceptions.hpp"
 
 using namespace hou;
 
@@ -15,11 +15,13 @@ using namespace hou;
 namespace
 {
 
-class test_gl_buffer_handle: public test_gl_multiple_contexts {};
+class test_gl_buffer_handle : public test_gl_multiple_contexts
+{};
 
-class test_gl_buffer_handle_death_test : public test_gl_buffer_handle {};
+class test_gl_buffer_handle_death_test : public test_gl_buffer_handle
+{};
 
-}
+}  // namespace
 
 
 
@@ -38,8 +40,7 @@ TEST_F(test_gl_buffer_handle_death_test, DISABLED_no_context_creation)
 #endif
 {
   gl::context::unset_current();
-  DEPRECATED_HOU_EXPECT_ERROR(gl::buffer_handle::create(), std::logic_error
-    , get_text(gl_error::context_existence));
+  EXPECT_ERROR_0(gl::buffer_handle::create(), gl::missing_context_error);
 }
 
 
@@ -129,8 +130,8 @@ TEST_F(test_gl_buffer_handle_death_test, DISABLED_non_sharing_context_binding)
 {
   gl::buffer_handle bh = gl::buffer_handle::create();
   set_non_sharing_context_current();
-  DEPRECATED_HOU_EXPECT_ERROR(gl::bind_buffer(bh, GL_ARRAY_BUFFER)
-    , std::logic_error, get_text(gl_error::invalid_ownership));
+  EXPECT_ERROR_0(
+    gl::bind_buffer(bh, GL_ARRAY_BUFFER), gl::invalid_context_error);
   set_context_current();
 }
 
@@ -144,11 +145,7 @@ TEST_F(test_gl_buffer_handle_death_test, DISABLED_no_context_binding)
 {
   gl::buffer_handle bh = gl::buffer_handle::create();
   gl::context::unset_current();
-  DEPRECATED_HOU_EXPECT_ERROR(gl::bind_buffer(bh, GL_ARRAY_BUFFER)
-    , std::logic_error, get_text(gl_error::context_existence));
+  EXPECT_ERROR_0(
+    gl::bind_buffer(bh, GL_ARRAY_BUFFER), gl::missing_context_error);
   set_context_current();
 }
-
-
-
-

@@ -8,7 +8,7 @@
 
 #include "hou/gl/gl_context.hpp"
 #include "hou/gl/gl_context_settings.hpp"
-#include "hou/gl/gl_error.hpp"
+#include "hou/gl/gl_exceptions.hpp"
 #include "hou/gl/gl_functions.hpp"
 
 #include "hou/sys/system_window.hpp"
@@ -253,8 +253,7 @@ TEST_F(test_gl_context_death_test, make_current_error)
   std::thread t([&c]() {
     system_window w2(
       "Test", video_mode(vec2u(10u, 10u), 4u), window_style::windowed);
-    DEPRECATED_HOU_EXPECT_ERROR(gl::context::set_current(c, w2), std::runtime_error,
-      get_text(gl_error::context_make_current));
+    EXPECT_ERROR_0(gl::context::set_current(c, w2), gl::context_switch_error);
   });
 
   t.join();

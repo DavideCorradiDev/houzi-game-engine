@@ -5,7 +5,7 @@
 #include "hou/Test.hpp"
 #include "hou/gl/test_gl_multiple_contexts.hpp"
 
-#include "hou/gl/gl_error.hpp"
+#include "hou/gl/gl_exceptions.hpp"
 #include "hou/gl/gl_texture_handle.hpp"
 
 using namespace hou;
@@ -41,8 +41,7 @@ TEST_F(test_gl_texture_handle_death_test, DISABLED_no_context_creation)
 #endif
 {
   gl::context::unset_current();
-  DEPRECATED_HOU_EXPECT_ERROR(gl::texture_handle::create(GL_TEXTURE_2D), std::logic_error,
-    get_text(gl_error::context_existence));
+  EXPECT_ERROR_0(gl::texture_handle::create(GL_TEXTURE_2D), gl::missing_context_error);
 }
 
 
@@ -184,8 +183,7 @@ TEST_F(test_gl_texture_handle_death_test, DISABLED_non_sharing_context_binding)
 {
   gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_1D);
   set_non_sharing_context_current();
-  DEPRECATED_HOU_EXPECT_ERROR(gl::bind_texture(th), std::logic_error,
-    get_text(gl_error::invalid_ownership));
+  EXPECT_ERROR_0(gl::bind_texture(th), gl::invalid_context_error);
   set_context_current();
 }
 
@@ -199,8 +197,7 @@ TEST_F(test_gl_texture_handle_death_test, DISABLED_no_context_binding)
 {
   gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_1D);
   gl::context::unset_current();
-  DEPRECATED_HOU_EXPECT_ERROR(gl::bind_texture(th), std::logic_error,
-    get_text(gl_error::context_existence));
+  EXPECT_ERROR_0(gl::bind_texture(th), gl::missing_context_error);
   set_context_current();
 }
 

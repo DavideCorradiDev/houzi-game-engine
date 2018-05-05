@@ -673,16 +673,11 @@ window_impl::window_impl(window_impl&& other)
 
 window_impl::~window_impl()
 {
-  try
-  {
-    destroy_icon();
-    destroy_cursor();
-    destroy_window();
-  }
-  catch(const std::exception& ex)
-  {
-    HOU_TERMINATE(ex.what());
-  }
+  HOU_DISABLE_EXCEPTIONS_BEGIN
+  destroy_icon();
+  destroy_cursor();
+  destroy_window();
+  HOU_DISABLE_EXCEPTIONS_END
 }
 
 

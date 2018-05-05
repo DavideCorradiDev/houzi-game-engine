@@ -7,7 +7,7 @@
 
 #include "hou/gl/test_gl_shader_sources.hpp"
 
-#include "hou/gl/gl_error.hpp"
+#include "hou/gl/gl_exceptions.hpp"
 #include "hou/gl/gl_program_handle.hpp"
 #include "hou/gl/gl_shader_handle.hpp"
 
@@ -63,8 +63,7 @@ TEST_F(test_gl_program_handle, DISABLED_NoContextCreation)
 #endif
 {
   gl::context::unset_current();
-  DEPRECATED_HOU_EXPECT_ERROR(gl::program_handle::create(), std::logic_error,
-    get_text(gl_error::context_existence));
+  EXPECT_ERROR_0(gl::program_handle::create(), gl::missing_context_error);
 }
 
 
@@ -125,8 +124,7 @@ TEST_F(test_gl_program_handle_death_test, DISABLED_NonSharingContextBinding)
 {
   gl::program_handle ph = create_program();
   set_non_sharing_context_current();
-  DEPRECATED_HOU_EXPECT_ERROR(gl::bind_program(ph), std::logic_error,
-    get_text(gl_error::invalid_ownership));
+  EXPECT_ERROR_0(gl::bind_program(ph), gl::invalid_context_error);
   set_context_current();
 }
 
@@ -140,8 +138,7 @@ TEST_F(test_gl_program_handle_death_test, DISABLED_NoContextBinding)
 {
   gl::program_handle ph = create_program();
   gl::context::unset_current();
-  DEPRECATED_HOU_EXPECT_ERROR(gl::bind_program(ph), std::logic_error,
-    get_text(gl_error::context_existence));
+  EXPECT_ERROR_0(gl::bind_program(ph), gl::missing_context_error);
   set_context_current();
 }
 
@@ -178,12 +175,11 @@ TEST_F(test_gl_program_handle_death_test, LinkProgramFailure)
   gl::attach_shader(ph, vsh);
   gl::attach_shader(ph, gsh);
   gl::attach_shader(ph, fsh);
-  DEPRECATED_HOU_EXPECT_ERROR(gl::link_program(ph), std::runtime_error,
-    format_string(get_text(gl_error::program_linking),
-      "Geometry info\n"
-      "-------------\n"
-      "(0) : error C6022: No input primitive type\n"
-      "(0) : error C6029: No output primitive type\n"));
+  EXPECT_ERROR_N(gl::link_program(ph), gl::shader_linker_error,
+    "Geometry info\n"
+    "-------------\n"
+    "(0) : error C6022: No input primitive type\n"
+    "(0) : error C6029: No output primitive type\n");
 }
 
 
@@ -199,7 +195,6 @@ TEST_F(test_gl_program_handle, GetUniformLocation)
 TEST_F(test_gl_program_handle_death_test, GetUniformLocationInvalidName)
 {
   gl::program_handle ph = create_program();
-  DEPRECATED_HOU_EXPECT_ERROR(gl::get_program_uniform_location(ph, "invalidName"),
-    std::runtime_error,
-    format_string(get_text(gl_error::program_invalid_uniform), "invalidName"));
+  EXPECT_ERROR_N(gl::get_program_uniform_location(ph, "invalidName"),
+    gl::invalid_uniform_error, "invalidName");
 }
