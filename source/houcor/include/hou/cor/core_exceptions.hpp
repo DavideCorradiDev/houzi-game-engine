@@ -1,16 +1,41 @@
-// // Houzi Game Engine
-// // Copyright (c) 2018 Davide Corradi
-// // Licensed under the MIT license.
-// 
-// #ifndef HOU_COR_CORE_EXCEPTIONS_HPP
-// #define HOU_COR_CORE_EXCEPTIONS_HPP
-// 
-// #include "hou/cor/cor_export.hpp"
-// 
-// #include "hou/cor/exception.hpp"
-// 
-// 
-// 
+// Houzi Game Engine
+// Copyright (c) 2018 Davide Corradi
+// Licensed under the MIT license.
+
+#ifndef HOU_COR_CORE_EXCEPTIONS_HPP
+#define HOU_COR_CORE_EXCEPTIONS_HPP
+
+#include "hou/cor/cor_export.hpp"
+
+#include "hou/cor/exception.hpp"
+
+
+
+namespace hou
+{
+
+class HOU_COR_API precondition_violated : public exception
+{
+public:
+  precondition_violated(const std::string& path, uint line);
+};
+
+class HOU_COR_API postcondition_violated : public exception
+{
+public:
+  postcondition_violated(const std::string& path, uint line);
+};
+
+class HOU_COR_API invariant_violated : public exception
+{
+public:
+  invariant_violated(const std::string& path, uint line);
+};
+
+}
+
+
+#endif
 // namespace hou
 // {
 // 
