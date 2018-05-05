@@ -50,7 +50,7 @@ inline std::string get_no_exception_message_regex(
 
 #if defined(HOU_DISABLE_EXCEPTIONS)
 
-#define EXPECT_THROW_STD_0(statement, exception_type)                          \
+#define EXPECT_ERROR_STD_0(statement, exception_type)                          \
   do                                                                           \
   {                                                                            \
     EXPECT_DEATH(statement,                                                    \
@@ -58,7 +58,7 @@ inline std::string get_no_exception_message_regex(
         .c_str());                                                             \
   } while(false)
 
-#define EXPECT_THROW_TEMPLATE(statement, exception_type, ...)                  \
+#define EXPECT_ERROR_TEMPLATE(statement, exception_type, ...)                  \
   do                                                                           \
   {                                                                            \
     EXPECT_DEATH(statement,                                                    \
@@ -79,7 +79,7 @@ inline std::string get_no_exception_message_regex(
                    " throws an exception of type " #exception_type             \
                    ".\n  Actual: it throws a different type.";
 
-#define EXPECT_THROW_STD_0(statement, exception_type)                          \
+#define EXPECT_ERROR_STD_0(statement, exception_type)                          \
   do                                                                           \
   {                                                                            \
     try                                                                        \
@@ -98,7 +98,7 @@ inline std::string get_no_exception_message_regex(
     }                                                                          \
   } while(false)
 
-#define EXPECT_THROW_TEMPLATE(statement, exception_type, ...)                  \
+#define EXPECT_ERROR_TEMPLATE(statement, exception_type, ...)                  \
   do                                                                           \
   {                                                                            \
     try                                                                        \
@@ -120,26 +120,24 @@ inline std::string get_no_exception_message_regex(
 
 #endif
 
-#define EXPECT_THROW_STD_N(statement, exception_type, ...)                     \
-  EXPECT_THROW_TEMPLATE(statement, exception_type, __VA_ARGS__)
+#define EXPECT_ERROR_STD_N(statement, exception_type, ...)                     \
+  EXPECT_ERROR_TEMPLATE(statement, exception_type, __VA_ARGS__)
 
-#define EXPECT_THROW_0(statement, exception_type)                              \
-  EXPECT_THROW_TEMPLATE(statement, exception_type, "", 0)
+#define EXPECT_ERROR_0(statement, exception_type)                              \
+  EXPECT_ERROR_TEMPLATE(statement, exception_type, "", 0)
 
-#define EXPECT_THROW_N(statement, exception_type, ...)                         \
-  EXPECT_THROW_TEMPLATE(statement, exception_type, "", 0, __VA_ARGS__)
-
-#undef EXPECT_NO_THROW
+#define EXPECT_ERROR_N(statement, exception_type, ...)                         \
+  EXPECT_ERROR_TEMPLATE(statement, exception_type, "", 0, __VA_ARGS__)
 
 #if defined(HOU_DISABLE_EXCEPTIONS)
-#define EXPECT_NO_THROW(statement)                                             \
+#define EXPECT_NO_ERROR(statement)                                             \
   do                                                                           \
   {                                                                            \
     statement;                                                                 \
     SUCCEED();                                                                 \
   } while(false)
 #else
-#define EXPECT_NO_THROW(statement)                                             \
+#define EXPECT_NO_ERROR(statement)                                             \
   do                                                                           \
   {                                                                            \
     try                                                                        \

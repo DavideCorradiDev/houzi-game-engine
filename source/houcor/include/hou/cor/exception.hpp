@@ -46,14 +46,14 @@ void HOU_COR_API terminate(const std::string& message) noexcept;
 
 #ifdef HOU_DISABLE_EXCEPTIONS
 
-#define HOU_THROW_STD_0(exception_type)                                        \
+#define HOU_ERROR_STD_0(exception_type)                                        \
   do                                                                           \
   {                                                                            \
     ::hou::terminate(std::string(#exception_type) + std::string(u8" - ")       \
       + exception_type().what());                                              \
   } while(false)
 
-#define HOU_THROW_TEMPLATE(exception_type, ...)                                \
+#define HOU_ERROR_TEMPLATE(exception_type, ...)                                \
   do                                                                           \
   {                                                                            \
     ::hou::terminate(std::string(#exception_type) + std::string(u8" - ")       \
@@ -62,13 +62,13 @@ void HOU_COR_API terminate(const std::string& message) noexcept;
 
 #else
 
-#define HOU_THROW_STD_0(exception_type)                                        \
+#define HOU_ERROR_STD_0(exception_type)                                        \
   do                                                                           \
   {                                                                            \
     throw exception_type();                                                    \
   } while(false)
 
-#define HOU_THROW_TEMPLATE(exception_type, ...)                                \
+#define HOU_ERROR_TEMPLATE(exception_type, ...)                                \
   do                                                                           \
   {                                                                            \
     throw exception_type(__VA_ARGS__);                                         \
@@ -76,14 +76,14 @@ void HOU_COR_API terminate(const std::string& message) noexcept;
 
 #endif
 
-#define HOU_THROW_STD_N(exception_type, ...)                                   \
-  HOU_THROW_TEMPLATE(exception_type, __VA_ARGS__)
+#define HOU_ERROR_STD_N(exception_type, ...)                                   \
+  HOU_ERROR_TEMPLATE(exception_type, __VA_ARGS__)
 
-#define HOU_THROW_0(exception_type)                                            \
-  HOU_THROW_TEMPLATE(exception_type, __FILE__, __LINE__)
+#define HOU_ERROR_0(exception_type)                                            \
+  HOU_ERROR_TEMPLATE(exception_type, __FILE__, __LINE__)
 
-#define HOU_THROW_N(exception_type, ...)                                       \
-  HOU_THROW_TEMPLATE(exception_type, __FILE__, __LINE__, __VA_ARGS__)
+#define HOU_ERROR_N(exception_type, ...)                                       \
+  HOU_ERROR_TEMPLATE(exception_type, __FILE__, __LINE__, __VA_ARGS__)
 
 #define HOU_CHECK_TEMPLATE(condition, failure_action)                          \
   do                                                                           \
@@ -95,16 +95,16 @@ void HOU_COR_API terminate(const std::string& message) noexcept;
   } while(false)
 
 #define HOU_CHECK_STD_0(condition, exception_type)                             \
-  HOU_CHECK_TEMPLATE(condition, HOU_THROW_STD_0(exception_type))
+  HOU_CHECK_TEMPLATE(condition, HOU_ERROR_STD_0(exception_type))
 
 #define HOU_CHECK_STD_N(condition, exception_type, ...)                        \
-  HOU_CHECK_TEMPLATE(condition, HOU_THROW_STD_N(exception_type, __VA_ARGS__))
+  HOU_CHECK_TEMPLATE(condition, HOU_ERROR_STD_N(exception_type, __VA_ARGS__))
 
 #define HOU_CHECK_0(condition, exception_type)                                 \
-  HOU_CHECK_TEMPLATE(condition, HOU_THROW_0(exception_type))
+  HOU_CHECK_TEMPLATE(condition, HOU_ERROR_0(exception_type))
 
 #define HOU_CHECK_N(condition, exception_type, ...)                            \
-  HOU_CHECK_TEMPLATE(condition, HOU_THROW_N(exception_type, __VA_ARGS__))
+  HOU_CHECK_TEMPLATE(condition, HOU_ERROR_N(exception_type, __VA_ARGS__))
 
 #ifdef NDEBUG
 #define HOU_DEV_CHECK_TEMPLATE(condition, failure_action)
@@ -114,17 +114,17 @@ void HOU_COR_API terminate(const std::string& message) noexcept;
 #endif
 
 #define HOU_DEV_CHECK_STD_0(condition, exception_type)                         \
-  HOU_DEV_CHECK_TEMPLATE(condition, HOU_THROW_STD_0(exception_type))
+  HOU_DEV_CHECK_TEMPLATE(condition, HOU_ERROR_STD_0(exception_type))
 
 #define HOU_DEV_CHECK_STD_N(condition, exception_type, ...)                    \
   HOU_DEV_CHECK_TEMPLATE(                                                      \
-    condition, HOU_THROW_STD_N(exception_type, __VA_ARGS__))
+    condition, HOU_ERROR_STD_N(exception_type, __VA_ARGS__))
 
 #define HOU_DEV_CHECK_0(condition, exception_type)                             \
-  HOU_DEV_CHECK_TEMPLATE(condition, HOU_THROW_0(exception_type))
+  HOU_DEV_CHECK_TEMPLATE(condition, HOU_ERROR_0(exception_type))
 
 #define HOU_DEV_CHECK_N(condition, exception_type, ...)                        \
-  HOU_DEV_CHECK_TEMPLATE(condition, HOU_THROW_N(exception_type, __VA_ARGS__))
+  HOU_DEV_CHECK_TEMPLATE(condition, HOU_ERROR_N(exception_type, __VA_ARGS__))
 
 
 }  // namespace hou
