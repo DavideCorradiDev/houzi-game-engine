@@ -8,6 +8,7 @@
 #include "hou/cor/cor_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
+#include "hou/cor/std_string.hpp"
 
 #include <memory>
 #include <stdexcept>

@@ -20,6 +20,20 @@ class test_core_exceptions : public Test
 class test_core_exceptions_death_test : public test_core_exceptions
 {};
 
+enum class test_enum_1 : int
+{
+  enum_val_0 = 0,
+  enum_val_1 = 1,
+  enum_val_2 = 2,
+};
+
+enum test_enum_2 : int
+{
+  enum_val_0 = 0,
+  enum_val_1 = 1,
+  enum_val_2 = 2,
+};
+
 }  // namespace
 
 
@@ -176,4 +190,20 @@ TEST_F(test_core_exceptions_death_test, hou_dev_invariant_macro_failure)
 TEST_F(test_core_exceptions_death_test, expect_invariant_error_macro)
 {
   EXPECT_INVARIANT_ERROR(HOU_INVARIANT(0 == 2));
+}
+
+
+
+TEST_F(test_core_exceptions, invalid_enumeration_value_enum_class)
+{
+  invalid_enum<test_enum_1> ex("foo.cpp", 42u, test_enum_1::enum_val_1);
+  EXPECT_STREQ("foo.cpp:42 - Invalid enumeration value '1'.", ex.what());
+}
+
+
+
+TEST_F(test_core_exceptions, invalid_enumeration_value_enum)
+{
+  invalid_enum<test_enum_2> ex("foo.cpp", 42u, test_enum_2::enum_val_2);
+  EXPECT_STREQ("foo.cpp:42 - Invalid enumeration value '2'.", ex.what());
 }

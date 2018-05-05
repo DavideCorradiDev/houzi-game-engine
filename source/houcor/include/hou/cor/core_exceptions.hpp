@@ -32,6 +32,14 @@ public:
   invariant_violation(const std::string& path, uint line);
 };
 
+template <typename T>
+class invalid_enum : public exception
+{
+  static_assert(std::is_enum<T>::value, "T must be an enum type.");
+public:
+  invalid_enum(const std::string& path, uint line, T enum_value);
+};
+
 }  // namespace hou
 
 #define HOU_PRECOND(condition) HOU_CHECK_0(condition, precondition_violation)
@@ -48,5 +56,7 @@ public:
 
 #define HOU_DEV_INVARIANT(condition)                                           \
   HOU_DEV_CHECK_0(condition, invariant_violation)
+
+#include "hou/cor/core_exceptions.inl"
 
 #endif
