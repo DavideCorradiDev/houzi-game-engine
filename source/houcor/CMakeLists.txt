@@ -35,6 +35,7 @@ INCLUDE_DIRECTORIES(
 
 # Source files.
 SET(LIB_HOUCOR_SRC
+  src/hou/cor/assertions.cpp
   src/hou/cor/clock.cpp
   src/hou/cor/cor_error.cpp
   src/hou/cor/core_exceptions.cpp
