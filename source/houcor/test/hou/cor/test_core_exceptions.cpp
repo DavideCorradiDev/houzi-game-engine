@@ -51,3 +51,19 @@ TEST_F(test_core_exceptions, invalid_enumeration_value_enum)
   invalid_enum<test_enum_2> ex("foo.cpp", 42u, test_enum_2::enum_val_2);
   EXPECT_STREQ("foo.cpp:42 - Invalid enumeration value '2'.", ex.what());
 }
+
+
+
+TEST_F(test_core_exceptions, numeric_overflow)
+{
+  numeric_overflow ex("foo.cpp", 42u);
+  EXPECT_STREQ("foo.cpp:42 - Numeric overflow.", ex.what());
+}
+
+
+
+TEST_F(test_core_exceptions, numeric_underflow)
+{
+  numeric_underflow ex("foo.cpp", 42u);
+  EXPECT_STREQ("foo.cpp:42 - Numeric underflow.", ex.what());
+}
