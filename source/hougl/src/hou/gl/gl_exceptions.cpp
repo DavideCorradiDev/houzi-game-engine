@@ -34,7 +34,7 @@ std::string get_error_message(GLenum err)
     case GL_INVALID_OPERATION:
       return u8"invalid operation";
     case GL_INVALID_VALUE:
-      return u8"invalud value";
+      return u8"invalid value";
     case GL_OUT_OF_MEMORY:
       return u8"out of memory";
     case GL_STACK_OVERFLOW:
@@ -55,13 +55,13 @@ std::string get_shader_type_name(GLenum shader_type)
     case GL_COMPUTE_SHADER:
       return u8"compute";
     case GL_FRAGMENT_SHADER:
-      return u8"Fragment";
+      return u8"fragment";
     case GL_GEOMETRY_SHADER:
       return u8"geometry";
     case GL_TESS_CONTROL_SHADER:
-      return u8"tess control";
+      return u8"tesselation control";
     case GL_TESS_EVALUATION_SHADER:
-      return u8"tess evaluation";
+      return u8"tesselation evaluation";
     case GL_VERTEX_SHADER:
       return u8"vertex";
     default:
@@ -136,14 +136,14 @@ shader_linker_error::shader_linker_error(
 invalid_uniform_error::invalid_uniform_error(
   const std::string& path, uint line, const std::string& uniform_name)
   : exception(path, line,
-      format_string(
-        u8"Invalid OpenGL program uniform '%s'.", uniform_name.c_str()))
+      format_string(u8"The uniform '%s' was not defined in the shader program.",
+        uniform_name.c_str()))
 {}
 
 
 
 vsync_error::vsync_error(const std::string& path, uint line)
-  : exception(path, line, u8"Failed to change vertical sync mode.")
+  : exception(path, line, u8"Failed to set the vertical sync mode.")
 {}
 
 
