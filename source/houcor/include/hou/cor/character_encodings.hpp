@@ -5,11 +5,12 @@
 #ifndef HOU_COR_CHARACTER_ENCODINGS_HPP
 #define HOU_COR_CHARACTER_ENCODINGS_HPP
 
-#include "hou/cor/cor_export.hpp"
 #include "hou/cor/non_instantiable.hpp"
 
-#include "hou/cor/basic_types.hpp"
 #include "hou/cor/assertions.hpp"
+#include "hou/cor/basic_types.hpp"
+
+#include "hou/cor/cor_export.hpp"
 
 #include <array>
 #include <limits>
@@ -42,6 +43,8 @@ public:
    *
    * \param out_first the begin of the output code unit sequence.
    *
+   * \throws std::bad_alloc.
+   *
    * \return an iterator to the code unit after the encoded code point.
    */
   template <typename OutputIt>
@@ -53,7 +56,6 @@ public:
    * If the input iterator pair contains more than one encoded code point, the
    * first code point will be decoded and an iterator to the code unit after it
    * will be returned.
-   * Throws if the given code unit sequence is invalid.
    *
    * \tparam InputIt the input iterator type.
    *
@@ -62,6 +64,9 @@ public:
    * \param in_last the end of the input code unit sequence.
    *
    * \param out the output code point.
+   *
+   * \throws hou::precondition_violation if the given code unit sequence is
+   * invalid.
    *
    * \return an iterator to the code unit after the first encoded code point.
    */
@@ -80,6 +85,9 @@ public:
    *
    * \param in_last the end of the input code unit sequence.
    *
+   * \throws hou::precondition_violation if the given code unit sequence is
+   * invalid.
+   *
    * \return an iterator to the code unit after the first encoded code point.
    */
   template <typename InputIt>
@@ -95,6 +103,9 @@ public:
    * \param in_first the begin of the input code unit sequence.
    *
    * \param in_last the end of the input code unit sequence.
+   *
+   * \throws hou::precondition_violation if the given code unit sequence is
+   * invalid.
    *
    * \return the number of code points in the code unit sequence.
    */
@@ -125,6 +136,8 @@ public:
    *
    * \param out_first the begin of the output code unit sequence.
    *
+   * \throws std::bad_alloc.
+   *
    * \return an iterator to the code unit after the encoded code point.
    */
   template <typename OutputIt>
@@ -136,7 +149,6 @@ public:
    * If the input iterator pair contains more than one encoded code point, the
    * first code point will be decoded and an iterator to the code unit after it
    * will be returned.
-   * Throws if the given code unit sequence is invalid.
    *
    * \tparam InputIt the input iterator type.
    *
@@ -145,6 +157,9 @@ public:
    * \param in_last the end of the input code unit sequence.
    *
    * \param out the output code point.
+   *
+   * \throws hou::precondition_violation if the given code unit sequence is
+   * invalid.
    *
    * \return an iterator to the code unit after the first encoded code point.
    */
@@ -163,6 +178,9 @@ public:
    *
    * \param in_last the end of the input code unit sequence.
    *
+   * \throws hou::precondition_violation if the given code unit sequence is
+   * invalid.
+   *
    * \return an iterator to the code unit after the first encoded code point.
    */
   template <typename InputIt>
@@ -178,6 +196,9 @@ public:
    * \param in_first the begin of the input code unit sequence.
    *
    * \param in_last the end of the input code unit sequence.
+   *
+   * \throws hou::precondition_violation if the given code unit sequence is
+   * invalid.
    *
    * \return the number of code points in the code unit sequence.
    */
@@ -205,6 +226,8 @@ public:
    *
    * \param out_first the begin of the output code unit sequence.
    *
+   * \throws std::bad_alloc.
+   *
    * \return an iterator to the code unit after the encoded code point.
    */
   template <typename OutputIt>
@@ -216,7 +239,6 @@ public:
    * If the input iterator pair contains more than one encoded code point, the
    * first code point will be decoded and an iterator to the code unit after it
    * will be returned.
-   * Throws if the given code unit sequence is invalid.
    *
    * \tparam InputIt the input iterator type.
    *
@@ -225,6 +247,9 @@ public:
    * \param in_last the end of the input code unit sequence.
    *
    * \param out the output code point.
+   *
+   * \throws hou::precondition_violation if the given code unit sequence is
+   * invalid.
    *
    * \return an iterator to the code unit after the first encoded code point.
    */
@@ -243,6 +268,9 @@ public:
    *
    * \param in_last the end of the input code unit sequence.
    *
+   * \throws hou::precondition_violation if the given code unit sequence is
+   * invalid.
+   *
    * \return an iterator to the code unit after the first encoded code point.
    */
   template <typename InputIt>
@@ -258,6 +286,9 @@ public:
    * \param in_first the begin of the input code unit sequence.
    *
    * \param in_last the end of the input code unit sequence.
+   *
+   * \throws hou::precondition_violation if the given code unit sequence is
+   * invalid.
    *
    * \return the number of code points in the code unit sequence.
    */
@@ -286,6 +317,8 @@ public:
    *
    * \param out_first the begin of the output code unit sequence.
    *
+   * \throws std::bad_alloc.
+   *
    * \return an iterator to the code unit after the encoded code point.
    */
   template <typename OutputIt>
@@ -307,6 +340,9 @@ public:
    *
    * \param out the output code point.
    *
+   * \throws hou::precondition_violation if the given code unit sequence is
+   * invalid.
+   *
    * \return an iterator to the code unit after the first encoded code point.
    */
   template <typename InputIt>
@@ -324,6 +360,9 @@ public:
    *
    * \param in_last the end of the input code unit sequence.
    *
+   * \throws hou::precondition_violation if the given code unit sequence is
+   * invalid.
+   *
    * \return an iterator to the code unit after the first encoded code point.
    */
   template <typename InputIt>
@@ -339,6 +378,9 @@ public:
    * \param in_first the begin of the input code unit sequence.
    *
    * \param in_last the end of the input code unit sequence.
+   *
+   * \throws hou::precondition_violation if the given code unit sequence is
+   * invalid.
    *
    * \return the number of code points in the code unit sequence.
    */
@@ -369,6 +411,8 @@ public:
  *
  * \param out_first the begin of the output code unit sequence.
  *
+ * \throws std::bad_alloc.
+ *
  * \return an iterator to the output code unit after the converted code point.
  */
 template <typename InputEncoding, typename OutputEncoding, typename InputIt,
@@ -383,6 +427,8 @@ OutputIt convert_encoding(
  * \tparam OutputEncoding the output encoding.
  *
  * \param s the input encoded string.
+ *
+ * \throws std::bad_alloc.
  *
  * \return the converted encoded string.
  */

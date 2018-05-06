@@ -12,12 +12,12 @@ namespace hou
 {
 
 template <typename T, typename Enable>
-bool close(T lhs, T rhs, T acc)
+bool close(T lhs, T rhs, T acc) noexcept
 {
   return std::abs(lhs - rhs) < acc;
 }
 
-template bool close<float>(float, float, float);
-template bool close<double>(double, double, double);
+template bool close<float>(float, float, float) noexcept;
+template bool close<double>(double, double, double) noexcept;
 
 }  // namespace hou

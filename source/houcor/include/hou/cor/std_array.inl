@@ -6,7 +6,8 @@ namespace hou
 {
 
 template <typename T, typename U, std::size_t N, typename Enable>
-bool close(const std::array<U, N>& lhs, const std::array<U, N>& rhs, T acc)
+constexpr bool close(
+  const std::array<U, N>& lhs, const std::array<U, N>& rhs, T acc) noexcept
 {
   return container_close(lhs.begin(), lhs.end(), rhs.begin(), acc);
 }

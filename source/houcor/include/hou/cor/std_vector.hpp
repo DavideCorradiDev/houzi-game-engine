@@ -33,8 +33,8 @@ namespace hou
  */
 template <typename T, typename U,
   typename Enable = std::enable_if_t<std::is_floating_point<T>::value>>
-bool close(const std::vector<U>& lhs, const std::vector<U>& rhs,
-  T acc = std::numeric_limits<T>::epsilon());
+constexpr bool close(const std::vector<U>& lhs, const std::vector<U>& rhs,
+  T acc = std::numeric_limits<T>::epsilon()) noexcept;
 
 /** Outputs a std::vector to the given stream.
  *

@@ -13,7 +13,7 @@
 namespace hou
 {
 
-uid_generator::uid_generator(uint32_t starting_value)
+uid_generator::uid_generator(uint32_t starting_value) noexcept
   : m_counter(starting_value)
 {}
 

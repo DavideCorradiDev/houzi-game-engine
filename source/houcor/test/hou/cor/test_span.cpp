@@ -278,19 +278,32 @@ TEST_F(test_span, modify_element)
 
 
 
-TEST_F(test_span_death_test, element_access_error_index_out_of_bounds)
+TEST_F(test_span, element_access)
 {
   std::vector<int> v{1, 2, 3};
   span<int> s(v);
-  EXPECT_PRECOND_ERROR(s[3]);
+  for(size_t i = 0; i < v.size(); ++i)
+  {
+    EXPECT_EQ(v[i], s[i]);
+    EXPECT_EQ(v.at(i), s.at(i));
+  }
 }
 
 
 
-TEST_F(test_span_death_test, element_access_error_nullptr)
+TEST_F(test_span_death_test, element_access_error_index_out_of_bounds)
+{
+  std::vector<int> v{1, 2, 3};
+  span<int> s(v);
+  EXPECT_ERROR_N(s.at(3), out_of_range, 3);
+}
+
+
+
+TEST_F(test_span_death_test, element_access_error_empty_span)
 {
   span<int> s;
-  EXPECT_PRECOND_ERROR(s[3]);
+  EXPECT_ERROR_N(s.at(3), out_of_range, 3);
 }
 
 
@@ -478,17 +491,6 @@ TEST_F(test_span, iterator_span_and_index_constructor_upper_index_bound)
 
 
 
-TEST_F(
-  test_span_death_test, iterator_span_and_index_constructor_error_out_of_bounds)
-{
-  using Iter = span_iterator<int>;
-  std::array<int, 3u> v{1, 2, 3};
-  span<int> s(v);
-  EXPECT_PRECOND_ERROR(Iter si(s, s.size() + 1u));
-}
-
-
-
 TEST_F(test_span, iterator_element_access)
 {
   std::array<int, 3u> v{1, 2, 3};
@@ -533,16 +535,6 @@ TEST_F(test_span, iterator_element_write_access)
   EXPECT_EQ(s[0], *s0);
   EXPECT_EQ(s[1], *s1);
   EXPECT_EQ(s[2], *s2);
-}
-
-
-
-TEST_F(test_span_death_test, iterator_element_access_error_end)
-{
-  std::array<int, 3u> v{1, 2, 3};
-  span<int> s(v);
-  span_iterator<int> si(s, s.size());
-  EXPECT_PRECOND_ERROR(*si);
 }
 
 
@@ -595,16 +587,6 @@ TEST_F(test_span, iterator_class_member_write_access)
 
 
 
-TEST_F(test_span_death_test, iterator_class_member_access_error_end)
-{
-  std::array<foo, 3u> v{1, 2, 3};
-  span<foo> s(v);
-  span_iterator<foo> si(s, s.size());
-  EXPECT_PRECOND_ERROR(si->get_value());
-}
-
-
-
 TEST_F(test_span, iterator_assignment_sum)
 {
   std::array<int, 3u> v{1, 2, 3};
@@ -613,16 +595,6 @@ TEST_F(test_span, iterator_assignment_sum)
   si += 2;
   EXPECT_EQ(s[2], *si);
   si += 1;
-}
-
-
-
-TEST_F(test_span_death_test, iterator_assignment_sum_error_overflow)
-{
-  std::array<int, 3u> v{1, 2, 3};
-  span<int> s(v);
-  span_iterator<int> si(s, 0);
-  EXPECT_PRECOND_ERROR(si += 4);
 }
 
 
@@ -639,19 +611,6 @@ TEST_F(test_span, iterator_pre_increment)
 
 
 
-TEST_F(test_span_death_test, iterator_pre_increment_error_overflow)
-{
-  std::array<int, 3u> v{1, 2, 3};
-  span<int> s(v);
-  span_iterator<int> si(s, 0);
-  ++si;
-  ++si;
-  ++si;
-  EXPECT_PRECOND_ERROR(++si);
-}
-
-
-
 TEST_F(test_span, iterator_post_increment)
 {
   std::array<int, 3u> v{1, 2, 3};
@@ -660,19 +619,6 @@ TEST_F(test_span, iterator_post_increment)
   EXPECT_EQ(s[0], *si++);
   EXPECT_EQ(s[1], *si++);
   EXPECT_EQ(s[2], *si++);
-}
-
-
-
-TEST_F(test_span_death_test, iterator_post_increment_error_overflow)
-{
-  std::array<int, 3u> v{1, 2, 3};
-  span<int> s(v);
-  span_iterator<int> si(s, 0);
-  si++;
-  si++;
-  si++;
-  EXPECT_PRECOND_ERROR(si++);
 }
 
 
@@ -688,16 +634,6 @@ TEST_F(test_span, iterator_post_sum)
 
 
 
-TEST_F(test_span_death_test, iterator_post_sum_error_overflow)
-{
-  std::array<int, 3u> v{1, 2, 3};
-  span<int> s(v);
-  span_iterator<int> si(s, 0);
-  EXPECT_PRECOND_ERROR(si + 4);
-}
-
-
-
 TEST_F(test_span, iterator_pre_sum)
 {
   std::array<int, 3u> v{1, 2, 3};
@@ -705,16 +641,6 @@ TEST_F(test_span, iterator_pre_sum)
   span_iterator<int> si(s, 0);
   span_iterator<int> si_sum = 2 + si;
   EXPECT_EQ(s[2], *si_sum);
-}
-
-
-
-TEST_F(test_span_death_test, iterator_pre_sum_error_overflow)
-{
-  std::array<int, 3u> v{1, 2, 3};
-  span<int> s(v);
-  span_iterator<int> si(s, 0);
-  EXPECT_PRECOND_ERROR(4 + si);
 }
 
 
@@ -731,16 +657,6 @@ TEST_F(test_span, iterator_assignment_difference)
 
 
 
-TEST_F(test_span_death_test, iterator_assignment_difference_error_underflow)
-{
-  std::array<int, 3u> v{1, 2, 3};
-  span<int> s(v);
-  span_iterator<int> si(s, 1);
-  EXPECT_PRECOND_ERROR(si -= 2);
-}
-
-
-
 TEST_F(test_span, iterator_pre_decrement)
 {
   std::array<int, 3u> v{1, 2, 3};
@@ -749,19 +665,6 @@ TEST_F(test_span, iterator_pre_decrement)
   EXPECT_EQ(s[2], *--si);
   EXPECT_EQ(s[1], *--si);
   EXPECT_EQ(s[0], *--si);
-}
-
-
-
-TEST_F(test_span_death_test, iterator_pre_decrement_error_overflow)
-{
-  std::array<int, 3u> v{1, 2, 3};
-  span<int> s(v);
-  span_iterator<int> si(s, 3);
-  --si;
-  --si;
-  --si;
-  EXPECT_PRECOND_ERROR(--si);
 }
 
 
@@ -779,19 +682,6 @@ TEST_F(test_span, iterator_post_decrement)
 
 
 
-TEST_F(test_span_death_test, iterator_post_decrement_error_underflow)
-{
-  std::array<int, 3u> v{1, 2, 3};
-  span<int> s(v);
-  span_iterator<int> si(s, 3);
-  --si;
-  --si;
-  --si;
-  EXPECT_PRECOND_ERROR(si--);
-}
-
-
-
 TEST_F(test_span, iterator_difference)
 {
   std::array<int, 3u> v{1, 2, 3};
@@ -799,16 +689,6 @@ TEST_F(test_span, iterator_difference)
   span_iterator<int> si(s, 3);
   span_iterator<int> si_difference = si - 2;
   EXPECT_EQ(s[1], *si_difference);
-}
-
-
-
-TEST_F(test_span_death_test, iterator_difference_error_underflow)
-{
-  std::array<int, 3u> v{1, 2, 3};
-  span<int> s(v);
-  span_iterator<int> si(s, 2);
-  EXPECT_PRECOND_ERROR(si - 3);
 }
 
 
@@ -822,31 +702,6 @@ TEST_F(test_span, iterator_difference_with_another_iterator)
   span_iterator<int> si3(s, 4);
   EXPECT_EQ(3, si2 - si1);
   EXPECT_EQ(0, si3 - si2);
-}
-
-
-
-TEST_F(test_span, iterator_difference_with_another_iterator_error_underflow)
-{
-  std::array<int, 5u> v{1, 2, 3, 4, 5};
-  span<int> s(v);
-  span_iterator<int> si1(s, 1);
-  span_iterator<int> si2(s, 4);
-  EXPECT_PRECOND_ERROR(si1 - si2);
-}
-
-
-
-TEST_F(
-  test_span, iterator_difference_with_another_iterator_error_different_spans)
-{
-  std::array<int, 5u> v1{1, 2, 3, 4, 5};
-  std::array<int, 5u> v2{1, 2, 3, 4, 5};
-  span<int> s1(v1);
-  span<int> s2(v2);
-  span_iterator<int> si1(s1, 1);
-  span_iterator<int> si2(s2, 4);
-  EXPECT_PRECOND_ERROR(si2 - si1);
 }
 
 
@@ -884,17 +739,6 @@ TEST_F(test_span, iterator_element_access_operator_write)
   EXPECT_EQ(s[2], si[1]);
   EXPECT_EQ(8, si[0]);
   EXPECT_EQ(9, si[1]);
-}
-
-
-
-TEST_F(
-  test_span_death_test, iterator_element_access_operator_error_out_of_bounds)
-{
-  std::array<int, 3u> v{1, 2, 3};
-  span<int> s(v);
-  span_iterator<int> si(s, 1);
-  EXPECT_PRECOND_ERROR(si[2]);
 }
 
 
@@ -1024,4 +868,14 @@ TEST_F(test_span_death_test, reinterpret_span_error_incompatible_sizes)
                                    obj_2_bytes(5u, 6u), obj_2_bytes(7u, 8u)};
   span<const obj_2_bytes> span2(v);
   EXPECT_PRECOND_ERROR(reinterpret_span<const obj_3_bytes>(span2));
+}
+
+
+
+TEST_F(test_span_death_test, empty_vector_constructor)
+{
+  std::vector<int> v;
+  EXPECT_TRUE(v.empty());
+  span<int> s(v);
+  EXPECT_EQ(0u, s.size());
 }

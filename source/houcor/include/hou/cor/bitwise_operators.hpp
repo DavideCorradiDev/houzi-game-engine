@@ -7,6 +7,8 @@
 
 #include "hou/cor/basic_types.hpp"
 
+#include "hou/cor/cor_export.hpp"
+
 #include <type_traits>
 
 
@@ -41,7 +43,7 @@ struct enable_bitwise_operators
  */
 template <typename T>
 typename std::enable_if<enable_bitwise_operators<T>::enable, T>::type operator|(
-  T lhs, T rhs)
+  T lhs, T rhs) noexcept
 {
   using utype = typename std::underlying_type<T>::type;
   return static_cast<T>(static_cast<utype>(lhs) | static_cast<utype>(rhs));
@@ -60,7 +62,7 @@ typename std::enable_if<enable_bitwise_operators<T>::enable, T>::type operator|(
  */
 template <typename T>
 typename std::enable_if<enable_bitwise_operators<T>::enable, T&>::type
-  operator|=(T& lhs, T rhs)
+  operator|=(T& lhs, T rhs) noexcept
 {
   return lhs = lhs | rhs;
 }
@@ -77,7 +79,7 @@ typename std::enable_if<enable_bitwise_operators<T>::enable, T&>::type
  */
 template <typename T>
 typename std::enable_if<enable_bitwise_operators<T>::enable, T>::type operator&(
-  T lhs, T rhs)
+  T lhs, T rhs) noexcept
 {
   using utype = typename std::underlying_type<T>::type;
   return static_cast<T>(static_cast<utype>(lhs) & static_cast<utype>(rhs));
@@ -96,7 +98,7 @@ typename std::enable_if<enable_bitwise_operators<T>::enable, T>::type operator&(
  */
 template <typename T>
 typename std::enable_if<enable_bitwise_operators<T>::enable, T&>::type
-  operator&=(T& lhs, T rhs)
+  operator&=(T& lhs, T rhs) noexcept
 {
   return lhs = lhs & rhs;
 }
@@ -113,7 +115,7 @@ typename std::enable_if<enable_bitwise_operators<T>::enable, T&>::type
  */
 template <typename T>
 typename std::enable_if<enable_bitwise_operators<T>::enable, bool>::type
-  check_bit(T bitfield, T bit)
+  check_bit(T bitfield, T bit) noexcept
 {
   return (bitfield & bit) == bit;
 }

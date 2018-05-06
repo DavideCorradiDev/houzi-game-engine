@@ -5,11 +5,10 @@
 #ifndef HOU_COR_STOPWATCH_HPP
 #define HOU_COR_STOPWATCH_HPP
 
-#include "hou/cor/cor_export.hpp"
-
 #include "hou/cor/basic_types.hpp"
-
 #include "hou/cor/clock.hpp"
+
+#include "hou/cor/cor_export.hpp"
 
 
 
@@ -29,44 +28,44 @@ public:
    *
    * \return the resolution in nanoseconds.
    */
-  static std::chrono::nanoseconds get_resolution();
+  static std::chrono::nanoseconds get_resolution() noexcept;
 
 public:
   /** Creates a stopwatch object.
    *
    * When created the stopwatch is not running.
    */
-  stopwatch();
+  stopwatch() noexcept;
 
   /** Returns the elapsed time.
    *
    * \return the elapsed time.
    */
-  std::chrono::nanoseconds get_elapsed_time() const;
+  std::chrono::nanoseconds get_elapsed_time() const noexcept;
 
   /** Checks if the stopwatch is currently running or not.
    *
    * \return true if the stopwatch is running.
    */
-  bool is_running() const;
+  bool is_running() const noexcept;
 
   /** Starts the stopwatch.
    *
    * \return the elapsed time when starting.
    */
-  std::chrono::nanoseconds start();
+  std::chrono::nanoseconds start() noexcept;
 
   /** Pauses the stopwatch.
    *
    * \return the elapsed time when pausing.
    */
-  std::chrono::nanoseconds pause();
+  std::chrono::nanoseconds pause() noexcept;
 
   /** Resets the stopwatch.
    *
    * \return the elapsed time before resetting.
    */
-  std::chrono::nanoseconds reset();
+  std::chrono::nanoseconds reset() noexcept;
 
   /** Stops the stopwatch.
    *
@@ -74,7 +73,7 @@ public:
    *
    * \return the elapsed time before stopping.
    */
-  std::chrono::nanoseconds stop();
+  std::chrono::nanoseconds stop() noexcept;
 
 private:
   clock m_clock;

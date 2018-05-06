@@ -6,7 +6,8 @@ namespace hou
 {
 
 template <typename T, typename U, typename Enable>
-bool close(const std::vector<U>& lhs, const std::vector<U>& rhs, T acc)
+constexpr bool close(
+  const std::vector<U>& lhs, const std::vector<U>& rhs, T acc) noexcept
 {
   return lhs.size() == rhs.size()
     && container_close(lhs.begin(), lhs.end(), rhs.begin(), acc);

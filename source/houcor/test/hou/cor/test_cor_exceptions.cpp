@@ -37,3 +37,11 @@ TEST_F(test_cor_exceptions, underflow_error)
   underflow_error ex("foo.cpp", 42u);
   EXPECT_STREQ("foo.cpp:42 - Numeric underflow.", ex.what());
 }
+
+
+
+TEST_F(test_cor_exceptions, out_of_range)
+{
+  out_of_range ex("foo.cpp", 42u, 50u);
+  EXPECT_STREQ("foo.cpp:42 - Index out of range(50).", ex.what());
+}

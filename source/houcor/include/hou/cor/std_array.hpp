@@ -5,9 +5,9 @@
 #ifndef HOU_COR_STD_ARRAY_HPP
 #define HOU_COR_STD_ARRAY_HPP
 
-#include "hou/cor/cor_export.hpp"
-
 #include "hou/cor/core_functions.hpp"
+
+#include "hou/cor/cor_export.hpp"
 
 #include <array>
 
@@ -35,8 +35,8 @@ namespace hou
  */
 template <typename T, typename U, std::size_t N,
   typename Enable = std::enable_if_t<std::is_floating_point<T>::value>>
-bool close(const std::array<U, N>& lhs, const std::array<U, N>& rhs,
-  T acc = std::numeric_limits<T>::epsilon());
+constexpr bool close(const std::array<U, N>& lhs, const std::array<U, N>& rhs,
+  T acc = std::numeric_limits<T>::epsilon()) noexcept;
 
 /** Outputs a std::array to the given stream.
  *

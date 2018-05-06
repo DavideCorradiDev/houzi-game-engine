@@ -46,6 +46,25 @@ public:
   underflow_error(const std::string& path, uint line);
 };
 
+/** Out of range error.
+ *
+ * This exception is thrown when an index out of range is passed to a container
+ * function.
+ */
+class HOU_COR_API out_of_range : public exception
+{
+public:
+  /** Creates an underflow_error object.
+   *
+   * \param path the path to the source file where the error happened.
+   *
+   * \param line the line where the error happened.
+   *
+   * \param index the index.
+   */
+  out_of_range(const std::string& path, uint line, size_t index);
+};
+
 }  // namespace hou
 
 #endif

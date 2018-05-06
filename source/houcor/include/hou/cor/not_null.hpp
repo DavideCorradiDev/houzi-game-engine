@@ -7,8 +7,6 @@
 
 #include "hou/cor/cor_export.hpp"
 
-#include "hou/cor/assertions.hpp"
-
 #include <type_traits>
 
 
@@ -29,7 +27,7 @@ class HOU_COR_API not_null
 {
 public:
   static_assert(std::is_assignable<PtrType&, std::nullptr_t>::value,
-    "PtrType cannot be assigned nullptr.");
+    "PtrType cannot be nullptr.");
 
 public:
   /** Converting move constructor.
@@ -43,7 +41,7 @@ public:
   template <typename OtherPtrType,
     typename Enable
     = std::enable_if_t<std::is_convertible<OtherPtrType, PtrType>::value>>
-  not_null(OtherPtrType&& other);
+  constexpr not_null(OtherPtrType&& other) noexcept;
 
   /** Converting constructor.
    *
@@ -56,7 +54,7 @@ public:
   template <typename OtherPtrType,
     typename Enable
     = std::enable_if_t<std::is_convertible<OtherPtrType, PtrType>::value>>
-  not_null(const not_null<OtherPtrType>& other);
+  constexpr not_null(const not_null<OtherPtrType>& other) noexcept;
 
   /** Deleted default constructor.
    */
@@ -74,25 +72,25 @@ public:
    *
    * \return a const reference to the wrapped object.
    */
-  const PtrType& get() const;
+  constexpr const PtrType& get() const noexcept;
 
   /** Returns a reference to the wrapped object.
    *
    * \return a reference to the wrapped object.
    */
-  PtrType& get();
+  constexpr PtrType& get() noexcept;
 
   /** Member access operator.
    *
    * Enables not_null to work transparently as a pointer.
    */
-  decltype(auto) operator-> () const;
+  constexpr decltype(auto) operator-> () const noexcept;
 
   /** Member access operator.
    *
    * Enables not_null to work transparently as a pointer.
    */
-  decltype(auto) operator-> ();
+  constexpr decltype(auto) operator-> () noexcept;
 
   /** Unary dereference operator.
    *
@@ -100,7 +98,7 @@ public:
    *
    * \return a reference to the pointed object.
    */
-  decltype(auto) operator*() const;
+  constexpr decltype(auto) operator*() const noexcept;
 
   /** Converts to the underlying pointer type.
    *
@@ -108,7 +106,7 @@ public:
    *
    * \return a copy of the underlying pointer of type PtrType.
    */
-  operator PtrType() const;
+  constexpr operator PtrType() const noexcept;
 
 private:
   PtrType m_ptr;

@@ -2,7 +2,8 @@ namespace hou
 {
 
 template <typename T, typename InputIt1, typename InputIt2, typename Enable>
-bool container_close(InputIt1 begin1, InputIt1 end1, InputIt2 begin2, T acc)
+constexpr bool container_close(
+  InputIt1 begin1, InputIt1 end1, InputIt2 begin2, T acc) noexcept
 {
   for(; begin1 != end1; ++begin1, ++begin2)
   {

@@ -5,10 +5,11 @@
 #ifndef HOU_COR_SPAN_HPP
 #define HOU_COR_SPAN_HPP
 
-#include "hou/cor/cor_export.hpp"
-
 #include "hou/cor/assertions.hpp"
+#include "hou/cor/cor_exceptions.hpp"
 #include "hou/cor/template_utils.hpp"
+
+#include "hou/cor/cor_export.hpp"
 
 #include <iostream>
 
@@ -82,27 +83,27 @@ public:
 public:
   /** Builds a span pointing to no data.
    */
-  span();
+  constexpr span() noexcept;
 
   /** Builds a span from the given pointer and size.
-   *
-   * Throws if data is nullptr and size is not 0.
    *
    * \param data the pointer to the beginning of the data buffer.
    *
    * \param size the size of the data buffer.
+   *
+   * \throws hou::precondition_violation if data is nullptr and size is not 0.
    */
-  span(pointer data, size_type size);
+  constexpr span(pointer data, size_type size);
 
   /** Builds a span from the given pointer to begin and end of the data buffer.
-   *
-   * Throws if first or last is nullptr.
    *
    * \param first a pointer to the begin of the data buffer.
    *
    * \param last a pointer to the end of the data buffer.
+   *
+   * \throws hou::precondition_violation if first or last is nullptr.
    */
-  span(pointer first, pointer last);
+  constexpr span(pointer first, pointer last);
 
   /** Builds a span from a constant container using contiguous memory.
    *
@@ -117,7 +118,7 @@ public:
       && !std::is_const<Container>::value && !is_span<Container>::value
       && std::is_convertible<typename Container::pointer, pointer>::value
       && is_contiguous_container<Container>::value>>
-  span(const Container& c);
+  constexpr span(const Container& c) noexcept;
 
   /** Builds a span from a container using contiguous memory.
    *
@@ -132,57 +133,70 @@ public:
       && !is_span<Container>::value
       && std::is_convertible<typename Container::pointer, pointer>::value
       && is_contiguous_container<Container>::value>>
-  span(Container& c);
+  constexpr span(Container& c) noexcept;
 
   /** Gets a pointer to the begin of the data buffer.
    *
    * \return a pointer to the begin of the data buffer.
    */
-  constexpr pointer data() const;
+  constexpr pointer data() const noexcept;
 
   /** Gets the number of elements in the buffer.
    *
    * \return the number of elements in the buffer.
    */
-  constexpr size_type size() const;
+  constexpr size_type size() const noexcept;
 
   /** Access an element in the buffer.
    *
    * \param idx the index of the element.
    *
+   * \throws hou::out_of_range if idx is not lower than the size.
+   *
    * \return a reference to the requested element.
    */
-  constexpr reference operator[](size_type idx) const;
+  constexpr reference at(size_type idx) const;
+
+  /** Access an element in the buffer.
+   *
+   * Passing an idx greater or equal than the span size results in undefined
+   * behaviour.
+   *
+   * \param idx the index of the element.
+   *
+   * \return a reference to the requested element.
+   */
+  constexpr reference operator[](size_type idx) const noexcept;
 
   /** Gets an iterator to the first element of the buffer.
    *
    * \return an iterator to the first element of the buffer.
    */
-  constexpr iterator begin() const;
+  constexpr iterator begin() const noexcept;
 
   /** Gets a const iterator to the first element of the buffer.
    *
    * \return const iterator to the first element of the buffer.
    */
-  constexpr const_iterator cbegin() const;
+  constexpr const_iterator cbegin() const noexcept;
 
   /** Gets a reverse iterator to the first element of the buffer.
    *
    * \return reverse iterator to the first element of the buffer.
    */
-  constexpr reverse_iterator rbegin() const;
+  constexpr reverse_iterator rbegin() const noexcept;
 
   /** Gets a constant reverse iterator to the first element of the buffer.
    *
    * \return constant reverse iterator to the first element of the buffer.
    */
-  constexpr const_reverse_iterator crbegin() const;
+  constexpr const_reverse_iterator crbegin() const noexcept;
 
   /** Gets an iterator to the position after the last element of the buffer.
    *
    * \return an iterator to the position after the last element of the buffer.
    */
-  constexpr iterator end() const;
+  constexpr iterator end() const noexcept;
 
   /** Gets a constant iterator to the position after the last element of the
    * buffer.
@@ -190,7 +204,7 @@ public:
    * \return a constant iterator to the position after the last element of the
    * buffer.
    */
-  constexpr const_iterator cend() const;
+  constexpr const_iterator cend() const noexcept;
 
   /** Gets a reverse iterator to the position after the last element of the
    * buffer.
@@ -198,7 +212,7 @@ public:
    * \return a reverse iterator to the position after the last element of the
    * buffer.
    */
-  constexpr reverse_iterator rend() const;
+  constexpr reverse_iterator rend() const noexcept;
 
   /** Gets a constant reverse iterator to the position after the last element of
    * the buffer.
@@ -206,7 +220,7 @@ public:
    * \return a constant reverse iterator to the position after the last element
    * of the buffer.
    */
-  constexpr const_reverse_iterator crend() const;
+  constexpr const_reverse_iterator crend() const noexcept;
 
 private:
   pointer m_data;
@@ -227,7 +241,7 @@ private:
  * \return true if the two span objects are equal.
  */
 template <typename T>
-bool operator==(const span<T>& lhs, const span<T>& rhs);
+constexpr bool operator==(const span<T>& lhs, const span<T>& rhs) noexcept;
 
 /** Checks if two span objects are not equal.
  *
@@ -243,7 +257,7 @@ bool operator==(const span<T>& lhs, const span<T>& rhs);
  * \return true if the two span objects are not equal.
  */
 template <typename T>
-bool operator!=(const span<T>& lhs, const span<T>& rhs);
+constexpr bool operator!=(const span<T>& lhs, const span<T>& rhs) noexcept;
 
 /** Outsputs a span object into a stream.
  *
@@ -260,19 +274,18 @@ std::ostream& operator<<(std::ostream& os, const span<T>& s);
 
 /** Reinterprets the span as a span with a different underlying type.
  *
- * Throws if the size of the input span in bytes is not divisible by the size
- * of Out.
- *
  * \tparam Out the output type.
  *
  * \tparam In the input type.
  *
  * \param in the input span.
  *
+ * \throws hou::precondition_violation if sizeof(In) % sizeof(Out) != 0
+ *
  * \return the input span reinterpreted with Out as underlying type.
  */
 template <typename Out, typename In>
-span<Out> reinterpret_span(const span<In>& in);
+constexpr span<Out> reinterpret_span(const span<In>& in);
 
 
 
@@ -314,81 +327,75 @@ public:
   using pointer = typename span<T>::pointer;
 
 public:
-  constexpr span_iterator(const span<T>& span, size_type index);
+  constexpr span_iterator(const span<T>& span, size_type index) noexcept;
 
-  constexpr reference operator*() const;
-  constexpr pointer operator->() const;
-  constexpr span_iterator& operator+=(difference_type rhs);
-  constexpr span_iterator& operator++();
-  constexpr span_iterator operator++(int);
-  constexpr span_iterator& operator-=(difference_type rhs);
-  constexpr span_iterator& operator--();
-  constexpr span_iterator operator--(int);
-  constexpr reference operator[](difference_type offset) const;
+  constexpr reference operator*() const noexcept;
+  constexpr pointer operator->() const noexcept;
+  constexpr span_iterator& operator+=(difference_type rhs) noexcept;
+  constexpr span_iterator& operator++() noexcept;
+  constexpr span_iterator operator++(int) noexcept;
+  constexpr span_iterator& operator-=(difference_type rhs) noexcept;
+  constexpr span_iterator& operator--() noexcept;
+  constexpr span_iterator operator--(int) noexcept;
+  constexpr reference operator[](difference_type offset) const noexcept;
 
   friend constexpr span_iterator operator+(
-    span_iterator lhs, difference_type rhs)
+    span_iterator lhs, difference_type rhs) noexcept
   {
     return lhs += rhs;
   }
 
   friend constexpr span_iterator operator+(
-    difference_type lhs, span_iterator rhs)
+    difference_type lhs, span_iterator rhs) noexcept
   {
     return rhs += lhs;
   }
 
   friend constexpr span_iterator operator-(
-    span_iterator lhs, difference_type rhs)
+    span_iterator lhs, difference_type rhs) noexcept
   {
     return lhs -= rhs;
   }
 
   friend constexpr difference_type operator-(
-    const span_iterator& lhs, const span_iterator& rhs)
+    const span_iterator& lhs, const span_iterator& rhs) noexcept
   {
-    HOU_PRECOND(lhs.m_span == rhs.m_span);
-    HOU_PRECOND(lhs.m_index >= rhs.m_index);
     return lhs.m_index - rhs.m_index;
   }
 
   friend constexpr bool operator==(
-    const span_iterator& lhs, const span_iterator& rhs)
+    const span_iterator& lhs, const span_iterator& rhs) noexcept
   {
     return lhs.m_span == rhs.m_span && lhs.m_index == rhs.m_index;
   }
 
   friend constexpr bool operator!=(
-    const span_iterator& lhs, const span_iterator& rhs)
+    const span_iterator& lhs, const span_iterator& rhs) noexcept
   {
     return !(lhs == rhs);
   }
 
   friend constexpr bool operator<(
-    const span_iterator& lhs, const span_iterator& rhs)
+    const span_iterator& lhs, const span_iterator& rhs) noexcept
   {
-    HOU_PRECOND(lhs.m_span == rhs.m_span);
     return lhs.m_index < rhs.m_index;
   }
 
   friend constexpr bool operator<=(
-    const span_iterator& lhs, const span_iterator& rhs)
+    const span_iterator& lhs, const span_iterator& rhs) noexcept
   {
-    HOU_PRECOND(lhs.m_span == rhs.m_span);
     return lhs.m_index <= rhs.m_index;
   }
 
   friend constexpr bool operator>(
-    const span_iterator& lhs, const span_iterator& rhs)
+    const span_iterator& lhs, const span_iterator& rhs) noexcept
   {
-    HOU_PRECOND(lhs.m_span == rhs.m_span);
     return lhs.m_index > rhs.m_index;
   }
 
   friend constexpr bool operator>=(
-    const span_iterator& lhs, const span_iterator& rhs)
+    const span_iterator& lhs, const span_iterator& rhs) noexcept
   {
-    HOU_PRECOND(lhs.m_span == rhs.m_span);
     return lhs.m_index >= rhs.m_index;
   }
 

@@ -25,11 +25,13 @@ public:
    *
    * The constructor is not thread safe.
    */
-  uid_generator(uint32_t starting_value);
+  uid_generator(uint32_t starting_value) noexcept;
 
   /** Generates a unique identifier.
    *
    * Calling this function is thread safe.
+   *
+   * \throws hou::overflow_error if the uid generator counter overflows.
    */
   uint32_t generate();
 

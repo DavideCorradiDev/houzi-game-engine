@@ -5,9 +5,9 @@
 #ifndef HOU_COR_TEMPLATE_UTILS_HPP
 #define HOU_COR_TEMPLATE_UTILS_HPP
 
-#include "hou/cor/cor_export.hpp"
-
 #include "hou/cor/basic_types.hpp"
+
+#include "hou/cor/cor_export.hpp"
 
 #include <type_traits>
 
