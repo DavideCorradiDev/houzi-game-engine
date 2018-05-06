@@ -242,7 +242,7 @@ TEST_F(test_file, read_buffer_binary)
   size_t i = 0;
   while(f.read(buf.data(), buf.size()) == buf.size())
   {
-    HOU_EXPECT_ARRAY_EQ(file_content.substr(i * buf.size(), buf.size()).data(),
+    EXPECT_ARRAY_EQ(file_content.substr(i * buf.size(), buf.size()).data(),
       buf.data(), buf.size());
     ++i;
   }
@@ -271,7 +271,7 @@ TEST_F(test_file, read_string_binary)
   size_t i = 0;
   while(f.read(buf) == buf.size())
   {
-    HOU_EXPECT_ARRAY_EQ(file_content.substr(i * buf.size(), buf.size()).data(),
+    EXPECT_ARRAY_EQ(file_content.substr(i * buf.size(), buf.size()).data(),
       buf.data(), buf.size());
     ++i;
   }
@@ -300,7 +300,7 @@ TEST_F(test_file, read_container_binary)
   size_t i = 0;
   while(f.read(buf) == buf.size())
   {
-    HOU_EXPECT_ARRAY_EQ(file_content.substr(i * buf.size(), buf.size()).data(),
+    EXPECT_ARRAY_EQ(file_content.substr(i * buf.size(), buf.size()).data(),
       buf.data(), buf.size());
     ++i;
   }

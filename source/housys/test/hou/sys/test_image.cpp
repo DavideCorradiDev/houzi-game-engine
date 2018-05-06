@@ -679,7 +679,7 @@ TYPED_TEST(test_image, output_stream_operator)
   ss << "{size_type = " << transpose(size_ref) << ", pixels = " << pixels_ref
      << "}";
 
-  HOU_EXPECT_OUTPUT(ss.str().c_str(), image);
+  EXPECT_OUTPUT(ss.str().c_str(), image);
 }
 
 

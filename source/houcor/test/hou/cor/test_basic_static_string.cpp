@@ -78,7 +78,7 @@ TYPED_TEST(test_basic_static_string, czstr_constructor)
   EXPECT_EQ(3u, s.length());
   EXPECT_EQ(4u, s.capacity());
   EXPECT_EQ(3u, string4::traits_type::length(s.c_str()));
-  HOU_EXPECT_ARRAY_EQ(czstr, s, s.size());
+  EXPECT_ARRAY_EQ(czstr, s, s.size());
 }
 
 
@@ -95,7 +95,7 @@ TYPED_TEST(test_basic_static_string, czstr_constructor_trim)
   EXPECT_EQ(4u, s.length());
   EXPECT_EQ(4u, s.capacity());
   EXPECT_EQ(4u, string4::traits_type::length(s.c_str()));
-  HOU_EXPECT_ARRAY_EQ(czstr, s, s.size());
+  EXPECT_ARRAY_EQ(czstr, s, s.size());
 }
 
 
@@ -112,7 +112,7 @@ TYPED_TEST(test_basic_static_string, string_constructor)
   EXPECT_EQ(3u, s.length());
   EXPECT_EQ(4u, s.capacity());
   EXPECT_EQ(3u, string4::traits_type::length(s.c_str()));
-  HOU_EXPECT_ARRAY_EQ(stdstr, s, s.size());
+  EXPECT_ARRAY_EQ(stdstr, s, s.size());
 }
 
 
@@ -129,7 +129,7 @@ TYPED_TEST(test_basic_static_string, string_constructor_trim)
   EXPECT_EQ(4u, s.length());
   EXPECT_EQ(4u, s.capacity());
   EXPECT_EQ(4u, string4::traits_type::length(s.c_str()));
-  HOU_EXPECT_ARRAY_EQ(stdstr, s, s.size());
+  EXPECT_ARRAY_EQ(stdstr, s, s.size());
 }
 
 

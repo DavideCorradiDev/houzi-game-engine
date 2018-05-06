@@ -75,6 +75,6 @@ TEST_F(test_std_array, array_double_close)
 TEST_F(test_std_array, array_output_stream_operator)
 {
   std::array<float, 3u> v{1.f, 2.5, -12.71f};
-  HOU_EXPECT_OUTPUT("{1, 2.5, -12.71}", v);
+  EXPECT_OUTPUT("{1, 2.5, -12.71}", v);
 }
 

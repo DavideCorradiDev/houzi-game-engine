@@ -155,5 +155,5 @@ TEST_F(test_video_mode, output_stream_operator)
 {
   video_mode vm(vec2u(300u, 400u), 8u);
   const char* output_ref = "{resolution = (300, 400), bytes_per_pixel = 8}";
-  HOU_EXPECT_OUTPUT(output_ref, vm);
+  EXPECT_OUTPUT(output_ref, vm);
 }

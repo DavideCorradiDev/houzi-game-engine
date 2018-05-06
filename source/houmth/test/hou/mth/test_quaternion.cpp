@@ -92,7 +92,7 @@ TEST_F(test_quaternion, data)
 {
   quatf q{1.f, 2.f, 3.f, 4.f};
   float data_ref[] = {1.f, 2.f, 3.f, 4.f};
-  HOU_EXPECT_ARRAY_FLOAT_CLOSE(data_ref, q.data(), 4u);
+  EXPECT_ARRAY_FLOAT_CLOSE(data_ref, q.data(), 4u);
 }
 
 
@@ -223,10 +223,10 @@ TEST_F(test_quaternion, inversion)
 {
   quatf q(2.f, -1.f, -3.f, 4.f);
   quatf qInv = inverse(q);
-  HOU_EXPECT_FLOAT_CLOSE(quatf(-2.f, 1.f, 3.f, 4.f) / 30.f, qInv);
-  HOU_EXPECT_FLOAT_CLOSE(quatf::identity(), q * qInv);
+  EXPECT_FLOAT_CLOSE(quatf(-2.f, 1.f, 3.f, 4.f) / 30.f, qInv);
+  EXPECT_FLOAT_CLOSE(quatf::identity(), q * qInv);
   q.invert();
-  HOU_EXPECT_FLOAT_CLOSE(quatf(-2.f, 1.f, 3.f, 4.f) / 30.f, q);
+  EXPECT_FLOAT_CLOSE(quatf(-2.f, 1.f, 3.f, 4.f) / 30.f, q);
 }
 
 
@@ -243,9 +243,9 @@ TEST_F(test_quaternion, conjugation)
 {
   quatf q(2.f, 4.f, 5.f, -6.f);
   quatf q_conj = conjugate(q);
-  HOU_EXPECT_FLOAT_CLOSE(quatf(-2.f, -4.f, -5.f, -6.f), q_conj);
+  EXPECT_FLOAT_CLOSE(quatf(-2.f, -4.f, -5.f, -6.f), q_conj);
   q.conjugate();
-  HOU_EXPECT_FLOAT_CLOSE(quatf(-2.f, -4.f, -5.f, -6.f), q);
+  EXPECT_FLOAT_CLOSE(quatf(-2.f, -4.f, -5.f, -6.f), q);
 }
 
 
@@ -264,12 +264,12 @@ TEST_F(test_quaternion, normalization)
   quatf q(2.f, 4.f, 5.f, -6.f);
 
   quatf q_norm = normalized(q);
-  HOU_EXPECT_FLOAT_CLOSE(q / 9.f, q_norm);
+  EXPECT_FLOAT_CLOSE(q / 9.f, q_norm);
   EXPECT_FLOAT_EQ(1.f, square_norm(q_norm));
   EXPECT_FLOAT_EQ(1.f, norm(q_norm));
 
   q.normalize();
-  HOU_EXPECT_FLOAT_CLOSE(q_norm, q);
+  EXPECT_FLOAT_CLOSE(q_norm, q);
   EXPECT_FLOAT_EQ(1.f, square_norm(q));
   EXPECT_FLOAT_EQ(1.f, norm(q));
 }
@@ -285,14 +285,14 @@ TEST_F(test_quaternion, normalization_failure_null_norm)
 
 TEST_F(test_quaternion, zero)
 {
-  HOU_EXPECT_FLOAT_CLOSE(quatf(0.f, 0.f, 0.f, 0.f), quatf::zero());
+  EXPECT_FLOAT_CLOSE(quatf(0.f, 0.f, 0.f, 0.f), quatf::zero());
 }
 
 
 
 TEST_F(test_quaternion, identity)
 {
-  HOU_EXPECT_FLOAT_CLOSE(quatf(0.f, 0.f, 0.f, 1.f), quatf::identity());
+  EXPECT_FLOAT_CLOSE(quatf(0.f, 0.f, 0.f, 1.f), quatf::identity());
 }
 
 
@@ -300,5 +300,5 @@ TEST_F(test_quaternion, identity)
 TEST_F(test_quaternion, output_stream_operator)
 {
   quatf q{1.f, 2.f, 3.f, 4.f};
-  HOU_EXPECT_OUTPUT("(1,2,3,4)", q);
+  EXPECT_OUTPUT("(1,2,3,4)", q);
 }

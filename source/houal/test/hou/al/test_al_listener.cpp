@@ -39,11 +39,11 @@ TEST_F(test_al_listener, set_position)
   std::array<ALfloat, 3u> pos_ref{2.f, 5.f, -3.f};
 
   al::get_listener_position(pos.data());
-  HOU_EXPECT_FLOAT_CLOSE(pos_zero, pos);
+  EXPECT_FLOAT_CLOSE(pos_zero, pos);
 
   al::set_listener_position(pos_ref.data());
   al::get_listener_position(pos.data());
-  HOU_EXPECT_FLOAT_CLOSE(pos_ref, pos);
+  EXPECT_FLOAT_CLOSE(pos_ref, pos);
 }
 
 
@@ -55,11 +55,11 @@ TEST_F(test_al_listener, set_velocity)
   std::array<ALfloat, 3u> vel_ref{2.f, 5.f, -3.f};
 
   al::get_listener_velocity(vel.data());
-  HOU_EXPECT_FLOAT_CLOSE(vel_zero, vel);
+  EXPECT_FLOAT_CLOSE(vel_zero, vel);
 
   al::set_listener_velocity(vel_ref.data());
   al::get_listener_velocity(vel.data());
-  HOU_EXPECT_FLOAT_CLOSE(vel_ref, vel);
+  EXPECT_FLOAT_CLOSE(vel_ref, vel);
 }
 
 
@@ -71,9 +71,9 @@ TEST_F(test_al_listener, set_orientation)
   std::array<ALfloat, 6u> ori_ref{2.f, 5.f, -3.f, -4.f, 7.f, 0.f};
 
   al::get_listener_orientation(ori.data());
-  HOU_EXPECT_FLOAT_CLOSE(ori_zero, ori);
+  EXPECT_FLOAT_CLOSE(ori_zero, ori);
 
   al::set_listener_orientation(ori_ref.data());
   al::get_listener_orientation(ori.data());
-  HOU_EXPECT_FLOAT_CLOSE(ori_ref, ori);
+  EXPECT_FLOAT_CLOSE(ori_ref, ori);
 }

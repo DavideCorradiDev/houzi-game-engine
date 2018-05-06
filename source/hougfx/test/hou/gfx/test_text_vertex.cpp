@@ -32,8 +32,8 @@ TEST_F(test_text_vertex, type_size)
 TEST_F(test_text_vertex, default_constructor)
 {
   text_vertex v;
-  HOU_EXPECT_FLOAT_CLOSE(vec2f(0.f, 0.f), v.get_position());
-  HOU_EXPECT_FLOAT_CLOSE(vec3f(0.f, 0.f, 0.f), v.get_texture_coordinates());
+  EXPECT_FLOAT_CLOSE(vec2f(0.f, 0.f), v.get_position());
+  EXPECT_FLOAT_CLOSE(vec3f(0.f, 0.f, 0.f), v.get_texture_coordinates());
 }
 
 
@@ -44,8 +44,8 @@ TEST_F(test_text_vertex, constructor)
   vec3f tc_ref(3.f, 4.f, 5.f);
   text_vertex v(pos_ref, tc_ref);
 
-  HOU_EXPECT_FLOAT_CLOSE(pos_ref, v.get_position());
-  HOU_EXPECT_FLOAT_CLOSE(tc_ref, v.get_texture_coordinates());
+  EXPECT_FLOAT_CLOSE(pos_ref, v.get_position());
+  EXPECT_FLOAT_CLOSE(tc_ref, v.get_texture_coordinates());
 }
 
 
@@ -53,11 +53,11 @@ TEST_F(test_text_vertex, constructor)
 TEST_F(test_text_vertex, set_position)
 {
   text_vertex v;
-  HOU_EXPECT_FLOAT_CLOSE(vec2f(0.f, 0.f), v.get_position());
+  EXPECT_FLOAT_CLOSE(vec2f(0.f, 0.f), v.get_position());
 
   vec2f pos_ref(1.f, 2.f);
   v.set_position(pos_ref);
-  HOU_EXPECT_FLOAT_CLOSE(pos_ref, v.get_position());
+  EXPECT_FLOAT_CLOSE(pos_ref, v.get_position());
 }
 
 
@@ -65,11 +65,11 @@ TEST_F(test_text_vertex, set_position)
 TEST_F(test_text_vertex, set_texture_coordinates)
 {
   text_vertex v;
-  HOU_EXPECT_FLOAT_CLOSE(vec3f(0.f, 0.f, 0.f), v.get_texture_coordinates());
+  EXPECT_FLOAT_CLOSE(vec3f(0.f, 0.f, 0.f), v.get_texture_coordinates());
 
   vec3f tc_ref(3.f, 4.f, 5.f);
   v.set_texture_coordinates(tc_ref);
-  HOU_EXPECT_FLOAT_CLOSE(tc_ref, v.get_texture_coordinates());
+  EXPECT_FLOAT_CLOSE(tc_ref, v.get_texture_coordinates());
 }
 
 
@@ -124,5 +124,5 @@ TEST_F(test_text_vertex, output_stream_operator)
   text_vertex v(vec2f(1.f, 2.f), vec3f(3.f, 4.f, 5.f));
   const char* ref_output
     = "{position = (1, 2), texture_coordinates = (3, 4, 5)}";
-  HOU_EXPECT_OUTPUT(ref_output, v);
+  EXPECT_OUTPUT(ref_output, v);
 }

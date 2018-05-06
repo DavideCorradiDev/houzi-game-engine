@@ -147,5 +147,5 @@ TEST_F(test_vertex_format, output_stream_operator)
       "float_decimal, element_count = 3, byte_offset = 12, must_be_normalized "
       "= false}, {type = float_decimal, element_count = 6, byte_offset = 24, "
       "must_be_normalized = true}}}";
-  HOU_EXPECT_OUTPUT(out_ref, vf);
+  EXPECT_OUTPUT(out_ref, vf);
 }

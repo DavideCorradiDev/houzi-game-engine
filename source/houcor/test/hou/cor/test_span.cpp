@@ -433,7 +433,7 @@ TEST_F(test_span, output_stream_operator)
   span<int> s(v);
   std::stringstream out_ref_stream;
   out_ref_stream << "{address = " << v.data() << ", size_type = 3}";
-  HOU_EXPECT_OUTPUT(out_ref_stream.str().c_str(), s);
+  EXPECT_OUTPUT(out_ref_stream.str().c_str(), s);
 }
 
 

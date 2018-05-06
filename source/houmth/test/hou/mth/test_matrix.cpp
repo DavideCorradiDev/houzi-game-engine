@@ -243,7 +243,7 @@ TEST_F(test_matrix, data)
 {
   mat3x2i m = {1, 2, 3, 4, 5, 6};
   int data_ref[] = {1, 2, 3, 4, 5, 6};
-  HOU_EXPECT_ARRAY_EQ(data_ref, m.data(), m.get_size());
+  EXPECT_ARRAY_EQ(data_ref, m.data(), m.get_size());
 }
 
 
@@ -619,10 +619,10 @@ TEST_F(test_matrix, inverse1x1)
   mat1x1f m = {2.f};
   mat1x1f mInv = inverse(m);
   mat1x1f mInv_ref = {0.5f};
-  HOU_EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
-  HOU_EXPECT_FLOAT_CLOSE(mat1x1f::identity(), m * mInv);
+  EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
+  EXPECT_FLOAT_CLOSE(mat1x1f::identity(), m * mInv);
   m.invert();
-  HOU_EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
+  EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
 }
 
 
@@ -632,10 +632,10 @@ TEST_F(test_matrix, inverse2x2)
   mat2x2f m = {1.f, 2.f, 3.f, 4.f};
   mat2x2f mInv = inverse(m);
   mat2x2f mInv_ref = {-2.f, 1.f, 1.5f, -0.5f};
-  HOU_EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
-  HOU_EXPECT_FLOAT_CLOSE(mat2x2f::identity(), m * mInv);
+  EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
+  EXPECT_FLOAT_CLOSE(mat2x2f::identity(), m * mInv);
   m.invert();
-  HOU_EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
+  EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
 }
 
 
@@ -657,10 +657,10 @@ TEST_F(test_matrix, inverse3x3)
   };
   // clang-format on
   mat3x3f mInv = inverse(m);
-  HOU_EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
-  HOU_EXPECT_FLOAT_CLOSE(mat3x3f::identity(), m * mInv);
+  EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
+  EXPECT_FLOAT_CLOSE(mat3x3f::identity(), m * mInv);
   m.invert();
-  HOU_EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
+  EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
 }
 
 
@@ -786,12 +786,12 @@ TEST_F(test_matrix, normalization_mat3x1f)
   mat3x1f m{3.f, 4.f, 12.f};
 
   mat3x1f mNorm = normalized(m);
-  HOU_EXPECT_FLOAT_CLOSE(m / 13.f, mNorm);
+  EXPECT_FLOAT_CLOSE(m / 13.f, mNorm);
   EXPECT_FLOAT_EQ(1.f, square_norm(mNorm));
   EXPECT_FLOAT_EQ(1.f, norm(mNorm));
 
   m.normalize();
-  HOU_EXPECT_FLOAT_CLOSE(mNorm, m);
+  EXPECT_FLOAT_CLOSE(mNorm, m);
   EXPECT_FLOAT_EQ(1.f, square_norm(m));
   EXPECT_FLOAT_EQ(1.f, norm(m));
 }
@@ -837,6 +837,6 @@ TEST_F(test_matrix, diagonal)
 
 TEST_F(test_matrix, output_stream_operator)
 {
-  HOU_EXPECT_OUTPUT("(0)\n(1)", mat2x1i(0, 1));
-  HOU_EXPECT_OUTPUT("(0, 1)\n(2, 3)\n(4, 5)", mat3x2i(0, 1, 2, 3, 4, 5));
+  EXPECT_OUTPUT("(0)\n(1)", mat2x1i(0, 1));
+  EXPECT_OUTPUT("(0, 1)\n(2, 3)\n(4, 5)", mat3x2i(0, 1, 2, 3, 4, 5));
 }

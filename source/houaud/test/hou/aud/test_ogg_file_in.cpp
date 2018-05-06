@@ -436,14 +436,14 @@ TEST_F(test_ogg_file_in, read_to_basic_array)
   EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(buffer_size, fi.get_read_element_count());
   EXPECT_EQ(buffer_size, fi.get_read_sample_count());
-  HOU_EXPECT_ARRAY_EQ(buffer_ref1, buffer, buffer_size);
+  EXPECT_ARRAY_EQ(buffer_ref1, buffer, buffer_size);
 
   fi.read(buffer, buffer_size);
   buffer_type buffer_ref2[buffer_size] = {11404u, 10203u, 11732u};
   EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(buffer_size, fi.get_read_element_count());
   EXPECT_EQ(buffer_size, fi.get_read_sample_count());
-  HOU_EXPECT_ARRAY_EQ(buffer_ref2, buffer, buffer_size);
+  EXPECT_ARRAY_EQ(buffer_ref2, buffer, buffer_size);
 }
 
 

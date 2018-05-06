@@ -199,5 +199,5 @@ TEST_F(test_mesh, output_stream_operator)
 
   const char out_ref[]
     = "{draw_mode = triangle_strip, fill_mode = fill, vertices = {{1}, {2}}}";
-  HOU_EXPECT_OUTPUT(out_ref, m);
+  EXPECT_OUTPUT(out_ref, m);
 }

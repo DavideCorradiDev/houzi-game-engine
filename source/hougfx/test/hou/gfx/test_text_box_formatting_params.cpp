@@ -26,7 +26,7 @@ TEST_F(test_text_box_formatting_params, constructor)
   text_box_formatting_params tbfp(text_flow_ref, max_size_ref);
 
   EXPECT_EQ(text_flow_ref, tbfp.get_text_flow());
-  HOU_EXPECT_FLOAT_CLOSE(max_size_ref, tbfp.get_max_size());
+  EXPECT_FLOAT_CLOSE(max_size_ref, tbfp.get_max_size());
 }
 
 

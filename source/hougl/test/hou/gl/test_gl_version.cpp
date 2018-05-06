@@ -109,7 +109,7 @@ TEST_F(test_gl_version, comparison)
 TEST_F(test_gl_version, output_stream_operator)
 {
   gl::version glv(4u, 5u);
-  HOU_EXPECT_OUTPUT("4.5", glv);
+  EXPECT_OUTPUT("4.5", glv);
 }
 
 

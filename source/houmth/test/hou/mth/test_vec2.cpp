@@ -95,5 +95,5 @@ TEST_F(test_vec2, dot_product)
 TEST_F(test_vec2, output_stream_operator)
 {
   vec2i v(1, 2);
-  HOU_EXPECT_OUTPUT("(1)\n(2)", v);
+  EXPECT_OUTPUT("(1)\n(2)", v);
 }

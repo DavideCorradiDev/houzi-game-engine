@@ -19,6 +19,7 @@
 
 
 // Error assertions
+
 inline std::string get_exception_msg_regex(const hou::exception& ex)
 {
   std::string what_str = ex.what();
@@ -144,45 +145,9 @@ inline std::string get_exception_msg_regex(const std::exception& ex)
 
 
 
-#if defined(HOU_DISABLE_EXCEPTIONS)
-#define DEPRECATED_HOU_EXPECT_ERROR(statement, exception_type, message)        \
-  {                                                                            \
-    std::stringstream expected_output;                                         \
-    expected_output << #exception_type << " -.*" << hou::escape_regex(message) \
-                    << ".*";                                                   \
-    EXPECT_DEATH(statement, expected_output.str().c_str());                    \
-  }
-#else
-#include <stdexcept>
-#define DEPRECATED_HOU_EXPECT_ERROR(statement, exception_type, message)        \
-  {                                                                            \
-    try                                                                        \
-    {                                                                          \
-      statement;                                                               \
-      ADD_FAILURE() << "Expected: " #statement                                 \
-                       " throws an exception of type " #exception_type         \
-                       ".\n  Actual: it throws nothing.";                      \
-    }                                                                          \
-    catch(const exception_type& e)                                             \
-    {                                                                          \
-      std::stringstream expected_output;                                       \
-      expected_output << ".*" << hou::escape_regex(message) << ".*";           \
-      EXPECT_THAT(                                                             \
-        e.what(), ::testing::MatchesRegex(expected_output.str().c_str()));     \
-    }                                                                          \
-    catch(...)                                                                 \
-    {                                                                          \
-      ADD_FAILURE() << "Expected: " #statement                                 \
-                       " throws an exception of type " #exception_type         \
-                       ".\n  Actual: it throws a different type.";             \
-    }                                                                          \
-  }
-#endif
-
-
-
 // Array check assertion.
-#define HOU_EXPECT_ARRAY_EQ(lhs, rhs, size)                                    \
+
+#define EXPECT_ARRAY_EQ(lhs, rhs, size)                                        \
   do                                                                           \
   {                                                                            \
     for(size_t macro_i = 0; macro_i < size; ++macro_i)                         \
@@ -203,9 +168,7 @@ inline std::string get_exception_msg_regex(const std::exception& ex)
     }                                                                          \
   } while(false)
 
-
-
-#define HOU_EXPECT_ARRAY_CLOSE(lhs, rhs, size, prec)                           \
+#define EXPECT_ARRAY_CLOSE(lhs, rhs, size, prec)                               \
   do                                                                           \
   {                                                                            \
     for(size_t macro_i = 0; macro_i < size; ++macro_i)                         \
@@ -227,15 +190,14 @@ inline std::string get_exception_msg_regex(const std::exception& ex)
     }                                                                          \
   } while(false)
 
-
-
-#define HOU_EXPECT_ARRAY_FLOAT_CLOSE(lhs, rhs, size)                           \
-  HOU_EXPECT_ARRAY_CLOSE(lhs, rhs, size, std::numeric_limits<float>::epsilon())
+#define EXPECT_ARRAY_FLOAT_CLOSE(lhs, rhs, size)                               \
+  EXPECT_ARRAY_CLOSE(lhs, rhs, size, std::numeric_limits<float>::epsilon())
 
 
 
 // Floating point comparisons assertions.
-#define HOU_EXPECT_CLOSE(lhs, rhs, prec)                                       \
+
+#define EXPECT_CLOSE(lhs, rhs, prec)                                           \
   do                                                                           \
   {                                                                            \
     if(!close(lhs, rhs, prec))                                                 \
@@ -254,14 +216,14 @@ inline std::string get_exception_msg_regex(const std::exception& ex)
     }                                                                          \
   } while(false)
 
-
-
-#define HOU_EXPECT_FLOAT_CLOSE(lhs, rhs)                                       \
-  HOU_EXPECT_CLOSE(lhs, rhs, std::numeric_limits<float>::epsilon())
+#define EXPECT_FLOAT_CLOSE(lhs, rhs)                                           \
+  EXPECT_CLOSE(lhs, rhs, std::numeric_limits<float>::epsilon())
 
 
 
-#define HOU_EXPECT_OUTPUT(expected_string, object)                             \
+// Output stream operator assertions.
+
+#define EXPECT_OUTPUT(expected_string, object)                                 \
   {                                                                            \
     std::stringstream stream;                                                  \
     stream << object;                                                          \

@@ -184,7 +184,7 @@ TEST_F(test_binary_file_out, write_basic_array)
   fi.read(buf_in, buffer_size);
   EXPECT_EQ(byte_count, fi.get_byte_count());
   EXPECT_EQ(byte_count, fi.get_read_byte_count());
-  HOU_EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(buf_in),
+  EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(buf_in),
     reinterpret_cast<uint8_t*>(buf_out), byte_count);
 }
 

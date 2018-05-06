@@ -619,8 +619,8 @@ TEST_F(test_character_encodings, utf32_utf16_conversion)
   convert_encoding<utf32, utf16>(utf32_ref, utf32_ref + 4, utf16Str);
   convert_encoding<utf16, utf32>(utf16_ref, utf16_ref + 5, utf32Str);
 
-  HOU_EXPECT_ARRAY_EQ(utf32_ref, utf32Str, 4);
-  HOU_EXPECT_ARRAY_EQ(utf16_ref, utf16Str, 5);
+  EXPECT_ARRAY_EQ(utf32_ref, utf32Str, 4);
+  EXPECT_ARRAY_EQ(utf16_ref, utf16Str, 5);
 }
 
 
@@ -637,8 +637,8 @@ TEST_F(test_character_encodings, utf32_utf8_conversion)
   convert_encoding<utf32, utf8>(utf32_ref, utf32_ref + 4, utf8Str);
   convert_encoding<utf8, utf32>(utf8_ref, utf8_ref + 10, utf32Str);
 
-  HOU_EXPECT_ARRAY_EQ(utf32_ref, utf32Str, 4);
-  HOU_EXPECT_ARRAY_EQ(utf8_ref, utf8Str, 10);
+  EXPECT_ARRAY_EQ(utf32_ref, utf32Str, 4);
+  EXPECT_ARRAY_EQ(utf8_ref, utf8Str, 10);
 }
 
 
@@ -655,8 +655,8 @@ TEST_F(test_character_encodings, utf16_utf8_conversion)
   convert_encoding<utf16, utf8>(utf16_ref, utf16_ref + 5, utf8Str);
   convert_encoding<utf8, utf16>(utf8_ref, utf8_ref + 10, utf16Str);
 
-  HOU_EXPECT_ARRAY_EQ(utf16_ref, utf16Str, 5);
-  HOU_EXPECT_ARRAY_EQ(utf8_ref, utf8Str, 10);
+  EXPECT_ARRAY_EQ(utf16_ref, utf16Str, 5);
+  EXPECT_ARRAY_EQ(utf8_ref, utf8Str, 10);
 }
 
 
