@@ -4,7 +4,7 @@
 
 #include "hou/al/al_object_handle.hpp"
 
-#include "hou/al/al_check.hpp"
+#include "hou/al/al_exceptions.hpp"
 #include "hou/al/al_context.hpp"
 #include "hou/al/al_device.hpp"
 

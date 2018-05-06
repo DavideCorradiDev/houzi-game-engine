@@ -5,9 +5,8 @@
 #include "hou/Test.hpp"
 #include "hou/al/test_al_base.hpp"
 
-#include "hou/al/al_check.hpp"
 #include "hou/al/al_context.hpp"
-#include "hou/al/al_error.hpp"
+#include "hou/al/al_exceptions.hpp"
 #include "hou/al/al_object_handle.hpp"
 
 using namespace hou;
@@ -61,8 +60,7 @@ TEST_F(test_al_check, al_check_error_function)
 TEST_F(test_al_check_death_test, al_check_error_function)
 {
   alGetString(AL_INVERSE_DISTANCE);
-  DEPRECATED_HOU_EXPECT_ERROR(
-    al::check_error("", 0), std::logic_error, get_text(al_error::invalid_enum));
+  EXPECT_ERROR_N(al::check_error("", 0), al::call_error, AL_INVALID_ENUM);
 }
 
 
@@ -80,8 +78,7 @@ TEST_F(test_al_check_death_test, al_check_error_macro)
 {
   alGetString(AL_INVERSE_DISTANCE);
 #ifdef HOU_ENABLE_AL_ERROR_CHECKS
-  DEPRECATED_HOU_EXPECT_ERROR(
-    HOU_AL_CHECK_ERROR(), std::logic_error, get_text(al_error::invalid_enum));
+  EXPECT_ERROR_N(HOU_AL_CHECK_ERROR(), al::call_error, AL_INVALID_ENUM);
 #else
   HOU_AL_CHECK_ERROR();
   SUCCEED();
@@ -102,8 +99,8 @@ TEST_F(test_al_check, al_check_context_error_function)
 TEST_F(test_al_check_death_test, al_check_context_error_function)
 {
   alcGetString(m_device.get_handle(), ALC_MAJOR_VERSION);
-  DEPRECATED_HOU_EXPECT_ERROR(al::check_context_error(m_device, "", 0), std::logic_error,
-    get_text(al_error::invalid_enum));
+  EXPECT_ERROR_N(al::check_context_error(m_device, "", 0),
+    al::context_call_error, ALC_INVALID_ENUM);
 }
 
 
@@ -121,8 +118,8 @@ TEST_F(test_al_check_death_test, al_check_context_error_macro)
 {
   alcGetString(m_device.get_handle(), ALC_MAJOR_VERSION);
 #ifdef HOU_ENABLE_AL_CONTEXT_ERROR_CHECKS
-  DEPRECATED_HOU_EXPECT_ERROR(HOU_AL_CHECK_CONTEXT_ERROR(m_device), std::logic_error,
-    get_text(al_error::invalid_enum));
+  EXPECT_ERROR_N(HOU_AL_CHECK_CONTEXT_ERROR(m_device), al::context_call_error,
+    ALC_INVALID_ENUM);
 #else
   HOU_AL_CHECK_CONTEXT_ERROR(m_device);
   SUCCEED();
@@ -142,8 +139,7 @@ TEST_F(test_al_check, al_check_context_existence_function)
 TEST_F(test_al_check_death_test, al_check_context_existence_function)
 {
   al::context::unset_current();
-  DEPRECATED_HOU_EXPECT_ERROR(al::check_context_existence("", 0), std::logic_error,
-    get_text(al_error::context_existence));
+  EXPECT_ERROR_0(al::check_context_existence("", 0), al::missing_context_error);
 }
 
 
@@ -160,8 +156,7 @@ TEST_F(test_al_check_death_test, al_check_context_existence_macro)
 {
   al::context::unset_current();
 #ifdef HOU_ENABLE_AL_CONTEXT_EXISTENCE_CHECKS
-  DEPRECATED_HOU_EXPECT_ERROR(HOU_AL_CHECK_CONTEXT_EXISTENCE(), std::logic_error,
-    get_text(al_error::context_existence));
+  EXPECT_ERROR_0(HOU_AL_CHECK_CONTEXT_EXISTENCE(), al::missing_context_error);
 #else
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   SUCCEED();
@@ -202,8 +197,8 @@ TEST_F(test_al_check_death_test,
   concrete_device_owned_object_handle o1(1u);
 
   al::context::set_current(c2);
-  DEPRECATED_HOU_EXPECT_ERROR(al::check_context_ownership(o1, "", 0), std::logic_error,
-    get_text(al_error::invalid_ownership));
+  EXPECT_ERROR_0(
+    al::check_context_ownership(o1, "", 0), al::invalid_context_error);
 }
 
 
@@ -243,8 +238,7 @@ TEST_F(test_al_check_death_test,
   al::context::set_current(c2);
 
 #ifdef HOU_ENABLE_AL_CONTEXT_OWNERSHIP_CHECKS
-  DEPRECATED_HOU_EXPECT_ERROR(HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1), std::logic_error,
-    get_text(al_error::invalid_ownership));
+  EXPECT_ERROR_0(HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1), al::invalid_context_error);
 #else
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1);
   SUCCEED();
@@ -285,8 +279,7 @@ TEST_F(test_al_check_death_test,
   concrete_context_owned_object_handle o1(1u);
 
   al::context::set_current(c2);
-  DEPRECATED_HOU_EXPECT_ERROR(al::check_context_ownership(o1, "", 0), std::logic_error,
-    get_text(al_error::invalid_ownership));
+  EXPECT_ERROR_0(al::check_context_ownership(o1, "", 0), al::invalid_context_error);
 }
 
 
@@ -324,8 +317,7 @@ TEST_F(test_al_check_death_test,
 
   al::context::set_current(c2);
 #ifdef HOU_ENABLE_AL_CONTEXT_OWNERSHIP_CHECKS
-  DEPRECATED_HOU_EXPECT_ERROR(HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1), std::logic_error,
-    get_text(al_error::invalid_ownership));
+  EXPECT_ERROR_0(HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1), al::invalid_context_error);
 #else
   HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1);
   SUCCEED();

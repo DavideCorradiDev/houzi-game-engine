@@ -7,12 +7,11 @@
 
 #include "hou/cor/exception.hpp"
 
-#include "hou/cor/basic_types.hpp"
-#include "hou/cor/std_string.hpp"
-
 #include "hou/gl/open_gl.hpp"
 
 #include "hou/gl/gl_export.hpp"
+
+#include "hou/cor/std_string.hpp"
 
 
 

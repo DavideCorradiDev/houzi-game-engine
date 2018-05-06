@@ -32,10 +32,9 @@ INCLUDE_DIRECTORIES(
 # Source files.
 SET(LIB_HOUAL_SRC
   src/hou/al/al_buffer_handle.cpp
-  src/hou/al/al_check.cpp
   src/hou/al/al_context.cpp
   src/hou/al/al_device.cpp
-  src/hou/al/al_error.cpp
+  src/hou/al/al_exceptions.cpp
   src/hou/al/al_listener.cpp
   src/hou/al/al_object_handle.cpp
   src/hou/al/al_source_handle.cpp

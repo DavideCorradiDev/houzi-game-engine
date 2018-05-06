@@ -5,7 +5,7 @@
 #include "hou/Test.hpp"
 
 #include "hou/al/al_device.hpp"
-#include "hou/al/al_error.hpp"
+#include "hou/al/al_exceptions.hpp"
 
 using namespace hou;
 using namespace testing;
@@ -49,9 +49,8 @@ TEST_F(test_al_device, creation)
 TEST_F(test_al_device_death_test, creation_failure)
 {
   std::string invalid_device_name = u8"Invalid device name";
-  DEPRECATED_HOU_EXPECT_ERROR(al::device d(invalid_device_name), std::runtime_error,
-    format_string(
-      get_text(al_error::device_open), invalid_device_name.c_str()));
+  EXPECT_ERROR_N(al::device d(invalid_device_name), al::device_open_error,
+    invalid_device_name);
 }
 
 

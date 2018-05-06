@@ -6,7 +6,7 @@
 #include "hou/al/test_al_base.hpp"
 
 #include "hou/al/al_buffer_handle.hpp"
-#include "hou/al/al_error.hpp"
+#include "hou/al/al_exceptions.hpp"
 
 using namespace hou;
 
@@ -40,6 +40,5 @@ TEST_F(test_al_buffer_handle_death_test, DISABLED_no_context_creation)
 #endif
 {
   al::context::unset_current();
-  DEPRECATED_HOU_EXPECT_ERROR(al::buffer_handle::generate(), std::logic_error,
-    get_text(al_error::context_existence));
+  EXPECT_ERROR_0(al::buffer_handle::generate(), al::missing_context_error);
 }

@@ -6,7 +6,7 @@
 
 #include "hou/al/al_context.hpp"
 #include "hou/al/al_device.hpp"
-#include "hou/al/al_error.hpp"
+#include "hou/al/al_exceptions.hpp"
 
 #include <memory>
 #include <thread>
@@ -76,9 +76,7 @@ TEST_F(test_al_context_death_test, context_creation_failed)
   // Artificially create an invalid ctx by improper use of std::move.
   al::device d1;
   al::device d2(std::move(d1));
-
-  DEPRECATED_HOU_EXPECT_ERROR(
-    al::context c(d1), std::runtime_error, get_text(al_error::context_create));
+  EXPECT_ERROR_0(al::context c(d1), al::context_creation_error);
 }
 
 
