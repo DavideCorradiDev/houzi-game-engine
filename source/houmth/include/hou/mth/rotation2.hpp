@@ -37,18 +37,18 @@ public:
    *
    * \return the identity rotation.
    */
-  static rotation2 identity();
+  static rotation2 identity() noexcept;
 
 public:
   /** Creates an identity rotation.
    */
-  rotation2();
+  rotation2() noexcept;
 
   /** Creates a rotation with the given rotation angle.
    *
    * \param angle the angle in radians.
    */
-  explicit rotation2(T angle);
+  explicit rotation2(T angle) noexcept;
 
   /** Creates a rotation with the given rotation matrix.
    *
@@ -56,6 +56,9 @@ public:
    * equal to one and transpose equal to its inverse).
    *
    * \param m the rotation matrix.
+   *
+   * \throws hou::precondition_violation if m is not a valid rotation matrix
+   * (determinat equal to 1 and inverse equal to its transpose).
    */
   explicit rotation2(const mat2x2<T>& m);
 
@@ -65,8 +68,9 @@ public:
    *
    * \param other the rotation to be copied.
    */
-  template <typename U>
-  HOU_MTH_API rotation2(const rotation2<U>& other);
+  template <typename U,
+    typename Enable = std::enable_if_t<std::is_convertible<U, T>::value>>
+  HOU_MTH_API rotation2(const rotation2<U>& other) noexcept;
 
   /** Returns the rotation angle.
    *
@@ -74,13 +78,13 @@ public:
    *
    * \return the rotation angle.
    */
-  T get_angle() const;
+  T get_angle() const noexcept;
 
   /** Returns the rotation matrix.
    *
    * \return the rotation matrix.
    */
-  mat2x2<T> get_matrix() const;
+  mat2x2<T> get_matrix() const noexcept;
 
   /** Combines this rotation with the given rotation.
    *
@@ -88,13 +92,13 @@ public:
    *
    * \return a reference to this rotation after the combination.
    */
-  rotation2& operator*=(const rotation2& rhs);
+  rotation2& operator*=(const rotation2& rhs) noexcept;
 
   /** Inverts this rotation.
    *
    * \return a reference to this rotation after the inversion.
    */
-  rotation2& invert();
+  rotation2& invert() noexcept;
 
 private:
   T m_angle;
@@ -111,7 +115,8 @@ private:
  * \return a rotation representing the two combined rotations.
  */
 template <typename T>
-HOU_MTH_API rotation2<T> operator*(rotation2<T> lhs, const rotation2<T>& rhs);
+HOU_MTH_API rotation2<T> operator*(
+  rotation2<T> lhs, const rotation2<T>& rhs) noexcept;
 
 /** Computes the inverse of the given rotation.
  *
@@ -122,7 +127,7 @@ HOU_MTH_API rotation2<T> operator*(rotation2<T> lhs, const rotation2<T>& rhs);
  * \return the inverse rotation.
  */
 template <typename T>
-HOU_MTH_API rotation2<T> inverse(rotation2<T> r);
+HOU_MTH_API rotation2<T> inverse(rotation2<T> r) noexcept;
 
 /** Checks if two rotations are equal.
  *
@@ -135,7 +140,8 @@ HOU_MTH_API rotation2<T> inverse(rotation2<T> r);
  * \return the result of the comparison.
  */
 template <typename T>
-HOU_MTH_API bool operator==(const rotation2<T>& lhs, const rotation2<T>& rhs);
+HOU_MTH_API bool operator==(
+  const rotation2<T>& lhs, const rotation2<T>& rhs) noexcept;
 
 /** Checks if two rotations are not equal.
  *
@@ -148,7 +154,8 @@ HOU_MTH_API bool operator==(const rotation2<T>& lhs, const rotation2<T>& rhs);
  * \return the result of the comparison.
  */
 template <typename T>
-HOU_MTH_API bool operator!=(const rotation2<T>& lhs, const rotation2<T>& rhs);
+HOU_MTH_API bool operator!=(
+  const rotation2<T>& lhs, const rotation2<T>& rhs) noexcept;
 
 /** Checks if two rotations are equal with the given accuracy.
  *
@@ -164,7 +171,7 @@ HOU_MTH_API bool operator!=(const rotation2<T>& lhs, const rotation2<T>& rhs);
  */
 template <typename T>
 HOU_MTH_API bool close(const rotation2<T>& lhs, const rotation2<T>& rhs,
-  T acc = std::numeric_limits<T>::epsilon());
+  T acc = std::numeric_limits<T>::epsilon()) noexcept;
 
 /** Writes the object into a stream.
  *

@@ -37,7 +37,7 @@ public:
    *
    * \return the identity rotation.
    */
-  static rotation3 identity();
+  static rotation3 identity() noexcept;
 
   /** Returns a rotation around the x axis with the given angle.
    *
@@ -45,7 +45,7 @@ public:
    *
    * \return the rotation around the x axis.
    */
-  static rotation3 x(T angle);
+  static rotation3 x(T angle) noexcept;
 
   /** Returns a rotation around the y axis with the given angle.
    *
@@ -53,7 +53,7 @@ public:
    *
    * \return the rotation around the y axis.
    */
-  static rotation3 y(T angle);
+  static rotation3 y(T angle) noexcept;
 
   /** Returns a rotation around the z axis with the given angle.
    *
@@ -61,19 +61,20 @@ public:
    *
    * \return the rotation around the z axis.
    */
-  static rotation3 z(T angle);
+  static rotation3 z(T angle) noexcept;
 
 public:
   /** Creates an identity rotation.
    */
-  rotation3();
+  rotation3() noexcept;
 
   /** Creates a rotation with the given quaternion
    *
    * The quaternion will be normalized if it is not.
-   * Throws if passed the zero quaternion.
    *
    * \param q the quaternion.
+   *
+   * \throws hou::precondition_violation the norm of q is equal to 0.
    */
   explicit rotation3(const quaternion<T>& q);
 
@@ -104,27 +105,28 @@ public:
    *
    * \param other the rotation to be copied.
    */
-  template <typename U>
-  HOU_MTH_API rotation3(const rotation3<U>& other);
+  template <typename U,
+    typename Enable = std::enable_if_t<std::is_convertible<U, T>::value>>
+  HOU_MTH_API rotation3(const rotation3<U>& other) noexcept;
 
 
   /** Returns a quaternion representing the rotation.
    *
    * \return a quaternion representing the rotation.
    */
-  const quaternion<T>& get_quaternion() const;
+  const quaternion<T>& get_quaternion() const noexcept;
 
   /** Returns a vector representing the rotation.
    *
    * \return a vector representing the rotation.
    */
-  vec3<T> get_vector() const;
+  vec3<T> get_vector() const noexcept;
 
   /** Returns a rotatin matrix representing the rotation.
    *
    * \return a matrix representing the rotation.
    */
-  mat3x3<T> get_matrix() const;
+  mat3x3<T> get_matrix() const noexcept;
 
   /** Combines this rotation with the given rotation.
    *
@@ -179,7 +181,8 @@ HOU_MTH_API rotation3<T> inverse(rotation3<T> r);
  * \return the result of the comparison.
  */
 template <typename T>
-HOU_MTH_API bool operator==(const rotation3<T>& lhs, const rotation3<T>& rhs);
+HOU_MTH_API bool operator==(
+  const rotation3<T>& lhs, const rotation3<T>& rhs) noexcept;
 
 /** Checks if two rotations are not equal.
  *
@@ -192,7 +195,8 @@ HOU_MTH_API bool operator==(const rotation3<T>& lhs, const rotation3<T>& rhs);
  * \return the result of the comparison.
  */
 template <typename T>
-HOU_MTH_API bool operator!=(const rotation3<T>& lhs, const rotation3<T>& rhs);
+HOU_MTH_API bool operator!=(
+  const rotation3<T>& lhs, const rotation3<T>& rhs) noexcept;
 
 /** Checks if two rotations are equal with the given accuracy.
  *
@@ -208,7 +212,7 @@ HOU_MTH_API bool operator!=(const rotation3<T>& lhs, const rotation3<T>& rhs);
  */
 template <typename T>
 HOU_MTH_API bool close(const rotation3<T>& lhs, const rotation3<T>& rhs,
-  T acc = std::numeric_limits<T>::epsilon());
+  T acc = std::numeric_limits<T>::epsilon()) noexcept;
 
 /** Writes the object into a stream.
  *

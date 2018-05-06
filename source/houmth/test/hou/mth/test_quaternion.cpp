@@ -42,17 +42,6 @@ TEST_F(test_quaternion, element_constructor)
 
 
 
-TEST_F(test_quaternion, initializer_list_constructor)
-{
-  quatf q{1.f, 2.f, 3.f, 4.f};
-  EXPECT_FLOAT_EQ(1.f, q.x());
-  EXPECT_FLOAT_EQ(2.f, q.y());
-  EXPECT_FLOAT_EQ(3.f, q.z());
-  EXPECT_FLOAT_EQ(4.f, q.w());
-}
-
-
-
 TEST_F(test_quaternion, conversion_constructor)
 {
   quatd qd{1., 2., 3., 4.};
@@ -61,14 +50,6 @@ TEST_F(test_quaternion, conversion_constructor)
   EXPECT_FLOAT_EQ(2.f, qf.y());
   EXPECT_FLOAT_EQ(3.f, qf.z());
   EXPECT_FLOAT_EQ(4.f, qf.w());
-}
-
-
-
-TEST_F(test_quaternion_death_test, initializer_list_constructor_wrong_size)
-{
-  EXPECT_PRECOND_ERROR(quatf q({1.f, 2.f, 3.f}));
-  EXPECT_PRECOND_ERROR(quatf q({1.f, 2.f, 3.f, 4.f, 5.f}));
 }
 
 

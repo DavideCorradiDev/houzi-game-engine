@@ -151,7 +151,7 @@ TEST_F(test_transform2, build_orthographic_projection)
   matrix<float, 4, 4> tm_ref
   {
     0.01f, 0.f, 0.f, -1.5f,
-    0.f, 0.005, 0.f, -1.5f,
+    0.f, 0.005f, 0.f, -1.5f,
     0.f, 0.f, 1.f, 0.f,
     0.f, 0.f, 0.f, 1.f,
   };

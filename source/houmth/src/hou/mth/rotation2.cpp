@@ -19,16 +19,18 @@ namespace
 {
 
 template <typename T>
-T toAngle(const mat2x2<T>& m);
+T to_angle(const mat2x2<T>& m) noexcept;
+
 template <typename T>
-mat2x2<T> to_matrix(T angle);
+mat2x2<T> to_matrix(T angle) noexcept;
+
 template <typename T>
-T normalize_angle(T angle);
+T normalize_angle(T angle) noexcept;
 
 
 
 template <typename T>
-T toAngle(const mat2x2<T>& m)
+T to_angle(const mat2x2<T>& m) noexcept
 {
   return std::atan2(m(2), m(0));
 }
@@ -36,7 +38,7 @@ T toAngle(const mat2x2<T>& m)
 
 
 template <typename T>
-mat2x2<T> to_matrix(T angle)
+mat2x2<T> to_matrix(T angle) noexcept
 {
   T c = std::cos(angle);
   T s = std::sin(angle);
@@ -46,7 +48,7 @@ mat2x2<T> to_matrix(T angle)
 
 
 template <typename T>
-T normalize_angle(T angle)
+T normalize_angle(T angle) noexcept
 {
   while(angle <= -pi_f)
   {
@@ -64,7 +66,7 @@ T normalize_angle(T angle)
 
 
 template <typename T>
-rotation2<T> rotation2<T>::identity()
+rotation2<T> rotation2<T>::identity() noexcept
 {
   return rotation2<T>();
 }
@@ -72,14 +74,14 @@ rotation2<T> rotation2<T>::identity()
 
 
 template <typename T>
-rotation2<T>::rotation2()
+rotation2<T>::rotation2() noexcept
   : m_angle(0)
 {}
 
 
 
 template <typename T>
-rotation2<T>::rotation2(T angle)
+rotation2<T>::rotation2(T angle) noexcept
   : m_angle(normalize_angle(angle))
 {}
 
@@ -87,7 +89,7 @@ rotation2<T>::rotation2(T angle)
 
 template <typename T>
 rotation2<T>::rotation2(const mat2x2<T>& m)
-  : m_angle(toAngle(m))
+  : m_angle(to_angle(m))
 {
   HOU_PRECOND(
     close(T(1), det(m)) && close(mat2x2<T>::identity(), m * transpose(m)));
@@ -97,15 +99,15 @@ rotation2<T>::rotation2(const mat2x2<T>& m)
 
 
 template <typename T>
-template <typename U>
-rotation2<T>::rotation2(const rotation2<U>& other)
+template <typename U, typename Enable>
+rotation2<T>::rotation2(const rotation2<U>& other) noexcept
   : m_angle(static_cast<T>(other.m_angle))
 {}
 
 
 
 template <typename T>
-T rotation2<T>::get_angle() const
+T rotation2<T>::get_angle() const noexcept
 {
   return m_angle;
 }
@@ -113,7 +115,7 @@ T rotation2<T>::get_angle() const
 
 
 template <typename T>
-mat2x2<T> rotation2<T>::get_matrix() const
+mat2x2<T> rotation2<T>::get_matrix() const noexcept
 {
   return to_matrix(m_angle);
 }
@@ -121,7 +123,7 @@ mat2x2<T> rotation2<T>::get_matrix() const
 
 
 template <typename T>
-rotation2<T>& rotation2<T>::operator*=(const rotation2<T>& rhs)
+rotation2<T>& rotation2<T>::operator*=(const rotation2<T>& rhs) noexcept
 {
   m_angle = normalize_angle(m_angle + rhs.m_angle);
   return *this;
@@ -130,7 +132,7 @@ rotation2<T>& rotation2<T>::operator*=(const rotation2<T>& rhs)
 
 
 template <typename T>
-rotation2<T>& rotation2<T>::invert()
+rotation2<T>& rotation2<T>::invert() noexcept
 {
   m_angle = normalize_angle(-m_angle);
   return *this;
@@ -139,7 +141,7 @@ rotation2<T>& rotation2<T>::invert()
 
 
 template <typename T>
-rotation2<T> operator*(rotation2<T> lhs, const rotation2<T>& rhs)
+rotation2<T> operator*(rotation2<T> lhs, const rotation2<T>& rhs) noexcept
 {
   return lhs *= rhs;
 }
@@ -147,7 +149,7 @@ rotation2<T> operator*(rotation2<T> lhs, const rotation2<T>& rhs)
 
 
 template <typename T>
-rotation2<T> inverse(rotation2<T> r)
+rotation2<T> inverse(rotation2<T> r) noexcept
 {
   return r.invert();
 }
@@ -158,7 +160,7 @@ rotation2<T> inverse(rotation2<T> r)
 HOU_PRAGMA_GCC_DIAGNOSTIC_PUSH()
 HOU_PRAGMA_GCC_DIAGNOSTIC_IGNORED(-Wfloat-equal)
 template <typename T>
-bool operator==(const rotation2<T>& lhs, const rotation2<T>& rhs)
+bool operator==(const rotation2<T>& lhs, const rotation2<T>& rhs) noexcept
 {
   return lhs.get_angle() == rhs.get_angle();
 }
@@ -171,7 +173,7 @@ HOU_PRAGMA_GCC_DIAGNOSTIC_POP()
 HOU_PRAGMA_GCC_DIAGNOSTIC_PUSH()
 HOU_PRAGMA_GCC_DIAGNOSTIC_IGNORED(-Wfloat-equal)
 template <typename T>
-bool operator!=(const rotation2<T>& lhs, const rotation2<T>& rhs)
+bool operator!=(const rotation2<T>& lhs, const rotation2<T>& rhs) noexcept
 {
   return lhs.get_angle() != rhs.get_angle();
 }
@@ -181,7 +183,7 @@ HOU_PRAGMA_GCC_DIAGNOSTIC_POP()
 
 
 template <typename T>
-bool close(const rotation2<T>& lhs, const rotation2<T>& rhs, T acc)
+bool close(const rotation2<T>& lhs, const rotation2<T>& rhs, T acc) noexcept
 {
   return close(lhs.get_angle(), rhs.get_angle(), acc);
 }
@@ -196,13 +198,13 @@ std::ostream& operator<<(std::ostream& os, const rotation2<T>& r)
 
 
 
-#define HOU_INSTANTIATE(T) \
-  template class rotation2<T>; \
-  template rotation2<T> operator*<T>(rotation2<T>, const rotation2<T>&); \
-  template rotation2<T> inverse<T>(rotation2<T>); \
-  template bool operator==<T>(const rotation2<T>&, const rotation2<T>&); \
-  template bool operator!=<T>(const rotation2<T>&, const rotation2<T>&); \
-  template bool close<T>(const rotation2<T>&, const rotation2<T>&, T); \
+#define HOU_INSTANTIATE(T)                                                     \
+  template class rotation2<T>;                                                 \
+  template rotation2<T> operator*<T>(rotation2<T>, const rotation2<T>&);       \
+  template rotation2<T> inverse<T>(rotation2<T>);                              \
+  template bool operator==<T>(const rotation2<T>&, const rotation2<T>&);       \
+  template bool operator!=<T>(const rotation2<T>&, const rotation2<T>&);       \
+  template bool close<T>(const rotation2<T>&, const rotation2<T>&, T);         \
   template std::ostream& operator<<<T>(std::ostream&, const rotation2<T>&)
 
 HOU_INSTANTIATE(float);

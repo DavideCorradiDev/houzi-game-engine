@@ -31,7 +31,7 @@ constexpr double pi_d = 3.141592653589793;
  *
  * \return the angle in radians.
  */
-HOU_MTH_API float deg_to_rad(float deg);
+HOU_MTH_API float deg_to_rad(float deg) noexcept;
 
 /** Converts degrees to radians.
  *
@@ -39,7 +39,7 @@ HOU_MTH_API float deg_to_rad(float deg);
  *
  * \return the angle in radians.
  */
-HOU_MTH_API double deg_to_rad(double deg);
+HOU_MTH_API double deg_to_rad(double deg) noexcept;
 
 /** Converts radians to degrees.
  *
@@ -47,7 +47,7 @@ HOU_MTH_API double deg_to_rad(double deg);
  *
  * \return the angle in degrees.
  */
-HOU_MTH_API float rad_to_deg(float rad);
+HOU_MTH_API float rad_to_deg(float rad) noexcept;
 
 /** Converts radians to degrees.
  *
@@ -55,7 +55,7 @@ HOU_MTH_API float rad_to_deg(float rad);
  *
  * \return the angle in degrees.
  */
-HOU_MTH_API double rad_to_deg(double rad);
+HOU_MTH_API double rad_to_deg(double rad) noexcept;
 
 /** Computes the logarithm in base n of x.
  *
@@ -67,7 +67,7 @@ HOU_MTH_API double rad_to_deg(double rad);
  */
 template <typename T,
   typename Enable = std::enable_if_t<std::is_floating_point<T>::value>>
-T log(T x, int n);
+constexpr T log(T x, int n) noexcept;
 
 }  // namespace hou
 

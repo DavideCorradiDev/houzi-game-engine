@@ -58,14 +58,6 @@ TEST_F(test_matrix, initializer_list_constructor)
 
 
 
-TEST_F(test_matrix_death_test, initializer_list_constructor_wrong_size)
-{
-  EXPECT_PRECOND_ERROR(mat3x2i({1, 2, 3}));
-  EXPECT_PRECOND_ERROR(mat3x2i({1, 2, 3, 4, 5, 6, 7}));
-}
-
-
-
 TEST_F(test_matrix, element_constructor)
 {
   mat3x2i mi(1, 2, 3, 4, 5, 6);
@@ -355,13 +347,13 @@ TEST_F(test_matrix, scalar_multiplication)
 
 TEST_F(test_matrix, mixed_scalar_multiplication)
 {
-  mat3x2f m = {0, 1, 2, 3, -4, 5};
+  mat3x2f m = {0.f, 1.f, 2.f, 3.f, -4.f, 5.f};
   int factor = 3;
   mat3x2f m_mult_left = factor * m;
   mat3x2f m_mult_right = m * factor;
   mat3x2f m_mult_incremental = m;
   m_mult_incremental *= factor;
-  mat3x2f m_mult_ref = {0, 3, 6, 9, -12, 15};
+  mat3x2f m_mult_ref = {0.f, 3.f, 6.f, 9.f, -12.f, 15.f};
 
   EXPECT_EQ(m_mult_ref, m_mult_left);
   EXPECT_EQ(m_mult_ref, m_mult_right);
@@ -399,12 +391,12 @@ TEST_F(test_matrix, scalar_division)
 
 TEST_F(test_matrix, mixed_scalar_division)
 {
-  mat3x2f m = {0, 2, -4, 6, 8, 10};
+  mat3x2f m = {0.f, 2.f, -4.f, 6.f, 8.f, 10.f};
   int divisor = 2;
   mat3x2f m_div = m / divisor;
   mat3x2f m_div_incremental = m;
   m_div_incremental /= divisor;
-  mat3x2f m_div_ref = {0, 1, -2, 3, 4, 5};
+  mat3x2f m_div_ref = {0.f, 1.f, -2.f, 3.f, 4.f, 5.f};
 
   EXPECT_EQ(m_div_ref, m_div);
   EXPECT_EQ(m_div_ref, m_div_incremental);
@@ -693,7 +685,7 @@ TEST_F(test_matrix, determinant3x3)
 {
   EXPECT_EQ(381, det(mat3x3i{0, 2, 3, 9, -1, -4, 3, 10, -7}));
   EXPECT_FLOAT_EQ(
-    66.f, det(mat3x3f{-1.f, 2.f, 3.f, 5.f, -4.f, 5.f, -2., 7.f, 5.f}));
+    66.f, det(mat3x3f{-1.f, 2.f, 3.f, 5.f, -4.f, 5.f, -2.f, 7.f, 5.f}));
 }
 
 

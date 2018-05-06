@@ -35,7 +35,7 @@ namespace prv
  */
 HOU_COR_API std::string format_error_message(
   const std::string& path, uint line, const std::string& message);
-}
+}  // namespace prv
 
 /** Base class for all exceptions.
  */
@@ -68,7 +68,8 @@ private:
   std::shared_ptr<std::string> m_message;
 };
 
-/** Prints the given message to the console error stream and terminates execution.
+/** Prints the given message to the console error stream and terminates
+ * execution.
  *
  * \param message the error message to be printed.
  */
@@ -133,6 +134,9 @@ void HOU_COR_API terminate(const std::string& message) noexcept;
 #define HOU_ASSERT(statement, message)                                         \
   HOU_CHECK_TEMPLATE(statement, HOU_TERMINATE(message))
 
+#define HOU_ASSERT_0(statement)                                                \
+  HOU_CHECK_TEMPLATE(statement, HOU_TERMINATE(#statement))
+
 #define HOU_CHECK_STD_0(condition, exception_type)                             \
   HOU_CHECK_TEMPLATE(condition, HOU_ERROR_STD_0(exception_type))
 
@@ -154,6 +158,9 @@ void HOU_COR_API terminate(const std::string& message) noexcept;
 
 #define HOU_DEV_ASSERT(statement, message)                                     \
   HOU_DEV_CHECK_TEMPLATE(statement, HOU_TERMINATE(message))
+
+#define HOU_DEV_ASSERT_0(statement)                                            \
+  HOU_DEV_CHECK_TEMPLATE(statement, HOU_TERMINATE(#statement))
 
 #define HOU_DEV_CHECK_STD_0(condition, exception_type)                         \
   HOU_DEV_CHECK_TEMPLATE(condition, HOU_ERROR_STD_0(exception_type))

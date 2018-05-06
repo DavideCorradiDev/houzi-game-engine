@@ -5,10 +5,12 @@
 #ifndef HOU_AUD_AUDIO_STREAM_IN_HPP
 #define HOU_AUD_AUDIO_STREAM_IN_HPP
 
-#include "hou/aud/aud_export.hpp"
 #include "hou/aud/audio_stream.hpp"
 #include "hou/sys/stream_in.hpp"
 
+#include "hou/aud/aud_export.hpp"
+
+#include "hou/cor/assertions.hpp"
 #include "hou/cor/not_null.hpp"
 
 #include <memory>

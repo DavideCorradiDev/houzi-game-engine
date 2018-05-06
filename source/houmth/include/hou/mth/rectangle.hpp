@@ -5,10 +5,12 @@
 #ifndef HOU_MTH_RECTANGLE_HPP
 #define HOU_MTH_RECTANGLE_HPP
 
-#include "hou/cor/basic_types.hpp"
-
 #include "hou/mth/matrix.hpp"
 #include "hou/mth/rectangle_fwd.hpp"
+
+#include "hou/mth/mth_export.hpp"
+
+#include "hou/cor/basic_types.hpp"
 
 #include <iostream>
 #include <limits>
@@ -28,7 +30,7 @@ class rectangle
 public:
   /** Creates a rectangle at position (0,0) with size (0,0).
    */
-  rectangle();
+  constexpr rectangle() noexcept;
 
   /** Creates a rectangle with the given position and size.
    *
@@ -36,7 +38,7 @@ public:
    *
    * \param size the length of the sides of the rectangle on the x and y axes.
    */
-  rectangle(const vec2<T>& position, const vec2<T>& size);
+  constexpr rectangle(const vec2<T>& position, const vec2<T>& size) noexcept;
 
   /** Creates a rectangle with given position and size.
    *
@@ -48,116 +50,119 @@ public:
    *
    * \param h the length of the rectangle on the y axis (height).
    */
-  rectangle(T x, T y, T w, T h);
+  constexpr rectangle(T x, T y, T w, T h) noexcept;
 
   /** Creates a rectangle from a rectangle with different scalar type.
    *
    * \tparam U the other scalar type.
    *
+   * \tparam Enable enabling parameter.
+   *
    * \param other the rectangle to be copied.
    */
-  template <typename U>
-  rectangle(const rectangle<U>& other);
+  template <typename U,
+    typename Enable = std::enable_if_t<std::is_convertible<U, T>::value>>
+  constexpr rectangle(const rectangle<U>& other) noexcept;
 
   /** Retrieves the position of the top-left vertex of the rectangle.
    *
    * \return the position of the top-left vertex of the rectangle.
    */
-  const vec2<T>& get_position() const;
+  constexpr const vec2<T>& get_position() const noexcept;
 
   /** Sets the position of the top-left vertex of the rectangle.
    *
    * \param value the value to be assigned.
    */
-  void set_position(const vec2<T>& value);
+  constexpr void set_position(const vec2<T>& value) noexcept;
 
   /** Retrieves the size of the rectangle on the x and y axes.
    *
    * \return the size of the rectangle on the x and y axes/
    */
-  const vec2<T>& get_size() const;
+  constexpr const vec2<T>& get_size() const noexcept;
 
   /** Sets the size of the rectangle on the x and y axes.
    *
    * \param value the value to be assigned.
    */
-  void set_size(const vec2<T>& value);
+  constexpr void set_size(const vec2<T>& value) noexcept;
 
   /** Retrieves a copy of the x position of the top-left vertex of the
    * rectangle.
    *
    * \return a copy of the x position of the top-left vertex.
    */
-  T x() const;
+  constexpr T x() const noexcept;
 
   /** Retrieves a reference to the x position of the top-left vertex of the
    * rectangle.
    *
    * \return a reference to the x position of the top-left vertex.
    */
-  T& x();
+  constexpr T& x() noexcept;
 
   /** Retrieves a copy of the y position of the top-left vertex of the
    * rectangle.
    *
    * \return a copy of the y position of the top-left vertex.
    */
-  T y() const;
+  constexpr T y() const noexcept;
 
   /** Retrieves a reference to the y position of the top-left vertex of the
    * rectangle.
    *
    * \return a reference to the y position of the top-left vertex.
    */
-  T& y();
+  constexpr T& y() noexcept;
 
   /** Retrieves the size of the rectangle on the x axis.
    *
    * \return the size of the rectangle on the x axis.
    */
-  T w() const;
+  constexpr T w() const noexcept;
 
   /** Retrieves a reference to the size of the rectangle on the x axis.
    *
    * \return a reference to the size on the x axis.
    */
-  T& w();
+  constexpr T& w() noexcept;
 
   /** Retrieves a reference to the size of the rectangle on the y axis.
    *
    * \return a reference to the size on the y axis.
    */
-  T h() const;
+  constexpr T h() const noexcept;
 
   /** Retrieves a reference to the size of the rectangle on the y axis.
    *
    * \return a reference to the size on the y axis.
    */
-  T& h();
+  constexpr T& h() noexcept;
 
   /** Retrieves the coordinate of the left side of the rectangle.
    *
    * \return the coordinate of the left side of the rectangle.
    */
-  T l() const;
+  constexpr T l() const noexcept;
 
   /** Retrieves the coordinate of the top side of the rectangle.
    *
    * \return the coordinate of the top side of the rectangle.
    */
-  T t() const;
+  constexpr T t() const noexcept;
 
   /** Retrieves the coordinate of the right side of the rectangle.
    *
    * \return the coordinate of the right side of the rectangle.
    */
-  T r() const;
+  constexpr T r() const noexcept;
 
   /** Retrieves the coordinate of the bottom side of the rectangle.
    *
    * \return the coordinate of the bottom side of the rectangle.
    */
-  T b() const;
+  constexpr T b() const noexcept;
 
 private:
   vec2<T> m_position;
@@ -175,7 +180,8 @@ private:
  * \return the result of the comparison.
  */
 template <typename T>
-bool operator==(const rectangle<T>& lhs, const rectangle<T>& rhs);
+constexpr bool operator==(
+  const rectangle<T>& lhs, const rectangle<T>& rhs) noexcept;
 
 /** Checks if two rectangles are not equal.
  *
@@ -188,7 +194,8 @@ bool operator==(const rectangle<T>& lhs, const rectangle<T>& rhs);
  * \return the result of the comparison.
  */
 template <typename T>
-bool operator!=(const rectangle<T>& lhs, const rectangle<T>& rhs);
+constexpr bool operator!=(
+  const rectangle<T>& lhs, const rectangle<T>& rhs) noexcept;
 
 /** Checks if two rectangles are equal with the given accuracy.
  *
@@ -203,8 +210,8 @@ bool operator!=(const rectangle<T>& lhs, const rectangle<T>& rhs);
  * \return the result of the comparison.
  */
 template <typename T>
-bool close(const rectangle<T>& lhs, const rectangle<T>& rhs,
-  T acc = std::numeric_limits<T>::epsilon());
+constexpr bool close(const rectangle<T>& lhs, const rectangle<T>& rhs,
+  T acc = std::numeric_limits<T>::epsilon()) noexcept;
 
 /** Writes the object into a stream.
  *
@@ -230,7 +237,8 @@ std::ostream& operator<<(std::ostream& os, const rectangle<T>& rect);
  * \return the result of the check.
  */
 template <typename T>
-bool is_point_in_rectangle(const rectangle<T>& r, const vec2<T>& p);
+constexpr bool is_point_in_rectangle(
+  const rectangle<T>& r, const vec2<T>& p) noexcept;
 
 }  // namespace hou
 

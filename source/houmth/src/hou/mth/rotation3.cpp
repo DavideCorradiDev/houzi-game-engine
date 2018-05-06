@@ -15,18 +15,21 @@ namespace
 {
 
 template <typename T>
-quaternion<T> to_quaternion(vec3<T> v);
+quaternion<T> to_quaternion(vec3<T> v) noexcept;
+
 template <typename T>
-quaternion<T> to_quaternion(const mat3x3<T>& m);
+quaternion<T> to_quaternion(const mat3x3<T>& m) noexcept;
+
 template <typename T>
-vec3<T> to_vector(const quaternion<T>& q);
+vec3<T> to_vector(const quaternion<T>& q) noexcept;
+
 template <typename T>
-mat3x3<T> to_matrix(const quaternion<T>& q);
+mat3x3<T> to_matrix(const quaternion<T>& q) noexcept;
 
 
 
 template <typename T>
-quaternion<T> to_quaternion(vec3<T> v)
+quaternion<T> to_quaternion(vec3<T> v) noexcept
 {
   T angle = norm(v);
   v /= angle;
@@ -39,7 +42,7 @@ quaternion<T> to_quaternion(vec3<T> v)
 
 // clang-format off
 template <typename T>
-quaternion<T> to_quaternion(const mat3x3<T>& m)
+quaternion<T> to_quaternion(const mat3x3<T>& m) noexcept
 {
   T tr = trace(m);
   if(tr > T(0))
@@ -88,9 +91,9 @@ quaternion<T> to_quaternion(const mat3x3<T>& m)
 
 
 template <typename T>
-vec3<T> to_vector(const quaternion<T>& q)
+vec3<T> to_vector(const quaternion<T>& q) noexcept
 {
-  HOU_DEV_PRECOND(close(T(1), norm(q)));
+  HOU_DEV_ASSERT_0(close(T(1), norm(q)));
   vec3<T> v(q.x(), q.y(), q.z());
   T vecNorm = norm(v);
   if(!close(T(0), vecNorm))
@@ -103,9 +106,9 @@ vec3<T> to_vector(const quaternion<T>& q)
 
 
 template <typename T>
-mat3x3<T> to_matrix(const quaternion<T>& q)
+mat3x3<T> to_matrix(const quaternion<T>& q) noexcept
 {
-  HOU_DEV_PRECOND(close(T(1), norm(q)));
+  HOU_DEV_ASSERT_0(close(T(1), norm(q)));
   T xx = 2 * q.x() * q.x();
   T xy = 2 * q.x() * q.y();
   T xz = 2 * q.x() * q.z();
@@ -125,7 +128,7 @@ mat3x3<T> to_matrix(const quaternion<T>& q)
 
 
 template <typename T>
-rotation3<T> rotation3<T>::identity()
+rotation3<T> rotation3<T>::identity() noexcept
 {
   return rotation3<T>();
 }
@@ -133,7 +136,7 @@ rotation3<T> rotation3<T>::identity()
 
 
 template <typename T>
-rotation3<T> rotation3<T>::x(T angle)
+rotation3<T> rotation3<T>::x(T angle) noexcept
 {
   angle /= 2;
   return rotation3<T>(quaternion<T>(std::sin(angle), 0, 0, std::cos(angle)));
@@ -142,7 +145,7 @@ rotation3<T> rotation3<T>::x(T angle)
 
 
 template <typename T>
-rotation3<T> rotation3<T>::y(T angle)
+rotation3<T> rotation3<T>::y(T angle) noexcept
 {
   angle /= 2;
   return rotation3<T>(quaternion<T>(0, std::sin(angle), 0, std::cos(angle)));
@@ -151,7 +154,7 @@ rotation3<T> rotation3<T>::y(T angle)
 
 
 template <typename T>
-rotation3<T> rotation3<T>::z(T angle)
+rotation3<T> rotation3<T>::z(T angle) noexcept
 {
   angle /= 2;
   return rotation3<T>(quaternion<T>(0, 0, std::sin(angle), std::cos(angle)));
@@ -160,7 +163,7 @@ rotation3<T> rotation3<T>::z(T angle)
 
 
 template <typename T>
-rotation3<T>::rotation3()
+rotation3<T>::rotation3() noexcept
   : m_quaternion(quaternion<T>::identity())
 {}
 
@@ -188,15 +191,15 @@ rotation3<T>::rotation3(const mat3x3<T>& m)
 
 
 template <typename T>
-template <typename U>
-rotation3<T>::rotation3(const rotation3<U>& other)
+template <typename U, typename Enable>
+rotation3<T>::rotation3(const rotation3<U>& other) noexcept
   : m_quaternion(normalized(static_cast<quaternion<T>>(other.m_quaternion)))
 {}
 
 
 
 template <typename T>
-const quaternion<T>& rotation3<T>::get_quaternion() const
+const quaternion<T>& rotation3<T>::get_quaternion() const noexcept
 {
   return m_quaternion;
 }
@@ -204,7 +207,7 @@ const quaternion<T>& rotation3<T>::get_quaternion() const
 
 
 template <typename T>
-vec3<T> rotation3<T>::get_vector() const
+vec3<T> rotation3<T>::get_vector() const noexcept
 {
   return to_vector(m_quaternion);
 }
@@ -212,7 +215,7 @@ vec3<T> rotation3<T>::get_vector() const
 
 
 template <typename T>
-mat3x3<T> rotation3<T>::get_matrix() const
+mat3x3<T> rotation3<T>::get_matrix() const noexcept
 {
   return to_matrix(m_quaternion);
 }
@@ -255,7 +258,7 @@ rotation3<T> inverse(rotation3<T> r)
 
 
 template <typename T>
-bool operator==(const rotation3<T>& lhs, const rotation3<T>& rhs)
+bool operator==(const rotation3<T>& lhs, const rotation3<T>& rhs) noexcept
 {
   return lhs.get_quaternion() == rhs.get_quaternion();
 }
@@ -263,7 +266,7 @@ bool operator==(const rotation3<T>& lhs, const rotation3<T>& rhs)
 
 
 template <typename T>
-bool operator!=(const rotation3<T>& lhs, const rotation3<T>& rhs)
+bool operator!=(const rotation3<T>& lhs, const rotation3<T>& rhs) noexcept
 {
   return lhs.get_quaternion() != rhs.get_quaternion();
 }
@@ -271,7 +274,7 @@ bool operator!=(const rotation3<T>& lhs, const rotation3<T>& rhs)
 
 
 template <typename T>
-bool close(const rotation3<T>& lhs, const rotation3<T>& rhs, T acc)
+bool close(const rotation3<T>& lhs, const rotation3<T>& rhs, T acc) noexcept
 {
   return close(lhs.get_quaternion(), rhs.get_quaternion(), acc);
 }
@@ -286,13 +289,13 @@ std::ostream& operator<<(std::ostream& os, const rotation3<T>& r)
 
 
 
-#define HOU_INSTANTIATE(T) \
-  template class rotation3<T>; \
-  template rotation3<T> operator*<T>(rotation3<T>, const rotation3<T>&); \
-  template rotation3<T> inverse<T>(rotation3<T>); \
-  template bool operator==<T>(const rotation3<T>&, const rotation3<T>&); \
-  template bool operator!=<T>(const rotation3<T>&, const rotation3<T>&); \
-  template bool close<T>(const rotation3<T>&, const rotation3<T>&, T); \
+#define HOU_INSTANTIATE(T)                                                     \
+  template class rotation3<T>;                                                 \
+  template rotation3<T> operator*<T>(rotation3<T>, const rotation3<T>&);       \
+  template rotation3<T> inverse<T>(rotation3<T>);                              \
+  template bool operator==<T>(const rotation3<T>&, const rotation3<T>&);       \
+  template bool operator!=<T>(const rotation3<T>&, const rotation3<T>&);       \
+  template bool close<T>(const rotation3<T>&, const rotation3<T>&, T);         \
   template std::ostream& operator<<<T>(std::ostream&, const rotation3<T>&)
 
 HOU_INSTANTIATE(float);

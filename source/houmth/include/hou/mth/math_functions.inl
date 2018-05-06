@@ -8,7 +8,7 @@ namespace hou
 {
 
 template <typename T, typename Enable>
-T log(T x, int n)
+constexpr T log(T x, int n) noexcept
 {
   return std::log(x) / std::log(static_cast<T>(n));
 }

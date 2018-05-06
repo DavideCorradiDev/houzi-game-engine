@@ -9,7 +9,7 @@
 namespace hou
 {
 
-float deg_to_rad(float deg)
+float deg_to_rad(float deg) noexcept
 {
   static constexpr float factor = pi_f / 180.f;
   return deg * factor;
@@ -17,7 +17,7 @@ float deg_to_rad(float deg)
 
 
 
-double deg_to_rad(double deg)
+double deg_to_rad(double deg) noexcept
 {
   static constexpr double factor = pi_d / 180.f;
   return deg * factor;
@@ -25,7 +25,7 @@ double deg_to_rad(double deg)
 
 
 
-float rad_to_deg(float rad)
+float rad_to_deg(float rad) noexcept
 {
   static constexpr float factor = 180.f / pi_f;
   return rad * factor;
@@ -33,7 +33,7 @@ float rad_to_deg(float rad)
 
 
 
-double rad_to_deg(double rad)
+double rad_to_deg(double rad) noexcept
 {
   static constexpr double factor = 180.f / pi_d;
   return rad * factor;

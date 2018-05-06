@@ -212,7 +212,6 @@ TEST_F(test_system_window, frame_rect)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
-  recti refRect = recti(10, 20, 30, 40);
   vec2i pos(10, 20);
   vec2u size(30u, 40u);
   w.set_frame_rect(pos, size);
@@ -248,7 +247,6 @@ TEST_F(test_system_window, client_rect)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
-  recti refRect = recti(10, 20, 30, 40);
   vec2i pos(10, 20);
   vec2u size(30u, 40u);
   w.set_client_rect(pos, size);

@@ -5,11 +5,11 @@
 #ifndef HOU_MTH_TRANSFORM_3_HPP
 #define HOU_MTH_TRANSFORM_3_HPP
 
-#include "hou/mth/mth_export.hpp"
-
 #include "hou/mth/matrix.hpp"
 #include "hou/mth/rotation3.hpp"
 #include "hou/mth/transform3_fwd.hpp"
+
+#include "hou/mth/mth_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 
@@ -40,7 +40,7 @@ public:
    *
    * /return the identity transform.
    */
-  static transform3 identity();
+  static transform3 identity() noexcept;
 
   /** Creates a 3d transform representing a translation.
    *
@@ -48,7 +48,7 @@ public:
    *
    * \return a transform3 object representing the translation.
    */
-  static transform3 translation(const vec3<T>& translation);
+  static transform3 translation(const vec3<T>& translation) noexcept;
 
   /** Creates a 3d transform representing a rotation.
    *
@@ -56,7 +56,7 @@ public:
    *
    * \return a transform3 object representing the rotation.
    */
-  static transform3 rotation(const rot3<T>& rotation);
+  static transform3 rotation(const rot3<T>& rotation) noexcept;
 
   /** Creates a 3d transform representing a scaling transformation.
    *
@@ -64,7 +64,7 @@ public:
    *
    * \return a transform3 object representing the scaling.
    */
-  static transform3 scale(const vec3<T>& scale);
+  static transform3 scale(const vec3<T>& scale) noexcept;
 
   /** Creates a 3d transform representing a shearing transformation.
    *
@@ -82,21 +82,23 @@ public:
    *
    * \return a transform3 object representing the shearing.
    */
-  static transform3 shear(T sxy, T sxz, T syx, T syz, T szx, T szy);
+  static transform3 shear(T sxy, T sxz, T syx, T syz, T szx, T szy) noexcept;
 
 public:
   /** Creates an identity transform.
    */
-  transform3();
+  transform3() noexcept;
 
   /** Creates a transform from a transform with a different scalar type.
    *
    * \tparam U the other scalar type.
+   * \tparam Enable enabling parameter.
    *
    * \param other the transform to be converted.
    */
-  template <typename U>
-  HOU_MTH_API transform3(const transform3<U>& other);
+  template <typename U,
+    typename Enable = std::enable_if_t<std::is_convertible<U, T>::value>>
+  HOU_MTH_API transform3(const transform3<U>& other) noexcept;
 
   /** Builds a homogeneous transformation matrix corresponding to the
    * transform.
@@ -104,7 +106,7 @@ public:
    * \return the homogeneous transformation matrix corresponding to the
    * transform.
    */
-  mat4x4<T> to_mat4x4() const;
+  mat4x4<T> to_mat4x4() const noexcept;
 
   /** Combines the transform with the given transform r.
    *
@@ -112,7 +114,7 @@ public:
    *
    * \return a reference to the object after the combination.
    */
-  transform3& operator*=(const transform3& r);
+  transform3& operator*=(const transform3& r) noexcept;
 
   /** Inverts the transform.
    *
@@ -126,7 +128,7 @@ public:
    *
    * \return the transformed vector.
    */
-  vec3<T> transform_vector(const vec3<T>& vec) const;
+  vec3<T> transform_vector(const vec3<T>& vec) const noexcept;
 
   /** Transforms the given point.
    *
@@ -134,7 +136,7 @@ public:
    *
    * \return the transformed point.
    */
-  vec3<T> transform_point(const vec3<T>& point) const;
+  vec3<T> transform_point(const vec3<T>& point) const noexcept;
 
   /** Checks if two transforms are equal.
    *
@@ -144,7 +146,8 @@ public:
    *
    * \return the result of the check.
    */
-  friend operator==(const transform3& lhs, const transform3& rhs)
+  friend constexpr operator==(
+    const transform3& lhs, const transform3& rhs) noexcept
   {
     return lhs.m_mat == rhs.m_mat && lhs.m_vec == rhs.m_vec;
   }
@@ -157,7 +160,8 @@ public:
    *
    * \return the result of the check.
    */
-  friend operator!=(const transform3& lhs, const transform3& rhs)
+  friend constexpr operator!=(
+    const transform3& lhs, const transform3& rhs) noexcept
   {
     return !(lhs == rhs);
   }
@@ -172,14 +176,14 @@ public:
    *
    * \return the result of the check.
    */
-  friend bool close(const transform3& lhs, const transform3& rhs,
-    T acc = std::numeric_limits<T>::epsilon())
+  friend constexpr bool close(const transform3& lhs, const transform3& rhs,
+    T acc = std::numeric_limits<T>::epsilon()) noexcept
   {
     return close(lhs.m_mat, rhs.m_mat, acc) && close(lhs.m_vec, rhs.m_vec, acc);
   }
 
 private:
-  transform3(const mat3x3<T>& r, const vec3<T>& t);
+  transform3(const mat3x3<T>& r, const vec3<T>& t) noexcept;
 
 private:
   mat3x3<T> m_mat;
@@ -198,7 +202,7 @@ private:
  */
 template <typename T>
 HOU_MTH_API transform3<T> operator*(
-  transform3<T> lhs, const transform3<T>& rhs);
+  transform3<T> lhs, const transform3<T>& rhs) noexcept;
 
 /** Computes the inverse of a transform.
  *

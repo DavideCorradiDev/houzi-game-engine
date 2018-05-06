@@ -6,7 +6,7 @@ namespace hou
 {
 
 template <typename T, size_t Rows, size_t Cols>
-constexpr size_t matrix<T, Rows, Cols>::get_row_count()
+constexpr size_t matrix<T, Rows, Cols>::get_row_count() noexcept
 {
   return Rows;
 }
@@ -14,7 +14,7 @@ constexpr size_t matrix<T, Rows, Cols>::get_row_count()
 
 
 template <typename T, size_t Rows, size_t Cols>
-constexpr size_t matrix<T, Rows, Cols>::get_column_count()
+constexpr size_t matrix<T, Rows, Cols>::get_column_count() noexcept
 {
   return Cols;
 }
@@ -22,7 +22,7 @@ constexpr size_t matrix<T, Rows, Cols>::get_column_count()
 
 
 template <typename T, size_t Rows, size_t Cols>
-constexpr size_t matrix<T, Rows, Cols>::get_size()
+constexpr size_t matrix<T, Rows, Cols>::get_size() noexcept
 {
   return Rows * Cols;
 }
@@ -30,7 +30,7 @@ constexpr size_t matrix<T, Rows, Cols>::get_size()
 
 
 template <typename T, size_t Rows, size_t Cols>
-matrix<T, Rows, Cols> matrix<T, Rows, Cols>::zero()
+constexpr matrix<T, Rows, Cols> matrix<T, Rows, Cols>::zero() noexcept
 {
   return matrix<T, Rows, Cols>();
 }
@@ -38,7 +38,7 @@ matrix<T, Rows, Cols> matrix<T, Rows, Cols>::zero()
 
 
 template <typename T, size_t Rows, size_t Cols>
-matrix<T, Rows, Cols> matrix<T, Rows, Cols>::filled(T value)
+constexpr matrix<T, Rows, Cols> matrix<T, Rows, Cols>::filled(T value) noexcept
 {
   matrix m;
   m.fill(value);
@@ -50,7 +50,7 @@ matrix<T, Rows, Cols> matrix<T, Rows, Cols>::filled(T value)
 #ifndef HOU_DOXYGEN
 template <typename T, size_t Rows, size_t Cols>
 template <size_t RC, typename Enable>
-matrix<T, Rows, Cols> matrix<T, Rows, Cols>::identity()
+constexpr matrix<T, Rows, Cols> matrix<T, Rows, Cols>::identity() noexcept
 {
   matrix m;
   for(size_t i = 0; i < RC; ++i)
@@ -66,8 +66,8 @@ matrix<T, Rows, Cols> matrix<T, Rows, Cols>::identity()
 #ifndef HOU_DOXYGEN
 template <typename T, size_t Rows, size_t Cols>
 template <size_t RC, typename Enable>
-matrix<T, Rows, Cols> matrix<T, Rows, Cols>::diagonal(
-  const matrix<T, RC, 1u>& elements)
+constexpr matrix<T, Rows, Cols> matrix<T, Rows, Cols>::diagonal(
+  const matrix<T, RC, 1u>& elements) noexcept
 {
   matrix m;
   for(size_t i = 0; i < RC; ++i)
@@ -83,7 +83,8 @@ matrix<T, Rows, Cols> matrix<T, Rows, Cols>::diagonal(
 #ifndef HOU_DOXYGEN
 template <typename T, size_t Rows, size_t Cols>
 template <typename... Args, typename Enable>
-matrix<T, Rows, Cols> matrix<T, Rows, Cols>::diagonal(Args... elements)
+constexpr matrix<T, Rows, Cols> matrix<T, Rows, Cols>::diagonal(
+  Args... elements) noexcept
 {
   return diagonal(matrix<T, Rows, 1u>(elements...));
 }
@@ -92,7 +93,7 @@ matrix<T, Rows, Cols> matrix<T, Rows, Cols>::diagonal(Args... elements)
 
 
 template <typename T, size_t Rows, size_t Cols>
-matrix<T, Rows, Cols>::matrix()
+constexpr matrix<T, Rows, Cols>::matrix() noexcept
   : m_elements()
 {
   fill(0);
@@ -102,7 +103,7 @@ matrix<T, Rows, Cols>::matrix()
 
 template <typename T, size_t Rows, size_t Cols>
 template <typename U, typename Enable>
-matrix<T, Rows, Cols>::matrix(const matrix<U, Rows, Cols>& other)
+constexpr matrix<T, Rows, Cols>::matrix(const matrix<U, Rows, Cols>& other) noexcept
   : m_elements()
 {
   std::copy(
@@ -113,30 +114,14 @@ matrix<T, Rows, Cols>::matrix(const matrix<U, Rows, Cols>& other)
 
 template <typename T, size_t Rows, size_t Cols>
 template <typename... Args, typename Enable>
-matrix<T, Rows, Cols>::matrix(Args... elements)
+constexpr matrix<T, Rows, Cols>::matrix(Args... elements) noexcept
   : m_elements{elements...}
 {}
 
 
 
 template <typename T, size_t Rows, size_t Cols>
-matrix<T, Rows, Cols>::matrix(std::initializer_list<T> elements)
-  : m_elements()
-{
-  HOU_PRECOND(elements.size() == get_size());
-  std::copy(elements.begin(), elements.end(), m_elements.begin());
-}
-
-
-
-template <typename T, size_t Rows, size_t Cols>
-matrix<T, Rows, Cols>::~matrix()
-{}
-
-
-
-template <typename T, size_t Rows, size_t Cols>
-T matrix<T, Rows, Cols>::operator()(size_t row, size_t col) const
+constexpr T matrix<T, Rows, Cols>::operator()(size_t row, size_t col) const
 {
   HOU_PRECOND((row < Rows) && (col < Cols));
   return m_elements[row * Cols + col];
@@ -145,7 +130,7 @@ T matrix<T, Rows, Cols>::operator()(size_t row, size_t col) const
 
 
 template <typename T, size_t Rows, size_t Cols>
-T& matrix<T, Rows, Cols>::operator()(size_t row, size_t col)
+constexpr T& matrix<T, Rows, Cols>::operator()(size_t row, size_t col)
 {
   HOU_PRECOND((row < Rows) && (col < Cols));
   return m_elements[row * Cols + col];
@@ -154,7 +139,7 @@ T& matrix<T, Rows, Cols>::operator()(size_t row, size_t col)
 
 
 template <typename T, size_t Rows, size_t Cols>
-T matrix<T, Rows, Cols>::operator()(size_t index) const
+constexpr T matrix<T, Rows, Cols>::operator()(size_t index) const
 {
   HOU_PRECOND(index < get_size());
   return m_elements[index];
@@ -163,7 +148,7 @@ T matrix<T, Rows, Cols>::operator()(size_t index) const
 
 
 template <typename T, size_t Rows, size_t Cols>
-T& matrix<T, Rows, Cols>::operator()(size_t index)
+constexpr T& matrix<T, Rows, Cols>::operator()(size_t index)
 {
   HOU_PRECOND(index < get_size());
   return m_elements[index];
@@ -173,7 +158,7 @@ T& matrix<T, Rows, Cols>::operator()(size_t index)
 
 template <typename T, size_t Rows, size_t Cols>
 template <size_t c, typename Enable>
-T matrix<T, Rows, Cols>::x() const
+constexpr T matrix<T, Rows, Cols>::x() const noexcept
 {
   return m_elements[0];
 }
@@ -182,7 +167,7 @@ T matrix<T, Rows, Cols>::x() const
 
 template <typename T, size_t Rows, size_t Cols>
 template <size_t c, typename Enable>
-T& matrix<T, Rows, Cols>::x()
+constexpr T& matrix<T, Rows, Cols>::x() noexcept
 {
   return m_elements[0];
 }
@@ -191,7 +176,7 @@ T& matrix<T, Rows, Cols>::x()
 
 template <typename T, size_t Rows, size_t Cols>
 template <size_t r, size_t c, typename Enable>
-T matrix<T, Rows, Cols>::y() const
+constexpr T matrix<T, Rows, Cols>::y() const noexcept
 {
   return m_elements[1];
 }
@@ -200,7 +185,7 @@ T matrix<T, Rows, Cols>::y() const
 
 template <typename T, size_t Rows, size_t Cols>
 template <size_t r, size_t c, typename Enable>
-T& matrix<T, Rows, Cols>::y()
+constexpr T& matrix<T, Rows, Cols>::y() noexcept
 {
   return m_elements[1];
 }
@@ -209,7 +194,7 @@ T& matrix<T, Rows, Cols>::y()
 
 template <typename T, size_t Rows, size_t Cols>
 template <size_t r, size_t c, typename Enable>
-T matrix<T, Rows, Cols>::z() const
+constexpr T matrix<T, Rows, Cols>::z() const noexcept
 {
   return m_elements[2];
 }
@@ -218,7 +203,7 @@ T matrix<T, Rows, Cols>::z() const
 
 template <typename T, size_t Rows, size_t Cols>
 template <size_t r, size_t c, typename Enable>
-T& matrix<T, Rows, Cols>::z()
+constexpr T& matrix<T, Rows, Cols>::z() noexcept
 {
   return m_elements[2];
 }
@@ -227,7 +212,7 @@ T& matrix<T, Rows, Cols>::z()
 
 template <typename T, size_t Rows, size_t Cols>
 template <size_t r, size_t c, typename Enable>
-T matrix<T, Rows, Cols>::w() const
+constexpr T matrix<T, Rows, Cols>::w() const noexcept
 {
   return m_elements[3];
 }
@@ -236,7 +221,7 @@ T matrix<T, Rows, Cols>::w() const
 
 template <typename T, size_t Rows, size_t Cols>
 template <size_t r, size_t c, typename Enable>
-T& matrix<T, Rows, Cols>::w()
+constexpr T& matrix<T, Rows, Cols>::w() noexcept
 {
   return m_elements[3];
 }
@@ -244,7 +229,7 @@ T& matrix<T, Rows, Cols>::w()
 
 
 template <typename T, size_t Rows, size_t Cols>
-const T* matrix<T, Rows, Cols>::data() const
+constexpr const T* matrix<T, Rows, Cols>::data() const noexcept
 {
   return m_elements.data();
 }
@@ -253,7 +238,7 @@ const T* matrix<T, Rows, Cols>::data() const
 
 template <typename T, size_t Rows, size_t Cols>
 template <typename... Args, typename Enable>
-void matrix<T, Rows, Cols>::set(Args... elements)
+constexpr void matrix<T, Rows, Cols>::set(Args... elements) noexcept
 {
   *this = matrix(elements...);
 }
@@ -261,7 +246,7 @@ void matrix<T, Rows, Cols>::set(Args... elements)
 
 
 template <typename T, size_t Rows, size_t Cols>
-void matrix<T, Rows, Cols>::fill(T value)
+constexpr void matrix<T, Rows, Cols>::fill(T value) noexcept
 {
   m_elements.fill(value);
 }
@@ -269,8 +254,8 @@ void matrix<T, Rows, Cols>::fill(T value)
 
 
 template <typename T, size_t Rows, size_t Cols>
-matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator+=(
-  const matrix<T, Rows, Cols>& rhs)
+constexpr matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator+=(
+  const matrix<T, Rows, Cols>& rhs) noexcept
 {
   for(size_t i = 0; i < get_size(); ++i)
   {
@@ -282,8 +267,8 @@ matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator+=(
 
 
 template <typename T, size_t Rows, size_t Cols>
-matrix<T, Rows, Cols> operator+(
-  matrix<T, Rows, Cols> lhs, const matrix<T, Rows, Cols>& rhs)
+constexpr matrix<T, Rows, Cols> operator+(
+  matrix<T, Rows, Cols> lhs, const matrix<T, Rows, Cols>& rhs) noexcept
 {
   return lhs += rhs;
 }
@@ -291,8 +276,8 @@ matrix<T, Rows, Cols> operator+(
 
 
 template <typename T, size_t Rows, size_t Cols>
-matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator-=(
-  const matrix<T, Rows, Cols>& rhs)
+constexpr matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator-=(
+  const matrix<T, Rows, Cols>& rhs) noexcept
 {
   for(size_t i = 0; i < get_size(); ++i)
   {
@@ -304,8 +289,8 @@ matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator-=(
 
 
 template <typename T, size_t Rows, size_t Cols>
-matrix<T, Rows, Cols> operator-(
-  matrix<T, Rows, Cols> lhs, const matrix<T, Rows, Cols>& rhs)
+constexpr matrix<T, Rows, Cols> operator-(
+  matrix<T, Rows, Cols> lhs, const matrix<T, Rows, Cols>& rhs) noexcept
 {
   return lhs -= rhs;
 }
@@ -313,7 +298,7 @@ matrix<T, Rows, Cols> operator-(
 
 
 template <typename T, size_t Rows, size_t Cols>
-matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator*=(T rhs)
+constexpr matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator*=(T rhs) noexcept
 {
   for(size_t i = 0; i < get_size(); ++i)
   {
@@ -325,8 +310,8 @@ matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator*=(T rhs)
 
 
 template <typename T, size_t Rows, size_t Mid, size_t Cols>
-matrix<T, Rows, Cols> operator*(
-  const matrix<T, Rows, Mid>& lhs, const matrix<T, Mid, Cols>& rhs)
+constexpr matrix<T, Rows, Cols> operator*(
+  const matrix<T, Rows, Mid>& lhs, const matrix<T, Mid, Cols>& rhs) noexcept
 {
   matrix<T, Rows, Cols> retval;
   for(size_t r = 0; r < Rows; ++r)
@@ -346,7 +331,7 @@ matrix<T, Rows, Cols> operator*(
 
 
 template <typename T, size_t Rows, size_t Cols>
-matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator/=(T rhs)
+constexpr matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator/=(T rhs) noexcept
 {
   for(size_t i = 0; i < get_size(); ++i)
   {
@@ -358,7 +343,7 @@ matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator/=(T rhs)
 
 
 template <typename T>
-T det(const matrix<T, 1, 1>& m)
+constexpr T det(const matrix<T, 1, 1>& m) noexcept
 {
   return m(0);
 }
@@ -366,7 +351,7 @@ T det(const matrix<T, 1, 1>& m)
 
 
 template <typename T>
-T det(const matrix<T, 2, 2>& m)
+constexpr T det(const matrix<T, 2, 2>& m) noexcept
 {
   return m(0, 0) * m(1, 1) - m(0, 1) * m(1, 0);
 }
@@ -374,7 +359,7 @@ T det(const matrix<T, 2, 2>& m)
 
 
 template <typename T>
-T det(const matrix<T, 3, 3>& m)
+constexpr T det(const matrix<T, 3, 3>& m) noexcept
 {
   return m(0, 0) * m(1, 1) * m(2, 2) + m(0, 1) * m(1, 2) * m(2, 0)
     + m(0, 2) * m(1, 0) * m(2, 1) - m(0, 2) * m(1, 1) * m(2, 0)
@@ -384,7 +369,7 @@ T det(const matrix<T, 3, 3>& m)
 
 
 template <typename T, size_t RC, typename Enable>
-T det(const matrix<T, RC, RC>& m)
+constexpr T det(const matrix<T, RC, RC>& m) noexcept
 {
   T result(0);
   for(size_t col = 0; col < RC; ++col)
@@ -398,7 +383,7 @@ T det(const matrix<T, RC, RC>& m)
 
 
 template <typename T, size_t RC>
-T trace(const matrix<T, RC, RC>& m)
+constexpr T trace(const matrix<T, RC, RC>& m) noexcept
 {
   T result(0);
   for(size_t i = 0; i < RC; ++i)
@@ -411,7 +396,7 @@ T trace(const matrix<T, RC, RC>& m)
 
 
 template <typename T, size_t Rows, size_t Cols, typename Enable>
-matrix<T, Rows - 1, Cols - 1> reduce(
+constexpr matrix<T, Rows - 1, Cols - 1> reduce(
   const matrix<T, Rows, Cols>& m, size_t row, size_t col)
 {
   HOU_PRECOND((row < Rows) && (col < Cols));
@@ -442,7 +427,7 @@ matrix<T, Rows - 1, Cols - 1> reduce(
 
 #ifndef HOU_DOXYGEN
 template <typename T, size_t Rows, size_t Cols>
-matrix<T, Cols, Rows> transpose(const matrix<T, Rows, Cols>& m)
+constexpr matrix<T, Cols, Rows> transpose(const matrix<T, Rows, Cols>& m) noexcept
 {
   matrix<T, Cols, Rows> retval;
   for(size_t r = 0; r < Rows; ++r)
@@ -461,7 +446,7 @@ matrix<T, Cols, Rows> transpose(const matrix<T, Rows, Cols>& m)
 #ifndef HOU_DOXYGEN
 template <typename T, size_t Rows, size_t Cols>
 template <size_t RC, typename Enable>
-matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::adjugate()
+constexpr matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::adjugate() noexcept
 {
   *this = ::hou::adjugate(*this);
   return *this;
@@ -471,7 +456,7 @@ matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::adjugate()
 
 
 template <typename T>
-matrix<T, 1, 1> adjugate(const matrix<T, 1, 1>&)
+constexpr matrix<T, 1, 1> adjugate(const matrix<T, 1, 1>&) noexcept
 {
   return matrix<T, 1, 1>::identity();
 }
@@ -479,7 +464,7 @@ matrix<T, 1, 1> adjugate(const matrix<T, 1, 1>&)
 
 
 template <typename T>
-matrix<T, 2, 2> adjugate(const matrix<T, 2, 2>& m)
+constexpr matrix<T, 2, 2> adjugate(const matrix<T, 2, 2>& m) noexcept
 {
   return matrix<T, 2, 2>{m(3), -m(1), -m(2), m(0)};
 }
@@ -487,7 +472,7 @@ matrix<T, 2, 2> adjugate(const matrix<T, 2, 2>& m)
 
 
 template <typename T, size_t RC, typename Enable>
-matrix<T, RC, RC> adjugate(const matrix<T, RC, RC>& m)
+constexpr matrix<T, RC, RC> adjugate(const matrix<T, RC, RC>& m) noexcept
 {
   matrix<T, RC, RC> adj;
   for(size_t r = 0; r < RC; ++r)
@@ -506,7 +491,7 @@ matrix<T, RC, RC> adjugate(const matrix<T, RC, RC>& m)
 #ifndef HOU_DOXYGEN
 template <typename T, size_t Rows, size_t Cols>
 template <size_t RC, typename Enable>
-matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::invert()
+constexpr matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::invert()
 {
   T determinant = det(*this);
   HOU_PRECOND(!close(determinant, T(0)));
@@ -517,7 +502,7 @@ matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::invert()
 
 
 template <typename T, size_t RC>
-matrix<T, RC, RC> inverse(matrix<T, RC, RC> m)
+constexpr matrix<T, RC, RC> inverse(matrix<T, RC, RC> m)
 {
   return m.invert();
 }
@@ -525,7 +510,7 @@ matrix<T, RC, RC> inverse(matrix<T, RC, RC> m)
 
 
 template <typename T, size_t Rows, size_t Cols>
-T square_norm(const matrix<T, Rows, Cols>& m)
+constexpr T square_norm(const matrix<T, Rows, Cols>& m) noexcept
 {
   T sn(0);
   for(size_t i = 0; i < Rows * Cols; ++i)
@@ -538,7 +523,7 @@ T square_norm(const matrix<T, Rows, Cols>& m)
 
 
 template <typename T, size_t Rows, size_t Cols>
-T norm(const matrix<T, Rows, Cols>& m)
+constexpr T norm(const matrix<T, Rows, Cols>& m) noexcept
 {
   return std::sqrt(square_norm(m));
 }
@@ -546,7 +531,7 @@ T norm(const matrix<T, Rows, Cols>& m)
 
 
 template <typename T, size_t Rows, size_t Cols>
-matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::normalize()
+constexpr matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::normalize()
 {
   T matNorm = norm(*this);
   HOU_PRECOND(!close(matNorm, T(0)));
@@ -556,7 +541,7 @@ matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::normalize()
 
 
 template <typename T, size_t Rows, size_t Cols>
-matrix<T, Rows, Cols> normalized(matrix<T, Rows, Cols> m)
+constexpr matrix<T, Rows, Cols> normalized(matrix<T, Rows, Cols> m)
 {
   return m.normalize();
 }
@@ -564,7 +549,7 @@ matrix<T, Rows, Cols> normalized(matrix<T, Rows, Cols> m)
 
 
 template <typename T>
-matrix<T, 3u, 3u> cross_matrix(const matrix<T, 3u, 1u>& m)
+constexpr matrix<T, 3u, 3u> cross_matrix(const matrix<T, 3u, 1u>& m) noexcept
 {
   return matrix<T, 3u, 3u>{
     T(0), -m.z(), m.y(), m.z(), T(0), -m.x(), -m.y(), m.x(), T(0)};
@@ -573,7 +558,7 @@ matrix<T, 3u, 3u> cross_matrix(const matrix<T, 3u, 1u>& m)
 
 
 template <typename T>
-matrix<T, 2u, 1u> cross(const matrix<T, 2u, 1u>& v)
+constexpr matrix<T, 2u, 1u> cross(const matrix<T, 2u, 1u>& v) noexcept
 {
   return matrix<T, 2u, 1u>{v(1), -v(0)};
 }
@@ -581,22 +566,25 @@ matrix<T, 2u, 1u> cross(const matrix<T, 2u, 1u>& v)
 
 
 template <typename T>
-matrix<T, 3u, 1u> cross(
-  const matrix<T, 3u, 1u>& lhs, const matrix<T, 3u, 1u>& rhs)
+constexpr matrix<T, 3u, 1u> cross(
+  const matrix<T, 3u, 1u>& lhs, const matrix<T, 3u, 1u>& rhs) noexcept
 {
+  // clang-format off
   return matrix<T, 3u, 1u>{
     lhs(1) * rhs(2) - lhs(2) * rhs(1),
     lhs(2) * rhs(0) - lhs(0) * rhs(2),
     lhs(0) * rhs(1) - lhs(1) * rhs(0),
   };
+  // clang-format on
 }
 
 
 
 template <typename T>
-matrix<T, 3u, 3u> outer_product(
-  const matrix<T, 3u, 1u>& lhs, const matrix<T, 3u, 1u>& rhs)
+constexpr matrix<T, 3u, 3u> outer_product(
+  const matrix<T, 3u, 1u>& lhs, const matrix<T, 3u, 1u>& rhs) noexcept
 {
+  // clang-format off
   return matrix<T, 3u, 3u>{
     lhs.x() * rhs.x(),
     lhs.x() * rhs.y(),
@@ -608,12 +596,13 @@ matrix<T, 3u, 3u> outer_product(
     lhs.z() * rhs.y(),
     lhs.z() * rhs.z(),
   };
+  // clang-format on
 }
 
 
 
 template <typename T, size_t Rows>
-T dot(const matrix<T, Rows, 1u>& lhs, const matrix<T, Rows, 1u>& rhs)
+constexpr T dot(const matrix<T, Rows, 1u>& lhs, const matrix<T, Rows, 1u>& rhs) noexcept
 {
   T result(0);
   for(size_t i = 0; i < Rows; ++i)
