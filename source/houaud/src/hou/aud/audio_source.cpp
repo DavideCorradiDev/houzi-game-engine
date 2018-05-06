@@ -5,7 +5,7 @@
 #include "hou/aud/audio_source.hpp"
 
 #include "hou/cor/assertions.hpp"
-#include "hou/cor/core_exceptions.hpp"
+#include "hou/cor/cor_exceptions.hpp"
 
 #include "hou/mth/math_functions.hpp"
 

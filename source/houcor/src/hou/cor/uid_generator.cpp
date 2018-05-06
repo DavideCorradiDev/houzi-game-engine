@@ -4,7 +4,7 @@
 
 #include "hou/cor/uid_generator.hpp"
 
-#include "hou/cor/core_exceptions.hpp"
+#include "hou/cor/cor_exceptions.hpp"
 
 #include <limits>
 

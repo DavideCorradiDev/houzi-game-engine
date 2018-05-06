@@ -4,7 +4,7 @@
 
 #include "hou/test.hpp"
 
-#include "hou/cor/core_exceptions.hpp"
+#include "hou/cor/cor_exceptions.hpp"
 
 using namespace hou;
 using namespace testing;

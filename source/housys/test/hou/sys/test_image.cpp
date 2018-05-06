@@ -7,7 +7,7 @@
 
 #include "hou/sys/file.hpp"
 #include "hou/sys/image.hpp"
-#include "hou/sys/system_exceptions.hpp"
+#include "hou/sys/sys_exceptions.hpp"
 
 using namespace hou;
 using namespace testing;

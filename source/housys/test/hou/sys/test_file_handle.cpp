@@ -6,7 +6,7 @@
 #include "hou/sys/test_data.hpp"
 
 #include "hou/sys/file_handle.hpp"
-#include "hou/sys/system_exceptions.hpp"
+#include "hou/sys/sys_exceptions.hpp"
 
 using namespace hou;
 using namespace testing;

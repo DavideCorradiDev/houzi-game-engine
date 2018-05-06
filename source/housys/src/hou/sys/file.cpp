@@ -4,7 +4,7 @@
 
 #include "hou/sys/file.hpp"
 
-#include "hou/sys/system_exceptions.hpp"
+#include "hou/sys/sys_exceptions.hpp"
 
 #include "hou/cor/assertions.hpp"
 #include "hou/cor/std_string.hpp"

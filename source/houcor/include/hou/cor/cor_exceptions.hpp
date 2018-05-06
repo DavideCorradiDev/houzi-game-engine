@@ -43,6 +43,6 @@ public:
 
 }  // namespace hou
 
-#include "hou/cor/core_exceptions.inl"
+#include "hou/cor/cor_exceptions.inl"
 
 #endif

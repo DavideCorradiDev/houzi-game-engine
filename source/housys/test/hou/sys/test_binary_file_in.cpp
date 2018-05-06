@@ -8,7 +8,7 @@
 #include "hou/cor/span.hpp"
 
 #include "hou/sys/binary_file_in.hpp"
-#include "hou/sys/system_exceptions.hpp"
+#include "hou/sys/sys_exceptions.hpp"
 
 using namespace hou;
 using namespace testing;

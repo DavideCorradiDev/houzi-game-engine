@@ -6,7 +6,7 @@
 
 #include "hou/aud/empty_audio_stream_in.hpp"
 
-#include "hou/sys/system_exceptions.hpp"
+#include "hou/sys/sys_exceptions.hpp"
 
 using namespace hou;
 using namespace testing;

@@ -9,7 +9,7 @@
 #include "hou/cor/assertions.hpp"
 #include "hou/cor/pragmas.hpp"
 
-#include "hou/sys/system_exceptions.hpp"
+#include "hou/sys/sys_exceptions.hpp"
 
 // clang-format off
 HOU_PRAGMA_GCC_DIAGNOSTIC_PUSH()

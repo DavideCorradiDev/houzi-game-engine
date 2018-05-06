@@ -7,7 +7,7 @@
 
 #include "hou/cor/span.hpp"
 
-#include "hou/sys/system_exceptions.hpp"
+#include "hou/sys/sys_exceptions.hpp"
 #include "hou/sys/text_file_in.hpp"
 
 using namespace hou;

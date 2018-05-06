@@ -5,7 +5,7 @@
 #include "hou/aud/audio_buffer_format.hpp"
 
 #include "hou/cor/assertions.hpp"
-#include "hou/cor/core_exceptions.hpp"
+#include "hou/cor/cor_exceptions.hpp"
 
 #define AUDIO_BUFFER_FORMAT_CASE(format, os) \
   case audio_buffer_format::format: \
