@@ -30,18 +30,16 @@ std::string get_os_error_message(os_error_code ec)
 
   if(lpMsgBuf == nullptr)
   {
-    return format_string(u8"OS error with code %d: unrecognized code.", ec);
+    return u8"Unknown error.";
   }
   else
   {
     // Convert Windows UNICODE encoding to utf-8 to store it in a std::string.
-    std::string messageUtf8(convert_encoding<wide, utf8>((LPWSTR)lpMsgBuf));
-    std::string winError
-      = format_string(u8"OS error with code %d: %s", ec, messageUtf8.c_str());
+    std::string message_utf8(convert_encoding<wide, utf8>((LPWSTR)lpMsgBuf));
     LocalFree(lpMsgBuf);
     // Remove the \r\n appended at the end.
-    winError.resize(winError.size() - 2);
-    return winError;
+    message_utf8.resize(message_utf8.size() - 2);
+    return message_utf8;
   }
 }
 
