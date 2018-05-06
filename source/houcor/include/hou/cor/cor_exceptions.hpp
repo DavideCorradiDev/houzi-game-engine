@@ -21,13 +21,11 @@ namespace hou
 class HOU_COR_API overflow_error : public exception
 {
 public:
-  /** Creates an overflow_error object with the given path, line, and message.
+  /** Creates an overflow_error object.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
-   *
-   * \param message the error message.
    */
   overflow_error(const std::string& path, uint line);
 };
@@ -39,13 +37,11 @@ public:
 class HOU_COR_API underflow_error : public exception
 {
 public:
-  /** Creates an underflow_error object with the given path, line, and message.
+  /** Creates an underflow_error object.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
-   *
-   * \param message the error message.
    */
   underflow_error(const std::string& path, uint line);
 };

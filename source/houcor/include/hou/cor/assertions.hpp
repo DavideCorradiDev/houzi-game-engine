@@ -22,14 +22,11 @@ namespace hou
 class HOU_COR_API precondition_violation : public exception
 {
 public:
-  /** Creates an precondition_violation object with the given path, line, and
-   * message.
+  /** Creates an precondition_violation object.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
-   *
-   * \param message the error message.
    */
   precondition_violation(const std::string& path, uint line);
 };
@@ -42,14 +39,11 @@ public:
 class HOU_COR_API postcondition_violation : public exception
 {
 public:
-  /** Creates an postcondition_violation object with the given path, line, and
-   * message.
+  /** Creates an postcondition_violation object.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
-   *
-   * \param message the error message.
    */
   postcondition_violation(const std::string& path, uint line);
 };
@@ -62,14 +56,11 @@ public:
 class HOU_COR_API invariant_violation : public exception
 {
 public:
-  /** Creates an invariant_violation object with the given path, line, and
-   * message.
+  /** Creates an invariant_violation object.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
-   *
-   * \param message the error message.
    */
   invariant_violation(const std::string& path, uint line);
 };
@@ -85,14 +76,11 @@ public:
 class HOU_COR_API unreachable_error : public exception
 {
 public:
-  /** Creates an unreachable_error object with the given path, line, and
-   * message.
+  /** Creates an unreachable_error object.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
-   *
-   * \param message the error message.
    */
   unreachable_error(const std::string& path, uint line);
 };
