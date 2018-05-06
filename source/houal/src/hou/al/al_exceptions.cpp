@@ -30,7 +30,7 @@ std::string get_error_message(ALenum err)
   switch(err)
   {
     case AL_INVALID_ENUM:
-      return u8"invalud enum";
+      return u8"invalid enum";
     case AL_INVALID_NAME:
       return u8"invalid name";
     case AL_INVALID_OPERATION:
