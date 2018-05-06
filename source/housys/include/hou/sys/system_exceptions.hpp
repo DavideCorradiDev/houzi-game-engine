@@ -24,8 +24,7 @@ public:
 class HOU_SYS_API file_close_error : public exception
 {
 public:
-  file_close_error(
-    const std::string& path, uint line);
+  file_close_error(const std::string& path, uint line);
 };
 
 class HOU_SYS_API file_read_error : public exception

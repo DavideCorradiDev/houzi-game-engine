@@ -32,37 +32,20 @@ inline std::string get_exception_msg_regex(const std::exception& ex)
   return hou::escape_regex(ex.what());
 }
 
-inline std::string get_terminate_msg_regex(
-  const std::string& ex_name, const hou::exception& ex)
-{
-  std::stringstream ss;
-  ss << ex_name << " - " << get_exception_msg_regex(ex);
-  return ss.str();
-}
-
-inline std::string get_terminate_msg_regex(
-  const std::string& ex_name, const std::exception& ex)
-{
-  std::stringstream ss;
-  ss << ex_name << " - " << get_exception_msg_regex(ex);
-  return ss.str();
-}
-
 #if defined(HOU_DISABLE_EXCEPTIONS)
 
 #define EXPECT_ERROR_STD_0(statement, exception_type)                          \
   do                                                                           \
   {                                                                            \
-    EXPECT_DEATH(statement,                                                    \
-      get_terminate_msg_regex(#exception_type, exception_type()).c_str());     \
+    EXPECT_DEATH(                                                              \
+      statement, get_exception_msg_regex(exception_type()).c_str());           \
   } while(false)
 
 #define EXPECT_ERROR_TEMPLATE(statement, exception_type, ...)                  \
   do                                                                           \
   {                                                                            \
     EXPECT_DEATH(statement,                                                    \
-      get_terminate_msg_regex(#exception_type, exception_type(__VA_ARGS__))    \
-        .c_str());                                                             \
+      get_exception_msg_regex(exception_type(__VA_ARGS__)).c_str());           \
   } while(false)
 
 #else

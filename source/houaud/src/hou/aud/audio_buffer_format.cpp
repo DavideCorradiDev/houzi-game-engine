@@ -60,6 +60,7 @@ uint get_audio_buffer_format_channel_count(audio_buffer_format format)
       return 2u;
     default:
       HOU_ERROR_0(unreachable_code_error);
+      return 1u;
   }
 }
 
@@ -77,6 +78,7 @@ uint get_audio_buffer_format_bytes_per_sample(audio_buffer_format format)
       return 2u;
     default:
       HOU_ERROR_0(unreachable_code_error);
+      return 1u;
   }
 }
 
@@ -92,6 +94,7 @@ std::ostream& operator<<(std::ostream& os, audio_buffer_format format)
     AUDIO_BUFFER_FORMAT_CASE(stereo16, os);
     default:
       HOU_ERROR_0(unreachable_code_error);
+      return os;
   }
 }
 

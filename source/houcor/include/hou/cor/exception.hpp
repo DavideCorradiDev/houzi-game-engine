@@ -52,15 +52,13 @@ void HOU_COR_API terminate(const std::string& message) noexcept;
 #define HOU_ERROR_STD_0(exception_type)                                        \
   do                                                                           \
   {                                                                            \
-    ::hou::terminate(std::string(#exception_type) + std::string(u8" - ")       \
-      + exception_type().what());                                              \
+    ::hou::terminate(exception_type().what());                                 \
   } while(false)
 
 #define HOU_ERROR_TEMPLATE(exception_type, ...)                                \
   do                                                                           \
   {                                                                            \
-    ::hou::terminate(std::string(#exception_type) + std::string(u8" - ")       \
-      + exception_type(__VA_ARGS__).what());                                   \
+    ::hou::terminate(exception_type(__VA_ARGS__).what());                      \
   } while(false)
 
 #else
