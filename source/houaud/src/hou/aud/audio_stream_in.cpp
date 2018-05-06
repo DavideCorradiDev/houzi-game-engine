@@ -4,12 +4,8 @@
 
 #include "hou/aud/audio_stream_in.hpp"
 
-#include "hou/aud/aud_error.hpp"
 #include "hou/aud/ogg_file_in.hpp"
 #include "hou/aud/wav_file_in.hpp"
-
-#include "hou/cor/cor_error.hpp"
-#include "hou/cor/assertions.hpp"
 
 
 

@@ -4,12 +4,12 @@
 
 #include "hou/aud/ogg_file_in.hpp"
 
-#include "hou/aud/aud_error.hpp"
+#include "hou/aud/aud_exceptions.hpp"
 
 #include "hou/cor/assertions.hpp"
 #include "hou/cor/pragmas.hpp"
 
-#include "hou/sys/sys_error.hpp"
+#include "hou/sys/system_exceptions.hpp"
 
 // clang-format off
 HOU_PRAGMA_GCC_DIAGNOSTIC_PUSH()
@@ -37,8 +37,7 @@ static constexpr size_t bytes_per_sample = 2u;
 bool ogg_file_in::check(const std::string& path)
 {
   FILE* file = open_file(path, "rb");
-  DEPRECATED_HOU_RUNTIME_CHECK(
-    file != nullptr, get_text(sys_error::file_open), path.c_str());
+  HOU_CHECK_N(file != nullptr, file_open_error, path);
 
   OggVorbis_File vorbis_file;
   if(ov_test(file, &vorbis_file, nullptr, 0) != 0)
@@ -67,15 +66,14 @@ ogg_file_in::ogg_file_in(const std::string& path)
   , m_error(false)
 {
   FILE* file = open_file(path, "rb");
-  DEPRECATED_HOU_RUNTIME_CHECK(
-    file != nullptr, get_text(sys_error::file_open), path.c_str());
+  HOU_CHECK_N(file != nullptr, file_open_error, path);
 
   // The last two parameters are used to point to initial data.
   // They are irrelevant in this case.
   if(ov_open(file, m_vorbis_file.get(), nullptr, 0) != 0)
   {
     fclose(file);
-    DEPRECATED_HOU_RUNTIME_ERROR(get_text(aud_error::ogg_invalid_header), path.c_str());
+    HOU_ERROR_N(audio_read_error, path);
   }
 
   read_metadata();
@@ -102,8 +100,9 @@ ogg_file_in::~ogg_file_in()
 {
   if(m_vorbis_file != nullptr)
   {
-    DEPRECATED_HOU_FATAL_CHECK(
-      ov_clear(m_vorbis_file.get()) == 0, get_text(sys_error::file_close));
+    HOU_DISABLE_EXCEPTIONS_BEGIN
+    HOU_CHECK_0(ov_clear(m_vorbis_file.get()) == 0, file_close_error);
+    HOU_DISABLE_EXCEPTIONS_END
   }
 }
 
@@ -187,9 +186,9 @@ ogg_file_in::sample_position ogg_file_in::get_sample_pos() const
 audio_stream_in& ogg_file_in::set_sample_pos(ogg_file_in::sample_position pos)
 {
   m_eof = false;
-  DEPRECATED_HOU_RUNTIME_CHECK(
+  HOU_CHECK_0(
     ov_pcm_seek(m_vorbis_file.get(), static_cast<ogg_int64_t>(pos)) == 0,
-    get_text(sys_error::file_seek));
+    file_cursor_error);
   return *this;
 }
 
@@ -198,12 +197,12 @@ audio_stream_in& ogg_file_in::set_sample_pos(ogg_file_in::sample_position pos)
 audio_stream_in& ogg_file_in::move_sample_pos(ogg_file_in::sample_offset offset)
 {
   m_eof = false;
-  DEPRECATED_HOU_RUNTIME_CHECK(
+  HOU_CHECK_0(
     ov_pcm_seek(m_vorbis_file.get(),
       static_cast<ogg_int64_t>(
         static_cast<ogg_file_in::sample_offset>(get_sample_pos()) + offset))
       == 0,
-    get_text(sys_error::file_seek));
+    file_cursor_error);
   return *this;
 }
 
@@ -262,8 +261,7 @@ void ogg_file_in::on_read(void* buf, size_t element_size, size_t buf_size)
     }
   }
   // Check that no error happened during the read operation.
-  DEPRECATED_HOU_RUNTIME_CHECK(
-    countBytes == sizeBytes || !error(), get_text(sys_error::file_read));
+  HOU_CHECK_0(countBytes == sizeBytes || !error(), file_read_error);
   HOU_DEV_POSTCOND(countBytes % element_size == 0u);
   m_byte_count = countBytes;
   m_element_count = countBytes / element_size;

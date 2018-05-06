@@ -2,8 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#ifndef HOU_COR_CORE_EXCEPTIONS_HPP
-#define HOU_COR_CORE_EXCEPTIONS_HPP
+#ifndef HOU_COR_COR_EXCEPTIONS_HPP
+#define HOU_COR_COR_EXCEPTIONS_HPP
 
 #include "hou/cor/exception.hpp"
 

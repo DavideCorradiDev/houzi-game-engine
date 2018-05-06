@@ -4,13 +4,13 @@
 
 #include "hou/aud/wav_file_in.hpp"
 
-#include "hou/aud/aud_error.hpp"
+#include "hou/aud/aud_exceptions.hpp"
 
 #include "hou/cor/assertions.hpp"
 #include "hou/cor/pragmas.hpp"
 
 #include "hou/sys/binary_file_in.hpp"
-#include "hou/sys/sys_error.hpp"
+#include "hou/sys/system_exceptions.hpp"
 
 
 
@@ -143,9 +143,9 @@ binary_stream& wav_file_in::set_byte_pos(wav_file_in::byte_position pos)
   // Audio streams have stricter requirements for cursor position, therefore
   // a check must be done here.
   HOU_PRECOND((pos % (get_channel_count() * get_bytes_per_sample())) == 0u);
-  DEPRECATED_HOU_RUNTIME_CHECK(pos >= 0
+  HOU_CHECK_0(pos >= 0
       && pos <= static_cast<wav_file_in::byte_position>(get_byte_count()),
-    get_text(sys_error::file_seek));
+      file_cursor_error);
   m_file.seek_set(pos + m_data_offset);
   return *this;
 }
@@ -200,25 +200,22 @@ void wav_file_in::read_metadata(const std::string& path)
   read(format);
 
   // Check if the read opeartion was performed correctly.
-  DEPRECATED_HOU_RUNTIME_CHECK(
-    !m_file.eof(), get_text(aud_error::wav_invalid_header), path.c_str());
+  HOU_CHECK_N(!m_file.eof(), audio_read_error, path);
 
   // Consistency checks.
-  DEPRECATED_HOU_RUNTIME_CHECK(
-    std::string(signature.id, g_wav_header_string_size) == u8"RIFF",
-    get_text(aud_error::wav_invalid_header), path.c_str());
-  DEPRECATED_HOU_RUNTIME_CHECK(
-    std::string(signature.form, g_wav_header_string_size) == u8"WAVE",
-    get_text(aud_error::wav_invalid_header), path.c_str());
-  DEPRECATED_HOU_RUNTIME_CHECK(
+  HOU_CHECK_N(std::string(signature.id, g_wav_header_string_size) == u8"RIFF",
+    audio_read_error, path);
+  HOU_CHECK_N(std::string(signature.form, g_wav_header_string_size) == u8"WAVE",
+    audio_read_error, path);
+  HOU_CHECK_N(
     std::string(format.signature.id, g_wav_header_string_size) == u8"fmt ",
-    get_text(aud_error::wav_invalid_header), path.c_str());
-  DEPRECATED_HOU_RUNTIME_CHECK(format.byte_rate
+    audio_read_error, path);
+  HOU_CHECK_N(format.byte_rate
       == (format.sample_rate * format.channels * format.bits_per_sample / 8),
-    get_text(aud_error::wav_invalid_header), path.c_str());
-  DEPRECATED_HOU_RUNTIME_CHECK(
+    audio_read_error, path);
+  HOU_CHECK_N(
     format.block_align == (format.channels * format.bits_per_sample / 8u),
-    get_text(aud_error::wav_invalid_header), path.c_str());
+    audio_read_error, path);
 
   // Look for the data subchunk.and set the data offset.
   wav_chunk_signature chunk_signature;
@@ -227,8 +224,7 @@ void wav_file_in::read_metadata(const std::string& path)
   {
     m_file.seek_offset(chunk_signature.size);
     read(chunk_signature);
-    DEPRECATED_HOU_RUNTIME_CHECK(
-      !eof(), get_text(aud_error::wav_invalid_header), path.c_str());
+    HOU_CHECK_N(!eof(), audio_read_error, path);
   }
 
   // Set data offset.

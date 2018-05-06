@@ -5,11 +5,11 @@
 #include "hou/Test.hpp"
 #include "hou/aud/test_data.hpp"
 
-#include "hou/aud/aud_error.hpp"
+#include "hou/aud/aud_exceptions.hpp"
 #include "hou/aud/ogg_file_in.hpp"
 
 #include "hou/sys/file.hpp"
-#include "hou/sys/sys_error.hpp"
+#include "hou/sys/system_exceptions.hpp"
 
 using namespace hou;
 using namespace testing;
@@ -71,8 +71,8 @@ TEST_F(test_ogg_file_in, check_failure_invalid_format)
 TEST_F(TestOggFileInDeathTest, check_failure_invalid_file)
 {
   std::string invalid_filename = u8"Invalidfile";
-  DEPRECATED_HOU_EXPECT_ERROR(ogg_file_in::check(invalid_filename), std::runtime_error,
-    format_string(get_text(sys_error::file_open), invalid_filename.c_str()));
+  EXPECT_ERROR_N(
+    ogg_file_in::check(invalid_filename), file_open_error, invalid_filename);
 }
 
 
@@ -99,8 +99,8 @@ TEST_F(test_ogg_file_in, path_constructor)
 TEST_F(TestOggFileInDeathTest, path_constructor_failure_file_not_existing)
 {
   std::string invalid_filename = u8"InvalidFileName";
-  DEPRECATED_HOU_EXPECT_ERROR(ogg_file_in fi(invalid_filename), std::runtime_error,
-    format_string(get_text(sys_error::file_open), invalid_filename.c_str()));
+  EXPECT_ERROR_N(
+    ogg_file_in fi(invalid_filename), file_open_error, invalid_filename);
 }
 
 
@@ -125,11 +125,11 @@ TEST_F(TestOggFileInDeathTest, path_constructor_failure_invalid_ogg_file)
     uint32_t sc2Size;
   };
 
-  std::string dummyOggFileName = get_output_dir() + u8"dummyOggFile.wav";
+  std::string invalid_filename = get_output_dir() + u8"dummyOggFile.wav";
 
   {
     file dummyOggFile(
-      dummyOggFileName, file_open_mode::write, file_type::binary);
+      invalid_filename, file_open_mode::write, file_type::binary);
     OggMetadata data;
     data.id[0] = 'F';
     data.id[1] = 'a';
@@ -138,29 +138,27 @@ TEST_F(TestOggFileInDeathTest, path_constructor_failure_invalid_ogg_file)
     dummyOggFile.write(&data, 1u);
   }
 
-  DEPRECATED_HOU_EXPECT_ERROR(ogg_file_in fi(dummyOggFileName), std::runtime_error,
-    format_string(
-      get_text(aud_error::ogg_invalid_header), dummyOggFileName.c_str()));
+  EXPECT_ERROR_N(
+    ogg_file_in fi(invalid_filename), audio_read_error, invalid_filename);
 
-  remove_dir(dummyOggFileName);
+  remove_dir(invalid_filename);
 }
 
 
 
 TEST_F(TestOggFileInDeathTest, path_constructor_failure_no_ogg_header)
 {
-  std::string dummyOggFileName = get_output_dir() + u8"dummyOggFile.wav";
+  std::string invalid_filename = get_output_dir() + u8"dummyOggFile.wav";
 
   {
     file dummyOggFile(
-      dummyOggFileName, file_open_mode::write, file_type::binary);
+      invalid_filename, file_open_mode::write, file_type::binary);
   }
 
-  DEPRECATED_HOU_EXPECT_ERROR(ogg_file_in fi(dummyOggFileName), std::runtime_error,
-    format_string(
-      get_text(aud_error::ogg_invalid_header), dummyOggFileName.c_str()));
+  EXPECT_ERROR_N(
+    ogg_file_in fi(invalid_filename), audio_read_error, invalid_filename);
 
-  remove_dir(dummyOggFileName);
+  remove_dir(invalid_filename);
 }
 
 
@@ -243,10 +241,8 @@ TEST_F(test_ogg_file_in, set_byte_pos)
 TEST_F(TestOggFileInDeathTest, set_byte_pos_error_position_in_sample)
 {
   ogg_file_in fi(mono16_filename);
-  DEPRECATED_HOU_EXPECT_ERROR(
-    fi.set_byte_pos(3), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(fi.set_byte_pos(fi.get_byte_count() + 3), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(fi.set_byte_pos(3));
+  EXPECT_PRECOND_ERROR(fi.set_byte_pos(fi.get_byte_count() + 3));
 }
 
 
@@ -254,10 +250,8 @@ TEST_F(TestOggFileInDeathTest, set_byte_pos_error_position_in_sample)
 TEST_F(TestOggFileInDeathTest, set_byte_pos_error_invalid_position)
 {
   ogg_file_in fi(mono16_filename);
-  DEPRECATED_HOU_EXPECT_ERROR(
-    fi.set_byte_pos(-2), std::runtime_error, get_text(sys_error::file_seek));
-  DEPRECATED_HOU_EXPECT_ERROR(fi.set_byte_pos(fi.get_byte_count() + 2), std::runtime_error,
-    get_text(sys_error::file_seek));
+  EXPECT_ERROR_0(fi.set_byte_pos(-2), file_cursor_error);
+  EXPECT_ERROR_0(fi.set_byte_pos(fi.get_byte_count() + 2), file_cursor_error);
 }
 
 
@@ -283,10 +277,8 @@ TEST_F(TestOggFileInDeathTest, move_byte_pos_error_position_in_sample)
 {
   ogg_file_in fi(mono16_filename);
   fi.move_byte_pos(4);
-  DEPRECATED_HOU_EXPECT_ERROR(
-    fi.move_byte_pos(3), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(fi.move_byte_pos(fi.get_byte_count() + 3), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(fi.move_byte_pos(3));
+  EXPECT_PRECOND_ERROR(fi.move_byte_pos(fi.get_byte_count() + 3));
 }
 
 
@@ -295,10 +287,8 @@ TEST_F(TestOggFileInDeathTest, move_byte_pos_error_invalid_position)
 {
   ogg_file_in fi(mono16_filename);
   fi.move_byte_pos(4);
-  DEPRECATED_HOU_EXPECT_ERROR(
-    fi.move_byte_pos(-6), std::runtime_error, get_text(sys_error::file_seek));
-  DEPRECATED_HOU_EXPECT_ERROR(fi.move_byte_pos(fi.get_byte_count() - 2),
-    std::runtime_error, get_text(sys_error::file_seek));
+  EXPECT_ERROR_0(fi.move_byte_pos(-6), file_cursor_error);
+  EXPECT_ERROR_0(fi.move_byte_pos(fi.get_byte_count() - 2), file_cursor_error);
 }
 
 
@@ -342,10 +332,9 @@ TEST_F(test_ogg_file_in, set_sample_pos_stereo16)
 TEST_F(TestOggFileInDeathTest, set_sample_pos_error_invalid_position)
 {
   ogg_file_in fi(mono16_filename);
-  DEPRECATED_HOU_EXPECT_ERROR(
-    fi.set_sample_pos(-1), std::runtime_error, get_text(sys_error::file_seek));
-  DEPRECATED_HOU_EXPECT_ERROR(fi.set_sample_pos(fi.get_sample_count() + 1),
-    std::runtime_error, get_text(sys_error::file_seek));
+  EXPECT_ERROR_0(fi.set_sample_pos(-1), file_cursor_error);
+  EXPECT_ERROR_0(
+    fi.set_sample_pos(fi.get_sample_count() + 1), file_cursor_error);
 }
 
 
@@ -402,10 +391,9 @@ TEST_F(TestOggFileInDeathTest, move_sample_pos_error_invalid_position)
 {
   ogg_file_in fi(mono16_filename);
   fi.move_sample_pos(2);
-  DEPRECATED_HOU_EXPECT_ERROR(
-    fi.move_sample_pos(-3), std::runtime_error, get_text(sys_error::file_seek));
-  DEPRECATED_HOU_EXPECT_ERROR(fi.move_sample_pos(fi.get_sample_count() + 1),
-    std::runtime_error, get_text(sys_error::file_seek));
+  EXPECT_ERROR_0(fi.move_sample_pos(-3), file_cursor_error);
+  EXPECT_ERROR_0(
+    fi.move_sample_pos(fi.get_sample_count() + 1), file_cursor_error);
 }
 
 
@@ -547,8 +535,7 @@ TEST_F(TestOggFileInDeathTest, read_to_invalid_size_buffer)
   ogg_file_in fi(mono16_filename);
   EXPECT_EQ(audio_buffer_format::mono16, fi.get_format());
 
-  DEPRECATED_HOU_EXPECT_ERROR(
-    fi.read(buffer), std::logic_error, get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(fi.read(buffer));
 }
 
 

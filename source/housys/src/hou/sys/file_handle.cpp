@@ -13,13 +13,6 @@
 namespace hou
 {
 
-namespace
-{
-
-const std::string assert_msg_file_close = u8"Could not close a file.";
-
-}
-
 file_handle::file_handle(
   const std::string& path, file_open_mode mode, file_type type)
   : non_copyable()
@@ -43,7 +36,9 @@ file_handle::~file_handle()
 {
   if(m_file != nullptr)
   {
-    HOU_ASSERT(fclose(m_file) != EOF, assert_msg_file_close);
+    HOU_DISABLE_EXCEPTIONS_BEGIN
+    HOU_CHECK_0(fclose(m_file) != EOF, file_close_error);
+    HOU_DISABLE_EXCEPTIONS_END
   }
 }
 

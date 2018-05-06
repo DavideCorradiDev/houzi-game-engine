@@ -8,8 +8,6 @@
 #include "hou/aud/audio_buffer.hpp"
 #include "hou/aud/audio_source.hpp"
 
-#include "hou/cor/cor_error.hpp"
-
 #include "hou/mth/math_functions.hpp"
 
 using namespace hou;
@@ -465,8 +463,8 @@ TEST_F(test_audio_source, gain)
 TEST_F(test_audio_source_death_test, invalid_gain)
 {
   concrete_audio_source as(m_buffer);
-  DEPRECATED_HOU_EXPECT_ERROR(
-    as.set_gain(-3.f), std::logic_error, get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(
+    as.set_gain(-3.f));
 }
 
 
@@ -483,8 +481,7 @@ TEST_F(test_audio_source, max_gain)
 TEST_F(test_audio_source_death_test, invalid_max_gain)
 {
   concrete_audio_source as(m_buffer);
-  DEPRECATED_HOU_EXPECT_ERROR(as.set_max_gain(-3.f), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(as.set_max_gain(-3.f));
 }
 
 
@@ -501,8 +498,7 @@ TEST_F(test_audio_source, min_gain)
 TEST_F(test_audio_source_death_test, invalid_min_gain)
 {
   concrete_audio_source as(m_buffer);
-  DEPRECATED_HOU_EXPECT_ERROR(as.set_min_gain(-3.f), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(as.set_min_gain(-3.f));
 }
 
 
@@ -519,8 +515,7 @@ TEST_F(test_audio_source, max_distance)
 TEST_F(test_audio_source_death_test, invalid_max_distance)
 {
   concrete_audio_source as(m_buffer);
-  DEPRECATED_HOU_EXPECT_ERROR(as.set_max_distance(-3.f), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(as.set_max_distance(-3.f));
 }
 
 
@@ -537,8 +532,7 @@ TEST_F(test_audio_source, rolloff_factor)
 TEST_F(test_audio_source_death_test, invalid_rolloff_factor)
 {
   concrete_audio_source as(m_buffer);
-  DEPRECATED_HOU_EXPECT_ERROR(as.set_rolloff_factor(-3.f), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(as.set_rolloff_factor(-3.f));
 }
 
 
@@ -555,8 +549,7 @@ TEST_F(test_audio_source, reference_distance)
 TEST_F(test_audio_source_death_test, invalid_reference_distance)
 {
   concrete_audio_source as(m_buffer);
-  DEPRECATED_HOU_EXPECT_ERROR(as.set_reference_distance(-3.f), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(as.set_reference_distance(-3.f));
 }
 
 
@@ -582,8 +575,7 @@ TEST_F(test_audio_source, cone_outer_gain)
 TEST_F(test_audio_source_death_test, invalid_cone_outer_gain)
 {
   concrete_audio_source as(m_buffer);
-  DEPRECATED_HOU_EXPECT_ERROR(as.set_cone_outer_gain(-3.f), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(as.set_cone_outer_gain(-3.f));
 }
 
 
@@ -604,10 +596,8 @@ TEST_F(test_audio_source, cone_inner_angle)
 TEST_F(test_audio_source_death_test, invalid_cone_inner_angle)
 {
   concrete_audio_source as(m_buffer);
-  DEPRECATED_HOU_EXPECT_ERROR(as.set_cone_inner_angle(-pi_f), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(as.set_cone_inner_angle(3 * pi_f), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(as.set_cone_inner_angle(-pi_f));
+  EXPECT_PRECOND_ERROR(as.set_cone_inner_angle(3 * pi_f));
 }
 
 
@@ -628,10 +618,8 @@ TEST_F(test_audio_source, cone_outer_angle)
 TEST_F(test_audio_source_death_test, invalid_cone_outer_angle)
 {
   concrete_audio_source as(m_buffer);
-  DEPRECATED_HOU_EXPECT_ERROR(as.set_cone_outer_angle(-pi_f), std::logic_error,
-    get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(as.set_cone_outer_angle(3 * pi_f), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(as.set_cone_outer_angle(-pi_f));
+  EXPECT_PRECOND_ERROR(as.set_cone_outer_angle(3 * pi_f));
 }
 
 

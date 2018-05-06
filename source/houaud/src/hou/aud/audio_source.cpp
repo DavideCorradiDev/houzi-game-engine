@@ -4,8 +4,8 @@
 
 #include "hou/aud/audio_source.hpp"
 
-#include "hou/cor/cor_error.hpp"
 #include "hou/cor/assertions.hpp"
+#include "hou/cor/core_exceptions.hpp"
 
 #include "hou/mth/math_functions.hpp"
 
@@ -32,9 +32,7 @@ audio_source_state al_source_state_to_audio_source_state(ALenum state)
     case AL_STOPPED:
       return audio_source_state::stopped;
     default:
-      DEPRECATED_HOU_LOGIC_ERROR(
-        get_text(cor_error::invalid_enum), static_cast<int>(state));
-      return audio_source_state::stopped;
+      HOU_ERROR_0(unreachable_code_error);
   }
 }
 

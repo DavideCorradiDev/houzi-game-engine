@@ -5,10 +5,10 @@
 #include "hou/Test.hpp"
 #include "hou/aud/test_data.hpp"
 
-#include "hou/aud/aud_error.hpp"
+#include "hou/aud/aud_exceptions.hpp"
 #include "hou/aud/wav_file_in.hpp"
 
-#include "hou/sys/sys_error.hpp"
+#include "hou/sys/system_exceptions.hpp"
 
 using namespace hou;
 using namespace testing;
@@ -71,8 +71,8 @@ TEST_F(test_wav_file_in, check_failure_invalid_format)
 TEST_F(test_wav_file_in_death_test, check_failure_invalid_file)
 {
   std::string invalid_filename = u8"Invalidfile";
-  DEPRECATED_HOU_EXPECT_ERROR(wav_file_in::check(invalid_filename), std::runtime_error,
-    format_string(get_text(sys_error::file_open), invalid_filename.c_str()));
+  EXPECT_ERROR_N(
+    wav_file_in::check(invalid_filename), file_open_error, invalid_filename);
 }
 
 
@@ -99,8 +99,8 @@ TEST_F(test_wav_file_in, path_constructor)
 TEST_F(test_wav_file_in_death_test, path_constructor_failure_file_not_existing)
 {
   std::string invalid_filename = u8"InvalidFileName";
-  DEPRECATED_HOU_EXPECT_ERROR(wav_file_in fi(invalid_filename), std::runtime_error,
-    format_string(get_text(sys_error::file_open), invalid_filename.c_str()));
+  EXPECT_ERROR_N(
+    wav_file_in fi(invalid_filename), file_open_error, invalid_filename);
 }
 
 
@@ -139,9 +139,8 @@ TEST_F(test_wav_file_in_death_test, path_constructor_failure_invalid_wav_file)
     dummy_wav_file.write(&data, 1u);
   }
 
-  DEPRECATED_HOU_EXPECT_ERROR(wav_file_in fi(dummy_wav_filename), std::runtime_error,
-    format_string(
-      get_text(aud_error::wav_invalid_header), dummy_wav_filename.c_str()));
+  EXPECT_ERROR_N(
+    wav_file_in fi(dummy_wav_filename), audio_read_error, dummy_wav_filename);
 
   remove_dir(dummy_wav_filename);
 }
@@ -157,9 +156,8 @@ TEST_F(test_wav_file_in_death_test, path_constructor_failure_no_wav_header)
       dummy_wav_filename, file_open_mode::write, file_type::binary);
   }
 
-  DEPRECATED_HOU_EXPECT_ERROR(wav_file_in fi(dummy_wav_filename), std::runtime_error,
-    format_string(
-      get_text(aud_error::wav_invalid_header), dummy_wav_filename.c_str()));
+  EXPECT_ERROR_N(
+    wav_file_in fi(dummy_wav_filename), audio_read_error, dummy_wav_filename);
 
   remove_dir(dummy_wav_filename);
 }
@@ -258,10 +256,8 @@ TEST_F(test_wav_file_in, set_byte_pos)
 TEST_F(test_wav_file_in_death_test, set_byte_pos_error_position_in_sample)
 {
   wav_file_in fi(mono16_filename);
-  DEPRECATED_HOU_EXPECT_ERROR(
-    fi.set_byte_pos(3), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(fi.set_byte_pos(fi.get_byte_count() + 3), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(fi.set_byte_pos(3));
+  EXPECT_PRECOND_ERROR(fi.set_byte_pos(fi.get_byte_count() + 3));
 }
 
 
@@ -269,10 +265,8 @@ TEST_F(test_wav_file_in_death_test, set_byte_pos_error_position_in_sample)
 TEST_F(test_wav_file_in_death_test, set_byte_pos_error_invalid_position)
 {
   wav_file_in fi(mono16_filename);
-  DEPRECATED_HOU_EXPECT_ERROR(
-    fi.set_byte_pos(-2), std::runtime_error, get_text(sys_error::file_seek));
-  DEPRECATED_HOU_EXPECT_ERROR(fi.set_byte_pos(fi.get_byte_count() + 2), std::runtime_error,
-    get_text(sys_error::file_seek));
+  EXPECT_ERROR_0(fi.set_byte_pos(-2), file_cursor_error);
+  EXPECT_ERROR_0(fi.set_byte_pos(fi.get_byte_count() + 2), file_cursor_error);
 }
 
 
@@ -298,10 +292,8 @@ TEST_F(test_wav_file_in_death_test, move_byte_pos_error_position_in_sample)
 {
   wav_file_in fi(mono16_filename);
   fi.move_byte_pos(4);
-  DEPRECATED_HOU_EXPECT_ERROR(
-    fi.move_byte_pos(3), std::logic_error, get_text(cor_error::pre_condition));
-  DEPRECATED_HOU_EXPECT_ERROR(fi.move_byte_pos(fi.get_byte_count() + 3), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(fi.move_byte_pos(3));
+  EXPECT_PRECOND_ERROR(fi.move_byte_pos(fi.get_byte_count() + 3));
 }
 
 
@@ -310,10 +302,8 @@ TEST_F(test_wav_file_in_death_test, move_byte_pos_error_invalid_position)
 {
   wav_file_in fi(mono16_filename);
   fi.move_byte_pos(4);
-  DEPRECATED_HOU_EXPECT_ERROR(
-    fi.move_byte_pos(-6), std::runtime_error, get_text(sys_error::file_seek));
-  DEPRECATED_HOU_EXPECT_ERROR(fi.move_byte_pos(fi.get_byte_count() - 2),
-    std::runtime_error, get_text(sys_error::file_seek));
+  EXPECT_ERROR_0(fi.move_byte_pos(-6), file_cursor_error);
+  EXPECT_ERROR_0(fi.move_byte_pos(fi.get_byte_count() - 2), file_cursor_error);
 }
 
 
@@ -393,10 +383,9 @@ TEST_F(test_wav_file_in, set_sample_pos_stereo16)
 TEST_F(test_wav_file_in_death_test, set_sample_pos_error_invalid_position)
 {
   wav_file_in fi(mono16_filename);
-  DEPRECATED_HOU_EXPECT_ERROR(
-    fi.set_sample_pos(-1), std::runtime_error, get_text(sys_error::file_seek));
-  DEPRECATED_HOU_EXPECT_ERROR(fi.set_sample_pos(fi.get_sample_count() + 1),
-    std::runtime_error, get_text(sys_error::file_seek));
+  EXPECT_ERROR_0(fi.set_sample_pos(-1), file_cursor_error);
+  EXPECT_ERROR_0(
+    fi.set_sample_pos(fi.get_sample_count() + 1), file_cursor_error);
 }
 
 
@@ -501,10 +490,9 @@ TEST_F(test_wav_file_in_death_test, move_sample_pos_error_invalid_position)
 {
   wav_file_in fi(mono16_filename);
   fi.move_sample_pos(2);
-  DEPRECATED_HOU_EXPECT_ERROR(
-    fi.move_sample_pos(-3), std::runtime_error, get_text(sys_error::file_seek));
-  DEPRECATED_HOU_EXPECT_ERROR(fi.move_sample_pos(fi.get_sample_count() - 1),
-    std::runtime_error, get_text(sys_error::file_seek));
+  EXPECT_ERROR_0(fi.move_sample_pos(-3), file_cursor_error);
+  EXPECT_ERROR_0(
+    fi.move_sample_pos(fi.get_sample_count() - 1), file_cursor_error);
 }
 
 
@@ -646,8 +634,7 @@ TEST_F(test_wav_file_in_death_test, read_to_invalid_size_buffer)
   wav_file_in fi(mono16_filename);
   EXPECT_EQ(audio_buffer_format::mono16, fi.get_format());
 
-  DEPRECATED_HOU_EXPECT_ERROR(
-    fi.read(buffer), std::logic_error, get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(fi.read(buffer));
 }
 
 
