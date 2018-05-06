@@ -248,7 +248,7 @@ int pixel_format_to_soil_format(pixel_format pf)
     case pixel_format::rgba:
       return SOIL_LOAD_RGBA;
     default:
-      HOU_ERROR_N(invalid_enum<pixel_format>, pf);
+      HOU_UNREACHABLE();
       return 0u;
   }
 }

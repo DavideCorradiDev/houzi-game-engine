@@ -20,15 +20,46 @@ namespace hou
 
 namespace prv
 {
+
+/** Creates a properly formatted error message string.
+ *
+ * The error message string has the form "<path>:<line> - <message>".
+ *
+ * \param path the path to the source file where the error happened.
+ *
+ * \param line the line where the error happened.
+ *
+ * \param message the error message.
+ *
+ * \return the formatted error string.
+ */
 HOU_COR_API std::string format_error_message(
   const std::string& path, uint line, const std::string& message);
 }
 
+/** Base class for all exceptions.
+ */
 class HOU_COR_API exception : public std::exception
 {
 public:
+  /** Creates an exception object with the given path, line, and message.
+   *
+   * The exception stores a formatted error message internally.
+   * The message is reference counted, therefore copying or moving an exception
+   * object cannot throw.
+   *
+   * \param path the path to the source file where the error happened.
+   *
+   * \param line the line where the error happened.
+   *
+   * \param message the error message.
+   */
   exception(const std::string& path, uint line, const std::string& message);
 
+  /** Retrieves the exception error message.
+   *
+   * \return the exception error message.
+   */
   const char* what() const noexcept final;
 
 private:
@@ -37,6 +68,10 @@ private:
   std::shared_ptr<std::string> m_message;
 };
 
+/** Prints the given message to the console error stream and terminates execution.
+ *
+ * \param message the error message to be printed.
+ */
 void HOU_COR_API terminate(const std::string& message) noexcept;
 
 }  // namespace hou

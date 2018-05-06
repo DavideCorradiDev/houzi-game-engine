@@ -86,16 +86,6 @@ TEST_F(test_pixel_format, get_pixel_format_byte_count)
 
 
 
-TEST_F(
-  test_pixel_format_death_test, get_pixel_format_byte_count_error_invalid_enum)
-{
-  pixel_format fake_pf = static_cast<pixel_format>(5);
-  EXPECT_ERROR_N(get_pixel_format_byte_count(pixel_format(fake_pf)),
-    invalid_enum<pixel_format>, fake_pf);
-}
-
-
-
 TYPED_TEST(test_pixel_common, get_byte_count)
 {
   EXPECT_EQ(get_pixel_format_byte_count(TypeParam::get_format()),

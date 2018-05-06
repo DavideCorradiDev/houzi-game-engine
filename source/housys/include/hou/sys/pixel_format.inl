@@ -14,7 +14,7 @@ constexpr uint get_pixel_format_byte_count(pixel_format format)
     case pixel_format::rgba:
       return 4u;
     default:
-      HOU_ERROR_N(invalid_enum<pixel_format>, format);
+      HOU_UNREACHABLE();
       return 1u;
   };
 }

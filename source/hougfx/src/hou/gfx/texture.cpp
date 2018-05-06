@@ -81,7 +81,7 @@ GLenum pixel_format_to_gl_pixel_format(pixel_format format)
     case pixel_format::rgba:
       return GL_RGBA;
     default:
-      HOU_ERROR_0(unreachable_code_error);
+      HOU_UNREACHABLE();
       return GL_RED;
   }
 }
@@ -758,7 +758,7 @@ texture_filter texture_t<Type>::get_filter() const
     case GL_LINEAR_MIPMAP_LINEAR:
       return texture_filter::trilinear;
     default:
-      HOU_ERROR_0(unreachable_code_error);
+      HOU_UNREACHABLE();
       return texture_filter::nearest;
   }
 }
@@ -788,7 +788,7 @@ void texture_t<Type>::set_filter(texture_filter filter)
       set_texture_mag_filter(m_gl_texture_handle, GL_LINEAR);
       break;
     default:
-      HOU_ERROR_0(unreachable_code_error);
+      HOU_UNREACHABLE();
       break;
   }
 }

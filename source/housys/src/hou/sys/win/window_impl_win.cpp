@@ -539,7 +539,7 @@ key_code win_key_to_key_code(UINT key)
       return key_code::packet;
 
     default:
-      HOU_ERROR_0(unreachable_code_error);
+      HOU_UNREACHABLE();
       return key_code::enter;
   }
 }

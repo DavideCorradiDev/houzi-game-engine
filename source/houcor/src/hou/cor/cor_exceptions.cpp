@@ -19,10 +19,4 @@ underflow_error::underflow_error(const std::string& path, uint line)
   : exception(path, line, u8"Numeric underflow.")
 {}
 
-
-
-unreachable_code_error::unreachable_code_error(const std::string& path, uint line)
-  : exception(path, line, u8"An unreachable part of code has been reached.")
-{}
-
 }  // namespace hou

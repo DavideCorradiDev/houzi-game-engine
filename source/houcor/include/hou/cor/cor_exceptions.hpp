@@ -14,35 +14,42 @@
 namespace hou
 {
 
-template <typename T>
-class invalid_enum : public exception
-{
-  static_assert(std::is_enum<T>::value, "T must be an enum type.");
-
-public:
-  invalid_enum(const std::string& path, uint line, T enum_value);
-};
-
+/** Overflow error.
+ *
+ * This exception is thrown when a numeric overflow happens.
+ */
 class HOU_COR_API overflow_error : public exception
 {
 public:
+  /** Creates an overflow_error object with the given path, line, and message.
+   *
+   * \param path the path to the source file where the error happened.
+   *
+   * \param line the line where the error happened.
+   *
+   * \param message the error message.
+   */
   overflow_error(const std::string& path, uint line);
 };
 
+/** Overflow error.
+ *
+ * This exception is thrown when a numeric underflow happens.
+ */
 class HOU_COR_API underflow_error : public exception
 {
 public:
+  /** Creates an underflow_error object with the given path, line, and message.
+   *
+   * \param path the path to the source file where the error happened.
+   *
+   * \param line the line where the error happened.
+   *
+   * \param message the error message.
+   */
   underflow_error(const std::string& path, uint line);
 };
 
-class HOU_COR_API unreachable_code_error : public exception
-{
-public:
-  unreachable_code_error(const std::string& path, uint line);
-};
-
 }  // namespace hou
-
-#include "hou/cor/cor_exceptions.inl"
 
 #endif

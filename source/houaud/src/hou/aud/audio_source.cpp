@@ -32,7 +32,7 @@ audio_source_state al_source_state_to_audio_source_state(ALenum state)
     case AL_STOPPED:
       return audio_source_state::stopped;
     default:
-      HOU_ERROR_0(unreachable_code_error);
+      HOU_UNREACHABLE();
       return audio_source_state::stopped;
   }
 }

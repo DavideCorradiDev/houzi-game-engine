@@ -6,7 +6,7 @@
 #define HOU_SYS_PIXEL_FORMAT_HPP
 
 #include "hou/cor/basic_types.hpp"
-#include "hou/cor/cor_exceptions.hpp"
+#include "hou/cor/assertions.hpp"
 
 #include "hou/sys/sys_export.hpp"
 
