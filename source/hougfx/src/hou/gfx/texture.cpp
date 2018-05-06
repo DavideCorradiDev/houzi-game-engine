@@ -757,8 +757,7 @@ texture_filter texture_t<Type>::get_filter() const
     case GL_LINEAR_MIPMAP_LINEAR:
       return texture_filter::trilinear;
     default:
-      DEPRECATED_HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum),
-        static_cast<GLenum>(get_texture_min_filter(m_gl_texture_handle)));
+      HOU_ERROR_0(unreachable_code_error);
   }
 }
 
@@ -787,9 +786,7 @@ void texture_t<Type>::set_filter(texture_filter filter)
       set_texture_mag_filter(m_gl_texture_handle, GL_LINEAR);
       break;
     default:
-      DEPRECATED_HOU_LOGIC_ERROR(
-        get_text(cor_error::invalid_enum), static_cast<int>(filter));
-      break;
+      HOU_ERROR_0(unreachable_code_error);
   }
 }
 

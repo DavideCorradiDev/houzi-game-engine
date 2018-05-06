@@ -8,8 +8,6 @@
 #include "hou/gfx/render_canvas.hpp"
 #include "hou/gfx/texture.hpp"
 
-#include "hou/gl/gl_error.hpp"
-
 #include "hou/sys/color.hpp"
 
 #include <algorithm>

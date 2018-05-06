@@ -7,7 +7,7 @@
 
 #include "hou/gfx/shader.hpp"
 
-#include "hou/gl/gl_error.hpp"
+#include "hou/gl/gl_exceptions.hpp"
 
 using namespace hou;
 

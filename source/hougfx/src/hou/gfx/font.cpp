@@ -4,7 +4,7 @@
 
 #include "hou/gfx/font.hpp"
 
-#include "hou/gfx/gfx_error.hpp"
+#include "hou/gfx/gfx_exceptions.hpp"
 #include "hou/gfx/glyph.hpp"
 
 #include "hou/cor/assertions.hpp"
@@ -29,7 +29,9 @@ namespace hou
 namespace
 {
 
-static constexpr float pf266_to_pixel_factor = 1.f / 64.f;
+const std::string assert_msg_ft_lib_destruction_error
+  = u8"Failed to destroy the FreeType library.";
+constexpr float pf266_to_pixel_factor = 1.f / 64.f;
 
 class ft_library_wrapper : public non_copyable
 {
@@ -58,7 +60,8 @@ ft_library_wrapper::~ft_library_wrapper()
 {
   if(library != nullptr)
   {
-    DEPRECATED_HOU_ENSURE_FATAL(FT_Done_FreeType(library) == 0);
+    HOU_ASSERT(
+      FT_Done_FreeType(library) == 0, assert_msg_ft_lib_destruction_error);
   }
 }
 
@@ -340,8 +343,8 @@ vec2i font::get_kerning(utf32::code_unit first, utf32::code_unit second) const
   FT_Vector kerning;
   FT_UInt first_index = FT_Get_Char_Index(m_face, first);
   FT_UInt second_index = FT_Get_Char_Index(m_face, second);
-  HOU_POSTCOND(FT_Get_Kerning(
-               m_face, first_index, second_index, FT_KERNING_DEFAULT, &kerning)
+  HOU_POSTCOND(FT_Get_Kerning(m_face, first_index, second_index,
+                 FT_KERNING_DEFAULT, &kerning)
     == 0);
   return vec2i(kerning.x, kerning.y);
 }
@@ -362,10 +365,9 @@ void font::load()
   FT_Library ftLibrary = get_ft_library();
   {
     std::lock_guard<std::mutex> lock(ft_library_mutex);
-    DEPRECATED_HOU_RUNTIME_CHECK(FT_New_Memory_Face(ftLibrary, m_data.data(),
-                        m_data.size(), m_face_index, &m_face)
-        == 0,
-      get_text(gfx_error::font_load_face));
+    FT_Error retval = FT_New_Memory_Face(
+      ftLibrary, m_data.data(), m_data.size(), m_face_index, &m_face);
+    HOU_CHECK_0(retval == 0, font_creation_error);
   }
   HOU_DEV_PRECOND(m_face != nullptr);
 
@@ -382,7 +384,9 @@ void font::destroy()
   HOU_DEV_PRECOND(m_face != nullptr);
   {
     std::lock_guard<std::mutex> lock(ft_library_mutex);
-    DEPRECATED_HOU_ENSURE_FATAL(FT_Done_Face(m_face) == 0);
+    HOU_DISABLE_EXCEPTIONS_BEGIN
+    HOU_CHECK_0(FT_Done_Face(m_face) == 0, font_destruction_error);
+    HOU_DISABLE_EXCEPTIONS_END
   }
   m_face = nullptr;
 }

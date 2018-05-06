@@ -2,8 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#ifndef HOU_GL_GL_CHECK_HPP
-#define HOU_GL_GL_CHECK_HPP
+#ifndef HOU_GL_GL_EXCEPTIONS_HPP
+#define HOU_GL_GL_EXCEPTIONS_HPP
 
 #include "hou/cor/exception.hpp"
 

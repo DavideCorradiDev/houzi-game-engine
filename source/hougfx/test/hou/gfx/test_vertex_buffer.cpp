@@ -7,10 +7,6 @@
 
 #include "hou/gfx/vertex_buffer.hpp"
 
-#include "hou/gl/gl_error.hpp"
-
-#include "hou/cor/cor_error.hpp"
-
 using namespace hou;
 
 

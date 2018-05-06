@@ -10,8 +10,6 @@
 #include "hou/gfx/texture.hpp"
 #include "hou/gfx/texture_channel_mapping.hpp"
 
-#include "hou/gl/gl_error.hpp"
-
 #include "hou/sys/image.hpp"
 
 using namespace hou;

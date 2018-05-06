@@ -6,7 +6,7 @@
 #include "hou/gfx/test_data.hpp"
 
 #include "hou/gfx/font.hpp"
-#include "hou/gfx/gfx_error.hpp"
+#include "hou/gfx/gfx_exceptions.hpp"
 #include "hou/gfx/glyph.hpp"
 
 #include "hou/mth/matrix.hpp"
@@ -69,8 +69,7 @@ TEST_F(test_font, data_constructor)
 TEST_F(test_font_death_test, data_constructor_error_invalid_data)
 {
   std::vector<uint8_t> data;
-  DEPRECATED_HOU_EXPECT_ERROR(
-    font f(data), std::runtime_error, get_text(gfx_error::font_load_face));
+  EXPECT_ERROR_0(font f(data), font_creation_error);
 }
 
 
@@ -165,9 +164,9 @@ TEST_F(test_font, multi_threading_creation)
 TEST_F(test_font_death_test, failed_creation)
 {
   // Valid file but not a font file.
-  DEPRECATED_HOU_EXPECT_ERROR(font f(std::make_unique<binary_file_in>(
-                     get_data_dir() + u8"TestImage.png")),
-    std::runtime_error, get_text(gfx_error::font_load_face));
+  EXPECT_ERROR_0(font f(std::make_unique<binary_file_in>(
+                   get_data_dir() + u8"TestImage.png")),
+    font_creation_error);
 }
 
 
