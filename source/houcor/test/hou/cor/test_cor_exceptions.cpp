@@ -14,10 +14,10 @@ using namespace testing;
 namespace
 {
 
-class test_core_exceptions : public Test
+class test_cor_exceptions : public Test
 {};
 
-class test_core_exceptions_death_test : public test_core_exceptions
+class test_cor_exceptions_death_test : public test_cor_exceptions
 {};
 
 enum class test_enum_1 : int
@@ -38,7 +38,7 @@ enum test_enum_2 : int
 
 
 
-TEST_F(test_core_exceptions, invalid_enumeration_value_enum_class)
+TEST_F(test_cor_exceptions, invalid_enumeration_value_enum_class)
 {
   invalid_enum<test_enum_1> ex("foo.cpp", 42u, test_enum_1::enum_val_1);
   EXPECT_STREQ("foo.cpp:42 - Invalid enumeration value '1'.", ex.what());
@@ -46,7 +46,7 @@ TEST_F(test_core_exceptions, invalid_enumeration_value_enum_class)
 
 
 
-TEST_F(test_core_exceptions, invalid_enumeration_value_enum)
+TEST_F(test_cor_exceptions, invalid_enumeration_value_enum)
 {
   invalid_enum<test_enum_2> ex("foo.cpp", 42u, test_enum_2::enum_val_2);
   EXPECT_STREQ("foo.cpp:42 - Invalid enumeration value '2'.", ex.what());
@@ -54,7 +54,7 @@ TEST_F(test_core_exceptions, invalid_enumeration_value_enum)
 
 
 
-TEST_F(test_core_exceptions, overflow_error)
+TEST_F(test_cor_exceptions, overflow_error)
 {
   overflow_error ex("foo.cpp", 42u);
   EXPECT_STREQ("foo.cpp:42 - Numeric overflow.", ex.what());
@@ -62,7 +62,7 @@ TEST_F(test_core_exceptions, overflow_error)
 
 
 
-TEST_F(test_core_exceptions, underflow_error)
+TEST_F(test_cor_exceptions, underflow_error)
 {
   underflow_error ex("foo.cpp", 42u);
   EXPECT_STREQ("foo.cpp:42 - Numeric underflow.", ex.what());
@@ -70,7 +70,7 @@ TEST_F(test_core_exceptions, underflow_error)
 
 
 
-TEST_F(test_core_exceptions, unreachable_code_error)
+TEST_F(test_cor_exceptions, unreachable_code_error)
 {
   unreachable_code_error ex("foo.cpp", 42u);
   EXPECT_STREQ(

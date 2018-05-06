@@ -63,6 +63,16 @@ TEST_F(test_exception, constructor)
 
 
 
+TEST_F(test_exception, file_name_trimming)
+{
+#if defined(HOU_SYSTEM_WINDOWS)
+  exception ex("path\\to\\file1.txt", 88u, "Message.");
+#endif
+  EXPECT_STREQ("file1.txt:88 - Message.", ex.what());
+}
+
+
+
 TEST_F(test_exception, copy_constructor)
 {
   auto ex1 = std::make_unique<exception>("file1.txt", 88u, "Message.");
@@ -332,17 +342,3 @@ TEST_F(test_exception_death_test, hou_disable_exceptions_scope)
     std::runtime_error("Message.").what());
   // clang-format on
 }
-
-
-
-// TEST_F(test_exception_death_test, hou_try_catch)
-// {
-//   HOU_TRY
-//     HOU_THROW_STD_0(std::exception);
-//   HOU_CATCH(const std::runtime_error& ex)
-//     FAIL();
-//   HOU_CATCH(const std::exception& ex)
-//     SUCCEED();
-//   HOU_TRY_END
-//
-// }

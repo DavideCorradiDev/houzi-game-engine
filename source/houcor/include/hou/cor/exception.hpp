@@ -152,14 +152,4 @@ void HOU_COR_API terminate(const std::string& message) noexcept;
 
 #endif
 
-// #ifdef HOU_DISABLE_EXCEPTIONS
-// #define HOU_TRY
-// #define HOU_CATCH
-// #define HOU_TRY_END
-// #else
-// #define HOU_TRY try {
-// #define HOU_CATCH(exception_type) } catch(exception_type) {
-// #define HOU_TRY_END }
-// #endif
-
 #endif
