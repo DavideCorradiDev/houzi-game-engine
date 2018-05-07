@@ -12,10 +12,13 @@ namespace hou
 namespace
 {
 
-uint8_t float_to_uint8(float v);
-float uint8_to_float(uint8_t v);
+uint8_t float_to_uint8(float v) noexcept;
 
-uint8_t float_to_uint8(float v)
+float uint8_to_float(uint8_t v) noexcept;
+
+
+
+uint8_t float_to_uint8(float v) noexcept
 {
   if(v > 1.f)
   {
@@ -30,7 +33,7 @@ uint8_t float_to_uint8(float v)
 
 
 
-float uint8_to_float(uint8_t v)
+float uint8_to_float(uint8_t v) noexcept
 {
   return static_cast<float>(v) / 255.f;
 }
@@ -52,7 +55,7 @@ const color color::transparent(0, 0, 0, 0);
 
 
 
-color::color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
+color::color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha) noexcept
   : m_red(red)
   , m_green(green)
   , m_blue(blue)
@@ -61,119 +64,119 @@ color::color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 
 
 
-uint8_t color::get_red() const
+uint8_t color::get_red() const noexcept
 {
   return m_red;
 }
 
 
 
-float color::get_red_f() const
+float color::get_red_f() const noexcept
 {
   return uint8_to_float(m_red);
 }
 
 
 
-void color::set_red(uint8_t value)
+void color::set_red(uint8_t value) noexcept
 {
   m_red = value;
 }
 
 
 
-void color::set_red_f(float value)
+void color::set_red_f(float value) noexcept
 {
   m_red = float_to_uint8(value);
 }
 
 
 
-uint8_t color::get_green() const
+uint8_t color::get_green() const noexcept
 {
   return m_green;
 }
 
 
 
-float color::get_green_f() const
+float color::get_green_f() const noexcept
 {
   return uint8_to_float(m_green);
 }
 
 
 
-void color::set_green(uint8_t value)
+void color::set_green(uint8_t value) noexcept
 {
   m_green = value;
 }
 
 
 
-void color::set_green_f(float value)
+void color::set_green_f(float value) noexcept
 {
   m_green = float_to_uint8(value);
 }
 
 
 
-uint8_t color::get_blue() const
+uint8_t color::get_blue() const noexcept
 {
   return m_blue;
 }
 
 
 
-float color::get_blue_f() const
+float color::get_blue_f() const noexcept
 {
   return uint8_to_float(m_blue);
 }
 
 
 
-void color::set_blue(uint8_t value)
+void color::set_blue(uint8_t value) noexcept
 {
   m_blue = value;
 }
 
 
 
-void color::set_blue_f(float value)
+void color::set_blue_f(float value) noexcept
 {
   m_blue = float_to_uint8(value);
 }
 
 
 
-uint8_t color::get_alpha() const
+uint8_t color::get_alpha() const noexcept
 {
   return m_alpha;
 }
 
 
 
-float color::get_alpha_f() const
+float color::get_alpha_f() const noexcept
 {
   return uint8_to_float(m_alpha);
 }
 
 
 
-void color::set_alpha(uint8_t value)
+void color::set_alpha(uint8_t value) noexcept
 {
   m_alpha = value;
 }
 
 
 
-void color::set_alpha_f(float value)
+void color::set_alpha_f(float value) noexcept
 {
   m_alpha = float_to_uint8(value);
 }
 
 
 
-bool operator==(const color& lhs, const color& rhs)
+bool operator==(const color& lhs, const color& rhs) noexcept
 {
   return lhs.get_red() == rhs.get_red() && lhs.get_green() == rhs.get_green()
     && lhs.get_blue() == rhs.get_blue() && lhs.get_alpha() == rhs.get_alpha();
@@ -181,7 +184,7 @@ bool operator==(const color& lhs, const color& rhs)
 
 
 
-bool operator!=(const color& lhs, const color& rhs)
+bool operator!=(const color& lhs, const color& rhs) noexcept
 {
   return !(lhs == rhs);
 }

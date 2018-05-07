@@ -1,7 +1,7 @@
 namespace hou
 {
 
-constexpr uint get_pixel_format_byte_count(pixel_format format)
+constexpr uint get_pixel_format_byte_count(pixel_format format) noexcept
 {
   switch(format)
   {

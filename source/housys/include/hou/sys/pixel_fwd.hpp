@@ -5,9 +5,9 @@
 #ifndef HOU_SYS_PIXEL_FWD_HPP
 #define HOU_SYS_PIXEL_FWD_HPP
 
-#include "hou/sys/sys_export.hpp"
-
 #include "hou/sys/pixel_format.hpp"
+
+#include "hou/sys/sys_export.hpp"
 
 
 

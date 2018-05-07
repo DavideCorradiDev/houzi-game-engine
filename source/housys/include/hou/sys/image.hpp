@@ -5,15 +5,15 @@
 #ifndef HOU_SYS_IMAGE_HPP
 #define HOU_SYS_IMAGE_HPP
 
+#include "hou/sys/image_fwd.hpp"
+#include "hou/sys/pixel.hpp"
+
 #include "hou/sys/sys_export.hpp"
 
 #include "hou/cor/span.hpp"
 #include "hou/cor/std_vector.hpp"
 
 #include "hou/mth/matrix.hpp"
-
-#include "hou/sys/image_fwd.hpp"
-#include "hou/sys/pixel.hpp"
 
 #include <iostream>
 #include <vector>
@@ -54,19 +54,19 @@ public:
    *
    * \return the number of dimensions of the imag.e
    */
-  static constexpr size_t get_dimension_count();
+  static constexpr size_t get_dimension_count() noexcept;
 
   /** Retrieves the format of the pixels of the image.
    *
    * \return the format of the pixels of the image.
    */
-  static constexpr pixel_format get_pixel_format();
+  static constexpr pixel_format get_pixel_format() noexcept;
 
   /** Retrieves the amount of bytes used by a pixel of the image.
    *
    * \return the amomunt of bytes used by a pixel of the image.
    */
-  static constexpr uint get_pixel_byte_count();
+  static constexpr uint get_pixel_byte_count() noexcept;
 
 public:
   /** default constructor.
@@ -74,7 +74,7 @@ public:
    * Creates an image with no pixels.
    * all of its size components are equal to 0.
    */
-  image();
+  image() noexcept;
 
   /** size_type constructor.
    *
@@ -83,7 +83,7 @@ public:
    *
    * \param size the size of the image.
    */
-  image(const size_type& size);
+  image(const size_type& size) noexcept;
 
   /** pixel constructor.
    *
@@ -92,35 +92,37 @@ public:
    *
    * \param size the size of the image.
    *
-   * \param pixel the value of the pixels of the image.
+   * \param px the value of the pixels of the image.
    */
-  image(const size_type& size, const pixel& pixel);
+  image(const size_type& size, const pixel& px) noexcept;
 
   /** Pixels constructor.
    *
    * Creates an image with the given size and pixels.
-   * Throws if the size of pixels does not coincide the the product of all
-   * elements of size.
    * The collection contains a linear list of pixels.
    * Pixels along the first axis must be adjacent in the collection.
    *
    * \param size the size of the image.
    *
    * \param pixels the collection of pixels of the image.
+   *
+   * \throws hou::precondition_violation if the size of pixels does not coincide
+   * the the product of all elements of size.
    */
   image(const size_type& size, const span<const pixel>& pixels);
 
   /** Pixels move constructor.
    *
    * Creates an image with the given size and pixels.
-   * Throws if the size of pixels does not coincide the the product of all
-   * elements of size.
    * The collection contains a linear list of pixels.
    * Pixels along the first axis must be adjacent in the collection.
    *
    * \param size the size of the image.
    *
    * \param pixels the collection of pixels of the image.
+   *
+   * \throws hou::precondition_violation if the size of pixels does not coincide
+   * the the product of all elements of size.
    */
   image(const size_type& size, pixel_collection&& pixels);
 

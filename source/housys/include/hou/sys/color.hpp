@@ -62,107 +62,107 @@ public:
    *
    * \param alpha the alpha value.
    */
-  color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
+  color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha) noexcept;
 
   /** Retrieves the red value as an integer between 0 and 255.
    *
    * \return the red value as an integer between 0 and 255.
    */
-  uint8_t get_red() const;
+  uint8_t get_red() const noexcept;
 
   /** Retrieves the red value as a float between 0 and 1.
    *
    * \return the red value as a float between 0 and 1.
    */
-  float get_red_f() const;
+  float get_red_f() const noexcept;
 
   /** Sets the red value.
    *
    * \param value the red value as an integer between 0 and 255.
    */
-  void set_red(uint8_t value);
+  void set_red(uint8_t value) noexcept;
 
   /** Sets the red value.
    *
    * \param value the red value as a float between 0 and 1.
    * Values outside this range are truncated.
    */
-  void set_red_f(float value);
+  void set_red_f(float value) noexcept;
 
   /** Retrieves the green value as an integer between 0 and 255.
    *
    * \return the green value as an integer between 0 and 255.
    */
-  uint8_t get_green() const;
+  uint8_t get_green() const noexcept;
 
   /** Retrieves the green value as a float between 0 and 1.
    *
    * \return the green value as a float between 0 and 1.
    */
-  float get_green_f() const;
+  float get_green_f() const noexcept;
 
   /** Sets the green value.
    *
    * \param value the green value as an integer between 0 and 255.
    */
-  void set_green(uint8_t value);
+  void set_green(uint8_t value) noexcept;
 
   /** Sets the green value.
    *
    * \param value the green value as a float between 0 and 1.
    * Values outside this range are truncated.
    */
-  void set_green_f(float value);
+  void set_green_f(float value) noexcept;
 
   /** Retrieves the blue value as an integer between 0 and 255.
    *
    * \return the blue value as an integer between 0 and 255.
    */
-  uint8_t get_blue() const;
+  uint8_t get_blue() const noexcept;
 
   /** Retrieves the blue value as a float between 0 and 1.
    *
    * \return the blue value as a float between 0 and 1.
    */
-  float get_blue_f() const;
+  float get_blue_f() const noexcept;
 
   /** Sets the blue value.
    *
    * \param value the blue value as an integer between 0 and 255.
    */
-  void set_blue(uint8_t value);
+  void set_blue(uint8_t value) noexcept;
 
   /** Sets the blue value.
    *
    * \param value the blue value as a float between 0 and 1.
    * Values outside this range are truncated.
    */
-  void set_blue_f(float value);
+  void set_blue_f(float value) noexcept;
 
   /** Retrieves the alpha value as an integer between 0 and 255.
    *
    * \return the alpha value as an integer between 0 and 255.
    */
-  uint8_t get_alpha() const;
+  uint8_t get_alpha() const noexcept;
 
   /** Retrieves the alpha value as a float between 0 and 1.
    *
    * \return the alpha value as a float between 0 and 1.
    */
-  float get_alpha_f() const;
+  float get_alpha_f() const noexcept;
 
   /** Sets the alpha value.
    *
    * \param value the alpha value as an integer between 0 and 255.
    */
-  void set_alpha(uint8_t value);
+  void set_alpha(uint8_t value) noexcept;
 
   /** Sets the alpha value.
    *
    * \param value the alpha value as a float between 0 and 1.
    * Values outside this range are truncated.
    */
-  void set_alpha_f(float value);
+  void set_alpha_f(float value) noexcept;
 
 private:
   uint8_t m_red;
@@ -179,7 +179,7 @@ private:
  *
  * \return the result of the check.
  */
-HOU_SYS_API bool operator==(const color& lhs, const color& rhs);
+HOU_SYS_API bool operator==(const color& lhs, const color& rhs) noexcept;
 
 /** Checks if two color objects are not equal.
  *
@@ -189,7 +189,7 @@ HOU_SYS_API bool operator==(const color& lhs, const color& rhs);
  *
  * \return the result of the check.
  */
-HOU_SYS_API bool operator!=(const color& lhs, const color& rhs);
+HOU_SYS_API bool operator!=(const color& lhs, const color& rhs) noexcept;
 
 /** Writes a color object into a stream.
  *

@@ -412,7 +412,7 @@ image2<PF> jpg_read_file(const std::string& path)
 
 
 template <size_t Dim, pixel_format PF>
-image<Dim, PF>::image()
+image<Dim, PF>::image() noexcept
   : m_size()
   , m_pixels()
 {}
@@ -420,7 +420,7 @@ image<Dim, PF>::image()
 
 
 template <size_t Dim, pixel_format PF>
-image<Dim, PF>::image(const size_type& size)
+image<Dim, PF>::image(const size_type& size) noexcept
   : m_size(size)
   , m_pixels(compute_pixel_count(), pixel())
 {}
@@ -428,9 +428,9 @@ image<Dim, PF>::image(const size_type& size)
 
 
 template <size_t Dim, pixel_format PF>
-image<Dim, PF>::image(const size_type& size, const pixel& pixel)
+image<Dim, PF>::image(const size_type& size, const pixel& px) noexcept
   : m_size(size)
-  , m_pixels(compute_pixel_count(), pixel)
+  , m_pixels(compute_pixel_count(), px)
 {}
 
 
