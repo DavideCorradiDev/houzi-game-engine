@@ -21,7 +21,7 @@ void file::write(const T* buf, size_t buf_size)
 
 
 
-template <typename Container>
+template <typename Container, typename Enable>
 size_t file::read(Container& buffer)
 {
   // the const_cast is necessary because as of C++14 containers have a data()
@@ -33,7 +33,7 @@ size_t file::read(Container& buffer)
 
 
 
-template <typename Container>
+template <typename Container, typename Enable>
 void file::write(const Container& buffer)
 {
   write(buffer.data(), buffer.size());

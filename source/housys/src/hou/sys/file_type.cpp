@@ -4,6 +4,8 @@
 
 #include "hou/sys/file_type.hpp"
 
+#include "hou/cor/exception.hpp"
+
 #define FILE_TYPE_CASE(fom, os) \
   case file_type::fom: \
     return (os) << #fom
@@ -20,6 +22,7 @@ std::ostream& operator<<(std::ostream& os, file_type fom)
     FILE_TYPE_CASE(binary, os);
     FILE_TYPE_CASE(text, os);
     default:
+      HOU_UNREACHABLE();
       return os;
   }
 }

@@ -45,21 +45,21 @@ file::file(file&& other)
 
 
 
-bool file::eof() const
+bool file::eof() const noexcept
 {
   return m_eof;
 }
 
 
 
-bool file::error() const
+bool file::error() const noexcept
 {
   return m_error;
 }
 
 
 
-size_t file::get_byte_count() const
+size_t file::get_byte_count() const noexcept
 {
   return get_file_byte_size(get_file_descriptor(m_handle));
 }
@@ -180,7 +180,7 @@ void file::seek(long pos, int origin) const
 
 
 
-void file::update_flags()
+void file::update_flags() noexcept
 {
   m_eof = (feof(m_handle) != 0);
   m_error = (ferror(m_handle) != 0);

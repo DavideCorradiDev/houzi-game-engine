@@ -7,13 +7,13 @@
 
 #include "hou/cor/non_copyable.hpp"
 
-#include "hou/cor/basic_types.hpp"
-#include "hou/cor/not_null.hpp"
-
 #include "hou/sys/file_open_mode.hpp"
 #include "hou/sys/file_type.hpp"
 
 #include "hou/sys/sys_export.hpp"
+
+#include "hou/cor/basic_types.hpp"
+#include "hou/cor/not_null.hpp"
 
 #include <string>
 
