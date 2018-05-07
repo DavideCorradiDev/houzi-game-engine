@@ -29,13 +29,13 @@ class HOU_SYS_API file_handle : public non_copyable
 public:
   /** Path constructor.
    *
-   * Throws if the provided path is not valid.
-   *
    * \param path the path to the file to be opened.
    *
    * \param mode the mode in which to open the file.
    *
    * \param type the file type.
+   *
+   * \throws hou::file_open_error if the file could not be opened.
    */
   file_handle(const std::string& path, file_open_mode mode, file_type type);
 
@@ -43,7 +43,7 @@ public:
    *
    * \param other the other file_handle.
    */
-  file_handle(file_handle&& other);
+  file_handle(file_handle&& other) noexcept;
 
   /** Destructor
    */
@@ -53,7 +53,7 @@ public:
    *
    * \return the corresponding pointer to FILE.
    */
-  operator FILE*() const;
+  operator FILE*() const noexcept;
 
 private:
   FILE* m_file;
@@ -71,7 +71,7 @@ private:
  * \return the associated string.
  */
 HOU_SYS_API std::string get_file_mode_string(
-  file_open_mode mode, file_type type);
+  file_open_mode mode, file_type type) noexcept;
 
 /** Opens a file.
  *
@@ -83,7 +83,7 @@ HOU_SYS_API std::string get_file_mode_string(
  *
  * \return a pointer to the opened file, or nullptr in case of failure.
  */
-HOU_SYS_API FILE* open_file(const std::string& path, const std::string& mode);
+HOU_SYS_API FILE* open_file(const std::string& path, const std::string& mode) noexcept;
 
 /** Checks if a directory exists.
  *
@@ -93,7 +93,7 @@ HOU_SYS_API FILE* open_file(const std::string& path, const std::string& mode);
  *
  * \return true if the directory exists.
  */
-HOU_SYS_API bool check_dir(const std::string& path);
+HOU_SYS_API bool check_dir(const std::string& path) noexcept;
 
 /** Removes the specified directory.
  *
@@ -103,7 +103,7 @@ HOU_SYS_API bool check_dir(const std::string& path);
  *
  * \return true if the directory was actually removed.
  */
-HOU_SYS_API bool remove_dir(const std::string& path);
+HOU_SYS_API bool remove_dir(const std::string& path) noexcept;
 
 /** Renames the specified directory.
  *
@@ -116,7 +116,7 @@ HOU_SYS_API bool remove_dir(const std::string& path);
  * \return true if the directory was actually moved.
  */
 HOU_SYS_API bool rename_dir(
-  const std::string& old_path, const std::string& new_path);
+  const std::string& old_path, const std::string& new_path) noexcept;
 
 /** Retrieves the size in bytes of a directory.
  *
@@ -127,17 +127,7 @@ HOU_SYS_API bool rename_dir(
  * \return the size in bytes of the directory. In case of error, it returns
  * the maximum value possible for the return type.
  */
-HOU_SYS_API size_t get_dir_byte_size(const std::string& path);
-
-/** Retrieves the filename extension of a given path.
- *
- * Supports unicode paths.
- *
- * \param path the path to be analyzed.
- *
- * \return the filename extension.
- */
-HOU_SYS_API std::string get_filename_extension(const std::string& path);
+HOU_SYS_API size_t get_dir_byte_size(const std::string& path) noexcept;
 
 /** Retrieves the file descriptor integer associated to a file.
  *
@@ -148,7 +138,7 @@ HOU_SYS_API std::string get_filename_extension(const std::string& path);
  *
  * \return the file descriptor.
  */
-HOU_SYS_API int get_file_descriptor(not_null<FILE*> file);
+HOU_SYS_API int get_file_descriptor(not_null<FILE*> file) noexcept;
 
 /** Retrieves the size of a file in bytes.
  *
@@ -158,7 +148,19 @@ HOU_SYS_API int get_file_descriptor(not_null<FILE*> file);
  * \return the size in bytes of the file. In case of error, it returns
  * the maximum value possible for the return type.
  */
-HOU_SYS_API size_t get_file_byte_size(int file_descriptor);
+HOU_SYS_API size_t get_file_byte_size(int file_descriptor) noexcept;
+
+/** Retrieves the filename extension of a given path.
+ *
+ * Supports unicode paths.
+ *
+ * \param path the path to be analyzed.
+ *
+ * \throws std::bad_alloc.
+ *
+ * \return the filename extension.
+ */
+HOU_SYS_API std::string get_filename_extension(const std::string& path);
 
 }  // namespace hou
 

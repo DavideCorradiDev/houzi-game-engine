@@ -102,6 +102,6 @@ public:
 #define HOU_DEV_INVARIANT(condition)                                           \
   HOU_DEV_CHECK_0(condition, invariant_violation)
 
-#define HOU_UNREACHABLE() HOU_ERROR_0(unreachable_error)
+#define HOU_UNREACHABLE() HOU_TERMINATE(u8"Unreachable code path.")
 
 #endif

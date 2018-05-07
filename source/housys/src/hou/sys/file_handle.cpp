@@ -23,7 +23,7 @@ file_handle::file_handle(
 
 
 
-file_handle::file_handle(file_handle&& other)
+file_handle::file_handle(file_handle&& other) noexcept
   : non_copyable()
   , m_file(std::move(other.m_file))
 {
@@ -44,14 +44,14 @@ file_handle::~file_handle()
 
 
 
-file_handle::operator FILE*() const
+file_handle::operator FILE*() const noexcept
 {
   return m_file;
 }
 
 
 
-std::string get_file_mode_string(file_open_mode mode, file_type type)
+std::string get_file_mode_string(file_open_mode mode, file_type type) noexcept
 {
   switch(mode)
   {
@@ -62,6 +62,7 @@ std::string get_file_mode_string(file_open_mode mode, file_type type)
     case file_open_mode::append:
       return type == file_type::binary ? "ab" : "a";
     default:
+      HOU_UNREACHABLE();
       return "";
   }
 }
