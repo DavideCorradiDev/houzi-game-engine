@@ -12,12 +12,7 @@
 namespace hou
 {
 
-audio_stream_in::~audio_stream_in()
-{}
-
-
-
-size_t audio_stream_in::get_read_sample_count() const
+size_t audio_stream_in::get_read_sample_count() const noexcept
 {
   return get_read_byte_count() / (get_channel_count() * get_bytes_per_sample());
 }

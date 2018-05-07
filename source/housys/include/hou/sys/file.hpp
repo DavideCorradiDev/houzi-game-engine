@@ -23,7 +23,7 @@ namespace hou
 
 /** Class representing a file.
  */
-class HOU_SYS_API file : public non_copyable
+class HOU_SYS_API file final : public non_copyable
 {
 public:
   /** Path constructor.

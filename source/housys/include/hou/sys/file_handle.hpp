@@ -24,7 +24,7 @@ namespace hou
 
 /** Manages the lifetime of a file handle.
  */
-class HOU_SYS_API file_handle : public non_copyable
+class HOU_SYS_API file_handle final : public non_copyable
 {
 public:
   /** Path constructor.

@@ -6,8 +6,9 @@
 #define HOU_SYS_TEXT_STREAM_IN_HPP
 
 #include "hou/sys/stream_in.hpp"
-#include "hou/sys/sys_export.hpp"
 #include "hou/sys/text_stream.hpp"
+
+#include "hou/sys/sys_export.hpp"
 
 
 
@@ -28,6 +29,8 @@ public:
   /** Reads the whole contents of the stream into memory.
    *
    * \tparam T the container type to return.
+   *
+   * \throws hou::file_read_error in case of an error.
    *
    * \return a container containing the whole content of the file.
    */

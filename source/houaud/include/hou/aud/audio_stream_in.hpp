@@ -30,17 +30,15 @@ class HOU_AUD_API audio_stream_in
   , public stream_in
 {
 public:
-  /** Destructor.
-   */
-  virtual ~audio_stream_in() = 0;
-
   /** Get the number of samples read by the last read operation.
    */
-  size_t get_read_sample_count() const;
+  size_t get_read_sample_count() const noexcept;
 
   /** Reads the whole contents of the stream into memory.
    *
    * \tparam T the container type to return.
+   *
+   * \throws hou::file_read_error in case of an error.
    *
    * \return a container containing the whole content of the file.
    */

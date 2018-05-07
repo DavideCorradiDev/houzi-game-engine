@@ -32,22 +32,23 @@ public:
    *
    * \return the number of bytes read by the last read operation.
    */
-  virtual size_t get_read_byte_count() const = 0;
+  virtual size_t get_read_byte_count() const noexcept = 0;
 
   /** Retrieves the number of elements read by the last read operation.
    *
    * \return the number of elements read by the last read operation.
    */
-  virtual size_t get_read_element_count() const = 0;
+  virtual size_t get_read_element_count() const noexcept = 0;
 
   /** Reads into a pod, not container variable.
    *
    * Sets eof if reading over the end of the file.
-   * Throws in case of an error while reading.
    *
    * \tparam T the element type.
    *
    * \param buf the variable to write into.
+   *
+   * \throws hou::file_read_error in case of an error.
    *
    * \return a reference to this stream.
    */
@@ -68,6 +69,8 @@ public:
    * \tparam T the container type
    *
    * \param buf the container to write into.
+   *
+   * \throws hou::file_read_error in case of an error.
    *
    * \return a reference to this stream.
    */
@@ -93,6 +96,8 @@ public:
    * \param buf pointer to the memory location to read into.
    *
    * \param buf_size the number of elements to be read.
+   *
+   * \throws hou::file_read_error in case of an error.
    *
    * \return a reference to this stream.
    */
@@ -122,6 +127,8 @@ protected:
    * \param element_size the size of a single element to be read.
    *
    * \param buf_size the number of elements to be read.
+   *
+   * \throws hou::file_read_error in case of an error.
    */
   virtual void on_read(void* buf, size_t element_size, size_t buf_size) = 0;
 };

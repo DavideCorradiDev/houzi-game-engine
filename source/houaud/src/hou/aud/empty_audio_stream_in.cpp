@@ -20,33 +20,28 @@ empty_audio_stream_in::empty_audio_stream_in()
 
 
 
-empty_audio_stream_in::~empty_audio_stream_in()
-{}
-
-
-
-bool empty_audio_stream_in::eof() const
+bool empty_audio_stream_in::eof() const noexcept
 {
   return true;
 }
 
 
 
-bool empty_audio_stream_in::error() const
+bool empty_audio_stream_in::error() const noexcept
 {
   return false;
 }
 
 
 
-size_t empty_audio_stream_in::get_byte_count() const
+size_t empty_audio_stream_in::get_byte_count() const noexcept
 {
   return 0u;
 }
 
 
 
-size_t empty_audio_stream_in::get_read_element_count() const
+size_t empty_audio_stream_in::get_read_element_count() const noexcept
 {
   return 0u;
 }
@@ -76,7 +71,14 @@ binary_stream& empty_audio_stream_in::move_byte_pos(byte_offset offset)
 
 
 
-size_t empty_audio_stream_in::get_sample_count() const
+size_t empty_audio_stream_in::get_read_byte_count() const noexcept
+{
+  return 0u;
+}
+
+
+
+size_t empty_audio_stream_in::get_sample_count() const noexcept
 {
   return 0u;
 }
@@ -103,13 +105,6 @@ audio_stream_in& empty_audio_stream_in::move_sample_pos(sample_offset offset)
 {
   HOU_CHECK_0(offset == 0, file_cursor_error);
   return *this;
-}
-
-
-
-size_t empty_audio_stream_in::get_read_byte_count() const
-{
-  return 0u;
 }
 
 

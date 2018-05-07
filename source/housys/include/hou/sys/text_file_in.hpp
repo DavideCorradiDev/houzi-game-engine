@@ -5,12 +5,13 @@
 #ifndef HOU_SYS_TEXT_FILE_IN_HPP
 #define HOU_SYS_TEXT_FILE_IN_HPP
 
-#include "hou/sys/sys_export.hpp"
 #include "hou/sys/text_stream_in.hpp"
 
-#include "hou/cor/non_copyable.hpp"
-
 #include "hou/sys/file.hpp"
+
+#include "hou/sys/sys_export.hpp"
+
+#include "hou/cor/non_copyable.hpp"
 
 
 
@@ -19,7 +20,7 @@ namespace hou
 
 /** Input text file stream.
  */
-class HOU_SYS_API text_file_in
+class HOU_SYS_API text_file_in final
   : public non_copyable
   , public text_stream_in
 {
@@ -36,20 +37,16 @@ public:
    *
    * \param other the other object.
    */
-  text_file_in(text_file_in&& other);
-
-  /** Destructor.
-   */
-  virtual ~text_file_in();
+  text_file_in(text_file_in&& other) noexcept;
 
   // stream overrides.
-  bool eof() const final;
-  bool error() const final;
-  size_t get_byte_count() const final;
+  bool eof() const noexcept final;
+  bool error() const noexcept final;
+  size_t get_byte_count() const noexcept final;
 
   // stream_in overrides.
-  size_t get_read_byte_count() const final;
-  size_t get_read_element_count() const final;
+  size_t get_read_byte_count() const noexcept final;
+  size_t get_read_element_count() const noexcept final;
 
   // text_stream overrides.
   text_position get_text_pos() const final;

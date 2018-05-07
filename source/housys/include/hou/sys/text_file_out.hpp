@@ -5,12 +5,13 @@
 #ifndef HOU_SYS_TEXT_FILE_OUT_HPP
 #define HOU_SYS_TEXT_FILE_OUT_HPP
 
-#include "hou/sys/sys_export.hpp"
 #include "hou/sys/text_stream_out.hpp"
 
-#include "hou/cor/non_copyable.hpp"
-
 #include "hou/sys/file.hpp"
+
+#include "hou/sys/sys_export.hpp"
+
+#include "hou/cor/non_copyable.hpp"
 
 
 
@@ -19,7 +20,7 @@ namespace hou
 
 /** Output text file stream.
  */
-class HOU_SYS_API text_file_out
+class HOU_SYS_API text_file_out final
   : public non_copyable
   , public text_stream_out
 {
@@ -36,20 +37,16 @@ public:
    *
    * \param other the other object.
    */
-  text_file_out(text_file_out&& other);
-
-  /** Destructor.
-   */
-  virtual ~text_file_out();
+  text_file_out(text_file_out&& other) noexcept;
 
   // stream overrides.
-  bool eof() const final;
-  bool error() const final;
-  size_t get_byte_count() const final;
+  bool eof() const noexcept final;
+  bool error() const noexcept final;
+  size_t get_byte_count() const noexcept final;
 
   // stream_out overrides.
-  size_t get_write_byte_count() const final;
-  size_t get_write_element_count() const final;
+  size_t get_write_byte_count() const noexcept final;
+  size_t get_write_element_count() const noexcept final;
 
   // text_stream overrides.
   text_position get_text_pos() const final;

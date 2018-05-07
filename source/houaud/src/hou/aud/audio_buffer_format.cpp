@@ -7,8 +7,8 @@
 #include "hou/cor/assertions.hpp"
 #include "hou/cor/cor_exceptions.hpp"
 
-#define AUDIO_BUFFER_FORMAT_CASE(format, os) \
-  case audio_buffer_format::format: \
+#define AUDIO_BUFFER_FORMAT_CASE(format, os)                                   \
+  case audio_buffer_format::format:                                            \
     return (os) << #format
 
 
@@ -48,7 +48,7 @@ audio_buffer_format get_audio_buffer_format_enum(
 
 
 
-uint get_audio_buffer_format_channel_count(audio_buffer_format format)
+uint get_audio_buffer_format_channel_count(audio_buffer_format format) noexcept
 {
   switch(format)
   {
@@ -66,7 +66,8 @@ uint get_audio_buffer_format_channel_count(audio_buffer_format format)
 
 
 
-uint get_audio_buffer_format_bytes_per_sample(audio_buffer_format format)
+uint get_audio_buffer_format_bytes_per_sample(
+  audio_buffer_format format) noexcept
 {
   switch(format)
   {
@@ -93,7 +94,7 @@ std::ostream& operator<<(std::ostream& os, audio_buffer_format format)
     AUDIO_BUFFER_FORMAT_CASE(stereo8, os);
     AUDIO_BUFFER_FORMAT_CASE(stereo16, os);
     default:
-    HOU_UNREACHABLE();
+      HOU_UNREACHABLE();
       return os;
   }
 }

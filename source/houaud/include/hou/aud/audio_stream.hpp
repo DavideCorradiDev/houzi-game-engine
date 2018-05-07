@@ -35,23 +35,19 @@ public:
 public:
   /** default constructor.
    */
-  audio_stream();
-
-  /** Destructor.
-   */
-  virtual ~audio_stream() = 0;
+  audio_stream() noexcept;
 
   /** Gets the audio format of the stream.
    *
    * \return the audio format of the stream.
    */
-  audio_buffer_format get_format() const;
+  audio_buffer_format get_format() const noexcept;
 
   /** Gets the number of channels of the stream, based on its audio format.
    *
    * \return 1 if the audio format is mono, 2 if the audio format is stereo.
    */
-  uint get_channel_count() const;
+  uint get_channel_count() const noexcept;
 
   /** Gets the number of bytes per sample of the stream, based on its audio
    * format.
@@ -59,21 +55,23 @@ public:
    * The number returned is the number of bytes per sample for a single
    * channel. \return 1 for 8-bit audio formats, 2 for 16-bit audio formats.
    */
-  uint get_bytes_per_sample() const;
+  uint get_bytes_per_sample() const noexcept;
 
   /** Gets the number of samples per second.
    *
    * \return the sample rate in samples per second.
    */
-  uint get_sample_rate() const;
+  uint get_sample_rate() const noexcept;
 
   /** Gets the number of samples in the stream for a single channel.
    *
    * \return the number of samples in the stream for a single channel.
    */
-  virtual size_t get_sample_count() const = 0;
+  virtual size_t get_sample_count() const noexcept = 0;
 
   /** Gets the current sample position indicator.
+   *
+   * \throws hou::file_cursor_error in case of an error.
    *
    * \return the current sample position indicator.
    */
@@ -86,6 +84,8 @@ public:
    *
    * \param pos the sample position indicator value.
    *
+   * \throws hou::file_cursor_error in case of an error.
+   *
    * \return a reference to this stream.
    */
   virtual audio_stream& set_sample_pos(sample_position pos) = 0;
@@ -97,6 +97,8 @@ public:
    *
    * \param offset the byte position indicator offset.
    *
+   * \throws hou::file_cursor_error in case of an error.
+   *
    * \return a reference to this stream.
    */
   virtual audio_stream& move_sample_pos(sample_offset offset) = 0;
@@ -107,6 +109,9 @@ protected:
    * \param channels the number of channels.
    *
    * \param bytes_per_sample the number of bytes per sample per channel.
+   *
+   * \throws hou::precondition_violation if channels or bytes_per_sample is
+   * different from 1 or 2.
    */
   void set_format(uint channels, uint bytes_per_sample);
 
@@ -114,7 +119,7 @@ protected:
    *
    * \param sample_rate the sample rate in samples per second.
    */
-  void set_sample_rate(uint sample_rate);
+  void set_sample_rate(uint sample_rate) noexcept;
 
 private:
   audio_buffer_format m_format;

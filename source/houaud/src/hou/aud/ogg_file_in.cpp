@@ -81,7 +81,7 @@ ogg_file_in::ogg_file_in(const std::string& path)
 
 
 
-ogg_file_in::ogg_file_in::ogg_file_in(ogg_file_in&& other)
+ogg_file_in::ogg_file_in::ogg_file_in(ogg_file_in&& other) noexcept
   : audio_stream_in(std::move(other))
   , m_vorbis_file(std::move(other.m_vorbis_file))
   , m_logical_bit_stream(std::move(other.m_logical_bit_stream))
@@ -108,35 +108,35 @@ ogg_file_in::~ogg_file_in()
 
 
 
-bool ogg_file_in::eof() const
+bool ogg_file_in::eof() const noexcept
 {
   return m_eof;
 }
 
 
 
-bool ogg_file_in::error() const
+bool ogg_file_in::error() const noexcept
 {
   return m_error;
 }
 
 
 
-size_t ogg_file_in::get_byte_count() const
+size_t ogg_file_in::get_byte_count() const noexcept
 {
   return get_sample_count() * (get_channel_count() * get_bytes_per_sample());
 }
 
 
 
-size_t ogg_file_in::get_read_byte_count() const
+size_t ogg_file_in::get_read_byte_count() const noexcept
 {
   return m_byte_count;
 }
 
 
 
-size_t ogg_file_in::get_read_element_count() const
+size_t ogg_file_in::get_read_element_count() const noexcept
 {
   return m_element_count;
 }
@@ -168,7 +168,7 @@ binary_stream& ogg_file_in::move_byte_pos(ogg_file_in::byte_offset offset)
 
 
 
-size_t ogg_file_in::get_sample_count() const
+size_t ogg_file_in::get_sample_count() const noexcept
 {
   return m_pcm_size;
 }
@@ -225,7 +225,7 @@ void ogg_file_in::on_read(void* buf, size_t element_size, size_t buf_size)
   static constexpr int big_endian_data = 0;
   static constexpr int signed_data = 1;
 
-  HOU_DEV_PRECOND(get_bytes_per_sample() == bytes_per_sample);
+  HOU_ASSERT(get_bytes_per_sample() == bytes_per_sample);
 
   // ov_read reads one packet at most, so it has to be called repeatedly.
   // This is done by the following loop.
@@ -257,12 +257,12 @@ void ogg_file_in::on_read(void* buf, size_t element_size, size_t buf_size)
     else
     {
       countBytes += bytesRead;
-      HOU_DEV_POSTCOND(countBytes <= sizeBytes);
+      HOU_ASSERT(countBytes <= sizeBytes);
     }
   }
   // Check that no error happened during the read operation.
   HOU_CHECK_0(countBytes == sizeBytes || !error(), file_read_error);
-  HOU_DEV_POSTCOND(countBytes % element_size == 0u);
+  HOU_ASSERT(countBytes % element_size == 0u);
   m_byte_count = countBytes;
   m_element_count = countBytes / element_size;
 }

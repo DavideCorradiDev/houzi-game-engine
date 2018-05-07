@@ -81,7 +81,7 @@ wav_file_in::wav_file_in(const std::string& path)
 
 
 
-wav_file_in::wav_file_in(wav_file_in&& other)
+wav_file_in::wav_file_in(wav_file_in&& other) noexcept
   : audio_stream_in(std::move(other))
   , m_file(std::move(other.m_file))
   , m_data_offset(std::move(other.m_data_offset))
@@ -91,40 +91,35 @@ wav_file_in::wav_file_in(wav_file_in&& other)
 
 
 
-wav_file_in::~wav_file_in()
-{}
-
-
-
-bool wav_file_in::eof() const
+bool wav_file_in::eof() const noexcept
 {
   return m_file.eof();
 }
 
 
 
-bool wav_file_in::error() const
+bool wav_file_in::error() const noexcept
 {
   return m_file.error();
 }
 
 
 
-size_t wav_file_in::get_byte_count() const
+size_t wav_file_in::get_byte_count() const noexcept
 {
   return m_file.get_byte_count() - m_data_offset;
 }
 
 
 
-size_t wav_file_in::get_read_byte_count() const
+size_t wav_file_in::get_read_byte_count() const noexcept
 {
   return m_byte_count;
 }
 
 
 
-size_t wav_file_in::get_read_element_count() const
+size_t wav_file_in::get_read_element_count() const noexcept
 {
   return m_element_count;
 }
@@ -160,7 +155,7 @@ binary_stream& wav_file_in::move_byte_pos(wav_file_in::byte_offset offset)
 
 
 
-size_t wav_file_in::get_sample_count() const
+size_t wav_file_in::get_sample_count() const noexcept
 {
   return get_byte_count() / (get_channel_count() * get_bytes_per_sample());
 }
@@ -229,8 +224,8 @@ void wav_file_in::read_metadata(const std::string& path)
 
   // Set data offset.
   m_data_offset = m_file.tell();
-  HOU_DEV_POSTCOND(get_byte_pos() == 0u);
-  HOU_DEV_POSTCOND(get_byte_count() == chunk_signature.size);
+  HOU_ASSERT(get_byte_pos() == 0u);
+  HOU_ASSERT(get_byte_count() == chunk_signature.size);
 
   // Reset read counter (it is set to 1 by the metadata read operation);
   m_byte_count = 0;

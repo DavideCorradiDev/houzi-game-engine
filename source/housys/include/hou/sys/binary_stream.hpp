@@ -5,9 +5,9 @@
 #ifndef HOU_SYS_BINARY_STREAM_HPP
 #define HOU_SYS_BINARY_STREAM_HPP
 
-#include "hou/sys/sys_export.hpp"
-
 #include "hou/sys/stream.hpp"
+
+#include "hou/sys/sys_export.hpp"
 
 
 
@@ -29,11 +29,10 @@ public:
   using byte_offset = long;
 
 public:
-  /** Destructor.
-   */
-  virtual ~binary_stream(){};
 
   /** Gets the current byte position indicator.
+   *
+   * \throws hou::file_cursor_error in case of an error.
    *
    * \return the current byte position indicator.
    */
@@ -48,6 +47,8 @@ public:
    *
    * \param pos the byte position indicator value.
    *
+   * \throws hou::file_cursor_error in case of an error.
+   *
    * \return a reference to this stream.
    */
   virtual binary_stream& set_byte_pos(byte_position pos) = 0;
@@ -60,6 +61,8 @@ public:
    * a value in the interval [0; byte_count] is always valid.
    *
    * \param offset the byte position indicator offset.
+   *
+   * \throws hou::file_cursor_error in case of an error.
    *
    * \return a reference to this stream.
    */

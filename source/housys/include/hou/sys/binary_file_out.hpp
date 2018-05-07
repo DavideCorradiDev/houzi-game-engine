@@ -6,11 +6,13 @@
 #define HOU_SYS_BINARY_FILE_OUT_HPP
 
 #include "hou/sys/binary_stream_out.hpp"
+
+#include "hou/sys/file.hpp"
+
 #include "hou/sys/sys_export.hpp"
 
 #include "hou/cor/non_copyable.hpp"
 
-#include "hou/sys/file.hpp"
 
 
 
@@ -19,7 +21,7 @@ namespace hou
 
 /** Output binary file stream.
  */
-class HOU_SYS_API binary_file_out
+class HOU_SYS_API binary_file_out final
   : public non_copyable
   , public binary_stream_out
 {
@@ -36,20 +38,16 @@ public:
    *
    * \param other the other object.
    */
-  binary_file_out(binary_file_out&& other);
-
-  /** Destructor.
-   */
-  virtual ~binary_file_out();
+  binary_file_out(binary_file_out&& other) noexcept;
 
   // stream overrides.
-  bool eof() const final;
-  bool error() const final;
-  size_t get_byte_count() const final;
+  bool eof() const noexcept final;
+  bool error() const noexcept final;
+  size_t get_byte_count() const noexcept final;
 
   // stream_out overrides.
-  size_t get_write_byte_count() const final;
-  size_t get_write_element_count() const final;
+  size_t get_write_byte_count() const noexcept final;
+  size_t get_write_element_count() const noexcept final;
 
   // binary_stream overrides.
   byte_position get_byte_pos() const final;
