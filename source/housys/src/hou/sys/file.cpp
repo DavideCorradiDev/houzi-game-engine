@@ -20,7 +20,6 @@ namespace hou
 namespace
 {
 
-const std::string assert_msg_file_flush = u8"Could not flush a file buffer.";
 const std::string assert_msg_file_tell
   = u8"Could not read a file cursor position.";
 
@@ -70,7 +69,7 @@ size_t file::get_byte_count() const
 long file::tell() const
 {
   long pos = ftell(m_handle);
-  HOU_ASSERT(pos != -1L, assert_msg_file_tell);
+  HOU_CHECK_0(pos != -1L, file_cursor_error);
   return pos;
 }
 
@@ -102,7 +101,7 @@ void file::seek_offset(long offset)
 
 void file::flush() const
 {
-  HOU_ASSERT(fflush(m_handle) != EOF, assert_msg_file_flush);
+  HOU_CHECK_0(fflush(m_handle) != EOF, file_write_error);
 }
 
 

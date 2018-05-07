@@ -29,8 +29,6 @@ namespace hou
 namespace
 {
 
-const std::string assert_msg_ft_lib_destruction_error
-  = u8"Failed to destroy the FreeType library.";
 constexpr float pf266_to_pixel_factor = 1.f / 64.f;
 
 class ft_library_wrapper : public non_copyable
@@ -50,8 +48,8 @@ ft_library_wrapper::ft_library_wrapper()
   : non_copyable()
   , library(nullptr)
 {
-  HOU_POSTCOND(FT_Init_FreeType(&library) == 0);
-  HOU_DEV_POSTCOND(library != nullptr);
+  HOU_ASSERT(FT_Init_FreeType(&library) == 0);
+  HOU_DEV_INVARIANT(library != nullptr);
 }
 
 
@@ -60,8 +58,7 @@ ft_library_wrapper::~ft_library_wrapper()
 {
   if(library != nullptr)
   {
-    HOU_ASSERT(
-      FT_Done_FreeType(library) == 0, assert_msg_ft_lib_destruction_error);
+    HOU_ASSERT(FT_Done_FreeType(library) == 0);
   }
 }
 

@@ -176,16 +176,16 @@ TEST_F(test_exception_death_test, hou_error_n_macro)
 
 
 
-TEST_F(test_exception, dev_assert_macro_success)
+TEST_F(test_exception, hou_assert_macro_success)
 {
-  HOU_ASSERT(2 == 2, "Message.");
+  HOU_ASSERT(2 == 2);
 }
 
 
 
-TEST_F(test_exception_death_test, dev_assert_macro_failure)
+TEST_F(test_exception_death_test, hou_assert_macro_failure)
 {
-  EXPECT_DEATH(HOU_ASSERT(0 == 2, "Message."), ".*:.* - Message.");
+  EXPECT_DEATH(HOU_ASSERT(0 == 2), ".*:.* - Assertion failed (0 == 2).");
 }
 
 
@@ -250,7 +250,7 @@ TEST_F(test_exception_death_test, hou_check_n_macro_failure)
 
 TEST_F(test_exception, hou_dev_assert_macro_success)
 {
-  HOU_DEV_ASSERT(2 == 2, "Message.");
+  HOU_DEV_ASSERT(2 == 2);
 }
 
 
@@ -258,10 +258,9 @@ TEST_F(test_exception, hou_dev_assert_macro_success)
 TEST_F(test_exception_death_test, hou_dev_assert_macro_failure)
 {
 #ifdef NDEBUG
-  HOU_DEV_ASSERT(0 == 2, "Message.");
-  SUCCEED();
+  EXPECT_NO_ERROR(HOU_DEV_ASSERT(0 == 2));
 #else
-  EXPECT_DEATH(HOU_ASSERT(0 == 2, "Message."), ".*:.* - Message.");
+  EXPECT_DEATH(HOU_DEV_ASSERT(0 == 2), ".*:.* - Assertion failed (0 == 2).");
 #endif
 }
 

@@ -36,7 +36,7 @@ file_write_error::file_write_error(const std::string& path, uint line)
 
 
 file_cursor_error::file_cursor_error(const std::string& path, uint line)
-  : exception(path, line, u8"Failed to set the file cursor position.")
+  : exception(path, line, u8"Failed to set or get the file cursor position.")
 {}
 
 

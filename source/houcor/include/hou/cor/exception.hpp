@@ -126,10 +126,7 @@ void error(Args... args)
     }                                                                          \
   } while(false)
 
-#define HOU_ASSERT(statement, message)                                         \
-  HOU_CHECK_TEMPLATE(statement, HOU_TERMINATE(message))
-
-#define HOU_ASSERT_0(statement)                                                \
+#define HOU_ASSERT(statement)                                                  \
   HOU_CHECK_TEMPLATE(statement, HOU_TERMINATE(#statement))
 
 #define HOU_CHECK_STD_0(condition, exception_type)                             \
@@ -151,11 +148,9 @@ void error(Args... args)
   HOU_CHECK_TEMPLATE(condition, failure_action)
 #endif
 
-#define HOU_DEV_ASSERT(statement, message)                                     \
-  HOU_DEV_CHECK_TEMPLATE(statement, HOU_TERMINATE(message))
-
-#define HOU_DEV_ASSERT_0(statement)                                            \
-  HOU_DEV_CHECK_TEMPLATE(statement, HOU_TERMINATE(#statement))
+#define HOU_DEV_ASSERT(statement)                                              \
+  HOU_DEV_CHECK_TEMPLATE(                                                      \
+    statement, HOU_TERMINATE(u8"Assertion failed (" #statement u8")."))
 
 #define HOU_DEV_CHECK_STD_0(condition, exception_type)                         \
   HOU_DEV_CHECK_TEMPLATE(condition, HOU_ERROR_STD_0(exception_type))
