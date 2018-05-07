@@ -75,6 +75,29 @@ private:
  */
 void HOU_COR_API terminate(const std::string& message) noexcept;
 
+/** Reports an error.
+ *
+ * If exceptions are enabled, it will throw an exception of type ExceptionType
+ * with the given arguments.
+ * If exceptions are disabled, it will abort execution and print the what()
+ * message of the exception into the error output stream.
+ *
+ * \tparam ExceptionType the exception type.
+ *
+ * \tparam Args the arguments to build the exception.
+ *
+ * \param args the arguments to build the exception.
+ */
+template <typename ExceptionType, typename... Args>
+void error(Args... args)
+{
+#ifdef HOU_DISABLE_EXCEPTIONS
+  terminate(ExceptionType(args...).what());
+#else
+  throw ExceptionType(args...);
+#endif
+}
+
 }  // namespace hou
 
 
@@ -83,44 +106,16 @@ void HOU_COR_API terminate(const std::string& message) noexcept;
   ::hou::terminate(                                                            \
     ::hou::prv::format_error_message(__FILE__, __LINE__, message));
 
-#ifdef HOU_DISABLE_EXCEPTIONS
-
-#define HOU_ERROR_STD_0(exception_type)                                        \
-  do                                                                           \
-  {                                                                            \
-    ::hou::terminate(exception_type().what());                                 \
-  } while(false)
-
-#define HOU_ERROR_TEMPLATE(exception_type, ...)                                \
-  do                                                                           \
-  {                                                                            \
-    ::hou::terminate(exception_type(__VA_ARGS__).what());                      \
-  } while(false)
-
-#else
-
-#define HOU_ERROR_STD_0(exception_type)                                        \
-  do                                                                           \
-  {                                                                            \
-    throw exception_type();                                                    \
-  } while(false)
-
-#define HOU_ERROR_TEMPLATE(exception_type, ...)                                \
-  do                                                                           \
-  {                                                                            \
-    throw exception_type(__VA_ARGS__);                                         \
-  } while(false)
-
-#endif
+#define HOU_ERROR_STD_0(exception_type) ::hou::error<exception_type>()
 
 #define HOU_ERROR_STD_N(exception_type, ...)                                   \
-  HOU_ERROR_TEMPLATE(exception_type, __VA_ARGS__)
+  ::hou::error<exception_type>(__VA_ARGS__)
 
 #define HOU_ERROR_0(exception_type)                                            \
-  HOU_ERROR_TEMPLATE(exception_type, __FILE__, __LINE__)
+  ::hou::error<exception_type>(__FILE__, __LINE__)
 
 #define HOU_ERROR_N(exception_type, ...)                                       \
-  HOU_ERROR_TEMPLATE(exception_type, __FILE__, __LINE__, __VA_ARGS__)
+  ::hou::error<exception_type>(__FILE__, __LINE__, __VA_ARGS__)
 
 #define HOU_CHECK_TEMPLATE(condition, failure_action)                          \
   do                                                                           \

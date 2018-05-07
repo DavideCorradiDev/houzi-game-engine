@@ -83,20 +83,6 @@ TEST_F(test_exception, copy_constructor)
 
 
 
-TEST_F(test_exception_death_test, terminate)
-{
-  EXPECT_DEATH(terminate("Message."), "Message.");
-}
-
-
-
-TEST_F(test_exception_death_test, terminate_macro)
-{
-  EXPECT_DEATH(HOU_TERMINATE("Message."), ".*:.* - Message.");
-}
-
-
-
 #ifndef HOU_DISABLE_EXCEPTIONS
 TEST_F(test_exception_death_test, expect_error_std_0_macro)
 {
@@ -132,6 +118,31 @@ TEST_F(test_exception_death_test, expect_error_n_macro)
     throw exception_2_args("a", 2, 88, 'b'), exception_2_args, 88, 'b');
 }
 #endif
+
+
+
+TEST_F(test_exception_death_test, terminate)
+{
+  EXPECT_DEATH(terminate("Message."), "Message.");
+}
+
+
+
+TEST_F(test_exception_death_test, terminate_macro)
+{
+  EXPECT_DEATH(HOU_TERMINATE("Message."), ".*:.* - Message.");
+}
+
+
+
+TEST_F(test_exception_death_test, error)
+{
+  EXPECT_ERROR_STD_0(error<std::exception>(), std::exception);
+  EXPECT_ERROR_STD_N(
+    error<std::runtime_error>("Message."), std::runtime_error, "Message.");
+  EXPECT_ERROR_STD_N(error<hou::exception>("luck.cpp", 88u, "Message."),
+    hou::exception, "luck.cpp", 88u, "Message.");
+}
 
 
 
