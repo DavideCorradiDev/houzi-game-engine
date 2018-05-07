@@ -177,19 +177,3 @@ TEST_F(test_assertions_death_test, expect_invariant_error_macro)
 {
   EXPECT_INVARIANT_ERROR(HOU_INVARIANT(0 == 2));
 }
-
-
-
-TEST_F(test_assertions, unreachable_error)
-{
-  unreachable_error ex("foo.cpp", 42u);
-  EXPECT_STREQ(
-    "foo.cpp:42 - An unreachable part of code has been reached.", ex.what());
-}
-
-
-
-TEST_F(test_assertions, hou_unreachable_macro)
-{
-  EXPECT_ERROR_0(HOU_UNREACHABLE(), unreachable_error);
-}

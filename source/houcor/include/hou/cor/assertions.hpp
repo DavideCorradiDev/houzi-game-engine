@@ -65,26 +65,6 @@ public:
   invariant_violation(const std::string& path, uint line);
 };
 
-
-
-
-/** Unreachable code error.
- *
- * This exception is thrown when an unreachable code path has been reached.
- * This reflects a programming error, and exection should be aborted.
- */
-class HOU_COR_API unreachable_error : public exception
-{
-public:
-  /** Creates an unreachable_error object.
-   *
-   * \param path the path to the source file where the error happened.
-   *
-   * \param line the line where the error happened.
-   */
-  unreachable_error(const std::string& path, uint line);
-};
-
 }  // namespace hou
 
 #define HOU_PRECOND(condition) HOU_CHECK_0(condition, precondition_violation)
@@ -101,7 +81,5 @@ public:
 
 #define HOU_DEV_INVARIANT(condition)                                           \
   HOU_DEV_CHECK_0(condition, invariant_violation)
-
-#define HOU_UNREACHABLE() HOU_TERMINATE(u8"Unreachable code path.")
 
 #endif

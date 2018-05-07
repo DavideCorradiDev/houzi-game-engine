@@ -27,10 +27,4 @@ invariant_violation::invariant_violation(const std::string& path, uint line)
   : exception(path, line, u8"An invariant has been violated.")
 {}
 
-
-
-unreachable_error::unreachable_error(const std::string& path, uint line)
-  : exception(path, line, u8"An unreachable part of code has been reached.")
-{}
-
 }  // namespace hou

@@ -106,6 +106,8 @@ void error(Args... args)
   ::hou::terminate(                                                            \
     ::hou::prv::format_error_message(__FILE__, __LINE__, message));
 
+#define HOU_UNREACHABLE() HOU_TERMINATE(u8"Unreachable code path.")
+
 #define HOU_ERROR_STD_0(exception_type) ::hou::error<exception_type>()
 
 #define HOU_ERROR_STD_N(exception_type, ...)                                   \

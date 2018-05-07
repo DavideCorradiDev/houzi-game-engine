@@ -352,3 +352,10 @@ TEST_F(test_exception_death_test, hou_disable_exceptions_scope)
     std::runtime_error("Message.").what());
   // clang-format on
 }
+
+
+
+TEST_F(test_exception_death_test, hou_unreachable_macro)
+{
+  EXPECT_DEATH(HOU_UNREACHABLE(), ".*:.* - Unreachable code path.");
+}
