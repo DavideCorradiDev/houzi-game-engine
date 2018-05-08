@@ -34,7 +34,7 @@ uint32_t generate_uid()
 
 
 
-object_handle::object_handle(GLuint name)
+object_handle::object_handle(GLuint name) noexcept
   : non_copyable()
   , m_name(name)
   , m_uid(generate_uid())

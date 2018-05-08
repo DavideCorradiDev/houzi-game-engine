@@ -26,12 +26,6 @@ source_handle source_handle::generate()
 
 
 
-source_handle::source_handle(source_handle&& other)
-  : context_owned_object_handle(std::move(other))
-{}
-
-
-
 source_handle::~source_handle()
 {
   if(get_name() != 0)

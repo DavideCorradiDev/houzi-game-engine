@@ -5,8 +5,9 @@
 #ifndef HOU_AL_AL_SOURCE_HANDLE_HPP
 #define HOU_AL_AL_SOURCE_HANDLE_HPP
 
-#include "hou/al/al_export.hpp"
 #include "hou/al/al_object_handle.hpp"
+
+#include "hou/al/al_export.hpp"
 
 
 
@@ -25,7 +26,7 @@ class HOU_AL_API source_handle : public context_owned_object_handle
 public:
   static source_handle generate();
 
-  source_handle(source_handle&& other);
+  source_handle(source_handle&& other) noexcept = default;
   virtual ~source_handle();
 
 private:

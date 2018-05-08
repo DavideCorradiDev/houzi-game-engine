@@ -26,12 +26,6 @@ buffer_handle buffer_handle::generate()
 
 
 
-buffer_handle::buffer_handle(buffer_handle&& other)
-  : device_owned_object_handle(std::move(other))
-{}
-
-
-
 buffer_handle::~buffer_handle()
 {
   if(get_name() != 0u)

@@ -6,9 +6,10 @@
 #define HOU_GL_GL_OBJECT_HANDLE_HPP
 
 #include "hou/cor/non_copyable.hpp"
-#include "hou/gl/gl_export.hpp"
 
 #include "hou/gl/open_gl.hpp"
+
+#include "hou/gl/gl_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 
@@ -23,7 +24,7 @@ namespace gl
 class HOU_GL_API object_handle : public non_copyable
 {
 public:
-  object_handle(GLuint name);
+  object_handle(GLuint name) noexcept;
   object_handle(object_handle&& other) noexcept;
   virtual ~object_handle() = 0;
 

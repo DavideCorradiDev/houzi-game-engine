@@ -70,7 +70,7 @@ device::device(const std::string& dev_name)
 
 
 
-device::device(device&& other)
+device::device(device&& other) noexcept
   : m_device(std::move(other.m_device))
   , m_uid(std::move(other.m_uid))
 {
@@ -91,21 +91,21 @@ device::~device()
 
 
 
-const ALCdevice* device::get_handle() const
+const ALCdevice* device::get_handle() const noexcept
 {
   return m_device;
 }
 
 
 
-ALCdevice* device::get_handle()
+ALCdevice* device::get_handle() noexcept
 {
   return m_device;
 }
 
 
 
-uint32_t device::get_uid() const
+uint32_t device::get_uid() const noexcept
 {
   return m_uid;
 }

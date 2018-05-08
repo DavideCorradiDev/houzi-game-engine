@@ -5,8 +5,9 @@
 #ifndef HOU_AL_AL_BUFFER_HANDLE_HPP
 #define HOU_AL_AL_BUFFER_HANDLE_HPP
 
-#include "hou/al/al_export.hpp"
 #include "hou/al/al_object_handle.hpp"
+
+#include "hou/al/al_export.hpp"
 
 
 
@@ -21,7 +22,7 @@ class HOU_AL_API buffer_handle : public device_owned_object_handle
 public:
   static buffer_handle generate();
 
-  buffer_handle(buffer_handle&& other);
+  buffer_handle(buffer_handle&& other) noexcept = default;
   virtual ~buffer_handle();
 
 private:

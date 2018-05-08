@@ -6,10 +6,11 @@
 #define HOU_GL_GL_CONTEXT_HPP
 
 #include "hou/cor/non_copyable.hpp"
-#include "hou/gl/gl_export.hpp"
 
 #include "hou/gl/gl_context_impl.hpp"
 #include "hou/gl/open_gl.hpp"
+
+#include "hou/gl/gl_export.hpp"
 
 #include "hou/mth/rectangle.hpp"
 

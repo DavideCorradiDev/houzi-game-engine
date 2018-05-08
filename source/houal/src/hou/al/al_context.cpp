@@ -81,8 +81,9 @@ context::context(device& dev)
 
 
 
-context::context(context&& other)
-  : m_handle(std::move(other.m_handle))
+context::context(context&& other) noexcept
+  : non_copyable()
+  , m_handle(std::move(other.m_handle))
   , m_uid(std::move(other.m_uid))
   , m_device_uid(std::move(other.m_device_uid))
 {
@@ -109,14 +110,14 @@ context::~context()
 
 
 
-uint32_t context::get_uid() const
+uint32_t context::get_uid() const noexcept
 {
   return m_uid;
 }
 
 
 
-uint32_t context::get_device_uid() const
+uint32_t context::get_device_uid() const noexcept
 {
   return m_device_uid;
 }

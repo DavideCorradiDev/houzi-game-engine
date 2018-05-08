@@ -5,10 +5,10 @@
 #ifndef HOU_GL_UTILS_HPP
 #define HOU_GL_UTILS_HPP
 
-#include "hou/gl/gl_export.hpp"
-
 #include "hou/gl/gl_vertical_sync_mode.hpp"
 #include "hou/gl/open_gl.hpp"
+
+#include "hou/gl/gl_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 

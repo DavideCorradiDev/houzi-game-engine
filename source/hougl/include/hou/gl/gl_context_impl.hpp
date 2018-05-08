@@ -6,8 +6,9 @@
 
 #define HOU_GL_GL_CONTEXT_IMPL_HPP
 
-#include "hou/config.hpp"
 #include "hou/cor/non_copyable.hpp"
+
+#include "hou/gl/gl_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 
