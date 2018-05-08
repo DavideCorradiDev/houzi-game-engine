@@ -138,8 +138,7 @@ TEST_F(TestOggFileInDeathTest, path_constructor_failure_invalid_ogg_file)
     dummyOggFile.write(&data, 1u);
   }
 
-  EXPECT_ERROR_N(
-    ogg_file_in fi(invalid_filename), audio_read_error, invalid_filename);
+  EXPECT_ERROR_0(ogg_file_in fi(invalid_filename), invalid_audio_data);
 
   remove_dir(invalid_filename);
 }
@@ -155,8 +154,7 @@ TEST_F(TestOggFileInDeathTest, path_constructor_failure_no_ogg_header)
       invalid_filename, file_open_mode::write, file_type::binary);
   }
 
-  EXPECT_ERROR_N(
-    ogg_file_in fi(invalid_filename), audio_read_error, invalid_filename);
+  EXPECT_ERROR_0(ogg_file_in fi(invalid_filename), invalid_audio_data);
 
   remove_dir(invalid_filename);
 }
@@ -333,8 +331,7 @@ TEST_F(TestOggFileInDeathTest, set_sample_pos_error_invalid_position)
 {
   ogg_file_in fi(mono16_filename);
   EXPECT_ERROR_0(fi.set_sample_pos(-1), cursor_error);
-  EXPECT_ERROR_0(
-    fi.set_sample_pos(fi.get_sample_count() + 1), cursor_error);
+  EXPECT_ERROR_0(fi.set_sample_pos(fi.get_sample_count() + 1), cursor_error);
 }
 
 
@@ -392,8 +389,7 @@ TEST_F(TestOggFileInDeathTest, move_sample_pos_error_invalid_position)
   ogg_file_in fi(mono16_filename);
   fi.move_sample_pos(2);
   EXPECT_ERROR_0(fi.move_sample_pos(-3), cursor_error);
-  EXPECT_ERROR_0(
-    fi.move_sample_pos(fi.get_sample_count() + 1), cursor_error);
+  EXPECT_ERROR_0(fi.move_sample_pos(fi.get_sample_count() + 1), cursor_error);
 }
 
 

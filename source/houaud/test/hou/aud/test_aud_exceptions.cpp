@@ -21,10 +21,8 @@ class test_aud_exceptions : public Test
 
 
 
-TEST_F(test_aud_exceptions, audio_read_error)
+TEST_F(test_aud_exceptions, invalid_audio_data)
 {
-  audio_read_error ex("foo.cpp", 88u, "path/to/file.wav");
-  EXPECT_STREQ(
-    "foo.cpp:88 - Failed to read audio from file 'path/to/file.wav'.",
-    ex.what());
+  invalid_audio_data ex("foo.cpp", 88u);
+  EXPECT_STREQ("foo.cpp:88 - Invalid or corrupted audio data.", ex.what());
 }

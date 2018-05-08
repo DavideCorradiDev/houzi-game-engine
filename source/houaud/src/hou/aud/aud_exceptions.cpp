@@ -9,10 +9,8 @@
 namespace hou
 {
 
-audio_read_error::audio_read_error(
-  const std::string& path, uint line, const std::string& filepath)
-  : exception(path, line,
-      format_string(u8"Failed to read audio from file '%s'.", filepath.c_str()))
+invalid_audio_data::invalid_audio_data(const std::string& path, uint line)
+  : exception(path, line, u8"Invalid or corrupted audio data.")
 {}
 
 }  // namespace hou

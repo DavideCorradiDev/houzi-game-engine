@@ -20,20 +20,20 @@ namespace hou
  *
  * This normally means that the data is corrupted or in a wrong format.
  */
-class HOU_AUD_API audio_read_error : public exception
+class HOU_AUD_API invalid_audio_data : public exception
 {
 public:
-  /** Creates an audio_read_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
    *
-   * \param filepath the path to the file.
+   * \throws std::bad_alloc.
    */
-  audio_read_error(
-    const std::string& path, uint line, const std::string& filepath);
+  invalid_audio_data(const std::string& path, uint line);
 };
+
 }  // namespace hou
 
 #endif

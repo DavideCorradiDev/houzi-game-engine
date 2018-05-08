@@ -73,7 +73,7 @@ ogg_file_in::ogg_file_in(const std::string& path)
   if(ov_open(file, m_vorbis_file.get(), nullptr, 0) != 0)
   {
     fclose(file);
-    HOU_ERROR_N(audio_read_error, path);
+    HOU_ERROR_0(invalid_audio_data);
   }
 
   read_metadata();

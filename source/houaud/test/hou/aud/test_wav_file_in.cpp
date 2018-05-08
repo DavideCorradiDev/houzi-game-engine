@@ -139,8 +139,7 @@ TEST_F(test_wav_file_in_death_test, path_constructor_failure_invalid_wav_file)
     dummy_wav_file.write(&data, 1u);
   }
 
-  EXPECT_ERROR_N(
-    wav_file_in fi(dummy_wav_filename), audio_read_error, dummy_wav_filename);
+  EXPECT_ERROR_0(wav_file_in fi(dummy_wav_filename), invalid_audio_data);
 
   remove_dir(dummy_wav_filename);
 }
@@ -156,8 +155,7 @@ TEST_F(test_wav_file_in_death_test, path_constructor_failure_no_wav_header)
       dummy_wav_filename, file_open_mode::write, file_type::binary);
   }
 
-  EXPECT_ERROR_N(
-    wav_file_in fi(dummy_wav_filename), audio_read_error, dummy_wav_filename);
+  EXPECT_ERROR_0(wav_file_in fi(dummy_wav_filename), invalid_audio_data);
 
   remove_dir(dummy_wav_filename);
 }
@@ -384,8 +382,7 @@ TEST_F(test_wav_file_in_death_test, set_sample_pos_error_invalid_position)
 {
   wav_file_in fi(mono16_filename);
   EXPECT_ERROR_0(fi.set_sample_pos(-1), cursor_error);
-  EXPECT_ERROR_0(
-    fi.set_sample_pos(fi.get_sample_count() + 1), cursor_error);
+  EXPECT_ERROR_0(fi.set_sample_pos(fi.get_sample_count() + 1), cursor_error);
 }
 
 
@@ -491,8 +488,7 @@ TEST_F(test_wav_file_in_death_test, move_sample_pos_error_invalid_position)
   wav_file_in fi(mono16_filename);
   fi.move_sample_pos(2);
   EXPECT_ERROR_0(fi.move_sample_pos(-3), cursor_error);
-  EXPECT_ERROR_0(
-    fi.move_sample_pos(fi.get_sample_count() - 1), cursor_error);
+  EXPECT_ERROR_0(fi.move_sample_pos(fi.get_sample_count() - 1), cursor_error);
 }
 
 
