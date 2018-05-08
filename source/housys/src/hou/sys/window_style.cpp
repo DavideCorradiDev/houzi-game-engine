@@ -4,6 +4,8 @@
 
 #include "hou/sys/window_style.hpp"
 
+#include "hou/cor/exception.hpp"
+
 #define WINDOW_STYLE_CASE(ws, os) \
   case window_style::ws: \
     return (os) << #ws
@@ -21,6 +23,7 @@ std::ostream& operator<<(std::ostream& os, window_style ws)
     WINDOW_STYLE_CASE(windowed_resizable, os);
     WINDOW_STYLE_CASE(fullscreen, os);
     default:
+      HOU_UNREACHABLE();
       return os;
   }
 }

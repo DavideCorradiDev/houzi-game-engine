@@ -21,11 +21,11 @@ namespace hou
 namespace
 {
 
-uint32_t generate_uid();
+uint32_t generate_uid() noexcept;
 
 
 
-uint32_t generate_uid()
+uint32_t generate_uid() noexcept
 {
   static uid_generator uid_gen(1u);
   return uid_gen.generate();
@@ -64,21 +64,21 @@ window::~window()
 
 
 
-window_handle window::get_handle() const
+window_handle window::get_handle() const noexcept
 {
   return m_impl.get_handle();
 }
 
 
 
-uint32_t window::get_uid() const
+uint32_t window::get_uid() const noexcept
 {
   return m_uid;
 }
 
 
 
-const std::string& window::get_title() const
+const std::string& window::get_title() const noexcept
 {
   return m_title;
 }
@@ -175,21 +175,21 @@ void window::set_client_size(const vec2u& size)
 
 
 
-uint window::get_bytes_per_pixel() const
+uint window::get_bytes_per_pixel() const noexcept
 {
   return m_bytes_per_pixel;
 }
 
 
 
-window_style window::get_style() const
+window_style window::get_style() const noexcept
 {
   return m_style;
 }
 
 
 
-const image2_rgba& window::get_icon() const
+const image2_rgba& window::get_icon() const noexcept
 {
   return m_icon_image;
 }
@@ -212,7 +212,7 @@ void window::set_system_icon()
 
 
 
-bool window::is_visible() const
+bool window::is_visible() const noexcept
 {
   return m_impl.is_visible();
 }
@@ -226,7 +226,7 @@ void window::set_visible(bool value)
 
 
 
-bool window::is_mouse_cursor_grabbed() const
+bool window::is_mouse_cursor_grabbed() const noexcept
 {
   return m_impl.is_mouse_cursor_grabbed();
 }
@@ -240,34 +240,34 @@ void window::set_mouse_cursor_grabbed(bool value)
 
 
 
-bool window::is_key_repeat_enabled() const
+bool window::is_key_repeat_enabled() const noexcept
 {
   return m_impl.is_key_repeat_enabled();
 }
 
 
 
-void window::set_key_repeat_enabled(bool value)
+void window::set_key_repeat_enabled(bool value) noexcept
 {
   m_impl.set_key_repeat_enabled(value);
 }
 
 
 
-bool window::has_focus() const
+bool window::has_focus() const noexcept
 {
   return m_impl.has_focus();
 }
 
 
 
-bool window::request_focus() const
+bool window::request_focus() const noexcept
 {
   return m_impl.request_focus();
 }
 
 
-bool window::is_event_queue_empty() const
+bool window::is_event_queue_empty() const noexcept
 {
   return m_impl.is_event_queue_empty();
 }
@@ -281,7 +281,7 @@ void window::update_event_queue()
 
 
 
-window_event window::pop_event()
+window_event window::pop_event() noexcept
 {
   window_event ev = m_impl.pop_event();
   react_to_event(ev);

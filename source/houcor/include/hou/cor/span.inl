@@ -70,7 +70,7 @@ constexpr typename span<T>::size_type span<T>::size() const noexcept
 template <typename T>
 constexpr typename span<T>::reference span<T>::at(span<T>::size_type idx) const
 {
-  HOU_CHECK_N(idx < m_size, hou::out_of_range, idx);
+  HOU_CHECK_0(idx < m_size, hou::out_of_range);
   return *(m_data + idx);
 }
 

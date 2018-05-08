@@ -44,12 +44,19 @@ public:
    * Only one window can be fullscreen.
    * If fullscreen mode is specified and vm is not a valid fullscreen
    * video_mode, an error will be thrown.
+   *
+   * \throws hou::precond_error if style is fullscreen and a fullscreen window
+   * already exists.
+   *
+   * \throws hou::os_error if the window could not be created.
    */
   window(const std::string& title, const video_mode& vm, window_style style);
 
   /** Move constructor.
    *
    * \param other the other window object.
+   *
+   * \throws hou::os_error if the window could not be created.
    */
   window(window&& other);
 
@@ -61,19 +68,19 @@ public:
    *
    * \return the OS dependent window handle.
    */
-  window_handle get_handle() const;
+  window_handle get_handle() const noexcept;
 
   /** Gets the unique identifier of this window.
    *
    * \return the unique identifier of this window.
    */
-  uint32_t get_uid() const;
+  uint32_t get_uid() const noexcept;
 
   /** Gets the title of this window.
    *
    * \return the title of this window.
    */
-  const std::string& get_title() const;
+  const std::string& get_title() const noexcept;
 
   /** Sets the title of this window.
    *
@@ -86,6 +93,8 @@ public:
    * The window frame position is the top left corner of the window, including
    * the borders.
    *
+   * \throws hou::os_error if the window position could not be got.
+   *
    * \return the position of the window frame.
    */
   vec2i get_frame_position() const;
@@ -93,6 +102,8 @@ public:
   /** Gets the size of the window frame.
    *
    * The window frame size includes the borders.
+   *
+   * \throws hou::os_error if the window size could not be got.
    *
    * \return the size of the window frame.
    */
@@ -105,6 +116,8 @@ public:
    * \param pos the window frame position.
    *
    * \param size the window frame size.
+   *
+   * \throws hou::os_error if the window rectangle could not be set.
    */
   virtual void set_frame_rect(const vec2i& pos, const vec2u& size) = 0;
 
@@ -114,6 +127,8 @@ public:
    * the borders
    *
    * \param pos the position of the window frame.
+   *
+   * \throws hou::os_error if the window position could not be set.
    */
   void set_frame_position(const vec2i& pos);
 
@@ -122,6 +137,8 @@ public:
    * The window frame size includes the borders
    *
    * \param size the size of the window frame.
+   *
+   * \throws hou::os_error if the window size could not be set.
    */
   void setFrameSize(const vec2u& size);
 
@@ -131,6 +148,8 @@ public:
    * including the borders.
    *
    * \return the position of the window client.
+   *
+   * \throws hou::os_error if the window position could not be got
    */
   vec2i get_client_position() const;
 
@@ -139,6 +158,8 @@ public:
    * The window client size does not include the borders.
    *
    * \return the size of the window client.
+   *
+   * \throws hou::os_error if the window size could not be got
    */
   vec2u get_client_size() const;
 
@@ -149,6 +170,8 @@ public:
    * \param pos the window client position.
    *
    * \param size the window client size.
+   *
+   * \throws hou::os_error if the window rectangle could not be set.
    */
   virtual void set_client_rect(const vec2i& pos, const vec2u& size) = 0;
 
@@ -158,6 +181,8 @@ public:
    * including the borders.
    *
    * \param pos the position of the window client.
+   *
+   * \throws hou::os_error if the window position could not be set.
    */
   void set_client_position(const vec2i& pos);
 
@@ -166,6 +191,8 @@ public:
    * The window client size does not include the borders.
    *
    * \param size the size of the window client.
+   *
+   * \throws hou::os_error if the window size could not be set.
    */
   void set_client_size(const vec2u& size);
 
@@ -173,28 +200,32 @@ public:
    *
    * \return the number of bytes per pixel of this window.
    */
-  uint get_bytes_per_pixel() const;
+  uint get_bytes_per_pixel() const noexcept;
 
   /** Gets the style of this window.
    *
    * \return the style of this window.
    */
-  window_style get_style() const;
+  window_style get_style() const noexcept;
 
   /** Gets the window icon.
    *
    * \return the window icon if a custom icon was set, an empty image if the
    * system icon is being used.
    */
-  const image2_rgba& get_icon() const;
+  const image2_rgba& get_icon() const noexcept;
 
   /** Sets the window icon.
    *
    * \param icon the icon.
+   *
+   * \throws hou::os_error if the window icon could not be set.
    */
   void set_icon(const image2_rgba& icon);
 
   /** Resets the window icon to the default system icon.
+   *
+   * \throws hou::os_error if the window icon could not be set.
    */
   void set_system_icon();
 
@@ -202,11 +233,13 @@ public:
    *
    * \return true if the window is visible.
    */
-  bool is_visible() const;
+  bool is_visible() const noexcept;
 
   /** Sets if the window is visible.
    *
    * \param value whether the window is visible.
+   *
+   * \throws hou::os_error if the window visibilty could not be changed.
    */
   void set_visible(bool value);
 
@@ -214,9 +247,11 @@ public:
    *
    * \return true if the window is grabbing the mouse cursor.
    */
-  bool is_mouse_cursor_grabbed() const;
+  bool is_mouse_cursor_grabbed() const noexcept;
 
   /** Sets if the window is grabbing the mouse cursor.
+   *
+   * \throws hou::os_error in case of error.
    *
    * \param value whether the window is grabbing the mouse cursor.
    */
@@ -226,19 +261,19 @@ public:
    *
    * \return true if key repeat is enabled for this window.
    */
-  bool is_key_repeat_enabled() const;
+  bool is_key_repeat_enabled() const noexcept;
 
   /** Sets if key repeat is enabled for this Windows.
    *
    * \param value whether key repeat is enabled for this window.
    */
-  void set_key_repeat_enabled(bool value);
+  void set_key_repeat_enabled(bool value) noexcept;
 
   /** Checks if this window currently has focus.
    *
    * \return whether this window currently has focus.
    */
-  bool has_focus() const;
+  bool has_focus() const noexcept;
 
   /** Requests focus for this window.
    *
@@ -248,7 +283,7 @@ public:
    * \return true if the focus request was successfull and this window now has
    * focus.
    */
-  bool request_focus() const;
+  bool request_focus() const noexcept;
 
   /** Checks if the event queue of this window is empty.
    *
@@ -257,9 +292,13 @@ public:
    *
    * \return true if the event queue of this window is empty.
    */
-  bool is_event_queue_empty() const;
+  bool is_event_queue_empty() const noexcept;
 
   /** Fills the event queue of this window with events coming from the OS.
+   *
+   * \throws hou::os_error in case of error getting the window events.
+   *
+   * \throws std::bad_alloc.
    */
   void update_event_queue();
 
@@ -272,7 +311,7 @@ public:
    *
    * \return the front event, or an event of type empty if the queue is empty.
    */
-  window_event pop_event();
+  window_event pop_event() noexcept;
 
   /** Pushes an event into the back of the queu of this window.
    *
@@ -288,6 +327,10 @@ public:
    * keep updating and checking the queue until an event is pushed. This
    * function only pops the first event. It might be that multiple events have
    * been inserted in the queue and therefore the queue might still be filled.
+   *
+   * \throws hou::os_error in case of error getting the window events.
+   *
+   * \throws std::bad_alloc.
    *
    * \return the front event.
    */

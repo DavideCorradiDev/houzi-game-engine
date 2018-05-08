@@ -21,13 +21,15 @@ namespace hou
 class HOU_SYS_API file_open_error : public exception
 {
 public:
-  /** Creates a file_open_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
    *
    * \param filepath the path to the file.
+   *
+   * \throws std::bad_alloc.
    */
   file_open_error(
     const std::string& path, uint line, const std::string& filepath);
@@ -40,11 +42,13 @@ public:
 class HOU_SYS_API file_close_error : public exception
 {
 public:
-  /** Creates a file_close_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
    */
   file_close_error(const std::string& path, uint line);
 };
@@ -56,11 +60,13 @@ public:
 class HOU_SYS_API file_read_error : public exception
 {
 public:
-  /** Creates a file_read_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
    */
   file_read_error(const std::string& path, uint line);
 };
@@ -72,11 +78,13 @@ public:
 class HOU_SYS_API file_write_error : public exception
 {
 public:
-  /** Creates a file_write_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
    */
   file_write_error(const std::string& path, uint line);
 };
@@ -88,11 +96,13 @@ public:
 class HOU_SYS_API file_cursor_error : public exception
 {
 public:
-  /** Creates a file_cursor_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
    */
   file_cursor_error(const std::string& path, uint line);
 };
@@ -105,13 +115,15 @@ public:
 class HOU_SYS_API image_read_error : public exception
 {
 public:
-  /** Creates an image_read_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
    *
    * \param filepath the path to the file.
+   *
+   * \throws std::bad_alloc.
    */
   image_read_error(
     const std::string& path, uint line, const std::string& filepath);
@@ -124,13 +136,15 @@ public:
 class HOU_SYS_API image_write_error : public exception
 {
 public:
-  /** Creates an image_write_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
    *
    * \param filepath the path to the file.
+   *
+   * \throws std::bad_alloc.
    */
   image_write_error(
     const std::string& path, uint line, const std::string& filepath);

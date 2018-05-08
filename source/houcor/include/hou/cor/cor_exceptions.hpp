@@ -21,11 +21,13 @@ namespace hou
 class HOU_COR_API overflow_error : public exception
 {
 public:
-  /** Creates an overflow_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
    */
   overflow_error(const std::string& path, uint line);
 };
@@ -37,11 +39,13 @@ public:
 class HOU_COR_API underflow_error : public exception
 {
 public:
-  /** Creates an underflow_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
    */
   underflow_error(const std::string& path, uint line);
 };
@@ -54,15 +58,15 @@ public:
 class HOU_COR_API out_of_range : public exception
 {
 public:
-  /** Creates an underflow_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
    *
-   * \param index the index.
+   * \throws std::bad_alloc.
    */
-  out_of_range(const std::string& path, uint line, size_t index);
+  out_of_range(const std::string& path, uint line);
 };
 
 }  // namespace hou

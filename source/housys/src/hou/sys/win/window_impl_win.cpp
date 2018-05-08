@@ -41,30 +41,53 @@ namespace
 {
 
 constexpr uint bits_per_byte = 8u;
+
+
+
 constexpr const wchar_t* hou_wnd_class_name = L"HziWindowClass";
+
 std::mutex hou_wnd_class_mutex;
+
 uint window_count(0);
 
+
+
 std::mutex fullscreen_mutex;
+
 window_impl* fullscreen_window(nullptr);
 
 
 
 DWORD window_style_to_win_window_style(window_style style);
+
 DWORD window_style_to_win_window_style_ex(window_style style);
 
+
+
 void activate_fullscreen_mode(window_impl& wnd, const video_mode& vm);
+
 void deactivate_fullscreen_mode();
+
 bool is_fullscreen_window(const window_impl& wnd);
+
+
 
 recti client_to_frame_rect(HWND hwnd, const recti& rect);
 
+
+
 void set_window_icon(HWND hwnd, HICON hicon);
+
 HICON create_custom_icon(const image2_rgba& icon);
+
 HICON get_system_icon();
 
+
+
 key_code win_key_to_key_code(UINT key);
+
 key_code get_key_code_wparam(WPARAM wparam);
+
 scan_code get_scan_code_lparam(LPARAM lparam);
 
 
@@ -81,6 +104,7 @@ DWORD window_style_to_win_window_style(window_style style)
     case window_style::fullscreen:
       return WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS;
     default:
+      HOU_UNREACHABLE();
       return 0;
   }
 }
@@ -98,6 +122,7 @@ DWORD window_style_to_win_window_style_ex(window_style style)
     case window_style::fullscreen:
       return WS_EX_APPWINDOW;
     default:
+      HOU_UNREACHABLE();
       return 0;
   }
 }
@@ -108,7 +133,7 @@ void activate_fullscreen_mode(window_impl& wnd, const video_mode& vm)
 {
   std::lock_guard<std::mutex> lock(fullscreen_mutex);
 
-  HOU_DEV_PRECOND(fullscreen_window == nullptr);
+  HOU_DEV_ASSERT(fullscreen_window == nullptr);
 
   DEVMODE devmode;
   devmode.dmSize = sizeof(DEVMODE);
@@ -128,7 +153,7 @@ void deactivate_fullscreen_mode()
 {
   std::lock_guard<std::mutex> lock(fullscreen_mutex);
 
-  HOU_DEV_PRECOND(fullscreen_window != nullptr);
+  HOU_DEV_ASSERT(fullscreen_window != nullptr);
 
   HOU_WIN_CHECK(ChangeDisplaySettings(nullptr, 0) == DISP_CHANGE_SUCCESSFUL);
   fullscreen_window = nullptr;
@@ -734,7 +759,7 @@ void window_impl::set_title(const std::string& value)
 
 
 
-bool window_impl::is_visible() const
+bool window_impl::is_visible() const noexcept
 {
   return IsWindowVisible(m_handle);
 }
@@ -820,14 +845,14 @@ void window_impl::set_mouse_captured(bool value)
 
 
 
-bool window_impl::has_focus() const
+bool window_impl::has_focus() const noexcept
 {
   return GetFocus() == m_handle;
 }
 
 
 
-bool window_impl::request_focus() const
+bool window_impl::request_focus() const noexcept
 {
   // Allow focus stealing only within the current process.
   // Cannot fail.

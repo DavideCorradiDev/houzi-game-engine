@@ -4,6 +4,8 @@
 
 #include "hou/sys/key_code.hpp"
 
+#include "hou/cor/exception.hpp"
+
 #define KEY_CODE_CASE(kc, os) \
   case key_code::kc: \
     return (os) << #kc
@@ -196,6 +198,7 @@ std::ostream& operator<<(std::ostream& os, key_code kc)
     KEY_CODE_CASE(packet, os);
 
     default:
+      HOU_UNREACHABLE();
       return os;
   }
 }

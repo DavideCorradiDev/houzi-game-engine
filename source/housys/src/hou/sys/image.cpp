@@ -23,9 +23,11 @@ extern "C" {
 int stbi_bmp_test_memory(unsigned char const* buffer, int len);
 unsigned char* stbi_bmp_load_from_memory(unsigned char const* buffer, int len,
   int* x, int* y, int* comp, int req_comp);
+
 int stbi_png_test_memory(unsigned char const* buffer, int len);
 unsigned char* stbi_png_load_from_memory(unsigned char const* buffer, int len,
   int* x, int* y, int* comp, int req_comp);
+
 int stbi_jpeg_test_memory(unsigned char const* buffer, int len);
 unsigned char* stbi_jpeg_load_from_memory(unsigned char const* buffer, int len,
   int* x, int* y, int* comp, int req_comp);
@@ -37,6 +39,9 @@ namespace hou
 
 namespace
 {
+
+template <size_t Dim>
+bool element_wise_lower(const vec<uint, Dim>& lhs, const vec<uint, Dim>& rhs);
 
 template <size_t Dim>
 bool element_wise_lower_or_equal(
@@ -76,22 +81,43 @@ using SoilLoadFunction
 int pixel_format_to_soil_format(pixel_format pf);
 
 bool soil_test_memory(SoilTestFunction test_fun, uchar* buffer, size_t size);
+
 bool soil_test_file(SoilTestFunction test_fun, const std::string& path);
+
 template <pixel_format PF>
 std::tuple<image2<PF>, bool> soil_load_from_memory(SoilLoadFunction load_fun,
   SoilTestFunction test_fun, uchar* buffer, size_t size);
+
 template <pixel_format PF>
 std::tuple<image2<PF>, bool> soil_load_from_file(SoilLoadFunction load_fun,
   SoilTestFunction test_fun, const std::string& path);
+
 template <pixel_format PF>
 image2<PF> soil_load_from_file_with_check(SoilLoadFunction load_fun,
   SoilTestFunction test_fun, const std::string& path);
+
 template <pixel_format PF>
 bool soil_write_to_file(
   const std::string& path, int imageType, const image2<PF>& im);
+
 template <pixel_format PF>
 void soil_write_to_file_with_check(
   const std::string& path, int imageType, const image2<PF>& im);
+
+
+
+template <size_t Dim>
+bool element_wise_lower(const vec<uint, Dim>& lhs, const vec<uint, Dim>& rhs)
+{
+  for(size_t i = 0; i < Dim; ++i)
+  {
+    if(lhs(i) >= rhs(i))
+    {
+      return false;
+    }
+  }
+  return true;
+}
 
 
 
@@ -128,7 +154,8 @@ template <pixel_format PF>
 image1<PF> get_image_sub_image(
   const image1<PF>& in, const vec1u& offset, const vec1u& size)
 {
-  HOU_PRECOND(element_wise_lower_or_equal(offset + size, in.get_size()));
+  HOU_CHECK_0(
+    element_wise_lower_or_equal(offset + size, in.get_size()), out_of_range);
   image1<PF> out(size);
   for(uint x = 0; x < size.x(); ++x)
   {
@@ -144,7 +171,8 @@ template <pixel_format PF>
 image2<PF> get_image_sub_image(
   const image2<PF>& in, const vec2u& offset, const vec2u& size)
 {
-  HOU_PRECOND(element_wise_lower_or_equal(offset + size, in.get_size()));
+  HOU_CHECK_0(
+    element_wise_lower_or_equal(offset + size, in.get_size()), out_of_range);
   image2<PF> out(size);
   for(uint x = 0; x < size.x(); ++x)
   {
@@ -163,7 +191,8 @@ template <pixel_format PF>
 image3<PF> get_image_sub_image(
   const image3<PF>& in, const vec3u& offset, const vec3u& size)
 {
-  HOU_PRECOND(element_wise_lower_or_equal(offset + size, in.get_size()));
+  HOU_CHECK_0(
+    element_wise_lower_or_equal(offset + size, in.get_size()), out_of_range);
   image3<PF> out(size);
   for(uint x = 0; x < size.x(); ++x)
   {
@@ -185,8 +214,9 @@ template <pixel_format PF>
 void set_image_sub_image(
   image1<PF>& out, const vec1u& offset, const image1<PF>& in)
 {
-  HOU_PRECOND(
-    element_wise_lower_or_equal(offset + in.get_size(), out.get_size()));
+  HOU_CHECK_0(
+    element_wise_lower_or_equal(offset + in.get_size(), out.get_size()),
+    out_of_range);
   for(uint x = 0; x < in.get_size().x(); ++x)
   {
     vec1u pos = vec1u(x);
@@ -200,8 +230,9 @@ template <pixel_format PF>
 void set_image_sub_image(
   image2<PF>& out, const vec2u& offset, const image2<PF>& in)
 {
-  HOU_PRECOND(
-    element_wise_lower_or_equal(offset + in.get_size(), out.get_size()));
+  HOU_CHECK_0(
+    element_wise_lower_or_equal(offset + in.get_size(), out.get_size()),
+    out_of_range);
   for(uint x = 0; x < in.get_size().x(); ++x)
   {
     for(uint y = 0; y < in.get_size().y(); ++y)
@@ -218,8 +249,9 @@ template <pixel_format PF>
 void set_image_sub_image(
   image3<PF>& out, const vec3u& offset, const image3<PF>& in)
 {
-  HOU_PRECOND(
-    element_wise_lower_or_equal(offset + in.get_size(), out.get_size()));
+  HOU_CHECK_0(
+    element_wise_lower_or_equal(offset + in.get_size(), out.get_size()),
+    out_of_range);
   for(uint x = 0; x < in.get_size().x(); ++x)
   {
     for(uint y = 0; y < in.get_size().y(); ++y)
@@ -412,7 +444,7 @@ image2<PF> jpg_read_file(const std::string& path)
 
 
 template <size_t Dim, pixel_format PF>
-image<Dim, PF>::image() noexcept
+image<Dim, PF>::image()
   : m_size()
   , m_pixels()
 {}
@@ -420,7 +452,7 @@ image<Dim, PF>::image() noexcept
 
 
 template <size_t Dim, pixel_format PF>
-image<Dim, PF>::image(const size_type& size) noexcept
+image<Dim, PF>::image(const size_type& size)
   : m_size(size)
   , m_pixels(compute_pixel_count(), pixel())
 {}
@@ -428,7 +460,7 @@ image<Dim, PF>::image(const size_type& size) noexcept
 
 
 template <size_t Dim, pixel_format PF>
-image<Dim, PF>::image(const size_type& size, const pixel& px) noexcept
+image<Dim, PF>::image(const size_type& size, const pixel& px)
   : m_size(size)
   , m_pixels(compute_pixel_count(), px)
 {}
@@ -471,6 +503,7 @@ image<Dim, PF>::image(const image<otherDim, otherFmt>& other)
 
 template <size_t Dim, pixel_format PF>
 const typename image<Dim, PF>::size_type& image<Dim, PF>::get_size() const
+  noexcept
 {
   return m_size;
 }
@@ -479,7 +512,7 @@ const typename image<Dim, PF>::size_type& image<Dim, PF>::get_size() const
 
 template <size_t Dim, pixel_format PF>
 const typename image<Dim, PF>::pixel_collection& image<Dim, PF>::get_pixels()
-  const
+  const noexcept
 {
   return m_pixels;
 }
@@ -499,6 +532,7 @@ template <size_t Dim, pixel_format PF>
 const typename image<Dim, PF>::pixel& image<Dim, PF>::get_pixel(
   const offset_type& coordinates) const
 {
+  // compute_pixel_index will throw if coordinates is not valid.
   return m_pixels[compute_pixel_index(coordinates)];
 }
 
@@ -508,7 +542,27 @@ template <size_t Dim, pixel_format PF>
 void image<Dim, PF>::set_pixel(
   const offset_type& coordinates, const pixel& value)
 {
+  // compute_pixel_index will throw if coordinates is not valid.
   m_pixels[compute_pixel_index(coordinates)] = value;
+}
+
+
+
+template <size_t Dim, pixel_format PF>
+image<Dim, PF> image<Dim, PF>::get_sub_image(
+  const offset_type& offset, const size_type& size)
+{
+  // get_image_sub_image will throw if the coordinates are not valid.
+  return get_image_sub_image(*this, offset, size);
+}
+
+
+
+template <size_t Dim, pixel_format PF>
+void image<Dim, PF>::set_sub_image(const offset_type& offset, const image& im)
+{
+  // set_image_sub_image will throw if the coordinates are not valid.
+  return set_image_sub_image(*this, offset, im);
 }
 
 
@@ -522,25 +576,9 @@ void image<Dim, PF>::clear(const pixel& pixel)
 
 
 template <size_t Dim, pixel_format PF>
-image<Dim, PF> image<Dim, PF>::get_sub_image(
-  const offset_type& offset, const size_type& size)
-{
-  return get_image_sub_image(*this, offset, size);
-}
-
-
-
-template <size_t Dim, pixel_format PF>
-void image<Dim, PF>::set_sub_image(const offset_type& offset, const image& im)
-{
-  return set_image_sub_image(*this, offset, im);
-}
-
-
-
-template <size_t Dim, pixel_format PF>
 size_t image<Dim, PF>::compute_pixel_count() const
 {
+  // TODO: implement and use operator[] on matrix to make this noexcept.
   size_t retval = 1u;
   for(size_t i = 0; i < Dim; ++i)
   {
@@ -554,10 +592,7 @@ size_t image<Dim, PF>::compute_pixel_count() const
 template <size_t Dim, pixel_format PF>
 size_t image<Dim, PF>::compute_pixel_index(const offset_type& coordinates) const
 {
-  for(size_t i = 0; i < Dim; ++i)
-  {
-    HOU_PRECOND(coordinates(i) < m_size(i));
-  }
+  HOU_CHECK_0(element_wise_lower(coordinates, m_size), out_of_range);
 
   size_t idx = 0;
   size_t multiplier = 1;
@@ -572,7 +607,7 @@ size_t image<Dim, PF>::compute_pixel_index(const offset_type& coordinates) const
 
 
 template <size_t Dim, pixel_format PF>
-bool operator==(const image<Dim, PF>& lhs, const image<Dim, PF>& rhs)
+bool operator==(const image<Dim, PF>& lhs, const image<Dim, PF>& rhs) noexcept
 {
   return lhs.get_size() == rhs.get_size()
     && lhs.get_pixels() == rhs.get_pixels();
@@ -581,7 +616,7 @@ bool operator==(const image<Dim, PF>& lhs, const image<Dim, PF>& rhs)
 
 
 template <size_t Dim, pixel_format PF>
-bool operator!=(const image<Dim, PF>& lhs, const image<Dim, PF>& rhs)
+bool operator!=(const image<Dim, PF>& lhs, const image<Dim, PF>& rhs) noexcept
 {
   return !(lhs == rhs);
 }
@@ -653,9 +688,10 @@ std::ostream& operator<<(std::ostream& os, const image<Dim, PF>& im)
     Dim1, Dim2, pixel_format::r, pixel_format::r)                              \
   INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
     Dim1, Dim2, pixel_format::rg, pixel_format::rg)                            \
-    INSTANTIATE_CONVERSION_CONSTRUCTOR(Dim1, Dim2, pixel_format::rgb,          \
-      pixel_format::rgb) INSTANTIATE_CONVERSION_CONSTRUCTOR(Dim1, Dim2,        \
-      pixel_format::rgba, pixel_format::rgba)
+  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
+    Dim1, Dim2, pixel_format::rgb, pixel_format::rgb)                          \
+  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
+    Dim1, Dim2, pixel_format::rgba, pixel_format::rgba)
 
 
 
@@ -668,14 +704,14 @@ std::ostream& operator<<(std::ostream& os, const image<Dim, PF>& im)
 
 
 INSTANTIATE_IMAGE_WITH_DIMENSION(1u)
-INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DIMENSION(
-  1u) INSTANTIATE_IMAGE_WITH_DIMENSION(2u)
-  INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIFFERENT_DIMENSIONS(2u, 1u)
-    INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DIMENSION(2u)
-      INSTANTIATE_IMAGE_WITH_DIMENSION(3u)
-        INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIFFERENT_DIMENSIONS(3u, 1u)
-          INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIFFERENT_DIMENSIONS(3u, 2u)
-            INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DIMENSION(3u)
+INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DIMENSION(1u)
+INSTANTIATE_IMAGE_WITH_DIMENSION(2u)
+INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIFFERENT_DIMENSIONS(2u, 1u)
+INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DIMENSION(2u)
+INSTANTIATE_IMAGE_WITH_DIMENSION(3u)
+INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIFFERENT_DIMENSIONS(3u, 1u)
+INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIFFERENT_DIMENSIONS(3u, 2u)
+INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DIMENSION(3u)
 
 
 
@@ -703,10 +739,10 @@ INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DIMENSION(
   INSTANTIATE_WRITE_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pixel_format::rgb)  \
   INSTANTIATE_WRITE_FILE_FUNCTION_FOR_PIXEL_FORMAT(imType, pixel_format::rgba)
 
-              INSTANTIATE_READ_FILE_FUNCTION(bmp)
-                INSTANTIATE_READ_FILE_FUNCTION(png)
-                  INSTANTIATE_READ_FILE_FUNCTION(jpg)
+INSTANTIATE_READ_FILE_FUNCTION(bmp)
+INSTANTIATE_READ_FILE_FUNCTION(png)
+INSTANTIATE_READ_FILE_FUNCTION(jpg)
 
-                    INSTANTIATE_WRITE_FILE_FUNCTION(bmp)
+INSTANTIATE_WRITE_FILE_FUNCTION(bmp)
 
 }  // namespace hou

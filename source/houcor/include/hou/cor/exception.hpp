@@ -31,10 +31,23 @@ namespace prv
  *
  * \param message the error message.
  *
+ * \throws std::bad_alloc.
+ *
  * \return the formatted error string.
  */
 HOU_COR_API std::string format_error_message(
   const std::string& path, uint line, const std::string& message);
+
+/** Creates a properly worded assertion message.
+ *
+ * \param statement the statement as a string.
+ *
+ * \throws std::bad_alloc.
+ *
+ * \return the assertion message.
+ */
+HOU_COR_API std::string assertion_message(const std::string& statement);
+
 }  // namespace prv
 
 /** Base class for all exceptions.
@@ -53,6 +66,8 @@ public:
    * \param line the line where the error happened.
    *
    * \param message the error message.
+   *
+   * \throws std::bad_alloc.
    */
   exception(const std::string& path, uint line, const std::string& message);
 
@@ -129,7 +144,8 @@ void error(Args... args)
   } while(false)
 
 #define HOU_ASSERT(statement)                                                  \
-  HOU_CHECK_TEMPLATE(statement, HOU_TERMINATE(#statement))
+  HOU_CHECK_TEMPLATE(                                                          \
+    statement, HOU_TERMINATE(::hou::prv::assertion_message(#statement)))
 
 #define HOU_CHECK_STD_0(condition, exception_type)                             \
   HOU_CHECK_TEMPLATE(condition, HOU_ERROR_STD_0(exception_type))
@@ -152,7 +168,7 @@ void error(Args... args)
 
 #define HOU_DEV_ASSERT(statement)                                              \
   HOU_DEV_CHECK_TEMPLATE(                                                      \
-    statement, HOU_TERMINATE(u8"Assertion failed (" #statement u8")."))
+    statement, HOU_TERMINATE(::hou::prv::assertion_message(#statement)))
 
 #define HOU_DEV_CHECK_STD_0(condition, exception_type)                         \
   HOU_DEV_CHECK_TEMPLATE(condition, HOU_ERROR_STD_0(exception_type))

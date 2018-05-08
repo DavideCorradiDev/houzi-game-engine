@@ -13,7 +13,7 @@
 namespace hou
 {
 
-window_event window_event::empty()
+window_event window_event::empty() noexcept
 {
   window_event ev;
   ev.m_type = window_event_type::empty;
@@ -22,7 +22,7 @@ window_event window_event::empty()
 
 
 
-window_event window_event::closed()
+window_event window_event::closed() noexcept
 {
   window_event ev;
   ev.m_type = window_event_type::closed;
@@ -31,7 +31,7 @@ window_event window_event::closed()
 
 
 
-window_event window_event::focus_gained()
+window_event window_event::focus_gained() noexcept
 {
   window_event ev;
   ev.m_type = window_event_type::focus_gained;
@@ -40,7 +40,7 @@ window_event window_event::focus_gained()
 
 
 
-window_event window_event::focus_lost()
+window_event window_event::focus_lost() noexcept
 {
   window_event ev;
   ev.m_type = window_event_type::focus_lost;
@@ -49,7 +49,7 @@ window_event window_event::focus_lost()
 
 
 
-window_event window_event::resized(uint x, uint y)
+window_event window_event::resized(uint x, uint y) noexcept
 {
   window_event ev;
   ev.m_type = window_event_type::resized;
@@ -61,7 +61,7 @@ window_event window_event::resized(uint x, uint y)
 
 
 window_event window_event::key_pressed(
-  key_code kc, scan_code sc, modifier_keys mod_keys)
+  key_code kc, scan_code sc, modifier_keys mod_keys) noexcept
 {
   window_event ev;
   ev.m_type = window_event_type::key_pressed;
@@ -74,7 +74,7 @@ window_event window_event::key_pressed(
 
 
 window_event window_event::key_released(
-  key_code kc, scan_code sc, modifier_keys mod_keys)
+  key_code kc, scan_code sc, modifier_keys mod_keys) noexcept
 {
   window_event ev;
   ev.m_type = window_event_type::key_released;
@@ -86,7 +86,7 @@ window_event window_event::key_released(
 
 
 
-window_event window_event::text_entered(char32_t code_point)
+window_event window_event::text_entered(char32_t code_point) noexcept
 {
   window_event ev;
   ev.m_type = window_event_type::text_entered;
@@ -96,7 +96,7 @@ window_event window_event::text_entered(char32_t code_point)
 
 
 
-window_event window_event::mouse_moved(int x, int y)
+window_event window_event::mouse_moved(int x, int y) noexcept
 {
   window_event ev;
   ev.m_type = window_event_type::mouse_moved;
@@ -107,7 +107,7 @@ window_event window_event::mouse_moved(int x, int y)
 
 
 
-window_event window_event::mouse_entered()
+window_event window_event::mouse_entered() noexcept
 {
   window_event ev;
   ev.m_type = window_event_type::mouse_entered;
@@ -116,7 +116,7 @@ window_event window_event::mouse_entered()
 
 
 
-window_event window_event::mouse_left()
+window_event window_event::mouse_left() noexcept
 {
   window_event ev;
   ev.m_type = window_event_type::mouse_left;
@@ -125,7 +125,8 @@ window_event window_event::mouse_left()
 
 
 
-window_event window_event::mouse_button_pressed(mouse_button mb, int x, int y)
+window_event window_event::mouse_button_pressed(
+  mouse_button mb, int x, int y) noexcept
 {
   window_event ev;
   ev.m_type = window_event_type::mouse_button_pressed;
@@ -137,7 +138,8 @@ window_event window_event::mouse_button_pressed(mouse_button mb, int x, int y)
 
 
 
-window_event window_event::mouse_button_released(mouse_button mb, int x, int y)
+window_event window_event::mouse_button_released(
+  mouse_button mb, int x, int y) noexcept
 {
   window_event ev;
   ev.m_type = window_event_type::mouse_button_released;
@@ -150,7 +152,7 @@ window_event window_event::mouse_button_released(mouse_button mb, int x, int y)
 
 
 window_event window_event::mouse_wheel_moved(
-  mouse_wheel wheel, int delta, int x, int y)
+  mouse_wheel wheel, int delta, int x, int y) noexcept
 {
   window_event ev;
   ev.m_type = window_event_type::mouse_wheel_moved;
@@ -163,7 +165,7 @@ window_event window_event::mouse_wheel_moved(
 
 
 
-window_event_type window_event::get_type() const
+window_event_type window_event::get_type() const noexcept
 {
   return m_type;
 }
@@ -221,7 +223,7 @@ const window_event::mouse_wheel_data& window_event::get_mouse_wheel_data() const
 
 
 
-window_event::window_event()
+window_event::window_event() noexcept
   : m_type()
 {}
 
@@ -397,8 +399,8 @@ std::ostream& operator<<(std::ostream& os, const window_event& e)
     case window_event_type::focus_lost:
     case window_event_type::mouse_entered:
     case window_event_type::mouse_left:
-      os << "{}";
     default:
+      os << "{}";
       break;
   }
   return os << "}";

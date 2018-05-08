@@ -6,6 +6,8 @@
 
 #include "hou/sys/win/win.hpp"
 
+#include "hou/cor/exception.hpp"
+
 
 
 namespace hou
@@ -14,14 +16,17 @@ namespace hou
 namespace
 {
 
-UINT key_code_to_win_key(key_code key);
-UINT scan_code_to_win_key(scan_code sc);
-bool is_win_virtual_key_pressed(UINT v_key);
-bool is_win_virtual_key_toggled(UINT v_key);
+constexpr UINT key_code_to_win_key(key_code key) noexcept;
+
+UINT scan_code_to_win_key(scan_code sc) noexcept;
+
+bool is_win_virtual_key_pressed(UINT v_key) noexcept;
+
+bool is_win_virtual_key_toggled(UINT v_key) noexcept;
 
 
 
-UINT key_code_to_win_key(key_code key)
+constexpr UINT key_code_to_win_key(key_code key) noexcept
 {
   switch(key)
   {
@@ -364,13 +369,14 @@ UINT key_code_to_win_key(key_code key)
     case key_code::packet:
       return VK_PACKET;
     default:
+      HOU_UNREACHABLE();
       return 0;
   }
 }
 
 
 
-UINT scan_code_to_win_key(scan_code sc)
+UINT scan_code_to_win_key(scan_code sc) noexcept
 {
   // Special handling for some scan codes is needed for consistency with
   // scan codes in window messages.
@@ -442,7 +448,7 @@ UINT scan_code_to_win_key(scan_code sc)
 
 
 
-bool is_win_virtual_key_pressed(UINT v_key)
+bool is_win_virtual_key_pressed(UINT v_key) noexcept
 {
   // Most significant bit set if the key is pressed.
   return (GetAsyncKeyState(v_key) & 0x8000) != 0;
@@ -450,7 +456,7 @@ bool is_win_virtual_key_pressed(UINT v_key)
 
 
 
-bool is_win_virtual_key_toggled(UINT v_key)
+bool is_win_virtual_key_toggled(UINT v_key) noexcept
 {
   // Least significant bit set if the key is pressed.
   return (GetKeyState(v_key) & 0x0001) != 0;
@@ -463,28 +469,28 @@ bool is_win_virtual_key_toggled(UINT v_key)
 namespace keyboard
 {
 
-bool is_key_pressed(key_code kc)
+bool is_key_pressed(key_code kc) noexcept
 {
   return is_win_virtual_key_pressed(key_code_to_win_key(kc));
 }
 
 
 
-bool is_key_pressed(scan_code sc)
+bool is_key_pressed(scan_code sc) noexcept
 {
   return is_win_virtual_key_pressed(scan_code_to_win_key(sc));
 }
 
 
 
-bool is_key_toggled(key_code kc)
+bool is_key_toggled(key_code kc) noexcept
 {
   return is_win_virtual_key_toggled(key_code_to_win_key(kc));
 }
 
 
 
-bool is_key_toggled(scan_code sc)
+bool is_key_toggled(scan_code sc) noexcept
 {
   return is_win_virtual_key_toggled(scan_code_to_win_key(sc));
 }

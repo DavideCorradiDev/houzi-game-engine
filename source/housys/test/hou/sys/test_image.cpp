@@ -443,9 +443,9 @@ TYPED_TEST(test_image_death_test, get_pixel_error_out_of_range)
   {
     offset_type coords;
     coords(i) = size_ref(i);
-    EXPECT_PRECOND_ERROR(image.get_pixel(coords));
+    EXPECT_ERROR_0(image.get_pixel(coords), out_of_range);
   }
-  EXPECT_PRECOND_ERROR(image.get_pixel(size_ref));
+  EXPECT_ERROR_0(image.get_pixel(size_ref), out_of_range);
 }
 
 
@@ -488,9 +488,9 @@ TYPED_TEST(test_image_death_test, set_pixel_error_out_of_range)
   {
     offset_type coords;
     coords(i) = size_ref(i);
-    EXPECT_PRECOND_ERROR(image.set_pixel(coords, pixel_ref));
+    EXPECT_ERROR_0(image.set_pixel(coords, pixel_ref), out_of_range);
   }
-  EXPECT_PRECOND_ERROR(image.set_pixel(size_ref, pixel_ref));
+  EXPECT_ERROR_0(image.set_pixel(size_ref, pixel_ref), out_of_range);
 }
 
 
@@ -547,7 +547,8 @@ TYPED_TEST(test_image_death_test, get_sub_image_error_overflow)
   }
 
   TypeParam image(imageSize);
-  EXPECT_PRECOND_ERROR(image.get_sub_image(sub_image_offset, sub_image_size));
+  EXPECT_ERROR_0(
+    image.get_sub_image(sub_image_offset, sub_image_size), out_of_range);
 }
 
 
@@ -608,7 +609,7 @@ TYPED_TEST(test_image_death_test, set_sub_image_error_overflow)
 
   TypeParam image(imageSize);
   TypeParam subImage(sub_image_size);
-  EXPECT_PRECOND_ERROR(image.set_sub_image(sub_image_offset, subImage));
+  EXPECT_ERROR_0(image.set_sub_image(sub_image_offset, subImage), out_of_range);
 }
 
 

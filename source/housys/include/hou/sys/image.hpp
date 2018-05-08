@@ -73,8 +73,10 @@ public:
    *
    * Creates an image with no pixels.
    * all of its size components are equal to 0.
+   *
+   * \throws std::bad_alloc.
    */
-  image() noexcept;
+  image();
 
   /** size_type constructor.
    *
@@ -82,8 +84,10 @@ public:
    * all pixel channels are initialized to 0.
    *
    * \param size the size of the image.
+   *
+   * \throws std::bad_alloc.
    */
-  image(const size_type& size) noexcept;
+  image(const size_type& size);
 
   /** pixel constructor.
    *
@@ -93,8 +97,10 @@ public:
    * \param size the size of the image.
    *
    * \param px the value of the pixels of the image.
+   *
+   * \throws std::bad_alloc.
    */
-  image(const size_type& size, const pixel& px) noexcept;
+  image(const size_type& size, const pixel& px);
 
   /** Pixels constructor.
    *
@@ -108,6 +114,8 @@ public:
    *
    * \throws hou::precondition_violation if the size of pixels does not coincide
    * the the product of all elements of size.
+   *
+   * \throws std::bad_alloc.
    */
   image(const size_type& size, const span<const pixel>& pixels);
 
@@ -142,6 +150,8 @@ public:
    * \tparam Enable enabling parameter.
    *
    * \param other the other image.
+   *
+   * \throws std::bad_alloc.
    */
   template <size_t OtherDim, pixel_format OtherPF,
     typename Enable
@@ -152,49 +162,53 @@ public:
    *
    * \return the size of the image.
    */
-  const size_type& get_size() const;
+  const size_type& get_size() const noexcept;
 
   /** Retrieves the pixels of the image.
    *
-   * \return tehe pixels of the image.
+   * \return the pixels of the image.
    */
-  const pixel_collection& get_pixels() const;
+  const pixel_collection& get_pixels() const noexcept;
 
   /** Sets the pixels of the image.
    *
-   * Throws if the size of pixels is not equal to the product of all elements
-   * of the size of the image.
-   *
    * \param pixels the pixels.
+   *
+   * \throws hou::precondition_violation if the size of pixels is not equal to
+   * the product of all elements of the size of the image.
    */
   void set_pixels(const span<const pixel>& pixels);
 
   /** Retrieves a single pixel.
    *
-   * Throws if the coordinates exceed the size of the image.
-   *
    * \param coordinates the coordinates of the pixel.
+   *
+   * \throws hou::out_of_range if the coordinates exceed the size of the image.
+   *
    * \return tue pixel.
    */
   const pixel& get_pixel(const offset_type& coordinates) const;
 
   /** Sets the value of a single pixel.
    *
-   * Throws if the coordinates exceed the size of the image.
-   *
    * \param coordinates the coordinates of the pixel.
+   *
    * \param value the value of the pixel.
+   *
+   * \throws hou::out_of_range if the coordinates exceed the size of the image.
    */
   void set_pixel(const offset_type& coordinates, const pixel& value);
 
   /** Retrieves a sub-image.
    *
-   * Throws if the sum of offset and size is greater or equal than the size of
-   * the image.
-   *
    * \param offset the offset of the sub-image.
    *
    * \param size the size of the sub-image.
+   *
+   * \throws hou::out_of_range if the sum of offset and size is
+   * greater or equal than the size of the image.
+   *
+   * \throws std::bad_alloc.
    *
    * \return the sub-image starting at offset (included) and with the specified
    * size.
@@ -208,6 +222,9 @@ public:
    *
    * \param offset the offset of the sub-image.
    *
+   * \throws hou::out_of_range if the sum of offset and the size of
+   * the input image is greater or equal than the size of the image.
+   *
    * \param im the sub-image to be copied.
    */
   void set_sub_image(const offset_type& offset, const image& im);
@@ -215,6 +232,8 @@ public:
   /** Clears the whole image with the given pixel value.
    *
    * \param px the pixel value.
+   *
+   * \throws std::bad_alloc.
    */
   void clear(const pixel& px);
 
@@ -241,7 +260,7 @@ private:
  */
 template <size_t Dim, pixel_format PF>
 HOU_SYS_API bool operator==(
-  const image<Dim, PF>& lhs, const image<Dim, PF>& rhs);
+  const image<Dim, PF>& lhs, const image<Dim, PF>& rhs) noexcept;
 
 /** Checks if two image objects are not equal.
  *
@@ -257,7 +276,7 @@ HOU_SYS_API bool operator==(
  */
 template <size_t Dim, pixel_format PF>
 HOU_SYS_API bool operator!=(
-  const image<Dim, PF>& lhs, const image<Dim, PF>& rhs);
+  const image<Dim, PF>& lhs, const image<Dim, PF>& rhs) noexcept;
 
 /** Writes the object into a stream.
  *
@@ -277,9 +296,9 @@ HOU_SYS_API std::ostream& operator<<(
 
 /** Checks if a file is a BMP file.
  *
- * Throws if the file corresponding to the given path cannot be opened.
- *
  * \param path the path to the file.
+ *
+ * \throws hou::file_open_error if the file could not be opened.
  *
  * \return whether the file is a BMP file or not.
  */
@@ -287,12 +306,13 @@ HOU_SYS_API bool bmp_check_file(const std::string& path);
 
 /** Creates an image object from a BMP file.
  *
- * Throws if the file corresponding to the given path cannot be opened.
- * Throws if the file is not a BMP file.
- *
  * \tparam PF the output image format.
  *
  * \param path the path to the file.
+ *
+ * \throws hou::file_open_error if the file could not be opened.
+ *
+ * \throws hou::image_read_error if the image data was not valid.
  *
  * \return an image built from the information contained in the file.
  */
@@ -308,6 +328,10 @@ HOU_SYS_API image2<PF> bmp_read_file(const std::string& path);
  * \param path the path of the image file to be created.
  *
  * \param im the image to be written to disk.
+ *
+ * \throws hou::file_open_error if the file could not be opened.
+ *
+ * \throws hou::image_write_error if the image data was not valid.
  */
 template <pixel_format PF>
 HOU_SYS_API void bmp_write_file(const std::string& path, const image2<PF>& im);
@@ -317,6 +341,8 @@ HOU_SYS_API void bmp_write_file(const std::string& path, const image2<PF>& im);
  * Throws if the file corresponding to the given path cannot be opened.
  *
  * \param path the path to the file.
+ *
+ * \throws hou::file_open_error if the file could not be opened.
  *
  * \return whether the file is a PNG file or not.
  */
@@ -331,6 +357,10 @@ HOU_SYS_API bool png_check_file(const std::string& path);
  *
  * \param path the path to the file.
  *
+ * \throws hou::file_open_error if the file could not be opened.
+ *
+ * \throws hou::image_read_error if the image data was not valid.
+ *
  * \return an image built from the information contained in the file.
  */
 template <pixel_format PF>
@@ -342,6 +372,8 @@ HOU_SYS_API image2<PF> png_read_file(const std::string& path);
  * Throws if the file corresponding to the given path cannot be opened.
  *
  * \param path the path to the file.
+ *
+ * \throws hou::file_open_error if the file could not be opened.
  *
  * \return whether the file is a JPG file or not.
  */
@@ -355,6 +387,10 @@ HOU_SYS_API bool jpg_check_file(const std::string& path);
  * \tparam PF the output image format.
  *
  * \param path the path to the file.
+ *
+ * \throws hou::file_open_error if the file could not be opened.
+ *
+ * \throws hou::image_read_error if the image data was not valid.
  *
  * \return an image built from the information contained in the file.
  */

@@ -295,7 +295,7 @@ TEST_F(test_span_death_test, element_access_error_index_out_of_bounds)
 {
   std::vector<int> v{1, 2, 3};
   span<int> s(v);
-  EXPECT_ERROR_N(s.at(3), out_of_range, 3);
+  EXPECT_ERROR_0(s.at(3), out_of_range);
 }
 
 
@@ -303,7 +303,7 @@ TEST_F(test_span_death_test, element_access_error_index_out_of_bounds)
 TEST_F(test_span_death_test, element_access_error_empty_span)
 {
   span<int> s;
-  EXPECT_ERROR_N(s.at(3), out_of_range, 3);
+  EXPECT_ERROR_0(s.at(3), out_of_range);
 }
 
 

@@ -21,8 +21,8 @@ underflow_error::underflow_error(const std::string& path, uint line)
 
 
 
-out_of_range::out_of_range(const std::string& path, uint line, size_t index)
-  : exception(path, line, format_string(u8"Index out of range(%d).", index))
+out_of_range::out_of_range(const std::string& path, uint line)
+  : exception(path, line, u8"Index out of range.")
 {}
 
 }  // namespace hou

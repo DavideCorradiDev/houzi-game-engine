@@ -38,6 +38,13 @@ std::string format_error_message(
   return ss.str();
 }
 
+
+
+std::string assertion_message(const std::string& statement)
+{
+  return format_string(u8"Assertion failed (%s).", statement.c_str());
+}
+
 }
 
 

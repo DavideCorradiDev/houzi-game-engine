@@ -4,6 +4,8 @@
 
 #include "hou/sys/window_event_type.hpp"
 
+#include "hou/cor/exception.hpp"
+
 #define WINDOW_EVENT_TYPE_CASE(we, os) \
   case window_event_type::we: \
     return (os) << #we
@@ -32,6 +34,7 @@ std::ostream& operator<<(std::ostream& os, window_event_type we)
     WINDOW_EVENT_TYPE_CASE(mouse_button_released, os);
     WINDOW_EVENT_TYPE_CASE(mouse_wheel_moved, os);
     default:
+      HOU_UNREACHABLE();
       return os;
   }
 }

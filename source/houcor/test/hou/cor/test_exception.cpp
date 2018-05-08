@@ -123,14 +123,14 @@ TEST_F(test_exception_death_test, expect_error_n_macro)
 
 TEST_F(test_exception_death_test, terminate)
 {
-  EXPECT_DEATH(terminate("Message."), "Message.");
+  EXPECT_DEATH(terminate("Message."), "Message\\.");
 }
 
 
 
 TEST_F(test_exception_death_test, terminate_macro)
 {
-  EXPECT_DEATH(HOU_TERMINATE("Message."), ".*:.* - Message.");
+  EXPECT_DEATH(HOU_TERMINATE("Message."), ".*:.* - Message\\.");
 }
 
 
@@ -185,7 +185,7 @@ TEST_F(test_exception, hou_assert_macro_success)
 
 TEST_F(test_exception_death_test, hou_assert_macro_failure)
 {
-  EXPECT_DEATH(HOU_ASSERT(0 == 2), ".*:.* - Assertion failed (0 == 2).");
+  EXPECT_DEATH(HOU_ASSERT(0 == 2), ".*:.* - Assertion failed \\(0 == 2\\).");
 }
 
 
@@ -260,7 +260,7 @@ TEST_F(test_exception_death_test, hou_dev_assert_macro_failure)
 #ifdef NDEBUG
   EXPECT_NO_ERROR(HOU_DEV_ASSERT(0 == 2));
 #else
-  EXPECT_DEATH(HOU_DEV_ASSERT(0 == 2), ".*:.* - Assertion failed (0 == 2).");
+  EXPECT_DEATH(HOU_DEV_ASSERT(0 == 2), ".*:.* - Assertion failed \\(0 == 2\\)\\.");
 #endif
 }
 
@@ -357,5 +357,5 @@ TEST_F(test_exception_death_test, hou_disable_exceptions_scope)
 
 TEST_F(test_exception_death_test, hou_unreachable_macro)
 {
-  EXPECT_DEATH(HOU_UNREACHABLE(), ".*:.* - Unreachable code path.");
+  EXPECT_DEATH(HOU_UNREACHABLE(), ".*:.* - Unreachable code path\\.");
 }

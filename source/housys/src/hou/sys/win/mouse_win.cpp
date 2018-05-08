@@ -7,7 +7,7 @@
 #include "hou/sys/win/win.hpp"
 #include "hou/sys/window.hpp"
 
-#include "hou/cor/assertions.hpp"
+#include "hou/cor/exception.hpp"
 
 #include "hou/mth/matrix.hpp"
 
@@ -19,11 +19,11 @@ namespace hou
 namespace
 {
 
-UINT mouse_button_to_win_key(mouse_button button);
+UINT mouse_button_to_win_key(mouse_button button) noexcept;
 
 
 
-UINT mouse_button_to_win_key(mouse_button button)
+UINT mouse_button_to_win_key(mouse_button button) noexcept
 {
   bool lr_swapped = GetSystemMetrics(SM_SWAPBUTTON);
   switch(button)
@@ -39,6 +39,7 @@ UINT mouse_button_to_win_key(mouse_button button)
     case mouse_button::xb2:
       return VK_XBUTTON2;
     default:
+      HOU_UNREACHABLE();
       return 0u;
   }
 }
@@ -50,7 +51,7 @@ UINT mouse_button_to_win_key(mouse_button button)
 namespace mouse
 {
 
-bool is_button_pressed(mouse_button button)
+bool is_button_pressed(mouse_button button) noexcept
 {
   // Most significant bit set if the button is pressed.
   return (GetKeyState(mouse_button_to_win_key(button)) & 0x8000) != 0;
@@ -58,7 +59,7 @@ bool is_button_pressed(mouse_button button)
 
 
 
-vec2i get_position()
+vec2i get_position() noexcept
 {
   POINT position;
   GetCursorPos(&position);
@@ -67,9 +68,9 @@ vec2i get_position()
 
 
 
-vec2i get_position(const window& w)
+vec2i get_position(const window& w) noexcept
 {
-  HOU_DEV_PRECOND(w.get_handle() != nullptr);
+  HOU_DEV_ASSERT(w.get_handle() != nullptr);
 
   POINT position;
   GetCursorPos(&position);
@@ -79,16 +80,16 @@ vec2i get_position(const window& w)
 
 
 
-void set_position(const vec2i& value)
+void set_position(const vec2i& value) noexcept
 {
   SetCursorPos(value.x(), value.y());
 }
 
 
 
-void set_position(const vec2i& value, const window& w)
+void set_position(const vec2i& value, const window& w) noexcept
 {
-  HOU_DEV_PRECOND(w.get_handle() != nullptr);
+  HOU_DEV_ASSERT(w.get_handle() != nullptr);
 
   POINT position = {value.x(), value.y()};
   ClientToScreen(w.get_handle(), &position);

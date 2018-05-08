@@ -22,11 +22,13 @@ namespace hou
 class HOU_COR_API precondition_violation : public exception
 {
 public:
-  /** Creates an precondition_violation object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
    */
   precondition_violation(const std::string& path, uint line);
 };
@@ -39,11 +41,13 @@ public:
 class HOU_COR_API postcondition_violation : public exception
 {
 public:
-  /** Creates an postcondition_violation object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
    */
   postcondition_violation(const std::string& path, uint line);
 };
@@ -56,11 +60,13 @@ public:
 class HOU_COR_API invariant_violation : public exception
 {
 public:
-  /** Creates an invariant_violation object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
    */
   invariant_violation(const std::string& path, uint line);
 };
