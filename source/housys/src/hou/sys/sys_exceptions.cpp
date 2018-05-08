@@ -23,14 +23,14 @@ file_close_error::file_close_error(const std::string& path, uint line)
 
 
 
-file_read_error::file_read_error(const std::string& path, uint line)
-  : exception(path, line, u8"Failed to read from the file.")
+read_error::read_error(const std::string& path, uint line)
+  : exception(path, line, u8"Failed to read data.")
 {}
 
 
 
-file_write_error::file_write_error(const std::string& path, uint line)
-  : exception(path, line, u8"Failed to write to the file.")
+write_error::write_error(const std::string& path, uint line)
+  : exception(path, line, u8"Failed to write data.")
 {}
 
 

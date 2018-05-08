@@ -261,7 +261,7 @@ void ogg_file_in::on_read(void* buf, size_t element_size, size_t buf_size)
     }
   }
   // Check that no error happened during the read operation.
-  HOU_CHECK_0(countBytes == sizeBytes || !error(), file_read_error);
+  HOU_CHECK_0(countBytes == sizeBytes || !error(), read_error);
   HOU_ASSERT(countBytes % element_size == 0u);
   m_byte_count = countBytes;
   m_element_count = countBytes / element_size;

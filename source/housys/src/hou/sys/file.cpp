@@ -101,7 +101,7 @@ void file::seek_offset(long offset)
 
 void file::flush() const
 {
-  HOU_CHECK_0(fflush(m_handle) != EOF, file_write_error);
+  HOU_CHECK_0(fflush(m_handle) != EOF, write_error);
 }
 
 
@@ -113,7 +113,7 @@ bool file::getc(char& c)
   c = static_cast<char>(retval);
   if(retval == EOF)
   {
-    HOU_CHECK_0(!error(), file_read_error);
+    HOU_CHECK_0(!error(), read_error);
     return false;
   }
   return true;
@@ -125,7 +125,7 @@ void file::putc(char c)
 {
   int retval = fputc(c, m_handle);
   update_flags();
-  HOU_CHECK_0(retval != EOF, file_write_error);
+  HOU_CHECK_0(retval != EOF, write_error);
 }
 
 
@@ -137,7 +137,7 @@ size_t file::gets(std::string& str)
   update_flags();
   if(retval == nullptr)
   {
-    HOU_CHECK_0(!error(), file_read_error);
+    HOU_CHECK_0(!error(), read_error);
     return 0u;
   }
   return std::char_traits<char>::length(retval);
@@ -149,7 +149,7 @@ void file::puts(const std::string& str)
 {
   int retval = fputs(str.c_str(), m_handle);
   update_flags();
-  HOU_CHECK_0(retval != EOF, file_write_error);
+  HOU_CHECK_0(retval != EOF, write_error);
 }
 
 
@@ -158,7 +158,7 @@ size_t file::read(void* buf, size_t element_size, size_t buf_size)
 {
   size_t count = fread(buf, element_size, buf_size, m_handle);
   update_flags();
-  HOU_CHECK_0(count == buf_size || !error(), file_read_error);
+  HOU_CHECK_0(count == buf_size || !error(), read_error);
   return count;
 }
 
@@ -168,7 +168,7 @@ void file::write(const void* buf, size_t element_size, size_t buf_size)
 {
   size_t count = fwrite(buf, element_size, buf_size, m_handle);
   update_flags();
-  HOU_CHECK_0(count == buf_size, file_write_error);
+  HOU_CHECK_0(count == buf_size, write_error);
 }
 
 

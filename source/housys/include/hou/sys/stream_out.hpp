@@ -48,7 +48,7 @@ public:
    *
    * \param buf the variable to be written.
    *
-   * \throws hou::file_write_error in case of an error.
+   * \throws hou::write_error in case of an error.
    *
    * \return a reference to this stream.
    */
@@ -67,7 +67,7 @@ public:
    *
    * \param buf the container to be written.
    *
-   * \throws hou::file_write_error in case of an error.
+   * \throws hou::write_error in case of an error.
    *
    * \return a reference to this stream.
    */
@@ -90,7 +90,7 @@ public:
    *
    * \param buf_size the number of elements to be written.
    *
-   * \throws hou::file_write_error in case of an error.
+   * \throws hou::write_error in case of an error.
    *
    * \return a reference to this stream.
    */
@@ -116,7 +116,7 @@ protected:
    *
    * \param buf_size the number of elements to be written.
    *
-   * \throws hou::file_write_error in case of an error.
+   * \throws hou::write_error in case of an error.
    */
   virtual void on_write(const void* buf, size_t element_size, size_t buf_size)
     = 0;

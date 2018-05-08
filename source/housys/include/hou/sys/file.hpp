@@ -114,7 +114,7 @@ public:
    * If the file is open for writing, any data in the output buffer is flushed
    * to the actual file.
    *
-   * \throws std::file_write_error in case of an error.
+   * \throws std::write_error in case of an error.
    */
   void flush() const;
 
@@ -124,7 +124,7 @@ public:
    *
    * \param c the character to be read into.
    *
-   * \throws hou::file_read_error in case of an error.
+   * \throws hou::read_error in case of an error.
    *
    * \return true if a character was read.
    */
@@ -134,7 +134,7 @@ public:
    *
    * \param c the character to be written.
    *
-   * \throws hou::file_write_error in case of an error.
+   * \throws hou::write_error in case of an error.
    */
   void putc(char c);
 
@@ -150,7 +150,7 @@ public:
    *
    * \param str the string to be read into.
    *
-   * \throws hou::file_read_error in case of an error.
+   * \throws hou::read_error in case of an error.
    *
    * \return the number of characters read.
    */
@@ -160,7 +160,7 @@ public:
    *
    * \param str the string to be written.
    *
-   * \throws hou::file_write_error in case of an error.
+   * \throws hou::write_error in case of an error.
    */
   void puts(const std::string& str);
 
@@ -183,7 +183,7 @@ public:
    *
    * \param buf_size the number of elements to be written.
    *
-   * \throws hou::file_read_error in case of an error.
+   * \throws hou::read_error in case of an error.
    *
    * \return the number of elements read.
    */
@@ -200,7 +200,7 @@ public:
    *
    * \param element_size the size of a single element to be written.
    *
-   * \throws hou::file_write_error in case of an error.
+   * \throws hou::write_error in case of an error.
    *
    * \param buf_size the number of elements to be written.
    */
@@ -225,7 +225,7 @@ public:
    *
    * \param buf_size the number of elements to be read.
    *
-   * \throws hou::file_read_error in case of an error.
+   * \throws hou::read_error in case of an error.
    *
    * \return the number of elements read.
    */
@@ -245,7 +245,7 @@ public:
    *
    * \param buf_size the number of elements to be written.
    *
-   * \throws hou::file_write_error in case of an error.
+   * \throws hou::write_error in case of an error.
    *
    * \return a reference to this stream.
    */
@@ -264,7 +264,7 @@ public:
    *
    * \param buffer the container to read into.
    *
-   * \throws hou::file_read_error in case of an error.
+   * \throws hou::read_error in case of an error.
    *
    * \return the number of elements read.
    */
@@ -280,7 +280,7 @@ public:
    *
    * \param buffer the container to be written.
    *
-   * \throws hou::file_write_error in case of an error.
+   * \throws hou::write_error in case of an error.
    *
    * \return a reference to this stream.
    */

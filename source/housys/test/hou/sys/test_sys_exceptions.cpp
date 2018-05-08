@@ -39,18 +39,18 @@ TEST_F(test_sys_exceptions, file_close_error)
 
 
 
-TEST_F(test_sys_exceptions, file_read_error)
+TEST_F(test_sys_exceptions, read_error)
 {
-  file_read_error ex("source.cpp", 33u);
-  EXPECT_STREQ("source.cpp:33 - Failed to read from the file.", ex.what());
+  read_error ex("source.cpp", 33u);
+  EXPECT_STREQ("source.cpp:33 - Failed to read data.", ex.what());
 }
 
 
 
-TEST_F(test_sys_exceptions, file_write_error)
+TEST_F(test_sys_exceptions, write_error)
 {
-  file_write_error ex("source.cpp", 33u);
-  EXPECT_STREQ("source.cpp:33 - Failed to write to the file.", ex.what());
+  write_error ex("source.cpp", 33u);
+  EXPECT_STREQ("source.cpp:33 - Failed to write data.", ex.what());
 }
 
 

@@ -55,9 +55,9 @@ public:
 
 /** File read error.
  *
- * This exception is thrown when reading from a file fails.
+ * This exception is thrown when a read operation fails.
  */
-class HOU_SYS_API file_read_error : public exception
+class HOU_SYS_API read_error : public exception
 {
 public:
   /** Constructor.
@@ -68,14 +68,14 @@ public:
    *
    * \throws std::bad_alloc.
    */
-  file_read_error(const std::string& path, uint line);
+  read_error(const std::string& path, uint line);
 };
 
 /** File write error.
  *
- * This exception is thrown when writing to a file fails.
+ * This exception is thrown when a write operation fails.
  */
-class HOU_SYS_API file_write_error : public exception
+class HOU_SYS_API write_error : public exception
 {
 public:
   /** Constructor.
@@ -86,7 +86,7 @@ public:
    *
    * \throws std::bad_alloc.
    */
-  file_write_error(const std::string& path, uint line);
+  write_error(const std::string& path, uint line);
 };
 
 /** File cursor error.

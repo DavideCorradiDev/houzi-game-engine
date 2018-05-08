@@ -38,7 +38,7 @@ public:
    *
    * \tparam T the container type to return.
    *
-   * \throws hou::file_read_error in case of an error.
+   * \throws hou::read_error in case of an error.
    *
    * \return a container containing the whole content of the file.
    */

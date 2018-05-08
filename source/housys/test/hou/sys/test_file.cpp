@@ -339,10 +339,10 @@ TEST_F(test_file_death_test, read_from_write_only_file)
   file f(filename, file_open_mode::write, file_type::binary);
 
   char c;
-  EXPECT_ERROR_0(f.getc(c), file_read_error);
+  EXPECT_ERROR_0(f.getc(c), read_error);
 
   std::string buffer(3u, 0);
-  EXPECT_ERROR_0(f.read(buffer), file_read_error);
+  EXPECT_ERROR_0(f.read(buffer), read_error);
 
 #if defined(HOU_USE_EXCEPTIONS)
   // With no exceptions handling, the DEPRECATED_HOU_EXPECT_ERROR macro does
@@ -357,10 +357,10 @@ TEST_F(test_file_death_test, write_to_read_only_file)
 {
   file f(filename, file_open_mode::read, file_type::binary);
 
-  EXPECT_ERROR_0(f.putc('a'), file_write_error);
+  EXPECT_ERROR_0(f.putc('a'), write_error);
 
   std::string to_write = u8"I have\nwritten this";
-  EXPECT_ERROR_0(f.write(to_write), file_write_error);
+  EXPECT_ERROR_0(f.write(to_write), write_error);
 
 #ifndef HOU_DISABLE_EXCEPTIONS
   // With no exceptions handling, the DEPRECATED_HOU_EXPECT_ERROR macro does

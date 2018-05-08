@@ -48,7 +48,7 @@ public:
    *
    * \param buf the variable to write into.
    *
-   * \throws hou::file_read_error in case of an error.
+   * \throws hou::read_error in case of an error.
    *
    * \return a reference to this stream.
    */
@@ -70,7 +70,7 @@ public:
    *
    * \param buf the container to write into.
    *
-   * \throws hou::file_read_error in case of an error.
+   * \throws hou::read_error in case of an error.
    *
    * \return a reference to this stream.
    */
@@ -97,7 +97,7 @@ public:
    *
    * \param buf_size the number of elements to be read.
    *
-   * \throws hou::file_read_error in case of an error.
+   * \throws hou::read_error in case of an error.
    *
    * \return a reference to this stream.
    */
@@ -128,7 +128,7 @@ protected:
    *
    * \param buf_size the number of elements to be read.
    *
-   * \throws hou::file_read_error in case of an error.
+   * \throws hou::read_error in case of an error.
    */
   virtual void on_read(void* buf, size_t element_size, size_t buf_size) = 0;
 };
