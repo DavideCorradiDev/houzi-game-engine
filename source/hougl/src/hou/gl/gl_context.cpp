@@ -58,7 +58,7 @@ void context::unset_current()
 
 
 
-context* context::get_current()
+context* context::get_current() noexcept
 {
   return s_current_context;
 }
@@ -78,7 +78,7 @@ context::context(const context_settings& settings, const window& wnd,
 
 
 
-context::context(context&& other)
+context::context(context&& other) noexcept
   : non_copyable()
   , m_impl(std::move(other.m_impl))
   , m_uid(std::move(other.m_uid))
@@ -103,21 +103,21 @@ context::~context()
 
 
 
-uint32_t context::get_uid() const
+uint32_t context::get_uid() const noexcept
 {
   return m_uid;
 }
 
 
 
-uint32_t context::get_sharing_group_uid() const
+uint32_t context::get_sharing_group_uid() const noexcept
 {
   return m_sharing_group_uid;
 }
 
 
 
-bool context::is_current() const
+bool context::is_current() const noexcept
 {
   return this == s_current_context;
 }
@@ -125,6 +125,7 @@ bool context::is_current() const
 
 
 thread_local context* context::s_current_context(nullptr);
+
 thread_local uint32_t context::s_current_window_uid(0u);
 
 
@@ -142,7 +143,7 @@ context::context(const context_settings& settings, const window& wnd,
 
 
 
-context::TrackingData::TrackingData()
+context::TrackingData::TrackingData() noexcept
   : m_bound_array_buffer(0u)
   , m_bound_element_array_buffer(0u)
   , m_bound_draw_framebuffer(0u)
@@ -157,7 +158,7 @@ context::TrackingData::TrackingData()
 
 
 
-uint32_t context::TrackingData::get_bound_buffer(GLenum target) const
+uint32_t context::TrackingData::get_bound_buffer(GLenum target) const noexcept
 {
   switch(target)
   {
@@ -166,13 +167,15 @@ uint32_t context::TrackingData::get_bound_buffer(GLenum target) const
     case GL_ELEMENT_ARRAY_BUFFER:
       return m_bound_element_array_buffer;
     default:
+      HOU_UNREACHABLE();
       return 0u;
   }
 }
 
 
 
-void context::TrackingData::set_bound_buffer(uint32_t uid, GLenum target)
+void context::TrackingData::set_bound_buffer(
+  uint32_t uid, GLenum target) noexcept
 {
   switch(target)
   {
@@ -183,6 +186,7 @@ void context::TrackingData::set_bound_buffer(uint32_t uid, GLenum target)
       m_bound_element_array_buffer = uid;
       break;
     default:
+      HOU_UNREACHABLE();
       break;
   }
 }
@@ -190,6 +194,7 @@ void context::TrackingData::set_bound_buffer(uint32_t uid, GLenum target)
 
 
 uint32_t context::TrackingData::get_bound_framebuffer(GLenum target) const
+  noexcept
 {
   switch(target)
   {
@@ -198,13 +203,15 @@ uint32_t context::TrackingData::get_bound_framebuffer(GLenum target) const
     case GL_READ_FRAMEBUFFER:
       return m_bound_read_framebuffer;
     default:
+      HOU_UNREACHABLE();
       return 0u;
   }
 }
 
 
 
-void context::TrackingData::set_bound_framebuffer(uint32_t uid, GLenum target)
+void context::TrackingData::set_bound_framebuffer(
+  uint32_t uid, GLenum target) noexcept
 {
   switch(target)
   {
@@ -215,20 +222,21 @@ void context::TrackingData::set_bound_framebuffer(uint32_t uid, GLenum target)
       m_bound_read_framebuffer = uid;
       break;
     default:
+      HOU_UNREACHABLE();
       break;
   }
 }
 
 
 
-uint32_t context::TrackingData::get_bound_program() const
+uint32_t context::TrackingData::get_bound_program() const noexcept
 {
   return m_bound_program;
 }
 
 
 
-void context::TrackingData::set_bound_program(uint32_t uid)
+void context::TrackingData::set_bound_program(uint32_t uid) noexcept
 {
   m_bound_program = uid;
 }
@@ -246,7 +254,7 @@ void context::TrackingData::resize_texture_vectors(size_t size)
 
 
 
-GLuint context::TrackingData::get_active_texture() const
+GLuint context::TrackingData::get_active_texture() const noexcept
 {
   return m_active_texture;
 }
@@ -261,14 +269,14 @@ void context::TrackingData::set_active_texture(GLuint unit)
 
 
 
-uint32_t context::TrackingData::get_bound_texture() const
+uint32_t context::TrackingData::get_bound_texture() const noexcept
 {
   return get_bound_texture(m_active_texture);
 }
 
 
 
-uint32_t context::TrackingData::get_bound_texture(GLuint unit) const
+uint32_t context::TrackingData::get_bound_texture(GLuint unit) const noexcept
 {
   if(m_bound_textures.size() > unit)
   {
@@ -282,7 +290,7 @@ uint32_t context::TrackingData::get_bound_texture(GLuint unit) const
 
 
 
-GLenum context::TrackingData::get_bound_texture_target() const
+GLenum context::TrackingData::get_bound_texture_target() const noexcept
 {
   return get_bound_texture_target(m_active_texture);
 }
@@ -290,6 +298,7 @@ GLenum context::TrackingData::get_bound_texture_target() const
 
 
 GLenum context::TrackingData::get_bound_texture_target(GLuint unit) const
+  noexcept
 {
   if(m_bound_texture_targets.size() > unit)
   {
@@ -314,36 +323,36 @@ void context::TrackingData::set_bound_texture(
   uint32_t uid, GLuint unit, GLenum target)
 {
   resize_texture_vectors(unit + 1);
-  HOU_DEV_PRECOND(m_bound_textures.size() > unit);
-  HOU_DEV_PRECOND(m_bound_texture_targets.size() > unit);
+  HOU_DEV_ASSERT(m_bound_textures.size() > unit);
+  HOU_DEV_ASSERT(m_bound_texture_targets.size() > unit);
   m_bound_textures[unit] = uid;
   m_bound_texture_targets[unit] = target;
 }
 
 
 
-uint32_t context::TrackingData::get_bound_vertex_array() const
+uint32_t context::TrackingData::get_bound_vertex_array() const noexcept
 {
   return m_bound_vertex_array;
 }
 
 
 
-void context::TrackingData::set_bound_vertex_array(uint32_t uid)
+void context::TrackingData::set_bound_vertex_array(uint32_t uid) noexcept
 {
   m_bound_vertex_array = uid;
 }
 
 
 
-const recti& context::TrackingData::get_current_viewport() const
+const recti& context::TrackingData::get_current_viewport() const noexcept
 {
   return m_current_viewport;
 }
 
 
 
-void context::TrackingData::set_current_viewport(const recti& viewport)
+void context::TrackingData::set_current_viewport(const recti& viewport) noexcept
 {
   m_current_viewport = viewport;
 }

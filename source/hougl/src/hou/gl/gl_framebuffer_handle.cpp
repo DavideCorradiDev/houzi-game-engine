@@ -52,12 +52,6 @@ framebuffer_handle framebuffer_handle::create()
 
 
 
-framebuffer_handle::framebuffer_handle(framebuffer_handle&& other)
-  : non_shared_object_handle(std::move(other))
-{}
-
-
-
 framebuffer_handle::~framebuffer_handle()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();

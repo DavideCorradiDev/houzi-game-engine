@@ -28,13 +28,6 @@ shader_handle shader_handle::create(GLenum type)
 
 
 
-shader_handle::shader_handle(shader_handle&& other)
-  : shared_object_handle(std::move(other))
-  , m_type(other.m_type)
-{}
-
-
-
 shader_handle::~shader_handle()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
@@ -45,7 +38,7 @@ shader_handle::~shader_handle()
 
 
 
-GLenum shader_handle::get_type() const
+GLenum shader_handle::get_type() const noexcept
 {
   return m_type;
 }

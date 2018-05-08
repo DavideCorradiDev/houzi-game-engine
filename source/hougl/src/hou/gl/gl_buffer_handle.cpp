@@ -51,12 +51,6 @@ buffer_handle buffer_handle::create()
 
 
 
-buffer_handle::buffer_handle(buffer_handle&& other)
-  : shared_object_handle(std::move(other))
-{}
-
-
-
 buffer_handle::~buffer_handle()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();

@@ -23,7 +23,7 @@ class HOU_GL_API framebuffer_handle : public non_shared_object_handle
 public:
   static framebuffer_handle create();
 
-  framebuffer_handle(framebuffer_handle&& other);
+  framebuffer_handle(framebuffer_handle&& other) noexcept = default;
   virtual ~framebuffer_handle();
 
 private:

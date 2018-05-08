@@ -6,6 +6,11 @@
 #define HOU_SYS_WINDOW_IMPL_HPP
 
 #include "hou/cor/non_copyable.hpp"
+
+#include "hou/sys/image_fwd.hpp"
+#include "hou/sys/window_handle.hpp"
+#include "hou/sys/window_style.hpp"
+
 #include "hou/sys/sys_export.hpp"
 
 #include "hou/cor/character_encodings.hpp"
@@ -13,9 +18,6 @@
 #include "hou/mth/matrix.hpp"
 #include "hou/mth/rectangle_fwd.hpp"
 
-#include "hou/sys/image_fwd.hpp"
-#include "hou/sys/window_handle.hpp"
-#include "hou/sys/window_style.hpp"
 #if defined(HOU_SYSTEM_WINDOWS)
 #include "hou/sys/Win/win.hpp"
 #endif

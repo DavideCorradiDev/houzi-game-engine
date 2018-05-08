@@ -21,10 +21,10 @@ class HOU_GL_API shader_handle : public shared_object_handle
 public:
   static shader_handle create(GLenum type);
 
-  shader_handle(shader_handle&& other);
+  shader_handle(shader_handle&& other) noexcept = default;
   virtual ~shader_handle();
 
-  GLenum get_type() const;
+  GLenum get_type() const noexcept;
 
 private:
   shader_handle(GLuint name, GLenum type);

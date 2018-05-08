@@ -38,7 +38,7 @@ public:
 
   context_impl(const context_settings& settings, const window& wnd,
     const context_impl* shared_context);
-  context_impl(context_impl&& other);
+  context_impl(context_impl&& other) noexcept;
   ~context_impl();
 
 private:

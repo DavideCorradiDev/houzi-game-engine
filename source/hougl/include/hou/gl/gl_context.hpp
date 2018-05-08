@@ -35,34 +35,34 @@ private:
   class TrackingData
   {
   public:
-    TrackingData();
+    TrackingData() noexcept;
 
-    uint32_t get_bound_buffer(GLenum target) const;
-    void set_bound_buffer(uint32_t uid, GLenum target);
+    uint32_t get_bound_buffer(GLenum target) const noexcept;
+    void set_bound_buffer(uint32_t uid, GLenum target) noexcept;
 
-    uint32_t get_bound_framebuffer(GLenum target) const;
-    void set_bound_framebuffer(uint32_t uid, GLenum target);
+    uint32_t get_bound_framebuffer(GLenum target) const noexcept;
+    void set_bound_framebuffer(uint32_t uid, GLenum target) noexcept;
 
-    uint32_t get_bound_program() const;
-    void set_bound_program(uint32_t uid);
+    uint32_t get_bound_program() const noexcept;
+    void set_bound_program(uint32_t uid) noexcept;
 
     void resize_texture_vectors(size_t size);
 
-    GLuint get_active_texture() const;
+    GLuint get_active_texture() const noexcept;
     void set_active_texture(GLuint unit);
 
-    uint32_t get_bound_texture() const;
-    uint32_t get_bound_texture(GLuint unit) const;
-    GLenum get_bound_texture_target() const;
-    GLenum get_bound_texture_target(GLuint unit) const;
+    uint32_t get_bound_texture() const noexcept;
+    uint32_t get_bound_texture(GLuint unit) const noexcept;
+    GLenum get_bound_texture_target() const noexcept;
+    GLenum get_bound_texture_target(GLuint unit) const noexcept;
     void set_bound_texture(uint32_t uid, GLenum target);
     void set_bound_texture(uint32_t uid, GLuint unit, GLenum target);
 
-    uint32_t get_bound_vertex_array() const;
-    void set_bound_vertex_array(uint32_t uid);
+    uint32_t get_bound_vertex_array() const noexcept;
+    void set_bound_vertex_array(uint32_t uid) noexcept;
 
-    const recti& get_current_viewport() const;
-    void set_current_viewport(const recti& viewport);
+    const recti& get_current_viewport() const noexcept;
+    void set_current_viewport(const recti& viewport) noexcept;
 
   private:
     uint32_t m_bound_array_buffer;
@@ -80,17 +80,17 @@ private:
 public:
   static void set_current(context& ctx, window& wnd);
   static void unset_current();
-  static context* get_current();
+  static context* get_current() noexcept;
 
   context(const context_settings& settings, const window& wnd);
   context(const context_settings& settings, const window& wnd,
     const context& sharedContext);
-  context(context&& other);
+  context(context&& other) noexcept;
   ~context();
 
-  uint32_t get_uid() const;
-  uint32_t get_sharing_group_uid() const;
-  bool is_current() const;
+  uint32_t get_uid() const noexcept;
+  uint32_t get_sharing_group_uid() const noexcept;
+  bool is_current() const noexcept;
 
 private:
   context(const context_settings& settings, const window& wnd,

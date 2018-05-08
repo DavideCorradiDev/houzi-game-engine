@@ -29,7 +29,9 @@ constexpr uint bits_per_byte = 8u;
 
 int choose_pixel_format(
   HDC hdc, uint color_byte_count, const context_settings& settings);
+
 void set_pixel_format(HDC hdc, int format_number);
+
 bool has_pixel_format(HDC hdc);
 
 
@@ -37,7 +39,7 @@ bool has_pixel_format(HDC hdc);
 int choose_pixel_format(
   HDC hdc, uint color_byte_count, const context_settings& settings)
 {
-  HOU_DEV_PRECOND(hdc != nullptr);
+  HOU_DEV_ASSERT(hdc != nullptr);
 
   int format;
 
@@ -88,8 +90,8 @@ int choose_pixel_format(
 
 void set_pixel_format(HDC hdc, int format_number)
 {
-  HOU_DEV_PRECOND(hdc != nullptr);
-  HOU_DEV_PRECOND(format_number != 0);
+  HOU_DEV_ASSERT(hdc != nullptr);
+  HOU_DEV_ASSERT(format_number != 0);
 
   if(!has_pixel_format(hdc))
   {
@@ -108,7 +110,7 @@ void set_pixel_format(HDC hdc, int format_number)
 
 bool has_pixel_format(HDC hdc)
 {
-  HOU_DEV_PRECOND(hdc != nullptr);
+  HOU_DEV_ASSERT(hdc != nullptr);
   return GetPixelFormat(hdc) != 0;
 }
 
@@ -118,7 +120,7 @@ bool has_pixel_format(HDC hdc)
 
 void context_impl::set_current(context_impl& ctx, window& wnd)
 {
-  HOU_DEV_INVARIANT(ctx.m_hdc != nullptr);
+  HOU_DEV_ASSERT(ctx.m_hdc != nullptr);
   ctx.m_hdc = GetDC(wnd.get_handle());
   set_pixel_format(ctx.m_hdc, ctx.m_pixel_format);
   HOU_CHECK_0(
@@ -183,12 +185,12 @@ context_impl::context_impl(const context_settings& settings, const window& wnd,
     }
   }
 
-  HOU_DEV_INVARIANT(m_handle != nullptr);
+  HOU_DEV_ASSERT(m_handle != nullptr);
 }
 
 
 
-context_impl::context_impl(context_impl&& other)
+context_impl::context_impl(context_impl&& other) noexcept
   : non_copyable()
   , m_handle(std::move(other.m_handle))
   , m_hdc(std::move(other.m_hdc))

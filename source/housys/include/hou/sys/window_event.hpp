@@ -5,14 +5,14 @@
 #ifndef HOU_SYS_WINDOW_EVENT_HPP
 #define HOU_SYS_WINDOW_EVENT_HPP
 
-#include "hou/sys/sys_export.hpp"
-
 #include "hou/sys/key_code.hpp"
 #include "hou/sys/modifier_keys.hpp"
 #include "hou/sys/mouse_button.hpp"
 #include "hou/sys/mouse_wheel.hpp"
 #include "hou/sys/scan_code.hpp"
 #include "hou/sys/window_event_type.hpp"
+
+#include "hou/sys/sys_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 

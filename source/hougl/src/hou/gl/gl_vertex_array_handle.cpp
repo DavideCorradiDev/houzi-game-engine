@@ -28,12 +28,6 @@ vertex_array_handle vertex_array_handle::create()
 
 
 
-vertex_array_handle::vertex_array_handle(vertex_array_handle&& other)
-  : non_shared_object_handle(std::move(other))
-{}
-
-
-
 vertex_array_handle::~vertex_array_handle()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();

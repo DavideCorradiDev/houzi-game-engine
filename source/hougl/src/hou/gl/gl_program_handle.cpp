@@ -29,12 +29,6 @@ program_handle program_handle::create()
 
 
 
-program_handle::program_handle(program_handle&& other)
-  : shared_object_handle(std::move(other))
-{}
-
-
-
 program_handle::~program_handle()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();

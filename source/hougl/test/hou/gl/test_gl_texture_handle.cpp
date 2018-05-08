@@ -29,7 +29,7 @@ TEST_F(test_gl_texture_handle, creation)
 {
   gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_2D);
   EXPECT_NE(0u, th.get_name());
-  EXPECT_EQ(static_cast<GLenum>(GL_TEXTURE_2D), th.getTarget());
+  EXPECT_EQ(static_cast<GLenum>(GL_TEXTURE_2D), th.get_target());
 }
 
 

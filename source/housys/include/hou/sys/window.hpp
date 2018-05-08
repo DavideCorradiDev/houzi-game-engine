@@ -6,10 +6,11 @@
 #define HOU_SYS_WINDOW_HPP
 
 #include "hou/cor/non_copyable.hpp"
-#include "hou/sys/sys_export.hpp"
 
 #include "hou/sys/image.hpp"
 #include "hou/sys/window_impl.hpp"
+
+#include "hou/sys/sys_export.hpp"
 
 #include <string>
 

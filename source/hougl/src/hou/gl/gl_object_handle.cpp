@@ -4,8 +4,8 @@
 
 #include "hou/gl/gl_object_handle.hpp"
 
-#include "hou/gl/gl_exceptions.hpp"
 #include "hou/gl/gl_context.hpp"
+#include "hou/gl/gl_exceptions.hpp"
 
 #include "hou/cor/uid_generator.hpp"
 
@@ -42,7 +42,7 @@ object_handle::object_handle(GLuint name)
 
 
 
-object_handle::object_handle(object_handle&& other)
+object_handle::object_handle(object_handle&& other) noexcept
   : non_copyable()
   , m_name(other.m_name)
   , m_uid(other.m_uid)
@@ -58,14 +58,14 @@ object_handle::~object_handle()
 
 
 
-GLuint object_handle::get_name() const
+GLuint object_handle::get_name() const noexcept
 {
   return m_name;
 }
 
 
 
-uint32_t object_handle::get_uid() const
+uint32_t object_handle::get_uid() const noexcept
 {
   return m_uid;
 }
@@ -82,7 +82,8 @@ shared_object_handle::shared_object_handle(GLuint name)
 
 
 
-shared_object_handle::shared_object_handle(shared_object_handle&& other)
+shared_object_handle::shared_object_handle(
+  shared_object_handle&& other) noexcept
   : object_handle(std::move(other))
   , m_owning_sharing_group_uid(other.m_owning_sharing_group_uid)
 {}
@@ -94,7 +95,7 @@ shared_object_handle::~shared_object_handle()
 
 
 
-uint32_t shared_object_handle::get_owning_sharing_group_uid() const
+uint32_t shared_object_handle::get_owning_sharing_group_uid() const noexcept
 {
   return m_owning_sharing_group_uid;
 }
@@ -112,7 +113,7 @@ non_shared_object_handle::non_shared_object_handle(GLuint name)
 
 
 non_shared_object_handle::non_shared_object_handle(
-  non_shared_object_handle&& other)
+  non_shared_object_handle&& other) noexcept
   : object_handle(std::move(other))
   , m_owning_context_uid(other.m_owning_context_uid)
 {}
@@ -124,7 +125,7 @@ non_shared_object_handle::~non_shared_object_handle()
 
 
 
-uint32_t non_shared_object_handle::get_owning_context_uid() const
+uint32_t non_shared_object_handle::get_owning_context_uid() const noexcept
 {
   return m_owning_context_uid;
 }

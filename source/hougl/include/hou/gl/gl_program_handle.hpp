@@ -23,7 +23,7 @@ class HOU_GL_API program_handle : public shared_object_handle
 public:
   static program_handle create();
 
-  program_handle(program_handle&& other);
+  program_handle(program_handle&& other) noexcept = default;
   virtual ~program_handle();
 
 private:

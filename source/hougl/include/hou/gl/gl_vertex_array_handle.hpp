@@ -23,7 +23,7 @@ class HOU_GL_API vertex_array_handle : public non_shared_object_handle
 public:
   static vertex_array_handle create();
 
-  vertex_array_handle(vertex_array_handle&& other);
+  vertex_array_handle(vertex_array_handle&& other) noexcept = default;
   virtual ~vertex_array_handle();
 
 private:
