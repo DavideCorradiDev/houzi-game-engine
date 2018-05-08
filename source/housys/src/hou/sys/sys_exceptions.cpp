@@ -41,20 +41,8 @@ cursor_error::cursor_error(const std::string& path, uint line)
 
 
 
-image_read_error::image_read_error(
-  const std::string& path, uint line, const std::string& filepath)
-  : exception(path, line,
-      format_string(
-        u8"Failed to read the image from file '%s'.", filepath.c_str()))
-{}
-
-
-
-image_write_error::image_write_error(
-  const std::string& path, uint line, const std::string& filepath)
-  : exception(path, line,
-      format_string(
-        u8"Failed to write the image to file '%s'.", filepath.c_str()))
+invalid_image_data::invalid_image_data(const std::string& path, uint line)
+  : exception(path, line, u8"Invalid or corrupted image data.")
 {}
 
 }  // namespace hou

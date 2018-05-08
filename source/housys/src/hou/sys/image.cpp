@@ -353,7 +353,7 @@ image2<PF> soil_load_from_file_with_check(
   image2<PF> im;
   bool rv = false;
   std::tie(im, rv) = soil_load_from_file<PF>(load_fun, test_fun, path);
-  HOU_CHECK_N(rv, image_read_error, path);
+  HOU_CHECK_0(rv, invalid_image_data);
   return im;
 }
 
@@ -379,8 +379,7 @@ template <pixel_format PF>
 void soil_write_to_file_with_check(
   const std::string& path, int imageType, const image2<PF>& im)
 {
-  HOU_CHECK_N(
-    soil_write_to_file<PF>(path, imageType, im), image_write_error, path);
+  HOU_CHECK_0(soil_write_to_file<PF>(path, imageType, im), invalid_image_data);
 }
 
 }  // namespace

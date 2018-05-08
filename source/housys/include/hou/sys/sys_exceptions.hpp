@@ -108,12 +108,12 @@ public:
   cursor_error(const std::string& path, uint line);
 };
 
-/** Image read error.
+/** Invalid image data error.
  *
- * This exception is thrown when reading image data fails.
- * This normally means that the data is corrupted or in a wrong format.
+ * This exception is thrown when reading or writing image data fails due to the
+ * data being invalid.
  */
-class HOU_SYS_API image_read_error : public exception
+class HOU_SYS_API invalid_image_data : public exception
 {
 public:
   /** Constructor.
@@ -122,33 +122,9 @@ public:
    *
    * \param line the line where the error happened.
    *
-   * \param filepath the path to the file.
-   *
    * \throws std::bad_alloc.
    */
-  image_read_error(
-    const std::string& path, uint line, const std::string& filepath);
-};
-
-/** Image write error.
- *
- * This exception is thrown when writing an image to a file fails.
- */
-class HOU_SYS_API image_write_error : public exception
-{
-public:
-  /** Constructor.
-   *
-   * \param path the path to the source file where the error happened.
-   *
-   * \param line the line where the error happened.
-   *
-   * \param filepath the path to the file.
-   *
-   * \throws std::bad_alloc.
-   */
-  image_write_error(
-    const std::string& path, uint line, const std::string& filepath);
+  invalid_image_data(const std::string& path, uint line);
 };
 
 }  // namespace hou

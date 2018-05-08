@@ -312,7 +312,7 @@ HOU_SYS_API bool bmp_check_file(const std::string& path);
  *
  * \throws hou::file_open_error if the file could not be opened.
  *
- * \throws hou::image_read_error if the image data was not valid.
+ * \throws hou::invalid_image_data if the image data was not valid.
  *
  * \return an image built from the information contained in the file.
  */
@@ -331,7 +331,7 @@ HOU_SYS_API image2<PF> bmp_read_file(const std::string& path);
  *
  * \throws hou::file_open_error if the file could not be opened.
  *
- * \throws hou::image_write_error if the image data was not valid.
+ * \throws hou::invalid_image_data if the image data was not valid.
  */
 template <pixel_format PF>
 HOU_SYS_API void bmp_write_file(const std::string& path, const image2<PF>& im);
@@ -359,7 +359,7 @@ HOU_SYS_API bool png_check_file(const std::string& path);
  *
  * \throws hou::file_open_error if the file could not be opened.
  *
- * \throws hou::image_read_error if the image data was not valid.
+ * \throws hou::invalid_image_data if the image data was not valid.
  *
  * \return an image built from the information contained in the file.
  */
@@ -390,7 +390,7 @@ HOU_SYS_API bool jpg_check_file(const std::string& path);
  *
  * \throws hou::file_open_error if the file could not be opened.
  *
- * \throws hou::image_read_error if the image data was not valid.
+ * \throws hou::invalid_image_data if the image data was not valid.
  *
  * \return an image built from the information contained in the file.
  */

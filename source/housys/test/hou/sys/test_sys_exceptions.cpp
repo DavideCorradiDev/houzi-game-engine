@@ -64,22 +64,8 @@ TEST_F(test_sys_exceptions, cursor_error)
 
 
 
-TEST_F(test_sys_exceptions, image_read_error)
+TEST_F(test_sys_exceptions, invalid_image_data)
 {
-  image_read_error ex("source.cpp", 33u, "path/to/the_file_name.txt");
-  EXPECT_STREQ(
-    "source.cpp:33 - Failed to read the image from file "
-    "'path/to/the_file_name.txt'.",
-    ex.what());
-}
-
-
-
-TEST_F(test_sys_exceptions, image_write_error)
-{
-  image_write_error ex("source.cpp", 33u, "path/to/the_file_name.txt");
-  EXPECT_STREQ(
-    "source.cpp:33 - Failed to write the image to file "
-    "'path/to/the_file_name.txt'.",
-    ex.what());
+  invalid_image_data ex("source.cpp", 33u);
+  EXPECT_STREQ("source.cpp:33 - Invalid or corrupted image data.", ex.what());
 }

@@ -882,8 +882,8 @@ TEST_F(test_image_file, load_bmp_rgba)
 
 TEST_F(test_image_file_death_test, load_bmp_rgba_error)
 {
-  EXPECT_ERROR_N(bmp_read_file<pixel_format::rgba>(test_image_png),
-    image_read_error, test_image_png);
+  EXPECT_ERROR_0(
+    bmp_read_file<pixel_format::rgba>(test_image_png), invalid_image_data);
 }
 
 
@@ -907,8 +907,8 @@ TEST_F(test_image_file, load_png_rgba)
 
 TEST_F(test_image_file_death_test, load_png_rgba_error)
 {
-  EXPECT_ERROR_N(png_read_file<pixel_format::rgba>(test_image_jpg),
-    image_read_error, test_image_jpg);
+  EXPECT_ERROR_0(
+    png_read_file<pixel_format::rgba>(test_image_jpg), invalid_image_data);
 }
 
 
@@ -932,8 +932,8 @@ TEST_F(test_image_file, load_jpg_rgba)
 
 TEST_F(test_image_file_death_test, load_jpg_rgba_error)
 {
-  EXPECT_ERROR_N(jpg_read_file<pixel_format::rgba>(test_image_png),
-    image_read_error, test_image_png);
+  EXPECT_ERROR_0(
+    jpg_read_file<pixel_format::rgba>(test_image_png), invalid_image_data);
 }
 
 
@@ -957,8 +957,8 @@ TEST_F(test_image_file_death_test, save_bmp_error_rgba)
   remove_dir(save_path);
   image2_rgba im_ref = bmp_read_file<pixel_format::rgba>(test_image_bmp);
   bmp_write_file(save_path, im_ref);
-  EXPECT_ERROR_N(bmp_write_file<pixel_format::rgba>(save_path, im_ref),
-    image_write_error, save_path);
+  EXPECT_ERROR_0(
+    bmp_write_file<pixel_format::rgba>(save_path, im_ref), invalid_image_data);
   EXPECT_TRUE(remove_dir(save_path));
 }
 
@@ -984,8 +984,8 @@ TEST_F(test_image_file, load_bmp_rgb)
 
 TEST_F(test_image_file_death_test, load_bmp_rgb_error)
 {
-  EXPECT_ERROR_N(bmp_read_file<pixel_format::rgb>(test_image_png),
-    image_read_error, test_image_png);
+  EXPECT_ERROR_0(
+    bmp_read_file<pixel_format::rgb>(test_image_png), invalid_image_data);
 }
 
 
@@ -1009,8 +1009,8 @@ TEST_F(test_image_file, load_png_rgb)
 
 TEST_F(test_image_file_death_test, load_png_rgb_error)
 {
-  EXPECT_ERROR_N(png_read_file<pixel_format::rgb>(test_image_jpg),
-    image_read_error, test_image_jpg);
+  EXPECT_ERROR_0(
+    png_read_file<pixel_format::rgb>(test_image_jpg), invalid_image_data);
 }
 
 
@@ -1034,8 +1034,8 @@ TEST_F(test_image_file, load_jpg_rgb)
 
 TEST_F(test_image_file_death_test, load_jpg_rgb_error)
 {
-  EXPECT_ERROR_N(jpg_read_file<pixel_format::rgb>(test_image_png),
-    image_read_error, test_image_png);
+  EXPECT_ERROR_0(
+    jpg_read_file<pixel_format::rgb>(test_image_png), invalid_image_data);
 }
 
 
@@ -1060,8 +1060,8 @@ TEST_F(test_image_file, load_bmp_rg)
 
 TEST_F(test_image_file_death_test, load_bmp_rg_error)
 {
-  EXPECT_ERROR_N(bmp_read_file<pixel_format::rg>(test_image_png),
-    image_read_error, test_image_png);
+  EXPECT_ERROR_0(
+    bmp_read_file<pixel_format::rg>(test_image_png), invalid_image_data);
 }
 
 
@@ -1085,8 +1085,8 @@ TEST_F(test_image_file, load_png_rg)
 
 TEST_F(test_image_file_death_test, load_png_rg_error)
 {
-  EXPECT_ERROR_N(png_read_file<pixel_format::rg>(test_image_jpg),
-    image_read_error, test_image_jpg);
+  EXPECT_ERROR_0(
+    png_read_file<pixel_format::rg>(test_image_jpg), invalid_image_data);
 }
 
 
@@ -1110,8 +1110,8 @@ TEST_F(test_image_file, load_jpg_rg)
 
 TEST_F(test_image_file_death_test, load_jpg_rg_error)
 {
-  EXPECT_ERROR_N(jpg_read_file<pixel_format::rg>(test_image_png),
-    image_read_error, test_image_png);
+  EXPECT_ERROR_0(
+    jpg_read_file<pixel_format::rg>(test_image_png), invalid_image_data);
 }
 
 
@@ -1136,8 +1136,8 @@ TEST_F(test_image_file, load_bmp_r)
 
 TEST_F(test_image_file_death_test, load_bmp_r_error)
 {
-  EXPECT_ERROR_N(bmp_read_file<pixel_format::r>(test_image_png),
-    image_read_error, test_image_png);
+  EXPECT_ERROR_0(
+    bmp_read_file<pixel_format::r>(test_image_png), invalid_image_data);
 }
 
 
@@ -1161,8 +1161,8 @@ TEST_F(test_image_file, load_png_r)
 
 TEST_F(test_image_file_death_test, load_png_r_error)
 {
-  EXPECT_ERROR_N(png_read_file<pixel_format::r>(test_image_jpg),
-    image_read_error, test_image_jpg);
+  EXPECT_ERROR_0(
+    png_read_file<pixel_format::r>(test_image_jpg), invalid_image_data);
 }
 
 
@@ -1186,6 +1186,6 @@ TEST_F(test_image_file, load_jpg_r)
 
 TEST_F(test_image_file_death_test, load_jpg_r_error)
 {
-  EXPECT_ERROR_N(jpg_read_file<pixel_format::r>(test_image_png),
-    image_read_error, test_image_png);
+  EXPECT_ERROR_0(
+    jpg_read_file<pixel_format::r>(test_image_png), invalid_image_data);
 }
