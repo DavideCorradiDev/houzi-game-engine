@@ -5,14 +5,14 @@
 #ifndef HOU_GFX_FRAME_BUFFER_HPP
 #define HOU_GFX_FRAME_BUFFER_HPP
 
-#include "hou/gfx/gfx_export.hpp"
-
 #include "hou/cor/non_copyable.hpp"
-
-#include "hou/mth/rectangle_fwd.hpp"
 
 #include "hou/gfx/framebuffer_blit_filter.hpp"
 #include "hou/gfx/framebuffer_blit_mask.hpp"
+
+#include "hou/gfx/gfx_export.hpp"
+
+#include "hou/mth/rectangle_fwd.hpp"
 
 #include "hou/gl/gl_framebuffer_handle.hpp"
 

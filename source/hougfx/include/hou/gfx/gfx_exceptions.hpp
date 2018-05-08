@@ -51,6 +51,24 @@ public:
   font_destruction_error(const std::string& path, uint line);
 };
 
+/** Font operation error.
+ *
+ * This exception is thrown when an operation on a font object fails.
+ */
+class HOU_GFX_API font_operation_error : public exception
+{
+public:
+  /** Constructor.
+   *
+   * \param path the path to the source file where the error happened.
+   *
+   * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
+   */
+  font_operation_error(const std::string& path, uint line);
+};
+
 }  // namespace hou
 
 #endif

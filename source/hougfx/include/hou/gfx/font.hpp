@@ -6,6 +6,7 @@
 #define HOU_GFX_FONT_HPP
 
 #include "hou/cor/non_copyable.hpp"
+
 #include "hou/gfx/gfx_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
@@ -49,6 +50,8 @@ public:
    * freed after the construction of the font object.
    *
    * \param data the font data.
+   *
+   * \throws hou::font_creation_error if the font data is invalid.
    */
   explicit font(const span<const uint8_t>& data);
 
@@ -59,6 +62,8 @@ public:
    * Throws if the data does not represent valid font data.
    *
    * \param font_stream the font stream.
+   *
+   * \throws hou::font_creation_error if the font data is invalid.
    */
   explicit font(not_null<std::unique_ptr<binary_stream_in>> font_stream);
 
@@ -66,7 +71,7 @@ public:
    *
    * \param other the other font object.
    */
-  font(font&& other);
+  font(font&& other) noexcept;
 
   /** Destructor.
    */
@@ -76,7 +81,7 @@ public:
    *
    * \return the number of available font faces.
    */
-  uint get_face_index_count() const;
+  uint get_face_index_count() const noexcept;
 
   /** Gets the index of the currently selected font face.
    *
@@ -84,11 +89,14 @@ public:
    *
    * \return the index of the currently selected font face.
    */
-  uint get_face_index() const;
+  uint get_face_index() const noexcept;
 
   /** Selects the specified face.
    *
    * \param face_index the index of the face to be selected.
+   *
+   * \throws hou::precondition_violation if face_index is not lower than the
+   * number of face indices.
    */
   void set_face_index(uint face_index);
 
@@ -98,7 +106,7 @@ public:
    *
    * \return the currently selected pixel height.
    */
-  uint get_pixel_height() const;
+  uint get_pixel_height() const noexcept;
 
   /** Sets the current pixel height.
    *
@@ -110,92 +118,92 @@ public:
    *
    * \return true if the font has horizontal rendering metrics.
    */
-  bool has_horizontal() const;
+  bool has_horizontal() const noexcept;
 
   /** Checks if the font has vertical rendering metrics.
    *
    * \return true if the font has vertical rendering metrics.
    */
-  bool has_vertical() const;
+  bool has_vertical() const noexcept;
 
   /** Checks if the font has kerning metrics.
    *
    * \return true if the font has kerning metrics.
    */
-  bool has_kerning() const;
+  bool has_kerning() const noexcept;
 
   /** Checks if the font is scalable.
    *
    * \return true if the font is scalable.
    */
-  bool is_scalable() const;
+  bool is_scalable() const noexcept;
 
   /** Get a bounding box capable of containing any glyph in the font in 26.6
    * pixel format.
    *
    * \return the bounding box.
    */
-  recti get_glyph_bounding_box() const;
+  recti get_glyph_bounding_box() const noexcept;
 
   /** Get a bounding box capable of containing any glyph in the font in pixels.
    *
    * \return the bounding box.
    */
-  rectf get_pixel_glyph_bounding_box() const;
+  rectf get_pixel_glyph_bounding_box() const noexcept;
 
   /** Get the line spacing in 26.6 pixel format.
    *
    * \return the line spacing.
    */
-  int get_line_spacing() const;
+  int get_line_spacing() const noexcept;
 
   /** Get the line spacing in pixels.
    *
    * \return the line spacing.
    */
-  float get_pixel_line_spacing() const;
+  float get_pixel_line_spacing() const noexcept;
 
   /** Get the maximum horizontal advance in 26.6 pixel format.
    *
    * \return the maximum horizontal advance.
    */
-  int get_max_advance() const;
+  int get_max_advance() const noexcept;
 
   /** Get the maximum horizontal advance in pixels.
    *
    * \return the maximum horizontal advance.
    */
-  float get_pixel_max_advance() const;
+  float get_pixel_max_advance() const noexcept;
 
   /** Get the maximum horizontal advance in 26.6 pixel format.
    *
    * \return the maximum horizontal advance.
    */
-  int get_max_horizontal_advance() const;
+  int get_max_horizontal_advance() const noexcept;
 
   /** Get the maximum horizontal advance in pixels.
    *
    * \return the maximum horizontal advance.
    */
-  float get_pixel_max_horizontal_advance() const;
+  float get_pixel_max_horizontal_advance() const noexcept;
 
   /** Get the maximum vertical advance in 26.6 pixel format.
    *
    * \return the maximum vertical advance.
    */
-  int get_max_vertical_advance() const;
+  int get_max_vertical_advance() const noexcept;
 
   /** Get the maximum vertical advance in pixels.
    *
    * \return the maximum vertical advance.
    */
-  float get_pixel_max_vertical_advance() const;
+  float get_pixel_max_vertical_advance() const noexcept;
 
   /** Get the number of glyphs.
    *
    * \return the number of glyphs.
    */
-  uint get_glyph_count() const;
+  uint get_glyph_count() const noexcept;
 
   /** Generates and returns information for a glyph.
    *
