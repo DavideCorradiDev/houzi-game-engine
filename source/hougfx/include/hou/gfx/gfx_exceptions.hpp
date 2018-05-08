@@ -22,11 +22,13 @@ namespace hou
 class HOU_GFX_API font_creation_error : public exception
 {
 public:
-  /** Creates a font_creation_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
    */
   font_creation_error(const std::string& path, uint line);
 };
@@ -38,11 +40,13 @@ public:
 class HOU_GFX_API font_destruction_error : public exception
 {
 public:
-  /** Creates a font_destruction_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
    */
   font_destruction_error(const std::string& path, uint line);
 };

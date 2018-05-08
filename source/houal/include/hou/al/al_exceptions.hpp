@@ -32,11 +32,13 @@ class device_owned_object_handle;
 class HOU_AL_API context_creation_error : public exception
 {
 public:
-  /** Creates a context_creation_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
    */
   context_creation_error(const std::string& path, uint line);
 };
@@ -48,11 +50,13 @@ public:
 class HOU_AL_API context_destruction_error : public exception
 {
 public:
-  /** Creates a context_destruction_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
    */
   context_destruction_error(const std::string& path, uint line);
 };
@@ -64,11 +68,13 @@ public:
 class HOU_AL_API context_switch_error : public exception
 {
 public:
-  /** Creates a context_switch_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
    */
   context_switch_error(const std::string& path, uint line);
 };
@@ -81,11 +87,13 @@ public:
 class HOU_AL_API missing_context_error : public exception
 {
 public:
-  /** Creates a missing_context_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
    */
   missing_context_error(const std::string& path, uint line);
 };
@@ -98,11 +106,13 @@ public:
 class HOU_AL_API invalid_context_error : public exception
 {
 public:
-  /** Creates an invalid_context_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
    */
   invalid_context_error(const std::string& path, uint line);
 };
@@ -115,13 +125,15 @@ public:
 class HOU_AL_API device_open_error : public exception
 {
 public:
-  /** Creates a device_open_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
    *
    * \param device_name the name of the device.
+   *
+   * \throws std::bad_alloc.
    */
   device_open_error(
     const std::string& path, uint line, const std::string& device_name);
@@ -134,11 +146,13 @@ public:
 class HOU_AL_API device_close_error : public exception
 {
 public:
-  /** Creates a device_close_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
    */
   device_close_error(const std::string& path, uint line);
 };
@@ -151,13 +165,15 @@ public:
 class HOU_AL_API call_error : public exception
 {
 public:
-  /** Creates a call_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
    *
    * \param ec the error code.
+   *
+   * \throws std::bad_alloc.
    */
   call_error(const std::string& path, uint line, ALenum ec);
 };
@@ -170,13 +186,15 @@ public:
 class HOU_AL_API context_call_error : public exception
 {
 public:
-  /** Creates a context_call_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
    *
    * \param ec the error code.
+   *
+   * \throws std::bad_alloc.
    */
   context_call_error(const std::string& path, uint line, ALenum ec);
 };

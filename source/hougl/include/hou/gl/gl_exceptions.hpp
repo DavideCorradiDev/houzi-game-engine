@@ -31,13 +31,15 @@ class non_shared_object_handle;
 class HOU_GL_API extension_initialization_error : public exception
 {
 public:
-  /** Creates an extension_initialization_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
    *
    * \param ec the error code.
+   *
+   * \throws std::bad_alloc.
    */
   extension_initialization_error(const std::string& path, uint line, int ec);
 };
@@ -49,11 +51,13 @@ public:
 class HOU_GL_API context_creation_error : public exception
 {
 public:
-  /** Creates a context_creation_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
    */
   context_creation_error(const std::string& path, uint line);
 };
@@ -65,11 +69,13 @@ public:
 class HOU_GL_API context_destruction_error : public exception
 {
 public:
-  /** Creates a context_destruction_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
    */
   context_destruction_error(const std::string& path, uint line);
 };
@@ -81,11 +87,13 @@ public:
 class HOU_GL_API context_switch_error : public exception
 {
 public:
-  /** Creates a context_switch_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
    */
   context_switch_error(const std::string& path, uint line);
 };
@@ -98,11 +106,13 @@ public:
 class HOU_GL_API missing_context_error : public exception
 {
 public:
-  /** Creates a missing_context_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
    */
   missing_context_error(const std::string& path, uint line);
 };
@@ -115,11 +125,13 @@ public:
 class HOU_GL_API invalid_context_error : public exception
 {
 public:
-  /** Creates an invalid_context_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
    */
   invalid_context_error(const std::string& path, uint line);
 };
@@ -131,7 +143,7 @@ public:
 class HOU_GL_API shader_compiler_error : public exception
 {
 public:
-  /** Creates a shader_compiler_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
@@ -140,6 +152,8 @@ public:
    * \param shader_type the shader type.
    *
    * \param message the compiler error message.
+   *
+   * \throws std::bad_alloc.
    */
   shader_compiler_error(const std::string& path, uint line, GLenum shader_type,
     const std::string& message);
@@ -152,13 +166,15 @@ public:
 class HOU_GL_API shader_linker_error : public exception
 {
 public:
-  /** Creates a shader_linker_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
    *
    * \param message the linker error message.
+   *
+   * \throws std::bad_alloc.
    */
   shader_linker_error(
     const std::string& path, uint line, const std::string& message);
@@ -172,13 +188,15 @@ public:
 class HOU_GL_API invalid_uniform_error : public exception
 {
 public:
-  /** Creates an invalid_uniform_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
    *
    * \param uniform_name the name of the uniform.
+   *
+   * \throws std::bad_alloc.
    */
   invalid_uniform_error(
     const std::string& path, uint line, const std::string& uniform_name);
@@ -191,11 +209,13 @@ public:
 class HOU_GL_API vsync_error : public exception
 {
 public:
-  /** Creates a vsync_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
    */
   vsync_error(const std::string& path, uint line);
 };
@@ -208,13 +228,15 @@ public:
 class HOU_GL_API call_error : public exception
 {
 public:
-  /** Creates a call_error object.
+  /** Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
    * \param line the line where the error happened.
    *
    * \param ec the error code.
+   *
+   * \throws std::bad_alloc.
    */
   call_error(const std::string& path, uint line, GLenum ec);
 };
