@@ -43,6 +43,7 @@ audio_buffer_format get_audio_buffer_format_enum(
       return audio_buffer_format::stereo16;
     }
   }
+  HOU_UNREACHABLE();
   return audio_buffer_format::mono16;
 }
 

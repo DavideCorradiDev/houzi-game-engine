@@ -5,8 +5,9 @@
 #ifndef HOU_AUD_AUDIO_SOURCE_HPP
 #define HOU_AUD_AUDIO_SOURCE_HPP
 
-#include "hou/aud/aud_export.hpp"
 #include "hou/aud/audio_source.hpp"
+
+#include "hou/aud/aud_export.hpp"
 
 
 
@@ -30,7 +31,7 @@ class audio_buffer;
  * is not destroyed while the memory_audio_source is still existing, failing to
  * do so will result in undefined behaviour.
  */
-class HOU_AUD_API memory_audio_source : public audio_source
+class HOU_AUD_API memory_audio_source final : public audio_source
 {
 public:
   /** Buffer constructor.
@@ -47,7 +48,7 @@ public:
    *
    * \param other the other memory_audio_source.
    */
-  memory_audio_source(memory_audio_source&& other);
+  memory_audio_source(memory_audio_source&& other) noexcept;
 
   /** Destructor.
    */

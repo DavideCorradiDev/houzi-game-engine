@@ -5,11 +5,12 @@
 #ifndef HOU_AUD_AUDIO_BUFFER_HPP
 #define HOU_AUD_AUDIO_BUFFER_HPP
 
-#include "hou/aud/aud_export.hpp"
 #include "hou/cor/non_copyable.hpp"
 
 #include "hou/aud/audio_buffer_format.hpp"
 #include "hou/aud/audio_stream_in.hpp"
+
+#include "hou/aud/aud_export.hpp"
 
 #include "hou/al/al_buffer_handle.hpp"
 
@@ -81,13 +82,13 @@ public:
    *
    * \param other the other audio_buffer.
    */
-  audio_buffer(audio_buffer&& other);
+  audio_buffer(audio_buffer&& other) noexcept;
 
   /** Gets the OpenAL buffer handle.
    *
    * \return the OpenAL buffer handle.
    */
-  const al::buffer_handle& get_handle() const;
+  const al::buffer_handle& get_handle() const noexcept;
 
   /** Gets the audio format of the buffer.
    *

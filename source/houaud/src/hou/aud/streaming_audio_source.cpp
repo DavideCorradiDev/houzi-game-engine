@@ -274,7 +274,7 @@ streaming_audio_source::buffer_queue::buffer_queue(size_t buffer_count)
 size_t streaming_audio_source::buffer_queue::free_buffers(size_t count)
 {
   m_free_buffer_count += count;
-  HOU_DEV_POSTCOND(m_free_buffer_count <= m_buffers.size());
+  HOU_DEV_ASSERT(m_free_buffer_count <= m_buffers.size());
   size_t freed_bytes = 0u;
   for(uint i = 0; i < count; ++i)
   {
@@ -289,7 +289,7 @@ size_t streaming_audio_source::buffer_queue::free_buffers(size_t count)
 const audio_buffer& streaming_audio_source::buffer_queue::fill_buffer(
   const std::vector<uint8_t>& data, audio_buffer_format format, int sample_rate)
 {
-  HOU_DEV_PRECOND(m_free_buffer_count > 0);
+  HOU_DEV_ASSERT(m_free_buffer_count > 0);
   audio_buffer& buffer = m_buffers[m_current_index];
   buffer.set_data(data, format, sample_rate);
   m_current_index = (m_current_index + 1) % m_buffers.size();

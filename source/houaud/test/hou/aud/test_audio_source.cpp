@@ -37,7 +37,7 @@ class concrete_audio_source : public audio_source
 {
 public:
   concrete_audio_source(const audio_buffer& buffer);
-  concrete_audio_source(concrete_audio_source&& other);
+  concrete_audio_source(concrete_audio_source&& other) noexcept;
   virtual ~concrete_audio_source();
 
   audio_buffer_format get_format() const final;
@@ -81,7 +81,8 @@ concrete_audio_source::concrete_audio_source(const audio_buffer& buffer)
 
 
 
-concrete_audio_source::concrete_audio_source(concrete_audio_source&& other)
+concrete_audio_source::concrete_audio_source(
+  concrete_audio_source&& other) noexcept
   : audio_source(std::move(other))
   , m_sample_count(std::move(other.m_sample_count))
   , m_format(std::move(other.m_format))
@@ -463,8 +464,7 @@ TEST_F(test_audio_source, gain)
 TEST_F(test_audio_source_death_test, invalid_gain)
 {
   concrete_audio_source as(m_buffer);
-  EXPECT_PRECOND_ERROR(
-    as.set_gain(-3.f));
+  EXPECT_PRECOND_ERROR(as.set_gain(-3.f));
 }
 
 

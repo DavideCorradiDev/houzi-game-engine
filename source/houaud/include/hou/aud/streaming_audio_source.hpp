@@ -5,10 +5,11 @@
 #ifndef HOU_AUD_STREAMING_AUDIO_SOURCE_HPP
 #define HOU_AUD_STREAMING_AUDIO_SOURCE_HPP
 
-#include "hou/aud/aud_export.hpp"
 #include "hou/aud/audio_source.hpp"
 
 #include "hou/aud/audio_buffer.hpp"
+
+#include "hou/aud/aud_export.hpp"
 
 #include "hou/cor/not_null.hpp"
 
@@ -48,7 +49,7 @@ namespace hou
  *  Higher number of buffers and higher buffer size will result in higher
  *  memory consumption, but better sound quality.
  */
-class HOU_AUD_API streaming_audio_source : public audio_source
+class HOU_AUD_API streaming_audio_source final : public audio_source
 {
 public:
   /** default constructor.

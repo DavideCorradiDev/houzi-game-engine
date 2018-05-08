@@ -5,10 +5,10 @@
 #ifndef HOU_AUD_AUDIO_SOURCE_BASE_HPP
 #define HOU_AUD_AUDIO_SOURCE_BASE_HPP
 
-#include "hou/aud/aud_export.hpp"
-
 #include "hou/aud/audio_buffer_format.hpp"
 #include "hou/aud/audio_source_state.hpp"
+
+#include "hou/aud/aud_export.hpp"
 
 #include "hou/al/al_source_handle.hpp"
 
@@ -35,7 +35,7 @@ public:
    *
    * \param other the other audio_source.
    */
-  audio_source(audio_source&& other);
+  audio_source(audio_source&& other) noexcept;
 
   /** Destructor.
    */
@@ -45,7 +45,7 @@ public:
    *
    * \return the OpenAL audio source handle.
    */
-  const al::source_handle& get_handle() const;
+  const al::source_handle& get_handle() const noexcept;
 
   /** Plays the audio source.
    *

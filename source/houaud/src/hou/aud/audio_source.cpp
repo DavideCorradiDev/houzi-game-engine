@@ -17,10 +17,13 @@ namespace hou
 namespace
 {
 
-audio_source_state al_source_state_to_audio_source_state(ALenum state);
-uint normalize(uint value, uint max);
+audio_source_state al_source_state_to_audio_source_state(ALenum state) noexcept;
 
-audio_source_state al_source_state_to_audio_source_state(ALenum state)
+uint normalize(uint value, uint max) noexcept;
+
+
+
+audio_source_state al_source_state_to_audio_source_state(ALenum state) noexcept
 {
   switch(state)
   {
@@ -39,7 +42,7 @@ audio_source_state al_source_state_to_audio_source_state(ALenum state)
 
 
 
-uint normalize(uint value, uint max)
+uint normalize(uint value, uint max) noexcept
 {
   return max == 0u ? 0u : value % max;
 }
@@ -56,7 +59,7 @@ audio_source::audio_source()
 
 
 
-audio_source::audio_source(audio_source&& other)
+audio_source::audio_source(audio_source&& other) noexcept
   : m_handle(std::move(other.m_handle))
   , m_requested_sample_pos(std::move(other.m_requested_sample_pos))
 {}
@@ -68,7 +71,7 @@ audio_source::~audio_source()
 
 
 
-const al::source_handle& audio_source::get_handle() const
+const al::source_handle& audio_source::get_handle() const noexcept
 {
   return m_handle;
 }

@@ -5,9 +5,9 @@
 #ifndef HOU_AUD_SOUND_MODEL_HPP
 #define HOU_AUD_SOUND_MODEL_HPP
 
-#include "hou/aud/aud_export.hpp"
-
 #include "hou/aud/sound_distance_model.hpp"
+
+#include "hou/aud/aud_export.hpp"
 
 
 
