@@ -25,4 +25,10 @@ out_of_range::out_of_range(const std::string& path, uint line)
   : exception(path, line, u8"Index out of range.")
 {}
 
+
+
+bad_union_access::bad_union_access(const std::string& path, uint line)
+  : exception(path, line, u8"Bad union access.")
+{}
+
 }  // namespace hou

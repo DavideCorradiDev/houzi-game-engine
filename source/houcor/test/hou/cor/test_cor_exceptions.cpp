@@ -45,3 +45,11 @@ TEST_F(test_cor_exceptions, out_of_range)
   out_of_range ex("foo.cpp", 42u);
   EXPECT_STREQ("foo.cpp:42 - Index out of range.", ex.what());
 }
+
+
+
+TEST_F(test_cor_exceptions, bad_union_access)
+{
+  bad_union_access ex("foo.cpp", 42u);
+  EXPECT_STREQ("foo.cpp:42 - Bad union access.", ex.what());
+}

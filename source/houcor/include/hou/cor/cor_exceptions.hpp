@@ -69,6 +69,24 @@ public:
   out_of_range(const std::string& path, uint line);
 };
 
+/** Bad union access error.
+ *
+ * This exception is thrown  when accessing a wrongly initialized union member.
+ */
+class HOU_COR_API bad_union_access : public exception
+{
+public:
+  /** Constructor.
+   *
+   * \param path the path to the source file where the error happened.
+   *
+   * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
+   */
+  bad_union_access(const std::string& path, uint line);
+};
+
 }  // namespace hou
 
 #endif

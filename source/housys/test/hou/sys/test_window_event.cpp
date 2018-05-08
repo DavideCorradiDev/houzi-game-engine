@@ -6,6 +6,8 @@
 
 #include "hou/sys/window_event.hpp"
 
+#include "hou/cor/cor_exceptions.hpp"
+
 using namespace hou;
 using namespace testing;
 
@@ -35,12 +37,12 @@ TEST_F(test_window_event, empty)
 TEST_F(test_window_event_death_test, empty_wrong_data)
 {
   window_event ev = window_event::empty();
-  EXPECT_PRECOND_ERROR(ev.get_size_data());
-  EXPECT_PRECOND_ERROR(ev.get_key_data());
-  EXPECT_PRECOND_ERROR(ev.get_text_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_button_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
+  EXPECT_ERROR_0(ev.get_size_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_key_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_text_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_move_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_button_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_wheel_data(), bad_union_access);
 }
 
 
@@ -56,12 +58,12 @@ TEST_F(test_window_event, closed)
 TEST_F(test_window_event_death_test, closed_wrong_data)
 {
   window_event ev = window_event::closed();
-  EXPECT_PRECOND_ERROR(ev.get_size_data());
-  EXPECT_PRECOND_ERROR(ev.get_key_data());
-  EXPECT_PRECOND_ERROR(ev.get_text_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_button_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
+  EXPECT_ERROR_0(ev.get_size_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_key_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_text_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_move_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_button_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_wheel_data(), bad_union_access);
 }
 
 
@@ -77,12 +79,12 @@ TEST_F(test_window_event, focus_gained)
 TEST_F(test_window_event_death_test, focus_gained_wrong_data)
 {
   window_event ev = window_event::focus_gained();
-  EXPECT_PRECOND_ERROR(ev.get_size_data());
-  EXPECT_PRECOND_ERROR(ev.get_key_data());
-  EXPECT_PRECOND_ERROR(ev.get_text_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_button_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
+  EXPECT_ERROR_0(ev.get_size_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_key_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_text_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_move_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_button_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_wheel_data(), bad_union_access);
 }
 
 
@@ -98,12 +100,12 @@ TEST_F(test_window_event, focus_lost)
 TEST_F(test_window_event_death_test, focus_lost_wrong_data)
 {
   window_event ev = window_event::focus_lost();
-  EXPECT_PRECOND_ERROR(ev.get_size_data());
-  EXPECT_PRECOND_ERROR(ev.get_key_data());
-  EXPECT_PRECOND_ERROR(ev.get_text_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_button_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
+  EXPECT_ERROR_0(ev.get_size_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_key_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_text_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_move_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_button_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_wheel_data(), bad_union_access);
 }
 
 
@@ -121,11 +123,11 @@ TEST_F(test_window_event, resized)
 TEST_F(test_window_event_death_test, resized_wrong_data)
 {
   window_event ev = window_event::resized(1, 3);
-  EXPECT_PRECOND_ERROR(ev.get_key_data());
-  EXPECT_PRECOND_ERROR(ev.get_text_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_button_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
+  EXPECT_ERROR_0(ev.get_key_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_text_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_move_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_button_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_wheel_data(), bad_union_access);
 }
 
 
@@ -147,11 +149,11 @@ TEST_F(test_window_event_death_test, key_pressed_wrong_data)
 {
   window_event ev = window_event::key_pressed(
     key_code::a, scan_code::q, modifier_keys::alt | modifier_keys::shift);
-  EXPECT_PRECOND_ERROR(ev.get_size_data());
-  EXPECT_PRECOND_ERROR(ev.get_text_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_button_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
+  EXPECT_ERROR_0(ev.get_size_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_text_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_move_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_button_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_wheel_data(), bad_union_access);
 }
 
 
@@ -173,11 +175,11 @@ TEST_F(test_window_event_death_test, key_released_wrong_data)
 {
   window_event ev = window_event::key_released(
     key_code::a, scan_code::q, modifier_keys::alt | modifier_keys::shift);
-  EXPECT_PRECOND_ERROR(ev.get_size_data());
-  EXPECT_PRECOND_ERROR(ev.get_text_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_button_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
+  EXPECT_ERROR_0(ev.get_size_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_text_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_move_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_button_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_wheel_data(), bad_union_access);
 }
 
 
@@ -194,11 +196,11 @@ TEST_F(test_window_event, text_entered)
 TEST_F(test_window_event_death_test, text_entered_wrong_data)
 {
   window_event ev = window_event::text_entered(1234u);
-  EXPECT_PRECOND_ERROR(ev.get_size_data());
-  EXPECT_PRECOND_ERROR(ev.get_key_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_button_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
+  EXPECT_ERROR_0(ev.get_size_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_key_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_move_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_button_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_wheel_data(), bad_union_access);
 }
 
 
@@ -216,11 +218,11 @@ TEST_F(test_window_event, mouse_moved)
 TEST_F(test_window_event_death_test, mouse_moved_wrong_data)
 {
   window_event ev = window_event::mouse_moved(1, 3);
-  EXPECT_PRECOND_ERROR(ev.get_size_data());
-  EXPECT_PRECOND_ERROR(ev.get_key_data());
-  EXPECT_PRECOND_ERROR(ev.get_text_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_button_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
+  EXPECT_ERROR_0(ev.get_size_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_key_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_text_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_button_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_wheel_data(), bad_union_access);
 }
 
 
@@ -236,12 +238,12 @@ TEST_F(test_window_event, mouse_entered)
 TEST_F(test_window_event_death_test, mouse_entered_wrong_data)
 {
   window_event ev = window_event::mouse_entered();
-  EXPECT_PRECOND_ERROR(ev.get_size_data());
-  EXPECT_PRECOND_ERROR(ev.get_key_data());
-  EXPECT_PRECOND_ERROR(ev.get_text_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_button_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
+  EXPECT_ERROR_0(ev.get_size_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_key_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_text_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_move_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_button_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_wheel_data(), bad_union_access);
 }
 
 
@@ -257,12 +259,12 @@ TEST_F(test_window_event, mouse_left)
 TEST_F(test_window_event_death_test, mouse_left_wrong_data)
 {
   window_event ev = window_event::mouse_left();
-  EXPECT_PRECOND_ERROR(ev.get_size_data());
-  EXPECT_PRECOND_ERROR(ev.get_key_data());
-  EXPECT_PRECOND_ERROR(ev.get_text_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_button_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
+  EXPECT_ERROR_0(ev.get_size_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_key_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_text_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_move_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_button_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_wheel_data(), bad_union_access);
 }
 
 
@@ -281,11 +283,11 @@ TEST_F(test_window_event, mouse_button_pressed)
 TEST_F(test_window_event_death_test, mouse_button_pressed_wrong_data)
 {
   window_event ev = window_event::mouse_button_pressed(mouse_button::lb, 1, 3);
-  EXPECT_PRECOND_ERROR(ev.get_size_data());
-  EXPECT_PRECOND_ERROR(ev.get_key_data());
-  EXPECT_PRECOND_ERROR(ev.get_text_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
+  EXPECT_ERROR_0(ev.get_size_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_key_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_text_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_move_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_wheel_data(), bad_union_access);
 }
 
 
@@ -304,11 +306,11 @@ TEST_F(test_window_event, mouse_button_released)
 TEST_F(test_window_event_death_test, mouse_button_released_wrong_data)
 {
   window_event ev = window_event::mouse_button_released(mouse_button::lb, 1, 3);
-  EXPECT_PRECOND_ERROR(ev.get_size_data());
-  EXPECT_PRECOND_ERROR(ev.get_key_data());
-  EXPECT_PRECOND_ERROR(ev.get_text_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_wheel_data());
+  EXPECT_ERROR_0(ev.get_size_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_key_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_text_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_move_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_wheel_data(), bad_union_access);
 }
 
 
@@ -330,11 +332,11 @@ TEST_F(test_window_event_death_test, mouse_wheel_moved_wrong_data)
 {
   window_event ev
     = window_event::mouse_wheel_moved(mouse_wheel::vertical, 5, 1, 3);
-  EXPECT_PRECOND_ERROR(ev.get_size_data());
-  EXPECT_PRECOND_ERROR(ev.get_key_data());
-  EXPECT_PRECOND_ERROR(ev.get_text_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_move_data());
-  EXPECT_PRECOND_ERROR(ev.get_mouse_button_data());
+  EXPECT_ERROR_0(ev.get_size_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_key_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_text_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_move_data(), bad_union_access);
+  EXPECT_ERROR_0(ev.get_mouse_button_data(), bad_union_access);
 }
 
 
