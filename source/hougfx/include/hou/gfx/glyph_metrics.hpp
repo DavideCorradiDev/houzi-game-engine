@@ -30,7 +30,7 @@ public:
    *
    * all properties are set to 0.
    */
-  glyph_metrics();
+  glyph_metrics() noexcept;
 
   /** Creates a glyph_metrics object with the given properties.
    *
@@ -52,97 +52,97 @@ public:
    */
   glyph_metrics(const vec2u& size, const vec2i& horizontal_bearing,
     int horizontal_advance, const vec2i& vertical_bearing,
-    int vertical_advance);
+    int vertical_advance) noexcept;
 
   /** Gets the size of the bounding box of the glyph in 26.6 pixel format.
    *
    * \return the size of the bounding box of the glyph.
    */
-  const vec2u& get_size() const;
+  const vec2u& get_size() const noexcept;
 
   /** Gets the size of the bounding box of the glyph in pixels.
    *
    * \return the size of the bounding box of the glyph.
    */
-  vec2f get_pixel_size() const;
+  vec2f get_pixel_size() const noexcept;
 
   /** Sets the size of the bounding box of the glyph.
    *
    * \param size the size of the bounding box of the glyph.
    */
-  void set_size(const vec2u& size);
+  void set_size(const vec2u& size) noexcept;
 
   /** Gets the horizontal bearing of the glyph in 26.6 pixel format.
    *
    * \return the horizontal bearing of the glyph.
    */
-  const vec2i& get_horizontal_bearing() const;
+  const vec2i& get_horizontal_bearing() const noexcept;
 
   /** Gets the horizontal bearing of the glyph in pixels.
    *
    * \return the horizontal bearing of the glyph.
    */
-  vec2f get_pixel_horizontal_bearing() const;
+  vec2f get_pixel_horizontal_bearing() const noexcept;
 
   /** Sets the horizontal bearing of the glyph.
    *
    * \param horizontal_bearing the horizontal bearing.
    */
-  void setHorizontalBearing(const vec2i& horizontal_bearing);
+  void setHorizontalBearing(const vec2i& horizontal_bearing) noexcept;
 
   /** Gets the horizontal advance of the glyph in 26.6 pixel format.
    *
    * \return the horizontal advance of the glyph.
    */
-  int get_horizontal_advance() const;
+  int get_horizontal_advance() const noexcept;
 
   /** Gets the horizontal advance of the glyph in pixels.
    *
    * \return the horizontal advance of the glyph.
    */
-  float get_pixel_horizontal_advance() const;
+  float get_pixel_horizontal_advance() const noexcept;
 
   /** Sets the horizontal advance of the glyph.
    *
    * \param horizontal_advance the horizontal advance.
    */
-  void set_horizontal_advance(int horizontal_advance);
+  void set_horizontal_advance(int horizontal_advance) noexcept;
 
   /** Gets the vertical bearing of the glyph in 26.6 pixel format.
    *
    * \return the vertical bearing of the glyph.
    */
-  const vec2i& get_vertical_bearing() const;
+  const vec2i& get_vertical_bearing() const noexcept;
 
   /** Gets the vertical bearing of the glyph in pixels.
    *
    * \return the vertical bearing of the glyph.
    */
-  vec2f get_pixel_vertical_bearing() const;
+  vec2f get_pixel_vertical_bearing() const noexcept;
 
   /** Sets the vertical bearing of the glyph.
    *
    * \param vertical_bearing the vertical bearing.
    */
-  void set_vertical_bearing(const vec2i& vertical_bearing);
+  void set_vertical_bearing(const vec2i& vertical_bearing) noexcept;
 
   /** Gets the vertical advance of the glyph in 26.6 pixel format.
    *
    * \return the vertical advance of the glyph.
    */
-  int get_vertical_advance() const;
+  int get_vertical_advance() const noexcept;
 
   /** Gets the vertical advance of the glyph in pixels.
    *
    * \return the vertical advance of the glyph.
    */
-  float get_pixel_vertical_advance() const;
+  float get_pixel_vertical_advance() const noexcept;
 
   /** Sets the vertical advance of the glyph.
    *
    * \param vertical_advance the vertical advance.
    */
-  void set_vertical_advance(int vertical_advance);
+  void set_vertical_advance(int vertical_advance) noexcept;
 
 private:
   vec2u m_size;
@@ -160,7 +160,8 @@ private:
  *
  * \return true if the two objects are equal,
  */
-HOU_GFX_API bool operator==(const glyph_metrics& lhs, const glyph_metrics& rhs);
+HOU_GFX_API bool operator==(
+  const glyph_metrics& lhs, const glyph_metrics& rhs) noexcept;
 
 /** Checks if two glyph_metrics objects are not equal.
  *
@@ -170,7 +171,8 @@ HOU_GFX_API bool operator==(const glyph_metrics& lhs, const glyph_metrics& rhs);
  *
  * \return true if the two objects are not equal,
  */
-HOU_GFX_API bool operator!=(const glyph_metrics& lhs, const glyph_metrics& rhs);
+HOU_GFX_API bool operator!=(
+  const glyph_metrics& lhs, const glyph_metrics& rhs) noexcept;
 
 /** Writes a glyph_metrics object into a stream.
  *

@@ -21,13 +21,6 @@ vertex_buffer_t<T, DynamicStorage>::vertex_buffer_t(const span<const T>& data)
 
 
 template <typename T, bool DynamicStorage>
-vertex_buffer_t<T, DynamicStorage>::vertex_buffer_t(vertex_buffer&& other)
-  : vertex_buffer(std::move(other))
-{}
-
-
-
-template <typename T, bool DynamicStorage>
 uint vertex_buffer_t<T, DynamicStorage>::get_size() const
 {
   HOU_DEV_PRECOND(get_byte_count() % sizeof(T) == 0u);

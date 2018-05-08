@@ -4,6 +4,8 @@
 
 #include "hou/gfx/texture_wrap_mode.hpp"
 
+#include "hou/cor/exception.hpp"
+
 #define TEXTURE_WRAP_MODE_CASE(twm, os) \
   case texture_wrap_mode::twm: \
     return (os) << #twm
@@ -23,6 +25,7 @@ std::ostream& operator<<(std::ostream& os, texture_wrap_mode twm)
     TEXTURE_WRAP_MODE_CASE(repeat, os);
     TEXTURE_WRAP_MODE_CASE(mirrored_repeat, os);
     default:
+      HOU_UNREACHABLE();
       return os;
   }
 }

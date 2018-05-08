@@ -20,7 +20,7 @@ shader::shader(const std::string& source, shader_type type)
 
 
 
-shader::shader(shader&& other)
+shader::shader(shader&& other) noexcept
   : non_copyable()
   , m_handle(std::move(other.m_handle))
 {}
@@ -44,12 +44,6 @@ shader_t<Type>::shader_t(const std::string& source)
   : shader(source, Type)
 {}
 
-
-
-template <shader_type Type>
-shader_t<Type>::shader_t(shader_t&& other)
-  : shader(std::move(other))
-{}
 
 
 template class shader_t<shader_type::vertex>;

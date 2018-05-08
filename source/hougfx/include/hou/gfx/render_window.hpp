@@ -45,7 +45,7 @@ class video_mode;
  * normally be achieved simply by reacting to resizing events from the window
  * event queue.
  */
-class HOU_GFX_API render_window
+class HOU_GFX_API render_window final
   : public window
   , public render_surface
 {
@@ -67,12 +67,12 @@ public:
   /** Move constructor.
    *
    * \param other the other render_window.
+   *
+   * \throws hou::os_error if the window could not be created.
    */
-  render_window(render_window&& other);
+  render_window(render_window&& other) = default;
 
-  /** Destructor.
-   */
-  virtual ~render_window();
+
 
   /** Displays what has been rendered onto the render_window.
    */

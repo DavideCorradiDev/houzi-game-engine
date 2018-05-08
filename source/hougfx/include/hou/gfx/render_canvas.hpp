@@ -15,7 +15,7 @@ namespace hou
 
 /** Surface for off-screen rendering.
  */
-class HOU_GFX_API render_canvas : public render_surface
+class HOU_GFX_API render_canvas final : public render_surface
 {
 public:
   /** Creates a RenderTexutre with the desired size and sample count.
@@ -30,11 +30,7 @@ public:
    *
    *  \param other the other render_canvas.
    */
-  render_canvas(render_canvas&& other);
-
-  /** Destructor.
-   */
-  virtual ~render_canvas();
+  render_canvas(render_canvas&& other) noexcept = default;
 };
 
 }  // namespace hou

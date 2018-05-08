@@ -4,6 +4,8 @@
 
 #include "hou/gfx/texture_filter.hpp"
 
+#include "hou/cor/exception.hpp"
+
 #define TEXTURE_FILTER_CASE(tf, os) \
   case texture_filter::tf: \
     return (os) << #tf
@@ -22,6 +24,7 @@ std::ostream& operator<<(std::ostream& os, texture_filter tf)
     TEXTURE_FILTER_CASE(bilinear, os);
     TEXTURE_FILTER_CASE(trilinear, os);
     default:
+      HOU_UNREACHABLE();
       return os;
   }
 }

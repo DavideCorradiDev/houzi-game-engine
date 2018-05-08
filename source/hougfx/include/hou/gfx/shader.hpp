@@ -6,9 +6,10 @@
 #define HOU_GFX_SHADER_HPP
 
 #include "hou/cor/non_copyable.hpp"
-#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/gfx/shader_fwd.hpp"
+
+#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/gl/gl_shader_handle.hpp"
 
@@ -38,7 +39,7 @@ public:
    *
    * \param other the other shader.
    */
-  shader(shader&& other);
+  shader(shader&& other) noexcept;
 
   /** Destructor.
    */
@@ -61,7 +62,7 @@ private:
  * \tparam Type the shader type.
  */
 template <shader_type Type>
-class HOU_GFX_API shader_t : public shader
+class HOU_GFX_API shader_t final : public shader
 {
 public:
   /** Creates a shader with the given source code.
@@ -76,7 +77,7 @@ public:
    *
    * \param other the other shader.
    */
-  shader_t(shader_t&& other);
+  shader_t(shader_t&& other) noexcept = default;
 };
 
 }  // namespace hou

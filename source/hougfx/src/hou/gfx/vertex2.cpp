@@ -57,14 +57,14 @@ const vertex_format& vertex2::get_vertex_format()
 
 
 
-vertex2::vertex2()
+vertex2::vertex2() noexcept
   : vertex2(vec2f(0.f, 0.f), vec2f(0.f, 0.f), color(0, 0, 0, 0))
 {}
 
 
 
 vertex2::vertex2(
-  const vec2f& position, const vec2f& tex_coords, const color& col)
+  const vec2f& position, const vec2f& tex_coords, const color& col) noexcept
   : m_position{position.x(), position.y()}
   , m_tex_coords{tex_coords.x(), tex_coords.y()}
   , m_color{
@@ -73,14 +73,14 @@ vertex2::vertex2(
 
 
 
-vec2f vertex2::get_position() const
+vec2f vertex2::get_position() const noexcept
 {
   return vec2f(m_position[0], m_position[1]);
 }
 
 
 
-void vertex2::set_position(const vec2f& pos)
+void vertex2::set_position(const vec2f& pos) noexcept
 {
   m_position[0] = pos.x();
   m_position[1] = pos.y();
@@ -88,14 +88,14 @@ void vertex2::set_position(const vec2f& pos)
 
 
 
-vec2f vertex2::get_texture_coordinates() const
+vec2f vertex2::get_texture_coordinates() const noexcept
 {
   return vec2f(m_tex_coords[0], m_tex_coords[1]);
 }
 
 
 
-void vertex2::set_texture_coordinates(const vec2f& tex_coords)
+void vertex2::set_texture_coordinates(const vec2f& tex_coords) noexcept
 {
   m_tex_coords[0] = tex_coords.x();
   m_tex_coords[1] = tex_coords.y();
@@ -103,7 +103,7 @@ void vertex2::set_texture_coordinates(const vec2f& tex_coords)
 
 
 
-color vertex2::get_color() const
+color vertex2::get_color() const noexcept
 {
   return color(
     m_color[0] * 255, m_color[1] * 255, m_color[2] * 255, m_color[3] * 255);
@@ -111,7 +111,7 @@ color vertex2::get_color() const
 
 
 
-void vertex2::set_color(const color& color)
+void vertex2::set_color(const color& color) noexcept
 {
   m_color[0] = color.get_red_f();
   m_color[1] = color.get_green_f();
@@ -121,7 +121,7 @@ void vertex2::set_color(const color& color)
 
 
 
-bool operator==(const vertex2& lhs, const vertex2& rhs)
+bool operator==(const vertex2& lhs, const vertex2& rhs) noexcept
 {
   return lhs.get_position() == rhs.get_position()
     && lhs.get_texture_coordinates() == rhs.get_texture_coordinates()
@@ -130,14 +130,15 @@ bool operator==(const vertex2& lhs, const vertex2& rhs)
 
 
 
-bool operator!=(const vertex2& lhs, const vertex2& rhs)
+bool operator!=(const vertex2& lhs, const vertex2& rhs) noexcept
 {
   return !(lhs == rhs);
 }
 
 
 
-bool close(const vertex2& lhs, const vertex2& rhs, vertex2::comparison_type acc)
+bool close(
+  const vertex2& lhs, const vertex2& rhs, vertex2::comparison_type acc) noexcept
 {
   return lhs.get_color() == rhs.get_color()
     && close(lhs.get_position(), rhs.get_position(), acc)

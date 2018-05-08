@@ -4,9 +4,13 @@
 
 #include "hou/gfx/texture_format.hpp"
 
+#include "hou/cor/exception.hpp"
+
 #define TEXTURE_FORMAT_CASE(format, os) \
   case texture_format::format: \
     return (os) << #format
+
+
 
 namespace hou
 {
@@ -23,6 +27,7 @@ std::ostream& operator<<(std::ostream& os, texture_format format)
     TEXTURE_FORMAT_CASE(stencil, os);
     TEXTURE_FORMAT_CASE(depth_stencil, os);
     default:
+      HOU_UNREACHABLE();
       return os;
   }
 }

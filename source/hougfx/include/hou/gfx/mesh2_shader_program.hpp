@@ -6,11 +6,12 @@
 #define HOU_GFX_MESH_2_SHADER_PROGRAM_HPP
 
 #include "hou/cor/non_copyable.hpp"
-#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/gfx/shader_program.hpp"
 #include "hou/gfx/texture.hpp"
 #include "hou/gfx/vertex2_fwd.hpp"
+
+#include "hou/gfx/gfx_export.hpp"
 
 #include "hou/mth/transform2.hpp"
 
@@ -25,10 +26,10 @@ class render_surface;
 
 /** shader program used to render Mesh2d objects.
  */
-class HOU_GFX_API mesh2_shader_program : public shader_program
+class HOU_GFX_API mesh2_shader_program final : public shader_program
 {
 public:
-  /** Creates a mesh2_shader_program.
+  /** Constructor.
    */
   mesh2_shader_program();
 
@@ -36,9 +37,9 @@ public:
    *
    * \param other the other mesh2_shader_program.
    */
-  mesh2_shader_program(mesh2_shader_program&& other);
+  mesh2_shader_program(mesh2_shader_program&& other) noexcept = default;
 
-  /** Sets the color used when rendering Mesh2d objects.
+  /** Sets the color used when rendering.
    *
    * The default value is white.
    *
@@ -46,7 +47,7 @@ public:
    */
   void set_color(const color& color);
 
-  /** Sets the texture unit used when rendering Mesh2d objects.
+  /** Sets the texture unit used when rendering.
    *
    * The default value is 0.
    *
@@ -54,7 +55,7 @@ public:
    */
   void set_texture_unit(uint unit);
 
-  /** Sets the transform to be used when rendering Mesh2d objects.
+  /** Sets the transform used when rendering.
    *
    * The default is the identity transform.
    *

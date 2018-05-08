@@ -30,7 +30,7 @@ mesh::mesh(mesh_draw_mode dm, mesh_fill_mode fm, uint vertex_count)
 
 
 
-mesh::mesh(mesh&& other)
+mesh::mesh(mesh&& other) noexcept
   : non_copyable()
   , m_draw_mode(std::move(other.m_draw_mode))
   , m_fill_mode(std::move(other.m_fill_mode))
@@ -45,21 +45,21 @@ mesh::~mesh()
 
 
 
-mesh_draw_mode mesh::get_draw_mode() const
+mesh_draw_mode mesh::get_draw_mode() const noexcept
 {
   return m_draw_mode;
 }
 
 
 
-mesh_fill_mode mesh::get_fill_mode() const
+mesh_fill_mode mesh::get_fill_mode() const noexcept
 {
   return m_fill_mode;
 }
 
 
 
-uint mesh::get_vertex_count() const
+uint mesh::get_vertex_count() const noexcept
 {
   return m_vertex_count;
 }

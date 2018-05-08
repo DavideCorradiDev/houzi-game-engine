@@ -70,7 +70,7 @@ public:
    *
    * \param other the other graphic_context.
    */
-  graphic_context(graphic_context&& other);
+  graphic_context(graphic_context&& other) noexcept;
 
   /** Checks if this context is current in the current thread.
    *

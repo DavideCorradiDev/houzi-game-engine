@@ -49,18 +49,6 @@ render_window::render_window(const std::string& title, const vec2u& size,
 
 
 
-render_window::render_window(render_window&& other)
-  : window(std::move(other))
-  , render_surface(std::move(other))
-{}
-
-
-
-render_window::~render_window()
-{}
-
-
-
 void render_window::display()
 {
   gl::bind_window(*this);

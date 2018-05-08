@@ -6,14 +6,15 @@
 #define HOU_GFX_TEXTURE_HPP
 
 #include "hou/cor/non_copyable.hpp"
-#include "hou/gfx/gfx_export.hpp"
-
-#include "hou/mth/matrix_fwd.hpp"
 
 #include "hou/gfx/texture_filter.hpp"
 #include "hou/gfx/texture_format.hpp"
 #include "hou/gfx/texture_fwd.hpp"
 #include "hou/gfx/texture_wrap_mode.hpp"
+
+#include "hou/gfx/gfx_export.hpp"
+
+#include "hou/mth/matrix_fwd.hpp"
 
 #include "hou/gl/gl_functions.hpp"
 #include "hou/gl/gl_texture_handle.hpp"
@@ -77,7 +78,7 @@ public:
    *
    * \param other the other texture.
    */
-  texture(texture&& other);
+  texture(texture&& other) noexcept;
 
   /** Destructor.
    */
@@ -87,7 +88,7 @@ public:
    *
    * \return a reference to the OpenGL texture handle.
    */
-  const gl::texture_handle& get_handle() const;
+  const gl::texture_handle& get_handle() const noexcept;
 
   /** Checks if this texture is currently bound to the given texture unit.
    *
@@ -207,7 +208,7 @@ protected:
  * \tparam Type the texture type.
  */
 template <texture_type Type>
-class HOU_GFX_API texture_t : public texture
+class HOU_GFX_API texture_t final : public texture
 {
 public:
   /** Type representing the size of the texture. */
@@ -321,11 +322,7 @@ public:
    *
    * \param other the other texture.
    */
-  texture_t(texture_t&& other);
-
-  /** Destructor.
-   */
-  virtual ~texture_t();
+  texture_t(texture_t&& other) noexcept = default;
 
   /** Retrieves the size of the texture.
    *

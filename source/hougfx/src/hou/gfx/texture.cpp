@@ -193,7 +193,7 @@ uint get_mipmap_relevant_size<texture_type::multisample_texture2_array>(
 template <size_t dim>
 size_t compute_image_buffer_size(const vec<uint, dim>& imSize, pixel_format fmt)
 {
-  HOU_DEV_PRECOND(gl::get_unpack_alignment() == 1u);
+  HOU_DEV_ASSERT(gl::get_unpack_alignment() == 1u);
   size_t byte_count = 1u;
   for(size_t i = 0; i < imSize.get_size(); ++i)
   {
@@ -333,7 +333,7 @@ texture::texture(texture_type type, uint mipmap_level_count, uint sample_count,
 
 
 
-texture::texture(texture&& other)
+texture::texture(texture&& other) noexcept
   : m_gl_texture_handle(std::move(other.m_gl_texture_handle))
   , m_mipmap_level_count(std::move(other.m_mipmap_level_count))
   , m_sample_count(std::move(other.m_sample_count))
@@ -347,7 +347,7 @@ texture::~texture()
 
 
 
-const gl::texture_handle& texture::get_handle() const
+const gl::texture_handle& texture::get_handle() const noexcept
 {
   return m_gl_texture_handle;
 }
@@ -664,19 +664,6 @@ texture_t<texture_type::multisample_texture2_array>::texture_t(
     static_cast<GLenum>(format), size.x(), size.y(), size.z(),
     fixed_sample_locations);
 }
-
-
-
-template <texture_type Type>
-texture_t<Type>::texture_t(texture_t&& other)
-  : texture(std::move(other))
-{}
-
-
-
-template <texture_type Type>
-texture_t<Type>::~texture_t()
-{}
 
 
 

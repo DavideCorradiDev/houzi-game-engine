@@ -41,7 +41,7 @@ shader_program::shader_program(
 
 
 
-shader_program::shader_program(shader_program&& other)
+shader_program::shader_program(shader_program&& other) noexcept
   : non_copyable()
   , m_handle(std::move(other.m_handle))
 {}
@@ -53,7 +53,7 @@ shader_program::~shader_program()
 
 
 
-const gl::program_handle& shader_program::get_handle() const
+const gl::program_handle& shader_program::get_handle() const noexcept
 {
   return m_handle;
 }

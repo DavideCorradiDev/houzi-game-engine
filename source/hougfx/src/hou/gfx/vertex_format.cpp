@@ -40,14 +40,14 @@ vertex_format::vertex_format(
 
 
 
-ptrdiff_t vertex_format::get_offset() const
+ptrdiff_t vertex_format::get_offset() const noexcept
 {
   return m_offset;
 }
 
 
 
-uint vertex_format::get_stride() const
+uint vertex_format::get_stride() const noexcept
 {
   return m_stride;
 }
@@ -55,14 +55,14 @@ uint vertex_format::get_stride() const
 
 
 const std::vector<vertex_attrib_format>&
-  vertex_format::get_vertex_attrib_formats() const
+  vertex_format::get_vertex_attrib_formats() const noexcept
 {
   return m_vertex_attrib_formats;
 }
 
 
 
-bool operator==(const vertex_format& lhs, const vertex_format& rhs)
+bool operator==(const vertex_format& lhs, const vertex_format& rhs) noexcept
 {
   return lhs.get_offset() == rhs.get_offset()
     && lhs.get_stride() == rhs.get_stride()
@@ -71,7 +71,7 @@ bool operator==(const vertex_format& lhs, const vertex_format& rhs)
 
 
 
-bool operator!=(const vertex_format& lhs, const vertex_format& rhs)
+bool operator!=(const vertex_format& lhs, const vertex_format& rhs) noexcept
 {
   return !(lhs == rhs);
 }

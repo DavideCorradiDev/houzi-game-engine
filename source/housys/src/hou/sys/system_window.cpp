@@ -12,12 +12,6 @@ system_window::system_window(
 
 
 
-system_window::system_window(system_window&& other)
-  : window(std::move(other))
-{}
-
-
-
 void system_window::set_frame_rect(const vec2i& pos, const vec2u& size)
 {
   window::set_frame_rect(pos, size);

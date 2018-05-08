@@ -6,14 +6,15 @@
 #define HOU_GFX_SHADER_PROGRAM_HPP
 
 #include "hou/cor/non_copyable.hpp"
+
+#include "hou/gfx/shader_fwd.hpp"
+
 #include "hou/gfx/gfx_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 #include "hou/cor/character_encodings.hpp"
 
 #include "hou/mth/matrix_fwd.hpp"
-
-#include "hou/gfx/shader_fwd.hpp"
 
 #include "hou/gl/gl_program_handle.hpp"
 
@@ -61,7 +62,7 @@ public:
    *
    * \param other the other shader_program.
    */
-  shader_program(shader_program&& other);
+  shader_program(shader_program&& other) noexcept;
 
   /** Destructor.
    */
@@ -71,7 +72,7 @@ public:
    *
    * \return the OpenGL program handle.
    */
-  const gl::program_handle& get_handle() const;
+  const gl::program_handle& get_handle() const noexcept;
 
   /** Checks if this program is currently bound.
    *
@@ -82,6 +83,9 @@ public:
   /** Retrieves the location of the given uniform.
    *
    * \param uniform_name the uniform name.
+   *
+   * \throws hou::invalid_uniform_error if no uniform corresponds to
+   * uniform_name.
    *
    * \return the uniform location.
    */

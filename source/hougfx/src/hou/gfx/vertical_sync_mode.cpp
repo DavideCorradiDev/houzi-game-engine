@@ -4,6 +4,8 @@
 
 #include "hou/gfx/vertical_sync_mode.hpp"
 
+#include "hou/cor/exception.hpp"
+
 #define VERTICAL_SYNC_MODE_CASE(vsm, os) \
   case vertical_sync_mode::vsm: \
     return (os) << #vsm
@@ -21,6 +23,7 @@ std::ostream& operator<<(std::ostream& os, vertical_sync_mode vsm)
     VERTICAL_SYNC_MODE_CASE(enabled, os);
     VERTICAL_SYNC_MODE_CASE(adaptive, os);
     default:
+      HOU_UNREACHABLE();
       return os;
   }
 }
