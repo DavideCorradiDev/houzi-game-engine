@@ -75,7 +75,7 @@ framebuffer::framebuffer()
 
 
 
-framebuffer::framebuffer(framebuffer&& other)
+framebuffer::framebuffer(framebuffer&& other) noexcept
   : non_copyable()
   , m_handle(std::move(other.m_handle))
   , m_has_multisample_color_attachment(
@@ -88,7 +88,7 @@ framebuffer::framebuffer(framebuffer&& other)
 
 
 
-const gl::framebuffer_handle& framebuffer::get_handle() const
+const gl::framebuffer_handle& framebuffer::get_handle() const noexcept
 {
   return m_handle;
 }
@@ -119,16 +119,16 @@ bool framebuffer::is_complete() const
 
 
 void framebuffer::set_color_attachment(
-  uint attachmentPoint, const texture& tex, uint mipmap_level)
+  uint attachment_point, const texture& tex, uint mipmap_level)
 {
-  HOU_PRECOND(attachmentPoint < get_color_attachment_point_count());
+  HOU_PRECOND(attachment_point < get_color_attachment_point_count());
   HOU_PRECOND(mipmap_level < tex.get_mipmap_level_count());
   HOU_PRECOND(tex.get_format() == texture_format::rgba
     || tex.get_format() == texture_format::rgb
     || tex.get_format() == texture_format::rg
     || tex.get_format() == texture_format::r);
   gl::set_framebuffer_color_texture(m_handle,
-    static_cast<GLuint>(attachmentPoint), tex.get_handle(),
+    static_cast<GLuint>(attachment_point), tex.get_handle(),
     static_cast<GLint>(mipmap_level));
   m_has_multisample_color_attachment
     = is_texture_type_multisampled(tex.get_type());

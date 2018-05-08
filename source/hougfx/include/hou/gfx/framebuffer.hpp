@@ -30,25 +30,25 @@ class HOU_GFX_API framebuffer : public non_copyable
 public:
   /** Binds a framebuffer as the target for drawing operations.
    *
-   * Throws if fb is not complete.
-   *
    * \param fb the framebuffer.
+   *
+   * \throws hou::precondition_violation if fb is not complete.
    */
   static void bind_draw_target(const framebuffer& fb);
 
   /** Binds a framebuffer as the source framebuffer.
    *
-   * Throws if fb is not complete.
-   *
    * \param fb the framebuffer.
+   *
+   * \throws hou::precondition_violation if fb is not complete.
    */
   static void bind_read_target(const framebuffer& fb);
 
   /** Binds a framebuffer as both target and source.
    *
-   * Throws if fb is not complete.
-   *
    * \param fb the framebuffer.
+   *
+   * \throws hou::precondition_violation if fb is not complete.
    */
   static void bind(const framebuffer& fb);
 
@@ -80,13 +80,13 @@ public:
    *
    * \param other the other framebuffer.
    */
-  framebuffer(framebuffer&& other);
+  framebuffer(framebuffer&& other) noexcept;
 
   /** Retrieves a reference to the OpenGL framebuffer handle.
    *
    * \return a reference to the OpenGL framebuffer handle.
    */
-  const gl::framebuffer_handle& get_handle() const;
+  const gl::framebuffer_handle& get_handle() const noexcept;
 
   /** Checks if this framebuffer is currently bound as draw target.
    *
@@ -112,7 +112,7 @@ public:
 
   /** Sets a color attachment for this framebuffer.
    *
-   * \param attachmentPoint an index representing the desired attachment point.
+   * \param attachment_point an index representing the desired attachment point.
    * Its value must be lower than the maximum number of available attachment
    * points.
    *
@@ -121,9 +121,14 @@ public:
    *
    * \param mipmap_level the mip map level
    * to bind. It must be a valid mip map level of texture.
+   *
+   * \throws hou::precondition_violation if attachment_point is greater or equal
+   * than the number of allowed attachments, if mipmap_level is greater or equal
+   * then the number of mipmap levels of tex, or if the format of tex is not r,
+   * rg, rgb, or rgba.
    */
   void set_color_attachment(
-    uint attachmentPoint, const texture& tex, uint mipmap_level = 0u);
+    uint attachment_point, const texture& tex, uint mipmap_level = 0u);
 
   /** Sets the depth attachment for this framebuffer.
    *
@@ -132,6 +137,10 @@ public:
    *
    * \param mipmap_level the mip map level to bind. It must be a valid mip map
    * level of texture.
+   *
+   * \throws hou::precondition_violation if mipmap_level is greater or equal
+   * then the number of mipmap levels of tex, or if the format of tex is not
+   * depth or depth_stencil.
    */
   void set_depth_attachment(const texture& tex, uint mipmap_level = 0u);
 
@@ -142,6 +151,10 @@ public:
    *
    * \param mipmap_level the mip map level to bind. It must be a valid mip map
    * level of texture.
+   *
+   * \throws hou::precondition_violation if mipmap_level is greater or equal
+   * then the number of mipmap levels of tex, or if the format of tex is not
+   * stencil or depth_stencil.
    */
   void set_stencil_attachment(const texture& tex, uint mipmap_level = 0u);
 
@@ -152,6 +165,10 @@ public:
    *
    * \param mipmap_level the mip map level to bind. It must be a valid mip map
    * level of texture.
+   *
+   * \throws hou::precondition_violation if mipmap_level is greater or equal
+   * then the number of mipmap levels of tex, or if the format of tex is not
+   * depth_stencil.
    */
   void set_depth_stencil_attachment(const texture& tex, uint mipmap_level = 0u);
 
@@ -190,6 +207,9 @@ private:
  * \param mask a bitfield specifying what attachments to blit.
  *
  * \param filter the filter to apply for this operation.
+ *
+ * \throws hou::precondition_violation if one condition on the arguments is
+ * violated.
  */
 HOU_GFX_API void blit(const framebuffer& src, const recti& src_rect,
   framebuffer& dst, const recti& dst_rect, framebuffer_blit_mask mask,
@@ -213,6 +233,9 @@ HOU_GFX_API void blit(const framebuffer& src, const recti& src_rect,
  * \param dst_rect the destination rectangle.
  *
  * \param filter the filter to apply for this operation.
+ *
+ * \throws hou::precondition_violation if one condition on the arguments is
+ * violated.
  */
 HOU_GFX_API void blit(const framebuffer& src, const recti& src_rect,
   texture& dst, const recti& dst_rect,
@@ -234,6 +257,9 @@ HOU_GFX_API void blit(const framebuffer& src, const recti& src_rect,
  * \param dst_rect the destination rectangle.
  *
  * \param filter the filter to apply for this operation.
+ *
+ * \throws hou::precondition_violation if one condition on the arguments is
+ * violated.
  */
 HOU_GFX_API void blit(const texture& src, const recti& src_rect,
   framebuffer& dst, const recti& dst_rect,
@@ -257,6 +283,9 @@ HOU_GFX_API void blit(const texture& src, const recti& src_rect,
  * \param dst_rect the destination rectangle.
  *
  * \param filter the filter to apply for this operation.
+ *
+ * \throws hou::precondition_violation if one condition on the arguments is
+ * violated.
  */
 HOU_GFX_API void blit(const texture& src, const recti& src_rect, texture& dst,
   const recti& dst_rect,
