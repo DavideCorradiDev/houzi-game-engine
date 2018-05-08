@@ -69,7 +69,7 @@ size_t file::get_byte_count() const noexcept
 long file::tell() const
 {
   long pos = ftell(m_handle);
-  HOU_CHECK_0(pos != -1L, file_cursor_error);
+  HOU_CHECK_0(pos != -1L, cursor_error);
   return pos;
 }
 
@@ -175,7 +175,7 @@ void file::write(const void* buf, size_t element_size, size_t buf_size)
 
 void file::seek(long pos, int origin) const
 {
-  HOU_CHECK_0(fseek(m_handle, pos, origin) == 0, file_cursor_error);
+  HOU_CHECK_0(fseek(m_handle, pos, origin) == 0, cursor_error);
 }
 
 

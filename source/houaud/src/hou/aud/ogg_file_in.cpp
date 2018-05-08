@@ -188,7 +188,7 @@ audio_stream_in& ogg_file_in::set_sample_pos(ogg_file_in::sample_position pos)
   m_eof = false;
   HOU_CHECK_0(
     ov_pcm_seek(m_vorbis_file.get(), static_cast<ogg_int64_t>(pos)) == 0,
-    file_cursor_error);
+    cursor_error);
   return *this;
 }
 
@@ -202,7 +202,7 @@ audio_stream_in& ogg_file_in::move_sample_pos(ogg_file_in::sample_offset offset)
       static_cast<ogg_int64_t>(
         static_cast<ogg_file_in::sample_offset>(get_sample_pos()) + offset))
       == 0,
-    file_cursor_error);
+    cursor_error);
   return *this;
 }
 

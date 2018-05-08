@@ -250,8 +250,8 @@ TEST_F(TestOggFileInDeathTest, set_byte_pos_error_position_in_sample)
 TEST_F(TestOggFileInDeathTest, set_byte_pos_error_invalid_position)
 {
   ogg_file_in fi(mono16_filename);
-  EXPECT_ERROR_0(fi.set_byte_pos(-2), file_cursor_error);
-  EXPECT_ERROR_0(fi.set_byte_pos(fi.get_byte_count() + 2), file_cursor_error);
+  EXPECT_ERROR_0(fi.set_byte_pos(-2), cursor_error);
+  EXPECT_ERROR_0(fi.set_byte_pos(fi.get_byte_count() + 2), cursor_error);
 }
 
 
@@ -287,8 +287,8 @@ TEST_F(TestOggFileInDeathTest, move_byte_pos_error_invalid_position)
 {
   ogg_file_in fi(mono16_filename);
   fi.move_byte_pos(4);
-  EXPECT_ERROR_0(fi.move_byte_pos(-6), file_cursor_error);
-  EXPECT_ERROR_0(fi.move_byte_pos(fi.get_byte_count() - 2), file_cursor_error);
+  EXPECT_ERROR_0(fi.move_byte_pos(-6), cursor_error);
+  EXPECT_ERROR_0(fi.move_byte_pos(fi.get_byte_count() - 2), cursor_error);
 }
 
 
@@ -332,9 +332,9 @@ TEST_F(test_ogg_file_in, set_sample_pos_stereo16)
 TEST_F(TestOggFileInDeathTest, set_sample_pos_error_invalid_position)
 {
   ogg_file_in fi(mono16_filename);
-  EXPECT_ERROR_0(fi.set_sample_pos(-1), file_cursor_error);
+  EXPECT_ERROR_0(fi.set_sample_pos(-1), cursor_error);
   EXPECT_ERROR_0(
-    fi.set_sample_pos(fi.get_sample_count() + 1), file_cursor_error);
+    fi.set_sample_pos(fi.get_sample_count() + 1), cursor_error);
 }
 
 
@@ -391,9 +391,9 @@ TEST_F(TestOggFileInDeathTest, move_sample_pos_error_invalid_position)
 {
   ogg_file_in fi(mono16_filename);
   fi.move_sample_pos(2);
-  EXPECT_ERROR_0(fi.move_sample_pos(-3), file_cursor_error);
+  EXPECT_ERROR_0(fi.move_sample_pos(-3), cursor_error);
   EXPECT_ERROR_0(
-    fi.move_sample_pos(fi.get_sample_count() + 1), file_cursor_error);
+    fi.move_sample_pos(fi.get_sample_count() + 1), cursor_error);
 }
 
 

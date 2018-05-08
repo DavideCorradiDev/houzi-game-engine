@@ -81,7 +81,7 @@ public:
 public:
   /** Gets the current text position indicator.
    *
-   * \throws hou::file_cursor_error in case of an error.
+   * \throws hou::cursor_error in case of an error.
    *
    * \return the current text position indicator.
    */
@@ -94,7 +94,7 @@ public:
    * obtained by calling get_text_pos on another text_stream is undefined
    * behaviour.
    *
-   * \throws hou::file_cursor_error in case of an error.
+   * \throws hou::cursor_error in case of an error.
    *
    * \return a reference to this stream.
    */

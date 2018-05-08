@@ -71,7 +71,7 @@ public:
 
   /** Gets the current sample position indicator.
    *
-   * \throws hou::file_cursor_error in case of an error.
+   * \throws hou::cursor_error in case of an error.
    *
    * \return the current sample position indicator.
    */
@@ -84,7 +84,7 @@ public:
    *
    * \param pos the sample position indicator value.
    *
-   * \throws hou::file_cursor_error in case of an error.
+   * \throws hou::cursor_error in case of an error.
    *
    * \return a reference to this stream.
    */
@@ -97,7 +97,7 @@ public:
    *
    * \param offset the byte position indicator offset.
    *
-   * \throws hou::file_cursor_error in case of an error.
+   * \throws hou::cursor_error in case of an error.
    *
    * \return a reference to this stream.
    */

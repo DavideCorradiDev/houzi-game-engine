@@ -123,7 +123,7 @@ TEST_F(test_binary_file_in, set_byte_pos)
 TEST_F(test_binary_file_in_death_test, set_byte_pos_error)
 {
   binary_file_in fi(filename);
-  EXPECT_ERROR_0(fi.set_byte_pos(-1), file_cursor_error);
+  EXPECT_ERROR_0(fi.set_byte_pos(-1), cursor_error);
 }
 
 
@@ -151,7 +151,7 @@ TEST_F(test_binary_file_in, move_byte_pos)
 TEST_F(test_binary_file_in_death_test, move_byte_pos_error)
 {
   binary_file_in fi(filename);
-  EXPECT_ERROR_0(fi.move_byte_pos(-1), file_cursor_error);
+  EXPECT_ERROR_0(fi.move_byte_pos(-1), cursor_error);
 }
 
 

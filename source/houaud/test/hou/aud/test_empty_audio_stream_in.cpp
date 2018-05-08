@@ -57,8 +57,8 @@ TEST_F(test_empty_audio_stream_in, set_byte_pos)
 TEST_F(test_empty_audio_stream_in_death_test, set_byte_pos_error)
 {
   empty_audio_stream_in si;
-  EXPECT_ERROR_0(si.set_byte_pos(-1), file_cursor_error);
-  EXPECT_ERROR_0(si.set_byte_pos(1), file_cursor_error);
+  EXPECT_ERROR_0(si.set_byte_pos(-1), cursor_error);
+  EXPECT_ERROR_0(si.set_byte_pos(1), cursor_error);
 }
 
 
@@ -75,8 +75,8 @@ TEST_F(test_empty_audio_stream_in, move_byte_pos)
 TEST_F(test_empty_audio_stream_in_death_test, move_byte_pos_error)
 {
   empty_audio_stream_in si;
-  EXPECT_ERROR_0(si.move_byte_pos(-1), file_cursor_error);
-  EXPECT_ERROR_0(si.move_byte_pos(1), file_cursor_error);
+  EXPECT_ERROR_0(si.move_byte_pos(-1), cursor_error);
+  EXPECT_ERROR_0(si.move_byte_pos(1), cursor_error);
 }
 
 
@@ -93,8 +93,8 @@ TEST_F(test_empty_audio_stream_in, set_sample_pos)
 TEST_F(test_empty_audio_stream_in_death_test, set_sample_pos_error)
 {
   empty_audio_stream_in si;
-  EXPECT_ERROR_0(si.set_sample_pos(-1), file_cursor_error);
-  EXPECT_ERROR_0(si.set_sample_pos(1), file_cursor_error);
+  EXPECT_ERROR_0(si.set_sample_pos(-1), cursor_error);
+  EXPECT_ERROR_0(si.set_sample_pos(1), cursor_error);
 }
 
 
@@ -111,6 +111,6 @@ TEST_F(test_empty_audio_stream_in, move_sample_pos)
 TEST_F(test_empty_audio_stream_in_death_test, move_sample_pos_error)
 {
   empty_audio_stream_in si;
-  EXPECT_ERROR_0(si.move_sample_pos(-1), file_cursor_error);
-  EXPECT_ERROR_0(si.move_sample_pos(1), file_cursor_error);
+  EXPECT_ERROR_0(si.move_sample_pos(-1), cursor_error);
+  EXPECT_ERROR_0(si.move_sample_pos(1), cursor_error);
 }

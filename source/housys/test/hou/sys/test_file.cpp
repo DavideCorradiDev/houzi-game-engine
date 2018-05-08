@@ -137,8 +137,8 @@ TEST_F(test_file_death_test, cursor_positioning_error)
 {
   file f(filename, file_open_mode::read, file_type::binary);
 
-  EXPECT_ERROR_0(f.seek_set(-1), file_cursor_error);
-  EXPECT_ERROR_0(f.seek_offset(-2), file_cursor_error);
+  EXPECT_ERROR_0(f.seek_set(-1), cursor_error);
+  EXPECT_ERROR_0(f.seek_offset(-2), cursor_error);
 
   // error flag is not set, only for read / write errors!
   EXPECT_FALSE(f.error());

@@ -91,9 +91,10 @@ public:
 
 /** File cursor error.
  *
- * This exception is thrown when setting the cursor position of a file fails.
+ * This exception is thrown when setting or getting the cursor position in a
+ * file or stream fails.
  */
-class HOU_SYS_API file_cursor_error : public exception
+class HOU_SYS_API cursor_error : public exception
 {
 public:
   /** Constructor.
@@ -104,7 +105,7 @@ public:
    *
    * \throws std::bad_alloc.
    */
-  file_cursor_error(const std::string& path, uint line);
+  cursor_error(const std::string& path, uint line);
 };
 
 /** Image read error.

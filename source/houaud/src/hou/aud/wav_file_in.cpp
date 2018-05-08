@@ -140,7 +140,7 @@ binary_stream& wav_file_in::set_byte_pos(wav_file_in::byte_position pos)
   HOU_PRECOND((pos % (get_channel_count() * get_bytes_per_sample())) == 0u);
   HOU_CHECK_0(pos >= 0
       && pos <= static_cast<wav_file_in::byte_position>(get_byte_count()),
-      file_cursor_error);
+      cursor_error);
   m_file.seek_set(pos + m_data_offset);
   return *this;
 }

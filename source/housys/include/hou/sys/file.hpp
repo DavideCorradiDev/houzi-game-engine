@@ -64,7 +64,7 @@ public:
 
   /** Retrieves the current position indicator.
    *
-   * \throws hou::file_cursor_error in case of an error.
+   * \throws hou::cursor_error in case of an error.
    *
    * \return the current position indicator.
    */
@@ -72,7 +72,7 @@ public:
 
   /** Sets the current position indicator.
    *
-   * \throws hou::file_cursor_error in case of an error.
+   * \throws hou::cursor_error in case of an error.
    *
    * \param pos the position indicator.
    * For text files, pos must be a value obtained by a previous call to tell()
@@ -90,7 +90,7 @@ public:
    * If possible, avoid calling this function.
    * Throws if pos is a nagative value.
    *
-   * \throws hou::file_cursor_error in case of an error.
+   * \throws hou::cursor_error in case of an error.
    *
    * \param pos the position from the end of the file.
    */
@@ -101,7 +101,7 @@ public:
    * Calling this function on text files in undefined.
    * Throws if the current position indicator would move to a negative position.
    *
-   * \throws hou::file_cursor_error in case of an error.
+   * \throws hou::cursor_error in case of an error.
    *
    * \param offset the offset in bytes from the current position.
    */

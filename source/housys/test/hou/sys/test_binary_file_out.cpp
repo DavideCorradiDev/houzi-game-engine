@@ -106,7 +106,7 @@ TEST_F(test_binary_file_out, set_byte_pos)
 TEST_F(test_binary_file_out_death_test, set_byte_pos_error)
 {
   binary_file_out fo(filename);
-  EXPECT_ERROR_0(fo.set_byte_pos(-1), file_cursor_error);
+  EXPECT_ERROR_0(fo.set_byte_pos(-1), cursor_error);
 }
 
 
@@ -135,7 +135,7 @@ TEST_F(test_binary_file_out, move_byte_pos)
 TEST_F(test_binary_file_out_death_test, move_byte_pos_error)
 {
   binary_file_out fo(filename);
-  EXPECT_ERROR_0(fo.move_byte_pos(-1), file_cursor_error);
+  EXPECT_ERROR_0(fo.move_byte_pos(-1), cursor_error);
 }
 
 

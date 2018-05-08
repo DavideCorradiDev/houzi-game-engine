@@ -55,9 +55,9 @@ TEST_F(test_sys_exceptions, write_error)
 
 
 
-TEST_F(test_sys_exceptions, file_cursor_error)
+TEST_F(test_sys_exceptions, cursor_error)
 {
-  file_cursor_error ex("source.cpp", 33u);
+  cursor_error ex("source.cpp", 33u);
   EXPECT_STREQ("source.cpp:33 - Failed to set or get the file cursor position.",
     ex.what());
 }

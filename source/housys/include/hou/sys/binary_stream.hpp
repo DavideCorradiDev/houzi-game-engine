@@ -32,7 +32,7 @@ public:
 
   /** Gets the current byte position indicator.
    *
-   * \throws hou::file_cursor_error in case of an error.
+   * \throws hou::cursor_error in case of an error.
    *
    * \return the current byte position indicator.
    */
@@ -47,7 +47,7 @@ public:
    *
    * \param pos the byte position indicator value.
    *
-   * \throws hou::file_cursor_error in case of an error.
+   * \throws hou::cursor_error in case of an error.
    *
    * \return a reference to this stream.
    */
@@ -62,7 +62,7 @@ public:
    *
    * \param offset the byte position indicator offset.
    *
-   * \throws hou::file_cursor_error in case of an error.
+   * \throws hou::cursor_error in case of an error.
    *
    * \return a reference to this stream.
    */
