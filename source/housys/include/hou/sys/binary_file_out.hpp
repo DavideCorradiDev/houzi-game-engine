@@ -15,13 +15,12 @@
 
 
 
-
 namespace hou
 {
 
 /** Output binary file stream.
  */
-class HOU_SYS_API binary_file_out final
+class HOU_SYS_API binary_file_out
   : public non_copyable
   , public binary_stream_out
 {

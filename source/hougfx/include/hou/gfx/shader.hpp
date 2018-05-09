@@ -62,7 +62,7 @@ private:
  * \tparam Type the shader type.
  */
 template <shader_type Type>
-class HOU_GFX_API shader_t final : public shader
+class HOU_GFX_API shader_t : public shader
 {
 public:
   /** Creates a shader with the given source code.

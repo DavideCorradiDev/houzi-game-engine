@@ -19,7 +19,7 @@ namespace hou
 
 /** Input wav file stream.
  */
-class HOU_AUD_API wav_file_in final
+class HOU_AUD_API wav_file_in
   : public non_copyable
   , public audio_stream_in
 {

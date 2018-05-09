@@ -26,7 +26,7 @@ class render_surface;
 
 /** shader program used to render Mesh2d objects.
  */
-class HOU_GFX_API mesh2_shader_program final : public shader_program
+class HOU_GFX_API mesh2_shader_program : public shader_program
 {
 public:
   /** Constructor.

@@ -25,30 +25,6 @@ namespace
 class test_template_utils : public Test
 {};
 
-class detector_test_class_true
-{
-  int answer()
-  {
-    return 42;
-  }
-};
-
-class detector_test_class_false
-{};
-
-HOU_CREATE_MEMBER_DETECTOR(answer);
-
-class type_detector_test_class_true
-{
-public:
-  using my_type = int;
-};
-
-class type_detector_test_class_false
-{};
-
-HOU_CREATE_TYPE_DETECTOR(my_type);
-
 class is_contiguous_container_test_true
 {
 public:
@@ -100,24 +76,6 @@ private:
 };
 
 }  // namespace
-
-
-
-TEST_F(test_template_utils, MemberDetector)
-{
-  EXPECT_TRUE(detect_member_answer<detector_test_class_true>::value);
-  EXPECT_FALSE(detect_member_answer<detector_test_class_false>::value);
-  EXPECT_FALSE(detect_member_answer<int>::value);
-}
-
-
-
-TEST_F(test_template_utils, TypeDetector)
-{
-  EXPECT_TRUE(detect_type_my_type<type_detector_test_class_true>::value);
-  EXPECT_FALSE(detect_type_my_type<type_detector_test_class_false>::value);
-  EXPECT_FALSE(detect_type_my_type<int>::value);
-}
 
 
 

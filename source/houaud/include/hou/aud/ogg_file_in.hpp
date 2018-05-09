@@ -25,7 +25,7 @@ namespace hou
 
 /** Input ogg file stream.
  */
-class HOU_AUD_API ogg_file_in final
+class HOU_AUD_API ogg_file_in
   : public non_copyable
   , public audio_stream_in
 {

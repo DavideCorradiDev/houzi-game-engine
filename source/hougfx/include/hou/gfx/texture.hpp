@@ -208,7 +208,7 @@ protected:
  * \tparam Type the texture type.
  */
 template <texture_type Type>
-class HOU_GFX_API texture_t final : public texture
+class HOU_GFX_API texture_t : public texture
 {
 public:
   /** Type representing the size of the texture. */

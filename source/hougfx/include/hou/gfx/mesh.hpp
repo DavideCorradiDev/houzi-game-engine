@@ -103,7 +103,7 @@ protected:
  * \tparam T the type of vertex stored by the mesh.
  */
 template <typename T>
-class mesh_t final : public mesh
+class mesh_t : public mesh
 {
 public:
   /** Type of the vertices stored in the mesh. */

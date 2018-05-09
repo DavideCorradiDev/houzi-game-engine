@@ -20,7 +20,7 @@ namespace hou
 
 /** Output text file stream.
  */
-class HOU_SYS_API text_file_out final
+class HOU_SYS_API text_file_out
   : public non_copyable
   , public text_stream_out
 {

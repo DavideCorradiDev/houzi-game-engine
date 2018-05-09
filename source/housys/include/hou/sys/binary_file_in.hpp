@@ -20,7 +20,7 @@ namespace hou
 
 /** Input binary file stream.
  */
-class HOU_SYS_API binary_file_in final
+class HOU_SYS_API binary_file_in
   : public non_copyable
   , public binary_stream_in
 {

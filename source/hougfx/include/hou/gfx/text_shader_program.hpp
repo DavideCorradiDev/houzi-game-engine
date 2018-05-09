@@ -30,7 +30,7 @@ class render_surface;
 
 /** shader program used to render text.
  */
-class HOU_GFX_API text_shader_program final : public shader_program
+class HOU_GFX_API text_shader_program : public shader_program
 {
 public:
   /** Constructor.
