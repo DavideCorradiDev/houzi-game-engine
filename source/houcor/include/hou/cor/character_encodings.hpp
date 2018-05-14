@@ -415,8 +415,8 @@ public:
  *
  * \return an iterator to the output code unit after the converted code point.
  */
-template <typename InputEncoding, typename OutputEncoding, typename InputIt,
-  typename OutputIt>
+template <typename OutputEncoding, typename InputEncoding, typename OutputIt,
+  typename InputIt>
 OutputIt convert_encoding(
   InputIt in_first, InputIt in_last, OutputIt out_first);
 
@@ -432,7 +432,7 @@ OutputIt convert_encoding(
  *
  * \return the converted encoded string.
  */
-template <typename InputEncoding, typename OutputEncoding>
+template <typename OutputEncoding, typename InputEncoding>
 std::basic_string<typename OutputEncoding::code_unit> convert_encoding(
   const std::basic_string<typename InputEncoding::code_unit>& s);
 

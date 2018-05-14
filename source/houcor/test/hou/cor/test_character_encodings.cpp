@@ -616,8 +616,8 @@ TEST_F(test_character_encodings, utf32_utf16_conversion)
     = {u'\x0061', u'\xD806', u'\xDEC0', u'\x0101', u'\x0904'};
   utf16::code_unit utf16Str[5] = {0};
 
-  convert_encoding<utf32, utf16>(utf32_ref, utf32_ref + 4, utf16Str);
-  convert_encoding<utf16, utf32>(utf16_ref, utf16_ref + 5, utf32Str);
+  convert_encoding<utf16, utf32>(utf32_ref, utf32_ref + 4, utf16Str);
+  convert_encoding<utf32, utf16>(utf16_ref, utf16_ref + 5, utf32Str);
 
   EXPECT_ARRAY_EQ(utf32_ref, utf32Str, 4);
   EXPECT_ARRAY_EQ(utf16_ref, utf16Str, 5);
@@ -634,8 +634,8 @@ TEST_F(test_character_encodings, utf32_utf8_conversion)
     '\x81', '\xE0', '\xA4', '\x84'};
   utf8::code_unit utf8Str[10] = {0};
 
-  convert_encoding<utf32, utf8>(utf32_ref, utf32_ref + 4, utf8Str);
-  convert_encoding<utf8, utf32>(utf8_ref, utf8_ref + 10, utf32Str);
+  convert_encoding<utf8, utf32>(utf32_ref, utf32_ref + 4, utf8Str);
+  convert_encoding<utf32, utf8>(utf8_ref, utf8_ref + 10, utf32Str);
 
   EXPECT_ARRAY_EQ(utf32_ref, utf32Str, 4);
   EXPECT_ARRAY_EQ(utf8_ref, utf8Str, 10);
@@ -652,8 +652,8 @@ TEST_F(test_character_encodings, utf16_utf8_conversion)
     '\x81', '\xE0', '\xA4', '\x84'};
   utf8::code_unit utf8Str[10] = {0};
 
-  convert_encoding<utf16, utf8>(utf16_ref, utf16_ref + 5, utf8Str);
-  convert_encoding<utf8, utf16>(utf8_ref, utf8_ref + 10, utf16Str);
+  convert_encoding<utf8, utf16>(utf16_ref, utf16_ref + 5, utf8Str);
+  convert_encoding<utf16, utf8>(utf8_ref, utf8_ref + 10, utf16Str);
 
   EXPECT_ARRAY_EQ(utf16_ref, utf16Str, 5);
   EXPECT_ARRAY_EQ(utf8_ref, utf8Str, 10);
@@ -667,21 +667,21 @@ TEST_F(test_character_encodings, string_encoding_conversion)
   std::u16string utf16_ref = u"\U00000061\U00011AC0\U00000101\U00000904";
   std::u32string utf32_ref = U"\U00000061\U00011AC0\U00000101\U00000904";
 
-  std::string u16to8 = convert_encoding<utf16, utf8>(utf16_ref);
+  std::string u16to8 = convert_encoding<utf8, utf16>(utf16_ref);
   EXPECT_EQ(utf8_ref, u16to8);
 
-  std::string u32to8 = convert_encoding<utf32, utf8>(utf32_ref);
+  std::string u32to8 = convert_encoding<utf8, utf32>(utf32_ref);
   EXPECT_EQ(utf8_ref, u32to8);
 
-  std::u16string u8to16 = convert_encoding<utf8, utf16>(utf8_ref);
+  std::u16string u8to16 = convert_encoding<utf16, utf8>(utf8_ref);
   EXPECT_EQ(utf16_ref, u8to16);
 
-  std::u16string u32to16 = convert_encoding<utf32, utf16>(utf32_ref);
+  std::u16string u32to16 = convert_encoding<utf16, utf32>(utf32_ref);
   EXPECT_EQ(utf16_ref, u32to16);
 
-  std::u32string u8to32 = convert_encoding<utf8, utf32>(utf8_ref);
+  std::u32string u8to32 = convert_encoding<utf32, utf8>(utf8_ref);
   EXPECT_EQ(utf32_ref, u8to32);
 
-  std::u32string u16to32 = convert_encoding<utf16, utf32>(utf16_ref);
+  std::u32string u16to32 = convert_encoding<utf32, utf16>(utf16_ref);
   EXPECT_EQ(utf32_ref, u16to32);
 }

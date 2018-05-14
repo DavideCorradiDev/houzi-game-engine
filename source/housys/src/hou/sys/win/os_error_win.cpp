@@ -35,7 +35,7 @@ std::string get_os_error_message(os_error_code ec)
   else
   {
     // Convert Windows UNICODE encoding to utf-8 to store it in a std::string.
-    std::string message_utf8(convert_encoding<wide, utf8>((LPWSTR)lpMsgBuf));
+    std::string message_utf8(convert_encoding<utf8, wide>((LPWSTR)lpMsgBuf));
     LocalFree(lpMsgBuf);
     // Remove the \r\n appended at the end.
     message_utf8.resize(message_utf8.size() - 2);

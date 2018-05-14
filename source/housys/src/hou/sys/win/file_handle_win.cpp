@@ -18,15 +18,15 @@ namespace hou
 
 FILE* open_file(const std::string& path, const std::string& mode) noexcept
 {
-  return _wfopen(convert_encoding<utf8, wide>(path).c_str(),
-    convert_encoding<utf8, wide>(mode).c_str());
+  return _wfopen(convert_encoding<wide, utf8>(path).c_str(),
+    convert_encoding<wide, utf8>(mode).c_str());
 }
 
 
 
 bool check_dir(const std::string& path) noexcept
 {
-  DWORD attr = GetFileAttributesW(convert_encoding<utf8, wide>(path).c_str());
+  DWORD attr = GetFileAttributesW(convert_encoding<wide, utf8>(path).c_str());
   return attr != INVALID_FILE_ATTRIBUTES;
 }
 
@@ -34,16 +34,16 @@ bool check_dir(const std::string& path) noexcept
 
 bool remove_dir(const std::string& path) noexcept
 {
-  return _wremove(convert_encoding<utf8, wide>(path).c_str()) == 0;
+  return (_wremove(convert_encoding<wide, utf8>(path).c_str()) == 0);
 }
 
 
 
-bool rename_dir(const std::string& old_path, const std::string& new_path) noexcept
+bool rename_dir(
+  const std::string& old_path, const std::string& new_path) noexcept
 {
-  return _wrename(convert_encoding<utf8, wide>(old_path).c_str(),
-           convert_encoding<utf8, wide>(new_path).c_str())
-    == 0;
+  return (_wrename(convert_encoding<wide, utf8>(old_path).c_str(),
+    convert_encoding<wide, utf8>(new_path).c_str()) == 0);
 }
 
 
@@ -51,7 +51,7 @@ bool rename_dir(const std::string& old_path, const std::string& new_path) noexce
 size_t get_dir_byte_size(const std::string& path) noexcept
 {
   struct _stat64 buf;
-  int retval = _wstat64(convert_encoding<utf8, wide>(path).c_str(), &buf);
+  int retval = _wstat64(convert_encoding<wide, utf8>(path).c_str(), &buf);
   if(retval == 0)
   {
     return buf.st_size;

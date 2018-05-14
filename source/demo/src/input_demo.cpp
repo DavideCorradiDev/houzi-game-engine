@@ -519,7 +519,7 @@ int main()
         ss << ev;
         if(ev.get_type() == hou::window_event_type::text_entered)
         {
-          ss << "  " <<  hou::convert_encoding<hou::utf32, hou::utf8>(std::u32string(1, ev.get_text_data().code_point)) << "\n";
+          ss << "  " <<  hou::convert_encoding<hou::utf8, hou::utf32>(std::u32string(1, ev.get_text_data().code_point)) << "\n";
         }
         textRnd.draw(wnd, ss.str(), fnt, hou::color::black
           , projTrans * eventQueueTrans * evTrans * hou::trans2f::translation(hou::vec2f(4.f, 16.f)));

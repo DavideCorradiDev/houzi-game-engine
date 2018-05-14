@@ -559,7 +559,7 @@ const rectf& text_formatter::get_bounding_box() const
 
 formatted_text::formatted_text(const std::string& text, const font& f,
   const text_box_formatting_params& tbfp)
-  : formatted_text(convert_encoding<utf8, utf32>(text), f, tbfp)
+  : formatted_text(convert_encoding<utf32, utf8>(text), f, tbfp)
 {}
 
 

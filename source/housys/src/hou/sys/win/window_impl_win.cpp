@@ -616,7 +616,7 @@ window_impl::window_impl(
   m_handle = CreateWindowExW(
       window_style_to_win_window_style_ex(style),   // dwExStyle
       hou_wnd_class_name,                           // lpClassName
-      convert_encoding<utf8, wide>(title).c_str(),  // lpWindowName
+      convert_encoding<wide, utf8>(title).c_str(),  // lpWindowName
       window_style_to_win_window_style(style),      // dwStyle
       0, 0,                                         // Position
       0, 0,                                         // size_type
@@ -754,7 +754,7 @@ void window_impl::set_client_rect(const recti& value)
 void window_impl::set_title(const std::string& value)
 {
   HOU_WIN_CHECK(
-    SetWindowTextW(m_handle, convert_encoding<utf8, wide>(value).c_str()) != 0);
+    SetWindowTextW(m_handle, convert_encoding<wide, utf8>(value).c_str()) != 0);
 }
 
 
@@ -1048,7 +1048,7 @@ void window_impl::filter_event(UINT umsg, WPARAM wparam, LPARAM lparam)
           {
             char16_t p_utf16[]
               = {m_cached_utf16_char, static_cast<char16_t>(character)};
-            convert_encoding<utf16, utf32>(p_utf16, p_utf16 + 2, &character);
+            convert_encoding<utf32, utf16>(p_utf16, p_utf16 + 2, &character);
             m_cached_utf16_char = 0;
           }
 
