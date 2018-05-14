@@ -11,7 +11,6 @@
 
 #include "hou/cor/basic_types.hpp"
 #include "hou/cor/character_encodings.hpp"
-#include "hou/cor/not_null.hpp"
 #include "hou/cor/span.hpp"
 
 #include "hou/mth/matrix_fwd.hpp"
@@ -19,7 +18,6 @@
 
 #include "hou/sys/binary_stream_in.hpp"
 
-#include <memory>
 #include <vector>
 
 
@@ -43,6 +41,21 @@ class glyph;
 class HOU_GFX_API font : public non_copyable
 {
 public:
+  using data_type = std::vector<uint8_t>;
+
+public:
+  /** Creates a font object from the given font raw data.
+   *
+   * Throws if data does not represent valid font data.
+   * The data will be copied inside the object, therefore the memory can be
+   * freed after the construction of the font object.
+   *
+   * \param data the font data.
+   *
+   * \throws hou::font_creation_error if the font data is invalid.
+   */
+  explicit font(data_type&& data);
+
   /** Creates a font object from the given font raw data.
    *
    * Throws if data does not represent valid font data.
@@ -65,7 +78,19 @@ public:
    *
    * \throws hou::font_creation_error if the font data is invalid.
    */
-  explicit font(not_null<std::unique_ptr<binary_stream_in>> font_stream);
+  explicit font(binary_stream_in& font_stream);
+
+  /** Creates a font object from the given binary input stream.
+   *
+   * This constructor reads the entire content of the binary stream and makes
+   * a copy of it in memory.
+   * Throws if the data does not represent valid font data.
+   *
+   * \param font_stream the font stream.
+   *
+   * \throws hou::font_creation_error if the font data is invalid.
+   */
+  explicit font(binary_stream_in&& font_stream);
 
   /** Move constructor.
    *
@@ -255,7 +280,7 @@ private:
   FT_Face m_face;
   uint m_face_index;
   uint m_pixel_height;
-  std::vector<uint8_t> m_data;
+  data_type m_data;
 };
 
 }  // namespace hou

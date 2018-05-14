@@ -130,7 +130,7 @@ int main()
   hou::texture2 mouseTex(hou::png_read_file<hou::pixel_format::rgba>(dataDir + u8"mouse.png"));
   hou::texture2 mousebuttonsTex(hou::png_read_file<hou::pixel_format::rgba>(dataDir + u8"mousebuttons.png"));
 
-  hou::font fnt(std::make_unique<hou::binary_file_in>(dataDir + u8"NotoMono-Regular.ttf"));
+  hou::font fnt = hou::font(hou::binary_file_in(dataDir + u8"NotoMono-Regular.ttf"));
 
   hou::mesh2 keyboardQuad = hou::create_texture_quad_mesh2
     ( hou::rectf(0, 0, keyboardTex.get_size().x(), keyboardTex.get_size().y())

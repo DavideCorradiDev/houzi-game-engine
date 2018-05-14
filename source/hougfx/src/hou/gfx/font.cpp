@@ -79,28 +79,32 @@ FT_Library get_ft_library()
 
 
 
+font::font(data_type&& data)
+  : m_face()
+  , m_face_index(0u)
+  , m_pixel_height(10u)
+  , m_data(std::move(data))
+{
+  load();
+}
+
+
+
 font::font(const span<const uint8_t>& data)
-  : m_face()
-  , m_face_index(0u)
-  , m_pixel_height(10u)
-  , m_data(data.begin(), data.end())
-{
-  load();
-}
+  : font(data_type(data.begin(), data.end()))
+{}
 
 
 
-font::font(not_null<std::unique_ptr<binary_stream_in>> font_stream)
-  : m_face()
-  , m_face_index(0u)
-  , m_pixel_height(10u)
-  , m_data()
-{
-  font_stream->set_byte_pos(0u);
-  m_data.resize(font_stream->get_byte_count());
-  font_stream->read(m_data);
-  load();
-}
+font::font(binary_stream_in& font_stream)
+  : font(font_stream.read_all<data_type>())
+{}
+
+
+
+font::font(binary_stream_in&& font_stream)
+  : font(font_stream.read_all<data_type>())
+{}
 
 
 

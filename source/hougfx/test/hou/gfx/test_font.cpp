@@ -36,6 +36,34 @@ const std::string font_name = get_data_dir() + u8"NotoSans-Regular.ttf";
 
 
 
+TEST_F(test_font, data_move_constructor)
+{
+  std::vector<uint8_t> buffer;
+  {
+    binary_file_in inf(font_name);
+    buffer.resize(inf.get_byte_count());
+    inf.read(buffer.data(), buffer.size());
+  }
+  std::vector<uint8_t> tmp_buffer = buffer;
+  font f(std::move(tmp_buffer));
+
+  EXPECT_EQ(1u, f.get_face_index_count());
+  EXPECT_EQ(0u, f.get_face_index());
+  EXPECT_EQ(10u, f.get_pixel_height());
+  EXPECT_TRUE(f.has_horizontal());
+  EXPECT_FALSE(f.has_vertical());
+  EXPECT_FALSE(f.has_kerning());
+  EXPECT_TRUE(f.is_scalable());
+  EXPECT_EQ(recti(-356, -175, 1202, 845), f.get_glyph_bounding_box());
+  EXPECT_EQ(896, f.get_line_spacing());
+  EXPECT_EQ(832, f.get_max_advance());
+  EXPECT_EQ(857, f.get_max_horizontal_advance());
+  EXPECT_EQ(872, f.get_max_vertical_advance());
+  EXPECT_EQ(2416u, f.get_glyph_count());
+}
+
+
+
 TEST_F(test_font, data_constructor)
 {
   std::vector<uint8_t> buffer;
@@ -44,9 +72,6 @@ TEST_F(test_font, data_constructor)
     buffer.resize(inf.get_byte_count());
     inf.read(buffer.data(), buffer.size());
   }
-  // span<const uint8_t> s(buffer);
-  // font f(s);
-  // font f(span<const uint8_t> s(buffer));
   font f(buffer);
 
   EXPECT_EQ(1u, f.get_face_index_count());
@@ -76,7 +101,32 @@ TEST_F(test_font_death_test, data_constructor_error_invalid_data)
 
 TEST_F(test_font, stream_constructor)
 {
-  font f(std::make_unique<binary_file_in>(font_name));
+  binary_file_in fi(font_name);
+  fi.set_byte_pos(4u);
+  font f = font(fi);
+
+  EXPECT_EQ(1u, f.get_face_index_count());
+  EXPECT_EQ(0u, f.get_face_index());
+  EXPECT_EQ(10u, f.get_pixel_height());
+  EXPECT_TRUE(f.has_horizontal());
+  EXPECT_FALSE(f.has_vertical());
+  EXPECT_FALSE(f.has_kerning());
+  EXPECT_TRUE(f.is_scalable());
+  EXPECT_EQ(recti(-356, -175, 1202, 845), f.get_glyph_bounding_box());
+  EXPECT_EQ(896, f.get_line_spacing());
+  EXPECT_EQ(832, f.get_max_advance());
+  EXPECT_EQ(857, f.get_max_horizontal_advance());
+  EXPECT_EQ(872, f.get_max_vertical_advance());
+  EXPECT_EQ(2416u, f.get_glyph_count());
+
+  EXPECT_EQ(fi.get_byte_count(), static_cast<size_t>(fi.get_byte_pos()));
+}
+
+
+
+TEST_F(test_font, stream_move_constructor)
+{
+  font f = font(binary_file_in(font_name));
 
   EXPECT_EQ(1u, f.get_face_index_count());
   EXPECT_EQ(0u, f.get_face_index());
@@ -97,7 +147,7 @@ TEST_F(test_font, stream_constructor)
 
 TEST_F(test_font, move_constructor)
 {
-  font f_dummy(std::make_unique<binary_file_in>(font_name));
+  font f_dummy = font(binary_file_in(font_name));
   font f(std::move(f_dummy));
 
   EXPECT_EQ(1u, f.get_face_index_count());
@@ -123,7 +173,7 @@ TEST_F(test_font, multi_threading_creation)
   std::unique_ptr<font> f2(nullptr);
 
   auto thread_fun = [](std::unique_ptr<font>& fontPtr) {
-    fontPtr.reset(new font(std::make_unique<binary_file_in>(font_name)));
+    fontPtr.reset(new font(binary_file_in(font_name)));
   };
 
   std::thread t1(thread_fun, std::ref(f1));
@@ -164,8 +214,8 @@ TEST_F(test_font, multi_threading_creation)
 TEST_F(test_font_death_test, failed_creation)
 {
   // Valid file but not a font file.
-  EXPECT_ERROR_0(font f(std::make_unique<binary_file_in>(
-                   get_data_dir() + u8"TestImage.png")),
+  EXPECT_ERROR_0(
+    font f = font(binary_file_in(get_data_dir() + u8"TestImage.png")),
     font_creation_error);
 }
 
@@ -173,8 +223,7 @@ TEST_F(test_font_death_test, failed_creation)
 
 TEST_F(test_font, multi_threading_destruction)
 {
-  auto thread_fun
-    = []() { font f(std::make_unique<binary_file_in>(font_name)); };
+  auto thread_fun = []() { font f = font(binary_file_in(font_name)); };
 
   std::thread t1(thread_fun);
   std::thread t2(thread_fun);
@@ -189,7 +238,7 @@ TEST_F(test_font, multi_threading_destruction)
 
 TEST_F(test_font, set_face_index_same_value)
 {
-  font f(std::make_unique<binary_file_in>(font_name));
+  font f = font(binary_file_in(font_name));
   f.set_face_index(0u);
   EXPECT_EQ(0u, f.get_face_index());
 }
@@ -198,7 +247,7 @@ TEST_F(test_font, set_face_index_same_value)
 
 TEST_F(test_font_death_test, set_face_index_error_out_of_bounds)
 {
-  font f(std::make_unique<binary_file_in>(font_name));
+  font f = font(binary_file_in(font_name));
   EXPECT_PRECOND_ERROR(f.set_face_index(f.get_face_index_count()));
 }
 
@@ -206,7 +255,7 @@ TEST_F(test_font_death_test, set_face_index_error_out_of_bounds)
 
 TEST_F(test_font, set_pixel_height)
 {
-  font f(std::make_unique<binary_file_in>(font_name));
+  font f = font(binary_file_in(font_name));
   f.set_pixel_height(20u);
 
   EXPECT_EQ(20u, f.get_pixel_height());
@@ -216,7 +265,7 @@ TEST_F(test_font, set_pixel_height)
 
 TEST_F(test_font, get_glyph)
 {
-  font f(std::make_unique<binary_file_in>(font_name));
+  font f = font(binary_file_in(font_name));
 
   glyph g1_ref(
     image2_r(vec2u(5u, 5u),
@@ -257,7 +306,7 @@ TEST_F(test_font, get_glyph)
 
 TEST_F(test_font, get_glyph_not_existing)
 {
-  font f(std::make_unique<binary_file_in>(font_name));
+  font f = font(binary_file_in(font_name));
   glyph g_ref(
     image2_r(vec2u(6u, 7u),
       std::vector<image2_r::pixel>{16, 188, 132, 132, 188, 12, 16, 116, 0, 0,
@@ -271,7 +320,7 @@ TEST_F(test_font, get_glyph_not_existing)
 
 TEST_F(test_font, get_kerning)
 {
-  font f(std::make_unique<binary_file_in>(font_name));
+  font f = font(binary_file_in(font_name));
 
   EXPECT_EQ(vec2i(0, 0), f.get_kerning('a', 'b'));
   EXPECT_EQ(vec2i(0, 0), f.get_kerning('j', 'k'));
@@ -281,7 +330,7 @@ TEST_F(test_font, get_kerning)
 
 TEST_F(test_font, get_pixel_glyph_bounding_box)
 {
-  font f(std::make_unique<binary_file_in>(font_name));
+  font f = font(binary_file_in(font_name));
 
   EXPECT_EQ(recti(-356, -175, 1202, 845), f.get_glyph_bounding_box());
   EXPECT_FLOAT_CLOSE(rectf(-5.5625f, -2.734375f, 18.78125f, 13.203125),
@@ -292,7 +341,7 @@ TEST_F(test_font, get_pixel_glyph_bounding_box)
 
 TEST_F(test_font, get_pixel_line_spacing)
 {
-  font f(std::make_unique<binary_file_in>(font_name));
+  font f = font(binary_file_in(font_name));
 
   EXPECT_EQ(896, f.get_line_spacing());
   EXPECT_FLOAT_CLOSE(14.f, f.get_pixel_line_spacing());
@@ -302,7 +351,7 @@ TEST_F(test_font, get_pixel_line_spacing)
 
 TEST_F(test_font, get_pixel_max_advance)
 {
-  font f(std::make_unique<binary_file_in>(font_name));
+  font f = font(binary_file_in(font_name));
 
   EXPECT_EQ(832, f.get_max_advance());
   EXPECT_FLOAT_CLOSE(13.f, f.get_pixel_max_advance());
@@ -312,7 +361,7 @@ TEST_F(test_font, get_pixel_max_advance)
 
 TEST_F(test_font, get_pixel_max_horizontal_advance)
 {
-  font f(std::make_unique<binary_file_in>(font_name));
+  font f = font(binary_file_in(font_name));
 
   EXPECT_EQ(857, f.get_max_horizontal_advance());
   EXPECT_FLOAT_CLOSE(13.390625f, f.get_pixel_max_horizontal_advance());
@@ -322,7 +371,7 @@ TEST_F(test_font, get_pixel_max_horizontal_advance)
 
 TEST_F(test_font, get_pixel_max_vertical_advance)
 {
-  font f(std::make_unique<binary_file_in>(font_name));
+  font f = font(binary_file_in(font_name));
 
   EXPECT_EQ(872, f.get_max_vertical_advance());
   EXPECT_FLOAT_CLOSE(13.625f, f.get_pixel_max_vertical_advance());
@@ -332,7 +381,7 @@ TEST_F(test_font, get_pixel_max_vertical_advance)
 
 TEST_F(test_font, get_pixel_kerning)
 {
-  font f(std::make_unique<binary_file_in>(font_name));
+  font f = font(binary_file_in(font_name));
 
   EXPECT_EQ(vec2i(0, 0), f.get_kerning('a', 'b'));
   EXPECT_EQ(vec2f(0.f, 0.f), f.get_pixel_kerning('a', 'b'));

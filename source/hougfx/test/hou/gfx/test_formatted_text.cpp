@@ -28,7 +28,7 @@ public:
 
 font test_formatted_text::load_font(const std::string& path)
 {
-  return font(std::make_unique<binary_file_in>(path));
+  return font(binary_file_in(path));
 }
 
 const std::string font_path = get_data_dir() + u8"NotoSans-Regular.ttf";

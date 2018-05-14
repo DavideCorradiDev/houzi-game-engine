@@ -30,9 +30,8 @@ int main()
   mesh2 fpsRect = create_rectangle_mesh2(vec2f(128.f, 32.f));
   std::vector<uint> fontSizes{0, 2, 4, 8, 16, 32, 64};
   size_t currentSizeIdx = 3;
-  font fnt(std::make_unique<binary_file_in>(dataDir + u8"NotoSans-Regular.ttf"));
-  font chineseFont(
-    std::make_unique<binary_file_in>(dataDir + u8"NotoSansCJKsc-Regular.otf"));
+  font fnt = font(binary_file_in(dataDir + u8"NotoSans-Regular.ttf"));
+  font chineseFont = font( binary_file_in(dataDir + u8"NotoSansCJKsc-Regular.otf"));
   std::vector<utf32::code_unit> characters;
   for(utf32::code_unit c = 0; c < 256; ++c)
   {
