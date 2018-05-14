@@ -10,8 +10,6 @@
 
 #include "hou/gl/gl_export.hpp"
 
-#include "hou/cor/basic_types.hpp"
-
 #include "hou/mth/rectangle_fwd.hpp"
 
 

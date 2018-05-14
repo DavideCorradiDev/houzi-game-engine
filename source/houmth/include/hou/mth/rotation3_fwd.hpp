@@ -5,7 +5,7 @@
 #ifndef HOU_MTH_ROTATION_3_FWD_HPP
 #define HOU_MTH_ROTATION_3_FWD_HPP
 
-#include "hou/cor/basic_types.hpp"
+#include "hou/mth/mth_export.hpp"
 
 
 

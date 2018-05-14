@@ -8,8 +8,6 @@
 #include "hou/cor/non_copyable.hpp"
 #include "hou/gfx/gfx_export.hpp"
 
-#include "hou/cor/basic_types.hpp"
-
 #include "hou/gl/gl_context.hpp"
 
 #include "hou/sys/system_window.hpp"

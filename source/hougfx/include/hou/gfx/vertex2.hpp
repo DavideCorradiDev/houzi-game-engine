@@ -10,7 +10,6 @@
 
 #include "hou/gfx/gfx_export.hpp"
 
-#include "hou/cor/basic_types.hpp"
 #include "hou/cor/pragmas.hpp"
 
 #include "hou/gl/open_gl.hpp"

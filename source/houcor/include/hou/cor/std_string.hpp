@@ -5,8 +5,6 @@
 #ifndef HOU_COR_STD_STRING_HPP
 #define HOU_COR_STD_STRING_HPP
 
-#include "hou/cor/basic_types.hpp"
-
 #include "hou/cor/cor_export.hpp"
 
 #include <sstream>

@@ -7,8 +7,6 @@
 
 #include "hou/cor/cor_export.hpp"
 
-#include "hou/cor/basic_types.hpp"
-
 #include <string>
 
 

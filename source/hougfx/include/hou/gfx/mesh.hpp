@@ -14,7 +14,6 @@
 
 #include "hou/gfx/gfx_export.hpp"
 
-#include "hou/cor/basic_types.hpp"
 #include "hou/cor/span.hpp"
 #include "hou/cor/std_vector.hpp"
 

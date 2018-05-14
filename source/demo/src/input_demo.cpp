@@ -1,5 +1,3 @@
-#include "hou/cor/basic_types.hpp"
-
 #include "hou/mth/transform2.hpp"
 
 #include "hou/gfx/mesh.hpp"

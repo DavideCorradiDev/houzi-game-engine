@@ -11,8 +11,6 @@
 
 #include "hou/gl/gl_export.hpp"
 
-#include "hou/cor/basic_types.hpp"
-
 
 
 namespace hou

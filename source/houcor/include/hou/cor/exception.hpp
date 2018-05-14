@@ -5,7 +5,6 @@
 #ifndef HOU_COR_EXCEPTION_HPP
 #define HOU_COR_EXCEPTION_HPP
 
-#include "hou/cor/basic_types.hpp"
 #include "hou/cor/std_string.hpp"
 
 #include "hou/cor/cor_export.hpp"

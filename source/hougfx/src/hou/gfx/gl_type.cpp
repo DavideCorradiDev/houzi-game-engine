@@ -4,7 +4,6 @@
 
 #include "hou/gfx/gl_type.hpp"
 
-#include "hou/cor/basic_types.hpp"
 #include "hou/cor/exception.hpp"
 
 #define GFX_GL_TYPE_CASE(type, os) \

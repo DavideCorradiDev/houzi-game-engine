@@ -5,7 +5,6 @@
 #ifndef HOU_COR_STOPWATCH_HPP
 #define HOU_COR_STOPWATCH_HPP
 
-#include "hou/cor/basic_types.hpp"
 #include "hou/cor/clock.hpp"
 
 #include "hou/cor/cor_export.hpp"

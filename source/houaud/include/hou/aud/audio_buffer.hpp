@@ -14,7 +14,6 @@
 
 #include "hou/al/al_buffer_handle.hpp"
 
-#include "hou/cor/basic_types.hpp"
 #include "hou/cor/span.hpp"
 
 #include <vector>

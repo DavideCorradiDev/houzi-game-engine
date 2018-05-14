@@ -11,8 +11,6 @@
 
 #include "hou/sys/sys_export.hpp"
 
-#include "hou/cor/basic_types.hpp"
-
 
 
 namespace hou

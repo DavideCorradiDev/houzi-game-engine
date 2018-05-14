@@ -7,8 +7,6 @@
 
 #include "hou/mth/mth_export.hpp"
 
-#include "hou/cor/basic_types.hpp"
-
 #include <cmath>
 #include <type_traits>
 

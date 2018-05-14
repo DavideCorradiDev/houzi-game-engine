@@ -10,8 +10,6 @@
 #include "hou/gfx/glyph_metrics.hpp"
 #include "hou/sys/image.hpp"
 
-#include "hou/cor/basic_types.hpp"
-
 #include <iostream>
 
 

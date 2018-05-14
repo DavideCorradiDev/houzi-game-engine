@@ -10,7 +10,6 @@
 #include "hou/mth/mth_export.hpp"
 
 #include "hou/cor/assertions.hpp"
-#include "hou/cor/basic_types.hpp"
 #include "hou/cor/pragmas.hpp"
 #include "hou/cor/std_array.hpp"
 #include "hou/cor/template_utils.hpp"

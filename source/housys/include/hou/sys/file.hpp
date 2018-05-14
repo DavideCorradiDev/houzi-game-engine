@@ -11,7 +11,6 @@
 
 #include "hou/sys/sys_export.hpp"
 
-#include "hou/cor/basic_types.hpp"
 #include "hou/cor/template_utils.hpp"
 
 #include <string>

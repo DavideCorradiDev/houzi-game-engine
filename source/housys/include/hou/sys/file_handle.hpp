@@ -12,7 +12,6 @@
 
 #include "hou/sys/sys_export.hpp"
 
-#include "hou/cor/basic_types.hpp"
 #include "hou/cor/not_null.hpp"
 
 #include <string>

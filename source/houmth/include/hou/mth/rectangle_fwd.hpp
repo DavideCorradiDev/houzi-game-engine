@@ -5,8 +5,6 @@
 #ifndef HOU_COR_RECTANGLE_FWD_HPP
 #define HOU_COR_RECTANGLE_FWD_HPP
 
-#include "hou/cor/basic_types.hpp"
-
 #include "hou/mth/mth_export.hpp"
 
 
