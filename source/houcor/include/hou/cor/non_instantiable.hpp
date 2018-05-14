@@ -5,6 +5,8 @@
 #ifndef HOU_COR_NON_INSTANTIABLE_HPP
 #define HOU_COR_NON_INSTANTIABLE_HPP
 
+#include "hou/cor/cor_export.hpp"
+
 
 
 namespace hou

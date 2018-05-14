@@ -81,15 +81,6 @@ text_shader_program::text_shader_program()
 
 
 
-text_shader_program::text_shader_program(text_shader_program&& other)
-  : shader_program(std::move(other))
-  , m_uni_color(std::move(other.m_uni_color))
-  , m_uni_texture(std::move(other.m_uni_texture))
-  , m_uni_transform(std::move(other.m_uni_transform))
-{}
-
-
-
 void text_shader_program::set_color(const color& color)
 {
   gl::set_program_uniform_f(get_handle(), m_uni_color, color.get_red_f(),

@@ -169,7 +169,7 @@ TEST_F(test_rectangle, floating_point_comparison)
 
 TEST_F(test_rectangle, output_stream_operator)
 {
-  HOU_EXPECT_OUTPUT(
+  EXPECT_OUTPUT(
     "{position = (1, 2), size_type = (3, 4)}", recti(1, 2, 3, 4));
 }
 

@@ -5,9 +5,9 @@
 #ifndef HOU_AL_AL_DEVICE_HPP
 #define HOU_AL_AL_DEVICE_HPP
 
-#include "hou/al/al_export.hpp"
-
 #include "hou/al/open_al.hpp"
+
+#include "hou/al/al_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 #include "hou/cor/non_copyable.hpp"
@@ -31,12 +31,12 @@ public:
 public:
   device();
   device(const std::string& dev_name);
-  device(device&& other);
+  device(device&& other) noexcept;
   ~device();
 
-  const ALCdevice* get_handle() const;
-  ALCdevice* get_handle();
-  uint32_t get_uid() const;
+  const ALCdevice* get_handle() const noexcept;
+  ALCdevice* get_handle() noexcept;
+  uint32_t get_uid() const noexcept;
 
 private:
   ALCdevice* m_device;

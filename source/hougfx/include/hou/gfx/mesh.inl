@@ -13,7 +13,7 @@ mesh_t<T>::mesh_t(
 
 
 template <typename T>
-mesh_t<T>::mesh_t(mesh_t&& other)
+mesh_t<T>::mesh_t(mesh_t&& other) noexcept
   : mesh(std::move(other))
   , m_vbo(std::move(other.m_vbo))
 {}

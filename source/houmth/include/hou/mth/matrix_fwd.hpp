@@ -7,6 +7,8 @@
 
 #include "hou/cor/basic_types.hpp"
 
+#include "hou/mth/mth_export.hpp"
+
 
 
 namespace hou

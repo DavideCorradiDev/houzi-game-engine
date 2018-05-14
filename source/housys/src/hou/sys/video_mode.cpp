@@ -20,21 +20,21 @@ std::vector<video_mode> video_mode::get_fullscreen_modes()
 
 
 
-video_mode::video_mode(const vec2u& resolution, uint bytes_per_pixel)
+video_mode::video_mode(const vec2u& resolution, uint bytes_per_pixel) noexcept
   : m_resolution(resolution)
   , m_bytes_per_pixel(bytes_per_pixel)
 {}
 
 
 
-const vec2u& video_mode::get_resolution() const
+const vec2u& video_mode::get_resolution() const noexcept
 {
   return m_resolution;
 }
 
 
 
-uint video_mode::get_bytes_per_pixel() const
+uint video_mode::get_bytes_per_pixel() const noexcept
 {
   return m_bytes_per_pixel;
 }
@@ -49,7 +49,7 @@ bool video_mode::is_fullscreen_mode() const
 
 
 
-bool operator==(const video_mode& lhs, const video_mode& rhs)
+bool operator==(const video_mode& lhs, const video_mode& rhs) noexcept
 {
   return (lhs.get_resolution() == rhs.get_resolution())
     && (lhs.get_bytes_per_pixel() == rhs.get_bytes_per_pixel());
@@ -57,14 +57,14 @@ bool operator==(const video_mode& lhs, const video_mode& rhs)
 
 
 
-bool operator!=(const video_mode& lhs, const video_mode& rhs)
+bool operator!=(const video_mode& lhs, const video_mode& rhs) noexcept
 {
   return !(lhs == rhs);
 }
 
 
 
-bool operator<(const video_mode& lhs, const video_mode& rhs)
+bool operator<(const video_mode& lhs, const video_mode& rhs) noexcept
 {
   if(lhs.get_bytes_per_pixel() == rhs.get_bytes_per_pixel())
   {
@@ -85,21 +85,21 @@ bool operator<(const video_mode& lhs, const video_mode& rhs)
 
 
 
-bool operator>(const video_mode& lhs, const video_mode& rhs)
+bool operator>(const video_mode& lhs, const video_mode& rhs) noexcept
 {
   return rhs < lhs;
 }
 
 
 
-bool operator<=(const video_mode& lhs, const video_mode& rhs)
+bool operator<=(const video_mode& lhs, const video_mode& rhs) noexcept
 {
   return !(rhs < lhs);
 }
 
 
 
-bool operator>=(const video_mode& lhs, const video_mode& rhs)
+bool operator>=(const video_mode& lhs, const video_mode& rhs) noexcept
 {
   return !(lhs < rhs);
 }

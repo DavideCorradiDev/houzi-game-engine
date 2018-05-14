@@ -19,7 +19,7 @@ binary_file_out::binary_file_out(const std::string& path)
 
 
 
-binary_file_out::binary_file_out(binary_file_out&& other)
+binary_file_out::binary_file_out(binary_file_out&& other) noexcept
   : binary_stream_out(std::move(other))
   , m_file(std::move(other.m_file))
   , m_byte_count(std::move(other.m_byte_count))
@@ -28,40 +28,35 @@ binary_file_out::binary_file_out(binary_file_out&& other)
 
 
 
-binary_file_out::~binary_file_out()
-{}
-
-
-
-bool binary_file_out::eof() const
+bool binary_file_out::eof() const noexcept
 {
   return m_file.eof();
 }
 
 
 
-bool binary_file_out::error() const
+bool binary_file_out::error() const noexcept
 {
   return m_file.error();
 }
 
 
 
-size_t binary_file_out::get_byte_count() const
+size_t binary_file_out::get_byte_count() const noexcept
 {
   return m_file.get_byte_count();
 }
 
 
 
-size_t binary_file_out::get_write_byte_count() const
+size_t binary_file_out::get_write_byte_count() const noexcept
 {
   return m_byte_count;
 }
 
 
 
-size_t binary_file_out::get_write_element_count() const
+size_t binary_file_out::get_write_element_count() const noexcept
 {
   return m_element_count;
 }

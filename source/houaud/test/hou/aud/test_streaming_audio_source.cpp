@@ -11,8 +11,6 @@
 #include "hou/aud/ogg_file_in.hpp"
 #include "hou/aud/streaming_audio_source.hpp"
 
-#include "hou/cor/cor_error.hpp"
-
 #include "hou/mth/math_functions.hpp"
 
 using namespace hou;
@@ -80,9 +78,9 @@ TEST_F(test_streaming_audio_source, default_constructor)
   EXPECT_FLOAT_EQ(0.f, as.get_cone_outer_gain());
   EXPECT_FLOAT_EQ(2 * pi_f, as.get_cone_inner_angle());
   EXPECT_FLOAT_EQ(2 * pi_f, as.get_cone_outer_angle());
-  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_position());
-  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_velocity());
-  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_direction());
+  EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_position());
+  EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_velocity());
+  EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_direction());
 }
 
 
@@ -113,9 +111,9 @@ TEST_F(test_streaming_audio_source, stream_constructor)
   EXPECT_FLOAT_EQ(0.f, as.get_cone_outer_gain());
   EXPECT_FLOAT_EQ(2 * pi_f, as.get_cone_inner_angle());
   EXPECT_FLOAT_EQ(2 * pi_f, as.get_cone_outer_angle());
-  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_position());
-  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_velocity());
-  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_direction());
+  EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_position());
+  EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_velocity());
+  EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_direction());
 }
 
 
@@ -411,8 +409,7 @@ TEST_F(test_streaming_audio_source, set_buffer_count_while_paused)
 TEST_F(test_streaming_audio_source_death_test, set_buffer_count_error)
 {
   streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
-  HOU_EXPECT_ERROR(as.set_buffer_count(0u), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(as.set_buffer_count(0u));
 }
 
 
@@ -455,6 +452,5 @@ TEST_F(test_streaming_audio_source, set_buffer_sample_count_while_paused)
 TEST_F(test_streaming_audio_source_death_test, set_buffer_sample_count_error)
 {
   streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
-  HOU_EXPECT_ERROR(as.set_buffer_sample_count(0u), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(as.set_buffer_sample_count(0u));
 }

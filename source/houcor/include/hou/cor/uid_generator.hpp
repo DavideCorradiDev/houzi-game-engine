@@ -5,11 +5,11 @@
 #ifndef HOU_COR_UID_GENERATOR_HPP
 #define HOU_COR_UID_GENERATOR_HPP
 
-#include "hou/cor/cor_export.hpp"
-
 #include "hou/cor/basic_types.hpp"
 
 #include <atomic>
+
+#include "hou/cor/cor_export.hpp"
 
 
 
@@ -25,11 +25,13 @@ public:
    *
    * The constructor is not thread safe.
    */
-  uid_generator(uint32_t starting_value);
+  uid_generator(uint32_t starting_value) noexcept;
 
   /** Generates a unique identifier.
    *
    * Calling this function is thread safe.
+   *
+   * \throws hou::overflow_error if the uid generator counter overflows.
    */
   uint32_t generate();
 

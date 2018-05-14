@@ -5,7 +5,7 @@
 #include "hou/gl/gl_context_impl.hpp"
 
 #include "hou/gl/gl_context_settings.hpp"
-#include "hou/gl/gl_error.hpp"
+#include "hou/gl/gl_exceptions.hpp"
 #include "hou/gl/open_gl.hpp"
 
 #include "hou/sys/win/win_error.hpp"
@@ -29,7 +29,9 @@ constexpr uint bits_per_byte = 8u;
 
 int choose_pixel_format(
   HDC hdc, uint color_byte_count, const context_settings& settings);
+
 void set_pixel_format(HDC hdc, int format_number);
+
 bool has_pixel_format(HDC hdc);
 
 
@@ -37,7 +39,7 @@ bool has_pixel_format(HDC hdc);
 int choose_pixel_format(
   HDC hdc, uint color_byte_count, const context_settings& settings)
 {
-  HOU_EXPECT_DEV(hdc != nullptr);
+  HOU_DEV_ASSERT(hdc != nullptr);
 
   int format;
 
@@ -57,10 +59,9 @@ int choose_pixel_format(
     };
 
     UINT num_formats;
-    HOU_WIN_RUNTIME_CHECK(wglChoosePixelFormatARB(hdc, attributes_list, nullptr,
-                            1, &format, &num_formats)
-        != 0,
-      get_text(gl_error::context_create));
+    auto retval = wglChoosePixelFormatARB(
+      hdc, attributes_list, nullptr, 1, &format, &num_formats);
+    HOU_CHECK_0(retval != 0, context_creation_error);
   }
   else
   {
@@ -81,7 +82,7 @@ int choose_pixel_format(
     format = ChoosePixelFormat(hdc, &pfd);
   }
 
-  HOU_RUNTIME_CHECK(format != 0, get_text(gl_error::context_create));
+  HOU_CHECK_0(format != 0, context_creation_error);
   return format;
 }
 
@@ -89,19 +90,19 @@ int choose_pixel_format(
 
 void set_pixel_format(HDC hdc, int format_number)
 {
-  HOU_EXPECT_DEV(hdc != nullptr);
-  HOU_EXPECT_DEV(format_number != 0);
+  HOU_DEV_ASSERT(hdc != nullptr);
+  HOU_DEV_ASSERT(format_number != 0);
 
   if(!has_pixel_format(hdc))
   {
     PIXELFORMATDESCRIPTOR format;
     format.nSize = sizeof(PIXELFORMATDESCRIPTOR);
     format.nVersion = 1;
-    HOU_WIN_RUNTIME_CHECK(
+    HOU_CHECK_0(
       DescribePixelFormat(hdc, format_number, format.nSize, &format) != 0,
-      get_text(gl_error::context_create));
-    HOU_WIN_RUNTIME_CHECK(SetPixelFormat(hdc, format_number, &format) != 0,
-      get_text(gl_error::context_create));
+      context_creation_error);
+    HOU_CHECK_0(
+      SetPixelFormat(hdc, format_number, &format) != 0, context_creation_error);
   }
 }
 
@@ -109,7 +110,7 @@ void set_pixel_format(HDC hdc, int format_number)
 
 bool has_pixel_format(HDC hdc)
 {
-  HOU_EXPECT_DEV(hdc != nullptr);
+  HOU_DEV_ASSERT(hdc != nullptr);
   return GetPixelFormat(hdc) != 0;
 }
 
@@ -119,21 +120,18 @@ bool has_pixel_format(HDC hdc)
 
 void context_impl::set_current(context_impl& ctx, window& wnd)
 {
+  HOU_DEV_ASSERT(ctx.m_hdc != nullptr);
   ctx.m_hdc = GetDC(wnd.get_handle());
-  HOU_ENSURE(ctx.m_hdc != nullptr);
-
   set_pixel_format(ctx.m_hdc, ctx.m_pixel_format);
-
-  HOU_WIN_RUNTIME_CHECK(wglMakeCurrent(ctx.m_hdc, ctx.m_handle) != 0,
-    get_text(gl_error::context_make_current));
+  HOU_CHECK_0(
+    wglMakeCurrent(ctx.m_hdc, ctx.m_handle) != 0, context_switch_error);
 }
 
 
 
 void context_impl::unset_current()
 {
-  HOU_WIN_RUNTIME_CHECK(wglMakeCurrent(nullptr, nullptr) != 0,
-    get_text(gl_error::context_make_current));
+  HOU_CHECK_0(wglMakeCurrent(nullptr, nullptr) != 0, context_switch_error);
 }
 
 
@@ -146,7 +144,8 @@ context_impl::context_impl(const context_settings& settings, const window& wnd,
   , m_pixel_format(
       choose_pixel_format(m_hdc, wnd.get_bytes_per_pixel(), settings))
 {
-  HOU_EXPECT(m_hdc != nullptr);
+  HOU_INVARIANT(m_hdc != nullptr);
+  HOU_INVARIANT(m_pixel_format != 0);
 
   set_pixel_format(m_hdc, m_pixel_format);
 
@@ -174,27 +173,24 @@ context_impl::context_impl(const context_settings& settings, const window& wnd,
         };
 
     m_handle = wglCreateContextAttribsARB(m_hdc, shared, attr);
-    HOU_WIN_RUNTIME_CHECK(
-      m_handle != nullptr, get_text(gl_error::context_create));
+    HOU_CHECK_0(m_handle != nullptr, context_creation_error);
   }
   else
   {
     m_handle = wglCreateContext(m_hdc);
-    HOU_WIN_RUNTIME_CHECK(
-      m_handle != nullptr, get_text(gl_error::context_create));
+    HOU_CHECK_0(m_handle != nullptr, context_creation_error);
     if(shared != nullptr)
     {
-      HOU_WIN_RUNTIME_CHECK(wglShareLists(shared, m_handle) != 0,
-        get_text(gl_error::context_create));
+      HOU_CHECK_0(wglShareLists(shared, m_handle) != 0, context_creation_error);
     }
   }
 
-  HOU_ENSURE_DEV(m_handle != nullptr);
+  HOU_DEV_ASSERT(m_handle != nullptr);
 }
 
 
 
-context_impl::context_impl(context_impl&& other)
+context_impl::context_impl(context_impl&& other) noexcept
   : non_copyable()
   , m_handle(std::move(other.m_handle))
   , m_hdc(std::move(other.m_hdc))
@@ -210,8 +206,9 @@ context_impl::~context_impl()
 {
   if(m_handle != nullptr)
   {
-    HOU_FATAL_CHECK(
-      wglDeleteContext(m_handle) != 0, get_text(gl_error::context_destroy));
+    HOU_DISABLE_EXCEPTIONS_BEGIN
+      HOU_CHECK_0(wglDeleteContext(m_handle) != 0, context_destruction_error);
+    HOU_DISABLE_EXCEPTIONS_END
   }
 }
 

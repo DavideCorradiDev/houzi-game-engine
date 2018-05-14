@@ -7,10 +7,6 @@
 
 #include "hou/gfx/vertex_buffer.hpp"
 
-#include "hou/gl/gl_error.hpp"
-
-#include "hou/cor/cor_error.hpp"
-
 using namespace hou;
 
 
@@ -146,8 +142,8 @@ TEST_F(test_vertex_buffer_death_test, get_sub_data_error_overflow)
 {
   dynamic_float_buffer::data_type data_ref = {1.f, 2.f, 3.f, 4.f, 5.f};
   float_buffer vb(data_ref);
-  HOU_EXPECT_PRECONDITION(vb.get_sub_data(0u, vb.get_size() + 1u));
-  HOU_EXPECT_PRECONDITION(vb.get_sub_data(2u, vb.get_size() - 1u));
+  EXPECT_PRECOND_ERROR(vb.get_sub_data(0u, vb.get_size() + 1u));
+  EXPECT_PRECOND_ERROR(vb.get_sub_data(2u, vb.get_size() - 1u));
 }
 
 
@@ -189,7 +185,7 @@ TEST_F(test_vertex_buffer_death_test, set_sub_data_error_overflow)
 {
   dynamic_float_buffer vb(6u);
   dynamic_float_buffer::data_type data(3u, 0.f);
-  HOU_EXPECT_PRECONDITION(
+  EXPECT_PRECOND_ERROR(
     vb.set_sub_data(vb.get_size() - data.size() + 1u, data));
 }
 
@@ -211,7 +207,7 @@ TEST_F(test_vertex_buffer_death_test, set_data_error_too_few_elements)
 {
   dynamic_float_buffer vb(3u);
   dynamic_float_buffer::data_type data(vb.get_size() - 1u, 0.f);
-  HOU_EXPECT_PRECONDITION(vb.set_data(data));
+  EXPECT_PRECOND_ERROR(vb.set_data(data));
 }
 
 
@@ -220,5 +216,5 @@ TEST_F(test_vertex_buffer_death_test, set_data_error_too_many_elements)
 {
   dynamic_float_buffer vb(3u);
   dynamic_float_buffer::data_type data(vb.get_size() + 1u, 0.f);
-  HOU_EXPECT_PRECONDITION(vb.set_data(data));
+  EXPECT_PRECOND_ERROR(vb.set_data(data));
 }

@@ -20,7 +20,7 @@ memory_audio_source::memory_audio_source(const audio_buffer* buffer)
 
 
 
-memory_audio_source::memory_audio_source(memory_audio_source&& other)
+memory_audio_source::memory_audio_source(memory_audio_source&& other) noexcept
   : audio_source(std::move(other))
   , m_buffer_ref(std::move(other.m_buffer_ref))
 {}

@@ -4,8 +4,6 @@
 
 #include "hou/Test.hpp"
 
-#include "hou/cor/cor_error.hpp"
-
 #include "hou/mth/matrix.hpp"
 
 using namespace hou;
@@ -96,7 +94,7 @@ TEST_F(test_vec3, crossmatrix)
   };
   // clang-format on
 
-  HOU_EXPECT_FLOAT_CLOSE(m, cross_matrix(v));
+  EXPECT_FLOAT_CLOSE(m, cross_matrix(v));
 }
 
 
@@ -147,5 +145,5 @@ TEST_F(test_vec3, dot_product)
 TEST_F(test_vec3, output_stream_operator)
 {
   vec3i v(1, 2, 3);
-  HOU_EXPECT_OUTPUT("(1)\n(2)\n(3)", v);
+  EXPECT_OUTPUT("(1)\n(2)\n(3)", v);
 }

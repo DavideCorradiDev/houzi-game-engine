@@ -4,7 +4,7 @@
 
 #include "hou/sys/text_file_in.hpp"
 
-#include "hou/cor/error.hpp"
+#include "hou/cor/assertions.hpp"
 
 
 
@@ -21,7 +21,7 @@ text_file_in::text_file_in(const std::string& path)
 
 
 
-text_file_in::text_file_in(text_file_in&& other)
+text_file_in::text_file_in(text_file_in&& other) noexcept
   : text_stream_in(std::move(other))
   , m_file(std::move(other.m_file))
   , m_byte_count(std::move(other.m_byte_count))
@@ -30,40 +30,35 @@ text_file_in::text_file_in(text_file_in&& other)
 
 
 
-text_file_in::~text_file_in()
-{}
-
-
-
-bool text_file_in::eof() const
+bool text_file_in::eof() const noexcept
 {
   return m_file.eof();
 }
 
 
 
-bool text_file_in::error() const
+bool text_file_in::error() const noexcept
 {
   return m_file.error();
 }
 
 
 
-size_t text_file_in::get_byte_count() const
+size_t text_file_in::get_byte_count() const noexcept
 {
   return m_file.get_byte_count();
 }
 
 
 
-size_t text_file_in::get_read_byte_count() const
+size_t text_file_in::get_read_byte_count() const noexcept
 {
   return m_byte_count;
 }
 
 
 
-size_t text_file_in::get_read_element_count() const
+size_t text_file_in::get_read_element_count() const noexcept
 {
   return m_element_count;
 }

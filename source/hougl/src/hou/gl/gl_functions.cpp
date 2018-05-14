@@ -4,10 +4,9 @@
 
 #include "hou/gl/gl_functions.hpp"
 
-#include "hou/gl/gl_check.hpp"
 #include "hou/gl/gl_context.hpp"
 #include "hou/gl/gl_context_settings.hpp"
-#include "hou/gl/gl_error.hpp"
+#include "hou/gl/gl_exceptions.hpp"
 
 #include "hou/mth/rectangle.hpp"
 
@@ -78,14 +77,14 @@ void init_extensions()
     HOU_GL_CHECK_CONTEXT_EXISTENCE();
 
     // Initialize extenstions through GLAD.
-    int gladInitRetval = gladLoadGL();
-    HOU_RUNTIME_CHECK(gladInitRetval != 0,
-      get_text(gl_error::extensions_initialization), gladInitRetval);
+    int glad_init_retval = gladLoadGL();
+    HOU_CHECK_N(
+      glad_init_retval != 0, extension_initialization_error, glad_init_retval);
 
 #if defined(HOU_SYSTEM_WINDOWS)
-    int wglGladInitRetval = gladLoadWGL(GetDC(w.get_handle()));
-    HOU_RUNTIME_CHECK(wglGladInitRetval != 0,
-      get_text(gl_error::extensions_initialization), wglGladInitRetval);
+    int wgl_glad_init_retval = gladLoadWGL(GetDC(w.get_handle()));
+    HOU_CHECK_N(wgl_glad_init_retval != 0, extension_initialization_error,
+      wgl_glad_init_retval);
 #endif
 
     extensionsInitialized = true;
@@ -110,11 +109,10 @@ void set_vertical_sync_mode(vertical_sync_mode mode)
 #if defined(HOU_SYSTEM_WINDOWS)
   if(wglSwapIntervalEXT)
   {
-    HOU_WIN_RUNTIME_CHECK(wglSwapIntervalEXT(static_cast<int>(mode)) != 0,
-      get_text(gl_error::vertical_sync_set));
+    HOU_CHECK_0(wglSwapIntervalEXT(static_cast<int>(mode)) != 0, vsync_error);
   }
 #else
-  HOU_LOGIC_ERROR("Unsupported OS");
+  HOU_TERMINATE("Unsupported OS");
 #endif
 }
 

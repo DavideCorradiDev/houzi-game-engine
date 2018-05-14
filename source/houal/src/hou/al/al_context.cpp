@@ -5,9 +5,8 @@
 #include "hou/al/al_context.hpp"
 
 #include "hou/al/al_device.hpp"
-#include "hou/al/al_error.hpp"
+#include "hou/al/al_exceptions.hpp"
 
-#include "hou/cor/error.hpp"
 #include "hou/cor/uid_generator.hpp"
 
 #include <mutex>
@@ -36,15 +35,15 @@ uint32_t generate_uid()
   return uid_gen.generate();
 }
 
-}
+}  // namespace
 
 
 
 void context::set_current(context& ctx)
 {
   std::lock_guard<std::mutex> lock(g_current_context_mutex);
-  HOU_RUNTIME_CHECK(alcMakeContextCurrent(ctx.m_handle) == AL_TRUE
-    , get_text(al_error::context_make_current));
+  HOU_CHECK_0(
+    alcMakeContextCurrent(ctx.m_handle) == AL_TRUE, context_switch_error);
   g_current_context = &ctx;
 }
 
@@ -53,8 +52,7 @@ void context::set_current(context& ctx)
 void context::unset_current()
 {
   std::lock_guard<std::mutex> lock(g_current_context_mutex);
-  HOU_RUNTIME_CHECK(alcMakeContextCurrent(nullptr) == AL_TRUE
-    , get_text(al_error::context_make_current));
+  HOU_CHECK_0(alcMakeContextCurrent(nullptr) == AL_TRUE, context_switch_error);
   g_current_context = nullptr;
 }
 
@@ -78,13 +76,14 @@ context::context(device& dev)
   , m_uid(generate_uid())
   , m_device_uid(dev.get_uid())
 {
-  HOU_RUNTIME_CHECK(m_handle != nullptr, get_text(al_error::context_create));
+  HOU_CHECK_0(m_handle != nullptr, context_creation_error);
 }
 
 
 
-context::context(context&& other)
-  : m_handle(std::move(other.m_handle))
+context::context(context&& other) noexcept
+  : non_copyable()
+  , m_handle(std::move(other.m_handle))
   , m_uid(std::move(other.m_uid))
   , m_device_uid(std::move(other.m_device_uid))
 {
@@ -111,14 +110,14 @@ context::~context()
 
 
 
-uint32_t context::get_uid() const
+uint32_t context::get_uid() const noexcept
 {
   return m_uid;
 }
 
 
 
-uint32_t context::get_device_uid() const
+uint32_t context::get_device_uid() const noexcept
 {
   return m_device_uid;
 }
@@ -131,7 +130,6 @@ bool context::is_current() const
   return alcGetCurrentContext() == m_handle;
 }
 
-}
+}  // namespace al
 
-}
-
+}  // namespace hou

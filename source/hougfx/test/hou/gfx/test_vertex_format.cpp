@@ -59,7 +59,7 @@ TEST_F(test_vertex_format_death_test,
   vertex_attrib_format vaf(gl_type::float_decimal, 3u, 12u, false);
   std::vector<vertex_attrib_format> vafs(
     vertex_format::get_max_attrib_format_count() + 1u, vaf);
-  HOU_EXPECT_PRECONDITION(vertex_format vf(2u, 3u, vafs));
+  EXPECT_PRECOND_ERROR(vertex_format vf(2u, 3u, vafs));
 }
 
 
@@ -101,7 +101,7 @@ TEST_F(test_vertex_format_death_test,
   vertex_attrib_format vaf(gl_type::float_decimal, 3u, 12u, false);
   std::vector<vertex_attrib_format> vafs(
     vertex_format::get_max_attrib_format_count() + 1u, vaf);
-  HOU_EXPECT_PRECONDITION(vertex_format vf(2u, 3u, std::move(vafs)));
+  EXPECT_PRECOND_ERROR(vertex_format vf(2u, 3u, std::move(vafs)));
 }
 
 
@@ -147,5 +147,5 @@ TEST_F(test_vertex_format, output_stream_operator)
       "float_decimal, element_count = 3, byte_offset = 12, must_be_normalized "
       "= false}, {type = float_decimal, element_count = 6, byte_offset = 24, "
       "must_be_normalized = true}}}";
-  HOU_EXPECT_OUTPUT(out_ref, vf);
+  EXPECT_OUTPUT(out_ref, vf);
 }

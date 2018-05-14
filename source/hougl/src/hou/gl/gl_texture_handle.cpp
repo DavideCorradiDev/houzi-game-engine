@@ -4,7 +4,7 @@
 
 #include "hou/gl/gl_texture_handle.hpp"
 
-#include "hou/gl/gl_check.hpp"
+#include "hou/gl/gl_exceptions.hpp"
 #include "hou/gl/gl_context.hpp"
 #include "hou/gl/gl_functions.hpp"
 
@@ -110,13 +110,6 @@ texture_handle texture_handle::create(GLenum target)
 
 
 
-texture_handle::texture_handle(texture_handle&& other)
-  : shared_object_handle(std::move(other))
-  , m_target(other.m_target)
-{}
-
-
-
 texture_handle::~texture_handle()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
@@ -128,7 +121,7 @@ texture_handle::~texture_handle()
 
 
 
-GLenum texture_handle::getTarget() const
+GLenum texture_handle::get_target() const noexcept
 {
   return m_target;
 }
@@ -148,10 +141,10 @@ void bind_texture(const texture_handle& tex)
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
   if(!is_texture_bound(tex))
   {
-    glBindTexture(tex.getTarget(), tex.get_name());
+    glBindTexture(tex.get_target(), tex.get_name());
     HOU_GL_CHECK_ERROR();
     context::get_current()->m_tracking_data.set_bound_texture(
-      tex.get_uid(), tex.getTarget());
+      tex.get_uid(), tex.get_target());
   }
 }
 
@@ -180,7 +173,7 @@ void bind_texture(const texture_handle& tex, GLuint unit)
     glBindTextureUnit(unit, tex.get_name());
     HOU_GL_CHECK_ERROR();
     context::get_current()->m_tracking_data.set_bound_texture(
-      tex.get_uid(), unit, tex.getTarget());
+      tex.get_uid(), unit, tex.get_target());
   }
 }
 

@@ -19,7 +19,7 @@ binary_file_in::binary_file_in(const std::string& path)
 
 
 
-binary_file_in::binary_file_in(binary_file_in&& other)
+binary_file_in::binary_file_in(binary_file_in&& other) noexcept
   : binary_stream_in(std::move(other))
   , m_file(std::move(other.m_file))
   , m_byte_count(std::move(other.m_byte_count))
@@ -28,40 +28,35 @@ binary_file_in::binary_file_in(binary_file_in&& other)
 
 
 
-binary_file_in::~binary_file_in()
-{}
-
-
-
-bool binary_file_in::eof() const
+bool binary_file_in::eof() const noexcept
 {
   return m_file.eof();
 }
 
 
 
-bool binary_file_in::error() const
+bool binary_file_in::error() const noexcept
 {
   return m_file.error();
 }
 
 
 
-size_t binary_file_in::get_byte_count() const
+size_t binary_file_in::get_byte_count() const noexcept
 {
   return m_file.get_byte_count();
 }
 
 
 
-size_t binary_file_in::get_read_byte_count() const
+size_t binary_file_in::get_read_byte_count() const noexcept
 {
   return m_byte_count;
 }
 
 
 
-size_t binary_file_in::get_read_element_count() const
+size_t binary_file_in::get_read_element_count() const noexcept
 {
   return m_element_count;
 }

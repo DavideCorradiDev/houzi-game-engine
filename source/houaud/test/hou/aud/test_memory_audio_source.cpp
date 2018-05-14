@@ -64,9 +64,9 @@ TEST_F(test_memory_audio_source, default_constructor)
   EXPECT_FLOAT_EQ(0.f, as.get_cone_outer_gain());
   EXPECT_FLOAT_EQ(2 * pi_f, as.get_cone_inner_angle());
   EXPECT_FLOAT_EQ(2 * pi_f, as.get_cone_outer_angle());
-  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_position());
-  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_velocity());
-  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_direction());
+  EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_position());
+  EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_velocity());
+  EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_direction());
 }
 
 
@@ -96,9 +96,9 @@ TEST_F(test_memory_audio_source, buffer_constructor)
   EXPECT_FLOAT_EQ(0.f, as.get_cone_outer_gain());
   EXPECT_FLOAT_EQ(2 * pi_f, as.get_cone_inner_angle());
   EXPECT_FLOAT_EQ(2 * pi_f, as.get_cone_outer_angle());
-  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_position());
-  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_velocity());
-  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_direction());
+  EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_position());
+  EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_velocity());
+  EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_direction());
 }
 
 
@@ -129,9 +129,9 @@ TEST_F(test_memory_audio_source, move_constructor)
   EXPECT_FLOAT_EQ(0.f, as.get_cone_outer_gain());
   EXPECT_FLOAT_EQ(2 * pi_f, as.get_cone_inner_angle());
   EXPECT_FLOAT_EQ(2 * pi_f, as.get_cone_outer_angle());
-  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_position());
-  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_velocity());
-  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_direction());
+  EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_position());
+  EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_velocity());
+  EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_direction());
 }
 
 

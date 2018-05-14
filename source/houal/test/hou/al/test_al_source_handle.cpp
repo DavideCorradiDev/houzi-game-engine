@@ -5,7 +5,7 @@
 #include "hou/Test.hpp"
 #include "hou/al/test_al_base.hpp"
 
-#include "hou/al/al_error.hpp"
+#include "hou/al/al_exceptions.hpp"
 #include "hou/al/al_source_handle.hpp"
 
 using namespace hou;
@@ -39,6 +39,5 @@ TEST_F(test_al_source_handle_death_test, DISABLED_no_context_creation)
 #endif
 {
   al::context::unset_current();
-  HOU_EXPECT_ERROR(al::source_handle::generate(), std::logic_error,
-    get_text(al_error::context_existence));
+  EXPECT_ERROR_0(al::source_handle::generate(), al::missing_context_error);
 }

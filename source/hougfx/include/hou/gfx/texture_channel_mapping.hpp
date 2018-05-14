@@ -48,56 +48,56 @@ public:
    *
    * \param a the channel mapped onto the alpha channel.
    */
-  texture_channel_mapping(
-    texture_channel r, texture_channel g, texture_channel b, texture_channel a);
+  texture_channel_mapping(texture_channel r, texture_channel g,
+    texture_channel b, texture_channel a) noexcept;
 
   /** Gets the channel mapped onto the red channel.
    *
    * \return the channel mapped onto the red channel.
    */
-  texture_channel get_r() const;
+  texture_channel get_r() const noexcept;
 
   /** Gets the channel mapped onto the green channel.
    *
    * \return the channel mapped onto the green channel.
    */
-  texture_channel get_g() const;
+  texture_channel get_g() const noexcept;
 
   /** Gets the channel mapped onto the blue channel.
    *
    * \return the channel mapped onto the blue channel.
    */
-  texture_channel get_b() const;
+  texture_channel get_b() const noexcept;
 
   /** Gets the channel mapped onto the alpha channel.
    *
    * \return the channel mapped onto the alpha channel.
    */
-  texture_channel get_a() const;
+  texture_channel get_a() const noexcept;
 
   /** Sets the channel mapped onto the red channel.
    *
    * \param channel the channel mapped onto the red channel.
    */
-  void set_r(texture_channel channel);
+  void set_r(texture_channel channel) noexcept;
 
   /** Sets the channel mapped onto the green channel.
    *
    * \param channel the channel mapped onto the green channel.
    */
-  void set_g(texture_channel channel);
+  void set_g(texture_channel channel) noexcept;
 
   /** Sets the channel mapped onto the blue channel.
    *
    * \param channel the channel mapped onto the blue channel.
    */
-  void set_b(texture_channel channel);
+  void set_b(texture_channel channel) noexcept;
 
   /** Sets the channel mapped onto the alpha channel.
    *
    * \param channel the channel mapped onto the alpha channel.
    */
-  void set_a(texture_channel channel);
+  void set_a(texture_channel channel) noexcept;
 
 private:
   texture_channel m_r;
@@ -114,8 +114,8 @@ private:
  *
  * \return true if lhs and rhs are equal.
  */
-HOU_GFX_API bool operator==(
-  const texture_channel_mapping& lhs, const texture_channel_mapping& rhs);
+HOU_GFX_API bool operator==(const texture_channel_mapping& lhs,
+  const texture_channel_mapping& rhs) noexcept;
 
 /** Checks if two texture_channel_mapping objects are not equal.
  *
@@ -125,8 +125,8 @@ HOU_GFX_API bool operator==(
  *
  * \return true if lhs and rhs are not equal.
  */
-HOU_GFX_API bool operator!=(
-  const texture_channel_mapping& lhs, const texture_channel_mapping& rhs);
+HOU_GFX_API bool operator!=(const texture_channel_mapping& lhs,
+  const texture_channel_mapping& rhs) noexcept;
 
 /** Outputs a texture_channel_mapping object into a stream.
  *

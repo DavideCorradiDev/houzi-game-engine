@@ -15,7 +15,7 @@ namespace hou
 {
 
 template <typename T>
-transform3<T> transform3<T>::identity()
+transform3<T> transform3<T>::identity() noexcept
 {
   return transform3<T>();
 }
@@ -23,7 +23,7 @@ transform3<T> transform3<T>::identity()
 
 
 template <typename T>
-transform3<T> transform3<T>::translation(const vec3<T>& translation)
+transform3<T> transform3<T>::translation(const vec3<T>& translation) noexcept
 {
   return transform3<T>(mat3x3<T>::identity(), translation);
 }
@@ -31,7 +31,7 @@ transform3<T> transform3<T>::translation(const vec3<T>& translation)
 
 
 template <typename T>
-transform3<T> transform3<T>::rotation(const rot3<T>& rotation)
+transform3<T> transform3<T>::rotation(const rot3<T>& rotation) noexcept
 {
   return transform3<T>(rotation.get_matrix(), vec3<T>::zero());
 }
@@ -39,7 +39,7 @@ transform3<T> transform3<T>::rotation(const rot3<T>& rotation)
 
 
 template <typename T>
-transform3<T> transform3<T>::scale(const vec3<T>& scale)
+transform3<T> transform3<T>::scale(const vec3<T>& scale) noexcept
 {
   // clang-format off
   return transform3<T>(
@@ -54,7 +54,8 @@ transform3<T> transform3<T>::scale(const vec3<T>& scale)
 
 
 template <typename T>
-transform3<T> transform3<T>::shear(T sxy, T sxz, T syx, T syz, T szx, T szy)
+transform3<T> transform3<T>::shear(
+  T sxy, T sxz, T syx, T syz, T szx, T szy) noexcept
 {
   // clang-format off
   return transform3<T>(
@@ -69,7 +70,7 @@ transform3<T> transform3<T>::shear(T sxy, T sxz, T syx, T syz, T szx, T szy)
 
 
 template <typename T>
-transform3<T>::transform3()
+transform3<T>::transform3() noexcept
   : m_mat(mat3x3<T>::identity())
   , m_vec(vec3<T>::zero())
 {}
@@ -77,8 +78,8 @@ transform3<T>::transform3()
 
 
 template <typename T>
-template <typename U>
-transform3<T>::transform3(const transform3<U>& other)
+template <typename U, typename Enable>
+transform3<T>::transform3(const transform3<U>& other) noexcept
   : m_mat(static_cast<mat3x3<T>>(other.m_mat))
   , m_vec(static_cast<vec3<T>>(other.m_vec))
 {}
@@ -86,7 +87,7 @@ transform3<T>::transform3(const transform3<U>& other)
 
 
 template <typename T>
-mat4x4<T> transform3<T>::to_mat4x4() const
+mat4x4<T> transform3<T>::to_mat4x4() const noexcept
 {
   // clang-format off
   return mat4x4<T>{
@@ -100,7 +101,7 @@ mat4x4<T> transform3<T>::to_mat4x4() const
 
 
 template <typename T>
-transform3<T>& transform3<T>::operator*=(const transform3<T>& r)
+transform3<T>& transform3<T>::operator*=(const transform3<T>& r) noexcept
 {
   m_vec += m_mat * r.m_vec;
   m_mat = m_mat * r.m_mat;
@@ -120,7 +121,7 @@ transform3<T>& transform3<T>::invert()
 
 
 template <typename T>
-vec3<T> transform3<T>::transform_vector(const vec3<T>& vec) const
+vec3<T> transform3<T>::transform_vector(const vec3<T>& vec) const noexcept
 {
   return m_mat * vec;
 }
@@ -128,7 +129,7 @@ vec3<T> transform3<T>::transform_vector(const vec3<T>& vec) const
 
 
 template <typename T>
-vec3<T> transform3<T>::transform_point(const vec3<T>& point) const
+vec3<T> transform3<T>::transform_point(const vec3<T>& point) const noexcept
 {
   return m_vec + m_mat * point;
 }
@@ -136,7 +137,7 @@ vec3<T> transform3<T>::transform_point(const vec3<T>& point) const
 
 
 template <typename T>
-transform3<T>::transform3(const mat3x3<T>& r, const vec3<T>& t)
+transform3<T>::transform3(const mat3x3<T>& r, const vec3<T>& t) noexcept
   : m_mat(r)
   , m_vec(t)
 {}
@@ -144,7 +145,7 @@ transform3<T>::transform3(const mat3x3<T>& r, const vec3<T>& t)
 
 
 template <typename T>
-transform3<T> operator*(transform3<T> lhs, const transform3<T>& rhs)
+transform3<T> operator*(transform3<T> lhs, const transform3<T>& rhs) noexcept
 {
   return lhs *= rhs;
 }
@@ -167,10 +168,10 @@ std::ostream& operator<<(std::ostream& os, const transform3<T>& t)
 
 
 
-#define HOU_INSTANTIATE(T) \
-  template class transform3<T>; \
-  template transform3<T> operator*<T>(transform3<T>, const transform3<T>&); \
-  template transform3<T> inverse<T>(transform3<T>); \
+#define HOU_INSTANTIATE(T)                                                     \
+  template class transform3<T>;                                                \
+  template transform3<T> operator*<T>(transform3<T>, const transform3<T>&);    \
+  template transform3<T> inverse<T>(transform3<T>);                            \
   template std::ostream& operator<<<T>(std::ostream&, const transform3<T>&)
 
 HOU_INSTANTIATE(float);

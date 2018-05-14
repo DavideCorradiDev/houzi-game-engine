@@ -16,7 +16,7 @@
 namespace hou
 {
 
-FILE* open_file(const std::string& path, const std::string& mode)
+FILE* open_file(const std::string& path, const std::string& mode) noexcept
 {
   return _wfopen(convert_encoding<utf8, wide>(path).c_str(),
     convert_encoding<utf8, wide>(mode).c_str());
@@ -24,7 +24,7 @@ FILE* open_file(const std::string& path, const std::string& mode)
 
 
 
-bool check_dir(const std::string& path)
+bool check_dir(const std::string& path) noexcept
 {
   DWORD attr = GetFileAttributesW(convert_encoding<utf8, wide>(path).c_str());
   return attr != INVALID_FILE_ATTRIBUTES;
@@ -32,14 +32,14 @@ bool check_dir(const std::string& path)
 
 
 
-bool remove_dir(const std::string& path)
+bool remove_dir(const std::string& path) noexcept
 {
   return _wremove(convert_encoding<utf8, wide>(path).c_str()) == 0;
 }
 
 
 
-bool rename_dir(const std::string& old_path, const std::string& new_path)
+bool rename_dir(const std::string& old_path, const std::string& new_path) noexcept
 {
   return _wrename(convert_encoding<utf8, wide>(old_path).c_str(),
            convert_encoding<utf8, wide>(new_path).c_str())
@@ -48,7 +48,7 @@ bool rename_dir(const std::string& old_path, const std::string& new_path)
 
 
 
-size_t get_dir_byte_size(const std::string& path)
+size_t get_dir_byte_size(const std::string& path) noexcept
 {
   struct _stat64 buf;
   int retval = _wstat64(convert_encoding<utf8, wide>(path).c_str(), &buf);
@@ -64,14 +64,14 @@ size_t get_dir_byte_size(const std::string& path)
 
 
 
-int get_file_descriptor(not_null<FILE*> file)
+int get_file_descriptor(not_null<FILE*> file) noexcept
 {
   return _fileno(file.get());
 }
 
 
 
-size_t get_file_byte_size(int file_descriptor)
+size_t get_file_byte_size(int file_descriptor) noexcept
 {
   return static_cast<size_t>(_filelength(file_descriptor));
 }

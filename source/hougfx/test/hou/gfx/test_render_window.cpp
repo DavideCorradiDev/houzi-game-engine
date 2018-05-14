@@ -400,7 +400,7 @@ TEST_F(test_render_window, set_samples)
 TEST_F(test_render_window_death_test, set_samples_too_large)
 {
   render_window w(u8"Test", vec2u(32u, 16u), window_style::windowed, 1u);
-  HOU_EXPECT_PRECONDITION(
+  EXPECT_PRECOND_ERROR(
     w.set_sample_count(render_window::get_max_sample_count() + 1u));
 }
 

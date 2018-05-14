@@ -5,7 +5,7 @@
 #include "hou/gl/gl_vertex_array_handle.hpp"
 
 #include "hou/gl/gl_buffer_handle.hpp"
-#include "hou/gl/gl_check.hpp"
+#include "hou/gl/gl_exceptions.hpp"
 #include "hou/gl/gl_context.hpp"
 #include "hou/gl/gl_functions.hpp"
 
@@ -25,12 +25,6 @@ vertex_array_handle vertex_array_handle::create()
   HOU_GL_CHECK_ERROR();
   return vertex_array_handle(name);
 }
-
-
-
-vertex_array_handle::vertex_array_handle(vertex_array_handle&& other)
-  : non_shared_object_handle(std::move(other))
-{}
 
 
 

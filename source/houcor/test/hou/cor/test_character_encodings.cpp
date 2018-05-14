@@ -106,10 +106,8 @@ TEST_F(test_character_encodings_death_test, utf8_decoding_failure)
 {
   std::array<utf8::code_unit, 4u> utf8_char{'\xF0', '\x91', '\xAB', '\x80'};
   code_point char_code;
-
-  HOU_EXPECT_ERROR(
-    utf8::decode(utf8_char.end(), utf8_char.begin(), char_code),
-    std::logic_error, get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(
+    utf8::decode(utf8_char.end(), utf8_char.begin(), char_code));
 }
 
 
@@ -157,9 +155,7 @@ TEST_F(test_character_encodings, utf8_next)
 TEST_F(test_character_encodings_death_test, utf8_next_failure)
 {
   std::array<utf8::code_unit, 4u> utf8_char;
-  HOU_EXPECT_ERROR(
-    utf8::next(utf8_char.end(), utf8_char.begin()), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(utf8::next(utf8_char.end(), utf8_char.begin()));
 }
 
 
@@ -201,9 +197,7 @@ TEST_F(test_character_encodings, utf8_count)
 TEST_F(test_character_encodings_death_test, utf8_count_failure)
 {
   std::array<utf8::code_unit, 32u> utf8_string;
-  HOU_EXPECT_ERROR(
-    utf8::count(utf8_string.end(), utf8_string.begin()), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(utf8::count(utf8_string.end(), utf8_string.begin()));
 }
 
 
@@ -275,10 +269,8 @@ TEST_F(test_character_encodings_death_test, utf16_decoding_failure)
 {
   std::array<utf16::code_unit, 2u> utf16_char = {u'\xD806', u'\xDEC0'};
   code_point char_code;
-
-  HOU_EXPECT_ERROR(
-    utf16::decode(utf16_char.end(), utf16_char.begin(), char_code),
-    std::logic_error, get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(
+    utf16::decode(utf16_char.end(), utf16_char.begin(), char_code));
 }
 
 
@@ -315,9 +307,7 @@ TEST_F(test_character_encodings, utf16_next)
 TEST_F(test_character_encodings_death_test, utf16_next_failure)
 {
   std::array<utf16::code_unit, 2u> utf16_char;
-  HOU_EXPECT_ERROR(
-    utf16::next(utf16_char.end(), utf16_char.begin()), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(utf16::next(utf16_char.end(), utf16_char.begin()));
 }
 
 
@@ -359,9 +349,7 @@ TEST_F(test_character_encodings, utf16_count)
 TEST_F(test_character_encodings_death_test, utf16_count_failure)
 {
   std::array<utf16::code_unit, 16u> utf16_string;
-  HOU_EXPECT_ERROR(
-    utf16::count(utf16_string.end(), utf16_string.begin()), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(utf16::count(utf16_string.end(), utf16_string.begin()));
 }
 
 
@@ -431,10 +419,8 @@ TEST_F(test_character_encodings_death_test, utf32_decoding_failure)
 {
   std::array<utf32::code_unit, 1u> utf32_char = {U'\U00000012'};
   code_point char_code;
-
-  HOU_EXPECT_ERROR(
-    utf32::decode(utf32_char.end(), utf32_char.begin(), char_code),
-    std::logic_error, get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(
+    utf32::decode(utf32_char.end(), utf32_char.begin(), char_code));
 }
 
 
@@ -470,9 +456,7 @@ TEST_F(test_character_encodings, utf32_next)
 TEST_F(test_character_encodings_death_test, utf32_nextFaillure)
 {
   std::array<utf32::code_unit, 1u> utf32_char;
-  HOU_EXPECT_ERROR(
-    utf32::next(utf32_char.end(), utf32_char.begin()), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(utf32::next(utf32_char.end(), utf32_char.begin()));
 }
 
 
@@ -514,9 +498,7 @@ TEST_F(test_character_encodings, utf32_count)
 TEST_F(test_character_encodings_death_test, utf32_count_failure)
 {
   std::array<utf32::code_unit, 8u> utf32_string;
-  HOU_EXPECT_ERROR(
-    utf32::count(utf32_string.end(), utf32_string.begin()), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(utf32::count(utf32_string.end(), utf32_string.begin()));
 }
 
 
@@ -573,10 +555,7 @@ TEST_F(test_character_encodings_death_test, wide_decoding_failure)
 {
   wide::code_unit wide_char;
   code_point char_code;
-
-  HOU_EXPECT_ERROR(
-    wide::decode(&wide_char + 1, &wide_char, char_code), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(wide::decode(&wide_char + 1, &wide_char, char_code));
 }
 
 
@@ -607,9 +586,7 @@ TEST_F(test_character_encodings, wide_next)
 TEST_F(test_character_encodings_death_test, wide_next_failure)
 {
   wide::code_unit wide_char;
-  HOU_EXPECT_ERROR(
-    wide::next(&wide_char + 2, &wide_char + 1), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(wide::next(&wide_char + 2, &wide_char + 1));
 }
 
 
@@ -625,9 +602,7 @@ TEST_F(test_character_encodings, wide_count)
 TEST_F(test_character_encodings_death_test, wide_count_failure)
 {
   wide::code_unit wide_string[] = L"hello!";
-  HOU_EXPECT_ERROR(
-    wide::count(wide_string + 4, wide_string + 3), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(wide::count(wide_string + 4, wide_string + 3));
 }
 
 
@@ -644,8 +619,8 @@ TEST_F(test_character_encodings, utf32_utf16_conversion)
   convert_encoding<utf32, utf16>(utf32_ref, utf32_ref + 4, utf16Str);
   convert_encoding<utf16, utf32>(utf16_ref, utf16_ref + 5, utf32Str);
 
-  HOU_EXPECT_ARRAY_EQ(utf32_ref, utf32Str, 4);
-  HOU_EXPECT_ARRAY_EQ(utf16_ref, utf16Str, 5);
+  EXPECT_ARRAY_EQ(utf32_ref, utf32Str, 4);
+  EXPECT_ARRAY_EQ(utf16_ref, utf16Str, 5);
 }
 
 
@@ -655,15 +630,15 @@ TEST_F(test_character_encodings, utf32_utf8_conversion)
   utf32::code_unit utf32_ref[]
     = {U'\U00000061', U'\U00011AC0', U'\U00000101', U'\U00000904'};
   utf32::code_unit utf32Str[4] = {0};
-  utf8::code_unit utf8_ref[] = {'\x61', '\xF0', '\x91', '\xAB', '\x80',
-                               '\xC4', '\x81', '\xE0', '\xA4', '\x84'};
+  utf8::code_unit utf8_ref[] = {'\x61', '\xF0', '\x91', '\xAB', '\x80', '\xC4',
+    '\x81', '\xE0', '\xA4', '\x84'};
   utf8::code_unit utf8Str[10] = {0};
 
   convert_encoding<utf32, utf8>(utf32_ref, utf32_ref + 4, utf8Str);
   convert_encoding<utf8, utf32>(utf8_ref, utf8_ref + 10, utf32Str);
 
-  HOU_EXPECT_ARRAY_EQ(utf32_ref, utf32Str, 4);
-  HOU_EXPECT_ARRAY_EQ(utf8_ref, utf8Str, 10);
+  EXPECT_ARRAY_EQ(utf32_ref, utf32Str, 4);
+  EXPECT_ARRAY_EQ(utf8_ref, utf8Str, 10);
 }
 
 
@@ -673,15 +648,15 @@ TEST_F(test_character_encodings, utf16_utf8_conversion)
   utf16::code_unit utf16_ref[]
     = {u'\x0061', u'\xD806', u'\xDEC0', u'\x0101', u'\x0904'};
   utf16::code_unit utf16Str[5] = {0};
-  utf8::code_unit utf8_ref[] = {'\x61', '\xF0', '\x91', '\xAB', '\x80',
-                               '\xC4', '\x81', '\xE0', '\xA4', '\x84'};
+  utf8::code_unit utf8_ref[] = {'\x61', '\xF0', '\x91', '\xAB', '\x80', '\xC4',
+    '\x81', '\xE0', '\xA4', '\x84'};
   utf8::code_unit utf8Str[10] = {0};
 
   convert_encoding<utf16, utf8>(utf16_ref, utf16_ref + 5, utf8Str);
   convert_encoding<utf8, utf16>(utf8_ref, utf8_ref + 10, utf16Str);
 
-  HOU_EXPECT_ARRAY_EQ(utf16_ref, utf16Str, 5);
-  HOU_EXPECT_ARRAY_EQ(utf8_ref, utf8Str, 10);
+  EXPECT_ARRAY_EQ(utf16_ref, utf16Str, 5);
+  EXPECT_ARRAY_EQ(utf8_ref, utf8Str, 10);
 }
 
 

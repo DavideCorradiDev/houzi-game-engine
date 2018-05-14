@@ -4,7 +4,7 @@
 
 #include "hou/sys/window_impl.hpp"
 
-#include "hou/cor/error.hpp"
+#include "hou/cor/assertions.hpp"
 
 #include "hou/sys/window_event.hpp"
 
@@ -16,14 +16,14 @@ namespace hou
 namespace prv
 {
 
-window_handle window_impl::get_handle() const
+window_handle window_impl::get_handle() const noexcept
 {
   return m_handle;
 }
 
 
 
-bool window_impl::is_mouse_cursor_grabbed() const
+bool window_impl::is_mouse_cursor_grabbed() const noexcept
 {
   return m_cursor_grabbed;
 }
@@ -38,28 +38,28 @@ void window_impl::set_mouse_cursor_grabbed(bool value)
 
 
 
-bool window_impl::is_key_repeat_enabled() const
+bool window_impl::is_key_repeat_enabled() const noexcept
 {
   return m_key_repeat_enabled;
 }
 
 
 
-void window_impl::set_key_repeat_enabled(bool value)
+void window_impl::set_key_repeat_enabled(bool value) noexcept
 {
   m_key_repeat_enabled = value;
 }
 
 
 
-bool window_impl::is_event_queue_empty() const
+bool window_impl::is_event_queue_empty() const noexcept
 {
   return m_event_queue.empty();
 }
 
 
 
-window_event window_impl::pop_event()
+window_event window_impl::pop_event() noexcept
 {
   if(is_event_queue_empty())
   {

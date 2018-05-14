@@ -4,8 +4,8 @@
 
 #include "hou/aud/audio_source.hpp"
 
-#include "hou/cor/cor_error.hpp"
-#include "hou/cor/error.hpp"
+#include "hou/cor/assertions.hpp"
+#include "hou/cor/cor_exceptions.hpp"
 
 #include "hou/mth/math_functions.hpp"
 
@@ -17,10 +17,13 @@ namespace hou
 namespace
 {
 
-audio_source_state al_source_state_to_audio_source_state(ALenum state);
-uint normalize(uint value, uint max);
+audio_source_state al_source_state_to_audio_source_state(ALenum state) noexcept;
 
-audio_source_state al_source_state_to_audio_source_state(ALenum state)
+uint normalize(uint value, uint max) noexcept;
+
+
+
+audio_source_state al_source_state_to_audio_source_state(ALenum state) noexcept
 {
   switch(state)
   {
@@ -32,15 +35,14 @@ audio_source_state al_source_state_to_audio_source_state(ALenum state)
     case AL_STOPPED:
       return audio_source_state::stopped;
     default:
-      HOU_LOGIC_ERROR(
-        get_text(cor_error::invalid_enum), static_cast<int>(state));
+      HOU_UNREACHABLE();
       return audio_source_state::stopped;
   }
 }
 
 
 
-uint normalize(uint value, uint max)
+uint normalize(uint value, uint max) noexcept
 {
   return max == 0u ? 0u : value % max;
 }
@@ -57,7 +59,7 @@ audio_source::audio_source()
 
 
 
-audio_source::audio_source(audio_source&& other)
+audio_source::audio_source(audio_source&& other) noexcept
   : m_handle(std::move(other.m_handle))
   , m_requested_sample_pos(std::move(other.m_requested_sample_pos))
 {}
@@ -69,7 +71,7 @@ audio_source::~audio_source()
 
 
 
-const al::source_handle& audio_source::get_handle() const
+const al::source_handle& audio_source::get_handle() const noexcept
 {
   return m_handle;
 }
@@ -198,7 +200,7 @@ bool audio_source::is_looping() const
 
 void audio_source::set_pitch(float value)
 {
-  HOU_EXPECT(value >= 0.f);
+  HOU_PRECOND(value >= 0.f);
   al::set_source_pitch(m_handle, static_cast<ALfloat>(value));
 }
 
@@ -213,7 +215,7 @@ float audio_source::get_pitch() const
 
 void audio_source::set_gain(float value)
 {
-  HOU_EXPECT(value >= 0.f);
+  HOU_PRECOND(value >= 0.f);
   al::set_source_gain(m_handle, static_cast<ALfloat>(value));
 }
 
@@ -228,7 +230,7 @@ float audio_source::get_gain() const
 
 void audio_source::set_max_gain(float value)
 {
-  HOU_EXPECT(value >= 0.f);
+  HOU_PRECOND(value >= 0.f);
   al::set_source_max_gain(m_handle, static_cast<ALfloat>(value));
 }
 
@@ -243,7 +245,7 @@ float audio_source::get_max_gain() const
 
 void audio_source::set_min_gain(float value)
 {
-  HOU_EXPECT(value >= 0.f);
+  HOU_PRECOND(value >= 0.f);
   al::set_source_min_gain(m_handle, static_cast<ALfloat>(value));
 }
 
@@ -258,7 +260,7 @@ float audio_source::get_min_gain() const
 
 void audio_source::set_max_distance(float value)
 {
-  HOU_EXPECT(value >= 0.f);
+  HOU_PRECOND(value >= 0.f);
   al::set_source_max_distance(m_handle, static_cast<ALfloat>(value));
 }
 
@@ -273,7 +275,7 @@ float audio_source::get_max_distance() const
 
 void audio_source::set_rolloff_factor(float value)
 {
-  HOU_EXPECT(value >= 0.f);
+  HOU_PRECOND(value >= 0.f);
   al::set_source_rolloff_factor(m_handle, static_cast<ALfloat>(value));
 }
 
@@ -288,7 +290,7 @@ float audio_source::get_rolloff_factor() const
 
 void audio_source::set_reference_distance(float value)
 {
-  HOU_EXPECT(value >= 0.f);
+  HOU_PRECOND(value >= 0.f);
   al::set_source_reference_distance(m_handle, static_cast<ALfloat>(value));
 }
 
@@ -317,7 +319,7 @@ bool audio_source::is_relative() const
 
 void audio_source::set_cone_outer_gain(float value)
 {
-  HOU_EXPECT(value >= 0.f);
+  HOU_PRECOND(value >= 0.f);
   al::set_source_cone_outer_gain(m_handle, static_cast<ALfloat>(value));
 }
 
@@ -332,7 +334,7 @@ float audio_source::get_cone_outer_gain() const
 
 void audio_source::set_cone_inner_angle(float value)
 {
-  HOU_EXPECT(value >= 0.f && value <= 2.f * pi_f);
+  HOU_PRECOND(value >= 0.f && value <= 2.f * pi_f);
   al::set_source_cone_inner_angle(
     m_handle, static_cast<ALfloat>(rad_to_deg(value)));
 }
@@ -349,7 +351,7 @@ float audio_source::get_cone_inner_angle() const
 
 void audio_source::set_cone_outer_angle(float value)
 {
-  HOU_EXPECT(value >= 0.f && value <= 2.f * pi_f);
+  HOU_PRECOND(value >= 0.f && value <= 2.f * pi_f);
   al::set_source_cone_outer_angle(
     m_handle, static_cast<ALfloat>(rad_to_deg(value)));
 }

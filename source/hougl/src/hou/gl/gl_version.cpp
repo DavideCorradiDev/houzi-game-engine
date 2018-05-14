@@ -28,28 +28,28 @@ version version::standard(4u, 5u);
 
 
 
-version::version(uint major, uint minor)
+version::version(uint major, uint minor) noexcept
   : m_major(major)
   , m_minor(minor)
 {}
 
 
 
-uint version::get_major() const
+uint version::get_major() const noexcept
 {
   return m_major;
 }
 
 
 
-uint version::get_minor() const
+uint version::get_minor() const noexcept
 {
   return m_minor;
 }
 
 
 
-bool version::is_supported() const
+bool version::is_supported() const noexcept
 {
   return (std::find(supported_versions.begin(), supported_versions.end(), *this)
     != supported_versions.end());
@@ -57,21 +57,21 @@ bool version::is_supported() const
 
 
 
-bool operator==(const version& l, const version& r)
+bool operator==(const version& l, const version& r) noexcept
 {
   return l.get_major() == r.get_major() && l.get_minor() == r.get_minor();
 }
 
 
 
-bool operator!=(const version& l, const version& r)
+bool operator!=(const version& l, const version& r) noexcept
 {
   return l.get_major() != r.get_major() || l.get_minor() != r.get_minor();
 }
 
 
 
-bool operator>(const version& l, const version& r)
+bool operator>(const version& l, const version& r) noexcept
 {
   return l.get_major() > r.get_major()
     || (l.get_major() == r.get_major() && l.get_minor() > r.get_minor());
@@ -79,7 +79,7 @@ bool operator>(const version& l, const version& r)
 
 
 
-bool operator>=(const version& l, const version& r)
+bool operator>=(const version& l, const version& r) noexcept
 {
   return l.get_major() > r.get_major()
     || (l.get_major() == r.get_major() && l.get_minor() >= r.get_minor());
@@ -87,7 +87,7 @@ bool operator>=(const version& l, const version& r)
 
 
 
-bool operator<(const version& l, const version& r)
+bool operator<(const version& l, const version& r) noexcept
 {
   return l.get_major() < r.get_major()
     || (l.get_major() == r.get_major() && l.get_minor() < r.get_minor());
@@ -95,7 +95,7 @@ bool operator<(const version& l, const version& r)
 
 
 
-bool operator<=(const version& l, const version& r)
+bool operator<=(const version& l, const version& r) noexcept
 {
   return l.get_major() < r.get_major()
     || (l.get_major() == r.get_major() && l.get_minor() <= r.get_minor());

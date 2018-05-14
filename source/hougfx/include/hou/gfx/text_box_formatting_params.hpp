@@ -32,19 +32,20 @@ public:
    *
    * \param max_size the maximum text box size.
    */
-  text_box_formatting_params(text_flow text_flow, const vec2f& max_size);
+  text_box_formatting_params(
+    text_flow text_flow, const vec2f& max_size) noexcept;
 
   /** Retrieves the text flow parameter.
    *
    * \return the text flow parameter.
    */
-  text_flow get_text_flow() const;
+  text_flow get_text_flow() const noexcept;
 
   /** Retrieves the maximum text box size.
    *
    * \return the maximum text box size.
    */
-  const vec2f& get_max_size() const;
+  const vec2f& get_max_size() const noexcept;
 
 private:
   text_flow m_text_flow;

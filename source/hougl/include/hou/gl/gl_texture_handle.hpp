@@ -5,8 +5,9 @@
 #ifndef HOU_GL_GL_TEXTURE_HANDLE_HPP
 #define HOU_GL_GL_TEXTURE_HANDLE_HPP
 
-#include "hou/gl/gl_export.hpp"
 #include "hou/gl/gl_object_handle.hpp"
+
+#include "hou/gl/gl_export.hpp"
 
 
 
@@ -21,10 +22,10 @@ class HOU_GL_API texture_handle : public shared_object_handle
 public:
   static texture_handle create(GLenum target);
 
-  texture_handle(texture_handle&& other);
+  texture_handle(texture_handle&& other) noexcept = default;
   virtual ~texture_handle();
 
-  GLenum getTarget() const;
+  GLenum get_target() const noexcept;
 
 private:
   texture_handle(GLuint name, GLenum target);

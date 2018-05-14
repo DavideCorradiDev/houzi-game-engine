@@ -22,8 +22,6 @@ std::ostream& operator<<(std::ostream& os, pixel_format format)
     PIXEL_FORMAT_CASE(rgb, os);
     PIXEL_FORMAT_CASE(rgba, os);
     default:
-      HOU_LOGIC_ERROR(
-        get_text(cor_error::invalid_enum), static_cast<int>(format));
       return os;
   }
 }

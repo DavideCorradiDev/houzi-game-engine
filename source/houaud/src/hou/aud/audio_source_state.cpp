@@ -4,6 +4,8 @@
 
 #include "hou/aud/audio_source_state.hpp"
 
+#include "hou/cor/exception.hpp"
+
 #define AUDIO_SOURCE_STATE_CASE(state, os) \
   case audio_source_state::state: \
     return (os) << #state
@@ -21,6 +23,7 @@ std::ostream& operator<<(std::ostream& os, audio_source_state state)
     AUDIO_SOURCE_STATE_CASE(playing, os);
     AUDIO_SOURCE_STATE_CASE(paused, os);
     default:
+      HOU_UNREACHABLE();
       return os;
   }
 }

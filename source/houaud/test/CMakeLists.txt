@@ -38,6 +38,7 @@ SET(EXE_HOUAUD_TEST_SRC
   ${LIB_HOUTEST_SOURCE_DIR}/src/test_main.cpp
   hou/aud/test_aud_base.cpp
   hou/aud/test_aud_base_test_specific_context.cpp
+  hou/aud/test_aud_exceptions.cpp
   hou/aud/test_audio_buffer.cpp
   hou/aud/test_audio_context.cpp
   hou/aud/test_audio_source.cpp

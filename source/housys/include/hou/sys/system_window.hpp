@@ -14,7 +14,7 @@
 namespace hou
 {
 
-class HOU_SYS_API system_window : public window
+class HOU_SYS_API system_window final : public window
 {
 public:
   /** Creates a window object.
@@ -40,8 +40,10 @@ public:
   /** Move constructor.
    *
    * \param other the other window object.
+   *
+   * \throws hou::os_error if the window could not be created.
    */
-  system_window(system_window&& other);
+  system_window(system_window&& other) = default;
 
   // window ovverrides.
   void set_frame_rect(const vec2i& pos, const vec2u& size) final;

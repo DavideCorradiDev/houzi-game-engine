@@ -4,8 +4,7 @@
 
 #include "hou/cor/uid_generator.hpp"
 
-#include "hou/cor/cor_error.hpp"
-#include "hou/cor/error.hpp"
+#include "hou/cor/cor_exceptions.hpp"
 
 #include <limits>
 
@@ -14,7 +13,7 @@
 namespace hou
 {
 
-uid_generator::uid_generator(uint32_t starting_value)
+uid_generator::uid_generator(uint32_t starting_value) noexcept
   : m_counter(starting_value)
 {}
 
@@ -22,8 +21,8 @@ uid_generator::uid_generator(uint32_t starting_value)
 
 uint32_t uid_generator::generate()
 {
-  HOU_RUNTIME_CHECK(m_counter != std::numeric_limits<uint32_t>::max(),
-    get_text(cor_error::overflow));
+  HOU_CHECK_0(
+    m_counter != std::numeric_limits<uint32_t>::max(), overflow_error);
   return m_counter.fetch_add(1);
 }
 

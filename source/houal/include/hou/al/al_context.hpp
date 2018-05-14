@@ -5,9 +5,9 @@
 #ifndef HOU_AL_AL_CONTEXT_HPP
 #define HOU_AL_AL_CONTEXT_HPP
 
-#include "hou/al/al_export.hpp"
-
 #include "hou/al/open_al.hpp"
+
+#include "hou/al/al_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 #include "hou/cor/non_copyable.hpp"
@@ -31,11 +31,11 @@ public:
 
 public:
   context(device& dev);
-  context(context&& other);
+  context(context&& other) noexcept;
   ~context();
 
-  uint32_t get_uid() const;
-  uint32_t get_device_uid() const;
+  uint32_t get_uid() const noexcept;
+  uint32_t get_device_uid() const noexcept;
 
   bool is_current() const;
 

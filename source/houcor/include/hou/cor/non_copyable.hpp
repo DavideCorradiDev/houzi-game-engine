@@ -5,6 +5,8 @@
 #ifndef HOU_COR_NONCOPYABLE_HPP
 #define HOU_COR_NONCOPYABLE_HPP
 
+#include "hou/cor/cor_export.hpp"
+
 
 
 namespace hou
@@ -19,7 +21,7 @@ class non_copyable
 public:
   /** default constructor
    */
-  non_copyable()
+  non_copyable() noexcept
   {}
 
   /** Destructor

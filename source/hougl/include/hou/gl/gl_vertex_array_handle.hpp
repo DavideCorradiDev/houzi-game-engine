@@ -5,8 +5,9 @@
 #ifndef HOU_GL_GL_VERTEX_ARRAY_HANDLE_HPP
 #define HOU_GL_GL_VERTEX_ARRAY_HANDLE_HPP
 
-#include "hou/gl/gl_export.hpp"
 #include "hou/gl/gl_object_handle.hpp"
+
+#include "hou/gl/gl_export.hpp"
 
 
 
@@ -23,7 +24,7 @@ class HOU_GL_API vertex_array_handle : public non_shared_object_handle
 public:
   static vertex_array_handle create();
 
-  vertex_array_handle(vertex_array_handle&& other);
+  vertex_array_handle(vertex_array_handle&& other) noexcept = default;
   virtual ~vertex_array_handle();
 
 private:

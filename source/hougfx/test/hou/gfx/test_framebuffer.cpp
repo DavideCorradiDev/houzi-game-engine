@@ -60,7 +60,7 @@ void test_color_blit(texture_format src_format,
 
   if(test_error)
   {
-    HOU_EXPECT_PRECONDITION(blit(srf_fb, src_rect, dst_fb, dst_rect,
+    EXPECT_PRECOND_ERROR(blit(srf_fb, src_rect, dst_fb, dst_rect,
       framebuffer_blit_mask::color, filter));
   }
   else
@@ -190,9 +190,9 @@ TEST_F(test_framebuffer, specific_binding)
 TEST_F(test_framebuffer_death_test, binding_error_incomplete_frame_buffer)
 {
   framebuffer fb;
-  HOU_EXPECT_PRECONDITION(framebuffer::bind(fb));
-  HOU_EXPECT_PRECONDITION(framebuffer::bind_draw_target(fb));
-  HOU_EXPECT_PRECONDITION(framebuffer::bind_read_target(fb));
+  EXPECT_PRECOND_ERROR(framebuffer::bind(fb));
+  EXPECT_PRECOND_ERROR(framebuffer::bind_draw_target(fb));
+  EXPECT_PRECOND_ERROR(framebuffer::bind_read_target(fb));
 }
 
 
@@ -253,7 +253,7 @@ TEST_F(test_framebuffer_death_test,
 {
   framebuffer fb;
   texture2 tex(vec2u(4u, 8u), texture_format::rgba, 2u);
-  HOU_EXPECT_PRECONDITION(fb.set_color_attachment(
+  EXPECT_PRECOND_ERROR(fb.set_color_attachment(
     framebuffer::get_color_attachment_point_count(), tex));
 }
 
@@ -281,7 +281,7 @@ TEST_F(
   framebuffer fb;
   uint mipmap_level_count = 3u;
   texture2 tex(vec2u(4u, 8u), texture_format::rgba, mipmap_level_count);
-  HOU_EXPECT_PRECONDITION(fb.set_color_attachment(0u, tex, mipmap_level_count));
+  EXPECT_PRECOND_ERROR(fb.set_color_attachment(0u, tex, mipmap_level_count));
 }
 
 
@@ -308,9 +308,9 @@ TEST_F(test_framebuffer_death_test, set_color_attachment_invalid_formats)
   texture2 tex_depth(vec2u(4u, 8u), texture_format::depth);
   texture2 tex_stencil(vec2u(4u, 8u), texture_format::stencil);
   texture2 tex_depth_stencil(vec2u(4u, 8u), texture_format::depth_stencil);
-  HOU_EXPECT_PRECONDITION(fb.set_color_attachment(0u, tex_depth));
-  HOU_EXPECT_PRECONDITION(fb.set_color_attachment(0u, tex_stencil));
-  HOU_EXPECT_PRECONDITION(fb.set_color_attachment(0u, tex_depth_stencil));
+  EXPECT_PRECOND_ERROR(fb.set_color_attachment(0u, tex_depth));
+  EXPECT_PRECOND_ERROR(fb.set_color_attachment(0u, tex_stencil));
+  EXPECT_PRECOND_ERROR(fb.set_color_attachment(0u, tex_depth_stencil));
 }
 
 
@@ -349,7 +349,7 @@ TEST_F(
   framebuffer fb;
   uint mipmap_level_count = 3u;
   texture2 tex(vec2u(4u, 8u), texture_format::depth, mipmap_level_count);
-  HOU_EXPECT_PRECONDITION(fb.set_depth_attachment(tex, mipmap_level_count));
+  EXPECT_PRECOND_ERROR(fb.set_depth_attachment(tex, mipmap_level_count));
 }
 
 
@@ -374,11 +374,11 @@ TEST_F(test_framebuffer_death_test, set_depth_attachment_invalid_formats)
   texture2 tex_rgb(vec2u(4u, 8u), texture_format::rgb);
   texture2 tex_rgba(vec2u(4u, 8u), texture_format::rgba);
   texture2 tex_stencil(vec2u(4u, 8u), texture_format::stencil);
-  HOU_EXPECT_PRECONDITION(fb.set_depth_attachment(tex_r));
-  HOU_EXPECT_PRECONDITION(fb.set_depth_attachment(tex_rg));
-  HOU_EXPECT_PRECONDITION(fb.set_depth_attachment(tex_rgb));
-  HOU_EXPECT_PRECONDITION(fb.set_depth_attachment(tex_rgba));
-  HOU_EXPECT_PRECONDITION(fb.set_depth_attachment(tex_stencil));
+  EXPECT_PRECOND_ERROR(fb.set_depth_attachment(tex_r));
+  EXPECT_PRECOND_ERROR(fb.set_depth_attachment(tex_rg));
+  EXPECT_PRECOND_ERROR(fb.set_depth_attachment(tex_rgb));
+  EXPECT_PRECOND_ERROR(fb.set_depth_attachment(tex_rgba));
+  EXPECT_PRECOND_ERROR(fb.set_depth_attachment(tex_stencil));
 }
 
 
@@ -417,7 +417,7 @@ TEST_F(test_framebuffer_death_test,
   framebuffer fb;
   uint mipmap_level_count = 3u;
   texture2 tex(vec2u(4u, 8u), texture_format::stencil, mipmap_level_count);
-  HOU_EXPECT_PRECONDITION(fb.set_stencil_attachment(tex, mipmap_level_count));
+  EXPECT_PRECOND_ERROR(fb.set_stencil_attachment(tex, mipmap_level_count));
 }
 
 
@@ -442,11 +442,11 @@ TEST_F(test_framebuffer_death_test, set_stencil_attachment_invalid_formats)
   texture2 tex_rgb(vec2u(4u, 8u), texture_format::rgb);
   texture2 tex_rgba(vec2u(4u, 8u), texture_format::rgba);
   texture2 tex_depth(vec2u(4u, 8u), texture_format::depth);
-  HOU_EXPECT_PRECONDITION(fb.set_stencil_attachment(tex_r));
-  HOU_EXPECT_PRECONDITION(fb.set_stencil_attachment(tex_rg));
-  HOU_EXPECT_PRECONDITION(fb.set_stencil_attachment(tex_rgb));
-  HOU_EXPECT_PRECONDITION(fb.set_stencil_attachment(tex_rgba));
-  HOU_EXPECT_PRECONDITION(fb.set_stencil_attachment(tex_depth));
+  EXPECT_PRECOND_ERROR(fb.set_stencil_attachment(tex_r));
+  EXPECT_PRECOND_ERROR(fb.set_stencil_attachment(tex_rg));
+  EXPECT_PRECOND_ERROR(fb.set_stencil_attachment(tex_rgb));
+  EXPECT_PRECOND_ERROR(fb.set_stencil_attachment(tex_rgba));
+  EXPECT_PRECOND_ERROR(fb.set_stencil_attachment(tex_depth));
 }
 
 
@@ -487,7 +487,7 @@ TEST_F(
   uint mipmap_level_count = 3u;
   texture2 tex(
     vec2u(4u, 8u), texture_format::depth_stencil, mipmap_level_count);
-  HOU_EXPECT_PRECONDITION(
+  EXPECT_PRECOND_ERROR(
     fb.set_depth_stencil_attachment(tex, mipmap_level_count));
 }
 
@@ -513,12 +513,12 @@ TEST_F(
   texture2 tex_rgba(vec2u(4u, 8u), texture_format::rgba);
   texture2 tex_depth(vec2u(4u, 8u), texture_format::depth);
   texture2 tex_stencil(vec2u(4u, 8u), texture_format::stencil);
-  HOU_EXPECT_PRECONDITION(fb.set_depth_stencil_attachment(tex_r));
-  HOU_EXPECT_PRECONDITION(fb.set_depth_stencil_attachment(tex_rg));
-  HOU_EXPECT_PRECONDITION(fb.set_depth_stencil_attachment(tex_rgb));
-  HOU_EXPECT_PRECONDITION(fb.set_depth_stencil_attachment(tex_rgba));
-  HOU_EXPECT_PRECONDITION(fb.set_depth_stencil_attachment(tex_depth));
-  HOU_EXPECT_PRECONDITION(fb.set_depth_stencil_attachment(tex_stencil));
+  EXPECT_PRECOND_ERROR(fb.set_depth_stencil_attachment(tex_r));
+  EXPECT_PRECOND_ERROR(fb.set_depth_stencil_attachment(tex_rg));
+  EXPECT_PRECOND_ERROR(fb.set_depth_stencil_attachment(tex_rgb));
+  EXPECT_PRECOND_ERROR(fb.set_depth_stencil_attachment(tex_rgba));
+  EXPECT_PRECOND_ERROR(fb.set_depth_stencil_attachment(tex_depth));
+  EXPECT_PRECOND_ERROR(fb.set_depth_stencil_attachment(tex_stencil));
 }
 
 
@@ -841,7 +841,7 @@ TEST_F(test_framebuffer_death_test, blit_error_incomplete_source_buffer)
 
   EXPECT_FALSE(src.is_complete());
   EXPECT_TRUE(dst.is_complete());
-  HOU_EXPECT_PRECONDITION(
+  EXPECT_PRECOND_ERROR(
     blit(src, recti(1u, 1u, 1u, 1u), dst, recti(1u, 1u, 1u, 1u),
       framebuffer_blit_mask::color, framebuffer_blit_filter::nearest));
 }
@@ -857,7 +857,7 @@ TEST_F(test_framebuffer_death_test, blit_error_incomplete_destination_buffer)
 
   EXPECT_TRUE(src.is_complete());
   EXPECT_FALSE(dst.is_complete());
-  HOU_EXPECT_PRECONDITION(
+  EXPECT_PRECOND_ERROR(
     blit(src, recti(1u, 1u, 1u, 1u), dst, recti(1u, 1u, 1u, 1u),
       framebuffer_blit_mask::color, framebuffer_blit_filter::nearest));
 }
@@ -1040,17 +1040,17 @@ TEST_F(
   EXPECT_TRUE(src.is_complete());
   EXPECT_TRUE(dst.is_complete());
 
-  HOU_EXPECT_PRECONDITION(
+  EXPECT_PRECOND_ERROR(
     blit(src, recti(1u, 1u, 1u, 1u), dst, recti(1u, 1u, 1u, 1u),
       framebuffer_blit_mask::depth, framebuffer_blit_filter::linear));
-  HOU_EXPECT_PRECONDITION(
+  EXPECT_PRECOND_ERROR(
     blit(src, recti(1u, 1u, 1u, 1u), dst, recti(1u, 1u, 1u, 1u),
       framebuffer_blit_mask::stencil, framebuffer_blit_filter::linear));
-  HOU_EXPECT_PRECONDITION(
+  EXPECT_PRECOND_ERROR(
     blit(src, recti(1u, 1u, 1u, 1u), dst, recti(1u, 1u, 1u, 1u),
       framebuffer_blit_mask::depth | framebuffer_blit_mask::stencil,
       framebuffer_blit_filter::linear));
-  HOU_EXPECT_PRECONDITION(
+  EXPECT_PRECOND_ERROR(
     blit(src, recti(1u, 1u, 1u, 1u), dst, recti(1u, 1u, 1u, 1u),
       framebuffer_blit_mask::all, framebuffer_blit_filter::linear));
 }

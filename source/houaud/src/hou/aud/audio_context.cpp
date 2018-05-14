@@ -50,7 +50,7 @@ audio_context::audio_context(const std::string& dev_name)
 
 
 
-audio_context::audio_context(audio_context&& other)
+audio_context::audio_context(audio_context&& other) noexcept
   : m_al_device(std::move(other.m_al_device))
   , m_al_context(std::move(other.m_al_context))
 {}

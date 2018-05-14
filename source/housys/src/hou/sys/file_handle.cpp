@@ -4,9 +4,9 @@
 
 #include "hou/sys/file_handle.hpp"
 
-#include "hou/sys/sys_error.hpp"
+#include "hou/sys/sys_exceptions.hpp"
 
-#include "hou/cor/error.hpp"
+#include "hou/cor/assertions.hpp"
 
 
 
@@ -18,13 +18,12 @@ file_handle::file_handle(
   : non_copyable()
   , m_file(open_file(path, get_file_mode_string(mode, type)))
 {
-  HOU_RUNTIME_CHECK(
-    m_file != nullptr, get_text(sys_error::file_open), path.c_str());
+  HOU_CHECK_N(m_file != nullptr, file_open_error, path);
 }
 
 
 
-file_handle::file_handle(file_handle&& other)
+file_handle::file_handle(file_handle&& other) noexcept
   : non_copyable()
   , m_file(std::move(other.m_file))
 {
@@ -37,21 +36,22 @@ file_handle::~file_handle()
 {
   if(m_file != nullptr)
   {
-    HOU_FATAL_CHECK(fclose(m_file) != EOF, get_text(sys_error::file_close),
-      get_file_descriptor(m_file));
+    HOU_DISABLE_EXCEPTIONS_BEGIN
+    HOU_CHECK_0(fclose(m_file) != EOF, file_close_error);
+    HOU_DISABLE_EXCEPTIONS_END
   }
 }
 
 
 
-file_handle::operator FILE*() const
+file_handle::operator FILE*() const noexcept
 {
   return m_file;
 }
 
 
 
-std::string get_file_mode_string(file_open_mode mode, file_type type)
+std::string get_file_mode_string(file_open_mode mode, file_type type) noexcept
 {
   switch(mode)
   {
@@ -62,6 +62,7 @@ std::string get_file_mode_string(file_open_mode mode, file_type type)
     case file_open_mode::append:
       return type == file_type::binary ? "ab" : "a";
     default:
+      HOU_UNREACHABLE();
       return "";
   }
 }

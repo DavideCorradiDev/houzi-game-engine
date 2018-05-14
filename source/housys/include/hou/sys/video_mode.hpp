@@ -29,33 +29,36 @@ public:
    *
    * \return the desktop video mode.
    */
-  static video_mode get_desktop_mode();
+  static video_mode get_desktop_mode() noexcept;
 
   /** Retrieves the available fullscreen modes.
+   *
+   * \throws std::bad_alloc.
    *
    * \return a collection of the available fullscreen modes.
    */
   static std::vector<video_mode> get_fullscreen_modes();
 
+public:
   /** Creates a video_mode object.
    *
    * \param resolution the screen resolution.
    *
    * \param bytes_per_pixel the number of bits per pixel.
    */
-  video_mode(const vec2u& resolution, uint bytes_per_pixel);
+  video_mode(const vec2u& resolution, uint bytes_per_pixel) noexcept;
 
   /** Retrieves the screen resolution.
    *
    * \return the screen resolution.
    */
-  const vec2u& get_resolution() const;
+  const vec2u& get_resolution() const noexcept;
 
   /** Retrieves the number of bits per pixel.
    *
    * \return the number of bits per pixel.
    */
-  uint get_bytes_per_pixel() const;
+  uint get_bytes_per_pixel() const noexcept;
 
   /** Checks if this is a fullscreen video mode.
    *
@@ -79,7 +82,8 @@ private:
  *
  * \return the result of the check.
  */
-HOU_SYS_API bool operator==(const video_mode& lhs, const video_mode& rhs);
+HOU_SYS_API bool operator==(
+  const video_mode& lhs, const video_mode& rhs) noexcept;
 
 /** Checks if two video_mode objects are not equal.
  *
@@ -89,7 +93,8 @@ HOU_SYS_API bool operator==(const video_mode& lhs, const video_mode& rhs);
  *
  * \return the result of the check.
  */
-HOU_SYS_API bool operator!=(const video_mode& lhs, const video_mode& rhs);
+HOU_SYS_API bool operator!=(
+  const video_mode& lhs, const video_mode& rhs) noexcept;
 
 /** Checks if lhs is lower than rhs.
  *
@@ -102,7 +107,8 @@ HOU_SYS_API bool operator!=(const video_mode& lhs, const video_mode& rhs);
  *
  * \return the result of the check.
  */
-HOU_SYS_API bool operator<(const video_mode& lhs, const video_mode& rhs);
+HOU_SYS_API bool operator<(
+  const video_mode& lhs, const video_mode& rhs) noexcept;
 
 /** Checks if lhs is greater than rhs.
  *
@@ -115,7 +121,8 @@ HOU_SYS_API bool operator<(const video_mode& lhs, const video_mode& rhs);
  *
  * \return the result of the check.
  */
-HOU_SYS_API bool operator>(const video_mode& lhs, const video_mode& rhs);
+HOU_SYS_API bool operator>(
+  const video_mode& lhs, const video_mode& rhs) noexcept;
 
 /** Checks if lhs is lower or equal to rhs.
  *
@@ -128,7 +135,8 @@ HOU_SYS_API bool operator>(const video_mode& lhs, const video_mode& rhs);
  *
  * \return the result of the check.
  */
-HOU_SYS_API bool operator<=(const video_mode& lhs, const video_mode& rhs);
+HOU_SYS_API bool operator<=(
+  const video_mode& lhs, const video_mode& rhs) noexcept;
 
 /** Checks if lhs is greater or equal to rhs.
  *
@@ -141,7 +149,8 @@ HOU_SYS_API bool operator<=(const video_mode& lhs, const video_mode& rhs);
  *
  * \return the result of the check.
  */
-HOU_SYS_API bool operator>=(const video_mode& lhs, const video_mode& rhs);
+HOU_SYS_API bool operator>=(
+  const video_mode& lhs, const video_mode& rhs) noexcept;
 
 /** Writes a video_mode object into a stream.
  *

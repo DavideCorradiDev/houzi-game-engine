@@ -4,8 +4,6 @@
 
 #include "hou/Test.hpp"
 
-#include "hou/cor/cor_error.hpp"
-
 #include "hou/mth/matrix.hpp"
 
 using namespace hou;
@@ -97,5 +95,5 @@ TEST_F(test_vec2, dot_product)
 TEST_F(test_vec2, output_stream_operator)
 {
   vec2i v(1, 2);
-  HOU_EXPECT_OUTPUT("(1)\n(2)", v);
+  EXPECT_OUTPUT("(1)\n(2)", v);
 }

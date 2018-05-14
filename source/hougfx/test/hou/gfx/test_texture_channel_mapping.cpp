@@ -123,5 +123,5 @@ TEST_F(test_texture_channel_mapping, output_stream_operator)
   texture_channel_mapping tcm(texture_channel::b, texture_channel::a,
     texture_channel::one, texture_channel::r);
   const char out_ref[] = "{b -> r, a -> g, one -> b, r -> a}";
-  HOU_EXPECT_OUTPUT(out_ref, tcm);
+  EXPECT_OUTPUT(out_ref, tcm);
 }

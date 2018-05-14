@@ -5,6 +5,7 @@
 #include "hou/gfx/gl_type.hpp"
 
 #include "hou/cor/basic_types.hpp"
+#include "hou/cor/exception.hpp"
 
 #define GFX_GL_TYPE_CASE(type, os) \
   case gl_type::type: \
@@ -30,6 +31,7 @@ std::ostream& operator<<(std::ostream& os, gl_type type)
     GFX_GL_TYPE_CASE(double_decimal, os);
     GFX_GL_TYPE_CASE(fixed_decimal, os);
     default:
+      HOU_UNREACHABLE();
       return os;
   }
 }

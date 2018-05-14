@@ -5,7 +5,7 @@
 #include "hou/al/al_source_handle.hpp"
 
 #include "hou/al/al_buffer_handle.hpp"
-#include "hou/al/al_check.hpp"
+#include "hou/al/al_exceptions.hpp"
 
 
 
@@ -23,12 +23,6 @@ source_handle source_handle::generate()
   HOU_AL_CHECK_ERROR();
   return source_handle(name);
 }
-
-
-
-source_handle::source_handle(source_handle&& other)
-  : context_owned_object_handle(std::move(other))
-{}
 
 
 

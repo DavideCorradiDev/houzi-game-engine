@@ -5,17 +5,17 @@
 #ifndef HOU_MTH_MATRIX_HPP
 #define HOU_MTH_MATRIX_HPP
 
+#include "hou/mth/matrix_fwd.hpp"
+
 #include "hou/mth/mth_export.hpp"
 
+#include "hou/cor/assertions.hpp"
 #include "hou/cor/basic_types.hpp"
-#include "hou/cor/error.hpp"
+#include "hou/cor/pragmas.hpp"
 #include "hou/cor/std_array.hpp"
 #include "hou/cor/template_utils.hpp"
 
-#include "hou/mth/matrix_fwd.hpp"
-
 #include <cmath>
-#include <initializer_list>
 #include <iostream>
 #include <limits>
 
@@ -24,6 +24,7 @@
 namespace hou
 {
 
+HOU_PRAGMA_PACK_PUSH(1)
 /** Represents a matrix.
  *
  * The size of the matrix is static and the object is allocated on the stack.
@@ -50,13 +51,13 @@ public:
    *
    * \return the number of rows of the matrix.
    */
-  inline static constexpr size_t get_row_count();
+  inline static constexpr size_t get_row_count() noexcept;
 
   /** Get the number of columns of the matrix.
    *
    * \return the number of columns of the matrix.
    */
-  inline static constexpr size_t get_column_count();
+  inline static constexpr size_t get_column_count() noexcept;
 
   /** Get the number of elements of the matrix.
    *
@@ -65,13 +66,13 @@ public:
    *
    * \return the number of elements of the matrix.
    */
-  inline static constexpr size_t get_size();
+  inline static constexpr size_t get_size() noexcept;
 
   /** Returns the zero matrix.
    *
    * \return the zero matrix.
    */
-  static matrix zero();
+  static constexpr matrix zero() noexcept;
 
   /** Returns a matrix with all elements set to a given value.
    *
@@ -79,7 +80,7 @@ public:
    *
    * \return a matrix with all element set to value.
    */
-  static matrix filled(T value);
+  static constexpr matrix filled(T value) noexcept;
 
   /** Returns the identity matrix.
    *
@@ -91,7 +92,7 @@ public:
    */
   template <size_t RC = Rows,
     typename Enable = std::enable_if_t<Rows == RC && Cols == RC>>
-  static matrix identity();
+  static constexpr matrix identity() noexcept;
 
   /** Returns a diagonal matrix with the given diagonal elements.
    *
@@ -105,7 +106,7 @@ public:
    */
   template <size_t RC = Rows,
     typename Enable = std::enable_if_t<Rows == RC && Cols == RC>>
-  static matrix diagonal(const matrix<T, RC, 1u>& elements);
+  static constexpr matrix diagonal(const matrix<T, RC, 1u>& elements) noexcept;
 
   /** Returns a diagonal matrix with the given diagonal elements.
    *
@@ -119,12 +120,12 @@ public:
    */
   template <typename... Args,
     typename Enable = std::enable_if_t<Rows == Cols && sizeof...(Args) == Rows>>
-  static matrix diagonal(Args... elements);
+  static constexpr matrix diagonal(Args... elements) noexcept;
 
 public:
   /** Creates a matrix with all elements initialized to 0.
    */
-  matrix();
+  constexpr matrix() noexcept;
 
   /** Creates a matrix from a matrix with same size but different scalar type.
    *
@@ -138,7 +139,7 @@ public:
    */
   template <typename U,
     typename Enable = std::enable_if_t<std::is_convertible<U, T>::value>>
-  matrix(const matrix<U, Rows, Cols>& other);
+  constexpr matrix(const matrix<U, Rows, Cols>& other) noexcept;
 
   /** Creates a matrix from the given elements.
    *
@@ -161,30 +162,7 @@ public:
   template <typename... Args,
     typename Enable = std::enable_if_t<sizeof...(Args) == Rows * Cols
       && conjunction<std::is_convertible<Args, T>::value...>::value>>
-  matrix(Args... elements);
-
-  /** Creates a matrix from the elements given in the initializer list.
-   *
-   * Consider that the elements of a row are contiguous in memory. For example,
-   * for a 2x3 matrix, the following initializer list:
-   *
-   *     {1, 2, 3, 4, 5, 6}
-   *
-   * would result in the following matrix:
-   *
-   *     (1, 2, 3)
-   *     (4, 5, 6)
-   *
-   * Throws if the size of the initializer list is different from the size of
-   * the matrix.
-   *
-   * \param elements an initializer list containing the elements of the matrix.
-   */
-  matrix(std::initializer_list<T> elements);
-
-  /** Destructor.
-   */
-  virtual ~matrix();
+  constexpr matrix(Args... elements) noexcept;
 
   /** Retrieves a copy of the element at the specified coordinates.
    *
@@ -192,9 +170,11 @@ public:
    *
    * \param col the column coordinate.
    *
+   * \throws hou::precondition_violation if row or col are not valid.
+   *
    * \return the copy of the element.
    */
-  T operator()(size_t row, size_t col) const;
+  constexpr T operator()(size_t row, size_t col) const;
 
   /** Retrieves a reference to the element at the specified coordinates.
    *
@@ -202,9 +182,11 @@ public:
    *
    * \param col the column coordinate.
    *
+   * \throws hou::precondition_violation if row or col are not valid.
+   *
    * \return a reference to the element.
    */
-  T& operator()(size_t row, size_t col);
+  constexpr T& operator()(size_t row, size_t col);
 
   /** Retrieves a copy the element at the given index.
    *
@@ -213,9 +195,11 @@ public:
    *
    * \param index the index of the element.
    *
+   * \throws hou::precondition_violation if index is not valid.
+   *
    * \return a copy of the element.
    */
-  T operator()(size_t index) const;
+  constexpr T operator()(size_t index) const;
 
   /** Retrieves a reference to the element at the given index.
    *
@@ -224,9 +208,11 @@ public:
    *
    * \param index the index of the element.
    *
+   * \throws hou::precondition_violation if index is not valid.
+   *
    * \return a reference to the element
    */
-  T& operator()(size_t index);
+  constexpr T& operator()(size_t index);
 
   /** Retrieves a copy of the first element of a column vector.
    *
@@ -238,7 +224,7 @@ public:
    */
   template <size_t c = Cols,
     typename Enable = std::enable_if_t<(c == Cols && c == 1u)>>
-  T x() const;
+  constexpr T x() const noexcept;
 
   /** Retrieves a reference to the first element of a column vector.
    *
@@ -250,7 +236,7 @@ public:
    */
   template <size_t c = Cols,
     typename Enable = std::enable_if_t<(c == Cols && c == 1u)>>
-  T& x();
+  constexpr T& x() noexcept;
 
   /** Retrieves a copy of the second element of a column vector.
    *
@@ -265,7 +251,7 @@ public:
   template <size_t r = Rows, size_t c = Cols,
     typename Enable
     = std::enable_if_t<(r == Rows && r > 1u && c == Cols && c == 1u)>>
-  T y() const;
+  constexpr T y() const noexcept;
 
   /** Retrieves a reference to the second element of a column vector.
    *
@@ -280,7 +266,7 @@ public:
   template <size_t r = Rows, size_t c = Cols,
     typename Enable
     = std::enable_if_t<(r == Rows && r > 1u && c == Cols && c == 1u)>>
-  T& y();
+  constexpr T& y() noexcept;
 
   /** Retrieves a copy of the third element of a column vector.
    *
@@ -295,7 +281,7 @@ public:
   template <size_t r = Rows, size_t c = Cols,
     typename Enable
     = std::enable_if_t<(r == Rows && r > 2u && c == Cols && c == 1u)>>
-  T z() const;
+  constexpr T z() const noexcept;
 
   /** Retrieves a reference to the third element of a column vector.
    *
@@ -310,7 +296,7 @@ public:
   template <size_t r = Rows, size_t c = Cols,
     typename Enable
     = std::enable_if_t<(r == Rows && r > 2u && c == Cols && c == 1u)>>
-  T& z();
+  constexpr T& z() noexcept;
 
   /** Retrieves a copy of the fourth element of a column vector.
    *
@@ -325,7 +311,7 @@ public:
   template <size_t r = Rows, size_t c = Cols,
     typename Enable
     = std::enable_if_t<(r == Rows && r > 3u && c == Cols && c == 1u)>>
-  T w() const;
+  constexpr T w() const noexcept;
 
   /** Retrieves a reference to the fourth element of a column vector.
    *
@@ -340,7 +326,7 @@ public:
   template <size_t r = Rows, size_t c = Cols,
     typename Enable
     = std::enable_if_t<(r == Rows && r > 3u && c == Cols && c == 1u)>>
-  T& w();
+  constexpr T& w() noexcept;
 
   /** Retrieves a pointer to an array containing the matrix elements.
    *
@@ -351,7 +337,7 @@ public:
    *
    * \return a constant raw pointer to the matrix data.
    */
-  const T* data() const;
+  constexpr const T* data() const noexcept;
 
   /** Sets the elements of the matrix to the given values.
    *
@@ -364,13 +350,13 @@ public:
   template <typename... Args,
     typename Enable = std::enable_if_t<sizeof...(Args) == Rows * Cols
       && conjunction<std::is_convertible<Args, T>::value...>::value>>
-  void set(Args... elements);
+  constexpr void set(Args... elements) noexcept;
 
   /** Sets all elements of the matrix to the specified value.
    *
    * \param value the value to which th elements of the matrix have to be set.
    */
-  void fill(T value);
+  constexpr void fill(T value) noexcept;
 
   /** Adds the given matrix to this matrix.
    *
@@ -380,7 +366,7 @@ public:
    *
    * \return a reference to this matrix after the addition.
    */
-  matrix& operator+=(const matrix& rhs);
+  constexpr matrix& operator+=(const matrix& rhs) noexcept;
 
   /** Subtracts the given matrix from this matrix.
    *
@@ -390,7 +376,7 @@ public:
    *
    * \return a reference to this matrix after the subtraction.
    */
-  matrix& operator-=(const matrix& rhs);
+  constexpr matrix& operator-=(const matrix& rhs) noexcept;
 
   /** Multiplies this matrix by the given scalar.
    *
@@ -400,7 +386,7 @@ public:
    *
    * \return a reference to this matrix after the multiplication.
    */
-  matrix& operator*=(T rhs);
+  constexpr matrix& operator*=(T rhs) noexcept;
 
   /** Divides this matrix by the given scalar.
    *
@@ -410,7 +396,7 @@ public:
    *
    * \return a reference to this matrix after the division.
    */
-  matrix& operator/=(T rhs);
+  constexpr matrix& operator/=(T rhs) noexcept;
 
   /** Adjugates this matrix.
    *
@@ -422,7 +408,7 @@ public:
    */
   template <size_t RC = Rows,
     typename Enable = std::enable_if_t<Rows == RC && Cols == RC>>
-  matrix& adjugate();
+  constexpr matrix& adjugate() noexcept;
 
   /** Inverts this matrix.
    *
@@ -430,17 +416,21 @@ public:
    *
    * \tparam Enable enabling parameter (can be left to the default value).
    *
+   * \throws hou::precondition if the determinant of the matrix is 0.
+   *
    * \return a reference to this matrix after the inversion.
    */
   template <size_t RC = Rows,
     typename Enable = std::enable_if_t<Rows == RC && Cols == RC>>
-  matrix& invert();
+  constexpr matrix& invert();
 
   /** Normalizes the matrix.
    *
+   * \throws hou::precondition_violation if the norm of the matrix is 0.
+   *
    * \return a reference to this matrix after normalization.
    */
-  matrix& normalize();
+  constexpr matrix& normalize();
 
   /** Computes the opposite of a matrix.
    *
@@ -451,7 +441,7 @@ public:
    *
    * \return the opposite matrix.
    */
-  friend matrix operator-(matrix m)
+  friend constexpr matrix operator-(matrix m) noexcept
   {
     for(size_t i = 0; i < m.get_size(); ++i)
     {
@@ -470,7 +460,7 @@ public:
    *
    * \return the result of the multiplication.
    */
-  friend matrix operator*(matrix lhs, T rhs)
+  friend constexpr matrix operator*(matrix lhs, T rhs) noexcept
   {
     return lhs *= rhs;
   }
@@ -485,7 +475,7 @@ public:
    *
    * \return the result of the multiplication.
    */
-  friend matrix operator*(T lhs, matrix rhs)
+  friend constexpr matrix operator*(T lhs, matrix rhs) noexcept
   {
     return rhs *= lhs;
   }
@@ -500,7 +490,7 @@ public:
    *
    * \return the result of the division.
    */
-  friend matrix operator/(matrix lhs, T rhs)
+  friend constexpr matrix operator/(matrix lhs, T rhs) noexcept
   {
     return lhs /= rhs;
   }
@@ -513,7 +503,7 @@ public:
    *
    * \return the result of the check.
    */
-  friend bool operator==(const matrix& lhs, const matrix& rhs)
+  friend constexpr bool operator==(const matrix& lhs, const matrix& rhs) noexcept
   {
     return lhs.m_elements == rhs.m_elements;
   }
@@ -526,7 +516,7 @@ public:
    *
    * \return the result of the check.
    */
-  friend bool operator!=(const matrix& lhs, const matrix& rhs)
+  friend constexpr bool operator!=(const matrix& lhs, const matrix& rhs) noexcept
   {
     return lhs.m_elements != rhs.m_elements;
   }
@@ -541,8 +531,8 @@ public:
    *
    * \return the result of the check.
    */
-  friend bool close(const matrix<T, Rows, Cols>& lhs,
-    const matrix<T, Rows, Cols>& rhs, T acc = std::numeric_limits<T>::epsilon())
+  friend constexpr bool close(const matrix<T, Rows, Cols>& lhs,
+    const matrix<T, Rows, Cols>& rhs, T acc = std::numeric_limits<T>::epsilon()) noexcept
   {
     return close(lhs.m_elements, rhs.m_elements, acc);
   }
@@ -550,6 +540,7 @@ public:
 private:
   std::array<T, Rows * Cols> m_elements;
 };
+HOU_PRAGMA_PACK_POP()
 
 /** Sums two matrices.
  *
@@ -568,8 +559,8 @@ private:
  * \return the sum of the two matrices.
  */
 template <typename T, size_t Rows, size_t Cols>
-matrix<T, Rows, Cols> operator+(
-  matrix<T, Rows, Cols> lhs, const matrix<T, Rows, Cols>& rhs);
+constexpr matrix<T, Rows, Cols> operator+(
+  matrix<T, Rows, Cols> lhs, const matrix<T, Rows, Cols>& rhs) noexcept;
 
 /** Subtracts two matrices.
  *
@@ -588,8 +579,8 @@ matrix<T, Rows, Cols> operator+(
  * \return the difference of the two matrices.
  */
 template <typename T, size_t Rows, size_t Cols>
-matrix<T, Rows, Cols> operator-(
-  matrix<T, Rows, Cols> lhs, const matrix<T, Rows, Cols>& rhs);
+constexpr matrix<T, Rows, Cols> operator-(
+  matrix<T, Rows, Cols> lhs, const matrix<T, Rows, Cols>& rhs) noexcept;
 
 /** Multiplies two matrices.
  *
@@ -612,8 +603,8 @@ matrix<T, Rows, Cols> operator-(
  * \return the row-column product of the two matrices.
  */
 template <typename T, size_t Rows, size_t Mid, size_t Cols>
-matrix<T, Rows, Cols> operator*(
-  const matrix<T, Rows, Mid>& lhs, const matrix<T, Mid, Cols>& rhs);
+constexpr matrix<T, Rows, Cols> operator*(
+  const matrix<T, Rows, Mid>& lhs, const matrix<T, Mid, Cols>& rhs) noexcept;
 
 /** Computes the determinant of the given matrix.
  *
@@ -626,7 +617,7 @@ matrix<T, Rows, Cols> operator*(
  * \return the determinant of the given matrix.
  */
 template <typename T>
-T det(const matrix<T, 1, 1>& m);
+constexpr T det(const matrix<T, 1, 1>& m) noexcept;
 
 /** Computes the determinant of the given matrix.
  *
@@ -637,7 +628,7 @@ T det(const matrix<T, 1, 1>& m);
  * \return the determinant of the given matrix.
  */
 template <typename T>
-T det(const matrix<T, 2, 2>& m);
+constexpr T det(const matrix<T, 2, 2>& m) noexcept;
 
 /** Computes the determinant of the given matrix.
  *
@@ -648,20 +639,7 @@ T det(const matrix<T, 2, 2>& m);
  * \return the determinant of the given matrix.
  */
 template <typename T>
-T det(const matrix<T, 3, 3>& m);
-
-/** Computes the trace of the given square matrix.
- *
- * \tparam T the scalar type.
- *
- * \tparam RC the number of rows and columns of the matrix.
- *
- * \param m the matrix.
- *
- * \return the trace of the given matrix.
- */
-template <typename T, size_t RC>
-T trace(const matrix<T, RC, RC>& m);
+constexpr T det(const matrix<T, 3, 3>& m) noexcept;
 
 /** Computes the determinant of the given matrix.
  *
@@ -676,7 +654,20 @@ T trace(const matrix<T, RC, RC>& m);
  * \return the determinant of the given matrix.
  */
 template <typename T, size_t RC, typename Enable = std::enable_if_t<(RC > 3)>>
-T det(const matrix<T, RC, RC>& m);
+constexpr T det(const matrix<T, RC, RC>& m) noexcept;
+
+/** Computes the trace of the given square matrix.
+ *
+ * \tparam T the scalar type.
+ *
+ * \tparam RC the number of rows and columns of the matrix.
+ *
+ * \param m the matrix.
+ *
+ * \return the trace of the given matrix.
+ */
+template <typename T, size_t RC>
+constexpr T trace(const matrix<T, RC, RC>& m) noexcept;
 
 /** Removes a row and a column from a matrix.
  *
@@ -694,13 +685,15 @@ T det(const matrix<T, RC, RC>& m);
  *
  * \param col the column to be removed.
  *
+ * \throws hou::precondition_violation if row or col are invalid.
+ *
  * \return a matrix equal to m but with the the specified row and column
  * removed.
  */
 // Not a member function because returns a different type.
 template <typename T, size_t Rows, size_t Cols,
   typename Enable = std::enable_if_t<(Rows > 1 && Cols > 1)>>
-matrix<T, Rows - 1, Cols - 1> reduce(
+constexpr matrix<T, Rows - 1, Cols - 1> reduce(
   const matrix<T, Rows, Cols>& m, size_t row, size_t col);
 
 /** Computes the transpose of the given matrix.
@@ -717,7 +710,7 @@ matrix<T, Rows - 1, Cols - 1> reduce(
  */
 // No member function because returns a different type.
 template <typename T, size_t Rows, size_t Cols>
-matrix<T, Cols, Rows> transpose(const matrix<T, Rows, Cols>& m);
+constexpr matrix<T, Cols, Rows> transpose(const matrix<T, Rows, Cols>& m) noexcept;
 
 /** Computes the adjugate of the given matrix.
  *
@@ -728,7 +721,7 @@ matrix<T, Cols, Rows> transpose(const matrix<T, Rows, Cols>& m);
  * \return the adjugate of the given matrix.
  */
 template <typename T>
-matrix<T, 1, 1> adjugate(const matrix<T, 1, 1>& m);
+constexpr matrix<T, 1, 1> adjugate(const matrix<T, 1, 1>& m) noexcept;
 
 /** Computes the adjugate of the given matrix.
  *
@@ -739,7 +732,7 @@ matrix<T, 1, 1> adjugate(const matrix<T, 1, 1>& m);
  * \return the adjugate of the given matrix.
  */
 template <typename T>
-matrix<T, 2, 2> adjugate(const matrix<T, 2, 2>& m);
+constexpr matrix<T, 2, 2> adjugate(const matrix<T, 2, 2>& m) noexcept;
 
 /** Computes the adjugate of the given matrix.
  *
@@ -754,7 +747,7 @@ matrix<T, 2, 2> adjugate(const matrix<T, 2, 2>& m);
  * \return the adjugate of the given matrix.
  */
 template <typename T, size_t RC, typename Enable = std::enable_if_t<(RC > 2)>>
-matrix<T, RC, RC> adjugate(const matrix<T, RC, RC>& m);
+constexpr matrix<T, RC, RC> adjugate(const matrix<T, RC, RC>& m) noexcept;
 
 /** Computes the inverse of the given matrix.
  *
@@ -764,10 +757,12 @@ matrix<T, RC, RC> adjugate(const matrix<T, RC, RC>& m);
  *
  * \param m the input matrix.
  *
+ * \throws hou::precondition if the determinant of the matrix is 0.
+ *
  * \return the inverse of the given matrix.
  */
 template <typename T, size_t RC>
-matrix<T, RC, RC> inverse(matrix<T, RC, RC> m);
+constexpr matrix<T, RC, RC> inverse(matrix<T, RC, RC> m);
 
 /** Computes the square norm of the given matrix.
  *
@@ -782,7 +777,7 @@ matrix<T, RC, RC> inverse(matrix<T, RC, RC> m);
  * \return the square norm.
  */
 template <typename T, size_t Rows, size_t Cols>
-T square_norm(const matrix<T, Rows, Cols>& m);
+constexpr T square_norm(const matrix<T, Rows, Cols>& m) noexcept;
 
 /** Computes the norm of the given matrix.
  *
@@ -797,7 +792,7 @@ T square_norm(const matrix<T, Rows, Cols>& m);
  * \return the norm.
  */
 template <typename T, size_t Rows, size_t Cols>
-T norm(const matrix<T, Rows, Cols>& m);
+constexpr T norm(const matrix<T, Rows, Cols>& m) noexcept;
 
 /** Computes the normalized matrix.
  *
@@ -809,10 +804,12 @@ T norm(const matrix<T, Rows, Cols>& m);
  *
  * \param m the input matrix.
  *
+ * \throws hou::precondition_violation if the norm of the matrix is 0.
+ *
  * \return the normalized matrix.
  */
 template <typename T, size_t Rows, size_t Cols>
-matrix<T, Rows, Cols> normalized(matrix<T, Rows, Cols> m);
+constexpr matrix<T, Rows, Cols> normalized(matrix<T, Rows, Cols> m);
 
 /** Computes the cross product matrix associated to the given 3d vector.
  *
@@ -823,7 +820,7 @@ matrix<T, Rows, Cols> normalized(matrix<T, Rows, Cols> m);
  * \return the cross product matrix.
  */
 template <typename T>
-matrix<T, 3u, 3u> cross_matrix(const matrix<T, 3u, 1u>& m);
+constexpr matrix<T, 3u, 3u> cross_matrix(const matrix<T, 3u, 1u>& m) noexcept;
 
 /** Computes the cross product of a 2d vector.
  *
@@ -834,7 +831,7 @@ matrix<T, 3u, 3u> cross_matrix(const matrix<T, 3u, 1u>& m);
  * \return the cross product of the 2d vector.
  */
 template <typename T>
-matrix<T, 2u, 1u> cross(const matrix<T, 2u, 1u>& v);
+constexpr matrix<T, 2u, 1u> cross(const matrix<T, 2u, 1u>& v) noexcept;
 
 /** Computes the cross product between two 3d vectors.
  *
@@ -847,8 +844,8 @@ matrix<T, 2u, 1u> cross(const matrix<T, 2u, 1u>& v);
  * \return the cross product result.
  */
 template <typename T>
-matrix<T, 3u, 1u> cross(
-  const matrix<T, 3u, 1u>& lhs, const matrix<T, 3u, 1u>& rhs);
+constexpr matrix<T, 3u, 1u> cross(
+  const matrix<T, 3u, 1u>& lhs, const matrix<T, 3u, 1u>& rhs) noexcept;
 
 /** Computes the outer product between the two given 3d vectors.
  *
@@ -861,8 +858,8 @@ matrix<T, 3u, 1u> cross(
  * \return the outer product result.
  */
 template <typename T>
-matrix<T, 3u, 3u> outer_product(
-  const matrix<T, 3u, 1u>& lhs, const matrix<T, 3u, 1u>& rhs);
+constexpr matrix<T, 3u, 3u> outer_product(
+  const matrix<T, 3u, 1u>& lhs, const matrix<T, 3u, 1u>& rhs) noexcept;
 
 /** Computes the dot product between the two given vectors.
  *
@@ -877,7 +874,7 @@ matrix<T, 3u, 3u> outer_product(
  * \return the result of the dot product.
  */
 template <typename T, size_t Rows>
-T dot(const matrix<T, Rows, 1u>& lhs, const matrix<T, Rows, 1u>& rhs);
+constexpr T dot(const matrix<T, Rows, 1u>& lhs, const matrix<T, Rows, 1u>& rhs) noexcept;
 
 /** Writes the object into a stream.
  *

@@ -4,6 +4,8 @@
 
 #include "hou/sys/scan_code.hpp"
 
+#include "hou/cor/exception.hpp"
+
 #define SCAN_CODE_CASE(sc, os) \
   case scan_code::sc: \
     return (os) << #sc
@@ -134,6 +136,7 @@ std::ostream& operator<<(std::ostream& os, scan_code sc)
     SCAN_CODE_CASE(apps, os);
 
     default:
+      HOU_UNREACHABLE();
       return os;
   }
 }

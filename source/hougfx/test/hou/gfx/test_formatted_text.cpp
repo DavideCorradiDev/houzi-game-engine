@@ -126,8 +126,8 @@ TEST_F(test_formatted_text, Utf8Constructor)
   rectf rect_ref(0.f, -7.f, 7.f, 7.f);
 
   EXPECT_EQ(image_ref, ft.get_atlas().get_image<pixel_format::r>());
-  HOU_EXPECT_CLOSE(vertices_ref, ft.get_mesh().get_vertices(), test_acc);
-  HOU_EXPECT_CLOSE(rect_ref, ft.get_bounding_box(), test_acc);
+  EXPECT_CLOSE(vertices_ref, ft.get_mesh().get_vertices(), test_acc);
+  EXPECT_CLOSE(rect_ref, ft.get_bounding_box(), test_acc);
 }
 
 
@@ -153,8 +153,8 @@ TEST_F(test_formatted_text, Utf32Constructor)
   rectf rect_ref(0.f, -7.f, 7.f, 7.f);
 
   EXPECT_EQ(image_ref, ft.get_atlas().get_image<pixel_format::r>());
-  HOU_EXPECT_CLOSE(vertices_ref, ft.get_mesh().get_vertices(), test_acc);
-  HOU_EXPECT_CLOSE(rect_ref, ft.get_bounding_box(), test_acc);
+  EXPECT_CLOSE(vertices_ref, ft.get_mesh().get_vertices(), test_acc);
+  EXPECT_CLOSE(rect_ref, ft.get_bounding_box(), test_acc);
 }
 
 
@@ -180,8 +180,8 @@ TEST_F(test_formatted_text, MoveConstructor)
   rectf rect_ref(0.f, -7.f, 7.f, 7.f);
 
   EXPECT_EQ(image_ref, ft.get_atlas().get_image<pixel_format::r>());
-  HOU_EXPECT_CLOSE(vertices_ref, ft.get_mesh().get_vertices(), test_acc);
-  HOU_EXPECT_CLOSE(rect_ref, ft.get_bounding_box(), test_acc);
+  EXPECT_CLOSE(vertices_ref, ft.get_mesh().get_vertices(), test_acc);
+  EXPECT_CLOSE(rect_ref, ft.get_bounding_box(), test_acc);
 }
 
 
@@ -215,8 +215,8 @@ TEST_F(test_formatted_text, TwoCharacters)
   rectf rect_ref(0.f, -7.f, 12.f, 7.f);
 
   EXPECT_EQ(image_ref, ft.get_atlas().get_image<pixel_format::r>());
-  HOU_EXPECT_CLOSE(vertices_ref, ft.get_mesh().get_vertices(), test_acc);
-  HOU_EXPECT_CLOSE(rect_ref, ft.get_bounding_box(), test_acc);
+  EXPECT_CLOSE(vertices_ref, ft.get_mesh().get_vertices(), test_acc);
+  EXPECT_CLOSE(rect_ref, ft.get_bounding_box(), test_acc);
 }
 
 
@@ -330,8 +330,8 @@ TEST_F(test_formatted_text, StringWithSpace)
   rectf rect_ref(0.f, -7.f, 56.f, 7.f);
 
   EXPECT_EQ(image_ref, ft.get_atlas().get_image<pixel_format::r>());
-  HOU_EXPECT_CLOSE(vertices_ref, ft.get_mesh().get_vertices(), test_acc);
-  HOU_EXPECT_CLOSE(rect_ref, ft.get_bounding_box(), test_acc);
+  EXPECT_CLOSE(vertices_ref, ft.get_mesh().get_vertices(), test_acc);
+  EXPECT_CLOSE(rect_ref, ft.get_bounding_box(), test_acc);
 }
 
 
@@ -506,6 +506,6 @@ TEST_F(test_formatted_text, StringWithNewLine)
   rectf rect_ref(0.f, -7.f, 37.f, 35.f);
 
   EXPECT_EQ(image_ref, ft.get_atlas().get_image<pixel_format::r>());
-  HOU_EXPECT_CLOSE(vertices_ref, ft.get_mesh().get_vertices(), test_acc);
-  HOU_EXPECT_CLOSE(rect_ref, ft.get_bounding_box(), test_acc);
+  EXPECT_CLOSE(vertices_ref, ft.get_mesh().get_vertices(), test_acc);
+  EXPECT_CLOSE(rect_ref, ft.get_bounding_box(), test_acc);
 }

@@ -5,9 +5,9 @@
 #ifndef HOU_SYS_TEXT_STREAM_HPP
 #define HOU_SYS_TEXT_STREAM_HPP
 
-#include "hou/sys/sys_export.hpp"
-
 #include "hou/sys/stream.hpp"
+
+#include "hou/sys/sys_export.hpp"
 
 #include <ostream>
 
@@ -41,7 +41,8 @@ public:
      *
      * \return the result of the check.
      */
-    friend HOU_SYS_API bool operator==(text_position lhs, text_position rhs);
+    friend HOU_SYS_API bool operator==(
+      text_position lhs, text_position rhs) noexcept;
 
     /** Checks if two text position indicators are not equal.
      *
@@ -51,7 +52,8 @@ public:
      *
      * \return the result of the check.
      */
-    friend HOU_SYS_API bool operator!=(text_position lhs, text_position rhs);
+    friend HOU_SYS_API bool operator!=(
+      text_position lhs, text_position rhs) noexcept;
 
     /** Writes a text position indicator into a stream.
      *
@@ -70,18 +72,16 @@ public:
     static const text_position start;
 
   private:
-    text_position(long value);
+    text_position(long value) noexcept;
 
   private:
     long mValue;
   };
 
 public:
-  /** Destructor.
-   */
-  virtual ~text_stream(){};
-
   /** Gets the current text position indicator.
+   *
+   * \throws hou::cursor_error in case of an error.
    *
    * \return the current text position indicator.
    */
@@ -93,6 +93,8 @@ public:
    * a value obtained by calling get_text_pos on this stream. Using a value
    * obtained by calling get_text_pos on another text_stream is undefined
    * behaviour.
+   *
+   * \throws hou::cursor_error in case of an error.
    *
    * \return a reference to this stream.
    */
@@ -106,7 +108,7 @@ protected:
    *
    * \param value the value of the text_position object.
    */
-  static text_position create_position_object(long value);
+  static text_position create_position_object(long value) noexcept;
 
   /** Converts a position object to an integer type.
    *
@@ -118,7 +120,7 @@ protected:
    * \return the corresponding value of the text_position object as an integer
    * type.
    */
-  static long convert_position_object(text_position pos);
+  static long convert_position_object(text_position pos) noexcept;
 };
 
 }  // namespace hou

@@ -36,11 +36,15 @@ INCLUDE_DIRECTORIES(
 # Source files.
 SET(EXE_HOUCOR_TEST_SRC
   ${LIB_HOUTEST_SOURCE_DIR}/src/test_main.cpp
+  hou/cor/test_assertions.cpp
+  hou/cor/test_basic_static_string.cpp
   hou/cor/test_bitwise_operators.cpp
   hou/cor/test_character_encodings.cpp
   hou/cor/test_clock.cpp
+  hou/cor/test_cor_exceptions.cpp
   hou/cor/test_core_functions.cpp
-  hou/cor/test_error.cpp
+  hou/cor/test_exception.cpp
+  hou/cor/test_member_detector.cpp
   hou/cor/test_not_null.cpp
   hou/cor/test_span.cpp
   hou/cor/test_std_array.cpp

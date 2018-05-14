@@ -8,7 +8,7 @@
 #include "hou/gfx/shader.hpp"
 #include "hou/gfx/shader_program.hpp"
 
-#include "hou/gl/gl_error.hpp"
+#include "hou/gl/gl_exceptions.hpp"
 
 using namespace hou;
 
@@ -167,10 +167,9 @@ TEST_F(test_shader_program_death_test, get_uniform_location_invalid_name)
   geometry_shader gs(get_gs_source());
   fragment_shader fs(get_fs_source());
   concrete_shader_program p(vs, fs, gs);
-  std::string invalidName = "trololol";
-  HOU_EXPECT_ERROR(p.get_uniform_location(invalidName), std::runtime_error,
-    format_string(
-      get_text(gl_error::program_invalid_uniform), invalidName.c_str()));
+  std::string invalid_name = "trololol";
+  EXPECT_ERROR_N(p.get_uniform_location(invalid_name),
+    gl::invalid_uniform_error, invalid_name);
 }
 
 
@@ -180,10 +179,9 @@ TEST_F(test_shader_program_death_test, constructor_error_link_failure)
   vertex_shader vs(get_vs_source());
   geometry_shader gs(get_vs_source());
   fragment_shader fs(get_fs_source());
-  HOU_EXPECT_ERROR(concrete_shader_program(vs, fs, gs), std::runtime_error,
-    format_string(get_text(gl_error::program_linking),
-      "Geometry info\n"
-      "-------------\n"
-      "(0) : error C6022: No input primitive type\n"
-      "(0) : error C6029: No output primitive type\n"));
+  EXPECT_ERROR_N(concrete_shader_program(vs, fs, gs), gl::shader_linker_error,
+    "Geometry info\n"
+    "-------------\n"
+    "(0) : error C6022: No input primitive type\n"
+    "(0) : error C6029: No output primitive type\n");
 }

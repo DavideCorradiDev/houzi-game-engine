@@ -7,7 +7,7 @@
 
 #include "hou/cor/span.hpp"
 
-#include "hou/sys/sys_error.hpp"
+#include "hou/sys/sys_exceptions.hpp"
 #include "hou/sys/text_file_in.hpp"
 
 using namespace hou;
@@ -79,8 +79,8 @@ TEST_F(test_text_file_in, path_constructor)
 TEST_F(test_text_file_in_death_test, path_constructor_failure)
 {
   std::string invalid_filename = u8"InvalidFileName";
-  HOU_EXPECT_ERROR(text_file_in fi(invalid_filename), std::runtime_error,
-    format_string(get_text(sys_error::file_open), invalid_filename.c_str()));
+  EXPECT_ERROR_N(
+    text_file_in fi(invalid_filename), file_open_error, invalid_filename);
 }
 
 
@@ -129,14 +129,14 @@ TEST_F(test_text_file_in, read_to_variable)
   fi.read(buffer);
   EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(1u, fi.get_read_element_count());
-  HOU_EXPECT_ARRAY_EQ(
+  EXPECT_ARRAY_EQ(
     reinterpret_cast<uint8_t*>(&buffer), file_content.data(), buffer_byte_size);
 
   fi.read(buffer);
   EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(1u, fi.get_read_element_count());
   const uint8_t* offset_data = file_content.data() + buffer_byte_size;
-  HOU_EXPECT_ARRAY_EQ(
+  EXPECT_ARRAY_EQ(
     reinterpret_cast<uint8_t*>(&buffer), offset_data, buffer_byte_size);
 }
 
@@ -154,14 +154,14 @@ TEST_F(test_text_file_in, read_to_basic_array)
   fi.read(buffer, buffer_size);
   EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(buffer_size, fi.get_read_element_count());
-  HOU_EXPECT_ARRAY_EQ(
+  EXPECT_ARRAY_EQ(
     reinterpret_cast<uint8_t*>(buffer), file_content.data(), buffer_byte_size);
 
   fi.read(buffer, buffer_size);
   EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(buffer_size, fi.get_read_element_count());
   const uint8_t* offset_data = file_content.data() + buffer_byte_size;
-  HOU_EXPECT_ARRAY_EQ(
+  EXPECT_ARRAY_EQ(
     reinterpret_cast<uint8_t*>(buffer), offset_data, buffer_byte_size);
 }
 
@@ -179,14 +179,14 @@ TEST_F(test_text_file_in, read_to_array)
   fi.read(buffer);
   EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(buffer_size, fi.get_read_element_count());
-  HOU_EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(buffer.data()),
+  EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(buffer.data()),
     file_content.data(), buffer_byte_size);
 
   fi.read(buffer);
   EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(buffer_size, fi.get_read_element_count());
   const uint8_t* offset_data = file_content.data() + buffer_byte_size;
-  HOU_EXPECT_ARRAY_EQ(
+  EXPECT_ARRAY_EQ(
     reinterpret_cast<uint8_t*>(buffer.data()), offset_data, buffer_byte_size);
 }
 
@@ -204,14 +204,14 @@ TEST_F(test_text_file_in, read_to_vector)
   fi.read(buffer);
   EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(buffer_size, fi.get_read_element_count());
-  HOU_EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(buffer.data()),
+  EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(buffer.data()),
     file_content.data(), buffer_byte_size);
 
   fi.read(buffer);
   EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(buffer_size, fi.get_read_element_count());
   const uint8_t* offset_data = file_content.data() + buffer_byte_size;
-  HOU_EXPECT_ARRAY_EQ(
+  EXPECT_ARRAY_EQ(
     reinterpret_cast<uint8_t*>(buffer.data()), offset_data, buffer_byte_size);
 }
 
@@ -229,14 +229,14 @@ TEST_F(test_text_file_in, read_to_string)
   fi.read(buffer);
   EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(buffer_size, fi.get_read_element_count());
-  HOU_EXPECT_ARRAY_EQ(reinterpret_cast<const uint8_t*>(buffer.data()),
+  EXPECT_ARRAY_EQ(reinterpret_cast<const uint8_t*>(buffer.data()),
     file_content.data(), buffer_byte_size);
 
   fi.read(buffer);
   EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(buffer_size, fi.get_read_element_count());
   const uint8_t* offset_data = file_content.data() + buffer_byte_size;
-  HOU_EXPECT_ARRAY_EQ(reinterpret_cast<const uint8_t*>(buffer.data()),
+  EXPECT_ARRAY_EQ(reinterpret_cast<const uint8_t*>(buffer.data()),
     offset_data, buffer_byte_size);
 }
 
@@ -255,14 +255,14 @@ TEST_F(test_text_file_in, read_to_span)
   fi.read(buffer);
   EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(buffer_size, fi.get_read_element_count());
-  HOU_EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(buffer.data()),
+  EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(buffer.data()),
     file_content.data(), buffer_byte_size);
 
   fi.read(buffer);
   EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(buffer_size, fi.get_read_element_count());
   const uint8_t* offset_data = file_content.data() + buffer_byte_size;
-  HOU_EXPECT_ARRAY_EQ(
+  EXPECT_ARRAY_EQ(
     reinterpret_cast<uint8_t*>(buffer.data()), offset_data, buffer_byte_size);
 }
 

@@ -5,8 +5,9 @@
 #ifndef HOU_AUD_AUDIO_CONTEXT_HPP
 #define HOU_AUD_AUDIO_CONTEXT_HPP
 
-#include "hou/aud/aud_export.hpp"
 #include "hou/cor/non_copyable.hpp"
+
+#include "hou/aud/aud_export.hpp"
 
 #include "hou/al/al_context.hpp"
 #include "hou/al/al_device.hpp"
@@ -64,7 +65,7 @@ public:
 
   /** Move constructor.
    */
-  audio_context(audio_context&& other);
+  audio_context(audio_context&& other) noexcept;
 
   /** Checks if this is the current context.
    *

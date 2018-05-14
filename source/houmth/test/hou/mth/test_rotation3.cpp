@@ -34,9 +34,9 @@ class test_rotation3_death_test : public test_rotation3
 TEST_F(test_rotation3, default_constructor)
 {
   rot3f r;
-  HOU_EXPECT_FLOAT_CLOSE(quatf::identity(), r.get_quaternion());
-  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), r.get_vector());
-  HOU_EXPECT_FLOAT_CLOSE(mat3x3f::identity(), r.get_matrix());
+  EXPECT_FLOAT_CLOSE(quatf::identity(), r.get_quaternion());
+  EXPECT_FLOAT_CLOSE(vec3f::zero(), r.get_vector());
+  EXPECT_FLOAT_CLOSE(mat3x3f::identity(), r.get_matrix());
 }
 
 
@@ -53,9 +53,9 @@ TEST_F(test_rotation3, constructor_quaternion)
   // clang-format on
 
   rot3f r_quat(quat_ref);
-  HOU_EXPECT_CLOSE(quat_ref, r_quat.get_quaternion(), 1.e-6f);
-  HOU_EXPECT_CLOSE(vec_ref, r_quat.get_vector(), 1.e-6f);
-  HOU_EXPECT_CLOSE(mat_ref, r_quat.get_matrix(), 1.e-6f);
+  EXPECT_CLOSE(quat_ref, r_quat.get_quaternion(), 1.e-6f);
+  EXPECT_CLOSE(vec_ref, r_quat.get_vector(), 1.e-6f);
+  EXPECT_CLOSE(mat_ref, r_quat.get_matrix(), 1.e-6f);
 }
 
 
@@ -66,15 +66,14 @@ TEST_F(test_rotation3, constructor_non_unit_quaternion)
   EXPECT_FLOAT_EQ(9.f, norm(quat));
 
   rot3f r(quat);
-  HOU_EXPECT_FLOAT_CLOSE(normalized(quat), r.get_quaternion());
+  EXPECT_FLOAT_CLOSE(normalized(quat), r.get_quaternion());
 }
 
 
 
 TEST_F(test_rotation3_death_test, constructor_failure_zero_quaternion)
 {
-  HOU_EXPECT_ERROR(
-    rot3f(quatf::zero()), std::logic_error, get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(rot3f(quatf::zero()));
 }
 
 
@@ -91,9 +90,9 @@ TEST_F(test_rotation3, constructor_vector)
   // clang-format on
 
   rot3f r_vec(vec_ref);
-  HOU_EXPECT_CLOSE(quat_ref, r_vec.get_quaternion(), 1.e-6f);
-  HOU_EXPECT_CLOSE(vec_ref, r_vec.get_vector(), 1.e-6f);
-  HOU_EXPECT_CLOSE(mat_ref, r_vec.get_matrix(), 1.e-6f);
+  EXPECT_CLOSE(quat_ref, r_vec.get_quaternion(), 1.e-6f);
+  EXPECT_CLOSE(vec_ref, r_vec.get_vector(), 1.e-6f);
+  EXPECT_CLOSE(mat_ref, r_vec.get_matrix(), 1.e-6f);
 }
 
 
@@ -105,9 +104,9 @@ TEST_F(test_rotation3, constructor_matrix)
   mat3x3f mat_ref(0.f, 1.f, 0.f, -1.f, 0.f, 0.f, 0.f, 0.f, 1.f);
 
   rot3f r_mat(mat_ref);
-  HOU_EXPECT_CLOSE(quat_ref, r_mat.get_quaternion(), 1.e-6f);
-  HOU_EXPECT_CLOSE(vec_ref, r_mat.get_vector(), 1.e-6f);
-  HOU_EXPECT_CLOSE(mat_ref, r_mat.get_matrix(), 1.e-6f);
+  EXPECT_CLOSE(quat_ref, r_mat.get_quaternion(), 1.e-6f);
+  EXPECT_CLOSE(vec_ref, r_mat.get_vector(), 1.e-6f);
+  EXPECT_CLOSE(mat_ref, r_mat.get_matrix(), 1.e-6f);
 }
 
 
@@ -119,9 +118,9 @@ TEST_F(test_rotation3, constructor_matrix_null_root_function)
   mat3x3f mat_ref(-1.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, -1.f);
 
   rot3f r_mat(mat_ref);
-  HOU_EXPECT_CLOSE(quat_ref, r_mat.get_quaternion(), 1.e-6f);
-  HOU_EXPECT_CLOSE(vec_ref, r_mat.get_vector(), 1.e-6f);
-  HOU_EXPECT_CLOSE(mat_ref, r_mat.get_matrix(), 1.e-6f);
+  EXPECT_CLOSE(quat_ref, r_mat.get_quaternion(), 1.e-6f);
+  EXPECT_CLOSE(vec_ref, r_mat.get_vector(), 1.e-6f);
+  EXPECT_CLOSE(mat_ref, r_mat.get_matrix(), 1.e-6f);
 }
 
 
@@ -133,9 +132,9 @@ TEST_F(test_rotation3, constructor_matrix_small_root_function)
   mat3x3f mat_ref(0.f, 1.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, -1.f);
 
   rot3f r_mat(mat_ref);
-  HOU_EXPECT_CLOSE(quat_ref, r_mat.get_quaternion(), 1.e-6f);
-  HOU_EXPECT_CLOSE(vec_ref, r_mat.get_vector(), 1.e-6f);
-  HOU_EXPECT_CLOSE(mat_ref, r_mat.get_matrix(), 1.e-6f);
+  EXPECT_CLOSE(quat_ref, r_mat.get_quaternion(), 1.e-6f);
+  EXPECT_CLOSE(vec_ref, r_mat.get_vector(), 1.e-6f);
+  EXPECT_CLOSE(mat_ref, r_mat.get_matrix(), 1.e-6f);
 }
 
 
@@ -145,7 +144,7 @@ TEST_F(test_rotation3, constructor_matrix_low_precision)
   rot3f rot_ref
     = rot3f::x(pi_f / 3.f) * rot3f::z(pi_f / 4.f) * rot3f::y(pi_f / 2.f);
   rot3f rot(rot_ref.get_matrix());
-  HOU_EXPECT_FLOAT_CLOSE(rot_ref, rot);
+  EXPECT_FLOAT_CLOSE(rot_ref, rot);
 }
 
 
@@ -164,14 +163,14 @@ TEST_F(test_rotation3, constructor_non_rotation_matrix)
   // clang-format on
 
   rot3f r_mat(mat3x3f{1.f, 2.f, 3.f, 4.f, 5.f, 6.f, 7.f, 8.f, 9.f});
-  HOU_EXPECT_CLOSE(quat_ref, r_mat.get_quaternion(), 1.e-6f);
-  HOU_EXPECT_CLOSE(vec_ref, r_mat.get_vector(), 1.e-6f);
-  HOU_EXPECT_CLOSE(mat_ref, r_mat.get_matrix(), 1.e-6f);
+  EXPECT_CLOSE(quat_ref, r_mat.get_quaternion(), 1.e-6f);
+  EXPECT_CLOSE(vec_ref, r_mat.get_vector(), 1.e-6f);
+  EXPECT_CLOSE(mat_ref, r_mat.get_matrix(), 1.e-6f);
 
-  HOU_EXPECT_CLOSE(1.f, norm(r_mat.get_quaternion()), 1.e-6f);
-  HOU_EXPECT_CLOSE(mat3x3f::identity(),
+  EXPECT_CLOSE(1.f, norm(r_mat.get_quaternion()), 1.e-6f);
+  EXPECT_CLOSE(mat3x3f::identity(),
     r_mat.get_matrix() * transpose(r_mat.get_matrix()), 1.e-6f);
-  HOU_EXPECT_CLOSE(1.f, det(r_mat.get_matrix()), 1.e-6f);
+  EXPECT_CLOSE(1.f, det(r_mat.get_matrix()), 1.e-6f);
 }
 
 
@@ -183,14 +182,14 @@ TEST_F(test_rotation3, constructor_zero_matrix)
   mat3x3f mat_ref(-1.f, 0.f, 0.f, 0.f, -1.f, 0.f, 0.f, 0.f, 1.f);
 
   rot3f r_mat(mat3x3f::zero());
-  HOU_EXPECT_CLOSE(quat_ref, r_mat.get_quaternion(), 1.e-6f);
-  HOU_EXPECT_CLOSE(vec_ref, r_mat.get_vector(), 1.e-6f);
-  HOU_EXPECT_CLOSE(mat_ref, r_mat.get_matrix(), 1.e-6f);
+  EXPECT_CLOSE(quat_ref, r_mat.get_quaternion(), 1.e-6f);
+  EXPECT_CLOSE(vec_ref, r_mat.get_vector(), 1.e-6f);
+  EXPECT_CLOSE(mat_ref, r_mat.get_matrix(), 1.e-6f);
 
-  HOU_EXPECT_CLOSE(1.f, norm(r_mat.get_quaternion()), 1.e-6f);
-  HOU_EXPECT_CLOSE(mat3x3f::identity(),
+  EXPECT_CLOSE(1.f, norm(r_mat.get_quaternion()), 1.e-6f);
+  EXPECT_CLOSE(mat3x3f::identity(),
     r_mat.get_matrix() * transpose(r_mat.get_matrix()), 1.e-6f);
-  HOU_EXPECT_CLOSE(1.f, det(r_mat.get_matrix()), 1.e-6f);
+  EXPECT_CLOSE(1.f, det(r_mat.get_matrix()), 1.e-6f);
 }
 
 
@@ -202,7 +201,7 @@ TEST_F(test_rotation3, conversion_constructor)
   quatf qf_ref(rd.get_quaternion());
   rot3f rf(rd);
 
-  HOU_EXPECT_FLOAT_CLOSE(qf_ref, rf.get_quaternion());
+  EXPECT_FLOAT_CLOSE(qf_ref, rf.get_quaternion());
 }
 
 
@@ -264,9 +263,9 @@ TEST_F(test_rotation3, multiplication)
   rot3f r1(q1);
   rot3f r2(q2);
   rot3f r_ref(q_ref);
-  HOU_EXPECT_FLOAT_CLOSE(r_ref, r1 * r2);
+  EXPECT_FLOAT_CLOSE(r_ref, r1 * r2);
   r1 *= r2;
-  HOU_EXPECT_FLOAT_CLOSE(r_ref, r1);
+  EXPECT_FLOAT_CLOSE(r_ref, r1);
 }
 
 
@@ -279,9 +278,9 @@ TEST_F(test_rotation3, inversion)
 
   rot3f r(q);
   rot3f r_ref(q_ref);
-  HOU_EXPECT_FLOAT_CLOSE(r_ref, inverse(r));
+  EXPECT_FLOAT_CLOSE(r_ref, inverse(r));
   r.invert();
-  HOU_EXPECT_FLOAT_CLOSE(r_ref, r);
+  EXPECT_FLOAT_CLOSE(r_ref, r);
 }
 
 
@@ -290,7 +289,7 @@ TEST_F(test_rotation3, output_stream_operator)
 {
   quatf quat_ref(0.2041241f, -0.2041241f, 0.4082483f, 0.8660254f);
   rot3f r(quat_ref);
-  HOU_EXPECT_OUTPUT("(0.204124,-0.204124,0.408248,0.866025)", r);
+  EXPECT_OUTPUT("(0.204124,-0.204124,0.408248,0.866025)", r);
 }
 
 
@@ -308,9 +307,9 @@ TEST_P(test_rotation3_param_f, rotationX)
     0.f, std::sin(GetParam()), std::cos(GetParam()),
   };
   // clang-format on
-  HOU_EXPECT_CLOSE(q_ref, r.get_quaternion(), 1.e-6f);
-  HOU_EXPECT_CLOSE(v_ref, r.get_vector(), 1.e-6f);
-  HOU_EXPECT_CLOSE(m_ref, r.get_matrix(), 1.e-6f);
+  EXPECT_CLOSE(q_ref, r.get_quaternion(), 1.e-6f);
+  EXPECT_CLOSE(v_ref, r.get_vector(), 1.e-6f);
+  EXPECT_CLOSE(m_ref, r.get_matrix(), 1.e-6f);
 }
 
 
@@ -328,9 +327,9 @@ TEST_P(test_rotation3_param_f, rotationY)
     -std::sin(GetParam()), 0.f, std::cos(GetParam()),
   };
   // clang-format on
-  HOU_EXPECT_CLOSE(q_ref, r.get_quaternion(), 1.e-6f);
-  HOU_EXPECT_CLOSE(v_ref, r.get_vector(), 1.e-6f);
-  HOU_EXPECT_CLOSE(m_ref, r.get_matrix(), 1.e-6f);
+  EXPECT_CLOSE(q_ref, r.get_quaternion(), 1.e-6f);
+  EXPECT_CLOSE(v_ref, r.get_vector(), 1.e-6f);
+  EXPECT_CLOSE(m_ref, r.get_matrix(), 1.e-6f);
 }
 
 
@@ -348,9 +347,9 @@ TEST_P(test_rotation3_param_f, rotationZ)
     0.f, 0.f, 1.f,
   };
   // clang-format on
-  HOU_EXPECT_CLOSE(q_ref, r.get_quaternion(), 1.e-6f);
-  HOU_EXPECT_CLOSE(v_ref, r.get_vector(), 1.e-6f);
-  HOU_EXPECT_CLOSE(m_ref, r.get_matrix(), 1.e-6f);
+  EXPECT_CLOSE(q_ref, r.get_quaternion(), 1.e-6f);
+  EXPECT_CLOSE(v_ref, r.get_vector(), 1.e-6f);
+  EXPECT_CLOSE(m_ref, r.get_matrix(), 1.e-6f);
 }
 
 

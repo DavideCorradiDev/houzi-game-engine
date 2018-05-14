@@ -23,7 +23,7 @@ glyph::glyph(const image2_r& im, const glyph_metrics& metrics)
 
 
 
-const image2_r& glyph::get_image() const
+const image2_r& glyph::get_image() const noexcept
 {
   return m_image;
 }
@@ -37,21 +37,21 @@ void glyph::set_image(const image2_r& im)
 
 
 
-const glyph_metrics& glyph::get_metrics() const
+const glyph_metrics& glyph::get_metrics() const noexcept
 {
   return m_metrics;
 }
 
 
 
-void glyph::set_metrics(const glyph_metrics& metrics)
+void glyph::set_metrics(const glyph_metrics& metrics) noexcept
 {
   m_metrics = metrics;
 }
 
 
 
-bool operator==(const glyph& lhs, const glyph& rhs)
+bool operator==(const glyph& lhs, const glyph& rhs) noexcept
 {
   return lhs.get_image() == rhs.get_image()
     && lhs.get_metrics() == rhs.get_metrics();
@@ -59,7 +59,7 @@ bool operator==(const glyph& lhs, const glyph& rhs)
 
 
 
-bool operator!=(const glyph& lhs, const glyph& rhs)
+bool operator!=(const glyph& lhs, const glyph& rhs) noexcept
 {
   return !(lhs == rhs);
 }

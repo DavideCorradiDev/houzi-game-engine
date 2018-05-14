@@ -39,8 +39,8 @@ TEST_F(test_vertex2, type_size)
 TEST_F(test_vertex2, default_constructor)
 {
   vertex2 v;
-  HOU_EXPECT_FLOAT_CLOSE(vec2f(0.f, 0.f), v.get_position());
-  HOU_EXPECT_FLOAT_CLOSE(vec2f(0.f, 0.f), v.get_texture_coordinates());
+  EXPECT_FLOAT_CLOSE(vec2f(0.f, 0.f), v.get_position());
+  EXPECT_FLOAT_CLOSE(vec2f(0.f, 0.f), v.get_texture_coordinates());
   EXPECT_EQ(color(0u, 0u, 0u, 0u), v.get_color());
 }
 
@@ -53,8 +53,8 @@ TEST_F(test_vertex2, constructor)
   color col_ref(5u, 6u, 7u, 9u);
   vertex2 v(pos_ref, tc_ref, col_ref);
 
-  HOU_EXPECT_FLOAT_CLOSE(pos_ref, v.get_position());
-  HOU_EXPECT_FLOAT_CLOSE(tc_ref, v.get_texture_coordinates());
+  EXPECT_FLOAT_CLOSE(pos_ref, v.get_position());
+  EXPECT_FLOAT_CLOSE(tc_ref, v.get_texture_coordinates());
   EXPECT_EQ(col_ref, v.get_color());
 }
 
@@ -63,11 +63,11 @@ TEST_F(test_vertex2, constructor)
 TEST_F(test_vertex2, set_position)
 {
   vertex2 v;
-  HOU_EXPECT_FLOAT_CLOSE(vec2f(0.f, 0.f), v.get_position());
+  EXPECT_FLOAT_CLOSE(vec2f(0.f, 0.f), v.get_position());
 
   vec2f pos_ref(1.f, 2.f);
   v.set_position(pos_ref);
-  HOU_EXPECT_FLOAT_CLOSE(pos_ref, v.get_position());
+  EXPECT_FLOAT_CLOSE(pos_ref, v.get_position());
 }
 
 
@@ -75,11 +75,11 @@ TEST_F(test_vertex2, set_position)
 TEST_F(test_vertex2, set_texture_coordinates)
 {
   vertex2 v;
-  HOU_EXPECT_FLOAT_CLOSE(vec2f(0.f, 0.f), v.get_texture_coordinates());
+  EXPECT_FLOAT_CLOSE(vec2f(0.f, 0.f), v.get_texture_coordinates());
 
   vec2f tc_ref(3.f, 4.f);
   v.set_texture_coordinates(tc_ref);
-  HOU_EXPECT_FLOAT_CLOSE(tc_ref, v.get_texture_coordinates());
+  EXPECT_FLOAT_CLOSE(tc_ref, v.get_texture_coordinates());
 }
 
 
@@ -156,7 +156,7 @@ TEST_F(test_vertex2, output_stream_operator)
   const char* ref_output
     = "{position = (1, 2), texture_coordinates = (3, 4), "
       "color = {red = 5, green = 6, blue = 7, alpha = 8}}";
-  HOU_EXPECT_OUTPUT(ref_output, v);
+  EXPECT_OUTPUT(ref_output, v);
 }
 
 
@@ -222,7 +222,7 @@ TEST_F(test_mesh2, ellipse)
     vertex2(vec2f(0.5f, 0.f), vec2f::zero(), color::white),
     vertex2(vec2f(0.853553f, 0.292893f), vec2f::zero(), color::white),
     vertex2(vec2f(1.f, 1.f), vec2f::zero(), color::white)};
-  HOU_EXPECT_CLOSE(vertices_ref, m.get_vertices(), 1e-5f);
+  EXPECT_CLOSE(vertices_ref, m.get_vertices(), 1e-5f);
 }
 
 
@@ -254,7 +254,7 @@ TEST_F(test_mesh2, ellipse_outline)
     vertex2(vec2f(0.676777f, 0.46967f), vec2f::zero(), color::white),
     vertex2(vec2f(1.f, 1.f), vec2f::zero(), color::white),
     vertex2(vec2f(0.75f, 1.f), vec2f::zero(), color::white)};
-  HOU_EXPECT_CLOSE(vertices_ref, m.get_vertices(), 1e-5f);
+  EXPECT_CLOSE(vertices_ref, m.get_vertices(), 1e-5f);
 }
 
 

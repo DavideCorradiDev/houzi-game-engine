@@ -81,11 +81,7 @@ public:
    *
    * \param other the other render_surface.
    */
-  render_surface(render_surface&& other);
-
-  /** Destructor.
-   */
-  virtual ~render_surface() = 0;
+  render_surface(render_surface&& other) noexcept;
 
   /** Gets the default viewport rectangle.
    *
@@ -105,7 +101,7 @@ public:
    *
    * \return the current viewport rectangle.
    */
-  const recti& get_viewport() const;
+  const recti& get_viewport() const noexcept;
 
   /** Sets the current viewport rectangle.
    *
@@ -124,13 +120,13 @@ public:
    * \return true if the number of samples of the render_surface is greater than
    * one.
    */
-  bool is_multisampled() const;
+  bool is_multisampled() const noexcept;
 
   /** Gets the number of samples of the render_surface.
    *
    * \return the number of samples of the render_surface.
    */
-  uint get_sample_count() const;
+  uint get_sample_count() const noexcept;
 
   /** Clears the render_surface to the desired color.
    *
@@ -174,20 +170,75 @@ public:
    * If the size of the source and destination rectangle is the same but
    * inverted, it counts as the same for the purpose of this check.
    *
+   * \param src the source render_surface.
+   *
    * \param dst the destination render_surface.
    *
    * \param src_rect the source rectangle of the blit operation.
    *
    * \param dst_rect the destination rectangle of the blit operation.
+   *
+   * \throws hou::precondition_violation if one argument doesn't satisfies the
+   * consttraints.
    */
   friend HOU_GFX_API void blit(const render_surface& src, const recti& src_rect,
     render_surface& dst, const recti& dst_rect,
     framebuffer_blit_filter filter = framebuffer_blit_filter::nearest);
 
+  /** Blits the render_surface onto another render_surface.
+   *
+   * Throws if blitting is performed between two render_surface objects with
+   * different sample count and source and destination rectangles with
+   * different size.
+   *
+   * Blitting between two render_surface objects with different sample count
+   * but source and destination rectangle with the same size, or with
+   * source and destination rectangle with same size but different sample count
+   * is possible.
+   *
+   * If the size of the source and destination rectangle is the same but
+   * inverted, it counts as the same for the purpose of this check.
+   *
+   * \param src the source render_surface.
+   *
+   * \param dst the destination texture.
+   *
+   * \param src_rect the source rectangle of the blit operation.
+   *
+   * \param dst_rect the destination rectangle of the blit operation.
+   *
+   * \throws hou::precondition_violation if one argument doesn't satisfies the
+   * consttraints.
+   */
   friend HOU_GFX_API void blit(const render_surface& src, const recti& src_rect,
     texture& dst, const recti& dst_rect,
     framebuffer_blit_filter filter = framebuffer_blit_filter::nearest);
 
+  /** Blits the render_surface onto another render_surface.
+   *
+   * Throws if blitting is performed between two render_surface objects with
+   * different sample count and source and destination rectangles with
+   * different size.
+   *
+   * Blitting between two render_surface objects with different sample count
+   * but source and destination rectangle with the same size, or with
+   * source and destination rectangle with same size but different sample count
+   * is possible.
+   *
+   * If the size of the source and destination rectangle is the same but
+   * inverted, it counts as the same for the purpose of this check.
+   *
+   * \param src the source texture.
+   *
+   * \param dst the destination render_surface.
+   *
+   * \param src_rect the source rectangle of the blit operation.
+   *
+   * \param dst_rect the destination rectangle of the blit operation.
+   *
+   * \throws hou::precondition_violation if one argument doesn't satisfies the
+   * consttraints.
+   */
   friend HOU_GFX_API void blit(const texture& src, const recti& src_rect,
     render_surface& dst, const recti& dst_rect,
     framebuffer_blit_filter filter = framebuffer_blit_filter::nearest);

@@ -46,6 +46,7 @@ SET(EXE_HOUSYS_TEST_SRC
   hou/sys/test_pixel.cpp
   hou/sys/test_text_file_in.cpp
   hou/sys/test_text_file_out.cpp
+  hou/sys/test_sys_exceptions.cpp
   hou/sys/test_video_mode.cpp
   hou/sys/test_system_window.cpp
   hou/sys/test_window_event.cpp

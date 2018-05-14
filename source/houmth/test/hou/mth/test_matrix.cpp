@@ -6,8 +6,6 @@
 
 #include "hou/mth/matrix.hpp"
 
-#include "hou/cor/cor_error.hpp"
-
 using namespace hou;
 using namespace testing;
 
@@ -56,16 +54,6 @@ TEST_F(test_matrix, initializer_list_constructor)
   EXPECT_FLOAT_EQ(4.f, mf(3));
   EXPECT_FLOAT_EQ(5.f, mf(4));
   EXPECT_FLOAT_EQ(6.f, mf(5));
-}
-
-
-
-TEST_F(test_matrix_death_test, initializer_list_constructor_wrong_size)
-{
-  HOU_EXPECT_ERROR(
-    mat3x2i({1, 2, 3}), std::logic_error, get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(mat3x2i({1, 2, 3, 4, 5, 6, 7}), std::logic_error,
-    get_text(cor_error::pre_condition));
 }
 
 
@@ -157,13 +145,10 @@ TEST_F(test_matrix, element_access_operators)
 TEST_F(test_matrix_death_test, element_access_out_of_bounds)
 {
   mat3x2i m;
-  HOU_EXPECT_ERROR(
-    m(3, 1), std::logic_error, get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(
-    m(2, 2), std::logic_error, get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(
-    m(3, 2), std::logic_error, get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(m(7), std::logic_error, get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(m(3, 1));
+  EXPECT_PRECOND_ERROR(m(2, 2));
+  EXPECT_PRECOND_ERROR(m(3, 2));
+  EXPECT_PRECOND_ERROR(m(7));
 }
 
 
@@ -250,7 +235,7 @@ TEST_F(test_matrix, data)
 {
   mat3x2i m = {1, 2, 3, 4, 5, 6};
   int data_ref[] = {1, 2, 3, 4, 5, 6};
-  HOU_EXPECT_ARRAY_EQ(data_ref, m.data(), m.get_size());
+  EXPECT_ARRAY_EQ(data_ref, m.data(), m.get_size());
 }
 
 
@@ -362,13 +347,13 @@ TEST_F(test_matrix, scalar_multiplication)
 
 TEST_F(test_matrix, mixed_scalar_multiplication)
 {
-  mat3x2f m = {0, 1, 2, 3, -4, 5};
+  mat3x2f m = {0.f, 1.f, 2.f, 3.f, -4.f, 5.f};
   int factor = 3;
   mat3x2f m_mult_left = factor * m;
   mat3x2f m_mult_right = m * factor;
   mat3x2f m_mult_incremental = m;
   m_mult_incremental *= factor;
-  mat3x2f m_mult_ref = {0, 3, 6, 9, -12, 15};
+  mat3x2f m_mult_ref = {0.f, 3.f, 6.f, 9.f, -12.f, 15.f};
 
   EXPECT_EQ(m_mult_ref, m_mult_left);
   EXPECT_EQ(m_mult_ref, m_mult_right);
@@ -406,12 +391,12 @@ TEST_F(test_matrix, scalar_division)
 
 TEST_F(test_matrix, mixed_scalar_division)
 {
-  mat3x2f m = {0, 2, -4, 6, 8, 10};
+  mat3x2f m = {0.f, 2.f, -4.f, 6.f, 8.f, 10.f};
   int divisor = 2;
   mat3x2f m_div = m / divisor;
   mat3x2f m_div_incremental = m;
   m_div_incremental /= divisor;
-  mat3x2f m_div_ref = {0, 1, -2, 3, 4, 5};
+  mat3x2f m_div_ref = {0.f, 1.f, -2.f, 3.f, 4.f, 5.f};
 
   EXPECT_EQ(m_div_ref, m_div);
   EXPECT_EQ(m_div_ref, m_div_incremental);
@@ -626,10 +611,10 @@ TEST_F(test_matrix, inverse1x1)
   mat1x1f m = {2.f};
   mat1x1f mInv = inverse(m);
   mat1x1f mInv_ref = {0.5f};
-  HOU_EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
-  HOU_EXPECT_FLOAT_CLOSE(mat1x1f::identity(), m * mInv);
+  EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
+  EXPECT_FLOAT_CLOSE(mat1x1f::identity(), m * mInv);
   m.invert();
-  HOU_EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
+  EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
 }
 
 
@@ -639,10 +624,10 @@ TEST_F(test_matrix, inverse2x2)
   mat2x2f m = {1.f, 2.f, 3.f, 4.f};
   mat2x2f mInv = inverse(m);
   mat2x2f mInv_ref = {-2.f, 1.f, 1.5f, -0.5f};
-  HOU_EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
-  HOU_EXPECT_FLOAT_CLOSE(mat2x2f::identity(), m * mInv);
+  EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
+  EXPECT_FLOAT_CLOSE(mat2x2f::identity(), m * mInv);
   m.invert();
-  HOU_EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
+  EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
 }
 
 
@@ -664,10 +649,10 @@ TEST_F(test_matrix, inverse3x3)
   };
   // clang-format on
   mat3x3f mInv = inverse(m);
-  HOU_EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
-  HOU_EXPECT_FLOAT_CLOSE(mat3x3f::identity(), m * mInv);
+  EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
+  EXPECT_FLOAT_CLOSE(mat3x3f::identity(), m * mInv);
   m.invert();
-  HOU_EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
+  EXPECT_FLOAT_CLOSE(mInv_ref, mInv);
 }
 
 
@@ -675,8 +660,7 @@ TEST_F(test_matrix, inverse3x3)
 TEST_F(test_matrix_death_test, inverse_failure_null_determinant)
 {
   mat2x2f m = mat2x2f::zero();
-  HOU_EXPECT_ERROR(
-    inverse(m), std::logic_error, get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(inverse(m));
 }
 
 
@@ -701,7 +685,7 @@ TEST_F(test_matrix, determinant3x3)
 {
   EXPECT_EQ(381, det(mat3x3i{0, 2, 3, 9, -1, -4, 3, 10, -7}));
   EXPECT_FLOAT_EQ(
-    66.f, det(mat3x3f{-1.f, 2.f, 3.f, 5.f, -4.f, 5.f, -2., 7.f, 5.f}));
+    66.f, det(mat3x3f{-1.f, 2.f, 3.f, 5.f, -4.f, 5.f, -2.f, 7.f, 5.f}));
 }
 
 
@@ -794,12 +778,12 @@ TEST_F(test_matrix, normalization_mat3x1f)
   mat3x1f m{3.f, 4.f, 12.f};
 
   mat3x1f mNorm = normalized(m);
-  HOU_EXPECT_FLOAT_CLOSE(m / 13.f, mNorm);
+  EXPECT_FLOAT_CLOSE(m / 13.f, mNorm);
   EXPECT_FLOAT_EQ(1.f, square_norm(mNorm));
   EXPECT_FLOAT_EQ(1.f, norm(mNorm));
 
   m.normalize();
-  HOU_EXPECT_FLOAT_CLOSE(mNorm, m);
+  EXPECT_FLOAT_CLOSE(mNorm, m);
   EXPECT_FLOAT_EQ(1.f, square_norm(m));
   EXPECT_FLOAT_EQ(1.f, norm(m));
 }
@@ -808,8 +792,7 @@ TEST_F(test_matrix, normalization_mat3x1f)
 
 TEST_F(test_matrix, normalization_failure_null_norm)
 {
-  HOU_EXPECT_ERROR(normalized(mat3x1f::zero()), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(normalized(mat3x1f::zero()));
 }
 
 
@@ -846,6 +829,6 @@ TEST_F(test_matrix, diagonal)
 
 TEST_F(test_matrix, output_stream_operator)
 {
-  HOU_EXPECT_OUTPUT("(0)\n(1)", mat2x1i(0, 1));
-  HOU_EXPECT_OUTPUT("(0, 1)\n(2, 3)\n(4, 5)", mat3x2i(0, 1, 2, 3, 4, 5));
+  EXPECT_OUTPUT("(0)\n(1)", mat2x1i(0, 1));
+  EXPECT_OUTPUT("(0, 1)\n(2, 3)\n(4, 5)", mat3x2i(0, 1, 2, 3, 4, 5));
 }

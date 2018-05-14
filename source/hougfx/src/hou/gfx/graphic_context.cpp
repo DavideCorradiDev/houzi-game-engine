@@ -82,7 +82,7 @@ graphic_context::graphic_context()
 
 
 
-graphic_context::graphic_context(graphic_context&& other)
+graphic_context::graphic_context(graphic_context&& other) noexcept
   : m_extension_initializer()
   , m_default_window(std::move(other.m_default_window))
   , gl_context(std::move(other.gl_context))

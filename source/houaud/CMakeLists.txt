@@ -35,7 +35,7 @@ INCLUDE_DIRECTORIES(
 
 # Source files.
 SET(LIB_HOUAUD_SRC
-  src/hou/aud/aud_error.cpp
+  src/hou/aud/aud_exceptions.cpp
   src/hou/aud/audio_buffer.cpp
   src/hou/aud/audio_buffer_format.cpp
   src/hou/aud/audio_context.cpp

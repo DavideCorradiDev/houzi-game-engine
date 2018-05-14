@@ -5,14 +5,14 @@
 #ifndef HOU_GFX_TEXT_VERTEX_HPP
 #define HOU_GFX_TEXT_VERTEX_HPP
 
+#include "hou/gfx/mesh.hpp"
+
 #include "hou/gfx/gfx_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 #include "hou/cor/pragmas.hpp"
 
 #include "hou/mth/matrix.hpp"
-
-#include "hou/gfx/mesh.hpp"
 
 
 
@@ -42,7 +42,7 @@ public:
 public:
   /** Builds a text_vertex object with all elements set to 0.
    */
-  text_vertex();
+  text_vertex() noexcept;
 
   /** Builds a text_vertex object with the given position and texture
    * coordinates.
@@ -51,31 +51,31 @@ public:
    *
    * \param tex_coords the vertex texture coordinates.
    */
-  text_vertex(const vec2f& position, const vec3f& tex_coords);
+  text_vertex(const vec2f& position, const vec3f& tex_coords) noexcept;
 
   /** Gets the vertex position.
    *
    * \return the vertex position.
    */
-  vec2f get_position() const;
+  vec2f get_position() const noexcept;
 
   /** Sets the vertex position.
    *
    * \param pos the vertex position.
    */
-  void set_position(const vec2f& pos);
+  void set_position(const vec2f& pos) noexcept;
 
   /** Gets the vertex texture coordinates.
    *
    * \return the vertex texture coordinates.
    */
-  vec3f get_texture_coordinates() const;
+  vec3f get_texture_coordinates() const noexcept;
 
   /** Sets the vertex texture coordinates.
    *
    * \param tex_coords the vertex texture coordinates.
    */
-  void set_texture_coordinates(const vec3f& tex_coords);
+  void set_texture_coordinates(const vec3f& tex_coords) noexcept;
 
 private:
   static constexpr size_t s_position_size = 2u;
@@ -96,7 +96,8 @@ HOU_PRAGMA_PACK_POP()
  *
  * \return true if the two objects are equal.
  */
-HOU_GFX_API bool operator==(const text_vertex& lhs, const text_vertex& rhs);
+HOU_GFX_API bool operator==(
+  const text_vertex& lhs, const text_vertex& rhs) noexcept;
 
 /** Checks if two text_vertex objects are not equal.
  *
@@ -106,7 +107,8 @@ HOU_GFX_API bool operator==(const text_vertex& lhs, const text_vertex& rhs);
  *
  * \return true if the two objects are not equal.
  */
-HOU_GFX_API bool operator!=(const text_vertex& lhs, const text_vertex& rhs);
+HOU_GFX_API bool operator!=(
+  const text_vertex& lhs, const text_vertex& rhs) noexcept;
 
 /** Checks if two text_vertex objects are equal with the specified accuracy.
  *
@@ -120,7 +122,7 @@ HOU_GFX_API bool operator!=(const text_vertex& lhs, const text_vertex& rhs);
  */
 HOU_GFX_API bool close(const text_vertex& lhs, const text_vertex& rhs,
   text_vertex::comparison_type acc
-  = std::numeric_limits<text_vertex::comparison_type>::epsilon());
+  = std::numeric_limits<text_vertex::comparison_type>::epsilon()) noexcept;
 
 /** Writes the object into a stream.
  *

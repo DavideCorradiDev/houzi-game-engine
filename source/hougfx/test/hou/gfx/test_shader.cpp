@@ -7,7 +7,7 @@
 
 #include "hou/gfx/shader.hpp"
 
-#include "hou/gl/gl_error.hpp"
+#include "hou/gl/gl_exceptions.hpp"
 
 using namespace hou;
 
@@ -16,9 +16,11 @@ using namespace hou;
 namespace
 {
 
-class test_shader : public test_gfx_base {};
+class test_shader : public test_gfx_base
+{};
 
-class test_shader_death_test : public test_shader {};
+class test_shader_death_test : public test_shader
+{};
 
 std::string get_fs_source();
 std::string get_gs_source();
@@ -75,7 +77,7 @@ std::string get_vs_source()
 }
 // clang-format on
 
-}
+}  // namespace
 
 
 
@@ -99,11 +101,10 @@ TEST_F(test_shader, gl_vertex_shader_move_constructor)
 TEST_F(test_shader_death_test, gl_vertex_shader_creation)
 {
   const char vs_src[] = "I like trains.";
-  HOU_EXPECT_ERROR(vertex_shader vs(vs_src), std::runtime_error
-    , format_string(get_text(gl_error::shader_compilation)
-    , to_string(shader_type::vertex).c_str()
-    , "0(1) : error C0000: syntax error, "
-    "unexpected '.', expecting \"::\" at token \".\"\n"));
+  EXPECT_ERROR_N(vertex_shader vs(vs_src), gl::shader_compiler_error,
+    static_cast<GLenum>(shader_type::vertex),
+    "0(1) : error C0000: syntax error, "
+    "unexpected '.', expecting \"::\" at token \".\"\n");
 }
 
 
@@ -128,11 +129,10 @@ TEST_F(test_shader, gl_fragment_shader_move_constructor)
 TEST_F(test_shader_death_test, gl_fragment_shader_creation)
 {
   const char fs_src[] = "I like trains.";
-  HOU_EXPECT_ERROR(fragment_shader vs(fs_src), std::runtime_error
-    , format_string(get_text(gl_error::shader_compilation)
-    , to_string(shader_type::fragment).c_str()
-    , "0(1) : error C0000: syntax error, "
-    "unexpected '.', expecting \"::\" at token \".\"\n"));
+  EXPECT_ERROR_N(fragment_shader vs(fs_src), gl::shader_compiler_error,
+    static_cast<GLenum>(shader_type::fragment),
+    "0(1) : error C0000: syntax error, "
+    "unexpected '.', expecting \"::\" at token \".\"\n");
 }
 
 
@@ -157,10 +157,8 @@ TEST_F(test_shader, gl_geometry_shader_move_constructor)
 TEST_F(test_shader_death_test, gl_geometry_shader_creation)
 {
   const char gs_src[] = "I like trains.";
-  HOU_EXPECT_ERROR(geometry_shader vs(gs_src), std::runtime_error
-    , format_string(get_text(gl_error::shader_compilation)
-    , to_string(shader_type::geometry).c_str()
-    , "0(1) : error C0000: syntax error, "
-    "unexpected '.', expecting \"::\" at token \".\"\n"));
+  EXPECT_ERROR_N(geometry_shader vs(gs_src), gl::shader_compiler_error,
+    static_cast<GLenum>(shader_type::geometry),
+    "0(1) : error C0000: syntax error, "
+    "unexpected '.', expecting \"::\" at token \".\"\n");
 }
-

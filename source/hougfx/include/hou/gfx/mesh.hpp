@@ -5,18 +5,18 @@
 #ifndef HOU_GFX_MESH_HPP
 #define HOU_GFX_MESH_HPP
 
-#include "hou/gfx/gfx_export.hpp"
-
 #include "hou/cor/non_copyable.hpp"
-
-#include "hou/cor/basic_types.hpp"
-#include "hou/cor/span.hpp"
-#include "hou/cor/std_vector.hpp"
 
 #include "hou/gfx/mesh_draw_mode.hpp"
 #include "hou/gfx/mesh_fill_mode.hpp"
 #include "hou/gfx/vertex_array.hpp"
 #include "hou/gfx/vertex_buffer.hpp"
+
+#include "hou/gfx/gfx_export.hpp"
+
+#include "hou/cor/basic_types.hpp"
+#include "hou/cor/span.hpp"
+#include "hou/cor/std_vector.hpp"
 
 #include <iostream>
 
@@ -54,19 +54,19 @@ public:
    *
    * \return the mesh_draw_mode.
    */
-  mesh_draw_mode get_draw_mode() const;
+  mesh_draw_mode get_draw_mode() const noexcept;
 
   /** Gets the mesh_fill_mode.
    *
    * \return the mesh_fill_mode.
    */
-  mesh_fill_mode get_fill_mode() const;
+  mesh_fill_mode get_fill_mode() const noexcept;
 
   /** Gets the number of vertices in the mesh.
    *
    * \return the number of vertices in the mesh.
    */
-  uint get_vertex_count() const;
+  uint get_vertex_count() const noexcept;
 
 protected:
   /** Generic constructor.
@@ -85,7 +85,7 @@ protected:
    *
    * \param other the other mesh_t object.
    */
-  mesh(mesh&& other);
+  mesh(mesh&& other) noexcept;
 
 protected:
   mesh_draw_mode m_draw_mode;
@@ -128,7 +128,7 @@ public:
    *
    * \param other the other mesh_t object.
    */
-  mesh_t(mesh_t&& other);
+  mesh_t(mesh_t&& other) noexcept;
 
   /** Gets the vertices in the mesh inside a vector.
    *

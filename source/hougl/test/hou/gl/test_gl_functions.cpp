@@ -5,11 +5,11 @@
 #include "hou/Test.hpp"
 #include "hou/gl/test_gl_single_context.hpp"
 
-#include "hou/gl/gl_error.hpp"
+#include "hou/gl/gl_exceptions.hpp"
 #include "hou/gl/gl_functions.hpp"
 
-#include "hou/sys/video_mode.hpp"
 #include "hou/sys/system_window.hpp"
+#include "hou/sys/video_mode.hpp"
 
 using namespace hou;
 
@@ -50,8 +50,7 @@ TEST_F(test_gl_functions, unpack_alignment)
 TEST_F(test_gl_functions_death_test, invalid_unpack_alignment)
 {
 #ifdef HOU_ENABLE_GL_ERROR_CHECKS
-  HOU_EXPECT_ERROR(gl::set_unpack_alignment(3), std::logic_error,
-    get_text(gl_error::invalid_value));
+  EXPECT_ERROR_N(gl::set_unpack_alignment(3), gl::call_error, GL_INVALID_VALUE);
 #else
   SUCCEED();
 #endif
@@ -72,8 +71,7 @@ TEST_F(test_gl_functions, pack_alignment)
 TEST_F(test_gl_functions_death_test, invalid_pack_alignment)
 {
 #ifdef HOU_ENABLE_GL_ERROR_CHECKS
-  HOU_EXPECT_ERROR(
-    gl::set_pack_alignment(3), std::logic_error, get_text(gl_error::invalid_value));
+  EXPECT_ERROR_N(gl::set_pack_alignment(3), gl::call_error, GL_INVALID_VALUE);
 #else
   SUCCEED();
 #endif
@@ -117,7 +115,8 @@ TEST_F(test_gl_functions, compute_texture_size_bytes)
 TEST_F(test_gl_functions, bind_window)
 {
   ASSERT_TRUE(m_context.is_current());
-  system_window w("Test", video_mode(vec2u(40u, 30u), 32u), window_style::windowed);
+  system_window w(
+    "Test", video_mode(vec2u(40u, 30u), 32u), window_style::windowed);
   gl::bind_window(w);
   EXPECT_TRUE(m_context.is_current());
 }
@@ -146,8 +145,8 @@ TEST_F(test_gl_functions, get_blending_factors)
 
   gl::set_blending(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   EXPECT_EQ(static_cast<GLenum>(GL_SRC_ALPHA), gl::get_source_blending());
-  EXPECT_EQ(
-    static_cast<GLenum>(GL_ONE_MINUS_SRC_ALPHA), gl::get_destination_blending());
+  EXPECT_EQ(static_cast<GLenum>(GL_ONE_MINUS_SRC_ALPHA),
+    gl::get_destination_blending());
 
   gl::set_blending(GL_SRC_COLOR, GL_DST_ALPHA);
   EXPECT_EQ(static_cast<GLenum>(GL_SRC_COLOR), gl::get_source_blending());

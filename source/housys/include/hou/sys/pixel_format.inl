@@ -1,7 +1,7 @@
 namespace hou
 {
 
-constexpr uint get_pixel_format_byte_count(pixel_format format)
+constexpr uint get_pixel_format_byte_count(pixel_format format) noexcept
 {
   switch(format)
   {
@@ -14,8 +14,7 @@ constexpr uint get_pixel_format_byte_count(pixel_format format)
     case pixel_format::rgba:
       return 4u;
     default:
-      HOU_LOGIC_ERROR(
-        get_text(cor_error::invalid_enum), static_cast<int>(format));
+      HOU_UNREACHABLE();
       return 1u;
   };
 }

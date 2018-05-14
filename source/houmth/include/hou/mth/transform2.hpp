@@ -5,12 +5,12 @@
 #ifndef HOU_MTH_TRANSFORM_2_HPP
 #define HOU_MTH_TRANSFORM_2_HPP
 
-#include "hou/mth/mth_export.hpp"
-
 #include "hou/mth/matrix.hpp"
 #include "hou/mth/rectangle_fwd.hpp"
 #include "hou/mth/rotation2_fwd.hpp"
 #include "hou/mth/transform2_fwd.hpp"
+
+#include "hou/mth/mth_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 
@@ -41,7 +41,7 @@ public:
    *
    * /return the identity transform.
    */
-  static transform2 identity();
+  static transform2 identity() noexcept;
 
   /** Creates a 2d transform representing a translation.
    *
@@ -49,7 +49,7 @@ public:
    *
    * \return a transform2 object representing the translation.
    */
-  static transform2 translation(const vec2<T>& translation);
+  static transform2 translation(const vec2<T>& translation) noexcept;
 
   /** Creates a 2d transform representing a rotation.
    *
@@ -57,7 +57,7 @@ public:
    *
    * \return a transform2 object representing the rotation.
    */
-  static transform2 rotation(const rot2<T>& rotation);
+  static transform2 rotation(const rot2<T>& rotation) noexcept;
 
   /** Creates a 2d transform representing a scaling transformation.
    *
@@ -65,7 +65,7 @@ public:
    *
    * \return a transform2 object representing the scaling.
    */
-  static transform2 scale(const vec2<T>& scale);
+  static transform2 scale(const vec2<T>& scale) noexcept;
 
   /** Creates a 2d transform representing a shearing transformation.
    *
@@ -75,7 +75,7 @@ public:
    *
    * \return a transform2 object representing the shearing.
    */
-  static transform2 shear(T sxy, T syx);
+  static transform2 shear(T sxy, T syx) noexcept;
 
   /** Creates a 2d transform representing an ortographic transform.
    *
@@ -87,21 +87,24 @@ public:
    *
    * \return a transform2 object representing the ortographic projection.
    */
-  static transform2 orthographic_projection(const rect<T>& clipping_plane);
+  static transform2 orthographic_projection(
+    const rect<T>& clipping_plane) noexcept;
 
 public:
   /** Creates an identity transform.
    */
-  transform2();
+  transform2() noexcept;
 
   /** Creates a transform from a transform with a different scalar type.
    *
    * \tparam U the other scalar type.
+   * \tparam Enable enabling parameter.
    *
    * \param other the transform to be converted.
    */
-  template <typename U>
-  HOU_MTH_API transform2(const transform2<U>& other);
+  template <typename U,
+    typename Enable = std::enable_if_t<std::is_convertible<U, T>::value>>
+  HOU_MTH_API transform2(const transform2<U>& other) noexcept;
 
   /** Builds a homogeneous transformation matrix corresponding to the
    * transform.
@@ -109,7 +112,7 @@ public:
    * \return the homogeneous transformation matrix corresponding to the
    * transform.
    */
-  mat4x4<T> to_mat4x4() const;
+  mat4x4<T> to_mat4x4() const noexcept;
 
   /** Combines the transform with the given transform r.
    *
@@ -117,7 +120,7 @@ public:
    *
    * \return a reference to the object after the combination.
    */
-  transform2& operator*=(const transform2& rhs);
+  transform2& operator*=(const transform2& rhs) noexcept;
 
   /** Inverts the transform.
    *
@@ -131,7 +134,7 @@ public:
    *
    * \return the transformed vector.
    */
-  vec2<T> transform_vector(const vec2<T>& vec) const;
+  vec2<T> transform_vector(const vec2<T>& vec) const noexcept;
 
   /** Transforms the given point.
    *
@@ -139,7 +142,7 @@ public:
    *
    * \return the transformed point.
    */
-  vec2<T> transform_point(const vec2<T>& point) const;
+  vec2<T> transform_point(const vec2<T>& point) const noexcept;
 
   /** Checks if two transforms are equal.
    *
@@ -149,7 +152,8 @@ public:
    *
    * \return the result of the check.
    */
-  friend bool operator==(const transform2& lhs, const transform2& rhs)
+  friend constexpr bool operator==(
+    const transform2& lhs, const transform2& rhs) noexcept
   {
     return lhs.m_mat == rhs.m_mat && lhs.m_vec == rhs.m_vec;
   }
@@ -162,7 +166,8 @@ public:
    *
    * \return the result of the check.
    */
-  friend bool operator!=(const transform2& lhs, const transform2& rhs)
+  friend constexpr bool operator!=(
+    const transform2& lhs, const transform2& rhs) noexcept
   {
     return !(lhs == rhs);
   }
@@ -177,14 +182,14 @@ public:
    *
    * \return the result of the check.
    */
-  friend bool close(const transform2& lhs, const transform2& rhs,
-    T acc = std::numeric_limits<T>::epsilon())
+  friend constexpr bool close(const transform2& lhs, const transform2& rhs,
+    T acc = std::numeric_limits<T>::epsilon()) noexcept
   {
     return close(lhs.m_mat, rhs.m_mat, acc) && close(lhs.m_vec, rhs.m_vec, acc);
   }
 
 private:
-  transform2(const mat2x2<T>& r, const vec2<T>& t);
+  transform2(const mat2x2<T>& r, const vec2<T>& t) noexcept;
 
 private:
   mat2x2<T> m_mat;
@@ -203,7 +208,7 @@ private:
  */
 template <typename T>
 HOU_MTH_API transform2<T> operator*(
-  transform2<T> lhs, const transform2<T>& rhs);
+  transform2<T> lhs, const transform2<T>& rhs) noexcept;
 
 /** Computes the inverse of a transform.
  *

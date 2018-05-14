@@ -41,6 +41,9 @@ public:
    * bytes.
    *
    * \param vafs the format of the vertex attributes.
+   *
+   * \throws hou::precondition_violation if the number of attribute formats is
+   * greater or equal than the maximum allowed.
    */
   vertex_format(ptrdiff_t offset, uint stride,
     const span<const vertex_attrib_format>& vafs);
@@ -55,6 +58,9 @@ public:
    * \param stride the intervals at which the vertex repeats in the buffer.
    *
    * \param vafs the format of the vertex attributes.
+   *
+   * \throws hou::precondition_violation if the number of attribute formats is
+   * greater or equal than the maximum allowed.
    */
   vertex_format(
     ptrdiff_t offset, uint stride, std::vector<vertex_attrib_format>&& vafs);
@@ -65,7 +71,7 @@ public:
    * \return the offset of the vertex from the beginning of the buffer in
    * bytes.
    */
-  ptrdiff_t get_offset() const;
+  ptrdiff_t get_offset() const noexcept;
 
   /** Retrieves the intervals at which the vertex repeats in the buffer in
    * bytes.
@@ -73,13 +79,14 @@ public:
    * \return the intervals at which the vertex repeats in the buffer in
    * bytes.
    */
-  uint get_stride() const;
+  uint get_stride() const noexcept;
 
   /** Retrieves the format of the vertex attributes.
    *
    * \return the format of the vertex attributes.
    */
-  const std::vector<vertex_attrib_format>& get_vertex_attrib_formats() const;
+  const std::vector<vertex_attrib_format>& get_vertex_attrib_formats() const
+    noexcept;
 
 private:
   ptrdiff_t m_offset;
@@ -95,7 +102,8 @@ private:
  *
  * \return the result of the check.
  */
-HOU_GFX_API bool operator==(const vertex_format& lhs, const vertex_format& rhs);
+HOU_GFX_API bool operator==(
+  const vertex_format& lhs, const vertex_format& rhs) noexcept;
 
 /** Checks if two vertex_format objects are not equal.
  *
@@ -105,7 +113,8 @@ HOU_GFX_API bool operator==(const vertex_format& lhs, const vertex_format& rhs);
  *
  * \return the result of the check.
  */
-HOU_GFX_API bool operator!=(const vertex_format& lhs, const vertex_format& rhs);
+HOU_GFX_API bool operator!=(
+  const vertex_format& lhs, const vertex_format& rhs) noexcept;
 
 /** Writes the object into a stream.
  *

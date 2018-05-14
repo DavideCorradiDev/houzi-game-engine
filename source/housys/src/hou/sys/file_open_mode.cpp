@@ -4,6 +4,8 @@
 
 #include "hou/sys/file_open_mode.hpp"
 
+#include "hou/cor/exception.hpp"
+
 #define FILE_OPEN_MODE_CASE(fom, os) \
   case file_open_mode::fom: \
     return (os) << #fom
@@ -21,6 +23,7 @@ std::ostream& operator<<(std::ostream& os, file_open_mode fom)
     FILE_OPEN_MODE_CASE(write, os);
     FILE_OPEN_MODE_CASE(append, os);
     default:
+      HOU_UNREACHABLE();
       return os;
   }
 }

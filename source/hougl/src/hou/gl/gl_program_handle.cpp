@@ -4,13 +4,12 @@
 
 #include "hou/gl/gl_program_handle.hpp"
 
-#include "hou/gl/gl_check.hpp"
 #include "hou/gl/gl_context.hpp"
-#include "hou/gl/gl_error.hpp"
+#include "hou/gl/gl_exceptions.hpp"
 #include "hou/gl/gl_shader_handle.hpp"
 
+#include "hou/cor/assertions.hpp"
 #include "hou/cor/character_encodings.hpp"
-#include "hou/cor/error.hpp"
 
 
 
@@ -27,12 +26,6 @@ program_handle program_handle::create()
   HOU_GL_CHECK_ERROR();
   return program_handle(name);
 }
-
-
-
-program_handle::program_handle(program_handle&& other)
-  : shared_object_handle(std::move(other))
-{}
 
 
 
@@ -60,7 +53,8 @@ void bind_program(const program_handle& program)
   {
     glUseProgram(program.get_name());
     HOU_GL_CHECK_ERROR();
-    context::get_current()->m_tracking_data.set_bound_program(program.get_uid());
+    context::get_current()->m_tracking_data.set_bound_program(
+      program.get_uid());
   }
 }
 
@@ -108,8 +102,7 @@ GLuint get_bound_program_name()
 
 
 
-void attach_shader(
-  const program_handle& program, const shader_handle& shd)
+void attach_shader(const program_handle& program, const shader_handle& shd)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   glAttachShader(program.get_name(), shd.get_name());
@@ -133,9 +126,10 @@ void link_program(const program_handle& program)
   if(success == 0)
   {
     GLchar infoLog[max_info_log_size];
-    glGetProgramInfoLog(program.get_name(), max_info_log_size, nullptr, infoLog);
+    glGetProgramInfoLog(
+      program.get_name(), max_info_log_size, nullptr, infoLog);
     HOU_GL_CHECK_ERROR();
-    HOU_RUNTIME_ERROR(get_text(gl_error::program_linking), infoLog);
+    HOU_ERROR_N(shader_linker_error, infoLog);
   }
 }
 
@@ -148,8 +142,7 @@ GLint get_program_uniform_location(
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(program);
   GLint location = glGetUniformLocation(program.get_name(), name);
   HOU_GL_CHECK_ERROR();
-  HOU_RUNTIME_CHECK(
-    location != -1, get_text(gl_error::program_invalid_uniform), name);
+  HOU_CHECK_N(location != -1, invalid_uniform_error, name);
   return location;
 }
 

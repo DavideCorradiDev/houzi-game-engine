@@ -6,11 +6,12 @@
 #define HOU_SYS_BINARY_FILE_IN_HPP
 
 #include "hou/sys/binary_stream_in.hpp"
+
+#include "hou/sys/file.hpp"
+
 #include "hou/sys/sys_export.hpp"
 
 #include "hou/cor/non_copyable.hpp"
-
-#include "hou/sys/file.hpp"
 
 
 
@@ -36,44 +37,20 @@ public:
    *
    * \param other the other object.
    */
-  binary_file_in(binary_file_in&& other);
-
-  /** Destructor.
-   */
-  virtual ~binary_file_in();
+  binary_file_in(binary_file_in&& other) noexcept;
 
   // stream overrides.
-  bool eof() const final;
-  bool error() const final;
-  size_t get_byte_count() const final;
+  bool eof() const noexcept final;
+  bool error() const noexcept final;
+  size_t get_byte_count() const noexcept final;
 
   // stream_in overrides.
-  size_t get_read_byte_count() const final;
-  size_t get_read_element_count() const final;
+  size_t get_read_byte_count() const noexcept final;
+  size_t get_read_element_count() const noexcept final;
 
   // binary_stream overrides.
   byte_position get_byte_pos() const final;
-
-  /** Sets the current byte position indicator.
-   *
-   * Throws if pos is negative.
-   * The position may be over the end of the file.
-   *
-   * \param pos the byte position indicator value.
-   *
-   * \return a reference to this stream.
-   */
   binary_stream& set_byte_pos(byte_position pos) final;
-
-  /** Moves the current byte position indicator.
-   *
-   * Throws if the offset moves the position indicator to a negative position.
-   * The position may be over the end of the file.
-   *
-   * \param offset the byte position indicator offset.
-   *
-   * \return a reference to this stream.
-   */
   binary_stream& move_byte_pos(byte_offset offset) final;
 
 protected:

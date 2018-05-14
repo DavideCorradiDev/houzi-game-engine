@@ -35,13 +35,14 @@ enum class audio_buffer_format : ALenum
 /** Gets the appropriate audio format given the number of channels and bytes per
  * sample.
  *
- * Throws if the values of the arguments is invalid.
- *
  * \param channels the number of channels. It must be 1 (single channel, mono
  * format) or 2 (double channel, stereo format).
  *
  * \param bytes_per_sample the number of bytes per sample. It must be 1 (8-bit
  * format) or 2 (16-bit format).
+ *
+ * \throws hou::precondition_violation if channels or bytes_per_sample have
+ * a value different from 1 or 2.
  *
  * \return the audio format corresponding to the given number of channels and
  * bytes per sample.
@@ -57,7 +58,7 @@ HOU_AUD_API audio_buffer_format get_audio_buffer_format_enum(
  * format) or 2 (double channel, stereo format).
  */
 HOU_AUD_API uint get_audio_buffer_format_channel_count(
-  audio_buffer_format format);
+  audio_buffer_format format) noexcept;
 
 /** Gets the number of bytes per sample associated to an audio format.
  *
@@ -67,7 +68,7 @@ HOU_AUD_API uint get_audio_buffer_format_channel_count(
  * format) or 2 (16-bit format).
  */
 HOU_AUD_API uint get_audio_buffer_format_bytes_per_sample(
-  audio_buffer_format format);
+  audio_buffer_format format) noexcept;
 
 /** Writes a audio_buffer_format enum into a stream.
  *

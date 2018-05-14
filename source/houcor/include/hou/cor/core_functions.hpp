@@ -5,9 +5,9 @@
 #ifndef HOU_COR_COR_UTILS_HPP
 #define HOU_COR_COR_UTILS_HPP
 
-#include "hou/cor/cor_export.hpp"
-
 #include "hou/cor/basic_types.hpp"
+
+#include "hou/cor/cor_export.hpp"
 
 #include <iostream>
 #include <limits>
@@ -35,7 +35,8 @@ namespace hou
  */
 template <typename T,
   typename Enable = std::enable_if_t<std::is_floating_point<T>::value>>
-HOU_COR_API bool close(T lhs, T rhs, T acc = std::numeric_limits<T>::epsilon());
+HOU_COR_API bool close(
+  T lhs, T rhs, T acc = std::numeric_limits<T>::epsilon()) noexcept;
 
 /** Checks if the elements of two containers are close with the given
  * accuracy.
@@ -67,8 +68,8 @@ HOU_COR_API bool close(T lhs, T rhs, T acc = std::numeric_limits<T>::epsilon());
  */
 template <typename T, typename InputIt1, typename InputIt2,
   typename Enable = std::enable_if_t<std::is_floating_point<T>::value>>
-bool container_close(InputIt1 begin1, InputIt1 end1, InputIt2 begin2,
-  T acc = std::numeric_limits<T>::epsilon());
+constexpr bool container_close(InputIt1 begin1, InputIt1 end1, InputIt2 begin2,
+  T acc = std::numeric_limits<T>::epsilon()) noexcept;
 
 /** Outputs a container to the given stream.
  *

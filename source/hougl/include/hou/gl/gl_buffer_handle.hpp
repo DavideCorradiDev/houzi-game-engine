@@ -5,8 +5,9 @@
 #ifndef HOU_GL_GL_BUFFER_HANDLE_HPP
 #define HOU_GL_GL_BUFFER_HANDLE_HPP
 
-#include "hou/gl/gl_export.hpp"
 #include "hou/gl/gl_object_handle.hpp"
+
+#include "hou/gl/gl_export.hpp"
 
 
 
@@ -21,7 +22,7 @@ class HOU_GL_API buffer_handle : public shared_object_handle
 public:
   static buffer_handle create();
 
-  buffer_handle(buffer_handle&& other);
+  buffer_handle(buffer_handle&& other) noexcept = default;
   virtual ~buffer_handle();
 
 private:

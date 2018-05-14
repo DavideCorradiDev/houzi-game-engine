@@ -6,7 +6,7 @@ namespace hou
 {
 
 template <typename T>
-rectangle<T>::rectangle()
+constexpr rectangle<T>::rectangle() noexcept
   : m_position()
   , m_size()
 {}
@@ -14,7 +14,8 @@ rectangle<T>::rectangle()
 
 
 template <typename T>
-rectangle<T>::rectangle(const vec2<T>& position, const vec2<T>& size)
+constexpr rectangle<T>::rectangle(
+  const vec2<T>& position, const vec2<T>& size) noexcept
   : m_position(position)
   , m_size(size)
 {}
@@ -22,22 +23,22 @@ rectangle<T>::rectangle(const vec2<T>& position, const vec2<T>& size)
 
 
 template <typename T>
-rectangle<T>::rectangle(T x, T y, T w, T h)
+constexpr rectangle<T>::rectangle(T x, T y, T w, T h) noexcept
   : rectangle(vec2<T>(x, y), vec2<T>(w, h))
 {}
 
 
 
 template <typename T>
-template <typename U>
-rectangle<T>::rectangle(const rectangle<U>& other)
+template <typename U, typename Enable>
+constexpr rectangle<T>::rectangle(const rectangle<U>& other) noexcept
   : rectangle<T>(vec2<T>(other.get_position()), vec2<T>(other.get_size()))
 {}
 
 
 
 template <typename T>
-const vec2<T>& rectangle<T>::get_position() const
+constexpr const vec2<T>& rectangle<T>::get_position() const noexcept
 {
   return m_position;
 }
@@ -45,7 +46,7 @@ const vec2<T>& rectangle<T>::get_position() const
 
 
 template <typename T>
-void rectangle<T>::set_position(const vec2<T>& value)
+constexpr void rectangle<T>::set_position(const vec2<T>& value) noexcept
 {
   m_position = value;
 }
@@ -53,7 +54,7 @@ void rectangle<T>::set_position(const vec2<T>& value)
 
 
 template <typename T>
-const vec2<T>& rectangle<T>::get_size() const
+constexpr const vec2<T>& rectangle<T>::get_size() const noexcept
 {
   return m_size;
 }
@@ -61,7 +62,7 @@ const vec2<T>& rectangle<T>::get_size() const
 
 
 template <typename T>
-void rectangle<T>::set_size(const vec2<T>& value)
+constexpr void rectangle<T>::set_size(const vec2<T>& value) noexcept
 {
   m_size = value;
 }
@@ -69,7 +70,7 @@ void rectangle<T>::set_size(const vec2<T>& value)
 
 
 template <typename T>
-T rectangle<T>::x() const
+constexpr T rectangle<T>::x() const noexcept
 {
   return m_position.x();
 }
@@ -77,7 +78,7 @@ T rectangle<T>::x() const
 
 
 template <typename T>
-T& rectangle<T>::x()
+constexpr T& rectangle<T>::x() noexcept
 {
   return m_position.x();
 }
@@ -85,7 +86,7 @@ T& rectangle<T>::x()
 
 
 template <typename T>
-T rectangle<T>::y() const
+constexpr T rectangle<T>::y() const noexcept
 {
   return m_position.y();
 }
@@ -93,7 +94,7 @@ T rectangle<T>::y() const
 
 
 template <typename T>
-T& rectangle<T>::y()
+constexpr T& rectangle<T>::y() noexcept
 {
   return m_position.y();
 }
@@ -101,7 +102,7 @@ T& rectangle<T>::y()
 
 
 template <typename T>
-T rectangle<T>::w() const
+constexpr T rectangle<T>::w() const noexcept
 {
   return m_size.x();
 }
@@ -109,7 +110,7 @@ T rectangle<T>::w() const
 
 
 template <typename T>
-T& rectangle<T>::w()
+constexpr T& rectangle<T>::w() noexcept
 {
   return m_size.x();
 }
@@ -117,7 +118,7 @@ T& rectangle<T>::w()
 
 
 template <typename T>
-T rectangle<T>::h() const
+constexpr T rectangle<T>::h() const noexcept
 {
   return m_size.y();
 }
@@ -125,7 +126,7 @@ T rectangle<T>::h() const
 
 
 template <typename T>
-T& rectangle<T>::h()
+constexpr T& rectangle<T>::h() noexcept
 {
   return m_size.y();
 }
@@ -133,7 +134,7 @@ T& rectangle<T>::h()
 
 
 template <typename T>
-T rectangle<T>::l() const
+constexpr T rectangle<T>::l() const noexcept
 {
   return x();
 }
@@ -141,7 +142,7 @@ T rectangle<T>::l() const
 
 
 template <typename T>
-T rectangle<T>::t() const
+constexpr T rectangle<T>::t() const noexcept
 {
   return y();
 }
@@ -149,7 +150,7 @@ T rectangle<T>::t() const
 
 
 template <typename T>
-T rectangle<T>::r() const
+constexpr T rectangle<T>::r() const noexcept
 {
   return x() + w();
 }
@@ -157,7 +158,7 @@ T rectangle<T>::r() const
 
 
 template <typename T>
-T rectangle<T>::b() const
+constexpr T rectangle<T>::b() const noexcept
 {
   return y() + h();
 }
@@ -165,7 +166,8 @@ T rectangle<T>::b() const
 
 
 template <typename T>
-bool operator==(const rectangle<T>& lhs, const rectangle<T>& rhs)
+constexpr bool operator==(
+  const rectangle<T>& lhs, const rectangle<T>& rhs) noexcept
 {
   return lhs.get_position() == rhs.get_position()
     && lhs.get_size() == rhs.get_size();
@@ -174,7 +176,8 @@ bool operator==(const rectangle<T>& lhs, const rectangle<T>& rhs)
 
 
 template <typename T>
-bool operator!=(const rectangle<T>& lhs, const rectangle<T>& rhs)
+constexpr bool operator!=(
+  const rectangle<T>& lhs, const rectangle<T>& rhs) noexcept
 {
   return !(lhs == rhs);
 }
@@ -182,7 +185,8 @@ bool operator!=(const rectangle<T>& lhs, const rectangle<T>& rhs)
 
 
 template <typename T>
-bool close(const rectangle<T>& lhs, const rectangle<T>& rhs, T acc)
+constexpr bool close(
+  const rectangle<T>& lhs, const rectangle<T>& rhs, T acc) noexcept
 {
   return close(lhs.get_position(), rhs.get_position(), acc)
     && close(lhs.get_size(), rhs.get_size(), acc);
@@ -200,7 +204,8 @@ std::ostream& operator<<(std::ostream& os, const rectangle<T>& rect)
 
 
 template <typename T>
-bool is_point_in_rectangle(const rectangle<T>& r, const vec2<T>& p)
+constexpr bool is_point_in_rectangle(
+  const rectangle<T>& r, const vec2<T>& p) noexcept
 {
   return p.x() >= r.l() && p.x() <= r.r() && p.y() >= r.t() && p.y() <= r.b();
 }

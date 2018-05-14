@@ -23,23 +23,23 @@ public:
    */
   virtual ~stream(){};
 
-  /** Checks the end of file indicator.
+  /** Checks the end of stream indicator.
    *
    * \return true if the end of file indicator is set.
    */
-  virtual bool eof() const = 0;
+  virtual bool eof() const noexcept = 0;
 
   /** Checks the error indicator.
    *
    * \return true if the error indicator is set.
    */
-  virtual bool error() const = 0;
+  virtual bool error() const noexcept = 0;
 
   /** Retrieves the total number of bytes in the stream.
    *
    * \return the size of the stream in bytes.
    */
-  virtual size_t get_byte_count() const = 0;
+  virtual size_t get_byte_count() const noexcept = 0;
 };
 
 }  // namespace hou

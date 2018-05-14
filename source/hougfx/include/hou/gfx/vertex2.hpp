@@ -5,14 +5,15 @@
 #ifndef HOU_GFX_VERTEX_2_HPP
 #define HOU_GFX_VERTEX_2_HPP
 
+#include "hou/gfx/mesh.hpp"
+#include "hou/gfx/vertex2_fwd.hpp"
+
 #include "hou/gfx/gfx_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 #include "hou/cor/pragmas.hpp"
 
 #include "hou/gl/open_gl.hpp"
-
-#include "hou/gfx/vertex2_fwd.hpp"
 
 #include "hou/sys/color.hpp"
 
@@ -48,7 +49,7 @@ public:
 public:
   /** Builds a vertex2 object with all elements set to 0.
    */
-  vertex2();
+  vertex2() noexcept;
 
   /** Builds a vertex2 object with the given position, texture coordinates,
    * and color.
@@ -59,43 +60,43 @@ public:
    *
    * \param color the vertex color.
    */
-  vertex2(const vec2f& position, const vec2f& tex_coords, const color& color);
+  vertex2(const vec2f& position, const vec2f& tex_coords,
+    const color& color) noexcept;
 
   /** Gets the vertex position.
    *
    * \return the vertex position.
    */
-  vec2f get_position() const;
+  vec2f get_position() const noexcept;
 
   /** Sets the vertex position.
    *
    * \param pos the vertex position.
    */
-  void set_position(const vec2f& pos);
+  void set_position(const vec2f& pos) noexcept;
 
   /** Gets the vertex texture coordinates.
    *
    * \return the vertex texture coordinates.
    */
-  vec2f get_texture_coordinates() const;
-
+  vec2f get_texture_coordinates() const noexcept;
   /** Sets the vertex texture coordinates.
    *
    * \param tex_coords the vertex texture coordinates.
    */
-  void set_texture_coordinates(const vec2f& tex_coords);
+  void set_texture_coordinates(const vec2f& tex_coords) noexcept;
 
   /** Gets the vertex color.
    *
    * \return the vertex color.
    */
-  color get_color() const;
+  color get_color() const noexcept;
 
   /** Sets the vertex color.
    *
    * \param color the vertex color.
    */
-  void set_color(const color& color);
+  void set_color(const color& color) noexcept;
 
 private:
   static constexpr size_t s_position_size = 2u;
@@ -118,7 +119,7 @@ HOU_PRAGMA_PACK_POP()
  *
  * \return true if the two objects are equal.
  */
-HOU_GFX_API bool operator==(const vertex2& lhs, const vertex2& rhs);
+HOU_GFX_API bool operator==(const vertex2& lhs, const vertex2& rhs) noexcept;
 
 /** Checks if two vertex2 objects are not equal.
  *
@@ -128,7 +129,7 @@ HOU_GFX_API bool operator==(const vertex2& lhs, const vertex2& rhs);
  *
  * \return true if the two objects are not equal.
  */
-HOU_GFX_API bool operator!=(const vertex2& lhs, const vertex2& rhs);
+HOU_GFX_API bool operator!=(const vertex2& lhs, const vertex2& rhs) noexcept;
 
 /** Checks if two vertex2 objects are equal with the specified accuracy.
  *
@@ -142,7 +143,7 @@ HOU_GFX_API bool operator!=(const vertex2& lhs, const vertex2& rhs);
  */
 HOU_GFX_API bool close(const vertex2& lhs, const vertex2& rhs,
   vertex2::comparison_type acc
-  = std::numeric_limits<vertex2::comparison_type>::epsilon());
+  = std::numeric_limits<vertex2::comparison_type>::epsilon()) noexcept;
 
 /** Writes the object into a stream.
  *

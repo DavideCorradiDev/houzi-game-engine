@@ -116,9 +116,8 @@ TEST_F(test_system_window, create_fullscreen)
 TEST_F(
   test_system_window_death_test, create_fullscreen_error_invalid_video_mode)
 {
-  HOU_EXPECT_ERROR(system_window w1("Win", video_mode(vec2u::zero(), 32),
-                     window_style::fullscreen),
-    std::logic_error, get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(system_window w1(
+    "Win", video_mode(vec2u::zero(), 32), window_style::fullscreen));
 }
 
 
@@ -128,9 +127,8 @@ TEST_F(test_system_window_death_test,
 {
   system_window w2(
     "Win", video_mode::get_desktop_mode(), window_style::fullscreen);
-  HOU_EXPECT_ERROR(system_window w3("Win", video_mode::get_desktop_mode(),
-                     window_style::fullscreen),
-    std::logic_error, get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(system_window w3(
+    "Win", video_mode::get_desktop_mode(), window_style::fullscreen));
 }
 
 
@@ -214,7 +212,6 @@ TEST_F(test_system_window, frame_rect)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
-  recti refRect = recti(10, 20, 30, 40);
   vec2i pos(10, 20);
   vec2u size(30u, 40u);
   w.set_frame_rect(pos, size);
@@ -250,7 +247,6 @@ TEST_F(test_system_window, client_rect)
 {
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
-  recti refRect = recti(10, 20, 30, 40);
   vec2i pos(10, 20);
   vec2u size(30u, 40u);
   w.set_client_rect(pos, size);

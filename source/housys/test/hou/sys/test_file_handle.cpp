@@ -6,7 +6,7 @@
 #include "hou/sys/test_data.hpp"
 
 #include "hou/sys/file_handle.hpp"
-#include "hou/sys/sys_error.hpp"
+#include "hou/sys/sys_exceptions.hpp"
 
 using namespace hou;
 using namespace testing;
@@ -74,10 +74,9 @@ TEST_F(test_file_handle, path_constructor)
 TEST_F(test_file_handle_death_test, path_constructor_error)
 {
   std::string invalid_filename = u8"InvalidFileName.txt";
-  HOU_EXPECT_ERROR(
+  EXPECT_ERROR_N(
     file_handle f(invalid_filename, file_open_mode::read, file_type::binary),
-    std::runtime_error,
-    format_string(get_text(sys_error::file_open), invalid_filename.c_str()));
+    file_open_error, invalid_filename);
 }
 
 

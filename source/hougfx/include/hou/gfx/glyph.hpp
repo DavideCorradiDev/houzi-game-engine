@@ -27,6 +27,8 @@ public:
   /** default constructor.
    *
    * The image is empty and the metrics are all null.
+   *
+   * \throws std::bad_alloc.
    */
   glyph();
 
@@ -35,6 +37,8 @@ public:
    * \param im the image.
    *
    * \param metrics the metrics.
+   *
+   * \throws std::bad_alloc.
    */
   glyph(const image2_r& im, const glyph_metrics& metrics);
 
@@ -42,7 +46,7 @@ public:
    *
    * \return the image.
    */
-  const image2_r& get_image() const;
+  const image2_r& get_image() const noexcept;
 
   /** Sets the image.
    *
@@ -54,13 +58,13 @@ public:
    *
    * \return the metrics.
    */
-  const glyph_metrics& get_metrics() const;
+  const glyph_metrics& get_metrics() const noexcept;
 
   /** Sets the metrics.
    *
    * \param metrics the metrics.
    */
-  void set_metrics(const glyph_metrics& metrics);
+  void set_metrics(const glyph_metrics& metrics) noexcept;
 
 private:
   image2_r m_image;
@@ -75,7 +79,7 @@ private:
  *
  * \return true if the two objects are equal,
  */
-HOU_GFX_API bool operator==(const glyph& lhs, const glyph& rhs);
+HOU_GFX_API bool operator==(const glyph& lhs, const glyph& rhs) noexcept;
 
 /** Checks if two glyph objects are not equal.
  *
@@ -85,7 +89,7 @@ HOU_GFX_API bool operator==(const glyph& lhs, const glyph& rhs);
  *
  * \return true if the two objects are not equal,
  */
-HOU_GFX_API bool operator!=(const glyph& lhs, const glyph& rhs);
+HOU_GFX_API bool operator!=(const glyph& lhs, const glyph& rhs) noexcept;
 
 /** Writes a glyph object into a stream.
  *

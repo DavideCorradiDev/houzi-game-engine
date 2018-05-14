@@ -108,5 +108,5 @@ TEST_F(test_glyph, output_stream_operator)
       ", vertical_bearing = (5, -7)"
       ", vertical_advance = -11}}";
 
-  HOU_EXPECT_OUTPUT(ref_output, g);
+  EXPECT_OUTPUT(ref_output, g);
 }

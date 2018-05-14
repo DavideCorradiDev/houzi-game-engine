@@ -6,7 +6,7 @@
 #include "hou/gfx/test_data.hpp"
 
 #include "hou/gfx/font.hpp"
-#include "hou/gfx/gfx_error.hpp"
+#include "hou/gfx/gfx_exceptions.hpp"
 #include "hou/gfx/glyph.hpp"
 
 #include "hou/mth/matrix.hpp"
@@ -69,8 +69,7 @@ TEST_F(test_font, data_constructor)
 TEST_F(test_font_death_test, data_constructor_error_invalid_data)
 {
   std::vector<uint8_t> data;
-  HOU_EXPECT_ERROR(
-    font f(data), std::runtime_error, get_text(gfx_error::font_load_face));
+  EXPECT_ERROR_0(font f(data), font_creation_error);
 }
 
 
@@ -165,9 +164,9 @@ TEST_F(test_font, multi_threading_creation)
 TEST_F(test_font_death_test, failed_creation)
 {
   // Valid file but not a font file.
-  HOU_EXPECT_ERROR(font f(std::make_unique<binary_file_in>(
-                     get_data_dir() + u8"TestImage.png")),
-    std::runtime_error, get_text(gfx_error::font_load_face));
+  EXPECT_ERROR_0(font f(std::make_unique<binary_file_in>(
+                   get_data_dir() + u8"TestImage.png")),
+    font_creation_error);
 }
 
 
@@ -200,7 +199,7 @@ TEST_F(test_font, set_face_index_same_value)
 TEST_F(test_font_death_test, set_face_index_error_out_of_bounds)
 {
   font f(std::make_unique<binary_file_in>(font_name));
-  HOU_EXPECT_PRECONDITION(f.set_face_index(f.get_face_index_count()));
+  EXPECT_PRECOND_ERROR(f.set_face_index(f.get_face_index_count()));
 }
 
 
@@ -285,7 +284,7 @@ TEST_F(test_font, get_pixel_glyph_bounding_box)
   font f(std::make_unique<binary_file_in>(font_name));
 
   EXPECT_EQ(recti(-356, -175, 1202, 845), f.get_glyph_bounding_box());
-  HOU_EXPECT_FLOAT_CLOSE(rectf(-5.5625f, -2.734375f, 18.78125f, 13.203125),
+  EXPECT_FLOAT_CLOSE(rectf(-5.5625f, -2.734375f, 18.78125f, 13.203125),
     f.get_pixel_glyph_bounding_box());
 }
 
@@ -296,7 +295,7 @@ TEST_F(test_font, get_pixel_line_spacing)
   font f(std::make_unique<binary_file_in>(font_name));
 
   EXPECT_EQ(896, f.get_line_spacing());
-  HOU_EXPECT_FLOAT_CLOSE(14.f, f.get_pixel_line_spacing());
+  EXPECT_FLOAT_CLOSE(14.f, f.get_pixel_line_spacing());
 }
 
 
@@ -306,7 +305,7 @@ TEST_F(test_font, get_pixel_max_advance)
   font f(std::make_unique<binary_file_in>(font_name));
 
   EXPECT_EQ(832, f.get_max_advance());
-  HOU_EXPECT_FLOAT_CLOSE(13.f, f.get_pixel_max_advance());
+  EXPECT_FLOAT_CLOSE(13.f, f.get_pixel_max_advance());
 }
 
 
@@ -316,7 +315,7 @@ TEST_F(test_font, get_pixel_max_horizontal_advance)
   font f(std::make_unique<binary_file_in>(font_name));
 
   EXPECT_EQ(857, f.get_max_horizontal_advance());
-  HOU_EXPECT_FLOAT_CLOSE(13.390625f, f.get_pixel_max_horizontal_advance());
+  EXPECT_FLOAT_CLOSE(13.390625f, f.get_pixel_max_horizontal_advance());
 }
 
 
@@ -326,7 +325,7 @@ TEST_F(test_font, get_pixel_max_vertical_advance)
   font f(std::make_unique<binary_file_in>(font_name));
 
   EXPECT_EQ(872, f.get_max_vertical_advance());
-  HOU_EXPECT_FLOAT_CLOSE(13.625f, f.get_pixel_max_vertical_advance());
+  EXPECT_FLOAT_CLOSE(13.625f, f.get_pixel_max_vertical_advance());
 }
 
 

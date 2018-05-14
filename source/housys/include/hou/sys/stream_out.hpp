@@ -32,13 +32,13 @@ public:
    *
    * \return the number of bytes written by the last write operation.
    */
-  virtual size_t get_write_byte_count() const = 0;
+  virtual size_t get_write_byte_count() const noexcept = 0;
 
   /** Retrieves the number of elements written by the last write operation.
    *
    * \return the number of elements written by the last write operation.
    */
-  virtual size_t get_write_element_count() const = 0;
+  virtual size_t get_write_element_count() const noexcept = 0;
 
   /** Writes from a pod, not container variable.
    *
@@ -47,6 +47,8 @@ public:
    * \tparam T the element type.
    *
    * \param buf the variable to be written.
+   *
+   * \throws hou::write_error in case of an error.
    *
    * \return a reference to this stream.
    */
@@ -64,6 +66,8 @@ public:
    * \tparam T the container type.
    *
    * \param buf the container to be written.
+   *
+   * \throws hou::write_error in case of an error.
    *
    * \return a reference to this stream.
    */
@@ -85,6 +89,8 @@ public:
    * \param buf pointer to the memory location to be written.
    *
    * \param buf_size the number of elements to be written.
+   *
+   * \throws hou::write_error in case of an error.
    *
    * \return a reference to this stream.
    */
@@ -109,6 +115,8 @@ protected:
    * \param element_size the size of a single element to be written.
    *
    * \param buf_size the number of elements to be written.
+   *
+   * \throws hou::write_error in case of an error.
    */
   virtual void on_write(const void* buf, size_t element_size, size_t buf_size)
     = 0;

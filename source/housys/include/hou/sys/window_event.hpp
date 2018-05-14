@@ -5,14 +5,14 @@
 #ifndef HOU_SYS_WINDOW_EVENT_HPP
 #define HOU_SYS_WINDOW_EVENT_HPP
 
-#include "hou/sys/sys_export.hpp"
-
 #include "hou/sys/key_code.hpp"
 #include "hou/sys/modifier_keys.hpp"
 #include "hou/sys/mouse_button.hpp"
 #include "hou/sys/mouse_wheel.hpp"
 #include "hou/sys/scan_code.hpp"
 #include "hou/sys/window_event_type.hpp"
+
+#include "hou/sys/sys_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 
@@ -92,37 +92,37 @@ public:
    *
    * \return the window event.
    */
-  static window_event empty();
+  static window_event empty() noexcept;
 
   /** Creates a window closed event.
    *
    * \return the window event.
    */
-  static window_event closed();
+  static window_event closed() noexcept;
 
   /** Creates a window focus gained event.
    *
    * \return the window event.
    */
-  static window_event focus_gained();
+  static window_event focus_gained() noexcept;
 
   /** Creates a window focus lost event.
    *
    * \return the window event.
    */
-  static window_event focus_lost();
+  static window_event focus_lost() noexcept;
 
   /** Creates a mouse entered window event.
    *
    * \return the window event.
    */
-  static window_event mouse_entered();
+  static window_event mouse_entered() noexcept;
 
   /** Creates a mouse left window event.
    *
    * \return the window event.
    */
-  static window_event mouse_left();
+  static window_event mouse_left() noexcept;
 
   /** Creates a window resized lost event.
    *
@@ -132,7 +132,7 @@ public:
    *
    * \return the window event.
    */
-  static window_event resized(uint x, uint y);
+  static window_event resized(uint x, uint y) noexcept;
 
   /** Creates a key pressed window event.
    *
@@ -145,7 +145,7 @@ public:
    * \return the window event.
    */
   static window_event key_pressed(
-    key_code kc, scan_code sc, modifier_keys mod_keys);
+    key_code kc, scan_code sc, modifier_keys mod_keys) noexcept;
 
   /** Creates a key released window event.
    *
@@ -158,7 +158,7 @@ public:
    * \return the window event.
    */
   static window_event key_released(
-    key_code kc, scan_code sc, modifier_keys mod_keys);
+    key_code kc, scan_code sc, modifier_keys mod_keys) noexcept;
 
   /** Creates a text entered window event.
    *
@@ -166,7 +166,7 @@ public:
    *
    * \return the window event.
    */
-  static window_event text_entered(char32_t code_point);
+  static window_event text_entered(char32_t code_point) noexcept;
 
   /** Creates a mouse moved window event.
    *
@@ -176,7 +176,7 @@ public:
    *
    * \return the window event.
    */
-  static window_event mouse_moved(int x, int y);
+  static window_event mouse_moved(int x, int y) noexcept;
 
   /** Creates a mouse button pressed window event.
    *
@@ -188,7 +188,8 @@ public:
    *
    * \return the window event.
    */
-  static window_event mouse_button_pressed(mouse_button mb, int x, int y);
+  static window_event mouse_button_pressed(
+    mouse_button mb, int x, int y) noexcept;
 
   /** Creates a mouse button released window event.
    *
@@ -200,7 +201,8 @@ public:
    *
    * \return the window event.
    */
-  static window_event mouse_button_released(mouse_button mb, int x, int y);
+  static window_event mouse_button_released(
+    mouse_button mb, int x, int y) noexcept;
 
   /** Creates a mouse wheel moved window event.
    *
@@ -215,14 +217,14 @@ public:
    * \return the window event.
    */
   static window_event mouse_wheel_moved(
-    mouse_wheel wheel, int delta, int x, int y);
+    mouse_wheel wheel, int delta, int x, int y) noexcept;
 
 public:
   /** Retrieves the type of the window event.
    *
    * \return the type of the window event.
    */
-  window_event_type get_type() const;
+  window_event_type get_type() const noexcept;
 
   /** Returns the size data of this event.
    *
@@ -274,7 +276,7 @@ public:
   const mouse_wheel_data& get_mouse_wheel_data() const;
 
 private:
-  window_event();
+  window_event() noexcept;
 
 private:
   window_event_type m_type;

@@ -8,8 +8,6 @@
 #include "hou/aud/audio_buffer.hpp"
 #include "hou/aud/audio_source.hpp"
 
-#include "hou/cor/cor_error.hpp"
-
 #include "hou/mth/math_functions.hpp"
 
 using namespace hou;
@@ -39,7 +37,7 @@ class concrete_audio_source : public audio_source
 {
 public:
   concrete_audio_source(const audio_buffer& buffer);
-  concrete_audio_source(concrete_audio_source&& other);
+  concrete_audio_source(concrete_audio_source&& other) noexcept;
   virtual ~concrete_audio_source();
 
   audio_buffer_format get_format() const final;
@@ -83,7 +81,8 @@ concrete_audio_source::concrete_audio_source(const audio_buffer& buffer)
 
 
 
-concrete_audio_source::concrete_audio_source(concrete_audio_source&& other)
+concrete_audio_source::concrete_audio_source(
+  concrete_audio_source&& other) noexcept
   : audio_source(std::move(other))
   , m_sample_count(std::move(other.m_sample_count))
   , m_format(std::move(other.m_format))
@@ -186,9 +185,9 @@ TEST_F(test_audio_source, default_constructor)
   EXPECT_FLOAT_EQ(0.f, as.get_cone_outer_gain());
   EXPECT_FLOAT_EQ(2 * pi_f, as.get_cone_inner_angle());
   EXPECT_FLOAT_EQ(2 * pi_f, as.get_cone_outer_angle());
-  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_position());
-  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_velocity());
-  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_direction());
+  EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_position());
+  EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_velocity());
+  EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_direction());
 }
 
 
@@ -217,9 +216,9 @@ TEST_F(test_audio_source, move_constructor)
   EXPECT_FLOAT_EQ(0.f, as.get_cone_outer_gain());
   EXPECT_FLOAT_EQ(2 * pi_f, as.get_cone_inner_angle());
   EXPECT_FLOAT_EQ(2 * pi_f, as.get_cone_outer_angle());
-  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_position());
-  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_velocity());
-  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_direction());
+  EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_position());
+  EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_velocity());
+  EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_direction());
 }
 
 
@@ -465,8 +464,7 @@ TEST_F(test_audio_source, gain)
 TEST_F(test_audio_source_death_test, invalid_gain)
 {
   concrete_audio_source as(m_buffer);
-  HOU_EXPECT_ERROR(
-    as.set_gain(-3.f), std::logic_error, get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(as.set_gain(-3.f));
 }
 
 
@@ -483,8 +481,7 @@ TEST_F(test_audio_source, max_gain)
 TEST_F(test_audio_source_death_test, invalid_max_gain)
 {
   concrete_audio_source as(m_buffer);
-  HOU_EXPECT_ERROR(as.set_max_gain(-3.f), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(as.set_max_gain(-3.f));
 }
 
 
@@ -501,8 +498,7 @@ TEST_F(test_audio_source, min_gain)
 TEST_F(test_audio_source_death_test, invalid_min_gain)
 {
   concrete_audio_source as(m_buffer);
-  HOU_EXPECT_ERROR(as.set_min_gain(-3.f), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(as.set_min_gain(-3.f));
 }
 
 
@@ -519,8 +515,7 @@ TEST_F(test_audio_source, max_distance)
 TEST_F(test_audio_source_death_test, invalid_max_distance)
 {
   concrete_audio_source as(m_buffer);
-  HOU_EXPECT_ERROR(as.set_max_distance(-3.f), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(as.set_max_distance(-3.f));
 }
 
 
@@ -537,8 +532,7 @@ TEST_F(test_audio_source, rolloff_factor)
 TEST_F(test_audio_source_death_test, invalid_rolloff_factor)
 {
   concrete_audio_source as(m_buffer);
-  HOU_EXPECT_ERROR(as.set_rolloff_factor(-3.f), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(as.set_rolloff_factor(-3.f));
 }
 
 
@@ -555,8 +549,7 @@ TEST_F(test_audio_source, reference_distance)
 TEST_F(test_audio_source_death_test, invalid_reference_distance)
 {
   concrete_audio_source as(m_buffer);
-  HOU_EXPECT_ERROR(as.set_reference_distance(-3.f), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(as.set_reference_distance(-3.f));
 }
 
 
@@ -582,8 +575,7 @@ TEST_F(test_audio_source, cone_outer_gain)
 TEST_F(test_audio_source_death_test, invalid_cone_outer_gain)
 {
   concrete_audio_source as(m_buffer);
-  HOU_EXPECT_ERROR(as.set_cone_outer_gain(-3.f), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(as.set_cone_outer_gain(-3.f));
 }
 
 
@@ -604,10 +596,8 @@ TEST_F(test_audio_source, cone_inner_angle)
 TEST_F(test_audio_source_death_test, invalid_cone_inner_angle)
 {
   concrete_audio_source as(m_buffer);
-  HOU_EXPECT_ERROR(as.set_cone_inner_angle(-pi_f), std::logic_error,
-    get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(as.set_cone_inner_angle(3 * pi_f), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(as.set_cone_inner_angle(-pi_f));
+  EXPECT_PRECOND_ERROR(as.set_cone_inner_angle(3 * pi_f));
 }
 
 
@@ -628,10 +618,8 @@ TEST_F(test_audio_source, cone_outer_angle)
 TEST_F(test_audio_source_death_test, invalid_cone_outer_angle)
 {
   concrete_audio_source as(m_buffer);
-  HOU_EXPECT_ERROR(as.set_cone_outer_angle(-pi_f), std::logic_error,
-    get_text(cor_error::pre_condition));
-  HOU_EXPECT_ERROR(as.set_cone_outer_angle(3 * pi_f), std::logic_error,
-    get_text(cor_error::pre_condition));
+  EXPECT_PRECOND_ERROR(as.set_cone_outer_angle(-pi_f));
+  EXPECT_PRECOND_ERROR(as.set_cone_outer_angle(3 * pi_f));
 }
 
 
@@ -641,7 +629,7 @@ TEST_F(test_audio_source, position)
   concrete_audio_source as(m_buffer);
   vec3f pos_ref(1.f, -2.f, 3.f);
   as.set_position(pos_ref);
-  HOU_EXPECT_FLOAT_CLOSE(pos_ref, as.get_position());
+  EXPECT_FLOAT_CLOSE(pos_ref, as.get_position());
 }
 
 
@@ -651,7 +639,7 @@ TEST_F(test_audio_source, velocity)
   concrete_audio_source as(m_buffer);
   vec3f vel_ref(1.f, -2.f, 3.f);
   as.set_velocity(vel_ref);
-  HOU_EXPECT_FLOAT_CLOSE(vel_ref, as.get_velocity());
+  EXPECT_FLOAT_CLOSE(vel_ref, as.get_velocity());
 }
 
 
@@ -661,5 +649,5 @@ TEST_F(test_audio_source, direction)
   concrete_audio_source as(m_buffer);
   vec3f dir_ref(1.f, -2.f, 3.f);
   as.set_direction(dir_ref);
-  HOU_EXPECT_FLOAT_CLOSE(dir_ref, as.get_direction());
+  EXPECT_FLOAT_CLOSE(dir_ref, as.get_direction());
 }

@@ -5,9 +5,9 @@
 #ifndef HOU_COR_STD_STRING_HPP
 #define HOU_COR_STD_STRING_HPP
 
-#include "hou/cor/cor_export.hpp"
-
 #include "hou/cor/basic_types.hpp"
+
+#include "hou/cor/cor_export.hpp"
 
 #include <sstream>
 #include <string>
@@ -26,6 +26,8 @@ namespace hou
  *
  * \param to the substring that will replace from.
  *
+ * \throws std::bad_alloc.
+ *
  * \return the modified string.
  */
 HOU_COR_API std::string replace_all(
@@ -34,6 +36,8 @@ HOU_COR_API std::string replace_all(
 /** Escapes special characters in a regular expression.
  *
  * \param s the string to be modified.
+ *
+ * \throws std::bad_alloc.
  *
  * \return a string with all regular expression special characters escaped.
  */
@@ -46,6 +50,8 @@ HOU_COR_API std::string escape_regex(std::string s);
  * \param s the string to be modified.
  *
  * \param args the format values.
+ *
+ * \throws std::bad_alloc.
  *
  * \return the formatted string.
  */
@@ -66,6 +72,8 @@ std::string format_string(const std::string& s, Args... args);
  * \param out an iterator to the output container into which to write the
  * substrings.
  *
+ * \throws std::bad_alloc.
+ *
  * \return an iterator pointing to the element following the last inserted.
  */
 template <typename OutputIterator>
@@ -81,6 +89,8 @@ OutputIterator split_string(
  *
  * \param obj the object.
  *
+ * \throws std::bad_alloc.
+ *
  * \return the string resulting from the object conversion.
  */
 template <typename T>
@@ -91,6 +101,8 @@ std::string to_string(const T& obj);
  * The resulting string will be either "true" or "false".
  *
  * \param value the boolean value.
+ *
+ * \throws std::bad_alloc.
  *
  * \return the boolean converted to string.
  */

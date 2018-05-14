@@ -11,7 +11,7 @@
 #include "hou/sys/win/win_error.hpp"
 #include "hou/sys/window_event.hpp"
 
-#include "hou/cor/error.hpp"
+#include "hou/cor/assertions.hpp"
 
 #include "hou/mth/rectangle.hpp"
 #include "hou/sys/window_style.hpp"
@@ -41,30 +41,53 @@ namespace
 {
 
 constexpr uint bits_per_byte = 8u;
+
+
+
 constexpr const wchar_t* hou_wnd_class_name = L"HziWindowClass";
+
 std::mutex hou_wnd_class_mutex;
+
 uint window_count(0);
 
+
+
 std::mutex fullscreen_mutex;
+
 window_impl* fullscreen_window(nullptr);
 
 
 
 DWORD window_style_to_win_window_style(window_style style);
+
 DWORD window_style_to_win_window_style_ex(window_style style);
 
+
+
 void activate_fullscreen_mode(window_impl& wnd, const video_mode& vm);
+
 void deactivate_fullscreen_mode();
+
 bool is_fullscreen_window(const window_impl& wnd);
+
+
 
 recti client_to_frame_rect(HWND hwnd, const recti& rect);
 
+
+
 void set_window_icon(HWND hwnd, HICON hicon);
+
 HICON create_custom_icon(const image2_rgba& icon);
+
 HICON get_system_icon();
 
+
+
 key_code win_key_to_key_code(UINT key);
+
 key_code get_key_code_wparam(WPARAM wparam);
+
 scan_code get_scan_code_lparam(LPARAM lparam);
 
 
@@ -81,6 +104,7 @@ DWORD window_style_to_win_window_style(window_style style)
     case window_style::fullscreen:
       return WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS;
     default:
+      HOU_UNREACHABLE();
       return 0;
   }
 }
@@ -98,6 +122,7 @@ DWORD window_style_to_win_window_style_ex(window_style style)
     case window_style::fullscreen:
       return WS_EX_APPWINDOW;
     default:
+      HOU_UNREACHABLE();
       return 0;
   }
 }
@@ -108,7 +133,7 @@ void activate_fullscreen_mode(window_impl& wnd, const video_mode& vm)
 {
   std::lock_guard<std::mutex> lock(fullscreen_mutex);
 
-  HOU_EXPECT_DEV(fullscreen_window == nullptr);
+  HOU_DEV_ASSERT(fullscreen_window == nullptr);
 
   DEVMODE devmode;
   devmode.dmSize = sizeof(DEVMODE);
@@ -116,7 +141,7 @@ void activate_fullscreen_mode(window_impl& wnd, const video_mode& vm)
   devmode.dmPelsHeight = vm.get_resolution().y();
   devmode.dmBitsPerPel = vm.get_bytes_per_pixel() * bits_per_byte;
   devmode.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT | DM_BITSPERPEL;
-  HOU_WIN_ENSURE(
+  HOU_WIN_CHECK(
     ChangeDisplaySettings(&devmode, CDS_FULLSCREEN) == DISP_CHANGE_SUCCESSFUL);
 
   fullscreen_window = &wnd;
@@ -128,9 +153,9 @@ void deactivate_fullscreen_mode()
 {
   std::lock_guard<std::mutex> lock(fullscreen_mutex);
 
-  HOU_EXPECT_DEV(fullscreen_window != nullptr);
+  HOU_DEV_ASSERT(fullscreen_window != nullptr);
 
-  HOU_WIN_ENSURE(ChangeDisplaySettings(nullptr, 0) == DISP_CHANGE_SUCCESSFUL);
+  HOU_WIN_CHECK(ChangeDisplaySettings(nullptr, 0) == DISP_CHANGE_SUCCESSFUL);
   fullscreen_window = nullptr;
 }
 
@@ -147,7 +172,7 @@ bool is_fullscreen_window(const window_impl& wnd)
 recti client_to_frame_rect(HWND hwnd, const recti& rect)
 {
   RECT win_rect = {rect.l(), rect.t(), rect.r(), rect.b()};
-  HOU_ENSURE(
+  HOU_WIN_CHECK(
     AdjustWindowRect(&win_rect, GetWindowLong(hwnd, GWL_STYLE), false) != 0);
   return recti(win_rect.left, win_rect.top, win_rect.right - win_rect.left,
     win_rect.bottom - win_rect.top);
@@ -181,7 +206,7 @@ HICON create_custom_icon(const image2_rgba& icon)
   }
 
   HINSTANCE module = GetModuleHandle(nullptr);
-  HOU_WIN_ENSURE(module != nullptr);
+  HOU_WIN_CHECK(module != nullptr);
   return CreateIcon(module, icon.get_size().x(), icon.get_size().y(),
     1 /*cplanes*/, 32 /*bbp*/, nullptr, invPixels.data());
 }
@@ -539,7 +564,7 @@ key_code win_key_to_key_code(UINT key)
       return key_code::packet;
 
     default:
-      HOU_LOGIC_ERROR(get_text(cor_error::invalid_enum), key);
+      HOU_UNREACHABLE();
       return key_code::enter;
   }
 }
@@ -581,7 +606,7 @@ window_impl::window_impl(
   , m_mouse_in_window(false)
   , m_previous_size(vm.get_resolution())
 {
-  HOU_EXPECT(style != window_style::fullscreen
+  HOU_PRECOND(style != window_style::fullscreen
     || (vm.is_fullscreen_mode() && fullscreen_window == nullptr));
 
   register_window_class();
@@ -600,25 +625,27 @@ window_impl::window_impl(
       GetModuleHandle(nullptr),                     // hInstance
       nullptr);                                     // lpParam
   // clang-format on
-  HOU_WIN_ENSURE(m_handle != nullptr);
+  HOU_WIN_CHECK(m_handle != nullptr);
 
   // Set client size. CreateWindowEx sets frame position and size, but we want
   // the arguments passed to the constructor to refer to client position and
   // size.
   vec2i position = (style == window_style::fullscreen)
     ? vec2i(0, 0)
-    : vec2i(video_mode::get_desktop_mode().get_resolution() - vm.get_resolution()) / 2;
+    : vec2i(
+        video_mode::get_desktop_mode().get_resolution() - vm.get_resolution())
+      / 2;
   set_client_rect(recti(position, vm.get_resolution()));
 
   // Set a pointer to the window class in the window user data (used in
   // the window procedure).
   SetLastError(0);
   SetWindowLongPtrW(m_handle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
-  HOU_WIN_ENSURE(GetLastError() == 0);
+  HOU_WIN_CHECK(GetLastError() == 0);
 
   // Initialize handle to device context.
   m_hdc = GetDC(m_handle);
-  HOU_WIN_ENSURE(m_hdc != nullptr);
+  HOU_WIN_CHECK(m_hdc != nullptr);
 
   // Activate fullscreen mode if necessary.
   if(style == window_style::fullscreen)
@@ -659,7 +686,7 @@ window_impl::window_impl(window_impl&& other)
   // Update pointer to the window class in the window user data.
   SetLastError(0);
   SetWindowLongPtrW(m_handle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
-  HOU_WIN_ENSURE(GetLastError() == 0);
+  HOU_WIN_CHECK(GetLastError() == 0);
 
   other.m_handle = nullptr;
   other.m_hdc = nullptr;
@@ -671,9 +698,11 @@ window_impl::window_impl(window_impl&& other)
 
 window_impl::~window_impl()
 {
+  HOU_DISABLE_EXCEPTIONS_BEGIN
   destroy_icon();
   destroy_cursor();
   destroy_window();
+  HOU_DISABLE_EXCEPTIONS_END
 }
 
 
@@ -681,7 +710,7 @@ window_impl::~window_impl()
 recti window_impl::get_frame_rect() const
 {
   RECT rect = {0, 0, 0, 0};
-  HOU_WIN_ENSURE(GetWindowRect(m_handle, &rect) != 0);
+  HOU_WIN_CHECK(GetWindowRect(m_handle, &rect) != 0);
   return recti(
     rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
 }
@@ -690,8 +719,8 @@ recti window_impl::get_frame_rect() const
 
 void window_impl::set_frame_rect(const recti& value)
 {
-  HOU_WIN_ENSURE(SetWindowPos(m_handle, nullptr, value.x(), value.y(),
-                   value.w(), value.h(), SWP_NOZORDER)
+  HOU_WIN_CHECK(SetWindowPos(m_handle, nullptr, value.x(), value.y(), value.w(),
+                  value.h(), SWP_NOZORDER)
     != 0);
   if(m_cursor_grabbed)
   {
@@ -705,10 +734,10 @@ recti window_impl::get_client_rect() const
 {
   // Note returned x and y are always 0 with GetClientRect.
   RECT rect = {0, 0, 0, 0};
-  HOU_WIN_ENSURE(GetClientRect(m_handle, &rect) != 0);
+  HOU_WIN_CHECK(GetClientRect(m_handle, &rect) != 0);
 
   POINT origin = {0, 0};
-  HOU_WIN_ENSURE(ClientToScreen(m_handle, &origin) != 0);
+  HOU_WIN_CHECK(ClientToScreen(m_handle, &origin) != 0);
 
   return recti(origin.x, origin.y, rect.right, rect.bottom);
 }
@@ -724,13 +753,13 @@ void window_impl::set_client_rect(const recti& value)
 
 void window_impl::set_title(const std::string& value)
 {
-  HOU_WIN_ENSURE(
+  HOU_WIN_CHECK(
     SetWindowTextW(m_handle, convert_encoding<utf8, wide>(value).c_str()) != 0);
 }
 
 
 
-bool window_impl::is_visible() const
+bool window_impl::is_visible() const noexcept
 {
   return IsWindowVisible(m_handle);
 }
@@ -743,7 +772,7 @@ void window_impl::set_visible(bool value)
   ShowWindow(m_handle, value ? SW_SHOW : SW_HIDE);
   if(value)
   {
-    HOU_WIN_ENSURE(UpdateWindow(m_handle) != 0);
+    HOU_WIN_CHECK(UpdateWindow(m_handle) != 0);
   }
 }
 
@@ -753,7 +782,7 @@ void window_impl::set_icon(const image2_rgba& icon)
 {
   destroy_icon();
   m_icon_handle = create_custom_icon(icon);
-  HOU_WIN_ENSURE(m_icon_handle != nullptr);
+  HOU_WIN_CHECK(m_icon_handle != nullptr);
   set_window_icon(m_handle, m_icon_handle);
 }
 
@@ -764,7 +793,7 @@ void window_impl::set_system_icon()
   destroy_icon();
   m_icon_handle = nullptr;
   HICON iconHandle = get_system_icon();
-  HOU_WIN_ENSURE(iconHandle != nullptr);
+  HOU_WIN_CHECK(iconHandle != nullptr);
   set_window_icon(m_handle, iconHandle);
 }
 
@@ -773,20 +802,20 @@ void window_impl::set_system_icon()
 void window_impl::grab_mouse_cursor()
 {
   RECT rect;
-  HOU_WIN_ENSURE(GetClientRect(m_handle, &rect) != 0);
+  HOU_WIN_CHECK(GetClientRect(m_handle, &rect) != 0);
 
   SetLastError(0);
   MapWindowPoints(m_handle, nullptr, reinterpret_cast<LPPOINT>(&rect), 2);
-  HOU_WIN_ENSURE(GetLastError() == 0);
+  HOU_WIN_CHECK(GetLastError() == 0);
 
-  HOU_WIN_ENSURE(ClipCursor(&rect) != 0);
+  HOU_WIN_CHECK(ClipCursor(&rect) != 0);
 }
 
 
 
 void window_impl::ungrab_mouse_cursor()
 {
-  HOU_WIN_ENSURE(ClipCursor(nullptr) != 0);
+  HOU_WIN_CHECK(ClipCursor(nullptr) != 0);
 }
 
 
@@ -809,21 +838,21 @@ void window_impl::set_mouse_captured(bool value)
     else
     {
       BOOL success = ReleaseCapture();
-      HOU_WIN_ENSURE(success != 0);
+      HOU_WIN_CHECK(success != 0);
     }
   }
 }
 
 
 
-bool window_impl::has_focus() const
+bool window_impl::has_focus() const noexcept
 {
   return GetFocus() == m_handle;
 }
 
 
 
-bool window_impl::request_focus() const
+bool window_impl::request_focus() const noexcept
 {
   // Allow focus stealing only within the current process.
   // Cannot fail.
@@ -869,7 +898,7 @@ void window_impl::update_event_queue()
 
 void window_impl::swap_buffers()
 {
-  HOU_WIN_ENSURE(SwapBuffers(m_hdc) != 0);
+  HOU_WIN_CHECK(SwapBuffers(m_hdc) != 0);
 }
 
 
@@ -893,10 +922,10 @@ void window_impl::register_window_class()
     wcex.lpszClassName = hou_wnd_class_name;
     wcex.hIconSm = nullptr;
 
-    HOU_WIN_ENSURE(RegisterClassExW(&wcex) != 0);
+    HOU_WIN_CHECK(RegisterClassExW(&wcex) != 0);
   }
   ++window_count;
-  HOU_ENSURE_DEV(window_count > 0);
+  HOU_DEV_POSTCOND(window_count > 0);
 }
 
 
@@ -904,11 +933,11 @@ void window_impl::register_window_class()
 void window_impl::unregister_window_class()
 {
   std::lock_guard<std::mutex> lock(hou_wnd_class_mutex);
-  HOU_EXPECT_DEV(window_count > 0);
+  HOU_DEV_PRECOND(window_count > 0);
   --window_count;
   if(window_count == 0)
   {
-    HOU_WIN_ENSURE(
+    HOU_WIN_CHECK(
       UnregisterClassW(hou_wnd_class_name, GetModuleHandle(nullptr)) != 0);
   }
 }
@@ -940,7 +969,7 @@ LRESULT CALLBACK window_impl::wnd_procedure(
 
 void window_impl::filter_event(UINT umsg, WPARAM wparam, LPARAM lparam)
 {
-  HOU_EXPECT_DEV(m_handle != nullptr);
+  HOU_DEV_PRECOND(m_handle != nullptr);
 
   switch(umsg)
   {
@@ -1149,7 +1178,7 @@ void window_impl::destroy_icon()
 {
   if(m_icon_handle != nullptr)
   {
-    HOU_WIN_FATAL_CHECK(DestroyIcon(m_icon_handle) != 0, "");
+    HOU_WIN_CHECK(DestroyIcon(m_icon_handle) != 0);
   }
 }
 
@@ -1159,7 +1188,7 @@ void window_impl::destroy_cursor()
 {
   if(m_cursor_handle != nullptr)
   {
-    HOU_WIN_FATAL_CHECK(DestroyCursor(m_cursor_handle) != 0, "");
+    HOU_WIN_CHECK(DestroyCursor(m_cursor_handle) != 0);
   }
 }
 
@@ -1173,7 +1202,7 @@ void window_impl::destroy_window()
     {
       deactivate_fullscreen_mode();
     }
-    HOU_WIN_FATAL_CHECK(DestroyWindow(m_handle) != 0, "");
+    HOU_WIN_CHECK(DestroyWindow(m_handle) != 0);
     unregister_window_class();
   }
 }

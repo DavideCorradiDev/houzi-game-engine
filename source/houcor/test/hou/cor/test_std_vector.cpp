@@ -96,5 +96,5 @@ TEST_F(test_std_vector, vector_double_close)
 TEST_F(test_std_vector, vector_output_stream_operator)
 {
   std::vector<float> v{1.f, 2.5};
-  HOU_EXPECT_OUTPUT("{1, 2.5}", v);
+  EXPECT_OUTPUT("{1, 2.5}", v);
 }

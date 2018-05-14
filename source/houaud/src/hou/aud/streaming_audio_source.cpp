@@ -72,7 +72,7 @@ void streaming_audio_source::set_stream(
 
 void streaming_audio_source::set_buffer_count(size_t buffer_count)
 {
-  HOU_EXPECT(buffer_count > 0u);
+  HOU_PRECOND(buffer_count > 0u);
   stop();
   std::lock_guard<std::mutex> lock(m_thread_mutex);
   free_buffers();
@@ -90,7 +90,7 @@ size_t streaming_audio_source::get_buffer_count() const
 
 void streaming_audio_source::set_buffer_sample_count(size_t buffer_sample_count)
 {
-  HOU_EXPECT(buffer_sample_count > 0u);
+  HOU_PRECOND(buffer_sample_count > 0u);
   stop();
   std::lock_guard<std::mutex> lock(m_thread_mutex);
   m_buffer_byte_count = buffer_sample_count
@@ -274,7 +274,7 @@ streaming_audio_source::buffer_queue::buffer_queue(size_t buffer_count)
 size_t streaming_audio_source::buffer_queue::free_buffers(size_t count)
 {
   m_free_buffer_count += count;
-  HOU_ENSURE_DEV(m_free_buffer_count <= m_buffers.size());
+  HOU_DEV_ASSERT(m_free_buffer_count <= m_buffers.size());
   size_t freed_bytes = 0u;
   for(uint i = 0; i < count; ++i)
   {
@@ -289,7 +289,7 @@ size_t streaming_audio_source::buffer_queue::free_buffers(size_t count)
 const audio_buffer& streaming_audio_source::buffer_queue::fill_buffer(
   const std::vector<uint8_t>& data, audio_buffer_format format, int sample_rate)
 {
-  HOU_EXPECT_DEV(m_free_buffer_count > 0);
+  HOU_DEV_ASSERT(m_free_buffer_count > 0);
   audio_buffer& buffer = m_buffers[m_current_index];
   buffer.set_data(data, format, sample_rate);
   m_current_index = (m_current_index + 1) % m_buffers.size();

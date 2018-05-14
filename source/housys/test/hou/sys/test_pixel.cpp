@@ -86,17 +86,6 @@ TEST_F(test_pixel_format, get_pixel_format_byte_count)
 
 
 
-TEST_F(
-  test_pixel_format_death_test, get_pixel_format_byte_count_error_invalid_enum)
-{
-  int enumVal = 5;
-  HOU_EXPECT_ERROR(get_pixel_format_byte_count(pixel_format(enumVal)),
-    std::logic_error,
-    format_string(get_text(cor_error::invalid_enum), enumVal));
-}
-
-
-
 TYPED_TEST(test_pixel_common, get_byte_count)
 {
   EXPECT_EQ(get_pixel_format_byte_count(TypeParam::get_format()),
@@ -230,7 +219,7 @@ TEST_F(test_pixelr, output_stream_operator)
 {
   pixel_r px(1u);
   const char* output_ref = "{r = 1}";
-  HOU_EXPECT_OUTPUT(output_ref, px);
+  EXPECT_OUTPUT(output_ref, px);
 }
 
 
@@ -322,7 +311,7 @@ TEST_F(test_pixelrg, output_stream_operator)
 {
   pixel_rg px(1u, 2u);
   const char* output_ref = "{r = 1, g = 2}";
-  HOU_EXPECT_OUTPUT(output_ref, px);
+  EXPECT_OUTPUT(output_ref, px);
 }
 
 
@@ -423,7 +412,7 @@ TEST_F(test_pixelrgb, output_stream_operator)
 {
   pixel_rgb px(1u, 2u, 3u);
   const char* output_ref = "{r = 1, g = 2, b = 3}";
-  HOU_EXPECT_OUTPUT(output_ref, px);
+  EXPECT_OUTPUT(output_ref, px);
 }
 
 
@@ -560,5 +549,5 @@ TEST_F(test_pixel_rgba, output_stream_operator)
 {
   pixel_rgba px(1u, 2u, 3u, 4u);
   const char* output_ref = "{r = 1, g = 2, b = 3, a = 4}";
-  HOU_EXPECT_OUTPUT(output_ref, px);
+  EXPECT_OUTPUT(output_ref, px);
 }

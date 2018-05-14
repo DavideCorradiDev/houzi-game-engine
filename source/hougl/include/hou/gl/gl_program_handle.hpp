@@ -5,8 +5,9 @@
 #ifndef HOU_GL_GL_PROGRAM_HANDLE_HPP
 #define HOU_GL_GL_PROGRAM_HANDLE_HPP
 
-#include "hou/gl/gl_export.hpp"
 #include "hou/gl/gl_object_handle.hpp"
+
+#include "hou/gl/gl_export.hpp"
 
 
 
@@ -23,7 +24,7 @@ class HOU_GL_API program_handle : public shared_object_handle
 public:
   static program_handle create();
 
-  program_handle(program_handle&& other);
+  program_handle(program_handle&& other) noexcept = default;
   virtual ~program_handle();
 
 private:

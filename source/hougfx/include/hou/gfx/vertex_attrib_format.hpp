@@ -5,11 +5,11 @@
 #ifndef HOU_GFX_VERTEX_ATTRIB_FORMAT_HPP
 #define HOU_GFX_VERTEX_ATTRIB_FORMAT_HPP
 
+#include "hou/gfx/gl_type.hpp"
+
 #include "hou/gfx/gfx_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
-
-#include "hou/gfx/gl_type.hpp"
 
 #include <iostream>
 
@@ -35,31 +35,31 @@ public:
    * normalized or not.
    */
   vertex_attrib_format(gl_type type, uint element_count, uint byte_offset,
-    bool must_be_normalized);
+    bool must_be_normalized) noexcept;
 
   /** Retrieves the attribute type.
    *
    * \return the attribute type.
    */
-  gl_type get_type() const;
+  gl_type get_type() const noexcept;
 
   /** Retrieves the number of elements of the attribute.
    *
    * \return the number of elements of the attribute.
    */
-  uint get_element_count() const;
+  uint get_element_count() const noexcept;
 
   /** Retrieves the offset from the start of the vertex object.
    *
    * \return the offset from the start of the vertex object.
    */
-  uint get_byte_offset() const;
+  uint get_byte_offset() const noexcept;
 
   /** Retrieves whether the attribute values must be normalized.
    *
    * \return true if the attribute values must be normalized.
    */
-  bool must_be_normalized() const;
+  bool must_be_normalized() const noexcept;
 
 private:
   gl_type m_type;
@@ -77,7 +77,7 @@ private:
  * \return the result of the check.
  */
 HOU_GFX_API bool operator==(
-  const vertex_attrib_format& lhs, const vertex_attrib_format& rhs);
+  const vertex_attrib_format& lhs, const vertex_attrib_format& rhs) noexcept;
 
 /** Checks if two vertex_attrib_format objects not are equal.
  *
@@ -88,7 +88,7 @@ HOU_GFX_API bool operator==(
  * \return the result of the check.
  */
 HOU_GFX_API bool operator!=(
-  const vertex_attrib_format& lhs, const vertex_attrib_format& rhs);
+  const vertex_attrib_format& lhs, const vertex_attrib_format& rhs) noexcept;
 
 /** Writes the object into a stream.
  *

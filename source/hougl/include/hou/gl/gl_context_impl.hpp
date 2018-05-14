@@ -6,8 +6,9 @@
 
 #define HOU_GL_GL_CONTEXT_IMPL_HPP
 
-#include "hou/config.hpp"
 #include "hou/cor/non_copyable.hpp"
+
+#include "hou/gl/gl_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
 
@@ -38,7 +39,7 @@ public:
 
   context_impl(const context_settings& settings, const window& wnd,
     const context_impl* shared_context);
-  context_impl(context_impl&& other);
+  context_impl(context_impl&& other) noexcept;
   ~context_impl();
 
 private:

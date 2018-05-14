@@ -62,5 +62,5 @@ TEST_F(test_vertex_attrib_format, output_stream_operator)
   const char* out_ref
     = "{type = float_decimal, element_count = 3, byte_offset = 12, "
       "must_be_normalized = false}";
-  HOU_EXPECT_OUTPUT(out_ref, vaf);
+  EXPECT_OUTPUT(out_ref, vaf);
 }

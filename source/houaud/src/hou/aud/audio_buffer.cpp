@@ -59,13 +59,13 @@ audio_buffer::audio_buffer(audio_stream_in&& audioStream)
 
 
 
-audio_buffer::audio_buffer(audio_buffer&& other)
+audio_buffer::audio_buffer(audio_buffer&& other) noexcept
   : m_handle(std::move(other.m_handle))
 {}
 
 
 
-const al::buffer_handle& audio_buffer::get_handle() const
+const al::buffer_handle& audio_buffer::get_handle() const noexcept
 {
   return m_handle;
 }
@@ -110,8 +110,8 @@ uint audio_buffer::get_byte_count() const
 
 uint audio_buffer::get_sample_count() const
 {
-  HOU_EXPECT_DEV(get_bytes_per_sample() != 0u);
-  HOU_EXPECT_DEV(
+  HOU_DEV_ASSERT(get_bytes_per_sample() != 0u);
+  HOU_DEV_ASSERT(
     get_byte_count() % (get_channel_count() * get_bytes_per_sample()) == 0);
   return get_byte_count() / (get_channel_count() * get_bytes_per_sample());
 }
@@ -121,7 +121,7 @@ uint audio_buffer::get_sample_count() const
 void audio_buffer::set_data(
   const span<const uint8_t>& data, audio_buffer_format format, int smlRate)
 {
-  HOU_EXPECT_DEV(sizeof(uint8_t) == 1u);
+  HOU_DEV_ASSERT(sizeof(uint8_t) == 1u);
   al::set_buffer_data(m_handle, static_cast<ALenum>(format),
     reinterpret_cast<ALvoid*>(const_cast<uint8_t*>(data.data())),
     static_cast<ALsizei>(data.size()), static_cast<ALsizei>(smlRate));

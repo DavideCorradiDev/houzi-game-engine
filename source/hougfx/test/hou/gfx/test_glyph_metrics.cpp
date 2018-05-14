@@ -99,15 +99,15 @@ TEST_F(test_glyph_metrics, get_pixel_size)
 {
   glyph_metrics gm;
   EXPECT_EQ(vec2u::zero(), gm.get_size());
-  HOU_EXPECT_FLOAT_CLOSE(vec2f::zero(), gm.get_pixel_size());
+  EXPECT_FLOAT_CLOSE(vec2f::zero(), gm.get_pixel_size());
 
   gm.set_size(vec2u(64u, 128u));
   EXPECT_EQ(vec2u(64u, 128u), gm.get_size());
-  HOU_EXPECT_FLOAT_CLOSE(vec2f(1.f, 2.f), gm.get_pixel_size());
+  EXPECT_FLOAT_CLOSE(vec2f(1.f, 2.f), gm.get_pixel_size());
 
   gm.set_size(vec2u(96u, 176u));
   EXPECT_EQ(vec2u(96u, 176u), gm.get_size());
-  HOU_EXPECT_FLOAT_CLOSE(vec2f(1.5f, 2.75f), gm.get_pixel_size());
+  EXPECT_FLOAT_CLOSE(vec2f(1.5f, 2.75f), gm.get_pixel_size());
 }
 
 
@@ -116,15 +116,15 @@ TEST_F(test_glyph_metrics, get_pixel_horizontal_bearing)
 {
   glyph_metrics gm;
   EXPECT_EQ(vec2i::zero(), gm.get_horizontal_bearing());
-  HOU_EXPECT_FLOAT_CLOSE(vec2f::zero(), gm.get_pixel_horizontal_bearing());
+  EXPECT_FLOAT_CLOSE(vec2f::zero(), gm.get_pixel_horizontal_bearing());
 
   gm.setHorizontalBearing(vec2i(64, 128));
   EXPECT_EQ(vec2i(64, 128), gm.get_horizontal_bearing());
-  HOU_EXPECT_FLOAT_CLOSE(vec2f(1.f, 2.f), gm.get_pixel_horizontal_bearing());
+  EXPECT_FLOAT_CLOSE(vec2f(1.f, 2.f), gm.get_pixel_horizontal_bearing());
 
   gm.setHorizontalBearing(vec2i(96, 176));
   EXPECT_EQ(vec2i(96, 176), gm.get_horizontal_bearing());
-  HOU_EXPECT_FLOAT_CLOSE(vec2f(1.5f, 2.75f), gm.get_pixel_horizontal_bearing());
+  EXPECT_FLOAT_CLOSE(vec2f(1.5f, 2.75f), gm.get_pixel_horizontal_bearing());
 }
 
 
@@ -133,15 +133,15 @@ TEST_F(test_glyph_metrics, get_pixel_horizontal_advance)
 {
   glyph_metrics gm;
   EXPECT_EQ(0, gm.get_horizontal_advance());
-  HOU_EXPECT_FLOAT_CLOSE(0.f, gm.get_pixel_horizontal_advance());
+  EXPECT_FLOAT_CLOSE(0.f, gm.get_pixel_horizontal_advance());
 
   gm.set_horizontal_advance(128);
   EXPECT_EQ(128, gm.get_horizontal_advance());
-  HOU_EXPECT_FLOAT_CLOSE(2.f, gm.get_pixel_horizontal_advance());
+  EXPECT_FLOAT_CLOSE(2.f, gm.get_pixel_horizontal_advance());
 
   gm.set_horizontal_advance(176);
   EXPECT_EQ(176, gm.get_horizontal_advance());
-  HOU_EXPECT_FLOAT_CLOSE(2.75f, gm.get_pixel_horizontal_advance());
+  EXPECT_FLOAT_CLOSE(2.75f, gm.get_pixel_horizontal_advance());
 }
 
 
@@ -150,15 +150,15 @@ TEST_F(test_glyph_metrics, get_pixel_vertical_bearing)
 {
   glyph_metrics gm;
   EXPECT_EQ(vec2i::zero(), gm.get_vertical_bearing());
-  HOU_EXPECT_FLOAT_CLOSE(vec2f::zero(), gm.get_pixel_vertical_bearing());
+  EXPECT_FLOAT_CLOSE(vec2f::zero(), gm.get_pixel_vertical_bearing());
 
   gm.set_vertical_bearing(vec2i(64, 128));
   EXPECT_EQ(vec2i(64, 128), gm.get_vertical_bearing());
-  HOU_EXPECT_FLOAT_CLOSE(vec2f(1.f, 2.f), gm.get_pixel_vertical_bearing());
+  EXPECT_FLOAT_CLOSE(vec2f(1.f, 2.f), gm.get_pixel_vertical_bearing());
 
   gm.set_vertical_bearing(vec2i(96, 176));
   EXPECT_EQ(vec2i(96, 176), gm.get_vertical_bearing());
-  HOU_EXPECT_FLOAT_CLOSE(vec2f(1.5f, 2.75f), gm.get_pixel_vertical_bearing());
+  EXPECT_FLOAT_CLOSE(vec2f(1.5f, 2.75f), gm.get_pixel_vertical_bearing());
 }
 
 
@@ -167,15 +167,15 @@ TEST_F(test_glyph_metrics, get_pixel_vertical_advance)
 {
   glyph_metrics gm;
   EXPECT_EQ(0, gm.get_vertical_advance());
-  HOU_EXPECT_FLOAT_CLOSE(0.f, gm.get_pixel_vertical_advance());
+  EXPECT_FLOAT_CLOSE(0.f, gm.get_pixel_vertical_advance());
 
   gm.set_vertical_advance(128);
   EXPECT_EQ(128, gm.get_vertical_advance());
-  HOU_EXPECT_FLOAT_CLOSE(2.f, gm.get_pixel_vertical_advance());
+  EXPECT_FLOAT_CLOSE(2.f, gm.get_pixel_vertical_advance());
 
   gm.set_vertical_advance(176);
   EXPECT_EQ(176, gm.get_vertical_advance());
-  HOU_EXPECT_FLOAT_CLOSE(2.75f, gm.get_pixel_vertical_advance());
+  EXPECT_FLOAT_CLOSE(2.75f, gm.get_pixel_vertical_advance());
 }
 
 
@@ -216,5 +216,5 @@ TEST_F(test_glyph_metrics, output_stream_operator)
       ", horizontal_advance = 4"
       ", vertical_bearing = (5, -7)"
       ", vertical_advance = -11}";
-  HOU_EXPECT_OUTPUT(ref_output, gm);
+  EXPECT_OUTPUT(ref_output, gm);
 }

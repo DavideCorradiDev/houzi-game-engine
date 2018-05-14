@@ -73,18 +73,13 @@ render_surface::render_surface(const vec2u& size, uint sample_count)
 
 
 
-render_surface::render_surface(render_surface&& other)
+render_surface::render_surface(render_surface&& other) noexcept
   : non_copyable()
   , m_framebuffer(std::move(other.m_framebuffer))
   , m_color_attachment(std::move(other.m_color_attachment))
   , m_depth_stencil_attachment(std::move(other.m_depth_stencil_attachment))
   , m_sample_count(std::move(other.m_sample_count))
   , m_viewport(std::move(other.m_viewport))
-{}
-
-
-
-render_surface::~render_surface()
 {}
 
 
@@ -96,7 +91,7 @@ recti render_surface::get_default_viewport() const
 
 
 
-const recti& render_surface::get_viewport() const
+const recti& render_surface::get_viewport() const noexcept
 {
   return m_viewport;
 }
@@ -112,20 +107,20 @@ void render_surface::set_viewport(const recti& viewport)
 
 vec2u render_surface::get_size() const
 {
-  HOU_EXPECT_DEV(m_color_attachment != nullptr);
+  HOU_DEV_ASSERT(m_color_attachment != nullptr);
   return m_color_attachment->get_size2();
 }
 
 
 
-bool render_surface::is_multisampled() const
+bool render_surface::is_multisampled() const noexcept
 {
   return m_sample_count > 1u;
 }
 
 
 
-uint render_surface::get_sample_count() const
+uint render_surface::get_sample_count() const noexcept
 {
   return m_sample_count;
 }
@@ -172,10 +167,10 @@ bool render_surface::is_current_render_target() const
 
 void render_surface::build_framebuffer(const vec2u& size, uint sample_count)
 {
-  HOU_ENSURE_DEV(graphic_context::get_rendering_color_byte_count() == 4u);
-  HOU_ENSURE_DEV(graphic_context::get_rendering_depth_byte_count() == 3u);
-  HOU_ENSURE_DEV(graphic_context::get_rendering_stencil_byte_count() == 1u);
-  HOU_EXPECT(sample_count > 0u);
+  HOU_DEV_ASSERT(graphic_context::get_rendering_color_byte_count() == 4u);
+  HOU_DEV_ASSERT(graphic_context::get_rendering_depth_byte_count() == 3u);
+  HOU_DEV_ASSERT(graphic_context::get_rendering_stencil_byte_count() == 1u);
+  HOU_PRECOND(sample_count > 0u);
 
   m_sample_count = sample_count;
   if(sample_count <= 1)
@@ -194,8 +189,8 @@ void render_surface::build_framebuffer(const vec2u& size, uint sample_count)
     m_depth_stencil_attachment = std::make_unique<multisample_texture2>(size,
       texture_format::depth_stencil, sample_count, fixed_sample_locations);
   }
-  HOU_ENSURE_DEV(m_color_attachment != nullptr);
-  HOU_ENSURE_DEV(m_depth_stencil_attachment != nullptr);
+  HOU_DEV_ASSERT(m_color_attachment != nullptr);
+  HOU_DEV_ASSERT(m_depth_stencil_attachment != nullptr);
 
   static constexpr uint attachment_point = 0u;
   static constexpr uint mipmap_level = 0u;
@@ -204,7 +199,7 @@ void render_surface::build_framebuffer(const vec2u& size, uint sample_count)
   m_framebuffer.set_depth_stencil_attachment(
     *m_depth_stencil_attachment, mipmap_level);
 
-  HOU_ENSURE_DEV(m_framebuffer.is_complete());
+  HOU_DEV_ASSERT(m_framebuffer.is_complete());
 }
 
 

@@ -4,10 +4,9 @@
 
 #include "hou/al/al_device.hpp"
 
-#include "hou/al/al_check.hpp"
-#include "hou/al/al_error.hpp"
+#include "hou/al/al_exceptions.hpp"
 
-#include "hou/cor/error.hpp"
+#include "hou/cor/assertions.hpp"
 #include "hou/cor/std_string.hpp"
 #include "hou/cor/uid_generator.hpp"
 
@@ -56,8 +55,7 @@ device::device()
   , m_device(alcOpenDevice(nullptr))
   , m_uid(generate_uid())
 {
-  HOU_RUNTIME_CHECK(
-    m_device != nullptr, get_text(al_error::device_open), u8"default device");
+  HOU_CHECK_N(m_device != nullptr, device_open_error, u8"default device");
 }
 
 
@@ -67,13 +65,12 @@ device::device(const std::string& dev_name)
   , m_device(alcOpenDevice(dev_name.c_str()))
   , m_uid(generate_uid())
 {
-  HOU_RUNTIME_CHECK(
-    m_device != nullptr, get_text(al_error::device_open), dev_name.c_str());
+  HOU_CHECK_N(m_device != nullptr, device_open_error, dev_name);
 }
 
 
 
-device::device(device&& other)
+device::device(device&& other) noexcept
   : m_device(std::move(other.m_device))
   , m_uid(std::move(other.m_uid))
 {
@@ -86,28 +83,29 @@ device::~device()
 {
   if(m_device != nullptr)
   {
-    HOU_FATAL_CHECK(
-      alcCloseDevice(m_device) == AL_TRUE, get_text(al_error::device_close));
+    HOU_DISABLE_EXCEPTIONS_BEGIN
+    HOU_CHECK_0(alcCloseDevice(m_device) == AL_TRUE, device_close_error);
+    HOU_DISABLE_EXCEPTIONS_END
   }
 }
 
 
 
-const ALCdevice* device::get_handle() const
+const ALCdevice* device::get_handle() const noexcept
 {
   return m_device;
 }
 
 
 
-ALCdevice* device::get_handle()
+ALCdevice* device::get_handle() noexcept
 {
   return m_device;
 }
 
 
 
-uint32_t device::get_uid() const
+uint32_t device::get_uid() const noexcept
 {
   return m_uid;
 }

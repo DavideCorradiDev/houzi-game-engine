@@ -5,17 +5,17 @@
 #ifndef HOU_GFX_VERTEX_BUFFER_HPP
 #define HOU_GFX_VERTEX_BUFFER_HPP
 
+#include "hou/gfx/vertex_buffer_fwd.hpp"
+#include "hou/gfx/vertex_buffer_target.hpp"
+
 #include "hou/gfx/gfx_export.hpp"
 
 #include "hou/cor/non_copyable.hpp"
 
 #include "hou/cor/basic_types.hpp"
-#include "hou/cor/error.hpp"
+#include "hou/cor/assertions.hpp"
 #include "hou/cor/span.hpp"
 #include "hou/cor/template_utils.hpp"
-
-#include "hou/gfx/vertex_buffer_fwd.hpp"
-#include "hou/gfx/vertex_buffer_target.hpp"
 
 #include "hou/gl/gl_buffer_handle.hpp"
 
@@ -50,7 +50,7 @@ public:
    *
    * \return the reference to the OpenGL buffer.
    */
-  const gl::buffer_handle& get_handle() const;
+  const gl::buffer_handle& get_handle() const noexcept;
 
   /** Checks if this vertex_buffer is bound to the given target.
    *
@@ -96,7 +96,7 @@ protected:
    *
    * \param other the other vertex_buffer.
    */
-  vertex_buffer(vertex_buffer&& other);
+  vertex_buffer(vertex_buffer&& other) noexcept;
 
 private:
   gl::buffer_handle m_handle;
@@ -142,7 +142,7 @@ public:
    *
    * \param other the other vertex_buffer.
    */
-  vertex_buffer_t(vertex_buffer&& other);
+  vertex_buffer_t(vertex_buffer_t&& other) noexcept = default;
 
   /** Retrieves the number of elements in the buffer.
    *

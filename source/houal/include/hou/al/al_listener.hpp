@@ -5,9 +5,9 @@
 #ifndef HOU_AL_AL_LISTENER_HPP
 #define HOU_AL_AL_LISTENER_HPP
 
-#include "hou/al/al_export.hpp"
-
 #include "hou/al/open_al.hpp"
+
+#include "hou/al/al_export.hpp"
 
 
 

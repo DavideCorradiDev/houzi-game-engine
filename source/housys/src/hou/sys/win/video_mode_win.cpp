@@ -22,7 +22,7 @@ namespace
 // EnumDisplaySettings fails (returns 0) if the second argument is greater than
 // the index of the display's device graphics mode.
 
-video_mode video_mode::get_desktop_mode()
+video_mode video_mode::get_desktop_mode() noexcept
 {
   DEVMODE winMode;
   winMode.dmSize = sizeof(winMode);

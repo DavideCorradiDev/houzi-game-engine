@@ -4,9 +4,9 @@
 
 #include "hou/sys/file.hpp"
 
-#include "hou/sys/sys_error.hpp"
+#include "hou/sys/sys_exceptions.hpp"
 
-#include "hou/cor/error.hpp"
+#include "hou/cor/assertions.hpp"
 #include "hou/cor/std_string.hpp"
 
 #include <cstdio>
@@ -16,6 +16,16 @@
 
 namespace hou
 {
+
+namespace
+{
+
+const std::string assert_msg_file_tell
+  = u8"Could not read a file cursor position.";
+
+}  // namespace
+
+
 
 file::file(const std::string& filename, file_open_mode mode, file_type type)
   : non_copyable()
@@ -35,21 +45,21 @@ file::file(file&& other)
 
 
 
-bool file::eof() const
+bool file::eof() const noexcept
 {
   return m_eof;
 }
 
 
 
-bool file::error() const
+bool file::error() const noexcept
 {
   return m_error;
 }
 
 
 
-size_t file::get_byte_count() const
+size_t file::get_byte_count() const noexcept
 {
   return get_file_byte_size(get_file_descriptor(m_handle));
 }
@@ -59,7 +69,7 @@ size_t file::get_byte_count() const
 long file::tell() const
 {
   long pos = ftell(m_handle);
-  HOU_RUNTIME_CHECK(pos != -1L, get_text(sys_error::file_tell));
+  HOU_CHECK_0(pos != -1L, cursor_error);
   return pos;
 }
 
@@ -91,7 +101,7 @@ void file::seek_offset(long offset)
 
 void file::flush() const
 {
-  HOU_RUNTIME_CHECK(fflush(m_handle) != EOF, get_text(sys_error::file_flush));
+  HOU_CHECK_0(fflush(m_handle) != EOF, write_error);
 }
 
 
@@ -103,7 +113,7 @@ bool file::getc(char& c)
   c = static_cast<char>(retval);
   if(retval == EOF)
   {
-    HOU_RUNTIME_CHECK(!error(), get_text(sys_error::file_read));
+    HOU_CHECK_0(!error(), read_error);
     return false;
   }
   return true;
@@ -115,7 +125,7 @@ void file::putc(char c)
 {
   int retval = fputc(c, m_handle);
   update_flags();
-  HOU_RUNTIME_CHECK(retval != EOF, get_text(sys_error::file_write));
+  HOU_CHECK_0(retval != EOF, write_error);
 }
 
 
@@ -127,7 +137,7 @@ size_t file::gets(std::string& str)
   update_flags();
   if(retval == nullptr)
   {
-    HOU_RUNTIME_CHECK(!error(), get_text(sys_error::file_read));
+    HOU_CHECK_0(!error(), read_error);
     return 0u;
   }
   return std::char_traits<char>::length(retval);
@@ -139,7 +149,7 @@ void file::puts(const std::string& str)
 {
   int retval = fputs(str.c_str(), m_handle);
   update_flags();
-  HOU_RUNTIME_CHECK(retval != EOF, get_text(sys_error::file_write));
+  HOU_CHECK_0(retval != EOF, write_error);
 }
 
 
@@ -148,8 +158,7 @@ size_t file::read(void* buf, size_t element_size, size_t buf_size)
 {
   size_t count = fread(buf, element_size, buf_size, m_handle);
   update_flags();
-  HOU_RUNTIME_CHECK(
-    count == buf_size || !error(), get_text(sys_error::file_read));
+  HOU_CHECK_0(count == buf_size || !error(), read_error);
   return count;
 }
 
@@ -159,20 +168,19 @@ void file::write(const void* buf, size_t element_size, size_t buf_size)
 {
   size_t count = fwrite(buf, element_size, buf_size, m_handle);
   update_flags();
-  HOU_RUNTIME_CHECK(count == buf_size, get_text(sys_error::file_write));
+  HOU_CHECK_0(count == buf_size, write_error);
 }
 
 
 
 void file::seek(long pos, int origin) const
 {
-  HOU_RUNTIME_CHECK(
-    fseek(m_handle, pos, origin) == 0, get_text(sys_error::file_seek));
+  HOU_CHECK_0(fseek(m_handle, pos, origin) == 0, cursor_error);
 }
 
 
 
-void file::update_flags()
+void file::update_flags() noexcept
 {
   m_eof = (feof(m_handle) != 0);
   m_error = (ferror(m_handle) != 0);

@@ -16,7 +16,7 @@ namespace hou
 {
 
 template <typename T>
-transform2<T> transform2<T>::identity()
+transform2<T> transform2<T>::identity() noexcept
 {
   return transform2<T>();
 }
@@ -24,7 +24,7 @@ transform2<T> transform2<T>::identity()
 
 
 template <typename T>
-transform2<T> transform2<T>::translation(const vec2<T>& translation)
+transform2<T> transform2<T>::translation(const vec2<T>& translation) noexcept
 {
   return transform2<T>(mat2x2<T>::identity(), translation);
 }
@@ -32,7 +32,7 @@ transform2<T> transform2<T>::translation(const vec2<T>& translation)
 
 
 template <typename T>
-transform2<T> transform2<T>::rotation(const rot2<T>& rotation)
+transform2<T> transform2<T>::rotation(const rot2<T>& rotation) noexcept
 {
   return transform2<T>(rotation.get_matrix(), vec2<T>::zero());
 }
@@ -40,7 +40,7 @@ transform2<T> transform2<T>::rotation(const rot2<T>& rotation)
 
 
 template <typename T>
-transform2<T> transform2<T>::scale(const vec2<T>& scale)
+transform2<T> transform2<T>::scale(const vec2<T>& scale) noexcept
 {
   return transform2<T>(
     mat2x2<T>(scale.x(), T(0), T(0), scale.y()), vec2<T>::zero());
@@ -49,7 +49,7 @@ transform2<T> transform2<T>::scale(const vec2<T>& scale)
 
 
 template <typename T>
-transform2<T> transform2<T>::shear(T sxy, T syx)
+transform2<T> transform2<T>::shear(T sxy, T syx) noexcept
 {
   return transform2<T>(mat2x2<T>(T(1), sxy, syx, T(1)), vec2<T>::zero());
 }
@@ -58,7 +58,7 @@ transform2<T> transform2<T>::shear(T sxy, T syx)
 
 template <typename T>
 transform2<T> transform2<T>::orthographic_projection(
-  const rect<T>& clipping_plane)
+  const rect<T>& clipping_plane) noexcept
 
 {
   return translation(vec2<T>(T(-1), T(-1)))
@@ -69,7 +69,7 @@ transform2<T> transform2<T>::orthographic_projection(
 
 
 template <typename T>
-transform2<T>::transform2()
+transform2<T>::transform2() noexcept
   : m_mat(mat2x2<T>::identity())
   , m_vec(vec2<T>::zero())
 {}
@@ -77,8 +77,8 @@ transform2<T>::transform2()
 
 
 template <typename T>
-template <typename U>
-transform2<T>::transform2(const transform2<U>& other)
+template <typename U, typename Enable>
+transform2<T>::transform2(const transform2<U>& other) noexcept
   : m_mat(static_cast<mat2x2<T>>(other.m_mat))
   , m_vec(static_cast<vec2<T>>(other.m_vec))
 {}
@@ -86,7 +86,7 @@ transform2<T>::transform2(const transform2<U>& other)
 
 
 template <typename T>
-mat4x4<T> transform2<T>::to_mat4x4() const
+mat4x4<T> transform2<T>::to_mat4x4() const noexcept
 {
   // clang-format off
   return mat4x4<T>{
@@ -95,6 +95,16 @@ mat4x4<T> transform2<T>::to_mat4x4() const
     T(0), T(0), T(1), T(0),
     T(0), T(0), T(0), T(1)};
   // clang-format on
+}
+
+
+
+template <typename T>
+transform2<T>& transform2<T>::operator*=(const transform2<T>& rhs) noexcept
+{
+  m_vec += m_mat * rhs.m_vec;
+  m_mat = m_mat * rhs.m_mat;
+  return *this;
 }
 
 
@@ -110,17 +120,7 @@ transform2<T>& transform2<T>::invert()
 
 
 template <typename T>
-transform2<T>& transform2<T>::operator*=(const transform2<T>& rhs)
-{
-  m_vec += m_mat * rhs.m_vec;
-  m_mat = m_mat * rhs.m_mat;
-  return *this;
-}
-
-
-
-template <typename T>
-vec2<T> transform2<T>::transform_vector(const vec2<T>& vec) const
+vec2<T> transform2<T>::transform_vector(const vec2<T>& vec) const noexcept
 {
   return m_mat * vec;
 }
@@ -128,7 +128,7 @@ vec2<T> transform2<T>::transform_vector(const vec2<T>& vec) const
 
 
 template <typename T>
-vec2<T> transform2<T>::transform_point(const vec2<T>& point) const
+vec2<T> transform2<T>::transform_point(const vec2<T>& point) const noexcept
 {
   return m_vec + m_mat * point;
 }
@@ -136,7 +136,7 @@ vec2<T> transform2<T>::transform_point(const vec2<T>& point) const
 
 
 template <typename T>
-transform2<T>::transform2(const mat2x2<T>& r, const vec2<T>& t)
+transform2<T>::transform2(const mat2x2<T>& r, const vec2<T>& t) noexcept
   : m_mat(r)
   , m_vec(t)
 {}
@@ -144,7 +144,7 @@ transform2<T>::transform2(const mat2x2<T>& r, const vec2<T>& t)
 
 
 template <typename T>
-transform2<T> operator*(transform2<T> lhs, const transform2<T>& rhs)
+transform2<T> operator*(transform2<T> lhs, const transform2<T>& rhs) noexcept
 {
   return lhs *= rhs;
 }
@@ -167,10 +167,10 @@ std::ostream& operator<<(std::ostream& os, const transform2<T>& t)
 
 
 
-#define HOU_INSTANTIATE(T) \
-  template class transform2<T>; \
-  template transform2<T> operator*<T>(transform2<T>, const transform2<T>&); \
-  template transform2<T> inverse<T>(transform2<T>); \
+#define HOU_INSTANTIATE(T)                                                     \
+  template class transform2<T>;                                                \
+  template transform2<T> operator*<T>(transform2<T>, const transform2<T>&);    \
+  template transform2<T> inverse<T>(transform2<T>);                            \
   template std::ostream& operator<<<T>(std::ostream&, const transform2<T>&)
 
 HOU_INSTANTIATE(float);

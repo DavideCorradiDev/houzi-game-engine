@@ -39,35 +39,35 @@ TEST_F(test_listener, gain)
 
 TEST_F(test_listener_death_test, invalid_gain)
 {
-  HOU_EXPECT_PRECONDITION(listener::set_gain(-1.f));
+  EXPECT_PRECOND_ERROR(listener::set_gain(-1.f));
 }
 
 
 
 TEST_F(test_listener, position)
 {
-  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), listener::get_position());
+  EXPECT_FLOAT_CLOSE(vec3f::zero(), listener::get_position());
   listener::set_position(vec3f(1.f, 2.f, 3.f));
-  HOU_EXPECT_FLOAT_CLOSE(vec3f(1.f, 2.f, 3.f), listener::get_position());
+  EXPECT_FLOAT_CLOSE(vec3f(1.f, 2.f, 3.f), listener::get_position());
 }
 
 
 
 TEST_F(test_listener, velocity)
 {
-  HOU_EXPECT_FLOAT_CLOSE(vec3f::zero(), listener::get_velocity());
+  EXPECT_FLOAT_CLOSE(vec3f::zero(), listener::get_velocity());
   listener::set_velocity(vec3f(1.f, 2.f, 3.f));
-  HOU_EXPECT_FLOAT_CLOSE(vec3f(1.f, 2.f, 3.f), listener::get_velocity());
+  EXPECT_FLOAT_CLOSE(vec3f(1.f, 2.f, 3.f), listener::get_velocity());
 }
 
 
 
 TEST_F(test_listener, orientation)
 {
-  HOU_EXPECT_FLOAT_CLOSE(rot3f::identity(), listener::get_orientation());
+  EXPECT_FLOAT_CLOSE(rot3f::identity(), listener::get_orientation());
 
   rot3f or_ref
     = rot3f::x(pi_f / 3.f) * rot3f::z(pi_f / 4.f) * rot3f::y(pi_f / 2.f);
   listener::set_orientation(or_ref);
-  HOU_EXPECT_FLOAT_CLOSE(or_ref, listener::get_orientation());
+  EXPECT_FLOAT_CLOSE(or_ref, listener::get_orientation());
 }

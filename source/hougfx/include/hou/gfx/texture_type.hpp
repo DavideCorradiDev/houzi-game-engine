@@ -7,6 +7,8 @@
 
 #include "hou/gfx/gfx_export.hpp"
 
+#include "hou/cor/exception.hpp"
+
 #include "hou/gl/open_gl.hpp"
 
 #include <iostream>
@@ -63,19 +65,19 @@ HOU_GFX_API std::ostream& operator<<(std::ostream& os, texture_type type);
  *
  * \return the number of dimensions associated to a texture_type.
  */
-constexpr size_t get_texture_type_dimension_count(texture_type t);
+constexpr size_t get_texture_type_dimension_count(texture_type t) noexcept;
 
 /** Checks whether a texture_type represents a mip-mapped texture.
  *
  * \return the result of the check.
  */
-constexpr bool is_texture_type_mipmapped(texture_type t);
+constexpr bool is_texture_type_mipmapped(texture_type t) noexcept;
 
 /** Checks whether a texture_type represents a multisample texture.
  *
  * \return the result of the check.
  */
-constexpr bool is_texture_type_multisampled(texture_type t);
+constexpr bool is_texture_type_multisampled(texture_type t) noexcept;
 
 }  // namespace hou
 

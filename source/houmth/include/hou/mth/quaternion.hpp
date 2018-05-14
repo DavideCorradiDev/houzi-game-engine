@@ -5,13 +5,13 @@
 #ifndef HOU_MTH_QUATERNION_HPP
 #define HOU_MTH_QUATERNION_HPP
 
+#include "hou/mth/quaternion_fwd.hpp"
+
 #include "hou/mth/mth_export.hpp"
 
+#include "hou/cor/assertions.hpp"
 #include "hou/cor/basic_types.hpp"
-#include "hou/cor/error.hpp"
 #include "hou/cor/std_array.hpp"
-
-#include "hou/mth/quaternion_fwd.hpp"
 
 #include <cmath>
 #include <initializer_list>
@@ -35,18 +35,18 @@ public:
    *
    * \return the zero quaternion.
    */
-  static quaternion zero();
+  static quaternion zero() noexcept;
 
   /** Returns the identity quaternion.
    *
    * \return the identity quaternion.
    */
-  static quaternion identity();
+  static quaternion identity() noexcept;
 
 public:
   /** Creates a quaternion with elements initialized to 0.
    */
-  quaternion();
+  quaternion() noexcept;
 
   /** Creates a quaternion with the elements initialized at the specified
    * values.
@@ -59,17 +59,7 @@ public:
    *
    * \param w the scalar part.
    */
-  quaternion(T x, T y, T z, T w);
-
-  /** Creates a quaternion with the elements initialized at the specified
-   * values.
-   *
-   * Throws if the size of the initializer_list is not 4.
-   *
-   * \param elements the elements. They are, in order, the three elements of
-   * the vector part and the single element of the scalar part.
-   */
-  quaternion(std::initializer_list<T> elements);
+  quaternion(T x, T y, T z, T w) noexcept;
 
   /** Creates a quaternion from a quaternion with different scalar type.
    *
@@ -80,55 +70,55 @@ public:
    * \param other the matrix to be copied.
    */
   template <typename U>
-  HOU_MTH_API quaternion(const quaternion<U>& other);
+  HOU_MTH_API quaternion(const quaternion<U>& other) noexcept;
 
   /** Retrieves a copy of the first element of the vector part.
    *
    * /return a copy of the element.
    */
-  T x() const;
+  T x() const noexcept;
 
   /** Retrieves a reference to the first element of the vector part.
    *
    * /return a reference to the element.
    */
-  T& x();
+  T& x() noexcept;
 
   /** Retrieves a copy of the second element of the vector part.
    *
    * /return a copy of the element.
    */
-  T y() const;
+  T y() const noexcept;
 
   /** Retrieves a reference to the second element of the vector part.
    *
    * /return a reference to the element.
    */
-  T& y();
+  T& y() noexcept;
 
   /** Retrieves a copy of the third element of the vector part.
    *
    * /return a copy of the element.
    */
-  T z() const;
+  T z() const noexcept;
 
   /** Retrieves a reference to the third element of the vector part.
    *
    * /return a reference to the element.
    */
-  T& z();
+  T& z() noexcept;
 
   /** Retrieves a copy of the scalar part.
    *
    * /return a copy of the element.
    */
-  T w() const;
+  T w() const noexcept;
 
   /** Retrieves a reference to the scalar part.
    *
    * /return a reference to the element.
    */
-  T& w();
+  T& w() noexcept;
 
   /** Retrieves a pointer to an array containing the elements of the
    * quaternion.
@@ -138,7 +128,7 @@ public:
    *
    * /return a constant raw pointer to an array containing the elements.
    */
-  const T* data() const;
+  const T* data() const noexcept;
 
   /** Adds the given quaternion to this quaternion.
    *
@@ -148,7 +138,7 @@ public:
    *
    * \return a reference to this quaternion after the addition.
    */
-  quaternion& operator+=(const quaternion& rhs);
+  quaternion& operator+=(const quaternion& rhs) noexcept;
 
   /** Subtracts the given quaternion from this quaternion.
    *
@@ -158,7 +148,7 @@ public:
    *
    * \return a reference to this quaternion after the subtraction.
    */
-  quaternion& operator-=(const quaternion& rhs);
+  quaternion& operator-=(const quaternion& rhs) noexcept;
 
   /** Multiplies this quaternion by the given quaternion.
    *
@@ -166,7 +156,7 @@ public:
    *
    * \return a reference to this quaternion after the multiplication.
    */
-  quaternion& operator*=(const quaternion& rhs);
+  quaternion& operator*=(const quaternion& rhs) noexcept;
 
   /** Multiplies this quaternion by the given scalar.
    *
@@ -176,7 +166,7 @@ public:
    *
    * \return a reference to this quaternion after the multiplication.
    */
-  quaternion& operator*=(T rhs);
+  quaternion& operator*=(T rhs) noexcept;
 
   /** Divides this quaternion by the given scalar.
    *
@@ -186,9 +176,11 @@ public:
    *
    * \return a reference to this quaternion after the division.
    */
-  quaternion& operator/=(T rhs);
+  quaternion& operator/=(T rhs) noexcept;
 
   /** Inverts this quaternion.
+   *
+   * \throws hou::precondition_violation if the norm of the quaternion is 0.
    *
    * \return a reference to this quaternion after the inversion.
    */
@@ -198,9 +190,11 @@ public:
    *
    * \return a reference to this quaternion after the conjugation.
    */
-  quaternion& conjugate();
+  quaternion& conjugate() noexcept;
 
   /** Normalizes this quaternion.
+   *
+   * \throws hou::precondition_violation if the norm of q is zero.
    *
    * \return a reference to this quaternion after the normalization.
    */
@@ -212,7 +206,7 @@ public:
    *
    * \return the opposite quaternion.
    */
-  friend quaternion operator-(const quaternion<T>& q)
+  friend constexpr quaternion operator-(const quaternion<T>& q) noexcept
   {
     return quaternion(
       -q.m_elements[0], -q.m_elements[1], -q.m_elements[2], -q.m_elements[3]);
@@ -226,7 +220,7 @@ public:
    *
    * \return the product of the quaternion and the scalar.
    */
-  friend quaternion operator*(quaternion lhs, T rhs)
+  friend constexpr quaternion operator*(quaternion lhs, T rhs) noexcept
   {
     return lhs *= rhs;
   }
@@ -239,7 +233,7 @@ public:
    *
    * \return the product of the quaternion and the scalar.
    */
-  friend quaternion operator*(T lhs, quaternion rhs)
+  friend constexpr quaternion operator*(T lhs, quaternion rhs) noexcept
   {
     return rhs *= lhs;
   }
@@ -252,7 +246,7 @@ public:
    *
    * \return the quotient of the quaternion and the scalar.
    */
-  friend quaternion operator/(quaternion lhs, T rhs)
+  friend constexpr quaternion operator/(quaternion lhs, T rhs) noexcept
   {
     return lhs /= rhs;
   }
@@ -265,7 +259,8 @@ public:
    *
    * \return the result of the check.
    */
-  friend bool operator==(const quaternion& lhs, const quaternion& rhs)
+  friend constexpr bool operator==(
+    const quaternion& lhs, const quaternion& rhs) noexcept
   {
     return lhs.m_elements == rhs.m_elements;
   }
@@ -278,7 +273,8 @@ public:
    *
    * \return the result of the check.
    */
-  friend bool operator!=(const quaternion& lhs, const quaternion& rhs)
+  friend constexpr bool operator!=(
+    const quaternion& lhs, const quaternion& rhs) noexcept
   {
     return lhs.m_elements != rhs.m_elements;
   }
@@ -293,8 +289,8 @@ public:
    *
    * \return the result of the check.
    */
-  friend bool close(const quaternion& lhs, const quaternion& rhs,
-    T acc = std::numeric_limits<T>::epsilon())
+  friend constexpr bool close(const quaternion& lhs, const quaternion& rhs,
+    T acc = std::numeric_limits<T>::epsilon()) noexcept
   {
     return close(lhs.m_elements, rhs.m_elements, acc);
   }
@@ -317,7 +313,7 @@ private:
  */
 template <typename T>
 HOU_MTH_API quaternion<T> operator+(
-  quaternion<T> lhs, const quaternion<T>& rhs);
+  quaternion<T> lhs, const quaternion<T>& rhs) noexcept;
 
 /** Subtracts two quaternions.
  *
@@ -335,7 +331,7 @@ HOU_MTH_API quaternion<T> operator+(
  */
 template <typename T>
 HOU_MTH_API quaternion<T> operator-(
-  quaternion<T> lhs, const quaternion<T>& rhs);
+  quaternion<T> lhs, const quaternion<T>& rhs) noexcept;
 
 /** Multiplies two quaternions.
  *
@@ -349,13 +345,15 @@ HOU_MTH_API quaternion<T> operator-(
  */
 template <typename T>
 HOU_MTH_API quaternion<T> operator*(
-  quaternion<T> lhs, const quaternion<T>& rhs);
+  quaternion<T> lhs, const quaternion<T>& rhs) noexcept;
 
 /** Computes the inverse of a quaternion.
  *
  * \tparam T the scalar type.
  *
  * \param q the quaternion to be inverted.
+ *
+ * \throws hou::precondition_violation if the norm of the quaternion is 0.
  *
  * \return the inverse of the quaternion.
  */
@@ -371,7 +369,7 @@ HOU_MTH_API quaternion<T> inverse(quaternion<T> q);
  * \return the conjugate of the quaternion.
  */
 template <typename T>
-HOU_MTH_API quaternion<T> conjugate(quaternion<T> q);
+HOU_MTH_API quaternion<T> conjugate(quaternion<T> q) noexcept;
 
 /** Computes the square norm of a quaternion.
  *
@@ -382,7 +380,7 @@ HOU_MTH_API quaternion<T> conjugate(quaternion<T> q);
  * \return the square norm.
  */
 template <typename T>
-HOU_MTH_API T square_norm(const quaternion<T>& q);
+HOU_MTH_API T square_norm(const quaternion<T>& q) noexcept;
 
 /** Computes the norm of a quaternion.
  *
@@ -393,13 +391,15 @@ HOU_MTH_API T square_norm(const quaternion<T>& q);
  * \return the norm.
  */
 template <typename T>
-HOU_MTH_API T norm(const quaternion<T>& q);
+HOU_MTH_API T norm(const quaternion<T>& q) noexcept;
 
 /** Computes the normalized quaternion.
  *
  * \tparam T the scalar type.
  *
  * \param q the quaternion.
+ *
+ * \throws hou::precondition_violation if the norm of q is zero.
  *
  * \return the normalized quaternion.
  */

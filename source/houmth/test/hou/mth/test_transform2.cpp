@@ -36,7 +36,7 @@ TEST_F(test_transform2, default_constructor)
     0.f, 0.f, 0.f, 1.f,
   };
   // clang-format on
-  HOU_EXPECT_FLOAT_CLOSE(tm_ref, t.to_mat4x4());
+  EXPECT_FLOAT_CLOSE(tm_ref, t.to_mat4x4());
 }
 
 
@@ -54,7 +54,7 @@ TEST_F(test_transform2, conversion_constructor)
     0.f, 0.f, 0.f, 1.f,
   };
   // clang-format on
-  HOU_EXPECT_FLOAT_CLOSE(tm_ref, tf.to_mat4x4());
+  EXPECT_FLOAT_CLOSE(tm_ref, tf.to_mat4x4());
 }
 
 
@@ -71,7 +71,7 @@ TEST_F(test_transform2, build_translation)
     0.f, 0.f, 0.f, 1.f,
   };
   // clang-format on
-  HOU_EXPECT_FLOAT_CLOSE(tm_ref, t.to_mat4x4());
+  EXPECT_FLOAT_CLOSE(tm_ref, t.to_mat4x4());
 }
 
 
@@ -91,7 +91,7 @@ TEST_F(test_transform2, build_rotation)
     0.f, 0.f, 0.f, 1.f,
   };
   // clang-format on
-  HOU_EXPECT_FLOAT_CLOSE(tm_ref, tr.to_mat4x4());
+  EXPECT_FLOAT_CLOSE(tm_ref, tr.to_mat4x4());
 
   tr = trans2f::rotation(rot2f(-pi_f / 6.f));
   // clang-format off
@@ -103,7 +103,7 @@ TEST_F(test_transform2, build_rotation)
     0.f, 0.f, 0.f, 1.f,
   };
   // clang-format on
-  HOU_EXPECT_FLOAT_CLOSE(tm_ref, tr.to_mat4x4());
+  EXPECT_FLOAT_CLOSE(tm_ref, tr.to_mat4x4());
 }
 
 
@@ -120,7 +120,7 @@ TEST_F(test_transform2, build_scale)
     0.f, 0.f, 0.f, 1.f,
   };
   // clang-format on
-  HOU_EXPECT_FLOAT_CLOSE(tm_ref, t.to_mat4x4());
+  EXPECT_FLOAT_CLOSE(tm_ref, t.to_mat4x4());
 }
 
 
@@ -137,7 +137,7 @@ TEST_F(test_transform2, build_shear)
     0.f, 0.f, 0.f, 1.f,
   };
   // clang-format on
-  HOU_EXPECT_FLOAT_CLOSE(tm_ref, t.to_mat4x4());
+  EXPECT_FLOAT_CLOSE(tm_ref, t.to_mat4x4());
 }
 
 
@@ -151,12 +151,12 @@ TEST_F(test_transform2, build_orthographic_projection)
   matrix<float, 4, 4> tm_ref
   {
     0.01f, 0.f, 0.f, -1.5f,
-    0.f, 0.005, 0.f, -1.5f,
+    0.f, 0.005f, 0.f, -1.5f,
     0.f, 0.f, 1.f, 0.f,
     0.f, 0.f, 0.f, 1.f,
   };
   // clang-format on
-  HOU_EXPECT_FLOAT_CLOSE(tm_ref, t.to_mat4x4());
+  EXPECT_FLOAT_CLOSE(tm_ref, t.to_mat4x4());
 }
 
 
@@ -182,8 +182,8 @@ TEST_F(test_transform2, inversion)
   t_inv2 = t;
   t_inv2.invert();
 
-  HOU_EXPECT_CLOSE(identity, (t * t_inv1), 1.e-6);
-  HOU_EXPECT_CLOSE(identity, (t * t_inv2), 1.e-6);
+  EXPECT_CLOSE(identity, (t * t_inv1), 1.e-6);
+  EXPECT_CLOSE(identity, (t * t_inv2), 1.e-6);
 
   t = trans2f::rotation(rot2f(deg_to_rad(30.f)))
     * trans2f::translation(vec2f(-4.f, 7.f));
@@ -191,8 +191,8 @@ TEST_F(test_transform2, inversion)
   t_inv2 = t;
   t_inv2.invert();
 
-  HOU_EXPECT_CLOSE(identity, (t * t_inv1), 1.e-6);
-  HOU_EXPECT_CLOSE(identity, (t * t_inv2), 1.e-6);
+  EXPECT_CLOSE(identity, (t * t_inv1), 1.e-6);
+  EXPECT_CLOSE(identity, (t * t_inv2), 1.e-6);
 }
 
 
@@ -210,8 +210,8 @@ TEST_F(test_transform2, composition)
   trans2f t4 = t1 * t2;
   mat4x4f tm_ref = t1.to_mat4x4() * t2.to_mat4x4();
 
-  HOU_EXPECT_FLOAT_CLOSE(tm_ref, t3.to_mat4x4());
-  HOU_EXPECT_FLOAT_CLOSE(t3, t4);
+  EXPECT_FLOAT_CLOSE(tm_ref, t3.to_mat4x4());
+  EXPECT_FLOAT_CLOSE(t3, t4);
 }
 
 
@@ -231,7 +231,7 @@ TEST_F(test_transform2, vector_transformation)
   hv = t.to_mat4x4() * hv;
   vec2f v_ref(hv(0), hv(1));
 
-  HOU_EXPECT_FLOAT_CLOSE(v_ref, v);
+  EXPECT_FLOAT_CLOSE(v_ref, v);
 }
 
 
@@ -251,7 +251,7 @@ TEST_F(test_transform2, point_transformation)
   hv = t.to_mat4x4() * hv;
   vec2f v_ref(hv(0), hv(1));
 
-  HOU_EXPECT_FLOAT_CLOSE(v_ref, v);
+  EXPECT_FLOAT_CLOSE(v_ref, v);
 }
 
 
@@ -299,7 +299,7 @@ TEST_F(test_transform2, floating_point_comparison)
 
 TEST_F(test_transform2, identity)
 {
-  HOU_EXPECT_FLOAT_CLOSE(trans2f(), trans2f::identity());
+  EXPECT_FLOAT_CLOSE(trans2f(), trans2f::identity());
 }
 
 
@@ -311,5 +311,5 @@ TEST_F(test_transform2, output_stream_operator)
   const char* output
     = "(2, 2, 0, 10)\n(3, 3, 0, 15)\n(0, 0, 1, 0)\n(0, 0, 0, 1)";
 
-  HOU_EXPECT_OUTPUT(output, t);
+  EXPECT_OUTPUT(output, t);
 }

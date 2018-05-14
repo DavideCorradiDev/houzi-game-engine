@@ -8,7 +8,7 @@
 #include "hou/sys/sys_export.hpp"
 
 #include "hou/cor/basic_types.hpp"
-#include "hou/cor/error.hpp"
+#include "hou/cor/assertions.hpp"
 
 #include <iostream>
 
@@ -30,6 +30,14 @@ enum class pixel_format
   rgba,
 };
 
+/** Returns the number of bytes of a pixel with the given format.
+ *
+ * \param format the pixel_format.
+ *
+ * \return the number of bytes.
+ */
+constexpr uint get_pixel_format_byte_count(pixel_format format) noexcept;
+
 /** Writes a pixel_format enum into a stream.
  *
  * \param os the stream.
@@ -39,14 +47,6 @@ enum class pixel_format
  * \return a reference to the stream.
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, pixel_format format);
-
-/** Returns the number of bytes of a pixel with the given format.
- *
- * \param format the pixel_format.
- *
- * \return the number of bytes.
- */
-constexpr uint get_pixel_format_byte_count(pixel_format format);
 
 }  // namespace hou
 
