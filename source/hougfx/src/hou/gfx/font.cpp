@@ -49,7 +49,7 @@ ft_library_wrapper::ft_library_wrapper()
   , library(nullptr)
 {
   HOU_ASSERT(FT_Init_FreeType(&library) == 0);
-  HOU_DEV_INVARIANT(library != nullptr);
+  HOU_DEV_ASSERT(library != nullptr);
 }
 
 

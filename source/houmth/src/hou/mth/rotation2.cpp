@@ -93,7 +93,7 @@ rotation2<T>::rotation2(const mat2x2<T>& m)
 {
   HOU_PRECOND(
     close(T(1), det(m)) && close(mat2x2<T>::identity(), m * transpose(m)));
-  HOU_DEV_PRECOND(m_angle > -pi_f && m_angle <= pi_f);
+  HOU_DEV_ASSERT(m_angle > -pi_f && m_angle <= pi_f);
 }
 
 

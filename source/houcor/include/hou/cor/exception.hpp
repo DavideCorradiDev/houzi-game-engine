@@ -170,19 +170,6 @@ void error(Args... args)
   HOU_DEV_CHECK_TEMPLATE(                                                      \
     statement, HOU_TERMINATE(::hou::prv::assertion_message(#statement)))
 
-#define HOU_DEV_CHECK_STD_0(condition, exception_type)                         \
-  HOU_DEV_CHECK_TEMPLATE(condition, HOU_ERROR_STD_0(exception_type))
-
-#define HOU_DEV_CHECK_STD_N(condition, exception_type, ...)                    \
-  HOU_DEV_CHECK_TEMPLATE(                                                      \
-    condition, HOU_ERROR_STD_N(exception_type, __VA_ARGS__))
-
-#define HOU_DEV_CHECK_0(condition, exception_type)                             \
-  HOU_DEV_CHECK_TEMPLATE(condition, HOU_ERROR_0(exception_type))
-
-#define HOU_DEV_CHECK_N(condition, exception_type, ...)                        \
-  HOU_DEV_CHECK_TEMPLATE(condition, HOU_ERROR_N(exception_type, __VA_ARGS__))
-
 #ifdef HOU_DISABLE_EXCEPTIONS
 
 #define HOU_DISABLE_EXCEPTIONS_BEGIN

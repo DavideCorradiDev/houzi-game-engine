@@ -47,28 +47,6 @@ TEST_F(test_assertions_death_test, hou_precond_macro_failure)
 
 
 
-TEST_F(test_assertions, hou_dev_precond_macro_success)
-{
-#ifdef NDEBUG
-  EXPECT_NO_ERROR(HOU_DEV_PRECOND(2 == 2));
-#else
-  EXPECT_NO_ERROR(HOU_DEV_PRECOND(2 == 2));
-#endif
-}
-
-
-
-TEST_F(test_assertions_death_test, hou_dev_precond_macro_failure)
-{
-#ifdef NDEBUG
-  EXPECT_NO_ERROR(HOU_DEV_PRECOND(0 == 2));
-#else
-  EXPECT_ERROR_0(HOU_DEV_PRECOND(0 == 2), precondition_violation);
-#endif
-}
-
-
-
 TEST_F(test_assertions_death_test, expect_precond_error_macro)
 {
   EXPECT_PRECOND_ERROR(HOU_PRECOND(0 == 2));
@@ -99,28 +77,6 @@ TEST_F(test_assertions_death_test, hou_postcond_macro_failure)
 
 
 
-TEST_F(test_assertions, hou_dev_postcond_macro_success)
-{
-#ifdef NDEBUG
-  EXPECT_NO_ERROR(HOU_DEV_POSTCOND(2 == 2));
-#else
-  EXPECT_NO_ERROR(HOU_DEV_POSTCOND(2 == 2));
-#endif
-}
-
-
-
-TEST_F(test_assertions_death_test, hou_dev_postcond_macro_failure)
-{
-#ifdef NDEBUG
-  EXPECT_NO_ERROR(HOU_DEV_POSTCOND(0 == 2));
-#else
-  EXPECT_ERROR_0(HOU_DEV_POSTCOND(0 == 2), postcondition_violation);
-#endif
-}
-
-
-
 TEST_F(test_assertions_death_test, expect_postcond_error_macro)
 {
   EXPECT_POSTCOND_ERROR(HOU_POSTCOND(0 == 2));
@@ -147,28 +103,6 @@ TEST_F(test_assertions, hou_invariant_macro_success)
 TEST_F(test_assertions_death_test, hou_invariant_macro_failure)
 {
   EXPECT_ERROR_0(HOU_INVARIANT(0 == 2), invariant_violation);
-}
-
-
-
-TEST_F(test_assertions, hou_dev_invariant_macro_success)
-{
-#ifdef NDEBUG
-  EXPECT_NO_ERROR(HOU_DEV_INVARIANT(2 == 2));
-#else
-  EXPECT_NO_ERROR(HOU_DEV_INVARIANT(2 == 2));
-#endif
-}
-
-
-
-TEST_F(test_assertions_death_test, hou_dev_invariant_macro_failure)
-{
-#ifdef NDEBUG
-  EXPECT_NO_ERROR(HOU_DEV_INVARIANT(0 == 2));
-#else
-  EXPECT_ERROR_0(HOU_DEV_INVARIANT(0 == 2), invariant_violation);
-#endif
 }
 
 

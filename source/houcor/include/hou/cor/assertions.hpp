@@ -75,17 +75,8 @@ public:
 
 #define HOU_PRECOND(condition) HOU_CHECK_0(condition, precondition_violation)
 
-#define HOU_DEV_PRECOND(condition)                                             \
-  HOU_DEV_CHECK_0(condition, precondition_violation)
-
 #define HOU_POSTCOND(condition) HOU_CHECK_0(condition, postcondition_violation)
 
-#define HOU_DEV_POSTCOND(condition)                                            \
-  HOU_DEV_CHECK_0(condition, postcondition_violation)
-
 #define HOU_INVARIANT(condition) HOU_CHECK_0(condition, invariant_violation)
-
-#define HOU_DEV_INVARIANT(condition)                                           \
-  HOU_DEV_CHECK_0(condition, invariant_violation)
 
 #endif

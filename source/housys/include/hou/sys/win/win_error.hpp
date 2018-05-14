@@ -40,7 +40,4 @@ os_error_code get_last_win_error_code() noexcept;
 #define HOU_WIN_CHECK(statement) \
   HOU_CHECK_TEMPLATE(statement, HOU_WIN_ERROR())
 
-#define HOU_DEV_WIN_CHECK(statement) \
-  HOU_DEV_CHECK_TEMPLATE(statement, HOU_WIN_ERROR())
-
 #endif

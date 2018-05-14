@@ -925,7 +925,7 @@ void window_impl::register_window_class()
     HOU_WIN_CHECK(RegisterClassExW(&wcex) != 0);
   }
   ++window_count;
-  HOU_DEV_POSTCOND(window_count > 0);
+  HOU_DEV_ASSERT(window_count > 0);
 }
 
 
@@ -933,7 +933,7 @@ void window_impl::register_window_class()
 void window_impl::unregister_window_class()
 {
   std::lock_guard<std::mutex> lock(hou_wnd_class_mutex);
-  HOU_DEV_PRECOND(window_count > 0);
+  HOU_DEV_ASSERT(window_count > 0);
   --window_count;
   if(window_count == 0)
   {
@@ -969,7 +969,7 @@ LRESULT CALLBACK window_impl::wnd_procedure(
 
 void window_impl::filter_event(UINT umsg, WPARAM wparam, LPARAM lparam)
 {
-  HOU_DEV_PRECOND(m_handle != nullptr);
+  HOU_DEV_ASSERT(m_handle != nullptr);
 
   switch(umsg)
   {
