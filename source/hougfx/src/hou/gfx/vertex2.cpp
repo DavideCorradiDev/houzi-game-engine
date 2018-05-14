@@ -137,8 +137,7 @@ bool operator!=(const vertex2& lhs, const vertex2& rhs) noexcept
 
 
 
-bool close(
-  const vertex2& lhs, const vertex2& rhs, vertex2::comparison_type acc) noexcept
+bool close(const vertex2& lhs, const vertex2& rhs, float acc) noexcept
 {
   return lhs.get_color() == rhs.get_color()
     && close(lhs.get_position(), rhs.get_position(), acc)

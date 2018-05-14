@@ -85,8 +85,7 @@ bool operator!=(const text_vertex& lhs, const text_vertex& rhs) noexcept
 
 
 
-bool close(const text_vertex& lhs, const text_vertex& rhs,
-  text_vertex::comparison_type acc) noexcept
+bool close(const text_vertex& lhs, const text_vertex& rhs, float acc) noexcept
 {
   return close(lhs.get_position(), rhs.get_position(), acc)
     && close(lhs.get_texture_coordinates(), rhs.get_texture_coordinates(), acc);

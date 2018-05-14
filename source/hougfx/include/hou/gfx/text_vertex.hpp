@@ -29,11 +29,6 @@ HOU_PRAGMA_PACK_PUSH(1)
 class HOU_GFX_API text_vertex
 {
 public:
-  /** Type to be used as accuracy in close comparison checks for mesh.
-   */
-  using comparison_type = float;
-
-public:
   /** Retrieves the vertex_format.
    */
   static const vertex_format& get_vertex_format();
@@ -120,8 +115,7 @@ HOU_GFX_API bool operator!=(
  * \return true if the two objects are equal.
  */
 HOU_GFX_API bool close(const text_vertex& lhs, const text_vertex& rhs,
-  text_vertex::comparison_type acc
-  = std::numeric_limits<text_vertex::comparison_type>::epsilon()) noexcept;
+  float acc = std::numeric_limits<float>::epsilon()) noexcept;
 
 /** Writes the object into a stream.
  *

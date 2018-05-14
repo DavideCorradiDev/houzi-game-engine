@@ -40,8 +40,7 @@ bool operator!=(const mesh_t<T>& lhs, const mesh_t<T>& rhs)
 
 
 template <typename T>
-bool close(
-  const mesh_t<T>& lhs, const mesh_t<T>& rhs, typename T::comparison_type acc)
+bool close(const mesh_t<T>& lhs, const mesh_t<T>& rhs, float acc)
 {
   return lhs.get_vertex_count() == rhs.get_vertex_count()
     && lhs.get_draw_mode() == rhs.get_draw_mode()
