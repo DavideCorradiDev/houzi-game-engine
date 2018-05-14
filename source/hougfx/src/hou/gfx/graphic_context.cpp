@@ -82,15 +82,6 @@ graphic_context::graphic_context()
 
 
 
-graphic_context::graphic_context(graphic_context&& other) noexcept
-  : m_extension_initializer()
-  , m_default_window(std::move(other.m_default_window))
-  , gl_context(std::move(other.gl_context))
-  , m_initialized(std::move(other.m_initialized))
-{}
-
-
-
 bool graphic_context::is_current() const
 {
   return gl_context.is_current();

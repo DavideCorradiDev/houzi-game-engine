@@ -33,12 +33,6 @@ public:
    */
   explicit binary_file_out(const std::string& path);
 
-  /** Move constructor.
-   *
-   * \param other the other object.
-   */
-  binary_file_out(binary_file_out&& other) noexcept;
-
   // stream overrides.
   bool eof() const noexcept final;
   bool error() const noexcept final;

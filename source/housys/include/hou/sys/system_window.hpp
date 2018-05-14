@@ -37,14 +37,6 @@ public:
   system_window(
     const std::string& title, const video_mode& vm, window_style style);
 
-  /** Move constructor.
-   *
-   * \param other the other window object.
-   *
-   * \throws hou::os_error if the window could not be created.
-   */
-  system_window(system_window&& other) = default;
-
   // window ovverrides.
   void set_frame_rect(const vec2i& pos, const vec2u& size) final;
   void set_client_rect(const vec2i& pos, const vec2u& size) final;

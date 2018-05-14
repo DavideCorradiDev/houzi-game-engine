@@ -50,13 +50,6 @@ audio_context::audio_context(const std::string& dev_name)
 
 
 
-audio_context::audio_context(audio_context&& other) noexcept
-  : m_al_device(std::move(other.m_al_device))
-  , m_al_context(std::move(other.m_al_context))
-{}
-
-
-
 bool audio_context::is_current() const
 {
   return m_al_context.is_current();

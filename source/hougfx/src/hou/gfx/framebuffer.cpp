@@ -75,19 +75,6 @@ framebuffer::framebuffer()
 
 
 
-framebuffer::framebuffer(framebuffer&& other) noexcept
-  : non_copyable()
-  , m_handle(std::move(other.m_handle))
-  , m_has_multisample_color_attachment(
-      std::move(other.m_has_multisample_color_attachment))
-  , m_has_multisample_depth_attachment(
-      std::move(other.m_has_multisample_depth_attachment))
-  , m_has_multisample_stencil_attachment(
-      std::move(other.m_has_multisample_stencil_attachment))
-{}
-
-
-
 const gl::framebuffer_handle& framebuffer::get_handle() const noexcept
 {
   return m_handle;

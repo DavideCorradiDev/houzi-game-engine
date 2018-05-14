@@ -62,7 +62,7 @@ public:
    *
    * \param other the other shader_program.
    */
-  shader_program(shader_program&& other) noexcept;
+  shader_program(shader_program&& other) noexcept = default;
 
   /** Destructor.
    */

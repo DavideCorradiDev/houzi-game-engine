@@ -35,7 +35,7 @@ public:
    *
    * \param other the other audio_source.
    */
-  audio_source(audio_source&& other) noexcept;
+  audio_source(audio_source&& other) noexcept = default;
 
   /** Destructor.
    */

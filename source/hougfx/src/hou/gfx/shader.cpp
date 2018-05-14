@@ -20,13 +20,6 @@ shader::shader(const std::string& source, shader_type type)
 
 
 
-shader::shader(shader&& other) noexcept
-  : non_copyable()
-  , m_handle(std::move(other.m_handle))
-{}
-
-
-
 shader::~shader()
 {}
 

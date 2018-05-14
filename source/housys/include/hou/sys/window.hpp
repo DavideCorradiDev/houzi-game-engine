@@ -59,7 +59,7 @@ public:
    *
    * \throws hou::os_error if the window could not be created.
    */
-  window(window&& other);
+  window(window&& other) = default;
 
   /** Destructor.
    */

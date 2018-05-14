@@ -42,7 +42,7 @@ namespace prv
  * This class defines a basic window interface to be implemented for each
  * os. The hou::window class extends the interface to provide more functionalty.
  */
-class window_impl : public non_copyable
+class HOU_SYS_API window_impl : public non_copyable
 {
 public:
   /** Constructor.

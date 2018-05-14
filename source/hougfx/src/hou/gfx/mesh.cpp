@@ -30,16 +30,6 @@ mesh::mesh(mesh_draw_mode dm, mesh_fill_mode fm, uint vertex_count)
 
 
 
-mesh::mesh(mesh&& other) noexcept
-  : non_copyable()
-  , m_draw_mode(std::move(other.m_draw_mode))
-  , m_fill_mode(std::move(other.m_fill_mode))
-  , m_vertex_count(std::move(other.m_vertex_count))
-  , m_vao(std::move(other.m_vao))
-{}
-
-
-
 mesh::~mesh()
 {}
 

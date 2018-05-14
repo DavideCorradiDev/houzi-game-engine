@@ -59,13 +59,6 @@ audio_source::audio_source()
 
 
 
-audio_source::audio_source(audio_source&& other) noexcept
-  : m_handle(std::move(other.m_handle))
-  , m_requested_sample_pos(std::move(other.m_requested_sample_pos))
-{}
-
-
-
 audio_source::~audio_source()
 {}
 

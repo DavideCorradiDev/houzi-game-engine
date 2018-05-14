@@ -63,10 +63,6 @@ public:
    */
   audio_context(const std::string& dev_name);
 
-  /** Move constructor.
-   */
-  audio_context(audio_context&& other) noexcept;
-
   /** Checks if this is the current context.
    *
    *  \return true if this is the current context.

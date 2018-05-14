@@ -65,12 +65,6 @@ public:
     const text_box_formatting_params& tbfp
     = text_box_formatting_params::standard);
 
-  /** Move constructor.
-   *
-   * \param other the other object.
-   */
-  formatted_text(formatted_text&& other);
-
   /** Retrieves the texture atlas.
    *
    * \return the texture atlas.

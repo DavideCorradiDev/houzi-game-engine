@@ -13,14 +13,6 @@ mesh_t<T>::mesh_t(
 
 
 template <typename T>
-mesh_t<T>::mesh_t(mesh_t&& other) noexcept
-  : mesh(std::move(other))
-  , m_vbo(std::move(other.m_vbo))
-{}
-
-
-
-template <typename T>
 typename mesh_t<T>::vertex_collection mesh_t<T>::get_vertices() const
 {
   return m_vbo.get_data();

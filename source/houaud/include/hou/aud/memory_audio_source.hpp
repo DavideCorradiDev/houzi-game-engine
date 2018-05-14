@@ -44,16 +44,6 @@ public:
    */
   explicit memory_audio_source(const audio_buffer* buffer = nullptr);
 
-  /** Move constructor.
-   *
-   * \param other the other memory_audio_source.
-   */
-  memory_audio_source(memory_audio_source&& other) noexcept;
-
-  /** Destructor.
-   */
-  virtual ~memory_audio_source();
-
   /** Sets the audio_buffer.
    *
    * If passed nullptr, the memory_audio_source will not be associated to any

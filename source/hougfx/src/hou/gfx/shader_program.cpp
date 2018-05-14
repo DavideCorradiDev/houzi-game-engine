@@ -41,13 +41,6 @@ shader_program::shader_program(
 
 
 
-shader_program::shader_program(shader_program&& other) noexcept
-  : non_copyable()
-  , m_handle(std::move(other.m_handle))
-{}
-
-
-
 shader_program::~shader_program()
 {}
 

@@ -48,17 +48,6 @@ window::window(
 
 
 
-window::window(window&& other)
-  : m_impl(std::move(other.m_impl))
-  , m_uid(std::move(other.m_uid))
-  , m_style(std::move(other.m_style))
-  , m_bytes_per_pixel(std::move(other.m_bytes_per_pixel))
-  , m_title(std::move(other.m_title))
-  , m_icon_image(std::move(other.m_icon_image))
-{}
-
-
-
 window::~window()
 {}
 

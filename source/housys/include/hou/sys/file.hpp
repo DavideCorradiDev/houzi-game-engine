@@ -38,12 +38,6 @@ public:
    */
   file(const std::string& path, file_open_mode mode, file_type type);
 
-  /** Move constructor.
-   *
-   * \param other the other object.
-   */
-  file(file&& other);
-
   /** Checks the end of file indicator.
    *
    * \return true if the end of file indicator is set.

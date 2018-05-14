@@ -585,15 +585,6 @@ formatted_text::formatted_text(
 
 
 
-formatted_text::formatted_text(formatted_text&& other)
-  : non_copyable()
-  , m_atlas(std::move(other.m_atlas))
-  , m_mesh(std::move(other.m_mesh))
-  , m_bounding_box(std::move(other.m_bounding_box))
-{}
-
-
-
 const texture2_array& formatted_text::get_atlas() const
 {
   HOU_DEV_PRECOND(m_atlas != nullptr);

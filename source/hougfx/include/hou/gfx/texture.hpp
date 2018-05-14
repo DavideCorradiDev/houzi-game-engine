@@ -78,7 +78,7 @@ public:
    *
    * \param other the other texture.
    */
-  texture(texture&& other) noexcept;
+  texture(texture&& other) noexcept = default;
 
   /** Destructor.
    */
@@ -317,12 +317,6 @@ public:
   HOU_GFX_API explicit texture_t(const size_type& size,
     texture_format format = texture_format::rgba, uint sample_count = 1u,
     bool fixed_sample_locations = true);
-
-  /** Move constructor.
-   *
-   * \param other the other texture.
-   */
-  texture_t(texture_t&& other) noexcept = default;
 
   /** Retrieves the size of the texture.
    *

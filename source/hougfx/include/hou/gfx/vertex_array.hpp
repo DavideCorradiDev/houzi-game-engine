@@ -48,12 +48,6 @@ public:
    */
   vertex_array();
 
-  /** Move constructor.
-   *
-   * \param other the other vertex_array.
-   */
-  vertex_array(vertex_array&& other) noexcept;
-
   /** Retrieves the reference to the OpenGL vertex array object.
    *
    * \return the reference to the OpenGL vertex array object.

@@ -59,12 +59,6 @@ audio_buffer::audio_buffer(audio_stream_in&& audioStream)
 
 
 
-audio_buffer::audio_buffer(audio_buffer&& other) noexcept
-  : m_handle(std::move(other.m_handle))
-{}
-
-
-
 const al::buffer_handle& audio_buffer::get_handle() const noexcept
 {
   return m_handle;

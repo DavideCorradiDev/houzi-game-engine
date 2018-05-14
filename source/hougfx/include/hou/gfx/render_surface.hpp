@@ -77,12 +77,6 @@ public:
    */
   render_surface(const vec2u& size, uint sample_count = 1u);
 
-  /** Move constructor.
-   *
-   * \param other the other render_surface.
-   */
-  render_surface(render_surface&& other) noexcept;
-
   /** Gets the default viewport rectangle.
    *
    * The default viewport rectangle has the top left corner at the origin

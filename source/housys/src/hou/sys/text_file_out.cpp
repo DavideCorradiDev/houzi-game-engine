@@ -19,15 +19,6 @@ text_file_out::text_file_out(const std::string& path)
 
 
 
-text_file_out::text_file_out(text_file_out&& other) noexcept
-  : text_stream_out(std::move(other))
-  , m_file(std::move(other.m_file))
-  , m_byte_count(std::move(other.m_byte_count))
-  , m_element_count(std::move(other.m_element_count))
-{}
-
-
-
 bool text_file_out::eof() const noexcept
 {
   return m_file.eof();

@@ -333,15 +333,6 @@ texture::texture(texture_type type, uint mipmap_level_count, uint sample_count,
 
 
 
-texture::texture(texture&& other) noexcept
-  : m_gl_texture_handle(std::move(other.m_gl_texture_handle))
-  , m_mipmap_level_count(std::move(other.m_mipmap_level_count))
-  , m_sample_count(std::move(other.m_sample_count))
-  , m_fixed_sample_locations(std::move(other.m_fixed_sample_locations))
-{}
-
-
-
 texture::~texture()
 {}
 

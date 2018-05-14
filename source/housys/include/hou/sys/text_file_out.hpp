@@ -33,12 +33,6 @@ public:
    */
   explicit text_file_out(const std::string& path);
 
-  /** Move constructor.
-   *
-   * \param other the other object.
-   */
-  text_file_out(text_file_out&& other) noexcept;
-
   // stream overrides.
   bool eof() const noexcept final;
   bool error() const noexcept final;

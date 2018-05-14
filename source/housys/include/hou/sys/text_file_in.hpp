@@ -33,12 +33,6 @@ public:
    */
   explicit text_file_in(const std::string& path);
 
-  /** Move constructor.
-   *
-   * \param other the other object.
-   */
-  text_file_in(text_file_in&& other) noexcept;
-
   // stream overrides.
   bool eof() const noexcept final;
   bool error() const noexcept final;

@@ -46,6 +46,24 @@ public:
   static void draw(const mesh& m);
 
 public:
+  /** Generic constructor.
+   *
+   * To be used by derived classes.
+   *
+   * \param dm the mesh_draw_mode.
+   *
+   * \param fm the mesh_fill_mode.
+   *
+   * \param vertex_count the number of vertices.
+   */
+  mesh(mesh_draw_mode dm, mesh_fill_mode fm, uint vertex_count);
+
+  /** Move constructor.
+   *
+   * \param other the other mesh_t object.
+   */
+  mesh(mesh&& other) noexcept = default;
+
   /** Destructor.
    */
   virtual ~mesh() = 0;
@@ -67,25 +85,6 @@ public:
    * \return the number of vertices in the mesh.
    */
   uint get_vertex_count() const noexcept;
-
-protected:
-  /** Generic constructor.
-   *
-   * To be used by derived classes.
-   *
-   * \param dm the mesh_draw_mode.
-   *
-   * \param fm the mesh_fill_mode.
-   *
-   * \param vertex_count the number of vertices.
-   */
-  mesh(mesh_draw_mode dm, mesh_fill_mode fm, uint vertex_count);
-
-  /** Move constructor.
-   *
-   * \param other the other mesh_t object.
-   */
-  mesh(mesh&& other) noexcept;
 
 protected:
   mesh_draw_mode m_draw_mode;
@@ -123,12 +122,6 @@ public:
    * \param vertices the vertices.
    */
   mesh_t(mesh_draw_mode dm, mesh_fill_mode fm, const span<const T>& vertices);
-
-  /** Move constructor.
-   *
-   * \param other the other mesh_t object.
-   */
-  mesh_t(mesh_t&& other) noexcept;
 
   /** Gets the vertices in the mesh inside a vector.
    *

@@ -33,12 +33,6 @@ public:
    */
   mesh2_shader_program();
 
-  /** Move constructor.
-   *
-   * \param other the other mesh2_shader_program.
-   */
-  mesh2_shader_program(mesh2_shader_program&& other) noexcept = default;
-
   /** Sets the color used when rendering.
    *
    * The default value is white.

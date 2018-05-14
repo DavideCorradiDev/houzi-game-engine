@@ -78,12 +78,6 @@ public:
    */
   explicit audio_buffer(audio_stream_in&& audioStream);
 
-  /** Move constructor.
-   *
-   * \param other the other audio_buffer.
-   */
-  audio_buffer(audio_buffer&& other) noexcept;
-
   /** Gets the OpenAL buffer handle.
    *
    * \return the OpenAL buffer handle.

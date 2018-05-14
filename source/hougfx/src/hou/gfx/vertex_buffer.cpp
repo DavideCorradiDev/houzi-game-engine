@@ -49,14 +49,6 @@ vertex_buffer::vertex_buffer(uint size, const void* data, bool dynamic_storage)
 
 
 
-vertex_buffer::vertex_buffer(vertex_buffer&& other) noexcept
-  : non_copyable()
-  , m_handle(std::move(other.m_handle))
-  , m_byte_count(std::move(other.m_byte_count))
-{}
-
-
-
 const gl::buffer_handle& vertex_buffer::get_handle() const noexcept
 {
   return m_handle;

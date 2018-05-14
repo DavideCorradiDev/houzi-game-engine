@@ -36,15 +36,6 @@ file::file(const std::string& filename, file_open_mode mode, file_type type)
 
 
 
-file::file(file&& other)
-  : non_copyable()
-  , m_handle(std::move(other.m_handle))
-  , m_eof(std::move(other.m_eof))
-  , m_error(std::move(other.m_error))
-{}
-
-
-
 bool file::eof() const noexcept
 {
   return m_eof;

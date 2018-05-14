@@ -40,13 +40,6 @@ vertex_array::vertex_array()
 
 
 
-vertex_array::vertex_array(vertex_array&& other) noexcept
-  : non_copyable()
-  , m_handle(std::move(other.m_handle))
-{}
-
-
-
 const gl::vertex_array_handle& vertex_array::get_handle() const noexcept
 {
   return m_handle;

@@ -76,12 +76,6 @@ public:
    */
   framebuffer();
 
-  /** Move constructor.
-   *
-   * \param other the other framebuffer.
-   */
-  framebuffer(framebuffer&& other) noexcept;
-
   /** Retrieves a reference to the OpenGL framebuffer handle.
    *
    * \return a reference to the OpenGL framebuffer handle.

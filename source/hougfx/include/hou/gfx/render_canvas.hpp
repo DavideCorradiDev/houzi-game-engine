@@ -25,12 +25,6 @@ public:
    * \param sample_count the sample count.
    */
   render_canvas(const vec2u& size, uint sample_count = 1u);
-
-  /** Move constructor.
-   *
-   *  \param other the other render_canvas.
-   */
-  render_canvas(render_canvas&& other) noexcept = default;
 };
 
 }  // namespace hou

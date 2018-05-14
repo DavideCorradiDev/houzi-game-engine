@@ -81,16 +81,6 @@ wav_file_in::wav_file_in(const std::string& path)
 
 
 
-wav_file_in::wav_file_in(wav_file_in&& other) noexcept
-  : audio_stream_in(std::move(other))
-  , m_file(std::move(other.m_file))
-  , m_data_offset(std::move(other.m_data_offset))
-  , m_byte_count(std::move(other.m_byte_count))
-  , m_element_count(std::move(other.m_element_count))
-{}
-
-
-
 bool wav_file_in::eof() const noexcept
 {
   return m_file.eof();

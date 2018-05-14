@@ -19,15 +19,6 @@ binary_file_in::binary_file_in(const std::string& path)
 
 
 
-binary_file_in::binary_file_in(binary_file_in&& other) noexcept
-  : binary_stream_in(std::move(other))
-  , m_file(std::move(other.m_file))
-  , m_byte_count(std::move(other.m_byte_count))
-  , m_element_count(std::move(other.m_element_count))
-{}
-
-
-
 bool binary_file_in::eof() const noexcept
 {
   return m_file.eof();

@@ -39,7 +39,7 @@ public:
    *
    * \param other the other shader.
    */
-  shader(shader&& other) noexcept;
+  shader(shader&& other) noexcept = default;
 
   /** Destructor.
    */
@@ -72,12 +72,6 @@ public:
    * \param source the shader source code.
    */
   explicit shader_t(const std::string& source);
-
-  /** Move constructor.
-   *
-   * \param other the other shader.
-   */
-  shader_t(shader_t&& other) noexcept = default;
 };
 
 }  // namespace hou

@@ -46,27 +46,6 @@ public:
   static void unbind(vertex_buffer_target target);
 
 public:
-  /** Retrieves the reference to the OpenGL buffer.
-   *
-   * \return the reference to the OpenGL buffer.
-   */
-  const gl::buffer_handle& get_handle() const noexcept;
-
-  /** Checks if this vertex_buffer is bound to the given target.
-   *
-   * \target target the target to check.
-   *
-   * \return the result of the check.
-   */
-  bool is_bound(vertex_buffer_target target) const;
-
-  /** Returns the number of bytes used by the vertex_buffer.
-   *
-   * \return the number of bytes used by the vertex_buffer.
-   */
-  uint get_byte_count() const;
-
-protected:
   /** size_type constructor.
    *
    * Builds a vertex_buffer with the given size.
@@ -96,7 +75,27 @@ protected:
    *
    * \param other the other vertex_buffer.
    */
-  vertex_buffer(vertex_buffer&& other) noexcept;
+  vertex_buffer(vertex_buffer&& other) noexcept = default;
+
+  /** Retrieves the reference to the OpenGL buffer.
+   *
+   * \return the reference to the OpenGL buffer.
+   */
+  const gl::buffer_handle& get_handle() const noexcept;
+
+  /** Checks if this vertex_buffer is bound to the given target.
+   *
+   * \target target the target to check.
+   *
+   * \return the result of the check.
+   */
+  bool is_bound(vertex_buffer_target target) const;
+
+  /** Returns the number of bytes used by the vertex_buffer.
+   *
+   * \return the number of bytes used by the vertex_buffer.
+   */
+  uint get_byte_count() const;
 
 private:
   gl::buffer_handle m_handle;
@@ -137,12 +136,6 @@ public:
    * \param data the data.
    */
   vertex_buffer_t(const span<const T>& data);
-
-  /** Move constructor.
-   *
-   * \param other the other vertex_buffer.
-   */
-  vertex_buffer_t(vertex_buffer_t&& other) noexcept = default;
 
   /** Retrieves the number of elements in the buffer.
    *

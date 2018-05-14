@@ -64,16 +64,6 @@ public:
   render_window(const std::string& title, const vec2u& size, window_style style,
     uint sample_count = 1u);
 
-  /** Move constructor.
-   *
-   * \param other the other render_window.
-   *
-   * \throws hou::os_error if the window could not be created.
-   */
-  render_window(render_window&& other) = default;
-
-
-
   /** Displays what has been rendered onto the render_window.
    */
   void display();

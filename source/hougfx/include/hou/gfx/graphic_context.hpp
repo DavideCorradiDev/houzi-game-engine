@@ -66,12 +66,6 @@ public:
   /** Creates a graphic_context and sets it as the current graphic_context. */
   graphic_context();
 
-  /** Move constructor.
-   *
-   * \param other the other graphic_context.
-   */
-  graphic_context(graphic_context&& other) noexcept;
-
   /** Checks if this context is current in the current thread.
    *
    * \return true if this context is current in the current thread.

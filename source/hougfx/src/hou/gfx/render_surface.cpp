@@ -73,17 +73,6 @@ render_surface::render_surface(const vec2u& size, uint sample_count)
 
 
 
-render_surface::render_surface(render_surface&& other) noexcept
-  : non_copyable()
-  , m_framebuffer(std::move(other.m_framebuffer))
-  , m_color_attachment(std::move(other.m_color_attachment))
-  , m_depth_stencil_attachment(std::move(other.m_depth_stencil_attachment))
-  , m_sample_count(std::move(other.m_sample_count))
-  , m_viewport(std::move(other.m_viewport))
-{}
-
-
-
 recti render_surface::get_default_viewport() const
 {
   return recti(vec2i(0, 0), get_size());
