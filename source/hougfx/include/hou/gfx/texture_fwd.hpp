@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_TEXTURE_FWD_HPP
 #define HOU_GFX_TEXTURE_FWD_HPP
 
-#include "hou/gfx/gfx_export.hpp"
+#include "hou/gfx/gfx_config.hpp"
 
 #include "hou/gfx/texture_type.hpp"
 

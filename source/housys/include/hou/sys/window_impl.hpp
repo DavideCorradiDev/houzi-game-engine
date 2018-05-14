@@ -11,7 +11,7 @@
 #include "hou/sys/window_handle.hpp"
 #include "hou/sys/window_style.hpp"
 
-#include "hou/sys/sys_export.hpp"
+#include "hou/sys/sys_config.hpp"
 
 #include "hou/cor/character_encodings.hpp"
 

@@ -8,7 +8,7 @@
 #include "hou/mth/matrix.hpp"
 #include "hou/mth/rectangle_fwd.hpp"
 
-#include "hou/mth/mth_export.hpp"
+#include "hou/mth/mth_config.hpp"
 
 #include <iostream>
 #include <limits>

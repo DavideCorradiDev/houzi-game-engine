@@ -5,7 +5,7 @@
 #ifndef HOU_COR_NON_INSTANTIABLE_HPP
 #define HOU_COR_NON_INSTANTIABLE_HPP
 
-#include "hou/cor/cor_export.hpp"
+#include "hou/cor/cor_config.hpp"
 
 
 

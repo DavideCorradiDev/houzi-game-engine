@@ -7,7 +7,7 @@
 
 #include "hou/cor/exception.hpp"
 
-#include "hou/gfx/gfx_export.hpp"
+#include "hou/gfx/gfx_config.hpp"
 
 
 

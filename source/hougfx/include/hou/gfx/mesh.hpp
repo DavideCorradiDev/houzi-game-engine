@@ -12,7 +12,7 @@
 #include "hou/gfx/vertex_array.hpp"
 #include "hou/gfx/vertex_buffer.hpp"
 
-#include "hou/gfx/gfx_export.hpp"
+#include "hou/gfx/gfx_config.hpp"
 
 #include "hou/cor/span.hpp"
 #include "hou/cor/std_vector.hpp"

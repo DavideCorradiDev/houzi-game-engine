@@ -5,7 +5,7 @@
 #ifndef HOU_WND_VIDEO_MODE_HPP
 #define HOU_WND_VIDEO_MODE_HPP
 
-#include "hou/sys/sys_export.hpp"
+#include "hou/sys/sys_config.hpp"
 
 #include "hou/mth/matrix.hpp"
 

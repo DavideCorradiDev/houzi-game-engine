@@ -5,7 +5,7 @@
 #ifndef HOU_COR_NOT_NULL_HPP
 #define HOU_COR_NOT_NULL_HPP
 
-#include "hou/cor/cor_export.hpp"
+#include "hou/cor/cor_config.hpp"
 
 #include <type_traits>
 #include <utility>

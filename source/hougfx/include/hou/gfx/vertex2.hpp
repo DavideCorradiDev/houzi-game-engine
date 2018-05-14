@@ -8,7 +8,7 @@
 #include "hou/gfx/mesh.hpp"
 #include "hou/gfx/vertex2_fwd.hpp"
 
-#include "hou/gfx/gfx_export.hpp"
+#include "hou/gfx/gfx_config.hpp"
 
 #include "hou/cor/pragmas.hpp"
 

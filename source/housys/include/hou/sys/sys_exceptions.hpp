@@ -7,7 +7,7 @@
 
 #include "hou/cor/exception.hpp"
 
-#include "hou/sys/sys_export.hpp"
+#include "hou/sys/sys_config.hpp"
 
 
 

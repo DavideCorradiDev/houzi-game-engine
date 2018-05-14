@@ -8,7 +8,7 @@
 #include "hou/sys/color.hpp"
 #include "hou/sys/pixel_fwd.hpp"
 
-#include "hou/sys/sys_export.hpp"
+#include "hou/sys/sys_config.hpp"
 
 #include "hou/cor/pragmas.hpp"
 

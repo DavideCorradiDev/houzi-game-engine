@@ -5,7 +5,7 @@
 #ifndef HOU_SYS_FILE_OPEN_MODE_HPP
 #define HOU_SYS_FILE_OPEN_MODE_HPP
 
-#include "hou/sys/sys_export.hpp"
+#include "hou/sys/sys_config.hpp"
 
 #include <iostream>
 

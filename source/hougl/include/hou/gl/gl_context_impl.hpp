@@ -8,7 +8,7 @@
 
 #include "hou/cor/non_copyable.hpp"
 
-#include "hou/gl/gl_export.hpp"
+#include "hou/gl/gl_config.hpp"
 
 #if defined(HOU_SYSTEM_WINDOWS)
 #include "hou/sys/win/win.hpp"

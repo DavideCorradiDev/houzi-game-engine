@@ -10,7 +10,7 @@
 #include "hou/mth/rotation2_fwd.hpp"
 #include "hou/mth/transform2_fwd.hpp"
 
-#include "hou/mth/mth_export.hpp"
+#include "hou/mth/mth_config.hpp"
 
 #include <iostream>
 #include <limits>

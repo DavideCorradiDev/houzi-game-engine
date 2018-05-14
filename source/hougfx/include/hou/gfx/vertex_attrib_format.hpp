@@ -7,7 +7,7 @@
 
 #include "hou/gfx/gl_type.hpp"
 
-#include "hou/gfx/gfx_export.hpp"
+#include "hou/gfx/gfx_config.hpp"
 
 #include <iostream>
 

@@ -7,7 +7,7 @@
 
 #include "hou/cor/non_copyable.hpp"
 
-#include "hou/gfx/gfx_export.hpp"
+#include "hou/gfx/gfx_config.hpp"
 
 #include "hou/cor/character_encodings.hpp"
 #include "hou/cor/span.hpp"

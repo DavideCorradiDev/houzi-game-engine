@@ -8,7 +8,7 @@
 #include "hou/aud/audio_stream.hpp"
 #include "hou/sys/stream_in.hpp"
 
-#include "hou/aud/aud_export.hpp"
+#include "hou/aud/aud_config.hpp"
 
 #include "hou/cor/assertions.hpp"
 #include "hou/cor/not_null.hpp"

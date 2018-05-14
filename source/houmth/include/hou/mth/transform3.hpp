@@ -9,7 +9,7 @@
 #include "hou/mth/rotation3.hpp"
 #include "hou/mth/transform3_fwd.hpp"
 
-#include "hou/mth/mth_export.hpp"
+#include "hou/mth/mth_config.hpp"
 
 #include <iostream>
 #include <limits>

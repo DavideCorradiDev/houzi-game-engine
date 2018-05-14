@@ -5,7 +5,7 @@
 #ifndef HOU_MTH_ROTATION_2_HPP
 #define HOU_MTH_ROTATION_2_HPP
 
-#include "hou/mth/mth_export.hpp"
+#include "hou/mth/mth_config.hpp"
 
 #include "hou/mth/matrix_fwd.hpp"
 #include "hou/mth/rotation2_fwd.hpp"

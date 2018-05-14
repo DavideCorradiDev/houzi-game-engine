@@ -7,7 +7,7 @@
 
 #include "hou/gl/gl_object_handle.hpp"
 
-#include "hou/gl/gl_export.hpp"
+#include "hou/gl/gl_config.hpp"
 
 
 

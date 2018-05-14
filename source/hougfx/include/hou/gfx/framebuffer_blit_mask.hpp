@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_FRAME_BUFFER_BLIT_MASK_HPP
 #define HOU_GFX_FRAME_BUFFER_BLIT_MASK_HPP
 
-#include "hou/gfx/gfx_export.hpp"
+#include "hou/gfx/gfx_config.hpp"
 
 #include "hou/cor/bitwise_operators.hpp"
 

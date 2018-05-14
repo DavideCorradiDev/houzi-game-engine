@@ -5,7 +5,7 @@
 #ifndef HOU_COR_BITWISE_OPERATORS_HPP
 #define HOU_COR_BITWISE_OPERATORS_HPP
 
-#include "hou/cor/cor_export.hpp"
+#include "hou/cor/cor_config.hpp"
 
 #include <type_traits>
 

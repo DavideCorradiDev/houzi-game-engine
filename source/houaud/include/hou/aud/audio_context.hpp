@@ -7,7 +7,7 @@
 
 #include "hou/cor/non_copyable.hpp"
 
-#include "hou/aud/aud_export.hpp"
+#include "hou/aud/aud_config.hpp"
 
 #include "hou/al/al_context.hpp"
 #include "hou/al/al_device.hpp"

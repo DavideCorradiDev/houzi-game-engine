@@ -7,7 +7,7 @@
 
 #include "hou/aud/audio_stream_in.hpp"
 
-#include "hou/aud/aud_export.hpp"
+#include "hou/aud/aud_config.hpp"
 
 
 

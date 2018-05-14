@@ -7,7 +7,7 @@
 
 #include "hou/mth/quaternion_fwd.hpp"
 
-#include "hou/mth/mth_export.hpp"
+#include "hou/mth/mth_config.hpp"
 
 #include "hou/cor/assertions.hpp"
 #include "hou/cor/std_array.hpp"

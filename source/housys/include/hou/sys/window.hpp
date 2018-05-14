@@ -10,7 +10,7 @@
 #include "hou/sys/image.hpp"
 #include "hou/sys/window_impl.hpp"
 
-#include "hou/sys/sys_export.hpp"
+#include "hou/sys/sys_config.hpp"
 
 #include <string>
 

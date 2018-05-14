@@ -8,7 +8,7 @@
 #include "hou/gfx/vertex_buffer_fwd.hpp"
 #include "hou/gfx/vertex_buffer_target.hpp"
 
-#include "hou/gfx/gfx_export.hpp"
+#include "hou/gfx/gfx_config.hpp"
 
 #include "hou/cor/non_copyable.hpp"
 

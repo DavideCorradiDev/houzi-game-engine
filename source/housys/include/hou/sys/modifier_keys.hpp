@@ -5,7 +5,7 @@
 #ifndef HOU_SYS_MODIFIER_KEYS_HPP
 #define HOU_SYS_MODIFIER_KEYS_HPP
 
-#include "hou/sys/sys_export.hpp"
+#include "hou/sys/sys_config.hpp"
 
 #include "hou/cor/bitwise_operators.hpp"
 

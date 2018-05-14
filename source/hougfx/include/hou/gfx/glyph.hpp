@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_GLYPH_HPP
 #define HOU_GFX_GLYPH_HPP
 
-#include "hou/gfx/gfx_export.hpp"
+#include "hou/gfx/gfx_config.hpp"
 
 #include "hou/gfx/glyph_metrics.hpp"
 #include "hou/sys/image.hpp"

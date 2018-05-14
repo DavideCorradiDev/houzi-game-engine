@@ -11,7 +11,7 @@
 #include "hou/gfx/texture.hpp"
 #include "hou/gfx/vertex2_fwd.hpp"
 
-#include "hou/gfx/gfx_export.hpp"
+#include "hou/gfx/gfx_config.hpp"
 
 #include "hou/mth/transform2.hpp"
 

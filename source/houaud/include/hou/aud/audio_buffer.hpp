@@ -10,7 +10,7 @@
 #include "hou/aud/audio_buffer_format.hpp"
 #include "hou/aud/audio_stream_in.hpp"
 
-#include "hou/aud/aud_export.hpp"
+#include "hou/aud/aud_config.hpp"
 
 #include "hou/al/al_buffer_handle.hpp"
 

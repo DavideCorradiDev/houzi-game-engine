@@ -5,7 +5,7 @@
 #ifndef HOU_AUD_AUDIO_SOURCE_STATE_HPP
 #define HOU_AUD_AUDIO_SOURCE_STATE_HPP
 
-#include "hou/aud/aud_export.hpp"
+#include "hou/aud/aud_config.hpp"
 
 #include <iostream>
 

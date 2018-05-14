@@ -5,7 +5,7 @@
 #ifndef HOU_AUD_LISTENER_HPP
 #define HOU_AUD_LISTENER_HPP
 
-#include "hou/aud/aud_export.hpp"
+#include "hou/aud/aud_config.hpp"
 
 #include "hou/mth/matrix_fwd.hpp"
 #include "hou/mth/rotation3_fwd.hpp"

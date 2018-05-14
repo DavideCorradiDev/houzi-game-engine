@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_FORMATTED_TEXT_HPP
 #define HOU_GFX_FORMATTED_TEXT_HPP
 
-#include "hou/gfx/gfx_export.hpp"
+#include "hou/gfx/gfx_config.hpp"
 
 #include "hou/cor/non_copyable.hpp"
 

@@ -7,7 +7,7 @@
 
 #include "hou/al/al_object_handle.hpp"
 
-#include "hou/al/al_export.hpp"
+#include "hou/al/al_config.hpp"
 
 
 

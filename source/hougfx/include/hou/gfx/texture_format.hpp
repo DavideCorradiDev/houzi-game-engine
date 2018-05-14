@@ -5,7 +5,7 @@
 #ifndef HOU_SYS_TEXTURE_FORMAT_HPP
 #define HOU_SYS_TEXTURE_FORMAT_HPP
 
-#include "hou/gfx/gfx_export.hpp"
+#include "hou/gfx/gfx_config.hpp"
 
 #include "hou/gl/open_gl.hpp"
 

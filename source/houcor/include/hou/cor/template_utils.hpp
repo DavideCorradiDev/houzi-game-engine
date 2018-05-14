@@ -7,7 +7,7 @@
 
 #include "hou/cor/member_detector.hpp"
 
-#include "hou/cor/cor_export.hpp"
+#include "hou/cor/cor_config.hpp"
 
 #include <type_traits>
 

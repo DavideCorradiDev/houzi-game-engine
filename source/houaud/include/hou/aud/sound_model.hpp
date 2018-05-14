@@ -7,7 +7,7 @@
 
 #include "hou/aud/sound_distance_model.hpp"
 
-#include "hou/aud/aud_export.hpp"
+#include "hou/aud/aud_config.hpp"
 
 
 

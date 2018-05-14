@@ -7,7 +7,7 @@
 
 #include "hou/cor/exception.hpp"
 
-#include "hou/aud/aud_export.hpp"
+#include "hou/aud/aud_config.hpp"
 
 
 

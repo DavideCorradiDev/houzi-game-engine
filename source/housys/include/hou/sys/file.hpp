@@ -9,7 +9,7 @@
 
 #include "hou/sys/file_handle.hpp"
 
-#include "hou/sys/sys_export.hpp"
+#include "hou/sys/sys_config.hpp"
 
 #include "hou/cor/template_utils.hpp"
 

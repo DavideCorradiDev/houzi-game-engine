@@ -5,7 +5,7 @@
 #ifndef HOU_AUD_AUDIO_STREAM_HPP
 #define HOU_AUD_AUDIO_STREAM_HPP
 
-#include "hou/aud/aud_export.hpp"
+#include "hou/aud/aud_config.hpp"
 #include "hou/sys/binary_stream.hpp"
 
 #include "hou/aud/audio_buffer_format.hpp"

@@ -5,7 +5,7 @@
 #ifndef HOU_COR_BASIC_STATIC_STRING_HPP
 #define HOU_COR_BASIC_STATIC_STRING_HPP
 
-#include "hou/cor/cor_export.hpp"
+#include "hou/cor/cor_config.hpp"
 
 #include "hou/cor/basic_static_string_fwd.hpp"
 #include "hou/cor/assertions.hpp"

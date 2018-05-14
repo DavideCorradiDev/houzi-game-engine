@@ -9,7 +9,7 @@
 
 #include "hou/cor/assertions.hpp"
 
-#include "hou/cor/cor_export.hpp"
+#include "hou/cor/cor_config.hpp"
 
 #include <array>
 #include <limits>

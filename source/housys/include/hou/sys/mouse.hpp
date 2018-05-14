@@ -7,7 +7,7 @@
 
 #include "hou/sys/mouse_button.hpp"
 
-#include "hou/sys/sys_export.hpp"
+#include "hou/sys/sys_config.hpp"
 
 #include "hou/mth/matrix_fwd.hpp"
 

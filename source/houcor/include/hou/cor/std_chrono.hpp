@@ -5,7 +5,7 @@
 #ifndef HOU_COR_STD_CHRONO_HPP
 #define HOU_COR_STD_CHRONO_HPP
 
-#include "hou/cor/cor_export.hpp"
+#include "hou/cor/cor_config.hpp"
 
 #include <chrono>
 #include <ostream>

@@ -9,7 +9,7 @@
 #include "hou/cor/cor_exceptions.hpp"
 #include "hou/cor/template_utils.hpp"
 
-#include "hou/cor/cor_export.hpp"
+#include "hou/cor/cor_config.hpp"
 
 #include <iostream>
 

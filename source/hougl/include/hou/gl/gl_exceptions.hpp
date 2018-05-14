@@ -9,7 +9,7 @@
 
 #include "hou/gl/open_gl.hpp"
 
-#include "hou/gl/gl_export.hpp"
+#include "hou/gl/gl_config.hpp"
 
 #include "hou/cor/std_string.hpp"
 

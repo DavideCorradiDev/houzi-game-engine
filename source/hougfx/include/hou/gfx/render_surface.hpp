@@ -6,7 +6,7 @@
 #define HOU_GFX_RENDER_SURFACE_HPP
 
 #include "hou/cor/non_copyable.hpp"
-#include "hou/gfx/gfx_export.hpp"
+#include "hou/gfx/gfx_config.hpp"
 
 #include "hou/gfx/framebuffer.hpp"
 #include "hou/gfx/texture.hpp"

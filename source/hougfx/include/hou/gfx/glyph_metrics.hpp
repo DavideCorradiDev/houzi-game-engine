@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_GLYPH_METRICS_HPP
 #define HOU_GFX_GLYPH_METRICS_HPP
 
-#include "hou/gfx/gfx_export.hpp"
+#include "hou/gfx/gfx_config.hpp"
 
 #include "hou/mth/matrix.hpp"
 

@@ -7,7 +7,7 @@
 
 #include "hou/sys/pixel_format.hpp"
 
-#include "hou/sys/sys_export.hpp"
+#include "hou/sys/sys_config.hpp"
 
 
 

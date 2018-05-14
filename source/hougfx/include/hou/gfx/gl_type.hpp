@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_GL_TYPE_HPP
 #define HOU_GFX_GL_TYPE_HPP
 
-#include "hou/gfx/gfx_export.hpp"
+#include "hou/gfx/gfx_config.hpp"
 
 #include "hou/gl/open_gl.hpp"
 

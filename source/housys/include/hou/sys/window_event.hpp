@@ -12,7 +12,7 @@
 #include "hou/sys/scan_code.hpp"
 #include "hou/sys/window_event_type.hpp"
 
-#include "hou/sys/sys_export.hpp"
+#include "hou/sys/sys_config.hpp"
 
 
 

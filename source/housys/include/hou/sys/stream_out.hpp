@@ -5,7 +5,7 @@
 #ifndef HZI_SYS_STREAM_OUT_HPP
 #define HZI_SYS_STREAM_OUT_HPP
 
-#include "hou/sys/sys_export.hpp"
+#include "hou/sys/sys_config.hpp"
 
 #include "hou/cor/template_utils.hpp"
 

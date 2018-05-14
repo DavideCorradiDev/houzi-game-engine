@@ -7,7 +7,7 @@
 
 #include "hou/al/open_al.hpp"
 
-#include "hou/al/al_export.hpp"
+#include "hou/al/al_config.hpp"
 
 #include "hou/cor/non_copyable.hpp"
 

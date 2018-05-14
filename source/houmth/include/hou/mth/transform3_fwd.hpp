@@ -5,7 +5,7 @@
 #ifndef HOU_MTH_TRANSFORM_3_FWD_HPP
 #define HOU_MTH_TRANSFORM_3_FWD_HPP
 
-#include "hou/mth/mth_export.hpp"
+#include "hou/mth/mth_config.hpp"
 
 
 

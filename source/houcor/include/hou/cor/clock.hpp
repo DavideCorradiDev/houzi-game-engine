@@ -7,7 +7,7 @@
 
 #include "hou/cor/std_chrono.hpp"
 
-#include "hou/cor/cor_export.hpp"
+#include "hou/cor/cor_config.hpp"
 
 
 

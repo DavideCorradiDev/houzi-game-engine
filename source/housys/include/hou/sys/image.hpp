@@ -8,7 +8,7 @@
 #include "hou/sys/image_fwd.hpp"
 #include "hou/sys/pixel.hpp"
 
-#include "hou/sys/sys_export.hpp"
+#include "hou/sys/sys_config.hpp"
 
 #include "hou/cor/span.hpp"
 #include "hou/cor/std_vector.hpp"

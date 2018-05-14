@@ -5,7 +5,7 @@
 #ifndef HOU_GFX_VERTEX_2_FWD_HPP
 #define HOU_GFX_VERTEX_2_FWD_HPP
 
-#include "hou/gfx/gfx_export.hpp"
+#include "hou/gfx/gfx_config.hpp"
 
 
 

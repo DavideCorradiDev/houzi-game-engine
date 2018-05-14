@@ -8,7 +8,7 @@
 #include "hou/sys/stream_in.hpp"
 #include "hou/sys/text_stream.hpp"
 
-#include "hou/sys/sys_export.hpp"
+#include "hou/sys/sys_config.hpp"
 
 
 

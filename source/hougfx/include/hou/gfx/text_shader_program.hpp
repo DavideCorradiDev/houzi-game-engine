@@ -12,7 +12,7 @@
 #include "hou/gfx/text_vertex.hpp"
 #include "hou/gfx/texture_fwd.hpp"
 
-#include "hou/gfx/gfx_export.hpp"
+#include "hou/gfx/gfx_config.hpp"
 
 #include "hou/mth/transform2.hpp"
 

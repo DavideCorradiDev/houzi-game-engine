@@ -8,7 +8,7 @@
 #include "hou/gl/gl_vertical_sync_mode.hpp"
 #include "hou/gl/open_gl.hpp"
 
-#include "hou/gl/gl_export.hpp"
+#include "hou/gl/gl_config.hpp"
 
 #include "hou/mth/rectangle_fwd.hpp"
 

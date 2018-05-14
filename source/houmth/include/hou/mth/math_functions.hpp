@@ -5,7 +5,7 @@
 #ifndef HOU_MTH_MTH_UTILS_HPP
 #define HOU_MTH_MTH_UTILS_HPP
 
-#include "hou/mth/mth_export.hpp"
+#include "hou/mth/mth_config.hpp"
 
 #include <cmath>
 #include <type_traits>

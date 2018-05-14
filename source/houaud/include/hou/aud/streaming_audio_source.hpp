@@ -9,7 +9,7 @@
 
 #include "hou/aud/audio_buffer.hpp"
 
-#include "hou/aud/aud_export.hpp"
+#include "hou/aud/aud_config.hpp"
 
 #include "hou/cor/not_null.hpp"
 

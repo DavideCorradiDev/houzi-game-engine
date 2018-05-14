@@ -10,7 +10,7 @@
 #include "hou/gfx/framebuffer_blit_filter.hpp"
 #include "hou/gfx/framebuffer_blit_mask.hpp"
 
-#include "hou/gfx/gfx_export.hpp"
+#include "hou/gfx/gfx_config.hpp"
 
 #include "hou/mth/rectangle_fwd.hpp"
 

@@ -8,7 +8,7 @@
 #include "hou/aud/audio_buffer_format.hpp"
 #include "hou/aud/audio_source_state.hpp"
 
-#include "hou/aud/aud_export.hpp"
+#include "hou/aud/aud_config.hpp"
 
 #include "hou/al/al_source_handle.hpp"
 

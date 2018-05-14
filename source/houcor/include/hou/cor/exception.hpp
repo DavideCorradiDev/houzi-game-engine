@@ -7,7 +7,7 @@
 
 #include "hou/cor/std_string.hpp"
 
-#include "hou/cor/cor_export.hpp"
+#include "hou/cor/cor_config.hpp"
 
 #include <memory>
 #include <stdexcept>

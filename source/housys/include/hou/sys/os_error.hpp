@@ -5,7 +5,7 @@
 #ifndef HOU_SYS_OS_ERROR_HPP
 #define HOU_SYS_OS_ERROR_HPP
 
-#include "hou/sys/sys_export.hpp"
+#include "hou/sys/sys_config.hpp"
 
 #include "hou/cor/exception.hpp"
 

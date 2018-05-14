@@ -5,7 +5,7 @@
 #ifndef HOU_SYS_STREAM_HPP
 #define HOU_SYS_STREAM_HPP
 
-#include "hou/sys/sys_export.hpp"
+#include "hou/sys/sys_config.hpp"
 
 
 

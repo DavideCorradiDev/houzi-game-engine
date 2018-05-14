@@ -5,7 +5,7 @@
 #ifndef HOU_GL_VERTICAL_SYNC_MODE_HPP
 #define HOU_GL_VERTICAL_SYNC_MODE_HPP
 
-#include "hou/gl/gl_export.hpp"
+#include "hou/gl/gl_config.hpp"
 
 
 

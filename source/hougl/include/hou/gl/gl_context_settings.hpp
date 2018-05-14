@@ -8,7 +8,7 @@
 #include "hou/gl/gl_context_profile.hpp"
 #include "hou/gl/gl_version.hpp"
 
-#include "hou/gl/gl_export.hpp"
+#include "hou/gl/gl_config.hpp"
 
 
 

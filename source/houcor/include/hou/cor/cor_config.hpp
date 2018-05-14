@@ -2,8 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#ifndef HOU_EXPORT_HPP
-#define HOU_EXPORT_HPP
+#ifndef HOU_COR_CONFIG_HPP
+#define HOU_COR_CONFIG_HPP
 
 #include "hou/config.hpp"
 

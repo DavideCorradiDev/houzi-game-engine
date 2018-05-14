@@ -9,7 +9,7 @@
 
 #include "hou/gfx/shader_fwd.hpp"
 
-#include "hou/gfx/gfx_export.hpp"
+#include "hou/gfx/gfx_config.hpp"
 
 #include "hou/gl/gl_shader_handle.hpp"
 

@@ -5,7 +5,7 @@
 #ifndef HOU_WND_WINDOW_HANDLE_HPP
 #define HOU_WND_WINDOW_HANDLE_HPP
 
-#include "hou/sys/sys_export.hpp"
+#include "hou/sys/sys_config.hpp"
 
 
 

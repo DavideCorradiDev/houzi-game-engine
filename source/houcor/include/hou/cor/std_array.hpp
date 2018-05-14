@@ -7,7 +7,7 @@
 
 #include "hou/cor/core_functions.hpp"
 
-#include "hou/cor/cor_export.hpp"
+#include "hou/cor/cor_config.hpp"
 
 #include <array>
 

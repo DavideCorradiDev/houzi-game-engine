@@ -6,7 +6,7 @@
 #define HOU_SYS_TEXT_STREAM_OUT_HPP
 
 #include "hou/sys/stream_out.hpp"
-#include "hou/sys/sys_export.hpp"
+#include "hou/sys/sys_config.hpp"
 #include "hou/sys/text_stream.hpp"
 
 

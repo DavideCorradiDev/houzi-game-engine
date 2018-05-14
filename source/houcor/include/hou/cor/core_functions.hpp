@@ -5,7 +5,7 @@
 #ifndef HOU_COR_COR_UTILS_HPP
 #define HOU_COR_COR_UTILS_HPP
 
-#include "hou/cor/cor_export.hpp"
+#include "hou/cor/cor_config.hpp"
 
 #include <iostream>
 #include <limits>

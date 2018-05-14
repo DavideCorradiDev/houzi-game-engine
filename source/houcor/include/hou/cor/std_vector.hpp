@@ -5,7 +5,7 @@
 #ifndef HOU_COR_STD_VECTOR_HPP
 #define HOU_COR_STD_VECTOR_HPP
 
-#include "hou/cor/cor_export.hpp"
+#include "hou/cor/cor_config.hpp"
 
 #include "hou/cor/core_functions.hpp"
 

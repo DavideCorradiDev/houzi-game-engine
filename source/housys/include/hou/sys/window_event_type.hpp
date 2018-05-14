@@ -5,7 +5,7 @@
 #ifndef HOU_SYS_WINDOW_EVENT_TYPE_HPP
 #define HOU_SYS_WINDOW_EVENT_TYPE_HPP
 
-#include "hou/sys/sys_export.hpp"
+#include "hou/sys/sys_config.hpp"
 
 #include <iostream>
 
