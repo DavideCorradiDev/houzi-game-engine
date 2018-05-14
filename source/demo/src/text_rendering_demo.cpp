@@ -2,7 +2,7 @@
 #include "hou/gfx/font.hpp"
 #include "hou/gfx/formatted_text.hpp"
 #include "hou/gfx/graphic_context.hpp"
-#include "hou/gfx/mesh.hpp"
+#include "hou/gfx/mesh2.hpp"
 #include "hou/gfx/mesh2_shader_program.hpp"
 #include "hou/gfx/render_window.hpp"
 #include "hou/gfx/text_shader_program.hpp"

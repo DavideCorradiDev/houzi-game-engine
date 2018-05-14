@@ -5,11 +5,11 @@
 #ifndef HOU_GFX_TEXT_VERTEX_HPP
 #define HOU_GFX_TEXT_VERTEX_HPP
 
-#include "hou/gfx/mesh.hpp"
-
 #include "hou/gfx/gfx_config.hpp"
 
 #include "hou/cor/pragmas.hpp"
+
+#include "hou/gl/open_gl.hpp"
 
 #include "hou/mth/matrix.hpp"
 
@@ -126,12 +126,6 @@ HOU_GFX_API bool close(const text_vertex& lhs, const text_vertex& rhs,
  * \return a reference to os.
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, const text_vertex& v);
-
-/** mesh text_vertex.
- *
- * Used to represent renderable text blocks.
- */
-using text_mesh = mesh_t<text_vertex>;
 
 }  // namespace hou
 

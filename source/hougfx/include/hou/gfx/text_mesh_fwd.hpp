@@ -2,8 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#ifndef HOU_GFX_VERTEX_2_FWD_HPP
-#define HOU_GFX_VERTEX_2_FWD_HPP
+#ifndef HOU_GFX_TEXT_MESH_FWD_HPP
+#define HOU_GFX_TEXT_MESH_FWD_HPP
 
 #include "hou/gfx/gfx_config.hpp"
 
@@ -12,17 +12,18 @@
 namespace hou
 {
 
-class vertex2;
+class text_vertex;
 
 template <typename vertex>
 class mesh_t;
 
-/** mesh of vertex2.
+/** mesh of text_vertex.
  *
- *  Used to represent 2d shapes such as rectangles, circles...
+ *  Used to represent 2d text.
  */
-using mesh2 = mesh_t<vertex2>;
+using text_mesh = mesh_t<text_vertex>;
 
 }  // namespace hou
 
 #endif
+

@@ -43,6 +43,7 @@ SET(LIB_HOUGFX_SRC
   src/hou/gfx/framebuffer.cpp
   src/hou/gfx/framebuffer_blit_filter.cpp
   src/hou/gfx/mesh.cpp
+  src/hou/gfx/mesh2.cpp
   src/hou/gfx/mesh2_shader_program.cpp
   src/hou/gfx/mesh_draw_mode.cpp
   src/hou/gfx/mesh_fill_mode.cpp

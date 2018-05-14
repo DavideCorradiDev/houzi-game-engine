@@ -7,9 +7,9 @@
 
 #include "hou/cor/non_copyable.hpp"
 
+#include "hou/gfx/mesh2_fwd.hpp"
 #include "hou/gfx/shader_program.hpp"
 #include "hou/gfx/texture.hpp"
-#include "hou/gfx/vertex2_fwd.hpp"
 
 #include "hou/gfx/gfx_config.hpp"
 

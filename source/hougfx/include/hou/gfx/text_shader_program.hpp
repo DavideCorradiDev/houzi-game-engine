@@ -9,7 +9,7 @@
 
 #include "hou/gfx/mesh.hpp"
 #include "hou/gfx/shader_program.hpp"
-#include "hou/gfx/text_vertex.hpp"
+#include "hou/gfx/text_mesh.hpp"
 #include "hou/gfx/texture_fwd.hpp"
 
 #include "hou/gfx/gfx_config.hpp"

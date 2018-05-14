@@ -1,6 +1,6 @@
 #include "hou/mth/transform2.hpp"
 
-#include "hou/gfx/mesh.hpp"
+#include "hou/gfx/mesh2.hpp"
 #include "hou/sys/color.hpp"
 #include "hou/gfx/font.hpp"
 #include "hou/gfx/vertex2.hpp"

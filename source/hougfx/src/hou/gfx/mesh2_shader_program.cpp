@@ -4,7 +4,7 @@
 
 #include "hou/gfx/mesh2_shader_program.hpp"
 
-#include "hou/gfx/mesh.hpp"
+#include "hou/gfx/mesh2.hpp"
 #include "hou/gfx/render_surface.hpp"
 #include "hou/gfx/shader.hpp"
 

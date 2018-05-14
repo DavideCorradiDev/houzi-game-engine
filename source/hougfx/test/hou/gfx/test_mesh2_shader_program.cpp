@@ -5,10 +5,9 @@
 #include "hou/Test.hpp"
 #include "hou/gfx/test_gfx_base.hpp"
 
-#include "hou/gfx/mesh.hpp"
+#include "hou/gfx/mesh2.hpp"
 #include "hou/gfx/mesh2_shader_program.hpp"
 #include "hou/gfx/render_canvas.hpp"
-#include "hou/gfx/vertex2.hpp"
 
 #include "hou/mth/transform2.hpp"
 

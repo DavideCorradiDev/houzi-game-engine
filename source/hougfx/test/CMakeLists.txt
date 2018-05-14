@@ -44,6 +44,7 @@ SET(EXE_HOUGFX_TEST_SRC
   hou/gfx/test_glyph.cpp
   hou/gfx/test_glyph_metrics.cpp
   hou/gfx/test_mesh.cpp
+  hou/gfx/test_mesh2.cpp
   hou/gfx/test_mesh2_shader_program.cpp
   hou/gfx/test_gfx_exceptions.cpp
   hou/gfx/test_graphic_context.cpp
