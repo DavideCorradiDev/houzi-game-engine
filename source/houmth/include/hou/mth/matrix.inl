@@ -22,7 +22,7 @@ constexpr size_t matrix<T, Rows, Cols>::get_column_count() noexcept
 
 
 template <typename T, size_t Rows, size_t Cols>
-constexpr size_t matrix<T, Rows, Cols>::get_size() noexcept
+constexpr size_t matrix<T, Rows, Cols>::size() noexcept
 {
   return Rows * Cols;
 }
@@ -103,7 +103,8 @@ constexpr matrix<T, Rows, Cols>::matrix() noexcept
 
 template <typename T, size_t Rows, size_t Cols>
 template <typename U, typename Enable>
-constexpr matrix<T, Rows, Cols>::matrix(const matrix<U, Rows, Cols>& other) noexcept
+constexpr matrix<T, Rows, Cols>::matrix(
+  const matrix<U, Rows, Cols>& other) noexcept
   : m_elements()
 {
   std::copy(
@@ -121,6 +122,41 @@ constexpr matrix<T, Rows, Cols>::matrix(Args... elements) noexcept
 
 
 template <typename T, size_t Rows, size_t Cols>
+constexpr T matrix<T, Rows, Cols>::operator[](difference_type index) const
+  noexcept
+{
+  return m_elements[index];
+}
+
+
+
+template <typename T, size_t Rows, size_t Cols>
+constexpr T& matrix<T, Rows, Cols>::operator[](difference_type index) noexcept
+{
+  return m_elements[index];
+}
+
+
+
+template <typename T, size_t Rows, size_t Cols>
+constexpr T matrix<T, Rows, Cols>::operator()(size_t index) const
+{
+  HOU_PRECOND(index < size());
+  return m_elements[index];
+}
+
+
+
+template <typename T, size_t Rows, size_t Cols>
+constexpr T& matrix<T, Rows, Cols>::operator()(size_t index)
+{
+  HOU_PRECOND(index < size());
+  return m_elements[index];
+}
+
+
+
+template <typename T, size_t Rows, size_t Cols>
 constexpr T matrix<T, Rows, Cols>::operator()(size_t row, size_t col) const
 {
   HOU_PRECOND((row < Rows) && (col < Cols));
@@ -134,24 +170,6 @@ constexpr T& matrix<T, Rows, Cols>::operator()(size_t row, size_t col)
 {
   HOU_PRECOND((row < Rows) && (col < Cols));
   return m_elements[row * Cols + col];
-}
-
-
-
-template <typename T, size_t Rows, size_t Cols>
-constexpr T matrix<T, Rows, Cols>::operator()(size_t index) const
-{
-  HOU_PRECOND(index < get_size());
-  return m_elements[index];
-}
-
-
-
-template <typename T, size_t Rows, size_t Cols>
-constexpr T& matrix<T, Rows, Cols>::operator()(size_t index)
-{
-  HOU_PRECOND(index < get_size());
-  return m_elements[index];
 }
 
 
@@ -237,6 +255,122 @@ constexpr const T* matrix<T, Rows, Cols>::data() const noexcept
 
 
 template <typename T, size_t Rows, size_t Cols>
+constexpr T* matrix<T, Rows, Cols>::data() noexcept
+{
+  return m_elements.data();
+}
+
+
+
+template <typename T, size_t Rows, size_t Cols>
+constexpr typename matrix<T, Rows, Cols>::const_iterator
+  matrix<T, Rows, Cols>::begin() const noexcept
+{
+  return m_elements.begin();
+}
+
+
+
+template <typename T, size_t Rows, size_t Cols>
+constexpr typename matrix<T, Rows, Cols>::iterator
+  matrix<T, Rows, Cols>::begin() noexcept
+{
+  return m_elements.begin();
+}
+
+
+
+template <typename T, size_t Rows, size_t Cols>
+constexpr typename matrix<T, Rows, Cols>::const_iterator
+  matrix<T, Rows, Cols>::cbegin() const noexcept
+{
+  return m_elements.cbegin();
+}
+
+
+
+template <typename T, size_t Rows, size_t Cols>
+constexpr typename matrix<T, Rows, Cols>::const_reverse_iterator
+  matrix<T, Rows, Cols>::rbegin() const noexcept
+{
+  return m_elements.rbegin();
+}
+
+
+
+template <typename T, size_t Rows, size_t Cols>
+constexpr typename matrix<T, Rows, Cols>::reverse_iterator
+  matrix<T, Rows, Cols>::rbegin() noexcept
+{
+  return m_elements.rbegin();
+}
+
+
+
+template <typename T, size_t Rows, size_t Cols>
+constexpr typename matrix<T, Rows, Cols>::const_reverse_iterator
+  matrix<T, Rows, Cols>::crbegin() const noexcept
+{
+  return m_elements.crbegin();
+}
+
+
+
+template <typename T, size_t Rows, size_t Cols>
+constexpr typename matrix<T, Rows, Cols>::const_iterator
+  matrix<T, Rows, Cols>::end() const noexcept
+{
+  return m_elements.end();
+}
+
+
+
+template <typename T, size_t Rows, size_t Cols>
+constexpr typename matrix<T, Rows, Cols>::iterator
+  matrix<T, Rows, Cols>::end() noexcept
+{
+  return m_elements.end();
+}
+
+
+
+template <typename T, size_t Rows, size_t Cols>
+constexpr typename matrix<T, Rows, Cols>::const_iterator
+  matrix<T, Rows, Cols>::cend() const noexcept
+{
+  return m_elements.cend();
+}
+
+
+
+template <typename T, size_t Rows, size_t Cols>
+constexpr typename matrix<T, Rows, Cols>::const_reverse_iterator
+  matrix<T, Rows, Cols>::rend() const noexcept
+{
+  return m_elements.rend();
+}
+
+
+
+template <typename T, size_t Rows, size_t Cols>
+constexpr typename matrix<T, Rows, Cols>::reverse_iterator
+  matrix<T, Rows, Cols>::rend() noexcept
+{
+  return m_elements.rend();
+}
+
+
+
+template <typename T, size_t Rows, size_t Cols>
+constexpr typename matrix<T, Rows, Cols>::const_reverse_iterator
+  matrix<T, Rows, Cols>::crend() const noexcept
+{
+  return m_elements.crend();
+}
+
+
+
+template <typename T, size_t Rows, size_t Cols>
 template <typename... Args, typename Enable>
 constexpr void matrix<T, Rows, Cols>::set(Args... elements) noexcept
 {
@@ -257,7 +391,7 @@ template <typename T, size_t Rows, size_t Cols>
 constexpr matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator+=(
   const matrix<T, Rows, Cols>& rhs) noexcept
 {
-  for(size_t i = 0; i < get_size(); ++i)
+  for(size_t i = 0; i < size(); ++i)
   {
     m_elements[i] += rhs.m_elements[i];
   }
@@ -279,7 +413,7 @@ template <typename T, size_t Rows, size_t Cols>
 constexpr matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator-=(
   const matrix<T, Rows, Cols>& rhs) noexcept
 {
-  for(size_t i = 0; i < get_size(); ++i)
+  for(size_t i = 0; i < size(); ++i)
   {
     m_elements[i] -= rhs.m_elements[i];
   }
@@ -298,9 +432,10 @@ constexpr matrix<T, Rows, Cols> operator-(
 
 
 template <typename T, size_t Rows, size_t Cols>
-constexpr matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator*=(T rhs) noexcept
+constexpr matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator*=(
+  T rhs) noexcept
 {
-  for(size_t i = 0; i < get_size(); ++i)
+  for(size_t i = 0; i < size(); ++i)
   {
     m_elements[i] *= rhs;
   }
@@ -331,9 +466,10 @@ constexpr matrix<T, Rows, Cols> operator*(
 
 
 template <typename T, size_t Rows, size_t Cols>
-constexpr matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator/=(T rhs) noexcept
+constexpr matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator/=(
+  T rhs) noexcept
 {
-  for(size_t i = 0; i < get_size(); ++i)
+  for(size_t i = 0; i < size(); ++i)
   {
     m_elements[i] /= rhs;
   }
@@ -427,7 +563,8 @@ constexpr matrix<T, Rows - 1, Cols - 1> reduce(
 
 #ifndef HOU_DOXYGEN
 template <typename T, size_t Rows, size_t Cols>
-constexpr matrix<T, Cols, Rows> transpose(const matrix<T, Rows, Cols>& m) noexcept
+constexpr matrix<T, Cols, Rows> transpose(
+  const matrix<T, Rows, Cols>& m) noexcept
 {
   matrix<T, Cols, Rows> retval;
   for(size_t r = 0; r < Rows; ++r)
@@ -602,7 +739,8 @@ constexpr matrix<T, 3u, 3u> outer_product(
 
 
 template <typename T, size_t Rows>
-constexpr T dot(const matrix<T, Rows, 1u>& lhs, const matrix<T, Rows, 1u>& rhs) noexcept
+constexpr T dot(
+  const matrix<T, Rows, 1u>& lhs, const matrix<T, Rows, 1u>& rhs) noexcept
 {
   T result(0);
   for(size_t i = 0; i < Rows; ++i)

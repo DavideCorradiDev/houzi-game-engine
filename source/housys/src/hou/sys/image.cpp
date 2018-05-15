@@ -125,14 +125,8 @@ template <size_t Dim>
 bool element_wise_lower_or_equal(
   const vec<uint, Dim>& lhs, const vec<uint, Dim>& rhs)
 {
-  for(size_t i = 0; i < Dim; ++i)
-  {
-    if(lhs(i) > rhs(i))
-    {
-      return false;
-    }
-  }
-  return true;
+  return std::equal(
+    lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), std::less_equal<uint>());
 }
 
 
