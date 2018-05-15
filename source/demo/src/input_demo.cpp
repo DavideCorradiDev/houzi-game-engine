@@ -13,6 +13,7 @@
 #include "hou/cor/clock.hpp"
 #include "hou/sys/binary_file_in.hpp"
 #include "hou/sys/image.hpp"
+#include "hou/sys/image_file.hpp"
 #include "hou/sys/keyboard.hpp"
 #include "hou/sys/mouse.hpp"
 #include "hou/sys/window_event.hpp"
@@ -118,15 +119,15 @@ int main()
   hou::text_shader_program textRnd;
 
   std::string iconFilename = dataDir + u8"monkey.png";
-  hou::image2_rgba iconRGBA = hou::png_read_file<hou::pixel_format::rgba>(iconFilename);
-  hou::image2_rgb iconRGB = hou::png_read_file<hou::pixel_format::rgb>(iconFilename);
-  hou::image2_rg iconRG = hou::png_read_file<hou::pixel_format::rg>(iconFilename);
-  hou::image2_r iconR = hou::png_read_file<hou::pixel_format::r>(iconFilename);
+  hou::image2_rgba iconRGBA = hou::png_image_file::read<hou::pixel_format::rgba>(iconFilename);
+  hou::image2_rgb iconRGB = hou::png_image_file::read<hou::pixel_format::rgb>(iconFilename);
+  hou::image2_rg iconRG = hou::png_image_file::read<hou::pixel_format::rg>(iconFilename);
+  hou::image2_r iconR = hou::png_image_file::read<hou::pixel_format::r>(iconFilename);
 
-  hou::texture2 keyboardTex(hou::png_read_file<hou::pixel_format::rgba>(dataDir + u8"keyboard.png"));
-  hou::texture2 keyboardKeysTex(hou::png_read_file<hou::pixel_format::rgba>(dataDir + u8"keyboardkeys.png"));
-  hou::texture2 mouseTex(hou::png_read_file<hou::pixel_format::rgba>(dataDir + u8"mouse.png"));
-  hou::texture2 mousebuttonsTex(hou::png_read_file<hou::pixel_format::rgba>(dataDir + u8"mousebuttons.png"));
+  hou::texture2 keyboardTex(hou::png_image_file::read<hou::pixel_format::rgba>(dataDir + u8"keyboard.png"));
+  hou::texture2 keyboardKeysTex(hou::png_image_file::read<hou::pixel_format::rgba>(dataDir + u8"keyboardkeys.png"));
+  hou::texture2 mouseTex(hou::png_image_file::read<hou::pixel_format::rgba>(dataDir + u8"mouse.png"));
+  hou::texture2 mousebuttonsTex(hou::png_image_file::read<hou::pixel_format::rgba>(dataDir + u8"mousebuttons.png"));
 
   hou::font fnt = hou::font(hou::binary_file_in(dataDir + u8"NotoMono-Regular.ttf"));
 

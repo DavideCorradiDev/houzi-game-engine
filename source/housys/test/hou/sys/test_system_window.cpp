@@ -5,6 +5,7 @@
 #include "hou/Test.hpp"
 #include "hou/sys/test_data.hpp"
 
+#include "hou/sys/image_file.hpp"
 #include "hou/sys/system_window.hpp"
 #include "hou/sys/video_mode.hpp"
 #include "hou/sys/window_event.hpp"
@@ -294,8 +295,8 @@ TEST_F(test_system_window, icon)
   system_window w(
     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
   EXPECT_EQ(image2_rgba(), w.get_icon());
-  image2_rgba refIcon(
-    png_read_file<pixel_format::rgba>(get_data_dir() + u8"TestImage.png"));
+  image2_rgba refIcon(png_image_file::read<pixel_format::rgba>(
+    get_data_dir() + u8"TestImage.png"));
   w.set_icon(refIcon);
   EXPECT_EQ(refIcon, w.get_icon());
   w.set_system_icon();

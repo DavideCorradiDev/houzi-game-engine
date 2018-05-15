@@ -12,6 +12,7 @@
 
 #include "hou/sys/color.hpp"
 #include "hou/cor/clock.hpp"
+#include "hou/sys/image_file.hpp"
 #include "hou/sys/keyboard.hpp"
 #include "hou/sys/window_event.hpp"
 #include "hou/sys/window_style.hpp"
@@ -376,7 +377,7 @@ int main()
 
   mesh2_shader_program m2rend;
 
-  texture2 shapeTex = texture2(png_read_file<pixel_format::r>(dataDir + u8"monalisa.png"), texture_format::r, 4u);
+  texture2 shapeTex = texture2(png_image_file::read<pixel_format::r>(dataDir + u8"monalisa.png"), texture_format::r, 4u);
   shapeTex.setChannelMapping(texture_channel_mapping::luminosity);
   shapeTex.set_wrap_mode(texture2::wrap_mode{texture_wrap_mode::mirrored_repeat, texture_wrap_mode::clamp_to_edge});
 
