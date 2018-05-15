@@ -46,6 +46,43 @@ public:
   friend class matrix;
 
 public:
+  /** The value type. */
+  using value_type = T;
+
+  /** The size type. */
+  using size_type = std::size_t;
+
+  /** The index difference type. */
+  using difference_type = std::ptrdiff_t;
+
+  /** The reference type. */
+  using reference = value_type&;
+
+  /** The const reference type. */
+  using const_reference = const reference;
+
+  /** The pointer type. */
+  using pointer = std::add_pointer_t<reference>;
+
+  /** The const_pointer type. */
+  using const_pointer = std::add_pointer_t<const_reference>;
+
+  /** The underlying data representation. */
+  using data_type = std::array<T, Rows * Cols>;
+
+  /** The iterator type. */
+  using iterator = typename data_type::iterator;
+
+  /** The const iterator type. */
+  using const_iterator = typename data_type::const_iterator;
+
+  /** The reverse iterator type. */
+  using reverse_iterator = typename data_type::reverse_iterator;
+
+  /** The const reverse iterator type. */
+  using const_reverse_iterator = typename data_type::const_reverse_iterator;
+
+public:
   /** Get the number of rows of the matrix.
    *
    * \return the number of rows of the matrix.
@@ -163,29 +200,33 @@ public:
       && conjunction<std::is_convertible<Args, T>::value...>::value>>
   constexpr matrix(Args... elements) noexcept;
 
-  /** Retrieves a copy of the element at the specified coordinates.
+  /** Retrieves a copy the element at the given index.
    *
-   * \param row the row coordinate.
+   * Consider that elements in a row are contiguous. For example, for a 2x3
+   * matrix, index 3 would correspond to the element at coordinates (1,0).
    *
-   * \param col the column coordinate.
+   * An index equal or greater than the matrix size results in undefined
+   * behaviour.
    *
-   * \throws hou::precondition_violation if row or col are not valid.
+   * \param index the index of the element.
    *
-   * \return the copy of the element.
+   * \return a copy of the element.
    */
-  constexpr T operator()(size_t row, size_t col) const;
+  constexpr T operator[](difference_type index) const noexcept;
 
-  /** Retrieves a reference to the element at the specified coordinates.
+  /** Retrieves a copy the element at the given index.
    *
-   * \param row the row coordinate.
+   * Consider that elements in a row are contiguous. For example, for a 2x3
+   * matrix, index 3 would correspond to the element at coordinates (1,0).
    *
-   * \param col the column coordinate.
+   * An index equal or greater than the matrix size results in undefined
+   * behaviour.
    *
-   * \throws hou::precondition_violation if row or col are not valid.
+   * \param index the index of the element.
    *
-   * \return a reference to the element.
+   * \return a copy of the element.
    */
-  constexpr T& operator()(size_t row, size_t col);
+  constexpr T& operator[](difference_type index) noexcept;
 
   /** Retrieves a copy the element at the given index.
    *
@@ -212,6 +253,30 @@ public:
    * \return a reference to the element
    */
   constexpr T& operator()(size_t index);
+
+  /** Retrieves a copy of the element at the specified coordinates.
+   *
+   * \param row the row coordinate.
+   *
+   * \param col the column coordinate.
+   *
+   * \throws hou::precondition_violation if row or col are not valid.
+   *
+   * \return the copy of the element.
+   */
+  constexpr T operator()(size_t row, size_t col) const;
+
+  /** Retrieves a reference to the element at the specified coordinates.
+   *
+   * \param row the row coordinate.
+   *
+   * \param col the column coordinate.
+   *
+   * \throws hou::precondition_violation if row or col are not valid.
+   *
+   * \return a reference to the element.
+   */
+  constexpr T& operator()(size_t row, size_t col);
 
   /** Retrieves a copy of the first element of a column vector.
    *
@@ -337,6 +402,97 @@ public:
    * \return a constant raw pointer to the matrix data.
    */
   constexpr const T* data() const noexcept;
+
+  /** Retrieves a pointer to an array containing the matrix elements.
+   *
+   * The data is to be interpreted as a single array with size equal to the
+   * number of elements of the matrix. Consider that elements in a row are
+   * contiguous. For example, for a 2x3 matrix, the third element of the
+   * array would correspond to the element at coordinates (1,0).
+   *
+   * \return a constant raw pointer to the matrix data.
+   */
+  constexpr T* data() noexcept;
+
+  /** Gets an iterator to the first element of the buffer.
+   *
+   * \return an iterator to the first element of the buffer.
+   */
+  constexpr const_iterator begin() const noexcept;
+
+  /** Gets an iterator to the first element of the buffer.
+   *
+   * \return an iterator to the first element of the buffer.
+   */
+  constexpr iterator begin() noexcept;
+
+  /** Gets a const iterator to the first element of the buffer.
+   *
+   * \return const iterator to the first element of the buffer.
+   */
+  constexpr const_iterator cbegin() const noexcept;
+
+  /** Gets a reverse iterator to the first element of the buffer.
+   *
+   * \return reverse iterator to the first element of the buffer.
+   */
+  constexpr const_reverse_iterator rbegin() const noexcept;
+
+  /** Gets a reverse iterator to the first element of the buffer.
+   *
+   * \return reverse iterator to the first element of the buffer.
+   */
+  constexpr reverse_iterator rbegin() noexcept;
+
+  /** Gets a constant reverse iterator to the first element of the buffer.
+   *
+   * \return constant reverse iterator to the first element of the buffer.
+   */
+  constexpr const_reverse_iterator crbegin() const noexcept;
+
+  /** Gets an iterator to the position after the last element of the buffer.
+   *
+   * \return an iterator to the position after the last element of the buffer.
+   */
+  constexpr const_iterator end() const noexcept;
+
+  /** Gets an iterator to the position after the last element of the buffer.
+   *
+   * \return an iterator to the position after the last element of the buffer.
+   */
+  constexpr iterator end() noexcept;
+
+  /** Gets a constant iterator to the position after the last element of the
+   * buffer.
+   *
+   * \return a constant iterator to the position after the last element of the
+   * buffer.
+   */
+  constexpr const_iterator cend() const noexcept;
+
+  /** Gets a reverse iterator to the position after the last element of the
+   * buffer.
+   *
+   * \return a reverse iterator to the position after the last element of the
+   * buffer.
+   */
+  constexpr const_reverse_iterator rend() const noexcept;
+
+  /** Gets a reverse iterator to the position after the last element of the
+   * buffer.
+   *
+   * \return a reverse iterator to the position after the last element of the
+   * buffer.
+   */
+  constexpr reverse_iterator rend() noexcept;
+
+  /** Gets a constant reverse iterator to the position after the last element of
+   * the buffer.
+   *
+   * \return a constant reverse iterator to the position after the last element
+   * of the buffer.
+   */
+  constexpr const_reverse_iterator crend() const noexcept;
 
   /** Sets the elements of the matrix to the given values.
    *

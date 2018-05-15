@@ -100,7 +100,28 @@ TEST_F(test_matrix, size_operators)
 
 
 
-TEST_F(test_matrix, element_access_operators)
+TEST_F(test_matrix, unchecked_element_access_operator)
+{
+  mat3x2i m;
+
+  m[0] = 1;
+  m[1] = 2;
+  m[2] = 3;
+  m[3] = 4;
+  m[4] = 5;
+  m[5] = 6;
+
+  EXPECT_EQ(1, m[0]);
+  EXPECT_EQ(2, m[1]);
+  EXPECT_EQ(3, m[2]);
+  EXPECT_EQ(4, m[3]);
+  EXPECT_EQ(5, m[4]);
+  EXPECT_EQ(6, m[5]);
+}
+
+
+
+TEST_F(test_matrix, element_access_operator)
 {
   mat3x2i m;
 
@@ -142,7 +163,7 @@ TEST_F(test_matrix, element_access_operators)
 
 
 
-TEST_F(test_matrix_death_test, element_access_out_of_bounds)
+TEST_F(test_matrix_death_test, element_access_operator_error_out_of_bounds)
 {
   mat3x2i m;
   EXPECT_PRECOND_ERROR(m(3, 1));
@@ -236,6 +257,138 @@ TEST_F(test_matrix, data)
   mat3x2i m = {1, 2, 3, 4, 5, 6};
   int data_ref[] = {1, 2, 3, 4, 5, 6};
   EXPECT_ARRAY_EQ(data_ref, m.data(), m.get_size());
+}
+
+
+
+TEST_F(test_matrix, iterator_begin)
+{
+  mat3x2i m = {1, 2, 3, 4, 5, 6};
+  EXPECT_EQ(m[0], *m.begin());
+  *m.begin() = 88;
+  EXPECT_EQ(88, *m.begin());
+}
+
+
+
+TEST_F(test_matrix, iterator_begin_const_matrix)
+{
+  const mat3x2i m = {1, 2, 3, 4, 5, 6};
+  EXPECT_EQ(m[0], *m.begin());
+}
+
+
+
+TEST_F(test_matrix, iterator_end)
+{
+  mat3x2i m = {1, 2, 3, 4, 5, 6};
+  EXPECT_EQ(m.begin() + m.get_size(), m.end());
+}
+
+
+
+TEST_F(test_matrix, iterator_end_const_matrix)
+{
+  const mat3x2i m = {1, 2, 3, 4, 5, 6};
+  EXPECT_EQ(m.begin() + m.get_size(), m.end());
+}
+
+
+
+TEST_F(test_matrix, const_iterator_begin)
+{
+  mat3x2i m = {1, 2, 3, 4, 5, 6};
+  EXPECT_EQ(m[0], *m.cbegin());
+}
+
+
+
+TEST_F(test_matrix, const_iterator_begin_const_matrix)
+{
+  const mat3x2i m = {1, 2, 3, 4, 5, 6};
+  EXPECT_EQ(m[0], *m.cbegin());
+}
+
+
+
+TEST_F(test_matrix, const_iterator_end)
+{
+  mat3x2i m = {1, 2, 3, 4, 5, 6};
+  EXPECT_EQ(m.cbegin() + m.get_size(), m.cend());
+}
+
+
+
+TEST_F(test_matrix, const_iterator_end_const_matrix)
+{
+  const mat3x2i m = {1, 2, 3, 4, 5, 6};
+  EXPECT_EQ(m.cbegin() + m.get_size(), m.cend());
+}
+
+
+
+TEST_F(test_matrix, reverse_iterator_begin)
+{
+  mat3x2i m = {1, 2, 3, 4, 5, 6};
+  EXPECT_EQ(m[5], *m.rbegin());
+  *m.rbegin() = 88;
+  EXPECT_EQ(88, *m.rbegin());
+}
+
+
+
+TEST_F(test_matrix, reverse_iterator_begin_const_matrix)
+{
+  const mat3x2i m = {1, 2, 3, 4, 5, 6};
+  EXPECT_EQ(m[5], *m.rbegin());
+}
+
+
+
+TEST_F(test_matrix, reverse_iterator_end)
+{
+  mat3x2i m = {1, 2, 3, 4, 5, 6};
+  EXPECT_EQ(m.rbegin() + m.get_size(), m.rend());
+}
+
+
+
+TEST_F(test_matrix, reverse_iterator_end_const_matrix)
+{
+  const mat3x2i m = {1, 2, 3, 4, 5, 6};
+  EXPECT_EQ(m.rbegin() + m.get_size(), m.rend());
+}
+
+
+
+TEST_F(test_matrix, const_reverse_iterator_begin)
+{
+  mat3x2i m = {1, 2, 3, 4, 5, 6};
+  EXPECT_EQ(m[5], *m.crbegin());
+}
+
+
+
+TEST_F(test_matrix, const_reverse_iterator_begin_const_matrix)
+{
+  const mat3x2i m = {1, 2, 3, 4, 5, 6};
+  EXPECT_EQ(m[5], *m.crbegin());
+}
+
+
+
+TEST_F(test_matrix, const_reverse_iterator_end)
+{
+  mat3x2i m = {1, 2, 3, 4, 5, 6};
+  EXPECT_EQ(m.crbegin() + m.get_size(), m.crend());
+}
+
+
+
+TEST_F(test_matrix, const_reverse_iterator_end_const_matrix)
+{
+  const mat3x2i m = {1, 2, 3, 4, 5, 6};
+  EXPECT_EQ(m.crbegin() + m.get_size(), m.crend());
 }
 
 
