@@ -318,10 +318,8 @@ TYPED_TEST(test_texture_common_death_test, binding_error_unit_too_large)
 {
   TypeParam t(this->generate_size());
   EXPECT_PRECOND_ERROR(t.is_bound(TypeParam::get_texture_unit_count()));
-  EXPECT_PRECOND_ERROR(
-    TypeParam::bind(t, TypeParam::get_texture_unit_count()));
-  EXPECT_PRECOND_ERROR(
-    TypeParam::unbind(TypeParam::get_texture_unit_count()));
+  EXPECT_PRECOND_ERROR(TypeParam::bind(t, TypeParam::get_texture_unit_count()));
+  EXPECT_PRECOND_ERROR(TypeParam::unbind(TypeParam::get_texture_unit_count()));
 }
 
 
@@ -350,7 +348,7 @@ TYPED_TEST(test_texture_common, size_constructor_size_limits)
 
   size_type size_ref = this->generate_size();
   size_type max_size = TypeParam::get_max_size();
-  for(size_t i = 0u; i < size_ref.get_size(); ++i)
+  for(size_t i = 0u; i < size_ref.size(); ++i)
   {
     size_type size_with_one = size_ref;
     size_with_one(i) = 1u;
@@ -372,7 +370,7 @@ TYPED_TEST(test_texture_common_death_test, size_constructor_error_invalid_size)
 
   size_type size_ref = this->generate_size();
   size_type max_size = TypeParam::get_max_size();
-  for(size_t i = 0u; i < size_ref.get_size(); ++i)
+  for(size_t i = 0u; i < size_ref.size(); ++i)
   {
     size_type size_with_zero = size_ref;
     size_with_zero(i) = 0u;
@@ -401,7 +399,7 @@ TYPED_TEST(test_texture_common, get_single_size_elements)
 {
   TypeParam tex(this->generate_size());
   vec3u size_ref(1u, 1u, 1u);
-  for(size_t i = 0; i < tex.get_size().get_size(); ++i)
+  for(size_t i = 0; i < tex.get_size().size(); ++i)
   {
     size_ref(i) = tex.get_size()(i);
   }
@@ -417,8 +415,7 @@ TYPED_TEST(test_texture_common, get_size1)
 {
   TypeParam tex(this->generate_size());
   vec1u size_ref(1u);
-  for(size_t i = 0;
-      i < std::min(size_ref.get_size(), tex.get_size().get_size()); ++i)
+  for(size_t i = 0; i < std::min(size_ref.size(), tex.get_size().size()); ++i)
   {
     size_ref(i) = tex.get_size()(i);
   }
@@ -431,8 +428,7 @@ TYPED_TEST(test_texture_common, get_size2)
 {
   TypeParam tex(this->generate_size());
   vec2u size_ref(1u, 1u);
-  for(size_t i = 0;
-      i < std::min(size_ref.get_size(), tex.get_size().get_size()); ++i)
+  for(size_t i = 0; i < std::min(size_ref.size(), tex.get_size().size()); ++i)
   {
     size_ref(i) = tex.get_size()(i);
   }
@@ -445,8 +441,7 @@ TYPED_TEST(test_texture_common, get_size3)
 {
   TypeParam tex(this->generate_size());
   vec3u size_ref(1u, 1u, 1u);
-  for(size_t i = 0;
-      i < std::min(size_ref.get_size(), tex.get_size().get_size()); ++i)
+  for(size_t i = 0; i < std::min(size_ref.size(), tex.get_size().size()); ++i)
   {
     size_ref(i) = tex.get_size()(i);
   }
@@ -485,7 +480,7 @@ TYPED_TEST(test_texture_not_multisampled, mip_map_constructor_size_limits)
 
   size_type size_ref = this->generate_size();
   size_type max_size = TypeParam::get_max_size();
-  for(size_t i = 0u; i < size_ref.get_size(); ++i)
+  for(size_t i = 0u; i < size_ref.size(); ++i)
   {
     size_type size_with_one = size_ref;
     size_with_one(i) = 1u;
@@ -524,7 +519,7 @@ TYPED_TEST(test_texture_not_multisampled_death_test,
 
   size_type size_ref = this->generate_size();
   size_type max_size = TypeParam::get_max_size();
-  for(size_t i = 0u; i < size_ref.get_size(); ++i)
+  for(size_t i = 0u; i < size_ref.size(); ++i)
   {
     size_type size_with_zero = size_ref;
     size_with_zero(i) = 0u;
@@ -598,7 +593,7 @@ TYPED_TEST(test_texture_not_multisampled, image_constructor_size_limits)
 
   size_type size_ref = this->generate_size();
   size_type max_size = TypeParam::get_max_size();
-  for(size_t i = 0u; i < size_ref.get_size(); ++i)
+  for(size_t i = 0u; i < size_ref.size(); ++i)
   {
     size_type size_with_one = size_ref;
     size_with_one(i) = 1u;
@@ -644,7 +639,7 @@ TYPED_TEST(test_texture_not_multisampled_death_test,
 
   size_type size_ref = this->generate_size();
   size_type max_size = TypeParam::get_max_size();
-  for(size_t i = 0u; i < size_ref.get_size(); ++i)
+  for(size_t i = 0u; i < size_ref.size(); ++i)
   {
     size_type size_with_zero = size_ref;
     size_with_zero(i) = 0u;
@@ -734,7 +729,7 @@ TYPED_TEST(test_texture_not_multisampled, get_sub_image)
   size_type tex_size;
   size_type sub_image_size;
   offset_type sub_image_offset;
-  for(size_t i = 0; i < tex_size.get_size(); ++i)
+  for(size_t i = 0; i < tex_size.size(); ++i)
   {
     tex_size(i) = (i + 1) * 4;
     sub_image_size(i) = (i + 1) * 2;
@@ -762,7 +757,7 @@ TYPED_TEST(
   size_type tex_size;
   size_type sub_image_size;
   offset_type sub_image_offset;
-  for(size_t i = 0; i < tex_size.get_size(); ++i)
+  for(size_t i = 0; i < tex_size.size(); ++i)
   {
     tex_size(i) = (i + 1) * 4;
     sub_image_offset(i) = i + 1;
@@ -784,7 +779,7 @@ TYPED_TEST(test_texture_not_multisampled, set_sub_image)
   size_type tex_size;
   size_type sub_image_size;
   offset_type sub_image_offset;
-  for(size_t i = 0; i < tex_size.get_size(); ++i)
+  for(size_t i = 0; i < tex_size.size(); ++i)
   {
     tex_size(i) = (i + 1) * 4;
     sub_image_size(i) = (i + 1) * 2;
@@ -816,7 +811,7 @@ TYPED_TEST(
   size_type tex_size;
   size_type sub_image_size;
   offset_type sub_image_offset;
-  for(size_t i = 0; i < tex_size.get_size(); ++i)
+  for(size_t i = 0; i < tex_size.size(); ++i)
   {
     tex_size(i) = (i + 1) * 4;
     sub_image_offset(i) = i + 1;
@@ -864,8 +859,7 @@ TYPED_TEST(test_texture_not_multisampled_death_test,
   get_mip_map_size_error_invalid_mip_map_level)
 {
   TypeParam tex(this->generate_size(), texture_format::rgba, 3u);
-  EXPECT_PRECOND_ERROR(
-    tex.get_mipmap_size(tex.get_mipmap_level_count() + 1u));
+  EXPECT_PRECOND_ERROR(tex.get_mipmap_size(tex.get_mipmap_level_count() + 1u));
 }
 
 
@@ -908,7 +902,7 @@ TYPED_TEST(test_texture_not_multisampled, set_image_get_mip_map_image)
   size_type tex_size;
   size_type sub_image_offset;
   size_type sub_image_size;
-  for(size_t i = 0; i < tex_size.get_size(); ++i)
+  for(size_t i = 0; i < tex_size.size(); ++i)
   {
     tex_size(i) = (i + 1) * 16;
     sub_image_offset(i) = (i + 1) * 4;
@@ -989,7 +983,7 @@ TYPED_TEST(test_texture_multisampled, multisample_constructor_size_limits)
 
   size_type size_ref = this->generate_size();
   size_type max_size = TypeParam::get_max_size();
-  for(size_t i = 0u; i < size_ref.get_size(); ++i)
+  for(size_t i = 0u; i < size_ref.size(); ++i)
   {
     size_type size_with_one = size_ref;
     size_with_one(i) = 1u;
@@ -1042,7 +1036,7 @@ TYPED_TEST(test_texture_multisampled_death_test,
 
   size_type size_ref = this->generate_size();
   size_type max_size = TypeParam::get_max_size();
-  for(size_t i = 0u; i < size_ref.get_size(); ++i)
+  for(size_t i = 0u; i < size_ref.size(); ++i)
   {
     size_type size_with_zero = size_ref;
     size_with_zero(i) = 0u;
@@ -1063,8 +1057,7 @@ TYPED_TEST(test_texture_multisampled_death_test,
   using size_type = typename TypeParam::size_type;
 
   size_type size_ref = this->generate_size();
-  EXPECT_PRECOND_ERROR(
-    TypeParam tex(size_ref, texture_format::rgba, 0u, true));
+  EXPECT_PRECOND_ERROR(TypeParam tex(size_ref, texture_format::rgba, 0u, true));
   EXPECT_PRECOND_ERROR(TypeParam tex(size_ref, texture_format::rgba,
     TypeParam::get_max_sample_count() + 1, true));
 }

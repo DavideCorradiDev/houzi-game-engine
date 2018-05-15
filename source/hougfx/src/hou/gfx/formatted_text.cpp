@@ -123,7 +123,7 @@ glyph_cache::glyph_cache(
       auto inserted = m_glyphs.insert(std::make_pair(c, f.get_glyph(c)));
       HOU_DEV_ASSERT(inserted.second);
       const vec2u& glyph_size = inserted.first->second.get_image().get_size();
-      for(size_t i = 0; i < vec2u::get_size(); ++i)
+      for(size_t i = 0; i < vec2u::size(); ++i)
       {
         if(glyph_size(i) > m_max_glyph_size(i))
         {

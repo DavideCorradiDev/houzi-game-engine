@@ -102,7 +102,7 @@ public:
    *
    * \return the number of elements of the matrix.
    */
-  inline static constexpr size_t get_size() noexcept;
+  inline static constexpr size_t size() noexcept;
 
   /** Returns the zero matrix.
    *
@@ -598,7 +598,7 @@ public:
    */
   friend constexpr matrix operator-(matrix m) noexcept
   {
-    for(size_t i = 0; i < m.get_size(); ++i)
+    for(size_t i = 0; i < m.size(); ++i)
     {
       m.m_elements[i] = -m.m_elements[i];
     }

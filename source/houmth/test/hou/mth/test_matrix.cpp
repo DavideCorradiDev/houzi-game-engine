@@ -90,11 +90,11 @@ TEST_F(test_matrix, size_operators)
   mat3x2i m;
 
   EXPECT_EQ(3u, m.get_row_count());
-  EXPECT_EQ(6u, m.get_size());
+  EXPECT_EQ(6u, m.size());
   EXPECT_EQ(2u, m.get_column_count());
 
   EXPECT_EQ(3u, mat3x2i::get_row_count());
-  EXPECT_EQ(6u, mat3x2i::get_size());
+  EXPECT_EQ(6u, mat3x2i::size());
   EXPECT_EQ(2u, mat3x2i::get_column_count());
 }
 
@@ -256,7 +256,7 @@ TEST_F(test_matrix, data)
 {
   mat3x2i m = {1, 2, 3, 4, 5, 6};
   int data_ref[] = {1, 2, 3, 4, 5, 6};
-  EXPECT_ARRAY_EQ(data_ref, m.data(), m.get_size());
+  EXPECT_ARRAY_EQ(data_ref, m.data(), m.size());
 }
 
 
@@ -282,7 +282,7 @@ TEST_F(test_matrix, iterator_begin_const_matrix)
 TEST_F(test_matrix, iterator_end)
 {
   mat3x2i m = {1, 2, 3, 4, 5, 6};
-  EXPECT_EQ(m.begin() + m.get_size(), m.end());
+  EXPECT_EQ(m.begin() + m.size(), m.end());
 }
 
 
@@ -290,7 +290,7 @@ TEST_F(test_matrix, iterator_end)
 TEST_F(test_matrix, iterator_end_const_matrix)
 {
   const mat3x2i m = {1, 2, 3, 4, 5, 6};
-  EXPECT_EQ(m.begin() + m.get_size(), m.end());
+  EXPECT_EQ(m.begin() + m.size(), m.end());
 }
 
 
@@ -314,7 +314,7 @@ TEST_F(test_matrix, const_iterator_begin_const_matrix)
 TEST_F(test_matrix, const_iterator_end)
 {
   mat3x2i m = {1, 2, 3, 4, 5, 6};
-  EXPECT_EQ(m.cbegin() + m.get_size(), m.cend());
+  EXPECT_EQ(m.cbegin() + m.size(), m.cend());
 }
 
 
@@ -322,7 +322,7 @@ TEST_F(test_matrix, const_iterator_end)
 TEST_F(test_matrix, const_iterator_end_const_matrix)
 {
   const mat3x2i m = {1, 2, 3, 4, 5, 6};
-  EXPECT_EQ(m.cbegin() + m.get_size(), m.cend());
+  EXPECT_EQ(m.cbegin() + m.size(), m.cend());
 }
 
 
@@ -348,7 +348,7 @@ TEST_F(test_matrix, reverse_iterator_begin_const_matrix)
 TEST_F(test_matrix, reverse_iterator_end)
 {
   mat3x2i m = {1, 2, 3, 4, 5, 6};
-  EXPECT_EQ(m.rbegin() + m.get_size(), m.rend());
+  EXPECT_EQ(m.rbegin() + m.size(), m.rend());
 }
 
 
@@ -356,7 +356,7 @@ TEST_F(test_matrix, reverse_iterator_end)
 TEST_F(test_matrix, reverse_iterator_end_const_matrix)
 {
   const mat3x2i m = {1, 2, 3, 4, 5, 6};
-  EXPECT_EQ(m.rbegin() + m.get_size(), m.rend());
+  EXPECT_EQ(m.rbegin() + m.size(), m.rend());
 }
 
 
@@ -380,7 +380,7 @@ TEST_F(test_matrix, const_reverse_iterator_begin_const_matrix)
 TEST_F(test_matrix, const_reverse_iterator_end)
 {
   mat3x2i m = {1, 2, 3, 4, 5, 6};
-  EXPECT_EQ(m.crbegin() + m.get_size(), m.crend());
+  EXPECT_EQ(m.crbegin() + m.size(), m.crend());
 }
 
 
@@ -388,7 +388,7 @@ TEST_F(test_matrix, const_reverse_iterator_end)
 TEST_F(test_matrix, const_reverse_iterator_end_const_matrix)
 {
   const mat3x2i m = {1, 2, 3, 4, 5, 6};
-  EXPECT_EQ(m.crbegin() + m.get_size(), m.crend());
+  EXPECT_EQ(m.crbegin() + m.size(), m.crend());
 }
 
 

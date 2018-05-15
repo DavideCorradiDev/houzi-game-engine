@@ -22,13 +22,13 @@ class test_image : public Test
 public:
   static typename ImageT::size_type generate_size();
   static typename ImageT::pixel_collection generate_pixels(
-    const typename ImageT::size_type& size);
-  static size_t multiply_elements(const typename ImageT::size_type& size);
+    const typename ImageT::size_type& s);
+  static size_t multiply_elements(const typename ImageT::size_type& s);
   static size_t compute_pixel_index(
     const typename ImageT::offset_type& coordinates,
-    const typename ImageT::size_type& size);
+    const typename ImageT::size_type& s);
   static typename ImageT::offset_type compute_pixel_coordinates(
-    size_t index, const typename ImageT::size_type& size);
+    size_t index, const typename ImageT::size_type& s);
 };
 
 template <typename ImageT>
@@ -157,9 +157,9 @@ typename image3_rgba::size_type test_image<image3_rgba>::generate_size()
 
 template <typename ImageT>
 typename ImageT::pixel_collection test_image<ImageT>::generate_pixels(
-  const typename ImageT::size_type& size)
+  const typename ImageT::size_type& s)
 {
-  typename ImageT::pixel_collection retval(multiply_elements(size));
+  typename ImageT::pixel_collection retval(multiply_elements(s));
   for(size_t i = 0; i < retval.size(); ++i)
   {
     typename ImageT::pixel px;
@@ -173,12 +173,12 @@ typename ImageT::pixel_collection test_image<ImageT>::generate_pixels(
 
 template <typename ImageT>
 size_t test_image<ImageT>::multiply_elements(
-  const typename ImageT::size_type& size)
+  const typename ImageT::size_type& s)
 {
-  size_t retval = size(0);
-  for(size_t i = 1; i < size.get_size(); ++i)
+  size_t retval = s(0);
+  for(size_t i = 1; i < s.size(); ++i)
   {
-    retval *= size(i);
+    retval *= s(i);
   }
   return retval;
 }
@@ -188,14 +188,14 @@ size_t test_image<ImageT>::multiply_elements(
 template <typename ImageT>
 size_t test_image<ImageT>::compute_pixel_index(
   const typename ImageT::offset_type& coordinates,
-  const typename ImageT::size_type& size)
+  const typename ImageT::size_type& s)
 {
   size_t idx = 0;
   size_t multiplier = 1;
-  for(size_t i = 0; i < coordinates.get_size(); ++i)
+  for(size_t i = 0; i < coordinates.size(); ++i)
   {
     idx += coordinates(i) * multiplier;
-    multiplier *= size(i);
+    multiplier *= s(i);
   }
   return idx;
 }
@@ -204,15 +204,15 @@ size_t test_image<ImageT>::compute_pixel_index(
 
 template <typename ImageT>
 typename ImageT::offset_type test_image<ImageT>::compute_pixel_coordinates(
-  size_t index, const typename ImageT::size_type& size)
+  size_t index, const typename ImageT::size_type& s)
 {
   using offset_type = typename ImageT::offset_type;
 
   offset_type coords;
-  size_t divider = multiply_elements(size);
-  for(size_t i = size.get_size() - 1; i > 0; --i)
+  size_t divider = multiply_elements(s);
+  for(size_t i = s.size() - 1; i > 0; --i)
   {
-    divider /= size(i);
+    divider /= s(i);
     coords(i) = index / divider;
     index %= divider;
   }
@@ -439,7 +439,7 @@ TYPED_TEST(test_image_death_test, get_pixel_error_out_of_range)
   size_type size_ref = TestFixture::generate_size();
   TypeParam image(size_ref);
 
-  for(size_t i = 0; i < size_ref.get_size(); ++i)
+  for(size_t i = 0; i < size_ref.size(); ++i)
   {
     offset_type coords;
     coords(i) = size_ref(i);
@@ -484,7 +484,7 @@ TYPED_TEST(test_image_death_test, set_pixel_error_out_of_range)
   TypeParam image(size_ref);
 
   pixel pixel_ref;
-  for(size_t i = 0; i < size_ref.get_size(); ++i)
+  for(size_t i = 0; i < size_ref.size(); ++i)
   {
     offset_type coords;
     coords(i) = size_ref(i);
@@ -501,17 +501,17 @@ TYPED_TEST(test_image, get_sub_image)
   using offset_type = typename TypeParam::offset_type;
   using pixel_collection = typename TypeParam::pixel_collection;
 
-  size_type imageSize;
+  size_type image_size;
   size_type sub_image_size;
   offset_type sub_image_offset;
-  for(size_t i = 0; i < imageSize.get_size(); ++i)
+  for(size_t i = 0; i < image_size.size(); ++i)
   {
-    imageSize(i) = (i + 1) * 4;
+    image_size(i) = (i + 1) * 4;
     sub_image_size(i) = (i + 1) * 2;
     sub_image_offset(i) = i + 1;
   }
 
-  pixel_collection pixels_ref = TestFixture::generate_pixels(imageSize);
+  pixel_collection pixels_ref = TestFixture::generate_pixels(image_size);
   pixel_collection subPixels_ref(
     TestFixture::multiply_elements(sub_image_size));
   for(size_t i = 0; i < subPixels_ref.size(); ++i)
@@ -520,10 +520,10 @@ TYPED_TEST(test_image, get_sub_image)
       = TestFixture::compute_pixel_coordinates(i, sub_image_size);
     offset_type imageCoords = sub_image_offset + subImageCoords;
     subPixels_ref[i]
-      = pixels_ref[TestFixture::compute_pixel_index(imageCoords, imageSize)];
+      = pixels_ref[TestFixture::compute_pixel_index(imageCoords, image_size)];
   }
 
-  TypeParam image(imageSize, pixels_ref);
+  TypeParam image(image_size, pixels_ref);
   TypeParam sub_image_ref(sub_image_size, subPixels_ref);
   EXPECT_EQ(
     sub_image_ref, image.get_sub_image(sub_image_offset, sub_image_size));
@@ -536,17 +536,17 @@ TYPED_TEST(test_image_death_test, get_sub_image_error_overflow)
   using size_type = typename TypeParam::size_type;
   using offset_type = typename TypeParam::offset_type;
 
-  size_type imageSize;
+  size_type image_size;
   size_type sub_image_size;
   offset_type sub_image_offset;
-  for(size_t i = 0; i < imageSize.get_size(); ++i)
+  for(size_t i = 0; i < image_size.size(); ++i)
   {
-    imageSize(i) = (i + 1) * 4;
+    image_size(i) = (i + 1) * 4;
     sub_image_offset(i) = i + 1;
     sub_image_size(i) = (i + 1) * 4 - sub_image_offset(i) + 1u;
   }
 
-  TypeParam image(imageSize);
+  TypeParam image(image_size);
   EXPECT_ERROR_0(
     image.get_sub_image(sub_image_offset, sub_image_size), out_of_range);
 }
@@ -559,29 +559,29 @@ TYPED_TEST(test_image, set_sub_image)
   using offset_type = typename TypeParam::offset_type;
   using pixel_collection = typename TypeParam::pixel_collection;
 
-  size_type imageSize;
+  size_type image_size;
   size_type sub_image_size;
   offset_type sub_image_offset;
-  for(size_t i = 0; i < imageSize.get_size(); ++i)
+  for(size_t i = 0; i < image_size.size(); ++i)
   {
-    imageSize(i) = (i + 1) * 4;
+    image_size(i) = (i + 1) * 4;
     sub_image_size(i) = (i + 1) * 2;
     sub_image_offset(i) = i + 1;
   }
 
-  pixel_collection pixels_ref(TestFixture::multiply_elements(imageSize));
+  pixel_collection pixels_ref(TestFixture::multiply_elements(image_size));
   pixel_collection subPixels_ref(TestFixture::generate_pixels(sub_image_size));
   for(size_t i = 0; i < subPixels_ref.size(); ++i)
   {
     offset_type subImageCoords
       = TestFixture::compute_pixel_coordinates(i, sub_image_size);
     offset_type imageCoords = sub_image_offset + subImageCoords;
-    pixels_ref[TestFixture::compute_pixel_index(imageCoords, imageSize)]
+    pixels_ref[TestFixture::compute_pixel_index(imageCoords, image_size)]
       = subPixels_ref[i];
   }
 
-  TypeParam image(imageSize);
-  TypeParam image_ref(imageSize, pixels_ref);
+  TypeParam image(image_size);
+  TypeParam image_ref(image_size, pixels_ref);
   TypeParam sub_image_ref(sub_image_size, subPixels_ref);
   image.set_sub_image(sub_image_offset, sub_image_ref);
 
@@ -597,17 +597,17 @@ TYPED_TEST(test_image_death_test, set_sub_image_error_overflow)
   using size_type = typename TypeParam::size_type;
   using offset_type = typename TypeParam::offset_type;
 
-  size_type imageSize;
+  size_type image_size;
   size_type sub_image_size;
   offset_type sub_image_offset;
-  for(size_t i = 0; i < imageSize.get_size(); ++i)
+  for(size_t i = 0; i < image_size.size(); ++i)
   {
-    imageSize(i) = (i + 1) * 4;
+    image_size(i) = (i + 1) * 4;
     sub_image_offset(i) = i + 1;
     sub_image_size(i) = (i + 1) * 4 - sub_image_offset(i) + 1u;
   }
 
-  TypeParam image(imageSize);
+  TypeParam image(image_size);
   TypeParam subImage(sub_image_size);
   EXPECT_ERROR_0(image.set_sub_image(sub_image_offset, subImage), out_of_range);
 }
@@ -723,7 +723,7 @@ TEST_F(test_image_class_attributes, get_pixel_format)
 
 TEST_F(test_image_conversion_constructor, r2_rgba_constructor)
 {
-  image2_r::size_type size(2u, 3u);
+  image2_r::size_type s(2u, 3u);
   image2_r::pixel_collection pixelsR{
     image2_r::pixel(1u),
     image2_r::pixel(2u),
@@ -742,10 +742,10 @@ TEST_F(test_image_conversion_constructor, r2_rgba_constructor)
     image2_rgba::pixel(6u, 6u, 6u, 255u),
   };
 
-  image2_r imageR(size, pixelsR);
+  image2_r imageR(s, pixelsR);
   image2_rgba imageRGBA(imageR);
 
-  EXPECT_EQ(size, imageRGBA.get_size());
+  EXPECT_EQ(s, imageRGBA.get_size());
   EXPECT_EQ(pixelsRGBA, imageRGBA.get_pixels());
 }
 
@@ -753,7 +753,7 @@ TEST_F(test_image_conversion_constructor, r2_rgba_constructor)
 
 TEST_F(test_image_conversion_constructor, rg2_rgba_constructor)
 {
-  image2_rg::size_type size(2u, 3u);
+  image2_rg::size_type s(2u, 3u);
   image2_rg::pixel_collection pixelsRG{
     image2_rg::pixel(1u, 11u),
     image2_rg::pixel(2u, 12u),
@@ -772,10 +772,10 @@ TEST_F(test_image_conversion_constructor, rg2_rgba_constructor)
     image2_rgba::pixel(6u, 6u, 6u, 16u),
   };
 
-  image2_rg imageRG(size, pixelsRG);
+  image2_rg imageRG(s, pixelsRG);
   image2_rgba imageRGBA(imageRG);
 
-  EXPECT_EQ(size, imageRGBA.get_size());
+  EXPECT_EQ(s, imageRGBA.get_size());
   EXPECT_EQ(pixelsRGBA, imageRGBA.get_pixels());
 }
 
@@ -783,7 +783,7 @@ TEST_F(test_image_conversion_constructor, rg2_rgba_constructor)
 
 TEST_F(test_image_conversion_constructor, rgb2_rgba_constructor)
 {
-  image2_rgb::size_type size(2u, 3u);
+  image2_rgb::size_type s(2u, 3u);
   image2_rgb::pixel_collection pixelsRGB{
     image2_rgb::pixel(200u, 118u, 93u),
     image2_rgb::pixel(3u, 12u, 3u),
@@ -802,10 +802,10 @@ TEST_F(test_image_conversion_constructor, rgb2_rgba_constructor)
     image2_rgba::pixel(100u, 20u, 0u, 255u),
   };
 
-  image2_rgb imageRGB(size, pixelsRGB);
+  image2_rgb imageRGB(s, pixelsRGB);
   image2_rgba imageRGBA(imageRGB);
 
-  EXPECT_EQ(size, imageRGBA.get_size());
+  EXPECT_EQ(s, imageRGBA.get_size());
   EXPECT_EQ(pixelsRGBA, imageRGBA.get_pixels());
 }
 
@@ -813,15 +813,15 @@ TEST_F(test_image_conversion_constructor, rgb2_rgba_constructor)
 
 TEST_F(test_image_conversion_constructor, image1_to_image2_constructor)
 {
-  image1_rgb::size_type size(3u);
+  image1_rgb::size_type s(3u);
   image1_rgba::pixel_collection pixelsRGBA{
     image1_rgba::pixel(200u, 118u, 93u, 255u),
     image1_rgba::pixel(3u, 12u, 3u, 255u),
     image1_rgba::pixel(5u, 11u, 2u, 255u),
   };
-  image1_rgba image1_rgba(size, pixelsRGBA);
+  image1_rgba image1_rgba(s, pixelsRGBA);
   image2_rgba image2_rgba(image1_rgba);
-  EXPECT_EQ(vec2u(size.x(), 1u), image2_rgba.get_size());
+  EXPECT_EQ(vec2u(s.x(), 1u), image2_rgba.get_size());
   EXPECT_EQ(pixelsRGBA, image2_rgba.get_pixels());
 }
 
@@ -829,15 +829,15 @@ TEST_F(test_image_conversion_constructor, image1_to_image2_constructor)
 
 TEST_F(test_image_conversion_constructor, image1_to_image3_constructor)
 {
-  image1_rgb::size_type size(3u);
+  image1_rgb::size_type s(3u);
   image1_rgba::pixel_collection pixelsRGBA{
     image1_rgba::pixel(200u, 118u, 93u, 255u),
     image1_rgba::pixel(3u, 12u, 3u, 255u),
     image1_rgba::pixel(5u, 11u, 2u, 255u),
   };
-  image1_rgba image1_rgba(size, pixelsRGBA);
+  image1_rgba image1_rgba(s, pixelsRGBA);
   image3_rgba image3_rgba(image1_rgba);
-  EXPECT_EQ(vec3u(size.x(), 1u, 1u), image3_rgba.get_size());
+  EXPECT_EQ(vec3u(s.x(), 1u, 1u), image3_rgba.get_size());
   EXPECT_EQ(pixelsRGBA, image3_rgba.get_pixels());
 }
 
@@ -845,7 +845,7 @@ TEST_F(test_image_conversion_constructor, image1_to_image3_constructor)
 
 TEST_F(test_image_conversion_constructor, image2_to_image3_constructor)
 {
-  image2_rgb::size_type size(3u, 2u);
+  image2_rgb::size_type s(3u, 2u);
   image2_rgba::pixel_collection pixelsRGBA{
     image2_rgba::pixel(200u, 118u, 93u, 255u),
     image2_rgba::pixel(3u, 12u, 3u, 255u),
@@ -854,9 +854,9 @@ TEST_F(test_image_conversion_constructor, image2_to_image3_constructor)
     image2_rgba::pixel(3u, 12u, 3u, 255u),
     image2_rgba::pixel(5u, 11u, 2u, 255u),
   };
-  image2_rgba image1_rgba(size, pixelsRGBA);
+  image2_rgba image1_rgba(s, pixelsRGBA);
   image3_rgba image3_rgba(image1_rgba);
-  EXPECT_EQ(vec3u(size.x(), size.y(), 1u), image3_rgba.get_size());
+  EXPECT_EQ(vec3u(s.x(), s.y(), 1u), image3_rgba.get_size());
   EXPECT_EQ(pixelsRGBA, image3_rgba.get_pixels());
 }
 
