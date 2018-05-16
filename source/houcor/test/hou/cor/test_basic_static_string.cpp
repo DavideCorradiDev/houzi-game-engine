@@ -70,7 +70,7 @@ TYPED_TEST(test_basic_static_string, czstr_constructor)
 {
   using string4 = basic_static_string<TypeParam, 4u>;
 
-  TypeParam czstr[] = {'a', 'b', 'c'};
+  TypeParam czstr[] = {'a', 'b', 'c', '\0'};
   string4 s(czstr);
 
   EXPECT_FALSE(s.empty());
@@ -87,7 +87,7 @@ TYPED_TEST(test_basic_static_string, czstr_constructor_trim)
 {
   using string4 = basic_static_string<TypeParam, 4u>;
 
-  TypeParam czstr[] = {'a', 'b', 'c', 'd', 'e'};
+  TypeParam czstr[] = {'a', 'b', 'c', 'd', 'e', '\0'};
   string4 s(czstr);
 
   EXPECT_FALSE(s.empty());
