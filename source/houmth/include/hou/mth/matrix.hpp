@@ -212,7 +212,7 @@ public:
    *
    * \return a copy of the element.
    */
-  constexpr T operator[](difference_type index) const noexcept;
+  constexpr T operator[](size_t index) const noexcept;
 
   /** Retrieves a copy the element at the given index.
    *
@@ -226,7 +226,7 @@ public:
    *
    * \return a copy of the element.
    */
-  constexpr T& operator[](difference_type index) noexcept;
+  constexpr T& operator[](size_t index) noexcept;
 
   /** Retrieves a copy the element at the given index.
    *
@@ -693,7 +693,7 @@ public:
   }
 
 private:
-  std::array<T, Rows * Cols> m_elements;
+  data_type m_elements;
 };
 HOU_PRAGMA_PACK_POP()
 

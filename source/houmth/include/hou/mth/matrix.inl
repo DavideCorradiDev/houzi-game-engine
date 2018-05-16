@@ -122,7 +122,7 @@ constexpr matrix<T, Rows, Cols>::matrix(Args... elements) noexcept
 
 
 template <typename T, size_t Rows, size_t Cols>
-constexpr T matrix<T, Rows, Cols>::operator[](difference_type index) const
+constexpr T matrix<T, Rows, Cols>::operator[](size_t index) const
   noexcept
 {
   return m_elements[index];
@@ -131,7 +131,7 @@ constexpr T matrix<T, Rows, Cols>::operator[](difference_type index) const
 
 
 template <typename T, size_t Rows, size_t Cols>
-constexpr T& matrix<T, Rows, Cols>::operator[](difference_type index) noexcept
+constexpr T& matrix<T, Rows, Cols>::operator[](size_t index) noexcept
 {
   return m_elements[index];
 }
