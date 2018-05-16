@@ -435,6 +435,47 @@ template <typename OutputEncoding, typename InputEncoding>
 std::basic_string<typename OutputEncoding::code_unit> convert_encoding(
   const std::basic_string<typename InputEncoding::code_unit>& s);
 
+// Specializations.
+template <>
+HOU_COR_API std::string convert_encoding<utf8, utf8>(const std::string& s);
+template <>
+HOU_COR_API std::u16string convert_encoding<utf16, utf16>(
+  const std::u16string& s);
+template <>
+HOU_COR_API std::u32string convert_encoding<utf32, utf32>(
+  const std::u32string& s);
+template <>
+HOU_COR_API std::wstring convert_encoding<wide, wide>(const std::wstring& s);
+
+// Instantiations.
+extern template HOU_COR_API std::string convert_encoding<utf8, utf16>(
+  const std::u16string& s);
+extern template HOU_COR_API std::string convert_encoding<utf8, utf32>(
+  const std::u32string& s);
+extern template HOU_COR_API std::string convert_encoding<utf8, wide>(
+  const std::wstring& s);
+
+extern template HOU_COR_API std::u16string convert_encoding<utf16, utf8>(
+  const std::string& s);
+extern template HOU_COR_API std::u16string convert_encoding<utf16, utf32>(
+  const std::u32string& s);
+extern template HOU_COR_API std::u16string convert_encoding<utf16, wide>(
+  const std::wstring& s);
+
+extern template HOU_COR_API std::u32string convert_encoding<utf32, utf8>(
+  const std::string& s);
+extern template HOU_COR_API std::u32string convert_encoding<utf32, utf16>(
+  const std::u16string& s);
+extern template HOU_COR_API std::u32string convert_encoding<utf32, wide>(
+  const std::wstring& s);
+
+extern template HOU_COR_API std::wstring convert_encoding<wide, utf8>(
+  const std::string& s);
+extern template HOU_COR_API std::wstring convert_encoding<wide, utf16>(
+  const std::u16string& s);
+extern template HOU_COR_API std::wstring convert_encoding<wide, utf32>(
+  const std::u32string& s);
+
 }  // namespace hou
 
 #include "hou/cor/character_encodings.inl"
