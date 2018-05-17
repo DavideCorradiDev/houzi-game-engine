@@ -31,4 +31,10 @@ bad_union_access::bad_union_access(const std::string& path, uint line)
   : exception(path, line, u8"Bad union access.")
 {}
 
+
+
+narrowing_error::narrowing_error(const std::string& path, uint line)
+  : exception(path, line, u8"Narrowing type cast.")
+{}
+
 }  // namespace hou

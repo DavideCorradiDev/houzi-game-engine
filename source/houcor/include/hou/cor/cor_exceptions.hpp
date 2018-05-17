@@ -87,6 +87,24 @@ public:
   bad_union_access(const std::string& path, uint line);
 };
 
+/** Narrowing cast error.
+ *
+ * This exception is thrown in case of narrowing casts.
+ */
+class HOU_COR_API narrowing_error : public exception
+{
+public:
+  /** Constructor.
+   *
+   * \param path the path to the source file where the error happened.
+   *
+   * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
+   */
+  narrowing_error(const std::string& path, uint line);
+};
+
 }  // namespace hou
 
 #endif

@@ -53,3 +53,11 @@ TEST_F(test_cor_exceptions, bad_union_access)
   bad_union_access ex("foo.cpp", 42u);
   EXPECT_STREQ("foo.cpp:42 - Bad union access.", ex.what());
 }
+
+
+
+TEST_F(test_cor_exceptions, narrowing_error)
+{
+  narrowing_error ex("foo.cpp", 42u);
+  EXPECT_STREQ("foo.cpp:42 - Narrowing type cast.", ex.what());
+}
