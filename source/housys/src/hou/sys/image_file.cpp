@@ -8,6 +8,8 @@
 #include "hou/sys/image.hpp"
 #include "hou/sys/sys_exceptions.hpp"
 
+#include "hou/cor/narrow_cast.hpp"
+
 #include "hou/mth/matrix.hpp"
 
 #include "soil/SOIL.h"
@@ -123,14 +125,14 @@ std::tuple<image2<PF>, bool> soil_load_from_memory(SoilLoadFunction load_fun,
 
   int width;
   int height;
-  uchar* raw_image = load_fun(buffer, static_cast<int>(size), &width, &height,
+  uchar* raw_image = load_fun(buffer, narrow_cast<int>(size), &width, &height,
     nullptr, pixel_format_to_soil_format(PF));
   if(raw_image == nullptr)
   {
     return std::make_tuple(image2<PF>(), false);
   }
 
-  vec2u image_size(static_cast<uint>(width), static_cast<uint>(height));
+  vec2u image_size(narrow_cast<uint>(width), narrow_cast<uint>(height));
   image2<PF> ret_image(image_size,
     span<const typename image2<PF>::pixel>(
       reinterpret_cast<const typename image2<PF>::pixel*>(raw_image),

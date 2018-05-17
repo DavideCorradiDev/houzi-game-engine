@@ -7,6 +7,8 @@
 #include "hou/aud/audio_stream_in.hpp"
 #include "hou/aud/empty_audio_stream_in.hpp"
 
+#include "hou/cor/narrow_cast.hpp"
+
 #include <functional>
 
 
@@ -208,7 +210,7 @@ void streaming_audio_source::free_buffers()
   uint processed_buffers = al::get_source_processed_buffers(get_handle());
   std::vector<ALuint> bufferNames(processed_buffers, 0);
   al::source_unqueue_buffers(
-    get_handle(), static_cast<ALsizei>(bufferNames.size()), bufferNames.data());
+    get_handle(), narrow_cast<ALsizei>(bufferNames.size()), bufferNames.data());
   uint processed_bytes = m_buffer_queue.free_buffers(processed_buffers);
   set_sample_pos_variable(m_sample_pos
     + processed_bytes

@@ -7,6 +7,8 @@
 
 #include "hou/mth/mth_config.hpp"
 
+#include "hou/cor/narrow_cast.hpp"
+
 #include <cmath>
 #include <type_traits>
 

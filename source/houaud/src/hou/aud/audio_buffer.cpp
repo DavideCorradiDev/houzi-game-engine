@@ -6,6 +6,8 @@
 
 #include "hou/aud/audio_stream_in.hpp"
 
+#include "hou/cor/narrow_cast.hpp"
+
 
 
 namespace hou
@@ -76,28 +78,28 @@ audio_buffer_format audio_buffer::get_format() const
 
 uint audio_buffer::get_bytes_per_sample() const
 {
-  return static_cast<uint>(al::get_buffer_bits(m_handle) / bits_per_byte);
+  return narrow_cast<uint>(al::get_buffer_bits(m_handle) / bits_per_byte);
 }
 
 
 
 uint audio_buffer::get_channel_count() const
 {
-  return static_cast<uint>(al::get_buffer_channels(m_handle));
+  return narrow_cast<uint>(al::get_buffer_channels(m_handle));
 }
 
 
 
 int audio_buffer::get_sample_rate() const
 {
-  return static_cast<int>(al::get_buffer_frequency(m_handle));
+  return narrow_cast<int>(al::get_buffer_frequency(m_handle));
 }
 
 
 
 uint audio_buffer::get_byte_count() const
 {
-  return static_cast<uint>(al::get_buffer_size(m_handle));
+  return narrow_cast<uint>(al::get_buffer_size(m_handle));
 }
 
 
@@ -118,7 +120,7 @@ void audio_buffer::set_data(
   HOU_DEV_ASSERT(sizeof(uint8_t) == 1u);
   al::set_buffer_data(m_handle, static_cast<ALenum>(format),
     reinterpret_cast<ALvoid*>(const_cast<uint8_t*>(data.data())),
-    static_cast<ALsizei>(data.size()), static_cast<ALsizei>(smlRate));
+    narrow_cast<ALsizei>(data.size()), narrow_cast<ALsizei>(smlRate));
 }
 
 

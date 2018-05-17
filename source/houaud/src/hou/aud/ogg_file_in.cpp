@@ -8,6 +8,7 @@
 
 #include "hou/cor/assertions.hpp"
 #include "hou/cor/pragmas.hpp"
+#include "hou/cor/narrow_cast.hpp"
 
 #include "hou/sys/sys_exceptions.hpp"
 
@@ -161,8 +162,8 @@ binary_stream& ogg_file_in::set_byte_pos(ogg_file_in::byte_position pos)
 
 binary_stream& ogg_file_in::move_byte_pos(ogg_file_in::byte_offset offset)
 {
-  set_byte_pos(static_cast<byte_position>(
-    static_cast<byte_offset>(get_byte_pos()) + offset));
+  set_byte_pos(narrow_cast<byte_position>(
+    narrow_cast<byte_offset>(get_byte_pos()) + offset));
   return *this;
 }
 
@@ -177,7 +178,7 @@ size_t ogg_file_in::get_sample_count() const noexcept
 
 ogg_file_in::sample_position ogg_file_in::get_sample_pos() const
 {
-  return static_cast<sample_position>(
+  return narrow_cast<sample_position>(
     ov_pcm_tell(const_cast<OggVorbis_File*>(m_vorbis_file.get())));
 }
 
@@ -187,7 +188,7 @@ audio_stream_in& ogg_file_in::set_sample_pos(ogg_file_in::sample_position pos)
 {
   m_eof = false;
   HOU_CHECK_0(
-    ov_pcm_seek(m_vorbis_file.get(), static_cast<ogg_int64_t>(pos)) == 0,
+    ov_pcm_seek(m_vorbis_file.get(), narrow_cast<ogg_int64_t>(pos)) == 0,
     cursor_error);
   return *this;
 }
@@ -199,8 +200,8 @@ audio_stream_in& ogg_file_in::move_sample_pos(ogg_file_in::sample_offset offset)
   m_eof = false;
   HOU_CHECK_0(
     ov_pcm_seek(m_vorbis_file.get(),
-      static_cast<ogg_int64_t>(
-        static_cast<ogg_file_in::sample_offset>(get_sample_pos()) + offset))
+      narrow_cast<ogg_int64_t>(
+        narrow_cast<ogg_file_in::sample_offset>(get_sample_pos()) + offset))
       == 0,
     cursor_error);
   return *this;

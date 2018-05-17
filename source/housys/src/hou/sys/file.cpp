@@ -7,6 +7,7 @@
 #include "hou/sys/sys_exceptions.hpp"
 
 #include "hou/cor/assertions.hpp"
+#include "hou/cor/narrow_cast.hpp"
 #include "hou/cor/std_string.hpp"
 
 #include <cstdio>
@@ -101,7 +102,7 @@ bool file::getc(char& c)
 {
   int retval = fgetc(m_handle);
   update_flags();
-  c = static_cast<char>(retval);
+  c = narrow_cast<char>(retval);
   if(retval == EOF)
   {
     HOU_CHECK_0(!error(), read_error);

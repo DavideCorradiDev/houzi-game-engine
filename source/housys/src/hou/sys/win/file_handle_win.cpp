@@ -5,6 +5,7 @@
 #include "hou/sys/file_handle.hpp"
 
 #include "hou/cor/character_encodings.hpp"
+#include "hou/cor/narrow_cast.hpp"
 
 #include "hou/sys/win/win.hpp"
 
@@ -73,7 +74,7 @@ int get_file_descriptor(not_null<FILE*> file) noexcept
 
 size_t get_file_byte_size(int file_descriptor) noexcept
 {
-  return static_cast<size_t>(_filelength(file_descriptor));
+  return narrow_cast<size_t>(_filelength(file_descriptor));
 }
 
 }  // namespace hou

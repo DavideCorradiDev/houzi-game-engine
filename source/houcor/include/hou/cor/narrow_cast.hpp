@@ -21,13 +21,17 @@ namespace hou
  *
  * \tparam From the source type.
  *
+ * \tparam Enable enabling parameter.
+ *
  * \param from the input value.
  *
  * \throws hou::narrowing_error if the conversion results in a narrowing error.
  *
  * \return the casted value.
  */
-template <typename To, typename From>
+template <typename To, typename From,
+  typename Enable = std::enable_if_t<std::is_fundamental<To>::value
+    && std::is_fundamental<From>::value>>
 constexpr To narrow_cast(const From& from);
 
 }  // namespace hou

@@ -7,7 +7,7 @@
 namespace hou
 {
 
-template <typename To, typename From>
+template <typename To, typename From, typename Enable>
 constexpr To narrow_cast(const From& from)
 {
   using is_same_signedness = is_same_signedness<To, From>;
