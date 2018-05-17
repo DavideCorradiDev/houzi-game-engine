@@ -7,6 +7,7 @@
 #include "hou/sys/video_mode.hpp"
 #include "hou/sys/window_event.hpp"
 
+#include "hou/cor/narrow_cast.hpp"
 #include "hou/cor/uid_generator.hpp"
 
 #include "hou/mth/rectangle.hpp"
@@ -91,7 +92,7 @@ vec2i window::get_frame_position() const
 
 vec2u window::get_frame_size() const
 {
-  return static_cast<vec2u>(m_impl.get_frame_rect().get_size());
+  return narrow_cast<vec2u>(m_impl.get_frame_rect().get_size());
 }
 
 
@@ -99,7 +100,7 @@ vec2u window::get_frame_size() const
 void window::set_frame_rect(const vec2i& pos, const vec2u& size)
 {
   vec2u old_client_size = get_client_size();
-  m_impl.set_frame_rect(recti(pos, static_cast<vec2i>(size)));
+  m_impl.set_frame_rect(recti(pos, narrow_cast<vec2i>(size)));
   vec2u new_client_size = get_client_size();
   if(old_client_size != new_client_size)
   {
@@ -132,7 +133,7 @@ vec2i window::get_client_position() const
 
 vec2u window::get_client_size() const
 {
-  return static_cast<vec2u>(m_impl.get_client_rect().get_size());
+  return narrow_cast<vec2u>(m_impl.get_client_rect().get_size());
 }
 
 
@@ -140,7 +141,7 @@ vec2u window::get_client_size() const
 void window::set_client_rect(const vec2i& pos, const vec2u& size)
 {
   vec2u old_client_size = get_client_size();
-  m_impl.set_client_rect(recti(pos, static_cast<vec2i>(size)));
+  m_impl.set_client_rect(recti(pos, narrow_cast<vec2i>(size)));
   vec2u new_client_size = get_client_size();
   if(old_client_size != new_client_size)
   {

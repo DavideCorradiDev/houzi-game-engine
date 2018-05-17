@@ -15,6 +15,32 @@
 namespace hou
 {
 
+/** Class implementing a check to see if two values of different types have the
+ * same sign.
+ *
+ * This function is used by narrow_cast for the comparison.
+ * It is possible to specialize this class for classes requiring special checks
+ * for narrow_cast.
+ *
+ * \tparam T the first type.
+ *
+ * \tparam U the second type.
+ *
+ */
+template <typename T, typename U>
+struct check_matching_sign
+{
+  /** Checks if t and u have matching sign.
+   *
+   * \param t the first parameter.
+   *
+   * \param u the second parameter.
+   *
+   * \return true if the signs of t and u match.
+   */
+  static bool check(const T& t, const U& u);
+};
+
 /** Cast checking for narrowing errors.
  *
  * \tparam To to target type.
@@ -29,9 +55,7 @@ namespace hou
  *
  * \return the casted value.
  */
-template <typename To, typename From,
-  typename Enable = std::enable_if_t<std::is_fundamental<To>::value
-    && std::is_fundamental<From>::value>>
+template <typename To, typename From>
 constexpr To narrow_cast(const From& from);
 
 }  // namespace hou
