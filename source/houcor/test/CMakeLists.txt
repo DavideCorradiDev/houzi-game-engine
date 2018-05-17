@@ -45,6 +45,7 @@ SET(EXE_HOUCOR_TEST_SRC
   hou/cor/test_core_functions.cpp
   hou/cor/test_exception.cpp
   hou/cor/test_member_detector.cpp
+  hou/cor/test_narrow_cast.cpp
   hou/cor/test_not_null.cpp
   hou/cor/test_span.cpp
   hou/cor/test_std_array.cpp
