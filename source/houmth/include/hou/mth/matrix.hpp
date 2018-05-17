@@ -1058,6 +1058,16 @@ std::ostream& operator<<(std::ostream& os, const matrix<T, Rows, Cols>& m);
 
 
 
+/** Specialization of check_matching_sign for matrix.
+ *
+ * \tparam T the first scalar type.
+ *
+ * \tparam U the second scalar type.
+ *
+ * \tparam Rows the number of rows in the matrix.
+ *
+ * \tparam Cols the number of columns in the matrix.
+ */
 template <>
 template <typename T, typename U, size_t Rows, size_t Cols>
 struct check_matching_sign<matrix<T, Rows, Cols>, matrix<U, Rows, Cols>>
@@ -1067,11 +1077,12 @@ private:
   using u_matrix = matrix<U, Rows, Cols>;
 
 public:
-  static bool check(const t_matrix& to, const u_matrix& from)
+  static bool check(const t_matrix& t, const u_matrix& f)
   {
-    for(size_t i = 0; i < to.size(); ++i)
+    HOU_DEV_ASSERT(t.size() == f.size());
+    for(size_t i = 0; i < t.size(); ++i)
     {
-      if((to[i] < T(0)) != (from[i] < U(0)))
+      if((t[i] < T(0)) != (f[i] < U(0)))
       {
         return false;
       }
