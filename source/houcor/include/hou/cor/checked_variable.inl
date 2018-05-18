@@ -54,6 +54,14 @@ constexpr bool negative_checker<T>::check(const T& t) noexcept
 
 
 
+template <typename T>
+constexpr bool non_positive_checker<T>::check(const T& t) noexcept
+{
+  return t <= T(0);
+}
+
+
+
 template <typename T, T Min, T Max>
 constexpr bool bounded_checker<T, Min, Max>::check(const T& t) noexcept
 {

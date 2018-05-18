@@ -79,6 +79,21 @@ using negative = checked_variable<T, negative_checker<T>>;
 
 
 
+template <typename T>
+class non_positive_checker
+{
+public:
+  using value_type = T;
+
+  static constexpr bool check(const T& t) noexcept;
+};
+
+template <typename T>
+using non_positive = checked_variable<T, non_positive_checker<T>>;
+
+
+
+
 template <typename T, T Min, T Max>
 class bounded_checker
 {

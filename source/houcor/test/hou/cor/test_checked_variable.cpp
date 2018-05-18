@@ -251,6 +251,42 @@ TEST_F(test_checked_variable_death_test, negative_failure)
 
 
 
+TEST_F(test_checked_variable, non_positive_checker)
+{
+  EXPECT_FALSE(non_positive_checker<int>::check(1));
+  EXPECT_TRUE(non_positive_checker<int>::check(0));
+  EXPECT_TRUE(non_positive_checker<int>::check(-1));
+
+  EXPECT_FALSE(non_positive_checker<uint>::check(1));
+  EXPECT_TRUE(non_positive_checker<uint>::check(0));
+
+  EXPECT_FALSE(non_positive_checker<float>::check(1.f));
+  EXPECT_TRUE(non_positive_checker<float>::check(0.f));
+  EXPECT_TRUE(non_positive_checker<float>::check(-1.f));
+}
+
+
+
+TEST_F(test_checked_variable, non_positive)
+{
+  EXPECT_EQ(0, non_positive<int>(0));
+  EXPECT_EQ(-1, non_positive<int>(-1));
+  EXPECT_EQ(0u, non_positive<uint>(0u));
+  EXPECT_EQ(0.f, non_positive<float>(0.f));
+  EXPECT_EQ(-1.4f, non_positive<float>(-1.4f));
+}
+
+
+
+TEST_F(test_checked_variable_death_test, non_positive_failure)
+{
+  EXPECT_ERROR_0(non_positive<int>(1), invalid_value);
+  EXPECT_ERROR_0(non_positive<uint>(1), invalid_value);
+  EXPECT_ERROR_0(non_positive<float>(1.f), invalid_value);
+}
+
+
+
 TEST_F(test_checked_variable, bounded_checker)
 {
   using checker = bounded_checker<int, 2, 6>;
