@@ -105,6 +105,24 @@ public:
   narrowing_error(const std::string& path, uint line);
 };
 
+/** Invalid value error.
+ *
+ * This exception is thrown when a checked_variable is given an invalid value.
+ */
+class HOU_COR_API invalid_value : public exception
+{
+public:
+  /** Constructor.
+   *
+   * \param path the path to the source file where the error happened.
+   *
+   * \param line the line where the error happened.
+   *
+   * \throws std::bad_alloc.
+   */
+  invalid_value(const std::string& path, uint line);
+};
+
 }  // namespace hou
 
 #endif

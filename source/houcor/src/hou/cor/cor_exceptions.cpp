@@ -37,4 +37,10 @@ narrowing_error::narrowing_error(const std::string& path, uint line)
   : exception(path, line, u8"Narrowing type cast.")
 {}
 
+
+
+invalid_value::invalid_value(const std::string& path, uint line)
+  : exception(path, line, u8"Invalid value for a checked variable type.")
+{}
+
 }  // namespace hou

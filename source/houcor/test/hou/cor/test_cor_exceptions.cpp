@@ -61,3 +61,12 @@ TEST_F(test_cor_exceptions, narrowing_error)
   narrowing_error ex("foo.cpp", 42u);
   EXPECT_STREQ("foo.cpp:42 - Narrowing type cast.", ex.what());
 }
+
+
+
+TEST_F(test_cor_exceptions, invalid_value)
+{
+  invalid_value ex("foo.cpp", 42u);
+  EXPECT_STREQ(
+    "foo.cpp:42 - Invalid value for a checked variable type.", ex.what());
+}
