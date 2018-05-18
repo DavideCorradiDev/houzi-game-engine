@@ -195,105 +195,98 @@ bool audio_source::is_looping() const
 
 
 
-void audio_source::set_pitch(float value)
+void audio_source::set_pitch(non_negative<float> value)
 {
-  HOU_PRECOND(value >= 0.f);
   al::set_source_pitch(m_handle, static_cast<ALfloat>(value));
 }
 
 
 
-float audio_source::get_pitch() const
+non_negative<float> audio_source::get_pitch() const
 {
   return static_cast<float>(al::get_source_pitch(m_handle));
 }
 
 
 
-void audio_source::set_gain(float value)
+void audio_source::set_gain(non_negative<float> value)
 {
-  HOU_PRECOND(value >= 0.f);
   al::set_source_gain(m_handle, static_cast<ALfloat>(value));
 }
 
 
 
-float audio_source::get_gain() const
+non_negative<float> audio_source::get_gain() const
 {
   return static_cast<float>(al::get_source_gain(m_handle));
 }
 
 
 
-void audio_source::set_max_gain(float value)
+void audio_source::set_max_gain(non_negative<float> value)
 {
-  HOU_PRECOND(value >= 0.f);
   al::set_source_max_gain(m_handle, static_cast<ALfloat>(value));
 }
 
 
 
-float audio_source::get_max_gain() const
+non_negative<float> audio_source::get_max_gain() const
 {
   return static_cast<float>(al::get_source_max_gain(m_handle));
 }
 
 
 
-void audio_source::set_min_gain(float value)
+void audio_source::set_min_gain(non_negative<float> value)
 {
-  HOU_PRECOND(value >= 0.f);
   al::set_source_min_gain(m_handle, static_cast<ALfloat>(value));
 }
 
 
 
-float audio_source::get_min_gain() const
+non_negative<float> audio_source::get_min_gain() const
 {
   return static_cast<float>(al::get_source_min_gain(m_handle));
 }
 
 
 
-void audio_source::set_max_distance(float value)
+void audio_source::set_max_distance(non_negative<float> value)
 {
-  HOU_PRECOND(value >= 0.f);
   al::set_source_max_distance(m_handle, static_cast<ALfloat>(value));
 }
 
 
 
-float audio_source::get_max_distance() const
+non_negative<float> audio_source::get_max_distance() const
 {
   return static_cast<float>(al::get_source_max_distance(m_handle));
 }
 
 
 
-void audio_source::set_rolloff_factor(float value)
+void audio_source::set_rolloff_factor(non_negative<float> value)
 {
-  HOU_PRECOND(value >= 0.f);
   al::set_source_rolloff_factor(m_handle, static_cast<ALfloat>(value));
 }
 
 
 
-float audio_source::get_rolloff_factor() const
+non_negative<float> audio_source::get_rolloff_factor() const
 {
   return static_cast<float>(al::get_source_rolloff_factor(m_handle));
 }
 
 
 
-void audio_source::set_reference_distance(float value)
+void audio_source::set_reference_distance(non_negative<float> value)
 {
-  HOU_PRECOND(value >= 0.f);
   al::set_source_reference_distance(m_handle, static_cast<ALfloat>(value));
 }
 
 
 
-float audio_source::get_reference_distance() const
+non_negative<float> audio_source::get_reference_distance() const
 {
   return static_cast<float>(al::get_source_reference_distance(m_handle));
 }
@@ -314,15 +307,14 @@ bool audio_source::is_relative() const
 
 
 
-void audio_source::set_cone_outer_gain(float value)
+void audio_source::set_cone_outer_gain(non_negative<float> value)
 {
-  HOU_PRECOND(value >= 0.f);
   al::set_source_cone_outer_gain(m_handle, static_cast<ALfloat>(value));
 }
 
 
 
-float audio_source::get_cone_outer_gain() const
+non_negative<float> audio_source::get_cone_outer_gain() const
 {
   return static_cast<float>(al::get_source_cone_outer_gain(m_handle));
 }

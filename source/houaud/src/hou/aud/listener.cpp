@@ -17,16 +17,15 @@ namespace hou
 namespace listener
 {
 
-float get_gain()
+non_negative<float> get_gain()
 {
   return static_cast<float>(al::get_listener_gain());
 }
 
 
 
-void set_gain(float gain)
+void set_gain(non_negative<float> gain)
 {
-  HOU_PRECOND(gain >= 0.f);
   al::set_listener_gain(static_cast<ALfloat>(gain));
 }
 

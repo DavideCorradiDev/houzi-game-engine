@@ -12,6 +12,7 @@
 
 #include "hou/al/al_source_handle.hpp"
 
+#include "hou/cor/checked_variable.hpp"
 #include "hou/cor/non_copyable.hpp"
 #include "hou/cor/std_chrono.hpp"
 
@@ -180,13 +181,13 @@ public:
    *
    * \param value the pitch.
    */
-  void set_pitch(float value);
+  void set_pitch(non_negative<float> value);
 
   /** Gets the audio source pitch.
    *
    * \return the pitch.
    */
-  float get_pitch() const;
+  non_negative<float> get_pitch() const;
 
   /** Sets the audio source gain.
    *
@@ -194,13 +195,13 @@ public:
    *
    * \param value the gain.
    */
-  void set_gain(float value);
+  void set_gain(non_negative<float> value);
 
   /** Gets the audio source gain.
    *
    * \return the gain.
    */
-  float get_gain() const;
+  non_negative<float> get_gain() const;
 
   /** Sets the audio source maximum gain.
    *
@@ -208,13 +209,13 @@ public:
    *
    * \param value the maximum gain.
    */
-  void set_max_gain(float value);
+  void set_max_gain(non_negative<float> value);
 
   /** Gets the audio source maximum gain.
    *
    * \return the maximum gain.
    */
-  float get_max_gain() const;
+  non_negative<float> get_max_gain() const;
 
   /** Sets the audio source minimum gain.
    *
@@ -222,13 +223,13 @@ public:
    *
    * \param value the minimum gain.
    */
-  void set_min_gain(float value);
+  void set_min_gain(non_negative<float> value);
 
   /** Gets the audio source minimum gain.
    *
    * \return the minimum gain.
    */
-  float get_min_gain() const;
+  non_negative<float> get_min_gain() const;
 
   /** Sets the audio source maximum distance.
    *
@@ -236,13 +237,13 @@ public:
    *
    * \param value the maximum distance.
    */
-  void set_max_distance(float value);
+  void set_max_distance(non_negative<float> value);
 
   /** Gets the audio source maximum distance.
    *
    * \return the maximum distance.
    */
-  float get_max_distance() const;
+  non_negative<float> get_max_distance() const;
 
   /** Sets the audio source rolloff factor.
    *
@@ -250,13 +251,13 @@ public:
    *
    * \param value the rolloff factor.
    */
-  void set_rolloff_factor(float value);
+  void set_rolloff_factor(non_negative<float> value);
 
   /** Gets the audio source rolloff factor.
    *
    * \return the rolloff factor.
    */
-  float get_rolloff_factor() const;
+  non_negative<float> get_rolloff_factor() const;
 
   /** Sets the audio source reference distance.
    *
@@ -264,13 +265,13 @@ public:
    *
    * \param value the reference distance.
    */
-  void set_reference_distance(float value);
+  void set_reference_distance(non_negative<float> value);
 
   /** Gets the audio source reference distance.
    *
    * \return the reference distance.
    */
-  float get_reference_distance() const;
+  non_negative<float> get_reference_distance() const;
 
   /** Sets if the audio source is relative or not.
    *
@@ -290,13 +291,13 @@ public:
    *
    * \param value the cone outer gain.
    */
-  void set_cone_outer_gain(float value);
+  void set_cone_outer_gain(non_negative<float> value);
 
   /** Gets the audio source cone outer gain.
    *
    * \return the cone outer gain.
    */
-  float get_cone_outer_gain() const;
+  non_negative<float> get_cone_outer_gain() const;
 
   /** Sets the audio source cone inner angle.
    *

@@ -29,8 +29,9 @@ namespace hou
  *
  */
 template <typename T, typename U>
-struct check_matching_sign
+class check_matching_sign
 {
+public:
   /** Checks if t and u have matching sign.
    *
    * \param t the first parameter.

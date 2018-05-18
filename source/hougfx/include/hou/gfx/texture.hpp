@@ -14,6 +14,8 @@
 
 #include "hou/gfx/gfx_config.hpp"
 
+#include "hou/cor/checked_variable.hpp"
+
 #include "hou/mth/matrix_fwd.hpp"
 
 #include "hou/gl/gl_functions.hpp"
@@ -71,8 +73,8 @@ public:
    *
    * \param fixed_sample_locations whether the location of the samples is fixed.
    */
-  texture(texture_type type, uint mipmap_level_count, uint sample_count,
-    bool fixed_sample_locations);
+  texture(texture_type type, positive<uint> mipmap_level_count,
+    positive<uint> sample_count, bool fixed_sample_locations);
 
   /** Move constructor.
    *
@@ -109,13 +111,13 @@ public:
    *
    * \return the number of mip map levels of this texture.
    */
-  uint get_mipmap_level_count() const;
+  positive<uint> get_mipmap_level_count() const;
 
   /** Retrieves the number of samples of this texture.
    *
    * \return the number of samples of this texture.
    */
-  uint get_sample_count() const;
+  positive<uint> get_sample_count() const;
 
   /** Retrieves whether the samples of this texture have fixed positions.
    *
@@ -198,8 +200,8 @@ public:
 
 protected:
   gl::texture_handle m_gl_texture_handle;
-  uint m_mipmap_level_count;
-  uint m_sample_count;
+  positive<uint> m_mipmap_level_count;
+  positive<uint> m_sample_count;
   bool m_fixed_sample_locations;
 };
 
@@ -241,13 +243,13 @@ public:
    *
    * \return the maximum number of allowed mip map levels.
    */
-  static uint get_max_mipmap_level_count(const size_type& size);
+  static positive<uint> get_max_mipmap_level_count(const size_type& size);
 
   /** Retrieves the maximum amount of samples per pixel.
    *
    * \return the maximum amount of samples per pixel.
    */
-  static uint get_max_sample_count();
+  static positive<uint> get_max_sample_count();
 
 public:
   /** Creates a texture with the given size, format, and number of mip map
@@ -270,7 +272,8 @@ public:
   template <texture_type Type2 = Type,
     typename Enable = std::enable_if_t<is_texture_type_mipmapped(Type2)>>
   HOU_GFX_API explicit texture_t(const size_type& size,
-    texture_format format = texture_format::rgba, uint mipmap_level_count = 1u);
+    texture_format format = texture_format::rgba,
+    positive<uint> mipmap_level_count = 1u);
 
   /** Creates a texture with the given image, format, and number of mip map
    * levels.
@@ -291,7 +294,8 @@ public:
   template <pixel_format PF, texture_type Type2 = Type,
     typename Enable = std::enable_if_t<is_texture_type_mipmapped(Type2)>>
   HOU_GFX_API explicit texture_t(const image<PF>& im,
-    texture_format format = texture_format::rgba, uint mipmap_level_count = 1u);
+    texture_format format = texture_format::rgba,
+    positive<uint> mipmap_level_count = 1u);
 
   /** Creates a texture with the given size, format, and sample specification.
    *
@@ -315,8 +319,8 @@ public:
   template <texture_type Type2 = Type,
     typename Enable = std::enable_if_t<is_texture_type_multisampled(Type2)>>
   HOU_GFX_API explicit texture_t(const size_type& size,
-    texture_format format = texture_format::rgba, uint sample_count = 1u,
-    bool fixed_sample_locations = true);
+    texture_format format = texture_format::rgba,
+    positive<uint> sample_count = 1u, bool fixed_sample_locations = true);
 
   /** Retrieves the size of the texture.
    *
