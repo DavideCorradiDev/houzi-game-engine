@@ -54,8 +54,8 @@ TEST_F(test_checked_variable, construction)
 TEST_F(test_checked_variable_death_test, construction_error)
 {
   using cvar = checked_variable<int, dummy_checker<int>>;
-  EXPECT_ERROR_0(cvar v(0), invalid_value);
-  EXPECT_ERROR_0(cvar v(5), invalid_value);
+  EXPECT_PRECOND_ERROR(cvar v(0));
+  EXPECT_PRECOND_ERROR(cvar v(5));
 }
 
 
@@ -78,8 +78,8 @@ TEST_F(test_checked_variable_death_test, assignment_error)
   cvar v0(1);
   EXPECT_EQ(1, v0);
 
-  EXPECT_ERROR_0(v0 = 0, invalid_value);
-  EXPECT_ERROR_0(v0 = 5, invalid_value);
+  EXPECT_PRECOND_ERROR(v0 = 0);
+  EXPECT_PRECOND_ERROR(v0 = 5);
 }
 
 
@@ -135,10 +135,10 @@ TEST_F(test_checked_variable, arithmetic_operation)
 TEST_F(test_checked_variable_death_test, arithmetic_operation_failure)
 {
   using cvar = checked_variable<int, dummy_checker<int>>;
-  EXPECT_ERROR_0(cvar(cvar(3) + cvar(2)), invalid_value);
-  EXPECT_ERROR_0(cvar(cvar(4) - cvar(4)), invalid_value);
-  EXPECT_ERROR_0(cvar(cvar(2) * cvar(3)), invalid_value);
-  EXPECT_ERROR_0(cvar(cvar(3) / cvar(4)), invalid_value);
+  EXPECT_PRECOND_ERROR(cvar(cvar(3) + cvar(2)));
+  EXPECT_PRECOND_ERROR(cvar(cvar(4) - cvar(4)));
+  EXPECT_PRECOND_ERROR(cvar(cvar(2) * cvar(3)));
+  EXPECT_PRECOND_ERROR(cvar(cvar(3) / cvar(4)));
 }
 
 
@@ -170,11 +170,11 @@ TEST_F(test_checked_variable, positive)
 
 TEST_F(test_checked_variable_death_test, positive_failure)
 {
-  EXPECT_ERROR_0(positive<int>(0), invalid_value);
-  EXPECT_ERROR_0(positive<int>(-1), invalid_value);
-  EXPECT_ERROR_0(positive<uint>(0), invalid_value);
-  EXPECT_ERROR_0(positive<float>(0.f), invalid_value);
-  EXPECT_ERROR_0(positive<float>(-1.f), invalid_value);
+  EXPECT_PRECOND_ERROR(positive<int>(0));
+  EXPECT_PRECOND_ERROR(positive<int>(-1));
+  EXPECT_PRECOND_ERROR(positive<uint>(0));
+  EXPECT_PRECOND_ERROR(positive<float>(0.f));
+  EXPECT_PRECOND_ERROR(positive<float>(-1.f));
 }
 
 
@@ -209,8 +209,8 @@ TEST_F(test_checked_variable, non_negative)
 
 TEST_F(test_checked_variable_death_test, non_negative_failure)
 {
-  EXPECT_ERROR_0(non_negative<int>(-1), invalid_value);
-  EXPECT_ERROR_0(non_negative<float>(-1.f), invalid_value);
+  EXPECT_PRECOND_ERROR(non_negative<int>(-1));
+  EXPECT_PRECOND_ERROR(non_negative<float>(-1.f));
 }
 
 
@@ -241,12 +241,12 @@ TEST_F(test_checked_variable, negative)
 
 TEST_F(test_checked_variable_death_test, negative_failure)
 {
-  EXPECT_ERROR_0(negative<int>(0), invalid_value);
-  EXPECT_ERROR_0(negative<int>(1), invalid_value);
-  EXPECT_ERROR_0(negative<uint>(0), invalid_value);
-  EXPECT_ERROR_0(negative<uint>(1), invalid_value);
-  EXPECT_ERROR_0(negative<float>(0.f), invalid_value);
-  EXPECT_ERROR_0(negative<float>(1.f), invalid_value);
+  EXPECT_PRECOND_ERROR(negative<int>(0));
+  EXPECT_PRECOND_ERROR(negative<int>(1));
+  EXPECT_PRECOND_ERROR(negative<uint>(0));
+  EXPECT_PRECOND_ERROR(negative<uint>(1));
+  EXPECT_PRECOND_ERROR(negative<float>(0.f));
+  EXPECT_PRECOND_ERROR(negative<float>(1.f));
 }
 
 
@@ -280,9 +280,9 @@ TEST_F(test_checked_variable, non_positive)
 
 TEST_F(test_checked_variable_death_test, non_positive_failure)
 {
-  EXPECT_ERROR_0(non_positive<int>(1), invalid_value);
-  EXPECT_ERROR_0(non_positive<uint>(1), invalid_value);
-  EXPECT_ERROR_0(non_positive<float>(1.f), invalid_value);
+  EXPECT_PRECOND_ERROR(non_positive<int>(1));
+  EXPECT_PRECOND_ERROR(non_positive<uint>(1));
+  EXPECT_PRECOND_ERROR(non_positive<float>(1.f));
 }
 
 
@@ -313,6 +313,6 @@ TEST_F(test_checked_variable_death_test, bounded_failure)
 {
   using bounded = bounded<int, 2, 6>;
 
-  EXPECT_ERROR_0(bounded(1), invalid_value);
-  EXPECT_ERROR_0(bounded(7), invalid_value);
+  EXPECT_PRECOND_ERROR(bounded(1));
+  EXPECT_PRECOND_ERROR(bounded(7));
 }

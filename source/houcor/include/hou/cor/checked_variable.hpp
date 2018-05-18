@@ -5,7 +5,7 @@
 #ifndef HOU_COR_CHECKED_VARIABLE_HPP
 #define HOU_COR_CHECKED_VARIABLE_HPP
 
-#include "hou/cor/cor_exceptions.hpp"
+#include "hou/cor/assertions.hpp"
 
 #include "hou/cor/cor_config.hpp"
 

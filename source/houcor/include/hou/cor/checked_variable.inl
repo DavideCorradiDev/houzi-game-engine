@@ -9,7 +9,7 @@ template <typename T, typename Checker>
 constexpr checked_variable<T, Checker>::checked_variable(T var)
   : m_value(var)
 {
-  HOU_CHECK_0(Checker::check(m_value), invalid_value);
+  HOU_PRECOND(Checker::check(m_value));
 }
 
 
