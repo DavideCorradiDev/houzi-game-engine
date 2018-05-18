@@ -60,7 +60,6 @@ TEST_F(test_checked_variable_death_test, construction_error)
 
 
 
-
 TEST_F(test_checked_variable, assignment)
 {
   using cvar = checked_variable<int, dummy_checker<int>>;
@@ -133,7 +132,6 @@ TEST_F(test_checked_variable, arithmetic_operation)
 
 
 
-
 TEST_F(test_checked_variable_death_test, arithmetic_operation_failure)
 {
   using cvar = checked_variable<int, dummy_checker<int>>;
@@ -177,4 +175,36 @@ TEST_F(test_checked_variable_death_test, positive_failure)
   EXPECT_ERROR_0(positive<uint>(0), invalid_value);
   EXPECT_ERROR_0(positive<float>(0.f), invalid_value);
   EXPECT_ERROR_0(positive<float>(-1.f), invalid_value);
+}
+
+
+
+TEST_F(test_checked_variable, bounded_checker)
+{
+  using checker = bounded_checker<int, 2, 6>;
+
+  EXPECT_FALSE(checker::check(1));
+  EXPECT_TRUE(checker::check(2));
+  EXPECT_TRUE(checker::check(6));
+  EXPECT_FALSE(checker::check(7));
+}
+
+
+
+TEST_F(test_checked_variable, bounded)
+{
+  using bounded = bounded<int, 2, 6>;
+
+  EXPECT_EQ(2, bounded(2));
+  EXPECT_EQ(6, bounded(6));
+}
+
+
+
+TEST_F(test_checked_variable_death_test, bounded_failure)
+{
+  using bounded = bounded<int, 2, 6>;
+
+  EXPECT_ERROR_0(bounded(1), invalid_value);
+  EXPECT_ERROR_0(bounded(7), invalid_value);
 }
