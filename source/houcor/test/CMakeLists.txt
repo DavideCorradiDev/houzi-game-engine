@@ -40,6 +40,7 @@ SET(EXE_HOUCOR_TEST_SRC
   hou/cor/test_basic_static_string.cpp
   hou/cor/test_bitwise_operators.cpp
   hou/cor/test_character_encodings.cpp
+  hou/cor/test_checked_variable.cpp
   hou/cor/test_clock.cpp
   hou/cor/test_cor_exceptions.cpp
   hou/cor/test_core_functions.cpp
