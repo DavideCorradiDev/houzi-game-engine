@@ -12,8 +12,6 @@
 
 #include "hou/sys/sys_config.hpp"
 
-#include "hou/cor/not_null.hpp"
-
 #include <string>
 
 
@@ -82,7 +80,16 @@ HOU_SYS_API std::string get_file_mode_string(
  *
  * \return a pointer to the opened file, or nullptr in case of failure.
  */
-HOU_SYS_API FILE* open_file(const std::string& path, const std::string& mode) noexcept;
+HOU_SYS_API FILE* open_file(
+  const std::string& path, const std::string& mode) noexcept;
+
+/** Closes a file.
+ *
+ * \param f the file to be closed.
+ *
+ * \return true if the file was closed successfully.
+ */
+HOU_SYS_API bool close_file(FILE* f) noexcept;
 
 /** Checks if a directory exists.
  *
@@ -135,9 +142,9 @@ HOU_SYS_API size_t get_dir_byte_size(const std::string& path) noexcept;
  *
  * \param file the file pointer.
  *
- * \return the file descriptor.
+ * \return the file descriptor, or -1 if the file is invalid.
  */
-HOU_SYS_API int get_file_descriptor(not_null<FILE*> file) noexcept;
+HOU_SYS_API int get_file_descriptor(FILE* file) noexcept;
 
 /** Retrieves the size of a file in bytes.
  *

@@ -107,11 +107,27 @@ TEST_F(test_file_handle, get_file_mode_string)
 
 
 
-TEST_F(test_file_handle, open_file)
+TEST_F(test_file_handle, open_close_file)
 {
   FILE* f = open_file(filename, "rb");
   EXPECT_NE(nullptr, f);
-  fclose(f);
+  EXPECT_TRUE(close_file(f));
+}
+
+
+
+TEST_F(test_file_handle, open_file_failure)
+{
+  FILE* f = open_file("dummy", "rb");
+  EXPECT_EQ(nullptr, f);
+}
+
+
+
+TEST_F(test_file_handle, close_file_failure)
+{
+  FILE* f = nullptr;
+  EXPECT_FALSE(close_file(f));
 }
 
 
@@ -221,6 +237,13 @@ TEST_F(test_file_handle, get_file_descriptor)
 {
   file_handle fh(filename, file_open_mode::read, file_type::binary);
   EXPECT_GE(get_file_descriptor(fh), 0);
+}
+
+
+
+TEST_F(test_file_handle, get_file_descriptor_error)
+{
+  EXPECT_EQ(-1, get_file_descriptor(nullptr));
 }
 
 

@@ -64,9 +64,9 @@ size_t get_dir_byte_size(const std::string& path) noexcept
 
 
 
-int get_file_descriptor(not_null<FILE*> file) noexcept
+int get_file_descriptor(FILE* file) noexcept
 {
-  return _fileno(file.get());
+  return _fileno(file);
 }
 
 
