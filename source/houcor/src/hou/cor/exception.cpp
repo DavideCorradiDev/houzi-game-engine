@@ -15,12 +15,8 @@ namespace hou
 
 namespace
 {
-#if defined(HOU_SYSTEM_WINDOWS)
-constexpr char path_separator = '\\';
-#else
-constexpr char path_separator = '/';
-#endif
 
+constexpr char path_separator = '/';
 
 }  // namespace
 

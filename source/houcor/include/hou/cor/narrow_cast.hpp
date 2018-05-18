@@ -9,6 +9,7 @@
 #include "hou/cor/is_same_signedness.hpp"
 
 #include "hou/cor/cor_config.hpp"
+#include "hou/cor/pragmas.hpp"
 
 
 

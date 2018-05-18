@@ -4,11 +4,13 @@
 
 #include "hou/gfx/texture.hpp"
 
-#include "hou/mth/math_functions.hpp"
-#include "hou/mth/matrix.hpp"
-
 #include "hou/gfx/gl_type.hpp"
 #include "hou/gfx/texture_channel_mapping.hpp"
+
+#include "hou/cor/narrow_cast.hpp"
+
+#include "hou/mth/math_functions.hpp"
+#include "hou/mth/matrix.hpp"
 
 
 
@@ -216,24 +218,24 @@ bool element_wise_lower_or_equal(
 
 vec1u get_texture1_size(const gl::texture_handle& th, uint mipmap_level)
 {
-  return vec1u(static_cast<uint>(gl::get_texture_width(th, mipmap_level)));
+  return vec1u(narrow_cast<uint>(gl::get_texture_width(th, mipmap_level)));
 }
 
 
 
 vec2u get_texture2_size(const gl::texture_handle& th, uint mipmap_level)
 {
-  return vec2u(static_cast<uint>(gl::get_texture_width(th, mipmap_level)),
-    static_cast<uint>(gl::get_texture_height(th, mipmap_level)));
+  return vec2u(narrow_cast<uint>(gl::get_texture_width(th, mipmap_level)),
+    narrow_cast<uint>(gl::get_texture_height(th, mipmap_level)));
 }
 
 
 
 vec3u get_texture3_size(const gl::texture_handle& th, uint mipmap_level)
 {
-  return vec3u(static_cast<uint>(gl::get_texture_width(th, mipmap_level)),
-    static_cast<uint>(gl::get_texture_height(th, mipmap_level)),
-    static_cast<uint>(gl::get_texture_depth(th, mipmap_level)));
+  return vec3u(narrow_cast<uint>(gl::get_texture_width(th, mipmap_level)),
+    narrow_cast<uint>(gl::get_texture_height(th, mipmap_level)),
+    narrow_cast<uint>(gl::get_texture_depth(th, mipmap_level)));
 }
 
 
@@ -312,7 +314,7 @@ void texture::unbind(uint tu)
 
 uint texture::get_texture_unit_count()
 {
-  return static_cast<uint>(gl::get_max_texture_image_units());
+  return narrow_cast<uint>(gl::get_max_texture_image_units());
 }
 
 
@@ -402,21 +404,21 @@ void texture::setChannelMapping(const texture_channel_mapping& mapping)
 
 uint texture::get_width() const
 {
-  return static_cast<uint>(gl::get_texture_width(m_gl_texture_handle, 0));
+  return narrow_cast<uint>(gl::get_texture_width(m_gl_texture_handle, 0));
 }
 
 
 
 uint texture::get_height() const
 {
-  return static_cast<uint>(gl::get_texture_height(m_gl_texture_handle, 0));
+  return narrow_cast<uint>(gl::get_texture_height(m_gl_texture_handle, 0));
 }
 
 
 
 uint texture::get_depth() const
 {
-  return static_cast<uint>(gl::get_texture_depth(m_gl_texture_handle, 0));
+  return narrow_cast<uint>(gl::get_texture_depth(m_gl_texture_handle, 0));
 }
 
 
@@ -445,7 +447,7 @@ vec3u texture::get_size3() const
 template <>
 vec1u texture_t<texture_type::texture1>::get_max_size()
 {
-  return vec1u(static_cast<uint>(gl::get_max_texture_size()));
+  return vec1u(narrow_cast<uint>(gl::get_max_texture_size()));
 }
 
 
@@ -453,8 +455,8 @@ vec1u texture_t<texture_type::texture1>::get_max_size()
 template <>
 vec2u texture_t<texture_type::texture1_array>::get_max_size()
 {
-  return vec2u(static_cast<uint>(gl::get_max_texture_size()),
-    static_cast<uint>(gl::get_max_texture_layers()));
+  return vec2u(narrow_cast<uint>(gl::get_max_texture_size()),
+    narrow_cast<uint>(gl::get_max_texture_layers()));
 }
 
 
@@ -462,8 +464,8 @@ vec2u texture_t<texture_type::texture1_array>::get_max_size()
 template <>
 vec2u texture_t<texture_type::texture2>::get_max_size()
 {
-  return vec2u(static_cast<uint>(gl::get_max_texture_size()),
-    static_cast<uint>(gl::get_max_texture_size()));
+  return vec2u(narrow_cast<uint>(gl::get_max_texture_size()),
+    narrow_cast<uint>(gl::get_max_texture_size()));
 }
 
 
@@ -471,9 +473,9 @@ vec2u texture_t<texture_type::texture2>::get_max_size()
 template <>
 vec3u texture_t<texture_type::texture2_array>::get_max_size()
 {
-  return vec3u(static_cast<uint>(gl::get_max_texture_size()),
-    static_cast<uint>(gl::get_max_texture_size()),
-    static_cast<uint>(gl::get_max_texture_layers()));
+  return vec3u(narrow_cast<uint>(gl::get_max_texture_size()),
+    narrow_cast<uint>(gl::get_max_texture_size()),
+    narrow_cast<uint>(gl::get_max_texture_layers()));
 }
 
 
@@ -481,9 +483,9 @@ vec3u texture_t<texture_type::texture2_array>::get_max_size()
 template <>
 vec3u texture_t<texture_type::texture3>::get_max_size()
 {
-  return vec3u(static_cast<uint>(gl::get_max_3d_texture_size()),
-    static_cast<uint>(gl::get_max_3d_texture_size()),
-    static_cast<uint>(gl::get_max_3d_texture_size()));
+  return vec3u(narrow_cast<uint>(gl::get_max_3d_texture_size()),
+    narrow_cast<uint>(gl::get_max_3d_texture_size()),
+    narrow_cast<uint>(gl::get_max_3d_texture_size()));
 }
 
 
@@ -491,8 +493,8 @@ vec3u texture_t<texture_type::texture3>::get_max_size()
 template <>
 vec2u texture_t<texture_type::multisample_texture2>::get_max_size()
 {
-  return vec2u(static_cast<uint>(gl::get_max_texture_size()),
-    static_cast<uint>(gl::get_max_texture_size()));
+  return vec2u(narrow_cast<uint>(gl::get_max_texture_size()),
+    narrow_cast<uint>(gl::get_max_texture_size()));
 }
 
 
@@ -500,9 +502,9 @@ vec2u texture_t<texture_type::multisample_texture2>::get_max_size()
 template <>
 vec3u texture_t<texture_type::multisample_texture2_array>::get_max_size()
 {
-  return vec3u(static_cast<uint>(gl::get_max_texture_size()),
-    static_cast<uint>(gl::get_max_texture_size()),
-    static_cast<uint>(gl::get_max_texture_layers()));
+  return vec3u(narrow_cast<uint>(gl::get_max_texture_size()),
+    narrow_cast<uint>(gl::get_max_texture_size()),
+    narrow_cast<uint>(gl::get_max_texture_layers()));
 }
 
 
@@ -626,7 +628,7 @@ texture_t<texture_type::multisample_texture2>::texture_t(const size_type& s,
 {
   HOU_PRECOND(is_texture_size_valid<texture_type::multisample_texture2>(s)
     && sample_count > 0u
-    && sample_count <= static_cast<uint>(gl::get_max_texture_samples()));
+    && sample_count <= narrow_cast<uint>(gl::get_max_texture_samples()));
   set_texture_storage_2d_multisample(m_gl_texture_handle, sample_count,
     static_cast<GLenum>(format), s.x(), s.y(), fixed_sample_locations);
 }
@@ -643,7 +645,7 @@ texture_t<texture_type::multisample_texture2_array>::texture_t(
 {
   HOU_PRECOND(is_texture_size_valid<texture_type::multisample_texture2_array>(s)
     && sample_count > 0u
-    && sample_count <= static_cast<uint>(gl::get_max_texture_samples()));
+    && sample_count <= narrow_cast<uint>(gl::get_max_texture_samples()));
   set_texture_storage_3d_multisample(m_gl_texture_handle, sample_count,
     static_cast<GLenum>(format), s.x(), s.y(), s.z(), fixed_sample_locations);
 }

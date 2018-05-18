@@ -7,6 +7,8 @@
 #include "hou/gfx/graphic_context.hpp"
 #include "hou/gfx/texture.hpp"
 
+#include "hou/cor/narrow_cast.hpp"
+
 #include "hou/gl/gl_functions.hpp"
 
 #include "hou/sys/color.hpp"
@@ -132,7 +134,7 @@ void render_surface::clear(const color& color)
 texture2 render_surface::to_texture() const
 {
   texture2 tex(get_size());
-  recti blitRect(vec2i::zero(), static_cast<vec2i>(get_size()));
+  recti blitRect(vec2i::zero(), narrow_cast<vec2i>(get_size()));
   blit(
     m_framebuffer, blitRect, tex, blitRect, framebuffer_blit_filter::nearest);
   return tex;

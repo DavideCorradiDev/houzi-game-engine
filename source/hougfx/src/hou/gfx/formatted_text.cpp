@@ -1,5 +1,6 @@
 #include "hou/gfx/formatted_text.hpp"
 
+#include "hou/cor/narrow_cast.hpp"
 #include "hou/cor/span.hpp"
 
 #include "hou/gfx/font.hpp"
@@ -160,9 +161,9 @@ const vec2u& glyph_cache::get_max_glyph_size() const
 vec3u glyph_atlas::compute_atlas_grid_size(const glyph_cache& cache)
 {
   static const vec3u max_atlas_size(
-    std::min(2048u, static_cast<uint>(gl::get_max_texture_size())),
-    std::min(2048u, static_cast<uint>(gl::get_max_texture_size())),
-    std::min(256u, static_cast<uint>(gl::get_max_texture_layers())));
+    std::min(2048u, texture2_array::get_max_size().x()),
+    std::min(2048u, texture2_array::get_max_size().y()),
+    std::min(256u, texture2_array::get_max_size().z()));
 
   vec3u maxAtlasGridSize = max_atlas_size;
   maxAtlasGridSize.x() /= cache.get_max_glyph_size().x();
@@ -180,9 +181,9 @@ vec3u glyph_atlas::compute_atlas_grid_size(const glyph_cache& cache)
 
 atlas_glyph_coordinates::atlas_glyph_coordinates(
   const vec3u& pos, const vec2u& size, const vec3u& tex_size)
-  : m_pos(static_cast<vec3f>(pos))
-  , m_size(static_cast<vec2f>(size))
-  , m_tex_size(static_cast<vec3f>(tex_size))
+  : m_pos(narrow_cast<vec3f>(pos))
+  , m_size(narrow_cast<vec2f>(size))
+  , m_tex_size(narrow_cast<vec3f>(tex_size))
 {}
 
 

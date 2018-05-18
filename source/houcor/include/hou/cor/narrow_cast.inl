@@ -16,6 +16,8 @@ bool check_matching_sign<T, U>::check(const T& t, const U& u)
 
 
 
+HOU_PRAGMA_GCC_DIAGNOSTIC_PUSH()
+HOU_PRAGMA_GCC_DIAGNOSTIC_IGNORED(-Wfloat-equal)
 template <typename To, typename From>
 constexpr To narrow_cast(const From& from)
 {
@@ -30,5 +32,6 @@ constexpr To narrow_cast(const From& from)
 
   return to;
 }
+HOU_PRAGMA_GCC_DIAGNOSTIC_POP()
 
 }  // namespace hou

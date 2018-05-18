@@ -8,6 +8,7 @@
 #include "hou/gfx/glyph.hpp"
 
 #include "hou/cor/assertions.hpp"
+#include "hou/cor/narrow_cast.hpp"
 
 #include "hou/mth/matrix.hpp"
 #include "hou/mth/rectangle.hpp"
@@ -227,8 +228,8 @@ rectf font::get_pixel_glyph_bounding_box() const noexcept
 {
   recti pf266Rect = get_glyph_bounding_box();
   return rectf(
-    static_cast<vec2f>(pf266Rect.get_position()) * pf266_to_pixel_factor,
-    static_cast<vec2f>(pf266Rect.get_size()) * pf266_to_pixel_factor);
+    narrow_cast<vec2f>(pf266Rect.get_position()) * pf266_to_pixel_factor,
+    narrow_cast<vec2f>(pf266Rect.get_size()) * pf266_to_pixel_factor);
 }
 
 
@@ -243,7 +244,7 @@ int font::get_line_spacing() const noexcept
 
 float font::get_pixel_line_spacing() const noexcept
 {
-  return static_cast<float>(get_line_spacing()) * pf266_to_pixel_factor;
+  return narrow_cast<float>(get_line_spacing()) * pf266_to_pixel_factor;
 }
 
 
@@ -258,7 +259,7 @@ int font::get_max_advance() const noexcept
 
 float font::get_pixel_max_advance() const noexcept
 {
-  return static_cast<float>(get_max_advance()) * pf266_to_pixel_factor;
+  return narrow_cast<float>(get_max_advance()) * pf266_to_pixel_factor;
 }
 
 
@@ -273,7 +274,7 @@ int font::get_max_horizontal_advance() const noexcept
 
 float font::get_pixel_max_horizontal_advance() const noexcept
 {
-  return static_cast<float>(get_max_horizontal_advance())
+  return narrow_cast<float>(get_max_horizontal_advance())
     * pf266_to_pixel_factor;
 }
 
@@ -288,7 +289,7 @@ int font::get_max_vertical_advance() const noexcept
 
 float font::get_pixel_max_vertical_advance() const noexcept
 {
-  return static_cast<float>(get_max_vertical_advance()) * pf266_to_pixel_factor;
+  return narrow_cast<float>(get_max_vertical_advance()) * pf266_to_pixel_factor;
 }
 
 
@@ -357,7 +358,7 @@ vec2i font::get_kerning(utf32::code_unit first, utf32::code_unit second) const
 vec2f font::get_pixel_kerning(
   utf32::code_unit first, utf32::code_unit second) const
 {
-  return static_cast<vec2f>(get_kerning(first, second)) * pf266_to_pixel_factor;
+  return narrow_cast<vec2f>(get_kerning(first, second)) * pf266_to_pixel_factor;
 }
 
 
