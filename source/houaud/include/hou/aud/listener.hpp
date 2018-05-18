@@ -7,6 +7,8 @@
 
 #include "hou/aud/aud_config.hpp"
 
+#include "hou/cor/checked_variable.hpp"
+
 #include "hou/mth/matrix_fwd.hpp"
 #include "hou/mth/rotation3_fwd.hpp"
 
@@ -28,7 +30,7 @@ namespace listener
  *
  * \return the gain of the listener.
  */
-HOU_AUD_API float get_gain();
+HOU_AUD_API non_negative<float> get_gain();
 
 /** Sets the gain of the listener.
  *
@@ -38,7 +40,7 @@ HOU_AUD_API float get_gain();
  *
  * \param gain the gain.
  */
-HOU_AUD_API void set_gain(float gain);
+HOU_AUD_API void set_gain(non_negative<float> gain);
 
 /** Gets the current position of the listener in 3d space.
  *

@@ -9,6 +9,8 @@
 
 #include "hou/aud/aud_config.hpp"
 
+#include "hou/cor/checked_variable.hpp"
+
 
 
 namespace hou
@@ -63,7 +65,7 @@ HOU_AUD_API void set_distance_model(sound_distance_model model);
  *
  * \return the current doppler factor.
  */
-HOU_AUD_API float get_doppler_factor();
+HOU_AUD_API non_negative<float> get_doppler_factor();
 
 /** Sets the current doppler factor.
  *
@@ -71,7 +73,7 @@ HOU_AUD_API float get_doppler_factor();
  *
  * \param dopplerFactor the doppler factor.
  */
-HOU_AUD_API void set_doppler_factor(float dopplerFactor);
+HOU_AUD_API void set_doppler_factor(non_negative<float> dopplerFactor);
 
 /** Gets the current speed of sound in meters per second.
  *
@@ -79,7 +81,7 @@ HOU_AUD_API void set_doppler_factor(float dopplerFactor);
  *
  * \return the current speed of sound.
  */
-HOU_AUD_API float get_speed_of_sound();
+HOU_AUD_API positive<float> get_speed_of_sound();
 
 /** Sets the current speed of sound.
  *
@@ -87,7 +89,7 @@ HOU_AUD_API float get_speed_of_sound();
  *
  * \param speedOfSound the speed of sound.
  */
-HOU_AUD_API void set_speed_of_sound(float speedOfSound);
+HOU_AUD_API void set_speed_of_sound(positive<float> speedOfSound);
 
 }  // namespace sound_model
 

@@ -26,31 +26,29 @@ void set_distance_model(sound_distance_model model)
 
 
 
-float get_doppler_factor()
+non_negative<float> get_doppler_factor()
 {
   return static_cast<float>(al::get_doppler_factor());
 }
 
 
 
-void set_doppler_factor(float dopplerFactor)
+void set_doppler_factor(non_negative<float> dopplerFactor)
 {
-  HOU_PRECOND(dopplerFactor >= 0.f);
   al::set_doppler_factor(static_cast<ALfloat>(dopplerFactor));
 }
 
 
 
-float get_speed_of_sound()
+positive<float> get_speed_of_sound()
 {
   return static_cast<float>(al::get_speed_of_sound());
 }
 
 
 
-void set_speed_of_sound(float speedOfSound)
+void set_speed_of_sound(positive<float> speedOfSound)
 {
-  HOU_PRECOND(speedOfSound > 0.f);
   al::set_speed_of_sound(static_cast<ALfloat>(speedOfSound));
 }
 
