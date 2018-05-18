@@ -130,39 +130,6 @@ using mat4x3u = mat4x3<uint>;
 /** Unsigned int 4x4 matrix */
 using mat4x4u = mat4x4<uint>;
 
-/** size_type 1x1 matrix */
-using mat1x1s = mat1x1<size_t>;
-/** size_type 1x2 matrix */
-using mat1x2s = mat1x2<size_t>;
-/** size_type 1x3 matrix */
-using mat1x3s = mat1x3<size_t>;
-/** size_type 1x4 matrix */
-using mat1x4s = mat1x4<size_t>;
-/** size_type 2x1 matrix */
-using mat2x1s = mat2x1<size_t>;
-/** size_type 2x2 matrix */
-using mat2x2s = mat2x2<size_t>;
-/** size_type 2x3 matrix */
-using mat2x3s = mat2x3<size_t>;
-/** size_type 2x4 matrix */
-using mat2x4s = mat2x4<size_t>;
-/** size_type 3x1 matrix */
-using mat3x1s = mat3x1<size_t>;
-/** size_type 3x2 matrix */
-using mat3x2s = mat3x2<size_t>;
-/** size_type 3x3 matrix */
-using mat3x3s = mat3x3<size_t>;
-/** size_type 3x4 matrix */
-using mat3x4s = mat3x4<size_t>;
-/** size_type 4x1 matrix */
-using mat4x1s = mat4x1<size_t>;
-/** size_type 4x2 matrix */
-using mat4x2s = mat4x2<size_t>;
-/** size_type 4x3 matrix */
-using mat4x3s = mat4x3<size_t>;
-/** size_type 4x4 matrix */
-using mat4x4s = mat4x4<size_t>;
-
 /** float 1x1 matrix */
 using mat1x1f = mat1x1<float>;
 /** float 1x2 matrix */
@@ -240,8 +207,6 @@ using vec1 = vec<T, 1u>;
 using vec1i = vec1<int>;
 /** Unsigned int 2d vector */
 using vec1u = vec1<uint>;
-/** size_type 2d vector */
-using vec1s = vec1<size_t>;
 /** float 2d vector */
 using vec1f = vec1<float>;
 /** double 2d vector */
@@ -254,8 +219,6 @@ using vec2 = vec<T, 2u>;
 using vec2i = vec2<int>;
 /** Unsigned int 2d vector */
 using vec2u = vec2<uint>;
-/** size_type 2d vector */
-using vec2s = vec2<size_t>;
 /** float 2d vector */
 using vec2f = vec2<float>;
 /** double 2d vector */
@@ -268,8 +231,6 @@ using vec3 = vec<T, 3u>;
 using vec3i = vec3<int>;
 /** Unsigned int 3d vector */
 using vec3u = vec3<uint>;
-/** size_type 3d vector */
-using vec3s = vec3<size_t>;
 /** float 3d vector */
 using vec3f = vec3<float>;
 /** double 3d vector */
