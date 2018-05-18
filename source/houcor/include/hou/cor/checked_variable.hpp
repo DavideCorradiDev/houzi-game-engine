@@ -35,16 +35,17 @@ private:
 
 
 
-// template <typename T>
-// class positive_checker
-// {
-// public:
-//   static constexpr bool check(const T& t) noexcept;
-// };
+template <typename T>
+class positive_checker
+{
+public:
+  using value_type = T;
 
+  static constexpr bool check(const T& t) noexcept;
+};
 
-
-// using int_p = checked_variable<int, positive_checker>;
+template <typename T>
+using positive = checked_variable<T, positive_checker<T>>;
 
 }  // namespace hou
 

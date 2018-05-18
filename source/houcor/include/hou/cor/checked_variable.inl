@@ -30,10 +30,10 @@ constexpr checked_variable<T, Checker>::operator T() const noexcept
 
 
 
-// template <typename T>
-// constexpr bool positive_checker::check(const T& t) noexcept
-// {
-//   return t > T(0);
-// }
+template <typename T>
+constexpr bool positive_checker<T>::check(const T& t) noexcept
+{
+  return t > T(0);
+}
 
 }

@@ -145,24 +145,36 @@ TEST_F(test_checked_variable_death_test, arithmetic_operation_failure)
 
 
 
-// TEST_F(test_checked_variable, positive_checker)
-// {
-//   EXPECT_TRUE(positive_checker<int>(1));
-//   EXPECT_FALSE(positive_checker<int>(0));
-//   EXPECT_FALSE(positive_checker<int>(-1));
-// 
-//   EXPECT_TRUE(positive_checker<uint>(1));
-//   EXPECT_FALSE(positive_checker<uint>(0));
-// 
-//   EXPECT_TRUE(positive_checker<float>(1.f));
-//   EXPECT_TRUE(positive_checker<float>(0.f));
-//   EXPECT_TRUE(positive_checker<float>(-1.f));
-// }
-//
+TEST_F(test_checked_variable, positive_checker)
+{
+  EXPECT_TRUE(positive_checker<int>::check(1));
+  EXPECT_FALSE(positive_checker<int>::check(0));
+  EXPECT_FALSE(positive_checker<int>::check(-1));
+
+  EXPECT_TRUE(positive_checker<uint>::check(1));
+  EXPECT_FALSE(positive_checker<uint>::check(0));
+
+  EXPECT_TRUE(positive_checker<float>::check(1.f));
+  EXPECT_FALSE(positive_checker<float>::check(0.f));
+  EXPECT_FALSE(positive_checker<float>::check(-1.f));
+}
 
 
-// TEST_F(test_checked_variable, positive_checked_variable)
-// {
-//   int_p a(1);
-//   EXPECT_EQ(1, a);
-// }
+
+TEST_F(test_checked_variable, positive)
+{
+  EXPECT_EQ(1, positive<int>(1));
+  EXPECT_EQ(4u, positive<uint>(4u));
+  EXPECT_EQ(1.4f, positive<float>(1.4f));
+}
+
+
+
+TEST_F(test_checked_variable_death_test, positive_failure)
+{
+  EXPECT_ERROR_0(positive<int>(0), invalid_value);
+  EXPECT_ERROR_0(positive<int>(-1), invalid_value);
+  EXPECT_ERROR_0(positive<uint>(0), invalid_value);
+  EXPECT_ERROR_0(positive<float>(0.f), invalid_value);
+  EXPECT_ERROR_0(positive<float>(-1.f), invalid_value);
+}
