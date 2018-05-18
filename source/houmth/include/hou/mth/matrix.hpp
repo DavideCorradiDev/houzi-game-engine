@@ -1070,7 +1070,7 @@ std::ostream& operator<<(std::ostream& os, const matrix<T, Rows, Cols>& m);
  */
 template <>
 template <typename T, typename U, size_t Rows, size_t Cols>
-struct check_matching_sign<matrix<T, Rows, Cols>, matrix<U, Rows, Cols>>
+class check_matching_sign<matrix<T, Rows, Cols>, matrix<U, Rows, Cols>>
 {
 private:
   using t_matrix = matrix<T, Rows, Cols>;
