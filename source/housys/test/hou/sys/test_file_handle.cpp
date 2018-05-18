@@ -92,6 +92,27 @@ TEST_F(test_file_handle, move_constructor)
 
 
 
+TEST_F(test_file_handle, close)
+{
+  file_handle f(filename, file_open_mode::read, file_type::binary);
+  EXPECT_NE(nullptr, static_cast<FILE*>(f));
+  f.close();
+  EXPECT_EQ(nullptr, static_cast<FILE*>(f));
+}
+
+
+
+TEST_F(test_file_handle_death_test, close_error)
+{
+  file_handle f(filename, file_open_mode::read, file_type::binary);
+  EXPECT_NE(nullptr, static_cast<FILE*>(f));
+  f.close();
+  EXPECT_EQ(nullptr, static_cast<FILE*>(f));
+  EXPECT_ERROR_0(f.close(), file_close_error);
+}
+
+
+
 TEST_F(test_file_handle, get_file_mode_string)
 {
   EXPECT_EQ("r", get_file_mode_string(file_open_mode::read, file_type::text));

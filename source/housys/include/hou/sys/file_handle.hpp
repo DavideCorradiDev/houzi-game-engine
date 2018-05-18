@@ -42,13 +42,26 @@ public:
    */
   file_handle(file_handle&& other) noexcept;
 
-  /** Destructor
+  /** Closes the file.
+   *
+   * It is not necessary to explicitly close the file, as it will be done by
+   * the destructor, but calling close first will allow to catch exception,
+   * while a failure to close the file in the destructor will terminate the
+   * application.
+   *
+   * \throws hou::file_close_error if the file could not be closed (for example
+   * if it was already been closed.
+   */
+  void close();
+
+  /** Destructor.
    */
   ~file_handle();
 
   /** Conversion to FILE*.
    *
-   * \return the corresponding pointer to FILE.
+   * \return the corresponding pointer to FILE. Returns nullptr if the
+   * file_handle has been closed.
    */
   operator FILE*() const noexcept;
 

@@ -32,12 +32,20 @@ file_handle::file_handle(file_handle&& other) noexcept
 
 
 
+void file_handle::close()
+{
+  HOU_CHECK_0(close_file(m_file), file_close_error);
+  m_file = nullptr;
+}
+
+
+
 file_handle::~file_handle()
 {
   if(m_file != nullptr)
   {
     HOU_DISABLE_EXCEPTIONS_BEGIN
-    HOU_CHECK_0(close_file(m_file), file_close_error);
+    close();
     HOU_DISABLE_EXCEPTIONS_END
   }
 }
