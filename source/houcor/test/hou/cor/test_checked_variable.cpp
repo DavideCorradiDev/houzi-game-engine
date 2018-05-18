@@ -179,6 +179,42 @@ TEST_F(test_checked_variable_death_test, positive_failure)
 
 
 
+TEST_F(test_checked_variable, non_negative_checker)
+{
+  EXPECT_TRUE(non_negative_checker<int>::check(1));
+  EXPECT_TRUE(non_negative_checker<int>::check(0));
+  EXPECT_FALSE(non_negative_checker<int>::check(-1));
+
+  EXPECT_TRUE(non_negative_checker<uint>::check(1));
+  EXPECT_TRUE(non_negative_checker<uint>::check(0));
+
+  EXPECT_TRUE(non_negative_checker<float>::check(1.f));
+  EXPECT_TRUE(non_negative_checker<float>::check(0.f));
+  EXPECT_FALSE(non_negative_checker<float>::check(-1.f));
+}
+
+
+
+TEST_F(test_checked_variable, non_negative)
+{
+  EXPECT_EQ(0, non_negative<int>(0));
+  EXPECT_EQ(1, non_negative<int>(1));
+  EXPECT_EQ(0u, non_negative<uint>(0u));
+  EXPECT_EQ(4u, non_negative<uint>(4u));
+  EXPECT_EQ(0.f, non_negative<float>(0.f));
+  EXPECT_EQ(1.4f, non_negative<float>(1.4f));
+}
+
+
+
+TEST_F(test_checked_variable_death_test, non_negative_failure)
+{
+  EXPECT_ERROR_0(non_negative<int>(-1), invalid_value);
+  EXPECT_ERROR_0(non_negative<float>(-1.f), invalid_value);
+}
+
+
+
 TEST_F(test_checked_variable, negative_checker)
 {
   EXPECT_FALSE(negative_checker<int>::check(1));

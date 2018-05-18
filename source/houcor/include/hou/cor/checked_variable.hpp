@@ -51,6 +51,21 @@ using positive = checked_variable<T, positive_checker<T>>;
 
 
 template <typename T>
+class non_negative_checker
+{
+public:
+  using value_type = T;
+
+  static constexpr bool check(const T& t) noexcept;
+};
+
+template <typename T>
+using non_negative = checked_variable<T, non_negative_checker<T>>;
+
+
+
+
+template <typename T>
 class negative_checker
 {
 public:

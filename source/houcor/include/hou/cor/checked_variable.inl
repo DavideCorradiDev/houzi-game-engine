@@ -39,6 +39,14 @@ constexpr bool positive_checker<T>::check(const T& t) noexcept
 
 
 template <typename T>
+constexpr bool non_negative_checker<T>::check(const T& t) noexcept
+{
+  return t >= T(0);
+}
+
+
+
+template <typename T>
 constexpr bool negative_checker<T>::check(const T& t) noexcept
 {
   return t < T(0);
