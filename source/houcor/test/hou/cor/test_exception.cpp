@@ -65,9 +65,7 @@ TEST_F(test_exception, constructor)
 
 TEST_F(test_exception, file_name_trimming)
 {
-#if defined(HOU_SYSTEM_WINDOWS)
-  exception ex("path\\to\\file1.txt", 88u, "Message.");
-#endif
+  exception ex("path/to/file1.txt", 88u, "Message.");
   EXPECT_STREQ("file1.txt:88 - Message.", ex.what());
 }
 

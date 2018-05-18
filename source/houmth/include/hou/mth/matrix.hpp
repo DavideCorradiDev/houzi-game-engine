@@ -10,6 +10,9 @@
 #include "hou/mth/mth_config.hpp"
 
 #include "hou/cor/assertions.hpp"
+#include "hou/cor/cor_exceptions.hpp"
+#include "hou/cor/is_same_signedness.hpp"
+#include "hou/cor/narrow_cast.hpp"
 #include "hou/cor/pragmas.hpp"
 #include "hou/cor/std_array.hpp"
 #include "hou/cor/template_utils.hpp"
@@ -658,7 +661,8 @@ public:
    *
    * \return the result of the check.
    */
-  friend constexpr bool operator==(const matrix& lhs, const matrix& rhs) noexcept
+  friend constexpr bool operator==(
+    const matrix& lhs, const matrix& rhs) noexcept
   {
     return lhs.m_elements == rhs.m_elements;
   }
@@ -671,7 +675,8 @@ public:
    *
    * \return the result of the check.
    */
-  friend constexpr bool operator!=(const matrix& lhs, const matrix& rhs) noexcept
+  friend constexpr bool operator!=(
+    const matrix& lhs, const matrix& rhs) noexcept
   {
     return lhs.m_elements != rhs.m_elements;
   }
@@ -687,7 +692,8 @@ public:
    * \return the result of the check.
    */
   friend constexpr bool close(const matrix<T, Rows, Cols>& lhs,
-    const matrix<T, Rows, Cols>& rhs, T acc = std::numeric_limits<T>::epsilon()) noexcept
+    const matrix<T, Rows, Cols>& rhs,
+    T acc = std::numeric_limits<T>::epsilon()) noexcept
   {
     return close(lhs.m_elements, rhs.m_elements, acc);
   }
@@ -865,7 +871,8 @@ constexpr matrix<T, Rows - 1, Cols - 1> reduce(
  */
 // No member function because returns a different type.
 template <typename T, size_t Rows, size_t Cols>
-constexpr matrix<T, Cols, Rows> transpose(const matrix<T, Rows, Cols>& m) noexcept;
+constexpr matrix<T, Cols, Rows> transpose(
+  const matrix<T, Rows, Cols>& m) noexcept;
 
 /** Computes the adjugate of the given matrix.
  *
@@ -1029,7 +1036,8 @@ constexpr matrix<T, 3u, 3u> outer_product(
  * \return the result of the dot product.
  */
 template <typename T, size_t Rows>
-constexpr T dot(const matrix<T, Rows, 1u>& lhs, const matrix<T, Rows, 1u>& rhs) noexcept;
+constexpr T dot(
+  const matrix<T, Rows, 1u>& lhs, const matrix<T, Rows, 1u>& rhs) noexcept;
 
 /** Writes the object into a stream.
  *
@@ -1048,7 +1056,63 @@ constexpr T dot(const matrix<T, Rows, 1u>& lhs, const matrix<T, Rows, 1u>& rhs) 
 template <typename T, size_t Rows, size_t Cols>
 std::ostream& operator<<(std::ostream& os, const matrix<T, Rows, Cols>& m);
 
+
+
+/** Specialization of check_matching_sign for matrix.
+ *
+ * \tparam T the first scalar type.
+ *
+ * \tparam U the second scalar type.
+ *
+ * \tparam Rows the number of rows in the matrix.
+ *
+ * \tparam Cols the number of columns in the matrix.
+ */
+template <>
+template <typename T, typename U, size_t Rows, size_t Cols>
+struct check_matching_sign<matrix<T, Rows, Cols>, matrix<U, Rows, Cols>>
+{
+private:
+  using t_matrix = matrix<T, Rows, Cols>;
+  using u_matrix = matrix<U, Rows, Cols>;
+
+public:
+  static bool check(const t_matrix& t, const u_matrix& f)
+  {
+    HOU_DEV_ASSERT(t.size() == f.size());
+    for(size_t i = 0; i < t.size(); ++i)
+    {
+      if((t[i] < T(0)) != (f[i] < U(0)))
+      {
+        return false;
+      }
+    }
+    return true;
+  }
+};
+
 }  // namespace hou
+
+
+
+namespace std
+{
+
+/** Specialization of std::is_signed for hou::matrix.
+ *
+ * \tparam T the scalar type.
+ *
+ * \tparam Rows the number of rows in the matrix.
+ *
+ * \tparam Cols the number of columns in the matrix.
+ */
+template <>
+template <typename T, size_t Rows, size_t Cols>
+struct is_signed<hou::matrix<T, Rows, Cols>>
+  : public std::integral_constant<bool, std::is_signed<T>::value>
+{};
+
+}  // namespace std
 
 
 

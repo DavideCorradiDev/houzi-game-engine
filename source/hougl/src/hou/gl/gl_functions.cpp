@@ -8,6 +8,8 @@
 #include "hou/gl/gl_context_settings.hpp"
 #include "hou/gl/gl_exceptions.hpp"
 
+#include "hou/cor/narrow_cast.hpp"
+
 #include "hou/mth/rectangle.hpp"
 
 #include "hou/sys/system_window.hpp"
@@ -323,7 +325,7 @@ GLsizei get_pixel_size_bytes(GLenum format)
 GLsizei compute_texture_size_bytes(
   GLsizei width, GLsizei height, GLsizei depth, GLenum format)
 {
-  GLsizei unpack_alignment = static_cast<GLsizei>(gl::get_unpack_alignment());
+  GLsizei unpack_alignment = narrow_cast<GLsizei>(gl::get_unpack_alignment());
   GLsizei pixel_size = get_pixel_size_bytes(format);
   GLsizei row_size = pixel_size * width;
   GLsizei offset = row_size % unpack_alignment;

@@ -6,6 +6,7 @@
 
 #include "hou/cor/assertions.hpp"
 #include "hou/cor/cor_exceptions.hpp"
+#include "hou/cor/narrow_cast.hpp"
 
 #include "hou/mth/math_functions.hpp"
 
@@ -127,24 +128,27 @@ audio_source_state audio_source::get_state() const
 
 void audio_source::set_time_pos(std::chrono::nanoseconds nsPos)
 {
-  set_sample_pos(static_cast<int64_t>(nsPos.count())
-    * static_cast<int64_t>(get_sample_rate()) / 1000000000);
+  using rep = std::chrono::nanoseconds::rep;
+  set_sample_pos(static_cast<rep>(nsPos.count())
+    * static_cast<rep>(get_sample_rate()) / 1000000000);
 }
 
 
 
 std::chrono::nanoseconds audio_source::get_time_pos() const
 {
-  return std::chrono::nanoseconds(static_cast<int64_t>(get_sample_pos())
-    * 1000000000 / static_cast<int64_t>(get_sample_rate()));
+  using rep = std::chrono::nanoseconds::rep;
+  return std::chrono::nanoseconds(static_cast<rep>(get_sample_pos())
+    * 1000000000 / static_cast<rep>(get_sample_rate()));
 }
 
 
 
 std::chrono::nanoseconds audio_source::get_duration() const
 {
-  return std::chrono::nanoseconds(static_cast<int64_t>(get_sample_count())
-    * 1000000000 / static_cast<int64_t>(get_sample_rate()));
+  using rep = std::chrono::nanoseconds::rep;
+  return std::chrono::nanoseconds(static_cast<rep>(get_sample_count())
+    * 1000000000 / static_cast<rep>(get_sample_rate()));
 }
 
 
@@ -411,14 +415,14 @@ vec3f audio_source::get_direction() const
 
 void audio_source::on_set_sample_pos(uint pos)
 {
-  al::set_source_sample_offset(m_handle, static_cast<ALint>(pos));
+  al::set_source_sample_offset(m_handle, narrow_cast<ALint>(pos));
 }
 
 
 
 uint audio_source::on_get_sample_pos() const
 {
-  return static_cast<uint>(al::get_source_sample_offset(m_handle));
+  return narrow_cast<uint>(al::get_source_sample_offset(m_handle));
 }
 
 }  // namespace hou

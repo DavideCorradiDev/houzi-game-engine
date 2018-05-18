@@ -6,6 +6,8 @@
 
 #include "hou/mth/matrix.hpp"
 
+#include "hou/cor/is_same_signedness.hpp"
+
 using namespace hou;
 using namespace testing;
 
@@ -984,4 +986,176 @@ TEST_F(test_matrix, output_stream_operator)
 {
   EXPECT_OUTPUT("(0)\n(1)", mat2x1i(0, 1));
   EXPECT_OUTPUT("(0, 1)\n(2, 3)\n(4, 5)", mat3x2i(0, 1, 2, 3, 4, 5));
+}
+
+
+
+TEST_F(test_matrix, is_signed)
+{
+  EXPECT_TRUE(std::is_signed<mat2x2i>::value);
+  EXPECT_FALSE(std::is_signed<mat2x2u>::value);
+  EXPECT_TRUE(std::is_signed<mat2x2f>::value);
+  EXPECT_TRUE(std::is_signed<mat2x2d>::value);
+}
+
+
+
+TEST_F(test_matrix, is_same_signedness)
+{
+  using check_mat2x2i_mat2x1i = is_same_signedness<mat2x2i, mat2x1i>;
+  using check_mat2x2i_mat2x2i = is_same_signedness<mat2x2i, mat2x2i>;
+  using check_mat2x2i_mat2x2u = is_same_signedness<mat2x2i, mat2x2u>;
+  using check_mat2x2i_mat2x2f = is_same_signedness<mat2x2i, mat2x2f>;
+  using check_mat2x2i_mat2x2d = is_same_signedness<mat2x2i, mat2x2d>;
+
+  using check_mat2x2u_mat2x1i = is_same_signedness<mat2x2u, mat2x1i>;
+  using check_mat2x2u_mat2x2i = is_same_signedness<mat2x2u, mat2x2i>;
+  using check_mat2x2u_mat2x2u = is_same_signedness<mat2x2u, mat2x2u>;
+  using check_mat2x2u_mat2x2f = is_same_signedness<mat2x2u, mat2x2f>;
+  using check_mat2x2u_mat2x2d = is_same_signedness<mat2x2u, mat2x2d>;
+
+  using check_mat2x2f_mat2x1i = is_same_signedness<mat2x2f, mat2x1i>;
+  using check_mat2x2f_mat2x2i = is_same_signedness<mat2x2f, mat2x2i>;
+  using check_mat2x2f_mat2x2u = is_same_signedness<mat2x2f, mat2x2u>;
+  using check_mat2x2f_mat2x2f = is_same_signedness<mat2x2f, mat2x2f>;
+  using check_mat2x2f_mat2x2d = is_same_signedness<mat2x2f, mat2x2d>;
+
+  using check_mat2x2d_mat2x1i = is_same_signedness<mat2x2d, mat2x1i>;
+  using check_mat2x2d_mat2x2i = is_same_signedness<mat2x2d, mat2x2i>;
+  using check_mat2x2d_mat2x2u = is_same_signedness<mat2x2d, mat2x2u>;
+  using check_mat2x2d_mat2x2f = is_same_signedness<mat2x2d, mat2x2f>;
+  using check_mat2x2d_mat2x2d = is_same_signedness<mat2x2d, mat2x2d>;
+
+  EXPECT_TRUE(check_mat2x2i_mat2x1i::value);
+  EXPECT_TRUE(check_mat2x2i_mat2x2i::value);
+  EXPECT_FALSE(check_mat2x2i_mat2x2u::value);
+  EXPECT_TRUE(check_mat2x2i_mat2x2f::value);
+  EXPECT_TRUE(check_mat2x2i_mat2x2d::value);
+
+  EXPECT_FALSE(check_mat2x2u_mat2x1i::value);
+  EXPECT_FALSE(check_mat2x2u_mat2x2i::value);
+  EXPECT_TRUE(check_mat2x2u_mat2x2u::value);
+  EXPECT_FALSE(check_mat2x2u_mat2x2f::value);
+  EXPECT_FALSE(check_mat2x2u_mat2x2d::value);
+
+  EXPECT_TRUE(check_mat2x2f_mat2x1i::value);
+  EXPECT_TRUE(check_mat2x2f_mat2x2i::value);
+  EXPECT_FALSE(check_mat2x2f_mat2x2u::value);
+  EXPECT_TRUE(check_mat2x2f_mat2x2f::value);
+  EXPECT_TRUE(check_mat2x2f_mat2x2d::value);
+
+  EXPECT_TRUE(check_mat2x2d_mat2x1i::value);
+  EXPECT_TRUE(check_mat2x2d_mat2x2i::value);
+  EXPECT_FALSE(check_mat2x2d_mat2x2u::value);
+  EXPECT_TRUE(check_mat2x2d_mat2x2f::value);
+  EXPECT_TRUE(check_mat2x2d_mat2x2d::value);
+}
+
+
+
+TEST_F(test_matrix, narrow_cast_int_to_uint)
+{
+  EXPECT_EQ(mat2x1u::zero(), narrow_cast<mat2x1u>(mat2x1i::zero()));
+  EXPECT_EQ(mat2x1u(1u, 2u), narrow_cast<mat2x1u>(mat2x1i(1, 2)));
+  EXPECT_EQ(mat2x1u(1u, static_cast<uint>(std::numeric_limits<int>::max())),
+    narrow_cast<mat2x1u>(mat2x1i(1, std::numeric_limits<int>::max())));
+}
+
+
+
+TEST_F(test_matrix_death_test, narrow_cast_int_to_uint_failure)
+{
+  EXPECT_ERROR_0(narrow_cast<mat2x1u>(mat2x1i(0, -1)), narrowing_error);
+  EXPECT_ERROR_0(narrow_cast<mat2x1u>(mat2x1i(-1, 0)), narrowing_error);
+  EXPECT_ERROR_0(narrow_cast<mat2x1u>(mat2x1i(-1, -1)), narrowing_error);
+}
+
+
+
+TEST_F(test_matrix, narrow_cast_uint_to_int)
+{
+  EXPECT_EQ(mat2x1i::zero(), narrow_cast<mat2x1i>(mat2x1u::zero()));
+  EXPECT_EQ(mat2x1i(1, 2), narrow_cast<mat2x1i>(mat2x1u(1u, 2u)));
+  EXPECT_EQ(mat2x1i(1, std::numeric_limits<int>::max()),
+    narrow_cast<mat2x1i>(
+      mat2x1u(1u, static_cast<uint>(std::numeric_limits<int>::max()))));
+}
+
+
+
+TEST_F(test_matrix_death_test, narrow_cast_uint_to_int_failure)
+{
+  static constexpr uint of_val
+    = static_cast<uint>(std::numeric_limits<int>::max()) + 1u;
+  EXPECT_ERROR_0(narrow_cast<mat2x1i>(mat2x1u(0u, of_val)), narrowing_error);
+  EXPECT_ERROR_0(narrow_cast<mat2x1i>(mat2x1u(of_val, 0u)), narrowing_error);
+  EXPECT_ERROR_0(
+    narrow_cast<mat2x1i>(mat2x1u(of_val, of_val)), narrowing_error);
+}
+
+
+
+TEST_F(test_matrix, narrow_cast_int_to_float)
+{
+  EXPECT_FLOAT_CLOSE(mat2x1f::zero(), narrow_cast<mat2x1f>(mat2x1i::zero()));
+  EXPECT_FLOAT_CLOSE(
+    mat2x1f(-42.f, 88.f), narrow_cast<mat2x1f>(mat2x1i(-42, 88)));
+}
+
+
+
+TEST_F(test_matrix_death_test, narrow_cast_int_to_float_failure)
+{
+  static constexpr int of_val = std::numeric_limits<int>::max();
+  EXPECT_ERROR_0(narrow_cast<mat2x1f>(mat2x1i(0, of_val)), narrowing_error);
+  EXPECT_ERROR_0(narrow_cast<mat2x1f>(mat2x1i(of_val, 0)), narrowing_error);
+  EXPECT_ERROR_0(
+    narrow_cast<mat2x1f>(mat2x1i(of_val, of_val)), narrowing_error);
+}
+
+
+
+TEST_F(test_matrix, narrow_cast_float_to_int)
+{
+  EXPECT_EQ(mat2x1i::zero(), narrow_cast<mat2x1i>(mat2x1f::zero()));
+  EXPECT_EQ(mat2x1i(-42, 88), narrow_cast<mat2x1i>(mat2x1f(-42.f, 88.f)));
+}
+
+
+
+TEST_F(test_matrix_death_test, narrow_cast_float_to_int_failure)
+{
+  static constexpr float of_val = std::numeric_limits<float>::max();
+  EXPECT_ERROR_0(narrow_cast<mat2x1i>(mat2x1f(0.f, of_val)), narrowing_error);
+  EXPECT_ERROR_0(narrow_cast<mat2x1i>(mat2x1f(of_val, 0.f)), narrowing_error);
+  EXPECT_ERROR_0(
+    narrow_cast<mat2x1i>(mat2x1f(of_val, of_val)), narrowing_error);
+  EXPECT_ERROR_0(narrow_cast<mat2x1i>(mat2x1f(0.f, 2.5f)), narrowing_error);
+  EXPECT_ERROR_0(narrow_cast<mat2x1i>(mat2x1f(2.5f, 0.f)), narrowing_error);
+  EXPECT_ERROR_0(narrow_cast<mat2x1i>(mat2x1f(2.5f, 2.5f)), narrowing_error);
+}
+
+
+
+TEST_F(test_matrix, narrow_cast_float_to_uint)
+{
+  EXPECT_EQ(mat2x1u::zero(), narrow_cast<mat2x1u>(mat2x1f::zero()));
+  EXPECT_EQ(mat2x1u(42u, 88u), narrow_cast<mat2x1u>(mat2x1f(42.f, 88.f)));
+}
+
+
+
+TEST_F(test_matrix_death_test, narrow_cast_float_to_uint_failure)
+{
+  static constexpr float of_val = std::numeric_limits<float>::max();
+  EXPECT_ERROR_0(narrow_cast<mat2x1u>(mat2x1f(0.f, of_val)), narrowing_error);
+  EXPECT_ERROR_0(narrow_cast<mat2x1u>(mat2x1f(of_val, 0.f)), narrowing_error);
+  EXPECT_ERROR_0(
+    narrow_cast<mat2x1u>(mat2x1f(of_val, of_val)), narrowing_error);
+  EXPECT_ERROR_0(narrow_cast<mat2x1u>(mat2x1f(0.f, 2.5f)), narrowing_error);
+  EXPECT_ERROR_0(narrow_cast<mat2x1u>(mat2x1f(2.5f, 0.f)), narrowing_error);
+  EXPECT_ERROR_0(narrow_cast<mat2x1u>(mat2x1f(2.5f, 2.5f)), narrowing_error);
+  EXPECT_ERROR_0(narrow_cast<mat2x1u>(mat2x1f(0.f, -1.f)), narrowing_error);
+  EXPECT_ERROR_0(narrow_cast<mat2x1u>(mat2x1f(-0.1f, 0.f)), narrowing_error);
+  EXPECT_ERROR_0(narrow_cast<mat2x1u>(mat2x1f(-0.1f, -1.f)), narrowing_error);
 }

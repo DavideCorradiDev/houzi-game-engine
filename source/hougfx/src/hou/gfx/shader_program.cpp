@@ -6,6 +6,8 @@
 
 #include "hou/gfx/shader.hpp"
 
+#include "hou/cor/narrow_cast.hpp"
+
 #include "hou/mth/matrix.hpp"
 
 
@@ -62,7 +64,7 @@ bool shader_program::is_bound() const
 
 uint shader_program::get_uniform_location(const std::string& uniform_name) const
 {
-  return static_cast<uint>(
+  return narrow_cast<uint>(
     gl::get_program_uniform_location(m_handle, uniform_name.c_str()));
 }
 

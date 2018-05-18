@@ -11,7 +11,8 @@ namespace hou
 
 std::chrono::nanoseconds clock::get_resolution() noexcept
 {
-  return std::chrono::nanoseconds(static_cast<int64_t>(1000000000.
+  using rep = std::chrono::nanoseconds::rep;
+  return std::chrono::nanoseconds(static_cast<rep>(1000000000.
     * (static_cast<double>(std::chrono::high_resolution_clock::period::num)
         / static_cast<double>(
             std::chrono::high_resolution_clock::period::den))));

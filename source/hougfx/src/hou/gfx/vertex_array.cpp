@@ -7,6 +7,8 @@
 #include "hou/gfx/vertex_buffer.hpp"
 #include "hou/gfx/vertex_format.hpp"
 
+#include "hou/cor/narrow_cast.hpp"
+
 
 
 namespace hou
@@ -60,22 +62,22 @@ void vertex_array::set_vertex_data(
   HOU_PRECOND(binding_index <= get_max_binding_index());
 
   gl::set_vertex_array_vertex_buffer(m_handle,
-    static_cast<GLuint>(binding_index), vb.get_handle(),
-    static_cast<GLintptr>(vf.get_offset()),
-    static_cast<GLsizei>(vf.get_stride()));
+    narrow_cast<GLuint>(binding_index), vb.get_handle(),
+    narrow_cast<GLintptr>(vf.get_offset()),
+    narrow_cast<GLsizei>(vf.get_stride()));
 
   const std::vector<vertex_attrib_format>& vafs
     = vf.get_vertex_attrib_formats();
   for(GLuint i = 0; i < vafs.size(); ++i)
   {
-    gl::set_vertex_array_attrib_format(m_handle, static_cast<GLuint>(i),
-      static_cast<GLint>(vafs[i].get_element_count()),
+    gl::set_vertex_array_attrib_format(m_handle, narrow_cast<GLuint>(i),
+      narrow_cast<GLint>(vafs[i].get_element_count()),
       static_cast<GLenum>(vafs[i].get_type()),
       static_cast<GLboolean>(vafs[i].must_be_normalized()),
-      static_cast<GLuint>(vafs[i].get_byte_offset()));
+      narrow_cast<GLuint>(vafs[i].get_byte_offset()));
     gl::set_vertex_array_attrib_binding(
-      m_handle, static_cast<GLuint>(i), static_cast<GLuint>(binding_index));
-    gl::enable_vertex_array_attrib(m_handle, static_cast<GLuint>(i));
+      m_handle, narrow_cast<GLuint>(i), narrow_cast<GLuint>(binding_index));
+    gl::enable_vertex_array_attrib(m_handle, narrow_cast<GLuint>(i));
   }
 }
 

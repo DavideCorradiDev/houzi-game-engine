@@ -13,6 +13,7 @@
 #include "hou/cor/non_copyable.hpp"
 
 #include "hou/cor/assertions.hpp"
+#include "hou/cor/narrow_cast.hpp"
 #include "hou/cor/span.hpp"
 #include "hou/cor/template_utils.hpp"
 

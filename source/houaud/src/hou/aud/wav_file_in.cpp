@@ -7,6 +7,7 @@
 #include "hou/aud/aud_exceptions.hpp"
 
 #include "hou/cor/assertions.hpp"
+#include "hou/cor/narrow_cast.hpp"
 #include "hou/cor/pragmas.hpp"
 
 #include "hou/sys/binary_file_in.hpp"
@@ -129,7 +130,7 @@ binary_stream& wav_file_in::set_byte_pos(wav_file_in::byte_position pos)
   // a check must be done here.
   HOU_PRECOND((pos % (get_channel_count() * get_bytes_per_sample())) == 0u);
   HOU_CHECK_0(pos >= 0
-      && pos <= static_cast<wav_file_in::byte_position>(get_byte_count()),
+      && pos <= narrow_cast<wav_file_in::byte_position>(get_byte_count()),
     cursor_error);
   m_file.seek_set(pos + m_data_offset);
   return *this;

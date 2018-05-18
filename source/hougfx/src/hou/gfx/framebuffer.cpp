@@ -4,9 +4,11 @@
 
 #include "hou/gfx/framebuffer.hpp"
 
-#include "hou/mth/rectangle.hpp"
-
 #include "hou/gfx/texture.hpp"
+
+#include "hou/cor/narrow_cast.hpp"
+
+#include "hou/mth/rectangle.hpp"
 
 
 
@@ -60,7 +62,7 @@ void framebuffer::unbind()
 
 uint framebuffer::get_color_attachment_point_count()
 {
-  return static_cast<uint>(gl::get_max_color_attachments());
+  return narrow_cast<uint>(gl::get_max_color_attachments());
 }
 
 
@@ -115,8 +117,8 @@ void framebuffer::set_color_attachment(
     || tex.get_format() == texture_format::rg
     || tex.get_format() == texture_format::r);
   gl::set_framebuffer_color_texture(m_handle,
-    static_cast<GLuint>(attachment_point), tex.get_handle(),
-    static_cast<GLint>(mipmap_level));
+    narrow_cast<GLuint>(attachment_point), tex.get_handle(),
+    narrow_cast<GLint>(mipmap_level));
   m_has_multisample_color_attachment
     = is_texture_type_multisampled(tex.get_type());
 }

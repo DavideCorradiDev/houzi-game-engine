@@ -4,6 +4,8 @@
 
 #include "hou/gfx/glyph_metrics.hpp"
 
+#include "hou/cor/narrow_cast.hpp"
+
 
 
 namespace hou
@@ -47,7 +49,7 @@ const vec2u& glyph_metrics::get_size() const noexcept
 
 vec2f glyph_metrics::get_pixel_size() const noexcept
 {
-  return static_cast<vec2f>(m_size) * pf266_to_pixel_factor;
+  return narrow_cast<vec2f>(m_size) * pf266_to_pixel_factor;
 }
 
 
@@ -68,7 +70,7 @@ const vec2i& glyph_metrics::get_horizontal_bearing() const noexcept
 
 vec2f glyph_metrics::get_pixel_horizontal_bearing() const noexcept
 {
-  return static_cast<vec2f>(m_horizontal_bearing) * pf266_to_pixel_factor;
+  return narrow_cast<vec2f>(m_horizontal_bearing) * pf266_to_pixel_factor;
 }
 
 
@@ -90,7 +92,7 @@ int glyph_metrics::get_horizontal_advance() const noexcept
 
 float glyph_metrics::get_pixel_horizontal_advance() const noexcept
 {
-  return static_cast<float>(m_horizontal_advance) * pf266_to_pixel_factor;
+  return narrow_cast<float>(m_horizontal_advance) * pf266_to_pixel_factor;
 }
 
 
@@ -111,7 +113,7 @@ const vec2i& glyph_metrics::get_vertical_bearing() const noexcept
 
 vec2f glyph_metrics::get_pixel_vertical_bearing() const noexcept
 {
-  return static_cast<vec2f>(m_vertical_bearing) * pf266_to_pixel_factor;
+  return narrow_cast<vec2f>(m_vertical_bearing) * pf266_to_pixel_factor;
 }
 
 
@@ -132,7 +134,7 @@ int glyph_metrics::get_vertical_advance() const noexcept
 
 float glyph_metrics::get_pixel_vertical_advance() const noexcept
 {
-  return static_cast<float>(m_vertical_advance) * pf266_to_pixel_factor;
+  return narrow_cast<float>(m_vertical_advance) * pf266_to_pixel_factor;
 }
 
 
