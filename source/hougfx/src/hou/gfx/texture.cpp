@@ -26,11 +26,11 @@ template <texture_type Type>
 bool is_texture_size_valid(const typename texture_t<Type>::size_type& s);
 
 template <texture_type Type>
-bool is_mipmap_level_count_valid(
-  uint mipmap_level_count, const typename texture_t<Type>::size_type& s);
+bool is_mipmap_level_count_valid(positive<uint> mipmap_level_count,
+  const typename texture_t<Type>::size_type& s);
 
 template <texture_type Type>
-uint get_max_mipmap_level_count_for_size(
+positive<uint> get_max_mipmap_level_count_for_size(
   const typename texture_t<Type>::size_type& s);
 
 template <texture_type Type>
@@ -108,17 +108,16 @@ bool is_texture_size_valid(const typename texture_t<Type>::size_type& s)
 
 
 template <texture_type Type>
-bool is_mipmap_level_count_valid(
-  uint mipmap_level_count, const typename texture_t<Type>::size_type& s)
+bool is_mipmap_level_count_valid(positive<uint> mipmap_level_count,
+  const typename texture_t<Type>::size_type& s)
 {
-  return mipmap_level_count > 0
-    && mipmap_level_count <= get_max_mipmap_level_count_for_size<Type>(s);
+  return mipmap_level_count <= get_max_mipmap_level_count_for_size<Type>(s);
 }
 
 
 
 template <texture_type Type>
-uint get_max_mipmap_level_count_for_size(
+positive<uint> get_max_mipmap_level_count_for_size(
   const typename texture_t<Type>::size_type& s)
 {
   return 1u
@@ -193,7 +192,8 @@ uint get_mipmap_relevant_size<texture_type::multisample_texture2_array>(
 
 
 template <size_t dim>
-size_t compute_image_buffer_size(const vec<uint, dim>& im_size, pixel_format fmt)
+size_t compute_image_buffer_size(
+  const vec<uint, dim>& im_size, pixel_format fmt)
 {
   HOU_DEV_ASSERT(gl::get_unpack_alignment() == 1u);
   size_t byte_count = 1u;
@@ -319,8 +319,8 @@ uint texture::get_texture_unit_count()
 
 
 
-texture::texture(texture_type type, uint mipmap_level_count, uint sample_count,
-  bool fixed_sample_locations)
+texture::texture(texture_type type, positive<uint> mipmap_level_count,
+  positive<uint> sample_count, bool fixed_sample_locations)
   : m_gl_texture_handle(gl::texture_handle::create(static_cast<GLenum>(type)))
   , m_mipmap_level_count(mipmap_level_count)
   , m_sample_count(sample_count)
@@ -356,14 +356,14 @@ texture_format texture::get_format() const
 
 
 
-uint texture::get_mipmap_level_count() const
+positive<uint> texture::get_mipmap_level_count() const
 {
   return m_mipmap_level_count;
 }
 
 
 
-uint texture::get_sample_count() const
+positive<uint> texture::get_sample_count() const
 {
   return m_sample_count;
 }
@@ -510,20 +510,20 @@ vec3u texture_t<texture_type::multisample_texture2_array>::get_max_size()
 
 
 template <texture_type Type>
-uint texture_t<Type>::get_max_mipmap_level_count(const size_type& s)
+positive<uint> texture_t<Type>::get_max_mipmap_level_count(const size_type& s)
 {
   return is_texture_type_mipmapped(Type)
     ? get_max_mipmap_level_count_for_size<Type>(s)
-    : 1u;
+    : positive<uint>(1u);
 }
 
 
 
 template <texture_type Type>
-uint texture_t<Type>::get_max_sample_count()
+positive<uint> texture_t<Type>::get_max_sample_count()
 {
-  return is_texture_type_multisampled(Type) ? gl::get_max_texture_samples()
-                                            : 1u;
+  return positive<uint>(
+    is_texture_type_multisampled(Type) ? gl::get_max_texture_samples() : 1u);
 }
 
 
@@ -531,12 +531,12 @@ uint texture_t<Type>::get_max_sample_count()
 template <>
 template <>
 texture_t<texture_type::texture1>::texture_t<texture_type::texture1, void>(
-  const size_type& s, texture_format format, uint mipmap_level_count)
+  const size_type& s, texture_format format, positive<uint> mipmap_level_count)
   : texture(texture_type::texture1, mipmap_level_count, 1u, true)
 {
-  HOU_PRECOND(is_texture_size_valid<texture_type::texture1>(s)
-    && is_mipmap_level_count_valid<texture_type::texture1>(
-         mipmap_level_count, s));
+  HOU_PRECOND(is_texture_size_valid<texture_type::texture1>(s));
+  HOU_PRECOND(
+    is_mipmap_level_count_valid<texture_type::texture1>(mipmap_level_count, s));
   gl::set_texture_storage_1d(m_gl_texture_handle, mipmap_level_count,
     static_cast<GLenum>(format), s.x());
   clear(pixel_rgba(0u, 0u, 0u, 0u));
@@ -547,12 +547,13 @@ texture_t<texture_type::texture1>::texture_t<texture_type::texture1, void>(
 template <>
 template <>
 texture_t<texture_type::texture1_array>::texture_t<texture_type::texture1_array,
-  void>(const size_type& s, texture_format format, uint mipmap_level_count)
+  void>(
+  const size_type& s, texture_format format, positive<uint> mipmap_level_count)
   : texture(texture_type::texture1_array, mipmap_level_count, 1u, true)
 {
-  HOU_PRECOND(is_texture_size_valid<texture_type::texture1_array>(s)
-    && is_mipmap_level_count_valid<texture_type::texture1_array>(
-         mipmap_level_count, s));
+  HOU_PRECOND(is_texture_size_valid<texture_type::texture1_array>(s));
+  HOU_PRECOND(is_mipmap_level_count_valid<texture_type::texture1_array>(
+    mipmap_level_count, s));
   gl::set_texture_storage_2d(m_gl_texture_handle, mipmap_level_count,
     static_cast<GLenum>(format), s.x(), s.y());
   clear(pixel_rgba(0u, 0u, 0u, 0u));
@@ -563,12 +564,12 @@ texture_t<texture_type::texture1_array>::texture_t<texture_type::texture1_array,
 template <>
 template <>
 texture_t<texture_type::texture2>::texture_t<texture_type::texture2, void>(
-  const size_type& s, texture_format format, uint mipmap_level_count)
+  const size_type& s, texture_format format, positive<uint> mipmap_level_count)
   : texture(texture_type::texture2, mipmap_level_count, 1u, true)
 {
-  HOU_PRECOND(is_texture_size_valid<texture_type::texture2>(s)
-    && is_mipmap_level_count_valid<texture_type::texture2>(
-         mipmap_level_count, s));
+  HOU_PRECOND(is_texture_size_valid<texture_type::texture2>(s));
+  HOU_PRECOND(
+    is_mipmap_level_count_valid<texture_type::texture2>(mipmap_level_count, s));
   gl::set_texture_storage_2d(m_gl_texture_handle, mipmap_level_count,
     static_cast<GLenum>(format), s.x(), s.y());
   clear(pixel_rgba(0u, 0u, 0u, 0u));
@@ -579,12 +580,13 @@ texture_t<texture_type::texture2>::texture_t<texture_type::texture2, void>(
 template <>
 template <>
 texture_t<texture_type::texture2_array>::texture_t<texture_type::texture2_array,
-  void>(const size_type& s, texture_format format, uint mipmap_level_count)
+  void>(
+  const size_type& s, texture_format format, positive<uint> mipmap_level_count)
   : texture(texture_type::texture2_array, mipmap_level_count, 1u, true)
 {
-  HOU_PRECOND(is_texture_size_valid<texture_type::texture2_array>(s)
-    && is_mipmap_level_count_valid<texture_type::texture2_array>(
-         mipmap_level_count, s));
+  HOU_PRECOND(is_texture_size_valid<texture_type::texture2_array>(s));
+  HOU_PRECOND(is_mipmap_level_count_valid<texture_type::texture2_array>(
+    mipmap_level_count, s));
   gl::set_texture_storage_3d(m_gl_texture_handle, mipmap_level_count,
     static_cast<GLenum>(format), s.x(), s.y(), s.z());
   clear(pixel_rgba(0u, 0u, 0u, 0u));
@@ -595,12 +597,12 @@ texture_t<texture_type::texture2_array>::texture_t<texture_type::texture2_array,
 template <>
 template <>
 texture_t<texture_type::texture3>::texture_t<texture_type::texture3, void>(
-  const size_type& s, texture_format format, uint mipmap_level_count)
+  const size_type& s, texture_format format, positive<uint> mipmap_level_count)
   : texture(texture_type::texture3, mipmap_level_count, 1u, true)
 {
-  HOU_PRECOND(is_texture_size_valid<texture_type::texture3>(s)
-    && is_mipmap_level_count_valid<texture_type::texture3>(
-         mipmap_level_count, s));
+  HOU_PRECOND(is_texture_size_valid<texture_type::texture3>(s));
+  HOU_PRECOND(
+    is_mipmap_level_count_valid<texture_type::texture3>(mipmap_level_count, s));
   gl::set_texture_storage_3d(m_gl_texture_handle, mipmap_level_count,
     static_cast<GLenum>(format), s.x(), s.y(), s.z());
   clear(pixel_rgba(0u, 0u, 0u, 0u));
@@ -611,7 +613,7 @@ texture_t<texture_type::texture3>::texture_t<texture_type::texture3, void>(
 template <texture_type Type>
 template <pixel_format PF, texture_type Type2, typename Enable>
 texture_t<Type>::texture_t(
-  const image<PF>& im, texture_format format, uint mipmap_level_count)
+  const image<PF>& im, texture_format format, positive<uint> mipmap_level_count)
   : texture_t(im.get_size(), format, mipmap_level_count)
 {
   set_image(im);
@@ -622,13 +624,13 @@ texture_t<Type>::texture_t(
 template <>
 template <texture_type Type2, typename Enable>
 texture_t<texture_type::multisample_texture2>::texture_t(const size_type& s,
-  texture_format format, uint sample_count, bool fixed_sample_locations)
+  texture_format format, positive<uint> sample_count,
+  bool fixed_sample_locations)
   : texture(texture_type::multisample_texture2, 1u, sample_count,
       fixed_sample_locations)
 {
-  HOU_PRECOND(is_texture_size_valid<texture_type::multisample_texture2>(s)
-    && sample_count > 0u
-    && sample_count <= narrow_cast<uint>(gl::get_max_texture_samples()));
+  HOU_PRECOND(is_texture_size_valid<texture_type::multisample_texture2>(s));
+  HOU_PRECOND(sample_count <= narrow_cast<uint>(gl::get_max_texture_samples()));
   set_texture_storage_2d_multisample(m_gl_texture_handle, sample_count,
     static_cast<GLenum>(format), s.x(), s.y(), fixed_sample_locations);
 }
@@ -638,14 +640,14 @@ texture_t<texture_type::multisample_texture2>::texture_t(const size_type& s,
 template <>
 template <texture_type Type2, typename Enable>
 texture_t<texture_type::multisample_texture2_array>::texture_t(
-  const size_type& s, texture_format format, uint sample_count,
+  const size_type& s, texture_format format, positive<uint> sample_count,
   bool fixed_sample_locations)
   : texture(texture_type::multisample_texture2_array, 1u, sample_count,
       fixed_sample_locations)
 {
-  HOU_PRECOND(is_texture_size_valid<texture_type::multisample_texture2_array>(s)
-    && sample_count > 0u
-    && sample_count <= narrow_cast<uint>(gl::get_max_texture_samples()));
+  HOU_PRECOND(
+    is_texture_size_valid<texture_type::multisample_texture2_array>(s));
+  HOU_PRECOND(sample_count <= narrow_cast<uint>(gl::get_max_texture_samples()));
   set_texture_storage_3d_multisample(m_gl_texture_handle, sample_count,
     static_cast<GLenum>(format), s.x(), s.y(), s.z(), fixed_sample_locations);
 }
@@ -1193,7 +1195,7 @@ void texture_t<Type>::generate_mip_map()
 
 #define INSTANTIATE_TEXTURE_MIP_MAP_FUNCTIONS(tt)                              \
   template texture_t<tt>::texture_t<tt, void>(                                 \
-    const texture_t<tt>::size_type&, texture_format, uint);                    \
+    const texture_t<tt>::size_type&, texture_format, positive<uint>);          \
   template typename texture_t<tt>::wrap_mode                                   \
     texture_t<tt>::get_wrap_mode<tt, void>() const;                            \
   template void texture_t<tt>::set_wrap_mode<tt, void>(                        \
@@ -1207,13 +1209,13 @@ void texture_t<Type>::generate_mip_map()
 
 #define INSTANTIATE_TEXTURE_MULTISAMPLE_FUNCTIONS(tt)                          \
   template texture_t<tt>::texture_t<tt, void>(                                 \
-    const texture_t<tt>::size_type&, texture_format, uint, bool);
+    const texture_t<tt>::size_type&, texture_format, positive<uint>, bool);
 
 
 
 #define INSTANTIATE_TEXTURE_IMAGE_FUNCTIONS_FOR_PIXEL_FORMAT(tt, pf)           \
   template texture_t<tt>::texture_t<pf, tt, void>(                             \
-    const texture_t<tt>::image<pf>&, texture_format, uint);                    \
+    const texture_t<tt>::image<pf>&, texture_format, positive<uint>);          \
   template texture_t<tt>::image<pf> texture_t<tt>::get_image<pf, tt, void>()   \
     const;                                                                     \
   template texture_t<tt>::image<pf>                                            \
