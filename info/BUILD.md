@@ -9,10 +9,11 @@ Support for more platforms and compilers is coming soon.
 
 
 ### Configuring the project with CMake
-The Houzi Game Engine uses CMake to control the compilation process.
+The Houzi Game Engine uses CMake to configure the build process.
 When configuring the project with CMake, the following options are available:
 
 * **CMAKE\_BUILD\_TYPE**: set to "Release" to build optimized, faster binaries, or to "Debug" to build debugging-friendly binaries.
+When using Debug libraries, you should define the preprocessor symbol **HOU\_DEBUG** to enxure that header files will behave consistently.
 
 * **HOU\_CFG\_BUILD\_\[library\_identifier\]**: if set, the corresponding library will be built.
 If unset, the library will not be built.
@@ -35,7 +36,7 @@ In case it cannot do this, you can manually set **LIB\_OPENAL** to the path to t
 When building OpenALSoft, refer to the OpenALSoft documentation for details about the configuration.
 
 * **HOU\_CFG\_STATIC\_LIBS**: if set, static libraries will be build, otherwise shared libraries will be built.
-When building static libraries, you should define the preprocessor symbol **HOU\_STATIC** to ensure that including headers from the library will behave correctly.
+When building static libraries, you should define the preprocessor symbol **HOU\_STATIC** to ensure that import attributes will be defined correctly.
 When building static libraries, all dependencies must be explicitly linked, even if not directly used.
 
 * **HOU\_CFG\_DISABLE\_EXCEPTIONS**: if set, exceptions will be completely disabled.
@@ -96,7 +97,7 @@ The external libraries will automatically be built when required.
 
 ## Setting up a project using the Houzi Game Engine
 This section contains information to help setting up a project using the Houzi Game Engine.
-You can use the [demo applications CMakeLists.txt file](source/demo/CMakeLists.txt) as an example of how to setup a CMake project using the Houzi Game Engine.
+You can use the [demo applications CMakeLists.txt file](../source/demo/CMakeLists.txt) as an example of how to setup a CMake project using the Houzi Game Engine.
 
 
 
@@ -126,11 +127,11 @@ TARGET_LINK_LIBRARIES(my_game, houcor houmth)
 
 
 ### Defining preprocessor symbols
-According to the settings with which the houzi-game-engine has been built, some preprocessor symbols might be to be defined:
+According to the settings with which the houzi-game-engine has been built, some preprocessor symbols might have to be defined:
 
 * When linking to houzi-game-engine Debug libraries, the **HOU\_DEBUG** symbol should be defined.
 
-* When linking to houzi-game-engine static libraries, the **HOU\_STATIC** symbol must be defined.
+* When linking to houzi-game-engine static libraries, the **HOU\_STATIC** symbol should be defined.
 
 * When linking houzi-game-engine libraries with disabled exceptions, the **HOU\_DISABLE\_EXCEPTIONS** symbol should be defined.
 
