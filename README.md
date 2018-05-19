@@ -16,11 +16,24 @@ The Houzi Game Engine aims to provide the following features:
 
 
 
-## Project structure
+## Building and using the Houzi Game Engine
+Information on how to build the Houzi Game Engine can be found [here](info/BUILD.md).
 
 
 
-### Modules
+## Documentation
+The documentation for the latest version of the Houzi Game Engine can be found [here](https://davidecorradidev.github.io/houzi-game-engine/).
+
+The documentation can be generated with [Doxygen](http://www.stack.nl/~dimitri/doxygen/).
+Simply run the following command from the project root folder:
+
+```
+doxygen Doxyfile
+```
+
+
+
+## Modules
 The Houzi Game Engine is divided into several separate modules.
 Each module will be built into a separate library.
 
@@ -44,124 +57,6 @@ This module provides wrappers to many OpenAL functions, providing additional typ
 Normally you would never directly use the functionality provided by this module.
 
 * **Audio module (houaud)**: this module provides all that is necessary to render sound and read sound files.
-
-
-
-### External Libraries
-The Houzi Game Engine uses the following third party libraries for low-level operations:
-
-* **OpenGL**: used to render graphics.
-
-* **GLAD**: used to generate OpenGL extension loaders.
-
-* **SOIL**: used to read and write image files.
-
-* **Freetype**: used to read font files and render font glyphs.
-
-* **OpenAL**: used to render sounds.
-
-* **OpenALSoft**: provided as a cross-platform implementation of the OpenAL specification.
-
-* **Ogg** and **Vorbis**: used to read and write compressed Ogg Vorbis sound files.
-
-
-
-### Dependencies
-The dependencies between the modules are as follows:
-
-* **houcor**: no dependencies.
-
-* **houmth**: houcor.
-
-* **housys**: houcor, houmth.
-
-* **hougl**: houcor, housys, OpenGL, GLAD.
-
-* **hougfx**: houcor, houmth, housys, hougl, OpenGL, GLAD, SOIL, Freetype.
-
-* **houal**: houcor, OpenAL.
-
-* **houaud**: houcor, houmth, housys, houal, OpenAL, OGG, VORBIS.
-
-
-
-## Setup
-Currently only builds on Windows with the MinGW compiler are supported.
-Support for more platforms and compilers is coming soon.
-
-### Configuring the project with CMake
-The Houzi Game Engine uses CMake to control the compilation process.
-When configuring the project with CMake, the following options are available:
-
-* **CMAKE\_BUILD\_TYPE**: set to "Release" to build optimized, faster binaries, or to "Debug" to build debugging-friendly binaries.
-
-* **HOU\_CFG\_BUILD\_\[library\_identifier\]**: if set, the corresponding library will be built.
-If unset, the library will not be built.
-When building a library be careful to also build its dependencies.
-
-* **HOU\_CFG\_BUILD\_\[library\_identifier\]\_TESTS**: if set, the tests for the corresponding library will be built.
-If unset, the tests will not be built.
-Be careful to build the corresponding library when building the relative tests.
-To build the tests you must have downloaded and built the gtest library.
-CMake will try to detect the path to the gtest library and the gtest header files by itself.
-In case it cannot do this, you can manually set **LIB\_GOOGLE\_TEST** to the path to the library and **LIB\_GOOGLE\_TEST\_INCLUDE\_DIR** to the path to the library headers.
-
-* **HOU\_CFG\_BUILD\_DEMOS**: if set, builds some small demo applications using the Houzi Game Engine.
-If unset, the demo applications will not be built.
-When building the demo applications, pay attention to build all of the Houzi Game Engine libraries.
-
-* **HOU\_CFG\_BUILD\_OPENAL\_SOFT**: if set, OpenALSoft will be built and used as the low-level sound library.
-If unset, CMake will try to detect the path to an installed OpenAL library implementation and its headers.
-In case it cannot do this, you can manually set **LIB\_OPENAL** to the path to the library and **LIB\_OPENAL\_INCLUDE\_DIR** to the path to the library headers.
-When building OpenALSoft, refer to the OpenALSoft documentation for details about the configuration.
-
-* **HOU\_CFG\_STATIC\_LIBS**: if set, static libraries will be build, otherwise shared libraries will be built.
-When building static libraries, you should define the preprocessor symbol **HOU\_STATIC** to ensure that including headers from the library will behave correctly.
-When building static libraries, all dependencies must be explicitly linked, even if not directly used.
-
-* **HOU\_CFG\_DISABLE\_EXCEPTIONS**: if set, exceptions will be completely disabled.
-Instead of throwing an exception, the program will abort and write an error message in the error stream.
-If exceptions are disabled, you should define the preprocessor symbol **HOU\_DISABLE\_EXCEPTIONS** to ensure that header files will behave consistently.
-
-* **HOU\_CFG\_ENABLE\_AL\_\[check_type\]\_CHECKS**: these options enables some OpenAL error checks when set.
-These checks can be useful during development or when debugging audio issues, but can be expensive and should be enabled for release builds.
-When enabling a check of a specific type, the preprocessor symbl **HOU\_ENABLE\_GL\_\[check_type\]\_CHECKS** should be defined to ensure that header files will behave consistently.
-
-* **HOU\_CFG\_ENABLE\_GL\_\[check_type\]\_CHECKS**: these options enables some OpenGL error checks when set.
-These checks can be useful during development or when debugging graphics issues, but can be expensive and should be enabled for release builds.
-When enabling a check of a specific type, the preprocessor symbl **HOU\_ENABLE\_AL\_\[check_type\]\_CHECKS** should be defined to ensure that header files will behave consistently.
-
-
-
-### Building on Windows with MinGW
-* Install [CMake](https://cmake.org/).
-
-* Install [MinGW](http://www.mingw.org/).
-
-* Download and build [gtest](https://github.com/google/googletest).
-This is optional and required only if you wish to run the unit tests yourself.
-
-* Create a build directory inside the project root folder.
-
-* Configure the project with the CMake graphical interface inside the build directory.
-
-* Run the following command from the build directory in the Windows command line prompt:
-
-```
-mingw32-make
-```
-
-
-
-## Documentation
-The documentation for the latest version of the Houzi Game Engine can be found [here](https://davidecorradidev.github.io/houzi-game-engine/).
-
-The documentation can be generated with [Doxygen](http://www.stack.nl/~dimitri/doxygen/).
-Simply run the following command from the project root folder:
-
-```
-doxygen Doxyfile
-```
 
 
 
