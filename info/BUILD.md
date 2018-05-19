@@ -30,7 +30,7 @@ In case it cannot do this, you can manually set **LIB\_GOOGLE\_TEST** to the pat
 If unset, the demo applications will not be built.
 When building the demo applications, pay attention to build all of the Houzi Game Engine libraries.
 
-* **HOU\_CFG\_BUILD\_GTEST**: if set, the gtest library will be built and used.
+* **HOU\_CFG\_BUILD\_GOOGLE\_TEST**: if set, the gtest library will be built and used.
 If unset, CMake will try to detect the path to an installed gtest library and its headers.
 In case it fails to detect the library, you can manually set **LIB\_GOOGLE\_TEST** to the path to the library and **LIB\_GOOGLE\_TEST\_INCLUDE\_DIR** to the path to the library headers.
 When building gtest, refer to the gtest documentation for details about the configuration.

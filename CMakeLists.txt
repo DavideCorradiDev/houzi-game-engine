@@ -124,9 +124,9 @@ OPTION(HOU_CFG_BUILD_DEMOS
   "Build example executables."
   ON
 )
-OPTION(HOU_CFG_BUILD_GTEST
+OPTION(HOU_CFG_BUILD_GOOGLE_TEST
   "Build the gtest library. If unset, look for installed gtest binaries and includes."
-  OFF
+  ON
 )
 OPTION(HOU_CFG_BUILD_OPENAL_SOFT
   "Build the OpenAL-Soft library. If unset, look for an installed OpenAL implementation."
@@ -238,7 +238,7 @@ IF(HOU_CFG_BUILD_COR_TESTS
   OR HOU_CFG_BUILD_AL_TESTS
   OR HOU_CFG_BUILD_AUD_TESTS)
   UNSET_VARS_STARTING_WITH("LIB_GOOGLE_TEST")
-  IF(HOU_CFG_BUILD_GTEST)
+  IF(HOU_CFG_BUILD_GOOGLE_TEST)
     SET(LIB_GOOGLE_TEST gtest)
     SET(LIB_GOOGLE_TEST_SOURCE_DIR ${EXT_LIBS_DIR}/googletest)
     SET(LIB_GOOGLE_TEST_INCLUDE_DIR ${LIB_GOOGLE_TEST_SOURCE_DIR}/googlemock/include)
