@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['enable',['enable',['../structhou_1_1EnableBitwiseOperators.html#a7b8392292f1cd0df0be7b85a4b9ba054',1,'hou::EnableBitwiseOperators::enable()'],['../structhou_1_1EnableBitwiseOperators_3_01ModifierKeys_01_4.html#ac8646324f9d29cd104204f247514a75c',1,'hou::EnableBitwiseOperators&lt; ModifierKeys &gt;::enable()'],['../structhou_1_1EnableBitwiseOperators_3_01hou_1_1FrameBufferBlitMask_01_4.html#a47c0ab919c7864138258ee6c6b9e56a4',1,'hou::EnableBitwiseOperators&lt; hou::FrameBufferBlitMask &gt;::enable()']]]
+  ['enable',['enable',['../structhou_1_1enable__bitwise__operators.html#a9b1b9263d516c121c0da2b6b956870d9',1,'hou::enable_bitwise_operators::enable()'],['../structhou_1_1enable__bitwise__operators_3_01modifier__keys_01_4.html#ae7c179eb8a0c95c58010bdaa6c985dc1',1,'hou::enable_bitwise_operators&lt; modifier_keys &gt;::enable()'],['../structhou_1_1enable__bitwise__operators_3_01hou_1_1framebuffer__blit__mask_01_4.html#a97e35249ed87dcf4e1e59cf5f00d96c1',1,'hou::enable_bitwise_operators&lt; hou::framebuffer_blit_mask &gt;::enable()']]]
 ];

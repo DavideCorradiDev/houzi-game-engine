@@ -315,6 +315,8 @@ struct is_span : public prv::is_span_helper<std::remove_cv_t<T>>
 namespace prv
 {
 
+#ifndef HOU_DOXYGEN
+
 template <typename T>
 class span_iterator
 {
@@ -403,6 +405,8 @@ private:
   const span<T>* m_span;
   size_type m_index;
 };
+
+#endif
 
 }  // namespace prv
 

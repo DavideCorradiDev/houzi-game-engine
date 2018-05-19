@@ -198,7 +198,7 @@ public:
    */
   virtual bool is_multisampled() const = 0;
 
-protected:
+private:
   gl::texture_handle m_gl_texture_handle;
   positive<uint> m_mipmap_level_count;
   positive<uint> m_sample_count;

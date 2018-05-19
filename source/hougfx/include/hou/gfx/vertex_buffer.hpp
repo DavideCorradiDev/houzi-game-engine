@@ -51,7 +51,7 @@ public:
    * Builds a vertex_buffer with the given size.
    * The buffer is initialized to 0.
    *
-   * \param size the size of the buffer in bytes.
+   * \param byte_count the size of the buffer in bytes.
    *
    * \param dynamic_storage if true, the vertex_buffer is modifiable, otherwise
    * it is not.
@@ -85,7 +85,7 @@ public:
 
   /** Checks if this vertex_buffer is bound to the given target.
    *
-   * \target target the target to check.
+   * \param target the target to check.
    *
    * \return the result of the check.
    */

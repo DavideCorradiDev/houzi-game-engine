@@ -17,17 +17,21 @@ namespace hou
 template <typename CharT, size_t N, typename Traits>
 class basic_static_string;
 
+/** Utf8 static string. */
 template <size_t N>
 using static_string = basic_static_string<char, N, std::char_traits<char>>;
 
+/** Wide static string. */
 template <size_t N>
 using static_wstring
   = basic_static_string<wchar_t, N, std::char_traits<wchar_t>>;
 
+/** Utf16 static string. */
 template <size_t N>
 using static_u16string
   = basic_static_string<char16_t, N, std::char_traits<char16_t>>;
 
+/** Utf32 static string. */
 template <size_t N>
 using static_u32string
   = basic_static_string<char32_t, N, std::char_traits<char32_t>>;

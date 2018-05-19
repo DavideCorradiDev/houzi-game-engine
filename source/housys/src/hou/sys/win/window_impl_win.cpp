@@ -751,10 +751,10 @@ void window_impl::set_client_rect(const recti& value)
 
 
 
-void window_impl::set_title(const std::string& value)
+void window_impl::set_title(const std::string& title)
 {
   HOU_WIN_CHECK(
-    SetWindowTextW(m_handle, convert_encoding<wide, utf8>(value).c_str()) != 0);
+    SetWindowTextW(m_handle, convert_encoding<wide, utf8>(title).c_str()) != 0);
 }
 
 

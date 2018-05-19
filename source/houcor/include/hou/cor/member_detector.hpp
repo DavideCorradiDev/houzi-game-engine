@@ -8,7 +8,6 @@
 #include "hou/cor/cor_config.hpp"
 
 
-
 /** Generate a member detector helper to be used in template conditions.
  *
  * This macro creates a detector of member X called has_member_X.
@@ -16,7 +15,6 @@
  * otherwise it will be false.
  */
 #define HOU_CREATE_MEMBER_DETECTOR(X)                                          \
-                                                                               \
   template <typename T,                                                        \
     bool IsFundamental                                                         \
     = std::is_fundamental<T>::value || std::is_enum<T>::value>                 \

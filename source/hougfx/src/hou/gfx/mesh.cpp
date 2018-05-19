@@ -22,10 +22,10 @@ void mesh::draw(const mesh& mesh)
 
 mesh::mesh(mesh_draw_mode dm, mesh_fill_mode fm, uint vertex_count)
   : non_copyable()
+  , m_vao()
   , m_draw_mode(dm)
   , m_fill_mode(fm)
   , m_vertex_count(vertex_count)
-  , m_vao()
 {}
 
 

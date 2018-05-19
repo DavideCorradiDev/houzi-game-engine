@@ -1,7 +1,7 @@
-var classhou_1_1Shader =
+var classhou_1_1shader =
 [
-    [ "Shader", "classhou_1_1Shader.html#a8f95256c8e02ef0221bfe7752bbb9d9b", null ],
-    [ "Shader", "classhou_1_1Shader.html#a2b40f4bab4e730558acb734bdc98423a", null ],
-    [ "~Shader", "classhou_1_1Shader.html#a4225871111ad8c7d8b85a59a519e955f", null ],
-    [ "getHandle", "classhou_1_1Shader.html#ad12b7cd9b401c880a7a04304ff978db2", null ]
+    [ "shader", "classhou_1_1shader.html#afcfc017aaf32d420db1f79ceed7f9cb9", null ],
+    [ "shader", "classhou_1_1shader.html#ab35889bc6633d7319af4e94cbbf2a4bc", null ],
+    [ "~shader", "classhou_1_1shader.html#a904101940c5ec1133cf61ec047cd1c8f", null ],
+    [ "get_handle", "classhou_1_1shader.html#a775471d633f5c63527feeea5892ab4d7", null ]
 ];

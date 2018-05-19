@@ -34,7 +34,7 @@ class HOU_GFX_API graphic_context : public non_copyable
 public:
   /** Sets this as the current context for the current thread.
    *
-   * \param cts the context.
+   * \param ctx the context.
    */
   static void set_current(graphic_context& ctx);
 

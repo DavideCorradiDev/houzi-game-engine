@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['q',['Q',['../namespacehou.html#a38cd4932bf20ccf3c7476ddb76bd2e89af09564c9ca56850d4cd6b3319e541aee',1,'hou::Q()'],['../namespacehou.html#acf944f8801268fa6726cf19c01e6c750af09564c9ca56850d4cd6b3319e541aee',1,'hou::Q()']]],
-  ['quatd',['Quatd',['../namespacehou.html#a46b48968a20092ed811fe1366100aeee',1,'hou']]],
-  ['quaternion',['Quaternion',['../classhou_1_1Quaternion.html',1,'hou::Quaternion&lt; T &gt;'],['../classhou_1_1Quaternion.html#a9752ad32752b91b45022f2345c567e13',1,'hou::Quaternion::Quaternion()'],['../classhou_1_1Quaternion.html#a80e2a9f7b2023ccce424cc31e8d1e6be',1,'hou::Quaternion::Quaternion(T x, T y, T z, T w)'],['../classhou_1_1Quaternion.html#a3fa83bf54b2576c41f4b3b8ac770826a',1,'hou::Quaternion::Quaternion(std::initializer_list&lt; T &gt; elements)'],['../classhou_1_1Quaternion.html#ab44dcc173440ad63f6019058505515fb',1,'hou::Quaternion::Quaternion(const Quaternion&lt; U &gt; &amp;other)']]],
-  ['quatf',['Quatf',['../namespacehou.html#ac36efad0705783740989c5857bcd7da1',1,'hou']]],
-  ['quote',['Quote',['../namespacehou.html#a38cd4932bf20ccf3c7476ddb76bd2e89ac48e929b2b1eabba2ba036884433345e',1,'hou::Quote()'],['../namespacehou.html#acf944f8801268fa6726cf19c01e6c750ac48e929b2b1eabba2ba036884433345e',1,'hou::Quote()']]]
+  ['q',['q',['../namespacehou.html#a21f1a9ae2701c1b9b1c82b94bf4f23bfa7694f4a66316e53c8cdd9d9954bd611d',1,'hou::q()'],['../namespacehou.html#a9a789221e9de3cc6f0e2270901610a51a7694f4a66316e53c8cdd9d9954bd611d',1,'hou::q()']]],
+  ['quatd',['quatd',['../namespacehou.html#a3acac73c54b4c81a23a551f0157cc842',1,'hou']]],
+  ['quaternion',['quaternion',['../classhou_1_1quaternion.html',1,'hou::quaternion&lt; T &gt;'],['../classhou_1_1quaternion.html#a26b84fc9d17053619cc90cdc54830255',1,'hou::quaternion::quaternion() noexcept'],['../classhou_1_1quaternion.html#a00fce3d990cf6b650a79208b0a9729c9',1,'hou::quaternion::quaternion(T x, T y, T z, T w) noexcept'],['../classhou_1_1quaternion.html#a2e1c59d1db33202be04abf23b57512a3',1,'hou::quaternion::quaternion(const quaternion&lt; U &gt; &amp;other) noexcept']]],
+  ['quatf',['quatf',['../namespacehou.html#a307aa3543c3d2eb1a3eaaa260ada090c',1,'hou']]],
+  ['quote',['quote',['../namespacehou.html#a21f1a9ae2701c1b9b1c82b94bf4f23bfa7a674c327bfa07f7c1204fb38ca6ef3b',1,'hou::quote()'],['../namespacehou.html#a9a789221e9de3cc6f0e2270901610a51a7a674c327bfa07f7c1204fb38ca6ef3b',1,'hou::quote()']]]
 ];

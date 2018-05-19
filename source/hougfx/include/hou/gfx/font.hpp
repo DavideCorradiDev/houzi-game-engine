@@ -40,6 +40,7 @@ class glyph;
 class HOU_GFX_API font : public non_copyable
 {
 public:
+  /** Underlying data type. */
   using data_type = std::vector<uint8_t>;
 
 public:

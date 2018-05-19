@@ -172,6 +172,8 @@ public:
    *
    * \param dst_rect the destination rectangle of the blit operation.
    *
+   * \param filter the blit filter.
+   *
    * \throws hou::precondition_violation if one argument doesn't satisfies the
    * consttraints.
    */
@@ -200,6 +202,8 @@ public:
    * \param src_rect the source rectangle of the blit operation.
    *
    * \param dst_rect the destination rectangle of the blit operation.
+   *
+   * \param filter the blit filter.
    *
    * \throws hou::precondition_violation if one argument doesn't satisfies the
    * consttraints.
@@ -230,6 +234,8 @@ public:
    *
    * \param dst_rect the destination rectangle of the blit operation.
    *
+   * \param filter the blit filter.
+   *
    * \throws hou::precondition_violation if one argument doesn't satisfies the
    * consttraints.
    */
@@ -238,6 +244,14 @@ public:
     framebuffer_blit_filter filter = framebuffer_blit_filter::nearest);
 
 protected:
+  /** Rebuilds the framebuffer and associated textures.
+   *
+   * Each time size or sample_count change this function should be called.
+   *
+   * \param size the new size.
+   *
+   * \param sample_count the new sample count.
+   */
   void build_framebuffer(const vec2u& size, uint sample_count);
 
 private:

@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['scancode',['scanCode',['../structhou_1_1WindowEvent_1_1KeyData.html#a685658c206aa0f7a8f48c4cf79c5d9ed',1,'hou::WindowEvent::KeyData']]],
-  ['sizex',['sizeX',['../structhou_1_1WindowEvent_1_1SizeData.html#ad49276e685df9564467ddc7b10106c96',1,'hou::WindowEvent::SizeData']]],
-  ['sizey',['sizeY',['../structhou_1_1WindowEvent_1_1SizeData.html#a12ae9e12361cebd139c8492aca02f2f5',1,'hou::WindowEvent::SizeData']]],
-  ['start',['Start',['../classhou_1_1TextStream_1_1TextPosition.html#a3a71a7ce6f1aa8dc58f77b9fd13c0585',1,'hou::TextStream::TextPosition']]]
+  ['scan_5fcode',['scan_code',['../structhou_1_1window__event_1_1key__data.html#a4abbc7296b2e6d16e63c58224cf2a147',1,'hou::window_event::key_data']]],
+  ['standard',['standard',['../classhou_1_1text__box__formatting__params.html#a8781d34d53694f79e17f26ef8631f4a6',1,'hou::text_box_formatting_params::standard()'],['../classhou_1_1texture__channel__mapping.html#a56107a323bd4c2ec6e62465d0df2e464',1,'hou::texture_channel_mapping::standard()']]],
+  ['start',['start',['../classhou_1_1text__stream_1_1text__position.html#a97750d226d35a19b2723d7420f39c3ad',1,'hou::text_stream::text_position']]]
 ];

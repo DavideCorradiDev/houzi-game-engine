@@ -16,8 +16,10 @@
 namespace hou
 {
 
+#ifndef HOU_DOXYGEN
 HOU_CREATE_MEMBER_DETECTOR(data);
 HOU_CREATE_MEMBER_TYPE_DETECTOR(pointer);
+#endif
 
 namespace prv
 {

@@ -16,16 +16,29 @@
 namespace hou
 {
 
+/** Represents the type of a shader.
+ */
 enum class shader_type : GLenum
 {
-  // compute = GL_COMPUTE_SHADER,
+  /** Fragment shader. */
   fragment = GL_FRAGMENT_SHADER,
+  /** Geometry shader. */
   geometry = GL_GEOMETRY_SHADER,
+  /** Vertex shader. */
+  vertex = GL_VERTEX_SHADER,
+  // compute = GL_COMPUTE_SHADER,
   // tess_control = GL_TESS_CONTROL_SHADER,
   // tess_evaluation = GL_TESS_EVALUATION_SHADER,
-  vertex = GL_VERTEX_SHADER,
 };
 
+/** Writes the object into a stream.
+ *
+ * \param os the stream.
+ *
+ * \param st the shader_type enum.
+ *
+ * \return a reference to the stream.
+ */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, shader_type st);
 
 }  // namespace hou

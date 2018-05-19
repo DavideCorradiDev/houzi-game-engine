@@ -1,6 +1,6 @@
-var classhou_1_1Clock =
+var classhou_1_1clock =
 [
-    [ "Clock", "classhou_1_1Clock.html#abf507cfd59abac027456fd9615d53c14", null ],
-    [ "getElapsedTime", "classhou_1_1Clock.html#adee770037cf137ccd3a23a43bb7864b4", null ],
-    [ "reset", "classhou_1_1Clock.html#a92d44cf8ad44810585c1295d30f4d6b2", null ]
+    [ "clock", "classhou_1_1clock.html#a73fe93348c32bf1cae4c301be249bf50", null ],
+    [ "get_elapsed_time", "classhou_1_1clock.html#a8604ffa7cc82ce39395b02968efed651", null ],
+    [ "reset", "classhou_1_1clock.html#a1b306104117ed1446d0a65d720985f48", null ]
 ];
