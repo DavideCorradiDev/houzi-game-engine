@@ -4,7 +4,7 @@
 Distributed under the [Freetype Project License (FPL)](../external-libs/freetype/ftl.txt).
 
 [**Google Test**](https://github.com/google/googletest) - Copyright (c) 2008 Google Inc.
-Distributed under the [BSD 3-Clause "New" or "Revised" License](../external-libs/googletest/LICENSE).
+Distributed under a [BSD-style license](../external-libs/googletest/LICENSE).
 
 [**GLAD**](https://github.com/Dav1dde/glad) - Copyright (c) 2013 David Herberth.
 Distributed under the [MIT License (MIT)](../external-libs/glad/license.txt).
