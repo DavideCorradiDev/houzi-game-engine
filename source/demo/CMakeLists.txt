@@ -1,5 +1,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.3)
-MESSAGE(STATUS "--- Configuring target demo ---")
+MESSAGE(STATUS "--- Configuring demos ---")
 
 
 
@@ -143,3 +143,4 @@ ADD_CUSTOM_COMMAND(
   COMMENT "Copying demo data directory to build folder"
 )
 
+MESSAGE(STATUS "")
