@@ -30,9 +30,14 @@ In case it cannot do this, you can manually set **LIB\_GOOGLE\_TEST** to the pat
 If unset, the demo applications will not be built.
 When building the demo applications, pay attention to build all of the Houzi Game Engine libraries.
 
+* **HOU\_CFG\_BUILD\_GTEST**: if set, the gtest library will be built and used.
+If unset, CMake will try to detect the path to an installed gtest library and its headers.
+In case it fails to detect the library, you can manually set **LIB\_GOOGLE\_TEST** to the path to the library and **LIB\_GOOGLE\_TEST\_INCLUDE\_DIR** to the path to the library headers.
+When building gtest, refer to the gtest documentation for details about the configuration.
+
 * **HOU\_CFG\_BUILD\_OPENAL\_SOFT**: if set, OpenALSoft will be built and used as the low-level sound library.
 If unset, CMake will try to detect the path to an installed OpenAL library implementation and its headers.
-In case it cannot do this, you can manually set **LIB\_OPENAL** to the path to the library and **LIB\_OPENAL\_INCLUDE\_DIR** to the path to the library headers.
+In case it fails to detect the library, you can manually set **LIB\_OPENAL** to the path to the library and **LIB\_OPENAL\_INCLUDE\_DIR** to the path to the library headers.
 When building OpenALSoft, refer to the OpenALSoft documentation for details about the configuration.
 
 * **HOU\_CFG\_STATIC\_LIBS**: if set, static libraries will be build, otherwise shared libraries will be built.
@@ -57,9 +62,6 @@ When enabling OpenGL error checks, the preprocessor symbol **HOU\_ENABLE\_GL\_ER
 * Install [CMake](https://cmake.org/).
 
 * Install [MinGW](http://www.mingw.org/).
-
-* Download and build [gtest](https://github.com/google/googletest).
-This is optional and required only if you wish to run the unit tests yourself.
 
 * Create a build directory inside the project root folder.
 
@@ -92,6 +94,9 @@ The dependencies between the modules are as follows:
 
 When building only some of the modules, pay attention to build the modules it depends on as well.
 The external libraries will automatically be built when required.
+
+There is a test executable associated to each module, named **<module_name>-test**.
+Each test executable depends on the associated libraries, on its dependencies, and on gtest.
 
 
 
