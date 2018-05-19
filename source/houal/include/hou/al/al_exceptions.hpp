@@ -284,7 +284,7 @@ void HOU_AL_API check_context_ownership(
 
 
 
-#ifdef HOU_ENABLE_AL_CONTEXT_ERROR_CHECKS
+#ifdef HOU_ENABLE_AL_ERROR_CHECKS
 #define HOU_AL_CHECK_CONTEXT_ERROR(device)                                     \
   ::hou::al::check_context_error(device, __FILE__, __LINE__)
 #else
@@ -293,7 +293,7 @@ void HOU_AL_API check_context_ownership(
 
 
 
-#ifdef HOU_ENABLE_AL_CONTEXT_EXISTENCE_CHECKS
+#ifdef HOU_ENABLE_AL_ERROR_CHECKS
 #define HOU_AL_CHECK_CONTEXT_EXISTENCE()                                       \
   ::hou::al::check_context_existence(__FILE__, __LINE__)
 #else
@@ -302,7 +302,7 @@ void HOU_AL_API check_context_ownership(
 
 
 
-#ifdef HOU_ENABLE_AL_CONTEXT_OWNERSHIP_CHECKS
+#ifdef HOU_ENABLE_AL_ERROR_CHECKS
 #define HOU_AL_CHECK_CONTEXT_OWNERSHIP(objectHandle)                           \
   ::hou::al::check_context_ownership(objectHandle, __FILE__, __LINE__)
 #else

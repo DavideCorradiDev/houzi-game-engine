@@ -114,7 +114,7 @@ public:
    *
    * \throws hou::os_error if the title could not be set.
    */
-  void set_title(const std::string& value);
+  void set_title(const std::string& title);
 
   /** Sets the window icon.
    *

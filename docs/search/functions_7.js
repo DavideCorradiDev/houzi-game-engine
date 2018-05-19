@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['h',['h',['../classhou_1_1Rectangle.html#a11731570e7047ef411a07bdb5ee8e7b2',1,'hou::Rectangle::h() const'],['../classhou_1_1Rectangle.html#ac8c7ec87dd71b5f596d75c29f9bc8a93',1,'hou::Rectangle::h()']]],
-  ['hasfixedsamplelocations',['hasFixedSampleLocations',['../classhou_1_1Texture.html#a01b5fd0a476591e4a7ec765973c1f922',1,'hou::Texture']]],
-  ['hasfocus',['hasFocus',['../classhou_1_1Window.html#a6850e9c65f7f3d8657a8f8551d6343ba',1,'hou::Window']]],
-  ['hashorizontal',['hasHorizontal',['../classhou_1_1Font.html#ac1eb7494aa595a482b56e5a88320ba40',1,'hou::Font']]],
-  ['haskerning',['hasKerning',['../classhou_1_1Font.html#ac615efe2e2f4013f44c859d46bd2eeca',1,'hou::Font']]],
-  ['hasmultisampleattachment',['hasMultisampleAttachment',['../classhou_1_1FrameBuffer.html#af8dea5f201f6772236990ce4d4564766',1,'hou::FrameBuffer']]],
-  ['hasvertical',['hasVertical',['../classhou_1_1Font.html#a2843fd6d499b9642e78958a79423e27e',1,'hou::Font']]]
+  ['h',['h',['../classhou_1_1rectangle.html#ac7c3f993278ba37f77101da5b718e32f',1,'hou::rectangle::h() const noexcept'],['../classhou_1_1rectangle.html#abedb6a73a0458e0cd639893245b81cc3',1,'hou::rectangle::h() noexcept']]],
+  ['has_5ffixed_5fsample_5flocations',['has_fixed_sample_locations',['../classhou_1_1texture.html#a2d8d2a3f35a9416ad58f4333757fd2d6',1,'hou::texture']]],
+  ['has_5ffocus',['has_focus',['../classhou_1_1window.html#ac67a7b70cf977cbf907db56350998a55',1,'hou::window::has_focus()'],['../classhou_1_1prv_1_1window__impl.html#ae3b930ff6b778a583a87540ad676dd4f',1,'hou::prv::window_impl::has_focus()']]],
+  ['has_5fhorizontal',['has_horizontal',['../classhou_1_1font.html#afabb3db3ceb2f71343b4dd8dba1a00d6',1,'hou::font']]],
+  ['has_5fkerning',['has_kerning',['../classhou_1_1font.html#aedb9bdbf8066222c33fd4440e592d1d2',1,'hou::font']]],
+  ['has_5fmultisample_5fattachment',['has_multisample_attachment',['../classhou_1_1framebuffer.html#a17b761a30f391ea871fbdf28c4f7beaf',1,'hou::framebuffer']]],
+  ['has_5fvertical',['has_vertical',['../classhou_1_1font.html#a889c78a5078aa83adec8affd3d9a7a10',1,'hou::font']]]
 ];

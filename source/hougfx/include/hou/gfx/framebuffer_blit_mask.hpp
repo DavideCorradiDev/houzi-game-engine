@@ -37,6 +37,7 @@ enum class framebuffer_blit_mask : GLenum
 
 }  // namespace hou
 
+/** Specialization of enable_bitwise_operators. */
 template <>
 struct hou::enable_bitwise_operators<hou::framebuffer_blit_mask>
 {

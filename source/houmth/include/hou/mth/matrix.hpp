@@ -1077,12 +1077,20 @@ private:
   using u_matrix = matrix<U, Rows, Cols>;
 
 public:
-  static bool check(const t_matrix& t, const u_matrix& f)
+  /** Checks if t and u have matching sign.
+   *
+   * \param t the first parameter.
+   *
+   * \param u the second parameter.
+   *
+   * \return true if the signs of t and u match.
+   */
+  static bool check(const t_matrix& t, const u_matrix& u)
   {
-    HOU_DEV_ASSERT(t.size() == f.size());
+    HOU_DEV_ASSERT(t.size() == u.size());
     for(size_t i = 0; i < t.size(); ++i)
     {
-      if((t[i] < T(0)) != (f[i] < U(0)))
+      if((t[i] < T(0)) != (u[i] < U(0)))
       {
         return false;
       }

@@ -68,14 +68,6 @@ TEST_F(test_narrow_cast, int_to_float_success)
 
 
 
-TEST_F(test_narrow_cast_death_test, int_to_float_failure)
-{
-  EXPECT_ERROR_0(
-    narrow_cast<float>(std::numeric_limits<int>::max()), narrowing_error);
-}
-
-
-
 TEST_F(test_narrow_cast, float_to_int_success)
 {
   EXPECT_EQ(0, narrow_cast<int>(float(0.f)));

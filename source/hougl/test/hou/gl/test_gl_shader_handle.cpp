@@ -36,7 +36,7 @@ TEST_F(test_gl_shader_handle, creation)
 
 
 
-#ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
+#ifdef HOU_ENABLE_GL_ERROR_CHECKS
 TEST_F(test_gl_shader_handle_death_test, no_context_creation)
 #else
 TEST_F(test_gl_shader_handle_death_test, DISABLED_no_context_creation)

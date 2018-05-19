@@ -19,8 +19,13 @@ class shader;
 template <shader_type type>
 class shader_t;
 
+/** Vertex shader. */
 using vertex_shader = shader_t<shader_type::vertex>;
+
+/** Fragment shader. */
 using fragment_shader = shader_t<shader_type::fragment>;
+
+/** Geometry shader. */
 using geometry_shader = shader_t<shader_type::geometry>;
 
 }  // namespace hou

@@ -1,14 +1,14 @@
-var classhou_1_1Rotation3 =
+var classhou_1_1rotation3 =
 [
-    [ "Rotation3", "classhou_1_1Rotation3.html#ac298b8a77311b3823d9a8f7f19a39b11", null ],
-    [ "Rotation3", "classhou_1_1Rotation3.html#a8a2f4beec466701d2cdda6834f78a84b", null ],
-    [ "Rotation3", "classhou_1_1Rotation3.html#a19fcb012e28fe7ac8c2fdb336fb49e59", null ],
-    [ "Rotation3", "classhou_1_1Rotation3.html#a4105aece1f41c03c87d3ddf3111a9b98", null ],
-    [ "Rotation3", "classhou_1_1Rotation3.html#ab7b5e4e9029ae088a42c3a849b17713f", null ],
-    [ "getMatrix", "classhou_1_1Rotation3.html#af50c2fb0435c4a2b54e18b14ad4856b2", null ],
-    [ "getQuaternion", "classhou_1_1Rotation3.html#a55e6ad2ff067d13e380a5fc41f408fb1", null ],
-    [ "getVector", "classhou_1_1Rotation3.html#a68b507507ed37df25dc63292eb68ba89", null ],
-    [ "invert", "classhou_1_1Rotation3.html#a69c1084ff942e75bc081f4473c37efe2", null ],
-    [ "operator*=", "classhou_1_1Rotation3.html#aec924dcff8780d9fcd3414a1db029f43", null ],
-    [ "Rotation3", "classhou_1_1Rotation3.html#a1a1a03c31b40154281f7fd5a62b5518c", null ]
+    [ "rotation3", "classhou_1_1rotation3.html#a9982fb49aa9593aabfe5b1a7d6cfb29d", null ],
+    [ "rotation3", "classhou_1_1rotation3.html#a4e8e411e5b431bdbe1351c6fccaf1282", null ],
+    [ "rotation3", "classhou_1_1rotation3.html#abb2ac6f182336925111b3a99d9395da1", null ],
+    [ "rotation3", "classhou_1_1rotation3.html#a5bc15ed8d32e5d44bb6a9648666e8f49", null ],
+    [ "rotation3", "classhou_1_1rotation3.html#ac134e672a1f26c4759b6758a5bacf699", null ],
+    [ "get_matrix", "classhou_1_1rotation3.html#ac5678fa3d4d59dcffe6728472c83e161", null ],
+    [ "get_quaternion", "classhou_1_1rotation3.html#a1543186be3945e0ab78f864ee58816b9", null ],
+    [ "get_vector", "classhou_1_1rotation3.html#a6e6a61cb1c45495a78bbb0a851683f71", null ],
+    [ "invert", "classhou_1_1rotation3.html#a1f68b21d689e313e844d0ec0b13ccb17", null ],
+    [ "operator*=", "classhou_1_1rotation3.html#a06232129868556ff7b13909fb846e07f", null ],
+    [ "rotation3", "classhou_1_1rotation3.html#aa5528dca17c4dccc195bef2f127344a6", null ]
 ];

@@ -86,10 +86,13 @@ public:
   uint get_vertex_count() const noexcept;
 
 protected:
+  /** The vertex array object. */
+  vertex_array m_vao;
+
+private:
   mesh_draw_mode m_draw_mode;
   mesh_fill_mode m_fill_mode;
   uint m_vertex_count;
-  vertex_array m_vao;
 };
 
 /** Represents a mesh.

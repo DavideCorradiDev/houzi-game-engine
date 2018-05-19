@@ -436,43 +436,70 @@ std::basic_string<typename OutputEncoding::code_unit> convert_encoding(
   const std::basic_string<typename InputEncoding::code_unit>& s);
 
 // Specializations.
+/** convert_encoding specialization. */
 template <>
 HOU_COR_API std::string convert_encoding<utf8, utf8>(const std::string& s);
+
+/** convert_encoding specialization. */
 template <>
 HOU_COR_API std::u16string convert_encoding<utf16, utf16>(
   const std::u16string& s);
+
+/** convert_encoding specialization. */
 template <>
 HOU_COR_API std::u32string convert_encoding<utf32, utf32>(
   const std::u32string& s);
+
+/** convert_encoding specialization. */
 template <>
 HOU_COR_API std::wstring convert_encoding<wide, wide>(const std::wstring& s);
 
 // Instantiations.
+/** convert_encoding instantion. */
 extern template HOU_COR_API std::string convert_encoding<utf8, utf16>(
   const std::u16string& s);
+
+/** convert_encoding instantion. */
 extern template HOU_COR_API std::string convert_encoding<utf8, utf32>(
   const std::u32string& s);
+
+/** convert_encoding instantion. */
 extern template HOU_COR_API std::string convert_encoding<utf8, wide>(
   const std::wstring& s);
 
+/** convert_encoding instantion. */
 extern template HOU_COR_API std::u16string convert_encoding<utf16, utf8>(
   const std::string& s);
+
+/** convert_encoding instantion. */
 extern template HOU_COR_API std::u16string convert_encoding<utf16, utf32>(
   const std::u32string& s);
+
+/** convert_encoding instantion. */
 extern template HOU_COR_API std::u16string convert_encoding<utf16, wide>(
   const std::wstring& s);
 
+/** convert_encoding instantion. */
 extern template HOU_COR_API std::u32string convert_encoding<utf32, utf8>(
   const std::string& s);
+
+/** convert_encoding instantion. */
 extern template HOU_COR_API std::u32string convert_encoding<utf32, utf16>(
   const std::u16string& s);
+
+/** convert_encoding instantion. */
 extern template HOU_COR_API std::u32string convert_encoding<utf32, wide>(
   const std::wstring& s);
 
+/** convert_encoding instantion. */
 extern template HOU_COR_API std::wstring convert_encoding<wide, utf8>(
   const std::string& s);
+
+/** convert_encoding instantion. */
 extern template HOU_COR_API std::wstring convert_encoding<wide, utf16>(
   const std::u16string& s);
+
+/** convert_encoding instantion. */
 extern template HOU_COR_API std::wstring convert_encoding<wide, utf32>(
   const std::u32string& s);
 

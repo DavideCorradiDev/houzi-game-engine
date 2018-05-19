@@ -537,7 +537,7 @@ texture_t<texture_type::texture1>::texture_t<texture_type::texture1, void>(
   HOU_PRECOND(is_texture_size_valid<texture_type::texture1>(s));
   HOU_PRECOND(
     is_mipmap_level_count_valid<texture_type::texture1>(mipmap_level_count, s));
-  gl::set_texture_storage_1d(m_gl_texture_handle, mipmap_level_count,
+  gl::set_texture_storage_1d(get_handle(), mipmap_level_count,
     static_cast<GLenum>(format), s.x());
   clear(pixel_rgba(0u, 0u, 0u, 0u));
 }
@@ -554,7 +554,7 @@ texture_t<texture_type::texture1_array>::texture_t<texture_type::texture1_array,
   HOU_PRECOND(is_texture_size_valid<texture_type::texture1_array>(s));
   HOU_PRECOND(is_mipmap_level_count_valid<texture_type::texture1_array>(
     mipmap_level_count, s));
-  gl::set_texture_storage_2d(m_gl_texture_handle, mipmap_level_count,
+  gl::set_texture_storage_2d(get_handle(), mipmap_level_count,
     static_cast<GLenum>(format), s.x(), s.y());
   clear(pixel_rgba(0u, 0u, 0u, 0u));
 }
@@ -570,7 +570,7 @@ texture_t<texture_type::texture2>::texture_t<texture_type::texture2, void>(
   HOU_PRECOND(is_texture_size_valid<texture_type::texture2>(s));
   HOU_PRECOND(
     is_mipmap_level_count_valid<texture_type::texture2>(mipmap_level_count, s));
-  gl::set_texture_storage_2d(m_gl_texture_handle, mipmap_level_count,
+  gl::set_texture_storage_2d(get_handle(), mipmap_level_count,
     static_cast<GLenum>(format), s.x(), s.y());
   clear(pixel_rgba(0u, 0u, 0u, 0u));
 }
@@ -587,7 +587,7 @@ texture_t<texture_type::texture2_array>::texture_t<texture_type::texture2_array,
   HOU_PRECOND(is_texture_size_valid<texture_type::texture2_array>(s));
   HOU_PRECOND(is_mipmap_level_count_valid<texture_type::texture2_array>(
     mipmap_level_count, s));
-  gl::set_texture_storage_3d(m_gl_texture_handle, mipmap_level_count,
+  gl::set_texture_storage_3d(get_handle(), mipmap_level_count,
     static_cast<GLenum>(format), s.x(), s.y(), s.z());
   clear(pixel_rgba(0u, 0u, 0u, 0u));
 }
@@ -603,7 +603,7 @@ texture_t<texture_type::texture3>::texture_t<texture_type::texture3, void>(
   HOU_PRECOND(is_texture_size_valid<texture_type::texture3>(s));
   HOU_PRECOND(
     is_mipmap_level_count_valid<texture_type::texture3>(mipmap_level_count, s));
-  gl::set_texture_storage_3d(m_gl_texture_handle, mipmap_level_count,
+  gl::set_texture_storage_3d(get_handle(), mipmap_level_count,
     static_cast<GLenum>(format), s.x(), s.y(), s.z());
   clear(pixel_rgba(0u, 0u, 0u, 0u));
 }
@@ -631,7 +631,7 @@ texture_t<texture_type::multisample_texture2>::texture_t(const size_type& s,
 {
   HOU_PRECOND(is_texture_size_valid<texture_type::multisample_texture2>(s));
   HOU_PRECOND(sample_count <= narrow_cast<uint>(gl::get_max_texture_samples()));
-  set_texture_storage_2d_multisample(m_gl_texture_handle, sample_count,
+  set_texture_storage_2d_multisample(get_handle(), sample_count,
     static_cast<GLenum>(format), s.x(), s.y(), fixed_sample_locations);
 }
 
@@ -648,7 +648,7 @@ texture_t<texture_type::multisample_texture2_array>::texture_t(
   HOU_PRECOND(
     is_texture_size_valid<texture_type::multisample_texture2_array>(s));
   HOU_PRECOND(sample_count <= narrow_cast<uint>(gl::get_max_texture_samples()));
-  set_texture_storage_3d_multisample(m_gl_texture_handle, sample_count,
+  set_texture_storage_3d_multisample(get_handle(), sample_count,
     static_cast<GLenum>(format), s.x(), s.y(), s.z(), fixed_sample_locations);
 }
 
@@ -721,7 +721,7 @@ template <texture_type Type>
 template <texture_type Type2, typename Enable>
 texture_filter texture_t<Type>::get_filter() const
 {
-  switch(get_texture_min_filter(m_gl_texture_handle))
+  switch(get_texture_min_filter(get_handle()))
   {
     case GL_NEAREST_MIPMAP_NEAREST:
       return texture_filter::nearest;
@@ -746,20 +746,20 @@ void texture_t<Type>::set_filter(texture_filter filter)
   switch(filter)
   {
     case texture_filter::nearest:
-      set_texture_min_filter(m_gl_texture_handle, GL_NEAREST_MIPMAP_NEAREST);
-      set_texture_mag_filter(m_gl_texture_handle, GL_NEAREST);
+      set_texture_min_filter(get_handle(), GL_NEAREST_MIPMAP_NEAREST);
+      set_texture_mag_filter(get_handle(), GL_NEAREST);
       break;
     case texture_filter::linear:
-      set_texture_min_filter(m_gl_texture_handle, GL_NEAREST_MIPMAP_LINEAR);
-      set_texture_mag_filter(m_gl_texture_handle, GL_NEAREST);
+      set_texture_min_filter(get_handle(), GL_NEAREST_MIPMAP_LINEAR);
+      set_texture_mag_filter(get_handle(), GL_NEAREST);
       break;
     case texture_filter::bilinear:
-      set_texture_min_filter(m_gl_texture_handle, GL_LINEAR_MIPMAP_NEAREST);
-      set_texture_mag_filter(m_gl_texture_handle, GL_LINEAR);
+      set_texture_min_filter(get_handle(), GL_LINEAR_MIPMAP_NEAREST);
+      set_texture_mag_filter(get_handle(), GL_LINEAR);
       break;
     case texture_filter::trilinear:
-      set_texture_min_filter(m_gl_texture_handle, GL_LINEAR_MIPMAP_LINEAR);
-      set_texture_mag_filter(m_gl_texture_handle, GL_LINEAR);
+      set_texture_min_filter(get_handle(), GL_LINEAR_MIPMAP_LINEAR);
+      set_texture_mag_filter(get_handle(), GL_LINEAR);
       break;
     default:
       HOU_UNREACHABLE();
@@ -774,7 +774,7 @@ template <texture_type Type2, typename Enable>
 typename texture_t<texture_type::texture1>::wrap_mode
   texture_t<texture_type::texture1>::get_wrap_mode() const
 {
-  return get_texture1_wrap_mode(m_gl_texture_handle);
+  return get_texture1_wrap_mode(get_handle());
 }
 
 
@@ -784,7 +784,7 @@ template <texture_type Type2, typename Enable>
 typename texture_t<texture_type::texture1_array>::wrap_mode
   texture_t<texture_type::texture1_array>::get_wrap_mode() const
 {
-  return get_texture2_wrap_mode(m_gl_texture_handle);
+  return get_texture2_wrap_mode(get_handle());
 }
 
 
@@ -794,7 +794,7 @@ template <texture_type Type2, typename Enable>
 typename texture_t<texture_type::texture2>::wrap_mode
   texture_t<texture_type::texture2>::get_wrap_mode() const
 {
-  return get_texture2_wrap_mode(m_gl_texture_handle);
+  return get_texture2_wrap_mode(get_handle());
 }
 
 
@@ -804,7 +804,7 @@ template <texture_type Type2, typename Enable>
 typename texture_t<texture_type::texture2_array>::wrap_mode
   texture_t<texture_type::texture2_array>::get_wrap_mode() const
 {
-  return get_texture3_wrap_mode(m_gl_texture_handle);
+  return get_texture3_wrap_mode(get_handle());
 }
 
 
@@ -814,7 +814,7 @@ template <texture_type Type2, typename Enable>
 typename texture_t<texture_type::texture3>::wrap_mode
   texture_t<texture_type::texture3>::get_wrap_mode() const
 {
-  return get_texture3_wrap_mode(m_gl_texture_handle);
+  return get_texture3_wrap_mode(get_handle());
 }
 
 
@@ -824,7 +824,7 @@ template <texture_type Type2, typename Enable>
 void texture_t<texture_type::texture1>::set_wrap_mode(
   const wrap_mode& wrap_mode)
 {
-  set_texture1_wrap_mode(m_gl_texture_handle, wrap_mode);
+  set_texture1_wrap_mode(get_handle(), wrap_mode);
 }
 
 
@@ -834,7 +834,7 @@ template <texture_type Type2, typename Enable>
 void texture_t<texture_type::texture1_array>::set_wrap_mode(
   const wrap_mode& wrap_mode)
 {
-  set_texture2_wrap_mode(m_gl_texture_handle, wrap_mode);
+  set_texture2_wrap_mode(get_handle(), wrap_mode);
 }
 
 
@@ -844,7 +844,7 @@ template <texture_type Type2, typename Enable>
 void texture_t<texture_type::texture2>::set_wrap_mode(
   const wrap_mode& wrap_mode)
 {
-  set_texture2_wrap_mode(m_gl_texture_handle, wrap_mode);
+  set_texture2_wrap_mode(get_handle(), wrap_mode);
 }
 
 
@@ -854,7 +854,7 @@ template <texture_type Type2, typename Enable>
 void texture_t<texture_type::texture2_array>::set_wrap_mode(
   const wrap_mode& wrap_mode)
 {
-  set_texture3_wrap_mode(m_gl_texture_handle, wrap_mode);
+  set_texture3_wrap_mode(get_handle(), wrap_mode);
 }
 
 
@@ -864,7 +864,7 @@ template <texture_type Type2, typename Enable>
 void texture_t<texture_type::texture3>::set_wrap_mode(
   const wrap_mode& wrap_mode)
 {
-  set_texture3_wrap_mode(m_gl_texture_handle, wrap_mode);
+  set_texture3_wrap_mode(get_handle(), wrap_mode);
 }
 
 
@@ -876,7 +876,7 @@ typename texture_t<Type>::template image<PF> texture_t<Type>::get_image() const
   gl::set_unpack_alignment(1);
   size_type s = get_size();
   std::vector<uint8_t> buffer(compute_image_buffer_size(s, PF));
-  gl::get_texture_image(m_gl_texture_handle, 0u,
+  gl::get_texture_image(get_handle(), 0u,
     pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
   return image<PF>(s,
@@ -894,7 +894,7 @@ typename texture_t<texture_type::texture1>::template image<PF>
   HOU_PRECOND(element_wise_lower_or_equal(offset + s, get_size()));
   gl::set_unpack_alignment(1);
   std::vector<uint8_t> buffer(compute_image_buffer_size(s, PF));
-  gl::get_texture_sub_image(m_gl_texture_handle, offset.x(), 0, 0, s.x(), 1, 1,
+  gl::get_texture_sub_image(get_handle(), offset.x(), 0, 0, s.x(), 1, 1,
     0, pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
   return image<PF>(s,
@@ -912,7 +912,7 @@ typename texture_t<texture_type::texture1_array>::template image<PF>
   HOU_PRECOND(element_wise_lower_or_equal(offset + s, get_size()));
   gl::set_unpack_alignment(1);
   std::vector<uint8_t> buffer(compute_image_buffer_size(s, PF));
-  gl::get_texture_sub_image(m_gl_texture_handle, offset.x(), offset.y(), 0,
+  gl::get_texture_sub_image(get_handle(), offset.x(), offset.y(), 0,
     s.x(), s.y(), 1, 0, pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
   return image<PF>(s,
@@ -930,7 +930,7 @@ typename texture_t<texture_type::texture2>::template image<PF>
   HOU_PRECOND(element_wise_lower_or_equal(offset + s, get_size()));
   gl::set_unpack_alignment(1);
   std::vector<uint8_t> buffer(compute_image_buffer_size(s, PF));
-  gl::get_texture_sub_image(m_gl_texture_handle, offset.x(), offset.y(), 0,
+  gl::get_texture_sub_image(get_handle(), offset.x(), offset.y(), 0,
     s.x(), s.y(), 1, 0, pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
   return image<PF>(s,
@@ -948,7 +948,7 @@ typename texture_t<texture_type::texture2_array>::template image<PF>
   HOU_PRECOND(element_wise_lower_or_equal(offset + s, get_size()));
   gl::set_unpack_alignment(1);
   std::vector<uint8_t> buffer(compute_image_buffer_size(s, PF));
-  gl::get_texture_sub_image(m_gl_texture_handle, offset.x(), offset.y(),
+  gl::get_texture_sub_image(get_handle(), offset.x(), offset.y(),
     offset.z(), s.x(), s.y(), s.z(), 0, pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
   return image<PF>(s,
@@ -966,7 +966,7 @@ typename texture_t<texture_type::texture3>::template image<PF>
   HOU_PRECOND(element_wise_lower_or_equal(offset + s, get_size()));
   gl::set_unpack_alignment(1);
   std::vector<uint8_t> buffer(compute_image_buffer_size(s, PF));
-  gl::get_texture_sub_image(m_gl_texture_handle, offset.x(), offset.y(),
+  gl::get_texture_sub_image(get_handle(), offset.x(), offset.y(),
     offset.z(), s.x(), s.y(), s.z(), 0, pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
   return image<PF>(s,
@@ -991,7 +991,7 @@ void texture_t<texture_type::texture1>::set_sub_image(
   const offset_type& offset, const image<PF>& im)
 {
   HOU_PRECOND(element_wise_lower_or_equal(offset + im.get_size(), get_size()));
-  gl::set_texture_sub_image_1d(m_gl_texture_handle, 0u, offset.x(),
+  gl::set_texture_sub_image_1d(get_handle(), 0u, offset.x(),
     im.get_size().x(), pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()),
     reinterpret_cast<const void*>(im.get_pixels().data()));
@@ -1006,7 +1006,7 @@ void texture_t<texture_type::texture1_array>::set_sub_image(
   const offset_type& offset, const image<PF>& im)
 {
   HOU_PRECOND(element_wise_lower_or_equal(offset + im.get_size(), get_size()));
-  gl::set_texture_sub_image_2d(m_gl_texture_handle, 0, offset.x(), offset.y(),
+  gl::set_texture_sub_image_2d(get_handle(), 0, offset.x(), offset.y(),
     im.get_size().x(), im.get_size().y(), pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()),
     reinterpret_cast<const void*>(im.get_pixels().data()));
@@ -1021,7 +1021,7 @@ void texture_t<texture_type::texture2>::set_sub_image(
   const offset_type& offset, const image<PF>& im)
 {
   HOU_PRECOND(element_wise_lower_or_equal(offset + im.get_size(), get_size()));
-  gl::set_texture_sub_image_2d(m_gl_texture_handle, 0, offset.x(), offset.y(),
+  gl::set_texture_sub_image_2d(get_handle(), 0, offset.x(), offset.y(),
     im.get_size().x(), im.get_size().y(), pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()),
     reinterpret_cast<const void*>(im.get_pixels().data()));
@@ -1036,7 +1036,7 @@ void texture_t<texture_type::texture2_array>::set_sub_image(
   const offset_type& offset, const image<PF>& im)
 {
   HOU_PRECOND(element_wise_lower_or_equal(offset + im.get_size(), get_size()));
-  gl::set_texture_sub_image_3d(m_gl_texture_handle, 0, offset.x(), offset.y(),
+  gl::set_texture_sub_image_3d(get_handle(), 0, offset.x(), offset.y(),
     offset.z(), im.get_size().x(), im.get_size().y(), im.get_size().z(),
     pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()),
@@ -1052,7 +1052,7 @@ void texture_t<texture_type::texture3>::set_sub_image(
   const offset_type& offset, const image<PF>& im)
 {
   HOU_PRECOND(element_wise_lower_or_equal(offset + im.get_size(), get_size()));
-  gl::set_texture_sub_image_3d(m_gl_texture_handle, 0, offset.x(), offset.y(),
+  gl::set_texture_sub_image_3d(get_handle(), 0, offset.x(), offset.y(),
     offset.z(), im.get_size().x(), im.get_size().y(), im.get_size().z(),
     pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()),
@@ -1076,8 +1076,8 @@ template <texture_type Type2, typename Enable>
 typename texture_t<texture_type::texture1>::size_type
   texture_t<texture_type::texture1>::get_mipmap_size(uint mipmap_level) const
 {
-  HOU_PRECOND(mipmap_level < m_mipmap_level_count);
-  return get_texture1_size(m_gl_texture_handle, mipmap_level);
+  HOU_PRECOND(mipmap_level < get_mipmap_level_count());
+  return get_texture1_size(get_handle(), mipmap_level);
 }
 
 
@@ -1088,8 +1088,8 @@ typename texture_t<texture_type::texture1_array>::size_type
   texture_t<texture_type::texture1_array>::get_mipmap_size(
     uint mipmap_level) const
 {
-  HOU_PRECOND(mipmap_level < m_mipmap_level_count);
-  return get_texture2_size(m_gl_texture_handle, mipmap_level);
+  HOU_PRECOND(mipmap_level < get_mipmap_level_count());
+  return get_texture2_size(get_handle(), mipmap_level);
 }
 
 
@@ -1099,8 +1099,8 @@ template <texture_type Type2, typename Enable>
 typename texture_t<texture_type::texture2>::size_type
   texture_t<texture_type::texture2>::get_mipmap_size(uint mipmap_level) const
 {
-  HOU_PRECOND(mipmap_level < m_mipmap_level_count);
-  return get_texture2_size(m_gl_texture_handle, mipmap_level);
+  HOU_PRECOND(mipmap_level < get_mipmap_level_count());
+  return get_texture2_size(get_handle(), mipmap_level);
 }
 
 
@@ -1111,8 +1111,8 @@ typename texture_t<texture_type::texture2_array>::size_type
   texture_t<texture_type::texture2_array>::get_mipmap_size(
     uint mipmap_level) const
 {
-  HOU_PRECOND(mipmap_level < m_mipmap_level_count);
-  return get_texture3_size(m_gl_texture_handle, mipmap_level);
+  HOU_PRECOND(mipmap_level < get_mipmap_level_count());
+  return get_texture3_size(get_handle(), mipmap_level);
 }
 
 
@@ -1122,8 +1122,8 @@ template <texture_type Type2, typename Enable>
 typename texture_t<texture_type::texture3>::size_type
   texture_t<texture_type::texture3>::get_mipmap_size(uint mipmap_level) const
 {
-  HOU_PRECOND(mipmap_level < m_mipmap_level_count);
-  return get_texture3_size(m_gl_texture_handle, mipmap_level);
+  HOU_PRECOND(mipmap_level < get_mipmap_level_count());
+  return get_texture3_size(get_handle(), mipmap_level);
 }
 
 
@@ -1133,11 +1133,11 @@ template <pixel_format PF, texture_type Type2, typename Enable>
 typename texture_t<Type>::template image<PF> texture_t<Type>::get_mipmap_image(
   uint mipmap_level) const
 {
-  HOU_PRECOND(mipmap_level < m_mipmap_level_count);
+  HOU_PRECOND(mipmap_level < get_mipmap_level_count());
   gl::set_unpack_alignment(1);
   size_type mipMapSize = get_mipmap_size(mipmap_level);
   std::vector<uint8_t> buffer(compute_image_buffer_size(mipMapSize, PF));
-  gl::get_texture_image(m_gl_texture_handle, mipmap_level,
+  gl::get_texture_image(get_handle(), mipmap_level,
     pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
   return image<PF>(mipMapSize,
@@ -1181,9 +1181,9 @@ bool texture_t<Type>::is_multisampled() const
 template <texture_type Type>
 void texture_t<Type>::generate_mip_map()
 {
-  if(m_mipmap_level_count > 1u)
+  if(get_mipmap_level_count() > 1u)
   {
-    gl::generate_mip_map(m_gl_texture_handle);
+    gl::generate_mip_map(get_handle());
   }
 }
 

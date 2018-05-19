@@ -26,6 +26,14 @@ enum class framebuffer_blit_filter : GLenum
   linear = GL_LINEAR,
 };
 
+/** Writes the object into a stream.
+ *
+ * \param os the stream.
+ *
+ * \param fbbf the framebuffer_blit_filter enum.
+ *
+ * \return a reference to the stream.
+ */
 HOU_GFX_API std::ostream& operator<<(
   std::ostream& os, framebuffer_blit_filter fbbf);
 

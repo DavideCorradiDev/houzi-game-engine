@@ -1,4 +1,4 @@
-var classhou_1_1Wide =
+var classhou_1_1wide =
 [
-    [ "CodeUnit", "classhou_1_1Wide.html#a5c84755d70f152718c8f971d41b782e6", null ]
+    [ "code_unit", "classhou_1_1wide.html#af71f8933be32820aa01b9a2780629106", null ]
 ];

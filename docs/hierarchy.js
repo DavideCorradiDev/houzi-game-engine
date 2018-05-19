@@ -1,159 +1,197 @@
 var hierarchy =
 [
-    [ "hou::Clock", "classhou_1_1Clock.html", null ],
-    [ "hou::Color", "classhou_1_1Color.html", null ],
-    [ "hou::conjunction< B >", "structhou_1_1conjunction.html", null ],
-    [ "hou::EnableBitwiseOperators< T >", "structhou_1_1EnableBitwiseOperators.html", null ],
-    [ "hou::EnableBitwiseOperators< hou::FrameBufferBlitMask >", "structhou_1_1EnableBitwiseOperators_3_01hou_1_1FrameBufferBlitMask_01_4.html", null ],
-    [ "hou::EnableBitwiseOperators< ModifierKeys >", "structhou_1_1EnableBitwiseOperators_3_01ModifierKeys_01_4.html", null ],
-    [ "false_type", null, [
-      [ "hou::prv::isContiguousContainerHelper< T, false >", "structhou_1_1prv_1_1isContiguousContainerHelper_3_01T_00_01false_01_4.html", null ],
-      [ "hou::prv::isSpanHelper< T >", "structhou_1_1prv_1_1isSpanHelper.html", null ],
-      [ "hou::prv::isSpanHelper< std::remove_cv_t< T > >", "structhou_1_1prv_1_1isSpanHelper.html", [
-        [ "hou::isSpan< T >", "structhou_1_1isSpan.html", null ]
+    [ "hou::basic_static_string< CharT, N, Traits >", "classhou_1_1basic__static__string.html", null ],
+    [ "hou::bounded_checker< T, Min, Max >", "classhou_1_1bounded__checker.html", null ],
+    [ "hou::check_matching_sign< T, U >", "classhou_1_1check__matching__sign.html", null ],
+    [ "hou::check_matching_sign< matrix< T, Rows, Cols >, matrix< U, Rows, Cols > >", "classhou_1_1check__matching__sign_3_01matrix_3_01T_00_01Rows_00_01Cols_01_4_00_01matrix_3_01U_00_01Rows_00_01Cols_01_4_01_4.html", null ],
+    [ "hou::checked_variable< T, Checker >", "classhou_1_1checked__variable.html", null ],
+    [ "hou::checked_variable< uint >", "classhou_1_1checked__variable.html", null ],
+    [ "hou::clock", "classhou_1_1clock.html", null ],
+    [ "hou::color", "classhou_1_1color.html", null ],
+    [ "hou::conjunction< b >", "structhou_1_1conjunction.html", null ],
+    [ "hou::enable_bitwise_operators< T >", "structhou_1_1enable__bitwise__operators.html", null ],
+    [ "hou::enable_bitwise_operators< hou::framebuffer_blit_mask >", "structhou_1_1enable__bitwise__operators_3_01hou_1_1framebuffer__blit__mask_01_4.html", null ],
+    [ "hou::enable_bitwise_operators< modifier_keys >", "structhou_1_1enable__bitwise__operators_3_01modifier__keys_01_4.html", null ],
+    [ "exception", null, [
+      [ "hou::exception", "classhou_1_1exception.html", [
+        [ "hou::bad_union_access", "classhou_1_1bad__union__access.html", null ],
+        [ "hou::cursor_error", "classhou_1_1cursor__error.html", null ],
+        [ "hou::file_close_error", "classhou_1_1file__close__error.html", null ],
+        [ "hou::file_open_error", "classhou_1_1file__open__error.html", null ],
+        [ "hou::font_creation_error", "classhou_1_1font__creation__error.html", null ],
+        [ "hou::font_destruction_error", "classhou_1_1font__destruction__error.html", null ],
+        [ "hou::font_operation_error", "classhou_1_1font__operation__error.html", null ],
+        [ "hou::invalid_audio_data", "classhou_1_1invalid__audio__data.html", null ],
+        [ "hou::invalid_image_data", "classhou_1_1invalid__image__data.html", null ],
+        [ "hou::invariant_violation", "classhou_1_1invariant__violation.html", null ],
+        [ "hou::narrowing_error", "classhou_1_1narrowing__error.html", null ],
+        [ "hou::os_error", "classhou_1_1os__error.html", null ],
+        [ "hou::out_of_range", "classhou_1_1out__of__range.html", null ],
+        [ "hou::overflow_error", "classhou_1_1overflow__error.html", null ],
+        [ "hou::postcondition_violation", "classhou_1_1postcondition__violation.html", null ],
+        [ "hou::precondition_violation", "classhou_1_1precondition__violation.html", null ],
+        [ "hou::read_error", "classhou_1_1read__error.html", null ],
+        [ "hou::underflow_error", "classhou_1_1underflow__error.html", null ],
+        [ "hou::write_error", "classhou_1_1write__error.html", null ]
       ] ]
     ] ],
-    [ "hou::Glyph", "classhou_1_1Glyph.html", null ],
-    [ "hou::GlyphMetrics", "classhou_1_1GlyphMetrics.html", null ],
-    [ "hou::Image< dim, fmt >", "classhou_1_1Image.html", null ],
-    [ "hou::Image< PixelFormat::R >", "classhou_1_1Image.html", null ],
-    [ "hou::Image< PixelFormat::RGBA >", "classhou_1_1Image.html", null ],
+    [ "false_type", null, [
+      [ "hou::prv::is_contiguous_container_helper< T, false >", "structhou_1_1prv_1_1is__contiguous__container__helper_3_01T_00_01false_01_4.html", null ],
+      [ "hou::prv::is_span_helper< T >", "structhou_1_1prv_1_1is__span__helper.html", null ],
+      [ "hou::prv::is_span_helper< std::remove_cv_t< T > >", "structhou_1_1prv_1_1is__span__helper.html", [
+        [ "hou::is_span< T >", "structhou_1_1is__span.html", null ]
+      ] ]
+    ] ],
+    [ "hou::glyph", "classhou_1_1glyph.html", null ],
+    [ "hou::glyph_metrics", "classhou_1_1glyph__metrics.html", null ],
+    [ "hou::image< Dim, PF >", "classhou_1_1image.html", null ],
+    [ "hou::image< pixel_format::r >", "classhou_1_1image.html", null ],
+    [ "hou::image< pixel_format::rgba >", "classhou_1_1image.html", null ],
     [ "integral_constant", null, [
-      [ "hou::conjunction< B >", "structhou_1_1conjunction_3_01B_01_4.html", null ],
-      [ "hou::conjunction< Head, Tail... >", "structhou_1_1conjunction_3_01Head_00_01Tail_8_8_8_01_4.html", null ]
+      [ "hou::conjunction< b >", "structhou_1_1conjunction_3_01b_01_4.html", null ],
+      [ "hou::conjunction< Head, Tail... >", "structhou_1_1conjunction_3_01Head_00_01Tail_8_8_8_01_4.html", null ],
+      [ "hou::is_same_signedness< T, U >", "structhou_1_1is__same__signedness.html", null ],
+      [ "std::is_signed< hou::matrix< T, Rows, Cols > >", "structstd_1_1is__signed_3_01hou_1_1matrix_3_01T_00_01Rows_00_01Cols_01_4_01_4.html", null ]
+    ] ],
+    [ "hou::prv::is_contiguous_container_helper< T, HasRequiredMembers >", "structhou_1_1prv_1_1is__contiguous__container__helper.html", null ],
+    [ "hou::prv::is_contiguous_container_helper< std::remove_cv_t< T > >", "structhou_1_1prv_1_1is__contiguous__container__helper.html", [
+      [ "hou::is_contiguous_container< T >", "structhou_1_1is__contiguous__container.html", null ]
     ] ],
     [ "is_convertible", null, [
-      [ "hou::prv::isContiguousContainerHelper< T, true >", "structhou_1_1prv_1_1isContiguousContainerHelper_3_01T_00_01true_01_4.html", null ]
+      [ "hou::prv::is_contiguous_container_helper< T, true >", "structhou_1_1prv_1_1is__contiguous__container__helper_3_01T_00_01true_01_4.html", null ]
     ] ],
-    [ "hou::prv::isContiguousContainerHelper< T, HasRequiredElements >", "structhou_1_1prv_1_1isContiguousContainerHelper.html", null ],
-    [ "hou::prv::isContiguousContainerHelper< std::remove_cv_t< T > >", "structhou_1_1prv_1_1isContiguousContainerHelper.html", [
-      [ "hou::isContiguousContainer< T >", "structhou_1_1isContiguousContainer.html", null ]
-    ] ],
-    [ "hou::WindowEvent::KeyData", "structhou_1_1WindowEvent_1_1KeyData.html", null ],
-    [ "hou::Matrix< T, rows, cols >", "classhou_1_1Matrix.html", null ],
-    [ "hou::Matrix< float >", "classhou_1_1Matrix.html", null ],
-    [ "hou::Matrix< int >", "classhou_1_1Matrix.html", null ],
-    [ "hou::Matrix< T >", "classhou_1_1Matrix.html", null ],
-    [ "hou::Matrix< uint >", "classhou_1_1Matrix.html", null ],
-    [ "hou::Matrix< uint, dim >", "classhou_1_1Matrix.html", null ],
-    [ "hou::WindowEvent::MouseButtonData", "structhou_1_1WindowEvent_1_1MouseButtonData.html", null ],
-    [ "hou::WindowEvent::MouseMoveData", "structhou_1_1WindowEvent_1_1MouseMoveData.html", null ],
-    [ "hou::WindowEvent::MouseWheelData", "structhou_1_1WindowEvent_1_1MouseWheelData.html", null ],
-    [ "hou::NonCopyable", "classhou_1_1NonCopyable.html", [
-      [ "hou::AudioBuffer", "classhou_1_1AudioBuffer.html", null ],
-      [ "hou::AudioContext", "classhou_1_1AudioContext.html", null ],
-      [ "hou::AudioSource", "classhou_1_1AudioSource.html", [
-        [ "hou::MemoryAudioSource", "classhou_1_1MemoryAudioSource.html", null ],
-        [ "hou::StreamingAudioSource", "classhou_1_1StreamingAudioSource.html", null ]
+    [ "hou::window_event::key_data", "structhou_1_1window__event_1_1key__data.html", null ],
+    [ "hou::matrix< T, Rows, Cols >", "classhou_1_1matrix.html", null ],
+    [ "hou::matrix< float >", "classhou_1_1matrix.html", null ],
+    [ "hou::matrix< int >", "classhou_1_1matrix.html", null ],
+    [ "hou::matrix< T >", "classhou_1_1matrix.html", null ],
+    [ "hou::matrix< uint >", "classhou_1_1matrix.html", null ],
+    [ "hou::matrix< uint, Dim >", "classhou_1_1matrix.html", null ],
+    [ "hou::window_event::mouse_button_data", "structhou_1_1window__event_1_1mouse__button__data.html", null ],
+    [ "hou::window_event::mouse_move_data", "structhou_1_1window__event_1_1mouse__move__data.html", null ],
+    [ "hou::window_event::mouse_wheel_data", "structhou_1_1window__event_1_1mouse__wheel__data.html", null ],
+    [ "hou::negative_checker< T >", "classhou_1_1negative__checker.html", null ],
+    [ "hou::non_copyable", "classhou_1_1non__copyable.html", [
+      [ "hou::audio_buffer", "classhou_1_1audio__buffer.html", null ],
+      [ "hou::audio_context", "classhou_1_1audio__context.html", null ],
+      [ "hou::audio_source", "classhou_1_1audio__source.html", [
+        [ "hou::memory_audio_source", "classhou_1_1memory__audio__source.html", null ],
+        [ "hou::streaming_audio_source", "classhou_1_1streaming__audio__source.html", null ]
       ] ],
-      [ "hou::BinaryFileIn", "classhou_1_1BinaryFileIn.html", null ],
-      [ "hou::BinaryFileOut", "classhou_1_1BinaryFileOut.html", null ],
-      [ "hou::File", "classhou_1_1File.html", null ],
-      [ "hou::FileHandle", "classhou_1_1FileHandle.html", null ],
-      [ "hou::Font", "classhou_1_1Font.html", null ],
-      [ "hou::FormattedText", "classhou_1_1FormattedText.html", null ],
-      [ "hou::FrameBuffer", "classhou_1_1FrameBuffer.html", null ],
-      [ "hou::GraphicContext", "classhou_1_1GraphicContext.html", null ],
-      [ "hou::Mesh", "classhou_1_1Mesh.html", [
-        [ "hou::MeshT< T >", "classhou_1_1MeshT.html", null ]
+      [ "hou::binary_file_in", "classhou_1_1binary__file__in.html", null ],
+      [ "hou::binary_file_out", "classhou_1_1binary__file__out.html", null ],
+      [ "hou::file", "classhou_1_1file.html", null ],
+      [ "hou::file_handle", "classhou_1_1file__handle.html", null ],
+      [ "hou::font", "classhou_1_1font.html", null ],
+      [ "hou::formatted_text", "classhou_1_1formatted__text.html", null ],
+      [ "hou::framebuffer", "classhou_1_1framebuffer.html", null ],
+      [ "hou::graphic_context", "classhou_1_1graphic__context.html", null ],
+      [ "hou::mesh", "classhou_1_1mesh.html", [
+        [ "hou::mesh_t< T >", "classhou_1_1mesh__t.html", null ]
       ] ],
-      [ "hou::OggFileIn", "classhou_1_1OggFileIn.html", null ],
-      [ "hou::prv::WindowImpl", "classhou_1_1prv_1_1WindowImpl.html", null ],
-      [ "hou::RenderSurface", "classhou_1_1RenderSurface.html", [
-        [ "hou::RenderCanvas", "classhou_1_1RenderCanvas.html", null ],
-        [ "hou::RenderWindow", "classhou_1_1RenderWindow.html", null ]
+      [ "hou::ogg_file_in", "classhou_1_1ogg__file__in.html", null ],
+      [ "hou::prv::window_impl", "classhou_1_1prv_1_1window__impl.html", null ],
+      [ "hou::render_surface", "classhou_1_1render__surface.html", [
+        [ "hou::render_canvas", "classhou_1_1render__canvas.html", null ],
+        [ "hou::render_window", "classhou_1_1render__window.html", null ]
       ] ],
-      [ "hou::Shader", "classhou_1_1Shader.html", [
-        [ "hou::ShaderTemplate< type >", "classhou_1_1ShaderTemplate.html", null ]
+      [ "hou::shader", "classhou_1_1shader.html", [
+        [ "hou::shader_t< Type >", "classhou_1_1shader__t.html", null ]
       ] ],
-      [ "hou::ShaderProgram", "classhou_1_1ShaderProgram.html", [
-        [ "hou::Mesh2ShaderProgram", "classhou_1_1Mesh2ShaderProgram.html", null ],
-        [ "hou::TextShaderProgram", "classhou_1_1TextShaderProgram.html", null ]
+      [ "hou::shader_program", "classhou_1_1shader__program.html", [
+        [ "hou::mesh2_shader_program", "classhou_1_1mesh2__shader__program.html", null ],
+        [ "hou::text_shader_program", "classhou_1_1text__shader__program.html", null ]
       ] ],
-      [ "hou::TextFileIn", "classhou_1_1TextFileIn.html", null ],
-      [ "hou::TextFileOut", "classhou_1_1TextFileOut.html", null ],
-      [ "hou::Texture", "classhou_1_1Texture.html", [
-        [ "hou::TextureT< type >", "classhou_1_1TextureT.html", null ],
-        [ "hou::TextureT< TextureType::Texture2 >", "classhou_1_1TextureT.html", null ]
+      [ "hou::text_file_in", "classhou_1_1text__file__in.html", null ],
+      [ "hou::text_file_out", "classhou_1_1text__file__out.html", null ],
+      [ "hou::texture", "classhou_1_1texture.html", [
+        [ "hou::texture_t< Type >", "classhou_1_1texture__t.html", null ],
+        [ "hou::texture_t< texture_type::texture2 >", "classhou_1_1texture__t.html", null ]
       ] ],
-      [ "hou::VertexArray", "classhou_1_1VertexArray.html", null ],
-      [ "hou::VertexBuffer", "classhou_1_1VertexBuffer.html", [
-        [ "hou::VertexBufferT< T, dynamicStorage >", "classhou_1_1VertexBufferT.html", null ],
-        [ "hou::VertexBufferT< T >", "classhou_1_1VertexBufferT.html", null ]
+      [ "hou::vertex_array", "classhou_1_1vertex__array.html", null ],
+      [ "hou::vertex_buffer", "classhou_1_1vertex__buffer.html", [
+        [ "hou::vertex_buffer_t< T, DynamicStorage >", "classhou_1_1vertex__buffer__t.html", null ],
+        [ "hou::vertex_buffer_t< T >", "classhou_1_1vertex__buffer__t.html", null ]
       ] ],
-      [ "hou::WavFileIn", "classhou_1_1WavFileIn.html", null ],
-      [ "hou::Window", "classhou_1_1Window.html", [
-        [ "hou::RenderWindow", "classhou_1_1RenderWindow.html", null ],
-        [ "hou::SystemWindow", "classhou_1_1SystemWindow.html", null ]
+      [ "hou::wav_file_in", "classhou_1_1wav__file__in.html", null ],
+      [ "hou::window", "classhou_1_1window.html", [
+        [ "hou::render_window", "classhou_1_1render__window.html", null ],
+        [ "hou::system_window", "classhou_1_1system__window.html", null ]
       ] ]
     ] ],
-    [ "hou::NonInstantiable", "classhou_1_1NonInstantiable.html", [
-      [ "hou::Utf16", "classhou_1_1Utf16.html", null ],
-      [ "hou::Utf32", "classhou_1_1Utf32.html", null ],
-      [ "hou::Utf8", "classhou_1_1Utf8.html", null ],
-      [ "hou::Wide", "classhou_1_1Wide.html", null ]
+    [ "hou::non_instantiable", "classhou_1_1non__instantiable.html", [
+      [ "hou::bmp_image_file", "classhou_1_1bmp__image__file.html", null ],
+      [ "hou::jpg_image_file", "classhou_1_1jpg__image__file.html", null ],
+      [ "hou::png_image_file", "classhou_1_1png__image__file.html", null ],
+      [ "hou::utf16", "classhou_1_1utf16.html", null ],
+      [ "hou::utf32", "classhou_1_1utf32.html", null ],
+      [ "hou::utf8", "classhou_1_1utf8.html", null ],
+      [ "hou::wide", "classhou_1_1wide.html", null ]
     ] ],
-    [ "hou::NotNull< PtrType >", "classhou_1_1NotNull.html", null ],
-    [ "hou::NotNull< std::unique_ptr< hou::AudioStreamIn > >", "classhou_1_1NotNull.html", null ],
-    [ "hou::PixelT< pf >", "classhou_1_1PixelT.html", null ],
-    [ "hou::Quaternion< T >", "classhou_1_1Quaternion.html", null ],
-    [ "hou::Rectangle< T >", "classhou_1_1Rectangle.html", null ],
-    [ "hou::Rectangle< float >", "classhou_1_1Rectangle.html", null ],
-    [ "hou::Rectangle< int >", "classhou_1_1Rectangle.html", null ],
-    [ "hou::Rotation2< T >", "classhou_1_1Rotation2.html", null ],
-    [ "hou::Rotation3< T >", "classhou_1_1Rotation3.html", null ],
-    [ "hou::WindowEvent::SizeData", "structhou_1_1WindowEvent_1_1SizeData.html", null ],
-    [ "hou::Span< T >", "classhou_1_1Span.html", null ],
-    [ "hou::prv::SpanIterator< T >", "classhou_1_1prv_1_1SpanIterator.html", null ],
-    [ "hou::Stopwatch", "classhou_1_1Stopwatch.html", null ],
-    [ "hou::Stream", "classhou_1_1Stream.html", [
-      [ "hou::BinaryStream", "classhou_1_1BinaryStream.html", [
-        [ "hou::AudioStream", "classhou_1_1AudioStream.html", [
-          [ "hou::AudioStreamIn", "classhou_1_1AudioStreamIn.html", [
-            [ "hou::EmptyAudioStreamIn", "classhou_1_1EmptyAudioStreamIn.html", null ],
-            [ "hou::OggFileIn", "classhou_1_1OggFileIn.html", null ],
-            [ "hou::WavFileIn", "classhou_1_1WavFileIn.html", null ]
+    [ "hou::non_negative_checker< T >", "classhou_1_1non__negative__checker.html", null ],
+    [ "hou::non_positive_checker< T >", "classhou_1_1non__positive__checker.html", null ],
+    [ "hou::not_null< PtrType >", "classhou_1_1not__null.html", null ],
+    [ "hou::not_null< std::unique_ptr< hou::audio_stream_in > >", "classhou_1_1not__null.html", null ],
+    [ "hou::pixel_t< PF >", "classhou_1_1pixel__t.html", null ],
+    [ "hou::positive_checker< T >", "classhou_1_1positive__checker.html", null ],
+    [ "hou::quaternion< T >", "classhou_1_1quaternion.html", null ],
+    [ "hou::rectangle< T >", "classhou_1_1rectangle.html", null ],
+    [ "hou::rectangle< float >", "classhou_1_1rectangle.html", null ],
+    [ "hou::rectangle< int >", "classhou_1_1rectangle.html", null ],
+    [ "hou::rotation2< T >", "classhou_1_1rotation2.html", null ],
+    [ "hou::rotation3< T >", "classhou_1_1rotation3.html", null ],
+    [ "hou::window_event::size_data", "structhou_1_1window__event_1_1size__data.html", null ],
+    [ "hou::span< T >", "classhou_1_1span.html", null ],
+    [ "hou::prv::span_iterator< T >", "classhou_1_1prv_1_1span__iterator.html", null ],
+    [ "hou::stopwatch", "classhou_1_1stopwatch.html", null ],
+    [ "hou::stream", "classhou_1_1stream.html", [
+      [ "hou::binary_stream", "classhou_1_1binary__stream.html", [
+        [ "hou::audio_stream", "classhou_1_1audio__stream.html", [
+          [ "hou::audio_stream_in", "classhou_1_1audio__stream__in.html", [
+            [ "hou::empty_audio_stream_in", "classhou_1_1empty__audio__stream__in.html", null ],
+            [ "hou::ogg_file_in", "classhou_1_1ogg__file__in.html", null ],
+            [ "hou::wav_file_in", "classhou_1_1wav__file__in.html", null ]
           ] ]
         ] ],
-        [ "hou::BinaryStreamIn", "classhou_1_1BinaryStreamIn.html", [
-          [ "hou::BinaryFileIn", "classhou_1_1BinaryFileIn.html", null ]
+        [ "hou::binary_stream_in", "classhou_1_1binary__stream__in.html", [
+          [ "hou::binary_file_in", "classhou_1_1binary__file__in.html", null ]
         ] ],
-        [ "hou::BinaryStreamOut", "classhou_1_1BinaryStreamOut.html", [
-          [ "hou::BinaryFileOut", "classhou_1_1BinaryFileOut.html", null ]
+        [ "hou::binary_stream_out", "classhou_1_1binary__stream__out.html", [
+          [ "hou::binary_file_out", "classhou_1_1binary__file__out.html", null ]
         ] ]
       ] ],
-      [ "hou::TextStream", "classhou_1_1TextStream.html", [
-        [ "hou::TextStreamIn", "classhou_1_1TextStreamIn.html", [
-          [ "hou::TextFileIn", "classhou_1_1TextFileIn.html", null ]
+      [ "hou::text_stream", "classhou_1_1text__stream.html", [
+        [ "hou::text_stream_in", "classhou_1_1text__stream__in.html", [
+          [ "hou::text_file_in", "classhou_1_1text__file__in.html", null ]
         ] ],
-        [ "hou::TextStreamOut", "classhou_1_1TextStreamOut.html", [
-          [ "hou::TextFileOut", "classhou_1_1TextFileOut.html", null ]
+        [ "hou::text_stream_out", "classhou_1_1text__stream__out.html", [
+          [ "hou::text_file_out", "classhou_1_1text__file__out.html", null ]
         ] ]
       ] ]
     ] ],
-    [ "hou::StreamIn", "classhou_1_1StreamIn.html", [
-      [ "hou::AudioStreamIn", "classhou_1_1AudioStreamIn.html", null ],
-      [ "hou::BinaryStreamIn", "classhou_1_1BinaryStreamIn.html", null ],
-      [ "hou::TextStreamIn", "classhou_1_1TextStreamIn.html", null ]
+    [ "hou::stream_in", "classhou_1_1stream__in.html", [
+      [ "hou::audio_stream_in", "classhou_1_1audio__stream__in.html", null ],
+      [ "hou::binary_stream_in", "classhou_1_1binary__stream__in.html", null ],
+      [ "hou::text_stream_in", "classhou_1_1text__stream__in.html", null ]
     ] ],
-    [ "hou::StreamOut", "classhou_1_1StreamOut.html", [
-      [ "hou::BinaryStreamOut", "classhou_1_1BinaryStreamOut.html", null ],
-      [ "hou::TextStreamOut", "classhou_1_1TextStreamOut.html", null ]
+    [ "hou::stream_out", "classhou_1_1stream__out.html", [
+      [ "hou::binary_stream_out", "classhou_1_1binary__stream__out.html", null ],
+      [ "hou::text_stream_out", "classhou_1_1text__stream__out.html", null ]
     ] ],
-    [ "hou::TextBoxFormattingParams", "classhou_1_1TextBoxFormattingParams.html", null ],
-    [ "hou::WindowEvent::TextData", "structhou_1_1WindowEvent_1_1TextData.html", null ],
-    [ "hou::TextStream::TextPosition", "classhou_1_1TextStream_1_1TextPosition.html", null ],
-    [ "hou::TextureChannelMapping", "classhou_1_1TextureChannelMapping.html", null ],
-    [ "hou::TextVertex", "classhou_1_1TextVertex.html", null ],
-    [ "hou::Transform2< T >", "classhou_1_1Transform2.html", null ],
-    [ "hou::Transform3< T >", "classhou_1_1Transform3.html", null ],
+    [ "hou::text_box_formatting_params", "classhou_1_1text__box__formatting__params.html", null ],
+    [ "hou::window_event::text_data", "structhou_1_1window__event_1_1text__data.html", null ],
+    [ "hou::text_stream::text_position", "classhou_1_1text__stream_1_1text__position.html", null ],
+    [ "hou::text_vertex", "classhou_1_1text__vertex.html", null ],
+    [ "hou::texture_channel_mapping", "classhou_1_1texture__channel__mapping.html", null ],
+    [ "hou::transform2< T >", "classhou_1_1transform2.html", null ],
+    [ "hou::transform3< T >", "classhou_1_1transform3.html", null ],
     [ "true_type", null, [
-      [ "hou::prv::isSpanHelper< Span< T > >", "structhou_1_1prv_1_1isSpanHelper_3_01Span_3_01T_01_4_01_4.html", null ]
+      [ "hou::prv::is_span_helper< span< T > >", "structhou_1_1prv_1_1is__span__helper_3_01span_3_01T_01_4_01_4.html", null ]
     ] ],
-    [ "hou::UidGenerator", "classhou_1_1UidGenerator.html", null ],
-    [ "hou::Vertex2", "classhou_1_1Vertex2.html", null ],
-    [ "hou::VertexAttribFormat", "classhou_1_1VertexAttribFormat.html", null ],
-    [ "hou::VertexFormat", "classhou_1_1VertexFormat.html", null ],
-    [ "hou::VideoMode", "classhou_1_1VideoMode.html", null ],
-    [ "hou::WindowEvent", "classhou_1_1WindowEvent.html", null ]
+    [ "hou::uid_generator", "classhou_1_1uid__generator.html", null ],
+    [ "hou::vertex2", "classhou_1_1vertex2.html", null ],
+    [ "hou::vertex_attrib_format", "classhou_1_1vertex__attrib__format.html", null ],
+    [ "hou::vertex_format", "classhou_1_1vertex__format.html", null ],
+    [ "hou::video_mode", "classhou_1_1video__mode.html", null ],
+    [ "hou::window_event", "classhou_1_1window__event.html", null ]
 ];

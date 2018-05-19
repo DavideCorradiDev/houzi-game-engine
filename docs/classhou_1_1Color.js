@@ -1,20 +1,20 @@
-var classhou_1_1Color =
+var classhou_1_1color =
 [
-    [ "Color", "classhou_1_1Color.html#acaa8e6201faf42fb3a49f2999d95803e", null ],
-    [ "getAlpha", "classhou_1_1Color.html#a6ec02248d4bcbe7bc005d51f95d2d474", null ],
-    [ "getAlphaf", "classhou_1_1Color.html#a04ecf559b9e1d7223275422ae4a77c05", null ],
-    [ "getBlue", "classhou_1_1Color.html#aa949c6b32626900a44d88a86a708f471", null ],
-    [ "getBluef", "classhou_1_1Color.html#a59ad2cee2a3c8b15769c2d24bad43d84", null ],
-    [ "getGreen", "classhou_1_1Color.html#a71d950a9ad0537ca2ad13f2ed5e9a15c", null ],
-    [ "getGreenf", "classhou_1_1Color.html#abc4856d099f593caf2c47a06328101c6", null ],
-    [ "getRed", "classhou_1_1Color.html#a32f0eff7a0cf38701efd02f192a3e3a7", null ],
-    [ "getRedf", "classhou_1_1Color.html#a3e33f5d5b2714f83210fec249f8acc4b", null ],
-    [ "setAlpha", "classhou_1_1Color.html#ae55efa45c5ef1d856d64006d5340ccf2", null ],
-    [ "setAlphaf", "classhou_1_1Color.html#a61adf7e874390acf9f1a4d652f103d5e", null ],
-    [ "setBlue", "classhou_1_1Color.html#ae79b753c125ef02102adfb49780c3e7f", null ],
-    [ "setBluef", "classhou_1_1Color.html#a4acc04e526dbb8ccf93056500ad7e9e7", null ],
-    [ "setGreen", "classhou_1_1Color.html#a7f96b7cce3ce181400064442d4b46d05", null ],
-    [ "setGreenf", "classhou_1_1Color.html#a9b6c727103525e8ae9e3ec683fd66235", null ],
-    [ "setRed", "classhou_1_1Color.html#a654560d74441372e76644cb0af13cbfe", null ],
-    [ "setRedf", "classhou_1_1Color.html#ae0f447df22571447d7b00558eb488bde", null ]
+    [ "color", "classhou_1_1color.html#ae0ee7dc928ad009fd3960e746cb8cdd8", null ],
+    [ "get_alpha", "classhou_1_1color.html#a3a02ef3c784abe4eb6fe24516ebdd705", null ],
+    [ "get_alpha_f", "classhou_1_1color.html#ab436ac78521961ebfaed800035c31bba", null ],
+    [ "get_blue", "classhou_1_1color.html#a46a8621ce9161013da3eaedae8996ae0", null ],
+    [ "get_blue_f", "classhou_1_1color.html#a5c67a4a26a9d48c3ef1aa41f5ebc570e", null ],
+    [ "get_green", "classhou_1_1color.html#a3ddef240e777d13b241e9659f811b160", null ],
+    [ "get_green_f", "classhou_1_1color.html#a8266f3950b19ed9f20741c202b876f06", null ],
+    [ "get_red", "classhou_1_1color.html#a1359dc5468ef584e9aeaae789d9e8820", null ],
+    [ "get_red_f", "classhou_1_1color.html#a43d3a7eb6d7347ff65d6f2e3fe4e1f37", null ],
+    [ "set_alpha", "classhou_1_1color.html#a5999267a45b7d5a3bde6f7871ef1ab75", null ],
+    [ "set_alpha_f", "classhou_1_1color.html#a9d6536e6b8ae784b51c6abf4b1441b41", null ],
+    [ "set_blue", "classhou_1_1color.html#accd85f97204a5f2c953667cc3db4c2ac", null ],
+    [ "set_blue_f", "classhou_1_1color.html#a1dde98629c02681ecc2de837a1bc8089", null ],
+    [ "set_green", "classhou_1_1color.html#a45e52cb79ce98764fbe00cc674cbf033", null ],
+    [ "set_green_f", "classhou_1_1color.html#a2b3a57b15ffe77786f8234d4980591f8", null ],
+    [ "set_red", "classhou_1_1color.html#a706af6470ad8341104b6d3263369cdb4", null ],
+    [ "set_red_f", "classhou_1_1color.html#a259f2e92794f51bbd24a192f2e3832b7", null ]
 ];

@@ -1104,17 +1104,6 @@ TEST_F(test_matrix, narrow_cast_int_to_float)
 
 
 
-TEST_F(test_matrix_death_test, narrow_cast_int_to_float_failure)
-{
-  static constexpr int of_val = std::numeric_limits<int>::max();
-  EXPECT_ERROR_0(narrow_cast<mat2x1f>(mat2x1i(0, of_val)), narrowing_error);
-  EXPECT_ERROR_0(narrow_cast<mat2x1f>(mat2x1i(of_val, 0)), narrowing_error);
-  EXPECT_ERROR_0(
-    narrow_cast<mat2x1f>(mat2x1i(of_val, of_val)), narrowing_error);
-}
-
-
-
 TEST_F(test_matrix, narrow_cast_float_to_int)
 {
   EXPECT_EQ(mat2x1i::zero(), narrow_cast<mat2x1i>(mat2x1f::zero()));

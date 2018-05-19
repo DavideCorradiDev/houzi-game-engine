@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Houzi Game Engine: hou::Clock Class Reference</title>
+<title>Houzi Game Engine: hou::clock Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -66,7 +66,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('classhou_1_1Clock.html','');});
+$(document).ready(function(){initNavTree('classhou_1_1clock.html','');});
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -88,72 +88,34 @@ $(document).ready(function(){initNavTree('classhou_1_1Clock.html','');});
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="classhou_1_1Clock-members.html">List of all members</a>  </div>
+<a href="classhou_1_1clock-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">hou::Clock Class Reference</div>  </div>
+<div class="title">hou::clock Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="Clock_8hpp_source.html">Clock.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="clock_8hpp_source.html">clock.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:abf507cfd59abac027456fd9615d53c14"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Clock.html#abf507cfd59abac027456fd9615d53c14">Clock</a> ()</td></tr>
-<tr class="separator:abf507cfd59abac027456fd9615d53c14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adee770037cf137ccd3a23a43bb7864b4"><td class="memItemLeft" align="right" valign="top">std::chrono::nanoseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Clock.html#adee770037cf137ccd3a23a43bb7864b4">getElapsedTime</a> () const</td></tr>
-<tr class="separator:adee770037cf137ccd3a23a43bb7864b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92d44cf8ad44810585c1295d30f4d6b2"><td class="memItemLeft" align="right" valign="top">std::chrono::nanoseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Clock.html#a92d44cf8ad44810585c1295d30f4d6b2">reset</a> ()</td></tr>
-<tr class="separator:a92d44cf8ad44810585c1295d30f4d6b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73fe93348c32bf1cae4c301be249bf50"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1clock.html#a73fe93348c32bf1cae4c301be249bf50">clock</a> () noexcept</td></tr>
+<tr class="separator:a73fe93348c32bf1cae4c301be249bf50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8604ffa7cc82ce39395b02968efed651"><td class="memItemLeft" align="right" valign="top">std::chrono::nanoseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1clock.html#a8604ffa7cc82ce39395b02968efed651">get_elapsed_time</a> () const noexcept</td></tr>
+<tr class="separator:a8604ffa7cc82ce39395b02968efed651"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b306104117ed1446d0a65d720985f48"><td class="memItemLeft" align="right" valign="top">std::chrono::nanoseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1clock.html#a1b306104117ed1446d0a65d720985f48">reset</a> () noexcept</td></tr>
+<tr class="separator:a1b306104117ed1446d0a65d720985f48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a98f412a29a167a8f5f2f8bb5f9a236be"><td class="memItemLeft" align="right" valign="top">static std::chrono::nanoseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Clock.html#a98f412a29a167a8f5f2f8bb5f9a236be">getResolution</a> ()</td></tr>
-<tr class="separator:a98f412a29a167a8f5f2f8bb5f9a236be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0c093775034f4b975df781d608b0173"><td class="memItemLeft" align="right" valign="top">static std::chrono::nanoseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1clock.html#ae0c093775034f4b975df781d608b0173">get_resolution</a> () noexcept</td></tr>
+<tr class="separator:ae0c093775034f4b975df781d608b0173"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>High resolution clock.</p>
+<div class="textblock"><p>High resolution p_clock.</p>
 <p>Guarantees a resolution of 100 ns. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="abf507cfd59abac027456fd9615d53c14"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abf507cfd59abac027456fd9615d53c14">&#9670;&nbsp;</a></span>Clock()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">hou::Clock::Clock </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Creates a clock object. </p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="adee770037cf137ccd3a23a43bb7864b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adee770037cf137ccd3a23a43bb7864b4">&#9670;&nbsp;</a></span>getElapsedTime()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::chrono::nanoseconds hou::Clock::getElapsedTime </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Returns the time elapsed since the clock creation.</p>
-<dl class="section return"><dt>Returns</dt><dd>the elapsed time in nanoseconds. </dd></dl>
-
-</div>
-</div>
-<a id="a98f412a29a167a8f5f2f8bb5f9a236be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a98f412a29a167a8f5f2f8bb5f9a236be">&#9670;&nbsp;</a></span>getResolution()</h2>
+<a id="a73fe93348c32bf1cae4c301be249bf50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73fe93348c32bf1cae4c301be249bf50">&#9670;&nbsp;</a></span>clock()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -162,7 +124,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static std::chrono::nanoseconds hou::Clock::getResolution </td>
+          <td class="memname">hou::clock::clock </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -170,44 +132,106 @@ Static Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Retrieves the clock resolution.</p>
-<p>Note: the reported resolution might not be accurate.</p>
-<dl class="section return"><dt>Returns</dt><dd>the resolution in nanoseconds. </dd></dl>
+<p>Creates a p_clock object. </p>
 
 </div>
 </div>
-<a id="a92d44cf8ad44810585c1295d30f4d6b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92d44cf8ad44810585c1295d30f4d6b2">&#9670;&nbsp;</a></span>reset()</h2>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a8604ffa7cc82ce39395b02968efed651"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8604ffa7cc82ce39395b02968efed651">&#9670;&nbsp;</a></span>get_elapsed_time()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::chrono::nanoseconds hou::Clock::reset </td>
+          <td class="memname">std::chrono::nanoseconds hou::clock::get_elapsed_time </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns the time elapsed since the p_clock creation.</p>
+<dl class="section return"><dt>Returns</dt><dd>the elapsed time in nanoseconds. </dd></dl>
+
+</div>
+</div>
+<a id="ae0c093775034f4b975df781d608b0173"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0c093775034f4b975df781d608b0173">&#9670;&nbsp;</a></span>get_resolution()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static std::chrono::nanoseconds hou::clock::get_resolution </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p>Resets the clock elapsed time.</p>
+<p>Retrieves the p_clock resolution.</p>
+<p>Note: the reported resolution might not be accurate.</p>
+<dl class="section return"><dt>Returns</dt><dd>the resolution in nanoseconds. </dd></dl>
+
+</div>
+</div>
+<a id="a1b306104117ed1446d0a65d720985f48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b306104117ed1446d0a65d720985f48">&#9670;&nbsp;</a></span>reset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::nanoseconds hou::clock::reset </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Resets the p_clock elapsed time.</p>
 <dl class="section return"><dt>Returns</dt><dd>the elapsed time before resetting it in nanoseconds. </dd></dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>houcor/include/hou/cor/<a class="el" href="Clock_8hpp_source.html">Clock.hpp</a></li>
+<li>source/houcor/include/hou/cor/<a class="el" href="clock_8hpp_source.html">clock.hpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="namespacehou.html">hou</a></li><li class="navelem"><a class="el" href="classhou_1_1Clock.html">Clock</a></li>
+    <li class="navelem"><a class="el" href="namespacehou.html">hou</a></li><li class="navelem"><a class="el" href="classhou_1_1clock.html">clock</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>

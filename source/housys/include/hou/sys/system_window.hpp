@@ -14,6 +14,8 @@
 namespace hou
 {
 
+/** Class representing a window.
+ */
 class HOU_SYS_API system_window final : public window
 {
 public:

@@ -190,6 +190,8 @@ constexpr span<Out> reinterpret_span(const span<In>& in)
 namespace prv
 {
 
+#ifndef HOU_DOXYGEN
+
 template <typename T>
 constexpr span_iterator<T>::span_iterator(
   const span<T>& span, size_type index) noexcept
@@ -283,6 +285,8 @@ constexpr typename span_iterator<T>::reference span_iterator<T>::operator[](
 {
   return (*m_span)[m_index + offset];
 }
+
+#endif
 
 }  // namespace prv
 

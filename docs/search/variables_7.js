@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['luminosity',['Luminosity',['../classhou_1_1TextureChannelMapping.html#a2ddc1db49588d512904ef341686fd2cf',1,'hou::TextureChannelMapping']]]
+  ['luminosity',['luminosity',['../classhou_1_1texture__channel__mapping.html#a29d896a4359d594d0f0705312f02d0fa',1,'hou::texture_channel_mapping']]]
 ];

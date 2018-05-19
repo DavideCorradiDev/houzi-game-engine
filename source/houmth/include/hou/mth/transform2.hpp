@@ -80,7 +80,7 @@ public:
    * The transform transforms from the rect specified by clipping plane into
    * a rect with normalized coordinates going from -1 to +1.
    *
-   * \param clippingPlane the rectangle to be transformed into normalized
+   * \param clipping_plane the rectangle to be transformed into normalized
    * coordinates.
    *
    * \return a transform2 object representing the ortographic projection.

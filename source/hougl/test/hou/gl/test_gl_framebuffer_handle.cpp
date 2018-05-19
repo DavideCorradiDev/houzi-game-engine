@@ -33,7 +33,7 @@ TEST_F(test_gl_framebuffer_handle, creation)
 
 
 
-#ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
+#ifdef HOU_ENABLE_GL_ERROR_CHECKS
 TEST_F(test_gl_framebuffer_handle_death_test, no_context_creation)
 #else
 TEST_F(test_gl_framebuffer_handle_death_test, DISABLED_no_context_creation)
@@ -134,7 +134,7 @@ TEST_F(test_gl_framebuffer_handle, tracking)
 
 
 
-#ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
+#ifdef HOU_ENABLE_GL_ERROR_CHECKS
 TEST_F(test_gl_framebuffer_handle_death_test, sharing_context_binding)
 #else
 TEST_F(test_gl_framebuffer_handle_death_test, DISABLED_sharing_context_binding)
@@ -149,7 +149,7 @@ TEST_F(test_gl_framebuffer_handle_death_test, DISABLED_sharing_context_binding)
 
 
 
-#ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
+#ifdef HOU_ENABLE_GL_ERROR_CHECKS
 TEST_F(test_gl_framebuffer_handle_death_test, non_sharing_context_binding)
 #else
 TEST_F(
@@ -165,7 +165,7 @@ TEST_F(
 
 
 
-#ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
+#ifdef HOU_ENABLE_GL_ERROR_CHECKS
 TEST_F(test_gl_framebuffer_handle_death_test, no_context_binding)
 #else
 TEST_F(test_gl_framebuffer_handle_death_test, DISABLED_no_context_binding)
