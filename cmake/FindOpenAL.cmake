@@ -19,4 +19,3 @@ IF(GoogleTest_FIND_REQUIRED)
 ENDIF()
 
 MESSAGE(STATUS "")
-
