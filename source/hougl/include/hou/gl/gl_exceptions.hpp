@@ -312,7 +312,7 @@ void HOU_GL_API check_context_ownership(
 
 
 
-#ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
+#ifdef HOU_ENABLE_GL_ERROR_CHECKS
 #define HOU_GL_CHECK_CONTEXT_EXISTENCE()                                       \
   ::hou::gl::check_context_existence(__FILE__, __LINE__)
 #else
@@ -321,7 +321,7 @@ void HOU_GL_API check_context_ownership(
 
 
 
-#ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
+#ifdef HOU_ENABLE_GL_ERROR_CHECKS
 #define HOU_GL_CHECK_CONTEXT_OWNERSHIP(objectHandle)                           \
   ::hou::gl::check_context_ownership(objectHandle, __FILE__, __LINE__)
 #else

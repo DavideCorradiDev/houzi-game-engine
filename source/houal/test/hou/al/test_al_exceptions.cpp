@@ -213,7 +213,7 @@ TEST_F(test_al_exceptions, al_check_context_error_macro_success)
 TEST_F(test_al_exceptions_death_test, al_check_context_error_macro_failure)
 {
   alcGetString(m_device.get_handle(), ALC_MAJOR_VERSION);
-#ifdef HOU_ENABLE_AL_CONTEXT_ERROR_CHECKS
+#ifdef HOU_ENABLE_AL_ERROR_CHECKS
   EXPECT_ERROR_N(HOU_AL_CHECK_CONTEXT_ERROR(m_device), al::context_call_error,
     ALC_INVALID_ENUM);
 #else
@@ -249,7 +249,7 @@ TEST_F(test_al_exceptions, al_check_context_existence_macro_success)
 TEST_F(test_al_exceptions_death_test, al_check_context_existence_macro_failure)
 {
   al::context::unset_current();
-#ifdef HOU_ENABLE_AL_CONTEXT_EXISTENCE_CHECKS
+#ifdef HOU_ENABLE_AL_ERROR_CHECKS
   EXPECT_ERROR_0(HOU_AL_CHECK_CONTEXT_EXISTENCE(), al::missing_context_error);
 #else
   EXPECT_NO_ERROR(HOU_AL_CHECK_CONTEXT_EXISTENCE());
@@ -328,7 +328,7 @@ TEST_F(test_al_exceptions_death_test,
 
   al::context::set_current(c2);
 
-#ifdef HOU_ENABLE_AL_CONTEXT_OWNERSHIP_CHECKS
+#ifdef HOU_ENABLE_AL_ERROR_CHECKS
   EXPECT_ERROR_0(HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1), al::invalid_context_error);
 #else
   EXPECT_NO_ERROR(HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1));
@@ -405,7 +405,7 @@ TEST_F(test_al_exceptions_death_test,
   concrete_context_owned_object_handle o1(1u);
 
   al::context::set_current(c2);
-#ifdef HOU_ENABLE_AL_CONTEXT_OWNERSHIP_CHECKS
+#ifdef HOU_ENABLE_AL_ERROR_CHECKS
   EXPECT_ERROR_0(HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1), al::invalid_context_error);
 #else
   EXPECT_NO_ERROR(HOU_AL_CHECK_CONTEXT_OWNERSHIP(o1));

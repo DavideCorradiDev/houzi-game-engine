@@ -158,11 +158,11 @@ void error(Args... args)
 #define HOU_CHECK_N(condition, exception_type, ...)                            \
   HOU_CHECK_TEMPLATE(condition, HOU_ERROR_N(exception_type, __VA_ARGS__))
 
-#ifdef NDEBUG
-#define HOU_DEV_CHECK_TEMPLATE(condition, failure_action)
-#else
+#ifdef HOU_DEBUG
 #define HOU_DEV_CHECK_TEMPLATE(condition, failure_action)                      \
   HOU_CHECK_TEMPLATE(condition, failure_action)
+#else
+#define HOU_DEV_CHECK_TEMPLATE(condition, failure_action)
 #endif
 
 #define HOU_DEV_ASSERT(statement)                                              \

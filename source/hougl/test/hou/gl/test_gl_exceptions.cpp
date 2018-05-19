@@ -272,7 +272,7 @@ TEST_F(test_gl_exceptions, gl_context_existence_macro_success)
 TEST_F(test_gl_exceptions_death_test, gl_context_existence_macro_failure)
 {
   gl::context::unset_current();
-#ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
+#ifdef HOU_ENABLE_GL_ERROR_CHECKS
   EXPECT_ERROR_0(HOU_GL_CHECK_CONTEXT_EXISTENCE(), gl::missing_context_error);
 #else
   EXPECT_NO_ERROR(HOU_GL_CHECK_CONTEXT_EXISTENCE());
@@ -396,21 +396,21 @@ TEST_F(test_gl_exceptions_death_test, gl_context_ownership_shared_macro_failure)
   concrete_gl_shared_object_handle o3(0u);
 
   gl::context::set_current(c1, w);
-#ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
+#ifdef HOU_ENABLE_GL_ERROR_CHECKS
   EXPECT_ERROR_0(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3), gl::invalid_context_error);
 #else
   EXPECT_NO_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3));
 #endif
 
   gl::context::set_current(c2, w);
-#ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
+#ifdef HOU_ENABLE_GL_ERROR_CHECKS
   EXPECT_ERROR_0(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3), gl::invalid_context_error);
 #else
   EXPECT_NO_ERROR(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3));
 #endif
 
   gl::context::set_current(c3, w);
-#ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
+#ifdef HOU_ENABLE_GL_ERROR_CHECKS
   EXPECT_ERROR_0(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1), gl::invalid_context_error);
   EXPECT_ERROR_0(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2), gl::invalid_context_error);
 #else
@@ -537,7 +537,7 @@ TEST_F(
   concrete_non_shared_object_handle o3(0u);
 
   gl::context::set_current(c1, w);
-#ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
+#ifdef HOU_ENABLE_GL_ERROR_CHECKS
   EXPECT_ERROR_0(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2), gl::invalid_context_error);
   EXPECT_ERROR_0(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3), gl::invalid_context_error);
 #else
@@ -546,7 +546,7 @@ TEST_F(
 #endif
 
   gl::context::set_current(c2, w);
-#ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
+#ifdef HOU_ENABLE_GL_ERROR_CHECKS
   EXPECT_ERROR_0(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1), gl::invalid_context_error);
   EXPECT_ERROR_0(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o3), gl::invalid_context_error);
 #else
@@ -555,7 +555,7 @@ TEST_F(
 #endif
 
   gl::context::set_current(c3, w);
-#ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
+#ifdef HOU_ENABLE_GL_ERROR_CHECKS
   EXPECT_ERROR_0(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o1), gl::invalid_context_error);
   EXPECT_ERROR_0(HOU_GL_CHECK_CONTEXT_OWNERSHIP(o2), gl::invalid_context_error);
 #else

@@ -33,7 +33,7 @@ TEST_F(test_al_buffer_handle, Generation)
 
 
 
-#ifdef HOU_ENABLE_AL_CONTEXT_EXISTENCE_CHECKS
+#ifdef HOU_ENABLE_AL_ERROR_CHECKS
 TEST_F(test_al_buffer_handle_death_test, no_context_creation)
 #else
 TEST_F(test_al_buffer_handle_death_test, DISABLED_no_context_creation)

@@ -56,7 +56,7 @@ TEST_F(test_gl_program_handle, Creation)
 
 
 
-#ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
+#ifdef HOU_ENABLE_GL_ERROR_CHECKS
 TEST_F(test_gl_program_handle, NoContextCreation)
 #else
 TEST_F(test_gl_program_handle, DISABLED_NoContextCreation)
@@ -116,7 +116,7 @@ TEST_F(test_gl_program_handle, SharingContextBinding)
 
 
 
-#ifdef HOU_ENABLE_GL_CONTEXT_OWNERSHIP_CHECKS
+#ifdef HOU_ENABLE_GL_ERROR_CHECKS
 TEST_F(test_gl_program_handle_death_test, NonSharingContextBinding)
 #else
 TEST_F(test_gl_program_handle_death_test, DISABLED_NonSharingContextBinding)
@@ -130,7 +130,7 @@ TEST_F(test_gl_program_handle_death_test, DISABLED_NonSharingContextBinding)
 
 
 
-#ifdef HOU_ENABLE_GL_CONTEXT_EXISTENCE_CHECKS
+#ifdef HOU_ENABLE_GL_ERROR_CHECKS
 TEST_F(test_gl_program_handle_death_test, NoContextBinding)
 #else
 TEST_F(test_gl_program_handle_death_test, DISABLED_NoContextBinding)

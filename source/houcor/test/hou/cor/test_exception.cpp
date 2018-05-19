@@ -255,10 +255,10 @@ TEST_F(test_exception, hou_dev_assert_macro_success)
 
 TEST_F(test_exception_death_test, hou_dev_assert_macro_failure)
 {
-#ifdef NDEBUG
-  EXPECT_NO_ERROR(HOU_DEV_ASSERT(0 == 2));
-#else
+#ifdef HOU_DEBUG
   EXPECT_DEATH(HOU_DEV_ASSERT(0 == 2), ".*:.* - Assertion failed \\(0 == 2\\)\\.");
+#else
+  EXPECT_NO_ERROR(HOU_DEV_ASSERT(0 == 2));
 #endif
 }
 
