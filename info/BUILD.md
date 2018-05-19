@@ -15,32 +15,25 @@ When configuring the project with CMake, the following options are available:
 * **CMAKE\_BUILD\_TYPE**: set to "Release" to build optimized, faster binaries, or to "Debug" to build debugging-friendly binaries.
 When using Debug libraries, you should define the preprocessor symbol **HOU\_DEBUG** to enxure that header files will behave consistently.
 
-* **HOU\_CFG\_BUILD\_\[library\_identifier\]**: if set, the corresponding library will be built.
-If unset, the library will not be built.
-When building a library be careful to also build its dependencies.
-
-* **HOU\_CFG\_BUILD\_\[library\_identifier\]\_TESTS**: if set, the tests for the corresponding library will be built.
+* **HOU\_CFG\_BUILD\_TESTS**: if set, the test executables will be built.
 If unset, the tests will not be built.
-Be careful to build the corresponding library when building the relative tests.
-To build the tests you must have downloaded and built the gtest library.
-CMake will try to detect the path to the gtest library and the gtest header files by itself.
-In case it cannot do this, you can manually set **LIB\_GOOGLE\_TEST** to the path to the library and **LIB\_GOOGLE\_TEST\_INCLUDE\_DIR** to the path to the library headers.
-
-* **HOU\_CFG\_BUILD\_DEMOS**: if set, builds some small demo applications using the Houzi Game Engine.
-If unset, the demo applications will not be built.
-When building the demo applications, pay attention to build all of the Houzi Game Engine libraries.
 
 * **HOU\_CFG\_BUILD\_GOOGLE\_TEST**: if set, the gtest library will be built and used.
 If unset, CMake will try to detect the path to an installed gtest library and its headers.
 In case it fails to detect the library, you can manually set **LIB\_GOOGLE\_TEST** to the path to the library and **LIB\_GOOGLE\_TEST\_INCLUDE\_DIR** to the path to the library headers.
 When building gtest, refer to the gtest documentation for details about the configuration.
+This option will only appear if **HOU\_CFG\_BUILD\_TESTS** is on.
+
+* **HOU\_CFG\_BUILD\_DEMOS**: if set, builds some small demo applications using the Houzi Game Engine.
+If unset, the demo applications will not be built.
+When building the demo applications, pay attention to build all of the Houzi Game Engine libraries.
 
 * **HOU\_CFG\_BUILD\_OPENAL\_SOFT**: if set, OpenALSoft will be built and used as the low-level sound library.
 If unset, CMake will try to detect the path to an installed OpenAL library implementation and its headers.
 In case it fails to detect the library, you can manually set **LIB\_OPENAL** to the path to the library and **LIB\_OPENAL\_INCLUDE\_DIR** to the path to the library headers.
 When building OpenALSoft, refer to the OpenALSoft documentation for details about the configuration.
 
-* **HOU\_CFG\_STATIC\_LIBS**: if set, static libraries will be build, otherwise shared libraries will be built.
+* **HOU\_CFG\_BUILD\_STATIC\_LIBS**: if set, static libraries will be build, otherwise shared libraries will be built.
 When building static libraries, you should define the preprocessor symbol **HOU\_STATIC** to ensure that import attributes will be defined correctly.
 When building static libraries, all dependencies must be explicitly linked, even if not directly used.
 
@@ -91,9 +84,6 @@ The dependencies between the modules are as follows:
 * **houal**: houcor, OpenAL.
 
 * **houaud**: houcor, houmth, housys, houal, OpenAL, OGG, VORBIS.
-
-When building only some of the modules, pay attention to build the modules it depends on as well.
-The external libraries will automatically be built when required.
 
 There is a test executable associated to each module, named **<module_name>-test**.
 Each test executable depends on the associated libraries, on its dependencies, and on gtest.
