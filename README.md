@@ -22,7 +22,6 @@ doxygen Doxyfile
 
 ## Modules
 The Houzi Game Engine is divided into several modules.
-Each module is built into a separate library, and it is possible to only link to the desired modules (as long as dependencies are respected).
 
 * **Core module (houcor)**: this module contains basic core functionalities used by other modules, such as error handling mechanisms, utility classes and functions, and extensions for the standard library containers.
 This module should always be built and linked, since all other modules depend on it.

@@ -9,24 +9,23 @@ Support for more platforms and compilers is coming soon.
 
 
 ### Configuring the project with CMake
-The Houzi Game Engine uses CMake to configure the build process.
+The Houzi Game Engine uses CMake.
 When configuring the project with CMake, the following options are available:
 
-* **CMAKE\_BUILD\_TYPE**: set to "Release" to build optimized, faster binaries, or to "Debug" to build debugging-friendly binaries.
-When using Debug libraries, you should define the preprocessor symbol **HOU\_DEBUG** to enxure that header files will behave consistently.
+* **CMAKE\_BUILD\_TYPE**: set to "Release" to build optimized libraries, or to "Debug" to build debug libraries.
+When linking to debug libraries, you should define the preprocessor symbol **HOU\_DEBUG** to enxure that header files will behave consistently.
 
 * **HOU\_CFG\_BUILD\_TESTS**: if set, the test executables will be built.
 If unset, the tests will not be built.
 
-* **HOU\_CFG\_BUILD\_GOOGLE\_TEST**: if set, the gtest library will be built and used.
+* **HOU\_CFG\_BUILD\_GOOGLE\_TEST**: if set, the gtest library will be built.
 If unset, CMake will try to detect the path to an installed gtest library and its headers.
 In case it fails to detect the library, you can manually set **LIB\_GOOGLE\_TEST** to the path to the library and **LIB\_GOOGLE\_TEST\_INCLUDE\_DIR** to the path to the library headers.
 When building gtest, refer to the gtest documentation for details about the configuration.
 This option will only appear if **HOU\_CFG\_BUILD\_TESTS** is on.
 
-* **HOU\_CFG\_BUILD\_DEMOS**: if set, builds some small demo applications using the Houzi Game Engine.
+* **HOU\_CFG\_BUILD\_DEMOS**: if set, some demo applications will be built.
 If unset, the demo applications will not be built.
-When building the demo applications, pay attention to build all of the Houzi Game Engine libraries.
 
 * **HOU\_CFG\_BUILD\_OPENAL\_SOFT**: if set, OpenALSoft will be built and used as the low-level sound library.
 If unset, CMake will try to detect the path to an installed OpenAL library implementation and its headers.
@@ -35,10 +34,10 @@ When building OpenALSoft, refer to the OpenALSoft documentation for details abou
 
 * **HOU\_CFG\_BUILD\_STATIC\_LIBS**: if set, static libraries will be build, otherwise shared libraries will be built.
 When building static libraries, you should define the preprocessor symbol **HOU\_STATIC** to ensure that import attributes will be defined correctly.
-When building static libraries, all dependencies must be explicitly linked, even if not directly used.
+When building static libraries, all dependencies of the employed libraries must be explicitly linked, even if not directly used.
 
 * **HOU\_CFG\_DISABLE\_EXCEPTIONS**: if set, exceptions will be completely disabled.
-Instead of throwing an exception, the program will abort and write an error message in the error stream.
+Instead of throwing an exception, the program will terminate and write an error message in the error stream.
 If exceptions are disabled, you should define the preprocessor symbol **HOU\_DISABLE\_EXCEPTIONS** to ensure that header files will behave consistently.
 
 * **HOU\_CFG\_ENABLE\_AL\_ERROR\_CHECKS**: if set, several OpenAL checks are activated.
@@ -65,6 +64,7 @@ When enabling OpenGL error checks, the preprocessor symbol **HOU\_ENABLE\_GL\_ER
 ```
 mingw32-make
 ```
+Refer to the MinGW documentation for options that can be passed to mingw32-make.
 
 
 
@@ -130,9 +130,9 @@ According to the settings with which the houzi-game-engine has been built, some 
 
 * When linking houzi-game-engine libraries with disabled exceptions, the **HOU\_DISABLE\_EXCEPTIONS** symbol should be defined.
 
-* When linking to houzi-game-engine libraries with enabled OpenGL error checks, the **HOU\_ENABLE\_GL\_CHECKS** symbol should be defined.
+* When linking to houzi-game-engine libraries with enabled OpenGL error checks, the **HOU\_ENABLE\_GL\_ERROR\_CHECKS** symbol should be defined.
 
-* When linking to houzi-game-engine libraries with enabled OpenAL error checks, the **HOU\_ENABLE\_AL\_CHECKS** symbol should be defined.
+* When linking to houzi-game-engine libraries with enabled OpenAL error checks, the **HOU\_ENABLE\_AL\_ERROR\_CHECKS** symbol should be defined.
 
 With CMake symbols can be defined with:
 ```
