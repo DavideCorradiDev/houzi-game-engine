@@ -1,4 +1,4 @@
-var classhou_1_1Utf8 =
+var classhou_1_1utf8 =
 [
-    [ "CodeUnit", "classhou_1_1Utf8.html#a509d3271ba8b33d72fb5671098fa0cef", null ]
+    [ "code_unit", "classhou_1_1utf8.html#ab5dd301bd64b2cbfba3179ab12abb77b", null ]
 ];

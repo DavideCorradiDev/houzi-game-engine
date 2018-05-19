@@ -1,11 +1,9 @@
 var searchData=
 [
-  ['codepoint',['CodePoint',['../namespacehou.html#a2d13798c0ef8afc2c4656488b93dff08',1,'hou']]],
-  ['codeunit',['CodeUnit',['../classhou_1_1Utf8.html#a509d3271ba8b33d72fb5671098fa0cef',1,'hou::Utf8::CodeUnit()'],['../classhou_1_1Utf16.html#a0c1ed05e0e2900bbdc1fc0c92318df9d',1,'hou::Utf16::CodeUnit()'],['../classhou_1_1Utf32.html#ae51c95c71faa460d2b9cabb704fa4d7d',1,'hou::Utf32::CodeUnit()'],['../classhou_1_1Wide.html#a5c84755d70f152718c8f971d41b782e6',1,'hou::Wide::CodeUnit()']]],
-  ['comparisontype',['ComparisonType',['../classhou_1_1TextVertex.html#ab908acec8e50f5112614f9bb64145085',1,'hou::TextVertex::ComparisonType()'],['../classhou_1_1Vertex2.html#ab587bb37d8962e0ff50daec363be27bf',1,'hou::Vertex2::ComparisonType()']]],
-  ['const_5fiterator',['const_iterator',['../classhou_1_1Span.html#a9ee8ff48aba348b7cb2918282d72cd85',1,'hou::Span']]],
-  ['const_5fpointer',['const_pointer',['../classhou_1_1Span.html#ae24a533af4bb542cd5a53acd943476cb',1,'hou::Span']]],
-  ['const_5freference',['const_reference',['../classhou_1_1Span.html#acf0d7663d0cff8fc06f2f7af0dc94cc5',1,'hou::Span']]],
-  ['const_5freverse_5fiterator',['const_reverse_iterator',['../classhou_1_1Span.html#a7ca5d359c467db4e54babcad81001c5d',1,'hou::Span']]],
-  ['coordinates',['Coordinates',['../classhou_1_1Image.html#a9ea99d8671a02897841f72665df4fd61',1,'hou::Image::Coordinates()'],['../classhou_1_1TextureT.html#af899474b32953f4f06552454eba82ab8',1,'hou::TextureT::Coordinates()']]]
+  ['code_5fpoint',['code_point',['../namespacehou.html#a2bf813885fa62acc101f6f9a41199e4b',1,'hou']]],
+  ['code_5funit',['code_unit',['../classhou_1_1utf8.html#ab5dd301bd64b2cbfba3179ab12abb77b',1,'hou::utf8::code_unit()'],['../classhou_1_1utf16.html#a3df7d1e154dbbac23ea06fa1439903e8',1,'hou::utf16::code_unit()'],['../classhou_1_1utf32.html#abc025f769d2a2e4f3d90e05610354370',1,'hou::utf32::code_unit()'],['../classhou_1_1wide.html#af71f8933be32820aa01b9a2780629106',1,'hou::wide::code_unit()']]],
+  ['const_5fiterator',['const_iterator',['../classhou_1_1basic__static__string.html#a696e774a22d3003c0ee40abbc242c685',1,'hou::basic_static_string::const_iterator()'],['../classhou_1_1span.html#a441ef7b365879b160ebedd5568cf7e94',1,'hou::span::const_iterator()'],['../classhou_1_1matrix.html#a27604350dd021df6a373045f5c97915b',1,'hou::matrix::const_iterator()']]],
+  ['const_5fpointer',['const_pointer',['../classhou_1_1basic__static__string.html#af46639595f8e244f2da0ffc32f36bd0c',1,'hou::basic_static_string::const_pointer()'],['../classhou_1_1span.html#aba931364b7a3cb3b37172eac9ca2af75',1,'hou::span::const_pointer()'],['../classhou_1_1matrix.html#adb66a0ca36af0fc6970547e230428c6f',1,'hou::matrix::const_pointer()']]],
+  ['const_5freference',['const_reference',['../classhou_1_1basic__static__string.html#acdb0c05aea45085f0ab3361c4fc1c566',1,'hou::basic_static_string::const_reference()'],['../classhou_1_1span.html#a933954c706ea0feab55457e716cf422c',1,'hou::span::const_reference()'],['../classhou_1_1matrix.html#ad9c0e70bceb651b44e8b63542af903b0',1,'hou::matrix::const_reference()']]],
+  ['const_5freverse_5fiterator',['const_reverse_iterator',['../classhou_1_1basic__static__string.html#a99b73a9f109cedce105d22ecf6a1aef1',1,'hou::basic_static_string::const_reverse_iterator()'],['../classhou_1_1span.html#aeca9a12e196c0e2818cfd5548dbb1e59',1,'hou::span::const_reverse_iterator()'],['../classhou_1_1matrix.html#a750a13860e4eed185fbca10dc16ef803',1,'hou::matrix::const_reverse_iterator()']]]
 ];

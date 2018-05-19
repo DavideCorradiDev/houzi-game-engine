@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['q',['Q',['../namespacehou.html#a38cd4932bf20ccf3c7476ddb76bd2e89af09564c9ca56850d4cd6b3319e541aee',1,'hou::Q()'],['../namespacehou.html#acf944f8801268fa6726cf19c01e6c750af09564c9ca56850d4cd6b3319e541aee',1,'hou::Q()']]],
-  ['quote',['Quote',['../namespacehou.html#a38cd4932bf20ccf3c7476ddb76bd2e89ac48e929b2b1eabba2ba036884433345e',1,'hou::Quote()'],['../namespacehou.html#acf944f8801268fa6726cf19c01e6c750ac48e929b2b1eabba2ba036884433345e',1,'hou::Quote()']]]
+  ['q',['q',['../namespacehou.html#a21f1a9ae2701c1b9b1c82b94bf4f23bfa7694f4a66316e53c8cdd9d9954bd611d',1,'hou::q()'],['../namespacehou.html#a9a789221e9de3cc6f0e2270901610a51a7694f4a66316e53c8cdd9d9954bd611d',1,'hou::q()']]],
+  ['quote',['quote',['../namespacehou.html#a21f1a9ae2701c1b9b1c82b94bf4f23bfa7a674c327bfa07f7c1204fb38ca6ef3b',1,'hou::quote()'],['../namespacehou.html#a9a789221e9de3cc6f0e2270901610a51a7a674c327bfa07f7c1204fb38ca6ef3b',1,'hou::quote()']]]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Houzi Game Engine: hou::Image&lt; dim, fmt &gt; Class Template Reference</title>
+<title>Houzi Game Engine: hou::image&lt; Dim, PF &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -66,7 +66,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('classhou_1_1Image.html','');});
+$(document).ready(function(){initNavTree('classhou_1_1image.html','');});
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -90,96 +90,96 @@ $(document).ready(function(){initNavTree('classhou_1_1Image.html','');});
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#friends">Friends</a> &#124;
-<a href="classhou_1_1Image-members.html">List of all members</a>  </div>
+<a href="classhou_1_1image-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">hou::Image&lt; dim, fmt &gt; Class Template Reference</div>  </div>
+<div class="title">hou::image&lt; Dim, PF &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="Image_8hpp_source.html">Image.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="image_8hpp_source.html">image.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:ae331219cf5c3d64ae1d196ae77120342"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Image.html#ae331219cf5c3d64ae1d196ae77120342">Size</a> = <a class="el" href="namespacehou.html#a6bbd17ce8ed2e11b2c562422a9ba6061">Vec</a>&lt; uint, dim &gt;</td></tr>
-<tr class="separator:ae331219cf5c3d64ae1d196ae77120342"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ea99d8671a02897841f72665df4fd61"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Image.html#a9ea99d8671a02897841f72665df4fd61">Coordinates</a> = <a class="el" href="classhou_1_1Image.html#ae331219cf5c3d64ae1d196ae77120342">Size</a></td></tr>
-<tr class="separator:a9ea99d8671a02897841f72665df4fd61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af24a7a62c129a1553ebdb57f9f94ad69"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Image.html#af24a7a62c129a1553ebdb57f9f94ad69">Pixel</a> = <a class="el" href="classhou_1_1PixelT.html">PixelT</a>&lt; fmt &gt;</td></tr>
-<tr class="separator:af24a7a62c129a1553ebdb57f9f94ad69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aadac6ad79a3e46c920a254e6f107b11f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Image.html#aadac6ad79a3e46c920a254e6f107b11f">PixelCollection</a> = std::vector&lt; <a class="el" href="classhou_1_1Image.html#af24a7a62c129a1553ebdb57f9f94ad69">Pixel</a> &gt;</td></tr>
-<tr class="separator:aadac6ad79a3e46c920a254e6f107b11f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a060c80e84edf8bd3b675ce8a0a45dc80"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1image.html#a060c80e84edf8bd3b675ce8a0a45dc80">size_type</a> = <a class="el" href="namespacehou.html#acdb08afab8c0179bf2c3b5736475788e">vec</a>&lt; <a class="el" href="namespacehou.html#a322d756cabcc8dd5d938f3e229aa0491">uint</a>, Dim &gt;</td></tr>
+<tr class="separator:a060c80e84edf8bd3b675ce8a0a45dc80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e1fad8327cb8470391a6367a04499cf"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1image.html#a2e1fad8327cb8470391a6367a04499cf">offset_type</a> = <a class="el" href="classhou_1_1image.html#a060c80e84edf8bd3b675ce8a0a45dc80">size_type</a></td></tr>
+<tr class="separator:a2e1fad8327cb8470391a6367a04499cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0aad2f56bfc1f4ab6e99356fd2b26f8f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1image.html#a0aad2f56bfc1f4ab6e99356fd2b26f8f">pixel</a> = <a class="el" href="classhou_1_1pixel__t.html">pixel_t</a>&lt; PF &gt;</td></tr>
+<tr class="separator:a0aad2f56bfc1f4ab6e99356fd2b26f8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad748b114a3c4edc3a4cb277514a6c33e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1image.html#ad748b114a3c4edc3a4cb277514a6c33e">pixel_collection</a> = std::vector&lt; <a class="el" href="classhou_1_1image.html#a0aad2f56bfc1f4ab6e99356fd2b26f8f">pixel</a> &gt;</td></tr>
+<tr class="separator:ad748b114a3c4edc3a4cb277514a6c33e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:acf4fb7af561e0d04090007c3ff6c4139"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Image.html#acf4fb7af561e0d04090007c3ff6c4139">Image</a> ()</td></tr>
-<tr class="separator:acf4fb7af561e0d04090007c3ff6c4139"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5521ec2e2438a2911628dc350307a812"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Image.html#a5521ec2e2438a2911628dc350307a812">Image</a> (const <a class="el" href="classhou_1_1Image.html#ae331219cf5c3d64ae1d196ae77120342">Size</a> &amp;size)</td></tr>
-<tr class="separator:a5521ec2e2438a2911628dc350307a812"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2465e00bf99810e884fcdcaead29b483"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Image.html#a2465e00bf99810e884fcdcaead29b483">Image</a> (const <a class="el" href="classhou_1_1Image.html#ae331219cf5c3d64ae1d196ae77120342">Size</a> &amp;size, const <a class="el" href="classhou_1_1Image.html#af24a7a62c129a1553ebdb57f9f94ad69">Pixel</a> &amp;pixel)</td></tr>
-<tr class="separator:a2465e00bf99810e884fcdcaead29b483"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab354a913025b03b78cba9d57aa57fdce"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Image.html#ab354a913025b03b78cba9d57aa57fdce">Image</a> (const <a class="el" href="classhou_1_1Image.html#ae331219cf5c3d64ae1d196ae77120342">Size</a> &amp;size, const <a class="el" href="classhou_1_1Span.html">Span</a>&lt; const <a class="el" href="classhou_1_1Image.html#af24a7a62c129a1553ebdb57f9f94ad69">Pixel</a> &gt; &amp;pixels)</td></tr>
-<tr class="separator:ab354a913025b03b78cba9d57aa57fdce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5bf85e15db74216c32f7b4e9eb317d0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Image.html#ab5bf85e15db74216c32f7b4e9eb317d0">Image</a> (const <a class="el" href="classhou_1_1Image.html#ae331219cf5c3d64ae1d196ae77120342">Size</a> &amp;size, <a class="el" href="classhou_1_1Image.html#aadac6ad79a3e46c920a254e6f107b11f">PixelCollection</a> &amp;&amp;pixels)</td></tr>
-<tr class="separator:ab5bf85e15db74216c32f7b4e9eb317d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a45937fdbe1adbdafe80b1c33c6ebc603"><td class="memTemplParams" colspan="2">template&lt;size_t otherDim, PixelFormat otherFmt&gt; </td></tr>
-<tr class="memitem:a45937fdbe1adbdafe80b1c33c6ebc603"><td class="memTemplItemLeft" align="right" valign="top">HOU_SYS_API&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhou_1_1Image.html#a45937fdbe1adbdafe80b1c33c6ebc603">Image</a> (const <a class="el" href="classhou_1_1Image.html">Image</a>&lt; otherDim, otherFmt &gt; &amp;other)</td></tr>
-<tr class="separator:a45937fdbe1adbdafe80b1c33c6ebc603"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa092d40ac918ba9ca020f4c24819679d"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classhou_1_1Image.html#ae331219cf5c3d64ae1d196ae77120342">Size</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Image.html#aa092d40ac918ba9ca020f4c24819679d">getSize</a> () const</td></tr>
-<tr class="separator:aa092d40ac918ba9ca020f4c24819679d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c9303a3e9208017660439d6f9ee9162"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classhou_1_1Image.html#aadac6ad79a3e46c920a254e6f107b11f">PixelCollection</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Image.html#a6c9303a3e9208017660439d6f9ee9162">getPixels</a> () const</td></tr>
-<tr class="separator:a6c9303a3e9208017660439d6f9ee9162"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9e867b68e956fe79f7e366b7e82c2af"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Image.html#ad9e867b68e956fe79f7e366b7e82c2af">setPixels</a> (const <a class="el" href="classhou_1_1Span.html">Span</a>&lt; const <a class="el" href="classhou_1_1Image.html#af24a7a62c129a1553ebdb57f9f94ad69">Pixel</a> &gt; &amp;pixels)</td></tr>
-<tr class="separator:ad9e867b68e956fe79f7e366b7e82c2af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1df34b749eae934db725e17b6f81877"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classhou_1_1Image.html#af24a7a62c129a1553ebdb57f9f94ad69">Pixel</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Image.html#af1df34b749eae934db725e17b6f81877">getPixel</a> (const <a class="el" href="classhou_1_1Image.html#a9ea99d8671a02897841f72665df4fd61">Coordinates</a> &amp;coordinates) const</td></tr>
-<tr class="separator:af1df34b749eae934db725e17b6f81877"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acafcfc3dca4af3da2e2ce24b8a95e714"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Image.html#acafcfc3dca4af3da2e2ce24b8a95e714">setPixel</a> (const <a class="el" href="classhou_1_1Image.html#a9ea99d8671a02897841f72665df4fd61">Coordinates</a> &amp;coordinates, const <a class="el" href="classhou_1_1Image.html#af24a7a62c129a1553ebdb57f9f94ad69">Pixel</a> &amp;value)</td></tr>
-<tr class="separator:acafcfc3dca4af3da2e2ce24b8a95e714"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad41af46438268404c9bbd4f14b982b9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhou_1_1Image.html">Image</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Image.html#aad41af46438268404c9bbd4f14b982b9">getSubImage</a> (const <a class="el" href="classhou_1_1Image.html#a9ea99d8671a02897841f72665df4fd61">Coordinates</a> &amp;offset, const <a class="el" href="classhou_1_1Image.html#ae331219cf5c3d64ae1d196ae77120342">Size</a> &amp;size)</td></tr>
-<tr class="separator:aad41af46438268404c9bbd4f14b982b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a259a8f5bbc6cdfa21d048deaf887cd22"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Image.html#a259a8f5bbc6cdfa21d048deaf887cd22">setSubImage</a> (const <a class="el" href="classhou_1_1Image.html#a9ea99d8671a02897841f72665df4fd61">Coordinates</a> &amp;offset, const <a class="el" href="classhou_1_1Image.html">Image</a> &amp;image)</td></tr>
-<tr class="separator:a259a8f5bbc6cdfa21d048deaf887cd22"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a38715dcb6e981e65d3efff30d51f21b6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Image.html#a38715dcb6e981e65d3efff30d51f21b6">clear</a> (const <a class="el" href="classhou_1_1Image.html#af24a7a62c129a1553ebdb57f9f94ad69">Pixel</a> &amp;pixel)</td></tr>
-<tr class="separator:a38715dcb6e981e65d3efff30d51f21b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21aa33728a6aaa0c6e91e171dacc477b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1image.html#a21aa33728a6aaa0c6e91e171dacc477b">image</a> ()</td></tr>
+<tr class="separator:a21aa33728a6aaa0c6e91e171dacc477b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52a43ce66b0a49988e4a058b7bc06fef"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1image.html#a52a43ce66b0a49988e4a058b7bc06fef">image</a> (const <a class="el" href="classhou_1_1image.html#a060c80e84edf8bd3b675ce8a0a45dc80">size_type</a> &amp;size)</td></tr>
+<tr class="separator:a52a43ce66b0a49988e4a058b7bc06fef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abed4b540b0c8b31ca377dbd2a11c0327"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1image.html#abed4b540b0c8b31ca377dbd2a11c0327">image</a> (const <a class="el" href="classhou_1_1image.html#a060c80e84edf8bd3b675ce8a0a45dc80">size_type</a> &amp;size, const <a class="el" href="classhou_1_1image.html#a0aad2f56bfc1f4ab6e99356fd2b26f8f">pixel</a> &amp;px)</td></tr>
+<tr class="separator:abed4b540b0c8b31ca377dbd2a11c0327"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ca85800a7532ffde1b3052cc1d52352"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1image.html#a8ca85800a7532ffde1b3052cc1d52352">image</a> (const <a class="el" href="classhou_1_1image.html#a060c80e84edf8bd3b675ce8a0a45dc80">size_type</a> &amp;size, const <a class="el" href="classhou_1_1span.html">span</a>&lt; const <a class="el" href="classhou_1_1image.html#a0aad2f56bfc1f4ab6e99356fd2b26f8f">pixel</a> &gt; &amp;pixels)</td></tr>
+<tr class="separator:a8ca85800a7532ffde1b3052cc1d52352"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac127fc1da4b5e226a94ce71a6174bf35"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1image.html#ac127fc1da4b5e226a94ce71a6174bf35">image</a> (const <a class="el" href="classhou_1_1image.html#a060c80e84edf8bd3b675ce8a0a45dc80">size_type</a> &amp;size, <a class="el" href="classhou_1_1image.html#ad748b114a3c4edc3a4cb277514a6c33e">pixel_collection</a> &amp;&amp;pixels)</td></tr>
+<tr class="separator:ac127fc1da4b5e226a94ce71a6174bf35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1a2c9e4bdba2862cdb5af491da4d328"><td class="memTemplParams" colspan="2">template&lt;size_t OtherDim, pixel_format OtherPF&gt; </td></tr>
+<tr class="memitem:ac1a2c9e4bdba2862cdb5af491da4d328"><td class="memTemplItemLeft" align="right" valign="top">HOU_SYS_API&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhou_1_1image.html#ac1a2c9e4bdba2862cdb5af491da4d328">image</a> (const <a class="el" href="classhou_1_1image.html">image</a>&lt; OtherDim, OtherPF &gt; &amp;other)</td></tr>
+<tr class="separator:ac1a2c9e4bdba2862cdb5af491da4d328"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a663131f321c024198d3381f67e039a30"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classhou_1_1image.html#a060c80e84edf8bd3b675ce8a0a45dc80">size_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1image.html#a663131f321c024198d3381f67e039a30">get_size</a> () const noexcept</td></tr>
+<tr class="separator:a663131f321c024198d3381f67e039a30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa035853589e9f577ff5599c75ea7b54a"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classhou_1_1image.html#ad748b114a3c4edc3a4cb277514a6c33e">pixel_collection</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1image.html#aa035853589e9f577ff5599c75ea7b54a">get_pixels</a> () const noexcept</td></tr>
+<tr class="separator:aa035853589e9f577ff5599c75ea7b54a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaced73c383018dfa261958d296ba3206"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1image.html#aaced73c383018dfa261958d296ba3206">set_pixels</a> (const <a class="el" href="classhou_1_1span.html">span</a>&lt; const <a class="el" href="classhou_1_1image.html#a0aad2f56bfc1f4ab6e99356fd2b26f8f">pixel</a> &gt; &amp;pixels)</td></tr>
+<tr class="separator:aaced73c383018dfa261958d296ba3206"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad466d83eb526287a6efb8df62445e4b9"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classhou_1_1image.html#a0aad2f56bfc1f4ab6e99356fd2b26f8f">pixel</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1image.html#ad466d83eb526287a6efb8df62445e4b9">get_pixel</a> (const <a class="el" href="classhou_1_1image.html#a2e1fad8327cb8470391a6367a04499cf">offset_type</a> &amp;coordinates) const</td></tr>
+<tr class="separator:ad466d83eb526287a6efb8df62445e4b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8defbd372cc1699ec0ca4a31e2c4ee17"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1image.html#a8defbd372cc1699ec0ca4a31e2c4ee17">set_pixel</a> (const <a class="el" href="classhou_1_1image.html#a2e1fad8327cb8470391a6367a04499cf">offset_type</a> &amp;coordinates, const <a class="el" href="classhou_1_1image.html#a0aad2f56bfc1f4ab6e99356fd2b26f8f">pixel</a> &amp;value)</td></tr>
+<tr class="separator:a8defbd372cc1699ec0ca4a31e2c4ee17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ba2b62e9e0c5aeeea7b89df59b0bcf8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhou_1_1image.html">image</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1image.html#a0ba2b62e9e0c5aeeea7b89df59b0bcf8">get_sub_image</a> (const <a class="el" href="classhou_1_1image.html#a2e1fad8327cb8470391a6367a04499cf">offset_type</a> &amp;offset, const <a class="el" href="classhou_1_1image.html#a060c80e84edf8bd3b675ce8a0a45dc80">size_type</a> &amp;size)</td></tr>
+<tr class="separator:a0ba2b62e9e0c5aeeea7b89df59b0bcf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac639ff839886f6d4ec14ab24b45b2773"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1image.html#ac639ff839886f6d4ec14ab24b45b2773">set_sub_image</a> (const <a class="el" href="classhou_1_1image.html#a2e1fad8327cb8470391a6367a04499cf">offset_type</a> &amp;offset, const <a class="el" href="classhou_1_1image.html">image</a> &amp;im)</td></tr>
+<tr class="separator:ac639ff839886f6d4ec14ab24b45b2773"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e27807155a3a3dbdca6630a5c1b25e0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1image.html#a9e27807155a3a3dbdca6630a5c1b25e0">clear</a> (const <a class="el" href="classhou_1_1image.html#a0aad2f56bfc1f4ab6e99356fd2b26f8f">pixel</a> &amp;px)</td></tr>
+<tr class="separator:a9e27807155a3a3dbdca6630a5c1b25e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a4d26353950caa115374d7875802d0a48"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Image.html#a4d26353950caa115374d7875802d0a48">getDimensionCount</a> ()</td></tr>
-<tr class="separator:a4d26353950caa115374d7875802d0a48"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ff71a448c5c2af84555643a3496dbef"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="namespacehou.html#a163972be3a1ba234f0c74c6f13c97b81">PixelFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Image.html#a3ff71a448c5c2af84555643a3496dbef">getPixelFormat</a> ()</td></tr>
-<tr class="separator:a3ff71a448c5c2af84555643a3496dbef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a670ba0054692fab02c9a3741ecc656fa"><td class="memItemLeft" align="right" valign="top">static constexpr uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1Image.html#a670ba0054692fab02c9a3741ecc656fa">getPixelByteCount</a> ()</td></tr>
-<tr class="separator:a670ba0054692fab02c9a3741ecc656fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a086dc574943bc39c11f1b906a32a269a"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1image.html#a086dc574943bc39c11f1b906a32a269a">get_dimension_count</a> () noexcept</td></tr>
+<tr class="separator:a086dc574943bc39c11f1b906a32a269a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a888dcc8a56e67a2d31bdd42f787ef162"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="namespacehou.html#a710bb89d6d4fc54b90e80b928b4552ce">pixel_format</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1image.html#a888dcc8a56e67a2d31bdd42f787ef162">get_pixel_format</a> () noexcept</td></tr>
+<tr class="separator:a888dcc8a56e67a2d31bdd42f787ef162"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9ca87a19d7775a8713517f6e1b10f56"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="namespacehou.html#a322d756cabcc8dd5d938f3e229aa0491">uint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhou_1_1image.html#ad9ca87a19d7775a8713517f6e1b10f56">get_pixel_byte_count</a> () noexcept</td></tr>
+<tr class="separator:ad9ca87a19d7775a8713517f6e1b10f56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
-<tr class="memitem:aa23aef019ecf57e2829e8cca09a1e48a"><td class="memTemplParams" colspan="2"><a id="aa23aef019ecf57e2829e8cca09a1e48a"></a>
-template&lt;size_t otherDim, PixelFormat otherFmt&gt; </td></tr>
-<tr class="memitem:aa23aef019ecf57e2829e8cca09a1e48a"><td class="memTemplItemLeft" align="right" valign="top">class&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Image</b></td></tr>
-<tr class="separator:aa23aef019ecf57e2829e8cca09a1e48a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a642cdf31a06660ab1b23e31b3b88a52d"><td class="memTemplParams" colspan="2"><a id="a642cdf31a06660ab1b23e31b3b88a52d"></a>
+template&lt;size_t OtherDim, pixel_format OtherPF&gt; </td></tr>
+<tr class="memitem:a642cdf31a06660ab1b23e31b3b88a52d"><td class="memTemplItemLeft" align="right" valign="top">class&#160;</td><td class="memTemplItemRight" valign="bottom"><b>image</b></td></tr>
+<tr class="separator:a642cdf31a06660ab1b23e31b3b88a52d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;size_t dim, PixelFormat fmt&gt;<br />
-class hou::Image&lt; dim, fmt &gt;</h3>
+<div class="textblock"><h3>template&lt;size_t Dim, pixel_format PF&gt;<br />
+class hou::image&lt; Dim, PF &gt;</h3>
 
 <p>Represents an image.</p>
 <p>Note: all possible class insances are already explicitly instantiated and exported in the library.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">dim</td><td>the number of dimensions of the image (from 1 to 3). </td></tr>
+    <tr><td class="paramname">Dim</td><td>the number of dimensions of the image (from 1 to 3). </td></tr>
   </table>
   </dd>
 </dl>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a9ea99d8671a02897841f72665df4fd61"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ea99d8671a02897841f72665df4fd61">&#9670;&nbsp;</a></span>Coordinates</h2>
+<a id="a2e1fad8327cb8470391a6367a04499cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e1fad8327cb8470391a6367a04499cf">&#9670;&nbsp;</a></span>offset_type</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t dim, PixelFormat fmt&gt; </div>
+template&lt;size_t Dim, pixel_format PF&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classhou_1_1Image.html">hou::Image</a>&lt; dim, fmt &gt;::<a class="el" href="classhou_1_1Image.html#a9ea99d8671a02897841f72665df4fd61">Coordinates</a> =  <a class="el" href="classhou_1_1Image.html#ae331219cf5c3d64ae1d196ae77120342">Size</a></td>
+          <td class="memname">using <a class="el" href="classhou_1_1image.html">hou::image</a>&lt; Dim, PF &gt;::<a class="el" href="classhou_1_1image.html#a2e1fad8327cb8470391a6367a04499cf">offset_type</a> =  <a class="el" href="classhou_1_1image.html#a060c80e84edf8bd3b675ce8a0a45dc80">size_type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -187,16 +187,16 @@ template&lt;size_t dim, PixelFormat fmt&gt; </div>
 
 </div>
 </div>
-<a id="af24a7a62c129a1553ebdb57f9f94ad69"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af24a7a62c129a1553ebdb57f9f94ad69">&#9670;&nbsp;</a></span>Pixel</h2>
+<a id="a0aad2f56bfc1f4ab6e99356fd2b26f8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0aad2f56bfc1f4ab6e99356fd2b26f8f">&#9670;&nbsp;</a></span>pixel</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t dim, PixelFormat fmt&gt; </div>
+template&lt;size_t Dim, pixel_format PF&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classhou_1_1Image.html">hou::Image</a>&lt; dim, fmt &gt;::<a class="el" href="classhou_1_1Image.html#af24a7a62c129a1553ebdb57f9f94ad69">Pixel</a> =  <a class="el" href="classhou_1_1PixelT.html">PixelT</a>&lt;fmt&gt;</td>
+          <td class="memname">using <a class="el" href="classhou_1_1image.html">hou::image</a>&lt; Dim, PF &gt;::<a class="el" href="classhou_1_1image.html#a0aad2f56bfc1f4ab6e99356fd2b26f8f">pixel</a> =  <a class="el" href="classhou_1_1pixel__t.html">pixel_t</a>&lt;PF&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -204,16 +204,16 @@ template&lt;size_t dim, PixelFormat fmt&gt; </div>
 
 </div>
 </div>
-<a id="aadac6ad79a3e46c920a254e6f107b11f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aadac6ad79a3e46c920a254e6f107b11f">&#9670;&nbsp;</a></span>PixelCollection</h2>
+<a id="ad748b114a3c4edc3a4cb277514a6c33e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad748b114a3c4edc3a4cb277514a6c33e">&#9670;&nbsp;</a></span>pixel_collection</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t dim, PixelFormat fmt&gt; </div>
+template&lt;size_t Dim, pixel_format PF&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classhou_1_1Image.html">hou::Image</a>&lt; dim, fmt &gt;::<a class="el" href="classhou_1_1Image.html#aadac6ad79a3e46c920a254e6f107b11f">PixelCollection</a> =  std::vector&lt;<a class="el" href="classhou_1_1Image.html#af24a7a62c129a1553ebdb57f9f94ad69">Pixel</a>&gt;</td>
+          <td class="memname">using <a class="el" href="classhou_1_1image.html">hou::image</a>&lt; Dim, PF &gt;::<a class="el" href="classhou_1_1image.html#ad748b114a3c4edc3a4cb277514a6c33e">pixel_collection</a> =  std::vector&lt;<a class="el" href="classhou_1_1image.html#a0aad2f56bfc1f4ab6e99356fd2b26f8f">pixel</a>&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -221,92 +221,104 @@ template&lt;size_t dim, PixelFormat fmt&gt; </div>
 
 </div>
 </div>
-<a id="ae331219cf5c3d64ae1d196ae77120342"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae331219cf5c3d64ae1d196ae77120342">&#9670;&nbsp;</a></span>Size</h2>
+<a id="a060c80e84edf8bd3b675ce8a0a45dc80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a060c80e84edf8bd3b675ce8a0a45dc80">&#9670;&nbsp;</a></span>size_type</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t dim, PixelFormat fmt&gt; </div>
+template&lt;size_t Dim, pixel_format PF&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classhou_1_1Image.html">hou::Image</a>&lt; dim, fmt &gt;::<a class="el" href="classhou_1_1Image.html#ae331219cf5c3d64ae1d196ae77120342">Size</a> =  <a class="el" href="namespacehou.html#a6bbd17ce8ed2e11b2c562422a9ba6061">Vec</a>&lt;uint, dim&gt;</td>
+          <td class="memname">using <a class="el" href="classhou_1_1image.html">hou::image</a>&lt; Dim, PF &gt;::<a class="el" href="classhou_1_1image.html#a060c80e84edf8bd3b675ce8a0a45dc80">size_type</a> =  <a class="el" href="namespacehou.html#acdb08afab8c0179bf2c3b5736475788e">vec</a>&lt;<a class="el" href="namespacehou.html#a322d756cabcc8dd5d938f3e229aa0491">uint</a>, Dim&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Type representing the size of the <a class="el" href="classhou_1_1Image.html">Image</a>. </p>
+<p>Type representing the size of the image. </p>
 
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="acf4fb7af561e0d04090007c3ff6c4139"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acf4fb7af561e0d04090007c3ff6c4139">&#9670;&nbsp;</a></span>Image() <span class="overload">[1/6]</span></h2>
+<a id="a21aa33728a6aaa0c6e91e171dacc477b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21aa33728a6aaa0c6e91e171dacc477b">&#9670;&nbsp;</a></span>image() <span class="overload">[1/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t dim, PixelFormat fmt&gt; </div>
+template&lt;size_t Dim, pixel_format PF&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classhou_1_1Image.html">hou::Image</a>&lt; dim, fmt &gt;::<a class="el" href="classhou_1_1Image.html">Image</a> </td>
+          <td class="memname"><a class="el" href="classhou_1_1image.html">hou::image</a>&lt; Dim, PF &gt;::<a class="el" href="classhou_1_1image.html">image</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Default constructor.</p>
-<p>Creates an image with no pixels. All of its size components are equal to 0. </p>
-
-</div>
-</div>
-<a id="a5521ec2e2438a2911628dc350307a812"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5521ec2e2438a2911628dc350307a812">&#9670;&nbsp;</a></span>Image() <span class="overload">[2/6]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t dim, PixelFormat fmt&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classhou_1_1Image.html">hou::Image</a>&lt; dim, fmt &gt;::<a class="el" href="classhou_1_1Image.html">Image</a> </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classhou_1_1Image.html#ae331219cf5c3d64ae1d196ae77120342">Size</a> &amp;&#160;</td>
-          <td class="paramname"><em>size</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Size constructor.</p>
-<p>Creates an <a class="el" href="classhou_1_1Image.html">Image</a> with the given size. All pixel channels are initialized to 0.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">size</td><td>the size of the image. </td></tr>
+<p>default constructor.</p>
+<p>Creates an image with no pixels. all of its size components are equal to 0.</p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc.</td><td></td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a2465e00bf99810e884fcdcaead29b483"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2465e00bf99810e884fcdcaead29b483">&#9670;&nbsp;</a></span>Image() <span class="overload">[3/6]</span></h2>
+<a id="a52a43ce66b0a49988e4a058b7bc06fef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52a43ce66b0a49988e4a058b7bc06fef">&#9670;&nbsp;</a></span>image() <span class="overload">[2/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t dim, PixelFormat fmt&gt; </div>
+template&lt;size_t Dim, pixel_format PF&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classhou_1_1Image.html">hou::Image</a>&lt; dim, fmt &gt;::<a class="el" href="classhou_1_1Image.html">Image</a> </td>
+          <td class="memname"><a class="el" href="classhou_1_1image.html">hou::image</a>&lt; Dim, PF &gt;::<a class="el" href="classhou_1_1image.html">image</a> </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classhou_1_1Image.html#ae331219cf5c3d64ae1d196ae77120342">Size</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classhou_1_1image.html#a060c80e84edf8bd3b675ce8a0a45dc80">size_type</a> &amp;&#160;</td>
+          <td class="paramname"><em>size</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>size_type constructor.</p>
+<p>Creates an image with the given size. all pixel channels are initialized to 0.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">size</td><td>the size of the image.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc.</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="abed4b540b0c8b31ca377dbd2a11c0327"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abed4b540b0c8b31ca377dbd2a11c0327">&#9670;&nbsp;</a></span>image() <span class="overload">[3/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t Dim, pixel_format PF&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classhou_1_1image.html">hou::image</a>&lt; Dim, PF &gt;::<a class="el" href="classhou_1_1image.html">image</a> </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classhou_1_1image.html#a060c80e84edf8bd3b675ce8a0a45dc80">size_type</a> &amp;&#160;</td>
           <td class="paramname"><em>size</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classhou_1_1Image.html#af24a7a62c129a1553ebdb57f9f94ad69">Pixel</a> &amp;&#160;</td>
-          <td class="paramname"><em>pixel</em>&#160;</td>
+          <td class="paramtype">const <a class="el" href="classhou_1_1image.html#a0aad2f56bfc1f4ab6e99356fd2b26f8f">pixel</a> &amp;&#160;</td>
+          <td class="paramname"><em>px</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -315,36 +327,42 @@ template&lt;size_t dim, PixelFormat fmt&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Pixel constructor.</p>
+<p>pixel constructor.</p>
 <p>Creates an image with the given size, with all pixels set to the given value.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">size</td><td>the size of the image. </td></tr>
-    <tr><td class="paramname">pixel</td><td>the value of the pixels of the image. </td></tr>
+    <tr><td class="paramname">size</td><td>the size of the image.</td></tr>
+    <tr><td class="paramname">px</td><td>the value of the pixels of the image.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc.</td><td></td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="ab354a913025b03b78cba9d57aa57fdce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab354a913025b03b78cba9d57aa57fdce">&#9670;&nbsp;</a></span>Image() <span class="overload">[4/6]</span></h2>
+<a id="a8ca85800a7532ffde1b3052cc1d52352"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ca85800a7532ffde1b3052cc1d52352">&#9670;&nbsp;</a></span>image() <span class="overload">[4/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t dim, PixelFormat fmt&gt; </div>
+template&lt;size_t Dim, pixel_format PF&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classhou_1_1Image.html">hou::Image</a>&lt; dim, fmt &gt;::<a class="el" href="classhou_1_1Image.html">Image</a> </td>
+          <td class="memname"><a class="el" href="classhou_1_1image.html">hou::image</a>&lt; Dim, PF &gt;::<a class="el" href="classhou_1_1image.html">image</a> </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classhou_1_1Image.html#ae331219cf5c3d64ae1d196ae77120342">Size</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classhou_1_1image.html#a060c80e84edf8bd3b675ce8a0a45dc80">size_type</a> &amp;&#160;</td>
           <td class="paramname"><em>size</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classhou_1_1Span.html">Span</a>&lt; const <a class="el" href="classhou_1_1Image.html#af24a7a62c129a1553ebdb57f9f94ad69">Pixel</a> &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classhou_1_1span.html">span</a>&lt; const <a class="el" href="classhou_1_1image.html#a0aad2f56bfc1f4ab6e99356fd2b26f8f">pixel</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>pixels</em>&#160;</td>
         </tr>
         <tr>
@@ -355,35 +373,42 @@ template&lt;size_t dim, PixelFormat fmt&gt; </div>
       </table>
 </div><div class="memdoc">
 <p>Pixels constructor.</p>
-<p>Creates an image with the given size and pixels. Throws if the size of pixels does not coincide the the product of all elements of size. The collection contains a linear list of pixels. Pixels along the first axis must be adjacent in the collection.</p>
+<p>Creates an image with the given size and pixels. The collection contains a linear list of pixels. Pixels along the first axis must be adjacent in the collection.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">size</td><td>the size of the image. </td></tr>
-    <tr><td class="paramname">pixels</td><td>the collection of pixels of the image. </td></tr>
+    <tr><td class="paramname">size</td><td>the size of the image.</td></tr>
+    <tr><td class="paramname">pixels</td><td>the collection of pixels of the image.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classhou_1_1precondition__violation.html">hou::precondition_violation</a></td><td>if the size of pixels does not coincide the the product of all elements of size.</td></tr>
+    <tr><td class="paramname">std::bad_alloc.</td><td></td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="ab5bf85e15db74216c32f7b4e9eb317d0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab5bf85e15db74216c32f7b4e9eb317d0">&#9670;&nbsp;</a></span>Image() <span class="overload">[5/6]</span></h2>
+<a id="ac127fc1da4b5e226a94ce71a6174bf35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac127fc1da4b5e226a94ce71a6174bf35">&#9670;&nbsp;</a></span>image() <span class="overload">[5/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t dim, PixelFormat fmt&gt; </div>
+template&lt;size_t Dim, pixel_format PF&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classhou_1_1Image.html">hou::Image</a>&lt; dim, fmt &gt;::<a class="el" href="classhou_1_1Image.html">Image</a> </td>
+          <td class="memname"><a class="el" href="classhou_1_1image.html">hou::image</a>&lt; Dim, PF &gt;::<a class="el" href="classhou_1_1image.html">image</a> </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classhou_1_1Image.html#ae331219cf5c3d64ae1d196ae77120342">Size</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classhou_1_1image.html#a060c80e84edf8bd3b675ce8a0a45dc80">size_type</a> &amp;&#160;</td>
           <td class="paramname"><em>size</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classhou_1_1Image.html#aadac6ad79a3e46c920a254e6f107b11f">PixelCollection</a> &amp;&amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classhou_1_1image.html#ad748b114a3c4edc3a4cb277514a6c33e">pixel_collection</a> &amp;&amp;&#160;</td>
           <td class="paramname"><em>pixels</em>&#160;</td>
         </tr>
         <tr>
@@ -394,49 +419,61 @@ template&lt;size_t dim, PixelFormat fmt&gt; </div>
       </table>
 </div><div class="memdoc">
 <p>Pixels move constructor.</p>
-<p>Creates an image with the given size and pixels. Throws if the size of pixels does not coincide the the product of all elements of size. The collection contains a linear list of pixels. Pixels along the first axis must be adjacent in the collection.</p>
+<p>Creates an image with the given size and pixels. The collection contains a linear list of pixels. Pixels along the first axis must be adjacent in the collection.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">size</td><td>the size of the image. </td></tr>
-    <tr><td class="paramname">pixels</td><td>the collection of pixels of the image. </td></tr>
+    <tr><td class="paramname">size</td><td>the size of the image.</td></tr>
+    <tr><td class="paramname">pixels</td><td>the collection of pixels of the image.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classhou_1_1precondition__violation.html">hou::precondition_violation</a></td><td>if the size of pixels does not coincide the the product of all elements of size. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a45937fdbe1adbdafe80b1c33c6ebc603"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a45937fdbe1adbdafe80b1c33c6ebc603">&#9670;&nbsp;</a></span>Image() <span class="overload">[6/6]</span></h2>
+<a id="ac1a2c9e4bdba2862cdb5af491da4d328"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1a2c9e4bdba2862cdb5af491da4d328">&#9670;&nbsp;</a></span>image() <span class="overload">[6/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t dim, PixelFormat fmt&gt; </div>
+template&lt;size_t Dim, pixel_format PF&gt; </div>
 <div class="memtemplate">
-template&lt;size_t otherDim, PixelFormat otherFmt&gt; </div>
+template&lt;size_t OtherDim, pixel_format OtherPF&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">HOU_SYS_API <a class="el" href="classhou_1_1Image.html">hou::Image</a>&lt; dim, fmt &gt;::<a class="el" href="classhou_1_1Image.html">Image</a> </td>
+          <td class="memname">HOU_SYS_API <a class="el" href="classhou_1_1image.html">hou::image</a>&lt; Dim, PF &gt;::<a class="el" href="classhou_1_1image.html">image</a> </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classhou_1_1Image.html">Image</a>&lt; otherDim, otherFmt &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classhou_1_1image.html">image</a>&lt; OtherDim, OtherPF &gt; &amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Conversion constructor.</p>
-<p>Creates an image from an image with a different number of dimensions and/or format. If the pixel format is different, each pixel is converted according to the conversion rule of the Pixel class. If the number of dimensions of other is lower, the generated image has size 1 on all additional dimensions. It is not possible to create an <a class="el" href="classhou_1_1Image.html">Image</a> from an <a class="el" href="classhou_1_1Image.html">Image</a> with more dimensions.</p>
+<p>Creates an image from an image with a different number of dimensions and/or format. If the pixel format is different, each pixel is converted according to the conversion rule of the pixel class. If the number of dimensions of other is lower, the generated image has size 1 on all additional dimensions. It is not possible to create an image from an image with more dimensions.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">otherDim</td><td>the number of dimensions of the other image. </td></tr>
-    <tr><td class="paramname">otherFmt</td><td>the pixel format of the other image. </td></tr>
+    <tr><td class="paramname">OtherDim</td><td>the number of dimensions of the other image.</td></tr>
+    <tr><td class="paramname">OtherPF</td><td>the pixel format of the other image.</td></tr>
     <tr><td class="paramname">Enable</td><td>enabling parameter.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">other</td><td>the other image. </td></tr>
+    <tr><td class="paramname">other</td><td>the other image.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc.</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -444,19 +481,19 @@ template&lt;size_t otherDim, PixelFormat otherFmt&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a38715dcb6e981e65d3efff30d51f21b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a38715dcb6e981e65d3efff30d51f21b6">&#9670;&nbsp;</a></span>clear()</h2>
+<a id="a9e27807155a3a3dbdca6630a5c1b25e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e27807155a3a3dbdca6630a5c1b25e0">&#9670;&nbsp;</a></span>clear()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t dim, PixelFormat fmt&gt; </div>
+template&lt;size_t Dim, pixel_format PF&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classhou_1_1Image.html">hou::Image</a>&lt; dim, fmt &gt;::clear </td>
+          <td class="memname">void <a class="el" href="classhou_1_1image.html">hou::image</a>&lt; Dim, PF &gt;::clear </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classhou_1_1Image.html#af24a7a62c129a1553ebdb57f9f94ad69">Pixel</a> &amp;&#160;</td>
-          <td class="paramname"><em>pixel</em></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="classhou_1_1image.html#a0aad2f56bfc1f4ab6e99356fd2b26f8f">pixel</a> &amp;&#160;</td>
+          <td class="paramname"><em>px</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -464,26 +501,32 @@ template&lt;size_t dim, PixelFormat fmt&gt; </div>
 <p>Clears the whole image with the given pixel value.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pixel</td><td>the pixel value. </td></tr>
+    <tr><td class="paramname">px</td><td>the pixel value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc.</td><td></td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a4d26353950caa115374d7875802d0a48"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d26353950caa115374d7875802d0a48">&#9670;&nbsp;</a></span>getDimensionCount()</h2>
+<a id="a086dc574943bc39c11f1b906a32a269a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a086dc574943bc39c11f1b906a32a269a">&#9670;&nbsp;</a></span>get_dimension_count()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t dim, PixelFormat fmt&gt; </div>
+template&lt;size_t dim, pixel_format fmt&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr size_t <a class="el" href="classhou_1_1Image.html">hou::Image</a>&lt; dim, fmt &gt;::getDimensionCount </td>
+          <td class="memname">constexpr size_t <a class="el" href="classhou_1_1image.html">hou::image</a>&lt; dim, fmt &gt;::get_dimension_count </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -491,37 +534,42 @@ template&lt;size_t dim, PixelFormat fmt&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 <p>Retrieves the number of dimensions of the image.</p>
-<dl class="section return"><dt>Returns</dt><dd>the number of dimensions of the imag.e </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the number of dimensions of the <a class="el" href="namespacehou.html#a21f1a9ae2701c1b9b1c82b94bf4f23bfae1671797c52e15f763380b45e841ec32">imag.e</a> </dd></dl>
 
 </div>
 </div>
-<a id="af1df34b749eae934db725e17b6f81877"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af1df34b749eae934db725e17b6f81877">&#9670;&nbsp;</a></span>getPixel()</h2>
+<a id="ad466d83eb526287a6efb8df62445e4b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad466d83eb526287a6efb8df62445e4b9">&#9670;&nbsp;</a></span>get_pixel()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t dim, PixelFormat fmt&gt; </div>
+template&lt;size_t Dim, pixel_format PF&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classhou_1_1Image.html#af24a7a62c129a1553ebdb57f9f94ad69">Pixel</a>&amp; <a class="el" href="classhou_1_1Image.html">hou::Image</a>&lt; dim, fmt &gt;::getPixel </td>
+          <td class="memname">const <a class="el" href="classhou_1_1image.html#a0aad2f56bfc1f4ab6e99356fd2b26f8f">pixel</a>&amp; <a class="el" href="classhou_1_1image.html">hou::image</a>&lt; Dim, PF &gt;::get_pixel </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classhou_1_1Image.html#a9ea99d8671a02897841f72665df4fd61">Coordinates</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classhou_1_1image.html#a2e1fad8327cb8470391a6367a04499cf">offset_type</a> &amp;&#160;</td>
           <td class="paramname"><em>coordinates</em></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Retrieves a single pixel.</p>
-<p>Throws if the coordinates exceed the size of the image.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">coordinates</td><td>the coordinates of the pixel. </td></tr>
+    <tr><td class="paramname">coordinates</td><td>the coordinates of the pixel.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classhou_1_1out__of__range.html">hou::out_of_range</a></td><td>if the coordinates exceed the size of the image.</td></tr>
   </table>
   </dd>
 </dl>
@@ -529,19 +577,19 @@ template&lt;size_t dim, PixelFormat fmt&gt; </div>
 
 </div>
 </div>
-<a id="a670ba0054692fab02c9a3741ecc656fa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a670ba0054692fab02c9a3741ecc656fa">&#9670;&nbsp;</a></span>getPixelByteCount()</h2>
+<a id="ad9ca87a19d7775a8713517f6e1b10f56"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9ca87a19d7775a8713517f6e1b10f56">&#9670;&nbsp;</a></span>get_pixel_byte_count()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t dim, PixelFormat fmt&gt; </div>
+template&lt;size_t dim, pixel_format fmt&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr uint <a class="el" href="classhou_1_1Image.html">hou::Image</a>&lt; dim, fmt &gt;::getPixelByteCount </td>
+          <td class="memname">constexpr <a class="el" href="namespacehou.html#a322d756cabcc8dd5d938f3e229aa0491">uint</a> <a class="el" href="classhou_1_1image.html">hou::image</a>&lt; dim, fmt &gt;::get_pixel_byte_count </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -549,7 +597,7 @@ template&lt;size_t dim, PixelFormat fmt&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -558,19 +606,19 @@ template&lt;size_t dim, PixelFormat fmt&gt; </div>
 
 </div>
 </div>
-<a id="a3ff71a448c5c2af84555643a3496dbef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3ff71a448c5c2af84555643a3496dbef">&#9670;&nbsp;</a></span>getPixelFormat()</h2>
+<a id="a888dcc8a56e67a2d31bdd42f787ef162"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a888dcc8a56e67a2d31bdd42f787ef162">&#9670;&nbsp;</a></span>get_pixel_format()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t dim, PixelFormat fmt&gt; </div>
+template&lt;size_t dim, pixel_format fmt&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr <a class="el" href="namespacehou.html#a163972be3a1ba234f0c74c6f13c97b81">PixelFormat</a> <a class="el" href="classhou_1_1Image.html">hou::Image</a>&lt; dim, fmt &gt;::getPixelFormat </td>
+          <td class="memname">constexpr <a class="el" href="namespacehou.html#a710bb89d6d4fc54b90e80b928b4552ce">pixel_format</a> <a class="el" href="classhou_1_1image.html">hou::image</a>&lt; dim, fmt &gt;::get_pixel_format </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -578,7 +626,7 @@ template&lt;size_t dim, PixelFormat fmt&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -587,66 +635,82 @@ template&lt;size_t dim, PixelFormat fmt&gt; </div>
 
 </div>
 </div>
-<a id="a6c9303a3e9208017660439d6f9ee9162"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6c9303a3e9208017660439d6f9ee9162">&#9670;&nbsp;</a></span>getPixels()</h2>
+<a id="aa035853589e9f577ff5599c75ea7b54a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa035853589e9f577ff5599c75ea7b54a">&#9670;&nbsp;</a></span>get_pixels()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t dim, PixelFormat fmt&gt; </div>
+template&lt;size_t Dim, pixel_format PF&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classhou_1_1Image.html#aadac6ad79a3e46c920a254e6f107b11f">PixelCollection</a>&amp; <a class="el" href="classhou_1_1Image.html">hou::Image</a>&lt; dim, fmt &gt;::getPixels </td>
+          <td class="memname">const <a class="el" href="classhou_1_1image.html#ad748b114a3c4edc3a4cb277514a6c33e">pixel_collection</a>&amp; <a class="el" href="classhou_1_1image.html">hou::image</a>&lt; Dim, PF &gt;::get_pixels </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 <p>Retrieves the pixels of the image.</p>
-<dl class="section return"><dt>Returns</dt><dd>tehe pixels of the image. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the pixels of the image. </dd></dl>
 
 </div>
 </div>
-<a id="aa092d40ac918ba9ca020f4c24819679d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa092d40ac918ba9ca020f4c24819679d">&#9670;&nbsp;</a></span>getSize()</h2>
+<a id="a663131f321c024198d3381f67e039a30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a663131f321c024198d3381f67e039a30">&#9670;&nbsp;</a></span>get_size()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t dim, PixelFormat fmt&gt; </div>
+template&lt;size_t Dim, pixel_format PF&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classhou_1_1Image.html#ae331219cf5c3d64ae1d196ae77120342">Size</a>&amp; <a class="el" href="classhou_1_1Image.html">hou::Image</a>&lt; dim, fmt &gt;::getSize </td>
+          <td class="memname">const <a class="el" href="classhou_1_1image.html#a060c80e84edf8bd3b675ce8a0a45dc80">size_type</a>&amp; <a class="el" href="classhou_1_1image.html">hou::image</a>&lt; Dim, PF &gt;::get_size </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 <p>Retrieves the size of the image.</p>
 <dl class="section return"><dt>Returns</dt><dd>the size of the image. </dd></dl>
 
 </div>
 </div>
-<a id="aad41af46438268404c9bbd4f14b982b9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad41af46438268404c9bbd4f14b982b9">&#9670;&nbsp;</a></span>getSubImage()</h2>
+<a id="a0ba2b62e9e0c5aeeea7b89df59b0bcf8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ba2b62e9e0c5aeeea7b89df59b0bcf8">&#9670;&nbsp;</a></span>get_sub_image()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t dim, PixelFormat fmt&gt; </div>
+template&lt;size_t Dim, pixel_format PF&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classhou_1_1Image.html">Image</a> <a class="el" href="classhou_1_1Image.html">hou::Image</a>&lt; dim, fmt &gt;::getSubImage </td>
+          <td class="memname"><a class="el" href="classhou_1_1image.html">image</a> <a class="el" href="classhou_1_1image.html">hou::image</a>&lt; Dim, PF &gt;::get_sub_image </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classhou_1_1Image.html#a9ea99d8671a02897841f72665df4fd61">Coordinates</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classhou_1_1image.html#a2e1fad8327cb8470391a6367a04499cf">offset_type</a> &amp;&#160;</td>
           <td class="paramname"><em>offset</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classhou_1_1Image.html#ae331219cf5c3d64ae1d196ae77120342">Size</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classhou_1_1image.html#a060c80e84edf8bd3b675ce8a0a45dc80">size_type</a> &amp;&#160;</td>
           <td class="paramname"><em>size</em>&#160;</td>
         </tr>
         <tr>
@@ -657,11 +721,17 @@ template&lt;size_t dim, PixelFormat fmt&gt; </div>
       </table>
 </div><div class="memdoc">
 <p>Retrieves a sub-image.</p>
-<p>Throws if the sum of offset and size is greater or equal than the size of the image.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">offset</td><td>the offset of the sub-image. </td></tr>
-    <tr><td class="paramname">size</td><td>the size of the sub-image. </td></tr>
+    <tr><td class="paramname">offset</td><td>the offset of the sub-image.</td></tr>
+    <tr><td class="paramname">size</td><td>the size of the sub-image.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classhou_1_1out__of__range.html">hou::out_of_range</a></td><td>if the sum of offset and size is greater or equal than the size of the image.</td></tr>
+    <tr><td class="paramname">std::bad_alloc.</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -669,24 +739,24 @@ template&lt;size_t dim, PixelFormat fmt&gt; </div>
 
 </div>
 </div>
-<a id="acafcfc3dca4af3da2e2ce24b8a95e714"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acafcfc3dca4af3da2e2ce24b8a95e714">&#9670;&nbsp;</a></span>setPixel()</h2>
+<a id="a8defbd372cc1699ec0ca4a31e2c4ee17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8defbd372cc1699ec0ca4a31e2c4ee17">&#9670;&nbsp;</a></span>set_pixel()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t dim, PixelFormat fmt&gt; </div>
+template&lt;size_t Dim, pixel_format PF&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classhou_1_1Image.html">hou::Image</a>&lt; dim, fmt &gt;::setPixel </td>
+          <td class="memname">void <a class="el" href="classhou_1_1image.html">hou::image</a>&lt; Dim, PF &gt;::set_pixel </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classhou_1_1Image.html#a9ea99d8671a02897841f72665df4fd61">Coordinates</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classhou_1_1image.html#a2e1fad8327cb8470391a6367a04499cf">offset_type</a> &amp;&#160;</td>
           <td class="paramname"><em>coordinates</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classhou_1_1Image.html#af24a7a62c129a1553ebdb57f9f94ad69">Pixel</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classhou_1_1image.html#a0aad2f56bfc1f4ab6e99356fd2b26f8f">pixel</a> &amp;&#160;</td>
           <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
@@ -697,64 +767,74 @@ template&lt;size_t dim, PixelFormat fmt&gt; </div>
       </table>
 </div><div class="memdoc">
 <p>Sets the value of a single pixel.</p>
-<p>Throws if the coordinates exceed the size of the image.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">coordinates</td><td>the coordinates of the pixel. </td></tr>
-    <tr><td class="paramname">value</td><td>the value of the pixel. </td></tr>
+    <tr><td class="paramname">coordinates</td><td>the coordinates of the pixel.</td></tr>
+    <tr><td class="paramname">value</td><td>the value of the pixel.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classhou_1_1out__of__range.html">hou::out_of_range</a></td><td>if the coordinates exceed the size of the image. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="ad9e867b68e956fe79f7e366b7e82c2af"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad9e867b68e956fe79f7e366b7e82c2af">&#9670;&nbsp;</a></span>setPixels()</h2>
+<a id="aaced73c383018dfa261958d296ba3206"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaced73c383018dfa261958d296ba3206">&#9670;&nbsp;</a></span>set_pixels()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t dim, PixelFormat fmt&gt; </div>
+template&lt;size_t Dim, pixel_format PF&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classhou_1_1Image.html">hou::Image</a>&lt; dim, fmt &gt;::setPixels </td>
+          <td class="memname">void <a class="el" href="classhou_1_1image.html">hou::image</a>&lt; Dim, PF &gt;::set_pixels </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classhou_1_1Span.html">Span</a>&lt; const <a class="el" href="classhou_1_1Image.html#af24a7a62c129a1553ebdb57f9f94ad69">Pixel</a> &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classhou_1_1span.html">span</a>&lt; const <a class="el" href="classhou_1_1image.html#a0aad2f56bfc1f4ab6e99356fd2b26f8f">pixel</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>pixels</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Sets the pixels of the image.</p>
-<p>Throws if the size of pixels is not equal to the product of all elements of the size of the image.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pixels</td><td>the pixels. </td></tr>
+    <tr><td class="paramname">pixels</td><td>the pixels.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classhou_1_1precondition__violation.html">hou::precondition_violation</a></td><td>if the size of pixels is not equal to the product of all elements of the size of the image. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a259a8f5bbc6cdfa21d048deaf887cd22"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a259a8f5bbc6cdfa21d048deaf887cd22">&#9670;&nbsp;</a></span>setSubImage()</h2>
+<a id="ac639ff839886f6d4ec14ab24b45b2773"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac639ff839886f6d4ec14ab24b45b2773">&#9670;&nbsp;</a></span>set_sub_image()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t dim, PixelFormat fmt&gt; </div>
+template&lt;size_t Dim, pixel_format PF&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classhou_1_1Image.html">hou::Image</a>&lt; dim, fmt &gt;::setSubImage </td>
+          <td class="memname">void <a class="el" href="classhou_1_1image.html">hou::image</a>&lt; Dim, PF &gt;::set_sub_image </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classhou_1_1Image.html#a9ea99d8671a02897841f72665df4fd61">Coordinates</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classhou_1_1image.html#a2e1fad8327cb8470391a6367a04499cf">offset_type</a> &amp;&#160;</td>
           <td class="paramname"><em>offset</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classhou_1_1Image.html">Image</a>&lt; dim, fmt &gt; &amp;&#160;</td>
-          <td class="paramname"><em>image</em>&#160;</td>
+          <td class="paramtype">const <a class="el" href="classhou_1_1image.html">image</a>&lt; Dim, PF &gt; &amp;&#160;</td>
+          <td class="paramname"><em>im</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -767,8 +847,19 @@ template&lt;size_t dim, PixelFormat fmt&gt; </div>
 <p>Throws if the sum of offset and the size of the input image is greater or equal than the size of the image.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">offset</td><td>the offset of the sub-image. </td></tr>
-    <tr><td class="paramname">image</td><td>the sub-image to be copied. </td></tr>
+    <tr><td class="paramname">offset</td><td>the offset of the sub-image.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classhou_1_1out__of__range.html">hou::out_of_range</a></td><td>if the sum of offset and the size of the input image is greater or equal than the size of the image.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">im</td><td>the sub-image to be copied. </td></tr>
   </table>
   </dd>
 </dl>
@@ -776,15 +867,15 @@ template&lt;size_t dim, PixelFormat fmt&gt; </div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>housys/include/hou/sys/<a class="el" href="Image_8hpp_source.html">Image.hpp</a></li>
-<li>housys/include/hou/sys/Image.inl</li>
+<li>source/housys/include/hou/sys/<a class="el" href="image_8hpp_source.html">image.hpp</a></li>
+<li>source/housys/include/hou/sys/image.inl</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="namespacehou.html">hou</a></li><li class="navelem"><a class="el" href="classhou_1_1Image.html">Image</a></li>
+    <li class="navelem"><a class="el" href="namespacehou.html">hou</a></li><li class="navelem"><a class="el" href="classhou_1_1image.html">image</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>

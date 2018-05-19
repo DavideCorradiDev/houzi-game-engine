@@ -1,12 +1,11 @@
-var classhou_1_1Vertex2 =
+var classhou_1_1vertex2 =
 [
-    [ "ComparisonType", "classhou_1_1Vertex2.html#ab587bb37d8962e0ff50daec363be27bf", null ],
-    [ "Vertex2", "classhou_1_1Vertex2.html#a6009956eadd40509ad9e9882580fd9c1", null ],
-    [ "Vertex2", "classhou_1_1Vertex2.html#a99c660a895f4c6ad190ee2f8bc018a0a", null ],
-    [ "getColor", "classhou_1_1Vertex2.html#a605cc66ee326ede0a31644ca4a9f00e0", null ],
-    [ "getPosition", "classhou_1_1Vertex2.html#a57416c3089baff7408bc2ffd00f2afb9", null ],
-    [ "getTextureCoordinates", "classhou_1_1Vertex2.html#adab7e08cd8ed78225c391d55e3d54425", null ],
-    [ "setColor", "classhou_1_1Vertex2.html#ae71aec6b4b0a0b181ba8652b310a8000", null ],
-    [ "setPosition", "classhou_1_1Vertex2.html#aa58da67610f351dfd484385a49769a28", null ],
-    [ "setTextureCoordinates", "classhou_1_1Vertex2.html#aecf91f98b7541e85a770068aee7f2097", null ]
+    [ "vertex2", "classhou_1_1vertex2.html#a1eb94909b0ddbe045b77e643bfe71792", null ],
+    [ "vertex2", "classhou_1_1vertex2.html#a21a7326d740f55354ab4927381653d26", null ],
+    [ "get_color", "classhou_1_1vertex2.html#acefb33469a7e5eb502a0a87b7f78d4c7", null ],
+    [ "get_position", "classhou_1_1vertex2.html#a4f29f6bc701c504694e3991f71fe290f", null ],
+    [ "get_texture_coordinates", "classhou_1_1vertex2.html#a530f3f21549f00e63bd3c365f51d1e4e", null ],
+    [ "set_color", "classhou_1_1vertex2.html#a838404d529100197abc5f38de58edc19", null ],
+    [ "set_position", "classhou_1_1vertex2.html#a45be9ac60a0c7ebbd1671ab3c881e59e", null ],
+    [ "set_texture_coordinates", "classhou_1_1vertex2.html#a9239c32a1885b7cd11aedbd7fdf34d7a", null ]
 ];

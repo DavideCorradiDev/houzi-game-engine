@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['close',['close',['../classhou_1_1Matrix.html#ab17bb801d232b35976da4fcfc118ab1f',1,'hou::Matrix::close()'],['../classhou_1_1Quaternion.html#ae9f2a9ead38f20f0f2b461adfbeb4968',1,'hou::Quaternion::close()'],['../classhou_1_1Transform2.html#a0886bbb419c09a94451c3c5c1f72716d',1,'hou::Transform2::close()'],['../classhou_1_1Transform3.html#a3cb9b3c0d2c8d9b3b5defc5f1da1c461',1,'hou::Transform3::close()']]]
+  ['close',['close',['../classhou_1_1matrix.html#a7386c2af5e3546e390811da0aed791ac',1,'hou::matrix::close()'],['../classhou_1_1quaternion.html#ad98dcd9016e3218109b587232d20f843',1,'hou::quaternion::close()'],['../classhou_1_1transform2.html#ae80f25422d680b1b4b2e87dff2995850',1,'hou::transform2::close()'],['../classhou_1_1transform3.html#a2dd54256e792cae2e4779e4828987840',1,'hou::transform3::close()']]]
 ];
