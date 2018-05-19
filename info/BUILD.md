@@ -42,13 +42,13 @@ When building static libraries, all dependencies must be explicitly linked, even
 Instead of throwing an exception, the program will abort and write an error message in the error stream.
 If exceptions are disabled, you should define the preprocessor symbol **HOU\_DISABLE\_EXCEPTIONS** to ensure that header files will behave consistently.
 
-* **HOU\_CFG\_ENABLE\_AL\_\[check_type\]\_CHECKS**: these options enables some OpenAL error checks when set.
+* **HOU\_CFG\_ENABLE\_AL\_ERROR\_CHECKS**: if set, several OpenAL checks are activated.
 These checks can be useful during development or when debugging audio issues, but can be expensive and should be enabled for release builds.
-When enabling a check of a specific type, the preprocessor symbl **HOU\_ENABLE\_GL\_\[check_type\]\_CHECKS** should be defined to ensure that header files will behave consistently.
+When enabling OpenAL error checks, the preprocessor symbol **HOU\_ENABLE\_AL\_ERROR\_CHECKS** should be defined to ensure that header files will behave consistently.
 
-* **HOU\_CFG\_ENABLE\_GL\_\[check_type\]\_CHECKS**: these options enables some OpenGL error checks when set.
+* **HOU\_CFG\_ENABLE\_GL\_ERROR\_CHECKS**: if set, several OpenGL error checks are activated.
 These checks can be useful during development or when debugging graphics issues, but can be expensive and should be enabled for release builds.
-When enabling a check of a specific type, the preprocessor symbl **HOU\_ENABLE\_AL\_\[check_type\]\_CHECKS** should be defined to ensure that header files will behave consistently.
+When enabling OpenGL error checks, the preprocessor symbol **HOU\_ENABLE\_GL\_ERROR\_CHECKS** should be defined to ensure that header files will behave consistently.
 
 
 
@@ -105,6 +105,10 @@ The include directories of all used modules should be added to the project.
 With CMake this is done with:
 ```
 INCLUDE_DIRECTORIES(<houzi_game_engine_root_folder>/source/<module_name/include)
+
+# Example
+INCLUDE_DIRECTORIES(${LIB_HOU_PATH}/source/houcor/include)
+INCLUDE_DIRECTORIES(${LIB_HOU_PATH}/source/houmth/include)
 ```
 
 
@@ -114,6 +118,9 @@ The target should be linked to the libraries of all used modules.
 With CMake this is done with:
 ```
 TARGET_LINK_LIBRARIES(<target_name> <library_names>)
+
+# Example
+TARGET_LINK_LIBRARIES(my_game, houcor houmth)
 ```
 
 
@@ -121,12 +128,21 @@ TARGET_LINK_LIBRARIES(<target_name> <library_names>)
 ### Defining preprocessor symbols
 According to the settings with which the houzi-game-engine has been built, some preprocessor symbols might be to be defined:
 
-* When linking to houzi-game-engine static libraries, the HOU\_STATIC symbol must be defined.
+* When linking to houzi-game-engine Debug libraries, the **HOU\_DEBUG** symbol should be defined.
 
-* When linking houzi-game-engine libraries with disabled exceptions, the HOU\_DISABLE\_EXCEPTIONS symbol should be defined.
+* When linking to houzi-game-engine static libraries, the **HOU\_STATIC** symbol must be defined.
 
-* When linking to houzi-game-engine libraries with enabled OpenGL error checks, the HOU\_ENABLE\_GL\_CHECKS symbol should be defined.
+* When linking houzi-game-engine libraries with disabled exceptions, the **HOU\_DISABLE\_EXCEPTIONS** symbol should be defined.
 
-* When linking to houzi-game-engine libraries with enabled OpenAL error checks, the HOU\_ENABLE\_AL\_CHECKS symbol should be defined.
+* When linking to houzi-game-engine libraries with enabled OpenGL error checks, the **HOU\_ENABLE\_GL\_CHECKS** symbol should be defined.
 
-* When linking to houzi-game-engine Debug libraries, the HOU\_DEBUG symbol should be defined.
+* When linking to houzi-game-engine libraries with enabled OpenAL error checks, the **HOU\_ENABLE\_AL\_CHECKS** symbol should be defined.
+
+With CMake symbols can be defined with:
+```
+ADD_DEFINITIONS(-D<symbol_name>)
+
+# Example
+ADD_DEFINITIONS(-DHOU_DEBUG)
+ADD_DEFINITIONS(-DHOU_ENABLE_GL_ERROR_CHECKS)
+```
