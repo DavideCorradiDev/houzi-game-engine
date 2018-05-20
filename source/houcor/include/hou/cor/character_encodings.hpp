@@ -8,6 +8,7 @@
 #include "hou/cor/non_instantiable.hpp"
 
 #include "hou/cor/assertions.hpp"
+#include "hou/cor/pragmas.hpp"
 
 #include "hou/cor/cor_config.hpp"
 

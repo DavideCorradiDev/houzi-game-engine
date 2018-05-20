@@ -37,10 +37,6 @@ class non_instantiable
   /** Deleted move assignment operator.
    */
   non_instantiable& operator=(non_instantiable&&) = delete;
-
-  /** Deleted destructor.
-   */
-  ~non_instantiable() = delete;
 };
 
 }  // namespace hou

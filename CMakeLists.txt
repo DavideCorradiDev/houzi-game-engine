@@ -176,8 +176,6 @@ ELSEIF(MSVC)
     SET(HOU_COMMON_FLAGS "${HOU_COMMON_FLAGS} /EHsc")
   ENDIF()
 
-  SET(HOU_COMMON_FLAGS "${HOU_COMMON_FLAGS} /W4")
-
   # This flags are used to disable compiler warnings about using or inheriting
   # from standard library classes. This is not an issue when the Houzi Game
   # Library and the executable are compiled on the same compiler.
