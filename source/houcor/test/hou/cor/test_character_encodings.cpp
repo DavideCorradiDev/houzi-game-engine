@@ -154,7 +154,7 @@ TEST_F(test_character_encodings, utf8_next)
 
 TEST_F(test_character_encodings_death_test, utf8_next_failure)
 {
-  std::array<utf8::code_unit, 4u> utf8_char;
+  std::array<utf8::code_unit, 4u> utf8_char{'a', 'b' ,'c', 'd'};
   EXPECT_PRECOND_ERROR(utf8::next(utf8_char.begin(), utf8_char.begin()));
 }
 
