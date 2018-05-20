@@ -6,6 +6,7 @@
 
 #include "hou/cor/span.hpp"
 
+#include <array>
 #include <sstream>
 
 using namespace hou;

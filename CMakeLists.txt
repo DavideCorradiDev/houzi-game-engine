@@ -130,7 +130,8 @@ ENDIF()
 
 # Common compiler flags
 SET(HOU_COMMON_FLAGS "${CMAKE_CXX_FLAGS}")
-SET(HOU_WARNING_FLAGS "")
+SET(HOU_LIB_FLAGS "")
+SET(HOU_TEST_FLAGS "")
 IF(MINGW OR GCC)
   SET(HOU_COMMON_FLAGS "${HOU_COMMON_FLAGS} -std=c++14")
 
@@ -153,18 +154,25 @@ IF(MINGW OR GCC)
   SET(HOU_COMMON_FLAGS "${HOU_COMMON_FLAGS} -pedantic")
 
   # Extra warning compiler flags
-  SET(HOU_WARNING_FLAGS "${HOU_WARNING_FLAGS} -Wzero-as-null-pointer-constant")
-  SET(HOU_WARNING_FLAGS "${HOU_WARNING_FLAGS} -Wswitch-enum")
-  SET(HOU_WARNING_FLAGS "${HOU_WARNING_FLAGS} -Wmissing-declarations")
-  SET(HOU_WARNING_FLAGS "${HOU_WARNING_FLAGS} -Wunreachable-code")
-  SET(HOU_WARNING_FLAGS "${HOU_WARNING_FLAGS} -Wfloat-equal")
-  SET(HOU_WARNING_FLAGS "${HOU_WARNING_FLAGS} -Wundef")
-  SET(HOU_WARNING_FLAGS "${HOU_WARNING_FLAGS} -Wcast-align")
-  SET(HOU_WARNING_FLAGS "${HOU_WARNING_FLAGS} -Wredundant-decls")
-  SET(HOU_WARNING_FLAGS "${HOU_WARNING_FLAGS} -Winit-self")
-  SET(HOU_WARNING_FLAGS "${HOU_WARNING_FLAGS} -Wshadow")
-  SET(HOU_WARNING_FLAGS "${HOU_WARNING_FLAGS} -Wnon-virtual-dtor")
+  SET(HOU_LIB_FLAGS "${HOU_LIB_FLAGS} -Wzero-as-null-pointer-constant")
+  SET(HOU_LIB_FLAGS "${HOU_LIB_FLAGS} -Wswitch-enum")
+  SET(HOU_LIB_FLAGS "${HOU_LIB_FLAGS} -Wmissing-declarations")
+  SET(HOU_LIB_FLAGS "${HOU_LIB_FLAGS} -Wunreachable-code")
+  SET(HOU_LIB_FLAGS "${HOU_LIB_FLAGS} -Wfloat-equal")
+  SET(HOU_LIB_FLAGS "${HOU_LIB_FLAGS} -Wundef")
+  SET(HOU_LIB_FLAGS "${HOU_LIB_FLAGS} -Wcast-align")
+  SET(HOU_LIB_FLAGS "${HOU_LIB_FLAGS} -Wredundant-decls")
+  SET(HOU_LIB_FLAGS "${HOU_LIB_FLAGS} -Winit-self")
+  SET(HOU_LIB_FLAGS "${HOU_LIB_FLAGS} -Wshadow")
+  SET(HOU_LIB_FLAGS "${HOU_LIB_FLAGS} -Wnon-virtual-dtor")
 ELSEIF(MSVC)
+  SET(HOU_COMMON_FLAGS "")
+
+  SET(HOU_COMMON_FLAGS "${HOU_COMMON_FLAGS} /DWIN32")
+  SET(HOU_COMMON_FLAGS "${HOU_COMMON_FLAGS} /DWINDOWS")
+  SET(HOU_COMMON_FLAGS "${HOU_COMMON_FLAGS} /DEHsc")
+  SET(HOU_COMMON_FLAGS "${HOU_COMMON_FLAGS} /MTd")
+
   SET(HOU_COMMON_FLAGS "${HOU_COMMON_FLAGS} /std:c++14")
 
   IF(CMAKE_BUILD_TYPE MATCHES Release)
@@ -173,15 +181,19 @@ ELSEIF(MSVC)
 
   IF(HOU_CFG_DISABLE_EXCEPTIONS)
     ADD_DEFINITIONS(-D_HAS_EXCEPTIONS=0)
-    SET(HOU_COMMON_FLAGS "${HOU_COMMON_FLAGS} /EHsc")
   ENDIF()
+
+  SET(HOU_COMMON_FLAGS "${HOU_COMMON_FLAGS} /W3")
 
   # This flags are used to disable compiler warnings about using or inheriting
   # from standard library classes. This is not an issue when the Houzi Game
   # Library and the executable are compiled on the same compiler.
-  SET(HOU_COMMON_FLAGS "${HOU_COMMON_FLAGS} /MDd")
   SET(HOU_COMMON_FLAGS "${HOU_COMMON_FLAGS} /wd4251")
   SET(HOU_COMMON_FLAGS "${HOU_COMMON_FLAGS} /wd4275")
+
+  SET(HOU_COMMON_FLAGS "${HOU_COMMON_FLAGS} /wd4996")
+
+  SET(HOU_TEST_FLAGS "${HOU_TEST_FLAGS} /wd4244")
 ENDIF()
 
 
@@ -189,8 +201,8 @@ ENDIF()
 # Library and test compiler flags.
 # Advanced warnings are disabled in the test compiler flags to silence warnings
 # coming from gtest.
-SET(LIB_HOU_FLAGS "${HOU_COMMON_FLAGS} ${HOU_WARNING_FLAGS}")
-SET(EXE_HOU_TEST_FLAGS "${HOU_COMMON_FLAGS}")
+SET(LIB_HOU_FLAGS "${HOU_COMMON_FLAGS} ${HOU_LIB_FLAGS}")
+SET(EXE_HOU_TEST_FLAGS "${HOU_COMMON_FLAGS} ${HOU_TEST_FLAGS}")
 MESSAGE(STATUS "Lib compiler flags: ${LIB_HOU_FLAGS}")
 MESSAGE(STATUS "Test compiler flags: ${EXE_HOU_TEST_FLAGS}")
 

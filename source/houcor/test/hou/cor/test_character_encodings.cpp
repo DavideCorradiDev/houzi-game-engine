@@ -30,25 +30,25 @@ TEST_F(test_character_encodings, utf8_encoding)
 
   // a
   retval = utf8::encode(U'\U00000061', utf8_char.begin());
-  EXPECT_EQ(&utf8_char[0] + 1, retval);
+  EXPECT_EQ(&utf8_char[0] + 1, &(*retval));
   EXPECT_EQ('\x61', utf8_char[0]);
 
   // a with macron
   retval = utf8::encode(U'\U00000101', utf8_char.begin());
-  EXPECT_EQ(&utf8_char[0] + 2, retval);
+  EXPECT_EQ(&utf8_char[0] + 2, &(*retval));
   EXPECT_EQ('\xC4', utf8_char[0]);
   EXPECT_EQ('\x81', utf8_char[1]);
 
   // devanagari short a
   retval = utf8::encode(U'\U00000904', utf8_char.begin());
-  EXPECT_EQ(&utf8_char[0] + 3, retval);
+  EXPECT_EQ(&utf8_char[0] + 3, &(*retval));
   EXPECT_EQ('\xE0', utf8_char[0]);
   EXPECT_EQ('\xA4', utf8_char[1]);
   EXPECT_EQ('\x84', utf8_char[2]);
 
   // pau cin hau letter pa
   retval = utf8::encode(U'\U00011AC0', utf8_char.begin());
-  EXPECT_EQ(&utf8_char[0] + 4, retval);
+  EXPECT_EQ(&utf8_char[0] + 4, &(*retval));
   EXPECT_EQ('\xF0', utf8_char[0]);
   EXPECT_EQ('\x91', utf8_char[1]);
   EXPECT_EQ('\xAB', utf8_char[2]);
@@ -70,7 +70,7 @@ TEST_F(test_character_encodings, utf8_decoding)
   utf8_char[3] = '\x00';
   retval = utf8::decode(utf8_char.begin(), utf8_char.end(), char_code);
   EXPECT_EQ(U'\U00000061', char_code);
-  EXPECT_EQ(&utf8_char[0] + 1, retval);
+  EXPECT_EQ(&utf8_char[0] + 1, &(*retval));
 
   // a with macron
   utf8_char[0] = '\xC4';
@@ -79,7 +79,7 @@ TEST_F(test_character_encodings, utf8_decoding)
   utf8_char[3] = '\x00';
   retval = utf8::decode(utf8_char.begin(), utf8_char.end(), char_code);
   EXPECT_EQ(U'\U00000101', char_code);
-  EXPECT_EQ(&utf8_char[0] + 2, retval);
+  EXPECT_EQ(&utf8_char[0] + 2, &(*retval));
 
   // devanagari short a
   utf8_char[0] = '\xE0';
@@ -88,7 +88,7 @@ TEST_F(test_character_encodings, utf8_decoding)
   utf8_char[3] = '\x00';
   retval = utf8::decode(utf8_char.begin(), utf8_char.end(), char_code);
   EXPECT_EQ(U'\U00000904', char_code);
-  EXPECT_EQ(&utf8_char[0] + 3, retval);
+  EXPECT_EQ(&utf8_char[0] + 3, &(*retval));
 
   // pau cin hau letter pa
   utf8_char[0] = '\xF0';
@@ -97,7 +97,7 @@ TEST_F(test_character_encodings, utf8_decoding)
   utf8_char[3] = '\x80';
   retval = utf8::decode(utf8_char.begin(), utf8_char.end(), char_code);
   EXPECT_EQ(U'\U00011AC0', char_code);
-  EXPECT_EQ(&utf8_char[0] + 4, retval);
+  EXPECT_EQ(&utf8_char[0] + 4, &(*retval));
 }
 
 
@@ -123,7 +123,7 @@ TEST_F(test_character_encodings, utf8_next)
   utf8_char[2] = '\x00';
   utf8_char[3] = '\x00';
   retval = utf8::next(utf8_char.begin(), utf8_char.end());
-  EXPECT_EQ(&utf8_char[0] + 1, retval);
+  EXPECT_EQ(&utf8_char[0] + 1, &(*retval));
 
   // a with macron
   utf8_char[0] = '\xC4';
@@ -131,7 +131,7 @@ TEST_F(test_character_encodings, utf8_next)
   utf8_char[2] = '\x00';
   utf8_char[3] = '\x00';
   retval = utf8::next(utf8_char.begin(), utf8_char.end());
-  EXPECT_EQ(&utf8_char[0] + 2, retval);
+  EXPECT_EQ(&utf8_char[0] + 2, &(*retval));
 
   // devanagari short a
   utf8_char[0] = '\xE0';
@@ -139,7 +139,7 @@ TEST_F(test_character_encodings, utf8_next)
   utf8_char[2] = '\x84';
   utf8_char[3] = '\x00';
   retval = utf8::next(utf8_char.begin(), utf8_char.end());
-  EXPECT_EQ(&utf8_char[0] + 3, retval);
+  EXPECT_EQ(&utf8_char[0] + 3, &(*retval));
 
   // pau cin hau letter pa
   utf8_char[0] = '\xF0';
@@ -147,7 +147,7 @@ TEST_F(test_character_encodings, utf8_next)
   utf8_char[2] = '\xAB';
   utf8_char[3] = '\x80';
   retval = utf8::next(utf8_char.begin(), utf8_char.end());
-  EXPECT_EQ(&utf8_char[0] + 4, retval);
+  EXPECT_EQ(&utf8_char[0] + 4, &(*retval));
 }
 
 
@@ -209,22 +209,22 @@ TEST_F(test_character_encodings, utf16_encoding)
 
   // a
   retval = utf16::encode(U'\U00000061', utf16_char.begin());
-  EXPECT_EQ(&utf16_char[0] + 1, retval);
+  EXPECT_EQ(&utf16_char[0] + 1, &(*retval));
   EXPECT_EQ(u'\x0061', utf16_char[0]);
 
   // a with macron
   retval = utf16::encode(U'\U00000101', utf16_char.begin());
-  EXPECT_EQ(&utf16_char[0] + 1, retval);
+  EXPECT_EQ(&utf16_char[0] + 1, &(*retval));
   EXPECT_EQ(u'\x0101', utf16_char[0]);
 
   // devanagari short a
   retval = utf16::encode(U'\U00000904', utf16_char.begin());
-  EXPECT_EQ(&utf16_char[0] + 1, retval);
+  EXPECT_EQ(&utf16_char[0] + 1, &(*retval));
   EXPECT_EQ(u'\x0904', utf16_char[0]);
 
   // pau cin hau letter pa
   retval = utf16::encode(U'\U00011AC0', utf16_char.begin());
-  EXPECT_EQ(&utf16_char[0] + 2, retval);
+  EXPECT_EQ(&utf16_char[0] + 2, &(*retval));
   EXPECT_EQ(u'\xD806', utf16_char[0]);
   EXPECT_EQ(u'\xDEC0', utf16_char[1]);
 }
@@ -241,26 +241,26 @@ TEST_F(test_character_encodings, utf16_decoding)
   utf16_char[0] = u'\x0061';
   retval = utf16::decode(utf16_char.begin(), utf16_char.end(), char_code);
   EXPECT_EQ(U'\U00000061', char_code);
-  EXPECT_EQ(&utf16_char[0] + 1, retval);
+  EXPECT_EQ(&utf16_char[0] + 1, &(*retval));
 
   // a with macron
   utf16_char[0] = u'\x0101';
   retval = utf16::decode(utf16_char.begin(), utf16_char.end(), char_code);
   EXPECT_EQ(U'\U00000101', char_code);
-  EXPECT_EQ(&utf16_char[0] + 1, retval);
+  EXPECT_EQ(&utf16_char[0] + 1, &(*retval));
 
   // devanagari short a
   utf16_char[0] = u'\x0904';
   retval = utf16::decode(utf16_char.begin(), utf16_char.end(), char_code);
   EXPECT_EQ(U'\U00000904', char_code);
-  EXPECT_EQ(&utf16_char[0] + 1, retval);
+  EXPECT_EQ(&utf16_char[0] + 1, &(*retval));
 
   // pau cin hau letter pa
   utf16_char[0] = u'\xD806';
   utf16_char[1] = u'\xDEC0';
   retval = utf16::decode(utf16_char.begin(), utf16_char.end(), char_code);
   EXPECT_EQ(U'\U00011AC0', char_code);
-  EXPECT_EQ(&utf16_char[0] + 2, retval);
+  EXPECT_EQ(&utf16_char[0] + 2, &(*retval));
 }
 
 
@@ -283,23 +283,23 @@ TEST_F(test_character_encodings, utf16_next)
   // a
   utf16_char[0] = u'\x0061';
   retval = utf16::next(utf16_char.begin(), utf16_char.end());
-  EXPECT_EQ(&utf16_char[0] + 1, retval);
+  EXPECT_EQ(&utf16_char[0] + 1, &(*retval));
 
   // a with macron
   utf16_char[0] = u'\x0101';
   retval = utf16::next(utf16_char.begin(), utf16_char.end());
-  EXPECT_EQ(&utf16_char[0] + 1, retval);
+  EXPECT_EQ(&utf16_char[0] + 1, &(*retval));
 
   // devanagari short a
   utf16_char[0] = u'\x0904';
   retval = utf16::next(utf16_char.begin(), utf16_char.end());
-  EXPECT_EQ(&utf16_char[0] + 1, retval);
+  EXPECT_EQ(&utf16_char[0] + 1, &(*retval));
 
   // pau cin hau letter pa
   utf16_char[0] = u'\xD806';
   utf16_char[1] = u'\xDEC0';
   retval = utf16::next(utf16_char.begin(), utf16_char.end());
-  EXPECT_EQ(&utf16_char[0] + 2, retval);
+  EXPECT_EQ(&utf16_char[0] + 2, &(*retval));
 }
 
 
@@ -361,22 +361,22 @@ TEST_F(test_character_encodings, utf32_encoding)
 
   // a
   retval = utf32::encode(U'\U00000061', utf32_char.begin());
-  EXPECT_EQ(&utf32_char[0] + 1, retval);
+  EXPECT_EQ(&utf32_char[0] + 1, &(*retval));
   EXPECT_EQ(U'\U00000061', utf32_char[0]);
 
   // a with macron
   retval = utf32::encode(U'\U00000101', utf32_char.begin());
-  EXPECT_EQ(&utf32_char[0] + 1, retval);
+  EXPECT_EQ(&utf32_char[0] + 1, &(*retval));
   EXPECT_EQ(U'\U00000101', utf32_char[0]);
 
   // devanagari short a
   retval = utf32::encode(U'\U00000904', utf32_char.begin());
-  EXPECT_EQ(&utf32_char[0] + 1, retval);
+  EXPECT_EQ(&utf32_char[0] + 1, &(*retval));
   EXPECT_EQ(U'\U00000904', utf32_char[0]);
 
   // pau cin hau letter pa
   retval = utf32::encode(U'\U00011AC0', utf32_char.begin());
-  EXPECT_EQ(&utf32_char[0] + 1, retval);
+  EXPECT_EQ(&utf32_char[0] + 1, &(*retval));
   EXPECT_EQ(U'\U00011AC0', utf32_char[0]);
 }
 
@@ -392,25 +392,25 @@ TEST_F(test_character_encodings, utf32_decoding)
   utf32_char[0] = U'\U00000061';
   retval = utf32::decode(utf32_char.begin(), utf32_char.end(), char_code);
   EXPECT_EQ(U'\U00000061', char_code);
-  EXPECT_EQ(&utf32_char[0] + 1, retval);
+  EXPECT_EQ(&utf32_char[0] + 1, &(*retval));
 
   // a with macron
   utf32_char[0] = U'\U00000101';
   retval = utf32::decode(utf32_char.begin(), utf32_char.end(), char_code);
   EXPECT_EQ(U'\U00000101', char_code);
-  EXPECT_EQ(&utf32_char[0] + 1, retval);
+  EXPECT_EQ(&utf32_char[0] + 1, &(*retval));
 
   // devanagari short a
   utf32_char[0] = U'\U00000904';
   retval = utf32::decode(utf32_char.begin(), utf32_char.end(), char_code);
   EXPECT_EQ(U'\U00000904', char_code);
-  EXPECT_EQ(&utf32_char[0] + 1, retval);
+  EXPECT_EQ(&utf32_char[0] + 1, &(*retval));
 
   // pau cin hau letter pa
   utf32_char[0] = U'\U00011AC0';
   retval = utf32::decode(utf32_char.begin(), utf32_char.end(), char_code);
   EXPECT_EQ(U'\U00011AC0', char_code);
-  EXPECT_EQ(&utf32_char[0] + 1, retval);
+  EXPECT_EQ(&utf32_char[0] + 1, &(*retval));
 }
 
 
@@ -433,22 +433,22 @@ TEST_F(test_character_encodings, utf32_next)
   // a
   utf32_char[0] = U'\U00000061';
   retval = utf32::next(utf32_char.begin(), utf32_char.end());
-  EXPECT_EQ(&utf32_char[0] + 1, retval);
+  EXPECT_EQ(&utf32_char[0] + 1, &(*retval));
 
   // a with macron
   utf32_char[0] = U'\U00000101';
   retval = utf32::next(utf32_char.begin(), utf32_char.end());
-  EXPECT_EQ(&utf32_char[0] + 1, retval);
+  EXPECT_EQ(&utf32_char[0] + 1, &(*retval));
 
   // devanagari short a
   utf32_char[0] = U'\U00000904';
   retval = utf32::next(utf32_char.begin(), utf32_char.end());
-  EXPECT_EQ(&utf32_char[0] + 1, retval);
+  EXPECT_EQ(&utf32_char[0] + 1, &(*retval));
 
   // pau cin hau letter pa
   utf32_char[0] = U'\U00011AC0';
   retval = utf32::next(utf32_char.begin(), utf32_char.end());
-  EXPECT_EQ(&utf32_char[0] + 1, retval);
+  EXPECT_EQ(&utf32_char[0] + 1, &(*retval));
 }
 
 
@@ -510,15 +510,15 @@ TEST_F(test_character_encodings, wide_encoding)
 
   // a
   retval = wide::encode(U'\U00000061', wide_char.begin());
-  EXPECT_EQ(&wide_char[0] + 1, retval);
+  EXPECT_EQ(&wide_char[0] + 1, &(*retval));
   EXPECT_EQ(0x0061, wide_char[0]);
 
   retval = wide::encode(U'\U00000101', wide_char.begin());
-  EXPECT_EQ(&wide_char[0] + 1, retval);
+  EXPECT_EQ(&wide_char[0] + 1, &(*retval));
   EXPECT_EQ(0x0101, wide_char[0]);
 
   retval = wide::encode(U'\U00000904', wide_char.begin());
-  EXPECT_EQ(&wide_char[0] + 1, retval);
+  EXPECT_EQ(&wide_char[0] + 1, &(*retval));
   EXPECT_EQ(0x0904, wide_char[0]);
 }
 
@@ -534,19 +534,19 @@ TEST_F(test_character_encodings, wide_decoding)
   wide_char[0] = 0x0061;
   retval = wide::decode(wide_char.begin(), wide_char.end(), char_code);
   EXPECT_EQ(U'\U00000061', char_code);
-  EXPECT_EQ(&wide_char[0] + 1, retval);
+  EXPECT_EQ(&wide_char[0] + 1, &(*retval));
 
   // a with macron
   wide_char[0] = 0x0101;
   retval = wide::decode(wide_char.begin(), wide_char.end(), char_code);
   EXPECT_EQ(U'\U00000101', char_code);
-  EXPECT_EQ(&wide_char[0] + 1, retval);
+  EXPECT_EQ(&wide_char[0] + 1, &(*retval));
 
   // devanagari short a
   wide_char[0] = 0x0904;
   retval = wide::decode(wide_char.begin(), wide_char.end(), char_code);
   EXPECT_EQ(U'\U00000904', char_code);
-  EXPECT_EQ(&wide_char[0] + 1, retval);
+  EXPECT_EQ(&wide_char[0] + 1, &(*retval));
 }
 
 
@@ -568,17 +568,17 @@ TEST_F(test_character_encodings, wide_next)
   // a
   wide_char[0] = u'\x0061';
   retval = wide::next(wide_char.begin(), wide_char.end());
-  EXPECT_EQ(&wide_char[0] + 1, retval);
+  EXPECT_EQ(&wide_char[0] + 1, &(*retval));
 
   // a with macron
   wide_char[0] = u'\x0101';
   retval = wide::next(wide_char.begin(), wide_char.end());
-  EXPECT_EQ(&wide_char[0] + 1, retval);
+  EXPECT_EQ(&wide_char[0] + 1, &(*retval));
 
   // devanagari short a
   wide_char[0] = u'\x0904';
   retval = wide::next(wide_char.begin(), wide_char.end());
-  EXPECT_EQ(&wide_char[0] + 1, retval);
+  EXPECT_EQ(&wide_char[0] + 1, &(*retval));
 }
 
 

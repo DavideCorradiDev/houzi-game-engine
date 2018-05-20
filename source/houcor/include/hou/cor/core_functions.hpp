@@ -33,8 +33,13 @@ namespace hou
  */
 template <typename T,
   typename Enable = std::enable_if_t<std::is_floating_point<T>::value>>
-HOU_COR_API bool close(
-  T lhs, T rhs, T acc = std::numeric_limits<T>::epsilon()) noexcept;
+bool close(T lhs, T rhs, T acc = std::numeric_limits<T>::epsilon()) noexcept;
+
+extern template HOU_COR_API bool close<float, void>(
+  float, float, float) noexcept;
+
+extern template HOU_COR_API bool close<double, void>(
+  double, double, double) noexcept;
 
 /** Checks if the elements of two containers are close with the given
  * accuracy.
