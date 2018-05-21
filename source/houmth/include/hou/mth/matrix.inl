@@ -431,6 +431,18 @@ constexpr matrix<T, Rows, Cols> operator-(
 
 
 template <typename T, size_t Rows, size_t Cols>
+constexpr matrix<T, Rows, Cols> operator-(matrix<T, Rows, Cols> m) noexcept
+{
+  for(size_t i = 0; i < m.size(); ++i)
+  {
+    m.m_elements[i] = -m.m_elements[i];
+  }
+  return m;
+}
+
+
+
+template <typename T, size_t Rows, size_t Cols>
 constexpr matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator*=(
   T rhs) noexcept
 {
@@ -747,6 +759,33 @@ constexpr T dot(
     result += lhs(i) * rhs(i);
   }
   return result;
+}
+
+
+
+template <typename T, size_t Rows, size_t Cols>
+bool operator==(
+  const matrix<T, Rows, Cols>& lhs, const matrix<T, Rows, Cols>& rhs) noexcept
+{
+  return lhs.m_elements == rhs.m_elements;
+}
+
+
+
+template <typename T, size_t Rows, size_t Cols>
+bool operator!=(
+  const matrix<T, Rows, Cols>& lhs, const matrix<T, Rows, Cols>& rhs) noexcept
+{
+  return lhs.m_elements != rhs.m_elements;
+}
+
+
+
+template <typename T, size_t Rows, size_t Cols>
+bool close(const matrix<T, Rows, Cols>& lhs, const matrix<T, Rows, Cols>& rhs,
+  T acc) noexcept
+{
+  return close(lhs.m_elements, rhs.m_elements, acc);
 }
 
 
