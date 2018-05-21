@@ -188,6 +188,8 @@ transform2<T> inverse(transform2<T> t);
 
 /** Checks if two transforms are equal.
  *
+ * \tparam T the scalar type.
+ *
  * \param lhs the left operand of the comparison.
  *
  * \param rhs the right operand of the comparison.
@@ -199,6 +201,8 @@ bool operator==(const transform2<T>& lhs, const transform2<T>& rhs) noexcept;
 
 /** Checks if two transforms are not equal.
  *
+ * \tparam T the scalar type.
+ *
  * \param lhs the left operand of the comparison.
  *
  * \param rhs the right operand of the comparison.
@@ -209,6 +213,8 @@ template <typename T>
 bool operator!=(const transform2<T>& lhs, const transform2<T>& rhs) noexcept;
 
 /** Checks if two transforms are equal with the specified accuracy.
+ *
+ * \tparam T the scalar type.
  *
  * \param lhs the left operand of the comparison.
  *

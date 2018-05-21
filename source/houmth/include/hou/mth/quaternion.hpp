@@ -373,6 +373,8 @@ quaternion<T> normalized(quaternion<T> q);
 
 /** Checks if two quaternions are equal.
  *
+ * \tparam T the scalar type.
+ *
  * \param lhs the left operator.
  *
  * \param rhs the right operator.
@@ -384,6 +386,8 @@ bool operator==(const quaternion<T>& lhs, const quaternion<T>& rhs) noexcept;
 
 /** Checks if two quaternions are not equal.
  *
+ * \tparam T the scalar type.
+ *
  * \param lhs the left operator.
  *
  * \param rhs the right operator.
@@ -394,6 +398,8 @@ template <typename T>
 bool operator!=(const quaternion<T>& lhs, const quaternion<T>& rhs) noexcept;
 
 /** Checks if two quaternions are equal with the specified accuracy.
+ *
+ * \tparam T the scalar type.
  *
  * \param lhs the left operator.
  *

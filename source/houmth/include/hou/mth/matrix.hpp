@@ -704,6 +704,12 @@ constexpr matrix<T, Rows, Cols> operator-(
  * All elements of the resulting matrix are the opposite of the corresponding
  * original elements.
  *
+ * \tparam T the scalar type.
+ *
+ * \tparam Rows the number of rows.
+ *
+ * \tparam Cols the number of columns.
+ *
  * \param m the matrix.
  *
  * \return the opposite matrix.
@@ -1009,6 +1015,12 @@ constexpr T dot(
 
 /** Checks if two matrices are equal.
  *
+ * \tparam T the scalar type.
+ *
+ * \tparam Rows the number of rows.
+ *
+ * \tparam Cols the number of columns.
+ *
  * \param lhs the left operand.
  *
  * \param rhs the right operand.
@@ -1021,6 +1033,12 @@ bool operator==(
 
 /** Checks if two matrices are not equal.
  *
+ * \tparam T the scalar type.
+ *
+ * \tparam Rows the number of rows.
+ *
+ * \tparam Cols the number of columns.
+ *
  * \param lhs the left operand.
  *
  * \param rhs the right operand.
@@ -1032,6 +1050,12 @@ bool operator!=(
   const matrix<T, Rows, Cols>& lhs, const matrix<T, Rows, Cols>& rhs) noexcept;
 
 /** Checks if two matrices are equal with the specified accuracy.
+ *
+ * \tparam T the scalar type.
+ *
+ * \tparam Rows the number of rows.
+ *
+ * \tparam Cols the number of columns.
  *
  * \param lhs the left operand.
  *
