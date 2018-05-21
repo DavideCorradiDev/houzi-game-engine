@@ -77,7 +77,7 @@ TEST_F(test_rotation2, constructor_matrix)
 
 TEST_F(test_rotation2_death_test, constructor_matrix_failure_invalid_matrix)
 {
-  EXPECT_PRECOND_ERROR(rot2f(mat2x2f::zero()));
+  EXPECT_PRECOND_ERROR(rot2f r(mat2x2f::zero()));
 }
 
 

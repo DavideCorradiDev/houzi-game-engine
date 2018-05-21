@@ -135,37 +135,7 @@ transform3<T>::transform3(const mat3x3<T>& r, const vec3<T>& t) noexcept
 
 
 
-template <typename T>
-transform3<T> operator*(transform3<T> lhs, const transform3<T>& rhs) noexcept
-{
-  return lhs *= rhs;
-}
-
-
-
-template <typename T>
-transform3<T> inverse(transform3<T> t)
-{
-  return t.invert();
-}
-
-
-
-template <typename T>
-std::ostream& operator<<(std::ostream& os, const transform3<T>& t)
-{
-  return os << t.to_mat4x4();
-}
-
-
-
-#define HOU_INSTANTIATE(T)                                                     \
-  template class transform3<T>;                                                \
-  template transform3<T> operator*<T>(transform3<T>, const transform3<T>&);    \
-  template transform3<T> inverse<T>(transform3<T>);                            \
-  template std::ostream& operator<<<T>(std::ostream&, const transform3<T>&)
-
-HOU_INSTANTIATE(float);
-HOU_INSTANTIATE(double);
+template class transform3<float>;
+template class transform3<double>;
 
 }  // namespace hou

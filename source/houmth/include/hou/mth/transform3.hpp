@@ -96,10 +96,7 @@ public:
    */
   template <typename U,
     typename Enable = std::enable_if_t<std::is_convertible<U, T>::value>>
-  HOU_MTH_API transform3(const transform3<U>& other) noexcept
-    : m_mat(static_cast<mat3x3<T>>(other.m_mat))
-    , m_vec(static_cast<vec3<T>>(other.m_vec))
-  {}
+  transform3(const transform3<U>& other) noexcept;
 
   /** Builds a homogeneous transformation matrix corresponding to the
    * transform.
@@ -147,8 +144,8 @@ public:
    *
    * \return the result of the check.
    */
-  friend constexpr operator==(
-    const transform3& lhs, const transform3& rhs) noexcept
+  friend bool operator==(
+    const transform3<T>& lhs, const transform3<T>& rhs) noexcept
   {
     return lhs.m_mat == rhs.m_mat && lhs.m_vec == rhs.m_vec;
   }
@@ -161,33 +158,15 @@ public:
    *
    * \return the result of the check.
    */
-  friend constexpr operator!=(
-    const transform3& lhs, const transform3& rhs) noexcept
+  friend bool operator!=(
+    const transform3<T>& lhs, const transform3<T>& rhs) noexcept
   {
     return !(lhs == rhs);
   }
 
-private:
-  // Defining this alias to be used in the close function is required due to
-  // a compiler bug in MSVC.
-  static constexpr T default_acc = std::numeric_limits<T>::epsilon();
-
-public:
-  /** Checks if two transforms are equal with the specified accuracy.
-   *
-   * \param lhs the left operand of the comparison.
-   *
-   * \param rhs the right operand of the comparison.
-   *
-   * \param acc the accuracy.
-   *
-   * \return the result of the check.
-   */
-  friend constexpr bool close(
-    const transform3& lhs, const transform3& rhs, T acc = default_acc) noexcept
-  {
-    return close(lhs.m_mat, rhs.m_mat, acc) && close(lhs.m_vec, rhs.m_vec, acc);
-  }
+  template <typename U>
+  friend bool close(
+    const transform3<U>& lhs, const transform3<U>& rhs, U acc) noexcept;
 
 private:
   transform3(const mat3x3<T>& r, const vec3<T>& t) noexcept;
@@ -196,6 +175,23 @@ private:
   mat3x3<T> m_mat;
   vec3<T> m_vec;
 };
+
+/** Checks if two transforms are equal with the specified accuracy.
+ *
+ * \param lhs the left operand of the comparison.
+ *
+ * \param rhs the right operand of the comparison.
+ *
+ * \param acc the accuracy.
+ *
+ * \return the result of the check.
+ */
+template <typename T>
+bool close(const transform3<T>& lhs, const transform3<T>& rhs,
+  T acc = std::numeric_limits<T>::epsilon()) noexcept
+{
+  return close(lhs.m_mat, rhs.m_mat, acc) && close(lhs.m_vec, rhs.m_vec, acc);
+}
 
 /** Combines two transforms.
  *
@@ -208,8 +204,7 @@ private:
  * \return the combined transform.
  */
 template <typename T>
-HOU_MTH_API transform3<T> operator*(
-  transform3<T> lhs, const transform3<T>& rhs) noexcept;
+transform3<T> operator*(transform3<T> lhs, const transform3<T>& rhs) noexcept;
 
 /** Computes the inverse of a transform.
  *
@@ -220,7 +215,7 @@ HOU_MTH_API transform3<T> operator*(
  * \return the inverse transform.
  */
 template <typename T>
-HOU_MTH_API transform3<T> inverse(transform3<T> t);
+transform3<T> inverse(transform3<T> t);
 
 /** Writes the object into a stream.
  *
@@ -233,8 +228,15 @@ HOU_MTH_API transform3<T> inverse(transform3<T> t);
  * \return a reference to the stream.
  */
 template <typename T>
-HOU_MTH_API std::ostream& operator<<(std::ostream& os, const transform3<T>& t);
+std::ostream& operator<<(std::ostream& os, const transform3<T>& t);
+
+
+
+extern template class HOU_MTH_API transform3<float>;
+extern template class HOU_MTH_API transform3<double>;
 
 }  // namespace hou
+
+#include "hou/mth/transform3.inl"
 
 #endif

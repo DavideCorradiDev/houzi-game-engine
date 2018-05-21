@@ -173,7 +173,7 @@ inline std::string get_exception_msg_regex(const std::exception& ex)
   {                                                                            \
     for(size_t macro_i = 0; macro_i < size; ++macro_i)                         \
     {                                                                          \
-      if(!close(lhs[macro_i], rhs[macro_i], prec))                             \
+      if(!::hou::close(lhs[macro_i], rhs[macro_i], prec))                      \
       {                                                                        \
         std::stringstream stream;                                              \
         stream << "      Expected: " << #lhs << "[" << macro_i << "]\n"        \
@@ -200,7 +200,7 @@ inline std::string get_exception_msg_regex(const std::exception& ex)
 #define EXPECT_CLOSE(lhs, rhs, prec)                                           \
   do                                                                           \
   {                                                                            \
-    if(!close(lhs, rhs, prec))                                                 \
+    if(!::hou::close(lhs, rhs, prec))                                          \
     {                                                                          \
       std::stringstream stream;                                                \
       stream << "      Expected: " << #lhs << "\n"                             \

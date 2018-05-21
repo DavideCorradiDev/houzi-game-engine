@@ -661,8 +661,8 @@ public:
    *
    * \return the result of the check.
    */
-  friend constexpr bool operator==(
-    const matrix& lhs, const matrix& rhs) noexcept
+  friend bool operator==(
+    const matrix<T, Rows, Cols>& lhs, const matrix<T, Rows, Cols>& rhs) noexcept
   {
     return lhs.m_elements == rhs.m_elements;
   }
@@ -675,38 +675,37 @@ public:
    *
    * \return the result of the check.
    */
-  friend constexpr bool operator!=(
-    const matrix& lhs, const matrix& rhs) noexcept
+  friend bool operator!=(
+    const matrix<T, Rows, Cols>& lhs, const matrix<T, Rows, Cols>& rhs) noexcept
   {
     return lhs.m_elements != rhs.m_elements;
   }
 
-private:
-  // Defining this alias to be used in the close function is required due to
-  // a compiler bug in MSVC.
-  static constexpr T default_acc = std::numeric_limits<T>::epsilon();
-
-public:
-  /** Checks if two matrices are equal with the specified accuracy.
-   *
-   * \param lhs the left operand.
-   *
-   * \param rhs the right operand.
-   *
-   * \param acc the accuracy.
-   *
-   * \return the result of the check.
-   */
-  friend constexpr bool close(const matrix<T, Rows, Cols>& lhs,
-    const matrix<T, Rows, Cols>& rhs, T acc = default_acc) noexcept
-  {
-    return close(lhs.m_elements, rhs.m_elements, acc);
-  }
+  template <typename U, size_t R, size_t C>
+  friend bool close(
+    const matrix<U, R, C>& lhs, const matrix<U, R, C>& rhs, U acc) noexcept;
 
 private:
   data_type m_elements;
 };
 HOU_PRAGMA_PACK_POP()
+
+/** Checks if two matrices are equal with the specified accuracy.
+ *
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \param acc the accuracy.
+ *
+ * \return the result of the check.
+ */
+template <typename T, size_t Rows, size_t Cols>
+bool close(const matrix<T, Rows, Cols>& lhs, const matrix<T, Rows, Cols>& rhs,
+  T acc = std::numeric_limits<T>::epsilon()) noexcept
+{
+  return close(lhs.m_elements, rhs.m_elements, acc);
+}
 
 /** Sums two matrices.
  *
