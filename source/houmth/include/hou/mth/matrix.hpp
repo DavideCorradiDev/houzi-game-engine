@@ -1073,7 +1073,6 @@ std::ostream& operator<<(std::ostream& os, const matrix<T, Rows, Cols>& m);
  *
  * \tparam Cols the number of columns in the matrix.
  */
-template <>
 template <typename T, typename U, size_t Rows, size_t Cols>
 class check_matching_sign<matrix<T, Rows, Cols>, matrix<U, Rows, Cols>>
 {
@@ -1119,10 +1118,9 @@ namespace std
  *
  * \tparam Cols the number of columns in the matrix.
  */
-template <>
 template <typename T, size_t Rows, size_t Cols>
-struct is_signed<hou::matrix<T, Rows, Cols>>
-  : public std::integral_constant<bool, std::is_signed<T>::value>
+struct is_signed<::hou::matrix<T, Rows, Cols>>
+  : public integral_constant<bool, is_signed<T>::value>
 {};
 
 }  // namespace std
