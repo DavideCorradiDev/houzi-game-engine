@@ -142,33 +142,13 @@ public:
    */
   vec2<T> transform_point(const vec2<T>& point) const noexcept;
 
-  /** Checks if two transforms are equal.
-   *
-   * \param lhs the left operand of the comparison.
-   *
-   * \param rhs the right operand of the comparison.
-   *
-   * \return the result of the check.
-   */
+  template <typename U>
   friend bool operator==(
-    const transform2<T>& lhs, const transform2<T>& rhs) noexcept
-  {
-    return lhs.m_mat == rhs.m_mat && lhs.m_vec == rhs.m_vec;
-  }
+    const transform2<U>& lhs, const transform2<U>& rhs) noexcept;
 
-  /** Checks if two transforms are not equal.
-   *
-   * \param lhs the left operand of the comparison.
-   *
-   * \param rhs the right operand of the comparison.
-   *
-   * \return the result of the check.
-   */
+  template <typename U>
   friend bool operator!=(
-    const transform2<T>& lhs, const transform2<T>& rhs) noexcept
-  {
-    return !(lhs == rhs);
-  }
+    const transform2<U>& lhs, const transform2<U>& rhs) noexcept;
 
   template <typename U>
   friend bool close(
@@ -181,23 +161,6 @@ private:
   mat2x2<T> m_mat;
   vec2<T> m_vec;
 };
-
-/** Checks if two transforms are equal with the specified accuracy.
- *
- * \param lhs the left operand of the comparison.
- *
- * \param rhs the right operand of the comparison.
- *
- * \param acc the accuracy.
- *
- * \return the result of the check.
- */
-template <typename T>
-bool close(const transform2<T>& lhs, const transform2<T>& rhs,
-  T acc = std::numeric_limits<T>::epsilon()) noexcept
-{
-  return close(lhs.m_mat, rhs.m_mat, acc) && close(lhs.m_vec, rhs.m_vec, acc);
-}
 
 /** Combines two transforms.
  *
@@ -222,6 +185,42 @@ transform2<T> operator*(transform2<T> lhs, const transform2<T>& rhs) noexcept;
  */
 template <typename T>
 transform2<T> inverse(transform2<T> t);
+
+/** Checks if two transforms are equal.
+ *
+ * \param lhs the left operand of the comparison.
+ *
+ * \param rhs the right operand of the comparison.
+ *
+ * \return the result of the check.
+ */
+template <typename T>
+bool operator==(const transform2<T>& lhs, const transform2<T>& rhs) noexcept;
+
+/** Checks if two transforms are not equal.
+ *
+ * \param lhs the left operand of the comparison.
+ *
+ * \param rhs the right operand of the comparison.
+ *
+ * \return the result of the check.
+ */
+template <typename T>
+bool operator!=(const transform2<T>& lhs, const transform2<T>& rhs) noexcept;
+
+/** Checks if two transforms are equal with the specified accuracy.
+ *
+ * \param lhs the left operand of the comparison.
+ *
+ * \param rhs the right operand of the comparison.
+ *
+ * \param acc the accuracy.
+ *
+ * \return the result of the check.
+ */
+template <typename T>
+bool close(const transform2<T>& lhs, const transform2<T>& rhs,
+  T acc = std::numeric_limits<T>::epsilon()) noexcept;
 
 /** Writes the object into a stream.
  *
