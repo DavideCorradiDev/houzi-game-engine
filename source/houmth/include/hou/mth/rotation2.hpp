@@ -70,7 +70,9 @@ public:
    */
   template <typename U,
     typename Enable = std::enable_if_t<std::is_convertible<U, T>::value>>
-  HOU_MTH_API rotation2(const rotation2<U>& other) noexcept;
+  HOU_MTH_API rotation2(const rotation2<U>& other) noexcept
+    : m_angle(static_cast<T>(other.m_angle))
+  {}
 
   /** Returns the rotation angle.
    *

@@ -102,7 +102,10 @@ public:
    */
   template <typename U,
     typename Enable = std::enable_if_t<std::is_convertible<U, T>::value>>
-  HOU_MTH_API transform2(const transform2<U>& other) noexcept;
+  HOU_MTH_API transform2(const transform2<U>& other) noexcept
+    : m_mat(static_cast<mat2x2<T>>(other.m_mat))
+    , m_vec(static_cast<vec2<T>>(other.m_vec))
+  {}
 
   /** Builds a homogeneous transformation matrix corresponding to the
    * transform.
@@ -181,9 +184,10 @@ public:
    * \return the result of the check.
    */
   friend constexpr bool close(const transform2& lhs, const transform2& rhs,
-    T acc = std::numeric_limits<T>::epsilon()) noexcept
+    T acc =  std::numeric_limits<T>::epsilon()) noexcept
   {
-    return close(lhs.m_mat, rhs.m_mat, acc) && close(lhs.m_vec, rhs.m_vec, acc);
+    return close(lhs.m_mat, rhs.m_mat, acc)
+      && close(lhs.m_vec, rhs.m_vec, acc);
   }
 
 private:

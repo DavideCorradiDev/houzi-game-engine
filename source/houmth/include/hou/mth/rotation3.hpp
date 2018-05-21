@@ -98,7 +98,6 @@ public:
    */
   explicit rotation3(const mat3x3<T>& m);
 
-
   /** Creates a rotation from a rotation with different scalar type.
    *
    * \tparam U the other scalar type.
@@ -107,8 +106,9 @@ public:
    */
   template <typename U,
     typename Enable = std::enable_if_t<std::is_convertible<U, T>::value>>
-  HOU_MTH_API rotation3(const rotation3<U>& other) noexcept;
-
+  HOU_MTH_API rotation3(const rotation3<U>& other) noexcept
+    : m_quaternion(normalized(static_cast<quaternion<T>>(other.m_quaternion)))
+  {}
 
   /** Returns a quaternion representing the rotation.
    *

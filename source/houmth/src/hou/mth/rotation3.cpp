@@ -191,14 +191,6 @@ rotation3<T>::rotation3(const mat3x3<T>& m)
 
 
 template <typename T>
-template <typename U, typename Enable>
-rotation3<T>::rotation3(const rotation3<U>& other) noexcept
-  : m_quaternion(normalized(static_cast<quaternion<T>>(other.m_quaternion)))
-{}
-
-
-
-template <typename T>
 const quaternion<T>& rotation3<T>::get_quaternion() const noexcept
 {
   return m_quaternion;
@@ -300,7 +292,5 @@ std::ostream& operator<<(std::ostream& os, const rotation3<T>& r)
 
 HOU_INSTANTIATE(float);
 HOU_INSTANTIATE(double);
-template rotation3<float>::rotation3<double>(const rotation3<double>&);
-template rotation3<double>::rotation3<float>(const rotation3<float>&);
 
 }  // namespace hou

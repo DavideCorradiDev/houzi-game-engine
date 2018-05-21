@@ -40,15 +40,6 @@ quaternion<T>::quaternion(T x, T y, T z, T w) noexcept
 
 
 template <typename T>
-template <typename U>
-quaternion<T>::quaternion(const quaternion<U>& other) noexcept
-  : quaternion(static_cast<T>(other.x()), static_cast<T>(other.y()),
-      static_cast<T>(other.z()), static_cast<T>(other.w()))
-{}
-
-
-
-template <typename T>
 T quaternion<T>::x() const noexcept
 {
   return m_elements[0];
@@ -303,9 +294,5 @@ std::ostream& operator<<(std::ostream& os, const quaternion<T>& q)
 
 HOU_INSTANTIATE(float);
 HOU_INSTANTIATE(double);
-template quaternion<float>::quaternion<double>(
-  const quaternion<double>&) noexcept;
-template quaternion<double>::quaternion<float>(
-  const quaternion<float>&) noexcept;
 
 }  // namespace hou

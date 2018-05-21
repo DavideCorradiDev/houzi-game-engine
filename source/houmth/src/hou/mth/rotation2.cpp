@@ -99,14 +99,6 @@ rotation2<T>::rotation2(const mat2x2<T>& m)
 
 
 template <typename T>
-template <typename U, typename Enable>
-rotation2<T>::rotation2(const rotation2<U>& other) noexcept
-  : m_angle(static_cast<T>(other.m_angle))
-{}
-
-
-
-template <typename T>
 T rotation2<T>::get_angle() const noexcept
 {
   return m_angle;
@@ -209,7 +201,5 @@ std::ostream& operator<<(std::ostream& os, const rotation2<T>& r)
 
 HOU_INSTANTIATE(float);
 HOU_INSTANTIATE(double);
-template rotation2<float>::rotation2<double>(const rotation2<double>&);
-template rotation2<double>::rotation2<float>(const rotation2<float>&);
 
 }  // namespace hou

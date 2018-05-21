@@ -68,8 +68,12 @@ public:
    *
    * \param other the matrix to be copied.
    */
-  template <typename U>
-  HOU_MTH_API quaternion(const quaternion<U>& other) noexcept;
+  template <typename U,
+    typename Enable = std::enable_if_t<std::is_convertible<U, T>::value>>
+  HOU_MTH_API quaternion(const quaternion<U>& other) noexcept
+    : quaternion(static_cast<T>(other.x()), static_cast<T>(other.y()),
+        static_cast<T>(other.z()), static_cast<T>(other.w()))
+  {}
 
   /** Retrieves a copy of the first element of the vector part.
    *
@@ -289,7 +293,7 @@ public:
    * \return the result of the check.
    */
   friend constexpr bool close(const quaternion& lhs, const quaternion& rhs,
-    T acc = std::numeric_limits<T>::epsilon()) noexcept
+    T acc =  std::numeric_limits<T>::epsilon()) noexcept
   {
     return close(lhs.m_elements, rhs.m_elements, acc);
   }

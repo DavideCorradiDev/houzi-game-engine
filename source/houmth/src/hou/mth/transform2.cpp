@@ -77,15 +77,6 @@ transform2<T>::transform2() noexcept
 
 
 template <typename T>
-template <typename U, typename Enable>
-transform2<T>::transform2(const transform2<U>& other) noexcept
-  : m_mat(static_cast<mat2x2<T>>(other.m_mat))
-  , m_vec(static_cast<vec2<T>>(other.m_vec))
-{}
-
-
-
-template <typename T>
 mat4x4<T> transform2<T>::to_mat4x4() const noexcept
 {
   // clang-format off
@@ -175,7 +166,5 @@ std::ostream& operator<<(std::ostream& os, const transform2<T>& t)
 
 HOU_INSTANTIATE(float);
 HOU_INSTANTIATE(double);
-template transform2<float>::transform2<double>(const transform2<double>&);
-template transform2<double>::transform2<float>(const transform2<float>&);
 
 }  // namespace hou

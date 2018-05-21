@@ -78,15 +78,6 @@ transform3<T>::transform3() noexcept
 
 
 template <typename T>
-template <typename U, typename Enable>
-transform3<T>::transform3(const transform3<U>& other) noexcept
-  : m_mat(static_cast<mat3x3<T>>(other.m_mat))
-  , m_vec(static_cast<vec3<T>>(other.m_vec))
-{}
-
-
-
-template <typename T>
 mat4x4<T> transform3<T>::to_mat4x4() const noexcept
 {
   // clang-format off
@@ -176,7 +167,5 @@ std::ostream& operator<<(std::ostream& os, const transform3<T>& t)
 
 HOU_INSTANTIATE(float);
 HOU_INSTANTIATE(double);
-template transform3<float>::transform3<double>(const transform3<double>&);
-template transform3<double>::transform3<float>(const transform3<float>&);
 
 }  // namespace hou

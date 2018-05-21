@@ -693,7 +693,7 @@ public:
    */
   friend constexpr bool close(const matrix<T, Rows, Cols>& lhs,
     const matrix<T, Rows, Cols>& rhs,
-    T acc = std::numeric_limits<T>::epsilon()) noexcept
+    T acc =  std::numeric_limits<T>::epsilon()) noexcept
   {
     return close(lhs.m_elements, rhs.m_elements, acc);
   }
