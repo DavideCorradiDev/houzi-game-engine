@@ -251,33 +251,13 @@ public:
     return lhs /= rhs;
   }
 
-  /** Checks if two quaternions are equal.
-   *
-   * \param lhs the left operator.
-   *
-   * \param rhs the right operator.
-   *
-   * \return the result of the check.
-   */
+  template <typename U>
   friend bool operator==(
-    const quaternion<T>& lhs, const quaternion<T>& rhs) noexcept
-  {
-    return lhs.m_elements == rhs.m_elements;
-  }
+    const quaternion<U>& lhs, const quaternion<U>& rhs) noexcept;
 
-  /** Checks if two quaternions are not equal.
-   *
-   * \param lhs the left operator.
-   *
-   * \param rhs the right operator.
-   *
-   * \return the result of the check.
-   */
+  template <typename U>
   friend bool operator!=(
-    const quaternion<T>& lhs, const quaternion<T>& rhs) noexcept
-  {
-    return lhs.m_elements != rhs.m_elements;
-  }
+    const quaternion<U>& lhs, const quaternion<U>& rhs) noexcept;
 
   template <typename U>
   friend bool close(
@@ -286,23 +266,6 @@ public:
 private:
   std::array<T, 4u> m_elements;
 };
-
-/** Checks if two quaternions are equal with the specified accuracy.
- *
- * \param lhs the left operator.
- *
- * \param rhs the right operator.
- *
- * \param acc the accuracy.
- *
- * \return the result of the check.
- */
-template <typename T>
-bool close(const quaternion<T>& lhs, const quaternion<T>& rhs,
-  T acc = std::numeric_limits<T>::epsilon()) noexcept
-{
-  return close(lhs.m_elements, rhs.m_elements, acc);
-}
 
 /** Sums two quaternions.
  *
@@ -407,6 +370,42 @@ T norm(const quaternion<T>& q) noexcept;
  */
 template <typename T>
 quaternion<T> normalized(quaternion<T> q);
+
+/** Checks if two quaternions are equal.
+ *
+ * \param lhs the left operator.
+ *
+ * \param rhs the right operator.
+ *
+ * \return the result of the check.
+ */
+template <typename T>
+bool operator==(const quaternion<T>& lhs, const quaternion<T>& rhs) noexcept;
+
+/** Checks if two quaternions are not equal.
+ *
+ * \param lhs the left operator.
+ *
+ * \param rhs the right operator.
+ *
+ * \return the result of the check.
+ */
+template <typename T>
+bool operator!=(const quaternion<T>& lhs, const quaternion<T>& rhs) noexcept;
+
+/** Checks if two quaternions are equal with the specified accuracy.
+ *
+ * \param lhs the left operator.
+ *
+ * \param rhs the right operator.
+ *
+ * \param acc the accuracy.
+ *
+ * \return the result of the check.
+ */
+template <typename T>
+bool close(const quaternion<T>& lhs, const quaternion<T>& rhs,
+  T acc = std::numeric_limits<T>::epsilon()) noexcept;
 
 /** Writes the object into a stream.
  *

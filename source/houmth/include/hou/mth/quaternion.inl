@@ -77,6 +77,30 @@ quaternion<T> normalized(quaternion<T> q)
 
 
 template <typename T>
+bool operator==(const quaternion<T>& lhs, const quaternion<T>& rhs) noexcept
+{
+  return lhs.m_elements == rhs.m_elements;
+}
+
+
+
+template <typename T>
+bool operator!=(const quaternion<T>& lhs, const quaternion<T>& rhs) noexcept
+{
+  return lhs.m_elements != rhs.m_elements;
+}
+
+
+
+template <typename T>
+bool close(const quaternion<T>& lhs, const quaternion<T>& rhs, T acc) noexcept
+{
+  return close(lhs.m_elements, rhs.m_elements, acc);
+}
+
+
+
+template <typename T>
 std::ostream& operator<<(std::ostream& os, const quaternion<T>& q)
 {
   return os << "(" << q.x() << "," << q.y() << "," << q.z() << "," << q.w()
