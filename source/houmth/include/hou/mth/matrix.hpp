@@ -681,6 +681,12 @@ public:
     return lhs.m_elements != rhs.m_elements;
   }
 
+private:
+  // Defining this alias to be used in the close function is required due to
+  // a compiler bug in MSVC.
+  static constexpr T default_acc = std::numeric_limits<T>::epsilon();
+
+public:
   /** Checks if two matrices are equal with the specified accuracy.
    *
    * \param lhs the left operand.
@@ -692,8 +698,7 @@ public:
    * \return the result of the check.
    */
   friend constexpr bool close(const matrix<T, Rows, Cols>& lhs,
-    const matrix<T, Rows, Cols>& rhs,
-    T acc =  std::numeric_limits<T>::epsilon()) noexcept
+    const matrix<T, Rows, Cols>& rhs, T acc = default_acc) noexcept
   {
     return close(lhs.m_elements, rhs.m_elements, acc);
   }

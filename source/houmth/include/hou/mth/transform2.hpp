@@ -173,6 +173,12 @@ public:
     return !(lhs == rhs);
   }
 
+private:
+  // Defining this alias to be used in the close function is required due to
+  // a compiler bug in MSVC.
+  static constexpr T default_acc = std::numeric_limits<T>::epsilon();
+
+public:
   /** Checks if two transforms are equal with the specified accuracy.
    *
    * \param lhs the left operand of the comparison.
@@ -183,11 +189,10 @@ public:
    *
    * \return the result of the check.
    */
-  friend constexpr bool close(const transform2& lhs, const transform2& rhs,
-    T acc =  std::numeric_limits<T>::epsilon()) noexcept
+  friend constexpr bool close(
+    const transform2& lhs, const transform2& rhs, T acc = default_acc) noexcept
   {
-    return close(lhs.m_mat, rhs.m_mat, acc)
-      && close(lhs.m_vec, rhs.m_vec, acc);
+    return close(lhs.m_mat, rhs.m_mat, acc) && close(lhs.m_vec, rhs.m_vec, acc);
   }
 
 private:

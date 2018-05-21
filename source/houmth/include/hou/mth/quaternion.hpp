@@ -282,6 +282,12 @@ public:
     return lhs.m_elements != rhs.m_elements;
   }
 
+private:
+  // Defining this alias to be used in the close function is required due to
+  // a compiler bug in MSVC.
+  static constexpr T default_acc = std::numeric_limits<T>::epsilon();
+
+public:
   /** Checks if two quaternions are equal with the specified accuracy.
    *
    * \param lhs the left operator.
@@ -292,8 +298,8 @@ public:
    *
    * \return the result of the check.
    */
-  friend constexpr bool close(const quaternion& lhs, const quaternion& rhs,
-    T acc =  std::numeric_limits<T>::epsilon()) noexcept
+  friend constexpr bool close(
+    const quaternion& lhs, const quaternion& rhs, T acc = default_acc) noexcept
   {
     return close(lhs.m_elements, rhs.m_elements, acc);
   }
