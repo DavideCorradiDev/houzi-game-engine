@@ -5,6 +5,12 @@
 #ifndef SRC_HOU_SYS_WIN_HPP
 #define SRC_HOU_SYS_WIN_HPP
 
+#ifdef HOU_COMPILER_MSVC
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#endif
+
 #include <windows.h>
 
 

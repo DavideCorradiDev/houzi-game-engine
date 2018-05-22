@@ -153,7 +153,7 @@ typename ImageT::pixel_collection test_image<ImageT>::generate_pixels(
   for(size_t i = 0; i < retval.size(); ++i)
   {
     typename ImageT::pixel px;
-    px.set_r(i);
+    px.set_r(static_cast<uint8_t>(i));
     retval[i] = px;
   }
   return retval;
@@ -721,11 +721,11 @@ TEST_F(test_image_conversion_constructor, r2_rgba_constructor)
     image2_rgba::pixel(6u, 6u, 6u, 255u),
   };
 
-  image2_r imageR(s, pixelsR);
-  image2_rgba imageRGBA(imageR);
+  image2_r im_r(s, pixelsR);
+  image2_rgba im_rgba(im_r);
 
-  EXPECT_EQ(s, imageRGBA.get_size());
-  EXPECT_EQ(pixelsRGBA, imageRGBA.get_pixels());
+  EXPECT_EQ(s, im_rgba.get_size());
+  EXPECT_EQ(pixelsRGBA, im_rgba.get_pixels());
 }
 
 
@@ -751,11 +751,11 @@ TEST_F(test_image_conversion_constructor, rg2_rgba_constructor)
     image2_rgba::pixel(6u, 6u, 6u, 16u),
   };
 
-  image2_rg imageRG(s, pixelsRG);
-  image2_rgba imageRGBA(imageRG);
+  image2_rg im_rg(s, pixelsRG);
+  image2_rgba im_rgba(im_rg);
 
-  EXPECT_EQ(s, imageRGBA.get_size());
-  EXPECT_EQ(pixelsRGBA, imageRGBA.get_pixels());
+  EXPECT_EQ(s, im_rgba.get_size());
+  EXPECT_EQ(pixelsRGBA, im_rgba.get_pixels());
 }
 
 
@@ -781,11 +781,11 @@ TEST_F(test_image_conversion_constructor, rgb2_rgba_constructor)
     image2_rgba::pixel(100u, 20u, 0u, 255u),
   };
 
-  image2_rgb imageRGB(s, pixelsRGB);
-  image2_rgba imageRGBA(imageRGB);
+  image2_rgb im_rgb(s, pixelsRGB);
+  image2_rgba im_rgba(im_rgb);
 
-  EXPECT_EQ(s, imageRGBA.get_size());
-  EXPECT_EQ(pixelsRGBA, imageRGBA.get_pixels());
+  EXPECT_EQ(s, im_rgba.get_size());
+  EXPECT_EQ(pixelsRGBA, im_rgba.get_pixels());
 }
 
 

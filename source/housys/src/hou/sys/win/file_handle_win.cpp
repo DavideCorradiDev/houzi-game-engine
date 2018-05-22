@@ -5,9 +5,11 @@
 #include "hou/sys/file_handle.hpp"
 
 #include "hou/cor/character_encodings.hpp"
+#include "hou/cor/narrow_cast.hpp"
 
 #include "hou/sys/win/win.hpp"
 
+#include <io.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 
@@ -54,7 +56,7 @@ size_t get_dir_byte_size(const std::string& path) noexcept
   int retval = _wstat64(convert_encoding<wide, utf8>(path).c_str(), &buf);
   if(retval == 0)
   {
-    return buf.st_size;
+    return narrow_cast<size_t>(buf.st_size);
   }
   else
   {
@@ -73,7 +75,9 @@ int get_file_descriptor(FILE* file) noexcept
 
 size_t get_file_byte_size(int file_descriptor) noexcept
 {
-  return static_cast<size_t>(_filelength(file_descriptor));
+  long length = _filelength(file_descriptor);
+  return length == -1L ? std::numeric_limits<size_t>::max()
+                       : static_cast<size_t>(length);
 }
 
 }  // namespace hou

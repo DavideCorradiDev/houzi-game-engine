@@ -9,7 +9,6 @@
 #include "hou/sys/mouse.hpp"
 #include "hou/sys/video_mode.hpp"
 #include "hou/sys/win/win_error.hpp"
-#include "hou/sys/window_event.hpp"
 
 #include "hou/cor/assertions.hpp"
 

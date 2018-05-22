@@ -12,6 +12,8 @@ quaternion<T>::quaternion(const quaternion<U>& other) noexcept
       static_cast<T>(other.z()), static_cast<T>(other.w()))
 {}
 
+
+
 template <typename T>
 quaternion<T> operator+(quaternion<T> lhs, const quaternion<T>& rhs) noexcept
 {

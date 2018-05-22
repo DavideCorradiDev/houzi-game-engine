@@ -8,6 +8,7 @@
 #include "hou/cor/non_copyable.hpp"
 
 #include "hou/sys/image_fwd.hpp"
+#include "hou/sys/window_event.hpp"
 #include "hou/sys/window_handle.hpp"
 #include "hou/sys/window_style.hpp"
 
@@ -30,7 +31,6 @@ namespace hou
 {
 
 class video_mode;
-class window_event;
 
 
 

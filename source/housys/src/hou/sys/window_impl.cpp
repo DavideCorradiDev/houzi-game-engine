@@ -6,8 +6,6 @@
 
 #include "hou/cor/assertions.hpp"
 
-#include "hou/sys/window_event.hpp"
-
 
 
 namespace hou
