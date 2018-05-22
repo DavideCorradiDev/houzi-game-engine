@@ -21,6 +21,9 @@ namespace gl
 class HOU_GL_API context_settings
 {
 public:
+  static const context_settings& get_default();
+
+public:
   context_settings(const version& vrs, context_profile profile,
     uint depth_byte_count, uint stencil_byte_count, uint sample_count) noexcept;
 
@@ -34,9 +37,6 @@ public:
   void set_stencil_byte_count(uint value) noexcept;
   uint get_sample_count() const noexcept;
   void set_sample_count(uint value) noexcept;
-
-public:
-  static const context_settings standard;
 
 private:
   version m_version;

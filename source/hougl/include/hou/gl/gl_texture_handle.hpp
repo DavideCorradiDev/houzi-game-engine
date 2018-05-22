@@ -135,7 +135,6 @@ HOU_GL_API void set_texture_wrap_mode_r(const texture_handle& tex, GLenum mode);
 HOU_GL_API void generate_mip_map(const texture_handle& tex);
 
 HOU_GL_API GLint get_texture_samples(const texture_handle& tex);
-HOU_GL_API
 
 HOU_GL_API GLint get_max_texture_samples();
 HOU_GL_API GLint get_max_texture_size();

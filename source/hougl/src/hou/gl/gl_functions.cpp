@@ -73,7 +73,7 @@ void init_extensions()
   {
     // Create temporary dummy context, needed to call any GL function.
     system_window w("", video_mode(vec2u(0u, 0u), 32u), window_style::windowed);
-    gl::context_settings cs(gl::context_settings::standard);
+    gl::context_settings cs(gl::context_settings::get_default());
     gl::context c(cs, w);
     gl::context::set_current(c, w);
     HOU_GL_CHECK_CONTEXT_EXISTENCE();

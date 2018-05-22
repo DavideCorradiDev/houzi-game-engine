@@ -91,9 +91,9 @@ TEST_F(test_gl_context_settings, comparison)
 
 
 
-TEST_F(test_gl_context_settings, default_settings)
+TEST_F(test_gl_context_settings, get_default)
 {
   gl::context_settings cs_ref(
-    gl::version::standard, gl::context_profile::core, 3u, 1u, 0u);
-  EXPECT_EQ(cs_ref, gl::context_settings::standard);
+    gl::version::get_default(), gl::context_profile::core, 3u, 1u, 0u);
+  EXPECT_EQ(cs_ref, gl::context_settings::get_default());
 }

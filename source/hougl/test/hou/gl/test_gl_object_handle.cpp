@@ -142,9 +142,9 @@ TEST_F(test_gl_object_handle, shared_owner_uid)
 {
   system_window w(
     "Test", video_mode(vec2u::zero(), 0u), window_style::windowed);
-  gl::context c1(gl::context_settings::standard, w);
-  gl::context c2(gl::context_settings::standard, w, c1);
-  gl::context c3(gl::context_settings::standard, w);
+  gl::context c1(gl::context_settings::get_default(), w);
+  gl::context c2(gl::context_settings::get_default(), w, c1);
+  gl::context c3(gl::context_settings::get_default(), w);
 
   gl::context::set_current(c1, w);
   concrete_gl_shared_object_handle sh1(0u);
@@ -173,9 +173,9 @@ TEST_F(test_gl_object_handle, non_shared_owner_uid)
 {
   system_window w(
     "Test", video_mode(vec2u::zero(), 0u), window_style::windowed);
-  gl::context c1(gl::context_settings::standard, w);
-  gl::context c2(gl::context_settings::standard, w, c1);
-  gl::context c3(gl::context_settings::standard, w);
+  gl::context c1(gl::context_settings::get_default(), w);
+  gl::context c2(gl::context_settings::get_default(), w, c1);
+  gl::context c3(gl::context_settings::get_default(), w);
 
   gl::context::set_current(c1, w);
   concrete_gl_non_shared_object_handle nsh1(0u);

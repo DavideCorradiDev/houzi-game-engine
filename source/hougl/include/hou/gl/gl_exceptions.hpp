@@ -23,6 +23,7 @@ namespace gl
 
 class shared_object_handle;
 class non_shared_object_handle;
+class version;
 
 /** Extension initalization error.
  *
@@ -42,6 +43,27 @@ public:
    * \throws std::bad_alloc.
    */
   extension_initialization_error(const std::string& path, uint line, int ec);
+};
+
+/** Unsupported gl version error.
+ *
+ * This exception is thrown when trying to create a context with an unsupported
+ * OpenGL version.
+ */
+class HOU_GL_API unsupported_version : public exception
+{
+public:
+  /** Constructor.
+   *
+   * \param path the path to the source file where the error happened.
+   *
+   * \param line the line where the error happened.
+   *
+   * \param v the version
+   *
+   * \throws std::bad_alloc.
+   */
+  unsupported_version(const std::string& path, uint line, const version& v);
 };
 
 /** Context creation error.

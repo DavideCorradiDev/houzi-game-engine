@@ -125,7 +125,7 @@ TEST_F(test_gl_version, is_supported)
 
 
 
-TEST_F(test_gl_version, default)
+TEST_F(test_gl_version, get_default)
 {
-  EXPECT_EQ(gl::version(4u, 5u), gl::version::standard);
+  EXPECT_EQ(gl::version(4u, 5u), gl::version::get_default());
 }

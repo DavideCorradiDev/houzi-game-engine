@@ -10,8 +10,12 @@ namespace hou
 namespace gl
 {
 
-const context_settings context_settings::standard
-  = context_settings(version::standard, context_profile::core, 3u, 1u, 0u);
+const context_settings& context_settings::get_default()
+{
+  static const context_settings cs(
+    version::get_default(), context_profile::core, 3u, 1u, 0u);
+  return cs;
+}
 
 
 

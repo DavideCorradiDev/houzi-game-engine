@@ -144,8 +144,10 @@ context_impl::context_impl(const context_settings& settings, const window& wnd,
   , m_pixel_format(
       choose_pixel_format(m_hdc, wnd.get_bytes_per_pixel(), settings))
 {
-  HOU_INVARIANT(m_hdc != nullptr);
-  HOU_INVARIANT(m_pixel_format != 0);
+  HOU_PRECOND(m_hdc != nullptr);
+  HOU_CHECK_N(settings.get_version().is_supported(), unsupported_version,
+    settings.get_version());
+  HOU_DEV_ASSERT(m_pixel_format != 0);
 
   set_pixel_format(m_hdc, m_pixel_format);
 
@@ -207,7 +209,7 @@ context_impl::~context_impl()
   if(m_handle != nullptr)
   {
     HOU_DISABLE_EXCEPTIONS_BEGIN
-      HOU_CHECK_0(wglDeleteContext(m_handle) != 0, context_destruction_error);
+    HOU_CHECK_0(wglDeleteContext(m_handle) != 0, context_destruction_error);
     HOU_DISABLE_EXCEPTIONS_END
   }
 }
