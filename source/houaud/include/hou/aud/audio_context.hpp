@@ -70,8 +70,12 @@ public:
   bool is_current() const;
 
 private:
+  void initialize();
+
+private:
   al::device m_al_device;
   al::context m_al_context;
+  bool m_initialized;
 };
 
 }  // namespace hou
