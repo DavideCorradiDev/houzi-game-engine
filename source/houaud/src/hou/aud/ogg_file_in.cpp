@@ -215,7 +215,7 @@ void ogg_file_in::read_metadata()
   HOU_PRECOND(info != nullptr);
   set_format(info->channels, bytes_per_sample);
   set_sample_rate(info->rate);
-  m_pcm_size = ov_pcm_total(m_vorbis_file.get(), -1);
+  m_pcm_size = narrow_cast<size_t>(ov_pcm_total(m_vorbis_file.get(), -1));
 }
 
 

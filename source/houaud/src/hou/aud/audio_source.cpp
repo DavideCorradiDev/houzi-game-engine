@@ -129,8 +129,8 @@ audio_source_state audio_source::get_state() const
 void audio_source::set_time_pos(std::chrono::nanoseconds nsPos)
 {
   using rep = std::chrono::nanoseconds::rep;
-  set_sample_pos(static_cast<rep>(nsPos.count())
-    * static_cast<rep>(get_sample_rate()) / 1000000000);
+  set_sample_pos(narrow_cast<uint>(static_cast<rep>(nsPos.count())
+    * static_cast<rep>(get_sample_rate()) / 1000000000));
 }
 
 
@@ -295,7 +295,7 @@ non_negative<float> audio_source::get_reference_distance() const
 
 void audio_source::set_relative(bool value)
 {
-  al::set_source_relative(m_handle, static_cast<ALfloat>(value));
+  al::set_source_relative(m_handle, static_cast<ALboolean>(value));
 }
 
 
