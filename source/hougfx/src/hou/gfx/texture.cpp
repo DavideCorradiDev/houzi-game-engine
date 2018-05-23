@@ -4,7 +4,6 @@
 
 #include "hou/gfx/texture.hpp"
 
-#include "hou/gfx/gl_type.hpp"
 #include "hou/gfx/texture_channel_mapping.hpp"
 
 #include "hou/cor/narrow_cast.hpp"
@@ -20,8 +19,6 @@ namespace hou
 namespace
 {
 
-GLenum pixel_format_to_gl_pixel_format(pixel_format format);
-
 template <texture_type Type>
 bool is_texture_size_valid(const typename texture_t<Type>::size_type& s);
 
@@ -35,10 +32,6 @@ positive<uint> get_max_mipmap_level_count_for_size(
 
 template <texture_type Type>
 uint get_mipmap_relevant_size(const typename texture_t<Type>::size_type& s);
-
-template <size_t dim>
-size_t compute_image_buffer_size(
-  const vec<uint, dim>& im_size, pixel_format fmt);
 
 template <size_t dim>
 bool element_wise_lower_or_equal(
@@ -67,26 +60,6 @@ void set_texture2_wrap_mode(
 
 void set_texture3_wrap_mode(
   const gl::texture_handle& th, const std::array<texture_wrap_mode, 3u>& wm);
-
-
-
-GLenum pixel_format_to_gl_pixel_format(pixel_format format)
-{
-  switch(format)
-  {
-    case pixel_format::r:
-      return GL_RED;
-    case pixel_format::rg:
-      return GL_RG;
-    case pixel_format::rgb:
-      return GL_RGB;
-    case pixel_format::rgba:
-      return GL_RGBA;
-    default:
-      HOU_UNREACHABLE();
-      return GL_RED;
-  }
-}
 
 
 
@@ -187,21 +160,6 @@ uint get_mipmap_relevant_size<texture_type::multisample_texture2_array>(
     texture_type::multisample_texture2_array>::size_type&)
 {
   return 1u;
-}
-
-
-
-template <size_t dim>
-size_t compute_image_buffer_size(
-  const vec<uint, dim>& im_size, pixel_format fmt)
-{
-  HOU_DEV_ASSERT(gl::get_unpack_alignment() == 1u);
-  size_t byte_count = 1u;
-  for(size_t i = 0; i < im_size.size(); ++i)
-  {
-    byte_count *= im_size(i);
-  }
-  return byte_count * get_pixel_format_byte_count(fmt);
 }
 
 
@@ -444,6 +402,42 @@ vec3u texture::get_size3() const
 
 
 
+template <texture_type Type>
+size_t texture_t<Type>::compute_image_buffer_size(
+  const size_type& im_size, pixel_format fmt)
+{
+  HOU_DEV_ASSERT(gl::get_unpack_alignment() == 1u);
+  size_t byte_count = 1u;
+  for(size_t i = 0; i < im_size.size(); ++i)
+  {
+    byte_count *= im_size(i);
+  }
+  return byte_count * get_pixel_format_byte_count(fmt);
+}
+
+
+
+template <texture_type Type>
+GLenum texture_t<Type>::pixel_format_to_gl_pixel_format(pixel_format format)
+{
+  switch(format)
+  {
+    case pixel_format::r:
+      return GL_RED;
+    case pixel_format::rg:
+      return GL_RG;
+    case pixel_format::rgb:
+      return GL_RGB;
+    case pixel_format::rgba:
+      return GL_RGBA;
+    default:
+      HOU_UNREACHABLE();
+      return GL_RED;
+  }
+}
+
+
+
 template <>
 vec1u texture_t<texture_type::texture1>::get_max_size()
 {
@@ -528,17 +522,26 @@ positive<uint> texture_t<Type>::get_max_sample_count()
 
 
 
+template <texture_type Type>
+template <pixel_format PF, texture_type Type2, typename Enable>
+void texture_t<Type>::clear(const pixel_t<PF>& px)
+{
+  set_image<PF, Type2, Enable>(image<PF>(get_size(), px));
+}
+
+
+
 template <>
 template <>
-texture_t<texture_type::texture1>::texture_t<texture_type::texture1, void>(
+texture_t<texture_type::texture1>::texture_t(
   const size_type& s, texture_format format, positive<uint> mipmap_level_count)
   : texture(texture_type::texture1, mipmap_level_count, 1u, true)
 {
   HOU_PRECOND(is_texture_size_valid<texture_type::texture1>(s));
   HOU_PRECOND(
     is_mipmap_level_count_valid<texture_type::texture1>(mipmap_level_count, s));
-  gl::set_texture_storage_1d(get_handle(), mipmap_level_count,
-    static_cast<GLenum>(format), s.x());
+  gl::set_texture_storage_1d(
+    get_handle(), mipmap_level_count, static_cast<GLenum>(format), s.x());
   clear(pixel_rgba(0u, 0u, 0u, 0u));
 }
 
@@ -546,8 +549,7 @@ texture_t<texture_type::texture1>::texture_t<texture_type::texture1, void>(
 
 template <>
 template <>
-texture_t<texture_type::texture1_array>::texture_t<texture_type::texture1_array,
-  void>(
+texture_t<texture_type::texture1_array>::texture_t(
   const size_type& s, texture_format format, positive<uint> mipmap_level_count)
   : texture(texture_type::texture1_array, mipmap_level_count, 1u, true)
 {
@@ -563,7 +565,7 @@ texture_t<texture_type::texture1_array>::texture_t<texture_type::texture1_array,
 
 template <>
 template <>
-texture_t<texture_type::texture2>::texture_t<texture_type::texture2, void>(
+texture_t<texture_type::texture2>::texture_t(
   const size_type& s, texture_format format, positive<uint> mipmap_level_count)
   : texture(texture_type::texture2, mipmap_level_count, 1u, true)
 {
@@ -579,8 +581,7 @@ texture_t<texture_type::texture2>::texture_t<texture_type::texture2, void>(
 
 template <>
 template <>
-texture_t<texture_type::texture2_array>::texture_t<texture_type::texture2_array,
-  void>(
+texture_t<texture_type::texture2_array>::texture_t(
   const size_type& s, texture_format format, positive<uint> mipmap_level_count)
   : texture(texture_type::texture2_array, mipmap_level_count, 1u, true)
 {
@@ -596,7 +597,7 @@ texture_t<texture_type::texture2_array>::texture_t<texture_type::texture2_array,
 
 template <>
 template <>
-texture_t<texture_type::texture3>::texture_t<texture_type::texture3, void>(
+texture_t<texture_type::texture3>::texture_t(
   const size_type& s, texture_format format, positive<uint> mipmap_level_count)
   : texture(texture_type::texture3, mipmap_level_count, 1u, true)
 {
@@ -616,13 +617,13 @@ texture_t<Type>::texture_t(
   const image<PF>& im, texture_format format, positive<uint> mipmap_level_count)
   : texture_t(im.get_size(), format, mipmap_level_count)
 {
-  set_image(im);
+  set_image<PF, Type2, Enable>(im);
 }
 
 
 
 template <>
-template <texture_type Type2, typename Enable>
+template <>
 texture_t<texture_type::multisample_texture2>::texture_t(const size_type& s,
   texture_format format, positive<uint> sample_count,
   bool fixed_sample_locations)
@@ -638,7 +639,7 @@ texture_t<texture_type::multisample_texture2>::texture_t(const size_type& s,
 
 
 template <>
-template <texture_type Type2, typename Enable>
+template <>
 texture_t<texture_type::multisample_texture2_array>::texture_t(
   const size_type& s, texture_format format, positive<uint> sample_count,
   bool fixed_sample_locations)
@@ -869,22 +870,6 @@ void texture_t<texture_type::texture3>::set_wrap_mode(
 
 
 
-template <texture_type Type>
-template <pixel_format PF, texture_type Type2, typename Enable>
-typename texture_t<Type>::template image<PF> texture_t<Type>::get_image() const
-{
-  gl::set_unpack_alignment(1);
-  size_type s = get_size();
-  std::vector<uint8_t> buffer(compute_image_buffer_size(s, PF));
-  gl::get_texture_image(get_handle(), 0u,
-    pixel_format_to_gl_pixel_format(PF),
-    static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
-  return image<PF>(s,
-    reinterpret_span<const typename image<PF>::pixel>(span<uint8_t>(buffer)));
-}
-
-
-
 template <>
 template <pixel_format PF, texture_type Type2, typename Enable>
 typename texture_t<texture_type::texture1>::template image<PF>
@@ -894,8 +879,8 @@ typename texture_t<texture_type::texture1>::template image<PF>
   HOU_PRECOND(element_wise_lower_or_equal(offset + s, get_size()));
   gl::set_unpack_alignment(1);
   std::vector<uint8_t> buffer(compute_image_buffer_size(s, PF));
-  gl::get_texture_sub_image(get_handle(), offset.x(), 0, 0, s.x(), 1, 1,
-    0, pixel_format_to_gl_pixel_format(PF),
+  gl::get_texture_sub_image(get_handle(), offset.x(), 0, 0, s.x(), 1, 1, 0,
+    pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
   return image<PF>(s,
     reinterpret_span<const typename image<PF>::pixel>(span<uint8_t>(buffer)));
@@ -912,8 +897,8 @@ typename texture_t<texture_type::texture1_array>::template image<PF>
   HOU_PRECOND(element_wise_lower_or_equal(offset + s, get_size()));
   gl::set_unpack_alignment(1);
   std::vector<uint8_t> buffer(compute_image_buffer_size(s, PF));
-  gl::get_texture_sub_image(get_handle(), offset.x(), offset.y(), 0,
-    s.x(), s.y(), 1, 0, pixel_format_to_gl_pixel_format(PF),
+  gl::get_texture_sub_image(get_handle(), offset.x(), offset.y(), 0, s.x(),
+    s.y(), 1, 0, pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
   return image<PF>(s,
     reinterpret_span<const typename image<PF>::pixel>(span<uint8_t>(buffer)));
@@ -930,8 +915,8 @@ typename texture_t<texture_type::texture2>::template image<PF>
   HOU_PRECOND(element_wise_lower_or_equal(offset + s, get_size()));
   gl::set_unpack_alignment(1);
   std::vector<uint8_t> buffer(compute_image_buffer_size(s, PF));
-  gl::get_texture_sub_image(get_handle(), offset.x(), offset.y(), 0,
-    s.x(), s.y(), 1, 0, pixel_format_to_gl_pixel_format(PF),
+  gl::get_texture_sub_image(get_handle(), offset.x(), offset.y(), 0, s.x(),
+    s.y(), 1, 0, pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
   return image<PF>(s,
     reinterpret_span<const typename image<PF>::pixel>(span<uint8_t>(buffer)));
@@ -948,8 +933,8 @@ typename texture_t<texture_type::texture2_array>::template image<PF>
   HOU_PRECOND(element_wise_lower_or_equal(offset + s, get_size()));
   gl::set_unpack_alignment(1);
   std::vector<uint8_t> buffer(compute_image_buffer_size(s, PF));
-  gl::get_texture_sub_image(get_handle(), offset.x(), offset.y(),
-    offset.z(), s.x(), s.y(), s.z(), 0, pixel_format_to_gl_pixel_format(PF),
+  gl::get_texture_sub_image(get_handle(), offset.x(), offset.y(), offset.z(),
+    s.x(), s.y(), s.z(), 0, pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
   return image<PF>(s,
     reinterpret_span<const typename image<PF>::pixel>(span<uint8_t>(buffer)));
@@ -966,8 +951,8 @@ typename texture_t<texture_type::texture3>::template image<PF>
   HOU_PRECOND(element_wise_lower_or_equal(offset + s, get_size()));
   gl::set_unpack_alignment(1);
   std::vector<uint8_t> buffer(compute_image_buffer_size(s, PF));
-  gl::get_texture_sub_image(get_handle(), offset.x(), offset.y(),
-    offset.z(), s.x(), s.y(), s.z(), 0, pixel_format_to_gl_pixel_format(PF),
+  gl::get_texture_sub_image(get_handle(), offset.x(), offset.y(), offset.z(),
+    s.x(), s.y(), s.z(), 0, pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
   return image<PF>(s,
     reinterpret_span<const typename image<PF>::pixel>(span<uint8_t>(buffer)));
@@ -980,7 +965,7 @@ template <pixel_format PF, texture_type Type2, typename Enable>
 void texture_t<Type>::set_image(const image<PF>& im)
 {
   HOU_PRECOND(im.get_size() == get_size());
-  set_sub_image<PF>(offset_type::zero(), im);
+  set_sub_image<PF, Type2, Enable>(offset_type::zero(), im);
 }
 
 
@@ -991,8 +976,8 @@ void texture_t<texture_type::texture1>::set_sub_image(
   const offset_type& offset, const image<PF>& im)
 {
   HOU_PRECOND(element_wise_lower_or_equal(offset + im.get_size(), get_size()));
-  gl::set_texture_sub_image_1d(get_handle(), 0u, offset.x(),
-    im.get_size().x(), pixel_format_to_gl_pixel_format(PF),
+  gl::set_texture_sub_image_1d(get_handle(), 0u, offset.x(), im.get_size().x(),
+    pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()),
     reinterpret_cast<const void*>(im.get_pixels().data()));
   generate_mip_map();
@@ -1062,15 +1047,6 @@ void texture_t<texture_type::texture3>::set_sub_image(
 
 
 
-template <texture_type Type>
-template <pixel_format PF, texture_type Type2, typename Enable>
-void texture_t<Type>::clear(const pixel_t<PF>& px)
-{
-  set_image(image<PF>(get_size(), px));
-}
-
-
-
 template <>
 template <texture_type Type2, typename Enable>
 typename texture_t<texture_type::texture1>::size_type
@@ -1129,24 +1105,6 @@ typename texture_t<texture_type::texture3>::size_type
 
 
 template <texture_type Type>
-template <pixel_format PF, texture_type Type2, typename Enable>
-typename texture_t<Type>::template image<PF> texture_t<Type>::get_mipmap_image(
-  uint mipmap_level) const
-{
-  HOU_PRECOND(mipmap_level < get_mipmap_level_count());
-  gl::set_unpack_alignment(1);
-  size_type mipMapSize = get_mipmap_size(mipmap_level);
-  std::vector<uint8_t> buffer(compute_image_buffer_size(mipMapSize, PF));
-  gl::get_texture_image(get_handle(), mipmap_level,
-    pixel_format_to_gl_pixel_format(PF),
-    static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
-  return image<PF>(mipMapSize,
-    reinterpret_span<const typename image<PF>::pixel>(span<uint8_t>(buffer)));
-}
-
-
-
-template <texture_type Type>
 texture_type texture_t<Type>::get_type() const
 {
   return Type;
@@ -1189,76 +1147,12 @@ void texture_t<Type>::generate_mip_map()
 
 
 
-#define INSTANTIATE_TEXTURE(tt) template class texture_t<tt>;
-
-
-
-#define INSTANTIATE_TEXTURE_MIP_MAP_FUNCTIONS(tt)                              \
-  template texture_t<tt>::texture_t<tt, void>(                                 \
-    const texture_t<tt>::size_type&, texture_format, positive<uint>);          \
-  template typename texture_t<tt>::wrap_mode                                   \
-    texture_t<tt>::get_wrap_mode<tt, void>() const;                            \
-  template void texture_t<tt>::set_wrap_mode<tt, void>(                        \
-    const typename texture_t<tt>::wrap_mode&);                                 \
-  template texture_filter texture_t<tt>::get_filter<tt, void>() const;         \
-  template void texture_t<tt>::set_filter<tt, void>(texture_filter);           \
-  template texture_t<tt>::size_type texture_t<tt>::get_mipmap_size<tt, void>(  \
-    uint) const;
-
-
-
-#define INSTANTIATE_TEXTURE_MULTISAMPLE_FUNCTIONS(tt)                          \
-  template texture_t<tt>::texture_t<tt, void>(                                 \
-    const texture_t<tt>::size_type&, texture_format, positive<uint>, bool);
-
-
-
-#define INSTANTIATE_TEXTURE_IMAGE_FUNCTIONS_FOR_PIXEL_FORMAT(tt, pf)           \
-  template texture_t<tt>::texture_t<pf, tt, void>(                             \
-    const texture_t<tt>::image<pf>&, texture_format, positive<uint>);          \
-  template texture_t<tt>::image<pf> texture_t<tt>::get_image<pf, tt, void>()   \
-    const;                                                                     \
-  template texture_t<tt>::image<pf>                                            \
-    texture_t<tt>::get_sub_image<pf, tt, void>(                                \
-      const texture_t<tt>::offset_type&, const texture_t<tt>::size_type&)      \
-      const;                                                                   \
-  template void texture_t<tt>::set_image<pf, tt, void>(                        \
-    const texture_t<tt>::image<pf>&);                                          \
-  template void texture_t<tt>::set_sub_image<pf, tt, void>(                    \
-    const texture_t<tt>::offset_type&, const texture_t<tt>::image<pf>&);       \
-  template void texture_t<tt>::clear<pf, tt, void>(const pixel_t<pf>&);        \
-  template texture_t<tt>::image<pf>                                            \
-    texture_t<tt>::get_mipmap_image<pf, tt, void>(uint) const;
-
-
-
-#define INSTANTIATE_TEXTURE_IMAGE_FUNCTIONS(tt)                                \
-  INSTANTIATE_TEXTURE_IMAGE_FUNCTIONS_FOR_PIXEL_FORMAT(tt, pixel_format::r)    \
-  INSTANTIATE_TEXTURE_IMAGE_FUNCTIONS_FOR_PIXEL_FORMAT(tt, pixel_format::rg)   \
-  INSTANTIATE_TEXTURE_IMAGE_FUNCTIONS_FOR_PIXEL_FORMAT(tt, pixel_format::rgb)  \
-  INSTANTIATE_TEXTURE_IMAGE_FUNCTIONS_FOR_PIXEL_FORMAT(tt, pixel_format::rgba)
-
-
-
-#define INSTANTIATE_TEXTURE_MIP_MAP(tt)                                        \
-  INSTANTIATE_TEXTURE(tt)                                                      \
-  INSTANTIATE_TEXTURE_MIP_MAP_FUNCTIONS(tt)                                    \
-  INSTANTIATE_TEXTURE_IMAGE_FUNCTIONS(tt)
-
-
-
-#define INSTANTIATE_TEXTURE_MULTISAMPLE(tt)                                    \
-  INSTANTIATE_TEXTURE(tt)                                                      \
-  INSTANTIATE_TEXTURE_MULTISAMPLE_FUNCTIONS(tt)
-
-
-
-INSTANTIATE_TEXTURE_MIP_MAP(texture_type::texture1)
-INSTANTIATE_TEXTURE_MIP_MAP(texture_type::texture1_array)
-INSTANTIATE_TEXTURE_MIP_MAP(texture_type::texture2)
-INSTANTIATE_TEXTURE_MIP_MAP(texture_type::texture2_array)
-INSTANTIATE_TEXTURE_MIP_MAP(texture_type::texture3)
-INSTANTIATE_TEXTURE_MULTISAMPLE(texture_type::multisample_texture2)
-INSTANTIATE_TEXTURE_MULTISAMPLE(texture_type::multisample_texture2_array)
+template class HOU_GFX_API texture_t<texture_type::texture1>;
+template class HOU_GFX_API texture_t<texture_type::texture1_array>;
+template class HOU_GFX_API texture_t<texture_type::texture2>;
+template class HOU_GFX_API texture_t<texture_type::texture2_array>;
+template class HOU_GFX_API texture_t<texture_type::texture3>;
+template class HOU_GFX_API texture_t<texture_type::multisample_texture2>;
+template class HOU_GFX_API texture_t<texture_type::multisample_texture2_array>;
 
 }  // namespace hou

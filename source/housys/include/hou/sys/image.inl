@@ -5,20 +5,6 @@
 namespace hou
 {
 
-// template <size_t Dim, pixel_format PF>
-// template <size_t otherDim, pixel_format otherFmt, typename Enable>
-// image<Dim, PF>::image(const image<otherDim, otherFmt>& other)
-//   : m_size(resize_size_vec(other.get_size(), 1u))
-//   , m_pixels(compute_pixel_count())
-// {
-//   for(size_t i = 0; i < m_pixels.size(); ++i)
-//   {
-//     m_pixels[i] = other.m_pixels[i];
-//   }
-// }
-
-
-
 template <size_t Dim, pixel_format PF>
 template <size_t OtherDim>
 vec<uint, Dim> image<Dim, PF>::resize_size_vec(
