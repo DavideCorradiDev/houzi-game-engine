@@ -39,7 +39,12 @@ vertex2::vertex2(
   , m_tex_coords{tex_coords.x(), tex_coords.y()}
   , m_color{
       col.get_red_f(), col.get_green_f(), col.get_blue_f(), col.get_alpha_f()}
-{}
+{
+  HOU_DEV_ASSERT(m_color[0] >= 0.f && m_color[0] <= 1.f);
+  HOU_DEV_ASSERT(m_color[1] >= 0.f && m_color[1] <= 1.f);
+  HOU_DEV_ASSERT(m_color[2] >= 0.f && m_color[2] <= 1.f);
+  HOU_DEV_ASSERT(m_color[3] >= 0.f && m_color[3] <= 1.f);
+}
 
 
 
@@ -76,7 +81,10 @@ void vertex2::set_texture_coordinates(const vec2f& tex_coords) noexcept
 color vertex2::get_color() const noexcept
 {
   return color(
-    m_color[0] * 255, m_color[1] * 255, m_color[2] * 255, m_color[3] * 255);
+    static_cast<uint8_t>(m_color[0] * 255),
+    static_cast<uint8_t>(m_color[1] * 255),
+    static_cast<uint8_t>(m_color[2] * 255),
+    static_cast<uint8_t>(m_color[3] * 255));
 }
 
 
@@ -87,6 +95,11 @@ void vertex2::set_color(const color& color) noexcept
   m_color[1] = color.get_green_f();
   m_color[2] = color.get_blue_f();
   m_color[3] = color.get_alpha_f();
+
+  HOU_DEV_ASSERT(m_color[0] >= 0.f && m_color[0] <= 1.f);
+  HOU_DEV_ASSERT(m_color[1] >= 0.f && m_color[1] <= 1.f);
+  HOU_DEV_ASSERT(m_color[2] >= 0.f && m_color[2] <= 1.f);
+  HOU_DEV_ASSERT(m_color[3] >= 0.f && m_color[3] <= 1.f);
 }
 
 

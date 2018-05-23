@@ -96,7 +96,7 @@ template <typename T, size_t Rows, size_t Cols>
 constexpr matrix<T, Rows, Cols>::matrix() noexcept
   : m_elements()
 {
-  fill(0);
+  fill(T(0));
 }
 
 
@@ -107,8 +107,10 @@ constexpr matrix<T, Rows, Cols>::matrix(
   const matrix<U, Rows, Cols>& other) noexcept
   : m_elements()
 {
-  std::copy(
-    other.m_elements.begin(), other.m_elements.end(), m_elements.begin());
+  for(size_t i = 0; i < size(); ++i)
+  {
+    m_elements[i] = static_cast<T>(other.m_elements[i]);
+  }
 }
 
 
