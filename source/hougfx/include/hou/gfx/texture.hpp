@@ -128,39 +128,51 @@ public:
 
   /** Retrieves the width of the texture.
    *
+   * \param level the mipmap level.
+   *
    * \return the width of the texture.
    */
-  uint get_width() const;
+  uint get_width(uint level = 0u) const;
 
   /** Retrieves the height of the texture.
    *
+   * \param level the mipmap level.
+   *
    * \return the height of the texture.
    */
-  uint get_height() const;
+  uint get_height(uint level = 0u) const;
 
   /** Retrieves the depth of the texture.
    *
+   * \param level the mipmap level.
+   *
    * \return the depth of the texture.
    */
-  uint get_depth() const;
+  uint get_depth(uint level = 0u) const;
 
   /** Retrieves a vector containing the width of the texture.
    *
+   * \param level the mipmap level.
+   *
    * \return a vector containing the width of the texture.
    */
-  vec1u get_size1() const;
+  vec1u get_size1(uint level = 0u) const;
 
   /** Retrieves a vector containing the width and height of the texture.
    *
+   * \param level the mipmap level.
+   *
    * \return a vector containing the width and height of the texture.
    */
-  vec2u get_size2() const;
+  vec2u get_size2(uint level = 0u) const;
 
   /** Retrieves a vector containing the width, height and depth of the texture.
    *
+   * \param level the mipmap level.
+   *
    * \return a vector containing the width, height and depth of the texture.
    */
-  vec3u get_size3() const;
+  vec3u get_size3(uint level = 0u) const;
 
   /** Retrieves the channel mapping of the texture.
    *
@@ -391,20 +403,11 @@ public:
    *
    * \return an image with the content of the texture.
    */
+  // Note: the texture_t::image alias cannot be used because otherwise MSVC
+  // cannot make the connection between the declaration and the definition.
   template <pixel_format PF, texture_type Type2 = Type,
     typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
-  image<PF> get_image() const
-  {
-    // Has to be defined here because MSVC can't match the declaration and
-    // the definition.
-    gl::set_unpack_alignment(1);
-    size_type s = get_size();
-    std::vector<uint8_t> buffer(compute_image_buffer_size(s, PF));
-    gl::get_texture_image(get_handle(), 0u, pixel_format_to_gl_pixel_format(PF),
-      static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
-    return image<PF>(s,
-      reinterpret_span<const typename image<PF>::pixel>(span<uint8_t>(buffer)));
-  }
+  ::hou::image<texture_t<Type>::dimension_count, PF> get_image() const;
 
   /** Retrieves the contents of a sub-region of the texture as an image object.
    *
@@ -507,20 +510,10 @@ public:
    */
   template <pixel_format PF, texture_type Type2 = Type,
     typename Enable = std::enable_if_t<is_texture_type_mipmapped(Type2)>>
-  image<PF> get_mipmap_image(uint mipmap_level) const
-  {
-    // Has to be defined here because MSVC can't match the declaration and
-    // the definition.
-    HOU_PRECOND(mipmap_level < get_mipmap_level_count());
-    gl::set_unpack_alignment(1);
-    size_type mipMapSize = get_mipmap_size<Type2, Enable>(mipmap_level);
-    std::vector<uint8_t> buffer(compute_image_buffer_size(mipMapSize, PF));
-    gl::get_texture_image(get_handle(), mipmap_level,
-      pixel_format_to_gl_pixel_format(PF),
-      static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
-    return image<PF>(mipMapSize,
-      reinterpret_span<const typename image<PF>::pixel>(span<uint8_t>(buffer)));
-  }
+  // Note: the texture_t::image alias cannot be used because otherwise MSVC
+  // cannot make the connection between the declaration and the definition.
+  ::hou::image<texture_t<Type>::dimension_count, PF> get_mipmap_image(
+    uint mipmap_level) const;
 
   // texture overrides.
   texture_type get_type() const override;
@@ -529,168 +522,29 @@ public:
   bool is_multisampled() const override;
 
 private:
+  static bool is_texture_size_valid(const size_type& s);
+
+  static bool is_mipmap_level_count_valid(
+    positive<uint> mipmap_level_count, const size_type& s);
+
+  static positive<uint> get_max_mipmap_level_count_for_size(const size_type& s);
+
+  static bool element_wise_lower_or_equal(
+    const size_type& lhs, const size_type& rhs);
+
   static size_t compute_image_buffer_size(
     const size_type& im_size, pixel_format fmt);
+
   static GLenum pixel_format_to_gl_pixel_format(pixel_format format);
 
 private:
   void generate_mip_map();
 };
 
-
-
-template <>
-HOU_GFX_API vec1u texture_t<texture_type::texture1>::get_max_size();
-
-template <>
-HOU_GFX_API vec2u texture_t<texture_type::texture1_array>::get_max_size();
-
-template <>
-HOU_GFX_API vec2u texture_t<texture_type::texture2>::get_max_size();
-
-template <>
-HOU_GFX_API vec3u texture_t<texture_type::texture2_array>::get_max_size();
-
-template <>
-HOU_GFX_API vec3u texture_t<texture_type::texture3>::get_max_size();
-
-template <>
-HOU_GFX_API vec2u texture_t<texture_type::multisample_texture2>::get_max_size();
-
-template <>
-HOU_GFX_API vec3u
-  texture_t<texture_type::multisample_texture2_array>::get_max_size();
-
-
-
-template <>
-HOU_GFX_API vec1u texture_t<texture_type::texture1>::get_size() const;
-
-template <>
-HOU_GFX_API vec2u texture_t<texture_type::texture1_array>::get_size() const;
-
-template <>
-HOU_GFX_API vec2u texture_t<texture_type::texture2>::get_size() const;
-
-template <>
-HOU_GFX_API vec3u texture_t<texture_type::texture2_array>::get_size() const;
-
-template <>
-HOU_GFX_API vec3u texture_t<texture_type::texture3>::get_size() const;
-
-template <>
-HOU_GFX_API vec2u
-  texture_t<texture_type::multisample_texture2>::get_size() const;
-
-template <>
-HOU_GFX_API vec3u
-  texture_t<texture_type::multisample_texture2_array>::get_size() const;
-
-
-template <>
-template <>
-HOU_GFX_API texture_t<texture_type::texture1>::texture_t(
-  const size_type&, texture_format, positive<uint>);
-
-template <>
-template <>
-HOU_GFX_API texture_t<texture_type::texture1_array>::texture_t(
-  const size_type&, texture_format, positive<uint>);
-
-template <>
-template <>
-HOU_GFX_API texture_t<texture_type::texture2>::texture_t(
-  const size_type&, texture_format, positive<uint>);
-
-template <>
-template <>
-HOU_GFX_API texture_t<texture_type::texture2_array>::texture_t(
-  const size_type&, texture_format, positive<uint>);
-
-template <>
-template <>
-HOU_GFX_API texture_t<texture_type::texture3>::texture_t(
-  const size_type&, texture_format, positive<uint>);
-
-template <>
-template <>
-HOU_GFX_API texture_t<texture_type::multisample_texture2>::texture_t(
-  const size_type&, texture_format, positive<uint>, bool);
-
-template <>
-template <>
-HOU_GFX_API texture_t<texture_type::multisample_texture2_array>::texture_t(
-  const size_type&, texture_format, positive<uint>, bool);
-
-#ifdef HOU_GFX_EXPORTS
-#define HOU_EXTERN extern
-#else
-#define HOU_EXTERN
-#endif
-
-#define EXPORT_TEXTURE_MIP_MAP_FUNCTIONS(tt)                                   \
-  HOU_EXTERN template HOU_GFX_API typename texture_t<tt>::wrap_mode            \
-    texture_t<tt>::get_wrap_mode<tt, void>() const;                            \
-  HOU_EXTERN template HOU_GFX_API void texture_t<tt>::set_wrap_mode<tt, void>( \
-    const typename texture_t<tt>::wrap_mode&);                                 \
-  HOU_EXTERN template HOU_GFX_API texture_filter                               \
-    texture_t<tt>::get_filter<tt, void>() const;                               \
-  HOU_EXTERN template HOU_GFX_API void texture_t<tt>::set_filter<tt, void>(    \
-    texture_filter);                                                           \
-  HOU_EXTERN template HOU_GFX_API texture_t<tt>::size_type                     \
-    texture_t<tt>::get_mipmap_size<tt, void>(uint) const;
-
-
-
-#define EXPORT_TEXTURE_IMAGE_FUNCTIONS_FOR_PIXEL_FORMAT(tt, pf)                \
-  HOU_EXTERN template HOU_GFX_API texture_t<tt>::texture_t(                    \
-    const texture_t<tt>::image<pf>&, texture_format, positive<uint>);          \
-  HOU_EXTERN template HOU_GFX_API texture_t<tt>::image<pf>                     \
-    texture_t<tt>::get_sub_image<pf, tt, void>(                                \
-      const texture_t<tt>::offset_type&, const texture_t<tt>::size_type&)      \
-      const;                                                                   \
-  HOU_EXTERN template HOU_GFX_API void texture_t<tt>::set_image<pf, tt, void>( \
-    const texture_t<tt>::image<pf>&);                                          \
-  HOU_EXTERN template HOU_GFX_API void texture_t<tt>::set_sub_image<pf, tt,    \
-    void>(const texture_t<tt>::offset_type&, const texture_t<tt>::image<pf>&); \
-  HOU_EXTERN template HOU_GFX_API void texture_t<tt>::clear<pf, tt, void>(     \
-    const pixel_t<pf>&);
-
-
-
-#define EXPORT_TEXTURE_IMAGE_FUNCTIONS(tt)                                     \
-  EXPORT_TEXTURE_IMAGE_FUNCTIONS_FOR_PIXEL_FORMAT(tt, pixel_format::r)         \
-  EXPORT_TEXTURE_IMAGE_FUNCTIONS_FOR_PIXEL_FORMAT(tt, pixel_format::rg)        \
-  EXPORT_TEXTURE_IMAGE_FUNCTIONS_FOR_PIXEL_FORMAT(tt, pixel_format::rgb)       \
-  EXPORT_TEXTURE_IMAGE_FUNCTIONS_FOR_PIXEL_FORMAT(tt, pixel_format::rgba)
-
-
-
-EXPORT_TEXTURE_MIP_MAP_FUNCTIONS(texture_type::texture1)
-EXPORT_TEXTURE_IMAGE_FUNCTIONS(texture_type::texture1)
-
-EXPORT_TEXTURE_MIP_MAP_FUNCTIONS(texture_type::texture1_array)
-EXPORT_TEXTURE_IMAGE_FUNCTIONS(texture_type::texture1_array)
-
-EXPORT_TEXTURE_MIP_MAP_FUNCTIONS(texture_type::texture2)
-EXPORT_TEXTURE_IMAGE_FUNCTIONS(texture_type::texture2)
-
-EXPORT_TEXTURE_MIP_MAP_FUNCTIONS(texture_type::texture2_array)
-EXPORT_TEXTURE_IMAGE_FUNCTIONS(texture_type::texture2_array)
-
-EXPORT_TEXTURE_MIP_MAP_FUNCTIONS(texture_type::texture3)
-EXPORT_TEXTURE_IMAGE_FUNCTIONS(texture_type::texture3)
-
-
-extern template class HOU_GFX_API texture_t<texture_type::texture1>;
-extern template class HOU_GFX_API texture_t<texture_type::texture1_array>;
-extern template class HOU_GFX_API texture_t<texture_type::texture2>;
-extern template class HOU_GFX_API texture_t<texture_type::texture2_array>;
-extern template class HOU_GFX_API texture_t<texture_type::texture3>;
-extern template class HOU_GFX_API texture_t<texture_type::multisample_texture2>;
-extern template class HOU_GFX_API
-  texture_t<texture_type::multisample_texture2_array>;
-
 }  // namespace hou
+
+
+
+#include "hou/gfx/texture.inl"
 
 #endif

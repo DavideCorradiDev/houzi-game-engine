@@ -166,10 +166,10 @@ typename Tex::template image<pixel_format::rgba>
   typename image::pixel_collection pixels = im.get_pixels();
   for(size_t i = 0; i < pixels.size(); ++i)
   {
-    pixels[i].set_r((i * 4) + 0);
-    pixels[i].set_g((i * 4) + 1);
-    pixels[i].set_b((i * 4) + 2);
-    pixels[i].set_a((i * 4) + 3);
+    pixels[i].set_r(static_cast<uint8_t>((i * 4) + 0));
+    pixels[i].set_g(static_cast<uint8_t>((i * 4) + 1));
+    pixels[i].set_b(static_cast<uint8_t>((i * 4) + 2));
+    pixels[i].set_a(static_cast<uint8_t>((i * 4) + 3));
   }
   im.set_pixels(pixels);
   return im;
@@ -741,9 +741,11 @@ TYPED_TEST(test_texture_not_multisampled, get_sub_image)
     = image_ref.get_sub_image(sub_image_offset, sub_image_size);
   TypeParam tex(image_ref);
 
+  // Note MSVC can't deduce the template params, so they must be given
+  // explicitly.
   EXPECT_EQ(sub_image_ref,
-    tex.template get_sub_image<pixel_format::rgba>(
-      sub_image_offset, sub_image_size));
+    (tex.template get_sub_image<image::format, TypeParam::type, void>(
+      sub_image_offset, sub_image_size)));
 }
 
 
@@ -764,8 +766,12 @@ TYPED_TEST(
     sub_image_size(i) = (i + 1) * 4 - sub_image_offset(i) + 1u;
   }
   TypeParam tex(this->generate_image(tex_size));
-  EXPECT_PRECOND_ERROR(tex.template get_sub_image<pixel_format::rgba>(
-    sub_image_offset, sub_image_size));
+
+  // Note MSVC can't deduce the template params, so they must be given
+  // explicitly.
+  EXPECT_PRECOND_ERROR(
+    (tex.template get_sub_image<pixel_format::rgba, TypeParam::type, void>(
+      sub_image_offset, sub_image_size)));
 }
 
 
@@ -791,12 +797,14 @@ TYPED_TEST(test_texture_not_multisampled, set_sub_image)
   image image_ref(tex_size);
   image_ref.set_sub_image(sub_image_offset, sub_image_ref);
   TypeParam tex(tex_size);
-  tex.set_sub_image(sub_image_offset, sub_image_ref);
+  tex.template set_sub_image<image::format, TypeParam::type, void>(
+    sub_image_offset, sub_image_ref);
 
-  EXPECT_EQ(image_ref, tex.template get_image<pixel_format::rgba>());
+  EXPECT_EQ(image_ref,
+    (tex.template get_image<image::format, TypeParam::type, void>()));
   EXPECT_EQ(sub_image_ref,
-    tex.template get_sub_image<pixel_format::rgba>(
-      sub_image_offset, sub_image_size));
+    (tex.template get_sub_image<image::format, TypeParam::type, void>(
+      sub_image_offset, sub_image_size)));
 }
 
 
@@ -820,7 +828,9 @@ TYPED_TEST(
 
   TypeParam tex(tex_size);
   image sub_image_ref(sub_image_size);
-  EXPECT_PRECOND_ERROR(tex.set_sub_image(sub_image_offset, sub_image_ref));
+  EXPECT_PRECOND_ERROR(
+    (tex.template set_sub_image<image::format, TypeParam::type, void>(
+      sub_image_offset, sub_image_ref)));
 }
 
 

@@ -49,7 +49,16 @@ enum class gl_type : GLenum
  * \return the correspondong gl_enum value.
  */
 template <typename data_type>
-HOU_GFX_API gl_type to_gl_type();
+gl_type to_gl_type();
+
+template<> HOU_GFX_API gl_type to_gl_type<int8_t>();
+template<> HOU_GFX_API gl_type to_gl_type<uint8_t>();
+template<> HOU_GFX_API gl_type to_gl_type<int16_t>();
+template<> HOU_GFX_API gl_type to_gl_type<uint16_t>();
+template<> HOU_GFX_API gl_type to_gl_type<int32_t>();
+template<> HOU_GFX_API gl_type to_gl_type<uint32_t>();
+template<> HOU_GFX_API gl_type to_gl_type<float>();
+template<> HOU_GFX_API gl_type to_gl_type<double>();
 
 /** Writes the object into a stream.
  *
