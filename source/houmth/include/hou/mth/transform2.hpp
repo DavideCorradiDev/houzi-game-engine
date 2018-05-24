@@ -102,7 +102,7 @@ public:
    */
   template <typename U,
     typename Enable = std::enable_if_t<std::is_convertible<U, T>::value>>
-  HOU_MTH_API transform2(const transform2<U>& other) noexcept;
+  transform2(const transform2<U>& other) noexcept;
 
   /** Builds a homogeneous transformation matrix corresponding to the
    * transform.
@@ -142,49 +142,17 @@ public:
    */
   vec2<T> transform_point(const vec2<T>& point) const noexcept;
 
-  /** Checks if two transforms are equal.
-   *
-   * \param lhs the left operand of the comparison.
-   *
-   * \param rhs the right operand of the comparison.
-   *
-   * \return the result of the check.
-   */
-  friend constexpr bool operator==(
-    const transform2& lhs, const transform2& rhs) noexcept
-  {
-    return lhs.m_mat == rhs.m_mat && lhs.m_vec == rhs.m_vec;
-  }
+  template <typename U>
+  friend bool operator==(
+    const transform2<U>& lhs, const transform2<U>& rhs) noexcept;
 
-  /** Checks if two transforms are not equal.
-   *
-   * \param lhs the left operand of the comparison.
-   *
-   * \param rhs the right operand of the comparison.
-   *
-   * \return the result of the check.
-   */
-  friend constexpr bool operator!=(
-    const transform2& lhs, const transform2& rhs) noexcept
-  {
-    return !(lhs == rhs);
-  }
+  template <typename U>
+  friend bool operator!=(
+    const transform2<U>& lhs, const transform2<U>& rhs) noexcept;
 
-  /** Checks if two transforms are equal with the specified accuracy.
-   *
-   * \param lhs the left operand of the comparison.
-   *
-   * \param rhs the right operand of the comparison.
-   *
-   * \param acc the accuracy.
-   *
-   * \return the result of the check.
-   */
-  friend constexpr bool close(const transform2& lhs, const transform2& rhs,
-    T acc = std::numeric_limits<T>::epsilon()) noexcept
-  {
-    return close(lhs.m_mat, rhs.m_mat, acc) && close(lhs.m_vec, rhs.m_vec, acc);
-  }
+  template <typename U>
+  friend bool close(
+    const transform2<U>& lhs, const transform2<U>& rhs, U acc) noexcept;
 
 private:
   transform2(const mat2x2<T>& r, const vec2<T>& t) noexcept;
@@ -205,8 +173,7 @@ private:
  * \return the combined transform.
  */
 template <typename T>
-HOU_MTH_API transform2<T> operator*(
-  transform2<T> lhs, const transform2<T>& rhs) noexcept;
+transform2<T> operator*(transform2<T> lhs, const transform2<T>& rhs) noexcept;
 
 /** Computes the inverse of a transform.
  *
@@ -217,7 +184,49 @@ HOU_MTH_API transform2<T> operator*(
  * \return the inverse transform.
  */
 template <typename T>
-HOU_MTH_API transform2<T> inverse(transform2<T> t);
+transform2<T> inverse(transform2<T> t);
+
+/** Checks if two transforms are equal.
+ *
+ * \tparam T the scalar type.
+ *
+ * \param lhs the left operand of the comparison.
+ *
+ * \param rhs the right operand of the comparison.
+ *
+ * \return the result of the check.
+ */
+template <typename T>
+bool operator==(const transform2<T>& lhs, const transform2<T>& rhs) noexcept;
+
+/** Checks if two transforms are not equal.
+ *
+ * \tparam T the scalar type.
+ *
+ * \param lhs the left operand of the comparison.
+ *
+ * \param rhs the right operand of the comparison.
+ *
+ * \return the result of the check.
+ */
+template <typename T>
+bool operator!=(const transform2<T>& lhs, const transform2<T>& rhs) noexcept;
+
+/** Checks if two transforms are equal with the specified accuracy.
+ *
+ * \tparam T the scalar type.
+ *
+ * \param lhs the left operand of the comparison.
+ *
+ * \param rhs the right operand of the comparison.
+ *
+ * \param acc the accuracy.
+ *
+ * \return the result of the check.
+ */
+template <typename T>
+bool close(const transform2<T>& lhs, const transform2<T>& rhs,
+  T acc = std::numeric_limits<T>::epsilon()) noexcept;
 
 /** Writes the object into a stream.
  *
@@ -230,8 +239,15 @@ HOU_MTH_API transform2<T> inverse(transform2<T> t);
  * \return a reference to the stream.
  */
 template <typename T>
-HOU_MTH_API std::ostream& operator<<(std::ostream& os, const transform2<T>& t);
+std::ostream& operator<<(std::ostream& os, const transform2<T>& t);
+
+
+
+extern template class HOU_MTH_API transform2<float>;
+extern template class HOU_MTH_API transform2<double>;
 
 }  // namespace hou
+
+#include "hou/mth/transform2.inl"
 
 #endif

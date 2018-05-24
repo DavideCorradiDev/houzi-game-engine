@@ -3,8 +3,11 @@
 
 
 ## Building
-Currently only builds on Windows with the MinGW compiler are supported.
-Support for more platforms and compilers is coming soon.
+The following platforms are currently supported:
+
+* Windows with MinGW64.
+
+* Windows with Visual Studio 2017.
 
 
 
@@ -50,7 +53,7 @@ When enabling OpenGL error checks, the preprocessor symbol **HOU\_ENABLE\_GL\_ER
 
 
 
-### Building on Windows with MinGW
+### Building on Windows with MinGW64
 * Install [CMake](https://cmake.org/).
 
 * Install [MinGW](http://www.mingw.org/).
@@ -65,6 +68,19 @@ When enabling OpenGL error checks, the preprocessor symbol **HOU\_ENABLE\_GL\_ER
 mingw32-make
 ```
 Refer to the MinGW documentation for options that can be passed to mingw32-make.
+
+
+
+### Building on Windows with Visual Studio 2017
+For a complete descrition on how to use CMake with Visual Studio you can refer to [this page](https://blogs.msdn.microsoft.com/vcblog/2016/10/05/cmake-support-in-visual-studio/#configure-cmake).
+* Open the root Houzi Game Engine folder with "File > Open > Folder".
+
+* Visual Studio should automatically try to configure the project and generate the CMake cache.
+  The cache can be managed manually from the "CMake > Cache (...)" menu.
+
+* You can change the CMake settings for different build configurations by editing the generated CMakeSettings.json file.
+
+* You can build the projecy by selecting the appropriate build configuration and running "CMake > Build All".
 
 
 

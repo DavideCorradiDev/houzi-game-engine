@@ -1,5 +1,5 @@
 // Houzi Multimedia Library
-// Copyright (c) 2016-2017 Davide Corradi
+// Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license. See license.md for more details.
 
 #include <gtest/gtest.h>

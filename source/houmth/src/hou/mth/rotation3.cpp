@@ -191,14 +191,6 @@ rotation3<T>::rotation3(const mat3x3<T>& m)
 
 
 template <typename T>
-template <typename U, typename Enable>
-rotation3<T>::rotation3(const rotation3<U>& other) noexcept
-  : m_quaternion(normalized(static_cast<quaternion<T>>(other.m_quaternion)))
-{}
-
-
-
-template <typename T>
 const quaternion<T>& rotation3<T>::get_quaternion() const noexcept
 {
   return m_quaternion;
@@ -241,66 +233,7 @@ rotation3<T>& rotation3<T>::invert()
 
 
 
-template <typename T>
-rotation3<T> operator*(rotation3<T> lhs, const rotation3<T>& rhs)
-{
-  return lhs *= rhs;
-}
-
-
-
-template <typename T>
-rotation3<T> inverse(rotation3<T> r)
-{
-  return r.invert();
-}
-
-
-
-template <typename T>
-bool operator==(const rotation3<T>& lhs, const rotation3<T>& rhs) noexcept
-{
-  return lhs.get_quaternion() == rhs.get_quaternion();
-}
-
-
-
-template <typename T>
-bool operator!=(const rotation3<T>& lhs, const rotation3<T>& rhs) noexcept
-{
-  return lhs.get_quaternion() != rhs.get_quaternion();
-}
-
-
-
-template <typename T>
-bool close(const rotation3<T>& lhs, const rotation3<T>& rhs, T acc) noexcept
-{
-  return close(lhs.get_quaternion(), rhs.get_quaternion(), acc);
-}
-
-
-
-template <typename T>
-std::ostream& operator<<(std::ostream& os, const rotation3<T>& r)
-{
-  return os << r.get_quaternion();
-}
-
-
-
-#define HOU_INSTANTIATE(T)                                                     \
-  template class rotation3<T>;                                                 \
-  template rotation3<T> operator*<T>(rotation3<T>, const rotation3<T>&);       \
-  template rotation3<T> inverse<T>(rotation3<T>);                              \
-  template bool operator==<T>(const rotation3<T>&, const rotation3<T>&);       \
-  template bool operator!=<T>(const rotation3<T>&, const rotation3<T>&);       \
-  template bool close<T>(const rotation3<T>&, const rotation3<T>&, T);         \
-  template std::ostream& operator<<<T>(std::ostream&, const rotation3<T>&)
-
-HOU_INSTANTIATE(float);
-HOU_INSTANTIATE(double);
-template rotation3<float>::rotation3<double>(const rotation3<double>&);
-template rotation3<double>::rotation3<float>(const rotation3<float>&);
+template class rotation3<float>;
+template class rotation3<double>;
 
 }  // namespace hou

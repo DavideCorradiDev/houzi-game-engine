@@ -24,7 +24,7 @@ namespace hou
  * pointer.
  */
 template <typename PtrType>
-class HOU_COR_API not_null
+class not_null
 {
 public:
   static_assert(std::is_assignable<PtrType&, std::nullptr_t>::value,

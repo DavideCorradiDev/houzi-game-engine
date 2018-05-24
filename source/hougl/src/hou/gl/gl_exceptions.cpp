@@ -6,6 +6,7 @@
 
 #include "hou/gl/gl_context.hpp"
 #include "hou/gl/gl_object_handle.hpp"
+#include "hou/gl/gl_version.hpp"
 
 
 
@@ -85,6 +86,16 @@ extension_initialization_error::extension_initialization_error(
 context_creation_error::context_creation_error(
   const std::string& path, uint line)
   : exception(path, line, u8"Failed to create the OpenGL context.")
+{}
+
+
+
+unsupported_version::unsupported_version(
+  const std::string& path, uint line, const version& v)
+  : exception(path, line,
+      format_string(
+        u8"Tried to create a context with unsupported OpenGL version %s.",
+        to_string(v).c_str()))
 {}
 
 

@@ -98,9 +98,6 @@ private:
     const context* shared_context);
 
 private:
-  thread_local static context* s_current_context;
-  thread_local static uint32_t s_current_window_uid;
-
   prv::context_impl m_impl;
   uint32_t m_uid;
   uint32_t m_sharing_group_uid;

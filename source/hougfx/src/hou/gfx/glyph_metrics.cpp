@@ -166,7 +166,7 @@ bool operator!=(const glyph_metrics& lhs, const glyph_metrics& rhs) noexcept
 
 std::ostream& operator<<(std::ostream& os, const glyph_metrics& gm)
 {
-  return os << "{size_type = " << transpose(gm.get_size())
+  return os << "{size = " << transpose(gm.get_size())
             << ", horizontal_bearing = "
             << transpose(gm.get_horizontal_bearing())
             << ", horizontal_advance = " << gm.get_horizontal_advance()

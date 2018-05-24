@@ -10,6 +10,8 @@
 #include "hou/mth/matrix_fwd.hpp"
 #include "hou/mth/rotation2_fwd.hpp"
 
+#include "hou/cor/pragmas.hpp"
+
 #include <iostream>
 #include <limits>
 
@@ -26,7 +28,7 @@ namespace hou
  * \tparam T the scalar type.
  */
 template <typename T>
-class HOU_MTH_API rotation2
+class rotation2
 {
 public:
   template <typename OtherT>
@@ -70,7 +72,7 @@ public:
    */
   template <typename U,
     typename Enable = std::enable_if_t<std::is_convertible<U, T>::value>>
-  HOU_MTH_API rotation2(const rotation2<U>& other) noexcept;
+  rotation2(const rotation2<U>& other) noexcept;
 
   /** Returns the rotation angle.
    *
@@ -115,8 +117,7 @@ private:
  * \return a rotation representing the two combined rotations.
  */
 template <typename T>
-HOU_MTH_API rotation2<T> operator*(
-  rotation2<T> lhs, const rotation2<T>& rhs) noexcept;
+rotation2<T> operator*(rotation2<T> lhs, const rotation2<T>& rhs) noexcept;
 
 /** Computes the inverse of the given rotation.
  *
@@ -127,7 +128,7 @@ HOU_MTH_API rotation2<T> operator*(
  * \return the inverse rotation.
  */
 template <typename T>
-HOU_MTH_API rotation2<T> inverse(rotation2<T> r) noexcept;
+rotation2<T> inverse(rotation2<T> r) noexcept;
 
 /** Checks if two rotations are equal.
  *
@@ -140,8 +141,7 @@ HOU_MTH_API rotation2<T> inverse(rotation2<T> r) noexcept;
  * \return the result of the comparison.
  */
 template <typename T>
-HOU_MTH_API bool operator==(
-  const rotation2<T>& lhs, const rotation2<T>& rhs) noexcept;
+bool operator==(const rotation2<T>& lhs, const rotation2<T>& rhs) noexcept;
 
 /** Checks if two rotations are not equal.
  *
@@ -154,8 +154,7 @@ HOU_MTH_API bool operator==(
  * \return the result of the comparison.
  */
 template <typename T>
-HOU_MTH_API bool operator!=(
-  const rotation2<T>& lhs, const rotation2<T>& rhs) noexcept;
+bool operator!=(const rotation2<T>& lhs, const rotation2<T>& rhs) noexcept;
 
 /** Checks if two rotations are equal with the given accuracy.
  *
@@ -170,7 +169,7 @@ HOU_MTH_API bool operator!=(
  * \return the result of the comparison.
  */
 template <typename T>
-HOU_MTH_API bool close(const rotation2<T>& lhs, const rotation2<T>& rhs,
+bool close(const rotation2<T>& lhs, const rotation2<T>& rhs,
   T acc = std::numeric_limits<T>::epsilon()) noexcept;
 
 /** Writes the object into a stream.
@@ -184,8 +183,15 @@ HOU_MTH_API bool close(const rotation2<T>& lhs, const rotation2<T>& rhs,
  * \return a reference to the stream.
  */
 template <typename T>
-HOU_MTH_API std::ostream& operator<<(std::ostream& os, const rotation2<T>& r);
+std::ostream& operator<<(std::ostream& os, const rotation2<T>& r);
+
+
+
+extern template class HOU_MTH_API rotation2<float>;
+extern template class HOU_MTH_API rotation2<double>;
 
 }  // namespace hou
+
+#include "hou/mth/rotation2.inl"
 
 #endif

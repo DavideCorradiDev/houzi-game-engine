@@ -31,7 +31,7 @@ namespace hou
  * \tparam Dim the number of dimensions of the image (from 1 to 3).
  */
 template <size_t Dim, pixel_format PF>
-class HOU_SYS_API image
+class image
 {
 public:
   template <size_t OtherDim, pixel_format OtherPF>
@@ -50,23 +50,28 @@ public:
   using pixel_collection = std::vector<pixel>;
 
 public:
+  static constexpr size_t dimension_count = Dim;
+  static constexpr pixel_format format = PF;
+  static constexpr size_t pixel_byte_count = pixel::byte_count;
+
+public:
   /** Retrieves the number of dimensions of the image.
    *
    * \return the number of dimensions of the imag.e
    */
-  static constexpr size_t get_dimension_count() noexcept;
+  static size_t get_dimension_count() noexcept;
 
   /** Retrieves the format of the pixels of the image.
    *
    * \return the format of the pixels of the image.
    */
-  static constexpr pixel_format get_pixel_format() noexcept;
+  static pixel_format get_pixel_format() noexcept;
 
   /** Retrieves the amount of bytes used by a pixel of the image.
    *
    * \return the amomunt of bytes used by a pixel of the image.
    */
-  static constexpr uint get_pixel_byte_count() noexcept;
+  static uint get_pixel_byte_count() noexcept;
 
 public:
   /** default constructor.
@@ -156,7 +161,18 @@ public:
   template <size_t OtherDim, pixel_format OtherPF,
     typename Enable
     = std::enable_if_t<(OtherPF != PF || OtherDim != Dim) && (OtherDim <= Dim)>>
-  HOU_SYS_API image(const image<OtherDim, OtherPF>& other);
+  image(const image<OtherDim, OtherPF>& other)
+    : m_size(resize_size_vec(other.get_size(), 1u))
+    , m_pixels(compute_pixel_count())
+  {
+    // This has to be defined here, or MSVC can't figure out that this
+    // constructor exists and will try to call the one taking a size vector
+    // as argument.
+    for(size_t i = 0; i < m_pixels.size(); ++i)
+    {
+      m_pixels[i] = other.m_pixels[i];
+    }
+  }
 
   /** Retrieves the size of the image.
    *
@@ -238,6 +254,11 @@ public:
   void clear(const pixel& px);
 
 private:
+  template <size_t OtherDim>
+  static vec<uint, Dim> resize_size_vec(
+    const vec<uint, OtherDim>& vec_in, uint value);
+
+private:
   size_t compute_pixel_count() const;
   size_t compute_pixel_index(const offset_type& coordinates) const;
 
@@ -259,8 +280,7 @@ private:
  * \return the result of the check.
  */
 template <size_t Dim, pixel_format PF>
-HOU_SYS_API bool operator==(
-  const image<Dim, PF>& lhs, const image<Dim, PF>& rhs) noexcept;
+bool operator==(const image<Dim, PF>& lhs, const image<Dim, PF>& rhs) noexcept;
 
 /** Checks if two image objects are not equal.
  *
@@ -275,8 +295,7 @@ HOU_SYS_API bool operator==(
  * \return the result of the check.
  */
 template <size_t Dim, pixel_format PF>
-HOU_SYS_API bool operator!=(
-  const image<Dim, PF>& lhs, const image<Dim, PF>& rhs) noexcept;
+bool operator!=(const image<Dim, PF>& lhs, const image<Dim, PF>& rhs) noexcept;
 
 /** Writes the object into a stream.
  *
@@ -291,8 +310,7 @@ HOU_SYS_API bool operator!=(
  * \return a reference to os.
  */
 template <size_t Dim, pixel_format PF>
-HOU_SYS_API std::ostream& operator<<(
-  std::ostream& os, const image<Dim, PF>& im);
+std::ostream& operator<<(std::ostream& os, const image<Dim, PF>& im);
 
 }  // namespace hou
 

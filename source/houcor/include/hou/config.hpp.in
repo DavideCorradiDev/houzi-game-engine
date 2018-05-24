@@ -18,6 +18,8 @@
   #define UNICODE
   #if defined(__MINGW32__)
     #define HOU_COMPILER_MINGW
+  #elif defined(_MSC_VER)
+    #define HOU_COMPILER_MSVC
   #endif
 #endif
 

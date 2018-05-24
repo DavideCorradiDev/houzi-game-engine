@@ -50,11 +50,24 @@ TEST_F(test_gl_context, creation)
 {
   system_window w(
     "Test", video_mode(vec2u(10u, 10u), 4u), window_style::windowed);
-  gl::context c(gl::context_settings::standard, w);
+  gl::context c(gl::context_settings::get_default(), w);
 
   EXPECT_NE(0u, c.get_uid());
   EXPECT_NE(0u, c.get_sharing_group_uid());
   EXPECT_FALSE(c.is_current());
+}
+
+
+
+TEST_F(test_gl_context_death_test, creation_error_unsupported_version)
+{
+  system_window w(
+    "Test", video_mode(vec2u(10u, 10u), 4u), window_style::windowed);
+  gl::version v(8u, 9u);
+  gl::context_settings settings = gl::context_settings::get_default();
+  settings.set_version(v);
+
+  EXPECT_ERROR_N(gl::context c(settings, w), gl::unsupported_version, v);
 }
 
 
@@ -65,8 +78,8 @@ TEST_F(test_gl_context, shared_creation)
     "Test", video_mode(vec2u::zero(), 0u), window_style::windowed);
   system_window w2(
     "Test", video_mode(vec2u::zero(), 0u), window_style::windowed);
-  gl::context c1(gl::context_settings::standard, w1);
-  gl::context c2(gl::context_settings::standard, w2, c1);
+  gl::context c1(gl::context_settings::get_default(), w1);
+  gl::context c2(gl::context_settings::get_default(), w2, c1);
 
   EXPECT_NE(0u, c1.get_uid());
   EXPECT_NE(0u, c1.get_sharing_group_uid());
@@ -89,12 +102,12 @@ TEST_F(test_gl_context, get_uid)
   // Various tests generate contexts. Also, initializing Gl extensions craetes
   // a context. For this reason one may not know beforehand the first
   // context id that will appear in this test.
-  gl::context first_context(gl::context_settings::standard, w);
+  gl::context first_context(gl::context_settings::get_default(), w);
   uint32_t first_id = first_context.get_uid() + 1u;
 
   for(size_t i = 0; i < 5u; ++i)
   {
-    gl::context c(gl::context_settings::standard, w);
+    gl::context c(gl::context_settings::get_default(), w);
     EXPECT_EQ(first_id + i, c.get_uid());
     EXPECT_EQ(first_id + i, c.get_sharing_group_uid());
   }
@@ -106,14 +119,14 @@ TEST_F(test_gl_context, get_sharing_group_uid)
 {
   system_window w(
     "Test", video_mode(vec2u::zero(), 0u), window_style::windowed);
-  gl::context c1(gl::context_settings::standard, w);
-  gl::context c2(gl::context_settings::standard, w);
-  gl::context c3(gl::context_settings::standard, w, c1);
-  gl::context c4(gl::context_settings::standard, w, c3);
-  gl::context c5(gl::context_settings::standard, w, c1);
-  gl::context c6(gl::context_settings::standard, w);
-  gl::context c7(gl::context_settings::standard, w, c2);
-  gl::context c8(gl::context_settings::standard, w, c5);
+  gl::context c1(gl::context_settings::get_default(), w);
+  gl::context c2(gl::context_settings::get_default(), w);
+  gl::context c3(gl::context_settings::get_default(), w, c1);
+  gl::context c4(gl::context_settings::get_default(), w, c3);
+  gl::context c5(gl::context_settings::get_default(), w, c1);
+  gl::context c6(gl::context_settings::get_default(), w);
+  gl::context c7(gl::context_settings::get_default(), w, c2);
+  gl::context c8(gl::context_settings::get_default(), w, c5);
 
   EXPECT_NE(c1.get_sharing_group_uid(), c2.get_sharing_group_uid());
   EXPECT_EQ(c1.get_sharing_group_uid(), c3.get_sharing_group_uid());
@@ -157,7 +170,7 @@ TEST_F(test_gl_context, move_constructor)
 {
   system_window w(
     "Test", video_mode(vec2u::zero(), 0u), window_style::windowed);
-  gl::context c_dummy(gl::context_settings::standard, w);
+  gl::context c_dummy(gl::context_settings::get_default(), w);
   gl::context::set_current(c_dummy, w);
   ASSERT_EQ(&c_dummy, gl::context::get_current());
   uint32_t uid_ref = c_dummy.get_uid();
@@ -178,8 +191,8 @@ TEST_F(test_gl_context, current_gl_context)
     "Test", video_mode(vec2u(10u, 10u), 4u), window_style::windowed);
   system_window w2(
     "Test", video_mode(vec2u(10u, 10u), 4u), window_style::windowed);
-  gl::context c1(gl::context_settings::standard, w1);
-  gl::context c2(gl::context_settings::standard, w2);
+  gl::context c1(gl::context_settings::get_default(), w1);
+  gl::context c2(gl::context_settings::get_default(), w2);
 
   EXPECT_FALSE(c1.is_current());
   EXPECT_FALSE(c2.is_current());
@@ -214,7 +227,7 @@ TEST_F(test_gl_context, single_context_multiple_windows)
     "Test", video_mode(vec2u(10u, 10u), 4u), window_style::windowed);
   system_window w2(
     "Test", video_mode(vec2u(10u, 10u), 4u), window_style::windowed);
-  gl::context c(gl::context_settings::standard, w1);
+  gl::context c(gl::context_settings::get_default(), w1);
 
   gl::context::set_current(c, w1);
   EXPECT_TRUE(c.is_current());
@@ -229,8 +242,8 @@ TEST_F(test_gl_context, multiple_contexts_single_window)
 {
   system_window w(
     "Test", video_mode(vec2u(10u, 10u), 4u), window_style::windowed);
-  gl::context c1(gl::context_settings::standard, w);
-  gl::context c2(gl::context_settings::standard, w);
+  gl::context c1(gl::context_settings::get_default(), w);
+  gl::context c2(gl::context_settings::get_default(), w);
 
   gl::context::set_current(c1, w);
   EXPECT_TRUE(c1.is_current());
@@ -245,7 +258,7 @@ TEST_F(test_gl_context_death_test, make_current_error)
 {
   system_window w1(
     "Test", video_mode(vec2u(10u, 10u), 4u), window_style::windowed);
-  gl::context c(gl::context_settings::standard, w1);
+  gl::context c(gl::context_settings::get_default(), w1);
 
   gl::context::set_current(c, w1);
   ASSERT_TRUE(c.is_current());
@@ -269,8 +282,8 @@ TEST_F(test_gl_context_optimizations, redundant_binding)
     "Test", video_mode(vec2u(4u, 4u), 4u), window_style::windowed);
   system_window w2(
     "Test", video_mode(vec2u(4u, 4u), 4u), window_style::windowed);
-  gl::context c1(gl::context_settings::standard, w1);
-  gl::context c2(gl::context_settings::standard, w1);
+  gl::context c1(gl::context_settings::get_default(), w1);
+  gl::context c2(gl::context_settings::get_default(), w1);
 
   // First binding appears to be more expensive.
   // Doing it here reduces bias in the measurements.

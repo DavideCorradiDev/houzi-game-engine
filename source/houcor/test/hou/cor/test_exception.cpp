@@ -119,16 +119,16 @@ TEST_F(test_exception_death_test, expect_error_n_macro)
 
 
 
-TEST_F(test_exception_death_test, terminate)
+TEST_F(test_exception_death_test, abort)
 {
-  EXPECT_DEATH(terminate("Message."), "Message\\.");
+  EXPECT_DEATH(abort("Message."), "Message\\.");
 }
 
 
 
-TEST_F(test_exception_death_test, terminate_macro)
+TEST_F(test_exception_death_test, abort_macro)
 {
-  EXPECT_DEATH(HOU_TERMINATE("Message."), ".*:.* - Message\\.");
+  EXPECT_DEATH(HOU_ABORT("Message."), ".*:.* - Message\\.");
 }
 
 

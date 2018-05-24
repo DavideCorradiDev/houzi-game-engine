@@ -40,15 +40,6 @@ quaternion<T>::quaternion(T x, T y, T z, T w) noexcept
 
 
 template <typename T>
-template <typename U>
-quaternion<T>::quaternion(const quaternion<U>& other) noexcept
-  : quaternion(static_cast<T>(other.x()), static_cast<T>(other.y()),
-      static_cast<T>(other.z()), static_cast<T>(other.w()))
-{}
-
-
-
-template <typename T>
 T quaternion<T>::x() const noexcept
 {
   return m_elements[0];
@@ -213,99 +204,7 @@ quaternion<T>& quaternion<T>::normalize()
 
 
 
-template <typename T>
-quaternion<T> operator+(quaternion<T> lhs, const quaternion<T>& rhs) noexcept
-{
-  return lhs += rhs;
-}
-
-
-
-template <typename T>
-quaternion<T> operator-(quaternion<T> lhs, const quaternion<T>& rhs) noexcept
-{
-  return lhs -= rhs;
-}
-
-
-
-template <typename T>
-quaternion<T> operator*(quaternion<T> lhs, const quaternion<T>& rhs) noexcept
-{
-  return lhs *= rhs;
-}
-
-
-
-template <typename T>
-T square_norm(const quaternion<T>& q) noexcept
-{
-  return q.x() * q.x() + q.y() * q.y() + q.z() * q.z() + q.w() * q.w();
-}
-
-
-
-template <typename T>
-T norm(const quaternion<T>& q) noexcept
-{
-  return std::sqrt(square_norm(q));
-}
-
-
-
-template <typename T>
-quaternion<T> inverse(quaternion<T> q)
-{
-  return q.invert();
-}
-
-
-
-template <typename T>
-quaternion<T> conjugate(quaternion<T> q) noexcept
-{
-  return q.conjugate();
-}
-
-
-
-template <typename T>
-quaternion<T> normalized(quaternion<T> q)
-{
-  return q.normalize();
-}
-
-
-
-template <typename T>
-std::ostream& operator<<(std::ostream& os, const quaternion<T>& q)
-{
-  return os << "(" << q.x() << "," << q.y() << "," << q.z() << "," << q.w()
-            << ")";
-}
-
-
-
-#define HOU_INSTANTIATE(T)                                                     \
-  template class quaternion<T>;                                                \
-  template quaternion<T> operator+<T>(                                         \
-    quaternion<T>, const quaternion<T>&) noexcept;                             \
-  template quaternion<T> operator-<T>(                                         \
-    quaternion<T>, const quaternion<T>&) noexcept;                             \
-  template quaternion<T> operator*<T>(                                         \
-    quaternion<T>, const quaternion<T>&) noexcept;                             \
-  template quaternion<T> inverse<T>(quaternion<T>);                            \
-  template quaternion<T> conjugate<T>(quaternion<T>) noexcept;                 \
-  template T square_norm<T>(const quaternion<T>&) noexcept;                    \
-  template T norm<T>(const quaternion<T>&) noexcept;                           \
-  template quaternion<T> normalized<T>(quaternion<T>) noexcept;                \
-  template std::ostream& operator<<<T>(std::ostream&, const quaternion<T>&)
-
-HOU_INSTANTIATE(float);
-HOU_INSTANTIATE(double);
-template quaternion<float>::quaternion<double>(
-  const quaternion<double>&) noexcept;
-template quaternion<double>::quaternion<float>(
-  const quaternion<float>&) noexcept;
+template class quaternion<float>;
+template class quaternion<double>;
 
 }  // namespace hou

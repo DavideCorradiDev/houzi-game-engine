@@ -26,7 +26,7 @@ namespace hou
  * \tparam T the scalar type.
  */
 template <typename T>
-class HOU_MTH_API rotation3
+class rotation3
 {
 public:
   template <typename OtherT>
@@ -98,7 +98,6 @@ public:
    */
   explicit rotation3(const mat3x3<T>& m);
 
-
   /** Creates a rotation from a rotation with different scalar type.
    *
    * \tparam U the other scalar type.
@@ -107,8 +106,7 @@ public:
    */
   template <typename U,
     typename Enable = std::enable_if_t<std::is_convertible<U, T>::value>>
-  HOU_MTH_API rotation3(const rotation3<U>& other) noexcept;
-
+  rotation3(const rotation3<U>& other) noexcept;
 
   /** Returns a quaternion representing the rotation.
    *
@@ -157,7 +155,7 @@ private:
  * \return a rotation representing the two combined rotations.
  */
 template <typename T>
-HOU_MTH_API rotation3<T> operator*(rotation3<T> lhs, const rotation3<T>& rhs);
+rotation3<T> operator*(rotation3<T> lhs, const rotation3<T>& rhs);
 
 /** Computes the inverse of the given rotation.
  *
@@ -168,7 +166,7 @@ HOU_MTH_API rotation3<T> operator*(rotation3<T> lhs, const rotation3<T>& rhs);
  * \return the inverse rotation.
  */
 template <typename T>
-HOU_MTH_API rotation3<T> inverse(rotation3<T> r);
+rotation3<T> inverse(rotation3<T> r);
 
 /** Checks if two rotations are equal.
  *
@@ -181,8 +179,7 @@ HOU_MTH_API rotation3<T> inverse(rotation3<T> r);
  * \return the result of the comparison.
  */
 template <typename T>
-HOU_MTH_API bool operator==(
-  const rotation3<T>& lhs, const rotation3<T>& rhs) noexcept;
+bool operator==(const rotation3<T>& lhs, const rotation3<T>& rhs) noexcept;
 
 /** Checks if two rotations are not equal.
  *
@@ -195,8 +192,7 @@ HOU_MTH_API bool operator==(
  * \return the result of the comparison.
  */
 template <typename T>
-HOU_MTH_API bool operator!=(
-  const rotation3<T>& lhs, const rotation3<T>& rhs) noexcept;
+bool operator!=(const rotation3<T>& lhs, const rotation3<T>& rhs) noexcept;
 
 /** Checks if two rotations are equal with the given accuracy.
  *
@@ -211,7 +207,7 @@ HOU_MTH_API bool operator!=(
  * \return the result of the comparison.
  */
 template <typename T>
-HOU_MTH_API bool close(const rotation3<T>& lhs, const rotation3<T>& rhs,
+bool close(const rotation3<T>& lhs, const rotation3<T>& rhs,
   T acc = std::numeric_limits<T>::epsilon()) noexcept;
 
 /** Writes the object into a stream.
@@ -225,8 +221,17 @@ HOU_MTH_API bool close(const rotation3<T>& lhs, const rotation3<T>& rhs,
  * \return a reference to the stream.
  */
 template <typename T>
-HOU_MTH_API std::ostream& operator<<(std::ostream& os, const rotation3<T>& r);
+std::ostream& operator<<(std::ostream& os, const rotation3<T>& r);
+
+
+
+extern template class HOU_MTH_API rotation3<float>;
+extern template class HOU_MTH_API rotation3<double>;
 
 }  // namespace hou
+
+
+
+#include "hou/mth/rotation3.inl"
 
 #endif

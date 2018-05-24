@@ -347,10 +347,10 @@ TYPED_TEST(test_basic_static_string, iterators)
   EXPECT_EQ(*stdstr.rbegin(), *s.rbegin());
   EXPECT_EQ(*stdstr.crbegin(), *s.crbegin());
 
-  EXPECT_EQ(*stdstr.end(), *s.end());
-  EXPECT_EQ(*stdstr.cend(), *s.cend());
-  EXPECT_EQ(*stdstr.rend(), *s.rend());
-  EXPECT_EQ(*stdstr.crend(), *s.crend());
+  EXPECT_EQ(*(stdstr.end() - 1), *(s.end() - 1));
+  EXPECT_EQ(*(stdstr.cend() - 1), *(s.cend() - 1));
+  EXPECT_EQ(*(stdstr.rend() - 1), *(s.rend() - 1));
+  EXPECT_EQ(*(stdstr.crend() - 1), *(s.crend() - 1));
 
   *s.begin() = static_cast<TypeParam>('x');
   EXPECT_EQ(static_cast<TypeParam>('x'), s.front());
@@ -381,10 +381,10 @@ TYPED_TEST(test_basic_static_string, const_iterators)
   EXPECT_EQ(*stdstr.rbegin(), *s.rbegin());
   EXPECT_EQ(*stdstr.crbegin(), *s.crbegin());
 
-  EXPECT_EQ(*stdstr.end(), *s.end());
-  EXPECT_EQ(*stdstr.cend(), *s.cend());
-  EXPECT_EQ(*stdstr.rend(), *s.rend());
-  EXPECT_EQ(*stdstr.crend(), *s.crend());
+  EXPECT_EQ(*(stdstr.end() - 1), *(s.end() - 1));
+  EXPECT_EQ(*(stdstr.cend() - 1), *(s.cend() - 1));
+  EXPECT_EQ(*(stdstr.rend() - 1), *(s.rend() - 1));
+  EXPECT_EQ(*(stdstr.crend() - 1), *(s.crend() - 1));
 
   EXPECT_EQ(
     static_cast<std::ptrdiff_t>(s.size()), std::distance(s.begin(), s.end()));

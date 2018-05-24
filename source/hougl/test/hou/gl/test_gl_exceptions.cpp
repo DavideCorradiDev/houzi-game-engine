@@ -56,6 +56,17 @@ TEST_F(test_gl_exceptions, extension_initialization_error)
 
 
 
+TEST_F(test_gl_exceptions, unsupported_version)
+{
+  gl::unsupported_version ex("foo.cpp", 42u, gl::version(8u, 9u));
+  EXPECT_STREQ(
+    "foo.cpp:42 - Tried to create a context with unsupported OpenGL version "
+    "8.9.",
+    ex.what());
+}
+
+
+
 TEST_F(test_gl_exceptions, context_creation_error)
 {
   gl::context_creation_error ex("foo.cpp", 42u);
@@ -285,9 +296,9 @@ TEST_F(test_gl_exceptions, gl_context_ownership_shared_function_success)
 {
   system_window w(
     "test", video_mode(vec2u::zero(), 0u), window_style::windowed);
-  gl::context c1(gl::context_settings::standard, w);
-  gl::context c2(gl::context_settings::standard, w, c1);
-  gl::context c3(gl::context_settings::standard, w);
+  gl::context c1(gl::context_settings::get_default(), w);
+  gl::context c2(gl::context_settings::get_default(), w, c1);
+  gl::context c3(gl::context_settings::get_default(), w);
 
   gl::context::set_current(c1, w);
   concrete_gl_shared_object_handle o1(0u);
@@ -317,9 +328,9 @@ TEST_F(
 {
   system_window w(
     "test", video_mode(vec2u::zero(), 0u), window_style::windowed);
-  gl::context c1(gl::context_settings::standard, w);
-  gl::context c2(gl::context_settings::standard, w, c1);
-  gl::context c3(gl::context_settings::standard, w);
+  gl::context c1(gl::context_settings::get_default(), w);
+  gl::context c2(gl::context_settings::get_default(), w, c1);
+  gl::context c3(gl::context_settings::get_default(), w);
 
   gl::context::set_current(c1, w);
   concrete_gl_shared_object_handle o1(0u);
@@ -351,9 +362,9 @@ TEST_F(test_gl_exceptions, gl_context_ownership_shared_macro_success)
 {
   system_window w(
     "test", video_mode(vec2u::zero(), 0u), window_style::windowed);
-  gl::context c1(gl::context_settings::standard, w);
-  gl::context c2(gl::context_settings::standard, w, c1);
-  gl::context c3(gl::context_settings::standard, w);
+  gl::context c1(gl::context_settings::get_default(), w);
+  gl::context c2(gl::context_settings::get_default(), w, c1);
+  gl::context c3(gl::context_settings::get_default(), w);
 
   gl::context::set_current(c1, w);
   concrete_gl_shared_object_handle o1(0u);
@@ -382,9 +393,9 @@ TEST_F(test_gl_exceptions_death_test, gl_context_ownership_shared_macro_failure)
 {
   system_window w(
     "test", video_mode(vec2u::zero(), 0u), window_style::windowed);
-  gl::context c1(gl::context_settings::standard, w);
-  gl::context c2(gl::context_settings::standard, w, c1);
-  gl::context c3(gl::context_settings::standard, w);
+  gl::context c1(gl::context_settings::get_default(), w);
+  gl::context c2(gl::context_settings::get_default(), w, c1);
+  gl::context c3(gl::context_settings::get_default(), w);
 
   gl::context::set_current(c1, w);
   concrete_gl_shared_object_handle o1(0u);
@@ -425,9 +436,9 @@ TEST_F(test_gl_exceptions, gl_context_ownership_non_shared_function_success)
 {
   system_window w(
     "test", video_mode(vec2u::zero(), 0u), window_style::windowed);
-  gl::context c1(gl::context_settings::standard, w);
-  gl::context c2(gl::context_settings::standard, w, c1);
-  gl::context c3(gl::context_settings::standard, w);
+  gl::context c1(gl::context_settings::get_default(), w);
+  gl::context c2(gl::context_settings::get_default(), w, c1);
+  gl::context c3(gl::context_settings::get_default(), w);
 
   gl::context::set_current(c1, w);
   concrete_non_shared_object_handle o1(0u);
@@ -455,9 +466,9 @@ TEST_F(test_gl_exceptions_death_test,
 {
   system_window w(
     "test", video_mode(vec2u::zero(), 0u), window_style::windowed);
-  gl::context c1(gl::context_settings::standard, w);
-  gl::context c2(gl::context_settings::standard, w, c1);
-  gl::context c3(gl::context_settings::standard, w);
+  gl::context c1(gl::context_settings::get_default(), w);
+  gl::context c2(gl::context_settings::get_default(), w, c1);
+  gl::context c3(gl::context_settings::get_default(), w);
 
   gl::context::set_current(c1, w);
   concrete_non_shared_object_handle o1(0u);
@@ -493,9 +504,9 @@ TEST_F(test_gl_exceptions, gl_context_ownership_non_shared_macro_success)
 {
   system_window w(
     "test", video_mode(vec2u::zero(), 0u), window_style::windowed);
-  gl::context c1(gl::context_settings::standard, w);
-  gl::context c2(gl::context_settings::standard, w, c1);
-  gl::context c3(gl::context_settings::standard, w);
+  gl::context c1(gl::context_settings::get_default(), w);
+  gl::context c2(gl::context_settings::get_default(), w, c1);
+  gl::context c3(gl::context_settings::get_default(), w);
 
   gl::context::set_current(c1, w);
   concrete_non_shared_object_handle o1(0u);
@@ -523,9 +534,9 @@ TEST_F(
 {
   system_window w(
     "test", video_mode(vec2u::zero(), 0u), window_style::windowed);
-  gl::context c1(gl::context_settings::standard, w);
-  gl::context c2(gl::context_settings::standard, w, c1);
-  gl::context c3(gl::context_settings::standard, w);
+  gl::context c1(gl::context_settings::get_default(), w);
+  gl::context c2(gl::context_settings::get_default(), w, c1);
+  gl::context c3(gl::context_settings::get_default(), w);
 
   gl::context::set_current(c1, w);
   concrete_non_shared_object_handle o1(0u);

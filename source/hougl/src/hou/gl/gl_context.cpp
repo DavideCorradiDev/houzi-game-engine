@@ -20,6 +20,11 @@ namespace gl
 namespace
 {
 
+thread_local static context* g_current_context(nullptr);
+thread_local static uint32_t g_current_window_uid(0u);
+
+
+
 uint32_t generate_uid();
 
 
@@ -36,11 +41,11 @@ uint32_t generate_uid()
 
 void context::set_current(context& ctx, window& wnd)
 {
-  if(!ctx.is_current() || s_current_window_uid != wnd.get_uid())
+  if(!ctx.is_current() || g_current_window_uid != wnd.get_uid())
   {
     prv::context_impl::set_current(ctx.m_impl, wnd);
-    s_current_context = &ctx;
-    s_current_window_uid = wnd.get_uid();
+    g_current_context = &ctx;
+    g_current_window_uid = wnd.get_uid();
   }
 }
 
@@ -51,8 +56,8 @@ void context::unset_current()
   if(get_current() != nullptr)
   {
     prv::context_impl::unset_current();
-    s_current_context = nullptr;
-    s_current_window_uid = 0u;
+    g_current_context = nullptr;
+    g_current_window_uid = 0u;
   }
 }
 
@@ -60,7 +65,7 @@ void context::unset_current()
 
 context* context::get_current() noexcept
 {
-  return s_current_context;
+  return g_current_context;
 }
 
 
@@ -87,7 +92,7 @@ context::context(context&& other) noexcept
 {
   if(get_current() == &other)
   {
-    s_current_context = this;
+    g_current_context = this;
   }
 }
 
@@ -119,14 +124,8 @@ uint32_t context::get_sharing_group_uid() const noexcept
 
 bool context::is_current() const noexcept
 {
-  return this == s_current_context;
+  return this == g_current_context;
 }
-
-
-
-thread_local context* context::s_current_context(nullptr);
-
-thread_local uint32_t context::s_current_window_uid(0u);
 
 
 

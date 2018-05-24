@@ -27,7 +27,7 @@ namespace hou
  * \tparam T the scalar type.
  */
 template <typename T>
-class HOU_MTH_API quaternion
+class quaternion
 {
 public:
   /** Returns the zero quaternion.
@@ -68,8 +68,9 @@ public:
    *
    * \param other the matrix to be copied.
    */
-  template <typename U>
-  HOU_MTH_API quaternion(const quaternion<U>& other) noexcept;
+  template <typename U,
+    typename Enable = std::enable_if_t<std::is_convertible<U, T>::value>>
+  quaternion(const quaternion<U>& other) noexcept;
 
   /** Retrieves a copy of the first element of the vector part.
    *
@@ -205,7 +206,7 @@ public:
    *
    * \return the opposite quaternion.
    */
-  friend constexpr quaternion operator-(const quaternion<T>& q) noexcept
+  friend quaternion operator-(const quaternion<T>& q) noexcept
   {
     return quaternion(
       -q.m_elements[0], -q.m_elements[1], -q.m_elements[2], -q.m_elements[3]);
@@ -219,7 +220,7 @@ public:
    *
    * \return the product of the quaternion and the scalar.
    */
-  friend constexpr quaternion operator*(quaternion lhs, T rhs) noexcept
+  friend quaternion operator*(quaternion<T> lhs, T rhs) noexcept
   {
     return lhs *= rhs;
   }
@@ -232,7 +233,7 @@ public:
    *
    * \return the product of the quaternion and the scalar.
    */
-  friend constexpr quaternion operator*(T lhs, quaternion rhs) noexcept
+  friend quaternion operator*(T lhs, quaternion<T> rhs) noexcept
   {
     return rhs *= lhs;
   }
@@ -245,54 +246,22 @@ public:
    *
    * \return the quotient of the quaternion and the scalar.
    */
-  friend constexpr quaternion operator/(quaternion lhs, T rhs) noexcept
+  friend quaternion operator/(quaternion<T> lhs, T rhs) noexcept
   {
     return lhs /= rhs;
   }
 
-  /** Checks if two quaternions are equal.
-   *
-   * \param lhs the left operator.
-   *
-   * \param rhs the right operator.
-   *
-   * \return the result of the check.
-   */
-  friend constexpr bool operator==(
-    const quaternion& lhs, const quaternion& rhs) noexcept
-  {
-    return lhs.m_elements == rhs.m_elements;
-  }
+  template <typename U>
+  friend bool operator==(
+    const quaternion<U>& lhs, const quaternion<U>& rhs) noexcept;
 
-  /** Checks if two quaternions are not equal.
-   *
-   * \param lhs the left operator.
-   *
-   * \param rhs the right operator.
-   *
-   * \return the result of the check.
-   */
-  friend constexpr bool operator!=(
-    const quaternion& lhs, const quaternion& rhs) noexcept
-  {
-    return lhs.m_elements != rhs.m_elements;
-  }
+  template <typename U>
+  friend bool operator!=(
+    const quaternion<U>& lhs, const quaternion<U>& rhs) noexcept;
 
-  /** Checks if two quaternions are equal with the specified accuracy.
-   *
-   * \param lhs the left operator.
-   *
-   * \param rhs the right operator.
-   *
-   * \param acc the accuracy.
-   *
-   * \return the result of the check.
-   */
-  friend constexpr bool close(const quaternion& lhs, const quaternion& rhs,
-    T acc = std::numeric_limits<T>::epsilon()) noexcept
-  {
-    return close(lhs.m_elements, rhs.m_elements, acc);
-  }
+  template <typename U>
+  friend bool close(
+    const quaternion<U>& lhs, const quaternion<U>& rhs, U acc) noexcept;
 
 private:
   std::array<T, 4u> m_elements;
@@ -311,8 +280,7 @@ private:
  * \return the sum of the two quaternions.
  */
 template <typename T>
-HOU_MTH_API quaternion<T> operator+(
-  quaternion<T> lhs, const quaternion<T>& rhs) noexcept;
+quaternion<T> operator+(quaternion<T> lhs, const quaternion<T>& rhs) noexcept;
 
 /** Subtracts two quaternions.
  *
@@ -329,8 +297,7 @@ HOU_MTH_API quaternion<T> operator+(
  * \return the difference of the two quaternions.
  */
 template <typename T>
-HOU_MTH_API quaternion<T> operator-(
-  quaternion<T> lhs, const quaternion<T>& rhs) noexcept;
+quaternion<T> operator-(quaternion<T> lhs, const quaternion<T>& rhs) noexcept;
 
 /** Multiplies two quaternions.
  *
@@ -343,8 +310,7 @@ HOU_MTH_API quaternion<T> operator-(
  * \return the product of the two quaternions.
  */
 template <typename T>
-HOU_MTH_API quaternion<T> operator*(
-  quaternion<T> lhs, const quaternion<T>& rhs) noexcept;
+quaternion<T> operator*(quaternion<T> lhs, const quaternion<T>& rhs) noexcept;
 
 /** Computes the inverse of a quaternion.
  *
@@ -357,7 +323,7 @@ HOU_MTH_API quaternion<T> operator*(
  * \return the inverse of the quaternion.
  */
 template <typename T>
-HOU_MTH_API quaternion<T> inverse(quaternion<T> q);
+quaternion<T> inverse(quaternion<T> q);
 
 /** Computes the conjugate of a quaternion.
  *
@@ -368,7 +334,7 @@ HOU_MTH_API quaternion<T> inverse(quaternion<T> q);
  * \return the conjugate of the quaternion.
  */
 template <typename T>
-HOU_MTH_API quaternion<T> conjugate(quaternion<T> q) noexcept;
+quaternion<T> conjugate(quaternion<T> q) noexcept;
 
 /** Computes the square norm of a quaternion.
  *
@@ -379,7 +345,7 @@ HOU_MTH_API quaternion<T> conjugate(quaternion<T> q) noexcept;
  * \return the square norm.
  */
 template <typename T>
-HOU_MTH_API T square_norm(const quaternion<T>& q) noexcept;
+T square_norm(const quaternion<T>& q) noexcept;
 
 /** Computes the norm of a quaternion.
  *
@@ -390,7 +356,7 @@ HOU_MTH_API T square_norm(const quaternion<T>& q) noexcept;
  * \return the norm.
  */
 template <typename T>
-HOU_MTH_API T norm(const quaternion<T>& q) noexcept;
+T norm(const quaternion<T>& q) noexcept;
 
 /** Computes the normalized quaternion.
  *
@@ -403,7 +369,49 @@ HOU_MTH_API T norm(const quaternion<T>& q) noexcept;
  * \return the normalized quaternion.
  */
 template <typename T>
-HOU_MTH_API quaternion<T> normalized(quaternion<T> q);
+quaternion<T> normalized(quaternion<T> q);
+
+/** Checks if two quaternions are equal.
+ *
+ * \tparam T the scalar type.
+ *
+ * \param lhs the left operator.
+ *
+ * \param rhs the right operator.
+ *
+ * \return the result of the check.
+ */
+template <typename T>
+bool operator==(const quaternion<T>& lhs, const quaternion<T>& rhs) noexcept;
+
+/** Checks if two quaternions are not equal.
+ *
+ * \tparam T the scalar type.
+ *
+ * \param lhs the left operator.
+ *
+ * \param rhs the right operator.
+ *
+ * \return the result of the check.
+ */
+template <typename T>
+bool operator!=(const quaternion<T>& lhs, const quaternion<T>& rhs) noexcept;
+
+/** Checks if two quaternions are equal with the specified accuracy.
+ *
+ * \tparam T the scalar type.
+ *
+ * \param lhs the left operator.
+ *
+ * \param rhs the right operator.
+ *
+ * \param acc the accuracy.
+ *
+ * \return the result of the check.
+ */
+template <typename T>
+bool close(const quaternion<T>& lhs, const quaternion<T>& rhs,
+  T acc = std::numeric_limits<T>::epsilon()) noexcept;
 
 /** Writes the object into a stream.
  *
@@ -416,8 +424,15 @@ HOU_MTH_API quaternion<T> normalized(quaternion<T> q);
  * \return a reference to the stream.
  */
 template <typename T>
-HOU_MTH_API std::ostream& operator<<(std::ostream& os, const quaternion<T>& q);
+std::ostream& operator<<(std::ostream& os, const quaternion<T>& q);
+
+
+
+extern template class HOU_MTH_API quaternion<float>;
+extern template class HOU_MTH_API quaternion<double>;
 
 }  // namespace hou
+
+#include "hou/mth/quaternion.inl"
 
 #endif

@@ -590,24 +590,6 @@ public:
    */
   constexpr matrix& normalize();
 
-  /** Computes the opposite of a matrix.
-   *
-   * All elements of the resulting matrix are the opposite of the corresponding
-   * original elements.
-   *
-   * \param m the matrix.
-   *
-   * \return the opposite matrix.
-   */
-  friend constexpr matrix operator-(matrix m) noexcept
-  {
-    for(size_t i = 0; i < m.size(); ++i)
-    {
-      m.m_elements[i] = -m.m_elements[i];
-    }
-    return m;
-  }
-
   /** Multiplies a matrix by a scalar.
    *
    * All elements of the matrix are multiplied by the given scalar.
@@ -618,24 +600,10 @@ public:
    *
    * \return the result of the multiplication.
    */
-  friend constexpr matrix operator*(matrix lhs, T rhs) noexcept
+  friend constexpr matrix<T, Rows, Cols> operator*(
+    matrix<T, Rows, Cols> lhs, T rhs) noexcept
   {
     return lhs *= rhs;
-  }
-
-  /** Multiplies a matrix by a scalar.
-   *
-   * All elements of the matrix are multiplied by the given scalar.
-   *
-   * \param lhs the scalar factor.
-   *
-   * \param rhs the matrix.
-   *
-   * \return the result of the multiplication.
-   */
-  friend constexpr matrix operator*(T lhs, matrix rhs) noexcept
-  {
-    return rhs *= lhs;
   }
 
   /** Divides a matrix by a scalar.
@@ -648,55 +616,43 @@ public:
    *
    * \return the result of the division.
    */
-  friend constexpr matrix operator/(matrix lhs, T rhs) noexcept
+  friend constexpr matrix<T, Rows, Cols> operator/(
+    matrix<T, Rows, Cols> lhs, T rhs) noexcept
   {
     return lhs /= rhs;
   }
 
-  /** Checks if two matrices are equal.
+  /** Multiplies a matrix by a scalar.
    *
-   * \param lhs the left operand.
+   * All elements of the matrix are multiplied by the given scalar.
    *
-   * \param rhs the right operand.
+   * \param lhs the scalar factor.
    *
-   * \return the result of the check.
+   * \param rhs the matrix.
+   *
+   * \return the result of the multiplication.
    */
-  friend constexpr bool operator==(
-    const matrix& lhs, const matrix& rhs) noexcept
+  friend constexpr matrix<T, Rows, Cols> operator*(
+    T lhs, matrix<T, Rows, Cols> rhs) noexcept
   {
-    return lhs.m_elements == rhs.m_elements;
+    return rhs *= lhs;
   }
 
-  /** Checks if two matrices are not equal.
-   *
-   * \param lhs the left operand.
-   *
-   * \param rhs the right operand.
-   *
-   * \return the result of the check.
-   */
-  friend constexpr bool operator!=(
-    const matrix& lhs, const matrix& rhs) noexcept
-  {
-    return lhs.m_elements != rhs.m_elements;
-  }
+  // Friend functions.
+  template <typename U, size_t R, size_t C>
+  friend constexpr matrix<U, R, C> operator-(matrix<U, R, C> m) noexcept;
 
-  /** Checks if two matrices are equal with the specified accuracy.
-   *
-   * \param lhs the left operand.
-   *
-   * \param rhs the right operand.
-   *
-   * \param acc the accuracy.
-   *
-   * \return the result of the check.
-   */
-  friend constexpr bool close(const matrix<T, Rows, Cols>& lhs,
-    const matrix<T, Rows, Cols>& rhs,
-    T acc = std::numeric_limits<T>::epsilon()) noexcept
-  {
-    return close(lhs.m_elements, rhs.m_elements, acc);
-  }
+  template <typename U, size_t R, size_t C>
+  friend bool operator==(
+    const matrix<U, R, C>& lhs, const matrix<U, R, C>& rhs) noexcept;
+
+  template <typename U, size_t R, size_t C>
+  friend bool operator!=(
+    const matrix<U, R, C>& lhs, const matrix<U, R, C>& rhs) noexcept;
+
+  template <typename U, size_t R, size_t C>
+  friend bool close(
+    const matrix<U, R, C>& lhs, const matrix<U, R, C>& rhs, U acc) noexcept;
 
 private:
   data_type m_elements;
@@ -742,6 +698,24 @@ constexpr matrix<T, Rows, Cols> operator+(
 template <typename T, size_t Rows, size_t Cols>
 constexpr matrix<T, Rows, Cols> operator-(
   matrix<T, Rows, Cols> lhs, const matrix<T, Rows, Cols>& rhs) noexcept;
+
+/** Computes the opposite of a matrix.
+ *
+ * All elements of the resulting matrix are the opposite of the corresponding
+ * original elements.
+ *
+ * \tparam T the scalar type.
+ *
+ * \tparam Rows the number of rows.
+ *
+ * \tparam Cols the number of columns.
+ *
+ * \param m the matrix.
+ *
+ * \return the opposite matrix.
+ */
+template <typename T, size_t Rows, size_t Cols>
+constexpr matrix<T, Rows, Cols> operator-(matrix<T, Rows, Cols> m) noexcept;
 
 /** Multiplies two matrices.
  *
@@ -1039,6 +1013,62 @@ template <typename T, size_t Rows>
 constexpr T dot(
   const matrix<T, Rows, 1u>& lhs, const matrix<T, Rows, 1u>& rhs) noexcept;
 
+/** Checks if two matrices are equal.
+ *
+ * \tparam T the scalar type.
+ *
+ * \tparam Rows the number of rows.
+ *
+ * \tparam Cols the number of columns.
+ *
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return the result of the check.
+ */
+template <typename T, size_t Rows, size_t Cols>
+bool operator==(
+  const matrix<T, Rows, Cols>& lhs, const matrix<T, Rows, Cols>& rhs) noexcept;
+
+/** Checks if two matrices are not equal.
+ *
+ * \tparam T the scalar type.
+ *
+ * \tparam Rows the number of rows.
+ *
+ * \tparam Cols the number of columns.
+ *
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return the result of the check.
+ */
+template <typename T, size_t Rows, size_t Cols>
+bool operator!=(
+  const matrix<T, Rows, Cols>& lhs, const matrix<T, Rows, Cols>& rhs) noexcept;
+
+/** Checks if two matrices are equal with the specified accuracy.
+ *
+ * \tparam T the scalar type.
+ *
+ * \tparam Rows the number of rows.
+ *
+ * \tparam Cols the number of columns.
+ *
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \param acc the accuracy.
+ *
+ * \return the result of the check.
+ */
+template <typename T, size_t Rows, size_t Cols>
+bool close(const matrix<T, Rows, Cols>& lhs, const matrix<T, Rows, Cols>& rhs,
+  T acc = std::numeric_limits<T>::epsilon()) noexcept;
+
 /** Writes the object into a stream.
  *
  * \tparam T the scalar type.
@@ -1056,8 +1086,6 @@ constexpr T dot(
 template <typename T, size_t Rows, size_t Cols>
 std::ostream& operator<<(std::ostream& os, const matrix<T, Rows, Cols>& m);
 
-
-
 /** Specialization of check_matching_sign for matrix.
  *
  * \tparam T the first scalar type.
@@ -1068,7 +1096,6 @@ std::ostream& operator<<(std::ostream& os, const matrix<T, Rows, Cols>& m);
  *
  * \tparam Cols the number of columns in the matrix.
  */
-template <>
 template <typename T, typename U, size_t Rows, size_t Cols>
 class check_matching_sign<matrix<T, Rows, Cols>, matrix<U, Rows, Cols>>
 {
@@ -1114,10 +1141,9 @@ namespace std
  *
  * \tparam Cols the number of columns in the matrix.
  */
-template <>
 template <typename T, size_t Rows, size_t Cols>
-struct is_signed<hou::matrix<T, Rows, Cols>>
-  : public std::integral_constant<bool, std::is_signed<T>::value>
+struct is_signed<::hou::matrix<T, Rows, Cols>>
+  : public integral_constant<bool, is_signed<T>::value>
 {};
 
 }  // namespace std

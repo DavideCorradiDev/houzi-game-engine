@@ -20,11 +20,16 @@ namespace
 const std::vector<version> supported_versions = {
   version(4u, 5u),
 };
+
 }
 
 
 
-version version::standard(4u, 5u);
+const version& version::get_default()
+{
+  static const version v(4u, 5u);
+  return v;
+}
 
 
 

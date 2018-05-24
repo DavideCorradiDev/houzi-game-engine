@@ -175,8 +175,8 @@ TEST_F(test_transform3, inversion)
   t_inv2 = t;
   t_inv2.invert();
 
-  EXPECT_CLOSE(identity, (t * t_inv1), 1.e-5);
-  EXPECT_CLOSE(identity, (t * t_inv2), 1.e-5);
+  EXPECT_CLOSE(identity, (t * t_inv1), 1.e-5f);
+  EXPECT_CLOSE(identity, (t * t_inv2), 1.e-5f);
 
   t = trans3f::rotation(rot3f::z(deg_to_rad(30.f)))
     * trans3f::translation(vec3f(-4.f, 7.f, 9.f));
@@ -184,8 +184,8 @@ TEST_F(test_transform3, inversion)
   t_inv2 = t;
   t_inv2.invert();
 
-  EXPECT_CLOSE(identity, (t * t_inv1), 1.e-6);
-  EXPECT_CLOSE(identity, (t * t_inv2), 1.e-6);
+  EXPECT_CLOSE(identity, (t * t_inv1), 1.e-6f);
+  EXPECT_CLOSE(identity, (t * t_inv2), 1.e-6f);
 }
 
 

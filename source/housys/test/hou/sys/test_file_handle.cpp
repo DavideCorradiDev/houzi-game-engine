@@ -102,7 +102,12 @@ TEST_F(test_file_handle, close)
 
 
 
+// MSVC will trigger an assertion making this untestable.
+#ifdef HOU_COMPILER_MSVC
+TEST_F(test_file_handle_death_test, DISABLED_close_error)
+#else
 TEST_F(test_file_handle_death_test, close_error)
+#endif
 {
   file_handle f(filename, file_open_mode::read, file_type::binary);
   EXPECT_NE(nullptr, static_cast<FILE*>(f));
@@ -145,9 +150,15 @@ TEST_F(test_file_handle, open_file_failure)
 
 
 
+// MSVC will trigger an assertion making this untestable.
+#ifdef HOU_COMPILER_MSVC
+TEST_F(test_file_handle, DISABLED_close_file_failure)
+#else
 TEST_F(test_file_handle, close_file_failure)
+#endif
 {
-  FILE* f = nullptr;
+  FILE* f = open_file("dummy", "rb");
+  close_file(f);
   EXPECT_FALSE(close_file(f));
 }
 
@@ -262,7 +273,12 @@ TEST_F(test_file_handle, get_file_descriptor)
 
 
 
+// MSVC will trigger an assertion making this untestable.
+#ifdef HOU_COMPILER_MSVC
+TEST_F(test_file_handle, DISABLED_get_file_descriptor_error)
+#else
 TEST_F(test_file_handle, get_file_descriptor_error)
+#endif
 {
   EXPECT_EQ(-1, get_file_descriptor(nullptr));
 }
@@ -277,7 +293,12 @@ TEST_F(test_file_handle, get_file_byte_size)
 
 
 
+// MSVC will trigger an assertion making this untestable.
+#ifdef HOU_COMPILER_MSVC
+TEST_F(test_file_handle, DISABLED_get_invalid_file_byte_size)
+#else
 TEST_F(test_file_handle, get_invalid_file_byte_size)
+#endif
 {
   EXPECT_EQ(std::numeric_limits<size_t>::max(), get_file_byte_size(-1));
 }
