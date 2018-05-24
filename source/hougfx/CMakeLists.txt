@@ -39,24 +39,24 @@ SET(LIB_HOUGFX_SRC
   src/hou/gfx/glyph.cpp
   src/hou/gfx/glyph_metrics.cpp
   src/hou/gfx/gl_type.cpp
-  # src/hou/gfx/formatted_text.cpp
-  # src/hou/gfx/framebuffer.cpp
-  # src/hou/gfx/framebuffer_blit_filter.cpp
+  src/hou/gfx/formatted_text.cpp
+  src/hou/gfx/framebuffer.cpp
+  src/hou/gfx/framebuffer_blit_filter.cpp
   src/hou/gfx/mesh.cpp
   src/hou/gfx/mesh2.cpp
-  # src/hou/gfx/mesh2_shader_program.cpp
+  src/hou/gfx/mesh2_shader_program.cpp
   src/hou/gfx/mesh_draw_mode.cpp
   src/hou/gfx/mesh_fill_mode.cpp
   src/hou/gfx/graphic_context.cpp
-  # src/hou/gfx/render_canvas.cpp
-  # src/hou/gfx/render_surface.cpp
-  # src/hou/gfx/render_window.cpp
+  src/hou/gfx/render_canvas.cpp
+  src/hou/gfx/render_surface.cpp
+  src/hou/gfx/render_window.cpp
   src/hou/gfx/shader.cpp
   src/hou/gfx/shader_program.cpp
   src/hou/gfx/shader_type.cpp
   src/hou/gfx/text_box_formatting_params.cpp
   src/hou/gfx/text_flow.cpp
-  # src/hou/gfx/text_shader_program.cpp
+  src/hou/gfx/text_shader_program.cpp
   src/hou/gfx/text_vertex.cpp
   src/hou/gfx/texture.cpp
   src/hou/gfx/texture_channel.cpp

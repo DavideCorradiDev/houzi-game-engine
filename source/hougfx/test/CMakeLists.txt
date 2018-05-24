@@ -38,18 +38,18 @@ SET(EXE_HOUGFX_TEST_SRC
   ${LIB_HOUTEST_SOURCE_DIR}/src/test_main.cpp
   hou/gfx/test_data.cpp
   hou/gfx/test_font.cpp
-  # hou/gfx/test_formatted_text.cpp
-  # hou/gfx/test_framebuffer.cpp
+  hou/gfx/test_formatted_text.cpp
+  hou/gfx/test_framebuffer.cpp
   hou/gfx/test_gfx_base.cpp
   hou/gfx/test_gfx_exceptions.cpp
   hou/gfx/test_glyph.cpp
   hou/gfx/test_glyph_metrics.cpp
   hou/gfx/test_mesh.cpp
   hou/gfx/test_mesh2.cpp
-  # hou/gfx/test_mesh2_shader_program.cpp
-  # hou/gfx/test_graphic_context.cpp
-  # hou/gfx/test_render_canvas.cpp
-  # hou/gfx/test_render_window.cpp
+  hou/gfx/test_mesh2_shader_program.cpp
+  hou/gfx/test_graphic_context.cpp
+  hou/gfx/test_render_canvas.cpp
+  hou/gfx/test_render_window.cpp
   hou/gfx/test_shader.cpp
   hou/gfx/test_shader_program.cpp
   hou/gfx/test_text_box_formatting_params.cpp
