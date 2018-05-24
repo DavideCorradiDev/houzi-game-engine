@@ -225,8 +225,7 @@ image<Dim, PF>::image()
 
 template <size_t Dim, pixel_format PF>
 image<Dim, PF>::image(const size_type& size)
-  : m_size(size)
-  , m_pixels(compute_pixel_count(), pixel())
+  : image(size, pixel())
 {}
 
 
@@ -241,11 +240,8 @@ image<Dim, PF>::image(const size_type& size, const pixel& px)
 
 template <size_t Dim, pixel_format PF>
 image<Dim, PF>::image(const size_type& size, const span<const pixel>& pixels)
-  : m_size(size)
-  , m_pixels(pixels.begin(), pixels.end())
-{
-  HOU_PRECOND(pixels.size() == compute_pixel_count());
-}
+  : image(size, pixel_collection(pixels.begin(), pixels.end()))
+{}
 
 
 

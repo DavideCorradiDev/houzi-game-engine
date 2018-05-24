@@ -9,6 +9,8 @@
 #include "hou/gfx/gfx_exceptions.hpp"
 #include "hou/gfx/glyph.hpp"
 
+#include "hou/cor/std_vector.hpp"
+
 #include "hou/mth/matrix.hpp"
 #include "hou/mth/rectangle.hpp"
 
@@ -272,6 +274,7 @@ TEST_F(test_font, get_glyph)
                    0u, 30u, 195u, 26u, 168u, 160u, 162u, 204u, 125u, 120u, 0u,
                    54u, 204u, 51u, 208u, 177u, 142u, 191u}),
     glyph_metrics(vec2u(320u, 320u), vec2i(0, -320), 384, vec2i(0, 0), 0));
+
   glyph g2_ref(image2_r(vec2u(6u, 7u),
                  std::vector<image2_r::pixel>{40u, 188u, 0u, 0u, 0u, 0u, 40u,
                    187u, 0u, 0u, 0u, 0u, 40u, 208u, 172u, 190u, 173u, 9u, 40u,
