@@ -111,7 +111,7 @@ public:
    *
    * \return the zero matrix.
    */
-  static constexpr matrix zero() noexcept;
+  static const matrix& zero() noexcept;
 
   /** Returns a matrix with all elements set to a given value.
    *
@@ -131,7 +131,7 @@ public:
    */
   template <size_t RC = Rows,
     typename Enable = std::enable_if_t<Rows == RC && Cols == RC>>
-  static constexpr matrix identity() noexcept;
+  static const matrix& identity() noexcept;
 
   /** Returns a diagonal matrix with the given diagonal elements.
    *
@@ -1112,18 +1112,7 @@ public:
    *
    * \return true if the signs of t and u match.
    */
-  static bool check(const t_matrix& t, const u_matrix& u)
-  {
-    HOU_DEV_ASSERT(t.size() == u.size());
-    for(size_t i = 0; i < t.size(); ++i)
-    {
-      if((t[i] < T(0)) != (u[i] < U(0)))
-      {
-        return false;
-      }
-    }
-    return true;
-  }
+  static bool check(const t_matrix& t, const u_matrix& u);
 };
 
 }  // namespace hou

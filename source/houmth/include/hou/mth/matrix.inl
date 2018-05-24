@@ -30,9 +30,10 @@ constexpr size_t matrix<T, Rows, Cols>::size() noexcept
 
 
 template <typename T, size_t Rows, size_t Cols>
-constexpr matrix<T, Rows, Cols> matrix<T, Rows, Cols>::zero() noexcept
+const  matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::zero() noexcept
 {
-  return matrix<T, Rows, Cols>();
+  static const matrix m;
+  return m;
 }
 
 
@@ -50,13 +51,9 @@ constexpr matrix<T, Rows, Cols> matrix<T, Rows, Cols>::filled(T value) noexcept
 #ifndef HOU_DOXYGEN
 template <typename T, size_t Rows, size_t Cols>
 template <size_t RC, typename Enable>
-constexpr matrix<T, Rows, Cols> matrix<T, Rows, Cols>::identity() noexcept
+const matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::identity() noexcept
 {
-  matrix m;
-  for(size_t i = 0; i < RC; ++i)
-  {
-    m(i, i) = 1;
-  }
+  static const matrix m = diagonal(vec<T, Rows>::filled(T(1)));
   return m;
 }
 #endif
@@ -126,6 +123,7 @@ constexpr matrix<T, Rows, Cols>::matrix(Args... elements) noexcept
 template <typename T, size_t Rows, size_t Cols>
 constexpr T matrix<T, Rows, Cols>::operator[](size_t index) const noexcept
 {
+  HOU_DEV_ASSERT(index < size());
   return m_elements[index];
 }
 
@@ -134,6 +132,7 @@ constexpr T matrix<T, Rows, Cols>::operator[](size_t index) const noexcept
 template <typename T, size_t Rows, size_t Cols>
 constexpr T& matrix<T, Rows, Cols>::operator[](size_t index) noexcept
 {
+  HOU_DEV_ASSERT(index < size());
   return m_elements[index];
 }
 
@@ -813,6 +812,23 @@ std::ostream& operator<<(std::ostream& os, const matrix<T, Rows, Cols>& m)
     os << ")";
   }
   return os;
+}
+
+
+
+template <typename T, typename U, size_t Rows, size_t Cols>
+bool check_matching_sign<matrix<T, Rows, Cols>, matrix<U, Rows, Cols>>::check(
+  const t_matrix& t, const u_matrix& u)
+{
+  HOU_DEV_ASSERT(t.size() == u.size());
+  for(size_t i = 0; i < t.size(); ++i)
+  {
+    if((t[i] < T(0)) != (u[i] < U(0)))
+    {
+      return false;
+    }
+  }
+  return true;
 }
 
 }  // namespace hou
