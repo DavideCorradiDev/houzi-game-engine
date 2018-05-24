@@ -7,7 +7,7 @@ The following platforms are currently supported:
 
 * Windows with MinGW64.
 
-* Windows with Visual Studio 2017.
+* Windows with Visual Studio.
 
 
 
@@ -71,16 +71,35 @@ Refer to the MinGW documentation for options that can be passed to mingw32-make.
 
 
 
-### Building on Windows with Visual Studio 2017
-For a complete descrition on how to use CMake with Visual Studio you can refer to [this page](https://blogs.msdn.microsoft.com/vcblog/2016/10/05/cmake-support-in-visual-studio/#configure-cmake).
+### Building on Windows with Visual Studio
+For a complete description on how to use CMake with Visual Studio you can refer to [this page](https://blogs.msdn.microsoft.com/vcblog/2016/10/05/cmake-support-in-visual-studio/#configure-cmake).
+
 * Open the root Houzi Game Engine folder with "File > Open > Folder".
 
 * Visual Studio should automatically try to configure the project and generate the CMake cache.
   The cache can be managed manually from the "CMake > Cache (...)" menu.
 
 * You can change the CMake settings for different build configurations by editing the generated CMakeSettings.json file.
+```
+"configurations": [
+  {
+    "name": "deb-exc-dyn",
+    ...
+    "variables": [
+      {
+        "name": "HOU_CFG_ENABLE_AL_ERROR_CHECKS",
+        "value": "ON"
+      },
+      {
+        "name": "HOU_CFG_ENABLE_GL_ERROR_CHECKS",
+        "value": "ON"
+      }
+    ]
+    ...
+  }
+```
 
-* You can build the projecy by selecting the appropriate build configuration and running "CMake > Build All".
+* You can build the project by selecting the appropriate build configuration and running "CMake > Build All".
 
 
 
