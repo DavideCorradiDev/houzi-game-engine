@@ -267,35 +267,16 @@ TEST_F(test_font, get_glyph)
 {
   font f = font(binary_file_in(font_name));
 
-  glyph g1_ref(
-    image2_r(vec2u(5u, 5u),
-      std::vector<image2_r::pixel>{image2_r::pixel(0u), image2_r::pixel(152u),
-        image2_r::pixel(180u), image2_r::pixel(199u), image2_r::pixel(87u),
-        image2_r::pixel(0u), image2_r::pixel(4u), image2_r::pixel(0u),
-        image2_r::pixel(30u), image2_r::pixel(195u), image2_r::pixel(26u),
-        image2_r::pixel(168u), image2_r::pixel(160u), image2_r::pixel(162u),
-        image2_r::pixel(204u), image2_r::pixel(125u), image2_r::pixel(120u),
-        image2_r::pixel(0u), image2_r::pixel(54u), image2_r::pixel(204u),
-        image2_r::pixel(51u), image2_r::pixel(208u), image2_r::pixel(177u),
-        image2_r::pixel(142u), image2_r::pixel(191u)}),
+  glyph g1_ref(image2_r(vec2u(5u, 5u),
+                 std::vector<image2_r::pixel>{0u, 152u, 180u, 199u, 87u, 0u, 4u,
+                   0u, 30u, 195u, 26u, 168u, 160u, 162u, 204u, 125u, 120u, 0u,
+                   54u, 204u, 51u, 208u, 177u, 142u, 191u}),
     glyph_metrics(vec2u(320u, 320u), vec2i(0, -320), 384, vec2i(0, 0), 0));
-  glyph g2_ref(
-    image2_r(vec2u(6u, 7u),
-      std::vector<image2_r::pixel>{image2_r::pixel(40u), image2_r::pixel(188u),
-        image2_r::pixel(0u), image2_r::pixel(0u), image2_r::pixel(0u),
-        image2_r::pixel(0u), image2_r::pixel(40u), image2_r::pixel(187u),
-        image2_r::pixel(0u), image2_r::pixel(0u), image2_r::pixel(0u),
-        image2_r::pixel(0u), image2_r::pixel(40u), image2_r::pixel(208u),
-        image2_r::pixel(172u), image2_r::pixel(190u), image2_r::pixel(173u),
-        image2_r::pixel(9u), image2_r::pixel(40u), image2_r::pixel(230u),
-        image2_r::pixel(8u), image2_r::pixel(0u), image2_r::pixel(137u),
-        image2_r::pixel(106u), image2_r::pixel(40u), image2_r::pixel(194u),
-        image2_r::pixel(0u), image2_r::pixel(0u), image2_r::pixel(87u),
-        image2_r::pixel(142u), image2_r::pixel(40u), image2_r::pixel(232u),
-        image2_r::pixel(9u), image2_r::pixel(0u), image2_r::pixel(140u),
-        image2_r::pixel(104u), image2_r::pixel(40u), image2_r::pixel(185u),
-        image2_r::pixel(175u), image2_r::pixel(191u), image2_r::pixel(171u),
-        image2_r::pixel(8u)}),
+  glyph g2_ref(image2_r(vec2u(6u, 7u),
+                 std::vector<image2_r::pixel>{40u, 188u, 0u, 0u, 0u, 0u, 40u,
+                   187u, 0u, 0u, 0u, 0u, 40u, 208u, 172u, 190u, 173u, 9u, 40u,
+                   230u, 8u, 0u, 137u, 106u, 40u, 194u, 0u, 0u, 87u, 142u, 40u,
+                   232u, 9u, 0u, 140u, 104u, 40u, 185u, 175u, 191u, 171u, 8u}),
     glyph_metrics(vec2u(384u, 448u), vec2i(0, -448), 384, vec2i(0, 0), 0));
 
   EXPECT_EQ(g1_ref, f.get_glyph('a'));

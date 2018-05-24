@@ -656,8 +656,7 @@ TYPED_TEST(test_image, output_stream_operator)
   TypeParam image(size_ref, pixels_ref);
 
   std::stringstream ss;
-  ss << "{size_type = " << transpose(size_ref) << ", pixels = " << pixels_ref
-     << "}";
+  ss << "{size = " << transpose(size_ref) << ", pixels = " << pixels_ref << "}";
 
   EXPECT_OUTPUT(ss.str().c_str(), image);
 }

@@ -40,7 +40,7 @@ bool operator!=(const image<Dim, PF>& lhs, const image<Dim, PF>& rhs) noexcept
 template <size_t Dim, pixel_format PF>
 std::ostream& operator<<(std::ostream& os, const image<Dim, PF>& im)
 {
-  return os << "{size_type = " << transpose(im.get_size())
+  return os << "{size = " << transpose(im.get_size())
             << ", pixels = " << im.get_pixels() << "}";
 }
 
