@@ -226,10 +226,6 @@ template <texture_type Type>
 class texture_t : public texture
 {
 public:
-  static constexpr texture_type type = Type;
-  static constexpr size_t dimension_count
-    = get_texture_type_dimension_count(Type);
-
   /** Type representing the size of the texture. */
   using size_type = vec<uint, get_texture_type_dimension_count(Type)>;
 
@@ -246,7 +242,15 @@ public:
    * \tparam ftm the format of the texture.
    */
   template <pixel_format PF>
-  using image = image<dimension_count, PF>;
+  using image = image<get_texture_type_dimension_count(Type), PF>;
+
+public:
+  /** The texture type. */
+  static constexpr texture_type type = Type;
+
+  /** The number of dimensions of the texture. */
+  static constexpr size_t dimension_count
+    = get_texture_type_dimension_count(Type);
 
 public:
   /** Retrieves the maximum allowed size for the texture.
