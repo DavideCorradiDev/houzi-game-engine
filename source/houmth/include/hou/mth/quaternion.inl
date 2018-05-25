@@ -187,7 +187,7 @@ template <typename T>
 constexpr quaternion<T>& quaternion<T>::invert()
 {
   T snorm = square_norm(*this);
-  HOU_PRECOND(!close(snorm, T(0)));
+  HOU_CHECK_0(!close(snorm, T(0)), inversion_error);
   return this->conjugate() /= snorm;
 }
 

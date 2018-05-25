@@ -7,6 +7,8 @@
 
 #include "hou/mth/matrix_fwd.hpp"
 
+#include "hou/mth/mth_exceptions.hpp"
+
 #include "hou/mth/mth_config.hpp"
 
 #include "hou/cor/assertions.hpp"

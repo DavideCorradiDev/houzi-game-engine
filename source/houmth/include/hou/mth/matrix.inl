@@ -643,7 +643,7 @@ template <size_t RC, typename Enable>
 constexpr matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::invert()
 {
   T determinant = det(*this);
-  HOU_PRECOND(!close(determinant, T(0)));
+  HOU_CHECK_0(!close(determinant, T(0)), inversion_error);
   return this->adjugate() /= determinant;
 }
 #endif

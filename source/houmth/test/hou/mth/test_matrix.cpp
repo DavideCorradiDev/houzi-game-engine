@@ -815,7 +815,8 @@ TEST_F(test_matrix, inverse3x3)
 TEST_F(test_matrix_death_test, inverse_failure_null_determinant)
 {
   mat2x2f m = mat2x2f::zero();
-  EXPECT_PRECOND_ERROR(inverse(m));
+  EXPECT_ERROR_0(inverse(m), inversion_error);
+  EXPECT_ERROR_0(m.invert(), inversion_error);
 }
 
 

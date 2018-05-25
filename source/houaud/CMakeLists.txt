@@ -63,7 +63,7 @@ ELSE()
     ${LIB_HOUAL}
     ${LIB_OPENAL}
     ${LIB_HOUSYS}
-    # ${LIB_HOUMTH}
+    ${LIB_HOUMTH}
     ${LIB_HOUCOR}
   )
 ENDIF()
