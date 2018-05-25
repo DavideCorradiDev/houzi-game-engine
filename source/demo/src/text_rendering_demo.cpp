@@ -183,7 +183,7 @@ int main()
       }
     }
 
-    rw.clear(color::black);
+    rw.clear(color::black());
 
     const std::string& textToRender = printChinese ? chineseText : text;
     font& fontToRender = printChinese ? chineseFont : fnt;
@@ -191,7 +191,7 @@ int main()
     if(maxTBoxSize.x() == 0.f || maxTBoxSize.y() == 0.f)
     {
       mesh2 dot = create_ellipse_mesh2(vec2f(16.f, 16.f), 32u);
-      m2Rnd.draw(rw, dot, color::red,
+      m2Rnd.draw(rw, dot, color::red(),
         proj * textTrans * trans2f::translation(vec2f(-8.f, -8.f)));
     }
     else
@@ -218,7 +218,7 @@ int main()
       }
 
       mesh2 bbox = create_rectangle_outline_mesh2(maxTBoxSize, 1u);
-      m2Rnd.draw(rw, bbox, color::red,
+      m2Rnd.draw(rw, bbox, color::red(),
         proj * textTrans * trans2f::translation(bboxTrans));
     }
 
@@ -226,20 +226,20 @@ int main()
     formatted_text ft(textToRender, fontToRender, tbfp);
     mesh2 textBox
       = create_rectangle_outline_mesh2(ft.get_bounding_box().get_size(), 1u);
-    m2Rnd.draw(rw, textBox, color::white,
+    m2Rnd.draw(rw, textBox, color::white(),
       proj * textTrans
         * trans2f::translation(ft.get_bounding_box().get_position()));
-    textRnd.draw(rw, ft, color::white, proj * textTrans);
+    textRnd.draw(rw, ft, color::white(), proj * textTrans);
 
     std::chrono::nanoseconds timePerFrame = timer.reset();
-    m2Rnd.draw(rw, fpsRect, color::black, proj);
+    m2Rnd.draw(rw, fpsRect, color::black(), proj);
     formatted_text fpsText(
       to_string(1.f
         /
         std::chrono::duration_cast<std::chrono::duration<float>>(timePerFrame)
             .count()),
       fnt);
-    textRnd.draw(rw, fpsText, color::white, proj * trans2f::translation(-fpsText.get_bounding_box().get_position()));
+    textRnd.draw(rw, fpsText, color::white(), proj * trans2f::translation(-fpsText.get_bounding_box().get_position()));
     rw.display();
   }
 

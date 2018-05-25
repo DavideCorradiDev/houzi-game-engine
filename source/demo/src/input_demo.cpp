@@ -483,44 +483,44 @@ int main()
       lastUpdateTime += frameTime;
 
       // Draw static images.
-      wnd.clear(hou::color::black);
-      textRnd.draw(wnd, "KEYBOARD KEY CODE", fnt, hou::color::red
+      wnd.clear(hou::color::black());
+      textRnd.draw(wnd, "KEYBOARD KEY CODE", fnt, hou::color::red()
         , projTrans * keyboard1TextTrans);
-      meshRnd.draw(wnd, keyboardQuad, keyboardTex, hou::color::white
+      meshRnd.draw(wnd, keyboardQuad, keyboardTex, hou::color::white()
         , projTrans * keyboard1Trans);
-      textRnd.draw(wnd, "KEYBOARD SCAN CODE", fnt, hou::color::yellow
+      textRnd.draw(wnd, "KEYBOARD SCAN CODE", fnt, hou::color::yellow()
         , projTrans * keyboard2TextTrans);
-      meshRnd.draw(wnd, keyboardQuad, keyboardTex, hou::color::white
+      meshRnd.draw(wnd, keyboardQuad, keyboardTex, hou::color::white()
         , projTrans * keyboard2Trans);
-      meshRnd.draw(wnd, mouseQuad, mouseTex, hou::color::white
+      meshRnd.draw(wnd, mouseQuad, mouseTex, hou::color::white()
         , projTrans * mouseTrans);
       std::string mousePosText = hou::format_string("SCREEN MOUSE CURSOR POSITION: (%d, %d)"
         , hou::mouse::get_position().x(), hou::mouse::get_position().y());
-      textRnd.draw(wnd, mousePosText, fnt, hou::color::green
+      textRnd.draw(wnd, mousePosText, fnt, hou::color::green()
         , projTrans * mousePosTextTrans);
       std::string mouseRelPosText = hou::format_string("WINDOW MOUSE CURSOR POSITION: (%d, %d)"
         , hou::mouse::get_position(wnd).x(), hou::mouse::get_position(wnd).y());
-      textRnd.draw(wnd, mouseRelPosText, fnt, hou::color::green
+      textRnd.draw(wnd, mouseRelPosText, fnt, hou::color::green()
         , projTrans * mouseRelPosTextTrans);
       textRnd.draw(wnd
         , "PRESS CTRL+O TO MOVE THE MOUSE CURSOR TO THE SCREEN ORIGIN", fnt
-        , hou::color::green, projTrans * mouseHintText1Trans);
+        , hou::color::green(), projTrans * mouseHintText1Trans);
       textRnd.draw(wnd
         , "PRESS CTRL+P TO MOVE THE MOUSE CURSOR TO THE WINDOW ORIGIN", fnt
-        , hou::color::green, projTrans * mouseHintText2Trans);
+        , hou::color::green(), projTrans * mouseHintText2Trans);
 
       // Draw events in queue.
       hou::trans2f evTrans;
       for(const auto& ev : eventQueue)
       {
-        meshRnd.draw(wnd, eventRect, hou::color::green, projTrans * eventQueueTrans * evTrans);
+        meshRnd.draw(wnd, eventRect, hou::color::green(), projTrans * eventQueueTrans * evTrans);
         std::stringstream ss;
         ss << ev;
         if(ev.get_type() == hou::window_event_type::text_entered)
         {
           ss << "  " <<  hou::convert_encoding<hou::utf8, hou::utf32>(std::u32string(1, ev.get_text_data().code_point)) << "\n";
         }
-        textRnd.draw(wnd, ss.str(), fnt, hou::color::black
+        textRnd.draw(wnd, ss.str(), fnt, hou::color::black()
           , projTrans * eventQueueTrans * evTrans * hou::trans2f::translation(hou::vec2f(4.f, 16.f)));
         evTrans *= hou::trans2f::translation(hou::vec2f(evSize.x(), 0.f));
       }
@@ -533,7 +533,7 @@ int main()
           meshRnd.draw(wnd
             , info.getQuad()
             , keyboardKeysTex
-            , hou::color::red
+            , hou::color::red()
             , projTrans * keyboard1Trans * info.getTrans());
         }
         if(hou::keyboard::is_key_pressed(info.getScanCode()))
@@ -541,7 +541,7 @@ int main()
           meshRnd.draw(wnd
             , info.getQuad()
             , keyboardKeysTex
-            , hou::color::yellow
+            , hou::color::yellow()
             , projTrans * keyboard2Trans * info.getTrans());
         }
       }
@@ -550,33 +550,33 @@ int main()
       meshRnd.draw(wnd
         , keyboardLed
         , hou::keyboard::is_key_toggled(hou::key_code::num_lock)
-        ? hou::color::red : hou::color::black
+        ? hou::color::red() : hou::color::black()
         , projTrans * keyboard1Trans * hou::trans2f::translation(hou::vec2f(312.f, 8.f)));
       meshRnd.draw(wnd
         , keyboardLed
         , hou::keyboard::is_key_toggled(hou::key_code::caps_lock)
-        ? hou::color::red : hou::color::black
+        ? hou::color::red() : hou::color::black()
         , projTrans * keyboard1Trans * hou::trans2f::translation(hou::vec2f(328.f, 8.f)));
       meshRnd.draw(wnd
         , keyboardLed
         , hou::keyboard::is_key_toggled(hou::key_code::scroll_lock)
-        ? hou::color::red : hou::color::black
+        ? hou::color::red() : hou::color::black()
         , projTrans * keyboard1Trans * hou::trans2f::translation(hou::vec2f(344.f, 8.f)));
 
       meshRnd.draw(wnd
         , keyboardLed
         , hou::keyboard::is_key_toggled(hou::scan_code::num_lock)
-        ? hou::color::yellow : hou::color::black
+        ? hou::color::yellow() : hou::color::black()
         , projTrans * keyboard2Trans * hou::trans2f::translation(hou::vec2f(312.f, 8.f)));
       meshRnd.draw(wnd
         , keyboardLed
         , hou::keyboard::is_key_toggled(hou::scan_code::caps_lock)
-        ? hou::color::yellow : hou::color::black
+        ? hou::color::yellow() : hou::color::black()
         , projTrans * keyboard2Trans * hou::trans2f::translation(hou::vec2f(328.f, 8.f)));
       meshRnd.draw(wnd
         , keyboardLed
         , hou::keyboard::is_key_toggled(hou::scan_code::scroll_lock)
-        ? hou::color::yellow : hou::color::black
+        ? hou::color::yellow() : hou::color::black()
         , projTrans * keyboard2Trans * hou::trans2f::translation(hou::vec2f(344.f, 8.f)));
 
       // Draw mouse buttons.
@@ -585,7 +585,7 @@ int main()
         meshRnd.draw(wnd
           , mouseBtnQuad
           , mousebuttonsTex
-          , hou::color::green
+          , hou::color::green()
           , projTrans * mouseTrans * hou::trans2f::translation(hou::vec2f(11.f, 7.f)));
       }
       if(hou::mouse::is_button_pressed(hou::mouse_button::rb))
@@ -593,7 +593,7 @@ int main()
         meshRnd.draw(wnd
           , mouseBtnQuad
           , mousebuttonsTex
-          , hou::color::green
+          , hou::color::green()
           , projTrans * mouseTrans * hou::trans2f::translation(hou::vec2f(37.f, 7.f)));
       }
       if(hou::mouse::is_button_pressed(hou::mouse_button::mb))
@@ -601,7 +601,7 @@ int main()
         meshRnd.draw(wnd
           , mouseWheelQuad
           , mousebuttonsTex
-          , hou::color::green
+          , hou::color::green()
           , projTrans * mouseTrans * hou::trans2f::translation(hou::vec2f(29.f, 13.f)));
       }
       if(hou::mouse::is_button_pressed(hou::mouse_button::xb1))
@@ -609,7 +609,7 @@ int main()
         meshRnd.draw(wnd
           , mouseBtnXQuad
           , mousebuttonsTex
-          , hou::color::green
+          , hou::color::green()
           , projTrans * mouseTrans * hou::trans2f::translation(hou::vec2f(5.f, 32.f)));
       }
       if(hou::mouse::is_button_pressed(hou::mouse_button::xb2))
@@ -617,7 +617,7 @@ int main()
         meshRnd.draw(wnd
           , mouseBtnXQuad
           , mousebuttonsTex
-          , hou::color::green
+          , hou::color::green()
           , projTrans * mouseTrans * hou::trans2f::translation(hou::vec2f(54.f, 32.f)));
       }
 

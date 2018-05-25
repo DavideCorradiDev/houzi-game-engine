@@ -78,7 +78,7 @@ mesh2_shader_program::mesh2_shader_program()
   , m_uni_texture(get_uniform_location(UNI_TEXTURE))
   , m_uni_transform(get_uniform_location(UNI_TRANSFORM))
 {
-  m_blank_texture.clear(pixel_rgba(color::white));
+  m_blank_texture.clear(pixel_rgba(color::white()));
 }
 
 
@@ -128,13 +128,13 @@ void mesh2_shader_program::draw(
 void mesh2_shader_program::draw(render_surface& target, const mesh2& m,
   const texture2& tex, const trans2f& trn)
 {
-  draw(target, m, tex, color::white, trn);
+  draw(target, m, tex, color::white(), trn);
 }
 
 void mesh2_shader_program::draw(
   render_surface& target, const mesh2& m, const trans2f& trn)
 {
-  draw(target, m, m_blank_texture, color::white, trn);
+  draw(target, m, m_blank_texture, color::white(), trn);
 }
 
 }  // namespace hou

@@ -228,7 +228,7 @@ TEST_F(test_render_canvas, blit_full_size)
   render_canvas rs_dst(size);
 
   recti blit_rect = rs_src.get_default_viewport();
-  rs_src.clear(color::red);
+  rs_src.clear(color::red());
   blit(rs_src, blit_rect, rs_dst, blit_rect);
 
   EXPECT_EQ(rs_src.to_texture().get_image<pixel_format::rgba>(),
@@ -248,8 +248,8 @@ TEST_F(test_render_canvas, blit_small_rect)
   rs_src.clear(blit_col);
   blit(rs_src, blit_rect, rs_dst, blit_rect);
 
-  image2_rgba im_ref
-    = generate_blit_result_image(size, blit_rect, color::transparent, blit_col);
+  image2_rgba im_ref = generate_blit_result_image(
+    size, blit_rect, color::transparent(), blit_col);
   EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
 
@@ -267,8 +267,8 @@ TEST_F(test_render_canvas, blit_different_source_and_destination_rect)
   rs_src.clear(blit_col);
   blit(rs_src, src_rect, rs_dst, dst_rect);
 
-  image2_rgba im_ref
-    = generate_blit_result_image(size, dst_rect, color::transparent, blit_col);
+  image2_rgba im_ref = generate_blit_result_image(
+    size, dst_rect, color::transparent(), blit_col);
   EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
 
@@ -287,7 +287,7 @@ TEST_F(test_render_canvas, blit_over_flowing_source_rect)
   blit(rs_src, src_rect, rs_dst, dst_rect);
 
   image2_rgba im_ref = generate_blit_result_image(
-    size, recti(0, 0, 1, 2), color::transparent, blit_col);
+    size, recti(0, 0, 1, 2), color::transparent(), blit_col);
   EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
 
@@ -305,8 +305,8 @@ TEST_F(test_render_canvas, blit_over_flowing_destination_rect)
   rs_src.clear(blit_col);
   blit(rs_src, src_rect, rs_dst, dst_rect);
 
-  image2_rgba im_ref
-    = generate_blit_result_image(size, dst_rect, color::transparent, blit_col);
+  image2_rgba im_ref = generate_blit_result_image(
+    size, dst_rect, color::transparent(), blit_col);
   EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
 
@@ -325,7 +325,7 @@ TEST_F(test_render_canvas, blit_inverted_source_rect)
   blit(rs_src, src_rect, rs_dst, dst_rect);
 
   image2_rgba im_ref = generate_blit_result_image(
-    size, recti(0, 0, 2, 1), color::transparent, blit_col);
+    size, recti(0, 0, 2, 1), color::transparent(), blit_col);
   EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
 
@@ -344,7 +344,7 @@ TEST_F(test_render_canvas, blit_inverted_destination_rect)
   blit(rs_src, src_rect, rs_dst, dst_rect);
 
   image2_rgba im_ref = generate_blit_result_image(
-    size, recti(0, 0, 2, 1), color::transparent, blit_col);
+    size, recti(0, 0, 2, 1), color::transparent(), blit_col);
   EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
 
@@ -362,8 +362,8 @@ TEST_F(test_render_canvas, blit_different_sample_size_same_rect_size)
   rs_src.clear(blit_col);
   blit(rs_src, src_rect, rs_dst, dst_rect);
 
-  image2_rgba im_ref
-    = generate_blit_result_image(size, dst_rect, color::transparent, blit_col);
+  image2_rgba im_ref = generate_blit_result_image(
+    size, dst_rect, color::transparent(), blit_col);
   EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
 
@@ -382,12 +382,13 @@ TEST_F(test_render_canvas, blit_different_sample_size_same_rect_size_inverted)
   blit(rs_src, src_rect, rs_dst, dst_rect);
 
   image2_rgba im_ref = generate_blit_result_image(
-    size, recti(0, 1, 2, 3), color::transparent, blit_col);
+    size, recti(0, 1, 2, 3), color::transparent(), blit_col);
   EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
 
 
-TEST_F(test_render_canvas_death_test, blit_different_sample_size_different_rect_size)
+TEST_F(
+  test_render_canvas_death_test, blit_different_sample_size_different_rect_size)
 {
   vec2u size(3u, 4u);
   render_canvas rs_src(size, 2u);
@@ -395,7 +396,7 @@ TEST_F(test_render_canvas_death_test, blit_different_sample_size_different_rect_
 
   recti src_rect(vec2i(0, 0), vec2i(2, 3));
   recti dst_rect(vec2i(0, 0), vec2i(1, 2));
-  rs_src.clear(color::red);
+  rs_src.clear(color::red());
   EXPECT_PRECOND_ERROR(blit(rs_src, src_rect, rs_dst, dst_rect));
 }
 

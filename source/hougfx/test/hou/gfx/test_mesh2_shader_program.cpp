@@ -70,7 +70,7 @@ TEST_F(test_mesh2_shader_program, move_constructor)
 TEST_F(test_mesh2_shader_program, set_color)
 {
   mesh2_shader_program sp;
-  sp.set_color(color::red);
+  sp.set_color(color::red());
   SUCCEED();
 }
 
@@ -108,7 +108,7 @@ TEST_F(test_mesh2_shader_program, draw_rectangle)
   mr.draw(rt, rect, col, t);
 
   image2_rgba im_ref
-    = generate_result_image(size, recti(1, 2, 2, 3), color::transparent, col);
+    = generate_result_image(size, recti(1, 2, 2, 3), color::transparent(), col);
   EXPECT_EQ(im_ref, rt.to_texture().get_image<pixel_format::rgba>());
 }
 
@@ -128,9 +128,9 @@ TEST_F(test_mesh2_shader_program, draw_textured_rectangle)
     = trans2f::orthographic_projection(rectf(0.f, 0.f, size.x(), size.y()))
     * trans2f::translation(vec2f(1.f, 2.f));
 
-  mr.draw(rt, rect, tex, color::white, t);
+  mr.draw(rt, rect, tex, color::white(), t);
 
   image2_rgba im_ref = generate_result_image(
-    size, recti(1, 2, 3, 4), color::transparent, col);
+    size, recti(1, 2, 3, 4), color::transparent(), col);
   EXPECT_EQ(im_ref, rt.to_texture().get_image<pixel_format::rgba>());
 }

@@ -70,7 +70,7 @@ public:
    * \param trn the transform.
    */
   void draw(render_surface& target, const mesh2& m, const texture2& tex,
-    const color& col = color::white, const trans2f& trn = trans2f::identity());
+    const color& col = color::white(), const trans2f& trn = trans2f::identity());
 
   /** Draws a mesh onto a render_surface with the given parameters.
    *
@@ -83,7 +83,7 @@ public:
    * \param trn the transform.
    */
   void draw(render_surface& target, const mesh2& m,
-    const color& col = color::white, const trans2f& trn = trans2f::identity());
+    const color& col = color::white(), const trans2f& trn = trans2f::identity());
 
   /** Draws a mesh onto a render_surface with the given parameters.
    *

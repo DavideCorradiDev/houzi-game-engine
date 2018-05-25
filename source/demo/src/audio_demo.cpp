@@ -110,10 +110,10 @@ int main()
           break;
       }
     }
-    rw.clear(color::black);
+    rw.clear(color::black());
     std::chrono::nanoseconds timePerFrame = timer.reset();
     rnd.draw(rw, to_string(sas.get_sample_pos()) + " / " + to_string(sas.get_sample_count())
-      , fnt, color::white, proj * offsetTrans);
+      , fnt, color::white(), proj * offsetTrans);
     rw.display();
   }
 

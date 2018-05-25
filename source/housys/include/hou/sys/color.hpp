@@ -20,34 +20,34 @@ class HOU_SYS_API color
 {
 public:
   /** White color constant. */
-  static const color white;
+  static const color& white() noexcept;
 
   /** Grey color constant. */
-  static const color grey;
+  static const color& grey() noexcept;
 
   /** Black color constant. */
-  static const color black;
+  static const color& black() noexcept;
 
   /** Red color constant. */
-  static const color red;
+  static const color& red() noexcept;
 
   /** Yellow color constant. */
-  static const color yellow;
+  static const color& yellow() noexcept;
 
   /** Green color constant. */
-  static const color green;
+  static const color& green() noexcept;
 
   /** Cyan color constant. */
-  static const color cyan;
+  static const color& cyan() noexcept;
 
   /** Blue color constant. */
-  static const color blue;
+  static const color& blue() noexcept;
 
   /** Magenta color constant. */
-  static const color magenta;
+  static const color& magenta() noexcept;
 
   /** Transparent color constant. */
-  static const color transparent;
+  static const color& transparent() noexcept;
 
 public:
   /** Creates a color object with the given rgba values.

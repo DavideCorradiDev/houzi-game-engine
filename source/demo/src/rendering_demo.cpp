@@ -83,7 +83,7 @@ public:
 
 DrawableShape::DrawableShape(const texture2& tex)
   : non_copyable()
-  , m_color(color::white)
+  , m_color(color::white())
   , mTransformData()
   , mOrigin(0.f, 0.f)
   , m_size(32.f, 32.f)
@@ -554,12 +554,12 @@ int main()
         wnd->set_viewport(currentViewport);
       }
 
-      wnd->clear(color::grey);
+      wnd->clear(color::grey());
 
       trans2f projTrans = trans2f::orthographic_projection(wnd->get_viewport());
 
       mesh2 viewportMesh = create_rectangle_outline_mesh2(wnd->get_viewport().get_size(), 1);
-      m2rend.draw(*wnd, viewportMesh, color::white
+      m2rend.draw(*wnd, viewportMesh, color::white()
         , projTrans * trans2f::translation(wnd->get_viewport().get_position()));
 
       for(const auto& shapePtr : shapes)
