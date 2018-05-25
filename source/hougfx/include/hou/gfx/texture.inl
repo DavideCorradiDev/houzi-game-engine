@@ -141,7 +141,7 @@ HOU_GFX_API texture_t<texture_type::multisample_texture2_array>::texture_t(
 
 template <texture_type Type>
 template <pixel_format PF, texture_type Type2, typename Enable>
-void texture_t<Type>::clear(const pixel_t<PF>& px)
+void texture_t<Type>::clear(const pixel<PF>& px)
 {
   set_image<PF, Type2, Enable>(image<PF>(get_size(), px));
 }

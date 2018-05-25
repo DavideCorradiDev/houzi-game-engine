@@ -29,7 +29,7 @@ uint8_t average_channels(uint8_t r, uint8_t g, uint8_t b) noexcept
 
 
 template <pixel_format PF>
-pixel_format pixel_t<PF>::get_format() noexcept
+pixel_format pixel<PF>::get_format() noexcept
 {
   return format;
 }
@@ -37,7 +37,7 @@ pixel_format pixel_t<PF>::get_format() noexcept
 
 
 template <pixel_format PF>
-uint pixel_t<PF>::get_byte_count() noexcept
+uint pixel<PF>::get_byte_count() noexcept
 {
   return byte_count;
 }
@@ -45,7 +45,7 @@ uint pixel_t<PF>::get_byte_count() noexcept
 
 
 template <pixel_format PF>
-pixel_t<PF>::pixel_t() noexcept
+pixel<PF>::pixel() noexcept
   : m_channels()
 {
   m_channels.fill(0u);
@@ -55,8 +55,8 @@ pixel_t<PF>::pixel_t() noexcept
 
 template <>
 template <>
-pixel_t<pixel_format::r>::pixel_t(
-  const pixel_t<pixel_format::rg>& other) noexcept
+pixel<pixel_format::r>::pixel(
+  const pixel<pixel_format::rg>& other) noexcept
   : m_channels{other.get_r()}
 {}
 
@@ -64,8 +64,8 @@ pixel_t<pixel_format::r>::pixel_t(
 
 template <>
 template <>
-pixel_t<pixel_format::r>::pixel_t(
-  const pixel_t<pixel_format::rgb>& other) noexcept
+pixel<pixel_format::r>::pixel(
+  const pixel<pixel_format::rgb>& other) noexcept
   : m_channels{average_channels(other.get_r(), other.get_g(), other.get_b())}
 {}
 
@@ -73,8 +73,8 @@ pixel_t<pixel_format::r>::pixel_t(
 
 template <>
 template <>
-pixel_t<pixel_format::r>::pixel_t(
-  const pixel_t<pixel_format::rgba>& other) noexcept
+pixel<pixel_format::r>::pixel(
+  const pixel<pixel_format::rgba>& other) noexcept
   : m_channels{average_channels(other.get_r(), other.get_g(), other.get_b())}
 {}
 
@@ -82,8 +82,8 @@ pixel_t<pixel_format::r>::pixel_t(
 
 template <>
 template <>
-pixel_t<pixel_format::rg>::pixel_t(
-  const pixel_t<pixel_format::r>& other) noexcept
+pixel<pixel_format::rg>::pixel(
+  const pixel<pixel_format::r>& other) noexcept
   : m_channels{other.get_r(), 255u}
 {}
 
@@ -91,8 +91,8 @@ pixel_t<pixel_format::rg>::pixel_t(
 
 template <>
 template <>
-pixel_t<pixel_format::rg>::pixel_t(
-  const pixel_t<pixel_format::rgb>& other) noexcept
+pixel<pixel_format::rg>::pixel(
+  const pixel<pixel_format::rgb>& other) noexcept
   : m_channels{
       average_channels(other.get_r(), other.get_g(), other.get_b()), 255u}
 {}
@@ -101,8 +101,8 @@ pixel_t<pixel_format::rg>::pixel_t(
 
 template <>
 template <>
-pixel_t<pixel_format::rg>::pixel_t(
-  const pixel_t<pixel_format::rgba>& other) noexcept
+pixel<pixel_format::rg>::pixel(
+  const pixel<pixel_format::rgba>& other) noexcept
   : m_channels{average_channels(other.get_r(), other.get_g(), other.get_b()),
       other.get_a()}
 {}
@@ -111,8 +111,8 @@ pixel_t<pixel_format::rg>::pixel_t(
 
 template <>
 template <>
-pixel_t<pixel_format::rgb>::pixel_t(
-  const pixel_t<pixel_format::r>& other) noexcept
+pixel<pixel_format::rgb>::pixel(
+  const pixel<pixel_format::r>& other) noexcept
   : m_channels{other.get_r(), other.get_r(), other.get_r()}
 {}
 
@@ -120,8 +120,8 @@ pixel_t<pixel_format::rgb>::pixel_t(
 
 template <>
 template <>
-pixel_t<pixel_format::rgb>::pixel_t(
-  const pixel_t<pixel_format::rg>& other) noexcept
+pixel<pixel_format::rgb>::pixel(
+  const pixel<pixel_format::rg>& other) noexcept
   : m_channels{other.get_r(), other.get_r(), other.get_r()}
 {}
 
@@ -129,8 +129,8 @@ pixel_t<pixel_format::rgb>::pixel_t(
 
 template <>
 template <>
-pixel_t<pixel_format::rgb>::pixel_t(
-  const pixel_t<pixel_format::rgba>& other) noexcept
+pixel<pixel_format::rgb>::pixel(
+  const pixel<pixel_format::rgba>& other) noexcept
   : m_channels{other.get_r(), other.get_g(), other.get_b()}
 {}
 
@@ -138,8 +138,8 @@ pixel_t<pixel_format::rgb>::pixel_t(
 
 template <>
 template <>
-pixel_t<pixel_format::rgba>::pixel_t(
-  const pixel_t<pixel_format::r>& other) noexcept
+pixel<pixel_format::rgba>::pixel(
+  const pixel<pixel_format::r>& other) noexcept
   : m_channels{other.get_r(), other.get_r(), other.get_r(), 255u}
 {}
 
@@ -147,8 +147,8 @@ pixel_t<pixel_format::rgba>::pixel_t(
 
 template <>
 template <>
-pixel_t<pixel_format::rgba>::pixel_t(
-  const pixel_t<pixel_format::rg>& other) noexcept
+pixel<pixel_format::rgba>::pixel(
+  const pixel<pixel_format::rg>& other) noexcept
   : m_channels{other.get_r(), other.get_r(), other.get_r(), other.get_g()}
 {}
 
@@ -156,15 +156,15 @@ pixel_t<pixel_format::rgba>::pixel_t(
 
 template <>
 template <>
-pixel_t<pixel_format::rgba>::pixel_t(
-  const pixel_t<pixel_format::rgb>& other) noexcept
+pixel<pixel_format::rgba>::pixel(
+  const pixel<pixel_format::rgb>& other) noexcept
   : m_channels{other.get_r(), other.get_g(), other.get_b(), 255u}
 {}
 
 
 
 template <pixel_format PF>
-uint8_t pixel_t<PF>::get_r() const noexcept
+uint8_t pixel<PF>::get_r() const noexcept
 {
   return m_channels[0];
 }
@@ -172,7 +172,7 @@ uint8_t pixel_t<PF>::get_r() const noexcept
 
 
 template <pixel_format PF>
-void pixel_t<PF>::set_r(uint8_t value) noexcept
+void pixel<PF>::set_r(uint8_t value) noexcept
 {
   m_channels[0] = value;
 }
@@ -217,9 +217,9 @@ std::ostream& operator<<(std::ostream& os, const pixel_rgba& pixel)
 
 
 
-template class pixel_t<pixel_format::r>;
-template class pixel_t<pixel_format::rg>;
-template class pixel_t<pixel_format::rgb>;
-template class pixel_t<pixel_format::rgba>;
+template class pixel<pixel_format::r>;
+template class pixel<pixel_format::rg>;
+template class pixel<pixel_format::rgb>;
+template class pixel<pixel_format::rgba>;
 
 }  // namespace hou

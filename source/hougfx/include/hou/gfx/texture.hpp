@@ -477,7 +477,7 @@ public:
    */
   template <pixel_format PF, texture_type Type2 = Type,
     typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
-  void clear(const pixel_t<PF>& px);
+  void clear(const pixel<PF>& px);
 
   /** Retrieves the size of the specified mip map level.
    *

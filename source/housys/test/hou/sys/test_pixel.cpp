@@ -22,31 +22,31 @@ class test_pixel_format_death_test : public test_pixel_format
 class test_pixel : public Test
 {};
 
-template <typename pixel_t>
+template <typename pixel>
 class test_pixel_common : public test_pixel
 {};
 
 using pixel_types_common = Types<pixel_r, pixel_rg, pixel_rgb, pixel_rgba>;
 
-template <typename pixel_t>
+template <typename pixel>
 class test_pixel_red_channel : public test_pixel
 {};
 
 using pixel_types_red_channel = Types<pixel_r, pixel_rg, pixel_rgb, pixel_rgba>;
 
-template <typename pixel_t>
+template <typename pixel>
 class test_pixel_green_channel : public test_pixel
 {};
 
 using pixel_types_green_channel = Types<pixel_rg, pixel_rgb, pixel_rgba>;
 
-template <typename pixel_t>
+template <typename pixel>
 class test_pixel_blue_channel : public test_pixel
 {};
 
 using pixel_types_blue_channel = Types<pixel_rgb, pixel_rgba>;
 
-template <typename pixel_t>
+template <typename pixel>
 class test_pixel_alpha_channel : public test_pixel
 {};
 

@@ -44,7 +44,7 @@ public:
   using offset_type = size_type;
 
   /** Type of the image pixels. */
-  using pixel = pixel_t<PF>;
+  using pixel = pixel<PF>;
 
   /** Type used to represent the collection of pixels of the image. */
   using pixel_collection = std::vector<pixel>;
