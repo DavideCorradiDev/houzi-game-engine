@@ -25,7 +25,7 @@ const std::vector<version> supported_versions = {
 
 
 
-const version& version::get_default()
+const version& version::get_default() noexcept
 {
   static const version v(4u, 5u);
   return v;

@@ -20,7 +20,7 @@ namespace gl
 class HOU_GL_API version
 {
 public:
-  static const version& get_default();
+  static const version& get_default() noexcept;
 
 public:
   version(uint major, uint minor) noexcept;

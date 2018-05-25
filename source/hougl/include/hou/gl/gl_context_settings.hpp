@@ -21,7 +21,7 @@ namespace gl
 class HOU_GL_API context_settings
 {
 public:
-  static const context_settings& get_default();
+  static const context_settings& get_default() noexcept;
 
 public:
   context_settings(const version& vrs, context_profile profile,

@@ -10,7 +10,7 @@ namespace hou
 namespace gl
 {
 
-const context_settings& context_settings::get_default()
+const context_settings& context_settings::get_default() noexcept
 {
   static const context_settings cs(
     version::get_default(), context_profile::core, 3u, 1u, 0u);
