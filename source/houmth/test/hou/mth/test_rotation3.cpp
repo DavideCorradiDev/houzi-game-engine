@@ -294,7 +294,7 @@ TEST_F(test_rotation3, output_stream_operator)
 
 
 
-TEST_P(test_rotation3_param_f, rotationX)
+TEST_P(test_rotation3_param_f, rotation_x)
 {
   rot3f r = rot3f::x(GetParam());
   quatf q_ref(std::sin(GetParam() / 2.f), 0.f, 0.f, std::cos(GetParam() / 2.f));
@@ -314,7 +314,7 @@ TEST_P(test_rotation3_param_f, rotationX)
 
 
 
-TEST_P(test_rotation3_param_f, rotationY)
+TEST_P(test_rotation3_param_f, rotation_y)
 {
   rot3f r = rot3f::y(GetParam());
   quatf q_ref(0.f, std::sin(GetParam() / 2.f), 0.f, std::cos(GetParam() / 2.f));
@@ -334,7 +334,7 @@ TEST_P(test_rotation3_param_f, rotationY)
 
 
 
-TEST_P(test_rotation3_param_f, rotationZ)
+TEST_P(test_rotation3_param_f, rotation_z)
 {
   rot3f r = rot3f::z(GetParam());
   quatf q_ref(0.f, 0.f, std::sin(GetParam() / 2.f), std::cos(GetParam() / 2.f));
