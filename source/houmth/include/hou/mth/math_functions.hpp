@@ -25,6 +25,11 @@ constexpr float pi_f = 3.1415927f;
  */
 constexpr double pi_d = 3.141592653589793;
 
+
+
+template <typename T>
+constexpr T pi();
+
 /** Converts degrees to radians.
  *
  * \param deg the angle in degrees.

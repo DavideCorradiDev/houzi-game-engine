@@ -7,6 +7,22 @@
 namespace hou
 {
 
+template <>
+constexpr float pi<float>()
+{
+  return 3.1415927f;
+}
+
+
+
+template <>
+constexpr double pi<double>()
+{
+  return 3.141592653589793;
+}
+
+
+
 template <typename T, typename Enable>
 constexpr T log(T x, int n) noexcept
 {
