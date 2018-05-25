@@ -37,6 +37,7 @@ public:
   template <size_t OtherDim, pixel_format OtherPF>
   friend class image;
 
+public:
   /** Type representing the size of the image. */
   using size_type = vec<uint, Dim>;
 
@@ -50,8 +51,13 @@ public:
   using pixel_collection = std::vector<pixel>;
 
 public:
+  /** The number of dimensions of the image. */
   static constexpr size_t dimension_count = Dim;
+
+  /** The pixel format. */
   static constexpr pixel_format format = PF;
+
+  /** The number of bytes in a pixel. */
   static constexpr size_t pixel_byte_count = pixel::byte_count;
 
 public:
