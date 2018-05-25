@@ -62,7 +62,7 @@ ELSE()
   SET(LIB_HOUGL_LIB
     ${LIB_GLAD}
     ${LIB_HOUSYS}
-    ${LIB_HOUMTH}
+    # ${LIB_HOUMTH}
     ${LIB_HOUCOR}
   )
   IF(WIN32)
