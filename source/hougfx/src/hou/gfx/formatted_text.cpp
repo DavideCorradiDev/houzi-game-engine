@@ -26,7 +26,7 @@ public:
   const std::map<utf32::code_unit, glyph>& get_glyphs() const;
   const glyph& get_glyph(utf32::code_unit c) const;
   const vec2u& get_max_glyph_size() const;
-  uint get_size() const;
+  size_t get_size() const;
 
 private:
   std::map<utf32::code_unit, glyph> m_glyphs;
@@ -169,7 +169,7 @@ vec3u glyph_atlas::compute_atlas_grid_size(const glyph_cache& cache)
   maxAtlasGridSize.x() /= cache.get_max_glyph_size().x();
   maxAtlasGridSize.y() /= cache.get_max_glyph_size().y();
 
-  uint char_count = cache.get_size();
+  uint char_count = static_cast<uint>(cache.get_size());
   return vec3u(std::min(char_count, maxAtlasGridSize.x()),
     std::min(char_count / maxAtlasGridSize.x(), maxAtlasGridSize.y() - 1u) + 1u,
     std::min(char_count / (maxAtlasGridSize.x() * maxAtlasGridSize.y()),
@@ -249,7 +249,7 @@ vec3f atlas_glyph_coordinates::get_bottom_left_tex() const
 
 
 
-uint glyph_cache::get_size() const
+size_t glyph_cache::get_size() const
 {
   return m_glyphs.size();
 }

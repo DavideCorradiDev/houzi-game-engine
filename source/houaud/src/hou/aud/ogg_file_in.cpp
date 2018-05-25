@@ -238,9 +238,10 @@ void ogg_file_in::on_read(void* buf, size_t element_size, size_t buf_size)
   while(countBytes < sizeBytes)
   {
     // If there is still room in the buffer, perform a read.
-    long bytesRead = ov_read(m_vorbis_file.get(),
-      reinterpret_cast<char*>(buf) + countBytes, sizeBytes - countBytes,
-      big_endian_data, bytes_per_sample, signed_data, &m_logical_bit_stream);
+    long bytesRead
+      = ov_read(m_vorbis_file.get(), reinterpret_cast<char*>(buf) + countBytes,
+        static_cast<int>(sizeBytes - countBytes), big_endian_data,
+        static_cast<int>(bytes_per_sample), signed_data, &m_logical_bit_stream);
 
     // No bytes read: end of file.
     if(bytesRead == 0)

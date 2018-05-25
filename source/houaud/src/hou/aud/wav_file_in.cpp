@@ -119,7 +119,7 @@ size_t wav_file_in::get_read_element_count() const noexcept
 
 wav_file_in::byte_position wav_file_in::get_byte_pos() const
 {
-  return m_file.tell() - m_data_offset;
+  return narrow_cast<byte_position>(m_file.tell() - m_data_offset);
 }
 
 
@@ -132,7 +132,7 @@ binary_stream& wav_file_in::set_byte_pos(wav_file_in::byte_position pos)
   HOU_CHECK_0(pos >= 0
       && pos <= narrow_cast<wav_file_in::byte_position>(get_byte_count()),
     cursor_error);
-  m_file.seek_set(pos + m_data_offset);
+  m_file.seek_set(narrow_cast<long>(pos + m_data_offset));
   return *this;
 }
 

@@ -203,10 +203,10 @@ typename ImageT::offset_type test_image<ImageT>::compute_pixel_coordinates(
   for(size_t i = s.size() - 1; i > 0; --i)
   {
     divider /= s(i);
-    coords(i) = index / divider;
+    coords(i) = static_cast<uint>(index / divider);
     index %= divider;
   }
-  coords(0) = index;
+  coords(0) = static_cast<uint>(index);
   return coords;
 }
 
@@ -485,9 +485,9 @@ TYPED_TEST(test_image, get_sub_image)
   offset_type sub_image_offset;
   for(size_t i = 0; i < image_size.size(); ++i)
   {
-    image_size(i) = (i + 1) * 4;
-    sub_image_size(i) = (i + 1) * 2;
-    sub_image_offset(i) = i + 1;
+    image_size(i) = static_cast<uint>((i + 1) * 4);
+    sub_image_size(i) = static_cast<uint>((i + 1) * 2);
+    sub_image_offset(i) = static_cast<uint>(i + 1);
   }
 
   pixel_collection pixels_ref = TestFixture::generate_pixels(image_size);
@@ -520,9 +520,9 @@ TYPED_TEST(test_image_death_test, get_sub_image_error_overflow)
   offset_type sub_image_offset;
   for(size_t i = 0; i < image_size.size(); ++i)
   {
-    image_size(i) = (i + 1) * 4;
-    sub_image_offset(i) = i + 1;
-    sub_image_size(i) = (i + 1) * 4 - sub_image_offset(i) + 1u;
+    image_size(i) = static_cast<uint>((i + 1) * 4);
+    sub_image_offset(i) = static_cast<uint>(i + 1);
+    sub_image_size(i) = static_cast<uint>((i + 1) * 4 - sub_image_offset(i) + 1u);
   }
 
   TypeParam image(image_size);
@@ -543,9 +543,9 @@ TYPED_TEST(test_image, set_sub_image)
   offset_type sub_image_offset;
   for(size_t i = 0; i < image_size.size(); ++i)
   {
-    image_size(i) = (i + 1) * 4;
-    sub_image_size(i) = (i + 1) * 2;
-    sub_image_offset(i) = i + 1;
+    image_size(i) = static_cast<uint>((i + 1) * 4);
+    sub_image_size(i) = static_cast<uint>((i + 1) * 2);
+    sub_image_offset(i) = static_cast<uint>(i + 1);
   }
 
   pixel_collection pixels_ref(TestFixture::multiply_elements(image_size));
@@ -581,9 +581,9 @@ TYPED_TEST(test_image_death_test, set_sub_image_error_overflow)
   offset_type sub_image_offset;
   for(size_t i = 0; i < image_size.size(); ++i)
   {
-    image_size(i) = (i + 1) * 4;
-    sub_image_offset(i) = i + 1;
-    sub_image_size(i) = (i + 1) * 4 - sub_image_offset(i) + 1u;
+    image_size(i) = static_cast<uint>((i + 1) * 4);
+    sub_image_offset(i) = static_cast<uint>(i + 1);
+    sub_image_size(i) = static_cast<uint>((i + 1) * 4 - sub_image_offset(i) + 1u);
   }
 
   TypeParam image(image_size);

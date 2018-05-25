@@ -75,7 +75,7 @@ public:
     text_position(long value) noexcept;
 
   private:
-    long mValue;
+    long m_value;
   };
 
 public:

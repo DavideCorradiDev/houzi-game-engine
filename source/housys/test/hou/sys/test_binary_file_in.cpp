@@ -110,10 +110,12 @@ TEST_F(test_binary_file_in, set_byte_pos)
   EXPECT_EQ(3, fi.get_byte_pos());
   fi.set_byte_pos(0);
   EXPECT_EQ(0, fi.get_byte_pos());
-  fi.set_byte_pos(fi.get_byte_count());
+  fi.set_byte_pos(
+    static_cast<binary_file_in::byte_position>(fi.get_byte_count()));
   EXPECT_EQ(static_cast<binary_file_in::byte_position>(fi.get_byte_count()),
     fi.get_byte_pos());
-  fi.set_byte_pos(fi.get_byte_count() + 6);
+  fi.set_byte_pos(
+    static_cast<binary_file_in::byte_position>(fi.get_byte_count() + 6));
   EXPECT_EQ(static_cast<binary_file_in::byte_position>(fi.get_byte_count() + 6),
     fi.get_byte_pos());
 }
@@ -138,7 +140,8 @@ TEST_F(test_binary_file_in, move_byte_pos)
   EXPECT_EQ(1, fi.get_byte_pos());
   fi.move_byte_pos(-1);
   EXPECT_EQ(0, fi.get_byte_pos());
-  fi.move_byte_pos(fi.get_byte_count());
+  fi.move_byte_pos(
+    static_cast<binary_file_in::byte_position>(fi.get_byte_count()));
   EXPECT_EQ(static_cast<binary_file_in::byte_position>(fi.get_byte_count()),
     fi.get_byte_pos());
   fi.move_byte_pos(6);
@@ -274,8 +277,8 @@ TEST_F(test_binary_file_in, read_to_string)
   EXPECT_EQ(buffer_byte_size, fi.get_read_byte_count());
   EXPECT_EQ(buffer_size, fi.get_read_element_count());
   const uint8_t* offset_data = file_content.data() + buffer_byte_size;
-  EXPECT_ARRAY_EQ(reinterpret_cast<const uint8_t*>(buffer.data()),
-    offset_data, buffer_byte_size);
+  EXPECT_ARRAY_EQ(reinterpret_cast<const uint8_t*>(buffer.data()), offset_data,
+    buffer_byte_size);
 }
 
 

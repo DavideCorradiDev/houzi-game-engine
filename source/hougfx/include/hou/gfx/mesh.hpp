@@ -55,7 +55,7 @@ public:
    *
    * \param vertex_count the number of vertices.
    */
-  mesh(mesh_draw_mode dm, mesh_fill_mode fm, uint vertex_count);
+  mesh(mesh_draw_mode dm, mesh_fill_mode fm, size_t vertex_count);
 
   /** Move constructor.
    *
@@ -83,7 +83,7 @@ public:
    *
    * \return the number of vertices in the mesh.
    */
-  uint get_vertex_count() const noexcept;
+  size_t get_vertex_count() const noexcept;
 
 protected:
   /** The vertex array object. */
@@ -92,7 +92,7 @@ protected:
 private:
   mesh_draw_mode m_draw_mode;
   mesh_fill_mode m_fill_mode;
-  uint m_vertex_count;
+  size_t m_vertex_count;
 };
 
 /** Represents a mesh.

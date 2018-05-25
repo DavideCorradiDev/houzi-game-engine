@@ -731,9 +731,9 @@ TYPED_TEST(test_texture_not_multisampled, get_sub_image)
   offset_type sub_image_offset;
   for(size_t i = 0; i < tex_size.size(); ++i)
   {
-    tex_size(i) = (i + 1) * 4;
-    sub_image_size(i) = (i + 1) * 2;
-    sub_image_offset(i) = i + 1;
+    tex_size(i) = static_cast<uint>((i + 1) * 4);
+    sub_image_size(i) = static_cast<uint>((i + 1) * 2);
+    sub_image_offset(i) = static_cast<uint>(i + 1);
   }
 
   image image_ref = this->generate_image(tex_size);
@@ -761,9 +761,10 @@ TYPED_TEST(
   offset_type sub_image_offset;
   for(size_t i = 0; i < tex_size.size(); ++i)
   {
-    tex_size(i) = (i + 1) * 4;
-    sub_image_offset(i) = i + 1;
-    sub_image_size(i) = (i + 1) * 4 - sub_image_offset(i) + 1u;
+    tex_size(i) = static_cast<uint>((i + 1) * 4);
+    sub_image_offset(i) = static_cast<uint>(i + 1);
+    sub_image_size(i)
+      = static_cast<uint>((i + 1) * 4 - sub_image_offset(i) + 1u);
   }
   TypeParam tex(this->generate_image(tex_size));
 
@@ -787,9 +788,9 @@ TYPED_TEST(test_texture_not_multisampled, set_sub_image)
   offset_type sub_image_offset;
   for(size_t i = 0; i < tex_size.size(); ++i)
   {
-    tex_size(i) = (i + 1) * 4;
-    sub_image_size(i) = (i + 1) * 2;
-    sub_image_offset(i) = i + 1;
+    tex_size(i) = static_cast<uint>((i + 1) * 4);
+    sub_image_size(i) = static_cast<uint>((i + 1) * 2);
+    sub_image_offset(i) = static_cast<uint>(i + 1);
   }
 
   typename image::pixel pixel_ref(1u, 2u, 3u, 4u);
@@ -821,9 +822,10 @@ TYPED_TEST(
   offset_type sub_image_offset;
   for(size_t i = 0; i < tex_size.size(); ++i)
   {
-    tex_size(i) = (i + 1) * 4;
-    sub_image_offset(i) = i + 1;
-    sub_image_size(i) = (i + 1) * 4 - sub_image_offset(i) + 1u;
+    tex_size(i) = static_cast<uint>((i + 1) * 4);
+    sub_image_offset(i) = static_cast<uint>(i + 1);
+    sub_image_size(i)
+      = static_cast<uint>((i + 1) * 4 - sub_image_offset(i) + 1u);
   }
 
   TypeParam tex(tex_size);
@@ -857,7 +859,7 @@ TYPED_TEST(test_texture_not_multisampled, get_mip_map_size)
   size_type size_ref = this->generate_size();
   TypeParam tex(size_ref, texture_format::rgba, 3u);
 
-  for(size_t i = 0; i < tex.get_mipmap_level_count(); ++i)
+  for(uint i = 0; i < tex.get_mipmap_level_count(); ++i)
   {
     EXPECT_EQ(this->compute_mipmap_size(size_ref, i), tex.get_mipmap_size(i));
   }
@@ -912,7 +914,7 @@ TYPED_TEST(test_texture_not_multisampled, set_image_get_mip_map_image)
   size_type tex_size;
   size_type sub_image_offset;
   size_type sub_image_size;
-  for(size_t i = 0; i < tex_size.size(); ++i)
+  for(uint i = 0; i < tex_size.size(); ++i)
   {
     tex_size(i) = (i + 1) * 16;
     sub_image_offset(i) = (i + 1) * 4;
@@ -932,7 +934,7 @@ TYPED_TEST(test_texture_not_multisampled, set_image_get_mip_map_image)
   }
 
   tex.set_image(imageRefs.front());
-  for(size_t i = 0; i < tex.get_mipmap_level_count(); ++i)
+  for(uint i = 0; i < tex.get_mipmap_level_count(); ++i)
   {
     EXPECT_EQ(
       imageRefs[i], tex.template get_mipmap_image<pixel_format::rgba>(i));
@@ -948,7 +950,7 @@ TYPED_TEST(test_texture_not_multisampled, clear_get_mip_map_image)
   TypeParam tex(this->generate_size(), texture_format::rgba, 3u);
   pixel_rgba pixel_ref(2u, 3u, 5u, 7u);
   tex.clear(pixel_ref);
-  for(size_t i = 0; i < tex.get_mipmap_level_count(); ++i)
+  for(uint i = 0; i < tex.get_mipmap_level_count(); ++i)
   {
     EXPECT_EQ(image(tex.get_mipmap_size(i), pixel_ref),
       tex.template get_mipmap_image<pixel_format::rgba>(i));

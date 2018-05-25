@@ -220,7 +220,8 @@ template <pixel_format PF, texture_type Type2, typename Enable>
   size_type s = get_size();
   std::vector<uint8_t> buffer(compute_image_buffer_size(s, PF));
   gl::get_texture_image(get_handle(), 0u, pixel_format_to_gl_pixel_format(PF),
-    static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
+    static_cast<GLenum>(to_gl_type<uint8_t>()),
+    narrow_cast<GLsizei>(buffer.size()), buffer.data());
   return image<PF>(s,
     reinterpret_span<const typename image<PF>::pixel>(span<uint8_t>(buffer)));
 }
@@ -238,7 +239,8 @@ template <pixel_format PF, texture_type Type2, typename Enable>
   std::vector<uint8_t> buffer(compute_image_buffer_size(mipMapSize, PF));
   gl::get_texture_image(get_handle(), mipmap_level,
     pixel_format_to_gl_pixel_format(PF),
-    static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
+    static_cast<GLenum>(to_gl_type<uint8_t>()),
+    narrow_cast<GLsizei>(buffer.size()), buffer.data());
   return image<PF>(mipMapSize,
     reinterpret_span<const typename image<PF>::pixel>(span<uint8_t>(buffer)));
 }
@@ -256,7 +258,8 @@ typename texture_t<texture_type::texture1>::template image<PF>
   std::vector<uint8_t> buffer(compute_image_buffer_size(s, PF));
   gl::get_texture_sub_image(get_handle(), offset.x(), 0, 0, s.x(), 1, 1, 0,
     pixel_format_to_gl_pixel_format(PF),
-    static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
+    static_cast<GLenum>(to_gl_type<uint8_t>()),
+    narrow_cast<GLsizei>(buffer.size()), buffer.data());
   return image<PF>(s,
     reinterpret_span<const typename image<PF>::pixel>(span<uint8_t>(buffer)));
 }
@@ -274,7 +277,8 @@ typename texture_t<texture_type::texture1_array>::template image<PF>
   std::vector<uint8_t> buffer(compute_image_buffer_size(s, PF));
   gl::get_texture_sub_image(get_handle(), offset.x(), offset.y(), 0, s.x(),
     s.y(), 1, 0, pixel_format_to_gl_pixel_format(PF),
-    static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
+    static_cast<GLenum>(to_gl_type<uint8_t>()),
+    narrow_cast<GLsizei>(buffer.size()), buffer.data());
   return image<PF>(s,
     reinterpret_span<const typename image<PF>::pixel>(span<uint8_t>(buffer)));
 }
@@ -292,7 +296,8 @@ typename texture_t<texture_type::texture2>::template image<PF>
   std::vector<uint8_t> buffer(compute_image_buffer_size(s, PF));
   gl::get_texture_sub_image(get_handle(), offset.x(), offset.y(), 0, s.x(),
     s.y(), 1, 0, pixel_format_to_gl_pixel_format(PF),
-    static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
+    static_cast<GLenum>(to_gl_type<uint8_t>()),
+    narrow_cast<GLsizei>(buffer.size()), buffer.data());
   return image<PF>(s,
     reinterpret_span<const typename image<PF>::pixel>(span<uint8_t>(buffer)));
 }
@@ -310,7 +315,8 @@ typename texture_t<texture_type::texture2_array>::template image<PF>
   std::vector<uint8_t> buffer(compute_image_buffer_size(s, PF));
   gl::get_texture_sub_image(get_handle(), offset.x(), offset.y(), offset.z(),
     s.x(), s.y(), s.z(), 0, pixel_format_to_gl_pixel_format(PF),
-    static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
+    static_cast<GLenum>(to_gl_type<uint8_t>()),
+    narrow_cast<GLsizei>(buffer.size()), buffer.data());
   return image<PF>(s,
     reinterpret_span<const typename image<PF>::pixel>(span<uint8_t>(buffer)));
 }
@@ -328,7 +334,8 @@ typename texture_t<texture_type::texture3>::template image<PF>
   std::vector<uint8_t> buffer(compute_image_buffer_size(s, PF));
   gl::get_texture_sub_image(get_handle(), offset.x(), offset.y(), offset.z(),
     s.x(), s.y(), s.z(), 0, pixel_format_to_gl_pixel_format(PF),
-    static_cast<GLenum>(to_gl_type<uint8_t>()), buffer.size(), buffer.data());
+    static_cast<GLenum>(to_gl_type<uint8_t>()),
+    narrow_cast<GLsizei>(buffer.size()), buffer.data());
   return image<PF>(s,
     reinterpret_span<const typename image<PF>::pixel>(span<uint8_t>(buffer)));
 }

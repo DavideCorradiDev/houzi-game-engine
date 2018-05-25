@@ -26,7 +26,7 @@ void vertex_buffer::unbind(vertex_buffer_target target)
 
 
 
-vertex_buffer::vertex_buffer(uint byte_count, bool dynamic_storage)
+vertex_buffer::vertex_buffer(size_t byte_count, bool dynamic_storage)
   : non_copyable()
   , m_handle(gl::buffer_handle::create())
   , m_byte_count(byte_count)
@@ -39,12 +39,13 @@ vertex_buffer::vertex_buffer(uint byte_count, bool dynamic_storage)
 
 
 
-vertex_buffer::vertex_buffer(uint size, const void* data, bool dynamic_storage)
+vertex_buffer::vertex_buffer(
+  size_t byte_count, const void* data, bool dynamic_storage)
   : non_copyable()
   , m_handle(gl::buffer_handle::create())
-  , m_byte_count(size)
+  , m_byte_count(byte_count)
 {
-  gl::set_buffer_storage(m_handle, narrow_cast<GLsizei>(size),
+  gl::set_buffer_storage(m_handle, narrow_cast<GLsizei>(byte_count),
     reinterpret_cast<const GLvoid*>(data),
     dynamic_storage ? GL_DYNAMIC_STORAGE_BIT : 0);
 }
@@ -65,7 +66,7 @@ bool vertex_buffer::is_bound(vertex_buffer_target target) const
 
 
 
-uint vertex_buffer::get_byte_count() const
+size_t vertex_buffer::get_byte_count() const
 {
   return m_byte_count;
 }

@@ -369,8 +369,8 @@ void font::load()
   FT_Library ftLibrary = get_ft_library();
   {
     std::lock_guard<std::mutex> lock(ft_library_mutex);
-    FT_Error retval = FT_New_Memory_Face(
-      ftLibrary, m_data.data(), m_data.size(), m_face_index, &m_face);
+    FT_Error retval = FT_New_Memory_Face(ftLibrary, m_data.data(),
+      static_cast<FT_Long>(m_data.size()), m_face_index, &m_face);
     HOU_CHECK_0(retval == 0, font_creation_error);
   }
   HOU_DEV_ASSERT(m_face != nullptr);

@@ -16,6 +16,7 @@
 #include "hou/gfx/gfx_config.hpp"
 
 #include "hou/cor/checked_variable.hpp"
+#include "hou/cor/narrow_cast.hpp"
 
 #include "hou/mth/matrix_fwd.hpp"
 

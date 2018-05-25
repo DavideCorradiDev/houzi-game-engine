@@ -56,7 +56,7 @@ public:
    * \param dynamic_storage if true, the vertex_buffer is modifiable, otherwise
    * it is not.
    */
-  vertex_buffer(uint byte_count, bool dynamic_storage);
+  vertex_buffer(size_t byte_count, bool dynamic_storage);
 
   /** Data constructor
    *
@@ -69,7 +69,7 @@ public:
    * \param dynamic_storage if true, the vertex_buffer is modifiable, otherwise
    * it is not.
    */
-  vertex_buffer(uint byte_count, const void* data, bool dynamic_storage);
+  vertex_buffer(size_t byte_count, const void* data, bool dynamic_storage);
 
   /** Move constructor.
    *
@@ -86,7 +86,7 @@ public:
   /** Checks if this vertex_buffer is bound to the given target.
    *
    * \param target the target to check.
-   *
+   
    * \return the result of the check.
    */
   bool is_bound(vertex_buffer_target target) const;
@@ -95,11 +95,11 @@ public:
    *
    * \return the number of bytes used by the vertex_buffer.
    */
-  uint get_byte_count() const;
+  size_t get_byte_count() const;
 
 private:
   gl::buffer_handle m_handle;
-  uint m_byte_count;
+  size_t m_byte_count;
 };
 
 /** Represents a concrete instance of a type of graphical memory buffer.
@@ -127,7 +127,7 @@ public:
    *
    * \param size the number of elements composing the buffer.
    */
-  vertex_buffer_t(uint size);
+  vertex_buffer_t(size_t size);
 
   /** Data constructor.
    *
@@ -141,7 +141,7 @@ public:
    *
    * \return the number of elements in the buffer.
    */
-  uint get_size() const;
+  size_t get_size() const;
 
   /** Retrieves the data contained in the buffer.
    *
@@ -161,7 +161,7 @@ public:
    * \return a collection with element_count elements taken from the
    * vertex_buffer starting from the given offset.
    */
-  data_type get_sub_data(uint offset, uint element_count) const;
+  data_type get_sub_data(size_t offset, size_t element_count) const;
 
   /** Sets the data contained in the buffer.
    *
@@ -191,7 +191,7 @@ public:
    * \param data the data.
    */
   template <bool DS = DynamicStorage, typename Enable = std::enable_if_t<DS>>
-  void set_sub_data(uint offset, const span<const T>& data);
+  void set_sub_data(size_t offset, const span<const T>& data);
 };
 
 }  // namespace hou

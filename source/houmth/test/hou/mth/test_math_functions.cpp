@@ -20,14 +20,16 @@ class test_math_functions : public Test
 
 TEST_F(test_math_functions, pi_float_value)
 {
-  EXPECT_FLOAT_EQ(3.14159265358979f, pi<float>());
+  float ref = 3.141592653589793f;
+  EXPECT_FLOAT_EQ(ref, pi<float>());
 }
 
 
 
 TEST_F(test_math_functions, pi_double_value)
 {
-  EXPECT_FLOAT_EQ(3.14159265358979, pi<double>());
+  double ref = 3.141592653589793;
+  EXPECT_DOUBLE_EQ(ref, pi<double>());
 }
 
 

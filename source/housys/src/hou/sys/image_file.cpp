@@ -99,7 +99,7 @@ int pixel_format_to_soil_format(pixel_format pf)
 
 bool soil_test_memory(SoilTestFunction test_fun, uchar* buffer, size_t size)
 {
-  return test_fun(buffer, size) != 0;
+  return test_fun(buffer, narrow_cast<int>(size)) != 0;
 }
 
 
@@ -118,7 +118,7 @@ template <pixel_format PF>
 std::tuple<image2<PF>, bool> soil_load_from_memory(SoilLoadFunction load_fun,
   SoilTestFunction test_fun, uchar* buffer, size_t size)
 {
-  if(test_fun(buffer, size) == 0)
+  if(test_fun(buffer, narrow_cast<int>(size)) == 0)
   {
     return std::make_tuple(image2<PF>(), false);
   }

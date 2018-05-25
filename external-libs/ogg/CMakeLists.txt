@@ -76,6 +76,9 @@ set(OGG_SOURCES
 )
 
 set(LIB_OGG_FLAGS "${COMPILER_FLAGS_BASIC}")
+if(MSVC)
+  set(LIB_VORBIS_FLAGS "${LIB_VORBIS_FLAGS} /wd4267")
+endif()
 
 if(MSVC)
     list(APPEND OGG_SOURCES win32/ogg.def)
