@@ -165,13 +165,13 @@ TEST_F(test_matrix, element_access_operator)
 
 
 
-TEST_F(test_matrix_death_test, element_access_operator_error_out_of_bounds)
+TEST_F(test_matrix_death_test, element_access_operator_error_out_of_range)
 {
   mat3x2i m;
-  EXPECT_PRECOND_ERROR(m(3, 1));
-  EXPECT_PRECOND_ERROR(m(2, 2));
-  EXPECT_PRECOND_ERROR(m(3, 2));
-  EXPECT_PRECOND_ERROR(m(7));
+  EXPECT_ERROR_0(m(3, 1), out_of_range);
+  EXPECT_ERROR_0(m(2, 2), out_of_range);
+  EXPECT_ERROR_0(m(3, 2), out_of_range);
+  EXPECT_ERROR_0(m(7), out_of_range);
 }
 
 

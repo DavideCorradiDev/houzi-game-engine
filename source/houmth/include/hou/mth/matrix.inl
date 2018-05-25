@@ -141,7 +141,7 @@ constexpr T& matrix<T, Rows, Cols>::operator[](size_t index) noexcept
 template <typename T, size_t Rows, size_t Cols>
 constexpr T matrix<T, Rows, Cols>::operator()(size_t index) const
 {
-  HOU_PRECOND(index < size());
+  HOU_CHECK_0(index < size(), out_of_range);
   return m_elements[index];
 }
 
@@ -150,7 +150,7 @@ constexpr T matrix<T, Rows, Cols>::operator()(size_t index) const
 template <typename T, size_t Rows, size_t Cols>
 constexpr T& matrix<T, Rows, Cols>::operator()(size_t index)
 {
-  HOU_PRECOND(index < size());
+  HOU_CHECK_0(index < size(), out_of_range);
   return m_elements[index];
 }
 
@@ -159,7 +159,7 @@ constexpr T& matrix<T, Rows, Cols>::operator()(size_t index)
 template <typename T, size_t Rows, size_t Cols>
 constexpr T matrix<T, Rows, Cols>::operator()(size_t row, size_t col) const
 {
-  HOU_PRECOND((row < Rows) && (col < Cols));
+  HOU_CHECK_0((row < Rows) && (col < Cols), out_of_range);
   return m_elements[row * Cols + col];
 }
 
@@ -168,7 +168,7 @@ constexpr T matrix<T, Rows, Cols>::operator()(size_t row, size_t col) const
 template <typename T, size_t Rows, size_t Cols>
 constexpr T& matrix<T, Rows, Cols>::operator()(size_t row, size_t col)
 {
-  HOU_PRECOND((row < Rows) && (col < Cols));
+  HOU_CHECK_0((row < Rows) && (col < Cols), out_of_range);
   return m_elements[row * Cols + col];
 }
 
