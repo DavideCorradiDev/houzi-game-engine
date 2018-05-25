@@ -37,6 +37,10 @@ public:
   friend class rotation2;
 
 public:
+  /** The value type. */
+  using value_type = T;
+
+public:
   /** Returns the identity rotation.
    *
    * \return the identity rotation.
