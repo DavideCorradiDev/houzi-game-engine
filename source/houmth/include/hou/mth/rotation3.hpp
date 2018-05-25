@@ -7,7 +7,7 @@
 
 #include "hou/mth/mth_config.hpp"
 
-#include "hou/mth/matrix_fwd.hpp"
+#include "hou/mth/matrix.hpp"
 #include "hou/mth/quaternion.hpp"
 #include "hou/mth/rotation3_fwd.hpp"
 
@@ -37,7 +37,7 @@ public:
    *
    * \return the identity rotation.
    */
-  static rotation3 identity() noexcept;
+  static const rotation3& identity() noexcept;
 
   /** Returns a rotation around the x axis with the given angle.
    *
@@ -45,7 +45,7 @@ public:
    *
    * \return the rotation around the x axis.
    */
-  static rotation3 x(T angle) noexcept;
+  static constexpr rotation3 x(T angle) noexcept;
 
   /** Returns a rotation around the y axis with the given angle.
    *
@@ -53,7 +53,7 @@ public:
    *
    * \return the rotation around the y axis.
    */
-  static rotation3 y(T angle) noexcept;
+  static constexpr rotation3 y(T angle) noexcept;
 
   /** Returns a rotation around the z axis with the given angle.
    *
@@ -61,12 +61,12 @@ public:
    *
    * \return the rotation around the z axis.
    */
-  static rotation3 z(T angle) noexcept;
+  static constexpr rotation3 z(T angle) noexcept;
 
 public:
   /** Creates an identity rotation.
    */
-  rotation3() noexcept;
+  constexpr rotation3() noexcept;
 
   /** Creates a rotation with the given quaternion
    *
@@ -76,7 +76,7 @@ public:
    *
    * \throws hou::precondition_violation the norm of q is equal to 0.
    */
-  explicit rotation3(const quaternion<T>& q);
+  explicit constexpr rotation3(const quaternion<T>& q);
 
   /** Creates a rotation with the given vector.
    *
@@ -85,7 +85,7 @@ public:
    *
    * \param v the vector representing the axis and angle of rotation.
    */
-  explicit rotation3(const vec3<T>& v);
+  explicit constexpr rotation3(const vec3<T>& v);
 
   /** Creates a rotation with the given rotation matrix.
    *
@@ -96,7 +96,7 @@ public:
    *
    * \param m the rotation matrix.
    */
-  explicit rotation3(const mat3x3<T>& m);
+  explicit constexpr rotation3(const mat3x3<T>& m);
 
   /** Creates a rotation from a rotation with different scalar type.
    *
@@ -106,25 +106,25 @@ public:
    */
   template <typename U,
     typename Enable = std::enable_if_t<std::is_convertible<U, T>::value>>
-  rotation3(const rotation3<U>& other) noexcept;
+  constexpr rotation3(const rotation3<U>& other) noexcept;
 
   /** Returns a quaternion representing the rotation.
    *
    * \return a quaternion representing the rotation.
    */
-  const quaternion<T>& get_quaternion() const noexcept;
+  constexpr const quaternion<T>& get_quaternion() const noexcept;
 
   /** Returns a vector representing the rotation.
    *
    * \return a vector representing the rotation.
    */
-  vec3<T> get_vector() const noexcept;
+  constexpr vec3<T> get_vector() const noexcept;
 
   /** Returns a rotatin matrix representing the rotation.
    *
    * \return a matrix representing the rotation.
    */
-  mat3x3<T> get_matrix() const noexcept;
+  constexpr mat3x3<T> get_matrix() const noexcept;
 
   /** Combines this rotation with the given rotation.
    *
@@ -132,13 +132,22 @@ public:
    *
    * \return a reference to this rotation after the combination.
    */
-  rotation3& operator*=(const rotation3& rhs);
+  constexpr rotation3& operator*=(const rotation3& rhs);
 
   /** Inverts this rotation.
    *
    * \return a reference to this rotation after the inversion.
    */
-  rotation3& invert();
+  constexpr rotation3& invert();
+
+private:
+  static constexpr quaternion<T> to_quaternion(vec3<T> v) noexcept;
+
+  static constexpr quaternion<T> to_quaternion(const mat3x3<T>& m) noexcept;
+
+  static constexpr vec3<T> to_vector(const quaternion<T>& q) noexcept;
+
+  static constexpr mat3x3<T> to_matrix(const quaternion<T>& q) noexcept;
 
 private:
   quaternion<T> m_quaternion;
@@ -155,7 +164,7 @@ private:
  * \return a rotation representing the two combined rotations.
  */
 template <typename T>
-rotation3<T> operator*(rotation3<T> lhs, const rotation3<T>& rhs);
+constexpr rotation3<T> operator*(rotation3<T> lhs, const rotation3<T>& rhs);
 
 /** Computes the inverse of the given rotation.
  *
@@ -166,7 +175,7 @@ rotation3<T> operator*(rotation3<T> lhs, const rotation3<T>& rhs);
  * \return the inverse rotation.
  */
 template <typename T>
-rotation3<T> inverse(rotation3<T> r);
+constexpr rotation3<T> inverse(rotation3<T> r);
 
 /** Checks if two rotations are equal.
  *
@@ -179,7 +188,8 @@ rotation3<T> inverse(rotation3<T> r);
  * \return the result of the comparison.
  */
 template <typename T>
-bool operator==(const rotation3<T>& lhs, const rotation3<T>& rhs) noexcept;
+constexpr bool operator==(
+  const rotation3<T>& lhs, const rotation3<T>& rhs) noexcept;
 
 /** Checks if two rotations are not equal.
  *
@@ -192,7 +202,8 @@ bool operator==(const rotation3<T>& lhs, const rotation3<T>& rhs) noexcept;
  * \return the result of the comparison.
  */
 template <typename T>
-bool operator!=(const rotation3<T>& lhs, const rotation3<T>& rhs) noexcept;
+constexpr bool operator!=(
+  const rotation3<T>& lhs, const rotation3<T>& rhs) noexcept;
 
 /** Checks if two rotations are equal with the given accuracy.
  *
@@ -207,7 +218,7 @@ bool operator!=(const rotation3<T>& lhs, const rotation3<T>& rhs) noexcept;
  * \return the result of the comparison.
  */
 template <typename T>
-bool close(const rotation3<T>& lhs, const rotation3<T>& rhs,
+constexpr bool close(const rotation3<T>& lhs, const rotation3<T>& rhs,
   T acc = std::numeric_limits<T>::epsilon()) noexcept;
 
 /** Writes the object into a stream.
@@ -222,11 +233,6 @@ bool close(const rotation3<T>& lhs, const rotation3<T>& rhs,
  */
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const rotation3<T>& r);
-
-
-
-extern template class HOU_MTH_API rotation3<float>;
-extern template class HOU_MTH_API rotation3<double>;
 
 }  // namespace hou
 

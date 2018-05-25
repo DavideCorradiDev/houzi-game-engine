@@ -174,7 +174,7 @@ constexpr bool close(
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const rotation2<T>& r)
 {
-  return os << r.get_angle();
+  return os << "{angle = " << r.get_angle() << "}";
 }
 
 }  // namespace hou

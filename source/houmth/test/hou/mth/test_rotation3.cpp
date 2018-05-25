@@ -289,7 +289,7 @@ TEST_F(test_rotation3, output_stream_operator)
 {
   quatf quat_ref(0.2041241f, -0.2041241f, 0.4082483f, 0.8660254f);
   rot3f r(quat_ref);
-  EXPECT_OUTPUT("(0.204124,-0.204124,0.408248,0.866025)", r);
+  EXPECT_OUTPUT("{quaternion = (0.204124,-0.204124,0.408248,0.866025)}", r);
 }
 
 

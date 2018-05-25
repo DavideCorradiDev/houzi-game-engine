@@ -154,5 +154,5 @@ TEST_F(test_rotation2, inversion)
 TEST_F(test_rotation2, output_stream_operator)
 {
   rot2f r(0.5f);
-  EXPECT_OUTPUT("0.5", r);
+  EXPECT_OUTPUT("{angle = 0.5}", r);
 }
