@@ -114,7 +114,7 @@ TEST_F(test_rotation3, constructor_matrix)
 TEST_F(test_rotation3, constructor_matrix_null_root_function)
 {
   quatf quat_ref(0.f, 1.f, 0.f, 0.f);
-  vec3f vec_ref(0.f, pi_f, 0.f);
+  vec3f vec_ref(0.f, pi<float>(), 0.f);
   mat3x3f mat_ref(-1.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, -1.f);
 
   rot3f r_mat(mat_ref);
@@ -141,8 +141,8 @@ TEST_F(test_rotation3, constructor_matrix_small_root_function)
 
 TEST_F(test_rotation3, constructor_matrix_low_precision)
 {
-  rot3f rot_ref
-    = rot3f::x(pi_f / 3.f) * rot3f::z(pi_f / 4.f) * rot3f::y(pi_f / 2.f);
+  rot3f rot_ref = rot3f::x(pi<float>() / 3.f) * rot3f::z(pi<float>() / 4.f)
+    * rot3f::y(pi<float>() / 2.f);
   rot3f rot(rot_ref.get_matrix());
   EXPECT_FLOAT_CLOSE(rot_ref, rot);
 }
@@ -178,7 +178,7 @@ TEST_F(test_rotation3, constructor_non_rotation_matrix)
 TEST_F(test_rotation3, constructor_zero_matrix)
 {
   quatf quat_ref(0.f, 0.f, 1.f, 0.f);
-  vec3f vec_ref(0.f, 0.f, pi_f);
+  vec3f vec_ref(0.f, 0.f, pi<float>());
   mat3x3f mat_ref(-1.f, 0.f, 0.f, 0.f, -1.f, 0.f, 0.f, 0.f, 1.f);
 
   rot3f r_mat(mat3x3f::zero());
@@ -355,4 +355,4 @@ TEST_P(test_rotation3_param_f, rotation_z)
 
 
 INSTANTIATE_TEST_CASE_P(test_rotation3_param_f, test_rotation3_param_f,
-  Values(pi_f / 2.f, pi_f / 6.f), );
+  Values(pi<float>() / 2.f, pi<float>() / 6.f), );

@@ -81,7 +81,7 @@ TEST_F(test_transform2, build_rotation)
   trans2f tr;
   mat4x4f tm_ref;
 
-  tr = trans2f::rotation(rot2f(pi_f / 2.f));
+  tr = trans2f::rotation(rot2f(pi<float>() / 2.f));
   // clang-format off
   tm_ref =
   {
@@ -93,7 +93,7 @@ TEST_F(test_transform2, build_rotation)
   // clang-format on
   EXPECT_FLOAT_CLOSE(tm_ref, tr.to_mat4x4());
 
-  tr = trans2f::rotation(rot2f(-pi_f / 6.f));
+  tr = trans2f::rotation(rot2f(-pi<float>() / 6.f));
   // clang-format off
   tm_ref =
   {

@@ -323,7 +323,7 @@ non_negative<float> audio_source::get_cone_outer_gain() const
 
 void audio_source::set_cone_inner_angle(float value)
 {
-  HOU_PRECOND(value >= 0.f && value <= 2.f * pi_f);
+  HOU_PRECOND(value >= 0.f && value <= 2.f * pi<float>());
   al::set_source_cone_inner_angle(
     m_handle, static_cast<ALfloat>(rad_to_deg(value)));
 }
@@ -340,7 +340,7 @@ float audio_source::get_cone_inner_angle() const
 
 void audio_source::set_cone_outer_angle(float value)
 {
-  HOU_PRECOND(value >= 0.f && value <= 2.f * pi_f);
+  HOU_PRECOND(value >= 0.f && value <= 2.f * pi<float>());
   al::set_source_cone_outer_angle(
     m_handle, static_cast<ALfloat>(rad_to_deg(value)));
 }

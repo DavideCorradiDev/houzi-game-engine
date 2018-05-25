@@ -76,7 +76,7 @@ mesh2 create_ellipse_mesh2(const vec2f& size, uint point_count)
   vertices[0].set_color(color::white);
 
   float t = 0.f;
-  float dt = 2.f * pi_f / point_count;
+  float dt = 2.f * pi<float>() / point_count;
   for(size_t i = 1; i < vertices.size(); ++i)
   {
     vec2f dPos(radius.x() * cosf(t), radius.y() * sinf(t));
@@ -96,7 +96,7 @@ mesh2 create_ellipse_outline_mesh2(
   vec2f i_radius = e_radius - vec2f(thickness, thickness);
 
   float t = 0.f;
-  float dt = 2 * pi_f / point_count;
+  float dt = 2 * pi<float>() / point_count;
   std::vector<vertex2> vertices(2 * point_count + 2);
   for(size_t i = 0; i < vertices.size(); ++i)
   {

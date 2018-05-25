@@ -8,7 +8,7 @@ namespace hou
 {
 
 template <>
-constexpr float pi<float>()
+constexpr float pi<float>() noexcept
 {
   return 3.1415927f;
 }
@@ -16,9 +16,27 @@ constexpr float pi<float>()
 
 
 template <>
-constexpr double pi<double>()
+constexpr double pi<double>() noexcept
 {
   return 3.141592653589793;
+}
+
+
+
+template <typename T>
+constexpr T deg_to_rad(T deg) noexcept
+{
+  constexpr T factor = pi<float>() / T(180);
+  return deg * factor;
+}
+
+
+
+template <typename T>
+constexpr T rad_to_deg(T rad) noexcept
+{
+  constexpr T factor = T(180) / pi<float>();
+  return rad * factor;
 }
 
 
@@ -28,6 +46,5 @@ constexpr T log(T x, int n) noexcept
 {
   return std::log(x) / std::log(narrow_cast<T>(n));
 }
-
 
 }  // namespace hou

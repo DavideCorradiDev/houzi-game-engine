@@ -17,52 +17,40 @@
 namespace hou
 {
 
-/** float value of pi.
+/** Retrieves the value of pi.
+ *
+ * \tparam T the scalar type.
+ *
+ * \return the value of pi.
  */
-constexpr float pi_f = 3.1415927f;
-
-/** double value of pi.
- */
-constexpr double pi_d = 3.141592653589793;
-
-
-
 template <typename T>
-constexpr T pi();
+constexpr T pi() noexcept;
 
 /** Converts degrees to radians.
+ *
+ * \tparam T the scalar type.
  *
  * \param deg the angle in degrees.
  *
  * \return the angle in radians.
  */
-HOU_MTH_API float deg_to_rad(float deg) noexcept;
-
-/** Converts degrees to radians.
- *
- * \param deg the angle in degrees.
- *
- * \return the angle in radians.
- */
-HOU_MTH_API double deg_to_rad(double deg) noexcept;
+template <typename T>
+constexpr T deg_to_rad(T deg) noexcept;
 
 /** Converts radians to degrees.
+ *
+ * \tparam T the scalar type.
  *
  * \param rad the angle in radians.
  *
  * \return the angle in degrees.
  */
-HOU_MTH_API float rad_to_deg(float rad) noexcept;
-
-/** Converts radians to degrees.
- *
- * \param rad the angle in radians.
- *
- * \return the angle in degrees.
- */
-HOU_MTH_API double rad_to_deg(double rad) noexcept;
+template <typename T>
+constexpr T rad_to_deg(T rad) noexcept;
 
 /** Computes the logarithm in base n of x.
+ *
+ * \tparam T the scalar type.
  *
  * \param n the base.
  *

@@ -25,7 +25,7 @@ namespace hou
 /** Represents a rotation in 2d space.
  *
  * The rotation is internally represented as an angle expressed in radians in
- * the range (-pi_f; Pi].
+ * the range (-pi<float>(); Pi].
  *
  * \tparam T the scalar type.
  */
@@ -78,7 +78,7 @@ public:
 
   /** Returns the rotation angle.
    *
-   * The angle is expressed in radians and included in the range (-pi_f; Pi].
+   * The angle is expressed in radians and included in the range (-pi<float>(); Pi].
    *
    * \return the rotation angle.
    */

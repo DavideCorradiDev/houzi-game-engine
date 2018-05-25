@@ -77,7 +77,7 @@ TEST_F(test_transform3, build_translation)
 
 TEST_F(test_transform3, build_rotation_x)
 {
-  trans3f tr = trans3f::rotation(rot3f::x(-pi_f / 6.f));
+  trans3f tr = trans3f::rotation(rot3f::x(-pi<float>() / 6.f));
   // clang-format off
   mat4x4f tm_ref =
   {
@@ -94,7 +94,7 @@ TEST_F(test_transform3, build_rotation_x)
 
 TEST_F(test_transform3, build_rotation_y)
 {
-  trans3f tr = trans3f::rotation(rot3f::y(-pi_f / 6.f));
+  trans3f tr = trans3f::rotation(rot3f::y(-pi<float>() / 6.f));
   // clang-format off
   mat4x4f tm_ref =
   {
@@ -111,7 +111,7 @@ TEST_F(test_transform3, build_rotation_y)
 
 TEST_F(test_transform3, build_rotation_z)
 {
-  trans3f tr = trans3f::rotation(rot3f::z(-pi_f / 6.f));
+  trans3f tr = trans3f::rotation(rot3f::z(-pi<float>() / 6.f));
   // clang-format off
   mat4x4f tm_ref =
   {

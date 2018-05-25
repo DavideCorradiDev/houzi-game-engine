@@ -28,9 +28,7 @@ INCLUDE_DIRECTORIES(
 
 
 # Source files.
-SET(LIB_HOUMTH_SRC
-  src/hou/mth/math_functions.cpp
-)
+SET(LIB_HOUMTH_SRC)
 
 
 
