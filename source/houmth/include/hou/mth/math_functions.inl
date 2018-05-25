@@ -26,7 +26,7 @@ constexpr double pi<double>() noexcept
 template <typename T>
 constexpr T deg_to_rad(T deg) noexcept
 {
-  constexpr T factor = pi<float>() / T(180);
+  constexpr T factor = pi<T>() / T(180);
   return deg * factor;
 }
 
@@ -35,7 +35,7 @@ constexpr T deg_to_rad(T deg) noexcept
 template <typename T>
 constexpr T rad_to_deg(T rad) noexcept
 {
-  constexpr T factor = T(180) / pi<float>();
+  constexpr T factor = T(180) / pi<T>();
   return rad * factor;
 }
 
