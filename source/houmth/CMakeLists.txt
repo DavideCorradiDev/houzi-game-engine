@@ -30,7 +30,6 @@ INCLUDE_DIRECTORIES(
 # Source files.
 SET(LIB_HOUMTH_SRC
   src/hou/mth/math_functions.cpp
-  src/hou/mth/transform3.cpp
 )
 
 
