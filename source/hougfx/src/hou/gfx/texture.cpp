@@ -243,7 +243,7 @@ uint get_mipmap_relevant_size<texture_type::multisample_texture2_array>(
 std::array<texture_wrap_mode, 1u> get_texture1_wrap_mode(
   const gl::texture_handle& th)
 {
-  return {texture_wrap_mode(get_texture_wrap_mode_s(th))};
+  return {texture_wrap_mode(gl::get_texture_wrap_mode_s(th))};
 }
 
 
@@ -251,8 +251,8 @@ std::array<texture_wrap_mode, 1u> get_texture1_wrap_mode(
 std::array<texture_wrap_mode, 2u> get_texture2_wrap_mode(
   const gl::texture_handle& th)
 {
-  return {texture_wrap_mode(get_texture_wrap_mode_s(th)),
-    texture_wrap_mode(get_texture_wrap_mode_t(th))};
+  return {texture_wrap_mode(gl::get_texture_wrap_mode_s(th)),
+    texture_wrap_mode(gl::get_texture_wrap_mode_t(th))};
 }
 
 
@@ -260,9 +260,9 @@ std::array<texture_wrap_mode, 2u> get_texture2_wrap_mode(
 std::array<texture_wrap_mode, 3u> get_texture3_wrap_mode(
   const gl::texture_handle& th)
 {
-  return {texture_wrap_mode(get_texture_wrap_mode_s(th)),
-    texture_wrap_mode(get_texture_wrap_mode_t(th)),
-    texture_wrap_mode(get_texture_wrap_mode_r(th))};
+  return {texture_wrap_mode(gl::get_texture_wrap_mode_s(th)),
+    texture_wrap_mode(gl::get_texture_wrap_mode_t(th)),
+    texture_wrap_mode(gl::get_texture_wrap_mode_r(th))};
 }
 
 
@@ -270,7 +270,7 @@ std::array<texture_wrap_mode, 3u> get_texture3_wrap_mode(
 void set_texture1_wrap_mode(
   const gl::texture_handle& th, const std::array<texture_wrap_mode, 1u>& wm)
 {
-  set_texture_wrap_mode_s(th, static_cast<GLenum>(wm[0]));
+  gl::set_texture_wrap_mode_s(th, static_cast<GLenum>(wm[0]));
 }
 
 
@@ -278,8 +278,8 @@ void set_texture1_wrap_mode(
 void set_texture2_wrap_mode(
   const gl::texture_handle& th, const std::array<texture_wrap_mode, 2u>& wm)
 {
-  set_texture_wrap_mode_s(th, static_cast<GLenum>(wm[0]));
-  set_texture_wrap_mode_t(th, static_cast<GLenum>(wm[1]));
+  gl::set_texture_wrap_mode_s(th, static_cast<GLenum>(wm[0]));
+  gl::set_texture_wrap_mode_t(th, static_cast<GLenum>(wm[1]));
 }
 
 
@@ -287,9 +287,9 @@ void set_texture2_wrap_mode(
 void set_texture3_wrap_mode(
   const gl::texture_handle& th, const std::array<texture_wrap_mode, 3u>& wm)
 {
-  set_texture_wrap_mode_s(th, static_cast<GLenum>(wm[0]));
-  set_texture_wrap_mode_t(th, static_cast<GLenum>(wm[1]));
-  set_texture_wrap_mode_r(th, static_cast<GLenum>(wm[2]));
+  gl::set_texture_wrap_mode_s(th, static_cast<GLenum>(wm[0]));
+  gl::set_texture_wrap_mode_t(th, static_cast<GLenum>(wm[1]));
+  gl::set_texture_wrap_mode_r(th, static_cast<GLenum>(wm[2]));
 }
 
 }  // namespace
