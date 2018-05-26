@@ -128,10 +128,15 @@ ENDIF()
 
 
 
-# Common compiler flags
+# Compiler flags
+
+# Used by all houzi-game-engine targets and some external libs.
 SET(COMPILER_FLAGS_BASIC "${CMAKE_CXX_FLAGS}")
+# Used by all houzi-game-engine targets.
 SET(COMPILER_FLAGS_COMMON "")
+# Used by all houzi-game-engine libraries.
 SET(COMPILER_FLAGS_LIB "")
+# Used by all houzi-game-engine test executables.
 SET(COMPILER_FLAGS_TESTS "")
 
 IF(MINGW OR GCC)

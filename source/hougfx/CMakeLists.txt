@@ -77,32 +77,19 @@ SET(LIB_HOUGFX_SRC
 
 
 # Linked libraries.
-IF(HOU_CFG_BUILD_STATIC_LIBS)
-  SET(LIB_HOUGFX_LIB)
-ELSE()
-  SET(LIB_HOUGFX_LIB
+SET(LIB_HOUGFX_LIBS
+  ${LIB_FREETYPE}
+)
+IF(NOT HOU_CFG_BUILD_STATIC_LIBS)
+  SET(LIB_HOUGFX_LIBS
+    ${LIB_HOUGFX_LIBS}
     ${LIB_HOUGL}
-    ${LIB_GLAD}
     ${LIB_HOUSYS}
     ${LIB_HOUMTH}
     ${LIB_HOUCOR}
   )
-  IF(WIN32)
-    SET(LIB_HOUGL_LIB
-      ${LIB_HOUGL_LIB}
-      gdi32
-      opengl32
-    )
-  ENDIF()
 ENDIF()
-# Freetype is always built as a static lib and linked.
-# In this way it will be incorporated into hougfx.
-# Freetype is completely encapsulated so there is no need to expose it.
-SET(LIB_HOUGFX_LIB
-  ${LIB_HOUGFX_LIB}
-  ${LIB_FREETYPE}
-)
-MESSAGE(STATUS "Linked libs: ${LIB_HOUGFX_LIB}")
+MESSAGE(STATUS "Linked libs: ${LIB_HOUGFX_LIBS}")
 
 
 
@@ -119,7 +106,7 @@ SET_TARGET_PROPERTIES(${LIB_HOUGFX} PROPERTIES
   LIBRARY_OUTPUT_DIRECTORY ${LIB_HOUGFX_OUTPUT_DIR}
   RUNTIME_OUTPUT_DIRECTORY ${LIB_HOUGFX_OUTPUT_DIR}
 )
-TARGET_LINK_LIBRARIES(${LIB_HOUGFX} ${LIB_HOUGFX_LIB})
+TARGET_LINK_LIBRARIES(${LIB_HOUGFX} ${LIB_HOUGFX_LIBS})
 
 
 

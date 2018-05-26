@@ -56,28 +56,22 @@ SET(LIB_HOUAUD_SRC
 
 
 # Linked libraries.
-IF(HOU_CFG_BUILD_STATIC_LIBS)
-  SET(LIB_HOUAUD_LIB)
-ELSE()
-  SET(LIB_HOUAUD_LIB
-    ${LIB_HOUAL}
-    ${LIB_OPENAL}
-    ${LIB_HOUSYS}
-    ${LIB_HOUMTH}
-    ${LIB_HOUCOR}
-  )
-ENDIF()
-# Ogg and Vorbis are always built as a static lib and linked.
-# In this way they will be incorporated into hoaud.
-# Ogg and Vorbis are completely encapsulated so there is no need to expose them.
-SET(LIB_HOUAUD_LIB
-  ${LIB_HOUAUD_LIB}
+SET(LIB_HOUAUD_LIBS
   ${LIB_VORBISFILE}
   ${LIB_VORBISENC}
   ${LIB_VORBIS}
   ${LIB_OGG}
 )
-MESSAGE(STATUS "Linked libs: ${LIB_HOUAUD_LIB}")
+IF(NOT HOU_CFG_BUILD_STATIC_LIBS)
+  SET(LIB_HOUAUD_LIBS
+    ${LIB_HOUAUD_LIBS}
+    ${LIB_HOUAL}
+    ${LIB_HOUSYS}
+    ${LIB_HOUMTH}
+    ${LIB_HOUCOR}
+  )
+ENDIF()
+MESSAGE(STATUS "Linked libs: ${LIB_HOUAUD_LIBS}")
 
 
 
@@ -94,7 +88,7 @@ SET_TARGET_PROPERTIES(${LIB_HOUAUD} PROPERTIES
   LIBRARY_OUTPUT_DIRECTORY ${LIB_HOUAUD_OUTPUT_DIR}
   RUNTIME_OUTPUT_DIRECTORY ${LIB_HOUAUD_OUTPUT_DIR}
 )
-TARGET_LINK_LIBRARIES(${LIB_HOUAUD} ${LIB_HOUAUD_LIB})
+TARGET_LINK_LIBRARIES(${LIB_HOUAUD} ${LIB_HOUAUD_LIBS})
 
 
 
