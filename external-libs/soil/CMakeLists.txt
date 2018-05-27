@@ -33,8 +33,10 @@ SET(LIB_SOIL_SRC
 
 
 # Linked libraries
+SET(LIB_SOIL_LIB)
 IF(WIN32)
   SET(LIB_SOIL_LIB
+    ${LIB_SOIL_LIB}
     opengl32
   )
 ENDIF()
