@@ -93,7 +93,7 @@ std::string get_filename_extension(const std::string& path)
 
 bool close_file(FILE* f) noexcept
 {
-  return fclose(f) != EOF;
+  return f == nullptr ? false : (fclose(f) != EOF);
 }
 
 }  // namespace hou
