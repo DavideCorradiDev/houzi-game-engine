@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 #include "hou/gfx/test_data.hpp"
 #include "hou/gfx/test_gfx_base.hpp"
 
