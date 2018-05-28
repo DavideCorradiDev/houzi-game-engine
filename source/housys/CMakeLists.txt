@@ -31,13 +31,13 @@ INCLUDE_DIRECTORIES(
 
 # Source files.
 SET(LIB_HOUSYS_SRC
-  # src/hou/sys/binary_file_in.cpp
-  # src/hou/sys/binary_file_out.cpp
+  src/hou/sys/binary_file_in.cpp
+  src/hou/sys/binary_file_out.cpp
   src/hou/sys/color.cpp
-  # src/hou/sys/file.cpp
-  # src/hou/sys/file_handle.cpp
-  # src/hou/sys/file_open_mode.cpp
-  # src/hou/sys/file_type.cpp
+  src/hou/sys/file.cpp
+  src/hou/sys/file_handle.cpp
+  src/hou/sys/file_open_mode.cpp
+  src/hou/sys/file_type.cpp
   # src/hou/sys/image.cpp
   # src/hou/sys/image_file.cpp
   # src/hou/sys/key_code.cpp
@@ -51,9 +51,9 @@ SET(LIB_HOUSYS_SRC
   # src/hou/sys/scan_code.cpp
   src/hou/sys/sys_exceptions.cpp
   # src/hou/sys/system_window.cpp
-  # src/hou/sys/text_file_in.cpp
-  # src/hou/sys/text_file_out.cpp
-  # src/hou/sys/text_stream.cpp
+  src/hou/sys/text_file_in.cpp
+  src/hou/sys/text_file_out.cpp
+  src/hou/sys/text_stream.cpp
   # src/hou/sys/video_mode.cpp
   # src/hou/sys/window.cpp
   # src/hou/sys/window_event.cpp
@@ -72,6 +72,11 @@ IF(WIN32)
     src/hou/sys/win/video_mode_win.cpp
     src/hou/sys/win/win_error.cpp
     src/hou/sys/win/window_impl_win.cpp
+  )
+ELSEIF(UNIX)
+  SET(LIB_HOUSYS_SRC
+    ${LIB_HOUSYS_SRC}
+    src/hou/sys/unix/file_handle_unix.cpp
   )
 ENDIF()
 

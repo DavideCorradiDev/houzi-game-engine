@@ -48,6 +48,7 @@ namespace hou
 
 using uint = unsigned int;
 using uchar = unsigned char;
+using size_t = std::size_t;
 
 }  // namespace hou
 
