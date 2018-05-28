@@ -31,35 +31,35 @@ INCLUDE_DIRECTORIES(
 
 # Source files.
 SET(LIB_HOUSYS_SRC
-  src/hou/sys/binary_file_in.cpp
-  src/hou/sys/binary_file_out.cpp
+  # src/hou/sys/binary_file_in.cpp
+  # src/hou/sys/binary_file_out.cpp
   src/hou/sys/color.cpp
-  src/hou/sys/file.cpp
-  src/hou/sys/file_handle.cpp
-  src/hou/sys/file_open_mode.cpp
-  src/hou/sys/file_type.cpp
-  src/hou/sys/image.cpp
-  src/hou/sys/image_file.cpp
-  src/hou/sys/key_code.cpp
-  src/hou/sys/keyboard.cpp
-  src/hou/sys/modifier_keys.cpp
-  src/hou/sys/mouse_button.cpp
-  src/hou/sys/mouse_wheel.cpp
-  src/hou/sys/os_error.cpp
-  src/hou/sys/pixel.cpp
-  src/hou/sys/pixel_format.cpp
-  src/hou/sys/scan_code.cpp
+  # src/hou/sys/file.cpp
+  # src/hou/sys/file_handle.cpp
+  # src/hou/sys/file_open_mode.cpp
+  # src/hou/sys/file_type.cpp
+  # src/hou/sys/image.cpp
+  # src/hou/sys/image_file.cpp
+  # src/hou/sys/key_code.cpp
+  # src/hou/sys/keyboard.cpp
+  # src/hou/sys/modifier_keys.cpp
+  # src/hou/sys/mouse_button.cpp
+  # src/hou/sys/mouse_wheel.cpp
+  # src/hou/sys/os_error.cpp
+  # src/hou/sys/pixel.cpp
+  # src/hou/sys/pixel_format.cpp
+  # src/hou/sys/scan_code.cpp
   src/hou/sys/sys_exceptions.cpp
-  src/hou/sys/system_window.cpp
-  src/hou/sys/text_file_in.cpp
-  src/hou/sys/text_file_out.cpp
-  src/hou/sys/text_stream.cpp
-  src/hou/sys/video_mode.cpp
-  src/hou/sys/window.cpp
-  src/hou/sys/window_event.cpp
-  src/hou/sys/window_event_type.cpp
-  src/hou/sys/window_impl.cpp
-  src/hou/sys/window_style.cpp
+  # src/hou/sys/system_window.cpp
+  # src/hou/sys/text_file_in.cpp
+  # src/hou/sys/text_file_out.cpp
+  # src/hou/sys/text_stream.cpp
+  # src/hou/sys/video_mode.cpp
+  # src/hou/sys/window.cpp
+  # src/hou/sys/window_event.cpp
+  # src/hou/sys/window_event_type.cpp
+  # src/hou/sys/window_impl.cpp
+  # src/hou/sys/window_style.cpp
 )
 
 IF(WIN32)

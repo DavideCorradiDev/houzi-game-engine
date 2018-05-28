@@ -39,11 +39,6 @@ IF(WIN32)
     ${LIB_SOIL_LIB}
     opengl32
   )
-ELSEIF(UNIX)
-  SET(LIB_SOIL_LIB
-    ${LIB_SOIL_LIB}
-    gl
-  )
 ENDIF()
 MESSAGE(STATUS "Linked libs: ${LIB_SOIL_LIB}")
 
