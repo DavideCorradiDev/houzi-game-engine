@@ -225,13 +225,13 @@ image<Dim, PF>::image()
 
 template <size_t Dim, pixel_format PF>
 image<Dim, PF>::image(const size_type& size)
-  : image(size, pixel())
+  : image(size, pixel_type())
 {}
 
 
 
 template <size_t Dim, pixel_format PF>
-image<Dim, PF>::image(const size_type& size, const pixel& px)
+image<Dim, PF>::image(const size_type& size, const pixel_type& px)
   : m_size(size)
   , m_pixels(compute_pixel_count(), px)
 {}
@@ -239,7 +239,7 @@ image<Dim, PF>::image(const size_type& size, const pixel& px)
 
 
 template <size_t Dim, pixel_format PF>
-image<Dim, PF>::image(const size_type& size, const span<const pixel>& pixels)
+image<Dim, PF>::image(const size_type& size, const span<const pixel_type>& pixels)
   : image(size, pixel_collection(pixels.begin(), pixels.end()))
 {}
 
@@ -274,7 +274,7 @@ const typename image<Dim, PF>::pixel_collection& image<Dim, PF>::get_pixels()
 
 
 template <size_t Dim, pixel_format PF>
-void image<Dim, PF>::set_pixels(const span<const pixel>& pixels)
+void image<Dim, PF>::set_pixels(const span<const pixel_type>& pixels)
 {
   HOU_PRECOND(pixels.size() == m_pixels.size());
   std::copy(pixels.begin(), pixels.end(), m_pixels.begin());
@@ -283,7 +283,7 @@ void image<Dim, PF>::set_pixels(const span<const pixel>& pixels)
 
 
 template <size_t Dim, pixel_format PF>
-const typename image<Dim, PF>::pixel& image<Dim, PF>::get_pixel(
+const typename image<Dim, PF>::pixel_type& image<Dim, PF>::get_pixel(
   const offset_type& coordinates) const
 {
   // compute_pixel_index will throw if coordinates is not valid.
@@ -294,7 +294,7 @@ const typename image<Dim, PF>::pixel& image<Dim, PF>::get_pixel(
 
 template <size_t Dim, pixel_format PF>
 void image<Dim, PF>::set_pixel(
-  const offset_type& coordinates, const pixel& value)
+  const offset_type& coordinates, const pixel_type& value)
 {
   // compute_pixel_index will throw if coordinates is not valid.
   m_pixels[compute_pixel_index(coordinates)] = value;
@@ -322,9 +322,9 @@ void image<Dim, PF>::set_sub_image(const offset_type& offset, const image& im)
 
 
 template <size_t Dim, pixel_format PF>
-void image<Dim, PF>::clear(const pixel& pixel)
+void image<Dim, PF>::clear(const pixel_type& px)
 {
-  m_pixels = pixel_collection(compute_pixel_count(), pixel);
+  m_pixels = pixel_collection(compute_pixel_count(), px);
 }
 
 

@@ -38,8 +38,8 @@ SET(LIB_HOUSYS_SRC
   src/hou/sys/file_handle.cpp
   src/hou/sys/file_open_mode.cpp
   src/hou/sys/file_type.cpp
-  # src/hou/sys/image.cpp
-  # src/hou/sys/image_file.cpp
+  src/hou/sys/image.cpp
+  src/hou/sys/image_file.cpp
   # src/hou/sys/key_code.cpp
   # src/hou/sys/keyboard.cpp
   # src/hou/sys/modifier_keys.cpp

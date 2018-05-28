@@ -45,10 +45,10 @@ public:
   using offset_type = size_type;
 
   /** Type of the image pixels. */
-  using pixel = pixel<PF>;
+  using pixel_type = pixel<PF>;
 
   /** Type used to represent the collection of pixels of the image. */
-  using pixel_collection = std::vector<pixel>;
+  using pixel_collection = std::vector<pixel_type>;
 
 public:
   /** The number of dimensions of the image. */
@@ -58,7 +58,7 @@ public:
   static constexpr pixel_format format = PF;
 
   /** The number of bytes in a pixel. */
-  static constexpr size_t pixel_byte_count = pixel::byte_count;
+  static constexpr size_t pixel_byte_count = pixel_type::byte_count;
 
 public:
   /** Retrieves the number of dimensions of the image.
@@ -111,7 +111,7 @@ public:
    *
    * \throws std::bad_alloc.
    */
-  image(const size_type& size, const pixel& px);
+  image(const size_type& size, const pixel_type& px);
 
   /** Pixels constructor.
    *
@@ -128,7 +128,7 @@ public:
    *
    * \throws std::bad_alloc.
    */
-  image(const size_type& size, const span<const pixel>& pixels);
+  image(const size_type& size, const span<const pixel_type>& pixels);
 
   /** Pixels move constructor.
    *
@@ -199,7 +199,7 @@ public:
    * \throws hou::precondition_violation if the size of pixels is not equal to
    * the product of all elements of the size of the image.
    */
-  void set_pixels(const span<const pixel>& pixels);
+  void set_pixels(const span<const pixel_type>& pixels);
 
   /** Retrieves a single pixel.
    *
@@ -209,7 +209,7 @@ public:
    *
    * \return tue pixel.
    */
-  const pixel& get_pixel(const offset_type& coordinates) const;
+  const pixel_type& get_pixel(const offset_type& coordinates) const;
 
   /** Sets the value of a single pixel.
    *
@@ -219,7 +219,7 @@ public:
    *
    * \throws hou::out_of_range if the coordinates exceed the size of the image.
    */
-  void set_pixel(const offset_type& coordinates, const pixel& value);
+  void set_pixel(const offset_type& coordinates, const pixel_type& value);
 
   /** Retrieves a sub-image.
    *
@@ -257,7 +257,7 @@ public:
    *
    * \throws std::bad_alloc.
    */
-  void clear(const pixel& px);
+  void clear(const pixel_type& px);
 
 private:
   template <size_t OtherDim>
