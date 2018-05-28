@@ -61,7 +61,7 @@ size_t get_dir_byte_size(const std::string& path) noexcept
 
 int get_file_descriptor(FILE* file) noexcept
 {
-  return file == nullptr? -1 : fileno(file);
+  return file == nullptr ? -1 : fileno(file);
 }
 
 
@@ -79,4 +79,4 @@ size_t get_file_byte_size(int file_descriptor) noexcept
   }
 }
 
-}
+}  // namespace hou

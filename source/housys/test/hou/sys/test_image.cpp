@@ -522,7 +522,8 @@ TYPED_TEST(test_image_death_test, get_sub_image_error_overflow)
   {
     image_size(i) = static_cast<uint>((i + 1) * 4);
     sub_image_offset(i) = static_cast<uint>(i + 1);
-    sub_image_size(i) = static_cast<uint>((i + 1) * 4 - sub_image_offset(i) + 1u);
+    sub_image_size(i)
+      = static_cast<uint>((i + 1) * 4 - sub_image_offset(i) + 1u);
   }
 
   TypeParam image(image_size);
@@ -583,7 +584,8 @@ TYPED_TEST(test_image_death_test, set_sub_image_error_overflow)
   {
     image_size(i) = static_cast<uint>((i + 1) * 4);
     sub_image_offset(i) = static_cast<uint>(i + 1);
-    sub_image_size(i) = static_cast<uint>((i + 1) * 4 - sub_image_offset(i) + 1u);
+    sub_image_size(i)
+      = static_cast<uint>((i + 1) * 4 - sub_image_offset(i) + 1u);
   }
 
   TypeParam image(image_size);

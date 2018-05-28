@@ -239,7 +239,8 @@ image<Dim, PF>::image(const size_type& size, const pixel_type& px)
 
 
 template <size_t Dim, pixel_format PF>
-image<Dim, PF>::image(const size_type& size, const span<const pixel_type>& pixels)
+image<Dim, PF>::image(
+  const size_type& size, const span<const pixel_type>& pixels)
   : image(size, pixel_collection(pixels.begin(), pixels.end()))
 {}
 

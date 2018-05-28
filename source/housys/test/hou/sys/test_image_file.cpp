@@ -2,8 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/test.hpp"
 #include "hou/sys/test_data.hpp"
+#include "hou/test.hpp"
 
 #include "hou/sys/file.hpp"
 #include "hou/sys/image.hpp"
