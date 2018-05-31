@@ -66,12 +66,12 @@ IF(WIN32)
   SET(LIB_HOUSYS_SRC
     ${LIB_HOUSYS_SRC}
     src/hou/sys/win/file_handle_win.cpp
-    src/hou/sys/win/keyboard_win.cpp
-    src/hou/sys/win/mouse_win.cpp
-    src/hou/sys/win/os_error_win.cpp
-    src/hou/sys/win/video_mode_win.cpp
-    src/hou/sys/win/win_error.cpp
-    src/hou/sys/win/window_impl_win.cpp
+    # src/hou/sys/win/keyboard_win.cpp
+    # src/hou/sys/win/mouse_win.cpp
+    # src/hou/sys/win/os_error_win.cpp
+    # src/hou/sys/win/video_mode_win.cpp
+    # src/hou/sys/win/win_error.cpp
+    # src/hou/sys/win/window_impl_win.cpp
   )
 ELSEIF(UNIX)
   SET(LIB_HOUSYS_SRC

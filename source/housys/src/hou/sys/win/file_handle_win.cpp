@@ -75,7 +75,7 @@ int get_file_descriptor(FILE* file) noexcept
 
 size_t get_file_byte_size(int file_descriptor) noexcept
 {
-  long length = _filelength(file_descriptor);
+  long length = (file_descriptor == -1) ? -1L : _filelength(file_descriptor);
   return length == -1L ? std::numeric_limits<size_t>::max()
                        : static_cast<size_t>(length);
 }

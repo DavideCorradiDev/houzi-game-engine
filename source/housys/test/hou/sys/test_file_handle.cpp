@@ -278,12 +278,7 @@ TEST_F(test_file_handle, get_file_byte_size)
 
 
 
-// MSVC will trigger an assertion making this untestable.
-#ifdef HOU_COMPILER_MSVC
-TEST_F(test_file_handle, DISABLED_get_invalid_file_byte_size)
-#else
 TEST_F(test_file_handle, get_invalid_file_byte_size)
-#endif
 {
   EXPECT_EQ(std::numeric_limits<size_t>::max(), get_file_byte_size(-1));
 }
