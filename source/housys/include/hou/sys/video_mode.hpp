@@ -17,35 +17,62 @@
 namespace hou
 {
 
-/** Class representing a video mode, defined by the resolution and the number
- * of bits per pixel.
+/** Class representing a video mode.
  */
 class HOU_SYS_API video_mode
 {
 public:
   /** Creates a video_mode object.
    *
-   * \param resolution the screen resolution.
+   * \param resolution the resolution.
    *
-   * \param bytes_per_pixel the number of bits per pixel.
+   * \param depth_byte_count the number of bytes per pixel.
+   *
+   * \param refres_rate the refresh_rate.
    */
-  video_mode(const vec2u& resolution, uint bytes_per_pixel) noexcept;
+  video_mode(
+    const vec2u& resolution, uint depth_byte_count, uint refresh_rate) noexcept;
 
-  /** Retrieves the screen resolution.
+  /** Retrieves the resolution.
    *
-   * \return the screen resolution.
+   * \return the resolution.
    */
   const vec2u& get_resolution() const noexcept;
 
-  /** Retrieves the number of bits per pixel.
+  /** Sets the resolution.
    *
-   * \return the number of bits per pixel.
+   * \param resolution the resolution.
    */
-  uint get_bytes_per_pixel() const noexcept;
+  void set_resolution(const vec2u& resolution) noexcept;
+
+  /** Retrieves the number of bytes per pixel.
+   *
+   * \return the number of bytes per pixel.
+   */
+  uint get_depth_byte_count() const noexcept;
+
+  /** Sets the number of bytes per pixel.
+   *
+   * \param depth_byte_count the number of bytes per pixel.
+   */
+  void set_depth_byte_count(uint depth_byte_count) noexcept;
+
+  /** Retrieves the refresh rate in Hz.
+   *
+   * \return the refresh rate in Hz.
+   */
+  uint get_refresh_rate() const noexcept;
+
+  /** Sets the refresh rate in Hz.
+   *
+   * \param refresh_rate the refresh rate in Hz.
+   */
+  void set_refresh_rate(uint refresh_rate) noexcept;
 
 private:
   vec2u m_resolution;
-  uint m_bytes_per_pixel;
+  uint m_depth_byte_count;
+  uint m_refresh_rate;
 };
 
 /** Checks if two video_mode objects are equal.

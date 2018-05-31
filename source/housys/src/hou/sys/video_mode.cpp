@@ -11,9 +11,11 @@
 namespace hou
 {
 
-video_mode::video_mode(const vec2u& resolution, uint bytes_per_pixel) noexcept
+video_mode::video_mode(
+  const vec2u& resolution, uint depth_byte_count, uint refresh_rate) noexcept
   : m_resolution(resolution)
-  , m_bytes_per_pixel(bytes_per_pixel)
+  , m_depth_byte_count(depth_byte_count)
+  , m_refresh_rate(refresh_rate)
 {}
 
 
@@ -25,17 +27,46 @@ const vec2u& video_mode::get_resolution() const noexcept
 
 
 
-uint video_mode::get_bytes_per_pixel() const noexcept
+void video_mode::set_resolution(const vec2u& resolution) noexcept
 {
-  return m_bytes_per_pixel;
+  m_resolution = resolution;
+}
+
+
+
+uint video_mode::get_depth_byte_count() const noexcept
+{
+  return m_depth_byte_count;
+}
+
+
+
+void video_mode::set_depth_byte_count(uint depth_byte_count) noexcept
+{
+  m_depth_byte_count = depth_byte_count;
+}
+
+
+
+uint video_mode::get_refresh_rate() const noexcept
+{
+  return m_refresh_rate;
+}
+
+
+
+void video_mode::set_refresh_rate(uint refres_rate) noexcept
+{
+  m_refresh_rate = refres_rate;
 }
 
 
 
 bool operator==(const video_mode& lhs, const video_mode& rhs) noexcept
 {
-  return (lhs.get_resolution() == rhs.get_resolution())
-    && (lhs.get_bytes_per_pixel() == rhs.get_bytes_per_pixel());
+  return lhs.get_resolution() == rhs.get_resolution()
+    && lhs.get_depth_byte_count() == rhs.get_depth_byte_count()
+    && lhs.get_refresh_rate() == rhs.get_refresh_rate();
 }
 
 
@@ -49,20 +80,27 @@ bool operator!=(const video_mode& lhs, const video_mode& rhs) noexcept
 
 bool operator<(const video_mode& lhs, const video_mode& rhs) noexcept
 {
-  if(lhs.get_bytes_per_pixel() == rhs.get_bytes_per_pixel())
+  if(lhs.get_refresh_rate() == rhs.get_refresh_rate())
   {
-    if(lhs.get_resolution().x() == rhs.get_resolution().x())
+    if(lhs.get_depth_byte_count() == rhs.get_depth_byte_count())
     {
-      return lhs.get_resolution().y() < rhs.get_resolution().y();
+      if(lhs.get_resolution().x() == rhs.get_resolution().x())
+      {
+        return lhs.get_resolution().y() < rhs.get_resolution().y();
+      }
+      else
+      {
+        return lhs.get_resolution().x() < rhs.get_resolution().x();
+      }
     }
     else
     {
-      return lhs.get_resolution().x() < rhs.get_resolution().x();
+      return lhs.get_depth_byte_count() < rhs.get_depth_byte_count();
     }
   }
   else
   {
-    return lhs.get_bytes_per_pixel() < rhs.get_bytes_per_pixel();
+    return lhs.get_refresh_rate() < rhs.get_refresh_rate();
   }
 }
 
@@ -92,7 +130,9 @@ bool operator>=(const video_mode& lhs, const video_mode& rhs) noexcept
 std::ostream& operator<<(std::ostream& os, const video_mode& vm)
 {
   return os << "{resolution = " << transpose(vm.get_resolution())
-            << ", bytes_per_pixel = " << vm.get_bytes_per_pixel() << "}";
+            << ", depth_byte_count = " << vm.get_depth_byte_count()
+            << ", refresh_rate = " << vm.get_refresh_rate()
+            << "}";
 }
 
 }  // namespace hou
