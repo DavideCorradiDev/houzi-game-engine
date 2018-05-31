@@ -77,7 +77,6 @@ ELSEIF(UNIX)
   SET(LIB_HOUSYS_SRC
     ${LIB_HOUSYS_SRC}
     src/hou/sys/unix/file_handle_unix.cpp
-    src/hou/sys/unix/video_mode_unix.cpp
   )
 ENDIF()
 

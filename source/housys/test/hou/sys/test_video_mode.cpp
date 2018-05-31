@@ -30,26 +30,6 @@ TEST_F(test_video_mode, constructor)
 
 
 
-TEST_F(test_video_mode, fullscreen_mode_check)
-{
-  std::vector<video_mode> vmodes = video_mode::get_fullscreen_modes();
-  for(const auto& mode : vmodes)
-  {
-    EXPECT_TRUE(mode.is_fullscreen_mode());
-  }
-  video_mode notFullscreenMode(vec2u(0u, 0u), 0u);
-  EXPECT_FALSE(notFullscreenMode.is_fullscreen_mode());
-}
-
-
-
-TEST_F(test_video_mode, desktop_mode_is_fullscreen)
-{
-  EXPECT_TRUE(video_mode::get_desktop_mode().is_fullscreen_mode());
-}
-
-
-
 TEST_F(test_video_mode, comparison_operators)
 {
   video_mode v0(vec2u(640u, 320u), 4u);

@@ -11,15 +11,6 @@
 namespace hou
 {
 
-std::vector<video_mode> video_mode::get_fullscreen_modes()
-{
-  std::vector<video_mode> modes = create_fullscreen_modes_vector();
-  std::sort(modes.begin(), modes.end(), std::greater<video_mode>());
-  return modes;
-}
-
-
-
 video_mode::video_mode(const vec2u& resolution, uint bytes_per_pixel) noexcept
   : m_resolution(resolution)
   , m_bytes_per_pixel(bytes_per_pixel)
@@ -37,14 +28,6 @@ const vec2u& video_mode::get_resolution() const noexcept
 uint video_mode::get_bytes_per_pixel() const noexcept
 {
   return m_bytes_per_pixel;
-}
-
-
-
-bool video_mode::is_fullscreen_mode() const
-{
-  static const std::vector<video_mode> modes = get_fullscreen_modes();
-  return std::find(modes.begin(), modes.end(), *this) != modes.end();
 }
 
 
