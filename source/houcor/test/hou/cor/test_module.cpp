@@ -35,6 +35,7 @@ class test_module : public Test
 {
 public:
   test_module();
+  ~test_module();
 };
 
 
@@ -51,8 +52,7 @@ bool test_impl::on_setup()
 
 
 void test_impl::on_teardown() noexcept
-{
-}
+{}
 
 
 
@@ -81,7 +81,15 @@ test_module::test_module()
   module<test_impl>::teardown();
 }
 
+
+
+test_module::~test_module()
+{
+  test_impl::reset();
+  module<test_impl>::teardown();
 }
+
+}  // namespace
 
 
 

@@ -50,6 +50,7 @@ SET(LIB_HOUSYS_SRC
   src/hou/sys/pixel_format.cpp
   # src/hou/sys/scan_code.cpp
   src/hou/sys/sys_exceptions.cpp
+  src/hou/sys/sys_module.cpp
   # src/hou/sys/system_window.cpp
   src/hou/sys/text_file_in.cpp
   src/hou/sys/text_file_out.cpp
@@ -79,6 +80,7 @@ ENDIF()
 # Linked libraries.
 SET(LIB_HOUSYS_LIBS
   ${LIB_SOIL}
+  ${LIB_GLFW}
 )
 IF(NOT HOU_CFG_BUILD_STATIC_LIBS)
   SET(LIB_HOUSYS_LIBS
