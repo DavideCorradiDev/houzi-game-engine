@@ -7,7 +7,7 @@
 
 #include "hou/cor/module.hpp"
 
-#include "hou/cor/cor_config.hpp"
+#include "hou/sys/sys_config.hpp"
 
 
 
@@ -19,7 +19,7 @@ namespace prv
 
 /** System module initialization manager implementation.
  */
-class sys_module_impl : public non_instantiable
+class HOU_SYS_API sys_module_impl : public non_instantiable
 {
 public:
   /** Sets up the system module.

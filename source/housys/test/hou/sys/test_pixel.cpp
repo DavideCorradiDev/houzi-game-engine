@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/test.hpp"
+#include "hou/sys/test_sys_base.hpp"
 #include "hou/sys/pixel.hpp"
 
 using namespace hou;
@@ -13,13 +13,12 @@ using namespace testing;
 namespace
 {
 
-class test_pixel_format : public Test
+class test_pixel_format : public test_sys_base
 {};
 
-class test_pixel_format_death_test : public test_pixel_format
-{};
+using test_pixel_format_death_test = test_pixel_format;
 
-class test_pixel : public Test
+class test_pixel : public test_sys_base
 {};
 
 template <typename pixel>

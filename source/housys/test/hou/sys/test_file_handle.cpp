@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/test.hpp"
+#include "hou/sys/test_sys_base.hpp"
 #include "hou/sys/test_data.hpp"
 
 #include "hou/sys/file_handle.hpp"
@@ -16,7 +16,7 @@ using namespace testing;
 namespace
 {
 
-class test_file_handle : public Test
+class test_file_handle : public test_sys_base
 {
 public:
   static const std::string filename;
@@ -27,13 +27,7 @@ public:
   virtual ~test_file_handle();
 };
 
-
-
-class test_file_handle_death_test : public test_file_handle
-{
-public:
-  using test_file_handle::test_file_handle;
-};
+using test_file_handle_death_test = test_file_handle;
 
 
 

@@ -88,10 +88,6 @@ private:
   static bool s_initialized;
 };
 
-}
-
-
-
 /** Registers callbacks for std::exit and std::quick_exit to teardown Module.
  *
  * This function is just an utility to automatically register callbacks to
@@ -131,6 +127,10 @@ private:
  */
 template <typename Module>
 void do_teardown_on_exit();
+
+}  // namespace hou
+
+
 
 #include "hou/cor/module.inl"
 

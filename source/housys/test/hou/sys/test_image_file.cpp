@@ -2,8 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
+#include "hou/sys/test_sys_base.hpp"
 #include "hou/sys/test_data.hpp"
-#include "hou/test.hpp"
 
 #include "hou/sys/file.hpp"
 #include "hou/sys/image.hpp"
@@ -18,7 +18,7 @@ using namespace testing;
 namespace
 {
 
-class test_image_file : public Test
+class test_image_file : public test_sys_base
 {
 public:
   static const std::string test_image_bmp;
@@ -27,8 +27,7 @@ public:
   static const std::string test_image_invalid;
 };
 
-class test_image_file_death_test : public test_image_file
-{};
+using test_image_file_death_test = test_image_file;
 
 
 

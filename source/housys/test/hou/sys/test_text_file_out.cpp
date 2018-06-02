@@ -2,8 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/test.hpp"
 #include "hou/sys/test_data.hpp"
+#include "hou/sys/test_sys_base.hpp"
 
 #include "hou/cor/span.hpp"
 
@@ -18,8 +18,7 @@ using namespace testing;
 namespace
 {
 
-class test_text_file_out
-  : public Test
+class test_text_file_out : public test_sys_base
 {
 public:
   static const std::string filename;
@@ -29,9 +28,7 @@ public:
   ~test_text_file_out();
 };
 
-
-
-class test_text_file_out_death_test : public test_text_file_out {};
+using test_text_file_out_death_test = test_text_file_out;
 
 
 
@@ -49,10 +46,10 @@ test_text_file_out::~test_text_file_out()
 
 
 
-const std::string test_text_file_out::filename = get_output_dir()
-  + u8"test_text_file_out-\U00004f60\U0000597d.txt";
+const std::string test_text_file_out::filename
+  = get_output_dir() + u8"test_text_file_out-\U00004f60\U0000597d.txt";
 
-}
+}  // namespace
 
 
 
@@ -143,8 +140,8 @@ TEST_F(test_text_file_out, write_basic_array)
   fi.read(buf_in, buffer_size);
   EXPECT_EQ(byte_count, fi.get_byte_count());
   EXPECT_EQ(byte_count, fi.get_read_byte_count());
-  EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(buf_in)
-    , reinterpret_cast<uint8_t*>(buf_out), byte_count);
+  EXPECT_ARRAY_EQ(reinterpret_cast<uint8_t*>(buf_in),
+    reinterpret_cast<uint8_t*>(buf_out), byte_count);
 }
 
 

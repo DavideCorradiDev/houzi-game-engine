@@ -73,10 +73,13 @@ public:
 
 }  // namespace hou
 
-#define HOU_PRECOND(condition) HOU_CHECK_0(condition, precondition_violation)
+#define HOU_PRECOND(condition)                                                 \
+  HOU_CHECK_0(condition, ::hou::precondition_violation)
 
-#define HOU_POSTCOND(condition) HOU_CHECK_0(condition, postcondition_violation)
+#define HOU_POSTCOND(condition)                                                \
+  HOU_CHECK_0(condition, ::hou::postcondition_violation)
 
-#define HOU_INVARIANT(condition) HOU_CHECK_0(condition, invariant_violation)
+#define HOU_INVARIANT(condition)                                               \
+  HOU_CHECK_0(condition, ::hou::invariant_violation)
 
 #endif

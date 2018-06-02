@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/test.hpp"
+#include "hou/sys/test_sys_base.hpp"
 
 #include "hou/sys/video_mode.hpp"
 
@@ -14,7 +14,7 @@ using namespace testing;
 namespace
 {
 
-class test_video_mode : public Test
+class test_video_mode : public test_sys_base
 {};
 
 }  // namespace

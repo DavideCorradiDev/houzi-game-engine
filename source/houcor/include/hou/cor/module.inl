@@ -18,7 +18,6 @@ bool module<Impl>::setup()
     return true;
   }
   s_initialized = Impl::on_setup();
-
   return s_initialized;
 }
 
@@ -31,7 +30,6 @@ void module<Impl>::teardown() noexcept
   {
     return;
   }
-
   Impl::on_teardown();
   s_initialized = false;
 }
@@ -49,8 +47,13 @@ bool module<Impl>::is_initialized() noexcept
 template <typename Module>
 void do_teardown_on_exit()
 {
-  std::atexit(&Module::teardown);
-  std::at_quick_exit(&Module::teardown);
+  static bool already_called = false;
+  if(!already_called)
+  {
+    already_called = true;
+    std::atexit(&Module::teardown);
+    std::at_quick_exit(&Module::teardown);
+  }
 }
 
 }

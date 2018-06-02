@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/test.hpp"
+#include "hou/sys/test_sys_base.hpp"
 #include "hou/sys/test_data.hpp"
 
 #include "hou/sys/file.hpp"
@@ -15,7 +15,7 @@ using namespace hou;
 namespace
 {
 
-class test_file : public ::testing::Test
+class test_file : public test_sys_base
 {
 public:
   static const std::string filename;
@@ -26,13 +26,7 @@ public:
   virtual ~test_file();
 };
 
-
-
-class test_file_death_test : public test_file
-{
-public:
-  using test_file::test_file;
-};
+using test_file_death_test = test_file;
 
 
 
