@@ -9,6 +9,9 @@ Distributed under a [BSD-style license](../external-libs/googletest/LICENSE).
 [**GLAD**](https://github.com/Dav1dde/glad) - Copyright (c) 2013 David Herberth.
 Distributed under the [MIT License (MIT)](../external-libs/glad/license.txt).
 
+[**GLFW**](http://www.glfw.org/) - Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla Loewy
+Distributed nuder the [zlib/libpng license](../external-libs/glfw/LICENSE.md).
+
 [**Ogg**](https://xiph.org/ogg/) - Copyright (c) 2002, Xiph.org Foundation.
 Distributed under a [BSD-style license](../external-libs/ogg/COPYING).
 

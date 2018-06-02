@@ -117,7 +117,7 @@ For a complete description on how to use CMake with Visual Studio you can refer 
 
     * gcc.
 
-    * OpenGL dev libraries (package mesa-common-dev, libgl1-mesa-dev on ubuntu).
+    * OpenGL dev libraries (package xorg-dev, mesa-common-dev, libgl1-mesa-dev on ubuntu).
 
 * Configure with cmake.
 
