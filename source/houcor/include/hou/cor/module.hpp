@@ -92,10 +92,13 @@ private:
  *
  * This function is just an utility to automatically register callbacks to
  * teardown the module at the program exit.
+ * If you prefer, you can do it manually and register your own callbacks.
  *
  * It is suggested to always register the callbacks after initializing a module,
  * in order to make sure that proper clean up will be performed if std::exit or
  * std::quick_exit are called somewhere.
+ *
+ * Only the first call to this function will register the callback.
  *
  * \note signal handlers will normally not call the exit callbacks by default.
  * This means that if the application terminates as a consequence to a call to a
@@ -103,7 +106,8 @@ private:
  * You may provide custom callbacks with std::signal, but there are strong
  * constraints on what can be done in such function.
  * As a general rule module teardown functions can't be safely called from
- * inside a signal callback.
+ * inside a signal callback, therefore there is no way to ensure proper cleanup
+ * when responding to a signal.
  *
  * \note std::abort kills the application by rasing the SIGABRT signal.
  * This means that calling std::abort will not ensure proper module cleanup.
@@ -117,7 +121,7 @@ private:
  * \note calls to std::terminate will by default call std::abort, and will
  * therefore bypass these callbacks.
  * It is advised to wrap the whole main function in a try-catch block in order
- * to ensure a normal exit when an exception is not handle.
+ * to ensure a normal exit when an exception is not handled.
  * If this is not possible, it is advised to set the std::terminate callback
  * with std::set_terminate so that it calls std::exit instead of std::abort in
  * order to ensure proper cleanup on termination.
