@@ -69,3 +69,23 @@ TEST_F(test_sys_exceptions, invalid_image_data)
   invalid_image_data ex("source.cpp", 33u);
   EXPECT_STREQ("source.cpp:33 - Invalid or corrupted image data.", ex.what());
 }
+
+
+
+TEST_F(test_sys_exceptions, sys_not_initialized)
+{
+  sys_not_initialized ex("mod.cpp", 100u);
+  EXPECT_STREQ(
+    "mod.cpp:100 - System module initialization is required but was not done.",
+    ex.what());
+}
+
+
+
+TEST_F(test_sys_exceptions, platform_error)
+{
+  platform_error ex("plat.cpp", 24u, "Something wrong.");
+  EXPECT_STREQ(
+    "plat.cpp:24 - A platform-specific error occurred:\nSomething wrong.",
+    ex.what());
+}

@@ -45,4 +45,20 @@ invalid_image_data::invalid_image_data(const std::string& path, uint line)
   : exception(path, line, u8"Invalid or corrupted image data.")
 {}
 
+
+
+sys_not_initialized::sys_not_initialized(const std::string& path, uint line)
+  : exception(path, line,
+      u8"System module initialization is required but was not done.")
+{}
+
+
+
+platform_error::platform_error(
+  const std::string& path, uint line, const std::string& description)
+  : exception(path, line,
+      format_string(
+        u8"A platform-specific error occurred:\n%s", description.c_str()))
+{}
+
 }  // namespace hou

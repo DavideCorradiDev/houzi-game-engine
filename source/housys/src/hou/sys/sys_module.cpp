@@ -4,6 +4,12 @@
 
 #include "hou/sys/sys_module.hpp"
 
+#include "hou/sys/sys_exceptions.hpp"
+
+#include "hou/sys/glfw/glfw_error_handler.hpp"
+
+#include "hou/cor/assertions.hpp"
+
 #include "GLFW/glfw3.h"
 
 
@@ -17,13 +23,30 @@ namespace prv
 namespace
 {
 
-void glfw_error_callback(int ec, const char* description);
-
-void glfw_error_callback(int ec, const char* description)
+void not_initialized_callback(const char*)
 {
-  switch(ec)
-  {
-  }
+  HOU_ERROR_0(sys_not_initialized);
+}
+
+
+
+void platform_error_callback(const char* description)
+{
+  HOU_ERROR_N(platform_error, description);
+}
+
+
+
+void out_of_memory_callback(const char*)
+{
+  HOU_ERROR_STD_0(std::bad_alloc);
+}
+
+
+
+void invalid_argument_callback(const char*)
+{
+  HOU_ERROR_0(precondition_violation);
 }
 
 }
@@ -32,8 +55,23 @@ void glfw_error_callback(int ec, const char* description)
 
 bool sys_module_impl::on_setup()
 {
-  auto f = glfwSetErrorCallback(glfw_error_callback);
-  return glfwInit() == GLFW_TRUE;
+  if(glfwInit() != GLFW_TRUE)
+  {
+    return false;
+  }
+
+  prv::glfw_error_handler::set_callback(
+    GLFW_NOT_INITIALIZED, not_initialized_callback);
+  prv::glfw_error_handler::set_callback(
+    GLFW_PLATFORM_ERROR, platform_error_callback);
+  prv::glfw_error_handler::set_callback(
+    GLFW_OUT_OF_MEMORY, out_of_memory_callback);
+  prv::glfw_error_handler::set_callback(
+    GLFW_INVALID_ENUM, invalid_argument_callback);
+  prv::glfw_error_handler::set_callback(
+    GLFW_INVALID_VALUE, invalid_argument_callback);
+  glfwSetErrorCallback(&prv::glfw_error_handler::callback);
+  return true;
 }
 
 
@@ -41,7 +79,13 @@ bool sys_module_impl::on_setup()
 void sys_module_impl::on_teardown() noexcept
 {
   glfwTerminate();
+
   glfwSetErrorCallback(nullptr);
+  prv::glfw_error_handler::set_callback(GLFW_NOT_INITIALIZED, nullptr);
+  prv::glfw_error_handler::set_callback(GLFW_PLATFORM_ERROR, nullptr);
+  prv::glfw_error_handler::set_callback(GLFW_OUT_OF_MEMORY, nullptr);
+  prv::glfw_error_handler::set_callback(GLFW_INVALID_ENUM, nullptr);
+  prv::glfw_error_handler::set_callback(GLFW_INVALID_VALUE, nullptr);
 }
 
 }
