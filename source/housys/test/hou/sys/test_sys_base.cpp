@@ -10,13 +10,13 @@
 
 void test_sys_base::SetUpTestCase()
 {
-  HOU_ASSERT(hou::sys_module::setup());
-  hou::do_teardown_on_exit<hou::sys_module>();
+  HOU_ASSERT(hou::sys_module::initialize());
+  hou::call_terminate_on_exit<hou::sys_module>();
 }
 
 
 
 void test_sys_base::TearDownTestCase()
 {
-  hou::sys_module::teardown();
+  hou::sys_module::terminate();
 }

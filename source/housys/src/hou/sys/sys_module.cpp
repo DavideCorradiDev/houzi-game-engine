@@ -46,7 +46,7 @@ void invalid_argument_callback(const char*)
 
 
 
-bool sys_module_impl::on_setup()
+bool sys_module_impl::on_initialize()
 {
   if(glfwInit() != GLFW_TRUE)
   {
@@ -67,7 +67,7 @@ bool sys_module_impl::on_setup()
 
 
 
-void sys_module_impl::on_teardown() noexcept
+void sys_module_impl::on_terminate() noexcept
 {
   glfwTerminate();
 

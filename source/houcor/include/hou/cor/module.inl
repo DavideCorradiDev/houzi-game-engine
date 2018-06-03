@@ -11,26 +11,26 @@ bool module<Impl>::s_initialized(false);
 
 
 template <typename Impl>
-bool module<Impl>::setup()
+bool module<Impl>::initialize()
 {
   if(s_initialized)
   {
     return true;
   }
-  s_initialized = Impl::on_setup();
+  s_initialized = Impl::on_initialize();
   return s_initialized;
 }
 
 
 
 template <typename Impl>
-void module<Impl>::teardown() noexcept
+void module<Impl>::terminate() noexcept
 {
   if(!s_initialized)
   {
     return;
   }
-  Impl::on_teardown();
+  Impl::on_terminate();
   s_initialized = false;
 }
 
@@ -45,14 +45,14 @@ bool module<Impl>::is_initialized() noexcept
 
 
 template <typename Module>
-void do_teardown_on_exit()
+void call_terminate_on_exit()
 {
   static bool already_called = false;
   if(!already_called)
   {
     already_called = true;
-    std::atexit(&Module::teardown);
-    std::at_quick_exit(&Module::teardown);
+    std::atexit(&Module::terminate);
+    std::at_quick_exit(&Module::terminate);
   }
 }
 

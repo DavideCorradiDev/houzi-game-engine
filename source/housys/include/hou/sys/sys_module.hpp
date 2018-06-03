@@ -24,11 +24,11 @@ class HOU_SYS_API sys_module_impl : public non_instantiable
 public:
   /** Sets up the system module.
    */
-  static bool on_setup();
+  static bool on_initialize();
 
   /** Tears down the system module.
    */
-  static void on_teardown() noexcept;
+  static void on_terminate() noexcept;
 };
 
 }

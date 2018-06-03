@@ -25,67 +25,67 @@ public:
 
 test_sys_module::test_sys_module()
 {
-  sys_module::teardown();
+  sys_module::terminate();
 }
 
 
 
 test_sys_module::~test_sys_module()
 {
-  sys_module::teardown();
+  sys_module::terminate();
 }
 
 }  // namespace
 
 
 
-TEST_F(test_sys_module, setup)
+TEST_F(test_sys_module, initialize)
 {
   EXPECT_FALSE(sys_module::is_initialized());
-  EXPECT_TRUE(sys_module::setup());
+  EXPECT_TRUE(sys_module::initialize());
   EXPECT_TRUE(sys_module::is_initialized());
 }
 
 
 
-TEST_F(test_sys_module, double_setup)
+TEST_F(test_sys_module, double_initialize)
 {
   EXPECT_FALSE(sys_module::is_initialized());
-  EXPECT_TRUE(sys_module::setup());
+  EXPECT_TRUE(sys_module::initialize());
   EXPECT_TRUE(sys_module::is_initialized());
-  EXPECT_TRUE(sys_module::setup());
+  EXPECT_TRUE(sys_module::initialize());
   EXPECT_TRUE(sys_module::is_initialized());
 }
 
 
 
-TEST_F(test_sys_module, teardown_before_setup)
+TEST_F(test_sys_module, terminate_before_initialize)
 {
   EXPECT_FALSE(sys_module::is_initialized());
-  sys_module::teardown();
+  sys_module::terminate();
   EXPECT_FALSE(sys_module::is_initialized());
 }
 
 
 
-TEST_F(test_sys_module, teardown_after_setup)
+TEST_F(test_sys_module, terminate_after_initialize)
 {
   EXPECT_FALSE(sys_module::is_initialized());
-  EXPECT_TRUE(sys_module::setup());
+  EXPECT_TRUE(sys_module::initialize());
   EXPECT_TRUE(sys_module::is_initialized());
-  sys_module::teardown();
+  sys_module::terminate();
   EXPECT_FALSE(sys_module::is_initialized());
 }
 
 
 
-TEST_F(test_sys_module, setup_after_teardown)
+TEST_F(test_sys_module, initialize_after_terminate)
 {
   EXPECT_FALSE(sys_module::is_initialized());
-  EXPECT_TRUE(sys_module::setup());
+  EXPECT_TRUE(sys_module::initialize());
   EXPECT_TRUE(sys_module::is_initialized());
-  sys_module::teardown();
+  sys_module::terminate();
   EXPECT_FALSE(sys_module::is_initialized());
-  EXPECT_TRUE(sys_module::setup());
+  EXPECT_TRUE(sys_module::initialize());
   EXPECT_TRUE(sys_module::is_initialized());
 }

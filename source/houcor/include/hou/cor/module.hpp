@@ -17,10 +17,11 @@
 namespace hou
 {
 
-/** Module setup and teardown manager.
+/** Module initialization and termination manager.
  *
  * This class is used as the base to create static classes responsible for
- * the setup and teardown of global state connected to a library module.
+ * the initialization and termination of global state connected to a library
+ * module.
  *
  * Operative systems are normally capable of freeing resources after a simple
  * program termination, but some modules might change global system settings
@@ -33,12 +34,12 @@ namespace hou
  * void on_teardown() noexcept;
  * ```
  *
- * on_setup will be called when calling setup, on_teardown will be called
- * when calling teardown.
+ * on_setup will be called when calling initialize, on_teardown will be called
+ * when calling terminate.
  *
- * on_setup should return true in case of a successful setup, or false in
- * case if error.
- * In both cases, on_setup must leave the program in a consistent state.
+ * on_setup should return true in case of a successful initialization, or false
+ * in case if error. In both cases, on_setup must leave the program in a
+ * consistent state.
  *
  * on_teardown is not allowed to fail.
  * It must always correctly restore the state as it was before the call to
@@ -63,7 +64,7 @@ public:
    *
    * \return true if the module is initialized after the call, false otherwise.
    */
-  static bool setup();
+  static bool initialize();
 
   /** Tears down the module.
    *
@@ -76,7 +77,7 @@ public:
    *
    * If the module is initialized, it internally calls Impl::on_teardown();
    */
-  static void teardown() noexcept;
+  static void terminate() noexcept;
 
   /** Checks if the module has already been initialized.
    *
@@ -88,10 +89,10 @@ private:
   static bool s_initialized;
 };
 
-/** Registers callbacks for std::exit and std::quick_exit to teardown Module.
+/** Registers callbacks for std::exit and std::quick_exit to terminate Module.
  *
  * This function is just an utility to automatically register callbacks to
- * teardown the module at the program exit.
+ * terminate the module at the program exit.
  * If you prefer, you can do it manually and register your own callbacks.
  *
  * It is suggested to always register the callbacks after initializing a module,
@@ -102,10 +103,10 @@ private:
  *
  * \note signal handlers will normally not call the exit callbacks by default.
  * This means that if the application terminates as a consequence to a call to a
- * signal handler, proper teardown will not be performed.
+ * signal handler, proper termination will not be performed.
  * You may provide custom callbacks with std::signal, but there are strong
  * constraints on what can be done in such function.
- * As a general rule module teardown functions can't be safely called from
+ * As a general rule module termination functions can't be safely called from
  * inside a signal callback, therefore there is no way to ensure proper cleanup
  * when responding to a signal.
  *
@@ -130,7 +131,7 @@ private:
  * It should be an instance of the template class hou::module<Impl>.
  */
 template <typename Module>
-void do_teardown_on_exit();
+void call_terminate_on_exit();
 
 }  // namespace hou
 
