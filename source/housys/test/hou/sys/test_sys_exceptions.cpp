@@ -72,16 +72,6 @@ TEST_F(test_sys_exceptions, invalid_image_data)
 
 
 
-TEST_F(test_sys_exceptions, sys_not_initialized)
-{
-  sys_not_initialized ex("mod.cpp", 100u);
-  EXPECT_STREQ(
-    "mod.cpp:100 - System module initialization is required but was not done.",
-    ex.what());
-}
-
-
-
 TEST_F(test_sys_exceptions, platform_error)
 {
   platform_error ex("plat.cpp", 24u, "Something wrong.");

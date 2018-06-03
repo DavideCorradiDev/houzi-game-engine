@@ -129,26 +129,6 @@ public:
 
 
 
-/** System module not initialized error.
- *
- * This error is thrown when the system module has not been initialized and
- * a call requiring the initialization has been made.
- */
-class HOU_SYS_API sys_not_initialized : public exception
-{
-public:
-  /** Constructor.
-   *
-   * \param path the path to the source file where the error happened.
-   *
-   * \param line the line where the error happened.
-   *
-   * \throws std::bad_alloc.
-   */
-  sys_not_initialized(const std::string& path, uint line);
-};
-
-
 /** Platform-specific error.
  *
  * This exception is thrown when a platform-specific error occurs.

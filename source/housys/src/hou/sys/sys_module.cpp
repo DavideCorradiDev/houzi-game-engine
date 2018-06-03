@@ -23,13 +23,6 @@ namespace prv
 namespace
 {
 
-void not_initialized_callback(const char*)
-{
-  HOU_ERROR_0(sys_not_initialized);
-}
-
-
-
 void platform_error_callback(const char* description)
 {
   HOU_ERROR_N(platform_error, description);
@@ -61,8 +54,6 @@ bool sys_module_impl::on_setup()
   }
 
   prv::glfw_error_handler::set_callback(
-    GLFW_NOT_INITIALIZED, not_initialized_callback);
-  prv::glfw_error_handler::set_callback(
     GLFW_PLATFORM_ERROR, platform_error_callback);
   prv::glfw_error_handler::set_callback(
     GLFW_OUT_OF_MEMORY, out_of_memory_callback);
@@ -81,7 +72,6 @@ void sys_module_impl::on_teardown() noexcept
   glfwTerminate();
 
   glfwSetErrorCallback(nullptr);
-  prv::glfw_error_handler::set_callback(GLFW_NOT_INITIALIZED, nullptr);
   prv::glfw_error_handler::set_callback(GLFW_PLATFORM_ERROR, nullptr);
   prv::glfw_error_handler::set_callback(GLFW_OUT_OF_MEMORY, nullptr);
   prv::glfw_error_handler::set_callback(GLFW_INVALID_ENUM, nullptr);
