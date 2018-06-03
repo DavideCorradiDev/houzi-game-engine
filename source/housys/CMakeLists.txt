@@ -61,6 +61,7 @@ SET(LIB_HOUSYS_SRC
   # src/hou/sys/window_event_type.cpp
   # src/hou/sys/window_impl.cpp
   # src/hou/sys/window_style.cpp
+  src/hou/sys/glfw/glfw_error_handler.cpp
 )
 
 IF(WIN32)
