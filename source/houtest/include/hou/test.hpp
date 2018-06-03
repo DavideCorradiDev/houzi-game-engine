@@ -38,14 +38,14 @@ inline std::string get_exception_msg_regex(const std::exception& ex)
 #define EXPECT_ERROR_STD_0(statement, exception_type)                          \
   do                                                                           \
   {                                                                            \
-    EXPECT_DEATH(                                                              \
-      statement, get_exception_msg_regex(exception_type()).c_str());           \
+    EXPECT_EXIT(statement, ::testing::ExitedWithCode(EXIT_FAILURE),            \
+      get_exception_msg_regex(exception_type()).c_str());                      \
   } while(false)
 
 #define EXPECT_ERROR_TEMPLATE(statement, exception_type, ...)                  \
   do                                                                           \
   {                                                                            \
-    EXPECT_DEATH(statement,                                                    \
+    EXPECT_EXIT(statement, ::testing::ExitedWithCode(EXIT_FAILURE),            \
       get_exception_msg_regex(exception_type(__VA_ARGS__)).c_str());           \
   } while(false)
 

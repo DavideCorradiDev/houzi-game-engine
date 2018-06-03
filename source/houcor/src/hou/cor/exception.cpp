@@ -52,10 +52,10 @@ const char* exception::what() const noexcept
 
 
 
-void abort(const std::string& message) noexcept
+void exit_with_error(const std::string& message) noexcept
 {
   std::cerr << message << std::endl;
-  std::abort();
+  std::quick_exit(EXIT_FAILURE);
 }
 
 }  // namespace hou

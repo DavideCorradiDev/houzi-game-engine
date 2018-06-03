@@ -82,19 +82,21 @@ private:
   std::shared_ptr<std::string> m_message;
 };
 
-/** Prints the given message to the console error stream and aborts
- * execution.
+/** Prints the given message to the console error stream and stops execution.
+ *
+ * This function internally calls std::quick_exit, meaning that callbacks
+ * can be registered with std::at_quick_exit to do some final cleanup.
  *
  * \param message the error message to be printed.
  */
-void HOU_COR_API abort(const std::string& message) noexcept;
+void HOU_COR_API exit_with_error(const std::string& message) noexcept;
 
 /** Reports an error.
  *
  * If exceptions are enabled, it will throw an exception of type ExceptionType
  * with the given arguments.
- * If exceptions are disabled, it will abort execution and print the what()
- * message of the exception into the error output stream.
+ * If exceptions are disabled, it will exit execution and print the
+ * what() message of the exception into the error output stream.
  *
  * \tparam ExceptionType the exception type.
  *
@@ -106,7 +108,7 @@ template <typename ExceptionType, typename... Args>
 void error(Args... args)
 {
 #ifdef HOU_DISABLE_EXCEPTIONS
-  abort(ExceptionType(args...).what());
+  ::hou::exit_with_error(ExceptionType(args...).what());
 #else
   throw ExceptionType(args...);
 #endif
@@ -116,10 +118,11 @@ void error(Args... args)
 
 
 
-#define HOU_ABORT(message)                                                     \
-  ::hou::abort(::hou::prv::format_error_message(__FILE__, __LINE__, message));
+#define HOU_EXIT_WITH_ERROR(message)                                           \
+  ::hou::exit_with_error(                                                      \
+    ::hou::prv::format_error_message(__FILE__, __LINE__, message));
 
-#define HOU_UNREACHABLE() HOU_ABORT(u8"Unreachable code path.")
+#define HOU_UNREACHABLE() HOU_EXIT_WITH_ERROR(u8"Unreachable code path.")
 
 #define HOU_ERROR_STD_0(exception_type) ::hou::error<exception_type>()
 
@@ -143,7 +146,7 @@ void error(Args... args)
 
 #define HOU_ASSERT(statement)                                                  \
   HOU_CHECK_TEMPLATE(                                                          \
-    statement, HOU_ABORT(::hou::prv::assertion_message(#statement)))
+    statement, HOU_EXIT_WITH_ERROR(::hou::prv::assertion_message(#statement)))
 
 #define HOU_CHECK_STD_0(condition, exception_type)                             \
   HOU_CHECK_TEMPLATE(condition, HOU_ERROR_STD_0(exception_type))
@@ -166,7 +169,7 @@ void error(Args... args)
 
 #define HOU_DEV_ASSERT(statement)                                              \
   HOU_DEV_CHECK_TEMPLATE(                                                      \
-    statement, HOU_ABORT(::hou::prv::assertion_message(#statement)))
+    statement, HOU_EXIT_WITH_ERROR(::hou::prv::assertion_message(#statement)))
 
 #ifdef HOU_DISABLE_EXCEPTIONS
 
@@ -182,7 +185,7 @@ void error(Args... args)
   }                                                                            \
   catch(const ::std::exception& ex)                                            \
   {                                                                            \
-    HOU_ABORT(ex.what());                                                      \
+    HOU_EXIT_WITH_ERROR(ex.what());                                            \
   }
 
 #endif

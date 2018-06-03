@@ -17,7 +17,7 @@ namespace hou
 /** Precondition violation error.
  *
  * This exception is thrown when a function precondition has been violated.
- * This reflects a programming error, and exection should be aborted.
+ * This reflects a programming error, and exection should be terminated.
  */
 class HOU_COR_API precondition_violation : public exception
 {
@@ -36,7 +36,7 @@ public:
 /** Postcondition violation error.
  *
  * This exception is thrown when a function postcondition has been violated.
- * This reflects a programming error, and exection should be aborted.
+ * This reflects a programming error, and exection should be terminated.
  */
 class HOU_COR_API postcondition_violation : public exception
 {
@@ -55,7 +55,7 @@ public:
 /** Invariant violation error.
  *
  * This exception is thrown when an invariant has been violated.
- * This reflects a programming error, and exection should be aborted.
+ * This reflects a programming error, and exection should be terminated.
  */
 class HOU_COR_API invariant_violation : public exception
 {
