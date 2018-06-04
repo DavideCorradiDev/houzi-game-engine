@@ -285,3 +285,39 @@ TEST_F(test_not_null, naked_ptr_conversion)
   EXPECT_EQ(2, *p2);
   delete p1;
 }
+
+
+
+TEST_F(test_not_null, comparison)
+{
+  int* p1 = new int(2);
+  int* p2 = new int(2);
+
+  not_null<int*> nnp1(p1);
+  not_null<int*> nnp2(p1);
+  not_null<int*> nnp3(p2);
+
+  EXPECT_TRUE(nnp1 == nnp2);
+  EXPECT_FALSE(nnp1 == nnp3);
+
+  EXPECT_FALSE(nnp1 != nnp2);
+  EXPECT_TRUE(nnp1 != nnp3);
+
+  delete p1;
+  delete p2;
+}
+
+
+
+TEST_F(test_not_null, output_stream_operator)
+{
+  int* p = new int(2);
+  not_null<int*> nnp(p);
+
+  std::stringstream ss;
+  ss << p;
+
+  EXPECT_OUTPUT(ss.str().c_str(), nnp);
+
+  delete p;
+}
