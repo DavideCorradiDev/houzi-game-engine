@@ -24,29 +24,29 @@ class test_video_mode : public test_sys_base
 TEST_F(test_video_mode, constructor)
 {
   video_mode v(vec2u(1200u, 400u), 8u, 40u);
-  EXPECT_EQ(vec2u(1200u, 400u), v.get_resolution());
-  EXPECT_EQ(8u, v.get_depth_byte_count());
+  EXPECT_EQ(vec2u(1200u, 400u), v.get_size());
+  EXPECT_EQ(8u, v.get_depth_bit_count());
   EXPECT_EQ(40u, v.get_refresh_rate());
 }
 
 
 
-TEST_F(test_video_mode, set_resolution)
+TEST_F(test_video_mode, set_size)
 {
   vec2u valRef(800u, 600u);
   video_mode v(vec2u(1200u, 400u), 8u, 40u);
-  v.set_resolution(valRef);
-  EXPECT_EQ(valRef, v.get_resolution());
+  v.set_size(valRef);
+  EXPECT_EQ(valRef, v.get_size());
 }
 
 
 
-TEST_F(test_video_mode, set_depth_byte_count)
+TEST_F(test_video_mode, set_depth_bit_count)
 {
   uint valRef = 4u;
   video_mode v(vec2u(1200u, 400u), 8u, 40u);
-  v.set_depth_byte_count(valRef);
-  EXPECT_EQ(valRef, v.get_depth_byte_count());
+  v.set_depth_bit_count(valRef);
+  EXPECT_EQ(valRef, v.get_depth_bit_count());
 }
 
 
@@ -431,6 +431,6 @@ TEST_F(test_video_mode, output_stream_operator)
   video_mode vm(vec2u(300u, 400u), 8u, 45u);
 
   const char* output_ref
-    = "{resolution = (300, 400), depth_byte_count = 8, refresh_rate = 45}";
+    = "{size = (300, 400), depth_bit_count = 8, refresh_rate = 45}";
   EXPECT_OUTPUT(output_ref, vm);
 }

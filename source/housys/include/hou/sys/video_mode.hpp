@@ -24,38 +24,38 @@ class HOU_SYS_API video_mode
 public:
   /** Creates a video_mode object.
    *
-   * \param resolution the resolution.
+   * \param size the size.
    *
-   * \param depth_byte_count the number of bytes per pixel.
+   * \param depth_bit_count the number of bits per pixel.
    *
    * \param refres_rate the refresh_rate.
    */
   video_mode(
-    const vec2u& resolution, uint depth_byte_count, uint refresh_rate) noexcept;
+    const vec2u& size, uint depth_bit_count, uint refresh_rate) noexcept;
 
-  /** Retrieves the resolution.
+  /** Retrieves the size.
    *
-   * \return the resolution.
+   * \return the size.
    */
-  const vec2u& get_resolution() const noexcept;
+  const vec2u& get_size() const noexcept;
 
-  /** Sets the resolution.
+  /** Sets the size.
    *
-   * \param resolution the resolution.
+   * \param size the size.
    */
-  void set_resolution(const vec2u& resolution) noexcept;
+  void set_size(const vec2u& size) noexcept;
 
-  /** Retrieves the number of bytes per pixel.
+  /** Retrieves the number of bits per pixel.
    *
-   * \return the number of bytes per pixel.
+   * \return the number of bits per pixel.
    */
-  uint get_depth_byte_count() const noexcept;
+  uint get_depth_bit_count() const noexcept;
 
-  /** Sets the number of bytes per pixel.
+  /** Sets the number of bits per pixel.
    *
-   * \param depth_byte_count the number of bytes per pixel.
+   * \param depth_bit_count the number of bits per pixel.
    */
-  void set_depth_byte_count(uint depth_byte_count) noexcept;
+  void set_depth_bit_count(uint depth_bit_count) noexcept;
 
   /** Retrieves the refresh rate in Hz.
    *
@@ -70,8 +70,8 @@ public:
   void set_refresh_rate(uint refresh_rate) noexcept;
 
 private:
-  vec2u m_resolution;
-  uint m_depth_byte_count;
+  vec2u m_size;
+  uint m_depth_bit_count;
   uint m_refresh_rate;
 };
 
@@ -99,8 +99,8 @@ HOU_SYS_API bool operator!=(
 
 /** Checks if lhs is lower than rhs.
  *
- * Comparisons happen in the following order: bits per pixel, x resolution,
- * y resolution.
+ * Comparisons happen in the following order: bits per pixel, x size,
+ * y size.
  *
  * \param lhs the left operand.
  *
@@ -113,8 +113,8 @@ HOU_SYS_API bool operator<(
 
 /** Checks if lhs is greater than rhs.
  *
- * Comparisons happen in the following order: bits per pixel, x resolution,
- * y resolution.
+ * Comparisons happen in the following order: bits per pixel, x size,
+ * y size.
  *
  * \param lhs the left operand.
  *
@@ -127,8 +127,8 @@ HOU_SYS_API bool operator>(
 
 /** Checks if lhs is lower or equal to rhs.
  *
- * Comparisons happen in the following order: bits per pixel, x resolution,
- * y resolution.
+ * Comparisons happen in the following order: bits per pixel, x size,
+ * y size.
  *
  * \param lhs the left operand.
  *
@@ -141,8 +141,8 @@ HOU_SYS_API bool operator<=(
 
 /** Checks if lhs is greater or equal to rhs.
  *
- * Comparisons happen in the following order: bits per pixel, x resolution,
- * y resolution.
+ * Comparisons happen in the following order: bits per pixel, x size,
+ * y size.
  *
  * \param lhs the left operand.
  *
@@ -155,8 +155,8 @@ HOU_SYS_API bool operator>=(
 
 /** Writes a video_mode object into a stream.
  *
- * Comparisons happen in the following order: bits per pixel, x resolution,
- * y resolution.
+ * Comparisons happen in the following order: bits per pixel, x size,
+ * y size.
  *
  * \param os the stream.
  *
