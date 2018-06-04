@@ -2,8 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#ifndef HOU_WND_VIDEO_MODE_HPP
-#define HOU_WND_VIDEO_MODE_HPP
+#ifndef HOU_SYS_VIDEO_MODE_HPP
+#define HOU_SYS_VIDEO_MODE_HPP
 
 #include "hou/sys/sys_config.hpp"
 

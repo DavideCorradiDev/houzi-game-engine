@@ -54,4 +54,11 @@ platform_error::platform_error(
         u8"A platform-specific error occurred:\n%s", description.c_str()))
 {}
 
+
+
+invalid_monitor_id::invalid_monitor_id(
+  const std::string& path, uint line, uint id)
+  : exception(path, line, format_string(u8"Invalid monitor id: %d.", id))
+{}
+
 }  // namespace hou

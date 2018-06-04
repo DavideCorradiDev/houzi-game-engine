@@ -79,3 +79,11 @@ TEST_F(test_sys_exceptions, platform_error)
     "plat.cpp:24 - A platform-specific error occurred:\nSomething wrong.",
     ex.what());
 }
+
+
+
+TEST_F(test_sys_exceptions, invalid_monitor_id)
+{
+  invalid_monitor_id ex("mon.cpp", 333u, 8u);
+  EXPECT_STREQ("mon.cpp:333 - Invalid monitor id: 8.", ex.what());
+}
