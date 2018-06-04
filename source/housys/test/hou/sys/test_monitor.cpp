@@ -16,9 +16,29 @@ namespace
 {
 
 class test_monitor : public test_sys_base
-{};
+{
+public:
+  test_monitor();
+  ~test_monitor();
+};
 
 using test_monitor_death_test = test_monitor;
+
+
+
+test_monitor::test_monitor()
+{
+  monitor::set_connected_callback(nullptr);
+  monitor::set_disconnected_callback(nullptr);
+}
+
+
+
+test_monitor::~test_monitor()
+{
+  monitor::set_connected_callback(nullptr);
+  monitor::set_disconnected_callback(nullptr);
+}
 
 }  // namespace
 
@@ -181,4 +201,126 @@ TEST_F(test_monitor, get_supported_video_modes_error_invalid_id)
 {
   EXPECT_ERROR_N(monitor::get_supported_video_modes(monitor::get_count()),
     invalid_monitor_id, monitor::get_count());
+}
+
+
+
+TEST_F(test_monitor, set_connected_callback_return_value)
+{
+  int checker = 0;
+  auto f1 = [&](uint i) { checker = i; };
+  auto f2 = [&](uint i) { checker = i * 2; };
+
+  EXPECT_EQ(nullptr, monitor::set_connected_callback(f1));
+  EXPECT_EQ(0, checker);
+  monitor::set_connected_callback(f2)(1u);
+  EXPECT_EQ(1, checker);
+  monitor::set_connected_callback(f1)(1u);
+  EXPECT_EQ(2, checker);
+  monitor::set_connected_callback(nullptr)(1u);
+  EXPECT_EQ(1, checker);
+}
+
+
+
+TEST_F(test_monitor, set_disconnected_callback_return_value)
+{
+  int checker = 0;
+  auto f1 = [&](uint i) { checker = i; };
+  auto f2 = [&](uint i) { checker = i * 2; };
+
+  EXPECT_EQ(nullptr, monitor::set_disconnected_callback(f1));
+  EXPECT_EQ(0, checker);
+  monitor::set_disconnected_callback(f2)(1u);
+  EXPECT_EQ(1, checker);
+  monitor::set_disconnected_callback(f1)(1u);
+  EXPECT_EQ(2, checker);
+  monitor::set_disconnected_callback(nullptr)(1u);
+  EXPECT_EQ(1, checker);
+}
+
+
+
+TEST_F(test_monitor, monitor_callback)
+{
+  std::vector<bool> monitor_connected(monitor::get_count(), true);
+
+  auto f1 = [&](uint i) { monitor_connected.at(i) = true; };
+  auto f2 = [&](uint i) { monitor_connected.at(i) = false; };
+
+  EXPECT_EQ(nullptr, monitor::set_connected_callback(f1));
+  EXPECT_EQ(nullptr, monitor::set_disconnected_callback(f2));
+
+  GLFWmonitorfun cb = glfwSetMonitorCallback(nullptr);
+
+  int monitors_n = 0;
+  GLFWmonitor** monitors = glfwGetMonitors(&monitors_n);
+  for(int i = 0; i < monitors_n; ++i)
+  {
+    cb(monitors[i], GLFW_CONNECTED);
+    EXPECT_TRUE(monitor_connected.at(i));
+    cb(monitors[i], GLFW_DISCONNECTED);
+    EXPECT_FALSE(monitor_connected.at(i));
+    cb(monitors[i], GLFW_CONNECTED);
+    EXPECT_TRUE(monitor_connected.at(i));
+  }
+
+  EXPECT_NO_ERROR(cb(nullptr, GLFW_CONNECTED));
+  EXPECT_NO_ERROR(cb(nullptr, GLFW_DISCONNECTED));
+}
+
+
+
+TEST_F(test_monitor, monitor_connected_callback)
+{
+  std::vector<bool> monitor_connected(monitor::get_count(), false);
+
+  auto f = [&](uint i) { monitor_connected.at(i) = true; };
+
+  EXPECT_EQ(nullptr, monitor::set_connected_callback(f));
+
+  GLFWmonitorfun cb = glfwSetMonitorCallback(nullptr);
+
+  int monitors_n = 0;
+  GLFWmonitor** monitors = glfwGetMonitors(&monitors_n);
+  for(int i = 0; i < monitors_n; ++i)
+  {
+    cb(monitors[i], GLFW_DISCONNECTED);
+    EXPECT_FALSE(monitor_connected.at(i));
+    cb(monitors[i], GLFW_CONNECTED);
+    EXPECT_TRUE(monitor_connected.at(i));
+    cb(monitors[i], GLFW_DISCONNECTED);
+    EXPECT_TRUE(monitor_connected.at(i));
+  }
+
+  EXPECT_NO_ERROR(cb(nullptr, GLFW_CONNECTED));
+  EXPECT_NO_ERROR(cb(nullptr, GLFW_DISCONNECTED));
+}
+
+
+
+TEST_F(test_monitor, monitor_disconnected_callback)
+{
+  std::vector<bool> monitor_connected(monitor::get_count(), true);
+
+  auto f = [&](uint i) { monitor_connected.at(i) = false; };
+
+  EXPECT_EQ(nullptr, monitor::set_disconnected_callback(f));
+
+  GLFWmonitorfun cb = glfwSetMonitorCallback(nullptr);
+
+  int monitors_n = 0;
+  GLFWmonitor** monitors = glfwGetMonitors(&monitors_n);
+  for(int i = 0; i < monitors_n; ++i)
+  {
+    cb(monitors[i], GLFW_CONNECTED);
+    EXPECT_TRUE(monitor_connected.at(i));
+    cb(monitors[i], GLFW_DISCONNECTED);
+    EXPECT_FALSE(monitor_connected.at(i));
+    cb(monitors[i], GLFW_CONNECTED);
+    EXPECT_FALSE(monitor_connected.at(i));
+  }
+
+  EXPECT_NO_ERROR(cb(nullptr, GLFW_CONNECTED));
+  EXPECT_NO_ERROR(cb(nullptr, GLFW_DISCONNECTED));
 }

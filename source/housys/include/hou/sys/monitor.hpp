@@ -18,6 +18,8 @@
 
 #include "GLFW/glfw3.h"
 
+#include <functional>
+
 
 
 namespace hou
@@ -25,6 +27,8 @@ namespace hou
 
 namespace monitor
 {
+
+using event_callback = std::function<void(uint)>;
 
 constexpr uint primary = 0u;
 
@@ -51,6 +55,10 @@ HOU_SYS_API std::set<video_mode> get_supported_video_modes(uint monitor_id);
 // HOU_SYS_API void set_gamma_ramp(uint monitor_id, const gamma_ramp& gr);
 //
 // HOU_SYS_API void set_gamma(uint monitor_id, float gamma);
+
+HOU_SYS_API event_callback set_connected_callback(event_callback f);
+
+HOU_SYS_API event_callback set_disconnected_callback(event_callback f);
 
 }  // namespace monitor
 

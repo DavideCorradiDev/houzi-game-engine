@@ -9,6 +9,8 @@
 #include "hou/cor/narrow_cast.hpp"
 #include "hou/cor/not_null.hpp"
 
+#include <algorithm>
+
 
 
 namespace hou
@@ -22,6 +24,8 @@ namespace
 
 not_null<GLFWmonitor*> get_monitor_from_id(uint monitor_id);
 
+uint get_id_from_monitor(not_null<const GLFWmonitor*> monitor);
+
 vec2u convert_size(const GLFWvidmode& vm);
 
 uint convert_depth_bit_count(const GLFWvidmode& vm);
@@ -30,15 +34,32 @@ uint convert_refresh_rate(const GLFWvidmode& vm);
 
 video_mode convert(const GLFWvidmode& vm);
 
+void glfw_monitor_callback(GLFWmonitor* monitor, int event);
+
+event_callback& get_connected_callback();
+
+event_callback& get_disconnected_callback();
+
 
 
 not_null<GLFWmonitor*> get_monitor_from_id(uint monitor_id)
 {
-  int monitor_n = 0;
-  GLFWmonitor** monitors = glfwGetMonitors(&monitor_n);
+  int monitors_n = 0;
+  GLFWmonitor** monitors = glfwGetMonitors(&monitors_n);
   HOU_CHECK_N(
-    monitor_id < narrow_cast<uint>(monitor_n), invalid_monitor_id, monitor_id);
+    monitor_id < narrow_cast<uint>(monitors_n), invalid_monitor_id, monitor_id);
   return monitors[monitor_id];
+}
+
+
+
+uint get_id_from_monitor(not_null<const GLFWmonitor*> monitor)
+{
+  int monitors_n = 0;
+  GLFWmonitor** monitors = glfwGetMonitors(&monitors_n);
+  auto monitor_it = std::find(monitors, monitors + monitors_n, monitor.get());
+  HOU_PRECOND(monitor_it != (monitors + monitors_n));
+  return std::distance(monitors, monitor_it);
 }
 
 
@@ -68,6 +89,42 @@ video_mode convert(const GLFWvidmode& vm_in)
 {
   return video_mode(convert_size(vm_in), convert_depth_bit_count(vm_in),
     convert_refresh_rate(vm_in));
+}
+
+
+
+void glfw_monitor_callback(GLFWmonitor* monitor, int event)
+{
+  if(monitor == nullptr)
+  {
+    return;
+  }
+
+  uint monitor_id = get_id_from_monitor(monitor);
+  if(event == GLFW_CONNECTED && get_connected_callback() != nullptr)
+  {
+    get_connected_callback()(monitor_id);
+  }
+  else if(event == GLFW_DISCONNECTED && get_disconnected_callback() != nullptr)
+  {
+    get_disconnected_callback()(monitor_id);
+  }
+}
+
+
+
+event_callback& get_connected_callback()
+{
+  static event_callback f = nullptr;
+  return f;
+}
+
+
+
+event_callback& get_disconnected_callback()
+{
+  static event_callback f = nullptr;
+  return f;
 }
 
 }  // namespace
@@ -151,6 +208,26 @@ std::set<video_mode> get_supported_video_modes(uint monitor_id)
     modes_out.insert(convert(modes_in[i]));
   }
   return modes_out;
+}
+
+
+
+HOU_SYS_API event_callback set_connected_callback(event_callback f)
+{
+  event_callback previous = get_connected_callback();
+  get_connected_callback() = f;
+  glfwSetMonitorCallback(glfw_monitor_callback);
+  return previous;
+}
+
+
+
+HOU_SYS_API event_callback set_disconnected_callback(event_callback f)
+{
+  event_callback previous = get_disconnected_callback();
+  get_disconnected_callback() = f;
+  glfwSetMonitorCallback(glfw_monitor_callback);
+  return previous;
 }
 
 }  // namespace monitor
