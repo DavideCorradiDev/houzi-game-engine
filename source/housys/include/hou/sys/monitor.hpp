@@ -34,7 +34,11 @@ HOU_SYS_API std::string get_name(uint monitor_id);
 
 HOU_SYS_API vec2i get_position(uint monitor_id);
 
-// HOU_SYS_API vec2u get_size(uint monitor_id);
+HOU_SYS_API vec2u get_size(uint monitor_id);
+
+HOU_SYS_API uint get_depth_bit_count(uint monitor_id);
+
+HOU_SYS_API uint get_refresh_rate(uint monitor_id);
 
 // HOU_SYS_API vec2u get_physical_size(uint monitor_id);
 

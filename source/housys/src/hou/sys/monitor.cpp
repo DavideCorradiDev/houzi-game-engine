@@ -61,6 +61,18 @@ vec2i get_position(uint monitor_id)
   return vec2i(x, y);
 }
 
+
+
+// vec2u get_size(uint monitor_id)
+// {
+//   GLFWvidmode* vm = glfwGetVideoMode(get_monitor_from_id(monitor_id));
+// 
+// }
+// 
+// uint get_depth_bit_count(uint monitor_id);
+// 
+// uint get_refresh_rate(uint monitor_id);
+
 }
 
 }
