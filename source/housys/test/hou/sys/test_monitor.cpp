@@ -158,3 +158,27 @@ TEST_F(test_monitor, get_video_mode_error_invalid_id)
   EXPECT_ERROR_N(monitor::get_video_mode(monitor::get_count()),
     invalid_monitor_id, monitor::get_count());
 }
+
+
+
+TEST_F(test_monitor, get_supported_video_modes)
+{
+  for(uint i = 0; i < monitor::get_count(); ++i)
+  {
+    std::set<video_mode> modes = monitor::get_supported_video_modes(i);
+    for(const auto& vm : modes)
+    {
+      EXPECT_NE(vec2u::zero(), vm.get_size());
+      EXPECT_NE(0u, vm.get_depth_bit_count());
+      EXPECT_NE(0u, vm.get_refresh_rate());
+    }
+  }
+}
+
+
+
+TEST_F(test_monitor, get_supported_video_modes_error_invalid_id)
+{
+  EXPECT_ERROR_N(monitor::get_supported_video_modes(monitor::get_count()),
+    invalid_monitor_id, monitor::get_count());
+}

@@ -44,14 +44,12 @@ HOU_SYS_API uint get_refresh_rate(uint monitor_id);
 
 HOU_SYS_API video_mode get_video_mode(uint monitor_id);
 
-// HOU_SYS_API void set_video_mode(uint monitor_id, const video_mode& vm);
-// 
-// HOU_SYS_API std::list<video_mode> get_supported_video_modes(uint monitor_id);
-// 
+HOU_SYS_API std::set<video_mode> get_supported_video_modes(uint monitor_id);
+
 // HOU_SYS_API gamma_ramp get_gamma_ramp(uint monitor_id);
-// 
+//
 // HOU_SYS_API void set_gamma_ramp(uint monitor_id, const gamma_ramp& gr);
-// 
+//
 // HOU_SYS_API void set_gamma(uint monitor_id, float gamma);
 
 }  // namespace monitor
