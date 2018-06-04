@@ -37,11 +37,18 @@ not_null<GLFWmonitor*> get_monitor_from_id(uint monitor_id)
 
 
 
-uint get_count()
+uint get_count() noexcept
 {
   int count = 0;
   glfwGetMonitors(&count);
   return narrow_cast<uint>(count);
+}
+
+
+
+std::string get_name(uint monitor_id)
+{
+  return std::string(glfwGetMonitorName(get_monitor_from_id(monitor_id)));
 }
 
 

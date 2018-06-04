@@ -31,6 +31,24 @@ TEST_F(test_monitor, get_count)
 
 
 
+TEST_F(test_monitor, get_name)
+{
+  for(uint i = 0; i < monitor::get_count(); ++i)
+  {
+    EXPECT_NE("", monitor::get_name(i));
+  }
+}
+
+
+
+TEST_F(test_monitor_death_test, get_name_error_invalid_id)
+{
+  EXPECT_ERROR_N(monitor::get_name(monitor::get_count()),
+    invalid_monitor_id, monitor::get_count());
+}
+
+
+
 TEST_F(test_monitor, get_position)
 {
   for(uint i = 0; i < monitor::get_count(); ++i)
