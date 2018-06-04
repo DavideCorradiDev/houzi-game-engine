@@ -63,15 +63,30 @@ vec2i get_position(uint monitor_id)
 
 
 
-// vec2u get_size(uint monitor_id)
-// {
-//   GLFWvidmode* vm = glfwGetVideoMode(get_monitor_from_id(monitor_id));
-// 
-// }
-// 
-// uint get_depth_bit_count(uint monitor_id);
-// 
-// uint get_refresh_rate(uint monitor_id);
+vec2u get_size(uint monitor_id)
+{
+  not_null<const GLFWvidmode*> vm
+    = glfwGetVideoMode(get_monitor_from_id(monitor_id));
+  return vec2u(narrow_cast<uint>(vm->width), narrow_cast<uint>(vm->height));
+}
+
+
+
+uint get_depth_bit_count(uint monitor_id)
+{
+  not_null<const GLFWvidmode*> vm
+    = glfwGetVideoMode(get_monitor_from_id(monitor_id));
+  return narrow_cast<uint>(vm->redBits + vm->greenBits + vm->blueBits);
+}
+
+
+
+uint get_refresh_rate(uint monitor_id)
+{
+  not_null<const GLFWvidmode*> vm
+    = glfwGetVideoMode(get_monitor_from_id(monitor_id));
+  return narrow_cast<uint>(vm->refreshRate);
+}
 
 }
 

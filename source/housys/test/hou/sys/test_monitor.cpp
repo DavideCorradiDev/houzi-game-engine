@@ -43,8 +43,8 @@ TEST_F(test_monitor, get_name)
 
 TEST_F(test_monitor_death_test, get_name_error_invalid_id)
 {
-  EXPECT_ERROR_N(monitor::get_name(monitor::get_count()),
-    invalid_monitor_id, monitor::get_count());
+  EXPECT_ERROR_N(monitor::get_name(monitor::get_count()), invalid_monitor_id,
+    monitor::get_count());
 }
 
 
@@ -63,5 +63,59 @@ TEST_F(test_monitor, get_position)
 TEST_F(test_monitor_death_test, get_position_error_invalid_id)
 {
   EXPECT_ERROR_N(monitor::get_position(monitor::get_count()),
+    invalid_monitor_id, monitor::get_count());
+}
+
+
+
+TEST_F(test_monitor, get_size)
+{
+  for(uint i = 0; i < monitor::get_count(); ++i)
+  {
+    EXPECT_NE(vec2u::zero(), monitor::get_size(i));
+  }
+}
+
+
+
+TEST_F(test_monitor, get_size_error_invalid_id)
+{
+  EXPECT_ERROR_N(monitor::get_size(monitor::get_count()), invalid_monitor_id,
+    monitor::get_count());
+}
+
+
+
+TEST_F(test_monitor, get_depth_bit_count)
+{
+  for(uint i = 0; i < monitor::get_count(); ++i)
+  {
+    EXPECT_NE(0u, monitor::get_depth_bit_count(i));
+  }
+}
+
+
+
+TEST_F(test_monitor, get_depth_bit_count_error_invalid_id)
+{
+  EXPECT_ERROR_N(monitor::get_depth_bit_count(monitor::get_count()),
+    invalid_monitor_id, monitor::get_count());
+}
+
+
+
+TEST_F(test_monitor, get_refresh_rate)
+{
+  for(uint i = 0; i < monitor::get_count(); ++i)
+  {
+    EXPECT_NE(0u, monitor::get_refresh_rate(i));
+  }
+}
+
+
+
+TEST_F(test_monitor, get_refresh_rate_error_invalid_id)
+{
+  EXPECT_ERROR_N(monitor::get_refresh_rate(monitor::get_count()),
     invalid_monitor_id, monitor::get_count());
 }
