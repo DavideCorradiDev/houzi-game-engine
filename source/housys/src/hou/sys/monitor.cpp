@@ -36,9 +36,9 @@ video_mode convert(const GLFWvidmode& vm);
 
 void glfw_monitor_callback(GLFWmonitor* monitor, int event);
 
-event_callback& get_connected_callback();
+connected_callback& get_connected_callback();
 
-event_callback& get_disconnected_callback();
+disconnected_callback& get_disconnected_callback();
 
 
 
@@ -107,23 +107,23 @@ void glfw_monitor_callback(GLFWmonitor* monitor, int event)
   }
   else if(event == GLFW_DISCONNECTED && get_disconnected_callback() != nullptr)
   {
-    get_disconnected_callback()(monitor_id);
+    get_disconnected_callback()();
   }
 }
 
 
 
-event_callback& get_connected_callback()
+connected_callback& get_connected_callback()
 {
-  static event_callback f = nullptr;
+  static connected_callback f = nullptr;
   return f;
 }
 
 
 
-event_callback& get_disconnected_callback()
+disconnected_callback& get_disconnected_callback()
 {
-  static event_callback f = nullptr;
+  static disconnected_callback f = nullptr;
   return f;
 }
 
@@ -212,9 +212,9 @@ std::set<video_mode> get_supported_video_modes(uint monitor_id)
 
 
 
-HOU_SYS_API event_callback set_connected_callback(event_callback f)
+HOU_SYS_API connected_callback set_connected_callback(connected_callback f)
 {
-  event_callback previous = get_connected_callback();
+  connected_callback previous = get_connected_callback();
   get_connected_callback() = f;
   glfwSetMonitorCallback(glfw_monitor_callback);
   return previous;
@@ -222,9 +222,10 @@ HOU_SYS_API event_callback set_connected_callback(event_callback f)
 
 
 
-HOU_SYS_API event_callback set_disconnected_callback(event_callback f)
+HOU_SYS_API disconnected_callback set_disconnected_callback(
+  disconnected_callback f)
 {
-  event_callback previous = get_disconnected_callback();
+  disconnected_callback previous = get_disconnected_callback();
   get_disconnected_callback() = f;
   glfwSetMonitorCallback(glfw_monitor_callback);
   return previous;

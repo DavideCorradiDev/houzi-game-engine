@@ -226,16 +226,16 @@ TEST_F(test_monitor, set_connected_callback_return_value)
 TEST_F(test_monitor, set_disconnected_callback_return_value)
 {
   int checker = 0;
-  auto f1 = [&](uint i) { checker = i; };
-  auto f2 = [&](uint i) { checker = i * 2; };
+  auto f1 = [&]() { checker = 1; };
+  auto f2 = [&]() { checker = 2; };
 
   EXPECT_EQ(nullptr, monitor::set_disconnected_callback(f1));
   EXPECT_EQ(0, checker);
-  monitor::set_disconnected_callback(f2)(1u);
+  monitor::set_disconnected_callback(f2)();
   EXPECT_EQ(1, checker);
-  monitor::set_disconnected_callback(f1)(1u);
+  monitor::set_disconnected_callback(f1)();
   EXPECT_EQ(2, checker);
-  monitor::set_disconnected_callback(nullptr)(1u);
+  monitor::set_disconnected_callback(nullptr)();
   EXPECT_EQ(1, checker);
 }
 
@@ -243,10 +243,11 @@ TEST_F(test_monitor, set_disconnected_callback_return_value)
 
 TEST_F(test_monitor, monitor_callback)
 {
-  std::vector<bool> monitor_connected(monitor::get_count(), true);
+  int checker1 = -1;
+  auto f1 = [&](uint i) { checker1 = i; };
 
-  auto f1 = [&](uint i) { monitor_connected.at(i) = true; };
-  auto f2 = [&](uint i) { monitor_connected.at(i) = false; };
+  int checker2 = -1;
+  auto f2 = [&]() { ++checker2; };
 
   EXPECT_EQ(nullptr, monitor::set_connected_callback(f1));
   EXPECT_EQ(nullptr, monitor::set_disconnected_callback(f2));
@@ -257,12 +258,14 @@ TEST_F(test_monitor, monitor_callback)
   GLFWmonitor** monitors = glfwGetMonitors(&monitors_n);
   for(int i = 0; i < monitors_n; ++i)
   {
+    EXPECT_EQ(i - 1, checker1);
+    EXPECT_EQ(i - 1, checker2);
     cb(monitors[i], GLFW_CONNECTED);
-    EXPECT_TRUE(monitor_connected.at(i));
+    EXPECT_EQ(i, checker1);
+    EXPECT_EQ(i - 1, checker2);
     cb(monitors[i], GLFW_DISCONNECTED);
-    EXPECT_FALSE(monitor_connected.at(i));
-    cb(monitors[i], GLFW_CONNECTED);
-    EXPECT_TRUE(monitor_connected.at(i));
+    EXPECT_EQ(i, checker1);
+    EXPECT_EQ(i, checker2);
   }
 
   EXPECT_NO_ERROR(cb(nullptr, GLFW_CONNECTED));
@@ -273,9 +276,8 @@ TEST_F(test_monitor, monitor_callback)
 
 TEST_F(test_monitor, monitor_connected_callback)
 {
-  std::vector<bool> monitor_connected(monitor::get_count(), false);
-
-  auto f = [&](uint i) { monitor_connected.at(i) = true; };
+  int checker = -1;
+  auto f = [&](uint i) { checker = i; };
 
   EXPECT_EQ(nullptr, monitor::set_connected_callback(f));
 
@@ -285,12 +287,11 @@ TEST_F(test_monitor, monitor_connected_callback)
   GLFWmonitor** monitors = glfwGetMonitors(&monitors_n);
   for(int i = 0; i < monitors_n; ++i)
   {
+    EXPECT_EQ(i-1, checker);
     cb(monitors[i], GLFW_DISCONNECTED);
-    EXPECT_FALSE(monitor_connected.at(i));
+    EXPECT_EQ(i-1, checker);
     cb(monitors[i], GLFW_CONNECTED);
-    EXPECT_TRUE(monitor_connected.at(i));
-    cb(monitors[i], GLFW_DISCONNECTED);
-    EXPECT_TRUE(monitor_connected.at(i));
+    EXPECT_EQ(i, checker);
   }
 
   EXPECT_NO_ERROR(cb(nullptr, GLFW_CONNECTED));
@@ -301,9 +302,8 @@ TEST_F(test_monitor, monitor_connected_callback)
 
 TEST_F(test_monitor, monitor_disconnected_callback)
 {
-  std::vector<bool> monitor_connected(monitor::get_count(), true);
-
-  auto f = [&](uint i) { monitor_connected.at(i) = false; };
+  int checker = -1;
+  auto f = [&]() { ++checker; };
 
   EXPECT_EQ(nullptr, monitor::set_disconnected_callback(f));
 
@@ -313,12 +313,11 @@ TEST_F(test_monitor, monitor_disconnected_callback)
   GLFWmonitor** monitors = glfwGetMonitors(&monitors_n);
   for(int i = 0; i < monitors_n; ++i)
   {
+    EXPECT_EQ(i-1, checker);
     cb(monitors[i], GLFW_CONNECTED);
-    EXPECT_TRUE(monitor_connected.at(i));
+    EXPECT_EQ(i-1, checker);
     cb(monitors[i], GLFW_DISCONNECTED);
-    EXPECT_FALSE(monitor_connected.at(i));
-    cb(monitors[i], GLFW_CONNECTED);
-    EXPECT_FALSE(monitor_connected.at(i));
+    EXPECT_EQ(i, checker);
   }
 
   EXPECT_NO_ERROR(cb(nullptr, GLFW_CONNECTED));
