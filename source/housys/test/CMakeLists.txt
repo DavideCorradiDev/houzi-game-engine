@@ -45,7 +45,6 @@ SET(EXE_HOUSYS_TEST_SRC
   hou/sys/test_image.cpp
   hou/sys/test_image_file.cpp
   hou/sys/test_pixel.cpp
-  hou/sys/test_glfw_error_handler.cpp
   hou/sys/test_monitor.cpp
   hou/sys/test_sys_base.cpp
   hou/sys/test_sys_exceptions.cpp
