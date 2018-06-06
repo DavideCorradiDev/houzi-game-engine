@@ -2,12 +2,12 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#ifndef HOU_SYS_SYS_MODULE_HPP
-#define HOU_SYS_SYS_MODULE_HPP
+#ifndef HOU_COR_COR_MODULE_HPP
+#define HOU_COR_COR_MODULE_HPP
 
 #include "hou/cor/module.hpp"
 
-#include "hou/sys/sys_config.hpp"
+#include "hou/cor/cor_config.hpp"
 
 
 
@@ -17,9 +17,9 @@ namespace hou
 namespace prv
 {
 
-/** System module initialization manager implementation.
+/** Core module initialization manager implementation.
  */
-class HOU_SYS_API sys_module_impl : public non_instantiable
+class HOU_COR_API cor_module_impl : public non_instantiable
 {
 public:
   /** Retrieves the module name as string.
@@ -28,21 +28,22 @@ public:
    */
   static std::string get_name();
 
-  /** Sets up the system module.
+  /** Sets up the cortem module.
    */
   static bool on_initialize();
 
-  /** Tears down the system module.
+  /** Tears down the cortem module.
    */
   static void on_terminate() noexcept;
 };
 
 }
 
-/** System module initialization manager.
+/** Core module initialization manager.
  */
-using sys_module = module<prv::sys_module_impl>;
+using cor_module = module<prv::cor_module_impl>;
 
 }  // namespace hou
 
 #endif
+

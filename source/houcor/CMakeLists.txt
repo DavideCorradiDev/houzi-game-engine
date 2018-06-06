@@ -39,6 +39,7 @@ SET(LIB_HOUCOR_SRC
   src/hou/cor/character_encodings.cpp
   src/hou/cor/clock.cpp
   src/hou/cor/cor_exceptions.cpp
+  src/hou/cor/cor_module.cpp
   src/hou/cor/core_functions.cpp
   src/hou/cor/exception.cpp
   src/hou/cor/std_string.cpp
