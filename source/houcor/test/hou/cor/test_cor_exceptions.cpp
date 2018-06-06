@@ -61,3 +61,12 @@ TEST_F(test_cor_exceptions, narrowing_error)
   narrowing_error ex("foo.cpp", 42u);
   EXPECT_STREQ("foo.cpp:42 - Narrowing type cast.", ex.what());
 }
+
+
+
+TEST_F(test_cor_exceptions, module_initialization_error)
+{
+  module_initialization_error ex("restaurant.cpp", 112u, "pizza");
+  EXPECT_STREQ(
+    "restaurant.cpp:112 - Failed to initialize the pizza module.", ex.what());
+}

@@ -11,14 +11,14 @@ bool module<Impl>::s_initialized(false);
 
 
 template <typename Impl>
-bool module<Impl>::initialize()
+void module<Impl>::initialize()
 {
   if(s_initialized)
   {
-    return true;
+    return;
   }
   s_initialized = Impl::on_initialize();
-  return s_initialized;
+  HOU_CHECK_N(s_initialized, module_initialization_error, Impl::get_name());
 }
 
 
@@ -45,7 +45,7 @@ bool module<Impl>::is_initialized() noexcept
 
 
 template <typename Impl>
-void module<Impl>::register_terminate_callbacks()
+void module<Impl>::register_terminate_callbacks() noexcept
 {
   static bool already_called = false;
   if(!already_called)

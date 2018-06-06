@@ -18,6 +18,7 @@ class test_impl
 {
 public:
   // These functions are required by hou::module.
+  static std::string get_name();
   static bool on_initialize();
   static void on_terminate() noexcept;
 
@@ -37,6 +38,13 @@ public:
   test_module();
   ~test_module();
 };
+
+
+
+std::string test_impl::get_name()
+{
+  return u8"awesomeness";
+}
 
 
 
@@ -103,7 +111,7 @@ TEST_F(test_module, starting_state)
 TEST_F(test_module, initialize)
 {
   EXPECT_FALSE(module<test_impl>::is_initialized());
-  EXPECT_TRUE(module<test_impl>::initialize());
+  EXPECT_NO_ERROR(module<test_impl>::initialize());
   EXPECT_TRUE(module<test_impl>::is_initialized());
 }
 
@@ -112,9 +120,9 @@ TEST_F(test_module, initialize)
 TEST_F(test_module, double_initialize)
 {
   EXPECT_FALSE(module<test_impl>::is_initialized());
-  EXPECT_TRUE(module<test_impl>::initialize());
+  EXPECT_NO_ERROR(module<test_impl>::initialize());
   EXPECT_TRUE(module<test_impl>::is_initialized());
-  EXPECT_TRUE(module<test_impl>::initialize());
+  EXPECT_NO_ERROR(module<test_impl>::initialize());
   EXPECT_TRUE(module<test_impl>::is_initialized());
 }
 
@@ -124,7 +132,8 @@ TEST_F(test_module, failed_initialize)
 {
   EXPECT_FALSE(module<test_impl>::is_initialized());
   test_impl::set_initialize_return(false);
-  EXPECT_FALSE(module<test_impl>::initialize());
+  EXPECT_ERROR_N(module<test_impl>::initialize(), module_initialization_error,
+    test_impl::get_name());
   EXPECT_FALSE(module<test_impl>::is_initialized());
 }
 
@@ -133,12 +142,12 @@ TEST_F(test_module, failed_initialize)
 TEST_F(test_module, failed_redundant_initialize)
 {
   EXPECT_FALSE(module<test_impl>::is_initialized());
-  EXPECT_TRUE(module<test_impl>::initialize());
+  EXPECT_NO_ERROR(module<test_impl>::initialize());
   EXPECT_TRUE(module<test_impl>::is_initialized());
-  EXPECT_TRUE(module<test_impl>::initialize());
+  EXPECT_NO_ERROR(module<test_impl>::initialize());
   EXPECT_TRUE(module<test_impl>::is_initialized());
   test_impl::set_initialize_return(false);
-  EXPECT_TRUE(module<test_impl>::initialize());
+  EXPECT_NO_ERROR(module<test_impl>::initialize());
   EXPECT_TRUE(module<test_impl>::is_initialized());
 }
 
@@ -147,7 +156,7 @@ TEST_F(test_module, failed_redundant_initialize)
 TEST_F(test_module, terminate_after_initialize)
 {
   EXPECT_FALSE(module<test_impl>::is_initialized());
-  EXPECT_TRUE(module<test_impl>::initialize());
+  EXPECT_NO_ERROR(module<test_impl>::initialize());
   EXPECT_TRUE(module<test_impl>::is_initialized());
   module<test_impl>::terminate();
   EXPECT_FALSE(module<test_impl>::is_initialized());
@@ -167,11 +176,11 @@ TEST_F(test_module, terminate_before_initialize)
 TEST_F(test_module, initialize_after_terminate)
 {
   EXPECT_FALSE(module<test_impl>::is_initialized());
-  EXPECT_TRUE(module<test_impl>::initialize());
+  EXPECT_NO_ERROR(module<test_impl>::initialize());
   EXPECT_TRUE(module<test_impl>::is_initialized());
   module<test_impl>::terminate();
   EXPECT_FALSE(module<test_impl>::is_initialized());
-  EXPECT_TRUE(module<test_impl>::initialize());
+  EXPECT_NO_ERROR(module<test_impl>::initialize());
   EXPECT_TRUE(module<test_impl>::is_initialized());
 }
 
@@ -180,7 +189,7 @@ TEST_F(test_module, initialize_after_terminate)
 TEST_F(test_module, double_terminate)
 {
   EXPECT_FALSE(module<test_impl>::is_initialized());
-  EXPECT_TRUE(module<test_impl>::initialize());
+  EXPECT_NO_ERROR(module<test_impl>::initialize());
   EXPECT_TRUE(module<test_impl>::is_initialized());
   module<test_impl>::terminate();
   EXPECT_FALSE(module<test_impl>::is_initialized());
@@ -192,7 +201,7 @@ TEST_F(test_module, double_terminate)
 
 TEST_F(test_module, terminate_on_exit)
 {
-  EXPECT_TRUE(module<test_impl>::initialize());
+  EXPECT_NO_ERROR(module<test_impl>::initialize());
   module<test_impl>::register_terminate_callbacks();
   SUCCEED();
 }

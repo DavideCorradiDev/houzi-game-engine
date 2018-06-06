@@ -7,6 +7,8 @@
 
 #include "hou/cor/module.hpp"
 
+#include "hou/cor/std_string.hpp"
+
 #include "hou/sys/sys_config.hpp"
 
 
@@ -22,6 +24,12 @@ namespace prv
 class HOU_SYS_API sys_module_impl : public non_instantiable
 {
 public:
+  /** Retrieves the module name as string.
+   *
+   * \return the module name.
+   */
+  static std::string get_name();
+
   /** Sets up the system module.
    */
   static bool on_initialize();

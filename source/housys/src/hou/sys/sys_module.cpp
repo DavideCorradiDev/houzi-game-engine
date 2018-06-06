@@ -14,6 +14,13 @@ namespace hou
 namespace prv
 {
 
+std::string sys_module_impl::get_name()
+{
+  return u8"system";
+}
+
+
+
 bool sys_module_impl::on_initialize()
 {
   return SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER) == 0;

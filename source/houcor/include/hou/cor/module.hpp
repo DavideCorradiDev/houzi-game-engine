@@ -7,6 +7,8 @@
 
 #include "hou/cor/non_instantiable.hpp"
 
+#include "hou/cor/cor_exceptions.hpp"
+
 #include "hou/cor/cor_config.hpp"
 
 #include <cstdlib>
@@ -62,9 +64,11 @@ public:
    * It should be called only by the main thread (and should normally be
    * sufficient to just call it once).
    *
+   * \throws hou::module_initialization_error in case of an error.
+   *
    * \return true if the module is initialized after the call, false otherwise.
    */
-  static bool initialize();
+  static void initialize();
 
   /** Tears down the module.
    *
@@ -126,7 +130,7 @@ public:
    * \tparam Module the module object.
    * It should be an instance of the template class hou::module<Impl>.
    */
-  static void register_terminate_callbacks();
+  static void register_terminate_callbacks() noexcept;
 
 private:
   static bool s_initialized;
