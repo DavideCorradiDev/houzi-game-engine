@@ -35,7 +35,7 @@ INCLUDE_DIRECTORIES(
 
 # Source files.
 SET(EXE_HOUMTH_TEST_SRC
-  ${LIB_HOUTEST_SOURCE_DIR}/src/test_main.cpp
+  hou/mth/houmath_test_main.cpp
   hou/mth/test_matrix.cpp
   hou/mth/test_math_functions.cpp
   hou/mth/test_mth_exceptions.cpp
