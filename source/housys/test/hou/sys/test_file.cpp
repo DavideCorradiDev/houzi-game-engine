@@ -2,20 +2,21 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/sys/test_sys_base.hpp"
+#include "hou/test.hpp"
 #include "hou/sys/test_data.hpp"
 
 #include "hou/sys/file.hpp"
 #include "hou/sys/sys_exceptions.hpp"
 
 using namespace hou;
+using namespace testing;
 
 
 
 namespace
 {
 
-class test_file : public test_sys_base
+class test_file : public Test
 {
 public:
   static const std::string filename;

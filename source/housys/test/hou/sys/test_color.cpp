@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/sys/test_sys_base.hpp"
+#include "hou/test.hpp"
 
 #include "hou/sys/color.hpp"
 
@@ -14,7 +14,7 @@ using namespace testing;
 namespace
 {
 
-class test_color : public test_sys_base
+class test_color : public Test
 {};
 
 }  // namespace

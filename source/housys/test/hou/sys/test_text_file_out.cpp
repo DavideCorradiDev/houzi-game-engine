@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 #include "hou/sys/test_data.hpp"
-#include "hou/sys/test_sys_base.hpp"
+#include "hou/test.hpp"
 
 #include "hou/cor/span.hpp"
 
@@ -18,7 +18,7 @@ using namespace testing;
 namespace
 {
 
-class test_text_file_out : public test_sys_base
+class test_text_file_out : public Test
 {
 public:
   static const std::string filename;

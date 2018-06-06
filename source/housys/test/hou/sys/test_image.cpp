@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/sys/test_sys_base.hpp"
+#include "hou/test.hpp"
 
 #include "hou/sys/image.hpp"
 
@@ -15,7 +15,7 @@ namespace
 {
 
 template <typename ImageT>
-class test_image : public test_sys_base
+class test_image : public Test
 {
 public:
   static typename ImageT::size_type generate_size();

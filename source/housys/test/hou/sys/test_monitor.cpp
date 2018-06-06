@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/sys/test_sys_base.hpp"
+#include "hou/test.hpp"
 
 #include "hou/sys/monitor.hpp"
 #include "hou/sys/sys_exceptions.hpp"
@@ -15,7 +15,7 @@ using namespace testing;
 // namespace
 // {
 // 
-// class test_monitor : public test_sys_base
+// class test_monitor : public Test
 // {
 // public:
 //   test_monitor();
