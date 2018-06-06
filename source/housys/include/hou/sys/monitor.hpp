@@ -7,7 +7,7 @@
 
 #include "hou/cor/non_copyable.hpp"
 
-#include "hou/sys/video_mode.hpp"
+#include "hou/sys/display_mode.hpp"
 
 #include "hou/sys/sys_config.hpp"
 
@@ -26,10 +26,6 @@ namespace hou
 namespace monitor
 {
 
-// using connected_callback = std::function<void(uint)>;
-// 
-// using disconnected_callback = std::function<void()>;
-// 
 // constexpr uint primary = 0u;
 // 
 // HOU_SYS_API uint get_count() noexcept;
@@ -49,17 +45,6 @@ namespace monitor
 // HOU_SYS_API video_mode get_video_mode(uint monitor_id);
 // 
 // HOU_SYS_API std::set<video_mode> get_supported_video_modes(uint monitor_id);
-// 
-// // HOU_SYS_API gamma_ramp get_gamma_ramp(uint monitor_id);
-// //
-// // HOU_SYS_API void set_gamma_ramp(uint monitor_id, const gamma_ramp& gr);
-// //
-// // HOU_SYS_API void set_gamma(uint monitor_id, float gamma);
-// 
-// HOU_SYS_API connected_callback set_connected_callback(connected_callback f);
-// 
-// HOU_SYS_API disconnected_callback set_disconnected_callback(
-//   disconnected_callback f);
 
 }  // namespace monitor
 

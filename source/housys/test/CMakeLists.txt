@@ -40,6 +40,7 @@ SET(EXE_HOUSYS_TEST_SRC
   hou/sys/test_binary_file_out.cpp
   hou/sys/test_color.cpp
   hou/sys/test_data.cpp
+  hou/sys/test_display_mode.cpp
   hou/sys/test_file.cpp
   hou/sys/test_file_handle.cpp
   hou/sys/test_image.cpp
@@ -52,7 +53,6 @@ SET(EXE_HOUSYS_TEST_SRC
   # hou/sys/test_system_window.cpp
   hou/sys/test_text_file_in.cpp
   hou/sys/test_text_file_out.cpp
-  hou/sys/test_video_mode.cpp
   # hou/sys/test_window_event.cpp
 )
 

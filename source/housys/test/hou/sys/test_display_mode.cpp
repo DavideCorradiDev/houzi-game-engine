@@ -4,7 +4,7 @@
 
 #include "hou/sys/test_sys_base.hpp"
 
-#include "hou/sys/video_mode.hpp"
+#include "hou/sys/display_mode.hpp"
 
 using namespace hou;
 using namespace testing;
@@ -14,16 +14,16 @@ using namespace testing;
 namespace
 {
 
-class test_video_mode : public test_sys_base
+class test_display_mode : public test_sys_base
 {};
 
 }  // namespace
 
 
 
-TEST_F(test_video_mode, constructor)
+TEST_F(test_display_mode, constructor)
 {
-  video_mode v(vec2u(1200u, 400u), 8u, 40u);
+  display_mode v(vec2u(1200u, 400u), 8u, 40u);
   EXPECT_EQ(vec2u(1200u, 400u), v.get_size());
   EXPECT_EQ(8u, v.get_depth_bit_count());
   EXPECT_EQ(40u, v.get_refresh_rate());
@@ -31,37 +31,37 @@ TEST_F(test_video_mode, constructor)
 
 
 
-TEST_F(test_video_mode, set_size)
+TEST_F(test_display_mode, set_size)
 {
   vec2u valRef(800u, 600u);
-  video_mode v(vec2u(1200u, 400u), 8u, 40u);
+  display_mode v(vec2u(1200u, 400u), 8u, 40u);
   v.set_size(valRef);
   EXPECT_EQ(valRef, v.get_size());
 }
 
 
 
-TEST_F(test_video_mode, set_depth_bit_count)
+TEST_F(test_display_mode, set_depth_bit_count)
 {
   uint valRef = 4u;
-  video_mode v(vec2u(1200u, 400u), 8u, 40u);
+  display_mode v(vec2u(1200u, 400u), 8u, 40u);
   v.set_depth_bit_count(valRef);
   EXPECT_EQ(valRef, v.get_depth_bit_count());
 }
 
 
 
-TEST_F(test_video_mode, set_refresh_rate)
+TEST_F(test_display_mode, set_refresh_rate)
 {
   uint valRef = 60u;
-  video_mode v(vec2u(1200u, 400u), 8u, 40u);
+  display_mode v(vec2u(1200u, 400u), 8u, 40u);
   v.set_refresh_rate(valRef);
   EXPECT_EQ(valRef, v.get_refresh_rate());
 }
 
 
 
-TEST_F(test_video_mode, lower_than_operator)
+TEST_F(test_display_mode, lower_than_operator)
 {
   uint x0 = 320u;
   uint x1 = 640u;
@@ -75,25 +75,25 @@ TEST_F(test_video_mode, lower_than_operator)
   uint r0 = 24u;
   uint r1 = 40u;
 
-  video_mode v0000(vec2u(x0, y0), d0, r0);
-  video_mode v0001(vec2u(x0, y0), d0, r1);
-  video_mode v0010(vec2u(x0, y0), d1, r0);
-  video_mode v0011(vec2u(x0, y0), d1, r1);
+  display_mode v0000(vec2u(x0, y0), d0, r0);
+  display_mode v0001(vec2u(x0, y0), d0, r1);
+  display_mode v0010(vec2u(x0, y0), d1, r0);
+  display_mode v0011(vec2u(x0, y0), d1, r1);
 
-  video_mode v0100(vec2u(x1, y0), d0, r0);
-  video_mode v0101(vec2u(x1, y0), d0, r1);
-  video_mode v0110(vec2u(x1, y0), d1, r0);
-  video_mode v0111(vec2u(x1, y0), d1, r1);
+  display_mode v0100(vec2u(x1, y0), d0, r0);
+  display_mode v0101(vec2u(x1, y0), d0, r1);
+  display_mode v0110(vec2u(x1, y0), d1, r0);
+  display_mode v0111(vec2u(x1, y0), d1, r1);
 
-  video_mode v1000(vec2u(x0, y1), d0, r0);
-  video_mode v1001(vec2u(x0, y1), d0, r1);
-  video_mode v1010(vec2u(x0, y1), d1, r0);
-  video_mode v1011(vec2u(x0, y1), d1, r1);
+  display_mode v1000(vec2u(x0, y1), d0, r0);
+  display_mode v1001(vec2u(x0, y1), d0, r1);
+  display_mode v1010(vec2u(x0, y1), d1, r0);
+  display_mode v1011(vec2u(x0, y1), d1, r1);
 
-  video_mode v1100(vec2u(x1, y1), d0, r0);
-  video_mode v1101(vec2u(x1, y1), d0, r1);
-  video_mode v1110(vec2u(x1, y1), d1, r0);
-  video_mode v1111(vec2u(x1, y1), d1, r1);
+  display_mode v1100(vec2u(x1, y1), d0, r0);
+  display_mode v1101(vec2u(x1, y1), d0, r1);
+  display_mode v1110(vec2u(x1, y1), d1, r0);
+  display_mode v1111(vec2u(x1, y1), d1, r1);
 
   EXPECT_FALSE(v0000 < v0000);
   EXPECT_TRUE(v0000 < v0001);
@@ -370,7 +370,7 @@ TEST_F(test_video_mode, lower_than_operator)
 
 
 
-TEST_F(test_video_mode, comparison_operators)
+TEST_F(test_display_mode, comparison_operators)
 {
   uint x0 = 320u;
   uint x1 = 640u;
@@ -384,27 +384,27 @@ TEST_F(test_video_mode, comparison_operators)
   uint r0 = 24u;
   uint r1 = 40u;
 
-  std::vector<video_mode> modes;
+  std::vector<display_mode> modes;
 
-  modes.push_back(video_mode(vec2u(x0, y0), d0, r0));
-  modes.push_back(video_mode(vec2u(x0, y0), d0, r1));
-  modes.push_back(video_mode(vec2u(x0, y0), d1, r0));
-  modes.push_back(video_mode(vec2u(x0, y0), d1, r1));
+  modes.push_back(display_mode(vec2u(x0, y0), d0, r0));
+  modes.push_back(display_mode(vec2u(x0, y0), d0, r1));
+  modes.push_back(display_mode(vec2u(x0, y0), d1, r0));
+  modes.push_back(display_mode(vec2u(x0, y0), d1, r1));
 
-  modes.push_back(video_mode(vec2u(x1, y0), d0, r0));
-  modes.push_back(video_mode(vec2u(x1, y0), d0, r1));
-  modes.push_back(video_mode(vec2u(x1, y0), d1, r0));
-  modes.push_back(video_mode(vec2u(x1, y0), d1, r1));
+  modes.push_back(display_mode(vec2u(x1, y0), d0, r0));
+  modes.push_back(display_mode(vec2u(x1, y0), d0, r1));
+  modes.push_back(display_mode(vec2u(x1, y0), d1, r0));
+  modes.push_back(display_mode(vec2u(x1, y0), d1, r1));
 
-  modes.push_back(video_mode(vec2u(x0, y1), d0, r0));
-  modes.push_back(video_mode(vec2u(x0, y1), d0, r1));
-  modes.push_back(video_mode(vec2u(x0, y1), d1, r0));
-  modes.push_back(video_mode(vec2u(x0, y1), d1, r1));
+  modes.push_back(display_mode(vec2u(x0, y1), d0, r0));
+  modes.push_back(display_mode(vec2u(x0, y1), d0, r1));
+  modes.push_back(display_mode(vec2u(x0, y1), d1, r0));
+  modes.push_back(display_mode(vec2u(x0, y1), d1, r1));
 
-  modes.push_back(video_mode(vec2u(x1, y1), d0, r0));
-  modes.push_back(video_mode(vec2u(x1, y1), d0, r1));
-  modes.push_back(video_mode(vec2u(x1, y1), d1, r0));
-  modes.push_back(video_mode(vec2u(x1, y1), d1, r1));
+  modes.push_back(display_mode(vec2u(x1, y1), d0, r0));
+  modes.push_back(display_mode(vec2u(x1, y1), d0, r1));
+  modes.push_back(display_mode(vec2u(x1, y1), d1, r0));
+  modes.push_back(display_mode(vec2u(x1, y1), d1, r1));
 
   // Test all comparison operators based on operator <.
   for(const auto& lhs : modes)
@@ -426,9 +426,9 @@ TEST_F(test_video_mode, comparison_operators)
 
 
 
-TEST_F(test_video_mode, output_stream_operator)
+TEST_F(test_display_mode, output_stream_operator)
 {
-  video_mode vm(vec2u(300u, 400u), 8u, 45u);
+  display_mode vm(vec2u(300u, 400u), 8u, 45u);
 
   const char* output_ref
     = "{size = (300, 400), depth_bit_count = 8, refresh_rate = 45}";

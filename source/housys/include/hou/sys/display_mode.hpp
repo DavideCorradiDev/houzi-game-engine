@@ -2,8 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#ifndef HOU_SYS_VIDEO_MODE_HPP
-#define HOU_SYS_VIDEO_MODE_HPP
+#ifndef HOU_SYS_DISPLAY_MODE_HPP
+#define HOU_SYS_DISPLAY_MODE_HPP
 
 #include "hou/sys/sys_config.hpp"
 
@@ -17,12 +17,12 @@
 namespace hou
 {
 
-/** Class representing a video mode.
+/** Class representing a display mode.
  */
-class HOU_SYS_API video_mode
+class HOU_SYS_API display_mode
 {
 public:
-  /** Creates a video_mode object.
+  /** Creates a display_mode object.
    *
    * \param size the size.
    *
@@ -30,7 +30,7 @@ public:
    *
    * \param refres_rate the refresh_rate.
    */
-  video_mode(
+  display_mode(
     const vec2u& size, uint depth_bit_count, uint refresh_rate) noexcept;
 
   /** Retrieves the size.
@@ -75,7 +75,7 @@ private:
   uint m_refresh_rate;
 };
 
-/** Checks if two video_mode objects are equal.
+/** Checks if two display_mode objects are equal.
  *
  * \param lhs the left operand.
  *
@@ -84,9 +84,9 @@ private:
  * \return the result of the check.
  */
 HOU_SYS_API bool operator==(
-  const video_mode& lhs, const video_mode& rhs) noexcept;
+  const display_mode& lhs, const display_mode& rhs) noexcept;
 
-/** Checks if two video_mode objects are not equal.
+/** Checks if two display_mode objects are not equal.
  *
  * \param lhs the left operand.
  *
@@ -95,7 +95,7 @@ HOU_SYS_API bool operator==(
  * \return the result of the check.
  */
 HOU_SYS_API bool operator!=(
-  const video_mode& lhs, const video_mode& rhs) noexcept;
+  const display_mode& lhs, const display_mode& rhs) noexcept;
 
 /** Checks if lhs is lower than rhs.
  *
@@ -109,7 +109,7 @@ HOU_SYS_API bool operator!=(
  * \return the result of the check.
  */
 HOU_SYS_API bool operator<(
-  const video_mode& lhs, const video_mode& rhs) noexcept;
+  const display_mode& lhs, const display_mode& rhs) noexcept;
 
 /** Checks if lhs is greater than rhs.
  *
@@ -123,7 +123,7 @@ HOU_SYS_API bool operator<(
  * \return the result of the check.
  */
 HOU_SYS_API bool operator>(
-  const video_mode& lhs, const video_mode& rhs) noexcept;
+  const display_mode& lhs, const display_mode& rhs) noexcept;
 
 /** Checks if lhs is lower or equal to rhs.
  *
@@ -137,7 +137,7 @@ HOU_SYS_API bool operator>(
  * \return the result of the check.
  */
 HOU_SYS_API bool operator<=(
-  const video_mode& lhs, const video_mode& rhs) noexcept;
+  const display_mode& lhs, const display_mode& rhs) noexcept;
 
 /** Checks if lhs is greater or equal to rhs.
  *
@@ -151,20 +151,20 @@ HOU_SYS_API bool operator<=(
  * \return the result of the check.
  */
 HOU_SYS_API bool operator>=(
-  const video_mode& lhs, const video_mode& rhs) noexcept;
+  const display_mode& lhs, const display_mode& rhs) noexcept;
 
-/** Writes a video_mode object into a stream.
+/** Writes a display_mode object into a stream.
  *
  * Comparisons happen in the following order: bits per pixel, x size,
  * y size.
  *
  * \param os the stream.
  *
- * \param vm the video_mode object.
+ * \param vm the display_mode object.
  *
  * \return a reference to the stream.
  */
-HOU_SYS_API std::ostream& operator<<(std::ostream& os, const video_mode& vm);
+HOU_SYS_API std::ostream& operator<<(std::ostream& os, const display_mode& vm);
 
 }  // namespace hou
 

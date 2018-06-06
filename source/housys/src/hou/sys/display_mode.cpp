@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/sys/video_mode.hpp"
+#include "hou/sys/display_mode.hpp"
 
 #include <algorithm>
 
@@ -11,7 +11,7 @@
 namespace hou
 {
 
-video_mode::video_mode(
+display_mode::display_mode(
   const vec2u& size, uint depth_bit_count, uint refresh_rate) noexcept
   : m_size(size)
   , m_depth_bit_count(depth_bit_count)
@@ -20,49 +20,49 @@ video_mode::video_mode(
 
 
 
-const vec2u& video_mode::get_size() const noexcept
+const vec2u& display_mode::get_size() const noexcept
 {
   return m_size;
 }
 
 
 
-void video_mode::set_size(const vec2u& size) noexcept
+void display_mode::set_size(const vec2u& size) noexcept
 {
   m_size = size;
 }
 
 
 
-uint video_mode::get_depth_bit_count() const noexcept
+uint display_mode::get_depth_bit_count() const noexcept
 {
   return m_depth_bit_count;
 }
 
 
 
-void video_mode::set_depth_bit_count(uint depth_bit_count) noexcept
+void display_mode::set_depth_bit_count(uint depth_bit_count) noexcept
 {
   m_depth_bit_count = depth_bit_count;
 }
 
 
 
-uint video_mode::get_refresh_rate() const noexcept
+uint display_mode::get_refresh_rate() const noexcept
 {
   return m_refresh_rate;
 }
 
 
 
-void video_mode::set_refresh_rate(uint refres_rate) noexcept
+void display_mode::set_refresh_rate(uint refres_rate) noexcept
 {
   m_refresh_rate = refres_rate;
 }
 
 
 
-bool operator==(const video_mode& lhs, const video_mode& rhs) noexcept
+bool operator==(const display_mode& lhs, const display_mode& rhs) noexcept
 {
   return lhs.get_size() == rhs.get_size()
     && lhs.get_depth_bit_count() == rhs.get_depth_bit_count()
@@ -71,14 +71,14 @@ bool operator==(const video_mode& lhs, const video_mode& rhs) noexcept
 
 
 
-bool operator!=(const video_mode& lhs, const video_mode& rhs) noexcept
+bool operator!=(const display_mode& lhs, const display_mode& rhs) noexcept
 {
   return !(lhs == rhs);
 }
 
 
 
-bool operator<(const video_mode& lhs, const video_mode& rhs) noexcept
+bool operator<(const display_mode& lhs, const display_mode& rhs) noexcept
 {
   if(lhs.get_refresh_rate() == rhs.get_refresh_rate())
   {
@@ -106,28 +106,28 @@ bool operator<(const video_mode& lhs, const video_mode& rhs) noexcept
 
 
 
-bool operator>(const video_mode& lhs, const video_mode& rhs) noexcept
+bool operator>(const display_mode& lhs, const display_mode& rhs) noexcept
 {
   return rhs < lhs;
 }
 
 
 
-bool operator<=(const video_mode& lhs, const video_mode& rhs) noexcept
+bool operator<=(const display_mode& lhs, const display_mode& rhs) noexcept
 {
   return !(rhs < lhs);
 }
 
 
 
-bool operator>=(const video_mode& lhs, const video_mode& rhs) noexcept
+bool operator>=(const display_mode& lhs, const display_mode& rhs) noexcept
 {
   return !(lhs < rhs);
 }
 
 
 
-std::ostream& operator<<(std::ostream& os, const video_mode& vm)
+std::ostream& operator<<(std::ostream& os, const display_mode& vm)
 {
   return os << "{size = " << transpose(vm.get_size())
             << ", depth_bit_count = " << vm.get_depth_bit_count()

@@ -34,6 +34,7 @@ SET(LIB_HOUSYS_SRC
   src/hou/sys/binary_file_in.cpp
   src/hou/sys/binary_file_out.cpp
   src/hou/sys/color.cpp
+  src/hou/sys/display_mode.cpp
   src/hou/sys/file.cpp
   src/hou/sys/file_handle.cpp
   src/hou/sys/file_open_mode.cpp
@@ -56,7 +57,6 @@ SET(LIB_HOUSYS_SRC
   src/hou/sys/text_file_in.cpp
   src/hou/sys/text_file_out.cpp
   src/hou/sys/text_stream.cpp
-  src/hou/sys/video_mode.cpp
   src/hou/sys/window.cpp
   # src/hou/sys/window_event.cpp
   # src/hou/sys/window_event_type.cpp
