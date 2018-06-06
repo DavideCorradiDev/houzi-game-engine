@@ -44,16 +44,16 @@ bool module<Impl>::is_initialized() noexcept
 
 
 
-template <typename Module>
-void call_terminate_on_exit()
+template <typename Impl>
+void module<Impl>::register_terminate_callbacks()
 {
   static bool already_called = false;
   if(!already_called)
   {
     already_called = true;
-    std::atexit(&Module::terminate);
-    std::at_quick_exit(&Module::terminate);
+    std::atexit(&module<Impl>::terminate);
+    std::at_quick_exit(&module<Impl>::terminate);
   }
 }
 
-}
+}  // namespace hou

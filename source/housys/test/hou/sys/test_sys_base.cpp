@@ -11,7 +11,7 @@
 void test_sys_base::SetUpTestCase()
 {
   HOU_ASSERT(hou::sys_module::initialize());
-  hou::call_terminate_on_exit<hou::sys_module>();
+  hou::sys_module::register_terminate_callbacks();
 }
 
 

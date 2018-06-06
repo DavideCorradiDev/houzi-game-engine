@@ -187,3 +187,16 @@ TEST_F(test_module, double_terminate)
   module<test_impl>::terminate();
   EXPECT_FALSE(module<test_impl>::is_initialized());
 }
+
+
+
+TEST_F(test_module, terminate_on_exit)
+{
+  EXPECT_TRUE(module<test_impl>::initialize());
+  module<test_impl>::register_terminate_callbacks();
+  SUCCEED();
+}
+
+
+
+// Is there a way to test if the exit callbacks are properly set?
