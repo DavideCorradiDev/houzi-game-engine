@@ -36,12 +36,11 @@ public:
    * If fullscreen mode is specified and vm is not a valid fullscreen
    * video_mode, an error will be thrown.
    */
-  system_window(
-    const std::string& title, const video_mode& vm, window_style style);
+  system_window(const std::string& title, const vec2u& size);
 
   // window ovverrides.
-  void set_frame_rect(const vec2i& pos, const vec2u& size) final;
-  void set_client_rect(const vec2i& pos, const vec2u& size) final;
+  // void set_frame_rect(const vec2i& pos, const vec2u& size) final;
+  // void set_client_rect(const vec2i& pos, const vec2u& size) final;
 };
 
 }  // namespace hou

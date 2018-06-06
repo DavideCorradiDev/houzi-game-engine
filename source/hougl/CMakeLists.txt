@@ -34,6 +34,7 @@ INCLUDE_DIRECTORIES(
 SET(LIB_HOUGL_SRC
   src/hou/gl/gl_buffer_handle.cpp
   src/hou/gl/gl_context.cpp
+  src/hou/gl/gl_context_impl.cpp
   src/hou/gl/gl_context_settings.cpp
   src/hou/gl/gl_exceptions.cpp
   src/hou/gl/gl_framebuffer_handle.cpp
@@ -46,32 +47,20 @@ SET(LIB_HOUGL_SRC
   src/hou/gl/gl_vertex_array_handle.cpp
 )
 
-IF(WIN32)
-  SET(LIB_HOUGL_SRC
-    ${LIB_HOUGL_SRC}
-    src/hou/gl/wgl/gl_context_impl_wgl.cpp
-  )
-ENDIF()
-
 
 
 # Linked libraries.
 SET(LIB_HOUGL_LIBS
   ${LIB_GLAD}
+  ${OPENGL_LIBRARIES}
 )
-IF(WIN32)
-  SET(LIB_HOUGL_LIBS
-    ${LIB_HOUGL_LIBS}
-    gdi32
-    opengl32
-  )
-ENDIF()
 IF(NOT HOU_CFG_BUILD_STATIC_LIBS)
   SET(LIB_HOUGL_LIBS
     ${LIB_HOUGL_LIBS}
     ${LIB_HOUSYS}
     ${LIB_HOUMTH}
     ${LIB_HOUCOR}
+    ${LIB_SDL2}
   )
 ENDIF()
 MESSAGE(STATUS "Linked libs: ${LIB_HOUGL_LIBS}")
@@ -99,7 +88,7 @@ MESSAGE(STATUS "")
 
 
 
-IF(HOU_CFG_BUILD_TESTS)
-  ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/test)
-ENDIF()
+# IF(HOU_CFG_BUILD_TESTS)
+#   ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/test)
+# ENDIF()
 

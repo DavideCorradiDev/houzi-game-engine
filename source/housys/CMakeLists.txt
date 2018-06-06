@@ -52,16 +52,14 @@ SET(LIB_HOUSYS_SRC
   # src/hou/sys/scan_code.cpp
   src/hou/sys/sys_exceptions.cpp
   src/hou/sys/sys_module.cpp
-  # src/hou/sys/system_window.cpp
+  src/hou/sys/system_window.cpp
   src/hou/sys/text_file_in.cpp
   src/hou/sys/text_file_out.cpp
   src/hou/sys/text_stream.cpp
   src/hou/sys/video_mode.cpp
-  # src/hou/sys/window.cpp
+  src/hou/sys/window.cpp
   # src/hou/sys/window_event.cpp
   # src/hou/sys/window_event_type.cpp
-  # src/hou/sys/window_impl.cpp
-  # src/hou/sys/window_style.cpp
 )
 
 IF(WIN32)

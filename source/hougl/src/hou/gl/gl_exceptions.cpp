@@ -42,8 +42,6 @@ std::string get_error_message(GLenum err)
       return u8"stack overflow";
     case GL_STACK_UNDERFLOW:
       return u8"stack underflow";
-    case GL_TABLE_TOO_LARGE:
-      return u8"table too large";
     default:
       return u8"unknown error";
   }

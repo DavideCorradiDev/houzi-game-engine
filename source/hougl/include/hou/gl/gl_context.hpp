@@ -83,19 +83,14 @@ public:
   static void unset_current();
   static context* get_current() noexcept;
 
-  context(const context_settings& settings, const window& wnd);
-  context(const context_settings& settings, const window& wnd,
-    const context& sharedContext);
+public:
+  context(const context_settings& settings, window& wnd);
   context(context&& other) noexcept;
   ~context();
 
   uint32_t get_uid() const noexcept;
   uint32_t get_sharing_group_uid() const noexcept;
   bool is_current() const noexcept;
-
-private:
-  context(const context_settings& settings, const window& wnd,
-    const context* shared_context);
 
 private:
   prv::context_impl m_impl;

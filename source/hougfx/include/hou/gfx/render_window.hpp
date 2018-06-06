@@ -61,8 +61,8 @@ public:
    *
    * \param style the window style.
    */
-  render_window(const std::string& title, const vec2u& size, window_style style,
-    uint sample_count = 1u);
+  render_window(
+    const std::string& title, const vec2u& size, uint sample_count = 1u);
 
   /** Displays what has been rendered onto the render_window.
    */
@@ -84,11 +84,11 @@ public:
   void set_sample_count(uint sample_count);
 
   // window overrides.
-  void set_frame_rect(const vec2i& pos, const vec2u& size) override;
-  void set_client_rect(const vec2i& pos, const vec2u& size) override;
+  // void set_frame_rect(const vec2i& pos, const vec2u& size) override;
+  // void set_client_rect(const vec2i& pos, const vec2u& size) override;
 
 private:
-  void rebuild_framebuffer_if_necessary();
+  // void rebuild_framebuffer_if_necessary();
 };
 
 }  // namespace hou

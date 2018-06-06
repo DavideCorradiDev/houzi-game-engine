@@ -10,10 +10,7 @@
 
 #include "hou/gl/gl_config.hpp"
 
-#if defined(HOU_SYSTEM_WINDOWS)
-#include "hou/sys/win/win.hpp"
-#endif
-
+#include "SDL2/SDL.h"
 
 
 namespace hou
@@ -33,19 +30,20 @@ class context_impl : public non_copyable
 {
 public:
   static void set_current(context_impl& ctx, window& wnd);
+
   static void unset_current();
 
-  context_impl(const context_settings& settings, const window& wnd,
-    const context_impl* shared_context);
+public:
+  context_impl(const context_settings& settings, window& wnd);
+
   context_impl(context_impl&& other) noexcept;
+
   ~context_impl();
 
+  SDL_GLContext& get_impl() noexcept;
+
 private:
-#if defined(HOU_SYSTEM_WINDOWS)
-  HGLRC m_handle;
-  HDC m_hdc;
-  int m_pixel_format;
-#endif
+  SDL_GLContext m_impl;
 };
 
 }  // namespace prv

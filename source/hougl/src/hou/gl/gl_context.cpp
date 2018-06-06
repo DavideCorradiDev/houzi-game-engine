@@ -70,15 +70,13 @@ context* context::get_current() noexcept
 
 
 
-context::context(const context_settings& settings, const window& wnd)
-  : context(settings, wnd, nullptr)
-{}
-
-
-
-context::context(const context_settings& settings, const window& wnd,
-  const context& shared_context)
-  : context(settings, wnd, &shared_context)
+context::context(const context_settings& settings, window& wnd)
+  : non_copyable()
+  , m_impl(settings, wnd)
+  , m_uid(generate_uid())
+    // TODO: handle this uid properly.
+  , m_sharing_group_uid(m_uid)
+  , m_tracking_data()
 {}
 
 
@@ -126,19 +124,6 @@ bool context::is_current() const noexcept
 {
   return this == g_current_context;
 }
-
-
-
-context::context(const context_settings& settings, const window& wnd,
-  const context* shared_context)
-  : non_copyable()
-  , m_impl(settings, wnd,
-      (shared_context == nullptr) ? nullptr : &(shared_context->m_impl))
-  , m_uid(generate_uid())
-  , m_sharing_group_uid(
-      (shared_context == nullptr) ? m_uid : shared_context->m_sharing_group_uid)
-  , m_tracking_data()
-{}
 
 
 

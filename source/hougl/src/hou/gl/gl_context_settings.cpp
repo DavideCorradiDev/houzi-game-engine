@@ -10,21 +10,30 @@ namespace hou
 namespace gl
 {
 
+const context_settings& context_settings::get_basic() noexcept
+{
+  static const context_settings cs(
+    version(1u, 0u), context_profile::compatibility, 24u, 8u, 0u);
+  return cs;
+}
+
+
+
 const context_settings& context_settings::get_default() noexcept
 {
   static const context_settings cs(
-    version::get_default(), context_profile::core, 3u, 1u, 0u);
+    version::get_default(), context_profile::core, 24u, 8u, 0u);
   return cs;
 }
 
 
 
 context_settings::context_settings(const version& vrs, context_profile profile,
-  uint depth_byte_count, uint stencil_byte_count, uint sample_count) noexcept
+  uint depth_bit_count, uint stencil_bit_count, uint sample_count) noexcept
   : m_version(vrs)
   , m_profile(profile)
-  , m_depth_byte_count(depth_byte_count)
-  , m_stencil_byte_count(stencil_byte_count)
+  , m_depth_bit_count(depth_bit_count)
+  , m_stencil_bit_count(stencil_bit_count)
   , m_sample_count(sample_count)
 {}
 
@@ -58,30 +67,30 @@ void context_settings::set_profile(context_profile value) noexcept
 
 
 
-uint context_settings::get_depth_byte_count() const noexcept
+uint context_settings::get_depth_bit_count() const noexcept
 {
-  return m_depth_byte_count;
+  return m_depth_bit_count;
 }
 
 
 
-void context_settings::set_depth_byte_count(uint value) noexcept
+void context_settings::set_depth_bit_count(uint value) noexcept
 {
-  m_depth_byte_count = value;
+  m_depth_bit_count = value;
 }
 
 
 
-uint context_settings::get_stencil_byte_count() const noexcept
+uint context_settings::get_stencil_bit_count() const noexcept
 {
-  return m_stencil_byte_count;
+  return m_stencil_bit_count;
 }
 
 
 
-void context_settings::set_stencil_byte_count(uint value) noexcept
+void context_settings::set_stencil_bit_count(uint value) noexcept
 {
-  m_stencil_byte_count = value;
+  m_stencil_bit_count = value;
 }
 
 
@@ -104,8 +113,8 @@ bool operator==(const context_settings& l, const context_settings& r) noexcept
 {
   return l.get_version() == r.get_version()
     && l.get_profile() == r.get_profile()
-    && l.get_depth_byte_count() == r.get_depth_byte_count()
-    && l.get_stencil_byte_count() == r.get_stencil_byte_count()
+    && l.get_depth_bit_count() == r.get_depth_bit_count()
+    && l.get_stencil_bit_count() == r.get_stencil_bit_count()
     && l.get_sample_count() == r.get_sample_count();
 }
 

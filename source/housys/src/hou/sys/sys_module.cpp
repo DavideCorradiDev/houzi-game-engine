@@ -4,6 +4,8 @@
 
 #include "hou/sys/sys_module.hpp"
 
+#include "SDL2/SDL.h"
+
 
 
 namespace hou
@@ -14,13 +16,15 @@ namespace prv
 
 bool sys_module_impl::on_initialize()
 {
-  return true;
+  return SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER) == 0;
 }
 
 
 
 void sys_module_impl::on_terminate() noexcept
-{}
+{
+  SDL_Quit();
+}
 
 }  // namespace prv
 

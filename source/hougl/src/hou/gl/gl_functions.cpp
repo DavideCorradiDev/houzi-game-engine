@@ -69,28 +69,37 @@ void init_extensions()
 
   std::lock_guard<std::mutex> lock(extensionsMutex);
   // Initialize only once.
-  if(!extensionsInitialized)
+  if(extensionsInitialized)
   {
-    // Create temporary dummy context, needed to call any GL function.
-    system_window w("", video_mode(vec2u(0u, 0u), 32u), window_style::windowed);
-    gl::context_settings cs(gl::context_settings::get_default());
-    gl::context c(cs, w);
-    gl::context::set_current(c, w);
-    HOU_GL_CHECK_CONTEXT_EXISTENCE();
-
-    // Initialize extenstions through GLAD.
-    int glad_init_retval = gladLoadGL();
-    HOU_CHECK_N(
-      glad_init_retval != 0, extension_initialization_error, glad_init_retval);
-
-#if defined(HOU_SYSTEM_WINDOWS)
-    int wgl_glad_init_retval = gladLoadWGL(GetDC(w.get_handle()));
-    HOU_CHECK_N(wgl_glad_init_retval != 0, extension_initialization_error,
-      wgl_glad_init_retval);
-#endif
-
-    extensionsInitialized = true;
+    return;
   }
+
+  // Create temporary dummy context, needed to call any GL function.
+  system_window w("", vec2u(1u, 1u));
+  gl::context c(gl::context_settings::get_basic(), w);
+  gl::context::set_current(c, w);
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+
+  int glad_init = gladLoadGLLoader(SDL_GL_GetProcAddress);
+  HOU_CHECK_N(glad_init != 0, extension_initialization_error, glad_init);
+
+  //   // Initialize extenstions through GLAD.
+  //   int glad_init_retval = gladLoadGL();
+  //   HOU_CHECK_N(
+  //     glad_init_retval != 0, extension_initialization_error,
+  //     glad_init_retval);
+  //
+  // #if defined(HOU_SYSTEM_WINDOWS)
+  //   int wgl_glad_init_retval = gladLoadWGL(GetDC(w.get_handle()));
+  //   HOU_CHECK_N(wgl_glad_init_retval != 0, extension_initialization_error,
+  //     wgl_glad_init_retval);
+  // #elif defined(HOU_SYSTEM_LINUX)
+  //   int glx_glad_init_retval = gladLoadWGL(GetDC(w.get_handle()));
+  //   HOU_CHECK_N(glx_glad_init_retval != 0, extension_initialization_error,
+  //     glx_glad_init_retval);
+  // #endif
+
+  extensionsInitialized = true;
 }
 
 
@@ -114,7 +123,7 @@ void set_vertical_sync_mode(vertical_sync_mode mode)
     HOU_CHECK_0(wglSwapIntervalEXT(static_cast<int>(mode)) != 0, vsync_error);
   }
 #else
-  HOU_TERMINATE("Unsupported OS");
+  HOU_UNREACHABLE();
 #endif
 }
 

@@ -39,11 +39,9 @@
 namespace hou
 {
 
-render_window::render_window(const std::string& title, const vec2u& size,
-  window_style style, uint sample_count)
-  : window(title,
-      video_mode(size, graphic_context::get_rendering_color_byte_count()),
-      style)
+render_window::render_window(
+  const std::string& title, const vec2u& size, uint sample_count)
+  : window(title, size)
   , render_surface(size, sample_count)
 {}
 
@@ -60,7 +58,7 @@ void render_window::display()
     GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
     GL_NEAREST);
 
-  swap_buffers();
+  SDL_GL_SwapWindow(get_impl());
 }
 
 
@@ -81,37 +79,37 @@ void render_window::set_sample_count(uint sample_count)
 
 
 
-void render_window::set_frame_rect(const vec2i& pos, const vec2u& size)
-{
-  window::set_frame_rect(pos, size);
-  rebuild_framebuffer_if_necessary();
-}
+// void render_window::set_frame_rect(const vec2i& pos, const vec2u& size)
+// {
+//   window::set_frame_rect(pos, size);
+//   rebuild_framebuffer_if_necessary();
+// }
+// 
+// 
+// 
+// void render_window::set_client_rect(const vec2i& pos, const vec2u& size)
+// {
+//   window::set_client_rect(pos, size);
+//   rebuild_framebuffer_if_necessary();
+// }
 
 
 
-void render_window::set_client_rect(const vec2i& pos, const vec2u& size)
-{
-  window::set_client_rect(pos, size);
-  rebuild_framebuffer_if_necessary();
-}
-
-
-
-void render_window::rebuild_framebuffer_if_necessary()
-{
-  vec2u new_size = get_client_size();
-  if(new_size.x() == 0u)
-  {
-    new_size.x() = 1u;
-  }
-  if(new_size.y() == 0u)
-  {
-    new_size.y() = 1u;
-  }
-  if(get_size() != new_size)
-  {
-    build_framebuffer(new_size, get_sample_count());
-  }
-}
+// void render_window::rebuild_framebuffer_if_necessary()
+// {
+//   vec2u new_size = get_client_size();
+//   if(new_size.x() == 0u)
+//   {
+//     new_size.x() = 1u;
+//   }
+//   if(new_size.y() == 0u)
+//   {
+//     new_size.y() = 1u;
+//   }
+//   if(get_size() != new_size)
+//   {
+//     build_framebuffer(new_size, get_sample_count());
+//   }
+// }
 
 }  // namespace hou

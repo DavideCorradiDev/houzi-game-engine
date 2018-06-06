@@ -315,12 +315,14 @@ glyph font::get_glyph(utf32::code_unit char_code) const
   vec2u size(vec2<long>(g->metrics.width, g->metrics.height));
 
   vec2i hori_bearing = has_horizontal()
-    ? vec2i(g->metrics.horiBearingX, -g->metrics.horiBearingY)
+    ? vec2i(narrow_cast<int>(g->metrics.horiBearingX),
+        narrow_cast<int>(-g->metrics.horiBearingY))
     : vec2i::zero();
   int hori_advance = has_horizontal() ? g->metrics.horiAdvance : 0;
 
   vec2i vert_bearing = has_vertical()
-    ? vec2i(g->metrics.vertBearingX, -g->metrics.vertBearingY)
+    ? vec2i(narrow_cast<int>(g->metrics.vertBearingX),
+        narrow_cast<int>(-g->metrics.vertBearingY))
     : vec2i::zero();
   int vert_advance = has_vertical() ? g->metrics.vertAdvance : 0;
 
@@ -328,8 +330,8 @@ glyph font::get_glyph(utf32::code_unit char_code) const
   return glyph(
     image2_r(
       bmp_size,
-      span<const image2_r::pixel>(
-        reinterpret_cast<image2_r::pixel*>(g->bitmap.buffer),
+      span<const image2_r::pixel_type>(
+        reinterpret_cast<image2_r::pixel_type*>(g->bitmap.buffer),
         bmp_size.x() * bmp_size.y())),
     glyph_metrics(
       size,
@@ -350,7 +352,7 @@ vec2i font::get_kerning(utf32::code_unit first, utf32::code_unit second) const
   auto retval = FT_Get_Kerning(
     m_face, first_index, second_index, FT_KERNING_DEFAULT, &kerning);
   HOU_CHECK_0(retval == 0, font_operation_error);
-  return vec2i(kerning.x, kerning.y);
+  return vec2i(narrow_cast<int>(kerning.x), narrow_cast<int>(kerning.y));
 }
 
 

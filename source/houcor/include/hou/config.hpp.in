@@ -21,6 +21,11 @@
   #elif defined(_MSC_VER)
     #define HOU_COMPILER_MSVC
   #endif
+#elif defined(__linux__)
+  #define HOU_SYSTEM_LINUX
+  #if defined(__GNUC__)
+    #define HOU_COMPILER_GCC
+  #endif
 #endif
 
 // Define export statements

@@ -65,9 +65,7 @@ uint graphic_context::get_rendering_stencil_byte_count()
 // clang-format off
 graphic_context::graphic_context()
   : m_extension_initializer()
-  , m_default_window(default_window_name,
-      video_mode(vec2u::zero(), get_rendering_color_byte_count()),
-      window_style::windowed)
+  , m_default_window(default_window_name, vec2u(1u, 1u))
   , gl_context(
       gl::context_settings(
         gl::version(4u, 5u),
