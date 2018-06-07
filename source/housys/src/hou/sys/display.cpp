@@ -6,6 +6,8 @@
 
 #include "hou/sys/sys_exceptions.hpp"
 
+#include "hou/sys/sdl/sdl_utils.hpp"
+
 #include "hou/cor/narrow_cast.hpp"
 
 #include "SDL2/SDL_video.h"
@@ -17,25 +19,6 @@ namespace hou
 
 namespace display
 {
-
-namespace
-{
-
-display_mode convert(const SDL_DisplayMode& mode_in);
-
-display_mode convert(const SDL_DisplayMode& mode_in)
-{
-  display_mode mode_out;
-  mode_out.set_size(
-    vec2u(narrow_cast<uint>(mode_in.w), narrow_cast<uint>(mode_in.h)));
-  mode_out.set_refresh_rate(narrow_cast<uint>(mode_in.refresh_rate));
-  mode_out.set_depth_bit_count(SDL_BITSPERPIXEL(mode_in.format));
-  return mode_out;
-}
-
-}
-
-
 
 uint get_count()
 {
@@ -80,7 +63,7 @@ display_mode get_current_mode(uint display_idx)
   SDL_DisplayMode mode;
   HOU_CHECK_N(SDL_GetCurrentDisplayMode(display_idx, &mode) == 0,
     platform_error, SDL_GetError());
-  return convert(mode);
+  return prv::convert(mode);
 }
 
 
@@ -96,7 +79,7 @@ std::set<display_mode> get_supported_modes(uint display_idx)
     SDL_DisplayMode mode;
     HOU_CHECK_N(SDL_GetDisplayMode(display_idx, i, &mode) == 0, platform_error,
         SDL_GetError());
-    modes.insert(convert(mode));
+    modes.insert(prv::convert(mode));
   }
   return modes;
 }

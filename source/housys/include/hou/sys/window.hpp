@@ -14,28 +14,67 @@
 
 #include "hou/mth/matrix.hpp"
 
-#include "SDL2/SDL.h"
 
 
+struct SDL_Window;
 
 namespace hou
 {
+
+using window_impl = SDL_Window*;
+
+class display_mode;
 
 class HOU_SYS_API window : public non_copyable
 {
 public:
   window(const std::string& title, const vec2u& size);
 
+  window(window&& other);
+
   virtual ~window() = 0;
 
-  SDL_Window* get_impl() noexcept;
+  window_impl get_impl() noexcept;
 
   uint32_t get_uid() const noexcept;
 
+  uint get_display_index() const;
+
+  display_mode get_display_mode() const;
+  void set_display_mode(const display_mode& mode);
+
+  std::string get_title() const;
+  void set_title(const std::string& title);
+
+  vec2u get_size() const;
+  void set_size(const vec2u& size);
+
+  vec2u get_min_size() const;
+  void set_min_size(const vec2u& min_size);
+
+  vec2u get_max_size() const;
+  void set_max_size(const vec2u& min_size);
+
+  vec2i get_position() const;
+  void set_position(const vec2i& position);
+
+  bool is_visible() const;
+  void hide();
   void show();
 
+  bool is_minimized() const;
+  bool is_maximized() const;
+  void minimize();
+  void maximize();
+  void restore();
+
+  bool get_grab() const;
+  void set_grab(bool value);
+
+  void raise();
+
 private:
-  SDL_Window* m_impl;
+  window_impl m_impl;
   uint32_t m_uid;
 };
 

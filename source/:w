@@ -1,0 +1,21 @@
+// Houzi Game Engine
+// Copyright (c) 2018 Davide Corradi
+// Licensed under the MIT license.
+
+#include "hou/sys/sdl/sdl_utils.hpp"
+
+
+
+namespace hou
+{
+
+namespace sdl
+{
+
+video_mode convert(const SDL_VideoMode& mode_in)
+{
+}
+
+}
+
+}
