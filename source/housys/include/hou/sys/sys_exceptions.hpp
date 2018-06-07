@@ -150,29 +150,6 @@ public:
     const std::string& path, uint line, const std::string& description);
 };
 
-
-
-/** Invalid monitor id.
- *
- * This exception is thrown when trying to call a monitor function with an
- * invalid monitor id.
- */
-class HOU_SYS_API invalid_monitor_id : public exception
-{
-public:
-  /** Constructor.
-   *
-   * \param path the path to the source file where the error happened.
-   *
-   * \param line the line where the error happened.
-   *
-   * \param id the monitor id.
-   *
-   * \throws std::bad_alloc.
-   */
-  invalid_monitor_id(const std::string& path, uint line, uint id);
-};
-
 }  // namespace hou
 
 #endif

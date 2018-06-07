@@ -21,6 +21,16 @@ class test_display_mode : public Test
 
 
 
+TEST_F(test_display_mode, default_constructor)
+{
+  display_mode v;
+  EXPECT_EQ(vec2u::zero(), v.get_size());
+  EXPECT_EQ(0u, v.get_depth_bit_count());
+  EXPECT_EQ(0u, v.get_refresh_rate());
+}
+
+
+
 TEST_F(test_display_mode, constructor)
 {
   display_mode v(vec2u(1200u, 400u), 8u, 40u);

@@ -22,6 +22,10 @@ namespace hou
 class HOU_SYS_API display_mode
 {
 public:
+  /** Creates display_mode object with all fields initialized to zero.
+   */
+  display_mode();
+
   /** Creates a display_mode object.
    *
    * \param size the size.

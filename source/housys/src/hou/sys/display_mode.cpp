@@ -11,6 +11,12 @@
 namespace hou
 {
 
+display_mode::display_mode()
+  : display_mode(vec2u(), 0u, 0u)
+{}
+
+
+
 display_mode::display_mode(
   const vec2u& size, uint depth_bit_count, uint refresh_rate) noexcept
   : m_size(size)
