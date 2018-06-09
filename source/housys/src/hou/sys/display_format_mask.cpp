@@ -89,6 +89,13 @@ bool operator==(const format_mask& lhs, const format_mask& rhs) noexcept
 
 
 
+bool operator!=(const format_mask& lhs, const format_mask& rhs) noexcept
+{
+  return !(lhs == rhs);
+}
+
+
+
 std::ostream& operator<<(std::ostream& os, const format_mask& pf)
 {
   return os << "{bpp = " << pf.get_bpp()

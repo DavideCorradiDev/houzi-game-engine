@@ -58,8 +58,7 @@ HOU_SYS_API bool operator!=(
  *
  * \return a reference to the stream.
  */
-HOU_SYS_API std::ostream& operator<<(
-  std::ostream& os, const format_mask& fm);
+HOU_SYS_API std::ostream& operator<<(std::ostream& os, const format_mask& fm);
 
 }  // namespace display
 
