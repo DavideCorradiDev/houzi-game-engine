@@ -2,8 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#ifndef HOU_SYS_DISPLAY_PIXEL_FORMAT_HPP
-#define HOU_SYS_DISPLAY_PIXEL_FORMAT_HPP
+#ifndef HOU_SYS_DISPLAY_FORMAT_HPP
+#define HOU_SYS_DISPLAY_FORMAT_HPP
 
 #include "hou/sys/sys_config.hpp"
 
@@ -19,7 +19,7 @@ namespace hou
 namespace display
 {
 
-enum class pixel_format : Uint32
+enum class format : Uint32
 {
   unknown = SDL_PIXELFORMAT_UNKNOWN,
   index1lsb = SDL_PIXELFORMAT_INDEX1LSB,
@@ -61,15 +61,15 @@ enum class pixel_format : Uint32
   nv21 = SDL_PIXELFORMAT_NV21,
 };
 
-/** Writes a pixel_format object into a stream.
+/** Writes a format object into a stream.
  *
  * \param os the stream.
  *
- * \param pf the pixel_format object.
+ * \param f the format object.
  *
  * \return a reference to the stream.
  */
-HOU_SYS_API std::ostream& operator<<(std::ostream& os, const pixel_format& pf);
+HOU_SYS_API std::ostream& operator<<(std::ostream& os, const format& f);
 
 }  // namespace display
 

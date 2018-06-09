@@ -150,8 +150,7 @@ TEST_F(test_display, get_supported_modes)
 
 TEST_F(test_display, get_closest_supported_mode)
 {
-  display::mode invalid_mode(
-    vec2u(33u, 88u), display::pixel_format::unknown, 23u);
+  display::mode invalid_mode(vec2u(33u, 88u), display::format::unknown, 23u);
   for(uint i = 0; i < display::get_count(); ++i)
   {
     display::mode valid_mode

@@ -2,10 +2,10 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#ifndef HOU_SYS_DISPLAY_PIXEL_FORMAT_MASK_HPP
-#define HOU_SYS_DISPLAY_PIXEL_FORMAT_MASK_HPP
+#ifndef HOU_SYS_DISPLAY_FORMAT_MASK_HPP
+#define HOU_SYS_DISPLAY_FORMAT_MASK_HPP
 
-#include "hou/sys/display_pixel_format.hpp"
+#include "hou/sys/display_format.hpp"
 
 #include "hou/sys/sys_config.hpp"
 
@@ -19,12 +19,12 @@ namespace hou
 namespace display
 {
 
-class HOU_SYS_API pixel_format_mask
+class HOU_SYS_API format_mask
 {
 public:
-  pixel_format_mask();
-  pixel_format_mask(uint bpp, uint32_t red_bit_mask, uint32_t green_bit_mask,
-    uint32_t blue_bit_mask, uint32_t alpha_bit_mask);
+  format_mask(format f);
+
+  format get_format() const;
 
   uint get_bpp() const noexcept;
   void set_bpp(uint bpp) noexcept;
@@ -50,21 +50,21 @@ private:
 };
 
 HOU_SYS_API bool operator==(
-  const pixel_format_mask& lhs, const pixel_format_mask& rhs) noexcept;
+  const format_mask& lhs, const format_mask& rhs) noexcept;
 
 HOU_SYS_API bool operator!=(
-  const pixel_format_mask& lhs, const pixel_format_mask& rhs) noexcept;
+  const format_mask& lhs, const format_mask& rhs) noexcept;
 
-/** Writes a pixel_format_mask object into a stream.
+/** Writes a format_mask object into a stream.
  *
  * \param os the stream.
  *
- * \param pf the pixel_format_mask object.
+ * \param fm the format_mask object.
  *
  * \return a reference to the stream.
  */
 HOU_SYS_API std::ostream& operator<<(
-  std::ostream& os, const pixel_format_mask& pf);
+  std::ostream& os, const format_mask& fm);
 
 }  // namespace display
 

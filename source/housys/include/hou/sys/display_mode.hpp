@@ -5,7 +5,7 @@
 #ifndef HOU_SYS_DISPLAY_MODE_HPP
 #define HOU_SYS_DISPLAY_MODE_HPP
 
-#include "hou/sys/display_pixel_format.hpp"
+#include "hou/sys/display_format.hpp"
 
 #include "hou/sys/sys_config.hpp"
 
@@ -35,12 +35,12 @@ public:
    *
    * \param size the size.
    *
-   * \param format the pixel format.
+   * \param f the pixel format.
    *
    * \param refres_rate the refresh_rate.
    */
   mode(
-    const vec2u& size, const pixel_format& format, uint refresh_rate) noexcept;
+    const vec2u& size, const format& f, uint refresh_rate) noexcept;
 
   /** Retrieves the size.
    *
@@ -58,13 +58,13 @@ public:
    *
    * \return the pixel format.
    */
-  const pixel_format& get_pixel_format() const noexcept;
+  const format& get_format() const noexcept;
 
   /** Sets the pixel format.
    *
-   * \param format the pixel format.
+   * \param f the pixel format.
    */
-  void set_pixel_format(const pixel_format& format) noexcept;
+  void set_format(const format& f) noexcept;
 
   /** Retrieves the refresh rate in Hz.
    *
@@ -80,7 +80,7 @@ public:
 
 private:
   vec2u m_size;
-  pixel_format m_pixel_format;
+  format m_format;
   uint m_refresh_rate;
 };
 

@@ -36,7 +36,7 @@ TEST_F(test_system_window, creation)
   display::mode curr_mode = display::get_current_mode(w.get_display_index());
   display::mode w_mode
     = display::get_closest_supported_mode(w.get_display_index(),
-      display::mode(w.get_size(), curr_mode.get_pixel_format(),
+      display::mode(w.get_size(), curr_mode.get_format(),
         curr_mode.get_refresh_rate()));
   EXPECT_EQ(w_mode, w.get_display_mode());
   EXPECT_EQ(u8"TestWindow", w.get_title());
@@ -505,7 +505,7 @@ TEST_F(test_system_window, test_raise)
 //   system_window w(
 //     "Win", video_mode(vec2u(300u, 600u), 32u), window_style::windowed);
 //   EXPECT_EQ(image2_rgba(), w.get_icon());
-//   image2_rgba refIcon(png_image_file::read<pixel_format::rgba>(
+//   image2_rgba refIcon(png_image_file::read<format::rgba>(
 //     get_data_dir() + u8"TestImage.png"));
 //   w.set_icon(refIcon);
 //   EXPECT_EQ(refIcon, w.get_icon());

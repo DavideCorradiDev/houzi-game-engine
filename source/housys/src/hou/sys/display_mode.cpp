@@ -15,15 +15,14 @@ namespace display
 {
 
 mode::mode()
-  : mode(vec2u(), pixel_format(), 0u)
+  : mode(vec2u(), format(), 0u)
 {}
 
 
 
-mode::mode(
-  const vec2u& size, const pixel_format& format, uint refresh_rate) noexcept
+mode::mode(const vec2u& size, const format& f, uint refresh_rate) noexcept
   : m_size(size)
-  , m_pixel_format(format)
+  , m_format(f)
   , m_refresh_rate(refresh_rate)
 {}
 
@@ -43,16 +42,16 @@ void mode::set_size(const vec2u& size) noexcept
 
 
 
-const pixel_format& mode::get_pixel_format() const noexcept
+const format& mode::get_format() const noexcept
 {
-  return m_pixel_format;
+  return m_format;
 }
 
 
 
-void mode::set_pixel_format(const pixel_format& format) noexcept
+void mode::set_format(const format& f) noexcept
 {
-  m_pixel_format = format;
+  m_format = f;
 }
 
 
@@ -74,7 +73,7 @@ void mode::set_refresh_rate(uint refres_rate) noexcept
 bool operator==(const mode& lhs, const mode& rhs) noexcept
 {
   return lhs.get_size() == rhs.get_size()
-    && lhs.get_pixel_format() == rhs.get_pixel_format()
+    && lhs.get_format() == rhs.get_format()
     && lhs.get_refresh_rate() == rhs.get_refresh_rate();
 }
 
@@ -93,11 +92,11 @@ bool operator<(const mode& lhs, const mode& rhs) noexcept
   {
     if(lhs.get_size().y() == rhs.get_size().y())
     {
-      if(lhs.get_pixel_format() == rhs.get_pixel_format())
+      if(lhs.get_format() == rhs.get_format())
       {
         return lhs.get_refresh_rate() < rhs.get_refresh_rate();
       }
-      return lhs.get_pixel_format() < rhs.get_pixel_format();
+      return lhs.get_format() < rhs.get_format();
     }
     return lhs.get_size().y() < rhs.get_size().y();
   }
@@ -130,7 +129,7 @@ bool operator>=(const mode& lhs, const mode& rhs) noexcept
 std::ostream& operator<<(std::ostream& os, const mode& vm)
 {
   return os << "{size = " << transpose(vm.get_size())
-            << ", pixel_format = " << vm.get_pixel_format()
+            << ", format = " << vm.get_format()
             << ", refresh_rate = " << vm.get_refresh_rate() << "}";
 }
 }  // namespace display
