@@ -46,6 +46,8 @@ public:
   uint get_display_index() const;
 
   display::mode get_display_mode() const;
+  void set_display_mode(const display::mode& mode);
+  void set_default_display_mode();
 
   std::string get_title() const;
   void set_title(const std::string& title);

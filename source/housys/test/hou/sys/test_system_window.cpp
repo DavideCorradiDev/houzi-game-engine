@@ -69,6 +69,55 @@ TEST_F(test_system_window, move_constructor)
 
 
 
+TEST_F(test_system_window, display_mode)
+{
+  system_window w(u8"TestWindow", vec2u(32u, 64u));
+
+  display::mode curr_mode = display::get_current_mode(w.get_display_index());
+  display::mode default_mode
+    = display::get_closest_supported_mode(w.get_display_index(),
+      display::mode(w.get_size(), curr_mode.get_format(),
+        curr_mode.get_refresh_rate()));
+
+  EXPECT_EQ(default_mode, w.get_display_mode());
+
+  display::mode custom_mode(vec2u(64u, 128u), display::format::unknown, 30u);
+  w.set_display_mode(custom_mode);
+  EXPECT_EQ(
+    display::get_closest_supported_mode(w.get_display_index(), custom_mode),
+    w.get_display_mode());
+
+  w.set_default_display_mode();
+  EXPECT_EQ(default_mode, w.get_display_mode());
+}
+
+
+
+TEST_F(test_system_window, defauklt_display_mode_change_on_resize)
+{
+  system_window w(u8"TestWindow", vec2u(32u, 64u));
+
+  display::mode curr_mode = display::get_current_mode(w.get_display_index());
+
+  display::mode default_mode
+    = display::get_closest_supported_mode(w.get_display_index(),
+      display::mode(w.get_size(), curr_mode.get_format(),
+        curr_mode.get_refresh_rate()));
+
+  EXPECT_EQ(default_mode, w.get_display_mode());
+
+  w.set_size(vec2u(800u, 600u));
+  display::mode new_mode
+    = display::get_closest_supported_mode(w.get_display_index(),
+      display::mode(w.get_size(), curr_mode.get_format(),
+        curr_mode.get_refresh_rate()));
+
+  EXPECT_NE(default_mode, new_mode);
+  EXPECT_EQ(new_mode, w.get_display_mode());
+}
+
+
+
 TEST_F(test_system_window, title)
 {
   system_window w(u8"TestWindow", vec2u(32u, 64u));

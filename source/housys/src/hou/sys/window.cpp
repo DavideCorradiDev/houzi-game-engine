@@ -90,7 +90,7 @@ uint32_t window::get_uid() const noexcept
 uint window::get_display_index() const
 {
   int display_idx = SDL_GetWindowDisplayIndex(m_impl);
-  HOU_CHECK_N(display_idx >= 0, platform_error, SDL_GetError());
+  HOU_SDL_CHECK(display_idx >= 0);
   return narrow_cast<uint>(display_idx);
 }
 
@@ -98,10 +98,24 @@ uint window::get_display_index() const
 
 display::mode window::get_display_mode() const
 {
-  SDL_DisplayMode mode;
-  HOU_CHECK_N(SDL_GetWindowDisplayMode(m_impl, &mode) == 0, platform_error,
-    SDL_GetError());
-  return prv::convert(mode);
+  SDL_DisplayMode sdl_mode;
+  HOU_SDL_CHECK(SDL_GetWindowDisplayMode(m_impl, &sdl_mode) == 0);
+  return prv::convert(sdl_mode);
+}
+
+
+
+void window::set_display_mode(const display::mode& mode)
+{
+  SDL_DisplayMode sdl_mode = prv::convert(mode);
+  HOU_SDL_CHECK(SDL_SetWindowDisplayMode(m_impl, &sdl_mode) == 0);
+}
+
+
+
+void window::set_default_display_mode()
+{
+  HOU_SDL_CHECK(SDL_SetWindowDisplayMode(m_impl, nullptr) == 0);
 }
 
 

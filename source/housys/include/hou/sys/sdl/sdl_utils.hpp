@@ -30,6 +30,13 @@ SDL_DisplayMode convert(const display::mode& mode_in);
 
 }  // namespace prv
 
+class platform_error;
+
 }  // namespace hou
+
+
+
+#define HOU_SDL_CHECK(condition)                                               \
+  HOU_CHECK_N(condition, ::hou::platform_error, SDL_GetError());
 
 #endif
