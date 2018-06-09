@@ -23,7 +23,7 @@ namespace display
 uint get_count()
 {
   int count = SDL_GetNumVideoDisplays();
-  HOU_CHECK_N(count >= 1, platform_error, SDL_GetError());
+  HOU_SDL_CHECK(count >= 1);
   return narrow_cast<uint>(count);
 }
 
@@ -32,7 +32,7 @@ uint get_count()
 std::string get_name(uint display_idx)
 {
   const char* name = SDL_GetDisplayName(narrow_cast<int>(display_idx));
-  HOU_CHECK_N(name != nullptr, platform_error, SDL_GetError());
+  HOU_SDL_CHECK(name != nullptr);
   return name;
 }
 
@@ -41,8 +41,7 @@ std::string get_name(uint display_idx)
 recti get_bounds(uint display_idx)
 {
   SDL_Rect rect;
-  HOU_CHECK_N(SDL_GetDisplayBounds(display_idx, &rect) == 0, platform_error,
-    SDL_GetError());
+  HOU_SDL_CHECK(SDL_GetDisplayBounds(display_idx, &rect) == 0);
   return recti(rect.x, rect.y, rect.w, rect.h);
 }
 
@@ -51,8 +50,7 @@ recti get_bounds(uint display_idx)
 recti get_usable_bounds(uint display_idx)
 {
   SDL_Rect rect;
-  HOU_CHECK_N(SDL_GetDisplayUsableBounds(display_idx, &rect) == 0,
-    platform_error, SDL_GetError());
+  HOU_SDL_CHECK(SDL_GetDisplayUsableBounds(display_idx, &rect) == 0);
   return recti(rect.x, rect.y, rect.w, rect.h);
 }
 
@@ -61,8 +59,7 @@ recti get_usable_bounds(uint display_idx)
 mode get_current_mode(uint display_idx)
 {
   SDL_DisplayMode mode;
-  HOU_CHECK_N(SDL_GetCurrentDisplayMode(display_idx, &mode) == 0,
-    platform_error, SDL_GetError());
+  HOU_SDL_CHECK(SDL_GetCurrentDisplayMode(display_idx, &mode) == 0);
   return prv::convert(mode);
 }
 
@@ -71,14 +68,13 @@ mode get_current_mode(uint display_idx)
 std::set<mode> get_supported_modes(uint display_idx)
 {
   int count = SDL_GetNumDisplayModes(display_idx);
-  HOU_CHECK_N(count >= 1, platform_error, SDL_GetError());
+  HOU_SDL_CHECK(count >= 1);
 
   std::set<mode> modes;
   for(int i = 0; i < count; ++i)
   {
     SDL_DisplayMode mode;
-    HOU_CHECK_N(SDL_GetDisplayMode(display_idx, i, &mode) == 0, platform_error,
-      SDL_GetError());
+    HOU_SDL_CHECK(SDL_GetDisplayMode(display_idx, i, &mode) == 0);
     modes.insert(prv::convert(mode));
   }
   return modes;
@@ -90,9 +86,8 @@ mode get_closest_supported_mode(uint display_idx, const mode& mode_in)
 {
   SDL_DisplayMode sdl_mode_in = prv::convert(mode_in);
   SDL_DisplayMode mode_out;
-  HOU_CHECK_N(
-    SDL_GetClosestDisplayMode(display_idx, &sdl_mode_in, &mode_out) != nullptr,
-    platform_error, SDL_GetError());
+  HOU_SDL_CHECK(
+    SDL_GetClosestDisplayMode(display_idx, &sdl_mode_in, &mode_out) != nullptr);
   return prv::convert(mode_out);
 }
 
@@ -110,7 +105,7 @@ std::set<std::string> get_available_video_drivers()
 {
   std::set<std::string> video_drivers;
   int count = SDL_GetNumVideoDrivers();
-  HOU_CHECK_N(count >= 1, platform_error, SDL_GetError());
+  HOU_SDL_CHECK(count >= 1);
   for(int i = 0; i < count; ++i)
   {
     const char* driver = SDL_GetVideoDriver(i);

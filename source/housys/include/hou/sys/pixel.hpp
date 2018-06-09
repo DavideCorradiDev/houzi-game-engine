@@ -34,7 +34,7 @@ public:
   static constexpr pixel_format format = PF;
 
   /** The number of bytes in a pixel. */
-  static constexpr size_t byte_count = get_pixel_format_byte_count(PF);
+  static constexpr size_t byte_count = get_bytes_per_pixel(PF);
 
 public:
   /** Retrieves the format of the pixel.
@@ -189,7 +189,7 @@ public:
    * \return the value of the channel.
    */
   template <pixel_format PF2 = PF,
-    typename Enable = std::enable_if_t<(get_pixel_format_byte_count(PF2) > 1u)>>
+    typename Enable = std::enable_if_t<(get_bytes_per_pixel(PF2) > 1u)>>
   uint8_t get_g() const noexcept;
 
   /** Sets the value of the green channel of the pixel.
@@ -201,7 +201,7 @@ public:
    * \param value the value.
    */
   template <pixel_format PF2 = PF,
-    typename Enable = std::enable_if_t<(get_pixel_format_byte_count(PF2) > 1u)>>
+    typename Enable = std::enable_if_t<(get_bytes_per_pixel(PF2) > 1u)>>
   void set_g(uint8_t value) noexcept;
 
   /** Retrieves the value of the blue channel of the pixel.
@@ -213,7 +213,7 @@ public:
    * \return the value of the channel.
    */
   template <pixel_format PF2 = PF,
-    typename Enable = std::enable_if_t<(get_pixel_format_byte_count(PF2) > 2u)>>
+    typename Enable = std::enable_if_t<(get_bytes_per_pixel(PF2) > 2u)>>
   uint8_t get_b() const noexcept;
 
   /** Sets the value of the blue channel of the pixel.
@@ -225,7 +225,7 @@ public:
    * \param value the value.
    */
   template <pixel_format PF2 = PF,
-    typename Enable = std::enable_if_t<(get_pixel_format_byte_count(PF2) > 1u)>>
+    typename Enable = std::enable_if_t<(get_bytes_per_pixel(PF2) > 1u)>>
   void set_b(uint8_t value) noexcept;
 
   /** Retrieves the value of the alpha channel of the pixel.
@@ -237,7 +237,7 @@ public:
    * \return the value of the channel.
    */
   template <pixel_format PF2 = PF,
-    typename Enable = std::enable_if_t<(get_pixel_format_byte_count(PF2) > 3u)>>
+    typename Enable = std::enable_if_t<(get_bytes_per_pixel(PF2) > 3u)>>
   uint8_t get_a() const noexcept;
 
   /** Sets the value of the alpha channel of the pixel.
@@ -249,7 +249,7 @@ public:
    * \param value the value.
    */
   template <pixel_format PF2 = PF,
-    typename Enable = std::enable_if_t<(get_pixel_format_byte_count(PF2) > 1u)>>
+    typename Enable = std::enable_if_t<(get_bytes_per_pixel(PF2) > 1u)>>
   void set_a(uint8_t value) noexcept;
 
   /** Retrieves the color of the pixel.
@@ -345,7 +345,7 @@ public:
     const pixel<PF2>& lhs, const pixel<PF2>& rhs) noexcept;
 
 private:
-  std::array<uint8_t, get_pixel_format_byte_count(PF)> m_channels;
+  std::array<uint8_t, get_bytes_per_pixel(PF)> m_channels;
 };
 HOU_PRAGMA_PACK_POP()
 

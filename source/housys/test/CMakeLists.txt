@@ -41,11 +41,14 @@ SET(EXE_HOUSYS_TEST_SRC
   hou/sys/test_color.cpp
   hou/sys/test_data.cpp
   hou/sys/test_display_mode.cpp
+  hou/sys/test_display_format.cpp
+  hou/sys/test_display_format_mask.cpp
   hou/sys/test_file.cpp
   hou/sys/test_file_handle.cpp
   hou/sys/test_image.cpp
   hou/sys/test_image_file.cpp
   hou/sys/test_pixel.cpp
+  hou/sys/test_pixel_format.cpp
   hou/sys/test_display.cpp
   hou/sys/test_sys_exceptions.cpp
   hou/sys/test_system_window.cpp

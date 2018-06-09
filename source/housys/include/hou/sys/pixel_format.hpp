@@ -35,7 +35,9 @@ enum class pixel_format
  *
  * \return the number of bytes.
  */
-constexpr uint get_pixel_format_byte_count(pixel_format format) noexcept;
+constexpr uint get_bits_per_pixel(pixel_format format) noexcept;
+
+constexpr uint get_bytes_per_pixel(pixel_format format) noexcept;
 
 /** Writes a pixel_format enum into a stream.
  *

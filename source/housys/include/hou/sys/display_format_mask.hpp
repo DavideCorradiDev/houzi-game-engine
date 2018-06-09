@@ -27,19 +27,14 @@ public:
   format get_format() const;
 
   uint get_bpp() const noexcept;
-  void set_bpp(uint bpp) noexcept;
 
   uint32_t get_red_bit_mask() const noexcept;
-  void set_red_bit_mask(uint32_t mask) noexcept;
 
   uint32_t get_green_bit_mask() const noexcept;
-  void set_green_bit_mask(uint32_t mask) noexcept;
 
   uint32_t get_blue_bit_mask() const noexcept;
-  void set_blue_bit_mask(uint32_t mask) noexcept;
 
   uint32_t get_alpha_bit_mask() const noexcept;
-  void set_alpha_bit_mask(uint32_t mask) noexcept;
 
 private:
   uint m_bpp;

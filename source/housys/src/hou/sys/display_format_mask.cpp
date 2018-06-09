@@ -50,23 +50,9 @@ uint format_mask::get_bpp() const noexcept
 
 
 
-void format_mask::set_bpp(uint bpp) noexcept
-{
-  m_bpp = bpp;
-}
-
-
-
 uint32_t format_mask::get_red_bit_mask() const noexcept
 {
   return m_red_bit_mask;
-}
-
-
-
-void format_mask::set_red_bit_mask(uint32_t mask) noexcept
-{
-  m_red_bit_mask = mask;
 }
 
 
@@ -78,13 +64,6 @@ uint32_t format_mask::get_green_bit_mask() const noexcept
 
 
 
-void format_mask::set_green_bit_mask(uint32_t mask) noexcept
-{
-  m_green_bit_mask = mask;
-}
-
-
-
 uint32_t format_mask::get_blue_bit_mask() const noexcept
 {
   return m_blue_bit_mask;
@@ -92,23 +71,9 @@ uint32_t format_mask::get_blue_bit_mask() const noexcept
 
 
 
-void format_mask::set_blue_bit_mask(uint32_t mask) noexcept
-{
-  m_blue_bit_mask = mask;
-}
-
-
-
 uint32_t format_mask::get_alpha_bit_mask() const noexcept
 {
   return m_alpha_bit_mask;
-}
-
-
-
-void format_mask::set_alpha_bit_mask(uint32_t mask) noexcept
-{
-  m_alpha_bit_mask = mask;
 }
 
 
