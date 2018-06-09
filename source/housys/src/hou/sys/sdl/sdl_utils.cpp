@@ -36,9 +36,12 @@ display::pixel_format convert(Uint32 pf_in)
 
 Uint32 convert(const display::pixel_format& pf_in)
 {
-  return SDL_MasksToPixelFormatEnum(narrow_cast<int>(pf_in.get_bpp()),
+  Uint32 pf_out = SDL_MasksToPixelFormatEnum(narrow_cast<int>(pf_in.get_bpp()),
     pf_in.get_red_bit_mask(), pf_in.get_green_bit_mask(),
     pf_in.get_blue_bit_mask(), pf_in.get_alpha_bit_mask());
+  HOU_CHECK_N(pf_out != SDL_PIXELFORMAT_UNKNOWN, platform_error,
+    u8"Could not convert mask to pixel format enum.");
+  return pf_out;
 }
 
 

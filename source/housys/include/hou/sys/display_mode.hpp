@@ -53,7 +53,17 @@ public:
    * \param size the size.
    */
   void set_size(const vec2u& size) noexcept;
+
+  /** Gets the pixel format.
+   *
+   * \return the pixel format.
+   */
   const pixel_format& get_pixel_format() const noexcept;
+
+  /** Sets the pixel format.
+   *
+   * \param format the pixel format.
+   */
   void set_pixel_format(const pixel_format& format) noexcept;
 
   /** Retrieves the refresh rate in Hz.
