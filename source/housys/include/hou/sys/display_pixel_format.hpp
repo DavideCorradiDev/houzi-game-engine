@@ -2,7 +2,12 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
+#ifndef HOU_SYS_DISPLAY_PIXEL_FORMAT_HPP
+#define HOU_SYS_DISPLAY_PIXEL_FORMAT_HPP
+
 #include "hou/sys/sys_config.hpp"
+
+#include "SDL2/SDL_video.h"
 
 #include <ostream>
 
@@ -14,122 +19,49 @@ namespace hou
 namespace display
 {
 
-class HOU_SYS_API pixel_format
+enum class pixel_format : Uint32
 {
-public:
-  static const pixel_format& rgb();
-  static const pixel_format& rgba();
-
-public:
-  pixel_format();
-  pixel_format(uint bpp, uint32_t red_bit_mask, uint32_t green_bit_mask,
-    uint32_t blue_bit_mask, uint32_t alpha_bit_mask);
-
-  uint get_bpp() const noexcept;
-  void set_bpp(uint bpp) noexcept;
-
-  uint32_t get_red_bit_mask() const noexcept;
-  void set_red_bit_mask(uint32_t mask) noexcept;
-
-  uint32_t get_green_bit_mask() const noexcept;
-  void set_green_bit_mask(uint32_t mask) noexcept;
-
-  uint32_t get_blue_bit_mask() const noexcept;
-  void set_blue_bit_mask(uint32_t mask) noexcept;
-
-  uint32_t get_alpha_bit_mask() const noexcept;
-  void set_alpha_bit_mask(uint32_t mask) noexcept;
-
-private:
-  uint m_bpp;
-  uint32_t m_red_bit_mask;
-  uint32_t m_green_bit_mask;
-  uint32_t m_blue_bit_mask;
-  uint32_t m_alpha_bit_mask;
+  unknown = SDL_PIXELFORMAT_UNKNOWN,
+  index1lsb = SDL_PIXELFORMAT_INDEX1LSB,
+  index1msb = SDL_PIXELFORMAT_INDEX1MSB,
+  index4lsb = SDL_PIXELFORMAT_INDEX4LSB,
+  index4msb = SDL_PIXELFORMAT_INDEX4MSB,
+  index8 = SDL_PIXELFORMAT_INDEX8,
+  rgb332 = SDL_PIXELFORMAT_RGB332,
+  rgb444 = SDL_PIXELFORMAT_RGB444,
+  rgb555 = SDL_PIXELFORMAT_RGB555,
+  bgr555 = SDL_PIXELFORMAT_BGR555,
+  argb4444 = SDL_PIXELFORMAT_ARGB4444,
+  rgba4444 = SDL_PIXELFORMAT_RGBA4444,
+  abgr4444 = SDL_PIXELFORMAT_ABGR4444,
+  bgra4444 = SDL_PIXELFORMAT_BGRA4444,
+  argb1555 = SDL_PIXELFORMAT_ARGB1555,
+  rgba5551 = SDL_PIXELFORMAT_RGBA5551,
+  abgr1555 = SDL_PIXELFORMAT_ABGR1555,
+  bgra5551 = SDL_PIXELFORMAT_BGRA5551,
+  rgb565 = SDL_PIXELFORMAT_RGB565,
+  bgr565 = SDL_PIXELFORMAT_BGR565,
+  rgb24 = SDL_PIXELFORMAT_RGB24,
+  bgr24 = SDL_PIXELFORMAT_BGR24,
+  rgb888 = SDL_PIXELFORMAT_RGB888,
+  rgbx8888 = SDL_PIXELFORMAT_RGBX8888,
+  bgr888 = SDL_PIXELFORMAT_BGR888,
+  bgrx8888 = SDL_PIXELFORMAT_BGRX8888,
+  argb8888 = SDL_PIXELFORMAT_ARGB8888,
+  rgba8888 = SDL_PIXELFORMAT_RGBA8888,
+  abgr8888 = SDL_PIXELFORMAT_ABGR8888,
+  bgra8888 = SDL_PIXELFORMAT_BGRA8888,
+  argb2101010 = SDL_PIXELFORMAT_ARGB2101010,
+  yv12 = SDL_PIXELFORMAT_YV12,
+  iyuv = SDL_PIXELFORMAT_IYUV,
+  yuy2 = SDL_PIXELFORMAT_YUY2,
+  uyvy = SDL_PIXELFORMAT_UYVY,
+  yvyu = SDL_PIXELFORMAT_YVYU,
+  nv12 = SDL_PIXELFORMAT_NV12,
+  nv21 = SDL_PIXELFORMAT_NV21,
 };
 
-/** Checks if two pixel_format objects are equal.
- *
- * \param lhs the left operand.
- *
- * \param rhs the right operand.
- *
- * \return the result of the check.
- */
-HOU_SYS_API bool operator==(
-  const pixel_format& lhs, const pixel_format& rhs) noexcept;
-
-/** Checks if two pixel_format objects are not equal.
- *
- * \param lhs the left operand.
- *
- * \param rhs the right operand.
- *
- * \return the result of the check.
- */
-HOU_SYS_API bool operator!=(
-  const pixel_format& lhs, const pixel_format& rhs) noexcept;
-
-/** Checks if lhs is lower than rhs.
- *
- * Comparisons happen in the following order: bits per pixel, x size,
- * y size.
- *
- * \param lhs the left operand.
- *
- * \param rhs the right operand.
- *
- * \return the result of the check.
- */
-HOU_SYS_API bool operator<(
-  const pixel_format& lhs, const pixel_format& rhs) noexcept;
-
-/** Checks if lhs is greater than rhs.
- *
- * Comparisons happen in the following order: bits per pixel, x size,
- * y size.
- *
- * \param lhs the left operand.
- *
- * \param rhs the right operand.
- *
- * \return the result of the check.
- */
-HOU_SYS_API bool operator>(
-  const pixel_format& lhs, const pixel_format& rhs) noexcept;
-
-/** Checks if lhs is lower or equal to rhs.
- *
- * Comparisons happen in the following order: bits per pixel, x size,
- * y size.
- *
- * \param lhs the left operand.
- *
- * \param rhs the right operand.
- *
- * \return the result of the check.
- */
-HOU_SYS_API bool operator<=(
-  const pixel_format& lhs, const pixel_format& rhs) noexcept;
-
-/** Checks if lhs is greater or equal to rhs.
- *
- * Comparisons happen in the following order: bits per pixel, x size,
- * y size.
- *
- * \param lhs the left operand.
- *
- * \param rhs the right operand.
- *
- * \return the result of the check.
- */
-HOU_SYS_API bool operator>=(
-  const pixel_format& lhs, const pixel_format& rhs) noexcept;
-
 /** Writes a pixel_format object into a stream.
- *
- * Comparisons happen in the following order: bits per pixel, x size,
- * y size.
  *
  * \param os the stream.
  *
@@ -142,3 +74,5 @@ HOU_SYS_API std::ostream& operator<<(std::ostream& os, const pixel_format& pf);
 }  // namespace display
 
 }  // namespace hou
+
+#endif

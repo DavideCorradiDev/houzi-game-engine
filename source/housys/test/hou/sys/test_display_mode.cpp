@@ -33,9 +33,9 @@ TEST_F(test_display_mode, default_constructor)
 
 TEST_F(test_display_mode, constructor)
 {
-  display::mode v(vec2u(1200u, 400u), display::pixel_format::rgba(), 40u);
+  display::mode v(vec2u(1200u, 400u), display::pixel_format::rgba8888, 40u);
   EXPECT_EQ(vec2u(1200u, 400u), v.get_size());
-  EXPECT_EQ(display::pixel_format::rgba(), v.get_pixel_format());
+  EXPECT_EQ(display::pixel_format::rgba8888, v.get_pixel_format());
   EXPECT_EQ(40u, v.get_refresh_rate());
 }
 
@@ -44,7 +44,7 @@ TEST_F(test_display_mode, constructor)
 TEST_F(test_display_mode, set_size)
 {
   vec2u val_ref(800u, 600u);
-  display::mode v(vec2u(1200u, 400u), display::pixel_format::rgba(), 40u);
+  display::mode v(vec2u(1200u, 400u), display::pixel_format::rgba8888, 40u);
   v.set_size(val_ref);
   EXPECT_EQ(val_ref, v.get_size());
 }
@@ -53,8 +53,8 @@ TEST_F(test_display_mode, set_size)
 
 TEST_F(test_display_mode, set_pixel_format)
 {
-  display::pixel_format val_ref = display::pixel_format::rgb();
-  display::mode v(vec2u(1200u, 400u), display::pixel_format::rgba(), 40u);
+  display::pixel_format val_ref = display::pixel_format::rgb888;
+  display::mode v(vec2u(1200u, 400u), display::pixel_format::rgba8888, 40u);
   v.set_pixel_format(val_ref);
   EXPECT_EQ(val_ref, v.get_pixel_format());
 }
@@ -64,7 +64,7 @@ TEST_F(test_display_mode, set_pixel_format)
 TEST_F(test_display_mode, set_refresh_rate)
 {
   uint val_ref = 60u;
-  display::mode v(vec2u(1200u, 400u), display::pixel_format::rgba(), 40u);
+  display::mode v(vec2u(1200u, 400u), display::pixel_format::rgba8888, 40u);
   v.set_refresh_rate(val_ref);
   EXPECT_EQ(val_ref, v.get_refresh_rate());
 }
@@ -79,8 +79,8 @@ TEST_F(test_display_mode, lower_than_operator)
   uint y0 = 320u;
   uint y1 = 640u;
 
-  display::pixel_format pf0 = display::pixel_format::rgb();
-  display::pixel_format pf1 = display::pixel_format::rgba();
+  display::pixel_format pf0 = display::pixel_format::rgb888;
+  display::pixel_format pf1 = display::pixel_format::rgba8888;
 
   uint r0 = 24u;
   uint r1 = 40u;
@@ -388,8 +388,8 @@ TEST_F(test_display_mode, comparison_operators)
   uint y0 = 320u;
   uint y1 = 640u;
 
-  display::pixel_format pf0 = display::pixel_format::rgb();
-  display::pixel_format pf1 = display::pixel_format::rgba();
+  display::pixel_format pf0 = display::pixel_format::rgb888;
+  display::pixel_format pf1 = display::pixel_format::rgba8888;
 
   uint r0 = 24u;
   uint r1 = 40u;
@@ -438,11 +438,9 @@ TEST_F(test_display_mode, comparison_operators)
 
 TEST_F(test_display_mode, output_stream_operator)
 {
-  display::mode vm(vec2u(300u, 400u), display::pixel_format::rgba(), 45u);
+  display::mode vm(vec2u(300u, 400u), display::pixel_format::rgba8888, 45u);
 
   const char* output_ref
-    = "{size = (300, 400), pixel_format = {bbp = 32, red_bit_mask = "
-      "0xff000000, green_bit_mask = 0x00ff0000, blue_bit_mask = 0x0000ff00, "
-      "alpha_bit_mask = 0x000000ff}, refresh_rate = 45}";
+    = "{size = (300, 400), pixel_format = rgba8888, refresh_rate = 45}";
   EXPECT_OUTPUT(output_ref, vm);
 }

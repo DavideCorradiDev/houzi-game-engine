@@ -106,9 +106,6 @@ HOU_SYS_API bool operator!=(const mode& lhs, const mode& rhs) noexcept;
 
 /** Checks if lhs is lower than rhs.
  *
- * Comparisons happen in the following order: bits per pixel, x size,
- * y size.
- *
  * \param lhs the left operand.
  *
  * \param rhs the right operand.
@@ -118,9 +115,6 @@ HOU_SYS_API bool operator!=(const mode& lhs, const mode& rhs) noexcept;
 HOU_SYS_API bool operator<(const mode& lhs, const mode& rhs) noexcept;
 
 /** Checks if lhs is greater than rhs.
- *
- * Comparisons happen in the following order: bits per pixel, x size,
- * y size.
  *
  * \param lhs the left operand.
  *
@@ -132,9 +126,6 @@ HOU_SYS_API bool operator>(const mode& lhs, const mode& rhs) noexcept;
 
 /** Checks if lhs is lower or equal to rhs.
  *
- * Comparisons happen in the following order: bits per pixel, x size,
- * y size.
- *
  * \param lhs the left operand.
  *
  * \param rhs the right operand.
@@ -145,9 +136,6 @@ HOU_SYS_API bool operator<=(const mode& lhs, const mode& rhs) noexcept;
 
 /** Checks if lhs is greater or equal to rhs.
  *
- * Comparisons happen in the following order: bits per pixel, x size,
- * y size.
- *
  * \param lhs the left operand.
  *
  * \param rhs the right operand.
@@ -157,9 +145,6 @@ HOU_SYS_API bool operator<=(const mode& lhs, const mode& rhs) noexcept;
 HOU_SYS_API bool operator>=(const mode& lhs, const mode& rhs) noexcept;
 
 /** Writes a mode object into a stream.
- *
- * Comparisons happen in the following order: bits per pixel, x size,
- * y size.
  *
  * \param os the stream.
  *
