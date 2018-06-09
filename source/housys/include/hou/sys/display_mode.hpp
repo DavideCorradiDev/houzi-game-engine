@@ -5,6 +5,8 @@
 #ifndef HOU_SYS_DISPLAY_MODE_HPP
 #define HOU_SYS_DISPLAY_MODE_HPP
 
+#include "hou/sys/display_pixel_format.hpp"
+
 #include "hou/sys/sys_config.hpp"
 
 #include "hou/mth/matrix.hpp"
@@ -17,25 +19,28 @@
 namespace hou
 {
 
+namespace display
+{
+
 /** Class representing a display mode.
  */
-class HOU_SYS_API display_mode
+class HOU_SYS_API mode
 {
 public:
-  /** Creates display_mode object with all fields initialized to zero.
+  /** Creates mode object with all fields initialized to zero.
    */
-  display_mode();
+  mode();
 
-  /** Creates a display_mode object.
+  /** Creates a mode object.
    *
    * \param size the size.
    *
-   * \param depth_bit_count the number of bits per pixel.
+   * \param format the pixel format.
    *
    * \param refres_rate the refresh_rate.
    */
-  display_mode(
-    const vec2u& size, uint depth_bit_count, uint refresh_rate) noexcept;
+  mode(
+    const vec2u& size, const pixel_format& format, uint refresh_rate) noexcept;
 
   /** Retrieves the size.
    *
@@ -48,18 +53,8 @@ public:
    * \param size the size.
    */
   void set_size(const vec2u& size) noexcept;
-
-  /** Retrieves the number of bits per pixel.
-   *
-   * \return the number of bits per pixel.
-   */
-  uint get_depth_bit_count() const noexcept;
-
-  /** Sets the number of bits per pixel.
-   *
-   * \param depth_bit_count the number of bits per pixel.
-   */
-  void set_depth_bit_count(uint depth_bit_count) noexcept;
+  const pixel_format& get_pixel_format() const noexcept;
+  void set_pixel_format(const pixel_format& format) noexcept;
 
   /** Retrieves the refresh rate in Hz.
    *
@@ -75,11 +70,11 @@ public:
 
 private:
   vec2u m_size;
-  uint m_depth_bit_count;
+  pixel_format m_pixel_format;
   uint m_refresh_rate;
 };
 
-/** Checks if two display_mode objects are equal.
+/** Checks if two mode objects are equal.
  *
  * \param lhs the left operand.
  *
@@ -87,10 +82,9 @@ private:
  *
  * \return the result of the check.
  */
-HOU_SYS_API bool operator==(
-  const display_mode& lhs, const display_mode& rhs) noexcept;
+HOU_SYS_API bool operator==(const mode& lhs, const mode& rhs) noexcept;
 
-/** Checks if two display_mode objects are not equal.
+/** Checks if two mode objects are not equal.
  *
  * \param lhs the left operand.
  *
@@ -98,8 +92,7 @@ HOU_SYS_API bool operator==(
  *
  * \return the result of the check.
  */
-HOU_SYS_API bool operator!=(
-  const display_mode& lhs, const display_mode& rhs) noexcept;
+HOU_SYS_API bool operator!=(const mode& lhs, const mode& rhs) noexcept;
 
 /** Checks if lhs is lower than rhs.
  *
@@ -112,8 +105,7 @@ HOU_SYS_API bool operator!=(
  *
  * \return the result of the check.
  */
-HOU_SYS_API bool operator<(
-  const display_mode& lhs, const display_mode& rhs) noexcept;
+HOU_SYS_API bool operator<(const mode& lhs, const mode& rhs) noexcept;
 
 /** Checks if lhs is greater than rhs.
  *
@@ -126,8 +118,7 @@ HOU_SYS_API bool operator<(
  *
  * \return the result of the check.
  */
-HOU_SYS_API bool operator>(
-  const display_mode& lhs, const display_mode& rhs) noexcept;
+HOU_SYS_API bool operator>(const mode& lhs, const mode& rhs) noexcept;
 
 /** Checks if lhs is lower or equal to rhs.
  *
@@ -140,8 +131,7 @@ HOU_SYS_API bool operator>(
  *
  * \return the result of the check.
  */
-HOU_SYS_API bool operator<=(
-  const display_mode& lhs, const display_mode& rhs) noexcept;
+HOU_SYS_API bool operator<=(const mode& lhs, const mode& rhs) noexcept;
 
 /** Checks if lhs is greater or equal to rhs.
  *
@@ -154,21 +144,22 @@ HOU_SYS_API bool operator<=(
  *
  * \return the result of the check.
  */
-HOU_SYS_API bool operator>=(
-  const display_mode& lhs, const display_mode& rhs) noexcept;
+HOU_SYS_API bool operator>=(const mode& lhs, const mode& rhs) noexcept;
 
-/** Writes a display_mode object into a stream.
+/** Writes a mode object into a stream.
  *
  * Comparisons happen in the following order: bits per pixel, x size,
  * y size.
  *
  * \param os the stream.
  *
- * \param vm the display_mode object.
+ * \param vm the mode object.
  *
  * \return a reference to the stream.
  */
-HOU_SYS_API std::ostream& operator<<(std::ostream& os, const display_mode& vm);
+HOU_SYS_API std::ostream& operator<<(std::ostream& os, const mode& vm);
+
+}  // namespace display
 
 }  // namespace hou
 

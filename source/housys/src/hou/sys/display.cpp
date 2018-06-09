@@ -58,7 +58,7 @@ recti get_usable_bounds(uint display_idx)
 
 
 
-display_mode get_current_mode(uint display_idx)
+mode get_current_mode(uint display_idx)
 {
   SDL_DisplayMode mode;
   HOU_CHECK_N(SDL_GetCurrentDisplayMode(display_idx, &mode) == 0,
@@ -68,20 +68,32 @@ display_mode get_current_mode(uint display_idx)
 
 
 
-std::set<display_mode> get_supported_modes(uint display_idx)
+std::set<mode> get_supported_modes(uint display_idx)
 {
   int count = SDL_GetNumDisplayModes(display_idx);
   HOU_CHECK_N(count >= 1, platform_error, SDL_GetError());
 
-  std::set<display_mode> modes;
+  std::set<mode> modes;
   for(int i = 0; i < count; ++i)
   {
     SDL_DisplayMode mode;
     HOU_CHECK_N(SDL_GetDisplayMode(display_idx, i, &mode) == 0, platform_error,
-        SDL_GetError());
+      SDL_GetError());
     modes.insert(prv::convert(mode));
   }
   return modes;
+}
+
+
+
+mode get_closest_supported_mode(uint display_idx, const mode& mode_in)
+{
+  SDL_DisplayMode sdl_mode_in = prv::convert(mode_in);
+  SDL_DisplayMode mode_out;
+  HOU_CHECK_N(
+    SDL_GetClosestDisplayMode(display_idx, &sdl_mode_in, &mode_out) != nullptr,
+    platform_error, SDL_GetError());
+  return prv::convert(mode_out);
 }
 
 

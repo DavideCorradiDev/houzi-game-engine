@@ -14,14 +14,24 @@
 namespace hou
 {
 
-class display_mode;
+namespace display
+{
+
+class mode;
+class pixel_format;
+
+}  // namespace display
 
 namespace prv
 {
 
-display_mode convert(const SDL_DisplayMode& mode_in);
+display::pixel_format convert(Uint32 pf_in);
 
-SDL_DisplayMode convert(const display_mode& mode_in);
+Uint32 convert(const display::pixel_format& pf_in);
+
+display::mode convert(const SDL_DisplayMode& mode_in);
+
+SDL_DisplayMode convert(const display::mode& mode_in);
 
 }  // namespace prv
 

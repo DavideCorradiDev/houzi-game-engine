@@ -21,9 +21,14 @@ struct SDL_Window;
 namespace hou
 {
 
-using window_impl = SDL_Window*;
+namespace display
+{
 
-class display_mode;
+class mode;
+
+}
+
+using window_impl = SDL_Window*;
 
 class HOU_SYS_API window : public non_copyable
 {
@@ -40,8 +45,7 @@ public:
 
   uint get_display_index() const;
 
-  display_mode get_display_mode() const;
-  void set_display_mode(const display_mode& mode);
+  display::mode get_display_mode() const;
 
   std::string get_title() const;
   void set_title(const std::string& title);

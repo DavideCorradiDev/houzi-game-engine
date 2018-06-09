@@ -81,7 +81,7 @@ HOU_SYS_API recti get_usable_bounds(uint display_idx);
  *
  * \return the current display mode of the specified display.
  */
-HOU_SYS_API display_mode get_current_mode(uint display_idx);
+HOU_SYS_API mode get_current_mode(uint display_idx);
 
 /**
  * Gets a list of the supported video modes of the specified display.
@@ -94,7 +94,22 @@ HOU_SYS_API display_mode get_current_mode(uint display_idx);
  *
  * \return a list of the supported video modes of the specified display.
  */
-HOU_SYS_API std::set<display_mode> get_supported_modes(uint display_idx);
+HOU_SYS_API std::set<mode> get_supported_modes(uint display_idx);
+
+/**
+ * Gets the supported display mode which is closest to the one provided.
+ *
+ * \param display_idx the display index.
+ * Must be lower than get_count().
+ *
+ * \param mode the desired mode.
+ *
+ * \throws hou::platform_error in case display_idx >= get_size() or of other
+ * errors.
+ *
+ * \return the supported display mode which is closest to the one provided.
+ */
+HOU_SYS_API mode get_closest_supported_mode(uint display_idx, const mode& mode);
 
 /**
  * Gets the name of the current video driver.
