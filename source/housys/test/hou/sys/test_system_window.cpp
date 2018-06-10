@@ -58,6 +58,7 @@ TEST_F(test_system_window, creation)
   EXPECT_FALSE(w.is_maximized());
   EXPECT_FALSE(w.get_grab());
   EXPECT_FALSE(w.is_resizable());
+  EXPECT_FALSE(w.is_bordered());
 }
 
 
@@ -330,6 +331,19 @@ TEST_F(test_system_window, test_resizable)
   EXPECT_TRUE(w.is_resizable());
   w.set_resizable(false);
   EXPECT_FALSE(w.is_resizable());
+}
+
+
+
+TEST_F(test_system_window, test_bordered)
+{
+  system_window w(u8"TestWindow", vec2u(32u, 64u));
+
+  EXPECT_FALSE(w.is_bordered());
+  w.set_bordered(true);
+  EXPECT_TRUE(w.is_bordered());
+  w.set_bordered(false);
+  EXPECT_FALSE(w.is_bordered());
 }
 
 

@@ -351,6 +351,20 @@ void window::set_resizable(bool value)
 
 
 
+bool window::is_bordered() const
+{
+  return !(SDL_GetWindowFlags(m_impl) & SDL_WINDOW_BORDERLESS);
+}
+
+
+
+void window::set_bordered(bool value)
+{
+  SDL_SetWindowBordered(m_impl, value ? SDL_TRUE : SDL_FALSE);
+}
+
+
+
 void window::raise()
 {
   SDL_RaiseWindow(m_impl);

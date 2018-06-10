@@ -89,6 +89,9 @@ public:
   bool is_resizable() const;
   void set_resizable(bool value);
 
+  bool is_bordered() const;
+  void set_bordered(bool value);
+
   void raise();
 
 private:
