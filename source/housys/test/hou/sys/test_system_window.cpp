@@ -305,6 +305,9 @@ TEST_F(test_system_window, test_grab)
 {
   system_window w(u8"TestWindow", vec2u(32u, 64u));
 
+  w.show();
+  w.raise();
+
   EXPECT_FALSE(w.get_grab());
   w.set_grab(false);
   EXPECT_FALSE(w.get_grab());

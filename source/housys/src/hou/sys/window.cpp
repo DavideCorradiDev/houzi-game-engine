@@ -40,7 +40,9 @@ uint32_t generate_uid() noexcept
 
 window::window(const std::string& title, const vec2u& size)
   : m_impl(SDL_CreateWindow(title.c_str(), 0, 0, size.x(), size.y(),
-      SDL_WINDOW_OPENGL | SDL_WINDOW_HIDDEN | SDL_WINDOW_BORDERLESS))
+      SDL_WINDOW_OPENGL | SDL_WINDOW_HIDDEN | SDL_WINDOW_BORDERLESS
+        | SDL_WINDOW_INPUT_GRABBED | SDL_WINDOW_INPUT_FOCUS
+        | SDL_WINDOW_MOUSE_FOCUS | SDL_WINDOW_MOUSE_CAPTURE))
   , m_uid(generate_uid())
   , m_icon()
 {
