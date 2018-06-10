@@ -39,8 +39,7 @@ public:
    *
    * \param refres_rate the refresh_rate.
    */
-  mode(
-    const vec2u& size, const format& f, uint refresh_rate) noexcept;
+  mode(const vec2u& size, const format& f, uint refresh_rate) noexcept;
 
   /** Retrieves the size.
    *

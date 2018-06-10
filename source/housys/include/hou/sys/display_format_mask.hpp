@@ -9,7 +9,7 @@
 
 #include "hou/sys/sys_config.hpp"
 
-#include <ostream>
+#include "hou/cor/std_iostream.hpp"
 
 
 
@@ -22,7 +22,7 @@ namespace display
 class HOU_SYS_API format_mask
 {
 public:
-  format_mask(format f);
+  explicit format_mask(format f);
 
   format get_format() const;
 

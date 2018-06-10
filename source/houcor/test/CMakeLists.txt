@@ -53,6 +53,7 @@ SET(EXE_HOUCOR_TEST_SRC
   hou/cor/test_span.cpp
   hou/cor/test_std_array.cpp
   hou/cor/test_std_chrono.cpp
+  hou/cor/test_std_iostream.cpp
   hou/cor/test_std_set.cpp
   hou/cor/test_std_string.cpp
   hou/cor/test_std_vector.cpp
