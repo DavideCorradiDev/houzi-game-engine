@@ -162,16 +162,21 @@ TEST_F(test_bitwise_operators, check_bit)
   EXPECT_FALSE(check_bit(flags::null, flags::flag0));
   EXPECT_FALSE(check_bit(flags::null, flags::flag1));
   EXPECT_FALSE(check_bit(flags::null, flags::flag2));
+  EXPECT_FALSE(check_bit(flags::null, flags::all));
   EXPECT_TRUE(check_bit(flags::flag0, flags::flag0));
   EXPECT_FALSE(check_bit(flags::flag0, flags::flag1));
   EXPECT_FALSE(check_bit(flags::flag0, flags::flag2));
+  EXPECT_FALSE(check_bit(flags::flag0, flags::all));
   EXPECT_FALSE(check_bit(flags::flag1, flags::flag0));
   EXPECT_TRUE(check_bit(flags::flag1, flags::flag1));
   EXPECT_FALSE(check_bit(flags::flag1, flags::flag2));
+  EXPECT_FALSE(check_bit(flags::flag1, flags::all));
   EXPECT_FALSE(check_bit(flags::flag2, flags::flag0));
   EXPECT_FALSE(check_bit(flags::flag2, flags::flag1));
   EXPECT_TRUE(check_bit(flags::flag2, flags::flag2));
+  EXPECT_FALSE(check_bit(flags::flag2, flags::all));
   EXPECT_TRUE(check_bit(flags::all, flags::flag0));
   EXPECT_TRUE(check_bit(flags::all, flags::flag1));
   EXPECT_TRUE(check_bit(flags::all, flags::flag2));
+  EXPECT_TRUE(check_bit(flags::all, flags::all));
 }

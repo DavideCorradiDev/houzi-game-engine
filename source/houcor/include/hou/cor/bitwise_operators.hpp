@@ -103,6 +103,9 @@ typename std::enable_if<enable_bitwise_operators<T>::enable, T&>::type
 
 /** Checks if a bit is set in a bitfield.
  *
+ * If bit contains more than one bit set to one, this function checks if all
+ * those bits are set in bitfield.
+ *
  * \tparam T the type.
  *
  * \param bitfield the field.
