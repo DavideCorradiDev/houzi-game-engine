@@ -53,7 +53,7 @@ TEST_F(test_display_format_mask, output_stream_operator)
 {
   display::format_mask m(display::format::rgba8888);
   const char* out_ref
-    = "{bbp = 32, red_bit_mask = 0xff000000, green_bit_mask = 0x00ff0000, "
+    = "{bpp = 32, red_bit_mask = 0xff000000, green_bit_mask = 0x00ff0000, "
       "blue_bit_mask = 0x0000ff00, alpha_bit_mask = 0x000000ff}";
   EXPECT_OUTPUT(out_ref, m);
 }

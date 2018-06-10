@@ -10,6 +10,8 @@
 
 #include "hou/cor/narrow_cast.hpp"
 
+#include <iomanip>
+
 
 
 namespace hou
@@ -98,11 +100,21 @@ bool operator!=(const format_mask& lhs, const format_mask& rhs) noexcept
 
 std::ostream& operator<<(std::ostream& os, const format_mask& pf)
 {
-  return os << "{bpp = " << pf.get_bpp()
-            << ", red_bit_mask = " << pf.get_red_bit_mask()
-            << ", green_bit_mask = " << pf.get_green_bit_mask()
-            << ", blue_bit_mask = " << pf.get_blue_bit_mask()
-            << ", alpha_bit_mask = " << pf.get_alpha_bit_mask() << "}";
+  ios_formatting_saver<std::ostream> saver(os);
+  os << std::showbase << std::internal << std::setfill('0');
+  // clang-format off
+  return os << "{bpp = "
+            << pf.get_bpp()
+            << ", red_bit_mask = "
+            << std::hex << std::setw(10) << pf.get_red_bit_mask()
+            << ", green_bit_mask = "
+            << std::hex << std::setw(10) << pf.get_green_bit_mask()
+            << ", blue_bit_mask = "
+            << std::hex << std::setw(10) << pf.get_blue_bit_mask()
+            << ", alpha_bit_mask = "
+            << std::hex << std::setw(10) << pf.get_alpha_bit_mask()
+            << "}";
+  // clang-format on
 }
 
 }  // namespace display
