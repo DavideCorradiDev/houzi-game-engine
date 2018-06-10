@@ -42,6 +42,7 @@ window::window(const std::string& title, const vec2u& size)
   : m_impl(SDL_CreateWindow(title.c_str(), 0, 0, size.x(), size.y(),
       SDL_WINDOW_OPENGL | SDL_WINDOW_HIDDEN | SDL_WINDOW_BORDERLESS))
   , m_uid(generate_uid())
+  , m_icon()
 {
   HOU_ASSERT(m_impl != nullptr);
   recti bounds = display::get_usable_bounds(get_display_index());
@@ -56,6 +57,7 @@ window::window(const std::string& title, const vec2u& size)
 window::window(window&& other)
   : m_impl(std::move(other.m_impl))
   , m_uid(std::move(other.m_uid))
+  , m_icon(std::move(other.m_icon))
 {
   other.m_impl = nullptr;
   other.m_uid = 0u;
@@ -162,6 +164,32 @@ std::string window::get_title() const
 void window::set_title(const std::string& title)
 {
   SDL_SetWindowTitle(m_impl, title.c_str());
+}
+
+
+
+const image2_rgba& window::get_icon() const noexcept
+{
+  return m_icon;
+}
+
+
+
+void window::set_icon(const image2_rgba& icon)
+{
+  // clang-format off
+  SDL_Surface* surface = SDL_CreateRGBSurfaceFrom(
+    const_cast<pixel_rgba*>(icon.get_pixels().data()),
+    icon.get_size().x(),
+    icon.get_size().y(),
+    image2_rgba::pixel_bit_count,
+    icon.get_size().x() * image2_rgba::pixel_bit_count,
+    0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
+  // clang-format on
+  HOU_SDL_CHECK(surface != nullptr);
+  SDL_SetWindowIcon(m_impl, surface);
+  SDL_FreeSurface(surface);
+  m_icon = icon;
 }
 
 

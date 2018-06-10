@@ -32,6 +32,7 @@ TEST_F(test_system_window, creation)
 
   EXPECT_NE(nullptr, w.get_impl());
   EXPECT_NE(0u, w.get_uid());
+
   EXPECT_LT(w.get_display_index(), display::get_count());
   display::mode curr_mode = display::get_current_mode(w.get_display_index());
   display::mode w_mode
@@ -40,7 +41,10 @@ TEST_F(test_system_window, creation)
         w.get_size(), curr_mode.get_format(), curr_mode.get_refresh_rate()));
   EXPECT_EQ(w_mode, w.get_display_mode());
   EXPECT_EQ(window_mode::windowed, w.get_mode());
+
   EXPECT_EQ(u8"TestWindow", w.get_title());
+  EXPECT_EQ(image2_rgba(), w.get_icon());
+
   EXPECT_EQ(vec2u(32u, 64u), w.get_size());
   EXPECT_EQ(vec2u::zero(), w.get_min_size());
   uint max_int = narrow_cast<uint>(std::numeric_limits<int>::max());
@@ -48,6 +52,7 @@ TEST_F(test_system_window, creation)
   recti bounds = display::get_usable_bounds(w.get_display_index());
   EXPECT_EQ(bounds.get_position() + (bounds.get_size() - vec2i(32, 64)) / 2,
     w.get_position());
+
   EXPECT_FALSE(w.is_visible());
   EXPECT_FALSE(w.is_minimized());
   EXPECT_FALSE(w.is_maximized());
@@ -141,6 +146,18 @@ TEST_F(test_system_window, title)
   EXPECT_EQ(u8"TestWindow", w.get_title());
   w.set_title(u8"NewTitle");
   EXPECT_EQ(u8"NewTitle", w.get_title());
+}
+
+
+
+TEST_F(test_system_window, icon)
+{
+  system_window w(u8"TestWindow", vec2u(32u, 64u));
+
+  EXPECT_EQ(image2_rgba(), w.get_icon());
+  image2_rgba icon(vec2u(16u, 16u), pixel_rgba(color::red()));
+  w.set_icon(icon);
+  EXPECT_EQ(icon, w.get_icon());
 }
 
 

@@ -33,6 +33,9 @@ public:
   /** The pixel format. */
   static constexpr pixel_format format = PF;
 
+  /** The number of bits in a pixel. */
+  static constexpr size_t bit_count = get_bits_per_pixel(PF);
+
   /** The number of bytes in a pixel. */
   static constexpr size_t byte_count = get_bytes_per_pixel(PF);
 

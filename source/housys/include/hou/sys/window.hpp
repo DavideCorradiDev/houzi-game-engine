@@ -8,6 +8,7 @@
 
 #include "hou/cor/non_copyable.hpp"
 
+#include "hou/sys/image.hpp"
 #include "hou/sys/window_mode.hpp"
 
 #include "hou/sys/sys_config.hpp"
@@ -57,6 +58,10 @@ public:
   std::string get_title() const;
   void set_title(const std::string& title);
 
+  // Returns an empty image if unset.
+  const image2_rgba& get_icon() const noexcept;
+  void set_icon(const image2_rgba& icon);
+
   vec2u get_size() const;
   void set_size(const vec2u& size);
 
@@ -87,6 +92,7 @@ public:
 private:
   window_impl m_impl;
   uint32_t m_uid;
+  image2_rgba m_icon;
 };
 
 }
