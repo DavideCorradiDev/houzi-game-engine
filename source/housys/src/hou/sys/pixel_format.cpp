@@ -6,8 +6,8 @@
 
 #include "hou/cor/exception.hpp"
 
-#define PIXEL_FORMAT_CASE(format, os) \
-  case pixel_format::format: \
+#define PIXEL_FORMAT_CASE(format, os)                                          \
+  case pixel_format::format:                                                   \
     return (os) << #format
 
 
