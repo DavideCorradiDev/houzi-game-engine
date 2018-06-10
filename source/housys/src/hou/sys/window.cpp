@@ -335,6 +335,20 @@ void window::set_grab(bool value)
 
 
 
+bool window::is_resizable() const
+{
+  return SDL_GetWindowFlags(m_impl) & SDL_WINDOW_RESIZABLE;
+}
+
+
+
+void window::set_resizable(bool value)
+{
+  SDL_SetWindowResizable(m_impl, value ? SDL_TRUE : SDL_FALSE);
+}
+
+
+
 void window::raise()
 {
   SDL_RaiseWindow(m_impl);
