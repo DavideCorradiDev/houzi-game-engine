@@ -8,6 +8,8 @@
 
 #include "hou/cor/non_copyable.hpp"
 
+#include "hou/sys/window_mode.hpp"
+
 #include "hou/sys/sys_config.hpp"
 
 #include "hou/cor/std_string.hpp"
@@ -48,6 +50,9 @@ public:
   display::mode get_display_mode() const;
   void set_display_mode(const display::mode& mode);
   void set_default_display_mode();
+
+  window_mode get_mode() const;
+  void set_mode(window_mode mode) const;
 
   std::string get_title() const;
   void set_title(const std::string& title);

@@ -120,6 +120,38 @@ void window::set_default_display_mode()
 
 
 
+window_mode window::get_mode() const
+{
+  Uint32 flags = SDL_GetWindowFlags(m_impl);
+  if(flags & SDL_WINDOW_FULLSCREEN_DESKTOP)
+  {
+    return window_mode::desktop_fullscreen;
+  }
+  if(flags & SDL_WINDOW_FULLSCREEN)
+  {
+    return window_mode::fullscreen;
+  }
+  return window_mode::windowed;
+}
+
+
+
+void window::set_mode(window_mode mode) const
+{
+  Uint32 flag = 0;
+  if(mode == window_mode::fullscreen)
+  {
+    flag = SDL_WINDOW_FULLSCREEN;
+  }
+  else if(mode == window_mode::desktop_fullscreen)
+  {
+    flag = SDL_WINDOW_FULLSCREEN_DESKTOP;
+  }
+  HOU_SDL_CHECK(SDL_SetWindowFullscreen(m_impl, flag) == 0);
+}
+
+
+
 std::string window::get_title() const
 {
   return SDL_GetWindowTitle(m_impl);
