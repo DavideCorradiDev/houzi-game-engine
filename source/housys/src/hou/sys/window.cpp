@@ -26,6 +26,8 @@ namespace hou
 namespace
 {
 
+static constexpr const char* g_impl_data_name = "houwnd";
+
 uint32_t generate_uid() noexcept;
 
 uint32_t generate_uid() noexcept
@@ -35,6 +37,16 @@ uint32_t generate_uid() noexcept
 }
 
 }  // namespace
+
+
+
+window& window::get_impl_window(not_null<const window_impl*> impl)
+{
+  window* wnd = reinterpret_cast<window*>(
+    SDL_GetWindowData(const_cast<window_impl*>(impl.get()), g_impl_data_name));
+  HOU_POSTCOND(wnd != nullptr);
+  return *wnd;
+}
 
 
 
@@ -52,6 +64,10 @@ window::window(const std::string& title, const vec2u& size)
     + (bounds.get_size() - narrow_cast<vec2i>(get_size())) / 2);
   uint max_int = narrow_cast<uint>(std::numeric_limits<int>::max());
   set_max_size(vec2u(max_int, max_int));
+
+  // Set pointer to this in the custom data of m_impl, so that functions
+  // taking a pointer to an SDL_Window* can get a reference to the hou::window.
+  SDL_SetWindowData(m_impl, g_impl_data_name, this);
 }
 
 
@@ -77,7 +93,7 @@ window::~window()
 
 
 
-window_impl window::get_impl() noexcept
+not_null<window_impl*> window::get_impl()
 {
   return m_impl;
 }

@@ -2,7 +2,6 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-
 #ifndef HOU_SYS_WINDOW_HPP
 #define HOU_SYS_WINDOW_HPP
 
@@ -13,6 +12,7 @@
 
 #include "hou/sys/sys_config.hpp"
 
+#include "hou/cor/not_null.hpp"
 #include "hou/cor/std_string.hpp"
 
 #include "hou/mth/matrix.hpp"
@@ -30,10 +30,13 @@ namespace display
 class mode;
 }
 
-using window_impl = SDL_Window*;
+using window_impl = SDL_Window;
 
 class HOU_SYS_API window : public non_copyable
 {
+public:
+  static window& get_impl_window(not_null<const window_impl*> impl);
+
 public:
   window(const std::string& title, const vec2u& size);
 
@@ -41,7 +44,7 @@ public:
 
   virtual ~window() = 0;
 
-  window_impl get_impl() noexcept;
+  not_null<window_impl*> get_impl();
 
   uint32_t get_uid() const noexcept;
 
@@ -101,7 +104,7 @@ public:
   void raise();
 
 private:
-  window_impl m_impl;
+  window_impl* m_impl;
   uint32_t m_uid;
   image2_rgba m_icon;
 };

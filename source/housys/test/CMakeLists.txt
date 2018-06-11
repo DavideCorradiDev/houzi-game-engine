@@ -43,6 +43,7 @@ SET(EXE_HOUSYS_TEST_SRC
   hou/sys/test_display_mode.cpp
   hou/sys/test_display_format.cpp
   hou/sys/test_display_format_mask.cpp
+  hou/sys/test_event.cpp
   hou/sys/test_file.cpp
   hou/sys/test_file_handle.cpp
   hou/sys/test_image.cpp

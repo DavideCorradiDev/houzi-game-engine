@@ -37,6 +37,7 @@ SET(LIB_HOUSYS_SRC
   src/hou/sys/display_mode.cpp
   src/hou/sys/display_format.cpp
   src/hou/sys/display_format_mask.cpp
+  src/hou/sys/event.cpp
   src/hou/sys/file.cpp
   src/hou/sys/file_handle.cpp
   src/hou/sys/file_open_mode.cpp
