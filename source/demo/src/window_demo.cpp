@@ -9,8 +9,6 @@
 #include "hou/sys/display_mode.hpp"
 #include "hou/sys/system_window.hpp"
 
-#include "SDL2/SDL.h"
-
 #include <iostream>
 #include <thread>
 

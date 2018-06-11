@@ -52,9 +52,7 @@ window& window::get_impl_window(not_null<const window_impl*> impl)
 
 window::window(const std::string& title, const vec2u& size)
   : m_impl(SDL_CreateWindow(title.c_str(), 0, 0, size.x(), size.y(),
-      SDL_WINDOW_OPENGL | SDL_WINDOW_HIDDEN | SDL_WINDOW_BORDERLESS
-        | SDL_WINDOW_INPUT_GRABBED | SDL_WINDOW_INPUT_FOCUS
-        | SDL_WINDOW_MOUSE_FOCUS | SDL_WINDOW_MOUSE_CAPTURE))
+      SDL_WINDOW_OPENGL | SDL_WINDOW_HIDDEN | SDL_WINDOW_BORDERLESS))
   , m_uid(generate_uid())
   , m_icon()
 {
