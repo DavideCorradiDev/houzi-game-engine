@@ -78,21 +78,27 @@ public:
 
   bool is_visible() const;
   void hide();
+  // Should process the event queue to correctly update the state afterwards.
   void show();
 
   // The flag is not properly set after calling minimize.
-  // The flag should apparently only be set after processing the event queue.
-  // This seems not to work either though.
+  // The flag is set only after processing the event queue.
+  // Moreover, it is necessary to wait a bit for the event to be registered.
   bool is_minimized() const;
+  // The flag is not properly set after calling maximize.
+  // The flag is set only after processing the event queue.
+  // Moreover, it is necessary to wait a bit for the event to be registered.
   bool is_maximized() const;
   void minimize();
   // Will do nothing if the window is not resizable.
   void maximize();
   // Minimized windows will be restored only after the minimized flag has been
   // properly set. This requires processing the event queue.
+  // Restoring a minimized window doesn't seem to actually restore it.
   void restore();
 
   bool get_grab() const;
+  // Works only if the window is visible and with focus.
   void set_grab(bool value);
 
   bool is_resizable() const;
@@ -101,6 +107,7 @@ public:
   bool is_bordered() const;
   void set_bordered(bool value);
 
+  bool focus();
   void raise();
 
 private:

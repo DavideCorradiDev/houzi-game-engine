@@ -6,7 +6,10 @@
 
 #include "hou/sys/display.hpp"
 #include "hou/sys/display_mode.hpp"
+#include "hou/sys/event.hpp"
 #include "hou/sys/system_window.hpp"
+
+#include <thread>
 
 using namespace hou;
 using namespace testing;
@@ -383,12 +386,18 @@ TEST_F(test_system_window, minimization_and_maximization)
 
 
 
-TEST_F(test_system_window, test_grab)
+TEST_F(test_system_window, grab)
 {
   system_window w(u8"TestWindow", vec2u(32u, 64u));
 
+  // After showing the window, all events need to be processed to correctly
+  // update the window.
   w.show();
+  event::process_all();
+
+  // The window needs focus to be able to grab the input.
   w.raise();
+  w.focus();
 
   EXPECT_FALSE(w.get_grab());
   w.set_grab(false);
@@ -403,7 +412,7 @@ TEST_F(test_system_window, test_grab)
 
 
 
-TEST_F(test_system_window, test_resizable)
+TEST_F(test_system_window, resizable)
 {
   system_window w(u8"TestWindow", vec2u(32u, 64u));
 
@@ -416,7 +425,7 @@ TEST_F(test_system_window, test_resizable)
 
 
 
-TEST_F(test_system_window, test_bordered)
+TEST_F(test_system_window, bordered)
 {
   system_window w(u8"TestWindow", vec2u(32u, 64u));
 
@@ -429,7 +438,27 @@ TEST_F(test_system_window, test_bordered)
 
 
 
-TEST_F(test_system_window, test_raise)
+TEST_F(test_system_window, focus_success)
+{
+  // The window is visible, focusing it will succeed.
+  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  w.show();
+  event::process_all();
+  EXPECT_TRUE(w.focus());
+}
+
+
+
+TEST_F(test_system_window, focus_failure)
+{
+  // The window is not visible, focusing it will fail.
+  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  EXPECT_FALSE(w.focus());
+}
+
+
+
+TEST_F(test_system_window, raise)
 {
   system_window w(u8"TestWindow", vec2u(32u, 64u));
   w.raise();

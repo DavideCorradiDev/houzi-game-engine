@@ -386,6 +386,13 @@ void window::set_bordered(bool value)
 
 
 
+bool window::focus()
+{
+  return SDL_SetWindowInputFocus(m_impl) >= 0;
+}
+
+
+
 void window::raise()
 {
   SDL_RaiseWindow(m_impl);
