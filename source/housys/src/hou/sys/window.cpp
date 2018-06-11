@@ -311,7 +311,12 @@ void window::minimize()
 
 void window::maximize()
 {
-  SDL_MaximizeWindow(m_impl);
+  // If the window is not resizable, SDL_MaximizeWindow will not actually
+  // maximize the window, but will still flag it as maximized.
+  if(is_resizable())
+  {
+    SDL_MaximizeWindow(m_impl);
+  }
 }
 
 

@@ -80,6 +80,7 @@ public:
   bool is_minimized() const;
   bool is_maximized() const;
   void minimize();
+  // Will do nothing if the window is not resizable.
   void maximize();
   void restore();
 

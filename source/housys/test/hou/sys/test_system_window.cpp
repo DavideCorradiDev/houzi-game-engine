@@ -266,11 +266,71 @@ TEST_F(test_system_window, visibility)
 
 
 
-TEST_F(test_system_window, minimization_and_maximization)
+TEST_F(test_system_window, maximization_on_resizable_window)
+{
+  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  w.set_resizable(true);
+
+  EXPECT_TRUE(w.is_resizable());
+  EXPECT_FALSE(w.is_maximized());
+
+  w.maximize();
+  EXPECT_TRUE(w.is_maximized());
+
+  w.maximize();
+  EXPECT_TRUE(w.is_maximized());
+
+  w.restore();
+  EXPECT_FALSE(w.is_maximized());
+}
+
+
+
+TEST_F(test_system_window, maximization_on_not_resizable_window)
+{
+  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  w.set_resizable(false);
+
+  EXPECT_FALSE(w.is_resizable());
+  EXPECT_FALSE(w.is_maximized());
+
+  w.maximize();
+  EXPECT_FALSE(w.is_maximized());
+
+  w.maximize();
+  EXPECT_FALSE(w.is_maximized());
+
+  w.restore();
+  EXPECT_FALSE(w.is_maximized());
+}
+
+
+
+TEST_F(test_system_window, minimization)
 {
   system_window w(u8"TestWindow", vec2u(32u, 64u));
 
   EXPECT_FALSE(w.is_minimized());
+
+  w.minimize();
+  EXPECT_TRUE(w.is_minimized());
+
+  w.minimize();
+  EXPECT_TRUE(w.is_minimized());
+
+  w.restore();
+  EXPECT_FALSE(w.is_minimized());
+}
+
+
+
+TEST_F(test_system_window, minimization_and_maximization)
+{
+  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  w.set_resizable(true);
+
+  EXPECT_TRUE(w.is_resizable());
+  EXPECT_FALSE(w.is_minimized());
   EXPECT_FALSE(w.is_maximized());
 
   w.minimize();
@@ -297,6 +357,10 @@ TEST_F(test_system_window, minimization_and_maximization)
 
   w.minimize();
   EXPECT_TRUE(w.is_minimized());
+  EXPECT_TRUE(w.is_maximized());
+
+  w.restore();
+  EXPECT_FALSE(w.is_minimized());
   EXPECT_FALSE(w.is_maximized());
 }
 

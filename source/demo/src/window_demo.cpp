@@ -64,21 +64,33 @@ int main(int, char**)
   w.show();
   std::cout << "Window visible: " << hou::to_string(w.is_visible()) << std::endl;
 
+  prompt_key("Press return to make the window resizable");
+  w.set_resizable(true);
+  std::cout << "Window resizable: " << hou::to_string(w.is_resizable()) << std::endl;
+
   prompt_key("Press return to minimize the window");
   w.minimize();
   std::cout << "Window minimized: " << hou::to_string(w.is_minimized()) << std::endl;
+  std::cout << "Window visible: " << hou::to_string(w.is_visible()) << std::endl;
 
   prompt_key("Press return to restore the window");
   w.restore();
   std::cout << "Window minimized: " << hou::to_string(w.is_minimized()) << std::endl;
+  std::cout << "Window visible: " << hou::to_string(w.is_visible()) << std::endl;
 
   prompt_key("Press return to maximize the window");
   w.maximize();
   std::cout << "Window maximized: " << hou::to_string(w.is_maximized()) << std::endl;
+  std::cout << "Window visible: " << hou::to_string(w.is_visible()) << std::endl;
 
   prompt_key("Press return to restore the window");
   w.restore();
   std::cout << "Window maximized: " << hou::to_string(w.is_maximized()) << std::endl;
+  std::cout << "Window visible: " << hou::to_string(w.is_visible()) << std::endl;
+
+  prompt_key("Press return to make the window not resizable");
+  w.set_resizable(false);
+  std::cout << "Window resizable: " << hou::to_string(w.is_resizable()) << std::endl;
 
   prompt_key("Press return to make the window border disappear");
   w.set_bordered(false);
@@ -87,14 +99,6 @@ int main(int, char**)
   prompt_key("Press return to restore the window border");
   w.set_bordered(true);
   std::cout << "Window bordered: " << hou::to_string(w.is_bordered()) << std::endl;
-
-  prompt_key("Press return to make the window resizable");
-  w.set_resizable(true);
-  std::cout << "Window resizable: " << hou::to_string(w.is_resizable()) << std::endl;
-
-  prompt_key("Press return to make the window not resizable");
-  w.set_resizable(false);
-  std::cout << "Window resizable: " << hou::to_string(w.is_resizable()) << std::endl;
 
   prompt_key("Press return to make the window grab the input for some seconds");
   w.set_grab(true);
