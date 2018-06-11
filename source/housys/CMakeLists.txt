@@ -49,7 +49,6 @@ SET(LIB_HOUSYS_SRC
   src/hou/sys/display.cpp
   # src/hou/sys/mouse_button.cpp
   # src/hou/sys/mouse_wheel.cpp
-  # src/hou/sys/os_error.cpp
   src/hou/sys/pixel.cpp
   src/hou/sys/pixel_format.cpp
   # src/hou/sys/scan_code.cpp
