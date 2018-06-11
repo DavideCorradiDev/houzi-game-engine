@@ -43,50 +43,65 @@ int main(int, char**)
 
   prompt_key("Press return to change the window title");
   w.set_title("NewWindowDemo");
+  std::cout << "Window title: " << w.get_title() << std::endl;
 
   prompt_key("Press return to change the window icon");
-  w.set_icon(hou::image2_rgba(hou::vec2u(16u, 8u), hou::color::red()));
+  w.set_icon(hou::image2_rgba(hou::vec2u(16u, 32u), hou::color::red()));
 
   prompt_key("Press return to move the window");
   w.set_position(hou::vec2u(32u, 64u));
+  std::cout << "Window position: " << transpose(w.get_position()) << std::endl;
 
   prompt_key("Press return to resize the window");
   w.set_size(hou::vec2u(800u, 600u));
+  std::cout << "Window size: " << transpose(w.get_size()) << std::endl;
 
   prompt_key("Press return to hide the window");
   w.hide();
+  std::cout << "Window visible: " << hou::to_string(w.is_visible()) << std::endl;
 
   prompt_key("Press return to show the window");
   w.show();
+  std::cout << "Window visible: " << hou::to_string(w.is_visible()) << std::endl;
 
   prompt_key("Press return to minimize the window");
   w.minimize();
+  std::cout << "Window minimized: " << hou::to_string(w.is_minimized()) << std::endl;
 
   prompt_key("Press return to restore the window");
   w.restore();
+  std::cout << "Window minimized: " << hou::to_string(w.is_minimized()) << std::endl;
 
   prompt_key("Press return to maximize the window");
   w.maximize();
+  std::cout << "Window maximized: " << hou::to_string(w.is_maximized()) << std::endl;
 
   prompt_key("Press return to restore the window");
   w.restore();
+  std::cout << "Window maximized: " << hou::to_string(w.is_maximized()) << std::endl;
 
   prompt_key("Press return to make the window border disappear");
   w.set_bordered(false);
+  std::cout << "Window bordered: " << hou::to_string(w.is_bordered()) << std::endl;
 
   prompt_key("Press return to restore the window border");
   w.set_bordered(true);
+  std::cout << "Window bordered: " << hou::to_string(w.is_bordered()) << std::endl;
 
   prompt_key("Press return to make the window resizable");
   w.set_resizable(true);
+  std::cout << "Window resizable: " << hou::to_string(w.is_resizable()) << std::endl;
 
   prompt_key("Press return to make the window not resizable");
   w.set_resizable(false);
+  std::cout << "Window resizable: " << hou::to_string(w.is_resizable()) << std::endl;
 
   prompt_key("Press return to make the window grab the input for some seconds");
   w.set_grab(true);
+  std::cout << "Window grab: " << hou::to_string(w.get_grab()) << std::endl;
   std::this_thread::sleep_for(std::chrono::seconds(5));
   w.set_grab(false);
+  std::cout << "Window grab: " << hou::to_string(w.get_grab()) << std::endl;
 
   // prompt_key("Press return to change the window mode to desktop fullscreen for some seconds");
   // w.set_mode(hou::window_mode::desktop_fullscreen);
