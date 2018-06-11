@@ -19,7 +19,7 @@
 #include <limits>
 
 
-
+#include <bitset>
 namespace hou
 {
 
@@ -126,12 +126,14 @@ void window::set_default_display_mode()
 
 window_mode window::get_mode() const
 {
+  // Note: it is necessary to check SDL_WINDOW_FULLSCREEN_DESKTOP first, because
+  // the SDL_WINDOW_FULLSCREEN bit is also set in SDL_WINDOW_FULLSCREEN_DESKTOP.
   Uint32 flags = SDL_GetWindowFlags(m_impl);
-  if(flags & SDL_WINDOW_FULLSCREEN_DESKTOP)
+  if((flags & SDL_WINDOW_FULLSCREEN_DESKTOP) == SDL_WINDOW_FULLSCREEN_DESKTOP)
   {
     return window_mode::desktop_fullscreen;
   }
-  if(flags & SDL_WINDOW_FULLSCREEN)
+  else if((flags & SDL_WINDOW_FULLSCREEN) == SDL_WINDOW_FULLSCREEN)
   {
     return window_mode::fullscreen;
   }

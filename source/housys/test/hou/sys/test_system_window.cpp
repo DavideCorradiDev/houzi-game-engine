@@ -129,12 +129,29 @@ TEST_F(test_system_window, default_display_mode_change_on_resize)
 TEST_F(test_system_window, mode)
 {
   system_window w(u8"TestWindow", vec2u(640u, 480u));
-
   EXPECT_EQ(window_mode::windowed, w.get_mode());
+
   w.set_mode(window_mode::desktop_fullscreen);
   EXPECT_EQ(window_mode::desktop_fullscreen, w.get_mode());
+
+  w.set_mode(window_mode::windowed);
+  EXPECT_EQ(window_mode::windowed, w.get_mode());
+
   w.set_mode(window_mode::fullscreen);
   EXPECT_EQ(window_mode::fullscreen, w.get_mode());
+
+  w.set_mode(window_mode::windowed);
+  EXPECT_EQ(window_mode::windowed, w.get_mode());
+
+  w.set_mode(window_mode::desktop_fullscreen);
+  EXPECT_EQ(window_mode::desktop_fullscreen, w.get_mode());
+
+  w.set_mode(window_mode::fullscreen);
+  EXPECT_EQ(window_mode::fullscreen, w.get_mode());
+
+  w.set_mode(window_mode::desktop_fullscreen);
+  EXPECT_EQ(window_mode::desktop_fullscreen, w.get_mode());
+
   w.set_mode(window_mode::windowed);
   EXPECT_EQ(window_mode::windowed, w.get_mode());
 }

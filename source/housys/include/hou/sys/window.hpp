@@ -77,11 +77,16 @@ public:
   void hide();
   void show();
 
+  // The flag is not properly set after calling minimize.
+  // The flag should apparently only be set after processing the event queue.
+  // This seems not to work either though.
   bool is_minimized() const;
   bool is_maximized() const;
   void minimize();
   // Will do nothing if the window is not resizable.
   void maximize();
+  // Minimized windows will be restored only after the minimized flag has been
+  // properly set. This requires processing the event queue.
   void restore();
 
   bool get_grab() const;
