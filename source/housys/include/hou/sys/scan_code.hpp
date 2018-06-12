@@ -7,6 +7,8 @@
 
 #include "hou/sys/sys_config.hpp"
 
+#include "SDL2/SDL_scancode.h"
+
 #include <iostream>
 
 
@@ -18,223 +20,265 @@ namespace hou
 enum class scan_code
 {
   /** Escape */
-  escape = 0x01u,
+  escape = SDL_SCANCODE_ESCAPE,
 
   /** Num1 */
-  num1 = 0x02u,
+  num1 = SDL_SCANCODE_1,
   /** Num2 */
-  num2 = 0x03u,
+  num2 = SDL_SCANCODE_2,
   /** Num3 */
-  num3 = 0x04u,
+  num3 = SDL_SCANCODE_3,
   /** Num4 */
-  num4 = 0x05u,
+  num4 = SDL_SCANCODE_4,
   /** Num5 */
-  num5 = 0x06u,
+  num5 = SDL_SCANCODE_5,
   /** Num6 */
-  num6 = 0x07u,
+  num6 = SDL_SCANCODE_6,
   /** Num7 */
-  num7 = 0x08u,
+  num7 = SDL_SCANCODE_7,
   /** Num8 */
-  num8 = 0x09u,
+  num8 = SDL_SCANCODE_8,
   /** Num9 */
-  num9 = 0x0au,
+  num9 = SDL_SCANCODE_9,
   /** Num0 */
-  num0 = 0x0bu,
+  num0 = SDL_SCANCODE_0,
   /** Dash */
-  dash = 0x0cu,
+  dash = SDL_SCANCODE_MINUS,
   /** Equal */
-  equal = 0x0du,
+  equal = SDL_SCANCODE_EQUALS,
   /** Backspace */
-  backspace = 0x0eu,
+  backspace = SDL_SCANCODE_BACKSPACE,
 
   /** Tab */
-  tab = 0x0fu,
+  tab = SDL_SCANCODE_TAB,
   /** Q */
-  q = 0x10u,
+  q = SDL_SCANCODE_Q,
   /** W */
-  w = 0x11u,
+  w = SDL_SCANCODE_W,
   /** E */
-  e = 0x12u,
+  e = SDL_SCANCODE_E,
   /** r */
-  r = 0x13u,
+  r = SDL_SCANCODE_R,
   /** T */
-  t = 0x14u,
+  t = SDL_SCANCODE_T,
   /** Y */
-  y = 0x15u,
+  y = SDL_SCANCODE_Y,
   /** U */
-  u = 0x16u,
+  u = SDL_SCANCODE_U,
   /** I */
-  i = 0x17u,
+  i = SDL_SCANCODE_I,
   /** O */
-  o = 0x18u,
+  o = SDL_SCANCODE_O,
   /** P */
-  p = 0x19u,
+  p = SDL_SCANCODE_P,
   /** LBracket */
-  l_bracket = 0x1au,
+  lbracket = SDL_SCANCODE_LEFTBRACKET,
   /** RBracket */
-  r_bracket = 0x1bu,
+  rbracket = SDL_SCANCODE_RIGHTBRACKET,
   /** Enter */
-  enter = 0x1cu,
+  enter = SDL_SCANCODE_RETURN,
   /** NumpadEnter */
-  numpad_enter = 0xe01cu,
+  numpad_enter = SDL_SCANCODE_KP_ENTER,
 
   /** LCtrl */
-  l_ctrl = 0x1du,
+  lctrl = SDL_SCANCODE_LCTRL,
   /** RCtrl */
-  r_ctrl = 0xe01du,
+  rctrl = SDL_SCANCODE_RCTRL,
   /** a */
-  a = 0x1eu,
+  a = SDL_SCANCODE_A,
   /** S */
-  s = 0x1fu,
+  s = SDL_SCANCODE_S,
   /** D */
-  d = 0x20u,
+  d = SDL_SCANCODE_D,
   /** F */
-  f = 0x21u,
+  f = SDL_SCANCODE_F,
   /** g */
-  g = 0x22u,
+  g = SDL_SCANCODE_G,
   /** H */
-  h = 0x23u,
+  h = SDL_SCANCODE_H,
   /** J */
-  j = 0x24u,
+  j = SDL_SCANCODE_J,
   /** K */
-  k = 0x25u,
+  k = SDL_SCANCODE_K,
   /** L */
-  l = 0x26u,
+  l = SDL_SCANCODE_L,
   /** Semicolon */
-  semicolon = 0x27u,
-  /** Quote */
-  quote = 0x28u,
-  /** Tilde */
-  tilde = 0x29u,
+  semicolon = SDL_SCANCODE_SEMICOLON,
+  /** Apostrophe */
+  apostrophe = SDL_SCANCODE_APOSTROPHE,
+  /** Grave */
+  grave = SDL_SCANCODE_GRAVE,
 
   /** LShift */
-  l_shift = 0x2au,
+  lshift = SDL_SCANCODE_LSHIFT,
   /** Backslash */
-  backslash = 0x2bu,
+  backslash = SDL_SCANCODE_BACKSLASH,
   /** Z */
-  z = 0x2cu,
+  z = SDL_SCANCODE_Z,
   /** X */
-  x = 0x2du,
+  x = SDL_SCANCODE_X,
   /** C */
-  c = 0x2eu,
+  c = SDL_SCANCODE_C,
   /** V */
-  v = 0x2fu,
+  v = SDL_SCANCODE_V,
   /** b */
-  b = 0x30u,
+  b = SDL_SCANCODE_B,
   /** N */
-  n = 0x31u,
+  n = SDL_SCANCODE_N,
   /** M */
-  m = 0x32u,
+  m = SDL_SCANCODE_M,
   /** Comma */
-  comma = 0x33u,
+  comma = SDL_SCANCODE_COMMA,
   /** Period */
-  period = 0x34u,
+  period = SDL_SCANCODE_PERIOD,
   /** Slash */
-  slash = 0x35u,
+  slash = SDL_SCANCODE_SLASH,
   /** Divide */
-  divide = 0xe035u,
+  numpad_divide = SDL_SCANCODE_KP_DIVIDE,
   /** RShift */
-  r_shift = 0x36u,
+  rshift = SDL_SCANCODE_RSHIFT,
 
   /** Multiply */
-  multiply = 0x37u,
+  numpad_multiply = SDL_SCANCODE_KP_MULTIPLY,
   /** PrintScreen */
-  print_screen = 0xe037u,
+  print_screen = SDL_SCANCODE_PRINTSCREEN,
   /** LAlt */
-  l_alt = 0x38u,
+  lalt = SDL_SCANCODE_LALT,
   /** RAlt */
-  r_alt = 0xe038u,
+  ralt = SDL_SCANCODE_RALT,
   /** Space */
-  space = 0x39u,
+  space = SDL_SCANCODE_SPACE,
   /** CapsLock */
-  caps_lock = 0x3au,
+  caps_lock = SDL_SCANCODE_CAPSLOCK,
 
   /** F1 */
-  f1 = 0x3bu,
+  f1 = SDL_SCANCODE_F1,
   /** F2 */
-  f2 = 0x3cu,
+  f2 = SDL_SCANCODE_F2,
   /** F3 */
-  f3 = 0x3du,
+  f3 = SDL_SCANCODE_F3,
   /** F4 */
-  f4 = 0x3eu,
+  f4 = SDL_SCANCODE_F4,
   /** F5 */
-  f5 = 0x3fu,
+  f5 = SDL_SCANCODE_F5,
   /** F6 */
-  f6 = 0x40u,
+  f6 = SDL_SCANCODE_F6,
   /** F7 */
-  f7 = 0x41u,
+  f7 = SDL_SCANCODE_F7,
   /** F8 */
-  f8 = 0x42u,
+  f8 = SDL_SCANCODE_F8,
   /** F9 */
-  f9 = 0x43u,
+  f9 = SDL_SCANCODE_F9,
   /** F10 */
-  f10 = 0x44u,
+  f10 = SDL_SCANCODE_F10,
 
   /** Pause */
-  pause = 0x45u,
+  pause = SDL_SCANCODE_PAUSE,
   /** NumLock */
-  num_lock = 0xe045u,
+  num_lock = SDL_SCANCODE_NUMLOCKCLEAR,
   /** ScrollLock */
-  scroll_lock = 0x46u,
+  scroll_lock = SDL_SCANCODE_SCROLLLOCK,
 
   /** Numpad7 */
-  numpad7 = 0x47u,
+  numpad7 = SDL_SCANCODE_KP_7,
   /** Home */
-  home = 0xe047u,
+  home = SDL_SCANCODE_HOME,
   /** Numpad8 */
-  numpad8 = 0x48u,
+  numpad8 = SDL_SCANCODE_KP_8,
   /** Up */
-  up = 0xe048u,
+  up = SDL_SCANCODE_UP,
   /** Numpad9 */
-  numpad9 = 0x49u,
+  numpad9 = SDL_SCANCODE_KP_9,
   /** PageUp */
-  page_up = 0xe049u,
-  /** Subtract */
-  subtract = 0x4au,
+  page_up = SDL_SCANCODE_PAGEUP,
+  /** Minus */
+  numpad_minus = SDL_SCANCODE_KP_MINUS,
   /** Numpad4 */
-  numpad4 = 0x4bu,
+  numpad4 = SDL_SCANCODE_KP_4,
   /** Left */
-  left = 0xe04bu,
+  left = SDL_SCANCODE_LEFT,
   /** Numpad5 */
-  numpad5 = 0x4cu,
+  numpad5 = SDL_SCANCODE_KP_5,
   /** Numpad6 */
-  numpad6 = 0x4du,
+  numpad6 = SDL_SCANCODE_KP_6,
   /** Right */
-  right = 0xe04du,
-  /** Add */
-  add = 0x4eu,
+  right = SDL_SCANCODE_RIGHT,
+  /** Plus */
+  numpad_plus = SDL_SCANCODE_KP_PLUS,
   /** Numpad1 */
-  numpad1 = 0x4fu,
+  numpad1 = SDL_SCANCODE_KP_1,
   /** End */
-  end = 0xe04fu,
+  end = SDL_SCANCODE_END,
   /** Numpad2 */
-  numpad2 = 0x50u,
+  numpad2 = SDL_SCANCODE_KP_2,
   /** Down */
-  down = 0xe050u,
+  down = SDL_SCANCODE_DOWN,
   /** Numpad3 */
-  numpad3 = 0x51u,
+  numpad3 = SDL_SCANCODE_KP_3,
   /** PageDown */
-  page_down = 0xe051u,
+  page_down = SDL_SCANCODE_PAGEDOWN,
   /** Numpad0 */
-  numpad0 = 0x52u,
+  numpad0 = SDL_SCANCODE_KP_0,
   /** Insert */
-  ins = 0xe052u,
+  insert = SDL_SCANCODE_INSERT,
   /** Decimal */
-  decimal = 0x53u,
+  numpad_decimal = SDL_SCANCODE_KP_DECIMAL,
   /** Delete */
-  del = 0xe053u,
+  del = SDL_SCANCODE_DELETE,
 
   /** F11 */
-  f11 = 0x57u,
+  f11 = SDL_SCANCODE_F11,
   /** F12 */
-  f12 = 0x58u,
+  f12 = SDL_SCANCODE_F12,
 
   /** LSystem */
-  l_system = 0xe05b,
+  lsystem = SDL_SCANCODE_LGUI,
   /** RSystem */
-  r_system = 0xe05c,
-  /** Apps */
-  apps = 0xe05d,
+  rsystem = SDL_SCANCODE_RGUI,
+  /** Application */
+  application = SDL_SCANCODE_APPLICATION,
+
+  // Application control
+  /** AC Back */
+  ac_back = SDL_SCANCODE_AC_BACK,
+  /** AC Forward */
+  ac_forward = SDL_SCANCODE_AC_FORWARD,
+  /** AC Refresh */
+  ac_refresh = SDL_SCANCODE_AC_REFRESH,
+  /** AC Stop */
+  ac_stop = SDL_SCANCODE_AC_STOP,
+  /** AC Search */
+  ac_search = SDL_SCANCODE_AC_SEARCH,
+  /** AC Bookmarks */
+  ac_bookmarks = SDL_SCANCODE_AC_BOOKMARKS,
+  /** AC Home */
+  ac_home = SDL_SCANCODE_AC_HOME,
+
+  // Sound and media.
+  /** VolumeUp  */
+  volume_up = SDL_SCANCODE_VOLUMEUP,
+  /** VolumeDown */
+  volume_down = SDL_SCANCODE_VOLUMEDOWN,
+  /** VolumeMute */
+  volume_mute = SDL_SCANCODE_AUDIOMUTE,
+  /** MediaNextTrack */
+  media_next_track = SDL_SCANCODE_AUDIONEXT,
+  /** MediaPreviousTrack */
+  media_previous_track = SDL_SCANCODE_AUDIOPREV,
+  /** MediaStop */
+  media_stop = SDL_SCANCODE_AUDIOSTOP,
+  /** MediaPlayPause */
+  media_play_pause = SDL_SCANCODE_AUDIOPLAY,
+  /** LaunchMediaSelect */
+  launch_media_select = SDL_SCANCODE_MEDIASELECT,
+  /** LaunchMail */
+  launch_mail = SDL_SCANCODE_MAIL,
+
+  // Various keys
+  again = SDL_SCANCODE_AGAIN,
+  alt_erase = SDL_SCANCODE_ALTERASE,
+  brightness_up = SDL_SCANCODE_BRIGHTNESSUP,
+  brightness_down = SDL_SCANCODE_BRIGHTNESSDOWN,
 };
 
 

@@ -46,13 +46,13 @@ std::ostream& operator<<(std::ostream& os, scan_code sc)
     SCAN_CODE_CASE(i, os);
     SCAN_CODE_CASE(o, os);
     SCAN_CODE_CASE(p, os);
-    SCAN_CODE_CASE(l_bracket, os);
-    SCAN_CODE_CASE(r_bracket, os);
+    SCAN_CODE_CASE(lbracket, os);
+    SCAN_CODE_CASE(rbracket, os);
     SCAN_CODE_CASE(enter, os);
     SCAN_CODE_CASE(numpad_enter, os);
 
-    SCAN_CODE_CASE(l_ctrl, os);
-    SCAN_CODE_CASE(r_ctrl, os);
+    SCAN_CODE_CASE(lctrl, os);
+    SCAN_CODE_CASE(rctrl, os);
     SCAN_CODE_CASE(a, os);
     SCAN_CODE_CASE(s, os);
     SCAN_CODE_CASE(d, os);
@@ -63,10 +63,10 @@ std::ostream& operator<<(std::ostream& os, scan_code sc)
     SCAN_CODE_CASE(k, os);
     SCAN_CODE_CASE(l, os);
     SCAN_CODE_CASE(semicolon, os);
-    SCAN_CODE_CASE(quote, os);
-    SCAN_CODE_CASE(tilde, os);
+    SCAN_CODE_CASE(apostrophe, os);
+    SCAN_CODE_CASE(grave, os);
 
-    SCAN_CODE_CASE(l_shift, os);
+    SCAN_CODE_CASE(lshift, os);
     SCAN_CODE_CASE(backslash, os);
     SCAN_CODE_CASE(z, os);
     SCAN_CODE_CASE(x, os);
@@ -78,13 +78,13 @@ std::ostream& operator<<(std::ostream& os, scan_code sc)
     SCAN_CODE_CASE(comma, os);
     SCAN_CODE_CASE(period, os);
     SCAN_CODE_CASE(slash, os);
-    SCAN_CODE_CASE(divide, os);
-    SCAN_CODE_CASE(r_shift, os);
+    SCAN_CODE_CASE(numpad_divide, os);
+    SCAN_CODE_CASE(rshift, os);
 
-    SCAN_CODE_CASE(multiply, os);
+    SCAN_CODE_CASE(numpad_multiply, os);
     SCAN_CODE_CASE(print_screen, os);
-    SCAN_CODE_CASE(l_alt, os);
-    SCAN_CODE_CASE(r_alt, os);
+    SCAN_CODE_CASE(lalt, os);
+    SCAN_CODE_CASE(ralt, os);
     SCAN_CODE_CASE(space, os);
     SCAN_CODE_CASE(caps_lock, os);
 
@@ -109,13 +109,13 @@ std::ostream& operator<<(std::ostream& os, scan_code sc)
     SCAN_CODE_CASE(up, os);
     SCAN_CODE_CASE(numpad9, os);
     SCAN_CODE_CASE(page_up, os);
-    SCAN_CODE_CASE(subtract, os);
+    SCAN_CODE_CASE(numpad_minus, os);
     SCAN_CODE_CASE(numpad4, os);
     SCAN_CODE_CASE(left, os);
     SCAN_CODE_CASE(numpad5, os);
     SCAN_CODE_CASE(numpad6, os);
     SCAN_CODE_CASE(right, os);
-    SCAN_CODE_CASE(add, os);
+    SCAN_CODE_CASE(numpad_plus, os);
     SCAN_CODE_CASE(numpad1, os);
     SCAN_CODE_CASE(end, os);
     SCAN_CODE_CASE(numpad2, os);
@@ -123,17 +123,37 @@ std::ostream& operator<<(std::ostream& os, scan_code sc)
     SCAN_CODE_CASE(numpad3, os);
     SCAN_CODE_CASE(page_down, os);
     SCAN_CODE_CASE(numpad0, os);
-    SCAN_CODE_CASE(ins, os);
-    SCAN_CODE_CASE(decimal, os);
+    SCAN_CODE_CASE(insert, os);
+    SCAN_CODE_CASE(numpad_decimal, os);
     SCAN_CODE_CASE(del, os);
 
     SCAN_CODE_CASE(f11, os);
     SCAN_CODE_CASE(f12, os);
 
-    // Made up scan code to cover whole keyboard.
-    SCAN_CODE_CASE(l_system, os);
-    SCAN_CODE_CASE(r_system, os);
-    SCAN_CODE_CASE(apps, os);
+    SCAN_CODE_CASE(lsystem, os);
+    SCAN_CODE_CASE(rsystem, os);
+    SCAN_CODE_CASE(application, os);
+
+    SCAN_CODE_CASE(ac_back, os);
+    SCAN_CODE_CASE(ac_forward, os);
+    SCAN_CODE_CASE(ac_refresh, os);
+    SCAN_CODE_CASE(ac_stop, os);
+    SCAN_CODE_CASE(ac_search, os);
+    SCAN_CODE_CASE(ac_bookmarks, os);
+    SCAN_CODE_CASE(ac_home, os);
+
+    SCAN_CODE_CASE(volume_up, os);
+    SCAN_CODE_CASE(volume_down, os);
+    SCAN_CODE_CASE(volume_mute, os);
+    SCAN_CODE_CASE(media_next_track, os);
+    SCAN_CODE_CASE(media_previous_track, os);
+    SCAN_CODE_CASE(media_stop, os);
+    SCAN_CODE_CASE(media_play_pause, os);
+    SCAN_CODE_CASE(launch_media_select, os);
+    SCAN_CODE_CASE(launch_mail, os);
+
+    SCAN_CODE_CASE(again, os);
+    SCAN_CODE_CASE(alt_erase, os);
 
     default:
       HOU_UNREACHABLE();

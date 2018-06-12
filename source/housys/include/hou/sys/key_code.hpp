@@ -7,6 +7,8 @@
 
 #include "hou/sys/sys_config.hpp"
 
+#include "SDL2/SDL_keycode.h"
+
 #include <iostream>
 
 
@@ -18,345 +20,336 @@ namespace hou
 enum class key_code
 {
   // Function keys
-  /** Escape */
-  escape,
-  /** Print */
-  print,
-  /** PrintScreen */
-  print_screen,
-  /** Pause */
-  pause,
-  /** Execute */
-  execute,
-  /** Select */
-  select,
-  /** Help */
-  help,
-  /** Sleep */
-  sleep,
-  /** Apps */
-  apps,
   /** F1 */
-  f1,
+  f1 = SDLK_F1,
   /** F2 */
-  f2,
+  f2 = SDLK_F2,
   /** F3 */
-  f3,
+  f3 = SDLK_F3,
   /** F4 */
-  f4,
+  f4 = SDLK_F4,
   /** F5 */
-  f5,
+  f5 = SDLK_F5,
   /** F6 */
-  f6,
+  f6 = SDLK_F6,
   /** F7 */
-  f7,
+  f7 = SDLK_F7,
   /** F8 */
-  f8,
+  f8 = SDLK_F8,
   /** F9 */
-  f9,
+  f9 = SDLK_F9,
   /** F10 */
-  f10,
+  f10 = SDLK_F10,
   /** F11 */
-  f11,
+  f11 = SDLK_F11,
   /** F12 */
-  f12,
+  f12 = SDLK_F12,
   /** F13 */
-  f13,
+  f13 = SDLK_F13,
   /** F14 */
-  f14,
+  f14 = SDLK_F14,
   /** F15 */
-  f15,
+  f15 = SDLK_F15,
   /** F16 */
-  f16,
+  f16 = SDLK_F16,
   /** F17 */
-  f17,
+  f17 = SDLK_F17,
   /** F18 */
-  f18,
+  f18 = SDLK_F18,
   /** F19 */
-  f19,
+  f19 = SDLK_F19,
   /** F20 */
-  f20,
+  f20 = SDLK_F20,
   /** F21 */
-  f21,
+  f21 = SDLK_F21,
   /** F22 */
-  f22,
+  f22 = SDLK_F22,
   /** F23 */
-  f23,
+  f23 = SDLK_F23,
   /** F24 */
-  f24,
+  f24 = SDLK_F24,
 
-  // Numpad keys
+  // Numpad
   /** Numpad0 */
-  numpad0,
+  numpad0 = SDLK_KP_0,
   /** Numpad1 */
-  numpad1,
+  numpad1 = SDLK_KP_1,
   /** Numpad2 */
-  numpad2,
+  numpad2 = SDLK_KP_2,
   /** Numpad3 */
-  numpad3,
+  numpad3 = SDLK_KP_3,
   /** Numpad4 */
-  numpad4,
+  numpad4 = SDLK_KP_4,
   /** Numpad5 */
-  numpad5,
+  numpad5 = SDLK_KP_5,
   /** Numpad6 */
-  numpad6,
+  numpad6 = SDLK_KP_6,
   /** Numpad7 */
-  numpad7,
+  numpad7 = SDLK_KP_7,
   /** Numpad8 */
-  numpad8,
+  numpad8 = SDLK_KP_8,
   /** Numpad9 */
-  numpad9,
-  /** Add */
-  add,
-  /** Subtract */
-  subtract,
+  numpad9 = SDLK_KP_9,
+  /** Plus */
+  numpad_plus = SDLK_KP_PLUS,
+  /** Minus */
+  numpad_minus = SDLK_KP_MINUS,
   /** Multiply */
-  multiply,
+  numpad_multiply = SDLK_KP_MULTIPLY,
   /** Divide */
-  divide,
+  numpad_divide = SDLK_KP_DIVIDE,
   /** Decimal */
-  decimal,
-  /** Separator */
-  separator,
+  numpad_decimal = SDLK_KP_DECIMAL,
 
-  // Navigation keys
+  // Navigation
   /** PageUp */
-  page_up,
+  page_up = SDLK_PAGEUP,
   /** PageDown */
-  page_down,
+  page_down = SDLK_PAGEDOWN,
   /** End */
-  end,
+  end = SDLK_END,
   /** Home */
-  home,
+  home = SDLK_HOME,
   /** Insert */
-  ins,
+  insert = SDLK_INSERT,
   /** Delete */
-  del,
+  del = SDLK_DELETE,
   /** Backspace */
-  backspace,
+  backspace = SDLK_BACKSPACE,
   /** Left */
-  left,
+  left = SDLK_LEFT,
   /** Right */
-  right,
+  right = SDLK_RIGHT,
   /** Up */
-  up,
+  up = SDLK_UP,
   /** Down */
-  down,
+  down = SDLK_DOWN,
 
-  // Character keys
+  // Numbers
   /** Num0 */
-  num0,
+  num0 = SDLK_0,
   /** Num1 */
-  num1,
+  num1 = SDLK_1,
   /** Num2 */
-  num2,
+  num2 = SDLK_2,
   /** Num3 */
-  num3,
+  num3 = SDLK_3,
   /** Num4 */
-  num4,
+  num4 = SDLK_4,
   /** Num5 */
-  num5,
+  num5 = SDLK_5,
   /** Num6 */
-  num6,
+  num6 = SDLK_6,
   /** Num7 */
-  num7,
+  num7 = SDLK_7,
   /** Num8 */
-  num8,
+  num8 = SDLK_8,
   /** Num9 */
-  num9,
+  num9 = SDLK_9,
+
+  // Characters
   /** a */
-  a,
+  a = SDLK_a,
   /** b */
-  b,
+  b = SDLK_b,
   /** C */
-  c,
+  c = SDLK_c,
   /** D */
-  d,
+  d = SDLK_d,
   /** E */
-  e,
+  e = SDLK_e,
   /** F */
-  f,
+  f = SDLK_f,
   /** g */
-  g,
+  g = SDLK_g,
   /** H */
-  h,
+  h = SDLK_h,
   /** I */
-  i,
+  i = SDLK_i,
   /** J */
-  j,
+  j = SDLK_j,
   /** K */
-  k,
+  k = SDLK_k,
   /** L */
-  l,
+  l = SDLK_l,
   /** M */
-  m,
+  m = SDLK_m,
   /** N */
-  n,
+  n = SDLK_n,
   /** O */
-  o,
+  o = SDLK_o,
   /** P */
-  p,
+  p = SDLK_p,
   /** Q */
-  q,
+  q = SDLK_q,
   /** R */
-  r,
+  r = SDLK_r,
   /** S */
-  s,
+  s = SDLK_s,
   /** T */
-  t,
+  t = SDLK_t,
   /** U */
-  u,
+  u = SDLK_u,
   /** V */
-  v,
+  v = SDLK_v,
   /** X */
-  x,
+  x = SDLK_x,
   /** Y */
-  y,
+  y = SDLK_y,
   /** W */
-  w,
+  w = SDLK_w,
   /** Z */
-  z,
+  z = SDLK_z,
+
+  // Punctuation
   /** LBracket */
-  l_bracket,
+  lbracket = SDLK_LEFTBRACKET,
   /** RBracket */
-  r_bracket,
+  rbracket = SDLK_RIGHTBRACKET,
   /** Semicolon */
-  semicolon,
+  semicolon = SDLK_SEMICOLON,
   /** Comma */
-  comma,
+  comma = SDLK_COMMA,
   /** Period */
-  period,
-  /** Quote */
-  quote,
+  period = SDLK_PERIOD,
+  /** Apopstrophe */
+  apostrophe = SDLK_QUOTE,
   /** Slash */
-  slash,
+  slash = SDLK_SLASH,
   /** Backslash */
-  backslash,
-  /** Tilde */
-  tilde,
+  backslash = SDLK_BACKSLASH,
+  /** Grave */
+  grave = SDLK_BACKQUOTE,
   /** Dash */
-  dash,
+  dash = SDLK_MINUS,
   /** Enter */
-  enter,
+  enter = SDLK_RETURN,
   /** Tab */
-  tab,
+  tab = SDLK_TAB,
   /** Space */
-  space,
+  space = SDLK_SPACE,
   /** Equal */
-  equal,
-  /** Special1 */
-  special1,
-  /** Special2 */
-  special2,
+  equal = SDLK_EQUALS,
 
   // Modifier keys
   /** CapsLock */
-  caps_lock,
+  caps_lock = SDLK_CAPSLOCK,
   /** NumLock */
-  num_lock,
+  num_lock = SDLK_NUMLOCKCLEAR,
   /** ScrollLock */
-  scroll_lock,
+  scroll_lock = SDLK_SCROLLLOCK,
   /** LCtrl */
-  l_ctrl,
+  lctrl = SDLK_LCTRL,
   /** RCtrl */
-  r_ctrl,
+  rctrl = SDLK_RCTRL,
   /** LAlt */
-  l_alt,
+  lalt = SDLK_LALT,
   /** RAlt */
-  r_alt,
+  ralt = SDLK_RALT,
   /** LShift */
-  l_shift,
+  lshift = SDLK_LSHIFT,
   /** RShift */
-  r_shift,
+  rshift = SDLK_RSHIFT,
   /** LSystem */
-  l_system,
+  lsystem = SDLK_LGUI,
   /** RSystem */
-  r_system,
+  rsystem = SDLK_RGUI,
 
-  // IME (input method editor)
-  /** Kana */
-  kana,
-  /** Hangul */
-  hangul,
-  /** Junja */
-  junja,
-  /** Final */
-  final,
-  /** Hanja */
-  hanja,
-  /** Kanji */
-  kanji,
-  /** Convert */
-  convert,
-  /** NonConvert */
-  non_convert,
-  /** Accept */
-  accept,
-  /** ModeChange */
-  mode_change,
-  /** ProcessKey */
-  process_key,
-
-  // Browser
-  /** BrowserBack */
-  browser_back,
-  /** BrowserForward */
-  browser_forward,
-  /** BrowserRefresh */
-  browser_refresh,
-  /** BrowserStop */
-  browser_stop,
-  /** BrowserSearch */
-  browser_search,
-
-  /** BrowserFavorites */
-  browser_favorites,
-  /** BrowserHome */
-  browser_home,
+  // Application control
+  /** AC Back */
+  ac_back = SDLK_AC_BACK,
+  /** AC Forward */
+  ac_forward = SDLK_AC_FORWARD,
+  /** AC Refresh */
+  ac_refresh = SDLK_AC_REFRESH,
+  /** AC Stop */
+  ac_stop = SDLK_AC_STOP,
+  /** AC Search */
+  ac_search = SDLK_AC_SEARCH,
+  /** AC Bookmarks */
+  ac_bookmarks = SDLK_AC_BOOKMARKS,
+  /** AC Home */
+  ac_home = SDLK_AC_HOME,
 
   // Sound and media.
   /** VolumeUp  */
-  volume_up,
+  volume_up = SDLK_VOLUMEUP,
   /** VolumeDown */
-  volume_down,
+  volume_down = SDLK_VOLUMEDOWN,
   /** VolumeMute */
-  volume_mute,
+  mute = SDLK_AUDIOMUTE,
   /** MediaNextTrack */
-  media_next_track,
+  media_next_track = SDLK_AUDIONEXT,
   /** MediaPreviousTrack */
-  media_previous_track,
+  media_previous_track = SDLK_AUDIOPREV,
   /** MediaStop */
-  media_stop,
+  media_stop = SDLK_AUDIOSTOP,
   /** MediaPlayPause */
-  media_play_pause,
+  media_play_pause = SDLK_AUDIOPLAY,
   /** LaunchMediaSelect */
-  launch_media_select,
+  launch_media_select = SDLK_MEDIASELECT,
   /** LaunchMail */
-  launch_mail,
-  /** LaunchApp1 */
-  launch_app1,
-  /** LaunchApp2 */
-  launch_app2,
+  launch_mail = SDLK_MAIL,
 
   // Others
-  /** Attn */
-  attn,
-  /** CrSel */
-  cr_sel,
-  /** ExSel */
-  ex_sel,
-  /** EraseEOF */
-  erase_eof,
-  /** Play */
-  play,
-  /** Zoom */
-  zoom,
-  /** PA1 */
-  pa1,
-  /** Clear */
-  clear,
-  /** Packet */
-  packet,
+  again = SDLK_AGAIN,
+  alt_erase = SDLK_ALTERASE,
+  application = SDLK_APPLICATION,
+  brightness_up = SDLK_BRIGHTNESSUP,
+  brightness_down = SDLK_BRIGHTNESSDOWN,
+  calculator = SDLK_CALCULATOR,
+  cancel = SDLK_CANCEL,
+  clear_again = SDLK_CLEARAGAIN,
+  computer = SDLK_COMPUTER,
+  copy = SDLK_COPY,
+  crsel = SDLK_CRSEL,
+  currency_sub_unit = SDLK_CURRENCYSUBUNIT,
+  currency_unit = SDLK_CURRENCYUNIT,
+  cut = SDLK_CUT,
+  decimal_separator = SDLK_DECIMALSEPARATOR,
+  display_switch = SDLK_DISPLAYSWITCH,
+  eject = SDLK_EJECT,
+  escape = SDLK_ESCAPE,
+  execute = SDLK_EXECUTE,
+  exsel = SDLK_EXSEL,
+  find = SDLK_FIND,
+  help = SDLK_HELP,
+  illumination_down = SDLK_KBDILLUMDOWN,
+  illumination_up = SDLK_KBDILLUMUP,
+  illumination_toggle = SDLK_KBDILLUMTOGGLE,
+  oper = SDLK_OPER,
+  out = SDLK_OUT,
+  paste = SDLK_PASTE,
+  pause = SDLK_PAUSE,
+  power = SDLK_POWER,
+  print_screen = SDLK_PRINTSCREEN,
+  prior = SDLK_PRIOR,
+  separator = SDLK_SEPARATOR,
+  select = SDLK_SELECT,
+  sleep = SDLK_SLEEP,
+  sys_req = SDLK_SYSREQ,
+  thousands_separator = SDLK_THOUSANDSSEPARATOR,
+  undo = SDLK_UNDO,
+  www = SDLK_WWW,
+
+  // Key codes without associated scan code.
+  ampersand = SDLK_AMPERSAND,
+  asterisk = SDLK_ASTERISK,
+  at = SDLK_AT,
+  caret = SDLK_CARET,
+  colon = SDLK_COLON,
+  dollar = SDLK_DOLLAR,
+  exclamation_mark = SDLK_EXCLAIM,
+  less = SDLK_LESS,
+  greater = SDLK_GREATER,
+  hash = SDLK_HASH,
+  lparenthesis = SDLK_LEFTPAREN,
+  rparentheses = SDLK_RIGHTPAREN,
+  percent = SDLK_PERCENT,
+  plus = SDLK_PLUS,
+  question_mark = SDLK_QUESTION,
+  double_quote = SDLK_QUOTEDBL,
+  underscore = SDLK_UNDERSCORE,
 };
 
 /** Writes a key_code enum into a stream.
