@@ -326,7 +326,7 @@ TEST_F(test_system_window, maximization_on_not_resizable_window)
 
 
 
-TEST_F(test_system_window, minimization)
+TEST_F(test_system_window, DISABLED_minimization)
 {
   system_window w(u8"TestWindow", vec2u(32u, 64u));
 
@@ -344,7 +344,7 @@ TEST_F(test_system_window, minimization)
 
 
 
-TEST_F(test_system_window, minimization_and_maximization)
+TEST_F(test_system_window, DISABLED_minimization_and_maximization)
 {
   system_window w(u8"TestWindow", vec2u(32u, 64u));
   w.set_resizable(true);

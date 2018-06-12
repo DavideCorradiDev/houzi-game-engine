@@ -44,7 +44,7 @@ SET(LIB_HOUSYS_SRC
   src/hou/sys/file_type.cpp
   src/hou/sys/image.cpp
   src/hou/sys/image_file.cpp
-  # src/hou/sys/key_code.cpp
+  src/hou/sys/key_code.cpp
   # src/hou/sys/keyboard.cpp
   # src/hou/sys/modifier_keys.cpp
   src/hou/sys/display.cpp
@@ -52,7 +52,7 @@ SET(LIB_HOUSYS_SRC
   # src/hou/sys/mouse_wheel.cpp
   src/hou/sys/pixel.cpp
   src/hou/sys/pixel_format.cpp
-  # src/hou/sys/scan_code.cpp
+  src/hou/sys/scan_code.cpp
   src/hou/sys/sys_exceptions.cpp
   src/hou/sys/sys_module.cpp
   src/hou/sys/system_window.cpp

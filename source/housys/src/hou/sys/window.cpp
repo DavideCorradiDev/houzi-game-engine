@@ -398,4 +398,15 @@ void window::raise()
   SDL_RaiseWindow(m_impl);
 }
 
+
+
+void window::clear(const color& color)
+{
+  SDL_Surface* screen_surface = SDL_GetWindowSurface(m_impl);
+  SDL_FillRect(screen_surface, nullptr,
+    SDL_MapRGB(screen_surface->format, color.get_red(), color.get_green(),
+      color.get_blue()));
+  HOU_SDL_CHECK(SDL_UpdateWindowSurface(m_impl) == 0);
+}
+
 }  // namespace hou

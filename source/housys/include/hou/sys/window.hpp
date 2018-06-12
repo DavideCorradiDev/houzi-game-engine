@@ -28,7 +28,10 @@ namespace display
 {
 
 class mode;
+
 }
+
+class color;
 
 using window_impl = SDL_Window;
 
@@ -107,6 +110,7 @@ public:
   bool is_bordered() const;
   void set_bordered(bool value);
 
+  void clear(const color& color);
   bool focus();
   void raise();
 
