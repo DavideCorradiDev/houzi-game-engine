@@ -6,8 +6,8 @@
 
 #include "hou/cor/exception.hpp"
 
-#define KEY_CODE_CASE(kc, os) \
-  case key_code::kc: \
+#define KEY_CODE_CASE(kc, os)                                                  \
+  case key_code::kc:                                                           \
     return (os) << #kc
 
 

@@ -46,7 +46,7 @@ SET(LIB_HOUSYS_SRC
   src/hou/sys/image_file.cpp
   src/hou/sys/key_code.cpp
   # src/hou/sys/keyboard.cpp
-  # src/hou/sys/modifier_keys.cpp
+  src/hou/sys/modifier_keys.cpp
   src/hou/sys/display.cpp
   # src/hou/sys/mouse_button.cpp
   # src/hou/sys/mouse_wheel.cpp

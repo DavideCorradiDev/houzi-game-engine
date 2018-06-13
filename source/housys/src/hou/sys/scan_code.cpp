@@ -6,8 +6,8 @@
 
 #include "hou/cor/exception.hpp"
 
-#define SCAN_CODE_CASE(sc, os) \
-  case scan_code::sc: \
+#define SCAN_CODE_CASE(sc, os)                                                 \
+  case scan_code::sc:                                                          \
     return (os) << #sc
 
 

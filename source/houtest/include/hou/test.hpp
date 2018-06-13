@@ -226,7 +226,7 @@ inline std::string get_exception_msg_regex(const std::exception& ex)
 #define EXPECT_OUTPUT(expected_string, object)                                 \
   {                                                                            \
     std::stringstream stream;                                                  \
-    stream << object;                                                          \
+    stream << (object);                                                        \
     EXPECT_STREQ(expected_string, stream.str().c_str())                        \
       << "Error in operator<<";                                                \
   }
