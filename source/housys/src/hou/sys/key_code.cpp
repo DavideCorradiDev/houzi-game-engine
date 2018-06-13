@@ -54,12 +54,12 @@ std::ostream& operator<<(std::ostream& os, key_code kc)
     KEY_CODE_CASE(numpad7, os);
     KEY_CODE_CASE(numpad8, os);
     KEY_CODE_CASE(numpad9, os);
-
     KEY_CODE_CASE(numpad_plus, os);
     KEY_CODE_CASE(numpad_minus, os);
     KEY_CODE_CASE(numpad_multiply, os);
     KEY_CODE_CASE(numpad_divide, os);
     KEY_CODE_CASE(numpad_decimal, os);
+    KEY_CODE_CASE(numpad_enter, os);
 
     KEY_CODE_CASE(page_up, os);
     KEY_CODE_CASE(page_down, os);
@@ -214,11 +214,9 @@ std::ostream& operator<<(std::ostream& os, key_code kc)
     KEY_CODE_CASE(question_mark, os);
     KEY_CODE_CASE(double_quote, os);
     KEY_CODE_CASE(underscore, os);
-
-    default:
-      HOU_UNREACHABLE();
-      return os;
   }
+  HOU_UNREACHABLE();
+  return os;
 }
 
 }  // namespace hou
