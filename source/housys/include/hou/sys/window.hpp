@@ -68,7 +68,7 @@ public:
   void set_icon(const image2_rgba& icon);
 
   vec2u get_size() const;
-  void set_size(const vec2u& size);
+  virtual void set_size(const vec2u& size);
 
   vec2u get_min_size() const;
   void set_min_size(const vec2u& min_size);
@@ -92,13 +92,13 @@ public:
   // The flag is set only after processing the event queue.
   // Moreover, it is necessary to wait a bit for the event to be registered.
   bool is_maximized() const;
-  void minimize();
+  virtual void minimize();
   // Will do nothing if the window is not resizable.
-  void maximize();
+  virtual void maximize();
   // Minimized windows will be restored only after the minimized flag has been
   // properly set. This requires processing the event queue.
   // Restoring a minimized window doesn't seem to actually restore it.
-  void restore();
+  virtual void restore();
 
   bool get_grab() const;
   // Works only if the window is visible and with focus.
@@ -110,7 +110,7 @@ public:
   bool is_bordered() const;
   void set_bordered(bool value);
 
-  void clear(const color& color);
+  virtual void clear(const color& color);
   bool focus();
   void raise();
 
