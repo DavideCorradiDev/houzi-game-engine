@@ -58,14 +58,14 @@ int main(int, char**)
         {
           pressed_keys.push_back(i);
           HOU_ASSERT(hou::keyboard::is_key_pressed(hou::scan_code(i)));
-          HOU_ASSERT(hou::keyboard::is_key_pressed(
-            hou::get_key_code(hou::scan_code(i))));
+          // HOU_ASSERT(hou::keyboard::is_key_pressed(
+          //   hou::get_key_code(hou::scan_code(i))));
         }
         else
         {
           HOU_ASSERT(!hou::keyboard::is_key_pressed(hou::scan_code(i)));
-          HOU_ASSERT(!hou::keyboard::is_key_pressed(
-            hou::get_key_code(hou::scan_code(i))));
+          // HOU_ASSERT(!hou::keyboard::is_key_pressed(
+          //   hou::get_key_code(hou::scan_code(i))));
         }
       }
 

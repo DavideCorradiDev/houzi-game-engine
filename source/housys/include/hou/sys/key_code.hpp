@@ -25,6 +25,9 @@ enum class scan_code;
  * For example, the key corresponding to key_code::z in a US layout will
  * correspond to key_code::y in a German layout and to key_code::w in a French
  * layout.
+ *
+ * For non-english keyboard layouts, some enumeration values might be missing.
+ * They can still be represented as a key_code enum though.
  */
 enum class key_code
 {
