@@ -112,6 +112,7 @@ public:
   void set_bordered(bool value);
 
   bool has_keyboard_focus() const;
+  bool has_mouse_focus() const;
   bool focus();
 
   void raise();

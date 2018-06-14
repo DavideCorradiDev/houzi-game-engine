@@ -15,6 +15,7 @@
 #include "hou/cor/uid_generator.hpp"
 
 #include "SDL2/SDL_keyboard.h"
+#include "SDL2/SDL_mouse.h"
 #include "SDL2/SDL_video.h"
 
 #include <limits>
@@ -397,6 +398,13 @@ void window::set_bordered(bool value)
 bool window::has_keyboard_focus() const
 {
   return SDL_GetKeyboardFocus() == m_impl;
+}
+
+
+
+bool window::has_mouse_focus() const
+{
+  return SDL_GetMouseFocus() == m_impl;
 }
 
 

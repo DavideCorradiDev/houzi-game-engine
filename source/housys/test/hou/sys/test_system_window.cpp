@@ -446,6 +446,7 @@ TEST_F(test_system_window, focus_success)
   event::process_all();
   EXPECT_TRUE(w.focus());
   EXPECT_TRUE(w.has_keyboard_focus());
+  EXPECT_TRUE(w.has_mouse_focus());
 }
 
 
@@ -456,6 +457,7 @@ TEST_F(test_system_window, focus_failure)
   system_window w(u8"TestWindow", vec2u(32u, 64u));
   EXPECT_FALSE(w.focus());
   EXPECT_FALSE(w.has_keyboard_focus());
+  EXPECT_FALSE(w.has_mouse_focus());
 }
 
 
