@@ -58,7 +58,7 @@ void render_window::display()
     GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
     GL_NEAREST);
 
-  SDL_GL_SwapWindow(get_impl());
+  window::display();
 }
 
 

@@ -48,6 +48,7 @@ SET(EXE_HOUSYS_TEST_SRC
   hou/sys/test_file_handle.cpp
   hou/sys/test_image.cpp
   hou/sys/test_image_file.cpp
+  hou/sys/test_keyboard.cpp
   hou/sys/test_keys.cpp
   hou/sys/test_pixel.cpp
   hou/sys/test_pixel_format.cpp

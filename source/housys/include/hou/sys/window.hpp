@@ -47,6 +47,7 @@ public:
 
   virtual ~window() = 0;
 
+  not_null<const window_impl*> get_impl() const;
   not_null<window_impl*> get_impl();
 
   uint32_t get_uid() const noexcept;
@@ -110,9 +111,13 @@ public:
   bool is_bordered() const;
   void set_bordered(bool value);
 
-  virtual void clear(const color& color);
+  bool has_keyboard_focus() const;
   bool focus();
+
   void raise();
+
+  virtual void clear(const color& color);
+  virtual void swap_buffers();
 
 private:
   window_impl* m_impl;

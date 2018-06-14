@@ -445,6 +445,7 @@ TEST_F(test_system_window, focus_success)
   w.show();
   event::process_all();
   EXPECT_TRUE(w.focus());
+  EXPECT_TRUE(w.has_keyboard_focus());
 }
 
 
@@ -454,6 +455,7 @@ TEST_F(test_system_window, focus_failure)
   // The window is not visible, focusing it will fail.
   system_window w(u8"TestWindow", vec2u(32u, 64u));
   EXPECT_FALSE(w.focus());
+  EXPECT_FALSE(w.has_keyboard_focus());
 }
 
 
@@ -471,4 +473,20 @@ TEST_F(test_system_window, impl_data)
 {
   system_window w(u8"TestWindow", vec2u(32u, 64u));
   EXPECT_EQ(&w, &(window::get_impl_window(w.get_impl())));
+}
+
+
+
+TEST_F(test_system_window, clear)
+{
+  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  w.clear(color::black());
+}
+
+
+
+TEST_F(test_system_window, swap_buffers)
+{
+  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  w.swap_buffers();
 }

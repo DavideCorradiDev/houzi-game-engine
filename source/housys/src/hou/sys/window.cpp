@@ -14,6 +14,7 @@
 #include "hou/cor/narrow_cast.hpp"
 #include "hou/cor/uid_generator.hpp"
 
+#include "SDL2/SDL_keyboard.h"
 #include "SDL2/SDL_video.h"
 
 #include <limits>
@@ -87,6 +88,13 @@ window::~window()
   {
     SDL_DestroyWindow(m_impl);
   }
+}
+
+
+
+not_null<const window_impl*> window::get_impl() const
+{
+  return m_impl;
 }
 
 
@@ -386,6 +394,13 @@ void window::set_bordered(bool value)
 
 
 
+bool window::has_keyboard_focus() const
+{
+  return SDL_GetKeyboardFocus() == m_impl;
+}
+
+
+
 bool window::focus()
 {
   return SDL_SetWindowInputFocus(m_impl) >= 0;
@@ -407,6 +422,13 @@ void window::clear(const color& color)
     SDL_MapRGB(screen_surface->format, color.get_red(), color.get_green(),
       color.get_blue()));
   HOU_SDL_CHECK(SDL_UpdateWindowSurface(m_impl) == 0);
+}
+
+
+
+void window::swap_buffers()
+{
+  SDL_GL_SwapWindow(m_impl);
 }
 
 }  // namespace hou
