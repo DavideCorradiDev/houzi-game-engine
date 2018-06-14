@@ -19,6 +19,8 @@ std::ostream& operator<<(std::ostream& os, scan_code sc)
 {
   switch(sc)
   {
+    SCAN_CODE_CASE(unknown, os);
+
     SCAN_CODE_CASE(f1, os);
     SCAN_CODE_CASE(f2, os);
     SCAN_CODE_CASE(f3, os);
@@ -205,6 +207,10 @@ std::ostream& operator<<(std::ostream& os, scan_code sc)
     SCAN_CODE_CASE(language9, os);
     SCAN_CODE_CASE(non_us_backslash, os);
     SCAN_CODE_CASE(non_us_hash, os);
+
+    default:
+      return os << "scan_code("
+                << static_cast<std::underlying_type<scan_code>::type>(sc) << ")";
   }
   HOU_UNREACHABLE();
   return os;

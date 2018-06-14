@@ -4,6 +4,8 @@
 
 #include "hou/sys/key_code.hpp"
 
+#include "hou/sys/scan_code.hpp"
+
 #include "hou/cor/exception.hpp"
 
 #define KEY_CODE_CASE(kc, os)                                                  \
@@ -19,6 +21,8 @@ std::ostream& operator<<(std::ostream& os, key_code kc)
 {
   switch(kc)
   {
+    KEY_CODE_CASE(unknown, os);
+
     KEY_CODE_CASE(f1, os);
     KEY_CODE_CASE(f2, os);
     KEY_CODE_CASE(f3, os);
@@ -214,9 +218,37 @@ std::ostream& operator<<(std::ostream& os, key_code kc)
     KEY_CODE_CASE(question_mark, os);
     KEY_CODE_CASE(double_quote, os);
     KEY_CODE_CASE(underscore, os);
+
+    default:
+      return os << "key_code("
+                << static_cast<std::underlying_type<key_code>::type>(kc) << ")";
   }
   HOU_UNREACHABLE();
   return os;
+}
+
+
+
+key_code get_key_code(scan_code sc)
+{
+  SDL_Keycode kc = SDL_GetKeyFromScancode(static_cast<SDL_Scancode>(sc));
+
+  // SDL performs a bitwise OR with the scancode and the mask 0x40000000 in some
+  // cases. If the scancode is SDL_SCANCODE_UNKNOWN (= 0), this leads to a non
+  // zero value for the keycode. They keycode shold also be 0 though.
+  if(kc == 0x40000000)
+  {
+    kc = 0;
+  }
+
+  return key_code(kc);
+}
+
+
+
+scan_code get_scan_code(key_code kc)
+{
+  return scan_code(SDL_GetScancodeFromKey(static_cast<SDL_Keycode>(kc)));
 }
 
 }  // namespace hou

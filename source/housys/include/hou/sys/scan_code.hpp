@@ -7,7 +7,7 @@
 
 #include "hou/sys/sys_config.hpp"
 
-#include "SDL2/SDL_scancode.h"
+#include "SDL2/SDL_keyboard.h"
 
 #include <iostream>
 
@@ -28,6 +28,9 @@ namespace hou
  */
 enum class scan_code
 {
+  // Unknown
+  unknown,
+
   // Function keys
   f1 = SDL_SCANCODE_F1,
   f2 = SDL_SCANCODE_F2,

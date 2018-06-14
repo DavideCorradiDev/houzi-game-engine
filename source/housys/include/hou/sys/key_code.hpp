@@ -7,7 +7,7 @@
 
 #include "hou/sys/sys_config.hpp"
 
-#include "SDL2/SDL_keycode.h"
+#include "SDL2/SDL_keyboard.h"
 
 #include <iostream>
 
@@ -15,6 +15,8 @@
 
 namespace hou
 {
+
+enum class scan_code;
 
 /**
  * Keyboard key code.
@@ -26,6 +28,9 @@ namespace hou
  */
 enum class key_code
 {
+  // Unknown.
+  unknown = SDLK_UNKNOWN,
+
   // Function keys
   f1 = SDLK_F1,
   f2 = SDLK_F2,
@@ -243,6 +248,10 @@ enum class key_code
  * \return a reference to os.
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, key_code kc);
+
+HOU_SYS_API key_code get_key_code(scan_code sc);
+
+HOU_SYS_API scan_code get_scan_code(key_code kc);
 
 }  // namespace hou
 
