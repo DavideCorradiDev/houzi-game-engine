@@ -62,8 +62,6 @@ SET(LIB_HOUSYS_SRC
   src/hou/sys/text_stream.cpp
   src/hou/sys/window.cpp
   src/hou/sys/window_mode.cpp
-  # src/hou/sys/window_event.cpp
-  # src/hou/sys/window_event_type.cpp
   src/hou/sys/sdl/sdl_utils.cpp
 )
 
