@@ -23,13 +23,25 @@ class window;
 namespace mouse
 {
 
+// May fail, may not be supported.
+HOU_SYS_API bool set_capture(bool value);
+
+HOU_SYS_API bool is_cursor_hidden();
+
+HOU_SYS_API void set_cursor_hidden(bool value);
+
+HOU_SYS_API bool is_relative_mode();
+
+// May fail, may not be supported.
+HOU_SYS_API bool set_relative_mode(bool value);
+
 /** Checks if a button is pressed.
  *
- * \param button the button.
+ * \param mb the button.
  *
  * \return true if the button is pressed.
  */
-HOU_SYS_API bool is_button_pressed(mouse_button button) noexcept;
+HOU_SYS_API bool is_button_pressed(mouse_button mb);
 
 /** Retrieves the current mouse position relative to the screen.
  *
@@ -37,7 +49,7 @@ HOU_SYS_API bool is_button_pressed(mouse_button button) noexcept;
  *
  * \return the mouse position relative to the screen
  */
-HOU_SYS_API vec2i get_position() noexcept;
+HOU_SYS_API vec2i get_position();
 
 /** Retrieves the current mouse position relative to the given window.
  *
@@ -47,25 +59,28 @@ HOU_SYS_API vec2i get_position() noexcept;
  *
  * \return the mouse position relative to the given window.
  */
-HOU_SYS_API vec2i get_position(const window& w) noexcept;
+HOU_SYS_API vec2i get_position(const window& w);
+
+// Since initialization or last call.
+HOU_SYS_API vec2i get_position_delta();
 
 /** Sets the position of the mouse relative to the screen.
  *
  * Position (0,0) represent the top left corner of the screen.
  *
- * \param value the position.
+ * \param pos the position.
  */
-HOU_SYS_API void set_position(const vec2i& value) noexcept;
+HOU_SYS_API void set_position(const vec2i& pos);
 
 /** Sets the position of the mouse relative to the given window.
  *
  * Position (0,0) represent the top left corner of the given window.
  *
- * \param value the position.
+ * \param pos the position.
  *
  * \param w the window.
  */
-HOU_SYS_API void set_position(const vec2i& value, const window& w) noexcept;
+HOU_SYS_API void set_position(const vec2i& pos, const window& w);
 
 }  // namespace mouse
 

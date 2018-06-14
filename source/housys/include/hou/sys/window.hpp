@@ -77,6 +77,7 @@ public:
   vec2u get_max_size() const;
   void set_max_size(const vec2u& min_size);
 
+  // might not work properly if the window is hidden.
   vec2i get_position() const;
   void set_position(const vec2i& position);
 
