@@ -9,6 +9,7 @@
 #include "hou/cor/clock.hpp"
 
 #include "hou/sys/event.hpp"
+#include "hou/sys/keyboard.hpp"
 #include "hou/sys/mouse.hpp"
 #include "hou/sys/system_window.hpp"
 
@@ -49,6 +50,12 @@ int main(int, char**)
   w.raise();
   w.focus();
 
+  std::cout << "The mouse cursor will be hidden while 'H' is pressed."
+            << std::endl;
+  std::cout << "The mouse will be grabbed while 'G' is pressed."
+            << std::endl;
+  std::cout << "The mouse will be in relative mode while 'R' is pressed."
+            << std::endl;
   std::cout << "The mouse state will be printed every second." << std::endl;
 
   std::chrono::nanoseconds elapsed_time(0);
@@ -56,14 +63,28 @@ int main(int, char**)
   hou::clock c;
   while(loop)
   {
-    hou::event::process_all();
     elapsed_time += c.reset();
+
+    hou::event::process_all();
+
+    hou::mouse::set_cursor_hidden(
+      hou::keyboard::is_key_pressed(hou::scan_code::h));
+    hou::mouse::set_relative_mode(
+      hou::keyboard::is_key_pressed(hou::scan_code::r));
+    w.set_grab(hou::keyboard::is_key_pressed(hou::scan_code::g));
+
     while(elapsed_time > tick_period)
     {
       elapsed_time -= tick_period;
 
       std::cout << "Window has focus: " << hou::to_string(w.has_mouse_focus())
                 << std::endl;
+      std::cout << "Cursor is hidden: "
+                << hou::to_string(hou::mouse::is_cursor_hidden()) << std::endl;
+      std::cout << "Cursor is grabbed: " << hou::to_string(w.get_grab())
+                << std::endl;
+      std::cout << "Relative mode active: "
+                << hou::to_string(hou::mouse::is_relative_mode()) << std::endl;
       std::cout << "Global position: " << transpose(hou::mouse::get_position())
                 << std::endl;
       std::cout << "Window position: " << transpose(hou::mouse::get_position(w))
