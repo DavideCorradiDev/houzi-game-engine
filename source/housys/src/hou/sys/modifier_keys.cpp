@@ -9,7 +9,7 @@
 #define MODIFIER_KEY_BITFIELD_CASE(bitfield, bit, os)                          \
   do                                                                           \
   {                                                                            \
-    if(check_bit(bitfield, modifier_keys::bit))                                \
+    if(check_all(bitfield, modifier_keys::bit))                                \
     {                                                                          \
       os << (match_found ? " | " : "") << #bit;                                \
       match_found = true;                                                      \
