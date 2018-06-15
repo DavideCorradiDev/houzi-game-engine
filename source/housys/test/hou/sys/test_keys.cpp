@@ -43,7 +43,7 @@ TEST_F(test_keys, scan_code_to_key_code)
 
 TEST_F(test_keys, output_stream_operator)
 {
-  EXPECT_OUTPUT("", modifier_keys::none);
+  EXPECT_OUTPUT("none", modifier_keys::none);
   EXPECT_OUTPUT("lalt", modifier_keys::lalt);
   EXPECT_OUTPUT("ralt", modifier_keys::ralt);
   EXPECT_OUTPUT("lctrl", modifier_keys::lctrl);
