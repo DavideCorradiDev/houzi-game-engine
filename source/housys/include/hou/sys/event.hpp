@@ -56,6 +56,9 @@ using mouse_motion_callback = std::function<void(timestamp, window::uid_type,
 HOU_SYS_API void set_quit_callback(quit_callback f);
 HOU_SYS_API void generate_quit();
 
+HOU_SYS_API void set_window_closed_callback(window_callback f);
+HOU_SYS_API void generate_window_closed(const window& w);
+
 HOU_SYS_API void set_window_hidden_callback(window_callback f);
 HOU_SYS_API void generate_window_hidden(const window& w);
 

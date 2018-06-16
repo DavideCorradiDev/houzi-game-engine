@@ -27,6 +27,7 @@ void process(const SDL_Event& event);
 
 quit_callback& get_quit_callback();
 
+window_callback& get_window_closed_callback();
 window_callback& get_window_hidden_callback();
 window_callback& get_window_shown_callback();
 window_callback& get_window_exposed_callback();
@@ -63,6 +64,14 @@ void process(const SDL_Event& event)
     {
       switch(event.window.event)
       {
+        case SDL_WINDOWEVENT_CLOSE:
+        {
+          auto callback = get_window_closed_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID);
+          }
+        } break;
         case SDL_WINDOWEVENT_HIDDEN:
         {
           auto callback = get_window_hidden_callback();
@@ -213,6 +222,14 @@ void process(const SDL_Event& event)
       }
     } break;
   }
+}
+
+
+
+window_callback& get_window_closed_callback()
+{
+  static window_callback callback = nullptr;
+  return callback;
 }
 
 
@@ -402,6 +419,27 @@ void generate_quit()
   SDL_Event event;
   event.type = SDL_QUIT;
   event.quit.timestamp = SDL_GetTicks();
+  HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
+}
+
+
+
+void set_window_closed_callback(window_callback f)
+{
+  get_window_closed_callback() = f;
+}
+
+
+
+void generate_window_closed(const window& w)
+{
+  SDL_Event event;
+  event.type = SDL_WINDOWEVENT;
+  event.window.timestamp = SDL_GetTicks();
+  event.window.windowID = w.get_uid();
+  event.window.event = SDL_WINDOWEVENT_CLOSE;
+  event.window.data1 = 0;
+  event.window.data2 = 0;
   HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
 }
 

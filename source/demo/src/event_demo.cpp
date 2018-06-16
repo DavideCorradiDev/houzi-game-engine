@@ -16,6 +16,8 @@
 
 void prompt(const std::string& message);
 
+void on_window_closed(hou::event::timestamp t, hou::window::uid_type wid);
+
 void on_window_hidden(hou::event::timestamp t, hou::window::uid_type wid);
 
 void on_window_shown(hou::event::timestamp t, hou::window::uid_type wid);
@@ -60,6 +62,14 @@ void prompt(const std::string& message)
   std::cout << message;
   std::string throwaway;
   std::getline(std::cin, throwaway);
+}
+
+
+
+void on_window_closed(hou::event::timestamp t, hou::window::uid_type wid)
+{
+  std::cout << "Window closed: timestamp = " << t << ", window id = " << wid
+            << std::endl;
 }
 
 
@@ -230,6 +240,7 @@ int main(int, char**)
 
   hou::event::set_quit_callback(on_quit);
 
+  hou::event::set_window_closed_callback(on_window_closed);
   hou::event::set_window_hidden_callback(on_window_hidden);
   hou::event::set_window_shown_callback(on_window_shown);
   hou::event::set_window_exposed_callback(on_window_exposed);
