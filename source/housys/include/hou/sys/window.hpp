@@ -33,12 +33,15 @@ class mode;
 
 class color;
 
-using window_impl = SDL_Window;
-
 class HOU_SYS_API window : public non_copyable
 {
 public:
-  static window& get_impl_window(not_null<const window_impl*> impl);
+  using impl_type = SDL_Window;
+  using uid_type = uint32_t;
+
+public:
+  static window& get_from_impl(not_null<const impl_type*> impl);
+  static window& get_from_uid(uid_type uid);
 
 public:
   window(const std::string& title, const vec2u& size);
@@ -47,10 +50,10 @@ public:
 
   virtual ~window() = 0;
 
-  not_null<const window_impl*> get_impl() const;
-  not_null<window_impl*> get_impl();
+  not_null<const impl_type*> get_impl() const;
+  not_null<impl_type*> get_impl();
 
-  uint32_t get_uid() const noexcept;
+  uid_type get_uid() const noexcept;
 
   uint get_display_index() const;
 
@@ -122,8 +125,7 @@ public:
   virtual void swap_buffers();
 
 private:
-  window_impl* m_impl;
-  uint32_t m_uid;
+  impl_type* m_impl;
   image2_rgba m_icon;
 };
 

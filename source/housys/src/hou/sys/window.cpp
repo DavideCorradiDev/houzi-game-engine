@@ -12,7 +12,6 @@
 #include "hou/sys/sdl/sdl_utils.hpp"
 
 #include "hou/cor/narrow_cast.hpp"
-#include "hou/cor/uid_generator.hpp"
 
 #include "SDL2/SDL_keyboard.h"
 #include "SDL2/SDL_mouse.h"
@@ -21,7 +20,7 @@
 #include <limits>
 
 
-#include <bitset>
+
 namespace hou
 {
 
@@ -30,24 +29,25 @@ namespace
 
 static constexpr const char* g_impl_data_name = "houwnd";
 
-uint32_t generate_uid() noexcept;
-
-uint32_t generate_uid() noexcept
-{
-  static uid_generator uid_gen(1u);
-  return uid_gen.generate();
-}
-
 }  // namespace
 
 
 
-window& window::get_impl_window(not_null<const window_impl*> impl)
+window& window::get_from_impl(not_null<const impl_type*> impl)
 {
   window* wnd = reinterpret_cast<window*>(
-    SDL_GetWindowData(const_cast<window_impl*>(impl.get()), g_impl_data_name));
+    SDL_GetWindowData(const_cast<impl_type*>(impl.get()), g_impl_data_name));
   HOU_POSTCOND(wnd != nullptr);
   return *wnd;
+}
+
+
+
+window& window::get_from_uid(uid_type uid)
+{
+  SDL_Window* wnd = SDL_GetWindowFromID(uid);
+  HOU_SDL_CHECK(wnd != nullptr);
+  return window::get_from_impl(wnd);
 }
 
 
@@ -55,7 +55,6 @@ window& window::get_impl_window(not_null<const window_impl*> impl)
 window::window(const std::string& title, const vec2u& size)
   : m_impl(SDL_CreateWindow(title.c_str(), 0, 0, size.x(), size.y(),
       SDL_WINDOW_OPENGL | SDL_WINDOW_HIDDEN | SDL_WINDOW_BORDERLESS))
-  , m_uid(generate_uid())
   , m_icon()
 {
   HOU_ASSERT(m_impl != nullptr);
@@ -74,11 +73,9 @@ window::window(const std::string& title, const vec2u& size)
 
 window::window(window&& other)
   : m_impl(std::move(other.m_impl))
-  , m_uid(std::move(other.m_uid))
   , m_icon(std::move(other.m_icon))
 {
   other.m_impl = nullptr;
-  other.m_uid = 0u;
 }
 
 
@@ -93,23 +90,23 @@ window::~window()
 
 
 
-not_null<const window_impl*> window::get_impl() const
+not_null<const window::impl_type*> window::get_impl() const
 {
   return m_impl;
 }
 
 
 
-not_null<window_impl*> window::get_impl()
+not_null<window::impl_type*> window::get_impl()
 {
   return m_impl;
 }
 
 
 
-uint32_t window::get_uid() const noexcept
+window::uid_type window::get_uid() const noexcept
 {
-  return m_uid;
+  return SDL_GetWindowID(m_impl);
 }
 
 

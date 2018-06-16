@@ -13,31 +13,31 @@
 
 #include <iostream>
 
-void on_key_pressed(hou::event::timestamp t, hou::window& w, hou::scan_code sc,
-  hou::key_code kc, hou::modifier_keys mk, bool is_repeat);
+void on_key_pressed(hou::event::timestamp t, hou::window::uid_type w_id,
+  hou::scan_code sc, hou::key_code kc, hou::modifier_keys mk, bool is_repeat);
 
-void on_key_released(hou::event::timestamp t, hou::window& w, hou::scan_code sc,
-  hou::key_code kc, hou::modifier_keys mk, bool is_repeat);
+void on_key_released(hou::event::timestamp t, hou::window::uid_type w_id,
+  hou::scan_code sc, hou::key_code kc, hou::modifier_keys mk, bool is_repeat);
 
 
 
-void on_key_pressed(hou::event::timestamp t, hou::window& w, hou::scan_code sc,
-  hou::key_code kc, hou::modifier_keys mk, bool is_repeat)
+void on_key_pressed(hou::event::timestamp t, hou::window::uid_type w_id,
+  hou::scan_code sc, hou::key_code kc, hou::modifier_keys mk, bool is_repeat)
 {
-  std::cout << "Key Pressed: timestamp = " << t
-            << ", window = " << w.get_title() << ", scan code = " << sc
-            << ", key code = " << kc << ", modifier keys = " << mk
+  std::cout << "Key Pressed: timestamp = " << t << ", window id = " << w_id
+            << ", scan code = " << sc << ", key code = " << kc
+            << ", modifier keys = " << mk
             << ", is repeat = " << hou::to_string(is_repeat) << std::endl;
 }
 
 
 
-void on_key_released(hou::event::timestamp t, hou::window& w, hou::scan_code sc,
-  hou::key_code kc, hou::modifier_keys mk, bool is_repeat)
+void on_key_released(hou::event::timestamp t, hou::window::uid_type w_id,
+  hou::scan_code sc, hou::key_code kc, hou::modifier_keys mk, bool is_repeat)
 {
-  std::cout << "Key Released: timestamp = " << t
-            << ", window = " << w.get_title() << ", scan code = " << sc
-            << ", key code = " << kc << ", modifier keys = " << mk
+  std::cout << "Key Released: timestamp = " << t << ", window id = " << w_id
+            << ", scan code = " << sc << ", key code = " << kc
+            << ", modifier keys = " << mk
             << ", is repeat = " << hou::to_string(is_repeat) << std::endl;
 }
 

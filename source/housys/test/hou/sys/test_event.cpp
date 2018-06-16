@@ -168,11 +168,11 @@ TEST_F(test_event, key_pressed_event)
   modifier_keys mk = modifier_keys::none;
   bool is_repeat = false;
 
-  auto f = [&](event::timestamp t_in, window& w_in, scan_code sc_in,
+  auto f = [&](event::timestamp t_in, uint32_t win_uid_in, scan_code sc_in,
              key_code kc_in, modifier_keys mk_in, bool is_repeat_in) {
     ++counter;
     t = t_in;
-    w_in.set_title("NewTitle");
+    window::get_from_uid(win_uid_in).set_title("NewTitle");
     sc = sc_in;
     kc = kc_in;
     mk = mk_in;
@@ -229,11 +229,11 @@ TEST_F(test_event, key_released_event)
   modifier_keys mk = modifier_keys::none;
   bool is_repeat = false;
 
-  auto f = [&](event::timestamp t_in, window& w_in, scan_code sc_in,
+  auto f = [&](event::timestamp t_in, uint32_t win_uid_in, scan_code sc_in,
              key_code kc_in, modifier_keys mk_in, bool is_repeat_in) {
     ++counter;
     t = t_in;
-    w_in.set_title("NewTitle");
+    window::get_from_uid(win_uid_in).set_title("NewTitle");
     sc = sc_in;
     kc = kc_in;
     mk = mk_in;

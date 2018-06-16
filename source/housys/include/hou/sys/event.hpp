@@ -6,6 +6,7 @@
 #define HOU_SYS_EVENT_HPP
 
 #include "hou/sys/keyboard.hpp"
+#include "hou/sys/window.hpp"
 
 #include "hou/sys/sys_config.hpp"
 
@@ -18,8 +19,6 @@
 namespace hou
 {
 
-class window;
-
 namespace event
 {
 
@@ -30,8 +29,10 @@ HOU_SYS_API void process_all();
 HOU_SYS_API void flush_all();
 
 using timestamp = std::chrono::duration<uint32_t, std::milli>;
+
 using key_callback = std::function<void(
-  timestamp, window&, scan_code, key_code, modifier_keys, bool)>;
+  timestamp, window::uid_type wid, scan_code, key_code, modifier_keys, bool)>;
+
 using quit_callback = std::function<void(timestamp)>;
 
 HOU_SYS_API void set_quit_callback(quit_callback f);
