@@ -26,8 +26,14 @@ namespace
 void process(const SDL_Event& event);
 
 quit_callback& get_quit_callback();
+
+window_callback& get_window_hidden_callback();
+window_callback& get_window_shown_callback();
+window_callback& get_window_exposed_callback();
+
 key_callback& get_key_pressed_callback();
 key_callback& get_key_released_callback();
+
 mouse_button_callback& get_mouse_button_pressed_callback();
 mouse_button_callback& get_mouse_button_released_callback();
 mouse_wheel_callback& get_mouse_wheel_moved_callback();
@@ -45,6 +51,36 @@ void process(const SDL_Event& event)
       if(callback != nullptr)
       {
         callback(timestamp(event.quit.timestamp));
+      }
+    } break;
+    case SDL_WINDOWEVENT:
+    {
+      switch(event.window.event)
+      {
+        case SDL_WINDOWEVENT_HIDDEN:
+        {
+          auto callback = get_window_hidden_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID);
+          }
+        } break;
+        case SDL_WINDOWEVENT_SHOWN:
+        {
+          auto callback = get_window_shown_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID);
+          }
+        } break;
+        case SDL_WINDOWEVENT_EXPOSED:
+        {
+          auto callback = get_window_exposed_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID);
+          }
+        } break;
       }
     } break;
     case SDL_KEYDOWN:
@@ -123,6 +159,30 @@ void process(const SDL_Event& event)
       }
     } break;
   }
+}
+
+
+
+window_callback& get_window_hidden_callback()
+{
+  static window_callback callback = nullptr;
+  return callback;
+}
+
+
+
+window_callback& get_window_shown_callback()
+{
+  static window_callback callback = nullptr;
+  return callback;
+}
+
+
+
+window_callback& get_window_exposed_callback()
+{
+  static window_callback callback = nullptr;
+  return callback;
 }
 
 
@@ -240,6 +300,69 @@ void generate_quit()
   SDL_Event event;
   event.type = SDL_QUIT;
   event.quit.timestamp = SDL_GetTicks();
+  HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
+}
+
+
+
+void set_window_hidden_callback(window_callback f)
+{
+  get_window_hidden_callback() = f;
+}
+
+
+
+void generate_window_hidden(const window& w)
+{
+  SDL_Event event;
+  event.type = SDL_WINDOWEVENT;
+  event.window.timestamp = SDL_GetTicks();
+  event.window.windowID = w.get_uid();
+  event.window.event = SDL_WINDOWEVENT_HIDDEN;
+  event.window.data1 = 0;
+  event.window.data2 = 0;
+  HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
+}
+
+
+
+void set_window_shown_callback(window_callback f)
+{
+  get_window_shown_callback() = f;
+}
+
+
+
+void generate_window_shown(const window& w)
+{
+  SDL_Event event;
+  event.type = SDL_WINDOWEVENT;
+  event.window.timestamp = SDL_GetTicks();
+  event.window.windowID = w.get_uid();
+  event.window.event = SDL_WINDOWEVENT_SHOWN;
+  event.window.data1 = 0;
+  event.window.data2 = 0;
+  HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
+}
+
+
+
+void set_window_exposed_callback(window_callback f)
+{
+  get_window_exposed_callback() = f;
+}
+
+
+
+void generate_window_exposed(const window& w)
+{
+  SDL_Event event;
+  event.type = SDL_WINDOWEVENT;
+  event.window.timestamp = SDL_GetTicks();
+  event.window.windowID = w.get_uid();
+  event.window.event = SDL_WINDOWEVENT_EXPOSED;
+  event.window.data1 = 0;
+  event.window.data2 = 0;
   HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
 }
 

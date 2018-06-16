@@ -13,6 +13,12 @@
 
 #include <iostream>
 
+void on_window_hidden(hou::event::timestamp t, hou::window::uid_type wid);
+
+void on_window_shown(hou::event::timestamp t, hou::window::uid_type wid);
+
+void on_window_exposed(hou::event::timestamp t, hou::window::uid_type wid);
+
 void on_key_pressed(hou::event::timestamp t, hou::window::uid_type wid,
   hou::scan_code sc, hou::key_code kc, hou::modifier_keys mk, bool is_repeat);
 
@@ -34,6 +40,31 @@ void on_mouse_moved(hou::event::timestamp t, hou::window::uid_type wid,
 
 
 
+void on_window_hidden(hou::event::timestamp t, hou::window::uid_type wid)
+{
+  std::cout << "Window hidden: timestamp = " << t << ", window id = " << wid
+            << std::endl;
+}
+
+
+
+void on_window_shown(hou::event::timestamp t, hou::window::uid_type wid)
+{
+  hou::window::get_from_uid(wid).clear(hou::color::black());
+  std::cout << "Window shown: timestamp = " << t << ", window id = " << wid
+            << std::endl;
+}
+
+
+
+void on_window_exposed(hou::event::timestamp t, hou::window::uid_type wid)
+{
+  std::cout << "Window exposed: timestamp = " << t << ", window id = " << wid
+            << std::endl;
+}
+
+
+
 void on_key_pressed(hou::event::timestamp t, hou::window::uid_type wid,
   hou::scan_code sc, hou::key_code kc, hou::modifier_keys mk, bool is_repeat)
 {
@@ -48,6 +79,12 @@ void on_key_pressed(hou::event::timestamp t, hou::window::uid_type wid,
 void on_key_released(hou::event::timestamp t, hou::window::uid_type wid,
   hou::scan_code sc, hou::key_code kc, hou::modifier_keys mk, bool is_repeat)
 {
+  if(kc == hou::key_code::f1)
+  {
+    hou::window& w = hou::window::get_from_uid(wid);
+    w.hide();
+  }
+
   std::cout << "Key released: timestamp = " << t << ", window id = " << wid
             << ", scan code = " << sc << ", key code = " << kc
             << ", modifier keys = " << mk
@@ -117,6 +154,10 @@ int main(int, char**)
 
   hou::event::set_quit_callback(on_quit);
 
+  hou::event::set_window_hidden_callback(on_window_hidden);
+  hou::event::set_window_shown_callback(on_window_shown);
+  hou::event::set_window_exposed_callback(on_window_exposed);
+
   hou::event::set_key_pressed_callback(on_key_pressed);
   hou::event::set_key_released_callback(on_key_released);
 
@@ -127,10 +168,13 @@ int main(int, char**)
 
   hou::system_window w("EventDemo", hou::vec2u(640u, 480u));
   w.set_bordered(true);
-  w.show();
+
+  std::cout << "The events in the queue will be printed in the terminal." << std::endl;
+  std::cout << "Press F1 to temporarily hide the window." << std::endl;
 
   while(loop)
   {
+    w.show();
     hou::event::process_all();
   }
 

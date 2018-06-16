@@ -31,6 +31,16 @@ HOU_SYS_API void flush_all();
 
 using timestamp = std::chrono::duration<uint32_t, std::milli>;
 
+using quit_callback = std::function<void(timestamp)>;
+
+using window_callback = std::function<void(timestamp, window::uid_type)>;
+
+using window_motion_callback
+  = std::function<void(timestamp, window::uid_type, const vec2i&)>;
+
+using window_resize_callback
+  = std::function<void(timestamp, window::uid_type, const vec2u&)>;
+
 using key_callback = std::function<void(
   timestamp, window::uid_type, scan_code, key_code, modifier_keys, bool)>;
 
@@ -43,10 +53,17 @@ using mouse_wheel_callback
 using mouse_motion_callback = std::function<void(timestamp, window::uid_type,
   mouse_buttons_state, const vec2i&, const vec2i&)>;
 
-using quit_callback = std::function<void(timestamp)>;
-
 HOU_SYS_API void set_quit_callback(quit_callback f);
 HOU_SYS_API void generate_quit();
+
+HOU_SYS_API void set_window_hidden_callback(window_callback f);
+HOU_SYS_API void generate_window_hidden(const window& w);
+
+HOU_SYS_API void set_window_shown_callback(window_callback f);
+HOU_SYS_API void generate_window_shown(const window& w);
+
+HOU_SYS_API void set_window_exposed_callback(window_callback f);
+HOU_SYS_API void generate_window_exposed(const window& w);
 
 HOU_SYS_API void set_key_pressed_callback(key_callback f);
 HOU_SYS_API void generate_key_pressed(

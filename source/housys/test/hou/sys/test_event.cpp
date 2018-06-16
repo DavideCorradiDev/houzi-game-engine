@@ -158,6 +158,114 @@ TEST_F(test_event, quit_event)
 
 
 
+TEST_F(test_event, window_hidden_event)
+{
+  int counter = 0;
+  event::timestamp t(0);
+  system_window w("EventDemo", vec2u(32u, 16u));
+  auto f = [&](event::timestamp t_in, window::uid_type wid_in) {
+    ++counter;
+    t = t_in;
+    window::get_from_uid(wid_in).set_title("NewTitle");
+  };
+
+  event::flush_all();
+
+  event::generate_window_hidden(w);
+  event::process_next();
+  EXPECT_EQ(0, counter);
+  EXPECT_EQ(event::timestamp(0), t);
+  EXPECT_EQ("EventDemo", w.get_title());
+
+  event::set_window_hidden_callback(f);
+  event::generate_window_hidden(w);
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+
+  event::set_window_hidden_callback(nullptr);
+  event::generate_window_hidden(w);
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+}
+
+
+
+TEST_F(test_event, window_shown_event)
+{
+  int counter = 0;
+  event::timestamp t(0);
+  system_window w("EventDemo", vec2u(32u, 16u));
+  auto f = [&](event::timestamp t_in, window::uid_type wid_in) {
+    ++counter;
+    t = t_in;
+    window::get_from_uid(wid_in).set_title("NewTitle");
+  };
+
+  event::flush_all();
+
+  event::generate_window_shown(w);
+  event::process_next();
+  EXPECT_EQ(0, counter);
+  EXPECT_EQ(event::timestamp(0), t);
+  EXPECT_EQ("EventDemo", w.get_title());
+
+  event::set_window_shown_callback(f);
+  event::generate_window_shown(w);
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+
+  event::set_window_shown_callback(nullptr);
+  event::generate_window_shown(w);
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+}
+
+
+
+TEST_F(test_event, window_exposed_event)
+{
+  int counter = 0;
+  event::timestamp t(0);
+  system_window w("EventDemo", vec2u(32u, 16u));
+  auto f = [&](event::timestamp t_in, window::uid_type wid_in) {
+    ++counter;
+    t = t_in;
+    window::get_from_uid(wid_in).set_title("NewTitle");
+  };
+
+  event::flush_all();
+
+  event::generate_window_exposed(w);
+  event::process_next();
+  EXPECT_EQ(0, counter);
+  EXPECT_EQ(event::timestamp(0), t);
+  EXPECT_EQ("EventDemo", w.get_title());
+
+  event::set_window_exposed_callback(f);
+  event::generate_window_exposed(w);
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+
+  event::set_window_exposed_callback(nullptr);
+  event::generate_window_exposed(w);
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+}
+
+
+
 TEST_F(test_event, key_pressed_event)
 {
   int counter = 0;
