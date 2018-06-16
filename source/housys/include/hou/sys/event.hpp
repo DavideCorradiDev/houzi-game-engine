@@ -40,6 +40,9 @@ using mouse_button_callback = std::function<void(
 using mouse_wheel_callback
   = std::function<void(timestamp, window::uid_type, const vec2i&, bool)>;
 
+// using mouse_motion_callback
+//   = std::function<void(timestamp, window::uid_type, std::bitset<5> button_state, )>
+
 using quit_callback = std::function<void(timestamp)>;
 
 HOU_SYS_API void set_quit_callback(quit_callback f);

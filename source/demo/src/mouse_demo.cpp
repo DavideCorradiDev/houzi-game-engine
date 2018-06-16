@@ -18,19 +18,6 @@
 
 
 
-std::ostream& stream_if_pressed(std::ostream& os, hou::mouse_button mb);
-
-std::ostream& stream_if_pressed(std::ostream& os, hou::mouse_button mb)
-{
-  if(hou::mouse::is_button_pressed(mb))
-  {
-    os << " " << mb;
-  }
-  return os;
-}
-
-
-
 int main(int, char**)
 {
   hou::cor_module::initialize();
@@ -91,13 +78,7 @@ int main(int, char**)
                 << std::endl;
       std::cout << "Relative position: "
                 << transpose(hou::mouse::get_position_delta()) << std::endl;
-      std::cout << "Buttons:";
-      stream_if_pressed(std::cout, hou::mouse_button::lb);
-      stream_if_pressed(std::cout, hou::mouse_button::mb);
-      stream_if_pressed(std::cout, hou::mouse_button::rb);
-      stream_if_pressed(std::cout, hou::mouse_button::xb1);
-      stream_if_pressed(std::cout, hou::mouse_button::xb2);
-      std::cout << std::endl;
+      std::cout << "Buttons: " << hou::mouse::get_buttons_state() << std::endl;
 
       std::cout << std::endl;
     }
@@ -105,5 +86,3 @@ int main(int, char**)
 
   return EXIT_SUCCESS;
 }
-
-

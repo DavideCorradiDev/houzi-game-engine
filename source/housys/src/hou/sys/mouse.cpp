@@ -56,10 +56,16 @@ bool set_relative_mode(bool value)
 
 
 
+mouse_buttons_state get_buttons_state()
+{
+  return mouse_buttons_state(SDL_GetMouseState(nullptr, nullptr));
+}
+
+
+
 bool is_button_pressed(mouse_button mb)
 {
-  return SDL_GetMouseState(nullptr, nullptr)
-    & SDL_BUTTON(static_cast<std::underlying_type<mouse_button>::type>(mb));
+  return get_buttons_state().check(mb);
 }
 
 

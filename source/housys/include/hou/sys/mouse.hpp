@@ -6,6 +6,7 @@
 #define HOU_SYS_MOUSE_HPP
 
 #include "hou/sys/mouse_button.hpp"
+#include "hou/sys/mouse_buttons_state.hpp"
 
 #include "hou/sys/sys_config.hpp"
 
@@ -34,6 +35,8 @@ HOU_SYS_API bool is_relative_mode();
 
 // May fail, may not be supported.
 HOU_SYS_API bool set_relative_mode(bool value);
+
+HOU_SYS_API mouse_buttons_state get_buttons_state();
 
 /** Checks if a button is pressed.
  *

@@ -51,6 +51,7 @@ SET(EXE_HOUSYS_TEST_SRC
   hou/sys/test_keyboard.cpp
   hou/sys/test_keys.cpp
   hou/sys/test_mouse.cpp
+  hou/sys/test_mouse_buttons_state.cpp
   hou/sys/test_pixel.cpp
   hou/sys/test_pixel_format.cpp
   hou/sys/test_display.cpp
