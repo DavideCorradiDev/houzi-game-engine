@@ -803,8 +803,9 @@ TEST_F(test_event, mouse_moved_event)
   vec2i pos;
   vec2i delta;
 
-  auto f = [&](event::timestamp t_in, uint32_t win_uid_in, mouse_buttons_state mbs_in,
-             const vec2i& pos_in, const vec2i& delta_in) {
+  auto f = [&](event::timestamp t_in, uint32_t win_uid_in,
+             mouse_buttons_state mbs_in, const vec2i& pos_in,
+             const vec2i& delta_in) {
     ++counter;
     t = t_in;
     window::get_from_uid(win_uid_in).set_title("NewTitle");
@@ -846,4 +847,76 @@ TEST_F(test_event, mouse_moved_event)
   EXPECT_EQ(mouse_buttons_state(4u), mbs);
   EXPECT_EQ(vec2i(-2, 3), pos);
   EXPECT_EQ(vec2i(8, 4), delta);
+}
+
+
+
+TEST_F(test_event, mouse_entered_event)
+{
+  int counter = 0;
+  event::timestamp t(0);
+  system_window w("EventDemo", vec2u(32u, 16u));
+  auto f = [&](event::timestamp t_in, window::uid_type wid_in) {
+    ++counter;
+    t = t_in;
+    window::get_from_uid(wid_in).set_title("NewTitle");
+  };
+
+  event::flush_all();
+
+  event::generate_mouse_entered(w);
+  event::process_next();
+  EXPECT_EQ(0, counter);
+  EXPECT_EQ(event::timestamp(0), t);
+  EXPECT_EQ("EventDemo", w.get_title());
+
+  event::set_mouse_entered_callback(f);
+  event::generate_mouse_entered(w);
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+
+  event::set_mouse_entered_callback(nullptr);
+  event::generate_mouse_entered(w);
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+}
+
+
+
+TEST_F(test_event, mouse_left_event)
+{
+  int counter = 0;
+  event::timestamp t(0);
+  system_window w("EventDemo", vec2u(32u, 16u));
+  auto f = [&](event::timestamp t_in, window::uid_type wid_in) {
+    ++counter;
+    t = t_in;
+    window::get_from_uid(wid_in).set_title("NewTitle");
+  };
+
+  event::flush_all();
+
+  event::generate_mouse_left(w);
+  event::process_next();
+  EXPECT_EQ(0, counter);
+  EXPECT_EQ(event::timestamp(0), t);
+  EXPECT_EQ("EventDemo", w.get_title());
+
+  event::set_mouse_left_callback(f);
+  event::generate_mouse_left(w);
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+
+  event::set_mouse_left_callback(nullptr);
+  event::generate_mouse_left(w);
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
 }

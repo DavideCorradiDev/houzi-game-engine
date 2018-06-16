@@ -55,6 +55,10 @@ void on_mouse_moved(hou::event::timestamp t, hou::window::uid_type wid,
   hou::mouse_buttons_state mbs, const hou::vec2i& pos,
   const hou::vec2i& delta);
 
+void on_mouse_entered(hou::event::timestamp t, hou::window::uid_type wid);
+
+void on_mouse_left(hou::event::timestamp t, hou::window::uid_type wid);
+
 
 
 void prompt(const std::string& message)
@@ -223,6 +227,22 @@ void on_mouse_moved(hou::event::timestamp t, hou::window::uid_type wid,
 
 
 
+void on_mouse_entered(hou::event::timestamp t, hou::window::uid_type wid)
+{
+  std::cout << "Mouse entered window: " << t << ", window id = " << wid
+            << std::endl;
+}
+
+
+
+void on_mouse_left(hou::event::timestamp t, hou::window::uid_type wid)
+{
+  std::cout << "Mouse left window: " << t << ", window id = " << wid
+            << std::endl;
+}
+
+
+
 int main(int, char**)
 {
   hou::cor_module::initialize();
@@ -258,6 +278,8 @@ int main(int, char**)
   hou::event::set_mouse_button_released_callback(on_mouse_button_released);
   hou::event::set_mouse_wheel_moved_callback(on_mouse_wheel_moved);
   hou::event::set_mouse_moved_callback(on_mouse_moved);
+  hou::event::set_mouse_entered_callback(on_mouse_entered);
+  hou::event::set_mouse_left_callback(on_mouse_left);
 
   hou::system_window w("EventDemo", hou::vec2u(640u, 480u));
   w.set_bordered(true);

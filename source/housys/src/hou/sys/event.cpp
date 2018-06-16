@@ -45,6 +45,8 @@ mouse_button_callback& get_mouse_button_pressed_callback();
 mouse_button_callback& get_mouse_button_released_callback();
 mouse_wheel_callback& get_mouse_wheel_moved_callback();
 mouse_motion_callback& get_mouse_moved_callback();
+window_callback& get_mouse_entered_callback();
+window_callback& get_mouse_left_callback();
 
 
 
@@ -144,6 +146,22 @@ void process(const SDL_Event& event)
             callback(timestamp(event.window.timestamp), event.window.windowID);
           }
         } break;
+        case SDL_WINDOWEVENT_ENTER:
+        {
+          auto callback = get_mouse_entered_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID);
+          }
+        } break;
+        case SDL_WINDOWEVENT_LEAVE:
+        {
+          auto callback = get_mouse_left_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID);
+          }
+        } break;
       }
     } break;
     case SDL_KEYDOWN:
@@ -222,6 +240,14 @@ void process(const SDL_Event& event)
       }
     } break;
   }
+}
+
+
+
+quit_callback& get_quit_callback()
+{
+  static quit_callback callback = nullptr;
+  return callback;
 }
 
 
@@ -306,14 +332,6 @@ window_callback& get_window_focus_offered_callback()
 
 
 
-quit_callback& get_quit_callback()
-{
-  static quit_callback callback = nullptr;
-  return callback;
-}
-
-
-
 key_callback& get_key_pressed_callback()
 {
   static key_callback callback = nullptr;
@@ -359,6 +377,24 @@ mouse_motion_callback& get_mouse_moved_callback()
   static mouse_motion_callback callback = nullptr;
   return callback;
 }
+
+
+
+window_callback& get_mouse_entered_callback()
+{
+  static window_callback callback = nullptr;
+  return callback;
+}
+
+
+
+window_callback& get_mouse_left_callback()
+{
+  static window_callback callback = nullptr;
+  return callback;
+}
+
+
 
 }
 
@@ -776,6 +812,48 @@ void generate_mouse_moved(const window& w, mouse_buttons_state mbs,
   event.motion.y = position.y();
   event.motion.xrel = position_delta.x();
   event.motion.yrel = position_delta.y();
+  HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
+}
+
+
+
+void set_mouse_entered_callback(window_callback f)
+{
+  get_mouse_entered_callback() = f;
+}
+
+
+
+void generate_mouse_entered(const window& w)
+{
+  SDL_Event event;
+  event.type = SDL_WINDOWEVENT;
+  event.window.timestamp = SDL_GetTicks();
+  event.window.windowID = w.get_uid();
+  event.window.event = SDL_WINDOWEVENT_ENTER;
+  event.window.data1 = 0;
+  event.window.data2 = 0;
+  HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
+}
+
+
+
+void set_mouse_left_callback(window_callback f)
+{
+  get_mouse_left_callback() = f;
+}
+
+
+
+void generate_mouse_left(const window& w)
+{
+  SDL_Event event;
+  event.type = SDL_WINDOWEVENT;
+  event.window.timestamp = SDL_GetTicks();
+  event.window.windowID = w.get_uid();
+  event.window.event = SDL_WINDOWEVENT_LEAVE;
+  event.window.data1 = 0;
+  event.window.data2 = 0;
   HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
 }
 

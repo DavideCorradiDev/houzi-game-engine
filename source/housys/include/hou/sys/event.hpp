@@ -110,6 +110,12 @@ HOU_SYS_API void set_mouse_moved_callback(mouse_motion_callback f);
 HOU_SYS_API void generate_mouse_moved(const window& w, mouse_buttons_state mbs,
   const vec2i& position, const vec2i& position_delta);
 
+HOU_SYS_API void set_mouse_entered_callback(window_callback f);
+HOU_SYS_API void generate_mouse_entered(const window& w);
+
+HOU_SYS_API void set_mouse_left_callback(window_callback f);
+HOU_SYS_API void generate_mouse_left(const window& w);
+
 }  // namespace event
 
 }  // namespace hou
