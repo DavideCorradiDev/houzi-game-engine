@@ -277,3 +277,109 @@ TEST_F(test_event, key_released_event)
   EXPECT_EQ(modifier_keys::alt, mk);
   EXPECT_TRUE(is_repeat);
 }
+
+
+
+TEST_F(test_event, mouse_button_pressed_event)
+{
+  int counter = 0;
+  event::timestamp t(0);
+  system_window w("EventDemo", vec2u(32u, 16u));
+  mouse_button mb = mouse_button::mb;
+  uint clicks = 0;
+  vec2i pos;
+
+  auto f = [&](event::timestamp t_in, uint32_t win_uid_in, mouse_button mb_in,
+             uint clicks_in, const vec2i& pos_in) {
+    ++counter;
+    t = t_in;
+    window::get_from_uid(win_uid_in).set_title("NewTitle");
+    mb = mb_in;
+    clicks = clicks_in;
+    pos = pos_in;
+  };
+
+  event::flush_all();
+
+  event::generate_mouse_button_pressed(w, mouse_button::lb, 2u, vec2i(8, 4));
+  event::process_next();
+  EXPECT_EQ(0, counter);
+  EXPECT_EQ(event::timestamp(0), t);
+  EXPECT_EQ("EventDemo", w.get_title());
+  EXPECT_EQ(mouse_button::mb, mb);
+  EXPECT_EQ(0u, clicks);
+  EXPECT_EQ(vec2i::zero(), pos);
+
+  event::set_mouse_button_pressed_callback(f);
+  event::generate_mouse_button_pressed(w, mouse_button::lb, 2u, vec2i(8, 4));
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+  EXPECT_EQ(mouse_button::lb, mb);
+  EXPECT_EQ(2u, clicks);
+  EXPECT_EQ(vec2i(8, 4), pos);
+
+  event::set_mouse_button_pressed_callback(nullptr);
+  event::generate_mouse_button_pressed(w, mouse_button::rb, 1u, vec2i(4, 2));
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+  EXPECT_EQ(mouse_button::lb, mb);
+  EXPECT_EQ(2u, clicks);
+  EXPECT_EQ(vec2i(8, 4), pos);
+}
+
+
+
+TEST_F(test_event, mouse_button_released_event)
+{
+  int counter = 0;
+  event::timestamp t(0);
+  system_window w("EventDemo", vec2u(32u, 16u));
+  mouse_button mb = mouse_button::mb;
+  uint clicks = 0;
+  vec2i pos;
+
+  auto f = [&](event::timestamp t_in, uint32_t win_uid_in, mouse_button mb_in,
+             uint clicks_in, const vec2i& pos_in) {
+    ++counter;
+    t = t_in;
+    window::get_from_uid(win_uid_in).set_title("NewTitle");
+    mb = mb_in;
+    clicks = clicks_in;
+    pos = pos_in;
+  };
+
+  event::flush_all();
+
+  event::generate_mouse_button_released(w, mouse_button::lb, 2u, vec2i(8, 4));
+  event::process_next();
+  EXPECT_EQ(0, counter);
+  EXPECT_EQ(event::timestamp(0), t);
+  EXPECT_EQ("EventDemo", w.get_title());
+  EXPECT_EQ(mouse_button::mb, mb);
+  EXPECT_EQ(0u, clicks);
+  EXPECT_EQ(vec2i::zero(), pos);
+
+  event::set_mouse_button_released_callback(f);
+  event::generate_mouse_button_released(w, mouse_button::lb, 2u, vec2i(8, 4));
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+  EXPECT_EQ(mouse_button::lb, mb);
+  EXPECT_EQ(2u, clicks);
+  EXPECT_EQ(vec2i(8, 4), pos);
+
+  event::set_mouse_button_released_callback(nullptr);
+  event::generate_mouse_button_released(w, mouse_button::rb, 1u, vec2i(4, 2));
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+  EXPECT_EQ(mouse_button::lb, mb);
+  EXPECT_EQ(2u, clicks);
+  EXPECT_EQ(vec2i(8, 4), pos);
+}

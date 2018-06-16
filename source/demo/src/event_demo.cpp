@@ -13,18 +13,24 @@
 
 #include <iostream>
 
-void on_key_pressed(hou::event::timestamp t, hou::window::uid_type w_id,
+void on_key_pressed(hou::event::timestamp t, hou::window::uid_type wid,
   hou::scan_code sc, hou::key_code kc, hou::modifier_keys mk, bool is_repeat);
 
-void on_key_released(hou::event::timestamp t, hou::window::uid_type w_id,
+void on_key_released(hou::event::timestamp t, hou::window::uid_type wid,
   hou::scan_code sc, hou::key_code kc, hou::modifier_keys mk, bool is_repeat);
 
+void on_mouse_button_pressed(hou::event::timestamp t, hou::window::uid_type wid,
+  hou::mouse_button mb, uint clicks, const hou::vec2i& pos);
+
+void on_mouse_button_released(hou::event::timestamp t, hou::window::uid_type wid,
+  hou::mouse_button mb, uint clicks, const hou::vec2i& pos);
 
 
-void on_key_pressed(hou::event::timestamp t, hou::window::uid_type w_id,
+
+void on_key_pressed(hou::event::timestamp t, hou::window::uid_type wid,
   hou::scan_code sc, hou::key_code kc, hou::modifier_keys mk, bool is_repeat)
 {
-  std::cout << "Key Pressed: timestamp = " << t << ", window id = " << w_id
+  std::cout << "Key pressed: timestamp = " << t << ", window id = " << wid
             << ", scan code = " << sc << ", key code = " << kc
             << ", modifier keys = " << mk
             << ", is repeat = " << hou::to_string(is_repeat) << std::endl;
@@ -32,13 +38,35 @@ void on_key_pressed(hou::event::timestamp t, hou::window::uid_type w_id,
 
 
 
-void on_key_released(hou::event::timestamp t, hou::window::uid_type w_id,
+void on_key_released(hou::event::timestamp t, hou::window::uid_type wid,
   hou::scan_code sc, hou::key_code kc, hou::modifier_keys mk, bool is_repeat)
 {
-  std::cout << "Key Released: timestamp = " << t << ", window id = " << w_id
+  std::cout << "Key released: timestamp = " << t << ", window id = " << wid
             << ", scan code = " << sc << ", key code = " << kc
             << ", modifier keys = " << mk
             << ", is repeat = " << hou::to_string(is_repeat) << std::endl;
+}
+
+
+
+void on_mouse_button_pressed(hou::event::timestamp t, hou::window::uid_type wid,
+  hou::mouse_button mb, uint clicks, const hou::vec2i& pos)
+{
+  std::cout << "Mouse button pressed: timestamp = " << t
+            << ", window id = " << wid << ", mouse button = " << mb
+            << ", clicks = " << clicks << ", position = " << hou::transpose(pos)
+            << std::endl;
+}
+
+
+
+void on_mouse_button_released(hou::event::timestamp t, hou::window::uid_type wid,
+  hou::mouse_button mb, uint clicks, const hou::vec2i& pos)
+{
+  std::cout << "Mouse button released: timestamp = " << t
+            << ", window id = " << wid << ", mouse button = " << mb
+            << ", clicks = " << clicks << ", position = " << hou::transpose(pos)
+            << std::endl;
 }
 
 
@@ -61,6 +89,8 @@ int main(int, char**)
   hou::event::set_quit_callback(on_quit);
   hou::event::set_key_pressed_callback(on_key_pressed);
   hou::event::set_key_released_callback(on_key_released);
+  hou::event::set_mouse_button_pressed_callback(on_mouse_button_pressed);
+  hou::event::set_mouse_button_released_callback(on_mouse_button_released);
 
   hou::system_window w("EventDemo", hou::vec2u(640u, 480u));
   w.set_bordered(true);

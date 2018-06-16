@@ -28,6 +28,8 @@ void process(const SDL_Event& event);
 quit_callback& get_quit_callback();
 key_callback& get_key_pressed_callback();
 key_callback& get_key_released_callback();
+mouse_button_callback& get_mouse_button_pressed_callback();
+mouse_button_callback& get_mouse_button_released_callback();
 
 
 
@@ -63,6 +65,34 @@ void process(const SDL_Event& event)
           modifier_keys(event.key.keysym.mod), event.key.repeat);
       }
     } break;
+    case SDL_MOUSEBUTTONDOWN:
+    {
+      if(event.button.which != SDL_TOUCH_MOUSEID)
+      {
+        auto callback = get_mouse_button_pressed_callback();
+        if(callback != nullptr)
+        {
+          callback(timestamp(event.button.timestamp), event.button.windowID,
+            mouse_button(event.button.button),
+            static_cast<uint>(event.button.clicks),
+            vec2i(event.button.x, event.button.y));
+        }
+      }
+    } break;
+    case SDL_MOUSEBUTTONUP:
+    {
+      if(event.button.which != SDL_TOUCH_MOUSEID)
+      {
+        auto callback = get_mouse_button_released_callback();
+        if(callback != nullptr)
+        {
+            callback(timestamp(event.button.timestamp), event.button.windowID,
+              mouse_button(event.button.button),
+              static_cast<uint>(event.button.clicks),
+              vec2i(event.button.x, event.button.y));
+        }
+      }
+    } break;
   }
 }
 
@@ -87,6 +117,22 @@ key_callback& get_key_pressed_callback()
 key_callback& get_key_released_callback()
 {
   static key_callback callback = nullptr;
+  return callback;
+}
+
+
+
+mouse_button_callback& get_mouse_button_pressed_callback()
+{
+  static mouse_button_callback callback = nullptr;
+  return callback;
+}
+
+
+
+mouse_button_callback& get_mouse_button_released_callback()
+{
+  static mouse_button_callback callback = nullptr;
   return callback;
 }
 
@@ -162,7 +208,7 @@ void set_key_pressed_callback(key_callback f)
 
 
 void generate_key_pressed(
-  window& w, scan_code sc, key_code kc, modifier_keys mk, bool is_repeat)
+  const window& w, scan_code sc, key_code kc, modifier_keys mk, bool is_repeat)
 {
   SDL_Event event;
   event.type = SDL_KEYDOWN;
@@ -186,7 +232,7 @@ void set_key_released_callback(key_callback f)
 
 
 void generate_key_released(
-  window& w, scan_code sc, key_code kc, modifier_keys mk, bool is_repeat)
+  const window& w, scan_code sc, key_code kc, modifier_keys mk, bool is_repeat)
 {
   SDL_Event event;
   event.type = SDL_KEYUP;
@@ -197,6 +243,56 @@ void generate_key_released(
   event.key.keysym.scancode = static_cast<SDL_Scancode>(sc);
   event.key.keysym.sym = static_cast<SDL_Keycode>(kc);
   event.key.keysym.mod = static_cast<Uint16>(mk);
+  HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
+}
+
+
+
+void set_mouse_button_pressed_callback(mouse_button_callback f)
+{
+  get_mouse_button_pressed_callback() = f;
+}
+
+
+
+void generate_mouse_button_pressed(
+  const window& w, mouse_button button, uint clicks, const vec2i& position)
+{
+  SDL_Event event;
+  event.type = SDL_MOUSEBUTTONDOWN;
+  event.button.timestamp = SDL_GetTicks();
+  event.button.windowID = w.get_uid();
+  event.button.which = 0;
+  event.button.button = narrow_cast<uint8_t>(button);
+  event.button.state = SDL_PRESSED;
+  event.button.clicks = narrow_cast<uint8_t>(clicks);
+  event.button.x = position.x();
+  event.button.y = position.y();
+  HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
+}
+
+
+
+void set_mouse_button_released_callback(mouse_button_callback f)
+{
+  get_mouse_button_released_callback() = f;
+}
+
+
+
+void generate_mouse_button_released(
+  const window& w, mouse_button button, uint clicks, const vec2i& position)
+{
+  SDL_Event event;
+  event.type = SDL_MOUSEBUTTONUP;
+  event.button.timestamp = SDL_GetTicks();
+  event.button.windowID = w.get_uid();
+  event.button.which = 0;
+  event.button.button = narrow_cast<uint8_t>(button);
+  event.button.state = SDL_RELEASED;
+  event.button.clicks = narrow_cast<uint8_t>(clicks);
+  event.button.x = position.x();
+  event.button.y = position.y();
   HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
 }
 
