@@ -6,6 +6,7 @@
 #include "hou/mth/mth_module.hpp"
 #include "hou/sys/sys_module.hpp"
 
+#include "hou/cor/clock.hpp"
 #include "hou/cor/std_chrono.hpp"
 
 #include "hou/sys/event.hpp"
@@ -13,11 +14,19 @@
 
 #include <iostream>
 
+void prompt(const std::string& message);
+
 void on_window_hidden(hou::event::timestamp t, hou::window::uid_type wid);
 
 void on_window_shown(hou::event::timestamp t, hou::window::uid_type wid);
 
 void on_window_exposed(hou::event::timestamp t, hou::window::uid_type wid);
+
+void on_window_minimized(hou::event::timestamp t, hou::window::uid_type wid);
+
+void on_window_maximized(hou::event::timestamp t, hou::window::uid_type wid);
+
+void on_window_restored(hou::event::timestamp t, hou::window::uid_type wid);
 
 void on_key_pressed(hou::event::timestamp t, hou::window::uid_type wid,
   hou::scan_code sc, hou::key_code kc, hou::modifier_keys mk, bool is_repeat);
@@ -37,6 +46,15 @@ void on_mouse_wheel_moved(hou::event::timestamp t, hou::window::uid_type wid,
 void on_mouse_moved(hou::event::timestamp t, hou::window::uid_type wid,
   hou::mouse_buttons_state mbs, const hou::vec2i& pos,
   const hou::vec2i& delta);
+
+
+
+void prompt(const std::string& message)
+{
+  std::cout << message;
+  std::string throwaway;
+  std::getline(std::cin, throwaway);
+}
 
 
 
@@ -65,6 +83,31 @@ void on_window_exposed(hou::event::timestamp t, hou::window::uid_type wid)
 
 
 
+void on_window_minimized(hou::event::timestamp t, hou::window::uid_type wid)
+{
+  std::cout << "Window minimized: timestamp = " << t << ", window id = " << wid
+            << std::endl;
+}
+
+
+
+void on_window_maximized(hou::event::timestamp t, hou::window::uid_type wid)
+{
+  hou::window::get_from_uid(wid).clear(hou::color::black());
+  std::cout << "Window maximized: timestamp = " << t << ", window id = " << wid
+            << std::endl;
+}
+
+
+
+void on_window_restored(hou::event::timestamp t, hou::window::uid_type wid)
+{
+  std::cout << "Window restored: timestamp = " << t << ", window id = " << wid
+            << std::endl;
+}
+
+
+
 void on_key_pressed(hou::event::timestamp t, hou::window::uid_type wid,
   hou::scan_code sc, hou::key_code kc, hou::modifier_keys mk, bool is_repeat)
 {
@@ -83,6 +126,9 @@ void on_key_released(hou::event::timestamp t, hou::window::uid_type wid,
   {
     hou::window& w = hou::window::get_from_uid(wid);
     w.hide();
+    prompt("Press enter to show the window again");
+    w.show();
+    w.focus();
   }
 
   std::cout << "Key released: timestamp = " << t << ", window id = " << wid
@@ -157,6 +203,9 @@ int main(int, char**)
   hou::event::set_window_hidden_callback(on_window_hidden);
   hou::event::set_window_shown_callback(on_window_shown);
   hou::event::set_window_exposed_callback(on_window_exposed);
+  hou::event::set_window_minimized_callback(on_window_minimized);
+  hou::event::set_window_maximized_callback(on_window_maximized);
+  hou::event::set_window_restored_callback(on_window_restored);
 
   hou::event::set_key_pressed_callback(on_key_pressed);
   hou::event::set_key_released_callback(on_key_released);
@@ -168,13 +217,14 @@ int main(int, char**)
 
   hou::system_window w("EventDemo", hou::vec2u(640u, 480u));
   w.set_bordered(true);
+  w.set_resizable(true);
+  w.show();
 
   std::cout << "The events in the queue will be printed in the terminal." << std::endl;
-  std::cout << "Press F1 to temporarily hide the window." << std::endl;
+  std::cout << "Press F1 to hide the window." << std::endl;
 
   while(loop)
   {
-    w.show();
     hou::event::process_all();
   }
 

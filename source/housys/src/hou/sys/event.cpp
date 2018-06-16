@@ -30,6 +30,9 @@ quit_callback& get_quit_callback();
 window_callback& get_window_hidden_callback();
 window_callback& get_window_shown_callback();
 window_callback& get_window_exposed_callback();
+window_callback& get_window_minimized_callback();
+window_callback& get_window_maximized_callback();
+window_callback& get_window_restored_callback();
 
 key_callback& get_key_pressed_callback();
 key_callback& get_key_released_callback();
@@ -76,6 +79,30 @@ void process(const SDL_Event& event)
         case SDL_WINDOWEVENT_EXPOSED:
         {
           auto callback = get_window_exposed_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID);
+          }
+        } break;
+        case SDL_WINDOWEVENT_MINIMIZED:
+        {
+          auto callback = get_window_minimized_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID);
+          }
+        } break;
+        case SDL_WINDOWEVENT_MAXIMIZED:
+        {
+          auto callback = get_window_maximized_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID);
+          }
+        } break;
+        case SDL_WINDOWEVENT_RESTORED:
+        {
+          auto callback = get_window_restored_callback();
           if(callback != nullptr)
           {
             callback(timestamp(event.window.timestamp), event.window.windowID);
@@ -180,6 +207,30 @@ window_callback& get_window_shown_callback()
 
 
 window_callback& get_window_exposed_callback()
+{
+  static window_callback callback = nullptr;
+  return callback;
+}
+
+
+
+window_callback& get_window_minimized_callback()
+{
+  static window_callback callback = nullptr;
+  return callback;
+}
+
+
+
+window_callback& get_window_maximized_callback()
+{
+  static window_callback callback = nullptr;
+  return callback;
+}
+
+
+
+window_callback& get_window_restored_callback()
 {
   static window_callback callback = nullptr;
   return callback;
@@ -319,6 +370,69 @@ void generate_window_hidden(const window& w)
   event.window.timestamp = SDL_GetTicks();
   event.window.windowID = w.get_uid();
   event.window.event = SDL_WINDOWEVENT_HIDDEN;
+  event.window.data1 = 0;
+  event.window.data2 = 0;
+  HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
+}
+
+
+
+void set_window_minimized_callback(window_callback f)
+{
+  get_window_minimized_callback() = f;
+}
+
+
+
+void generate_window_minimized(const window& w)
+{
+  SDL_Event event;
+  event.type = SDL_WINDOWEVENT;
+  event.window.timestamp = SDL_GetTicks();
+  event.window.windowID = w.get_uid();
+  event.window.event = SDL_WINDOWEVENT_MINIMIZED;
+  event.window.data1 = 0;
+  event.window.data2 = 0;
+  HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
+}
+
+
+
+void set_window_maximized_callback(window_callback f)
+{
+  get_window_maximized_callback() = f;
+}
+
+
+
+void generate_window_maximized(const window& w)
+{
+  SDL_Event event;
+  event.type = SDL_WINDOWEVENT;
+  event.window.timestamp = SDL_GetTicks();
+  event.window.windowID = w.get_uid();
+  event.window.event = SDL_WINDOWEVENT_MAXIMIZED;
+  event.window.data1 = 0;
+  event.window.data2 = 0;
+  HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
+}
+
+
+
+void set_window_restored_callback(window_callback f)
+{
+  get_window_restored_callback() = f;
+}
+
+
+
+void generate_window_restored(const window& w)
+{
+  SDL_Event event;
+  event.type = SDL_WINDOWEVENT;
+  event.window.timestamp = SDL_GetTicks();
+  event.window.windowID = w.get_uid();
+  event.window.event = SDL_WINDOWEVENT_RESTORED;
   event.window.data1 = 0;
   event.window.data2 = 0;
   HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);

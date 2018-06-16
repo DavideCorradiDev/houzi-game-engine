@@ -266,6 +266,114 @@ TEST_F(test_event, window_exposed_event)
 
 
 
+TEST_F(test_event, window_minimized_event)
+{
+  int counter = 0;
+  event::timestamp t(0);
+  system_window w("EventDemo", vec2u(32u, 16u));
+  auto f = [&](event::timestamp t_in, window::uid_type wid_in) {
+    ++counter;
+    t = t_in;
+    window::get_from_uid(wid_in).set_title("NewTitle");
+  };
+
+  event::flush_all();
+
+  event::generate_window_minimized(w);
+  event::process_next();
+  EXPECT_EQ(0, counter);
+  EXPECT_EQ(event::timestamp(0), t);
+  EXPECT_EQ("EventDemo", w.get_title());
+
+  event::set_window_minimized_callback(f);
+  event::generate_window_minimized(w);
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+
+  event::set_window_minimized_callback(nullptr);
+  event::generate_window_minimized(w);
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+}
+
+
+
+TEST_F(test_event, window_maximized_event)
+{
+  int counter = 0;
+  event::timestamp t(0);
+  system_window w("EventDemo", vec2u(32u, 16u));
+  auto f = [&](event::timestamp t_in, window::uid_type wid_in) {
+    ++counter;
+    t = t_in;
+    window::get_from_uid(wid_in).set_title("NewTitle");
+  };
+
+  event::flush_all();
+
+  event::generate_window_maximized(w);
+  event::process_next();
+  EXPECT_EQ(0, counter);
+  EXPECT_EQ(event::timestamp(0), t);
+  EXPECT_EQ("EventDemo", w.get_title());
+
+  event::set_window_maximized_callback(f);
+  event::generate_window_maximized(w);
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+
+  event::set_window_maximized_callback(nullptr);
+  event::generate_window_maximized(w);
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+}
+
+
+
+TEST_F(test_event, window_restored_event)
+{
+  int counter = 0;
+  event::timestamp t(0);
+  system_window w("EventDemo", vec2u(32u, 16u));
+  auto f = [&](event::timestamp t_in, window::uid_type wid_in) {
+    ++counter;
+    t = t_in;
+    window::get_from_uid(wid_in).set_title("NewTitle");
+  };
+
+  event::flush_all();
+
+  event::generate_window_restored(w);
+  event::process_next();
+  EXPECT_EQ(0, counter);
+  EXPECT_EQ(event::timestamp(0), t);
+  EXPECT_EQ("EventDemo", w.get_title());
+
+  event::set_window_restored_callback(f);
+  event::generate_window_restored(w);
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+
+  event::set_window_restored_callback(nullptr);
+  event::generate_window_restored(w);
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+}
+
+
+
 TEST_F(test_event, key_pressed_event)
 {
   int counter = 0;

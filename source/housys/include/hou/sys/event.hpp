@@ -65,6 +65,15 @@ HOU_SYS_API void generate_window_shown(const window& w);
 HOU_SYS_API void set_window_exposed_callback(window_callback f);
 HOU_SYS_API void generate_window_exposed(const window& w);
 
+HOU_SYS_API void set_window_minimized_callback(window_callback f);
+HOU_SYS_API void generate_window_minimized(const window& w);
+
+HOU_SYS_API void set_window_maximized_callback(window_callback f);
+HOU_SYS_API void generate_window_maximized(const window& w);
+
+HOU_SYS_API void set_window_restored_callback(window_callback f);
+HOU_SYS_API void generate_window_restored(const window& w);
+
 HOU_SYS_API void set_key_pressed_callback(key_callback f);
 HOU_SYS_API void generate_key_pressed(
   const window& w, scan_code sc, key_code kc, modifier_keys mk, bool is_repeat);
