@@ -30,6 +30,7 @@ key_callback& get_key_pressed_callback();
 key_callback& get_key_released_callback();
 mouse_button_callback& get_mouse_button_pressed_callback();
 mouse_button_callback& get_mouse_button_released_callback();
+mouse_wheel_callback& get_mouse_wheel_moved_callback();
 
 
 
@@ -93,6 +94,19 @@ void process(const SDL_Event& event)
         }
       }
     } break;
+    case SDL_MOUSEWHEEL:
+    {
+      if(event.wheel.which != SDL_TOUCH_MOUSEID)
+      {
+        auto callback = get_mouse_wheel_moved_callback();
+        if(callback != nullptr)
+        {
+          callback(timestamp(event.wheel.timestamp), event.wheel.windowID,
+            vec2i(event.wheel.x, event.wheel.y),
+            event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED);
+        }
+      }
+    } break;
   }
 }
 
@@ -133,6 +147,14 @@ mouse_button_callback& get_mouse_button_pressed_callback()
 mouse_button_callback& get_mouse_button_released_callback()
 {
   static mouse_button_callback callback = nullptr;
+  return callback;
+}
+
+
+
+mouse_wheel_callback& get_mouse_wheel_moved_callback()
+{
+  static mouse_wheel_callback callback = nullptr;
   return callback;
 }
 
@@ -287,12 +309,36 @@ void generate_mouse_button_released(
   event.type = SDL_MOUSEBUTTONUP;
   event.button.timestamp = SDL_GetTicks();
   event.button.windowID = w.get_uid();
-  event.button.which = 0;
+  event.button.which = 0u;
   event.button.button = narrow_cast<uint8_t>(button);
   event.button.state = SDL_RELEASED;
   event.button.clicks = narrow_cast<uint8_t>(clicks);
   event.button.x = position.x();
   event.button.y = position.y();
+  HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
+}
+
+
+
+void set_mouse_wheel_moved_callback(mouse_wheel_callback f)
+{
+  get_mouse_wheel_moved_callback() = f;
+}
+
+
+
+void generate_mouse_wheel_moved(
+  const window& w, const vec2i& delta, bool flipped)
+{
+  SDL_Event event;
+  event.type = SDL_MOUSEWHEEL;
+  event.wheel.timestamp = SDL_GetTicks();
+  event.wheel.windowID = w.get_uid();
+  event.wheel.which = 0u;
+  event.wheel.x = delta.x();
+  event.wheel.y = delta.y();
+  event.wheel.direction
+    = flipped ? SDL_MOUSEWHEEL_FLIPPED : SDL_MOUSEWHEEL_NORMAL;
   HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
 }
 

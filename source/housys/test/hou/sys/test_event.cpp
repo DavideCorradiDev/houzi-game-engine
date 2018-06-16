@@ -383,3 +383,51 @@ TEST_F(test_event, mouse_button_released_event)
   EXPECT_EQ(2u, clicks);
   EXPECT_EQ(vec2i(8, 4), pos);
 }
+
+
+
+TEST_F(test_event, mouse_wheel_event)
+{
+  int counter = 0;
+  event::timestamp t(0);
+  system_window w("EventDemo", vec2u(32u, 16u));
+  vec2i delta;
+  bool flipped = false;
+
+  auto f = [&](event::timestamp t_in, uint32_t win_uid_in,
+             const vec2i& delta_in, bool flipped_in) {
+    ++counter;
+    t = t_in;
+    window::get_from_uid(win_uid_in).set_title("NewTitle");
+    delta = delta_in;
+    flipped = flipped_in;
+  };
+
+  event::flush_all();
+
+  event::generate_mouse_wheel_moved(w, vec2i(8, 4), true);
+  event::process_next();
+  EXPECT_EQ(0, counter);
+  EXPECT_EQ(event::timestamp(0), t);
+  EXPECT_EQ("EventDemo", w.get_title());
+  EXPECT_EQ(vec2i::zero(), delta);
+  EXPECT_FALSE(flipped);
+
+  event::set_mouse_wheel_moved_callback(f);
+  event::generate_mouse_wheel_moved(w, vec2i(8, 4), true);
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+  EXPECT_EQ(vec2i(8, 4), delta);
+  EXPECT_TRUE(flipped);
+
+  event::set_mouse_wheel_moved_callback(nullptr);
+  event::generate_mouse_wheel_moved(w, vec2i(4, 2), false);
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+  EXPECT_EQ(vec2i(8, 4), delta);
+  EXPECT_TRUE(flipped);
+}

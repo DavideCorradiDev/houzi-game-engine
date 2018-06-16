@@ -34,8 +34,11 @@ using timestamp = std::chrono::duration<uint32_t, std::milli>;
 using key_callback = std::function<void(
   timestamp, window::uid_type, scan_code, key_code, modifier_keys, bool)>;
 
-using mouse_button_callback = std::function<void(timestamp t, window::uid_type,
-  mouse_button button, uint clicks, const vec2i& position)>;
+using mouse_button_callback = std::function<void(
+  timestamp, window::uid_type, mouse_button, uint, const vec2i&)>;
+
+using mouse_wheel_callback
+  = std::function<void(timestamp, window::uid_type, const vec2i&, bool)>;
 
 using quit_callback = std::function<void(timestamp)>;
 
@@ -57,6 +60,10 @@ HOU_SYS_API void generate_mouse_button_pressed(
 HOU_SYS_API void set_mouse_button_released_callback(mouse_button_callback f);
 HOU_SYS_API void generate_mouse_button_released(
   const window& w, mouse_button button, uint clicks, const vec2i& position);
+
+HOU_SYS_API void set_mouse_wheel_moved_callback(mouse_wheel_callback f);
+HOU_SYS_API void generate_mouse_wheel_moved(
+  const window& w, const vec2i& delta, bool flipped);
 
 }  // namespace event
 
