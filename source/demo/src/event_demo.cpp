@@ -28,6 +28,10 @@ void on_mouse_button_released(hou::event::timestamp t, hou::window::uid_type wid
 void on_mouse_wheel_moved(hou::event::timestamp t, hou::window::uid_type wid,
   const hou::vec2i& delta, bool flipped);
 
+void on_mouse_moved(hou::event::timestamp t, hou::window::uid_type wid,
+  hou::mouse_buttons_state mbs, const hou::vec2i& pos,
+  const hou::vec2i& delta);
+
 
 
 void on_key_pressed(hou::event::timestamp t, hou::window::uid_type wid,
@@ -84,6 +88,18 @@ void on_mouse_wheel_moved(hou::event::timestamp t, hou::window::uid_type wid,
 
 
 
+void on_mouse_moved(hou::event::timestamp t, hou::window::uid_type wid,
+  hou::mouse_buttons_state mbs, const hou::vec2i& pos,
+  const hou::vec2i& delta)
+{
+  std::cout << "Mouse moved: timestamp = " << t << ", window id = " << wid
+            << ", pressed buttons = " << mbs
+            << ", position = " << hou::transpose(pos)
+            << ", position delta = " << hou::transpose(delta) << std::endl;
+}
+
+
+
 int main(int, char**)
 {
   hou::cor_module::initialize();
@@ -100,11 +116,14 @@ int main(int, char**)
   };
 
   hou::event::set_quit_callback(on_quit);
+
   hou::event::set_key_pressed_callback(on_key_pressed);
   hou::event::set_key_released_callback(on_key_released);
+
   hou::event::set_mouse_button_pressed_callback(on_mouse_button_pressed);
   hou::event::set_mouse_button_released_callback(on_mouse_button_released);
   hou::event::set_mouse_wheel_moved_callback(on_mouse_wheel_moved);
+  hou::event::set_mouse_moved_callback(on_mouse_moved);
 
   hou::system_window w("EventDemo", hou::vec2u(640u, 480u));
   w.set_bordered(true);

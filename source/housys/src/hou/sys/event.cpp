@@ -31,6 +31,7 @@ key_callback& get_key_released_callback();
 mouse_button_callback& get_mouse_button_pressed_callback();
 mouse_button_callback& get_mouse_button_released_callback();
 mouse_wheel_callback& get_mouse_wheel_moved_callback();
+mouse_motion_callback& get_mouse_moved_callback();
 
 
 
@@ -107,6 +108,20 @@ void process(const SDL_Event& event)
         }
       }
     } break;
+    case SDL_MOUSEMOTION:
+    {
+      if(event.motion.which != SDL_TOUCH_MOUSEID)
+      {
+        auto callback = get_mouse_moved_callback();
+        if(callback != nullptr)
+        {
+          callback(timestamp(event.motion.timestamp), event.motion.windowID,
+            mouse_buttons_state(event.motion.state),
+            vec2i(event.motion.x, event.motion.y),
+            vec2i(event.motion.xrel, event.motion.yrel));
+        }
+      }
+    } break;
   }
 }
 
@@ -155,6 +170,14 @@ mouse_button_callback& get_mouse_button_released_callback()
 mouse_wheel_callback& get_mouse_wheel_moved_callback()
 {
   static mouse_wheel_callback callback = nullptr;
+  return callback;
+}
+
+
+
+mouse_motion_callback& get_mouse_moved_callback()
+{
+  static mouse_motion_callback callback = nullptr;
   return callback;
 }
 
@@ -339,6 +362,31 @@ void generate_mouse_wheel_moved(
   event.wheel.y = delta.y();
   event.wheel.direction
     = flipped ? SDL_MOUSEWHEEL_FLIPPED : SDL_MOUSEWHEEL_NORMAL;
+  HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
+}
+
+
+
+void set_mouse_moved_callback(mouse_motion_callback f)
+{
+  get_mouse_moved_callback() = f;
+}
+
+
+
+void generate_mouse_moved(const window& w, mouse_buttons_state mbs,
+  const vec2i& position, const vec2i& position_delta)
+{
+  SDL_Event event;
+  event.type = SDL_MOUSEMOTION;
+  event.motion.timestamp = SDL_GetTicks();
+  event.motion.windowID = w.get_uid();
+  event.motion.which = 0u;
+  event.motion.state = mbs.get();
+  event.motion.x = position.x();
+  event.motion.y = position.y();
+  event.motion.xrel = position_delta.x();
+  event.motion.yrel = position_delta.y();
   HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
 }
 

@@ -40,8 +40,8 @@ using mouse_button_callback = std::function<void(
 using mouse_wheel_callback
   = std::function<void(timestamp, window::uid_type, const vec2i&, bool)>;
 
-// using mouse_motion_callback
-//   = std::function<void(timestamp, window::uid_type, std::bitset<5> button_state, )>
+using mouse_motion_callback = std::function<void(timestamp, window::uid_type,
+  mouse_buttons_state, const vec2i&, const vec2i&)>;
 
 using quit_callback = std::function<void(timestamp)>;
 
@@ -67,6 +67,10 @@ HOU_SYS_API void generate_mouse_button_released(
 HOU_SYS_API void set_mouse_wheel_moved_callback(mouse_wheel_callback f);
 HOU_SYS_API void generate_mouse_wheel_moved(
   const window& w, const vec2i& delta, bool flipped);
+
+HOU_SYS_API void set_mouse_moved_callback(mouse_motion_callback f);
+HOU_SYS_API void generate_mouse_moved(const window& w, mouse_buttons_state mbs,
+  const vec2i& position, const vec2i& position_delta);
 
 }  // namespace event
 
