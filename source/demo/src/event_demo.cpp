@@ -28,6 +28,12 @@ void on_window_maximized(hou::event::timestamp t, hou::window::uid_type wid);
 
 void on_window_restored(hou::event::timestamp t, hou::window::uid_type wid);
 
+void on_window_focus_lost(hou::event::timestamp t, hou::window::uid_type wid);
+
+void on_window_focus_gained(hou::event::timestamp t, hou::window::uid_type wid);
+
+void on_window_focus_offered(hou::event::timestamp t, hou::window::uid_type wid);
+
 void on_key_pressed(hou::event::timestamp t, hou::window::uid_type wid,
   hou::scan_code sc, hou::key_code kc, hou::modifier_keys mk, bool is_repeat);
 
@@ -104,6 +110,30 @@ void on_window_restored(hou::event::timestamp t, hou::window::uid_type wid)
 {
   std::cout << "Window restored: timestamp = " << t << ", window id = " << wid
             << std::endl;
+}
+
+
+
+void on_window_focus_lost(hou::event::timestamp t, hou::window::uid_type wid)
+{
+  std::cout << "Window lost focus: timestamp = " << t << ", window id = " << wid
+            << std::endl;
+}
+
+
+
+void on_window_focus_gained(hou::event::timestamp t, hou::window::uid_type wid)
+{
+  std::cout << "Window gained focus: timestamp = " << t
+            << ", window id = " << wid << std::endl;
+}
+
+
+
+void on_window_focus_offered(hou::event::timestamp t, hou::window::uid_type wid)
+{
+  std::cout << "Window was offered focus: timestamp = " << t
+            << ", window id = " << wid << std::endl;
 }
 
 
@@ -206,6 +236,9 @@ int main(int, char**)
   hou::event::set_window_minimized_callback(on_window_minimized);
   hou::event::set_window_maximized_callback(on_window_maximized);
   hou::event::set_window_restored_callback(on_window_restored);
+  hou::event::set_window_focus_lost_callback(on_window_focus_lost);
+  hou::event::set_window_focus_gained_callback(on_window_focus_gained);
+  hou::event::set_window_focus_offered_callback(on_window_focus_offered);
 
   hou::event::set_key_pressed_callback(on_key_pressed);
   hou::event::set_key_released_callback(on_key_released);
