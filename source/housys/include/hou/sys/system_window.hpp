@@ -37,10 +37,6 @@ public:
    * video_mode, an error will be thrown.
    */
   system_window(const std::string& title, const vec2u& size);
-
-  // window ovverrides.
-  // void set_frame_rect(const vec2i& pos, const vec2u& size) final;
-  // void set_client_rect(const vec2i& pos, const vec2u& size) final;
 };
 
 }  // namespace hou
