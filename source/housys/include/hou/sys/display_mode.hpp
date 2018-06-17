@@ -156,6 +156,16 @@ HOU_SYS_API bool operator>=(
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, const display_mode& vm);
 
+
+
+namespace prv
+{
+
+HOU_SYS_API display_mode convert(const SDL_DisplayMode& mode_in);
+HOU_SYS_API SDL_DisplayMode convert(const display_mode& mode_in);
+
+}  // namespace prv
+
 }  // namespace hou
 
 #endif

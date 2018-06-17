@@ -4,8 +4,6 @@
 
 #include "hou/sys/display_format.hpp"
 
-#include "hou/sys/sdl/sdl_utils.hpp"
-
 #include "hou/cor/exception.hpp"
 #include "hou/cor/narrow_cast.hpp"
 

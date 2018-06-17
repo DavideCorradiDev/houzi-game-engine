@@ -152,4 +152,14 @@ public:
 
 }  // namespace hou
 
+
+
+/**
+ * Utility macro for SDL error checks.
+ *
+ * \param condition the condition to be checked.
+ */
+#define HOU_SDL_CHECK(condition)                                               \
+  HOU_CHECK_N(condition, ::hou::platform_error, SDL_GetError());
+
 #endif

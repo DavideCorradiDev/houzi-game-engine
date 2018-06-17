@@ -7,8 +7,6 @@
 #include "hou/sys/sys_exceptions.hpp"
 #include "hou/sys/window.hpp"
 
-#include "hou/sys/sdl/sdl_utils.hpp"
-
 #include "SDL2/SDL_events.h"
 #include "SDL2/SDL_timer.h"
 

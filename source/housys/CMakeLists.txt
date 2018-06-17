@@ -62,7 +62,6 @@ SET(LIB_HOUSYS_SRC
   src/hou/sys/text_stream.cpp
   src/hou/sys/window.cpp
   src/hou/sys/window_mode.cpp
-  src/hou/sys/sdl/sdl_utils.cpp
 )
 
 IF(WIN32)

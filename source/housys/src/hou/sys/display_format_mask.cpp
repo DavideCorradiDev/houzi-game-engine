@@ -6,8 +6,6 @@
 
 #include "hou/sys/sys_exceptions.hpp"
 
-#include "hou/sys/sdl/sdl_utils.hpp"
-
 #include "hou/cor/narrow_cast.hpp"
 
 #include <iomanip>
