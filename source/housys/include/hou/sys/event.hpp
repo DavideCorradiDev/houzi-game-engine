@@ -86,6 +86,13 @@ HOU_SYS_API void generate_window_focus_gained(const window& w);
 HOU_SYS_API void set_window_focus_offered_callback(window_callback f);
 HOU_SYS_API void generate_window_focus_offered(const window& w);
 
+HOU_SYS_API void set_window_resized_callback(window_resize_callback f);
+HOU_SYS_API void generate_window_resized(const window& w, const vec2u& size);
+
+HOU_SYS_API void set_window_size_changed_callback(window_resize_callback f);
+HOU_SYS_API void generate_window_size_changed(
+  const window& w, const vec2u& size);
+
 HOU_SYS_API void set_key_pressed_callback(key_callback f);
 HOU_SYS_API void generate_key_pressed(
   const window& w, scan_code sc, key_code kc, modifier_keys mk, bool is_repeat);

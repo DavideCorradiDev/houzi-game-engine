@@ -518,6 +518,88 @@ TEST_F(test_event, window_focus_offered_event)
 
 
 
+TEST_F(test_event, window_resized_event)
+{
+  int counter = 0;
+  event::timestamp t(0);
+  system_window w("EventDemo", vec2u(32u, 16u));
+  vec2u size;
+  auto f = [&](event::timestamp t_in, window::uid_type wid_in, const vec2u& size_in) {
+    ++counter;
+    t = t_in;
+    window::get_from_uid(wid_in).set_title("NewTitle");
+    size = size_in;
+  };
+
+  event::flush_all();
+
+  event::generate_window_resized(w, vec2u(16u, 8u));
+  event::process_next();
+  EXPECT_EQ(0, counter);
+  EXPECT_EQ(event::timestamp(0), t);
+  EXPECT_EQ("EventDemo", w.get_title());
+  EXPECT_EQ(vec2u::zero(), size);
+
+  event::set_window_resized_callback(f);
+  event::generate_window_resized(w, vec2u(16u, 8u));
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+  EXPECT_EQ(vec2u(16u, 8u), size);
+
+  event::set_window_resized_callback(nullptr);
+  event::generate_window_resized(w, vec2u(8u, 4u));
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+  EXPECT_EQ(vec2u(16u, 8u), size);
+}
+
+
+
+TEST_F(test_event, window_size_changed_event)
+{
+  int counter = 0;
+  event::timestamp t(0);
+  system_window w("EventDemo", vec2u(32u, 16u));
+  vec2u size;
+  auto f = [&](event::timestamp t_in, window::uid_type wid_in, const vec2u& size_in) {
+    ++counter;
+    t = t_in;
+    window::get_from_uid(wid_in).set_title("NewTitle");
+    size = size_in;
+  };
+
+  event::flush_all();
+
+  event::generate_window_size_changed(w, vec2u(16u, 8u));
+  event::process_next();
+  EXPECT_EQ(0, counter);
+  EXPECT_EQ(event::timestamp(0), t);
+  EXPECT_EQ("EventDemo", w.get_title());
+  EXPECT_EQ(vec2u::zero(), size);
+
+  event::set_window_size_changed_callback(f);
+  event::generate_window_size_changed(w, vec2u(16u, 8u));
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+  EXPECT_EQ(vec2u(16u, 8u), size);
+
+  event::set_window_size_changed_callback(nullptr);
+  event::generate_window_size_changed(w, vec2u(8u, 4u));
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+  EXPECT_EQ(vec2u(16u, 8u), size);
+}
+
+
+
 TEST_F(test_event, key_pressed_event)
 {
   int counter = 0;

@@ -37,6 +37,8 @@ window_callback& get_window_restored_callback();
 window_callback& get_window_focus_lost_callback();
 window_callback& get_window_focus_gained_callback();
 window_callback& get_window_focus_offered_callback();
+window_resize_callback& get_window_resized_callback();
+window_resize_callback& get_window_size_changed_callback();
 
 key_callback& get_key_pressed_callback();
 key_callback& get_key_released_callback();
@@ -61,7 +63,8 @@ void process(const SDL_Event& event)
       {
         callback(timestamp(event.quit.timestamp));
       }
-    } break;
+    }
+    break;
     case SDL_WINDOWEVENT:
     {
       switch(event.window.event)
@@ -73,7 +76,8 @@ void process(const SDL_Event& event)
           {
             callback(timestamp(event.window.timestamp), event.window.windowID);
           }
-        } break;
+        }
+        break;
         case SDL_WINDOWEVENT_HIDDEN:
         {
           auto callback = get_window_hidden_callback();
@@ -81,7 +85,8 @@ void process(const SDL_Event& event)
           {
             callback(timestamp(event.window.timestamp), event.window.windowID);
           }
-        } break;
+        }
+        break;
         case SDL_WINDOWEVENT_SHOWN:
         {
           auto callback = get_window_shown_callback();
@@ -89,7 +94,8 @@ void process(const SDL_Event& event)
           {
             callback(timestamp(event.window.timestamp), event.window.windowID);
           }
-        } break;
+        }
+        break;
         case SDL_WINDOWEVENT_EXPOSED:
         {
           auto callback = get_window_exposed_callback();
@@ -97,7 +103,8 @@ void process(const SDL_Event& event)
           {
             callback(timestamp(event.window.timestamp), event.window.windowID);
           }
-        } break;
+        }
+        break;
         case SDL_WINDOWEVENT_MINIMIZED:
         {
           auto callback = get_window_minimized_callback();
@@ -105,7 +112,8 @@ void process(const SDL_Event& event)
           {
             callback(timestamp(event.window.timestamp), event.window.windowID);
           }
-        } break;
+        }
+        break;
         case SDL_WINDOWEVENT_MAXIMIZED:
         {
           auto callback = get_window_maximized_callback();
@@ -113,7 +121,8 @@ void process(const SDL_Event& event)
           {
             callback(timestamp(event.window.timestamp), event.window.windowID);
           }
-        } break;
+        }
+        break;
         case SDL_WINDOWEVENT_RESTORED:
         {
           auto callback = get_window_restored_callback();
@@ -121,7 +130,8 @@ void process(const SDL_Event& event)
           {
             callback(timestamp(event.window.timestamp), event.window.windowID);
           }
-        } break;
+        }
+        break;
         case SDL_WINDOWEVENT_FOCUS_LOST:
         {
           auto callback = get_window_focus_lost_callback();
@@ -129,7 +139,8 @@ void process(const SDL_Event& event)
           {
             callback(timestamp(event.window.timestamp), event.window.windowID);
           }
-        } break;
+        }
+        break;
         case SDL_WINDOWEVENT_FOCUS_GAINED:
         {
           auto callback = get_window_focus_gained_callback();
@@ -137,7 +148,8 @@ void process(const SDL_Event& event)
           {
             callback(timestamp(event.window.timestamp), event.window.windowID);
           }
-        } break;
+        }
+        break;
         case SDL_WINDOWEVENT_TAKE_FOCUS:
         {
           auto callback = get_window_focus_offered_callback();
@@ -145,7 +157,8 @@ void process(const SDL_Event& event)
           {
             callback(timestamp(event.window.timestamp), event.window.windowID);
           }
-        } break;
+        }
+        break;
         case SDL_WINDOWEVENT_ENTER:
         {
           auto callback = get_mouse_entered_callback();
@@ -153,7 +166,8 @@ void process(const SDL_Event& event)
           {
             callback(timestamp(event.window.timestamp), event.window.windowID);
           }
-        } break;
+        }
+        break;
         case SDL_WINDOWEVENT_LEAVE:
         {
           auto callback = get_mouse_left_callback();
@@ -161,9 +175,33 @@ void process(const SDL_Event& event)
           {
             callback(timestamp(event.window.timestamp), event.window.windowID);
           }
-        } break;
+        }
+        break;
+        case SDL_WINDOWEVENT_RESIZED:
+        {
+          auto callback = get_window_resized_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID,
+              vec2u(narrow_cast<uint>(event.window.data1),
+                narrow_cast<uint>(event.window.data2)));
+          }
+        }
+        break;
+        case SDL_WINDOWEVENT_SIZE_CHANGED:
+        {
+          auto callback = get_window_size_changed_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID,
+              vec2u(narrow_cast<uint>(event.window.data1),
+                narrow_cast<uint>(event.window.data2)));
+          }
+        }
+        break;
       }
-    } break;
+    }
+    break;
     case SDL_KEYDOWN:
     {
       auto callback = get_key_pressed_callback();
@@ -173,7 +211,8 @@ void process(const SDL_Event& event)
           scan_code(event.key.keysym.scancode), key_code(event.key.keysym.sym),
           modifier_keys(event.key.keysym.mod), event.key.repeat);
       }
-    } break;
+    }
+    break;
     case SDL_KEYUP:
     {
       auto callback = get_key_released_callback();
@@ -183,7 +222,8 @@ void process(const SDL_Event& event)
           scan_code(event.key.keysym.scancode), key_code(event.key.keysym.sym),
           modifier_keys(event.key.keysym.mod), event.key.repeat);
       }
-    } break;
+    }
+    break;
     case SDL_MOUSEBUTTONDOWN:
     {
       if(event.button.which != SDL_TOUCH_MOUSEID)
@@ -197,7 +237,8 @@ void process(const SDL_Event& event)
             vec2i(event.button.x, event.button.y));
         }
       }
-    } break;
+    }
+    break;
     case SDL_MOUSEBUTTONUP:
     {
       if(event.button.which != SDL_TOUCH_MOUSEID)
@@ -205,13 +246,14 @@ void process(const SDL_Event& event)
         auto callback = get_mouse_button_released_callback();
         if(callback != nullptr)
         {
-            callback(timestamp(event.button.timestamp), event.button.windowID,
-              mouse_button(event.button.button),
-              static_cast<uint>(event.button.clicks),
-              vec2i(event.button.x, event.button.y));
+          callback(timestamp(event.button.timestamp), event.button.windowID,
+            mouse_button(event.button.button),
+            static_cast<uint>(event.button.clicks),
+            vec2i(event.button.x, event.button.y));
         }
       }
-    } break;
+    }
+    break;
     case SDL_MOUSEWHEEL:
     {
       if(event.wheel.which != SDL_TOUCH_MOUSEID)
@@ -224,7 +266,8 @@ void process(const SDL_Event& event)
             event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED);
         }
       }
-    } break;
+    }
+    break;
     case SDL_MOUSEMOTION:
     {
       if(event.motion.which != SDL_TOUCH_MOUSEID)
@@ -238,7 +281,8 @@ void process(const SDL_Event& event)
             vec2i(event.motion.xrel, event.motion.yrel));
         }
       }
-    } break;
+    }
+    break;
   }
 }
 
@@ -332,6 +376,22 @@ window_callback& get_window_focus_offered_callback()
 
 
 
+window_resize_callback& get_window_resized_callback()
+{
+  static window_resize_callback callback = nullptr;
+  return callback;
+}
+
+
+
+window_resize_callback& get_window_size_changed_callback()
+{
+  static window_resize_callback callback = nullptr;
+  return callback;
+}
+
+
+
 key_callback& get_key_pressed_callback()
 {
   static key_callback callback = nullptr;
@@ -396,7 +456,7 @@ window_callback& get_mouse_left_callback()
 
 
 
-}
+}  // namespace
 
 
 
@@ -431,7 +491,9 @@ bool process_next()
 
 void process_all()
 {
-  while(process_next()) {}
+  while(process_next())
+  {
+  }
 }
 
 
@@ -495,6 +557,48 @@ void generate_window_hidden(const window& w)
   event.window.timestamp = SDL_GetTicks();
   event.window.windowID = w.get_uid();
   event.window.event = SDL_WINDOWEVENT_HIDDEN;
+  event.window.data1 = 0;
+  event.window.data2 = 0;
+  HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
+}
+
+
+
+void set_window_shown_callback(window_callback f)
+{
+  get_window_shown_callback() = f;
+}
+
+
+
+void generate_window_shown(const window& w)
+{
+  SDL_Event event;
+  event.type = SDL_WINDOWEVENT;
+  event.window.timestamp = SDL_GetTicks();
+  event.window.windowID = w.get_uid();
+  event.window.event = SDL_WINDOWEVENT_SHOWN;
+  event.window.data1 = 0;
+  event.window.data2 = 0;
+  HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
+}
+
+
+
+void set_window_exposed_callback(window_callback f)
+{
+  get_window_exposed_callback() = f;
+}
+
+
+
+void generate_window_exposed(const window& w)
+{
+  SDL_Event event;
+  event.type = SDL_WINDOWEVENT;
+  event.window.timestamp = SDL_GetTicks();
+  event.window.windowID = w.get_uid();
+  event.window.event = SDL_WINDOWEVENT_EXPOSED;
   event.window.data1 = 0;
   event.window.data2 = 0;
   HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
@@ -628,43 +732,43 @@ void generate_window_focus_offered(const window& w)
 
 
 
-void set_window_shown_callback(window_callback f)
+void set_window_resized_callback(window_resize_callback f)
 {
-  get_window_shown_callback() = f;
+  get_window_resized_callback() = f;
 }
 
 
 
-void generate_window_shown(const window& w)
+void generate_window_resized(const window& w, const vec2u& size)
 {
   SDL_Event event;
   event.type = SDL_WINDOWEVENT;
   event.window.timestamp = SDL_GetTicks();
   event.window.windowID = w.get_uid();
-  event.window.event = SDL_WINDOWEVENT_SHOWN;
-  event.window.data1 = 0;
-  event.window.data2 = 0;
+  event.window.event = SDL_WINDOWEVENT_RESIZED;
+  event.window.data1 = narrow_cast<Sint32>(size.x());
+  event.window.data2 = narrow_cast<Sint32>(size.y());
   HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
 }
 
 
 
-void set_window_exposed_callback(window_callback f)
+void set_window_size_changed_callback(window_resize_callback f)
 {
-  get_window_exposed_callback() = f;
+  get_window_size_changed_callback() = f;
 }
 
 
 
-void generate_window_exposed(const window& w)
+void generate_window_size_changed(const window& w, const vec2u& size)
 {
   SDL_Event event;
   event.type = SDL_WINDOWEVENT;
   event.window.timestamp = SDL_GetTicks();
   event.window.windowID = w.get_uid();
-  event.window.event = SDL_WINDOWEVENT_EXPOSED;
-  event.window.data1 = 0;
-  event.window.data2 = 0;
+  event.window.event = SDL_WINDOWEVENT_SIZE_CHANGED;
+  event.window.data1 = narrow_cast<Sint32>(size.x());
+  event.window.data2 = narrow_cast<Sint32>(size.y());
   HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
 }
 

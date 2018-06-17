@@ -34,7 +34,14 @@ void on_window_focus_lost(hou::event::timestamp t, hou::window::uid_type wid);
 
 void on_window_focus_gained(hou::event::timestamp t, hou::window::uid_type wid);
 
-void on_window_focus_offered(hou::event::timestamp t, hou::window::uid_type wid);
+void on_window_focus_offered(
+  hou::event::timestamp t, hou::window::uid_type wid);
+
+void on_window_resized(
+  hou::event::timestamp t, hou::window::uid_type wid, const hou::vec2u& size);
+
+void on_window_size_changed(
+  hou::event::timestamp t, hou::window::uid_type wid, const hou::vec2u& size);
 
 void on_key_pressed(hou::event::timestamp t, hou::window::uid_type wid,
   hou::scan_code sc, hou::key_code kc, hou::modifier_keys mk, bool is_repeat);
@@ -45,15 +52,15 @@ void on_key_released(hou::event::timestamp t, hou::window::uid_type wid,
 void on_mouse_button_pressed(hou::event::timestamp t, hou::window::uid_type wid,
   hou::mouse_button mb, uint clicks, const hou::vec2i& pos);
 
-void on_mouse_button_released(hou::event::timestamp t, hou::window::uid_type wid,
-  hou::mouse_button mb, uint clicks, const hou::vec2i& pos);
+void on_mouse_button_released(hou::event::timestamp t,
+  hou::window::uid_type wid, hou::mouse_button mb, uint clicks,
+  const hou::vec2i& pos);
 
 void on_mouse_wheel_moved(hou::event::timestamp t, hou::window::uid_type wid,
   const hou::vec2i& delta, bool flipped);
 
 void on_mouse_moved(hou::event::timestamp t, hou::window::uid_type wid,
-  hou::mouse_buttons_state mbs, const hou::vec2i& pos,
-  const hou::vec2i& delta);
+  hou::mouse_buttons_state mbs, const hou::vec2i& pos, const hou::vec2i& delta);
 
 void on_mouse_entered(hou::event::timestamp t, hou::window::uid_type wid);
 
@@ -113,7 +120,6 @@ void on_window_minimized(hou::event::timestamp t, hou::window::uid_type wid)
 
 void on_window_maximized(hou::event::timestamp t, hou::window::uid_type wid)
 {
-  hou::window::get_from_uid(wid).clear(hou::color::black());
   std::cout << "Window maximized: timestamp = " << t << ", window id = " << wid
             << std::endl;
 }
@@ -148,6 +154,27 @@ void on_window_focus_offered(hou::event::timestamp t, hou::window::uid_type wid)
 {
   std::cout << "Window was offered focus: timestamp = " << t
             << ", window id = " << wid << std::endl;
+}
+
+
+
+void on_window_resized(
+  hou::event::timestamp t, hou::window::uid_type wid, const hou::vec2u& size)
+{
+  std::cout << "Window resized: timestamp = " << t
+            << ", window id = " << wid << ", size = " << hou::transpose(size)
+            << std::endl;
+}
+
+
+
+void on_window_size_changed(
+  hou::event::timestamp t, hou::window::uid_type wid, const hou::vec2u& size)
+{
+  hou::window::get_from_uid(wid).clear(hou::color::black());
+  std::cout << "Window changed size: timestamp = " << t
+            << ", window id = " << wid << ", size = " << hou::transpose(size)
+            << std::endl;
 }
 
 
@@ -194,8 +221,9 @@ void on_mouse_button_pressed(hou::event::timestamp t, hou::window::uid_type wid,
 
 
 
-void on_mouse_button_released(hou::event::timestamp t, hou::window::uid_type wid,
-  hou::mouse_button mb, uint clicks, const hou::vec2i& pos)
+void on_mouse_button_released(hou::event::timestamp t,
+  hou::window::uid_type wid, hou::mouse_button mb, uint clicks,
+  const hou::vec2i& pos)
 {
   std::cout << "Mouse button released: timestamp = " << t
             << ", window id = " << wid << ", mouse button = " << mb
@@ -216,8 +244,7 @@ void on_mouse_wheel_moved(hou::event::timestamp t, hou::window::uid_type wid,
 
 
 void on_mouse_moved(hou::event::timestamp t, hou::window::uid_type wid,
-  hou::mouse_buttons_state mbs, const hou::vec2i& pos,
-  const hou::vec2i& delta)
+  hou::mouse_buttons_state mbs, const hou::vec2i& pos, const hou::vec2i& delta)
 {
   std::cout << "Mouse moved: timestamp = " << t << ", window id = " << wid
             << ", pressed buttons = " << mbs
@@ -270,6 +297,8 @@ int main(int, char**)
   hou::event::set_window_focus_lost_callback(on_window_focus_lost);
   hou::event::set_window_focus_gained_callback(on_window_focus_gained);
   hou::event::set_window_focus_offered_callback(on_window_focus_offered);
+  hou::event::set_window_resized_callback(on_window_resized);
+  hou::event::set_window_size_changed_callback(on_window_size_changed);
 
   hou::event::set_key_pressed_callback(on_key_pressed);
   hou::event::set_key_released_callback(on_key_released);
@@ -284,9 +313,11 @@ int main(int, char**)
   hou::system_window w("EventDemo", hou::vec2u(640u, 480u));
   w.set_bordered(true);
   w.set_resizable(true);
+  w.set_size(hou::vec2u(800u, 600u));
   w.show();
 
-  std::cout << "The events in the queue will be printed in the terminal." << std::endl;
+  std::cout << "The events in the queue will be printed in the terminal."
+            << std::endl;
   std::cout << "Press F1 to hide the window." << std::endl;
 
   while(loop)
