@@ -29,10 +29,6 @@ template <typename T>
 class rotation3
 {
 public:
-  template <typename OtherT>
-  friend class rotation3;
-
-public:
   /** The value type. */
   using value_type = T;
 
@@ -143,6 +139,10 @@ public:
    * \return a reference to this rotation after the inversion.
    */
   constexpr rotation3& invert();
+
+private:
+  template <typename OtherT>
+  friend class rotation3;
 
 private:
   static constexpr quaternion<T> to_quaternion(vec3<T> v) noexcept;

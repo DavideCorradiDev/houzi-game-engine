@@ -105,7 +105,7 @@ HOU_SYS_API std::set<display_mode> get_supported_modes(uint display_idx);
  * \param display_idx the display index.
  * Must be lower than get_count().
  *
- * \param mode the desired mode.
+ * \param dm the desired mode.
  *
  * \throws hou::platform_error in case display_idx >= get_size() or of other
  * errors.

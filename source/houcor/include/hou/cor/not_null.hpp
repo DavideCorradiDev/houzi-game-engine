@@ -118,10 +118,13 @@ public:
    */
   constexpr operator T() const;
 
+#ifndef HOU_DOXYGEN
+public:
   // Friend declarations.
   template <typename U>
   friend typename std::remove_reference<U>::type&& move_content(
     not_null<U>&& t) noexcept;
+#endif
 
 private:
   T m_ptr;

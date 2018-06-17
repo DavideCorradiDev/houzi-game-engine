@@ -14,14 +14,16 @@
 namespace hou
 {
 
-/** binary output stream interface.
+/**
+ * binary output stream interface.
  */
 class HOU_SYS_API binary_stream_out
   : public binary_stream
   , public stream_out
 {
 public:
-  /** Destructor.
+  /**
+   * Destructor.
    */
   virtual ~binary_stream_out(){};
 };

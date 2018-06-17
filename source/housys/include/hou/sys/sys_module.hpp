@@ -17,29 +17,34 @@ namespace hou
 namespace prv
 {
 
-/** System module initialization manager implementation.
+/**
+ * System module initialization manager implementation.
  */
 class HOU_SYS_API sys_module_impl : public non_instantiable
 {
 public:
-  /** Retrieves the module name as string.
+  /**
+   * Retrieves the module name as string.
    *
    * \return the module name.
    */
   static std::string get_name();
 
-  /** Sets up the system module.
+  /**
+   * Sets up the system module.
    */
   static bool on_initialize();
 
-  /** Tears down the system module.
+  /**
+   * Tears down the system module.
    */
   static void on_terminate() noexcept;
 };
 
 }
 
-/** System module initialization manager.
+/**
+ * System module initialization manager.
  */
 using sys_module = module<prv::sys_module_impl>;
 

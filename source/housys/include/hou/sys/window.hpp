@@ -343,7 +343,8 @@ public:
    * \note calling this function does not guarantee that the mouse cursor will
    * be grabbed.
    *
-   * \param true if the window should grab the mouse cursor, false otherwise.
+   * \param value true if the window should grab the mouse cursor, false
+   * otherwise.
    */
   void set_grab(bool value);
 
@@ -365,7 +366,7 @@ public:
    * This refers to the possibility to resize the window by grabbing its
    * borders.
    *
-   * \param true to make the window resizable, false otherwise.
+   * \param value true to make the window resizable, false otherwise.
    */
   void set_resizable(bool value);
 

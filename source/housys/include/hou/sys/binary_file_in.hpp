@@ -18,14 +18,16 @@
 namespace hou
 {
 
-/** Input binary file stream.
+/**
+ * Input binary file stream.
  */
 class HOU_SYS_API binary_file_in
   : public non_copyable
   , public binary_stream_in
 {
 public:
-  /** Path constructor.
+  /**
+   * Path constructor.
    *
    * Throws if the provided path is not valid.
    *

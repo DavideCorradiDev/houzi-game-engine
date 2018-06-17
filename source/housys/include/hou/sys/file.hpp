@@ -20,12 +20,14 @@
 namespace hou
 {
 
-/** Class representing a file.
+/**
+ * Class representing a file.
  */
 class HOU_SYS_API file final : public non_copyable
 {
 public:
-  /** Path constructor.
+  /**
+   * Path constructor.
    *
    * \param path the path to the file.
    *
@@ -37,27 +39,37 @@ public:
    */
   file(const std::string& path, file_open_mode mode, file_type type);
 
+  /**
+   * Closes the file.
+   *
+   * Any operation performed on a file after it is closed results in undefined
+   * behaviour.
+   */
   void close();
 
-  /** Checks the end of file indicator.
+  /**
+   * Checks the end of file indicator.
    *
    * \return true if the end of file indicator is set.
    */
   bool eof() const noexcept;
 
-  /** Checks the error indicator.
+  /**
+   * Checks the error indicator.
    *
    * \return true if the error indicator is set.
    */
   bool error() const noexcept;
 
-  /** Retrieves the size of the file in bytes.
+  /**
+   * Retrieves the size of the file in bytes.
    *
    * \return the size of the file in bytes.
    */
   size_t get_byte_count() const noexcept;
 
-  /** Retrieves the current position indicator.
+  /**
+   * Retrieves the current position indicator.
    *
    * \throws hou::cursor_error in case of an error.
    *
@@ -65,7 +77,8 @@ public:
    */
   long tell() const;
 
-  /** Sets the current position indicator.
+  /**
+   * Sets the current position indicator.
    *
    * \throws hou::cursor_error in case of an error.
    *
@@ -77,7 +90,8 @@ public:
    */
   void seek_set(long pos);
 
-  /** Moves the current position indicator to the specified position from the
+  /**
+   * Moves the current position indicator to the specified position from the
    * end.
    *
    * Calling this function on text files is undefined.
@@ -91,7 +105,8 @@ public:
    */
   void seek_from_end(long pos);
 
-  /** Moves the current position indicator.
+  /**
+   * Moves the current position indicator.
    *
    * Calling this function on text files in undefined.
    * Throws if the current position indicator would move to a negative position.
@@ -102,7 +117,8 @@ public:
    */
   void seek_offset(long offset);
 
-  /** Flushes the file.
+  /**
+   * Flushes the file.
    *
    * Throws if the current position indicator would move to a negative position.
    *
@@ -113,7 +129,8 @@ public:
    */
   void flush() const;
 
-  /** Reads a character from the file.
+  /**
+   * Reads a character from the file.
    *
    * Sets eof if reading over the end of the file.
    *
@@ -125,7 +142,8 @@ public:
    */
   bool getc(char& c);
 
-  /** Writes a character into the file.
+  /**
+   * Writes a character into the file.
    *
    * \param c the character to be written.
    *
@@ -133,7 +151,8 @@ public:
    */
   void putc(char c);
 
-  /** Reads a string from the file.
+  /**
+   * Reads a string from the file.
    *
    * It tries to read a number of characters equal to the size of the string,
    * or until a newline character is encountered.
@@ -151,7 +170,8 @@ public:
    */
   size_t gets(std::string& str);
 
-  /** Writes a string into the file.
+  /**
+   * Writes a string into the file.
    *
    * \param str the string to be written.
    *
@@ -159,7 +179,8 @@ public:
    */
   void puts(const std::string& str);
 
-  /** Reads into a specified location in memory.
+  /**
+   * Reads into a specified location in memory.
    *
    * The caller must ensure that the memory range between buf and
    * buf + (element_size * buf_size) is valid.
@@ -184,7 +205,8 @@ public:
    */
   size_t read(void* buf, size_t element_size, size_t buf_size);
 
-  /** Writes from a specified location in memory.
+  /**
+   * Writes from a specified location in memory.
    *
    * The caller must ensure that the memory range between buf and
    * buf + (element_size * buf_size) is valid.
@@ -201,7 +223,8 @@ public:
    */
   void write(const void* buf, size_t element_size, size_t buf_size);
 
-  /** Reads into a specified location in memory.
+  /**
+   * Reads into a specified location in memory.
    *
    * The caller must ensure that the memory range between buf and
    * buf + (sizeof(T) * buf_size) is valid.
@@ -227,7 +250,8 @@ public:
   template <typename T>
   size_t read(T* buf, size_t buf_size);
 
-  /** Writes from a specified location in memory.
+  /**
+   * Writes from a specified location in memory.
    *
    * The caller must ensure that the memory range between buf and
    * buf + (sizeof(T) * buf_size) is valid.
@@ -247,7 +271,8 @@ public:
   template <typename T>
   void write(const T* buf, size_t buf_size);
 
-  /** Reads into a container.
+  /**
+   * Reads into a container.
    *
    * This function will try to read as many elements as the size of buffer.
    * If the end of the stream is reached, only part of buf will be written.
@@ -267,7 +292,8 @@ public:
     = std::enable_if_t<is_contiguous_container<Container>::value>>
   size_t read(Container& buffer);
 
-  /** Writes from a container.
+  /**
+   * Writes from a container.
    *
    * This function will write all the elements contained in buf.
    *

@@ -30,22 +30,6 @@ template <typename T>
 class transform3
 {
 public:
-  template <typename OtherT>
-  friend class transform3;
-
-  template <typename U>
-  friend constexpr bool operator==(
-    const transform3<U>& lhs, const transform3<U>& rhs) noexcept;
-
-  template <typename U>
-  friend constexpr bool operator!=(
-    const transform3<U>& lhs, const transform3<U>& rhs) noexcept;
-
-  template <typename U>
-  friend constexpr bool close(
-    const transform3<U>& lhs, const transform3<U>& rhs, U acc) noexcept;
-
-public:
   /** The value type. */
   using value_type = T;
 
@@ -152,6 +136,22 @@ public:
    * \return the transformed point.
    */
   constexpr vec3<T> transform_point(const vec3<T>& point) const noexcept;
+
+private:
+  template <typename OtherT>
+  friend class transform3;
+
+  template <typename U>
+  friend constexpr bool operator==(
+    const transform3<U>& lhs, const transform3<U>& rhs) noexcept;
+
+  template <typename U>
+  friend constexpr bool operator!=(
+    const transform3<U>& lhs, const transform3<U>& rhs) noexcept;
+
+  template <typename U>
+  friend constexpr bool close(
+    const transform3<U>& lhs, const transform3<U>& rhs, U acc) noexcept;
 
 private:
   constexpr transform3(const mat3x3<T>& r, const vec3<T>& t) noexcept;

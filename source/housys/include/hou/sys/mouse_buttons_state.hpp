@@ -47,6 +47,10 @@ public:
 
   /**
    * Checks if a specific button is currently pressed.
+   *
+   * \param mb the button to be checked.
+   *
+   * \return true if the button is pressed, false otherwise.
    */
   bool check(mouse_button mb) const;
 
@@ -81,7 +85,7 @@ HOU_SYS_API bool operator!=(mouse_buttons_state lhs, mouse_buttons_state rhs);
  *
  * \param os the stream.
  *
- * \param vm the display_mode object.
+ * \param mbs the mouse_buttons_state object.
  *
  * \return a reference to the stream.
  */

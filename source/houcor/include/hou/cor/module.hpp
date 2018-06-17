@@ -19,7 +19,8 @@
 namespace hou
 {
 
-/** Module initialization and termination manager.
+/**
+ * Module initialization and termination manager.
  *
  * This class is used as the base to create static classes responsible for
  * the initialization and termination of global state connected to a library
@@ -53,7 +54,8 @@ template <typename Impl>
 class module : public non_instantiable
 {
 public:
-  /* Sets up the module.
+  /**
+   * Sets up the module.
    *
    * If the module is not initialized, it internally calls Impl::on_setup() and
    * returns its return value.
@@ -70,7 +72,8 @@ public:
    */
   static void initialize();
 
-  /** Tears down the module.
+  /**
+   * Tears down the module.
    *
    * If the module is not initialized or was alredy torn down, this function
    * does nothing.
@@ -83,13 +86,15 @@ public:
    */
   static void terminate() noexcept;
 
-  /** Checks if the module has already been initialized.
+  /**
+   * Checks if the module has already been initialized.
    *
-   * \true if the module is initialized, false otherwise.
+   * \return true if the module is initialized, false otherwise.
    */
   static bool is_initialized() noexcept;
 
-  /** Registers callbacks for std::exit and std::quick_exit to terminate Module.
+  /**
+   * Registers callbacks for std::exit and std::quick_exit to terminate Module.
    *
    * This function is just an utility to automatically register callbacks to
    * terminate the module at the program exit.

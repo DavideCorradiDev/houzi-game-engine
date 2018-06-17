@@ -37,7 +37,7 @@ public:
    *
    * \param df the display format.
    *
-   * \param refres_rate the refresh_rate.
+   * \param refresh_rate the refresh_rate.
    */
   display_mode(const vec2u& size, display_format df, uint refresh_rate) noexcept;
 

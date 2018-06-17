@@ -32,19 +32,6 @@ template <typename T>
 class quaternion
 {
 public:
-  template <typename U>
-  friend constexpr bool operator==(
-    const quaternion<U>& lhs, const quaternion<U>& rhs) noexcept;
-
-  template <typename U>
-  friend constexpr bool operator!=(
-    const quaternion<U>& lhs, const quaternion<U>& rhs) noexcept;
-
-  template <typename U>
-  friend constexpr bool close(
-    const quaternion<U>& lhs, const quaternion<U>& rhs, U acc) noexcept;
-
-public:
   /** The value type. */
   using value_type = T;
 
@@ -269,6 +256,19 @@ public:
   {
     return lhs /= rhs;
   }
+
+private:
+  template <typename U>
+  friend constexpr bool operator==(
+    const quaternion<U>& lhs, const quaternion<U>& rhs) noexcept;
+
+  template <typename U>
+  friend constexpr bool operator!=(
+    const quaternion<U>& lhs, const quaternion<U>& rhs) noexcept;
+
+  template <typename U>
+  friend constexpr bool close(
+    const quaternion<U>& lhs, const quaternion<U>& rhs, U acc) noexcept;
 
 private:
   std::array<T, 4u> m_elements;

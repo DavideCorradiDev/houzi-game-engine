@@ -18,28 +18,33 @@
 namespace hou
 {
 
-/** Input stream interface.
+/**
+ * Input stream interface.
  */
 class HOU_SYS_API stream_in
 {
 public:
-  /** Destructor.
+  /**
+   * Destructor.
    */
   virtual ~stream_in(){};
 
-  /** Retrieves the number of bytes read by the last read operation.
+  /**
+   * Retrieves the number of bytes read by the last read operation.
    *
    * \return the number of bytes read by the last read operation.
    */
   virtual size_t get_read_byte_count() const noexcept = 0;
 
-  /** Retrieves the number of elements read by the last read operation.
+  /**
+   * Retrieves the number of elements read by the last read operation.
    *
    * \return the number of elements read by the last read operation.
    */
   virtual size_t get_read_element_count() const noexcept = 0;
 
-  /** Reads into a pod, not container variable.
+  /**
+   * Reads into a pod, not container variable.
    *
    * Sets eof if reading over the end of the file.
    *
@@ -56,7 +61,8 @@ public:
     stream_in>&
     read(T& buf);
 
-  /** Reads into a contiguous container.
+  /**
+   * Reads into a contiguous container.
    *
    * This function will try to read as many elements as the size of buf.
    * If the end of the stream is reached, only part of buf will be written.
@@ -76,7 +82,8 @@ public:
   template <typename T>
   std::enable_if_t<is_contiguous_container<T>::value, stream_in>& read(T& buf);
 
-  /** Reads into a specified location in memory.
+  /**
+   * Reads into a specified location in memory.
    *
    * The caller must ensure that the memory range between buf and
    * buf + (sizeof(T) * buf_size) is valid.
@@ -104,7 +111,8 @@ public:
   stream_in& read(T* buf, size_t buf_size);
 
 protected:
-  /** Reads into a specified location in memory.
+  /**
+   * Reads into a specified location in memory.
    *
    * The caller must ensure that the memory range between buf and
    * buf + (element_size * buf_size) is valid.

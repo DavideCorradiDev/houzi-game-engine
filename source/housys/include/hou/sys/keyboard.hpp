@@ -77,6 +77,14 @@ HOU_SYS_API bool is_key_pressed(scan_code sc);
  */
 HOU_SYS_API modifier_keys get_modifier_keys();
 
+/**
+ * Sets the modifier keys state.
+ *
+ * \note this function will change the internal state of the modifier keys, but
+ * will not change the state of the physical keyboard.
+ *
+ * \param value the value of the modifier keys.
+ */
 HOU_SYS_API void set_modifier_keys(modifier_keys value);
 
 }  // namespace keyboard

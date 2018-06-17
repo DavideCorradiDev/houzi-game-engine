@@ -25,17 +25,13 @@ namespace hou
 /** Represents a rotation in 2d space.
  *
  * The rotation is internally represented as an angle expressed in radians in
- * the range (-pi<float>(); Pi].
+ * the range -pi\<float\>(); Pi\].
  *
  * \tparam T the scalar type.
  */
 template <typename T>
 class rotation2
 {
-public:
-  template <typename OtherT>
-  friend class rotation2;
-
 public:
   /** The value type. */
   using value_type = T;
@@ -82,7 +78,8 @@ public:
 
   /** Returns the rotation angle.
    *
-   * The angle is expressed in radians and included in the range (-pi<float>(); Pi].
+   * The angle is expressed in radians and included in the range
+   * (-pi\<float\>(); Pi\].
    *
    * \return the rotation angle.
    */
@@ -109,6 +106,10 @@ public:
   constexpr rotation2& invert() noexcept;
 
 private:
+  template <typename OtherT>
+  friend class rotation2;
+
+private:
   static constexpr T to_angle(const mat2x2<T>& m) noexcept;
   static constexpr mat2x2<T> to_matrix(T angle) noexcept;
   static constexpr T normalize_angle(T angle) noexcept;
@@ -128,7 +129,8 @@ private:
  * \return a rotation representing the two combined rotations.
  */
 template <typename T>
-constexpr rotation2<T> operator*(rotation2<T> lhs, const rotation2<T>& rhs) noexcept;
+constexpr rotation2<T> operator*(
+  rotation2<T> lhs, const rotation2<T>& rhs) noexcept;
 
 /** Computes the inverse of the given rotation.
  *
@@ -152,7 +154,8 @@ constexpr rotation2<T> inverse(rotation2<T> r) noexcept;
  * \return the result of the comparison.
  */
 template <typename T>
-constexpr bool operator==(const rotation2<T>& lhs, const rotation2<T>& rhs) noexcept;
+constexpr bool operator==(
+  const rotation2<T>& lhs, const rotation2<T>& rhs) noexcept;
 
 /** Checks if two rotations are not equal.
  *
@@ -165,7 +168,8 @@ constexpr bool operator==(const rotation2<T>& lhs, const rotation2<T>& rhs) noex
  * \return the result of the comparison.
  */
 template <typename T>
-constexpr bool operator!=(const rotation2<T>& lhs, const rotation2<T>& rhs) noexcept;
+constexpr bool operator!=(
+  const rotation2<T>& lhs, const rotation2<T>& rhs) noexcept;
 
 /** Checks if two rotations are equal with the given accuracy.
  *

@@ -16,7 +16,9 @@
 namespace hou
 {
 
-/** Enumeration for the format of an image pixel. */
+/**
+ * Enumeration for the format of an image pixel.
+ */
 enum class pixel_format
 {
   /** Single channel (red) format. */
@@ -29,17 +31,26 @@ enum class pixel_format
   rgba,
 };
 
-/** Returns the number of bytes of a pixel with the given format.
+/**
+ * Gets the number of bits of a pixel with the given format.
+ *
+ * \param format the pixel_format.
+ *
+ * \return the number of bits.
+ */
+constexpr uint get_bits_per_pixel(pixel_format format) noexcept;
+
+/**
+ * Gets the number of bytes of a pixel with the given format.
  *
  * \param format the pixel_format.
  *
  * \return the number of bytes.
  */
-constexpr uint get_bits_per_pixel(pixel_format format) noexcept;
-
 constexpr uint get_bytes_per_pixel(pixel_format format) noexcept;
 
-/** Writes a pixel_format enum into a stream.
+/**
+ * Writes a pixel_format enum into a stream.
  *
  * \param os the stream.
  *

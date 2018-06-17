@@ -18,28 +18,33 @@
 namespace hou
 {
 
-/** Output stream interface.
+/**
+ * Output stream interface.
  */
 class HOU_SYS_API stream_out
 {
 public:
-  /** Destructor.
+  /**
+   * Destructor.
    */
   virtual ~stream_out(){};
 
-  /** Retrieves the number of bytes written by the last write operation.
+  /**
+   * Retrieves the number of bytes written by the last write operation.
    *
    * \return the number of bytes written by the last write operation.
    */
   virtual size_t get_write_byte_count() const noexcept = 0;
 
-  /** Retrieves the number of elements written by the last write operation.
+  /**
+   * Retrieves the number of elements written by the last write operation.
    *
    * \return the number of elements written by the last write operation.
    */
   virtual size_t get_write_element_count() const noexcept = 0;
 
-  /** Writes from a pod, not container variable.
+  /**
+   * Writes from a pod, not container variable.
    *
    * Throws in case of an error while writing.
    *
@@ -56,7 +61,8 @@ public:
     stream_out>&
     write(const T& buf);
 
-  /** Writes from a contiguous container.
+  /**
+   * Writes from a contiguous container.
    *
    * This function will write all the elements contained in buf.
    *
@@ -74,7 +80,8 @@ public:
   std::enable_if_t<is_contiguous_container<T>::value, stream_out>& write(
     const T& buf);
 
-  /** Writes from a specified location in memory.
+  /**
+   * Writes from a specified location in memory.
    *
    * The caller must ensure that the memory range between buf and
    * buf + (sizeof(T) * buf_size) is valid.
@@ -97,7 +104,8 @@ public:
   stream_out& write(const T* buf, size_t buf_size);
 
 protected:
-  /** Writes from a specified location in memory.
+  /**
+   * Writes from a specified location in memory.
    *
    * The caller must ensure that the memory range between buf and
    * buf + (element_size * buf_size) is valid.

@@ -31,22 +31,6 @@ template <typename T>
 class transform2
 {
 public:
-  template <typename OtherT>
-  friend class transform2;
-
-  template <typename U>
-  friend constexpr bool operator==(
-    const transform2<U>& lhs, const transform2<U>& rhs) noexcept;
-
-  template <typename U>
-  friend constexpr bool operator!=(
-    const transform2<U>& lhs, const transform2<U>& rhs) noexcept;
-
-  template <typename U>
-  friend constexpr bool close(
-    const transform2<U>& lhs, const transform2<U>& rhs, U acc) noexcept;
-
-public:
   /** The value type. */
   using value_type = T;
 
@@ -157,6 +141,22 @@ public:
    * \return the transformed point.
    */
   constexpr vec2<T> transform_point(const vec2<T>& point) const noexcept;
+
+private:
+  template <typename OtherT>
+  friend class transform2;
+
+  template <typename U>
+  friend constexpr bool operator==(
+    const transform2<U>& lhs, const transform2<U>& rhs) noexcept;
+
+  template <typename U>
+  friend constexpr bool operator!=(
+    const transform2<U>& lhs, const transform2<U>& rhs) noexcept;
+
+  template <typename U>
+  friend constexpr bool close(
+    const transform2<U>& lhs, const transform2<U>& rhs, U acc) noexcept;
 
 private:
   constexpr transform2(const mat2x2<T>& r, const vec2<T>& t) noexcept;
