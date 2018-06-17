@@ -2,8 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/test.hpp"
 #include "hou/gl/gl_context_settings.hpp"
+#include "hou/test.hpp"
 
 using namespace hou;
 using namespace testing;
@@ -20,36 +20,68 @@ class test_gl_context_settings : public Test
 
 
 
-TEST_F(test_gl_context_settings, creation)
+TEST_F(test_gl_context_settings, constructor)
 {
   gl::context_settings cs(
     gl::version(4u, 5u), gl::context_profile::core, 3u, 1u, 0u);
 
   EXPECT_EQ(gl::version(4u, 5u), cs.get_version());
   EXPECT_EQ(gl::context_profile::core, cs.get_profile());
-  EXPECT_EQ(3u, cs.get_depth_byte_count());
-  EXPECT_EQ(1u, cs.get_stencil_byte_count());
+  EXPECT_EQ(3u, cs.get_depth_bit_count());
+  EXPECT_EQ(1u, cs.get_stencil_bit_count());
   EXPECT_EQ(0u, cs.get_sample_count());
 }
 
 
 
-TEST_F(test_gl_context_settings, setters_and_getters)
+TEST_F(test_gl_context_settings, set_version)
 {
   gl::context_settings cs(
     gl::version(4u, 5u), gl::context_profile::core, 3u, 1u, 0u);
 
   cs.set_version(gl::version(3u, 4u));
   EXPECT_EQ(gl::version(3u, 4u), cs.get_version());
+}
+
+
+
+TEST_F(test_gl_context_settings, set_profile)
+{
+  gl::context_settings cs(
+    gl::version(4u, 5u), gl::context_profile::core, 3u, 1u, 0u);
 
   cs.set_profile(gl::context_profile::compatibility);
   EXPECT_EQ(gl::context_profile::compatibility, cs.get_profile());
+}
 
-  cs.set_depth_byte_count(2u);
-  EXPECT_EQ(2u, cs.get_depth_byte_count());
 
-  cs.set_stencil_byte_count(2u);
-  EXPECT_EQ(2u, cs.get_stencil_byte_count());
+
+TEST_F(test_gl_context_settings, set_depth_bit_count)
+{
+  gl::context_settings cs(
+    gl::version(4u, 5u), gl::context_profile::core, 3u, 1u, 0u);
+
+  cs.set_depth_bit_count(2u);
+  EXPECT_EQ(2u, cs.get_depth_bit_count());
+}
+
+
+
+TEST_F(test_gl_context_settings, set_stencil_bit_count)
+{
+  gl::context_settings cs(
+    gl::version(4u, 5u), gl::context_profile::core, 3u, 1u, 0u);
+
+  cs.set_stencil_bit_count(2u);
+  EXPECT_EQ(2u, cs.get_stencil_bit_count());
+}
+
+
+
+TEST_F(test_gl_context_settings, set_sample_count)
+{
+  gl::context_settings cs(
+    gl::version(4u, 5u), gl::context_profile::core, 3u, 1u, 0u);
 
   cs.set_sample_count(4u);
   EXPECT_EQ(4u, cs.get_sample_count());
@@ -91,9 +123,18 @@ TEST_F(test_gl_context_settings, comparison)
 
 
 
+TEST_F(test_gl_context_settings, get_basic)
+{
+  gl::context_settings cs_ref(
+    gl::version(1u, 0u), gl::context_profile::compatibility, 24u, 8u, 0u);
+  EXPECT_EQ(cs_ref, gl::context_settings::get_basic());
+}
+
+
+
 TEST_F(test_gl_context_settings, get_default)
 {
   gl::context_settings cs_ref(
-    gl::version::get_default(), gl::context_profile::core, 3u, 1u, 0u);
+    gl::version(4u, 5u), gl::context_profile::core, 3u, 1u, 0u);
   EXPECT_EQ(cs_ref, gl::context_settings::get_default());
 }

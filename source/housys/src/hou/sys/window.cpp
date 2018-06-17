@@ -69,7 +69,7 @@ window::window(const std::string& title, const vec2u& size)
 
 
 
-window::window(window&& other)
+window::window(window&& other) noexcept
   : m_impl(std::move(other.m_impl))
   , m_icon(std::move(other.m_icon))
 {

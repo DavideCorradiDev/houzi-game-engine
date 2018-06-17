@@ -20,13 +20,12 @@ namespace gl
 class HOU_GL_API version
 {
 public:
-  static const version& get_default() noexcept;
-
-public:
   version(uint major, uint minor) noexcept;
 
   uint get_major() const noexcept;
+
   uint get_minor() const noexcept;
+
   bool is_supported() const noexcept;
 
 private:
@@ -35,11 +34,17 @@ private:
 };
 
 HOU_GL_API bool operator==(const version& l, const version& r) noexcept;
+
 HOU_GL_API bool operator!=(const version& l, const version& r) noexcept;
+
 HOU_GL_API bool operator>(const version& l, const version& r) noexcept;
+
 HOU_GL_API bool operator>=(const version& l, const version& r) noexcept;
+
 HOU_GL_API bool operator<(const version& l, const version& r) noexcept;
+
 HOU_GL_API bool operator<=(const version& l, const version& r) noexcept;
+
 HOU_GL_API std::ostream& operator<<(std::ostream& os, const version& v);
 
 }  // namespace gl

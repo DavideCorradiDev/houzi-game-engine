@@ -22,7 +22,7 @@ const context_settings& context_settings::get_basic() noexcept
 const context_settings& context_settings::get_default() noexcept
 {
   static const context_settings cs(
-    version::get_default(), context_profile::core, 24u, 8u, 0u);
+    version(4u, 5u), context_profile::core, 24u, 8u, 0u);
   return cs;
 }
 

@@ -82,7 +82,7 @@ public:
    *
    * \param other the other window.
    */
-  window(window&& other);
+  window(window&& other) noexcept;
 
   /**
    * Destructor.

@@ -32,19 +32,18 @@ INCLUDE_DIRECTORIES(
 
 # Source files.
 SET(LIB_HOUGL_SRC
-  src/hou/gl/gl_buffer_handle.cpp
+  # src/hou/gl/gl_buffer_handle.cpp
   src/hou/gl/gl_context.cpp
-  src/hou/gl/gl_context_impl.cpp
   src/hou/gl/gl_context_settings.cpp
   src/hou/gl/gl_exceptions.cpp
-  src/hou/gl/gl_framebuffer_handle.cpp
-  src/hou/gl/gl_functions.cpp
+  # src/hou/gl/gl_framebuffer_handle.cpp
+  # src/hou/gl/gl_functions.cpp
   src/hou/gl/gl_object_handle.cpp
-  src/hou/gl/gl_program_handle.cpp
-  src/hou/gl/gl_shader_handle.cpp
-  src/hou/gl/gl_texture_handle.cpp
+  # src/hou/gl/gl_program_handle.cpp
+  # src/hou/gl/gl_shader_handle.cpp
+  # src/hou/gl/gl_texture_handle.cpp
   src/hou/gl/gl_version.cpp
-  src/hou/gl/gl_vertex_array_handle.cpp
+  # src/hou/gl/gl_vertex_array_handle.cpp
 )
 
 
@@ -88,7 +87,7 @@ MESSAGE(STATUS "")
 
 
 
-# IF(HOU_CFG_BUILD_TESTS)
-#   ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/test)
-# ENDIF()
+IF(HOU_CFG_BUILD_TESTS)
+  ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/test)
+ENDIF()
 
