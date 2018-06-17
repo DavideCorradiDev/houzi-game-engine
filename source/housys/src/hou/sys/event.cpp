@@ -35,6 +35,7 @@ window_callback& get_window_restored_callback();
 window_callback& get_window_focus_lost_callback();
 window_callback& get_window_focus_gained_callback();
 window_callback& get_window_focus_offered_callback();
+window_motion_callback& get_window_moved_callback();
 window_resize_callback& get_window_resized_callback();
 window_resize_callback& get_window_size_changed_callback();
 
@@ -133,6 +134,14 @@ window_callback& get_window_focus_gained_callback()
 window_callback& get_window_focus_offered_callback()
 {
   static window_callback callback = nullptr;
+  return callback;
+}
+
+
+
+window_motion_callback& get_window_moved_callback()
+{
+  static window_motion_callback callback = nullptr;
   return callback;
 }
 
@@ -345,6 +354,16 @@ void process(const SDL_Event& event)
           if(callback != nullptr)
           {
             callback(timestamp(event.window.timestamp), event.window.windowID);
+          }
+        }
+        break;
+        case SDL_WINDOWEVENT_MOVED:
+        {
+          auto callback = get_window_moved_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID,
+              vec2i(event.window.data1, event.window.data2));
           }
         }
         break;
@@ -730,6 +749,27 @@ void generate_window_focus_offered(const window& w)
   event.window.event = SDL_WINDOWEVENT_TAKE_FOCUS;
   event.window.data1 = 0;
   event.window.data2 = 0;
+  HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
+}
+
+
+
+void set_window_moved_callback(window_motion_callback f)
+{
+  get_window_moved_callback() = f;
+}
+
+
+
+void generate_window_moved(const window& w, const vec2i& position)
+{
+  SDL_Event event;
+  event.type = SDL_WINDOWEVENT;
+  event.window.timestamp = SDL_GetTicks();
+  event.window.windowID = w.get_uid();
+  event.window.event = SDL_WINDOWEVENT_MOVED;
+  event.window.data1 = narrow_cast<Sint32>(position.x());
+  event.window.data2 = narrow_cast<Sint32>(position.y());
   HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
 }
 

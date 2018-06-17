@@ -93,6 +93,9 @@ HOU_SYS_API void generate_window_focus_gained(const window& w);
 HOU_SYS_API void set_window_focus_offered_callback(window_callback f);
 HOU_SYS_API void generate_window_focus_offered(const window& w);
 
+HOU_SYS_API void set_window_moved_callback(window_motion_callback f);
+HOU_SYS_API void generate_window_moved(const window& w, const vec2i& position);
+
 HOU_SYS_API void set_window_resized_callback(window_resize_callback f);
 HOU_SYS_API void generate_window_resized(const window& w, const vec2u& size);
 

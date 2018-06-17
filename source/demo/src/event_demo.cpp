@@ -37,6 +37,9 @@ void on_window_focus_gained(hou::event::timestamp t, hou::window::uid_type wid);
 void on_window_focus_offered(
   hou::event::timestamp t, hou::window::uid_type wid);
 
+void on_window_moved(
+  hou::event::timestamp t, hou::window::uid_type wid, const hou::vec2i& pos);
+
 void on_window_resized(
   hou::event::timestamp t, hou::window::uid_type wid, const hou::vec2u& size);
 
@@ -154,6 +157,15 @@ void on_window_focus_offered(hou::event::timestamp t, hou::window::uid_type wid)
 {
   std::cout << "Window was offered focus: timestamp = " << t
             << ", window id = " << wid << std::endl;
+}
+
+
+
+void on_window_moved(
+  hou::event::timestamp t, hou::window::uid_type wid, const hou::vec2i& pos)
+{
+  std::cout << "Window moved: timestamp = " << t << ", window id = " << wid
+            << ", position = " << hou::transpose(pos) << std::endl;
 }
 
 
@@ -297,6 +309,7 @@ int main(int, char**)
   hou::event::set_window_focus_lost_callback(on_window_focus_lost);
   hou::event::set_window_focus_gained_callback(on_window_focus_gained);
   hou::event::set_window_focus_offered_callback(on_window_focus_offered);
+  hou::event::set_window_moved_callback(on_window_moved);
   hou::event::set_window_resized_callback(on_window_resized);
   hou::event::set_window_size_changed_callback(on_window_size_changed);
 

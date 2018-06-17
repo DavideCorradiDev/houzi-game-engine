@@ -518,6 +518,48 @@ TEST_F(test_event, window_focus_offered_event)
 
 
 
+TEST_F(test_event, window_moved_event)
+{
+  int counter = 0;
+  event::timestamp t(0);
+  system_window w("EventDemo", vec2i(32, 16));
+  vec2i pos;
+  auto f
+    = [&](event::timestamp t_in, window::uid_type wid_in, const vec2i& pos_in) {
+        ++counter;
+        t = t_in;
+        window::get_from_uid(wid_in).set_title("NewTitle");
+        pos = pos_in;
+      };
+
+  event::flush_all();
+
+  event::generate_window_moved(w, vec2i(16, 8));
+  event::process_next();
+  EXPECT_EQ(0, counter);
+  EXPECT_EQ(event::timestamp(0), t);
+  EXPECT_EQ("EventDemo", w.get_title());
+  EXPECT_EQ(vec2i::zero(), pos);
+
+  event::set_window_moved_callback(f);
+  event::generate_window_moved(w, vec2i(16, 8));
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+  EXPECT_EQ(vec2i(16, 8), pos);
+
+  event::set_window_moved_callback(nullptr);
+  event::generate_window_moved(w, vec2i(8, 4));
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+  EXPECT_EQ(vec2i(16, 8), pos);
+}
+
+
+
 TEST_F(test_event, window_resized_event)
 {
   int counter = 0;
