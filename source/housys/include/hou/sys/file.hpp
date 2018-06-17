@@ -37,6 +37,8 @@ public:
    */
   file(const std::string& path, file_open_mode mode, file_type type);
 
+  void close();
+
   /** Checks the end of file indicator.
    *
    * \return true if the end of file indicator is set.

@@ -110,6 +110,15 @@ TEST_F(test_file, move_constructor)
 
 
 
+TEST_F(test_file, close)
+{
+  file f(filename, file_open_mode::read, file_type::binary);
+  f.close();
+  SUCCEED();
+}
+
+
+
 TEST_F(test_file, cursor_positioning)
 {
   file f(filename, file_open_mode::read, file_type::binary);
