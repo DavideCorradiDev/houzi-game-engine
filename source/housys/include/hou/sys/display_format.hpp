@@ -16,6 +16,9 @@
 namespace hou
 {
 
+/**
+ * Represents a display format.
+ */
 enum class display_format : Uint32
 {
   unknown = SDL_PIXELFORMAT_UNKNOWN,
@@ -58,6 +61,9 @@ enum class display_format : Uint32
   nv21 = SDL_PIXELFORMAT_NV21,
 };
 
+/**
+ * Represents the type of a display_format.
+ */
 enum class display_format_type : Uint32
 {
   unknown = SDL_PIXELTYPE_UNKNOWN,
@@ -74,6 +80,9 @@ enum class display_format_type : Uint32
   arrayf32 = SDL_PIXELTYPE_ARRAYF32,
 };
 
+/**
+ * Represents the bit order in a bitmap display_format.
+ */
 enum class display_format_bitmap_order : Uint32
 {
   none = SDL_BITMAPORDER_NONE,
@@ -81,6 +90,9 @@ enum class display_format_bitmap_order : Uint32
   ev1234 = SDL_BITMAPORDER_1234,
 };
 
+/**
+ * Represents the bit order in a packed display_format.
+ */
 enum class display_format_packed_order : Uint32
 {
   none = SDL_PACKEDORDER_NONE,
@@ -94,6 +106,9 @@ enum class display_format_packed_order : Uint32
   bgra = SDL_PACKEDORDER_BGRA,
 };
 
+/**
+ * Represents the bit order in an array display_format.
+ */
 enum class display_format_array_order : Uint32
 {
   none = SDL_ARRAYORDER_NONE,
@@ -105,6 +120,9 @@ enum class display_format_array_order : Uint32
   abgr = SDL_ARRAYORDER_ABGR,
 };
 
+/**
+ * Represents the bit layout in a packed display_format.
+ */
 enum class display_format_packed_layout : Uint32
 {
   none = SDL_PACKEDLAYOUT_NONE,
@@ -118,25 +136,167 @@ enum class display_format_packed_layout : Uint32
   ev1010102 = SDL_PACKEDLAYOUT_1010102,
 };
 
+/**
+ * Gets the number of bits per pixel for a given display_format.
+ *
+ * \param f the display_format.
+ *
+ * \return the bits per pixel of f.
+ */
 HOU_SYS_API uint get_bits_per_pixel(display_format f);
+
+/**
+ * Gets the number of bytes per pixel for a given display_format.
+ *
+ * \param f the display_format.
+ *
+ * \return the bytes per pixel of f.
+ */
 HOU_SYS_API uint get_bytes_per_pixel(display_format f);
+
+/**
+ * Gets the type of a given display_format.
+ *
+ * \param f the display_format.
+ *
+ * \return the type of f.
+ */
 HOU_SYS_API display_format_type get_type(display_format f);
+
+/**
+ * Gets the bit order for a bitmap type display_format.
+ *
+ * \param f the display_format.
+ *
+ * \return the bit order of f if f is a bitmap format, or
+ * display_format_bitmap_order::none othewise.
+ */
 HOU_SYS_API display_format_bitmap_order get_bitmap_order(display_format f);
+
+/**
+ * Gets the bit order for a packed type display_format.
+ *
+ * \param f the display_format.
+ *
+ * \return the bit order of f if f is a packed format, or
+ * display_format_packed_order::none othewise.
+ */
 HOU_SYS_API display_format_packed_order get_packed_order(display_format f);
+
+/**
+ * Gets the bit order for a array type display_format.
+ *
+ * \param f the display_format.
+ *
+ * \return the bit order of f if f is a array format, or
+ * display_format_array_order::none othewise.
+ */
 HOU_SYS_API display_format_array_order get_array_order(display_format f);
+
+/**
+ * Gets the bit layout for a packed type display_format.
+ *
+ * \param f the display_format.
+ *
+ * \return the bit layout of f if f is a packed format, or
+ * display_format_packed_layout::none othewise.
+ */
 HOU_SYS_API display_format_packed_layout get_packed_layout(display_format f);
+
+/**
+ * Checks if a display_format is indexed.
+ *
+ * \param f the display_format;
+ *
+ * \return true if f is indexed.
+ */
 HOU_SYS_API bool is_indexed(display_format f);
+
+/**
+ * Checks if a display_format has alpha bits.
+ *
+ * \param f the display_format;
+ *
+ * \return true if f has alpha bits.
+ */
 HOU_SYS_API bool has_alpha(display_format f);
+
+/**
+ * Checks if a display_format is a FourCC format.
+ *
+ * \param f the display_format;
+ *
+ * \return true if f is a FourCC format.
+ */
 HOU_SYS_API bool is_fourcc(display_format f);
 
+/**
+ * Writes a display_format enum into a stream.
+ *
+ * \param os the output stream.
+ *
+ * \param f the display_format.
+ *
+ * \return a reference to os.
+ */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, display_format f);
+
+/**
+ * Writes a display_format_type enum into a stream.
+ *
+ * \param os the output stream.
+ *
+ * \param f the display_format_type.
+ *
+ * \return a reference to os.
+ */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, display_format_type f);
+
+/**
+ * Writes a display_format_bitmap_order enum into a stream.
+ *
+ * \param os the output stream.
+ *
+ * \param f the display_format_bitmap_order.
+ *
+ * \return a reference to os.
+ */
 HOU_SYS_API std::ostream& operator<<(
   std::ostream& os, display_format_bitmap_order f);
+
+/**
+ * Writes a display_format_packed_order enum into a stream.
+ *
+ * \param os the output stream.
+ *
+ * \param f the display_format_packed_order.
+ *
+ * \return a reference to os.
+ */
 HOU_SYS_API std::ostream& operator<<(
   std::ostream& os, display_format_packed_order f);
+
+/**
+ * Writes a display_format_array_order enum into a stream.
+ *
+ * \param os the output stream.
+ *
+ * \param f the display_format_array_order.
+ *
+ * \return a reference to os.
+ */
 HOU_SYS_API std::ostream& operator<<(
   std::ostream& os, display_format_array_order f);
+
+/**
+ * Writes a display_format_packed_layour enum into a stream.
+ *
+ * \param os the output stream.
+ *
+ * \param f the display_format_packed_layour.
+ *
+ * \return a reference to os.
+ */
 HOU_SYS_API std::ostream& operator<<(
   std::ostream& os, display_format_packed_layout f);
 

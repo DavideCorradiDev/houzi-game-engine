@@ -19,56 +19,65 @@
 namespace hou
 {
 
-/** Class representing a display mode.
+/**
+ * Represents a display mode: resolution, format, and refresh rate.
  */
 class HOU_SYS_API display_mode
 {
 public:
-  /** Creates display_mode object with all fields initialized to zero.
+  /**
+   * Creates a display_mode object with all fields initialized to zero.
    */
   display_mode();
 
-  /** Creates a display_mode object.
+  /**
+   * Creates a display_mode object.
    *
    * \param size the size.
    *
-   * \param f the pixel format.
+   * \param df the display format.
    *
    * \param refres_rate the refresh_rate.
    */
-  display_mode(const vec2u& size, display_format f, uint refresh_rate) noexcept;
+  display_mode(const vec2u& size, display_format df, uint refresh_rate) noexcept;
 
-  /** Retrieves the size.
+  /**
+   * Gets the size.
    *
    * \return the size.
    */
   const vec2u& get_size() const noexcept;
 
-  /** Sets the size.
+  /**
+   * Sets the size.
    *
    * \param size the size.
    */
   void set_size(const vec2u& size) noexcept;
 
-  /** Gets the pixel format.
+  /**
+   * Gets the pixel format.
    *
    * \return the pixel format.
    */
   display_format get_format() const noexcept;
 
-  /** Sets the pixel format.
+  /**
+   * Sets the pixel format.
    *
-   * \param f the pixel format.
+   * \param df the pixel format.
    */
-  void set_format(display_format f) noexcept;
+  void set_format(display_format df) noexcept;
 
-  /** Retrieves the refresh rate in Hz.
+  /**
+   * Gets the refresh rate in Hz.
    *
    * \return the refresh rate in Hz.
    */
   uint get_refresh_rate() const noexcept;
 
-  /** Sets the refresh rate in Hz.
+  /**
+   * Sets the refresh rate in Hz.
    *
    * \param refresh_rate the refresh rate in Hz.
    */
@@ -80,7 +89,8 @@ private:
   uint m_refresh_rate;
 };
 
-/** Checks if two display_mode objects are equal.
+/**
+ * Checks if two display_mode objects are equal.
  *
  * \param lhs the left operand.
  *
@@ -91,7 +101,8 @@ private:
 HOU_SYS_API bool operator==(
   const display_mode& lhs, const display_mode& rhs) noexcept;
 
-/** Checks if two display_mode objects are not equal.
+/**
+ * Checks if two display_mode objects are not equal.
  *
  * \param lhs the left operand.
  *
@@ -102,7 +113,8 @@ HOU_SYS_API bool operator==(
 HOU_SYS_API bool operator!=(
   const display_mode& lhs, const display_mode& rhs) noexcept;
 
-/** Checks if lhs is lower than rhs.
+/**
+ * Checks if lhs is lower than rhs.
  *
  * \param lhs the left operand.
  *
@@ -113,7 +125,8 @@ HOU_SYS_API bool operator!=(
 HOU_SYS_API bool operator<(
   const display_mode& lhs, const display_mode& rhs) noexcept;
 
-/** Checks if lhs is greater than rhs.
+/**
+ * Checks if lhs is greater than rhs.
  *
  * \param lhs the left operand.
  *
@@ -124,7 +137,8 @@ HOU_SYS_API bool operator<(
 HOU_SYS_API bool operator>(
   const display_mode& lhs, const display_mode& rhs) noexcept;
 
-/** Checks if lhs is lower or equal to rhs.
+/**
+ * Checks if lhs is lower or equal to rhs.
  *
  * \param lhs the left operand.
  *
@@ -135,7 +149,8 @@ HOU_SYS_API bool operator>(
 HOU_SYS_API bool operator<=(
   const display_mode& lhs, const display_mode& rhs) noexcept;
 
-/** Checks if lhs is greater or equal to rhs.
+/**
+ * Checks if lhs is greater or equal to rhs.
  *
  * \param lhs the left operand.
  *
@@ -146,7 +161,8 @@ HOU_SYS_API bool operator<=(
 HOU_SYS_API bool operator>=(
   const display_mode& lhs, const display_mode& rhs) noexcept;
 
-/** Writes a display_mode object into a stream.
+/**
+ * Writes a display_mode object into a stream.
  *
  * \param os the stream.
  *
@@ -161,8 +177,23 @@ HOU_SYS_API std::ostream& operator<<(std::ostream& os, const display_mode& vm);
 namespace prv
 {
 
-HOU_SYS_API display_mode convert(const SDL_DisplayMode& mode_in);
-HOU_SYS_API SDL_DisplayMode convert(const display_mode& mode_in);
+/**
+ * Converts an SDL_DisplayMode object into a display_mode object.
+ *
+ * \param mode_in the input object.
+ *
+ * \return the converted object.
+ */
+display_mode convert(const SDL_DisplayMode& mode_in);
+
+/**
+ * Converts ad display_mode object into an SDL_DisplayMode object.
+ *
+ * \param mode_in the input object.
+ *
+ * \return the converted object.
+ */
+SDL_DisplayMode convert(const display_mode& mode_in);
 
 }  // namespace prv
 

@@ -49,9 +49,9 @@ display_mode::display_mode()
 
 
 display_mode::display_mode(
-  const vec2u& size, display_format f, uint refresh_rate) noexcept
+  const vec2u& size, display_format df, uint refresh_rate) noexcept
   : m_size(size)
-  , m_format(f)
+  , m_format(df)
   , m_refresh_rate(refresh_rate)
 {}
 
@@ -78,9 +78,9 @@ display_format display_mode::get_format() const noexcept
 
 
 
-void display_mode::set_format(display_format f) noexcept
+void display_mode::set_format(display_format df) noexcept
 {
-  m_format = f;
+  m_format = df;
 }
 
 

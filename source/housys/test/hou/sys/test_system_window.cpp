@@ -256,6 +256,26 @@ TEST_F(test_system_window, max_size_auto_resizing)
 
 
 
+TEST_F(test_system_window, incompatible_max_size)
+{
+  system_window w(u8"TestWindow", vec2u(32u, 64u));
+
+  w.set_min_size(vec2u(16u, 16u));
+  EXPECT_PRECOND_ERROR(w.set_max_size(vec2u(8u, 8u)));
+}
+
+
+
+TEST_F(test_system_window, incompatible_min_size)
+{
+  system_window w(u8"TestWindow", vec2u(32u, 64u));
+
+  w.set_max_size(vec2u(8u, 8u));
+  EXPECT_PRECOND_ERROR(w.set_min_size(vec2u(16u, 16u)));
+}
+
+
+
 TEST_F(test_system_window, position)
 {
   system_window w(u8"TestWindow", vec2u(16u, 8u));

@@ -21,6 +21,9 @@
 namespace hou
 {
 
+/**
+ * Contains functions related to displays.
+ */
 namespace display
 {
 

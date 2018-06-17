@@ -247,6 +247,8 @@ vec2u window::get_min_size() const
 
 void window::set_min_size(const vec2u& min_size)
 {
+  HOU_PRECOND(
+    min_size.x() <= get_max_size().x() && min_size.y() <= get_max_size().x());
   SDL_SetWindowMinimumSize(
     m_impl, narrow_cast<int>(min_size.x()), narrow_cast<int>(min_size.y()));
 }
@@ -263,10 +265,12 @@ vec2u window::get_max_size() const
 
 
 
-void window::set_max_size(const vec2u& min_size)
+void window::set_max_size(const vec2u& max_size)
 {
+  HOU_PRECOND(
+    max_size.x() >= get_min_size().x() && max_size.y() >= get_min_size().x());
   SDL_SetWindowMaximumSize(
-    m_impl, narrow_cast<int>(min_size.x()), narrow_cast<int>(min_size.y()));
+    m_impl, narrow_cast<int>(max_size.x()), narrow_cast<int>(max_size.y()));
 }
 
 
