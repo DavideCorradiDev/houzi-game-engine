@@ -14,19 +14,14 @@
 namespace hou
 {
 
-namespace display
-{
-
-class mode;
-
-}  // namespace display
+class display_mode;
 
 namespace prv
 {
 
-display::mode convert(const SDL_DisplayMode& mode_in);
+display_mode convert(const SDL_DisplayMode& mode_in);
 
-SDL_DisplayMode convert(const display::mode& mode_in);
+SDL_DisplayMode convert(const display_mode& mode_in);
 
 }  // namespace prv
 

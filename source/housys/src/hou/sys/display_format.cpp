@@ -10,27 +10,27 @@
 #include "hou/cor/narrow_cast.hpp"
 
 #define DISPLAY_FORMAT_CASE(df, os)                                            \
-  case format::df:                                                             \
+  case display_format::df:                                                     \
     return (os) << #df
 
 #define DISPLAY_FORMAT_TYPE_CASE(dft, os)                                      \
-  case format_type::dft:                                                       \
+  case display_format_type::dft:                                               \
     return (os) << #dft
 
 #define DISPLAY_FORMAT_BITMAP_ORDER_CASE(dfo, os)                              \
-  case format_bitmap_order::dfo:                                               \
+  case display_format_bitmap_order::dfo:                                       \
     return (os) << #dfo
 
 #define DISPLAY_FORMAT_PACKED_ORDER_CASE(dfo, os)                              \
-  case format_packed_order::dfo:                                               \
+  case display_format_packed_order::dfo:                                       \
     return (os) << #dfo
 
 #define DISPLAY_FORMAT_ARRAY_ORDER_CASE(dfo, os)                               \
-  case format_array_order::dfo:                                                \
+  case display_format_array_order::dfo:                                        \
     return (os) << #dfo
 
 #define DISPLAY_FORMAT_PACKED_LAYOUT_CASE(dfl, os)                             \
-  case format_packed_layout::dfl:                                              \
+  case display_format_packed_layout::dfl:                                      \
     return (os) << #dfl
 
 
@@ -38,162 +38,159 @@
 namespace hou
 {
 
-namespace display
+uint get_bits_per_pixel(display_format f)
 {
-
-uint get_bits_per_pixel(format f)
-{
-  return narrow_cast<uint>(
-    SDL_BITSPERPIXEL(static_cast<std::underlying_type<format>::type>(f)));
+  return narrow_cast<uint>(SDL_BITSPERPIXEL(
+    static_cast<std::underlying_type<display_format>::type>(f)));
 }
 
 
 
-uint get_bytes_per_pixel(format f)
+uint get_bytes_per_pixel(display_format f)
 {
-  return narrow_cast<uint>(
-    SDL_BYTESPERPIXEL(static_cast<std::underlying_type<format>::type>(f)));
+  return narrow_cast<uint>(SDL_BYTESPERPIXEL(
+    static_cast<std::underlying_type<display_format>::type>(f)));
 }
 
 
 
-format_type get_type(format f)
+display_format_type get_type(display_format f)
 {
-  return format_type(
-    SDL_PIXELTYPE(static_cast<std::underlying_type<format>::type>(f)));
+  return display_format_type(
+    SDL_PIXELTYPE(static_cast<std::underlying_type<display_format>::type>(f)));
 }
 
 
 
-format_bitmap_order get_bitmap_order(format f)
+display_format_bitmap_order get_bitmap_order(display_format f)
 {
   switch(get_type(f))
   {
-    case format_type::index1:
-    case format_type::index4:
-    case format_type::index8:
-      return format_bitmap_order(
-        SDL_PIXELORDER(static_cast<std::underlying_type<format>::type>(f)));
-    case format_type::packed8:
-    case format_type::packed16:
-    case format_type::packed32:
-    case format_type::arrayu8:
-    case format_type::arrayu16:
-    case format_type::arrayu32:
-    case format_type::arrayf16:
-    case format_type::arrayf32:
-    case format_type::unknown:
-      return format_bitmap_order::none;
+    case display_format_type::index1:
+    case display_format_type::index4:
+    case display_format_type::index8:
+      return display_format_bitmap_order(SDL_PIXELORDER(
+        static_cast<std::underlying_type<display_format>::type>(f)));
+    case display_format_type::packed8:
+    case display_format_type::packed16:
+    case display_format_type::packed32:
+    case display_format_type::arrayu8:
+    case display_format_type::arrayu16:
+    case display_format_type::arrayu32:
+    case display_format_type::arrayf16:
+    case display_format_type::arrayf32:
+    case display_format_type::unknown:
+      return display_format_bitmap_order::none;
   }
   HOU_UNREACHABLE();
-  return format_bitmap_order::none;
+  return display_format_bitmap_order::none;
 }
 
 
 
-format_packed_order get_packed_order(format f)
+display_format_packed_order get_packed_order(display_format f)
 {
   switch(get_type(f))
   {
-    case format_type::packed8:
-    case format_type::packed16:
-    case format_type::packed32:
-      return format_packed_order(
-        SDL_PIXELORDER(static_cast<std::underlying_type<format>::type>(f)));
-    case format_type::index1:
-    case format_type::index4:
-    case format_type::index8:
-    case format_type::arrayu8:
-    case format_type::arrayu16:
-    case format_type::arrayu32:
-    case format_type::arrayf16:
-    case format_type::arrayf32:
-    case format_type::unknown:
-      return format_packed_order::none;
+    case display_format_type::packed8:
+    case display_format_type::packed16:
+    case display_format_type::packed32:
+      return display_format_packed_order(SDL_PIXELORDER(
+        static_cast<std::underlying_type<display_format>::type>(f)));
+    case display_format_type::index1:
+    case display_format_type::index4:
+    case display_format_type::index8:
+    case display_format_type::arrayu8:
+    case display_format_type::arrayu16:
+    case display_format_type::arrayu32:
+    case display_format_type::arrayf16:
+    case display_format_type::arrayf32:
+    case display_format_type::unknown:
+      return display_format_packed_order::none;
   }
   HOU_UNREACHABLE();
-  return format_packed_order::none;
+  return display_format_packed_order::none;
 }
 
 
 
-format_array_order get_array_order(format f)
+display_format_array_order get_array_order(display_format f)
 {
   switch(get_type(f))
   {
-    case format_type::arrayu8:
-    case format_type::arrayu16:
-    case format_type::arrayu32:
-    case format_type::arrayf16:
-    case format_type::arrayf32:
-      return format_array_order(
-        SDL_PIXELORDER(static_cast<std::underlying_type<format>::type>(f)));
-    case format_type::index1:
-    case format_type::index4:
-    case format_type::index8:
-    case format_type::packed8:
-    case format_type::packed16:
-    case format_type::packed32:
-    case format_type::unknown:
-      return format_array_order::none;
+    case display_format_type::arrayu8:
+    case display_format_type::arrayu16:
+    case display_format_type::arrayu32:
+    case display_format_type::arrayf16:
+    case display_format_type::arrayf32:
+      return display_format_array_order(SDL_PIXELORDER(
+        static_cast<std::underlying_type<display_format>::type>(f)));
+    case display_format_type::index1:
+    case display_format_type::index4:
+    case display_format_type::index8:
+    case display_format_type::packed8:
+    case display_format_type::packed16:
+    case display_format_type::packed32:
+    case display_format_type::unknown:
+      return display_format_array_order::none;
   }
   HOU_UNREACHABLE();
-  return format_array_order::none;
+  return display_format_array_order::none;
 }
 
 
 
-format_packed_layout get_packed_layout(format f)
+display_format_packed_layout get_packed_layout(display_format f)
 {
   switch(get_type(f))
   {
-    case format_type::packed8:
-    case format_type::packed16:
-    case format_type::packed32:
-      return format_packed_layout(
-        SDL_PIXELLAYOUT(static_cast<std::underlying_type<format>::type>(f)));
-    case format_type::arrayu8:
-    case format_type::arrayu16:
-    case format_type::arrayu32:
-    case format_type::arrayf16:
-    case format_type::arrayf32:
-    case format_type::index1:
-    case format_type::index4:
-    case format_type::index8:
-    case format_type::unknown:
-      return format_packed_layout::none;
+    case display_format_type::packed8:
+    case display_format_type::packed16:
+    case display_format_type::packed32:
+      return display_format_packed_layout(SDL_PIXELLAYOUT(
+        static_cast<std::underlying_type<display_format>::type>(f)));
+    case display_format_type::arrayu8:
+    case display_format_type::arrayu16:
+    case display_format_type::arrayu32:
+    case display_format_type::arrayf16:
+    case display_format_type::arrayf32:
+    case display_format_type::index1:
+    case display_format_type::index4:
+    case display_format_type::index8:
+    case display_format_type::unknown:
+      return display_format_packed_layout::none;
   }
   HOU_UNREACHABLE();
-  return format_packed_layout::none;
+  return display_format_packed_layout::none;
 }
 
 
 
-bool is_indexed(format f)
+bool is_indexed(display_format f)
 {
   return SDL_ISPIXELFORMAT_INDEXED(
-    static_cast<std::underlying_type<format>::type>(f));
+    static_cast<std::underlying_type<display_format>::type>(f));
 }
 
 
 
-bool has_alpha(format f)
+bool has_alpha(display_format f)
 {
   return SDL_ISPIXELFORMAT_ALPHA(
-    static_cast<std::underlying_type<format>::type>(f));
+    static_cast<std::underlying_type<display_format>::type>(f));
 }
 
 
 
-bool is_fourcc(format f)
+bool is_fourcc(display_format f)
 {
   return SDL_ISPIXELFORMAT_FOURCC(
-    static_cast<std::underlying_type<format>::type>(f));
+    static_cast<std::underlying_type<display_format>::type>(f));
 }
 
 
 
-std::ostream& operator<<(std::ostream& os, format f)
+std::ostream& operator<<(std::ostream& os, display_format f)
 {
   switch(f)
   {
@@ -241,7 +238,7 @@ std::ostream& operator<<(std::ostream& os, format f)
 
 
 
-std::ostream& operator<<(std::ostream& os, format_type f)
+std::ostream& operator<<(std::ostream& os, display_format_type f)
 {
   switch(f)
   {
@@ -263,7 +260,7 @@ std::ostream& operator<<(std::ostream& os, format_type f)
 
 
 
-std::ostream& operator<<(std::ostream& os, format_bitmap_order f)
+std::ostream& operator<<(std::ostream& os, display_format_bitmap_order f)
 {
   switch(f)
   {
@@ -275,7 +272,7 @@ std::ostream& operator<<(std::ostream& os, format_bitmap_order f)
 }
 
 
-std::ostream& operator<<(std::ostream& os, format_packed_order f)
+std::ostream& operator<<(std::ostream& os, display_format_packed_order f)
 {
   switch(f)
   {
@@ -294,7 +291,7 @@ std::ostream& operator<<(std::ostream& os, format_packed_order f)
 
 
 
-std::ostream& operator<<(std::ostream& os, format_array_order f)
+std::ostream& operator<<(std::ostream& os, display_format_array_order f)
 {
   switch(f)
   {
@@ -311,7 +308,7 @@ std::ostream& operator<<(std::ostream& os, format_array_order f)
 
 
 
-std::ostream& operator<<(std::ostream& os, format_packed_layout f)
+std::ostream& operator<<(std::ostream& os, display_format_packed_layout f)
 {
   switch(f)
   {
@@ -327,7 +324,5 @@ std::ostream& operator<<(std::ostream& os, format_packed_layout f)
   }
   return os << "unknown(" << static_cast<int>(f) << ")";
 }
-
-}  // namespace display
 
 }  // namespace hou

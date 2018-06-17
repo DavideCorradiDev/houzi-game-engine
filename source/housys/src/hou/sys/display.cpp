@@ -56,35 +56,36 @@ recti get_usable_bounds(uint display_idx)
 
 
 
-mode get_current_mode(uint display_idx)
+display_mode get_current_mode(uint display_idx)
 {
-  SDL_DisplayMode mode;
-  HOU_SDL_CHECK(SDL_GetCurrentDisplayMode(display_idx, &mode) == 0);
-  return prv::convert(mode);
+  SDL_DisplayMode dm;
+  HOU_SDL_CHECK(SDL_GetCurrentDisplayMode(display_idx, &dm) == 0);
+  return prv::convert(dm);
 }
 
 
 
-std::set<mode> get_supported_modes(uint display_idx)
+std::set<display_mode> get_supported_modes(uint display_idx)
 {
   int count = SDL_GetNumDisplayModes(display_idx);
   HOU_SDL_CHECK(count >= 1);
 
-  std::set<mode> modes;
+  std::set<display_mode> modes;
   for(int i = 0; i < count; ++i)
   {
-    SDL_DisplayMode mode;
-    HOU_SDL_CHECK(SDL_GetDisplayMode(display_idx, i, &mode) == 0);
-    modes.insert(prv::convert(mode));
+    SDL_DisplayMode dm;
+    HOU_SDL_CHECK(SDL_GetDisplayMode(display_idx, i, &dm) == 0);
+    modes.insert(prv::convert(dm));
   }
   return modes;
 }
 
 
 
-mode get_closest_supported_mode(uint display_idx, const mode& mode_in)
+display_mode get_closest_supported_mode(
+  uint display_idx, const display_mode& dm)
 {
-  SDL_DisplayMode sdl_mode_in = prv::convert(mode_in);
+  SDL_DisplayMode sdl_mode_in = prv::convert(dm);
   SDL_DisplayMode mode_out;
   HOU_SDL_CHECK(
     SDL_GetClosestDisplayMode(display_idx, &sdl_mode_in, &mode_out) != nullptr);

@@ -19,19 +19,16 @@
 namespace hou
 {
 
-namespace display
-{
-
 /** Class representing a display mode.
  */
-class HOU_SYS_API mode
+class HOU_SYS_API display_mode
 {
 public:
-  /** Creates mode object with all fields initialized to zero.
+  /** Creates display_mode object with all fields initialized to zero.
    */
-  mode();
+  display_mode();
 
-  /** Creates a mode object.
+  /** Creates a display_mode object.
    *
    * \param size the size.
    *
@@ -39,7 +36,7 @@ public:
    *
    * \param refres_rate the refresh_rate.
    */
-  mode(const vec2u& size, const format& f, uint refresh_rate) noexcept;
+  display_mode(const vec2u& size, display_format f, uint refresh_rate) noexcept;
 
   /** Retrieves the size.
    *
@@ -57,13 +54,13 @@ public:
    *
    * \return the pixel format.
    */
-  const format& get_format() const noexcept;
+  display_format get_format() const noexcept;
 
   /** Sets the pixel format.
    *
    * \param f the pixel format.
    */
-  void set_format(const format& f) noexcept;
+  void set_format(display_format f) noexcept;
 
   /** Retrieves the refresh rate in Hz.
    *
@@ -79,11 +76,11 @@ public:
 
 private:
   vec2u m_size;
-  format m_format;
+  display_format m_format;
   uint m_refresh_rate;
 };
 
-/** Checks if two mode objects are equal.
+/** Checks if two display_mode objects are equal.
  *
  * \param lhs the left operand.
  *
@@ -91,9 +88,10 @@ private:
  *
  * \return the result of the check.
  */
-HOU_SYS_API bool operator==(const mode& lhs, const mode& rhs) noexcept;
+HOU_SYS_API bool operator==(
+  const display_mode& lhs, const display_mode& rhs) noexcept;
 
-/** Checks if two mode objects are not equal.
+/** Checks if two display_mode objects are not equal.
  *
  * \param lhs the left operand.
  *
@@ -101,7 +99,8 @@ HOU_SYS_API bool operator==(const mode& lhs, const mode& rhs) noexcept;
  *
  * \return the result of the check.
  */
-HOU_SYS_API bool operator!=(const mode& lhs, const mode& rhs) noexcept;
+HOU_SYS_API bool operator!=(
+  const display_mode& lhs, const display_mode& rhs) noexcept;
 
 /** Checks if lhs is lower than rhs.
  *
@@ -111,7 +110,8 @@ HOU_SYS_API bool operator!=(const mode& lhs, const mode& rhs) noexcept;
  *
  * \return the result of the check.
  */
-HOU_SYS_API bool operator<(const mode& lhs, const mode& rhs) noexcept;
+HOU_SYS_API bool operator<(
+  const display_mode& lhs, const display_mode& rhs) noexcept;
 
 /** Checks if lhs is greater than rhs.
  *
@@ -121,7 +121,8 @@ HOU_SYS_API bool operator<(const mode& lhs, const mode& rhs) noexcept;
  *
  * \return the result of the check.
  */
-HOU_SYS_API bool operator>(const mode& lhs, const mode& rhs) noexcept;
+HOU_SYS_API bool operator>(
+  const display_mode& lhs, const display_mode& rhs) noexcept;
 
 /** Checks if lhs is lower or equal to rhs.
  *
@@ -131,7 +132,8 @@ HOU_SYS_API bool operator>(const mode& lhs, const mode& rhs) noexcept;
  *
  * \return the result of the check.
  */
-HOU_SYS_API bool operator<=(const mode& lhs, const mode& rhs) noexcept;
+HOU_SYS_API bool operator<=(
+  const display_mode& lhs, const display_mode& rhs) noexcept;
 
 /** Checks if lhs is greater or equal to rhs.
  *
@@ -141,19 +143,18 @@ HOU_SYS_API bool operator<=(const mode& lhs, const mode& rhs) noexcept;
  *
  * \return the result of the check.
  */
-HOU_SYS_API bool operator>=(const mode& lhs, const mode& rhs) noexcept;
+HOU_SYS_API bool operator>=(
+  const display_mode& lhs, const display_mode& rhs) noexcept;
 
-/** Writes a mode object into a stream.
+/** Writes a display_mode object into a stream.
  *
  * \param os the stream.
  *
- * \param vm the mode object.
+ * \param vm the display_mode object.
  *
  * \return a reference to the stream.
  */
-HOU_SYS_API std::ostream& operator<<(std::ostream& os, const mode& vm);
-
-}  // namespace display
+HOU_SYS_API std::ostream& operator<<(std::ostream& os, const display_mode& vm);
 
 }  // namespace hou
 

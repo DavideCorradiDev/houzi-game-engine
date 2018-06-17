@@ -18,7 +18,7 @@ enum class window_mode
 {
   /** Windowed mode. */
   windowed,
-  /** Fullscreen mode. setting a new display mode. */
+  /** Fullscreen mode, adapting the display mode to that set for the window. */
   fullscreen,
   /** Fullscreen mode, without changing the display mode. */
   desktop_fullscreen,

@@ -120,7 +120,7 @@ uint window::get_display_index() const
 
 
 
-display::mode window::get_display_mode() const
+display_mode window::get_display_mode() const
 {
   SDL_DisplayMode sdl_mode;
   HOU_SDL_CHECK(SDL_GetWindowDisplayMode(m_impl, &sdl_mode) == 0);
@@ -129,7 +129,7 @@ display::mode window::get_display_mode() const
 
 
 
-void window::set_display_mode(const display::mode& mode)
+void window::set_display_mode(const display_mode& mode)
 {
   SDL_DisplayMode sdl_mode = prv::convert(mode);
   HOU_SDL_CHECK(SDL_SetWindowDisplayMode(m_impl, &sdl_mode) == 0);

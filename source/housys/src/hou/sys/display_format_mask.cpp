@@ -17,10 +17,7 @@
 namespace hou
 {
 
-namespace display
-{
-
-format_mask::format_mask(format f)
+display_format_mask::display_format_mask(display_format f)
   : m_bpp(0u)
   , m_red_bit_mask(0u)
   , m_green_bit_mask(0u)
@@ -28,7 +25,7 @@ format_mask::format_mask(format f)
   , m_alpha_bit_mask(0u)
 {
   HOU_CHECK_N(SDL_PixelFormatEnumToMasks(
-                static_cast<std::underlying_type<format>::type>(f),
+                static_cast<std::underlying_type<display_format>::type>(f),
                 reinterpret_cast<int*>(&m_bpp), &m_red_bit_mask,
                 &m_green_bit_mask, &m_blue_bit_mask, &m_alpha_bit_mask)
       == SDL_TRUE,
@@ -37,50 +34,51 @@ format_mask::format_mask(format f)
 
 
 
-format format_mask::get_format() const
+display_format display_format_mask::get_format() const
 {
-  return format(SDL_MasksToPixelFormatEnum(narrow_cast<int>(m_bpp),
+  return display_format(SDL_MasksToPixelFormatEnum(narrow_cast<int>(m_bpp),
     m_red_bit_mask, m_green_bit_mask, m_blue_bit_mask, m_alpha_bit_mask));
 }
 
 
 
-uint format_mask::get_bpp() const noexcept
+uint display_format_mask::get_bpp() const noexcept
 {
   return m_bpp;
 }
 
 
 
-uint32_t format_mask::get_red_bit_mask() const noexcept
+uint32_t display_format_mask::get_red_bit_mask() const noexcept
 {
   return m_red_bit_mask;
 }
 
 
 
-uint32_t format_mask::get_green_bit_mask() const noexcept
+uint32_t display_format_mask::get_green_bit_mask() const noexcept
 {
   return m_green_bit_mask;
 }
 
 
 
-uint32_t format_mask::get_blue_bit_mask() const noexcept
+uint32_t display_format_mask::get_blue_bit_mask() const noexcept
 {
   return m_blue_bit_mask;
 }
 
 
 
-uint32_t format_mask::get_alpha_bit_mask() const noexcept
+uint32_t display_format_mask::get_alpha_bit_mask() const noexcept
 {
   return m_alpha_bit_mask;
 }
 
 
 
-bool operator==(const format_mask& lhs, const format_mask& rhs) noexcept
+bool operator==(
+  const display_format_mask& lhs, const display_format_mask& rhs) noexcept
 {
   return lhs.get_bpp() == rhs.get_bpp()
     && lhs.get_red_bit_mask() == rhs.get_red_bit_mask()
@@ -91,14 +89,15 @@ bool operator==(const format_mask& lhs, const format_mask& rhs) noexcept
 
 
 
-bool operator!=(const format_mask& lhs, const format_mask& rhs) noexcept
+bool operator!=(
+  const display_format_mask& lhs, const display_format_mask& rhs) noexcept
 {
   return !(lhs == rhs);
 }
 
 
 
-std::ostream& operator<<(std::ostream& os, const format_mask& pf)
+std::ostream& operator<<(std::ostream& os, const display_format_mask& pf)
 {
   ios_formatting_saver<std::ostream> saver(os);
   os << std::showbase << std::internal << std::setfill('0');
@@ -116,7 +115,5 @@ std::ostream& operator<<(std::ostream& os, const format_mask& pf)
             << "}";
   // clang-format on
 }
-
-}  // namespace display
 
 }  // namespace hou

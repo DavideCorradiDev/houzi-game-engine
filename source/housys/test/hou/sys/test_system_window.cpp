@@ -37,10 +37,10 @@ TEST_F(test_system_window, creation)
   EXPECT_NE(0u, w.get_uid());
 
   EXPECT_LT(w.get_display_index(), display::get_count());
-  display::mode curr_mode = display::get_current_mode(w.get_display_index());
-  display::mode w_mode
+  display_mode curr_mode = display::get_current_mode(w.get_display_index());
+  display_mode w_mode
     = display::get_closest_supported_mode(w.get_display_index(),
-      display::mode(
+      display_mode(
         w.get_size(), curr_mode.get_format(), curr_mode.get_refresh_rate()));
   EXPECT_EQ(w_mode, w.get_display_mode());
   EXPECT_EQ(window_mode::windowed, w.get_mode());
@@ -84,15 +84,15 @@ TEST_F(test_system_window, display_mode)
 {
   system_window w(u8"TestWindow", vec2u(32u, 64u));
 
-  display::mode curr_mode = display::get_current_mode(w.get_display_index());
-  display::mode default_mode
+  display_mode curr_mode = display::get_current_mode(w.get_display_index());
+  display_mode default_mode
     = display::get_closest_supported_mode(w.get_display_index(),
-      display::mode(
+      display_mode(
         w.get_size(), curr_mode.get_format(), curr_mode.get_refresh_rate()));
 
   EXPECT_EQ(default_mode, w.get_display_mode());
 
-  display::mode custom_mode(vec2u(64u, 128u), display::format::unknown, 30u);
+  display_mode custom_mode(vec2u(64u, 128u), display_format::unknown, 30u);
   w.set_display_mode(custom_mode);
   EXPECT_EQ(
     display::get_closest_supported_mode(w.get_display_index(), custom_mode),
@@ -108,19 +108,19 @@ TEST_F(test_system_window, default_display_mode_change_on_resize)
 {
   system_window w(u8"TestWindow", vec2u(32u, 64u));
 
-  display::mode curr_mode = display::get_current_mode(w.get_display_index());
+  display_mode curr_mode = display::get_current_mode(w.get_display_index());
 
-  display::mode default_mode
+  display_mode default_mode
     = display::get_closest_supported_mode(w.get_display_index(),
-      display::mode(
+      display_mode(
         w.get_size(), curr_mode.get_format(), curr_mode.get_refresh_rate()));
 
   EXPECT_EQ(default_mode, w.get_display_mode());
 
   w.set_size(vec2u(800u, 600u));
-  display::mode new_mode
+  display_mode new_mode
     = display::get_closest_supported_mode(w.get_display_index(),
-      display::mode(
+      display_mode(
         w.get_size(), curr_mode.get_format(), curr_mode.get_refresh_rate()));
 
   EXPECT_NE(default_mode, new_mode);

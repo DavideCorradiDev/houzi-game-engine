@@ -25,12 +25,7 @@ struct SDL_Window;
 namespace hou
 {
 
-namespace display
-{
-
-class mode;
-
-}
+class display_mode;
 
 namespace event
 {
@@ -40,7 +35,7 @@ namespace prv
 
 void process(const SDL_Event&);
 
-}  //namespace prv
+}  // namespace prv
 
 }  // namespace event
 
@@ -70,8 +65,8 @@ public:
 
   uint get_display_index() const;
 
-  display::mode get_display_mode() const;
-  void set_display_mode(const display::mode& mode);
+  display_mode get_display_mode() const;
+  void set_display_mode(const display_mode& mode);
   void set_default_display_mode();
 
   window_mode get_mode() const;
@@ -141,7 +136,8 @@ private:
   friend void ::hou::event::prv::process(const SDL_Event&);
 
 private:
-  // Called when set_size is called or when an external resize event is processed.
+  // Called when set_size is called or when an external resize event is
+  // processed.
   virtual void on_size_change(const vec2u& size);
 
 private:

@@ -16,15 +16,12 @@
 namespace hou
 {
 
-namespace display
-{
-
-class HOU_SYS_API format_mask
+class HOU_SYS_API display_format_mask
 {
 public:
-  explicit format_mask(format f);
+  explicit display_format_mask(display_format f);
 
-  format get_format() const;
+  display_format get_format() const;
 
   uint get_bpp() const noexcept;
 
@@ -45,22 +42,21 @@ private:
 };
 
 HOU_SYS_API bool operator==(
-  const format_mask& lhs, const format_mask& rhs) noexcept;
+  const display_format_mask& lhs, const display_format_mask& rhs) noexcept;
 
 HOU_SYS_API bool operator!=(
-  const format_mask& lhs, const format_mask& rhs) noexcept;
+  const display_format_mask& lhs, const display_format_mask& rhs) noexcept;
 
-/** Writes a format_mask object into a stream.
+/** Writes a display_format_mask object into a stream.
  *
  * \param os the stream.
  *
- * \param fm the format_mask object.
+ * \param fm the display_format_mask object.
  *
  * \return a reference to the stream.
  */
-HOU_SYS_API std::ostream& operator<<(std::ostream& os, const format_mask& fm);
-
-}  // namespace display
+HOU_SYS_API std::ostream& operator<<(
+  std::ostream& os, const display_format_mask& fm);
 
 }  // namespace hou
 

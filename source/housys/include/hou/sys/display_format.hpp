@@ -16,10 +16,7 @@
 namespace hou
 {
 
-namespace display
-{
-
-enum class format : Uint32
+enum class display_format : Uint32
 {
   unknown = SDL_PIXELFORMAT_UNKNOWN,
   index1lsb = SDL_PIXELFORMAT_INDEX1LSB,
@@ -61,7 +58,7 @@ enum class format : Uint32
   nv21 = SDL_PIXELFORMAT_NV21,
 };
 
-enum class format_type : Uint32
+enum class display_format_type : Uint32
 {
   unknown = SDL_PIXELTYPE_UNKNOWN,
   index1 = SDL_PIXELTYPE_INDEX1,
@@ -77,14 +74,14 @@ enum class format_type : Uint32
   arrayf32 = SDL_PIXELTYPE_ARRAYF32,
 };
 
-enum class format_bitmap_order : Uint32
+enum class display_format_bitmap_order : Uint32
 {
   none = SDL_BITMAPORDER_NONE,
   ev4321 = SDL_BITMAPORDER_4321,
   ev1234 = SDL_BITMAPORDER_1234,
 };
 
-enum class format_packed_order : Uint32
+enum class display_format_packed_order : Uint32
 {
   none = SDL_PACKEDORDER_NONE,
   xrgb = SDL_PACKEDORDER_XRGB,
@@ -97,7 +94,7 @@ enum class format_packed_order : Uint32
   bgra = SDL_PACKEDORDER_BGRA,
 };
 
-enum class format_array_order : Uint32
+enum class display_format_array_order : Uint32
 {
   none = SDL_ARRAYORDER_NONE,
   rgb = SDL_ARRAYORDER_RGB,
@@ -108,7 +105,7 @@ enum class format_array_order : Uint32
   abgr = SDL_ARRAYORDER_ABGR,
 };
 
-enum class format_packed_layout : Uint32
+enum class display_format_packed_layout : Uint32
 {
   none = SDL_PACKEDLAYOUT_NONE,
   ev332 = SDL_PACKEDLAYOUT_332,
@@ -121,25 +118,27 @@ enum class format_packed_layout : Uint32
   ev1010102 = SDL_PACKEDLAYOUT_1010102,
 };
 
-HOU_SYS_API uint get_bits_per_pixel(format f);
-HOU_SYS_API uint get_bytes_per_pixel(format f);
-HOU_SYS_API format_type get_type(format f);
-HOU_SYS_API format_bitmap_order get_bitmap_order(format f);
-HOU_SYS_API format_packed_order get_packed_order(format f);
-HOU_SYS_API format_array_order get_array_order(format f);
-HOU_SYS_API format_packed_layout get_packed_layout(format f);
-HOU_SYS_API bool is_indexed(format f);
-HOU_SYS_API bool has_alpha(format f);
-HOU_SYS_API bool is_fourcc(format f);
+HOU_SYS_API uint get_bits_per_pixel(display_format f);
+HOU_SYS_API uint get_bytes_per_pixel(display_format f);
+HOU_SYS_API display_format_type get_type(display_format f);
+HOU_SYS_API display_format_bitmap_order get_bitmap_order(display_format f);
+HOU_SYS_API display_format_packed_order get_packed_order(display_format f);
+HOU_SYS_API display_format_array_order get_array_order(display_format f);
+HOU_SYS_API display_format_packed_layout get_packed_layout(display_format f);
+HOU_SYS_API bool is_indexed(display_format f);
+HOU_SYS_API bool has_alpha(display_format f);
+HOU_SYS_API bool is_fourcc(display_format f);
 
-HOU_SYS_API std::ostream& operator<<(std::ostream& os, format f);
-HOU_SYS_API std::ostream& operator<<(std::ostream& os, format_type f);
-HOU_SYS_API std::ostream& operator<<(std::ostream& os, format_bitmap_order f);
-HOU_SYS_API std::ostream& operator<<(std::ostream& os, format_packed_order f);
-HOU_SYS_API std::ostream& operator<<(std::ostream& os, format_array_order f);
-HOU_SYS_API std::ostream& operator<<(std::ostream& os, format_packed_layout f);
-
-}  // namespace display
+HOU_SYS_API std::ostream& operator<<(std::ostream& os, display_format f);
+HOU_SYS_API std::ostream& operator<<(std::ostream& os, display_format_type f);
+HOU_SYS_API std::ostream& operator<<(
+  std::ostream& os, display_format_bitmap_order f);
+HOU_SYS_API std::ostream& operator<<(
+  std::ostream& os, display_format_packed_order f);
+HOU_SYS_API std::ostream& operator<<(
+  std::ostream& os, display_format_array_order f);
+HOU_SYS_API std::ostream& operator<<(
+  std::ostream& os, display_format_packed_layout f);
 
 }  // namespace hou
 

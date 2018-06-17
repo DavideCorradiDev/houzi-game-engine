@@ -117,7 +117,7 @@ TEST_F(test_display, get_current_mode)
 {
   for(uint i = 0u; i < display::get_count(); ++i)
   {
-    EXPECT_NE(display::mode(), display::get_current_mode(i));
+    EXPECT_NE(display_mode(), display::get_current_mode(i));
   }
 }
 
@@ -138,10 +138,10 @@ TEST_F(test_display, get_supported_modes)
 {
   for(uint i = 0u; i < display::get_count(); ++i)
   {
-    std::set<display::mode> modes = display::get_supported_modes(i);
+    std::set<display_mode> modes = display::get_supported_modes(i);
     for(const auto& mode : modes)
     {
-      EXPECT_NE(display::mode(), mode);
+      EXPECT_NE(display_mode(), mode);
     }
   }
 }
@@ -150,10 +150,10 @@ TEST_F(test_display, get_supported_modes)
 
 TEST_F(test_display, get_closest_supported_mode)
 {
-  display::mode invalid_mode(vec2u(33u, 88u), display::format::unknown, 23u);
+  display_mode invalid_mode(vec2u(33u, 88u), display_format::unknown, 23u);
   for(uint i = 0; i < display::get_count(); ++i)
   {
-    display::mode valid_mode
+    display_mode valid_mode
       = display::get_closest_supported_mode(i, invalid_mode);
     EXPECT_THAT(display::get_supported_modes(i), Contains(valid_mode));
   }
