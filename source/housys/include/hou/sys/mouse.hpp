@@ -40,18 +40,18 @@ namespace mouse
 HOU_SYS_API bool set_capture(bool value);
 
 /**
- * Checks if the mouse cursor is hidden.
+ * Checks if the mouse cursor is visible.
  *
- * \return true if the mouse cursor is hidden.
+ * \return true if the mouse cursor is visible.
  */
-HOU_SYS_API bool is_cursor_hidden();
+HOU_SYS_API bool is_cursor_visible();
 
 /**
  * Sets the visibility of the mouse cursor.
  *
  * \param value true to show the mouse cursor, false to hide the mouse cursor.
  */
-HOU_SYS_API void set_cursor_hidden(bool value);
+HOU_SYS_API void set_cursor_visible(bool value);
 
 /**
  * Checks if relative mode active.

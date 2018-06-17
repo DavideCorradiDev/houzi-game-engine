@@ -22,13 +22,13 @@ class test_mouse : public Test
 
 
 
-TEST_F(test_mouse, cursor_hidden)
+TEST_F(test_mouse, cursor_visibility)
 {
-  EXPECT_FALSE(mouse::is_cursor_hidden());
-  mouse::set_cursor_hidden(true);
-  EXPECT_TRUE(mouse::is_cursor_hidden());
-  mouse::set_cursor_hidden(false);
-  EXPECT_FALSE(mouse::is_cursor_hidden());
+  EXPECT_TRUE(mouse::is_cursor_visible());
+  mouse::set_cursor_visible(false);
+  EXPECT_FALSE(mouse::is_cursor_visible());
+  mouse::set_cursor_visible(true);
+  EXPECT_TRUE(mouse::is_cursor_visible());
 }
 
 

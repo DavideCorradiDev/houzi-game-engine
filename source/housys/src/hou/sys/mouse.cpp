@@ -26,16 +26,16 @@ bool set_capture(bool value)
 
 
 
-bool is_cursor_hidden()
+bool is_cursor_visible()
 {
-  return SDL_ShowCursor(SDL_QUERY) == SDL_DISABLE;
+  return SDL_ShowCursor(SDL_QUERY) == SDL_ENABLE;
 }
 
 
 
-void set_cursor_hidden(bool value)
+void set_cursor_visible(bool value)
 {
-  SDL_ShowCursor(value ? SDL_DISABLE : SDL_ENABLE);
+  SDL_ShowCursor(value ? SDL_ENABLE : SDL_DISABLE);
 }
 
 

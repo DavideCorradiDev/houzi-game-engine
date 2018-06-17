@@ -54,8 +54,8 @@ int main(int, char**)
 
     hou::event::process_all();
 
-    hou::mouse::set_cursor_hidden(
-      hou::keyboard::is_key_pressed(hou::scan_code::h));
+    hou::mouse::set_cursor_visible(
+      !hou::keyboard::is_key_pressed(hou::scan_code::h));
     hou::mouse::set_relative_mode(
       hou::keyboard::is_key_pressed(hou::scan_code::r));
     w.set_grab(hou::keyboard::is_key_pressed(hou::scan_code::g));
@@ -66,8 +66,8 @@ int main(int, char**)
 
       std::cout << "Window has focus: " << hou::to_string(w.has_mouse_focus())
                 << std::endl;
-      std::cout << "Cursor is hidden: "
-                << hou::to_string(hou::mouse::is_cursor_hidden()) << std::endl;
+      std::cout << "Cursor is visible: "
+                << hou::to_string(hou::mouse::is_cursor_visible()) << std::endl;
       std::cout << "Cursor is grabbed: " << hou::to_string(w.get_grab())
                 << std::endl;
       std::cout << "Relative mode active: "
