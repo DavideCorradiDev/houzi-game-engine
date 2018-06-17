@@ -34,6 +34,7 @@ file_handle::file_handle(file_handle&& other) noexcept
 
 void file_handle::close()
 {
+  HOU_CHECK_0(fflush(m_file) != EOF, write_error);
   HOU_CHECK_0(close_file(m_file), file_close_error);
   m_file = nullptr;
 }
