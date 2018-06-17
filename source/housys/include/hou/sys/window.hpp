@@ -19,6 +19,7 @@
 
 
 
+union SDL_Event;
 struct SDL_Window;
 
 namespace hou
@@ -30,6 +31,18 @@ namespace display
 class mode;
 
 }
+
+namespace event
+{
+
+namespace prv
+{
+
+void process(const SDL_Event&);
+
+}  //namespace prv
+
+}  // namespace event
 
 class color;
 
@@ -72,7 +85,7 @@ public:
   void set_icon(const image2_rgba& icon);
 
   vec2u get_size() const;
-  virtual void set_size(const vec2u& size);
+  void set_size(const vec2u& size);
 
   vec2u get_min_size() const;
   void set_min_size(const vec2u& min_size);
@@ -97,13 +110,13 @@ public:
   // The flag is set only after processing the event queue.
   // Moreover, it is necessary to wait a bit for the event to be registered.
   bool is_maximized() const;
-  virtual void minimize();
+  void minimize();
   // Will do nothing if the window is not resizable.
-  virtual void maximize();
+  void maximize();
   // Minimized windows will be restored only after the minimized flag has been
   // properly set. This requires processing the event queue.
   // Restoring a minimized window doesn't seem to actually restore it.
-  virtual void restore();
+  void restore();
 
   bool get_grab() const;
   // Works only if the window is visible and with focus.
@@ -123,6 +136,13 @@ public:
 
   virtual void clear(const color& color);
   virtual void swap_buffers();
+
+private:
+  friend void ::hou::event::prv::process(const SDL_Event&);
+
+private:
+  // Called when set_size is called or when an external resize event is processed.
+  virtual void on_size_change(const vec2u& size);
 
 private:
   impl_type* m_impl;

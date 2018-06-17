@@ -23,8 +23,6 @@ namespace event
 namespace
 {
 
-void process(const SDL_Event& event);
-
 quit_callback& get_quit_callback();
 
 window_callback& get_window_closed_callback();
@@ -49,242 +47,6 @@ mouse_wheel_callback& get_mouse_wheel_moved_callback();
 mouse_motion_callback& get_mouse_moved_callback();
 window_callback& get_mouse_entered_callback();
 window_callback& get_mouse_left_callback();
-
-
-
-void process(const SDL_Event& event)
-{
-  switch(event.type)
-  {
-    case SDL_QUIT:
-    {
-      auto callback = get_quit_callback();
-      if(callback != nullptr)
-      {
-        callback(timestamp(event.quit.timestamp));
-      }
-    }
-    break;
-    case SDL_WINDOWEVENT:
-    {
-      switch(event.window.event)
-      {
-        case SDL_WINDOWEVENT_CLOSE:
-        {
-          auto callback = get_window_closed_callback();
-          if(callback != nullptr)
-          {
-            callback(timestamp(event.window.timestamp), event.window.windowID);
-          }
-        }
-        break;
-        case SDL_WINDOWEVENT_HIDDEN:
-        {
-          auto callback = get_window_hidden_callback();
-          if(callback != nullptr)
-          {
-            callback(timestamp(event.window.timestamp), event.window.windowID);
-          }
-        }
-        break;
-        case SDL_WINDOWEVENT_SHOWN:
-        {
-          auto callback = get_window_shown_callback();
-          if(callback != nullptr)
-          {
-            callback(timestamp(event.window.timestamp), event.window.windowID);
-          }
-        }
-        break;
-        case SDL_WINDOWEVENT_EXPOSED:
-        {
-          auto callback = get_window_exposed_callback();
-          if(callback != nullptr)
-          {
-            callback(timestamp(event.window.timestamp), event.window.windowID);
-          }
-        }
-        break;
-        case SDL_WINDOWEVENT_MINIMIZED:
-        {
-          auto callback = get_window_minimized_callback();
-          if(callback != nullptr)
-          {
-            callback(timestamp(event.window.timestamp), event.window.windowID);
-          }
-        }
-        break;
-        case SDL_WINDOWEVENT_MAXIMIZED:
-        {
-          auto callback = get_window_maximized_callback();
-          if(callback != nullptr)
-          {
-            callback(timestamp(event.window.timestamp), event.window.windowID);
-          }
-        }
-        break;
-        case SDL_WINDOWEVENT_RESTORED:
-        {
-          auto callback = get_window_restored_callback();
-          if(callback != nullptr)
-          {
-            callback(timestamp(event.window.timestamp), event.window.windowID);
-          }
-        }
-        break;
-        case SDL_WINDOWEVENT_FOCUS_LOST:
-        {
-          auto callback = get_window_focus_lost_callback();
-          if(callback != nullptr)
-          {
-            callback(timestamp(event.window.timestamp), event.window.windowID);
-          }
-        }
-        break;
-        case SDL_WINDOWEVENT_FOCUS_GAINED:
-        {
-          auto callback = get_window_focus_gained_callback();
-          if(callback != nullptr)
-          {
-            callback(timestamp(event.window.timestamp), event.window.windowID);
-          }
-        }
-        break;
-        case SDL_WINDOWEVENT_TAKE_FOCUS:
-        {
-          auto callback = get_window_focus_offered_callback();
-          if(callback != nullptr)
-          {
-            callback(timestamp(event.window.timestamp), event.window.windowID);
-          }
-        }
-        break;
-        case SDL_WINDOWEVENT_ENTER:
-        {
-          auto callback = get_mouse_entered_callback();
-          if(callback != nullptr)
-          {
-            callback(timestamp(event.window.timestamp), event.window.windowID);
-          }
-        }
-        break;
-        case SDL_WINDOWEVENT_LEAVE:
-        {
-          auto callback = get_mouse_left_callback();
-          if(callback != nullptr)
-          {
-            callback(timestamp(event.window.timestamp), event.window.windowID);
-          }
-        }
-        break;
-        case SDL_WINDOWEVENT_RESIZED:
-        {
-          auto callback = get_window_resized_callback();
-          if(callback != nullptr)
-          {
-            callback(timestamp(event.window.timestamp), event.window.windowID,
-              vec2u(narrow_cast<uint>(event.window.data1),
-                narrow_cast<uint>(event.window.data2)));
-          }
-        }
-        break;
-        case SDL_WINDOWEVENT_SIZE_CHANGED:
-        {
-          auto callback = get_window_size_changed_callback();
-          if(callback != nullptr)
-          {
-            callback(timestamp(event.window.timestamp), event.window.windowID,
-              vec2u(narrow_cast<uint>(event.window.data1),
-                narrow_cast<uint>(event.window.data2)));
-          }
-        }
-        break;
-      }
-    }
-    break;
-    case SDL_KEYDOWN:
-    {
-      auto callback = get_key_pressed_callback();
-      if(callback != nullptr)
-      {
-        callback(timestamp(event.key.timestamp), event.key.windowID,
-          scan_code(event.key.keysym.scancode), key_code(event.key.keysym.sym),
-          modifier_keys(event.key.keysym.mod), event.key.repeat);
-      }
-    }
-    break;
-    case SDL_KEYUP:
-    {
-      auto callback = get_key_released_callback();
-      if(callback != nullptr)
-      {
-        callback(timestamp(event.key.timestamp), event.key.windowID,
-          scan_code(event.key.keysym.scancode), key_code(event.key.keysym.sym),
-          modifier_keys(event.key.keysym.mod), event.key.repeat);
-      }
-    }
-    break;
-    case SDL_MOUSEBUTTONDOWN:
-    {
-      if(event.button.which != SDL_TOUCH_MOUSEID)
-      {
-        auto callback = get_mouse_button_pressed_callback();
-        if(callback != nullptr)
-        {
-          callback(timestamp(event.button.timestamp), event.button.windowID,
-            mouse_button(event.button.button),
-            static_cast<uint>(event.button.clicks),
-            vec2i(event.button.x, event.button.y));
-        }
-      }
-    }
-    break;
-    case SDL_MOUSEBUTTONUP:
-    {
-      if(event.button.which != SDL_TOUCH_MOUSEID)
-      {
-        auto callback = get_mouse_button_released_callback();
-        if(callback != nullptr)
-        {
-          callback(timestamp(event.button.timestamp), event.button.windowID,
-            mouse_button(event.button.button),
-            static_cast<uint>(event.button.clicks),
-            vec2i(event.button.x, event.button.y));
-        }
-      }
-    }
-    break;
-    case SDL_MOUSEWHEEL:
-    {
-      if(event.wheel.which != SDL_TOUCH_MOUSEID)
-      {
-        auto callback = get_mouse_wheel_moved_callback();
-        if(callback != nullptr)
-        {
-          callback(timestamp(event.wheel.timestamp), event.wheel.windowID,
-            vec2i(event.wheel.x, event.wheel.y),
-            event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED);
-        }
-      }
-    }
-    break;
-    case SDL_MOUSEMOTION:
-    {
-      if(event.motion.which != SDL_TOUCH_MOUSEID)
-      {
-        auto callback = get_mouse_moved_callback();
-        if(callback != nullptr)
-        {
-          callback(timestamp(event.motion.timestamp), event.motion.windowID,
-            mouse_buttons_state(event.motion.state),
-            vec2i(event.motion.x, event.motion.y),
-            vec2i(event.motion.xrel, event.motion.yrel));
-        }
-      }
-    }
-    break;
-  }
-}
 
 
 
@@ -454,9 +216,250 @@ window_callback& get_mouse_left_callback()
   return callback;
 }
 
-
-
 }  // namespace
+
+
+
+namespace prv
+{
+
+void process(const SDL_Event& event)
+{
+  switch(event.type)
+  {
+    case SDL_QUIT:
+    {
+      auto callback = get_quit_callback();
+      if(callback != nullptr)
+      {
+        callback(timestamp(event.quit.timestamp));
+      }
+    }
+    break;
+    case SDL_WINDOWEVENT:
+    {
+      switch(event.window.event)
+      {
+        case SDL_WINDOWEVENT_CLOSE:
+        {
+          auto callback = get_window_closed_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID);
+          }
+        }
+        break;
+        case SDL_WINDOWEVENT_HIDDEN:
+        {
+          auto callback = get_window_hidden_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID);
+          }
+        }
+        break;
+        case SDL_WINDOWEVENT_SHOWN:
+        {
+          auto callback = get_window_shown_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID);
+          }
+        }
+        break;
+        case SDL_WINDOWEVENT_EXPOSED:
+        {
+          auto callback = get_window_exposed_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID);
+          }
+        }
+        break;
+        case SDL_WINDOWEVENT_MINIMIZED:
+        {
+          auto callback = get_window_minimized_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID);
+          }
+        }
+        break;
+        case SDL_WINDOWEVENT_MAXIMIZED:
+        {
+          auto callback = get_window_maximized_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID);
+          }
+        }
+        break;
+        case SDL_WINDOWEVENT_RESTORED:
+        {
+          auto callback = get_window_restored_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID);
+          }
+        }
+        break;
+        case SDL_WINDOWEVENT_FOCUS_LOST:
+        {
+          auto callback = get_window_focus_lost_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID);
+          }
+        }
+        break;
+        case SDL_WINDOWEVENT_FOCUS_GAINED:
+        {
+          auto callback = get_window_focus_gained_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID);
+          }
+        }
+        break;
+        case SDL_WINDOWEVENT_TAKE_FOCUS:
+        {
+          auto callback = get_window_focus_offered_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID);
+          }
+        }
+        break;
+        case SDL_WINDOWEVENT_ENTER:
+        {
+          auto callback = get_mouse_entered_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID);
+          }
+        }
+        break;
+        case SDL_WINDOWEVENT_LEAVE:
+        {
+          auto callback = get_mouse_left_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID);
+          }
+        }
+        break;
+        case SDL_WINDOWEVENT_RESIZED:
+        {
+          vec2u new_size(narrow_cast<uint>(event.window.data1),
+            narrow_cast<uint>(event.window.data2));
+          window::get_from_uid(event.window.windowID).on_size_change(new_size);
+          auto callback = get_window_resized_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID,
+              new_size);
+          }
+        }
+        break;
+        case SDL_WINDOWEVENT_SIZE_CHANGED:
+        {
+          auto callback = get_window_size_changed_callback();
+          if(callback != nullptr)
+          {
+            callback(timestamp(event.window.timestamp), event.window.windowID,
+              vec2u(narrow_cast<uint>(event.window.data1),
+                narrow_cast<uint>(event.window.data2)));
+          }
+        }
+        break;
+      }
+    }
+    break;
+    case SDL_KEYDOWN:
+    {
+      auto callback = get_key_pressed_callback();
+      if(callback != nullptr)
+      {
+        callback(timestamp(event.key.timestamp), event.key.windowID,
+          scan_code(event.key.keysym.scancode), key_code(event.key.keysym.sym),
+          modifier_keys(event.key.keysym.mod), event.key.repeat);
+      }
+    }
+    break;
+    case SDL_KEYUP:
+    {
+      auto callback = get_key_released_callback();
+      if(callback != nullptr)
+      {
+        callback(timestamp(event.key.timestamp), event.key.windowID,
+          scan_code(event.key.keysym.scancode), key_code(event.key.keysym.sym),
+          modifier_keys(event.key.keysym.mod), event.key.repeat);
+      }
+    }
+    break;
+    case SDL_MOUSEBUTTONDOWN:
+    {
+      if(event.button.which != SDL_TOUCH_MOUSEID)
+      {
+        auto callback = get_mouse_button_pressed_callback();
+        if(callback != nullptr)
+        {
+          callback(timestamp(event.button.timestamp), event.button.windowID,
+            mouse_button(event.button.button),
+            static_cast<uint>(event.button.clicks),
+            vec2i(event.button.x, event.button.y));
+        }
+      }
+    }
+    break;
+    case SDL_MOUSEBUTTONUP:
+    {
+      if(event.button.which != SDL_TOUCH_MOUSEID)
+      {
+        auto callback = get_mouse_button_released_callback();
+        if(callback != nullptr)
+        {
+          callback(timestamp(event.button.timestamp), event.button.windowID,
+            mouse_button(event.button.button),
+            static_cast<uint>(event.button.clicks),
+            vec2i(event.button.x, event.button.y));
+        }
+      }
+    }
+    break;
+    case SDL_MOUSEWHEEL:
+    {
+      if(event.wheel.which != SDL_TOUCH_MOUSEID)
+      {
+        auto callback = get_mouse_wheel_moved_callback();
+        if(callback != nullptr)
+        {
+          callback(timestamp(event.wheel.timestamp), event.wheel.windowID,
+            vec2i(event.wheel.x, event.wheel.y),
+            event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED);
+        }
+      }
+    }
+    break;
+    case SDL_MOUSEMOTION:
+    {
+      if(event.motion.which != SDL_TOUCH_MOUSEID)
+      {
+        auto callback = get_mouse_moved_callback();
+        if(callback != nullptr)
+        {
+          callback(timestamp(event.motion.timestamp), event.motion.windowID,
+            mouse_buttons_state(event.motion.state),
+            vec2i(event.motion.x, event.motion.y),
+            vec2i(event.motion.xrel, event.motion.yrel));
+        }
+      }
+    }
+    break;
+  }
+}
+
+}  // namespace prv
 
 
 
@@ -471,7 +474,7 @@ void wait_next()
 {
   SDL_Event event;
   HOU_SDL_CHECK(SDL_WaitEvent(&event) != 0);
-  process(event);
+  prv::process(event);
 }
 
 
@@ -481,7 +484,7 @@ bool process_next()
   SDL_Event event;
   if(SDL_PollEvent(&event))
   {
-    process(event);
+    prv::process(event);
     return true;
   }
   return false;

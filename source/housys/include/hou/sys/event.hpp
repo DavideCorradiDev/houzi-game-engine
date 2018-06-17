@@ -23,6 +23,13 @@ namespace hou
 namespace event
 {
 
+namespace prv
+{
+
+HOU_SYS_API void process(const SDL_Event& event);
+
+}  // namespace prv
+
 HOU_SYS_API void wait_next();
 HOU_SYS_API bool queue_empty();
 HOU_SYS_API bool process_next();
