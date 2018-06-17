@@ -26,8 +26,8 @@ mouse_buttons_state::bitfield_type mouse_buttons_state::get() const
 
 bool mouse_buttons_state::check(mouse_button mb) const
 {
-  return m_bitfield
-    & SDL_BUTTON(static_cast<std::underlying_type<mouse_button>::type>(mb));
+  return (m_bitfield
+    & SDL_BUTTON(static_cast<std::underlying_type<mouse_button>::type>(mb)));
 }
 
 

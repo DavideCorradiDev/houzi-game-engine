@@ -20,6 +20,8 @@ namespace hou
 
 /** Enumeration for the modifier key flags, used for key related window
  * events.
+ *
+ * Values in this enumeration can be used as a bitfield.
  */
 enum class modifier_keys : uint32_t
 {

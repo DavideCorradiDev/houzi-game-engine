@@ -252,8 +252,22 @@ enum class key_code
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, key_code kc);
 
+/**
+ * Gets the key code corresponding to a scan code.
+ *
+ * \param sc the scan code.
+ *
+ * \return the corresponding key code.
+ */
 HOU_SYS_API key_code get_key_code(scan_code sc);
 
+/**
+ * Gets the key code corresponding to a scan code.
+ *
+ * \param kc the key code.
+ *
+ * \return the corresponding scan code.
+ */
 HOU_SYS_API scan_code get_scan_code(key_code kc);
 
 }  // namespace hou
