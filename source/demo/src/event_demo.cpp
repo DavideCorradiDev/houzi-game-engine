@@ -208,9 +208,9 @@ void on_key_released(hou::event::timestamp t, hou::window::uid_type wid,
   if(kc == hou::key_code::f1)
   {
     hou::window& w = hou::window::get_from_uid(wid);
-    w.hide();
+    w.set_visible(false);
     prompt("Press enter to show the window again");
-    w.show();
+    w.set_visible(true);
     w.focus();
   }
 
@@ -327,7 +327,7 @@ int main(int, char**)
   w.set_bordered(true);
   w.set_resizable(true);
   w.set_size(hou::vec2u(800u, 600u));
-  w.show();
+  w.set_visible(true);
 
   std::cout << "The events in the queue will be printed in the terminal."
             << std::endl;

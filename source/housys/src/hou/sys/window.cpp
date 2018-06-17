@@ -299,16 +299,16 @@ bool window::is_visible() const
 
 
 
-void window::hide()
+void window::set_visible(bool value)
 {
-  SDL_HideWindow(m_impl);
-}
-
-
-
-void window::show()
-{
-  SDL_ShowWindow(m_impl);
+  if(value)
+  {
+    SDL_ShowWindow(m_impl);
+  }
+  else
+  {
+    SDL_HideWindow(m_impl);
+  }
 }
 
 

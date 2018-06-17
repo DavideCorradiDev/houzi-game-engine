@@ -67,7 +67,7 @@ TEST_F(test_mouse, set_global_position)
 TEST_F(test_mouse, set_window_position)
 {
   system_window w("MouseTest", vec2u(32u, 16u));
-  w.show();
+  w.set_visible(true);
   vec2i old_pos = mouse::get_position(w);
   vec2i new_pos = vec2i(16, 32);
   mouse::set_position(new_pos, w);

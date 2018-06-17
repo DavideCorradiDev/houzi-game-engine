@@ -37,10 +37,10 @@ int main(int, char**)
 
   hou::system_window w("WindowDemo", hou::vec2u(640u, 480u));
   w.set_bordered(true);
-  w.show();
+  w.set_visible(true);
   w.clear(hou::color::black());
 
-  // Note: after show() is called, the event queue must be processed to
+  // Note: after set_visible(true) is called, the event queue must be processed to
   // correctly update the window state.
   hou::event::process_all();
 
@@ -87,12 +87,12 @@ int main(int, char**)
   std::cout << "Window grab: " << hou::to_string(w.get_grab()) << std::endl;
 
   prompt("Press enter to hide the window");
-  w.hide();
+  w.set_visible(false);
   std::cout << "Window visible: " << hou::to_string(w.is_visible())
             << std::endl;
 
   prompt("Press enter to show the window");
-  w.show();
+  w.set_visible(true);
   w.clear(hou::color::black());
   std::cout << "Window visible: " << hou::to_string(w.is_visible())
             << std::endl;

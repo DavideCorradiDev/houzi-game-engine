@@ -272,18 +272,15 @@ public:
   bool is_visible() const;
 
   /**
-   * Hides the window.
-   */
-  void hide();
-
-  /**
-   * Shows the window.
+   * Sets the visibility of the window.
    *
    * \note the event queue must be processed in order to completely update the
    * internal state of the window after calling this (see the functions in the
    * hou::event namespace).
+   *
+   * \param value true to make the window visible, false to hide the window.
    */
-  void show();
+  void set_visible(bool value);
 
   /**
    * Checks if the window is minimized.

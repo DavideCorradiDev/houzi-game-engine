@@ -294,13 +294,13 @@ TEST_F(test_system_window, visibility)
   system_window w(u8"TestWindow", vec2u(32u, 64u));
 
   EXPECT_FALSE(w.is_visible());
-  w.hide();
+  w.set_visible(false);
   EXPECT_FALSE(w.is_visible());
-  w.show();
+  w.set_visible(true);
   EXPECT_TRUE(w.is_visible());
-  w.show();
+  w.set_visible(true);
   EXPECT_TRUE(w.is_visible());
-  w.hide();
+  w.set_visible(false);
   EXPECT_FALSE(w.is_visible());
 }
 
@@ -412,7 +412,7 @@ TEST_F(test_system_window, grab)
 
   // After showing the window, all events need to be processed to correctly
   // update the window.
-  w.show();
+  w.set_visible(true);
   event::process_all();
 
   // The window needs focus to be able to grab the input.
@@ -462,7 +462,7 @@ TEST_F(test_system_window, focus_success)
 {
   // The window is visible, focusing it will succeed.
   system_window w(u8"TestWindow", vec2u(32u, 64u));
-  w.show();
+  w.set_visible(true);
   event::process_all();
   EXPECT_TRUE(w.focus());
   EXPECT_TRUE(w.has_keyboard_focus());

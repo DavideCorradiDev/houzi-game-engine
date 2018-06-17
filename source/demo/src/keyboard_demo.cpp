@@ -32,7 +32,7 @@ int main(int, char**)
 
   hou::system_window w("KeyboardDemo", hou::vec2u(640u, 480u));
   w.set_bordered(true);
-  w.show();
+  w.set_visible(true);
   w.raise();
   w.focus();
 
