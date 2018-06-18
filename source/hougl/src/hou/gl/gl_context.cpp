@@ -197,7 +197,8 @@ void context_attributes_scope::update_context_settings(
 
   SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, cs.get_stencil_bit_count());
 
-  SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, cs.get_multisample_buffer_count());
+  SDL_GL_SetAttribute(
+    SDL_GL_MULTISAMPLEBUFFERS, cs.get_multisample_buffer_count());
 
   SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, cs.get_sample_count());
 
@@ -277,7 +278,7 @@ context::context(const context_settings& cs, window& wnd)
   context_attributes_scope attr_scope(cs);
 
   m_impl = SDL_GL_CreateContext(wnd.get_impl());
-  HOU_CHECK_0(m_impl != nullptr, context_creation_error);
+  HOU_CHECK_N(m_impl != nullptr, context_creation_error, SDL_GetError());
 
   if(cs.share_with_current_context() && get_current() != nullptr)
   {
@@ -307,11 +308,11 @@ context::~context()
 {
   if(m_impl != nullptr)
   {
-    SDL_GL_DeleteContext(m_impl);
     if(is_current())
     {
       unset_current();
     }
+    SDL_GL_DeleteContext(m_impl);
   }
 }
 
@@ -532,8 +533,8 @@ void context::tracking_data::set_bound_texture(
   uint32_t uid, GLuint unit, GLenum target)
 {
   resize_texture_vectors(unit + 1);
-  HOU_DEV_ASSERT(m_bound_textures.size() > unit);
-  HOU_DEV_ASSERT(m_bound_texture_targets.size() > unit);
+  HOU_ASSERT(m_bound_textures.size() > unit);
+  HOU_ASSERT(m_bound_texture_targets.size() > unit);
   m_bound_textures[unit] = uid;
   m_bound_texture_targets[unit] = target;
 }
@@ -561,7 +562,8 @@ const recti& context::tracking_data::get_current_viewport() const noexcept
 
 
 
-void context::tracking_data::set_current_viewport(const recti& viewport) noexcept
+void context::tracking_data::set_current_viewport(
+  const recti& viewport) noexcept
 {
   m_current_viewport = viewport;
 }

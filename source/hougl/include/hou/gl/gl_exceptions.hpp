@@ -79,9 +79,12 @@ public:
    *
    * \param line the line where the error happened.
    *
+   * \param details details about the error.
+   *
    * \throws std::bad_alloc.
    */
-  context_creation_error(const std::string& path, uint line);
+  context_creation_error(
+    const std::string& path, uint line, const std::string& details);
 };
 
 /** Context destruction error.

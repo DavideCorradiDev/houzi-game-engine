@@ -82,8 +82,10 @@ extension_initialization_error::extension_initialization_error(
 
 
 context_creation_error::context_creation_error(
-  const std::string& path, uint line)
-  : exception(path, line, u8"Failed to create the OpenGL context.")
+  const std::string& path, uint line, const std::string& details)
+  : exception(path, line,
+      format_string(
+        u8"Failed to create the OpenGL context.\n%s", details.c_str()))
 {}
 
 

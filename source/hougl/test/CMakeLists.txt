@@ -40,7 +40,7 @@ SET(EXE_HOUGL_TEST_SRC
   # hou/gl/test_gl_multiple_contexts.cpp
   # hou/gl/test_gl_single_context.cpp
   # hou/gl/test_gl_buffer_handle.cpp
-  # hou/gl/test_gl_context.cpp
+  hou/gl/test_gl_context.cpp
   hou/gl/test_gl_color_format.cpp
   hou/gl/test_gl_context_settings.cpp
   # hou/gl/test_gl_exceptions.cpp

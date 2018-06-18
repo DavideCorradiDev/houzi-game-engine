@@ -69,8 +69,9 @@ TEST_F(test_gl_exceptions, unsupported_version)
 
 TEST_F(test_gl_exceptions, context_creation_error)
 {
-  gl::context_creation_error ex("foo.cpp", 42u);
-  EXPECT_STREQ("foo.cpp:42 - Failed to create the OpenGL context.", ex.what());
+  gl::context_creation_error ex("foo.cpp", 42u, "Bzzz.");
+  EXPECT_STREQ(
+    "foo.cpp:42 - Failed to create the OpenGL context.\nBzzz.", ex.what());
 }
 
 
