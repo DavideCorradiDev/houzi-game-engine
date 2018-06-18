@@ -58,7 +58,6 @@ context_settings::context_settings() noexcept
   , m_double_buffer(true)
   , m_srgb_capable(true)
   , m_stereo(false)
-  , m_share_with_current_context(false)
   , m_debug_mode(false)
   , m_forward_compatibility_mode(false)
   , m_robust_access(false)
@@ -207,20 +206,6 @@ void context_settings::set_stereo(bool value) noexcept
 
 
 
-bool context_settings::share_with_current_context() const noexcept
-{
-  return m_share_with_current_context;
-}
-
-
-
-void context_settings::set_share_with_current_context(bool value) noexcept
-{
-  m_share_with_current_context = value;
-}
-
-
-
 bool context_settings::debug_mode() const noexcept
 {
   return m_debug_mode;
@@ -289,7 +274,6 @@ bool operator==(
     && lhs.get_sample_count() == rhs.get_sample_count()
     && lhs.double_buffer() == rhs.double_buffer()
     && lhs.srgb_capable() == rhs.srgb_capable() && lhs.stereo() == rhs.stereo()
-    && lhs.share_with_current_context() == rhs.share_with_current_context()
     && lhs.debug_mode() == rhs.debug_mode()
     && lhs.forward_compatibility_mode() == rhs.forward_compatibility_mode()
     && lhs.robust_access() == rhs.robust_access()
@@ -319,8 +303,6 @@ std::ostream& operator<<(std::ostream& os, const context_settings& cs)
             << ", double_buffer = " << to_string(cs.double_buffer())
             << ", srgb_capable = " << to_string(cs.srgb_capable())
             << ", stereo = " << to_string(cs.stereo())
-            << ", share_with_current_context = "
-            << to_string(cs.share_with_current_context())
             << ", debug_mode = " << to_string(cs.debug_mode())
             << ", forward_compatibility_mode = "
             << to_string(cs.forward_compatibility_mode())

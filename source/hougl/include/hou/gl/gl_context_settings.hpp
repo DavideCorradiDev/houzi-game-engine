@@ -59,9 +59,6 @@ public:
   bool stereo() const noexcept;
   void set_stereo(bool value) noexcept;
 
-  bool share_with_current_context() const noexcept;
-  void set_share_with_current_context(bool value) noexcept;
-
   bool debug_mode() const noexcept;
   void set_debug_mode(bool value) noexcept;
 
@@ -85,7 +82,6 @@ private:
   bool m_double_buffer;
   bool m_srgb_capable;
   bool m_stereo;
-  bool m_share_with_current_context;
   bool m_debug_mode;
   bool m_forward_compatibility_mode;
   bool m_robust_access;

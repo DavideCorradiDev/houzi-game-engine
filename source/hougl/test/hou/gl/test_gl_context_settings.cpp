@@ -34,7 +34,6 @@ TEST_F(test_gl_context_settings, constructor)
   EXPECT_TRUE(cs.double_buffer());
   EXPECT_TRUE(cs.srgb_capable());
   EXPECT_FALSE(cs.stereo());
-  EXPECT_FALSE(cs.share_with_current_context());
   EXPECT_FALSE(cs.debug_mode());
   EXPECT_FALSE(cs.forward_compatibility_mode());
   EXPECT_FALSE(cs.robust_access());
@@ -141,25 +140,6 @@ TEST_F(test_gl_context_settings, set_stereo)
 
 
 
-TEST_F(test_gl_context_settings, set_share_with_current_context)
-{
-  gl::context_settings cs;
-  EXPECT_FALSE(cs.share_with_current_context());
-  cs.set_share_with_current_context(true);
-  EXPECT_TRUE(cs.share_with_current_context());
-}
-
-
-
-TEST_F(test_gl_context_settings, set_debug_mode)
-{
-  gl::context_settings cs;
-  EXPECT_FALSE(cs.debug_mode());
-  cs.set_debug_mode(true);
-  EXPECT_TRUE(cs.debug_mode());
-}
-
-
 
 TEST_F(test_gl_context_settings, set_forward_compatibility_mode)
 {
@@ -216,15 +196,13 @@ TEST_F(test_gl_context_settings, comparison)
   gl::context_settings cs11;
   cs11.set_stereo(true);
   gl::context_settings cs12;
-  cs12.set_share_with_current_context(true);
+  cs12.set_debug_mode(true);
   gl::context_settings cs13;
-  cs13.set_debug_mode(true);
+  cs13.set_forward_compatibility_mode(true);
   gl::context_settings cs14;
-  cs14.set_forward_compatibility_mode(true);
+  cs14.set_robust_access(true);
   gl::context_settings cs15;
-  cs15.set_robust_access(true);
-  gl::context_settings cs16;
-  cs16.set_reset_isolation(true);
+  cs15.set_reset_isolation(true);
 
   EXPECT_TRUE(cs0 == cs1);
   EXPECT_FALSE(cs0 == cs2);
@@ -237,10 +215,10 @@ TEST_F(test_gl_context_settings, comparison)
   EXPECT_FALSE(cs0 == cs10);
   EXPECT_FALSE(cs0 == cs11);
   EXPECT_FALSE(cs0 == cs12);
+  EXPECT_FALSE(cs0 == cs12);
   EXPECT_FALSE(cs0 == cs13);
   EXPECT_FALSE(cs0 == cs14);
   EXPECT_FALSE(cs0 == cs15);
-  EXPECT_FALSE(cs0 == cs16);
 
   EXPECT_FALSE(cs0 != cs1);
   EXPECT_TRUE(cs0 != cs2);
@@ -253,10 +231,10 @@ TEST_F(test_gl_context_settings, comparison)
   EXPECT_TRUE(cs0 != cs10);
   EXPECT_TRUE(cs0 != cs11);
   EXPECT_TRUE(cs0 != cs12);
+  EXPECT_TRUE(cs0 != cs12);
   EXPECT_TRUE(cs0 != cs13);
   EXPECT_TRUE(cs0 != cs14);
   EXPECT_TRUE(cs0 != cs15);
-  EXPECT_TRUE(cs0 != cs16);
 }
 
 
@@ -276,7 +254,6 @@ TEST_F(test_gl_context_settings, output_stream_operator)
       "double_buffer = true, "
       "srgb_capable = true, "
       "stereo = false, "
-      "share_with_current_context = false, "
       "debug_mode = false, "
       "forward_compatibility_mode = false, "
       "robust_access = false, "
@@ -299,7 +276,6 @@ TEST_F(test_gl_context_settings, get_basic)
   EXPECT_TRUE(cs.double_buffer());
   EXPECT_FALSE(cs.srgb_capable());
   EXPECT_FALSE(cs.stereo());
-  EXPECT_FALSE(cs.share_with_current_context());
   EXPECT_FALSE(cs.debug_mode());
   EXPECT_FALSE(cs.forward_compatibility_mode());
   EXPECT_FALSE(cs.robust_access());
