@@ -154,45 +154,48 @@ TEST_F(test_gl_context, get_uid)
 //   ASSERT_EQ(uid_ref, c.get_uid());
 //   ASSERT_EQ(shared_uid_ref, c.get_sharing_group_uid());
 // }
-// 
-// 
-// 
-// TEST_F(test_gl_context, current_gl_context)
-// {
-//   system_window w1(
-//     "Test", video_mode(vec2u(10u, 10u), 4u), window_style::windowed);
-//   system_window w2(
-//     "Test", video_mode(vec2u(10u, 10u), 4u), window_style::windowed);
-//   gl::context c1(gl::context_settings::get_default(), w1);
-//   gl::context c2(gl::context_settings::get_default(), w2);
-// 
-//   EXPECT_FALSE(c1.is_current());
-//   EXPECT_FALSE(c2.is_current());
-//   EXPECT_EQ(nullptr, gl::context::get_current());
-// 
-//   gl::context::set_current(c1, w1);
-//   EXPECT_TRUE(c1.is_current());
-//   EXPECT_FALSE(c2.is_current());
-//   EXPECT_EQ(&c1, gl::context::get_current());
-// 
-//   gl::context::set_current(c2, w2);
-//   EXPECT_FALSE(c1.is_current());
-//   EXPECT_TRUE(c2.is_current());
-//   EXPECT_EQ(&c2, gl::context::get_current());
-// 
-//   gl::context::set_current(c2, w2);
-//   EXPECT_FALSE(c1.is_current());
-//   EXPECT_TRUE(c2.is_current());
-//   EXPECT_EQ(&c2, gl::context::get_current());
-// 
-//   gl::context::unset_current();
-//   EXPECT_FALSE(c1.is_current());
-//   EXPECT_FALSE(c2.is_current());
-//   EXPECT_EQ(nullptr, gl::context::get_current());
-// }
-// 
-// 
-// 
+
+
+
+TEST_F(test_gl_context, current_gl_context)
+{
+  system_window w1("Test1", vec2u(10u, 10u));
+  gl::context c1(gl::context_settings::get_default(), w1);
+  system_window w2("Test2", vec2u(10u, 10u));
+  gl::context c2(gl::context_settings::get_default(), w2);
+
+  EXPECT_FALSE(c1.is_current());
+  EXPECT_FALSE(c2.is_current());
+  EXPECT_EQ(nullptr, gl::context::get_current());
+  EXPECT_EQ(nullptr, gl::context::get_current_window());
+
+  gl::context::set_current(c1, w1);
+  EXPECT_TRUE(c1.is_current());
+  EXPECT_FALSE(c2.is_current());
+  EXPECT_EQ(&c1, gl::context::get_current());
+  EXPECT_EQ(&w1, gl::context::get_current_window());
+
+  gl::context::set_current(c2, w2);
+  EXPECT_FALSE(c1.is_current());
+  EXPECT_TRUE(c2.is_current());
+  EXPECT_EQ(&c2, gl::context::get_current());
+  EXPECT_EQ(&w2, gl::context::get_current_window());
+
+  gl::context::set_current(c2, w2);
+  EXPECT_FALSE(c1.is_current());
+  EXPECT_TRUE(c2.is_current());
+  EXPECT_EQ(&c2, gl::context::get_current());
+  EXPECT_EQ(&w2, gl::context::get_current_window());
+
+  gl::context::unset_current();
+  EXPECT_FALSE(c1.is_current());
+  EXPECT_FALSE(c2.is_current());
+  EXPECT_EQ(nullptr, gl::context::get_current());
+  EXPECT_EQ(nullptr, gl::context::get_current_window());
+}
+
+
+
 // TEST_F(test_gl_context, single_context_multiple_windows)
 // {
 //   system_window w1(

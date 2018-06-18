@@ -46,27 +46,6 @@ public:
 
 
 
-TEST_F(test_gl_exceptions, extension_initialization_error)
-{
-  gl::extension_initialization_error ex("foo.cpp", 42u, 88);
-  EXPECT_STREQ(
-    "foo.cpp:42 - Failed to initialize the OpenGL extensions (error code 88).",
-    ex.what());
-}
-
-
-
-TEST_F(test_gl_exceptions, unsupported_version)
-{
-  gl::unsupported_version ex("foo.cpp", 42u, gl::version(8u, 9u));
-  EXPECT_STREQ(
-    "foo.cpp:42 - Tried to create a context with unsupported OpenGL version "
-    "8.9.",
-    ex.what());
-}
-
-
-
 TEST_F(test_gl_exceptions, context_creation_error)
 {
   gl::context_creation_error ex("foo.cpp", 42u, "Bzzz.");
@@ -76,19 +55,12 @@ TEST_F(test_gl_exceptions, context_creation_error)
 
 
 
-TEST_F(test_gl_exceptions, context_destruction_error)
-{
-  gl::context_destruction_error ex("foo.cpp", 42u);
-  EXPECT_STREQ("foo.cpp:42 - Failed to destroy the OpenGL context.", ex.what());
-}
-
-
-
 TEST_F(test_gl_exceptions, context_switch_error)
 {
-  gl::context_switch_error ex("foo.cpp", 42u);
+  gl::context_switch_error ex("foo.cpp", 42u, "Oh noes!");
   EXPECT_STREQ(
-    "foo.cpp:42 - Failed to switch the current OpenGL context.", ex.what());
+    "foo.cpp:42 - Failed to switch the current OpenGL context.\nOh noes!",
+    ex.what());
 }
 
 

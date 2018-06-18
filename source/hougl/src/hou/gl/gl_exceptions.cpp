@@ -72,15 +72,6 @@ std::string get_shader_type_name(GLenum shader_type)
 
 
 
-extension_initialization_error::extension_initialization_error(
-  const std::string& path, uint line, int ec)
-  : exception(path, line,
-      format_string(
-        u8"Failed to initialize the OpenGL extensions (error code %d).", ec))
-{}
-
-
-
 context_creation_error::context_creation_error(
   const std::string& path, uint line, const std::string& details)
   : exception(path, line,
@@ -90,25 +81,11 @@ context_creation_error::context_creation_error(
 
 
 
-unsupported_version::unsupported_version(
-  const std::string& path, uint line, const version& v)
+context_switch_error::context_switch_error(
+  const std::string& path, uint line, const std::string& details)
   : exception(path, line,
       format_string(
-        u8"Tried to create a context with unsupported OpenGL version %s.",
-        to_string(v).c_str()))
-{}
-
-
-
-context_destruction_error::context_destruction_error(
-  const std::string& path, uint line)
-  : exception(path, line, u8"Failed to destroy the OpenGL context.")
-{}
-
-
-
-context_switch_error::context_switch_error(const std::string& path, uint line)
-  : exception(path, line, u8"Failed to switch the current OpenGL context.")
+        u8"Failed to switch the current OpenGL context.\n%s", details.c_str()))
 {}
 
 

@@ -25,47 +25,6 @@ class shared_object_handle;
 class non_shared_object_handle;
 class version;
 
-/** Extension initalization error.
- *
- * This exception is thrown when initializing the OpenGL extensions fails.
- */
-class HOU_GL_API extension_initialization_error : public exception
-{
-public:
-  /** Constructor.
-   *
-   * \param path the path to the source file where the error happened.
-   *
-   * \param line the line where the error happened.
-   *
-   * \param ec the error code.
-   *
-   * \throws std::bad_alloc.
-   */
-  extension_initialization_error(const std::string& path, uint line, int ec);
-};
-
-/** Unsupported gl version error.
- *
- * This exception is thrown when trying to create a context with an unsupported
- * OpenGL version.
- */
-class HOU_GL_API unsupported_version : public exception
-{
-public:
-  /** Constructor.
-   *
-   * \param path the path to the source file where the error happened.
-   *
-   * \param line the line where the error happened.
-   *
-   * \param v the version
-   *
-   * \throws std::bad_alloc.
-   */
-  unsupported_version(const std::string& path, uint line, const version& v);
-};
-
 /** Context creation error.
  *
  * This exception is thrown when creating an OpenGL context fails.
@@ -87,24 +46,6 @@ public:
     const std::string& path, uint line, const std::string& details);
 };
 
-/** Context destruction error.
- *
- * This exception is thrown when destroying an OpenGL context fails.
- */
-class HOU_GL_API context_destruction_error : public exception
-{
-public:
-  /** Constructor.
-   *
-   * \param path the path to the source file where the error happened.
-   *
-   * \param line the line where the error happened.
-   *
-   * \throws std::bad_alloc.
-   */
-  context_destruction_error(const std::string& path, uint line);
-};
-
 /** OpenGL context switch error.
  *
  * This exceptions is thrown when switching the current OpenGL context fails.
@@ -118,9 +59,12 @@ public:
    *
    * \param line the line where the error happened.
    *
+   * \param details details about the error.
+   *
    * \throws std::bad_alloc.
    */
-  context_switch_error(const std::string& path, uint line);
+  context_switch_error(
+    const std::string& path, uint line, const std::string& details);
 };
 
 /** Missing OpenGL context error.

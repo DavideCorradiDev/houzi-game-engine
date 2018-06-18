@@ -42,15 +42,22 @@ private:
   context_settings m_settings_bkp;
 };
 
-uint32_t generate_uid();
 
 
-
-uint32_t generate_uid()
+class current_context_guard
 {
-  static uid_generator uid_gen(1u);
-  return uid_gen.generate();
-}
+public:
+  current_context_guard();
+  ~current_context_guard();
+
+private:
+  context* m_ctx_bkp;
+  window* m_wnd_bkp;
+};
+
+
+
+uint32_t generate_uid();
 
 
 
@@ -233,6 +240,35 @@ void context_attributes_scope::update_context_settings(
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, ctx_flags);
 }
 
+
+
+current_context_guard::current_context_guard()
+  : m_ctx_bkp(context::get_current())
+  , m_wnd_bkp(context::get_current_window())
+{}
+
+
+
+current_context_guard::~current_context_guard()
+{
+  if(m_ctx_bkp != nullptr && m_wnd_bkp != nullptr)
+  {
+    context::set_current(*m_ctx_bkp, *m_wnd_bkp);
+  }
+  else
+  {
+    context::unset_current();
+  }
+}
+
+
+
+uint32_t generate_uid()
+{
+  static uid_generator uid_gen(1u);
+  return uid_gen.generate();
+}
+
 }  // namespace
 
 
@@ -241,8 +277,8 @@ void context::set_current(context& ctx, window& wnd)
 {
   if(!ctx.is_current() || g_current_window_uid != wnd.get_uid())
   {
-    HOU_CHECK_0(SDL_GL_MakeCurrent(wnd.get_impl(), ctx.get_impl()) == 0,
-      context_switch_error);
+    HOU_CHECK_N(SDL_GL_MakeCurrent(wnd.get_impl(), ctx.get_impl()) == 0,
+      context_switch_error, SDL_GetError());
     g_current_context = &ctx;
     g_current_window_uid = wnd.get_uid();
   }
@@ -254,8 +290,8 @@ void context::unset_current()
 {
   if(get_current() != nullptr)
   {
-    HOU_CHECK_0(
-      SDL_GL_MakeCurrent(nullptr, nullptr) == 0, context_switch_error);
+    HOU_CHECK_N(SDL_GL_MakeCurrent(nullptr, nullptr) == 0, context_switch_error,
+      SDL_GetError());
     g_current_context = nullptr;
     g_current_window_uid = 0u;
   }
@@ -263,9 +299,21 @@ void context::unset_current()
 
 
 
-context* context::get_current() noexcept
+context* context::get_current()
 {
   return g_current_context;
+}
+
+
+
+window* context::get_current_window()
+{
+  SDL_Window* w = SDL_GL_GetCurrentWindow();
+  if(w == nullptr)
+  {
+    return nullptr;
+  }
+  return &window::get_from_impl(w);
 }
 
 
@@ -277,6 +325,7 @@ context::context(const context_settings& cs, window& wnd)
   , m_sharing_group_uid(m_uid)
   , m_tracking_data()
 {
+  current_context_guard ctx_guard;
   context_attributes_scope attr_scope(cs);
 
   m_impl = SDL_GL_CreateContext(wnd.get_impl());

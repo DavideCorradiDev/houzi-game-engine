@@ -46,7 +46,9 @@ public:
 
   static void unset_current();
 
-  static context* get_current() noexcept;
+  static context* get_current();
+
+  static window* get_current_window();
 
 public:
   context(const context_settings& cs, window& wnd);
