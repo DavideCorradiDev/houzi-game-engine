@@ -44,27 +44,54 @@ TEST_F(test_gl_context, constructor)
 
 
 
-// TEST_F(test_gl_context, shared_creation)
-// {
-//   system_window w1("Test", vec2u::zero());
-//   gl::context c1(gl::context_settings::get_default(), w1);
-//   gl::context::set_current(c1, w1);
-// 
-//   EXPECT_NE(0u, c1.get_uid());
-//   EXPECT_NE(0u, c1.get_sharing_group_uid());
-//   EXPECT_TRUE(c1.is_current());
-// 
-//   system_window w2("Test", vec2u::zero());
-//   gl::context_settings c2_settings;
-//   c2_settings.set_share_with_current_context(true);
-//   gl::context c2(c2_settings, w2);
-// 
-//   EXPECT_NE(0u, c2.get_uid());
-//   EXPECT_NE(0u, c2.get_sharing_group_uid());
-//   EXPECT_FALSE(c2.is_current());
-// 
-//   EXPECT_EQ(c1.get_sharing_group_uid(), c2.get_sharing_group_uid());
-// }
+TEST_F(test_gl_context, shared_creation)
+{
+  system_window w1("Test", vec2u::zero());
+  gl::context c1(gl::context_settings::get_default(), w1);
+
+  EXPECT_NE(0u, c1.get_uid());
+  EXPECT_NE(0u, c1.get_sharing_group_uid());
+
+  system_window w2("Test", vec2u::zero());
+  gl::context c2(gl::context_settings::get_default(), w2, c1);
+
+  EXPECT_NE(0u, c2.get_uid());
+  EXPECT_NE(0u, c2.get_sharing_group_uid());
+
+  EXPECT_EQ(c1.get_sharing_group_uid(), c2.get_sharing_group_uid());
+  EXPECT_EQ(nullptr, gl::context::get_current());
+  EXPECT_EQ(0u, gl::context::get_current_window_uid());
+  EXPECT_FALSE(c1.is_current());
+  EXPECT_FALSE(c2.is_current());
+}
+
+
+
+TEST_F(test_gl_context, shared_creation_binding_preservation)
+{
+  system_window w0("Test", vec2u::zero());
+  gl::context c0(gl::context_settings::get_default(), w0);
+  gl::context::set_current(c0, w0);
+
+  system_window w1("Test", vec2u::zero());
+  gl::context c1(gl::context_settings::get_default(), w1);
+
+  EXPECT_NE(0u, c1.get_uid());
+  EXPECT_NE(0u, c1.get_sharing_group_uid());
+
+  system_window w2("Test", vec2u::zero());
+  gl::context c2(gl::context_settings::get_default(), w2, c1);
+
+  EXPECT_NE(0u, c2.get_uid());
+  EXPECT_NE(0u, c2.get_sharing_group_uid());
+
+  EXPECT_EQ(c1.get_sharing_group_uid(), c2.get_sharing_group_uid());
+  EXPECT_EQ(&c0, gl::context::get_current());
+  EXPECT_EQ(w0.get_uid(), gl::context::get_current_window_uid());
+  EXPECT_TRUE(c0.is_current());
+  EXPECT_FALSE(c1.is_current());
+  EXPECT_FALSE(c2.is_current());
+}
 
 
 

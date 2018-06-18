@@ -53,6 +53,8 @@ public:
 public:
   context(const context_settings& cs, window& wnd);
 
+  context(const context_settings& cs, window& wnd, context& sharing_ctx);
+
   context(context&& other) noexcept;
 
   ~context();

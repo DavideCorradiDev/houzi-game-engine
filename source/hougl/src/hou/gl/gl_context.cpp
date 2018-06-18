@@ -9,7 +9,7 @@
 #include "hou/cor/assertions.hpp"
 #include "hou/cor/uid_generator.hpp"
 
-#include "hou/sys/window.hpp"
+#include "hou/sys/system_window.hpp"
 
 
 
@@ -28,23 +28,7 @@ thread_local static window::uid_type g_current_window_uid(0u);
 
 
 
-class context_attributes_scope
-{
-public:
-  context_attributes_scope(const context_settings& cs);
-  ~context_attributes_scope();
-
-private:
-  void save_context_settings();
-  void update_context_settings(const context_settings& cs) const;
-
-private:
-  context_settings m_settings_bkp;
-};
-
-
-
-class current_context_guard
+class current_context_guard : public non_copyable
 {
 public:
   current_context_guard();
@@ -57,15 +41,58 @@ private:
 
 
 
+class context_attributes_scope : public non_copyable
+{
+public:
+  context_attributes_scope(const context_settings& cs, bool share);
+  ~context_attributes_scope();
+
+private:
+  void save_context_settings();
+  void update_context_settings(const context_settings& cs) const;
+
+private:
+  context_settings m_settings_bkp;
+  int m_share_bkp;
+};
+
+
+
 uint32_t generate_uid();
 
 
 
-context_attributes_scope::context_attributes_scope(const context_settings& cs)
+current_context_guard::current_context_guard()
+  : m_ctx_bkp(context::get_current())
+  , m_wnd_uid_bkp(context::get_current_window_uid())
+{}
+
+
+
+current_context_guard::~current_context_guard()
+{
+  if(m_ctx_bkp != nullptr && m_wnd_uid_bkp != 0u)
+  {
+    context::set_current(*m_ctx_bkp, window::get_from_uid(m_wnd_uid_bkp));
+  }
+  else
+  {
+    context::unset_current();
+  }
+}
+
+
+
+context_attributes_scope::context_attributes_scope(
+  const context_settings& cs, bool share)
   : m_settings_bkp()
+  , m_share_bkp(0)
 {
   save_context_settings();
   update_context_settings(cs);
+
+  SDL_GL_GetAttribute(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, &m_share_bkp);
+  SDL_GL_SetAttribute(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, share);
 }
 
 
@@ -73,6 +100,8 @@ context_attributes_scope::context_attributes_scope(const context_settings& cs)
 context_attributes_scope::~context_attributes_scope()
 {
   update_context_settings(m_settings_bkp);
+
+  SDL_GL_SetAttribute(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, m_share_bkp);
 }
 
 
@@ -145,11 +174,6 @@ void context_attributes_scope::save_context_settings()
   SDL_GL_GetAttribute(SDL_GL_STEREO, &stereo);
   m_settings_bkp.set_stereo(stereo);
 
-  int share_with_current_context = 0;
-  SDL_GL_GetAttribute(
-    SDL_GL_SHARE_WITH_CURRENT_CONTEXT, &share_with_current_context);
-  m_settings_bkp.set_share_with_current_context(share_with_current_context);
-
   int ctx_flags = 0;
   SDL_GL_GetAttribute(SDL_GL_CONTEXT_FLAGS, &ctx_flags);
   m_settings_bkp.set_debug_mode(ctx_flags & SDL_GL_CONTEXT_DEBUG_FLAG);
@@ -217,9 +241,6 @@ void context_attributes_scope::update_context_settings(
 
   SDL_GL_SetAttribute(SDL_GL_STEREO, cs.stereo());
 
-  SDL_GL_SetAttribute(
-    SDL_GL_SHARE_WITH_CURRENT_CONTEXT, cs.share_with_current_context());
-
   int ctx_flags = 0;
   if(cs.debug_mode())
   {
@@ -238,27 +259,6 @@ void context_attributes_scope::update_context_settings(
     ctx_flags |= SDL_GL_CONTEXT_RESET_ISOLATION_FLAG;
   }
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, ctx_flags);
-}
-
-
-
-current_context_guard::current_context_guard()
-  : m_ctx_bkp(context::get_current())
-  , m_wnd_uid_bkp(context::get_current_window_uid())
-{}
-
-
-
-current_context_guard::~current_context_guard()
-{
-  if(m_ctx_bkp != nullptr && m_wnd_uid_bkp != 0u)
-  {
-    context::set_current(*m_ctx_bkp, window::get_from_uid(m_wnd_uid_bkp));
-  }
-  else
-  {
-    context::unset_current();
-  }
 }
 
 
@@ -320,15 +320,30 @@ context::context(const context_settings& cs, window& wnd)
   , m_sharing_group_uid(m_uid)
   , m_tracking_data()
 {
-  context_attributes_scope attr_scope(cs);
+  static constexpr bool share_with_current_ctx = true;
+  context_attributes_scope attr_scope(cs, !share_with_current_ctx);
+  m_impl = SDL_GL_CreateContext(wnd.get_impl());
+  HOU_CHECK_N(m_impl != nullptr, context_creation_error, SDL_GetError());
+}
+
+
+
+context::context(const context_settings& cs, window& wnd, context& sharing_ctx)
+  : non_copyable()
+  , m_impl(nullptr)
+  , m_uid(generate_uid())
+  , m_sharing_group_uid(sharing_ctx.m_sharing_group_uid)
+  , m_tracking_data()
+{
+  current_context_guard ctx_guard;
+  system_window w("", vec2u(1u, 1u));
+  context::set_current(sharing_ctx, w);
+
+  static constexpr bool share_with_current_ctx = true;
+  context_attributes_scope attr_scope(cs, share_with_current_ctx);
 
   m_impl = SDL_GL_CreateContext(wnd.get_impl());
   HOU_CHECK_N(m_impl != nullptr, context_creation_error, SDL_GetError());
-
-  if(cs.share_with_current_context() && get_current() != nullptr)
-  {
-    m_sharing_group_uid = get_current()->m_sharing_group_uid;
-  }
 }
 
 
