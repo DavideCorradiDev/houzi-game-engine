@@ -138,22 +138,25 @@ TEST_F(test_gl_context, get_uid)
 
 
 
-// TEST_F(test_gl_context, move_constructor)
-// {
-//   system_window w(
-//     "Test", video_mode(vec2u::zero(), 0u), window_style::windowed);
-//   gl::context c_dummy(gl::context_settings::get_default(), w);
-//   gl::context::set_current(c_dummy, w);
-//   ASSERT_EQ(&c_dummy, gl::context::get_current());
-//   uint32_t uid_ref = c_dummy.get_uid();
-//   uint32_t shared_uid_ref = c_dummy.get_sharing_group_uid();
-// 
-//   gl::context c = std::move(c_dummy);
-//   ASSERT_NE(&c_dummy, gl::context::get_current());
-//   ASSERT_EQ(&c, gl::context::get_current());
-//   ASSERT_EQ(uid_ref, c.get_uid());
-//   ASSERT_EQ(shared_uid_ref, c.get_sharing_group_uid());
-// }
+TEST_F(test_gl_context, move_constructor)
+{
+  system_window w("Test", vec2u::zero());
+  gl::context c_dummy(gl::context_settings::get_default(), w);
+  gl::context::set_current(c_dummy, w);
+
+  ASSERT_EQ(&c_dummy, gl::context::get_current());
+  ASSERT_EQ(w.get_uid(), gl::context::get_current_window_uid());
+
+  gl::context::uid_type uid_ref = c_dummy.get_uid();
+  gl::context::uid_type shared_uid_ref = c_dummy.get_sharing_group_uid();
+
+  gl::context c = std::move(c_dummy);
+  ASSERT_NE(&c_dummy, gl::context::get_current());
+  ASSERT_EQ(&c, gl::context::get_current());
+  ASSERT_EQ(w.get_uid(), gl::context::get_current_window_uid());
+  ASSERT_EQ(uid_ref, c.get_uid());
+  ASSERT_EQ(shared_uid_ref, c.get_sharing_group_uid());
+}
 
 
 
