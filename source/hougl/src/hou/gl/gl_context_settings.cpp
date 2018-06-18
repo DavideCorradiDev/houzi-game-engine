@@ -109,20 +109,31 @@ void context_settings::set_sample_count(uint value) noexcept
 
 
 
-bool operator==(const context_settings& l, const context_settings& r) noexcept
+bool operator==(const context_settings& lhs, const context_settings& rhs) noexcept
 {
-  return l.get_version() == r.get_version()
-    && l.get_profile() == r.get_profile()
-    && l.get_depth_bit_count() == r.get_depth_bit_count()
-    && l.get_stencil_bit_count() == r.get_stencil_bit_count()
-    && l.get_sample_count() == r.get_sample_count();
+  return lhs.get_version() == rhs.get_version()
+    && lhs.get_profile() == rhs.get_profile()
+    && lhs.get_depth_bit_count() == rhs.get_depth_bit_count()
+    && lhs.get_stencil_bit_count() == rhs.get_stencil_bit_count()
+    && lhs.get_sample_count() == rhs.get_sample_count();
 }
 
 
 
-bool operator!=(const context_settings& l, const context_settings& r) noexcept
+bool operator!=(const context_settings& lhs, const context_settings& rhs) noexcept
 {
-  return !(l == r);
+  return !(lhs == rhs);
+}
+
+
+
+std::ostream& operator<<(std::ostream& os, const context_settings& cs)
+{
+  return os << "{gl_version = " << cs.get_version()
+            << ", gl_profile = " << cs.get_profile()
+            << ", depth_bit_count = " << cs.get_depth_bit_count()
+            << ", stencil_bit_count = " << cs.get_stencil_bit_count()
+            << ", sample_count = " << cs.get_sample_count() << "}";
 }
 
 }  // namespace gl

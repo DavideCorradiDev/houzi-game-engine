@@ -123,6 +123,18 @@ TEST_F(test_gl_context_settings, comparison)
 
 
 
+TEST_F(test_gl_context_settings, output_stream_operator)
+{
+  gl::context_settings cs(
+    gl::version(3u, 4u), gl::context_profile::compatibility, 24u, 8u, 2u);
+  const char* out_ref
+    = "{gl_version = 3.4, gl_profile = compatibility, depth_bit_count = 24, "
+      "stencil_bit_count = 8, sample_count = 2}";
+  EXPECT_OUTPUT(out_ref, cs);
+}
+
+
+
 TEST_F(test_gl_context_settings, get_basic)
 {
   gl::context_settings cs_ref(
@@ -135,6 +147,6 @@ TEST_F(test_gl_context_settings, get_basic)
 TEST_F(test_gl_context_settings, get_default)
 {
   gl::context_settings cs_ref(
-    gl::version(4u, 5u), gl::context_profile::core, 3u, 1u, 0u);
+    gl::version(4u, 5u), gl::context_profile::core, 24u, 8u, 0u);
   EXPECT_EQ(cs_ref, gl::context_settings::get_default());
 }
