@@ -28,49 +28,21 @@ thread_local static window::uid_type g_current_window_uid(0u);
 
 
 
-//class context_attributes_scope
-//{
-//public:
-//  context_attributes_scope(const context_settings& cs, context* sharing_ctx);
-//  ~context_attributes_scope();
-//
-//private:
-//  void set_attributes(const context_settings& cs, context* sharing_ctx);
-//
-//private:
-//  context* m_context_bkp;
-//  context_settings m_settings_bkp;
-//};
+class context_attributes_scope
+{
+public:
+  context_attributes_scope(const context_settings& cs);
+  ~context_attributes_scope();
+
+private:
+  void save_context_settings();
+  void update_context_settings(const context_settings& cs) const;
+
+private:
+  context_settings m_settings_bkp;
+};
 
 uint32_t generate_uid();
-
-void set_attributes(const context_settings& settings, context* sharing_ctx);
-
-
-
-void set_attributes(const context_settings& settings, context* sharing_ctx)
-{
-  SDL_GL_ResetAttributes();
-
-  SDL_GL_SetAttribute(
-    SDL_GL_CONTEXT_MAJOR_VERSION, settings.get_version().get_major());
-  SDL_GL_SetAttribute(
-    SDL_GL_CONTEXT_MINOR_VERSION, settings.get_version().get_minor());
-
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
-    settings.get_profile() == context_profile::core
-      ? SDL_GL_CONTEXT_PROFILE_CORE
-      : SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
-
-  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, settings.get_depth_bit_count());
-
-  SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, settings.get_stencil_bit_count());
-
-  if(sharing_ctx != nullptr)
-  {
-    SDL_GL_SetAttribute(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, SDL_TRUE);
-  }
-}
 
 
 
@@ -82,49 +54,181 @@ uint32_t generate_uid()
 
 
 
-// context_attributes_scope::context_attributes_scope(
-//   const context_settings& cs, context* sharing_ctx);
-// {
-//   set_attributes(cs);
-// }
-// 
-// 
-// 
-// context_attributes_scope::~context_attributes_scope()
-// {
-//   set_attributes(m_settings_bkp);
-//   if(m_context_bkp)
-//   {
-//     context::set_current(m_context_bkp);
-//   }
-// }
-// 
-// 
-// 
-// void context_attributes_scope::set_attributes(
-//   const context_settings& cs, context* sharing_ctx)
-// {
-//   SDL_GL_ResetAttributes();
-// 
-//   SDL_GL_SetAttribute(
-//     SDL_GL_CONTEXT_MAJOR_VERSION, settings.get_version().get_major());
-//   SDL_GL_SetAttribute(
-//     SDL_GL_CONTEXT_MINOR_VERSION, settings.get_version().get_minor());
-// 
-//   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
-//     settings.get_profile() == context_profile::core
-//       ? SDL_GL_CONTEXT_PROFILE_CORE
-//       : SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
-// 
-//   SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, settings.get_depth_bit_count());
-// 
-//   SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, settings.get_stencil_bit_count());
-// 
-//   if(sharing_ctx != nullptr)
-//   {
-//     SDL_GL_SetAttribute(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, SDL_TRUE);
-//   }
-// }
+context_attributes_scope::context_attributes_scope(const context_settings& cs)
+  : m_settings_bkp()
+{
+  save_context_settings();
+  update_context_settings(cs);
+}
+
+
+
+context_attributes_scope::~context_attributes_scope()
+{
+  update_context_settings(m_settings_bkp);
+}
+
+
+
+void context_attributes_scope::save_context_settings()
+{
+  int major_version = 0;
+  SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &major_version);
+  int minor_version = 0;
+  SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &minor_version);
+  m_settings_bkp.set_version(gl::version(major_version, minor_version));
+
+  int profile = 0;
+  SDL_GL_GetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, &profile);
+  switch(profile)
+  {
+    case 0:
+      m_settings_bkp.set_profile(context_profile::any);
+      break;
+    case SDL_GL_CONTEXT_PROFILE_COMPATIBILITY:
+      m_settings_bkp.set_profile(context_profile::compatibility);
+      break;
+    case SDL_GL_CONTEXT_PROFILE_CORE:
+      m_settings_bkp.set_profile(context_profile::core);
+      break;
+    case SDL_GL_CONTEXT_PROFILE_ES:
+      m_settings_bkp.set_profile(context_profile::es);
+      break;
+    default:
+      m_settings_bkp.set_profile(context_profile::any);
+      break;
+  }
+
+  int red_size = 0;
+  SDL_GL_GetAttribute(SDL_GL_RED_SIZE, &red_size);
+  int green_size = 0;
+  SDL_GL_GetAttribute(SDL_GL_GREEN_SIZE, &green_size);
+  int blue_size = 0;
+  SDL_GL_GetAttribute(SDL_GL_BLUE_SIZE, &blue_size);
+  int alpha_size = 0;
+  SDL_GL_GetAttribute(SDL_GL_ALPHA_SIZE, &alpha_size);
+  m_settings_bkp.set_color_format(
+    color_format(red_size, green_size, blue_size, alpha_size));
+
+  int depth_size = 0;
+  SDL_GL_GetAttribute(SDL_GL_DEPTH_SIZE, &depth_size);
+  m_settings_bkp.set_depth_bit_count(depth_size);
+
+  int stencil_size = 0;
+  SDL_GL_GetAttribute(SDL_GL_STENCIL_SIZE, &stencil_size);
+  m_settings_bkp.set_stencil_bit_count(stencil_size);
+
+  int multisample_buffer_count = 0;
+  SDL_GL_GetAttribute(SDL_GL_MULTISAMPLEBUFFERS, &multisample_buffer_count);
+  m_settings_bkp.set_multisample_buffer_count(multisample_buffer_count);
+
+  int sample_count = 0;
+  SDL_GL_GetAttribute(SDL_GL_MULTISAMPLESAMPLES, &sample_count);
+  m_settings_bkp.set_sample_count(sample_count);
+
+  int double_buffer = 0;
+  SDL_GL_GetAttribute(SDL_GL_DOUBLEBUFFER, &double_buffer);
+  m_settings_bkp.set_double_buffer(double_buffer);
+
+  int srgb_capable = 0;
+  SDL_GL_GetAttribute(SDL_GL_FRAMEBUFFER_SRGB_CAPABLE, &srgb_capable);
+  m_settings_bkp.set_srgb_capable(srgb_capable);
+
+  int stereo = 0;
+  SDL_GL_GetAttribute(SDL_GL_STEREO, &stereo);
+  m_settings_bkp.set_stereo(stereo);
+
+  int share_with_current_context = 0;
+  SDL_GL_GetAttribute(
+    SDL_GL_SHARE_WITH_CURRENT_CONTEXT, &share_with_current_context);
+  m_settings_bkp.set_share_with_current_context(share_with_current_context);
+
+  int ctx_flags = 0;
+  SDL_GL_GetAttribute(SDL_GL_CONTEXT_FLAGS, &ctx_flags);
+  m_settings_bkp.set_debug_mode(ctx_flags & SDL_GL_CONTEXT_DEBUG_FLAG);
+  m_settings_bkp.set_forward_compatibility_mode(
+    ctx_flags & SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+  m_settings_bkp.set_robust_access(
+    ctx_flags & SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG);
+  m_settings_bkp.set_reset_isolation(
+    ctx_flags & SDL_GL_CONTEXT_RESET_ISOLATION_FLAG);
+}
+
+
+
+void context_attributes_scope::update_context_settings(
+  const context_settings& cs) const
+{
+  SDL_GL_ResetAttributes();
+
+  SDL_GL_SetAttribute(
+    SDL_GL_CONTEXT_MAJOR_VERSION, cs.get_version().get_major());
+  SDL_GL_SetAttribute(
+    SDL_GL_CONTEXT_MINOR_VERSION, cs.get_version().get_minor());
+
+  int profile = 0;
+  switch(cs.get_profile())
+  {
+    case context_profile::any:
+      profile = 0;
+      break;
+    case context_profile::compatibility:
+      profile = SDL_GL_CONTEXT_PROFILE_COMPATIBILITY;
+      break;
+    case context_profile::core:
+      profile = SDL_GL_CONTEXT_PROFILE_CORE;
+      break;
+    case context_profile::es:
+      profile = SDL_GL_CONTEXT_PROFILE_ES;
+      break;
+  }
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, profile);
+
+  SDL_GL_SetAttribute(
+    SDL_GL_RED_SIZE, cs.get_color_format().get_red_bit_count());
+  SDL_GL_SetAttribute(
+    SDL_GL_GREEN_SIZE, cs.get_color_format().get_green_bit_count());
+  SDL_GL_SetAttribute(
+    SDL_GL_BLUE_SIZE, cs.get_color_format().get_blue_bit_count());
+  SDL_GL_SetAttribute(
+    SDL_GL_ALPHA_SIZE, cs.get_color_format().get_alpha_bit_count());
+
+  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, cs.get_depth_bit_count());
+
+  SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, cs.get_stencil_bit_count());
+
+  SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, cs.get_multisample_buffer_count());
+
+  SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, cs.get_sample_count());
+
+  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, cs.double_buffer());
+
+  SDL_GL_SetAttribute(SDL_GL_FRAMEBUFFER_SRGB_CAPABLE, cs.srgb_capable());
+
+  SDL_GL_SetAttribute(SDL_GL_STEREO, cs.stereo());
+
+  SDL_GL_SetAttribute(
+    SDL_GL_SHARE_WITH_CURRENT_CONTEXT, cs.share_with_current_context());
+
+  int ctx_flags = 0;
+  if(cs.debug_mode())
+  {
+    ctx_flags |= SDL_GL_CONTEXT_DEBUG_FLAG;
+  }
+  if(cs.forward_compatibility_mode())
+  {
+    ctx_flags |= SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG;
+  }
+  if(cs.robust_access())
+  {
+    ctx_flags |= SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG;
+  }
+  if(cs.reset_isolation())
+  {
+    ctx_flags |= SDL_GL_CONTEXT_RESET_ISOLATION_FLAG;
+  }
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, ctx_flags);
+}
 
 }  // namespace
 
@@ -163,31 +267,22 @@ context* context::get_current() noexcept
 
 
 
-context::context(const context_settings& settings, window& wnd)
+context::context(const context_settings& cs, window& wnd)
   : non_copyable()
   , m_impl(nullptr)
   , m_uid(generate_uid())
   , m_sharing_group_uid(m_uid)
   , m_tracking_data()
 {
-  set_attributes(settings, nullptr);
+  context_attributes_scope attr_scope(cs);
+
   m_impl = SDL_GL_CreateContext(wnd.get_impl());
   HOU_CHECK_0(m_impl != nullptr, context_creation_error);
-}
 
-
-
-context::context(
-  const context_settings& settings, window& wnd, context& sharing_ctx)
-  : non_copyable()
-  , m_impl(nullptr)
-  , m_uid(generate_uid())
-  , m_sharing_group_uid(sharing_ctx.m_uid)
-  , m_tracking_data()
-{
-  set_attributes(settings, &sharing_ctx);
-  m_impl = SDL_GL_CreateContext(wnd.get_impl());
-  HOU_CHECK_0(m_impl != nullptr, context_creation_error);
+  if(cs.share_with_current_context() && get_current() != nullptr)
+  {
+    m_sharing_group_uid = get_current()->m_sharing_group_uid;
+  }
 }
 
 

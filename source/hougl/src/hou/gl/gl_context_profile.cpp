@@ -22,6 +22,7 @@ std::ostream& operator<<(std::ostream& os, context_profile co)
 {
   switch(co)
   {
+    CONTEXT_PROFILE_CASE(any, os);
     CONTEXT_PROFILE_CASE(compatibility, os);
     CONTEXT_PROFILE_CASE(core, os);
     CONTEXT_PROFILE_CASE(es, os);

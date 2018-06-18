@@ -24,7 +24,7 @@ context_settings make_basic_settings() noexcept
   cs.set_color_format(color_format(3u, 3u, 2u, 0u));
   cs.set_depth_bit_count(16u);
   cs.set_stencil_bit_count(0u);
-  cs.set_profile(context_profile::compatibility);
+  cs.set_profile(context_profile::any);
   cs.set_srgb_capable(false);
   return cs;
 }

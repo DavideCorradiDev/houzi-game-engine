@@ -19,6 +19,7 @@ namespace gl
 
 enum class context_profile
 {
+  any,
   compatibility,
   core,
   es,

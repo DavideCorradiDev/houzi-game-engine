@@ -49,9 +49,7 @@ public:
   static context* get_current() noexcept;
 
 public:
-  context(const context_settings& settings, window& wnd);
-
-  context(const context_settings& settings, window& wnd, context& sharing_ctx);
+  context(const context_settings& cs, window& wnd);
 
   context(context&& other) noexcept;
 

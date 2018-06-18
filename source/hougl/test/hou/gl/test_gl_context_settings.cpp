@@ -290,7 +290,7 @@ TEST_F(test_gl_context_settings, get_basic)
 {
   gl::context_settings cs = gl::context_settings::get_basic();
   EXPECT_EQ(gl::version(1u, 0u), cs.get_version());
-  EXPECT_EQ(gl::context_profile::compatibility, cs.get_profile());
+  EXPECT_EQ(gl::context_profile::any, cs.get_profile());
   EXPECT_EQ(gl::color_format(3u, 3u, 2u, 0u), cs.get_color_format());
   EXPECT_EQ(16u, cs.get_depth_bit_count());
   EXPECT_EQ(0u, cs.get_stencil_bit_count());

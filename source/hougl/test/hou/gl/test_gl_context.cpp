@@ -72,25 +72,25 @@ TEST_F(test_gl_context_death_test, creation_error_unsupported_version)
 
 
 
-TEST_F(test_gl_context, shared_creation)
-{
-  system_window w1(
-    "Test", video_mode(vec2u::zero(), 0u), window_style::windowed);
-  system_window w2(
-    "Test", video_mode(vec2u::zero(), 0u), window_style::windowed);
-  gl::context c1(gl::context_settings::get_default(), w1);
-  gl::context c2(gl::context_settings::get_default(), w2, c1);
-
-  EXPECT_NE(0u, c1.get_uid());
-  EXPECT_NE(0u, c1.get_sharing_group_uid());
-  EXPECT_FALSE(c1.is_current());
-
-  EXPECT_NE(0u, c2.get_uid());
-  EXPECT_NE(0u, c2.get_sharing_group_uid());
-  EXPECT_FALSE(c2.is_current());
-
-  EXPECT_EQ(c1.get_sharing_group_uid(), c2.get_sharing_group_uid());
-}
+// TEST_F(test_gl_context, shared_creation)
+// {
+//   system_window w1(
+//     "Test", video_mode(vec2u::zero(), 0u), window_style::windowed);
+//   system_window w2(
+//     "Test", video_mode(vec2u::zero(), 0u), window_style::windowed);
+//   gl::context c1(gl::context_settings::get_default(), w1);
+//   gl::context c2(gl::context_settings::get_default(), w2, c1);
+// 
+//   EXPECT_NE(0u, c1.get_uid());
+//   EXPECT_NE(0u, c1.get_sharing_group_uid());
+//   EXPECT_FALSE(c1.is_current());
+// 
+//   EXPECT_NE(0u, c2.get_uid());
+//   EXPECT_NE(0u, c2.get_sharing_group_uid());
+//   EXPECT_FALSE(c2.is_current());
+// 
+//   EXPECT_EQ(c1.get_sharing_group_uid(), c2.get_sharing_group_uid());
+// }
 
 
 
