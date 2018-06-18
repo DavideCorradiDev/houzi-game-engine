@@ -26,8 +26,6 @@ public:
 
   uint get_minor() const noexcept;
 
-  bool is_supported() const noexcept;
-
 private:
   uint m_major;
   uint m_minor;

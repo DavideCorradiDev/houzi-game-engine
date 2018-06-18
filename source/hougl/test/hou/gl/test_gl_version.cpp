@@ -31,17 +31,6 @@ TEST_F(test_gl_version, constructor)
 
 
 
-TEST_F(test_gl_version, is_supported)
-{
-  gl::version v1(4u, 5u);
-  gl::version v2(4u, 4u);
-
-  EXPECT_TRUE(v1.is_supported());
-  EXPECT_FALSE(v2.is_supported());
-}
-
-
-
 TEST_F(test_gl_version, comparison)
 {
   gl::version v(3u, 3u);
