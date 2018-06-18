@@ -50,7 +50,7 @@ const context_settings& context_settings::get_default() noexcept
 context_settings::context_settings() noexcept
   : m_version(4u, 5u)
   , m_profile(context_profile::core)
-  , m_color_format(8u, 8u, 8u, 8u)
+  , m_color_format(8u, 8u, 8u, 0u)
   , m_depth_bit_count(24u)
   , m_stencil_bit_count(8u)
   , m_multisample_buffer_count(0u)

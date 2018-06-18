@@ -192,6 +192,8 @@ void context_attributes_scope::update_context_settings(
     SDL_GL_BLUE_SIZE, cs.get_color_format().get_blue_bit_count());
   SDL_GL_SetAttribute(
     SDL_GL_ALPHA_SIZE, cs.get_color_format().get_alpha_bit_count());
+  SDL_GL_SetAttribute(
+    SDL_GL_BUFFER_SIZE, cs.get_color_format().get_bit_count());
 
   SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, cs.get_depth_bit_count());
 

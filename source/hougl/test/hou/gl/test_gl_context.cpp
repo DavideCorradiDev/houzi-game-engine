@@ -44,66 +44,53 @@ TEST_F(test_gl_context, constructor)
 
 
 
-// TEST_F(test_gl_context_death_test, creation_error_unsupported_version)
+// TEST_F(test_gl_context, shared_creation)
 // {
-//   system_window w(
-//     "Test", video_mode(vec2u(10u, 10u), 4u), window_style::windowed);
-//   gl::version v(8u, 9u);
-//   gl::context_settings settings = gl::context_settings::get_default();
-//   settings.set_version(v);
+//   system_window w1("Test", vec2u::zero());
+//   gl::context c1(gl::context_settings::get_default(), w1);
+//   gl::context::set_current(c1, w1);
 // 
-//   EXPECT_ERROR_N(gl::context c(settings, w), gl::unsupported_version, v);
+//   EXPECT_NE(0u, c1.get_uid());
+//   EXPECT_NE(0u, c1.get_sharing_group_uid());
+//   EXPECT_TRUE(c1.is_current());
+// 
+//   system_window w2("Test", vec2u::zero());
+//   gl::context_settings c2_settings;
+//   c2_settings.set_share_with_current_context(true);
+//   gl::context c2(c2_settings, w2);
+// 
+//   EXPECT_NE(0u, c2.get_uid());
+//   EXPECT_NE(0u, c2.get_sharing_group_uid());
+//   EXPECT_FALSE(c2.is_current());
+// 
+//   EXPECT_EQ(c1.get_sharing_group_uid(), c2.get_sharing_group_uid());
 // }
-// 
-// 
-// 
-// // TEST_F(test_gl_context, shared_creation)
-// // {
-// //   system_window w1(
-// //     "Test", video_mode(vec2u::zero(), 0u), window_style::windowed);
-// //   system_window w2(
-// //     "Test", video_mode(vec2u::zero(), 0u), window_style::windowed);
-// //   gl::context c1(gl::context_settings::get_default(), w1);
-// //   gl::context c2(gl::context_settings::get_default(), w2, c1);
-// // 
-// //   EXPECT_NE(0u, c1.get_uid());
-// //   EXPECT_NE(0u, c1.get_sharing_group_uid());
-// //   EXPECT_FALSE(c1.is_current());
-// // 
-// //   EXPECT_NE(0u, c2.get_uid());
-// //   EXPECT_NE(0u, c2.get_sharing_group_uid());
-// //   EXPECT_FALSE(c2.is_current());
-// // 
-// //   EXPECT_EQ(c1.get_sharing_group_uid(), c2.get_sharing_group_uid());
-// // }
-// 
-// 
-// 
-// TEST_F(test_gl_context, get_uid)
-// {
-//   system_window w(
-//     "Test", video_mode(vec2u::zero(), 0u), window_style::windowed);
-// 
-//   // Various tests generate contexts. Also, initializing Gl extensions craetes
-//   // a context. For this reason one may not know beforehand the first
-//   // context id that will appear in this test.
-//   gl::context first_context(gl::context_settings::get_default(), w);
-//   uint32_t first_id = first_context.get_uid() + 1u;
-// 
-//   for(size_t i = 0; i < 5u; ++i)
-//   {
-//     gl::context c(gl::context_settings::get_default(), w);
-//     EXPECT_EQ(first_id + i, c.get_uid());
-//     EXPECT_EQ(first_id + i, c.get_sharing_group_uid());
-//   }
-// }
-// 
-// 
-// 
+
+
+
+TEST_F(test_gl_context, get_uid)
+{
+  // Various tests generate contexts. Also, initializing Gl extensions craetes
+  // a context. For this reason one may not know beforehand the first
+  // context id that will appear in this test, and only the relative value
+  // can be tested.
+  system_window w("Test", vec2u::zero());
+  gl::context first_context(gl::context_settings::get_default(), w);
+  uint32_t first_id = first_context.get_uid() + 1u;
+
+  for(size_t i = 0; i < 5u; ++i)
+  {
+    gl::context c(gl::context_settings::get_default(), w);
+    EXPECT_EQ(first_id + i, c.get_uid());
+    EXPECT_EQ(first_id + i, c.get_sharing_group_uid());
+  }
+}
+
+
+
 // TEST_F(test_gl_context, get_sharing_group_uid)
 // {
-//   system_window w(
-//     "Test", video_mode(vec2u::zero(), 0u), window_style::windowed);
+//   system_window w("Test", vec2u::zero());
 //   gl::context c1(gl::context_settings::get_default(), w);
 //   gl::context c2(gl::context_settings::get_default(), w);
 //   gl::context c3(gl::context_settings::get_default(), w, c1);
@@ -148,9 +135,9 @@ TEST_F(test_gl_context, constructor)
 // 
 //   EXPECT_NE(c7.get_sharing_group_uid(), c8.get_sharing_group_uid());
 // }
-// 
-// 
-// 
+
+
+
 // TEST_F(test_gl_context, move_constructor)
 // {
 //   system_window w(

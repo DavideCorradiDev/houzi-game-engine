@@ -26,7 +26,7 @@ TEST_F(test_gl_context_settings, constructor)
 
   EXPECT_EQ(gl::version(4u, 5u), cs.get_version());
   EXPECT_EQ(gl::context_profile::core, cs.get_profile());
-  EXPECT_EQ(gl::color_format(8u, 8u, 8u, 8u), cs.get_color_format());
+  EXPECT_EQ(gl::color_format(8u, 8u, 8u, 0u), cs.get_color_format());
   EXPECT_EQ(24u, cs.get_depth_bit_count());
   EXPECT_EQ(8u, cs.get_stencil_bit_count());
   EXPECT_EQ(0u, cs.get_multisample_buffer_count());
@@ -66,7 +66,7 @@ TEST_F(test_gl_context_settings, set_profile)
 TEST_F(test_gl_context_settings, set_color_format)
 {
   gl::context_settings cs;
-  EXPECT_EQ(gl::color_format(8u, 8u, 8u, 8u), cs.get_color_format());
+  EXPECT_EQ(gl::color_format(8u, 8u, 8u, 0u), cs.get_color_format());
   cs.set_color_format(gl::color_format(1u, 2u, 3u, 4u));
   EXPECT_EQ(gl::color_format(1u, 2u, 3u, 4u), cs.get_color_format());
 }
@@ -268,7 +268,7 @@ TEST_F(test_gl_context_settings, output_stream_operator)
     = "{gl_version = 4.5, "
       "gl_profile = core, "
       "color_format = {red_bit_count = 8, green_bit_count = 8, blue_bit_count "
-      "= 8, alpha_bit_count = 8}, "
+      "= 8, alpha_bit_count = 0}, "
       "depth_bit_count = 24, "
       "stencil_bit_count = 8, "
       "multisample_buffer_count = 0, "
