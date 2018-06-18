@@ -74,6 +74,7 @@ window::window(window&& other) noexcept
   , m_icon(std::move(other.m_icon))
 {
   other.m_impl = nullptr;
+  SDL_SetWindowData(m_impl, g_impl_data_name, this);
 }
 
 

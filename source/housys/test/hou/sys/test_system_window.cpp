@@ -70,12 +70,32 @@ TEST_F(test_system_window, move_constructor)
 {
   system_window w_dummy(u8"TestWindow", vec2u(32u, 64u));
   not_null<window::impl_type*> impl = w_dummy.get_impl();
-  uint32_t uid = w_dummy.get_uid();
+  window::uid_type uid = w_dummy.get_uid();
   system_window w(std::move(w_dummy));
   EXPECT_EQ(impl, w.get_impl());
   EXPECT_EQ(uid, w.get_uid());
   EXPECT_PRECOND_ERROR(w_dummy.get_impl());
   EXPECT_EQ(0u, w_dummy.get_uid());
+}
+
+
+
+TEST_F(test_system_window, move_constructor_get_from_uid)
+{
+  system_window w_dummy(u8"TestWindow", vec2u(32u, 64u));
+  EXPECT_EQ(&w_dummy, &window::get_from_uid(w_dummy.get_uid()));
+  system_window w(std::move(w_dummy));
+  EXPECT_EQ(&w, &window::get_from_uid(w.get_uid()));
+}
+
+
+
+TEST_F(test_system_window, move_constructor_get_from_impl)
+{
+  system_window w_dummy(u8"TestWindow", vec2u(32u, 64u));
+  EXPECT_EQ(&w_dummy, &window::get_from_impl(w_dummy.get_impl()));
+  system_window w(std::move(w_dummy));
+  EXPECT_EQ(&w, &window::get_from_impl(w.get_impl()));
 }
 
 
