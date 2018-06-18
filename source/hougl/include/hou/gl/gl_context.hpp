@@ -48,7 +48,7 @@ public:
 
   static context* get_current();
 
-  static window* get_current_window();
+  static window::uid_type get_current_window_uid();
 
 public:
   context(const context_settings& cs, window& wnd);

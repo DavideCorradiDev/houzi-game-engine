@@ -52,7 +52,7 @@ public:
 
 private:
   context* m_ctx_bkp;
-  window* m_wnd_bkp;
+  window::uid_type m_wnd_uid_bkp;
 };
 
 
@@ -244,16 +244,16 @@ void context_attributes_scope::update_context_settings(
 
 current_context_guard::current_context_guard()
   : m_ctx_bkp(context::get_current())
-  , m_wnd_bkp(context::get_current_window())
+  , m_wnd_uid_bkp(context::get_current_window_uid())
 {}
 
 
 
 current_context_guard::~current_context_guard()
 {
-  if(m_ctx_bkp != nullptr && m_wnd_bkp != nullptr)
+  if(m_ctx_bkp != nullptr && m_wnd_uid_bkp != 0u)
   {
-    context::set_current(*m_ctx_bkp, *m_wnd_bkp);
+    context::set_current(*m_ctx_bkp, window::get_from_uid(m_wnd_uid_bkp));
   }
   else
   {
@@ -306,14 +306,9 @@ context* context::get_current()
 
 
 
-window* context::get_current_window()
+window::uid_type context::get_current_window_uid()
 {
-  SDL_Window* w = SDL_GL_GetCurrentWindow();
-  if(w == nullptr)
-  {
-    return nullptr;
-  }
-  return &window::get_from_impl(w);
+  return g_current_window_uid;
 }
 
 
@@ -325,7 +320,6 @@ context::context(const context_settings& cs, window& wnd)
   , m_sharing_group_uid(m_uid)
   , m_tracking_data()
 {
-  current_context_guard ctx_guard;
   context_attributes_scope attr_scope(cs);
 
   m_impl = SDL_GL_CreateContext(wnd.get_impl());

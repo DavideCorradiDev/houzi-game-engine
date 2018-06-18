@@ -167,31 +167,31 @@ TEST_F(test_gl_context, current_gl_context)
   EXPECT_FALSE(c1.is_current());
   EXPECT_FALSE(c2.is_current());
   EXPECT_EQ(nullptr, gl::context::get_current());
-  EXPECT_EQ(nullptr, gl::context::get_current_window());
+  EXPECT_EQ(0u, gl::context::get_current_window_uid());
 
   gl::context::set_current(c1, w1);
   EXPECT_TRUE(c1.is_current());
   EXPECT_FALSE(c2.is_current());
   EXPECT_EQ(&c1, gl::context::get_current());
-  EXPECT_EQ(&w1, gl::context::get_current_window());
+  EXPECT_EQ(w1.get_uid(), gl::context::get_current_window_uid());
 
   gl::context::set_current(c2, w2);
   EXPECT_FALSE(c1.is_current());
   EXPECT_TRUE(c2.is_current());
   EXPECT_EQ(&c2, gl::context::get_current());
-  EXPECT_EQ(&w2, gl::context::get_current_window());
+  EXPECT_EQ(w2.get_uid(), gl::context::get_current_window_uid());
 
   gl::context::set_current(c2, w2);
   EXPECT_FALSE(c1.is_current());
   EXPECT_TRUE(c2.is_current());
   EXPECT_EQ(&c2, gl::context::get_current());
-  EXPECT_EQ(&w2, gl::context::get_current_window());
+  EXPECT_EQ(w2.get_uid(), gl::context::get_current_window_uid());
 
   gl::context::unset_current();
   EXPECT_FALSE(c1.is_current());
   EXPECT_FALSE(c2.is_current());
   EXPECT_EQ(nullptr, gl::context::get_current());
-  EXPECT_EQ(nullptr, gl::context::get_current_window());
+  EXPECT_EQ(0u, gl::context::get_current_window_uid());
 }
 
 
