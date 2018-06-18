@@ -41,11 +41,11 @@ private:
 
 
 
-class context_attributes_scope : public non_copyable
+class context_attributes_guard : public non_copyable
 {
 public:
-  context_attributes_scope(const context_settings& cs, bool share);
-  ~context_attributes_scope();
+  context_attributes_guard(const context_settings& cs, bool share);
+  ~context_attributes_guard();
 
 private:
   void save_context_settings();
@@ -83,7 +83,7 @@ current_context_guard::~current_context_guard()
 
 
 
-context_attributes_scope::context_attributes_scope(
+context_attributes_guard::context_attributes_guard(
   const context_settings& cs, bool share)
   : m_settings_bkp()
   , m_share_bkp(0)
@@ -97,16 +97,16 @@ context_attributes_scope::context_attributes_scope(
 
 
 
-context_attributes_scope::~context_attributes_scope()
+context_attributes_guard::~context_attributes_guard()
 {
-  update_context_settings(m_settings_bkp);
-
   SDL_GL_SetAttribute(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, m_share_bkp);
+
+  update_context_settings(m_settings_bkp);
 }
 
 
 
-void context_attributes_scope::save_context_settings()
+void context_attributes_guard::save_context_settings()
 {
   int major_version = 0;
   SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &major_version);
@@ -187,7 +187,7 @@ void context_attributes_scope::save_context_settings()
 
 
 
-void context_attributes_scope::update_context_settings(
+void context_attributes_guard::update_context_settings(
   const context_settings& cs) const
 {
   SDL_GL_ResetAttributes();
@@ -321,7 +321,7 @@ context::context(const context_settings& cs, window& wnd)
   , m_tracking_data()
 {
   static constexpr bool share_with_current_ctx = true;
-  context_attributes_scope attr_scope(cs, !share_with_current_ctx);
+  context_attributes_guard attr_scope(cs, !share_with_current_ctx);
   m_impl = SDL_GL_CreateContext(wnd.get_impl());
   HOU_CHECK_N(m_impl != nullptr, context_creation_error, SDL_GetError());
 }
@@ -340,7 +340,7 @@ context::context(const context_settings& cs, window& wnd, context& sharing_ctx)
   context::set_current(sharing_ctx, w);
 
   static constexpr bool share_with_current_ctx = true;
-  context_attributes_scope attr_scope(cs, share_with_current_ctx);
+  context_attributes_guard attr_scope(cs, share_with_current_ctx);
 
   m_impl = SDL_GL_CreateContext(wnd.get_impl());
   HOU_CHECK_N(m_impl != nullptr, context_creation_error, SDL_GetError());
