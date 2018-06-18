@@ -10,6 +10,8 @@
 
 #include "hou/sys/sys_module.hpp"
 
+#include "hou/gl/gl_module.hpp"
+
 
 
 int main(int argc, char** argv)
@@ -20,6 +22,8 @@ int main(int argc, char** argv)
   hou::mth_module::register_terminate_callbacks();
   hou::sys_module::initialize();
   hou::sys_module::register_terminate_callbacks();
+  hou::gl_module::initialize();
+  hou::gl_module::register_terminate_callbacks();
 
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

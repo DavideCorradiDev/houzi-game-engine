@@ -22,7 +22,6 @@ class window;
 namespace gl
 {
 
-HOU_GL_API void init_extensions();
 HOU_GL_API const GLubyte* get_gl_version_string();
 
 HOU_GL_API void set_vertical_sync_mode(vertical_sync_mode mode);

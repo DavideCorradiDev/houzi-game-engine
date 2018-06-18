@@ -23,21 +23,10 @@ namespace
 {
 
 class test_gl_context : public testing::Test
-{
-public:
-  static void SetUpTestCase();
-};
+{};
 
 using test_gl_context_death_test = test_gl_context;
-
 using test_gl_context_optimizations = test_gl_context;
-
-
-
-void test_gl_context::SetUpTestCase()
-{
-  // gl::init_extensions();
-}
 
 }  // namespace
 

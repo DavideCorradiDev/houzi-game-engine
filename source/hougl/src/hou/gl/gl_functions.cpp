@@ -12,14 +12,10 @@
 
 #include "hou/mth/rectangle.hpp"
 
-#include "hou/sys/system_window.hpp"
-#include "hou/sys/video_mode.hpp"
-
 #if defined(HOU_SYSTEM_WINDOWS)
 #include "hou/sys/win/win_error.hpp"
 #endif
 
-#include <mutex>
 
 
 
@@ -61,48 +57,6 @@ GLboolean is_enabed(GLenum val)
   return retval;
 }
 }  // namespace
-
-void init_extensions()
-{
-  static bool extensionsInitialized = false;
-  static std::mutex extensionsMutex;
-
-  std::lock_guard<std::mutex> lock(extensionsMutex);
-  // Initialize only once.
-  if(extensionsInitialized)
-  {
-    return;
-  }
-
-  // Create temporary dummy context, needed to call any GL function.
-  system_window w("", vec2u(1u, 1u));
-  gl::context c(gl::context_settings::get_basic(), w);
-  gl::context::set_current(c, w);
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-
-  int glad_init = gladLoadGLLoader(SDL_GL_GetProcAddress);
-  HOU_CHECK_N(glad_init != 0, extension_initialization_error, glad_init);
-
-  //   // Initialize extenstions through GLAD.
-  //   int glad_init_retval = gladLoadGL();
-  //   HOU_CHECK_N(
-  //     glad_init_retval != 0, extension_initialization_error,
-  //     glad_init_retval);
-  //
-  // #if defined(HOU_SYSTEM_WINDOWS)
-  //   int wgl_glad_init_retval = gladLoadWGL(GetDC(w.get_handle()));
-  //   HOU_CHECK_N(wgl_glad_init_retval != 0, extension_initialization_error,
-  //     wgl_glad_init_retval);
-  // #elif defined(HOU_SYSTEM_LINUX)
-  //   int glx_glad_init_retval = gladLoadWGL(GetDC(w.get_handle()));
-  //   HOU_CHECK_N(glx_glad_init_retval != 0, extension_initialization_error,
-  //     glx_glad_init_retval);
-  // #endif
-
-  extensionsInitialized = true;
-}
-
-
 
 const GLubyte* get_gl_version_string()
 {
