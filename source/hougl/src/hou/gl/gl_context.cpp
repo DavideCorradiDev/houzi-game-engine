@@ -92,7 +92,7 @@ context_attributes_guard::context_attributes_guard(
   update_context_settings(cs);
 
   SDL_GL_GetAttribute(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, &m_share_bkp);
-  SDL_GL_SetAttribute(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, share);
+  SDL_GL_SetAttribute(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, share ? 1 : 0);
 }
 
 
@@ -320,8 +320,16 @@ context::context(const context_settings& cs, window& wnd)
   , m_sharing_group_uid(m_uid)
   , m_tracking_data()
 {
+  // Note: the SDL_SHARE_WITH_CURRENT_CONTEXT_FLAG must be set when creating
+  // BOTH shared context, not only the sharing one.
+  // For this reason, it is always set, also for non-sharing contexts.
+  // For non-sharing context, the current context is set to nullptr so that
+  // no sharing takes place.
+  current_context_guard ctx_guard;
+  context::unset_current();
+
   static constexpr bool share_with_current_ctx = true;
-  context_attributes_guard attr_scope(cs, !share_with_current_ctx);
+  context_attributes_guard attr_scope(cs, share_with_current_ctx);
   m_impl = SDL_GL_CreateContext(wnd.get_impl());
   HOU_CHECK_N(m_impl != nullptr, context_creation_error, SDL_GetError());
 }

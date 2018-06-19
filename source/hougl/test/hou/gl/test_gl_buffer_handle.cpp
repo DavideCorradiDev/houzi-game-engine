@@ -45,7 +45,7 @@ TEST_F(test_gl_buffer_handle_death_test, DISABLED_no_context_creation)
 
 
 
-TEST_F(test_gl_buffer_handle, tracking)
+TEST_F(test_gl_buffer_handle, binding)
 {
   gl::buffer_handle bh1 = gl::buffer_handle::create();
   gl::buffer_handle bh2 = gl::buffer_handle::create();
