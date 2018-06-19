@@ -7,36 +7,17 @@
 
 #include "hou/gfx/gfx_config.hpp"
 
-#include <iostream>
+#include "hou/gl/gl_vertical_sync_mode.hpp"
 
 
 
 namespace hou
 {
 
-/** Enumeration for the vertical sync mode. */
-enum class vertical_sync_mode : int
-{
-  /** disabled. */
-  disabled = 0,
-  /** enabled, */
-  enabled = 1,
-  /** vertical sync is enabled only if the frame rate is higher than the sync
-   *  rate. */
-  adaptive = -1,
-};
-
-
-
-/** Writes a vertical_sync_mode enum into a stream.
- *
- * \param os the stream.
- *
- * \param vsm the vertical_sync_mode enum.
- *
- * \return a reference to the stream.
+/**
+ * Represents the vertical sync mode.
  */
-HOU_GFX_API std::ostream& operator<<(std::ostream& os, vertical_sync_mode vsm);
+using vertical_sync_mode = gl::vertical_sync_mode;
 
 }  // namespace hou
 

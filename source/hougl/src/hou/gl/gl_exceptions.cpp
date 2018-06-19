@@ -103,6 +103,15 @@ invalid_context_error::invalid_context_error(const std::string& path, uint line)
 
 
 
+vsync_error::vsync_error(
+  const std::string& path, uint line, const std::string& details)
+  : exception(path, line,
+      format_string(
+        u8"Failed to set the vertical sync mode.\n%s", details.c_str()))
+{}
+
+
+
 shader_compiler_error::shader_compiler_error(const std::string& path, uint line,
   GLenum shader_type, const std::string& message)
   : exception(path, line,
@@ -126,12 +135,6 @@ invalid_uniform_error::invalid_uniform_error(
   : exception(path, line,
       format_string(u8"The uniform '%s' was not defined in the shader program.",
         uniform_name.c_str()))
-{}
-
-
-
-vsync_error::vsync_error(const std::string& path, uint line)
-  : exception(path, line, u8"Failed to set the vertical sync mode.")
 {}
 
 

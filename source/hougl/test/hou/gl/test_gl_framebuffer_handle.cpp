@@ -45,7 +45,7 @@ TEST_F(test_gl_framebuffer_handle_death_test, DISABLED_no_context_creation)
 
 
 
-TEST_F(test_gl_framebuffer_handle, tracking)
+TEST_F(test_gl_framebuffer_handle, binding)
 {
   gl::framebuffer_handle fbh1 = gl::framebuffer_handle::create();
   gl::framebuffer_handle fbh2 = gl::framebuffer_handle::create();

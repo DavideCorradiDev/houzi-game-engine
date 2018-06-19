@@ -18,18 +18,31 @@
 
 
 
-
 namespace hou
 {
 
 namespace gl
 {
 
-namespace
+const GLubyte* get_gl_version_string()
 {
-void enable(GLenum val);
-void disable(GLenum val);
-GLboolean is_enabed(GLenum val);
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  const GLubyte* str = glGetString(GL_VERSION);
+  HOU_GL_CHECK_ERROR();
+  return str;
+}
+
+
+
+GLboolean is_enabled(GLenum val)
+{
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  GLboolean retval = glIsEnabled(val);
+  HOU_GL_CHECK_ERROR();
+  return retval;
+}
+
+
 
 void enable(GLenum val)
 {
@@ -49,36 +62,20 @@ void disable(GLenum val)
 
 
 
-GLboolean is_enabed(GLenum val)
+void get_integer_v(GLenum variable, GLint* value)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  GLboolean retval = glIsEnabled(val);
+  glGetIntegerv(variable, value);
   HOU_GL_CHECK_ERROR();
-  return retval;
-}
-}  // namespace
-
-const GLubyte* get_gl_version_string()
-{
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  const GLubyte* str = glGetString(GL_VERSION);
-  HOU_GL_CHECK_ERROR();
-  return str;
 }
 
 
 
-void set_vertical_sync_mode(vertical_sync_mode mode)
+GLint get_integer(GLenum variable)
 {
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-#if defined(HOU_SYSTEM_WINDOWS)
-  if(wglSwapIntervalEXT)
-  {
-    HOU_CHECK_0(wglSwapIntervalEXT(static_cast<int>(mode)) != 0, vsync_error);
-  }
-#else
-  HOU_UNREACHABLE();
-#endif
+  GLint value;
+  get_integer_v(variable, &value);
+  return value;
 }
 
 
@@ -119,32 +116,9 @@ void clear(GLenum mask)
 
 
 
-void enable_blending()
-{
-  enable(GL_BLEND);
-}
-
-
-
-void disable_blending()
-{
-  disable(GL_BLEND);
-}
-
-
-
 GLboolean is_blending_enabled()
 {
-  return is_enabed(GL_BLEND);
-}
-
-
-
-void set_blending(GLenum sfactor, GLenum dfactor)
-{
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  glBlendFunc(sfactor, dfactor);
-  HOU_GL_CHECK_ERROR();
+  return is_enabled(GL_BLEND);
 }
 
 
@@ -163,6 +137,36 @@ GLenum get_destination_blending()
 
 
 
+void enable_blending()
+{
+  enable(GL_BLEND);
+}
+
+
+
+void disable_blending()
+{
+  disable(GL_BLEND);
+}
+
+
+
+void set_blending(GLenum sfactor, GLenum dfactor)
+{
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  glBlendFunc(sfactor, dfactor);
+  HOU_GL_CHECK_ERROR();
+}
+
+
+
+GLboolean is_multisampling_enabled()
+{
+  return is_enabled(GL_MULTISAMPLE);
+}
+
+
+
 void enable_multisampling()
 {
   enable(GL_MULTISAMPLE);
@@ -173,22 +177,6 @@ void enable_multisampling()
 void disable_multisampling()
 {
   disable(GL_MULTISAMPLE);
-}
-
-
-
-GLboolean is_multisampling_enabled()
-{
-  return is_enabed(GL_MULTISAMPLE);
-}
-
-
-
-void set_unpack_alignment(GLint value)
-{
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  glPixelStorei(GL_UNPACK_ALIGNMENT, value);
-  HOU_GL_CHECK_ERROR();
 }
 
 
@@ -204,10 +192,10 @@ GLint get_unpack_alignment()
 
 
 
-void set_pack_alignment(GLint value)
+void set_unpack_alignment(GLint value)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  glPixelStorei(GL_PACK_ALIGNMENT, value);
+  glPixelStorei(GL_UNPACK_ALIGNMENT, value);
   HOU_GL_CHECK_ERROR();
 }
 
@@ -220,6 +208,15 @@ GLint get_pack_alignment()
   glGetIntegerv(GL_PACK_ALIGNMENT, &value);
   HOU_GL_CHECK_ERROR();
   return value;
+}
+
+
+
+void set_pack_alignment(GLint value)
+{
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  glPixelStorei(GL_PACK_ALIGNMENT, value);
+  HOU_GL_CHECK_ERROR();
 }
 
 
@@ -278,9 +275,9 @@ GLsizei get_pixel_size_bytes(GLenum format)
     case GL_RGBA:
     case GL_BGRA:
       return 4u;
-    default:
-      return 1u;
   }
+  HOU_UNREACHABLE();
+  return 1u;
 }
 
 
@@ -294,24 +291,6 @@ GLsizei compute_texture_size_bytes(
   GLsizei offset = row_size % unpack_alignment;
   row_size += (unpack_alignment - offset) % unpack_alignment;
   return row_size * height * depth;
-}
-
-
-
-void get_integer_v(GLenum variable, GLint* value)
-{
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  glGetIntegerv(variable, value);
-  HOU_GL_CHECK_ERROR();
-}
-
-
-
-GLint get_integer(GLenum variable)
-{
-  GLint value;
-  get_integer_v(variable, &value);
-  return value;
 }
 
 }  // namespace gl

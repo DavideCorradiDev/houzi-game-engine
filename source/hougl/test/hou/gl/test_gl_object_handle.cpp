@@ -7,8 +7,6 @@
 #include "hou/gl/gl_context_settings.hpp"
 #include "hou/gl/gl_object_handle.hpp"
 
-
-
 using namespace hou;
 
 

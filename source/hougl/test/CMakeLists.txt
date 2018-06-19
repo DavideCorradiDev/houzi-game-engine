@@ -44,7 +44,7 @@ SET(EXE_HOUGL_TEST_SRC
   hou/gl/test_gl_color_format.cpp
   hou/gl/test_gl_context_settings.cpp
   hou/gl/test_gl_exceptions.cpp
-  # hou/gl/test_gl_framebuffer_handle.cpp
+  hou/gl/test_gl_framebuffer_handle.cpp
   # hou/gl/test_gl_functions.cpp
   hou/gl/test_gl_object_handle.cpp
   # hou/gl/test_gl_program_handle.cpp
@@ -52,6 +52,7 @@ SET(EXE_HOUGL_TEST_SRC
   # hou/gl/test_gl_shader_sources.cpp
   # hou/gl/test_gl_texture_handle.cpp
   hou/gl/test_gl_version.cpp
+  hou/gl/test_gl_vertical_sync_mode.cpp
   # hou/gl/test_gl_vertex_array_handle.cpp
 )
 

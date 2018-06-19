@@ -54,11 +54,13 @@ framebuffer_handle framebuffer_handle::create()
 
 framebuffer_handle::~framebuffer_handle()
 {
+  HOU_DISABLE_EXCEPTIONS_BEGIN;
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(*this);
   GLuint name = get_name();
   glDeleteFramebuffers(1, &name);
   HOU_GL_CHECK_ERROR();
+  HOU_DISABLE_EXCEPTIONS_END;
 }
 
 

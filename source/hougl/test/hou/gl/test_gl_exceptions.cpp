@@ -80,6 +80,16 @@ TEST_F(test_gl_exceptions, invalid_context_error)
 
 
 
+TEST_F(test_gl_exceptions, vsync_error)
+{
+  gl::vsync_error ex("foo.cpp", 42u, "Unsupported.");
+  EXPECT_STREQ(
+    "foo.cpp:42 - Failed to set the vertical sync mode.\nUnsupported.",
+    ex.what());
+}
+
+
+
 TEST_F(test_gl_exceptions, shader_compiler_error)
 {
   gl::shader_compiler_error ex_vertex(
@@ -134,14 +144,6 @@ TEST_F(test_gl_exceptions, invalid_uniform_error)
     "foo.cpp:42 - The uniform 'uniform_name' was not defined in the shader "
     "program.",
     ex.what());
-}
-
-
-
-TEST_F(test_gl_exceptions, vsync_error)
-{
-  gl::vsync_error ex("foo.cpp", 42u);
-  EXPECT_STREQ("foo.cpp:42 - Failed to set the vertical sync mode.", ex.what());
 }
 
 

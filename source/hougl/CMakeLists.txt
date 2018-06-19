@@ -38,14 +38,15 @@ SET(LIB_HOUGL_SRC
   src/hou/gl/gl_context_profile.cpp
   src/hou/gl/gl_context_settings.cpp
   src/hou/gl/gl_exceptions.cpp
-  # src/hou/gl/gl_framebuffer_handle.cpp
-  # src/hou/gl/gl_functions.cpp
+  src/hou/gl/gl_framebuffer_handle.cpp
+  src/hou/gl/gl_functions.cpp
   src/hou/gl/gl_module.cpp
   src/hou/gl/gl_object_handle.cpp
   # src/hou/gl/gl_program_handle.cpp
   # src/hou/gl/gl_shader_handle.cpp
   # src/hou/gl/gl_texture_handle.cpp
   src/hou/gl/gl_version.cpp
+  src/hou/gl/gl_vertical_sync_mode.cpp
   # src/hou/gl/gl_vertex_array_handle.cpp
 )
 
