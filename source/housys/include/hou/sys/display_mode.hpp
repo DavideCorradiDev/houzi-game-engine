@@ -114,7 +114,7 @@ HOU_SYS_API bool operator!=(
   const display_mode& lhs, const display_mode& rhs) noexcept;
 
 /**
- * Checks if lhs is lower than rhs.
+ * Checks if lhs is less than rhs.
  *
  * \param lhs the left operand.
  *
@@ -138,7 +138,7 @@ HOU_SYS_API bool operator>(
   const display_mode& lhs, const display_mode& rhs) noexcept;
 
 /**
- * Checks if lhs is lower or equal to rhs.
+ * Checks if lhs is less or equal to rhs.
  *
  * \param lhs the left operand.
  *
