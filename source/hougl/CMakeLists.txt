@@ -42,12 +42,12 @@ SET(LIB_HOUGL_SRC
   src/hou/gl/gl_functions.cpp
   src/hou/gl/gl_module.cpp
   src/hou/gl/gl_object_handle.cpp
-  # src/hou/gl/gl_program_handle.cpp
-  # src/hou/gl/gl_shader_handle.cpp
-  # src/hou/gl/gl_texture_handle.cpp
+  src/hou/gl/gl_program_handle.cpp
+  src/hou/gl/gl_shader_handle.cpp
+  src/hou/gl/gl_texture_handle.cpp
   src/hou/gl/gl_version.cpp
   src/hou/gl/gl_vsync_mode.cpp
-  # src/hou/gl/gl_vertex_array_handle.cpp
+  src/hou/gl/gl_vertex_array_handle.cpp
 )
 
 

@@ -2,14 +2,12 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/test.hpp"
 #include "hou/gl/test_gl_single_context.hpp"
 
 #include "hou/gl/gl_exceptions.hpp"
 #include "hou/gl/gl_functions.hpp"
 
 #include "hou/sys/system_window.hpp"
-#include "hou/sys/video_mode.hpp"
 
 using namespace hou;
 
@@ -25,15 +23,6 @@ class test_gl_functions_death_test : public test_gl_functions
 {};
 
 }  // namespace
-
-
-
-TEST_F(test_gl_functions, vertical_sync)
-{
-  gl::set_vertical_sync_mode(gl::vertical_sync_mode::disabled);
-  gl::set_vertical_sync_mode(gl::vertical_sync_mode::enabled);
-  SUCCEED();
-}
 
 
 
@@ -115,8 +104,7 @@ TEST_F(test_gl_functions, compute_texture_size_bytes)
 TEST_F(test_gl_functions, bind_window)
 {
   ASSERT_TRUE(m_context.is_current());
-  system_window w(
-    "Test", video_mode(vec2u(40u, 30u), 32u), window_style::windowed);
+  system_window w("Test", vec2u(40u, 30u));
   gl::bind_window(w);
   EXPECT_TRUE(m_context.is_current());
 }

@@ -20,9 +20,12 @@ namespace
 {
 
 GLenum to_get_gl_enum(GLenum target);
+
 GLint get_texture_parameter_i(const texture_handle& tex, GLenum param);
+
 void set_texture_parameter_i(
   const texture_handle& tex, GLenum param, GLint value);
+
 GLint get_texture_level_parameter_i(
   const texture_handle& tex, GLint level, GLenum param);
 
@@ -112,11 +115,13 @@ texture_handle texture_handle::create(GLenum target)
 
 texture_handle::~texture_handle()
 {
+  HOU_DISABLE_EXCEPTIONS_BEGIN;
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(*this);
   GLuint name = get_name();
   glDeleteTextures(1, &name);
   HOU_GL_CHECK_ERROR();
+  HOU_DISABLE_EXCEPTIONS_END;
 }
 
 

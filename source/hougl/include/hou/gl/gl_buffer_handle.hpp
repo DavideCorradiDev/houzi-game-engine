@@ -22,6 +22,7 @@ class HOU_GL_API buffer_handle : public shared_object_handle
 public:
   static buffer_handle create();
 
+public:
   buffer_handle(buffer_handle&& other) noexcept = default;
 
   virtual ~buffer_handle();
