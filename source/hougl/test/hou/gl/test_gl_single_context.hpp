@@ -13,7 +13,6 @@ class test_gl_single_context : public test_gl_base
 {
 public:
   test_gl_single_context();
-  virtual ~test_gl_single_context();
 };
 
 #endif

@@ -7,6 +7,7 @@
 
 #include "hou/cor/non_copyable.hpp"
 
+#include "hou/gl/gl_context.hpp"
 #include "hou/gl/open_gl.hpp"
 
 #include "hou/gl/gl_config.hpp"
@@ -22,16 +23,22 @@ namespace gl
 class HOU_GL_API object_handle : public non_copyable
 {
 public:
+  using uid_type = uint32_t;
+
+public:
   object_handle(GLuint name) noexcept;
+
   object_handle(object_handle&& other) noexcept;
+
   virtual ~object_handle() = 0;
 
   GLuint get_name() const noexcept;
-  uint32_t get_uid() const noexcept;
+
+  uid_type get_uid() const noexcept;
 
 private:
   GLuint m_name;
-  uint32_t m_uid;
+  uid_type m_uid;
 };
 
 
@@ -40,13 +47,11 @@ class HOU_GL_API shared_object_handle : public object_handle
 {
 public:
   shared_object_handle(GLuint name);
-  shared_object_handle(shared_object_handle&& other) noexcept;
-  virtual ~shared_object_handle() = 0;
 
-  uint32_t get_owning_sharing_group_uid() const noexcept;
+  context::uid_type get_owning_sharing_group_uid() const noexcept;
 
 private:
-  uint32_t m_owning_sharing_group_uid;
+  context::uid_type m_owning_sharing_group_uid;
 };
 
 
@@ -55,13 +60,11 @@ class HOU_GL_API non_shared_object_handle : public object_handle
 {
 public:
   non_shared_object_handle(GLuint name);
-  non_shared_object_handle(non_shared_object_handle&& other) noexcept;
-  virtual ~non_shared_object_handle() = 0;
 
-  uint32_t get_owning_context_uid() const noexcept;
+  context::uid_type get_owning_context_uid() const noexcept;
 
 private:
-  uint32_t m_owning_context_uid;
+  context::uid_type m_owning_context_uid;
 };
 
 }  // namespace gl

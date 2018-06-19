@@ -3,8 +3,8 @@
 // Licensed under the MIT license.
 
 #include "hou/gl/test_gl_multiple_contexts.hpp"
+
 #include "hou/gl/gl_context_settings.hpp"
-#include "hou/sys/video_mode.hpp"
 
 
 
@@ -13,11 +13,6 @@ test_gl_multiple_contexts::test_gl_multiple_contexts()
   , m_sharing_context(
       hou::gl::context_settings::get_default(), m_window, m_context)
   , m_non_sharing_context(hou::gl::context_settings::get_default(), m_window)
-{}
-
-
-
-test_gl_multiple_contexts::~test_gl_multiple_contexts()
 {}
 
 

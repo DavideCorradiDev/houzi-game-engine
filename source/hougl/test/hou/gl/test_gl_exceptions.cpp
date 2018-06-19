@@ -2,14 +2,11 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/test.hpp"
 #include "hou/gl/test_gl_single_context.hpp"
 
 #include "hou/gl/gl_context_settings.hpp"
 #include "hou/gl/gl_exceptions.hpp"
 #include "hou/gl/gl_object_handle.hpp"
-
-#include "hou/sys/video_mode.hpp"
 
 using namespace hou;
 
@@ -184,10 +181,6 @@ TEST_F(test_gl_exceptions, call_error)
   EXPECT_STREQ(
     "foo.cpp:42 - OpenGL error with code 1284: stack underflow.", ex7.what());
 
-  gl::call_error ex8("foo.cpp", 42u, GL_TABLE_TOO_LARGE);
-  EXPECT_STREQ(
-    "foo.cpp:42 - OpenGL error with code 32817: table too large.", ex8.what());
-
   gl::call_error ex9("foo.cpp", 42u, 0);
   EXPECT_STREQ(
     "foo.cpp:42 - OpenGL error with code 0: unknown error.", ex9.what());
@@ -267,8 +260,7 @@ TEST_F(test_gl_exceptions_death_test, gl_context_existence_macro_failure)
 
 TEST_F(test_gl_exceptions, gl_context_ownership_shared_function_success)
 {
-  system_window w(
-    "test", video_mode(vec2u::zero(), 0u), window_style::windowed);
+  system_window w("test", vec2u::zero());
   gl::context c1(gl::context_settings::get_default(), w);
   gl::context c2(gl::context_settings::get_default(), w, c1);
   gl::context c3(gl::context_settings::get_default(), w);
@@ -299,8 +291,7 @@ TEST_F(test_gl_exceptions, gl_context_ownership_shared_function_success)
 TEST_F(
   test_gl_exceptions_death_test, gl_context_ownership_shared_function_failure)
 {
-  system_window w(
-    "test", video_mode(vec2u::zero(), 0u), window_style::windowed);
+  system_window w("test", vec2u::zero());
   gl::context c1(gl::context_settings::get_default(), w);
   gl::context c2(gl::context_settings::get_default(), w, c1);
   gl::context c3(gl::context_settings::get_default(), w);
@@ -333,8 +324,7 @@ TEST_F(
 
 TEST_F(test_gl_exceptions, gl_context_ownership_shared_macro_success)
 {
-  system_window w(
-    "test", video_mode(vec2u::zero(), 0u), window_style::windowed);
+  system_window w("test", vec2u::zero());
   gl::context c1(gl::context_settings::get_default(), w);
   gl::context c2(gl::context_settings::get_default(), w, c1);
   gl::context c3(gl::context_settings::get_default(), w);
@@ -364,8 +354,7 @@ TEST_F(test_gl_exceptions, gl_context_ownership_shared_macro_success)
 
 TEST_F(test_gl_exceptions_death_test, gl_context_ownership_shared_macro_failure)
 {
-  system_window w(
-    "test", video_mode(vec2u::zero(), 0u), window_style::windowed);
+  system_window w("test", vec2u::zero());
   gl::context c1(gl::context_settings::get_default(), w);
   gl::context c2(gl::context_settings::get_default(), w, c1);
   gl::context c3(gl::context_settings::get_default(), w);
@@ -407,8 +396,7 @@ TEST_F(test_gl_exceptions_death_test, gl_context_ownership_shared_macro_failure)
 
 TEST_F(test_gl_exceptions, gl_context_ownership_non_shared_function_success)
 {
-  system_window w(
-    "test", video_mode(vec2u::zero(), 0u), window_style::windowed);
+  system_window w("test", vec2u::zero());
   gl::context c1(gl::context_settings::get_default(), w);
   gl::context c2(gl::context_settings::get_default(), w, c1);
   gl::context c3(gl::context_settings::get_default(), w);
@@ -437,8 +425,7 @@ TEST_F(test_gl_exceptions, gl_context_ownership_non_shared_function_success)
 TEST_F(test_gl_exceptions_death_test,
   gl_context_ownership_non_shared_function_failure)
 {
-  system_window w(
-    "test", video_mode(vec2u::zero(), 0u), window_style::windowed);
+  system_window w("test", vec2u::zero());
   gl::context c1(gl::context_settings::get_default(), w);
   gl::context c2(gl::context_settings::get_default(), w, c1);
   gl::context c3(gl::context_settings::get_default(), w);
@@ -475,8 +462,7 @@ TEST_F(test_gl_exceptions_death_test,
 
 TEST_F(test_gl_exceptions, gl_context_ownership_non_shared_macro_success)
 {
-  system_window w(
-    "test", video_mode(vec2u::zero(), 0u), window_style::windowed);
+  system_window w("test", vec2u::zero());
   gl::context c1(gl::context_settings::get_default(), w);
   gl::context c2(gl::context_settings::get_default(), w, c1);
   gl::context c3(gl::context_settings::get_default(), w);
@@ -505,8 +491,7 @@ TEST_F(test_gl_exceptions, gl_context_ownership_non_shared_macro_success)
 TEST_F(
   test_gl_exceptions_death_test, gl_context_ownership_non_shared_macro_failure)
 {
-  system_window w(
-    "test", video_mode(vec2u::zero(), 0u), window_style::windowed);
+  system_window w("test", vec2u::zero());
   gl::context c1(gl::context_settings::get_default(), w);
   gl::context c2(gl::context_settings::get_default(), w, c1);
   gl::context c3(gl::context_settings::get_default(), w);
