@@ -225,7 +225,7 @@ TEST_F(test_gl_context, current_gl_context)
 
 
 
-TEST_F(test_gl_context_death_test, set_current_error)
+TEST_F(test_gl_context_death_test, set_current_error_multiple_threads)
 {
   system_window w1("Test", vec2u(10u, 10u));
   gl::context c(gl::context_settings::get_default(), w1);

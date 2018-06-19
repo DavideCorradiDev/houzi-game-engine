@@ -1082,7 +1082,7 @@ bool close(const matrix<T, Rows, Cols>& lhs, const matrix<T, Rows, Cols>& rhs,
  *
  * \param m the matrix.
  *
- * \return a reference to the stream.
+ * \return a reference to os.
  */
 template <typename T, size_t Rows, size_t Cols>
 std::ostream& operator<<(std::ostream& os, const matrix<T, Rows, Cols>& m);
