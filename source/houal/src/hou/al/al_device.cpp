@@ -1,4 +1,4 @@
-// Houzi Game Engine
+﻿// Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
@@ -81,12 +81,12 @@ device::device(device&& other) noexcept
 
 device::~device()
 {
+  HOU_DISABLE_EXCEPTIONS_BEGIN;
   if(m_device != nullptr)
   {
-    HOU_DISABLE_EXCEPTIONS_BEGIN
     HOU_CHECK_0(alcCloseDevice(m_device) == AL_TRUE, device_close_error);
-    HOU_DISABLE_EXCEPTIONS_END
   }
+  HOU_DISABLE_EXCEPTIONS_END;
 }
 
 

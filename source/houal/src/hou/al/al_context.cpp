@@ -1,4 +1,4 @@
-// Houzi Game Engine
+﻿// Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
@@ -23,7 +23,7 @@ namespace
 {
 
 std::mutex g_current_context_mutex;
-context* g_current_context;
+context* g_current_context = nullptr;
 
 uint32_t generate_uid();
 
@@ -60,12 +60,8 @@ void context::unset_current()
 
 context* context::get_current()
 {
-  context* retval = nullptr;
-  {
-    std::lock_guard<std::mutex> lock(g_current_context_mutex);
-    retval = g_current_context;
-  }
-  return retval;
+  std::lock_guard<std::mutex> lock(g_current_context_mutex);
+  return g_current_context;
 }
 
 
@@ -98,6 +94,7 @@ context::context(context&& other) noexcept
 
 context::~context()
 {
+  HOU_DISABLE_EXCEPTIONS_BEGIN;
   if(m_handle != nullptr)
   {
     if(is_current())
@@ -106,6 +103,7 @@ context::~context()
     }
     alcDestroyContext(m_handle);
   }
+  HOU_DISABLE_EXCEPTIONS_END;
 }
 
 

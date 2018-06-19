@@ -1,4 +1,4 @@
-// Houzi Game Engine
+﻿// Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
@@ -55,11 +55,6 @@ device_owned_object_handle::device_owned_object_handle(ALuint name)
 
 
 
-device_owned_object_handle::~device_owned_object_handle()
-{}
-
-
-
 uint32_t device_owned_object_handle::get_owning_device_uid() const noexcept
 {
   return m_owning_device_uid;
@@ -74,11 +69,6 @@ context_owned_object_handle::context_owned_object_handle(ALuint name)
   HOU_AL_CHECK_CONTEXT_EXISTENCE();
   m_owning_context_uid = al::context::get_current()->get_uid();
 }
-
-
-
-context_owned_object_handle::~context_owned_object_handle()
-{}
 
 
 

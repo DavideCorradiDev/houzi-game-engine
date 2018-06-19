@@ -31,14 +31,14 @@ INCLUDE_DIRECTORIES(
 
 # Source files.
 SET(LIB_HOUAL_SRC
-  src/hou/al/al_buffer_handle.cpp
+  # src/hou/al/al_buffer_handle.cpp
   src/hou/al/al_context.cpp
   src/hou/al/al_device.cpp
   src/hou/al/al_exceptions.cpp
-  src/hou/al/al_listener.cpp
+  # src/hou/al/al_listener.cpp
   src/hou/al/al_object_handle.cpp
-  src/hou/al/al_source_handle.cpp
-  src/hou/al/al_state.cpp
+  # src/hou/al/al_source_handle.cpp
+  # src/hou/al/al_state.cpp
 )
 
 
@@ -79,7 +79,7 @@ MESSAGE(STATUS "")
 
 
 
-IF(HOU_CFG_BUILD_TESTS)
-  ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/test)
-ENDIF()
+# IF(HOU_CFG_BUILD_TESTS)
+#   ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/test)
+# ENDIF()
 

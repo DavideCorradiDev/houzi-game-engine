@@ -1,4 +1,4 @@
-// Houzi Game Engine
+﻿// Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
@@ -374,6 +374,7 @@ context::context(context&& other) noexcept
 
 context::~context()
 {
+  HOU_DISABLE_EXCEPTIONS_BEGIN;
   if(m_impl != nullptr)
   {
     if(is_current())
@@ -382,6 +383,7 @@ context::~context()
     }
     SDL_GL_DeleteContext(m_impl);
   }
+  HOU_DISABLE_EXCEPTIONS_END;
 }
 
 

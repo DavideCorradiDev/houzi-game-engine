@@ -1,4 +1,4 @@
-// Houzi Game Engine
+﻿// Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
@@ -38,9 +38,6 @@ class HOU_AL_API device_owned_object_handle : public object_handle
 {
 public:
   device_owned_object_handle(ALuint name);
-  device_owned_object_handle(device_owned_object_handle&& other) noexcept
-    = default;
-  virtual ~device_owned_object_handle() = 0;
 
   uint32_t get_owning_device_uid() const noexcept;
 
@@ -54,9 +51,6 @@ class HOU_AL_API context_owned_object_handle : public object_handle
 {
 public:
   context_owned_object_handle(ALuint name);
-  context_owned_object_handle(context_owned_object_handle&& other) noexcept
-    = default;
-  virtual ~context_owned_object_handle() = 0;
 
   uint32_t get_owning_context_uid() const noexcept;
 

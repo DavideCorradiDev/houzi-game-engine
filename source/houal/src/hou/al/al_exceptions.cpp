@@ -1,4 +1,4 @@
-// Houzi Game Engine
+﻿// Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
@@ -112,7 +112,7 @@ device_open_error::device_open_error(
 
 
 device_close_error::device_close_error(const std::string& path, uint line)
-  : exception(path, line, format_string(u8"Failed to close the OpenAL device."))
+  : exception(path, line, u8"Failed to close the OpenAL device.")
 {}
 
 
