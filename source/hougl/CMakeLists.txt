@@ -46,7 +46,7 @@ SET(LIB_HOUGL_SRC
   # src/hou/gl/gl_shader_handle.cpp
   # src/hou/gl/gl_texture_handle.cpp
   src/hou/gl/gl_version.cpp
-  src/hou/gl/gl_vertical_sync_mode.cpp
+  src/hou/gl/gl_vsync_mode.cpp
   # src/hou/gl/gl_vertex_array_handle.cpp
 )
 

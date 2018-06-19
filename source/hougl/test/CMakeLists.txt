@@ -52,7 +52,7 @@ SET(EXE_HOUGL_TEST_SRC
   # hou/gl/test_gl_shader_sources.cpp
   # hou/gl/test_gl_texture_handle.cpp
   hou/gl/test_gl_version.cpp
-  hou/gl/test_gl_vertical_sync_mode.cpp
+  hou/gl/test_gl_vsync_mode.cpp
   # hou/gl/test_gl_vertex_array_handle.cpp
 )
 
