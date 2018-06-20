@@ -7,8 +7,8 @@
 #include "hou/cor/clock.hpp"
 
 #include "hou/gl/gl_context.hpp"
+#include "hou/gl/gl_context_exceptions.hpp"
 #include "hou/gl/gl_context_settings.hpp"
-#include "hou/gl/gl_exceptions.hpp"
 
 #include "hou/sys/system_window.hpp"
 

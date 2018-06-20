@@ -35,6 +35,7 @@ SET(LIB_HOUGL_SRC
   src/hou/gl/gl_buffer_handle.cpp
   src/hou/gl/gl_color_format.cpp
   src/hou/gl/gl_context.cpp
+  src/hou/gl/gl_context_exceptions.cpp
   src/hou/gl/gl_context_profile.cpp
   src/hou/gl/gl_context_settings.cpp
   src/hou/gl/gl_exceptions.cpp

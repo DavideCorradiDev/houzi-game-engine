@@ -25,48 +25,6 @@ class shared_object_handle;
 class non_shared_object_handle;
 class version;
 
-/** Context creation error.
- *
- * This exception is thrown when creating an OpenGL context fails.
- */
-class HOU_GL_API context_creation_error : public exception
-{
-public:
-  /** Constructor.
-   *
-   * \param path the path to the source file where the error happened.
-   *
-   * \param line the line where the error happened.
-   *
-   * \param details details about the error.
-   *
-   * \throws std::bad_alloc.
-   */
-  context_creation_error(
-    const std::string& path, uint line, const std::string& details);
-};
-
-/** OpenGL context switch error.
- *
- * This exceptions is thrown when switching the current OpenGL context fails.
- */
-class HOU_GL_API context_switch_error : public exception
-{
-public:
-  /** Constructor.
-   *
-   * \param path the path to the source file where the error happened.
-   *
-   * \param line the line where the error happened.
-   *
-   * \param details details about the error.
-   *
-   * \throws std::bad_alloc.
-   */
-  context_switch_error(
-    const std::string& path, uint line, const std::string& details);
-};
-
 /** Missing OpenGL context error.
  *
  * This exception is thrown when an OpenGL call is made without a current

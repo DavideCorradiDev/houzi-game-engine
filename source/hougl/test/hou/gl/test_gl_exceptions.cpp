@@ -43,25 +43,6 @@ public:
 
 
 
-TEST_F(test_gl_exceptions, context_creation_error)
-{
-  gl::context_creation_error ex("foo.cpp", 42u, "Bzzz.");
-  EXPECT_STREQ(
-    "foo.cpp:42 - Failed to create the OpenGL context.\nBzzz.", ex.what());
-}
-
-
-
-TEST_F(test_gl_exceptions, context_switch_error)
-{
-  gl::context_switch_error ex("foo.cpp", 42u, "Oh noes!");
-  EXPECT_STREQ(
-    "foo.cpp:42 - Failed to switch the current OpenGL context.\nOh noes!",
-    ex.what());
-}
-
-
-
 TEST_F(test_gl_exceptions, missing_context_error)
 {
   gl::missing_context_error ex("foo.cpp", 42u);

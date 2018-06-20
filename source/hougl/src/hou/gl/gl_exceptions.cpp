@@ -72,24 +72,6 @@ std::string get_shader_type_name(GLenum shader_type)
 
 
 
-context_creation_error::context_creation_error(
-  const std::string& path, uint line, const std::string& details)
-  : exception(path, line,
-      format_string(
-        u8"Failed to create the OpenGL context.\n%s", details.c_str()))
-{}
-
-
-
-context_switch_error::context_switch_error(
-  const std::string& path, uint line, const std::string& details)
-  : exception(path, line,
-      format_string(
-        u8"Failed to switch the current OpenGL context.\n%s", details.c_str()))
-{}
-
-
-
 missing_context_error::missing_context_error(const std::string& path, uint line)
   : exception(path, line, u8"No current OpenGL context.")
 {}
