@@ -1,4 +1,4 @@
-// Houzi Game Engine
+﻿// Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
@@ -10,6 +10,7 @@
 #include "hou/al/al_config.hpp"
 
 #include "hou/cor/non_copyable.hpp"
+#include "hou/cor/not_null.hpp"
 
 #include <string>
 #include <vector>
@@ -25,17 +26,26 @@ namespace al
 class HOU_AL_API device : public non_copyable
 {
 public:
+  using impl_type = ALCdevice;
+  using uid_type = uint32_t;
+
+public:
   static std::vector<std::string> get_device_names();
 
 public:
   device();
+
   device(const std::string& dev_name);
+
   device(device&& other) noexcept;
+
   ~device();
 
-  const ALCdevice* get_handle() const noexcept;
-  ALCdevice* get_handle() noexcept;
-  uint32_t get_uid() const noexcept;
+  not_null<const impl_type*> get_impl() const;
+
+  not_null<impl_type*> get_impl();
+
+  uid_type get_uid() const noexcept;
 
 private:
   ALCdevice* m_device;

@@ -91,21 +91,21 @@ device::~device()
 
 
 
-const ALCdevice* device::get_handle() const noexcept
+not_null<const device::impl_type*> device::get_impl() const
 {
   return m_device;
 }
 
 
 
-ALCdevice* device::get_handle() noexcept
+not_null<device::impl_type*> device::get_impl()
 {
   return m_device;
 }
 
 
 
-uint32_t device::get_uid() const noexcept
+device::uid_type device::get_uid() const noexcept
 {
   return m_uid;
 }

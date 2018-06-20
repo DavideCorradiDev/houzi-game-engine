@@ -23,6 +23,7 @@ namespace
 {
 
 std::string get_error_message(ALenum err);
+
 std::string get_context_error_message(ALCenum err);
 
 std::string get_error_message(ALenum err)
@@ -147,7 +148,7 @@ void check_error(const std::string& path, int line)
 
 void check_context_error(device& dev, const std::string& path, int line)
 {
-  ALCenum err_state = alcGetError(dev.get_handle());
+  ALCenum err_state = alcGetError(dev.get_impl());
   if(err_state != ALC_NO_ERROR)
   {
     HOU_ERROR_STD_N(context_call_error, path, line, err_state);

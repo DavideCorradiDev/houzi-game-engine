@@ -43,7 +43,7 @@ void context::set_current(context& ctx)
 {
   std::lock_guard<std::mutex> lock(g_current_context_mutex);
   HOU_CHECK_0(
-    alcMakeContextCurrent(ctx.m_handle) == AL_TRUE, context_switch_error);
+    alcMakeContextCurrent(ctx.m_context) == AL_TRUE, context_switch_error);
   g_current_context = &ctx;
 }
 
@@ -68,22 +68,22 @@ context* context::get_current()
 
 context::context(device& dev)
   : non_copyable()
-  , m_handle(alcCreateContext(dev.get_handle(), nullptr))
+  , m_context(alcCreateContext(dev.get_impl(), nullptr))
   , m_uid(generate_uid())
   , m_device_uid(dev.get_uid())
 {
-  HOU_CHECK_0(m_handle != nullptr, context_creation_error);
+  HOU_CHECK_0(m_context != nullptr, context_creation_error);
 }
 
 
 
 context::context(context&& other) noexcept
   : non_copyable()
-  , m_handle(std::move(other.m_handle))
+  , m_context(std::move(other.m_context))
   , m_uid(std::move(other.m_uid))
   , m_device_uid(std::move(other.m_device_uid))
 {
-  other.m_handle = nullptr;
+  other.m_context = nullptr;
   if(get_current() == &other)
   {
     g_current_context = this;
@@ -95,27 +95,41 @@ context::context(context&& other) noexcept
 context::~context()
 {
   HOU_DISABLE_EXCEPTIONS_BEGIN;
-  if(m_handle != nullptr)
+  if(m_context != nullptr)
   {
     if(is_current())
     {
       unset_current();
     }
-    alcDestroyContext(m_handle);
+    alcDestroyContext(m_context);
   }
   HOU_DISABLE_EXCEPTIONS_END;
 }
 
 
 
-uint32_t context::get_uid() const noexcept
+not_null<const context::impl_type*> context::get_impl() const
+{
+  return m_context;
+}
+
+
+
+not_null<context::impl_type*> context::get_impl()
+{
+  return m_context;
+}
+
+
+
+context::uid_type context::get_uid() const noexcept
 {
   return m_uid;
 }
 
 
 
-uint32_t context::get_device_uid() const noexcept
+device::uid_type context::get_device_uid() const noexcept
 {
   return m_device_uid;
 }
@@ -125,7 +139,7 @@ uint32_t context::get_device_uid() const noexcept
 bool context::is_current() const
 {
   // alcGetCurrentContext cannot fail.
-  return alcGetCurrentContext() == m_handle;
+  return alcGetCurrentContext() == m_context;
 }
 
 }  // namespace al

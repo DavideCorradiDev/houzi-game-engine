@@ -5,6 +5,8 @@
 #ifndef HOU_COR_NOT_NULL_HPP
 #define HOU_COR_NOT_NULL_HPP
 
+#include "hou/cor/assertions.hpp"
+
 #include "hou/cor/cor_config.hpp"
 
 #include <type_traits>
