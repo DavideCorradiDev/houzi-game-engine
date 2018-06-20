@@ -4,10 +4,6 @@
 
 #include "hou/gl/gl_exceptions.hpp"
 
-#include "hou/gl/gl_context.hpp"
-#include "hou/gl/gl_object_handle.hpp"
-#include "hou/gl/gl_version.hpp"
-
 
 
 namespace hou
@@ -73,13 +69,6 @@ std::string get_shader_type_name(GLenum shader_type)
 
 
 
-invalid_context_error::invalid_context_error(const std::string& path, uint line)
-  : exception(
-      path, line, u8"The current OpenGL context does not own the object.")
-{}
-
-
-
 vsync_error::vsync_error(
   const std::string& path, uint line, const std::string& details)
   : exception(path, line,
@@ -129,29 +118,6 @@ void check_error(const std::string& path, uint line)
   for(GLenum err; (err = glGetError()) != GL_NO_ERROR;)
   {
     HOU_ERROR_STD_N(call_error, path, line, err);
-  }
-}
-
-
-
-void check_context_ownership(
-  const shared_object_handle& object, const std::string& path, uint line)
-{
-  if(context::get_current()->get_sharing_group_uid()
-    != object.get_owning_sharing_group_uid())
-  {
-    HOU_ERROR_STD_N(invalid_context_error, path, line);
-  }
-}
-
-
-
-void check_context_ownership(
-  const non_shared_object_handle& object, const std::string& path, uint line)
-{
-  if(context::get_current()->get_uid() != object.get_owning_context_uid())
-  {
-    HOU_ERROR_STD_N(invalid_context_error, path, line);
   }
 }
 

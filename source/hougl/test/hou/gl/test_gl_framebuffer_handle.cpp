@@ -7,6 +7,7 @@
 
 #include "hou/gl/gl_exceptions.hpp"
 #include "hou/gl/gl_missing_context_error.hpp"
+#include "hou/gl/gl_invalid_context_error.hpp"
 #include "hou/gl/gl_framebuffer_handle.hpp"
 
 using namespace hou;
