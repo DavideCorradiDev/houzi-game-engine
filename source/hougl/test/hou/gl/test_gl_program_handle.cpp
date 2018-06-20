@@ -22,8 +22,7 @@ namespace
 class test_gl_program_handle : public test_gl_multiple_contexts
 {};
 
-class test_gl_program_handle_death_test : public test_gl_program_handle
-{};
+using test_gl_program_handle_death_test = test_gl_program_handle;
 
 gl::program_handle create_program();
 

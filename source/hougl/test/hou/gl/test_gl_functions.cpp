@@ -20,8 +20,7 @@ namespace
 class test_gl_functions : public test_gl_single_context
 {};
 
-class test_gl_functions_death_test : public test_gl_functions
-{};
+using test_gl_functions_death_test = test_gl_functions;
 
 }  // namespace
 

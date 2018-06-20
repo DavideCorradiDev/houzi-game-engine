@@ -19,9 +19,7 @@ namespace
 class test_gl_vertex_array_handle : public test_gl_multiple_contexts
 {};
 
-class test_gl_vertex_array_handle_death_test
-  : public test_gl_vertex_array_handle
-{};
+using test_gl_vertex_array_handle_death_test = test_gl_vertex_array_handle;
 
 }  // namespace
 

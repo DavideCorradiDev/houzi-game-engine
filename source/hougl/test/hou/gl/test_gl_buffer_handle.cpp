@@ -20,8 +20,7 @@ namespace
 class test_gl_buffer_handle : public test_gl_multiple_contexts
 {};
 
-class test_gl_buffer_handle_death_test : public test_gl_buffer_handle
-{};
+using test_gl_buffer_handle_death_test = test_gl_buffer_handle;
 
 }  // namespace
 
