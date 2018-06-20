@@ -5,6 +5,7 @@
 #include "hou/gl/gl_texture_handle.hpp"
 
 #include "hou/gl/gl_exceptions.hpp"
+#include "hou/gl/gl_missing_context_error.hpp"
 #include "hou/gl/gl_context.hpp"
 #include "hou/gl/gl_functions.hpp"
 

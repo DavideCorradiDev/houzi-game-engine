@@ -43,14 +43,6 @@ public:
 
 
 
-TEST_F(test_gl_exceptions, missing_context_error)
-{
-  gl::missing_context_error ex("foo.cpp", 42u);
-  EXPECT_STREQ("foo.cpp:42 - No current OpenGL context.", ex.what());
-}
-
-
-
 TEST_F(test_gl_exceptions, invalid_context_error)
 {
   gl::invalid_context_error ex("foo.cpp", 42u);
@@ -202,40 +194,6 @@ TEST_F(test_gl_exceptions_death_test, gl_check_error_macro_failure)
   EXPECT_ERROR_N(HOU_GL_CHECK_ERROR(), gl::call_error, GL_INVALID_VALUE);
 #else
   EXPECT_NO_ERROR(HOU_GL_CHECK_ERROR());
-#endif
-}
-
-
-
-TEST_F(test_gl_exceptions, gl_context_existence_function_success)
-{
-  EXPECT_NO_ERROR(gl::check_context_existence("", 0));
-}
-
-
-
-TEST_F(test_gl_exceptions_death_test, gl_context_existence_function_failure)
-{
-  gl::context::unset_current();
-  EXPECT_ERROR_0(gl::check_context_existence("", 0), gl::missing_context_error);
-}
-
-
-
-TEST_F(test_gl_exceptions, gl_context_existence_macro_success)
-{
-  EXPECT_NO_ERROR(HOU_GL_CHECK_CONTEXT_EXISTENCE());
-}
-
-
-
-TEST_F(test_gl_exceptions_death_test, gl_context_existence_macro_failure)
-{
-  gl::context::unset_current();
-#ifdef HOU_ENABLE_GL_ERROR_CHECKS
-  EXPECT_ERROR_0(HOU_GL_CHECK_CONTEXT_EXISTENCE(), gl::missing_context_error);
-#else
-  EXPECT_NO_ERROR(HOU_GL_CHECK_CONTEXT_EXISTENCE());
 #endif
 }
 

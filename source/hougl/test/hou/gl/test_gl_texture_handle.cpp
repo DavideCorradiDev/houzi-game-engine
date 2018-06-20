@@ -5,6 +5,7 @@
 #include "hou/gl/test_gl_multiple_contexts.hpp"
 
 #include "hou/gl/gl_exceptions.hpp"
+#include "hou/gl/gl_missing_context_error.hpp"
 #include "hou/gl/gl_texture_handle.hpp"
 
 using namespace hou;

@@ -4,7 +4,7 @@
 
 #include "hou/gl/gl_vsync_mode.hpp"
 
-#include "hou/gl/gl_exceptions.hpp"
+#include "hou/gl/gl_missing_context_error.hpp"
 
 #include "SDL2/SDL_video.h"
 

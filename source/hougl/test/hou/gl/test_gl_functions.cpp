@@ -6,6 +6,7 @@
 
 #include "hou/gl/gl_exceptions.hpp"
 #include "hou/gl/gl_functions.hpp"
+#include "hou/gl/gl_missing_context_error.hpp"
 
 #include "hou/sys/system_window.hpp"
 

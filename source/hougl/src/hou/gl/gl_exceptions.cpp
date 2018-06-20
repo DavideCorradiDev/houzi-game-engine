@@ -20,6 +20,7 @@ namespace
 {
 
 std::string get_error_message(GLenum err);
+
 std::string get_shader_type_name(GLenum shader_type);
 
 std::string get_error_message(GLenum err)
@@ -69,12 +70,6 @@ std::string get_shader_type_name(GLenum shader_type)
 }
 
 }  // namespace
-
-
-
-missing_context_error::missing_context_error(const std::string& path, uint line)
-  : exception(path, line, u8"No current OpenGL context.")
-{}
 
 
 
@@ -139,20 +134,9 @@ void check_error(const std::string& path, uint line)
 
 
 
-void check_context_existence(const std::string& path, uint line)
-{
-  if(context::get_current() == nullptr)
-  {
-    HOU_ERROR_STD_N(missing_context_error, path, line);
-  }
-}
-
-
-
 void check_context_ownership(
   const shared_object_handle& object, const std::string& path, uint line)
 {
-  check_context_existence(path, line);
   if(context::get_current()->get_sharing_group_uid()
     != object.get_owning_sharing_group_uid())
   {
@@ -165,7 +149,6 @@ void check_context_ownership(
 void check_context_ownership(
   const non_shared_object_handle& object, const std::string& path, uint line)
 {
-  check_context_existence(path, line);
   if(context::get_current()->get_uid() != object.get_owning_context_uid())
   {
     HOU_ERROR_STD_N(invalid_context_error, path, line);

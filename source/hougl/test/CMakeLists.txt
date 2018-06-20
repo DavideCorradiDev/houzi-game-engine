@@ -48,6 +48,7 @@ SET(EXE_HOUGL_TEST_SRC
   hou/gl/test_gl_framebuffer_handle.cpp
   hou/gl/test_gl_functions.cpp
   hou/gl/test_gl_object_handle.cpp
+  hou/gl/test_gl_missing_context_error.cpp
   hou/gl/test_gl_program_handle.cpp
   hou/gl/test_gl_shader_handle.cpp
   hou/gl/test_gl_shader_sources.cpp

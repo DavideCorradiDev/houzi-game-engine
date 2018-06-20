@@ -41,6 +41,7 @@ SET(LIB_HOUGL_SRC
   src/hou/gl/gl_exceptions.cpp
   src/hou/gl/gl_framebuffer_handle.cpp
   src/hou/gl/gl_functions.cpp
+  src/hou/gl/gl_missing_context_error.cpp
   src/hou/gl/gl_module.cpp
   src/hou/gl/gl_object_handle.cpp
   src/hou/gl/gl_program_handle.cpp

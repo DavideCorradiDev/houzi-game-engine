@@ -7,6 +7,7 @@
 #include "hou/gl/test_gl_shader_sources.hpp"
 
 #include "hou/gl/gl_exceptions.hpp"
+#include "hou/gl/gl_missing_context_error.hpp"
 #include "hou/gl/gl_shader_handle.hpp"
 
 using namespace hou;
