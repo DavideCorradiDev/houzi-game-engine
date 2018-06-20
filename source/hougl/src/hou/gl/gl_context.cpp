@@ -11,6 +11,8 @@
 
 #include "hou/sys/system_window.hpp"
 
+#include "SDL2/SDL_video.h"
+
 
 
 namespace hou
@@ -389,14 +391,14 @@ context::~context()
 
 
 
-const context::impl_type& context::get_impl() const noexcept
+const context::impl_type* context::get_impl() const noexcept
 {
   return m_impl;
 }
 
 
 
-context::impl_type& context::get_impl() noexcept
+context::impl_type* context::get_impl() noexcept
 {
   return m_impl;
 }

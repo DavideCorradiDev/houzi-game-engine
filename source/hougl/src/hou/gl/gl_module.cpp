@@ -10,6 +10,8 @@
 
 #include "hou/sys/system_window.hpp"
 
+#include "SDL2/SDL_video.h"
+
 
 
 namespace hou

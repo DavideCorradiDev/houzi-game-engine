@@ -169,7 +169,7 @@ TEST_F(test_gl_context, move_constructor)
   system_window w("Test", vec2u::zero());
   gl::context ctx_dummy(gl::context_settings::get_default(), w);
 
-  gl::context::impl_type impl_ref = ctx_dummy.get_impl();
+  gl::context::impl_type* impl_ref = ctx_dummy.get_impl();
   gl::context::uid_type uid_ref = ctx_dummy.get_uid();
   gl::context::uid_type shared_uid_ref = ctx_dummy.get_sharing_group_uid();
 

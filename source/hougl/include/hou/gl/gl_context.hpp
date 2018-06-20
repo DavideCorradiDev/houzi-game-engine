@@ -16,8 +16,6 @@
 
 #include "hou/sys/window.hpp"
 
-#include "SDL2/SDL_video.h"
-
 #include <vector>
 
 
@@ -61,7 +59,7 @@ public:
   /**
    * Underlying implementation type.
    */
-  using impl_type = SDL_GLContext;
+  using impl_type = void;
 
   /**
    * Uid type.
@@ -163,14 +161,14 @@ public:
    *
    * \return a reference to the underlying implementation.
    */
-  const impl_type& get_impl() const noexcept;
+  const impl_type* get_impl() const noexcept;
 
   /**
    * Gets a reference to the underlying implementation.
    *
    * \return a reference to the underlying implementation.
    */
-  impl_type& get_impl() noexcept;
+  impl_type* get_impl() noexcept;
 
   /**
    * Gets the context unique identifier.
@@ -252,7 +250,7 @@ private:
   };
 
 private:
-  impl_type m_impl;
+  impl_type* m_impl;
   uid_type m_uid;
   uid_type m_sharing_group_uid;
   tracking_data m_tracking_data;
