@@ -33,7 +33,7 @@ bool init_gl_extensions()
   return gladLoadGLLoader(SDL_GL_GetProcAddress) != 0;
 }
 
-}
+}  // namespace
 
 std::string gl_module_impl::get_name()
 {
@@ -50,10 +50,8 @@ bool gl_module_impl::on_initialize()
 
 
 void gl_module_impl::on_terminate() noexcept
-{
-}
+{}
 
 }  // namespace prv
 
 }  // namespace hou
-

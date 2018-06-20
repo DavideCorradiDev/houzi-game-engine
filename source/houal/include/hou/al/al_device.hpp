@@ -10,7 +10,6 @@
 #include "hou/al/al_config.hpp"
 
 #include "hou/cor/non_copyable.hpp"
-#include "hou/cor/not_null.hpp"
 
 #include <string>
 #include <vector>
@@ -41,9 +40,9 @@ public:
 
   ~device();
 
-  not_null<const impl_type*> get_impl() const;
+  const impl_type* get_impl() const;
 
-  not_null<impl_type*> get_impl();
+  impl_type* get_impl();
 
   uid_type get_uid() const noexcept;
 

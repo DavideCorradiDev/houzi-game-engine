@@ -4,8 +4,8 @@
 
 #include "hou/al/al_context.hpp"
 
+#include "hou/al/al_context_exceptions.hpp"
 #include "hou/al/al_device.hpp"
-#include "hou/al/al_exceptions.hpp"
 
 #include "hou/cor/uid_generator.hpp"
 
@@ -23,6 +23,7 @@ namespace
 {
 
 std::mutex g_current_context_mutex;
+
 context* g_current_context = nullptr;
 
 uint32_t generate_uid();
@@ -84,6 +85,7 @@ context::context(context&& other) noexcept
   , m_device_uid(std::move(other.m_device_uid))
 {
   other.m_context = nullptr;
+  other.m_uid = 0u;
   if(get_current() == &other)
   {
     g_current_context = this;
@@ -108,14 +110,14 @@ context::~context()
 
 
 
-not_null<const context::impl_type*> context::get_impl() const
+const context::impl_type* context::get_impl() const
 {
   return m_context;
 }
 
 
 
-not_null<context::impl_type*> context::get_impl()
+context::impl_type* context::get_impl()
 {
   return m_context;
 }

@@ -187,7 +187,7 @@ TEST_F(test_al_exceptions_death_test, al_check_error_macro_failure)
 
 TEST_F(test_al_exceptions, al_check_context_error_function_success)
 {
-  alcGetString(m_device.get_handle(), ALC_DEVICE_SPECIFIER);
+  alcGetString(m_device.get_impl(), ALC_DEVICE_SPECIFIER);
   EXPECT_NO_ERROR(al::check_context_error(m_device, "", 0));
 }
 
@@ -195,7 +195,7 @@ TEST_F(test_al_exceptions, al_check_context_error_function_success)
 
 TEST_F(test_al_exceptions_death_test, al_check_context_error_function_failure)
 {
-  alcGetString(m_device.get_handle(), ALC_MAJOR_VERSION);
+  alcGetString(m_device.get_impl(), ALC_MAJOR_VERSION);
   EXPECT_ERROR_N(al::check_context_error(m_device, "", 0),
     al::context_call_error, ALC_INVALID_ENUM);
 }
@@ -204,7 +204,7 @@ TEST_F(test_al_exceptions_death_test, al_check_context_error_function_failure)
 
 TEST_F(test_al_exceptions, al_check_context_error_macro_success)
 {
-  alcGetString(m_device.get_handle(), ALC_DEVICE_SPECIFIER);
+  alcGetString(m_device.get_impl(), ALC_DEVICE_SPECIFIER);
   EXPECT_NO_ERROR(HOU_AL_CHECK_CONTEXT_ERROR(m_device));
 }
 
@@ -212,7 +212,7 @@ TEST_F(test_al_exceptions, al_check_context_error_macro_success)
 
 TEST_F(test_al_exceptions_death_test, al_check_context_error_macro_failure)
 {
-  alcGetString(m_device.get_handle(), ALC_MAJOR_VERSION);
+  alcGetString(m_device.get_impl(), ALC_MAJOR_VERSION);
 #ifdef HOU_ENABLE_AL_ERROR_CHECKS
   EXPECT_ERROR_N(HOU_AL_CHECK_CONTEXT_ERROR(m_device), al::context_call_error,
     ALC_INVALID_ENUM);

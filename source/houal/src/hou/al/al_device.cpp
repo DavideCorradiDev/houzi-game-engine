@@ -4,7 +4,7 @@
 
 #include "hou/al/al_device.hpp"
 
-#include "hou/al/al_exceptions.hpp"
+#include "hou/al/al_context_exceptions.hpp"
 
 #include "hou/cor/assertions.hpp"
 #include "hou/cor/std_string.hpp"
@@ -75,6 +75,7 @@ device::device(device&& other) noexcept
   , m_uid(std::move(other.m_uid))
 {
   other.m_device = nullptr;
+  other.m_uid = 0u;
 }
 
 
@@ -91,14 +92,14 @@ device::~device()
 
 
 
-not_null<const device::impl_type*> device::get_impl() const
+const device::impl_type* device::get_impl() const
 {
   return m_device;
 }
 
 
 
-not_null<device::impl_type*> device::get_impl()
+device::impl_type* device::get_impl()
 {
   return m_device;
 }

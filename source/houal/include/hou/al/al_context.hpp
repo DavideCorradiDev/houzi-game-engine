@@ -11,7 +11,6 @@
 #include "hou/al/al_config.hpp"
 
 #include "hou/cor/non_copyable.hpp"
-#include "hou/cor/not_null.hpp"
 
 
 
@@ -39,9 +38,9 @@ public:
 
   ~context();
 
-  not_null<const impl_type*> get_impl() const;
+  const impl_type* get_impl() const;
 
-  not_null<impl_type*> get_impl();
+  impl_type* get_impl();
 
   uid_type get_uid() const noexcept;
 
@@ -51,8 +50,8 @@ public:
 
 private:
   ALCcontext* m_context;
-  uint32_t m_uid;
-  uint32_t m_device_uid;
+  uid_type m_uid;
+  device::uid_type m_device_uid;
 };
 
 }  // namespace al

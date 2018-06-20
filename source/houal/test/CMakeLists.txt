@@ -35,15 +35,16 @@ INCLUDE_DIRECTORIES(
 
 # Source files.
 SET(EXE_HOUAL_TEST_SRC
-  ${LIB_HOUTEST_SOURCE_DIR}/src/test_main.cpp
-  hou/al/test_al_base.cpp
-  hou/al/test_al_buffer_handle.cpp
-  hou/al/test_al_exceptions.cpp
+  hou/al/houal_test_main.cpp
+  # hou/al/test_al_base.cpp
+  # hou/al/test_al_buffer_handle.cpp
   hou/al/test_al_context.cpp
+  hou/al/test_al_context_exceptions.cpp
   hou/al/test_al_device.cpp
-  hou/al/test_al_listener.cpp
-  hou/al/test_al_source_handle.cpp
-  hou/al/test_al_state.cpp
+  # hou/al/test_al_exceptions.cpp
+  # hou/al/test_al_listener.cpp
+  # hou/al/test_al_source_handle.cpp
+  # hou/al/test_al_state.cpp
 )
 
 

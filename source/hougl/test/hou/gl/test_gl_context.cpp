@@ -1,5 +1,5 @@
 // Houzi Game Engine
-// Copyright (c) 2018 Davide Corradi
+// Copyright (ctx) 2018 Davide Corradi
 // Licensed under the MIT license.
 
 #include "hou/test.hpp"
@@ -34,11 +34,11 @@ using test_gl_context_optimizations = test_gl_context;
 TEST_F(test_gl_context, constructor)
 {
   system_window w("Test", vec2u(10u, 10u));
-  gl::context c(gl::context_settings::get_default(), w);
+  gl::context ctx(gl::context_settings::get_default(), w);
 
-  EXPECT_NE(0u, c.get_uid());
-  EXPECT_NE(0u, c.get_sharing_group_uid());
-  EXPECT_FALSE(c.is_current());
+  EXPECT_NE(0u, ctx.get_uid());
+  EXPECT_NE(0u, ctx.get_sharing_group_uid());
+  EXPECT_FALSE(ctx.is_current());
 }
 
 
@@ -106,9 +106,9 @@ TEST_F(test_gl_context, get_uid)
 
   for(size_t i = 0; i < 5u; ++i)
   {
-    gl::context c(gl::context_settings::get_default(), w);
-    EXPECT_EQ(first_id + i, c.get_uid());
-    EXPECT_EQ(first_id + i, c.get_sharing_group_uid());
+    gl::context ctx(gl::context_settings::get_default(), w);
+    EXPECT_EQ(first_id + i, ctx.get_uid());
+    EXPECT_EQ(first_id + i, ctx.get_sharing_group_uid());
   }
 }
 
@@ -167,21 +167,38 @@ TEST_F(test_gl_context, get_sharing_group_uid)
 TEST_F(test_gl_context, move_constructor)
 {
   system_window w("Test", vec2u::zero());
-  gl::context c_dummy(gl::context_settings::get_default(), w);
-  gl::context::set_current(c_dummy, w);
+  gl::context ctx_dummy(gl::context_settings::get_default(), w);
 
-  ASSERT_EQ(&c_dummy, gl::context::get_current());
-  ASSERT_EQ(w.get_uid(), gl::context::get_current_window_uid());
+  gl::context::impl_type impl_ref = ctx_dummy.get_impl();
+  gl::context::uid_type uid_ref = ctx_dummy.get_uid();
+  gl::context::uid_type shared_uid_ref = ctx_dummy.get_sharing_group_uid();
 
-  gl::context::uid_type uid_ref = c_dummy.get_uid();
-  gl::context::uid_type shared_uid_ref = c_dummy.get_sharing_group_uid();
+  gl::context ctx = std::move(ctx_dummy);
 
-  gl::context c = std::move(c_dummy);
-  ASSERT_NE(&c_dummy, gl::context::get_current());
-  ASSERT_EQ(&c, gl::context::get_current());
-  ASSERT_EQ(w.get_uid(), gl::context::get_current_window_uid());
-  ASSERT_EQ(uid_ref, c.get_uid());
-  ASSERT_EQ(shared_uid_ref, c.get_sharing_group_uid());
+  EXPECT_EQ(nullptr, ctx_dummy.get_impl());
+  EXPECT_EQ(0u, ctx_dummy.get_uid());
+
+  EXPECT_EQ(impl_ref, ctx.get_impl());
+  EXPECT_EQ(uid_ref, ctx.get_uid());
+  EXPECT_EQ(shared_uid_ref, ctx.get_sharing_group_uid());
+}
+
+
+
+TEST_F(test_gl_context, current_context_move_constructor)
+{
+  system_window w("Test", vec2u::zero());
+  gl::context ctx_dummy(gl::context_settings::get_default(), w);
+
+  gl::context::set_current(ctx_dummy, w);
+  EXPECT_EQ(&ctx_dummy, gl::context::get_current());
+  EXPECT_EQ(w.get_uid(), gl::context::get_current_window_uid());
+
+  gl::context ctx = std::move(ctx_dummy);
+  EXPECT_NE(&ctx_dummy, gl::context::get_current());
+  EXPECT_EQ(&ctx, gl::context::get_current());
+  EXPECT_TRUE(ctx.is_current());
+  EXPECT_EQ(gl::context::get_current_window_uid(), w.get_uid());
 }
 
 
@@ -228,14 +245,14 @@ TEST_F(test_gl_context, current_gl_context)
 TEST_F(test_gl_context_death_test, set_current_error_multiple_threads)
 {
   system_window w1("Test", vec2u(10u, 10u));
-  gl::context c(gl::context_settings::get_default(), w1);
+  gl::context ctx(gl::context_settings::get_default(), w1);
 
-  gl::context::set_current(c, w1);
-  ASSERT_TRUE(c.is_current());
+  gl::context::set_current(ctx, w1);
+  ASSERT_TRUE(ctx.is_current());
 
-  std::thread t([&c]() {
+  std::thread t([&ctx]() {
     system_window w2("Test", vec2u(10u, 10u));
-    EXPECT_ERROR_N(gl::context::set_current(c, w2), gl::context_switch_error,
+    EXPECT_ERROR_N(gl::context::set_current(ctx, w2), gl::context_switch_error,
       "Unable to make GL context current");
   });
 
@@ -248,14 +265,14 @@ TEST_F(test_gl_context, single_context_multiple_windows)
 {
   system_window w1("Test", vec2u(10u, 10u));
   system_window w2("Test", vec2u(10u, 10u));
-  gl::context c(gl::context_settings::get_default(), w1);
+  gl::context ctx(gl::context_settings::get_default(), w1);
 
-  gl::context::set_current(c, w1);
-  EXPECT_TRUE(c.is_current());
+  gl::context::set_current(ctx, w1);
+  EXPECT_TRUE(ctx.is_current());
   EXPECT_EQ(w1.get_uid(), gl::context::get_current_window_uid());
 
-  gl::context::set_current(c, w2);
-  EXPECT_TRUE(c.is_current());
+  gl::context::set_current(ctx, w2);
+  EXPECT_TRUE(ctx.is_current());
   EXPECT_EQ(w2.get_uid(), gl::context::get_current_window_uid());
 }
 

@@ -2,12 +2,12 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#ifndef HOU_GL_GL_MODULE_HPP
-#define HOU_GL_GL_MODULE_HPP
+#ifndef HOU_AL_AL_MODULE_HPP
+#define HOU_AL_AL_MODULE_HPP
 
 #include "hou/cor/module.hpp"
 
-#include "hou/gl/gl_config.hpp"
+#include "hou/al/al_config.hpp"
 
 
 
@@ -18,9 +18,9 @@ namespace prv
 {
 
 /**
- * GL module initialization manager implementation.
+ * AL module initialization manager implementation.
  */
-class HOU_GL_API gl_module_impl : public non_instantiable
+class HOU_AL_API al_module_impl : public non_instantiable
 {
 public:
   /**
@@ -31,12 +31,12 @@ public:
   static std::string get_name();
 
   /**
-   * Sets up the gltem module.
+   * Sets up the altem module.
    */
   static bool on_initialize();
 
   /**
-   * Tears down the gltem module.
+   * Tears down the altem module.
    */
   static void on_terminate() noexcept;
 };
@@ -44,9 +44,9 @@ public:
 }
 
 /**
- * GL module initialization manager.
+ * AL module initialization manager.
  */
-using gl_module = module<prv::gl_module_impl>;
+using al_module = module<prv::al_module_impl>;
 
 }  // namespace hou
 

@@ -364,6 +364,7 @@ context::context(context&& other) noexcept
   , m_tracking_data(std::move(other.m_tracking_data))
 {
   other.m_impl = nullptr;
+  other.m_uid = 0u;
   if(get_current() == &other)
   {
     g_current_context = this;
