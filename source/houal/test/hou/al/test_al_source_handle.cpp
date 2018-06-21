@@ -1,11 +1,10 @@
-// Houzi Game Engine
+﻿// Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/test.hpp"
 #include "hou/al/test_al_base.hpp"
 
-#include "hou/al/al_exceptions.hpp"
+#include "hou/al/al_missing_context_error.hpp"
 #include "hou/al/al_source_handle.hpp"
 
 using namespace hou;
@@ -17,8 +16,8 @@ namespace
 
 class test_al_source_handle : public test_al_base
 {};
-class test_al_source_handle_death_test : public test_al_source_handle
-{};
+
+using test_al_source_handle_death_test = test_al_source_handle;
 
 }  // namespace
 

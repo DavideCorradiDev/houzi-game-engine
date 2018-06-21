@@ -1,10 +1,12 @@
-// Houzi Game Engine
+﻿// Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
 #include "hou/al/al_listener.hpp"
 
 #include "hou/al/al_exceptions.hpp"
+#include "hou/al/al_invalid_context_error.hpp"
+#include "hou/al/al_missing_context_error.hpp"
 
 
 

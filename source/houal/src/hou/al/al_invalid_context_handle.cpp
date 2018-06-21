@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/al/al_exceptions.hpp"
+#include "hou/al/al_invalid_context_error.hpp"
 
 #include "hou/al/al_context.hpp"
 #include "hou/al/al_device.hpp"
