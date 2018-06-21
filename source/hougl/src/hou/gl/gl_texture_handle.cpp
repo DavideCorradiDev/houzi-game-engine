@@ -1,4 +1,4 @@
-// Houzi Game Engine
+﻿// Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
@@ -117,13 +117,11 @@ texture_handle texture_handle::create(GLenum target)
 
 texture_handle::~texture_handle()
 {
-  HOU_DISABLE_EXCEPTIONS_BEGIN;
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(*this);
   GLuint name = get_name();
   glDeleteTextures(1, &name);
   HOU_GL_CHECK_ERROR();
-  HOU_DISABLE_EXCEPTIONS_END;
 }
 
 

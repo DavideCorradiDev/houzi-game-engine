@@ -1,4 +1,4 @@
-// Houzi Game Engine
+﻿// Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
@@ -33,12 +33,10 @@ program_handle program_handle::create()
 
 program_handle::~program_handle()
 {
-  HOU_DISABLE_EXCEPTIONS_BEGIN;
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(*this);
   glDeleteProgram(get_name());
   HOU_GL_CHECK_ERROR();
-  HOU_DISABLE_EXCEPTIONS_END;
 }
 
 

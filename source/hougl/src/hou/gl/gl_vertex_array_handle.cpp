@@ -1,4 +1,4 @@
-// Houzi Game Engine
+﻿// Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
@@ -32,13 +32,11 @@ vertex_array_handle vertex_array_handle::create()
 
 vertex_array_handle::~vertex_array_handle()
 {
-  HOU_DISABLE_EXCEPTIONS_BEGIN;
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(*this);
   GLuint name = get_name();
   glDeleteVertexArrays(1, &name);
   HOU_GL_CHECK_ERROR();
-  HOU_DISABLE_EXCEPTIONS_END;
 }
 
 

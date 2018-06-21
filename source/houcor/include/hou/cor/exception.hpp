@@ -1,4 +1,4 @@
-// Houzi Game Engine
+﻿// Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
@@ -170,24 +170,5 @@ void error(Args... args)
 #define HOU_DEV_ASSERT(statement)                                              \
   HOU_DEV_CHECK_TEMPLATE(                                                      \
     statement, HOU_EXIT_WITH_ERROR(::hou::prv::assertion_message(#statement)))
-
-#ifdef HOU_DISABLE_EXCEPTIONS
-
-#define HOU_DISABLE_EXCEPTIONS_BEGIN
-#define HOU_DISABLE_EXCEPTIONS_END
-
-#else
-
-#define HOU_DISABLE_EXCEPTIONS_BEGIN                                           \
-  try                                                                          \
-  {
-#define HOU_DISABLE_EXCEPTIONS_END                                             \
-  }                                                                            \
-  catch(const ::std::exception& ex)                                            \
-  {                                                                            \
-    HOU_EXIT_WITH_ERROR(ex.what());                                            \
-  }
-
-#endif
 
 #endif

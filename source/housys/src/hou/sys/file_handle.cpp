@@ -1,4 +1,4 @@
-// Houzi Game Engine
+﻿// Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
@@ -45,9 +45,7 @@ file_handle::~file_handle()
 {
   if(m_file != nullptr)
   {
-    HOU_DISABLE_EXCEPTIONS_BEGIN
     close();
-    HOU_DISABLE_EXCEPTIONS_END
   }
 }
 

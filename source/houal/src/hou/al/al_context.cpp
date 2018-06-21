@@ -96,7 +96,6 @@ context::context(context&& other) noexcept
 
 context::~context()
 {
-  HOU_DISABLE_EXCEPTIONS_BEGIN;
   if(m_context != nullptr)
   {
     if(is_current())
@@ -105,7 +104,6 @@ context::~context()
     }
     alcDestroyContext(m_context);
   }
-  HOU_DISABLE_EXCEPTIONS_END;
 }
 
 

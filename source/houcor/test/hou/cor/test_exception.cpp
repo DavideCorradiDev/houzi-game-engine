@@ -1,4 +1,4 @@
-// Houzi Game Engine
+﻿// Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
@@ -264,20 +264,6 @@ TEST_F(test_exception_death_test, hou_dev_assert_macro_failure)
 #else
   EXPECT_NO_ERROR(HOU_DEV_ASSERT(0 == 2));
 #endif
-}
-
-
-
-TEST_F(test_exception_death_test, hou_disable_exceptions_scope)
-{
-  // clang-format off
-  EXPECT_EXIT(
-    HOU_DISABLE_EXCEPTIONS_BEGIN
-      HOU_ERROR_STD_N(std::runtime_error, "Message.");
-    HOU_DISABLE_EXCEPTIONS_END, 
-    ExitedWithCode(EXIT_FAILURE),
-    std::runtime_error("Message.").what());
-  // clang-format on
 }
 
 
