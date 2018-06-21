@@ -44,14 +44,17 @@ class vertex_array_handle;
  * Each thread can only have one current context at a time, and a context cannot
  * be current in more than one thread at the same time.
  * If the library was built with HOU_ENABLE_GL_CHECKS, an exception will be
- * thrown if any OpenGL operation in the hougl library is performed without
- * a current context.
+ * thrown if any OpenGL operation in the hougl library is performed without a
+ * current context.
  *
- * OpenGL objects built when a context is active belong to that context and,
+ * OpenGL objects built when a context is current belong to that context and,
  * as a general rule, they cannot be used when other contexts are active.
  * It is possible to explicitly set two or more contexts to share resources.
  * In this case, *some* types of OpenGL objects will be shared between them, and
  * it will be possible to use them when any of the contexts is current.
+ * If the library was built with HOU_ENABLE_GL_CHECKS, an exception will be
+ * thrown if an operation is performed on an object not owned by the current
+ * context.
  */
 class HOU_GL_API context : public non_copyable
 {
@@ -62,7 +65,7 @@ public:
   using impl_type = void;
 
   /**
-   * Uid type.
+   * Unique identifier type.
    */
   using uid_type = uint32_t;
 
@@ -121,7 +124,7 @@ public:
    *
    * \param wnd the context window.
    *
-   * \throws hou::context_creation_error in case of an error.
+   * \throws hou::al::context_creation_error in case of an error.
    */
   context(const context_settings& cs, window& wnd);
 
@@ -140,14 +143,14 @@ public:
    *
    * \param sharing_ctx the context to share resources with.
    *
-   * \throws hou::context_creation_error in case of an error.
+   * \throws hou::al::context_creation_error in case of an error.
    */
   context(const context_settings& cs, window& wnd, context& sharing_ctx);
 
   /**
    * Move constructor.
    *
-   * \param other the othe context/
+   * \param other the othe context.
    */
   context(context&& other) noexcept;
 
