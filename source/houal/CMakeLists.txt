@@ -35,9 +35,10 @@ SET(LIB_HOUAL_SRC
   src/hou/al/al_context.cpp
   src/hou/al/al_context_exceptions.cpp
   src/hou/al/al_device.cpp
-  # src/hou/al/al_exceptions.cpp
+  src/hou/al/al_exceptions.cpp
   # src/hou/al/al_listener.cpp
-  # src/hou/al/al_object_handle.cpp
+  src/hou/al/al_object_handle.cpp
+  # src/hou/al/al_invalid_context_handle.cpp
   src/hou/al/al_missing_context_error.cpp
   src/hou/al/al_module.cpp
   # src/hou/al/al_source_handle.cpp

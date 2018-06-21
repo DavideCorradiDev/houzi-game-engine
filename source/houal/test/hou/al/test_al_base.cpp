@@ -1,4 +1,4 @@
-// Houzi Game Engine
+﻿// Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
@@ -13,11 +13,6 @@ test_al_base::test_al_base()
 {
   set_context_current();
 }
-
-
-
-test_al_base::~test_al_base()
-{}
 
 
 

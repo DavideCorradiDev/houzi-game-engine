@@ -7,6 +7,8 @@
 
 #include "hou/cor/non_copyable.hpp"
 
+#include "hou/al/al_context.hpp"
+#include "hou/al/al_device.hpp"
 #include "hou/al/open_al.hpp"
 
 #include "hou/al/al_config.hpp"
@@ -39,10 +41,10 @@ class HOU_AL_API device_owned_object_handle : public object_handle
 public:
   device_owned_object_handle(ALuint name);
 
-  uint32_t get_owning_device_uid() const noexcept;
+  device::uid_type get_owning_device_uid() const noexcept;
 
 private:
-  uint32_t m_owning_device_uid;
+  device::uid_type m_owning_device_uid;
 };
 
 
@@ -52,10 +54,10 @@ class HOU_AL_API context_owned_object_handle : public object_handle
 public:
   context_owned_object_handle(ALuint name);
 
-  uint32_t get_owning_context_uid() const noexcept;
+  context::uid_type get_owning_context_uid() const noexcept;
 
 private:
-  uint32_t m_owning_context_uid;
+  context::uid_type m_owning_context_uid;
 };
 
 }  // namespace al

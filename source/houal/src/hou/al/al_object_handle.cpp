@@ -4,9 +4,7 @@
 
 #include "hou/al/al_object_handle.hpp"
 
-#include "hou/al/al_context.hpp"
-#include "hou/al/al_device.hpp"
-#include "hou/al/al_exceptions.hpp"
+#include "hou/al/al_missing_context_error.hpp"
 
 #include <utility>
 
@@ -55,7 +53,8 @@ device_owned_object_handle::device_owned_object_handle(ALuint name)
 
 
 
-uint32_t device_owned_object_handle::get_owning_device_uid() const noexcept
+device::uid_type device_owned_object_handle::get_owning_device_uid() const
+  noexcept
 {
   return m_owning_device_uid;
 }
@@ -72,7 +71,8 @@ context_owned_object_handle::context_owned_object_handle(ALuint name)
 
 
 
-uint32_t context_owned_object_handle::get_owning_context_uid() const noexcept
+context::uid_type context_owned_object_handle::get_owning_context_uid() const
+  noexcept
 {
   return m_owning_context_uid;
 }
