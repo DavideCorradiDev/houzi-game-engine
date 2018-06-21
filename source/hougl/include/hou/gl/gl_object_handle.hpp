@@ -95,6 +95,8 @@ public:
   /**
    * Gets the unique identifier of the group of sharing contexts owning the
    * object.
+   *
+   * \return the unique identifier.
    */
   context::uid_type get_owning_sharing_group_uid() const noexcept;
 
@@ -120,6 +122,8 @@ public:
 
   /**
    * Gets the unique identifier of the owning context.
+   *
+   * \return the unique identifier.
    */
   context::uid_type get_owning_context_uid() const noexcept;
 
