@@ -1,4 +1,4 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 3.3)
+﻿CMAKE_MINIMUM_REQUIRED(VERSION 3.3)
 
 
 
@@ -43,6 +43,7 @@ SET(EXE_HOUAL_TEST_SRC
   hou/al/test_al_device.cpp
   # hou/al/test_al_exceptions.cpp
   # hou/al/test_al_listener.cpp
+  hou/al/test_al_missing_context_error.cpp
   # hou/al/test_al_source_handle.cpp
   # hou/al/test_al_state.cpp
 )

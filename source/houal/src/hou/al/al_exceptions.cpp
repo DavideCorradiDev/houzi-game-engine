@@ -70,12 +70,6 @@ std::string get_context_error_message(ALCenum err)
 
 
 
-missing_context_error::missing_context_error(const std::string& path, uint line)
-  : exception(path, line, u8"No current OpenAL context.")
-{}
-
-
-
 invalid_context_error::invalid_context_error(const std::string& path, uint line)
   : exception(
       path, line, u8"The current OpenAL context does not own the object.")
@@ -123,20 +117,9 @@ void check_context_error(device& dev, const std::string& path, int line)
 
 
 
-void check_context_existence(const std::string& path, int line)
-{
-  if(context::get_current() == nullptr)
-  {
-    HOU_ERROR_STD_N(missing_context_error, path, line);
-  }
-}
-
-
-
 void check_context_ownership(
   const device_owned_object_handle& o, const std::string& path, int line)
 {
-  check_context_existence(path, line);
   if(context::get_current()->get_device_uid() != o.get_owning_device_uid())
   {
     HOU_ERROR_STD_N(invalid_context_error, path, line);
@@ -148,7 +131,6 @@ void check_context_ownership(
 void check_context_ownership(
   const context_owned_object_handle& o, const std::string& path, int line)
 {
-  check_context_existence(path, line);
   if(context::get_current()->get_uid() != o.get_owning_context_uid())
   {
     HOU_ERROR_STD_N(invalid_context_error, path, line);

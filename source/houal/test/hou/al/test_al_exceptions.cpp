@@ -48,39 +48,6 @@ public:
 
 
 
-TEST_F(test_al_exceptions, context_creation_error)
-{
-  al::context_creation_error ex("foo.cpp", 42u);
-  EXPECT_STREQ("foo.cpp:42 - Failed to create the OpenAL context.", ex.what());
-}
-
-
-
-TEST_F(test_al_exceptions, context_destruction_error)
-{
-  al::context_destruction_error ex("foo.cpp", 42u);
-  EXPECT_STREQ("foo.cpp:42 - Failed to destroy the OpenAL context.", ex.what());
-}
-
-
-
-TEST_F(test_al_exceptions, context_switch_error)
-{
-  al::context_switch_error ex("foo.cpp", 42u);
-  EXPECT_STREQ(
-    "foo.cpp:42 - Failed to switch the current OpenAL context.", ex.what());
-}
-
-
-
-TEST_F(test_al_exceptions, missing_context_error)
-{
-  al::missing_context_error ex("foo.cpp", 42u);
-  EXPECT_STREQ("foo.cpp:42 - No current OpenAL context.", ex.what());
-}
-
-
-
 TEST_F(test_al_exceptions, invalid_context_error)
 {
   al::invalid_context_error ex("foo.cpp", 42u);
