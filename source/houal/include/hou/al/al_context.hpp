@@ -117,14 +117,14 @@ public:
    *
    * \return a reference to the underlying implementation.
    */
-  const impl_type* get_impl() const;
+  const impl_type* get_impl() const noexcept;
 
   /**
    * Gets a reference to the underlying implementation.
    *
    * \return a reference to the underlying implementation.
    */
-  impl_type* get_impl();
+  impl_type* get_impl() noexcept;
 
   /**
    * Gets the context unique identifier.

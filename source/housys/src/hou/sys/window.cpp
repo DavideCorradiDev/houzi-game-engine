@@ -89,14 +89,14 @@ window::~window()
 
 
 
-not_null<const window::impl_type*> window::get_impl() const
+const window::impl_type* window::get_impl() const noexcept
 {
   return m_impl;
 }
 
 
 
-not_null<window::impl_type*> window::get_impl()
+window::impl_type* window::get_impl() noexcept
 {
   return m_impl;
 }

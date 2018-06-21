@@ -103,7 +103,7 @@ void set_position(const vec2i& pos)
 void set_position(const vec2i& pos, const window& w)
 {
   SDL_WarpMouseInWindow(
-    const_cast<SDL_Window*>(w.get_impl().get()), pos.x(), pos.y());
+    const_cast<SDL_Window*>(w.get_impl()), pos.x(), pos.y());
 }
 
 }  // namespace mouse

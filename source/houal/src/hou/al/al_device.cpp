@@ -1,4 +1,4 @@
-﻿// Houzi Game Engine
+// Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
@@ -90,14 +90,14 @@ device::~device()
 
 
 
-const device::impl_type* device::get_impl() const
+const device::impl_type* device::get_impl() const noexcept
 {
   return m_device;
 }
 
 
 
-device::impl_type* device::get_impl()
+device::impl_type* device::get_impl() noexcept
 {
   return m_device;
 }

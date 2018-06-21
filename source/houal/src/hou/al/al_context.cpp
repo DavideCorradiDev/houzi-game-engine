@@ -1,4 +1,4 @@
-﻿// Houzi Game Engine
+// Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
@@ -108,14 +108,14 @@ context::~context()
 
 
 
-const context::impl_type* context::get_impl() const
+const context::impl_type* context::get_impl() const noexcept
 {
   return m_context;
 }
 
 
 
-context::impl_type* context::get_impl()
+context::impl_type* context::get_impl() noexcept
 {
   return m_context;
 }

@@ -94,14 +94,14 @@ public:
    *
    * \return the window implementation.
    */
-  not_null<const impl_type*> get_impl() const;
+  const impl_type* get_impl() const noexcept;
 
   /**
    * Gets the window implementation.
    *
    * \return the window implementation.
    */
-  not_null<impl_type*> get_impl();
+  impl_type* get_impl() noexcept;
 
   /**
    * Gets the window unique identifier.

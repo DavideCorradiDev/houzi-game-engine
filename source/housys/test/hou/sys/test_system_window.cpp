@@ -74,7 +74,7 @@ TEST_F(test_system_window, move_constructor)
   system_window w(std::move(w_dummy));
   EXPECT_EQ(impl, w.get_impl());
   EXPECT_EQ(uid, w.get_uid());
-  EXPECT_PRECOND_ERROR(w_dummy.get_impl());
+  EXPECT_EQ(nullptr, w_dummy.get_impl());
   EXPECT_EQ(0u, w_dummy.get_uid());
 }
 
