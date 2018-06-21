@@ -101,9 +101,7 @@ ogg_file_in::~ogg_file_in()
 {
   if(m_vorbis_file != nullptr)
   {
-    HOU_DISABLE_EXCEPTIONS_BEGIN
     HOU_CHECK_0(ov_clear(m_vorbis_file.get()) == 0, file_close_error);
-    HOU_DISABLE_EXCEPTIONS_END
   }
 }
 

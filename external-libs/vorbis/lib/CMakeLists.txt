@@ -74,6 +74,10 @@ if(WIN32)
     list(APPEND VORBIS_SOURCES vorbisenc.c)
 endif()
 
+if(UNIX)
+  set(LIB_VORBIS_FLAGS "${LIB_VORBIS_FLAGS} -fPIC")
+endif()
+
 include_directories(../include)
 include_directories(.)
 include_directories(${LIB_OGG_SOURCE_DIR}/include)
