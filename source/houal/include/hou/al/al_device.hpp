@@ -10,6 +10,7 @@
 #include "hou/al/al_config.hpp"
 
 #include "hou/cor/non_copyable.hpp"
+#include "hou/cor/uid_generator.hpp"
 
 #include <string>
 #include <vector>
@@ -36,7 +37,7 @@ public:
   /**
    * Unique identifier type.
    */
-  using uid_type = uint32_t;
+  using uid_type = uid_generator::uid_type;
 
 public:
   /**

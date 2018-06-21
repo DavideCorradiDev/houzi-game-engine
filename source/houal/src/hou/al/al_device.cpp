@@ -8,7 +8,6 @@
 
 #include "hou/cor/assertions.hpp"
 #include "hou/cor/std_string.hpp"
-#include "hou/cor/uid_generator.hpp"
 
 #include <AL/al.h>
 

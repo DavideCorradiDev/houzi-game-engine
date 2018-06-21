@@ -12,6 +12,8 @@
 
 #include "hou/gl/gl_config.hpp"
 
+#include "hou/cor/uid_generator.hpp"
+
 #include "hou/mth/rectangle.hpp"
 
 #include "hou/sys/window.hpp"
@@ -67,7 +69,7 @@ public:
   /**
    * Unique identifier type.
    */
-  using uid_type = uint32_t;
+  using uid_type = uid_generator::uid_type;
 
 public:
   /**

@@ -14,6 +14,7 @@
 
 #include "hou/cor/not_null.hpp"
 #include "hou/cor/std_string.hpp"
+#include "hou/cor/uid_generator.hpp"
 
 #include "hou/mth/matrix.hpp"
 
@@ -54,7 +55,7 @@ public:
   /**
    * Type for window unique identifiers.
    */
-  using uid_type = uint32_t;
+  using uid_type = uid_generator::uid_type;
 
 public:
   /**

@@ -52,7 +52,7 @@ public:
   /**
    * Unique identifier type.
    */
-  using uid_type = uint32_t;
+  using uid_type = uid_generator::uid_type;
 
 public:
   /**

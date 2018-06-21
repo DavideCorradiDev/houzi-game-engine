@@ -1,4 +1,4 @@
-﻿// Houzi Game Engine
+// Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
@@ -7,7 +7,6 @@
 #include "hou/gl/gl_context_exceptions.hpp"
 
 #include "hou/cor/assertions.hpp"
-#include "hou/cor/uid_generator.hpp"
 
 #include "hou/sys/system_window.hpp"
 
