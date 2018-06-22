@@ -24,7 +24,8 @@ class test_audio_context : public Test
 TEST_F(test_audio_context, default_creation)
 {
   audio_context ctx;
-  SUCCEED();
+  EXPECT_NE(nullptr, &ctx.get_impl());
+  EXPECT_NE(nullptr, &ctx.get_device());
 }
 
 
@@ -35,13 +36,29 @@ TEST_F(test_audio_context, device_name_creation)
   for(const auto& dev_name : device_names)
   {
     audio_context ctx(dev_name);
+    EXPECT_NE(nullptr, &ctx.get_impl());
+    EXPECT_NE(nullptr, &ctx.get_device());
   }
-  SUCCEED();
 }
 
 
 
 TEST_F(test_audio_context, move_constructor)
+{
+  audio_context ctx_dummy;
+  al::context::uid_type ctx_uid = ctx_dummy.get_impl().get_uid();
+  al::device::uid_type dev_uid = ctx_dummy.get_device().get_uid();
+
+  audio_context ctx = std::move(ctx_dummy);
+  EXPECT_EQ(0u, ctx_dummy.get_impl().get_uid());
+  EXPECT_EQ(0u, ctx_dummy.get_device().get_uid());
+  EXPECT_EQ(ctx_uid, ctx.get_impl().get_uid());
+  EXPECT_EQ(dev_uid, ctx.get_device().get_uid());
+}
+
+
+
+TEST_F(test_audio_context, move_constructor_current_context)
 {
   audio_context ctx_dummy;
   audio_context::set_current(ctx_dummy);

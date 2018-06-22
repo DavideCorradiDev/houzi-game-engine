@@ -51,4 +51,32 @@ bool audio_context::is_current() const
   return m_al_context.is_current();
 }
 
+
+
+const audio_context::impl_type& audio_context::get_impl() const noexcept
+{
+  return m_al_context;
+}
+
+
+
+audio_context::impl_type& audio_context::get_impl() noexcept
+{
+  return m_al_context;
+}
+
+
+
+const audio_context::device_type& audio_context::get_device() const noexcept
+{
+  return m_al_device;
+}
+
+
+
+audio_context::device_type& audio_context::get_device() noexcept
+{
+  return m_al_device;
+}
+
 }  // namespace hou
