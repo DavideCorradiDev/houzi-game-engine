@@ -5,9 +5,7 @@
 #include <gtest/gtest.h>
 
 #include "hou/cor/cor_module.hpp"
-
 #include "hou/mth/mth_module.hpp"
-
 #include "hou/al/al_module.hpp"
 
 

@@ -30,7 +30,7 @@ class test_audio_buffer_death_test : public test_audio_buffer
 
 
 const std::string test_audio_buffer::wav_stereo16_filename
-  = get_data_dir() + u8"TestWav-Stereo-16-44100.wav";
+  = get_data_dir() + u8"TestWav-stereo-16-44100.wav";
 
 }  // namespace
 

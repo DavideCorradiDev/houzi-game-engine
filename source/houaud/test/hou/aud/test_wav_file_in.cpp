@@ -38,15 +38,15 @@ class test_wav_file_in_death_test : public test_wav_file_in
 const std::string test_wav_file_in::mono16_unicode_filename
   = get_data_dir() + u8"TestWav\U00004f60\U0000597d.wav";
 const std::string test_wav_file_in::mono8_filename
-  = get_data_dir() + u8"TestWav-Mono-8-44100.wav";
+  = get_data_dir() + u8"TestWav-mono-8-44100.wav";
 const std::string test_wav_file_in::mono16_filename
-  = get_data_dir() + u8"TestWav-Mono-16-44100.wav";
+  = get_data_dir() + u8"TestWav-mono-16-44100.wav";
 const std::string test_wav_file_in::stereo8_filename
-  = get_data_dir() + u8"TestWav-Stereo-8-44100.wav";
+  = get_data_dir() + u8"TestWav-stereo-8-44100.wav";
 const std::string test_wav_file_in::stereo16_filename
-  = get_data_dir() + u8"TestWav-Stereo-16-44100.wav";
+  = get_data_dir() + u8"TestWav-stereo-16-44100.wav";
 const std::string test_wav_file_in::low_sample_rate_filename
-  = get_data_dir() + u8"TestWav-Mono-16-22050.wav";
+  = get_data_dir() + u8"TestWav-mono-16-22050.wav";
 const std::string test_wav_file_in::ogg_filename
   = get_data_dir() + u8"TestOgg\U00004f60\U0000597d.ogg";
 

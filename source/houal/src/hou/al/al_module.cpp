@@ -4,6 +4,8 @@
 
 #include "hou/al/al_module.hpp"
 
+#include "hou/al/open_al.hpp"
+
 
 
 namespace hou
@@ -21,6 +23,7 @@ std::string al_module_impl::get_name()
 
 bool al_module_impl::on_initialize()
 {
+  alGetError();
   return true;
 }
 
