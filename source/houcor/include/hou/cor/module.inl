@@ -19,6 +19,7 @@ void module<Impl>::initialize()
   }
   s_initialized = Impl::on_initialize();
   HOU_CHECK_N(s_initialized, module_initialization_error, Impl::get_name());
+  register_terminate_callbacks();
 }
 
 

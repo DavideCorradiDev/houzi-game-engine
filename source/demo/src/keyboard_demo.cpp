@@ -20,11 +20,8 @@
 int main(int, char**)
 {
   hou::cor_module::initialize();
-  hou::cor_module::register_terminate_callbacks();
   hou::mth_module::initialize();
-  hou::mth_module::register_terminate_callbacks();
   hou::sys_module::initialize();
-  hou::sys_module::register_terminate_callbacks();
 
   bool loop = true;
   auto on_quit = [&loop](hou::event::timestamp) { loop = false; };

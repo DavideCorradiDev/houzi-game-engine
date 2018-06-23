@@ -13,11 +13,8 @@
 int main(int argc, char** argv)
 {
   hou::cor_module::initialize();
-  hou::cor_module::register_terminate_callbacks();
   hou::mth_module::initialize();
-  hou::mth_module::register_terminate_callbacks();
   hou::sys_module::initialize();
-  hou::sys_module::register_terminate_callbacks();
 
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

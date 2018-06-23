@@ -29,11 +29,8 @@ void prompt(const std::string& message)
 int main(int, char**)
 {
   hou::cor_module::initialize();
-  hou::cor_module::register_terminate_callbacks();
   hou::mth_module::initialize();
-  hou::mth_module::register_terminate_callbacks();
   hou::sys_module::initialize();
-  hou::sys_module::register_terminate_callbacks();
 
   hou::system_window w("WindowDemo", hou::vec2u(640u, 480u));
   w.set_bordered(true);

@@ -46,15 +46,10 @@ int main(int, char**)
 {
   // Setup.
   hou::cor_module::initialize();
-  hou::cor_module::register_terminate_callbacks();
   hou::mth_module::initialize();
-  hou::mth_module::register_terminate_callbacks();
   hou::sys_module::initialize();
-  hou::sys_module::register_terminate_callbacks();
   hou::al_module::initialize();
-  hou::al_module::register_terminate_callbacks();
   hou::aud_module::initialize();
-  hou::aud_module::register_terminate_callbacks();
 
   hou::audio_context ac;
   hou::audio_context::set_current(ac);
