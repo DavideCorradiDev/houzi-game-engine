@@ -9,15 +9,13 @@
 #include "hou/gfx/graphic_context.hpp"
 #include "hou/gfx/texture.hpp"
 
-#include "hou/sys/video_mode.hpp"
-
 
 
 // Implementation note:
 //
 // Drawing is never performed on the default framebuffer of the window.
 // When performing draw operations, they are performed on an off-screen render
-// target. When calling display(), the off-screen target is blit onto the
+// target. When calling swap_buffers(), the off-screen target is blit onto the
 // default backbuffer. Afterwards, the front and back buffer are swapped.
 //
 // This is done for the following reasons:
@@ -43,73 +41,84 @@ render_window::render_window(
   const std::string& title, const vec2u& size, uint sample_count)
   : window(title, size)
   , render_surface(size, sample_count)
+  , m_vsync_mode(vsync_mode::disabled)
 {}
 
 
 
-void render_window::display()
+
+vec2u render_window::get_window_size() const
 {
-  gl::bind_window(*this);
-  set_current_render_source(*this);
-  set_default_render_target();
-
-  vec2u size = get_size();
-  gl::blit_framebuffer(0, 0, size.x(), size.y(), 0, size.y(), size.x(), 0,
-    GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
-    GL_NEAREST);
-
-  window::display();
+  return window::get_size();
 }
 
 
 
-void render_window::set_vertical_sync_mode(vertical_sync_mode mode)
+vec2u render_window::get_framebuffer_size() const
+{
+  return render_surface::get_size();
+}
+
+
+
+render_window::vsync_mode render_window::get_vsync_mode() const
+{
+  return m_vsync_mode;
+}
+
+
+
+void render_window::set_vsync_mode(vsync_mode mode)
 {
   gl::bind_window(*this);
   set_default_render_target();
-  gl::set_vertical_sync_mode(gl::vertical_sync_mode(static_cast<int>(mode)));
+  gl::set_vsync_mode(mode);
+  m_vsync_mode = mode;
 }
 
 
 
 void render_window::set_sample_count(uint sample_count)
 {
-  build_framebuffer(get_size(), sample_count);
+  build_framebuffer(get_framebuffer_size(), sample_count);
 }
 
 
 
-// void render_window::set_frame_rect(const vec2i& pos, const vec2u& size)
-// {
-//   window::set_frame_rect(pos, size);
-//   rebuild_framebuffer_if_necessary();
-// }
-// 
-// 
-// 
-// void render_window::set_client_rect(const vec2i& pos, const vec2u& size)
-// {
-//   window::set_client_rect(pos, size);
-//   rebuild_framebuffer_if_necessary();
-// }
+
+void render_window::clear(const color& color)
+{
+  render_surface::clear(color);
+  window::clear(color);
+}
 
 
 
-// void render_window::rebuild_framebuffer_if_necessary()
-// {
-//   vec2u new_size = get_client_size();
-//   if(new_size.x() == 0u)
-//   {
-//     new_size.x() = 1u;
-//   }
-//   if(new_size.y() == 0u)
-//   {
-//     new_size.y() = 1u;
-//   }
-//   if(get_size() != new_size)
-//   {
-//     build_framebuffer(new_size, get_sample_count());
-//   }
-// }
+void render_window::swap_buffers()
+{
+  gl::bind_window(*this);
+  set_current_render_source(*this);
+  set_default_render_target();
+
+  vec2u size = get_framebuffer_size();
+  gl::blit_framebuffer(0, 0, size.x(), size.y(), 0, size.y(), size.x(), 0,
+    GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
+    GL_NEAREST);
+
+  window::swap_buffers();
+}
+
+
+
+void render_window::on_size_change(const vec2u& size)
+{
+  vec2u new_size;
+  new_size.x() = size.x() == 0 ? 1u : size.x();
+  new_size.y() = size.y() == 0 ? 1u : size.y();
+  if(new_size != get_framebuffer_size())
+  {
+    build_framebuffer(new_size, get_sample_count());
+  }
+}
 
 }  // namespace hou

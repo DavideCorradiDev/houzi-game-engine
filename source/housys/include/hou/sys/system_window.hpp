@@ -28,6 +28,14 @@ public:
    * \param size the size of the window client area.
    */
   system_window(const std::string& title, const vec2u& size);
+
+  // window overrides.
+  void clear(const color& color) final;
+  void swap_buffers() final;
+
+private:
+  // window overrides.
+  void on_size_change(const vec2u& size) final;
 };
 
 }  // namespace hou

@@ -416,17 +416,14 @@ public:
    *
    * \param color the color to use to clear the window.
    */
-  virtual void clear(const color& color);
+  virtual void clear(const color& color) = 0;
 
   /**
    * Swaps the window buffers.
    */
-  virtual void swap_buffers();
+  virtual void swap_buffers() = 0;
 
-private:
-  friend void ::hou::event::prv::process(const SDL_Event&);
-
-private:
+protected:
   /**
    * Window resize callback.
    *
@@ -438,7 +435,10 @@ private:
    *
    * \param size the new window size,
    */
-  virtual void on_size_change(const vec2u& size);
+  virtual void on_size_change(const vec2u& size) = 0;
+
+private:
+  friend void ::hou::event::prv::process(const SDL_Event&);
 
 private:
   impl_type* m_impl;

@@ -13,4 +13,11 @@ render_canvas::render_canvas(const vec2u& size, uint sample_count)
   : render_surface(size, sample_count)
 {}
 
+
+
+void render_canvas::clear(const color& color)
+{
+  render_surface::clear(color);
+}
+
 }  // namespace hou

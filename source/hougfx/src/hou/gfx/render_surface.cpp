@@ -75,6 +75,12 @@ render_surface::render_surface(const vec2u& size, positive<uint> sample_count)
 
 
 
+render_surface::~render_surface()
+{
+}
+
+
+
 recti render_surface::get_default_viewport() const
 {
   return recti(vec2i(0, 0), get_size());

@@ -51,7 +51,7 @@ SET(LIB_HOUGFX_SRC
   # src/hou/gfx/mesh_fill_mode.cpp
   src/hou/gfx/render_canvas.cpp
   src/hou/gfx/render_surface.cpp
-  # src/hou/gfx/render_window.cpp
+  src/hou/gfx/render_window.cpp
   # src/hou/gfx/shader.cpp
   # src/hou/gfx/shader_program.cpp
   # src/hou/gfx/shader_type.cpp
