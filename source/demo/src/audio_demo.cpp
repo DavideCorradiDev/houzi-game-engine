@@ -30,7 +30,7 @@ void print_audio_source_properties(
   std::ostream& os, const std::string& source_name, const hou::audio_source& as)
 {
   using seconds = std::chrono::duration<float, std::ratio<1>>;
-  os << source_name << " source properties\n";
+  os << source_name << " source properties:\n";
   os << "    Format: " << as.get_format() << "\n";
   os << "    Channel count: " << as.get_channel_count() << "\n";
   os << "    Bytes per sample: " << as.get_bytes_per_sample() << "\n";
@@ -44,6 +44,7 @@ void print_audio_source_properties(
 
 int main(int, char**)
 {
+  // Setup.
   hou::cor_module::initialize();
   hou::cor_module::register_terminate_callbacks();
   hou::mth_module::initialize();
@@ -55,13 +56,10 @@ int main(int, char**)
   hou::aud_module::initialize();
   hou::aud_module::register_terminate_callbacks();
 
-  bool loop = true;
-  auto on_quit = [&loop](hou::event::timestamp) { loop = false; };
-  hou::event::set_quit_callback(on_quit);
-
   hou::audio_context ac;
   hou::audio_context::set_current(ac);
 
+  // Resources.
   const std::string data_dir = u8"source/demo/data/";
   const std::string wav_file = data_dir + u8"test.wav";
   const std::string ogg_file = data_dir + u8"test.ogg";
@@ -72,6 +70,11 @@ int main(int, char**)
   hou::streaming_audio_source ogg_source(
     std::make_unique<hou::ogg_file_in>(ogg_file));
   ogg_source.set_looping(true);
+
+  // Event callbacks.
+  bool loop = true;
+  auto on_quit = [&loop](hou::event::timestamp) { loop = false; };
+  hou::event::set_quit_callback(on_quit);
 
   auto on_key_pressed
     = [&](hou::event::timestamp, hou::window::uid_type, hou::scan_code sc,
@@ -115,12 +118,7 @@ int main(int, char**)
       };
   hou::event::set_key_pressed_callback(on_key_pressed);
 
-  hou::system_window w("AudioDemo", hou::vec2u(640u, 480u));
-  w.set_bordered(true);
-  w.set_visible(true);
-  w.raise();
-  w.focus();
-
+  // Print information.
   std::cout << "Available audio devices:" << std::endl;
   for(const auto& dev_name : hou::audio_context::get_device_names())
   {
@@ -142,6 +140,14 @@ int main(int, char**)
   std::cout << "    F8: stop ogg source" << std::endl;
   std::cout << std::endl;
 
+  // Window.
+  hou::system_window w("AudioDemo", hou::vec2u(640u, 480u));
+  w.set_bordered(true);
+  w.set_visible(true);
+  w.raise();
+  w.focus();
+
+  // Main loop.
   while(loop)
   {
     hou::event::process_all();
