@@ -71,7 +71,7 @@ TEST_F(test_render_window, creation)
   EXPECT_EQ(texture2(w.get_framebuffer_size()).get_image<pixel_format::rgba>(),
     w.to_texture().get_image<pixel_format::rgba>());
 
-  EXPECT_EQ(render_window::vsync_mode::disabled, w.get_vsync_mode());
+  EXPECT_EQ(render_window::vsync_mode::enabled, w.get_vsync_mode());
 }
 
 
@@ -145,10 +145,6 @@ TEST_F(test_render_window, set_size_null_size)
 TEST_F(test_render_window, set_vsync_mode)
 {
   render_window w(u8"Test", vec2u(32u, 16u), 4u);
-  EXPECT_EQ(render_window::vsync_mode::disabled, w.get_vsync_mode());
-  EXPECT_EQ(gl::vsync_mode::disabled, gl::get_vsync_mode());
-
-  w.set_vsync_mode(render_window::vsync_mode::enabled);
   EXPECT_EQ(render_window::vsync_mode::enabled, w.get_vsync_mode());
   EXPECT_EQ(gl::vsync_mode::enabled, gl::get_vsync_mode());
 
@@ -159,6 +155,10 @@ TEST_F(test_render_window, set_vsync_mode)
   w.set_vsync_mode(render_window::vsync_mode::disabled);
   EXPECT_EQ(render_window::vsync_mode::disabled, w.get_vsync_mode());
   EXPECT_EQ(gl::vsync_mode::disabled, gl::get_vsync_mode());
+
+  w.set_vsync_mode(render_window::vsync_mode::enabled);
+  EXPECT_EQ(render_window::vsync_mode::enabled, w.get_vsync_mode());
+  EXPECT_EQ(gl::vsync_mode::enabled, gl::get_vsync_mode());
 }
 
 
@@ -191,7 +191,7 @@ TEST_F(test_render_window_death_test, set_samples_too_large)
 
 
 
-TEST_F(test_render_window, resize_frame_buffer_on_pop_resized_event)
+TEST_F(test_render_window, resize_framebuffer_on_resized_event)
 {
   vec2u oldSize(vec2u(32u, 16u));
   render_window w(u8"Test", oldSize, 4u);

@@ -56,11 +56,20 @@ window::window(const std::string& title, const vec2u& size)
   , m_icon()
 {
   HOU_ASSERT(m_impl != nullptr);
+
+  // Create the window at the center of the screen.
   recti bounds = display::get_usable_bounds(get_display_index());
   set_position(bounds.get_position()
     + (bounds.get_size() - narrow_cast<vec2i>(get_size())) / 2);
+
+  // The intial value for the max size is 0 rather than the actual maximum.
+  // This is confusing and makes some checks behave incorrectly.
   uint max_int = narrow_cast<uint>(std::numeric_limits<int>::max());
   set_max_size(vec2u(max_int, max_int));
+
+  // SDL seems to forbid resizing the window to a size of 0, but the default
+  // minimum size is 0,0. This makes things more consistent.
+  set_min_size(vec2u(1u, 1u));
 
   // Set pointer to this in the custom data of m_impl, so that functions
   // taking a pointer to an SDL_Window* can get a reference to the hou::window.
@@ -231,7 +240,7 @@ void window::set_size(const vec2u& size)
 {
   SDL_SetWindowSize(
     m_impl, narrow_cast<int>(size.x()), narrow_cast<int>(size.y()));
-  on_size_change(size);
+  on_size_change(get_size());
 }
 
 
@@ -248,8 +257,9 @@ vec2u window::get_min_size() const
 
 void window::set_min_size(const vec2u& min_size)
 {
-  HOU_PRECOND(
-    min_size.x() <= get_max_size().x() && min_size.y() <= get_max_size().x());
+  HOU_PRECOND(min_size.x() > 0u && min_size.y() > 0u
+    && min_size.x() <= get_max_size().x()
+    && min_size.y() <= get_max_size().x());
   SDL_SetWindowMinimumSize(
     m_impl, narrow_cast<int>(min_size.x()), narrow_cast<int>(min_size.y()));
 }

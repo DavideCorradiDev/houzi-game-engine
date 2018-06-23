@@ -49,7 +49,7 @@ TEST_F(test_system_window, creation)
   EXPECT_EQ(image2_rgba(), w.get_icon());
 
   EXPECT_EQ(vec2u(32u, 64u), w.get_size());
-  EXPECT_EQ(vec2u::zero(), w.get_min_size());
+  EXPECT_EQ(vec2u(1u, 1u), w.get_min_size());
   uint max_int = narrow_cast<uint>(std::numeric_limits<int>::max());
   EXPECT_EQ(vec2u(max_int, max_int), w.get_max_size());
   recti bounds = display::get_usable_bounds(w.get_display_index());
@@ -215,13 +215,79 @@ TEST_F(test_system_window, size)
 
 
 
+TEST_F(test_system_window, null_size)
+{
+  system_window w(u8"TestWindow", vec2u(32u, 64u));
+
+  EXPECT_EQ(vec2u(32u, 64u), w.get_size());
+  w.set_size(vec2u::zero());
+  EXPECT_EQ(vec2u(32u, 64u), w.get_size());
+}
+
+
+
+TEST_F(test_system_window, null_size_x)
+{
+  system_window w(u8"TestWindow", vec2u(32u, 64u));
+
+  EXPECT_EQ(vec2u(32u, 64u), w.get_size());
+  w.set_size(vec2u(0u, 16u));
+  EXPECT_EQ(vec2u(32u, 64u), w.get_size());
+}
+
+
+
+TEST_F(test_system_window, null_size_y)
+{
+  system_window w(u8"TestWindow", vec2u(32u, 64u));
+
+  EXPECT_EQ(vec2u(32u, 64u), w.get_size());
+  w.set_size(vec2u(16u, 0u));
+  EXPECT_EQ(vec2u(32u, 64u), w.get_size());
+}
+
+
+
 TEST_F(test_system_window, min_size)
 {
   system_window w(u8"TestWindow", vec2u(32u, 64u));
 
-  EXPECT_EQ(vec2u::zero(), w.get_min_size());
+  EXPECT_EQ(vec2u(1u, 1u), w.get_min_size());
   w.set_min_size(vec2u(6u, 10u));
   EXPECT_EQ(vec2u(6u, 10u), w.get_min_size());
+}
+
+
+
+TEST_F(test_system_window, set_size_below_min_size_x)
+{
+  system_window w(u8"TestWindow", vec2u(32u, 64u));
+
+  w.set_min_size(vec2u(6u, 10u));
+  w.set_size(vec2u(5u, 11u));
+  EXPECT_EQ(vec2u(6u, 11u), w.get_size());
+}
+
+
+
+TEST_F(test_system_window, set_size_below_min_size_y)
+{
+  system_window w(u8"TestWindow", vec2u(32u, 64u));
+
+  w.set_min_size(vec2u(6u, 10u));
+  w.set_size(vec2u(7u, 9u));
+  EXPECT_EQ(vec2u(7u, 10u), w.get_size());
+}
+
+
+
+TEST_F(test_system_window, set_size_below_min_size)
+{
+  system_window w(u8"TestWindow", vec2u(32u, 64u));
+
+  w.set_min_size(vec2u(6u, 10u));
+  w.set_size(vec2u(5u, 9u));
+  EXPECT_EQ(vec2u(6u, 10u), w.get_size());
 }
 
 
@@ -257,6 +323,39 @@ TEST_F(test_system_window, max_size)
 
 
 
+TEST_F(test_system_window, set_size_above_max_size_x)
+{
+  system_window w(u8"TestWindow", vec2u(32u, 64u));
+
+  w.set_max_size(vec2u(100u, 110u));
+  w.set_size(vec2u(101u, 109u));
+  EXPECT_EQ(vec2u(100u, 109u), w.get_size());
+}
+
+
+
+TEST_F(test_system_window, set_size_above_max_size_y)
+{
+  system_window w(u8"TestWindow", vec2u(32u, 64u));
+
+  w.set_max_size(vec2u(100u, 110u));
+  w.set_size(vec2u(99u, 111u));
+  EXPECT_EQ(vec2u(99u, 110u), w.get_size());
+}
+
+
+
+TEST_F(test_system_window, set_size_above_max_size)
+{
+  system_window w(u8"TestWindow", vec2u(32u, 64u));
+
+  w.set_max_size(vec2u(100u, 110u));
+  w.set_size(vec2u(101u, 111u));
+  EXPECT_EQ(vec2u(100u, 110u), w.get_size());
+}
+
+
+
 TEST_F(test_system_window, max_size_auto_resizing)
 {
   system_window w(u8"TestWindow", vec2u(8u, 8u));
@@ -276,21 +375,36 @@ TEST_F(test_system_window, max_size_auto_resizing)
 
 
 
-TEST_F(test_system_window, incompatible_max_size)
+TEST_F(test_system_window_death_test, zero_min_size)
 {
   system_window w(u8"TestWindow", vec2u(32u, 64u));
 
+  EXPECT_PRECOND_ERROR(w.set_min_size(vec2u(0u, 8u)));
+  EXPECT_PRECOND_ERROR(w.set_min_size(vec2u(8u, 0u)));
+  EXPECT_PRECOND_ERROR(w.set_min_size(vec2u(0u, 0u)));
+}
+
+
+
+TEST_F(test_system_window_death_test, set_max_size_error_less_than_min_size)
+{
+  system_window w(u8"TestWindow", vec2u(32u, 64u));
   w.set_min_size(vec2u(16u, 16u));
+
+  EXPECT_PRECOND_ERROR(w.set_max_size(vec2u(8u, 32u)));
+  EXPECT_PRECOND_ERROR(w.set_max_size(vec2u(32u, 8u)));
   EXPECT_PRECOND_ERROR(w.set_max_size(vec2u(8u, 8u)));
 }
 
 
 
-TEST_F(test_system_window, incompatible_min_size)
+TEST_F(test_system_window_death_test, set_min_size_error_greater_than_max_size)
 {
   system_window w(u8"TestWindow", vec2u(32u, 64u));
-
   w.set_max_size(vec2u(8u, 8u));
+
+  EXPECT_PRECOND_ERROR(w.set_min_size(vec2u(16u, 8u)));
+  EXPECT_PRECOND_ERROR(w.set_min_size(vec2u(8u, 16u)));
   EXPECT_PRECOND_ERROR(w.set_min_size(vec2u(16u, 16u)));
 }
 

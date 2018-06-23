@@ -41,7 +41,7 @@ render_window::render_window(
   const std::string& title, const vec2u& size, uint sample_count)
   : window(title, size)
   , render_surface(size, sample_count)
-  , m_vsync_mode(vsync_mode::disabled)
+  , m_vsync_mode(vsync_mode::enabled)
 {}
 
 
