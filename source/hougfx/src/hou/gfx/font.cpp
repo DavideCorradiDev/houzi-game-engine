@@ -390,9 +390,7 @@ void font::destroy()
   HOU_DEV_ASSERT(m_face != nullptr);
   {
     std::lock_guard<std::mutex> lock(ft_library_mutex);
-    HOU_DISABLE_EXCEPTIONS_BEGIN
     HOU_CHECK_0(FT_Done_Face(m_face) == 0, font_destruction_error);
-    HOU_DISABLE_EXCEPTIONS_END
   }
   m_face = nullptr;
 }
