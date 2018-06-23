@@ -8,6 +8,7 @@
 #include "hou/mth/mth_module.hpp"
 #include "hou/sys/sys_module.hpp"
 #include "hou/gl/gl_module.hpp"
+#include "hou/gfx/gfx_module.hpp"
 
 
 
@@ -17,6 +18,7 @@ int main(int argc, char** argv)
   hou::mth_module::initialize();
   hou::sys_module::initialize();
   hou::gl_module::initialize();
+  hou::gfx_module::initialize();
 
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

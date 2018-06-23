@@ -24,8 +24,8 @@ class test_audio_context : public Test
 TEST_F(test_audio_context, default_creation)
 {
   audio_context ctx;
-  EXPECT_NE(nullptr, &ctx.get_impl());
-  EXPECT_NE(nullptr, &ctx.get_device());
+  EXPECT_NE(0u, ctx.get_impl().get_uid());
+  EXPECT_NE(0u, ctx.get_device().get_uid());
 }
 
 
@@ -36,8 +36,8 @@ TEST_F(test_audio_context, device_name_creation)
   for(const auto& dev_name : device_names)
   {
     audio_context ctx(dev_name);
-    EXPECT_NE(nullptr, &ctx.get_impl());
-    EXPECT_NE(nullptr, &ctx.get_device());
+    EXPECT_NE(0u, ctx.get_impl().get_uid());
+    EXPECT_NE(0u, ctx.get_device().get_uid());
   }
 }
 

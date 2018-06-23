@@ -26,18 +26,30 @@ class test_graphic_context : public Test
 
 TEST_F(test_graphic_context, creation)
 {
-  graphic_context rc;
-  SUCCEED();
+  graphic_context ctx;
+  EXPECT_NE(0u, ctx.get_impl().get_uid());
 }
 
 
 
 TEST_F(test_graphic_context, move_constructor)
 {
-  graphic_context rc_dummy;
-  graphic_context::set_current(rc_dummy);
-  graphic_context rc = std::move(rc_dummy);
-  EXPECT_TRUE(rc.is_current());
+  graphic_context ctx_dummy;
+  gl::context::uid_type ctx_uid = ctx_dummy.get_impl().get_uid();
+
+  graphic_context ctx = std::move(ctx_dummy);
+  EXPECT_EQ(0u, ctx_dummy.get_impl().get_uid());
+  EXPECT_EQ(ctx_uid, ctx.get_impl().get_uid());
+}
+
+
+
+TEST_F(test_graphic_context, move_constructor_current_context)
+{
+  graphic_context ctx_dummy;
+  graphic_context::set_current(ctx_dummy);
+  graphic_context ctx = std::move(ctx_dummy);
+  EXPECT_TRUE(ctx.is_current());
 }
 
 
@@ -79,10 +91,10 @@ TEST_F(test_graphic_context, set_current)
 TEST_F(test_graphic_context, unset_current_on_deletion)
 {
   {
-    graphic_context rc;
-    EXPECT_FALSE(rc.is_current());
-    graphic_context::set_current(rc);
-    EXPECT_TRUE(rc.is_current());
+    graphic_context ctx;
+    EXPECT_FALSE(ctx.is_current());
+    graphic_context::set_current(ctx);
+    EXPECT_TRUE(ctx.is_current());
   }
   EXPECT_EQ(nullptr, gl::context::get_current());
 }
@@ -91,8 +103,8 @@ TEST_F(test_graphic_context, unset_current_on_deletion)
 
 TEST_F(test_graphic_context, default_context_parameters)
 {
-  graphic_context rc;
-  graphic_context::set_current(rc);
+  graphic_context ctx;
+  graphic_context::set_current(ctx);
 
   EXPECT_EQ(1, gl::get_unpack_alignment());
   EXPECT_EQ(1, gl::get_pack_alignment());
@@ -122,25 +134,4 @@ TEST_F(test_graphic_context, context_parameters_with_context_switch)
 
   graphic_context::set_current(rc1);
   EXPECT_EQ(4, gl::get_unpack_alignment());
-}
-
-
-
-TEST_F(test_graphic_context, get_rendering_color_byte_count)
-{
-  EXPECT_EQ(4u, graphic_context::get_rendering_color_byte_count());
-}
-
-
-
-TEST_F(test_graphic_context, get_rendering_depth_byte_count)
-{
-  EXPECT_EQ(3u, graphic_context::get_rendering_depth_byte_count());
-}
-
-
-
-TEST_F(test_graphic_context, get_rendering_stencil_byte_count)
-{
-  EXPECT_EQ(1u, graphic_context::get_rendering_stencil_byte_count());
 }
