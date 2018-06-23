@@ -55,14 +55,14 @@ vec2u render_surface::get_max_size()
 
 
 
-uint render_surface::get_max_sample_count()
+positive<uint> render_surface::get_max_sample_count()
 {
   return multisample_attachment_type::get_max_sample_count();
 }
 
 
 
-render_surface::render_surface(const vec2u& size, uint sample_count)
+render_surface::render_surface(const vec2u& size, positive<uint> sample_count)
   : non_copyable()
   , m_framebuffer()
   , m_color_attachment(nullptr)
@@ -111,7 +111,7 @@ bool render_surface::is_multisampled() const noexcept
 
 
 
-uint render_surface::get_sample_count() const noexcept
+positive<uint> render_surface::get_sample_count() const noexcept
 {
   return m_sample_count;
 }
@@ -156,13 +156,9 @@ bool render_surface::is_current_render_target() const
 
 
 
-void render_surface::build_framebuffer(const vec2u& size, uint sample_count)
+void render_surface::build_framebuffer(
+  const vec2u& size, positive<uint> sample_count)
 {
-  HOU_DEV_ASSERT(graphic_context::get_rendering_color_byte_count() == 4u);
-  HOU_DEV_ASSERT(graphic_context::get_rendering_depth_byte_count() == 3u);
-  HOU_DEV_ASSERT(graphic_context::get_rendering_stencil_byte_count() == 1u);
-  HOU_PRECOND(sample_count > 0u);
-
   m_sample_count = sample_count;
   if(sample_count <= 1)
   {

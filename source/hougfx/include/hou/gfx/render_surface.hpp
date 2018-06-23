@@ -62,7 +62,7 @@ public:
    *
    * \return the maximum amount of samples per pixel.
    */
-  static uint get_max_sample_count();
+  static positive<uint> get_max_sample_count();
 
 public:
   /** Builds a render_surface with the given size and sample count.
@@ -75,7 +75,7 @@ public:
    *
    * \param sample_count the sample count.
    */
-  render_surface(const vec2u& size, uint sample_count = 1u);
+  render_surface(const vec2u& size, positive<uint> sample_count = 1u);
 
   /** Gets the default viewport rectangle.
    *
@@ -120,7 +120,7 @@ public:
    *
    * \return the number of samples of the render_surface.
    */
-  uint get_sample_count() const noexcept;
+  positive<uint> get_sample_count() const noexcept;
 
   /** Clears the render_surface to the desired color.
    *
@@ -252,7 +252,7 @@ protected:
    *
    * \param sample_count the new sample count.
    */
-  void build_framebuffer(const vec2u& size, uint sample_count);
+  void build_framebuffer(const vec2u& size, positive<uint> sample_count);
 
 private:
   using attachment_type = texture2;
@@ -262,7 +262,7 @@ private:
   framebuffer m_framebuffer;
   std::unique_ptr<texture> m_color_attachment;
   std::unique_ptr<texture> m_depth_stencil_attachment;
-  uint m_sample_count;
+  positive<uint> m_sample_count;
   recti m_viewport;
 };
 
