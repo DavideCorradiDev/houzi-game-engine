@@ -2,8 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/test.hpp"
 #include "hou/gfx/test_data.hpp"
+#include "hou/test.hpp"
 
 #include "hou/gfx/font.hpp"
 #include "hou/gfx/gfx_exceptions.hpp"
@@ -272,23 +272,23 @@ TEST_F(test_font, get_glyph)
 
   font f = font(binary_file_in(font_name));
 
-  std::vector<image2_r::pixel> pixels1{0u, 152u, 180u, 199u, 87u, 0u, 4u, 0u,
-    30u, 195u, 26u, 168u, 160u, 162u, 204u, 125u, 120u, 0u, 54u, 204u, 51u,
+  std::vector<image2_r::pixel_type> pixels1{0u, 152u, 180u, 199u, 87u, 0u, 4u,
+    0u, 30u, 195u, 26u, 168u, 160u, 162u, 204u, 125u, 120u, 0u, 54u, 204u, 51u,
     208u, 177u, 142u, 191u};
   glyph g1_ref(image2_r(vec2u(5u, 5u), pixels1),
     glyph_metrics(vec2u(320u, 320u), vec2i(0, -320), 384, vec2i(0, 0), 0));
   EXPECT_EQ(g1_ref, f.get_glyph('a'));
 
 #ifdef HOU_COMPILER_MSVC
-  std::vector<image2_r::pixel> pixels2{40u, 188u, 0u, 0u, 0u, 0u, 40u, 187u, 0u,
-    0u, 0u, 0u, 40u, 208u, 172u, 190u, 173u, 9u, 40u, 230u, 8u, 0u, 137u, 106u,
-    40u, 194u, 0u, 0u, 87u, 142u, 40u, 232u, 9u, 0u, 140u, 104u, 40u, 185u,
-    175u, 191u, 172u, 8u};
+  std::vector<image2_r::pixel_type> pixels2{40u, 188u, 0u, 0u, 0u, 0u, 40u,
+    187u, 0u, 0u, 0u, 0u, 40u, 208u, 172u, 190u, 173u, 9u, 40u, 230u, 8u, 0u,
+    137u, 106u, 40u, 194u, 0u, 0u, 87u, 142u, 40u, 232u, 9u, 0u, 140u, 104u,
+    40u, 185u, 175u, 191u, 172u, 8u};
 #else
-  std::vector<image2_r::pixel> pixels2{40u, 188u, 0u, 0u, 0u, 0u, 40u, 187u, 0u,
-    0u, 0u, 0u, 40u, 208u, 172u, 190u, 173u, 9u, 40u, 230u, 8u, 0u, 137u, 106u,
-    40u, 194u, 0u, 0u, 87u, 142u, 40u, 232u, 9u, 0u, 140u, 104u, 40u, 185u,
-    175u, 191u, 171u, 8u};
+  std::vector<image2_r::pixel_type> pixels2{40u, 188u, 0u, 0u, 0u, 0u, 40u,
+    187u, 0u, 0u, 0u, 0u, 40u, 208u, 172u, 190u, 173u, 9u, 40u, 230u, 8u, 0u,
+    137u, 106u, 40u, 194u, 0u, 0u, 87u, 142u, 40u, 232u, 9u, 0u, 140u, 104u,
+    40u, 185u, 175u, 191u, 171u, 8u};
 #endif
   glyph g2_ref(image2_r(vec2u(6u, 7u), pixels2),
     glyph_metrics(vec2u(384u, 448u), vec2i(0, -448), 384, vec2i(0, 0), 0));
@@ -302,9 +302,9 @@ TEST_F(test_font, get_glyph_not_existing)
   font f = font(binary_file_in(font_name));
   glyph g_ref(
     image2_r(vec2u(6u, 7u),
-      std::vector<image2_r::pixel>{16, 188, 132, 132, 188, 12, 16, 116, 0, 0,
-        116, 12, 16, 116, 0, 0, 116, 12, 16, 116, 0, 0, 116, 12, 16, 116, 0, 0,
-        116, 12, 16, 116, 0, 0, 116, 12, 16, 188, 132, 132, 188, 12}),
+      std::vector<image2_r::pixel_type>{16, 188, 132, 132, 188, 12, 16, 116, 0,
+        0, 116, 12, 16, 116, 0, 0, 116, 12, 16, 116, 0, 0, 116, 12, 16, 116, 0,
+        0, 116, 12, 16, 116, 0, 0, 116, 12, 16, 188, 132, 132, 188, 12}),
     glyph_metrics(vec2u(384u, 448u), vec2i(0, -448), 384, vec2i(0, 0), 0));
   EXPECT_EQ(g_ref, f.get_glyph(U'\U00004f68'));
 }

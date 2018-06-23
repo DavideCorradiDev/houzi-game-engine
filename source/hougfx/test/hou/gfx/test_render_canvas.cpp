@@ -2,8 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/test.hpp"
 #include "hou/gfx/test_gfx_base.hpp"
+#include "hou/test.hpp"
 
 #include "hou/gfx/render_canvas.hpp"
 #include "hou/gfx/texture.hpp"
@@ -36,8 +36,8 @@ image2_rgba generate_blit_result_image(const vec2u& dst_size,
   const recti& dst_rect, const color& dst_color, const color& src_color)
 {
   image2_rgba im_ref(dst_size);
-  im_ref.clear(image2_rgba::pixel(dst_color.get_red(), dst_color.get_green(),
-    dst_color.get_blue(), dst_color.get_alpha()));
+  im_ref.clear(image2_rgba::pixel_type(dst_color.get_red(),
+    dst_color.get_green(), dst_color.get_blue(), dst_color.get_alpha()));
 
   uint xMax = std::min(static_cast<uint>(dst_rect.r()), dst_size.x());
   uint yMax = std::min(static_cast<uint>(dst_rect.b()), dst_size.y());
@@ -46,7 +46,7 @@ image2_rgba generate_blit_result_image(const vec2u& dst_size,
     for(uint x = dst_rect.l(); x < xMax; ++x)
     {
       im_ref.set_pixel(vec2u(x, y),
-        image2_rgba::pixel(src_color.get_red(), src_color.get_green(),
+        image2_rgba::pixel_type(src_color.get_red(), src_color.get_green(),
           src_color.get_blue(), src_color.get_alpha()));
     }
   }
@@ -214,7 +214,7 @@ TEST_F(test_render_canvas, clear)
   rs.clear(col);
 
   image2_rgba im_ref(size);
-  im_ref.clear(image2_rgba::pixel(
+  im_ref.clear(image2_rgba::pixel_type(
     col.get_red(), col.get_green(), col.get_blue(), col.get_alpha()));
   EXPECT_EQ(im_ref, rs.to_texture().get_image<pixel_format::rgba>());
 }

@@ -48,7 +48,7 @@ void render_surface::set_default_render_target()
 
 
 
-vec2u render_surface::get_max_size()
+vec2u render_surface::get_max_framebuffer_size()
 {
   return attachment_type::get_max_size();
 }

@@ -64,11 +64,11 @@ public:
   static void set_default_render_target();
 
   /**
-   * Retrieves the maximum allowed size for the render surface..
+   * Retrieves the maximum allowed size for the render surface.
    *
    * \return a vector containing the maximum size on each dimension.
    */
-  static vec2u get_max_size();
+  static vec2u get_max_framebuffer_size();
 
   /**
    * Retrieves the maximum amount of samples per pixel.

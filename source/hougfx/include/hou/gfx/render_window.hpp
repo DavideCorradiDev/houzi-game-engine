@@ -69,7 +69,18 @@ public:
   render_window(
     const std::string& title, const vec2u& size, uint sample_count = 1u);
 
+  /**
+   * Gets the size of the window client area.
+   *
+   * \return the size of the window client area.
+   */
   vec2u get_window_size() const;
+
+  /**
+   * Gets the size of the framebuffer.
+   *
+   * \return the size of the framebuffer.
+   */
   vec2u get_framebuffer_size() const;
 
   /**

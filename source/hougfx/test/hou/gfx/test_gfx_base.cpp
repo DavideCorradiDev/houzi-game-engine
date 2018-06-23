@@ -27,8 +27,3 @@ void test_gfx_base::TearDownTestCase()
 
 test_gfx_base::test_gfx_base()
 {}
-
-
-
-test_gfx_base::~test_gfx_base()
-{}

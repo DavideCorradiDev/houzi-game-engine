@@ -15,11 +15,11 @@ class test_gfx_base : public ::testing::Test
 {
 public:
   static void SetUpTestCase();
+
   static void TearDownTestCase();
 
 public:
   test_gfx_base();
-  virtual ~test_gfx_base() = 0;
 
 public:
   static std::unique_ptr<hou::graphic_context> s_context;
