@@ -14,12 +14,14 @@
 namespace hou
 {
 
-/** Class representing a dummy empty input audio stream.
+/**
+ * Class representing a dummy empty input audio stream.
  */
 class HOU_AUD_API empty_audio_stream_in : public audio_stream_in
 {
 public:
-  /** default constructor.
+  /**
+   * default constructor.
    */
   empty_audio_stream_in();
 

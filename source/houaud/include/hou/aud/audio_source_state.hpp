@@ -14,21 +14,28 @@
 namespace hou
 {
 
-/** Enumeration class for the state of an audio source.
+/**
+ * Enumeration class for the state of an audio source.
  */
 enum class audio_source_state
 {
-  /** The audio source is stopped, playing will be resumed from the beginning.*/
+  /**
+   * The audio source is stopped, playing will be resumed from the beginning.
+   */
   stopped,
-  /** The audio source is playing.*/
+  /**
+   * The audio source is playing.
+   */
   playing,
-  /** The audio source is paused, playing will be resumed from the current
+  /**
+   * The audio source is paused, playing will be resumed from the current
    * offset.
    */
   paused,
 };
 
-/** Writes the object into a stream.
+/**
+ * Writes the object into a stream.
  *
  * \param os the stream.
  *

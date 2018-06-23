@@ -18,15 +18,18 @@ class audio_buffer;
 
 
 
-/** Represents an audio source with the buffer completely loaded in memory.
+/**
+ * Represents an audio source with the buffer completely loaded in memory.
  *
  * Since the buffer must be completely loaded in memory, this class is not
  * suited to play long audio buffers.
  * Prefer using streaming_audio_source in that case.
  *
- * a memory_audio_source must be associated to an audio_buffer to play a sound.
- * Many memory_audio_source objects may share an audio_buffer.
+ * A memory_audio_source must be associated to an audio_buffer to play a sound.
+ * Many memory_audio_source objects may share the same audio_buffer.
  *
+ * A memory audio_source only stores a reference to an audio_buffer object and
+ * will not own it.
  * It must be ensured that the audio_buffer associated to a memory_audio_source
  * is not destroyed while the memory_audio_source is still existing, failing to
  * do so will result in undefined behaviour.
@@ -34,26 +37,26 @@ class audio_buffer;
 class HOU_AUD_API memory_audio_source final : public audio_source
 {
 public:
-  /** Buffer constructor.
+  /**
+   * Buffer constructor.
    *
    * Creates a memory_audio_source with the given audio_buffer.
-   * If passed nullptr, the memory_audio_source will not be associated to any
-   * buffer and will not play any sound.
    *
    * \param buffer pointer to the audio_buffer.
+   * If nullptr is passed, the audio_source will not play any sound.
    */
   explicit memory_audio_source(const audio_buffer* buffer = nullptr);
 
-  /** Sets the audio_buffer.
-   *
-   * If passed nullptr, the memory_audio_source will not be associated to any
-   * buffer and will not play any sound.
+  /**
+   * Sets the audio_buffer.
    *
    * \param buffer pointer to the audio_buffer.
+   * If nullptr is passed, the audio_source will not play any sound.
    */
   void set_buffer(const audio_buffer* buffer);
 
-  /** Gets the audio_buffer.
+  /**
+   * Gets the audio_buffer.
    *
    * \return a pointer to the audio_buffer, or nullptr if no audio_buffer is
    * associated to the memory_audio_source.

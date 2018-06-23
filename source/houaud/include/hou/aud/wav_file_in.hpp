@@ -17,14 +17,16 @@
 namespace hou
 {
 
-/** Input wav file stream.
+/**
+ * Input wav file stream.
  */
 class HOU_AUD_API wav_file_in
   : public non_copyable
   , public audio_stream_in
 {
 public:
-  /** Checks if the file corresponding to the given path is a wav file.
+  /**
+   * Checks if the file corresponding to the given path is a wav file.
    *
    * \param path the file path.
    *
@@ -35,7 +37,8 @@ public:
   static bool check(const std::string& path);
 
 public:
-  /** Path constructor.
+  /**
+   * Path constructor.
    *
    * \param path the path to the file to be opened.
    *

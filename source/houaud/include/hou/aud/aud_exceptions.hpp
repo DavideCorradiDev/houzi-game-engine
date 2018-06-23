@@ -14,7 +14,8 @@
 namespace hou
 {
 
-/** Audio read error.
+/**
+ * Audio read error.
  *
  * This exception is thrown when reading audio data fails.
  *
@@ -23,7 +24,8 @@ namespace hou
 class HOU_AUD_API invalid_audio_data : public exception
 {
 public:
-  /** Constructor.
+  /**
+   * Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
