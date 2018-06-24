@@ -48,7 +48,7 @@ TEST_F(test_render_window, creation)
   EXPECT_EQ(image2_rgba(), w.get_icon());
 
   EXPECT_EQ(vec2u(32u, 64u), w.get_window_size());
-  EXPECT_EQ(vec2u::zero(), w.get_min_size());
+  EXPECT_EQ(vec2u(1u, 1u), w.get_min_size());
   uint max_int = narrow_cast<uint>(std::numeric_limits<int>::max());
   EXPECT_EQ(vec2u(max_int, max_int), w.get_max_size());
   recti bounds = display::get_usable_bounds(w.get_display_index());
@@ -105,9 +105,9 @@ TEST_F(test_render_window, set_size_null_size_x)
 
   vec2u size_ref(0u, 17u);
   w.set_size(size_ref);
+  size_ref.x() = 1u;
 
   EXPECT_EQ(size_ref, w.get_window_size());
-  size_ref.x() = 1u;
   EXPECT_EQ(size_ref, w.get_framebuffer_size());
 }
 
@@ -119,9 +119,9 @@ TEST_F(test_render_window, set_size_null_size_y)
 
   vec2u size_ref(13u, 0u);
   w.set_size(size_ref);
+  size_ref.y() = 1u;
 
   EXPECT_EQ(size_ref, w.get_window_size());
-  size_ref.y() = 1u;
   EXPECT_EQ(size_ref, w.get_framebuffer_size());
 }
 
@@ -133,10 +133,10 @@ TEST_F(test_render_window, set_size_null_size)
 
   vec2u size_ref = vec2u::zero();
   w.set_size(size_ref);
-
-  EXPECT_EQ(size_ref, w.get_window_size());
   size_ref.x() = 1u;
   size_ref.y() = 1u;
+
+  EXPECT_EQ(size_ref, w.get_window_size());
   EXPECT_EQ(size_ref, w.get_framebuffer_size());
 }
 

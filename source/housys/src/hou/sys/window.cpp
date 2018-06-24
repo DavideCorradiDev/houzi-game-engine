@@ -239,8 +239,13 @@ vec2u window::get_size() const
 
 void window::set_size(const vec2u& size)
 {
-  SDL_SetWindowSize(
-    m_impl, narrow_cast<int>(size.x()), narrow_cast<int>(size.y()));
+  // If an element of size is null, the call to SDL_SetWindowSize will do
+  // nothing. For this reason elements of size equal to 0 are changed to 1.
+  vec2u adjusted_size;
+  adjusted_size.x() = size.x() == 0 ? 1u : size.x();
+  adjusted_size.y() = size.y() == 0 ? 1u : size.y();
+  SDL_SetWindowSize(m_impl, narrow_cast<int>(adjusted_size.x()),
+    narrow_cast<int>(adjusted_size.y()));
   on_size_change(get_size());
 }
 

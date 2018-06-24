@@ -221,7 +221,7 @@ TEST_F(test_system_window, null_size)
 
   EXPECT_EQ(vec2u(32u, 64u), w.get_size());
   w.set_size(vec2u::zero());
-  EXPECT_EQ(vec2u(32u, 64u), w.get_size());
+  EXPECT_EQ(vec2u(1u, 1u), w.get_size());
 }
 
 
@@ -232,7 +232,7 @@ TEST_F(test_system_window, null_size_x)
 
   EXPECT_EQ(vec2u(32u, 64u), w.get_size());
   w.set_size(vec2u(0u, 16u));
-  EXPECT_EQ(vec2u(32u, 64u), w.get_size());
+  EXPECT_EQ(vec2u(1u, 16u), w.get_size());
 }
 
 
@@ -243,7 +243,7 @@ TEST_F(test_system_window, null_size_y)
 
   EXPECT_EQ(vec2u(32u, 64u), w.get_size());
   w.set_size(vec2u(16u, 0u));
-  EXPECT_EQ(vec2u(32u, 64u), w.get_size());
+  EXPECT_EQ(vec2u(16u, 1u), w.get_size());
 }
 
 
