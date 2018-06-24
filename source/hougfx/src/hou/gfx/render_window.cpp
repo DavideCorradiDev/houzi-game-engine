@@ -112,12 +112,12 @@ void render_window::swap_buffers()
 
 void render_window::on_size_change(const vec2u& size)
 {
-  vec2u new_size;
-  new_size.x() = size.x() == 0 ? 1u : size.x();
-  new_size.y() = size.y() == 0 ? 1u : size.y();
-  if(new_size != get_framebuffer_size())
+  // This check is redundant, but since it is rather cheap it is done here again
+  // as a precaution.
+  HOU_PRECOND(size.x() != 0 && size.y() != 0);
+  if(size != get_framebuffer_size())
   {
-    build_framebuffer(new_size, get_sample_count());
+    build_framebuffer(size, get_sample_count());
   }
 }
 
