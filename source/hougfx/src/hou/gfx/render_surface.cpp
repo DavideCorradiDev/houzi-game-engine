@@ -76,8 +76,7 @@ render_surface::render_surface(const vec2u& size, positive<uint> sample_count)
 
 
 render_surface::~render_surface()
-{
-}
+{}
 
 
 

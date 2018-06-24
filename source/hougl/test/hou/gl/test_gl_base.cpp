@@ -10,7 +10,7 @@
 
 test_gl_base::test_gl_base()
   : testing::Test()
-  , m_window("GlTestWindow", hou::vec2u::zero())
+  , m_window("GlTestWindow", hou::vec2u(1u, 1u))
   , m_context(hou::gl::context_settings::get_default(), m_window)
 {
   set_context_current();

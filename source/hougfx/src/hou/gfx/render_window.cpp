@@ -71,7 +71,7 @@ render_window::vsync_mode render_window::get_vsync_mode() const
 void render_window::set_vsync_mode(vsync_mode mode)
 {
   gl::bind_window(*this);
-  set_default_render_target();
+  // set_default_render_target();
   gl::set_vsync_mode(mode);
   m_vsync_mode = mode;
 }
@@ -112,9 +112,6 @@ void render_window::swap_buffers()
 
 void render_window::on_size_change(const vec2u& size)
 {
-  // This check is redundant, but since it is rather cheap it is done here again
-  // as a precaution.
-  HOU_PRECOND(size.x() != 0 && size.y() != 0);
   if(size != get_framebuffer_size())
   {
     build_framebuffer(size, get_sample_count());

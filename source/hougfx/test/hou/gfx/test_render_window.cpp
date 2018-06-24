@@ -139,7 +139,7 @@ TEST_F(test_render_window, set_vsync_mode)
 
 
 
-TEST_F(test_render_window, set_samples)
+TEST_F(test_render_window, set_sample_count)
 {
   render_window w(u8"Test", vec2u(32u, 16u), 1u);
 
@@ -158,7 +158,7 @@ TEST_F(test_render_window, set_samples)
 
 
 
-TEST_F(test_render_window_death_test, set_samples_too_large)
+TEST_F(test_render_window_death_test, set_sample_count_too_large)
 {
   render_window w(u8"Test", vec2u(32u, 16u), 1u);
   EXPECT_PRECOND_ERROR(
@@ -178,6 +178,5 @@ TEST_F(test_render_window, resize_framebuffer_on_resized_event)
 
   event::generate_window_resized(w, new_size);
   event::process_all();
-  EXPECT_EQ(new_size, w.get_window_size());
   EXPECT_EQ(new_size, w.get_framebuffer_size());
 }

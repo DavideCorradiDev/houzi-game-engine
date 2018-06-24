@@ -12,6 +12,8 @@
 
 #include "hou/sys/system_window.hpp"
 
+#include "SDL2/SDL_video.h"
+
 #include <thread>
 
 using namespace hou;
@@ -45,13 +47,13 @@ TEST_F(test_gl_context, constructor)
 
 TEST_F(test_gl_context, shared_creation)
 {
-  system_window w1("Test", vec2u::zero());
+  system_window w1("Test", vec2u(1u, 1u));
   gl::context c1(gl::context_settings::get_default(), w1);
 
   EXPECT_NE(0u, c1.get_uid());
   EXPECT_NE(0u, c1.get_sharing_group_uid());
 
-  system_window w2("Test", vec2u::zero());
+  system_window w2("Test", vec2u(1u, 1u));
   gl::context c2(gl::context_settings::get_default(), w2, c1);
 
   EXPECT_NE(0u, c2.get_uid());
@@ -68,17 +70,17 @@ TEST_F(test_gl_context, shared_creation)
 
 TEST_F(test_gl_context, shared_creation_binding_preservation)
 {
-  system_window w0("Test", vec2u::zero());
+  system_window w0("Test", vec2u(1u, 1u));
   gl::context c0(gl::context_settings::get_default(), w0);
   gl::context::set_current(c0, w0);
 
-  system_window w1("Test", vec2u::zero());
+  system_window w1("Test", vec2u(1u, 1u));
   gl::context c1(gl::context_settings::get_default(), w1);
 
   EXPECT_NE(0u, c1.get_uid());
   EXPECT_NE(0u, c1.get_sharing_group_uid());
 
-  system_window w2("Test", vec2u::zero());
+  system_window w2("Test", vec2u(1u, 1u));
   gl::context c2(gl::context_settings::get_default(), w2, c1);
 
   EXPECT_NE(0u, c2.get_uid());
@@ -100,7 +102,7 @@ TEST_F(test_gl_context, get_uid)
   // a context. For this reason one may not know beforehand the first
   // context id that will appear in this test, and only the relative value
   // can be tested.
-  system_window w("Test", vec2u::zero());
+  system_window w("Test", vec2u(1u, 1u));
   gl::context first_context(gl::context_settings::get_default(), w);
   uint32_t first_id = first_context.get_uid() + 1u;
 
@@ -116,7 +118,7 @@ TEST_F(test_gl_context, get_uid)
 
 TEST_F(test_gl_context, get_sharing_group_uid)
 {
-  system_window w("Test", vec2u::zero());
+  system_window w("Test", vec2u(1u, 1u));
   gl::context c1(gl::context_settings::get_default(), w);
   gl::context c2(gl::context_settings::get_default(), w);
   gl::context c3(gl::context_settings::get_default(), w, c1);
@@ -166,7 +168,7 @@ TEST_F(test_gl_context, get_sharing_group_uid)
 
 TEST_F(test_gl_context, move_constructor)
 {
-  system_window w("Test", vec2u::zero());
+  system_window w("Test", vec2u(1u, 1u));
   gl::context ctx_dummy(gl::context_settings::get_default(), w);
 
   gl::context::impl_type* impl_ref = ctx_dummy.get_impl();
@@ -187,7 +189,7 @@ TEST_F(test_gl_context, move_constructor)
 
 TEST_F(test_gl_context, current_context_move_constructor)
 {
-  system_window w("Test", vec2u::zero());
+  system_window w("Test", vec2u(1u, 1u));
   gl::context ctx_dummy(gl::context_settings::get_default(), w);
 
   gl::context::set_current(ctx_dummy, w);
@@ -291,6 +293,28 @@ TEST_F(test_gl_context, multiple_contexts_single_window)
   gl::context::set_current(c2, w);
   EXPECT_TRUE(c2.is_current());
   EXPECT_EQ(w.get_uid(), gl::context::get_current_window_uid());
+}
+
+
+
+TEST_F(test_gl_context, binding_after_window_destruction)
+{
+  system_window w1("Test", vec2u(10u, 10u));
+  gl::context c(gl::context_settings::get_default(), w1);
+  {
+    system_window w2("Test", vec2u(10u, 10u));
+    gl::context::set_current(c, w2);
+    EXPECT_TRUE(c.is_current());
+    EXPECT_EQ(&c, gl::context::get_current());
+    EXPECT_EQ(w2.get_uid(), gl::context::get_current_window_uid());
+    EXPECT_EQ(c.get_impl(), SDL_GL_GetCurrentContext());
+    EXPECT_EQ(w2.get_impl(), SDL_GL_GetCurrentWindow());
+  }
+  EXPECT_FALSE(c.is_current());
+  EXPECT_EQ(nullptr, gl::context::get_current());
+  EXPECT_EQ(0u, gl::context::get_current_window_uid());
+  EXPECT_EQ(nullptr, SDL_GL_GetCurrentContext());
+  EXPECT_EQ(nullptr, SDL_GL_GetCurrentWindow());
 }
 
 
