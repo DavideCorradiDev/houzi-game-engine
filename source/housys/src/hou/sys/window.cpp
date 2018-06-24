@@ -55,20 +55,21 @@ window::window(const std::string& title, const vec2u& size)
       SDL_WINDOW_OPENGL | SDL_WINDOW_HIDDEN | SDL_WINDOW_BORDERLESS))
   , m_icon()
 {
-  HOU_ASSERT(m_impl != nullptr);
+  HOU_SDL_CHECK(m_impl != nullptr);
 
   // Create the window at the center of the screen.
   recti bounds = display::get_usable_bounds(get_display_index());
   set_position(bounds.get_position()
     + (bounds.get_size() - narrow_cast<vec2i>(get_size())) / 2);
 
-  // The intial value for the max size is 0 rather than the actual maximum.
+  // The initial value for the max size is 0 rather than the actual maximum.
   // This is confusing and makes some checks behave incorrectly.
   uint max_int = narrow_cast<uint>(std::numeric_limits<int>::max());
   set_max_size(vec2u(max_int, max_int));
 
-  // SDL seems to forbid resizing the window to a size of 0, but the default
-  // minimum size is 0,0. This makes things more consistent.
+  // SDL seems to forbid resizing the window to a size of (0,0), limiting it to
+  // (1,1), but the default minimum size is (0,0). Here the initial minimum size
+  // is set explicitly to (1,1) to keep things consistent.
   set_min_size(vec2u(1u, 1u));
 
   // Set pointer to this in the custom data of m_impl, so that functions
