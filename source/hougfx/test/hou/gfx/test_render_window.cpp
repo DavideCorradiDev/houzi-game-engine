@@ -86,6 +86,15 @@ TEST_F(test_render_window, creation_multisampled)
 
 
 
+TEST_F(test_render_window_death_test, null_size_creation)
+{
+  EXPECT_PRECOND_ERROR(render_window w(u8"TestWindow", vec2u(8u, 0u)));
+  EXPECT_PRECOND_ERROR(render_window w(u8"TestWindow", vec2u(0u, 8u)));
+  EXPECT_PRECOND_ERROR(render_window w(u8"TestWindow", vec2u(0u, 0u)));
+}
+
+
+
 TEST_F(test_render_window, set_size)
 {
   render_window w(u8"Test", vec2u(32u, 16u), 4u);
@@ -99,45 +108,12 @@ TEST_F(test_render_window, set_size)
 
 
 
-TEST_F(test_render_window, set_size_null_size_x)
+TEST_F(test_render_window_death_test, set_null_size)
 {
-  render_window w(u8"Test", vec2u(32u, 16u), 4u);
-
-  vec2u size_ref(0u, 17u);
-  w.set_size(size_ref);
-  size_ref.x() = 1u;
-
-  EXPECT_EQ(size_ref, w.get_window_size());
-  EXPECT_EQ(size_ref, w.get_framebuffer_size());
-}
-
-
-
-TEST_F(test_render_window, set_size_null_size_y)
-{
-  render_window w(u8"Test", vec2u(32u, 16u), 4u);
-
-  vec2u size_ref(13u, 0u);
-  w.set_size(size_ref);
-  size_ref.y() = 1u;
-
-  EXPECT_EQ(size_ref, w.get_window_size());
-  EXPECT_EQ(size_ref, w.get_framebuffer_size());
-}
-
-
-
-TEST_F(test_render_window, set_size_null_size)
-{
-  render_window w(u8"Test", vec2u(32u, 16u), 4u);
-
-  vec2u size_ref = vec2u::zero();
-  w.set_size(size_ref);
-  size_ref.x() = 1u;
-  size_ref.y() = 1u;
-
-  EXPECT_EQ(size_ref, w.get_window_size());
-  EXPECT_EQ(size_ref, w.get_framebuffer_size());
+  render_window w(u8"TestWindow", vec2u(32u, 64u));
+  EXPECT_PRECOND_ERROR(w.set_size(vec2u(0u, 8u)));
+  EXPECT_PRECOND_ERROR(w.set_size(vec2u(8u, 0u)));
+  EXPECT_PRECOND_ERROR(w.set_size(vec2u(0u, 0u)));
 }
 
 

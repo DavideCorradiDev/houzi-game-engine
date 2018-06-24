@@ -51,10 +51,12 @@ window& window::get_from_uid(uid_type uid)
 
 
 window::window(const std::string& title, const vec2u& size)
-  : m_impl(SDL_CreateWindow(title.c_str(), 0, 0, size.x(), size.y(),
-      SDL_WINDOW_OPENGL | SDL_WINDOW_HIDDEN | SDL_WINDOW_BORDERLESS))
+  : m_impl(nullptr)
   , m_icon()
 {
+  HOU_PRECOND(size.x() != 0u && size.y() != 0);
+  m_impl = SDL_CreateWindow(title.c_str(), 0, 0, size.x(), size.y(),
+      SDL_WINDOW_OPENGL | SDL_WINDOW_HIDDEN | SDL_WINDOW_BORDERLESS);
   HOU_SDL_CHECK(m_impl != nullptr);
 
   // Create the window at the center of the screen.
@@ -239,13 +241,9 @@ vec2u window::get_size() const
 
 void window::set_size(const vec2u& size)
 {
-  // If an element of size is null, the call to SDL_SetWindowSize will do
-  // nothing. For this reason elements of size equal to 0 are changed to 1.
-  vec2u adjusted_size;
-  adjusted_size.x() = size.x() == 0 ? 1u : size.x();
-  adjusted_size.y() = size.y() == 0 ? 1u : size.y();
-  SDL_SetWindowSize(m_impl, narrow_cast<int>(adjusted_size.x()),
-    narrow_cast<int>(adjusted_size.y()));
+  HOU_PRECOND(size.x() != 0u && size.y() != 0u);
+  SDL_SetWindowSize(
+    m_impl, narrow_cast<int>(size.x()), narrow_cast<int>(size.y()));
   on_size_change(get_size());
 }
 

@@ -66,26 +66,11 @@ TEST_F(test_system_window, creation)
 
 
 
-TEST_F(test_system_window, null_size_x_creation)
+TEST_F(test_system_window_death_test, null_size_creation)
 {
-  system_window w(u8"TestWindow", vec2u(0u, 8u));
-  EXPECT_EQ(vec2u(1u, 8u), w.get_size());
-}
-
-
-
-TEST_F(test_system_window, null_size_y_creation)
-{
-  system_window w(u8"TestWindow", vec2u(8u, 0u));
-  EXPECT_EQ(vec2u(8u, 1u), w.get_size());
-}
-
-
-
-TEST_F(test_system_window, null_size_creation)
-{
-  system_window w(u8"TestWindow", vec2u::zero());
-  EXPECT_EQ(vec2u(1u, 1u), w.get_size());
+  EXPECT_PRECOND_ERROR(system_window w(u8"TestWindow", vec2u(8u, 0u)));
+  EXPECT_PRECOND_ERROR(system_window w(u8"TestWindow", vec2u(0u, 8u)));
+  EXPECT_PRECOND_ERROR(system_window w(u8"TestWindow", vec2u(0u, 0u)));
 }
 
 
@@ -239,35 +224,12 @@ TEST_F(test_system_window, size)
 
 
 
-TEST_F(test_system_window, null_size)
+TEST_F(test_system_window_death_test, set_null_size)
 {
   system_window w(u8"TestWindow", vec2u(32u, 64u));
-
-  EXPECT_EQ(vec2u(32u, 64u), w.get_size());
-  w.set_size(vec2u::zero());
-  EXPECT_EQ(vec2u(1u, 1u), w.get_size());
-}
-
-
-
-TEST_F(test_system_window, null_size_x)
-{
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
-
-  EXPECT_EQ(vec2u(32u, 64u), w.get_size());
-  w.set_size(vec2u(0u, 16u));
-  EXPECT_EQ(vec2u(1u, 16u), w.get_size());
-}
-
-
-
-TEST_F(test_system_window, null_size_y)
-{
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
-
-  EXPECT_EQ(vec2u(32u, 64u), w.get_size());
-  w.set_size(vec2u(16u, 0u));
-  EXPECT_EQ(vec2u(16u, 1u), w.get_size());
+  EXPECT_PRECOND_ERROR(w.set_size(vec2u(0u, 8u)));
+  EXPECT_PRECOND_ERROR(w.set_size(vec2u(8u, 0u)));
+  EXPECT_PRECOND_ERROR(w.set_size(vec2u(0u, 0u)));
 }
 
 

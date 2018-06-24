@@ -75,6 +75,8 @@ public:
    * \param title the window title.
    *
    * \param size the size of the window client area.
+   *
+   * \throws hou::precondition_violation if one element of size is null.
    */
   window(const std::string& title, const vec2u& size);
 
@@ -203,6 +205,8 @@ public:
    * Sets the window client area size.
    *
    * \param size the window client araea size.
+   *
+   * \throws hou::precondition_violation if one element of size is null.
    */
   void set_size(const vec2u& size);
 
