@@ -66,6 +66,30 @@ TEST_F(test_system_window, creation)
 
 
 
+TEST_F(test_system_window, null_size_x_creation)
+{
+  system_window w(u8"TestWindow", vec2u(0u, 8u));
+  EXPECT_EQ(vec2u(1u, 8u), w.get_size());
+}
+
+
+
+TEST_F(test_system_window, null_size_y_creation)
+{
+  system_window w(u8"TestWindow", vec2u(8u, 0u));
+  EXPECT_EQ(vec2u(8u, 1u), w.get_size());
+}
+
+
+
+TEST_F(test_system_window, null_size_creation)
+{
+  system_window w(u8"TestWindow", vec2u::zero());
+  EXPECT_EQ(vec2u(1u, 1u), w.get_size());
+}
+
+
+
 TEST_F(test_system_window, move_constructor)
 {
   system_window w_dummy(u8"TestWindow", vec2u(32u, 64u));
