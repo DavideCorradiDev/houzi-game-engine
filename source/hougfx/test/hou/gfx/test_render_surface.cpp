@@ -57,7 +57,7 @@ image2_rgba generate_blit_result_image(const vec2u& dst_size,
 
 
 
-TEST_F(test_render_surface, creation)
+TEST_F(test_render_surface, constructor_single_sample)
 {
   vec2u size(3u, 4u);
   uint samples = 1u;
@@ -68,38 +68,14 @@ TEST_F(test_render_surface, creation)
   EXPECT_EQ(size, rs.get_size());
   EXPECT_EQ(samples, rs.get_sample_count());
   EXPECT_FALSE(rs.is_multisampled());
+
   EXPECT_EQ(texture2(size).get_image<pixel_format::rgba>(),
     rs.to_texture().get_image<pixel_format::rgba>());
 }
 
 
 
-TEST_F(test_render_surface, creation_error_zero_samples)
-{
-  vec2u size(3u, 4u);
-  EXPECT_PRECOND_ERROR(render_surface rs(size, 0u));
-}
-
-
-
-TEST_F(test_render_surface, creation_with_area_greater_than_max_texture_size)
-{
-  vec2u size(texture2::get_max_size().x(), 2u);
-  uint samples = 1u;
-  render_surface rs(size, samples);
-
-  EXPECT_EQ(recti(vec2i(0, 0), size), rs.get_default_viewport());
-  EXPECT_EQ(recti(vec2i(0, 0), size), rs.get_viewport());
-  EXPECT_EQ(size, rs.get_size());
-  EXPECT_EQ(samples, rs.get_sample_count());
-  EXPECT_FALSE(rs.is_multisampled());
-  EXPECT_EQ(texture2(size).get_image<pixel_format::rgba>(),
-    rs.to_texture().get_image<pixel_format::rgba>());
-}
-
-
-
-TEST_F(test_render_surface, creation_multisampled)
+TEST_F(test_render_surface, constructor_multisampled)
 {
   vec2u size(3u, 4u);
   uint samples = 2u;
@@ -119,28 +95,77 @@ TEST_F(test_render_surface, creation_multisampled)
 
 
 
-TEST_F(test_render_surface_death_test, creation_samples_too_large)
+TEST_F(test_render_surface, constructor_lower_size_limit)
 {
-  EXPECT_PRECOND_ERROR(render_surface rs(vec2u(3u, 4u), 40000u));
+  render_surface rs(vec2u(1u, 1u));
+  EXPECT_EQ(vec2u(1u, 1u), rs.get_size());
 }
 
 
 
-TEST_F(test_render_surface_death_test, creation_size_null)
+TEST_F(test_render_surface, constructor_upper_size_limit)
 {
-  EXPECT_PRECOND_ERROR(render_surface rs(vec2u(0u, 0u), 1u));
-  EXPECT_PRECOND_ERROR(render_surface rs(vec2u(1u, 0u), 1u));
-  EXPECT_PRECOND_ERROR(render_surface rs(vec2u(0u, 1u), 1u));
+  vec2u max_size = render_surface::get_max_size();
+  vec2u max_size_x(max_size.x(), 1u);
+  vec2u max_size_y(1u, max_size.y());
+
+  render_surface rs_x(max_size_x);
+  EXPECT_EQ(max_size_x, rs_x.get_size());
+  render_surface rs_y(max_size_y);
+  EXPECT_EQ(max_size_y, rs_y.get_size());
 }
 
 
 
-TEST_F(test_render_surface_death_test, creation_size_too_large)
+TEST_F(test_render_surface_death_test, constructor_error_null_size)
 {
-  const uint size = gl::get_max_texture_size() + 1;
-  EXPECT_PRECOND_ERROR(render_surface rs(vec2u(size, size), 1u));
-  EXPECT_PRECOND_ERROR(render_surface rs(vec2u(1u, size), 1u));
-  EXPECT_PRECOND_ERROR(render_surface rs(vec2u(size, 1u), 1u));
+  EXPECT_PRECOND_ERROR(render_surface rs(vec2u(0u, 1u)));
+  EXPECT_PRECOND_ERROR(render_surface rs(vec2u(1u, 0u)));
+  EXPECT_PRECOND_ERROR(render_surface rs(vec2u(0u, 0u)));
+}
+
+
+
+TEST_F(test_render_surface_death_test, constructor_error_size_too_large)
+{
+  vec2u max_size = render_surface::get_max_size();
+  vec2u wrong_size_x(max_size.x() + 1u, 1u);
+  vec2u wrong_size_y(1u, max_size.y() + 1u);
+  vec2u wrong_size(max_size.x() + 1u, max_size.y() + 1u);
+  EXPECT_PRECOND_ERROR(render_surface rs(wrong_size_x));
+  EXPECT_PRECOND_ERROR(render_surface rs(wrong_size_y));
+  EXPECT_PRECOND_ERROR(render_surface rs(wrong_size));
+}
+
+
+
+TEST_F(test_render_surface, constructor_lower_sample_count_limit)
+{
+  render_surface rs(vec2u(1u, 1u), 1u);
+  EXPECT_EQ(1u, rs.get_sample_count());
+}
+
+
+
+TEST_F(test_render_surface, constructor_upper_sample_count_limit)
+{
+  render_surface rs(vec2u(1u, 1u), render_surface::get_max_sample_count());
+  EXPECT_EQ(render_surface::get_max_sample_count(), rs.get_sample_count());
+}
+
+
+
+TEST_F(test_render_surface_death_test, constructor_error_zero_samples)
+{
+  EXPECT_PRECOND_ERROR(render_surface rs(vec2u(1u, 1u), 0u));
+}
+
+
+
+TEST_F(test_render_surface_death_test, constructor_error_sample_count_too_large)
+{
+  EXPECT_PRECOND_ERROR(render_surface rs(
+    vec2u(1u, 1u), render_surface::get_max_sample_count() + 1u));
 }
 
 
