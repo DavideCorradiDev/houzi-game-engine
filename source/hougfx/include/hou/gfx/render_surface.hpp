@@ -68,7 +68,7 @@ public:
    *
    * \return a vector containing the maximum size on each dimension.
    */
-  static vec2u get_max_framebuffer_size();
+  static vec2u get_max_size();
 
   /**
    * Retrieves the maximum amount of samples per pixel.
@@ -97,11 +97,6 @@ public:
    * \param other the other render_surface.
    */
   render_surface(render_surface&& other) = default;
-
-  /**
-   * Destructor.
-   */
-  ~render_surface() = 0;
 
   /**
    * Gets the default viewport rectangle.
@@ -159,7 +154,7 @@ public:
    *
    * \param color the desired color.
    */
-  virtual void clear(const color& color) = 0;
+  void clear(const color& color);
 
   /**
    * Creates a texture2 from this render_surface.
@@ -171,6 +166,12 @@ public:
    * \return the texture2 create from this render_surface.
    */
   texture2 to_texture() const;
+
+  /**
+   * Copies the content of the render_surface onto the current window
+   * framebuffer.
+   */
+  void display() const;
 
   /**
    * Checks if this render_surface is the current render source.

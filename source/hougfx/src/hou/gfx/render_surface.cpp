@@ -48,7 +48,7 @@ void render_surface::set_default_render_target()
 
 
 
-vec2u render_surface::get_max_framebuffer_size()
+vec2u render_surface::get_max_size()
 {
   return attachment_type::get_max_size();
 }
@@ -72,11 +72,6 @@ render_surface::render_surface(const vec2u& size, positive<uint> sample_count)
 {
   build_framebuffer(size, sample_count);
 }
-
-
-
-render_surface::~render_surface()
-{}
 
 
 
@@ -143,6 +138,19 @@ texture2 render_surface::to_texture() const
   blit(
     m_framebuffer, blitRect, tex, blitRect, framebuffer_blit_filter::nearest);
   return tex;
+}
+
+
+
+void render_surface::display() const
+{
+  set_current_render_source(*this);
+  set_default_render_target();
+
+  auto size = get_size();
+  gl::blit_framebuffer(0, 0, size.x(), size.y(), 0, size.y(), size.x(), 0,
+    GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
+    GL_NEAREST);
 }
 
 

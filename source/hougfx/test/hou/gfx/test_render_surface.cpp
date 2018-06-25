@@ -5,7 +5,7 @@
 #include "hou/gfx/test_gfx_base.hpp"
 #include "hou/test.hpp"
 
-#include "hou/gfx/render_canvas.hpp"
+#include "hou/gfx/render_surface.hpp"
 #include "hou/gfx/texture.hpp"
 
 #include "hou/sys/color.hpp"
@@ -19,10 +19,10 @@ using namespace hou;
 namespace
 {
 
-class test_render_canvas : public test_gfx_base
+class test_render_surface : public test_gfx_base
 {};
 
-class test_render_canvas_death_test : public test_render_canvas
+class test_render_surface_death_test : public test_render_surface
 {};
 
 
@@ -57,11 +57,11 @@ image2_rgba generate_blit_result_image(const vec2u& dst_size,
 
 
 
-TEST_F(test_render_canvas, creation)
+TEST_F(test_render_surface, creation)
 {
   vec2u size(3u, 4u);
   uint samples = 1u;
-  render_canvas rs(size, samples);
+  render_surface rs(size, samples);
 
   EXPECT_EQ(recti(vec2i(0, 0), size), rs.get_default_viewport());
   EXPECT_EQ(recti(vec2i(0, 0), size), rs.get_viewport());
@@ -74,19 +74,19 @@ TEST_F(test_render_canvas, creation)
 
 
 
-TEST_F(test_render_canvas, creation_error_zero_samples)
+TEST_F(test_render_surface, creation_error_zero_samples)
 {
   vec2u size(3u, 4u);
-  EXPECT_PRECOND_ERROR(render_canvas rs(size, 0u));
+  EXPECT_PRECOND_ERROR(render_surface rs(size, 0u));
 }
 
 
 
-TEST_F(test_render_canvas, creation_with_area_greater_than_max_texture_size)
+TEST_F(test_render_surface, creation_with_area_greater_than_max_texture_size)
 {
   vec2u size(texture2::get_max_size().x(), 2u);
   uint samples = 1u;
-  render_canvas rs(size, samples);
+  render_surface rs(size, samples);
 
   EXPECT_EQ(recti(vec2i(0, 0), size), rs.get_default_viewport());
   EXPECT_EQ(recti(vec2i(0, 0), size), rs.get_viewport());
@@ -99,11 +99,11 @@ TEST_F(test_render_canvas, creation_with_area_greater_than_max_texture_size)
 
 
 
-TEST_F(test_render_canvas, creation_multisampled)
+TEST_F(test_render_surface, creation_multisampled)
 {
   vec2u size(3u, 4u);
   uint samples = 2u;
-  render_canvas rs(size, samples);
+  render_surface rs(size, samples);
 
   EXPECT_EQ(recti(vec2i(0, 0), size), rs.get_default_viewport());
   EXPECT_EQ(recti(vec2i(0, 0), size), rs.get_viewport());
@@ -111,7 +111,7 @@ TEST_F(test_render_canvas, creation_multisampled)
   EXPECT_EQ(samples, rs.get_sample_count());
   EXPECT_TRUE(rs.is_multisampled());
 
-  render_canvas ssrs(size);
+  render_surface ssrs(size);
   blit(rs, rs.get_default_viewport(), ssrs, rs.get_default_viewport());
   EXPECT_EQ(texture2(size).get_image<pixel_format::rgba>(),
     ssrs.to_texture().get_image<pixel_format::rgba>());
@@ -119,38 +119,38 @@ TEST_F(test_render_canvas, creation_multisampled)
 
 
 
-TEST_F(test_render_canvas_death_test, creation_samples_too_large)
+TEST_F(test_render_surface_death_test, creation_samples_too_large)
 {
-  EXPECT_PRECOND_ERROR(render_canvas rs(vec2u(3u, 4u), 40000u));
+  EXPECT_PRECOND_ERROR(render_surface rs(vec2u(3u, 4u), 40000u));
 }
 
 
 
-TEST_F(test_render_canvas_death_test, creation_size_null)
+TEST_F(test_render_surface_death_test, creation_size_null)
 {
-  EXPECT_PRECOND_ERROR(render_canvas rs(vec2u(0u, 0u), 1u));
-  EXPECT_PRECOND_ERROR(render_canvas rs(vec2u(1u, 0u), 1u));
-  EXPECT_PRECOND_ERROR(render_canvas rs(vec2u(0u, 1u), 1u));
+  EXPECT_PRECOND_ERROR(render_surface rs(vec2u(0u, 0u), 1u));
+  EXPECT_PRECOND_ERROR(render_surface rs(vec2u(1u, 0u), 1u));
+  EXPECT_PRECOND_ERROR(render_surface rs(vec2u(0u, 1u), 1u));
 }
 
 
 
-TEST_F(test_render_canvas_death_test, creation_size_too_large)
+TEST_F(test_render_surface_death_test, creation_size_too_large)
 {
   const uint size = gl::get_max_texture_size() + 1;
-  EXPECT_PRECOND_ERROR(render_canvas rs(vec2u(size, size), 1u));
-  EXPECT_PRECOND_ERROR(render_canvas rs(vec2u(1u, size), 1u));
-  EXPECT_PRECOND_ERROR(render_canvas rs(vec2u(size, 1u), 1u));
+  EXPECT_PRECOND_ERROR(render_surface rs(vec2u(size, size), 1u));
+  EXPECT_PRECOND_ERROR(render_surface rs(vec2u(1u, size), 1u));
+  EXPECT_PRECOND_ERROR(render_surface rs(vec2u(size, 1u), 1u));
 }
 
 
 
-TEST_F(test_render_canvas, move_constructor)
+TEST_F(test_render_surface, move_constructor)
 {
   vec2u size(3u, 4u);
   uint samples = 2u;
-  render_canvas rs1(size, samples);
-  render_canvas rs2(std::move(rs1));
+  render_surface rs1(size, samples);
+  render_surface rs2(std::move(rs1));
 
   EXPECT_EQ(recti(vec2i(0, 0), size), rs2.get_default_viewport());
   EXPECT_EQ(recti(vec2i(0, 0), size), rs2.get_viewport());
@@ -158,7 +158,7 @@ TEST_F(test_render_canvas, move_constructor)
   EXPECT_EQ(samples, rs2.get_sample_count());
   EXPECT_TRUE(rs2.is_multisampled());
 
-  render_canvas ssrs(size);
+  render_surface ssrs(size);
   blit(rs2, rs2.get_default_viewport(), ssrs, rs2.get_default_viewport());
   EXPECT_EQ(texture2(size).get_image<pixel_format::rgba>(),
     ssrs.to_texture().get_image<pixel_format::rgba>());
@@ -166,10 +166,10 @@ TEST_F(test_render_canvas, move_constructor)
 
 
 
-TEST_F(test_render_canvas, viewport)
+TEST_F(test_render_surface, viewport)
 {
   vec2u size(3u, 4u);
-  render_canvas rs(size);
+  render_surface rs(size);
   recti viewport(vec2i(1, 2), vec2i(3, 5));
   rs.set_viewport(viewport);
 
@@ -180,10 +180,10 @@ TEST_F(test_render_canvas, viewport)
 
 
 
-TEST_F(test_render_canvas, negative_size_viewport)
+TEST_F(test_render_surface, negative_size_viewport)
 {
   vec2u size(3u, 4u);
-  render_canvas rs(size);
+  render_surface rs(size);
   recti viewport(vec2i(1, -2), vec2i(-3, 5));
   rs.set_viewport(viewport);
 
@@ -194,10 +194,10 @@ TEST_F(test_render_canvas, negative_size_viewport)
 
 
 
-TEST_F(test_render_canvas, is_multisampled)
+TEST_F(test_render_surface, is_multisampled)
 {
-  render_canvas rs1(vec2u(3u, 4u), 1u);
-  render_canvas rs2(vec2u(3u, 4u), 2u);
+  render_surface rs1(vec2u(3u, 4u), 1u);
+  render_surface rs2(vec2u(3u, 4u), 2u);
 
   EXPECT_FALSE(rs1.is_multisampled());
   EXPECT_TRUE(rs2.is_multisampled());
@@ -205,10 +205,10 @@ TEST_F(test_render_canvas, is_multisampled)
 
 
 
-TEST_F(test_render_canvas, clear)
+TEST_F(test_render_surface, clear)
 {
   vec2u size(3u, 4u);
-  render_canvas rs(size);
+  render_surface rs(size);
   color col(4, 6, 2, 78);
 
   rs.clear(col);
@@ -221,11 +221,11 @@ TEST_F(test_render_canvas, clear)
 
 
 
-TEST_F(test_render_canvas, blit_full_size)
+TEST_F(test_render_surface, blit_full_size)
 {
   vec2u size(3u, 4u);
-  render_canvas rs_src(size);
-  render_canvas rs_dst(size);
+  render_surface rs_src(size);
+  render_surface rs_dst(size);
 
   recti blit_rect = rs_src.get_default_viewport();
   rs_src.clear(color::red());
@@ -237,11 +237,11 @@ TEST_F(test_render_canvas, blit_full_size)
 
 
 
-TEST_F(test_render_canvas, blit_small_rect)
+TEST_F(test_render_surface, blit_small_rect)
 {
   vec2u size(3u, 4u);
-  render_canvas rs_src(size);
-  render_canvas rs_dst(size);
+  render_surface rs_src(size);
+  render_surface rs_dst(size);
 
   recti blit_rect(vec2i(1, 2), vec2i(2, 1));
   color blit_col(3, 5, 8, 9);
@@ -255,11 +255,11 @@ TEST_F(test_render_canvas, blit_small_rect)
 
 
 
-TEST_F(test_render_canvas, blit_different_source_and_destination_rect)
+TEST_F(test_render_surface, blit_different_source_and_destination_rect)
 {
   vec2u size(3u, 4u);
-  render_canvas rs_src(size);
-  render_canvas rs_dst(size);
+  render_surface rs_src(size);
+  render_surface rs_dst(size);
 
   recti src_rect(vec2i(1, 2), vec2i(2, 1));
   recti dst_rect(vec2i(0, 1), vec2i(2, 3));
@@ -274,11 +274,11 @@ TEST_F(test_render_canvas, blit_different_source_and_destination_rect)
 
 
 
-TEST_F(test_render_canvas, blit_over_flowing_source_rect)
+TEST_F(test_render_surface, blit_over_flowing_source_rect)
 {
   vec2u size(3u, 4u);
-  render_canvas rs_src(size);
-  render_canvas rs_dst(size);
+  render_surface rs_src(size);
+  render_surface rs_dst(size);
 
   recti src_rect(vec2i(2, 2), vec2i(2, 3));
   recti dst_rect(vec2i(0, 0), vec2i(2, 3));
@@ -293,11 +293,11 @@ TEST_F(test_render_canvas, blit_over_flowing_source_rect)
 
 
 
-TEST_F(test_render_canvas, blit_over_flowing_destination_rect)
+TEST_F(test_render_surface, blit_over_flowing_destination_rect)
 {
   vec2u size(3u, 4u);
-  render_canvas rs_src(size);
-  render_canvas rs_dst(size);
+  render_surface rs_src(size);
+  render_surface rs_dst(size);
 
   recti src_rect(vec2i(0, 0), vec2i(2, 3));
   recti dst_rect(vec2i(2, 2), vec2i(2, 3));
@@ -312,11 +312,11 @@ TEST_F(test_render_canvas, blit_over_flowing_destination_rect)
 
 
 
-TEST_F(test_render_canvas, blit_inverted_source_rect)
+TEST_F(test_render_surface, blit_inverted_source_rect)
 {
   vec2u size(3u, 4u);
-  render_canvas rs_src(size);
-  render_canvas rs_dst(size);
+  render_surface rs_src(size);
+  render_surface rs_dst(size);
 
   recti src_rect(vec2i(0, 1), vec2i(2, -3));
   recti dst_rect(vec2i(0, 0), vec2i(2, 3));
@@ -331,11 +331,11 @@ TEST_F(test_render_canvas, blit_inverted_source_rect)
 
 
 
-TEST_F(test_render_canvas, blit_inverted_destination_rect)
+TEST_F(test_render_surface, blit_inverted_destination_rect)
 {
   vec2u size(3u, 4u);
-  render_canvas rs_src(size);
-  render_canvas rs_dst(size);
+  render_surface rs_src(size);
+  render_surface rs_dst(size);
 
   recti src_rect(vec2i(0, 0), vec2i(2, 3));
   recti dst_rect(vec2i(0, 1), vec2i(2, -3));
@@ -350,11 +350,11 @@ TEST_F(test_render_canvas, blit_inverted_destination_rect)
 
 
 
-TEST_F(test_render_canvas, blit_different_sample_size_same_rect_size)
+TEST_F(test_render_surface, blit_different_sample_size_same_rect_size)
 {
   vec2u size(3u, 4u);
-  render_canvas rs_src(size, 2u);
-  render_canvas rs_dst(size, 1u);
+  render_surface rs_src(size, 2u);
+  render_surface rs_dst(size, 1u);
 
   recti src_rect(vec2i(0, 0), vec2i(2, 3));
   recti dst_rect(vec2i(0, 0), vec2i(2, 3));
@@ -369,11 +369,11 @@ TEST_F(test_render_canvas, blit_different_sample_size_same_rect_size)
 
 
 
-TEST_F(test_render_canvas, blit_different_sample_size_same_rect_size_inverted)
+TEST_F(test_render_surface, blit_different_sample_size_same_rect_size_inverted)
 {
   vec2u size(3u, 4u);
-  render_canvas rs_src(size, 2u);
-  render_canvas rs_dst(size, 1u);
+  render_surface rs_src(size, 2u);
+  render_surface rs_dst(size, 1u);
 
   recti src_rect(vec2i(0, 0), vec2i(2, 3));
   recti dst_rect(vec2i(0, 4), vec2i(2, -3));
@@ -388,11 +388,11 @@ TEST_F(test_render_canvas, blit_different_sample_size_same_rect_size_inverted)
 
 
 TEST_F(
-  test_render_canvas_death_test, blit_different_sample_size_different_rect_size)
+  test_render_surface_death_test, blit_different_sample_size_different_rect_size)
 {
   vec2u size(3u, 4u);
-  render_canvas rs_src(size, 2u);
-  render_canvas rs_dst(size, 1u);
+  render_surface rs_src(size, 2u);
+  render_surface rs_dst(size, 1u);
 
   recti src_rect(vec2i(0, 0), vec2i(2, 3));
   recti dst_rect(vec2i(0, 0), vec2i(1, 2));
@@ -402,9 +402,9 @@ TEST_F(
 
 
 
-TEST_F(test_render_canvas, to_texture_multisampled)
+TEST_F(test_render_surface, to_texture_multisampled)
 {
-  render_canvas rs(vec2u(3u, 4u), 2u);
+  render_surface rs(vec2u(3u, 4u), 2u);
   color col(3, 5, 8, 9);
   rs.clear(col);
 
@@ -415,38 +415,38 @@ TEST_F(test_render_canvas, to_texture_multisampled)
 
 
 
-TEST_F(test_render_canvas, set_current_render_source)
+TEST_F(test_render_surface, set_current_render_source)
 {
-  render_canvas rs1(vec2u(3u, 4u));
-  render_canvas rs2(vec2u(3u, 4u));
+  render_surface rs1(vec2u(3u, 4u));
+  render_surface rs2(vec2u(3u, 4u));
   EXPECT_FALSE(rs1.is_current_render_source());
   EXPECT_FALSE(rs2.is_current_render_source());
-  render_canvas::set_current_render_source(rs1);
+  render_surface::set_current_render_source(rs1);
   EXPECT_TRUE(rs1.is_current_render_source());
   EXPECT_FALSE(rs2.is_current_render_source());
-  render_canvas::set_current_render_source(rs2);
+  render_surface::set_current_render_source(rs2);
   EXPECT_FALSE(rs1.is_current_render_source());
   EXPECT_TRUE(rs2.is_current_render_source());
-  render_canvas::set_default_render_source();
+  render_surface::set_default_render_source();
   EXPECT_FALSE(rs1.is_current_render_source());
   EXPECT_FALSE(rs2.is_current_render_source());
 }
 
 
 
-TEST_F(test_render_canvas, set_current_render_target)
+TEST_F(test_render_surface, set_current_render_target)
 {
-  render_canvas rs1(vec2u(3u, 4u));
-  render_canvas rs2(vec2u(3u, 4u));
+  render_surface rs1(vec2u(3u, 4u));
+  render_surface rs2(vec2u(3u, 4u));
   EXPECT_FALSE(rs1.is_current_render_target());
   EXPECT_FALSE(rs2.is_current_render_target());
-  render_canvas::set_current_render_target(rs1);
+  render_surface::set_current_render_target(rs1);
   EXPECT_TRUE(rs1.is_current_render_target());
   EXPECT_FALSE(rs2.is_current_render_target());
-  render_canvas::set_current_render_target(rs2);
+  render_surface::set_current_render_target(rs2);
   EXPECT_FALSE(rs1.is_current_render_target());
   EXPECT_TRUE(rs2.is_current_render_target());
-  render_canvas::set_default_render_target();
+  render_surface::set_default_render_target();
   EXPECT_FALSE(rs1.is_current_render_target());
   EXPECT_FALSE(rs2.is_current_render_target());
 }

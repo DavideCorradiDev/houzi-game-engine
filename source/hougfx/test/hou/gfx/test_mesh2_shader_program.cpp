@@ -7,7 +7,7 @@
 
 #include "hou/gfx/mesh2.hpp"
 #include "hou/gfx/mesh2_shader_program.hpp"
-#include "hou/gfx/render_canvas.hpp"
+#include "hou/gfx/render_surface.hpp"
 
 #include "hou/mth/transform2.hpp"
 
@@ -98,7 +98,7 @@ TEST_F(test_mesh2_shader_program, draw_rectangle)
 {
   mesh2_shader_program mr;
   vec2u size(4u, 6u);
-  render_canvas rt(size);
+  render_surface rt(size);
   mesh2 rect = create_rectangle_mesh2(vec2f(2.f, 3.f));
   color col(20u, 30u, 40u, 255u);
   trans2f t
@@ -118,7 +118,7 @@ TEST_F(test_mesh2_shader_program, draw_textured_rectangle)
 {
   mesh2_shader_program mr;
   vec2u size(8u, 10u);
-  render_canvas rt(size);
+  render_surface rt(size);
   mesh2 rect = create_rectangle_mesh2(vec2f(3.f, 4.f));
   image2_rgba im(vec2u(3u, 4u));
   color col(20u, 30u, 40u, 255u);
