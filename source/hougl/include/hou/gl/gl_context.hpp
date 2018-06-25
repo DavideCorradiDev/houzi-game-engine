@@ -117,11 +117,12 @@ public:
   static context* get_current();
 
   /**
-   * Gets the uid of the current window in the current thread.
+   * Gets the current window in the current thread.
    *
-   * \return the uid of the current window, or 0 if there is no current window.
+   * \return a refernece the current window, or nullptr if the re is no current
+   * context.
    */
-  static window::uid_type get_current_window_uid();
+  static window* get_current_window();
 
 public:
   /**

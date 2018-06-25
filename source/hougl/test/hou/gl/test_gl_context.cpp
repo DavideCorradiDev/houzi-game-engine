@@ -41,57 +41,65 @@ TEST_F(test_gl_context, constructor)
   EXPECT_NE(0u, ctx.get_uid());
   EXPECT_NE(0u, ctx.get_sharing_group_uid());
   EXPECT_FALSE(ctx.is_current());
+  EXPECT_EQ(nullptr, gl::context::get_current());
+  EXPECT_EQ(nullptr, gl::context::get_current_window());
 }
 
 
 
-TEST_F(test_gl_context, shared_creation)
+TEST_F(test_gl_context, shared_constructor)
 {
   system_window w1("Test", vec2u(1u, 1u));
   gl::context c1(gl::context_settings::get_default(), w1);
 
   EXPECT_NE(0u, c1.get_uid());
   EXPECT_NE(0u, c1.get_sharing_group_uid());
+  EXPECT_FALSE(c1.is_current());
+  EXPECT_EQ(nullptr, gl::context::get_current());
+  EXPECT_EQ(nullptr, gl::context::get_current_window());
 
   system_window w2("Test", vec2u(1u, 1u));
   gl::context c2(gl::context_settings::get_default(), w2, c1);
 
   EXPECT_NE(0u, c2.get_uid());
   EXPECT_NE(0u, c2.get_sharing_group_uid());
+  EXPECT_FALSE(c2.is_current());
+  EXPECT_EQ(nullptr, gl::context::get_current());
+  EXPECT_EQ(nullptr, gl::context::get_current_window());
 
   EXPECT_EQ(c1.get_sharing_group_uid(), c2.get_sharing_group_uid());
-  EXPECT_EQ(nullptr, gl::context::get_current());
-  EXPECT_EQ(0u, gl::context::get_current_window_uid());
-  EXPECT_FALSE(c1.is_current());
-  EXPECT_FALSE(c2.is_current());
 }
 
 
 
-TEST_F(test_gl_context, shared_creation_binding_preservation)
+TEST_F(test_gl_context, shared_constructor_binding_preservation)
 {
   system_window w0("Test", vec2u(1u, 1u));
   gl::context c0(gl::context_settings::get_default(), w0);
   gl::context::set_current(c0, w0);
 
+  EXPECT_NE(0u, c0.get_uid());
+  EXPECT_NE(0u, c0.get_sharing_group_uid());
+  EXPECT_EQ(&c0, gl::context::get_current());
+  EXPECT_EQ(&w0, gl::context::get_current_window());
+
   system_window w1("Test", vec2u(1u, 1u));
   gl::context c1(gl::context_settings::get_default(), w1);
 
   EXPECT_NE(0u, c1.get_uid());
   EXPECT_NE(0u, c1.get_sharing_group_uid());
+  EXPECT_EQ(&c0, gl::context::get_current());
+  EXPECT_EQ(&w0, gl::context::get_current_window());
 
   system_window w2("Test", vec2u(1u, 1u));
   gl::context c2(gl::context_settings::get_default(), w2, c1);
 
   EXPECT_NE(0u, c2.get_uid());
   EXPECT_NE(0u, c2.get_sharing_group_uid());
+  EXPECT_EQ(&c0, gl::context::get_current());
+  EXPECT_EQ(&w0, gl::context::get_current_window());
 
   EXPECT_EQ(c1.get_sharing_group_uid(), c2.get_sharing_group_uid());
-  EXPECT_EQ(&c0, gl::context::get_current());
-  EXPECT_EQ(w0.get_uid(), gl::context::get_current_window_uid());
-  EXPECT_TRUE(c0.is_current());
-  EXPECT_FALSE(c1.is_current());
-  EXPECT_FALSE(c2.is_current());
 }
 
 
@@ -194,13 +202,13 @@ TEST_F(test_gl_context, current_context_move_constructor)
 
   gl::context::set_current(ctx_dummy, w);
   EXPECT_EQ(&ctx_dummy, gl::context::get_current());
-  EXPECT_EQ(w.get_uid(), gl::context::get_current_window_uid());
+  EXPECT_EQ(&w, gl::context::get_current_window());
 
   gl::context ctx = std::move(ctx_dummy);
   EXPECT_NE(&ctx_dummy, gl::context::get_current());
   EXPECT_EQ(&ctx, gl::context::get_current());
-  EXPECT_TRUE(ctx.is_current());
-  EXPECT_EQ(gl::context::get_current_window_uid(), w.get_uid());
+  EXPECT_EQ(&ctx, gl::context::get_current());
+  EXPECT_EQ(&w, gl::context::get_current_window());
 }
 
 
@@ -247,31 +255,31 @@ TEST_F(test_gl_context, current_gl_context)
   EXPECT_FALSE(c1.is_current());
   EXPECT_FALSE(c2.is_current());
   EXPECT_EQ(nullptr, gl::context::get_current());
-  EXPECT_EQ(0u, gl::context::get_current_window_uid());
+  EXPECT_EQ(nullptr, gl::context::get_current_window());
 
   gl::context::set_current(c1, w1);
   EXPECT_TRUE(c1.is_current());
   EXPECT_FALSE(c2.is_current());
   EXPECT_EQ(&c1, gl::context::get_current());
-  EXPECT_EQ(w1.get_uid(), gl::context::get_current_window_uid());
+  EXPECT_EQ(&w1, gl::context::get_current_window());
 
   gl::context::set_current(c2, w2);
   EXPECT_FALSE(c1.is_current());
   EXPECT_TRUE(c2.is_current());
   EXPECT_EQ(&c2, gl::context::get_current());
-  EXPECT_EQ(w2.get_uid(), gl::context::get_current_window_uid());
+  EXPECT_EQ(&w2, gl::context::get_current_window());
 
   gl::context::set_current(c2, w2);
   EXPECT_FALSE(c1.is_current());
   EXPECT_TRUE(c2.is_current());
   EXPECT_EQ(&c2, gl::context::get_current());
-  EXPECT_EQ(w2.get_uid(), gl::context::get_current_window_uid());
+  EXPECT_EQ(&w2, gl::context::get_current_window());
 
   gl::context::unset_current();
   EXPECT_FALSE(c1.is_current());
   EXPECT_FALSE(c2.is_current());
   EXPECT_EQ(nullptr, gl::context::get_current());
-  EXPECT_EQ(0u, gl::context::get_current_window_uid());
+  EXPECT_EQ(nullptr, gl::context::get_current_window());
 }
 
 
@@ -303,11 +311,11 @@ TEST_F(test_gl_context, single_context_multiple_windows)
 
   gl::context::set_current(ctx, w1);
   EXPECT_TRUE(ctx.is_current());
-  EXPECT_EQ(w1.get_uid(), gl::context::get_current_window_uid());
+  EXPECT_EQ(&w1, gl::context::get_current_window());
 
   gl::context::set_current(ctx, w2);
   EXPECT_TRUE(ctx.is_current());
-  EXPECT_EQ(w2.get_uid(), gl::context::get_current_window_uid());
+  EXPECT_EQ(&w2, gl::context::get_current_window());
 }
 
 
@@ -320,11 +328,11 @@ TEST_F(test_gl_context, multiple_contexts_single_window)
 
   gl::context::set_current(c1, w);
   EXPECT_TRUE(c1.is_current());
-  EXPECT_EQ(w.get_uid(), gl::context::get_current_window_uid());
+  EXPECT_EQ(&w, gl::context::get_current_window());
 
   gl::context::set_current(c2, w);
   EXPECT_TRUE(c2.is_current());
-  EXPECT_EQ(w.get_uid(), gl::context::get_current_window_uid());
+  EXPECT_EQ(&w, gl::context::get_current_window());
 }
 
 
@@ -338,13 +346,13 @@ TEST_F(test_gl_context, binding_after_window_destruction)
     gl::context::set_current(c, w2);
     EXPECT_TRUE(c.is_current());
     EXPECT_EQ(&c, gl::context::get_current());
-    EXPECT_EQ(w2.get_uid(), gl::context::get_current_window_uid());
+    EXPECT_EQ(&w2, gl::context::get_current_window());
     EXPECT_EQ(c.get_impl(), SDL_GL_GetCurrentContext());
     EXPECT_EQ(w2.get_impl(), SDL_GL_GetCurrentWindow());
   }
   EXPECT_FALSE(c.is_current());
   EXPECT_EQ(nullptr, gl::context::get_current());
-  EXPECT_EQ(0u, gl::context::get_current_window_uid());
+  EXPECT_EQ(nullptr, gl::context::get_current_window());
   EXPECT_EQ(nullptr, SDL_GL_GetCurrentContext());
   EXPECT_EQ(nullptr, SDL_GL_GetCurrentWindow());
 }

@@ -26,12 +26,6 @@ namespace gl
 namespace
 {
 
-thread_local static context* g_current_context(nullptr);
-
-thread_local static window::uid_type g_current_window_uid(0u);
-
-
-
 class current_context_guard : public non_copyable
 {
 public:
@@ -40,7 +34,7 @@ public:
 
 private:
   context* m_ctx_bkp;
-  window::uid_type m_wnd_uid_bkp;
+  window* m_wnd_bkp;
 };
 
 
@@ -72,16 +66,16 @@ std::mutex& get_context_registry_mutex();
 
 current_context_guard::current_context_guard()
   : m_ctx_bkp(context::get_current())
-  , m_wnd_uid_bkp(context::get_current_window_uid())
+  , m_wnd_bkp(context::get_current_window())
 {}
 
 
 
 current_context_guard::~current_context_guard()
 {
-  if(m_ctx_bkp != nullptr && m_wnd_uid_bkp != 0u)
+  if(m_ctx_bkp != nullptr && m_wnd_bkp != nullptr)
   {
-    context::set_current(*m_ctx_bkp, window::get_from_uid(m_wnd_uid_bkp));
+    context::set_current(*m_ctx_bkp, *m_wnd_bkp);
   }
   else
   {
@@ -309,12 +303,10 @@ context& context::get_from_impl(not_null<const impl_type*> impl)
 
 void context::set_current(context& ctx, window& wnd)
 {
-  if(!ctx.is_current() || g_current_window_uid != wnd.get_uid())
+  if(!ctx.is_current() || &wnd != get_current_window())
   {
     HOU_CHECK_N(SDL_GL_MakeCurrent(wnd.get_impl(), ctx.get_impl()) == 0,
       context_switch_error, SDL_GetError());
-    g_current_context = &ctx;
-    g_current_window_uid = wnd.get_uid();
   }
 }
 
@@ -326,8 +318,6 @@ void context::unset_current()
   {
     HOU_CHECK_N(SDL_GL_MakeCurrent(nullptr, nullptr) == 0, context_switch_error,
       SDL_GetError());
-    g_current_context = nullptr;
-    g_current_window_uid = 0u;
   }
 }
 
@@ -335,14 +325,16 @@ void context::unset_current()
 
 context* context::get_current()
 {
-  return g_current_context;
+  impl_type* ctx_impl = SDL_GL_GetCurrentContext();
+  return ctx_impl == nullptr ? nullptr : &get_from_impl(ctx_impl);
 }
 
 
 
-window::uid_type context::get_current_window_uid()
+window* context::get_current_window()
 {
-  return g_current_window_uid;
+  window::impl_type* wnd_impl = SDL_GL_GetCurrentWindow();
+  return wnd_impl == nullptr ? nullptr : &window::get_from_impl(wnd_impl);
 }
 
 
@@ -367,6 +359,7 @@ context::context(const context_settings& cs, window& wnd)
   m_impl = SDL_GL_CreateContext(wnd.get_impl());
   HOU_CHECK_N(m_impl != nullptr, context_creation_error, SDL_GetError());
 
+  std::lock_guard<std::mutex> lock(get_context_registry_mutex());
   get_context_registry().insert(std::make_pair(m_impl, this));
 }
 
@@ -404,10 +397,6 @@ context::context(context&& other) noexcept
 {
   other.m_impl = nullptr;
   other.m_uid = 0u;
-  if(get_current() == &other)
-  {
-    g_current_context = this;
-  }
 
   std::lock_guard<std::mutex> lock(get_context_registry_mutex());
   get_context_registry().at(m_impl) = this;
@@ -419,12 +408,7 @@ context::~context()
 {
   if(m_impl != nullptr)
   {
-    if(is_current())
-    {
-      unset_current();
-    }
     SDL_GL_DeleteContext(m_impl);
-
     std::lock_guard<std::mutex> lock(get_context_registry_mutex());
     get_context_registry().erase(m_impl);
   }
@@ -462,7 +446,7 @@ context::uid_type context::get_sharing_group_uid() const noexcept
 
 bool context::is_current() const
 {
-  return this == g_current_context;
+  return m_impl == SDL_GL_GetCurrentContext();
 }
 
 
