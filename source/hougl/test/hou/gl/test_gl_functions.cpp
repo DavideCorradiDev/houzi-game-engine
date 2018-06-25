@@ -101,16 +101,6 @@ TEST_F(test_gl_functions, compute_texture_size_bytes)
 
 
 
-TEST_F(test_gl_functions, bind_window)
-{
-  ASSERT_TRUE(m_context.is_current());
-  window w("Test", vec2u(40u, 30u));
-  gl::bind_window(w);
-  EXPECT_TRUE(m_context.is_current());
-}
-
-
-
 TEST_F(test_gl_functions, enable_blending)
 {
   EXPECT_FALSE(gl::is_blending_enabled());

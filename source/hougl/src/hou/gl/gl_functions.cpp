@@ -254,14 +254,6 @@ void draw_arrays(GLenum draw_mode, GLint first, GLsizei count)
 
 
 
-void bind_window(window& w)
-{
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  gl::context::set_current(*gl::context::get_current(), w);
-}
-
-
-
 GLsizei get_pixel_size_bytes(GLenum format)
 {
   switch(format)

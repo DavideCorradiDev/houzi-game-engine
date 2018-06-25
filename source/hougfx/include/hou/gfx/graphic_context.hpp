@@ -40,11 +40,29 @@ public:
 
 public:
   /**
+   * Sets this context and the specified wnidow as current for the current thread.
+   *
+   * \param ctx the context.
+   *
+   * \param wnd the window.
+   */
+  static void set_current(graphic_context& ctx, window& wnd);
+
+  /**
    * Sets this as the current context for the current thread.
    *
    * \param ctx the context.
    */
   static void set_current(graphic_context& ctx);
+
+  /**
+   * Sets the window as current in the current context.
+   *
+   * \param wnd the window.
+   *
+   * \throws hou::precondition_violation if there is no current context.
+   */
+  static void set_current(window& wnd);
 
   /**
    * Unsets the current graphic_context.

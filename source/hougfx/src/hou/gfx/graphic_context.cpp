@@ -15,19 +15,34 @@ namespace hou
 namespace
 {
 
-constexpr const char* default_window_name = "HouziHiddenWindow";
+constexpr const char* default_window_name = "ContextWindow";
 
 }  // namespace
 
 
 
-void graphic_context::set_current(graphic_context& ctx)
+void graphic_context::set_current(graphic_context& ctx, window& wnd)
 {
-  gl::context::set_current(ctx.m_gl_context, ctx.m_default_window);
+  gl::context::set_current(ctx.m_gl_context, wnd);
   if(!ctx.m_initialized)
   {
     ctx.initialize();
   }
+}
+
+
+
+void graphic_context::set_current(graphic_context& ctx)
+{
+  set_current(ctx, ctx.m_default_window);
+}
+
+
+
+void graphic_context::set_current(window& wnd)
+{
+  HOU_PRECOND(gl::context::get_current() != nullptr);
+  gl::context::set_current(*gl::context::get_current(), wnd);
 }
 
 
@@ -79,9 +94,6 @@ void graphic_context::initialize()
   // Set texture pack and unpack alignment to 1 so that there is no padding.
   gl::set_unpack_alignment(1);
   gl::set_pack_alignment(1);
-
-  // Multisampled default framebuffer is never used.
-  gl::disable_multisampling();
 
   // Enable alpha blending.
   gl::enable_blending();
