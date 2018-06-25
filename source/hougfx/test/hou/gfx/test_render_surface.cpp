@@ -478,9 +478,24 @@ TEST_F(test_render_surface, set_current_render_target)
 
 
 
-TEST_F(test_render_surface, display)
+TEST_F(test_render_surface, blit_to_and_from_window)
 {
-  window w("TestWindow", vec2u(1u, 1u));
-  FAIL();
-  // graphic_context::set_current(*s_context);
+  window wnd("TestWindow", vec2u(4u, 4u));
+  wnd.clear(color::black());
+  graphic_context::set_current(wnd);
+
+  render_surface rs_out(vec2u(1u, 1u));
+  rs_out.clear(color::red());
+  rs_out.blit_to_window();
+
+  wnd.swap_buffers();
+
+  render_surface rs_in(wnd.get_size());
+  rs_in.blit_from_window();
+
+  image2_rgba im_ref(wnd.get_size(), color::red());
+
+  EXPECT_EQ(im_ref, rs_in.to_texture().get_image<pixel_format::rgba>());
+
+  graphic_context::set_current(get_context());
 }

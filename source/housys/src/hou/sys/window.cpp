@@ -27,6 +27,31 @@ namespace
 
 static constexpr const char* g_impl_data_name = "houwnd";
 
+class current_context_guard : public non_copyable
+{
+public:
+  current_context_guard();
+  ~current_context_guard();
+
+private:
+  SDL_GLContext m_ctx_bkp;
+  SDL_Window* m_wnd_bkp;
+};
+
+
+
+current_context_guard::current_context_guard()
+  : m_ctx_bkp(SDL_GL_GetCurrentContext())
+  , m_wnd_bkp(SDL_GL_GetCurrentWindow())
+{}
+
+
+
+current_context_guard::~current_context_guard()
+{
+  SDL_GL_MakeCurrent(m_wnd_bkp, m_ctx_bkp);
+}
+
 }  // namespace
 
 
@@ -439,6 +464,7 @@ void window::raise()
 
 void window::clear(const color& color)
 {
+  current_context_guard ctx_guard;
   SDL_Surface* screen_surface = SDL_GetWindowSurface(m_impl);
   SDL_FillRect(screen_surface, nullptr,
     SDL_MapRGB(screen_surface->format, color.get_red(), color.get_green(),
