@@ -244,7 +244,6 @@ void window::set_size(const vec2u& size)
   HOU_PRECOND(size.x() != 0u && size.y() != 0u);
   SDL_SetWindowSize(
     m_impl, narrow_cast<int>(size.x()), narrow_cast<int>(size.y()));
-  on_size_change(get_size());
 }
 
 
@@ -452,13 +451,6 @@ void window::clear(const color& color)
 void window::swap_buffers()
 {
   SDL_GL_SwapWindow(m_impl);
-}
-
-
-
-void window::on_size_change(const vec2u&)
-{
-  // Do nothing.
 }
 
 }  // namespace hou

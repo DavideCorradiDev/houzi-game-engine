@@ -5,7 +5,7 @@
 #include "hou/test.hpp"
 
 #include "hou/sys/mouse.hpp"
-#include "hou/sys/system_window.hpp"
+#include "hou/sys/window.hpp"
 
 using namespace hou;
 using namespace testing;
@@ -46,7 +46,7 @@ TEST_F(test_mouse, relative_mode)
 
 TEST_F(test_mouse, global_and_window_position)
 {
-  system_window w("MouseTest", vec2u(32u, 16u));
+  window w("MouseTest", vec2u(32u, 16u));
 
   EXPECT_EQ(mouse::get_position(), w.get_position() + mouse::get_position(w));
 }
@@ -66,7 +66,7 @@ TEST_F(test_mouse, set_global_position)
 
 TEST_F(test_mouse, set_window_position)
 {
-  system_window w("MouseTest", vec2u(32u, 16u));
+  window w("MouseTest", vec2u(32u, 16u));
   w.set_visible(true);
   vec2i old_pos = mouse::get_position(w);
   vec2i new_pos = vec2i(16, 32);

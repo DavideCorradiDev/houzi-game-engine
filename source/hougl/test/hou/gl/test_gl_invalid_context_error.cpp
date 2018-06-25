@@ -56,7 +56,7 @@ TEST_F(test_gl_invalid_context_error, invalid_context_error)
 TEST_F(
   test_gl_invalid_context_error, gl_context_ownership_shared_function_success)
 {
-  system_window w("test", vec2u(1u, 1u));
+  window w("test", vec2u(1u, 1u));
   gl::context c1(gl::context_settings::get_default(), w);
   gl::context c2(gl::context_settings::get_default(), w, c1);
   gl::context c3(gl::context_settings::get_default(), w);
@@ -87,7 +87,7 @@ TEST_F(
 TEST_F(test_gl_invalid_context_error_death_test,
   gl_context_ownership_shared_function_failure)
 {
-  system_window w("test", vec2u(1u, 1u));
+  window w("test", vec2u(1u, 1u));
   gl::context c1(gl::context_settings::get_default(), w);
   gl::context c2(gl::context_settings::get_default(), w, c1);
   gl::context c3(gl::context_settings::get_default(), w);
@@ -120,7 +120,7 @@ TEST_F(test_gl_invalid_context_error_death_test,
 
 TEST_F(test_gl_invalid_context_error, gl_context_ownership_shared_macro_success)
 {
-  system_window w("test", vec2u(1u, 1u));
+  window w("test", vec2u(1u, 1u));
   gl::context c1(gl::context_settings::get_default(), w);
   gl::context c2(gl::context_settings::get_default(), w, c1);
   gl::context c3(gl::context_settings::get_default(), w);
@@ -151,7 +151,7 @@ TEST_F(test_gl_invalid_context_error, gl_context_ownership_shared_macro_success)
 TEST_F(test_gl_invalid_context_error_death_test,
   gl_context_ownership_shared_macro_failure)
 {
-  system_window w("test", vec2u(1u, 1u));
+  window w("test", vec2u(1u, 1u));
   gl::context c1(gl::context_settings::get_default(), w);
   gl::context c2(gl::context_settings::get_default(), w, c1);
   gl::context c3(gl::context_settings::get_default(), w);
@@ -194,7 +194,7 @@ TEST_F(test_gl_invalid_context_error_death_test,
 TEST_F(test_gl_invalid_context_error,
   gl_context_ownership_non_shared_function_success)
 {
-  system_window w("test", vec2u(1u, 1u));
+  window w("test", vec2u(1u, 1u));
   gl::context c1(gl::context_settings::get_default(), w);
   gl::context c2(gl::context_settings::get_default(), w, c1);
   gl::context c3(gl::context_settings::get_default(), w);
@@ -223,7 +223,7 @@ TEST_F(test_gl_invalid_context_error,
 TEST_F(test_gl_invalid_context_error_death_test,
   gl_context_ownership_non_shared_function_failure)
 {
-  system_window w("test", vec2u(1u, 1u));
+  window w("test", vec2u(1u, 1u));
   gl::context c1(gl::context_settings::get_default(), w);
   gl::context c2(gl::context_settings::get_default(), w, c1);
   gl::context c3(gl::context_settings::get_default(), w);
@@ -261,7 +261,7 @@ TEST_F(test_gl_invalid_context_error_death_test,
 TEST_F(
   test_gl_invalid_context_error, gl_context_ownership_non_shared_macro_success)
 {
-  system_window w("test", vec2u(1u, 1u));
+  window w("test", vec2u(1u, 1u));
   gl::context c1(gl::context_settings::get_default(), w);
   gl::context c2(gl::context_settings::get_default(), w, c1);
   gl::context c3(gl::context_settings::get_default(), w);
@@ -290,7 +290,7 @@ TEST_F(
 TEST_F(test_gl_invalid_context_error_death_test,
   gl_context_ownership_non_shared_macro_failure)
 {
-  system_window w("test", vec2u(1u, 1u));
+  window w("test", vec2u(1u, 1u));
   gl::context c1(gl::context_settings::get_default(), w);
   gl::context c2(gl::context_settings::get_default(), w, c1);
   gl::context c3(gl::context_settings::get_default(), w);

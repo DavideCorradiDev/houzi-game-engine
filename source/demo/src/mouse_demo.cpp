@@ -11,7 +11,7 @@
 #include "hou/sys/event.hpp"
 #include "hou/sys/keyboard.hpp"
 #include "hou/sys/mouse.hpp"
-#include "hou/sys/system_window.hpp"
+#include "hou/sys/window.hpp"
 
 #include <iostream>
 #include <thread>
@@ -28,7 +28,7 @@ int main(int, char**)
   auto on_quit = [&loop](hou::event::timestamp) { loop = false; };
   hou::event::set_quit_callback(on_quit);
 
-  hou::system_window w("MouseDemo", hou::vec2u(640u, 480u));
+  hou::window w("MouseDemo", hou::vec2u(640u, 480u));
   w.set_bordered(true);
   w.set_visible(true);
   w.raise();

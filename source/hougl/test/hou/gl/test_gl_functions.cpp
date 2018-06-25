@@ -8,7 +8,7 @@
 #include "hou/gl/gl_functions.hpp"
 #include "hou/gl/gl_missing_context_error.hpp"
 
-#include "hou/sys/system_window.hpp"
+#include "hou/sys/window.hpp"
 
 using namespace hou;
 
@@ -104,7 +104,7 @@ TEST_F(test_gl_functions, compute_texture_size_bytes)
 TEST_F(test_gl_functions, bind_window)
 {
   ASSERT_TRUE(m_context.is_current());
-  system_window w("Test", vec2u(40u, 30u));
+  window w("Test", vec2u(40u, 30u));
   gl::bind_window(w);
   EXPECT_TRUE(m_context.is_current());
 }

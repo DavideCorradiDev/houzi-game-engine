@@ -26,24 +26,6 @@ namespace hou
 namespace event
 {
 
-namespace prv
-{
-
-/**
- * Processes an SDL_Event.
- *
- * This function parses the event and calls the corresponding callback, if any
- * was registered.
- * If no callback was registered, nothing happens.
- *
- * This function is used internally and should not be called directly.
- *
- * \param event the SDL event.
- */
-HOU_SYS_API void process(const SDL_Event& event);
-
-}  // namespace prv
-
 /**
  * Stops execution until an event is received, and then processes it.
  */

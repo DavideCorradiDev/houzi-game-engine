@@ -9,7 +9,7 @@
 
 #include "hou/gl/gl_context.hpp"
 
-#include "hou/sys/system_window.hpp"
+#include "hou/sys/window.hpp"
 
 
 
@@ -23,7 +23,7 @@ public:
   void set_context_current();
 
 protected:
-  hou::system_window m_window;
+  hou::window m_window;
   hou::gl::context m_context;
 };
 

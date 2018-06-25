@@ -47,6 +47,8 @@ mouse_motion_callback& get_mouse_moved_callback();
 window_callback& get_mouse_entered_callback();
 window_callback& get_mouse_left_callback();
 
+void process(const SDL_Event& event);
+
 
 
 quit_callback& get_quit_callback()
@@ -223,12 +225,7 @@ window_callback& get_mouse_left_callback()
   return callback;
 }
 
-}  // namespace
 
-
-
-namespace prv
-{
 
 void process(const SDL_Event& event)
 {
@@ -367,14 +364,12 @@ void process(const SDL_Event& event)
         break;
         case SDL_WINDOWEVENT_RESIZED:
         {
-          vec2u new_size(narrow_cast<uint>(event.window.data1),
-            narrow_cast<uint>(event.window.data2));
-          window::get_from_uid(event.window.windowID).on_size_change(new_size);
           auto callback = get_window_resized_callback();
           if(callback != nullptr)
           {
             callback(timestamp(event.window.timestamp), event.window.windowID,
-              new_size);
+              vec2u(narrow_cast<uint>(event.window.data1),
+                narrow_cast<uint>(event.window.data2)));
           }
         }
         break;
@@ -476,7 +471,7 @@ void process(const SDL_Event& event)
   }
 }
 
-}  // namespace prv
+}  // namespace
 
 
 
@@ -491,7 +486,7 @@ void wait_next()
 {
   SDL_Event event;
   HOU_SDL_CHECK(SDL_WaitEvent(&event) != 0);
-  prv::process(event);
+  process(event);
 }
 
 
@@ -501,7 +496,7 @@ bool process_next()
   SDL_Event event;
   if(SDL_PollEvent(&event))
   {
-    prv::process(event);
+    process(event);
     return true;
   }
   return false;

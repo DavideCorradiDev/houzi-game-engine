@@ -9,7 +9,7 @@
 #include "hou/sys/sys_module.hpp"
 
 #include "hou/sys/event.hpp"
-#include "hou/sys/system_window.hpp"
+#include "hou/sys/window.hpp"
 
 #include "hou/aud/audio_context.hpp"
 #include "hou/aud/memory_audio_source.hpp"
@@ -136,7 +136,7 @@ int main(int, char**)
   std::cout << std::endl;
 
   // Window.
-  hou::system_window w("AudioDemo", hou::vec2u(640u, 480u));
+  hou::window w("AudioDemo", hou::vec2u(640u, 480u));
   w.set_bordered(true);
   w.set_visible(true);
   w.raise();

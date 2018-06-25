@@ -7,7 +7,7 @@
 #include "hou/sys/display.hpp"
 #include "hou/sys/display_mode.hpp"
 #include "hou/sys/event.hpp"
-#include "hou/sys/system_window.hpp"
+#include "hou/sys/window.hpp"
 
 #include <thread>
 
@@ -19,19 +19,19 @@ using namespace testing;
 namespace
 {
 
-class test_system_window : public Test
+class test_window : public Test
 {};
 
-class test_system_window_death_test : public test_system_window
+class test_window_death_test : public test_window
 {};
 
 }  // namespace
 
 
 
-TEST_F(test_system_window, creation)
+TEST_F(test_window, creation)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
 
   EXPECT_NE(nullptr, w.get_impl());
   EXPECT_NE(0u, w.get_uid());
@@ -66,21 +66,21 @@ TEST_F(test_system_window, creation)
 
 
 
-TEST_F(test_system_window_death_test, null_size_creation)
+TEST_F(test_window_death_test, null_size_creation)
 {
-  EXPECT_PRECOND_ERROR(system_window w(u8"TestWindow", vec2u(8u, 0u)));
-  EXPECT_PRECOND_ERROR(system_window w(u8"TestWindow", vec2u(0u, 8u)));
-  EXPECT_PRECOND_ERROR(system_window w(u8"TestWindow", vec2u(0u, 0u)));
+  EXPECT_PRECOND_ERROR(window w(u8"TestWindow", vec2u(8u, 0u)));
+  EXPECT_PRECOND_ERROR(window w(u8"TestWindow", vec2u(0u, 8u)));
+  EXPECT_PRECOND_ERROR(window w(u8"TestWindow", vec2u(0u, 0u)));
 }
 
 
 
-TEST_F(test_system_window, move_constructor)
+TEST_F(test_window, move_constructor)
 {
-  system_window w_dummy(u8"TestWindow", vec2u(32u, 64u));
+  window w_dummy(u8"TestWindow", vec2u(32u, 64u));
   not_null<window::impl_type*> impl = w_dummy.get_impl();
   window::uid_type uid = w_dummy.get_uid();
-  system_window w(std::move(w_dummy));
+  window w(std::move(w_dummy));
   EXPECT_EQ(impl, w.get_impl());
   EXPECT_EQ(uid, w.get_uid());
   EXPECT_EQ(nullptr, w_dummy.get_impl());
@@ -89,29 +89,29 @@ TEST_F(test_system_window, move_constructor)
 
 
 
-TEST_F(test_system_window, move_constructor_get_from_uid)
+TEST_F(test_window, move_constructor_get_from_uid)
 {
-  system_window w_dummy(u8"TestWindow", vec2u(32u, 64u));
+  window w_dummy(u8"TestWindow", vec2u(32u, 64u));
   EXPECT_EQ(&w_dummy, &window::get_from_uid(w_dummy.get_uid()));
-  system_window w(std::move(w_dummy));
+  window w(std::move(w_dummy));
   EXPECT_EQ(&w, &window::get_from_uid(w.get_uid()));
 }
 
 
 
-TEST_F(test_system_window, move_constructor_get_from_impl)
+TEST_F(test_window, move_constructor_get_from_impl)
 {
-  system_window w_dummy(u8"TestWindow", vec2u(32u, 64u));
+  window w_dummy(u8"TestWindow", vec2u(32u, 64u));
   EXPECT_EQ(&w_dummy, &window::get_from_impl(w_dummy.get_impl()));
-  system_window w(std::move(w_dummy));
+  window w(std::move(w_dummy));
   EXPECT_EQ(&w, &window::get_from_impl(w.get_impl()));
 }
 
 
 
-TEST_F(test_system_window, display_mode)
+TEST_F(test_window, display_mode)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
 
   display_mode curr_mode = display::get_current_mode(w.get_display_index());
   display_mode default_mode
@@ -133,9 +133,9 @@ TEST_F(test_system_window, display_mode)
 
 
 
-TEST_F(test_system_window, default_display_mode_change_on_resize)
+TEST_F(test_window, default_display_mode_change_on_resize)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
 
   display_mode curr_mode = display::get_current_mode(w.get_display_index());
 
@@ -158,9 +158,9 @@ TEST_F(test_system_window, default_display_mode_change_on_resize)
 
 
 
-TEST_F(test_system_window, mode)
+TEST_F(test_window, mode)
 {
-  system_window w(u8"TestWindow", vec2u(640u, 480u));
+  window w(u8"TestWindow", vec2u(640u, 480u));
   EXPECT_EQ(window_mode::windowed, w.get_mode());
 
   w.set_mode(window_mode::desktop_fullscreen);
@@ -190,9 +190,9 @@ TEST_F(test_system_window, mode)
 
 
 
-TEST_F(test_system_window, title)
+TEST_F(test_window, title)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
 
   EXPECT_EQ(u8"TestWindow", w.get_title());
   w.set_title(u8"NewTitle");
@@ -201,9 +201,9 @@ TEST_F(test_system_window, title)
 
 
 
-TEST_F(test_system_window, icon)
+TEST_F(test_window, icon)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
 
   EXPECT_EQ(image2_rgba(), w.get_icon());
   image2_rgba icon(vec2u(16u, 16u), pixel_rgba(color::red()));
@@ -213,9 +213,9 @@ TEST_F(test_system_window, icon)
 
 
 
-TEST_F(test_system_window, size)
+TEST_F(test_window, size)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
 
   EXPECT_EQ(vec2u(32u, 64u), w.get_size());
   w.set_size(vec2u(8u, 32u));
@@ -224,9 +224,9 @@ TEST_F(test_system_window, size)
 
 
 
-TEST_F(test_system_window_death_test, set_null_size)
+TEST_F(test_window_death_test, set_null_size)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
   EXPECT_PRECOND_ERROR(w.set_size(vec2u(0u, 8u)));
   EXPECT_PRECOND_ERROR(w.set_size(vec2u(8u, 0u)));
   EXPECT_PRECOND_ERROR(w.set_size(vec2u(0u, 0u)));
@@ -234,9 +234,9 @@ TEST_F(test_system_window_death_test, set_null_size)
 
 
 
-TEST_F(test_system_window, min_size)
+TEST_F(test_window, min_size)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
 
   EXPECT_EQ(vec2u(1u, 1u), w.get_min_size());
   w.set_min_size(vec2u(6u, 10u));
@@ -245,9 +245,9 @@ TEST_F(test_system_window, min_size)
 
 
 
-TEST_F(test_system_window, set_size_below_min_size_x)
+TEST_F(test_window, set_size_below_min_size_x)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
 
   w.set_min_size(vec2u(6u, 10u));
   w.set_size(vec2u(5u, 11u));
@@ -256,9 +256,9 @@ TEST_F(test_system_window, set_size_below_min_size_x)
 
 
 
-TEST_F(test_system_window, set_size_below_min_size_y)
+TEST_F(test_window, set_size_below_min_size_y)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
 
   w.set_min_size(vec2u(6u, 10u));
   w.set_size(vec2u(7u, 9u));
@@ -267,9 +267,9 @@ TEST_F(test_system_window, set_size_below_min_size_y)
 
 
 
-TEST_F(test_system_window, set_size_below_min_size)
+TEST_F(test_window, set_size_below_min_size)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
 
   w.set_min_size(vec2u(6u, 10u));
   w.set_size(vec2u(5u, 9u));
@@ -278,9 +278,9 @@ TEST_F(test_system_window, set_size_below_min_size)
 
 
 
-TEST_F(test_system_window, min_size_auto_resizing)
+TEST_F(test_window, min_size_auto_resizing)
 {
-  system_window w(u8"TestWindow", vec2u(8u, 8u));
+  window w(u8"TestWindow", vec2u(8u, 8u));
 
   w.set_min_size(vec2u(16u, 32u));
   EXPECT_EQ(vec2u(16u, 32u), w.get_min_size());
@@ -297,9 +297,9 @@ TEST_F(test_system_window, min_size_auto_resizing)
 
 
 
-TEST_F(test_system_window, max_size)
+TEST_F(test_window, max_size)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
 
   uint max_int = narrow_cast<uint>(std::numeric_limits<int>::max());
   EXPECT_EQ(vec2u(max_int, max_int), w.get_max_size());
@@ -309,9 +309,9 @@ TEST_F(test_system_window, max_size)
 
 
 
-TEST_F(test_system_window, set_size_above_max_size_x)
+TEST_F(test_window, set_size_above_max_size_x)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
 
   w.set_max_size(vec2u(100u, 110u));
   w.set_size(vec2u(101u, 109u));
@@ -320,9 +320,9 @@ TEST_F(test_system_window, set_size_above_max_size_x)
 
 
 
-TEST_F(test_system_window, set_size_above_max_size_y)
+TEST_F(test_window, set_size_above_max_size_y)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
 
   w.set_max_size(vec2u(100u, 110u));
   w.set_size(vec2u(99u, 111u));
@@ -331,9 +331,9 @@ TEST_F(test_system_window, set_size_above_max_size_y)
 
 
 
-TEST_F(test_system_window, set_size_above_max_size)
+TEST_F(test_window, set_size_above_max_size)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
 
   w.set_max_size(vec2u(100u, 110u));
   w.set_size(vec2u(101u, 111u));
@@ -342,9 +342,9 @@ TEST_F(test_system_window, set_size_above_max_size)
 
 
 
-TEST_F(test_system_window, max_size_auto_resizing)
+TEST_F(test_window, max_size_auto_resizing)
 {
-  system_window w(u8"TestWindow", vec2u(8u, 8u));
+  window w(u8"TestWindow", vec2u(8u, 8u));
 
   w.set_max_size(vec2u(6u, 7u));
   EXPECT_EQ(vec2u(6u, 7u), w.get_max_size());
@@ -361,9 +361,9 @@ TEST_F(test_system_window, max_size_auto_resizing)
 
 
 
-TEST_F(test_system_window_death_test, zero_min_size)
+TEST_F(test_window_death_test, zero_min_size)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
 
   EXPECT_PRECOND_ERROR(w.set_min_size(vec2u(0u, 8u)));
   EXPECT_PRECOND_ERROR(w.set_min_size(vec2u(8u, 0u)));
@@ -372,9 +372,9 @@ TEST_F(test_system_window_death_test, zero_min_size)
 
 
 
-TEST_F(test_system_window_death_test, set_max_size_error_less_than_min_size)
+TEST_F(test_window_death_test, set_max_size_error_less_than_min_size)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
   w.set_min_size(vec2u(16u, 16u));
 
   EXPECT_PRECOND_ERROR(w.set_max_size(vec2u(8u, 32u)));
@@ -384,9 +384,9 @@ TEST_F(test_system_window_death_test, set_max_size_error_less_than_min_size)
 
 
 
-TEST_F(test_system_window_death_test, set_min_size_error_greater_than_max_size)
+TEST_F(test_window_death_test, set_min_size_error_greater_than_max_size)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
   w.set_max_size(vec2u(8u, 8u));
 
   EXPECT_PRECOND_ERROR(w.set_min_size(vec2u(16u, 8u)));
@@ -396,9 +396,9 @@ TEST_F(test_system_window_death_test, set_min_size_error_greater_than_max_size)
 
 
 
-TEST_F(test_system_window, position)
+TEST_F(test_window, position)
 {
-  system_window w(u8"TestWindow", vec2u(16u, 8u));
+  window w(u8"TestWindow", vec2u(16u, 8u));
 
   recti bounds = display::get_usable_bounds(w.get_display_index());
   EXPECT_EQ(bounds.get_position() + (bounds.get_size() - vec2i(16, 8)) / 2,
@@ -409,9 +409,9 @@ TEST_F(test_system_window, position)
 
 
 
-TEST_F(test_system_window, visibility)
+TEST_F(test_window, visibility)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
 
   EXPECT_FALSE(w.is_visible());
   w.set_visible(false);
@@ -426,9 +426,9 @@ TEST_F(test_system_window, visibility)
 
 
 
-TEST_F(test_system_window, maximization_on_resizable_window)
+TEST_F(test_window, maximization_on_resizable_window)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
   w.set_resizable(true);
 
   EXPECT_TRUE(w.is_resizable());
@@ -446,9 +446,9 @@ TEST_F(test_system_window, maximization_on_resizable_window)
 
 
 
-TEST_F(test_system_window, maximization_on_not_resizable_window)
+TEST_F(test_window, maximization_on_not_resizable_window)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
   w.set_resizable(false);
 
   EXPECT_FALSE(w.is_resizable());
@@ -466,9 +466,9 @@ TEST_F(test_system_window, maximization_on_not_resizable_window)
 
 
 
-TEST_F(test_system_window, DISABLED_minimization)
+TEST_F(test_window, DISABLED_minimization)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
 
   EXPECT_FALSE(w.is_minimized());
 
@@ -484,9 +484,9 @@ TEST_F(test_system_window, DISABLED_minimization)
 
 
 
-TEST_F(test_system_window, DISABLED_minimization_and_maximization)
+TEST_F(test_window, DISABLED_minimization_and_maximization)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
   w.set_resizable(true);
 
   EXPECT_TRUE(w.is_resizable());
@@ -526,9 +526,9 @@ TEST_F(test_system_window, DISABLED_minimization_and_maximization)
 
 
 
-TEST_F(test_system_window, grab)
+TEST_F(test_window, grab)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
 
   // After showing the window, all events need to be processed to correctly
   // update the window.
@@ -552,9 +552,9 @@ TEST_F(test_system_window, grab)
 
 
 
-TEST_F(test_system_window, resizable)
+TEST_F(test_window, resizable)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
 
   EXPECT_FALSE(w.is_resizable());
   w.set_resizable(true);
@@ -565,9 +565,9 @@ TEST_F(test_system_window, resizable)
 
 
 
-TEST_F(test_system_window, bordered)
+TEST_F(test_window, bordered)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
 
   EXPECT_FALSE(w.is_bordered());
   w.set_bordered(true);
@@ -578,10 +578,10 @@ TEST_F(test_system_window, bordered)
 
 
 
-TEST_F(test_system_window, focus_success)
+TEST_F(test_window, focus_success)
 {
   // The window is visible, focusing it will succeed.
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
   w.set_visible(true);
   event::process_all();
   EXPECT_TRUE(w.focus());
@@ -591,10 +591,10 @@ TEST_F(test_system_window, focus_success)
 
 
 
-TEST_F(test_system_window, focus_failure)
+TEST_F(test_window, focus_failure)
 {
   // The window is not visible, focusing it will fail.
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
   EXPECT_FALSE(w.focus());
   EXPECT_FALSE(w.has_keyboard_focus());
   EXPECT_FALSE(w.has_mouse_focus());
@@ -602,41 +602,41 @@ TEST_F(test_system_window, focus_failure)
 
 
 
-TEST_F(test_system_window, raise)
+TEST_F(test_window, raise)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
   w.raise();
   SUCCEED();
 }
 
 
 
-TEST_F(test_system_window, get_from_impl)
+TEST_F(test_window, get_from_impl)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
   EXPECT_EQ(&w, &(window::get_from_impl(w.get_impl())));
 }
 
 
 
-TEST_F(test_system_window, get_from_uid)
+TEST_F(test_window, get_from_uid)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
   EXPECT_EQ(&w, &(window::get_from_uid(w.get_uid())));
 }
 
 
 
-TEST_F(test_system_window, clear)
+TEST_F(test_window, clear)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
   w.clear(color::black());
 }
 
 
 
-TEST_F(test_system_window, swap_buffers)
+TEST_F(test_window, swap_buffers)
 {
-  system_window w(u8"TestWindow", vec2u(32u, 64u));
+  window w(u8"TestWindow", vec2u(32u, 64u));
   w.swap_buffers();
 }

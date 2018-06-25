@@ -10,7 +10,7 @@
 
 #include "hou/gl/gl_context.hpp"
 
-#include "hou/sys/system_window.hpp"
+#include "hou/sys/window.hpp"
 
 
 
@@ -81,7 +81,7 @@ private:
   void initialize();
 
 private:
-  system_window m_default_window;
+  window m_default_window;
   gl::context m_gl_context;
   bool m_initialized;
 };

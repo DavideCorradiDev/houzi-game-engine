@@ -7,7 +7,7 @@
 #include "hou/gl/gl_context.hpp"
 #include "hou/gl/gl_missing_context_error.hpp"
 
-#include "hou/sys/system_window.hpp"
+#include "hou/sys/window.hpp"
 
 using namespace hou;
 using namespace testing;
@@ -36,7 +36,7 @@ TEST_F(test_gl_missing_context_error, missing_context_error)
 
 TEST_F(test_gl_missing_context_error, gl_context_existence_function_success)
 {
-  system_window w("Test", vec2u(16u, 8u));
+  window w("Test", vec2u(16u, 8u));
   gl::context ctx(gl::context_settings::get_default(), w);
   gl::context::set_current(ctx, w);
   EXPECT_NO_ERROR(gl::check_context_existence("", 0));
@@ -54,7 +54,7 @@ TEST_F(test_gl_missing_context_error_death_test,
 
 TEST_F(test_gl_missing_context_error, gl_context_existence_macro_success)
 {
-  system_window w("Test", vec2u(16u, 8u));
+  window w("Test", vec2u(16u, 8u));
   gl::context ctx(gl::context_settings::get_default(), w);
   gl::context::set_current(ctx, w);
   EXPECT_NO_ERROR(HOU_GL_CHECK_CONTEXT_EXISTENCE());

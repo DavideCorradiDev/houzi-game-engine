@@ -8,7 +8,7 @@
 
 #include "hou/sys/display_mode.hpp"
 #include "hou/sys/event.hpp"
-#include "hou/sys/system_window.hpp"
+#include "hou/sys/window.hpp"
 
 #include <iostream>
 #include <thread>
@@ -32,7 +32,7 @@ int main(int, char**)
   hou::mth_module::initialize();
   hou::sys_module::initialize();
 
-  hou::system_window w("WindowDemo", hou::vec2u(640u, 480u));
+  hou::window w("WindowDemo", hou::vec2u(640u, 480u));
   w.set_bordered(true);
   w.set_visible(true);
   w.clear(hou::color::black());

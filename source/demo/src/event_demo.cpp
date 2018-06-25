@@ -10,7 +10,7 @@
 #include "hou/cor/std_chrono.hpp"
 
 #include "hou/sys/event.hpp"
-#include "hou/sys/system_window.hpp"
+#include "hou/sys/window.hpp"
 
 #include <iostream>
 
@@ -320,7 +320,7 @@ int main(int, char**)
   hou::event::set_mouse_entered_callback(on_mouse_entered);
   hou::event::set_mouse_left_callback(on_mouse_left);
 
-  hou::system_window w("EventDemo", hou::vec2u(640u, 480u));
+  hou::window w("EventDemo", hou::vec2u(640u, 480u));
   w.set_bordered(true);
   w.set_resizable(true);
   w.set_size(hou::vec2u(800u, 600u));

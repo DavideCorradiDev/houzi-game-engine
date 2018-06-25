@@ -8,7 +8,7 @@
 #include "hou/gl/gl_exceptions.hpp"
 #include "hou/gl/open_gl.hpp"
 
-#include "hou/sys/system_window.hpp"
+#include "hou/sys/window.hpp"
 
 #include "SDL2/SDL_video.h"
 
@@ -29,7 +29,7 @@ bool init_gl_extensions()
 {
   // A dummy OpenGL context need be created in order to initialiaze the OpenGL
   // extensions.
-  system_window w("OpenGlInitialization", vec2u(1u, 1u));
+  window w("OpenGlInitialization", vec2u(1u, 1u));
   gl::context c(gl::context_settings::get_basic(), w);
   gl::context::set_current(c, w);
   return gladLoadGLLoader(SDL_GL_GetProcAddress) != 0;

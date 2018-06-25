@@ -8,7 +8,7 @@
 
 #include "hou/cor/assertions.hpp"
 
-#include "hou/sys/system_window.hpp"
+#include "hou/sys/window.hpp"
 
 #include <map>
 #include <mutex>
@@ -373,7 +373,7 @@ context::context(const context_settings& cs, window& wnd, context& sharing_ctx)
   , m_tracking_data()
 {
   current_context_guard ctx_guard;
-  system_window w("", vec2u(1u, 1u));
+  window w("", vec2u(1u, 1u));
   context::set_current(sharing_ctx, w);
 
   static constexpr bool share_with_current_ctx = true;

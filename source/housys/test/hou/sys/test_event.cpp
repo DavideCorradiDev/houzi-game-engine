@@ -5,7 +5,7 @@
 #include "hou/test.hpp"
 
 #include "hou/sys/event.hpp"
-#include "hou/sys/system_window.hpp"
+#include "hou/sys/window.hpp"
 
 using namespace hou;
 using namespace testing;
@@ -162,7 +162,7 @@ TEST_F(test_event, window_closed_event)
 {
   int counter = 0;
   event::timestamp t(0);
-  system_window w("EventDemo", vec2u(32u, 16u));
+  window w("EventDemo", vec2u(32u, 16u));
   auto f = [&](event::timestamp t_in, window::uid_type wid_in) {
     ++counter;
     t = t_in;
@@ -198,7 +198,7 @@ TEST_F(test_event, window_hidden_event)
 {
   int counter = 0;
   event::timestamp t(0);
-  system_window w("EventDemo", vec2u(32u, 16u));
+  window w("EventDemo", vec2u(32u, 16u));
   auto f = [&](event::timestamp t_in, window::uid_type wid_in) {
     ++counter;
     t = t_in;
@@ -234,7 +234,7 @@ TEST_F(test_event, window_shown_event)
 {
   int counter = 0;
   event::timestamp t(0);
-  system_window w("EventDemo", vec2u(32u, 16u));
+  window w("EventDemo", vec2u(32u, 16u));
   auto f = [&](event::timestamp t_in, window::uid_type wid_in) {
     ++counter;
     t = t_in;
@@ -270,7 +270,7 @@ TEST_F(test_event, window_exposed_event)
 {
   int counter = 0;
   event::timestamp t(0);
-  system_window w("EventDemo", vec2u(32u, 16u));
+  window w("EventDemo", vec2u(32u, 16u));
   auto f = [&](event::timestamp t_in, window::uid_type wid_in) {
     ++counter;
     t = t_in;
@@ -306,7 +306,7 @@ TEST_F(test_event, window_minimized_event)
 {
   int counter = 0;
   event::timestamp t(0);
-  system_window w("EventDemo", vec2u(32u, 16u));
+  window w("EventDemo", vec2u(32u, 16u));
   auto f = [&](event::timestamp t_in, window::uid_type wid_in) {
     ++counter;
     t = t_in;
@@ -342,7 +342,7 @@ TEST_F(test_event, window_maximized_event)
 {
   int counter = 0;
   event::timestamp t(0);
-  system_window w("EventDemo", vec2u(32u, 16u));
+  window w("EventDemo", vec2u(32u, 16u));
   auto f = [&](event::timestamp t_in, window::uid_type wid_in) {
     ++counter;
     t = t_in;
@@ -378,7 +378,7 @@ TEST_F(test_event, window_restored_event)
 {
   int counter = 0;
   event::timestamp t(0);
-  system_window w("EventDemo", vec2u(32u, 16u));
+  window w("EventDemo", vec2u(32u, 16u));
   auto f = [&](event::timestamp t_in, window::uid_type wid_in) {
     ++counter;
     t = t_in;
@@ -414,7 +414,7 @@ TEST_F(test_event, window_focus_lost_event)
 {
   int counter = 0;
   event::timestamp t(0);
-  system_window w("EventDemo", vec2u(32u, 16u));
+  window w("EventDemo", vec2u(32u, 16u));
   auto f = [&](event::timestamp t_in, window::uid_type wid_in) {
     ++counter;
     t = t_in;
@@ -450,7 +450,7 @@ TEST_F(test_event, window_focus_gained_event)
 {
   int counter = 0;
   event::timestamp t(0);
-  system_window w("EventDemo", vec2u(32u, 16u));
+  window w("EventDemo", vec2u(32u, 16u));
   auto f = [&](event::timestamp t_in, window::uid_type wid_in) {
     ++counter;
     t = t_in;
@@ -486,7 +486,7 @@ TEST_F(test_event, window_focus_offered_event)
 {
   int counter = 0;
   event::timestamp t(0);
-  system_window w("EventDemo", vec2u(32u, 16u));
+  window w("EventDemo", vec2u(32u, 16u));
   auto f = [&](event::timestamp t_in, window::uid_type wid_in) {
     ++counter;
     t = t_in;
@@ -522,7 +522,7 @@ TEST_F(test_event, window_moved_event)
 {
   int counter = 0;
   event::timestamp t(0);
-  system_window w("EventDemo", vec2i(32, 16));
+  window w("EventDemo", vec2i(32, 16));
   vec2i pos;
   auto f
     = [&](event::timestamp t_in, window::uid_type wid_in, const vec2i& pos_in) {
@@ -564,7 +564,7 @@ TEST_F(test_event, window_resized_event)
 {
   int counter = 0;
   event::timestamp t(0);
-  system_window w("EventDemo", vec2u(32u, 16u));
+  window w("EventDemo", vec2u(32u, 16u));
   vec2u size;
   auto f = [&](event::timestamp t_in, window::uid_type wid_in, const vec2u& size_in) {
     ++counter;
@@ -605,7 +605,7 @@ TEST_F(test_event, window_size_changed_event)
 {
   int counter = 0;
   event::timestamp t(0);
-  system_window w("EventDemo", vec2u(32u, 16u));
+  window w("EventDemo", vec2u(32u, 16u));
   vec2u size;
   auto f = [&](event::timestamp t_in, window::uid_type wid_in, const vec2u& size_in) {
     ++counter;
@@ -646,7 +646,7 @@ TEST_F(test_event, key_pressed_event)
 {
   int counter = 0;
   event::timestamp t(0);
-  system_window w("EventDemo", vec2u(32u, 16u));
+  window w("EventDemo", vec2u(32u, 16u));
   scan_code sc = scan_code::unknown;
   key_code kc = key_code::unknown;
   modifier_keys mk = modifier_keys::none;
@@ -707,7 +707,7 @@ TEST_F(test_event, key_released_event)
 {
   int counter = 0;
   event::timestamp t(0);
-  system_window w("EventDemo", vec2u(32u, 16u));
+  window w("EventDemo", vec2u(32u, 16u));
   scan_code sc = scan_code::unknown;
   key_code kc = key_code::unknown;
   modifier_keys mk = modifier_keys::none;
@@ -768,7 +768,7 @@ TEST_F(test_event, mouse_button_pressed_event)
 {
   int counter = 0;
   event::timestamp t(0);
-  system_window w("EventDemo", vec2u(32u, 16u));
+  window w("EventDemo", vec2u(32u, 16u));
   mouse_button mb = mouse_button::mb;
   uint clicks = 0;
   vec2i pos;
@@ -821,7 +821,7 @@ TEST_F(test_event, mouse_button_released_event)
 {
   int counter = 0;
   event::timestamp t(0);
-  system_window w("EventDemo", vec2u(32u, 16u));
+  window w("EventDemo", vec2u(32u, 16u));
   mouse_button mb = mouse_button::mb;
   uint clicks = 0;
   vec2i pos;
@@ -874,7 +874,7 @@ TEST_F(test_event, mouse_wheel_moved_event)
 {
   int counter = 0;
   event::timestamp t(0);
-  system_window w("EventDemo", vec2u(32u, 16u));
+  window w("EventDemo", vec2u(32u, 16u));
   vec2i delta;
   bool flipped = false;
 
@@ -922,7 +922,7 @@ TEST_F(test_event, mouse_moved_event)
 {
   int counter = 0;
   event::timestamp t(0);
-  system_window w("EventDemo", vec2u(32u, 16u));
+  window w("EventDemo", vec2u(32u, 16u));
   mouse_buttons_state mbs;
   vec2i pos;
   vec2i delta;
@@ -979,7 +979,7 @@ TEST_F(test_event, mouse_entered_event)
 {
   int counter = 0;
   event::timestamp t(0);
-  system_window w("EventDemo", vec2u(32u, 16u));
+  window w("EventDemo", vec2u(32u, 16u));
   auto f = [&](event::timestamp t_in, window::uid_type wid_in) {
     ++counter;
     t = t_in;
@@ -1015,7 +1015,7 @@ TEST_F(test_event, mouse_left_event)
 {
   int counter = 0;
   event::timestamp t(0);
-  system_window w("EventDemo", vec2u(32u, 16u));
+  window w("EventDemo", vec2u(32u, 16u));
   auto f = [&](event::timestamp t_in, window::uid_type wid_in) {
     ++counter;
     t = t_in;

@@ -98,7 +98,7 @@ public:
   /**
    * Destructor.
    */
-  virtual ~window() = 0;
+  ~window();
 
   /**
    * Gets the window implementation.
@@ -428,29 +428,12 @@ public:
    *
    * \param color the color to use to clear the window.
    */
-  virtual void clear(const color& color) = 0;
+  void clear(const color& color);
 
   /**
    * Swaps the window buffers.
    */
-  virtual void swap_buffers() = 0;
-
-protected:
-  /**
-   * Window resize callback.
-   *
-   * This function is called when set_size() is called or when the window is
-   * resized by an external event.
-   * The default implementation does nothing.
-   * Derive classes can override this function to be able to respond to window
-   * resizing.
-   *
-   * \param size the new window size,
-   */
-  virtual void on_size_change(const vec2u& size) = 0;
-
-private:
-  friend void ::hou::event::prv::process(const SDL_Event&);
+  void swap_buffers();
 
 private:
   impl_type* m_impl;
