@@ -279,20 +279,20 @@ TEST_F(test_font, get_glyph)
     glyph_metrics(vec2u(320u, 320u), vec2i(0, -320), 384, vec2i(0, 0), 0));
   EXPECT_EQ(g1_ref, f.get_glyph('a'));
 
-#ifdef HOU_COMPILER_MSVC
-  std::vector<image2_r::pixel_type> pixels2{40u, 188u, 0u, 0u, 0u, 0u, 40u,
-    187u, 0u, 0u, 0u, 0u, 40u, 208u, 172u, 190u, 173u, 9u, 40u, 230u, 8u, 0u,
-    137u, 106u, 40u, 194u, 0u, 0u, 87u, 142u, 40u, 232u, 9u, 0u, 140u, 104u,
-    40u, 185u, 175u, 191u, 172u, 8u};
-#else
+#if defined(HOU_COMPILER_MINGW)
   std::vector<image2_r::pixel_type> pixels2{40u, 188u, 0u, 0u, 0u, 0u, 40u,
     187u, 0u, 0u, 0u, 0u, 40u, 208u, 172u, 190u, 173u, 9u, 40u, 230u, 8u, 0u,
     137u, 106u, 40u, 194u, 0u, 0u, 87u, 142u, 40u, 232u, 9u, 0u, 140u, 104u,
     40u, 185u, 175u, 191u, 171u, 8u};
-#endif
+#else
+  std::vector<image2_r::pixel_type> pixels2{40u, 188u, 0u, 0u, 0u, 0u, 40u,
+    187u, 0u, 0u, 0u, 0u, 40u, 208u, 172u, 190u, 173u, 9u, 40u, 230u, 8u, 0u,
+    137u, 106u, 40u, 194u, 0u, 0u, 87u, 142u, 40u, 232u, 9u, 0u, 140u, 104u,
+    40u, 185u, 175u, 191u, 172u, 8u};
   glyph g2_ref(image2_r(vec2u(6u, 7u), pixels2),
     glyph_metrics(vec2u(384u, 448u), vec2i(0, -448), 384, vec2i(0, 0), 0));
   EXPECT_EQ(g2_ref, f.get_glyph('b'));
+#endif
 }
 
 
