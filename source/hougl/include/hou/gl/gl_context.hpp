@@ -73,6 +73,15 @@ public:
 
 public:
   /**
+   * Retrieves the context associated to a given implementation.
+   *
+   * \param impl the implementation.
+   *
+   * \return the context referenced by the implementation.
+   */
+  static context& get_from_impl(not_null<const impl_type*> impl);
+
+  /**
    * Sets the current context in the current thread.
    *
    * Only one context per thread can be current, and a current can only be

@@ -205,6 +205,38 @@ TEST_F(test_gl_context, current_context_move_constructor)
 
 
 
+TEST_F(test_gl_context, move_constructor_get_from_impl)
+{
+  system_window w("Test", vec2u(1u, 1u));
+  gl::context ctx_dummy(gl::context_settings::get_default(), w);
+  gl::context ctx(std::move(ctx_dummy));
+  EXPECT_EQ(&ctx, &gl::context::get_from_impl(ctx.get_impl()));
+}
+
+
+
+TEST_F(test_gl_context, get_from_impl)
+{
+  system_window w("Test", vec2u(1u, 1u));
+  gl::context ctx(gl::context_settings::get_default(), w);
+  EXPECT_EQ(&ctx, &gl::context::get_from_impl(ctx.get_impl()));
+}
+
+
+
+TEST_F(test_gl_context_death_test, get_from_impl_after_destruction)
+{
+  gl::context::impl_type* impl = nullptr;
+  {
+    system_window w("Test", vec2u(1u, 1u));
+    gl::context ctx(gl::context_settings::get_default(), w);
+    impl = ctx.get_impl();
+  }
+  EXPECT_POSTCOND_ERROR(gl::context::get_from_impl(impl));
+}
+
+
+
 TEST_F(test_gl_context, current_gl_context)
 {
   system_window w1("Test1", vec2u(10u, 10u));

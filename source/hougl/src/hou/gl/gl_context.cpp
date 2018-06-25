@@ -10,6 +10,9 @@
 
 #include "hou/sys/system_window.hpp"
 
+#include <map>
+#include <mutex>
+
 #include "SDL2/SDL_video.h"
 
 
@@ -60,6 +63,10 @@ private:
 
 
 uint32_t generate_uid();
+
+std::map<const context::impl_type*, context*>& get_context_registry();
+
+std::mutex& get_context_registry_mutex();
 
 
 
@@ -270,7 +277,33 @@ uint32_t generate_uid()
   return uid_gen.generate();
 }
 
+
+
+std::map<const context::impl_type*, context*>& get_context_registry()
+{
+  static std::map<const context::impl_type*, context*> context_registry;
+  return context_registry;
+}
+
+
+
+std::mutex& get_context_registry_mutex()
+{
+  static std::mutex context_registry_mutex;
+  return context_registry_mutex;
+}
+
 }  // namespace
+
+
+
+context& context::get_from_impl(not_null<const impl_type*> impl)
+{
+  std::lock_guard<std::mutex> lock(get_context_registry_mutex());
+  auto it = get_context_registry().find(impl.get());
+  HOU_POSTCOND(it != get_context_registry().end() && it->second != nullptr);
+  return *(it->second);
+}
 
 
 
@@ -333,6 +366,8 @@ context::context(const context_settings& cs, window& wnd)
   context_attributes_guard attr_scope(cs, share_with_current_ctx);
   m_impl = SDL_GL_CreateContext(wnd.get_impl());
   HOU_CHECK_N(m_impl != nullptr, context_creation_error, SDL_GetError());
+
+  get_context_registry().insert(std::make_pair(m_impl, this));
 }
 
 
@@ -353,6 +388,9 @@ context::context(const context_settings& cs, window& wnd, context& sharing_ctx)
 
   m_impl = SDL_GL_CreateContext(wnd.get_impl());
   HOU_CHECK_N(m_impl != nullptr, context_creation_error, SDL_GetError());
+
+  std::lock_guard<std::mutex> lock(get_context_registry_mutex());
+  get_context_registry().insert(std::make_pair(m_impl, this));
 }
 
 
@@ -370,6 +408,9 @@ context::context(context&& other) noexcept
   {
     g_current_context = this;
   }
+
+  std::lock_guard<std::mutex> lock(get_context_registry_mutex());
+  get_context_registry().at(m_impl) = this;
 }
 
 
@@ -383,6 +424,9 @@ context::~context()
       unset_current();
     }
     SDL_GL_DeleteContext(m_impl);
+
+    std::lock_guard<std::mutex> lock(get_context_registry_mutex());
+    get_context_registry().erase(m_impl);
   }
 }
 

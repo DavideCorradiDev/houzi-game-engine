@@ -60,11 +60,19 @@ public:
 public:
   /**
    * Retrieves the window associated to a given implementation.
+   *
+   * \param impl the implementation.
+   *
+   * \return the window referenced by the implementation.
    */
   static window& get_from_impl(not_null<const impl_type*> impl);
 
   /**
    * Retrieves the window associated to a given id.
+   *
+   * \param uid the uid.
+   *
+   * \return the window referenced by the uid.
    */
   static window& get_from_uid(uid_type uid);
 
