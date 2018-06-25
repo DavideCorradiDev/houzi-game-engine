@@ -475,3 +475,12 @@ TEST_F(test_render_surface, set_current_render_target)
   EXPECT_FALSE(rs1.is_current_render_target());
   EXPECT_FALSE(rs2.is_current_render_target());
 }
+
+
+
+TEST_F(test_render_surface, display)
+{
+  window w("TestWindow", vec2u(1u, 1u));
+  FAIL();
+  // graphic_context::set_current(*s_context);
+}

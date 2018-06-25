@@ -14,15 +14,12 @@
 class test_gfx_base : public ::testing::Test
 {
 public:
-  static void SetUpTestCase();
+  static hou::graphic_context& get_context();
 
-  static void TearDownTestCase();
+  static void SetUpTestCase();
 
 public:
   test_gfx_base();
-
-public:
-  static std::unique_ptr<hou::graphic_context> s_context;
 };
 
 #endif
