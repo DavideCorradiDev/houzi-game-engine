@@ -140,7 +140,7 @@ TEST_F(test_gl_object_handle, non_shared_move_constructor)
 
 TEST_F(test_gl_object_handle, shared_owner_uid)
 {
-  window w("Test", vec2u::zero());
+  window w("Test", vec2u(1u, 1u));
   gl::context c1(gl::context_settings::get_default(), w);
   gl::context c2(gl::context_settings::get_default(), w, c1);
   gl::context c3(gl::context_settings::get_default(), w);
@@ -170,7 +170,7 @@ TEST_F(test_gl_object_handle, shared_owner_uid)
 
 TEST_F(test_gl_object_handle, non_shared_owner_uid)
 {
-  window w("Test", vec2u::zero());
+  window w("Test", vec2u(1u, 1u));
   gl::context c1(gl::context_settings::get_default(), w);
   gl::context c2(gl::context_settings::get_default(), w, c1);
   gl::context c3(gl::context_settings::get_default(), w);
