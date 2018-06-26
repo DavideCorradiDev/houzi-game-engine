@@ -208,6 +208,20 @@ private:
 };
 
 /**
+ * Creates a color given the float color components.
+ *
+ * \param red the red value.
+ *
+ * \param green the green value.
+ *
+ * \param blue the blue value.
+ *
+ * \param alpha the alpha value.
+ */
+HOU_SYS_API color color_f(
+  float red, float green, float blue, float alpha) noexcept;
+
+/**
  * Checks if two color objects are equal.
  *
  * \param lhs the left operand.

@@ -115,6 +115,39 @@ TEST_F(test_color, float_value_thresholds)
 
 
 
+TEST_F(test_color, float_value_constructor)
+{
+  color c = color_f(0.1f, 0.2f, 0.3f, 0.4f);
+  EXPECT_FLOAT_EQ(static_cast<uint8_t>(0.1f * 255.f) / 255.f, c.get_red_f());
+  EXPECT_FLOAT_EQ(static_cast<uint8_t>(0.2f * 255.f) / 255.f, c.get_green_f());
+  EXPECT_FLOAT_EQ(static_cast<uint8_t>(0.3f * 255.f) / 255.f, c.get_blue_f());
+  EXPECT_FLOAT_EQ(static_cast<uint8_t>(0.4f * 255.f) / 255.f, c.get_alpha_f());
+}
+
+
+
+TEST_F(test_color, float_value_constructor_upper_threshold)
+{
+  color c = color_f(1.1f, 2.f, 3.f, 4.f);
+  EXPECT_FLOAT_EQ(1.f, c.get_red_f());
+  EXPECT_FLOAT_EQ(1.f, c.get_green_f());
+  EXPECT_FLOAT_EQ(1.f, c.get_blue_f());
+  EXPECT_FLOAT_EQ(1.f, c.get_alpha_f());
+}
+
+
+
+TEST_F(test_color, float_value_constructor_lower_threshold)
+{
+  color c = color_f(-1.f, -2.f, -3.2f, -4.f);
+  EXPECT_FLOAT_EQ(0.f, c.get_red_f());
+  EXPECT_FLOAT_EQ(0.f, c.get_green_f());
+  EXPECT_FLOAT_EQ(0.f, c.get_blue_f());
+  EXPECT_FLOAT_EQ(0.f, c.get_alpha_f());
+}
+
+
+
 TEST_F(test_color, comparison)
 {
   color c1(100u, 100u, 100u, 100u);

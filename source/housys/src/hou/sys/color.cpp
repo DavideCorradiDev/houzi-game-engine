@@ -243,6 +243,14 @@ void color::set_alpha_f(float value) noexcept
 
 
 
+color color_f(float red, float green, float blue, float alpha) noexcept
+{
+  return color(float_to_uint8(red), float_to_uint8(green), float_to_uint8(blue),
+    float_to_uint8(alpha));
+}
+
+
+
 bool operator==(const color& lhs, const color& rhs) noexcept
 {
   return lhs.get_red() == rhs.get_red() && lhs.get_green() == rhs.get_green()
