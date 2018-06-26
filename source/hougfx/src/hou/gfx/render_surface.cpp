@@ -67,7 +67,6 @@ render_surface::render_surface(const vec2u& size, positive<uint> sample_count)
   , m_framebuffer()
   , m_color_attachment(nullptr)
   , m_depth_stencil_attachment(nullptr)
-  , m_sample_count(sample_count)
   , m_viewport(recti(0, 0, size.x(), size.y()))
 {
   build_framebuffer(size, sample_count);
@@ -78,6 +77,16 @@ render_surface::render_surface(const vec2u& size, positive<uint> sample_count)
 recti render_surface::get_default_viewport() const
 {
   return recti(vec2i(0, 0), get_size());
+}
+
+
+
+void render_surface::set_size(const vec2u& size)
+{
+  if(size != get_size())
+  {
+    build_framebuffer(size, get_sample_count());
+  }
 }
 
 
@@ -106,14 +115,14 @@ vec2u render_surface::get_size() const
 
 bool render_surface::is_multisampled() const noexcept
 {
-  return m_sample_count > 1u;
+  return m_color_attachment->is_multisampled();
 }
 
 
 
 positive<uint> render_surface::get_sample_count() const noexcept
 {
-  return m_sample_count;
+  return m_color_attachment->get_sample_count();
 }
 
 
@@ -180,7 +189,6 @@ bool render_surface::is_current_render_target() const
 void render_surface::build_framebuffer(
   const vec2u& size, positive<uint> sample_count)
 {
-  m_sample_count = sample_count;
   if(sample_count <= 1)
   {
     static constexpr uint mipmap_level_count = 1u;

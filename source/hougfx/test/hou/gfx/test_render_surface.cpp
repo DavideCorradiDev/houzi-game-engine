@@ -219,6 +219,47 @@ TEST_F(test_render_surface, negative_size_viewport)
 
 
 
+TEST_F(test_render_surface, set_size)
+{
+  render_surface rs(vec2u(8u, 16u));
+  rs.set_size(vec2u(4u, 20u));
+  EXPECT_EQ(vec2u(4u, 20u), rs.get_size());
+  EXPECT_EQ(1u, rs.get_sample_count());
+}
+
+
+
+TEST_F(test_render_surface, set_size_multisample)
+{
+  render_surface rs(vec2u(8u, 16u), 2u);
+  rs.set_size(vec2u(4u, 20u));
+  EXPECT_EQ(vec2u(4u, 20u), rs.get_size());
+  EXPECT_EQ(2u, rs.get_sample_count());
+}
+
+
+
+TEST_F(test_render_surface_death_test, set_size_error_null_size)
+{
+  render_surface rs(vec2u(8u, 16u));
+  EXPECT_PRECOND_ERROR(rs.set_size(vec2u(0u, 20u)));
+  EXPECT_PRECOND_ERROR(rs.set_size(vec2u(2u, 0u)));
+  EXPECT_PRECOND_ERROR(rs.set_size(vec2u(0u, 0u)));
+}
+
+
+
+TEST_F(test_render_surface_death_test, set_size_error_too_large)
+{
+  vec2u max_size = render_surface::get_max_size();
+  render_surface rs(vec2u(8u, 16u));
+  EXPECT_PRECOND_ERROR(rs.set_size(vec2u(max_size.x() + 1u, 1u)));
+  EXPECT_PRECOND_ERROR(rs.set_size(vec2u(1u, max_size.y() + 1u)));
+  EXPECT_PRECOND_ERROR(rs.set_size(vec2u(max_size.x() + 1u, max_size.y() + 1u)));
+}
+
+
+
 TEST_F(test_render_surface, is_multisampled)
 {
   render_surface rs1(vec2u(3u, 4u), 1u);

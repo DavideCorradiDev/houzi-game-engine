@@ -135,6 +135,15 @@ public:
   vec2u get_size() const;
 
   /**
+   * Sets the size of the render_surface.
+   *
+   * \note the content of the render_surface will be deleted.
+   *
+   * \param size the size.
+   */
+  void set_size(const vec2u& size);
+
+  /**
    * Checks if the render_surface is multisampled.
    *
    * \return true if the number of samples of the render_surface is greater than
@@ -303,7 +312,6 @@ private:
   framebuffer m_framebuffer;
   std::unique_ptr<texture> m_color_attachment;
   std::unique_ptr<texture> m_depth_stencil_attachment;
-  positive<uint> m_sample_count;
   recti m_viewport;
 };
 
