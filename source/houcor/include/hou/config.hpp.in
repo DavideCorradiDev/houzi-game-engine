@@ -21,6 +21,11 @@
   #elif defined(_MSC_VER)
     #define HOU_COMPILER_MSVC
   #endif
+#elif defined(__linux__)
+  #define HOU_SYSTEM_LINUX
+  #if defined(__GNUC__)
+    #define HOU_COMPILER_GCC
+  #endif
 #endif
 
 // Define export statements
@@ -48,6 +53,12 @@ namespace hou
 
 using uint = unsigned int;
 using uchar = unsigned char;
+
+#if defined(HOU_COMPILER_MSVC)
+  using size_t = size_t;
+#else
+  using size_t = std::size_t;
+#endif
 
 }  // namespace hou
 

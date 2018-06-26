@@ -187,7 +187,7 @@ SHORT_NAMES            = NO
 # description.)
 # The default value is: NO.
 
-JAVADOC_AUTOBRIEF      = NO
+JAVADOC_AUTOBRIEF      = YES
 
 # If the QT_AUTOBRIEF tag is set to YES then doxygen will interpret the first
 # line (until the first dot) of a Qt-style comment as the brief description. If
@@ -793,9 +793,9 @@ WARN_LOGFILE           =
 INPUT                  = source/houcor/include/hou/ \
                          source/houcor/include/hou/cor \
                          source/houmth/include/hou/mth \
-                         source/housys/include/hou/sys \
-                         source/hougfx/include/hou/gfx \
-                         source/houaud/include/hou/aud
+                         source/housys/include/hou/sys
+                         # source/hougfx/include/hou/gfx \
+                         # source/houaud/include/hou/aud
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses

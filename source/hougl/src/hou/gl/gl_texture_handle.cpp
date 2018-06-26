@@ -5,6 +5,8 @@
 #include "hou/gl/gl_texture_handle.hpp"
 
 #include "hou/gl/gl_exceptions.hpp"
+#include "hou/gl/gl_missing_context_error.hpp"
+#include "hou/gl/gl_invalid_context_error.hpp"
 #include "hou/gl/gl_context.hpp"
 #include "hou/gl/gl_functions.hpp"
 
@@ -20,9 +22,12 @@ namespace
 {
 
 GLenum to_get_gl_enum(GLenum target);
+
 GLint get_texture_parameter_i(const texture_handle& tex, GLenum param);
+
 void set_texture_parameter_i(
   const texture_handle& tex, GLenum param, GLint value);
+
 GLint get_texture_level_parameter_i(
   const texture_handle& tex, GLint level, GLenum param);
 

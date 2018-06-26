@@ -5,6 +5,8 @@
 #include "hou/al/al_listener.hpp"
 
 #include "hou/al/al_exceptions.hpp"
+#include "hou/al/al_invalid_context_error.hpp"
+#include "hou/al/al_missing_context_error.hpp"
 
 
 

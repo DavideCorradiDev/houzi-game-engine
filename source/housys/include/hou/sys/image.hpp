@@ -23,7 +23,8 @@
 namespace hou
 {
 
-/** Represents an image.
+/**
+ * Represents an image.
  *
  * Note: all possible class insances are already explicitly instantiated and
  * exported in the library.
@@ -38,49 +39,72 @@ public:
   friend class image;
 
 public:
-  /** Type representing the size of the image. */
+  /**
+   * Type representing the size of the image.
+   */
   using size_type = vec<uint, Dim>;
 
-  /** Type representing pixel coordinates. */
+  /**
+   * Type representing pixel coordinates.
+   */
   using offset_type = size_type;
 
-  /** Type of the image pixels. */
-  using pixel = pixel<PF>;
+  /**
+   * Type of the image pixels.
+   */
+  using pixel_type = pixel<PF>;
 
-  /** Type used to represent the collection of pixels of the image. */
-  using pixel_collection = std::vector<pixel>;
+  /**
+   * Type used to represent the collection of pixels of the image.
+   */
+  using pixel_collection = std::vector<pixel_type>;
 
 public:
-  /** The number of dimensions of the image. */
+  /**
+   * The number of dimensions of the image.
+   */
   static constexpr size_t dimension_count = Dim;
 
-  /** The pixel format. */
+  /**
+   * The pixel format.
+   */
   static constexpr pixel_format format = PF;
 
-  /** The number of bytes in a pixel. */
-  static constexpr size_t pixel_byte_count = pixel::byte_count;
+  /**
+   * The number of bits in a pixel.
+   */
+  static constexpr size_t pixel_bit_count = pixel_type::bit_count;
+
+  /**
+   * The number of bytes in a pixel.
+   */
+  static constexpr size_t pixel_byte_count = pixel_type::byte_count;
 
 public:
-  /** Retrieves the number of dimensions of the image.
+  /**
+   * Retrieves the number of dimensions of the image.
    *
    * \return the number of dimensions of the imag.e
    */
   static size_t get_dimension_count() noexcept;
 
-  /** Retrieves the format of the pixels of the image.
+  /**
+   * Retrieves the format of the pixels of the image.
    *
    * \return the format of the pixels of the image.
    */
   static pixel_format get_pixel_format() noexcept;
 
-  /** Retrieves the amount of bytes used by a pixel of the image.
+  /**
+   * Retrieves the amount of bytes used by a pixel of the image.
    *
    * \return the amomunt of bytes used by a pixel of the image.
    */
   static uint get_pixel_byte_count() noexcept;
 
 public:
-  /** default constructor.
+  /**
+   * default constructor.
    *
    * Creates an image with no pixels.
    * all of its size components are equal to 0.
@@ -89,7 +113,8 @@ public:
    */
   image();
 
-  /** size_type constructor.
+  /**
+   * size_type constructor.
    *
    * Creates an image with the given size.
    * all pixel channels are initialized to 0.
@@ -100,7 +125,8 @@ public:
    */
   image(const size_type& size);
 
-  /** pixel constructor.
+  /**
+   * pixel constructor.
    *
    * Creates an image with the given size, with all pixels set to the given
    * value.
@@ -111,9 +137,10 @@ public:
    *
    * \throws std::bad_alloc.
    */
-  image(const size_type& size, const pixel& px);
+  image(const size_type& size, const pixel_type& px);
 
-  /** Pixels constructor.
+  /**
+   * Pixels constructor.
    *
    * Creates an image with the given size and pixels.
    * The collection contains a linear list of pixels.
@@ -128,9 +155,10 @@ public:
    *
    * \throws std::bad_alloc.
    */
-  image(const size_type& size, const span<const pixel>& pixels);
+  image(const size_type& size, const span<const pixel_type>& pixels);
 
-  /** Pixels move constructor.
+  /**
+   * Pixels move constructor.
    *
    * Creates an image with the given size and pixels.
    * The collection contains a linear list of pixels.
@@ -145,7 +173,8 @@ public:
    */
   image(const size_type& size, pixel_collection&& pixels);
 
-  /** Conversion constructor.
+  /**
+   * Conversion constructor.
    *
    * Creates an image from an image with a different number of dimensions
    * and/or format. If the pixel format is different, each pixel is converted
@@ -180,28 +209,32 @@ public:
     }
   }
 
-  /** Retrieves the size of the image.
+  /**
+   * Retrieves the size of the image.
    *
    * \return the size of the image.
    */
   const size_type& get_size() const noexcept;
 
-  /** Retrieves the pixels of the image.
+  /**
+   * Retrieves the pixels of the image.
    *
    * \return the pixels of the image.
    */
   const pixel_collection& get_pixels() const noexcept;
 
-  /** Sets the pixels of the image.
+  /**
+   * Sets the pixels of the image.
    *
    * \param pixels the pixels.
    *
    * \throws hou::precondition_violation if the size of pixels is not equal to
    * the product of all elements of the size of the image.
    */
-  void set_pixels(const span<const pixel>& pixels);
+  void set_pixels(const span<const pixel_type>& pixels);
 
-  /** Retrieves a single pixel.
+  /**
+   * Retrieves a single pixel.
    *
    * \param coordinates the coordinates of the pixel.
    *
@@ -209,9 +242,10 @@ public:
    *
    * \return tue pixel.
    */
-  const pixel& get_pixel(const offset_type& coordinates) const;
+  const pixel_type& get_pixel(const offset_type& coordinates) const;
 
-  /** Sets the value of a single pixel.
+  /**
+   * Sets the value of a single pixel.
    *
    * \param coordinates the coordinates of the pixel.
    *
@@ -219,9 +253,10 @@ public:
    *
    * \throws hou::out_of_range if the coordinates exceed the size of the image.
    */
-  void set_pixel(const offset_type& coordinates, const pixel& value);
+  void set_pixel(const offset_type& coordinates, const pixel_type& value);
 
-  /** Retrieves a sub-image.
+  /**
+   * Retrieves a sub-image.
    *
    * \param offset the offset of the sub-image.
    *
@@ -237,7 +272,8 @@ public:
    */
   image get_sub_image(const offset_type& offset, const size_type& size);
 
-  /** Sets a region of the image with the given sub-image.
+  /**
+   * Sets a region of the image with the given sub-image.
    *
    * Throws if the sum of offset and the size of the input image is greater or
    * equal than the size of the image.
@@ -251,13 +287,14 @@ public:
    */
   void set_sub_image(const offset_type& offset, const image& im);
 
-  /** Clears the whole image with the given pixel value.
+  /**
+   * Clears the whole image with the given pixel value.
    *
    * \param px the pixel value.
    *
    * \throws std::bad_alloc.
    */
-  void clear(const pixel& px);
+  void clear(const pixel_type& px);
 
 private:
   template <size_t OtherDim>
@@ -273,7 +310,8 @@ private:
   pixel_collection m_pixels;
 };
 
-/** Checks if two image objects are equal.
+/**
+ * Checks if two image objects are equal.
  *
  * \tparam Dim the number of dimensions of the image.
  *
@@ -288,7 +326,8 @@ private:
 template <size_t Dim, pixel_format PF>
 bool operator==(const image<Dim, PF>& lhs, const image<Dim, PF>& rhs) noexcept;
 
-/** Checks if two image objects are not equal.
+/**
+ * Checks if two image objects are not equal.
  *
  * \tparam Dim the number of dimensions of the image.
  *
@@ -303,7 +342,8 @@ bool operator==(const image<Dim, PF>& lhs, const image<Dim, PF>& rhs) noexcept;
 template <size_t Dim, pixel_format PF>
 bool operator!=(const image<Dim, PF>& lhs, const image<Dim, PF>& rhs) noexcept;
 
-/** Writes the object into a stream.
+/**
+ * Writes the object into a stream.
  *
  * \tparam Dim the number of dimensions of the image.
  *

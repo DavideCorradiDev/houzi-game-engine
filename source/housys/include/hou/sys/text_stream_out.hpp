@@ -14,14 +14,16 @@
 namespace hou
 {
 
-/** text output stream interface.
+/**
+ * text output stream interface.
  */
 class HOU_SYS_API text_stream_out
   : public text_stream
   , public stream_out
 {
 public:
-  /** Destructor.
+  /**
+   * Destructor.
    */
   virtual ~text_stream_out(){};
 };

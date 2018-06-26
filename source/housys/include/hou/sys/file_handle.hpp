@@ -19,12 +19,14 @@
 namespace hou
 {
 
-/** Manages the lifetime of a file handle.
+/**
+ * Manages the lifetime of a file handle.
  */
 class HOU_SYS_API file_handle final : public non_copyable
 {
 public:
-  /** Path constructor.
+  /**
+   * Path constructor.
    *
    * \param path the path to the file to be opened.
    *
@@ -36,13 +38,15 @@ public:
    */
   file_handle(const std::string& path, file_open_mode mode, file_type type);
 
-  /** Move constructor.
+  /**
+   * Move constructor.
    *
    * \param other the other file_handle.
    */
   file_handle(file_handle&& other) noexcept;
 
-  /** Closes the file.
+  /**
+   * Closes the file.
    *
    * It is not necessary to explicitly close the file, as it will be done by
    * the destructor, but calling close first will allow to catch exception,
@@ -54,11 +58,13 @@ public:
    */
   void close();
 
-  /** Destructor.
+  /**
+   * Destructor.
    */
   ~file_handle();
 
-  /** Conversion to FILE*.
+  /**
+   * Conversion to FILE*.
    *
    * \return the corresponding pointer to FILE. Returns nullptr if the
    * file_handle has been closed.
@@ -69,7 +75,8 @@ private:
   FILE* m_file;
 };
 
-/** Returns the file mode string equivalent to the provided file_open_mode and
+/**
+ * Returns the file mode string equivalent to the provided file_open_mode and
  * file_type.
  *
  * The returned string can be used with functions like fopen.
@@ -83,7 +90,8 @@ private:
 HOU_SYS_API std::string get_file_mode_string(
   file_open_mode mode, file_type type) noexcept;
 
-/** Opens a file.
+/**
+ * Opens a file.
  *
  * Supports unicode paths.
  *
@@ -96,7 +104,8 @@ HOU_SYS_API std::string get_file_mode_string(
 HOU_SYS_API FILE* open_file(
   const std::string& path, const std::string& mode) noexcept;
 
-/** Closes a file.
+/**
+ * Closes a file.
  *
  * \param f the file to be closed.
  *
@@ -104,7 +113,8 @@ HOU_SYS_API FILE* open_file(
  */
 HOU_SYS_API bool close_file(FILE* f) noexcept;
 
-/** Checks if a directory exists.
+/**
+ * Checks if a directory exists.
  *
  * Supports unicode paths.
  *
@@ -114,7 +124,8 @@ HOU_SYS_API bool close_file(FILE* f) noexcept;
  */
 HOU_SYS_API bool check_dir(const std::string& path) noexcept;
 
-/** Removes the specified directory.
+/**
+ * Removes the specified directory.
  *
  * Supports unicode paths.
  *
@@ -124,7 +135,8 @@ HOU_SYS_API bool check_dir(const std::string& path) noexcept;
  */
 HOU_SYS_API bool remove_dir(const std::string& path) noexcept;
 
-/** Renames the specified directory.
+/**
+ * Renames the specified directory.
  *
  * Supports unicode paths.
  *
@@ -137,7 +149,8 @@ HOU_SYS_API bool remove_dir(const std::string& path) noexcept;
 HOU_SYS_API bool rename_dir(
   const std::string& old_path, const std::string& new_path) noexcept;
 
-/** Retrieves the size in bytes of a directory.
+/**
+ * Retrieves the size in bytes of a directory.
  *
  * Supports unicode paths.
  *
@@ -148,7 +161,8 @@ HOU_SYS_API bool rename_dir(
  */
 HOU_SYS_API size_t get_dir_byte_size(const std::string& path) noexcept;
 
-/** Retrieves the file descriptor integer associated to a file.
+/**
+ * Retrieves the file descriptor integer associated to a file.
  *
  * If file is not a valid file handle, the behaviour of this function is
  * undefined.
@@ -159,7 +173,8 @@ HOU_SYS_API size_t get_dir_byte_size(const std::string& path) noexcept;
  */
 HOU_SYS_API int get_file_descriptor(FILE* file) noexcept;
 
-/** Retrieves the size of a file in bytes.
+/**
+ * Retrieves the size of a file in bytes.
  *
  * \param file_descriptor the file descriptor. It can be obtained by using
  * get_file_descriptor.
@@ -169,7 +184,8 @@ HOU_SYS_API int get_file_descriptor(FILE* file) noexcept;
  */
 HOU_SYS_API size_t get_file_byte_size(int file_descriptor) noexcept;
 
-/** Retrieves the filename extension of a given path.
+/**
+ * Retrieves the filename extension of a given path.
  *
  * Supports unicode paths.
  *

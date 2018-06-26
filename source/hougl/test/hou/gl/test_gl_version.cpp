@@ -2,25 +2,26 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
+
 #include "hou/gl/gl_version.hpp"
-#include "hou/gl/test_gl_single_context.hpp"
 
 using namespace hou;
+using namespace testing;
 
 
 
 namespace
 {
 
-class test_gl_version : public test_gl_single_context
+class test_gl_version : public Test
 {};
 
 }  // namespace
 
 
 
-TEST_F(test_gl_version, creation)
+TEST_F(test_gl_version, constructor)
 {
   gl::version glv(4u, 5u);
 
@@ -110,22 +111,4 @@ TEST_F(test_gl_version, output_stream_operator)
 {
   gl::version glv(4u, 5u);
   EXPECT_OUTPUT("4.5", glv);
-}
-
-
-
-TEST_F(test_gl_version, is_supported)
-{
-  gl::version v1(4u, 5u);
-  gl::version v2(4u, 4u);
-
-  EXPECT_TRUE(v1.is_supported());
-  EXPECT_FALSE(v2.is_supported());
-}
-
-
-
-TEST_F(test_gl_version, get_default)
-{
-  EXPECT_EQ(gl::version(4u, 5u), gl::version::get_default());
 }

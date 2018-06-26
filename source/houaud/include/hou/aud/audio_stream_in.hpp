@@ -20,7 +20,8 @@
 namespace hou
 {
 
-/** Input audio stream.
+/**
+ * Input audio stream.
  *
  *  read operations throw if reading a non-integer number of samples.
  *
@@ -30,11 +31,13 @@ class HOU_AUD_API audio_stream_in
   , public stream_in
 {
 public:
-  /** Get the number of samples read by the last read operation.
+  /**
+   * Get the number of samples read by the last read operation.
    */
   size_t get_read_sample_count() const noexcept;
 
-  /** Reads the whole contents of the stream into memory.
+  /**
+   * Reads the whole contents of the stream into memory.
    *
    * \tparam T the container type to return.
    *

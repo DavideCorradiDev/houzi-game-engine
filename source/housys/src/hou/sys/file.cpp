@@ -37,6 +37,13 @@ file::file(const std::string& filename, file_open_mode mode, file_type type)
 
 
 
+void file::close()
+{
+  m_handle.close();
+}
+
+
+
 bool file::eof() const noexcept
 {
   return m_eof;

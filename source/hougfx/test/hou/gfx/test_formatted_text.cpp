@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 #include "hou/gfx/test_data.hpp"
 #include "hou/gfx/test_gfx_base.hpp"
 
@@ -105,11 +105,7 @@ const std::string font_path = get_data_dir() + u8"NotoSans-Regular.ttf";
 
 
 
-#ifdef HOU_COMPILER_MSVC
 TEST_F(test_formatted_text, DISABLED_Utf8Constructor)
-#else
-TEST_F(test_formatted_text, Utf8Constructor)
-#endif
 {
   font f = load_font(font_path);
   std::string s = u8"A";
@@ -136,11 +132,7 @@ TEST_F(test_formatted_text, Utf8Constructor)
 
 
 
-#ifdef HOU_COMPILER_MSVC
 TEST_F(test_formatted_text, DISABLED_Utf32Constructor)
-#else
-TEST_F(test_formatted_text, Utf32Constructor)
-#endif
 {
   font f = load_font(font_path);
   std::u32string s = U"A";
@@ -167,11 +159,7 @@ TEST_F(test_formatted_text, Utf32Constructor)
 
 
 
-#ifdef HOU_COMPILER_MSVC
 TEST_F(test_formatted_text, DISABLED_MoveConstructor)
-#else
-TEST_F(test_formatted_text, MoveConstructor)
-#endif
 {
   font f = load_font(font_path);
   std::u32string s = U"A";
@@ -198,11 +186,7 @@ TEST_F(test_formatted_text, MoveConstructor)
 
 
 
-#ifdef HOU_COMPILER_MSVC
 TEST_F(test_formatted_text, DISABLED_TwoCharacters)
-#else
-TEST_F(test_formatted_text, TwoCharacters)
-#endif
 {
   font f = load_font(font_path);
   std::u32string s = U"AB";
@@ -237,11 +221,7 @@ TEST_F(test_formatted_text, TwoCharacters)
 
 
 
-#ifdef HOU_COMPILER_MSVC
 TEST_F(test_formatted_text, DISABLED_StringWithSpace)
-#else
-TEST_F(test_formatted_text, StringWithSpace)
-#endif
 {
   font f = load_font(font_path);
   std::u32string s = U"I love cakes";
@@ -356,11 +336,7 @@ TEST_F(test_formatted_text, StringWithSpace)
 
 
 
-#ifdef HOU_COMPILER_MSVC
 TEST_F(test_formatted_text, DISABLED_StringWithNewLine)
-#else
-TEST_F(test_formatted_text, StringWithNewLine)
-#endif
 {
   font f = load_font(font_path);
   std::u32string s = U"I love\n cheese \ncakes";

@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 
 #include "hou/mth/rectangle.hpp"
 
@@ -169,8 +169,7 @@ TEST_F(test_rectangle, floating_point_comparison)
 
 TEST_F(test_rectangle, output_stream_operator)
 {
-  EXPECT_OUTPUT(
-    "{position = (1, 2), size_type = (3, 4)}", recti(1, 2, 3, 4));
+  EXPECT_OUTPUT("{position = (1, 2), size = (3, 4)}", recti(1, 2, 3, 4));
 }
 
 

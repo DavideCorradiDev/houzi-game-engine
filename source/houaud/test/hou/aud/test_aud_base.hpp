@@ -16,15 +16,12 @@
 class test_aud_base : public ::testing::Test
 {
 public:
+  static hou::audio_context& get_context();
+
   static void SetUpTestCase();
-  static void TearDownTestCase();
 
 public:
   test_aud_base();
-  virtual ~test_aud_base() = 0;
-
-public:
-  static std::unique_ptr<hou::audio_context> s_context;
 };
 
 #endif

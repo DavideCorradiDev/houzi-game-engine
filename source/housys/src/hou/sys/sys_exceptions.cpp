@@ -45,4 +45,13 @@ invalid_image_data::invalid_image_data(const std::string& path, uint line)
   : exception(path, line, u8"Invalid or corrupted image data.")
 {}
 
+
+
+platform_error::platform_error(
+  const std::string& path, uint line, const std::string& description)
+  : exception(path, line,
+      format_string(
+        u8"A platform-specific error occurred:\n%s", description.c_str()))
+{}
+
 }  // namespace hou

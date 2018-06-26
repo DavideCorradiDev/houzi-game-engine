@@ -4,10 +4,6 @@
 
 #include "hou/gl/gl_exceptions.hpp"
 
-#include "hou/gl/gl_context.hpp"
-#include "hou/gl/gl_object_handle.hpp"
-#include "hou/gl/gl_version.hpp"
-
 
 
 namespace hou
@@ -20,6 +16,7 @@ namespace
 {
 
 std::string get_error_message(GLenum err);
+
 std::string get_shader_type_name(GLenum shader_type);
 
 std::string get_error_message(GLenum err)
@@ -42,8 +39,6 @@ std::string get_error_message(GLenum err)
       return u8"stack overflow";
     case GL_STACK_UNDERFLOW:
       return u8"stack underflow";
-    case GL_TABLE_TOO_LARGE:
-      return u8"table too large";
     default:
       return u8"unknown error";
   }
@@ -74,54 +69,11 @@ std::string get_shader_type_name(GLenum shader_type)
 
 
 
-extension_initialization_error::extension_initialization_error(
-  const std::string& path, uint line, int ec)
+vsync_error::vsync_error(
+  const std::string& path, uint line, const std::string& details)
   : exception(path, line,
       format_string(
-        u8"Failed to initialize the OpenGL extensions (error code %d).", ec))
-{}
-
-
-
-context_creation_error::context_creation_error(
-  const std::string& path, uint line)
-  : exception(path, line, u8"Failed to create the OpenGL context.")
-{}
-
-
-
-unsupported_version::unsupported_version(
-  const std::string& path, uint line, const version& v)
-  : exception(path, line,
-      format_string(
-        u8"Tried to create a context with unsupported OpenGL version %s.",
-        to_string(v).c_str()))
-{}
-
-
-
-context_destruction_error::context_destruction_error(
-  const std::string& path, uint line)
-  : exception(path, line, u8"Failed to destroy the OpenGL context.")
-{}
-
-
-
-context_switch_error::context_switch_error(const std::string& path, uint line)
-  : exception(path, line, u8"Failed to switch the current OpenGL context.")
-{}
-
-
-
-missing_context_error::missing_context_error(const std::string& path, uint line)
-  : exception(path, line, u8"No current OpenGL context.")
-{}
-
-
-
-invalid_context_error::invalid_context_error(const std::string& path, uint line)
-  : exception(
-      path, line, u8"The current OpenGL context does not own the object.")
+        u8"Failed to set the vertical sync mode.\n%s", details.c_str()))
 {}
 
 
@@ -153,12 +105,6 @@ invalid_uniform_error::invalid_uniform_error(
 
 
 
-vsync_error::vsync_error(const std::string& path, uint line)
-  : exception(path, line, u8"Failed to set the vertical sync mode.")
-{}
-
-
-
 call_error::call_error(const std::string& path, uint line, GLenum ec)
   : exception(path, line,
       format_string(
@@ -172,41 +118,6 @@ void check_error(const std::string& path, uint line)
   for(GLenum err; (err = glGetError()) != GL_NO_ERROR;)
   {
     HOU_ERROR_STD_N(call_error, path, line, err);
-  }
-}
-
-
-
-void check_context_existence(const std::string& path, uint line)
-{
-  if(context::get_current() == nullptr)
-  {
-    HOU_ERROR_STD_N(missing_context_error, path, line);
-  }
-}
-
-
-
-void check_context_ownership(
-  const shared_object_handle& object, const std::string& path, uint line)
-{
-  check_context_existence(path, line);
-  if(context::get_current()->get_sharing_group_uid()
-    != object.get_owning_sharing_group_uid())
-  {
-    HOU_ERROR_STD_N(invalid_context_error, path, line);
-  }
-}
-
-
-
-void check_context_ownership(
-  const non_shared_object_handle& object, const std::string& path, uint line)
-{
-  check_context_existence(path, line);
-  if(context::get_current()->get_uid() != object.get_owning_context_uid())
-  {
-    HOU_ERROR_STD_N(invalid_context_error, path, line);
   }
 }
 

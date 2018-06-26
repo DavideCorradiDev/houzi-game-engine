@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 #include "hou/sys/test_data.hpp"
 
 #include "hou/sys/file_handle.hpp"
@@ -27,13 +27,7 @@ public:
   virtual ~test_file_handle();
 };
 
-
-
-class test_file_handle_death_test : public test_file_handle
-{
-public:
-  using test_file_handle::test_file_handle;
-};
+using test_file_handle_death_test = test_file_handle;
 
 
 
@@ -102,12 +96,7 @@ TEST_F(test_file_handle, close)
 
 
 
-// MSVC will trigger an assertion making this untestable.
-#ifdef HOU_COMPILER_MSVC
-TEST_F(test_file_handle_death_test, DISABLED_close_error)
-#else
 TEST_F(test_file_handle_death_test, close_error)
-#endif
 {
   file_handle f(filename, file_open_mode::read, file_type::binary);
   EXPECT_NE(nullptr, static_cast<FILE*>(f));
@@ -150,12 +139,7 @@ TEST_F(test_file_handle, open_file_failure)
 
 
 
-// MSVC will trigger an assertion making this untestable.
-#ifdef HOU_COMPILER_MSVC
-TEST_F(test_file_handle, DISABLED_close_file_failure)
-#else
 TEST_F(test_file_handle, close_file_failure)
-#endif
 {
   FILE* f = open_file("dummy", "rb");
   close_file(f);
@@ -273,12 +257,7 @@ TEST_F(test_file_handle, get_file_descriptor)
 
 
 
-// MSVC will trigger an assertion making this untestable.
-#ifdef HOU_COMPILER_MSVC
-TEST_F(test_file_handle, DISABLED_get_file_descriptor_error)
-#else
 TEST_F(test_file_handle, get_file_descriptor_error)
-#endif
 {
   EXPECT_EQ(-1, get_file_descriptor(nullptr));
 }
@@ -293,12 +272,7 @@ TEST_F(test_file_handle, get_file_byte_size)
 
 
 
-// MSVC will trigger an assertion making this untestable.
-#ifdef HOU_COMPILER_MSVC
-TEST_F(test_file_handle, DISABLED_get_invalid_file_byte_size)
-#else
 TEST_F(test_file_handle, get_invalid_file_byte_size)
-#endif
 {
   EXPECT_EQ(std::numeric_limits<size_t>::max(), get_file_byte_size(-1));
 }

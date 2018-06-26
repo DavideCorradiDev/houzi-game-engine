@@ -2,10 +2,11 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
 #include "hou/gl/test_gl_multiple_contexts.hpp"
 
 #include "hou/gl/gl_exceptions.hpp"
+#include "hou/gl/gl_missing_context_error.hpp"
+#include "hou/gl/gl_invalid_context_error.hpp"
 #include "hou/gl/gl_texture_handle.hpp"
 
 using namespace hou;
@@ -18,8 +19,7 @@ namespace
 class test_gl_texture_handle : public test_gl_multiple_contexts
 {};
 
-class test_gl_texture_handle_death_test : public test_gl_texture_handle
-{};
+using test_gl_texture_handle_death_test = test_gl_texture_handle;
 
 }  // namespace
 

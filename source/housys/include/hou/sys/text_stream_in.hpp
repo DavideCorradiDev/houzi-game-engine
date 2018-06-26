@@ -15,18 +15,21 @@
 namespace hou
 {
 
-/** text input stream interface.
+/**
+ * text input stream interface.
  */
 class HOU_SYS_API text_stream_in
   : public text_stream
   , public stream_in
 {
 public:
-  /** Destructor.
+  /**
+   * Destructor.
    */
   virtual ~text_stream_in(){};
 
-  /** Reads the whole contents of the stream into memory.
+  /**
+   * Reads the whole contents of the stream into memory.
    *
    * \tparam T the container type to return.
    *

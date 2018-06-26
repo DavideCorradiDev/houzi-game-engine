@@ -504,7 +504,7 @@ size_t texture_t<Type>::compute_image_buffer_size(
   {
     byte_count *= im_size(i);
   }
-  return byte_count * get_pixel_format_byte_count(fmt);
+  return byte_count * get_bytes_per_pixel(fmt);
 }
 
 

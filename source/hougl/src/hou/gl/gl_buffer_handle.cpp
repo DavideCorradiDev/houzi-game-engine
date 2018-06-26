@@ -4,8 +4,10 @@
 
 #include "hou/gl/gl_buffer_handle.hpp"
 
-#include "hou/gl/gl_exceptions.hpp"
 #include "hou/gl/gl_context.hpp"
+#include "hou/gl/gl_exceptions.hpp"
+#include "hou/gl/gl_missing_context_error.hpp"
+#include "hou/gl/gl_invalid_context_error.hpp"
 
 
 
@@ -28,15 +30,16 @@ GLenum toGetGLenum(GLenum target)
   {
     case GL_ARRAY_BUFFER:
       return GL_ARRAY_BUFFER_BINDING;
-    break;
+      break;
     case GL_ELEMENT_ARRAY_BUFFER:
       return GL_ELEMENT_ARRAY_BUFFER_BINDING;
     default:
+      HOU_UNREACHABLE();
       return 0u;
   }
 }
 
-}
+}  // namespace
 
 
 
@@ -76,8 +79,8 @@ void bind_buffer(const buffer_handle& buffer, GLenum target)
   {
     glBindBuffer(target, buffer.get_name());
     HOU_GL_CHECK_ERROR();
-    context::get_current()->m_tracking_data.set_bound_buffer(buffer.get_uid()
-      , target);
+    context::get_current()->m_tracking_data.set_bound_buffer(
+      buffer.get_uid(), target);
   }
 }
 
@@ -125,8 +128,8 @@ GLuint get_bound_buffer_name(GLenum target)
 
 
 
-void set_buffer_storage(const buffer_handle& buffer, GLsizei size
-  , const GLvoid* data, GLbitfield flags)
+void set_buffer_storage(const buffer_handle& buffer, GLsizei size,
+  const GLvoid* data, GLbitfield flags)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(buffer);
@@ -136,8 +139,8 @@ void set_buffer_storage(const buffer_handle& buffer, GLsizei size
 
 
 
-void set_buffer_sub_data(const buffer_handle& buffer, GLintptr offset, GLsizei size
-  , const GLvoid* data)
+void set_buffer_sub_data(const buffer_handle& buffer, GLintptr offset,
+  GLsizei size, const GLvoid* data)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(buffer);
@@ -147,8 +150,8 @@ void set_buffer_sub_data(const buffer_handle& buffer, GLintptr offset, GLsizei s
 
 
 
-void get_buffer_sub_data(const buffer_handle& buffer, GLintptr offset, GLsizei size
-  , GLvoid* data)
+void get_buffer_sub_data(
+  const buffer_handle& buffer, GLintptr offset, GLsizei size, GLvoid* data)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(buffer);
@@ -156,7 +159,6 @@ void get_buffer_sub_data(const buffer_handle& buffer, GLintptr offset, GLsizei s
   HOU_GL_CHECK_ERROR();
 }
 
-}
+}  // namespace gl
 
-}
-
+}  // namespace hou

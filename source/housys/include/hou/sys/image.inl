@@ -46,6 +46,7 @@ std::ostream& operator<<(std::ostream& os, const image<Dim, PF>& im)
 
 
 
+#ifndef HOU_DOXYGEN
 extern template class HOU_SYS_API image<1u, pixel_format::r>;
 extern template class HOU_SYS_API image<1u, pixel_format::rg>;
 extern template class HOU_SYS_API image<1u, pixel_format::rgb>;
@@ -60,5 +61,6 @@ extern template class HOU_SYS_API image<3u, pixel_format::r>;
 extern template class HOU_SYS_API image<3u, pixel_format::rg>;
 extern template class HOU_SYS_API image<3u, pixel_format::rgb>;
 extern template class HOU_SYS_API image<3u, pixel_format::rgba>;
+#endif
 
 }  // namespace hou

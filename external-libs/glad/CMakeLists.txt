@@ -21,8 +21,18 @@ INCLUDE_DIRECTORIES(${LIB_GLAD_INCLUDE_DIR})
 # Source files
 SET(LIB_GLAD_SRC
   src/glad/glad.c
+)
+IF(WIN32)
+SET(LIB_GLAD_SRC
+  ${LIB_GLAD_SRC}
   src/glad/glad_wgl.c
 )
+ELSEIF(UNIX)
+SET(LIB_GLAD_SRC
+  ${LIB_GLAD_SRC}
+  src/glad/glad_glx.c
+)
+ENDIF()
 
 
 

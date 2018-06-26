@@ -30,6 +30,7 @@ INCLUDE_DIRECTORIES(
 # Source files.
 SET(LIB_HOUMTH_SRC
   src/hou/mth/mth_exceptions.cpp
+  src/hou/mth/mth_module.cpp
 )
 
 

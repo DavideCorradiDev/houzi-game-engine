@@ -12,7 +12,7 @@
 
 
 
-namespace hou
+namespace std
 {
 
 /** Outputs a duration in nanoseconds to the given stream.

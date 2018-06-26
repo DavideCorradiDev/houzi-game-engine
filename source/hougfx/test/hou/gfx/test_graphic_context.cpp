@@ -2,12 +2,14 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 
 #include "hou/gfx/graphic_context.hpp"
 
 #include "hou/gl/gl_functions.hpp"
 #include "hou/gl/gl_texture_handle.hpp"
+
+#include "hou/sys/event.hpp"
 
 using namespace testing;
 using namespace hou;
@@ -20,84 +22,168 @@ namespace
 class test_graphic_context : public Test
 {};
 
+using test_graphic_context_death_test = test_graphic_context;
+
 }  // namespace
 
 
 
-TEST_F(test_graphic_context, creation)
+TEST_F(test_graphic_context, constructor)
 {
-  graphic_context rc;
-  SUCCEED();
+  graphic_context ctx;
+  EXPECT_NE(0u, ctx.get_impl().get_uid());
 }
 
 
 
 TEST_F(test_graphic_context, move_constructor)
 {
-  graphic_context rc_dummy;
-  graphic_context::set_current(rc_dummy);
-  graphic_context rc = std::move(rc_dummy);
-  EXPECT_TRUE(rc.is_current());
+  graphic_context ctx_dummy;
+  gl::context::uid_type ctx_uid = ctx_dummy.get_impl().get_uid();
+  graphic_context ctx = std::move(ctx_dummy);
+
+  EXPECT_EQ(0u, ctx_dummy.get_impl().get_uid());
+  EXPECT_EQ(ctx_uid, ctx.get_impl().get_uid());
 }
 
 
 
-TEST_F(test_graphic_context, set_current)
+TEST_F(test_graphic_context, move_constructor_current_context)
+{
+  window wnd("TestWindow", vec2u(1u, 1u));
+  graphic_context ctx_dummy;
+  graphic_context::set_current(ctx_dummy, wnd);
+  graphic_context ctx = std::move(ctx_dummy);
+  EXPECT_TRUE(ctx.is_current());
+}
+
+
+
+TEST_F(test_graphic_context, set_current_context_and_window)
+{
+  graphic_context ctx1;
+  graphic_context ctx2;
+  window wnd1("TestWindow", vec2u(1u, 1u));
+  window wnd2("TestWindow", vec2u(1u, 1u));
+
+  EXPECT_FALSE(ctx1.is_current());
+  EXPECT_FALSE(ctx2.is_current());
+  EXPECT_EQ(nullptr, gl::context::get_current());
+  EXPECT_EQ(nullptr, gl::context::get_current_window());
+
+  graphic_context::set_current(ctx1, wnd1);
+  EXPECT_TRUE(ctx1.is_current());
+  EXPECT_FALSE(ctx2.is_current());
+  EXPECT_EQ(&ctx1.get_impl(), gl::context::get_current());
+  EXPECT_EQ(&wnd1, gl::context::get_current_window());
+
+  graphic_context::set_current(ctx2, wnd1);
+  EXPECT_FALSE(ctx1.is_current());
+  EXPECT_TRUE(ctx2.is_current());
+  EXPECT_EQ(&ctx2.get_impl(), gl::context::get_current());
+  EXPECT_EQ(&wnd1, gl::context::get_current_window());
+
+  graphic_context::set_current(ctx1, wnd2);
+  EXPECT_TRUE(ctx1.is_current());
+  EXPECT_FALSE(ctx2.is_current());
+  EXPECT_EQ(&ctx1.get_impl(), gl::context::get_current());
+  EXPECT_EQ(&wnd2, gl::context::get_current_window());
+
+  graphic_context::set_current(ctx2, wnd2);
+  EXPECT_FALSE(ctx1.is_current());
+  EXPECT_TRUE(ctx2.is_current());
+  EXPECT_EQ(&ctx2.get_impl(), gl::context::get_current());
+  EXPECT_EQ(&wnd2, gl::context::get_current_window());
+
+  graphic_context::unset_current();
+  EXPECT_FALSE(ctx1.is_current());
+  EXPECT_FALSE(ctx2.is_current());
+  EXPECT_EQ(nullptr, gl::context::get_current());
+  EXPECT_EQ(nullptr, gl::context::get_current_window());
+}
+
+
+
+TEST_F(test_graphic_context, set_current_window)
+{
+  graphic_context ctx;
+  window wnd1("TestWindow", vec2u(1u, 1u));
+  window wnd2("TestWindow", vec2u(1u, 1u));
+
+  EXPECT_FALSE(ctx.is_current());
+  EXPECT_EQ(nullptr, gl::context::get_current());
+  EXPECT_EQ(nullptr, gl::context::get_current_window());
+
+  graphic_context::set_current(ctx, wnd2);
+  EXPECT_TRUE(ctx.is_current());
+  EXPECT_EQ(&ctx.get_impl(), gl::context::get_current());
+  EXPECT_NE(&wnd1, gl::context::get_current_window());
+  EXPECT_EQ(&wnd2, gl::context::get_current_window());
+
+  graphic_context::set_current(wnd1);
+  EXPECT_TRUE(ctx.is_current());
+  EXPECT_EQ(&ctx.get_impl(), gl::context::get_current());
+  EXPECT_EQ(&wnd1, gl::context::get_current_window());
+
+  graphic_context::set_current(wnd2);
+  EXPECT_TRUE(ctx.is_current());
+  EXPECT_EQ(&ctx.get_impl(), gl::context::get_current());
+  EXPECT_EQ(&wnd2, gl::context::get_current_window());
+
+  graphic_context::unset_current();
+  EXPECT_FALSE(ctx.is_current());
+  EXPECT_EQ(nullptr, gl::context::get_current());
+  EXPECT_EQ(nullptr, gl::context::get_current_window());
+}
+
+
+
+TEST_F(
+  test_graphic_context_death_test, set_current_window_without_current_context)
+{
+  graphic_context ctx;
+  window wnd("TestWindow", vec2u(1u, 1u));
+  EXPECT_PRECOND_ERROR(graphic_context::set_current(wnd));
+}
+
+
+
+TEST_F(test_graphic_context, unset_current_on_destruction)
 {
   {
-    graphic_context rc1;
-    graphic_context rc2;
-
-    EXPECT_FALSE(rc1.is_current());
-    EXPECT_FALSE(rc2.is_current());
-
-    graphic_context::set_current(rc1);
-    EXPECT_TRUE(rc1.is_current());
-    EXPECT_FALSE(rc2.is_current());
-
-    graphic_context::set_current(rc2);
-    EXPECT_FALSE(rc1.is_current());
-    EXPECT_TRUE(rc2.is_current());
-
-    graphic_context::set_current(rc2);
-    EXPECT_FALSE(rc1.is_current());
-    EXPECT_TRUE(rc2.is_current());
-
-    graphic_context::unset_current();
-    EXPECT_FALSE(rc1.is_current());
-    EXPECT_FALSE(rc2.is_current());
-
-    graphic_context::unset_current();
-    EXPECT_FALSE(rc1.is_current());
-    EXPECT_FALSE(rc2.is_current());
+    window wnd("TestWindow", vec2u(1u, 1u));
+    graphic_context ctx;
+    EXPECT_FALSE(ctx.is_current());
+    graphic_context::set_current(ctx, wnd);
+    EXPECT_TRUE(ctx.is_current());
   }
   EXPECT_EQ(nullptr, gl::context::get_current());
 }
 
 
 
-TEST_F(test_graphic_context, unset_current_on_deletion)
+TEST_F(test_graphic_context, unset_current_on_window_destruction)
 {
+  graphic_context ctx;
   {
-    graphic_context rc;
-    EXPECT_FALSE(rc.is_current());
-    graphic_context::set_current(rc);
-    EXPECT_TRUE(rc.is_current());
+    window wnd("TestWindow", vec2u(1u, 1u));
+    EXPECT_FALSE(ctx.is_current());
+    graphic_context::set_current(ctx, wnd);
+    EXPECT_TRUE(ctx.is_current());
   }
-  EXPECT_EQ(nullptr, gl::context::get_current());
+  EXPECT_FALSE(ctx.is_current());
 }
 
 
 
 TEST_F(test_graphic_context, default_context_parameters)
 {
-  graphic_context rc;
-  graphic_context::set_current(rc);
+  window wnd("TestWindow", vec2u(1u, 1u));
+  graphic_context ctx;
+  graphic_context::set_current(ctx, wnd);
 
   EXPECT_EQ(1, gl::get_unpack_alignment());
   EXPECT_EQ(1, gl::get_pack_alignment());
-
-  EXPECT_FALSE(gl::is_multisampling_enabled());
 
   EXPECT_TRUE(gl::is_blending_enabled());
   EXPECT_EQ(static_cast<GLenum>(GL_SRC_ALPHA), gl::get_source_blending());
@@ -107,40 +193,20 @@ TEST_F(test_graphic_context, default_context_parameters)
 
 
 
-TEST_F(test_graphic_context, context_parameters_with_context_switch)
+TEST_F(test_graphic_context, context_parameters_after_context_switch)
 {
-  graphic_context rc1;
-  graphic_context rc2;
+  window wnd("TestWindow", vec2u(1u, 1u));
+  graphic_context ctx1;
+  graphic_context ctx2;
 
-  graphic_context::set_current(rc1);
+  graphic_context::set_current(ctx1, wnd);
   EXPECT_EQ(1, gl::get_unpack_alignment());
   gl::set_unpack_alignment(4);
   EXPECT_EQ(4, gl::get_unpack_alignment());
 
-  graphic_context::set_current(rc2);
+  graphic_context::set_current(ctx2, wnd);
   EXPECT_EQ(1, gl::get_unpack_alignment());
 
-  graphic_context::set_current(rc1);
+  graphic_context::set_current(ctx1, wnd);
   EXPECT_EQ(4, gl::get_unpack_alignment());
-}
-
-
-
-TEST_F(test_graphic_context, get_rendering_color_byte_count)
-{
-  EXPECT_EQ(4u, graphic_context::get_rendering_color_byte_count());
-}
-
-
-
-TEST_F(test_graphic_context, get_rendering_depth_byte_count)
-{
-  EXPECT_EQ(3u, graphic_context::get_rendering_depth_byte_count());
-}
-
-
-
-TEST_F(test_graphic_context, get_rendering_stencil_byte_count)
-{
-  EXPECT_EQ(1u, graphic_context::get_rendering_stencil_byte_count());
 }

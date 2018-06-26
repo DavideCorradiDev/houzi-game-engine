@@ -4,10 +4,16 @@
 
 #include "hou/gl/gl_context.hpp"
 
+#include "hou/gl/gl_context_exceptions.hpp"
+
 #include "hou/cor/assertions.hpp"
-#include "hou/cor/uid_generator.hpp"
 
 #include "hou/sys/window.hpp"
+
+#include <map>
+#include <mutex>
+
+#include "SDL2/SDL_video.h"
 
 
 
@@ -20,12 +26,242 @@ namespace gl
 namespace
 {
 
-thread_local static context* g_current_context(nullptr);
-thread_local static uint32_t g_current_window_uid(0u);
+class current_context_guard : public non_copyable
+{
+public:
+  current_context_guard();
+  ~current_context_guard();
+
+private:
+  context* m_ctx_bkp;
+  window* m_wnd_bkp;
+};
+
+
+
+class context_attributes_guard : public non_copyable
+{
+public:
+  context_attributes_guard(const context_settings& cs, bool share);
+  ~context_attributes_guard();
+
+private:
+  void save_context_settings();
+  void update_context_settings(const context_settings& cs) const;
+
+private:
+  context_settings m_settings_bkp;
+  int m_share_bkp;
+};
 
 
 
 uint32_t generate_uid();
+
+std::map<const context::impl_type*, context*>& get_context_registry();
+
+std::mutex& get_context_registry_mutex();
+
+
+
+current_context_guard::current_context_guard()
+  : m_ctx_bkp(context::get_current())
+  , m_wnd_bkp(context::get_current_window())
+{}
+
+
+
+current_context_guard::~current_context_guard()
+{
+  if(m_ctx_bkp != nullptr && m_wnd_bkp != nullptr)
+  {
+    context::set_current(*m_ctx_bkp, *m_wnd_bkp);
+  }
+  else
+  {
+    context::unset_current();
+  }
+}
+
+
+
+context_attributes_guard::context_attributes_guard(
+  const context_settings& cs, bool share)
+  : m_settings_bkp()
+  , m_share_bkp(0)
+{
+  save_context_settings();
+  update_context_settings(cs);
+
+  SDL_GL_GetAttribute(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, &m_share_bkp);
+  SDL_GL_SetAttribute(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, share ? 1 : 0);
+}
+
+
+
+context_attributes_guard::~context_attributes_guard()
+{
+  SDL_GL_SetAttribute(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, m_share_bkp);
+
+  update_context_settings(m_settings_bkp);
+}
+
+
+
+void context_attributes_guard::save_context_settings()
+{
+  int major_version = 0;
+  SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &major_version);
+  int minor_version = 0;
+  SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &minor_version);
+  m_settings_bkp.set_version(gl::version(major_version, minor_version));
+
+  int profile = 0;
+  SDL_GL_GetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, &profile);
+  switch(profile)
+  {
+    case 0:
+      m_settings_bkp.set_profile(context_profile::any);
+      break;
+    case SDL_GL_CONTEXT_PROFILE_COMPATIBILITY:
+      m_settings_bkp.set_profile(context_profile::compatibility);
+      break;
+    case SDL_GL_CONTEXT_PROFILE_CORE:
+      m_settings_bkp.set_profile(context_profile::core);
+      break;
+    case SDL_GL_CONTEXT_PROFILE_ES:
+      m_settings_bkp.set_profile(context_profile::es);
+      break;
+    default:
+      m_settings_bkp.set_profile(context_profile::any);
+      break;
+  }
+
+  int red_size = 0;
+  SDL_GL_GetAttribute(SDL_GL_RED_SIZE, &red_size);
+  int green_size = 0;
+  SDL_GL_GetAttribute(SDL_GL_GREEN_SIZE, &green_size);
+  int blue_size = 0;
+  SDL_GL_GetAttribute(SDL_GL_BLUE_SIZE, &blue_size);
+  int alpha_size = 0;
+  SDL_GL_GetAttribute(SDL_GL_ALPHA_SIZE, &alpha_size);
+  m_settings_bkp.set_color_format(
+    color_format(red_size, green_size, blue_size, alpha_size));
+
+  int depth_size = 0;
+  SDL_GL_GetAttribute(SDL_GL_DEPTH_SIZE, &depth_size);
+  m_settings_bkp.set_depth_bit_count(depth_size);
+
+  int stencil_size = 0;
+  SDL_GL_GetAttribute(SDL_GL_STENCIL_SIZE, &stencil_size);
+  m_settings_bkp.set_stencil_bit_count(stencil_size);
+
+  int multisample_buffer_count = 0;
+  SDL_GL_GetAttribute(SDL_GL_MULTISAMPLEBUFFERS, &multisample_buffer_count);
+  m_settings_bkp.set_multisample_buffer_count(multisample_buffer_count);
+
+  int sample_count = 0;
+  SDL_GL_GetAttribute(SDL_GL_MULTISAMPLESAMPLES, &sample_count);
+  m_settings_bkp.set_sample_count(sample_count);
+
+  int double_buffer = 0;
+  SDL_GL_GetAttribute(SDL_GL_DOUBLEBUFFER, &double_buffer);
+  m_settings_bkp.set_double_buffer(double_buffer);
+
+  int srgb_capable = 0;
+  SDL_GL_GetAttribute(SDL_GL_FRAMEBUFFER_SRGB_CAPABLE, &srgb_capable);
+  m_settings_bkp.set_srgb_capable(srgb_capable);
+
+  int stereo = 0;
+  SDL_GL_GetAttribute(SDL_GL_STEREO, &stereo);
+  m_settings_bkp.set_stereo(stereo);
+
+  int ctx_flags = 0;
+  SDL_GL_GetAttribute(SDL_GL_CONTEXT_FLAGS, &ctx_flags);
+  m_settings_bkp.set_debug_mode(ctx_flags & SDL_GL_CONTEXT_DEBUG_FLAG);
+  m_settings_bkp.set_forward_compatibility_mode(
+    ctx_flags & SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+  m_settings_bkp.set_robust_access(
+    ctx_flags & SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG);
+  m_settings_bkp.set_reset_isolation(
+    ctx_flags & SDL_GL_CONTEXT_RESET_ISOLATION_FLAG);
+}
+
+
+
+void context_attributes_guard::update_context_settings(
+  const context_settings& cs) const
+{
+  SDL_GL_ResetAttributes();
+
+  SDL_GL_SetAttribute(
+    SDL_GL_CONTEXT_MAJOR_VERSION, cs.get_version().get_major());
+  SDL_GL_SetAttribute(
+    SDL_GL_CONTEXT_MINOR_VERSION, cs.get_version().get_minor());
+
+  int profile = 0;
+  switch(cs.get_profile())
+  {
+    case context_profile::any:
+      profile = 0;
+      break;
+    case context_profile::compatibility:
+      profile = SDL_GL_CONTEXT_PROFILE_COMPATIBILITY;
+      break;
+    case context_profile::core:
+      profile = SDL_GL_CONTEXT_PROFILE_CORE;
+      break;
+    case context_profile::es:
+      profile = SDL_GL_CONTEXT_PROFILE_ES;
+      break;
+  }
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, profile);
+
+  SDL_GL_SetAttribute(
+    SDL_GL_RED_SIZE, cs.get_color_format().get_red_bit_count());
+  SDL_GL_SetAttribute(
+    SDL_GL_GREEN_SIZE, cs.get_color_format().get_green_bit_count());
+  SDL_GL_SetAttribute(
+    SDL_GL_BLUE_SIZE, cs.get_color_format().get_blue_bit_count());
+  SDL_GL_SetAttribute(
+    SDL_GL_ALPHA_SIZE, cs.get_color_format().get_alpha_bit_count());
+  SDL_GL_SetAttribute(
+    SDL_GL_BUFFER_SIZE, cs.get_color_format().get_bit_count());
+
+  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, cs.get_depth_bit_count());
+
+  SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, cs.get_stencil_bit_count());
+
+  SDL_GL_SetAttribute(
+    SDL_GL_MULTISAMPLEBUFFERS, cs.get_multisample_buffer_count());
+
+  SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, cs.get_sample_count());
+
+  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, cs.double_buffer());
+
+  SDL_GL_SetAttribute(SDL_GL_FRAMEBUFFER_SRGB_CAPABLE, cs.srgb_capable());
+
+  SDL_GL_SetAttribute(SDL_GL_STEREO, cs.stereo());
+
+  int ctx_flags = 0;
+  if(cs.debug_mode())
+  {
+    ctx_flags |= SDL_GL_CONTEXT_DEBUG_FLAG;
+  }
+  if(cs.forward_compatibility_mode())
+  {
+    ctx_flags |= SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG;
+  }
+  if(cs.robust_access())
+  {
+    ctx_flags |= SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG;
+  }
+  if(cs.reset_isolation())
+  {
+    ctx_flags |= SDL_GL_CONTEXT_RESET_ISOLATION_FLAG;
+  }
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, ctx_flags);
+}
 
 
 
@@ -35,17 +271,42 @@ uint32_t generate_uid()
   return uid_gen.generate();
 }
 
+
+
+std::map<const context::impl_type*, context*>& get_context_registry()
+{
+  static std::map<const context::impl_type*, context*> context_registry;
+  return context_registry;
+}
+
+
+
+std::mutex& get_context_registry_mutex()
+{
+  static std::mutex context_registry_mutex;
+  return context_registry_mutex;
+}
+
 }  // namespace
+
+
+
+context& context::get_from_impl(not_null<const impl_type*> impl)
+{
+  std::lock_guard<std::mutex> lock(get_context_registry_mutex());
+  auto it = get_context_registry().find(impl.get());
+  HOU_POSTCOND(it != get_context_registry().end() && it->second != nullptr);
+  return *(it->second);
+}
 
 
 
 void context::set_current(context& ctx, window& wnd)
 {
-  if(!ctx.is_current() || g_current_window_uid != wnd.get_uid())
+  if(!ctx.is_current() || &wnd != get_current_window())
   {
-    prv::context_impl::set_current(ctx.m_impl, wnd);
-    g_current_context = &ctx;
-    g_current_window_uid = wnd.get_uid();
+    HOU_CHECK_N(SDL_GL_MakeCurrent(wnd.get_impl(), ctx.get_impl()) == 0,
+      context_switch_error, SDL_GetError());
   }
 }
 
@@ -55,31 +316,76 @@ void context::unset_current()
 {
   if(get_current() != nullptr)
   {
-    prv::context_impl::unset_current();
-    g_current_context = nullptr;
-    g_current_window_uid = 0u;
+    HOU_CHECK_N(SDL_GL_MakeCurrent(nullptr, nullptr) == 0, context_switch_error,
+      SDL_GetError());
   }
 }
 
 
 
-context* context::get_current() noexcept
+context* context::get_current()
 {
-  return g_current_context;
+  impl_type* ctx_impl = SDL_GL_GetCurrentContext();
+  return ctx_impl == nullptr ? nullptr : &get_from_impl(ctx_impl);
 }
 
 
 
-context::context(const context_settings& settings, const window& wnd)
-  : context(settings, wnd, nullptr)
-{}
+window* context::get_current_window()
+{
+  window::impl_type* wnd_impl = SDL_GL_GetCurrentWindow();
+  return wnd_impl == nullptr ? nullptr : &window::get_from_impl(wnd_impl);
+}
 
 
 
-context::context(const context_settings& settings, const window& wnd,
-  const context& shared_context)
-  : context(settings, wnd, &shared_context)
-{}
+context::context(const context_settings& cs, const window& wnd)
+  : non_copyable()
+  , m_impl(nullptr)
+  , m_uid(generate_uid())
+  , m_sharing_group_uid(m_uid)
+  , m_tracking_data()
+{
+  // Note: the SDL_SHARE_WITH_CURRENT_CONTEXT_FLAG must be set when creating
+  // BOTH shared context, not only the sharing one.
+  // For this reason, it is always set, also for non-sharing contexts.
+  // For non-sharing context, the current context is set to nullptr so that
+  // no sharing takes place.
+  current_context_guard ctx_guard;
+  context::unset_current();
+
+  static constexpr bool share_with_current_ctx = true;
+  context_attributes_guard attr_scope(cs, share_with_current_ctx);
+  m_impl = SDL_GL_CreateContext(const_cast<window::impl_type*>(wnd.get_impl()));
+  HOU_CHECK_N(m_impl != nullptr, context_creation_error, SDL_GetError());
+
+  std::lock_guard<std::mutex> lock(get_context_registry_mutex());
+  get_context_registry().insert(std::make_pair(m_impl, this));
+}
+
+
+
+context::context(
+  const context_settings& cs, const window& wnd, context& sharing_ctx)
+  : non_copyable()
+  , m_impl(nullptr)
+  , m_uid(generate_uid())
+  , m_sharing_group_uid(sharing_ctx.m_sharing_group_uid)
+  , m_tracking_data()
+{
+  current_context_guard ctx_guard;
+  window w("", vec2u(1u, 1u));
+  context::set_current(sharing_ctx, w);
+
+  static constexpr bool share_with_current_ctx = true;
+  context_attributes_guard attr_scope(cs, share_with_current_ctx);
+
+  m_impl = SDL_GL_CreateContext(const_cast<window::impl_type*>(wnd.get_impl()));
+  HOU_CHECK_N(m_impl != nullptr, context_creation_error, SDL_GetError());
+
+  std::lock_guard<std::mutex> lock(get_context_registry_mutex());
+  get_context_registry().insert(std::make_pair(m_impl, this));
+}
 
 
 
@@ -90,59 +396,63 @@ context::context(context&& other) noexcept
   , m_sharing_group_uid(std::move(other.m_sharing_group_uid))
   , m_tracking_data(std::move(other.m_tracking_data))
 {
-  if(get_current() == &other)
-  {
-    g_current_context = this;
-  }
+  other.m_impl = nullptr;
+  other.m_uid = 0u;
+
+  std::lock_guard<std::mutex> lock(get_context_registry_mutex());
+  get_context_registry().at(m_impl) = this;
 }
 
 
 
 context::~context()
 {
-  if(is_current())
+  if(m_impl != nullptr)
   {
-    unset_current();
+    SDL_GL_DeleteContext(m_impl);
+    std::lock_guard<std::mutex> lock(get_context_registry_mutex());
+    get_context_registry().erase(m_impl);
   }
 }
 
 
 
-uint32_t context::get_uid() const noexcept
+const context::impl_type* context::get_impl() const noexcept
+{
+  return m_impl;
+}
+
+
+
+context::impl_type* context::get_impl() noexcept
+{
+  return m_impl;
+}
+
+
+
+context::uid_type context::get_uid() const noexcept
 {
   return m_uid;
 }
 
 
 
-uint32_t context::get_sharing_group_uid() const noexcept
+context::uid_type context::get_sharing_group_uid() const noexcept
 {
   return m_sharing_group_uid;
 }
 
 
 
-bool context::is_current() const noexcept
+bool context::is_current() const
 {
-  return this == g_current_context;
+  return m_impl == SDL_GL_GetCurrentContext();
 }
 
 
 
-context::context(const context_settings& settings, const window& wnd,
-  const context* shared_context)
-  : non_copyable()
-  , m_impl(settings, wnd,
-      (shared_context == nullptr) ? nullptr : &(shared_context->m_impl))
-  , m_uid(generate_uid())
-  , m_sharing_group_uid(
-      (shared_context == nullptr) ? m_uid : shared_context->m_sharing_group_uid)
-  , m_tracking_data()
-{}
-
-
-
-context::TrackingData::TrackingData() noexcept
+context::tracking_data::tracking_data() noexcept
   : m_bound_array_buffer(0u)
   , m_bound_element_array_buffer(0u)
   , m_bound_draw_framebuffer(0u)
@@ -157,7 +467,7 @@ context::TrackingData::TrackingData() noexcept
 
 
 
-uint32_t context::TrackingData::get_bound_buffer(GLenum target) const noexcept
+uint32_t context::tracking_data::get_bound_buffer(GLenum target) const noexcept
 {
   switch(target)
   {
@@ -173,7 +483,7 @@ uint32_t context::TrackingData::get_bound_buffer(GLenum target) const noexcept
 
 
 
-void context::TrackingData::set_bound_buffer(
+void context::tracking_data::set_bound_buffer(
   uint32_t uid, GLenum target) noexcept
 {
   switch(target)
@@ -192,7 +502,7 @@ void context::TrackingData::set_bound_buffer(
 
 
 
-uint32_t context::TrackingData::get_bound_framebuffer(GLenum target) const
+uint32_t context::tracking_data::get_bound_framebuffer(GLenum target) const
   noexcept
 {
   switch(target)
@@ -209,7 +519,7 @@ uint32_t context::TrackingData::get_bound_framebuffer(GLenum target) const
 
 
 
-void context::TrackingData::set_bound_framebuffer(
+void context::tracking_data::set_bound_framebuffer(
   uint32_t uid, GLenum target) noexcept
 {
   switch(target)
@@ -228,21 +538,21 @@ void context::TrackingData::set_bound_framebuffer(
 
 
 
-uint32_t context::TrackingData::get_bound_program() const noexcept
+uint32_t context::tracking_data::get_bound_program() const noexcept
 {
   return m_bound_program;
 }
 
 
 
-void context::TrackingData::set_bound_program(uint32_t uid) noexcept
+void context::tracking_data::set_bound_program(uint32_t uid) noexcept
 {
   m_bound_program = uid;
 }
 
 
 
-void context::TrackingData::resize_texture_vectors(size_t size)
+void context::tracking_data::resize_texture_vectors(size_t size)
 {
   if(m_bound_textures.size() < size)
   {
@@ -253,14 +563,14 @@ void context::TrackingData::resize_texture_vectors(size_t size)
 
 
 
-GLuint context::TrackingData::get_active_texture() const noexcept
+GLuint context::tracking_data::get_active_texture() const noexcept
 {
   return m_active_texture;
 }
 
 
 
-void context::TrackingData::set_active_texture(GLuint unit)
+void context::tracking_data::set_active_texture(GLuint unit)
 {
   m_active_texture = unit;
   resize_texture_vectors(++unit);
@@ -268,14 +578,14 @@ void context::TrackingData::set_active_texture(GLuint unit)
 
 
 
-uint32_t context::TrackingData::get_bound_texture() const noexcept
+uint32_t context::tracking_data::get_bound_texture() const noexcept
 {
   return get_bound_texture(m_active_texture);
 }
 
 
 
-uint32_t context::TrackingData::get_bound_texture(GLuint unit) const noexcept
+uint32_t context::tracking_data::get_bound_texture(GLuint unit) const noexcept
 {
   if(m_bound_textures.size() > unit)
   {
@@ -289,14 +599,14 @@ uint32_t context::TrackingData::get_bound_texture(GLuint unit) const noexcept
 
 
 
-GLenum context::TrackingData::get_bound_texture_target() const noexcept
+GLenum context::tracking_data::get_bound_texture_target() const noexcept
 {
   return get_bound_texture_target(m_active_texture);
 }
 
 
 
-GLenum context::TrackingData::get_bound_texture_target(GLuint unit) const
+GLenum context::tracking_data::get_bound_texture_target(GLuint unit) const
   noexcept
 {
   if(m_bound_texture_targets.size() > unit)
@@ -311,47 +621,48 @@ GLenum context::TrackingData::get_bound_texture_target(GLuint unit) const
 
 
 
-void context::TrackingData::set_bound_texture(uint32_t uid, GLenum target)
+void context::tracking_data::set_bound_texture(uint32_t uid, GLenum target)
 {
   set_bound_texture(uid, m_active_texture, target);
 }
 
 
 
-void context::TrackingData::set_bound_texture(
+void context::tracking_data::set_bound_texture(
   uint32_t uid, GLuint unit, GLenum target)
 {
   resize_texture_vectors(unit + 1);
-  HOU_DEV_ASSERT(m_bound_textures.size() > unit);
-  HOU_DEV_ASSERT(m_bound_texture_targets.size() > unit);
+  HOU_ASSERT(m_bound_textures.size() > unit);
+  HOU_ASSERT(m_bound_texture_targets.size() > unit);
   m_bound_textures[unit] = uid;
   m_bound_texture_targets[unit] = target;
 }
 
 
 
-uint32_t context::TrackingData::get_bound_vertex_array() const noexcept
+uint32_t context::tracking_data::get_bound_vertex_array() const noexcept
 {
   return m_bound_vertex_array;
 }
 
 
 
-void context::TrackingData::set_bound_vertex_array(uint32_t uid) noexcept
+void context::tracking_data::set_bound_vertex_array(uint32_t uid) noexcept
 {
   m_bound_vertex_array = uid;
 }
 
 
 
-const recti& context::TrackingData::get_current_viewport() const noexcept
+const recti& context::tracking_data::get_current_viewport() const noexcept
 {
   return m_current_viewport;
 }
 
 
 
-void context::TrackingData::set_current_viewport(const recti& viewport) noexcept
+void context::tracking_data::set_current_viewport(
+  const recti& viewport) noexcept
 {
   m_current_viewport = viewport;
 }

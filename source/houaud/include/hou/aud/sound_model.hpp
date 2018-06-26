@@ -16,7 +16,8 @@
 namespace hou
 {
 
-/** Functions related to the state of the sound propagation model.
+/**
+ * Functions related to the state of the sound propagation model.
  *
  * The sound propagation model is defined by three main attributes:
  * * The distance model.
@@ -45,7 +46,8 @@ namespace hou
 namespace sound_model
 {
 
-/** Gets the currently used sound distance model.
+/**
+ * Gets the currently used sound distance model.
  *
  * The default value is inverse_distance_clamped.
  *
@@ -53,13 +55,15 @@ namespace sound_model
  */
 HOU_AUD_API sound_distance_model get_distance_model();
 
-/** Sets the current sound distance model.
+/**
+ * Sets the current sound distance model.
  *
  * \param model the sound distance model.
  */
 HOU_AUD_API void set_distance_model(sound_distance_model model);
 
-/** Gets the current doppler factor.
+/**
+ * Gets the current doppler factor.
  *
  * The default value is 1.
  *
@@ -67,7 +71,8 @@ HOU_AUD_API void set_distance_model(sound_distance_model model);
  */
 HOU_AUD_API non_negative<float> get_doppler_factor();
 
-/** Sets the current doppler factor.
+/**
+ * Sets the current doppler factor.
  *
  * Throws if dopplerFactor is negative.
  *
@@ -75,7 +80,8 @@ HOU_AUD_API non_negative<float> get_doppler_factor();
  */
 HOU_AUD_API void set_doppler_factor(non_negative<float> dopplerFactor);
 
-/** Gets the current speed of sound in meters per second.
+/**
+ * Gets the current speed of sound in meters per second.
  *
  * The default value is 343.3 meters per second.
  *
@@ -83,7 +89,8 @@ HOU_AUD_API void set_doppler_factor(non_negative<float> dopplerFactor);
  */
 HOU_AUD_API positive<float> get_speed_of_sound();
 
-/** Sets the current speed of sound.
+/**
+ * Sets the current speed of sound.
  *
  * Throws if speedOfSound is zero or negative.
  *

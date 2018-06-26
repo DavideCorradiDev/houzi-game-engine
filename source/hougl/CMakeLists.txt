@@ -33,45 +33,40 @@ INCLUDE_DIRECTORIES(
 # Source files.
 SET(LIB_HOUGL_SRC
   src/hou/gl/gl_buffer_handle.cpp
+  src/hou/gl/gl_color_format.cpp
   src/hou/gl/gl_context.cpp
+  src/hou/gl/gl_context_exceptions.cpp
+  src/hou/gl/gl_context_profile.cpp
   src/hou/gl/gl_context_settings.cpp
   src/hou/gl/gl_exceptions.cpp
   src/hou/gl/gl_framebuffer_handle.cpp
   src/hou/gl/gl_functions.cpp
+  src/hou/gl/gl_invalid_context_error.cpp
+  src/hou/gl/gl_missing_context_error.cpp
+  src/hou/gl/gl_module.cpp
   src/hou/gl/gl_object_handle.cpp
   src/hou/gl/gl_program_handle.cpp
   src/hou/gl/gl_shader_handle.cpp
   src/hou/gl/gl_texture_handle.cpp
   src/hou/gl/gl_version.cpp
+  src/hou/gl/gl_vsync_mode.cpp
   src/hou/gl/gl_vertex_array_handle.cpp
 )
-
-IF(WIN32)
-  SET(LIB_HOUGL_SRC
-    ${LIB_HOUGL_SRC}
-    src/hou/gl/wgl/gl_context_impl_wgl.cpp
-  )
-ENDIF()
 
 
 
 # Linked libraries.
 SET(LIB_HOUGL_LIBS
   ${LIB_GLAD}
+  ${OPENGL_LIBRARIES}
 )
-IF(WIN32)
-  SET(LIB_HOUGL_LIBS
-    ${LIB_HOUGL_LIBS}
-    gdi32
-    opengl32
-  )
-ENDIF()
 IF(NOT HOU_CFG_BUILD_STATIC_LIBS)
   SET(LIB_HOUGL_LIBS
     ${LIB_HOUGL_LIBS}
     ${LIB_HOUSYS}
     ${LIB_HOUMTH}
     ${LIB_HOUCOR}
+    ${LIB_SDL2}
   )
 ENDIF()
 MESSAGE(STATUS "Linked libs: ${LIB_HOUGL_LIBS}")

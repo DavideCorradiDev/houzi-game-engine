@@ -37,4 +37,13 @@ narrowing_error::narrowing_error(const std::string& path, uint line)
   : exception(path, line, u8"Narrowing type cast.")
 {}
 
+
+
+module_initialization_error::module_initialization_error(
+  const std::string& path, uint line, const std::string& module_name)
+  : exception(path, line,
+      format_string(
+        u8"Failed to initialize the %s module.", module_name.c_str()))
+{}
+
 }  // namespace hou

@@ -18,12 +18,14 @@
 namespace hou
 {
 
-/** Contains methods to check, read, and write BMP files.
+/**
+ * Contains methods to check, read, and write BMP files.
  */
 class HOU_SYS_API bmp_image_file : public non_instantiable
 {
 public:
-  /** Checks if a file is a BMP file.
+  /**
+   * Checks if a file is a BMP file.
    *
    * \param path the path to the file.
    *
@@ -33,7 +35,8 @@ public:
    */
   static bool check(const std::string& path);
 
-  /** Creates an image object from a BMP file.
+  /**
+   * Creates an image object from a BMP file.
    *
    * \tparam PF the output image format.
    *
@@ -48,7 +51,8 @@ public:
   template <pixel_format PF>
   HOU_SYS_API static image2<PF> read(const std::string& path);
 
-  /** Writes an image to disk as a BMP file.
+  /**
+   * Writes an image to disk as a BMP file.
    *
    * Throws if it is not possible to write to the given path.
    *
@@ -66,6 +70,7 @@ public:
   static void write(const std::string& path, const image2<PF>& im);
 };
 
+#ifndef HOU_DOXYGEN
 extern template HOU_SYS_API void bmp_image_file::write<pixel_format::r>(
   const std::string& path, const image2<pixel_format::r>& im);
 
@@ -89,13 +94,16 @@ extern template HOU_SYS_API image2<pixel_format::rgb>
 
 extern template HOU_SYS_API image2<pixel_format::rgba>
   bmp_image_file::read<pixel_format::rgba>(const std::string& path);
+#endif
 
-/** Contains methods to check, read, and write PNG files.
+/**
+ * Contains methods to check, read, and write PNG files.
  */
 class HOU_SYS_API png_image_file : public non_instantiable
 {
 public:
-  /** Checks if a file is a PNG file.
+  /**
+   * Checks if a file is a PNG file.
    *
    * Throws if the file corresponding to the given path cannot be opened.
    *
@@ -107,7 +115,8 @@ public:
    */
   static bool check(const std::string& path);
 
-  /** Creates an image object from a PNG file.
+  /**
+   * Creates an image object from a PNG file.
    *
    * Throws if the file corresponding to the given path cannot be opened.
    * Throws if the file is not a PNG file.
@@ -126,6 +135,7 @@ public:
   static image2<PF> read(const std::string& path);
 };
 
+#ifndef HOU_DOXYGEN
 extern template HOU_SYS_API image2<pixel_format::r>
   png_image_file::read<pixel_format::r>(const std::string& path);
 
@@ -137,13 +147,16 @@ extern template HOU_SYS_API image2<pixel_format::rgb>
 
 extern template HOU_SYS_API image2<pixel_format::rgba>
   png_image_file::read<pixel_format::rgba>(const std::string& path);
+#endif
 
-/** Contains methods to check, read, and write JPG files.
+/**
+ * Contains methods to check, read, and write JPG files.
  */
 class HOU_SYS_API jpg_image_file : public non_instantiable
 {
 public:
-  /** Checks if a file is a JPG file.
+  /**
+   * Checks if a file is a JPG file.
    *
    * Throws if the file corresponding to the given path cannot be opened.
    *
@@ -155,7 +168,8 @@ public:
    */
   static bool check(const std::string& path);
 
-  /** Creates an image object from a JPG file.
+  /**
+   * Creates an image object from a JPG file.
    *
    * Throws if the file corresponding to the given path cannot be opened.
    * Throws if the file is not a JPG file.
@@ -174,6 +188,7 @@ public:
   static image2<PF> read(const std::string& path);
 };
 
+#ifndef HOU_DOXYGEN
 extern template HOU_SYS_API image2<pixel_format::r>
   jpg_image_file::read<pixel_format::r>(const std::string& path);
 
@@ -185,6 +200,7 @@ extern template HOU_SYS_API image2<pixel_format::rgb>
 
 extern template HOU_SYS_API image2<pixel_format::rgba>
   jpg_image_file::read<pixel_format::rgba>(const std::string& path);
+#endif
 
 }  // namespace hou
 

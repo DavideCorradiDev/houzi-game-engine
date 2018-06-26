@@ -6,6 +6,8 @@
 
 #include "hou/gl/gl_context.hpp"
 #include "hou/gl/gl_exceptions.hpp"
+#include "hou/gl/gl_missing_context_error.hpp"
+#include "hou/gl/gl_invalid_context_error.hpp"
 
 #include "hou/cor/assertions.hpp"
 #include "hou/cor/character_encodings.hpp"

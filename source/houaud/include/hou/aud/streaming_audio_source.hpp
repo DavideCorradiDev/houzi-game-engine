@@ -26,39 +26,45 @@
 namespace hou
 {
 
-/** Represents an audio source constantly streaming a buffer.
+/**
+ * Represents an audio source constantly streaming a buffer.
  *
- *  This class is suited to play long audio buffers, as the buffer must not be
- *  completely loaded in memory but is rather streamed concurrently in smaller
- *  chunks.
- *  For short audio files, it is suggested to use an memory_audio_source and an
- *  audio_buffer, as performance is better and as the audio_buffer can be shared
- *  by multiple AudioSources.
- *  Each streaming_audio_source object spawns a thread that takes care of
- * loading part of the audio into a queue of memory buffers. The thread is
- * destroyed when the streaming_audio_source is destroyed. a
- * streaming_audio_source must be given an audio_stream to play a sound. The
- * streaming_audio_source will retain unique ownership of the audio_stream and
- *  will automatically destroy it when necessary.
+ * This class is suited to play long audio buffers, as the buffer must not be
+ * completely loaded in memory but is rather streamed concurrently in smaller
+ * chunks.
+ * For short audio files, it is suggested to use an memory_audio_source and an
+ * audio_buffer, as performance is better and as the audio_buffer can be shared
+ * by multiple memory_audio_source objects.
  *
- *  The buffer queue is defined by the number of buffers and the size of
- *  each buffer.
- *  The default values are 3 buffers, each composed of 44100 bytes.
- *  If necessary it is possible to modify these values with the associated
- *  methods.
- *  Higher number of buffers and higher buffer size will result in higher
- *  memory consumption, but better sound quality.
+ * Each streaming_audio_source object spawns a thread that takes care of
+ * loading part of the audio into a queue of memory buffers.
+ * The thread is destroyed when the streaming_audio_source is destroyed.
+ *
+ * A streaming_audio_source must be given an audio_stream to play a sound.
+ * The streaming_audio_source will retain unique ownership of the audio_stream
+ * and will automatically destroy it.
+ *
+ * The buffer queue is defined by the number of buffers and the size of
+ * each buffer.
+ * The default values are 3 buffers, each composed of 44100 bytes.
+ * This configuration should work well for most applications.
+ * If necessary it is possible to modify these values with the associated
+ * methods.
+ * Higher number of buffers and higher buffer size will result in higher
+ * memory consumption, but potentially better sound quality.
  */
 class HOU_AUD_API streaming_audio_source final : public audio_source
 {
 public:
-  /** default constructor.
+  /**
+   * Default constructor.
    *
    * Creates a streaming_audio_source object with an EmptyStream.
    */
   streaming_audio_source();
 
-  /** stream constructor.
+  /**
+   * Stream constructor.
    *
    * Creates a streaming_audio_source object with the given audio stream,
    * taking ownership of it.
@@ -68,20 +74,25 @@ public:
   explicit streaming_audio_source(
     not_null<std::unique_ptr<audio_stream_in>> as);
 
-  /** Destructor.
+  // It is not trivial to move the object because it internally spawns a thread
+  // which uses a pointer to this object. Moving the object would invalidate
+  // this pointer.
+  streaming_audio_source(streaming_audio_source&&) = delete;
+
+  /**
+   * Destructor.
    */
   virtual ~streaming_audio_source();
-  // Note: no move constructor is implemented at the moment because of
-  // difficulty with the streaming thread. The thread should be stopped before
-  // copying data around.
 
-  /** Sets the stream and transfers ownership to this object.
+  /**
+   * Sets the stream and transfers ownership to this object.
    *
    * \param as the stream.
    */
   void set_stream(not_null<std::unique_ptr<audio_stream_in>> as);
 
-  /** Sets the number of buffers in the buffer queue.
+  /**
+   * Sets the number of buffers in the buffer queue.
    *
    * Throws if passed zero.
    *
@@ -89,19 +100,22 @@ public:
    */
   void set_buffer_count(size_t buffer_count);
 
-  /** Gets the number of buffers in the buffer queue.
+  /**
+   * Gets the number of buffers in the buffer queue.
    *
    * \return the number of buffers.
    */
   size_t get_buffer_count() const;
 
-  /** Sets the size in samples of each buffer in the buffer queue.
+  /**
+   * Sets the size in samples of each buffer in the buffer queue.
    *
    * \param buffer_sample_count the size in samples of each buffer.
    */
   void set_buffer_sample_count(size_t buffer_sample_count);
 
-  /** Gets the size in samples of each buffer in the buffer queue.
+  /**
+   * Gets the size in samples of each buffer in the buffer queue.
    *
    * \return the size in samples of each buffer.
    */

@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 #include "hou/sys/test_data.hpp"
 
 #include "hou/cor/span.hpp"
@@ -29,15 +29,13 @@ public:
   static const std::vector<uint8_t> file_content;
 };
 
-
-
-class test_text_file_in_death_test : public test_text_file_in
-{};
+using test_text_file_in_death_test = test_text_file_in;
 
 
 
 void test_text_file_in::SetUpTestCase()
 {
+  Test::SetUpTestCase();
   file f(filename, file_open_mode::write, file_type::binary);
   f.write(file_content.data(), file_content.size());
 }
@@ -47,6 +45,7 @@ void test_text_file_in::SetUpTestCase()
 void test_text_file_in::TearDownTestCase()
 {
   remove_dir(filename);
+  Test::TearDownTestCase();
 }
 
 

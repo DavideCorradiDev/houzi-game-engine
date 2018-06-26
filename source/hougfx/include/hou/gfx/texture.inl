@@ -223,7 +223,8 @@ template <pixel_format PF, texture_type Type2, typename Enable>
     static_cast<GLenum>(to_gl_type<uint8_t>()),
     narrow_cast<GLsizei>(buffer.size()), buffer.data());
   return image<PF>(s,
-    reinterpret_span<const typename image<PF>::pixel>(span<uint8_t>(buffer)));
+    reinterpret_span<const typename image<PF>::pixel_type>(
+      span<uint8_t>(buffer)));
 }
 
 
@@ -242,7 +243,8 @@ template <pixel_format PF, texture_type Type2, typename Enable>
     static_cast<GLenum>(to_gl_type<uint8_t>()),
     narrow_cast<GLsizei>(buffer.size()), buffer.data());
   return image<PF>(mipMapSize,
-    reinterpret_span<const typename image<PF>::pixel>(span<uint8_t>(buffer)));
+    reinterpret_span<const typename image<PF>::pixel_type>(
+      span<uint8_t>(buffer)));
 }
 
 
@@ -261,7 +263,8 @@ typename texture_t<texture_type::texture1>::template image<PF>
     static_cast<GLenum>(to_gl_type<uint8_t>()),
     narrow_cast<GLsizei>(buffer.size()), buffer.data());
   return image<PF>(s,
-    reinterpret_span<const typename image<PF>::pixel>(span<uint8_t>(buffer)));
+    reinterpret_span<const typename image<PF>::pixel_type>(
+      span<uint8_t>(buffer)));
 }
 
 
@@ -280,7 +283,8 @@ typename texture_t<texture_type::texture1_array>::template image<PF>
     static_cast<GLenum>(to_gl_type<uint8_t>()),
     narrow_cast<GLsizei>(buffer.size()), buffer.data());
   return image<PF>(s,
-    reinterpret_span<const typename image<PF>::pixel>(span<uint8_t>(buffer)));
+    reinterpret_span<const typename image<PF>::pixel_type>(
+      span<uint8_t>(buffer)));
 }
 
 
@@ -299,7 +303,8 @@ typename texture_t<texture_type::texture2>::template image<PF>
     static_cast<GLenum>(to_gl_type<uint8_t>()),
     narrow_cast<GLsizei>(buffer.size()), buffer.data());
   return image<PF>(s,
-    reinterpret_span<const typename image<PF>::pixel>(span<uint8_t>(buffer)));
+    reinterpret_span<const typename image<PF>::pixel_type>(
+      span<uint8_t>(buffer)));
 }
 
 
@@ -318,7 +323,8 @@ typename texture_t<texture_type::texture2_array>::template image<PF>
     static_cast<GLenum>(to_gl_type<uint8_t>()),
     narrow_cast<GLsizei>(buffer.size()), buffer.data());
   return image<PF>(s,
-    reinterpret_span<const typename image<PF>::pixel>(span<uint8_t>(buffer)));
+    reinterpret_span<const typename image<PF>::pixel_type>(
+      span<uint8_t>(buffer)));
 }
 
 
@@ -337,7 +343,8 @@ typename texture_t<texture_type::texture3>::template image<PF>
     static_cast<GLenum>(to_gl_type<uint8_t>()),
     narrow_cast<GLsizei>(buffer.size()), buffer.data());
   return image<PF>(s,
-    reinterpret_span<const typename image<PF>::pixel>(span<uint8_t>(buffer)));
+    reinterpret_span<const typename image<PF>::pixel_type>(
+      span<uint8_t>(buffer)));
 }
 
 

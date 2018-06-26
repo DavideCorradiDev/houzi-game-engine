@@ -46,7 +46,8 @@ function(configure_pkg_config_file pkg_config_file_in)
     set(includedir ${CMAKE_INSTALL_FULL_INCLUDEDIR})
     set(VERSION ${PROJECT_VERSION})
     string(REPLACE ".in" "" pkg_config_file ${pkg_config_file_in})
-    configure_file(${pkg_config_file_in} ${CMAKE_CURRENT_BINARY_DIR}/${pkg_config_file} @ONLY)
+    # configure_file(${pkg_config_file_in} ${CMAKE_CURRENT_BINARY_DIR}/${pkg_config_file} @ONLY)
+    configure_file(${pkg_config_file_in} ${CMAKE_CURRENT_SOURCE_DIR}/${pkg_config_file} @ONLY)
 endfunction()
 
 message(STATUS "Configuring ${PROJECT_NAME} ${PROJECT_VERSION}")
@@ -62,7 +63,8 @@ set(SIZE32 int32_t)
 set(USIZE32 uint32_t)
 set(SIZE64 int64_t)
 
-configure_file(include/ogg/config_types.h.in ${CMAKE_CURRENT_BINARY_DIR}/include/ogg/config_types.h @ONLY)
+# configure_file(include/ogg/config_types.h.in ${CMAKE_CURRENT_BINARY_DIR}/include/ogg/config_types.h @ONLY)
+configure_file(include/ogg/config_types.h.in ${CMAKE_CURRENT_SOURCE_DIR}/include/ogg/config_types.h @ONLY)
 
 set(OGG_HEADERS
     ${CMAKE_CURRENT_BINARY_DIR}/include/ogg/config_types.h
@@ -77,11 +79,15 @@ set(OGG_SOURCES
 
 set(LIB_OGG_FLAGS "${COMPILER_FLAGS_BASIC}")
 if(MSVC)
-  set(LIB_VORBIS_FLAGS "${LIB_VORBIS_FLAGS} /wd4267")
+  set(LIB_OGG_FLAGS:w "${LIB_VORBIS_FLAGS} /wd4267")
 endif()
 
 if(MSVC)
     list(APPEND OGG_SOURCES win32/ogg.def)
+endif()
+
+if(UNIX)
+  set(LIB_OGG_FLAGS "${LIB_OGG_FLAGS} -fPIC")
 endif()
 
 if(BUILD_FRAMEWORK)

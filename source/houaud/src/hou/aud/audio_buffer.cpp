@@ -37,26 +37,26 @@ audio_buffer::audio_buffer(
 
 
 audio_buffer::audio_buffer(
-  std::vector<uint8_t>&& data, audio_buffer_format format, int smpRate)
-  : audio_buffer(span<const uint8_t>(data), format, smpRate)
+  std::vector<uint8_t>&& data, audio_buffer_format format, int smp_rate)
+  : audio_buffer(span<const uint8_t>(data), format, smp_rate)
 {}
 
 
 
-audio_buffer::audio_buffer(audio_stream_in& audioStream)
+audio_buffer::audio_buffer(audio_stream_in& audio_stream)
   : non_copyable()
   , m_handle(al::buffer_handle::generate())
 {
-  set_data(audioStream);
+  set_data(audio_stream);
 }
 
 
 
-audio_buffer::audio_buffer(audio_stream_in&& audioStream)
+audio_buffer::audio_buffer(audio_stream_in&& audio_stream)
   : non_copyable()
   , m_handle(al::buffer_handle::generate())
 {
-  set_data(audioStream);
+  set_data(audio_stream);
 }
 
 
@@ -133,18 +133,18 @@ void audio_buffer::set_data(
 
 
 
-void audio_buffer::set_data(audio_stream_in& audioStream)
+void audio_buffer::set_data(audio_stream_in& audio_stream)
 {
-  set_data(audioStream.read_all<std::vector<uint8_t>>(),
-    audioStream.get_format(), audioStream.get_sample_rate());
+  set_data(audio_stream.read_all<std::vector<uint8_t>>(),
+    audio_stream.get_format(), audio_stream.get_sample_rate());
 }
 
 
 
-void audio_buffer::set_data(audio_stream_in&& audioStream)
+void audio_buffer::set_data(audio_stream_in&& audio_stream)
 {
-  set_data(audioStream.read_all<std::vector<uint8_t>>(),
-    audioStream.get_format(), audioStream.get_sample_rate());
+  set_data(audio_stream.read_all<std::vector<uint8_t>>(),
+    audio_stream.get_format(), audio_stream.get_sample_rate());
 }
 
 }  // namespace hou

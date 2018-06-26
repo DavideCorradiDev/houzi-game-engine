@@ -18,5 +18,8 @@ Distributed under the [GNU Library General Public License (LGPL)](../external-li
 [**SOIL**](https://www.lonesock.net/soil.html)
 Public domain.
 
+[**SDL**](http://www.libsdl.org/) - Copyright (c) 1997-2018 Sam Lantinga.
+Distributed nuder the [zlib/libpng license](http://www.libsdl.org/license.php).
+
 [**Vorbis**](https://xiph.org/vorbis/) - Copyright (c) 2002-2015 Xiph.org Foundation.
 Distributed under a [BSD-style license](../external-libs/vorbis/COPYING).

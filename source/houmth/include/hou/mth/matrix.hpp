@@ -47,25 +47,6 @@ class matrix
   static_assert(Rows > 0 && Cols > 0, "The matrix size must be at least 1x1.");
 
 public:
-  template <typename otherT, size_t otherRows, size_t otherCols>
-  friend class matrix;
-
-  template <typename U, size_t R, size_t C>
-  friend constexpr matrix<U, R, C> operator-(matrix<U, R, C> m) noexcept;
-
-  template <typename U, size_t R, size_t C>
-  friend bool operator==(
-    const matrix<U, R, C>& lhs, const matrix<U, R, C>& rhs) noexcept;
-
-  template <typename U, size_t R, size_t C>
-  friend bool operator!=(
-    const matrix<U, R, C>& lhs, const matrix<U, R, C>& rhs) noexcept;
-
-  template <typename U, size_t R, size_t C>
-  friend bool close(
-    const matrix<U, R, C>& lhs, const matrix<U, R, C>& rhs, U acc) noexcept;
-
-public:
   /** The value type. */
   using value_type = T;
 
@@ -656,6 +637,25 @@ public:
   }
 
 private:
+  template <typename otherT, size_t otherRows, size_t otherCols>
+  friend class matrix;
+
+  template <typename U, size_t R, size_t C>
+  friend constexpr matrix<U, R, C> operator-(matrix<U, R, C> m) noexcept;
+
+  template <typename U, size_t R, size_t C>
+  friend bool operator==(
+    const matrix<U, R, C>& lhs, const matrix<U, R, C>& rhs) noexcept;
+
+  template <typename U, size_t R, size_t C>
+  friend bool operator!=(
+    const matrix<U, R, C>& lhs, const matrix<U, R, C>& rhs) noexcept;
+
+  template <typename U, size_t R, size_t C>
+  friend bool close(
+    const matrix<U, R, C>& lhs, const matrix<U, R, C>& rhs, U acc) noexcept;
+
+private:
   data_type m_elements;
 };
 HOU_PRAGMA_PACK_POP()
@@ -1082,7 +1082,7 @@ bool close(const matrix<T, Rows, Cols>& lhs, const matrix<T, Rows, Cols>& rhs,
  *
  * \param m the matrix.
  *
- * \return a reference to the stream.
+ * \return a reference to os.
  */
 template <typename T, size_t Rows, size_t Cols>
 std::ostream& operator<<(std::ostream& os, const matrix<T, Rows, Cols>& m);

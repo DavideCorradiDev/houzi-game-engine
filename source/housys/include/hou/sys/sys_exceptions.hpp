@@ -14,14 +14,16 @@
 namespace hou
 {
 
-/** File open error.
+/**
+ * File open error.
  *
  * This exception is thrown when opening a file fails.
  */
 class HOU_SYS_API file_open_error : public exception
 {
 public:
-  /** Constructor.
+  /**
+   * Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
@@ -35,14 +37,16 @@ public:
     const std::string& path, uint line, const std::string& filepath);
 };
 
-/** File close error.
+/**
+ * File close error.
  *
  * This exception is thrown when closing a file fails.
  */
 class HOU_SYS_API file_close_error : public exception
 {
 public:
-  /** Constructor.
+  /**
+   * Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
@@ -53,14 +57,16 @@ public:
   file_close_error(const std::string& path, uint line);
 };
 
-/** File read error.
+/**
+ * File read error.
  *
  * This exception is thrown when a read operation fails.
  */
 class HOU_SYS_API read_error : public exception
 {
 public:
-  /** Constructor.
+  /**
+   * Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
@@ -71,14 +77,16 @@ public:
   read_error(const std::string& path, uint line);
 };
 
-/** File write error.
+/**
+ * File write error.
  *
  * This exception is thrown when a write operation fails.
  */
 class HOU_SYS_API write_error : public exception
 {
 public:
-  /** Constructor.
+  /**
+   * Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
@@ -89,7 +97,8 @@ public:
   write_error(const std::string& path, uint line);
 };
 
-/** File cursor error.
+/**
+ * File cursor error.
  *
  * This exception is thrown when setting or getting the cursor position in a
  * file or stream fails.
@@ -97,7 +106,8 @@ public:
 class HOU_SYS_API cursor_error : public exception
 {
 public:
-  /** Constructor.
+  /**
+   * Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
@@ -108,7 +118,8 @@ public:
   cursor_error(const std::string& path, uint line);
 };
 
-/** Invalid image data error.
+/**
+ * Invalid image data error.
  *
  * This exception is thrown when reading or writing image data fails due to the
  * data being invalid.
@@ -116,7 +127,8 @@ public:
 class HOU_SYS_API invalid_image_data : public exception
 {
 public:
-  /** Constructor.
+  /**
+   * Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
@@ -127,6 +139,41 @@ public:
   invalid_image_data(const std::string& path, uint line);
 };
 
+
+
+/**
+ * Platform-specific error.
+ *
+ * This exception is thrown when a platform-specific error occurs.
+ */
+class HOU_SYS_API platform_error : public exception
+{
+public:
+  /**
+   * Constructor.
+   *
+   * \param path the path to the source file where the error happened.
+   *
+   * \param line the line where the error happened.
+   *
+   * \param description the error description.
+   *
+   * \throws std::bad_alloc.
+   */
+  platform_error(
+    const std::string& path, uint line, const std::string& description);
+};
+
 }  // namespace hou
+
+
+
+/**
+ * Utility macro for SDL error checks.
+ *
+ * \param condition the condition to be checked.
+ */
+#define HOU_SDL_CHECK(condition)                                               \
+  HOU_CHECK_N(condition, ::hou::platform_error, SDL_GetError());
 
 #endif

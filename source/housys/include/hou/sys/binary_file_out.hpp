@@ -18,14 +18,16 @@
 namespace hou
 {
 
-/** Output binary file stream.
+/**
+ * Output binary file stream.
  */
 class HOU_SYS_API binary_file_out
   : public non_copyable
   , public binary_stream_out
 {
 public:
-  /** Path constructor.
+  /**
+   * Path constructor.
    *
    * Throws if the provided path is not valid.
    *
@@ -45,7 +47,8 @@ public:
   // binary_stream overrides.
   byte_position get_byte_pos() const final;
 
-  /** Sets the current byte position indicator.
+  /**
+   * Sets the current byte position indicator.
    *
    * Throws if pos is negative.
    * The position may be over the end of the file.
@@ -56,7 +59,8 @@ public:
    */
   binary_stream& set_byte_pos(byte_position pos) final;
 
-  /** Moves the current byte position indicator.
+  /**
+   * Moves the current byte position indicator.
    *
    * Throws if the offset moves the position indicator to a negative position.
    * The position may be over the end of the file.

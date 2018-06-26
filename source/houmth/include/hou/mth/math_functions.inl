@@ -7,19 +7,23 @@
 namespace hou
 {
 
+#ifndef HOU_DOXYGEN
 template <>
 constexpr float pi<float>() noexcept
 {
   return 3.1415927f;
 }
+#endif
 
 
 
+#ifndef HOU_DOXYGEN
 template <>
 constexpr double pi<double>() noexcept
 {
   return 3.141592653589793;
 }
+#endif
 
 
 

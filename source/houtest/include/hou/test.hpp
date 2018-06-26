@@ -28,6 +28,20 @@ inline std::string get_exception_msg_regex(const hou::exception& ex)
         ' ', 1 + what_str.find_first_of('-', what_str.find_first_of(':')))));
 }
 
+inline std::string get_exception_msg_regex(const hou::assertion_violation& ex)
+{
+  // Assertions need a special treatment since they store the violated
+  // condition in the error message.
+  // Since this can't be easily known beforehand in tests, the condition will
+  // not be checked in the test, only if the rest of the message is correct.
+  std::string what_str = ex.what();
+  what_str = what_str.substr(what_str.find_first_not_of(
+    ' ', 1 + what_str.find_first_of('-', what_str.find_first_of(':'))));
+  what_str = what_str.substr(0u, what_str.find_first_of('('));
+
+  return std::string(".*:.* - ") + hou::escape_regex(what_str) + "\\(.*\\)\\.";
+}
+
 inline std::string get_exception_msg_regex(const std::exception& ex)
 {
   return hou::escape_regex(ex.what());
@@ -38,14 +52,14 @@ inline std::string get_exception_msg_regex(const std::exception& ex)
 #define EXPECT_ERROR_STD_0(statement, exception_type)                          \
   do                                                                           \
   {                                                                            \
-    EXPECT_DEATH(                                                              \
-      statement, get_exception_msg_regex(exception_type()).c_str());           \
+    EXPECT_EXIT(statement, ::testing::ExitedWithCode(EXIT_FAILURE),            \
+      get_exception_msg_regex(exception_type()).c_str());                      \
   } while(false)
 
 #define EXPECT_ERROR_TEMPLATE(statement, exception_type, ...)                  \
   do                                                                           \
   {                                                                            \
-    EXPECT_DEATH(statement,                                                    \
+    EXPECT_EXIT(statement, ::testing::ExitedWithCode(EXIT_FAILURE),            \
       get_exception_msg_regex(exception_type(__VA_ARGS__)).c_str());           \
   } while(false)
 
@@ -112,13 +126,13 @@ inline std::string get_exception_msg_regex(const std::exception& ex)
   EXPECT_ERROR_TEMPLATE(statement, exception_type, "", 0, __VA_ARGS__)
 
 #define EXPECT_PRECOND_ERROR(statement)                                        \
-  EXPECT_ERROR_0(statement, precondition_violation)
+  EXPECT_ERROR_N(statement, precondition_violation, "*")
 
 #define EXPECT_POSTCOND_ERROR(statement)                                       \
-  EXPECT_ERROR_0(statement, postcondition_violation)
+  EXPECT_ERROR_N(statement, postcondition_violation, "*")
 
 #define EXPECT_INVARIANT_ERROR(statement)                                      \
-  EXPECT_ERROR_0(statement, invariant_violation)
+  EXPECT_ERROR_N(statement, invariant_violation, "*")
 
 #if defined(HOU_DISABLE_EXCEPTIONS)
 #define EXPECT_NO_ERROR(statement)                                             \
@@ -226,7 +240,7 @@ inline std::string get_exception_msg_regex(const std::exception& ex)
 #define EXPECT_OUTPUT(expected_string, object)                                 \
   {                                                                            \
     std::stringstream stream;                                                  \
-    stream << object;                                                          \
+    stream << (object);                                                        \
     EXPECT_STREQ(expected_string, stream.str().c_str())                        \
       << "Error in operator<<";                                                \
   }

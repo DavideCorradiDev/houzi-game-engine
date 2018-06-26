@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 
 #include "hou/sys/image.hpp"
 
@@ -152,7 +152,7 @@ typename ImageT::pixel_collection test_image<ImageT>::generate_pixels(
   typename ImageT::pixel_collection retval(multiply_elements(s));
   for(size_t i = 0; i < retval.size(); ++i)
   {
-    typename ImageT::pixel px;
+    typename ImageT::pixel_type px;
     px.set_r(static_cast<uint8_t>(i));
     retval[i] = px;
   }
@@ -222,7 +222,7 @@ TYPED_TEST_CASE(test_image_death_test, image_types);
 TYPED_TEST(test_image, get_pixel_byte_count)
 {
   EXPECT_EQ(
-    TypeParam::pixel::get_byte_count(), TypeParam::get_pixel_byte_count());
+    TypeParam::pixel_type::get_byte_count(), TypeParam::get_pixel_byte_count());
 }
 
 
@@ -256,11 +256,11 @@ TYPED_TEST(test_image, size_constructor)
 TYPED_TEST(test_image, pixel_constructor)
 {
   using size_type = typename TypeParam::size_type;
-  using pixel = typename TypeParam::pixel;
+  using pixel_type = typename TypeParam::pixel_type;
   using pixel_collection = typename TypeParam::pixel_collection;
 
   size_type size_ref = TestFixture::generate_size();
-  pixel pixel_ref;
+  pixel_type pixel_ref;
   pixel_ref.set_r(5u);
   pixel_collection pixels_ref(
     TestFixture::multiply_elements(size_ref), pixel_ref);
@@ -432,11 +432,11 @@ TYPED_TEST(test_image_death_test, get_pixel_error_out_of_range)
 TYPED_TEST(test_image, set_pixel)
 {
   using size_type = typename TypeParam::size_type;
-  using pixel = typename TypeParam::pixel;
+  using pixel_type = typename TypeParam::pixel_type;
   using pixel_collection = typename TypeParam::pixel_collection;
 
   size_type size_ref = TestFixture::generate_size();
-  pixel pixel_ref;
+  pixel_type pixel_ref;
   pixel_ref.set_r(42u);
   for(size_t i = 0; i < TestFixture::multiply_elements(size_ref); ++i)
   {
@@ -456,13 +456,13 @@ TYPED_TEST(test_image, set_pixel)
 TYPED_TEST(test_image_death_test, set_pixel_error_out_of_range)
 {
   using size_type = typename TypeParam::size_type;
-  using pixel = typename TypeParam::pixel;
+  using pixel_type = typename TypeParam::pixel_type;
   using offset_type = typename TypeParam::offset_type;
 
   size_type size_ref = TestFixture::generate_size();
   TypeParam image(size_ref);
 
-  pixel pixel_ref;
+  pixel_type pixel_ref;
   for(size_t i = 0; i < size_ref.size(); ++i)
   {
     offset_type coords;
@@ -522,7 +522,8 @@ TYPED_TEST(test_image_death_test, get_sub_image_error_overflow)
   {
     image_size(i) = static_cast<uint>((i + 1) * 4);
     sub_image_offset(i) = static_cast<uint>(i + 1);
-    sub_image_size(i) = static_cast<uint>((i + 1) * 4 - sub_image_offset(i) + 1u);
+    sub_image_size(i)
+      = static_cast<uint>((i + 1) * 4 - sub_image_offset(i) + 1u);
   }
 
   TypeParam image(image_size);
@@ -583,7 +584,8 @@ TYPED_TEST(test_image_death_test, set_sub_image_error_overflow)
   {
     image_size(i) = static_cast<uint>((i + 1) * 4);
     sub_image_offset(i) = static_cast<uint>(i + 1);
-    sub_image_size(i) = static_cast<uint>((i + 1) * 4 - sub_image_offset(i) + 1u);
+    sub_image_size(i)
+      = static_cast<uint>((i + 1) * 4 - sub_image_offset(i) + 1u);
   }
 
   TypeParam image(image_size);
@@ -596,13 +598,13 @@ TYPED_TEST(test_image_death_test, set_sub_image_error_overflow)
 TYPED_TEST(test_image, clear)
 {
   using size_type = typename TypeParam::size_type;
-  using pixel = typename TypeParam::pixel;
+  using pixel_type = typename TypeParam::pixel_type;
   using pixel_collection = typename TypeParam::pixel_collection;
 
   size_type size_ref = TestFixture::generate_size();
   TypeParam image(size_ref);
 
-  pixel pixel_ref;
+  pixel_type pixel_ref;
   pixel_ref.set_r(42u);
 
   pixel_collection pixels_ref(
@@ -616,14 +618,14 @@ TYPED_TEST(test_image, clear)
 TYPED_TEST(test_image, comparison)
 {
   using size_type = typename TypeParam::size_type;
-  using pixel = typename TypeParam::pixel;
+  using pixel_type = typename TypeParam::pixel_type;
   using pixel_collection = typename TypeParam::pixel_collection;
 
   size_type size1 = TestFixture::generate_size();
   size_type size2 = size1 * 2;
-  pixel pixel1;
+  pixel_type pixel1;
   pixel1.set_r(42);
-  pixel pixel2;
+  pixel_type pixel2;
   pixel2.set_r(88);
   pixel_collection pixels11(TestFixture::multiply_elements(size1), pixel1);
   pixel_collection pixels12(TestFixture::multiply_elements(size1), pixel2);
@@ -703,21 +705,21 @@ TEST_F(test_image_conversion_constructor, r2_rgba_constructor)
 {
   image2_r::size_type s(2u, 3u);
   image2_r::pixel_collection pixelsR{
-    image2_r::pixel(1u),
-    image2_r::pixel(2u),
-    image2_r::pixel(3u),
-    image2_r::pixel(4u),
-    image2_r::pixel(5u),
-    image2_r::pixel(6u),
+    image2_r::pixel_type(1u),
+    image2_r::pixel_type(2u),
+    image2_r::pixel_type(3u),
+    image2_r::pixel_type(4u),
+    image2_r::pixel_type(5u),
+    image2_r::pixel_type(6u),
   };
 
   image2_rgba::pixel_collection pixelsRGBA{
-    image2_rgba::pixel(1u, 1u, 1u, 255u),
-    image2_rgba::pixel(2u, 2u, 2u, 255u),
-    image2_rgba::pixel(3u, 3u, 3u, 255u),
-    image2_rgba::pixel(4u, 4u, 4u, 255u),
-    image2_rgba::pixel(5u, 5u, 5u, 255u),
-    image2_rgba::pixel(6u, 6u, 6u, 255u),
+    image2_rgba::pixel_type(1u, 1u, 1u, 255u),
+    image2_rgba::pixel_type(2u, 2u, 2u, 255u),
+    image2_rgba::pixel_type(3u, 3u, 3u, 255u),
+    image2_rgba::pixel_type(4u, 4u, 4u, 255u),
+    image2_rgba::pixel_type(5u, 5u, 5u, 255u),
+    image2_rgba::pixel_type(6u, 6u, 6u, 255u),
   };
 
   image2_r im_r(s, pixelsR);
@@ -733,21 +735,21 @@ TEST_F(test_image_conversion_constructor, rg2_rgba_constructor)
 {
   image2_rg::size_type s(2u, 3u);
   image2_rg::pixel_collection pixelsRG{
-    image2_rg::pixel(1u, 11u),
-    image2_rg::pixel(2u, 12u),
-    image2_rg::pixel(3u, 13u),
-    image2_rg::pixel(4u, 14u),
-    image2_rg::pixel(5u, 15u),
-    image2_rg::pixel(6u, 16u),
+    image2_rg::pixel_type(1u, 11u),
+    image2_rg::pixel_type(2u, 12u),
+    image2_rg::pixel_type(3u, 13u),
+    image2_rg::pixel_type(4u, 14u),
+    image2_rg::pixel_type(5u, 15u),
+    image2_rg::pixel_type(6u, 16u),
   };
 
   image2_rgba::pixel_collection pixelsRGBA{
-    image2_rgba::pixel(1u, 1u, 1u, 11u),
-    image2_rgba::pixel(2u, 2u, 2u, 12u),
-    image2_rgba::pixel(3u, 3u, 3u, 13u),
-    image2_rgba::pixel(4u, 4u, 4u, 14u),
-    image2_rgba::pixel(5u, 5u, 5u, 15u),
-    image2_rgba::pixel(6u, 6u, 6u, 16u),
+    image2_rgba::pixel_type(1u, 1u, 1u, 11u),
+    image2_rgba::pixel_type(2u, 2u, 2u, 12u),
+    image2_rgba::pixel_type(3u, 3u, 3u, 13u),
+    image2_rgba::pixel_type(4u, 4u, 4u, 14u),
+    image2_rgba::pixel_type(5u, 5u, 5u, 15u),
+    image2_rgba::pixel_type(6u, 6u, 6u, 16u),
   };
 
   image2_rg im_rg(s, pixelsRG);
@@ -763,21 +765,21 @@ TEST_F(test_image_conversion_constructor, rgb2_rgba_constructor)
 {
   image2_rgb::size_type s(2u, 3u);
   image2_rgb::pixel_collection pixelsRGB{
-    image2_rgb::pixel(200u, 118u, 93u),
-    image2_rgb::pixel(3u, 12u, 3u),
-    image2_rgb::pixel(5u, 11u, 2u),
-    image2_rgb::pixel(200u, 100u, 0u),
-    image2_rgb::pixel(0u, 21u, 0u),
-    image2_rgb::pixel(100u, 20u, 0u),
+    image2_rgb::pixel_type(200u, 118u, 93u),
+    image2_rgb::pixel_type(3u, 12u, 3u),
+    image2_rgb::pixel_type(5u, 11u, 2u),
+    image2_rgb::pixel_type(200u, 100u, 0u),
+    image2_rgb::pixel_type(0u, 21u, 0u),
+    image2_rgb::pixel_type(100u, 20u, 0u),
   };
 
   image2_rgba::pixel_collection pixelsRGBA{
-    image2_rgba::pixel(200u, 118u, 93u, 255u),
-    image2_rgba::pixel(3u, 12u, 3u, 255u),
-    image2_rgba::pixel(5u, 11u, 2u, 255u),
-    image2_rgba::pixel(200u, 100u, 0u, 255u),
-    image2_rgba::pixel(0u, 21u, 0u, 255u),
-    image2_rgba::pixel(100u, 20u, 0u, 255u),
+    image2_rgba::pixel_type(200u, 118u, 93u, 255u),
+    image2_rgba::pixel_type(3u, 12u, 3u, 255u),
+    image2_rgba::pixel_type(5u, 11u, 2u, 255u),
+    image2_rgba::pixel_type(200u, 100u, 0u, 255u),
+    image2_rgba::pixel_type(0u, 21u, 0u, 255u),
+    image2_rgba::pixel_type(100u, 20u, 0u, 255u),
   };
 
   image2_rgb im_rgb(s, pixelsRGB);
@@ -793,9 +795,9 @@ TEST_F(test_image_conversion_constructor, image1_to_image2_constructor)
 {
   image1_rgb::size_type s(3u);
   image1_rgba::pixel_collection pixelsRGBA{
-    image1_rgba::pixel(200u, 118u, 93u, 255u),
-    image1_rgba::pixel(3u, 12u, 3u, 255u),
-    image1_rgba::pixel(5u, 11u, 2u, 255u),
+    image1_rgba::pixel_type(200u, 118u, 93u, 255u),
+    image1_rgba::pixel_type(3u, 12u, 3u, 255u),
+    image1_rgba::pixel_type(5u, 11u, 2u, 255u),
   };
   image1_rgba image1_rgba(s, pixelsRGBA);
   image2_rgba image2_rgba(image1_rgba);
@@ -809,9 +811,9 @@ TEST_F(test_image_conversion_constructor, image1_to_image3_constructor)
 {
   image1_rgb::size_type s(3u);
   image1_rgba::pixel_collection pixelsRGBA{
-    image1_rgba::pixel(200u, 118u, 93u, 255u),
-    image1_rgba::pixel(3u, 12u, 3u, 255u),
-    image1_rgba::pixel(5u, 11u, 2u, 255u),
+    image1_rgba::pixel_type(200u, 118u, 93u, 255u),
+    image1_rgba::pixel_type(3u, 12u, 3u, 255u),
+    image1_rgba::pixel_type(5u, 11u, 2u, 255u),
   };
   image1_rgba image1_rgba(s, pixelsRGBA);
   image3_rgba image3_rgba(image1_rgba);
@@ -825,12 +827,12 @@ TEST_F(test_image_conversion_constructor, image2_to_image3_constructor)
 {
   image2_rgb::size_type s(3u, 2u);
   image2_rgba::pixel_collection pixelsRGBA{
-    image2_rgba::pixel(200u, 118u, 93u, 255u),
-    image2_rgba::pixel(3u, 12u, 3u, 255u),
-    image2_rgba::pixel(5u, 11u, 2u, 255u),
-    image2_rgba::pixel(200u, 118u, 93u, 255u),
-    image2_rgba::pixel(3u, 12u, 3u, 255u),
-    image2_rgba::pixel(5u, 11u, 2u, 255u),
+    image2_rgba::pixel_type(200u, 118u, 93u, 255u),
+    image2_rgba::pixel_type(3u, 12u, 3u, 255u),
+    image2_rgba::pixel_type(5u, 11u, 2u, 255u),
+    image2_rgba::pixel_type(200u, 118u, 93u, 255u),
+    image2_rgba::pixel_type(3u, 12u, 3u, 255u),
+    image2_rgba::pixel_type(5u, 11u, 2u, 255u),
   };
   image2_rgba image1_rgba(s, pixelsRGBA);
   image3_rgba image3_rgba(image1_rgba);

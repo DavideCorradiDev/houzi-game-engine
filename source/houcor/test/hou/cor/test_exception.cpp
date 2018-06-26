@@ -119,16 +119,18 @@ TEST_F(test_exception_death_test, expect_error_n_macro)
 
 
 
-TEST_F(test_exception_death_test, abort)
+TEST_F(test_exception_death_test, exit_with_error)
 {
-  EXPECT_DEATH(abort("Message."), "Message\\.");
+  EXPECT_EXIT(
+    exit_with_error("Message."), ExitedWithCode(EXIT_FAILURE), "Message\\.");
 }
 
 
 
-TEST_F(test_exception_death_test, abort_macro)
+TEST_F(test_exception_death_test, exit_with_error_macro)
 {
-  EXPECT_DEATH(HOU_ABORT("Message."), ".*:.* - Message\\.");
+  EXPECT_EXIT(HOU_EXIT_WITH_ERROR("Message."), ExitedWithCode(EXIT_FAILURE),
+    ".*:.* - Message\\.");
 }
 
 
@@ -183,7 +185,8 @@ TEST_F(test_exception, hou_assert_macro_success)
 
 TEST_F(test_exception_death_test, hou_assert_macro_failure)
 {
-  EXPECT_DEATH(HOU_ASSERT(0 == 2), ".*:.* - Assertion failed \\(0 == 2\\).");
+  EXPECT_EXIT(HOU_ASSERT(0 == 2), ExitedWithCode(EXIT_FAILURE),
+    ".*:.* - Assertion failed \\(0 == 2\\).");
 }
 
 
@@ -256,7 +259,8 @@ TEST_F(test_exception, hou_dev_assert_macro_success)
 TEST_F(test_exception_death_test, hou_dev_assert_macro_failure)
 {
 #ifdef HOU_DEBUG
-  EXPECT_DEATH(HOU_DEV_ASSERT(0 == 2), ".*:.* - Assertion failed \\(0 == 2\\)\\.");
+  EXPECT_EXIT(HOU_DEV_ASSERT(0 == 2), ExitedWithCode(EXIT_FAILURE),
+    ".*:.* - Assertion failed \\(0 == 2\\)\\.");
 #else
   EXPECT_NO_ERROR(HOU_DEV_ASSERT(0 == 2));
 #endif
@@ -264,20 +268,8 @@ TEST_F(test_exception_death_test, hou_dev_assert_macro_failure)
 
 
 
-TEST_F(test_exception_death_test, hou_disable_exceptions_scope)
-{
-  // clang-format off
-  EXPECT_DEATH(
-    HOU_DISABLE_EXCEPTIONS_BEGIN
-      HOU_ERROR_STD_N(std::runtime_error, "Message.");
-    HOU_DISABLE_EXCEPTIONS_END, 
-    std::runtime_error("Message.").what());
-  // clang-format on
-}
-
-
-
 TEST_F(test_exception_death_test, hou_unreachable_macro)
 {
-  EXPECT_DEATH(HOU_UNREACHABLE(), ".*:.* - Unreachable code path\\.");
+  EXPECT_EXIT(HOU_UNREACHABLE(), ExitedWithCode(EXIT_FAILURE),
+    ".*:.* - Unreachable code path\\.");
 }

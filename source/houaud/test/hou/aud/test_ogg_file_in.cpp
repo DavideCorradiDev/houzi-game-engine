@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 #include "hou/aud/test_data.hpp"
 
 #include "hou/aud/aud_exceptions.hpp"
@@ -42,13 +42,13 @@ class TestOggFileInDeathTest : public test_ogg_file_in
 const std::string test_ogg_file_in::mono16_unicode_filename
   = get_data_dir() + u8"TestOgg\U00004f60\U0000597d.ogg";
 const std::string test_ogg_file_in::mono16_filename
-  = get_data_dir() + u8"TestOgg-Mono-16-44100.ogg";
+  = get_data_dir() + u8"TestOgg-mono-16-44100.ogg";
 const std::string test_ogg_file_in::stereo16_filename
-  = get_data_dir() + u8"TestOgg-Stereo-16-44100.ogg";
+  = get_data_dir() + u8"TestOgg-stereo-16-44100.ogg";
 const std::string test_ogg_file_in::low_sample_rate_filename
-  = get_data_dir() + u8"TestOgg-Mono-16-22050.ogg";
+  = get_data_dir() + u8"TestOgg-mono-16-22050.ogg";
 const std::string test_ogg_file_in::wav_filename
-  = get_data_dir() + u8"TestWav-Mono-16-44100.wav";
+  = get_data_dir() + u8"TestWav-mono-16-44100.wav";
 
 }  // namespace
 

@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 
 #include "hou/cor/bitwise_operators.hpp"
 
@@ -157,21 +157,52 @@ TEST_F(test_bitwise_operators, in_place_bitwise_or)
 
 
 
-TEST_F(test_bitwise_operators, check_bit)
+TEST_F(test_bitwise_operators, check_all)
 {
-  EXPECT_FALSE(check_bit(flags::null, flags::flag0));
-  EXPECT_FALSE(check_bit(flags::null, flags::flag1));
-  EXPECT_FALSE(check_bit(flags::null, flags::flag2));
-  EXPECT_TRUE(check_bit(flags::flag0, flags::flag0));
-  EXPECT_FALSE(check_bit(flags::flag0, flags::flag1));
-  EXPECT_FALSE(check_bit(flags::flag0, flags::flag2));
-  EXPECT_FALSE(check_bit(flags::flag1, flags::flag0));
-  EXPECT_TRUE(check_bit(flags::flag1, flags::flag1));
-  EXPECT_FALSE(check_bit(flags::flag1, flags::flag2));
-  EXPECT_FALSE(check_bit(flags::flag2, flags::flag0));
-  EXPECT_FALSE(check_bit(flags::flag2, flags::flag1));
-  EXPECT_TRUE(check_bit(flags::flag2, flags::flag2));
-  EXPECT_TRUE(check_bit(flags::all, flags::flag0));
-  EXPECT_TRUE(check_bit(flags::all, flags::flag1));
-  EXPECT_TRUE(check_bit(flags::all, flags::flag2));
+  EXPECT_FALSE(check_all(flags::null, flags::flag0));
+  EXPECT_FALSE(check_all(flags::null, flags::flag1));
+  EXPECT_FALSE(check_all(flags::null, flags::flag2));
+  EXPECT_FALSE(check_all(flags::null, flags::all));
+  EXPECT_TRUE(check_all(flags::flag0, flags::flag0));
+  EXPECT_FALSE(check_all(flags::flag0, flags::flag1));
+  EXPECT_FALSE(check_all(flags::flag0, flags::flag2));
+  EXPECT_FALSE(check_all(flags::flag0, flags::all));
+  EXPECT_FALSE(check_all(flags::flag1, flags::flag0));
+  EXPECT_TRUE(check_all(flags::flag1, flags::flag1));
+  EXPECT_FALSE(check_all(flags::flag1, flags::flag2));
+  EXPECT_FALSE(check_all(flags::flag1, flags::all));
+  EXPECT_FALSE(check_all(flags::flag2, flags::flag0));
+  EXPECT_FALSE(check_all(flags::flag2, flags::flag1));
+  EXPECT_TRUE(check_all(flags::flag2, flags::flag2));
+  EXPECT_FALSE(check_all(flags::flag2, flags::all));
+  EXPECT_TRUE(check_all(flags::all, flags::flag0));
+  EXPECT_TRUE(check_all(flags::all, flags::flag1));
+  EXPECT_TRUE(check_all(flags::all, flags::flag2));
+  EXPECT_TRUE(check_all(flags::all, flags::all));
+}
+
+
+
+TEST_F(test_bitwise_operators, check_any)
+{
+  EXPECT_FALSE(check_any(flags::null, flags::flag0));
+  EXPECT_FALSE(check_any(flags::null, flags::flag1));
+  EXPECT_FALSE(check_any(flags::null, flags::flag2));
+  EXPECT_FALSE(check_any(flags::null, flags::all));
+  EXPECT_TRUE(check_any(flags::flag0, flags::flag0));
+  EXPECT_FALSE(check_any(flags::flag0, flags::flag1));
+  EXPECT_FALSE(check_any(flags::flag0, flags::flag2));
+  EXPECT_TRUE(check_any(flags::flag0, flags::all));
+  EXPECT_FALSE(check_any(flags::flag1, flags::flag0));
+  EXPECT_TRUE(check_any(flags::flag1, flags::flag1));
+  EXPECT_FALSE(check_any(flags::flag1, flags::flag2));
+  EXPECT_TRUE(check_any(flags::flag1, flags::all));
+  EXPECT_FALSE(check_any(flags::flag2, flags::flag0));
+  EXPECT_FALSE(check_any(flags::flag2, flags::flag1));
+  EXPECT_TRUE(check_any(flags::flag2, flags::flag2));
+  EXPECT_TRUE(check_any(flags::flag2, flags::all));
+  EXPECT_TRUE(check_any(flags::all, flags::flag0));
+  EXPECT_TRUE(check_any(flags::all, flags::flag1));
+  EXPECT_TRUE(check_any(flags::all, flags::flag2));
+  EXPECT_TRUE(check_any(flags::all, flags::all));
 }

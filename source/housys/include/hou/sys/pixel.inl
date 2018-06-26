@@ -182,10 +182,12 @@ constexpr bool operator!=(
 
 
 
+#ifndef HOU_DOXYGEN
 extern template class HOU_SYS_API pixel<pixel_format::r>;
 extern template class HOU_SYS_API pixel<pixel_format::rg>;
 extern template class HOU_SYS_API pixel<pixel_format::rgb>;
 extern template class HOU_SYS_API pixel<pixel_format::rgba>;
+
 
 template <>
 template <>
@@ -262,5 +264,6 @@ HOU_SYS_API std::ostream& operator<<(
 template <>
 HOU_SYS_API std::ostream& operator<<(
   std::ostream& os, const pixel<pixel_format::rgba>& pixel);
+#endif
 
 }  // namespace hou

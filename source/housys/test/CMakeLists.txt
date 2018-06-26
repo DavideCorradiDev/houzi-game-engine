@@ -35,22 +35,30 @@ INCLUDE_DIRECTORIES(
 
 # Source files.
 SET(EXE_HOUSYS_TEST_SRC
-  ${LIB_HOUTEST_SOURCE_DIR}/src/test_main.cpp
+  hou/sys/housys_test_main.cpp
   hou/sys/test_binary_file_in.cpp
   hou/sys/test_binary_file_out.cpp
   hou/sys/test_color.cpp
   hou/sys/test_data.cpp
+  hou/sys/test_display_mode.cpp
+  hou/sys/test_display_format.cpp
+  hou/sys/test_display_format_mask.cpp
+  hou/sys/test_event.cpp
   hou/sys/test_file.cpp
   hou/sys/test_file_handle.cpp
   hou/sys/test_image.cpp
   hou/sys/test_image_file.cpp
+  hou/sys/test_keyboard.cpp
+  hou/sys/test_keys.cpp
+  hou/sys/test_mouse.cpp
+  hou/sys/test_mouse_buttons_state.cpp
   hou/sys/test_pixel.cpp
+  hou/sys/test_pixel_format.cpp
+  hou/sys/test_display.cpp
+  hou/sys/test_sys_exceptions.cpp
+  hou/sys/test_window.cpp
   hou/sys/test_text_file_in.cpp
   hou/sys/test_text_file_out.cpp
-  hou/sys/test_sys_exceptions.cpp
-  hou/sys/test_video_mode.cpp
-  hou/sys/test_system_window.cpp
-  hou/sys/test_window_event.cpp
 )
 
 

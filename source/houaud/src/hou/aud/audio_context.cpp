@@ -12,10 +12,6 @@ namespace hou
 void audio_context::set_current(audio_context& ctx)
 {
   al::context::set_current(ctx.m_al_context);
-  if(!ctx.m_initialized)
-  {
-    ctx.initialize();
-  }
 }
 
 
@@ -38,7 +34,6 @@ audio_context::audio_context()
   : non_copyable()
   , m_al_device()
   , m_al_context(m_al_device)
-  , m_initialized(false)
 {}
 
 
@@ -47,7 +42,6 @@ audio_context::audio_context(const std::string& dev_name)
   : non_copyable()
   , m_al_device(dev_name)
   , m_al_context(m_al_device)
-  , m_initialized(false)
 {}
 
 
@@ -59,10 +53,30 @@ bool audio_context::is_current() const
 
 
 
-void audio_context::initialize()
+const audio_context::impl_type& audio_context::get_impl() const noexcept
 {
-  m_initialized = true;
-  alGetError();
+  return m_al_context;
+}
+
+
+
+audio_context::impl_type& audio_context::get_impl() noexcept
+{
+  return m_al_context;
+}
+
+
+
+const audio_context::device_type& audio_context::get_device() const noexcept
+{
+  return m_al_device;
+}
+
+
+
+audio_context::device_type& audio_context::get_device() noexcept
+{
+  return m_al_device;
 }
 
 }  // namespace hou

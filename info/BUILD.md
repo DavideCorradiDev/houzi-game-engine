@@ -9,6 +9,8 @@ The following platforms are currently supported:
 
 * Windows with Visual Studio.
 
+* Linux with GCC.
+
 
 
 ### Configuring the project with CMake
@@ -100,6 +102,26 @@ For a complete description on how to use CMake with Visual Studio you can refer 
 ```
 
 * You can build the project by selecting the appropriate build configuration and running "CMake > Build All".
+
+
+
+### Building on linux with GCC
+
+* Required software:
+
+    * cmake.
+
+    * ccmake (optional).
+
+    * make.
+
+    * gcc.
+
+    * OpenGL dev libraries (package xorg-dev, mesa-common-dev, libgl1-mesa-dev on ubuntu).
+
+* Configure with cmake.
+
+* Build with make.
 
 
 

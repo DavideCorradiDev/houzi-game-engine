@@ -36,6 +36,7 @@ INCLUDE_DIRECTORIES(
 # Source files.
 SET(LIB_HOUAUD_SRC
   src/hou/aud/aud_exceptions.cpp
+  src/hou/aud/aud_module.cpp
   src/hou/aud/audio_buffer.cpp
   src/hou/aud/audio_buffer_format.cpp
   src/hou/aud/audio_context.cpp
@@ -99,4 +100,3 @@ MESSAGE(STATUS "")
 IF(HOU_CFG_BUILD_TESTS)
   ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/test)
 ENDIF()
-

@@ -1,7 +1,15 @@
 namespace hou
 {
 
-constexpr uint get_pixel_format_byte_count(pixel_format format) noexcept
+constexpr uint get_bits_per_pixel(pixel_format format) noexcept
+{
+  constexpr uint bits_per_byte = 8;
+  return get_bytes_per_pixel(format) * bits_per_byte;
+}
+
+
+
+constexpr uint get_bytes_per_pixel(pixel_format format) noexcept
 {
   switch(format)
   {
@@ -13,10 +21,8 @@ constexpr uint get_pixel_format_byte_count(pixel_format format) noexcept
       return 3u;
     case pixel_format::rgba:
       return 4u;
-    default:
-      HOU_UNREACHABLE();
-      return 1u;
   };
+  return 1u;
 }
 
 }  // namespace hou

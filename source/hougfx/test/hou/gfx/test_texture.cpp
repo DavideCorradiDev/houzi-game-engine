@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 #include "hou/gfx/test_data.hpp"
 #include "hou/gfx/test_gfx_base.hpp"
 
@@ -793,7 +793,7 @@ TYPED_TEST(test_texture_not_multisampled, set_sub_image)
     sub_image_offset(i) = static_cast<uint>(i + 1);
   }
 
-  typename image::pixel pixel_ref(1u, 2u, 3u, 4u);
+  typename image::pixel_type pixel_ref(1u, 2u, 3u, 4u);
   image sub_image_ref(sub_image_size, pixel_ref);
   image image_ref(tex_size);
   image_ref.set_sub_image(sub_image_offset, sub_image_ref);
@@ -930,7 +930,7 @@ TYPED_TEST(test_texture_not_multisampled, set_image_get_mip_map_image)
     imageRefs.back().set_sub_image(
       this->compute_mipmap_size(sub_image_offset, i),
       image(this->compute_mipmap_size(sub_image_size, i),
-        typename image::pixel(2u, 3u, 5u, 7u)));
+        typename image::pixel_type(2u, 3u, 5u, 7u)));
   }
 
   tex.set_image(imageRefs.front());

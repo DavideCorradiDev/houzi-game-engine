@@ -2,11 +2,13 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 #include "hou/gl/test_gl_multiple_contexts.hpp"
 
 #include "hou/gl/gl_buffer_handle.hpp"
 #include "hou/gl/gl_exceptions.hpp"
+#include "hou/gl/gl_missing_context_error.hpp"
+#include "hou/gl/gl_invalid_context_error.hpp"
 
 using namespace hou;
 
@@ -18,8 +20,7 @@ namespace
 class test_gl_buffer_handle : public test_gl_multiple_contexts
 {};
 
-class test_gl_buffer_handle_death_test : public test_gl_buffer_handle
-{};
+using test_gl_buffer_handle_death_test = test_gl_buffer_handle;
 
 }  // namespace
 
@@ -45,7 +46,7 @@ TEST_F(test_gl_buffer_handle_death_test, DISABLED_no_context_creation)
 
 
 
-TEST_F(test_gl_buffer_handle, tracking)
+TEST_F(test_gl_buffer_handle, binding)
 {
   gl::buffer_handle bh1 = gl::buffer_handle::create();
   gl::buffer_handle bh2 = gl::buffer_handle::create();

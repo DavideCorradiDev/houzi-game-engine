@@ -22,6 +22,7 @@ class HOU_GL_API shader_handle : public shared_object_handle
 public:
   static shader_handle create(GLenum type);
 
+public:
   shader_handle(shader_handle&& other) noexcept = default;
   virtual ~shader_handle();
 
@@ -34,8 +35,7 @@ private:
   GLenum m_type;
 };
 
-HOU_GL_API void compile_shader(
-  const shader_handle& shd, const GLchar* src);
+HOU_GL_API void compile_shader(const shader_handle& shd, const GLchar* src);
 
 }  // namespace gl
 

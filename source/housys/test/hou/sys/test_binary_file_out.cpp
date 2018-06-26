@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 #include "hou/sys/test_data.hpp"
 
 #include "hou/cor/span.hpp"
@@ -29,10 +29,7 @@ public:
   ~test_binary_file_out();
 };
 
-
-
-class test_binary_file_out_death_test : public test_binary_file_out
-{};
+using test_binary_file_out_death_test = test_binary_file_out;
 
 
 

@@ -4,11 +4,10 @@
 
 #include "hou/al/al_device.hpp"
 
-#include "hou/al/al_exceptions.hpp"
+#include "hou/al/al_context_exceptions.hpp"
 
 #include "hou/cor/assertions.hpp"
 #include "hou/cor/std_string.hpp"
-#include "hou/cor/uid_generator.hpp"
 
 #include <AL/al.h>
 
@@ -75,6 +74,7 @@ device::device(device&& other) noexcept
   , m_uid(std::move(other.m_uid))
 {
   other.m_device = nullptr;
+  other.m_uid = 0u;
 }
 
 
@@ -83,29 +83,27 @@ device::~device()
 {
   if(m_device != nullptr)
   {
-    HOU_DISABLE_EXCEPTIONS_BEGIN
     HOU_CHECK_0(alcCloseDevice(m_device) == AL_TRUE, device_close_error);
-    HOU_DISABLE_EXCEPTIONS_END
   }
 }
 
 
 
-const ALCdevice* device::get_handle() const noexcept
+const device::impl_type* device::get_impl() const noexcept
 {
   return m_device;
 }
 
 
 
-ALCdevice* device::get_handle() noexcept
+device::impl_type* device::get_impl() noexcept
 {
   return m_device;
 }
 
 
 
-uint32_t device::get_uid() const noexcept
+device::uid_type device::get_uid() const noexcept
 {
   return m_uid;
 }

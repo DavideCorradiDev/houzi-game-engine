@@ -13,16 +13,16 @@
 namespace hou
 {
 
-uid_generator::uid_generator(uint32_t starting_value) noexcept
+uid_generator::uid_generator(uid_type starting_value) noexcept
   : m_counter(starting_value)
 {}
 
 
 
-uint32_t uid_generator::generate()
+uid_generator::uid_type uid_generator::generate()
 {
   HOU_CHECK_0(
-    m_counter != std::numeric_limits<uint32_t>::max(), overflow_error);
+    m_counter != std::numeric_limits<uid_type>::max(), overflow_error);
   return m_counter.fetch_add(1);
 }
 

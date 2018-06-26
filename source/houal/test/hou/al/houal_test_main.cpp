@@ -1,0 +1,21 @@
+// Houzi Multimedia Library
+// Copyright (c) 2018 Davide Corradi
+// Licensed under the MIT license. See license.md for more details.
+
+#include <gtest/gtest.h>
+
+#include "hou/cor/cor_module.hpp"
+#include "hou/mth/mth_module.hpp"
+#include "hou/al/al_module.hpp"
+
+
+
+int main(int argc, char** argv)
+{
+  hou::cor_module::initialize();
+  hou::mth_module::initialize();
+  hou::al_module::initialize();
+
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

@@ -2,7 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
+
 #include "hou/sys/pixel.hpp"
 
 using namespace hou;
@@ -12,12 +13,6 @@ using namespace testing;
 
 namespace
 {
-
-class test_pixel_format : public Test
-{};
-
-class test_pixel_format_death_test : public test_pixel_format
-{};
 
 class test_pixel : public Test
 {};
@@ -76,19 +71,9 @@ TYPED_TEST_CASE(test_pixel_alpha_channel, pixel_types_alpha_channel);
 
 
 
-TEST_F(test_pixel_format, get_pixel_format_byte_count)
-{
-  EXPECT_EQ(1u, get_pixel_format_byte_count(pixel_format::r));
-  EXPECT_EQ(2u, get_pixel_format_byte_count(pixel_format::rg));
-  EXPECT_EQ(3u, get_pixel_format_byte_count(pixel_format::rgb));
-  EXPECT_EQ(4u, get_pixel_format_byte_count(pixel_format::rgba));
-}
-
-
-
 TYPED_TEST(test_pixel_common, get_byte_count)
 {
-  EXPECT_EQ(get_pixel_format_byte_count(TypeParam::get_format()),
+  EXPECT_EQ(get_bytes_per_pixel(TypeParam::get_format()),
     TypeParam::get_byte_count());
 }
 

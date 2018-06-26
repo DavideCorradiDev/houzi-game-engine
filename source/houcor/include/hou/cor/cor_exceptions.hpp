@@ -105,6 +105,30 @@ public:
   narrowing_error(const std::string& path, uint line);
 };
 
+
+
+/** Module initialization error.
+ *
+ * This exception is thrown when the initialization of a library module has
+ * failed.
+ */
+class HOU_COR_API module_initialization_error : public exception
+{
+public:
+  /** Constructor.
+   *
+   * \param path the path to the source file where the error happened.
+   *
+   * \param line the line where the error happened.
+   *
+   * \param module_name the name of the module.
+   *
+   * \throws std::bad_alloc.
+   */
+  module_initialization_error(
+    const std::string& path, uint line, const std::string& module_name);
+};
+
 }  // namespace hou
 
 #endif

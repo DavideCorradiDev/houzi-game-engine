@@ -42,15 +42,14 @@ SET(LIB_HOUGFX_SRC
   src/hou/gfx/formatted_text.cpp
   src/hou/gfx/framebuffer.cpp
   src/hou/gfx/framebuffer_blit_filter.cpp
+  src/hou/gfx/gfx_module.cpp
+  src/hou/gfx/graphic_context.cpp
   src/hou/gfx/mesh.cpp
   src/hou/gfx/mesh2.cpp
   src/hou/gfx/mesh2_shader_program.cpp
   src/hou/gfx/mesh_draw_mode.cpp
   src/hou/gfx/mesh_fill_mode.cpp
-  src/hou/gfx/graphic_context.cpp
-  src/hou/gfx/render_canvas.cpp
   src/hou/gfx/render_surface.cpp
-  src/hou/gfx/render_window.cpp
   src/hou/gfx/shader.cpp
   src/hou/gfx/shader_program.cpp
   src/hou/gfx/shader_type.cpp
@@ -71,7 +70,6 @@ SET(LIB_HOUGFX_SRC
   src/hou/gfx/vertex_buffer_target.cpp
   src/hou/gfx/vertex_format.cpp
   src/hou/gfx/vertex2.cpp
-  src/hou/gfx/vertical_sync_mode.cpp
 )
 
 
@@ -117,4 +115,3 @@ MESSAGE(STATUS "")
 IF(HOU_CFG_BUILD_TESTS)
   ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/test)
 ENDIF()
-
