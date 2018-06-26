@@ -128,35 +128,44 @@ public:
   void set_viewport(const recti& viewport);
 
   /**
-   * Gets the size of the render_surface.
+   * Gets the size.
    *
-   * \return the size of the render surface.
+   * \return the size.
    */
   vec2u get_size() const;
 
   /**
-   * Sets the size of the render_surface.
+   * Sets the size.
    *
-   * \note the content of the render_surface will be deleted.
+   * \note the contents of the render surface will be deleted.
    *
    * \param size the size.
    */
   void set_size(const vec2u& size);
 
   /**
-   * Checks if the render_surface is multisampled.
+   * Checks if the render surface is multisampled.
    *
-   * \return true if the number of samples of the render_surface is greater than
+   * \return true if the number of samples of the render surface is greater than
    * one.
    */
   bool is_multisampled() const noexcept;
 
   /**
-   * Gets the number of samples of the render_surface.
+   * Gets the number of samples.
    *
-   * \return the number of samples of the render_surface.
+   * \return the number of samples.
    */
   positive<uint> get_sample_count() const noexcept;
+
+  /**
+   * Sets the number of samples.
+   *
+   * \note the contents of the render surface will be deleted.
+   *
+   * \param sample_count the number of samples.
+   */
+  void set_sample_count(positive<uint> sample_count);
 
   /**
    * Clears the render_surface to the desired color.

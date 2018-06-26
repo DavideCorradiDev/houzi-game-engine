@@ -127,6 +127,16 @@ positive<uint> render_surface::get_sample_count() const noexcept
 
 
 
+void render_surface::set_sample_count(positive<uint> sample_count)
+{
+  if(sample_count != get_sample_count())
+  {
+    build_framebuffer(get_size(), sample_count);
+  }
+}
+
+
+
 void render_surface::clear(const color& color)
 {
   set_current_render_target(*this);

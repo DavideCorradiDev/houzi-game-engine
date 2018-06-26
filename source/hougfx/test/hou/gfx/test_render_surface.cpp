@@ -239,6 +239,29 @@ TEST_F(test_render_surface, set_size_multisample)
 
 
 
+TEST_F(test_render_surface, set_size_lower_limit)
+{
+  render_surface rs(vec2u(8u, 16u));
+  rs.set_size(vec2u(1u, 1u));
+  EXPECT_EQ(vec2u(1u, 1u), rs.get_size());
+}
+
+
+
+TEST_F(test_render_surface, set_size_upper_limit)
+{
+  vec2u max_size = render_surface::get_max_size();
+  render_surface rs(vec2u(8u, 16u));
+
+  rs.set_size(vec2u(max_size.x(), 1u));
+  EXPECT_EQ(vec2u(max_size.x(), 1u), rs.get_size());
+
+  rs.set_size(vec2u(1u, max_size.y()));
+  EXPECT_EQ(vec2u(1u, max_size.y()), rs.get_size());
+}
+
+
+
 TEST_F(test_render_surface_death_test, set_size_error_null_size)
 {
   render_surface rs(vec2u(8u, 16u));
@@ -267,6 +290,50 @@ TEST_F(test_render_surface, is_multisampled)
 
   EXPECT_FALSE(rs1.is_multisampled());
   EXPECT_TRUE(rs2.is_multisampled());
+}
+
+
+
+TEST_F(test_render_surface, set_sample_count)
+{
+  render_surface rs(vec2u(8u, 8u), 1u);
+  rs.set_sample_count(2u);
+  EXPECT_EQ(2u, rs.get_sample_count());
+}
+
+
+
+TEST_F(test_render_surface, set_sample_count_lower_limit)
+{
+  render_surface rs(vec2u(8u, 8u), 2u);
+  rs.set_sample_count(1u);
+  EXPECT_EQ(1u, rs.get_sample_count());
+}
+
+
+
+TEST_F(test_render_surface, set_sample_count_upper_limit)
+{
+  render_surface rs(vec2u(8u, 8u), 1u);
+  rs.set_sample_count(render_surface::get_max_sample_count());
+  EXPECT_EQ(render_surface::get_max_sample_count(), rs.get_sample_count());
+}
+
+
+
+TEST_F(test_render_surface_death_test, set_sample_count_error_null)
+{
+  render_surface rs(vec2u(8u, 8u), 1u);
+  EXPECT_PRECOND_ERROR(rs.set_sample_count(0u));
+}
+
+
+
+TEST_F(test_render_surface_death_test, set_sample_count_error_too_large)
+{
+  render_surface rs(vec2u(8u, 8u), 1u);
+  EXPECT_PRECOND_ERROR(
+    rs.set_sample_count(render_surface::get_max_sample_count() + 1u));
 }
 
 
