@@ -52,16 +52,6 @@ bounded<T>::bounded(T value, T min, T max)
 
 
 
-enum class shape
-{
-  rectangle,
-  rectangle_outline,
-  ellipse,
-  ellipse_outline,
-};
-
-
-
 template <typename T>
 const bounded<T>& bounded<T>::operator+=(T delta)
 {
@@ -96,6 +86,16 @@ bounded<T>::operator T() const
 
 
 
+enum class shape
+{
+  rectangle,
+  rectangle_outline,
+  ellipse,
+  ellipse_outline,
+};
+
+
+
 int main(int, char**)
 {
   // Setup.
@@ -104,11 +104,6 @@ int main(int, char**)
   hou::sys_module::initialize();
   hou::gl_module::initialize();
   hou::gfx_module::initialize();
-
-  // Event callbacks.
-  bool loop = true;
-  auto on_quit = [&loop](hou::event::timestamp) { loop = false; };
-  hou::event::set_quit_callback(on_quit);
 
   // Context and window.
   hou::graphic_context gctx;
@@ -126,7 +121,6 @@ int main(int, char**)
     u8"./source/demo/data/monalisa.png"));
 
   // Mesh properties.
-
   bounded<float> mesh_size_x(50.f, 0.f, 100.f);
   bounded<float> mesh_size_y(50.f, 0.f, 100.f);
   float mesh_size_step = 5.f;
@@ -162,6 +156,11 @@ int main(int, char**)
   shape mesh_shape = shape::rectangle;
 
   bool mesh_texture_active = false;
+
+  // Event callbacks.
+  bool loop = true;
+  auto on_quit = [&loop](hou::event::timestamp) { loop = false; };
+  hou::event::set_quit_callback(on_quit);
 
   auto on_key_pressed
     = [&](hou::event::timestamp, hou::window::uid_type, hou::scan_code sc,
@@ -370,11 +369,10 @@ int main(int, char**)
     hou::trans2f projection_transform
       = hou::trans2f::orthographic_projection(rs.get_viewport());
 
-    hou::vec2f mesh_pos(mesh_pos_x, mesh_pos_y);
-    hou::vec2f mesh_scale(mesh_scale_x, mesh_scale_y);
-    hou::trans2f mesh_transform = hou::trans2f::translation(mesh_pos)
+    hou::trans2f mesh_transform
+      = hou::trans2f::translation(hou::vec2f(mesh_pos_x, mesh_pos_y))
       * hou::trans2f::rotation(hou::rot2f(mesh_rotation))
-      * hou::trans2f::scale(mesh_scale)
+      * hou::trans2f::scale(hou::vec2f(mesh_scale_x, mesh_scale_y))
       * hou::trans2f::shear(mesh_shear_x, mesh_shear_y);
 
     hou::color mesh_color = hou::color_f(
