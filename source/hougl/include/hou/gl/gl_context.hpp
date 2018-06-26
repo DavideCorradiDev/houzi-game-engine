@@ -138,7 +138,7 @@ public:
    *
    * \throws hou::al::context_creation_error in case of an error.
    */
-  context(const context_settings& cs, window& wnd);
+  context(const context_settings& cs, const window& wnd);
 
   /**
    * Creates a context sharing with another context.
@@ -157,7 +157,8 @@ public:
    *
    * \throws hou::al::context_creation_error in case of an error.
    */
-  context(const context_settings& cs, window& wnd, context& sharing_ctx);
+  context(
+    const context_settings& cs, const window& wnd, context& sharing_ctx);
 
   /**
    * Move constructor.

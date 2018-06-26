@@ -486,7 +486,7 @@ TEST_F(test_render_surface, blit_to_window_same_size)
   render_surface rs_out(wnd.get_size());
   EXPECT_NO_ERROR(rs_out.display());
 
-  graphic_context::set_current(get_context());
+  graphic_context::set_current(get_default_window());
 }
 
 
@@ -499,7 +499,7 @@ TEST_F(test_render_surface, blit_to_window_different_size)
   render_surface rs_out(vec2u(2u, 1u));
   EXPECT_NO_ERROR(rs_out.display());
 
-  graphic_context::set_current(get_context());
+  graphic_context::set_current(get_default_window());
 }
 
 
@@ -512,7 +512,7 @@ TEST_F(test_render_surface, blit_to_window_multisampled_same_size)
   render_surface rs_out(wnd.get_size(), 2u);
   EXPECT_NO_ERROR(rs_out.display());
 
-  graphic_context::set_current(get_context());
+  graphic_context::set_current(get_default_window());
 }
 
 
@@ -521,10 +521,13 @@ TEST_F(
   test_render_surface_death_test, blit_to_window_multisampled_different_size)
 {
   window wnd("TestWindow", vec2u(4u, 4u));
+  graphic_context::set_current(wnd);
 
   render_surface rs1(vec2u(2u, 1u), 2u);
   EXPECT_PRECOND_ERROR(rs1.display());
 
   render_surface rs2(vec2u(6u, 6u), 2u);
   EXPECT_PRECOND_ERROR(rs2.display());
+
+  graphic_context::set_current(get_default_window());
 }

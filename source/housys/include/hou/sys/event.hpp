@@ -116,8 +116,11 @@ using mouse_motion_callback = std::function<void(timestamp, window::uid_type,
 /**
  * Sets the callback for quit events.
  *
- * Quit events are generated when the application receives a quit request, for
- * example when the user clicks the window X button.
+ * Quit events are generated when the last window is closed, or by external
+ * events.
+ *
+ * By default, when the sys module is initialized, signal handlers
+ * that generate a quit event are registered for SIGINT and SIGTERM.
  *
  * \param f the callback.
  */

@@ -9,13 +9,15 @@
 
 #include "hou/gfx/graphic_context.hpp"
 
+#include "hou/sys/window.hpp"
+
 
 
 class test_gfx_base : public ::testing::Test
 {
 public:
   static hou::graphic_context& get_context();
-
+  static hou::window& get_default_window();
   static void SetUpTestCase();
 
 public:

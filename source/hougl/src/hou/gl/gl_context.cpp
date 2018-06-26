@@ -339,7 +339,7 @@ window* context::get_current_window()
 
 
 
-context::context(const context_settings& cs, window& wnd)
+context::context(const context_settings& cs, const window& wnd)
   : non_copyable()
   , m_impl(nullptr)
   , m_uid(generate_uid())
@@ -356,7 +356,7 @@ context::context(const context_settings& cs, window& wnd)
 
   static constexpr bool share_with_current_ctx = true;
   context_attributes_guard attr_scope(cs, share_with_current_ctx);
-  m_impl = SDL_GL_CreateContext(wnd.get_impl());
+  m_impl = SDL_GL_CreateContext(const_cast<window::impl_type*>(wnd.get_impl()));
   HOU_CHECK_N(m_impl != nullptr, context_creation_error, SDL_GetError());
 
   std::lock_guard<std::mutex> lock(get_context_registry_mutex());
@@ -365,7 +365,8 @@ context::context(const context_settings& cs, window& wnd)
 
 
 
-context::context(const context_settings& cs, window& wnd, context& sharing_ctx)
+context::context(
+  const context_settings& cs, const window& wnd, context& sharing_ctx)
   : non_copyable()
   , m_impl(nullptr)
   , m_uid(generate_uid())
@@ -379,7 +380,7 @@ context::context(const context_settings& cs, window& wnd, context& sharing_ctx)
   static constexpr bool share_with_current_ctx = true;
   context_attributes_guard attr_scope(cs, share_with_current_ctx);
 
-  m_impl = SDL_GL_CreateContext(wnd.get_impl());
+  m_impl = SDL_GL_CreateContext(const_cast<window::impl_type*>(wnd.get_impl()));
   HOU_CHECK_N(m_impl != nullptr, context_creation_error, SDL_GetError());
 
   std::lock_guard<std::mutex> lock(get_context_registry_mutex());

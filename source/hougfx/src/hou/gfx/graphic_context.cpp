@@ -12,15 +12,6 @@
 namespace hou
 {
 
-namespace
-{
-
-constexpr const char* default_window_name = "ContextWindow";
-
-}  // namespace
-
-
-
 void graphic_context::set_current(graphic_context& ctx, window& wnd)
 {
   gl::context::set_current(ctx.m_gl_context, wnd);
@@ -28,13 +19,6 @@ void graphic_context::set_current(graphic_context& ctx, window& wnd)
   {
     ctx.initialize();
   }
-}
-
-
-
-void graphic_context::set_current(graphic_context& ctx)
-{
-  set_current(ctx, ctx.m_default_window);
 }
 
 
@@ -55,8 +39,8 @@ void graphic_context::unset_current()
 
 
 graphic_context::graphic_context()
-  : m_default_window(default_window_name, vec2u(1u, 1u))
-  , m_gl_context(gl::context_settings::get_default(), m_default_window)
+  : m_gl_context(gl::context_settings::get_default(),
+      window("HouziTempWindow", vec2u(1u, 1u)))
   , m_initialized(false)
 {}
 

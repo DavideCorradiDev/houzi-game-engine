@@ -14,9 +14,17 @@ hou::graphic_context& test_gfx_base::get_context()
 
 
 
+hou::window& test_gfx_base::get_default_window()
+{
+  static hou::window wnd(u8"TestGfxWindow", hou::vec2u(1u, 1u));
+  return wnd;
+}
+
+
+
 void test_gfx_base::SetUpTestCase()
 {
-  hou::graphic_context::set_current(get_context());
+  hou::graphic_context::set_current(get_context(), get_default_window());
 }
 
 

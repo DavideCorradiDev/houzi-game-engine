@@ -49,13 +49,6 @@ public:
   static void set_current(graphic_context& ctx, window& wnd);
 
   /**
-   * Sets this as the current context for the current thread.
-   *
-   * \param ctx the context.
-   */
-  static void set_current(graphic_context& ctx);
-
-  /**
    * Sets the window as current in the current context.
    *
    * \param wnd the window.
@@ -99,7 +92,6 @@ private:
   void initialize();
 
 private:
-  window m_default_window;
   gl::context m_gl_context;
   bool m_initialized;
 };

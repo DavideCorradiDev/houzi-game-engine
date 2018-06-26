@@ -109,9 +109,6 @@ int main(int, char**)
   bool loop = true;
   auto on_quit = [&loop](hou::event::timestamp) { loop = false; };
   hou::event::set_quit_callback(on_quit);
-  auto on_window_closed
-    = [&loop](hou::event::timestamp, hou::window::uid_type) { loop = false; };
-  hou::event::set_window_closed_callback(on_window_closed);
 
   // Context and window.
   hou::graphic_context gctx;
