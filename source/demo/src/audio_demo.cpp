@@ -51,8 +51,8 @@ int main(int, char**)
   hou::al_module::initialize();
   hou::aud_module::initialize();
 
-  hou::audio_context ac;
-  hou::audio_context::set_current(ac);
+  hou::audio_context actx;
+  hou::audio_context::set_current(actx);
 
   // Resources.
   const std::string data_dir = u8"source/demo/data/";
@@ -136,11 +136,11 @@ int main(int, char**)
   std::cout << std::endl;
 
   // Window.
-  hou::window w("AudioDemo", hou::vec2u(640u, 480u));
-  w.set_bordered(true);
-  w.set_visible(true);
-  w.raise();
-  w.focus();
+  hou::window wnd("AudioDemo", hou::vec2u(640u, 480u));
+  wnd.set_bordered(true);
+  wnd.set_visible(true);
+  wnd.raise();
+  wnd.focus();
 
   // Main loop.
   while(loop)

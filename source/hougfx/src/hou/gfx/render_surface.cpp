@@ -142,32 +142,23 @@ texture2 render_surface::to_texture() const
 
 
 
-void render_surface::blit_to_window() const
+void render_surface::display() const
 {
   set_current_render_source(*this);
   set_default_render_target();
 
-  auto rs_size = get_size();
-  auto wnd_size = gl::context::get_current_window()->get_size();
+  window* wnd = gl::context::get_current_window();
+  HOU_PRECOND(wnd != nullptr);
+
+  vec2u rs_size = get_size();
+  vec2u wnd_size = wnd->get_size();
+  HOU_PRECOND(rs_size == wnd_size || !is_multisampled());
+
   gl::blit_framebuffer(0, 0, rs_size.x(), rs_size.y(), 0, wnd_size.y(),
     wnd_size.x(), 0,
     GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
     GL_NEAREST);
-}
-
-
-
-void render_surface::blit_from_window()
-{
-  set_default_render_source();
-  set_current_render_target(*this);
-
-  auto rs_size = get_size();
-  auto wnd_size = gl::context::get_current_window()->get_size();
-  gl::blit_framebuffer(0, 0, wnd_size.x(), wnd_size.y(), 0, rs_size.y(),
-    rs_size.x(), 0,
-    GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
-    GL_NEAREST);
+  wnd->swap_buffers();
 }
 
 

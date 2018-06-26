@@ -9,6 +9,8 @@
 #include "hou/gl/gl_functions.hpp"
 #include "hou/gl/gl_texture_handle.hpp"
 
+#include "hou/sys/event.hpp"
+
 using namespace testing;
 using namespace hou;
 

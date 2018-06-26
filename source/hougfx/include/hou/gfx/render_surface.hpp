@@ -169,15 +169,9 @@ public:
 
   /**
    * Copies the content of the render_surface onto the current window
-   * framebuffer.
+   * framebuffer and swaps the current window framebuffers.
    */
-  void blit_to_window() const;
-
-  /**
-   * Copies the content of the current window framebuffer into this
-   * render_surface.
-   */
-  void blit_from_window();
+  void display() const;
 
   /**
    * Checks if this render_surface is the current render source.
