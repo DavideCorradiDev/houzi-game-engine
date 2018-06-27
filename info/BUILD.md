@@ -37,6 +37,11 @@ If unset, CMake will try to detect the path to an installed OpenAL library imple
 In case it fails to detect the library, you can manually set **LIB\_OPENAL** to the path to the library and **LIB\_OPENAL\_INCLUDE\_DIR** to the path to the library headers.
 When building OpenALSoft, refer to the OpenALSoft documentation for details about the configuration.
 
+* **HOU\_CFG\_BUILD\_SDL2**: if set, SDL2 will be built and used.
+If unset, CMake will try to detect the path to an installed SDL2 library and its headers.
+In case if fails to detect the library, you can manually set **LIB\_SDL2** to the path to the library and **LIB\_SDL2\_INCLUDE\_DIR** to the path to the library headers.
+When building SDL, refer to the SDL documentation for details about the configuration.
+
 * **HOU\_CFG\_BUILD\_STATIC\_LIBS**: if set, static libraries will be build, otherwise shared libraries will be built.
 When building static libraries, you should define the preprocessor symbol **HOU\_STATIC** to ensure that import attributes will be defined correctly.
 When building static libraries, all dependencies of the employed libraries must be explicitly linked, even if not directly used.
@@ -65,11 +70,9 @@ When enabling OpenGL error checks, the preprocessor symbol **HOU\_ENABLE\_GL\_ER
 * Configure the project with the CMake graphical interface inside the build directory.
 
 * Run the following command from the build directory in the Windows command line prompt:
-
 ```
 mingw32-make
 ```
-Refer to the MinGW documentation for options that can be passed to mingw32-make.
 
 
 
@@ -107,7 +110,7 @@ For a complete description on how to use CMake with Visual Studio you can refer 
 
 ### Building on linux with GCC
 
-* Required software:
+* Required packages:
 
     * cmake.
 
@@ -132,15 +135,15 @@ The dependencies between the modules are as follows:
 
 * **houmth**: houcor.
 
-* **housys**: houcor, houmth.
+* **housys**: houcor, houmth, SDL2, SOIL.
 
-* **hougl**: houcor, housys, OpenGL, GLAD.
+* **hougl**: houcor, housys, OpenGL, GLAD, SDL2.
 
-* **hougfx**: houcor, houmth, housys, hougl, OpenGL, GLAD, SOIL, Freetype.
+* **hougfx**: houcor, houmth, housys, hougl, Freetype.
 
 * **houal**: houcor, OpenAL.
 
-* **houaud**: houcor, houmth, housys, houal, OpenAL, OGG, VORBIS.
+* **houaud**: houcor, houmth, housys, houal, OGG, VORBIS.
 
 There is a test executable associated to each module, named **<module_name>-test**.
 Each test executable depends on the associated libraries, on its dependencies, and on gtest.
