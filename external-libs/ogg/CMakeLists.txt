@@ -11,9 +11,6 @@ if(APPLE)
     option(BUILD_FRAMEWORK "Build Framework bundle for OSX" OFF)
 endif()
 
-SET(LIB_OGG_OUTPUT_DIR ${CMAKE_BINARY_DIR})
-MESSAGE(STATUS "Output dir: ${LIB_OGG_OUTPUT_DIR}")
-
 # Extract project version from configure.ac
 file(READ configure.ac CONFIGURE_AC_CONTENTS)
 string(REGEX MATCH "AC_INIT\\(\\[libogg\\],\\[([0-9]*).([0-9]*).([0-9]*)" DUMMY ${CONFIGURE_AC_CONTENTS})
@@ -103,9 +100,6 @@ set_target_properties(
     COMPILE_FLAGS ${LIB_OGG_FLAGS}
     SOVERSION ${OGG_VERSION_INFO}
     PUBLIC_HEADER "${OGG_HEADERS}"
-    ARCHIVE_OUTPUT_DIRECTORY ${LIB_OGG_OUTPUT_DIR}
-    LIBRARY_OUTPUT_DIRECTORY ${LIB_OGG_OUTPUT_DIR}
-    RUNTIME_OUTPUT_DIRECTORY ${LIB_OGG_OUTPUT_DIR}
 )
 
 if(BUILD_FRAMEWORK)
