@@ -1,4 +1,4 @@
-MESSAGE(STATUS "--- Finding gtest  ---")
+MESSAGE(STATUS "--- Looking for gtest  ---")
 
 FIND_PATH(LIB_GOOGLE_TEST_INCLUDE_DIR gtest/gtest.h)
 FIND_LIBRARY(LIB_GOOGLE_TEST NAMES gtest)
