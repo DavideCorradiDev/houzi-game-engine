@@ -80,4 +80,4 @@ install(
     ${CMAKE_INSTALL_LIBDIR}/pkgconfig
 )
 
-message(STATUS "")
+MESSAGE(STATUS "")

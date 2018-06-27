@@ -116,14 +116,14 @@ TARGET_LINK_LIBRARIES(${EXE_AUDIO_DEMO} ${EXE_DEMO_LIB})
 #   COMPILE_FLAGS ${EXE_HOU_TEST_FLAGS}
 # )
 # TARGET_LINK_LIBRARIES(${EXE_TEXT_RENDERING_DEMO} ${EXE_DEMO_LIB})
-# 
-# # Copy demo files.
-# ADD_CUSTOM_COMMAND(
-#   TARGET ${EXE_TEXT_RENDERING_DEMO} POST_BUILD
-#   COMMAND ${CMAKE_COMMAND} -E copy_directory
-#   ${CMAKE_CURRENT_SOURCE_DIR}/data
-#   ${EXE_DEMO_OUTPUT_DIR}/source/demo/data
-#   COMMENT "Copying demo data directory to build folder"
-# )
+
+# Copy demo files.
+ADD_CUSTOM_COMMAND(
+  TARGET ${EXE_DISPLAY_DEMO} POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_directory
+  ${CMAKE_CURRENT_SOURCE_DIR}/data
+  ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/source/demo/data
+  COMMENT "Copying demo data directory to build folder"
+)
 
 MESSAGE(STATUS "")

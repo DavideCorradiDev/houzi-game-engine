@@ -68,8 +68,8 @@ OPTION(HOU_CFG_BUILD_TESTS
 )
 IF(HOU_CFG_BUILD_TESTS)
   OPTION(HOU_CFG_BUILD_GOOGLE_TEST
-    "Build the gtest library. If unset, look for installed gtest binaries and includes."
-    ON
+    "Build the gtest library. If unset, look for installed gtest libraries."
+    OFF
   )
 ELSE()
   UNSET_VAR(HOU_CFG_BUILD_GOOGLE_TEST)
@@ -78,9 +78,13 @@ OPTION(HOU_CFG_BUILD_DEMOS
   "Build example executables."
   ON
 )
+OPTION(HOU_CFG_BUILD_SDL2
+  "Build the SDL library. If unset, look for installed SDL libraries."
+  OFF
+)
 OPTION(HOU_CFG_BUILD_OPENAL_SOFT
   "Build the OpenAL-Soft library. If unset, look for an installed OpenAL implementation."
-  ON
+  OFF
 )
 OPTION(HOU_CFG_BUILD_STATIC_LIBS
   "If set, build static libraries. If unset, build shared libraries."
