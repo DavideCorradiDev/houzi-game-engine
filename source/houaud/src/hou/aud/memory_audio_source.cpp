@@ -60,7 +60,7 @@ uint memory_audio_source::get_channel_count() const
 
 uint memory_audio_source::get_bytes_per_sample() const
 {
-  return m_buffer_ref == nullptr ? 1u : m_buffer_ref->get_channel_count();
+  return m_buffer_ref == nullptr ? 1u : m_buffer_ref->get_bytes_per_sample();
 }
 
 

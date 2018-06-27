@@ -12,12 +12,10 @@
 
 #include "hou/sys/sys_exceptions.hpp"
 
-// clang-format off
 HOU_PRAGMA_GCC_DIAGNOSTIC_PUSH()
 HOU_PRAGMA_GCC_DIAGNOSTIC_IGNORED(-Wunused-variable)
 #include <vorbis/vorbisfile.h>
 HOU_PRAGMA_GCC_DIAGNOSTIC_POP()
-// clang-format on
 
 
 
