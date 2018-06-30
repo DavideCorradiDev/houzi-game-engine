@@ -13,8 +13,8 @@
 #include <map>
 #include <mutex>
 
-#include "SDL_video.h"
 #include "SDL_syswm.h"
+#include "SDL_video.h"
 
 
 
@@ -34,8 +34,8 @@ public:
   ~current_context_guard();
 
 private:
-  context* m_ctx_bkp;
-  window* m_wnd_bkp;
+  SDL_GLContext m_ctx_bkp;
+  SDL_Window* m_wnd_bkp;
 };
 
 
@@ -61,7 +61,8 @@ uint32_t generate_uid();
 
 SDL_GLContext create_context(const context_settings& cs, const SDL_Window* wnd);
 
-SDL_GLContext create_context_ext(const context_settings& cs, const SDL_Window* wnd);
+SDL_GLContext create_context_ext(const context_settings& cs,
+  const SDL_Window* wnd, const void* sharing_ctx);
 
 std::map<const context::impl_type*, context*>& get_context_registry();
 
@@ -70,22 +71,16 @@ std::mutex& get_context_registry_mutex();
 
 
 current_context_guard::current_context_guard()
-  : m_ctx_bkp(context::get_current())
-  , m_wnd_bkp(context::get_current_window())
+  : m_ctx_bkp(SDL_GL_GetCurrentContext())
+  , m_wnd_bkp(SDL_GL_GetCurrentWindow())
 {}
 
 
 
 current_context_guard::~current_context_guard()
 {
-  if(m_ctx_bkp != nullptr && m_wnd_bkp != nullptr)
-  {
-    context::set_current(*m_ctx_bkp, *m_wnd_bkp);
-  }
-  else
-  {
-    context::unset_current();
-  }
+  HOU_CHECK_N(SDL_GL_MakeCurrent(m_wnd_bkp, m_ctx_bkp) == 0,
+    context_switch_error, SDL_GetError());
 }
 
 
@@ -280,6 +275,8 @@ uint32_t generate_uid()
 
 SDL_GLContext create_context(const context_settings& cs, const SDL_Window* wnd)
 {
+  // Note: contexts must alwasy be created with the share list parameter.
+  // This enable contexts created in the future to share lists with them.
   static constexpr bool share_lists = true;
   context_attributes_guard attr_scope(cs, share_lists);
   SDL_GLContext ctx = SDL_GL_CreateContext(
@@ -293,19 +290,40 @@ SDL_GLContext create_context(const context_settings& cs, const SDL_Window* wnd)
   return ctx;
 }
 
-SDL_GLContext create_context_ext(const context_settings& cs, const SDL_Window* wnd)
-{
 
-  // Create dummy context to initialize extensions used to create contexts.
+
+SDL_GLContext create_context_ext(const context_settings& cs,
+  const SDL_Window* wnd, const void* sharing_ctx)
+{
+  // The current context will be changed while constructing the new context.
+  // Make sure that after the constructor has been called, the originally
+  // current context will be restored.
+  current_context_guard ctx_guard;
+
+  // Dummy temp window for the sharing or temp context.
   window tmp_wnd("ExtensionInitializationWindow", vec2u(1u, 1u));
-  SDL_GLContext tmp_ctx
-    = create_context(context_settings::get_basic(), tmp_wnd.get_impl());
-  HOU_ASSERT(tmp_ctx == SDL_GL_GetCurrentContext());
+  if(sharing_ctx == nullptr)
+  {
+    // If no sharing ctx is specified, create a temporary dummy one with
+    // basic gl settings to make sure extensions are properly initialized when
+    // creating the new context.
+    // If a sharing ctx has been specified, the extensions have already been
+    // initialized for it.
+    sharing_ctx
+      = create_context(context_settings::get_basic(), tmp_wnd.get_impl());
+  }
+  // Make sharing_ctx current, so that the newly created context will share lists
+  // with it.
+  // If no sharing_ctx was provided, a temp one has been created, meaning that
+  // the new context will share lists with it which ends up having no tangible
+  // effect.
+  HOU_CHECK_N(
+    SDL_GL_MakeCurrent(tmp_wnd.get_impl(), const_cast<void*>(sharing_ctx)) == 0,
+    context_switch_error, SDL_GetError());
+  HOU_ASSERT(sharing_ctx == SDL_GL_GetCurrentContext());
 
   // Create the actual context.
-  SDL_GLContext ctx = create_context(cs, wnd);
-
-  return ctx;
+  return create_context(cs, wnd);
 }
 
 
@@ -377,37 +395,28 @@ window* context::get_current_window()
 
 
 context::context(const context_settings& cs, const window& wnd)
-  : non_copyable()
-  , m_impl(nullptr)
-  , m_uid(generate_uid())
-  , m_sharing_group_uid(m_uid)
-  , m_tracking_data()
-{
-  current_context_guard ctx_guard;
-  context::unset_current();
-  m_impl = create_context_ext(cs, wnd.get_impl());
-
-  // Add the actual context to the registry.
-  std::lock_guard<std::mutex> lock(get_context_registry_mutex());
-  get_context_registry().insert(std::make_pair(m_impl, this));
-}
+  : context(cs, wnd, nullptr)
+{}
 
 
 
 context::context(
-  const context_settings& cs, const window& wnd, context& sharing_ctx)
+  const context_settings& cs, const window& wnd, const context& sharing_ctx)
+  : context(cs, wnd, &sharing_ctx)
+{}
+
+
+
+context::context(
+  const context_settings& cs, const window& wnd, const context* sharing_ctx)
   : non_copyable()
-  , m_impl(nullptr)
+  , m_impl(create_context_ext(cs, wnd.get_impl(),
+      sharing_ctx == nullptr ? nullptr : sharing_ctx->get_impl()))
   , m_uid(generate_uid())
-  , m_sharing_group_uid(sharing_ctx.m_sharing_group_uid)
+  , m_sharing_group_uid(
+      sharing_ctx == nullptr ? m_uid : sharing_ctx->m_sharing_group_uid)
   , m_tracking_data()
 {
-  current_context_guard ctx_guard;
-  window w("", vec2u(1u, 1u));
-  context::set_current(sharing_ctx, w);
-  m_impl = create_context_ext(cs, wnd.get_impl());
-
-  // Add the actual context to the registry.
   std::lock_guard<std::mutex> lock(get_context_registry_mutex());
   get_context_registry().insert(std::make_pair(m_impl, this));
 }
