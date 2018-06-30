@@ -273,3 +273,11 @@ TEST_F(test_exception_death_test, hou_unreachable_macro)
   EXPECT_EXIT(HOU_UNREACHABLE(), ExitedWithCode(EXIT_FAILURE),
     ".*:.* - Unreachable code path\\.");
 }
+
+
+
+TEST_F(test_exception_death_test, hou_not_implemented_macro)
+{
+  EXPECT_EXIT(HOU_NOT_IMPLEMENTED(), ExitedWithCode(EXIT_FAILURE),
+    ".*:.* - Not implemented code path\\.");
+}

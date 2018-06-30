@@ -13,4 +13,10 @@
   #define HOU_GL_API HOU_IMPORT
 #endif
 
+#if defined(HOU_SYSTEM_WINDOWS)
+  #define HOU_GL_WGL
+#elif defined(HOU_SYSTEM_LINUX)
+  #define HOU_GL_GLX
+#endif
+
 #endif

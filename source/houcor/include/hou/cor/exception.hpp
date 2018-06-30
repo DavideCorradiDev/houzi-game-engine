@@ -124,6 +124,9 @@ void error(Args... args)
 
 #define HOU_UNREACHABLE() HOU_EXIT_WITH_ERROR(u8"Unreachable code path.")
 
+#define HOU_NOT_IMPLEMENTED()                                                  \
+  HOU_EXIT_WITH_ERROR(u8"Not implemented code path.")
+
 #define HOU_ERROR_STD_0(exception_type) ::hou::error<exception_type>()
 
 #define HOU_ERROR_STD_N(exception_type, ...)                                   \
