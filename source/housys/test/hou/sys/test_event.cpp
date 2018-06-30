@@ -34,6 +34,7 @@ void test_event::TearDown()
 
 TEST_F(test_event, queue_empty)
 {
+  event::flush_all();
   EXPECT_TRUE(event::queue_empty());
 
   event::generate_quit();
