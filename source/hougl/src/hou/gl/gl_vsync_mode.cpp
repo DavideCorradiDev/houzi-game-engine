@@ -6,7 +6,7 @@
 
 #include "hou/gl/gl_missing_context_error.hpp"
 
-#include "SDL2/SDL_video.h"
+#include "SDL_video.h"
 
 #define VSYNC_MODE_CASE(vsm, os)                                               \
   case vsync_mode::vsm:                                                        \

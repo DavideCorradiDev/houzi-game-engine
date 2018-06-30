@@ -9,7 +9,7 @@
 
 #include "hou/mth/matrix.hpp"
 
-#include "SDL2/SDL_events.h"
+#include "SDL_events.h"
 
 
 

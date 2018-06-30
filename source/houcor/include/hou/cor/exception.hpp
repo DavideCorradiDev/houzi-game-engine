@@ -84,8 +84,8 @@ private:
 
 /** Prints the given message to the console error stream and stops execution.
  *
- * This function internally calls std::quick_exit, meaning that callbacks
- * can be registered with std::at_quick_exit to do some final cleanup.
+ * This function internally calls std::exit, meaning that callbacks
+ * can be registered with std::at_exit to do some final cleanup.
  *
  * \param message the error message to be printed.
  */

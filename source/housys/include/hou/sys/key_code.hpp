@@ -7,7 +7,7 @@
 
 #include "hou/sys/sys_config.hpp"
 
-#include "SDL2/SDL_keyboard.h"
+#include "SDL_keyboard.h"
 
 #include <iostream>
 
