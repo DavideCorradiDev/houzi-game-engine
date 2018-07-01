@@ -328,7 +328,7 @@ int main(int, char**)
 
   std::cout << "The events in the queue will be printed in the terminal."
             << std::endl;
-  std::cout << "Press F1 to hide the window." << std::endl;
+  std::cout << "Press f1 to hide the window." << std::endl;
 
   while(loop)
   {

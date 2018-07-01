@@ -125,14 +125,14 @@ int main(int, char**)
   print_audio_source_properties(std::cout, "Ogg", ogg_source);
 
   std::cout << "Controls:" << std::endl;
-  std::cout << "    F1: play wav source" << std::endl;
-  std::cout << "    F2: replay wav source" << std::endl;
-  std::cout << "    F3: pause wav source" << std::endl;
-  std::cout << "    F4: stop wav source" << std::endl;
-  std::cout << "    F5: play ogg source" << std::endl;
-  std::cout << "    F6: replay ogg source" << std::endl;
-  std::cout << "    F7: pause ogg source" << std::endl;
-  std::cout << "    F8: stop ogg source" << std::endl;
+  std::cout << "    f1: play wav source" << std::endl;
+  std::cout << "    f2: replay wav source" << std::endl;
+  std::cout << "    f3: pause wav source" << std::endl;
+  std::cout << "    f4: stop wav source" << std::endl;
+  std::cout << "    f5: play ogg source" << std::endl;
+  std::cout << "    f6: replay ogg source" << std::endl;
+  std::cout << "    f7: pause ogg source" << std::endl;
+  std::cout << "    f8: stop ogg source" << std::endl;
   std::cout << std::endl;
 
   // Window.
