@@ -74,6 +74,9 @@ IF(HOU_CFG_BUILD_SDL2)
   SET(LIB_SDL2_INCLUDE_DIR ${LIB_SDL2_SOURCE_DIR}/include
     CACHE STRING "SDL2 include dir.")
   MESSAGE(STATUS "--- Configuring target ${LIB_SDL2} ---")
+  OPTION(ASSERTIONS
+    "Enable internal sanity checks (auto/disabled/release/enabled/paranoid)"
+    "disabled")
   ADD_SUBDIRECTORY(${LIB_SDL2_SOURCE_DIR})
   MESSAGE(STATUS "")
 ELSE()

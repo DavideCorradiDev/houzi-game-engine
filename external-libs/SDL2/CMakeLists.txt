@@ -270,7 +270,7 @@ foreach(_SUB ${SDL_SUBSYSTEMS})
   option(SDL_${_OPT} "Enable the ${_SUB} subsystem" ${SDL_${_OPT}_ENABLED_BY_DEFAULT})
 endforeach()
 
-option_string(ASSERTIONS "Enable internal sanity checks (auto/disabled/release/enabled/paranoid)" "disabled")
+option_string(ASSERTIONS "Enable internal sanity checks (auto/disabled/release/enabled/paranoid)" "auto")
 #set_option(DEPENDENCY_TRACKING "Use gcc -MMD -MT dependency tracking" ON)
 set_option(LIBC                "Use the system C library" ${OPT_DEF_LIBC})
 set_option(GCC_ATOMICS         "Use gcc builtin atomics" ${OPT_DEF_GCC_ATOMICS})
