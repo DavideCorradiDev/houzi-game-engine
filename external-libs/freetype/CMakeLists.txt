@@ -1,5 +1,4 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.3)
-MESSAGE(STATUS "--- Configuring target ${LIB_FREETYPE} ---")
 
 # Definitions
 # Defining this is necessary, otherwise internal headers will not be included
@@ -62,5 +61,3 @@ SET(LIB_FREETYPE_SRC
 
 # Add targets
 ADD_LIBRARY(${LIB_FREETYPE} STATIC ${LIB_FREETYPE_SRC})
-
-MESSAGE(STATUS "")

@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.3)
-MESSAGE(STATUS "--- Configuring target ${LIB_OGG} ---")
 project(ogg)
 
 # Required modules
@@ -116,5 +115,3 @@ install(TARGETS ${LIB_OGG}
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ogg.pc
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
 )
-
-message(STATUS "")

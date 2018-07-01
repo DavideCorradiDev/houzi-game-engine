@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.3)
-MESSAGE(STATUS "--- Configuring target ${LIB_VORBIS} ---")
 project(vorbis)
 
 # Required modules
@@ -79,5 +78,3 @@ install(
     DESTINATION
     ${CMAKE_INSTALL_LIBDIR}/pkgconfig
 )
-
-MESSAGE(STATUS "")
