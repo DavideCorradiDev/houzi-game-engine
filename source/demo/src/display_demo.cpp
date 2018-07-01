@@ -32,7 +32,7 @@ int main(int, char**)
   std::cout << "\n";
 
   std::cout << "Available display(s):\n";
-  for(uint i = 0; i < hou::display::get_count(); ++i)
+  for(hou::uint i = 0; i < hou::display::get_count(); ++i)
   {
     std::cout << "  Name: " << hou::display::get_name(i) << "\n";
     std::cout << "  Bounds: " << hou::display::get_bounds(i) << "\n";

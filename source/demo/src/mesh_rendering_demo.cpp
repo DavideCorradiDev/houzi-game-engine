@@ -2,6 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
+#include "bounded.hpp"
+
 #include "hou/cor/cor_module.hpp"
 #include "hou/gfx/gfx_module.hpp"
 #include "hou/gl/gl_module.hpp"
@@ -21,68 +23,6 @@
 #include "hou/sys/window.hpp"
 
 #include <iostream>
-
-
-
-template <typename T>
-class bounded
-{
-public:
-  bounded(T value, T min, T max);
-  const bounded& operator+=(T delta);
-  const bounded& operator-=(T delta);
-  operator T() const;
-
-private:
-  T m_value;
-  T m_min;
-  T m_max;
-};
-
-
-
-template <typename T>
-bounded<T>::bounded(T value, T min, T max)
-  : m_value(value)
-  , m_min(min)
-  , m_max(max)
-{
-  HOU_PRECOND(value >= min && value <= max);
-}
-
-
-
-template <typename T>
-const bounded<T>& bounded<T>::operator+=(T delta)
-{
-  m_value += delta;
-  if(m_value > m_max)
-  {
-    m_value = m_max;
-  }
-  return *this;
-}
-
-
-
-template <typename T>
-const bounded<T>& bounded<T>::operator-=(T delta)
-{
-  m_value -= delta;
-  if(m_value < m_min)
-  {
-    m_value = m_min;
-  }
-  return *this;
-}
-
-
-
-template <typename T>
-bounded<T>::operator T() const
-{
-  return m_value;
-}
 
 
 
@@ -319,7 +259,7 @@ int main(int, char**)
   hou::event::set_key_pressed_callback(on_key_pressed);
 
   std::cout << "Controls:" << std::endl;
-  std::cout << "    F1, F2, F3, F4: change shape" << std::endl;
+  std::cout << "    f1, f2, f3, f4: change shape" << std::endl;
   std::cout << "    0: activate / deactivate texture" << std::endl;
   std::cout << "    1, 2: change red color value" << std::endl;
   std::cout << "    3, 4: change green color value" << std::endl;

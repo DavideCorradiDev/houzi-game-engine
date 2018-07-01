@@ -9,7 +9,7 @@
 
 #include "hou/cor/bitwise_operators.hpp"
 
-#include "SDL2/SDL_keyboard.h"
+#include "SDL_keyboard.h"
 
 #include <iostream>
 

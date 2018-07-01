@@ -8,13 +8,13 @@
 #include "hou/cor/cor_config.hpp"
 
 // clang-format off
-#if defined(HOU_COMPILER_MINGW) or defined(HOU_COMPILER_GCC)
+#if defined(HOU_COMPILER_MINGW) || defined(HOU_COMPILER_GCC)
   #define HOU_DO_PRAGMA(x) _Pragma(#x)
 #elif defined(HOU_COMPILER_MSVC)
   #define HOU_DO_PRAGMA(x) __pragma(x)
 #endif
 
-#if defined(HOU_COMPILER_MINGW) or defined(HOU_COMPILER_GCC)
+#if defined(HOU_COMPILER_MINGW) || defined(HOU_COMPILER_GCC)
   #define HOU_PRAGMA_GCC_DIAGNOSTIC_PUSH() HOU_DO_PRAGMA(GCC diagnostic push)
   #define HOU_PRAGMA_GCC_DIAGNOSTIC_POP() HOU_DO_PRAGMA(GCC diagnostic pop)
   #define HOU_PRAGMA_GCC_DIAGNOSTIC_IGNORED(w)                                 \
@@ -28,6 +28,7 @@
   #define HOU_PRAGMA_PACK_PUSH(n)
   #define HOU_PRAGMA_PACK_POP()
 #endif
+
 
 #if defined(HOU_COMPILER_MSVC)
   #define HOU_PRAGMA_MSVC_WARNING_PUSH() HOU_DO_PRAGMA(warning(push))

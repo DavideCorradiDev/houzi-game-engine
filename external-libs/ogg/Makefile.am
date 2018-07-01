@@ -3,6 +3,7 @@
 
 #AUTOMAKE_OPTIONS = foreign 1.6 dist-zip
 AUTOMAKE_OPTIONS = foreign 1.11 dist-zip dist-xz
+ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = src include doc
 
@@ -15,7 +16,7 @@ pkgconfig_DATA = ogg.pc
 EXTRA_DIST = README.md AUTHORS CHANGES COPYING \
 	libogg.spec libogg.spec.in \
 	ogg.m4 ogg.pc.in ogg-uninstalled.pc.in \
-	macosx win32
+	macosx win32 CMakeLists.txt
 
 dist-hook:
 	for item in $(EXTRA_DIST); do \

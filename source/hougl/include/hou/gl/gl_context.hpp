@@ -20,13 +20,9 @@
 
 #include <vector>
 
+namespace hou {
 
-
-namespace hou
-{
-
-namespace gl
-{
+namespace gl {
 
 class buffer_handle;
 class framebuffer_handle;
@@ -58,8 +54,7 @@ class vertex_array_handle;
  * thrown if an operation is performed on an object not owned by the current
  * context.
  */
-class HOU_GL_API context : public non_copyable
-{
+class HOU_GL_API context : public non_copyable {
 public:
   /**
    * Underlying implementation type.
@@ -79,7 +74,7 @@ public:
    *
    * \return the context referenced by the implementation.
    */
-  static context& get_from_impl(not_null<const impl_type*> impl);
+  static context &get_from_impl(not_null<const impl_type *> impl);
 
   /**
    * Sets the current context in the current thread.
@@ -88,7 +83,8 @@ public:
    * current in one thread at a time.
    *
    * A context must be made current together with a window.
-   * The window framebuffer will be the default framebuffer of OpenGL operations.
+   * The window framebuffer will be the default framebuffer of OpenGL
+   * operations.
    *
    * \param ctx the context to make current.
    *
@@ -96,7 +92,7 @@ public:
    *
    * \throws hou::gl::context_switch_error in case setting the context failed.
    */
-  static void set_current(context& ctx, window& wnd);
+  static void set_current(context &ctx, window &wnd);
 
   /**
    * Unsets the current context in the current thread.
@@ -114,7 +110,7 @@ public:
    * \return a pointer to the current context, or nullptr if there is no
    * current context.
    */
-  static context* get_current();
+  static context *get_current();
 
   /**
    * Gets the current window in the current thread.
@@ -122,7 +118,7 @@ public:
    * \return a refernece the current window, or nullptr if the re is no current
    * context.
    */
-  static window* get_current_window();
+  static window *get_current_window();
 
 public:
   /**
@@ -138,7 +134,7 @@ public:
    *
    * \throws hou::al::context_creation_error in case of an error.
    */
-  context(const context_settings& cs, const window& wnd);
+  context(const context_settings &cs, const window &wnd);
 
   /**
    * Creates a context sharing with another context.
@@ -158,14 +154,14 @@ public:
    * \throws hou::al::context_creation_error in case of an error.
    */
   context(
-    const context_settings& cs, const window& wnd, context& sharing_ctx);
+    const context_settings& cs, const window& wnd, const context& sharing_ctx);
 
   /**
    * Move constructor.
    *
    * \param other the othe context.
    */
-  context(context&& other) noexcept;
+  context(context &&other) noexcept;
 
   /**
    * Destructor.
@@ -177,14 +173,14 @@ public:
    *
    * \return a reference to the underlying implementation.
    */
-  const impl_type* get_impl() const noexcept;
+  const impl_type *get_impl() const noexcept;
 
   /**
    * Gets a reference to the underlying implementation.
    *
    * \return a reference to the underlying implementation.
    */
-  impl_type* get_impl() noexcept;
+  impl_type *get_impl() noexcept;
 
   /**
    * Gets the context unique identifier.
@@ -209,8 +205,7 @@ public:
   bool is_current() const;
 
 private:
-  class tracking_data
-  {
+  class tracking_data {
   public:
     tracking_data() noexcept;
 
@@ -248,9 +243,9 @@ private:
 
     void set_bound_vertex_array(uint32_t uid) noexcept;
 
-    const recti& get_current_viewport() const noexcept;
+    const recti &get_current_viewport() const noexcept;
 
-    void set_current_viewport(const recti& viewport) noexcept;
+    void set_current_viewport(const recti &viewport) noexcept;
 
   private:
     uint32_t m_bound_array_buffer;
@@ -266,54 +261,58 @@ private:
   };
 
 private:
-  impl_type* m_impl;
+  context(
+    const context_settings& cs, const window& wnd, const context* sharing_ctx);
+
+private:
+  impl_type *m_impl;
   uid_type m_uid;
   uid_type m_sharing_group_uid;
   tracking_data m_tracking_data;
 
 private:
-  friend HOU_GL_API void bind_buffer(
-    const buffer_handle& buffer, GLenum target);
+  friend HOU_GL_API void bind_buffer(const buffer_handle &buffer,
+                                     GLenum target);
   friend HOU_GL_API void unbind_buffer(GLenum target);
-  friend HOU_GL_API bool is_buffer_bound(
-    const buffer_handle& buffer, GLenum target);
+  friend HOU_GL_API bool is_buffer_bound(const buffer_handle &buffer,
+                                         GLenum target);
   friend HOU_GL_API bool is_buffer_bound(GLenum target);
-  friend HOU_GL_API void bind_framebuffer(
-    const framebuffer_handle& framebuffer);
-  friend HOU_GL_API void bind_framebuffer(
-    const framebuffer_handle& framebuffer, GLenum target);
+  friend HOU_GL_API void
+  bind_framebuffer(const framebuffer_handle &framebuffer);
+  friend HOU_GL_API void bind_framebuffer(const framebuffer_handle &framebuffer,
+                                          GLenum target);
   friend HOU_GL_API void unbind_framebuffer();
   friend HOU_GL_API void unbind_framebuffer(GLenum target);
-  friend HOU_GL_API bool is_framebuffer_bound(
-    const framebuffer_handle& framebuffer, GLenum target);
+  friend HOU_GL_API bool
+  is_framebuffer_bound(const framebuffer_handle &framebuffer, GLenum target);
   friend HOU_GL_API bool is_framebuffer_bound(GLenum target);
-  friend HOU_GL_API void bind_program(const program_handle& program);
+  friend HOU_GL_API void bind_program(const program_handle &program);
   friend HOU_GL_API void unbind_program();
-  friend HOU_GL_API bool is_program_bound(const program_handle& program);
+  friend HOU_GL_API bool is_program_bound(const program_handle &program);
   friend HOU_GL_API bool is_program_bound();
-  friend HOU_GL_API void bind_texture(const texture_handle& texture);
+  friend HOU_GL_API void bind_texture(const texture_handle &texture);
   friend HOU_GL_API void unbind_texture();
-  friend HOU_GL_API bool is_texture_bound(const texture_handle& texture);
+  friend HOU_GL_API bool is_texture_bound(const texture_handle &texture);
   friend HOU_GL_API bool is_texture_bound();
-  friend HOU_GL_API void bind_texture(
-    const texture_handle& texture, GLuint unit);
+  friend HOU_GL_API void bind_texture(const texture_handle &texture,
+                                      GLuint unit);
   friend HOU_GL_API void unbind_texture(GLuint unit);
-  friend HOU_GL_API bool is_texture_bound(
-    const texture_handle& texture, GLuint unit);
+  friend HOU_GL_API bool is_texture_bound(const texture_handle &texture,
+                                          GLuint unit);
   friend HOU_GL_API bool is_texture_bound(GLuint unit);
   friend HOU_GL_API void set_active_texture(GLuint unit);
   friend HOU_GL_API GLuint get_bound_texture_name();
-  friend HOU_GL_API void bind_vertex_array(
-    const vertex_array_handle& vertexArray);
+  friend HOU_GL_API void
+  bind_vertex_array(const vertex_array_handle &vertexArray);
   friend HOU_GL_API void unbind_vertex_array();
-  friend HOU_GL_API bool is_vertex_array_bound(
-    const vertex_array_handle& vertexArray);
+  friend HOU_GL_API bool
+  is_vertex_array_bound(const vertex_array_handle &vertexArray);
   friend HOU_GL_API bool is_vertex_array_bound();
   friend HOU_GL_API void set_viewport(GLint x, GLint y, GLsizei w, GLsizei h);
 };
 
-}  // namespace gl
+} // namespace gl
 
-}  // namespace hou
+} // namespace hou
 
 #endif

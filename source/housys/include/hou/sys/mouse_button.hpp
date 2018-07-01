@@ -9,7 +9,7 @@
 
 #include <iostream>
 
-#include "SDL2/SDL_mouse.h"
+#include "SDL_mouse.h"
 
 
 

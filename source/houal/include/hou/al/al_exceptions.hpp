@@ -11,6 +11,8 @@
 
 #include "hou/al/al_config.hpp"
 
+#include <cstdlib>
+
 
 
 namespace hou

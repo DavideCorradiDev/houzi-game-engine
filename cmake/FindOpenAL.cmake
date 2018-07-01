@@ -14,7 +14,9 @@ ENDIF()
 
 IF(GoogleTest_FIND_REQUIRED)
   IF(NOT LIB_OPENAL_INCLUDE_DIR OR NOT LIB_OPENAL)
-    MESSAGE(FATAL_ERROR "Could not find OpenAL")
+    MESSAGE(SEND_ERROR
+      "Could not find OpenAL. Please manually specify the library and include \
+      paths or set HOU_CFG_BUILD_OPENAL_SOFT to build OpenAL from source.")
   ENDIF()
 ENDIF()
 

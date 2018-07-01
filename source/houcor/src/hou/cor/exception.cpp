@@ -6,6 +6,7 @@
 
 #include "hou/cor/std_string.hpp"
 
+#include <cstdlib>
 #include <iostream>
 
 
@@ -55,7 +56,7 @@ const char* exception::what() const noexcept
 void exit_with_error(const std::string& message) noexcept
 {
   std::cerr << message << std::endl;
-  std::quick_exit(EXIT_FAILURE);
+  std::exit(EXIT_FAILURE);
 }
 
 }  // namespace hou

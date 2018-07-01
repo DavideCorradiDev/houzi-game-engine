@@ -4,7 +4,7 @@
 
 #include "hou/sys/sys_module.hpp"
 
-#include "SDL2/SDL.h"
+#include "SDL.h"
 
 
 

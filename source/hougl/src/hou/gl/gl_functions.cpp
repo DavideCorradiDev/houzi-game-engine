@@ -13,10 +13,6 @@
 
 #include "hou/mth/rectangle.hpp"
 
-#if defined(HOU_SYSTEM_WINDOWS)
-#include "hou/sys/win/win_error.hpp"
-#endif
-
 
 
 namespace hou

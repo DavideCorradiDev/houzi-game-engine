@@ -1,4 +1,3 @@
-MESSAGE(STATUS "--- Configuring target ${LIB_SDL2} ---")
 if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
   message(FATAL_ERROR "Prevented in-tree built. Please create a build directory outside of the SDL source code and call cmake from there")
 endif()
@@ -271,7 +270,7 @@ foreach(_SUB ${SDL_SUBSYSTEMS})
   option(SDL_${_OPT} "Enable the ${_SUB} subsystem" ${SDL_${_OPT}_ENABLED_BY_DEFAULT})
 endforeach()
 
-option_string(ASSERTIONS "Enable internal sanity checks (auto/disabled/release/enabled/paranoid)" "disabled")
+option_string(ASSERTIONS "Enable internal sanity checks (auto/disabled/release/enabled/paranoid)" "auto")
 #set_option(DEPENDENCY_TRACKING "Use gcc -MMD -MT dependency tracking" ON)
 set_option(LIBC                "Use the system C library" ${OPT_DEF_LIBC})
 set_option(GCC_ATOMICS         "Use gcc builtin atomics" ${OPT_DEF_GCC_ATOMICS})
@@ -1846,5 +1845,3 @@ if(NOT TARGET uninstall)
   add_custom_target(uninstall
       COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
 endif()
-
-MESSAGE(STATUS "")

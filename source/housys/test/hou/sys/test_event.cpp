@@ -34,6 +34,7 @@ void test_event::TearDown()
 
 TEST_F(test_event, queue_empty)
 {
+  event::flush_all();
   EXPECT_TRUE(event::queue_empty());
 
   event::generate_quit();
@@ -89,6 +90,8 @@ TEST_F(test_event, process_next)
   EXPECT_EQ(3, counter);
 
   EXPECT_FALSE(event::process_next());
+
+  event::set_quit_callback(nullptr);
 }
 
 
@@ -107,6 +110,8 @@ TEST_F(test_event, process_all)
 
   event::process_all();
   EXPECT_EQ(3, counter);
+
+  event::set_quit_callback(nullptr);
 }
 
 
@@ -125,6 +130,8 @@ TEST_F(test_event, flush_all)
 
   event::flush_all();
   EXPECT_EQ(0, counter);
+
+  event::set_quit_callback(nullptr);
 }
 
 

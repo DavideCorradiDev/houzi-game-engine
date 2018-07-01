@@ -7,11 +7,16 @@
 #include "hou/cor/character_encodings.hpp"
 #include "hou/cor/narrow_cast.hpp"
 
-#include "hou/sys/win/win.hpp"
-
 #include <io.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <windows.h>
+#ifdef min
+  #undef min
+#endif
+#ifdef max
+  #undef max
+#endif
 
 
 

@@ -12,7 +12,7 @@
 
 #include "hou/sys/window.hpp"
 
-#include "SDL2/SDL_video.h"
+#include "SDL_video.h"
 
 #include <thread>
 
@@ -286,16 +286,26 @@ TEST_F(test_gl_context, current_gl_context)
 
 TEST_F(test_gl_context_death_test, set_current_error_multiple_threads)
 {
+#if defined(HOU_SYSTEM_WINDOWS)
+  const char msg[] = "wglMakeCurrent(): The requested resource is in use.\r\n";
+#elif defined(HOU_SYSTEM_LINUX)
+
+  const char msg[] = "Unable to make GL context current";
+#else
+  HOU_NOT_IMPLEMENTED();
+  const char msg[] = "";
+#endif
+
   window w1("Test", vec2u(10u, 10u));
   gl::context ctx(gl::context_settings::get_default(), w1);
 
   gl::context::set_current(ctx, w1);
   ASSERT_TRUE(ctx.is_current());
 
-  std::thread t([&ctx]() {
+  std::thread t([&ctx, &msg]() {
     window w2("Test", vec2u(10u, 10u));
-    EXPECT_ERROR_N(gl::context::set_current(ctx, w2), gl::context_switch_error,
-      "Unable to make GL context current");
+    EXPECT_ERROR_N(
+      gl::context::set_current(ctx, w2), gl::context_switch_error, msg);
   });
 
   t.join();

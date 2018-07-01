@@ -684,6 +684,7 @@ int vorbis_encode_setup_init(vorbis_info *vi){
   highlevel_encode_setup *hi=&ci->hi;
 
   if(ci==NULL)return(OV_EINVAL);
+  if(vi->channels<1||vi->channels>255)return(OV_EINVAL);
   if(!hi->impulse_block_p)i0=1;
 
   /* too low/high an ATH floater is nonsensical, but doesn't break anything */
@@ -1210,7 +1211,7 @@ int vorbis_encode_ctl(vorbis_info *vi,int number,void *arg){
                                           hi->req,
                                           hi->managed,
                                           &new_base);
-        if(!hi->setup)return OV_EIMPL;
+        if(!new_template)return OV_EIMPL;
         hi->setup=new_template;
         hi->base_setting=new_base;
         vorbis_encode_setup_setting(vi,vi->channels,vi->rate);

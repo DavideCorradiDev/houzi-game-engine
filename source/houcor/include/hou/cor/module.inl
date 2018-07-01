@@ -53,7 +53,6 @@ void module<Impl>::register_terminate_callbacks() noexcept
   {
     already_called = true;
     std::atexit(&module<Impl>::terminate);
-    std::at_quick_exit(&module<Impl>::terminate);
   }
 }
 

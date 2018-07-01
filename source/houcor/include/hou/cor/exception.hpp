@@ -84,8 +84,8 @@ private:
 
 /** Prints the given message to the console error stream and stops execution.
  *
- * This function internally calls std::quick_exit, meaning that callbacks
- * can be registered with std::at_quick_exit to do some final cleanup.
+ * This function internally calls std::exit, meaning that callbacks
+ * can be registered with std::at_exit to do some final cleanup.
  *
  * \param message the error message to be printed.
  */
@@ -123,6 +123,9 @@ void error(Args... args)
     ::hou::prv::format_error_message(__FILE__, __LINE__, message));
 
 #define HOU_UNREACHABLE() HOU_EXIT_WITH_ERROR(u8"Unreachable code path.")
+
+#define HOU_NOT_IMPLEMENTED()                                                  \
+  HOU_EXIT_WITH_ERROR(u8"Not implemented code path.")
 
 #define HOU_ERROR_STD_0(exception_type) ::hou::error<exception_type>()
 

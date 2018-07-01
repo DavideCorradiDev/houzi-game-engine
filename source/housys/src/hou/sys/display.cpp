@@ -8,7 +8,7 @@
 
 #include "hou/cor/narrow_cast.hpp"
 
-#include "SDL2/SDL_video.h"
+#include "SDL_video.h"
 
 
 

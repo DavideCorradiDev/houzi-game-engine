@@ -466,8 +466,15 @@ TEST_F(test_window, maximization_on_not_resizable_window)
 
 
 
+#if defined(HOU_SYSTEM_LINUX)
 TEST_F(test_window, DISABLED_minimization)
+#else
+TEST_F(test_window, minimization)
+#endif
 {
+  // On linux, the window is not immediately flagged as minimized, and
+  // calling restore doesn't restore the window, but just notifies that
+  // the window "is ready".
   window w(u8"TestWindow", vec2u(32u, 64u));
 
   EXPECT_FALSE(w.is_minimized());
@@ -484,7 +491,11 @@ TEST_F(test_window, DISABLED_minimization)
 
 
 
+#if defined(HOU_SYSTEM_LINUX)
 TEST_F(test_window, DISABLED_minimization_and_maximization)
+#else
+TEST_F(test_window, minimization_and_maximization)
+#endif
 {
   window w(u8"TestWindow", vec2u(32u, 64u));
   w.set_resizable(true);
@@ -517,11 +528,11 @@ TEST_F(test_window, DISABLED_minimization_and_maximization)
 
   w.minimize();
   EXPECT_TRUE(w.is_minimized());
-  EXPECT_TRUE(w.is_maximized());
+  EXPECT_FALSE(w.is_maximized());
 
   w.restore();
   EXPECT_FALSE(w.is_minimized());
-  EXPECT_FALSE(w.is_maximized());
+  EXPECT_TRUE(w.is_maximized());
 }
 
 
@@ -578,9 +589,14 @@ TEST_F(test_window, bordered)
 
 
 
+#if defined(HOU_SYSTEM_WINDOWS)
+TEST_F(test_window, DISABLED_focus_success)
+#else
 TEST_F(test_window, focus_success)
+#endif
 {
-  // The window is visible, focusing it will succeed.
+  // On windows, the window doesn't get successfully focused in this kind of
+  // scenario.
   window w(u8"TestWindow", vec2u(32u, 64u));
   w.set_visible(true);
   event::process_all();

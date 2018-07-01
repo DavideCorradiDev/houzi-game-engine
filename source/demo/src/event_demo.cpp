@@ -53,10 +53,10 @@ void on_key_released(hou::event::timestamp t, hou::window::uid_type wid,
   hou::scan_code sc, hou::key_code kc, hou::modifier_keys mk, bool is_repeat);
 
 void on_mouse_button_pressed(hou::event::timestamp t, hou::window::uid_type wid,
-  hou::mouse_button mb, uint clicks, const hou::vec2i& pos);
+  hou::mouse_button mb, hou::uint clicks, const hou::vec2i& pos);
 
 void on_mouse_button_released(hou::event::timestamp t,
-  hou::window::uid_type wid, hou::mouse_button mb, uint clicks,
+  hou::window::uid_type wid, hou::mouse_button mb, hou::uint clicks,
   const hou::vec2i& pos);
 
 void on_mouse_wheel_moved(hou::event::timestamp t, hou::window::uid_type wid,
@@ -223,7 +223,7 @@ void on_key_released(hou::event::timestamp t, hou::window::uid_type wid,
 
 
 void on_mouse_button_pressed(hou::event::timestamp t, hou::window::uid_type wid,
-  hou::mouse_button mb, uint clicks, const hou::vec2i& pos)
+  hou::mouse_button mb, hou::uint clicks, const hou::vec2i& pos)
 {
   std::cout << "Mouse button pressed: timestamp = " << t
             << ", window id = " << wid << ", mouse button = " << mb
@@ -234,7 +234,7 @@ void on_mouse_button_pressed(hou::event::timestamp t, hou::window::uid_type wid,
 
 
 void on_mouse_button_released(hou::event::timestamp t,
-  hou::window::uid_type wid, hou::mouse_button mb, uint clicks,
+  hou::window::uid_type wid, hou::mouse_button mb, hou::uint clicks,
   const hou::vec2i& pos)
 {
   std::cout << "Mouse button released: timestamp = " << t
@@ -328,7 +328,7 @@ int main(int, char**)
 
   std::cout << "The events in the queue will be printed in the terminal."
             << std::endl;
-  std::cout << "Press F1 to hide the window." << std::endl;
+  std::cout << "Press f1 to hide the window." << std::endl;
 
   while(loop)
   {

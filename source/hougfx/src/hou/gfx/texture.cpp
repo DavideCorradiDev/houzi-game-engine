@@ -725,9 +725,9 @@ typename texture_t<texture_type::texture3>::wrap_mode
 template <>
 template <>
 void texture_t<texture_type::texture1>::set_wrap_mode(
-  const wrap_mode& wrap_mode)
+  const wrap_mode& wm)
 {
-  set_texture1_wrap_mode(get_handle(), wrap_mode);
+  set_texture1_wrap_mode(get_handle(), wm);
 }
 
 
@@ -735,9 +735,9 @@ void texture_t<texture_type::texture1>::set_wrap_mode(
 template <>
 template <>
 void texture_t<texture_type::texture1_array>::set_wrap_mode(
-  const wrap_mode& wrap_mode)
+  const wrap_mode& wm)
 {
-  set_texture2_wrap_mode(get_handle(), wrap_mode);
+  set_texture2_wrap_mode(get_handle(), wm);
 }
 
 
@@ -745,9 +745,9 @@ void texture_t<texture_type::texture1_array>::set_wrap_mode(
 template <>
 template <>
 void texture_t<texture_type::texture2>::set_wrap_mode(
-  const wrap_mode& wrap_mode)
+  const wrap_mode& wm)
 {
-  set_texture2_wrap_mode(get_handle(), wrap_mode);
+  set_texture2_wrap_mode(get_handle(), wm);
 }
 
 
@@ -755,9 +755,9 @@ void texture_t<texture_type::texture2>::set_wrap_mode(
 template <>
 template <>
 void texture_t<texture_type::texture2_array>::set_wrap_mode(
-  const wrap_mode& wrap_mode)
+  const wrap_mode& wm)
 {
-  set_texture3_wrap_mode(get_handle(), wrap_mode);
+  set_texture3_wrap_mode(get_handle(), wm);
 }
 
 
@@ -765,9 +765,9 @@ void texture_t<texture_type::texture2_array>::set_wrap_mode(
 template <>
 template <>
 void texture_t<texture_type::texture3>::set_wrap_mode(
-  const wrap_mode& wrap_mode)
+  const wrap_mode& wm)
 {
-  set_texture3_wrap_mode(get_handle(), wrap_mode);
+  set_texture3_wrap_mode(get_handle(), wm);
 }
 
 

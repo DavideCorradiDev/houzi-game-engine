@@ -1,12 +1,12 @@
-cmake_minimum_required(VERSION 3.3)
-MESSAGE(STATUS "--- Configuring target ${LIB_OGG} ---")
-project(ogg)
+cmake_minimum_required(VERSION 2.8.7)
+project(libogg)
 
 # Required modules
 include(GNUInstallDirs)
 include(CheckIncludeFiles)
 
 # Build options
+option(BUILD_SHARED_LIBS "Build shared library" OFF)
 if(APPLE)
     option(BUILD_FRAMEWORK "Build Framework bundle for OSX" OFF)
 endif()
@@ -43,8 +43,7 @@ function(configure_pkg_config_file pkg_config_file_in)
     set(includedir ${CMAKE_INSTALL_FULL_INCLUDEDIR})
     set(VERSION ${PROJECT_VERSION})
     string(REPLACE ".in" "" pkg_config_file ${pkg_config_file_in})
-    # configure_file(${pkg_config_file_in} ${CMAKE_CURRENT_BINARY_DIR}/${pkg_config_file} @ONLY)
-    configure_file(${pkg_config_file_in} ${CMAKE_CURRENT_SOURCE_DIR}/${pkg_config_file} @ONLY)
+    configure_file(${pkg_config_file_in} ${CMAKE_CURRENT_BINARY_DIR}/${pkg_config_file} @ONLY)
 endfunction()
 
 message(STATUS "Configuring ${PROJECT_NAME} ${PROJECT_VERSION}")
@@ -60,8 +59,7 @@ set(SIZE32 int32_t)
 set(USIZE32 uint32_t)
 set(SIZE64 int64_t)
 
-# configure_file(include/ogg/config_types.h.in ${CMAKE_CURRENT_BINARY_DIR}/include/ogg/config_types.h @ONLY)
-configure_file(include/ogg/config_types.h.in ${CMAKE_CURRENT_SOURCE_DIR}/include/ogg/config_types.h @ONLY)
+configure_file(include/ogg/config_types.h.in ${CMAKE_CURRENT_BINARY_DIR}/include/ogg/config_types.h @ONLY)
 
 set(OGG_HEADERS
     ${CMAKE_CURRENT_BINARY_DIR}/include/ogg/config_types.h
@@ -74,38 +72,27 @@ set(OGG_SOURCES
     src/framing.c
 )
 
-set(LIB_OGG_FLAGS "${COMPILER_FLAGS_BASIC}")
-if(MSVC)
-  set(LIB_OGG_FLAGS:w "${LIB_VORBIS_FLAGS} /wd4267")
-endif()
-
 if(MSVC)
     list(APPEND OGG_SOURCES win32/ogg.def)
-endif()
-
-if(UNIX)
-  set(LIB_OGG_FLAGS "${LIB_OGG_FLAGS} -fPIC")
 endif()
 
 if(BUILD_FRAMEWORK)
     set(BUILD_SHARED_LIBS TRUE)
 endif()
 
-include_directories(include ${CMAKE_CURRENT_BINARY_DIR}/include)
-add_library(${LIB_OGG} STATIC ${OGG_SOURCES})
+add_library(ogg ${OGG_HEADERS} ${OGG_SOURCES})
+target_include_directories(ogg PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include ${CMAKE_CURRENT_BINARY_DIR}/include)
 
 get_version_info(OGG_VERSION_INFO "LIB_CURRENT" "LIB_AGE" "LIB_REVISION")
 set_target_properties(
-    ${LIB_OGG} PROPERTIES
-    COMPILE_FLAGS ${LIB_OGG_FLAGS}
+    ogg PROPERTIES
     SOVERSION ${OGG_VERSION_INFO}
     PUBLIC_HEADER "${OGG_HEADERS}"
 )
 
 if(BUILD_FRAMEWORK)
-    set_target_properties(${LIB_OGG} PROPERTIES
+    set_target_properties(ogg PROPERTIES
         FRAMEWORK TRUE
-        COMPILE_FLAGS ${LIB_OGG_FLAGS}
         FRAMEWORK_VERSION ${PROJECT_VERSION}
         MACOSX_FRAMEWORK_IDENTIFIER org.xiph.ogg
         MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${PROJECT_VERSION}
@@ -117,7 +104,7 @@ endif()
 
 configure_pkg_config_file(ogg.pc.in)
 
-install(TARGETS ${LIB_OGG}
+install(TARGETS ogg
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -127,5 +114,3 @@ install(TARGETS ${LIB_OGG}
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ogg.pc
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
 )
-
-message(STATUS "")
