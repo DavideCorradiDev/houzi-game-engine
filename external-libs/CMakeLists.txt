@@ -12,6 +12,8 @@ MESSAGE(STATUS "")
 
 UNSET_VARS_STARTING_WITH("LIB_GOOGLE_TEST")
 UNSET_VARS_STARTING_WITH("LIB_GOOGLE_MOCK")
+UNSET_VAR(INSTALL_GTEST)
+UNSET_VAR(INSTALL_GMOCK)
 IF(HOU_CFG_BUILD_TESTS)
   IF(HOU_CFG_BUILD_GOOGLE_TEST)
     SET(LIB_GOOGLE_TEST gtest CACHE STRING "gtest library name.")
@@ -25,6 +27,14 @@ IF(HOU_CFG_BUILD_TESTS)
       CACHE STRING "gmock include dir.")
 
     MESSAGE(STATUS "--- Configuring target ${LIB_GOOGLE_TEST} ---")
+    OPTION(INSTALL_GTEST 
+      "Enable installation of googletest. \
+      (Projects embedding googletest may want to turn this OFF.)"
+      OFF)
+    OPTION(INSTALL_GMOCK
+      "Enable installation of googlemock. \
+      (Projects embedding googlemock may want to turn this OFF.)"
+      OFF)
     ADD_SUBDIRECTORY(${LIB_GOOGLE_TEST_SOURCE_DIR})
     MESSAGE(STATUS "")
   ELSE()
