@@ -60,7 +60,6 @@ macro(config_compiler_and_linker)
 
   fix_default_compiler_settings_()
   if (MSVC)
-    SET(cxx_strict "${cxx_base_flags} /MD")
     # Newlines inside flags variables break CMake's NMake generator.
     # TODO(vladl@google.com): Add -RTCs and -RTCu to debug builds.
     set(cxx_base_flags "-GS -W4 -WX -wd4251 -wd4275 -nologo -J -Zi")

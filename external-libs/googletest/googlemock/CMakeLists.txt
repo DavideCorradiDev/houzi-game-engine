@@ -7,8 +7,7 @@
 
 # BUILD_SHARED_LIBS is a standard CMake variable, but we declare it here to
 # make it prominent in the GUI.
-# option(BUILD_SHARED_LIBS "Build shared libraries (DLLs)." OFF)
-SET(BUILD_SHARED_LIBS OFF)
+option(BUILD_SHARED_LIBS "Build shared libraries (DLLs)." OFF)
 
 option(gmock_build_tests "Build all of Google Mock's own tests." OFF)
 
@@ -90,7 +89,7 @@ endif()
 # are used for other targets, to ensure that Google Mock can be compiled by
 # a user aggressive about warnings.
 if (MSVC)
-  cxx_library(${LIB_GOOGLE_MOCK}
+  cxx_library(gmock
               "${cxx_strict}"
               "${gtest_dir}/src/gtest-all.cc"
               src/gmock-all.cc)
@@ -101,17 +100,17 @@ if (MSVC)
               src/gmock-all.cc
               src/gmock_main.cc)
 else()
-  cxx_library(${LIB_GOOGLE_MOCK} "${cxx_strict}" src/gmock-all.cc)
-  target_link_libraries(${LIB_GOOGLE_MOCK} ${LIB_GOOGLE_TEST})
+  cxx_library(gmock "${cxx_strict}" src/gmock-all.cc)
+  target_link_libraries(gmock gtest)
   cxx_library(gmock_main "${cxx_strict}" src/gmock_main.cc)
-  target_link_libraries(gmock_main ${LIB_GOOGLE_MOCK})
+  target_link_libraries(gmock_main gmock)
 endif()
 
 # If the CMake version supports it, attach header directory information
 # to the targets for when we are part of a parent build (ie being pulled
 # in via add_subdirectory() rather than being a standalone build).
 if (DEFINED CMAKE_VERSION AND NOT "${CMAKE_VERSION}" VERSION_LESS "2.8.11")
-  target_include_directories(${LIB_GOOGLE_MOCK}      SYSTEM INTERFACE "${gmock_SOURCE_DIR}/include")
+  target_include_directories(gmock      SYSTEM INTERFACE "${gmock_SOURCE_DIR}/include")
   target_include_directories(gmock_main SYSTEM INTERFACE "${gmock_SOURCE_DIR}/include")
 endif()
 
@@ -119,7 +118,7 @@ endif()
 #
 # Install rules
 if(INSTALL_GMOCK)
-  install(TARGETS ${LIB_GOOGLE_MOCK} gmock_main
+  install(TARGETS gmock gmock_main
     RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
     LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
