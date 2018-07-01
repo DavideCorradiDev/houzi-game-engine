@@ -57,11 +57,6 @@ set(VORBISENC_SOURCES
     vorbisenc.c
 )
 
-set(LIB_VORBIS_FLAGS "${COMPILER_FLAGS_BASIC}")
-if(MSVC)
-  set(LIB_VORBIS_FLAGS "${LIB_VORBIS_FLAGS} /wd4244 /wd4305 /wd4996 /wd4267")
-endif()
-
 if(MSVC)
     list(APPEND VORBIS_SOURCES ../win32/vorbis.def)
     list(APPEND VORBISENC_SOURCES ../win32/vorbisenc.def)
@@ -70,10 +65,6 @@ endif()
 
 if(WIN32)
     list(APPEND VORBIS_SOURCES vorbisenc.c)
-endif()
-
-if(UNIX)
-  set(LIB_VORBIS_FLAGS "${LIB_VORBIS_FLAGS} -fPIC")
 endif()
 
 include_directories(../include)
@@ -92,16 +83,6 @@ if (NOT BUILD_FRAMEWORK)
     get_version_info(VORBISFILE_VERSION_INFO "VF_LIB_CURRENT" "VF_LIB_AGE" "VF_LIB_REVISION")
     set_target_properties(${LIB_VORBISFILE} PROPERTIES SOVERSION ${VORBISFILE_VERSION_INFO})
 
-    SET_TARGET_PROPERTIES(${LIB_VORBIS} PROPERTIES
-      COMPILE_FLAGS ${LIB_VORBIS_FLAGS}
-    )
-    SET_TARGET_PROPERTIES(${LIB_VORBISENC} PROPERTIES
-      COMPILE_FLAGS ${LIB_VORBIS_FLAGS}
-    )
-    SET_TARGET_PROPERTIES(${LIB_VORBISFILE} PROPERTIES
-      COMPILE_FLAGS ${LIB_VORBIS_FLAGS}
-    )
-
     target_link_libraries(${LIB_VORBIS} ${LIB_OGG})
     target_link_libraries(${LIB_VORBISENC} ${LIB_OGG} ${LIB_VORBIS})
     target_link_libraries(${LIB_VORBISFILE} ${LIB_OGG} ${LIB_VORBIS})
@@ -118,7 +99,6 @@ else()
       add_library(${LIBVORBIS} SHARED ${VORBIS_PUBLIC_HEADERS} ${VORBIS_HEADERS} ${VORBIS_SOURCES} ${VORBISFILE_SOURCES} ${VORBISENC_SOURCES})
     endif()
     set_target_properties(${LIB_VORBIS} PROPERTIES
-        COMPILE_FLAGS ${LIB_VORBIS_FLAGS}
         FRAMEWORK TRUE
         FRAMEWORK_VERSION ${PROJECT_VERSION}
         MACOSX_FRAMEWORK_IDENTIFIER org.xiph.vorbis

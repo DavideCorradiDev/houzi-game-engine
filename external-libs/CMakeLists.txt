@@ -1,5 +1,13 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.3)
-MESSAGE(STATUS "--- Configuring external libraries ---")
+MESSAGE(STATUS "--- Configuring external targets ---")
+
+IF(MINGW OR GCC)
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w -fPIC")
+ELSEIF(MSVC)
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4244 /wd4018 /wd4996 /wd4267")
+ENDIF()
+MESSAGE(STATUS "External targets base compiler flags: ${CMAKE_CXX_FLAGS}")
+
 MESSAGE(STATUS "")
 
 UNSET_VARS_STARTING_WITH("LIB_GOOGLE_TEST")

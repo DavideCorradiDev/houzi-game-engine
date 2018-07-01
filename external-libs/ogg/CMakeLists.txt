@@ -74,17 +74,8 @@ set(OGG_SOURCES
     src/framing.c
 )
 
-set(LIB_OGG_FLAGS "${COMPILER_FLAGS_BASIC}")
-if(MSVC)
-  set(LIB_OGG_FLAGS:w "${LIB_VORBIS_FLAGS} /wd4267")
-endif()
-
 if(MSVC)
     list(APPEND OGG_SOURCES win32/ogg.def)
-endif()
-
-if(UNIX)
-  set(LIB_OGG_FLAGS "${LIB_OGG_FLAGS} -fPIC")
 endif()
 
 if(BUILD_FRAMEWORK)
@@ -97,7 +88,6 @@ add_library(${LIB_OGG} STATIC ${OGG_SOURCES})
 get_version_info(OGG_VERSION_INFO "LIB_CURRENT" "LIB_AGE" "LIB_REVISION")
 set_target_properties(
     ${LIB_OGG} PROPERTIES
-    COMPILE_FLAGS ${LIB_OGG_FLAGS}
     SOVERSION ${OGG_VERSION_INFO}
     PUBLIC_HEADER "${OGG_HEADERS}"
 )
@@ -105,7 +95,6 @@ set_target_properties(
 if(BUILD_FRAMEWORK)
     set_target_properties(${LIB_OGG} PROPERTIES
         FRAMEWORK TRUE
-        COMPILE_FLAGS ${LIB_OGG_FLAGS}
         FRAMEWORK_VERSION ${PROJECT_VERSION}
         MACOSX_FRAMEWORK_IDENTIFIER org.xiph.ogg
         MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${PROJECT_VERSION}
