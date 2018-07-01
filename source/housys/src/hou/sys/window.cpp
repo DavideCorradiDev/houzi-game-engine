@@ -244,7 +244,7 @@ void window::set_icon(const image2_rgba& icon)
     icon.get_size().y(),
     image2_rgba::pixel_bit_count,
     icon.get_size().x() * image2_rgba::pixel_byte_count,
-    0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
+    0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
   // clang-format on
   HOU_SDL_CHECK(surface != nullptr);
   SDL_SetWindowIcon(m_impl, surface);
