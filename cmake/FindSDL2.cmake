@@ -14,7 +14,9 @@ ENDIF()
 
 IF(SDL2_FIND_REQUIRED)
   IF(NOT LIB_SDL2_INCLUDE_DIR OR NOT LIB_SDL2)
-    MESSAGE(FATAL_ERROR "Could not find SDL2")
+    MESSAGE(SEND_ERROR
+      "Could not find SDL2. Please manually specify the library and include \
+      paths or set HOU_CFG_BUILD_SDL2 to build SDL2 from source.")
   ENDIF()
 ENDIF()
 
