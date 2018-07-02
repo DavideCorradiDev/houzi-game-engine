@@ -60,7 +60,7 @@ public:
   using reference = value_type&;
 
   /** The const reference type. */
-  using const_reference = const reference;
+  using const_reference = std::add_const_t<reference>;
 
   /** The pointer type. */
   using pointer = std::add_pointer_t<reference>;

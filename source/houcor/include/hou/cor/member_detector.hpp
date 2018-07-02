@@ -89,7 +89,7 @@
   public:                                                                      \
     enum                                                                       \
     {                                                                          \
-      value = (sizeof(test<T>(0)) == sizeof(yes))                              \
+      value = (sizeof(test<T>(nullptr)) == sizeof(yes))                        \
     };                                                                         \
   }
 

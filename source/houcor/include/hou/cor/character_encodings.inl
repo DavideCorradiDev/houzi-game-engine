@@ -12,10 +12,10 @@ template <typename OutputIt>
 OutputIt utf8::encode(code_point input, OutputIt out_first)
 {
   static constexpr std::array<code_unit, 4u> start_signature{
-    0b00000000,
-    0b11000000,
-    0b11100000,
-    0b11110000,
+    static_cast<code_unit>(0b00000000),
+    static_cast<code_unit>(0b11000000),
+    static_cast<code_unit>(0b11100000),
+    static_cast<code_unit>(0b11110000),
   };
 
   // Determine size of the character in code units based on its code point.

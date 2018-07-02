@@ -48,7 +48,7 @@ public:
   using reference = value_type&;
 
   /** const value_type&. */
-  using const_reference = const reference;
+  using const_reference = std::add_const_t<reference>;
 
   /** value_type\*. */
   using pointer = std::add_pointer_t<reference>;

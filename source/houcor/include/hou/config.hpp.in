@@ -24,7 +24,11 @@
 #elif defined(__linux__)
   #define HOU_SYSTEM_LINUX
   #if defined(__GNUC__)
-    #define HOU_COMPILER_GCC
+    #if defined(__clang__)
+      #define HOU_COMPILER_CLANG
+    #else
+      #define HOU_COMPILER_GCC
+    #endif
   #endif
 #endif
 

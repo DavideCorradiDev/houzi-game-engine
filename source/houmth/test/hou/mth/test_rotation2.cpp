@@ -85,7 +85,7 @@ TEST_F(test_rotation2_death_test, constructor_matrix_failure_invalid_matrix)
 TEST_F(test_rotation2, conversion_constructor)
 {
   rot2d rd;
-  rot2f rf;
+  rot2f rf(rd);
   EXPECT_FLOAT_CLOSE(0.f, rf.get_angle());
   EXPECT_FLOAT_CLOSE(mat2x2f::identity(), rf.get_matrix());
 }

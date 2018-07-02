@@ -41,7 +41,7 @@ gl::program_handle create_program()
   attach_shader(ph, fsh);
   link_program(ph);
 
-  return std::move(ph);
+  return ph;
 }
 
 }  // namespace
