@@ -435,7 +435,18 @@ TEST_F(test_matrix, floating_point_comparison)
   mat3x2f m2 = m1;
   mat3x2f m3 = {0.f, 1.f, 2.3458f, 3.f, 4.f, 5.f};
 
+  // Note: clang seems to bind 0 instead of the float epsilon for the accuracy
+  // as default argument, so this has to be explicitly defined.
+  // The type of the template function is correctly set to float, and the
+  // function called is the correct one.
+  // The binding to 0 happens immediately in the call stack, in the matrix
+  // close method.
+  // I suspect that this is a bug in clang.
+#if defined(HOU_COMPILER_CLANG)
+  EXPECT_TRUE(close(m1, m2, std::numeric_limits<float>::epsilon()));
+#else
   EXPECT_TRUE(close(m1, m2));
+#endif
   EXPECT_TRUE(close(m1, m3, 1e-3f));
   EXPECT_FALSE(close(m1, m3, 1e-4f));
 }
