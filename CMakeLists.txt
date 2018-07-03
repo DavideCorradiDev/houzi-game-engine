@@ -89,10 +89,14 @@ OPTION(HOU_CFG_BUILD_OPENAL_SOFT
   "Build the OpenAL-Soft library. If unset, look for an installed OpenAL implementation."
   OFF
 )
-OPTION(HOU_CFG_BUILD_STATIC_LIBS
-  "If set, build static libraries. If unset, build shared libraries."
-  OFF
-)
+IF(EMSCRIPTEN)
+  SET(HOU_CFG_BUILD_STATIC_LIBS ON)
+ELSE()
+  OPTION(HOU_CFG_BUILD_STATIC_LIBS
+    "If set, build static libraries. If unset, build shared libraries."
+    OFF
+  )
+ENDIF()
 OPTION(HOU_CFG_DISABLE_EXCEPTIONS
   "If set, disable exception handling and crash in case of errors. If unset, use exceptions for error handling."
   OFF
