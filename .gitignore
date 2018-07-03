@@ -34,7 +34,7 @@
 # Sub-Folders
 build-gcc/
 build-clang/
-build-emscripten/
+build-ems/
 build-mingw/
 html/
 latex/
