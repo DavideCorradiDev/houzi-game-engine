@@ -183,11 +183,11 @@ TEST_F(test_exception, hou_assert_macro_success)
 
 
 
-// TEST_F(test_exception_death_test, hou_assert_macro_failure)
-// {
-//   EXPECT_EXIT(HOU_ASSERT(0 == 2), ExitedWithCode(EXIT_FAILURE),
-//     ".*:.* - Assertion failed \\(0 == 2\\).");
-// }
+TEST_F(test_exception_death_test, hou_assert_macro_failure)
+{
+  EXPECT_EXIT_IF_SUPPORTED(HOU_ASSERT(0 == 2), ExitedWithCode(EXIT_FAILURE),
+    ".*:.* - Assertion failed \\(0 == 2\\).");
+}
 
 
 
@@ -256,28 +256,28 @@ TEST_F(test_exception, hou_dev_assert_macro_success)
 
 
 
-// TEST_F(test_exception_death_test, hou_dev_assert_macro_failure)
-// {
-// #ifdef HOU_DEBUG
-//   EXPECT_EXIT(HOU_DEV_ASSERT(0 == 2), ExitedWithCode(EXIT_FAILURE),
-//     ".*:.* - Assertion failed \\(0 == 2\\)\\.");
-// #else
-//   EXPECT_NO_ERROR(HOU_DEV_ASSERT(0 == 2));
-// #endif
-// }
-// 
-// 
-// 
-// TEST_F(test_exception_death_test, hou_unreachable_macro)
-// {
-//   EXPECT_EXIT(HOU_UNREACHABLE(), ExitedWithCode(EXIT_FAILURE),
-//     ".*:.* - Unreachable code path\\.");
-// }
-// 
-// 
-// 
-// TEST_F(test_exception_death_test, hou_not_implemented_macro)
-// {
-//   EXPECT_EXIT(HOU_NOT_IMPLEMENTED(), ExitedWithCode(EXIT_FAILURE),
-//     ".*:.* - Not implemented code path\\.");
-// }
+TEST_F(test_exception_death_test, hou_dev_assert_macro_failure)
+{
+#ifdef HOU_DEBUG
+  EXPECT_EXIT_IF_SUPPORTED(HOU_DEV_ASSERT(0 == 2), ExitedWithCode(EXIT_FAILURE),
+    ".*:.* - Assertion failed \\(0 == 2\\)\\.");
+#else
+  EXPECT_NO_ERROR(HOU_DEV_ASSERT(0 == 2));
+#endif
+}
+
+
+
+TEST_F(test_exception_death_test, hou_unreachable_macro)
+{
+  EXPECT_EXIT_IF_SUPPORTED(HOU_UNREACHABLE(), ExitedWithCode(EXIT_FAILURE),
+    ".*:.* - Unreachable code path\\.");
+}
+
+
+
+TEST_F(test_exception_death_test, hou_not_implemented_macro)
+{
+  EXPECT_EXIT_IF_SUPPORTED(HOU_NOT_IMPLEMENTED(), ExitedWithCode(EXIT_FAILURE),
+    ".*:.* - Not implemented code path\\.");
+}

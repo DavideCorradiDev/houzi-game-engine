@@ -18,6 +18,15 @@
 
 
 
+// Message printing.
+#define PRINT_MSG(message)                                                     \
+  do                                                                           \
+  {                                                                            \
+    ::std::cout << "[          ] " << message << "\n";                         \
+  } while(false)
+
+
+
 // Error assertions
 
 inline std::string get_exception_msg_regex(const hou::exception& ex)
@@ -47,19 +56,40 @@ inline std::string get_exception_msg_regex(const std::exception& ex)
   return hou::escape_regex(ex.what());
 }
 
+
+
+#if defined(GTEST_HAS_DEATH_TEST)
+
+#define EXPECT_EXIT_IF_SUPPORTED(statement, arg, message)                      \
+  EXPECT_EXIT(statement, arg, message)
+
+#else
+
+#define EXPECT_EXIT_IF_SUPPORTED(statement, arg, message)                      \
+  do                                                                           \
+  {                                                                            \
+    PRINT_MSG("[WARNING] EXPECT_EXIT assertion skipped because unsupported."); \
+  } while(false)
+
+#endif
+
+
+
 #if defined(HOU_DISABLE_EXCEPTIONS)
 
 #define EXPECT_ERROR_STD_0(statement, exception_type)                          \
   do                                                                           \
   {                                                                            \
-    EXPECT_EXIT(statement, ::testing::ExitedWithCode(EXIT_FAILURE),            \
+    EXPECT_EXIT_IF_SUPPORTED(statement,                                        \
+      ::testing::ExitedWithCode(EXIT_FAILURE),                                 \
       get_exception_msg_regex(exception_type()).c_str());                      \
   } while(false)
 
 #define EXPECT_ERROR_TEMPLATE(statement, exception_type, ...)                  \
   do                                                                           \
   {                                                                            \
-    EXPECT_EXIT(statement, ::testing::ExitedWithCode(EXIT_FAILURE),            \
+    EXPECT_EXIT_IF_SUPPORTED(statement,                                        \
+      ::testing::ExitedWithCode(EXIT_FAILURE),                                 \
       get_exception_msg_regex(exception_type(__VA_ARGS__)).c_str());           \
   } while(false)
 
@@ -116,6 +146,8 @@ inline std::string get_exception_msg_regex(const std::exception& ex)
 
 #endif
 
+
+
 #define EXPECT_ERROR_STD_N(statement, exception_type, ...)                     \
   EXPECT_ERROR_TEMPLATE(statement, exception_type, __VA_ARGS__)
 
@@ -134,7 +166,10 @@ inline std::string get_exception_msg_regex(const std::exception& ex)
 #define EXPECT_INVARIANT_ERROR(statement)                                      \
   EXPECT_ERROR_N(statement, invariant_violation, "*")
 
+
+
 #if defined(HOU_DISABLE_EXCEPTIONS)
+
 #define EXPECT_NO_ERROR(statement)                                             \
   do                                                                           \
   {                                                                            \
@@ -142,6 +177,7 @@ inline std::string get_exception_msg_regex(const std::exception& ex)
     SUCCEED();                                                                 \
   } while(false)
 #else
+
 #define EXPECT_NO_ERROR(statement)                                             \
   do                                                                           \
   {                                                                            \
@@ -155,6 +191,7 @@ inline std::string get_exception_msg_regex(const std::exception& ex)
                        " throws nothing.\n  Actual: it throws.";               \
     }                                                                          \
   } while(false)
+
 #endif
 
 
@@ -244,5 +281,25 @@ inline std::string get_exception_msg_regex(const std::exception& ex)
     EXPECT_STREQ(expected_string, stream.str().c_str())                        \
       << "Error in operator<<";                                                \
   }
+
+
+
+// Skip test.
+#define SKIP(message)                                                          \
+  do                                                                           \
+  {                                                                            \
+    PRINT_MSG(::hou::format_string("[INFO] Test skipped. %s", message));       \
+    return;                                                                    \
+  } while(false)
+
+#define SKIP_IF(condition, message)                                            \
+  do                                                                           \
+  {                                                                            \
+    if(condition)                                                              \
+    {                                                                          \
+      SKIP(::hou::format_string(                                               \
+        "Skipping condition: " #condition ". %s", message));                   \
+    }                                                                          \
+  } while(false)
 
 #endif  // HOU_TEST

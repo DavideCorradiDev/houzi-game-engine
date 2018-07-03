@@ -5,6 +5,7 @@
 #include "hou/test.hpp"
 
 #include "hou/cor/cor_exceptions.hpp"
+#include "hou/cor/std_string.hpp"
 #include "hou/cor/uid_generator.hpp"
 
 #include <limits>
@@ -46,17 +47,24 @@ TEST_F(test_uid_generator, multi_thread_increment)
 
   auto thread_fun = [&uid_gen]() { uid_gen.generate(); };
 
-  std::thread t1(thread_fun);
-  std::thread t2(thread_fun);
-  std::thread t3(thread_fun);
-  std::thread t4(thread_fun);
+  try
+  {
+    std::thread t1(thread_fun);
+    std::thread t2(thread_fun);
+    std::thread t3(thread_fun);
+    std::thread t4(thread_fun);
 
-  t1.join();
-  t2.join();
-  t3.join();
-  t4.join();
+    t1.join();
+    t2.join();
+    t3.join();
+    t4.join();
 
-  EXPECT_EQ(6u, uid_gen.generate());
+    EXPECT_EQ(6u, uid_gen.generate());
+  }
+  catch(const std::system_error& ex)
+  {
+    SKIP(ex.what());
+  }
 }
 
 
