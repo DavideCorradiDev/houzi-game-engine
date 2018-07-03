@@ -9,12 +9,12 @@
 #include "hou/cor/exception.hpp"
 #include "hou/cor/std_string.hpp"
 
-#include <cstring>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+
+#include <cstring>
 #include <limits>
 #include <sstream>
-#include <string>
 
 
 

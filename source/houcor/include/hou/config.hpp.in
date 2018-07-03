@@ -5,6 +5,7 @@
 #ifndef HOU_CONFIG_HPP
 #define HOU_CONFIG_HPP
 
+#include <cstddef>
 #include <cstdint>
 
 // Values from CMakeLists.txt
@@ -16,19 +17,23 @@
 #if defined(_WIN32)
   #define HOU_SYSTEM_WINDOWS
   #define UNICODE
-  #if defined(__MINGW32__)
-    #define HOU_COMPILER_MINGW
-  #elif defined(_MSC_VER)
-    #define HOU_COMPILER_MSVC
-  #endif
 #elif defined(__linux__)
   #define HOU_SYSTEM_LINUX
-  #if defined(__GNUC__)
-    #if defined(__clang__)
-      #define HOU_COMPILER_CLANG
-    #else
-      #define HOU_COMPILER_GCC
-    #endif
+#endif
+
+#if defined(__EMSCRIPTEN__)
+  #define HOU_EMSCRIPTEN
+#endif
+
+#if defined(__MINGW32__)
+  #define HOU_COMPILER_MINGW
+#elif defined(_MSC_VER)
+  #define HOU_COMPILER_MSVC
+#elif defined(__GNUC__)
+  #if defined(__clang__)
+    #define HOU_COMPILER_CLANG
+  #else
+    #define HOU_COMPILER_GCC
   #endif
 #endif
 

@@ -77,7 +77,11 @@ TEST_F(test_narrow_cast, float_to_int_success)
 
 
 
+#if defined(HOU_EMSCRIPTEN)
+TEST_F(test_narrow_cast_death_test, DISABLED_float_to_int_failure)
+#else
 TEST_F(test_narrow_cast_death_test, float_to_int_failure)
+#endif
 {
   EXPECT_ERROR_0(narrow_cast<int>(float(2.5f)), narrowing_error);
   EXPECT_ERROR_0(
@@ -94,7 +98,11 @@ TEST_F(test_narrow_cast, float_to_uint_success)
 
 
 
+#if defined(HOU_EMSCRIPTEN)
+TEST_F(test_narrow_cast_death_test, DISABLED_float_to_uint_failure)
+#else
 TEST_F(test_narrow_cast_death_test, float_to_uint_failure)
+#endif
 {
   EXPECT_ERROR_0(narrow_cast<uint>(float(2.5f)), narrowing_error);
   EXPECT_ERROR_0(narrow_cast<uint>(float(-88.f)), narrowing_error);
