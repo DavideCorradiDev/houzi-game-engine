@@ -215,9 +215,9 @@ std::ostream& operator<<(std::ostream& os, display_format f)
     DISPLAY_FORMAT_CASE(rgb24, os);
     DISPLAY_FORMAT_CASE(bgr24, os);
     DISPLAY_FORMAT_CASE(rgb888, os);
-    DISPLAY_FORMAT_CASE(rgbx8888, os);
+    // DISPLAY_FORMAT_CASE(rgbx8888, os);
     DISPLAY_FORMAT_CASE(bgr888, os);
-    DISPLAY_FORMAT_CASE(bgrx8888, os);
+    // DISPLAY_FORMAT_CASE(bgrx8888, os);
     DISPLAY_FORMAT_CASE(argb8888, os);
     DISPLAY_FORMAT_CASE(rgba8888, os);
     DISPLAY_FORMAT_CASE(abgr8888, os);
@@ -228,8 +228,8 @@ std::ostream& operator<<(std::ostream& os, display_format f)
     DISPLAY_FORMAT_CASE(yuy2, os);
     DISPLAY_FORMAT_CASE(uyvy, os);
     DISPLAY_FORMAT_CASE(yvyu, os);
-    DISPLAY_FORMAT_CASE(nv12, os);
-    DISPLAY_FORMAT_CASE(nv21, os);
+    // DISPLAY_FORMAT_CASE(nv12, os);
+    // DISPLAY_FORMAT_CASE(nv21, os);
   }
   return os << "unknown(" << static_cast<int>(f) << ")";
 }

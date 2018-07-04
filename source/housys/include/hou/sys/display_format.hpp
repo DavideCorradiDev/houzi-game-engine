@@ -19,7 +19,11 @@ namespace hou
 /**
  * Represents a display format.
  */
-enum class display_format : Uint32
+#if defined HOU_EMSCRIPTEN
+enum class display_format : int32_t
+#else
+enum class display_format : uint32_t
+#endif
 {
   unknown = SDL_PIXELFORMAT_UNKNOWN,
   index1lsb = SDL_PIXELFORMAT_INDEX1LSB,
@@ -44,9 +48,9 @@ enum class display_format : Uint32
   rgb24 = SDL_PIXELFORMAT_RGB24,
   bgr24 = SDL_PIXELFORMAT_BGR24,
   rgb888 = SDL_PIXELFORMAT_RGB888,
-  rgbx8888 = SDL_PIXELFORMAT_RGBX8888,
+  // rgbx8888 = SDL_PIXELFORMAT_RGBX8888,
   bgr888 = SDL_PIXELFORMAT_BGR888,
-  bgrx8888 = SDL_PIXELFORMAT_BGRX8888,
+  // bgrx8888 = SDL_PIXELFORMAT_BGRX8888,
   argb8888 = SDL_PIXELFORMAT_ARGB8888,
   rgba8888 = SDL_PIXELFORMAT_RGBA8888,
   abgr8888 = SDL_PIXELFORMAT_ABGR8888,
@@ -57,8 +61,8 @@ enum class display_format : Uint32
   yuy2 = SDL_PIXELFORMAT_YUY2,
   uyvy = SDL_PIXELFORMAT_UYVY,
   yvyu = SDL_PIXELFORMAT_YVYU,
-  nv12 = SDL_PIXELFORMAT_NV12,
-  nv21 = SDL_PIXELFORMAT_NV21,
+  // nv12 = SDL_PIXELFORMAT_NV12,
+  // nv21 = SDL_PIXELFORMAT_NV21,
 };
 
 /**

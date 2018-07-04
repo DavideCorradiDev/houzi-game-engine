@@ -45,7 +45,6 @@ MESSAGE(STATUS "Linked libs: ${EXE_DEMO_LIB}")
 
 # Compiler flags
 SET(CMAKE_CXX_FLAGS ${EXE_HOU_FLAGS})
-SET(CMAKE_EXE_LINKER_FLAGS ${EXE_HOU_LINKER_FLAGS})
 
 # Executables
 SET(EXE_DISPLAY_DEMO display-demo)
