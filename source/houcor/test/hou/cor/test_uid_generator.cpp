@@ -41,30 +41,27 @@ TEST_F(test_uid_generator, increment)
 
 
 
+#if defined HOU_EMSCRIPTEN
+TEST_F(test_uid_generator, DISABLED_multi_thread_increment)
+#else
 TEST_F(test_uid_generator, multi_thread_increment)
+#endif
 {
   uid_generator uid_gen(2u);
 
   auto thread_fun = [&uid_gen]() { uid_gen.generate(); };
 
-  try
-  {
-    std::thread t1(thread_fun);
-    std::thread t2(thread_fun);
-    std::thread t3(thread_fun);
-    std::thread t4(thread_fun);
+  std::thread t1(thread_fun);
+  std::thread t2(thread_fun);
+  std::thread t3(thread_fun);
+  std::thread t4(thread_fun);
 
-    t1.join();
-    t2.join();
-    t3.join();
-    t4.join();
+  t1.join();
+  t2.join();
+  t3.join();
+  t4.join();
 
-    EXPECT_EQ(6u, uid_gen.generate());
-  }
-  catch(const std::system_error& ex)
-  {
-    SKIP(ex.what());
-  }
+  EXPECT_EQ(6u, uid_gen.generate());
 }
 
 
