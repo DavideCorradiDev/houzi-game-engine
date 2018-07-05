@@ -133,8 +133,11 @@ TEST_F(test_display_death_test, get_current_mode_error)
 }
 
 
-
+#if defined(HOU_EMSCRIPTEN)
+TEST_F(test_display, DISABLED_get_supported_modes)
+#else
 TEST_F(test_display, get_supported_modes)
+#endif
 {
   for(uint i = 0u; i < display::get_count(); ++i)
   {
@@ -147,8 +150,11 @@ TEST_F(test_display, get_supported_modes)
 }
 
 
-
+#if defined(HOU_EMSCRIPTEN)
+TEST_F(test_display, DISABLED_get_closest_supported_mode)
+#else
 TEST_F(test_display, get_closest_supported_mode)
+#endif
 {
   display_mode invalid_mode(vec2u(33u, 88u), display_format::unknown, 23u);
   for(uint i = 0; i < display::get_count(); ++i)

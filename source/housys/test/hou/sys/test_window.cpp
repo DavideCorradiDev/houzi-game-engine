@@ -425,8 +425,11 @@ TEST_F(test_window, visibility)
 }
 
 
-
+#if defined(HOU_EMSCRIPTEN)
+TEST_F(test_window, DISABLED_maximization_on_resizable_window)
+#else
 TEST_F(test_window, maximization_on_resizable_window)
+#endif
 {
   window w(u8"TestWindow", vec2u(32u, 64u));
   w.set_resizable(true);
@@ -466,7 +469,7 @@ TEST_F(test_window, maximization_on_not_resizable_window)
 
 
 
-#if defined(HOU_SYSTEM_LINUX)
+#if defined(HOU_SYSTEM_LINUX) || defined(HOU_EMSCRIPTEN)
 TEST_F(test_window, DISABLED_minimization)
 #else
 TEST_F(test_window, minimization)
@@ -491,7 +494,7 @@ TEST_F(test_window, minimization)
 
 
 
-#if defined(HOU_SYSTEM_LINUX)
+#if defined(HOU_SYSTEM_LINUX) || defined(HOU_EMSCRIPTEN)
 TEST_F(test_window, DISABLED_minimization_and_maximization)
 #else
 TEST_F(test_window, minimization_and_maximization)
@@ -562,8 +565,11 @@ TEST_F(test_window, grab)
 }
 
 
-
+#if defined(HOU_EMSCRIPTEN)
+TEST_F(test_window, DISABLED_resizable)
+#else
 TEST_F(test_window, resizable)
+#endif
 {
   window w(u8"TestWindow", vec2u(32u, 64u));
 
@@ -575,8 +581,11 @@ TEST_F(test_window, resizable)
 }
 
 
-
+#if defined(HOU_EMSCRIPTEN)
+TEST_F(test_window, DISABLED_bordered)
+#else
 TEST_F(test_window, bordered)
+#endif
 {
   window w(u8"TestWindow", vec2u(32u, 64u));
 
@@ -589,7 +598,7 @@ TEST_F(test_window, bordered)
 
 
 
-#if defined(HOU_SYSTEM_WINDOWS)
+#if defined(HOU_SYSTEM_WINDOWS) || defined(HOU_EMSCRIPTEN)
 TEST_F(test_window, DISABLED_focus_success)
 #else
 TEST_F(test_window, focus_success)
@@ -606,8 +615,11 @@ TEST_F(test_window, focus_success)
 }
 
 
-
+#if defined(HOU_EMSCRIPTEN)
+TEST_F(test_window, DISABLED_focus_failure)
+#else
 TEST_F(test_window, focus_failure)
+#endif
 {
   // The window is not visible, focusing it will fail.
   window w(u8"TestWindow", vec2u(32u, 64u));
