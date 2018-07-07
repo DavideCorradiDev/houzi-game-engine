@@ -14,6 +14,7 @@
 
 HOU_PRAGMA_GCC_DIAGNOSTIC_PUSH()
 HOU_PRAGMA_GCC_DIAGNOSTIC_IGNORED(-Wunused-variable)
+HOU_PRAGMA_GCC_DIAGNOSTIC_IGNORED(-Wzero-as-null-pointer-constant)
 #include <vorbis/vorbisfile.h>
 HOU_PRAGMA_GCC_DIAGNOSTIC_POP()
 
