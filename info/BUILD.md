@@ -146,6 +146,14 @@ For a complete description on how to use CMake with Visual Studio you can refer 
 
   * Focusing a window is not possible.
 
+  * Multiple Open GL contexts are not supported.
+
+  * GL ES is used, with relative consequences:
+
+    * Geometry shaders are not supported.
+
+    * Multisampling is not supported.
+
 
 
 ### Module dependencies
