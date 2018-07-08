@@ -56,12 +56,14 @@ TEST_F(test_gl_program_handle, creation)
 
 
 
-#ifdef HOU_ENABLE_GL_ERROR_CHECKS
 TEST_F(test_gl_program_handle, no_context_creation)
-#else
-TEST_F(test_gl_program_handle, DISABLED_no_context_creation)
-#endif
 {
+#if !defined(HOU_ENABLE_GL_ERROR_CHECKS)
+  SKIP("GL error checks are disabled in this build.");
+#endif
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
   gl::context::unset_current();
   EXPECT_ERROR_0(gl::program_handle::create(), gl::missing_context_error);
 }
@@ -70,6 +72,9 @@ TEST_F(test_gl_program_handle, DISABLED_no_context_creation)
 
 TEST_F(test_gl_program_handle, tracking)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
   gl::program_handle ph1 = create_program();
   gl::program_handle ph2 = create_program();
 
@@ -116,12 +121,14 @@ TEST_F(test_gl_program_handle, sharing_context_binding)
 
 
 
-#ifdef HOU_ENABLE_GL_ERROR_CHECKS
 TEST_F(test_gl_program_handle_death_test, non_sharing_context_binding)
-#else
-TEST_F(test_gl_program_handle_death_test, DISABLED_non_sharing_context_binding)
-#endif
 {
+#if !defined(HOU_ENABLE_GL_ERROR_CHECKS)
+  SKIP("GL error checks are disabled in this build.");
+#endif
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
   gl::program_handle ph = create_program();
   set_non_sharing_context_current();
   EXPECT_ERROR_0(gl::bind_program(ph), gl::invalid_context_error);
@@ -130,12 +137,14 @@ TEST_F(test_gl_program_handle_death_test, DISABLED_non_sharing_context_binding)
 
 
 
-#ifdef HOU_ENABLE_GL_ERROR_CHECKS
 TEST_F(test_gl_program_handle_death_test, no_context_binding)
-#else
-TEST_F(test_gl_program_handle_death_test, DISABLED_no_context_binding)
-#endif
 {
+#if !defined(HOU_ENABLE_GL_ERROR_CHECKS)
+  SKIP("GL error checks are disabled in this build.");
+#endif
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
   gl::program_handle ph = create_program();
   gl::context::unset_current();
   EXPECT_ERROR_0(gl::bind_program(ph), gl::missing_context_error);
@@ -211,7 +220,7 @@ TEST_F(
 TEST_F(test_gl_program_handle, get_uniform_location)
 {
   gl::program_handle ph = create_program();
-  EXPECT_EQ(0, gl::get_program_uniform_location(ph, "colorUni"));
+  EXPECT_NO_ERROR(gl::get_program_uniform_location(ph, "colorUni"));
 }
 
 

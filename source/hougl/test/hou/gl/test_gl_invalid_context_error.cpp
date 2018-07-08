@@ -45,6 +45,9 @@ public:
 
 TEST_F(test_gl_invalid_context_error, invalid_context_error)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
   gl::invalid_context_error ex("foo.cpp", 42u);
   EXPECT_STREQ(
     "foo.cpp:42 - The current OpenGL context does not own the object.",
@@ -56,6 +59,9 @@ TEST_F(test_gl_invalid_context_error, invalid_context_error)
 TEST_F(
   test_gl_invalid_context_error, gl_context_ownership_shared_function_success)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
   window w("test", vec2u(1u, 1u));
   gl::context c1(get_test_default_context_settings(), w);
   gl::context c2(get_test_default_context_settings(), w, c1);
@@ -87,6 +93,9 @@ TEST_F(
 TEST_F(test_gl_invalid_context_error_death_test,
   gl_context_ownership_shared_function_failure)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
   window w("test", vec2u(1u, 1u));
   gl::context c1(get_test_default_context_settings(), w);
   gl::context c2(get_test_default_context_settings(), w, c1);
@@ -120,6 +129,9 @@ TEST_F(test_gl_invalid_context_error_death_test,
 
 TEST_F(test_gl_invalid_context_error, gl_context_ownership_shared_macro_success)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
   window w("test", vec2u(1u, 1u));
   gl::context c1(get_test_default_context_settings(), w);
   gl::context c2(get_test_default_context_settings(), w, c1);
@@ -151,6 +163,9 @@ TEST_F(test_gl_invalid_context_error, gl_context_ownership_shared_macro_success)
 TEST_F(test_gl_invalid_context_error_death_test,
   gl_context_ownership_shared_macro_failure)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
   window w("test", vec2u(1u, 1u));
   gl::context c1(get_test_default_context_settings(), w);
   gl::context c2(get_test_default_context_settings(), w, c1);
@@ -194,6 +209,9 @@ TEST_F(test_gl_invalid_context_error_death_test,
 TEST_F(test_gl_invalid_context_error,
   gl_context_ownership_non_shared_function_success)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
   window w("test", vec2u(1u, 1u));
   gl::context c1(get_test_default_context_settings(), w);
   gl::context c2(get_test_default_context_settings(), w, c1);
@@ -223,6 +241,9 @@ TEST_F(test_gl_invalid_context_error,
 TEST_F(test_gl_invalid_context_error_death_test,
   gl_context_ownership_non_shared_function_failure)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
   window w("test", vec2u(1u, 1u));
   gl::context c1(get_test_default_context_settings(), w);
   gl::context c2(get_test_default_context_settings(), w, c1);
@@ -261,6 +282,9 @@ TEST_F(test_gl_invalid_context_error_death_test,
 TEST_F(
   test_gl_invalid_context_error, gl_context_ownership_non_shared_macro_success)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
   window w("test", vec2u(1u, 1u));
   gl::context c1(get_test_default_context_settings(), w);
   gl::context c2(get_test_default_context_settings(), w, c1);
@@ -290,6 +314,9 @@ TEST_F(
 TEST_F(test_gl_invalid_context_error_death_test,
   gl_context_ownership_non_shared_macro_failure)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
   window w("test", vec2u(1u, 1u));
   gl::context c1(get_test_default_context_settings(), w);
   gl::context c2(get_test_default_context_settings(), w, c1);

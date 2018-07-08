@@ -5,6 +5,7 @@
 #include "hou/gl/gl_context.hpp"
 
 #include "hou/gl/gl_context_exceptions.hpp"
+#include "hou/gl/gl_vsync_mode.hpp"
 
 #include "hou/cor/assertions.hpp"
 
@@ -296,6 +297,8 @@ SDL_GLContext create_context(const context_settings& cs, const SDL_Window* wnd)
     context_switch_error, SDL_GetError());
   HOU_CHECK_N(gladLoadGLLoader(SDL_GL_GetProcAddress) != 0,
     context_creation_error, SDL_GetError());
+  HOU_CHECK_N(SDL_GL_SetSwapInterval(0) == 0, context_creation_error,
+    "Could not initialize vsync mode.");
 
   return ctx;
 }

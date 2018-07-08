@@ -24,4 +24,8 @@
   #define HOU_GL_GLX
 #endif
 
+#if defined(HOU_EMSCRIPTEN)
+  #define HOU_GL_ES
+#endif
+
 #endif
