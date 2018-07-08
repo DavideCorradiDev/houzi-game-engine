@@ -23,7 +23,19 @@ vertex_array_handle vertex_array_handle::create()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   GLuint name;
-  glCreateVertexArrays(1, &name);
+  if(context::get_current()->get_settings().get_profile() == context_profile::es)
+  {
+    glGenVertexArrays(1, &name);
+    GLuint binding_bkp = get_bound_vertex_array_name();
+    glBindVertexArray(name);
+    HOU_GL_CHECK_ERROR();
+    glBindVertexArray(binding_bkp);
+    HOU_GL_CHECK_ERROR();
+  }
+  else
+  {
+    glCreateVertexArrays(1, &name);
+  }
   HOU_GL_CHECK_ERROR();
   return vertex_array_handle(name);
 }
