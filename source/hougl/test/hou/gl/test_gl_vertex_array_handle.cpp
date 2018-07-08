@@ -25,7 +25,7 @@ using test_gl_vertex_array_handle_death_test = test_gl_vertex_array_handle;
 
 
 
-TEST_F(test_gl_vertex_array_handle, Creation)
+TEST_F(test_gl_vertex_array_handle, creation)
 {
   gl::vertex_array_handle vah = gl::vertex_array_handle::create();
   EXPECT_NE(0u, vah.get_name());

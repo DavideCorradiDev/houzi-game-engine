@@ -48,7 +48,7 @@ gl::program_handle create_program()
 
 
 
-TEST_F(test_gl_program_handle, Creation)
+TEST_F(test_gl_program_handle, creation)
 {
   gl::program_handle vah = gl::program_handle::create();
   EXPECT_NE(0u, vah.get_name());
@@ -57,9 +57,9 @@ TEST_F(test_gl_program_handle, Creation)
 
 
 #ifdef HOU_ENABLE_GL_ERROR_CHECKS
-TEST_F(test_gl_program_handle, NoContextCreation)
+TEST_F(test_gl_program_handle, no_context_creation)
 #else
-TEST_F(test_gl_program_handle, DISABLED_NoContextCreation)
+TEST_F(test_gl_program_handle, DISABLED_no_context_creation)
 #endif
 {
   gl::context::unset_current();
@@ -68,7 +68,7 @@ TEST_F(test_gl_program_handle, DISABLED_NoContextCreation)
 
 
 
-TEST_F(test_gl_program_handle, Tracking)
+TEST_F(test_gl_program_handle, tracking)
 {
   gl::program_handle ph1 = create_program();
   gl::program_handle ph2 = create_program();
@@ -106,7 +106,7 @@ TEST_F(test_gl_program_handle, Tracking)
 
 
 
-TEST_F(test_gl_program_handle, SharingContextBinding)
+TEST_F(test_gl_program_handle, sharing_context_binding)
 {
   gl::program_handle ph = create_program();
   set_sharing_context_current();
@@ -117,9 +117,9 @@ TEST_F(test_gl_program_handle, SharingContextBinding)
 
 
 #ifdef HOU_ENABLE_GL_ERROR_CHECKS
-TEST_F(test_gl_program_handle_death_test, NonSharingContextBinding)
+TEST_F(test_gl_program_handle_death_test, non_sharing_context_binding)
 #else
-TEST_F(test_gl_program_handle_death_test, DISABLED_NonSharingContextBinding)
+TEST_F(test_gl_program_handle_death_test, DISABLED_non_sharing_context_binding)
 #endif
 {
   gl::program_handle ph = create_program();
@@ -131,9 +131,9 @@ TEST_F(test_gl_program_handle_death_test, DISABLED_NonSharingContextBinding)
 
 
 #ifdef HOU_ENABLE_GL_ERROR_CHECKS
-TEST_F(test_gl_program_handle_death_test, NoContextBinding)
+TEST_F(test_gl_program_handle_death_test, no_context_binding)
 #else
-TEST_F(test_gl_program_handle_death_test, DISABLED_NoContextBinding)
+TEST_F(test_gl_program_handle_death_test, DISABLED_no_context_binding)
 #endif
 {
   gl::program_handle ph = create_program();
@@ -144,7 +144,7 @@ TEST_F(test_gl_program_handle_death_test, DISABLED_NoContextBinding)
 
 
 
-TEST_F(test_gl_program_handle, LinkProgram)
+TEST_F(test_gl_program_handle, link_program)
 {
   gl::shader_handle vsh = gl::shader_handle::create(GL_VERTEX_SHADER);
   gl::compile_shader(vsh, get_vs_source().c_str());
@@ -162,7 +162,7 @@ TEST_F(test_gl_program_handle, LinkProgram)
 
 
 
-TEST_F(test_gl_program_handle_death_test, LinkProgramFailure)
+TEST_F(test_gl_program_handle_death_test, link_program_failure)
 {
   gl::shader_handle vsh = gl::shader_handle::create(GL_VERTEX_SHADER);
   gl::compile_shader(vsh, get_vs_source().c_str());
@@ -184,7 +184,7 @@ TEST_F(test_gl_program_handle_death_test, LinkProgramFailure)
 
 
 
-TEST_F(test_gl_program_handle, GetUniformLocation)
+TEST_F(test_gl_program_handle, get_uniform_location)
 {
   gl::program_handle ph = create_program();
   EXPECT_EQ(0, gl::get_program_uniform_location(ph, "colorUni"));
@@ -192,7 +192,7 @@ TEST_F(test_gl_program_handle, GetUniformLocation)
 
 
 
-TEST_F(test_gl_program_handle_death_test, GetUniformLocationInvalidName)
+TEST_F(test_gl_program_handle_death_test, get_uniform_location_invalid_name)
 {
   gl::program_handle ph = create_program();
   EXPECT_ERROR_N(gl::get_program_uniform_location(ph, "invalidName"),
