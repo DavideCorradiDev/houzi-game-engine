@@ -47,7 +47,21 @@ buffer_handle buffer_handle::create()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   GLuint name;
-  glCreateBuffers(1, &name);
+  if(context::get_current()->get_settings().get_profile()
+    == context_profile::es)
+  {
+    static constexpr GLenum target = GL_ARRAY_BUFFER;
+    glGenBuffers(1, &name);
+    GLuint binding_bkp = get_bound_buffer_name(target);
+    glBindBuffer(target, name);
+    HOU_GL_CHECK_ERROR();
+    glBindBuffer(target, binding_bkp);
+    HOU_GL_CHECK_ERROR();
+  }
+  else
+  {
+    glCreateBuffers(1, &name);
+  }
   HOU_GL_CHECK_ERROR();
   return buffer_handle(name);
 }
