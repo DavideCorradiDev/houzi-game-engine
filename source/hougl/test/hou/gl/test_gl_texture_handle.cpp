@@ -49,7 +49,7 @@ TEST_F(test_gl_texture_handle_death_test, DISABLED_no_context_creation)
 TEST_F(test_gl_texture_handle, tracking)
 {
   gl::texture_handle th1 = gl::texture_handle::create(GL_TEXTURE_2D);
-  gl::texture_handle th2 = gl::texture_handle::create(GL_TEXTURE_1D);
+  gl::texture_handle th2 = gl::texture_handle::create(GL_TEXTURE_3D);
 
   gl::set_active_texture(0u);
   EXPECT_EQ(0u, gl::get_active_texture());
@@ -113,7 +113,7 @@ TEST_F(test_gl_texture_handle, tracking)
 TEST_F(test_gl_texture_handle, unit_tracking)
 {
   gl::texture_handle th1 = gl::texture_handle::create(GL_TEXTURE_2D);
-  gl::texture_handle th2 = gl::texture_handle::create(GL_TEXTURE_1D);
+  gl::texture_handle th2 = gl::texture_handle::create(GL_TEXTURE_3D);
 
   EXPECT_FALSE(gl::is_texture_bound(th1, 0));
   EXPECT_FALSE(gl::is_texture_bound(th2, 0));
@@ -167,7 +167,7 @@ TEST_F(test_gl_texture_handle, unit_tracking)
 
 TEST_F(test_gl_texture_handle, sharing_context_binding)
 {
-  gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_1D);
+  gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_3D);
   set_sharing_context_current();
   gl::bind_texture(th);
   EXPECT_TRUE(is_texture_bound(th));
@@ -181,7 +181,7 @@ TEST_F(test_gl_texture_handle_death_test, non_sharing_context_binding)
 TEST_F(test_gl_texture_handle_death_test, DISABLED_non_sharing_context_binding)
 #endif
 {
-  gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_1D);
+  gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_3D);
   set_non_sharing_context_current();
   EXPECT_ERROR_0(gl::bind_texture(th), gl::invalid_context_error);
   set_context_current();
@@ -195,7 +195,7 @@ TEST_F(test_gl_texture_handle_death_test, no_context_binding)
 TEST_F(test_gl_texture_handle_death_test, DISABLED_no_context_binding)
 #endif
 {
-  gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_1D);
+  gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_3D);
   gl::context::unset_current();
   EXPECT_ERROR_0(gl::bind_texture(th), gl::missing_context_error);
   set_context_current();
