@@ -24,7 +24,8 @@ std::string get_gl_version_shader_string()
     return "#version 450 core\n";
   }
 }
-}
+
+}  // namespace
 
 
 
