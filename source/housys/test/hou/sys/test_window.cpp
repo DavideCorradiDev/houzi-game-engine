@@ -425,13 +425,13 @@ TEST_F(test_window, visibility)
 }
 
 
-#if defined(HOU_EMSCRIPTEN)
-TEST_F(test_window, DISABLED_maximization_on_resizable_window)
-#else
 TEST_F(test_window, maximization_on_resizable_window)
-#endif
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Window maximization is not supported on the current platform.");
+#endif
   window w(u8"TestWindow", vec2u(32u, 64u));
+
   w.set_resizable(true);
 
   EXPECT_TRUE(w.is_resizable());
@@ -469,12 +469,11 @@ TEST_F(test_window, maximization_on_not_resizable_window)
 
 
 
-#if defined(HOU_SYSTEM_LINUX) || defined(HOU_EMSCRIPTEN)
-TEST_F(test_window, DISABLED_minimization)
-#else
 TEST_F(test_window, minimization)
-#endif
 {
+#if defined(HOU_EMSCRIPTEN) || defined(HOU_SYSTEM_LINUX)
+  SKIP("Window minimization is not supported on the current platform.");
+#endif
   // On linux, the window is not immediately flagged as minimized, and
   // calling restore doesn't restore the window, but just notifies that
   // the window "is ready".
@@ -494,12 +493,11 @@ TEST_F(test_window, minimization)
 
 
 
-#if defined(HOU_SYSTEM_LINUX) || defined(HOU_EMSCRIPTEN)
-TEST_F(test_window, DISABLED_minimization_and_maximization)
-#else
 TEST_F(test_window, minimization_and_maximization)
-#endif
 {
+#if defined(HOU_EMSCRIPTEN) || defined(HOU_SYSTEM_LINUX)
+  SKIP("Window minimization is not supported on the current platform.");
+#endif
   window w(u8"TestWindow", vec2u(32u, 64u));
   w.set_resizable(true);
 
@@ -565,12 +563,11 @@ TEST_F(test_window, grab)
 }
 
 
-#if defined(HOU_EMSCRIPTEN)
-TEST_F(test_window, DISABLED_resizable)
-#else
 TEST_F(test_window, resizable)
-#endif
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Resizable windows are not supported on the current platform.");
+#endif
   window w(u8"TestWindow", vec2u(32u, 64u));
 
   EXPECT_FALSE(w.is_resizable());
@@ -581,12 +578,11 @@ TEST_F(test_window, resizable)
 }
 
 
-#if defined(HOU_EMSCRIPTEN)
-TEST_F(test_window, DISABLED_bordered)
-#else
 TEST_F(test_window, bordered)
-#endif
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Bordered windows are not supported on the current platform.");
+#endif
   window w(u8"TestWindow", vec2u(32u, 64u));
 
   EXPECT_FALSE(w.is_bordered());
@@ -598,12 +594,11 @@ TEST_F(test_window, bordered)
 
 
 
-#if defined(HOU_SYSTEM_WINDOWS) || defined(HOU_EMSCRIPTEN)
-TEST_F(test_window, DISABLED_focus_success)
-#else
 TEST_F(test_window, focus_success)
-#endif
 {
+#if defined(HOU_SYSTEM_WINDOWS) || defined(HOU_EMSCRIPTEN)
+  SKIP("Window focusing is not supported on the current platform.");
+#endif
   // On windows, the window doesn't get successfully focused in this kind of
   // scenario.
   window w(u8"TestWindow", vec2u(32u, 64u));
@@ -615,12 +610,11 @@ TEST_F(test_window, focus_success)
 }
 
 
-#if defined(HOU_EMSCRIPTEN)
-TEST_F(test_window, DISABLED_focus_failure)
-#else
 TEST_F(test_window, focus_failure)
-#endif
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Window focusing is not supported on the current platform.");
+#endif
   // The window is not visible, focusing it will fail.
   window w(u8"TestWindow", vec2u(32u, 64u));
   EXPECT_FALSE(w.focus());

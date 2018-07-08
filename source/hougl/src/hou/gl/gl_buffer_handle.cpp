@@ -46,7 +46,7 @@ GLenum toGetGLenum(GLenum target)
 buffer_handle buffer_handle::create()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  GLuint name;
+  GLuint name = 0u;
 #if defined(HOU_GL_ES)
   glGenBuffers(1, &name);
 #else
