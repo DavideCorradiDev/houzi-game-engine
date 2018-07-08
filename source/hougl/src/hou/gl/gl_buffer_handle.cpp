@@ -50,13 +50,7 @@ buffer_handle buffer_handle::create()
   if(context::get_current()->get_settings().get_profile()
     == context_profile::es)
   {
-    static constexpr GLenum target = GL_ARRAY_BUFFER;
     glGenBuffers(1, &name);
-    GLuint binding_bkp = get_bound_buffer_name(target);
-    glBindBuffer(target, name);
-    HOU_GL_CHECK_ERROR();
-    glBindBuffer(target, binding_bkp);
-    HOU_GL_CHECK_ERROR();
   }
   else
   {

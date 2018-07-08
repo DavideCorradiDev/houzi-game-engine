@@ -47,7 +47,15 @@ framebuffer_handle framebuffer_handle::create()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   GLuint name;
-  glCreateFramebuffers(1, &name);
+  if(context::get_current()->get_settings().get_profile()
+    == context_profile::es)
+  {
+    glGenFramebuffers(1, &name);
+  }
+  else
+  {
+    glCreateFramebuffers(1, &name);
+  }
   HOU_GL_CHECK_ERROR();
   return framebuffer_handle(name);
 }

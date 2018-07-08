@@ -27,11 +27,6 @@ vertex_array_handle vertex_array_handle::create()
     == context_profile::es)
   {
     glGenVertexArrays(1, &name);
-    GLuint binding_bkp = get_bound_vertex_array_name();
-    glBindVertexArray(name);
-    HOU_GL_CHECK_ERROR();
-    glBindVertexArray(binding_bkp);
-    HOU_GL_CHECK_ERROR();
   }
   else
   {

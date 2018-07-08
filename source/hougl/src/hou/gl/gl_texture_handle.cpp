@@ -21,7 +21,33 @@ namespace gl
 namespace
 {
 
+// Note: do not change active texture units in scopes where the scoped texture
+// binding is used! This would cause incorrect behaviour.
+class scoped_texture_binding
+{
+public:
+  scoped_texture_binding(GLenum target, GLuint tex);
+  ~scoped_texture_binding();
+
+private:
+  GLenum m_target_bkp;
+  GLuint m_name_bkp;
+};
+
+class scoped_texture_unit_binding
+{
+public:
+  scoped_texture_unit_binding(GLuint unit);
+  ~scoped_texture_unit_binding();
+
+private:
+  GLuint m_unit_bkp;
+};
+
 GLenum to_get_gl_enum(GLenum target);
+
+void get_texture_parameter_iv(
+  const texture_handle& tex, GLenum param, GLint* value);
 
 GLint get_texture_parameter_i(const texture_handle& tex, GLenum param);
 
@@ -30,6 +56,45 @@ void set_texture_parameter_i(
 
 GLint get_texture_level_parameter_i(
   const texture_handle& tex, GLint level, GLenum param);
+
+
+
+scoped_texture_binding::scoped_texture_binding(GLenum target, GLuint tex)
+  : m_target_bkp(get_bound_texture_target())
+  , m_name_bkp(get_bound_texture_name())
+{
+  // Set an arbitrary value if no texture is bound.
+  if(m_target_bkp == 0)
+  {
+    m_target_bkp = target;
+  }
+  glBindTexture(target, tex);
+  HOU_GL_CHECK_ERROR();
+}
+
+
+
+scoped_texture_binding::~scoped_texture_binding()
+{
+  glBindTexture(m_target_bkp, m_name_bkp);
+  HOU_GL_CHECK_ERROR();
+}
+
+
+
+scoped_texture_unit_binding::scoped_texture_unit_binding(GLuint unit)
+  : m_unit_bkp(
+      static_cast<GLuint>(get_integer(GL_ACTIVE_TEXTURE) - GL_TEXTURE0))
+{
+  glActiveTexture(GL_TEXTURE0 + unit);
+}
+
+
+
+scoped_texture_unit_binding::~scoped_texture_unit_binding()
+{
+  glActiveTexture(GL_TEXTURE0 + m_unit_bkp);
+}
 
 
 
@@ -66,13 +131,30 @@ GLenum to_get_gl_enum(GLenum target)
 
 
 
-GLint get_texture_parameter_i(const texture_handle& tex, GLenum param)
+void get_texture_parameter_iv(
+  const texture_handle& tex, GLenum param, GLint* value)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
-  GLint value;
-  glGetTextureParameteriv(tex.get_name(), param, &value);
+  if(context::get_current()->get_settings().get_profile()
+    == context_profile::es)
+  {
+    scoped_texture_binding binding(tex.get_target(), tex.get_name());
+    glGetTexParameteriv(tex.get_target(), param, value);
+  }
+  else
+  {
+    glGetTextureParameteriv(tex.get_name(), param, value);
+  }
   HOU_GL_CHECK_ERROR();
+}
+
+
+
+GLint get_texture_parameter_i(const texture_handle& tex, GLenum param)
+{
+  GLint value = 0;
+  get_texture_parameter_iv(tex, param, &value);
   return value;
 }
 
@@ -83,7 +165,16 @@ void set_texture_parameter_i(
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
-  glTextureParameteri(tex.get_name(), param, value);
+  if(context::get_current()->get_settings().get_profile()
+    == context_profile::es)
+  {
+    scoped_texture_binding binding(tex.get_target(), tex.get_name());
+    glTexParameteri(tex.get_target(), param, value);
+  }
+  else
+  {
+    glTextureParameteri(tex.get_name(), param, value);
+  }
   HOU_GL_CHECK_ERROR();
 }
 
@@ -94,8 +185,17 @@ GLint get_texture_level_parameter_i(
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
-  GLint value;
-  glGetTextureLevelParameteriv(tex.get_name(), level, param, &value);
+  GLint value = 0;
+  if(context::get_current()->get_settings().get_profile()
+    == context_profile::es)
+  {
+    scoped_texture_binding binding(tex.get_target(), tex.get_name());
+    glGetTexLevelParameteriv(tex.get_target(), level, param, &value);
+  }
+  else
+  {
+    glGetTextureLevelParameteriv(tex.get_name(), level, param, &value);
+  }
   HOU_GL_CHECK_ERROR();
   return value;
 }
@@ -108,7 +208,15 @@ texture_handle texture_handle::create(GLenum target)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   GLuint name;
-  glCreateTextures(target, 1, &name);
+  if(context::get_current()->get_settings().get_profile()
+    == context_profile::es)
+  {
+    glGenTextures(1, &name);
+  }
+  else
+  {
+    glCreateTextures(target, 1, &name);
+  }
   HOU_GL_CHECK_ERROR();
   return texture_handle(name, target);
 }
@@ -175,7 +283,16 @@ void bind_texture(const texture_handle& tex, GLuint unit)
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
   if(!is_texture_bound(tex, unit))
   {
-    glBindTextureUnit(unit, tex.get_name());
+    if(context::get_current()->get_settings().get_profile()
+      == context_profile::es)
+    {
+      scoped_texture_unit_binding binding(unit);
+      glBindTexture(tex.get_target(), tex.get_name());
+    }
+    else
+    {
+      glBindTextureUnit(unit, tex.get_name());
+    }
     HOU_GL_CHECK_ERROR();
     context::get_current()->m_tracking_data.set_bound_texture(
       tex.get_uid(), unit, tex.get_target());
@@ -189,7 +306,16 @@ void unbind_texture(GLuint unit)
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   if(is_texture_bound(unit))
   {
-    glBindTextureUnit(unit, 0u);
+    if(context::get_current()->get_settings().get_profile()
+      == context_profile::es)
+    {
+      scoped_texture_unit_binding binding(unit);
+      glBindTexture(GL_TEXTURE_2D, 0u);
+    }
+    else
+    {
+      glBindTextureUnit(unit, 0u);
+    }
     HOU_GL_CHECK_ERROR();
     context::get_current()->m_tracking_data.set_bound_texture(0u, unit, 0);
   }
@@ -233,10 +359,16 @@ bool is_texture_bound(uint unit)
 
 
 
+GLenum get_bound_texture_target()
+{
+    return context::get_current()->m_tracking_data.get_bound_texture_target();
+}
+
+
+
 GLuint get_bound_texture_name()
 {
-  GLenum binding_enum = to_get_gl_enum(
-    context::get_current()->m_tracking_data.get_bound_texture_target());
+  GLenum binding_enum = to_get_gl_enum(get_bound_texture_target());
   return binding_enum == 0 ? 0u
                            : static_cast<GLuint>(get_integer(binding_enum));
 }
@@ -554,11 +686,8 @@ GLenum get_texture_swizzle_a(const texture_handle& tex)
 
 void get_texture_swizzle(const texture_handle& tex, GLenum* swizzle)
 {
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
-  glGetTextureParameteriv(
-    tex.get_name(), GL_TEXTURE_SWIZZLE_RGBA, reinterpret_cast<GLint*>(swizzle));
-  HOU_GL_CHECK_ERROR();
+  get_texture_parameter_iv(
+    tex, GL_TEXTURE_SWIZZLE_RGBA, reinterpret_cast<GLint*>(swizzle));
 }
 
 

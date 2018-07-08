@@ -309,6 +309,7 @@ private:
                                           GLuint unit);
   friend HOU_GL_API bool is_texture_bound(GLuint unit);
   friend HOU_GL_API void set_active_texture(GLuint unit);
+  friend HOU_GL_API GLenum get_bound_texture_target();
   friend HOU_GL_API GLuint get_bound_texture_name();
   friend HOU_GL_API void
   bind_vertex_array(const vertex_array_handle &vertexArray);
