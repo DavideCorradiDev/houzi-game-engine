@@ -110,6 +110,12 @@ context_attributes_guard::~context_attributes_guard()
 
 void context_attributes_guard::save_context_settings()
 {
+  if(SDL_GL_GetCurrentContext() == nullptr)
+  {
+    return;
+  }
+
+#ifndef HOU_EMSCRIPTEN
   int major_version = 0;
   SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &major_version);
   int minor_version = 0;
@@ -136,6 +142,11 @@ void context_attributes_guard::save_context_settings()
       m_settings_bkp.set_profile(context_profile::any);
       break;
   }
+
+  int srgb_capable = 0;
+  SDL_GL_GetAttribute(SDL_GL_FRAMEBUFFER_SRGB_CAPABLE, &srgb_capable);
+  m_settings_bkp.set_srgb_capable(srgb_capable);
+#endif
 
   int red_size = 0;
   SDL_GL_GetAttribute(SDL_GL_RED_SIZE, &red_size);
@@ -168,10 +179,6 @@ void context_attributes_guard::save_context_settings()
   SDL_GL_GetAttribute(SDL_GL_DOUBLEBUFFER, &double_buffer);
   m_settings_bkp.set_double_buffer(double_buffer);
 
-  int srgb_capable = 0;
-  SDL_GL_GetAttribute(SDL_GL_FRAMEBUFFER_SRGB_CAPABLE, &srgb_capable);
-  m_settings_bkp.set_srgb_capable(srgb_capable);
-
   int stereo = 0;
   SDL_GL_GetAttribute(SDL_GL_STEREO, &stereo);
   m_settings_bkp.set_stereo(stereo);
@@ -194,6 +201,8 @@ void context_attributes_guard::update_context_settings(
 {
   SDL_GL_ResetAttributes();
 
+// In emscripten, setting these values causes the context creation to fail.
+#ifndef HOU_EMSCRIPTEN
   SDL_GL_SetAttribute(
     SDL_GL_CONTEXT_MAJOR_VERSION, cs.get_version().get_major());
   SDL_GL_SetAttribute(
@@ -217,6 +226,9 @@ void context_attributes_guard::update_context_settings(
   }
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, profile);
 
+  SDL_GL_SetAttribute(SDL_GL_FRAMEBUFFER_SRGB_CAPABLE, cs.srgb_capable());
+#endif
+
   SDL_GL_SetAttribute(
     SDL_GL_RED_SIZE, cs.get_color_format().get_red_bit_count());
   SDL_GL_SetAttribute(
@@ -238,8 +250,6 @@ void context_attributes_guard::update_context_settings(
   SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, cs.get_sample_count());
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, cs.double_buffer());
-
-  SDL_GL_SetAttribute(SDL_GL_FRAMEBUFFER_SRGB_CAPABLE, cs.srgb_capable());
 
   SDL_GL_SetAttribute(SDL_GL_STEREO, cs.stereo());
 

@@ -49,6 +49,7 @@ context_settings make_default_es_settings() noexcept
   context_settings cs;
   cs.set_version(version(3u, 2u));
   cs.set_profile(context_profile::es);
+  cs.set_srgb_capable(false);
   return cs;
 }
 

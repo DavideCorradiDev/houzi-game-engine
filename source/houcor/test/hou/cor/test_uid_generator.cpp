@@ -41,12 +41,12 @@ TEST_F(test_uid_generator, increment)
 
 
 
-#if defined HOU_EMSCRIPTEN
-TEST_F(test_uid_generator, DISABLED_multi_thread_increment)
-#else
 TEST_F(test_uid_generator, multi_thread_increment)
-#endif
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multi-threading is not supported on Emscripten.");
+#endif
+
   uid_generator uid_gen(2u);
 
   auto thread_fun = [&uid_gen]() { uid_gen.generate(); };

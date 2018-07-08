@@ -251,6 +251,10 @@ TEST_F(test_gl_context_death_test, get_from_impl_after_destruction)
 
 TEST_F(test_gl_context, current_gl_context)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
+
   window w1("Test1", vec2u(10u, 10u));
   gl::context c1(get_test_default_context_settings(), w1);
   window w2("Test2", vec2u(10u, 10u));
@@ -290,10 +294,13 @@ TEST_F(test_gl_context, current_gl_context)
 
 TEST_F(test_gl_context_death_test, set_current_error_multiple_threads)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multi-threading is not supported on Emscripten.");
+#endif
+
 #if defined(HOU_SYSTEM_WINDOWS)
   const char msg[] = "wglMakeCurrent(): The requested resource is in use.\r\n";
 #elif defined(HOU_SYSTEM_LINUX)
-
   const char msg[] = "Unable to make GL context current";
 #else
   HOU_NOT_IMPLEMENTED();
@@ -375,6 +382,10 @@ TEST_F(test_gl_context, binding_after_window_destruction)
 
 TEST_F(test_gl_context_optimizations, redundant_binding)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
+
   static constexpr uint call_count = 1000u;
 
   window w1("Test", vec2u(4u, 4u));

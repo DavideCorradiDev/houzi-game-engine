@@ -316,7 +316,7 @@ TEST_F(test_gl_context_settings, get_default_es)
   EXPECT_EQ(0u, cs.get_multisample_buffer_count());
   EXPECT_EQ(0u, cs.get_sample_count());
   EXPECT_TRUE(cs.double_buffer());
-  EXPECT_TRUE(cs.srgb_capable());
+  EXPECT_FALSE(cs.srgb_capable());
   EXPECT_FALSE(cs.stereo());
   EXPECT_FALSE(cs.debug_mode());
   EXPECT_FALSE(cs.forward_compatibility_mode());
