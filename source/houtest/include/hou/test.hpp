@@ -288,7 +288,8 @@ inline std::string get_exception_msg_regex(const std::exception& ex)
 #define SKIP(message)                                                          \
   do                                                                           \
   {                                                                            \
-    PRINT_MSG(::hou::format_string("[INFO] Test skipped. %s", message));       \
+    PRINT_MSG(                                                                 \
+      ::hou::format_string("[INFO] Test skipped. %s", message).c_str());       \
     return;                                                                    \
   } while(false)
 
@@ -298,7 +299,8 @@ inline std::string get_exception_msg_regex(const std::exception& ex)
     if(condition)                                                              \
     {                                                                          \
       SKIP(::hou::format_string(                                               \
-        "Skipping condition: " #condition ". %s", message));                   \
+        "Skipping condition: " #condition ". %s", message)                     \
+             .c_str());                                                        \
     }                                                                          \
   } while(false)
 

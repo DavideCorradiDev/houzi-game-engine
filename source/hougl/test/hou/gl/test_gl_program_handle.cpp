@@ -144,8 +144,27 @@ TEST_F(test_gl_program_handle_death_test, DISABLED_no_context_binding)
 
 
 
-TEST_F(test_gl_program_handle, link_program)
+TEST_F(test_gl_program_handle, link_program_without_geometry_shader)
 {
+  gl::shader_handle vsh = gl::shader_handle::create(GL_VERTEX_SHADER);
+  gl::compile_shader(vsh, get_vs_source().c_str());
+  gl::shader_handle fsh = gl::shader_handle::create(GL_FRAGMENT_SHADER);
+  gl::compile_shader(fsh, get_fs_source().c_str());
+  gl::program_handle ph = gl::program_handle::create();
+  gl::attach_shader(ph, vsh);
+  gl::attach_shader(ph, fsh);
+  gl::link_program(ph);
+  SUCCEED();
+}
+
+
+
+TEST_F(test_gl_program_handle, link_program_with_geometry_shader)
+{
+  SKIP_IF(get_test_default_context_settings().get_profile()
+      == gl::context_profile::es,
+    "Geometry shaders are not supported in GLES.");
+
   gl::shader_handle vsh = gl::shader_handle::create(GL_VERTEX_SHADER);
   gl::compile_shader(vsh, get_vs_source().c_str());
   gl::shader_handle gsh = gl::shader_handle::create(GL_GEOMETRY_SHADER);
@@ -162,8 +181,13 @@ TEST_F(test_gl_program_handle, link_program)
 
 
 
-TEST_F(test_gl_program_handle_death_test, link_program_failure)
+TEST_F(
+  test_gl_program_handle_death_test, link_program_with_geometry_shader_failure)
 {
+  SKIP_IF(get_test_default_context_settings().get_profile()
+      == gl::context_profile::es,
+    "Geometry shaders are not supported in GLES.");
+
   gl::shader_handle vsh = gl::shader_handle::create(GL_VERTEX_SHADER);
   gl::compile_shader(vsh, get_vs_source().c_str());
   gl::shader_handle gsh = gl::shader_handle::create(GL_GEOMETRY_SHADER);
