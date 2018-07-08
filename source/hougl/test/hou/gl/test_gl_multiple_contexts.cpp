@@ -10,9 +10,8 @@
 
 test_gl_multiple_contexts::test_gl_multiple_contexts()
   : test_gl_base()
-  , m_sharing_context(
-      hou::gl::context_settings::get_default(), m_window, m_context)
-  , m_non_sharing_context(hou::gl::context_settings::get_default(), m_window)
+  , m_sharing_context(get_test_default_context_settings(), m_window, m_context)
+  , m_non_sharing_context(get_test_default_context_settings(), m_window)
 {}
 
 

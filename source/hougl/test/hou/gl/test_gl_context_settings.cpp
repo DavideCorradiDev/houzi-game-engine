@@ -284,7 +284,42 @@ TEST_F(test_gl_context_settings, get_basic)
 
 
 
-TEST_F(test_gl_context_settings, get_default)
+TEST_F(test_gl_context_settings, get_default_core)
 {
-  EXPECT_EQ(gl::context_settings(), gl::context_settings::get_default());
+  gl::context_settings cs = gl::context_settings::get_default_core();
+  EXPECT_EQ(gl::version(4u, 5u), cs.get_version());
+  EXPECT_EQ(gl::context_profile::core, cs.get_profile());
+  EXPECT_EQ(gl::color_format(8u, 8u, 8u, 0u), cs.get_color_format());
+  EXPECT_EQ(24u, cs.get_depth_bit_count());
+  EXPECT_EQ(8u, cs.get_stencil_bit_count());
+  EXPECT_EQ(0u, cs.get_multisample_buffer_count());
+  EXPECT_EQ(0u, cs.get_sample_count());
+  EXPECT_TRUE(cs.double_buffer());
+  EXPECT_TRUE(cs.srgb_capable());
+  EXPECT_FALSE(cs.stereo());
+  EXPECT_FALSE(cs.debug_mode());
+  EXPECT_FALSE(cs.forward_compatibility_mode());
+  EXPECT_FALSE(cs.robust_access());
+  EXPECT_FALSE(cs.reset_isolation());
+}
+
+
+
+TEST_F(test_gl_context_settings, get_default_es)
+{
+  gl::context_settings cs = gl::context_settings::get_default_es();
+  EXPECT_EQ(gl::version(3u, 2u), cs.get_version());
+  EXPECT_EQ(gl::context_profile::es, cs.get_profile());
+  EXPECT_EQ(gl::color_format(8u, 8u, 8u, 0u), cs.get_color_format());
+  EXPECT_EQ(24u, cs.get_depth_bit_count());
+  EXPECT_EQ(8u, cs.get_stencil_bit_count());
+  EXPECT_EQ(0u, cs.get_multisample_buffer_count());
+  EXPECT_EQ(0u, cs.get_sample_count());
+  EXPECT_TRUE(cs.double_buffer());
+  EXPECT_TRUE(cs.srgb_capable());
+  EXPECT_FALSE(cs.stereo());
+  EXPECT_FALSE(cs.debug_mode());
+  EXPECT_FALSE(cs.forward_compatibility_mode());
+  EXPECT_FALSE(cs.robust_access());
+  EXPECT_FALSE(cs.reset_isolation());
 }

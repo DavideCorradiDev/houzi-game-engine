@@ -28,18 +28,33 @@ public:
   /**
    * Gets widely supported basic settings.
    *
+   * \note using this settings should guarantee that the context will be
+   * created successfully, but does not guarantee that all functionality in
+   * the library is supported.
+   *
    * \return the settings.
    */
   static const context_settings& get_basic() noexcept;
 
   /**
-   * Gets default settings.
+   * Gets default settings for a core GL context.
    *
-   * These settings guarantee that anything in the library will work properly.
+   * These settings guarantee that anything in the library will work properly
+   * on systems supporting standard OpenGL.
    *
    * \return the settings.
    */
-  static const context_settings& get_default() noexcept;
+  static const context_settings& get_default_core() noexcept;
+
+  /**
+   * Gets default settings for a GLES context.
+   *
+   * These settings guarantee that anything in the library will work properly
+   * on systems supporting GLES.
+   *
+   * \return the settings.
+   */
+  static const context_settings& get_default_es() noexcept;
 
 public:
   /**
