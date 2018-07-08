@@ -163,7 +163,7 @@ void unbind_texture()
     glBindTexture(
       context::get_current()->m_tracking_data.get_bound_texture_target(), 0u);
     HOU_GL_CHECK_ERROR();
-    context::get_current()->m_tracking_data.set_bound_texture(0u, GL_TEXTURE_1D);
+    context::get_current()->m_tracking_data.set_bound_texture(0u, 0);
   }
 }
 
@@ -191,8 +191,7 @@ void unbind_texture(GLuint unit)
   {
     glBindTextureUnit(unit, 0u);
     HOU_GL_CHECK_ERROR();
-    context::get_current()->m_tracking_data.set_bound_texture(
-      0u, unit, GL_TEXTURE_1D);
+    context::get_current()->m_tracking_data.set_bound_texture(0u, unit, 0);
   }
 }
 
@@ -236,8 +235,10 @@ bool is_texture_bound(uint unit)
 
 GLuint get_bound_texture_name()
 {
-  return static_cast<GLuint>(get_integer(to_get_gl_enum(
-    context::get_current()->m_tracking_data.get_bound_texture_target())));
+  GLenum binding_enum = to_get_gl_enum(
+    context::get_current()->m_tracking_data.get_bound_texture_target());
+  return binding_enum == 0 ? 0u
+                           : static_cast<GLuint>(get_integer(binding_enum));
 }
 
 

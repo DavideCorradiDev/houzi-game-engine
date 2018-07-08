@@ -495,7 +495,7 @@ context::tracking_data::tracking_data() noexcept
   , m_bound_vertex_array(0u)
   , m_active_texture(0u)
   , m_bound_textures(1u, 0u)
-  , m_bound_texture_targets(1u, GL_TEXTURE_1D)
+  , m_bound_texture_targets(1u, 0)
   , m_current_viewport(0, 0, 0, 0)
 {}
 
@@ -591,7 +591,7 @@ void context::tracking_data::resize_texture_vectors(size_t size)
   if(m_bound_textures.size() < size)
   {
     m_bound_textures.resize(size, 0u);
-    m_bound_texture_targets.resize(size, GL_TEXTURE_1D);
+    m_bound_texture_targets.resize(size, 0);
   }
 }
 
@@ -649,7 +649,7 @@ GLenum context::tracking_data::get_bound_texture_target(GLuint unit) const
   }
   else
   {
-    return GL_TEXTURE_1D;
+    return 0;
   }
 }
 
