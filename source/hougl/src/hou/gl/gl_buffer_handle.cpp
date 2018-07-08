@@ -47,15 +47,11 @@ buffer_handle buffer_handle::create()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   GLuint name;
-  if(context::get_current()->get_settings().get_profile()
-    == context_profile::es)
-  {
-    glGenBuffers(1, &name);
-  }
-  else
-  {
-    glCreateBuffers(1, &name);
-  }
+#if defined(HOU_GL_ES)
+  glGenBuffers(1, &name);
+#else
+  glCreateBuffers(1, &name);
+#endif
   HOU_GL_CHECK_ERROR();
   return buffer_handle(name);
 }

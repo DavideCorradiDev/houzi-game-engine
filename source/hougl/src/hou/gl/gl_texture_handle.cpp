@@ -136,16 +136,14 @@ void get_texture_parameter_iv(
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
-  if(context::get_current()->get_settings().get_profile()
-    == context_profile::es)
+#if defined(HOU_GL_ES)
   {
     scoped_texture_binding binding(tex.get_target(), tex.get_name());
     glGetTexParameteriv(tex.get_target(), param, value);
   }
-  else
-  {
-    glGetTextureParameteriv(tex.get_name(), param, value);
-  }
+#else
+  glGetTextureParameteriv(tex.get_name(), param, value);
+#endif
   HOU_GL_CHECK_ERROR();
 }
 
@@ -165,16 +163,14 @@ void set_texture_parameter_i(
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
-  if(context::get_current()->get_settings().get_profile()
-    == context_profile::es)
+#if defined(HOU_GL_ES)
   {
     scoped_texture_binding binding(tex.get_target(), tex.get_name());
     glTexParameteri(tex.get_target(), param, value);
   }
-  else
-  {
-    glTextureParameteri(tex.get_name(), param, value);
-  }
+#else
+  glTextureParameteri(tex.get_name(), param, value);
+#endif
   HOU_GL_CHECK_ERROR();
 }
 
@@ -186,16 +182,14 @@ GLint get_texture_level_parameter_i(
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
   GLint value = 0;
-  if(context::get_current()->get_settings().get_profile()
-    == context_profile::es)
+#if defined(HOU_GL_ES)
   {
     scoped_texture_binding binding(tex.get_target(), tex.get_name());
     glGetTexLevelParameteriv(tex.get_target(), level, param, &value);
   }
-  else
-  {
-    glGetTextureLevelParameteriv(tex.get_name(), level, param, &value);
-  }
+#else
+  glGetTextureLevelParameteriv(tex.get_name(), level, param, &value);
+#endif
   HOU_GL_CHECK_ERROR();
   return value;
 }
@@ -207,16 +201,12 @@ GLint get_texture_level_parameter_i(
 texture_handle texture_handle::create(GLenum target)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  GLuint name;
-  if(context::get_current()->get_settings().get_profile()
-    == context_profile::es)
-  {
-    glGenTextures(1, &name);
-  }
-  else
-  {
-    glCreateTextures(target, 1, &name);
-  }
+  GLuint name = 0u;
+#if defined(HOU_GL_ES)
+  glGenTextures(1, &name);
+#else
+  glCreateTextures(target, 1, &name);
+#endif
   HOU_GL_CHECK_ERROR();
   return texture_handle(name, target);
 }
@@ -283,16 +273,14 @@ void bind_texture(const texture_handle& tex, GLuint unit)
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
   if(!is_texture_bound(tex, unit))
   {
-    if(context::get_current()->get_settings().get_profile()
-      == context_profile::es)
+#if defined(HOU_GL_ES)
     {
       scoped_texture_unit_binding binding(unit);
       glBindTexture(tex.get_target(), tex.get_name());
     }
-    else
-    {
-      glBindTextureUnit(unit, tex.get_name());
-    }
+#else
+    glBindTextureUnit(unit, tex.get_name());
+#endif
     HOU_GL_CHECK_ERROR();
     context::get_current()->m_tracking_data.set_bound_texture(
       tex.get_uid(), unit, tex.get_target());
@@ -306,16 +294,14 @@ void unbind_texture(GLuint unit)
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   if(is_texture_bound(unit))
   {
-    if(context::get_current()->get_settings().get_profile()
-      == context_profile::es)
+#if defined(HOU_GL_ES)
     {
       scoped_texture_unit_binding binding(unit);
       glBindTexture(GL_TEXTURE_2D, 0u);
     }
-    else
-    {
-      glBindTextureUnit(unit, 0u);
-    }
+#else
+    glBindTextureUnit(unit, 0u);
+#endif
     HOU_GL_CHECK_ERROR();
     context::get_current()->m_tracking_data.set_bound_texture(0u, unit, 0);
   }

@@ -46,16 +46,12 @@ GLenum toGetGLenum(GLenum target)
 framebuffer_handle framebuffer_handle::create()
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  GLuint name;
-  if(context::get_current()->get_settings().get_profile()
-    == context_profile::es)
-  {
-    glGenFramebuffers(1, &name);
-  }
-  else
-  {
-    glCreateFramebuffers(1, &name);
-  }
+  GLuint name = 0u;
+#if defined(HOU_GL_ES)
+  glGenFramebuffers(1, &name);
+#else
+  glCreateFramebuffers(1, &name);
+#endif
   HOU_GL_CHECK_ERROR();
   return framebuffer_handle(name);
 }
