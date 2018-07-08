@@ -41,6 +41,7 @@ TEST_F(test_gl_context, constructor)
   EXPECT_NE(0u, ctx.get_uid());
   EXPECT_NE(0u, ctx.get_sharing_group_uid());
   EXPECT_FALSE(ctx.is_current());
+  EXPECT_EQ(get_test_default_context_settings(), ctx.get_settings());
   EXPECT_EQ(nullptr, gl::context::get_current());
   EXPECT_EQ(nullptr, gl::context::get_current_window());
 }
@@ -55,6 +56,7 @@ TEST_F(test_gl_context, shared_constructor)
   EXPECT_NE(0u, c1.get_uid());
   EXPECT_NE(0u, c1.get_sharing_group_uid());
   EXPECT_FALSE(c1.is_current());
+  EXPECT_EQ(get_test_default_context_settings(), c1.get_settings());
   EXPECT_EQ(nullptr, gl::context::get_current());
   EXPECT_EQ(nullptr, gl::context::get_current_window());
 
@@ -64,6 +66,7 @@ TEST_F(test_gl_context, shared_constructor)
   EXPECT_NE(0u, c2.get_uid());
   EXPECT_NE(0u, c2.get_sharing_group_uid());
   EXPECT_FALSE(c2.is_current());
+  EXPECT_EQ(get_test_default_context_settings(), c2.get_settings());
   EXPECT_EQ(nullptr, gl::context::get_current());
   EXPECT_EQ(nullptr, gl::context::get_current_window());
 
@@ -191,6 +194,7 @@ TEST_F(test_gl_context, move_constructor)
   EXPECT_EQ(impl_ref, ctx.get_impl());
   EXPECT_EQ(uid_ref, ctx.get_uid());
   EXPECT_EQ(shared_uid_ref, ctx.get_sharing_group_uid());
+  EXPECT_EQ(get_test_default_context_settings(), ctx.get_settings());
 }
 
 

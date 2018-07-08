@@ -204,6 +204,13 @@ public:
    */
   bool is_current() const;
 
+  /**
+   * Gets the context settings.
+   *
+   * \return the context settings.
+   */
+  const context_settings& get_settings() const noexcept;
+
 private:
   class tracking_data {
   public:
@@ -269,6 +276,7 @@ private:
   uid_type m_uid;
   uid_type m_sharing_group_uid;
   tracking_data m_tracking_data;
+  context_settings m_settings;
 
 private:
   friend HOU_GL_API void bind_buffer(const buffer_handle &buffer,

@@ -416,6 +416,7 @@ context::context(
   , m_sharing_group_uid(
       sharing_ctx == nullptr ? m_uid : sharing_ctx->m_sharing_group_uid)
   , m_tracking_data()
+  , m_settings(cs)
 {
   std::lock_guard<std::mutex> lock(get_context_registry_mutex());
   get_context_registry().insert(std::make_pair(m_impl, this));
@@ -429,6 +430,7 @@ context::context(context&& other) noexcept
   , m_uid(std::move(other.m_uid))
   , m_sharing_group_uid(std::move(other.m_sharing_group_uid))
   , m_tracking_data(std::move(other.m_tracking_data))
+  , m_settings(std::move(other.m_settings))
 {
   other.m_impl = nullptr;
   other.m_uid = 0u;
@@ -482,6 +484,13 @@ context::uid_type context::get_sharing_group_uid() const noexcept
 bool context::is_current() const
 {
   return m_impl == SDL_GL_GetCurrentContext();
+}
+
+
+
+const context_settings& context::get_settings() const noexcept
+{
+  return m_settings;
 }
 
 
