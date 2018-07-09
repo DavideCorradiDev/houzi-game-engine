@@ -20,7 +20,36 @@ namespace gl
 namespace
 {
 
+class scoped_buffer_binding
+{
+public:
+  scoped_buffer_binding(GLenum target, GLuint name);
+  ~scoped_buffer_binding();
+
+private:
+  GLenum m_target_bkp;
+  GLuint m_name_bkp;
+};
+
 GLenum toGetGLenum(GLenum target);
+
+
+
+scoped_buffer_binding::scoped_buffer_binding(GLenum target, GLuint name)
+  : m_target_bkp(target)
+  , m_name_bkp(get_bound_buffer_name(target))
+{
+  glBindBuffer(m_target_bkp, name);
+  HOU_GL_CHECK_ERROR();
+}
+
+
+
+scoped_buffer_binding::~scoped_buffer_binding()
+{
+  glBindBuffer(m_target_bkp, m_name_bkp);
+  HOU_GL_CHECK_ERROR();
+}
 
 
 
@@ -137,7 +166,14 @@ void set_buffer_storage(const buffer_handle& buffer, GLsizei size,
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(buffer);
+#if defined(HOU_GL_ES)
+  {
+    scoped_buffer_binding(GL_ARRAY_BUFFER, buffer.get_name());
+    glBufferStorage(GL_ARRAY_BUFFER, size, data, flags);
+  }
+#else
   glNamedBufferStorage(buffer.get_name(), size, data, flags);
+#endif
   HOU_GL_CHECK_ERROR();
 }
 
@@ -148,7 +184,14 @@ void set_buffer_sub_data(const buffer_handle& buffer, GLintptr offset,
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(buffer);
+#if defined(HOU_GL_ES)
+  {
+    scoped_buffer_binding(GL_ARRAY_BUFFER, buffer.get_name());
+    glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
+  }
+#else
   glNamedBufferSubData(buffer.get_name(), offset, size, data);
+#endif
   HOU_GL_CHECK_ERROR();
 }
 
@@ -159,7 +202,14 @@ void get_buffer_sub_data(
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(buffer);
+#if defined(HOU_GL_ES)
+  {
+    scoped_buffer_binding(GL_ARRAY_BUFFER, buffer.get_name());
+    glGetBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
+  }
+#else
   glGetNamedBufferSubData(buffer.get_name(), offset, size, data);
+#endif
   HOU_GL_CHECK_ERROR();
 }
 
