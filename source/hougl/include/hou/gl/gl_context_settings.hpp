@@ -56,6 +56,22 @@ public:
    */
   static const context_settings& get_default_es() noexcept;
 
+  /**
+   * Gets the default settings for the current platform.
+   *
+   * The default settings might correspond to the core or es default settings,
+   * depending on the platform.
+   *
+   * * Windows: core.
+   *
+   * * Linux: core.
+   *
+   * * Emscripten: es.
+   *
+   * \return the settings.
+   */
+  static const context_settings& get_default() noexcept;
+
 public:
   /**
    * Creates an objects with all settings at their default values.

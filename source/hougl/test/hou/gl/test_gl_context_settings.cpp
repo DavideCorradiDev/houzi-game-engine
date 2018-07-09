@@ -323,3 +323,16 @@ TEST_F(test_gl_context_settings, get_default_es)
   EXPECT_FALSE(cs.robust_access());
   EXPECT_FALSE(cs.reset_isolation());
 }
+
+
+
+TEST_F(test_gl_context_settings, get_default)
+{
+#if defined(HOU_GL_ES)
+  EXPECT_EQ(gl::context_settings::get_default_es(),
+    gl::context_settings::get_default());
+#else
+  EXPECT_EQ(gl::context_settings::get_default_core(),
+    gl::context_settings::get_default());
+#endif
+}

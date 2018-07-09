@@ -81,6 +81,17 @@ const context_settings& context_settings::get_default_es() noexcept
 
 
 
+const context_settings& context_settings::get_default() noexcept
+{
+#if defined(HOU_GL_ES)
+  return get_default_es();
+#else
+  return get_default_core();
+#endif
+}
+
+
+
 context_settings::context_settings() noexcept
   : m_version(4u, 5u)
   , m_profile(context_profile::core)
