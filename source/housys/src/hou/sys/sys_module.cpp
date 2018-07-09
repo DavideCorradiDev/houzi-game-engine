@@ -4,7 +4,12 @@
 
 #include "hou/sys/sys_module.hpp"
 
+#include "hou/cor/pragmas.hpp"
+
+HOU_PRAGMA_GCC_DIAGNOSTIC_PUSH()
+HOU_PRAGMA_GCC_DIAGNOSTIC_IGNORED(-Wundef)
 #include "SDL.h"
+HOU_PRAGMA_GCC_DIAGNOSTIC_POP()
 
 
 

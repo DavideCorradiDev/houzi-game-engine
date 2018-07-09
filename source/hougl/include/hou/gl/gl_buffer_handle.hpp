@@ -17,6 +17,22 @@ namespace hou
 namespace gl
 {
 
+namespace prv
+{
+
+class scoped_buffer_binding
+{
+public:
+  scoped_buffer_binding(GLenum target, GLuint name);
+  ~scoped_buffer_binding();
+
+private:
+  GLenum m_target_bkp;
+  GLuint m_name_bkp;
+};
+
+}
+
 class HOU_GL_API buffer_handle : public shared_object_handle
 {
 public:

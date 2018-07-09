@@ -63,21 +63,21 @@ HOU_GL_API GLuint get_active_texture();
 HOU_GL_API GLuint get_max_texture_image_units();
 
 HOU_GL_API void set_texture_storage_1d(const texture_handle& tex,
-  GLsizei levels, GLenum internalFormat, GLsizei width);
+  GLsizei levels, GLenum internal_format, GLsizei width);
 
 HOU_GL_API void set_texture_storage_2d(const texture_handle& tex,
-  GLsizei levels, GLenum internalFormat, GLsizei width, GLsizei height);
+  GLsizei levels, GLenum internal_format, GLsizei width, GLsizei height);
 
 HOU_GL_API void set_texture_storage_3d(const texture_handle& tex,
-  GLsizei levels, GLenum internalFormat, GLsizei width, GLsizei height,
+  GLsizei levels, GLenum internal_format, GLsizei width, GLsizei height,
   GLsizei depth);
 
 HOU_GL_API void set_texture_storage_2d_multisample(const texture_handle& tex,
-  GLsizei samples, GLenum internalFormat, GLsizei width, GLsizei height,
+  GLsizei samples, GLenum internal_format, GLsizei width, GLsizei height,
   GLboolean fixed_sample_locations);
 
 HOU_GL_API void set_texture_storage_3d_multisample(const texture_handle& tex,
-  GLsizei samples, GLenum internalFormat, GLsizei width, GLsizei height,
+  GLsizei samples, GLenum internal_format, GLsizei width, GLsizei height,
   GLsizei depth, GLboolean fixed_sample_locations);
 
 HOU_GL_API void set_texture_sub_image_1d(const texture_handle& tex, GLint level,

@@ -4,11 +4,11 @@
 
 #include "hou/gl/gl_framebuffer_handle.hpp"
 
-#include "hou/gl/gl_exceptions.hpp"
 #include "hou/gl/gl_context.hpp"
+#include "hou/gl/gl_exceptions.hpp"
 #include "hou/gl/gl_functions.hpp"
-#include "hou/gl/gl_missing_context_error.hpp"
 #include "hou/gl/gl_invalid_context_error.hpp"
+#include "hou/gl/gl_missing_context_error.hpp"
 #include "hou/gl/gl_texture_handle.hpp"
 
 
@@ -22,11 +22,48 @@ namespace gl
 namespace
 {
 
-GLenum toGetGLenum(GLenum target);
+class scoped_framebuffer_binding
+{
+public:
+  scoped_framebuffer_binding(GLuint draw_fb, GLuint read_fb);
+  ~scoped_framebuffer_binding();
+
+private:
+  GLuint m_draw_fb_bkp;
+  GLuint m_read_fb_bkp;
+};
+
+GLenum to_get_gl_enum(GLenum target);
+
+void set_framebuffer_texture(const framebuffer_handle& framebuffer,
+  GLenum attachment, const texture_handle& tex, GLint level);
 
 
 
-GLenum toGetGLenum(GLenum target)
+scoped_framebuffer_binding::scoped_framebuffer_binding(
+  GLuint draw_fb, GLuint read_fb)
+  : m_draw_fb_bkp(get_bound_framebuffer_name(GL_DRAW_FRAMEBUFFER))
+  , m_read_fb_bkp(get_bound_framebuffer_name(GL_READ_FRAMEBUFFER))
+{
+  glBindFramebuffer(GL_DRAW_FRAMEBUFFER, draw_fb);
+  HOU_GL_CHECK_ERROR();
+  glBindFramebuffer(GL_READ_FRAMEBUFFER, read_fb);
+  HOU_GL_CHECK_ERROR();
+}
+
+
+
+scoped_framebuffer_binding::~scoped_framebuffer_binding()
+{
+  glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_draw_fb_bkp);
+  HOU_GL_CHECK_ERROR();
+  glBindFramebuffer(GL_READ_FRAMEBUFFER, m_read_fb_bkp);
+  HOU_GL_CHECK_ERROR();
+}
+
+
+
+GLenum to_get_gl_enum(GLenum target)
 {
   switch(target)
   {
@@ -37,6 +74,25 @@ GLenum toGetGLenum(GLenum target)
     default:
       return 0u;
   }
+}
+
+void set_framebuffer_texture(const framebuffer_handle& framebuffer,
+  GLenum attachment, const texture_handle& tex, GLint level)
+{
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(framebuffer);
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
+#if defined(HOU_GL_ES)
+  {
+    scoped_framebuffer_binding(framebuffer.get_name(), framebuffer.get_name());
+    glFramebufferTexture(
+      GL_READ_FRAMEBUFFER, attachment, tex.get_name(), level);
+  }
+#else
+  glNamedFramebufferTexture(
+    framebuffer.get_name(), attachment, tex.get_name(), level);
+#endif
+  HOU_GL_CHECK_ERROR();
 }
 
 }  // namespace
@@ -158,11 +214,7 @@ bool is_framebuffer_bound(GLenum target)
 
 GLuint get_bound_framebuffer_name(GLenum target)
 {
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  GLint name;
-  glGetIntegerv(toGetGLenum(target), &name);
-  HOU_GL_CHECK_ERROR();
-  return static_cast<GLuint>(name);
+  return static_cast<GLuint>(get_integer(to_get_gl_enum(target)));
 }
 
 
@@ -170,12 +222,8 @@ GLuint get_bound_framebuffer_name(GLenum target)
 void set_framebuffer_color_texture(const framebuffer_handle& framebuffer,
   GLuint attachment, const texture_handle& tex, GLint level)
 {
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(framebuffer);
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
-  glNamedFramebufferTexture(framebuffer.get_name(),
-    GL_COLOR_ATTACHMENT0 + attachment, tex.get_name(), level);
-  HOU_GL_CHECK_ERROR();
+  set_framebuffer_texture(
+    framebuffer, GL_COLOR_ATTACHMENT0 + attachment, tex, level);
 }
 
 
@@ -183,12 +231,7 @@ void set_framebuffer_color_texture(const framebuffer_handle& framebuffer,
 void set_framebuffer_depth_texture(
   const framebuffer_handle& framebuffer, const texture_handle& tex, GLint level)
 {
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(framebuffer);
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
-  glNamedFramebufferTexture(
-    framebuffer.get_name(), GL_DEPTH_ATTACHMENT, tex.get_name(), level);
-  HOU_GL_CHECK_ERROR();
+  set_framebuffer_texture(framebuffer, GL_DEPTH_ATTACHMENT, tex, level);
 }
 
 
@@ -196,12 +239,7 @@ void set_framebuffer_depth_texture(
 void set_framebuffer_stencil_texture(
   const framebuffer_handle& framebuffer, const texture_handle& tex, GLint level)
 {
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(framebuffer);
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
-  glNamedFramebufferTexture(
-    framebuffer.get_name(), GL_STENCIL_ATTACHMENT, tex.get_name(), level);
-  HOU_GL_CHECK_ERROR();
+  set_framebuffer_texture(framebuffer, GL_STENCIL_ATTACHMENT, tex, level);
 }
 
 
@@ -209,12 +247,7 @@ void set_framebuffer_stencil_texture(
 void set_framebuffer_depth_stencil_texture(
   const framebuffer_handle& framebuffer, const texture_handle& tex, GLint level)
 {
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(framebuffer);
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
-  glNamedFramebufferTexture(
-    framebuffer.get_name(), GL_DEPTH_STENCIL_ATTACHMENT, tex.get_name(), level);
-  HOU_GL_CHECK_ERROR();
+  set_framebuffer_texture(framebuffer, GL_DEPTH_STENCIL_ATTACHMENT, tex, level);
 }
 
 
@@ -223,8 +256,15 @@ GLenum get_framebuffer_status(const framebuffer_handle& framebuffer)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(framebuffer);
-  GLenum status
-    = glCheckNamedFramebufferStatus(framebuffer.get_name(), GL_FRAMEBUFFER);
+  GLenum status;
+#if defined(HOU_GL_ES)
+  {
+    scoped_framebuffer_binding(framebuffer.get_name(), framebuffer.get_name());
+    status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+  }
+#else
+  status = glCheckNamedFramebufferStatus(framebuffer.get_name(), GL_FRAMEBUFFER);
+#endif
   HOU_GL_CHECK_ERROR();
   return status;
 }
@@ -251,10 +291,20 @@ void blit_framebuffer(const framebuffer_handle& src,
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(src);
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(dst);
+#if defined(HOU_GL_ES)
+  {
+    scoped_framebuffer_binding(dst.get_name(), src.get_name());
+    glBlitFramebuffer(
+      srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
+  }
+#else
   glBlitNamedFramebuffer(src.get_name(), dst.get_name(), srcX0, srcY0, srcX1,
     srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
+#endif
   HOU_GL_CHECK_ERROR();
 }
+
+
 
 GLint get_max_color_attachments()
 {

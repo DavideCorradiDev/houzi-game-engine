@@ -10,6 +10,8 @@
 #include "hou/gl/gl_context.hpp"
 #include "hou/gl/gl_functions.hpp"
 
+#include "hou/cor/cor_exceptions.hpp"
+
 
 
 namespace hou
@@ -48,6 +50,9 @@ GLenum to_get_gl_enum(GLenum target);
 
 void get_texture_parameter_iv(
   const texture_handle& tex, GLenum param, GLint* value);
+
+void set_texture_parameter_iv(
+  const texture_handle& tex, GLenum param, const GLint* value);
 
 GLint get_texture_parameter_i(const texture_handle& tex, GLenum param);
 
@@ -143,6 +148,24 @@ void get_texture_parameter_iv(
   }
 #else
   glGetTextureParameteriv(tex.get_name(), param, value);
+#endif
+  HOU_GL_CHECK_ERROR();
+}
+
+
+
+void set_texture_parameter_iv(
+  const texture_handle& tex, GLenum param, const GLint* value)
+{
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
+#if defined(HOU_GL_ES)
+  {
+    scoped_texture_binding binding(tex.get_target(), tex.get_name());
+    glTexParameteriv(tex.get_target(), param, value);
+  }
+#else
+  glTextureParameteriv(tex.get_name(), param, value);
 #endif
   HOU_GL_CHECK_ERROR();
 }
@@ -386,60 +409,98 @@ GLuint get_max_texture_image_units()
 
 
 void set_texture_storage_1d(const texture_handle& tex, GLsizei levels,
-  GLenum internalFormat, GLsizei width)
+  GLenum internal_format, GLsizei width)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
-  glTextureStorage1D(tex.get_name(), levels, internalFormat, width);
+#if defined(HOU_GL_ES)
+  {
+    scoped_texture_binding(tex.get_target(), tex.get_name());
+    glTexStorage1D(tex.get_target(), levels, internal_format, width);
+  }
+#else
+  glTextureStorage1D(tex.get_name(), levels, internal_format, width);
+#endif
   HOU_GL_CHECK_ERROR();
 }
 
 
 
 void set_texture_storage_2d(const texture_handle& tex, GLsizei levels,
-  GLenum internalFormat, GLsizei width, GLsizei height)
+  GLenum internal_format, GLsizei width, GLsizei height)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
-  glTextureStorage2D(tex.get_name(), levels, internalFormat, width, height);
+#if defined(HOU_GL_ES)
+  {
+    scoped_texture_binding(tex.get_target(), tex.get_name());
+    glTexStorage2D(tex.get_target(), levels, internal_format, width, height);
+  }
+#else
+  glTextureStorage2D(tex.get_name(), levels, internal_format, width, height);
+#endif
   HOU_GL_CHECK_ERROR();
 }
 
 
 
 void set_texture_storage_3d(const texture_handle& tex, GLsizei levels,
-  GLenum internalFormat, GLsizei width, GLsizei height, GLsizei depth)
+  GLenum internal_format, GLsizei width, GLsizei height, GLsizei depth)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
+#if defined(HOU_GL_ES)
+  {
+    scoped_texture_binding(tex.get_target(), tex.get_name());
+    glTexStorage3D(
+      tex.get_target(), levels, internal_format, width, height, depth);
+  }
+#else
   glTextureStorage3D(
-    tex.get_name(), levels, internalFormat, width, height, depth);
+    tex.get_name(), levels, internal_format, width, height, depth);
+#endif
   HOU_GL_CHECK_ERROR();
 }
 
 
 
 void set_texture_storage_2d_multisample(const texture_handle& tex,
-  GLsizei samples, GLenum internalFormat, GLsizei width, GLsizei height,
+  GLsizei samples, GLenum internal_format, GLsizei width, GLsizei height,
   GLboolean fixed_sample_locations)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
-  glTextureStorage2DMultisample(tex.get_name(), samples, internalFormat, width,
+#if defined(HOU_GL_ES)
+  {
+    scoped_texture_binding(tex.get_target(), tex.get_name());
+    glTexStorage2DMultisample(tex.get_target(), samples, internal_format, width,
+      height, fixed_sample_locations);
+  }
+#else
+  glTextureStorage2DMultisample(tex.get_name(), samples, internal_format, width,
     height, fixed_sample_locations);
+#endif
   HOU_GL_CHECK_ERROR();
 }
 
 
 
 void set_texture_storage_3d_multisample(const texture_handle& tex,
-  GLsizei samples, GLenum internalFormat, GLsizei width, GLsizei height,
+  GLsizei samples, GLenum internal_format, GLsizei width, GLsizei height,
   GLsizei depth, GLboolean fixed_sample_locations)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
-  glTextureStorage3DMultisample(tex.get_name(), samples, internalFormat, width,
+#if defined(HOU_GL_ES)
+  {
+    scoped_texture_binding(tex.get_target(), tex.get_name());
+    glTexStorage3DMultisample(tex.get_target(), samples, internal_format, width,
+      height, depth, fixed_sample_locations);
+  }
+#else
+  glTextureStorage3DMultisample(tex.get_name(), samples, internal_format, width,
     height, depth, fixed_sample_locations);
+#endif
   HOU_GL_CHECK_ERROR();
 }
 
@@ -450,8 +511,16 @@ void set_texture_sub_image_1d(const texture_handle& tex, GLint level,
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
+#if defined(HOU_GL_ES)
+  {
+    scoped_texture_binding(tex.get_target(), tex.get_name());
+    glTexSubImage1D(
+      tex.get_target(), level, xoffset, width, format, type, pixels);
+  }
+#else
   glTextureSubImage1D(
     tex.get_name(), level, xoffset, width, format, type, pixels);
+#endif
   HOU_GL_CHECK_ERROR();
 }
 
@@ -463,8 +532,16 @@ void set_texture_sub_image_2d(const texture_handle& tex, GLint level,
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
+#if defined(HOU_GL_ES)
+  {
+    scoped_texture_binding(tex.get_target(), tex.get_name());
+    glTexSubImage2D(tex.get_target(), level, xoffset, yoffset, width, height,
+      format, type, pixels);
+  }
+#else
   glTextureSubImage2D(tex.get_name(), level, xoffset, yoffset, width, height,
     format, type, pixels);
+#endif
   HOU_GL_CHECK_ERROR();
 }
 
@@ -476,8 +553,16 @@ void set_texture_sub_image_3d(const texture_handle& tex, GLint level,
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
+#if defined(HOU_GL_ES)
+  {
+    scoped_texture_binding(tex.get_target(), tex.get_name());
+    glTexSubImage3D(tex.get_target(), level, xoffset, yoffset, zoffset, width,
+      height, depth, format, type, pixels);
+  }
+#else
   glTextureSubImage3D(tex.get_name(), level, xoffset, yoffset, zoffset, width,
     height, depth, format, type, pixels);
+#endif
   HOU_GL_CHECK_ERROR();
 }
 
@@ -488,7 +573,14 @@ void copy_texture_sub_image_1d(const texture_handle& tex, GLint level,
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
+#if defined(HOU_GL_ES)
+  {
+    scoped_texture_binding(tex.get_target(), tex.get_name());
+    glCopyTexSubImage1D(tex.get_target(), level, xoffset, x, y, width);
+  }
+#else
   glCopyTextureSubImage1D(tex.get_name(), level, xoffset, x, y, width);
+#endif
   HOU_GL_CHECK_ERROR();
 }
 
@@ -499,8 +591,16 @@ void copy_texture_sub_image_2d(const texture_handle& tex, GLint level,
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
+#if defined(HOU_GL_ES)
+  {
+    scoped_texture_binding(tex.get_target(), tex.get_name());
+    glCopyTexSubImage2D(
+      tex.get_target(), level, xoffset, yoffset, x, y, width, height);
+  }
+#else
   glCopyTextureSubImage2D(
     tex.get_name(), level, xoffset, yoffset, x, y, width, height);
+#endif
   HOU_GL_CHECK_ERROR();
 }
 
@@ -512,8 +612,16 @@ void copy_texture_sub_image_3d(const texture_handle& tex, GLint level,
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
+#if defined(HOU_GL_ES)
+  {
+    scoped_texture_binding(tex.get_target(), tex.get_name());
+    glCopyTexSubImage3D(
+      tex.get_target(), level, xoffset, yoffset, zoffset, x, y, width, height);
+  }
+#else
   glCopyTextureSubImage3D(
     tex.get_name(), level, xoffset, yoffset, zoffset, x, y, width, height);
+#endif
   HOU_GL_CHECK_ERROR();
 }
 
@@ -524,12 +632,26 @@ void get_texture_image(const texture_handle& tex, GLint level, GLenum format,
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
+#if defined(HOU_GL_ES)
+  {
+    scoped_texture_binding(tex.get_target(), tex.get_name());
+    glGetnTexImage(tex.get_target(), level, format, type, buf_size, pixels);
+  }
+#else
   glGetTextureImage(tex.get_name(), level, format, type, buf_size, pixels);
+#endif
   HOU_GL_CHECK_ERROR();
 }
 
 
 
+#if defined(HOU_GL_ES)
+void get_texture_sub_image(const texture_handle&, GLint, GLint, GLint, GLsizei,
+  GLsizei, GLsizei, GLint, GLenum, GLenum, GLsizei, void*)
+{
+  HOU_ERROR_N(unsupported_error, "This function is not supported on GLES.");
+}
+#else
 void get_texture_sub_image(const texture_handle& tex, GLint xoffset,
   GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth,
   GLint level, GLenum format, GLenum type, GLsizei buf_size, void* pixels)
@@ -540,6 +662,7 @@ void get_texture_sub_image(const texture_handle& tex, GLint xoffset,
     height, depth, format, type, buf_size, pixels);
   HOU_GL_CHECK_ERROR();
 }
+#endif
 
 
 
@@ -681,7 +804,6 @@ void get_texture_swizzle(const texture_handle& tex, GLenum* swizzle)
 void set_texture_swizzle_r(const texture_handle& tex, GLenum swizzle)
 {
   set_texture_parameter_i(tex, GL_TEXTURE_SWIZZLE_R, swizzle);
-  HOU_GL_CHECK_ERROR();
 }
 
 
@@ -709,11 +831,8 @@ void set_texture_swizzle_a(const texture_handle& tex, GLenum swizzle)
 
 void set_texture_swizzle(const texture_handle& tex, const GLenum* swizzle)
 {
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
-  glTextureParameteriv(tex.get_name(), GL_TEXTURE_SWIZZLE_RGBA,
-    reinterpret_cast<const GLint*>(swizzle));
-  HOU_GL_CHECK_ERROR();
+  set_texture_parameter_iv(
+    tex, GL_TEXTURE_SWIZZLE_RGBA, reinterpret_cast<const GLint*>(swizzle));
 }
 
 
@@ -764,7 +883,14 @@ void generate_mip_map(const texture_handle& tex)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
+#if defined(HOU_GL_ES)
+  {
+    scoped_texture_binding binding(tex.get_target(), tex.get_name());
+    glGenerateMipmap(tex.get_target());
+  }
+#else
   glGenerateTextureMipmap(tex.get_name());
+#endif
   HOU_GL_CHECK_ERROR();
 }
 

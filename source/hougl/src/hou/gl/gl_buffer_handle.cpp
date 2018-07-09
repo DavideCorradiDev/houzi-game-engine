@@ -6,8 +6,9 @@
 
 #include "hou/gl/gl_context.hpp"
 #include "hou/gl/gl_exceptions.hpp"
-#include "hou/gl/gl_missing_context_error.hpp"
+#include "hou/gl/gl_functions.hpp"
 #include "hou/gl/gl_invalid_context_error.hpp"
+#include "hou/gl/gl_missing_context_error.hpp"
 
 
 
@@ -17,23 +18,8 @@ namespace hou
 namespace gl
 {
 
-namespace
+namespace prv
 {
-
-class scoped_buffer_binding
-{
-public:
-  scoped_buffer_binding(GLenum target, GLuint name);
-  ~scoped_buffer_binding();
-
-private:
-  GLenum m_target_bkp;
-  GLuint m_name_bkp;
-};
-
-GLenum toGetGLenum(GLenum target);
-
-
 
 scoped_buffer_binding::scoped_buffer_binding(GLenum target, GLuint name)
   : m_target_bkp(target)
@@ -51,9 +37,16 @@ scoped_buffer_binding::~scoped_buffer_binding()
   HOU_GL_CHECK_ERROR();
 }
 
+}  // namespace prv
+
+namespace
+{
+
+GLenum to_get_gl_enum(GLenum target);
 
 
-GLenum toGetGLenum(GLenum target)
+
+GLenum to_get_gl_enum(GLenum target)
 {
   switch(target)
   {
@@ -152,11 +145,7 @@ bool is_buffer_bound(GLenum target)
 
 GLuint get_bound_buffer_name(GLenum target)
 {
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  GLint name;
-  glGetIntegerv(toGetGLenum(target), &name);
-  HOU_GL_CHECK_ERROR();
-  return static_cast<GLuint>(name);
+  return static_cast<GLuint>(get_integer(to_get_gl_enum(target)));
 }
 
 
@@ -168,7 +157,7 @@ void set_buffer_storage(const buffer_handle& buffer, GLsizei size,
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(buffer);
 #if defined(HOU_GL_ES)
   {
-    scoped_buffer_binding(GL_ARRAY_BUFFER, buffer.get_name());
+    prv::scoped_buffer_binding(GL_ARRAY_BUFFER, buffer.get_name());
     glBufferStorage(GL_ARRAY_BUFFER, size, data, flags);
   }
 #else
@@ -186,7 +175,7 @@ void set_buffer_sub_data(const buffer_handle& buffer, GLintptr offset,
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(buffer);
 #if defined(HOU_GL_ES)
   {
-    scoped_buffer_binding(GL_ARRAY_BUFFER, buffer.get_name());
+    prv::scoped_buffer_binding(GL_ARRAY_BUFFER, buffer.get_name());
     glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
   }
 #else
@@ -204,7 +193,7 @@ void get_buffer_sub_data(
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(buffer);
 #if defined(HOU_GL_ES)
   {
-    scoped_buffer_binding(GL_ARRAY_BUFFER, buffer.get_name());
+    prv::scoped_buffer_binding(GL_ARRAY_BUFFER, buffer.get_name());
     glGetBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
   }
 #else

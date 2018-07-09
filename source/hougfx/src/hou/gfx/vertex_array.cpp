@@ -85,7 +85,7 @@ void vertex_array::set_vertex_data(
 
 void vertex_array::set_element_data(const vertex_buffer& eb)
 {
-  gl::setVertexArrayElementBuffer(m_handle, eb.get_handle());
+  gl::set_vertex_array_element_buffer(m_handle, eb.get_handle());
 }
 
 }  // namespace hou
