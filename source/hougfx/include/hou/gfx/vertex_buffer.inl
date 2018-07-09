@@ -45,13 +45,13 @@ typename vertex_buffer_t<T, DynamicStorage>::data_type
 {
   HOU_DEV_ASSERT(get_byte_count() % sizeof(T) == 0u);
   HOU_PRECOND(offset + element_count <= get_size());
-  typename vertex_buffer_t<T, DynamicStorage>::data_type dataOut(
+  typename vertex_buffer_t<T, DynamicStorage>::data_type data_out(
     element_count, T());
   gl::get_buffer_sub_data(get_handle(),
     narrow_cast<GLintptr>(offset * sizeof(T)),
     narrow_cast<uint>(element_count * sizeof(T)),
-    reinterpret_cast<GLvoid*>(dataOut.data()));
-  return dataOut;
+    reinterpret_cast<GLvoid*>(data_out.data()));
+  return data_out;
 }
 
 

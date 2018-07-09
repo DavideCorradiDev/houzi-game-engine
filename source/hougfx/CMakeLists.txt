@@ -24,7 +24,7 @@ INCLUDE_DIRECTORIES(
 # Source files.
 SET(LIB_HOUGFX_SRC
   # src/hou/gfx/font.cpp
-  # src/hou/gfx/gfx_exceptions.cpp
+  src/hou/gfx/gfx_exceptions.cpp
   # src/hou/gfx/glyph.cpp
   # src/hou/gfx/glyph_metrics.cpp
   # src/hou/gfx/gl_type.cpp
@@ -55,8 +55,8 @@ SET(LIB_HOUGFX_SRC
   # src/hou/gfx/texture_wrap_mode.cpp
   # src/hou/gfx/vertex_array.cpp
   # src/hou/gfx/vertex_attrib_format.cpp
-  # src/hou/gfx/vertex_buffer.cpp
-  # src/hou/gfx/vertex_buffer_target.cpp
+  src/hou/gfx/vertex_buffer.cpp
+  src/hou/gfx/vertex_buffer_target.cpp
   # src/hou/gfx/vertex_format.cpp
   # src/hou/gfx/vertex2.cpp
 )

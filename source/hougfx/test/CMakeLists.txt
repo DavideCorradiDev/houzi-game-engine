@@ -26,8 +26,8 @@ SET(EXE_HOUGFX_TEST_SRC
   # hou/gfx/test_font.cpp
   # hou/gfx/test_formatted_text.cpp
   # hou/gfx/test_framebuffer.cpp
-  # hou/gfx/test_gfx_base.cpp
-  # hou/gfx/test_gfx_exceptions.cpp
+  hou/gfx/test_gfx_base.cpp
+  hou/gfx/test_gfx_exceptions.cpp
   # hou/gfx/test_glyph.cpp
   # hou/gfx/test_glyph_metrics.cpp
   # hou/gfx/test_mesh.cpp
@@ -43,7 +43,7 @@ SET(EXE_HOUGFX_TEST_SRC
   # hou/gfx/test_texture_channel_mapping.cpp
   # hou/gfx/test_vertex_array.cpp
   # hou/gfx/test_vertex_attrib_format.cpp
-  # hou/gfx/test_vertex_buffer.cpp
+  hou/gfx/test_vertex_buffer.cpp
   # hou/gfx/test_vertex_format.cpp
   # hou/gfx/test_vertex2.cpp
 )

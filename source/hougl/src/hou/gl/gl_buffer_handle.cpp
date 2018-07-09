@@ -10,6 +10,8 @@
 #include "hou/gl/gl_invalid_context_error.hpp"
 #include "hou/gl/gl_missing_context_error.hpp"
 
+#include "hou/cor/cor_exceptions.hpp"
+
 
 
 namespace hou
@@ -25,7 +27,7 @@ scoped_buffer_binding::scoped_buffer_binding(GLenum target, GLuint name)
   : m_target_bkp(target)
   , m_name_bkp(get_bound_buffer_name(target))
 {
-  glBindBuffer(m_target_bkp, name);
+  glBindBuffer(target, name);
   HOU_GL_CHECK_ERROR();
 }
 
@@ -44,8 +46,6 @@ namespace
 
 GLenum to_get_gl_enum(GLenum target);
 
-
-
 GLenum to_get_gl_enum(GLenum target)
 {
   switch(target)
@@ -60,6 +60,20 @@ GLenum to_get_gl_enum(GLenum target)
       return 0u;
   }
 }
+
+#if defined(HOU_GL_ES)
+GLenum to_buffer_usage_enum(GLbitfield buffer_flags)
+{
+  if(buffer_flags & GL_DYNAMIC_STORAGE_BIT)
+  {
+    return GL_DYNAMIC_DRAW;
+  }
+  else
+  {
+    return GL_STATIC_DRAW;
+  }
+}
+#endif
 
 }  // namespace
 
@@ -157,13 +171,14 @@ void set_buffer_storage(const buffer_handle& buffer, GLsizei size,
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(buffer);
 #if defined(HOU_GL_ES)
   {
-    prv::scoped_buffer_binding(GL_ARRAY_BUFFER, buffer.get_name());
-    glBufferStorage(GL_ARRAY_BUFFER, size, data, flags);
+    prv::scoped_buffer_binding binding(GL_ARRAY_BUFFER, buffer.get_name());
+    glBufferData(GL_ARRAY_BUFFER, size, data, to_buffer_usage_enum(flags));
+    HOU_GL_CHECK_ERROR();
   }
 #else
   glNamedBufferStorage(buffer.get_name(), size, data, flags);
-#endif
   HOU_GL_CHECK_ERROR();
+#endif
 }
 
 
@@ -175,32 +190,33 @@ void set_buffer_sub_data(const buffer_handle& buffer, GLintptr offset,
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(buffer);
 #if defined(HOU_GL_ES)
   {
-    prv::scoped_buffer_binding(GL_ARRAY_BUFFER, buffer.get_name());
+    prv::scoped_buffer_binding binding(GL_ARRAY_BUFFER, buffer.get_name());
     glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
+    HOU_GL_CHECK_ERROR();
   }
 #else
   glNamedBufferSubData(buffer.get_name(), offset, size, data);
-#endif
   HOU_GL_CHECK_ERROR();
+#endif
 }
 
 
 
+#if defined(HOU_EMSCRIPTEN)
+void get_buffer_sub_data(const buffer_handle&, GLintptr, GLsizei, GLvoid*)
+{
+  HOU_ERROR_N(unsupported_error, "This function is not supported on GLES.");
+}
+#else
 void get_buffer_sub_data(
   const buffer_handle& buffer, GLintptr offset, GLsizei size, GLvoid* data)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(buffer);
-#if defined(HOU_GL_ES)
-  {
-    prv::scoped_buffer_binding(GL_ARRAY_BUFFER, buffer.get_name());
-    glGetBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
-  }
-#else
   glGetNamedBufferSubData(buffer.get_name(), offset, size, data);
-#endif
   HOU_GL_CHECK_ERROR();
 }
+#endif
 
 }  // namespace gl
 

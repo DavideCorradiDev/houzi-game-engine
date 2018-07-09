@@ -86,7 +86,7 @@ public:
   /** Checks if this vertex_buffer is bound to the given target.
    *
    * \param target the target to check.
-   
+   *
    * \return the result of the check.
    */
   bool is_bound(vertex_buffer_target target) const;

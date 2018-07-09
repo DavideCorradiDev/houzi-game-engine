@@ -57,12 +57,14 @@ HOU_GL_API bool is_buffer_bound(GLenum target);
 
 HOU_GL_API GLuint get_bound_buffer_name(GLenum target);
 
+// Flags is partially ignored on GLES.
 HOU_GL_API void set_buffer_storage(const buffer_handle& buffer, GLsizei size,
   const GLvoid* data, GLbitfield flags);
 
 HOU_GL_API void set_buffer_sub_data(const buffer_handle& buffer,
   GLintptr offset, GLsizei size, const GLvoid* data);
 
+// Unsupported on Emscripten!
 HOU_GL_API void get_buffer_sub_data(
   const buffer_handle& buffer, GLintptr offset, GLsizei size, GLvoid* data);
 
