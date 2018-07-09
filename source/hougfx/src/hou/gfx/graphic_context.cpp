@@ -39,7 +39,7 @@ void graphic_context::unset_current()
 
 
 graphic_context::graphic_context()
-  : m_gl_context(gl::context_settings::get_default_core(),
+  : m_gl_context(gl::context_settings::get_default(),
       window("HouziTempWindow", vec2u(1u, 1u)))
   , m_initialized(false)
 {}

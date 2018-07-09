@@ -61,6 +61,10 @@ TEST_F(test_graphic_context, move_constructor_current_context)
 
 TEST_F(test_graphic_context, set_current_context_and_window)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
+
   graphic_context ctx1;
   graphic_context ctx2;
   window wnd1("TestWindow", vec2u(1u, 1u));
@@ -195,6 +199,10 @@ TEST_F(test_graphic_context, default_context_parameters)
 
 TEST_F(test_graphic_context, context_parameters_after_context_switch)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
+
   window wnd("TestWindow", vec2u(1u, 1u));
   graphic_context ctx1;
   graphic_context ctx2;
