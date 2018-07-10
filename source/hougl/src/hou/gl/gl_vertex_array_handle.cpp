@@ -11,6 +11,8 @@
 #include "hou/gl/gl_invalid_context_error.hpp"
 #include "hou/gl/gl_missing_context_error.hpp"
 
+#include <memory>
+
 
 
 namespace hou
@@ -138,6 +140,47 @@ GLuint get_bound_vertex_array_name()
 
 
 
+GLint get_max_vertex_attribs()
+{
+  return get_integer(GL_MAX_VERTEX_ATTRIBS);
+}
+
+
+
+GLint get_max_vertex_attrib_bindings()
+{
+#if defined(HOU_GL_ES)
+  // The binding index can't really be specified, so it makes sense to
+  // specify 1 as the maximum.
+  return 1;
+#else
+  return get_integer(GL_MAX_VERTEX_ATTRIB_BINDINGS);
+#endif
+}
+
+
+
+#if defined(HOU_GL_ES)
+
+void enable_vertex_array_attrib(GLuint index)
+{
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  glEnableVertexAttribArray(index);
+  HOU_GL_CHECK_ERROR();
+}
+
+
+
+void set_vertex_attrib_pointer(GLuint index, GLint size, GLenum type,
+  GLboolean normalized, GLsizei stride, GLvoid* offset)
+{
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  glVertexAttribPointer(index, size, type, normalized, stride, offset);
+  HOU_GL_CHECK_ERROR();
+}
+
+#else
+
 void set_vertex_array_vertex_buffer(const vertex_array_handle& vertex_array,
   GLuint binding_index, const buffer_handle& buffer, GLintptr offset,
   GLsizei stride)
@@ -145,15 +188,8 @@ void set_vertex_array_vertex_buffer(const vertex_array_handle& vertex_array,
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(vertex_array);
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(buffer);
-#if defined(HOU_GL_ES)
-  {
-    scoped_vertex_array_binding(vertex_array.get_name());
-    glBindVertexBuffer(binding_index, buffer.get_name(), offset, stride);
-  }
-#else
   glVertexArrayVertexBuffer(
     vertex_array.get_name(), binding_index, buffer.get_name(), offset, stride);
-#endif
   HOU_GL_CHECK_ERROR();
 }
 
@@ -165,15 +201,8 @@ void set_vertex_array_attrib_format(const vertex_array_handle& vertex_array,
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(vertex_array);
-#if defined(HOU_GL_ES)
-  {
-    scoped_vertex_array_binding(vertex_array.get_name());
-    glVertexAttribFormat(attrib_index, size, type, normalized, relative_offset);
-  }
-#else
   glVertexArrayAttribFormat(vertex_array.get_name(), attrib_index, size, type,
     normalized, relative_offset);
-#endif
   HOU_GL_CHECK_ERROR();
 }
 
@@ -184,15 +213,8 @@ void set_vertex_array_attrib_binding(const vertex_array_handle& vertex_array,
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(vertex_array);
-#if defined(HOU_GL_ES)
-  {
-    scoped_vertex_array_binding(vertex_array.get_name());
-    glVertexAttribBinding(attrib_index, binding_index);
-  }
-#else
   glVertexArrayAttribBinding(
     vertex_array.get_name(), attrib_index, binding_index);
-#endif
   HOU_GL_CHECK_ERROR();
 }
 
@@ -203,14 +225,7 @@ void enable_vertex_array_attrib(
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(vertex_array);
-#if defined(HOU_GL_ES)
-  {
-    scoped_vertex_array_binding(vertex_array.get_name());
-    glEnableVertexAttribArray(index);
-  }
-#else
   glEnableVertexArrayAttrib(vertex_array.get_name(), index);
-#endif
   HOU_GL_CHECK_ERROR();
 }
 
@@ -222,32 +237,11 @@ void set_vertex_array_element_buffer(
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(vertex_array);
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(buffer);
-#if defined(HOU_GL_ES)
-  {
-    // In order to bind the element array buffer to the vertex array, the
-    // element array buffer must be bound while the vertex array is bound.
-    scoped_vertex_array_binding(vertex_array.get_name());
-    prv::scoped_buffer_binding(GL_ELEMENT_ARRAY_BUFFER, buffer.get_name());
-  }
-#else
   glVertexArrayElementBuffer(vertex_array.get_name(), buffer.get_name());
-#endif
   HOU_GL_CHECK_ERROR();
 }
 
-
-
-GLint get_max_vertex_attribs()
-{
-  return get_integer(GL_MAX_VERTEX_ATTRIBS);
-}
-
-
-
-GLint get_max_vertex_attrib_bindings()
-{
-  return get_integer(GL_MAX_VERTEX_ATTRIB_BINDINGS);
-}
+#endif
 
 }  // namespace gl
 

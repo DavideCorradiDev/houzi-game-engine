@@ -60,6 +60,15 @@ template<> HOU_GFX_API gl_type to_gl_type<uint32_t>();
 template<> HOU_GFX_API gl_type to_gl_type<float>();
 template<> HOU_GFX_API gl_type to_gl_type<double>();
 
+/**
+ * Retrieves the size in bytes for a variable of type gl_type.
+ *
+ * \param type the type.
+ *
+ * \return the size in bytes.
+ */
+uint get_gl_type_byte_size(gl_type type);
+
 /** Writes the object into a stream.
  *
  * \param os the output stream.

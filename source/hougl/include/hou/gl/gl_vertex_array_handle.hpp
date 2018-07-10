@@ -42,6 +42,18 @@ HOU_GL_API bool is_vertex_array_bound();
 
 HOU_GL_API GLuint get_bound_vertex_array_name();
 
+HOU_GL_API GLint get_max_vertex_attribs();
+
+HOU_GL_API GLint get_max_vertex_attrib_bindings();
+
+#if defined(HOU_GL_ES)
+
+HOU_GL_API void enable_vertex_array_attrib(GLuint index);
+HOU_GL_API void set_vertex_attrib_pointer(GLuint index, GLint size, GLenum type,
+  GLboolean normalized, GLsizei stride, GLvoid* offset);
+
+#else
+
 HOU_GL_API void set_vertex_array_vertex_buffer(
   const vertex_array_handle& vertex_array, GLuint binding_index,
   const buffer_handle& buffer, GLintptr offset, GLsizei stride);
@@ -60,9 +72,7 @@ HOU_GL_API void enable_vertex_array_attrib(
 HOU_GL_API void set_vertex_array_element_buffer(
   const vertex_array_handle& vertex_array, const buffer_handle& buffer);
 
-HOU_GL_API GLint get_max_vertex_attribs();
-
-HOU_GL_API GLint get_max_vertex_attrib_bindings();
+#endif
 
 }  // namespace gl
 

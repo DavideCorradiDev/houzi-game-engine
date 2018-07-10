@@ -205,7 +205,8 @@ void set_buffer_sub_data(const buffer_handle& buffer, GLintptr offset,
 #if defined(HOU_EMSCRIPTEN)
 void get_buffer_sub_data(const buffer_handle&, GLintptr, GLsizei, GLvoid*)
 {
-  HOU_ERROR_N(unsupported_error, "This function is not supported on GLES.");
+  HOU_ERROR_N(unsupported_error,
+    "Reading from a GL buffer is not supported on Emscripten");
 }
 #else
 void get_buffer_sub_data(

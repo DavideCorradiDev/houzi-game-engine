@@ -41,10 +41,10 @@ SET(EXE_HOUGFX_TEST_SRC
   # hou/gfx/test_text_vertex.cpp
   # hou/gfx/test_texture.cpp
   # hou/gfx/test_texture_channel_mapping.cpp
-  # hou/gfx/test_vertex_array.cpp
-  # hou/gfx/test_vertex_attrib_format.cpp
+  hou/gfx/test_vertex_array.cpp
+  hou/gfx/test_vertex_attrib_format.cpp
   hou/gfx/test_vertex_buffer.cpp
-  # hou/gfx/test_vertex_format.cpp
+  hou/gfx/test_vertex_format.cpp
   # hou/gfx/test_vertex2.cpp
 )
 
