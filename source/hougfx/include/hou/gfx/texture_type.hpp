@@ -22,12 +22,6 @@ namespace hou
  */
 enum class texture_type : GLenum
 {
-  /** one-dimensional texture. */
-  texture1 = GL_TEXTURE_1D,
-
-  /** array_buffer of one-dimensional textures. */
-  texture1_array = GL_TEXTURE_1D_ARRAY,
-
   /** Two-dimensional texture. */
   texture2 = GL_TEXTURE_2D,
 
@@ -43,6 +37,8 @@ enum class texture_type : GLenum
   /** array_buffer of multisample two-dimensional textures. */
   multisample_texture2_array = GL_TEXTURE_2D_MULTISAMPLE_ARRAY,
 
+  // texture1 = GL_TEXTURE_1D,
+  // texture1_array = GL_TEXTURE_1D_ARRAY,
   // buffer_texture = GL_TEXTURE_BUFFER,
   // rectangle_texture = GL_TEXTURE_RECTANGLE,
   // cube_map_texture = GL_TEXTURE_CUBE_MAP,

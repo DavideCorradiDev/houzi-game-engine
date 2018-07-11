@@ -47,23 +47,6 @@ test_texture_base<Tex>::~test_texture_base()
 
 
 template <>
-typename texture1::size_type test_texture_base<texture1>::generate_size()
-{
-  return vec1u{4u};
-}
-
-
-
-template <>
-typename texture1_array::size_type
-  test_texture_base<texture1_array>::generate_size()
-{
-  return vec2u{4u, 8u};
-}
-
-
-
-template <>
 typename texture2::size_type test_texture_base<texture2>::generate_size()
 {
   return vec2u{4u, 8u};
@@ -102,27 +85,6 @@ typename multisample_texture2_array::size_type
   test_texture_base<multisample_texture2_array>::generate_size()
 {
   return vec3u{4u, 8u, 13u};
-}
-
-
-
-template <>
-typename texture1::size_type test_texture_base<texture1>::compute_mipmap_size(
-  const typename texture1::size_type& size, uint mipmap_level)
-{
-  return size / std::pow(2, mipmap_level);
-}
-
-
-
-template <>
-typename texture1_array::size_type
-  test_texture_base<texture1_array>::compute_mipmap_size(
-    const typename texture1_array::size_type& size, uint mipmap_level)
-{
-  texture1_array::size_type retval = size / std::pow(2, mipmap_level);
-  retval.y() = size.y();
-  return retval;
 }
 
 
@@ -215,8 +177,8 @@ template <typename Tex>
 class test_texture_common_death_test : public test_texture_common<Tex>
 {};
 
-using texture_types_common = Types<texture1, texture1_array, texture2,
-  texture2_array, texture3, multisample_texture2, multisample_texture2_array>;
+using texture_types_common = Types<texture2, texture2_array, texture3,
+  multisample_texture2, multisample_texture2_array>;
 
 template <typename Tex>
 class test_texture_not_multisampled : public test_texture_base<Tex>
@@ -228,7 +190,7 @@ class test_texture_not_multisampled_death_test
 {};
 
 using texture_types_not_multisampled
-  = Types<texture1, texture1_array, texture2, texture2_array, texture3>;
+  = Types<texture2, texture2_array, texture3>;
 
 template <typename Tex>
 class test_texture_multisampled : public test_texture_base<Tex>

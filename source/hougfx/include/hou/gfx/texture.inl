@@ -6,8 +6,6 @@ namespace hou
 {
 
 // Instantiations.
-extern template class HOU_GFX_API texture_t<texture_type::texture1>;
-extern template class HOU_GFX_API texture_t<texture_type::texture1_array>;
 extern template class HOU_GFX_API texture_t<texture_type::texture2>;
 extern template class HOU_GFX_API texture_t<texture_type::texture2_array>;
 extern template class HOU_GFX_API texture_t<texture_type::texture3>;
@@ -18,16 +16,6 @@ extern template class HOU_GFX_API
 
 
 // Specializations.
-
-template <>
-template <>
-HOU_GFX_API typename texture_t<texture_type::texture1>::wrap_mode
-  texture_t<texture_type::texture1>::get_wrap_mode() const;
-
-template <>
-template <>
-HOU_GFX_API typename texture_t<texture_type::texture1_array>::wrap_mode
-  texture_t<texture_type::texture1_array>::get_wrap_mode() const;
 
 template <>
 template <>
@@ -48,16 +36,6 @@ HOU_GFX_API typename texture_t<texture_type::texture3>::wrap_mode
 
 template <>
 template <>
-HOU_GFX_API void texture_t<texture_type::texture1>::set_wrap_mode(
-  const wrap_mode& wrap_mode);
-
-template <>
-template <>
-HOU_GFX_API void texture_t<texture_type::texture1_array>::set_wrap_mode(
-  const wrap_mode& wrap_mode);
-
-template <>
-template <>
 HOU_GFX_API void texture_t<texture_type::texture2>::set_wrap_mode(
   const wrap_mode& wrap_mode);
 
@@ -72,17 +50,6 @@ HOU_GFX_API void texture_t<texture_type::texture3>::set_wrap_mode(
   const wrap_mode& wrap_mode);
 
 
-
-template <>
-template <>
-HOU_GFX_API typename texture_t<texture_type::texture1>::size_type
-  texture_t<texture_type::texture1>::get_mipmap_size(uint mipmap_level) const;
-
-template <>
-template <>
-HOU_GFX_API typename texture_t<texture_type::texture1_array>::size_type
-  texture_t<texture_type::texture1_array>::get_mipmap_size(
-    uint mipmap_level) const;
 
 template <>
 template <>
@@ -101,16 +68,6 @@ HOU_GFX_API typename texture_t<texture_type::texture3>::size_type
   texture_t<texture_type::texture3>::get_mipmap_size(uint mipmap_level) const;
 
 
-
-template <>
-template <>
-HOU_GFX_API texture_t<texture_type::texture1>::texture_t(
-  const size_type&, texture_format, positive<uint>);
-
-template <>
-template <>
-HOU_GFX_API texture_t<texture_type::texture1_array>::texture_t(
-  const size_type&, texture_format, positive<uint>);
 
 template <>
 template <>
@@ -251,46 +208,6 @@ template <pixel_format PF, texture_type Type2, typename Enable>
 
 template <>
 template <pixel_format PF, texture_type Type2, typename Enable>
-typename texture_t<texture_type::texture1>::template image<PF>
-  texture_t<texture_type::texture1>::get_sub_image(
-    const offset_type& offset, const size_type& s) const
-{
-  HOU_PRECOND(element_wise_lower_or_equal(offset + s, get_size()));
-  gl::set_unpack_alignment(1);
-  std::vector<uint8_t> buffer(compute_image_buffer_size(s, PF));
-  gl::get_texture_sub_image(get_handle(), offset.x(), 0, 0, s.x(), 1, 1, 0,
-    pixel_format_to_gl_pixel_format(PF),
-    static_cast<GLenum>(to_gl_type<uint8_t>()),
-    narrow_cast<GLsizei>(buffer.size()), buffer.data());
-  return image<PF>(s,
-    reinterpret_span<const typename image<PF>::pixel_type>(
-      span<uint8_t>(buffer)));
-}
-
-
-
-template <>
-template <pixel_format PF, texture_type Type2, typename Enable>
-typename texture_t<texture_type::texture1_array>::template image<PF>
-  texture_t<texture_type::texture1_array>::get_sub_image(
-    const offset_type& offset, const size_type& s) const
-{
-  HOU_PRECOND(element_wise_lower_or_equal(offset + s, get_size()));
-  gl::set_unpack_alignment(1);
-  std::vector<uint8_t> buffer(compute_image_buffer_size(s, PF));
-  gl::get_texture_sub_image(get_handle(), offset.x(), offset.y(), 0, s.x(),
-    s.y(), 1, 0, pixel_format_to_gl_pixel_format(PF),
-    static_cast<GLenum>(to_gl_type<uint8_t>()),
-    narrow_cast<GLsizei>(buffer.size()), buffer.data());
-  return image<PF>(s,
-    reinterpret_span<const typename image<PF>::pixel_type>(
-      span<uint8_t>(buffer)));
-}
-
-
-
-template <>
-template <pixel_format PF, texture_type Type2, typename Enable>
 typename texture_t<texture_type::texture2>::template image<PF>
   texture_t<texture_type::texture2>::get_sub_image(
     const offset_type& offset, const size_type& s) const
@@ -355,36 +272,6 @@ void texture_t<Type>::set_image(const image<PF>& im)
 {
   HOU_PRECOND(im.get_size() == get_size());
   set_sub_image<PF, Type2, Enable>(offset_type::zero(), im);
-}
-
-
-
-template <>
-template <pixel_format PF, texture_type Type2, typename Enable>
-void texture_t<texture_type::texture1>::set_sub_image(
-  const offset_type& offset, const image<PF>& im)
-{
-  HOU_PRECOND(element_wise_lower_or_equal(offset + im.get_size(), get_size()));
-  gl::set_texture_sub_image_1d(get_handle(), 0u, offset.x(), im.get_size().x(),
-    pixel_format_to_gl_pixel_format(PF),
-    static_cast<GLenum>(to_gl_type<uint8_t>()),
-    reinterpret_cast<const void*>(im.get_pixels().data()));
-  generate_mip_map();
-}
-
-
-
-template <>
-template <pixel_format PF, texture_type Type2, typename Enable>
-void texture_t<texture_type::texture1_array>::set_sub_image(
-  const offset_type& offset, const image<PF>& im)
-{
-  HOU_PRECOND(element_wise_lower_or_equal(offset + im.get_size(), get_size()));
-  gl::set_texture_sub_image_2d(get_handle(), 0, offset.x(), offset.y(),
-    im.get_size().x(), im.get_size().y(), pixel_format_to_gl_pixel_format(PF),
-    static_cast<GLenum>(to_gl_type<uint8_t>()),
-    reinterpret_cast<const void*>(im.get_pixels().data()));
-  generate_mip_map();
 }
 
 

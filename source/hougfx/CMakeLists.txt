@@ -46,13 +46,13 @@ SET(LIB_HOUGFX_SRC
   # src/hou/gfx/text_flow.cpp
   # src/hou/gfx/text_shader_program.cpp
   # src/hou/gfx/text_vertex.cpp
-  # src/hou/gfx/texture.cpp
-  # src/hou/gfx/texture_channel.cpp
-  # src/hou/gfx/texture_channel_mapping.cpp
-  # src/hou/gfx/texture_filter.cpp
-  # src/hou/gfx/texture_format.cpp
-  # src/hou/gfx/texture_type.cpp
-  # src/hou/gfx/texture_wrap_mode.cpp
+  src/hou/gfx/texture.cpp
+  src/hou/gfx/texture_channel.cpp
+  src/hou/gfx/texture_channel_mapping.cpp
+  src/hou/gfx/texture_filter.cpp
+  src/hou/gfx/texture_format.cpp
+  src/hou/gfx/texture_type.cpp
+  src/hou/gfx/texture_wrap_mode.cpp
   src/hou/gfx/vertex_array.cpp
   src/hou/gfx/vertex_attrib_format.cpp
   src/hou/gfx/vertex_buffer.cpp
