@@ -271,6 +271,7 @@ template <pixel_format PF, texture_type Type2, typename Enable>
 void texture_t<Type>::set_image(const image<PF>& im)
 {
   HOU_PRECOND(im.get_size() == get_size());
+  HOU_PRECOND(check_format_compatibility(get_format(), PF));
   set_sub_image<PF, Type2, Enable>(offset_type::zero(), im);
 }
 
@@ -282,6 +283,7 @@ void texture_t<texture_type::texture2>::set_sub_image(
   const offset_type& offset, const image<PF>& im)
 {
   HOU_PRECOND(element_wise_lower_or_equal(offset + im.get_size(), get_size()));
+  HOU_PRECOND(check_format_compatibility(get_format(), PF));
   gl::set_texture_sub_image_2d(get_handle(), 0, offset.x(), offset.y(),
     im.get_size().x(), im.get_size().y(), pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()),
@@ -297,6 +299,7 @@ void texture_t<texture_type::texture2_array>::set_sub_image(
   const offset_type& offset, const image<PF>& im)
 {
   HOU_PRECOND(element_wise_lower_or_equal(offset + im.get_size(), get_size()));
+  HOU_PRECOND(check_format_compatibility(get_format(), PF));
   gl::set_texture_sub_image_3d(get_handle(), 0, offset.x(), offset.y(),
     offset.z(), im.get_size().x(), im.get_size().y(), im.get_size().z(),
     pixel_format_to_gl_pixel_format(PF),
@@ -313,6 +316,7 @@ void texture_t<texture_type::texture3>::set_sub_image(
   const offset_type& offset, const image<PF>& im)
 {
   HOU_PRECOND(element_wise_lower_or_equal(offset + im.get_size(), get_size()));
+  HOU_PRECOND(check_format_compatibility(get_format(), PF));
   gl::set_texture_sub_image_3d(get_handle(), 0, offset.x(), offset.y(),
     offset.z(), im.get_size().x(), im.get_size().y(), im.get_size().z(),
     pixel_format_to_gl_pixel_format(PF),

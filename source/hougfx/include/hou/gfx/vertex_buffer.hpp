@@ -145,6 +145,11 @@ public:
 
   /** Retrieves the data contained in the buffer.
    *
+   * \note this function is not supported and will throw if called on a system
+   * using GL ES.
+   *
+   * \throws hou::unsupported_error if on a platform using GL ES.
+   *
    * \return the data contained in the buffer.
    */
   data_type get_data() const;
@@ -152,6 +157,11 @@ public:
   /** Retrieves a sub-set of the data contained in the buffer.
    *
    * Throws if offset plus size is greater than the size of the buffer.
+   *
+   * \note this function is not supported and will throw if called on a system
+   * using GL ES.
+   *
+   * \throws hou::unsupported_error if on a platform using GL ES.
    *
    * \param offset the number of elements to skip at the beginning of the
    * buffer.

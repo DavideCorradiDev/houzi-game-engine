@@ -347,6 +347,9 @@ TYPED_TEST(test_texture_common_death_test, size_constructor_error_invalid_size)
 
 TYPED_TEST(test_texture_common, set_channel_mapping)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Texture swizzle is not supported on Emscripten.");
+#endif
   TypeParam tex(this->generate_size());
   EXPECT_EQ(texture_channel_mapping::standard, tex.get_channel_mapping());
   tex.setChannelMapping(texture_channel_mapping::alpha);
@@ -414,7 +417,6 @@ TYPED_TEST(test_texture_common, get_size3)
 
 TYPED_TEST(test_texture_not_multisampled, mip_map_constructor)
 {
-  using image = typename TypeParam::template image<pixel_format::rgb>;
   using size_type = typename TypeParam::size_type;
 
   size_type size_ref = this->generate_size();
@@ -431,7 +433,10 @@ TYPED_TEST(test_texture_not_multisampled, mip_map_constructor)
   EXPECT_EQ(texture_channel_mapping::standard, tex.get_channel_mapping());
   EXPECT_EQ(texture_filter::linear, tex.get_filter());
   EXPECT_EQ(this->get_default_wrap_mode(), tex.get_wrap_mode());
+#if !defined(HOU_GL_ES)
+  using image = typename TypeParam::template image<pixel_format::rgb>;
   EXPECT_EQ(image(tex.get_size()), tex.template get_image<pixel_format::rgb>());
+#endif
 }
 
 
@@ -525,7 +530,9 @@ TYPED_TEST(test_texture_not_multisampled, image_constructor)
   EXPECT_EQ(texture_channel_mapping::standard, tex.get_channel_mapping());
   EXPECT_EQ(texture_filter::linear, tex.get_filter());
   EXPECT_EQ(this->get_default_wrap_mode(), tex.get_wrap_mode());
+#if !defined(HOU_GL_ES)
   EXPECT_EQ(image_ref, tex.template get_image<pixel_format::rgba>());
+#endif
 }
 
 
@@ -544,7 +551,9 @@ TYPED_TEST(test_texture_not_multisampled, image_constructor_default_arguments)
   EXPECT_EQ(texture_channel_mapping::standard, tex.get_channel_mapping());
   EXPECT_EQ(texture_filter::linear, tex.get_filter());
   EXPECT_EQ(this->get_default_wrap_mode(), tex.get_wrap_mode());
+#if !defined(HOU_GL_ES)
   EXPECT_EQ(image_ref, tex.template get_image<pixel_format::rgba>());
+#endif
 }
 
 
@@ -561,15 +570,19 @@ TYPED_TEST(test_texture_not_multisampled, image_constructor_size_limits)
     size_with_one(i) = 1u;
     auto imageWithOne = this->generate_image(size_with_one);
     TypeParam tex_with_one(imageWithOne, texture_format::rgba, 1u);
+#if !defined(HOU_GL_ES)
     EXPECT_EQ(
       imageWithOne, tex_with_one.template get_image<pixel_format::rgba>());
+#endif
 
     size_type size_with_max = size_ref;
     size_with_max(i) = max_size(i);
     auto imageWithMax = this->generate_image(size_with_max);
     TypeParam tex_with_max(imageWithMax, texture_format::rgba, 1u);
+#if !defined(HOU_GL_ES)
     EXPECT_EQ(
       imageWithMax, tex_with_max.template get_image<pixel_format::rgba>());
+#endif
   }
 }
 
@@ -662,11 +675,15 @@ TYPED_TEST(test_texture_not_multisampled, set_image)
   using image = typename TypeParam::template image<pixel_format::rgba>;
 
   TypeParam tex(this->generate_size());
+#if !defined(HOU_GL_ES)
   EXPECT_EQ(
     image(tex.get_size()), tex.template get_image<pixel_format::rgba>());
+#endif
   image image_ref = this->generate_image(tex.get_size());
   tex.set_image(image_ref);
+#if !defined(HOU_GL_ES)
   EXPECT_EQ(image_ref, tex.template get_image<pixel_format::rgba>());
+#endif
 }
 
 
@@ -684,6 +701,10 @@ TYPED_TEST(
 
 TYPED_TEST(test_texture_not_multisampled, get_sub_image)
 {
+#if defined(HOU_GL_ES)
+  SKIP("Reading a texture image is not supported on GLES.");
+#endif
+
   using image = typename TypeParam::template image<pixel_format::rgba>;
   using size_type = typename TypeParam::size_type;
   using offset_type = typename TypeParam::offset_type;
@@ -705,9 +726,11 @@ TYPED_TEST(test_texture_not_multisampled, get_sub_image)
 
   // Note MSVC can't deduce the template params, so they must be given
   // explicitly.
+#if defined(HOU_GL_ES)
   EXPECT_EQ(sub_image_ref,
     (tex.template get_sub_image<image::format, TypeParam::type, void>(
       sub_image_offset, sub_image_size)));
+#endif
 }
 
 
@@ -715,6 +738,10 @@ TYPED_TEST(test_texture_not_multisampled, get_sub_image)
 TYPED_TEST(
   test_texture_not_multisampled_death_test, get_sub_image_error_overflow)
 {
+#if defined(HOU_GL_ES)
+  SKIP("Reading a texture image is not supported on GLES.");
+#endif
+
   using size_type = typename TypeParam::size_type;
   using offset_type = typename TypeParam::offset_type;
 
@@ -732,9 +759,11 @@ TYPED_TEST(
 
   // Note MSVC can't deduce the template params, so they must be given
   // explicitly.
+#if defined(HOU_GL_ES)
   EXPECT_PRECOND_ERROR(
     (tex.template get_sub_image<pixel_format::rgba, TypeParam::type, void>(
       sub_image_offset, sub_image_size)));
+#endif
 }
 
 
@@ -763,11 +792,13 @@ TYPED_TEST(test_texture_not_multisampled, set_sub_image)
   tex.template set_sub_image<image::format, TypeParam::type, void>(
     sub_image_offset, sub_image_ref);
 
+#if !defined(HOU_GL_ES)
   EXPECT_EQ(image_ref,
     (tex.template get_image<image::format, TypeParam::type, void>()));
   EXPECT_EQ(sub_image_ref,
     (tex.template get_sub_image<image::format, TypeParam::type, void>(
       sub_image_offset, sub_image_size)));
+#endif
 }
 
 
@@ -801,15 +832,18 @@ TYPED_TEST(
 
 TYPED_TEST(test_texture_not_multisampled, clear)
 {
-  using image = typename TypeParam::template image<pixel_format::rgba>;
-
   TypeParam tex(this->generate_size());
+#if !defined(HOU_GL_ES)
   EXPECT_EQ(
     image(tex.get_size()), tex.template get_image<pixel_format::rgba>());
+#endif
   pixel_rgba pixel_ref(1u, 2u, 3u, 4u);
   tex.clear(pixel_ref);
+#if !defined(HOU_GL_ES)
+  using image = typename TypeParam::template image<pixel_format::rgba>;
   EXPECT_EQ(image(tex.get_size(), pixel_ref),
     tex.template get_image<pixel_format::rgba>());
+#endif
 }
 
 
@@ -840,6 +874,10 @@ TYPED_TEST(test_texture_not_multisampled_death_test,
 
 TYPED_TEST(test_texture_not_multisampled, mip_map_constructor_get_mip_map_image)
 {
+#if defined(HOU_GL_ES)
+  SKIP("Reading a texture image is not supported on GLES.");
+#endif
+
   using image = typename TypeParam::template image<pixel_format::rgb>;
 
   TypeParam tex(this->generate_size(), texture_format::rgba, 3u);
@@ -855,6 +893,10 @@ TYPED_TEST(test_texture_not_multisampled, mip_map_constructor_get_mip_map_image)
 
 TYPED_TEST(test_texture_not_multisampled, image_constructor_get_mip_map_image)
 {
+#if defined(HOU_GL_ES)
+  SKIP("Reading a texture image is not supported on GLES.");
+#endif
+
   using image = typename TypeParam::template image<pixel_format::rgb>;
 
   TypeParam tex(image(this->generate_size()), texture_format::rgba, 3u);
@@ -870,6 +912,10 @@ TYPED_TEST(test_texture_not_multisampled, image_constructor_get_mip_map_image)
 
 TYPED_TEST(test_texture_not_multisampled, set_image_get_mip_map_image)
 {
+#if defined(HOU_GL_ES)
+  SKIP("Reading a texture image is not supported on GLES.");
+#endif
+
   using image = typename TypeParam::template image<pixel_format::rgba>;
   using size_type = typename TypeParam::size_type;
 
@@ -907,6 +953,10 @@ TYPED_TEST(test_texture_not_multisampled, set_image_get_mip_map_image)
 
 TYPED_TEST(test_texture_not_multisampled, clear_get_mip_map_image)
 {
+#if defined(HOU_GL_ES)
+  SKIP("Reading a texture image is not supported on GLES.");
+#endif
+
   using image = typename TypeParam::template image<pixel_format::rgba>;
 
   TypeParam tex(this->generate_size(), texture_format::rgba, 3u);

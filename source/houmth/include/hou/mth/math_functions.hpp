@@ -17,7 +17,8 @@
 namespace hou
 {
 
-/** Retrieves the value of pi.
+/**
+ * Retrieves the value of pi.
  *
  * \tparam T the scalar type.
  *
@@ -26,7 +27,8 @@ namespace hou
 template <typename T>
 constexpr T pi() noexcept;
 
-/** Converts degrees to radians.
+/**
+ * Converts degrees to radians.
  *
  * \tparam T the scalar type.
  *
@@ -37,7 +39,8 @@ constexpr T pi() noexcept;
 template <typename T>
 constexpr T deg_to_rad(T deg) noexcept;
 
-/** Converts radians to degrees.
+/**
+ * Converts radians to degrees.
  *
  * \tparam T the scalar type.
  *
@@ -48,7 +51,8 @@ constexpr T deg_to_rad(T deg) noexcept;
 template <typename T>
 constexpr T rad_to_deg(T rad) noexcept;
 
-/** Computes the logarithm in base n of x.
+/**
+ * Computes the logarithm in base n of x.
  *
  * \tparam T the scalar type.
  *
