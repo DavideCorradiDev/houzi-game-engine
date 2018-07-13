@@ -164,6 +164,29 @@ public:
     const std::string& path, uint line, const std::string& details);
 };
 
+
+
+/**
+ * Invalid enumeration value.
+ *
+ * This exception is thrown when an invalid enumeration value is used.
+ */
+class HOU_COR_API invalid_enum : public exception
+{
+public:
+  /** Constructor.
+   *
+   * \param path the path to the source file where the error happened.
+   *
+   * \param line the line where the error happened.
+   *
+   * \param value the invalid enumeration value.
+   *
+   * \throws std::bad_alloc.
+   */
+  invalid_enum(const std::string& path, uint line, int value);
+};
+
 }  // namespace hou
 
 #endif

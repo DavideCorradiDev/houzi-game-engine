@@ -54,4 +54,11 @@ unsupported_error::unsupported_error(
       path, line, format_string(u8"Unsupported feature. %s", details.c_str()))
 {}
 
+
+
+invalid_enum::invalid_enum(const std::string& path, uint line, int value)
+  : exception(
+      path, line, format_string(u8"Invalid enumeration value (%d).", value))
+{}
+
 }  // namespace hou

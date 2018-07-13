@@ -500,6 +500,14 @@ public:
     typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
   void clear(const pixel<PF>& px);
 
+  /** Resets all texture pixel values to 0.
+   *
+   * \tparam Enable enabling parameter.
+   */
+  template <texture_type Type2 = Type,
+    typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
+  void reset();
+
   /** Retrieves the size of the specified mip map level.
    *
    * \tparam Type2 dummy parameter.
@@ -560,9 +568,15 @@ private:
 
 private:
   void generate_mip_map();
-};
 
-HOU_GFX_API bool check_format_compatibility(texture_format tf, pixel_format pf);
+  template <pixel_format PF, texture_type Type2 = Type,
+    typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
+  void set_sub_image_internal(const offset_type& offset, const image<PF>& im);
+
+  template <pixel_format PF>
+  image<PF> get_image_internal(pixel_format pf, const size_type& s,
+    const std::vector<uint8_t>& buffer) const;
+};
 
 }  // namespace hou
 

@@ -509,7 +509,7 @@ texture_t<texture_type::texture2>::texture_t(
   HOU_PRECOND(is_mipmap_level_count_valid(mipmap_level_count, s));
   gl::set_texture_storage_2d(get_handle(), mipmap_level_count,
     static_cast<GLenum>(format), s.x(), s.y());
-  clear(pixel_rgba(0u, 0u, 0u, 0u));
+  reset();
 }
 
 
@@ -525,7 +525,7 @@ texture_t<texture_type::texture2_array>::texture_t(
   HOU_PRECOND(is_mipmap_level_count_valid(mipmap_level_count, s));
   gl::set_texture_storage_3d(get_handle(), mipmap_level_count,
     static_cast<GLenum>(format), s.x(), s.y(), s.z());
-  clear(pixel_rgba(0u, 0u, 0u, 0u));
+  reset();
 }
 
 
@@ -541,7 +541,7 @@ texture_t<texture_type::texture3>::texture_t(
   HOU_PRECOND(is_mipmap_level_count_valid(mipmap_level_count, s));
   gl::set_texture_storage_3d(get_handle(), mipmap_level_count,
     static_cast<GLenum>(format), s.x(), s.y(), s.z());
-  clear(pixel_rgba(0u, 0u, 0u, 0u));
+  reset();
 }
 
 
@@ -725,22 +725,5 @@ template class texture_t<texture_type::texture2_array>;
 template class texture_t<texture_type::texture3>;
 template class texture_t<texture_type::multisample_texture2>;
 template class texture_t<texture_type::multisample_texture2_array>;
-
-
-
-#if defined(HOU_GL_ES)
-bool check_format_compatibility(texture_format tf, pixel_format pf)
-{
-  return (tf == texture_format::r && pf == pixel_format::r)
-    || (tf == texture_format::rg && pf == pixel_format::rg)
-    || (tf == texture_format::rgb && pf == pixel_format::rgb)
-    || (tf == texture_format::rgba && pf == pixel_format::rgba);
-}
-#else
-bool check_format_compatibility(texture_format, pixel_format)
-{
-  return true;
-}
-#endif
 
 }  // namespace hou

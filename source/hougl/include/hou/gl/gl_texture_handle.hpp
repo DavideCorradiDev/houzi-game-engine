@@ -85,6 +85,14 @@ HOU_GL_API void set_texture_sub_image_3d(const texture_handle& tex, GLint level,
   GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height,
   GLsizei depth, GLenum format, GLenum type, const void* pixels);
 
+HOU_GL_API void reset_texture_sub_image_2d(const texture_handle& tex,
+  GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height,
+  GLenum internal_format);
+
+HOU_GL_API void reset_texture_sub_image_3d(const texture_handle& tex,
+  GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width,
+  GLsizei height, GLsizei depth, GLenum internal_format);
+
 HOU_GL_API void copy_texture_sub_image_2d(const texture_handle& tex,
   GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width,
   GLsizei height);

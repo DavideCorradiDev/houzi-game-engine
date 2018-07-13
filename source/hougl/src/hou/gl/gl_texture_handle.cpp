@@ -53,6 +53,10 @@ GLenum to_get_gl_enum(GLenum target);
 
 GLenum internal_format_to_format(GLenum internal_format);
 
+GLenum internal_format_to_type(GLenum internal_format);
+
+GLenum internal_format_to_byte_count(GLenum internal_format);
+
 void get_texture_parameter_iv(
   const texture_handle& tex, GLenum param, GLint* value);
 
@@ -150,6 +154,52 @@ GLenum internal_format_to_format(GLenum internal_format)
       return GL_DEPTH_COMPONENT;
     case GL_DEPTH24_STENCIL8:
       return GL_DEPTH_STENCIL;
+  }
+  HOU_UNREACHABLE();
+  return 0;
+}
+
+
+
+GLenum internal_format_to_type(GLenum internal_format)
+{
+  switch(internal_format)
+  {
+    case GL_R8:
+      return GL_UNSIGNED_BYTE;
+    case GL_RG8:
+      return GL_UNSIGNED_BYTE;
+    case GL_RGB8:
+      return GL_UNSIGNED_BYTE;
+    case GL_RGBA8:
+      return GL_UNSIGNED_BYTE;
+    case GL_DEPTH_COMPONENT24:
+      return GL_UNSIGNED_INT;
+    case GL_DEPTH24_STENCIL8:
+      return GL_UNSIGNED_INT_24_8;
+  }
+  HOU_UNREACHABLE();
+  return 0;
+}
+
+
+
+GLenum internal_format_to_byte_count(GLenum internal_format)
+{
+  switch(internal_format)
+  {
+    case GL_R8:
+      return 1u;
+    case GL_RG8:
+      return 2u;
+    case GL_RGB8:
+      return 3u;
+    case GL_RGBA8:
+      return 4u;
+    case GL_DEPTH_COMPONENT24:
+      return 3u;
+    case GL_DEPTH24_STENCIL8:
+      return 4u;
   }
   HOU_UNREACHABLE();
   return 0;
@@ -586,6 +636,35 @@ void set_texture_sub_image_3d(const texture_handle& tex, GLint level,
     height, depth, format, type, pixels);
   HOU_GL_CHECK_ERROR();
 #endif
+}
+
+
+
+void reset_texture_sub_image_2d(const texture_handle& tex,
+  GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height,
+  GLenum internal_format)
+{
+  std::vector<uint8_t> data(
+    width * height * internal_format_to_byte_count(internal_format), 0u);
+  set_texture_sub_image_2d(tex, level, xoffset, yoffset, width, height,
+    internal_format_to_format(internal_format),
+    internal_format_to_type(internal_format),
+    reinterpret_cast<GLvoid*>(data.data()));
+}
+
+
+
+void reset_texture_sub_image_3d(const texture_handle& tex,
+  GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width,
+  GLsizei height, GLsizei depth, GLenum internal_format)
+{
+  std::vector<uint8_t> data(
+    width * height * depth * internal_format_to_byte_count(internal_format),
+    0u);
+  set_texture_sub_image_3d(tex, level, xoffset, yoffset, zoffset, width, height,
+    depth, internal_format_to_format(internal_format),
+    internal_format_to_type(internal_format),
+    reinterpret_cast<GLvoid*>(data.data()));
 }
 
 
