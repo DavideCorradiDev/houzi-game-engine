@@ -40,10 +40,23 @@ void set_framebuffer_texture(const framebuffer_handle& framebuffer,
 
 
 
+// scoped_framebuffer_binding::scoped_framebuffer_binding(
+//   GLuint draw_fb, GLuint read_fb)
+//   : m_draw_fb_bkp(get_bound_framebuffer_name(GL_DRAW_FRAMEBUFFER))
+//   , m_read_fb_bkp(get_bound_framebuffer_name(GL_READ_FRAMEBUFFER))
+// {
+//   glBindFramebuffer(GL_DRAW_FRAMEBUFFER, draw_fb);
+//   HOU_GL_CHECK_ERROR();
+//   glBindFramebuffer(GL_READ_FRAMEBUFFER, read_fb);
+//   HOU_GL_CHECK_ERROR();
+// }
+
+
+
 scoped_framebuffer_binding::scoped_framebuffer_binding(
   GLuint draw_fb, GLuint read_fb)
   : m_draw_fb_bkp(get_bound_framebuffer_name(GL_DRAW_FRAMEBUFFER))
-  , m_read_fb_bkp(get_bound_framebuffer_name(GL_READ_FRAMEBUFFER))
+  , m_read_fb_bkp(0)
 {
   glBindFramebuffer(GL_DRAW_FRAMEBUFFER, draw_fb);
   HOU_GL_CHECK_ERROR();
@@ -84,9 +97,10 @@ void set_framebuffer_texture(const framebuffer_handle& framebuffer,
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(tex);
 #if defined(HOU_GL_ES)
   {
-    scoped_framebuffer_binding(framebuffer.get_name(), framebuffer.get_name());
-    glFramebufferTexture(
-      GL_READ_FRAMEBUFFER, attachment, tex.get_name(), level);
+    scoped_framebuffer_binding binding(
+      framebuffer.get_name(), framebuffer.get_name());
+    glFramebufferTexture2D(
+      GL_FRAMEBUFFER, attachment, tex.get_target(), tex.get_name(), level);
   }
 #else
   glNamedFramebufferTexture(
@@ -259,11 +273,13 @@ GLenum get_framebuffer_status(const framebuffer_handle& framebuffer)
   GLenum status;
 #if defined(HOU_GL_ES)
   {
-    scoped_framebuffer_binding(framebuffer.get_name(), framebuffer.get_name());
+    scoped_framebuffer_binding binding(
+      framebuffer.get_name(), framebuffer.get_name());
     status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
   }
 #else
-  status = glCheckNamedFramebufferStatus(framebuffer.get_name(), GL_FRAMEBUFFER);
+  status
+    = glCheckNamedFramebufferStatus(framebuffer.get_name(), GL_FRAMEBUFFER);
 #endif
   HOU_GL_CHECK_ERROR();
   return status;
@@ -293,7 +309,7 @@ void blit_framebuffer(const framebuffer_handle& src,
   HOU_GL_CHECK_CONTEXT_OWNERSHIP(dst);
 #if defined(HOU_GL_ES)
   {
-    scoped_framebuffer_binding(dst.get_name(), src.get_name());
+    scoped_framebuffer_binding binding(dst.get_name(), src.get_name());
     glBlitFramebuffer(
       srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
   }

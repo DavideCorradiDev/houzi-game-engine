@@ -501,8 +501,8 @@ void set_texture_storage_2d(const texture_handle& tex, GLsizei levels,
       else
       {
         glTexImage2D(tex.get_target(), i, internal_format, width, height, 0,
-          internal_format_to_format(internal_format), GL_UNSIGNED_BYTE,
-          nullptr);
+          internal_format_to_format(internal_format),
+          internal_format_to_type(internal_format), nullptr);
         HOU_GL_CHECK_ERROR();
       }
       width = std::max(1, width / 2);
@@ -528,8 +528,8 @@ void set_texture_storage_3d(const texture_handle& tex, GLsizei levels,
     for(int i = 0; i < levels; ++i)
     {
       glTexImage3D(tex.get_target(), i, internal_format, width, height, depth,
-        0, internal_format_to_format(internal_format), GL_UNSIGNED_BYTE,
-        nullptr);
+        0, internal_format_to_format(internal_format),
+        internal_format_to_type(internal_format), nullptr);
       HOU_GL_CHECK_ERROR();
       width = std::max(1, width / 2);
       height = std::max(1, height / 2);
