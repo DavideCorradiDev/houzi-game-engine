@@ -39,9 +39,9 @@ SET(LIB_HOUGFX_SRC
   # src/hou/gfx/mesh_draw_mode.cpp
   # src/hou/gfx/mesh_fill_mode.cpp
   # src/hou/gfx/render_surface.cpp
-  # src/hou/gfx/shader.cpp
-  # src/hou/gfx/shader_program.cpp
-  # src/hou/gfx/shader_type.cpp
+  src/hou/gfx/shader.cpp
+  src/hou/gfx/shader_program.cpp
+  src/hou/gfx/shader_type.cpp
   # src/hou/gfx/text_box_formatting_params.cpp
   # src/hou/gfx/text_flow.cpp
   # src/hou/gfx/text_shader_program.cpp
