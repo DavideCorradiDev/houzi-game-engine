@@ -24,28 +24,28 @@ SET(EXE_HOUGFX_TEST_SRC
   hou/gfx/hougfx_test_main.cpp
   hou/gfx/test_data.cpp
   hou/gfx/test_font.cpp
-  # hou/gfx/test_formatted_text.cpp
+  hou/gfx/test_formatted_text.cpp
   hou/gfx/test_framebuffer.cpp
   hou/gfx/test_gfx_base.cpp
   hou/gfx/test_gfx_exceptions.cpp
   hou/gfx/test_glyph.cpp
   hou/gfx/test_glyph_metrics.cpp
-  # hou/gfx/test_mesh.cpp
-  # hou/gfx/test_mesh2.cpp
-  # hou/gfx/test_mesh2_shader_program.cpp
+  hou/gfx/test_mesh.cpp
+  hou/gfx/test_mesh2.cpp
+  hou/gfx/test_mesh2_shader_program.cpp
   hou/gfx/test_graphic_context.cpp
-  # hou/gfx/test_render_surface.cpp
+  hou/gfx/test_render_surface.cpp
   hou/gfx/test_shader.cpp
   hou/gfx/test_shader_program.cpp
-  # hou/gfx/test_text_box_formatting_params.cpp
-  # hou/gfx/test_text_vertex.cpp
+  hou/gfx/test_text_box_formatting_params.cpp
+  hou/gfx/test_text_vertex.cpp
   hou/gfx/test_texture.cpp
   hou/gfx/test_texture_channel_mapping.cpp
   hou/gfx/test_vertex_array.cpp
   hou/gfx/test_vertex_attrib_format.cpp
   hou/gfx/test_vertex_buffer.cpp
   hou/gfx/test_vertex_format.cpp
-  # hou/gfx/test_vertex2.cpp
+  hou/gfx/test_vertex2.cpp
 )
 
 # Linked libraries.
