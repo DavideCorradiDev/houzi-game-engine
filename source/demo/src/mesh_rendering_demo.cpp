@@ -32,6 +32,7 @@ enum class shape
   rectangle_outline,
   ellipse,
   ellipse_outline,
+  quad,
 };
 
 
@@ -250,6 +251,45 @@ int main(int, char**)
         {
           mesh_shape = shape::ellipse_outline;
         }
+        else if(sc == hou::scan_code::f5)
+        {
+          mesh_shape = shape::quad;
+        }
+        // Texture wrap mode
+        else if(sc == hou::scan_code::f6)
+        {
+          mesh_tex.set_wrap_mode(
+            hou::texture2::wrap_mode{hou::texture_wrap_mode::clamp_to_edge,
+              hou::texture_wrap_mode::clamp_to_edge});
+        }
+        else if(sc == hou::scan_code::f7)
+        {
+          mesh_tex.set_wrap_mode(hou::texture2::wrap_mode{
+            hou::texture_wrap_mode::repeat, hou::texture_wrap_mode::repeat});
+        }
+        else if(sc == hou::scan_code::f8)
+        {
+          mesh_tex.set_wrap_mode(
+            hou::texture2::wrap_mode{hou::texture_wrap_mode::mirrored_repeat,
+              hou::texture_wrap_mode::mirrored_repeat});
+        }
+        // Texture filter
+        else if(sc == hou::scan_code::f9)
+        {
+          mesh_tex.set_filter(hou::texture_filter::nearest);
+        }
+        else if(sc == hou::scan_code::f10)
+        {
+          mesh_tex.set_filter(hou::texture_filter::linear);
+        }
+        else if(sc == hou::scan_code::f11)
+        {
+          mesh_tex.set_filter(hou::texture_filter::bilinear);
+        }
+        else if(sc == hou::scan_code::f12)
+        {
+          mesh_tex.set_filter(hou::texture_filter::trilinear);
+        }
         // Texture
         else if(sc == hou::scan_code::num0)
         {
@@ -259,7 +299,9 @@ int main(int, char**)
   hou::event::set_key_pressed_callback(on_key_pressed);
 
   std::cout << "Controls:" << std::endl;
-  std::cout << "    f1, f2, f3, f4: change shape" << std::endl;
+  std::cout << "    f1, f2, f3, f4, f5: change shape" << std::endl;
+  std::cout << "    f6, f7, f8: change texture wrap mode" << std::endl;
+  std::cout << "    f9, f10, f11, f12: change texture filter" << std::endl;
   std::cout << "    0: activate / deactivate texture" << std::endl;
   std::cout << "    1, 2: change red color value" << std::endl;
   std::cout << "    3, 4: change green color value" << std::endl;
@@ -302,6 +344,10 @@ int main(int, char**)
       case shape::ellipse_outline:
         m = std::make_unique<hou::mesh2>(hou::create_ellipse_outline_mesh2(
           mesh_size, mesh_point_count, mesh_thickness));
+        break;
+      case shape::quad:
+        m = std::make_unique<hou::mesh2>(hou::create_texture_quad_mesh2(
+          hou::rectf(hou::vec2f::zero(), mesh_size), mesh_tex.get_size()));
         break;
     }
     HOU_ASSERT(m != nullptr);
