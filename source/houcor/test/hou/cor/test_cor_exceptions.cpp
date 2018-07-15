@@ -70,3 +70,19 @@ TEST_F(test_cor_exceptions, module_initialization_error)
   EXPECT_STREQ(
     "restaurant.cpp:112 - Failed to initialize the pizza module.", ex.what());
 }
+
+
+
+TEST_F(test_cor_exceptions, unsupported_error)
+{
+  unsupported_error ex("pippo.cpp", 2u, "paperino.");
+  EXPECT_STREQ("pippo.cpp:2 - Unsupported feature. paperino.", ex.what());
+}
+
+
+
+TEST_F(test_cor_exceptions, invalid_enum)
+{
+  invalid_enum ex("pluto.hpp", 20u, 18);
+  EXPECT_STREQ("pluto.hpp:20 - Invalid enumeration value (18).", ex.what());
+}

@@ -2,8 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/test.hpp"
 #include "hou/gfx/test_gfx_base.hpp"
+#include "hou/test.hpp"
 
 #include "hou/gfx/vertex_array.hpp"
 #include "hou/gfx/vertex_attrib_format.hpp"
@@ -22,8 +22,7 @@ using float_buffer = static_vertex_buffer<float>;
 class test_vertex_array : public test_gfx_base
 {};
 
-class test_vertex_array_death_test : public test_vertex_array
-{};
+using test_vertex_array_death_test = test_vertex_array;
 
 }  // namespace
 
@@ -128,7 +127,10 @@ TEST_F(test_vertex_array, set_vertex_data_max_attrib_formats)
 
 TEST_F(test_vertex_array, set_element_data)
 {
+  // Currently fails on Emscripten because of the fact that buffers are always
+  // initialized by being bound GL_ARRAY_BUFFER.
   vertex_array va;
   float_buffer vb(std::vector<float>{0, 1});
   va.set_element_data(vb);
+  SUCCEED();
 }

@@ -15,28 +15,6 @@
 namespace hou
 {
 
-std::ostream& operator<<(std::ostream& os, gl_type type)
-{
-  switch(type)
-  {
-    GFX_GL_TYPE_CASE(byte, os);
-    GFX_GL_TYPE_CASE(unsigned_byte, os);
-    GFX_GL_TYPE_CASE(short_integer, os);
-    GFX_GL_TYPE_CASE(unsigned_short_integer, os);
-    GFX_GL_TYPE_CASE(integer, os);
-    GFX_GL_TYPE_CASE(unsigned_integer, os);
-    GFX_GL_TYPE_CASE(half_float_decimal, os);
-    GFX_GL_TYPE_CASE(float_decimal, os);
-    GFX_GL_TYPE_CASE(double_decimal, os);
-    GFX_GL_TYPE_CASE(fixed_decimal, os);
-    default:
-      HOU_UNREACHABLE();
-      return os;
-  }
-}
-
-
-
 template <>
 gl_type to_gl_type<int8_t>()
 {
@@ -97,6 +75,57 @@ template <>
 gl_type to_gl_type<double>()
 {
   return gl_type::double_decimal;
+}
+
+
+
+uint get_gl_type_byte_size(gl_type type)
+{
+  switch(type)
+  {
+    case gl_type::byte:
+      return sizeof(GLbyte);
+    case gl_type::unsigned_byte:
+      return sizeof(GLubyte);
+    case gl_type::short_integer:
+      return sizeof(GLshort);
+    case gl_type::unsigned_short_integer:
+      return sizeof(GLushort);
+    case gl_type::integer:
+      return sizeof(GLint);
+    case gl_type::unsigned_integer:
+      return sizeof(GLuint);
+    case gl_type::half_float_decimal:
+      return sizeof(GLhalf);
+    case gl_type::float_decimal:
+      return sizeof(GLfloat);
+    case gl_type::double_decimal:
+      return sizeof(GLdouble);
+    case gl_type::fixed_decimal:
+      return sizeof(GLfixed);
+  }
+  HOU_UNREACHABLE();
+  return 1u;
+}
+
+
+
+std::ostream& operator<<(std::ostream& os, gl_type type)
+{
+  switch(type)
+  {
+    GFX_GL_TYPE_CASE(byte, os);
+    GFX_GL_TYPE_CASE(unsigned_byte, os);
+    GFX_GL_TYPE_CASE(short_integer, os);
+    GFX_GL_TYPE_CASE(unsigned_short_integer, os);
+    GFX_GL_TYPE_CASE(integer, os);
+    GFX_GL_TYPE_CASE(unsigned_integer, os);
+    GFX_GL_TYPE_CASE(half_float_decimal, os);
+    GFX_GL_TYPE_CASE(float_decimal, os);
+    GFX_GL_TYPE_CASE(double_decimal, os);
+    GFX_GL_TYPE_CASE(fixed_decimal, os);
+  }
+  return os;
 }
 
 }  // namespace hou

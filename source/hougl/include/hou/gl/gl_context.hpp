@@ -204,6 +204,13 @@ public:
    */
   bool is_current() const;
 
+  /**
+   * Gets the context settings.
+   *
+   * \return the context settings.
+   */
+  const context_settings& get_settings() const noexcept;
+
 private:
   class tracking_data {
   public:
@@ -269,6 +276,7 @@ private:
   uid_type m_uid;
   uid_type m_sharing_group_uid;
   tracking_data m_tracking_data;
+  context_settings m_settings;
 
 private:
   friend HOU_GL_API void bind_buffer(const buffer_handle &buffer,
@@ -301,6 +309,7 @@ private:
                                           GLuint unit);
   friend HOU_GL_API bool is_texture_bound(GLuint unit);
   friend HOU_GL_API void set_active_texture(GLuint unit);
+  friend HOU_GL_API GLenum get_bound_texture_target();
   friend HOU_GL_API GLuint get_bound_texture_name();
   friend HOU_GL_API void
   bind_vertex_array(const vertex_array_handle &vertexArray);

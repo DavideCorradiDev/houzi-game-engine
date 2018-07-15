@@ -27,4 +27,6 @@ protected:
   hou::gl::context m_context;
 };
 
+hou::gl::context_settings get_test_default_context_settings();
+
 #endif

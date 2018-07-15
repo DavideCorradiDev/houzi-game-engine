@@ -42,27 +42,37 @@ HOU_GL_API bool is_vertex_array_bound();
 
 HOU_GL_API GLuint get_bound_vertex_array_name();
 
+HOU_GL_API GLint get_max_vertex_attribs();
+
+HOU_GL_API GLint get_max_vertex_attrib_bindings();
+
+#if defined(HOU_GL_ES)
+
+HOU_GL_API void enable_vertex_array_attrib(GLuint index);
+HOU_GL_API void set_vertex_attrib_pointer(GLuint index, GLint size, GLenum type,
+  GLboolean normalized, GLsizei stride, GLvoid* offset);
+
+#else
+
 HOU_GL_API void set_vertex_array_vertex_buffer(
-  const vertex_array_handle& vertex_array, GLuint bindingIndex,
+  const vertex_array_handle& vertex_array, GLuint binding_index,
   const buffer_handle& buffer, GLintptr offset, GLsizei stride);
 
 HOU_GL_API void set_vertex_array_attrib_format(
-  const vertex_array_handle& vertex_array, GLuint attribIndex, GLint size,
+  const vertex_array_handle& vertex_array, GLuint attrib_index, GLint size,
   GLenum type, GLboolean normalized, GLuint relative_offset);
 
 HOU_GL_API void set_vertex_array_attrib_binding(
-  const vertex_array_handle& vertex_array, GLuint attribIndex,
-  GLuint bindingIndex);
+  const vertex_array_handle& vertex_array, GLuint attrib_index,
+  GLuint binding_index);
 
 HOU_GL_API void enable_vertex_array_attrib(
   const vertex_array_handle& vertex_array, GLuint index);
 
-HOU_GL_API void setVertexArrayElementBuffer(
+HOU_GL_API void set_vertex_array_element_buffer(
   const vertex_array_handle& vertex_array, const buffer_handle& buffer);
 
-HOU_GL_API GLint get_max_vertex_attribs();
-
-HOU_GL_API GLint get_max_vertex_attrib_bindings();
+#endif
 
 }  // namespace gl
 

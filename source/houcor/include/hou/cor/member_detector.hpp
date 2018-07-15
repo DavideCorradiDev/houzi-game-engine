@@ -60,7 +60,7 @@
   public:                                                                      \
     enum                                                                       \
     {                                                                          \
-      value = (sizeof(check<derived>(0)) == sizeof(yes))                       \
+      value = (sizeof(check<derived>(nullptr)) == sizeof(yes))                 \
     };                                                                         \
   }
 

@@ -1,8 +1,8 @@
 Freetype - v2.9.9 - 01.07.2018
-GLAD - OpenGL v4.6 - WGL v1.0 - GLX v1.6 - 01.07.2018
+GLAD - OpenGL v4.6 - GLES1 v1.0 - GLES2 v3.2 - WGL v1.0 - GLX v1.6 - EGL v1.5 - 01.07.2018
 GoogleTest and GoogleMock - v1.8.0 - 01.07.2018
 OGG - v1.3.3 - 01.07.2018
 OpenAL-Soft - v1.18.2 - 01.07.2018
 SDL2 - v2.0.8 - 01.07.2018
-SOIL - 07.07.2017
+SOIL - 01.07.2018
 VORBIS - v1.3.6 - 01.07.2018

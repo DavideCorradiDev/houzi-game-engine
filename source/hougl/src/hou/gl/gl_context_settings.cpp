@@ -17,6 +17,12 @@ namespace gl
 namespace
 {
 
+context_settings make_basic_settings() noexcept;
+context_settings make_default_core_settings() noexcept;
+context_settings make_default_es_settings() noexcept;
+
+
+
 context_settings make_basic_settings() noexcept
 {
   context_settings cs;
@@ -29,7 +35,27 @@ context_settings make_basic_settings() noexcept
   return cs;
 }
 
+
+
+context_settings make_default_core_settings() noexcept
+{
+  return context_settings();
+}
+
+
+
+context_settings make_default_es_settings() noexcept
+{
+  context_settings cs;
+  cs.set_version(version(3u, 2u));
+  cs.set_profile(context_profile::es);
+  cs.set_srgb_capable(false);
+  return cs;
+}
+
 }  // namespace
+
+
 
 const context_settings& context_settings::get_basic() noexcept
 {
@@ -39,10 +65,29 @@ const context_settings& context_settings::get_basic() noexcept
 
 
 
+const context_settings& context_settings::get_default_core() noexcept
+{
+  static const context_settings cs = make_default_core_settings();
+  return cs;
+}
+
+
+
+const context_settings& context_settings::get_default_es() noexcept
+{
+  static const context_settings cs = make_default_es_settings();
+  return cs;
+}
+
+
+
 const context_settings& context_settings::get_default() noexcept
 {
-  static const context_settings cs;
-  return cs;
+#if defined(HOU_GL_ES)
+  return get_default_es();
+#else
+  return get_default_core();
+#endif
 }
 
 

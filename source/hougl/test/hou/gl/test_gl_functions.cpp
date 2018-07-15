@@ -135,6 +135,9 @@ TEST_F(test_gl_functions, get_blending_factors)
 
 TEST_F(test_gl_functions, enable_multisampling)
 {
+#if defined(HOU_GL_ES)
+  SKIP("Enabling multisampling is not supported on GLES.");
+#endif
   EXPECT_TRUE(gl::is_multisampling_enabled());
   gl::enable_multisampling();
   EXPECT_TRUE(gl::is_multisampling_enabled());

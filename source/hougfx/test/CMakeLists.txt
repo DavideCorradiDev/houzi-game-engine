@@ -55,11 +55,20 @@ SET(EXE_HOUGFX_TEST_LIBS
   ${LIB_HOUSYS}
   ${LIB_HOUMTH}
   ${LIB_HOUCOR}
+  ${LIB_GLAD}
   ${LIB_SDL2}
   ${LIB_GOOGLE_TEST}
   ${LIB_GOOGLE_MOCK}
 )
 MESSAGE(STATUS "Linked libs: ${EXE_HOUGFX_TEST_LIBS}")
+
+# Embed files in emscripten.
+IF(EMSCRIPTEN)
+  SET(HOU_EMBEDDING_PATHS "--embed-file ${CMAKE_SOURCE_DIR}/source/hougfx/test/data@source/hougfx/test/data")
+  SET(HOU_EMBEDDING_PATHS "${HOU_EMBEDDING_PATHS} --embed-file ${CMAKE_SOURCE_DIR}/source/hougfx/test/output@source/hougfx/test/output")
+  SET(EXE_HOU_FLAGS "${EXE_HOU_FLAGS} ${HOU_EMBEDDING_PATHS}")
+  SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${HOU_EMBEDDING_PATHS}")
+ENDIF()
 
 # Add target.
 ADD_EXECUTABLE(${EXE_HOUGFX_TEST} ${EXE_HOUGFX_TEST_SRC})

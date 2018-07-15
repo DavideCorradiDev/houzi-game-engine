@@ -20,8 +20,7 @@ namespace
 class test_shader_program : public test_gfx_base
 {};
 
-class test_shader_program_death_test : public test_shader_program
-{};
+using test_shader_program_death_test = test_shader_program;
 
 class concrete_shader_program : public shader_program
 {
@@ -29,19 +28,34 @@ public:
   using shader_program::shader_program;
 };
 
-
-
+std::string get_gl_version_shader_string();
 std::string get_fs_source();
 std::string get_gs_source();
 std::string get_vs_source();
 
 
 
+std::string get_gl_version_shader_string()
+{
+  if(gl::context::get_current()->get_settings().get_profile()
+    == hou::gl::context_profile::es)
+  {
+    return "#version 300 es\n"
+           "precision highp float;\n";
+  }
+  else
+  {
+    return "#version 450 core\n";
+  }
+}
+
+
+
+
 // clang-format off
 std::string get_fs_source()
 {
-  return
-    "#version 330 core\n"
+  return get_gl_version_shader_string() +
     "uniform vec4 colorUni;"
     "out vec4 outColor;"
     "void main()"
@@ -56,8 +70,7 @@ std::string get_fs_source()
 // clang-format off
 std::string get_gs_source()
 {
-  return
-    "#version 330 core\n"
+  return get_gl_version_shader_string() +
     "layout(points) in;"
     "layout(line_strip, max_vertices = 2) out;"
     "void main()"
@@ -76,8 +89,7 @@ std::string get_gs_source()
 // clang-format off
 std::string get_vs_source()
 {
-  return
-    "#version 330 core\n"
+  return get_gl_version_shader_string() +
     "in vec2 pos;"
     "void main()"
     "{"
@@ -127,6 +139,10 @@ TEST_F(test_shader_program, constructor_without_gl_geometry_shader)
 
 TEST_F(test_shader_program, constructor_with_gl_geometry_shader)
 {
+  SKIP_IF(gl::context::get_current()->get_settings().get_profile()
+      == gl::context_profile::es,
+    "Geometry shaders are not supported in GLES.");
+
   vertex_shader vs(get_vs_source());
   geometry_shader gs(get_gs_source());
   fragment_shader fs(get_fs_source());
@@ -139,9 +155,8 @@ TEST_F(test_shader_program, constructor_with_gl_geometry_shader)
 TEST_F(test_shader_program, move_constructor)
 {
   vertex_shader vs(get_vs_source());
-  geometry_shader gs(get_gs_source());
   fragment_shader fs(get_fs_source());
-  concrete_shader_program p_dummy(vs, fs, gs);
+  concrete_shader_program p_dummy(vs, fs);
   uint programId = p_dummy.get_handle().get_name();
   concrete_shader_program p = std::move(p_dummy);
   EXPECT_EQ(programId, p.get_handle().get_name());
@@ -153,10 +168,9 @@ TEST_F(test_shader_program, move_constructor)
 TEST_F(test_shader_program, get_uniform_location)
 {
   vertex_shader vs(get_vs_source());
-  geometry_shader gs(get_gs_source());
   fragment_shader fs(get_fs_source());
-  concrete_shader_program p(vs, fs, gs);
-  EXPECT_EQ(0u, p.get_uniform_location("colorUni"));
+  concrete_shader_program p(vs, fs);
+  EXPECT_NO_ERROR(p.get_uniform_location("colorUni"));
 }
 
 
@@ -164,9 +178,8 @@ TEST_F(test_shader_program, get_uniform_location)
 TEST_F(test_shader_program_death_test, get_uniform_location_invalid_name)
 {
   vertex_shader vs(get_vs_source());
-  geometry_shader gs(get_gs_source());
   fragment_shader fs(get_fs_source());
-  concrete_shader_program p(vs, fs, gs);
+  concrete_shader_program p(vs, fs);
   std::string invalid_name = "trololol";
   EXPECT_ERROR_N(p.get_uniform_location(invalid_name),
     gl::invalid_uniform_error, invalid_name);
@@ -176,6 +189,10 @@ TEST_F(test_shader_program_death_test, get_uniform_location_invalid_name)
 
 TEST_F(test_shader_program_death_test, constructor_error_link_failure)
 {
+  SKIP_IF(gl::context::get_current()->get_settings().get_profile()
+      == gl::context_profile::es,
+    "Geometry shaders are not supported in GLES.");
+
   vertex_shader vs(get_vs_source());
   geometry_shader gs(get_vs_source());
   fragment_shader fs(get_fs_source());

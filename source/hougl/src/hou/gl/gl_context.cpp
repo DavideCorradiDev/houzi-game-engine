@@ -5,6 +5,7 @@
 #include "hou/gl/gl_context.hpp"
 
 #include "hou/gl/gl_context_exceptions.hpp"
+#include "hou/gl/gl_vsync_mode.hpp"
 
 #include "hou/cor/assertions.hpp"
 
@@ -110,6 +111,12 @@ context_attributes_guard::~context_attributes_guard()
 
 void context_attributes_guard::save_context_settings()
 {
+  if(SDL_GL_GetCurrentContext() == nullptr)
+  {
+    return;
+  }
+
+#ifndef HOU_EMSCRIPTEN
   int major_version = 0;
   SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &major_version);
   int minor_version = 0;
@@ -136,6 +143,11 @@ void context_attributes_guard::save_context_settings()
       m_settings_bkp.set_profile(context_profile::any);
       break;
   }
+
+  int srgb_capable = 0;
+  SDL_GL_GetAttribute(SDL_GL_FRAMEBUFFER_SRGB_CAPABLE, &srgb_capable);
+  m_settings_bkp.set_srgb_capable(srgb_capable);
+#endif
 
   int red_size = 0;
   SDL_GL_GetAttribute(SDL_GL_RED_SIZE, &red_size);
@@ -168,10 +180,6 @@ void context_attributes_guard::save_context_settings()
   SDL_GL_GetAttribute(SDL_GL_DOUBLEBUFFER, &double_buffer);
   m_settings_bkp.set_double_buffer(double_buffer);
 
-  int srgb_capable = 0;
-  SDL_GL_GetAttribute(SDL_GL_FRAMEBUFFER_SRGB_CAPABLE, &srgb_capable);
-  m_settings_bkp.set_srgb_capable(srgb_capable);
-
   int stereo = 0;
   SDL_GL_GetAttribute(SDL_GL_STEREO, &stereo);
   m_settings_bkp.set_stereo(stereo);
@@ -194,6 +202,8 @@ void context_attributes_guard::update_context_settings(
 {
   SDL_GL_ResetAttributes();
 
+// In emscripten, setting these values causes the context creation to fail.
+#ifndef HOU_EMSCRIPTEN
   SDL_GL_SetAttribute(
     SDL_GL_CONTEXT_MAJOR_VERSION, cs.get_version().get_major());
   SDL_GL_SetAttribute(
@@ -217,6 +227,9 @@ void context_attributes_guard::update_context_settings(
   }
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, profile);
 
+  SDL_GL_SetAttribute(SDL_GL_FRAMEBUFFER_SRGB_CAPABLE, cs.srgb_capable());
+#endif
+
   SDL_GL_SetAttribute(
     SDL_GL_RED_SIZE, cs.get_color_format().get_red_bit_count());
   SDL_GL_SetAttribute(
@@ -238,8 +251,6 @@ void context_attributes_guard::update_context_settings(
   SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, cs.get_sample_count());
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, cs.double_buffer());
-
-  SDL_GL_SetAttribute(SDL_GL_FRAMEBUFFER_SRGB_CAPABLE, cs.srgb_capable());
 
   SDL_GL_SetAttribute(SDL_GL_STEREO, cs.stereo());
 
@@ -286,6 +297,8 @@ SDL_GLContext create_context(const context_settings& cs, const SDL_Window* wnd)
     context_switch_error, SDL_GetError());
   HOU_CHECK_N(gladLoadGLLoader(SDL_GL_GetProcAddress) != 0,
     context_creation_error, SDL_GetError());
+  HOU_CHECK_N(SDL_GL_SetSwapInterval(0) == 0, context_creation_error,
+    "Could not initialize vsync mode.");
 
   return ctx;
 }
@@ -416,6 +429,7 @@ context::context(
   , m_sharing_group_uid(
       sharing_ctx == nullptr ? m_uid : sharing_ctx->m_sharing_group_uid)
   , m_tracking_data()
+  , m_settings(cs)
 {
   std::lock_guard<std::mutex> lock(get_context_registry_mutex());
   get_context_registry().insert(std::make_pair(m_impl, this));
@@ -429,6 +443,7 @@ context::context(context&& other) noexcept
   , m_uid(std::move(other.m_uid))
   , m_sharing_group_uid(std::move(other.m_sharing_group_uid))
   , m_tracking_data(std::move(other.m_tracking_data))
+  , m_settings(std::move(other.m_settings))
 {
   other.m_impl = nullptr;
   other.m_uid = 0u;
@@ -486,6 +501,13 @@ bool context::is_current() const
 
 
 
+const context_settings& context::get_settings() const noexcept
+{
+  return m_settings;
+}
+
+
+
 context::tracking_data::tracking_data() noexcept
   : m_bound_array_buffer(0u)
   , m_bound_element_array_buffer(0u)
@@ -495,7 +517,7 @@ context::tracking_data::tracking_data() noexcept
   , m_bound_vertex_array(0u)
   , m_active_texture(0u)
   , m_bound_textures(1u, 0u)
-  , m_bound_texture_targets(1u, GL_TEXTURE_1D)
+  , m_bound_texture_targets(1u, 0)
   , m_current_viewport(0, 0, 0, 0)
 {}
 
@@ -591,7 +613,7 @@ void context::tracking_data::resize_texture_vectors(size_t size)
   if(m_bound_textures.size() < size)
   {
     m_bound_textures.resize(size, 0u);
-    m_bound_texture_targets.resize(size, GL_TEXTURE_1D);
+    m_bound_texture_targets.resize(size, 0);
   }
 }
 
@@ -649,7 +671,7 @@ GLenum context::tracking_data::get_bound_texture_target(GLuint unit) const
   }
   else
   {
-    return GL_TEXTURE_1D;
+    return 0;
   }
 }
 

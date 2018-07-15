@@ -128,6 +128,34 @@ For a complete description on how to use CMake with Visual Studio you can refer 
 
 
 
+### Building with Emscripten
+
+* Known limitations:
+
+  * Multithreading is not supported.
+
+  * Input files must be preloaded or embedded.
+
+  * Files cannot be written (they technically can in preloaded folders, but won't show up in the real filesystem).
+
+  * Minimizing or maximizing a window is not possible.
+
+  * Making a window resizable is not possible.
+
+  * Making a window bordered is not possible.
+
+  * Focusing a window is not possible.
+
+  * Multiple Open GL contexts are not supported.
+
+  * GL ES is used, with relative consequences:
+
+    * Geometry shaders are not supported.
+
+    * Multisampling is not supported.
+
+
+
 ### Module dependencies
 The dependencies between the modules are as follows:
 

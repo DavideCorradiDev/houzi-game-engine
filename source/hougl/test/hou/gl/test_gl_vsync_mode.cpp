@@ -25,7 +25,7 @@ using test_gl_vsync_mode_death_test = test_gl_vsync_mode;
 
 TEST_F(test_gl_vsync_mode, set_vsync_mode)
 {
-  EXPECT_EQ(gl::vsync_mode::enabled, gl::get_vsync_mode());
+  EXPECT_EQ(gl::vsync_mode::disabled, gl::get_vsync_mode());
 
   EXPECT_TRUE(gl::set_vsync_mode(gl::vsync_mode::disabled));
   EXPECT_EQ(gl::vsync_mode::disabled, gl::get_vsync_mode());

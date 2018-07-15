@@ -75,8 +75,10 @@ public:
    *
    * \param fixed_sample_locations whether the location of the samples is fixed.
    */
-  texture(texture_type type, positive<uint> mipmap_level_count,
-    positive<uint> sample_count, bool fixed_sample_locations);
+  texture(texture_type type, texture_format format, positive<uint> width,
+    positive<uint> height, positive<uint> depth,
+    positive<uint> mipmap_level_count, positive<uint> sample_count,
+    bool fixed_sample_locations);
 
   /** Move constructor.
    *
@@ -214,6 +216,10 @@ public:
 
 private:
   gl::texture_handle m_gl_texture_handle;
+  texture_format m_format;
+  positive<uint> m_width;
+  positive<uint> m_height;
+  positive<uint> m_depth;
   positive<uint> m_mipmap_level_count;
   positive<uint> m_sample_count;
   bool m_fixed_sample_locations;
@@ -400,6 +406,11 @@ public:
 
   /** Retrieve the contents of the texture as an image object.
    *
+   * \note this function is not supported and will throw if called on a system
+   * using GL ES.
+   *
+   * \throws hou::unsupported_error if on a platform using GL ES.
+   *
    * \tparam PF the pixel_format of the output image.
    *
    * \tparam Type2 dummy parameter.
@@ -417,6 +428,11 @@ public:
   /** Retrieves the contents of a sub-region of the texture as an image object.
    *
    * Throws if the subregion exceeds the boundaries of th image.
+   *
+   * \note this function is not supported and will throw if called on a system
+   * using GL ES.
+   *
+   * \throws hou::unsupported_error if on a platform using GL ES.
    *
    * \tparam PF the pixel_format of the output image.
    *
@@ -484,6 +500,14 @@ public:
     typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
   void clear(const pixel<PF>& px);
 
+  /** Resets all texture pixel values to 0.
+   *
+   * \tparam Enable enabling parameter.
+   */
+  template <texture_type Type2 = Type,
+    typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
+  void reset();
+
   /** Retrieves the size of the specified mip map level.
    *
    * \tparam Type2 dummy parameter.
@@ -544,6 +568,14 @@ private:
 
 private:
   void generate_mip_map();
+
+  template <pixel_format PF, texture_type Type2 = Type,
+    typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
+  void set_sub_image_internal(const offset_type& offset, const image<PF>& im);
+
+  template <pixel_format PF>
+  image<PF> get_image_internal(pixel_format pf, const size_type& s,
+    const std::vector<uint8_t>& buffer) const;
 };
 
 }  // namespace hou

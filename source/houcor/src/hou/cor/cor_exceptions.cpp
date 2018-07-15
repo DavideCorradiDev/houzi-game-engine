@@ -46,4 +46,19 @@ module_initialization_error::module_initialization_error(
         u8"Failed to initialize the %s module.", module_name.c_str()))
 {}
 
+
+
+unsupported_error::unsupported_error(
+  const std::string& path, uint line, const std::string& details)
+  : exception(
+      path, line, format_string(u8"Unsupported feature. %s", details.c_str()))
+{}
+
+
+
+invalid_enum::invalid_enum(const std::string& path, uint line, int value)
+  : exception(
+      path, line, format_string(u8"Invalid enumeration value (%d).", value))
+{}
+
 }  // namespace hou

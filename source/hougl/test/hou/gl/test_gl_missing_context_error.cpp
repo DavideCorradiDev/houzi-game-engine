@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/test.hpp"
+#include "hou/gl/test_gl_base.hpp"
 
 #include "hou/gl/gl_context.hpp"
 #include "hou/gl/gl_missing_context_error.hpp"
@@ -37,7 +37,7 @@ TEST_F(test_gl_missing_context_error, missing_context_error)
 TEST_F(test_gl_missing_context_error, gl_context_existence_function_success)
 {
   window w("Test", vec2u(16u, 8u));
-  gl::context ctx(gl::context_settings::get_default(), w);
+  gl::context ctx(get_test_default_context_settings(), w);
   gl::context::set_current(ctx, w);
   EXPECT_NO_ERROR(gl::check_context_existence("", 0));
 }
@@ -55,7 +55,7 @@ TEST_F(test_gl_missing_context_error_death_test,
 TEST_F(test_gl_missing_context_error, gl_context_existence_macro_success)
 {
   window w("Test", vec2u(16u, 8u));
-  gl::context ctx(gl::context_settings::get_default(), w);
+  gl::context ctx(get_test_default_context_settings(), w);
   gl::context::set_current(ctx, w);
   EXPECT_NO_ERROR(HOU_GL_CHECK_CONTEXT_EXISTENCE());
 }

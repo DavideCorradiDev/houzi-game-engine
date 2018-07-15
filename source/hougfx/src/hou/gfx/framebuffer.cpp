@@ -137,18 +137,6 @@ void framebuffer::set_depth_attachment(const texture& tex, uint mipmap_level)
 
 
 
-void framebuffer::set_stencil_attachment(const texture& tex, uint mipmap_level)
-{
-  HOU_PRECOND(mipmap_level < tex.get_mipmap_level_count());
-  HOU_PRECOND(tex.get_format() == texture_format::stencil
-    || tex.get_format() == texture_format::depth_stencil);
-  gl::set_framebuffer_stencil_texture(m_handle, tex.get_handle(), mipmap_level);
-  m_has_multisample_stencil_attachment
-    = is_texture_type_multisampled(tex.get_type());
-}
-
-
-
 void framebuffer::set_depth_stencil_attachment(
   const texture& tex, uint mipmap_level)
 {

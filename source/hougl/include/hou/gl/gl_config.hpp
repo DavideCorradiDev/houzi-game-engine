@@ -14,9 +14,18 @@
 #endif
 
 #if defined(HOU_SYSTEM_WINDOWS)
+  #ifdef HOU_COMPILER_MSVC
+    #ifndef NOMINMAX
+      #define NOMINMAX
+    #endif
+  #endif
   #define HOU_GL_WGL
 #elif defined(HOU_SYSTEM_LINUX)
   #define HOU_GL_GLX
+#endif
+
+#if defined(HOU_EMSCRIPTEN)
+  #define HOU_GL_ES
 #endif
 
 #endif

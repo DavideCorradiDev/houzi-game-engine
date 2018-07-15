@@ -19,7 +19,7 @@ namespace hou
 /**
  * Represents a display format.
  */
-enum class display_format : Uint32
+enum class display_format : uint32_t
 {
   unknown = SDL_PIXELFORMAT_UNKNOWN,
   index1lsb = SDL_PIXELFORMAT_INDEX1LSB,

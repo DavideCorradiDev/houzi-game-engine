@@ -14,14 +14,14 @@ namespace hou
 void vertex_buffer::bind(
   const vertex_buffer& buffer, vertex_buffer_target target)
 {
-  gl::bind_buffer(buffer.m_handle, narrow_cast<GLenum>(target));
+  gl::bind_buffer(buffer.m_handle, static_cast<GLenum>(target));
 }
 
 
 
 void vertex_buffer::unbind(vertex_buffer_target target)
 {
-  gl::unbind_buffer(narrow_cast<GLenum>(target));
+  gl::unbind_buffer(static_cast<GLenum>(target));
 }
 
 

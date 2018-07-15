@@ -23,7 +23,7 @@ INCLUDE_DIRECTORIES(
 SET(EXE_HOUCOR_TEST_SRC
   hou/cor/houcor_test_main.cpp
   hou/cor/test_assertions.cpp
-  hou/cor/test_basic_static_string.cpp
+  # hou/cor/test_basic_static_string.cpp
   hou/cor/test_bitwise_operators.cpp
   hou/cor/test_character_encodings.cpp
   hou/cor/test_checked_variable.cpp

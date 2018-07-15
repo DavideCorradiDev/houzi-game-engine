@@ -1,4 +1,4 @@
-// Houzi Game Engine
+  // Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
@@ -10,6 +10,9 @@
 
 #include "hou/mth/math_functions.hpp"
 #include "hou/mth/matrix.hpp"
+
+#include <algorithm>
+#include <cmath>
 
 
 
@@ -28,40 +31,17 @@ typename texture_t<Type>::size_type get_size_internal(const texture& t);
 template <texture_type Type>
 uint get_mipmap_relevant_size(const typename texture_t<Type>::size_type& s);
 
-std::array<texture_wrap_mode, 1u> get_texture1_wrap_mode(
-  const gl::texture_handle& th);
-
 std::array<texture_wrap_mode, 2u> get_texture2_wrap_mode(
   const gl::texture_handle& th);
 
 std::array<texture_wrap_mode, 3u> get_texture3_wrap_mode(
   const gl::texture_handle& th);
 
-void set_texture1_wrap_mode(
-  const gl::texture_handle& th, const std::array<texture_wrap_mode, 1u>& wm);
-
 void set_texture2_wrap_mode(
   const gl::texture_handle& th, const std::array<texture_wrap_mode, 2u>& wm);
 
 void set_texture3_wrap_mode(
   const gl::texture_handle& th, const std::array<texture_wrap_mode, 3u>& wm);
-
-
-
-template <>
-vec1u get_max_size_internal<texture_type::texture1>()
-{
-  return vec1u(narrow_cast<uint>(gl::get_max_texture_size()));
-}
-
-
-
-template <>
-vec2u get_max_size_internal<texture_type::texture1_array>()
-{
-  return vec2u(narrow_cast<uint>(gl::get_max_texture_size()),
-    narrow_cast<uint>(gl::get_max_texture_layers()));
-}
 
 
 
@@ -114,24 +94,6 @@ vec3u get_max_size_internal<texture_type::multisample_texture2_array>()
 
 
 template <>
-typename texture_t<texture_type::texture1>::size_type
-  get_size_internal<texture_type::texture1>(const texture& t)
-{
-  return t.get_size1();
-}
-
-
-
-template <>
-typename texture_t<texture_type::texture1_array>::size_type
-  get_size_internal<texture_type::texture1_array>(const texture& t)
-{
-  return t.get_size2();
-}
-
-
-
-template <>
 typename texture_t<texture_type::texture2>::size_type
   get_size_internal<texture_type::texture2>(const texture& t)
 {
@@ -172,24 +134,6 @@ typename texture_t<texture_type::multisample_texture2_array>::size_type
   get_size_internal<texture_type::multisample_texture2_array>(const texture& t)
 {
   return t.get_size3();
-}
-
-
-
-template <>
-uint get_mipmap_relevant_size<texture_type::texture1>(
-  const typename texture_t<texture_type::texture1>::size_type& s)
-{
-  return s(0);
-}
-
-
-
-template <>
-uint get_mipmap_relevant_size<texture_type::texture1_array>(
-  const typename texture_t<texture_type::texture1_array>::size_type& s)
-{
-  return s(0);
 }
 
 
@@ -240,14 +184,6 @@ uint get_mipmap_relevant_size<texture_type::multisample_texture2_array>(
 
 
 
-std::array<texture_wrap_mode, 1u> get_texture1_wrap_mode(
-  const gl::texture_handle& th)
-{
-  return {texture_wrap_mode(gl::get_texture_wrap_mode_s(th))};
-}
-
-
-
 std::array<texture_wrap_mode, 2u> get_texture2_wrap_mode(
   const gl::texture_handle& th)
 {
@@ -263,14 +199,6 @@ std::array<texture_wrap_mode, 3u> get_texture3_wrap_mode(
   return {texture_wrap_mode(gl::get_texture_wrap_mode_s(th)),
     texture_wrap_mode(gl::get_texture_wrap_mode_t(th)),
     texture_wrap_mode(gl::get_texture_wrap_mode_r(th))};
-}
-
-
-
-void set_texture1_wrap_mode(
-  const gl::texture_handle& th, const std::array<texture_wrap_mode, 1u>& wm)
-{
-  gl::set_texture_wrap_mode_s(th, static_cast<GLenum>(wm[0]));
 }
 
 
@@ -319,9 +247,15 @@ uint texture::get_texture_unit_count()
 
 
 
-texture::texture(texture_type type, positive<uint> mipmap_level_count,
-  positive<uint> sample_count, bool fixed_sample_locations)
+texture::texture(texture_type type, texture_format format, positive<uint> width,
+  positive<uint> height, positive<uint> depth,
+  positive<uint> mipmap_level_count, positive<uint> sample_count,
+  bool fixed_sample_locations)
   : m_gl_texture_handle(gl::texture_handle::create(static_cast<GLenum>(type)))
+  , m_format(format)
+  , m_width(width)
+  , m_height(height)
+  , m_depth(depth)
   , m_mipmap_level_count(mipmap_level_count)
   , m_sample_count(sample_count)
   , m_fixed_sample_locations(fixed_sample_locations)
@@ -351,7 +285,7 @@ bool texture::is_bound(uint tu) const
 
 texture_format texture::get_format() const
 {
-  return texture_format(gl::get_texture_format(m_gl_texture_handle));
+  return m_format;
 }
 
 
@@ -405,7 +339,7 @@ void texture::setChannelMapping(const texture_channel_mapping& mapping)
 uint texture::get_width(uint level) const
 {
   HOU_PRECOND(level < get_mipmap_level_count());
-  return narrow_cast<uint>(gl::get_texture_width(m_gl_texture_handle, level));
+  return std::max(1u, m_width / static_cast<uint>(std::pow(2, level)));
 }
 
 
@@ -413,7 +347,7 @@ uint texture::get_width(uint level) const
 uint texture::get_height(uint level) const
 {
   HOU_PRECOND(level < get_mipmap_level_count());
-  return narrow_cast<uint>(gl::get_texture_height(m_gl_texture_handle, level));
+  return std::max(1u, m_height / static_cast<uint>(std::pow(2, level)));
 }
 
 
@@ -421,7 +355,14 @@ uint texture::get_height(uint level) const
 uint texture::get_depth(uint level) const
 {
   HOU_PRECOND(level < get_mipmap_level_count());
-  return narrow_cast<uint>(gl::get_texture_depth(m_gl_texture_handle, level));
+  if(get_type() == texture_type::texture3)
+  {
+    return std::max(1u, m_depth / static_cast<uint>(std::pow(2, level)));
+  }
+  else
+  {
+    return m_depth;
+  }
 }
 
 
@@ -559,45 +500,16 @@ positive<uint> texture_t<Type>::get_max_sample_count()
 
 template <>
 template <>
-texture_t<texture_type::texture1>::texture_t(
-  const size_type& s, texture_format format, positive<uint> mipmap_level_count)
-  : texture(texture_type::texture1, mipmap_level_count, 1u, true)
-{
-  HOU_PRECOND(is_texture_size_valid(s));
-  HOU_PRECOND(is_mipmap_level_count_valid(mipmap_level_count, s));
-  gl::set_texture_storage_1d(
-    get_handle(), mipmap_level_count, static_cast<GLenum>(format), s.x());
-  clear(pixel_rgba(0u, 0u, 0u, 0u));
-}
-
-
-
-template <>
-template <>
-texture_t<texture_type::texture1_array>::texture_t(
-  const size_type& s, texture_format format, positive<uint> mipmap_level_count)
-  : texture(texture_type::texture1_array, mipmap_level_count, 1u, true)
-{
-  HOU_PRECOND(is_texture_size_valid(s));
-  HOU_PRECOND(is_mipmap_level_count_valid(mipmap_level_count, s));
-  gl::set_texture_storage_2d(get_handle(), mipmap_level_count,
-    static_cast<GLenum>(format), s.x(), s.y());
-  clear(pixel_rgba(0u, 0u, 0u, 0u));
-}
-
-
-
-template <>
-template <>
 texture_t<texture_type::texture2>::texture_t(
   const size_type& s, texture_format format, positive<uint> mipmap_level_count)
-  : texture(texture_type::texture2, mipmap_level_count, 1u, true)
+  : texture(texture_type::texture2, format, s.x(), s.y(), 1u,
+      mipmap_level_count, 1u, true)
 {
   HOU_PRECOND(is_texture_size_valid(s));
   HOU_PRECOND(is_mipmap_level_count_valid(mipmap_level_count, s));
   gl::set_texture_storage_2d(get_handle(), mipmap_level_count,
     static_cast<GLenum>(format), s.x(), s.y());
-  clear(pixel_rgba(0u, 0u, 0u, 0u));
+  reset();
 }
 
 
@@ -606,13 +518,14 @@ template <>
 template <>
 texture_t<texture_type::texture2_array>::texture_t(
   const size_type& s, texture_format format, positive<uint> mipmap_level_count)
-  : texture(texture_type::texture2_array, mipmap_level_count, 1u, true)
+  : texture(texture_type::texture2_array, format, s.x(), s.y(), s.z(),
+      mipmap_level_count, 1u, true)
 {
   HOU_PRECOND(is_texture_size_valid(s));
   HOU_PRECOND(is_mipmap_level_count_valid(mipmap_level_count, s));
   gl::set_texture_storage_3d(get_handle(), mipmap_level_count,
     static_cast<GLenum>(format), s.x(), s.y(), s.z());
-  clear(pixel_rgba(0u, 0u, 0u, 0u));
+  reset();
 }
 
 
@@ -621,13 +534,14 @@ template <>
 template <>
 texture_t<texture_type::texture3>::texture_t(
   const size_type& s, texture_format format, positive<uint> mipmap_level_count)
-  : texture(texture_type::texture3, mipmap_level_count, 1u, true)
+  : texture(texture_type::texture3, format, s.x(), s.y(), s.z(),
+      mipmap_level_count, 1u, true)
 {
   HOU_PRECOND(is_texture_size_valid(s));
   HOU_PRECOND(is_mipmap_level_count_valid(mipmap_level_count, s));
   gl::set_texture_storage_3d(get_handle(), mipmap_level_count,
     static_cast<GLenum>(format), s.x(), s.y(), s.z());
-  clear(pixel_rgba(0u, 0u, 0u, 0u));
+  reset();
 }
 
 
@@ -637,8 +551,8 @@ template <>
 texture_t<texture_type::multisample_texture2>::texture_t(const size_type& s,
   texture_format format, positive<uint> sample_count,
   bool fixed_sample_locations)
-  : texture(texture_type::multisample_texture2, 1u, sample_count,
-      fixed_sample_locations)
+  : texture(texture_type::multisample_texture2, format, s.x(), s.y(), 1u, 1u,
+      sample_count, fixed_sample_locations)
 {
   HOU_PRECOND(is_texture_size_valid(s));
   HOU_PRECOND(sample_count <= narrow_cast<uint>(gl::get_max_texture_samples()));
@@ -653,8 +567,8 @@ template <>
 texture_t<texture_type::multisample_texture2_array>::texture_t(
   const size_type& s, texture_format format, positive<uint> sample_count,
   bool fixed_sample_locations)
-  : texture(texture_type::multisample_texture2_array, 1u, sample_count,
-      fixed_sample_locations)
+  : texture(texture_type::multisample_texture2_array, format, s.x(), s.y(),
+      s.z(), 1u, sample_count, fixed_sample_locations)
 {
   HOU_PRECOND(is_texture_size_valid(s));
   HOU_PRECOND(sample_count <= narrow_cast<uint>(gl::get_max_texture_samples()));
@@ -668,26 +582,6 @@ template <texture_type Type>
 typename texture_t<Type>::size_type texture_t<Type>::get_size() const
 {
   return get_size_internal<Type>(*this);
-}
-
-
-
-template <>
-template <>
-typename texture_t<texture_type::texture1>::wrap_mode
-  texture_t<texture_type::texture1>::get_wrap_mode() const
-{
-  return get_texture1_wrap_mode(get_handle());
-}
-
-
-
-template <>
-template <>
-typename texture_t<texture_type::texture1_array>::wrap_mode
-  texture_t<texture_type::texture1_array>::get_wrap_mode() const
-{
-  return get_texture2_wrap_mode(get_handle());
 }
 
 
@@ -724,26 +618,6 @@ typename texture_t<texture_type::texture3>::wrap_mode
 
 template <>
 template <>
-void texture_t<texture_type::texture1>::set_wrap_mode(
-  const wrap_mode& wm)
-{
-  set_texture1_wrap_mode(get_handle(), wm);
-}
-
-
-
-template <>
-template <>
-void texture_t<texture_type::texture1_array>::set_wrap_mode(
-  const wrap_mode& wm)
-{
-  set_texture2_wrap_mode(get_handle(), wm);
-}
-
-
-
-template <>
-template <>
 void texture_t<texture_type::texture2>::set_wrap_mode(
   const wrap_mode& wm)
 {
@@ -768,27 +642,6 @@ void texture_t<texture_type::texture3>::set_wrap_mode(
   const wrap_mode& wm)
 {
   set_texture3_wrap_mode(get_handle(), wm);
-}
-
-
-
-template <>
-template <>
-typename texture_t<texture_type::texture1>::size_type
-  texture_t<texture_type::texture1>::get_mipmap_size(uint mipmap_level) const
-{
-  return get_size1(mipmap_level);
-}
-
-
-
-template <>
-template <>
-typename texture_t<texture_type::texture1_array>::size_type
-  texture_t<texture_type::texture1_array>::get_mipmap_size(
-    uint mipmap_level) const
-{
-  return get_size2(mipmap_level);
 }
 
 
@@ -867,8 +720,6 @@ void texture_t<Type>::generate_mip_map()
 
 
 
-template class texture_t<texture_type::texture1>;
-template class texture_t<texture_type::texture1_array>;
 template class texture_t<texture_type::texture2>;
 template class texture_t<texture_type::texture2_array>;
 template class texture_t<texture_type::texture3>;

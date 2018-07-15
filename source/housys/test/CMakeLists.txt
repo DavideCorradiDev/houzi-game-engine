@@ -58,6 +58,14 @@ SET(EXE_HOUSYS_TEST_LIBS
 )
 MESSAGE(STATUS "Linked libs: ${EXE_HOUSYS_TEST_LIBS}")
 
+# Embed files in emscripten.
+IF(EMSCRIPTEN)
+  SET(HOU_EMBEDDING_PATHS "--embed-file ${CMAKE_SOURCE_DIR}/source/housys/test/data@source/housys/test/data")
+  SET(HOU_EMBEDDING_PATHS "${HOU_EMBEDDING_PATHS} --embed-file ${CMAKE_SOURCE_DIR}/source/housys/test/output@source/housys/test/output")
+  SET(EXE_HOU_FLAGS "${EXE_HOU_FLAGS} ${HOU_EMBEDDING_PATHS}")
+  SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${HOU_EMBEDDING_PATHS}")
+ENDIF()
+
 # Add target.
 ADD_EXECUTABLE(${EXE_HOUSYS_TEST} ${EXE_HOUSYS_TEST_SRC})
 SET_TARGET_PROPERTIES(${EXE_HOUSYS_TEST} PROPERTIES
@@ -69,7 +77,8 @@ TARGET_LINK_LIBRARIES(${EXE_HOUSYS_TEST} ${EXE_HOUSYS_TEST_LIBS})
 # Create test files directory.
 ADD_CUSTOM_COMMAND(
   TARGET ${EXE_HOUSYS_TEST} POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E make_directory
+  COMMAND ${CMAKE_COMMAND} -E copy_directory
+  ${CMAKE_CURRENT_SOURCE_DIR}/output
   ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/source/housys/test/output
   COMMENT "Creating test output directory"
 )

@@ -22,11 +22,6 @@ enum class texture_wrap_mode : GLenum
   /** Pixels sampled outside the texture will have the color of the
    * corresponding edge pixel. */
   clamp_to_edge = GL_CLAMP_TO_EDGE,
-  /** Pixels sampled outside the texture  will have the color of the mirrored
-   *  edge pixel. */
-  mirror_clamp_to_edge = GL_MIRROR_CLAMP_TO_EDGE,
-  /** Pixels sampled outside the texture will have the border color. */
-  clamp_to_border = GL_CLAMP_TO_BORDER,
   /** The texture will be repeated. */
   repeat = GL_REPEAT,
   /** The texture will be mirrored and repeated. */

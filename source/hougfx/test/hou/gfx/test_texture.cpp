@@ -3,9 +3,9 @@
 // Licensed under the MIT license.
 
 
-#include "hou/test.hpp"
 #include "hou/gfx/test_data.hpp"
 #include "hou/gfx/test_gfx_base.hpp"
+#include "hou/test.hpp"
 
 #include "hou/gfx/texture.hpp"
 #include "hou/gfx/texture_channel_mapping.hpp"
@@ -24,6 +24,9 @@ template <typename Tex>
 class test_texture_base : public test_gfx_base
 {
 public:
+  static const std::vector<texture_format> color_texture_formats;
+
+public:
   virtual ~test_texture_base();
 
   // The following functions are there to generate vectors and images consistent
@@ -32,7 +35,8 @@ public:
   typename Tex::size_type generate_size();
   typename Tex::size_type compute_mipmap_size(
     const typename Tex::size_type& size, uint mipmap_level);
-  typename Tex::template image<pixel_format::rgba> generate_image(
+  template <pixel_format PF>
+  typename Tex::template image<PF> generate_image(
     const typename Tex::size_type& size);
   typename Tex::wrap_mode get_default_wrap_mode() const;
   typename Tex::wrap_mode get_alternative_wrap_mode() const;
@@ -41,25 +45,18 @@ public:
 
 
 template <typename Tex>
+const std::vector<texture_format> test_texture_base<Tex>::color_texture_formats{
+  texture_format::rgba,
+  texture_format::rgb,
+  texture_format::rg,
+  texture_format::r,
+};
+
+
+
+template <typename Tex>
 test_texture_base<Tex>::~test_texture_base()
 {}
-
-
-
-template <>
-typename texture1::size_type test_texture_base<texture1>::generate_size()
-{
-  return vec1u{4u};
-}
-
-
-
-template <>
-typename texture1_array::size_type
-  test_texture_base<texture1_array>::generate_size()
-{
-  return vec2u{4u, 8u};
-}
 
 
 
@@ -107,27 +104,6 @@ typename multisample_texture2_array::size_type
 
 
 template <>
-typename texture1::size_type test_texture_base<texture1>::compute_mipmap_size(
-  const typename texture1::size_type& size, uint mipmap_level)
-{
-  return size / std::pow(2, mipmap_level);
-}
-
-
-
-template <>
-typename texture1_array::size_type
-  test_texture_base<texture1_array>::compute_mipmap_size(
-    const typename texture1_array::size_type& size, uint mipmap_level)
-{
-  texture1_array::size_type retval = size / std::pow(2, mipmap_level);
-  retval.y() = size.y();
-  return retval;
-}
-
-
-
-template <>
 typename texture2::size_type test_texture_base<texture2>::compute_mipmap_size(
   const typename texture2::size_type& size, uint mipmap_level)
 {
@@ -158,12 +134,15 @@ typename texture3::size_type test_texture_base<texture3>::compute_mipmap_size(
 
 
 template <typename Tex>
-typename Tex::template image<pixel_format::rgba>
-  test_texture_base<Tex>::generate_image(const typename Tex::size_type& size)
+template <pixel_format PF>
+typename Tex::template image<PF> test_texture_base<Tex>::generate_image(
+  const typename Tex::size_type& size)
 {
-  using image = typename Tex::template image<pixel_format::rgba>;
-  image im(size);
-  typename image::pixel_collection pixels = im.get_pixels();
+  using image_rgba = typename Tex::template image<pixel_format::rgba>;
+  using image = typename Tex::template image<PF>;
+
+  image_rgba im(size);
+  typename image_rgba::pixel_collection pixels = im.get_pixels();
   for(size_t i = 0; i < pixels.size(); ++i)
   {
     pixels[i].set_r(static_cast<uint8_t>((i * 4) + 0));
@@ -172,7 +151,8 @@ typename Tex::template image<pixel_format::rgba>
     pixels[i].set_a(static_cast<uint8_t>((i * 4) + 3));
   }
   im.set_pixels(pixels);
-  return im;
+
+  return image(im);
 }
 
 
@@ -196,8 +176,8 @@ typename Tex::wrap_mode test_texture_base<Tex>::get_alternative_wrap_mode()
 {
   typename Tex::wrap_mode retval;
 
-  std::vector<texture_wrap_mode> wrapModes{texture_wrap_mode::clamp_to_edge,
-    texture_wrap_mode::clamp_to_border, texture_wrap_mode::mirrored_repeat};
+  std::vector<texture_wrap_mode> wrapModes{
+    texture_wrap_mode::clamp_to_edge, texture_wrap_mode::mirrored_repeat};
   for(size_t i = 0; i < retval.size(); ++i)
   {
     retval[i] = wrapModes[i % wrapModes.size()];
@@ -215,8 +195,8 @@ template <typename Tex>
 class test_texture_common_death_test : public test_texture_common<Tex>
 {};
 
-using texture_types_common = Types<texture1, texture1_array, texture2,
-  texture2_array, texture3, multisample_texture2, multisample_texture2_array>;
+using texture_types_common = Types<texture2, texture2_array, texture3,
+  multisample_texture2, multisample_texture2_array>;
 
 template <typename Tex>
 class test_texture_not_multisampled : public test_texture_base<Tex>
@@ -228,7 +208,7 @@ class test_texture_not_multisampled_death_test
 {};
 
 using texture_types_not_multisampled
-  = Types<texture1, texture1_array, texture2, texture2_array, texture3>;
+  = Types<texture2, texture2_array, texture3>;
 
 template <typename Tex>
 class test_texture_multisampled : public test_texture_base<Tex>
@@ -385,6 +365,9 @@ TYPED_TEST(test_texture_common_death_test, size_constructor_error_invalid_size)
 
 TYPED_TEST(test_texture_common, set_channel_mapping)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Texture swizzle is not supported on Emscripten.");
+#endif
   TypeParam tex(this->generate_size());
   EXPECT_EQ(texture_channel_mapping::standard, tex.get_channel_mapping());
   tex.setChannelMapping(texture_channel_mapping::alpha);
@@ -452,24 +435,30 @@ TYPED_TEST(test_texture_common, get_size3)
 
 TYPED_TEST(test_texture_not_multisampled, mip_map_constructor)
 {
-  using image = typename TypeParam::template image<pixel_format::rgb>;
   using size_type = typename TypeParam::size_type;
 
   size_type size_ref = this->generate_size();
-  texture_format format_ref = texture_format::rgb;
-  uint mipMapLevelCount_ref = 3u;
-  TypeParam tex(size_ref, format_ref, mipMapLevelCount_ref);
+  uint mipmap_levels_ref = 3u;
 
-  EXPECT_NE(0u, tex.get_handle().get_name());
-  EXPECT_EQ(format_ref, tex.get_format());
-  EXPECT_EQ(mipMapLevelCount_ref, tex.get_mipmap_level_count());
-  EXPECT_EQ(1u, tex.get_sample_count());
-  EXPECT_TRUE(tex.has_fixed_sample_locations());
-  EXPECT_EQ(size_ref, tex.get_size());
-  EXPECT_EQ(texture_channel_mapping::standard, tex.get_channel_mapping());
-  EXPECT_EQ(texture_filter::linear, tex.get_filter());
-  EXPECT_EQ(this->get_default_wrap_mode(), tex.get_wrap_mode());
-  EXPECT_EQ(image(tex.get_size()), tex.template get_image<pixel_format::rgb>());
+  for(auto tf : TestFixture::color_texture_formats)
+  {
+    TypeParam tex(size_ref, tf, mipmap_levels_ref);
+
+    EXPECT_NE(0u, tex.get_handle().get_name());
+    EXPECT_EQ(tf, tex.get_format());
+    EXPECT_EQ(mipmap_levels_ref, tex.get_mipmap_level_count());
+    EXPECT_EQ(1u, tex.get_sample_count());
+    EXPECT_TRUE(tex.has_fixed_sample_locations());
+    EXPECT_EQ(size_ref, tex.get_size());
+    EXPECT_EQ(texture_channel_mapping::standard, tex.get_channel_mapping());
+    EXPECT_EQ(texture_filter::linear, tex.get_filter());
+    EXPECT_EQ(this->get_default_wrap_mode(), tex.get_wrap_mode());
+#if !defined(HOU_GL_ES)
+    using image = typename TypeParam::template image<pixel_format::rgb>;
+    EXPECT_EQ(
+      image(tex.get_size()), tex.template get_image<pixel_format::rgb>());
+#endif
+  }
 }
 
 
@@ -547,30 +536,106 @@ TYPED_TEST(test_texture_not_multisampled_death_test,
 
 
 
-TYPED_TEST(test_texture_not_multisampled, image_constructor)
+TYPED_TEST(
+  test_texture_not_multisampled, image_constructor_different_texture_formats)
 {
-  auto image_ref = this->generate_image(this->generate_size());
-  texture_format format_ref = texture_format::rgba;
-  uint mipMapLevelCount_ref = 3u;
-  TypeParam tex(image_ref, texture_format::rgba, mipMapLevelCount_ref);
+  auto im_ref
+    = this->template generate_image<pixel_format::rgba>(this->generate_size());
 
-  EXPECT_NE(0u, tex.get_handle().get_name());
-  EXPECT_EQ(format_ref, tex.get_format());
-  EXPECT_EQ(mipMapLevelCount_ref, tex.get_mipmap_level_count());
-  EXPECT_EQ(1u, tex.get_sample_count());
-  EXPECT_TRUE(tex.has_fixed_sample_locations());
-  EXPECT_EQ(image_ref.get_size(), tex.get_size());
-  EXPECT_EQ(texture_channel_mapping::standard, tex.get_channel_mapping());
-  EXPECT_EQ(texture_filter::linear, tex.get_filter());
-  EXPECT_EQ(this->get_default_wrap_mode(), tex.get_wrap_mode());
-  EXPECT_EQ(image_ref, tex.template get_image<pixel_format::rgba>());
+  uint mipmap_levels_ref = 3u;
+  for(auto tf : TestFixture::color_texture_formats)
+  {
+    TypeParam tex(im_ref, tf, mipmap_levels_ref);
+
+    EXPECT_NE(0u, tex.get_handle().get_name());
+    EXPECT_EQ(tf, tex.get_format());
+    EXPECT_EQ(mipmap_levels_ref, tex.get_mipmap_level_count());
+    EXPECT_EQ(1u, tex.get_sample_count());
+    EXPECT_TRUE(tex.has_fixed_sample_locations());
+    EXPECT_EQ(im_ref.get_size(), tex.get_size());
+    EXPECT_EQ(texture_channel_mapping::standard, tex.get_channel_mapping());
+    EXPECT_EQ(texture_filter::linear, tex.get_filter());
+    EXPECT_EQ(this->get_default_wrap_mode(), tex.get_wrap_mode());
+#if !defined(HOU_GL_ES)
+
+    using image_r = typename TypeParam::template image<pixel_format::r>;
+    using image_rg = typename TypeParam::template image<pixel_format::rg>;
+    using image_rgb = typename TypeParam::template image<pixel_format::rgb>;
+    using image_rgba = typename TypeParam::template image<pixel_format::rgba>;
+    using offset_type = typename TypeParam::offset_type;
+
+    switch(tf)
+    {
+      case texture_format::r:
+        EXPECT_EQ(image_rgba(image_r(im_ref)),
+          tex.template get_image<pixel_format::rgba>());
+        EXPECT_EQ(image_rgba(image_r(im_ref)),
+          tex.template get_sub_image<pixel_format::rgba>(
+            offset_type::zero(), tex.get_size()));
+        break;
+      case texture_format::rg:
+        EXPECT_EQ(image_rgba(image_rg(im_ref)),
+          tex.template get_image<pixel_format::rgba>());
+        EXPECT_EQ(image_rgba(image_rg(im_ref)),
+          tex.template get_sub_image<pixel_format::rgba>(
+            offset_type::zero(), tex.get_size()));
+        break;
+      case texture_format::rgb:
+        EXPECT_EQ(image_rgba(image_rgb(im_ref)),
+          tex.template get_image<pixel_format::rgba>());
+        EXPECT_EQ(image_rgba(image_rgb(im_ref)),
+          tex.template get_sub_image<pixel_format::rgba>(
+            offset_type::zero(), tex.get_size()));
+        break;
+      case texture_format::rgba:
+        EXPECT_EQ(im_ref, tex.template get_image<pixel_format::rgba>());
+        EXPECT_EQ(im_ref,
+          tex.template get_sub_image<pixel_format::rgba>(
+            offset_type::zero(), tex.get_size()));
+        break;
+      default:
+        FAIL() << "Unsupported texture type.";
+    }
+#endif
+  }
+}
+
+
+
+TYPED_TEST(
+  test_texture_not_multisampled, image_constructor_different_pixel_formats)
+{
+  typename TypeParam::template image<pixel_format::rgba> im_rgba
+    = this->template generate_image<pixel_format::rgba>(this->generate_size());
+  typename TypeParam::template image<pixel_format::rgb> im_rgb(im_rgba);
+  typename TypeParam::template image<pixel_format::rg> im_rg(im_rgba);
+  typename TypeParam::template image<pixel_format::r> im_r(im_rgba);
+
+  texture_format tf = texture_format::rgba;
+  uint mipmap_levels_ref = 3u;
+  TypeParam tex_rgba(im_rgba, tf, mipmap_levels_ref);
+  TypeParam tex_rgb(im_rgb, tf, mipmap_levels_ref);
+  TypeParam tex_rg(im_rg, tf, mipmap_levels_ref);
+  TypeParam tex_r(im_r, tf, mipmap_levels_ref);
+
+#if !defined(HOU_GL_ES)
+  EXPECT_EQ(im_rgba, tex_rgba.template get_image<pixel_format::rgba>());
+  EXPECT_EQ(im_rgb, tex_rgba.template get_image<pixel_format::rgb>());
+  EXPECT_EQ(im_rg, tex_rgba.template get_image<pixel_format::rg>());
+  EXPECT_EQ(im_r, tex_rgba.template get_image<pixel_format::r>());
+
+  EXPECT_EQ(im_rgb, tex_rgb.template get_image<pixel_format::rgb>());
+  EXPECT_EQ(im_rg, tex_rg.template get_image<pixel_format::rg>());
+  EXPECT_EQ(im_r, tex_r.template get_image<pixel_format::r>());
+#endif
 }
 
 
 
 TYPED_TEST(test_texture_not_multisampled, image_constructor_default_arguments)
 {
-  auto image_ref = this->generate_image(this->generate_size());
+  auto image_ref
+    = this->template generate_image<pixel_format::rgba>(this->generate_size());
   TypeParam tex(image_ref);
 
   EXPECT_NE(0u, tex.get_handle().get_name());
@@ -582,7 +647,9 @@ TYPED_TEST(test_texture_not_multisampled, image_constructor_default_arguments)
   EXPECT_EQ(texture_channel_mapping::standard, tex.get_channel_mapping());
   EXPECT_EQ(texture_filter::linear, tex.get_filter());
   EXPECT_EQ(this->get_default_wrap_mode(), tex.get_wrap_mode());
+#if !defined(HOU_GL_ES)
   EXPECT_EQ(image_ref, tex.template get_image<pixel_format::rgba>());
+#endif
 }
 
 
@@ -597,17 +664,23 @@ TYPED_TEST(test_texture_not_multisampled, image_constructor_size_limits)
   {
     size_type size_with_one = size_ref;
     size_with_one(i) = 1u;
-    auto imageWithOne = this->generate_image(size_with_one);
+    auto imageWithOne
+      = this->template generate_image<pixel_format::rgba>(size_with_one);
     TypeParam tex_with_one(imageWithOne, texture_format::rgba, 1u);
+#if !defined(HOU_GL_ES)
     EXPECT_EQ(
       imageWithOne, tex_with_one.template get_image<pixel_format::rgba>());
+#endif
 
     size_type size_with_max = size_ref;
     size_with_max(i) = max_size(i);
-    auto imageWithMax = this->generate_image(size_with_max);
+    auto imageWithMax
+      = this->template generate_image<pixel_format::rgba>(size_with_max);
     TypeParam tex_with_max(imageWithMax, texture_format::rgba, 1u);
+#if !defined(HOU_GL_ES)
     EXPECT_EQ(
       imageWithMax, tex_with_max.template get_image<pixel_format::rgba>());
+#endif
   }
 }
 
@@ -700,11 +773,16 @@ TYPED_TEST(test_texture_not_multisampled, set_image)
   using image = typename TypeParam::template image<pixel_format::rgba>;
 
   TypeParam tex(this->generate_size());
+#if !defined(HOU_GL_ES)
   EXPECT_EQ(
     image(tex.get_size()), tex.template get_image<pixel_format::rgba>());
-  image image_ref = this->generate_image(tex.get_size());
+#endif
+  image image_ref
+    = this->template generate_image<pixel_format::rgba>(tex.get_size());
   tex.set_image(image_ref);
+#if !defined(HOU_GL_ES)
   EXPECT_EQ(image_ref, tex.template get_image<pixel_format::rgba>());
+#endif
 }
 
 
@@ -722,6 +800,10 @@ TYPED_TEST(
 
 TYPED_TEST(test_texture_not_multisampled, get_sub_image)
 {
+#if defined(HOU_GL_ES)
+  SKIP("Reading a texture image is not supported on GLES.");
+#endif
+
   using image = typename TypeParam::template image<pixel_format::rgba>;
   using size_type = typename TypeParam::size_type;
   using offset_type = typename TypeParam::offset_type;
@@ -736,16 +818,18 @@ TYPED_TEST(test_texture_not_multisampled, get_sub_image)
     sub_image_offset(i) = static_cast<uint>(i + 1);
   }
 
-  image image_ref = this->generate_image(tex_size);
+  image image_ref = this->template generate_image<pixel_format::rgba>(tex_size);
   image sub_image_ref
     = image_ref.get_sub_image(sub_image_offset, sub_image_size);
   TypeParam tex(image_ref);
 
   // Note MSVC can't deduce the template params, so they must be given
   // explicitly.
+#if defined(HOU_GL_ES)
   EXPECT_EQ(sub_image_ref,
     (tex.template get_sub_image<image::format, TypeParam::type, void>(
       sub_image_offset, sub_image_size)));
+#endif
 }
 
 
@@ -753,6 +837,10 @@ TYPED_TEST(test_texture_not_multisampled, get_sub_image)
 TYPED_TEST(
   test_texture_not_multisampled_death_test, get_sub_image_error_overflow)
 {
+#if defined(HOU_GL_ES)
+  SKIP("Reading a texture image is not supported on GLES.");
+#endif
+
   using size_type = typename TypeParam::size_type;
   using offset_type = typename TypeParam::offset_type;
 
@@ -766,13 +854,15 @@ TYPED_TEST(
     sub_image_size(i)
       = static_cast<uint>((i + 1) * 4 - sub_image_offset(i) + 1u);
   }
-  TypeParam tex(this->generate_image(tex_size));
+  TypeParam tex(this->template generate_image<pixel_format::rgba>(tex_size));
 
   // Note MSVC can't deduce the template params, so they must be given
   // explicitly.
+#if defined(HOU_GL_ES)
   EXPECT_PRECOND_ERROR(
     (tex.template get_sub_image<pixel_format::rgba, TypeParam::type, void>(
       sub_image_offset, sub_image_size)));
+#endif
 }
 
 
@@ -801,11 +891,13 @@ TYPED_TEST(test_texture_not_multisampled, set_sub_image)
   tex.template set_sub_image<image::format, TypeParam::type, void>(
     sub_image_offset, sub_image_ref);
 
+#if !defined(HOU_GL_ES)
   EXPECT_EQ(image_ref,
     (tex.template get_image<image::format, TypeParam::type, void>()));
   EXPECT_EQ(sub_image_ref,
     (tex.template get_sub_image<image::format, TypeParam::type, void>(
       sub_image_offset, sub_image_size)));
+#endif
 }
 
 
@@ -839,15 +931,19 @@ TYPED_TEST(
 
 TYPED_TEST(test_texture_not_multisampled, clear)
 {
-  using image = typename TypeParam::template image<pixel_format::rgba>;
-
   TypeParam tex(this->generate_size());
+#if !defined(HOU_GL_ES)
+  using image = typename TypeParam::template image<pixel_format::rgba>;
   EXPECT_EQ(
     image(tex.get_size()), tex.template get_image<pixel_format::rgba>());
+#endif
   pixel_rgba pixel_ref(1u, 2u, 3u, 4u);
   tex.clear(pixel_ref);
+#if !defined(HOU_GL_ES)
+  using image = typename TypeParam::template image<pixel_format::rgba>;
   EXPECT_EQ(image(tex.get_size(), pixel_ref),
     tex.template get_image<pixel_format::rgba>());
+#endif
 }
 
 
@@ -878,6 +974,10 @@ TYPED_TEST(test_texture_not_multisampled_death_test,
 
 TYPED_TEST(test_texture_not_multisampled, mip_map_constructor_get_mip_map_image)
 {
+#if defined(HOU_GL_ES)
+  SKIP("Reading a texture image is not supported on GLES.");
+#endif
+
   using image = typename TypeParam::template image<pixel_format::rgb>;
 
   TypeParam tex(this->generate_size(), texture_format::rgba, 3u);
@@ -893,6 +993,10 @@ TYPED_TEST(test_texture_not_multisampled, mip_map_constructor_get_mip_map_image)
 
 TYPED_TEST(test_texture_not_multisampled, image_constructor_get_mip_map_image)
 {
+#if defined(HOU_GL_ES)
+  SKIP("Reading a texture image is not supported on GLES.");
+#endif
+
   using image = typename TypeParam::template image<pixel_format::rgb>;
 
   TypeParam tex(image(this->generate_size()), texture_format::rgba, 3u);
@@ -908,6 +1012,10 @@ TYPED_TEST(test_texture_not_multisampled, image_constructor_get_mip_map_image)
 
 TYPED_TEST(test_texture_not_multisampled, set_image_get_mip_map_image)
 {
+#if defined(HOU_GL_ES)
+  SKIP("Reading a texture image is not supported on GLES.");
+#endif
+
   using image = typename TypeParam::template image<pixel_format::rgba>;
   using size_type = typename TypeParam::size_type;
 
@@ -945,6 +1053,10 @@ TYPED_TEST(test_texture_not_multisampled, set_image_get_mip_map_image)
 
 TYPED_TEST(test_texture_not_multisampled, clear_get_mip_map_image)
 {
+#if defined(HOU_GL_ES)
+  SKIP("Reading a texture image is not supported on GLES.");
+#endif
+
   using image = typename TypeParam::template image<pixel_format::rgba>;
 
   TypeParam tex(this->generate_size(), texture_format::rgba, 3u);
@@ -975,7 +1087,7 @@ TYPED_TEST(test_texture_multisampled, multisample_constructor)
 
   size_type size_ref = this->generate_size();
   texture_format format_ref = texture_format::rgb;
-  uint sample_count_ref = 3u;
+  uint sample_count_ref = std::min(TypeParam::get_max_sample_count().get(), 3u);
   TypeParam tex(size_ref, format_ref, sample_count_ref, false);
 
   EXPECT_NE(0u, tex.get_handle().get_name());

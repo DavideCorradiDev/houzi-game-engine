@@ -140,10 +140,13 @@ TEST_F(test_gl_object_handle, non_shared_move_constructor)
 
 TEST_F(test_gl_object_handle, shared_owner_uid)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
   window w("Test", vec2u(1u, 1u));
-  gl::context c1(gl::context_settings::get_default(), w);
-  gl::context c2(gl::context_settings::get_default(), w, c1);
-  gl::context c3(gl::context_settings::get_default(), w);
+  gl::context c1(get_test_default_context_settings(), w);
+  gl::context c2(get_test_default_context_settings(), w, c1);
+  gl::context c3(get_test_default_context_settings(), w);
 
   gl::context::set_current(c1, w);
   concrete_gl_shared_object_handle sh1(0u);
@@ -170,10 +173,13 @@ TEST_F(test_gl_object_handle, shared_owner_uid)
 
 TEST_F(test_gl_object_handle, non_shared_owner_uid)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
   window w("Test", vec2u(1u, 1u));
-  gl::context c1(gl::context_settings::get_default(), w);
-  gl::context c2(gl::context_settings::get_default(), w, c1);
-  gl::context c3(gl::context_settings::get_default(), w);
+  gl::context c1(get_test_default_context_settings(), w);
+  gl::context c2(get_test_default_context_settings(), w, c1);
+  gl::context c3(get_test_default_context_settings(), w);
 
   gl::context::set_current(c1, w);
   concrete_gl_non_shared_object_handle nsh1(0u);
