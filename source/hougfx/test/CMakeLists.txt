@@ -22,14 +22,14 @@ INCLUDE_DIRECTORIES(
 # Source files.
 SET(EXE_HOUGFX_TEST_SRC
   hou/gfx/hougfx_test_main.cpp
-  # hou/gfx/test_data.cpp
-  # hou/gfx/test_font.cpp
+  hou/gfx/test_data.cpp
+  hou/gfx/test_font.cpp
   # hou/gfx/test_formatted_text.cpp
   # hou/gfx/test_framebuffer.cpp
   hou/gfx/test_gfx_base.cpp
   hou/gfx/test_gfx_exceptions.cpp
-  # hou/gfx/test_glyph.cpp
-  # hou/gfx/test_glyph_metrics.cpp
+  hou/gfx/test_glyph.cpp
+  hou/gfx/test_glyph_metrics.cpp
   # hou/gfx/test_mesh.cpp
   # hou/gfx/test_mesh2.cpp
   # hou/gfx/test_mesh2_shader_program.cpp
@@ -61,6 +61,14 @@ SET(EXE_HOUGFX_TEST_LIBS
   ${LIB_GOOGLE_MOCK}
 )
 MESSAGE(STATUS "Linked libs: ${EXE_HOUGFX_TEST_LIBS}")
+
+# Embed files in emscripten.
+IF(EMSCRIPTEN)
+  SET(HOU_EMBEDDING_PATHS "--embed-file ${CMAKE_SOURCE_DIR}/source/hougfx/test/data@source/hougfx/test/data")
+  SET(HOU_EMBEDDING_PATHS "${HOU_EMBEDDING_PATHS} --embed-file ${CMAKE_SOURCE_DIR}/source/hougfx/test/output@source/hougfx/test/output")
+  SET(EXE_HOU_FLAGS "${EXE_HOU_FLAGS} ${HOU_EMBEDDING_PATHS}")
+  SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${HOU_EMBEDDING_PATHS}")
+ENDIF()
 
 # Add target.
 ADD_EXECUTABLE(${EXE_HOUGFX_TEST} ${EXE_HOUGFX_TEST_SRC})

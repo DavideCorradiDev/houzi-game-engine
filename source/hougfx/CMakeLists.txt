@@ -23,10 +23,10 @@ INCLUDE_DIRECTORIES(
 
 # Source files.
 SET(LIB_HOUGFX_SRC
-  # src/hou/gfx/font.cpp
+  src/hou/gfx/font.cpp
   src/hou/gfx/gfx_exceptions.cpp
-  # src/hou/gfx/glyph.cpp
-  # src/hou/gfx/glyph_metrics.cpp
+  src/hou/gfx/glyph.cpp
+  src/hou/gfx/glyph_metrics.cpp
   src/hou/gfx/gl_type.cpp
   # src/hou/gfx/formatted_text.cpp
   # src/hou/gfx/framebuffer.cpp

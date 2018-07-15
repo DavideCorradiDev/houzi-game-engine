@@ -127,7 +127,10 @@ TEST_F(test_vertex_array, set_vertex_data_max_attrib_formats)
 
 TEST_F(test_vertex_array, set_element_data)
 {
+  // Currently fails on Emscripten because of the fact that buffers are always
+  // initialized by being bound GL_ARRAY_BUFFER.
   vertex_array va;
   float_buffer vb(std::vector<float>{0, 1});
   va.set_element_data(vb);
+  SUCCEED();
 }
