@@ -1087,7 +1087,7 @@ TYPED_TEST(test_texture_multisampled, multisample_constructor)
 
   size_type size_ref = this->generate_size();
   texture_format format_ref = texture_format::rgb;
-  uint sample_count_ref = 3u;
+  uint sample_count_ref = std::min(TypeParam::get_max_sample_count().get(), 3u);
   TypeParam tex(size_ref, format_ref, sample_count_ref, false);
 
   EXPECT_NE(0u, tex.get_handle().get_name());
