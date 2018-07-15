@@ -25,7 +25,7 @@ SET(EXE_HOUGFX_TEST_SRC
   hou/gfx/test_data.cpp
   hou/gfx/test_font.cpp
   # hou/gfx/test_formatted_text.cpp
-  # hou/gfx/test_framebuffer.cpp
+  hou/gfx/test_framebuffer.cpp
   hou/gfx/test_gfx_base.cpp
   hou/gfx/test_gfx_exceptions.cpp
   hou/gfx/test_glyph.cpp

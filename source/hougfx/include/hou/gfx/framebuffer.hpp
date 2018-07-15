@@ -138,20 +138,6 @@ public:
    */
   void set_depth_attachment(const texture& tex, uint mipmap_level = 0u);
 
-  /** Sets the stencil attachment for this framebuffer.
-   *
-   * \param tex the texture to be attached. The format of the texture must
-   * be stencil or depth_stencil.
-   *
-   * \param mipmap_level the mip map level to bind. It must be a valid mip map
-   * level of texture.
-   *
-   * \throws hou::precondition_violation if mipmap_level is greater or equal
-   * then the number of mipmap levels of tex, or if the format of tex is not
-   * stencil or depth_stencil.
-   */
-  void set_stencil_attachment(const texture& tex, uint mipmap_level = 0u);
-
   /** Sets the depth and stencil attachment for this framebuffer.
    *
    * \param tex the texture to be attached. The format of the texture must
