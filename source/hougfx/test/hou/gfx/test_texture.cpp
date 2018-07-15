@@ -176,8 +176,8 @@ typename Tex::wrap_mode test_texture_base<Tex>::get_alternative_wrap_mode()
 {
   typename Tex::wrap_mode retval;
 
-  std::vector<texture_wrap_mode> wrapModes{texture_wrap_mode::clamp_to_edge,
-    texture_wrap_mode::clamp_to_border, texture_wrap_mode::mirrored_repeat};
+  std::vector<texture_wrap_mode> wrapModes{
+    texture_wrap_mode::clamp_to_edge, texture_wrap_mode::mirrored_repeat};
   for(size_t i = 0; i < retval.size(); ++i)
   {
     retval[i] = wrapModes[i % wrapModes.size()];
