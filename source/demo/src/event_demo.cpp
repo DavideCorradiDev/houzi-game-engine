@@ -6,6 +6,7 @@
 #include "hou/mth/mth_module.hpp"
 #include "hou/sys/sys_module.hpp"
 
+#include "hou/cor/basic_static_string.hpp"
 #include "hou/cor/clock.hpp"
 #include "hou/cor/std_chrono.hpp"
 
@@ -68,6 +69,12 @@ void on_mouse_moved(hou::event::timestamp t, hou::window::uid_type wid,
 void on_mouse_entered(hou::event::timestamp t, hou::window::uid_type wid);
 
 void on_mouse_left(hou::event::timestamp t, hou::window::uid_type wid);
+
+void on_text_editing(hou::event::timestamp t, hou::window::uid_type wid,
+  const hou::static_string<32u>& text, int32_t start, int32_t length);
+
+void on_text_input(hou::event::timestamp t, hou::window::uid_type wid,
+  const hou::static_string<32u>& text);
 
 
 
@@ -282,6 +289,25 @@ void on_mouse_left(hou::event::timestamp t, hou::window::uid_type wid)
 
 
 
+void on_text_editing(hou::event::timestamp t, hou::window::uid_type wid,
+  const hou::static_string<32u>& text, int32_t start, int32_t length)
+{
+  std::cout << "Text editing: " << t << ", window id = " << wid
+            << ", text = " << text << ", start = " << start
+            << ", length = " << length << std::endl;
+}
+
+
+
+void on_text_input(hou::event::timestamp t, hou::window::uid_type wid,
+  const hou::static_string<32u>& text)
+{
+  std::cout << "Text input: " << t << ", window id = " << wid
+            << ", text = " << text << std::endl;
+}
+
+
+
 int main(int, char**)
 {
   hou::cor_module::initialize();
@@ -319,6 +345,9 @@ int main(int, char**)
   hou::event::set_mouse_moved_callback(on_mouse_moved);
   hou::event::set_mouse_entered_callback(on_mouse_entered);
   hou::event::set_mouse_left_callback(on_mouse_left);
+
+  hou::event::set_text_editing_callback(on_text_editing);
+  hou::event::set_text_input_callback(on_text_input);
 
   hou::window w("EventDemo", hou::vec2u(640u, 480u));
   w.set_bordered(true);
