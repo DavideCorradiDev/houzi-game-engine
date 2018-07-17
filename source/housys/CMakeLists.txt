@@ -46,6 +46,7 @@ SET(LIB_HOUSYS_SRC
   src/hou/sys/scan_code.cpp
   src/hou/sys/sys_exceptions.cpp
   src/hou/sys/sys_module.cpp
+  src/hou/sys/text_input.cpp
   src/hou/sys/text_file_in.cpp
   src/hou/sys/text_file_out.cpp
   src/hou/sys/text_stream.cpp

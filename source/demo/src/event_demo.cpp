@@ -10,7 +10,10 @@
 #include "hou/cor/clock.hpp"
 #include "hou/cor/std_chrono.hpp"
 
+#include "hou/mth/rectangle.hpp"
+
 #include "hou/sys/event.hpp"
+#include "hou/sys/text_input.hpp"
 #include "hou/sys/window.hpp"
 
 #include <iostream>
@@ -355,14 +358,20 @@ int main(int, char**)
   w.set_size(hou::vec2u(800u, 600u));
   w.set_visible(true);
 
+  hou::text_input::set_rect(hou::recti(0, 0, 120, 20));
+  hou::text_input::start();
+
   std::cout << "The events in the queue will be printed in the terminal."
             << std::endl;
   std::cout << "Press f1 to hide the window." << std::endl;
+  std::cout << "Press f2 to activate / deactivate text input mode." << std::endl;
 
   while(loop)
   {
     hou::event::process_all();
   }
+
+  hou::text_input::stop();
 
   return EXIT_SUCCESS;
 }
