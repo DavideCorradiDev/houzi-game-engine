@@ -7,6 +7,8 @@
 #include "hou/sys/sys_exceptions.hpp"
 #include "hou/sys/window.hpp"
 
+#include "hou/cor/basic_static_string.hpp"
+
 #include "SDL_events.h"
 #include "SDL_timer.h"
 
@@ -46,6 +48,9 @@ mouse_wheel_callback& get_mouse_wheel_moved_callback();
 mouse_motion_callback& get_mouse_moved_callback();
 window_callback& get_mouse_entered_callback();
 window_callback& get_mouse_left_callback();
+
+text_editing_callback& get_text_editing_callback();
+text_input_callback& get_text_input_callback();
 
 void process(const SDL_Event& event);
 
@@ -222,6 +227,22 @@ window_callback& get_mouse_entered_callback()
 window_callback& get_mouse_left_callback()
 {
   static window_callback callback = nullptr;
+  return callback;
+}
+
+
+
+text_editing_callback& get_text_editing_callback()
+{
+  static text_editing_callback callback = nullptr;
+  return callback;
+}
+
+
+
+text_input_callback& get_text_input_callback()
+{
+  static text_input_callback callback = nullptr;
   return callback;
 }
 
@@ -465,6 +486,26 @@ void process(const SDL_Event& event)
             vec2i(event.motion.x, event.motion.y),
             vec2i(event.motion.xrel, event.motion.yrel));
         }
+      }
+    }
+    break;
+    case SDL_TEXTEDITING:
+    {
+      auto callback = get_text_editing_callback();
+      if(callback != nullptr)
+      {
+        callback(timestamp(event.edit.timestamp), event.edit.windowID,
+          event.edit.text, event.edit.start, event.edit.length);
+      }
+    }
+    break;
+    case SDL_TEXTINPUT:
+    {
+      auto callback = get_text_input_callback();
+      if(callback != nullptr)
+      {
+        callback(timestamp(event.text.timestamp), event.text.windowID,
+          event.text.text);
       }
     }
     break;
@@ -994,6 +1035,47 @@ void generate_mouse_left(const window& w)
   event.window.event = SDL_WINDOWEVENT_LEAVE;
   event.window.data1 = 0;
   event.window.data2 = 0;
+  HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
+}
+
+
+
+void set_text_editing_callback(text_editing_callback f)
+{
+  get_text_editing_callback() = f;
+}
+
+
+
+void generate_text_editing(const window& w, const static_string<32u>& text,
+  int32_t start, int32_t length)
+{
+  SDL_Event event;
+  event.type = SDL_TEXTEDITING;
+  event.edit.timestamp = SDL_GetTicks();
+  event.edit.windowID = w.get_uid();
+  std::copy(text.begin(), text.end(), event.edit.text);
+  event.edit.start = start;
+  event.edit.length = length;
+  HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
+}
+
+
+
+void set_text_input_callback(text_input_callback f)
+{
+  get_text_input_callback() = f;
+}
+
+
+
+void generate_text_input(const window& w, const static_string<32u>& text)
+{
+  SDL_Event event;
+  event.type = SDL_TEXTINPUT;
+  event.text.timestamp = SDL_GetTicks();
+  event.text.windowID = w.get_uid();
+  std::copy(text.begin(), text.end(), event.text.text);
   HOU_SDL_CHECK(SDL_PushEvent(&event) >= 0);
 }
 

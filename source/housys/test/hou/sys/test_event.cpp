@@ -7,6 +7,8 @@
 #include "hou/sys/event.hpp"
 #include "hou/sys/window.hpp"
 
+#include "hou/cor/basic_static_string.hpp"
+
 using namespace hou;
 using namespace testing;
 
@@ -1050,4 +1052,117 @@ TEST_F(test_event, mouse_left_event)
   EXPECT_EQ(1, counter);
   EXPECT_NE(event::timestamp(0), t);
   EXPECT_EQ("NewTitle", w.get_title());
+}
+
+
+
+TEST_F(test_event, text_editing_event)
+{
+  int counter = 0;
+  event::timestamp t(0);
+  window w("EventDemo", vec2u(32u, 16u));
+  static_string<32u> text;
+  int32_t start = 0;
+  int32_t length = 0;
+  auto f = [&](event::timestamp t_in, window::uid_type wid_in,
+             const static_string<32u>& text_in, int32_t start_in,
+             int32_t length_in) {
+    ++counter;
+    t = t_in;
+    window::get_from_uid(wid_in).set_title("NewTitle");
+    text = text_in;
+    start = start_in;
+    length = length_in;
+  };
+
+  event::flush_all();
+
+  event::generate_text_editing(w, "hello!!", 2, 3);
+  event::process_next();
+  EXPECT_EQ(0, counter);
+  EXPECT_EQ(event::timestamp(0), t);
+  EXPECT_EQ("EventDemo", w.get_title());
+  EXPECT_EQ(static_string<32u>(""), text);
+  EXPECT_EQ(0, start);
+  EXPECT_EQ(0, length);
+
+  event::set_text_editing_callback(f);
+  event::generate_text_editing(w, "hello!!", 2, 3);
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+  EXPECT_EQ(static_string<32u>("hello!!"), text);
+  EXPECT_EQ(2, start);
+  EXPECT_EQ(3, length);
+
+  event::generate_text_editing(w, "01234567890123456789012345678901", 5, 2);
+  event::process_next();
+  EXPECT_EQ(2, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+  EXPECT_EQ(32u, text.length());
+  EXPECT_EQ(static_string<32u>("01234567890123456789012345678901"), text);
+  EXPECT_EQ(5, start);
+  EXPECT_EQ(2, length);
+
+  event::set_text_editing_callback(nullptr);
+  event::generate_text_editing(w, "hello!!", 2, 3);
+  event::process_next();
+  EXPECT_EQ(2, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+  EXPECT_EQ(static_string<32u>("01234567890123456789012345678901"), text);
+  EXPECT_EQ(5, start);
+  EXPECT_EQ(2, length);
+}
+
+
+
+TEST_F(test_event, text_input_event)
+{
+  int counter = 0;
+  event::timestamp t(0);
+  window w("EventDemo", vec2u(32u, 16u));
+  static_string<32u> text;
+  auto f = [&](event::timestamp t_in, window::uid_type wid_in,
+             const static_string<32u>& text_in) {
+    ++counter;
+    t = t_in;
+    window::get_from_uid(wid_in).set_title("NewTitle");
+    text = text_in;
+  };
+
+  event::flush_all();
+
+  event::generate_text_input(w, "hello!!");
+  event::process_next();
+  EXPECT_EQ(0, counter);
+  EXPECT_EQ(event::timestamp(0), t);
+  EXPECT_EQ("EventDemo", w.get_title());
+  EXPECT_EQ(static_string<32u>(""), text);
+
+  event::set_text_input_callback(f);
+  event::generate_text_input(w, "hello!!");
+  event::process_next();
+  EXPECT_EQ(1, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+  EXPECT_EQ(static_string<32u>("hello!!"), text);
+
+  event::generate_text_input(w, "01234567890123456789012345678901");
+  event::process_next();
+  EXPECT_EQ(2, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+  EXPECT_EQ(32u, text.length());
+  EXPECT_EQ(static_string<32u>("01234567890123456789012345678901"), text);
+
+  event::set_text_input_callback(nullptr);
+  event::generate_text_input(w, "hello!!");
+  event::process_next();
+  EXPECT_EQ(2, counter);
+  EXPECT_NE(event::timestamp(0), t);
+  EXPECT_EQ("NewTitle", w.get_title());
+  EXPECT_EQ(static_string<32u>("01234567890123456789012345678901"), text);
 }

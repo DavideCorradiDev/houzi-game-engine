@@ -11,6 +11,7 @@
 
 #include "hou/sys/sys_config.hpp"
 
+#include "hou/cor/basic_static_string_fwd.hpp"
 #include "hou/cor/std_chrono.hpp"
 
 #include <functional>
@@ -112,6 +113,18 @@ using mouse_wheel_callback
  */
 using mouse_motion_callback = std::function<void(timestamp, window::uid_type,
   mouse_buttons_state, const vec2i&, const vec2i&)>;
+
+/**
+ * Callback function type for text editing events.
+ */
+using text_editing_callback = std::function<void(
+  timestamp, window::uid_type, const static_string<32u>&, int32_t, int32_t)>;
+
+/**
+ * Callback function type for text input events.
+ */
+using text_input_callback
+  = std::function<void(timestamp, window::uid_type, const static_string<32u>&)>;
 
 /**
  * Sets the callback for quit events.
@@ -486,6 +499,44 @@ HOU_SYS_API void set_mouse_left_callback(window_callback f);
  * \param w the window.
  */
 HOU_SYS_API void generate_mouse_left(const window& w);
+
+/**
+ * Sets the callback for text editing events.
+ *
+ * \param f the callback.
+ */
+HOU_SYS_API void set_text_editing_callback(text_editing_callback f);
+
+/**
+ * Generates a text editing event.
+ *
+ * \param w the window.
+ *
+ * \param text the null-terminated editing text in UTF-8 encoding.
+ *
+ * \param start the location to begin editing from.
+ *
+ * \param length the number of characters to edit from the start point.
+ */
+HOU_SYS_API void generate_text_editing(const window& w,
+  const static_string<32u>& text, int32_t start, int32_t length);
+
+/**
+ * Sets the callback for text input events.
+ *
+ * \param f the callback.
+ */
+HOU_SYS_API void set_text_input_callback(text_input_callback f);
+
+/**
+ * Generates a text input event.
+ *
+ * \param w the window.
+ *
+ * \param text the null-terminated input text in UTF-8 encoding.
+ */
+HOU_SYS_API void generate_text_input(
+  const window& w, const static_string<32u>& text);
 
 }  // namespace event
 
