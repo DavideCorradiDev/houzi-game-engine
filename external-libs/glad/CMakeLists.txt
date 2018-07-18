@@ -33,8 +33,10 @@ ELSE()
 ENDIF()
 
 IF(NOT HOU_CFG_BUILD_STATIC_LIBS)
-# It is necessary to define the export symbols like this, or MSVC can't link.
+  # It is necessary to define the export symbols like this, or MSVC can't link.
   TARGET_COMPILE_DEFINITIONS(${LIB_GLAD}
     PUBLIC GLAD_GLAPI_EXPORT
     PRIVATE GLAD_GLAPI_EXPORT_BUILD)
+ELSE()
+  TARGET_LINK_LIBRARIES(${LIB_GLAD} dl)
 ENDIF()
