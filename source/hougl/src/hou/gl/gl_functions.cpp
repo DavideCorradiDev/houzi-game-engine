@@ -59,6 +59,15 @@ void disable(GLenum val)
 
 
 
+void get_float_v(GLenum variable, GLfloat* value)
+{
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  glGetFloatv(variable, value);
+  HOU_GL_CHECK_ERROR();
+}
+
+
+
 void get_integer_v(GLenum variable, GLint* value)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
@@ -113,42 +122,7 @@ void clear(GLenum mask)
 
 
 
-GLboolean is_blending_enabled()
-{
-  return is_enabled(GL_BLEND);
-}
-
-
-
-GLenum get_source_blending()
-{
-  return get_integer(GL_BLEND_SRC_ALPHA);
-}
-
-
-
-GLenum get_destination_blending()
-{
-  return get_integer(GL_BLEND_DST_ALPHA);
-}
-
-
-
-void enable_blending()
-{
-  enable(GL_BLEND);
-}
-
-
-
-void disable_blending()
-{
-  disable(GL_BLEND);
-}
-
-
-
-void set_blending(GLenum sfactor, GLenum dfactor)
+void set_blend_func(GLenum sfactor, GLenum dfactor)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   glBlendFunc(sfactor, dfactor);
@@ -157,23 +131,21 @@ void set_blending(GLenum sfactor, GLenum dfactor)
 
 
 
-GLboolean is_multisampling_enabled()
+
+void set_blend_equation(GLenum mode)
 {
-  return is_enabled(GL_MULTISAMPLE);
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  glBlendEquation(mode);
+  HOU_GL_CHECK_ERROR();
 }
 
 
 
-void enable_multisampling()
+void set_blend_color(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
 {
-  enable(GL_MULTISAMPLE);
-}
-
-
-
-void disable_multisampling()
-{
-  disable(GL_MULTISAMPLE);
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  glBlendColor(r, g, b, a);
+  HOU_GL_CHECK_ERROR();
 }
 
 

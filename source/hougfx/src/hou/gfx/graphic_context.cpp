@@ -4,6 +4,8 @@
 
 #include "hou/gfx/graphic_context.hpp"
 
+#include "hou/gfx/graphics_state.hpp"
+
 #include "hou/gl/gl_context_settings.hpp"
 #include "hou/gl/gl_functions.hpp"
 
@@ -79,9 +81,13 @@ void graphic_context::initialize()
   gl::set_unpack_alignment(1);
   gl::set_pack_alignment(1);
 
+  // vsync.
+  set_vsync_mode(vsync_mode::enabled);
+
   // Enable alpha blending.
-  gl::enable_blending();
-  gl::set_blending(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  set_blending_enabled(true);
+  set_source_blending_factor(blending_factor::src_alpha);
+  set_destination_blending_factor(blending_factor::one_minus_src_alpha);
 }
 
 }  // namespace hou

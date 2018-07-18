@@ -5,7 +5,6 @@
 
 #include "hou/gfx/test_data.hpp"
 #include "hou/gfx/test_gfx_base.hpp"
-#include "hou/test.hpp"
 
 #include "hou/gfx/texture.hpp"
 #include "hou/gfx/texture_channel_mapping.hpp"

@@ -23,16 +23,19 @@ INCLUDE_DIRECTORIES(
 
 # Source files.
 SET(LIB_HOUGFX_SRC
+  src/hou/gfx/blending_equation.cpp
+  src/hou/gfx/blending_factor.cpp
   src/hou/gfx/font.cpp
-  src/hou/gfx/gfx_exceptions.cpp
-  src/hou/gfx/glyph.cpp
-  src/hou/gfx/glyph_metrics.cpp
-  src/hou/gfx/gl_type.cpp
   src/hou/gfx/formatted_text.cpp
   src/hou/gfx/framebuffer.cpp
   src/hou/gfx/framebuffer_blit_filter.cpp
+  src/hou/gfx/gfx_exceptions.cpp
   src/hou/gfx/gfx_module.cpp
+  src/hou/gfx/glyph.cpp
+  src/hou/gfx/glyph_metrics.cpp
+  src/hou/gfx/gl_type.cpp
   src/hou/gfx/graphic_context.cpp
+  src/hou/gfx/graphics_state.cpp
   src/hou/gfx/mesh.cpp
   src/hou/gfx/mesh2.cpp
   src/hou/gfx/mesh2_shader_program.cpp

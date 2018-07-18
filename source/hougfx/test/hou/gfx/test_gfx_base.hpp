@@ -5,7 +5,7 @@
 #ifndef TEST_HOU_GFX_TEST_GFX_BASE_HPP
 #define TEST_HOU_GFX_TEST_GFX_BASE_HPP
 
-#include <gtest/gtest.h>
+#include "hou/test.hpp"
 
 #include "hou/gfx/graphic_context.hpp"
 

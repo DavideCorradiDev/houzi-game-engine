@@ -5,6 +5,7 @@
 #include "hou/test.hpp"
 
 #include "hou/gfx/graphic_context.hpp"
+#include "hou/gfx/graphics_state.hpp"
 
 #include "hou/gl/gl_functions.hpp"
 #include "hou/gl/gl_texture_handle.hpp"
@@ -189,10 +190,13 @@ TEST_F(test_graphic_context, default_context_parameters)
   EXPECT_EQ(1, gl::get_unpack_alignment());
   EXPECT_EQ(1, gl::get_pack_alignment());
 
-  EXPECT_TRUE(gl::is_blending_enabled());
-  EXPECT_EQ(static_cast<GLenum>(GL_SRC_ALPHA), gl::get_source_blending());
-  EXPECT_EQ(static_cast<GLenum>(GL_ONE_MINUS_SRC_ALPHA),
-    gl::get_destination_blending());
+  EXPECT_TRUE(is_multisampling_enabled());
+  EXPECT_TRUE(is_blending_enabled());
+  EXPECT_EQ(blending_factor::src_alpha, get_source_blending_factor());
+  EXPECT_EQ(
+    blending_factor::one_minus_src_alpha, get_destination_blending_factor());
+  EXPECT_EQ(blending_equation::add, get_blending_equation());
+  EXPECT_EQ(color::transparent(), get_blending_color());
 }
 
 

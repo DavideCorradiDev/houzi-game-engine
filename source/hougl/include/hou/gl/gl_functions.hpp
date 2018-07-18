@@ -27,6 +27,7 @@ HOU_GL_API GLboolean is_enabled(GLenum val);
 HOU_GL_API void enable(GLenum val);
 HOU_GL_API void disable(GLenum val);
 
+HOU_GL_API void get_float_v(GLenum variable, GLfloat* value);
 HOU_GL_API void get_integer_v(GLenum variable, GLint* value);
 HOU_GL_API GLint get_integer(GLenum variable);
 
@@ -35,16 +36,9 @@ HOU_GL_API void set_clear_depth(GLfloat depth);
 HOU_GL_API void set_clear_stencil(GLint stencil);
 HOU_GL_API void clear(GLenum mask);
 
-HOU_GL_API GLboolean is_blending_enabled();
-HOU_GL_API GLenum get_source_blending();
-HOU_GL_API GLenum get_destination_blending();
-HOU_GL_API void enable_blending();
-HOU_GL_API void disable_blending();
-HOU_GL_API void set_blending(GLenum sfactor, GLenum dfactor);
-
-HOU_GL_API GLboolean is_multisampling_enabled();
-HOU_GL_API void enable_multisampling();
-HOU_GL_API void disable_multisampling();
+HOU_GL_API void set_blend_func(GLenum sfactor, GLenum dfactor);
+HOU_GL_API void set_blend_equation(GLenum mode);
+HOU_GL_API void set_blend_color(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 
 HOU_GL_API GLint get_unpack_alignment();
 HOU_GL_API void set_unpack_alignment(GLint value);
