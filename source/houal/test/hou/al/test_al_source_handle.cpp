@@ -31,12 +31,12 @@ TEST_F(test_al_source_handle, generation)
 
 
 
-#ifdef HOU_ENABLE_AL_ERROR_CHECKS
 TEST_F(test_al_source_handle_death_test, no_context_creation)
-#else
-TEST_F(test_al_source_handle_death_test, DISABLED_no_context_creation)
-#endif
 {
+#ifndef HOU_ENABLE_AL_ERROR_CHECKS
+  SKIP("AL error checks are disabled in this build.");
+#endif
+
   al::context::unset_current();
   EXPECT_ERROR_0(al::source_handle::generate(), al::missing_context_error);
 }
