@@ -17,29 +17,34 @@ namespace hou
 namespace prv
 {
 
-/** Math module initialization manager implementation.
+/**
+ * Math module initialization manager implementation.
  */
 class HOU_MTH_API mth_module_impl : public non_instantiable
 {
 public:
-  /** Retrieves the module name as string.
+  /**
+   * Retrieves the module name as string.
    *
    * \return the module name.
    */
   static std::string get_name();
 
-  /** Sets up the mthtem module.
+  /**
+   * Sets up the mthtem module.
    */
   static bool on_initialize();
 
-  /** Tears down the mthtem module.
+  /**
+   * Tears down the mthtem module.
    */
   static void on_terminate() noexcept;
 };
 
 }
 
-/** Math module initialization manager.
+/**
+ * Math module initialization manager.
  */
 using mth_module = module<prv::mth_module_impl>;
 

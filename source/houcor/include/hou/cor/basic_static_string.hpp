@@ -18,7 +18,8 @@
 namespace hou
 {
 
-/** Stack allocated string.
+/**
+ * Stack allocated string.
  *
  * \tparam CharT the character type.
  *
@@ -73,13 +74,15 @@ public:
   using const_reverse_iterator = typename buffer_type::const_reverse_iterator;
 
 public:
-  /** Default constructor.
+  /**
+   * Default constructor.
    *
    * Constructs an empty string.
    */
   basic_static_string() noexcept;
 
-  /** Constructs the string with count copies of character ch.
+  /**
+   * Constructs the string with count copies of character ch.
    *
    * \param count the number of copies of ch.
    *
@@ -87,7 +90,8 @@ public:
    */
   basic_static_string(size_t count, CharT ch) noexcept;
 
-  /** Constructs the string with a copy of the null-terminated character string
+  /**
+   * Constructs the string with a copy of the null-terminated character string
    * pointed to by s.
    *
    * If the length of s is greater than N, only the first N characters of s
@@ -101,7 +105,8 @@ public:
    */
   basic_static_string(const CharT* s) noexcept;
 
-  /** Constructs the string with a copy of the contents of s.
+  /**
+   * Constructs the string with a copy of the contents of s.
    *
    * If the length of s is greater than N, only the first N characters of s
    * will be copied.
@@ -112,7 +117,8 @@ public:
   basic_static_string(
     const std::basic_string<CharT, Traits, Allocator>& s) noexcept;
 
-  /** Accesses the specified character with bounds checking.
+  /**
+   * Accesses the specified character with bounds checking.
    *
    * \param pos the position of the requested character.
    *
@@ -122,7 +128,8 @@ public:
    */
   CharT& at(size_type pos);
 
-  /** Accesses the specified character with bounds checking.
+  /**
+   * Accesses the specified character with bounds checking.
    *
    * \param pos the position of the requested character.
    *
@@ -132,7 +139,8 @@ public:
    */
   const CharT& at(size_type pos) const;
 
-  /** Accesses the specified character without bounds checking.
+  /**
+   * Accesses the specified character without bounds checking.
    *
    * The behaviour is undefined if pos > size().
    *
@@ -142,7 +150,8 @@ public:
    */
   CharT& operator[](size_type pos) noexcept;
 
-  /** Accesses the specified character without bounds checking.
+  /**
+   * Accesses the specified character without bounds checking.
    *
    * The behaviour is undefined if pos > size().
    *
@@ -152,7 +161,8 @@ public:
    */
   const CharT& operator[](size_type pos) const noexcept;
 
-  /** Accesses the first character.
+  /**
+   * Accesses the first character.
    *
    * The behaviour is undefined if empty() == true.
    *
@@ -160,7 +170,8 @@ public:
    */
   CharT& front() noexcept;
 
-  /** Accesses the first character.
+  /**
+   * Accesses the first character.
    *
    * The behaviour is undefined if empty() == true.
    *
@@ -168,7 +179,8 @@ public:
    */
   const CharT& front() const noexcept;
 
-  /** Accesses the last character.
+  /**
+   * Accesses the last character.
    *
    * The behaviour is undefined if empty() == true.
    *
@@ -176,7 +188,8 @@ public:
    */
   CharT& back() noexcept;
 
-  /** Accesses the last character.
+  /**
+   * Accesses the last character.
    *
    * The behaviour is undefined if empty() == true.
    *
@@ -184,7 +197,8 @@ public:
    */
   const CharT& back() const noexcept;
 
-  /** Returns a pointer to the first character.
+  /**
+   * Returns a pointer to the first character.
    *
    * If empty() == true the return pointer should not be dereferenced.
    *
@@ -192,7 +206,8 @@ public:
    */
   CharT* data() noexcept;
 
-  /** Returns a pointer to the first character.
+  /**
+   * Returns a pointer to the first character.
    *
    * If empty() == true the return pointer should not be dereferenced.
    *
@@ -200,7 +215,8 @@ public:
    */
   const CharT* data() const noexcept;
 
-  /** Returns a C character array version of the string.
+  /**
+   * Returns a C character array version of the string.
    *
    * If empty() == true the return pointer should not be dereferenced.
    *
@@ -208,7 +224,8 @@ public:
    */
   const CharT* c_str() const noexcept;
 
-  /** Return a std::basic_string version of the string.
+  /**
+   * Return a std::basic_string version of the string.
    *
    * \throws std::bad_alloc.
    *
@@ -217,121 +234,137 @@ public:
   template <typename Allocator>
   operator std::basic_string<CharT, Traits, Allocator>() const;
 
-  /** Returns an iterator to the beginning.
-   * 
+  /**
+   * Returns an iterator to the beginning.
+   *
    * If empty() == true the return iterator should not be used.
    *
    * \return an iterator to the beginning.
    */
   iterator begin() noexcept;
 
-  /** Returns an iterator to the beginning.
-   * 
+  /**
+   * Returns an iterator to the beginning.
+   *
    * If empty() == true the return iterator should not be used.
    *
    * \return an iterator to the beginning.
    */
   const_iterator begin() const noexcept;
 
-  /** Returns an iterator to the end.
-   * 
+  /**
+   * Returns an iterator to the end.
+   *
    * If empty() == true the return iterator should not be used.
    *
    * \return an iterator to the end.
    */
   iterator end() noexcept;
 
-  /** Returns an iterator to the end.
-   * 
+  /**
+   * Returns an iterator to the end.
+   *
    * If empty() == true the return iterator should not be used.
    *
    * \return an iterator to the end.
    */
   const_iterator end() const noexcept;
 
-  /** Returns an iterator to the beginning.
-   * 
+  /**
+   * Returns an iterator to the beginning.
+   *
    * If empty() == true the return iterator should not be used.
    *
    * \return an iterator to the beginning.
    */
   const_iterator cbegin() const noexcept;
 
-  /** Returns an iterator to the end.
-   * 
+  /**
+   * Returns an iterator to the end.
+   *
    * If empty() == true the return iterator should not be used.
    *
    * \return an iterator to the end.
    */
   const_iterator cend() const noexcept;
 
-  /** Returns a reverse iterator to the beginning.
-   * 
+  /**
+   * Returns a reverse iterator to the beginning.
+   *
    * If empty() == true the return iterator should not be used.
    *
    * \return a reverse iterator to the beginning.
    */
   reverse_iterator rbegin() noexcept;
 
-  /** Returns a reverse iterator to the beginning.
-   * 
+  /**
+   * Returns a reverse iterator to the beginning.
+   *
    * If empty() == true the return iterator should not be used.
    *
    * \return a reverse iterator to the beginning.
    */
   const_reverse_iterator rbegin() const noexcept;
 
-  /** Returns a reverse iterator to the end.
-   * 
+  /**
+   * Returns a reverse iterator to the end.
+   *
    * If empty() == true the return iterator should not be used.
    *
    * \return a reverse iterator to the end.
    */
   reverse_iterator rend() noexcept;
 
-  /** Returns a reverse iterator to the beginning.
-   * 
+  /**
+   * Returns a reverse iterator to the beginning.
+   *
    * If empty() == true the return iterator should not be used.
    *
    * \return a reverse iterator to the beginning.
    */
   const_reverse_iterator rend() const noexcept;
 
-  /** Returns a reverse iterator to the end.
-   * 
+  /**
+   * Returns a reverse iterator to the end.
+   *
    * If empty() == true the return iterator should not be used.
    *
    * \return a reverse iterator to the end.
    */
   const_reverse_iterator crbegin() const noexcept;
 
-  /** Returns a reverse iterator to the end.
-   * 
+  /**
+   * Returns a reverse iterator to the end.
+   *
    * If empty() == true the return iterator should not be used.
    *
    * \return a reverse iterator to the end.
    */
   const_reverse_iterator crend() const noexcept;
 
-  /** Checks whether the string is empty.
+  /**
+   * Checks whether the string is empty.
    *
    * \return true if the string is empty.
    */
   bool empty() const noexcept;
 
-  /** Returns the number of characters.
+  /**
+   * Returns the number of characters.
    *
    * \return the number of characters.
    */
   size_t size() const noexcept;
 
-  /** Returns the number of characters.
+  /**
+   * Returns the number of characters.
    *
    * \return the number of characters.
    */
   size_t length() const noexcept;
 
-  /** Returns the maximum number of characters that can be held.
+  /**
+   * Returns the maximum number of characters that can be held.
    *
    * This is equal to N.
    *
@@ -344,7 +377,8 @@ private:
   size_t m_size;
 };
 
-/** Output stream operator.
+/**
+ * Output stream operator.
  *
  * \tparam CharT the character type.
  *
@@ -363,7 +397,8 @@ std::basic_ostream<CharT, Traits>& operator<<(
   std::basic_ostream<CharT, Traits>& os,
   const basic_static_string<CharT, N, Traits>& s);
 
-/** Checks if two basic_static_string objects are equal.
+/**
+ * Checks if two basic_static_string objects are equal.
  *
  * \tparam CharT the character type.
  *
@@ -381,7 +416,8 @@ template <typename CharT, size_t N, typename Traits>
 bool operator==(const basic_static_string<CharT, N, Traits>& lhs,
   const basic_static_string<CharT, N, Traits>& rhs) noexcept;
 
-/** Checks if two basic_static_string objects are not equal.
+/**
+ * Checks if two basic_static_string objects are not equal.
  *
  * \tparam CharT the character type.
  *

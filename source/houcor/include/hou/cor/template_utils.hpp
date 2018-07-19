@@ -41,7 +41,8 @@ struct is_contiguous_container_helper<T, false> : public std::false_type
 
 }  // namespace prv
 
-/** Template checker to determine if the type is a contiguous container.
+/**
+ * Template checker to determine if the type is a contiguous container.
  *
  * The check is true if T has a member type named pointer and a member
  * function named data, and if the type returned by data is pointer.
@@ -55,7 +56,8 @@ struct is_contiguous_container
   : public prv::is_contiguous_container_helper<std::remove_cv_t<T>>
 {};
 
-/** Class implementing a conjunction condition for variadic template parameters.
+/**
+ * Class implementing a conjunction condition for variadic template parameters.
  *
  * \tparam b the template parameter conditions.
  */
@@ -63,7 +65,8 @@ template <bool... b>
 struct conjunction
 {};
 
-/** Specialization of conjunction for multiple boolean variables.
+/**
+ * Specialization of conjunction for multiple boolean variables.
  *
  * \tparam Head the first boolean variable.
  *
@@ -74,7 +77,8 @@ struct conjunction<Head, Tail...>
   : std::integral_constant<bool, Head && conjunction<Tail...>::value>
 {};
 
-/** Specialization of conjunction for a single boolean variable.
+/**
+ * Specialization of conjunction for a single boolean variable.
  *
  * \tparam the boolean value.
  */

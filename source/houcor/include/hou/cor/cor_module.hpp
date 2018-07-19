@@ -17,29 +17,34 @@ namespace hou
 namespace prv
 {
 
-/** Core module initialization manager implementation.
+/**
+ * Core module initialization manager implementation.
  */
 class HOU_COR_API cor_module_impl : public non_instantiable
 {
 public:
-  /** Retrieves the module name as string.
+  /**
+   * Retrieves the module name as string.
    *
    * \return the module name.
    */
   static std::string get_name();
 
-  /** Sets up the cortem module.
+  /**
+   * Sets up the cortem module.
    */
   static bool on_initialize();
 
-  /** Tears down the cortem module.
+  /**
+   * Tears down the cortem module.
    */
   static void on_terminate() noexcept;
 };
 
 }
 
-/** Core module initialization manager.
+/**
+ * Core module initialization manager.
  */
 using cor_module = module<prv::cor_module_impl>;
 

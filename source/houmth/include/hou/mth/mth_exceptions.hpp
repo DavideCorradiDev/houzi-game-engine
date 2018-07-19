@@ -14,14 +14,16 @@
 namespace hou
 {
 
-/** Inversion error.
+/**
+ * Inversion error.
  *
  * Thrown when trying to invert a non-invertible object.
  */
 class HOU_MTH_API inversion_error : public exception
 {
 public:
-  /** Constructor.
+  /**
+   * Constructor.
    *
    * \param path the path to the source file where the error happened.
    *

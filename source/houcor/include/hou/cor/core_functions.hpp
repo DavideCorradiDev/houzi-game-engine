@@ -15,7 +15,8 @@
 namespace hou
 {
 
-/** Checks if two floating point numbers are equal with the given accuracy.
+/**
+ * Checks if two floating point numbers are equal with the given accuracy.
  *
  * A specialization is provided only for float and double.
  *
@@ -34,8 +35,8 @@ namespace hou
 template <typename T,
   typename Enable = std::enable_if_t<std::is_floating_point<T>::value>>
 bool close(T lhs, T rhs, T acc = std::numeric_limits<T>::epsilon()) noexcept;
-
-/** Checks if the elements of two containers are close with the given
+/**
+ * Checks if the elements of two containers are close with the given
  * accuracy.
  *
  * The first container is fully defined by the range provided by begin1 and
@@ -68,7 +69,8 @@ template <typename T, typename InputIt1, typename InputIt2,
 constexpr bool container_close(InputIt1 begin1, InputIt1 end1, InputIt2 begin2,
   T acc = std::numeric_limits<T>::epsilon()) noexcept;
 
-/** Outputs a container to the given stream.
+/**
+ * Outputs a container to the given stream.
  *
  * \tparam Iterator the input iterator type.
  *

@@ -12,29 +12,35 @@
 namespace hou
 {
 
-/** Non instantiable class.
+/**
+ * Non instantiable class.
  *
  * A class inheriting from non_instantiable cannot be instantiated.
  */
 class non_instantiable
 {
-  /** Deleted default constructor.
+  /**
+   * Deleted default constructor.
    */
   non_instantiable() = delete;
 
-  /** Deleted copy constructor.
+  /**
+   * Deleted copy constructor.
    */
   non_instantiable(const non_instantiable&) = delete;
 
-  /** Deleted move constructor.
+  /**
+   * Deleted move constructor.
    */
   non_instantiable(non_instantiable&&) = delete;
 
-  /** Deleted copy assignment operator.
+  /**
+   * Deleted copy assignment operator.
    */
   non_instantiable& operator=(const non_instantiable&) = delete;
 
-  /** Deleted move assignment operator.
+  /**
+   * Deleted move assignment operator.
    */
   non_instantiable& operator=(non_instantiable&&) = delete;
 };

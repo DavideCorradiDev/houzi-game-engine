@@ -14,7 +14,8 @@
 namespace hou
 {
 
-/** Assertion violation error.
+/**
+ * Assertion violation error.
  *
  * This exception is the base class for all exception classes used for
  * assertions.
@@ -22,7 +23,8 @@ namespace hou
 class HOU_COR_API assertion_violation : public exception
 {
 public:
-  /** Constructor.
+  /**
+   * Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
@@ -38,7 +40,8 @@ public:
     const std::string& message, const std::string& condition);
 };
 
-/** Precondition violation error.
+/**
+ * Precondition violation error.
  *
  * This exception is thrown when a function precondition has been violated.
  * This reflects a programming error, and exection should be terminated.
@@ -46,7 +49,8 @@ public:
 class HOU_COR_API precondition_violation : public assertion_violation
 {
 public:
-  /** Constructor.
+  /**
+   * Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
@@ -60,7 +64,8 @@ public:
     const std::string& path, uint line, const std::string& condition);
 };
 
-/** Postcondition violation error.
+/**
+ * Postcondition violation error.
  *
  * This exception is thrown when a function postcondition has been violated.
  * This reflects a programming error, and exection should be terminated.
@@ -68,7 +73,8 @@ public:
 class HOU_COR_API postcondition_violation : public assertion_violation
 {
 public:
-  /** Constructor.
+  /**
+   * Constructor.
    *
    * \param path the path to the source file where the error happened.
    *
@@ -82,7 +88,8 @@ public:
     const std::string& path, uint line, const std::string& condition);
 };
 
-/** Invariant violation error.
+/**
+ * Invariant violation error.
  *
  * This exception is thrown when an invariant has been violated.
  * This reflects a programming error, and exection should be terminated.
@@ -90,7 +97,8 @@ public:
 class HOU_COR_API invariant_violation : public assertion_violation
 {
 public:
-  /** Constructor.
+  /**
+   * Constructor.
    *
    * \param path the path to the source file where the error happened.
    *

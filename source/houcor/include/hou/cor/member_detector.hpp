@@ -8,7 +8,8 @@
 #include "hou/cor/cor_config.hpp"
 
 
-/** Generate a member detector helper to be used in template conditions.
+/**
+ * Generate a member detector helper to be used in template conditions.
  *
  * This macro creates a detector of member X called has_member_X.
  * If class T has a member called X, has_member_X<T>::value will be true,
@@ -66,7 +67,8 @@
 
 
 
-/** Generate a type detector helper to be used in template conditions.
+/**
+ * Generate a type detector helper to be used in template conditions.
  *
  * This macro created a detector of type X called has_member_type_X.
  * If class T has a nested class or typedef called X,

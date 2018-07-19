@@ -22,7 +22,8 @@
 namespace hou
 {
 
-/** Represents a rotation in 2d space.
+/**
+ * Represents a rotation in 2d space.
  *
  * The rotation is internally represented as an angle expressed in radians in
  * the range -pi\<float\>(); Pi\].
@@ -33,28 +34,33 @@ template <typename T>
 class rotation2
 {
 public:
-  /** The value type. */
+  /**
+   * The value type. */
   using value_type = T;
 
 public:
-  /** Returns the identity rotation.
+  /**
+   * Returns the identity rotation.
    *
    * \return the identity rotation.
    */
   static const rotation2& identity() noexcept;
 
 public:
-  /** Creates an identity rotation.
+  /**
+   * Creates an identity rotation.
    */
   constexpr rotation2() noexcept;
 
-  /** Creates a rotation with the given rotation angle.
+  /**
+   * Creates a rotation with the given rotation angle.
    *
    * \param angle the angle in radians.
    */
   explicit constexpr rotation2(T angle) noexcept;
 
-  /** Creates a rotation with the given rotation matrix.
+  /**
+   * Creates a rotation with the given rotation matrix.
    *
    * Throws if the matrix is not a valid rotation matrix (determinant
    * equal to one and transpose equal to its inverse).
@@ -66,7 +72,8 @@ public:
    */
   explicit constexpr rotation2(const mat2x2<T>& m);
 
-  /** Creates a rotation from a rotation with different scalar type.
+  /**
+   * Creates a rotation from a rotation with different scalar type.
    *
    * \tparam U the other scalar type.
    *
@@ -76,7 +83,8 @@ public:
     typename Enable = std::enable_if_t<std::is_convertible<U, T>::value>>
   constexpr rotation2(const rotation2<U>& other) noexcept;
 
-  /** Returns the rotation angle.
+  /**
+   * Returns the rotation angle.
    *
    * The angle is expressed in radians and included in the range
    * (-pi\<float\>(); Pi\].
@@ -85,13 +93,15 @@ public:
    */
   constexpr T get_angle() const noexcept;
 
-  /** Returns the rotation matrix.
+  /**
+   * Returns the rotation matrix.
    *
    * \return the rotation matrix.
    */
   constexpr mat2x2<T> get_matrix() const noexcept;
 
-  /** Combines this rotation with the given rotation.
+  /**
+   * Combines this rotation with the given rotation.
    *
    * \param rhs the rotation to be combined.
    *
@@ -99,7 +109,8 @@ public:
    */
   constexpr rotation2& operator*=(const rotation2& rhs) noexcept;
 
-  /** Inverts this rotation.
+  /**
+   * Inverts this rotation.
    *
    * \return a reference to this rotation after the inversion.
    */
@@ -118,7 +129,8 @@ private:
   T m_angle;
 };
 
-/** Computes the combination of two rotations.
+/**
+ * Computes the combination of two rotations.
  *
  * \tparam T the scalar type.
  *
@@ -132,7 +144,8 @@ template <typename T>
 constexpr rotation2<T> operator*(
   rotation2<T> lhs, const rotation2<T>& rhs) noexcept;
 
-/** Computes the inverse of the given rotation.
+/**
+ * Computes the inverse of the given rotation.
  *
  * \tparam T the scalar type.
  *
@@ -143,7 +156,8 @@ constexpr rotation2<T> operator*(
 template <typename T>
 constexpr rotation2<T> inverse(rotation2<T> r) noexcept;
 
-/** Checks if two rotations are equal.
+/**
+ * Checks if two rotations are equal.
  *
  * \tparam T the scalar type.
  *
@@ -157,7 +171,8 @@ template <typename T>
 constexpr bool operator==(
   const rotation2<T>& lhs, const rotation2<T>& rhs) noexcept;
 
-/** Checks if two rotations are not equal.
+/**
+ * Checks if two rotations are not equal.
  *
  * \tparam T the scalar type.
  *
@@ -171,7 +186,8 @@ template <typename T>
 constexpr bool operator!=(
   const rotation2<T>& lhs, const rotation2<T>& rhs) noexcept;
 
-/** Checks if two rotations are equal with the given accuracy.
+/**
+ * Checks if two rotations are equal with the given accuracy.
  *
  * \tparam T the scalar type.
  *
@@ -187,7 +203,8 @@ template <typename T>
 constexpr bool close(const rotation2<T>& lhs, const rotation2<T>& rhs,
   T acc = std::numeric_limits<T>::epsilon()) noexcept;
 
-/** Writes the object into a stream.
+/**
+ * Writes the object into a stream.
  *
  * \tparam T the scalar type.
  *

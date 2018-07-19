@@ -7,6 +7,11 @@
 
 #include "hou/cor/cor_config.hpp"
 
+// The macros in this file can be called to use pragmas in an almost
+// platform-indipendent way.
+// Pragmas are still defined according to a specific compiler, but they will
+// be ignored if a different compiler is used, resulting in portable code.
+
 // clang-format off
 #if defined(HOU_COMPILER_MINGW) || defined(HOU_COMPILER_GCC) || defined(HOU_COMPILER_CLANG)
   #define HOU_DO_PRAGMA(x) _Pragma(#x)

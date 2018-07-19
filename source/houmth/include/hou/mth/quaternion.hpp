@@ -24,7 +24,8 @@
 namespace hou
 {
 
-/** Represents a quaternion.
+/**
+ * Represents a quaternion.
  *
  * \tparam T the scalar type.
  */
@@ -36,24 +37,28 @@ public:
   using value_type = T;
 
 public:
-  /** Returns the zero quaternion.
+  /**
+   * Returns the zero quaternion.
    *
    * \return the zero quaternion.
    */
   static const quaternion& zero() noexcept;
 
-  /** Returns the identity quaternion.
+  /**
+   * Returns the identity quaternion.
    *
    * \return the identity quaternion.
    */
   static const quaternion& identity() noexcept;
 
 public:
-  /** Creates a quaternion with elements initialized to 0.
+  /**
+   * Creates a quaternion with elements initialized to 0.
    */
   constexpr quaternion() noexcept;
 
-  /** Creates a quaternion with the elements initialized at the specified
+  /**
+   * Creates a quaternion with the elements initialized at the specified
    * values.
    *
    * \param x the first element of the vector part.
@@ -66,7 +71,8 @@ public:
    */
   constexpr quaternion(T x, T y, T z, T w) noexcept;
 
-  /** Creates a quaternion from a quaternion with different scalar type.
+  /**
+   * Creates a quaternion from a quaternion with different scalar type.
    *
    * U must be convertible to T.
    *
@@ -78,55 +84,64 @@ public:
     typename Enable = std::enable_if_t<std::is_convertible<U, T>::value>>
   constexpr quaternion(const quaternion<U>& other) noexcept;
 
-  /** Retrieves a copy of the first element of the vector part.
+  /**
+   * Retrieves a copy of the first element of the vector part.
    *
    * /return a copy of the element.
    */
   constexpr T x() const noexcept;
 
-  /** Retrieves a reference to the first element of the vector part.
+  /**
+   * Retrieves a reference to the first element of the vector part.
    *
    * /return a reference to the element.
    */
   constexpr T& x() noexcept;
 
-  /** Retrieves a copy of the second element of the vector part.
+  /**
+   * Retrieves a copy of the second element of the vector part.
    *
    * /return a copy of the element.
    */
   constexpr T y() const noexcept;
 
-  /** Retrieves a reference to the second element of the vector part.
+  /**
+   * Retrieves a reference to the second element of the vector part.
    *
    * /return a reference to the element.
    */
   constexpr T& y() noexcept;
 
-  /** Retrieves a copy of the third element of the vector part.
+  /**
+   * Retrieves a copy of the third element of the vector part.
    *
    * /return a copy of the element.
    */
   constexpr T z() const noexcept;
 
-  /** Retrieves a reference to the third element of the vector part.
+  /**
+   * Retrieves a reference to the third element of the vector part.
    *
    * /return a reference to the element.
    */
   constexpr T& z() noexcept;
 
-  /** Retrieves a copy of the scalar part.
+  /**
+   * Retrieves a copy of the scalar part.
    *
    * /return a copy of the element.
    */
   constexpr T w() const noexcept;
 
-  /** Retrieves a reference to the scalar part.
+  /**
+   * Retrieves a reference to the scalar part.
    *
    * /return a reference to the element.
    */
   constexpr T& w() noexcept;
 
-  /** Retrieves a pointer to an array containing the elements of the
+  /**
+   * Retrieves a pointer to an array containing the elements of the
    * quaternion.
    *
    * The elements in the array are, in order, the three elements of the vector
@@ -136,7 +151,8 @@ public:
    */
   constexpr const T* data() const noexcept;
 
-  /** Adds the given quaternion to this quaternion.
+  /**
+   * Adds the given quaternion to this quaternion.
    *
    * The sum is element-wise.
    *
@@ -146,7 +162,8 @@ public:
    */
   constexpr quaternion& operator+=(const quaternion& rhs) noexcept;
 
-  /** Subtracts the given quaternion from this quaternion.
+  /**
+   * Subtracts the given quaternion from this quaternion.
    *
    * The difference is element-wise.
    *
@@ -156,7 +173,8 @@ public:
    */
   constexpr quaternion& operator-=(const quaternion& rhs) noexcept;
 
-  /** Multiplies this quaternion by the given quaternion.
+  /**
+   * Multiplies this quaternion by the given quaternion.
    *
    * \param rhs the quaternion to be multiplied.
    *
@@ -164,7 +182,8 @@ public:
    */
   constexpr quaternion& operator*=(const quaternion& rhs) noexcept;
 
-  /** Multiplies this quaternion by the given scalar.
+  /**
+   * Multiplies this quaternion by the given scalar.
    *
    * All elements of the quaternion are multiplied by the given scalar.
    *
@@ -174,7 +193,8 @@ public:
    */
   constexpr quaternion& operator*=(T rhs) noexcept;
 
-  /** Divides this quaternion by the given scalar.
+  /**
+   * Divides this quaternion by the given scalar.
    *
    * All elements of the quaternion are divided by the given scalar.
    *
@@ -184,7 +204,8 @@ public:
    */
   constexpr quaternion& operator/=(T rhs) noexcept;
 
-  /** Inverts this quaternion.
+  /**
+   * Inverts this quaternion.
    *
    * \throws hou::precondition_violation if the norm of the quaternion is 0.
    *
@@ -192,13 +213,15 @@ public:
    */
   constexpr quaternion& invert();
 
-  /** Conjugates this quaternion.
+  /**
+   * Conjugates this quaternion.
    *
    * \return a reference to this quaternion after the conjugation.
    */
   constexpr quaternion& conjugate() noexcept;
 
-  /** Normalizes this quaternion.
+  /**
+   * Normalizes this quaternion.
    *
    * \throws hou::precondition_violation if the norm of q is zero.
    *
@@ -206,7 +229,8 @@ public:
    */
   constexpr quaternion& normalize();
 
-  /** Computes the opposite of a quaternion.
+  /**
+   * Computes the opposite of a quaternion.
    *
    * \param q the quaternion.
    *
@@ -218,7 +242,8 @@ public:
       -q.m_elements[0], -q.m_elements[1], -q.m_elements[2], -q.m_elements[3]);
   }
 
-  /** Multiplies a quaternion by a scalar.
+  /**
+   * Multiplies a quaternion by a scalar.
    *
    * \param lhs the left operator.
    *
@@ -231,7 +256,8 @@ public:
     return lhs *= rhs;
   }
 
-  /** Multiplies a quaternion by a scalar.
+  /**
+   * Multiplies a quaternion by a scalar.
    *
    * \param lhs the left operator.
    *
@@ -244,7 +270,8 @@ public:
     return rhs *= lhs;
   }
 
-  /** Divides a quaternion by a scalar.
+  /**
+   * Divides a quaternion by a scalar.
    *
    * \param lhs the left operator.
    *
@@ -274,7 +301,8 @@ private:
   std::array<T, 4u> m_elements;
 };
 
-/** Sums two quaternions.
+/**
+ * Sums two quaternions.
  *
  * The sum is element-wise.
  *
@@ -290,7 +318,8 @@ template <typename T>
 constexpr quaternion<T> operator+(
   quaternion<T> lhs, const quaternion<T>& rhs) noexcept;
 
-/** Subtracts two quaternions.
+/**
+ * Subtracts two quaternions.
  *
  * The difference is element-wise.
  *
@@ -308,7 +337,8 @@ template <typename T>
 constexpr quaternion<T> operator-(
   quaternion<T> lhs, const quaternion<T>& rhs) noexcept;
 
-/** Multiplies two quaternions.
+/**
+ * Multiplies two quaternions.
  *
  * \tparam T the scalar type.
  *
@@ -322,7 +352,8 @@ template <typename T>
 constexpr quaternion<T> operator*(
   quaternion<T> lhs, const quaternion<T>& rhs) noexcept;
 
-/** Computes the inverse of a quaternion.
+/**
+ * Computes the inverse of a quaternion.
  *
  * \tparam T the scalar type.
  *
@@ -335,7 +366,8 @@ constexpr quaternion<T> operator*(
 template <typename T>
 constexpr quaternion<T> inverse(quaternion<T> q);
 
-/** Computes the conjugate of a quaternion.
+/**
+ * Computes the conjugate of a quaternion.
  *
  * \tparam T the scalar type.
  *
@@ -346,7 +378,8 @@ constexpr quaternion<T> inverse(quaternion<T> q);
 template <typename T>
 constexpr quaternion<T> conjugate(quaternion<T> q) noexcept;
 
-/** Computes the square norm of a quaternion.
+/**
+ * Computes the square norm of a quaternion.
  *
  * \tparam T the scalar type.
  *
@@ -357,7 +390,8 @@ constexpr quaternion<T> conjugate(quaternion<T> q) noexcept;
 template <typename T>
 constexpr T square_norm(const quaternion<T>& q) noexcept;
 
-/** Computes the norm of a quaternion.
+/**
+ * Computes the norm of a quaternion.
  *
  * \tparam T the scalar type.
  *
@@ -368,7 +402,8 @@ constexpr T square_norm(const quaternion<T>& q) noexcept;
 template <typename T>
 constexpr T norm(const quaternion<T>& q) noexcept;
 
-/** Computes the normalized quaternion.
+/**
+ * Computes the normalized quaternion.
  *
  * \tparam T the scalar type.
  *
@@ -381,7 +416,8 @@ constexpr T norm(const quaternion<T>& q) noexcept;
 template <typename T>
 constexpr quaternion<T> normalized(quaternion<T> q);
 
-/** Checks if two quaternions are equal.
+/**
+ * Checks if two quaternions are equal.
  *
  * \tparam T the scalar type.
  *
@@ -395,7 +431,8 @@ template <typename T>
 constexpr bool operator==(
   const quaternion<T>& lhs, const quaternion<T>& rhs) noexcept;
 
-/** Checks if two quaternions are not equal.
+/**
+ * Checks if two quaternions are not equal.
  *
  * \tparam T the scalar type.
  *
@@ -409,7 +446,8 @@ template <typename T>
 constexpr bool operator!=(
   const quaternion<T>& lhs, const quaternion<T>& rhs) noexcept;
 
-/** Checks if two quaternions are equal with the specified accuracy.
+/**
+ * Checks if two quaternions are equal with the specified accuracy.
  *
  * \tparam T the scalar type.
  *
@@ -425,7 +463,8 @@ template <typename T>
 constexpr bool close(const quaternion<T>& lhs, const quaternion<T>& rhs,
   T acc = std::numeric_limits<T>::epsilon()) noexcept;
 
-/** Writes the object into a stream.
+/**
+ * Writes the object into a stream.
  *
  * \tparam T the scalar type.
  *

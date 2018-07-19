@@ -16,7 +16,8 @@
 namespace hou
 {
 
-/** Checks if the elements of two std::vector objects are close with the given
+/**
+ * Checks if the elements of two std::vector objects are close with the given
  * accuracy
  *
  * \tparam T the accuracy type. It must be a floating point type.
@@ -36,7 +37,8 @@ template <typename T, typename U,
 constexpr bool close(const std::vector<U>& lhs, const std::vector<U>& rhs,
   T acc = std::numeric_limits<T>::epsilon()) noexcept;
 
-/** Outputs a std::vector to the given stream.
+/**
+ * Outputs a std::vector to the given stream.
  *
  * \tparam T the element type.
  *

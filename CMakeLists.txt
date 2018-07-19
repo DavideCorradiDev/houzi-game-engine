@@ -79,8 +79,8 @@ OPTION(HOU_CFG_BUILD_TESTS
 )
 IF(HOU_CFG_BUILD_TESTS)
   OPTION(HOU_CFG_BUILD_GOOGLE_TEST
-    "Build the gtest library. If unset, look for installed gtest libraries."
-    OFF
+    "Build the gtest and gmock libraries. If unset, look for installed gtest and gmock libraries."
+    ON
   )
 ELSE()
   UNSET_VAR(HOU_CFG_BUILD_GOOGLE_TEST)

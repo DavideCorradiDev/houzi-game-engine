@@ -16,7 +16,8 @@
 namespace hou
 {
 
-/** Class implementing a check to see if two values of different types have the
+/**
+ * Class implementing a check to see if two values of different types have the
  * same sign.
  *
  * This function is used by narrow_cast for the comparison.
@@ -32,7 +33,8 @@ template <typename T, typename U>
 class check_matching_sign
 {
 public:
-  /** Checks if t and u have matching sign.
+  /**
+   * Checks if t and u have matching sign.
    *
    * \param t the first parameter.
    *
@@ -43,7 +45,8 @@ public:
   static bool check(const T& t, const U& u);
 };
 
-/** Cast checking for narrowing errors.
+/**
+ * Cast checking for narrowing errors.
  *
  * \tparam To to target type.
  *
