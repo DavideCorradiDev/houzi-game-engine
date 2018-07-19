@@ -1,0 +1,9 @@
+var searchData=
+[
+  ['vertex2',['vertex2',['../classhou_1_1vertex2.html#a1eb94909b0ddbe045b77e643bfe71792',1,'hou::vertex2::vertex2() noexcept'],['../classhou_1_1vertex2.html#a21a7326d740f55354ab4927381653d26',1,'hou::vertex2::vertex2(const vec2f &amp;position, const vec2f &amp;tex_coords, const color &amp;color) noexcept']]],
+  ['vertex_5farray',['vertex_array',['../classhou_1_1vertex__array.html#a4f483a672d7749bb0c00ba8d9e5f44d8',1,'hou::vertex_array']]],
+  ['vertex_5fattrib_5fformat',['vertex_attrib_format',['../classhou_1_1vertex__attrib__format.html#a0ee9e3d1205d1b38e7a101ed22450cea',1,'hou::vertex_attrib_format']]],
+  ['vertex_5fbuffer',['vertex_buffer',['../classhou_1_1vertex__buffer.html#ac6668151fb7dd2849d0eaec7866c8deb',1,'hou::vertex_buffer::vertex_buffer(size_t byte_count, bool dynamic_storage)'],['../classhou_1_1vertex__buffer.html#a81d09d0dc3ba7bbe8c37719a522d7654',1,'hou::vertex_buffer::vertex_buffer(size_t byte_count, const void *data, bool dynamic_storage)'],['../classhou_1_1vertex__buffer.html#a7cc730d0c06a3eb27ace494a663732a2',1,'hou::vertex_buffer::vertex_buffer(vertex_buffer &amp;&amp;other) noexcept=default']]],
+  ['vertex_5fbuffer_5ft',['vertex_buffer_t',['../classhou_1_1vertex__buffer__t.html#a249d189557d95ab7e5a1a6f6054db2a7',1,'hou::vertex_buffer_t::vertex_buffer_t(size_t size)'],['../classhou_1_1vertex__buffer__t.html#a5b45631a4f336140872de96a66428ddc',1,'hou::vertex_buffer_t::vertex_buffer_t(const span&lt; const T &gt; &amp;data)']]],
+  ['vertex_5fformat',['vertex_format',['../classhou_1_1vertex__format.html#aec8fdde0215c2593ef6d343aa6e2cb72',1,'hou::vertex_format::vertex_format(ptrdiff_t offset, uint stride, const span&lt; const vertex_attrib_format &gt; &amp;vafs)'],['../classhou_1_1vertex__format.html#a768145a11bfe0a744ecd24850ef6fc5f',1,'hou::vertex_format::vertex_format(ptrdiff_t offset, uint stride, std::vector&lt; vertex_attrib_format &gt; &amp;&amp;vafs)']]]
+];
