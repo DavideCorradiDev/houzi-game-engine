@@ -51,15 +51,6 @@ enum class gl_type : GLenum
 template <typename data_type>
 gl_type to_gl_type();
 
-template<> HOU_GFX_API gl_type to_gl_type<int8_t>();
-template<> HOU_GFX_API gl_type to_gl_type<uint8_t>();
-template<> HOU_GFX_API gl_type to_gl_type<int16_t>();
-template<> HOU_GFX_API gl_type to_gl_type<uint16_t>();
-template<> HOU_GFX_API gl_type to_gl_type<int32_t>();
-template<> HOU_GFX_API gl_type to_gl_type<uint32_t>();
-template<> HOU_GFX_API gl_type to_gl_type<float>();
-template<> HOU_GFX_API gl_type to_gl_type<double>();
-
 /**
  * Retrieves the size in bytes for a variable of type gl_type.
  *
@@ -78,6 +69,17 @@ uint get_gl_type_byte_size(gl_type type);
  * \return a reference to os.
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, gl_type type);
+
+#ifndef HOU_DOXYGEN
+template<> HOU_GFX_API gl_type to_gl_type<int8_t>();
+template<> HOU_GFX_API gl_type to_gl_type<uint8_t>();
+template<> HOU_GFX_API gl_type to_gl_type<int16_t>();
+template<> HOU_GFX_API gl_type to_gl_type<uint16_t>();
+template<> HOU_GFX_API gl_type to_gl_type<int32_t>();
+template<> HOU_GFX_API gl_type to_gl_type<uint32_t>();
+template<> HOU_GFX_API gl_type to_gl_type<float>();
+template<> HOU_GFX_API gl_type to_gl_type<double>();
+#endif
 
 }  // namespace hou
 

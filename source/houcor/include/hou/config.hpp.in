@@ -60,12 +60,16 @@
 namespace hou
 {
 
+/** Unsigned int. */
 using uint = unsigned int;
+
+/** Unsigned char */
 using uchar = unsigned char;
 
 #if defined(HOU_COMPILER_MSVC)
   using size_t = size_t;
 #else
+  /** Size type. */
   using size_t = std::size_t;
 #endif
 

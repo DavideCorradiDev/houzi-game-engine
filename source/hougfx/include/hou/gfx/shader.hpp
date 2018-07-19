@@ -72,9 +72,11 @@ public:
   explicit shader_t(const std::string& source);
 };
 
+#ifndef HOU_DOXYGEN
 extern template class HOU_GFX_API shader_t<shader_type::vertex>;
 extern template class HOU_GFX_API shader_t<shader_type::fragment>;
 extern template class HOU_GFX_API shader_t<shader_type::geometry>;
+#endif
 
 }  // namespace hou
 

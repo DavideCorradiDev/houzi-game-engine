@@ -35,7 +35,8 @@ enum class texture_format : GLenum
   depth_stencil = GL_DEPTH24_STENCIL8,
 };
 
-/** Writes a texture_format enum into a stream.
+/**
+ * Writes a texture_format enum into a stream.
  *
  * \param os the stream.
  *
@@ -45,8 +46,24 @@ enum class texture_format : GLenum
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, texture_format format);
 
+/**
+ * Gets a compatible pixel format associated to the texture format.
+ *
+ * \param tf the texture format.
+ *
+ * \return the compatible pixel format.
+ */
 HOU_GFX_API pixel_format get_associated_pixel_format(texture_format tf);
 
+/**
+ * Check if a pixel and texture formats are compatible with each other.
+ *
+ * \param tf the texture format.
+ *
+ * \param pf the pixel format.
+ *
+ * \return true if the two formats are compatible.
+ */
 HOU_GFX_API bool check_format_compatibility(texture_format tf, pixel_format pf);
 
 }  // namespace hou

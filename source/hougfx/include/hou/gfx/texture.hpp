@@ -69,6 +69,14 @@ public:
    *
    * \param type the type of the texture.
    *
+   * \param format the texture format.
+   *
+   * \param width the texture width.
+   *
+   * \param height the texture height.
+   *
+   * \param depth the texture depth.
+   *
    * \param mipmap_level_count the number of mip map levels in the texture.
    *
    * \param sample_count the number of samples in the texture.

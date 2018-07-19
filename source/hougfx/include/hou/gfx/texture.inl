@@ -2,6 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
+#ifndef HOU_DOXYGEN
+
 namespace hou
 {
 
@@ -398,3 +400,5 @@ void texture_t<texture_type::texture3>::set_sub_image_internal(
 }
 
 }  // namespace hou
+
+#endif // HOU_DOXYGEN

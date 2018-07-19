@@ -16,12 +16,20 @@
 namespace hou
 {
 
+/**
+ * Enumeration for blending equations.
+ */
 enum class blending_equation
 {
+  /* Add equation. */
   add = GL_FUNC_ADD,
+  /* Subtract equation. */
   subtract = GL_FUNC_SUBTRACT,
+  /* Reverse subtract equation. */
   reverse_subtract = GL_FUNC_REVERSE_SUBTRACT,
+  /* Min equation. */
   min = GL_MIN,
+  /* Max equation. */
   max = GL_MAX,
 };
 
@@ -30,7 +38,7 @@ enum class blending_equation
  *
  * \param os the stream.
  *
- * \param vsm the blending_equation enum.
+ * \param be the blending_equation enum.
  *
  * \return a reference to the stream.
  */
