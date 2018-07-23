@@ -566,31 +566,44 @@ TYPED_TEST(
     switch(tf)
     {
       case texture_format::r:
-        EXPECT_EQ(image_rgba(image_r(im_ref)),
-          tex.template get_image<pixel_format::rgba>());
-        EXPECT_EQ(image_rgba(image_r(im_ref)),
-          tex.template get_sub_image<pixel_format::rgba>(
-            offset_type::zero(), tex.get_size()));
+        {
+          image_rgba im = tex.template get_image<pixel_format::rgba,
+            TypeParam::type, void>();
+          image_rgba sub_im = tex.template get_sub_image<pixel_format::rgba,
+            TypeParam::type, void>(offset_type::zero(), tex.get_size());
+          EXPECT_EQ(image_rgba(image_r(im_ref)), im);
+          EXPECT_EQ(image_rgba(image_r(im_ref)), sub_im);
+        }
         break;
-      case texture_format::rg:
-        EXPECT_EQ(image_rgba(image_rg(im_ref)),
-          tex.template get_image<pixel_format::rgba>());
-        EXPECT_EQ(image_rgba(image_rg(im_ref)),
-          tex.template get_sub_image<pixel_format::rgba>(
-            offset_type::zero(), tex.get_size()));
+        case texture_format::rg:
+        {
+          image_rgba im = tex.template get_image<pixel_format::rgba,
+            TypeParam::type, void>();
+          image_rgba sub_im = tex.template get_sub_image<pixel_format::rgba,
+            TypeParam::type, void>(offset_type::zero(), tex.get_size());
+          EXPECT_EQ(image_rgba(image_rg(im_ref)), im);
+          EXPECT_EQ(image_rgba(image_rg(im_ref)), sub_im);
+        }
         break;
-      case texture_format::rgb:
-        EXPECT_EQ(image_rgba(image_rgb(im_ref)),
-          tex.template get_image<pixel_format::rgba>());
-        EXPECT_EQ(image_rgba(image_rgb(im_ref)),
-          tex.template get_sub_image<pixel_format::rgba>(
-            offset_type::zero(), tex.get_size()));
+        case texture_format::rgb:
+        {
+          image_rgba im = tex.template get_image<pixel_format::rgba,
+            TypeParam::type, void>();
+          image_rgba sub_im = tex.template get_sub_image<pixel_format::rgba,
+            TypeParam::type, void>(offset_type::zero(), tex.get_size());
+          EXPECT_EQ(image_rgba(image_rgb(im_ref)), im);
+          EXPECT_EQ(image_rgba(image_rgb(im_ref)), sub_im);
+        }
         break;
-      case texture_format::rgba:
-        EXPECT_EQ(im_ref, tex.template get_image<pixel_format::rgba>());
-        EXPECT_EQ(im_ref,
-          tex.template get_sub_image<pixel_format::rgba>(
-            offset_type::zero(), tex.get_size()));
+        case texture_format::rgba:
+        {
+          image_rgba im = tex.template get_image<pixel_format::rgba,
+            TypeParam::type, void>();
+          image_rgba sub_im = tex.template get_sub_image<pixel_format::rgba,
+            TypeParam::type, void>(offset_type::zero(), tex.get_size());
+          EXPECT_EQ(im_ref, im);
+          EXPECT_EQ(im_ref, sub_im);
+        }
         break;
       default:
         FAIL() << "Unsupported texture type.";

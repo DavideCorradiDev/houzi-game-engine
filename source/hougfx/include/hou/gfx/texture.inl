@@ -205,8 +205,9 @@ void texture_t<Type>::set_filter(texture_filter filter)
 
 template <texture_type Type>
 template <pixel_format PF>
-typename texture_t<Type>::template image<PF>
-  texture_t<Type>::get_image_internal(pixel_format pf, const size_type& s,
+::hou::image<texture_t<Type>::dimension_count, PF>
+  texture_t<Type>::get_image_internal(pixel_format pf,
+    const typename texture_t<Type>::size_type& s,
     const std::vector<uint8_t>& buffer) const
 {
   switch(pf)
@@ -224,6 +225,8 @@ typename texture_t<Type>::template image<PF>
       return image<PF>(image<pixel_format::rgba>(
         s, reinterpret_span<const pixel_rgba>(span<const uint8_t>(buffer))));
   }
+  HOU_UNREACHABLE();
+  return image<PF>();
 }
 
 
@@ -252,14 +255,14 @@ template <pixel_format PF, texture_type Type2, typename Enable>
     pixel_format_to_gl_pixel_format(tex_pf),
     static_cast<GLenum>(to_gl_type<uint8_t>()),
     narrow_cast<GLsizei>(buffer.size()), buffer.data());
-  return get_image_internal<PF>(tex_pf, mipmap_size, buffer);
+  return this->template get_image_internal<PF>(tex_pf, mipmap_size, buffer);
 }
 
 
 
 template <>
 template <pixel_format PF, texture_type Type2, typename Enable>
-typename texture_t<texture_type::texture2>::template image<PF>
+::hou::image<texture_t<texture_type::texture2>::dimension_count, PF>
   texture_t<texture_type::texture2>::get_sub_image(
     const offset_type& offset, const size_type& s) const
 {
@@ -271,14 +274,14 @@ typename texture_t<texture_type::texture2>::template image<PF>
     s.y(), 1, 0, pixel_format_to_gl_pixel_format(tex_pf),
     static_cast<GLenum>(to_gl_type<uint8_t>()),
     narrow_cast<GLsizei>(buffer.size()), buffer.data());
-  return get_image_internal<PF>(tex_pf, s, buffer);
+  return this->template get_image_internal<PF>(tex_pf, s, buffer);
 }
 
 
 
 template <>
 template <pixel_format PF, texture_type Type2, typename Enable>
-typename texture_t<texture_type::texture2_array>::template image<PF>
+::hou::image<texture_t<texture_type::texture2_array>::dimension_count, PF>
   texture_t<texture_type::texture2_array>::get_sub_image(
     const offset_type& offset, const size_type& s) const
 {
@@ -290,14 +293,14 @@ typename texture_t<texture_type::texture2_array>::template image<PF>
     s.x(), s.y(), s.z(), 0, pixel_format_to_gl_pixel_format(tex_pf),
     static_cast<GLenum>(to_gl_type<uint8_t>()),
     narrow_cast<GLsizei>(buffer.size()), buffer.data());
-  return get_image_internal<PF>(tex_pf, s, buffer);
+  return this->template get_image_internal<PF>(tex_pf, s, buffer);
 }
 
 
 
 template <>
 template <pixel_format PF, texture_type Type2, typename Enable>
-typename texture_t<texture_type::texture3>::template image<PF>
+::hou::image<texture_t<texture_type::texture3>::dimension_count, PF>
   texture_t<texture_type::texture3>::get_sub_image(
     const offset_type& offset, const size_type& s) const
 {
@@ -309,7 +312,7 @@ typename texture_t<texture_type::texture3>::template image<PF>
     s.x(), s.y(), s.z(), 0, pixel_format_to_gl_pixel_format(tex_pf),
     static_cast<GLenum>(to_gl_type<uint8_t>()),
     narrow_cast<GLsizei>(buffer.size()), buffer.data());
-  return get_image_internal<PF>(tex_pf, s, buffer);
+  return this->template get_image_internal<PF>(tex_pf, s, buffer);
 }
 
 

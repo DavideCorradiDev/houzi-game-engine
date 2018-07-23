@@ -49,27 +49,12 @@ ELSEIF(MSVC)
   # C++ standard.
   SET(COMPILER_FLAGS_COMMON "${COMPILER_FLAGS_COMMON} /std:c++14")
 
-  # C++ runtime library.
-  IF(CMAKE_BUILD_TYPE MATCHES Release)
-    SET(COMPILER_FLAGS_COMMON "${COMPILER_FLAGS_COMMON} /MD")
-  ELSE()
-    SET(COMPILER_FLAGS_COMMON "${COMPILER_FLAGS_COMMON} /MDd")
-  ENDIF()
-
   # Exceptions in the STL.
   IF(HOU_CFG_DISABLE_EXCEPTIONS)
     ADD_DEFINITIONS(-D_HAS_EXCEPTIONS=0)
   ELSE()
     ADD_DEFINITIONS(-D_HAS_EXCEPTIONS=1)
   ENDIF()
-  SET(COMPILER_FLAGS_COMMON "${COMPILER_FLAGS_COMMON} /DEHsc")
-
-  # Define Windows symbols.
-  SET(COMPILER_FLAGS_COMMON "${COMPILER_FLAGS_COMMON} /DWIN32")
-  SET(COMPILER_FLAGS_COMMON "${COMPILER_FLAGS_COMMON} /DWINDOWS")
-
-  # Warnings.
-  SET(COMPILER_FLAGS_COMMON "${COMPILER_FLAGS_COMMON} /W3")
 
   # This flags are used to disable compiler warnings about using or inheriting
   # from standard library classes. This is not an issue when the Houzi Game

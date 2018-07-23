@@ -509,7 +509,7 @@ texture_t<texture_type::texture2>::texture_t(
   HOU_PRECOND(is_mipmap_level_count_valid(mipmap_level_count, s));
   gl::set_texture_storage_2d(get_handle(), mipmap_level_count,
     static_cast<GLenum>(format), s.x(), s.y());
-  reset();
+  reset<texture_type::texture2, void>();
 }
 
 
@@ -525,7 +525,7 @@ texture_t<texture_type::texture2_array>::texture_t(
   HOU_PRECOND(is_mipmap_level_count_valid(mipmap_level_count, s));
   gl::set_texture_storage_3d(get_handle(), mipmap_level_count,
     static_cast<GLenum>(format), s.x(), s.y(), s.z());
-  reset();
+  reset<texture_type::texture2, void>();
 }
 
 
@@ -541,7 +541,7 @@ texture_t<texture_type::texture3>::texture_t(
   HOU_PRECOND(is_mipmap_level_count_valid(mipmap_level_count, s));
   gl::set_texture_storage_3d(get_handle(), mipmap_level_count,
     static_cast<GLenum>(format), s.x(), s.y(), s.z());
-  reset();
+  reset<texture_type::texture2, void>();
 }
 
 

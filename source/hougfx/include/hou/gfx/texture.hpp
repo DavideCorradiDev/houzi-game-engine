@@ -458,7 +458,7 @@ public:
    */
   template <pixel_format PF, texture_type Type2 = Type,
     typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
-  image<PF> get_sub_image(
+  ::hou::image<texture_t<Type>::dimension_count, PF> get_sub_image(
     const offset_type& offset, const size_type& size) const;
 
   /** Sets the content of the texture.
@@ -582,7 +582,8 @@ private:
   void set_sub_image_internal(const offset_type& offset, const image<PF>& im);
 
   template <pixel_format PF>
-  image<PF> get_image_internal(pixel_format pf, const size_type& s,
+  ::hou::image<texture_t<Type>::dimension_count, PF> get_image_internal(
+    pixel_format pf, const size_type& s,
     const std::vector<uint8_t>& buffer) const;
 };
 

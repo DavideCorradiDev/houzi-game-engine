@@ -7,8 +7,9 @@
   #include "glad/glad_wgl.h"
 #elif defined(HOU_GL_GLX)
   #include "glad/glad_glx.h"
+#elif defined(HOU_GL_ES
+  #include "glad/glad_egl.h"
 #endif
-#include "glad/glad_egl.h"
 
 #include "glad/glad.h"
 
