@@ -9,6 +9,8 @@
 
 #include "hou/cor/bitwise_operators.hpp"
 
+#include "SDL_keyboard.h"
+
 #include <iostream>
 
 
@@ -18,19 +20,27 @@ namespace hou
 
 /** Enumeration for the modifier key flags, used for key related window
  * events.
+ *
+ * Values in this enumeration can be used as a bitfield.
  */
-enum class modifier_keys
+enum class modifier_keys : uint32_t
 {
-  /** Null flag. */
   none = 0,
-  /** alt key. */
-  alt = 1 << 0,
-  /** ctrl key. */
-  ctrl = 1 << 1,
-  /** shift key. */
-  shift = 1 << 2,
-  /** system key. */
-  system = 1 << 3,
+  lalt = KMOD_LALT,
+  ralt = KMOD_RALT,
+  alt = KMOD_ALT,
+  lctrl = KMOD_LCTRL,
+  rctrl = KMOD_RCTRL,
+  ctrl = KMOD_CTRL,
+  lshift = KMOD_LSHIFT,
+  rshift = KMOD_RSHIFT,
+  shift = KMOD_SHIFT,
+  lsystem = KMOD_LGUI,
+  rsystem = KMOD_RGUI,
+  system = KMOD_GUI,
+  num = KMOD_NUM,
+  caps = KMOD_CAPS,
+  mode = KMOD_MODE,
 };
 
 /** Writes a modifier_keys enum into a stream.

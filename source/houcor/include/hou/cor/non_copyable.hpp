@@ -12,36 +12,43 @@
 namespace hou
 {
 
-/** Non copyable class.
+/**
+ * Non copyable class.
  *
  * A class inheriting from non_copyable cannot be copied.
  */
 class non_copyable
 {
 public:
-  /** default constructor
+  /**
+   * default constructor
    */
   non_copyable() noexcept
   {}
 
-  /** Destructor
+  /**
+   * Destructor
    */
   virtual ~non_copyable()
   {}
 
-  /** Deleted copy constructor
+  /**
+   * Deleted copy constructor
    */
   non_copyable(const non_copyable&) = delete;
 
-  /** Defaulted move constructor
+  /**
+   * Defaulted move constructor
    */
   non_copyable(non_copyable&&) = default;
 
-  /** Deleted copy assignment operator.
+  /**
+   * Deleted copy assignment operator.
    */
   non_copyable& operator=(const non_copyable&) = delete;
 
-  /** Defaulted move assignment operator.
+  /**
+   * Defaulted move assignment operator.
    */
   non_copyable& operator=(non_copyable&&) = default;
 };

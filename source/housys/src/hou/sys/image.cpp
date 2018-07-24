@@ -21,9 +21,6 @@ template <size_t Dim>
 bool element_wise_lower_or_equal(
   const vec<uint, Dim>& lhs, const vec<uint, Dim>& rhs);
 
-template <size_t DimOut, size_t DimIn>
-vec<uint, DimOut> pad_vector(const vec<uint, DimIn>& vec_in, uint value);
-
 template <pixel_format PF>
 image1<PF> get_image_sub_image(
   const image1<PF>& in, const vec1u& offset, const vec1u& size);
@@ -71,19 +68,6 @@ bool element_wise_lower_or_equal(
 {
   return std::equal(
     lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), std::less_equal<uint>());
-}
-
-
-
-template <size_t DimOut, size_t DimIn>
-vec<uint, DimOut> pad_vector(const vec<uint, DimIn>& vec_in, uint value)
-{
-  vec<uint, DimOut> vec_out = vec<uint, DimOut>::filled(value);
-  for(size_t i = 0; i < std::min(DimOut, DimIn); ++i)
-  {
-    vec_out(i) = vec_in(i);
-  }
-  return vec_out;
 }
 
 
@@ -207,6 +191,30 @@ void set_image_sub_image(
 
 
 
+template <size_t dim, pixel_format fmt>
+size_t image<dim, fmt>::get_dimension_count() noexcept
+{
+  return dimension_count;
+}
+
+
+
+template <size_t dim, pixel_format fmt>
+pixel_format image<dim, fmt>::get_pixel_format() noexcept
+{
+  return format;
+}
+
+
+
+template <size_t dim, pixel_format fmt>
+uint image<dim, fmt>::get_pixel_byte_count() noexcept
+{
+  return pixel_byte_count;
+}
+
+
+
 template <size_t Dim, pixel_format PF>
 image<Dim, PF>::image()
   : m_size()
@@ -217,14 +225,13 @@ image<Dim, PF>::image()
 
 template <size_t Dim, pixel_format PF>
 image<Dim, PF>::image(const size_type& size)
-  : m_size(size)
-  , m_pixels(compute_pixel_count(), pixel())
+  : image(size, pixel_type())
 {}
 
 
 
 template <size_t Dim, pixel_format PF>
-image<Dim, PF>::image(const size_type& size, const pixel& px)
+image<Dim, PF>::image(const size_type& size, const pixel_type& px)
   : m_size(size)
   , m_pixels(compute_pixel_count(), px)
 {}
@@ -232,12 +239,10 @@ image<Dim, PF>::image(const size_type& size, const pixel& px)
 
 
 template <size_t Dim, pixel_format PF>
-image<Dim, PF>::image(const size_type& size, const span<const pixel>& pixels)
-  : m_size(size)
-  , m_pixels(pixels.begin(), pixels.end())
-{
-  HOU_PRECOND(pixels.size() == compute_pixel_count());
-}
+image<Dim, PF>::image(
+  const size_type& size, const span<const pixel_type>& pixels)
+  : image(size, pixel_collection(pixels.begin(), pixels.end()))
+{}
 
 
 
@@ -247,20 +252,6 @@ image<Dim, PF>::image(const size_type& size, pixel_collection&& pixels)
   , m_pixels(pixels)
 {
   HOU_PRECOND(m_pixels.size() == compute_pixel_count());
-}
-
-
-
-template <size_t Dim, pixel_format PF>
-template <size_t otherDim, pixel_format otherFmt, typename Enable>
-image<Dim, PF>::image(const image<otherDim, otherFmt>& other)
-  : m_size(pad_vector<Dim>(other.get_size(), 1u))
-  , m_pixels(compute_pixel_count())
-{
-  for(size_t i = 0; i < m_pixels.size(); ++i)
-  {
-    m_pixels[i] = other.m_pixels[i];
-  }
 }
 
 
@@ -284,7 +275,7 @@ const typename image<Dim, PF>::pixel_collection& image<Dim, PF>::get_pixels()
 
 
 template <size_t Dim, pixel_format PF>
-void image<Dim, PF>::set_pixels(const span<const pixel>& pixels)
+void image<Dim, PF>::set_pixels(const span<const pixel_type>& pixels)
 {
   HOU_PRECOND(pixels.size() == m_pixels.size());
   std::copy(pixels.begin(), pixels.end(), m_pixels.begin());
@@ -293,7 +284,7 @@ void image<Dim, PF>::set_pixels(const span<const pixel>& pixels)
 
 
 template <size_t Dim, pixel_format PF>
-const typename image<Dim, PF>::pixel& image<Dim, PF>::get_pixel(
+const typename image<Dim, PF>::pixel_type& image<Dim, PF>::get_pixel(
   const offset_type& coordinates) const
 {
   // compute_pixel_index will throw if coordinates is not valid.
@@ -304,7 +295,7 @@ const typename image<Dim, PF>::pixel& image<Dim, PF>::get_pixel(
 
 template <size_t Dim, pixel_format PF>
 void image<Dim, PF>::set_pixel(
-  const offset_type& coordinates, const pixel& value)
+  const offset_type& coordinates, const pixel_type& value)
 {
   // compute_pixel_index will throw if coordinates is not valid.
   m_pixels[compute_pixel_index(coordinates)] = value;
@@ -332,9 +323,9 @@ void image<Dim, PF>::set_sub_image(const offset_type& offset, const image& im)
 
 
 template <size_t Dim, pixel_format PF>
-void image<Dim, PF>::clear(const pixel& pixel)
+void image<Dim, PF>::clear(const pixel_type& px)
 {
-  m_pixels = pixel_collection(compute_pixel_count(), pixel);
+  m_pixels = pixel_collection(compute_pixel_count(), px);
 }
 
 
@@ -370,111 +361,19 @@ size_t image<Dim, PF>::compute_pixel_index(const offset_type& coordinates) const
 
 
 
-template <size_t Dim, pixel_format PF>
-bool operator==(const image<Dim, PF>& lhs, const image<Dim, PF>& rhs) noexcept
-{
-  return lhs.get_size() == rhs.get_size()
-    && lhs.get_pixels() == rhs.get_pixels();
-}
+template class image<1u, pixel_format::r>;
+template class image<1u, pixel_format::rg>;
+template class image<1u, pixel_format::rgb>;
+template class image<1u, pixel_format::rgba>;
 
+template class image<2u, pixel_format::r>;
+template class image<2u, pixel_format::rg>;
+template class image<2u, pixel_format::rgb>;
+template class image<2u, pixel_format::rgba>;
 
-
-template <size_t Dim, pixel_format PF>
-bool operator!=(const image<Dim, PF>& lhs, const image<Dim, PF>& rhs) noexcept
-{
-  return !(lhs == rhs);
-}
-
-
-
-template <size_t Dim, pixel_format PF>
-std::ostream& operator<<(std::ostream& os, const image<Dim, PF>& im)
-{
-  return os << "{size_type = " << transpose(im.get_size())
-            << ", pixels = " << im.get_pixels() << "}";
-}
-
-
-
-#define INSTANTIATE_IMAGE_BASE(Dim, PF)                                        \
-  template class image<Dim, PF>;                                               \
-  template bool operator==<Dim, PF>(                                           \
-    const image<Dim, PF>&, const image<Dim, PF>&);                             \
-  template bool operator!=<Dim, PF>(                                           \
-    const image<Dim, PF>&, const image<Dim, PF>&);                             \
-  template std::ostream& operator<<<Dim, PF>(                                  \
-    std::ostream&, const image<Dim, PF>&);
-
-
-
-#define INSTANTIATE_CONVERSION_CONSTRUCTOR(Dim1, Dim2, pf1, pf2)               \
-  template image<Dim1, pf1>::image<Dim2, pf2, void>(const image<Dim2, pf2>&);
-
-
-
-#define INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIMENSIONS(Dim1, Dim2)        \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
-    Dim1, Dim2, pixel_format::r, pixel_format::rg)                             \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
-    Dim1, Dim2, pixel_format::r, pixel_format::rgb)                            \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
-    Dim1, Dim2, pixel_format::r, pixel_format::rgba)                           \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
-    Dim1, Dim2, pixel_format::rg, pixel_format::r)                             \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
-    Dim1, Dim2, pixel_format::rg, pixel_format::rgb)                           \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
-    Dim1, Dim2, pixel_format::rg, pixel_format::rgba)                          \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
-    Dim1, Dim2, pixel_format::rgb, pixel_format::r)                            \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
-    Dim1, Dim2, pixel_format::rgb, pixel_format::rg)                           \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
-    Dim1, Dim2, pixel_format::rgb, pixel_format::rgba)                         \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
-    Dim1, Dim2, pixel_format::rgba, pixel_format::r)                           \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
-    Dim1, Dim2, pixel_format::rgba, pixel_format::rg)                          \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
-    Dim1, Dim2, pixel_format::rgba, pixel_format::rgb)
-
-
-
-#define INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DIMENSION(Dim)           \
-  INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIMENSIONS(Dim, Dim)
-
-
-
-#define INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIFFERENT_DIMENSIONS(         \
-  Dim1, Dim2)                                                                  \
-  INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIMENSIONS(Dim1, Dim2)              \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
-    Dim1, Dim2, pixel_format::r, pixel_format::r)                              \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
-    Dim1, Dim2, pixel_format::rg, pixel_format::rg)                            \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
-    Dim1, Dim2, pixel_format::rgb, pixel_format::rgb)                          \
-  INSTANTIATE_CONVERSION_CONSTRUCTOR(                                          \
-    Dim1, Dim2, pixel_format::rgba, pixel_format::rgba)
-
-
-
-#define INSTANTIATE_IMAGE_WITH_DIMENSION(Dim)                                  \
-  INSTANTIATE_IMAGE_BASE(Dim, pixel_format::r)                                 \
-  INSTANTIATE_IMAGE_BASE(Dim, pixel_format::rg)                                \
-  INSTANTIATE_IMAGE_BASE(Dim, pixel_format::rgb)                               \
-  INSTANTIATE_IMAGE_BASE(Dim, pixel_format::rgba)
-
-
-
-INSTANTIATE_IMAGE_WITH_DIMENSION(1u)
-INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DIMENSION(1u)
-INSTANTIATE_IMAGE_WITH_DIMENSION(2u)
-INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIFFERENT_DIMENSIONS(2u, 1u)
-INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DIMENSION(2u)
-INSTANTIATE_IMAGE_WITH_DIMENSION(3u)
-INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIFFERENT_DIMENSIONS(3u, 1u)
-INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_DIFFERENT_DIMENSIONS(3u, 2u)
-INSTANTIATE_CONVERSION_CONSTRUCTORS_WITH_SAME_DIMENSION(3u)
+template class image<3u, pixel_format::r>;
+template class image<3u, pixel_format::rg>;
+template class image<3u, pixel_format::rgb>;
+template class image<3u, pixel_format::rgba>;
 
 }  // namespace hou

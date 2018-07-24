@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 
 #include "hou/mth/matrix.hpp"
 
@@ -165,13 +165,13 @@ TEST_F(test_matrix, element_access_operator)
 
 
 
-TEST_F(test_matrix_death_test, element_access_operator_error_out_of_bounds)
+TEST_F(test_matrix_death_test, element_access_operator_error_out_of_range)
 {
   mat3x2i m;
-  EXPECT_PRECOND_ERROR(m(3, 1));
-  EXPECT_PRECOND_ERROR(m(2, 2));
-  EXPECT_PRECOND_ERROR(m(3, 2));
-  EXPECT_PRECOND_ERROR(m(7));
+  EXPECT_ERROR_0(m(3, 1), out_of_range);
+  EXPECT_ERROR_0(m(2, 2), out_of_range);
+  EXPECT_ERROR_0(m(3, 2), out_of_range);
+  EXPECT_ERROR_0(m(7), out_of_range);
 }
 
 
@@ -435,7 +435,18 @@ TEST_F(test_matrix, floating_point_comparison)
   mat3x2f m2 = m1;
   mat3x2f m3 = {0.f, 1.f, 2.3458f, 3.f, 4.f, 5.f};
 
+  // Note: clang seems to bind 0 instead of the float epsilon for the accuracy
+  // as default argument, so this has to be explicitly defined.
+  // The type of the template function is correctly set to float, and the
+  // function called is the correct one.
+  // The binding to 0 happens immediately in the call stack, in the matrix
+  // close method.
+  // I suspect that this is a bug in clang.
+#if defined(HOU_COMPILER_CLANG)
+  EXPECT_TRUE(close(m1, m2, std::numeric_limits<float>::epsilon()));
+#else
   EXPECT_TRUE(close(m1, m2));
+#endif
   EXPECT_TRUE(close(m1, m3, 1e-3f));
   EXPECT_FALSE(close(m1, m3, 1e-4f));
 }
@@ -815,7 +826,8 @@ TEST_F(test_matrix, inverse3x3)
 TEST_F(test_matrix_death_test, inverse_failure_null_determinant)
 {
   mat2x2f m = mat2x2f::zero();
-  EXPECT_PRECOND_ERROR(inverse(m));
+  EXPECT_ERROR_0(inverse(m), inversion_error);
+  EXPECT_ERROR_0(m.invert(), inversion_error);
 }
 
 

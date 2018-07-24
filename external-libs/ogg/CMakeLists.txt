@@ -1,18 +1,15 @@
-cmake_minimum_required(VERSION 3.3)
-MESSAGE(STATUS "--- Configuring target ${LIB_OGG} ---")
-project(ogg)
+cmake_minimum_required(VERSION 2.8.7)
+project(libogg)
 
 # Required modules
 include(GNUInstallDirs)
 include(CheckIncludeFiles)
 
 # Build options
+option(BUILD_SHARED_LIBS "Build shared library" OFF)
 if(APPLE)
     option(BUILD_FRAMEWORK "Build Framework bundle for OSX" OFF)
 endif()
-
-SET(LIB_OGG_OUTPUT_DIR ${CMAKE_BINARY_DIR})
-MESSAGE(STATUS "Output dir: ${LIB_OGG_OUTPUT_DIR}")
 
 # Extract project version from configure.ac
 file(READ configure.ac CONFIGURE_AC_CONTENTS)
@@ -83,21 +80,18 @@ if(BUILD_FRAMEWORK)
     set(BUILD_SHARED_LIBS TRUE)
 endif()
 
-include_directories(include ${CMAKE_CURRENT_BINARY_DIR}/include)
-add_library(${LIB_OGG} STATIC ${OGG_SOURCES})
+add_library(ogg ${OGG_HEADERS} ${OGG_SOURCES})
+target_include_directories(ogg PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include ${CMAKE_CURRENT_BINARY_DIR}/include)
 
 get_version_info(OGG_VERSION_INFO "LIB_CURRENT" "LIB_AGE" "LIB_REVISION")
 set_target_properties(
-    ${LIB_OGG} PROPERTIES
+    ogg PROPERTIES
     SOVERSION ${OGG_VERSION_INFO}
     PUBLIC_HEADER "${OGG_HEADERS}"
-    ARCHIVE_OUTPUT_DIRECTORY ${LIB_OGG_OUTPUT_DIR}
-    LIBRARY_OUTPUT_DIRECTORY ${LIB_OGG_OUTPUT_DIR}
-    RUNTIME_OUTPUT_DIRECTORY ${LIB_OGG_OUTPUT_DIR}
 )
 
 if(BUILD_FRAMEWORK)
-    set_target_properties(${LIB_OGG} PROPERTIES
+    set_target_properties(ogg PROPERTIES
         FRAMEWORK TRUE
         FRAMEWORK_VERSION ${PROJECT_VERSION}
         MACOSX_FRAMEWORK_IDENTIFIER org.xiph.ogg
@@ -110,7 +104,7 @@ endif()
 
 configure_pkg_config_file(ogg.pc.in)
 
-install(TARGETS ${LIB_OGG}
+install(TARGETS ogg
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -120,5 +114,3 @@ install(TARGETS ${LIB_OGG}
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ogg.pc
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
 )
-
-message(STATUS "")

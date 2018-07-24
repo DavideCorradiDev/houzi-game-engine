@@ -8,12 +8,12 @@
 
 std::string get_output_dir()
 {
-  return u8"source/housys/test/output/";
+  return u8"./source/housys/test/output/";
 }
 
 
 
 std::string get_data_dir()
 {
-  return u8"source/housys/test/data/";
+  return u8"./source/housys/test/data/";
 }

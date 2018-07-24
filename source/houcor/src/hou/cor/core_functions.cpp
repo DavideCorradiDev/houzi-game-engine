@@ -14,7 +14,7 @@ namespace hou
 template <typename T, typename Enable>
 bool close(T lhs, T rhs, T acc) noexcept
 {
-  return std::abs(lhs - rhs) < acc;
+  return std::abs(lhs - rhs) <= acc;
 }
 
 template bool close<float>(float, float, float) noexcept;

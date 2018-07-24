@@ -3,8 +3,13 @@
 
 
 ## Building
-Currently only builds on Windows with the MinGW compiler are supported.
-Support for more platforms and compilers is coming soon.
+The following platforms are currently supported:
+
+* Windows with MinGW64.
+
+* Windows with Visual Studio.
+
+* Linux with GCC.
 
 
 
@@ -32,6 +37,11 @@ If unset, CMake will try to detect the path to an installed OpenAL library imple
 In case it fails to detect the library, you can manually set **LIB\_OPENAL** to the path to the library and **LIB\_OPENAL\_INCLUDE\_DIR** to the path to the library headers.
 When building OpenALSoft, refer to the OpenALSoft documentation for details about the configuration.
 
+* **HOU\_CFG\_BUILD\_SDL2**: if set, SDL2 will be built and used.
+If unset, CMake will try to detect the path to an installed SDL2 library and its headers.
+In case if fails to detect the library, you can manually set **LIB\_SDL2** to the path to the library and **LIB\_SDL2\_INCLUDE\_DIR** to the path to the library headers.
+When building SDL, refer to the SDL documentation for details about the configuration.
+
 * **HOU\_CFG\_BUILD\_STATIC\_LIBS**: if set, static libraries will be build, otherwise shared libraries will be built.
 When building static libraries, you should define the preprocessor symbol **HOU\_STATIC** to ensure that import attributes will be defined correctly.
 When building static libraries, all dependencies of the employed libraries must be explicitly linked, even if not directly used.
@@ -50,7 +60,7 @@ When enabling OpenGL error checks, the preprocessor symbol **HOU\_ENABLE\_GL\_ER
 
 
 
-### Building on Windows with MinGW
+### Building on Windows with MinGW64
 * Install [CMake](https://cmake.org/).
 
 * Install [MinGW](http://www.mingw.org/).
@@ -60,11 +70,89 @@ When enabling OpenGL error checks, the preprocessor symbol **HOU\_ENABLE\_GL\_ER
 * Configure the project with the CMake graphical interface inside the build directory.
 
 * Run the following command from the build directory in the Windows command line prompt:
-
 ```
 mingw32-make
 ```
-Refer to the MinGW documentation for options that can be passed to mingw32-make.
+
+
+
+### Building on Windows with Visual Studio
+For a complete description on how to use CMake with Visual Studio you can refer to [this page](https://blogs.msdn.microsoft.com/vcblog/2016/10/05/cmake-support-in-visual-studio/#configure-cmake).
+
+* Open the root Houzi Game Engine folder with "File > Open > Folder".
+
+* Visual Studio should automatically try to configure the project and generate the CMake cache.
+  The cache can be managed manually from the "CMake > Cache (...)" menu.
+
+* You can change the CMake settings for different build configurations by editing the generated CMakeSettings.json file.
+```
+"configurations": [
+  {
+    "name": "deb-exc-dyn",
+    ...
+    "variables": [
+      {
+        "name": "HOU_CFG_ENABLE_AL_ERROR_CHECKS",
+        "value": "ON"
+      },
+      {
+        "name": "HOU_CFG_ENABLE_GL_ERROR_CHECKS",
+        "value": "ON"
+      }
+    ]
+    ...
+  }
+```
+
+* You can build the project by selecting the appropriate build configuration and running "CMake > Build All".
+
+
+
+### Building on linux with GCC
+
+* Required packages:
+
+    * cmake.
+
+    * ccmake (optional).
+
+    * make.
+
+    * gcc.
+
+    * OpenGL dev libraries (package xorg-dev, mesa-common-dev, libgl1-mesa-dev on ubuntu).
+
+* Configure with cmake.
+
+* Build with make.
+
+
+
+### Building with Emscripten
+
+* Known limitations:
+
+  * Multithreading is not supported.
+
+  * Input files must be preloaded or embedded.
+
+  * Files cannot be written (they technically can in preloaded folders, but won't show up in the real filesystem).
+
+  * Minimizing or maximizing a window is not possible.
+
+  * Making a window resizable is not possible.
+
+  * Making a window bordered is not possible.
+
+  * Focusing a window is not possible.
+
+  * Multiple Open GL contexts are not supported.
+
+  * GL ES is used, with relative consequences:
+
+    * Geometry shaders are not supported.
+
+    * Multisampling is not supported.
 
 
 
@@ -75,15 +163,15 @@ The dependencies between the modules are as follows:
 
 * **houmth**: houcor.
 
-* **housys**: houcor, houmth.
+* **housys**: houcor, houmth, SDL2, SOIL.
 
-* **hougl**: houcor, housys, OpenGL, GLAD.
+* **hougl**: houcor, housys, OpenGL, GLAD, SDL2.
 
-* **hougfx**: houcor, houmth, housys, hougl, OpenGL, GLAD, SOIL, Freetype.
+* **hougfx**: houcor, houmth, housys, hougl, Freetype.
 
 * **houal**: houcor, OpenAL.
 
-* **houaud**: houcor, houmth, housys, houal, OpenAL, OGG, VORBIS.
+* **houaud**: houcor, houmth, housys, houal, OGG, VORBIS.
 
 There is a test executable associated to each module, named **<module_name>-test**.
 Each test executable depends on the associated libraries, on its dependencies, and on gtest.

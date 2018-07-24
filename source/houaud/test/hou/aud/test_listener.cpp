@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 #include "hou/aud/test_aud_base_test_specific_context.hpp"
 
 #include "hou/aud/listener.hpp"
@@ -67,7 +67,7 @@ TEST_F(test_listener, orientation)
   EXPECT_FLOAT_CLOSE(rot3f::identity(), listener::get_orientation());
 
   rot3f or_ref
-    = rot3f::x(pi_f / 3.f) * rot3f::z(pi_f / 4.f) * rot3f::y(pi_f / 2.f);
+    = rot3f::x(pi<float>() / 3.f) * rot3f::z(pi<float>() / 4.f) * rot3f::y(pi<float>() / 2.f);
   listener::set_orientation(or_ref);
   EXPECT_FLOAT_CLOSE(or_ref, listener::get_orientation());
 }

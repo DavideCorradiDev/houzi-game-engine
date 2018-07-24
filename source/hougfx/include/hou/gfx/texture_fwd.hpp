@@ -19,12 +19,6 @@ class texture;
 template <texture_type type>
 class texture_t;
 
-/** 1 dimensional texture. */
-using texture1 = texture_t<texture_type::texture1>;
-
-/** 1 dimensional texture array. */
-using texture1_array = texture_t<texture_type::texture1_array>;
-
 /** 2 dimensional texture. */
 using texture2 = texture_t<texture_type::texture2>;
 

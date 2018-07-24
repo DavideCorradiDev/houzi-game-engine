@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 
 #include "hou/mth/math_functions.hpp"
 #include "hou/mth/rectangle.hpp"
@@ -81,7 +81,7 @@ TEST_F(test_transform2, build_rotation)
   trans2f tr;
   mat4x4f tm_ref;
 
-  tr = trans2f::rotation(rot2f(pi_f / 2.f));
+  tr = trans2f::rotation(rot2f(pi<float>() / 2.f));
   // clang-format off
   tm_ref =
   {
@@ -93,7 +93,7 @@ TEST_F(test_transform2, build_rotation)
   // clang-format on
   EXPECT_FLOAT_CLOSE(tm_ref, tr.to_mat4x4());
 
-  tr = trans2f::rotation(rot2f(-pi_f / 6.f));
+  tr = trans2f::rotation(rot2f(-pi<float>() / 6.f));
   // clang-format off
   tm_ref =
   {
@@ -182,8 +182,8 @@ TEST_F(test_transform2, inversion)
   t_inv2 = t;
   t_inv2.invert();
 
-  EXPECT_CLOSE(identity, (t * t_inv1), 1.e-6);
-  EXPECT_CLOSE(identity, (t * t_inv2), 1.e-6);
+  EXPECT_CLOSE(identity, (t * t_inv1), 1.e-6f);
+  EXPECT_CLOSE(identity, (t * t_inv2), 1.e-6f);
 
   t = trans2f::rotation(rot2f(deg_to_rad(30.f)))
     * trans2f::translation(vec2f(-4.f, 7.f));
@@ -191,8 +191,8 @@ TEST_F(test_transform2, inversion)
   t_inv2 = t;
   t_inv2.invert();
 
-  EXPECT_CLOSE(identity, (t * t_inv1), 1.e-6);
-  EXPECT_CLOSE(identity, (t * t_inv2), 1.e-6);
+  EXPECT_CLOSE(identity, (t * t_inv1), 1.e-6f);
+  EXPECT_CLOSE(identity, (t * t_inv2), 1.e-6f);
 }
 
 

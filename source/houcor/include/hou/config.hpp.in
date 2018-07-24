@@ -5,6 +5,7 @@
 #ifndef HOU_CONFIG_HPP
 #define HOU_CONFIG_HPP
 
+#include <cstddef>
 #include <cstdint>
 
 // Values from CMakeLists.txt
@@ -16,8 +17,23 @@
 #if defined(_WIN32)
   #define HOU_SYSTEM_WINDOWS
   #define UNICODE
-  #if defined(__MINGW32__)
-    #define HOU_COMPILER_MINGW
+#elif defined(__linux__)
+  #define HOU_SYSTEM_LINUX
+#endif
+
+#if defined(__EMSCRIPTEN__)
+  #define HOU_EMSCRIPTEN
+#endif
+
+#if defined(__MINGW32__)
+  #define HOU_COMPILER_MINGW
+#elif defined(_MSC_VER)
+  #define HOU_COMPILER_MSVC
+#elif defined(__GNUC__)
+  #if defined(__clang__)
+    #define HOU_COMPILER_CLANG
+  #else
+    #define HOU_COMPILER_GCC
   #endif
 #endif
 
@@ -44,10 +60,19 @@
 namespace hou
 {
 
+/** Unsigned int. */
 using uint = unsigned int;
+
+/** Unsigned char */
 using uchar = unsigned char;
+
+#if defined(HOU_COMPILER_MSVC)
+  using size_t = size_t;
+#else
+  /** Size type. */
+  using size_t = std::size_t;
+#endif
 
 }  // namespace hou
 
 #endif
-

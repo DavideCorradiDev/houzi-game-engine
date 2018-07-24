@@ -14,27 +14,36 @@
 namespace hou
 {
 
-/** a thread safe unique identifier generator.
+/**
+ * A thread safe unique identifier generator.
  */
 class HOU_COR_API uid_generator
 {
 public:
-  /** Creates the generator.
+  /**
+   * Unique identifier type.
+   */
+  using uid_type = uint32_t;
+
+public:
+  /**
+   * Creates the generator.
    *
    * The constructor is not thread safe.
    */
-  uid_generator(uint32_t starting_value) noexcept;
+  uid_generator(uid_type starting_value) noexcept;
 
-  /** Generates a unique identifier.
+  /**
+   * Generates a unique identifier.
    *
    * Calling this function is thread safe.
    *
    * \throws hou::overflow_error if the uid generator counter overflows.
    */
-  uint32_t generate();
+  uid_type generate();
 
 private:
-  std::atomic<uint32_t> m_counter;
+  std::atomic<uid_type> m_counter;
 };
 
 }  // namespace hou

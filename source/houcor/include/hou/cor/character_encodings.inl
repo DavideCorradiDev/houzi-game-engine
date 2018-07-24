@@ -5,14 +5,17 @@
 namespace hou
 {
 
+HOU_PRAGMA_MSVC_WARNING_PUSH()
+HOU_PRAGMA_MSVC_WARNING_DISABLE(4309)
+
 template <typename OutputIt>
 OutputIt utf8::encode(code_point input, OutputIt out_first)
 {
   static constexpr std::array<code_unit, 4u> start_signature{
-    0b00000000,
-    0b11000000,
-    0b11100000,
-    0b11110000,
+    static_cast<code_unit>(0b00000000),
+    static_cast<code_unit>(0b11000000),
+    static_cast<code_unit>(0b11100000),
+    static_cast<code_unit>(0b11110000),
   };
 
   // Determine size of the character in code units based on its code point.
@@ -32,6 +35,8 @@ OutputIt utf8::encode(code_point input, OutputIt out_first)
   // Copy into the out_first and return iterator the next element.
   return std::copy(units.begin(), units.begin() + unit_count, out_first);
 }
+
+HOU_PRAGMA_MSVC_WARNING_POP()
 
 
 

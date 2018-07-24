@@ -42,16 +42,83 @@ float uint8_to_float(uint8_t v) noexcept
 
 
 
-const color color::white(255, 255, 255, 255);
-const color color::grey(128, 128, 128, 255);
-const color color::black(0, 0, 0, 255);
-const color color::red(255, 0, 0, 255);
-const color color::yellow(255, 255, 0, 255);
-const color color::green(0, 255, 0, 255);
-const color color::cyan(0, 255, 255, 255);
-const color color::blue(0, 0, 255, 255);
-const color color::magenta(255, 0, 255, 255);
-const color color::transparent(0, 0, 0, 0);
+const color& color::white() noexcept
+{
+  static const color c(255, 255, 255, 255);
+  return c;
+}
+
+
+
+const color& color::grey() noexcept
+{
+  static const color c(128, 128, 128, 255);
+  return c;
+}
+
+
+
+const color& color::black() noexcept
+{
+  static const color c(0, 0, 0, 255);
+  return c;
+}
+
+
+
+const color& color::red() noexcept
+{
+  static const color c(255, 0, 0, 255);
+  return c;
+}
+
+
+
+const color& color::yellow() noexcept
+{
+  static const color c(255, 255, 0, 255);
+  return c;
+}
+
+
+
+const color& color::green() noexcept
+{
+  static const color c(0, 255, 0, 255);
+  return c;
+}
+
+
+
+const color& color::cyan() noexcept
+{
+  static const color c(0, 255, 255, 255);
+  return c;
+}
+
+
+
+const color& color::blue() noexcept
+{
+  static const color c(0, 0, 255, 255);
+  return c;
+}
+
+
+
+const color& color::magenta() noexcept
+{
+  static const color c(255, 0, 255, 255);
+  return c;
+}
+
+
+
+const color& color::transparent() noexcept
+{
+  static const color c(0, 0, 0, 0);
+  return c;
+}
 
 
 
@@ -172,6 +239,14 @@ void color::set_alpha(uint8_t value) noexcept
 void color::set_alpha_f(float value) noexcept
 {
   m_alpha = float_to_uint8(value);
+}
+
+
+
+color color_f(float red, float green, float blue, float alpha) noexcept
+{
+  return color(float_to_uint8(red), float_to_uint8(green), float_to_uint8(blue),
+    float_to_uint8(alpha));
 }
 
 

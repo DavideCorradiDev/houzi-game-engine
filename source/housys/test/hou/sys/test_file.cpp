@@ -2,20 +2,21 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 #include "hou/sys/test_data.hpp"
 
 #include "hou/sys/file.hpp"
 #include "hou/sys/sys_exceptions.hpp"
 
 using namespace hou;
+using namespace testing;
 
 
 
 namespace
 {
 
-class test_file : public ::testing::Test
+class test_file : public Test
 {
 public:
   static const std::string filename;
@@ -26,13 +27,7 @@ public:
   virtual ~test_file();
 };
 
-
-
-class test_file_death_test : public test_file
-{
-public:
-  using test_file::test_file;
-};
+using test_file_death_test = test_file;
 
 
 
@@ -111,6 +106,15 @@ TEST_F(test_file, move_constructor)
   std::string content(f.get_byte_count(), 0);
   f.read(content);
   EXPECT_EQ(file_content, content);
+}
+
+
+
+TEST_F(test_file, close)
+{
+  file f(filename, file_open_mode::read, file_type::binary);
+  f.close();
+  SUCCEED();
 }
 
 

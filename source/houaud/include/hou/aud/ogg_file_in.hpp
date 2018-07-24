@@ -23,14 +23,16 @@ struct OggVorbis_File;
 namespace hou
 {
 
-/** Input ogg file stream.
+/**
+ * Input ogg file stream.
  */
 class HOU_AUD_API ogg_file_in
   : public non_copyable
   , public audio_stream_in
 {
 public:
-  /** Checks if the file corresponding to the given path is a ogg file.
+  /**
+   * Checks if the file corresponding to the given path is a ogg file.
    *
    * \param path the file path.
    *
@@ -41,7 +43,8 @@ public:
   static bool check(const std::string& path);
 
 public:
-  /** Path constructor.
+  /**
+   * Path constructor.
    *
    * \param path the path to the file to be opened.
    *
@@ -49,13 +52,15 @@ public:
    */
   explicit ogg_file_in(const std::string& path);
 
-  /** Move constructor.
+  /**
+   * Move constructor.
    *
    * \param other the other object.
    */
   ogg_file_in(ogg_file_in&& other) noexcept;
 
-  /** Destructor.
+  /**
+   * Destructor.
    */
   virtual ~ogg_file_in();
 

@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 #include "hou/sys/test_data.hpp"
 
 #include "hou/sys/file_handle.hpp"
@@ -27,13 +27,7 @@ public:
   virtual ~test_file_handle();
 };
 
-
-
-class test_file_handle_death_test : public test_file_handle
-{
-public:
-  using test_file_handle::test_file_handle;
-};
+using test_file_handle_death_test = test_file_handle;
 
 
 
@@ -147,7 +141,8 @@ TEST_F(test_file_handle, open_file_failure)
 
 TEST_F(test_file_handle, close_file_failure)
 {
-  FILE* f = nullptr;
+  FILE* f = open_file("dummy", "rb");
+  close_file(f);
   EXPECT_FALSE(close_file(f));
 }
 

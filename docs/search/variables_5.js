@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['green',['green',['../classhou_1_1color.html#a056af7a7c1d871b8f87bb6a6db5346e2',1,'hou::color']]],
-  ['grey',['grey',['../classhou_1_1color.html#af98d0f7586c81e3142499a28074af9b7',1,'hou::color']]]
+  ['luminosity',['luminosity',['../classhou_1_1texture__channel__mapping.html#a29d896a4359d594d0f0705312f02d0fa',1,'hou::texture_channel_mapping']]]
 ];

@@ -22,7 +22,7 @@ basic_static_string<CharT, N, Traits>::basic_static_string(
   , m_size(std::min(N, count))
 {
   std::fill(m_buffer.begin(), std::next(m_buffer.begin(), m_size), ch);
-  m_buffer[m_size + 1] = 0;
+  m_buffer[m_size] = 0;
 }
 
 
@@ -34,7 +34,7 @@ basic_static_string<CharT, N, Traits>::basic_static_string(
   , m_size(std::min(N, traits_type::length(s)))
 {
   traits_type::copy(m_buffer.data(), s, m_size);
-  m_buffer[m_size + 1] = 0;
+  m_buffer[m_size] = 0;
 }
 
 
@@ -47,7 +47,7 @@ basic_static_string<CharT, N, Traits>::basic_static_string(
   , m_size(std::min(N, s.size()))
 {
   traits_type::copy(m_buffer.data(), s.data(), m_size);
-  m_buffer[m_size + 1] = 0;
+  m_buffer[m_size] = 0;
 }
 
 

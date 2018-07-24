@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 
 #include "hou/cor/clock.hpp"
 
@@ -53,8 +53,8 @@ TEST_F(test_clock, get_elapsed_time)
 
   EXPECT_GT(t2, t1);
   EXPECT_GT(t3, t2);
-  EXPECT_GT((t2 - t1), sleep_time);
-  EXPECT_GT((t3 - t2), sleep_time);
+  EXPECT_GE((t2 - t1), sleep_time);
+  EXPECT_GE((t3 - t2), sleep_time);
 }
 
 

@@ -2,11 +2,13 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 #include "hou/gl/test_gl_multiple_contexts.hpp"
 
 #include "hou/gl/gl_buffer_handle.hpp"
 #include "hou/gl/gl_exceptions.hpp"
+#include "hou/gl/gl_missing_context_error.hpp"
+#include "hou/gl/gl_invalid_context_error.hpp"
 
 using namespace hou;
 
@@ -18,8 +20,7 @@ namespace
 class test_gl_buffer_handle : public test_gl_multiple_contexts
 {};
 
-class test_gl_buffer_handle_death_test : public test_gl_buffer_handle
-{};
+using test_gl_buffer_handle_death_test = test_gl_buffer_handle;
 
 }  // namespace
 
@@ -33,20 +34,25 @@ TEST_F(test_gl_buffer_handle, creation)
 
 
 
-#ifdef HOU_ENABLE_GL_ERROR_CHECKS
 TEST_F(test_gl_buffer_handle_death_test, no_context_creation)
-#else
-TEST_F(test_gl_buffer_handle_death_test, DISABLED_no_context_creation)
-#endif
 {
+#if !defined(HOU_ENABLE_GL_ERROR_CHECKS)
+  SKIP("GL error checks are disabled in this build.");
+#endif
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
   gl::context::unset_current();
   EXPECT_ERROR_0(gl::buffer_handle::create(), gl::missing_context_error);
 }
 
 
 
-TEST_F(test_gl_buffer_handle, tracking)
+TEST_F(test_gl_buffer_handle, binding)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
   gl::buffer_handle bh1 = gl::buffer_handle::create();
   gl::buffer_handle bh2 = gl::buffer_handle::create();
 
@@ -122,12 +128,14 @@ TEST_F(test_gl_buffer_handle, sharing_context_binding)
 
 
 
-#ifdef HOU_ENABLE_GL_ERROR_CHECKS
 TEST_F(test_gl_buffer_handle_death_test, non_sharing_context_binding)
-#else
-TEST_F(test_gl_buffer_handle_death_test, DISABLED_non_sharing_context_binding)
-#endif
 {
+#if !defined(HOU_ENABLE_GL_ERROR_CHECKS)
+  SKIP("GL error checks are disabled in this build.");
+#endif
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
   gl::buffer_handle bh = gl::buffer_handle::create();
   set_non_sharing_context_current();
   EXPECT_ERROR_0(
@@ -137,12 +145,14 @@ TEST_F(test_gl_buffer_handle_death_test, DISABLED_non_sharing_context_binding)
 
 
 
-#ifdef HOU_ENABLE_GL_ERROR_CHECKS
 TEST_F(test_gl_buffer_handle_death_test, no_context_binding)
-#else
-TEST_F(test_gl_buffer_handle_death_test, DISABLED_no_context_binding)
-#endif
 {
+#if !defined(HOU_ENABLE_GL_ERROR_CHECKS)
+  SKIP("GL error checks are disabled in this build.");
+#endif
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
   gl::buffer_handle bh = gl::buffer_handle::create();
   gl::context::unset_current();
   EXPECT_ERROR_0(

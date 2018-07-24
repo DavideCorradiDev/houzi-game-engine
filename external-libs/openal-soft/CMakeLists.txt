@@ -1,8 +1,8 @@
+# CMake build file list for OpenAL
+
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0.2)
-MESSAGE(STATUS "--- Configuring target ${LIB_OPENAL} ---")
+
 PROJECT(OpenAL)
-
-
 
 IF(COMMAND CMAKE_POLICY)
     CMAKE_POLICY(SET CMP0003 NEW)
@@ -37,20 +37,20 @@ include(GNUInstallDirs)
 SET(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS TRUE)
 
 
-OPTION(ALSOFT_DLOPEN  "Check for the dlopen API for loading optional libs"  OFF)
+OPTION(ALSOFT_DLOPEN  "Check for the dlopen API for loading optional libs"  ON)
 
 OPTION(ALSOFT_WERROR  "Treat compile warnings as errors"      OFF)
 
-OPTION(ALSOFT_UTILS          "Build and install utility programs"         OFF)
+OPTION(ALSOFT_UTILS          "Build and install utility programs"         ON)
 OPTION(ALSOFT_NO_CONFIG_UTIL "Disable building the alsoft-config utility" OFF)
 
-OPTION(ALSOFT_EXAMPLES  "Build and install example programs"  OFF)
-OPTION(ALSOFT_TESTS     "Build and install test programs"     OFF)
+OPTION(ALSOFT_EXAMPLES  "Build and install example programs"  ON)
+OPTION(ALSOFT_TESTS     "Build and install test programs"     ON)
 
-OPTION(ALSOFT_CONFIG "Install alsoft.conf sample configuration file" OFF)
-OPTION(ALSOFT_HRTF_DEFS "Install HRTF definition files" OFF)
-OPTION(ALSOFT_AMBDEC_PRESETS "Install AmbDec preset files" OFF)
-OPTION(ALSOFT_INSTALL "Install headers and libraries" OFF)
+OPTION(ALSOFT_CONFIG "Install alsoft.conf sample configuration file" ON)
+OPTION(ALSOFT_HRTF_DEFS "Install HRTF definition files" ON)
+OPTION(ALSOFT_AMBDEC_PRESETS "Install AmbDec preset files" ON)
+OPTION(ALSOFT_INSTALL "Install headers and libraries" ON)
 
 if(DEFINED SHARE_INSTALL_DIR)
     message(WARNING "SHARE_INSTALL_DIR is deprecated.  Use the variables provided by the GNUInstallDirs module instead")
@@ -965,7 +965,9 @@ OPTION(ALSOFT_REQUIRE_DSOUND "Require DirectSound backend" OFF)
 OPTION(ALSOFT_REQUIRE_MMDEVAPI "Require MMDevApi backend" OFF)
 IF(HAVE_WINDOWS_H)
     # Check MMSystem backend
-    CHECK_INCLUDE_FILES("windows.h;mmsystem.h" HAVE_MMSYSTEM_H -D_WIN32_WINNT=0x0502)
+    # The last parameter causes issues in Visual Studio.
+    # CHECK_INCLUDE_FILES("windows.h;mmsystem.h" HAVE_MMSYSTEM_H -D_WIN32_WINNT=0x0502)
+    CHECK_INCLUDE_FILES("windows.h;mmsystem.h" HAVE_MMSYSTEM_H)
     IF(HAVE_MMSYSTEM_H)
         CHECK_SHARED_FUNCTION_EXISTS(waveOutOpen "windows.h;mmsystem.h" winmm "" HAVE_LIBWINMM)
         IF(HAVE_LIBWINMM)
@@ -1571,8 +1573,3 @@ IF(ALSOFT_EXAMPLES)
         MESSAGE(STATUS "")
     ENDIF()
 ENDIF()
-
-
-
-MESSAGE(STATUS "")
-

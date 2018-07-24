@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 
 #include "hou/gfx/test_gfx_base.hpp"
 
@@ -259,30 +259,30 @@ TEST_F(test_framebuffer_death_test,
 
 
 
-TEST_F(test_framebuffer, set_color_attachment_mip_map_level_limit)
-{
-  framebuffer fb;
-  uint mipmap_level_count = 3u;
-  texture2 tex(vec2u(4u, 8u), texture_format::rgba, mipmap_level_count);
-
-  for(uint i = 0; i < mipmap_level_count; ++i)
-  {
-    fb.set_color_attachment(0u, tex, i);
-  }
-
-  SUCCEED();
-}
-
-
-
-TEST_F(
-  test_framebuffer_death_test, set_color_attachment_error_invalid_mip_map_level)
-{
-  framebuffer fb;
-  uint mipmap_level_count = 3u;
-  texture2 tex(vec2u(4u, 8u), texture_format::rgba, mipmap_level_count);
-  EXPECT_PRECOND_ERROR(fb.set_color_attachment(0u, tex, mipmap_level_count));
-}
+// TEST_F(test_framebuffer, set_color_attachment_mip_map_level_limit)
+// {
+//   framebuffer fb;
+//   uint mipmap_level_count = 3u;
+//   texture2 tex(vec2u(4u, 8u), texture_format::rgba, mipmap_level_count);
+// 
+//   for(uint i = 0; i < mipmap_level_count; ++i)
+//   {
+//     fb.set_color_attachment(0u, tex, i);
+//   }
+// 
+//   SUCCEED();
+// }
+// 
+// 
+// 
+// TEST_F(
+//   test_framebuffer_death_test, set_color_attachment_error_invalid_mip_map_level)
+// {
+//   framebuffer fb;
+//   uint mipmap_level_count = 3u;
+//   texture2 tex(vec2u(4u, 8u), texture_format::rgba, mipmap_level_count);
+//   EXPECT_PRECOND_ERROR(fb.set_color_attachment(0u, tex, mipmap_level_count));
+// }
 
 
 
@@ -306,10 +306,8 @@ TEST_F(test_framebuffer_death_test, set_color_attachment_invalid_formats)
 {
   framebuffer fb;
   texture2 tex_depth(vec2u(4u, 8u), texture_format::depth);
-  texture2 tex_stencil(vec2u(4u, 8u), texture_format::stencil);
   texture2 tex_depth_stencil(vec2u(4u, 8u), texture_format::depth_stencil);
   EXPECT_PRECOND_ERROR(fb.set_color_attachment(0u, tex_depth));
-  EXPECT_PRECOND_ERROR(fb.set_color_attachment(0u, tex_stencil));
   EXPECT_PRECOND_ERROR(fb.set_color_attachment(0u, tex_depth_stencil));
 }
 
@@ -318,39 +316,38 @@ TEST_F(test_framebuffer_death_test, set_color_attachment_invalid_formats)
 TEST_F(test_framebuffer, set_depth_attachment)
 {
   framebuffer fb;
-  texture2 tex(vec2u(4u, 8u), texture_format::depth, 2u);
+  texture2 tex(vec2u(4u, 8u), texture_format::depth);
 
   fb.set_depth_attachment(tex);
-
   SUCCEED();
 }
 
 
 
-TEST_F(test_framebuffer, set_depth_attachment_mip_map_level_limit)
-{
-  framebuffer fb;
-  uint mipmap_level_count = 3u;
-  texture2 tex(vec2u(4u, 8u), texture_format::depth, mipmap_level_count);
-
-  for(uint i = 0; i < mipmap_level_count; ++i)
-  {
-    fb.set_depth_attachment(tex, i);
-  }
-
-  SUCCEED();
-}
-
-
-
-TEST_F(
-  test_framebuffer_death_test, set_depth_attachment_error_invalid_mip_map_level)
-{
-  framebuffer fb;
-  uint mipmap_level_count = 3u;
-  texture2 tex(vec2u(4u, 8u), texture_format::depth, mipmap_level_count);
-  EXPECT_PRECOND_ERROR(fb.set_depth_attachment(tex, mipmap_level_count));
-}
+// TEST_F(test_framebuffer, set_depth_attachment_mip_map_level_limit)
+// {
+//   framebuffer fb;
+//   uint mipmap_level_count = 3u;
+//   texture2 tex(vec2u(4u, 8u), texture_format::depth, mipmap_level_count);
+// 
+//   for(uint i = 0; i < mipmap_level_count; ++i)
+//   {
+//     fb.set_depth_attachment(tex, i);
+//   }
+// 
+//   SUCCEED();
+// }
+// 
+// 
+// 
+// TEST_F(
+//   test_framebuffer_death_test, set_depth_attachment_error_invalid_mip_map_level)
+// {
+//   framebuffer fb;
+//   uint mipmap_level_count = 3u;
+//   texture2 tex(vec2u(4u, 8u), texture_format::depth, mipmap_level_count);
+//   EXPECT_PRECOND_ERROR(fb.set_depth_attachment(tex, mipmap_level_count));
+// }
 
 
 
@@ -373,80 +370,10 @@ TEST_F(test_framebuffer_death_test, set_depth_attachment_invalid_formats)
   texture2 tex_rg(vec2u(4u, 8u), texture_format::rg);
   texture2 tex_rgb(vec2u(4u, 8u), texture_format::rgb);
   texture2 tex_rgba(vec2u(4u, 8u), texture_format::rgba);
-  texture2 tex_stencil(vec2u(4u, 8u), texture_format::stencil);
   EXPECT_PRECOND_ERROR(fb.set_depth_attachment(tex_r));
   EXPECT_PRECOND_ERROR(fb.set_depth_attachment(tex_rg));
   EXPECT_PRECOND_ERROR(fb.set_depth_attachment(tex_rgb));
   EXPECT_PRECOND_ERROR(fb.set_depth_attachment(tex_rgba));
-  EXPECT_PRECOND_ERROR(fb.set_depth_attachment(tex_stencil));
-}
-
-
-
-TEST_F(test_framebuffer, set_stencil_attachment)
-{
-  framebuffer fb;
-  texture2 tex(vec2u(4u, 8u), texture_format::stencil, 2u);
-
-  fb.set_stencil_attachment(tex);
-
-  SUCCEED();
-}
-
-
-
-TEST_F(test_framebuffer, set_stencil_attachment_mip_map_level_limit)
-{
-  framebuffer fb;
-  uint mipmap_level_count = 3u;
-  texture2 tex(vec2u(4u, 8u), texture_format::stencil, mipmap_level_count);
-
-  for(uint i = 0; i < mipmap_level_count; ++i)
-  {
-    fb.set_stencil_attachment(tex, i);
-  }
-
-  SUCCEED();
-}
-
-
-
-TEST_F(test_framebuffer_death_test,
-  set_stencil_attachment_error_invalid_mip_map_level)
-{
-  framebuffer fb;
-  uint mipmap_level_count = 3u;
-  texture2 tex(vec2u(4u, 8u), texture_format::stencil, mipmap_level_count);
-  EXPECT_PRECOND_ERROR(fb.set_stencil_attachment(tex, mipmap_level_count));
-}
-
-
-
-TEST_F(test_framebuffer, set_stencil_attachment_valid_formats)
-{
-  framebuffer fb;
-  texture2 tex_stencil(vec2u(4u, 8u), texture_format::stencil);
-  texture2 tex_depth_stencil(vec2u(4u, 8u), texture_format::depth_stencil);
-  fb.set_stencil_attachment(tex_stencil);
-  fb.set_stencil_attachment(tex_depth_stencil);
-  SUCCEED();
-}
-
-
-
-TEST_F(test_framebuffer_death_test, set_stencil_attachment_invalid_formats)
-{
-  framebuffer fb;
-  texture2 tex_r(vec2u(4u, 8u), texture_format::r);
-  texture2 tex_rg(vec2u(4u, 8u), texture_format::rg);
-  texture2 tex_rgb(vec2u(4u, 8u), texture_format::rgb);
-  texture2 tex_rgba(vec2u(4u, 8u), texture_format::rgba);
-  texture2 tex_depth(vec2u(4u, 8u), texture_format::depth);
-  EXPECT_PRECOND_ERROR(fb.set_stencil_attachment(tex_r));
-  EXPECT_PRECOND_ERROR(fb.set_stencil_attachment(tex_rg));
-  EXPECT_PRECOND_ERROR(fb.set_stencil_attachment(tex_rgb));
-  EXPECT_PRECOND_ERROR(fb.set_stencil_attachment(tex_rgba));
-  EXPECT_PRECOND_ERROR(fb.set_stencil_attachment(tex_depth));
 }
 
 
@@ -454,7 +381,7 @@ TEST_F(test_framebuffer_death_test, set_stencil_attachment_invalid_formats)
 TEST_F(test_framebuffer, set_depth_stencil_attachment)
 {
   framebuffer fb;
-  texture2 tex(vec2u(4u, 8u), texture_format::depth_stencil, 2u);
+  texture2 tex(vec2u(4u, 8u), texture_format::depth_stencil);
 
   fb.set_depth_stencil_attachment(tex);
 
@@ -463,33 +390,33 @@ TEST_F(test_framebuffer, set_depth_stencil_attachment)
 
 
 
-TEST_F(test_framebuffer, set_depth_stencil_attachment_mip_map_level_limit)
-{
-  framebuffer fb;
-  uint mipmap_level_count = 3u;
-  texture2 tex(
-    vec2u(4u, 8u), texture_format::depth_stencil, mipmap_level_count);
-
-  for(uint i = 0; i < mipmap_level_count; ++i)
-  {
-    fb.set_depth_stencil_attachment(tex, i);
-  }
-
-  SUCCEED();
-}
-
-
-
-TEST_F(
-  test_framebuffer_death_test, SetDepthStencilAttachmentErrorInvalidMipMapLevel)
-{
-  framebuffer fb;
-  uint mipmap_level_count = 3u;
-  texture2 tex(
-    vec2u(4u, 8u), texture_format::depth_stencil, mipmap_level_count);
-  EXPECT_PRECOND_ERROR(
-    fb.set_depth_stencil_attachment(tex, mipmap_level_count));
-}
+// TEST_F(test_framebuffer, set_depth_stencil_attachment_mip_map_level_limit)
+// {
+//   framebuffer fb;
+//   uint mipmap_level_count = 3u;
+//   texture2 tex(
+//     vec2u(4u, 8u), texture_format::depth_stencil, mipmap_level_count);
+// 
+//   for(uint i = 0; i < mipmap_level_count; ++i)
+//   {
+//     fb.set_depth_stencil_attachment(tex, i);
+//   }
+// 
+//   SUCCEED();
+// }
+// 
+// 
+// 
+// TEST_F(
+//   test_framebuffer_death_test, set_depth_stencil_attachment_error_invalid_mip_map_level)
+// {
+//   framebuffer fb;
+//   uint mipmap_level_count = 3u;
+//   texture2 tex(
+//     vec2u(4u, 8u), texture_format::depth_stencil, mipmap_level_count);
+//   EXPECT_PRECOND_ERROR(
+//     fb.set_depth_stencil_attachment(tex, mipmap_level_count));
+// }
 
 
 
@@ -512,13 +439,11 @@ TEST_F(
   texture2 tex_rgb(vec2u(4u, 8u), texture_format::rgb);
   texture2 tex_rgba(vec2u(4u, 8u), texture_format::rgba);
   texture2 tex_depth(vec2u(4u, 8u), texture_format::depth);
-  texture2 tex_stencil(vec2u(4u, 8u), texture_format::stencil);
   EXPECT_PRECOND_ERROR(fb.set_depth_stencil_attachment(tex_r));
   EXPECT_PRECOND_ERROR(fb.set_depth_stencil_attachment(tex_rg));
   EXPECT_PRECOND_ERROR(fb.set_depth_stencil_attachment(tex_rgb));
   EXPECT_PRECOND_ERROR(fb.set_depth_stencil_attachment(tex_rgba));
   EXPECT_PRECOND_ERROR(fb.set_depth_stencil_attachment(tex_depth));
-  EXPECT_PRECOND_ERROR(fb.set_depth_stencil_attachment(tex_stencil));
 }
 
 
@@ -540,17 +465,6 @@ TEST_F(test_framebuffer, status_depth_attachment)
   texture2 tex_depth(vec2u(4u, 8u), texture_format::depth);
 
   fb.set_depth_attachment(tex_depth);
-  EXPECT_TRUE(fb.is_complete());
-}
-
-
-
-TEST_F(test_framebuffer, status_stencil_attachment)
-{
-  framebuffer fb;
-  texture2 tex_stencil(vec2u(4u, 8u), texture_format::stencil);
-
-  fb.set_stencil_attachment(tex_stencil);
   EXPECT_TRUE(fb.is_complete());
 }
 
@@ -580,17 +494,15 @@ TEST_F(test_framebuffer, status_color_depth_stencil_attachment)
 
 
 
-TEST_F(test_framebuffer, status_color_depth_and_stencil_attachment)
+TEST_F(test_framebuffer, status_color_depth_attachment)
 {
   framebuffer fb;
   texture2 tex_rgba(vec2u(4u, 8u), texture_format::rgba);
   texture2 tex_depth(vec2u(4u, 8u), texture_format::depth);
-  texture2 tex_stencil(vec2u(4u, 8u), texture_format::stencil);
 
   fb.set_color_attachment(0u, tex_rgba);
   fb.set_depth_attachment(tex_depth);
-  fb.set_stencil_attachment(tex_stencil);
-  EXPECT_FALSE(fb.is_complete());
+  EXPECT_TRUE(fb.is_complete());
 }
 
 
@@ -598,7 +510,8 @@ TEST_F(test_framebuffer, status_color_depth_and_stencil_attachment)
 TEST_F(test_framebuffer, status_multisampled_color_depth_stencil_attachment)
 {
   framebuffer fb;
-  uint sample_count = 4u;
+  uint sample_count
+    = std::min(multisample_texture2::get_max_sample_count().get(), 4u);
   multisample_texture2 tex_rgba(
     vec2u(4u, 8u), texture_format::rgba, sample_count);
   texture2 tex_depth_stencil(vec2u(4u, 8u), texture_format::depth_stencil);
@@ -614,7 +527,8 @@ TEST_F(test_framebuffer,
   status_multisampled_color_multisampled_depth_stencil_attachment)
 {
   framebuffer fb;
-  uint sample_count = 4u;
+  uint sample_count
+    = std::min(multisample_texture2::get_max_sample_count().get(), 4u);
   multisample_texture2 tex_rgba(
     vec2u(4u, 8u), texture_format::rgba, sample_count);
   multisample_texture2 tex_depth_stencil(
@@ -631,7 +545,8 @@ TEST_F(test_framebuffer,
   status_multisampled_color_multisampled_depth_stencil_attachment_different_samples)
 {
   framebuffer fb;
-  uint sample_count = 4u;
+  uint sample_count
+    = std::min(multisample_texture2::get_max_sample_count().get(), 4u);
   multisample_texture2 tex_rgba(
     vec2u(4u, 8u), texture_format::rgba, sample_count);
   multisample_texture2 tex_depth_stencil(

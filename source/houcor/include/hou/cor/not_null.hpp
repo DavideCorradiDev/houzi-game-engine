@@ -5,6 +5,8 @@
 #ifndef HOU_COR_NOT_NULL_HPP
 #define HOU_COR_NOT_NULL_HPP
 
+#include "hou/cor/assertions.hpp"
+
 #include "hou/cor/cor_config.hpp"
 
 #include <type_traits>
@@ -15,103 +17,144 @@
 namespace hou
 {
 
-/** Wrapper for pointers which cannot be null.
+/**
+ * Wrapper for pointers which cannot be null.
  *
  * not_null works transparently as a pointer, but the wrapped pointer cannot be
  * assigned the nullptr value.
  *
- * \tparam PtrType the pointer type. It can be a naked pointer or a smart
+ * \tparam T the pointer type. It can be a naked pointer or a smart
  * pointer.
  */
-template <typename PtrType>
-class HOU_COR_API not_null
+template <typename T>
+class not_null
 {
 public:
-  static_assert(std::is_assignable<PtrType&, std::nullptr_t>::value,
-    "PtrType cannot be nullptr.");
+  static_assert(
+    std::is_assignable<T&, std::nullptr_t>::value, "T cannot be nullptr.");
 
 public:
-  /** Converting move constructor.
+  /**
+   * Converting move constructor.
    *
-   * \tparam OtherPtrType the other pointer type.
+   * \tparam U the value pointer type.
    *
    * \tparam Enable enabling parameter (should be left to default value).
    *
-   * \param other pointer type.
-   */
-  template <typename OtherPtrType,
-    typename Enable
-    = std::enable_if_t<std::is_convertible<OtherPtrType, PtrType>::value>>
-  constexpr not_null(OtherPtrType&& other) noexcept;
-
-  /** Converting constructor.
+   * \param value pointer type.
    *
-   * \tparam OtherPtrType the other pointer type.
+   * \throws hou::precondition_error if value is nullptr
+   */
+  template <typename U,
+    typename Enable = std::enable_if_t<std::is_convertible<U, T>::value>>
+  constexpr not_null(U&& value);
+
+  /**
+   * Converting constructor.
+   *
+   * \tparam U the other pointer type.
    *
    * \tparam Enable enabling parameter (should be left to default value).
    *
    * \param other the other not_null object.
    */
-  template <typename OtherPtrType,
-    typename Enable
-    = std::enable_if_t<std::is_convertible<OtherPtrType, PtrType>::value>>
-  constexpr not_null(const not_null<OtherPtrType>& other) noexcept;
+  template <typename U,
+    typename Enable = std::enable_if_t<std::is_convertible<U, T>::value>>
+  constexpr not_null(const not_null<U>& other) noexcept;
 
-  /** Deleted default constructor.
+  /**
+   * Deleted default constructor.
    */
   not_null() = delete;
 
-  /** Deleted nullptr constructor.
+  /**
+   * Deleted nullptr constructor.
    */
   not_null(std::nullptr_t) = delete;
 
-  /** Deleted nullptr assignment operator.
+  /**
+   * Deleted nullptr assignment operator.
    */
   not_null& operator=(std::nullptr_t) = delete;
 
-  /** Returns a const reference to the wrapped object.
+  /**
+   * Returns a const reference to the wrapped object.
+   *
+   * \throws hou::postcondition_violation if the internally stored pointer is
+   * nullptr.
    *
    * \return a const reference to the wrapped object.
    */
-  constexpr const PtrType& get() const noexcept;
+  constexpr const T& get() const;
 
-  /** Returns a reference to the wrapped object.
+  /**
+   * Member access operator.
    *
-   * \return a reference to the wrapped object.
-   */
-  constexpr PtrType& get() noexcept;
-
-  /** Member access operator.
+   * \throws hou::postcondition_violation if the internally stored pointer is
+   * nullptr.
    *
    * Enables not_null to work transparently as a pointer.
    */
-  constexpr decltype(auto) operator-> () const noexcept;
+  constexpr decltype(auto) operator-> () const;
 
-  /** Member access operator.
+  /**
+   * Member access operator.
+   *
+   * \throws hou::postcondition_violation if the internally stored pointer is
+   * nullptr.
    *
    * Enables not_null to work transparently as a pointer.
    */
-  constexpr decltype(auto) operator-> () noexcept;
+  constexpr decltype(auto) operator-> ();
 
-  /** Unary dereference operator.
+  /**
+   * Unary dereference operator.
    *
    * Enables not_null to work transparently as a pointer.
+   *
+   * \throws hou::postcondition_violation if the internally stored pointer is
+   * nullptr.
    *
    * \return a reference to the pointed object.
    */
-  constexpr decltype(auto) operator*() const noexcept;
+  constexpr decltype(auto) operator*() const;
 
-  /** Converts to the underlying pointer type.
+  /**
+   * Converts to the underlying pointer type.
    *
-   * As type conversion makes a copy, PtrType must be copyable.
+   * As type conversion makes a copy, T must be copyable.
    *
-   * \return a copy of the underlying pointer of type PtrType.
+   * \throws hou::postcondition_violation if the internally stored pointer is
+   * nullptr.
+   *
+   * \return a copy of the underlying pointer of type T.
    */
-  constexpr operator PtrType() const noexcept;
+  constexpr operator T() const;
+
+#ifndef HOU_DOXYGEN
+public:
+  // Friend declarations.
+  template <typename U>
+  friend typename std::remove_reference<U>::type&& move_content(
+    not_null<U>&& t) noexcept;
+#endif
 
 private:
-  PtrType m_ptr;
+  T m_ptr;
 };
+
+/**
+ * Moves the content away from the nullptr.
+ *
+ * \tparam T the pointer type.
+ *
+ * \param t the nullptr.
+ *
+ * \return an object of type T containing the object moved from T.
+ */
+template <typename T>
+typename std::remove_reference<T>::type&& move_content(
+  not_null<T>&& t) noexcept;
 
 }  // namespace hou
 

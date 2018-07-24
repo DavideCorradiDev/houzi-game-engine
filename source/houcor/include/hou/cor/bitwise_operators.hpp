@@ -14,14 +14,16 @@
 namespace hou
 {
 
-/** Enable bitwise operators for type T.
+/**
+ * Enable bitwise operators for type T.
  *
  * \tparam T the type to enable bitwise operators for.
  */
 template <typename T>
 struct enable_bitwise_operators
 {
-  /** Whether the bitwise operators are enabled for type T.
+  /**
+   * Whether the bitwise operators are enabled for type T.
    *
    * Provide a class specialization setting this variable to true to enable
    * bitwise operators for type T.
@@ -29,7 +31,8 @@ struct enable_bitwise_operators
   static constexpr bool enable = false;
 };
 
-/** Bitwise OR operator.
+/**
+ * Bitwise OR operator.
  *
  * \tparam T the type.
  *
@@ -47,7 +50,8 @@ typename std::enable_if<enable_bitwise_operators<T>::enable, T>::type operator|(
   return static_cast<T>(static_cast<utype>(lhs) | static_cast<utype>(rhs));
 }
 
-/** Bitwise OR operator.
+/**
+ * Bitwise OR operator.
  *
  * \tparam T the type.
  *
@@ -65,7 +69,8 @@ typename std::enable_if<enable_bitwise_operators<T>::enable, T&>::type
   return lhs = lhs | rhs;
 }
 
-/** Bitwise AND operator.
+/**
+ * Bitwise AND operator.
  *
  * \tparam T the type.
  *
@@ -83,7 +88,8 @@ typename std::enable_if<enable_bitwise_operators<T>::enable, T>::type operator&(
   return static_cast<T>(static_cast<utype>(lhs) & static_cast<utype>(rhs));
 }
 
-/** Bitwise AND operator.
+/**
+ * Bitwise AND operator.
  *
  * \tparam T the type.
  *
@@ -101,21 +107,40 @@ typename std::enable_if<enable_bitwise_operators<T>::enable, T&>::type
   return lhs = lhs & rhs;
 }
 
-/** Checks if a bit is set in a bitfield.
+/**
+ * Checks if all given bits are set in a bitfield.
  *
  * \tparam T the type.
  *
  * \param bitfield the field.
  *
- * \param bit the bit.
+ * \param bits the bits to be checked
  *
  * \return the result of the check.
  */
 template <typename T>
 typename std::enable_if<enable_bitwise_operators<T>::enable, bool>::type
-  check_bit(T bitfield, T bit) noexcept
+  check_all(T bitfield, T bits) noexcept
 {
-  return (bitfield & bit) == bit;
+  return (bitfield & bits) == bits;
+}
+
+/**
+ * Checks if any of the given bits are set in a bitfield.
+ *
+ * \tparam T the type.
+ *
+ * \param bitfield the field.
+ *
+ * \param bits the bits to be checked
+ *
+ * \return the result of the check.
+ */
+template <typename T>
+typename std::enable_if<enable_bitwise_operators<T>::enable, bool>::type
+  check_any(T bitfield, T bits) noexcept
+{
+  return (bitfield & bits) != T(0);
 }
 
 }  // namespace hou

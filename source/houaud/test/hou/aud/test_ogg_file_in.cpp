@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 #include "hou/aud/test_data.hpp"
 
 #include "hou/aud/aud_exceptions.hpp"
@@ -42,13 +42,13 @@ class TestOggFileInDeathTest : public test_ogg_file_in
 const std::string test_ogg_file_in::mono16_unicode_filename
   = get_data_dir() + u8"TestOgg\U00004f60\U0000597d.ogg";
 const std::string test_ogg_file_in::mono16_filename
-  = get_data_dir() + u8"TestOgg-Mono-16-44100.ogg";
+  = get_data_dir() + u8"TestOgg-mono-16-44100.ogg";
 const std::string test_ogg_file_in::stereo16_filename
-  = get_data_dir() + u8"TestOgg-Stereo-16-44100.ogg";
+  = get_data_dir() + u8"TestOgg-stereo-16-44100.ogg";
 const std::string test_ogg_file_in::low_sample_rate_filename
-  = get_data_dir() + u8"TestOgg-Mono-16-22050.ogg";
+  = get_data_dir() + u8"TestOgg-mono-16-22050.ogg";
 const std::string test_ogg_file_in::wav_filename
-  = get_data_dir() + u8"TestWav-Mono-16-44100.wav";
+  = get_data_dir() + u8"TestWav-mono-16-44100.wav";
 
 }  // namespace
 
@@ -229,7 +229,7 @@ TEST_F(test_ogg_file_in, set_byte_pos)
   EXPECT_EQ(6, fi.get_byte_pos());
   fi.set_byte_pos(0);
   EXPECT_EQ(0, fi.get_byte_pos());
-  fi.set_byte_pos(fi.get_byte_count());
+  fi.set_byte_pos(static_cast<ogg_file_in::byte_position>(fi.get_byte_count()));
   EXPECT_EQ(static_cast<ogg_file_in::byte_position>(fi.get_byte_count()),
     fi.get_byte_pos());
 }
@@ -240,7 +240,8 @@ TEST_F(TestOggFileInDeathTest, set_byte_pos_error_position_in_sample)
 {
   ogg_file_in fi(mono16_filename);
   EXPECT_PRECOND_ERROR(fi.set_byte_pos(3));
-  EXPECT_PRECOND_ERROR(fi.set_byte_pos(fi.get_byte_count() + 3));
+  EXPECT_PRECOND_ERROR(fi.set_byte_pos(
+    static_cast<ogg_file_in::byte_position>(fi.get_byte_count() + 3)));
 }
 
 
@@ -249,7 +250,9 @@ TEST_F(TestOggFileInDeathTest, set_byte_pos_error_invalid_position)
 {
   ogg_file_in fi(mono16_filename);
   EXPECT_ERROR_0(fi.set_byte_pos(-2), cursor_error);
-  EXPECT_ERROR_0(fi.set_byte_pos(fi.get_byte_count() + 2), cursor_error);
+  EXPECT_ERROR_0(fi.set_byte_pos(static_cast<ogg_file_in::byte_position>(
+                   fi.get_byte_count() + 2)),
+    cursor_error);
 }
 
 
@@ -264,7 +267,8 @@ TEST_F(test_ogg_file_in, move_byte_pos)
   EXPECT_EQ(4, fi.get_byte_pos());
   fi.move_byte_pos(-4);
   EXPECT_EQ(0, fi.get_byte_pos());
-  fi.move_byte_pos(fi.get_byte_count());
+  fi.move_byte_pos(
+    static_cast<ogg_file_in::byte_position>(fi.get_byte_count()));
   EXPECT_EQ(static_cast<ogg_file_in::byte_position>(fi.get_byte_count()),
     fi.get_byte_pos());
 }
@@ -276,7 +280,8 @@ TEST_F(TestOggFileInDeathTest, move_byte_pos_error_position_in_sample)
   ogg_file_in fi(mono16_filename);
   fi.move_byte_pos(4);
   EXPECT_PRECOND_ERROR(fi.move_byte_pos(3));
-  EXPECT_PRECOND_ERROR(fi.move_byte_pos(fi.get_byte_count() + 3));
+  EXPECT_PRECOND_ERROR(fi.move_byte_pos(
+    static_cast<ogg_file_in::byte_position>(fi.get_byte_count() + 3)));
 }
 
 
@@ -286,7 +291,9 @@ TEST_F(TestOggFileInDeathTest, move_byte_pos_error_invalid_position)
   ogg_file_in fi(mono16_filename);
   fi.move_byte_pos(4);
   EXPECT_ERROR_0(fi.move_byte_pos(-6), cursor_error);
-  EXPECT_ERROR_0(fi.move_byte_pos(fi.get_byte_count() - 2), cursor_error);
+  EXPECT_ERROR_0(fi.move_byte_pos(static_cast<ogg_file_in::byte_position>(
+                   fi.get_byte_count() - 2)),
+    cursor_error);
 }
 
 
@@ -300,7 +307,8 @@ TEST_F(test_ogg_file_in, set_sample_pos_mono16)
   fi.set_sample_pos(3);
   EXPECT_EQ(6, fi.get_byte_pos());
   EXPECT_EQ(3, fi.get_sample_pos());
-  fi.set_sample_pos(fi.get_sample_count());
+  fi.set_sample_pos(
+    static_cast<ogg_file_in::byte_position>(fi.get_sample_count()));
   EXPECT_EQ(static_cast<ogg_file_in::byte_position>(fi.get_byte_count()),
     fi.get_byte_pos());
   EXPECT_EQ(static_cast<ogg_file_in::sample_position>(fi.get_sample_count()),
@@ -318,7 +326,8 @@ TEST_F(test_ogg_file_in, set_sample_pos_stereo16)
   fi.set_sample_pos(3);
   EXPECT_EQ(12, fi.get_byte_pos());
   EXPECT_EQ(3, fi.get_sample_pos());
-  fi.set_sample_pos(fi.get_sample_count());
+  fi.set_sample_pos(
+    static_cast<ogg_file_in::byte_position>(fi.get_sample_count()));
   EXPECT_EQ(static_cast<ogg_file_in::byte_position>(fi.get_byte_count()),
     fi.get_byte_pos());
   EXPECT_EQ(static_cast<ogg_file_in::sample_position>(fi.get_sample_count()),
@@ -331,7 +340,9 @@ TEST_F(TestOggFileInDeathTest, set_sample_pos_error_invalid_position)
 {
   ogg_file_in fi(mono16_filename);
   EXPECT_ERROR_0(fi.set_sample_pos(-1), cursor_error);
-  EXPECT_ERROR_0(fi.set_sample_pos(fi.get_sample_count() + 1), cursor_error);
+  EXPECT_ERROR_0(fi.set_sample_pos(static_cast<ogg_file_in::byte_position>(
+                   fi.get_sample_count() + 1)),
+    cursor_error);
 }
 
 
@@ -351,7 +362,8 @@ TEST_F(test_ogg_file_in, move_sample_pos_mono16)
   fi.move_sample_pos(-2);
   EXPECT_EQ(0, fi.get_byte_pos());
   EXPECT_EQ(0, fi.get_sample_pos());
-  fi.move_sample_pos(fi.get_sample_count());
+  fi.move_sample_pos(
+    static_cast<ogg_file_in::byte_position>(fi.get_sample_count()));
   EXPECT_EQ(static_cast<ogg_file_in::byte_position>(fi.get_byte_count()),
     fi.get_byte_pos());
   EXPECT_EQ(static_cast<ogg_file_in::sample_position>(fi.get_sample_count()),
@@ -375,7 +387,8 @@ TEST_F(test_ogg_file_in, move_sample_pos_stereo16)
   fi.move_sample_pos(-2);
   EXPECT_EQ(0, fi.get_byte_pos());
   EXPECT_EQ(0, fi.get_sample_pos());
-  fi.move_sample_pos(fi.get_sample_count());
+  fi.move_sample_pos(
+    static_cast<ogg_file_in::byte_position>(fi.get_sample_count()));
   EXPECT_EQ(static_cast<ogg_file_in::byte_position>(fi.get_byte_count()),
     fi.get_byte_pos());
   EXPECT_EQ(static_cast<ogg_file_in::sample_position>(fi.get_sample_count()),
@@ -389,7 +402,9 @@ TEST_F(TestOggFileInDeathTest, move_sample_pos_error_invalid_position)
   ogg_file_in fi(mono16_filename);
   fi.move_sample_pos(2);
   EXPECT_ERROR_0(fi.move_sample_pos(-3), cursor_error);
-  EXPECT_ERROR_0(fi.move_sample_pos(fi.get_sample_count() + 1), cursor_error);
+  EXPECT_ERROR_0(fi.move_sample_pos(static_cast<ogg_file_in::byte_position>(
+                   fi.get_sample_count() + 1)),
+    cursor_error);
 }
 
 

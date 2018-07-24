@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 
 #include "hou/aud/audio_context.hpp"
 
@@ -24,7 +24,8 @@ class test_audio_context : public Test
 TEST_F(test_audio_context, default_creation)
 {
   audio_context ctx;
-  SUCCEED();
+  EXPECT_NE(0u, ctx.get_impl().get_uid());
+  EXPECT_NE(0u, ctx.get_device().get_uid());
 }
 
 
@@ -35,13 +36,29 @@ TEST_F(test_audio_context, device_name_creation)
   for(const auto& dev_name : device_names)
   {
     audio_context ctx(dev_name);
+    EXPECT_NE(0u, ctx.get_impl().get_uid());
+    EXPECT_NE(0u, ctx.get_device().get_uid());
   }
-  SUCCEED();
 }
 
 
 
 TEST_F(test_audio_context, move_constructor)
+{
+  audio_context ctx_dummy;
+  al::context::uid_type ctx_uid = ctx_dummy.get_impl().get_uid();
+  al::device::uid_type dev_uid = ctx_dummy.get_device().get_uid();
+
+  audio_context ctx = std::move(ctx_dummy);
+  EXPECT_EQ(0u, ctx_dummy.get_impl().get_uid());
+  EXPECT_EQ(0u, ctx_dummy.get_device().get_uid());
+  EXPECT_EQ(ctx_uid, ctx.get_impl().get_uid());
+  EXPECT_EQ(dev_uid, ctx.get_device().get_uid());
+}
+
+
+
+TEST_F(test_audio_context, move_constructor_current_context)
 {
   audio_context ctx_dummy;
   audio_context::set_current(ctx_dummy);

@@ -34,6 +34,7 @@ file_handle::file_handle(file_handle&& other) noexcept
 
 void file_handle::close()
 {
+  HOU_CHECK_0(fflush(m_file) != EOF, write_error);
   HOU_CHECK_0(close_file(m_file), file_close_error);
   m_file = nullptr;
 }
@@ -44,9 +45,7 @@ file_handle::~file_handle()
 {
   if(m_file != nullptr)
   {
-    HOU_DISABLE_EXCEPTIONS_BEGIN
     close();
-    HOU_DISABLE_EXCEPTIONS_END
   }
 }
 
@@ -93,7 +92,7 @@ std::string get_filename_extension(const std::string& path)
 
 bool close_file(FILE* f) noexcept
 {
-  return fclose(f) != EOF;
+  return f == nullptr ? false : (fclose(f) != EOF);
 }
 
 }  // namespace hou

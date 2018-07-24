@@ -5,24 +5,23 @@
 #ifndef TEST_HOU_GFX_TEST_GFX_BASE_HPP
 #define TEST_HOU_GFX_TEST_GFX_BASE_HPP
 
-#include <gtest/gtest.h>
+#include "hou/test.hpp"
 
 #include "hou/gfx/graphic_context.hpp"
+
+#include "hou/sys/window.hpp"
 
 
 
 class test_gfx_base : public ::testing::Test
 {
 public:
+  static hou::graphic_context& get_context();
+  static hou::window& get_default_window();
   static void SetUpTestCase();
-  static void TearDownTestCase();
 
 public:
   test_gfx_base();
-  virtual ~test_gfx_base() = 0;
-
-public:
-  static std::unique_ptr<hou::graphic_context> s_context;
 };
 
 #endif

@@ -19,7 +19,8 @@
 namespace hou
 {
 
-/** Transform in 3d space.
+/**
+ * Transform in 3d space.
  *
  * It can be used to represent translation, rotation, scaling, shearing, or any
  * combination thereof.
@@ -27,44 +28,50 @@ namespace hou
  * \tparam T the scalar type.
  */
 template <typename T>
-class HOU_MTH_API transform3
+class transform3
 {
 public:
-  template <typename OtherT>
-  friend class transform3;
+  /**
+   * The value type. */
+  using value_type = T;
 
 public:
-  /** Returns the identity transform.
+  /**
+   * Returns the identity transform.
    *
    * /return the identity transform.
    */
-  static transform3 identity() noexcept;
+  static const transform3& identity() noexcept;
 
-  /** Creates a 3d transform representing a translation.
+  /**
+   * Creates a 3d transform representing a translation.
    *
    * \param translation the translation vector.
    *
    * \return a transform3 object representing the translation.
    */
-  static transform3 translation(const vec3<T>& translation) noexcept;
+  static constexpr transform3 translation(const vec3<T>& translation) noexcept;
 
-  /** Creates a 3d transform representing a rotation.
+  /**
+   * Creates a 3d transform representing a rotation.
    *
    * \param rotation the rotation.
    *
    * \return a transform3 object representing the rotation.
    */
-  static transform3 rotation(const rot3<T>& rotation) noexcept;
+  static constexpr transform3 rotation(const rot3<T>& rotation) noexcept;
 
-  /** Creates a 3d transform representing a scaling transformation.
+  /**
+   * Creates a 3d transform representing a scaling transformation.
    *
    * \param scale the scaling factors.
    *
    * \return a transform3 object representing the scaling.
    */
-  static transform3 scale(const vec3<T>& scale) noexcept;
+  static constexpr transform3 scale(const vec3<T>& scale) noexcept;
 
-  /** Creates a 3d transform representing a shearing transformation.
+  /**
+   * Creates a 3d transform representing a shearing transformation.
    *
    * \param sxy the x-y shear factor
    *
@@ -80,14 +87,17 @@ public:
    *
    * \return a transform3 object representing the shearing.
    */
-  static transform3 shear(T sxy, T sxz, T syx, T syz, T szx, T szy) noexcept;
+  static constexpr transform3 shear(
+    T sxy, T sxz, T syx, T syz, T szx, T szy) noexcept;
 
 public:
-  /** Creates an identity transform.
+  /**
+   * Creates an identity transform.
    */
-  transform3() noexcept;
+  constexpr transform3() noexcept;
 
-  /** Creates a transform from a transform with a different scalar type.
+  /**
+   * Creates a transform from a transform with a different scalar type.
    *
    * \tparam U the other scalar type.
    * \tparam Enable enabling parameter.
@@ -96,99 +106,77 @@ public:
    */
   template <typename U,
     typename Enable = std::enable_if_t<std::is_convertible<U, T>::value>>
-  HOU_MTH_API transform3(const transform3<U>& other) noexcept;
+  constexpr transform3(const transform3<U>& other) noexcept;
 
-  /** Builds a homogeneous transformation matrix corresponding to the
+  /**
+   * Builds a homogeneous transformation matrix corresponding to the
    * transform.
    *
    * \return the homogeneous transformation matrix corresponding to the
    * transform.
    */
-  mat4x4<T> to_mat4x4() const noexcept;
+  constexpr mat4x4<T> to_mat4x4() const noexcept;
 
-  /** Combines the transform with the given transform r.
+  /**
+   * Combines the transform with the given transform r.
    *
    * \param r the transform to be combined.
    *
    * \return a reference to the object after the combination.
    */
-  transform3& operator*=(const transform3& r) noexcept;
+  constexpr transform3& operator*=(const transform3& r) noexcept;
 
-  /** Inverts the transform.
+  /**
+   * Inverts the transform.
    *
    * \return a reference to the object after the inversion.
    */
-  transform3& invert();
+  constexpr transform3& invert();
 
-  /** Transforms the given vector.
+  /**
+   * Transforms the given vector.
    *
    * \param vec the vector to be transformed.
    *
    * \return the transformed vector.
    */
-  vec3<T> transform_vector(const vec3<T>& vec) const noexcept;
+  constexpr vec3<T> transform_vector(const vec3<T>& vec) const noexcept;
 
-  /** Transforms the given point.
+  /**
+   * Transforms the given point.
    *
    * \param point the point to be transformed.
    *
    * \return the transformed point.
    */
-  vec3<T> transform_point(const vec3<T>& point) const noexcept;
-
-  /** Checks if two transforms are equal.
-   *
-   * \param lhs the left operand of the comparison.
-   *
-   * \param rhs the right operand of the comparison.
-   *
-   * \return the result of the check.
-   */
-  friend constexpr operator==(
-    const transform3& lhs, const transform3& rhs) noexcept
-  {
-    return lhs.m_mat == rhs.m_mat && lhs.m_vec == rhs.m_vec;
-  }
-
-  /** Checks if two transforms are not equal.
-   *
-   * \param lhs the left operand of the comparison.
-   *
-   * \param rhs the right operand of the comparison.
-   *
-   * \return the result of the check.
-   */
-  friend constexpr operator!=(
-    const transform3& lhs, const transform3& rhs) noexcept
-  {
-    return !(lhs == rhs);
-  }
-
-  /** Checks if two transforms are equal with the specified accuracy.
-   *
-   * \param lhs the left operand of the comparison.
-   *
-   * \param rhs the right operand of the comparison.
-   *
-   * \param acc the accuracy.
-   *
-   * \return the result of the check.
-   */
-  friend constexpr bool close(const transform3& lhs, const transform3& rhs,
-    T acc = std::numeric_limits<T>::epsilon()) noexcept
-  {
-    return close(lhs.m_mat, rhs.m_mat, acc) && close(lhs.m_vec, rhs.m_vec, acc);
-  }
+  constexpr vec3<T> transform_point(const vec3<T>& point) const noexcept;
 
 private:
-  transform3(const mat3x3<T>& r, const vec3<T>& t) noexcept;
+  template <typename OtherT>
+  friend class transform3;
+
+  template <typename U>
+  friend constexpr bool operator==(
+    const transform3<U>& lhs, const transform3<U>& rhs) noexcept;
+
+  template <typename U>
+  friend constexpr bool operator!=(
+    const transform3<U>& lhs, const transform3<U>& rhs) noexcept;
+
+  template <typename U>
+  friend constexpr bool close(
+    const transform3<U>& lhs, const transform3<U>& rhs, U acc) noexcept;
+
+private:
+  constexpr transform3(const mat3x3<T>& r, const vec3<T>& t) noexcept;
 
 private:
   mat3x3<T> m_mat;
   vec3<T> m_vec;
 };
 
-/** Combines two transforms.
+/**
+ * Combines two transforms.
  *
  * \tparam T the scalar type.
  *
@@ -199,10 +187,11 @@ private:
  * \return the combined transform.
  */
 template <typename T>
-HOU_MTH_API transform3<T> operator*(
+constexpr transform3<T> operator*(
   transform3<T> lhs, const transform3<T>& rhs) noexcept;
 
-/** Computes the inverse of a transform.
+/**
+ * Computes the inverse of a transform.
  *
  * \tparam T the scalar type.
  *
@@ -211,9 +200,57 @@ HOU_MTH_API transform3<T> operator*(
  * \return the inverse transform.
  */
 template <typename T>
-HOU_MTH_API transform3<T> inverse(transform3<T> t);
+constexpr transform3<T> inverse(transform3<T> t);
 
-/** Writes the object into a stream.
+/**
+ * Checks if two transforms are equal.
+ *
+ * \tparam T the scalar type.
+ *
+ * \param lhs the left operand of the comparison.
+ *
+ * \param rhs the right operand of the comparison.
+ *
+ * \return the result of the check.
+ */
+template <typename T>
+bool constexpr operator==(
+  const transform3<T>& lhs, const transform3<T>& rhs) noexcept;
+
+/**
+ * Checks if two transforms are not equal.
+ *
+ * \tparam T the scalar type.
+ *
+ * \param lhs the left operand of the comparison.
+ *
+ * \param rhs the right operand of the comparison.
+ *
+ * \return the result of the check.
+ */
+template <typename T>
+bool constexpr operator!=(
+  const transform3<T>& lhs, const transform3<T>& rhs) noexcept;
+
+/**
+ * Checks if two transforms are equal with the specified accuracy.
+ *
+ * \tparam T the scalar type.
+ *
+ * \param lhs the left operand of the comparison.
+ *
+ * \param rhs the right operand of the comparison.
+ *
+ * \param acc the accuracy.
+ *
+ * \return the result of the check.
+ */
+template <typename T>
+bool constexpr close(const transform3<T>& lhs, const transform3<T>& rhs,
+  T acc = std::numeric_limits<T>::epsilon()) noexcept;
+
+/**
+ * Writes the object into a stream.
  *
  * \tparam T the scalar type.
  *
@@ -224,8 +261,10 @@ HOU_MTH_API transform3<T> inverse(transform3<T> t);
  * \return a reference to the stream.
  */
 template <typename T>
-HOU_MTH_API std::ostream& operator<<(std::ostream& os, const transform3<T>& t);
+std::ostream& operator<<(std::ostream& os, const transform3<T>& t);
 
 }  // namespace hou
+
+#include "hou/mth/transform3.inl"
 
 #endif

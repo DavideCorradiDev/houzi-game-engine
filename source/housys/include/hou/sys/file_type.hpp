@@ -14,16 +14,20 @@
 namespace hou
 {
 
-/** Enumeration for a file type. */
+/**
+ * Enumeration for a file type. */
 enum class file_type
 {
-  /** Binary file. */
+  /**
+   * Binary file. */
   binary,
-  /** Text file. */
+  /**
+   * Text file. */
   text,
 };
 
-/** Writes a file_type enum into a stream.
+/**
+ * Writes a file_type enum into a stream.
  *
  * \param os the stream.
  *

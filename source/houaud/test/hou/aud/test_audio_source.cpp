@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 #include "hou/aud/test_aud_base.hpp"
 
 #include "hou/aud/audio_buffer.hpp"
@@ -183,8 +183,8 @@ TEST_F(test_audio_source, default_constructor)
   EXPECT_FLOAT_EQ(1.f, as.get_reference_distance());
   EXPECT_FALSE(as.is_relative());
   EXPECT_FLOAT_EQ(0.f, as.get_cone_outer_gain());
-  EXPECT_FLOAT_EQ(2 * pi_f, as.get_cone_inner_angle());
-  EXPECT_FLOAT_EQ(2 * pi_f, as.get_cone_outer_angle());
+  EXPECT_FLOAT_EQ(2 * pi<float>(), as.get_cone_inner_angle());
+  EXPECT_FLOAT_EQ(2 * pi<float>(), as.get_cone_outer_angle());
   EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_position());
   EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_velocity());
   EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_direction());
@@ -214,8 +214,8 @@ TEST_F(test_audio_source, move_constructor)
   EXPECT_FLOAT_EQ(1.f, as.get_reference_distance());
   EXPECT_FALSE(as.is_relative());
   EXPECT_FLOAT_EQ(0.f, as.get_cone_outer_gain());
-  EXPECT_FLOAT_EQ(2 * pi_f, as.get_cone_inner_angle());
-  EXPECT_FLOAT_EQ(2 * pi_f, as.get_cone_outer_angle());
+  EXPECT_FLOAT_EQ(2 * pi<float>(), as.get_cone_inner_angle());
+  EXPECT_FLOAT_EQ(2 * pi<float>(), as.get_cone_outer_angle());
   EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_position());
   EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_velocity());
   EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_direction());
@@ -585,10 +585,10 @@ TEST_F(test_audio_source, cone_inner_angle)
   concrete_audio_source as(m_buffer);
   as.set_cone_inner_angle(0.f);
   EXPECT_FLOAT_EQ(0.f, as.get_cone_inner_angle());
-  as.set_cone_inner_angle(pi_f);
-  EXPECT_FLOAT_EQ(pi_f, as.get_cone_inner_angle());
-  as.set_cone_inner_angle(2 * pi_f);
-  EXPECT_FLOAT_EQ(2 * pi_f, as.get_cone_inner_angle());
+  as.set_cone_inner_angle(pi<float>());
+  EXPECT_FLOAT_EQ(pi<float>(), as.get_cone_inner_angle());
+  as.set_cone_inner_angle(2 * pi<float>());
+  EXPECT_FLOAT_EQ(2 * pi<float>(), as.get_cone_inner_angle());
 }
 
 
@@ -596,8 +596,8 @@ TEST_F(test_audio_source, cone_inner_angle)
 TEST_F(test_audio_source_death_test, invalid_cone_inner_angle)
 {
   concrete_audio_source as(m_buffer);
-  EXPECT_PRECOND_ERROR(as.set_cone_inner_angle(-pi_f));
-  EXPECT_PRECOND_ERROR(as.set_cone_inner_angle(3 * pi_f));
+  EXPECT_PRECOND_ERROR(as.set_cone_inner_angle(-pi<float>()));
+  EXPECT_PRECOND_ERROR(as.set_cone_inner_angle(3 * pi<float>()));
 }
 
 
@@ -607,10 +607,10 @@ TEST_F(test_audio_source, cone_outer_angle)
   concrete_audio_source as(m_buffer);
   as.set_cone_outer_angle(0.f);
   EXPECT_FLOAT_EQ(0.f, as.get_cone_outer_angle());
-  as.set_cone_outer_angle(pi_f);
-  EXPECT_FLOAT_EQ(pi_f, as.get_cone_outer_angle());
-  as.set_cone_outer_angle(2 * pi_f);
-  EXPECT_FLOAT_EQ(2 * pi_f, as.get_cone_outer_angle());
+  as.set_cone_outer_angle(pi<float>());
+  EXPECT_FLOAT_EQ(pi<float>(), as.get_cone_outer_angle());
+  as.set_cone_outer_angle(2 * pi<float>());
+  EXPECT_FLOAT_EQ(2 * pi<float>(), as.get_cone_outer_angle());
 }
 
 
@@ -618,8 +618,8 @@ TEST_F(test_audio_source, cone_outer_angle)
 TEST_F(test_audio_source_death_test, invalid_cone_outer_angle)
 {
   concrete_audio_source as(m_buffer);
-  EXPECT_PRECOND_ERROR(as.set_cone_outer_angle(-pi_f));
-  EXPECT_PRECOND_ERROR(as.set_cone_outer_angle(3 * pi_f));
+  EXPECT_PRECOND_ERROR(as.set_cone_outer_angle(-pi<float>()));
+  EXPECT_PRECOND_ERROR(as.set_cone_outer_angle(3 * pi<float>()));
 }
 
 

@@ -1,7 +1,12 @@
-MESSAGE(STATUS "--- Finding OpenAL ---")
+MESSAGE(STATUS "--- Looking for OpenAL ---")
 
 FIND_PATH(LIB_OPENAL_INCLUDE_DIR AL/al.h)
-FIND_LIBRARY(LIB_OPENAL NAMES OpenAL32)
+IF(WIN32)
+  FIND_LIBRARY(LIB_OPENAL NAMES OpenAL32)
+ELSEIF(UNIX)
+  FIND_LIBRARY(LIB_OPENAL NAMES openal)
+ENDIF()
+
 
 IF(NOT OPENAL_FIND_QUIETLY)
   IF(LIB_OPENAL_INCLUDE_DIR)
@@ -14,7 +19,9 @@ ENDIF()
 
 IF(GoogleTest_FIND_REQUIRED)
   IF(NOT LIB_OPENAL_INCLUDE_DIR OR NOT LIB_OPENAL)
-    MESSAGE(FATAL_ERROR "Could not find OpenAL")
+    MESSAGE(SEND_ERROR
+      "Could not find OpenAL. Please manually specify the library and include \
+      paths or set HOU_CFG_BUILD_OPENAL_SOFT to build OpenAL from source.")
   ENDIF()
 ENDIF()
 

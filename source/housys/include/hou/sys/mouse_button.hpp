@@ -9,6 +9,8 @@
 
 #include <iostream>
 
+#include "SDL_mouse.h"
+
 
 
 namespace hou
@@ -18,15 +20,15 @@ namespace hou
 enum class mouse_button
 {
   /** Left button. */
-  lb,
+  lb = SDL_BUTTON_LEFT,
   /** Middle button. */
-  mb,
+  mb = SDL_BUTTON_MIDDLE,
   /** Right button. */
-  rb,
+  rb = SDL_BUTTON_RIGHT,
   /** Extra button 1. */
-  xb1,
+  xb1 = SDL_BUTTON_X1,
   /** Extra button 2. */
-  xb2,
+  xb2 = SDL_BUTTON_X2,
 };
 
 /** Writes a mouse_button enum into a stream.

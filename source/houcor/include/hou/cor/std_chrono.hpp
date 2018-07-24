@@ -12,10 +12,11 @@
 
 
 
-namespace hou
+namespace std
 {
 
-/** Outputs a duration in nanoseconds to the given stream.
+/**
+ * Outputs a duration in nanoseconds to the given stream.
  *
  * \tparam Rep the internal representation of the duration.
  *
@@ -29,7 +30,8 @@ template <typename Rep>
 std::ostream& operator<<(
   std::ostream& os, std::chrono::duration<Rep, std::nano> d);
 
-/** Outputs a duration in microseconds to the given stream.
+/**
+ * Outputs a duration in microseconds to the given stream.
  *
  * \tparam Rep the internal representation of the duration.
  *
@@ -43,7 +45,8 @@ template <typename Rep>
 std::ostream& operator<<(
   std::ostream& os, std::chrono::duration<Rep, std::micro> d);
 
-/** Outputs a duration in milliseconds to the given stream.
+/**
+ * Outputs a duration in milliseconds to the given stream.
  *
  * \tparam Rep the internal representation of the duration.
  *
@@ -57,7 +60,8 @@ template <typename Rep>
 std::ostream& operator<<(
   std::ostream& os, std::chrono::duration<Rep, std::milli> d);
 
-/** Outputs a duration in seconds to the given stream.
+/**
+ * Outputs a duration in seconds to the given stream.
  *
  * \tparam Rep the internal representation of the duration.
  *
@@ -71,7 +75,8 @@ template <typename Rep>
 std::ostream& operator<<(
   std::ostream& os, std::chrono::duration<Rep, std::ratio<1>> d);
 
-/** Outputs a duration in minutes to the given stream.
+/**
+ * Outputs a duration in minutes to the given stream.
  *
  * \tparam Rep the internal representation of the duration.
  *
@@ -85,7 +90,8 @@ template <typename Rep>
 std::ostream& operator<<(
   std::ostream& os, std::chrono::duration<Rep, std::ratio<60>> d);
 
-/** Outputs a duration in hours to the given stream.
+/**
+ * Outputs a duration in hours to the given stream.
  *
  * \tparam Rep the internal representation of the duration.
  *

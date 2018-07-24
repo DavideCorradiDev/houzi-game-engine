@@ -19,7 +19,8 @@ namespace hou
 
 HOU_PRAGMA_PACK_PUSH(1)
 
-/** Represents a pixel.
+/**
+ * Represents a pixel.
  *
  * Note: all possible class instances (one for each possible pixel_format value)
  * are already explicitly instantiated and exported in the library.
@@ -27,29 +28,49 @@ HOU_PRAGMA_PACK_PUSH(1)
  * \tparam PF the pixel format.
  */
 template <pixel_format PF>
-class HOU_SYS_API pixel_t
+class pixel
 {
 public:
-  /** Retrieves the format of the pixel.
+  /**
+   * The pixel format.
+   */
+  static constexpr pixel_format format = PF;
+
+  /**
+   * The number of bits in a pixel.
+   */
+  static constexpr size_t bit_count = get_bits_per_pixel(PF);
+
+  /**
+   * The number of bytes in a pixel.
+   */
+  static constexpr size_t byte_count = get_bytes_per_pixel(PF);
+
+public:
+  /**
+   * Retrieves the format of the pixel.
    *
    * \return the format of the pixel.
    */
-  static constexpr pixel_format get_format() noexcept;
+  static pixel_format get_format() noexcept;
 
-  /** Retrieves the amount of bytes used by the pixel.
+  /**
+   * Retrieves the amount of bytes used by the pixel.
    *
    * \return the amomunt of bytes used by the pixel.
    */
-  static constexpr uint get_byte_count() noexcept;
+  static uint get_byte_count() noexcept;
 
 public:
-  /** default constructor.
+  /**
+   * default constructor.
    *
    * Initializes all channels to 0.
    */
-  pixel_t() noexcept;
+  pixel() noexcept;
 
-  /** Channel constructor.
+  /**
+   * Channel constructor.
    *
    * Initializes the pixel with the given channel values.
    *
@@ -61,9 +82,10 @@ public:
    */
   template <pixel_format PF2 = PF,
     typename Enable = std::enable_if_t<PF2 == pixel_format::r>>
-  HOU_SYS_API pixel_t(uint8_t r) noexcept;
+  pixel(uint8_t r) noexcept;
 
-  /** Channel constructor.
+  /**
+   * Channel constructor.
    *
    * Initializes the pixel with the given channel values.
    *
@@ -77,9 +99,10 @@ public:
    */
   template <pixel_format PF2 = PF,
     typename Enable = std::enable_if_t<PF2 == pixel_format::rg>>
-  HOU_SYS_API pixel_t(uint8_t r, uint8_t g) noexcept;
+  pixel(uint8_t r, uint8_t g) noexcept;
 
-  /** Channel constructor.
+  /**
+   * Channel constructor.
    *
    * Initializes the pixel with the given channel values.
    *
@@ -95,9 +118,10 @@ public:
    */
   template <pixel_format PF2 = PF,
     typename Enable = std::enable_if_t<PF2 == pixel_format::rgb>>
-  HOU_SYS_API pixel_t(uint8_t r, uint8_t g, uint8_t b) noexcept;
+  pixel(uint8_t r, uint8_t g, uint8_t b) noexcept;
 
-  /** Channel constructor.
+  /**
+   * Channel constructor.
    *
    * Initializes the pixel with the given channel values.
    *
@@ -115,9 +139,10 @@ public:
    */
   template <pixel_format PF2 = PF,
     typename Enable = std::enable_if_t<PF2 == pixel_format::rgba>>
-  HOU_SYS_API pixel_t(uint8_t r, uint8_t g, uint8_t b, uint8_t a) noexcept;
+  pixel(uint8_t r, uint8_t g, uint8_t b, uint8_t a) noexcept;
 
-  /** color constructor.
+  /**
+   * color constructor.
    *
    * Initializes the pixel with the given color.
    *
@@ -129,9 +154,10 @@ public:
    */
   template <pixel_format PF2 = PF,
     typename Enable = std::enable_if_t<PF2 == pixel_format::rgba>>
-  HOU_SYS_API pixel_t(const color& c) noexcept;
+  pixel(const color& c) noexcept;
 
-  /** Format conversion constructor.
+  /**
+   * Format conversion constructor.
    *
    * Initializes the pixel with the channel values of a pixel with a different
    * format.
@@ -159,21 +185,24 @@ public:
    */
   template <pixel_format otherFormat,
     typename Enable = std::enable_if_t<otherFormat != PF>>
-  HOU_SYS_API pixel_t(const pixel_t<otherFormat>& other) noexcept;
+  pixel(const pixel<otherFormat>& other) noexcept;
 
-  /** Retrieves the value of the red channel of the pixel.
+  /**
+   * Retrieves the value of the red channel of the pixel.
    *
    * \return the value of the channel.
    */
   uint8_t get_r() const noexcept;
 
-  /** Sets the value of the red channel of the pixel.
+  /**
+   * Sets the value of the red channel of the pixel.
    *
    * \param value the value.
    */
   void set_r(uint8_t value) noexcept;
 
-  /** Retrieves the value of the green channel of the pixel.
+  /**
+   * Retrieves the value of the green channel of the pixel.
    *
    * \tparam PF2 dummy template parameter.
    *
@@ -182,10 +211,11 @@ public:
    * \return the value of the channel.
    */
   template <pixel_format PF2 = PF,
-    typename Enable = std::enable_if_t<(get_pixel_format_byte_count(PF2) > 1u)>>
-  HOU_SYS_API uint8_t get_g() const noexcept;
+    typename Enable = std::enable_if_t<(get_bytes_per_pixel(PF2) > 1u)>>
+  uint8_t get_g() const noexcept;
 
-  /** Sets the value of the green channel of the pixel.
+  /**
+   * Sets the value of the green channel of the pixel.
    *
    * \tparam PF2 dummy template parameter.
    *
@@ -194,10 +224,11 @@ public:
    * \param value the value.
    */
   template <pixel_format PF2 = PF,
-    typename Enable = std::enable_if_t<(get_pixel_format_byte_count(PF2) > 1u)>>
-  HOU_SYS_API void set_g(uint8_t value) noexcept;
+    typename Enable = std::enable_if_t<(get_bytes_per_pixel(PF2) > 1u)>>
+  void set_g(uint8_t value) noexcept;
 
-  /** Retrieves the value of the blue channel of the pixel.
+  /**
+   * Retrieves the value of the blue channel of the pixel.
    *
    * \tparam PF2 dummy template parameter.
    *
@@ -206,10 +237,11 @@ public:
    * \return the value of the channel.
    */
   template <pixel_format PF2 = PF,
-    typename Enable = std::enable_if_t<(get_pixel_format_byte_count(PF2) > 2u)>>
-  HOU_SYS_API uint8_t get_b() const noexcept;
+    typename Enable = std::enable_if_t<(get_bytes_per_pixel(PF2) > 2u)>>
+  uint8_t get_b() const noexcept;
 
-  /** Sets the value of the blue channel of the pixel.
+  /**
+   * Sets the value of the blue channel of the pixel.
    *
    * \tparam PF2 dummy template parameter.
    *
@@ -218,10 +250,11 @@ public:
    * \param value the value.
    */
   template <pixel_format PF2 = PF,
-    typename Enable = std::enable_if_t<(get_pixel_format_byte_count(PF2) > 1u)>>
-  HOU_SYS_API void set_b(uint8_t value) noexcept;
+    typename Enable = std::enable_if_t<(get_bytes_per_pixel(PF2) > 1u)>>
+  void set_b(uint8_t value) noexcept;
 
-  /** Retrieves the value of the alpha channel of the pixel.
+  /**
+   * Retrieves the value of the alpha channel of the pixel.
    *
    * \tparam PF2 dummy template parameter.
    *
@@ -230,10 +263,11 @@ public:
    * \return the value of the channel.
    */
   template <pixel_format PF2 = PF,
-    typename Enable = std::enable_if_t<(get_pixel_format_byte_count(PF2) > 3u)>>
-  HOU_SYS_API uint8_t get_a() const noexcept;
+    typename Enable = std::enable_if_t<(get_bytes_per_pixel(PF2) > 3u)>>
+  uint8_t get_a() const noexcept;
 
-  /** Sets the value of the alpha channel of the pixel.
+  /**
+   * Sets the value of the alpha channel of the pixel.
    *
    * \tparam PF2 dummy template parameter.
    *
@@ -242,10 +276,11 @@ public:
    * \param value the value.
    */
   template <pixel_format PF2 = PF,
-    typename Enable = std::enable_if_t<(get_pixel_format_byte_count(PF2) > 1u)>>
-  HOU_SYS_API void set_a(uint8_t value) noexcept;
+    typename Enable = std::enable_if_t<(get_bytes_per_pixel(PF2) > 1u)>>
+  void set_a(uint8_t value) noexcept;
 
-  /** Retrieves the color of the pixel.
+  /**
+   * Retrieves the color of the pixel.
    *
    * \tparam PF2 dummy template parameter.
    *
@@ -255,9 +290,10 @@ public:
    */
   template <pixel_format PF2 = PF,
     typename Enable = std::enable_if_t<PF2 == pixel_format::rgba>>
-  HOU_SYS_API color get_color() const noexcept;
+  color get_color() const noexcept;
 
-  /** Sets the color of the pixel.
+  /**
+   * Sets the color of the pixel.
    *
    * \tparam PF2 dummy template parameter.
    *
@@ -267,9 +303,10 @@ public:
    */
   template <pixel_format PF2 = PF,
     typename Enable = std::enable_if_t<PF2 == pixel_format::rgba>>
-  HOU_SYS_API void set_color(const color& c) noexcept;
+  void set_color(const color& c) noexcept;
 
-  /** Sets the channels of the pixel.
+  /**
+   * Sets the channels of the pixel.
    *
    * \tparam PF2 dummy template parameter.
    *
@@ -279,9 +316,10 @@ public:
    */
   template <pixel_format PF2 = PF,
     typename Enable = std::enable_if_t<PF2 == pixel_format::r>>
-  HOU_SYS_API void set(uint8_t r) noexcept;
+  void set(uint8_t r) noexcept;
 
-  /** Sets the channels of the pixel.
+  /**
+   * Sets the channels of the pixel.
    *
    * \tparam PF2 dummy template parameter.
    *
@@ -293,9 +331,10 @@ public:
    */
   template <pixel_format PF2 = PF,
     typename Enable = std::enable_if_t<PF2 == pixel_format::rg>>
-  HOU_SYS_API void set(uint8_t r, uint8_t g) noexcept;
+  void set(uint8_t r, uint8_t g) noexcept;
 
-  /** Sets the channels of the pixel.
+  /**
+   * Sets the channels of the pixel.
    *
    * \tparam PF2 dummy template parameter.
    *
@@ -309,9 +348,10 @@ public:
    */
   template <pixel_format PF2 = PF,
     typename Enable = std::enable_if_t<PF2 == pixel_format::rgb>>
-  HOU_SYS_API void set(uint8_t r, uint8_t g, uint8_t b) noexcept;
+  void set(uint8_t r, uint8_t g, uint8_t b) noexcept;
 
-  /** Sets the channels of the pixel.
+  /**
+   * Sets the channels of the pixel.
    *
    * \tparam PF2 dummy template parameter.
    *
@@ -327,41 +367,56 @@ public:
    */
   template <pixel_format PF2 = PF,
     typename Enable = std::enable_if_t<PF2 == pixel_format::rgba>>
-  HOU_SYS_API void set(uint8_t r, uint8_t g, uint8_t b, uint8_t a) noexcept;
+  void set(uint8_t r, uint8_t g, uint8_t b, uint8_t a) noexcept;
 
-  /** Checks if two pixel objects are equal.
-   *
-   * \param lhs the left operand.
-   *
-   * \param rhs the right operand.
-   *
-   * \return the result of the check.
-   */
+#ifndef HOU_DOXYGEN
+public:
+  template <pixel_format PF2>
   friend constexpr bool operator==(
-    const pixel_t& lhs, const pixel_t& rhs) noexcept
-  {
-    return lhs.m_channels == rhs.m_channels;
-  }
+    const pixel<PF2>& lhs, const pixel<PF2>& rhs) noexcept;
 
-  /** Checks if two pixel objects are not equal.
-   *
-   * \param lhs the left operand.
-   *
-   * \param rhs the right operand.
-   *
-   * \return the result of the check.
-   */
+  template <pixel_format PF2>
   friend constexpr bool operator!=(
-    const pixel_t& lhs, const pixel_t& rhs) noexcept
-  {
-    return lhs.m_channels != rhs.m_channels;
-  }
+    const pixel<PF2>& lhs, const pixel<PF2>& rhs) noexcept;
+#endif
 
 private:
-  std::array<uint8_t, get_pixel_format_byte_count(PF)> m_channels;
+  std::array<uint8_t, get_bytes_per_pixel(PF)> m_channels;
 };
+HOU_PRAGMA_PACK_POP()
 
-/** Writes the object into a stream.
+/**
+ * Checks if two pixel objects are equal.
+ *
+ * \tparam PF the pixel format.
+ *
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return the result of the check.
+ */
+template <pixel_format PF>
+constexpr bool operator==(
+  const pixel<PF>& lhs, const pixel<PF>& rhs) noexcept;
+
+/**
+ * Checks if two pixel objects are not equal.
+ *
+ * \tparam PF the pixel format.
+ *
+ * \param lhs the left operand.
+ *
+ * \param rhs the right operand.
+ *
+ * \return the result of the check.
+ */
+template <pixel_format PF>
+constexpr bool operator!=(
+  const pixel<PF>& lhs, const pixel<PF>& rhs) noexcept;
+
+/**
+ * Writes the object into a stream.
  *
  * \tparam PF the pixel format.
  *
@@ -372,10 +427,7 @@ private:
  * \return a reference to os.
  */
 template <pixel_format PF>
-HOU_SYS_API std::ostream& operator<<(
-  std::ostream& os, const pixel_t<PF>& pixel);
-
-HOU_PRAGMA_PACK_POP()
+std::ostream& operator<<(std::ostream& os, const pixel<PF>& pixel);
 
 }  // namespace hou
 

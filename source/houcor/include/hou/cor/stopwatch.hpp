@@ -14,14 +14,16 @@
 namespace hou
 {
 
-/** High resolution stopwatch.
+/**
+ * High resolution stopwatch.
  *
  *  Guarantees a resolution of 100 ns.
  */
 class HOU_COR_API stopwatch
 {
 public:
-  /** Retrieves the stopwatch resolution.
+  /**
+   * Retrieves the stopwatch resolution.
    *
    * Note: the reported resolution might not be accurate.
    *
@@ -30,43 +32,50 @@ public:
   static std::chrono::nanoseconds get_resolution() noexcept;
 
 public:
-  /** Creates a stopwatch object.
+  /**
+   * Creates a stopwatch object.
    *
    * When created the stopwatch is not running.
    */
   stopwatch() noexcept;
 
-  /** Returns the elapsed time.
+  /**
+   * Returns the elapsed time.
    *
    * \return the elapsed time.
    */
   std::chrono::nanoseconds get_elapsed_time() const noexcept;
 
-  /** Checks if the stopwatch is currently running or not.
+  /**
+   * Checks if the stopwatch is currently running or not.
    *
    * \return true if the stopwatch is running.
    */
   bool is_running() const noexcept;
 
-  /** Starts the stopwatch.
+  /**
+   * Starts the stopwatch.
    *
    * \return the elapsed time when starting.
    */
   std::chrono::nanoseconds start() noexcept;
 
-  /** Pauses the stopwatch.
+  /**
+   * Pauses the stopwatch.
    *
    * \return the elapsed time when pausing.
    */
   std::chrono::nanoseconds pause() noexcept;
 
-  /** Resets the stopwatch.
+  /**
+   * Resets the stopwatch.
    *
    * \return the elapsed time before resetting.
    */
   std::chrono::nanoseconds reset() noexcept;
 
-  /** Stops the stopwatch.
+  /**
+   * Stops the stopwatch.
    *
    * The stopwatch will be paused and reset.
    *

@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 #include "hou/mth/math_functions.hpp"
 
 using namespace hou;
@@ -20,39 +20,41 @@ class test_math_functions : public Test
 
 TEST_F(test_math_functions, pi_float_value)
 {
-  EXPECT_FLOAT_EQ(3.14159265358979f, pi_f);
+  float ref = 3.141592653589793f;
+  EXPECT_FLOAT_EQ(ref, pi<float>());
 }
 
 
 
 TEST_F(test_math_functions, pi_double_value)
 {
-  EXPECT_FLOAT_EQ(3.14159265358979, pi_d);
+  double ref = 3.141592653589793;
+  EXPECT_DOUBLE_EQ(ref, pi<double>());
 }
 
 
 
 TEST_F(test_math_functions, deg_rad_float_conversion)
 {
-  EXPECT_FLOAT_EQ(-pi_f * 2.f, deg_to_rad(-360.f));
-  EXPECT_FLOAT_EQ(-pi_f, deg_to_rad(-180.f));
-  EXPECT_FLOAT_EQ(-pi_f / 2.f, deg_to_rad(-90.f));
-  EXPECT_FLOAT_EQ(-pi_f / 4.f, deg_to_rad(-45.f));
+  EXPECT_FLOAT_EQ(-pi<float>() * 2.f, deg_to_rad(-360.f));
+  EXPECT_FLOAT_EQ(-pi<float>(), deg_to_rad(-180.f));
+  EXPECT_FLOAT_EQ(-pi<float>() / 2.f, deg_to_rad(-90.f));
+  EXPECT_FLOAT_EQ(-pi<float>() / 4.f, deg_to_rad(-45.f));
   EXPECT_FLOAT_EQ(0.f, deg_to_rad(0.f));
-  EXPECT_FLOAT_EQ(pi_f / 4.f, deg_to_rad(45.f));
-  EXPECT_FLOAT_EQ(pi_f / 2.f, deg_to_rad(90.f));
-  EXPECT_FLOAT_EQ(pi_f, deg_to_rad(180.f));
-  EXPECT_FLOAT_EQ(pi_f * 2.f, deg_to_rad(360.f));
+  EXPECT_FLOAT_EQ(pi<float>() / 4.f, deg_to_rad(45.f));
+  EXPECT_FLOAT_EQ(pi<float>() / 2.f, deg_to_rad(90.f));
+  EXPECT_FLOAT_EQ(pi<float>(), deg_to_rad(180.f));
+  EXPECT_FLOAT_EQ(pi<float>() * 2.f, deg_to_rad(360.f));
 
-  EXPECT_FLOAT_EQ(-360.f, rad_to_deg(-pi_f * 2.f));
-  EXPECT_FLOAT_EQ(-180.f, rad_to_deg(-pi_f));
-  EXPECT_FLOAT_EQ(-90.f, rad_to_deg(-pi_f / 2.f));
-  EXPECT_FLOAT_EQ(-45.f, rad_to_deg(-pi_f / 4.f));
+  EXPECT_FLOAT_EQ(-360.f, rad_to_deg(-pi<float>() * 2.f));
+  EXPECT_FLOAT_EQ(-180.f, rad_to_deg(-pi<float>()));
+  EXPECT_FLOAT_EQ(-90.f, rad_to_deg(-pi<float>() / 2.f));
+  EXPECT_FLOAT_EQ(-45.f, rad_to_deg(-pi<float>() / 4.f));
   EXPECT_FLOAT_EQ(0.f, rad_to_deg(0.f));
-  EXPECT_FLOAT_EQ(45.f, rad_to_deg(pi_f / 4.f));
-  EXPECT_FLOAT_EQ(90.f, rad_to_deg(pi_f / 2.f));
-  EXPECT_FLOAT_EQ(180.f, rad_to_deg(pi_f));
-  EXPECT_FLOAT_EQ(360.f, rad_to_deg(pi_f * 2.f));
+  EXPECT_FLOAT_EQ(45.f, rad_to_deg(pi<float>() / 4.f));
+  EXPECT_FLOAT_EQ(90.f, rad_to_deg(pi<float>() / 2.f));
+  EXPECT_FLOAT_EQ(180.f, rad_to_deg(pi<float>()));
+  EXPECT_FLOAT_EQ(360.f, rad_to_deg(pi<float>() * 2.f));
 
   EXPECT_FLOAT_EQ(1.356f, deg_to_rad(rad_to_deg(1.356f)));
   EXPECT_FLOAT_EQ(-23.74f, rad_to_deg(deg_to_rad(-23.74f)));
@@ -62,25 +64,25 @@ TEST_F(test_math_functions, deg_rad_float_conversion)
 
 TEST_F(test_math_functions, deg_rad_double_conversion)
 {
-  EXPECT_DOUBLE_EQ(-pi_d * 2., deg_to_rad(-360.));
-  EXPECT_DOUBLE_EQ(-pi_d, deg_to_rad(-180.));
-  EXPECT_DOUBLE_EQ(-pi_d / 2., deg_to_rad(-90.));
-  EXPECT_DOUBLE_EQ(-pi_d / 4., deg_to_rad(-45.));
+  EXPECT_DOUBLE_EQ(-pi<double>() * 2., deg_to_rad(-360.));
+  EXPECT_DOUBLE_EQ(-pi<double>(), deg_to_rad(-180.));
+  EXPECT_DOUBLE_EQ(-pi<double>() / 2., deg_to_rad(-90.));
+  EXPECT_DOUBLE_EQ(-pi<double>() / 4., deg_to_rad(-45.));
   EXPECT_DOUBLE_EQ(0., deg_to_rad(0.));
-  EXPECT_DOUBLE_EQ(pi_d / 4., deg_to_rad(45.));
-  EXPECT_DOUBLE_EQ(pi_d / 2., deg_to_rad(90.));
-  EXPECT_DOUBLE_EQ(pi_d, deg_to_rad(180.));
-  EXPECT_DOUBLE_EQ(pi_d * 2., deg_to_rad(360.));
+  EXPECT_DOUBLE_EQ(pi<double>() / 4., deg_to_rad(45.));
+  EXPECT_DOUBLE_EQ(pi<double>() / 2., deg_to_rad(90.));
+  EXPECT_DOUBLE_EQ(pi<double>(), deg_to_rad(180.));
+  EXPECT_DOUBLE_EQ(pi<double>() * 2., deg_to_rad(360.));
 
-  EXPECT_DOUBLE_EQ(-360., rad_to_deg(-pi_d * 2.));
-  EXPECT_DOUBLE_EQ(-180., rad_to_deg(-pi_d));
-  EXPECT_DOUBLE_EQ(-90., rad_to_deg(-pi_d / 2.));
-  EXPECT_DOUBLE_EQ(-45., rad_to_deg(-pi_d / 4.));
+  EXPECT_DOUBLE_EQ(-360., rad_to_deg(-pi<double>() * 2.));
+  EXPECT_DOUBLE_EQ(-180., rad_to_deg(-pi<double>()));
+  EXPECT_DOUBLE_EQ(-90., rad_to_deg(-pi<double>() / 2.));
+  EXPECT_DOUBLE_EQ(-45., rad_to_deg(-pi<double>() / 4.));
   EXPECT_DOUBLE_EQ(0., rad_to_deg(0.));
-  EXPECT_DOUBLE_EQ(45., rad_to_deg(pi_d / 4.));
-  EXPECT_DOUBLE_EQ(90., rad_to_deg(pi_d / 2.));
-  EXPECT_DOUBLE_EQ(180., rad_to_deg(pi_d));
-  EXPECT_DOUBLE_EQ(360., rad_to_deg(pi_d * 2.));
+  EXPECT_DOUBLE_EQ(45., rad_to_deg(pi<double>() / 4.));
+  EXPECT_DOUBLE_EQ(90., rad_to_deg(pi<double>() / 2.));
+  EXPECT_DOUBLE_EQ(180., rad_to_deg(pi<double>()));
+  EXPECT_DOUBLE_EQ(360., rad_to_deg(pi<double>() * 2.));
 
   EXPECT_DOUBLE_EQ(1.35, deg_to_rad(rad_to_deg(1.35)));
   EXPECT_DOUBLE_EQ(-23.7, rad_to_deg(deg_to_rad(-23.7)));

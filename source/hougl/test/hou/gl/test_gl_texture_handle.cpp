@@ -2,10 +2,11 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
 #include "hou/gl/test_gl_multiple_contexts.hpp"
 
 #include "hou/gl/gl_exceptions.hpp"
+#include "hou/gl/gl_missing_context_error.hpp"
+#include "hou/gl/gl_invalid_context_error.hpp"
 #include "hou/gl/gl_texture_handle.hpp"
 
 using namespace hou;
@@ -18,8 +19,7 @@ namespace
 class test_gl_texture_handle : public test_gl_multiple_contexts
 {};
 
-class test_gl_texture_handle_death_test : public test_gl_texture_handle
-{};
+using test_gl_texture_handle_death_test = test_gl_texture_handle;
 
 }  // namespace
 
@@ -34,12 +34,14 @@ TEST_F(test_gl_texture_handle, creation)
 
 
 
-#ifdef HOU_ENABLE_GL_ERROR_CHECKS
 TEST_F(test_gl_texture_handle_death_test, no_context_creation)
-#else
-TEST_F(test_gl_texture_handle_death_test, DISABLED_no_context_creation)
-#endif
 {
+#if !defined(HOU_ENABLE_GL_ERROR_CHECKS)
+  SKIP("GL error checks are disabled in this build.");
+#endif
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
   gl::context::unset_current();
   EXPECT_ERROR_0(gl::texture_handle::create(GL_TEXTURE_2D), gl::missing_context_error);
 }
@@ -48,8 +50,12 @@ TEST_F(test_gl_texture_handle_death_test, DISABLED_no_context_creation)
 
 TEST_F(test_gl_texture_handle, tracking)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
+
   gl::texture_handle th1 = gl::texture_handle::create(GL_TEXTURE_2D);
-  gl::texture_handle th2 = gl::texture_handle::create(GL_TEXTURE_1D);
+  gl::texture_handle th2 = gl::texture_handle::create(GL_TEXTURE_3D);
 
   gl::set_active_texture(0u);
   EXPECT_EQ(0u, gl::get_active_texture());
@@ -112,8 +118,12 @@ TEST_F(test_gl_texture_handle, tracking)
 
 TEST_F(test_gl_texture_handle, unit_tracking)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
+
   gl::texture_handle th1 = gl::texture_handle::create(GL_TEXTURE_2D);
-  gl::texture_handle th2 = gl::texture_handle::create(GL_TEXTURE_1D);
+  gl::texture_handle th2 = gl::texture_handle::create(GL_TEXTURE_3D);
 
   EXPECT_FALSE(gl::is_texture_bound(th1, 0));
   EXPECT_FALSE(gl::is_texture_bound(th2, 0));
@@ -167,7 +177,7 @@ TEST_F(test_gl_texture_handle, unit_tracking)
 
 TEST_F(test_gl_texture_handle, sharing_context_binding)
 {
-  gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_1D);
+  gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_3D);
   set_sharing_context_current();
   gl::bind_texture(th);
   EXPECT_TRUE(is_texture_bound(th));
@@ -175,13 +185,15 @@ TEST_F(test_gl_texture_handle, sharing_context_binding)
 
 
 
-#ifdef HOU_ENABLE_GL_ERROR_CHECKS
 TEST_F(test_gl_texture_handle_death_test, non_sharing_context_binding)
-#else
-TEST_F(test_gl_texture_handle_death_test, DISABLED_non_sharing_context_binding)
-#endif
 {
-  gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_1D);
+#if !defined(HOU_ENABLE_GL_ERROR_CHECKS)
+  SKIP("GL error checks are disabled in this build.");
+#endif
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
+  gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_3D);
   set_non_sharing_context_current();
   EXPECT_ERROR_0(gl::bind_texture(th), gl::invalid_context_error);
   set_context_current();
@@ -189,13 +201,15 @@ TEST_F(test_gl_texture_handle_death_test, DISABLED_non_sharing_context_binding)
 
 
 
-#ifdef HOU_ENABLE_GL_ERROR_CHECKS
 TEST_F(test_gl_texture_handle_death_test, no_context_binding)
-#else
-TEST_F(test_gl_texture_handle_death_test, DISABLED_no_context_binding)
-#endif
 {
-  gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_1D);
+#if !defined(HOU_ENABLE_GL_ERROR_CHECKS)
+  SKIP("GL error checks are disabled in this build.");
+#endif
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
+  gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_3D);
   gl::context::unset_current();
   EXPECT_ERROR_0(gl::bind_texture(th), gl::missing_context_error);
   set_context_current();
@@ -228,6 +242,9 @@ TEST_F(test_gl_texture_handle, min_filter)
   gl::set_texture_min_filter(th, GL_LINEAR_MIPMAP_LINEAR);
   EXPECT_EQ(static_cast<GLenum>(GL_LINEAR_MIPMAP_LINEAR),
     gl::get_texture_min_filter(th));
+
+  gl::set_texture_min_filter(th, static_cast<GLenum>(GL_NEAREST));
+  EXPECT_EQ(static_cast<GLenum>(GL_NEAREST), gl::get_texture_min_filter(th));
 }
 
 
@@ -241,14 +258,20 @@ TEST_F(test_gl_texture_handle, mag_filter)
 
   gl::set_texture_mag_filter(th, GL_LINEAR);
   EXPECT_EQ(static_cast<GLenum>(GL_LINEAR), gl::get_texture_mag_filter(th));
+
+  gl::set_texture_mag_filter(th, GL_NEAREST);
+  EXPECT_EQ(static_cast<GLenum>(GL_NEAREST), gl::get_texture_mag_filter(th));
 }
 
 
 
 TEST_F(test_gl_texture_handle, swizzle_r)
 {
-  gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_2D);
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Texture swizzle is not supported on Emscripten.");
+#endif
 
+  gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_2D);
   EXPECT_EQ(static_cast<GLenum>(GL_RED), gl::get_texture_swizzle_r(th));
   gl::set_texture_swizzle_r(th, GL_ONE);
   EXPECT_EQ(static_cast<GLenum>(GL_ONE), gl::get_texture_swizzle_r(th));
@@ -258,8 +281,11 @@ TEST_F(test_gl_texture_handle, swizzle_r)
 
 TEST_F(test_gl_texture_handle, swizzle_g)
 {
-  gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_2D);
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Texture swizzle is not supported on Emscripten.");
+#endif
 
+  gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_2D);
   EXPECT_EQ(static_cast<GLenum>(GL_GREEN), gl::get_texture_swizzle_g(th));
   gl::set_texture_swizzle_g(th, GL_ONE);
   EXPECT_EQ(static_cast<GLenum>(GL_ONE), gl::get_texture_swizzle_g(th));
@@ -269,8 +295,11 @@ TEST_F(test_gl_texture_handle, swizzle_g)
 
 TEST_F(test_gl_texture_handle, swizzle_b)
 {
-  gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_2D);
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Texture swizzle is not supported on Emscripten.");
+#endif
 
+  gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_2D);
   EXPECT_EQ(static_cast<GLenum>(GL_BLUE), gl::get_texture_swizzle_b(th));
   gl::set_texture_swizzle_b(th, GL_ONE);
   EXPECT_EQ(static_cast<GLenum>(GL_ONE), gl::get_texture_swizzle_b(th));
@@ -280,8 +309,11 @@ TEST_F(test_gl_texture_handle, swizzle_b)
 
 TEST_F(test_gl_texture_handle, swizzle_a)
 {
-  gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_2D);
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Texture swizzle is not supported on Emscripten.");
+#endif
 
+  gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_2D);
   EXPECT_EQ(static_cast<GLenum>(GL_ALPHA), gl::get_texture_swizzle_a(th));
   gl::set_texture_swizzle_a(th, GL_ONE);
   EXPECT_EQ(static_cast<GLenum>(GL_ONE), gl::get_texture_swizzle_a(th));
@@ -291,6 +323,10 @@ TEST_F(test_gl_texture_handle, swizzle_a)
 
 TEST_F(test_gl_texture_handle, swizzle_rgba)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Texture swizzle is not supported on Emscripten.");
+#endif
+
   gl::texture_handle th = gl::texture_handle::create(GL_TEXTURE_2D);
   std::array<GLenum, 4u> swizzle;
   std::array<GLenum, 4u> swizzle_ref;

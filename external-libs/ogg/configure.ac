@@ -1,7 +1,9 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT([libogg],[1.3.2],[ogg-dev@xiph.org])
+AC_INIT([libogg],[1.3.3],[ogg-dev@xiph.org])
 
+LT_INIT
+AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR(src/framing.c)
 
 AM_INIT_AUTOMAKE
@@ -10,14 +12,13 @@ AM_MAINTAINER_MODE([enable])
 dnl Library versioning
 
 LIB_CURRENT=8
-LIB_REVISION=2
+LIB_REVISION=3
 LIB_AGE=8
 AC_SUBST(LIB_CURRENT)
 AC_SUBST(LIB_REVISION)
 AC_SUBST(LIB_AGE)
 
 AC_PROG_CC
-AM_PROG_LIBTOOL
 AM_PROG_CC_C_O
 
 dnl Set some options based on environment
@@ -149,6 +150,17 @@ fi
 if test -z "$SIZE64"; then
         AC_MSG_WARN(No 64 bit type found on this platform!)
 fi
+
+AC_ARG_ENABLE([crc],
+    [AS_HELP_STRING([--disable-crc],
+                    [Disable CRC in the demuxer)])],,
+    [enable_crc=yes])
+
+AM_CONDITIONAL([DISABLE_CRC], [test "$enable_crc" = "no"])
+
+AS_IF([test "$enable_crc" = "no"],[
+  AC_DEFINE([DISABLE_CRC], [1], [Do not build with CRC])
+])
 
 dnl Checks for library functions.
 AC_FUNC_MEMCMP

@@ -4,6 +4,8 @@ var dir_16b818a95a1aae6c8d125a3af625caba =
     [ "matrix.hpp", "matrix_8hpp_source.html", null ],
     [ "matrix_fwd.hpp", "matrix__fwd_8hpp_source.html", null ],
     [ "mth_config.hpp", "mth__config_8hpp_source.html", null ],
+    [ "mth_exceptions.hpp", "mth__exceptions_8hpp_source.html", null ],
+    [ "mth_module.hpp", "mth__module_8hpp_source.html", null ],
     [ "quaternion.hpp", "quaternion_8hpp_source.html", null ],
     [ "quaternion_fwd.hpp", "quaternion__fwd_8hpp_source.html", null ],
     [ "rectangle.hpp", "rectangle_8hpp_source.html", null ],

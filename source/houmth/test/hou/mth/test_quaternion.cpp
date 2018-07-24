@@ -1,4 +1,4 @@
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 
 #include "hou/mth/quaternion.hpp"
 
@@ -200,7 +200,7 @@ TEST_F(test_quaternion, mixed_scalar_division)
 
 
 
-TEST_F(test_quaternion, inversion)
+TEST_F(test_quaternion, inverse)
 {
   quatf q(2.f, -1.f, -3.f, 4.f);
   quatf qInv = inverse(q);
@@ -212,10 +212,11 @@ TEST_F(test_quaternion, inversion)
 
 
 
-TEST_F(test_quaternion, inversion_failure_null_determinant)
+TEST_F(test_quaternion, inverse_failure_null_determinant)
 {
   quatf q;
-  EXPECT_PRECOND_ERROR(inverse(q));
+  EXPECT_ERROR_0(inverse(q), inversion_error);
+  EXPECT_ERROR_0(q.invert(), inversion_error);
 }
 
 

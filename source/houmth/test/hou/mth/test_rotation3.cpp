@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 
 #include "hou/mth/math_functions.hpp"
 #include "hou/mth/matrix.hpp"
@@ -73,7 +73,7 @@ TEST_F(test_rotation3, constructor_non_unit_quaternion)
 
 TEST_F(test_rotation3_death_test, constructor_failure_zero_quaternion)
 {
-  EXPECT_PRECOND_ERROR(rot3f(quatf::zero()));
+  EXPECT_PRECOND_ERROR(rot3f r(quatf::zero()));
 }
 
 
@@ -114,7 +114,7 @@ TEST_F(test_rotation3, constructor_matrix)
 TEST_F(test_rotation3, constructor_matrix_null_root_function)
 {
   quatf quat_ref(0.f, 1.f, 0.f, 0.f);
-  vec3f vec_ref(0.f, pi_f, 0.f);
+  vec3f vec_ref(0.f, pi<float>(), 0.f);
   mat3x3f mat_ref(-1.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, -1.f);
 
   rot3f r_mat(mat_ref);
@@ -141,8 +141,8 @@ TEST_F(test_rotation3, constructor_matrix_small_root_function)
 
 TEST_F(test_rotation3, constructor_matrix_low_precision)
 {
-  rot3f rot_ref
-    = rot3f::x(pi_f / 3.f) * rot3f::z(pi_f / 4.f) * rot3f::y(pi_f / 2.f);
+  rot3f rot_ref = rot3f::x(pi<float>() / 3.f) * rot3f::z(pi<float>() / 4.f)
+    * rot3f::y(pi<float>() / 2.f);
   rot3f rot(rot_ref.get_matrix());
   EXPECT_FLOAT_CLOSE(rot_ref, rot);
 }
@@ -178,7 +178,7 @@ TEST_F(test_rotation3, constructor_non_rotation_matrix)
 TEST_F(test_rotation3, constructor_zero_matrix)
 {
   quatf quat_ref(0.f, 0.f, 1.f, 0.f);
-  vec3f vec_ref(0.f, 0.f, pi_f);
+  vec3f vec_ref(0.f, 0.f, pi<float>());
   mat3x3f mat_ref(-1.f, 0.f, 0.f, 0.f, -1.f, 0.f, 0.f, 0.f, 1.f);
 
   rot3f r_mat(mat3x3f::zero());
@@ -289,12 +289,12 @@ TEST_F(test_rotation3, output_stream_operator)
 {
   quatf quat_ref(0.2041241f, -0.2041241f, 0.4082483f, 0.8660254f);
   rot3f r(quat_ref);
-  EXPECT_OUTPUT("(0.204124,-0.204124,0.408248,0.866025)", r);
+  EXPECT_OUTPUT("{quaternion = (0.204124,-0.204124,0.408248,0.866025)}", r);
 }
 
 
 
-TEST_P(test_rotation3_param_f, rotationX)
+TEST_P(test_rotation3_param_f, rotation_x)
 {
   rot3f r = rot3f::x(GetParam());
   quatf q_ref(std::sin(GetParam() / 2.f), 0.f, 0.f, std::cos(GetParam() / 2.f));
@@ -314,7 +314,7 @@ TEST_P(test_rotation3_param_f, rotationX)
 
 
 
-TEST_P(test_rotation3_param_f, rotationY)
+TEST_P(test_rotation3_param_f, rotation_y)
 {
   rot3f r = rot3f::y(GetParam());
   quatf q_ref(0.f, std::sin(GetParam() / 2.f), 0.f, std::cos(GetParam() / 2.f));
@@ -334,7 +334,7 @@ TEST_P(test_rotation3_param_f, rotationY)
 
 
 
-TEST_P(test_rotation3_param_f, rotationZ)
+TEST_P(test_rotation3_param_f, rotation_z)
 {
   rot3f r = rot3f::z(GetParam());
   quatf q_ref(0.f, 0.f, std::sin(GetParam() / 2.f), std::cos(GetParam() / 2.f));
@@ -355,4 +355,4 @@ TEST_P(test_rotation3_param_f, rotationZ)
 
 
 INSTANTIATE_TEST_CASE_P(test_rotation3_param_f, test_rotation3_param_f,
-  Values(pi_f / 2.f, pi_f / 6.f), );
+  Values(pi<float>() / 2.f, pi<float>() / 6.f), );

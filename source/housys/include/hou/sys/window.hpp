@@ -8,354 +8,436 @@
 #include "hou/cor/non_copyable.hpp"
 
 #include "hou/sys/image.hpp"
-#include "hou/sys/window_impl.hpp"
+#include "hou/sys/window_mode.hpp"
 
 #include "hou/sys/sys_config.hpp"
 
-#include <string>
+#include "hou/cor/not_null.hpp"
+#include "hou/cor/std_string.hpp"
+#include "hou/cor/uid_generator.hpp"
+
+#include "hou/mth/matrix.hpp"
 
 
+
+union SDL_Event;
+struct SDL_Window;
 
 namespace hou
 {
 
-class video_mode;
-class window_event;
+namespace event
+{
 
-/** Class representing a window.
+namespace prv
+{
+
+void process(const SDL_Event&);
+
+}  // namespace prv
+
+}  // namespace event
+
+class color;
+class display_mode;
+
+/**
+ * Represents a window.
  */
 class HOU_SYS_API window : public non_copyable
 {
 public:
-  /** Creates a window object.
-   *
-   * The window client size corresponds to the resolution in vm.
-   * The window client is be positioned in the middle of the screen.
-   * The window uses the default system icon.
-   * The window is not visible.
-   * The window does not grab the mouse cursor.
-   * Key repeat is disabled for the window.
-   *
-   * \param title the title of the window.
-   *
-   * \param vm the video mode of the window, specifying its client size and
-   * bytes per pixel.
-   *
-   * \param style the style of the window.
-   * Only one window can be fullscreen.
-   * If fullscreen mode is specified and vm is not a valid fullscreen
-   * video_mode, an error will be thrown.
-   *
-   * \throws hou::precond_error if style is fullscreen and a fullscreen window
-   * already exists.
-   *
-   * \throws hou::os_error if the window could not be created.
+  /**
+   * The underlying implementation type.
    */
-  window(const std::string& title, const video_mode& vm, window_style style);
+  using impl_type = SDL_Window;
 
-  /** Move constructor.
-   *
-   * \param other the other window object.
-   *
-   * \throws hou::os_error if the window could not be created.
+  /**
+   * Type for window unique identifiers.
    */
-  window(window&& other) = default;
+  using uid_type = uid_generator::uid_type;
 
-  /** Destructor.
-   */
-  virtual ~window() = 0;
-
-  /** Gets the OS dependent window handle associated to this window.
+public:
+  /**
+   * Retrieves the window associated to a given implementation.
    *
-   * \return the OS dependent window handle.
-   */
-  window_handle get_handle() const noexcept;
-
-  /** Gets the unique identifier of this window.
+   * \param impl the implementation.
    *
-   * \return the unique identifier of this window.
+   * \return the window referenced by the implementation.
    */
-  uint32_t get_uid() const noexcept;
+  static window& get_from_impl(not_null<const impl_type*> impl);
 
-  /** Gets the title of this window.
+  /**
+   * Retrieves the window associated to a given id.
    *
-   * \return the title of this window.
+   * \param uid the uid.
+   *
+   * \return the window referenced by the uid.
    */
-  const std::string& get_title() const noexcept;
+  static window& get_from_uid(uid_type uid);
 
-  /** Sets the title of this window.
+public:
+  /**
+   * Creates a window.
    *
-   * \param title the title.
+   * \param title the window title.
+   *
+   * \param size the size of the window client area.
+   *
+   * \throws hou::precondition_violation if one element of size is null.
+   */
+  window(const std::string& title, const vec2u& size);
+
+  /**
+   * Move constructor.
+   *
+   * \param other the other window.
+   */
+  window(window&& other) noexcept;
+
+  /**
+   * Destructor.
+   */
+  ~window();
+
+  /**
+   * Gets the window implementation.
+   *
+   * \return the window implementation.
+   */
+  const impl_type* get_impl() const noexcept;
+
+  /**
+   * Gets the window implementation.
+   *
+   * \return the window implementation.
+   */
+  impl_type* get_impl() noexcept;
+
+  /**
+   * Gets the window unique identifier.
+   *
+   * \return the window unique identifier, or 0 if the window is in an invalid
+   * state.
+   */
+  uid_type get_uid() const noexcept;
+
+  /**
+   * Gets the index of the display containing the window.
+   *
+   * The value can be used for example in the functions in the hou::display
+   * namespace.
+   *
+   * \return the index of the display containing the window.
+   */
+  uint get_display_index() const;
+
+  /**
+   * Gets the window display mode.
+   *
+   * This is the display mode that the library tries to set when the window
+   * is in fullscreen mode.
+   *
+   * By default the window display mode has the current display_format and
+   * refresh rate, and a resolution equal to the window client area size.
+   *
+   * \return the window display mode.
+   */
+  display_mode get_display_mode() const;
+
+  /**
+   * Sets the window display mode.
+   *
+   * \param mode the window display mode.
+   */
+  void set_display_mode(const display_mode& mode);
+
+  /**
+   * Resets the window display mode to its default value.
+   */
+  void set_default_display_mode();
+
+  /**
+   * Gets the window mode.
+   *
+   * The default value is window_mode::windowed.
+   *
+   * \return the window mode.
+   */
+  window_mode get_mode() const;
+
+  /**
+   * Sets the window mode.
+   *
+   * \param mode the window mode.
+   */
+  void set_mode(window_mode mode) const;
+
+  /**
+   * Gets the window title.
+   *
+   * \return the window title.
+   */
+  std::string get_title() const;
+
+  /**
+   * Sets the window title.
+   *
+   * \param title the window title.
    */
   void set_title(const std::string& title);
 
-  /** Gets the position of the window frame.
+  /**
+   * Gets the window icon.
    *
-   * The window frame position is the top left corner of the window, including
-   * the borders.
-   *
-   * \throws hou::os_error if the window position could not be got.
-   *
-   * \return the position of the window frame.
-   */
-  vec2i get_frame_position() const;
-
-  /** Gets the size of the window frame.
-   *
-   * The window frame size includes the borders.
-   *
-   * \throws hou::os_error if the window size could not be got.
-   *
-   * \return the size of the window frame.
-   */
-  vec2u get_frame_size() const;
-
-  /** Sets the window frame rectangle.
-   *
-   * The window frame rectangle includes the borders.
-   *
-   * \param pos the window frame position.
-   *
-   * \param size the window frame size.
-   *
-   * \throws hou::os_error if the window rectangle could not be set.
-   */
-  virtual void set_frame_rect(const vec2i& pos, const vec2u& size) = 0;
-
-  /** Sets the position of the window frame.
-   *
-   * The window frame position is the top left corner of the window, including
-   * the borders
-   *
-   * \param pos the position of the window frame.
-   *
-   * \throws hou::os_error if the window position could not be set.
-   */
-  void set_frame_position(const vec2i& pos);
-
-  /** Sets the size of the window frame.
-   *
-   * The window frame size includes the borders
-   *
-   * \param size the size of the window frame.
-   *
-   * \throws hou::os_error if the window size could not be set.
-   */
-  void setFrameSize(const vec2u& size);
-
-  /** Gets the position of the window client.
-   *
-   * The window client position is the top left corner of the window, not
-   * including the borders.
-   *
-   * \return the position of the window client.
-   *
-   * \throws hou::os_error if the window position could not be got
-   */
-  vec2i get_client_position() const;
-
-  /** Gets the size of the window client.
-   *
-   * The window client size does not include the borders.
-   *
-   * \return the size of the window client.
-   *
-   * \throws hou::os_error if the window size could not be got
-   */
-  vec2u get_client_size() const;
-
-  /** Sets the window client rectangle.
-   *
-   * The window client rectangle does not include the borders.
-   *
-   * \param pos the window client position.
-   *
-   * \param size the window client size.
-   *
-   * \throws hou::os_error if the window rectangle could not be set.
-   */
-  virtual void set_client_rect(const vec2i& pos, const vec2u& size) = 0;
-
-  /** Sets the position of the window client.
-   *
-   * The window client position is the top left corner of the window, not
-   * including the borders.
-   *
-   * \param pos the position of the window client.
-   *
-   * \throws hou::os_error if the window position could not be set.
-   */
-  void set_client_position(const vec2i& pos);
-
-  /** Sets the size of the window client.
-   *
-   * The window client size does not include the borders.
-   *
-   * \param size the size of the window client.
-   *
-   * \throws hou::os_error if the window size could not be set.
-   */
-  void set_client_size(const vec2u& size);
-
-  /** Gets the number of bytes per pixel of this window.
-   *
-   * \return the number of bytes per pixel of this window.
-   */
-  uint get_bytes_per_pixel() const noexcept;
-
-  /** Gets the style of this window.
-   *
-   * \return the style of this window.
-   */
-  window_style get_style() const noexcept;
-
-  /** Gets the window icon.
-   *
-   * \return the window icon if a custom icon was set, an empty image if the
-   * system icon is being used.
+   * \return the window icon if it was set with set_icon, or an empty image
+   * if the default system icon is being used.
    */
   const image2_rgba& get_icon() const noexcept;
 
-  /** Sets the window icon.
+  /**
+   * Sets the window icon.
    *
    * \param icon the icon.
-   *
-   * \throws hou::os_error if the window icon could not be set.
    */
   void set_icon(const image2_rgba& icon);
 
-  /** Resets the window icon to the default system icon.
+  /**
+   * Gets the window client area size.
    *
-   * \throws hou::os_error if the window icon could not be set.
+   * \return the window client area size.
    */
-  void set_system_icon();
+  vec2u get_size() const;
 
-  /** Checks if the window is visible.
+  /**
+   * Sets the window client area size.
+   *
+   * \param size the window client araea size.
+   *
+   * \throws hou::precondition_violation if one element of size is null.
+   */
+  void set_size(const vec2u& size);
+
+  /**
+   * Gets the window minimum client area size.
+   *
+   * The default value is vec2u::zero().
+   *
+   * \return the window minimum client area size.
+   */
+  vec2u get_min_size() const;
+
+  /**
+   * Sets the window minimum client area size.
+   *
+   * \param min_size the window minimum client area size.
+   *
+   * \throws hou::precondition_violation if an element of min_size is greater
+   * than the corresponding element of get_max_size();
+   */
+  void set_min_size(const vec2u& min_size);
+
+
+  /**
+   * Gets the window maximum client area size.
+   *
+   * The default value is the maximum possible uint value.
+   * Note that some values for the actual window size might be impossible for
+   * the operating system to handle, even though they are lower than the
+   * value returned by get_max_size().
+   *
+   * \return the window maximum client area size.
+   */
+  vec2u get_max_size() const;
+
+  /**
+   * Sets the window maximum client area size.
+   *
+   * \param max_size the window maximum client area size.
+   *
+   * \throws hou::precondition_violation if an element of max_size is less
+   * than the corresponding element of get_min_size();
+   */
+  void set_max_size(const vec2u& max_size);
+
+  /**
+   * Gets the window position.
+   *
+   * The returned position corresponds to the top left corner of the client
+   * area.
+   *
+   * \return the window position.
+   */
+  vec2i get_position() const;
+
+  /**
+   * Sets the window position.
+   *
+   * \param position the window position.
+   */
+  void set_position(const vec2i& position);
+
+  /**
+   * Checks if the window is visible.
    *
    * \return true if the window is visible.
    */
-  bool is_visible() const noexcept;
+  bool is_visible() const;
 
-  /** Sets if the window is visible.
+  /**
+   * Sets the visibility of the window.
    *
-   * \param value whether the window is visible.
+   * \note the event queue must be processed in order to completely update the
+   * internal state of the window after calling this (see the functions in the
+   * hou::event namespace).
    *
-   * \throws hou::os_error if the window visibilty could not be changed.
+   * \param value true to make the window visible, false to hide the window.
    */
   void set_visible(bool value);
 
-  /** Checks if the window is grabbing the mouse cursor.
+  /**
+   * Checks if the window is minimized.
    *
-   * \return true if the window is grabbing the mouse cursor.
+   * \return true if the window is minimized.
    */
-  bool is_mouse_cursor_grabbed() const noexcept;
+  bool is_minimized() const;
 
-  /** Sets if the window is grabbing the mouse cursor.
+  /**
+   * Checks if the window is maximized.
    *
-   * \throws hou::os_error in case of error.
-   *
-   * \param value whether the window is grabbing the mouse cursor.
+   * \return true if the window is maximized.
    */
-  void set_mouse_cursor_grabbed(bool value);
+  bool is_maximized() const;
 
-  /** Checks if key repeat is enabled for this window.
+  /**
+   * Minimizes the window.
    *
-   * \return true if key repeat is enabled for this window.
+   * \note the event queue must be processed in order to completely update the
+   * internal state of the window after calling this (see the functions in the
+   * hou::event namespace).
    */
-  bool is_key_repeat_enabled() const noexcept;
+  void minimize();
 
-  /** Sets if key repeat is enabled for this Windows.
+  /**
+   * Maximizes the window.
    *
-   * \param value whether key repeat is enabled for this window.
+   * \note the event queue must be processed in order to completely update the
+   * internal state of the window after calling this (see the functions in the
+   * hou::event namespace).
    */
-  void set_key_repeat_enabled(bool value) noexcept;
+  void maximize();
 
-  /** Checks if this window currently has focus.
+  /**
+   * Restores a previously minimized or maximized window.
    *
-   * \return whether this window currently has focus.
+   * \note restoring will work only after the internal state of the window has
+   * been completely updated, which normally happens after processing the
+   * event queue. For this reason, for example, a call to minimize() immediately
+   * followed by a call to restore() might not cause the window to be restored.
+   *
+   * \note on some systems the window may only be restored manually by the user
+   * after it has been minimized.
    */
-  bool has_focus() const noexcept;
+  void restore();
 
-  /** Requests focus for this window.
+  /**
+   * Checks if the window is currently grabbing the mouse cursor.
    *
-   * Requesting focus does not guarantee that the focus is actually obtained.
-   * Check the return value to see if the request was successfull.
-   *
-   * \return true if the focus request was successfull and this window now has
-   * focus.
+   * \return true if the window is currently grabbing the mouse cursor.
    */
-  bool request_focus() const noexcept;
+  bool get_grab() const;
 
-  /** Checks if the event queue of this window is empty.
+  /**
+   * Sets whether the window should grab the mouse cursor.
    *
-   * This function does not automatically update the queue.
-   * Call update_event_queue before to fill it with events coming from the OS.
+   * \note the window must be visible and have focus to be able to grab the
+   * mouse cursor.
    *
-   * \return true if the event queue of this window is empty.
+   * \note calling this function does not guarantee that the mouse cursor will
+   * be grabbed.
+   *
+   * \param value true if the window should grab the mouse cursor, false
+   * otherwise.
    */
-  bool is_event_queue_empty() const noexcept;
+  void set_grab(bool value);
 
-  /** Fills the event queue of this window with events coming from the OS.
+  /**
+   * Checks whether the window is resizable.
    *
-   * \throws hou::os_error in case of error getting the window events.
+   * The window can always be resized with calls to set_size.
+   * This refers to the possibility to resize the window by grabbing its
+   * borders.
    *
-   * \throws std::bad_alloc.
+   * \return true if the window is resizable.
    */
-  void update_event_queue();
+  bool is_resizable() const;
 
-  /** Pops the front event in the queue of this window.
+  /**
+   * Sets whether the window is resizable.
    *
-   * This function does not automatically update the queue.
-   * Call update_event_queue before to fill it with events coming from the OS.
-   * This function is not blocking.
-   * If the event queue is empty, an event of type empty is returned.
+   * The window can always be resized with calls to set_size.
+   * This refers to the possibility to resize the window by grabbing its
+   * borders.
    *
-   * \return the front event, or an event of type empty if the queue is empty.
+   * \param value true to make the window resizable, false otherwise.
    */
-  window_event pop_event() noexcept;
+  void set_resizable(bool value);
 
-  /** Pushes an event into the back of the queu of this window.
+  /**
+   * Checks whether the window is bordered.
    *
-   * \param event the event to be pushed.
+   * \return true if the window is bordered.
    */
-  void push_event(const window_event& event);
+  bool is_bordered() const;
 
-  /** Waits for the event queue of this window to contain at least one event and
-   * pops it.
+  /**
+   * Sets whether the window is bordered.
    *
-   * This function always updates the event queue, so a call to
-   * update_event_queue is not necessary. This function is blocking, it will
-   * keep updating and checking the queue until an event is pushed. This
-   * function only pops the first event. It might be that multiple events have
-   * been inserted in the queue and therefore the queue might still be filled.
-   *
-   * \throws hou::os_error in case of error getting the window events.
-   *
-   * \throws std::bad_alloc.
-   *
-   * \return the front event.
+   * \param value true to show the window border, false otherwise.
    */
-  window_event wait_event();
+  void set_bordered(bool value);
 
-protected:
-  /** Swaps the front and back buffers of the window.
+  /**
+   * Checks whether the window has keyboard focus.
    *
-   * Throws if the window has no valid buffers.
-   * Derived classes should make sure to only call this function when it is
-   * safe to do so.
+   * \return true if the window has keyboard focus.
+   */
+  bool has_keyboard_focus() const;
+
+  /**
+   * Checks whether the window has mouse focus.
+   *
+   * \return true if the window has mouse focus.
+   */
+  bool has_mouse_focus() const;
+
+  /**
+   * Request focus for the window.
+   *
+   * \return true if focus was given to the window, false otherwise.
+   */
+  bool focus();
+
+  /**
+   * Raises the window on top of other windows.
+   */
+  void raise();
+
+  /**
+   * Clears the window to the given color.
+   *
+   * \param color the color to use to clear the window.
+   */
+  void clear(const color& color);
+
+  /**
+   * Swaps the window buffers.
    */
   void swap_buffers();
 
 private:
-  void react_to_event(const window_event& event);
-
-private:
-  prv::window_impl m_impl;
-  uint32_t m_uid;
-  window_style m_style;
-  uint m_bytes_per_pixel;
-  std::string m_title;
-  image2_rgba m_icon_image;
+  impl_type* m_impl;
+  image2_rgba m_icon;
 };
 
 }  // namespace hou

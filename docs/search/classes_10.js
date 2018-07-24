@@ -1,7 +1,6 @@
 var searchData=
 [
   ['text_5fbox_5fformatting_5fparams',['text_box_formatting_params',['../classhou_1_1text__box__formatting__params.html',1,'hou']]],
-  ['text_5fdata',['text_data',['../structhou_1_1window__event_1_1text__data.html',1,'hou::window_event']]],
   ['text_5ffile_5fin',['text_file_in',['../classhou_1_1text__file__in.html',1,'hou']]],
   ['text_5ffile_5fout',['text_file_out',['../classhou_1_1text__file__out.html',1,'hou']]],
   ['text_5fposition',['text_position',['../classhou_1_1text__stream_1_1text__position.html',1,'hou::text_stream']]],

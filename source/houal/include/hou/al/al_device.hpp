@@ -10,6 +10,7 @@
 #include "hou/al/al_config.hpp"
 
 #include "hou/cor/non_copyable.hpp"
+#include "hou/cor/uid_generator.hpp"
 
 #include <string>
 #include <vector>
@@ -22,20 +23,79 @@ namespace hou
 namespace al
 {
 
+/**
+ * Represents an audio device.
+ */
 class HOU_AL_API device : public non_copyable
 {
 public:
+  /**
+   * Underlying implementation type.
+   */
+  using impl_type = ALCdevice;
+
+  /**
+   * Unique identifier type.
+   */
+  using uid_type = uid_generator::uid_type;
+
+public:
+  /**
+   * Gets the names of the available devices.
+   *
+   * \return the  names of the available devices.
+   */
   static std::vector<std::string> get_device_names();
 
 public:
+  /**
+   * Creates a reference to the default device.
+   *
+   * \throws hou::al::device_open_error if the device could not be opened.
+   */
   device();
+
+  /**
+   * Creates a reference to the required device.
+   *
+   * \param dev_name the device name.
+   *
+   * \throws hou::al::device_open_error if the device could not be opened.
+   */
   device(const std::string& dev_name);
+
+  /**
+   * Move constructor.
+   *
+   * \param other the other device.
+   */
   device(device&& other) noexcept;
+
+  /**
+   * Destructor.
+   */
   ~device();
 
-  const ALCdevice* get_handle() const noexcept;
-  ALCdevice* get_handle() noexcept;
-  uint32_t get_uid() const noexcept;
+  /**
+   * Gets a reference to the underlying implementation.
+   *
+   * \return a reference to the underlying implementation.
+   */
+  const impl_type* get_impl() const noexcept;
+
+  /**
+   * Gets a reference to the underlying implementation.
+   *
+   * \return a reference to the underlying implementation.
+   */
+  impl_type* get_impl() noexcept;
+
+  /**
+   * Gets the context unique identifier.
+   *
+   * \return the context unique identifier.
+   */
+  uid_type get_uid() const noexcept;
 
 private:
   ALCdevice* m_device;

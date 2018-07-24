@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 #include "hou/gfx/test_gfx_base.hpp"
 
 #include "hou/gfx/shader.hpp"
@@ -19,20 +19,36 @@ namespace
 class test_shader : public test_gfx_base
 {};
 
-class test_shader_death_test : public test_shader
-{};
+using test_shader_death_test = test_shader;
 
+std::string get_gl_version_shader_string();
 std::string get_fs_source();
 std::string get_gs_source();
 std::string get_vs_source();
 
 
 
+std::string get_gl_version_shader_string()
+{
+  if(gl::context::get_current()->get_settings().get_profile()
+    == hou::gl::context_profile::es)
+  {
+    return "#version 300 es\n"
+           "precision highp float;\n";
+  }
+  else
+  {
+    return "#version 450 core\n";
+  }
+}
+
+
+
+
 // clang-format off
 std::string get_fs_source()
 {
-  return
-    "#version 330 core\n"
+  return get_gl_version_shader_string() +
     "uniform vec4 colorUni;"
     "out vec4 outColor;"
     "void main()"
@@ -47,8 +63,7 @@ std::string get_fs_source()
 // clang-format off
 std::string get_gs_source()
 {
-  return
-    "#version 330 core\n"
+  return get_gl_version_shader_string() +
     "layout(points) in;"
     "layout(line_strip, max_vertices = 2) out;"
     "void main()"
@@ -67,8 +82,7 @@ std::string get_gs_source()
 // clang-format off
 std::string get_vs_source()
 {
-  return
-    "#version 330 core\n"
+  return get_gl_version_shader_string() +
     "in vec2 pos;"
     "void main()"
     "{"
@@ -100,11 +114,15 @@ TEST_F(test_shader, gl_vertex_shader_move_constructor)
 
 TEST_F(test_shader_death_test, gl_vertex_shader_creation)
 {
+#if defined(HOU_GL_ES)
+  const char error_msg[] = "ERROR: 0:1: 'I' : syntax error\n";
+#else
+  const char error_msg[] = "0(1) : error C0000: syntax error, "
+    "unexpected '.', expecting \"::\" at token \".\"\n";
+#endif
   const char vs_src[] = "I like trains.";
   EXPECT_ERROR_N(vertex_shader vs(vs_src), gl::shader_compiler_error,
-    static_cast<GLenum>(shader_type::vertex),
-    "0(1) : error C0000: syntax error, "
-    "unexpected '.', expecting \"::\" at token \".\"\n");
+    static_cast<GLenum>(shader_type::vertex), error_msg);
 }
 
 
@@ -128,17 +146,25 @@ TEST_F(test_shader, gl_fragment_shader_move_constructor)
 
 TEST_F(test_shader_death_test, gl_fragment_shader_creation)
 {
+#if defined(HOU_GL_ES)
+  const char error_msg[] = "ERROR: 0:1: 'I' : syntax error\n";
+#else
+  const char error_msg[] = "0(1) : error C0000: syntax error, "
+    "unexpected '.', expecting \"::\" at token \".\"\n";
+#endif
   const char fs_src[] = "I like trains.";
   EXPECT_ERROR_N(fragment_shader vs(fs_src), gl::shader_compiler_error,
-    static_cast<GLenum>(shader_type::fragment),
-    "0(1) : error C0000: syntax error, "
-    "unexpected '.', expecting \"::\" at token \".\"\n");
+    static_cast<GLenum>(shader_type::fragment), error_msg);
 }
 
 
 
 TEST_F(test_shader, gl_geometry_shader_creation)
 {
+  SKIP_IF(gl::context::get_current()->get_settings().get_profile()
+      == gl::context_profile::es,
+    "Geometry shaders are not supported in GLES.");
+
   geometry_shader gs(get_gs_source());
   SUCCEED();
 }
@@ -147,6 +173,10 @@ TEST_F(test_shader, gl_geometry_shader_creation)
 
 TEST_F(test_shader, gl_geometry_shader_move_constructor)
 {
+  SKIP_IF(gl::context::get_current()->get_settings().get_profile()
+      == gl::context_profile::es,
+    "Geometry shaders are not supported in GLES.");
+
   geometry_shader gs_dummy = geometry_shader(get_gs_source());
   geometry_shader gs = std::move(gs_dummy);
   SUCCEED();
@@ -156,6 +186,10 @@ TEST_F(test_shader, gl_geometry_shader_move_constructor)
 
 TEST_F(test_shader_death_test, gl_geometry_shader_creation)
 {
+  SKIP_IF(gl::context::get_current()->get_settings().get_profile()
+      == gl::context_profile::es,
+    "Geometry shaders are not supported in GLES.");
+
   const char gs_src[] = "I like trains.";
   EXPECT_ERROR_N(geometry_shader vs(gs_src), gl::shader_compiler_error,
     static_cast<GLenum>(shader_type::geometry),

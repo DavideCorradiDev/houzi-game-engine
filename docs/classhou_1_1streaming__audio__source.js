@@ -2,6 +2,7 @@ var classhou_1_1streaming__audio__source =
 [
     [ "streaming_audio_source", "classhou_1_1streaming__audio__source.html#a5cf51058a5900ca5e108c16f851af5ad", null ],
     [ "streaming_audio_source", "classhou_1_1streaming__audio__source.html#aa0dc5195c0a252d1bcde7e44246208fd", null ],
+    [ "streaming_audio_source", "classhou_1_1streaming__audio__source.html#abbd64893c84b3fd19d32652c802dbb9b", null ],
     [ "~streaming_audio_source", "classhou_1_1streaming__audio__source.html#ad6803a43ac40ee5af224ab2ead56229d", null ],
     [ "get_buffer_count", "classhou_1_1streaming__audio__source.html#a1c095a2fb48c256ce3ac5cfc23596789", null ],
     [ "get_buffer_sample_count", "classhou_1_1streaming__audio__source.html#a04b25559dff2e81aa4e774fe5d92592d", null ],

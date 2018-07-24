@@ -15,19 +15,19 @@ namespace hou
 {
 
 template <pixel_format format>
-class pixel_t;
+class pixel;
 
 /** Single channel pixel. */
-using pixel_r = pixel_t<pixel_format::r>;
+using pixel_r = pixel<pixel_format::r>;
 
 /** Two channels pixel. */
-using pixel_rg = pixel_t<pixel_format::rg>;
+using pixel_rg = pixel<pixel_format::rg>;
 
 /** Three channels pixel. */
-using pixel_rgb = pixel_t<pixel_format::rgb>;
+using pixel_rgb = pixel<pixel_format::rgb>;
 
 /** Four channels pixel. */
-using pixel_rgba = pixel_t<pixel_format::rgba>;
+using pixel_rgba = pixel<pixel_format::rgba>;
 
 }  // namespace hou
 

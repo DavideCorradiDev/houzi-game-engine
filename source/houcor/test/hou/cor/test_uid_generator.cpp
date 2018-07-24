@@ -2,9 +2,10 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 
 #include "hou/cor/cor_exceptions.hpp"
+#include "hou/cor/std_string.hpp"
 #include "hou/cor/uid_generator.hpp"
 
 #include <limits>
@@ -42,6 +43,10 @@ TEST_F(test_uid_generator, increment)
 
 TEST_F(test_uid_generator, multi_thread_increment)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multi-threading is not supported on Emscripten.");
+#endif
+
   uid_generator uid_gen(2u);
 
   auto thread_fun = [&uid_gen]() { uid_gen.generate(); };

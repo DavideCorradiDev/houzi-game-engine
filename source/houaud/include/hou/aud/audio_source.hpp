@@ -23,32 +23,38 @@
 namespace hou
 {
 
-/** Parent class for audio sources.
+/**
+ * Parent class for audio sources.
  */
 class HOU_AUD_API audio_source : public non_copyable
 {
 public:
-  /** default constructor.
+  /**
+   * Default constructor.
    */
   audio_source();
 
-  /** Move constructor.
+  /**
+   * Move constructor.
    *
    * \param other the other audio_source.
    */
   audio_source(audio_source&& other) noexcept = default;
 
-  /** Destructor.
+  /**
+   * Destructor.
    */
   virtual ~audio_source() = 0;
 
-  /** Gets the OpenAL audio source handle.
+  /**
+   * Gets the OpenAL audio source handle.
    *
    * \return the OpenAL audio source handle.
    */
   const al::source_handle& get_handle() const noexcept;
 
-  /** Plays the audio source.
+  /**
+   * Plays the audio source.
    *
    * If the audio source was already playing, nothing happens.
    * If the audio source was stopped, starts playing from the beginning.
@@ -60,7 +66,8 @@ public:
    */
   void play();
 
-  /** Pause the audio source.
+  /**
+   * Pause the audio source.
    *
    * If the audio source was paused or stopped, nothing happens.
    * If the audio source was playing, pauses playing without modifying the
@@ -68,7 +75,8 @@ public:
    */
   void pause();
 
-  /** Stops the audio source.
+  /**
+   * Stops the audio source.
    *
    * If the audio source was stopped, nothing happens.
    * If the audio source was paused, sets the offset to the beginning.
@@ -77,30 +85,35 @@ public:
    */
   void stop();
 
-  /** Stops and replays the audio source.
+  /**
+   * Stops and replays the audio source.
    */
   void replay();
 
-  /** Gets the state of the audio source.
+  /**
+   * Gets the state of the audio source.
    *
    * \return the state of the audio source.
    */
   audio_source_state get_state() const;
 
-  /** Gets the audio format of the audio source.
+  /**
+   * Gets the audio format of the audio source.
    *
    * \return the audio format.
    */
   virtual audio_buffer_format get_format() const = 0;
 
-  /** Gets the number of channels of the audio source, based on its audio
+  /**
+   * Gets the number of channels of the audio source, based on its audio
    * format.
    *
    * \return 1 if the audio format is mono, 2 if the audio format is stereo.
    */
   virtual uint get_channel_count() const = 0;
 
-  /** Gets the number of bytes per sample of the audio stream, based on its
+  /**
+   * Gets the number of bytes per sample of the audio stream, based on its
    * audio format.
    *
    * The number returned is the number of bytes per sample for a single
@@ -108,19 +121,22 @@ public:
    */
   virtual uint get_bytes_per_sample() const = 0;
 
-  /** Gets the number of samples per second.
+  /**
+   * Gets the number of samples per second.
    *
    * \return the sample rate in samples per second.
    */
   virtual uint get_sample_rate() const = 0;
 
-  /** Sets the time position of the audio source.
+  /**
+   * Sets the time position of the audio source.
    *
    * \param nsPos the position in nanoseconds.
    */
   void set_time_pos(std::chrono::nanoseconds nsPos);
 
-  /** Sets the time position of the audio source.
+  /**
+   * Sets the time position of the audio source.
    *
    * \tparam TimeDuration the time duration type of the position.
    *
@@ -129,53 +145,57 @@ public:
   template <typename TimeDuration>
   void set_time_pos(TimeDuration pos);
 
-  // void moveTimePos(TimeDuration offset);
-
-  /** Gets the time position of the audio source in nanoseconds.
+  /**
+   * Gets the time position of the audio source in nanoseconds.
    *
    * \return the position of the audio source in nanoseconds.
    */
   std::chrono::nanoseconds get_time_pos() const;
 
-  /** Gets the duration of the audio source in nanoseconds.
+  /**
+   * Gets the duration of the audio source in nanoseconds.
    *
    * \return the duration of the audio source in nanoseconds.
    */
   std::chrono::nanoseconds get_duration() const;
 
-  /** Sets the sample position of the audio source.
+  /**
+   * Sets the sample position of the audio source.
    *
    * \param pos the position.
    */
   void set_sample_pos(uint pos);
 
-  // void move_sample_pos(uint offset);
-
-  /** Gets the sample position of the audio source.
+  /**
+   * Gets the sample position of the audio source.
    *
    * \return the sample position.
    */
   uint get_sample_pos() const;
 
-  /** Gets the number of samples in the audio source.
+  /**
+   * Gets the number of samples in the audio source.
    *
    * \return the number of samples.
    */
   virtual uint get_sample_count() const = 0;
 
-  /** Sets whether the audio source is looping or not.
+  /**
+   * Sets whether the audio source is looping or not.
    *
    * \param looping true to set the audio source to looping, false otherwise.
    */
   virtual void set_looping(bool looping) = 0;
 
-  /** Checks if the audio source is looping.
+  /**
+   * Checks if the audio source is looping.
    *
    * \return true if the audio source is looping.
    */
   virtual bool is_looping() const = 0;
 
-  /** Sets the audio source pitch.
+  /**
+   * Sets the audio source pitch.
    *
    * Throws if the provided value is null or negative.
    *
@@ -183,13 +203,15 @@ public:
    */
   void set_pitch(non_negative<float> value);
 
-  /** Gets the audio source pitch.
+  /**
+   * Gets the audio source pitch.
    *
    * \return the pitch.
    */
   non_negative<float> get_pitch() const;
 
-  /** Sets the audio source gain.
+  /**
+   * Sets the audio source gain.
    *
    * Throws if the provided value is null or negative.
    *
@@ -197,13 +219,15 @@ public:
    */
   void set_gain(non_negative<float> value);
 
-  /** Gets the audio source gain.
+  /**
+   * Gets the audio source gain.
    *
    * \return the gain.
    */
   non_negative<float> get_gain() const;
 
-  /** Sets the audio source maximum gain.
+  /**
+   * Sets the audio source maximum gain.
    *
    * Throws if the provided value is null or negative.
    *
@@ -211,13 +235,15 @@ public:
    */
   void set_max_gain(non_negative<float> value);
 
-  /** Gets the audio source maximum gain.
+  /**
+   * Gets the audio source maximum gain.
    *
    * \return the maximum gain.
    */
   non_negative<float> get_max_gain() const;
 
-  /** Sets the audio source minimum gain.
+  /**
+   * Sets the audio source minimum gain.
    *
    * Throws if the provided value is null or negative.
    *
@@ -225,13 +251,15 @@ public:
    */
   void set_min_gain(non_negative<float> value);
 
-  /** Gets the audio source minimum gain.
+  /**
+   * Gets the audio source minimum gain.
    *
    * \return the minimum gain.
    */
   non_negative<float> get_min_gain() const;
 
-  /** Sets the audio source maximum distance.
+  /**
+   * Sets the audio source maximum distance.
    *
    * Throws if the provided value is null or negative.
    *
@@ -239,13 +267,15 @@ public:
    */
   void set_max_distance(non_negative<float> value);
 
-  /** Gets the audio source maximum distance.
+  /**
+   * Gets the audio source maximum distance.
    *
    * \return the maximum distance.
    */
   non_negative<float> get_max_distance() const;
 
-  /** Sets the audio source rolloff factor.
+  /**
+   * Sets the audio source rolloff factor.
    *
    * Throws if the provided value is null or negative.
    *
@@ -253,13 +283,15 @@ public:
    */
   void set_rolloff_factor(non_negative<float> value);
 
-  /** Gets the audio source rolloff factor.
+  /**
+   * Gets the audio source rolloff factor.
    *
    * \return the rolloff factor.
    */
   non_negative<float> get_rolloff_factor() const;
 
-  /** Sets the audio source reference distance.
+  /**
+   * Sets the audio source reference distance.
    *
    * Throws if the provided value is null or negative.
    *
@@ -267,25 +299,29 @@ public:
    */
   void set_reference_distance(non_negative<float> value);
 
-  /** Gets the audio source reference distance.
+  /**
+   * Gets the audio source reference distance.
    *
    * \return the reference distance.
    */
   non_negative<float> get_reference_distance() const;
 
-  /** Sets if the audio source is relative or not.
+  /**
+   * Sets if the audio source is relative or not.
    *
    * \param value true if the audio source is relative, false otherwise.
    */
   void set_relative(bool value);
 
-  /** Gets if the audio source is relative or not.
+  /**
+   * Gets if the audio source is relative or not.
    *
    * \return true if the audio source is relative.
    */
   bool is_relative() const;
 
-  /** Sets the audio source cone outer gain.
+  /**
+   * Sets the audio source cone outer gain.
    *
    * Throws if the provided value is null or negative.
    *
@@ -293,13 +329,15 @@ public:
    */
   void set_cone_outer_gain(non_negative<float> value);
 
-  /** Gets the audio source cone outer gain.
+  /**
+   * Gets the audio source cone outer gain.
    *
    * \return the cone outer gain.
    */
   non_negative<float> get_cone_outer_gain() const;
 
-  /** Sets the audio source cone inner angle.
+  /**
+   * Sets the audio source cone inner angle.
    *
    * Throws if the provided value is not included between 0 and 2 * pi.
    *
@@ -307,13 +345,15 @@ public:
    */
   void set_cone_inner_angle(float value);
 
-  /** Gets the audio source cone inner angle.
+  /**
+   * Gets the audio source cone inner angle.
    *
    * \return the cone inner angle.
    */
   float get_cone_inner_angle() const;
 
-  /** Sets the audio source cone outer angle.
+  /**
+   * Sets the audio source cone outer angle.
    *
    * Throws if the provided value is not included between 0 and 2 * pi.
    *
@@ -321,50 +361,58 @@ public:
    */
   void set_cone_outer_angle(float value);
 
-  /** Gets the audio source cone outer angle.
+  /**
+   * Gets the audio source cone outer angle.
    *
    * \return the cone outer angle.
    */
   float get_cone_outer_angle() const;
 
-  /** Sets the audio source position.
+  /**
+   * Sets the audio source position.
    *
    * \param pos the position.
    */
   void set_position(const vec3f& pos);
 
-  /** Gets the audio source position.
+  /**
+   * Gets the audio source position.
    *
    * \return the position.
    */
   vec3f get_position() const;
 
-  /** Sets the audio source velocity.
+  /**
+   * Sets the audio source velocity.
    *
    * \param vel the velocity.
    */
   void set_velocity(const vec3f& vel);
 
-  /** Gets the audio source vleocity.
+  /**
+   * Gets the audio source vleocity.
    *
    * \return the velocity.
    */
   vec3f get_velocity() const;
 
-  /** Sets the audio source direction.
+  /**
+   * Sets the audio source direction.
    *
    * \param dir the direction.
    */
   void set_direction(const vec3f& dir);
 
-  /** Gets the audio source direction.
+  /**
+   * Gets the audio source direction.
    *
    * \return the direction.
    */
   vec3f get_direction() const;
 
 protected:
-  /** Sets the sample position.
+  /**
+   * Sets the sample position.
    *
    * The base class implementation simply sets the audio source offset.
    *
@@ -372,7 +420,8 @@ protected:
    */
   virtual void on_set_sample_pos(uint pos) = 0;
 
-  /** Gets the sample position.
+  /**
+   * Gets the sample position.
    *
    * The base class implementation simply gets the audio source offset.
    *

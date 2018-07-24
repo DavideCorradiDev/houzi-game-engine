@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 #include "hou/aud/test_aud_base.hpp"
 #include "hou/aud/test_data.hpp"
 
@@ -10,6 +10,7 @@
 #include "hou/aud/listener.hpp"
 #include "hou/aud/ogg_file_in.hpp"
 #include "hou/aud/streaming_audio_source.hpp"
+#include "hou/aud/wav_file_in.hpp"
 
 #include "hou/mth/math_functions.hpp"
 
@@ -27,6 +28,10 @@ public:
 
 public:
   static const std::string audio_filename;
+  static const std::string mono8_filename;
+  static const std::string mono16_filename;
+  static const std::string stereo8_filename;
+  static const std::string stereo16_filename;
 };
 
 
@@ -46,7 +51,15 @@ void test_streaming_audio_source::SetUpTestCase()
 
 
 const std::string test_streaming_audio_source::audio_filename
-  = get_data_dir() + u8"TestOgg-Stereo-16-44100.ogg";
+  = get_data_dir() + u8"TestOgg-stereo-16-44100.ogg";
+const std::string test_streaming_audio_source::mono8_filename
+  = get_data_dir() + u8"TestWav-mono-8-44100.wav";
+const std::string test_streaming_audio_source::mono16_filename
+  = get_data_dir() + u8"TestWav-mono-16-44100.wav";
+const std::string test_streaming_audio_source::stereo8_filename
+  = get_data_dir() + u8"TestWav-stereo-8-44100.wav";
+const std::string test_streaming_audio_source::stereo16_filename
+  = get_data_dir() + u8"TestWav-stereo-16-44100.wav";
 
 }  // namespace
 
@@ -76,8 +89,8 @@ TEST_F(test_streaming_audio_source, default_constructor)
   EXPECT_FLOAT_EQ(1.f, as.get_reference_distance());
   EXPECT_FALSE(as.is_relative());
   EXPECT_FLOAT_EQ(0.f, as.get_cone_outer_gain());
-  EXPECT_FLOAT_EQ(2 * pi_f, as.get_cone_inner_angle());
-  EXPECT_FLOAT_EQ(2 * pi_f, as.get_cone_outer_angle());
+  EXPECT_FLOAT_EQ(2 * pi<float>(), as.get_cone_inner_angle());
+  EXPECT_FLOAT_EQ(2 * pi<float>(), as.get_cone_outer_angle());
   EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_position());
   EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_velocity());
   EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_direction());
@@ -109,8 +122,8 @@ TEST_F(test_streaming_audio_source, stream_constructor)
   EXPECT_FLOAT_EQ(1.f, as.get_reference_distance());
   EXPECT_FALSE(as.is_relative());
   EXPECT_FLOAT_EQ(0.f, as.get_cone_outer_gain());
-  EXPECT_FLOAT_EQ(2 * pi_f, as.get_cone_inner_angle());
-  EXPECT_FLOAT_EQ(2 * pi_f, as.get_cone_outer_angle());
+  EXPECT_FLOAT_EQ(2 * pi<float>(), as.get_cone_inner_angle());
+  EXPECT_FLOAT_EQ(2 * pi<float>(), as.get_cone_outer_angle());
   EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_position());
   EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_velocity());
   EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_direction());
@@ -453,4 +466,44 @@ TEST_F(test_streaming_audio_source_death_test, set_buffer_sample_count_error)
 {
   streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
   EXPECT_PRECOND_ERROR(as.set_buffer_sample_count(0u));
+}
+
+
+
+TEST_F(test_streaming_audio_source, buffer_properties_mono8)
+{
+  streaming_audio_source as(std::make_unique<wav_file_in>(mono8_filename));
+  EXPECT_EQ(audio_buffer_format::mono8, as.get_format());
+  EXPECT_EQ(1u, as.get_channel_count());
+  EXPECT_EQ(1u, as.get_bytes_per_sample());
+}
+
+
+
+TEST_F(test_streaming_audio_source, buffer_properties_mono16)
+{
+  streaming_audio_source as(std::make_unique<wav_file_in>(mono16_filename));
+  EXPECT_EQ(audio_buffer_format::mono16, as.get_format());
+  EXPECT_EQ(1u, as.get_channel_count());
+  EXPECT_EQ(2u, as.get_bytes_per_sample());
+}
+
+
+
+TEST_F(test_streaming_audio_source, buffer_properties_stereo8)
+{
+  streaming_audio_source as(std::make_unique<wav_file_in>(stereo8_filename));
+  EXPECT_EQ(audio_buffer_format::stereo8, as.get_format());
+  EXPECT_EQ(2u, as.get_channel_count());
+  EXPECT_EQ(1u, as.get_bytes_per_sample());
+}
+
+
+
+TEST_F(test_streaming_audio_source, buffer_properties_stereo16)
+{
+  streaming_audio_source as(std::make_unique<wav_file_in>(stereo16_filename));
+  EXPECT_EQ(audio_buffer_format::stereo16, as.get_format());
+  EXPECT_EQ(2u, as.get_channel_count());
+  EXPECT_EQ(2u, as.get_bytes_per_sample());
 }

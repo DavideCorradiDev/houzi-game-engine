@@ -74,7 +74,7 @@ public:
    * \param trn the transform.
    */
   void draw(render_surface& target, const text_mesh& m,
-    const texture2_array& tex, const color& col = color::white,
+    const texture2_array& tex, const color& col = color::white(),
     const trans2f& trn = trans2f::identity());
 
   /** Draws a formatted_text onto a render_surface with the given parameters.
@@ -88,7 +88,7 @@ public:
    * \param trn the transform.
    */
   void draw(render_surface& target, const formatted_text& text,
-    const color& col = color::white, const trans2f& trn = trans2f::identity());
+    const color& col = color::white(), const trans2f& trn = trans2f::identity());
 
   /** Draws a text string onto a render_surface with the given font and
    * parameters.
@@ -104,7 +104,7 @@ public:
    * \param trn the transform.
    */
   void draw(render_surface& target, const std::string& text, const font& f,
-    const color& col = color::white, const trans2f& trn = trans2f::identity());
+    const color& col = color::white(), const trans2f& trn = trans2f::identity());
 
 private:
   int m_uni_color;

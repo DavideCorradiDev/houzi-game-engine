@@ -16,7 +16,8 @@
 namespace hou
 {
 
-/** Replaces all occurrences of a given substring with another substring.
+/**
+ * Replaces all occurrences of a given substring with another substring.
  *
  * \param s the string to be modified.
  *
@@ -31,7 +32,8 @@ namespace hou
 HOU_COR_API std::string replace_all(
   std::string s, const std::string& from, const std::string& to);
 
-/** Escapes special characters in a regular expression.
+/**
+ * Escapes special characters in a regular expression.
  *
  * \param s the string to be modified.
  *
@@ -41,7 +43,8 @@ HOU_COR_API std::string replace_all(
  */
 HOU_COR_API std::string escape_regex(std::string s);
 
-/** Fills a format string with the given format values.
+/**
+ * Fills a format string with the given format values.
  *
  * \tparam Args the format variables.
  *
@@ -56,7 +59,8 @@ HOU_COR_API std::string escape_regex(std::string s);
 template <typename... Args>
 std::string format_string(const std::string& s, Args... args);
 
-/** Splits a string into all substrings delimited by a given character.
+/**
+ * Splits a string into all substrings delimited by a given character.
  *
  * The user must ensure that out is a valid iterator and that the associated
  * container can contain all generated substrings.
@@ -78,7 +82,8 @@ template <typename OutputIterator>
 OutputIterator split_string(
   const std::string& s, char delimiter, OutputIterator out);
 
-/** Converts an object into a string.
+/**
+ * Converts an object into a string.
  *
  * The output stream operator must be defined for T and will be used to
  * generate the string.
@@ -94,7 +99,8 @@ OutputIterator split_string(
 template <typename T>
 std::string to_string(const T& obj);
 
-/** Converts a boolean into a string.
+/**
+ * Converts a boolean into a string.
  *
  * The resulting string will be either "true" or "false".
  *

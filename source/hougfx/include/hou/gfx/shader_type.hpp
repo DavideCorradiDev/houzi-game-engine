@@ -22,7 +22,7 @@ enum class shader_type : GLenum
 {
   /** Fragment shader. */
   fragment = GL_FRAGMENT_SHADER,
-  /** Geometry shader. */
+  /** Geometry shader. Not supported on GLES. */
   geometry = GL_GEOMETRY_SHADER,
   /** Vertex shader. */
   vertex = GL_VERTEX_SHADER,

@@ -69,3 +69,13 @@ TEST_F(test_sys_exceptions, invalid_image_data)
   invalid_image_data ex("source.cpp", 33u);
   EXPECT_STREQ("source.cpp:33 - Invalid or corrupted image data.", ex.what());
 }
+
+
+
+TEST_F(test_sys_exceptions, platform_error)
+{
+  platform_error ex("plat.cpp", 24u, "Something wrong.");
+  EXPECT_STREQ(
+    "plat.cpp:24 - A platform-specific error occurred:\nSomething wrong.",
+    ex.what());
+}

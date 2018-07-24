@@ -141,7 +141,7 @@ uint streaming_audio_source::get_sample_rate() const
 
 uint streaming_audio_source::get_sample_count() const
 {
-  return m_audio_stream->get_sample_count();
+  return narrow_cast<uint>(m_audio_stream->get_sample_count());
 }
 
 
@@ -211,7 +211,7 @@ void streaming_audio_source::free_buffers()
   std::vector<ALuint> bufferNames(processed_buffers, 0);
   al::source_unqueue_buffers(
     get_handle(), narrow_cast<ALsizei>(bufferNames.size()), bufferNames.data());
-  uint processed_bytes = m_buffer_queue.free_buffers(processed_buffers);
+  size_t processed_bytes = m_buffer_queue.free_buffers(processed_buffers);
   set_sample_pos_variable(m_sample_pos
     + processed_bytes
       / (m_audio_stream->get_channel_count()
@@ -259,7 +259,8 @@ void streaming_audio_source::set_sample_pos_variable(size_t pos)
 void streaming_audio_source::set_sample_pos_and_stream_cursor(size_t pos)
 {
   set_sample_pos_variable(pos);
-  m_audio_stream->set_sample_pos(pos);
+  m_audio_stream->set_sample_pos(
+    narrow_cast<audio_stream::sample_position>(pos));
 }
 
 

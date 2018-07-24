@@ -12,12 +12,11 @@
 
 #include "hou/sys/sys_exceptions.hpp"
 
-// clang-format off
 HOU_PRAGMA_GCC_DIAGNOSTIC_PUSH()
 HOU_PRAGMA_GCC_DIAGNOSTIC_IGNORED(-Wunused-variable)
+HOU_PRAGMA_GCC_DIAGNOSTIC_IGNORED(-Wzero-as-null-pointer-constant)
 #include <vorbis/vorbisfile.h>
 HOU_PRAGMA_GCC_DIAGNOSTIC_POP()
-// clang-format on
 
 
 
@@ -101,9 +100,7 @@ ogg_file_in::~ogg_file_in()
 {
   if(m_vorbis_file != nullptr)
   {
-    HOU_DISABLE_EXCEPTIONS_BEGIN
     HOU_CHECK_0(ov_clear(m_vorbis_file.get()) == 0, file_close_error);
-    HOU_DISABLE_EXCEPTIONS_END
   }
 }
 
@@ -215,7 +212,7 @@ void ogg_file_in::read_metadata()
   HOU_PRECOND(info != nullptr);
   set_format(info->channels, bytes_per_sample);
   set_sample_rate(info->rate);
-  m_pcm_size = ov_pcm_total(m_vorbis_file.get(), -1);
+  m_pcm_size = narrow_cast<size_t>(ov_pcm_total(m_vorbis_file.get(), -1));
 }
 
 
@@ -238,9 +235,10 @@ void ogg_file_in::on_read(void* buf, size_t element_size, size_t buf_size)
   while(countBytes < sizeBytes)
   {
     // If there is still room in the buffer, perform a read.
-    long bytesRead = ov_read(m_vorbis_file.get(),
-      reinterpret_cast<char*>(buf) + countBytes, sizeBytes - countBytes,
-      big_endian_data, bytes_per_sample, signed_data, &m_logical_bit_stream);
+    long bytesRead
+      = ov_read(m_vorbis_file.get(), reinterpret_cast<char*>(buf) + countBytes,
+        static_cast<int>(sizeBytes - countBytes), big_endian_data,
+        static_cast<int>(bytes_per_sample), signed_data, &m_logical_bit_stream);
 
     // No bytes read: end of file.
     if(bytesRead == 0)

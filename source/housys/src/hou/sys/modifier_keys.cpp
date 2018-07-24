@@ -6,22 +6,42 @@
 
 #include <string>
 
-
-
-#define MODIFIER_KEY_BITFIELD_CASE(bitfield, mkf) \
-  (check_bit(bitfield, modifier_keys::mkf) ? #mkf : "0")
+#define MODIFIER_KEY_BITFIELD_CASE(bitfield, bit, os)                          \
+  do                                                                           \
+  {                                                                            \
+    if(check_all(bitfield, modifier_keys::bit))                                \
+    {                                                                          \
+      os << (match_found ? " | " : "") << #bit;                                \
+      match_found = true;                                                      \
+    }                                                                          \
+  } while(false)
 
 
 
 namespace hou
 {
 
-std::ostream& operator<<(std::ostream& os, modifier_keys mkf)
+std::ostream& operator<<(std::ostream& os, modifier_keys mk)
 {
-  return os << MODIFIER_KEY_BITFIELD_CASE(mkf, alt) << " | "
-            << MODIFIER_KEY_BITFIELD_CASE(mkf, ctrl) << " | "
-            << MODIFIER_KEY_BITFIELD_CASE(mkf, shift) << " | "
-            << MODIFIER_KEY_BITFIELD_CASE(mkf, system);
+  if(mk == modifier_keys::none)
+  {
+    return os << "none";
+  }
+
+  bool match_found = false;
+  MODIFIER_KEY_BITFIELD_CASE(mk, lalt, os);
+  MODIFIER_KEY_BITFIELD_CASE(mk, ralt, os);
+  MODIFIER_KEY_BITFIELD_CASE(mk, lctrl, os);
+  MODIFIER_KEY_BITFIELD_CASE(mk, rctrl, os);
+  MODIFIER_KEY_BITFIELD_CASE(mk, lshift, os);
+  MODIFIER_KEY_BITFIELD_CASE(mk, rshift, os);
+  MODIFIER_KEY_BITFIELD_CASE(mk, lsystem, os);
+  MODIFIER_KEY_BITFIELD_CASE(mk, rsystem, os);
+  MODIFIER_KEY_BITFIELD_CASE(mk, num, os);
+  MODIFIER_KEY_BITFIELD_CASE(mk, caps, os);
+  MODIFIER_KEY_BITFIELD_CASE(mk, mode, os);
+
+  return os;
 }
 
 }  // namespace hou

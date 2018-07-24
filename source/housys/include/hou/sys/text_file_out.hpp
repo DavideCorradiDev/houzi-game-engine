@@ -18,14 +18,16 @@
 namespace hou
 {
 
-/** Output text file stream.
+/**
+ * Output text file stream.
  */
 class HOU_SYS_API text_file_out
   : public non_copyable
   , public text_stream_out
 {
 public:
-  /** Path constructor.
+  /**
+   * Path constructor.
    *
    * Throws if the provided path is not valid.
    *

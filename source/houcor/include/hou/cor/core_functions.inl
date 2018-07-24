@@ -32,4 +32,13 @@ std::ostream& container_stream(std::ostream& os, Iterator begin, Iterator end)
   return os << "}";
 }
 
+
+
+#ifndef HOU_DOXYGEN
+extern template HOU_COR_API bool close<float, void>(
+  float, float, float) noexcept;
+extern template HOU_COR_API bool close<double, void>(
+  double, double, double) noexcept;
+#endif
+
 }  // namespace hou

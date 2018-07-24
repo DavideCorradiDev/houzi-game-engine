@@ -14,14 +14,16 @@
 namespace hou
 {
 
-/** High resolution p_clock.
+/**
+ * High resolution p_clock.
  *
  * Guarantees a resolution of 100 ns.
  */
 class HOU_COR_API clock
 {
 public:
-  /** Retrieves the p_clock resolution.
+  /**
+   * Retrieves the p_clock resolution.
    *
    * Note: the reported resolution might not be accurate.
    *
@@ -30,17 +32,20 @@ public:
   static std::chrono::nanoseconds get_resolution() noexcept;
 
 public:
-  /** Creates a p_clock object.
+  /**
+   * Creates a p_clock object.
    */
   clock() noexcept;
 
-  /** Returns the time elapsed since the p_clock creation.
+  /**
+   * Returns the time elapsed since the p_clock creation.
    *
    * \return the elapsed time in nanoseconds.
    */
   std::chrono::nanoseconds get_elapsed_time() const noexcept;
 
-  /** Resets the p_clock elapsed time.
+  /**
+   * Resets the p_clock elapsed time.
    *
    * \return the elapsed time before resetting it in nanoseconds.
    */

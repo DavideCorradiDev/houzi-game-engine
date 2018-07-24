@@ -55,14 +55,12 @@ private:
   gl::shader_handle m_handle;
 };
 
-
-
 /** Represents a concrete instance of a type of shader.
  *
  * \tparam Type the shader type.
  */
 template <shader_type Type>
-class HOU_GFX_API shader_t : public shader
+class shader_t : public shader
 {
 public:
   /** Creates a shader with the given source code.
@@ -73,6 +71,12 @@ public:
    */
   explicit shader_t(const std::string& source);
 };
+
+#ifndef HOU_DOXYGEN
+extern template class HOU_GFX_API shader_t<shader_type::vertex>;
+extern template class HOU_GFX_API shader_t<shader_type::fragment>;
+extern template class HOU_GFX_API shader_t<shader_type::geometry>;
+#endif
 
 }  // namespace hou
 

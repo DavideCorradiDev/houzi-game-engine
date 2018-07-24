@@ -16,7 +16,8 @@
 namespace hou
 {
 
-/** Checks if the elements of two std::array objects are close with the given
+/**
+ * Checks if the elements of two std::array objects are close with the given
  * accuracy
  *
  * \tparam T the accuracy type. It must be a floating point type.
@@ -38,7 +39,8 @@ template <typename T, typename U, std::size_t N,
 constexpr bool close(const std::array<U, N>& lhs, const std::array<U, N>& rhs,
   T acc = std::numeric_limits<T>::epsilon()) noexcept;
 
-/** Outputs a std::array to the given stream.
+/**
+ * Outputs a std::array to the given stream.
  *
  * \tparam T the element type.
  *

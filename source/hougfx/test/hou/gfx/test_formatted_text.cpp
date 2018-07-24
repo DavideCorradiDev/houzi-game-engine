@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 #include "hou/gfx/test_data.hpp"
 #include "hou/gfx/test_gfx_base.hpp"
 
@@ -105,7 +105,7 @@ const std::string font_path = get_data_dir() + u8"NotoSans-Regular.ttf";
 
 
 
-TEST_F(test_formatted_text, Utf8Constructor)
+TEST_F(test_formatted_text, DISABLED_Utf8Constructor)
 {
   font f = load_font(font_path);
   std::string s = u8"A";
@@ -132,7 +132,7 @@ TEST_F(test_formatted_text, Utf8Constructor)
 
 
 
-TEST_F(test_formatted_text, Utf32Constructor)
+TEST_F(test_formatted_text, DISABLED_Utf32Constructor)
 {
   font f = load_font(font_path);
   std::u32string s = U"A";
@@ -159,7 +159,7 @@ TEST_F(test_formatted_text, Utf32Constructor)
 
 
 
-TEST_F(test_formatted_text, MoveConstructor)
+TEST_F(test_formatted_text, DISABLED_MoveConstructor)
 {
   font f = load_font(font_path);
   std::u32string s = U"A";
@@ -186,7 +186,7 @@ TEST_F(test_formatted_text, MoveConstructor)
 
 
 
-TEST_F(test_formatted_text, TwoCharacters)
+TEST_F(test_formatted_text, DISABLED_TwoCharacters)
 {
   font f = load_font(font_path);
   std::u32string s = U"AB";
@@ -221,7 +221,7 @@ TEST_F(test_formatted_text, TwoCharacters)
 
 
 
-TEST_F(test_formatted_text, StringWithSpace)
+TEST_F(test_formatted_text, DISABLED_StringWithSpace)
 {
   font f = load_font(font_path);
   std::u32string s = U"I love cakes";
@@ -336,7 +336,7 @@ TEST_F(test_formatted_text, StringWithSpace)
 
 
 
-TEST_F(test_formatted_text, StringWithNewLine)
+TEST_F(test_formatted_text, DISABLED_StringWithNewLine)
 {
   font f = load_font(font_path);
   std::u32string s = U"I love\n cheese \ncakes";

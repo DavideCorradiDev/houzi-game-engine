@@ -2,12 +2,12 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 #include "hou/gfx/test_gfx_base.hpp"
 
 #include "hou/gfx/mesh2.hpp"
 #include "hou/gfx/mesh2_shader_program.hpp"
-#include "hou/gfx/render_canvas.hpp"
+#include "hou/gfx/render_surface.hpp"
 
 #include "hou/mth/transform2.hpp"
 
@@ -32,7 +32,7 @@ image2_rgba generate_result_image(const vec2u& dst_size, const recti& dst_rect,
   const color& dst_color, const color& src_color)
 {
   image2_rgba im_ref(dst_size);
-  im_ref.clear(image2_rgba::pixel(dst_color));
+  im_ref.clear(image2_rgba::pixel_type(dst_color));
 
   uint x_max = std::min(static_cast<uint>(dst_rect.r()), dst_size.x());
   uint y_max = std::min(static_cast<uint>(dst_rect.b()), dst_size.y());
@@ -40,7 +40,7 @@ image2_rgba generate_result_image(const vec2u& dst_size, const recti& dst_rect,
   {
     for(uint x = dst_rect.l(); x < x_max; ++x)
     {
-      im_ref.set_pixel(vec2u(x, y), image2_rgba::pixel(src_color));
+      im_ref.set_pixel(vec2u(x, y), image2_rgba::pixel_type(src_color));
     }
   }
   return im_ref;
@@ -70,7 +70,7 @@ TEST_F(test_mesh2_shader_program, move_constructor)
 TEST_F(test_mesh2_shader_program, set_color)
 {
   mesh2_shader_program sp;
-  sp.set_color(color::red);
+  sp.set_color(color::red());
   SUCCEED();
 }
 
@@ -98,7 +98,7 @@ TEST_F(test_mesh2_shader_program, draw_rectangle)
 {
   mesh2_shader_program mr;
   vec2u size(4u, 6u);
-  render_canvas rt(size);
+  render_surface rt(size);
   mesh2 rect = create_rectangle_mesh2(vec2f(2.f, 3.f));
   color col(20u, 30u, 40u, 255u);
   trans2f t
@@ -108,7 +108,7 @@ TEST_F(test_mesh2_shader_program, draw_rectangle)
   mr.draw(rt, rect, col, t);
 
   image2_rgba im_ref
-    = generate_result_image(size, recti(1, 2, 2, 3), color::transparent, col);
+    = generate_result_image(size, recti(1, 2, 2, 3), color::transparent(), col);
   EXPECT_EQ(im_ref, rt.to_texture().get_image<pixel_format::rgba>());
 }
 
@@ -118,19 +118,19 @@ TEST_F(test_mesh2_shader_program, draw_textured_rectangle)
 {
   mesh2_shader_program mr;
   vec2u size(8u, 10u);
-  render_canvas rt(size);
+  render_surface rt(size);
   mesh2 rect = create_rectangle_mesh2(vec2f(3.f, 4.f));
   image2_rgba im(vec2u(3u, 4u));
   color col(20u, 30u, 40u, 255u);
-  im.clear(image2_rgba::pixel(col));
+  im.clear(image2_rgba::pixel_type(col));
   texture2 tex(im);
   trans2f t
     = trans2f::orthographic_projection(rectf(0.f, 0.f, size.x(), size.y()))
     * trans2f::translation(vec2f(1.f, 2.f));
 
-  mr.draw(rt, rect, tex, color::white, t);
+  mr.draw(rt, rect, tex, color::white(), t);
 
   image2_rgba im_ref = generate_result_image(
-    size, recti(1, 2, 3, 4), color::transparent, col);
+    size, recti(1, 2, 3, 4), color::transparent(), col);
   EXPECT_EQ(im_ref, rt.to_texture().get_image<pixel_format::rgba>());
 }

@@ -30,7 +30,8 @@ class span_iterator;
 
 
 
-/** Lightweight proxy for any contiguous container which can be represented by
+/**
+ * Lightweight proxy for any contiguous container which can be represented by
  * a pointer and a size.
  *
  * a span does not contain any elements, it just references elements placed
@@ -60,7 +61,7 @@ public:
   using reference = value_type&;
 
   /** The const reference type. */
-  using const_reference = const reference;
+  using const_reference = std::add_const_t<reference>;
 
   /** The pointer type. */
   using pointer = std::add_pointer_t<reference>;
@@ -81,11 +82,13 @@ public:
   using const_reverse_iterator = reverse_iterator;
 
 public:
-  /** Builds a span pointing to no data.
+  /**
+   * Builds a span pointing to no data.
    */
   constexpr span() noexcept;
 
-  /** Builds a span from the given pointer and size.
+  /**
+   * Builds a span from the given pointer and size.
    *
    * \param data the pointer to the beginning of the data buffer.
    *
@@ -95,7 +98,8 @@ public:
    */
   constexpr span(pointer data, size_type size);
 
-  /** Builds a span from the given pointer to begin and end of the data buffer.
+  /**
+   * Builds a span from the given pointer to begin and end of the data buffer.
    *
    * \param first a pointer to the begin of the data buffer.
    *
@@ -105,7 +109,8 @@ public:
    */
   constexpr span(pointer first, pointer last);
 
-  /** Builds a span from a constant container using contiguous memory.
+  /**
+   * Builds a span from a constant container using contiguous memory.
    *
    * \tparam Container the container type.
    *
@@ -120,7 +125,8 @@ public:
       && is_contiguous_container<Container>::value>>
   constexpr span(const Container& c) noexcept;
 
-  /** Builds a span from a container using contiguous memory.
+  /**
+   * Builds a span from a container using contiguous memory.
    *
    * \tparam Container the container type.
    *
@@ -135,19 +141,22 @@ public:
       && is_contiguous_container<Container>::value>>
   constexpr span(Container& c) noexcept;
 
-  /** Gets a pointer to the begin of the data buffer.
+  /**
+   * Gets a pointer to the begin of the data buffer.
    *
    * \return a pointer to the begin of the data buffer.
    */
   constexpr pointer data() const noexcept;
 
-  /** Gets the number of elements in the buffer.
+  /**
+   * Gets the number of elements in the buffer.
    *
    * \return the number of elements in the buffer.
    */
   constexpr size_type size() const noexcept;
 
-  /** Access an element in the buffer.
+  /**
+   * Access an element in the buffer.
    *
    * \param idx the index of the element.
    *
@@ -157,7 +166,8 @@ public:
    */
   constexpr reference at(size_type idx) const;
 
-  /** Access an element in the buffer.
+  /**
+   * Access an element in the buffer.
    *
    * Passing an idx greater or equal than the span size results in undefined
    * behaviour.
@@ -168,37 +178,43 @@ public:
    */
   constexpr reference operator[](size_type idx) const noexcept;
 
-  /** Gets an iterator to the first element of the buffer.
+  /**
+   * Gets an iterator to the first element of the buffer.
    *
    * \return an iterator to the first element of the buffer.
    */
   constexpr iterator begin() const noexcept;
 
-  /** Gets a const iterator to the first element of the buffer.
+  /**
+   * Gets a const iterator to the first element of the buffer.
    *
    * \return const iterator to the first element of the buffer.
    */
   constexpr const_iterator cbegin() const noexcept;
 
-  /** Gets a reverse iterator to the first element of the buffer.
+  /**
+   * Gets a reverse iterator to the first element of the buffer.
    *
    * \return reverse iterator to the first element of the buffer.
    */
   constexpr reverse_iterator rbegin() const noexcept;
 
-  /** Gets a constant reverse iterator to the first element of the buffer.
+  /**
+   * Gets a constant reverse iterator to the first element of the buffer.
    *
    * \return constant reverse iterator to the first element of the buffer.
    */
   constexpr const_reverse_iterator crbegin() const noexcept;
 
-  /** Gets an iterator to the position after the last element of the buffer.
+  /**
+   * Gets an iterator to the position after the last element of the buffer.
    *
    * \return an iterator to the position after the last element of the buffer.
    */
   constexpr iterator end() const noexcept;
 
-  /** Gets a constant iterator to the position after the last element of the
+  /**
+   * Gets a constant iterator to the position after the last element of the
    * buffer.
    *
    * \return a constant iterator to the position after the last element of the
@@ -206,7 +222,8 @@ public:
    */
   constexpr const_iterator cend() const noexcept;
 
-  /** Gets a reverse iterator to the position after the last element of the
+  /**
+   * Gets a reverse iterator to the position after the last element of the
    * buffer.
    *
    * \return a reverse iterator to the position after the last element of the
@@ -214,7 +231,8 @@ public:
    */
   constexpr reverse_iterator rend() const noexcept;
 
-  /** Gets a constant reverse iterator to the position after the last element of
+  /**
+   * Gets a constant reverse iterator to the position after the last element of
    * the buffer.
    *
    * \return a constant reverse iterator to the position after the last element
@@ -227,7 +245,8 @@ private:
   size_type m_size;
 };
 
-/** Checks if two span objects are equal.
+/**
+ * Checks if two span objects are equal.
  *
  * Two spans are equal if the memory adress the point at and the size is the
  * same, the check does not compare the elements in the buffer.
@@ -243,7 +262,8 @@ private:
 template <typename T>
 constexpr bool operator==(const span<T>& lhs, const span<T>& rhs) noexcept;
 
-/** Checks if two span objects are not equal.
+/**
+ * Checks if two span objects are not equal.
  *
  * Two spans are equal if the memory adress the point at and the size is the
  * same, the check does not compare the elements in the buffer.
@@ -259,7 +279,8 @@ constexpr bool operator==(const span<T>& lhs, const span<T>& rhs) noexcept;
 template <typename T>
 constexpr bool operator!=(const span<T>& lhs, const span<T>& rhs) noexcept;
 
-/** Outsputs a span object into a stream.
+/**
+ * Outsputs a span object into a stream.
  *
  * \tparam T the value type of the span.
  *
@@ -272,7 +293,8 @@ constexpr bool operator!=(const span<T>& lhs, const span<T>& rhs) noexcept;
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const span<T>& s);
 
-/** Reinterprets the span as a span with a different underlying type.
+/**
+ * Reinterprets the span as a span with a different underlying type.
  *
  * \tparam Out the output type.
  *

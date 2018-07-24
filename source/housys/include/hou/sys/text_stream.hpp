@@ -16,12 +16,14 @@
 namespace hou
 {
 
-/** text stream interface.
+/**
+ * text stream interface.
  */
 class HOU_SYS_API text_stream : public stream
 {
 public:
-  /** Position indicator for a text_stream.
+  /**
+   * Position indicator for a text_stream.
    *
    * This class is not supposed to be instantiated manually, only a text_stream
    * object can do so.
@@ -33,7 +35,8 @@ public:
   public:
     friend class text_stream;
 
-    /** Checks if two text position indicators are equal.
+    /**
+     * Checks if two text position indicators are equal.
      *
      * \param lhs the left operand.
      *
@@ -44,7 +47,8 @@ public:
     friend HOU_SYS_API bool operator==(
       text_position lhs, text_position rhs) noexcept;
 
-    /** Checks if two text position indicators are not equal.
+    /**
+     * Checks if two text position indicators are not equal.
      *
      * \param lhs the left operand.
      *
@@ -55,7 +59,8 @@ public:
     friend HOU_SYS_API bool operator!=(
       text_position lhs, text_position rhs) noexcept;
 
-    /** Writes a text position indicator into a stream.
+    /**
+     * Writes a text position indicator into a stream.
      *
      * \param os the stream.
      *
@@ -67,7 +72,8 @@ public:
       std::ostream& os, text_position p);
 
   public:
-    /** text position indicator representing the beginning of the file.
+    /**
+     * text position indicator representing the beginning of the file.
      */
     static const text_position start;
 
@@ -75,11 +81,12 @@ public:
     text_position(long value) noexcept;
 
   private:
-    long mValue;
+    long m_value;
   };
 
 public:
-  /** Gets the current text position indicator.
+  /**
+   * Gets the current text position indicator.
    *
    * \throws hou::cursor_error in case of an error.
    *
@@ -87,7 +94,8 @@ public:
    */
   virtual text_position get_text_pos() const = 0;
 
-  /** Sets the current text position indicator.
+  /**
+   * Sets the current text position indicator.
    *
    * \param pos the current text position indicator. It must either be start or
    * a value obtained by calling get_text_pos on this stream. Using a value
@@ -101,7 +109,8 @@ public:
   virtual text_stream& set_text_pos(text_position pos) = 0;
 
 protected:
-  /** Creates a text_position object with the given value.
+  /**
+   * Creates a text_position object with the given value.
    *
    * Since the text_position object constructor is private, derived classes can
    * use this utility function to create one if necessary.
@@ -110,7 +119,8 @@ protected:
    */
   static text_position create_position_object(long value) noexcept;
 
-  /** Converts a position object to an integer type.
+  /**
+   * Converts a position object to an integer type.
    *
    * If a derived class needs to convert a text_position into an integer, it can
    * use this utility method.

@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 #include "hou/sys/test_data.hpp"
 
 #include "hou/cor/span.hpp"
@@ -29,10 +29,7 @@ public:
   ~test_binary_file_out();
 };
 
-
-
-class test_binary_file_out_death_test : public test_binary_file_out
-{};
+using test_binary_file_out_death_test = test_binary_file_out;
 
 
 
@@ -92,10 +89,12 @@ TEST_F(test_binary_file_out, set_byte_pos)
   EXPECT_EQ(3, fo.get_byte_pos());
   fo.set_byte_pos(0);
   EXPECT_EQ(0, fo.get_byte_pos());
-  fo.set_byte_pos(fo.get_byte_count());
+  fo.set_byte_pos(
+    static_cast<binary_file_out::byte_position>(fo.get_byte_count()));
   EXPECT_EQ(static_cast<binary_file_out::byte_position>(fo.get_byte_count()),
     fo.get_byte_pos());
-  fo.set_byte_pos(fo.get_byte_count() + 6);
+  fo.set_byte_pos(
+    static_cast<binary_file_out::byte_position>(fo.get_byte_count()) + 6);
   EXPECT_EQ(
     static_cast<binary_file_out::byte_position>(fo.get_byte_count() + 6),
     fo.get_byte_pos());
@@ -121,7 +120,8 @@ TEST_F(test_binary_file_out, move_byte_pos)
   EXPECT_EQ(1, fo.get_byte_pos());
   fo.move_byte_pos(-1);
   EXPECT_EQ(0, fo.get_byte_pos());
-  fo.move_byte_pos(fo.get_byte_count());
+  fo.move_byte_pos(
+    static_cast<binary_file_out::byte_offset>(fo.get_byte_count()));
   EXPECT_EQ(static_cast<binary_file_out::byte_position>(fo.get_byte_count()),
     fo.get_byte_pos());
   fo.move_byte_pos(6);

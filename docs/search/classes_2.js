@@ -9,5 +9,6 @@ var searchData=
   ['conjunction',['conjunction',['../structhou_1_1conjunction.html',1,'hou']]],
   ['conjunction_3c_20b_20_3e',['conjunction&lt; b &gt;',['../structhou_1_1conjunction_3_01b_01_4.html',1,'hou']]],
   ['conjunction_3c_20head_2c_20tail_2e_2e_2e_20_3e',['conjunction&lt; Head, Tail... &gt;',['../structhou_1_1conjunction_3_01Head_00_01Tail_8_8_8_01_4.html',1,'hou']]],
+  ['cor_5fmodule_5fimpl',['cor_module_impl',['../classhou_1_1prv_1_1cor__module__impl.html',1,'hou::prv']]],
   ['cursor_5ferror',['cursor_error',['../classhou_1_1cursor__error.html',1,'hou']]]
 ];

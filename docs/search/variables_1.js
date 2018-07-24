@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['black',['black',['../classhou_1_1color.html#acd08f19a9c0a2fb1a419020ab22f56e0',1,'hou::color']]],
-  ['blue',['blue',['../classhou_1_1color.html#ac5d7d2b7cd4bd5576a2a92b7845a65aa',1,'hou::color']]],
-  ['button',['button',['../structhou_1_1window__event_1_1mouse__button__data.html#a341470dbf5294fdcc137d2e8cc2e4a31',1,'hou::window_event::mouse_button_data']]]
+  ['bit_5fcount',['bit_count',['../classhou_1_1pixel.html#a608e68ff64d507714311ac7402a71a8f',1,'hou::pixel']]],
+  ['byte_5fcount',['byte_count',['../classhou_1_1pixel.html#a9613c2348c66597f24f5d63d5150fb21',1,'hou::pixel']]]
 ];

@@ -2,12 +2,13 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
 #include "hou/gl/test_gl_multiple_contexts.hpp"
 
 #include "hou/gl/test_gl_shader_sources.hpp"
 
 #include "hou/gl/gl_exceptions.hpp"
+#include "hou/gl/gl_missing_context_error.hpp"
+#include "hou/gl/gl_invalid_context_error.hpp"
 #include "hou/gl/gl_program_handle.hpp"
 #include "hou/gl/gl_shader_handle.hpp"
 
@@ -21,8 +22,7 @@ namespace
 class test_gl_program_handle : public test_gl_multiple_contexts
 {};
 
-class test_gl_program_handle_death_test : public test_gl_program_handle
-{};
+using test_gl_program_handle_death_test = test_gl_program_handle;
 
 gl::program_handle create_program();
 
@@ -41,14 +41,14 @@ gl::program_handle create_program()
   attach_shader(ph, fsh);
   link_program(ph);
 
-  return std::move(ph);
+  return ph;
 }
 
 }  // namespace
 
 
 
-TEST_F(test_gl_program_handle, Creation)
+TEST_F(test_gl_program_handle, creation)
 {
   gl::program_handle vah = gl::program_handle::create();
   EXPECT_NE(0u, vah.get_name());
@@ -56,20 +56,25 @@ TEST_F(test_gl_program_handle, Creation)
 
 
 
-#ifdef HOU_ENABLE_GL_ERROR_CHECKS
-TEST_F(test_gl_program_handle, NoContextCreation)
-#else
-TEST_F(test_gl_program_handle, DISABLED_NoContextCreation)
-#endif
+TEST_F(test_gl_program_handle, no_context_creation)
 {
+#if !defined(HOU_ENABLE_GL_ERROR_CHECKS)
+  SKIP("GL error checks are disabled in this build.");
+#endif
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
   gl::context::unset_current();
   EXPECT_ERROR_0(gl::program_handle::create(), gl::missing_context_error);
 }
 
 
 
-TEST_F(test_gl_program_handle, Tracking)
+TEST_F(test_gl_program_handle, tracking)
 {
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
   gl::program_handle ph1 = create_program();
   gl::program_handle ph2 = create_program();
 
@@ -106,7 +111,7 @@ TEST_F(test_gl_program_handle, Tracking)
 
 
 
-TEST_F(test_gl_program_handle, SharingContextBinding)
+TEST_F(test_gl_program_handle, sharing_context_binding)
 {
   gl::program_handle ph = create_program();
   set_sharing_context_current();
@@ -116,12 +121,14 @@ TEST_F(test_gl_program_handle, SharingContextBinding)
 
 
 
-#ifdef HOU_ENABLE_GL_ERROR_CHECKS
-TEST_F(test_gl_program_handle_death_test, NonSharingContextBinding)
-#else
-TEST_F(test_gl_program_handle_death_test, DISABLED_NonSharingContextBinding)
-#endif
+TEST_F(test_gl_program_handle_death_test, non_sharing_context_binding)
 {
+#if !defined(HOU_ENABLE_GL_ERROR_CHECKS)
+  SKIP("GL error checks are disabled in this build.");
+#endif
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
   gl::program_handle ph = create_program();
   set_non_sharing_context_current();
   EXPECT_ERROR_0(gl::bind_program(ph), gl::invalid_context_error);
@@ -130,12 +137,14 @@ TEST_F(test_gl_program_handle_death_test, DISABLED_NonSharingContextBinding)
 
 
 
-#ifdef HOU_ENABLE_GL_ERROR_CHECKS
-TEST_F(test_gl_program_handle_death_test, NoContextBinding)
-#else
-TEST_F(test_gl_program_handle_death_test, DISABLED_NoContextBinding)
-#endif
+TEST_F(test_gl_program_handle_death_test, no_context_binding)
 {
+#if !defined(HOU_ENABLE_GL_ERROR_CHECKS)
+  SKIP("GL error checks are disabled in this build.");
+#endif
+#if defined(HOU_EMSCRIPTEN)
+  SKIP("Multiple GL contexts are not supported on Emscripten.");
+#endif
   gl::program_handle ph = create_program();
   gl::context::unset_current();
   EXPECT_ERROR_0(gl::bind_program(ph), gl::missing_context_error);
@@ -144,8 +153,27 @@ TEST_F(test_gl_program_handle_death_test, DISABLED_NoContextBinding)
 
 
 
-TEST_F(test_gl_program_handle, LinkProgram)
+TEST_F(test_gl_program_handle, link_program_without_geometry_shader)
 {
+  gl::shader_handle vsh = gl::shader_handle::create(GL_VERTEX_SHADER);
+  gl::compile_shader(vsh, get_vs_source().c_str());
+  gl::shader_handle fsh = gl::shader_handle::create(GL_FRAGMENT_SHADER);
+  gl::compile_shader(fsh, get_fs_source().c_str());
+  gl::program_handle ph = gl::program_handle::create();
+  gl::attach_shader(ph, vsh);
+  gl::attach_shader(ph, fsh);
+  gl::link_program(ph);
+  SUCCEED();
+}
+
+
+
+TEST_F(test_gl_program_handle, link_program_with_geometry_shader)
+{
+  SKIP_IF(get_test_default_context_settings().get_profile()
+      == gl::context_profile::es,
+    "Geometry shaders are not supported in GLES.");
+
   gl::shader_handle vsh = gl::shader_handle::create(GL_VERTEX_SHADER);
   gl::compile_shader(vsh, get_vs_source().c_str());
   gl::shader_handle gsh = gl::shader_handle::create(GL_GEOMETRY_SHADER);
@@ -162,8 +190,13 @@ TEST_F(test_gl_program_handle, LinkProgram)
 
 
 
-TEST_F(test_gl_program_handle_death_test, LinkProgramFailure)
+TEST_F(
+  test_gl_program_handle_death_test, link_program_with_geometry_shader_failure)
 {
+  SKIP_IF(get_test_default_context_settings().get_profile()
+      == gl::context_profile::es,
+    "Geometry shaders are not supported in GLES.");
+
   gl::shader_handle vsh = gl::shader_handle::create(GL_VERTEX_SHADER);
   gl::compile_shader(vsh, get_vs_source().c_str());
   gl::shader_handle gsh = gl::shader_handle::create(GL_GEOMETRY_SHADER);
@@ -184,15 +217,15 @@ TEST_F(test_gl_program_handle_death_test, LinkProgramFailure)
 
 
 
-TEST_F(test_gl_program_handle, GetUniformLocation)
+TEST_F(test_gl_program_handle, get_uniform_location)
 {
   gl::program_handle ph = create_program();
-  EXPECT_EQ(0, gl::get_program_uniform_location(ph, "colorUni"));
+  EXPECT_NO_ERROR(gl::get_program_uniform_location(ph, "colorUni"));
 }
 
 
 
-TEST_F(test_gl_program_handle_death_test, GetUniformLocationInvalidName)
+TEST_F(test_gl_program_handle_death_test, get_uniform_location_invalid_name)
 {
   gl::program_handle ph = create_program();
   EXPECT_ERROR_N(gl::get_program_uniform_location(ph, "invalidName"),

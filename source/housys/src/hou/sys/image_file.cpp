@@ -99,7 +99,7 @@ int pixel_format_to_soil_format(pixel_format pf)
 
 bool soil_test_memory(SoilTestFunction test_fun, uchar* buffer, size_t size)
 {
-  return test_fun(buffer, size) != 0;
+  return test_fun(buffer, narrow_cast<int>(size)) != 0;
 }
 
 
@@ -118,7 +118,7 @@ template <pixel_format PF>
 std::tuple<image2<PF>, bool> soil_load_from_memory(SoilLoadFunction load_fun,
   SoilTestFunction test_fun, uchar* buffer, size_t size)
 {
-  if(test_fun(buffer, size) == 0)
+  if(test_fun(buffer, narrow_cast<int>(size)) == 0)
   {
     return std::make_tuple(image2<PF>(), false);
   }
@@ -134,8 +134,8 @@ std::tuple<image2<PF>, bool> soil_load_from_memory(SoilLoadFunction load_fun,
 
   vec2u image_size(narrow_cast<uint>(width), narrow_cast<uint>(height));
   image2<PF> ret_image(image_size,
-    span<const typename image2<PF>::pixel>(
-      reinterpret_cast<const typename image2<PF>::pixel*>(raw_image),
+    span<const typename image2<PF>::pixel_type>(
+      reinterpret_cast<const typename image2<PF>::pixel_type*>(raw_image),
       width * height));
   SOIL_free_image_data(raw_image);
   return std::make_tuple(ret_image, true);
@@ -173,12 +173,17 @@ template <pixel_format PF>
 bool soil_write_to_file(
   const std::string& path, int imageType, const image2<PF>& image)
 {
+  if(check_dir(path))
+  {
+    return false;
+  }
+
   // Since SOIL does not support UNICODE filenames, first save the image to
   // a file with a standardized name, then rename the file to what is requested.
   static constexpr char tmpFileName[] = ".HziTmpImageFileName.hou";
 
   int saveResult = SOIL_save_image(tmpFileName, imageType, image.get_size().x(),
-    image.get_size().y(), image2<PF>::pixel::get_byte_count(),
+    image.get_size().y(), image2<PF>::pixel_type::get_byte_count(),
     reinterpret_cast<const uchar*>(image.get_pixels().data()));
   return saveResult && rename_dir(tmpFileName, path);
 }

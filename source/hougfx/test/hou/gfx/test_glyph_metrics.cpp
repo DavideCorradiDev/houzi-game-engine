@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 
 #include "hou/gfx/glyph_metrics.hpp"
 
@@ -211,7 +211,7 @@ TEST_F(test_glyph_metrics, output_stream_operator)
 {
   glyph_metrics gm(vec2u(1u, 2u), vec2i(-1, 3), 4, vec2i(5, -7), -11);
   const char* ref_output
-    = "{size_type = (1, 2)"
+    = "{size = (1, 2)"
       ", horizontal_bearing = (-1, 3)"
       ", horizontal_advance = 4"
       ", vertical_bearing = (5, -7)"

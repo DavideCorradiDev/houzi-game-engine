@@ -2,6 +2,7 @@ var dir_f862f49513b7cd6b650fe2d227c987f4 =
 [
     [ "aud_config.hpp", "aud__config_8hpp_source.html", null ],
     [ "aud_exceptions.hpp", "aud__exceptions_8hpp_source.html", null ],
+    [ "aud_module.hpp", "aud__module_8hpp_source.html", null ],
     [ "audio_buffer.hpp", "audio__buffer_8hpp_source.html", null ],
     [ "audio_buffer_format.hpp", "audio__buffer__format_8hpp_source.html", null ],
     [ "audio_context.hpp", "audio__context_8hpp_source.html", null ],

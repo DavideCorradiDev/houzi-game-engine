@@ -14,18 +14,23 @@
 namespace hou
 {
 
-/** Enumeration for file open mode. */
+/**
+ * Enumeration for file open mode. */
 enum class file_open_mode
 {
-  /** Read mode. */
+  /**
+   * Read mode. */
   read,
-  /** Write mode. */
+  /**
+   * Write mode. */
   write,
-  /** Append mode. */
+  /**
+   * Append mode. */
   append,
 };
 
-/** Writes a file_open_mode enum into a stream.
+/**
+ * Writes a file_open_mode enum into a stream.
  *
  * \param os the stream.
  *

@@ -12,7 +12,8 @@
 namespace hou
 {
 
-/** Determines if two types have the same signedness.
+/**
+ * Determines if two types have the same signedness.
  *
  * If T and U have the same signedness, provides the member constant value equal
  * true. Otherwise the value is false.

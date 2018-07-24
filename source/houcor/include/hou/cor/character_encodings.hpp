@@ -8,6 +8,7 @@
 #include "hou/cor/non_instantiable.hpp"
 
 #include "hou/cor/assertions.hpp"
+#include "hou/cor/pragmas.hpp"
 
 #include "hou/cor/cor_config.hpp"
 
@@ -22,7 +23,8 @@ namespace hou
 /** Unicode code point. */
 using code_point = char32_t;
 
-/** Container class for UTF-8 encoding functions
+/**
+ * Container class for UTF-8 encoding functions
  */
 class utf8 : public non_instantiable
 {
@@ -31,7 +33,8 @@ public:
   using code_unit = char;
 
 public:
-  /** Encodes the given code point into an UTF-8 code unit sequence.
+  /**
+   * Encodes the given code point into an UTF-8 code unit sequence.
    *
    * The user must ensure that out_first is a valid iterator and that the
    * container is large enough to contain the encoded code point.
@@ -49,7 +52,8 @@ public:
   template <typename OutputIt>
   static OutputIt encode(code_point in, OutputIt out_first);
 
-  /** Decodes the first part of the given UTF-8 code unit sequence into a code
+  /**
+   * Decodes the first part of the given UTF-8 code unit sequence into a code
    * point.
    *
    * If the input iterator pair contains more than one encoded code point, the
@@ -72,7 +76,8 @@ public:
   template <typename InputIt>
   static InputIt decode(InputIt in_first, InputIt in_last, code_point& out);
 
-  /** Returns an iterator to the next code point in the given UTF-8 code unit
+  /**
+   * Returns an iterator to the next code point in the given UTF-8 code unit
    * sequence.
    *
    * If the given code unit sequence is not valid the returned iterator might
@@ -92,7 +97,8 @@ public:
   template <typename InputIt>
   static InputIt next(InputIt in_first, InputIt in_last);
 
-  /** Counts the number of code points in the given UTF-8 code unit sequence.
+  /**
+   * Counts the number of code points in the given UTF-8 code unit sequence.
    *
    * If the given code unit sequence is not valid the returned value has no
    * meaning.
@@ -115,7 +121,8 @@ private:
   static inline size_t count_trailing_units(code_unit cu);
 };
 
-/** Container class for UTF-16 encoding functions
+/**
+ * Container class for UTF-16 encoding functions
  */
 class utf16 : public non_instantiable
 {
@@ -124,7 +131,8 @@ public:
   using code_unit = char16_t;
 
 public:
-  /** Encodes the given code point into an UTF-16 code unit sequence.
+  /**
+   * Encodes the given code point into an UTF-16 code unit sequence.
    *
    * The user must ensure that out_first points to a valid memory address and
    * that the container is large enough to contain the encoded code point.
@@ -142,7 +150,8 @@ public:
   template <typename OutputIt>
   static OutputIt encode(code_point in, OutputIt out_first);
 
-  /** Decodes the first part of the given UTF-16 code unit sequence into a code
+  /**
+   * Decodes the first part of the given UTF-16 code unit sequence into a code
    * point.
    *
    * If the input iterator pair contains more than one encoded code point, the
@@ -165,7 +174,8 @@ public:
   template <typename InputIt>
   static InputIt decode(InputIt in_first, InputIt in_last, code_point& out);
 
-  /** Returns an iterator to the next code point in the given UTF-16 code unit
+  /**
+   * Returns an iterator to the next code point in the given UTF-16 code unit
    * sequence.
    *
    * If the given code unit sequence is not valid the returned iterator might
@@ -185,7 +195,8 @@ public:
   template <typename InputIt>
   static InputIt next(InputIt in_first, InputIt in_last);
 
-  /** Counts the number of code points in the given UTF-16 code unit sequence.
+  /**
+   * Counts the number of code points in the given UTF-16 code unit sequence.
    *
    * If the given code unit sequence is not valid the returned value has no
    * meaning.
@@ -205,7 +216,8 @@ public:
   static size_t count(InputIt in_first, InputIt in_last);
 };
 
-/** Container class for UTF-32 encoding functions
+/**
+ * Container class for UTF-32 encoding functions
  */
 class utf32 : public non_instantiable
 {
@@ -214,7 +226,8 @@ public:
   using code_unit = char32_t;
 
 public:
-  /** Encodes the given code point into an UTF-32 code unit sequence.
+  /**
+   * Encodes the given code point into an UTF-32 code unit sequence.
    *
    * The user must ensure that out_first points to a valid memory address and
    * that the container is large enough to contain the encoded code point.
@@ -232,7 +245,8 @@ public:
   template <typename OutputIt>
   static OutputIt encode(code_point in, OutputIt out_first);
 
-  /** Decodes the first part of the given UTF-32 code unit sequence into a code
+  /**
+   * Decodes the first part of the given UTF-32 code unit sequence into a code
    * point.
    *
    * If the input iterator pair contains more than one encoded code point, the
@@ -255,7 +269,8 @@ public:
   template <typename InputIt>
   static InputIt decode(InputIt in_first, InputIt in_last, code_point& out);
 
-  /** Returns an iterator to the next code point in the given UTF-32 code unit
+  /**
+   * Returns an iterator to the next code point in the given UTF-32 code unit
    * sequence.
    *
    * If the given code unit sequence is not valid the returned iterator might
@@ -275,7 +290,8 @@ public:
   template <typename InputIt>
   static InputIt next(InputIt in_first, InputIt in_last);
 
-  /** Counts the number of code points in the given UTF-32 code unit sequence.
+  /**
+   * Counts the number of code points in the given UTF-32 code unit sequence.
    *
    * If the given code unit sequence is not valid the returned value has no
    * meaning.
@@ -295,8 +311,8 @@ public:
   static size_t count(InputIt in_first, InputIt in_last);
 };
 
-/** Container class for wide encoding functions
- *
+/**
+ * Container class for wide encoding functions
  */
 class wide : public non_instantiable
 {
@@ -305,7 +321,8 @@ public:
   using code_unit = wchar_t;
 
 public:
-  /** Encodes the given code point into an wide code unit sequence.
+  /**
+   * Encodes the given code point into an wide code unit sequence.
    *
    * The user must ensure that out_first points to a valid memory address and
    * that the container is large enough to contain the encoded code point.
@@ -323,7 +340,8 @@ public:
   template <typename OutputIt>
   static OutputIt encode(code_point in, OutputIt out_first);
 
-  /** Decodes the first part of the given wide code unit sequence into a code
+  /**
+   * Decodes the first part of the given wide code unit sequence into a code
    *  point.
    *
    * If the input iterator pair contains more than one encoded code point, the
@@ -347,7 +365,8 @@ public:
   template <typename InputIt>
   static InputIt decode(InputIt in_first, InputIt in_last, code_point& out);
 
-  /** Returns an iterator to the next code point in the given wide code unit
+  /**
+   * Returns an iterator to the next code point in the given wide code unit
    * sequence.
    *
    * If the given code unit sequence is not valid the returned iterator might
@@ -367,7 +386,8 @@ public:
   template <typename InputIt>
   static InputIt next(InputIt in_first, InputIt in_last);
 
-  /** Counts the number of code points in the given wide code unit sequence.
+  /**
+   * Counts the number of code points in the given wide code unit sequence.
    *
    * If the given code unit sequence is not valid the returned value has no
    * meaning.
@@ -387,7 +407,8 @@ public:
   static size_t count(InputIt in_first, InputIt in_last);
 };
 
-/** Performs a conversion between two encodings.
+/**
+ * Performs a conversion between two encodings.
  *
  * If the input iterator pair contains more than one encoded code point, the
  * first code point will be converted.
@@ -419,7 +440,8 @@ template <typename OutputEncoding, typename InputEncoding, typename OutputIt,
 OutputIt convert_encoding(
   InputIt in_first, InputIt in_last, OutputIt out_first);
 
-/** Converts an encoded string.
+/**
+ * Converts an encoded string.
  *
  * \tparam InputEncoding the input encoding.
  *

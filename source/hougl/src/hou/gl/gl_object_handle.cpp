@@ -5,7 +5,7 @@
 #include "hou/gl/gl_object_handle.hpp"
 
 #include "hou/gl/gl_context.hpp"
-#include "hou/gl/gl_exceptions.hpp"
+#include "hou/gl/gl_missing_context_error.hpp"
 
 #include "hou/cor/uid_generator.hpp"
 
@@ -38,7 +38,9 @@ object_handle::object_handle(GLuint name) noexcept
   : non_copyable()
   , m_name(name)
   , m_uid(generate_uid())
-{}
+{
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+}
 
 
 
@@ -65,7 +67,7 @@ GLuint object_handle::get_name() const noexcept
 
 
 
-uint32_t object_handle::get_uid() const noexcept
+object_handle::uid_type object_handle::get_uid() const noexcept
 {
   return m_uid;
 }
@@ -76,26 +78,13 @@ shared_object_handle::shared_object_handle(GLuint name)
   : object_handle(name)
   , m_owning_sharing_group_uid(0u)
 {
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
   m_owning_sharing_group_uid = context::get_current()->get_sharing_group_uid();
 }
 
 
 
-shared_object_handle::shared_object_handle(
-  shared_object_handle&& other) noexcept
-  : object_handle(std::move(other))
-  , m_owning_sharing_group_uid(other.m_owning_sharing_group_uid)
-{}
-
-
-
-shared_object_handle::~shared_object_handle()
-{}
-
-
-
-uint32_t shared_object_handle::get_owning_sharing_group_uid() const noexcept
+context::uid_type shared_object_handle::get_owning_sharing_group_uid() const
+  noexcept
 {
   return m_owning_sharing_group_uid;
 }
@@ -106,26 +95,13 @@ non_shared_object_handle::non_shared_object_handle(GLuint name)
   : object_handle(name)
   , m_owning_context_uid(0u)
 {
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
   m_owning_context_uid = context::get_current()->get_uid();
 }
 
 
 
-non_shared_object_handle::non_shared_object_handle(
-  non_shared_object_handle&& other) noexcept
-  : object_handle(std::move(other))
-  , m_owning_context_uid(other.m_owning_context_uid)
-{}
-
-
-
-non_shared_object_handle::~non_shared_object_handle()
-{}
-
-
-
-uint32_t non_shared_object_handle::get_owning_context_uid() const noexcept
+context::uid_type non_shared_object_handle::get_owning_context_uid() const
+  noexcept
 {
   return m_owning_context_uid;
 }

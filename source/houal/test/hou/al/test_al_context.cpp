@@ -2,11 +2,11 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 
 #include "hou/al/al_context.hpp"
 #include "hou/al/al_device.hpp"
-#include "hou/al/al_exceptions.hpp"
+#include "hou/al/al_context_exceptions.hpp"
 
 #include <memory>
 #include <thread>
@@ -45,10 +45,17 @@ TEST_F(test_al_context, creation)
 TEST_F(test_al_context, move_constructor)
 {
   al::device dev;
-  al::context context_dummy(dev);
-  uint32_t uid_ref = context_dummy.get_uid();
-  al::context ctx(std::move(context_dummy));
+  al::context ctx_dummy(dev);
 
+  al::context::impl_type* impl_ref = ctx_dummy.get_impl();
+  al::context::uid_type uid_ref = ctx_dummy.get_uid();
+
+  al::context ctx(std::move(ctx_dummy));
+
+  EXPECT_EQ(nullptr, ctx_dummy.get_impl());
+  EXPECT_EQ(0u, ctx_dummy.get_uid());
+
+  EXPECT_EQ(impl_ref, ctx.get_impl());
   EXPECT_EQ(uid_ref, ctx.get_uid());
   EXPECT_EQ(dev.get_uid(), ctx.get_device_uid());
   EXPECT_FALSE(ctx.is_current());
@@ -59,24 +66,16 @@ TEST_F(test_al_context, move_constructor)
 TEST_F(test_al_context, current_context_move_constructor)
 {
   al::device dev;
-  al::context context_dummy(dev);
-  al::context::set_current(context_dummy);
-  EXPECT_TRUE(context_dummy.is_current());
-  EXPECT_EQ(&context_dummy, al::context::get_current());
+  al::context ctx_dummy(dev);
 
-  al::context ctx(std::move(context_dummy));
-  EXPECT_TRUE(ctx.is_current());
+  al::context::set_current(ctx_dummy);
+  EXPECT_TRUE(ctx_dummy.is_current());
+  EXPECT_EQ(&ctx_dummy, al::context::get_current());
+
+  al::context ctx(std::move(ctx_dummy));
+  EXPECT_NE(&ctx_dummy, al::context::get_current());
   EXPECT_EQ(&ctx, al::context::get_current());
-}
-
-
-
-TEST_F(test_al_context_death_test, context_creation_failed)
-{
-  // Artificially create an invalid ctx by improper use of std::move.
-  al::device d1;
-  al::device d2(std::move(d1));
-  EXPECT_ERROR_0(al::context c(d1), al::context_creation_error);
+  EXPECT_TRUE(ctx.is_current());
 }
 
 

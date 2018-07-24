@@ -16,7 +16,8 @@
 namespace hou
 {
 
-/** Wrapper used to restrict the values that a variable can be assigned.
+/**
+ * Wrapper used to restrict the values that a variable can be assigned.
  *
  * checked_variable and T can be implictly converted int one another, so that
  * the usage of checked_variable is transparent
@@ -42,7 +43,8 @@ class checked_variable
     "Checker::value_type does not match T.");
 
 public:
-  /** Constructor.
+  /**
+   * Constructor.
    *
    * This constructor enables implicit conversions from T to checked_variable.
    *
@@ -52,13 +54,15 @@ public:
    */
   constexpr checked_variable(T var);
 
-  /** Retrieves the underlying type.
+  /**
+   * Retrieves the underlying type.
    *
    * \return the underlying type.
    */
   constexpr const T& get() const noexcept;
 
-  /** Cast operator to the underlying type.
+  /**
+   * Cast operator to the underlying type.
    *
    * This cast operator enables implicit conversions from checked_variable to T.
    */
@@ -68,7 +72,8 @@ private:
   T m_value;
 };
 
-/** Positive checker for checked variable.
+/**
+ * Positive checker for checked variable.
  *
  * \tparam T the underlying type.
  */
@@ -79,10 +84,11 @@ public:
   /** The value type. */
   using value_type = T;
 
-  /** Checker function.
+  /**
+   * Checker function.
    *
    * \param t the value.
-   * 
+   *
    * \return true if t is positive.
    */
   static constexpr bool check(const T& t) noexcept;
@@ -92,7 +98,8 @@ public:
 template <typename T>
 using positive = checked_variable<T, positive_checker<T>>;
 
-/** Non-negative checker for checked variable.
+/**
+ * Non-negative checker for checked variable.
  *
  * \tparam T the underlying type.
  */
@@ -103,7 +110,8 @@ public:
   /** The value type. */
   using value_type = T;
 
-  /** Checker function.
+  /**
+   * Checker function.
    *
    * \param t the value.
    *
@@ -116,7 +124,8 @@ public:
 template <typename T>
 using non_negative = checked_variable<T, non_negative_checker<T>>;
 
-/** Negative checker for checked variable.
+/**
+ * Negative checker for checked variable.
  *
  * \tparam T the underlying type.
  */
@@ -127,7 +136,8 @@ public:
   /** The value type. */
   using value_type = T;
 
-  /** Checker function.
+  /**
+   * Checker function.
    *
    * \param t the value.
    *
@@ -140,7 +150,8 @@ public:
 template <typename T>
 using negative = checked_variable<T, negative_checker<T>>;
 
-/** Non-positive checker for checked variable.
+/**
+ * Non-positive checker for checked variable.
  *
  * \tparam T the underlying type.
  */
@@ -151,7 +162,8 @@ public:
   /** The value type. */
   using value_type = T;
 
-  /** Checker function.
+  /**
+   * Checker function.
    *
    * \param t the value.
    *
@@ -164,7 +176,8 @@ public:
 template <typename T>
 using non_positive = checked_variable<T, non_positive_checker<T>>;
 
-/** Bounded checker for checked variable.
+/**
+ * Bounded checker for checked variable.
  *
  * \tparam T the underlying type.
  *
@@ -179,7 +192,8 @@ public:
   /** The value type. */
   using value_type = T;
 
-  /** Checker function.
+  /**
+   * Checker function.
    *
    * \param t the value.
    *

@@ -37,6 +37,13 @@ file::file(const std::string& filename, file_open_mode mode, file_type type)
 
 
 
+void file::close()
+{
+  m_handle.close();
+}
+
+
+
 bool file::eof() const noexcept
 {
   return m_eof;
@@ -124,8 +131,8 @@ void file::putc(char c)
 
 size_t file::gets(std::string& str)
 {
-  const char* retval
-    = fgets(const_cast<char*>(str.data()), str.size(), m_handle);
+  const char* retval = fgets(
+    const_cast<char*>(str.data()), narrow_cast<int>(str.size()), m_handle);
   update_flags();
   if(retval == nullptr)
   {

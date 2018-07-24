@@ -1,4 +1,4 @@
-#include "hou/Test.hpp"
+#include "hou/test.hpp"
 
 #include "hou/mth/math_functions.hpp"
 #include "hou/mth/matrix.hpp"
@@ -33,7 +33,7 @@ TEST_F(test_rotation2, default_constructor)
 
 TEST_F(test_rotation2, constructor_angle)
 {
-  float angle_ref = pi_f / 2.f;
+  float angle_ref = pi<float>() / 2.f;
   mat2x2f m_ref(0.f, -1.f, 1.f, 0.f);
   rot2f r(angle_ref);
   EXPECT_FLOAT_CLOSE(angle_ref, r.get_angle());
@@ -44,9 +44,9 @@ TEST_F(test_rotation2, constructor_angle)
 
 TEST_F(test_rotation2, constructor_angle_overflow)
 {
-  float angle_ref = -pi_f / 2.f;
+  float angle_ref = -pi<float>() / 2.f;
   mat2x2f m_ref(0.f, 1.f, -1.f, 0.f);
-  rot2f r(3.f * pi_f / 2.f);
+  rot2f r(3.f * pi<float>() / 2.f);
   EXPECT_CLOSE(angle_ref, r.get_angle(), 1.e-6f);
   EXPECT_CLOSE(m_ref, r.get_matrix(), 1.e-6f);
 }
@@ -55,9 +55,9 @@ TEST_F(test_rotation2, constructor_angle_overflow)
 
 TEST_F(test_rotation2, constructor_angle_underflow)
 {
-  float angle_ref = pi_f / 2.f;
+  float angle_ref = pi<float>() / 2.f;
   mat2x2f m_ref(0.f, -1.f, 1.f, 0.f);
-  rot2f r(-3.f * pi_f / 2.f);
+  rot2f r(-3.f * pi<float>() / 2.f);
   EXPECT_CLOSE(angle_ref, r.get_angle(), 1.e-6f);
   EXPECT_CLOSE(m_ref, r.get_matrix(), 1.e-6f);
 }
@@ -66,7 +66,7 @@ TEST_F(test_rotation2, constructor_angle_underflow)
 
 TEST_F(test_rotation2, constructor_matrix)
 {
-  float angle_ref = pi_f / 2.f;
+  float angle_ref = pi<float>() / 2.f;
   mat2x2f m_ref(0.f, -1.f, 1.f, 0.f);
   rot2f r(m_ref);
   EXPECT_FLOAT_CLOSE(angle_ref, r.get_angle());
@@ -77,7 +77,7 @@ TEST_F(test_rotation2, constructor_matrix)
 
 TEST_F(test_rotation2_death_test, constructor_matrix_failure_invalid_matrix)
 {
-  EXPECT_PRECOND_ERROR(rot2f(mat2x2f::zero()));
+  EXPECT_PRECOND_ERROR(rot2f r(mat2x2f::zero()));
 }
 
 
@@ -85,7 +85,7 @@ TEST_F(test_rotation2_death_test, constructor_matrix_failure_invalid_matrix)
 TEST_F(test_rotation2, conversion_constructor)
 {
   rot2d rd;
-  rot2f rf;
+  rot2f rf(rd);
   EXPECT_FLOAT_CLOSE(0.f, rf.get_angle());
   EXPECT_FLOAT_CLOSE(mat2x2f::identity(), rf.get_matrix());
 }
@@ -94,9 +94,9 @@ TEST_F(test_rotation2, conversion_constructor)
 
 TEST_F(test_rotation2, comparison_operators)
 {
-  rot2f r1(pi_f / 6.f);
+  rot2f r1(pi<float>() / 6.f);
   rot2f r2(r1);
-  rot2f r3(-pi_f / 3.f);
+  rot2f r3(-pi<float>() / 3.f);
 
   EXPECT_TRUE(r1 == r2);
   EXPECT_FALSE(r1 == r3);
@@ -128,9 +128,9 @@ TEST_F(test_rotation2, floating_point_comparison)
 
 TEST_F(test_rotation2, multiplication)
 {
-  rot2f r1(pi_f / 4.f);
-  rot2f r2(pi_f);
-  rot2f r_ref(-3.f * pi_f / 4.f);
+  rot2f r1(pi<float>() / 4.f);
+  rot2f r2(pi<float>());
+  rot2f r_ref(-3.f * pi<float>() / 4.f);
   EXPECT_FLOAT_CLOSE(r_ref, r1 * r2);
   r1 *= r2;
   EXPECT_FLOAT_CLOSE(r_ref, r1);
@@ -140,8 +140,8 @@ TEST_F(test_rotation2, multiplication)
 
 TEST_F(test_rotation2, inversion)
 {
-  rot2f r(pi_f / 4.f);
-  rot2f r_inv_ref(-pi_f / 4.f);
+  rot2f r(pi<float>() / 4.f);
+  rot2f r_inv_ref(-pi<float>() / 4.f);
   rot2f r_inv = inverse(r);
   EXPECT_FLOAT_CLOSE(r_inv_ref, r_inv);
   EXPECT_FLOAT_CLOSE(rot2f::identity(), r_inv * r);
@@ -154,5 +154,5 @@ TEST_F(test_rotation2, inversion)
 TEST_F(test_rotation2, output_stream_operator)
 {
   rot2f r(0.5f);
-  EXPECT_OUTPUT("0.5", r);
+  EXPECT_OUTPUT("{angle = 0.5}", r);
 }

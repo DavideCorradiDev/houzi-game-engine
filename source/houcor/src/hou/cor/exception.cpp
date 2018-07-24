@@ -6,21 +6,13 @@
 
 #include "hou/cor/std_string.hpp"
 
+#include <cstdlib>
 #include <iostream>
 
 
 
 namespace hou
 {
-
-namespace
-{
-
-constexpr char path_separator = '/';
-
-}  // namespace
-
-
 
 namespace prv
 {
@@ -29,8 +21,8 @@ std::string format_error_message(
   const std::string& path, uint line, const std::string& message)
 {
   std::stringstream ss;
-  ss << path.substr(path.find_last_of(path_separator) + 1) << ':' << line
-     << " - " << message;
+  ss << path.substr(path.find_last_of("/\\") + 1) << ':' << line << " - "
+     << message;
   return ss.str();
 }
 
@@ -41,7 +33,7 @@ std::string assertion_message(const std::string& statement)
   return format_string(u8"Assertion failed (%s).", statement.c_str());
 }
 
-}
+}  // namespace prv
 
 
 
@@ -61,10 +53,10 @@ const char* exception::what() const noexcept
 
 
 
-void terminate(const std::string& message) noexcept
+void exit_with_error(const std::string& message) noexcept
 {
   std::cerr << message << std::endl;
-  std::terminate();
+  std::exit(EXIT_FAILURE);
 }
 
 }  // namespace hou
