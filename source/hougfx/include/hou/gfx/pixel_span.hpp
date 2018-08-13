@@ -7,6 +7,8 @@
 
 #include "hou/mth/matrix.hpp"
 
+#include "hou/sys/image.hpp"
+
 #include <iostream>
 
 
@@ -24,24 +26,26 @@ public:
   using byte_depth_type = uint;
   using difference_type = std::ptrdiff_t;
   using reference = value_type&;
-  using const_reference = std::add_const_t<reference>;
-  using pointer = std::add_pointer_t<reference>;
-  using const_pointer = std::add_pointer_t<const_reference>;
+  using const_reference = const value_type&;
+  using pointer = value_type*;
+  using const_pointer = const value_type*;
 
 public:
   pixel_span() noexcept;
-  pixel_span(pointer data, const size_type& size, byte_depth_type bpp);
+  pixel_span(const_pointer data, const size_type& size, byte_depth_type bpp);
+  template <pixel_format PF>
+  pixel_span(const image<Dim, PF>& im);
   template <size_t OtherDim,
     typename Enable = std::enable_if_t<(OtherDim < Dim)>>
   pixel_span(const pixel_span<OtherDim>& other);
 
-  pointer get_data() const noexcept;
+  const_pointer get_data() const noexcept;
   const size_type& get_size() const noexcept;
   byte_depth_type get_byte_depth() const noexcept;
   length_type get_length() const noexcept;
 
-  reference at(length_type idx) const;
-  reference operator[](length_type idx) const noexcept;
+  const_reference at(length_type idx) const;
+  const_reference operator[](length_type idx) const noexcept;
 
 private:
   template <size_t OtherDim>
@@ -54,7 +58,7 @@ private:
   size_type pad_size(const matrix<uint, OtherDim, 1u>& size);
 
 private:
-  pointer m_data;
+  const_pointer m_data;
   size_type m_size;
   byte_depth_type m_byte_depth;
   length_type m_length;

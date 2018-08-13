@@ -8,6 +8,7 @@
 #include "hou/cor/non_copyable.hpp"
 
 #include "hou/gfx/gl_type.hpp"
+#include "hou/gfx/pixel_span.hpp"
 #include "hou/gfx/texture_filter.hpp"
 #include "hou/gfx/texture_format.hpp"
 #include "hou/gfx/texture_fwd.hpp"

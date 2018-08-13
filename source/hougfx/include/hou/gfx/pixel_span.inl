@@ -13,11 +13,20 @@ pixel_span<Dim>::pixel_span() noexcept
 
 template <size_t Dim>
 pixel_span<Dim>::pixel_span(
-  pointer data, const size_type& size, byte_depth_type bpp)
+  const_pointer data, const size_type& size, byte_depth_type bpp)
   : m_data(data)
   , m_size(size)
   , m_byte_depth(bpp)
   , m_length(compute_length(size, bpp))
+{}
+
+
+
+template <size_t Dim>
+template <pixel_format PF>
+pixel_span<Dim>::pixel_span(const image<Dim, PF>& im)
+  : pixel_span(reinterpret_cast<const_pointer>(im.get_pixels().data()),
+      im.get_size(), image<Dim, PF>::pixel_byte_count)
 {}
 
 
@@ -34,7 +43,8 @@ pixel_span<Dim>::pixel_span(const pixel_span<OtherDim>& other)
 
 
 template <size_t Dim>
-typename pixel_span<Dim>::pointer pixel_span<Dim>::get_data() const noexcept
+typename pixel_span<Dim>::const_pointer pixel_span<Dim>::get_data() const
+  noexcept
 {
   return m_data;
 }
@@ -70,7 +80,8 @@ typename pixel_span<Dim>::length_type pixel_span<Dim>::get_length() const
 
 
 template <size_t Dim>
-typename pixel_span<Dim>::reference pixel_span<Dim>::at(length_type idx) const
+typename pixel_span<Dim>::const_reference pixel_span<Dim>::at(
+  length_type idx) const
 {
   HOU_CHECK_0(idx < m_length, hou::out_of_range);
   return *(m_data + idx);
@@ -79,7 +90,7 @@ typename pixel_span<Dim>::reference pixel_span<Dim>::at(length_type idx) const
 
 
 template <size_t Dim>
-typename pixel_span<Dim>::reference pixel_span<Dim>::operator[](
+typename pixel_span<Dim>::const_reference pixel_span<Dim>::operator[](
   length_type idx) const noexcept
 {
   return *(m_data + idx);

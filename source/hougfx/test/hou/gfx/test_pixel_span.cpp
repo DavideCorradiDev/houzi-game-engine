@@ -48,6 +48,21 @@ TEST_F(test_pixel_span, data_constructor)
 
 
 
+TEST_F(test_pixel_span, image_constructor)
+{
+  image2_rgba im(vec2u(3u, 5u));
+
+  pixel_span_2 ps2(im);
+  EXPECT_EQ(
+    reinterpret_cast<const uint8_t*>(im.get_pixels().data()), ps2.get_data());
+  EXPECT_EQ(im.get_size(), ps2.get_size());
+  EXPECT_EQ(im.get_pixel_byte_count(), ps2.get_byte_depth());
+  EXPECT_EQ(
+    im.get_pixels().size() * im.get_pixel_byte_count(), ps2.get_length());
+}
+
+
+
 TEST_F(test_pixel_span, dimension_conversion_constructor)
 {
   std::vector<uint8_t> v{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
