@@ -23,7 +23,7 @@ template <typename Tex>
 class test_texture_base : public test_gfx_base
 {
 public:
-  static const std::vector<texture_format> color_texture_formats;
+  static const std::vector<texture_format> all_texture_formats;
 
 public:
   virtual ~test_texture_base();
@@ -44,11 +44,13 @@ public:
 
 
 template <typename Tex>
-const std::vector<texture_format> test_texture_base<Tex>::color_texture_formats{
+const std::vector<texture_format> test_texture_base<Tex>::all_texture_formats{
   texture_format::rgba,
   texture_format::rgb,
   texture_format::rg,
   texture_format::r,
+  texture_format::depth,
+  texture_format::depth_stencil,
 };
 
 
@@ -439,7 +441,7 @@ TYPED_TEST(test_texture_not_multisampled, mip_map_constructor)
   size_type size_ref = this->generate_size();
   uint mipmap_levels_ref = 3u;
 
-  for(auto tf : TestFixture::color_texture_formats)
+  for(auto tf : TestFixture::all_texture_formats)
   {
     TypeParam tex(size_ref, tf, mipmap_levels_ref);
 
@@ -542,7 +544,7 @@ TYPED_TEST(
     = this->template generate_image<pixel_format::rgba>(this->generate_size());
 
   uint mipmap_levels_ref = 3u;
-  for(auto tf : TestFixture::color_texture_formats)
+  for(auto tf : TestFixture::all_texture_formats)
   {
     TypeParam tex(im_ref, tf, mipmap_levels_ref);
 

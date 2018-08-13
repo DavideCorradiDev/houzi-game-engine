@@ -45,6 +45,7 @@ pixel_format get_associated_pixel_format(texture_format tf)
     case texture_format::rgba:
       return pixel_format::rgba;
     case texture_format::depth:
+    case texture_format::stencil:
     case texture_format::depth_stencil:
       HOU_ERROR_N(invalid_enum,
         static_cast<std::underlying_type<texture_format>::type>(tf));
