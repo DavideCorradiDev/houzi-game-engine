@@ -1,7 +1,7 @@
-#ifndef HOU_GFX_PIXEL_SPAN_HPP
-#define HOU_GFX_PIXEL_SPAN_HPP
+#ifndef HOU_GFX_PIXEL_VIEW_HPP
+#define HOU_GFX_PIXEL_VIEW_HPP
 
-#include "hou/gfx/pixel_span_fwd.hpp"
+#include "hou/gfx/pixel_view_fwd.hpp"
 
 #include "hou/gfx/gfx_config.hpp"
 
@@ -17,7 +17,7 @@ namespace hou
 {
 
 template <size_t Dim>
-class pixel_span
+class pixel_view
 {
 public:
   using value_type = uint8_t;
@@ -31,25 +31,25 @@ public:
   using const_pointer = const value_type*;
 
 public:
-  pixel_span() noexcept;
-  pixel_span(const_pointer data, const size_type& size, byte_depth_type bpp);
+  pixel_view() noexcept;
+  pixel_view(const_pointer data, const size_type& size, byte_depth_type bpp);
   template <pixel_format PF>
-  pixel_span(const image<Dim, PF>& im);
+  pixel_view(const image<Dim, PF>& im);
   template <size_t OtherDim,
     typename Enable = std::enable_if_t<(OtherDim < Dim)>>
-  pixel_span(const pixel_span<OtherDim>& other);
+  pixel_view(const pixel_view<OtherDim>& other);
 
   const_pointer get_data() const noexcept;
   const size_type& get_size() const noexcept;
-  byte_depth_type get_byte_depth() const noexcept;
-  length_type get_length() const noexcept;
+  byte_depth_type get_bytes_per_pixel() const noexcept;
+  length_type get_pixel_count() const noexcept;
 
   const_reference at(length_type idx) const;
   const_reference operator[](length_type idx) const noexcept;
 
 private:
   template <size_t OtherDim>
-  friend class pixel_span;
+  friend class pixel_view;
 
 private:
   static length_type compute_length(const size_type& size, byte_depth_type bpp);
@@ -66,17 +66,17 @@ private:
 
 template <size_t Dim>
 bool operator==(
-  const pixel_span<Dim>& lhs, const pixel_span<Dim>& rhs) noexcept;
+  const pixel_view<Dim>& lhs, const pixel_view<Dim>& rhs) noexcept;
 template <size_t Dim>
 bool operator!=(
-  const pixel_span<Dim>& lhs, const pixel_span<Dim>& rhs) noexcept;
+  const pixel_view<Dim>& lhs, const pixel_view<Dim>& rhs) noexcept;
 template <size_t Dim>
-std::ostream& operator<<(std::ostream& os, const pixel_span<Dim>& s);
+std::ostream& operator<<(std::ostream& os, const pixel_view<Dim>& s);
 
 }  // namespace hou
 
 
 
-#include "hou/gfx/pixel_span.inl"
+#include "hou/gfx/pixel_view.inl"
 
 #endif
