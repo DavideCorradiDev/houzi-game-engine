@@ -102,7 +102,7 @@ template <texture_type Type>
 template <pixel_format PF, texture_type Type2, typename Enable>
 void texture_t<Type>::clear(const pixel<PF>& px)
 {
-  set_image<Type2, Enable>(image<PF>(get_size(), px));
+  set_image<PF, Type2, Enable>(image<PF>(get_size(), px));
 }
 
 
@@ -141,12 +141,12 @@ void texture_t<texture_type::texture3>::reset()
 
 
 template <texture_type Type>
-template <texture_type Type2, typename Enable>
+template <pixel_format PF, texture_type Type2, typename Enable>
 texture_t<Type>::texture_t(
-  const pixel_view_type& pv, texture_format format, positive<uint> mipmap_level_count)
-  : texture_t(pv.get_size(), format, mipmap_level_count)
+  const image<PF>& im, texture_format format, positive<uint> mipmap_level_count)
+  : texture_t(im.get_size(), format, mipmap_level_count)
 {
-  set_image<Type2, Enable>(pv);
+  set_image<PF, Type2, Enable>(im);
 }
 
 
@@ -318,19 +318,19 @@ template <pixel_format PF, texture_type Type2, typename Enable>
 
 
 template <texture_type Type>
-template <texture_type Type2, typename Enable>
-void texture_t<Type>::set_image(const pixel_view_type& pv)
+template <pixel_format PF, texture_type Type2, typename Enable>
+void texture_t<Type>::set_image(const image<PF>& im)
 {
-  HOU_PRECOND(pv.get_size() == get_size());
-  set_sub_image<Type2, Enable>(offset_type::zero(), pv);
+  HOU_PRECOND(im.get_size() == get_size());
+  set_sub_image<PF, Type2, Enable>(offset_type::zero(), im);
 }
 
 
 
 template <texture_type Type>
-template <texture_type Type2, typename Enable>
+template <pixel_format PF, texture_type Type2, typename Enable>
 void texture_t<Type>::set_sub_image(
-  const offset_type& offset, const pixel_view_type& pv)
+  const offset_type& offset, const image<PF>& im)
 {
   HOU_PRECOND(get_format() == texture_format::rgba
     || get_format() == texture_format::rgb || get_format() == texture_format::rg
@@ -338,16 +338,16 @@ void texture_t<Type>::set_sub_image(
   switch(get_associated_pixel_format(get_format()))
   {
     case pixel_format::r:
-      set_sub_image_internal<Type2, Enable>(offset, pv);
+      set_sub_image_internal<pixel_format::r, Type2, Enable>(offset, im);
       break;
     case pixel_format::rg:
-      set_sub_image_internal<Type2, Enable>(offset, pv);
+      set_sub_image_internal<pixel_format::rg, Type2, Enable>(offset, im);
       break;
     case pixel_format::rgb:
-      set_sub_image_internal<Type2, Enable>(offset, pv);
+      set_sub_image_internal<pixel_format::rgb, Type2, Enable>(offset, im);
       break;
     case pixel_format::rgba:
-      set_sub_image_internal<Type2, Enable>(offset, pv);
+      set_sub_image_internal<pixel_format::rgba, Type2, Enable>(offset, im);
       break;
   }
 }
@@ -355,16 +355,16 @@ void texture_t<Type>::set_sub_image(
 
 
 template <>
-template <texture_type Type2, typename Enable>
+template <pixel_format PF, texture_type Type2, typename Enable>
 void texture_t<texture_type::texture2>::set_sub_image_internal(
-  const offset_type& offset, const pixel_view_type& pv)
+  const offset_type& offset, const image<PF>& im)
 {
-  HOU_PRECOND(element_wise_lower_or_equal(offset + pv.get_size(), get_size()));
+  HOU_PRECOND(element_wise_lower_or_equal(offset + im.get_size(), get_size()));
   HOU_PRECOND(check_format_compatibility(get_format(), PF));
   gl::set_texture_sub_image_2d(get_handle(), 0, offset.x(), offset.y(),
-    pv.get_size().x(), pv.get_size().y(), pixel_format_to_gl_pixel_format(PF),
+    im.get_size().x(), im.get_size().y(), pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()),
-    reinterpret_cast<const void*>(pv.get_pixels().data()));
+    reinterpret_cast<const void*>(im.get_pixels().data()));
   generate_mip_map();
 }
 
@@ -373,15 +373,15 @@ void texture_t<texture_type::texture2>::set_sub_image_internal(
 template <>
 template <pixel_format PF, texture_type Type2, typename Enable>
 void texture_t<texture_type::texture2_array>::set_sub_image_internal(
-  const offset_type& offset, const pixel_view_type& pv)
+  const offset_type& offset, const image<PF>& im)
 {
-  HOU_PRECOND(element_wise_lower_or_equal(offset + pv.get_size(), get_size()));
+  HOU_PRECOND(element_wise_lower_or_equal(offset + im.get_size(), get_size()));
   HOU_PRECOND(check_format_compatibility(get_format(), PF));
   gl::set_texture_sub_image_3d(get_handle(), 0, offset.x(), offset.y(),
-    offset.z(), pv.get_size().x(), pv.get_size().y(), pv.get_size().z(),
+    offset.z(), im.get_size().x(), im.get_size().y(), im.get_size().z(),
     pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()),
-    reinterpret_cast<const void*>(pv.get_pixels().data()));
+    reinterpret_cast<const void*>(im.get_pixels().data()));
   generate_mip_map();
 }
 
@@ -390,15 +390,15 @@ void texture_t<texture_type::texture2_array>::set_sub_image_internal(
 template <>
 template <pixel_format PF, texture_type Type2, typename Enable>
 void texture_t<texture_type::texture3>::set_sub_image_internal(
-  const offset_type& offset, const pixel_view_type& pv)
+  const offset_type& offset, const image<PF>& im)
 {
-  HOU_PRECOND(element_wise_lower_or_equal(offset + pv.get_size(), get_size()));
+  HOU_PRECOND(element_wise_lower_or_equal(offset + im.get_size(), get_size()));
   HOU_PRECOND(check_format_compatibility(get_format(), PF));
   gl::set_texture_sub_image_3d(get_handle(), 0, offset.x(), offset.y(),
-    offset.z(), pv.get_size().x(), pv.get_size().y(), pv.get_size().z(),
+    offset.z(), im.get_size().x(), im.get_size().y(), im.get_size().z(),
     pixel_format_to_gl_pixel_format(PF),
     static_cast<GLenum>(to_gl_type<uint8_t>()),
-    reinterpret_cast<const void*>(pv.get_pixels().data()));
+    reinterpret_cast<const void*>(im.get_pixels().data()));
   generate_mip_map();
 }
 

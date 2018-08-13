@@ -252,12 +252,13 @@ public:
   using wrap_mode_type
     = std::array<texture_wrap_mode, get_texture_type_dimension_count(Type)>;
 
-  /** Type representing an pixel_view with dimensionality matching that of the
+  /** Type representing an image with dimensionality matching that of the
    * texture.
    *
    * \tparam ftm the format of the texture.
    */
-  using pixel_view_type = pixel_view<get_texture_type_dimension_count(Type)>;
+  template <pixel_format PF>
+  using image = image<get_texture_type_dimension_count(Type), PF>;
 
 public:
   /** The texture type. */
@@ -327,9 +328,9 @@ public:
    * must be greater then zero and lower or equal than the maximum number of
    * allowed mip map levels.
    */
-  template <texture_type Type2 = Type,
+  template <pixel_format PF, texture_type Type2 = Type,
     typename Enable = std::enable_if_t<is_texture_type_mipmapped(Type2)>>
-  explicit texture_t(const pixel_view_type& pv,
+  explicit texture_t(const image<PF>& im,
     texture_format format = texture_format::rgba,
     positive<uint> mipmap_level_count = 1u);
 
@@ -463,15 +464,17 @@ public:
 
   /** Sets the content of the texture.
    *
+   * \tparam PF the pixel_format of the input image.
+   *
    * \tparam Type2 dummy parameter.
    *
    * \tparam Enable enabling parameter.
    *
    * \param im an image representing the content of the texture.
    */
-  template <texture_type Type2 = Type,
+  template <pixel_format PF, texture_type Type2 = Type,
     typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
-  void set_image(const pixel_view_type& im);
+  void set_image(const image<PF>& im);
 
   /** Sets the content of a sub-region of the texture.
    *
@@ -488,9 +491,9 @@ public:
    *
    * \param im an image representing the content of the texture.
    */
-  template <texture_type Type2 = Type,
+  template <pixel_format PF, texture_type Type2 = Type,
     typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
-  void set_sub_image(const offset_type& offset, const pixel_view_type& pv);
+  void set_sub_image(const offset_type& offset, const image<PF>& im);
 
   /** Clear the texture with the specified pixel value.
    *
@@ -575,10 +578,9 @@ private:
 private:
   void generate_mip_map();
 
-  template <texture_type Type2 = Type,
+  template <pixel_format PF, texture_type Type2 = Type,
     typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
-  void set_sub_image_internal(
-    const offset_type& offset, const pixel_view_type& pv);
+  void set_sub_image_internal(const offset_type& offset, const image<PF>& im);
 
   template <pixel_format PF>
   ::hou::image<texture_t<Type>::dimension_count, PF> get_image_internal(
