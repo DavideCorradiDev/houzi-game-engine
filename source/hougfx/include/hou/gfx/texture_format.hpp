@@ -46,6 +46,12 @@ enum class texture_format : GLenum
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, texture_format format);
 
+HOU_GFX_API uint get_bytes_per_pixel(texture_format tf);
+
+
+// TODO: remove the following two functions after the new texture class has been
+// implemented.
+//
 /**
  * Gets a compatible pixel format associated to the texture format.
  *
