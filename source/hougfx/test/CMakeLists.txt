@@ -35,6 +35,7 @@ SET(EXE_HOUGFX_TEST_SRC
   hou/gfx/test_mesh2_shader_program.cpp
   hou/gfx/test_graphic_context.cpp
   hou/gfx/test_graphics_state.cpp
+  hou/gfx/test_pixel_span.cpp
   hou/gfx/test_render_surface.cpp
   hou/gfx/test_shader.cpp
   hou/gfx/test_shader_program.cpp
