@@ -37,8 +37,8 @@ public:
   template <pixel_format PF>
   typename Tex::template image<PF> generate_image(
     const typename Tex::size_type& size);
-  typename Tex::wrap_mode get_default_wrap_mode() const;
-  typename Tex::wrap_mode get_alternative_wrap_mode() const;
+  typename Tex::wrap_mode_type get_default_wrap_mode() const;
+  typename Tex::wrap_mode_type get_alternative_wrap_mode() const;
 };
 
 
@@ -157,9 +157,9 @@ typename Tex::template image<PF> test_texture_base<Tex>::generate_image(
 
 
 template <typename Tex>
-typename Tex::wrap_mode test_texture_base<Tex>::get_default_wrap_mode() const
+typename Tex::wrap_mode_type test_texture_base<Tex>::get_default_wrap_mode() const
 {
-  typename Tex::wrap_mode retval;
+  typename Tex::wrap_mode_type retval;
   for(size_t i = 0; i < retval.size(); ++i)
   {
     retval[i] = texture_wrap_mode::repeat;
@@ -170,10 +170,10 @@ typename Tex::wrap_mode test_texture_base<Tex>::get_default_wrap_mode() const
 
 
 template <typename Tex>
-typename Tex::wrap_mode test_texture_base<Tex>::get_alternative_wrap_mode()
+typename Tex::wrap_mode_type test_texture_base<Tex>::get_alternative_wrap_mode()
   const
 {
-  typename Tex::wrap_mode retval;
+  typename Tex::wrap_mode_type retval;
 
   std::vector<texture_wrap_mode> wrapModes{
     texture_wrap_mode::clamp_to_edge, texture_wrap_mode::mirrored_repeat};

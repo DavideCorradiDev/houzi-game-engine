@@ -21,17 +21,17 @@ extern template class HOU_GFX_API
 
 template <>
 template <>
-HOU_GFX_API typename texture_t<texture_type::texture2>::wrap_mode
+HOU_GFX_API typename texture_t<texture_type::texture2>::wrap_mode_type
   texture_t<texture_type::texture2>::get_wrap_mode() const;
 
 template <>
 template <>
-HOU_GFX_API typename texture_t<texture_type::texture2_array>::wrap_mode
+HOU_GFX_API typename texture_t<texture_type::texture2_array>::wrap_mode_type
   texture_t<texture_type::texture2_array>::get_wrap_mode() const;
 
 template <>
 template <>
-HOU_GFX_API typename texture_t<texture_type::texture3>::wrap_mode
+HOU_GFX_API typename texture_t<texture_type::texture3>::wrap_mode_type
   texture_t<texture_type::texture3>::get_wrap_mode() const;
 
 
@@ -39,17 +39,17 @@ HOU_GFX_API typename texture_t<texture_type::texture3>::wrap_mode
 template <>
 template <>
 HOU_GFX_API void texture_t<texture_type::texture2>::set_wrap_mode(
-  const wrap_mode& wrap_mode);
+  const wrap_mode_type& wrap_mode_type);
 
 template <>
 template <>
 HOU_GFX_API void texture_t<texture_type::texture2_array>::set_wrap_mode(
-  const wrap_mode& wrap_mode);
+  const wrap_mode_type& wrap_mode_type);
 
 template <>
 template <>
 HOU_GFX_API void texture_t<texture_type::texture3>::set_wrap_mode(
-  const wrap_mode& wrap_mode);
+  const wrap_mode_type& wrap_mode_type);
 
 
 
@@ -404,4 +404,4 @@ void texture_t<texture_type::texture3>::set_sub_image_internal(
 
 }  // namespace hou
 
-#endif // HOU_DOXYGEN
+#endif  // HOU_DOXYGEN

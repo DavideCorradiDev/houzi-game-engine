@@ -1,4 +1,4 @@
-  // Houzi Game Engine
+// Houzi Game Engine
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
@@ -588,7 +588,7 @@ typename texture_t<Type>::size_type texture_t<Type>::get_size() const
 
 template <>
 template <>
-typename texture_t<texture_type::texture2>::wrap_mode
+typename texture_t<texture_type::texture2>::wrap_mode_type
   texture_t<texture_type::texture2>::get_wrap_mode() const
 {
   return get_texture2_wrap_mode(get_handle());
@@ -598,7 +598,7 @@ typename texture_t<texture_type::texture2>::wrap_mode
 
 template <>
 template <>
-typename texture_t<texture_type::texture2_array>::wrap_mode
+typename texture_t<texture_type::texture2_array>::wrap_mode_type
   texture_t<texture_type::texture2_array>::get_wrap_mode() const
 {
   return get_texture3_wrap_mode(get_handle());
@@ -608,7 +608,7 @@ typename texture_t<texture_type::texture2_array>::wrap_mode
 
 template <>
 template <>
-typename texture_t<texture_type::texture3>::wrap_mode
+typename texture_t<texture_type::texture3>::wrap_mode_type
   texture_t<texture_type::texture3>::get_wrap_mode() const
 {
   return get_texture3_wrap_mode(get_handle());
@@ -618,8 +618,7 @@ typename texture_t<texture_type::texture3>::wrap_mode
 
 template <>
 template <>
-void texture_t<texture_type::texture2>::set_wrap_mode(
-  const wrap_mode& wm)
+void texture_t<texture_type::texture2>::set_wrap_mode(const wrap_mode_type& wm)
 {
   set_texture2_wrap_mode(get_handle(), wm);
 }
@@ -629,7 +628,7 @@ void texture_t<texture_type::texture2>::set_wrap_mode(
 template <>
 template <>
 void texture_t<texture_type::texture2_array>::set_wrap_mode(
-  const wrap_mode& wm)
+  const wrap_mode_type& wm)
 {
   set_texture3_wrap_mode(get_handle(), wm);
 }
@@ -638,8 +637,7 @@ void texture_t<texture_type::texture2_array>::set_wrap_mode(
 
 template <>
 template <>
-void texture_t<texture_type::texture3>::set_wrap_mode(
-  const wrap_mode& wm)
+void texture_t<texture_type::texture3>::set_wrap_mode(const wrap_mode_type& wm)
 {
   set_texture3_wrap_mode(get_handle(), wm);
 }

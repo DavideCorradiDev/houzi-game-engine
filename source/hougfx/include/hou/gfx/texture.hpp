@@ -248,7 +248,7 @@ public:
   using offset_type = size_type;
 
   /** Type representing the texture wrap mode for each of its dimensions. */
-  using wrap_mode
+  using wrap_mode_type
     = std::array<texture_wrap_mode, get_texture_type_dimension_count(Type)>;
 
   /** Type representing an image with dimensionality matching that of the
@@ -398,7 +398,7 @@ public:
    */
   template <texture_type Type2 = Type,
     typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
-  wrap_mode get_wrap_mode() const;
+  wrap_mode_type get_wrap_mode() const;
 
   /** Sets the texture wrap mode.
    *
@@ -406,11 +406,11 @@ public:
    *
    * \tparam Enable enabling parameter.
    *
-   * \param wrap_mode the texture wrap mode.
+   * \param wrap_mode_type the texture wrap mode.
    */
   template <texture_type Type2 = Type,
     typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
-  void set_wrap_mode(const wrap_mode& wrap_mode);
+  void set_wrap_mode(const wrap_mode_type& wrap_mode_type);
 
   /** Retrieve the contents of the texture as an image object.
    *
