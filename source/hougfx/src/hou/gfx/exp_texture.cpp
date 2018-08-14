@@ -192,7 +192,7 @@ texture2::texture2(const vec2u& size, texture_format format,
 {
   HOU_PRECOND(size.x() > 0 && size.x() <= get_max_size().x());
   HOU_PRECOND(size.y() > 0 && size.y() <= get_max_size().y());
-  HOU_PRECOND(mipmap_level_count < get_max_mipmap_level_count(size));
+  HOU_PRECOND(mipmap_level_count <= get_max_mipmap_level_count(size));
 
   gl::set_texture_storage_2d(get_handle(), mipmap_level_count,
     static_cast<GLenum>(format), size.x(), size.y());
@@ -528,7 +528,7 @@ texture2_array::texture2_array(const vec3u& size, texture_format format,
   HOU_PRECOND(size.x() > 0 && size.x() <= get_max_size().x());
   HOU_PRECOND(size.y() > 0 && size.y() <= get_max_size().y());
   HOU_PRECOND(size.z() > 0 && size.z() <= get_max_size().z());
-  HOU_PRECOND(mipmap_level_count < get_max_mipmap_level_count(size));
+  HOU_PRECOND(mipmap_level_count <= get_max_mipmap_level_count(size));
 
   gl::set_texture_storage_3d(get_handle(), mipmap_level_count,
     static_cast<GLenum>(format), size.x(), size.y(), size.z());
@@ -579,10 +579,12 @@ texture3::texture3(const vec3u& size, texture_format format,
   : mipmapped_texture3(
       texture_type::texture3, size, format, mipmap_level_count)
 {
+  HOU_PRECOND(format == texture_format::r || format == texture_format::rg
+    || format == texture_format::rgb || format == texture_format::rgba);
   HOU_PRECOND(size.x() > 0 && size.x() <= get_max_size().x());
   HOU_PRECOND(size.y() > 0 && size.y() <= get_max_size().y());
   HOU_PRECOND(size.z() > 0 && size.z() <= get_max_size().z());
-  HOU_PRECOND(mipmap_level_count < get_max_mipmap_level_count(size));
+  HOU_PRECOND(mipmap_level_count <= get_max_mipmap_level_count(size));
 
   gl::set_texture_storage_3d(get_handle(), mipmap_level_count,
     static_cast<GLenum>(format), size.x(), size.y(), size.z());

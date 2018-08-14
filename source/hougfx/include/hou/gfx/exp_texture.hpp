@@ -37,6 +37,7 @@ public:
 
 public:
   texture(texture_type type, texture_format format);
+  texture(texture&& other) noexcept = default;
   virtual ~texture() = 0;
 
   const gl::texture_handle& get_handle() const noexcept;
@@ -59,6 +60,7 @@ class HOU_GFX_API texture2_base : public texture
 {
 public:
   texture2_base(texture_type type, const vec2u& size, texture_format format);
+  texture2_base(texture2_base&& other) noexcept = default;
   virtual ~texture2_base() = 0;
 
   const vec2u& get_size() const noexcept;
@@ -80,6 +82,7 @@ public:
     positive<uint> mipmap_level_count = 1u);
   texture2(const pixel_view2& pv, texture_format format = texture_format::rgba,
     positive<uint> mipmap_level_count = 1u);
+  texture2(texture2&& other) noexcept = default;
 
   positive<uint> get_mipmap_level_count() const noexcept;
 
@@ -116,6 +119,7 @@ public:
   multisampled_texture2(const vec2u& size,
     texture_format format = texture_format::rgba,
     positive<uint> sample_count = 1u, bool fixed_sample_locations = true);
+  multisampled_texture2(multisampled_texture2&& other) noexcept = default;
 
   positive<uint> get_sample_count() const noexcept;
   bool has_fixed_sample_locations() const noexcept;
@@ -130,7 +134,9 @@ private:
 class HOU_GFX_API texture3_base : public texture
 {
 public:
+  // Only color formats are supported.
   texture3_base(texture_type type, const vec3u& size, texture_format format);
+  texture3_base(texture3_base&& other) noexcept = default;
   virtual ~texture3_base() = 0;
 
   const vec3u& get_size() const noexcept;
@@ -146,6 +152,7 @@ class HOU_GFX_API mipmapped_texture3 : public texture3_base
 public:
   mipmapped_texture3(texture_type type, const vec3u& size, texture_format format,
     positive<uint> mipmap_level_count);
+  mipmapped_texture3(mipmapped_texture3&& other) noexcept = default;
   virtual ~mipmapped_texture3() = 0;
 
   positive<uint> get_mipmap_level_count() const noexcept;
@@ -182,6 +189,7 @@ public:
   texture2_array(const pixel_view3& pv,
     texture_format format = texture_format::rgba,
     positive<uint> mipmap_level_count = 1u);
+  texture2_array(texture2_array&& other) noexcept = default;
 
 private:
   texture2_array(const vec3u& pv, texture_format format,
@@ -201,6 +209,7 @@ public:
     positive<uint> mipmap_level_count = 1u);
   texture3(const pixel_view3& pv, texture_format format = texture_format::rgba,
     positive<uint> mipmap_level_count = 1u);
+  texture3(texture3&& other) noexcept = default;
 
 private:
   texture3(const vec3u& pv, texture_format format,
@@ -219,6 +228,8 @@ public:
   multisampled_texture2_array(const vec3u& size,
     texture_format format = texture_format::rgba,
     positive<uint> sample_count = 1u, bool fixed_sample_locations = true);
+  multisampled_texture2_array(multisampled_texture2_array&& other) noexcept
+    = default;
 
   positive<uint> get_sample_count() const noexcept;
   bool has_fixed_sample_locations() const noexcept;
