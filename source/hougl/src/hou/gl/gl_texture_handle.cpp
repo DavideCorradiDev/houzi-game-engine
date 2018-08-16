@@ -4,11 +4,11 @@
 
 #include "hou/gl/gl_texture_handle.hpp"
 
-#include "hou/gl/gl_exceptions.hpp"
-#include "hou/gl/gl_missing_context_error.hpp"
-#include "hou/gl/gl_invalid_context_error.hpp"
 #include "hou/gl/gl_context.hpp"
+#include "hou/gl/gl_exceptions.hpp"
 #include "hou/gl/gl_functions.hpp"
+#include "hou/gl/gl_invalid_context_error.hpp"
+#include "hou/gl/gl_missing_context_error.hpp"
 
 #include "hou/cor/cor_exceptions.hpp"
 #include "hou/cor/pragmas.hpp"
@@ -438,7 +438,7 @@ bool is_texture_bound(uint unit)
 
 GLenum get_bound_texture_target()
 {
-    return context::get_current()->m_tracking_data.get_bound_texture_target();
+  return context::get_current()->m_tracking_data.get_bound_texture_target();
 }
 
 
@@ -640,8 +640,8 @@ void set_texture_sub_image_3d(const texture_handle& tex, GLint level,
 
 
 
-void reset_texture_sub_image_2d(const texture_handle& tex,
-  GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height,
+void reset_texture_sub_image_2d(const texture_handle& tex, GLint level,
+  GLint xoffset, GLint yoffset, GLsizei width, GLsizei height,
   GLenum internal_format)
 {
   std::vector<uint8_t> data(
@@ -654,9 +654,9 @@ void reset_texture_sub_image_2d(const texture_handle& tex,
 
 
 
-void reset_texture_sub_image_3d(const texture_handle& tex,
-  GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width,
-  GLsizei height, GLsizei depth, GLenum internal_format)
+void reset_texture_sub_image_3d(const texture_handle& tex, GLint level,
+  GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height,
+  GLsizei depth, GLenum internal_format)
 {
   std::vector<uint8_t> data(
     width * height * depth * internal_format_to_byte_count(internal_format),
@@ -1044,8 +1044,27 @@ GLint get_max_texture_layers()
 
 
 
-GLenum get_texture_external_format_for_internal_format(
-  GLenum internal_format)
+GLenum get_texture_data_type_for_internal_format(GLenum internal_format)
+{
+  switch(internal_format)
+  {
+    case GL_R8:
+    case GL_RG8:
+    case GL_RGB8:
+    case GL_RGBA8:
+      return GL_BYTE;
+    case GL_DEPTH_COMPONENT24:
+      return GL_UNSIGNED_INT;
+    case GL_DEPTH24_STENCIL8:
+      return GL_UNSIGNED_INT_24_8;
+  }
+  HOU_UNREACHABLE();
+  return GL_BYTE;
+}
+
+
+
+GLenum get_texture_external_format_for_internal_format(GLenum internal_format)
 {
   switch(internal_format)
   {

@@ -249,18 +249,24 @@ std::vector<uint8_t> texture2::get_sub_image(
   const vec2u& offset, const vec2u& size) const
 {
   vec2u bounds = offset + size;
-  vec2u tex_size = get_size();
-  HOU_PRECOND(std::equal(bounds.begin(), bounds.end(), tex_size.begin(),
-    tex_size.end(), std::less_equal<uint>()));
+  HOU_PRECOND(std::equal(bounds.begin(), bounds.end(), get_size().begin(),
+    get_size().end(), std::less_equal<uint>()));
 
   gl::set_unpack_alignment(1u);
   std::vector<uint8_t> buffer(get_byte_count(), 0u);
 
-  gl::get_texture_sub_image(get_handle(), offset.x(), offset.y(), 0, size.x(),
-    size.y(), 1, 0,
+  // clang-format off
+  gl::get_texture_sub_image(get_handle(),
+    offset.x(), offset.y(), 0,                            // offset
+    size.x(), size.y(), 1,                                // size
+    0,                                                    // level
     gl::get_texture_external_format_for_internal_format(
-      static_cast<GLenum>(get_format())),
-    GL_BYTE, narrow_cast<GLsizei>(buffer.size()), buffer.data());
+      static_cast<GLenum>(get_format())),                 // external format
+    gl::get_texture_data_type_for_internal_format(
+      static_cast<GLenum>(get_format())),                 // data type
+    narrow_cast<GLsizei>(buffer.size()),                  // data size
+    buffer.data());                                       // data
+  // clang-format on
 
   return buffer;
 }
@@ -279,15 +285,21 @@ void texture2::set_sub_image(const vec2u& offset, const pixel_view2& pv)
   HOU_PRECOND(pv.get_bytes_per_pixel() == get_bytes_per_pixel(get_format()));
 
   vec2u bounds = offset + pv.get_size();
-  vec2u tex_size = get_size();
-  HOU_PRECOND(std::equal(bounds.begin(), bounds.end(), tex_size.begin(),
-    tex_size.end(), std::less_equal<uint>()));
+  HOU_PRECOND(std::equal(bounds.begin(), bounds.end(), get_size().begin(),
+    get_size().end(), std::less_equal<uint>()));
 
-  gl::set_texture_sub_image_2d(get_handle(), 0, offset.x(), offset.y(),
-    pv.get_size().x(), pv.get_size().y(),
+  // clang-format off
+  gl::set_texture_sub_image_2d(get_handle(),
+    0,                                                    // level
+    offset.x(), offset.y(),                               // offset
+    pv.get_size().x(), pv.get_size().y(),                 // size
     gl::get_texture_external_format_for_internal_format(
-      static_cast<GLenum>(get_format())),
-    GL_BYTE, reinterpret_cast<const void*>(pv.get_data()));
+      static_cast<GLenum>(get_format())),                 // external format
+    gl::get_texture_data_type_for_internal_format(
+      static_cast<GLenum>(get_format())),                 // data type
+    reinterpret_cast<const void*>(pv.get_data()));        // data
+  // clang-format on
+
   gl::generate_mip_map(get_handle());
 }
 
@@ -295,9 +307,8 @@ void texture2::set_sub_image(const vec2u& offset, const pixel_view2& pv)
 
 void texture2::clear()
 {
-  vec2u tex_size = get_size();
-  gl::reset_texture_sub_image_2d(get_handle(), 0, 0, 0, tex_size.x(),
-    tex_size.y(), static_cast<GLenum>(get_format()));
+  gl::reset_texture_sub_image_2d(get_handle(), 0, 0, 0, get_size().x(),
+    get_size().y(), static_cast<GLenum>(get_format()));
   gl::generate_mip_map(get_handle());
 }
 
@@ -441,18 +452,24 @@ std::vector<uint8_t> mipmapped_texture3::get_sub_image(
   const vec3u& offset, const vec3u& size) const
 {
   vec3u bounds = offset + size;
-  vec3u tex_size = get_size();
-  HOU_PRECOND(std::equal(bounds.begin(), bounds.end(), tex_size.begin(),
-    tex_size.end(), std::less_equal<uint>()));
+  HOU_PRECOND(std::equal(bounds.begin(), bounds.end(), get_size().begin(),
+    get_size().end(), std::less_equal<uint>()));
 
   gl::set_unpack_alignment(1u);
   std::vector<uint8_t> buffer(get_byte_count(), 0u);
 
-  gl::get_texture_sub_image(get_handle(), offset.x(), offset.y(), offset.z(),
-    size.x(), size.y(), size.z(), 0,
+  // clang-format off
+  gl::get_texture_sub_image(get_handle(),
+    offset.x(), offset.y(), offset.z(),                   // offset
+    size.x(), size.y(), size.z(),                         // size
+    0,                                                    // level
     gl::get_texture_external_format_for_internal_format(
-      static_cast<GLenum>(get_format())),
-    GL_BYTE, narrow_cast<GLsizei>(buffer.size()), buffer.data());
+      static_cast<GLenum>(get_format())),                 // external format
+    gl::get_texture_data_type_for_internal_format(
+      static_cast<GLenum>(get_format())),                 // data type
+    narrow_cast<GLsizei>(buffer.size()),                  // data size
+    buffer.data());                                       // data
+  // clang-format on
 
   return buffer;
 }
@@ -472,15 +489,21 @@ void mipmapped_texture3::set_sub_image(
   HOU_PRECOND(pv.get_bytes_per_pixel() == get_bytes_per_pixel(get_format()));
 
   vec3u bounds = offset + pv.get_size();
-  vec3u tex_size = get_size();
-  HOU_PRECOND(std::equal(bounds.begin(), bounds.end(), tex_size.begin(),
-    tex_size.end(), std::less_equal<uint>()));
+  HOU_PRECOND(std::equal(bounds.begin(), bounds.end(), get_size().begin(),
+    get_size().end(), std::less_equal<uint>()));
 
-  gl::set_texture_sub_image_3d(get_handle(), 0, offset.x(), offset.y(),
-    offset.z(), pv.get_size().x(), pv.get_size().y(), pv.get_size().z(),
+  // clang-format off
+  gl::set_texture_sub_image_3d(get_handle(),
+    0,                                                        // level
+    offset.x(), offset.y(), offset.z(),                       // offset
+    pv.get_size().x(), pv.get_size().y(), pv.get_size().z(),  // size
     gl::get_texture_external_format_for_internal_format(
-      static_cast<GLenum>(get_format())),
-    GL_BYTE, reinterpret_cast<const void*>(pv.get_data()));
+      static_cast<GLenum>(get_format())),                     // external format
+    gl::get_texture_data_type_for_internal_format(
+      static_cast<GLenum>(get_format())),                     // data type
+    reinterpret_cast<const void*>(pv.get_data()));            // data
+  // clang-format on
+
   gl::generate_mip_map(get_handle());
 }
 
@@ -488,9 +511,8 @@ void mipmapped_texture3::set_sub_image(
 
 void mipmapped_texture3::clear()
 {
-  vec3u tex_size = get_size();
-  gl::reset_texture_sub_image_3d(get_handle(), 0, 0, 0, 0, tex_size.x(),
-    tex_size.y(), tex_size.z(), static_cast<GLenum>(get_format()));
+  gl::reset_texture_sub_image_3d(get_handle(), 0, 0, 0, 0, get_size().x(),
+    get_size().y(), get_size().z(), static_cast<GLenum>(get_format()));
   gl::generate_mip_map(get_handle());
 }
 

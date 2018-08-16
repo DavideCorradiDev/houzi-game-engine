@@ -24,6 +24,8 @@ public:
 public:
   static const std::vector<texture_format> color_formats;
   static const std::vector<texture_format> all_formats;
+  static const std::vector<texture_filter> all_filters;
+  static const std::vector<texture_wrap_mode> all_wrap_modes;
 };
 
 template <typename TexType>
@@ -94,8 +96,22 @@ const std::vector<texture_format> test_exp_texture<TexType>::all_formats{
   texture_format::rg,
   texture_format::rgb,
   texture_format::rgba,
-  texture_format::depth,
   texture_format::depth_stencil,
+};
+
+template <typename TexType>
+const std::vector<texture_filter> test_exp_texture<TexType>::all_filters{
+  texture_filter::nearest,
+  texture_filter::linear,
+  texture_filter::bilinear,
+  texture_filter::trilinear,
+};
+
+template <typename TexType>
+const std::vector<texture_wrap_mode> test_exp_texture<TexType>::all_wrap_modes{
+  texture_wrap_mode::repeat,
+  texture_wrap_mode::mirrored_repeat,
+  texture_wrap_mode::clamp_to_edge,
 };
 
 }  // namespace
@@ -199,18 +215,232 @@ TEST_F(test_exp_texture2, size_constructor)
   vec2u size_ref(4u, 8u);
   texture2 t(size_ref);
   EXPECT_EQ(size_ref, t.get_size());
-  EXPECT_EQ(gl::compute_texture_size_bytes(size_ref.x(), size_ref.y(), 1u,
-              gl::get_texture_external_format_for_internal_format(
-                static_cast<GLenum>(t.get_format()))),
-    t.get_byte_count());
   EXPECT_EQ(texture_format::rgba, t.get_format());
   EXPECT_EQ(1u, t.get_mipmap_level_count());
+  EXPECT_EQ(std::vector<uint8_t>(t.get_byte_count(), 0u), t.get_image());
+}
+
+
+
+TEST_F(test_exp_texture2, size_constructor_size_limits)
+{
+  vec2u min_size(1u, 1u);
+  texture2 t_min_size(min_size);
+  EXPECT_EQ(min_size, t_min_size.get_size());
+
+  vec2u max_size_x(texture2::get_max_size().x(), 1u);
+  texture2 t_max_size_x(max_size_x);
+  EXPECT_EQ(max_size_x, t_max_size_x.get_size());
+
+  vec2u max_size_y(1u, texture2::get_max_size().y());
+  texture2 t_max_size_y(max_size_y);
+  EXPECT_EQ(max_size_y, t_max_size_y.get_size());
+}
+
+
+
+TEST_F(test_exp_texture2_death_test, size_constructor_invalid_size)
+{
+  EXPECT_PRECOND_ERROR(texture2(vec2u(0u, 1u)));
+  EXPECT_PRECOND_ERROR(texture2(vec2u(1u, 0u)));
+  EXPECT_PRECOND_ERROR(texture2(vec2u(0u, 0u)));
+  EXPECT_PRECOND_ERROR(texture2(vec2u(texture2::get_max_size().x() + 1u, 1u)));
+  EXPECT_PRECOND_ERROR(texture2(vec2u(1u, texture2::get_max_size().y() + 1u)));
+  EXPECT_PRECOND_ERROR(texture2(texture2::get_max_size() + vec2u(1u, 1u)));
+}
+
+
+
+TEST_F(test_exp_texture2, full_size_constructor)
+{
+  vec2u size_ref(4u, 8u);
+  uint mipmap_level_count_ref = 2u;
+  for(auto tf : all_formats)
+  {
+    texture2 t(size_ref, tf, mipmap_level_count_ref);
+    EXPECT_EQ(size_ref, t.get_size());
+    EXPECT_EQ(tf, t.get_format());
+    EXPECT_EQ(mipmap_level_count_ref, t.get_mipmap_level_count());
+    EXPECT_EQ(std::vector<uint8_t>(t.get_byte_count(), 0u), t.get_image());
+  }
+}
+
+
+
+TEST_F(test_exp_texture2, full_size_constructor_sample_count_limits)
+{
+  vec2u size_ref(4u, 8u);
+
+  uint min_mipmap_level_count = 1u;
+  texture2 t_min_level(size_ref, texture_format::rgba, min_mipmap_level_count);
+  EXPECT_EQ(min_mipmap_level_count, t_min_level.get_mipmap_level_count());
+
+  uint max_mipmap_level_count = 1u;
+  texture2 t_max_level(size_ref, texture_format::rgba, max_mipmap_level_count);
+  EXPECT_EQ(max_mipmap_level_count, t_max_level.get_mipmap_level_count());
+}
+
+
+
+TEST_F(test_exp_texture2_death_test, invalid_sample_count)
+{
+  EXPECT_PRECOND_ERROR(texture2(vec2u(1u, 1u), texture_format::rgba,
+    texture2::get_max_mipmap_level_count(vec2u(1u, 1u)) + 1u));
+}
+
+
+
+TEST_F(test_exp_texture2, image_constructor)
+{
+  std::vector<uint8_t> image_data{
+    0u, 1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u, 9u, 10u, 11u};
+
+  std::vector<std::pair<texture_format, pixel_view2>> format_images{
+    std::make_pair(
+      texture_format::r, pixel_view2(image_data.data(), vec2u(3u, 4u), 1u)),
+    std::make_pair(
+      texture_format::rg, pixel_view2(image_data.data(), vec2u(3u, 2u), 2u)),
+    std::make_pair(
+      texture_format::rgb, pixel_view2(image_data.data(), vec2u(1u, 4u), 3u)),
+    std::make_pair(
+      texture_format::rgba, pixel_view2(image_data.data(), vec2u(3u, 1u), 4u)),
+    std::make_pair(texture_format::depth_stencil,
+      pixel_view2(image_data.data(), vec2u(3u, 1u), 4u)),
+  };
+
+  uint mipmap_level_count_ref = 2u;
+  for(auto fi : format_images)
+  {
+    texture2 t(fi.second, fi.first, mipmap_level_count_ref);
+    EXPECT_EQ(fi.second.get_size(), t.get_size());
+    EXPECT_EQ(fi.first, t.get_format());
+    EXPECT_EQ(mipmap_level_count_ref, t.get_mipmap_level_count());
+    EXPECT_EQ(image_data, t.get_image());
+  }
+}
+
+
+
+TEST_F(test_exp_texture2, image_constructor_with_image)
+{
+  image2_rgba im(vec2u(4u, 8u), pixel_rgba(color::red()));
+  texture2 t(im);
+  EXPECT_EQ(im.get_size(), t.get_size());
+}
+
+
+
+TEST_F(test_exp_texture2_death_test, image_constructor_invalid_size)
+{
+  std::vector<uint8_t> image_data{
+    0u, 1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u, 9u, 10u, 11u};
+  EXPECT_PRECOND_ERROR(
+    texture2(pixel_view2(image_data.data(), vec2u(0u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture2(pixel_view2(image_data.data(), vec2u(1u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture2(pixel_view2(image_data.data(), vec2u(0u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(texture2(pixel_view2(
+    image_data.data(), vec2u(texture2::get_max_size().x() + 1u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(texture2(pixel_view2(
+    image_data.data(), vec2u(1u, texture2::get_max_size().y() + 1u), 4u)));
+  EXPECT_PRECOND_ERROR(texture2(pixel_view2(
+    image_data.data(), texture2::get_max_size() + vec2u(1u, 1u), 4u)));
+}
+
+
+
+TEST_F(test_exp_texture2_death_test, image_constructor_invalid_byte_depth)
+{
+  std::vector<uint8_t> image_data{
+    0u, 1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u, 9u, 10u, 11u};
+  EXPECT_PRECOND_ERROR(texture2(
+    pixel_view2(image_data.data(), vec2u(0u, 1u), 2u), texture_format::r));
+  EXPECT_PRECOND_ERROR(texture2(
+    pixel_view2(image_data.data(), vec2u(0u, 1u), 3u), texture_format::r));
+  EXPECT_PRECOND_ERROR(texture2(
+    pixel_view2(image_data.data(), vec2u(0u, 1u), 4u), texture_format::r));
+  EXPECT_PRECOND_ERROR(texture2(
+    pixel_view2(image_data.data(), vec2u(0u, 1u), 1u), texture_format::rg));
+  EXPECT_PRECOND_ERROR(texture2(
+    pixel_view2(image_data.data(), vec2u(0u, 1u), 3u), texture_format::rg));
+  EXPECT_PRECOND_ERROR(texture2(
+    pixel_view2(image_data.data(), vec2u(0u, 1u), 4u), texture_format::rg));
+  EXPECT_PRECOND_ERROR(texture2(
+    pixel_view2(image_data.data(), vec2u(0u, 1u), 1u), texture_format::rgb));
+  EXPECT_PRECOND_ERROR(texture2(
+    pixel_view2(image_data.data(), vec2u(0u, 1u), 2u), texture_format::rgb));
+  EXPECT_PRECOND_ERROR(texture2(
+    pixel_view2(image_data.data(), vec2u(0u, 1u), 4u), texture_format::rgb));
+  EXPECT_PRECOND_ERROR(texture2(
+    pixel_view2(image_data.data(), vec2u(0u, 1u), 1u), texture_format::rgba));
+  EXPECT_PRECOND_ERROR(texture2(
+    pixel_view2(image_data.data(), vec2u(0u, 1u), 2u), texture_format::rgba));
+  EXPECT_PRECOND_ERROR(texture2(
+    pixel_view2(image_data.data(), vec2u(0u, 1u), 3u), texture_format::rgba));
+  EXPECT_PRECOND_ERROR(
+    texture2(pixel_view2(image_data.data(), vec2u(0u, 1u), 1u),
+      texture_format::depth_stencil));
+  EXPECT_PRECOND_ERROR(
+    texture2(pixel_view2(image_data.data(), vec2u(0u, 1u), 2u),
+      texture_format::depth_stencil));
+  EXPECT_PRECOND_ERROR(
+    texture2(pixel_view2(image_data.data(), vec2u(0u, 1u), 3u),
+      texture_format::depth_stencil));
+}
+
+
+
+TEST_F(test_exp_texture2, get_byte_count)
+{
+  vec2u size_ref(4u, 8u);
+  for(auto tf : all_formats)
+  {
+    texture2 t(size_ref, tf);
+    EXPECT_EQ(gl::compute_texture_size_bytes(size_ref.x(), size_ref.y(), 1u,
+                gl::get_texture_external_format_for_internal_format(
+                  static_cast<GLenum>(t.get_format()))),
+      t.get_byte_count());
+  }
+}
+
+
+
+TEST_F(test_exp_texture2, set_filter)
+{
+  texture2 t(vec2u(1u, 1u));
   EXPECT_EQ(texture_filter::linear, t.get_filter());
+  for(auto filter : all_filters)
+  {
+    t.set_filter(filter);
+    EXPECT_EQ(filter, t.get_filter());
+  }
+}
+
+
+
+TEST_F(test_exp_texture2, set_wrap_mode)
+{
+  texture2 t(vec2u(1u, 1u));
   EXPECT_EQ(
     (texture2::wrap_mode{texture_wrap_mode::repeat, texture_wrap_mode::repeat}),
     t.get_wrap_mode());
-  EXPECT_EQ(std::vector<uint8_t>(t.get_byte_count(), 0u), t.get_image());
+  for(auto wmx : all_wrap_modes)
+  {
+    for(auto wmy : all_wrap_modes)
+    {
+      t.set_wrap_mode(texture2::wrap_mode{wmx, wmy});
+      EXPECT_EQ((texture2::wrap_mode{wmx, wmy}), t.get_wrap_mode());
+    }
+  }
 }
+
+
+
+// get / set image + wrong args.
+// get / set sub image + wrong args.
+// clear
+// set channel mapping
 
 
 
@@ -242,10 +472,6 @@ TEST_F(test_exp_texture3, size_constructor)
     t.get_byte_count());
   EXPECT_EQ(texture_format::rgba, t.get_format());
   EXPECT_EQ(1u, t.get_mipmap_level_count());
-  EXPECT_EQ(texture_filter::linear, t.get_filter());
-  EXPECT_EQ((texture3::wrap_mode{texture_wrap_mode::repeat,
-              texture_wrap_mode::repeat, texture_wrap_mode::repeat}),
-    t.get_wrap_mode());
   EXPECT_EQ(std::vector<uint8_t>(t.get_byte_count(), 0u), t.get_image());
 }
 
@@ -263,10 +489,6 @@ TEST_F(test_exp_texture2_array, size_constructor)
     t.get_byte_count());
   EXPECT_EQ(texture_format::rgba, t.get_format());
   EXPECT_EQ(1u, t.get_mipmap_level_count());
-  EXPECT_EQ(texture_filter::linear, t.get_filter());
-  EXPECT_EQ((texture3::wrap_mode{texture_wrap_mode::repeat,
-              texture_wrap_mode::repeat, texture_wrap_mode::repeat}),
-    t.get_wrap_mode());
   EXPECT_EQ(std::vector<uint8_t>(t.get_byte_count(), 0u), t.get_image());
 }
 

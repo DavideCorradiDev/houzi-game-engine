@@ -41,9 +41,9 @@ uint get_bytes_per_pixel(texture_format tf)
     case texture_format::rg:
       return 2u;
     case texture_format::rgb:
-    case texture_format::depth:
       return 3u;
     case texture_format::rgba:
+    case texture_format::depth:
     case texture_format::depth_stencil:
       return 4u;
   }
