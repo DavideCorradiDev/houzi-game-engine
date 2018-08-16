@@ -239,7 +239,7 @@ void texture2::set_filter(texture_filter filter)
 
 
 
-std::array<texture_wrap_mode, 2u> texture2::get_wrap_mode() const
+texture2::wrap_mode texture2::get_wrap_mode() const
 {
   return {texture_wrap_mode(gl::get_texture_wrap_mode_s(get_handle())),
     texture_wrap_mode(gl::get_texture_wrap_mode_t(get_handle()))};
@@ -247,7 +247,7 @@ std::array<texture_wrap_mode, 2u> texture2::get_wrap_mode() const
 
 
 
-void texture2::set_wrap_mode(const std::array<texture_wrap_mode, 2u>& wm)
+void texture2::set_wrap_mode(const wrap_mode& wm)
 {
   gl::set_texture_wrap_mode_s(get_handle(), static_cast<GLenum>(wm[0]));
   gl::set_texture_wrap_mode_t(get_handle(), static_cast<GLenum>(wm[1]));

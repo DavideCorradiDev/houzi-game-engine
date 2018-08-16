@@ -30,29 +30,19 @@ using test_exp_texture_death_test = test_exp_texture<TexType>;
 using texture_types = Types<texture2, texture2_array, texture3,
   multisampled_texture2, multisampled_texture2_array>;
 
-template <typename TexType>
-class test_exp_texture_mipmap2 : public test_exp_texture<TexType>
-{};
-
-using texture_mipmap2_types = Types<texture2>;
-
-template <typename TexType>
-class test_exp_texture_multisample2 : public test_exp_texture<TexType>
-{};
-
-using texture_multisample2_types = Types<multisampled_texture2>;
-
-template <typename TexType>
-class test_exp_texture_mipmap3 : public test_exp_texture<TexType>
-{};
-
-using texture_mipmap3_types = Types<texture2_array, texture3>;
-
-template <typename TexType>
-class test_exp_texture_multisample3 : public test_exp_texture<TexType>
-{};
-
-using texture_multisample3_types = Types<multisampled_texture2_array>;
+using test_exp_texture2 = test_exp_texture<texture2>;
+using test_exp_texture2_death_test = test_exp_texture2;
+using test_exp_multisampled_texture2 = test_exp_texture<multisampled_texture2>;
+using test_exp_multisampled_texture2_death_test
+  = test_exp_multisampled_texture2;
+using test_exp_texture2_array = test_exp_texture<texture2_array>;
+using test_exp_texture2_array_death_test = test_exp_texture2_array;
+using test_exp_texture3 = test_exp_texture<texture3>;
+using test_exp_texture3_death_test = test_exp_texture3;
+using test_exp_multisampled_texture2_array
+  = test_exp_texture<multisampled_texture2_array>;
+using test_exp_multisampled_texture2_array_death_test
+  = test_exp_multisampled_texture2_array;
 
 template <>
 texture2 test_exp_texture<texture2>::make_texture(texture_format format)
@@ -112,10 +102,6 @@ const std::vector<texture_format> test_exp_texture<TexType>::all_formats{
 
 TYPED_TEST_CASE(test_exp_texture, texture_types);
 TYPED_TEST_CASE(test_exp_texture_death_test, texture_types);
-TYPED_TEST_CASE(test_exp_texture_mipmap2, texture_mipmap2_types);
-TYPED_TEST_CASE(test_exp_texture_multisample2, texture_multisample2_types);
-TYPED_TEST_CASE(test_exp_texture_mipmap3, texture_mipmap3_types);
-TYPED_TEST_CASE(test_exp_texture_multisample3, texture_multisample3_types);
 
 
 
@@ -202,4 +188,19 @@ TYPED_TEST(test_exp_texture, get_format)
     TypeParam t = TestFixture::make_texture(format);
     EXPECT_EQ(format, t.get_format()) << format;
   }
+}
+
+
+
+TEST_F(test_exp_texture2, size_constructor)
+{
+  vec2u size_ref(4u, 8u);
+  texture2 t(size_ref);
+  EXPECT_EQ(size_ref, t.get_size());
+  EXPECT_EQ(texture_format::rgba, t.get_format());
+  EXPECT_EQ(1u, t.get_mipmap_level_count());
+  EXPECT_EQ(texture_filter::bilinear, t.get_filter());
+  EXPECT_EQ(
+    (texture2::wrap_mode{texture_wrap_mode::repeat, texture_wrap_mode::repeat}),
+    t.get_wrap_mode());
 }

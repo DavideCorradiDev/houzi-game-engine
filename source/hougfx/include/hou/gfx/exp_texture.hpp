@@ -74,6 +74,9 @@ private:
 class HOU_GFX_API texture2 : public texture2_base
 {
 public:
+  using wrap_mode = std::array<texture_wrap_mode, 2u>;
+
+public:
   static const vec2u& get_max_size();
   static positive<uint> get_max_mipmap_level_count(const vec2u& size);
 
@@ -89,8 +92,8 @@ public:
   texture_filter get_filter() const;
   void set_filter(texture_filter filter);
 
-  std::array<texture_wrap_mode, 2u> get_wrap_mode() const;
-  void set_wrap_mode(const std::array<texture_wrap_mode, 2u>& wm);
+  wrap_mode get_wrap_mode() const;
+  void set_wrap_mode(const wrap_mode& wm);
 
   std::vector<uint8_t> get_image() const;
   std::vector<uint8_t> get_sub_image(
