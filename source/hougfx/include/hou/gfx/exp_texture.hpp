@@ -64,6 +64,7 @@ public:
   virtual ~texture2_base() = 0;
 
   const vec2u& get_size() const noexcept;
+  size_t get_byte_count() const;
 
 private:
   vec2u m_size;
@@ -143,6 +144,7 @@ public:
   virtual ~texture3_base() = 0;
 
   const vec3u& get_size() const noexcept;
+  size_t get_byte_count() const;
 
 private:
   vec3u m_size;

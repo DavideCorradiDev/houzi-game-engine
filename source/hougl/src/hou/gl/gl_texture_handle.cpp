@@ -1042,6 +1042,30 @@ GLint get_max_texture_layers()
   return get_integer(GL_MAX_ARRAY_TEXTURE_LAYERS);
 }
 
+
+
+GLenum get_texture_external_format_for_internal_format(
+  GLenum internal_format)
+{
+  switch(internal_format)
+  {
+    case GL_R8:
+      return GL_RED;
+    case GL_RG8:
+      return GL_RG;
+    case GL_RGB8:
+      return GL_RGB;
+    case GL_RGBA8:
+      return GL_RGBA;
+    case GL_DEPTH_COMPONENT24:
+      return GL_DEPTH_COMPONENT;
+    case GL_DEPTH24_STENCIL8:
+      return GL_DEPTH_STENCIL;
+  }
+  HOU_UNREACHABLE();
+  return GL_RED;
+}
+
 }  // namespace gl
 
 }  // namespace hou

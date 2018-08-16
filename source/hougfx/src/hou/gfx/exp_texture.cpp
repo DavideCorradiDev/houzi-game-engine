@@ -13,32 +13,6 @@
 namespace hou
 {
 
-namespace
-{
-
-GLenum get_compatible_pixel_format(texture_format tf);
-
-GLenum get_compatible_pixel_format(texture_format tf)
-{
-  switch(tf)
-  {
-    case texture_format::r:
-        return GL_RED;
-    case texture_format::rg:
-        return GL_RG;
-    case texture_format::rgb:
-        return GL_RGB;
-    case texture_format::rgba:
-        return GL_RGBA;
-    case texture_format::depth:
-        return GL_DEPTH_COMPONENT;
-    case texture_format::depth_stencil:
-        return GL_DEPTH_STENCIL;
-  }
-}
-
-}
-
 namespace exp
 {
 
@@ -167,6 +141,15 @@ const vec2u& texture2_base::get_size() const noexcept
 
 
 
+size_t texture2_base::get_byte_count() const
+{
+  return gl::compute_texture_size_bytes(m_size.x(), m_size.y(), 1u,
+    gl::get_texture_external_format_for_internal_format(
+      static_cast<GLenum>(get_format())));
+}
+
+
+
 const vec2u& texture2::get_max_size()
 {
   static const vec2u max_size(narrow_cast<uint>(gl::get_max_texture_size()),
@@ -271,12 +254,13 @@ std::vector<uint8_t> texture2::get_sub_image(
     tex_size.end(), std::less_equal<uint>()));
 
   gl::set_unpack_alignment(1u);
-  std::vector<uint8_t> buffer(gl::compute_texture_size_bytes(
-    size.x(), size.y(), 1u, static_cast<GLenum>(get_format())));
+  std::vector<uint8_t> buffer(get_byte_count(), 0u);
 
   gl::get_texture_sub_image(get_handle(), offset.x(), offset.y(), 0, size.x(),
-    size.y(), 1, 0, get_compatible_pixel_format(get_format()), GL_BYTE,
-    narrow_cast<GLsizei>(buffer.size()), buffer.data());
+    size.y(), 1, 0,
+    gl::get_texture_external_format_for_internal_format(
+      static_cast<GLenum>(get_format())),
+    GL_BYTE, narrow_cast<GLsizei>(buffer.size()), buffer.data());
 
   return buffer;
 }
@@ -301,8 +285,9 @@ void texture2::set_sub_image(const vec2u& offset, const pixel_view2& pv)
 
   gl::set_texture_sub_image_2d(get_handle(), 0, offset.x(), offset.y(),
     pv.get_size().x(), pv.get_size().y(),
-    get_compatible_pixel_format(get_format()), GL_BYTE,
-    reinterpret_cast<const void*>(pv.get_data()));
+    gl::get_texture_external_format_for_internal_format(
+      static_cast<GLenum>(get_format())),
+    GL_BYTE, reinterpret_cast<const void*>(pv.get_data()));
   gl::generate_mip_map(get_handle());
 }
 
@@ -346,7 +331,7 @@ multisampled_texture2::multisampled_texture2(const vec2u& size,
   HOU_PRECOND(sample_count < get_max_sample_count());
 
   gl::set_texture_storage_2d_multisample(get_handle(), sample_count,
-      static_cast<GLenum>(format), size.x(), size.y(), fixed_sample_locations);
+    static_cast<GLenum>(format), size.x(), size.y(), fixed_sample_locations);
 }
 
 
@@ -381,6 +366,15 @@ texture3_base::~texture3_base()
 const vec3u& texture3_base::get_size() const noexcept
 {
   return m_size;
+}
+
+
+
+size_t texture3_base::get_byte_count() const
+{
+  return gl::compute_texture_size_bytes(m_size.x(), m_size.y(), m_size.z(),
+    gl::get_texture_external_format_for_internal_format(
+      static_cast<GLenum>(get_format())));
 }
 
 
@@ -453,11 +447,12 @@ std::vector<uint8_t> mipmapped_texture3::get_sub_image(
     tex_size.end(), std::less_equal<uint>()));
 
   gl::set_unpack_alignment(1u);
-  std::vector<uint8_t> buffer(gl::compute_texture_size_bytes(
-    size.x(), size.y(), size.z(), static_cast<GLenum>(get_format())));
+  std::vector<uint8_t> buffer(get_byte_count(), 0u);
 
   gl::get_texture_sub_image(get_handle(), offset.x(), offset.y(), offset.z(),
-    size.x(), size.y(), size.z(), 0, get_compatible_pixel_format(get_format()),
+    size.x(), size.y(), size.z(), 0,
+    gl::get_texture_external_format_for_internal_format(
+      static_cast<GLenum>(get_format())),
     GL_BYTE, narrow_cast<GLsizei>(buffer.size()), buffer.data());
 
   return buffer;
@@ -484,8 +479,9 @@ void mipmapped_texture3::set_sub_image(
 
   gl::set_texture_sub_image_3d(get_handle(), 0, offset.x(), offset.y(),
     offset.z(), pv.get_size().x(), pv.get_size().y(), pv.get_size().z(),
-    get_compatible_pixel_format(get_format()), GL_BYTE,
-    reinterpret_cast<const void*>(pv.get_data()));
+    gl::get_texture_external_format_for_internal_format(
+      static_cast<GLenum>(get_format())),
+    GL_BYTE, reinterpret_cast<const void*>(pv.get_data()));
   gl::generate_mip_map(get_handle());
 }
 
@@ -576,8 +572,7 @@ positive<uint> texture3::get_max_mipmap_level_count(const vec3u& size)
 
 texture3::texture3(const vec3u& size, texture_format format,
   positive<uint> mipmap_level_count, bool)
-  : mipmapped_texture3(
-      texture_type::texture3, size, format, mipmap_level_count)
+  : mipmapped_texture3(texture_type::texture3, size, format, mipmap_level_count)
 {
   HOU_PRECOND(format == texture_format::r || format == texture_format::rg
     || format == texture_format::rgb || format == texture_format::rgba);
