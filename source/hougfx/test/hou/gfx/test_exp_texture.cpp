@@ -227,3 +227,62 @@ TEST_F(test_exp_multisampled_texture2, size_constructor)
   EXPECT_EQ(1u, t.get_sample_count());
   EXPECT_TRUE(t.has_fixed_sample_locations());
 }
+
+
+
+TEST_F(test_exp_texture3, size_constructor)
+{
+  vec3u size_ref(4u, 8u, 3u);
+  texture3 t(size_ref);
+  EXPECT_EQ(size_ref, t.get_size());
+  EXPECT_EQ(
+    gl::compute_texture_size_bytes(size_ref.x(), size_ref.y(), size_ref.z(),
+      gl::get_texture_external_format_for_internal_format(
+        static_cast<GLenum>(t.get_format()))),
+    t.get_byte_count());
+  EXPECT_EQ(texture_format::rgba, t.get_format());
+  EXPECT_EQ(1u, t.get_mipmap_level_count());
+  EXPECT_EQ(texture_filter::linear, t.get_filter());
+  EXPECT_EQ((texture3::wrap_mode{texture_wrap_mode::repeat,
+              texture_wrap_mode::repeat, texture_wrap_mode::repeat}),
+    t.get_wrap_mode());
+  EXPECT_EQ(std::vector<uint8_t>(t.get_byte_count(), 0u), t.get_image());
+}
+
+
+
+TEST_F(test_exp_texture2_array, size_constructor)
+{
+  vec3u size_ref(4u, 8u, 3u);
+  texture2_array t(size_ref);
+  EXPECT_EQ(size_ref, t.get_size());
+  EXPECT_EQ(
+    gl::compute_texture_size_bytes(size_ref.x(), size_ref.y(), size_ref.z(),
+      gl::get_texture_external_format_for_internal_format(
+        static_cast<GLenum>(t.get_format()))),
+    t.get_byte_count());
+  EXPECT_EQ(texture_format::rgba, t.get_format());
+  EXPECT_EQ(1u, t.get_mipmap_level_count());
+  EXPECT_EQ(texture_filter::linear, t.get_filter());
+  EXPECT_EQ((texture3::wrap_mode{texture_wrap_mode::repeat,
+              texture_wrap_mode::repeat, texture_wrap_mode::repeat}),
+    t.get_wrap_mode());
+  EXPECT_EQ(std::vector<uint8_t>(t.get_byte_count(), 0u), t.get_image());
+}
+
+
+
+TEST_F(test_exp_multisampled_texture2_array, size_constructor)
+{
+  vec3u size_ref(4u, 8u, 3u);
+  multisampled_texture2_array t(size_ref);
+  EXPECT_EQ(size_ref, t.get_size());
+  EXPECT_EQ(
+    gl::compute_texture_size_bytes(size_ref.x(), size_ref.y(), size_ref.z(),
+      gl::get_texture_external_format_for_internal_format(
+        static_cast<GLenum>(t.get_format()))),
+    t.get_byte_count());
+  EXPECT_EQ(texture_format::rgba, t.get_format());
+  EXPECT_EQ(1u, t.get_sample_count());
+  EXPECT_TRUE(t.has_fixed_sample_locations());
+}

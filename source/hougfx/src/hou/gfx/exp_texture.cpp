@@ -413,7 +413,7 @@ void mipmapped_texture3::set_filter(texture_filter filter)
 
 
 
-std::array<texture_wrap_mode, 3u> mipmapped_texture3::get_wrap_mode() const
+mipmapped_texture3::wrap_mode mipmapped_texture3::get_wrap_mode() const
 {
   return {texture_wrap_mode(gl::get_texture_wrap_mode_s(get_handle())),
     texture_wrap_mode(gl::get_texture_wrap_mode_t(get_handle())),
@@ -422,8 +422,7 @@ std::array<texture_wrap_mode, 3u> mipmapped_texture3::get_wrap_mode() const
 
 
 
-void mipmapped_texture3::set_wrap_mode(
-  const std::array<texture_wrap_mode, 3u>& wm)
+void mipmapped_texture3::set_wrap_mode(const wrap_mode& wm)
 {
   gl::set_texture_wrap_mode_s(get_handle(), static_cast<GLenum>(wm[0]));
   gl::set_texture_wrap_mode_t(get_handle(), static_cast<GLenum>(wm[1]));
