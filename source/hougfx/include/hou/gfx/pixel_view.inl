@@ -6,7 +6,7 @@ pixel_view<Dim>::pixel_view() noexcept
   : m_data(nullptr)
   , m_size()
   , m_byte_depth(0u)
-  , m_length(0u)
+  , m_byte_count(0u)
 {}
 
 
@@ -17,7 +17,7 @@ pixel_view<Dim>::pixel_view(
   : m_data(data)
   , m_size(size)
   , m_byte_depth(bpp)
-  , m_length(compute_length(size, bpp))
+  , m_byte_count(compute_length(size, bpp))
 {}
 
 
@@ -37,7 +37,7 @@ pixel_view<Dim>::pixel_view(const pixel_view<OtherDim>& other)
   : m_data(other.m_data)
   , m_size(pad_size(other.m_size))
   , m_byte_depth(other.m_byte_depth)
-  , m_length(other.m_length)
+  , m_byte_count(other.m_byte_count)
 {}
 
 
@@ -71,10 +71,10 @@ typename pixel_view<Dim>::byte_depth_type pixel_view<Dim>::get_bytes_per_pixel()
 
 
 template <size_t Dim>
-typename pixel_view<Dim>::length_type pixel_view<Dim>::get_pixel_count() const
+typename pixel_view<Dim>::length_type pixel_view<Dim>::get_byte_count() const
   noexcept
 {
-  return m_length;
+  return m_byte_count;
 }
 
 
@@ -83,7 +83,7 @@ template <size_t Dim>
 typename pixel_view<Dim>::const_reference pixel_view<Dim>::at(
   length_type idx) const
 {
-  HOU_CHECK_0(idx < m_length, hou::out_of_range);
+  HOU_CHECK_0(idx < m_byte_count, hou::out_of_range);
   return *(m_data + idx);
 }
 

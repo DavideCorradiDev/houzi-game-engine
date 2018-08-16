@@ -42,7 +42,7 @@ public:
   const_pointer get_data() const noexcept;
   const size_type& get_size() const noexcept;
   byte_depth_type get_bytes_per_pixel() const noexcept;
-  length_type get_pixel_count() const noexcept;
+  length_type get_byte_count() const noexcept;
 
   const_reference at(length_type idx) const;
   const_reference operator[](length_type idx) const noexcept;
@@ -61,7 +61,7 @@ private:
   const_pointer m_data;
   size_type m_size;
   byte_depth_type m_byte_depth;
-  length_type m_length;
+  length_type m_byte_count;
 };
 
 template <size_t Dim>
