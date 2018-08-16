@@ -274,7 +274,11 @@ std::vector<uint8_t> texture2::get_sub_image(
     get_size().end(), std::less_equal<uint>()));
 
   gl::set_unpack_alignment(1u);
-  std::vector<uint8_t> buffer(get_byte_count(), 0u);
+  std::vector<uint8_t> buffer(
+    gl::compute_texture_size_bytes(size.x(), size.y(), 1u,
+      gl::get_texture_external_format_for_internal_format(
+        static_cast<GLenum>(get_format()))),
+    0u);
 
   // clang-format off
   gl::get_texture_sub_image(get_handle(),
@@ -477,7 +481,11 @@ std::vector<uint8_t> mipmapped_texture3::get_sub_image(
     get_size().end(), std::less_equal<uint>()));
 
   gl::set_unpack_alignment(1u);
-  std::vector<uint8_t> buffer(get_byte_count(), 0u);
+  std::vector<uint8_t> buffer(
+    gl::compute_texture_size_bytes(size.x(), size.y(), size.z(),
+      gl::get_texture_external_format_for_internal_format(
+        static_cast<GLenum>(get_format()))),
+    0u);
 
   // clang-format off
   gl::get_texture_sub_image(get_handle(),

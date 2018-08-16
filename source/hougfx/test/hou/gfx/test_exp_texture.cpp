@@ -449,10 +449,88 @@ TEST_F(test_exp_texture2, set_wrap_mode)
 
 
 
-// get / set image + wrong args.
-// get / set sub image + wrong args.
-// clear
-// set channel mapping
+TEST_F(test_exp_texture2, set_image)
+{
+  texture2 t(vec2u(2u, 3u));
+  // clang-format off
+  std::vector<uint8_t> image_data{
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,};
+  // clang-format on
+  t.set_image(pixel_view2(image_data.data(), t.get_size(), 4u));
+  EXPECT_EQ(image_data, t.get_image());
+}
+
+
+
+TEST_F(test_exp_texture2, set_sub_image)
+{
+  texture2 t(vec2u(4u, 6u));
+  // clang-format off
+  std::vector<uint8_t> sub_image_data{
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,};
+  std::vector<uint8_t> image_data{
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    0u, 0u, 0u, 0u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,};
+  // clang-format on
+  t.set_sub_image(
+    vec2u(1u, 2u), pixel_view2(sub_image_data.data(), vec2u(3u, 2u), 4u));
+  EXPECT_EQ(image_data, t.get_image());
+  EXPECT_EQ(sub_image_data, t.get_sub_image(vec2u(1u, 2u), vec2u(3u, 2u)));
+}
+
+
+
+TEST_F(test_exp_texture2_death_test, get_sub_image_invalid_params)
+{
+  texture2 t(vec2u(4u, 6u));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec2u(0u, 0u), vec2u(5u, 6u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec2u(0u, 0u), vec2u(4u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec2u(0u, 0u), vec2u(5u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec2u(1u, 0u), vec2u(4u, 6u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec2u(0u, 1u), vec2u(4u, 6u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec2u(1u, 1u), vec2u(4u, 6u)));
+}
+
+
+
+TEST_F(test_exp_texture2_death_test, set_sub_image_invalid_params)
+{
+  texture2 t(vec2u(4u, 6u));
+  std::vector<uint8_t> image_data(5u * 7u * 4u, 0u);
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec2u(0u, 0u), pixel_view2(image_data.data(), vec2u(5u, 6u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec2u(0u, 0u), pixel_view2(image_data.data(), vec2u(4u, 7u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec2u(0u, 0u), pixel_view2(image_data.data(), vec2u(5u, 7u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec2u(1u, 0u), pixel_view2(image_data.data(), vec2u(4u, 6u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec2u(0u, 1u), pixel_view2(image_data.data(), vec2u(4u, 6u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec2u(1u, 1u), pixel_view2(image_data.data(), vec2u(4u, 6u), 4u)));
+}
+
+
+
+TEST_F(test_exp_texture2, clear)
+{
+  // clang-format off
+  std::vector<uint8_t> image_data{
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,};
+  // clang-format on
+  texture2 t(pixel_view2(image_data.data(), vec2u(2u, 3u), 4u));
+  t.clear();
+  EXPECT_EQ(std::vector<uint8_t>(image_data.size(), 0u), t.get_image());
+}
 
 
 
