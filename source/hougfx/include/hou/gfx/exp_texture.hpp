@@ -43,6 +43,9 @@ public:
   const gl::texture_handle& get_handle() const noexcept;
   texture_format get_format() const noexcept;
 
+  texture_channel_mapping get_channel_mapping() const;
+  void set_channel_mapping(const texture_channel_mapping& mapping);
+
   bool is_bound(uint tu) const;
 
 protected:

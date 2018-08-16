@@ -65,6 +65,27 @@ texture_format texture::get_format() const noexcept
 
 
 
+texture_channel_mapping texture::get_channel_mapping() const
+{
+  return texture_channel_mapping(
+    texture_channel(get_texture_swizzle_r(m_handle)),
+    texture_channel(get_texture_swizzle_g(m_handle)),
+    texture_channel(get_texture_swizzle_b(m_handle)),
+    texture_channel(get_texture_swizzle_a(m_handle)));
+}
+
+
+
+void texture::set_channel_mapping(const texture_channel_mapping& mapping)
+{
+  set_texture_swizzle_r(m_handle, static_cast<GLenum>(mapping.get_r()));
+  set_texture_swizzle_g(m_handle, static_cast<GLenum>(mapping.get_g()));
+  set_texture_swizzle_b(m_handle, static_cast<GLenum>(mapping.get_b()));
+  set_texture_swizzle_a(m_handle, static_cast<GLenum>(mapping.get_a()));
+}
+
+
+
 bool texture::is_bound(uint tu) const
 {
   HOU_PRECOND(tu < get_texture_unit_count());

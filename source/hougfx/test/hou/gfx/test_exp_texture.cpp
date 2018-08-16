@@ -210,6 +210,18 @@ TYPED_TEST(test_exp_texture, get_format)
 
 
 
+TYPED_TEST(test_exp_texture, set_channel_mapping)
+{
+  TypeParam t = TestFixture::make_texture();
+  EXPECT_EQ(texture_channel_mapping::standard, t.get_channel_mapping());
+  t.set_channel_mapping(texture_channel_mapping::luminosity);
+  EXPECT_EQ(texture_channel_mapping::luminosity, t.get_channel_mapping());
+  t.set_channel_mapping(texture_channel_mapping::alpha);
+  EXPECT_EQ(texture_channel_mapping::alpha, t.get_channel_mapping());
+}
+
+
+
 TEST_F(test_exp_texture2, size_constructor)
 {
   vec2u size_ref(4u, 8u);
