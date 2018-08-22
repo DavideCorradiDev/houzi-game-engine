@@ -1052,7 +1052,7 @@ GLenum get_texture_data_type_for_internal_format(GLenum internal_format)
     case GL_RG8:
     case GL_RGB8:
     case GL_RGBA8:
-      return GL_BYTE;
+      return GL_UNSIGNED_BYTE;
     case GL_DEPTH_COMPONENT24:
       return GL_UNSIGNED_INT;
     case GL_DEPTH24_STENCIL8:
