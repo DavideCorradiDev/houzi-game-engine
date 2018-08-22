@@ -2,245 +2,127 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gfx/test_data.hpp"
 #include "hou/gfx/test_gfx_base.hpp"
 
 #include "hou/gfx/texture.hpp"
-#include "hou/gfx/texture_channel_mapping.hpp"
 
-#include "hou/sys/image.hpp"
+#include "hou/gl/gl_functions.hpp"
 
 using namespace hou;
 using namespace testing;
 
-
-
 namespace
 {
 
-template <typename Tex>
-class test_texture_base : public test_gfx_base
+template <typename TexType>
+class test_texture : public test_gfx_base
 {
 public:
-  static const std::vector<texture_format> all_texture_formats;
+  static TexType make_texture(texture_format format = texture_format::rgba);
 
 public:
-  virtual ~test_texture_base();
-
-  // The following functions are there to generate vectors and images consistent
-  // with the concrete texture type being tested (Tex). Without these it would
-  // not be possible to write generic tests.
-  typename Tex::size_type generate_size();
-  typename Tex::size_type compute_mipmap_size(
-    const typename Tex::size_type& size, uint mipmap_level);
-  template <pixel_format PF>
-  typename Tex::template image<PF> generate_image(
-    const typename Tex::size_type& size);
-  typename Tex::wrap_mode_type get_default_wrap_mode() const;
-  typename Tex::wrap_mode_type get_alternative_wrap_mode() const;
+  static const std::vector<texture_format> color_formats;
+  static const std::vector<texture_format> all_formats;
+  static const std::vector<texture_filter> all_filters;
+  static const std::vector<texture_wrap_mode> all_wrap_modes;
 };
 
+template <typename TexType>
+using test_texture_death_test = test_texture<TexType>;
 
+using texture_types = Types<texture2, texture2_array, texture3,
+  multisampled_texture2, multisampled_texture2_array>;
 
-template <typename Tex>
-const std::vector<texture_format> test_texture_base<Tex>::all_texture_formats{
-  texture_format::rgba,
-  texture_format::rgb,
-  texture_format::rg,
+using test_texture2 = test_texture<texture2>;
+using test_texture2_death_test = test_texture2;
+using test_multisampled_texture2 = test_texture<multisampled_texture2>;
+using test_multisampled_texture2_death_test = test_multisampled_texture2;
+using test_texture2_array = test_texture<texture2_array>;
+using test_texture2_array_death_test = test_texture2_array;
+using test_texture3 = test_texture<texture3>;
+using test_texture3_death_test = test_texture3;
+using test_multisampled_texture2_array
+  = test_texture<multisampled_texture2_array>;
+using test_multisampled_texture2_array_death_test
+  = test_multisampled_texture2_array;
+
+template <>
+texture2 test_texture<texture2>::make_texture(texture_format format)
+{
+  return texture2(vec2u(1u, 1u), format);
+}
+
+template <>
+multisampled_texture2 test_texture<multisampled_texture2>::make_texture(
+  texture_format format)
+{
+  return multisampled_texture2(vec2u(1u, 1u), format);
+}
+
+template <>
+texture3 test_texture<texture3>::make_texture(texture_format format)
+{
+  return texture3(vec3u(1u, 1u, 1u), format);
+}
+
+template <>
+texture2_array test_texture<texture2_array>::make_texture(texture_format format)
+{
+  return texture2_array(vec3u(1u, 1u, 1u), format);
+}
+
+template <>
+multisampled_texture2_array
+  test_texture<multisampled_texture2_array>::make_texture(texture_format format)
+{
+  return multisampled_texture2_array(vec3u(1u, 1u, 1u), format);
+}
+
+template <typename TexType>
+const std::vector<texture_format> test_texture<TexType>::color_formats{
   texture_format::r,
-  texture_format::depth,
+  texture_format::rg,
+  texture_format::rgb,
+  texture_format::rgba,
+};
+
+template <typename TexType>
+const std::vector<texture_format> test_texture<TexType>::all_formats{
+  texture_format::r,
+  texture_format::rg,
+  texture_format::rgb,
+  texture_format::rgba,
   texture_format::depth_stencil,
 };
 
+template <typename TexType>
+const std::vector<texture_filter> test_texture<TexType>::all_filters{
+  texture_filter::nearest,
+  texture_filter::linear,
+  texture_filter::bilinear,
+  texture_filter::trilinear,
+};
 
-
-template <typename Tex>
-test_texture_base<Tex>::~test_texture_base()
-{}
-
-
-
-template <>
-typename texture2::size_type test_texture_base<texture2>::generate_size()
-{
-  return vec2u{4u, 8u};
-}
-
-
-
-template <>
-typename texture2_array::size_type
-  test_texture_base<texture2_array>::generate_size()
-{
-  return vec3u{4u, 8u, 13u};
-}
-
-
-
-template <>
-typename texture3::size_type test_texture_base<texture3>::generate_size()
-{
-  return vec3u{4u, 8u, 13u};
-}
-
-
-
-template <>
-typename multisampled_texture2::size_type
-  test_texture_base<multisampled_texture2>::generate_size()
-{
-  return vec2u{4u, 8u};
-}
-
-
-
-template <>
-typename multisampled_texture2_array::size_type
-  test_texture_base<multisampled_texture2_array>::generate_size()
-{
-  return vec3u{4u, 8u, 13u};
-}
-
-
-
-template <>
-typename texture2::size_type test_texture_base<texture2>::compute_mipmap_size(
-  const typename texture2::size_type& size, uint mipmap_level)
-{
-  return size / std::pow(2, mipmap_level);
-}
-
-
-
-template <>
-typename texture2_array::size_type
-  test_texture_base<texture2_array>::compute_mipmap_size(
-    const typename texture2_array::size_type& size, uint mipmap_level)
-{
-  texture2_array::size_type retval = size / std::pow(2, mipmap_level);
-  retval.z() = size.z();
-  return retval;
-}
-
-
-
-template <>
-typename texture3::size_type test_texture_base<texture3>::compute_mipmap_size(
-  const typename texture3::size_type& size, uint mipmap_level)
-{
-  return size / std::pow(2, mipmap_level);
-}
-
-
-
-template <typename Tex>
-template <pixel_format PF>
-typename Tex::template image<PF> test_texture_base<Tex>::generate_image(
-  const typename Tex::size_type& size)
-{
-  using image_rgba = typename Tex::template image<pixel_format::rgba>;
-  using image = typename Tex::template image<PF>;
-
-  image_rgba im(size);
-  typename image_rgba::pixel_collection pixels = im.get_pixels();
-  for(size_t i = 0; i < pixels.size(); ++i)
-  {
-    pixels[i].set_r(static_cast<uint8_t>((i * 4) + 0));
-    pixels[i].set_g(static_cast<uint8_t>((i * 4) + 1));
-    pixels[i].set_b(static_cast<uint8_t>((i * 4) + 2));
-    pixels[i].set_a(static_cast<uint8_t>((i * 4) + 3));
-  }
-  im.set_pixels(pixels);
-
-  return image(im);
-}
-
-
-
-template <typename Tex>
-typename Tex::wrap_mode_type test_texture_base<Tex>::get_default_wrap_mode() const
-{
-  typename Tex::wrap_mode_type retval;
-  for(size_t i = 0; i < retval.size(); ++i)
-  {
-    retval[i] = texture_wrap_mode::repeat;
-  }
-  return retval;
-}
-
-
-
-template <typename Tex>
-typename Tex::wrap_mode_type test_texture_base<Tex>::get_alternative_wrap_mode()
-  const
-{
-  typename Tex::wrap_mode_type retval;
-
-  std::vector<texture_wrap_mode> wrapModes{
-    texture_wrap_mode::clamp_to_edge, texture_wrap_mode::mirrored_repeat};
-  for(size_t i = 0; i < retval.size(); ++i)
-  {
-    retval[i] = wrapModes[i % wrapModes.size()];
-  }
-  return retval;
-}
-
-
-
-template <typename Tex>
-class test_texture_common : public test_texture_base<Tex>
-{};
-
-template <typename Tex>
-class test_texture_common_death_test : public test_texture_common<Tex>
-{};
-
-using texture_types_common = Types<texture2, texture2_array, texture3,
-  multisampled_texture2, multisampled_texture2_array>;
-
-template <typename Tex>
-class test_texture_not_multisampled : public test_texture_base<Tex>
-{};
-
-template <typename Tex>
-class test_texture_not_multisampled_death_test
-  : public test_texture_not_multisampled<Tex>
-{};
-
-using texture_types_not_multisampled
-  = Types<texture2, texture2_array, texture3>;
-
-template <typename Tex>
-class test_texture_multisampled : public test_texture_base<Tex>
-{};
-
-template <typename Tex>
-class test_texture_multisampled_death_test
-  : public test_texture_multisampled<Tex>
-{};
-
-using texture_types_multisampled
-  = Types<multisampled_texture2, multisampled_texture2_array>;
+template <typename TexType>
+const std::vector<texture_wrap_mode> test_texture<TexType>::all_wrap_modes{
+  texture_wrap_mode::repeat,
+  texture_wrap_mode::mirrored_repeat,
+  texture_wrap_mode::clamp_to_edge,
+};
 
 }  // namespace
 
 
 
-TYPED_TEST_CASE(test_texture_common, texture_types_common);
-TYPED_TEST_CASE(test_texture_common_death_test, texture_types_common);
-TYPED_TEST_CASE(test_texture_not_multisampled, texture_types_not_multisampled);
-TYPED_TEST_CASE(
-  test_texture_not_multisampled_death_test, texture_types_not_multisampled);
-TYPED_TEST_CASE(test_texture_multisampled, texture_types_multisampled);
-TYPED_TEST_CASE(
-  test_texture_multisampled_death_test, texture_types_multisampled);
+TYPED_TEST_CASE(test_texture, texture_types);
+TYPED_TEST_CASE(test_texture_death_test, texture_types);
 
 
 
-TYPED_TEST(test_texture_common, binding)
+TYPED_TEST(test_texture, binding)
 {
-  TypeParam t0(this->generate_size());
-  TypeParam t1(this->generate_size());
+  TypeParam t0 = TestFixture::make_texture();
+  TypeParam t1 = TestFixture::make_texture();
 
   EXPECT_FALSE(t0.is_bound(0u));
   EXPECT_FALSE(t0.is_bound(1u));
@@ -280,9 +162,9 @@ TYPED_TEST(test_texture_common, binding)
 
 
 
-TYPED_TEST(test_texture_common, binding_unit_limit)
+TYPED_TEST(test_texture, binding_unit_limit)
 {
-  TypeParam t(this->generate_size());
+  TypeParam t = TestFixture::make_texture();
   uint max_tex_unit = TypeParam::get_texture_unit_count() - 1u;
 
   EXPECT_FALSE(t.is_bound(max_tex_unit));
@@ -294,9 +176,9 @@ TYPED_TEST(test_texture_common, binding_unit_limit)
 
 
 
-TYPED_TEST(test_texture_common_death_test, binding_error_unit_too_large)
+TYPED_TEST(test_texture_death_test, binding_error_unit_too_large)
 {
-  TypeParam t(this->generate_size());
+  TypeParam t = TestFixture::make_texture();
   EXPECT_PRECOND_ERROR(t.is_bound(TypeParam::get_texture_unit_count()));
   EXPECT_PRECOND_ERROR(TypeParam::bind(t, TypeParam::get_texture_unit_count()));
   EXPECT_PRECOND_ERROR(TypeParam::unbind(TypeParam::get_texture_unit_count()));
@@ -304,897 +186,1393 @@ TYPED_TEST(test_texture_common_death_test, binding_error_unit_too_large)
 
 
 
-TYPED_TEST(test_texture_common, size_constructor)
+TYPED_TEST(test_texture, get_handle)
 {
-  using size_type = typename TypeParam::size_type;
-
-  size_type size_ref = this->generate_size();
-  TypeParam tex(size_ref);
-
-  EXPECT_NE(0u, tex.get_handle().get_name());
-  EXPECT_EQ(texture_format::rgba, tex.get_format());
-  EXPECT_EQ(1u, tex.get_mipmap_level_count());
-  EXPECT_EQ(1u, tex.get_sample_count());
-  EXPECT_TRUE(tex.has_fixed_sample_locations());
-  EXPECT_EQ(size_ref, tex.get_size());
-  EXPECT_EQ(texture_channel_mapping::standard, tex.get_channel_mapping());
+  TypeParam t = TestFixture::make_texture();
+  EXPECT_NE(0u, t.get_handle().get_name());
 }
 
 
 
-TYPED_TEST(test_texture_common, size_constructor_size_limits)
+TYPED_TEST(test_texture, get_format)
 {
-  using size_type = typename TypeParam::size_type;
-
-  size_type size_ref = this->generate_size();
-  size_type max_size = TypeParam::get_max_size();
-  for(size_t i = 0u; i < size_ref.size(); ++i)
+  // Only test color formats as they are supported by all texture types.
+  for(auto format : TestFixture::color_formats)
   {
-    size_type size_with_one = size_ref;
-    size_with_one(i) = 1u;
-    TypeParam tex_with_one(size_with_one);
-    EXPECT_EQ(size_with_one, tex_with_one.get_size());
-
-    size_type size_with_max = size_ref;
-    size_with_max(i) = max_size(i);
-    TypeParam tex_with_max(size_with_max);
-    EXPECT_EQ(size_with_max, tex_with_max.get_size());
+    TypeParam t = TestFixture::make_texture(format);
+    EXPECT_EQ(format, t.get_format()) << format;
   }
 }
 
 
 
-TYPED_TEST(test_texture_common_death_test, size_constructor_error_invalid_size)
+TYPED_TEST(test_texture, set_channel_mapping)
 {
-  using size_type = typename TypeParam::size_type;
+  TypeParam t = TestFixture::make_texture();
+  EXPECT_EQ(texture_channel_mapping::standard, t.get_channel_mapping());
+  t.set_channel_mapping(texture_channel_mapping::luminosity);
+  EXPECT_EQ(texture_channel_mapping::luminosity, t.get_channel_mapping());
+  t.set_channel_mapping(texture_channel_mapping::alpha);
+  EXPECT_EQ(texture_channel_mapping::alpha, t.get_channel_mapping());
+}
 
-  size_type size_ref = this->generate_size();
-  size_type max_size = TypeParam::get_max_size();
-  for(size_t i = 0u; i < size_ref.size(); ++i)
+
+
+TEST_F(test_texture2, size_constructor)
+{
+  vec2u size_ref(4u, 8u);
+  texture2 t(size_ref);
+  EXPECT_EQ(texture_type::texture2, t.get_type());
+  EXPECT_EQ(size_ref, t.get_size());
+  EXPECT_EQ(texture_format::rgba, t.get_format());
+  EXPECT_EQ(1u, t.get_mipmap_level_count());
+  EXPECT_EQ(std::vector<uint8_t>(t.get_byte_count(), 0u), t.get_image());
+}
+
+
+
+TEST_F(test_texture2, size_constructor_size_limits)
+{
+  vec2u min_size(1u, 1u);
+  texture2 t_min_size(min_size);
+  EXPECT_EQ(min_size, t_min_size.get_size());
+
+  vec2u max_size_x(texture2::get_max_size().x(), 1u);
+  texture2 t_max_size_x(max_size_x);
+  EXPECT_EQ(max_size_x, t_max_size_x.get_size());
+
+  vec2u max_size_y(1u, texture2::get_max_size().y());
+  texture2 t_max_size_y(max_size_y);
+  EXPECT_EQ(max_size_y, t_max_size_y.get_size());
+}
+
+
+
+TEST_F(test_texture2_death_test, size_constructor_invalid_size)
+{
+  EXPECT_PRECOND_ERROR(texture2(vec2u(0u, 1u)));
+  EXPECT_PRECOND_ERROR(texture2(vec2u(1u, 0u)));
+  EXPECT_PRECOND_ERROR(texture2(vec2u(0u, 0u)));
+  EXPECT_PRECOND_ERROR(texture2(texture2::get_max_size() + vec2u(1u, 1u)));
+  EXPECT_PRECOND_ERROR(texture2(texture2::get_max_size() + vec2u(0u, 1u)));
+  EXPECT_PRECOND_ERROR(texture2(texture2::get_max_size() + vec2u(1u, 0u)));
+}
+
+
+
+TEST_F(test_texture2, full_size_constructor)
+{
+  vec2u size_ref(4u, 8u);
+  uint mipmap_level_count_ref = 2u;
+  for(auto tf : all_formats)
   {
-    size_type size_with_zero = size_ref;
-    size_with_zero(i) = 0u;
-    EXPECT_PRECOND_ERROR(TypeParam tex(size_with_zero));
-    size_type size_too_large = size_ref;
-    size_too_large(i) = max_size(i) + 1;
-    EXPECT_PRECOND_ERROR(TypeParam tex(size_too_large));
+    texture2 t(size_ref, tf, mipmap_level_count_ref);
+    EXPECT_EQ(size_ref, t.get_size());
+    EXPECT_EQ(tf, t.get_format());
+    EXPECT_EQ(mipmap_level_count_ref, t.get_mipmap_level_count());
+    EXPECT_EQ(std::vector<uint8_t>(t.get_byte_count(), 0u), t.get_image());
   }
 }
 
 
 
-TYPED_TEST(test_texture_common, set_channel_mapping)
+TEST_F(test_texture2, full_size_constructor_mipmap_level_count_limits)
 {
-#if defined(HOU_EMSCRIPTEN)
-  SKIP("Texture swizzle is not supported on Emscripten.");
-#endif
-  TypeParam tex(this->generate_size());
-  EXPECT_EQ(texture_channel_mapping::standard, tex.get_channel_mapping());
-  tex.setChannelMapping(texture_channel_mapping::alpha);
-  EXPECT_EQ(texture_channel_mapping::alpha, tex.get_channel_mapping());
-  tex.setChannelMapping(texture_channel_mapping::luminosity);
-  EXPECT_EQ(texture_channel_mapping::luminosity, tex.get_channel_mapping());
+  vec2u size_ref(4u, 8u);
+
+  uint min_mipmap_level_count = 1u;
+  texture2 t_min_level(size_ref, texture_format::rgba, min_mipmap_level_count);
+  EXPECT_EQ(min_mipmap_level_count, t_min_level.get_mipmap_level_count());
+
+  uint max_mipmap_level_count = 1u;
+  texture2 t_max_level(size_ref, texture_format::rgba, max_mipmap_level_count);
+  EXPECT_EQ(max_mipmap_level_count, t_max_level.get_mipmap_level_count());
 }
 
 
 
-TYPED_TEST(test_texture_common, get_single_size_elements)
+TEST_F(test_texture2_death_test, invalid_sample_count)
 {
-  TypeParam tex(this->generate_size());
-  vec3u size_ref(1u, 1u, 1u);
-  for(size_t i = 0; i < tex.get_size().size(); ++i)
-  {
-    size_ref(i) = tex.get_size()(i);
-  }
-
-  EXPECT_EQ(tex.get_width(), size_ref.x());
-  EXPECT_EQ(tex.get_height(), size_ref.y());
-  EXPECT_EQ(tex.get_depth(), size_ref.z());
+  EXPECT_PRECOND_ERROR(texture2(vec2u(1u, 1u), texture_format::rgba,
+    texture2::get_max_mipmap_level_count(vec2u(1u, 1u)) + 1u));
 }
 
 
 
-TYPED_TEST(test_texture_common, get_size1)
+TEST_F(test_texture2, image_constructor)
 {
-  TypeParam tex(this->generate_size());
-  vec1u size_ref(1u);
-  for(size_t i = 0; i < std::min(size_ref.size(), tex.get_size().size()); ++i)
+  std::vector<uint8_t> image_data{
+    0u, 1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u, 9u, 10u, 11u};
+
+  std::vector<std::pair<texture_format, pixel_view2>> format_images{
+    std::make_pair(
+      texture_format::r, pixel_view2(image_data.data(), vec2u(3u, 4u), 1u)),
+    std::make_pair(
+      texture_format::rg, pixel_view2(image_data.data(), vec2u(3u, 2u), 2u)),
+    std::make_pair(
+      texture_format::rgb, pixel_view2(image_data.data(), vec2u(1u, 4u), 3u)),
+    std::make_pair(
+      texture_format::rgba, pixel_view2(image_data.data(), vec2u(3u, 1u), 4u)),
+    std::make_pair(texture_format::depth_stencil,
+      pixel_view2(image_data.data(), vec2u(3u, 1u), 4u)),
+  };
+
+  uint mipmap_level_count_ref = 2u;
+  for(auto fi : format_images)
   {
-    size_ref(i) = tex.get_size()(i);
-  }
-  EXPECT_EQ(size_ref, tex.get_size1());
-}
-
-
-
-TYPED_TEST(test_texture_common, get_size2)
-{
-  TypeParam tex(this->generate_size());
-  vec2u size_ref(1u, 1u);
-  for(size_t i = 0; i < std::min(size_ref.size(), tex.get_size().size()); ++i)
-  {
-    size_ref(i) = tex.get_size()(i);
-  }
-  EXPECT_EQ(size_ref, tex.get_size2());
-}
-
-
-
-TYPED_TEST(test_texture_common, get_size3)
-{
-  TypeParam tex(this->generate_size());
-  vec3u size_ref(1u, 1u, 1u);
-  for(size_t i = 0; i < std::min(size_ref.size(), tex.get_size().size()); ++i)
-  {
-    size_ref(i) = tex.get_size()(i);
-  }
-  EXPECT_EQ(size_ref, tex.get_size3());
-}
-
-
-
-TYPED_TEST(test_texture_not_multisampled, mip_map_constructor)
-{
-  using size_type = typename TypeParam::size_type;
-
-  size_type size_ref = this->generate_size();
-  uint mipmap_levels_ref = 3u;
-
-  for(auto tf : TestFixture::all_texture_formats)
-  {
-    TypeParam tex(size_ref, tf, mipmap_levels_ref);
-
-    EXPECT_NE(0u, tex.get_handle().get_name());
-    EXPECT_EQ(tf, tex.get_format());
-    EXPECT_EQ(mipmap_levels_ref, tex.get_mipmap_level_count());
-    EXPECT_EQ(1u, tex.get_sample_count());
-    EXPECT_TRUE(tex.has_fixed_sample_locations());
-    EXPECT_EQ(size_ref, tex.get_size());
-    EXPECT_EQ(texture_channel_mapping::standard, tex.get_channel_mapping());
-    EXPECT_EQ(texture_filter::linear, tex.get_filter());
-    EXPECT_EQ(this->get_default_wrap_mode(), tex.get_wrap_mode());
-#if !defined(HOU_GL_ES)
-    using image = typename TypeParam::template image<pixel_format::rgb>;
-    EXPECT_EQ(
-      image(tex.get_size()), tex.template get_image<pixel_format::rgb>());
-#endif
+    texture2 t(fi.second, fi.first, mipmap_level_count_ref);
+    EXPECT_EQ(fi.second.get_size(), t.get_size());
+    EXPECT_EQ(fi.first, t.get_format());
+    EXPECT_EQ(mipmap_level_count_ref, t.get_mipmap_level_count());
+    EXPECT_EQ(image_data, t.get_image());
   }
 }
 
 
 
-TYPED_TEST(test_texture_not_multisampled, mip_map_constructor_size_limits)
+TEST_F(test_texture2, image_constructor_with_image)
 {
-  using size_type = typename TypeParam::size_type;
+  image2_rgba im(vec2u(4u, 8u), pixel_rgba(color::red()));
+  texture2 t(im);
+  EXPECT_EQ(im.get_size(), t.get_size());
+}
 
-  size_type size_ref = this->generate_size();
-  size_type max_size = TypeParam::get_max_size();
-  for(size_t i = 0u; i < size_ref.size(); ++i)
+
+
+TEST_F(test_texture2_death_test, image_constructor_invalid_size)
+{
+  std::vector<uint8_t> image_data{
+    0u, 1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u, 9u, 10u, 11u};
+  EXPECT_PRECOND_ERROR(
+    texture2(pixel_view2(image_data.data(), vec2u(0u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture2(pixel_view2(image_data.data(), vec2u(1u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture2(pixel_view2(image_data.data(), vec2u(0u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(texture2(pixel_view2(
+    image_data.data(), texture2::get_max_size() + vec2u(1u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(texture2(pixel_view2(
+    image_data.data(), texture2::get_max_size() + vec2u(0u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(texture2(pixel_view2(
+    image_data.data(), texture2::get_max_size() + vec2u(1u, 0u), 4u)));
+}
+
+
+
+TEST_F(test_texture2_death_test, image_constructor_invalid_byte_depth)
+{
+  std::vector<uint8_t> image_data{
+    0u, 1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u, 9u, 10u, 11u};
+  EXPECT_PRECOND_ERROR(texture2(
+    pixel_view2(image_data.data(), vec2u(1u, 1u), 2u), texture_format::r));
+  EXPECT_PRECOND_ERROR(texture2(
+    pixel_view2(image_data.data(), vec2u(1u, 1u), 3u), texture_format::r));
+  EXPECT_PRECOND_ERROR(texture2(
+    pixel_view2(image_data.data(), vec2u(1u, 1u), 4u), texture_format::r));
+  EXPECT_PRECOND_ERROR(texture2(
+    pixel_view2(image_data.data(), vec2u(1u, 1u), 1u), texture_format::rg));
+  EXPECT_PRECOND_ERROR(texture2(
+    pixel_view2(image_data.data(), vec2u(1u, 1u), 3u), texture_format::rg));
+  EXPECT_PRECOND_ERROR(texture2(
+    pixel_view2(image_data.data(), vec2u(1u, 1u), 4u), texture_format::rg));
+  EXPECT_PRECOND_ERROR(texture2(
+    pixel_view2(image_data.data(), vec2u(1u, 1u), 1u), texture_format::rgb));
+  EXPECT_PRECOND_ERROR(texture2(
+    pixel_view2(image_data.data(), vec2u(1u, 1u), 2u), texture_format::rgb));
+  EXPECT_PRECOND_ERROR(texture2(
+    pixel_view2(image_data.data(), vec2u(1u, 1u), 4u), texture_format::rgb));
+  EXPECT_PRECOND_ERROR(texture2(
+    pixel_view2(image_data.data(), vec2u(1u, 1u), 1u), texture_format::rgba));
+  EXPECT_PRECOND_ERROR(texture2(
+    pixel_view2(image_data.data(), vec2u(1u, 1u), 2u), texture_format::rgba));
+  EXPECT_PRECOND_ERROR(texture2(
+    pixel_view2(image_data.data(), vec2u(1u, 1u), 3u), texture_format::rgba));
+  EXPECT_PRECOND_ERROR(
+    texture2(pixel_view2(image_data.data(), vec2u(0u, 1u), 1u),
+      texture_format::depth_stencil));
+  EXPECT_PRECOND_ERROR(
+    texture2(pixel_view2(image_data.data(), vec2u(0u, 1u), 2u),
+      texture_format::depth_stencil));
+  EXPECT_PRECOND_ERROR(
+    texture2(pixel_view2(image_data.data(), vec2u(0u, 1u), 3u),
+      texture_format::depth_stencil));
+}
+
+
+
+TEST_F(test_texture2, get_byte_count)
+{
+  vec2u size_ref(4u, 8u);
+  for(auto tf : all_formats)
   {
-    size_type size_with_one = size_ref;
-    size_with_one(i) = 1u;
-    TypeParam tex_with_one(size_with_one, texture_format::rgba, 1u);
-    EXPECT_EQ(size_with_one, tex_with_one.get_size());
-
-    size_type size_with_max = size_ref;
-    size_with_max(i) = max_size(i);
-    TypeParam tex_with_max(size_with_max, texture_format::rgba, 1u);
-    EXPECT_EQ(size_with_max, tex_with_max.get_size());
+    texture2 t(size_ref, tf);
+    EXPECT_EQ(gl::compute_texture_size_bytes(size_ref.x(), size_ref.y(), 1u,
+                gl::get_texture_external_format_for_internal_format(
+                  static_cast<GLenum>(t.get_format()))),
+      t.get_byte_count());
   }
 }
 
 
 
-TYPED_TEST(
-  test_texture_not_multisampled, mip_map_constructor_mip_map_level_count_limits)
+TEST_F(test_texture2, set_filter)
 {
-  using size_type = typename TypeParam::size_type;
-
-  size_type size_ref = this->generate_size();
-  TypeParam texWithMinMipMapLevelcount(size_ref, texture_format::rgba, 1u);
-  EXPECT_EQ(1u, texWithMinMipMapLevelcount.get_mipmap_level_count());
-  TypeParam texWithMaxMipMapLevelcount(size_ref, texture_format::rgba,
-    TypeParam::get_max_mipmap_level_count(size_ref));
-  EXPECT_EQ(TypeParam::get_max_mipmap_level_count(size_ref),
-    texWithMaxMipMapLevelcount.get_mipmap_level_count());
-}
-
-
-
-TYPED_TEST(test_texture_not_multisampled_death_test,
-  mip_map_constructor_error_invalid_size)
-{
-  using size_type = typename TypeParam::size_type;
-
-  size_type size_ref = this->generate_size();
-  size_type max_size = TypeParam::get_max_size();
-  for(size_t i = 0u; i < size_ref.size(); ++i)
+  texture2 t(vec2u(1u, 1u));
+  EXPECT_EQ(texture_filter::linear, t.get_filter());
+  for(auto filter : all_filters)
   {
-    size_type size_with_zero = size_ref;
-    size_with_zero(i) = 0u;
-    EXPECT_PRECOND_ERROR(
-      TypeParam tex(size_with_zero, texture_format::rgba, 1u));
-    size_type size_too_large = size_ref;
-    size_too_large(i) = max_size(i) + 1;
-    EXPECT_PRECOND_ERROR(
-      TypeParam tex(size_too_large, texture_format::rgba, 1u));
+    t.set_filter(filter);
+    EXPECT_EQ(filter, t.get_filter());
   }
 }
 
 
 
-TYPED_TEST(test_texture_not_multisampled_death_test,
-  mip_map_constructor_error_invalid_mip_map_level_count)
+TEST_F(test_texture2, set_wrap_mode)
 {
-  using size_type = typename TypeParam::size_type;
-
-  size_type size_ref = this->generate_size();
-  EXPECT_PRECOND_ERROR(TypeParam tex(size_ref, texture_format::rgba, 0u));
-  EXPECT_PRECOND_ERROR(TypeParam tex(size_ref, texture_format::rgba,
-    TypeParam::get_max_mipmap_level_count(size_ref) + 1));
-}
-
-
-
-TYPED_TEST(
-  test_texture_not_multisampled, image_constructor_different_texture_formats)
-{
-  auto im_ref
-    = this->template generate_image<pixel_format::rgba>(this->generate_size());
-
-  uint mipmap_levels_ref = 3u;
-  for(auto tf : TestFixture::all_texture_formats)
+  texture2 t(vec2u(1u, 1u));
+  EXPECT_EQ(
+    (texture2::wrap_mode{texture_wrap_mode::repeat, texture_wrap_mode::repeat}),
+    t.get_wrap_mode());
+  for(auto wmx : all_wrap_modes)
   {
-    TypeParam tex(im_ref, tf, mipmap_levels_ref);
-
-    EXPECT_NE(0u, tex.get_handle().get_name());
-    EXPECT_EQ(tf, tex.get_format());
-    EXPECT_EQ(mipmap_levels_ref, tex.get_mipmap_level_count());
-    EXPECT_EQ(1u, tex.get_sample_count());
-    EXPECT_TRUE(tex.has_fixed_sample_locations());
-    EXPECT_EQ(im_ref.get_size(), tex.get_size());
-    EXPECT_EQ(texture_channel_mapping::standard, tex.get_channel_mapping());
-    EXPECT_EQ(texture_filter::linear, tex.get_filter());
-    EXPECT_EQ(this->get_default_wrap_mode(), tex.get_wrap_mode());
-#if !defined(HOU_GL_ES)
-
-    using image_r = typename TypeParam::template image<pixel_format::r>;
-    using image_rg = typename TypeParam::template image<pixel_format::rg>;
-    using image_rgb = typename TypeParam::template image<pixel_format::rgb>;
-    using image_rgba = typename TypeParam::template image<pixel_format::rgba>;
-    using offset_type = typename TypeParam::offset_type;
-
-    switch(tf)
+    for(auto wmy : all_wrap_modes)
     {
-      case texture_format::r:
-        {
-          image_rgba im = tex.template get_image<pixel_format::rgba,
-            TypeParam::type, void>();
-          image_rgba sub_im = tex.template get_sub_image<pixel_format::rgba,
-            TypeParam::type, void>(offset_type::zero(), tex.get_size());
-          EXPECT_EQ(image_rgba(image_r(im_ref)), im);
-          EXPECT_EQ(image_rgba(image_r(im_ref)), sub_im);
-        }
-        break;
-        case texture_format::rg:
-        {
-          image_rgba im = tex.template get_image<pixel_format::rgba,
-            TypeParam::type, void>();
-          image_rgba sub_im = tex.template get_sub_image<pixel_format::rgba,
-            TypeParam::type, void>(offset_type::zero(), tex.get_size());
-          EXPECT_EQ(image_rgba(image_rg(im_ref)), im);
-          EXPECT_EQ(image_rgba(image_rg(im_ref)), sub_im);
-        }
-        break;
-        case texture_format::rgb:
-        {
-          image_rgba im = tex.template get_image<pixel_format::rgba,
-            TypeParam::type, void>();
-          image_rgba sub_im = tex.template get_sub_image<pixel_format::rgba,
-            TypeParam::type, void>(offset_type::zero(), tex.get_size());
-          EXPECT_EQ(image_rgba(image_rgb(im_ref)), im);
-          EXPECT_EQ(image_rgba(image_rgb(im_ref)), sub_im);
-        }
-        break;
-        case texture_format::rgba:
-        {
-          image_rgba im = tex.template get_image<pixel_format::rgba,
-            TypeParam::type, void>();
-          image_rgba sub_im = tex.template get_sub_image<pixel_format::rgba,
-            TypeParam::type, void>(offset_type::zero(), tex.get_size());
-          EXPECT_EQ(im_ref, im);
-          EXPECT_EQ(im_ref, sub_im);
-        }
-        break;
-      default:
-        FAIL() << "Unsupported texture type.";
+      t.set_wrap_mode(texture2::wrap_mode{wmx, wmy});
+      EXPECT_EQ((texture2::wrap_mode{wmx, wmy}), t.get_wrap_mode());
     }
-#endif
   }
 }
 
 
 
-TYPED_TEST(
-  test_texture_not_multisampled, image_constructor_different_pixel_formats)
+TEST_F(test_texture2, set_image)
 {
-  typename TypeParam::template image<pixel_format::rgba> im_rgba
-    = this->template generate_image<pixel_format::rgba>(this->generate_size());
-  typename TypeParam::template image<pixel_format::rgb> im_rgb(im_rgba);
-  typename TypeParam::template image<pixel_format::rg> im_rg(im_rgba);
-  typename TypeParam::template image<pixel_format::r> im_r(im_rgba);
-
-  texture_format tf = texture_format::rgba;
-  uint mipmap_levels_ref = 3u;
-  TypeParam tex_rgba(im_rgba, tf, mipmap_levels_ref);
-  TypeParam tex_rgb(im_rgb, tf, mipmap_levels_ref);
-  TypeParam tex_rg(im_rg, tf, mipmap_levels_ref);
-  TypeParam tex_r(im_r, tf, mipmap_levels_ref);
-
-#if !defined(HOU_GL_ES)
-  EXPECT_EQ(im_rgba, tex_rgba.template get_image<pixel_format::rgba>());
-  EXPECT_EQ(im_rgb, tex_rgba.template get_image<pixel_format::rgb>());
-  EXPECT_EQ(im_rg, tex_rgba.template get_image<pixel_format::rg>());
-  EXPECT_EQ(im_r, tex_rgba.template get_image<pixel_format::r>());
-
-  EXPECT_EQ(im_rgb, tex_rgb.template get_image<pixel_format::rgb>());
-  EXPECT_EQ(im_rg, tex_rg.template get_image<pixel_format::rg>());
-  EXPECT_EQ(im_r, tex_r.template get_image<pixel_format::r>());
-#endif
+  texture2 t(vec2u(2u, 3u));
+  // clang-format off
+  std::vector<uint8_t> image_data{
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,};
+  // clang-format on
+  t.set_image(pixel_view2(image_data.data(), t.get_size(), 4u));
+  EXPECT_EQ(image_data, t.get_image());
 }
 
 
 
-TYPED_TEST(test_texture_not_multisampled, image_constructor_default_arguments)
+TEST_F(test_texture2, set_sub_image)
 {
-  auto image_ref
-    = this->template generate_image<pixel_format::rgba>(this->generate_size());
-  TypeParam tex(image_ref);
-
-  EXPECT_NE(0u, tex.get_handle().get_name());
-  EXPECT_EQ(texture_format::rgba, tex.get_format());
-  EXPECT_EQ(1u, tex.get_mipmap_level_count());
-  EXPECT_EQ(1u, tex.get_sample_count());
-  EXPECT_TRUE(tex.has_fixed_sample_locations());
-  EXPECT_EQ(image_ref.get_size(), tex.get_size());
-  EXPECT_EQ(texture_channel_mapping::standard, tex.get_channel_mapping());
-  EXPECT_EQ(texture_filter::linear, tex.get_filter());
-  EXPECT_EQ(this->get_default_wrap_mode(), tex.get_wrap_mode());
-#if !defined(HOU_GL_ES)
-  EXPECT_EQ(image_ref, tex.template get_image<pixel_format::rgba>());
-#endif
+  texture2 t(vec2u(4u, 6u));
+  // clang-format off
+  std::vector<uint8_t> sub_image_data{
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,};
+  std::vector<uint8_t> image_data{
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    0u, 0u, 0u, 0u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,};
+  // clang-format on
+  t.set_sub_image(
+    vec2u(1u, 2u), pixel_view2(sub_image_data.data(), vec2u(3u, 2u), 4u));
+  EXPECT_EQ(image_data, t.get_image());
+  EXPECT_EQ(sub_image_data, t.get_sub_image(vec2u(1u, 2u), vec2u(3u, 2u)));
 }
 
 
 
-TYPED_TEST(test_texture_not_multisampled, image_constructor_size_limits)
+TEST_F(test_texture2_death_test, get_sub_image_invalid_params)
 {
-  using size_type = typename TypeParam::size_type;
+  texture2 t(vec2u(4u, 6u));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec2u(0u, 0u), vec2u(5u, 6u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec2u(0u, 0u), vec2u(4u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec2u(0u, 0u), vec2u(5u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec2u(1u, 0u), vec2u(4u, 6u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec2u(0u, 1u), vec2u(4u, 6u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec2u(1u, 1u), vec2u(4u, 6u)));
+}
 
-  size_type size_ref = this->generate_size();
-  size_type max_size = TypeParam::get_max_size();
-  for(size_t i = 0u; i < size_ref.size(); ++i)
+
+
+TEST_F(test_texture2_death_test, set_sub_image_invalid_params)
+{
+  texture2 t(vec2u(4u, 6u));
+  std::vector<uint8_t> image_data(5u * 7u * 4u, 0u);
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec2u(0u, 0u), pixel_view2(image_data.data(), vec2u(5u, 6u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec2u(0u, 0u), pixel_view2(image_data.data(), vec2u(4u, 7u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec2u(0u, 0u), pixel_view2(image_data.data(), vec2u(5u, 7u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec2u(1u, 0u), pixel_view2(image_data.data(), vec2u(4u, 6u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec2u(0u, 1u), pixel_view2(image_data.data(), vec2u(4u, 6u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec2u(1u, 1u), pixel_view2(image_data.data(), vec2u(4u, 6u), 4u)));
+}
+
+
+
+TEST_F(test_texture2, clear)
+{
+  // clang-format off
+  std::vector<uint8_t> image_data{
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,};
+  // clang-format on
+  texture2 t(pixel_view2(image_data.data(), vec2u(2u, 3u), 4u));
+  t.clear();
+  EXPECT_EQ(std::vector<uint8_t>(image_data.size(), 0u), t.get_image());
+}
+
+
+
+TEST_F(test_multisampled_texture2, size_constructor)
+{
+  vec2u size_ref(4u, 8u);
+  multisampled_texture2 t(size_ref);
+  EXPECT_EQ(texture_type::multisampled_texture2, t.get_type());
+  EXPECT_EQ(size_ref, t.get_size());
+  EXPECT_EQ(gl::compute_texture_size_bytes(size_ref.x(), size_ref.y(), 1u,
+              gl::get_texture_external_format_for_internal_format(
+                static_cast<GLenum>(t.get_format()))),
+    t.get_byte_count());
+  EXPECT_EQ(texture_format::rgba, t.get_format());
+  EXPECT_EQ(1u, t.get_sample_count());
+  EXPECT_TRUE(t.has_fixed_sample_locations());
+}
+
+
+
+TEST_F(test_multisampled_texture2, size_constructor_size_limits)
+{
+  vec2u min_size(1u, 1u);
+  multisampled_texture2 t_min_size(min_size);
+  EXPECT_EQ(min_size, t_min_size.get_size());
+
+  vec2u max_size_x(multisampled_texture2::get_max_size().x(), 1u);
+  multisampled_texture2 t_max_size_x(max_size_x);
+  EXPECT_EQ(max_size_x, t_max_size_x.get_size());
+
+  vec2u max_size_y(1u, multisampled_texture2::get_max_size().y());
+  multisampled_texture2 t_max_size_y(max_size_y);
+  EXPECT_EQ(max_size_y, t_max_size_y.get_size());
+}
+
+
+
+TEST_F(test_multisampled_texture2_death_test, size_constructor_invalid_size)
+{
+  EXPECT_PRECOND_ERROR(multisampled_texture2(vec2u(0u, 1u)));
+  EXPECT_PRECOND_ERROR(multisampled_texture2(vec2u(1u, 0u)));
+  EXPECT_PRECOND_ERROR(multisampled_texture2(vec2u(0u, 0u)));
+  EXPECT_PRECOND_ERROR(multisampled_texture2(
+    multisampled_texture2::get_max_size() + vec2u(1u, 1u)));
+  EXPECT_PRECOND_ERROR(multisampled_texture2(
+    multisampled_texture2::get_max_size() + vec2u(0u, 1u)));
+  EXPECT_PRECOND_ERROR(multisampled_texture2(
+    multisampled_texture2::get_max_size() + vec2u(1u, 0u)));
+}
+
+
+
+TEST_F(test_multisampled_texture2, full_size_constructor)
+{
+  vec2u size_ref(4u, 8u);
+  uint sample_count_ref = 2u;
+  for(auto tf : all_formats)
   {
-    size_type size_with_one = size_ref;
-    size_with_one(i) = 1u;
-    auto imageWithOne
-      = this->template generate_image<pixel_format::rgba>(size_with_one);
-    TypeParam tex_with_one(imageWithOne, texture_format::rgba, 1u);
-#if !defined(HOU_GL_ES)
-    EXPECT_EQ(
-      imageWithOne, tex_with_one.template get_image<pixel_format::rgba>());
-#endif
-
-    size_type size_with_max = size_ref;
-    size_with_max(i) = max_size(i);
-    auto imageWithMax
-      = this->template generate_image<pixel_format::rgba>(size_with_max);
-    TypeParam tex_with_max(imageWithMax, texture_format::rgba, 1u);
-#if !defined(HOU_GL_ES)
-    EXPECT_EQ(
-      imageWithMax, tex_with_max.template get_image<pixel_format::rgba>());
-#endif
+    multisampled_texture2 t(size_ref, tf, sample_count_ref);
+    EXPECT_EQ(size_ref, t.get_size());
+    EXPECT_EQ(tf, t.get_format());
+    EXPECT_EQ(sample_count_ref, t.get_sample_count());
+    EXPECT_TRUE(t.has_fixed_sample_locations());
   }
 }
 
 
 
-TYPED_TEST(
-  test_texture_not_multisampled, image_constructor_mip_map_level_count_limits)
+TEST_F(test_multisampled_texture2, full_size_constructor_sample_count_limits)
 {
-  using image = typename TypeParam::template image<pixel_format::rgba>;
-  using size_type = typename TypeParam::size_type;
+  vec2u size_ref(4u, 8u);
 
-  size_type size_ref = this->generate_size();
-  TypeParam texWithMinMipMapLevelcount(
-    image(size_ref), texture_format::rgba, 1u);
-  EXPECT_EQ(1u, texWithMinMipMapLevelcount.get_mipmap_level_count());
-  TypeParam texWithMaxMipMapLevelcount(image(size_ref), texture_format::rgba,
-    TypeParam::get_max_mipmap_level_count(size_ref));
-  EXPECT_EQ(TypeParam::get_max_mipmap_level_count(size_ref),
-    texWithMaxMipMapLevelcount.get_mipmap_level_count());
+  uint min_sample_count = 1u;
+  multisampled_texture2 t_min_sample(
+    size_ref, texture_format::rgba, min_sample_count);
+  EXPECT_EQ(min_sample_count, t_min_sample.get_sample_count());
+
+  uint max_sample_count = multisampled_texture2::get_max_sample_count();
+  multisampled_texture2 t_max_sample(
+    size_ref, texture_format::rgba, max_sample_count);
+  EXPECT_EQ(max_sample_count, t_max_sample.get_sample_count());
 }
 
 
 
-TYPED_TEST(test_texture_not_multisampled_death_test,
-  image_constructor_error_invalid_size)
+TEST_F(test_multisampled_texture2, full_size_constructor_fixed_sample_locations)
 {
-  using image = typename TypeParam::template image<pixel_format::rgba>;
-  using size_type = typename TypeParam::size_type;
-
-  size_type size_ref = this->generate_size();
-  size_type max_size = TypeParam::get_max_size();
-  for(size_t i = 0u; i < size_ref.size(); ++i)
+  vec2u size_ref(4u, 8u);
+  texture_format format_ref = texture_format::rgba;
+  uint sample_count_ref = 2u;
+  std::vector<bool> has_fixed_sample_locations_values = {false, true};
+  for(auto fsl : has_fixed_sample_locations_values)
   {
-    size_type size_with_zero = size_ref;
-    size_with_zero(i) = 0u;
-    EXPECT_PRECOND_ERROR(
-      TypeParam tex(image(size_with_zero), texture_format::rgba, 1u));
-    size_type size_too_large = size_ref;
-    size_too_large(i) = max_size(i) + 1;
-    EXPECT_PRECOND_ERROR(
-      TypeParam tex(image(size_too_large), texture_format::rgba, 1u));
+    multisampled_texture2 t(size_ref, format_ref, sample_count_ref, fsl);
+    EXPECT_EQ(size_ref, t.get_size());
+    EXPECT_EQ(format_ref, t.get_format());
+    EXPECT_EQ(sample_count_ref, t.get_sample_count());
+    EXPECT_EQ(fsl, t.has_fixed_sample_locations());
   }
 }
 
 
 
-TYPED_TEST(test_texture_not_multisampled_death_test,
-  image_constructor_error_invalid_mip_map_level_count)
+TEST_F(test_multisampled_texture2_death_test, invalid_sample_count)
 {
-  using image = typename TypeParam::template image<pixel_format::rgba>;
-  using size_type = typename TypeParam::size_type;
-
-  size_type size_ref = this->generate_size();
-  EXPECT_PRECOND_ERROR(
-    TypeParam tex(image(size_ref), texture_format::rgba, 0u));
-  EXPECT_PRECOND_ERROR(TypeParam tex(image(size_ref), texture_format::rgba,
-    TypeParam::get_max_mipmap_level_count(size_ref) + 1));
+  EXPECT_PRECOND_ERROR(multisampled_texture2(vec2u(1u, 1u),
+    texture_format::rgba, multisampled_texture2::get_max_sample_count() + 1u));
 }
 
 
 
-TYPED_TEST(test_texture_not_multisampled, set_filter)
+TEST_F(test_multisampled_texture2, get_byte_count)
 {
-  TypeParam tex(this->generate_size());
-  std::vector<texture_filter> filters
-    = {texture_filter::nearest, texture_filter::linear,
-      texture_filter::bilinear, texture_filter::trilinear};
-  EXPECT_EQ(texture_filter::linear, tex.get_filter());
-  for(auto filter : filters)
+  vec2u size_ref(4u, 8u);
+  for(auto tf : all_formats)
   {
-    tex.set_filter(filter);
-    EXPECT_EQ(filter, tex.get_filter());
+    multisampled_texture2 t(size_ref, tf);
+    EXPECT_EQ(gl::compute_texture_size_bytes(size_ref.x(), size_ref.y(), 1u,
+                gl::get_texture_external_format_for_internal_format(
+                  static_cast<GLenum>(t.get_format()))),
+      t.get_byte_count());
   }
 }
 
 
 
-TYPED_TEST(test_texture_not_multisampled, set_wrap_mode)
+TEST_F(test_texture3, size_constructor)
 {
-  TypeParam tex(this->generate_size());
-  EXPECT_EQ(this->get_default_wrap_mode(), tex.get_wrap_mode());
-  tex.set_wrap_mode(this->get_alternative_wrap_mode());
-  EXPECT_EQ(this->get_alternative_wrap_mode(), tex.get_wrap_mode());
-}
-
-
-
-TYPED_TEST(test_texture_not_multisampled, set_image)
-{
-  using image = typename TypeParam::template image<pixel_format::rgba>;
-
-  TypeParam tex(this->generate_size());
-#if !defined(HOU_GL_ES)
+  vec3u size_ref(4u, 8u, 3u);
+  texture3 t(size_ref);
+  EXPECT_EQ(texture_type::texture3, t.get_type());
+  EXPECT_EQ(size_ref, t.get_size());
   EXPECT_EQ(
-    image(tex.get_size()), tex.template get_image<pixel_format::rgba>());
-#endif
-  image image_ref
-    = this->template generate_image<pixel_format::rgba>(tex.get_size());
-  tex.set_image(image_ref);
-#if !defined(HOU_GL_ES)
-  EXPECT_EQ(image_ref, tex.template get_image<pixel_format::rgba>());
-#endif
+    gl::compute_texture_size_bytes(size_ref.x(), size_ref.y(), size_ref.z(),
+      gl::get_texture_external_format_for_internal_format(
+        static_cast<GLenum>(t.get_format()))),
+    t.get_byte_count());
+  EXPECT_EQ(texture_format::rgba, t.get_format());
+  EXPECT_EQ(1u, t.get_mipmap_level_count());
+  EXPECT_EQ(std::vector<uint8_t>(t.get_byte_count(), 0u), t.get_image());
 }
 
 
 
-TYPED_TEST(
-  test_texture_not_multisampled_death_test, set_image_error_invalid_size)
+TEST_F(test_texture3, size_constructor_size_limits)
 {
-  using image = typename TypeParam::template image<pixel_format::rgba>;
+  vec3u min_size(1u, 1u, 1u);
+  texture3 t_min_size(min_size);
+  EXPECT_EQ(min_size, t_min_size.get_size());
 
-  TypeParam tex(this->generate_size());
-  EXPECT_PRECOND_ERROR(tex.set_image(image(tex.get_size() * 2)));
+  vec3u max_size_x(texture3::get_max_size().x(), 1u, 1u);
+  texture3 t_max_size_x(max_size_x);
+  EXPECT_EQ(max_size_x, t_max_size_x.get_size());
+
+  vec3u max_size_y(1u, texture3::get_max_size().y(), 1u);
+  texture3 t_max_size_y(max_size_y);
+  EXPECT_EQ(max_size_y, t_max_size_y.get_size());
+
+  vec3u max_size_z(1u, 1u, texture3::get_max_size().z());
+  texture3 t_max_size_z(max_size_z);
+  EXPECT_EQ(max_size_z, t_max_size_z.get_size());
 }
 
 
 
-TYPED_TEST(test_texture_not_multisampled, get_sub_image)
+TEST_F(test_texture3_death_test, size_constructor_invalid_size)
 {
-#if defined(HOU_GL_ES)
-  SKIP("Reading a texture image is not supported on GLES.");
-#endif
+  EXPECT_PRECOND_ERROR(texture3(vec3u(0u, 0u, 0u)));
+  EXPECT_PRECOND_ERROR(texture3(vec3u(1u, 0u, 0u)));
+  EXPECT_PRECOND_ERROR(texture3(vec3u(0u, 1u, 0u)));
+  EXPECT_PRECOND_ERROR(texture3(vec3u(1u, 1u, 0u)));
+  EXPECT_PRECOND_ERROR(texture3(vec3u(0u, 0u, 1u)));
+  EXPECT_PRECOND_ERROR(texture3(vec3u(1u, 0u, 1u)));
+  EXPECT_PRECOND_ERROR(texture3(vec3u(0u, 1u, 1u)));
+  EXPECT_PRECOND_ERROR(texture3(texture3::get_max_size() + vec3u(1u, 1u, 1u)));
+  EXPECT_PRECOND_ERROR(texture3(texture3::get_max_size() + vec3u(0u, 1u, 1u)));
+  EXPECT_PRECOND_ERROR(texture3(texture3::get_max_size() + vec3u(1u, 0u, 1u)));
+  EXPECT_PRECOND_ERROR(texture3(texture3::get_max_size() + vec3u(0u, 0u, 1u)));
+  EXPECT_PRECOND_ERROR(texture3(texture3::get_max_size() + vec3u(1u, 1u, 0u)));
+  EXPECT_PRECOND_ERROR(texture3(texture3::get_max_size() + vec3u(0u, 1u, 0u)));
+  EXPECT_PRECOND_ERROR(texture3(texture3::get_max_size() + vec3u(1u, 0u, 0u)));
+}
 
-  using image = typename TypeParam::template image<pixel_format::rgba>;
-  using size_type = typename TypeParam::size_type;
-  using offset_type = typename TypeParam::offset_type;
 
-  size_type tex_size;
-  size_type sub_image_size;
-  offset_type sub_image_offset;
-  for(size_t i = 0; i < tex_size.size(); ++i)
+
+TEST_F(test_texture3, full_size_constructor)
+{
+  vec3u size_ref(4u, 8u, 3u);
+  uint mipmap_level_count_ref = 2u;
+  for(auto tf : color_formats)
   {
-    tex_size(i) = static_cast<uint>((i + 1) * 4);
-    sub_image_size(i) = static_cast<uint>((i + 1) * 2);
-    sub_image_offset(i) = static_cast<uint>(i + 1);
+    texture3 t(size_ref, tf, mipmap_level_count_ref);
+    EXPECT_EQ(size_ref, t.get_size());
+    EXPECT_EQ(tf, t.get_format());
+    EXPECT_EQ(mipmap_level_count_ref, t.get_mipmap_level_count());
+    EXPECT_EQ(std::vector<uint8_t>(t.get_byte_count(), 0u), t.get_image());
   }
-
-  image image_ref = this->template generate_image<pixel_format::rgba>(tex_size);
-  image sub_image_ref
-    = image_ref.get_sub_image(sub_image_offset, sub_image_size);
-  TypeParam tex(image_ref);
-
-  // Note MSVC can't deduce the template params, so they must be given
-  // explicitly.
-#if defined(HOU_GL_ES)
-  EXPECT_EQ(sub_image_ref,
-    (tex.template get_sub_image<image::format, TypeParam::type, void>(
-      sub_image_offset, sub_image_size)));
-#endif
 }
 
 
 
-TYPED_TEST(
-  test_texture_not_multisampled_death_test, get_sub_image_error_overflow)
+TEST_F(test_texture3, full_size_constructor_mipmap_level_count_limits)
 {
-#if defined(HOU_GL_ES)
-  SKIP("Reading a texture image is not supported on GLES.");
-#endif
+  vec3u size_ref(4u, 8u, 3u);
 
-  using size_type = typename TypeParam::size_type;
-  using offset_type = typename TypeParam::offset_type;
+  uint min_mipmap_level_count = 1u;
+  texture3 t_min_level(size_ref, texture_format::rgba, min_mipmap_level_count);
+  EXPECT_EQ(min_mipmap_level_count, t_min_level.get_mipmap_level_count());
 
-  size_type tex_size;
-  size_type sub_image_size;
-  offset_type sub_image_offset;
-  for(size_t i = 0; i < tex_size.size(); ++i)
+  uint max_mipmap_level_count = 1u;
+  texture3 t_max_level(size_ref, texture_format::rgba, max_mipmap_level_count);
+  EXPECT_EQ(max_mipmap_level_count, t_max_level.get_mipmap_level_count());
+}
+
+
+
+TEST_F(test_texture3_death_test, invalid_sample_count)
+{
+  EXPECT_PRECOND_ERROR(texture3(vec3u(1u, 1u, 1u), texture_format::rgba,
+    texture3::get_max_mipmap_level_count(vec3u(1u, 1u, 1u)) + 1u));
+}
+
+
+
+TEST_F(test_texture3, image_constructor)
+{
+  std::vector<uint8_t> image_data{0u, 1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u, 9u, 10u,
+    11u, 12u, 13u, 14u, 15u, 16u, 17u, 18u, 19u, 20u, 21u, 22u, 23u};
+
+  std::vector<std::pair<texture_format, pixel_view3>> format_images{
+    std::make_pair(
+      texture_format::r, pixel_view3(image_data.data(), vec3u(3u, 4u, 2u), 1u)),
+    std::make_pair(texture_format::rg,
+      pixel_view3(image_data.data(), vec3u(3u, 2u, 2u), 2u)),
+    std::make_pair(texture_format::rgb,
+      pixel_view3(image_data.data(), vec3u(1u, 4u, 2u), 3u)),
+    std::make_pair(texture_format::rgba,
+      pixel_view3(image_data.data(), vec3u(3u, 1u, 2u), 4u)),
+  };
+
+  uint mipmap_level_count_ref = 2u;
+  for(auto fi : format_images)
   {
-    tex_size(i) = static_cast<uint>((i + 1) * 4);
-    sub_image_offset(i) = static_cast<uint>(i + 1);
-    sub_image_size(i)
-      = static_cast<uint>((i + 1) * 4 - sub_image_offset(i) + 1u);
+    texture3 t(fi.second, fi.first, mipmap_level_count_ref);
+    EXPECT_EQ(fi.second.get_size(), t.get_size());
+    EXPECT_EQ(fi.first, t.get_format());
+    EXPECT_EQ(mipmap_level_count_ref, t.get_mipmap_level_count());
+    EXPECT_EQ(image_data, t.get_image());
   }
-  TypeParam tex(this->template generate_image<pixel_format::rgba>(tex_size));
+}
 
-  // Note MSVC can't deduce the template params, so they must be given
-  // explicitly.
-#if defined(HOU_GL_ES)
+
+
+TEST_F(test_texture3_death_test, image_constructor_invalid_size)
+{
+  std::vector<uint8_t> image_data{0u, 1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u, 9u, 10u,
+    11u, 12u, 13u, 14u, 15u, 16u, 17u, 18u, 19u, 20u, 21u, 22u, 23u};
+
   EXPECT_PRECOND_ERROR(
-    (tex.template get_sub_image<pixel_format::rgba, TypeParam::type, void>(
-      sub_image_offset, sub_image_size)));
-#endif
-}
-
-
-
-TYPED_TEST(test_texture_not_multisampled, set_sub_image)
-{
-  using image = typename TypeParam::template image<pixel_format::rgba>;
-  using size_type = typename TypeParam::size_type;
-  using offset_type = typename TypeParam::offset_type;
-
-  size_type tex_size;
-  size_type sub_image_size;
-  offset_type sub_image_offset;
-  for(size_t i = 0; i < tex_size.size(); ++i)
-  {
-    tex_size(i) = static_cast<uint>((i + 1) * 4);
-    sub_image_size(i) = static_cast<uint>((i + 1) * 2);
-    sub_image_offset(i) = static_cast<uint>(i + 1);
-  }
-
-  typename image::pixel_type pixel_ref(1u, 2u, 3u, 4u);
-  image sub_image_ref(sub_image_size, pixel_ref);
-  image image_ref(tex_size);
-  image_ref.set_sub_image(sub_image_offset, sub_image_ref);
-  TypeParam tex(tex_size);
-  tex.template set_sub_image<image::format, TypeParam::type, void>(
-    sub_image_offset, sub_image_ref);
-
-#if !defined(HOU_GL_ES)
-  EXPECT_EQ(image_ref,
-    (tex.template get_image<image::format, TypeParam::type, void>()));
-  EXPECT_EQ(sub_image_ref,
-    (tex.template get_sub_image<image::format, TypeParam::type, void>(
-      sub_image_offset, sub_image_size)));
-#endif
-}
-
-
-
-TYPED_TEST(
-  test_texture_not_multisampled_death_test, set_sub_image_error_overflow)
-{
-  using image = typename TypeParam::template image<pixel_format::rgba>;
-  using size_type = typename TypeParam::size_type;
-  using offset_type = typename TypeParam::offset_type;
-
-  size_type tex_size;
-  size_type sub_image_size;
-  offset_type sub_image_offset;
-  for(size_t i = 0; i < tex_size.size(); ++i)
-  {
-    tex_size(i) = static_cast<uint>((i + 1) * 4);
-    sub_image_offset(i) = static_cast<uint>(i + 1);
-    sub_image_size(i)
-      = static_cast<uint>((i + 1) * 4 - sub_image_offset(i) + 1u);
-  }
-
-  TypeParam tex(tex_size);
-  image sub_image_ref(sub_image_size);
+    texture3(pixel_view3(image_data.data(), vec3u(0u, 0u, 0u), 4u)));
   EXPECT_PRECOND_ERROR(
-    (tex.template set_sub_image<image::format, TypeParam::type, void>(
-      sub_image_offset, sub_image_ref)));
+    texture3(pixel_view3(image_data.data(), vec3u(1u, 0u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture3(pixel_view3(image_data.data(), vec3u(0u, 1u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture3(pixel_view3(image_data.data(), vec3u(1u, 1u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture3(pixel_view3(image_data.data(), vec3u(0u, 0u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture3(pixel_view3(image_data.data(), vec3u(1u, 0u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture3(pixel_view3(image_data.data(), vec3u(0u, 1u, 1u), 4u)));
+
+  EXPECT_PRECOND_ERROR(texture3(pixel_view3(
+    image_data.data(), texture3::get_max_size() + vec3u(1u, 1u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(texture3(pixel_view3(
+    image_data.data(), texture3::get_max_size() + vec3u(0u, 1u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(texture3(pixel_view3(
+    image_data.data(), texture3::get_max_size() + vec3u(1u, 0u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(texture3(pixel_view3(
+    image_data.data(), texture3::get_max_size() + vec3u(0u, 0u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(texture3(pixel_view3(
+    image_data.data(), texture3::get_max_size() + vec3u(1u, 1u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(texture3(pixel_view3(
+    image_data.data(), texture3::get_max_size() + vec3u(0u, 1u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(texture3(pixel_view3(
+    image_data.data(), texture3::get_max_size() + vec3u(1u, 0u, 0u), 4u)));
 }
 
 
 
-TYPED_TEST(test_texture_not_multisampled, clear)
+TEST_F(test_texture3_death_test, image_constructor_invalid_byte_depth)
 {
-  TypeParam tex(this->generate_size());
-#if !defined(HOU_GL_ES)
-  using image = typename TypeParam::template image<pixel_format::rgba>;
-  EXPECT_EQ(
-    image(tex.get_size()), tex.template get_image<pixel_format::rgba>());
-#endif
-  pixel_rgba pixel_ref(1u, 2u, 3u, 4u);
-  tex.clear(pixel_ref);
-#if !defined(HOU_GL_ES)
-  using image = typename TypeParam::template image<pixel_format::rgba>;
-  EXPECT_EQ(image(tex.get_size(), pixel_ref),
-    tex.template get_image<pixel_format::rgba>());
-#endif
+  std::vector<uint8_t> image_data{0u, 1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u, 9u, 10u,
+    11u, 12u, 13u, 14u, 15u, 16u, 17u, 18u, 19u, 20u, 21u, 22u, 23u};
+
+  EXPECT_PRECOND_ERROR(texture3(
+    pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 2u), texture_format::r));
+  EXPECT_PRECOND_ERROR(texture3(
+    pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 3u), texture_format::r));
+  EXPECT_PRECOND_ERROR(texture3(
+    pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 4u), texture_format::r));
+  EXPECT_PRECOND_ERROR(texture3(
+    pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 1u), texture_format::rg));
+  EXPECT_PRECOND_ERROR(texture3(
+    pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 3u), texture_format::rg));
+  EXPECT_PRECOND_ERROR(texture3(
+    pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 4u), texture_format::rg));
+  EXPECT_PRECOND_ERROR(
+    texture3(pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 1u),
+      texture_format::rgb));
+  EXPECT_PRECOND_ERROR(
+    texture3(pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 2u),
+      texture_format::rgb));
+  EXPECT_PRECOND_ERROR(
+    texture3(pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 4u),
+      texture_format::rgb));
+  EXPECT_PRECOND_ERROR(
+    texture3(pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 1u),
+      texture_format::rgba));
+  EXPECT_PRECOND_ERROR(
+    texture3(pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 2u),
+      texture_format::rgba));
+  EXPECT_PRECOND_ERROR(
+    texture3(pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 3u),
+      texture_format::rgba));
 }
 
 
 
-TYPED_TEST(test_texture_not_multisampled, get_mip_map_size)
+TEST_F(test_texture3_death_test, invalid_format)
 {
-  using size_type = typename TypeParam::size_type;
-
-  size_type size_ref = this->generate_size();
-  TypeParam tex(size_ref, texture_format::rgba, 3u);
-
-  for(uint i = 0; i < tex.get_mipmap_level_count(); ++i)
-  {
-    EXPECT_EQ(this->compute_mipmap_size(size_ref, i), tex.get_mipmap_size(i));
-  }
+  EXPECT_PRECOND_ERROR(
+    texture3(vec3u(1u, 1u, 1u), texture_format::depth_stencil));
 }
 
 
 
-TYPED_TEST(test_texture_not_multisampled_death_test,
-  get_mip_map_size_error_invalid_mip_map_level)
+TEST_F(test_texture3, get_byte_count)
 {
-  TypeParam tex(this->generate_size(), texture_format::rgba, 3u);
-  EXPECT_PRECOND_ERROR(tex.get_mipmap_size(tex.get_mipmap_level_count() + 1u));
-}
-
-
-
-TYPED_TEST(test_texture_not_multisampled, mip_map_constructor_get_mip_map_image)
-{
-#if defined(HOU_GL_ES)
-  SKIP("Reading a texture image is not supported on GLES.");
-#endif
-
-  using image = typename TypeParam::template image<pixel_format::rgb>;
-
-  TypeParam tex(this->generate_size(), texture_format::rgba, 3u);
-
-  for(uint i = 0; i < tex.get_mipmap_level_count(); ++i)
+  vec3u size_ref(4u, 8u, 3u);
+  for(auto tf : color_formats)
   {
-    EXPECT_EQ(image(tex.get_mipmap_size(i)),
-      tex.template get_mipmap_image<pixel_format::rgb>(i));
-  }
-}
-
-
-
-TYPED_TEST(test_texture_not_multisampled, image_constructor_get_mip_map_image)
-{
-#if defined(HOU_GL_ES)
-  SKIP("Reading a texture image is not supported on GLES.");
-#endif
-
-  using image = typename TypeParam::template image<pixel_format::rgb>;
-
-  TypeParam tex(image(this->generate_size()), texture_format::rgba, 3u);
-
-  for(uint i = 0; i < tex.get_mipmap_level_count(); ++i)
-  {
-    EXPECT_EQ(image(tex.get_mipmap_size(i)),
-      tex.template get_mipmap_image<pixel_format::rgb>(i));
-  }
-}
-
-
-
-TYPED_TEST(test_texture_not_multisampled, set_image_get_mip_map_image)
-{
-#if defined(HOU_GL_ES)
-  SKIP("Reading a texture image is not supported on GLES.");
-#endif
-
-  using image = typename TypeParam::template image<pixel_format::rgba>;
-  using size_type = typename TypeParam::size_type;
-
-  size_type tex_size;
-  size_type sub_image_offset;
-  size_type sub_image_size;
-  for(uint i = 0; i < tex_size.size(); ++i)
-  {
-    tex_size(i) = (i + 1) * 16;
-    sub_image_offset(i) = (i + 1) * 4;
-    sub_image_size(i) = (i + 1) * 8;
-  }
-
-  TypeParam tex(tex_size, texture_format::rgba, 3u);
-
-  std::vector<image> imageRefs;
-  for(uint i = 0; i < tex.get_mipmap_level_count(); ++i)
-  {
-    imageRefs.push_back(image(tex.get_mipmap_size(i)));
-    imageRefs.back().set_sub_image(
-      this->compute_mipmap_size(sub_image_offset, i),
-      image(this->compute_mipmap_size(sub_image_size, i),
-        typename image::pixel_type(2u, 3u, 5u, 7u)));
-  }
-
-  tex.set_image(imageRefs.front());
-  for(uint i = 0; i < tex.get_mipmap_level_count(); ++i)
-  {
+    texture3 t(size_ref, tf);
     EXPECT_EQ(
-      imageRefs[i], tex.template get_mipmap_image<pixel_format::rgba>(i));
+      gl::compute_texture_size_bytes(size_ref.x(), size_ref.y(), size_ref.z(),
+        gl::get_texture_external_format_for_internal_format(
+          static_cast<GLenum>(t.get_format()))),
+      t.get_byte_count());
   }
 }
 
 
 
-TYPED_TEST(test_texture_not_multisampled, clear_get_mip_map_image)
+TEST_F(test_texture3, set_filter)
 {
-#if defined(HOU_GL_ES)
-  SKIP("Reading a texture image is not supported on GLES.");
-#endif
-
-  using image = typename TypeParam::template image<pixel_format::rgba>;
-
-  TypeParam tex(this->generate_size(), texture_format::rgba, 3u);
-  pixel_rgba pixel_ref(2u, 3u, 5u, 7u);
-  tex.clear(pixel_ref);
-  for(uint i = 0; i < tex.get_mipmap_level_count(); ++i)
+  texture3 t(vec3u(1u, 1u, 1u));
+  EXPECT_EQ(texture_filter::linear, t.get_filter());
+  for(auto filter : all_filters)
   {
-    EXPECT_EQ(image(tex.get_mipmap_size(i), pixel_ref),
-      tex.template get_mipmap_image<pixel_format::rgba>(i));
+    t.set_filter(filter);
+    EXPECT_EQ(filter, t.get_filter());
   }
 }
 
 
 
-TYPED_TEST(test_texture_not_multisampled_death_test,
-  get_mip_map_image_error_invalid_mip_map_level)
+TEST_F(test_texture3, set_wrap_mode)
 {
-  TypeParam tex(this->generate_size(), texture_format::rgba, 3u);
-  EXPECT_PRECOND_ERROR(tex.template get_mipmap_image<pixel_format::rgba>(
-    tex.get_mipmap_level_count() + 1u));
-}
-
-
-
-TYPED_TEST(test_texture_multisampled, multisample_constructor)
-{
-  using size_type = typename TypeParam::size_type;
-
-  size_type size_ref = this->generate_size();
-  texture_format format_ref = texture_format::rgb;
-  uint sample_count_ref = std::min(TypeParam::get_max_sample_count().get(), 3u);
-  TypeParam tex(size_ref, format_ref, sample_count_ref, false);
-
-  EXPECT_NE(0u, tex.get_handle().get_name());
-  EXPECT_EQ(format_ref, tex.get_format());
-  EXPECT_EQ(1u, tex.get_mipmap_level_count());
-  EXPECT_EQ(sample_count_ref, tex.get_sample_count());
-  EXPECT_FALSE(tex.has_fixed_sample_locations());
-  EXPECT_EQ(size_ref, tex.get_size());
-  EXPECT_EQ(texture_channel_mapping::standard, tex.get_channel_mapping());
-}
-
-
-
-TYPED_TEST(test_texture_multisampled, multisample_constructor_size_limits)
-{
-  using size_type = typename TypeParam::size_type;
-
-  size_type size_ref = this->generate_size();
-  size_type max_size = TypeParam::get_max_size();
-  for(size_t i = 0u; i < size_ref.size(); ++i)
+  texture3 t(vec3u(1u, 1u, 1u));
+  EXPECT_EQ((texture3::wrap_mode{texture_wrap_mode::repeat,
+              texture_wrap_mode::repeat, texture_wrap_mode::repeat}),
+    t.get_wrap_mode());
+  for(auto wmx : all_wrap_modes)
   {
-    size_type size_with_one = size_ref;
-    size_with_one(i) = 1u;
-    TypeParam tex_with_one(size_with_one, texture_format::rgba, 1u, true);
-    EXPECT_EQ(size_with_one, tex_with_one.get_size());
-
-    size_type size_with_max = size_ref;
-    size_with_max(i) = max_size(i);
-    TypeParam tex_with_max(size_with_max, texture_format::rgba, 1u, true);
-    EXPECT_EQ(size_with_max, tex_with_max.get_size());
+    for(auto wmy : all_wrap_modes)
+    {
+      for(auto wmz : all_wrap_modes)
+      {
+        t.set_wrap_mode(texture3::wrap_mode{wmx, wmy, wmz});
+        EXPECT_EQ((texture3::wrap_mode{wmx, wmy, wmz}), t.get_wrap_mode());
+      }
+    }
   }
 }
 
 
 
-TYPED_TEST(
-  test_texture_multisampled, multisample_constructor_sample_count_limits)
+TEST_F(test_texture3, set_image)
 {
-  using size_type = typename TypeParam::size_type;
-
-  size_type size_ref = this->generate_size();
-  TypeParam tex_with_min_sample_count(size_ref, texture_format::rgba, 1u, true);
-  EXPECT_EQ(1u, tex_with_min_sample_count.get_sample_count());
-  TypeParam tex_with_max_sample_count(
-    size_ref, texture_format::rgba, TypeParam::get_max_sample_count(), true);
-  EXPECT_EQ(TypeParam::get_max_sample_count(),
-    tex_with_max_sample_count.get_sample_count());
+  texture3 t(vec3u(2u, 3u, 2u));
+  // clang-format off
+  std::vector<uint8_t> image_data{
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    //
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,};
+  // clang-format on
+  t.set_image(pixel_view3(image_data.data(), t.get_size(), 4u));
+  EXPECT_EQ(image_data, t.get_image());
 }
 
 
 
-TYPED_TEST(
-  test_texture_multisampled, multisample_constructor_sample_position_values)
+TEST_F(test_texture3, set_sub_image)
 {
-  using size_type = typename TypeParam::size_type;
-
-  size_type size_ref = this->generate_size();
-  TypeParam texTrue(size_ref, texture_format::rgba, 1u, true);
-  EXPECT_TRUE(texTrue.has_fixed_sample_locations());
-  TypeParam texFalse(size_ref, texture_format::rgba, 1u, false);
-  EXPECT_FALSE(texFalse.has_fixed_sample_locations());
+  texture3 t(vec3u(4u, 6u, 2u));
+  // clang-format off
+  std::vector<uint8_t> sub_image_data{
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,};
+  std::vector<uint8_t> image_data{
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    0u, 0u, 0u, 0u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    //
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,};
+  // clang-format on
+  t.set_sub_image(vec3u(1u, 2u, 0u),
+    pixel_view3(sub_image_data.data(), vec3u(3u, 2u, 1u), 4u));
+  EXPECT_EQ(image_data, t.get_image());
+  EXPECT_EQ(
+    sub_image_data, t.get_sub_image(vec3u(1u, 2u, 0u), vec3u(3u, 2u, 1u)));
 }
 
 
 
-TYPED_TEST(test_texture_multisampled_death_test,
-  multisample_constructor_error_invalid_size)
+TEST_F(test_texture3_death_test, get_sub_image_invalid_params)
 {
-  using size_type = typename TypeParam::size_type;
+  texture3 t(vec3u(4u, 6u, 2u));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(5u, 6u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(4u, 7u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(5u, 7u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(4u, 6u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(5u, 7u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(4u, 7u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(5u, 6u, 2u)));
 
-  size_type size_ref = this->generate_size();
-  size_type max_size = TypeParam::get_max_size();
-  for(size_t i = 0u; i < size_ref.size(); ++i)
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(1u, 1u, 1u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 1u, 1u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(1u, 0u, 1u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 1u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(1u, 1u, 0u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 1u, 0u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(1u, 0u, 0u), vec3u(4u, 6u, 2u)));
+}
+
+
+
+TEST_F(test_texture3_death_test, set_sub_image_invalid_params)
+{
+  texture3 t(vec3u(4u, 6u, 2u));
+  std::vector<uint8_t> image_data(5u * 7u * 3u * 4u, 0u);
+
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(5u, 7u, 3u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(4u, 7u, 3u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(5u, 6u, 3u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(4u, 6u, 3u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(5u, 7u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(4u, 7u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(5u, 6u, 2u), 4u)));
+
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(1u, 1u, 1u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 1u, 1u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(1u, 0u, 1u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 1u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(1u, 1u, 0u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 1u, 0u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(1u, 0u, 0u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+}
+
+
+
+TEST_F(test_texture3, clear)
+{
+  // clang-format off
+  std::vector<uint8_t> image_data{
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    //
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,};
+  // clang-format on
+  texture3 t(pixel_view3(image_data.data(), vec3u(2u, 3u, 2u), 4u));
+  t.clear();
+  EXPECT_EQ(std::vector<uint8_t>(image_data.size(), 0u), t.get_image());
+}
+
+
+
+TEST_F(test_texture2_array, size_constructor)
+{
+  vec3u size_ref(4u, 8u, 3u);
+  texture2_array t(size_ref);
+  EXPECT_EQ(texture_type::texture2_array, t.get_type());
+  EXPECT_EQ(size_ref, t.get_size());
+  EXPECT_EQ(
+    gl::compute_texture_size_bytes(size_ref.x(), size_ref.y(), size_ref.z(),
+      gl::get_texture_external_format_for_internal_format(
+        static_cast<GLenum>(t.get_format()))),
+    t.get_byte_count());
+  EXPECT_EQ(texture_format::rgba, t.get_format());
+  EXPECT_EQ(1u, t.get_mipmap_level_count());
+  EXPECT_EQ(std::vector<uint8_t>(t.get_byte_count(), 0u), t.get_image());
+}
+
+
+
+TEST_F(test_texture2_array, size_constructor_size_limits)
+{
+  vec3u min_size(1u, 1u, 1u);
+  texture2_array t_min_size(min_size);
+  EXPECT_EQ(min_size, t_min_size.get_size());
+
+  vec3u max_size_x(texture2_array::get_max_size().x(), 1u, 1u);
+  texture2_array t_max_size_x(max_size_x);
+  EXPECT_EQ(max_size_x, t_max_size_x.get_size());
+
+  vec3u max_size_y(1u, texture2_array::get_max_size().y(), 1u);
+  texture2_array t_max_size_y(max_size_y);
+  EXPECT_EQ(max_size_y, t_max_size_y.get_size());
+
+  vec3u max_size_z(1u, 1u, texture2_array::get_max_size().z());
+  texture2_array t_max_size_z(max_size_z);
+  EXPECT_EQ(max_size_z, t_max_size_z.get_size());
+}
+
+
+
+TEST_F(test_texture2_array_death_test, size_constructor_invalid_size)
+{
+  EXPECT_PRECOND_ERROR(texture2_array(vec3u(0u, 0u, 0u)));
+  EXPECT_PRECOND_ERROR(texture2_array(vec3u(1u, 0u, 0u)));
+  EXPECT_PRECOND_ERROR(texture2_array(vec3u(0u, 1u, 0u)));
+  EXPECT_PRECOND_ERROR(texture2_array(vec3u(1u, 1u, 0u)));
+  EXPECT_PRECOND_ERROR(texture2_array(vec3u(0u, 0u, 1u)));
+  EXPECT_PRECOND_ERROR(texture2_array(vec3u(1u, 0u, 1u)));
+  EXPECT_PRECOND_ERROR(texture2_array(vec3u(0u, 1u, 1u)));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(texture2_array::get_max_size() + vec3u(1u, 1u, 1u)));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(texture2_array::get_max_size() + vec3u(0u, 1u, 1u)));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(texture2_array::get_max_size() + vec3u(1u, 0u, 1u)));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(texture2_array::get_max_size() + vec3u(0u, 0u, 1u)));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(texture2_array::get_max_size() + vec3u(1u, 1u, 0u)));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(texture2_array::get_max_size() + vec3u(0u, 1u, 0u)));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(texture2_array::get_max_size() + vec3u(1u, 0u, 0u)));
+}
+
+
+
+TEST_F(test_texture2_array, full_size_constructor)
+{
+  vec3u size_ref(4u, 8u, 3u);
+  uint mipmap_level_count_ref = 2u;
+  for(auto tf : all_formats)
   {
-    size_type size_with_zero = size_ref;
-    size_with_zero(i) = 0u;
-    EXPECT_PRECOND_ERROR(
-      TypeParam tex(size_with_zero, texture_format::rgba, 1u, true));
-    size_type size_too_large = size_ref;
-    size_too_large(i) = max_size(i) + 1;
-    EXPECT_PRECOND_ERROR(
-      TypeParam tex(size_too_large, texture_format::rgba, 1u, true));
+    texture2_array t(size_ref, tf, mipmap_level_count_ref);
+    EXPECT_EQ(size_ref, t.get_size());
+    EXPECT_EQ(tf, t.get_format());
+    EXPECT_EQ(mipmap_level_count_ref, t.get_mipmap_level_count());
+    EXPECT_EQ(std::vector<uint8_t>(t.get_byte_count(), 0u), t.get_image());
   }
 }
 
 
 
-TYPED_TEST(test_texture_multisampled_death_test,
-  multisample_constructor_error_invalid_mip_map)
+TEST_F(test_texture2_array, full_size_constructor_mipmap_level_count_limits)
 {
-  using size_type = typename TypeParam::size_type;
+  vec3u size_ref(4u, 8u, 3u);
 
-  size_type size_ref = this->generate_size();
-  EXPECT_PRECOND_ERROR(TypeParam tex(size_ref, texture_format::rgba, 0u, true));
-  EXPECT_PRECOND_ERROR(TypeParam tex(size_ref, texture_format::rgba,
-    TypeParam::get_max_sample_count() + 1, true));
+  uint min_mipmap_level_count = 1u;
+  texture2_array t_min_level(
+    size_ref, texture_format::rgba, min_mipmap_level_count);
+  EXPECT_EQ(min_mipmap_level_count, t_min_level.get_mipmap_level_count());
+
+  uint max_mipmap_level_count = 1u;
+  texture2_array t_max_level(
+    size_ref, texture_format::rgba, max_mipmap_level_count);
+  EXPECT_EQ(max_mipmap_level_count, t_max_level.get_mipmap_level_count());
+}
+
+
+
+TEST_F(test_texture2_array_death_test, invalid_sample_count)
+{
+  EXPECT_PRECOND_ERROR(texture2_array(vec3u(1u, 1u, 1u), texture_format::rgba,
+    texture2_array::get_max_mipmap_level_count(vec3u(1u, 1u, 1u)) + 1u));
+}
+
+
+
+TEST_F(test_texture2_array, image_constructor)
+{
+  std::vector<uint8_t> image_data{0u, 1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u, 9u, 10u,
+    11u, 12u, 13u, 14u, 15u, 16u, 17u, 18u, 19u, 20u, 21u, 22u, 23u};
+
+  std::vector<std::pair<texture_format, pixel_view3>> format_images{
+    std::make_pair(
+      texture_format::r, pixel_view3(image_data.data(), vec3u(3u, 4u, 2u), 1u)),
+    std::make_pair(texture_format::rg,
+      pixel_view3(image_data.data(), vec3u(3u, 2u, 2u), 2u)),
+    std::make_pair(texture_format::rgb,
+      pixel_view3(image_data.data(), vec3u(1u, 4u, 2u), 3u)),
+    std::make_pair(texture_format::rgba,
+      pixel_view3(image_data.data(), vec3u(3u, 1u, 2u), 4u)),
+  };
+
+  uint mipmap_level_count_ref = 2u;
+  for(auto fi : format_images)
+  {
+    texture2_array t(fi.second, fi.first, mipmap_level_count_ref);
+    EXPECT_EQ(fi.second.get_size(), t.get_size());
+    EXPECT_EQ(fi.first, t.get_format());
+    EXPECT_EQ(mipmap_level_count_ref, t.get_mipmap_level_count());
+    EXPECT_EQ(image_data, t.get_image());
+  }
+}
+
+
+
+TEST_F(test_texture2_array_death_test, image_constructor_invalid_size)
+{
+  std::vector<uint8_t> image_data{0u, 1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u, 9u, 10u,
+    11u, 12u, 13u, 14u, 15u, 16u, 17u, 18u, 19u, 20u, 21u, 22u, 23u};
+
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(0u, 0u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(1u, 0u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(0u, 1u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(1u, 1u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(0u, 0u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(1u, 0u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(0u, 1u, 1u), 4u)));
+
+  EXPECT_PRECOND_ERROR(texture2_array(pixel_view3(image_data.data(),
+    texture2_array::get_max_size() + vec3u(1u, 1u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(texture2_array(pixel_view3(image_data.data(),
+    texture2_array::get_max_size() + vec3u(0u, 1u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(texture2_array(pixel_view3(image_data.data(),
+    texture2_array::get_max_size() + vec3u(1u, 0u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(texture2_array(pixel_view3(image_data.data(),
+    texture2_array::get_max_size() + vec3u(0u, 0u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(texture2_array(pixel_view3(image_data.data(),
+    texture2_array::get_max_size() + vec3u(1u, 1u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(texture2_array(pixel_view3(image_data.data(),
+    texture2_array::get_max_size() + vec3u(0u, 1u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(texture2_array(pixel_view3(image_data.data(),
+    texture2_array::get_max_size() + vec3u(1u, 0u, 0u), 4u)));
+}
+
+
+
+TEST_F(test_texture2_array_death_test, image_constructor_invalid_byte_depth)
+{
+  std::vector<uint8_t> image_data{0u, 1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u, 9u, 10u,
+    11u, 12u, 13u, 14u, 15u, 16u, 17u, 18u, 19u, 20u, 21u, 22u, 23u};
+
+  EXPECT_PRECOND_ERROR(texture2_array(
+    pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 2u), texture_format::r));
+  EXPECT_PRECOND_ERROR(texture2_array(
+    pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 3u), texture_format::r));
+  EXPECT_PRECOND_ERROR(texture2_array(
+    pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 4u), texture_format::r));
+  EXPECT_PRECOND_ERROR(texture2_array(
+    pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 1u), texture_format::rg));
+  EXPECT_PRECOND_ERROR(texture2_array(
+    pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 3u), texture_format::rg));
+  EXPECT_PRECOND_ERROR(texture2_array(
+    pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 4u), texture_format::rg));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 1u),
+      texture_format::rgb));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 2u),
+      texture_format::rgb));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 4u),
+      texture_format::rgb));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 1u),
+      texture_format::rgba));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 2u),
+      texture_format::rgba));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 3u),
+      texture_format::rgba));
+}
+
+
+
+TEST_F(test_texture2_array, get_byte_count)
+{
+  vec3u size_ref(4u, 8u, 3u);
+  for(auto tf : all_formats)
+  {
+    texture2_array t(size_ref, tf);
+    EXPECT_EQ(
+      gl::compute_texture_size_bytes(size_ref.x(), size_ref.y(), size_ref.z(),
+        gl::get_texture_external_format_for_internal_format(
+          static_cast<GLenum>(t.get_format()))),
+      t.get_byte_count());
+  }
+}
+
+
+
+TEST_F(test_texture2_array, set_filter)
+{
+  texture2_array t(vec3u(1u, 1u, 1u));
+  EXPECT_EQ(texture_filter::linear, t.get_filter());
+  for(auto filter : all_filters)
+  {
+    t.set_filter(filter);
+    EXPECT_EQ(filter, t.get_filter());
+  }
+}
+
+
+
+TEST_F(test_texture2_array, set_wrap_mode)
+{
+  texture2_array t(vec3u(1u, 1u, 1u));
+  EXPECT_EQ((texture2_array::wrap_mode{texture_wrap_mode::repeat,
+              texture_wrap_mode::repeat, texture_wrap_mode::repeat}),
+    t.get_wrap_mode());
+  for(auto wmx : all_wrap_modes)
+  {
+    for(auto wmy : all_wrap_modes)
+    {
+      for(auto wmz : all_wrap_modes)
+      {
+        t.set_wrap_mode(texture2_array::wrap_mode{wmx, wmy, wmz});
+        EXPECT_EQ(
+          (texture2_array::wrap_mode{wmx, wmy, wmz}), t.get_wrap_mode());
+      }
+    }
+  }
+}
+
+
+
+TEST_F(test_texture2_array, set_image)
+{
+  texture2_array t(vec3u(2u, 3u, 2u));
+  // clang-format off
+  std::vector<uint8_t> image_data{
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    //
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,};
+  // clang-format on
+  t.set_image(pixel_view3(image_data.data(), t.get_size(), 4u));
+  EXPECT_EQ(image_data, t.get_image());
+}
+
+
+
+TEST_F(test_texture2_array, set_sub_image)
+{
+  texture2_array t(vec3u(4u, 6u, 2u));
+  // clang-format off
+  std::vector<uint8_t> sub_image_data{
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,};
+  std::vector<uint8_t> image_data{
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    0u, 0u, 0u, 0u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    //
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,};
+  // clang-format on
+  t.set_sub_image(vec3u(1u, 2u, 0u),
+    pixel_view3(sub_image_data.data(), vec3u(3u, 2u, 1u), 4u));
+  EXPECT_EQ(image_data, t.get_image());
+  EXPECT_EQ(
+    sub_image_data, t.get_sub_image(vec3u(1u, 2u, 0u), vec3u(3u, 2u, 1u)));
+}
+
+
+
+TEST_F(test_texture2_array_death_test, get_sub_image_invalid_params)
+{
+  texture2_array t(vec3u(4u, 6u, 2u));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(5u, 6u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(4u, 7u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(5u, 7u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(4u, 6u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(5u, 7u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(4u, 7u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(5u, 6u, 2u)));
+
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(1u, 1u, 1u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 1u, 1u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(1u, 0u, 1u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 1u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(1u, 1u, 0u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 1u, 0u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(1u, 0u, 0u), vec3u(4u, 6u, 2u)));
+}
+
+
+
+TEST_F(test_texture2_array_death_test, set_sub_image_invalid_params)
+{
+  texture2_array t(vec3u(4u, 6u, 2u));
+  std::vector<uint8_t> image_data(5u * 7u * 3u * 4u, 0u);
+
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(5u, 7u, 3u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(4u, 7u, 3u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(5u, 6u, 3u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(4u, 6u, 3u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(5u, 7u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(4u, 7u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(5u, 6u, 2u), 4u)));
+
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(1u, 1u, 1u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 1u, 1u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(1u, 0u, 1u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 1u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(1u, 1u, 0u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 1u, 0u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(1u, 0u, 0u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+}
+
+
+
+TEST_F(test_texture2_array, clear)
+{
+  // clang-format off
+  std::vector<uint8_t> image_data{
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    //
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,};
+  // clang-format on
+  texture2_array t(pixel_view3(image_data.data(), vec3u(2u, 3u, 2u), 4u));
+  t.clear();
+  EXPECT_EQ(std::vector<uint8_t>(image_data.size(), 0u), t.get_image());
+}
+
+
+
+TEST_F(test_multisampled_texture2_array, size_constructor)
+{
+  vec3u size_ref(4u, 8u, 3u);
+  multisampled_texture2_array t(size_ref);
+  EXPECT_EQ(texture_type::multisampled_texture2_array, t.get_type());
+  EXPECT_EQ(size_ref, t.get_size());
+  EXPECT_EQ(
+    gl::compute_texture_size_bytes(size_ref.x(), size_ref.y(), size_ref.z(),
+      gl::get_texture_external_format_for_internal_format(
+        static_cast<GLenum>(t.get_format()))),
+    t.get_byte_count());
+  EXPECT_EQ(texture_format::rgba, t.get_format());
+  EXPECT_EQ(1u, t.get_sample_count());
+  EXPECT_TRUE(t.has_fixed_sample_locations());
+}
+
+
+
+TEST_F(test_multisampled_texture2_array, size_constructor_size_limits)
+{
+  vec3u min_size(1u, 1u, 1u);
+  multisampled_texture2_array t_min_size(min_size);
+  EXPECT_EQ(min_size, t_min_size.get_size());
+
+  vec3u max_size_x(multisampled_texture2_array::get_max_size().x(), 1u, 1u);
+  multisampled_texture2_array t_max_size_x(max_size_x);
+  EXPECT_EQ(max_size_x, t_max_size_x.get_size());
+
+  vec3u max_size_y(1u, multisampled_texture2_array::get_max_size().y(), 1u);
+  multisampled_texture2_array t_max_size_y(max_size_y);
+  EXPECT_EQ(max_size_y, t_max_size_y.get_size());
+
+  vec3u max_size_z(1u, 1u, multisampled_texture2_array::get_max_size().z());
+  multisampled_texture2_array t_max_size_z(max_size_z);
+  EXPECT_EQ(max_size_z, t_max_size_z.get_size());
+}
+
+
+
+TEST_F(
+  test_multisampled_texture2_array_death_test, size_constructor_invalid_size)
+{
+  EXPECT_PRECOND_ERROR(multisampled_texture2_array(vec3u(0u, 0u, 0u)));
+  EXPECT_PRECOND_ERROR(multisampled_texture2_array(vec3u(1u, 0u, 0u)));
+  EXPECT_PRECOND_ERROR(multisampled_texture2_array(vec3u(0u, 1u, 0u)));
+  EXPECT_PRECOND_ERROR(multisampled_texture2_array(vec3u(1u, 1u, 0u)));
+  EXPECT_PRECOND_ERROR(multisampled_texture2_array(vec3u(0u, 0u, 1u)));
+  EXPECT_PRECOND_ERROR(multisampled_texture2_array(vec3u(1u, 0u, 1u)));
+  EXPECT_PRECOND_ERROR(multisampled_texture2_array(vec3u(0u, 1u, 1u)));
+  EXPECT_PRECOND_ERROR(multisampled_texture2_array(
+    multisampled_texture2_array::get_max_size() + vec3u(1u, 1u, 1u)));
+  EXPECT_PRECOND_ERROR(multisampled_texture2_array(
+    multisampled_texture2_array::get_max_size() + vec3u(0u, 1u, 1u)));
+  EXPECT_PRECOND_ERROR(multisampled_texture2_array(
+    multisampled_texture2_array::get_max_size() + vec3u(1u, 0u, 1u)));
+  EXPECT_PRECOND_ERROR(multisampled_texture2_array(
+    multisampled_texture2_array::get_max_size() + vec3u(0u, 0u, 1u)));
+  EXPECT_PRECOND_ERROR(multisampled_texture2_array(
+    multisampled_texture2_array::get_max_size() + vec3u(1u, 1u, 0u)));
+  EXPECT_PRECOND_ERROR(multisampled_texture2_array(
+    multisampled_texture2_array::get_max_size() + vec3u(0u, 1u, 0u)));
+  EXPECT_PRECOND_ERROR(multisampled_texture2_array(
+    multisampled_texture2_array::get_max_size() + vec3u(1u, 0u, 0u)));
+}
+
+
+
+TEST_F(test_multisampled_texture2_array, full_size_constructor)
+{
+  vec3u size_ref(4u, 8u, 2u);
+  uint sample_count_ref = 2u;
+  for(auto tf : all_formats)
+  {
+    multisampled_texture2_array t(size_ref, tf, sample_count_ref);
+    EXPECT_EQ(size_ref, t.get_size());
+    EXPECT_EQ(tf, t.get_format());
+    EXPECT_EQ(sample_count_ref, t.get_sample_count());
+    EXPECT_TRUE(t.has_fixed_sample_locations());
+  }
+}
+
+
+
+TEST_F(
+  test_multisampled_texture2_array, full_size_constructor_sample_count_limits)
+{
+  vec3u size_ref(4u, 8u, 2u);
+
+  uint min_sample_count = 1u;
+  multisampled_texture2_array t_min_sample(
+    size_ref, texture_format::rgba, min_sample_count);
+  EXPECT_EQ(min_sample_count, t_min_sample.get_sample_count());
+
+  uint max_sample_count = multisampled_texture2_array::get_max_sample_count();
+  multisampled_texture2_array t_max_sample(
+    size_ref, texture_format::rgba, max_sample_count);
+  EXPECT_EQ(max_sample_count, t_max_sample.get_sample_count());
+}
+
+
+
+TEST_F(test_multisampled_texture2_array,
+  full_size_constructor_fixed_sample_locations)
+{
+  vec3u size_ref(4u, 8u, 2u);
+  texture_format format_ref = texture_format::rgba;
+  uint sample_count_ref = 2u;
+  std::vector<bool> has_fixed_sample_locations_values = {false, true};
+  for(auto fsl : has_fixed_sample_locations_values)
+  {
+    multisampled_texture2_array t(size_ref, format_ref, sample_count_ref, fsl);
+    EXPECT_EQ(size_ref, t.get_size());
+    EXPECT_EQ(format_ref, t.get_format());
+    EXPECT_EQ(sample_count_ref, t.get_sample_count());
+    EXPECT_EQ(fsl, t.has_fixed_sample_locations());
+  }
+}
+
+
+
+TEST_F(test_multisampled_texture2_array_death_test, invalid_sample_count)
+{
+  EXPECT_PRECOND_ERROR(
+    multisampled_texture2_array(vec3u(1u, 1u, 1u), texture_format::rgba,
+      multisampled_texture2_array::get_max_sample_count() + 1u));
+}
+
+
+
+TEST_F(test_multisampled_texture2_array, get_byte_count)
+{
+  vec3u size_ref(4u, 8u, 2u);
+  for(auto tf : all_formats)
+  {
+    multisampled_texture2_array t(size_ref, tf);
+    EXPECT_EQ(
+      gl::compute_texture_size_bytes(size_ref.x(), size_ref.y(), size_ref.z(),
+        gl::get_texture_external_format_for_internal_format(
+          static_cast<GLenum>(t.get_format()))),
+      t.get_byte_count());
+  }
 }

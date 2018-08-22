@@ -578,7 +578,7 @@ formatted_text::formatted_text(
 
   m_atlas
     = std::make_unique<texture2_array>(ga.get_image(), texture_format::r, 1u);
-  m_atlas->setChannelMapping(texture_channel_mapping::alpha);
+  m_atlas->set_channel_mapping(texture_channel_mapping::alpha);
   m_mesh = std::make_unique<text_mesh>(
     mesh_draw_mode::triangles, mesh_fill_mode::fill, formatter.get_vertices());
   m_bounding_box = formatter.get_bounding_box();

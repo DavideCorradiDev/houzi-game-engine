@@ -96,41 +96,43 @@ TEST_F(test_mesh2_shader_program, set_transform)
 
 TEST_F(test_mesh2_shader_program, draw_rectangle)
 {
-  mesh2_shader_program mr;
-  vec2u size(4u, 6u);
-  render_surface rt(size);
-  mesh2 rect = create_rectangle_mesh2(vec2f(2.f, 3.f));
-  color col(20u, 30u, 40u, 255u);
-  trans2f t
-    = trans2f::orthographic_projection(rectf(0.f, 0.f, size.x(), size.y()))
-    * trans2f::translation(vec2f(1.f, 2.f));
+  FAIL();
+  // mesh2_shader_program mr;
+  // vec2u size(4u, 6u);
+  // render_surface rt(size);
+  // mesh2 rect = create_rectangle_mesh2(vec2f(2.f, 3.f));
+  // color col(20u, 30u, 40u, 255u);
+  // trans2f t
+  //   = trans2f::orthographic_projection(rectf(0.f, 0.f, size.x(), size.y()))
+  //   * trans2f::translation(vec2f(1.f, 2.f));
 
-  mr.draw(rt, rect, col, t);
+  // mr.draw(rt, rect, col, t);
 
-  image2_rgba im_ref
-    = generate_result_image(size, recti(1, 2, 2, 3), color::transparent(), col);
-  EXPECT_EQ(im_ref, rt.to_texture().get_image<pixel_format::rgba>());
+  // image2_rgba im_ref
+  //   = generate_result_image(size, recti(1, 2, 2, 3), color::transparent(), col);
+  // EXPECT_EQ(im_ref, rt.to_texture().get_image<pixel_format::rgba>());
 }
 
 
 
 TEST_F(test_mesh2_shader_program, draw_textured_rectangle)
 {
-  mesh2_shader_program mr;
-  vec2u size(8u, 10u);
-  render_surface rt(size);
-  mesh2 rect = create_rectangle_mesh2(vec2f(3.f, 4.f));
-  image2_rgba im(vec2u(3u, 4u));
-  color col(20u, 30u, 40u, 255u);
-  im.clear(image2_rgba::pixel_type(col));
-  texture2 tex(im);
-  trans2f t
-    = trans2f::orthographic_projection(rectf(0.f, 0.f, size.x(), size.y()))
-    * trans2f::translation(vec2f(1.f, 2.f));
+  FAIL();
+  // mesh2_shader_program mr;
+  // vec2u size(8u, 10u);
+  // render_surface rt(size);
+  // mesh2 rect = create_rectangle_mesh2(vec2f(3.f, 4.f));
+  // image2_rgba im(vec2u(3u, 4u));
+  // color col(20u, 30u, 40u, 255u);
+  // im.clear(image2_rgba::pixel_type(col));
+  // texture2 tex(im);
+  // trans2f t
+  //   = trans2f::orthographic_projection(rectf(0.f, 0.f, size.x(), size.y()))
+  //   * trans2f::translation(vec2f(1.f, 2.f));
 
-  mr.draw(rt, rect, tex, color::white(), t);
+  // mr.draw(rt, rect, tex, color::white(), t);
 
-  image2_rgba im_ref = generate_result_image(
-    size, recti(1, 2, 3, 4), color::transparent(), col);
-  EXPECT_EQ(im_ref, rt.to_texture().get_image<pixel_format::rgba>());
+  // image2_rgba im_ref = generate_result_image(
+  //   size, recti(1, 2, 3, 4), color::transparent(), col);
+  // EXPECT_EQ(im_ref, rt.to_texture().get_image<pixel_format::rgba>());
 }

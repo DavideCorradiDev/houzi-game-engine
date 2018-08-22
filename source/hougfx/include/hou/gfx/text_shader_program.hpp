@@ -10,7 +10,6 @@
 #include "hou/gfx/mesh.hpp"
 #include "hou/gfx/shader_program.hpp"
 #include "hou/gfx/text_mesh.hpp"
-#include "hou/gfx/texture_fwd.hpp"
 
 #include "hou/gfx/gfx_config.hpp"
 
@@ -27,6 +26,7 @@ class color;
 class font;
 class formatted_text;
 class render_surface;
+class texture2_array;
 
 /** shader program used to render text.
  */

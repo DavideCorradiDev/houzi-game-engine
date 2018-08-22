@@ -41,7 +41,6 @@ SET(EXE_HOUGFX_TEST_SRC
   hou/gfx/test_shader_program.cpp
   hou/gfx/test_text_box_formatting_params.cpp
   hou/gfx/test_text_vertex.cpp
-  hou/gfx/test_exp_texture.cpp
   hou/gfx/test_texture.cpp
   hou/gfx/test_texture_channel_mapping.cpp
   hou/gfx/test_vertex_array.cpp

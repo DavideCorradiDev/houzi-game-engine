@@ -259,18 +259,18 @@ int main(int, char**)
     else if(sc == hou::scan_code::f6)
     {
       mesh_tex.set_wrap_mode(
-        hou::texture2::wrap_mode_type{hou::texture_wrap_mode::clamp_to_edge,
+        hou::texture2::wrap_mode{hou::texture_wrap_mode::clamp_to_edge,
           hou::texture_wrap_mode::clamp_to_edge});
     }
     else if(sc == hou::scan_code::f7)
     {
-      mesh_tex.set_wrap_mode(hou::texture2::wrap_mode_type{
+      mesh_tex.set_wrap_mode(hou::texture2::wrap_mode{
         hou::texture_wrap_mode::repeat, hou::texture_wrap_mode::repeat});
     }
     else if(sc == hou::scan_code::f8)
     {
       mesh_tex.set_wrap_mode(
-        hou::texture2::wrap_mode_type{hou::texture_wrap_mode::mirrored_repeat,
+        hou::texture2::wrap_mode{hou::texture_wrap_mode::mirrored_repeat,
           hou::texture_wrap_mode::mirrored_repeat});
     }
     // Texture filter

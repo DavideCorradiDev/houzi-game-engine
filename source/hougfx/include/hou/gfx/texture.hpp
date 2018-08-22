@@ -2,40 +2,31 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#ifndef HOU_GFX_TEXTURE_HPP
-#define HOU_GFX_TEXTURE_HPP
-
 #include "hou/cor/non_copyable.hpp"
 
-#include "hou/gfx/gl_type.hpp"
 #include "hou/gfx/pixel_view.hpp"
+#include "hou/gfx/texture_channel_mapping.hpp"
 #include "hou/gfx/texture_filter.hpp"
 #include "hou/gfx/texture_format.hpp"
-#include "hou/gfx/texture_fwd.hpp"
+#include "hou/gfx/texture_type.hpp"
 #include "hou/gfx/texture_wrap_mode.hpp"
 
 #include "hou/gfx/gfx_config.hpp"
 
+#include "hou/gl/gl_texture_handle.hpp"
+
 #include "hou/cor/checked_variable.hpp"
-#include "hou/cor/narrow_cast.hpp"
 
 #include "hou/mth/matrix_fwd.hpp"
 
-#include "hou/gl/gl_functions.hpp"
-#include "hou/gl/gl_texture_handle.hpp"
-
-#include "hou/sys/image.hpp"
-
-#include <vector>
-
-
+#ifndef HOU_GFX_TEXTURE_HPP
+#define HOU_GFX_TEXTURE_HPP
 
 namespace hou
 {
 
-class texture_channel_mapping;
-
-/** Represents a texture, that is an image residing in the graphical memory.
+/**
+ * Represents a texture, that is an image residing in the graphical memory.
  *
  * This class is a parent class from which different concrete texture types are
  * derived.
@@ -43,7 +34,8 @@ class texture_channel_mapping;
 class HOU_GFX_API texture : public non_copyable
 {
 public:
-  /** Binds the texture to the given texture unit.
+  /**
+   * Binds the texture to the given texture unit.
    *
    * \param tex the texture to be bound.
    *
@@ -52,139 +44,63 @@ public:
    */
   static void bind(const texture& tex, uint tu);
 
-  /** Unbinds the current texture from the given texture unit.
+  /**
+   * Unbinds the current texture from the given texture unit.
    *
    * \param tu the texture unit. Must be lower than the number of
    * available texture units.
    */
   static void unbind(uint tu);
 
-  /** Retrieves the number of available texture units.
+  /**
+   * Retrieves the number of available texture units.
    *
    * \return the number of available texture units.
    */
   static uint get_texture_unit_count();
 
 public:
-  /** Creates a texture of the given parameters.
+  /**
+   * Creates a texture.
    *
-   * \param type the type of the texture.
+   * \param type the texture type.
    *
    * \param format the texture format.
-   *
-   * \param width the texture width.
-   *
-   * \param height the texture height.
-   *
-   * \param depth the texture depth.
-   *
-   * \param mipmap_level_count the number of mip map levels in the texture.
-   *
-   * \param sample_count the number of samples in the texture.
-   *
-   * \param fixed_sample_locations whether the location of the samples is fixed.
    */
-  texture(texture_type type, texture_format format, positive<uint> width,
-    positive<uint> height, positive<uint> depth,
-    positive<uint> mipmap_level_count, positive<uint> sample_count,
-    bool fixed_sample_locations);
+  texture(texture_type type, texture_format format);
 
-  /** Move constructor.
+  /**
+   * Move constructor.
    *
    * \param other the other texture.
    */
   texture(texture&& other) noexcept = default;
 
-  /** Destructor.
+  /**
+   * Destructor.
    */
   virtual ~texture() = 0;
 
-  /** Retrieves a reference to the OpenGL texture handle.
+  /**
+   * Retrieves a reference to the OpenGL texture handle.
    *
    * \return a reference to the OpenGL texture handle.
    */
   const gl::texture_handle& get_handle() const noexcept;
 
-  /** Checks if this texture is currently bound to the given texture unit.
+  /**
+   * Retrieves the type of this texture.
    *
-   * \param tu the texture unit. Must be lower than the number of
-   * available texture units.
-   *
-   * \return the result of the check.
+   * \return the type of this texture.
    */
-  bool is_bound(uint tu) const;
+  texture_type get_type() const noexcept;
 
-  /** Retrieves the format of this texture.
+  /**
+   * Retrieves the format of this texture.
    *
    * \return the format of this texture.
    */
-  texture_format get_format() const;
-
-  /** Retrieves the number of mip map levels of this texture.
-   *
-   * \return the number of mip map levels of this texture.
-   */
-  positive<uint> get_mipmap_level_count() const;
-
-  /** Retrieves the number of samples of this texture.
-   *
-   * \return the number of samples of this texture.
-   */
-  positive<uint> get_sample_count() const;
-
-  /** Retrieves whether the samples of this texture have fixed positions.
-   *
-   * \return whether the samples of this texture have fixed positions.
-   */
-  bool has_fixed_sample_locations() const;
-
-  /** Retrieves the width of the texture.
-   *
-   * \param level the mipmap level.
-   *
-   * \return the width of the texture.
-   */
-  uint get_width(uint level = 0u) const;
-
-  /** Retrieves the height of the texture.
-   *
-   * \param level the mipmap level.
-   *
-   * \return the height of the texture.
-   */
-  uint get_height(uint level = 0u) const;
-
-  /** Retrieves the depth of the texture.
-   *
-   * \param level the mipmap level.
-   *
-   * \return the depth of the texture.
-   */
-  uint get_depth(uint level = 0u) const;
-
-  /** Retrieves a vector containing the width of the texture.
-   *
-   * \param level the mipmap level.
-   *
-   * \return a vector containing the width of the texture.
-   */
-  vec1u get_size1(uint level = 0u) const;
-
-  /** Retrieves a vector containing the width and height of the texture.
-   *
-   * \param level the mipmap level.
-   *
-   * \return a vector containing the width and height of the texture.
-   */
-  vec2u get_size2(uint level = 0u) const;
-
-  /** Retrieves a vector containing the width, height and depth of the texture.
-   *
-   * \param level the mipmap level.
-   *
-   * \return a vector containing the width, height and depth of the texture.
-   */
-  vec3u get_size3(uint level = 0u) const;
+  texture_format get_format() const noexcept;
 
   /** Retrieves the channel mapping of the texture.
    *
@@ -196,100 +112,136 @@ public:
    *
    * \param mapping the channel mapping.
    */
-  void setChannelMapping(const texture_channel_mapping& mapping);
+  void set_channel_mapping(const texture_channel_mapping& mapping);
 
-  /** Retrieves the type of the texture.
+  /**
+   * Checks if this texture is currently bound to the given texture unit.
    *
-   * \return the type of the texture.
-   */
-  virtual texture_type get_type() const = 0;
-
-  /** Retrieves the number of dimensions of the texture (one-, two-, or
-   * three-dimensional).
-   *
-   * \return the number of dimension of the texture.
-   */
-  virtual size_t get_dimension_count() const = 0;
-
-  /** Checks whether the texture may have multiple mip map levels.
+   * \param tu the texture unit. Must be lower than the number of
+   * available texture units.
    *
    * \return the result of the check.
+   */
+  bool is_bound(uint tu) const;
+
+  /**
+   * Retrieves the number of mip map levels of this texture.
+   *
+   * \return the number of mip map levels of this texture.
+   */
+  virtual positive<uint> get_mipmap_level_count() const = 0;
+
+  /**
+   * Retrieves the number of samples of this texture.
+   *
+   * \return the number of samples of this texture.
+   */
+  virtual positive<uint> get_sample_count() const = 0;
+
+  /**
+   * Checks if the texture is mipmapped.
+   *
+   * \return true if the texture is mipmapped.
    */
   virtual bool is_mipmapped() const = 0;
 
-  /** Checks whether the texture may have multiple samples per pixel.
+  /**
+   * Checks if the texture is multisampled.
    *
-   * \return the result of the check.
+   * \return true if the texture is multisampled.
    */
   virtual bool is_multisampled() const = 0;
 
+protected:
+  texture_filter get_filter_internal() const;
+  void set_filter_internal(texture_filter filter);
+
 private:
-  gl::texture_handle m_gl_texture_handle;
+  gl::texture_handle m_handle;
+  texture_type m_type;
   texture_format m_format;
-  positive<uint> m_width;
-  positive<uint> m_height;
-  positive<uint> m_depth;
-  positive<uint> m_mipmap_level_count;
-  positive<uint> m_sample_count;
-  bool m_fixed_sample_locations;
 };
 
-/** Represents a concrete texture type.
- *
- * \tparam Type the texture type.
- */
-template <texture_type Type>
-class texture_t : public texture
+
+
+class HOU_GFX_API texture2_base : public texture
 {
 public:
-  /** Type representing the size of the texture. */
-  using size_type = vec<uint, get_texture_type_dimension_count(Type)>;
-
-  /** Type representing texture coordinates. */
-  using offset_type = size_type;
-
-  /** Type representing the texture wrap mode for each of its dimensions. */
-  using wrap_mode_type
-    = std::array<texture_wrap_mode, get_texture_type_dimension_count(Type)>;
-
-  /** Type representing an image with dimensionality matching that of the
-   * texture.
-   *
-   * \tparam ftm the format of the texture.
+  /**
+   * Size type.
    */
-  template <pixel_format PF>
-  using image = image<get_texture_type_dimension_count(Type), PF>;
+  using size_type = vec2u;
 
 public:
-  /** The texture type. */
-  static constexpr texture_type type = Type;
+  /**
+   * Creates a texture with the given type, size, and format.
+   *
+   * \param type the type.
+   *
+   * \param size the size.
+   *
+   * \format the format.
+   */
+  texture2_base(texture_type type, const vec2u& size, texture_format format);
 
-  /** The number of dimensions of the texture. */
-  static constexpr size_t dimension_count
-    = get_texture_type_dimension_count(Type);
+  /**
+   * Move constructor.
+   *
+   * \param other the other texture.
+   */
+  texture2_base(texture2_base&& other) noexcept = default;
+
+  /**
+   * Destructor.
+   */
+  virtual ~texture2_base() = 0;
+
+  /**
+   * Gets the size of the texture.
+   *
+   * \return the size of the texture.
+   */
+  const vec2u& get_size() const noexcept;
+
+  /**
+   * Gets the size in bytes of the texture.
+   *
+   * \return the size in bytes of the texture.
+   */
+  size_t get_byte_count() const;
+
+private:
+  vec2u m_size;
+};
+
+
+
+class HOU_GFX_API texture2 : public texture2_base
+{
+public:
+  /**
+   * Wrap mode type.
+   */
+  using wrap_mode = std::array<texture_wrap_mode, 2u>;
 
 public:
-  /** Retrieves the maximum allowed size for the texture.
+  /**
+   * Retrieves the maximum allowed size for the texture.
    *
    * \return a vector containing the maximum size on each dimension.
    */
-  static size_type get_max_size();
+  static const vec2u& get_max_size();
 
   /** Retrieves the maximum allowed number of mip map levels for a given texture
    * size.
    *
    * \return the maximum number of allowed mip map levels.
    */
-  static positive<uint> get_max_mipmap_level_count(const size_type& size);
-
-  /** Retrieves the maximum amount of samples per pixel.
-   *
-   * \return the maximum amount of samples per pixel.
-   */
-  static positive<uint> get_max_sample_count();
+  static positive<uint> get_max_mipmap_level_count(const vec2u& size);
 
 public:
-  /** Creates a texture with the given size, format, and number of mip map
+  /**
+   * Creates a texture with the given size, format, and number of mip map
    * levels.
    *
    * \tparam Type2 dummy parameter.
@@ -306,13 +258,11 @@ public:
    * must be greater then zero and lower or equal than the maximum number of
    * allowed mip map levels.
    */
-  template <texture_type Type2 = Type,
-    typename Enable = std::enable_if_t<is_texture_type_mipmapped(Type2)>>
-  explicit texture_t(const size_type& size,
-    texture_format format = texture_format::rgba,
+  texture2(const vec2u& size, texture_format format = texture_format::rgba,
     positive<uint> mipmap_level_count = 1u);
 
-  /** Creates a texture with the given image, format, and number of mip map
+  /**
+   * Creates a texture with the given image, format, and number of mip map
    * levels.
    *
    * \tparam Type2 dummy parameter.
@@ -328,12 +278,150 @@ public:
    * must be greater then zero and lower or equal than the maximum number of
    * allowed mip map levels.
    */
-  template <pixel_format PF, texture_type Type2 = Type,
-    typename Enable = std::enable_if_t<is_texture_type_mipmapped(Type2)>>
-  explicit texture_t(const image<PF>& im,
-    texture_format format = texture_format::rgba,
+  texture2(const pixel_view2& pv, texture_format format = texture_format::rgba,
     positive<uint> mipmap_level_count = 1u);
 
+  /**
+   * Move constructor.
+   *
+   * \param other the other texture.
+   */
+  texture2(texture2&& other) noexcept = default;
+
+  /**
+   * Retrieves the texture filter.
+   *
+   * \tparam Type2 dummy parameter.
+   *
+   * \tparam Enable enabling parameter.
+   *
+   * \return the texture filter.
+   */
+  texture_filter get_filter() const;
+
+  /**
+   * Sets the texture filter.
+   *
+   * \tparam Type2 dummy parameter.
+   *
+   * \tparam Enable enabling parameter.
+   *
+   * \param filter the texture filter.
+   */
+  void set_filter(texture_filter filter);
+
+  /**
+   * Retrieves the texture wrap mode.
+   *
+   * \tparam Type2 dummy parameter.
+   *
+   * \tparam Enable enabling parameter.
+   *
+   * \return the texture wrap mode.
+   */
+  wrap_mode get_wrap_mode() const;
+
+  /**
+   * Sets the texture wrap mode.
+   *
+   * \tparam Type2 dummy parameter.
+   *
+   * \tparam Enable enabling parameter.
+   *
+   * \param wrap_mode_type the texture wrap mode.
+   */
+  void set_wrap_mode(const wrap_mode& wm);
+
+  /**
+   * Retrieve the contents of the texture as an image object.
+   *
+   * \note this function is not supported and will throw if called on a system
+   * using GL ES.
+   *
+   * \throws hou::unsupported_error if on a platform using GL ES.
+   *
+   * \return an image with the content of the texture.
+   */
+  std::vector<uint8_t> get_image() const;
+
+  /**
+   * Retrieves the contents of a sub-region of the texture as an image object.
+   *
+   * \note this function is not supported and will throw if called on a system
+   * using GL ES.
+   *
+   * \throws hou::precondition_violation if offset + size > get_size().
+   *
+   * \throws hou::unsupported_error if on a platform using GL ES.
+   *
+   * \param offset a pixel offset represeinting the top-left corner of the
+   * sub-region
+   *
+   * \param size the size of the sub-region
+   *
+   * \return an image with the content of the texture in the specified
+   * sub-region.
+   */
+  std::vector<uint8_t> get_sub_image(
+    const vec2u& offset, const vec2u& size) const;
+
+  /**
+   * Sets the content of the texture.
+   *
+   * \param im an image representing the content of the texture.
+   */
+  void set_image(const pixel_view2& pv);
+
+  /**
+   * Sets the content of a sub-region of the texture.
+   *
+   * \throws hou::precondition_violation if offset + pv.get_size() > get_size().
+   *
+   * \param offset an offset representing the top-left cornern of the
+   * sub-region.
+   *
+   * \param im an image representing the content of the texture.
+   */
+  void set_sub_image(const vec2u& offset, const pixel_view2& pv);
+
+  /**
+   * Clears the texture to zero.
+   */
+  void clear();
+
+  // texture overrides
+  positive<uint> get_mipmap_level_count() const final;
+  positive<uint> get_sample_count() const final;
+  bool is_mipmapped() const final;
+  bool is_multisampled() const final;
+
+private:
+  texture2(const vec2u& size, texture_format format,
+    positive<uint> mipmap_level_count, bool);
+
+private:
+  positive<uint> m_mipmap_level_count;
+};
+
+
+
+class HOU_GFX_API multisampled_texture2 : public texture2_base
+{
+public:
+  /**
+   * Retrieves the maximum allowed size for the texture.
+   *
+   * \return a vector containing the maximum size on each dimension.
+   */
+  static const vec2u& get_max_size();
+
+  /** Retrieves the maximum amount of samples per pixel.
+   *
+   * \return the maximum amount of samples per pixel.
+   */
+  static positive<uint> get_max_sample_count();
+
+public:
   /** Creates a texture with the given size, format, and sample specification.
    *
    * \tparam Type2 dummy parameter.
@@ -353,19 +441,129 @@ public:
    * \param fixed_sample_locations a bool specifying if the location of the
    * samples should be fixed.
    */
-  template <texture_type Type2 = Type,
-    typename Enable = std::enable_if_t<is_texture_type_multisampled(Type2)>>
-  explicit texture_t(const size_type& size,
+  multisampled_texture2(const vec2u& size,
     texture_format format = texture_format::rgba,
     positive<uint> sample_count = 1u, bool fixed_sample_locations = true);
 
-  /** Retrieves the size of the texture.
+  /**
+   * Move constructor.
+   *
+   * \param other the other texture.
+   */
+  multisampled_texture2(multisampled_texture2&& other) noexcept = default;
+
+  /**
+   * Retrieves whether the samples of this texture have fixed positions.
+   *
+   * \return whether the samples of this texture have fixed positions.
+   */
+  bool has_fixed_sample_locations() const noexcept;
+
+  // texture overrides
+  positive<uint> get_mipmap_level_count() const final;
+  positive<uint> get_sample_count() const final;
+  bool is_mipmapped() const final;
+  bool is_multisampled() const final;
+
+private:
+  positive<uint> m_sample_count;
+  bool m_fixed_sample_locations;
+};
+
+
+
+class HOU_GFX_API texture3_base : public texture
+{
+public:
+  /**
+   * Size type.
+   */
+  using size_type = vec3u;
+
+public:
+  /**
+   * Creates a texture with the given type, size, and format.
+   *
+   * \param type the type.
+   *
+   * \param size the size.
+   *
+   * \format the format.
+   */
+  texture3_base(texture_type type, const vec3u& size, texture_format format);
+
+  /**
+   * Move constructor.
+   *
+   * \param other the other texture.
+   */
+  texture3_base(texture3_base&& other) noexcept = default;
+
+  /**
+   * Destructor.
+   */
+  virtual ~texture3_base() = 0;
+
+  /**
+   * Gets the size of the texture.
    *
    * \return the size of the texture.
    */
-  size_type get_size() const;
+  const vec3u& get_size() const noexcept;
 
-  /** Retrieves the texture filter.
+  /**
+   * Gets the size in bytes of the texture.
+   *
+   * \return the size in bytes of the texture.
+   */
+  size_t get_byte_count() const;
+
+private:
+  vec3u m_size;
+};
+
+
+
+class HOU_GFX_API mipmapped_texture3 : public texture3_base
+{
+public:
+  /**
+   * Wrap mode type.
+   */
+  using wrap_mode = std::array<texture_wrap_mode, 3u>;
+
+public:
+  /**
+   * Creates a texture with the given size, format, and number of mip map
+   * levels.
+   *
+   * \param size the size of the texture. Each of its element must be greater
+   * than zero and lower or equal than the corresponding maximum texture size
+   * element.
+   *
+   * \param format the format of the texture.
+   *
+   * \param mipmap_level_count the number of mip map levels in the texture. It
+   * must be greater then zero and lower or equal than the maximum number of
+   * allowed mip map levels.
+   */
+  mipmapped_texture3(texture_type type, const vec3u& size, texture_format format,
+    positive<uint> mipmap_level_count);
+
+  /**
+   * Move constructor.
+   *
+   * \param other the other texture.
+   */
+  mipmapped_texture3(mipmapped_texture3&& other) noexcept = default;
+
+  /**
+   * Destructor.
+   */
+  virtual ~mipmapped_texture3() = 0;
+
+  /**
+   * Retrieves the texture filter.
    *
    * \tparam Type2 dummy parameter.
    *
@@ -373,11 +571,10 @@ public:
    *
    * \return the texture filter.
    */
-  template <texture_type Type2 = Type,
-    typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
   texture_filter get_filter() const;
 
-  /** Sets the texture filter.
+  /**
+   * Sets the texture filter.
    *
    * \tparam Type2 dummy parameter.
    *
@@ -385,11 +582,10 @@ public:
    *
    * \param filter the texture filter.
    */
-  template <texture_type Type2 = Type,
-    typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
   void set_filter(texture_filter filter);
 
-  /** Retrieves the texture wrap mode.
+  /**
+   * Retrieves the texture wrap mode.
    *
    * \tparam Type2 dummy parameter.
    *
@@ -397,11 +593,10 @@ public:
    *
    * \return the texture wrap mode.
    */
-  template <texture_type Type2 = Type,
-    typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
-  wrap_mode_type get_wrap_mode() const;
+  wrap_mode get_wrap_mode() const;
 
-  /** Sets the texture wrap mode.
+  /**
+   * Sets the texture wrap mode.
    *
    * \tparam Type2 dummy parameter.
    *
@@ -409,45 +604,29 @@ public:
    *
    * \param wrap_mode_type the texture wrap mode.
    */
-  template <texture_type Type2 = Type,
-    typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
-  void set_wrap_mode(const wrap_mode_type& wrap_mode_type);
+  void set_wrap_mode(const wrap_mode& wm);
 
-  /** Retrieve the contents of the texture as an image object.
+  /**
+   * Retrieve the contents of the texture as an image object.
    *
    * \note this function is not supported and will throw if called on a system
    * using GL ES.
    *
    * \throws hou::unsupported_error if on a platform using GL ES.
-   *
-   * \tparam PF the pixel_format of the output image.
-   *
-   * \tparam Type2 dummy parameter.
-   *
-   * \tparam Enable enabling parameter.
    *
    * \return an image with the content of the texture.
    */
-  // Note: the texture_t::image alias cannot be used because otherwise MSVC
-  // cannot make the connection between the declaration and the definition.
-  template <pixel_format PF, texture_type Type2 = Type,
-    typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
-  ::hou::image<texture_t<Type>::dimension_count, PF> get_image() const;
+  std::vector<uint8_t> get_image() const;
 
-  /** Retrieves the contents of a sub-region of the texture as an image object.
-   *
-   * Throws if the subregion exceeds the boundaries of th image.
+  /**
+   * Retrieves the contents of a sub-region of the texture as an image object.
    *
    * \note this function is not supported and will throw if called on a system
    * using GL ES.
    *
+   * \throws hou::precondition_violation if offset + size > get_size().
+   *
    * \throws hou::unsupported_error if on a platform using GL ES.
-   *
-   * \tparam PF the pixel_format of the output image.
-   *
-   * \tparam Type2 dummy parameter.
-   *
-   * \tparam Enable enabling parameter.
    *
    * \param offset a pixel offset represeinting the top-left corner of the
    * sub-region
@@ -457,141 +636,239 @@ public:
    * \return an image with the content of the texture in the specified
    * sub-region.
    */
-  template <pixel_format PF, texture_type Type2 = Type,
-    typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
-  ::hou::image<texture_t<Type>::dimension_count, PF> get_sub_image(
-    const offset_type& offset, const size_type& size) const;
+  std::vector<uint8_t> get_sub_image(
+    const vec3u& offset, const vec3u& size) const;
 
-  /** Sets the content of the texture.
-   *
-   * \tparam PF the pixel_format of the input image.
-   *
-   * \tparam Type2 dummy parameter.
-   *
-   * \tparam Enable enabling parameter.
+  /**
+   * Sets the content of the texture.
    *
    * \param im an image representing the content of the texture.
    */
-  template <pixel_format PF, texture_type Type2 = Type,
-    typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
-  void set_image(const image<PF>& im);
+  void set_image(const pixel_view3& pv);
 
-  /** Sets the content of a sub-region of the texture.
+  /**
+   * Sets the content of a sub-region of the texture.
    *
-   * Throws if the subregion exceeds the boundaries of the image.
-   *
-   * \tparam PF the pixel_format of the input image.
-   *
-   * \tparam Type2 dummy parameter.
-   *
-   * \tparam Enable enabling parameter.
+   * \throws hou::precondition_violation if offset + pv.get_size() > get_size().
    *
    * \param offset an offset representing the top-left cornern of the
    * sub-region.
    *
    * \param im an image representing the content of the texture.
    */
-  template <pixel_format PF, texture_type Type2 = Type,
-    typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
-  void set_sub_image(const offset_type& offset, const image<PF>& im);
+  void set_sub_image(const vec3u& offset, const pixel_view3& pv);
 
-  /** Clear the texture with the specified pixel value.
-   *
-   * \tparam PF the pixel_format of the input pixel value.
-   *
-   * \tparam Type2 dummy parameter.
-   *
-   * \tparam Enable enabling parameter.
-   *
-   * \param px the pixel value.
+  /**
+   * Clears the texture to zero.
    */
-  template <pixel_format PF, texture_type Type2 = Type,
-    typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
-  void clear(const pixel<PF>& px);
+  void clear();
 
-  /** Resets all texture pixel values to 0.
-   *
-   * \tparam Enable enabling parameter.
-   */
-  template <texture_type Type2 = Type,
-    typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
-  void reset();
-
-  /** Retrieves the size of the specified mip map level.
-   *
-   * \tparam Type2 dummy parameter.
-   *
-   * \tparam Enable enabling parameter.
-   *
-   * \param mipmap_level the mipMapLevevel. It must be lower than the number of
-   * mip map levels of the texture.
-   *
-   * \return the size of the specified mip map level.
-   */
-  template <texture_type Type2 = Type,
-    typename Enable = std::enable_if_t<is_texture_type_mipmapped(Type2)>>
-  size_type get_mipmap_size(uint mipmap_level) const;
-
-  /** Retrieves the content of the specified mip map level of the texture as an
-   * image object.
-   *
-   * \tparam PF the pixel_format of the input pixel value.
-   *
-   * \tparam Type2 dummy parameter.
-   *
-   * \tparam Enable enabling parameter.
-   *
-   * \param mipmap_level the mipMapLevevel. It must be lower than the number of
-   * mip map levels of the texture.
-   *
-   * \return an image containing the data of the specified mip map level.
-   */
-  template <pixel_format PF, texture_type Type2 = Type,
-    typename Enable = std::enable_if_t<is_texture_type_mipmapped(Type2)>>
-  // Note: the texture_t::image alias cannot be used because otherwise MSVC
-  // cannot make the connection between the declaration and the definition.
-  ::hou::image<texture_t<Type>::dimension_count, PF> get_mipmap_image(
-    uint mipmap_level) const;
-
-  // texture overrides.
-  texture_type get_type() const override;
-  size_t get_dimension_count() const override;
-  bool is_mipmapped() const override;
-  bool is_multisampled() const override;
+  // texture overrides
+  positive<uint> get_mipmap_level_count() const final;
+  positive<uint> get_sample_count() const final;
+  bool is_mipmapped() const final;
+  bool is_multisampled() const final;
 
 private:
-  static bool is_texture_size_valid(const size_type& s);
+  positive<uint> m_mipmap_level_count;
+};
 
-  static bool is_mipmap_level_count_valid(
-    positive<uint> mipmap_level_count, const size_type& s);
 
-  static positive<uint> get_max_mipmap_level_count_for_size(const size_type& s);
 
-  static bool element_wise_lower_or_equal(
-    const size_type& lhs, const size_type& rhs);
+class HOU_GFX_API texture2_array : public mipmapped_texture3
+{
+public:
+  /**
+   * Retrieves the maximum allowed size for the texture.
+   *
+   * \return a vector containing the maximum size on each dimension.
+   */
+  static const vec3u& get_max_size();
 
-  static size_t compute_image_buffer_size(
-    const size_type& im_size, pixel_format fmt);
+  /** Retrieves the maximum allowed number of mip map levels for a given texture
+   * size.
+   *
+   * \return the maximum number of allowed mip map levels.
+   */
+  static positive<uint> get_max_mipmap_level_count(const vec3u& size);
 
-  static GLenum pixel_format_to_gl_pixel_format(pixel_format format);
+public:
+  /**
+   * Creates a texture with the given size, format, and number of mip map
+   * levels.
+   *
+   * \param size the size of the texture. Each of its element must be greater
+   * than zero and lower or equal than the corresponding maximum texture size
+   * element.
+   *
+   * \param format the format of the texture.
+   *
+   * \param mipmap_level_count the number of mip map levels in the texture. It
+   * must be greater then zero and lower or equal than the maximum number of
+   * allowed mip map levels.
+   */
+  texture2_array(const vec3u& size,
+    texture_format format = texture_format::rgba,
+    positive<uint> mipmap_level_count = 1u);
+
+  /**
+   * Creates a texture with the given image, format, and number of mip map
+   * levels.
+   *
+   * \param im an image representing the texture contents. The size of the
+   * image must be a valid texture size.
+   *
+   * \param format the format of the texture.
+   *
+   * \param mipmap_level_count the number of mip map levels in the texture. It
+   * must be greater then zero and lower or equal than the maximum number of
+   * allowed mip map levels.
+   */
+  texture2_array(const pixel_view3& pv,
+    texture_format format = texture_format::rgba,
+    positive<uint> mipmap_level_count = 1u);
+
+  /**
+   * Move constructor.
+   *
+   * \param other the other texture.
+   */
+  texture2_array(texture2_array&& other) noexcept = default;
 
 private:
-  void generate_mip_map();
+  texture2_array(const vec3u& pv, texture_format format,
+    positive<uint> mipmap_level_count, bool);
+};
 
-  template <pixel_format PF, texture_type Type2 = Type,
-    typename Enable = std::enable_if_t<!is_texture_type_multisampled(Type2)>>
-  void set_sub_image_internal(const offset_type& offset, const image<PF>& im);
 
-  template <pixel_format PF>
-  ::hou::image<texture_t<Type>::dimension_count, PF> get_image_internal(
-    pixel_format pf, const size_type& s,
-    const std::vector<uint8_t>& buffer) const;
+
+class HOU_GFX_API texture3 : public mipmapped_texture3
+{
+public:
+  /**
+   * Retrieves the maximum allowed size for the texture.
+   *
+   * \return a vector containing the maximum size on each dimension.
+   */
+  static const vec3u& get_max_size();
+
+  /** Retrieves the maximum allowed number of mip map levels for a given texture
+   * size.
+   *
+   * \return the maximum number of allowed mip map levels.
+   */
+  static positive<uint> get_max_mipmap_level_count(const vec3u& size);
+
+public:
+  /**
+   * Creates a texture with the given size, format, and number of mip map
+   * levels.
+   *
+   * \param size the size of the texture. Each of its element must be greater
+   * than zero and lower or equal than the corresponding maximum texture size
+   * element.
+   *
+   * \param format the format of the texture.
+   *
+   * \param mipmap_level_count the number of mip map levels in the texture. It
+   * must be greater then zero and lower or equal than the maximum number of
+   * allowed mip map levels.
+   */
+  texture3(const vec3u& size, texture_format format = texture_format::rgba,
+    positive<uint> mipmap_level_count = 1u);
+
+  /**
+   * Creates a texture with the given image, format, and number of mip map
+   * levels.
+   *
+   * \param im an image representing the texture contents. The size of the
+   * image must be a valid texture size.
+   *
+   * \param format the format of the texture.
+   *
+   * \param mipmap_level_count the number of mip map levels in the texture. It
+   * must be greater then zero and lower or equal than the maximum number of
+   * allowed mip map levels.
+   */
+  texture3(const pixel_view3& pv, texture_format format = texture_format::rgba,
+    positive<uint> mipmap_level_count = 1u);
+
+  /**
+   * Move constructor.
+   *
+   * \param other the other texture.
+   */
+  texture3(texture3&& other) noexcept = default;
+
+private:
+  texture3(const vec3u& pv, texture_format format,
+    positive<uint> mipmap_level_count, bool);
+};
+
+
+
+class HOU_GFX_API multisampled_texture2_array : public texture3_base
+{
+public:
+  /**
+   * Retrieves the maximum allowed size for the texture.
+   *
+   * \return a vector containing the maximum size on each dimension.
+   */
+  static const vec3u& get_max_size();
+
+  /** Retrieves the maximum amount of samples per pixel.
+   *
+   * \return the maximum amount of samples per pixel.
+   */
+  static positive<uint> get_max_sample_count();
+
+public:
+  /** Creates a texture with the given size, format, and sample specification.
+   *
+   * \param size the size of the texture. Each of its element must be greater
+   * than zero and lower or equal than the corresponding maximum texture size
+   * element.
+   *
+   * \param format the format of the texture.
+   *
+   * \param sample_count the number of samples per pixel in the texture. It must
+   * be greater than zero and lower or equal than the maximum number of allowed
+   * samples per pixel.
+   *
+   * \param fixed_sample_locations a bool specifying if the location of the
+   * samples should be fixed.
+   */
+  multisampled_texture2_array(const vec3u& size,
+    texture_format format = texture_format::rgba,
+    positive<uint> sample_count = 1u, bool fixed_sample_locations = true);
+
+  /**
+   * Move constructor.
+   *
+   * \param other the other texture.
+   */
+  multisampled_texture2_array(multisampled_texture2_array&& other) noexcept
+    = default;
+
+  /**
+   * Retrieves whether the samples of this texture have fixed positions.
+   *
+   * \return whether the samples of this texture have fixed positions.
+   */
+  bool has_fixed_sample_locations() const noexcept;
+
+  // texture overrides
+  positive<uint> get_mipmap_level_count() const final;
+  positive<uint> get_sample_count() const final;
+  bool is_mipmapped() const final;
+  bool is_multisampled() const final;
+
+private:
+  positive<uint> m_sample_count;
+  bool m_fixed_sample_locations;
 };
 
 }  // namespace hou
-
-
-
-#include "hou/gfx/texture.inl"
 
 #endif

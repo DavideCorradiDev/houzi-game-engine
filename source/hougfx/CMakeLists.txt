@@ -49,7 +49,6 @@ SET(LIB_HOUGFX_SRC
   src/hou/gfx/text_flow.cpp
   src/hou/gfx/text_shader_program.cpp
   src/hou/gfx/text_vertex.cpp
-  src/hou/gfx/exp_texture.cpp
   src/hou/gfx/texture.cpp
   src/hou/gfx/texture_channel.cpp
   src/hou/gfx/texture_channel_mapping.cpp

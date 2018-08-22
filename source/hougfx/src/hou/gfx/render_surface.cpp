@@ -108,7 +108,7 @@ void render_surface::set_viewport(const recti& viewport)
 vec2u render_surface::get_size() const
 {
   HOU_DEV_ASSERT(m_color_attachment != nullptr);
-  return m_color_attachment->get_size2();
+  return m_color_attachment->get_size();
 }
 
 

@@ -234,8 +234,8 @@ private:
 
 private:
   framebuffer m_framebuffer;
-  std::unique_ptr<texture> m_color_attachment;
-  std::unique_ptr<texture> m_depth_stencil_attachment;
+  std::unique_ptr<texture2_base> m_color_attachment;
+  std::unique_ptr<texture2_base> m_depth_stencil_attachment;
   recti m_viewport;
 };
 

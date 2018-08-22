@@ -78,7 +78,8 @@ mesh2_shader_program::mesh2_shader_program()
   , m_uni_texture(get_uniform_location(UNI_TEXTURE))
   , m_uni_transform(get_uniform_location(UNI_TRANSFORM))
 {
-  m_blank_texture.clear(pixel_rgba(color::white()));
+  m_blank_texture.set_image(
+    image2_rgba(m_blank_texture.get_size(), pixel_rgba(color::white())));
 }
 
 

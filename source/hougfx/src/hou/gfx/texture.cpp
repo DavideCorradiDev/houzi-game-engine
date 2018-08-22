@@ -1,17 +1,11 @@
-// Houzi Game Engine
-// Copyright (c) 2018 Davide Corradi
-// Licensed under the MIT license.
-
 #include "hou/gfx/texture.hpp"
 
-#include "hou/gfx/texture_channel_mapping.hpp"
+#include "hou/cor/assertions.hpp"
 
-#include "hou/cor/narrow_cast.hpp"
+#include "hou/gl/gl_functions.hpp"
 
 #include "hou/mth/math_functions.hpp"
-#include "hou/mth/matrix.hpp"
 
-#include <algorithm>
 #include <cmath>
 
 
@@ -19,215 +13,10 @@
 namespace hou
 {
 
-namespace
-{
-
-template <texture_type Type>
-typename texture_t<Type>::size_type get_max_size_internal();
-
-template <texture_type Type>
-typename texture_t<Type>::size_type get_size_internal(const texture& t);
-
-template <texture_type Type>
-uint get_mipmap_relevant_size(const typename texture_t<Type>::size_type& s);
-
-std::array<texture_wrap_mode, 2u> get_texture2_wrap_mode(
-  const gl::texture_handle& th);
-
-std::array<texture_wrap_mode, 3u> get_texture3_wrap_mode(
-  const gl::texture_handle& th);
-
-void set_texture2_wrap_mode(
-  const gl::texture_handle& th, const std::array<texture_wrap_mode, 2u>& wm);
-
-void set_texture3_wrap_mode(
-  const gl::texture_handle& th, const std::array<texture_wrap_mode, 3u>& wm);
-
-
-
-template <>
-vec2u get_max_size_internal<texture_type::texture2>()
-{
-  return vec2u(narrow_cast<uint>(gl::get_max_texture_size()),
-    narrow_cast<uint>(gl::get_max_texture_size()));
-}
-
-
-
-template <>
-vec3u get_max_size_internal<texture_type::texture2_array>()
-{
-  return vec3u(narrow_cast<uint>(gl::get_max_texture_size()),
-    narrow_cast<uint>(gl::get_max_texture_size()),
-    narrow_cast<uint>(gl::get_max_texture_layers()));
-}
-
-
-
-template <>
-vec3u get_max_size_internal<texture_type::texture3>()
-{
-  return vec3u(narrow_cast<uint>(gl::get_max_3d_texture_size()),
-    narrow_cast<uint>(gl::get_max_3d_texture_size()),
-    narrow_cast<uint>(gl::get_max_3d_texture_size()));
-}
-
-
-
-template <>
-vec2u get_max_size_internal<texture_type::multisampled_texture2>()
-{
-  return vec2u(narrow_cast<uint>(gl::get_max_texture_size()),
-    narrow_cast<uint>(gl::get_max_texture_size()));
-}
-
-
-
-template <>
-vec3u get_max_size_internal<texture_type::multisampled_texture2_array>()
-{
-  return vec3u(narrow_cast<uint>(gl::get_max_texture_size()),
-    narrow_cast<uint>(gl::get_max_texture_size()),
-    narrow_cast<uint>(gl::get_max_texture_layers()));
-}
-
-
-
-template <>
-typename texture_t<texture_type::texture2>::size_type
-  get_size_internal<texture_type::texture2>(const texture& t)
-{
-  return t.get_size2();
-}
-
-
-
-template <>
-typename texture_t<texture_type::texture2_array>::size_type
-  get_size_internal<texture_type::texture2_array>(const texture& t)
-{
-  return t.get_size3();
-}
-
-
-
-template <>
-typename texture_t<texture_type::texture3>::size_type
-  get_size_internal<texture_type::texture3>(const texture& t)
-{
-  return t.get_size3();
-}
-
-
-
-template <>
-typename texture_t<texture_type::multisampled_texture2>::size_type
-  get_size_internal<texture_type::multisampled_texture2>(const texture& t)
-{
-  return t.get_size2();
-}
-
-
-
-template <>
-typename texture_t<texture_type::multisampled_texture2_array>::size_type
-  get_size_internal<texture_type::multisampled_texture2_array>(const texture& t)
-{
-  return t.get_size3();
-}
-
-
-
-template <>
-uint get_mipmap_relevant_size<texture_type::texture2>(
-  const typename texture_t<texture_type::texture2>::size_type& s)
-{
-  return std::max(s(0), s(1));
-}
-
-
-
-template <>
-uint get_mipmap_relevant_size<texture_type::texture2_array>(
-  const typename texture_t<texture_type::texture2_array>::size_type& s)
-{
-  return std::max(s(0), s(1));
-}
-
-
-
-template <>
-uint get_mipmap_relevant_size<texture_type::texture3>(
-  const typename texture_t<texture_type::texture3>::size_type& s)
-{
-  return std::max(std::max(s(0), s(1)), s(2));
-}
-
-
-
-template <>
-uint get_mipmap_relevant_size<texture_type::multisampled_texture2>(
-  const typename texture_t<texture_type::multisampled_texture2>::size_type&)
-{
-  return 1u;
-}
-
-
-
-template <>
-uint get_mipmap_relevant_size<texture_type::multisampled_texture2_array>(
-  const typename texture_t<
-    texture_type::multisampled_texture2_array>::size_type&)
-{
-  return 1u;
-}
-
-
-
-std::array<texture_wrap_mode, 2u> get_texture2_wrap_mode(
-  const gl::texture_handle& th)
-{
-  return {texture_wrap_mode(gl::get_texture_wrap_mode_s(th)),
-    texture_wrap_mode(gl::get_texture_wrap_mode_t(th))};
-}
-
-
-
-std::array<texture_wrap_mode, 3u> get_texture3_wrap_mode(
-  const gl::texture_handle& th)
-{
-  return {texture_wrap_mode(gl::get_texture_wrap_mode_s(th)),
-    texture_wrap_mode(gl::get_texture_wrap_mode_t(th)),
-    texture_wrap_mode(gl::get_texture_wrap_mode_r(th))};
-}
-
-
-
-void set_texture2_wrap_mode(
-  const gl::texture_handle& th, const std::array<texture_wrap_mode, 2u>& wm)
-{
-  gl::set_texture_wrap_mode_s(th, static_cast<GLenum>(wm[0]));
-  gl::set_texture_wrap_mode_t(th, static_cast<GLenum>(wm[1]));
-}
-
-
-
-void set_texture3_wrap_mode(
-  const gl::texture_handle& th, const std::array<texture_wrap_mode, 3u>& wm)
-{
-  gl::set_texture_wrap_mode_s(th, static_cast<GLenum>(wm[0]));
-  gl::set_texture_wrap_mode_t(th, static_cast<GLenum>(wm[1]));
-  gl::set_texture_wrap_mode_r(th, static_cast<GLenum>(wm[2]));
-}
-
-}  // namespace
-
-
-
 void texture::bind(const texture& tex, uint tu)
 {
   HOU_PRECOND(tu < get_texture_unit_count());
-  gl::bind_texture(tex.m_gl_texture_handle, tu);
+  gl::bind_texture(tex.m_handle, tu);
 }
 
 
@@ -247,18 +36,10 @@ uint texture::get_texture_unit_count()
 
 
 
-texture::texture(texture_type type, texture_format format, positive<uint> width,
-  positive<uint> height, positive<uint> depth,
-  positive<uint> mipmap_level_count, positive<uint> sample_count,
-  bool fixed_sample_locations)
-  : m_gl_texture_handle(gl::texture_handle::create(static_cast<GLenum>(type)))
+texture::texture(texture_type type, texture_format format)
+  : m_handle(gl::texture_handle::create(static_cast<GLenum>(type)))
+  , m_type(type)
   , m_format(format)
-  , m_width(width)
-  , m_height(height)
-  , m_depth(depth)
-  , m_mipmap_level_count(mipmap_level_count)
-  , m_sample_count(sample_count)
-  , m_fixed_sample_locations(fixed_sample_locations)
 {}
 
 
@@ -270,43 +51,21 @@ texture::~texture()
 
 const gl::texture_handle& texture::get_handle() const noexcept
 {
-  return m_gl_texture_handle;
+  return m_handle;
 }
 
 
 
-bool texture::is_bound(uint tu) const
+texture_type texture::get_type() const noexcept
 {
-  HOU_PRECOND(tu < get_texture_unit_count());
-  return gl::is_texture_bound(m_gl_texture_handle, tu);
+  return m_type;
 }
 
 
 
-texture_format texture::get_format() const
+texture_format texture::get_format() const noexcept
 {
   return m_format;
-}
-
-
-
-positive<uint> texture::get_mipmap_level_count() const
-{
-  return m_mipmap_level_count;
-}
-
-
-
-positive<uint> texture::get_sample_count() const
-{
-  return m_sample_count;
-}
-
-
-
-bool texture::has_fixed_sample_locations() const
-{
-  return m_fixed_sample_locations;
 }
 
 
@@ -314,414 +73,723 @@ bool texture::has_fixed_sample_locations() const
 texture_channel_mapping texture::get_channel_mapping() const
 {
   return texture_channel_mapping(
-    texture_channel(get_texture_swizzle_r(m_gl_texture_handle)),
-    texture_channel(get_texture_swizzle_g(m_gl_texture_handle)),
-    texture_channel(get_texture_swizzle_b(m_gl_texture_handle)),
-    texture_channel(get_texture_swizzle_a(m_gl_texture_handle)));
+    texture_channel(get_texture_swizzle_r(m_handle)),
+    texture_channel(get_texture_swizzle_g(m_handle)),
+    texture_channel(get_texture_swizzle_b(m_handle)),
+    texture_channel(get_texture_swizzle_a(m_handle)));
 }
 
 
 
-void texture::setChannelMapping(const texture_channel_mapping& mapping)
+void texture::set_channel_mapping(const texture_channel_mapping& mapping)
 {
-  set_texture_swizzle_r(
-    m_gl_texture_handle, static_cast<GLenum>(mapping.get_r()));
-  set_texture_swizzle_g(
-    m_gl_texture_handle, static_cast<GLenum>(mapping.get_g()));
-  set_texture_swizzle_b(
-    m_gl_texture_handle, static_cast<GLenum>(mapping.get_b()));
-  set_texture_swizzle_a(
-    m_gl_texture_handle, static_cast<GLenum>(mapping.get_a()));
+  set_texture_swizzle_r(m_handle, static_cast<GLenum>(mapping.get_r()));
+  set_texture_swizzle_g(m_handle, static_cast<GLenum>(mapping.get_g()));
+  set_texture_swizzle_b(m_handle, static_cast<GLenum>(mapping.get_b()));
+  set_texture_swizzle_a(m_handle, static_cast<GLenum>(mapping.get_a()));
 }
 
 
 
-uint texture::get_width(uint level) const
+bool texture::is_bound(uint tu) const
 {
-  HOU_PRECOND(level < get_mipmap_level_count());
-  return std::max(1u, m_width / static_cast<uint>(std::pow(2, level)));
+  HOU_PRECOND(tu < get_texture_unit_count());
+  return gl::is_texture_bound(m_handle, tu);
 }
 
 
 
-uint texture::get_height(uint level) const
+texture_filter texture::get_filter_internal() const
 {
-  HOU_PRECOND(level < get_mipmap_level_count());
-  return std::max(1u, m_height / static_cast<uint>(std::pow(2, level)));
-}
-
-
-
-uint texture::get_depth(uint level) const
-{
-  HOU_PRECOND(level < get_mipmap_level_count());
-  if(get_type() == texture_type::texture3)
+  switch(gl::get_texture_min_filter(get_handle()))
   {
-    return std::max(1u, m_depth / static_cast<uint>(std::pow(2, level)));
-  }
-  else
-  {
-    return m_depth;
+    case GL_NEAREST_MIPMAP_NEAREST:
+      return texture_filter::nearest;
+    case GL_NEAREST_MIPMAP_LINEAR:
+      return texture_filter::linear;
+    case GL_LINEAR_MIPMAP_NEAREST:
+      return texture_filter::bilinear;
+    case GL_LINEAR_MIPMAP_LINEAR:
+      return texture_filter::trilinear;
+    default:
+      HOU_UNREACHABLE();
+      return texture_filter::nearest;
   }
 }
 
 
 
-vec1u texture::get_size1(uint level) const
+void texture::set_filter_internal(texture_filter filter)
 {
-  return vec1u(get_width(level));
-}
-
-
-
-vec2u texture::get_size2(uint level) const
-{
-  return vec2u(get_width(level), get_height(level));
-}
-
-
-
-vec3u texture::get_size3(uint level) const
-{
-  return vec3u(get_width(level), get_height(level), get_depth(level));
-}
-
-
-
-template <texture_type Type>
-bool texture_t<Type>::is_texture_size_valid(const size_type& s)
-{
-  using tex = texture_t<Type>;
-  typename tex::size_type max_size = tex::get_max_size();
-  for(size_t i = 0; i < s.size(); ++i)
+  switch(filter)
   {
-    if(s(i) < 1u || s(i) > max_size(i))
-    {
-      return false;
-    }
+    case texture_filter::nearest:
+      set_texture_min_filter(get_handle(), GL_NEAREST_MIPMAP_NEAREST);
+      set_texture_mag_filter(get_handle(), GL_NEAREST);
+      break;
+    case texture_filter::linear:
+      set_texture_min_filter(get_handle(), GL_NEAREST_MIPMAP_LINEAR);
+      set_texture_mag_filter(get_handle(), GL_NEAREST);
+      break;
+    case texture_filter::bilinear:
+      set_texture_min_filter(get_handle(), GL_LINEAR_MIPMAP_NEAREST);
+      set_texture_mag_filter(get_handle(), GL_LINEAR);
+      break;
+    case texture_filter::trilinear:
+      set_texture_min_filter(get_handle(), GL_LINEAR_MIPMAP_LINEAR);
+      set_texture_mag_filter(get_handle(), GL_LINEAR);
+      break;
+    default:
+      HOU_UNREACHABLE();
+      break;
   }
+}
+
+
+
+texture2_base::texture2_base(
+  texture_type type, const vec2u& size, texture_format format)
+  : texture(type, format)
+  , m_size(size)
+{}
+
+
+
+texture2_base::~texture2_base()
+{}
+
+
+
+const vec2u& texture2_base::get_size() const noexcept
+{
+  return m_size;
+}
+
+
+
+size_t texture2_base::get_byte_count() const
+{
+  return gl::compute_texture_size_bytes(m_size.x(), m_size.y(), 1u,
+    gl::get_texture_external_format_for_internal_format(
+      static_cast<GLenum>(get_format())));
+}
+
+
+
+const vec2u& texture2::get_max_size()
+{
+  static const vec2u max_size(narrow_cast<uint>(gl::get_max_texture_size()),
+    narrow_cast<uint>(gl::get_max_texture_size()));
+  return max_size;
+}
+
+
+
+positive<uint> texture2::get_max_mipmap_level_count(const vec2u& size)
+{
+  return 1u
+    + static_cast<uint>(
+        log(static_cast<float>(std::max(size.x(), size.y())), 2));
+}
+
+
+
+texture2::texture2(const vec2u& size, texture_format format,
+  positive<uint> mipmap_level_count, bool)
+  : texture2_base(texture_type::texture2, size, format)
+  , m_mipmap_level_count(mipmap_level_count)
+{
+  HOU_PRECOND(size.x() > 0 && size.x() <= get_max_size().x());
+  HOU_PRECOND(size.y() > 0 && size.y() <= get_max_size().y());
+  HOU_PRECOND(mipmap_level_count <= get_max_mipmap_level_count(size));
+
+  gl::set_texture_storage_2d(get_handle(), mipmap_level_count,
+    static_cast<GLenum>(format), size.x(), size.y());
+}
+
+
+
+texture2::texture2(const pixel_view2& pv, texture_format format,
+  positive<uint> mipmap_level_count)
+  : texture2(pv.get_size(), format, mipmap_level_count, true)
+{
+  set_image(pv);
+}
+
+
+
+texture2::texture2(
+  const vec2u& size, texture_format format, positive<uint> mipmap_level_count)
+  : texture2(size, format, mipmap_level_count, true)
+{
+  clear();
+}
+
+
+
+texture_filter texture2::get_filter() const
+{
+  return get_filter_internal();
+}
+
+
+
+void texture2::set_filter(texture_filter filter)
+{
+  set_filter_internal(filter);
+}
+
+
+
+positive<uint> texture2::get_mipmap_level_count() const
+{
+  return m_mipmap_level_count;
+}
+
+
+
+positive<uint> texture2::get_sample_count() const
+{
+  return 1u;
+}
+
+
+
+bool texture2::is_mipmapped() const
+{
   return true;
 }
 
 
 
-template <texture_type Type>
-bool texture_t<Type>::is_mipmap_level_count_valid(
-  positive<uint> mipmap_level_count, const size_type& s)
+bool texture2::is_multisampled() const
 {
-  return mipmap_level_count <= get_max_mipmap_level_count_for_size(s);
+  return false;
 }
 
 
 
-template <texture_type Type>
-positive<uint> texture_t<Type>::get_max_mipmap_level_count_for_size(
-  const size_type& s)
+texture2::wrap_mode texture2::get_wrap_mode() const
+{
+  return {texture_wrap_mode(gl::get_texture_wrap_mode_s(get_handle())),
+    texture_wrap_mode(gl::get_texture_wrap_mode_t(get_handle()))};
+}
+
+
+
+void texture2::set_wrap_mode(const wrap_mode& wm)
+{
+  gl::set_texture_wrap_mode_s(get_handle(), static_cast<GLenum>(wm[0]));
+  gl::set_texture_wrap_mode_t(get_handle(), static_cast<GLenum>(wm[1]));
+}
+
+
+
+std::vector<uint8_t> texture2::get_image() const
+{
+  return get_sub_image(vec2u::zero(), get_size());
+}
+
+
+
+std::vector<uint8_t> texture2::get_sub_image(
+  const vec2u& offset, const vec2u& size) const
+{
+  vec2u bounds = offset + size;
+  HOU_PRECOND(std::equal(bounds.begin(), bounds.end(), get_size().begin(),
+    get_size().end(), std::less_equal<uint>()));
+
+  gl::set_unpack_alignment(1u);
+  std::vector<uint8_t> buffer(
+    gl::compute_texture_size_bytes(size.x(), size.y(), 1u,
+      gl::get_texture_external_format_for_internal_format(
+        static_cast<GLenum>(get_format()))),
+    0u);
+
+  // clang-format off
+  gl::get_texture_sub_image(get_handle(),
+    offset.x(), offset.y(), 0,                            // offset
+    size.x(), size.y(), 1,                                // size
+    0,                                                    // level
+    gl::get_texture_external_format_for_internal_format(
+      static_cast<GLenum>(get_format())),                 // external format
+    gl::get_texture_data_type_for_internal_format(
+      static_cast<GLenum>(get_format())),                 // data type
+    narrow_cast<GLsizei>(buffer.size()),                  // data size
+    buffer.data());                                       // data
+  // clang-format on
+
+  return buffer;
+}
+
+
+
+void texture2::set_image(const pixel_view2& pv)
+{
+  set_sub_image(vec2u::zero(), pv);
+}
+
+
+
+void texture2::set_sub_image(const vec2u& offset, const pixel_view2& pv)
+{
+  HOU_PRECOND(pv.get_bytes_per_pixel() == get_bytes_per_pixel(get_format()));
+
+  vec2u bounds = offset + pv.get_size();
+  HOU_PRECOND(std::equal(bounds.begin(), bounds.end(), get_size().begin(),
+    get_size().end(), std::less_equal<uint>()));
+
+  // clang-format off
+  gl::set_texture_sub_image_2d(get_handle(),
+    0,                                                    // level
+    offset.x(), offset.y(),                               // offset
+    pv.get_size().x(), pv.get_size().y(),                 // size
+    gl::get_texture_external_format_for_internal_format(
+      static_cast<GLenum>(get_format())),                 // external format
+    gl::get_texture_data_type_for_internal_format(
+      static_cast<GLenum>(get_format())),                 // data type
+    reinterpret_cast<const void*>(pv.get_data()));        // data
+  // clang-format on
+
+  gl::generate_mip_map(get_handle());
+}
+
+
+
+void texture2::clear()
+{
+  gl::reset_texture_sub_image_2d(get_handle(), 0, 0, 0, get_size().x(),
+    get_size().y(), static_cast<GLenum>(get_format()));
+  gl::generate_mip_map(get_handle());
+}
+
+
+
+const vec2u& multisampled_texture2::get_max_size()
+{
+  static const vec2u max_size(narrow_cast<uint>(gl::get_max_texture_size()),
+    narrow_cast<uint>(gl::get_max_texture_size()));
+  return max_size;
+}
+
+
+
+positive<uint> multisampled_texture2::get_max_sample_count()
+{
+  return gl::get_max_texture_samples();
+}
+
+
+
+multisampled_texture2::multisampled_texture2(const vec2u& size,
+  texture_format format, positive<uint> sample_count,
+  bool fixed_sample_locations)
+  : texture2_base(texture_type::multisampled_texture2, size, format)
+  , m_sample_count(sample_count)
+  , m_fixed_sample_locations(fixed_sample_locations)
+{
+  HOU_PRECOND(size.x() > 0 && size.x() <= get_max_size().x());
+  HOU_PRECOND(size.y() > 0 && size.y() <= get_max_size().y());
+  HOU_PRECOND(sample_count <= get_max_sample_count());
+
+  gl::set_texture_storage_2d_multisample(get_handle(), sample_count,
+    static_cast<GLenum>(format), size.x(), size.y(), fixed_sample_locations);
+}
+
+
+
+bool multisampled_texture2::has_fixed_sample_locations() const noexcept
+{
+  return m_fixed_sample_locations;
+}
+
+
+
+positive<uint> multisampled_texture2::get_mipmap_level_count() const
+{
+  return 1u;
+}
+
+
+
+positive<uint> multisampled_texture2::get_sample_count() const
+{
+  return m_sample_count;
+}
+
+
+
+bool multisampled_texture2::is_mipmapped() const
+{
+  return false;
+}
+
+
+
+bool multisampled_texture2::is_multisampled() const
+{
+  return true;
+}
+
+
+
+texture3_base::texture3_base(
+  texture_type type, const vec3u& size, texture_format format)
+  : texture(type, format)
+  , m_size(size)
+{}
+
+
+
+texture3_base::~texture3_base()
+{}
+
+
+
+const vec3u& texture3_base::get_size() const noexcept
+{
+  return m_size;
+}
+
+
+
+size_t texture3_base::get_byte_count() const
+{
+  return gl::compute_texture_size_bytes(m_size.x(), m_size.y(), m_size.z(),
+    gl::get_texture_external_format_for_internal_format(
+      static_cast<GLenum>(get_format())));
+}
+
+
+
+mipmapped_texture3::mipmapped_texture3(texture_type type, const vec3u& size,
+  texture_format format, positive<uint> mipmap_level_count)
+  : texture3_base(type, size, format)
+  , m_mipmap_level_count(mipmap_level_count)
+{}
+
+
+
+mipmapped_texture3::~mipmapped_texture3()
+{}
+
+
+
+texture_filter mipmapped_texture3::get_filter() const
+{
+  return get_filter_internal();
+}
+
+
+
+void mipmapped_texture3::set_filter(texture_filter filter)
+{
+  set_filter_internal(filter);
+}
+
+
+
+mipmapped_texture3::wrap_mode mipmapped_texture3::get_wrap_mode() const
+{
+  return {texture_wrap_mode(gl::get_texture_wrap_mode_s(get_handle())),
+    texture_wrap_mode(gl::get_texture_wrap_mode_t(get_handle())),
+    texture_wrap_mode(gl::get_texture_wrap_mode_r(get_handle()))};
+}
+
+
+
+void mipmapped_texture3::set_wrap_mode(const wrap_mode& wm)
+{
+  gl::set_texture_wrap_mode_s(get_handle(), static_cast<GLenum>(wm[0]));
+  gl::set_texture_wrap_mode_t(get_handle(), static_cast<GLenum>(wm[1]));
+  gl::set_texture_wrap_mode_r(get_handle(), static_cast<GLenum>(wm[2]));
+}
+
+
+std::vector<uint8_t> mipmapped_texture3::get_image() const
+{
+  return get_sub_image(vec3u::zero(), get_size());
+}
+
+
+
+std::vector<uint8_t> mipmapped_texture3::get_sub_image(
+  const vec3u& offset, const vec3u& size) const
+{
+  vec3u bounds = offset + size;
+  HOU_PRECOND(std::equal(bounds.begin(), bounds.end(), get_size().begin(),
+    get_size().end(), std::less_equal<uint>()));
+
+  gl::set_unpack_alignment(1u);
+  std::vector<uint8_t> buffer(
+    gl::compute_texture_size_bytes(size.x(), size.y(), size.z(),
+      gl::get_texture_external_format_for_internal_format(
+        static_cast<GLenum>(get_format()))),
+    0u);
+
+  // clang-format off
+  gl::get_texture_sub_image(get_handle(),
+    offset.x(), offset.y(), offset.z(),                   // offset
+    size.x(), size.y(), size.z(),                         // size
+    0,                                                    // level
+    gl::get_texture_external_format_for_internal_format(
+      static_cast<GLenum>(get_format())),                 // external format
+    gl::get_texture_data_type_for_internal_format(
+      static_cast<GLenum>(get_format())),                 // data type
+    narrow_cast<GLsizei>(buffer.size()),                  // data size
+    buffer.data());                                       // data
+  // clang-format on
+
+  return buffer;
+}
+
+
+
+void mipmapped_texture3::set_image(const pixel_view3& pv)
+{
+  set_sub_image(vec3u::zero(), pv);
+}
+
+
+
+void mipmapped_texture3::set_sub_image(
+  const vec3u& offset, const pixel_view3& pv)
+{
+  HOU_PRECOND(pv.get_bytes_per_pixel() == get_bytes_per_pixel(get_format()));
+
+  vec3u bounds = offset + pv.get_size();
+  HOU_PRECOND(std::equal(bounds.begin(), bounds.end(), get_size().begin(),
+    get_size().end(), std::less_equal<uint>()));
+
+  // clang-format off
+  gl::set_texture_sub_image_3d(get_handle(),
+    0,                                                        // level
+    offset.x(), offset.y(), offset.z(),                       // offset
+    pv.get_size().x(), pv.get_size().y(), pv.get_size().z(),  // size
+    gl::get_texture_external_format_for_internal_format(
+      static_cast<GLenum>(get_format())),                     // external format
+    gl::get_texture_data_type_for_internal_format(
+      static_cast<GLenum>(get_format())),                     // data type
+    reinterpret_cast<const void*>(pv.get_data()));            // data
+  // clang-format on
+
+  gl::generate_mip_map(get_handle());
+}
+
+
+
+void mipmapped_texture3::clear()
+{
+  gl::reset_texture_sub_image_3d(get_handle(), 0, 0, 0, 0, get_size().x(),
+    get_size().y(), get_size().z(), static_cast<GLenum>(get_format()));
+  gl::generate_mip_map(get_handle());
+}
+
+
+
+positive<uint> mipmapped_texture3::get_mipmap_level_count() const
+{
+  return m_mipmap_level_count;
+}
+
+
+
+positive<uint> mipmapped_texture3::get_sample_count() const
+{
+  return 1u;
+}
+
+
+
+bool mipmapped_texture3::is_mipmapped() const
+{
+  return true;
+}
+
+
+
+bool mipmapped_texture3::is_multisampled() const
+{
+  return false;
+}
+
+
+
+const vec3u& texture2_array::get_max_size()
+{
+  static const vec3u max_size(narrow_cast<uint>(gl::get_max_texture_size()),
+    narrow_cast<uint>(gl::get_max_texture_size()),
+    narrow_cast<uint>(gl::get_max_texture_layers()));
+  return max_size;
+}
+
+
+
+positive<uint> texture2_array::get_max_mipmap_level_count(const vec3u& size)
 {
   return 1u
     + static_cast<uint>(
-        log(static_cast<float>(get_mipmap_relevant_size<Type>(s)), 2));
+        log(static_cast<float>(std::max(size.x(), size.y())), 2));
 }
 
 
 
-template <texture_type Type>
-bool texture_t<Type>::element_wise_lower_or_equal(
-  const size_type& lhs, const size_type& rhs)
+texture2_array::texture2_array(const vec3u& size, texture_format format,
+  positive<uint> mipmap_level_count, bool)
+  : mipmapped_texture3(
+      texture_type::texture2_array, size, format, mipmap_level_count)
 {
-  return std::equal(
-    lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), std::less_equal<uint>());
-}
+  HOU_PRECOND(size.x() > 0 && size.x() <= get_max_size().x());
+  HOU_PRECOND(size.y() > 0 && size.y() <= get_max_size().y());
+  HOU_PRECOND(size.z() > 0 && size.z() <= get_max_size().z());
+  HOU_PRECOND(mipmap_level_count <= get_max_mipmap_level_count(size));
 
-
-
-template <texture_type Type>
-size_t texture_t<Type>::compute_image_buffer_size(
-  const size_type& im_size, pixel_format fmt)
-{
-  HOU_DEV_ASSERT(gl::get_unpack_alignment() == 1u);
-  size_t byte_count = 1u;
-  for(size_t i = 0; i < im_size.size(); ++i)
-  {
-    byte_count *= im_size(i);
-  }
-  return byte_count * get_bytes_per_pixel(fmt);
-}
-
-
-
-template <texture_type Type>
-GLenum texture_t<Type>::pixel_format_to_gl_pixel_format(pixel_format format)
-{
-  switch(format)
-  {
-    case pixel_format::r:
-      return GL_RED;
-    case pixel_format::rg:
-      return GL_RG;
-    case pixel_format::rgb:
-      return GL_RGB;
-    case pixel_format::rgba:
-      return GL_RGBA;
-    default:
-      HOU_UNREACHABLE();
-      return GL_RED;
-  }
-}
-
-
-
-template <texture_type Type>
-typename texture_t<Type>::size_type texture_t<Type>::get_max_size()
-{
-  return get_max_size_internal<Type>();
-}
-
-
-
-template <texture_type Type>
-positive<uint> texture_t<Type>::get_max_mipmap_level_count(const size_type& s)
-{
-  return is_texture_type_mipmapped(Type)
-    ? get_max_mipmap_level_count_for_size(s)
-    : positive<uint>(1u);
-}
-
-
-
-template <texture_type Type>
-positive<uint> texture_t<Type>::get_max_sample_count()
-{
-  return positive<uint>(
-    is_texture_type_multisampled(Type) ? gl::get_max_texture_samples() : 1u);
-}
-
-
-
-template <>
-template <>
-texture_t<texture_type::texture2>::texture_t(
-  const size_type& s, texture_format format, positive<uint> mipmap_level_count)
-  : texture(texture_type::texture2, format, s.x(), s.y(), 1u,
-      mipmap_level_count, 1u, true)
-{
-  HOU_PRECOND(is_texture_size_valid(s));
-  HOU_PRECOND(is_mipmap_level_count_valid(mipmap_level_count, s));
-  gl::set_texture_storage_2d(get_handle(), mipmap_level_count,
-    static_cast<GLenum>(format), s.x(), s.y());
-  reset<texture_type::texture2, void>();
-}
-
-
-
-template <>
-template <>
-texture_t<texture_type::texture2_array>::texture_t(
-  const size_type& s, texture_format format, positive<uint> mipmap_level_count)
-  : texture(texture_type::texture2_array, format, s.x(), s.y(), s.z(),
-      mipmap_level_count, 1u, true)
-{
-  HOU_PRECOND(is_texture_size_valid(s));
-  HOU_PRECOND(is_mipmap_level_count_valid(mipmap_level_count, s));
   gl::set_texture_storage_3d(get_handle(), mipmap_level_count,
-    static_cast<GLenum>(format), s.x(), s.y(), s.z());
-  reset<texture_type::texture2, void>();
+    static_cast<GLenum>(format), size.x(), size.y(), size.z());
 }
 
 
 
-template <>
-template <>
-texture_t<texture_type::texture3>::texture_t(
-  const size_type& s, texture_format format, positive<uint> mipmap_level_count)
-  : texture(texture_type::texture3, format, s.x(), s.y(), s.z(),
-      mipmap_level_count, 1u, true)
+texture2_array::texture2_array(
+  const vec3u& size, texture_format format, positive<uint> mipmap_level_count)
+  : texture2_array(size, format, mipmap_level_count, true)
 {
-  HOU_PRECOND(is_texture_size_valid(s));
-  HOU_PRECOND(is_mipmap_level_count_valid(mipmap_level_count, s));
-  gl::set_texture_storage_3d(get_handle(), mipmap_level_count,
-    static_cast<GLenum>(format), s.x(), s.y(), s.z());
-  reset<texture_type::texture2, void>();
+  clear();
 }
 
 
 
-template <>
-template <>
-texture_t<texture_type::multisampled_texture2>::texture_t(const size_type& s,
+texture2_array::texture2_array(const pixel_view3& pv, texture_format format,
+  positive<uint> mipmap_level_count)
+  : texture2_array(pv.get_size(), format, mipmap_level_count, true)
+{
+  set_image(pv);
+}
+
+
+
+const vec3u& texture3::get_max_size()
+{
+  static const vec3u max_size(narrow_cast<uint>(gl::get_max_3d_texture_size()),
+    narrow_cast<uint>(gl::get_max_3d_texture_size()),
+    narrow_cast<uint>(gl::get_max_3d_texture_size()));
+  return max_size;
+}
+
+
+
+positive<uint> texture3::get_max_mipmap_level_count(const vec3u& size)
+{
+  return 1u
+    + static_cast<uint>(log(
+        static_cast<float>(std::max(size.x(), std::max(size.y(), size.z()))),
+        2));
+}
+
+
+
+texture3::texture3(const vec3u& size, texture_format format,
+  positive<uint> mipmap_level_count, bool)
+  : mipmapped_texture3(texture_type::texture3, size, format, mipmap_level_count)
+{
+  HOU_PRECOND(format == texture_format::r || format == texture_format::rg
+    || format == texture_format::rgb || format == texture_format::rgba);
+  HOU_PRECOND(size.x() > 0 && size.x() <= get_max_size().x());
+  HOU_PRECOND(size.y() > 0 && size.y() <= get_max_size().y());
+  HOU_PRECOND(size.z() > 0 && size.z() <= get_max_size().z());
+  HOU_PRECOND(mipmap_level_count <= get_max_mipmap_level_count(size));
+
+  gl::set_texture_storage_3d(get_handle(), mipmap_level_count,
+    static_cast<GLenum>(format), size.x(), size.y(), size.z());
+}
+
+
+
+texture3::texture3(
+  const vec3u& size, texture_format format, positive<uint> mipmap_level_count)
+  : texture3(size, format, mipmap_level_count, true)
+{
+  clear();
+}
+
+
+
+texture3::texture3(const pixel_view3& pv, texture_format format,
+  positive<uint> mipmap_level_count)
+  : texture3(pv.get_size(), format, mipmap_level_count, true)
+{
+  set_image(pv);
+}
+
+
+
+const vec3u& multisampled_texture2_array::get_max_size()
+{
+  static const vec3u max_size(narrow_cast<uint>(gl::get_max_texture_size()),
+    narrow_cast<uint>(gl::get_max_texture_size()),
+    narrow_cast<uint>(gl::get_max_texture_layers()));
+  return max_size;
+}
+
+
+
+positive<uint> multisampled_texture2_array::get_max_sample_count()
+{
+  return gl::get_max_texture_samples();
+}
+
+
+
+multisampled_texture2_array::multisampled_texture2_array(const vec3u& size,
   texture_format format, positive<uint> sample_count,
   bool fixed_sample_locations)
-  : texture(texture_type::multisampled_texture2, format, s.x(), s.y(), 1u, 1u,
-      sample_count, fixed_sample_locations)
+  : texture3_base(texture_type::multisampled_texture2_array, size, format)
+  , m_sample_count(sample_count)
+  , m_fixed_sample_locations(fixed_sample_locations)
 {
-  HOU_PRECOND(is_texture_size_valid(s));
-  HOU_PRECOND(sample_count <= narrow_cast<uint>(gl::get_max_texture_samples()));
-  set_texture_storage_2d_multisample(get_handle(), sample_count,
-    static_cast<GLenum>(format), s.x(), s.y(), fixed_sample_locations);
+  HOU_PRECOND(size.x() > 0 && size.x() <= get_max_size().x());
+  HOU_PRECOND(size.y() > 0 && size.y() <= get_max_size().y());
+  HOU_PRECOND(size.z() > 0 && size.z() <= get_max_size().z());
+  HOU_PRECOND(sample_count <= get_max_sample_count());
+
+  gl::set_texture_storage_3d_multisample(get_handle(), sample_count,
+    static_cast<GLenum>(format), size.x(), size.y(), size.z(),
+    fixed_sample_locations);
 }
 
 
 
-template <>
-template <>
-texture_t<texture_type::multisampled_texture2_array>::texture_t(
-  const size_type& s, texture_format format, positive<uint> sample_count,
-  bool fixed_sample_locations)
-  : texture(texture_type::multisampled_texture2_array, format, s.x(), s.y(),
-      s.z(), 1u, sample_count, fixed_sample_locations)
+bool multisampled_texture2_array::has_fixed_sample_locations() const noexcept
 {
-  HOU_PRECOND(is_texture_size_valid(s));
-  HOU_PRECOND(sample_count <= narrow_cast<uint>(gl::get_max_texture_samples()));
-  set_texture_storage_3d_multisample(get_handle(), sample_count,
-    static_cast<GLenum>(format), s.x(), s.y(), s.z(), fixed_sample_locations);
+  return m_fixed_sample_locations;
 }
 
 
 
-template <texture_type Type>
-typename texture_t<Type>::size_type texture_t<Type>::get_size() const
+positive<uint> multisampled_texture2_array::get_mipmap_level_count() const
 {
-  return get_size_internal<Type>(*this);
+  return 1u;
 }
 
 
 
-template <>
-template <>
-typename texture_t<texture_type::texture2>::wrap_mode_type
-  texture_t<texture_type::texture2>::get_wrap_mode() const
+positive<uint> multisampled_texture2_array::get_sample_count() const
 {
-  return get_texture2_wrap_mode(get_handle());
+  return m_sample_count;
 }
 
 
 
-template <>
-template <>
-typename texture_t<texture_type::texture2_array>::wrap_mode_type
-  texture_t<texture_type::texture2_array>::get_wrap_mode() const
+bool multisampled_texture2_array::is_mipmapped() const
 {
-  return get_texture3_wrap_mode(get_handle());
+  return false;
 }
 
 
 
-template <>
-template <>
-typename texture_t<texture_type::texture3>::wrap_mode_type
-  texture_t<texture_type::texture3>::get_wrap_mode() const
+bool multisampled_texture2_array::is_multisampled() const
 {
-  return get_texture3_wrap_mode(get_handle());
+  return true;
 }
-
-
-
-template <>
-template <>
-void texture_t<texture_type::texture2>::set_wrap_mode(const wrap_mode_type& wm)
-{
-  set_texture2_wrap_mode(get_handle(), wm);
-}
-
-
-
-template <>
-template <>
-void texture_t<texture_type::texture2_array>::set_wrap_mode(
-  const wrap_mode_type& wm)
-{
-  set_texture3_wrap_mode(get_handle(), wm);
-}
-
-
-
-template <>
-template <>
-void texture_t<texture_type::texture3>::set_wrap_mode(const wrap_mode_type& wm)
-{
-  set_texture3_wrap_mode(get_handle(), wm);
-}
-
-
-
-template <>
-template <>
-typename texture_t<texture_type::texture2>::size_type
-  texture_t<texture_type::texture2>::get_mipmap_size(uint mipmap_level) const
-{
-  return get_size2(mipmap_level);
-}
-
-
-
-template <>
-template <>
-typename texture_t<texture_type::texture2_array>::size_type
-  texture_t<texture_type::texture2_array>::get_mipmap_size(
-    uint mipmap_level) const
-{
-  return get_size3(mipmap_level);
-}
-
-
-
-template <>
-template <>
-typename texture_t<texture_type::texture3>::size_type
-  texture_t<texture_type::texture3>::get_mipmap_size(uint mipmap_level) const
-{
-  return get_size3(mipmap_level);
-}
-
-
-
-template <texture_type Type>
-texture_type texture_t<Type>::get_type() const
-{
-  return Type;
-}
-
-
-
-template <texture_type Type>
-size_t texture_t<Type>::get_dimension_count() const
-{
-  return get_texture_type_dimension_count(Type);
-}
-
-
-
-template <texture_type Type>
-bool texture_t<Type>::is_mipmapped() const
-{
-  return is_texture_type_mipmapped(Type);
-}
-
-
-
-template <texture_type Type>
-bool texture_t<Type>::is_multisampled() const
-{
-  return is_texture_type_multisampled(Type);
-}
-
-
-
-template <texture_type Type>
-void texture_t<Type>::generate_mip_map()
-{
-  if(get_mipmap_level_count() > 1u)
-  {
-    gl::generate_mip_map(get_handle());
-  }
-}
-
-
-
-template class texture_t<texture_type::texture2>;
-template class texture_t<texture_type::texture2_array>;
-template class texture_t<texture_type::texture3>;
-template class texture_t<texture_type::multisampled_texture2>;
-template class texture_t<texture_type::multisampled_texture2_array>;
 
 }  // namespace hou

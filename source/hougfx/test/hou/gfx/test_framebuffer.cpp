@@ -32,67 +32,73 @@ void test_color_blit(texture_format src_format,
   bool test_error = false);
 
 template <typename SrcTexType, typename DstTexType>
-void test_color_blit(texture_format src_format,
-  const typename SrcTexType::size_type& src_size, const recti& src_rect,
-  texture_format dst_format, const typename DstTexType::size_type& dst_size,
-  const recti& dst_rect, framebuffer_blit_filter filter, bool test_error)
+void test_color_blit(texture_format, const typename SrcTexType::size_type&,
+  const recti&, texture_format, const typename DstTexType::size_type&,
+  const recti&, framebuffer_blit_filter, bool)
+// template <typename SrcTexType, typename DstTexType>
+// void test_color_blit(texture_format src_format,
+//   const typename SrcTexType::size_type& src_size, const recti& src_rect,
+//   texture_format dst_format, const typename DstTexType::size_type& dst_size,
+//   const recti& dst_rect, framebuffer_blit_filter filter, bool test_error)
 {
-  using image = image2_rgba;
-  using pixel = pixel_rgba;
+  FAIL();
 
-  // Build the framebuffers.
-  color color_ref(2u, 3u, 5u, 7u);
-  pixel pixel_ref(color_ref);
+  // using image = image2_rgba;
+  // using pixel = pixel_rgba;
 
-  framebuffer srf_fb;
-  SrcTexType src_tex(src_size, src_format);
-  srf_fb.set_color_attachment(0u, src_tex);
+  // // Build the framebuffers.
+  // color color_ref(2u, 3u, 5u, 7u);
+  // pixel pixel_ref(color_ref);
 
-  framebuffer::bind(srf_fb);
-  gl::set_clear_color(color_ref.get_red_f(), color_ref.get_green_f(),
-    color_ref.get_blue_f(), color_ref.get_alpha_f());
-  gl::clear(GL_COLOR_BUFFER_BIT);
-  framebuffer::unbind();
+  // framebuffer srf_fb;
+  // SrcTexType src_tex(src_size, src_format);
+  // srf_fb.set_color_attachment(0u, src_tex);
 
-  framebuffer dst_fb;
-  DstTexType dst_tex(dst_size, dst_format);
-  dst_fb.set_color_attachment(0u, dst_tex);
+  // framebuffer::bind(srf_fb);
+  // gl::set_clear_color(color_ref.get_red_f(), color_ref.get_green_f(),
+  //   color_ref.get_blue_f(), color_ref.get_alpha_f());
+  // gl::clear(GL_COLOR_BUFFER_BIT);
+  // framebuffer::unbind();
 
-  if(test_error)
-  {
-    EXPECT_PRECOND_ERROR(blit(srf_fb, src_rect, dst_fb, dst_rect,
-      framebuffer_blit_mask::color, filter));
-  }
-  else
-  {
-    // Blit.
-    blit(
-      srf_fb, src_rect, dst_fb, dst_rect, framebuffer_blit_mask::color, filter);
+  // framebuffer dst_fb;
+  // DstTexType dst_tex(dst_size, dst_format);
+  // dst_fb.set_color_attachment(0u, dst_tex);
 
-    // Create the reference image (the rectangles can assume negative values,
-    // so pay attention to that).
-    image image_ref(dst_size);
-    image::size_type sub_image_size;
+  // if(test_error)
+  // {
+  //   EXPECT_PRECOND_ERROR(blit(srf_fb, src_rect, dst_fb, dst_rect,
+  //     framebuffer_blit_mask::color, filter));
+  // }
+  // else
+  // {
+  //   // Blit.
+  //   blit(
+  //     srf_fb, src_rect, dst_fb, dst_rect, framebuffer_blit_mask::color, filter);
 
-    int left = std::min(dst_rect.l(), dst_rect.r());
-    int right = std::max(dst_rect.l(), dst_rect.r());
-    int top = std::min(dst_rect.t(), dst_rect.b());
-    int bottom = std::max(dst_rect.t(), dst_rect.b());
-    sub_image_size.x() = static_cast<int>(dst_size.x()) >= right
-      ? std::abs(dst_rect.w())
-      : static_cast<int>(dst_size.x()) - left;
-    sub_image_size.y() = static_cast<int>(dst_size.y()) >= bottom
-      ? std::abs(dst_rect.h())
-      : static_cast<int>(dst_size.y()) - top;
-    image_ref.set_sub_image(vec2i(left, top), image(sub_image_size, pixel_ref));
+  //   // Create the reference image (the rectangles can assume negative values,
+  //   // so pay attention to that).
+  //   image image_ref(dst_size);
+  //   image::size_type sub_image_size;
 
-    // Adjust channels in case the destination format is not rgba.
-    DstTexType texture_ref(image_ref, dst_format);
-    image_ref = texture_ref.template get_image<pixel_format::rgba>();
+  //   int left = std::min(dst_rect.l(), dst_rect.r());
+  //   int right = std::max(dst_rect.l(), dst_rect.r());
+  //   int top = std::min(dst_rect.t(), dst_rect.b());
+  //   int bottom = std::max(dst_rect.t(), dst_rect.b());
+  //   sub_image_size.x() = static_cast<int>(dst_size.x()) >= right
+  //     ? std::abs(dst_rect.w())
+  //     : static_cast<int>(dst_size.x()) - left;
+  //   sub_image_size.y() = static_cast<int>(dst_size.y()) >= bottom
+  //     ? std::abs(dst_rect.h())
+  //     : static_cast<int>(dst_size.y()) - top;
+  //   image_ref.set_sub_image(vec2i(left, top), image(sub_image_size, pixel_ref));
 
-    // Check if the blit was executed as expected
-    EXPECT_EQ(image_ref, dst_tex.template get_image<pixel_format::rgba>());
-  }
+  //   // Adjust channels in case the destination format is not rgba.
+  //   DstTexType texture_ref(image_ref, dst_format);
+  //   image_ref = texture_ref.get_image<pixel_format::rgba>();
+
+  //   // Check if the blit was executed as expected
+  //   EXPECT_EQ(image_ref, dst_tex.template get_image<pixel_format::rgba>());
+  // }
 }
 
 }  // namespace
@@ -974,53 +980,57 @@ TEST_F(
 
 TEST_F(test_framebuffer, blit_to_texture)
 {
-  vec2u size_ref(4u, 8u);
-  recti rect_ref(vec2i::zero(), size_ref);
+  FAIL();
+  // vec2u size_ref(4u, 8u);
+  // recti rect_ref(vec2i::zero(), size_ref);
 
-  framebuffer src;
-  texture2 src_tex(size_ref);
-  src_tex.clear(pixel_rgba(1u, 2u, 3u, 4u));
-  src.set_color_attachment(0u, src_tex);
+  // framebuffer src;
+  // texture2 src_tex(size_ref);
+  // src_tex.clear(pixel_rgba(1u, 2u, 3u, 4u));
+  // src.set_color_attachment(0u, src_tex);
 
-  texture2 dst_tex(size_ref);
+  // texture2 dst_tex(size_ref);
 
-  blit(src, rect_ref, dst_tex, rect_ref, framebuffer_blit_filter::linear);
-  EXPECT_EQ(src_tex.get_image<pixel_format::rgba>(),
-    dst_tex.get_image<pixel_format::rgba>());
+  // blit(src, rect_ref, dst_tex, rect_ref, framebuffer_blit_filter::linear);
+  // EXPECT_EQ(src_tex.get_image<pixel_format::rgba>(),
+  //   dst_tex.get_image<pixel_format::rgba>());
 }
 
 
 
 TEST_F(test_framebuffer, blit_from_texture)
 {
-  vec2u size_ref(4u, 8u);
-  recti rect_ref(vec2i::zero(), size_ref);
+  FAIL();
+  // vec2u size_ref(4u, 8u);
+  // recti rect_ref(vec2i::zero(), size_ref);
 
-  texture2 src_tex(size_ref);
-  src_tex.clear(pixel_rgba(1u, 2u, 3u, 4u));
+  // texture2 src_tex(size_ref);
+  // src_tex.clear(pixel_rgba(1u, 2u, 3u, 4u));
 
-  framebuffer dst;
-  texture2 dst_tex(size_ref);
-  dst.set_color_attachment(0u, dst_tex);
+  // framebuffer dst;
+  // texture2 dst_tex(size_ref);
+  // dst.set_color_attachment(0u, dst_tex);
 
-  blit(src_tex, rect_ref, dst, rect_ref, framebuffer_blit_filter::linear);
-  EXPECT_EQ(src_tex.get_image<pixel_format::rgba>(),
-    dst_tex.get_image<pixel_format::rgba>());
+  // blit(src_tex, rect_ref, dst, rect_ref, framebuffer_blit_filter::linear);
+  // EXPECT_EQ(src_tex.get_image<pixel_format::rgba>(),
+  //   dst_tex.get_image<pixel_format::rgba>());
 }
 
 
 
 TEST_F(test_framebuffer, blit_from_and_to_texture)
 {
-  vec2u size_ref(4u, 8u);
-  recti rect_ref(vec2i::zero(), size_ref);
+  FAIL();
 
-  texture2 src_tex(size_ref);
-  src_tex.clear(pixel_rgba(1u, 2u, 3u, 4u));
+  // vec2u size_ref(4u, 8u);
+  // recti rect_ref(vec2i::zero(), size_ref);
 
-  texture2 dst_tex(size_ref);
+  // texture2 src_tex(size_ref);
+  // src_tex.clear(pixel_rgba(1u, 2u, 3u, 4u));
 
-  blit(src_tex, rect_ref, dst_tex, rect_ref, framebuffer_blit_filter::linear);
-  EXPECT_EQ(src_tex.get_image<pixel_format::rgba>(),
-    dst_tex.get_image<pixel_format::rgba>());
+  // texture2 dst_tex(size_ref);
+
+  // blit(src_tex, rect_ref, dst_tex, rect_ref, framebuffer_blit_filter::linear);
+  // EXPECT_EQ(src_tex.get_image<pixel_format::rgba>(),
+  //   dst_tex.get_image<pixel_format::rgba>());
 }
