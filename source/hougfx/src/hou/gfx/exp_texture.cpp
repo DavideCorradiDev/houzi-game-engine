@@ -364,7 +364,7 @@ multisampled_texture2::multisampled_texture2(const vec2u& size,
 {
   HOU_PRECOND(size.x() > 0 && size.x() <= get_max_size().x());
   HOU_PRECOND(size.y() > 0 && size.y() <= get_max_size().y());
-  HOU_PRECOND(sample_count < get_max_sample_count());
+  HOU_PRECOND(sample_count <= get_max_sample_count());
 
   gl::set_texture_storage_2d_multisample(get_handle(), sample_count,
     static_cast<GLenum>(format), size.x(), size.y(), fixed_sample_locations);
@@ -682,7 +682,7 @@ multisampled_texture2_array::multisampled_texture2_array(const vec3u& size,
   HOU_PRECOND(size.x() > 0 && size.x() <= get_max_size().x());
   HOU_PRECOND(size.y() > 0 && size.y() <= get_max_size().y());
   HOU_PRECOND(size.z() > 0 && size.z() <= get_max_size().z());
-  HOU_PRECOND(sample_count < get_max_sample_count());
+  HOU_PRECOND(sample_count <= get_max_sample_count());
 
   gl::set_texture_storage_3d_multisample(get_handle(), sample_count,
     static_cast<GLenum>(format), size.x(), size.y(), size.z(),

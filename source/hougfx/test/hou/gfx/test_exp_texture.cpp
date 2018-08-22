@@ -279,7 +279,7 @@ TEST_F(test_exp_texture2, full_size_constructor)
 
 
 
-TEST_F(test_exp_texture2, full_size_constructor_sample_count_limits)
+TEST_F(test_exp_texture2, full_size_constructor_mipmap_level_count_limits)
 {
   vec2u size_ref(4u, 8u);
 
@@ -546,6 +546,82 @@ TEST_F(test_exp_multisampled_texture2, size_constructor)
   EXPECT_EQ(texture_format::rgba, t.get_format());
   EXPECT_EQ(1u, t.get_sample_count());
   EXPECT_TRUE(t.has_fixed_sample_locations());
+}
+
+
+
+TEST_F(test_exp_multisampled_texture2, full_size_constructor)
+{
+  vec2u size_ref(4u, 8u);
+  uint sample_count_ref = 2u;
+  for(auto tf : all_formats)
+  {
+    multisampled_texture2 t(size_ref, tf, sample_count_ref);
+    EXPECT_EQ(size_ref, t.get_size());
+    EXPECT_EQ(tf, t.get_format());
+    EXPECT_EQ(sample_count_ref, t.get_sample_count());
+    EXPECT_TRUE(t.has_fixed_sample_locations());
+  }
+}
+
+
+
+TEST_F(
+  test_exp_multisampled_texture2, full_size_constructor_sample_count_limits)
+{
+  vec2u size_ref(4u, 8u);
+
+  uint min_sample_count = 1u;
+  multisampled_texture2 t_min_sample(
+    size_ref, texture_format::rgba, min_sample_count);
+  EXPECT_EQ(min_sample_count, t_min_sample.get_sample_count());
+
+  uint max_sample_count = multisampled_texture2::get_max_sample_count();
+  multisampled_texture2 t_max_sample(
+    size_ref, texture_format::rgba, max_sample_count);
+  EXPECT_EQ(max_sample_count, t_max_sample.get_sample_count());
+}
+
+
+
+TEST_F(
+  test_exp_multisampled_texture2, full_size_constructor_fixed_sample_locations)
+{
+  vec2u size_ref(4u, 8u);
+  texture_format format_ref = texture_format::rgba;
+  uint sample_count_ref = 2u;
+  std::vector<bool> has_fixed_sample_locations_values = {false, true};
+  for(auto fsl : has_fixed_sample_locations_values)
+  {
+    multisampled_texture2 t(size_ref, format_ref, sample_count_ref, fsl);
+    EXPECT_EQ(size_ref, t.get_size());
+    EXPECT_EQ(format_ref, t.get_format());
+    EXPECT_EQ(sample_count_ref, t.get_sample_count());
+    EXPECT_EQ(fsl, t.has_fixed_sample_locations());
+  }
+}
+
+
+
+TEST_F(test_exp_multisampled_texture2_death_test, invalid_sample_count)
+{
+  EXPECT_PRECOND_ERROR(multisampled_texture2(vec2u(1u, 1u),
+    texture_format::rgba, multisampled_texture2::get_max_sample_count() + 1u));
+}
+
+
+
+TEST_F(test_exp_multisampled_texture2, get_byte_count)
+{
+  vec2u size_ref(4u, 8u);
+  for(auto tf : all_formats)
+  {
+    multisampled_texture2 t(size_ref, tf);
+    EXPECT_EQ(gl::compute_texture_size_bytes(size_ref.x(), size_ref.y(), 1u,
+                gl::get_texture_external_format_for_internal_format(
+                  static_cast<GLenum>(t.get_format()))),
+      t.get_byte_count());
+  }
 }
 
 
