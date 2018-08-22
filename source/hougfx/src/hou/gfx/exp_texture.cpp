@@ -602,9 +602,9 @@ texture2_array::texture2_array(const pixel_view3& pv, texture_format format,
 
 const vec3u& texture3::get_max_size()
 {
-  static const vec3u max_size(narrow_cast<uint>(gl::get_max_texture_size()),
-    narrow_cast<uint>(gl::get_max_texture_size()),
-    narrow_cast<uint>(gl::get_max_texture_size()));
+  static const vec3u max_size(narrow_cast<uint>(gl::get_max_3d_texture_size()),
+    narrow_cast<uint>(gl::get_max_3d_texture_size()),
+    narrow_cast<uint>(gl::get_max_3d_texture_size()));
   return max_size;
 }
 

@@ -256,9 +256,9 @@ TEST_F(test_exp_texture2_death_test, size_constructor_invalid_size)
   EXPECT_PRECOND_ERROR(texture2(vec2u(0u, 1u)));
   EXPECT_PRECOND_ERROR(texture2(vec2u(1u, 0u)));
   EXPECT_PRECOND_ERROR(texture2(vec2u(0u, 0u)));
-  EXPECT_PRECOND_ERROR(texture2(vec2u(texture2::get_max_size().x() + 1u, 1u)));
-  EXPECT_PRECOND_ERROR(texture2(vec2u(1u, texture2::get_max_size().y() + 1u)));
   EXPECT_PRECOND_ERROR(texture2(texture2::get_max_size() + vec2u(1u, 1u)));
+  EXPECT_PRECOND_ERROR(texture2(texture2::get_max_size() + vec2u(0u, 1u)));
+  EXPECT_PRECOND_ERROR(texture2(texture2::get_max_size() + vec2u(1u, 0u)));
 }
 
 
@@ -353,11 +353,11 @@ TEST_F(test_exp_texture2_death_test, image_constructor_invalid_size)
   EXPECT_PRECOND_ERROR(
     texture2(pixel_view2(image_data.data(), vec2u(0u, 0u), 4u)));
   EXPECT_PRECOND_ERROR(texture2(pixel_view2(
-    image_data.data(), vec2u(texture2::get_max_size().x() + 1u, 1u), 4u)));
-  EXPECT_PRECOND_ERROR(texture2(pixel_view2(
-    image_data.data(), vec2u(1u, texture2::get_max_size().y() + 1u), 4u)));
-  EXPECT_PRECOND_ERROR(texture2(pixel_view2(
     image_data.data(), texture2::get_max_size() + vec2u(1u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(texture2(pixel_view2(
+    image_data.data(), texture2::get_max_size() + vec2u(0u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(texture2(pixel_view2(
+    image_data.data(), texture2::get_max_size() + vec2u(1u, 0u), 4u)));
 }
 
 
@@ -367,29 +367,29 @@ TEST_F(test_exp_texture2_death_test, image_constructor_invalid_byte_depth)
   std::vector<uint8_t> image_data{
     0u, 1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u, 9u, 10u, 11u};
   EXPECT_PRECOND_ERROR(texture2(
-    pixel_view2(image_data.data(), vec2u(0u, 1u), 2u), texture_format::r));
+    pixel_view2(image_data.data(), vec2u(1u, 1u), 2u), texture_format::r));
   EXPECT_PRECOND_ERROR(texture2(
-    pixel_view2(image_data.data(), vec2u(0u, 1u), 3u), texture_format::r));
+    pixel_view2(image_data.data(), vec2u(1u, 1u), 3u), texture_format::r));
   EXPECT_PRECOND_ERROR(texture2(
-    pixel_view2(image_data.data(), vec2u(0u, 1u), 4u), texture_format::r));
+    pixel_view2(image_data.data(), vec2u(1u, 1u), 4u), texture_format::r));
   EXPECT_PRECOND_ERROR(texture2(
-    pixel_view2(image_data.data(), vec2u(0u, 1u), 1u), texture_format::rg));
+    pixel_view2(image_data.data(), vec2u(1u, 1u), 1u), texture_format::rg));
   EXPECT_PRECOND_ERROR(texture2(
-    pixel_view2(image_data.data(), vec2u(0u, 1u), 3u), texture_format::rg));
+    pixel_view2(image_data.data(), vec2u(1u, 1u), 3u), texture_format::rg));
   EXPECT_PRECOND_ERROR(texture2(
-    pixel_view2(image_data.data(), vec2u(0u, 1u), 4u), texture_format::rg));
+    pixel_view2(image_data.data(), vec2u(1u, 1u), 4u), texture_format::rg));
   EXPECT_PRECOND_ERROR(texture2(
-    pixel_view2(image_data.data(), vec2u(0u, 1u), 1u), texture_format::rgb));
+    pixel_view2(image_data.data(), vec2u(1u, 1u), 1u), texture_format::rgb));
   EXPECT_PRECOND_ERROR(texture2(
-    pixel_view2(image_data.data(), vec2u(0u, 1u), 2u), texture_format::rgb));
+    pixel_view2(image_data.data(), vec2u(1u, 1u), 2u), texture_format::rgb));
   EXPECT_PRECOND_ERROR(texture2(
-    pixel_view2(image_data.data(), vec2u(0u, 1u), 4u), texture_format::rgb));
+    pixel_view2(image_data.data(), vec2u(1u, 1u), 4u), texture_format::rgb));
   EXPECT_PRECOND_ERROR(texture2(
-    pixel_view2(image_data.data(), vec2u(0u, 1u), 1u), texture_format::rgba));
+    pixel_view2(image_data.data(), vec2u(1u, 1u), 1u), texture_format::rgba));
   EXPECT_PRECOND_ERROR(texture2(
-    pixel_view2(image_data.data(), vec2u(0u, 1u), 2u), texture_format::rgba));
+    pixel_view2(image_data.data(), vec2u(1u, 1u), 2u), texture_format::rgba));
   EXPECT_PRECOND_ERROR(texture2(
-    pixel_view2(image_data.data(), vec2u(0u, 1u), 3u), texture_format::rgba));
+    pixel_view2(image_data.data(), vec2u(1u, 1u), 3u), texture_format::rgba));
   EXPECT_PRECOND_ERROR(
     texture2(pixel_view2(image_data.data(), vec2u(0u, 1u), 1u),
       texture_format::depth_stencil));
@@ -550,6 +550,38 @@ TEST_F(test_exp_multisampled_texture2, size_constructor)
 
 
 
+TEST_F(test_exp_multisampled_texture2, size_constructor_size_limits)
+{
+  vec2u min_size(1u, 1u);
+  multisampled_texture2 t_min_size(min_size);
+  EXPECT_EQ(min_size, t_min_size.get_size());
+
+  vec2u max_size_x(multisampled_texture2::get_max_size().x(), 1u);
+  multisampled_texture2 t_max_size_x(max_size_x);
+  EXPECT_EQ(max_size_x, t_max_size_x.get_size());
+
+  vec2u max_size_y(1u, multisampled_texture2::get_max_size().y());
+  multisampled_texture2 t_max_size_y(max_size_y);
+  EXPECT_EQ(max_size_y, t_max_size_y.get_size());
+}
+
+
+
+TEST_F(test_exp_multisampled_texture2_death_test, size_constructor_invalid_size)
+{
+  EXPECT_PRECOND_ERROR(multisampled_texture2(vec2u(0u, 1u)));
+  EXPECT_PRECOND_ERROR(multisampled_texture2(vec2u(1u, 0u)));
+  EXPECT_PRECOND_ERROR(multisampled_texture2(vec2u(0u, 0u)));
+  EXPECT_PRECOND_ERROR(multisampled_texture2(
+    multisampled_texture2::get_max_size() + vec2u(1u, 1u)));
+  EXPECT_PRECOND_ERROR(multisampled_texture2(
+    multisampled_texture2::get_max_size() + vec2u(0u, 1u)));
+  EXPECT_PRECOND_ERROR(multisampled_texture2(
+    multisampled_texture2::get_max_size() + vec2u(1u, 0u)));
+}
+
+
+
 TEST_F(test_exp_multisampled_texture2, full_size_constructor)
 {
   vec2u size_ref(4u, 8u);
@@ -643,6 +675,377 @@ TEST_F(test_exp_texture3, size_constructor)
 
 
 
+TEST_F(test_exp_texture3, size_constructor_size_limits)
+{
+  vec3u min_size(1u, 1u, 1u);
+  texture3 t_min_size(min_size);
+  EXPECT_EQ(min_size, t_min_size.get_size());
+
+  vec3u max_size_x(texture3::get_max_size().x(), 1u, 1u);
+  texture3 t_max_size_x(max_size_x);
+  EXPECT_EQ(max_size_x, t_max_size_x.get_size());
+
+  vec3u max_size_y(1u, texture3::get_max_size().y(), 1u);
+  texture3 t_max_size_y(max_size_y);
+  EXPECT_EQ(max_size_y, t_max_size_y.get_size());
+
+  vec3u max_size_z(1u, 1u, texture3::get_max_size().z());
+  texture3 t_max_size_z(max_size_z);
+  EXPECT_EQ(max_size_z, t_max_size_z.get_size());
+}
+
+
+
+TEST_F(test_exp_texture3_death_test, size_constructor_invalid_size)
+{
+  EXPECT_PRECOND_ERROR(texture3(vec3u(0u, 0u, 0u)));
+  EXPECT_PRECOND_ERROR(texture3(vec3u(1u, 0u, 0u)));
+  EXPECT_PRECOND_ERROR(texture3(vec3u(0u, 1u, 0u)));
+  EXPECT_PRECOND_ERROR(texture3(vec3u(1u, 1u, 0u)));
+  EXPECT_PRECOND_ERROR(texture3(vec3u(0u, 0u, 1u)));
+  EXPECT_PRECOND_ERROR(texture3(vec3u(1u, 0u, 1u)));
+  EXPECT_PRECOND_ERROR(texture3(vec3u(0u, 1u, 1u)));
+  EXPECT_PRECOND_ERROR(texture3(texture3::get_max_size() + vec3u(1u, 1u, 1u)));
+  EXPECT_PRECOND_ERROR(texture3(texture3::get_max_size() + vec3u(0u, 1u, 1u)));
+  EXPECT_PRECOND_ERROR(texture3(texture3::get_max_size() + vec3u(1u, 0u, 1u)));
+  EXPECT_PRECOND_ERROR(texture3(texture3::get_max_size() + vec3u(0u, 0u, 1u)));
+  EXPECT_PRECOND_ERROR(texture3(texture3::get_max_size() + vec3u(1u, 1u, 0u)));
+  EXPECT_PRECOND_ERROR(texture3(texture3::get_max_size() + vec3u(0u, 1u, 0u)));
+  EXPECT_PRECOND_ERROR(texture3(texture3::get_max_size() + vec3u(1u, 0u, 0u)));
+}
+
+
+
+TEST_F(test_exp_texture3, full_size_constructor)
+{
+  vec3u size_ref(4u, 8u, 3u);
+  uint mipmap_level_count_ref = 2u;
+  for(auto tf : color_formats)
+  {
+    texture3 t(size_ref, tf, mipmap_level_count_ref);
+    EXPECT_EQ(size_ref, t.get_size());
+    EXPECT_EQ(tf, t.get_format());
+    EXPECT_EQ(mipmap_level_count_ref, t.get_mipmap_level_count());
+    EXPECT_EQ(std::vector<uint8_t>(t.get_byte_count(), 0u), t.get_image());
+  }
+}
+
+
+
+TEST_F(test_exp_texture3, full_size_constructor_mipmap_level_count_limits)
+{
+  vec3u size_ref(4u, 8u, 3u);
+
+  uint min_mipmap_level_count = 1u;
+  texture3 t_min_level(size_ref, texture_format::rgba, min_mipmap_level_count);
+  EXPECT_EQ(min_mipmap_level_count, t_min_level.get_mipmap_level_count());
+
+  uint max_mipmap_level_count = 1u;
+  texture3 t_max_level(size_ref, texture_format::rgba, max_mipmap_level_count);
+  EXPECT_EQ(max_mipmap_level_count, t_max_level.get_mipmap_level_count());
+}
+
+
+
+TEST_F(test_exp_texture3_death_test, invalid_sample_count)
+{
+  EXPECT_PRECOND_ERROR(texture3(vec3u(1u, 1u, 1u), texture_format::rgba,
+    texture3::get_max_mipmap_level_count(vec3u(1u, 1u, 1u)) + 1u));
+}
+
+
+
+TEST_F(test_exp_texture3, image_constructor)
+{
+  std::vector<uint8_t> image_data{0u, 1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u, 9u, 10u,
+    11u, 12u, 13u, 14u, 15u, 16u, 17u, 18u, 19u, 20u, 21u, 22u, 23u};
+
+  std::vector<std::pair<texture_format, pixel_view3>> format_images{
+    std::make_pair(
+      texture_format::r, pixel_view3(image_data.data(), vec3u(3u, 4u, 2u), 1u)),
+    std::make_pair(texture_format::rg,
+      pixel_view3(image_data.data(), vec3u(3u, 2u, 2u), 2u)),
+    std::make_pair(texture_format::rgb,
+      pixel_view3(image_data.data(), vec3u(1u, 4u, 2u), 3u)),
+    std::make_pair(texture_format::rgba,
+      pixel_view3(image_data.data(), vec3u(3u, 1u, 2u), 4u)),
+  };
+
+  uint mipmap_level_count_ref = 2u;
+  for(auto fi : format_images)
+  {
+    texture3 t(fi.second, fi.first, mipmap_level_count_ref);
+    EXPECT_EQ(fi.second.get_size(), t.get_size());
+    EXPECT_EQ(fi.first, t.get_format());
+    EXPECT_EQ(mipmap_level_count_ref, t.get_mipmap_level_count());
+    EXPECT_EQ(image_data, t.get_image());
+  }
+}
+
+
+
+TEST_F(test_exp_texture3_death_test, image_constructor_invalid_size)
+{
+  std::vector<uint8_t> image_data{0u, 1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u, 9u, 10u,
+    11u, 12u, 13u, 14u, 15u, 16u, 17u, 18u, 19u, 20u, 21u, 22u, 23u};
+
+  EXPECT_PRECOND_ERROR(
+    texture3(pixel_view3(image_data.data(), vec3u(0u, 0u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture3(pixel_view3(image_data.data(), vec3u(1u, 0u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture3(pixel_view3(image_data.data(), vec3u(0u, 1u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture3(pixel_view3(image_data.data(), vec3u(1u, 1u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture3(pixel_view3(image_data.data(), vec3u(0u, 0u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture3(pixel_view3(image_data.data(), vec3u(1u, 0u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture3(pixel_view3(image_data.data(), vec3u(0u, 1u, 1u), 4u)));
+
+  EXPECT_PRECOND_ERROR(texture3(pixel_view3(
+    image_data.data(), texture3::get_max_size() + vec3u(1u, 1u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(texture3(pixel_view3(
+    image_data.data(), texture3::get_max_size() + vec3u(0u, 1u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(texture3(pixel_view3(
+    image_data.data(), texture3::get_max_size() + vec3u(1u, 0u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(texture3(pixel_view3(
+    image_data.data(), texture3::get_max_size() + vec3u(0u, 0u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(texture3(pixel_view3(
+    image_data.data(), texture3::get_max_size() + vec3u(1u, 1u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(texture3(pixel_view3(
+    image_data.data(), texture3::get_max_size() + vec3u(0u, 1u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(texture3(pixel_view3(
+    image_data.data(), texture3::get_max_size() + vec3u(1u, 0u, 0u), 4u)));
+}
+
+
+
+TEST_F(test_exp_texture3_death_test, image_constructor_invalid_byte_depth)
+{
+  std::vector<uint8_t> image_data{0u, 1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u, 9u, 10u,
+    11u, 12u, 13u, 14u, 15u, 16u, 17u, 18u, 19u, 20u, 21u, 22u, 23u};
+
+  EXPECT_PRECOND_ERROR(texture3(
+    pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 2u), texture_format::r));
+  EXPECT_PRECOND_ERROR(texture3(
+    pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 3u), texture_format::r));
+  EXPECT_PRECOND_ERROR(texture3(
+    pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 4u), texture_format::r));
+  EXPECT_PRECOND_ERROR(texture3(
+    pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 1u), texture_format::rg));
+  EXPECT_PRECOND_ERROR(texture3(
+    pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 3u), texture_format::rg));
+  EXPECT_PRECOND_ERROR(texture3(
+    pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 4u), texture_format::rg));
+  EXPECT_PRECOND_ERROR(
+    texture3(pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 1u),
+      texture_format::rgb));
+  EXPECT_PRECOND_ERROR(
+    texture3(pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 2u),
+      texture_format::rgb));
+  EXPECT_PRECOND_ERROR(
+    texture3(pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 4u),
+      texture_format::rgb));
+  EXPECT_PRECOND_ERROR(
+    texture3(pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 1u),
+      texture_format::rgba));
+  EXPECT_PRECOND_ERROR(
+    texture3(pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 2u),
+      texture_format::rgba));
+  EXPECT_PRECOND_ERROR(
+    texture3(pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 3u),
+      texture_format::rgba));
+}
+
+
+
+TEST_F(test_exp_texture3_death_test, invalid_format)
+{
+  EXPECT_PRECOND_ERROR(
+    texture3(vec3u(1u, 1u, 1u), texture_format::depth_stencil));
+}
+
+
+
+TEST_F(test_exp_texture3, get_byte_count)
+{
+  vec3u size_ref(4u, 8u, 3u);
+  for(auto tf : color_formats)
+  {
+    texture3 t(size_ref, tf);
+    EXPECT_EQ(
+      gl::compute_texture_size_bytes(size_ref.x(), size_ref.y(), size_ref.z(),
+        gl::get_texture_external_format_for_internal_format(
+          static_cast<GLenum>(t.get_format()))),
+      t.get_byte_count());
+  }
+}
+
+
+
+TEST_F(test_exp_texture3, set_filter)
+{
+  texture3 t(vec3u(1u, 1u, 1u));
+  EXPECT_EQ(texture_filter::linear, t.get_filter());
+  for(auto filter : all_filters)
+  {
+    t.set_filter(filter);
+    EXPECT_EQ(filter, t.get_filter());
+  }
+}
+
+
+
+TEST_F(test_exp_texture3, set_wrap_mode)
+{
+  texture3 t(vec3u(1u, 1u, 1u));
+  EXPECT_EQ((texture3::wrap_mode{texture_wrap_mode::repeat,
+              texture_wrap_mode::repeat, texture_wrap_mode::repeat}),
+    t.get_wrap_mode());
+  for(auto wmx : all_wrap_modes)
+  {
+    for(auto wmy : all_wrap_modes)
+    {
+      for(auto wmz : all_wrap_modes)
+      {
+        t.set_wrap_mode(texture3::wrap_mode{wmx, wmy, wmz});
+        EXPECT_EQ((texture3::wrap_mode{wmx, wmy, wmz}), t.get_wrap_mode());
+      }
+    }
+  }
+}
+
+
+
+TEST_F(test_exp_texture3, set_image)
+{
+  texture3 t(vec3u(2u, 3u, 2u));
+  // clang-format off
+  std::vector<uint8_t> image_data{
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    //
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,};
+  // clang-format on
+  t.set_image(pixel_view3(image_data.data(), t.get_size(), 4u));
+  EXPECT_EQ(image_data, t.get_image());
+}
+
+
+
+TEST_F(test_exp_texture3, set_sub_image)
+{
+  texture3 t(vec3u(4u, 6u, 2u));
+  // clang-format off
+  std::vector<uint8_t> sub_image_data{
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,};
+  std::vector<uint8_t> image_data{
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    0u, 0u, 0u, 0u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    //
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,};
+  // clang-format on
+  t.set_sub_image(vec3u(1u, 2u, 0u),
+    pixel_view3(sub_image_data.data(), vec3u(3u, 2u, 1u), 4u));
+  EXPECT_EQ(image_data, t.get_image());
+  EXPECT_EQ(
+    sub_image_data, t.get_sub_image(vec3u(1u, 2u, 0u), vec3u(3u, 2u, 1u)));
+}
+
+
+
+TEST_F(test_exp_texture3_death_test, get_sub_image_invalid_params)
+{
+  texture3 t(vec3u(4u, 6u, 2u));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(5u, 6u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(4u, 7u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(5u, 7u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(4u, 6u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(5u, 7u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(4u, 7u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(5u, 6u, 2u)));
+
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(1u, 1u, 1u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 1u, 1u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(1u, 0u, 1u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 1u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(1u, 1u, 0u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 1u, 0u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(1u, 0u, 0u), vec3u(4u, 6u, 2u)));
+}
+
+
+
+TEST_F(test_exp_texture3_death_test, set_sub_image_invalid_params)
+{
+  texture3 t(vec3u(4u, 6u, 2u));
+  std::vector<uint8_t> image_data(5u * 7u * 3u * 4u, 0u);
+
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(5u, 7u, 3u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(4u, 7u, 3u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(5u, 6u, 3u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(4u, 6u, 3u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(5u, 7u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(4u, 7u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(5u, 6u, 2u), 4u)));
+
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(1u, 1u, 1u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 1u, 1u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(1u, 0u, 1u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 1u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(1u, 1u, 0u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 1u, 0u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(1u, 0u, 0u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+}
+
+
+
+TEST_F(test_exp_texture3, clear)
+{
+  // clang-format off
+  std::vector<uint8_t> image_data{
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    //
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,};
+  // clang-format on
+  texture3 t(pixel_view3(image_data.data(), vec3u(2u, 3u, 2u), 4u));
+  t.clear();
+  EXPECT_EQ(std::vector<uint8_t>(image_data.size(), 0u), t.get_image());
+}
+
+
+
 TEST_F(test_exp_texture2_array, size_constructor)
 {
   vec3u size_ref(4u, 8u, 3u);
@@ -660,17 +1063,380 @@ TEST_F(test_exp_texture2_array, size_constructor)
 
 
 
-TEST_F(test_exp_multisampled_texture2_array, size_constructor)
+TEST_F(test_exp_texture2_array, size_constructor_size_limits)
+{
+  vec3u min_size(1u, 1u, 1u);
+  texture2_array t_min_size(min_size);
+  EXPECT_EQ(min_size, t_min_size.get_size());
+
+  vec3u max_size_x(texture2_array::get_max_size().x(), 1u, 1u);
+  texture2_array t_max_size_x(max_size_x);
+  EXPECT_EQ(max_size_x, t_max_size_x.get_size());
+
+  vec3u max_size_y(1u, texture2_array::get_max_size().y(), 1u);
+  texture2_array t_max_size_y(max_size_y);
+  EXPECT_EQ(max_size_y, t_max_size_y.get_size());
+
+  vec3u max_size_z(1u, 1u, texture2_array::get_max_size().z());
+  texture2_array t_max_size_z(max_size_z);
+  EXPECT_EQ(max_size_z, t_max_size_z.get_size());
+}
+
+
+
+TEST_F(test_exp_texture2_array_death_test, size_constructor_invalid_size)
+{
+  EXPECT_PRECOND_ERROR(texture2_array(vec3u(0u, 0u, 0u)));
+  EXPECT_PRECOND_ERROR(texture2_array(vec3u(1u, 0u, 0u)));
+  EXPECT_PRECOND_ERROR(texture2_array(vec3u(0u, 1u, 0u)));
+  EXPECT_PRECOND_ERROR(texture2_array(vec3u(1u, 1u, 0u)));
+  EXPECT_PRECOND_ERROR(texture2_array(vec3u(0u, 0u, 1u)));
+  EXPECT_PRECOND_ERROR(texture2_array(vec3u(1u, 0u, 1u)));
+  EXPECT_PRECOND_ERROR(texture2_array(vec3u(0u, 1u, 1u)));
+  EXPECT_PRECOND_ERROR(texture2_array(texture2_array::get_max_size() + vec3u(1u, 1u, 1u)));
+  EXPECT_PRECOND_ERROR(texture2_array(texture2_array::get_max_size() + vec3u(0u, 1u, 1u)));
+  EXPECT_PRECOND_ERROR(texture2_array(texture2_array::get_max_size() + vec3u(1u, 0u, 1u)));
+  EXPECT_PRECOND_ERROR(texture2_array(texture2_array::get_max_size() + vec3u(0u, 0u, 1u)));
+  EXPECT_PRECOND_ERROR(texture2_array(texture2_array::get_max_size() + vec3u(1u, 1u, 0u)));
+  EXPECT_PRECOND_ERROR(texture2_array(texture2_array::get_max_size() + vec3u(0u, 1u, 0u)));
+  EXPECT_PRECOND_ERROR(texture2_array(texture2_array::get_max_size() + vec3u(1u, 0u, 0u)));
+}
+
+
+
+TEST_F(test_exp_texture2_array, full_size_constructor)
 {
   vec3u size_ref(4u, 8u, 3u);
-  multisampled_texture2_array t(size_ref);
-  EXPECT_EQ(size_ref, t.get_size());
-  EXPECT_EQ(
-    gl::compute_texture_size_bytes(size_ref.x(), size_ref.y(), size_ref.z(),
-      gl::get_texture_external_format_for_internal_format(
-        static_cast<GLenum>(t.get_format()))),
-    t.get_byte_count());
-  EXPECT_EQ(texture_format::rgba, t.get_format());
-  EXPECT_EQ(1u, t.get_sample_count());
-  EXPECT_TRUE(t.has_fixed_sample_locations());
+  uint mipmap_level_count_ref = 2u;
+  for(auto tf : all_formats)
+  {
+    texture2_array t(size_ref, tf, mipmap_level_count_ref);
+    EXPECT_EQ(size_ref, t.get_size());
+    EXPECT_EQ(tf, t.get_format());
+    EXPECT_EQ(mipmap_level_count_ref, t.get_mipmap_level_count());
+    EXPECT_EQ(std::vector<uint8_t>(t.get_byte_count(), 0u), t.get_image());
+  }
 }
+
+
+
+TEST_F(test_exp_texture2_array, full_size_constructor_mipmap_level_count_limits)
+{
+  vec3u size_ref(4u, 8u, 3u);
+
+  uint min_mipmap_level_count = 1u;
+  texture2_array t_min_level(size_ref, texture_format::rgba, min_mipmap_level_count);
+  EXPECT_EQ(min_mipmap_level_count, t_min_level.get_mipmap_level_count());
+
+  uint max_mipmap_level_count = 1u;
+  texture2_array t_max_level(size_ref, texture_format::rgba, max_mipmap_level_count);
+  EXPECT_EQ(max_mipmap_level_count, t_max_level.get_mipmap_level_count());
+}
+
+
+
+TEST_F(test_exp_texture2_array_death_test, invalid_sample_count)
+{
+  EXPECT_PRECOND_ERROR(texture2_array(vec3u(1u, 1u, 1u), texture_format::rgba,
+    texture2_array::get_max_mipmap_level_count(vec3u(1u, 1u, 1u)) + 1u));
+}
+
+
+
+TEST_F(test_exp_texture2_array, image_constructor)
+{
+  std::vector<uint8_t> image_data{0u, 1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u, 9u, 10u,
+    11u, 12u, 13u, 14u, 15u, 16u, 17u, 18u, 19u, 20u, 21u, 22u, 23u};
+
+  std::vector<std::pair<texture_format, pixel_view3>> format_images{
+    std::make_pair(
+      texture_format::r, pixel_view3(image_data.data(), vec3u(3u, 4u, 2u), 1u)),
+    std::make_pair(texture_format::rg,
+      pixel_view3(image_data.data(), vec3u(3u, 2u, 2u), 2u)),
+    std::make_pair(texture_format::rgb,
+      pixel_view3(image_data.data(), vec3u(1u, 4u, 2u), 3u)),
+    std::make_pair(texture_format::rgba,
+      pixel_view3(image_data.data(), vec3u(3u, 1u, 2u), 4u)),
+  };
+
+  uint mipmap_level_count_ref = 2u;
+  for(auto fi : format_images)
+  {
+    texture2_array t(fi.second, fi.first, mipmap_level_count_ref);
+    EXPECT_EQ(fi.second.get_size(), t.get_size());
+    EXPECT_EQ(fi.first, t.get_format());
+    EXPECT_EQ(mipmap_level_count_ref, t.get_mipmap_level_count());
+    EXPECT_EQ(image_data, t.get_image());
+  }
+}
+
+
+
+TEST_F(test_exp_texture2_array_death_test, image_constructor_invalid_size)
+{
+  std::vector<uint8_t> image_data{0u, 1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u, 9u, 10u,
+    11u, 12u, 13u, 14u, 15u, 16u, 17u, 18u, 19u, 20u, 21u, 22u, 23u};
+
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(0u, 0u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(1u, 0u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(0u, 1u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(1u, 1u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(0u, 0u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(1u, 0u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(0u, 1u, 1u), 4u)));
+
+  EXPECT_PRECOND_ERROR(texture2_array(pixel_view3(
+    image_data.data(), texture2_array::get_max_size() + vec3u(1u, 1u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(texture2_array(pixel_view3(
+    image_data.data(), texture2_array::get_max_size() + vec3u(0u, 1u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(texture2_array(pixel_view3(
+    image_data.data(), texture2_array::get_max_size() + vec3u(1u, 0u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(texture2_array(pixel_view3(
+    image_data.data(), texture2_array::get_max_size() + vec3u(0u, 0u, 1u), 4u)));
+  EXPECT_PRECOND_ERROR(texture2_array(pixel_view3(
+    image_data.data(), texture2_array::get_max_size() + vec3u(1u, 1u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(texture2_array(pixel_view3(
+    image_data.data(), texture2_array::get_max_size() + vec3u(0u, 1u, 0u), 4u)));
+  EXPECT_PRECOND_ERROR(texture2_array(pixel_view3(
+    image_data.data(), texture2_array::get_max_size() + vec3u(1u, 0u, 0u), 4u)));
+}
+
+
+
+TEST_F(test_exp_texture2_array_death_test, image_constructor_invalid_byte_depth)
+{
+  std::vector<uint8_t> image_data{0u, 1u, 2u, 3u, 4u, 5u, 6u, 7u, 8u, 9u, 10u,
+    11u, 12u, 13u, 14u, 15u, 16u, 17u, 18u, 19u, 20u, 21u, 22u, 23u};
+
+  EXPECT_PRECOND_ERROR(texture2_array(
+    pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 2u), texture_format::r));
+  EXPECT_PRECOND_ERROR(texture2_array(
+    pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 3u), texture_format::r));
+  EXPECT_PRECOND_ERROR(texture2_array(
+    pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 4u), texture_format::r));
+  EXPECT_PRECOND_ERROR(texture2_array(
+    pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 1u), texture_format::rg));
+  EXPECT_PRECOND_ERROR(texture2_array(
+    pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 3u), texture_format::rg));
+  EXPECT_PRECOND_ERROR(texture2_array(
+    pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 4u), texture_format::rg));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 1u),
+      texture_format::rgb));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 2u),
+      texture_format::rgb));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 4u),
+      texture_format::rgb));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 1u),
+      texture_format::rgba));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 2u),
+      texture_format::rgba));
+  EXPECT_PRECOND_ERROR(
+    texture2_array(pixel_view3(image_data.data(), vec3u(1u, 1u, 1u), 3u),
+      texture_format::rgba));
+}
+
+
+
+TEST_F(test_exp_texture2_array, get_byte_count)
+{
+  vec3u size_ref(4u, 8u, 3u);
+  for(auto tf : all_formats)
+  {
+    texture2_array t(size_ref, tf);
+    EXPECT_EQ(
+      gl::compute_texture_size_bytes(size_ref.x(), size_ref.y(), size_ref.z(),
+        gl::get_texture_external_format_for_internal_format(
+          static_cast<GLenum>(t.get_format()))),
+      t.get_byte_count());
+  }
+}
+
+
+
+TEST_F(test_exp_texture2_array, set_filter)
+{
+  texture2_array t(vec3u(1u, 1u, 1u));
+  EXPECT_EQ(texture_filter::linear, t.get_filter());
+  for(auto filter : all_filters)
+  {
+    t.set_filter(filter);
+    EXPECT_EQ(filter, t.get_filter());
+  }
+}
+
+
+
+TEST_F(test_exp_texture2_array, set_wrap_mode)
+{
+  texture2_array t(vec3u(1u, 1u, 1u));
+  EXPECT_EQ((texture2_array::wrap_mode{texture_wrap_mode::repeat,
+              texture_wrap_mode::repeat, texture_wrap_mode::repeat}),
+    t.get_wrap_mode());
+  for(auto wmx : all_wrap_modes)
+  {
+    for(auto wmy : all_wrap_modes)
+    {
+      for(auto wmz : all_wrap_modes)
+      {
+        t.set_wrap_mode(texture2_array::wrap_mode{wmx, wmy, wmz});
+        EXPECT_EQ((texture2_array::wrap_mode{wmx, wmy, wmz}), t.get_wrap_mode());
+      }
+    }
+  }
+}
+
+
+
+TEST_F(test_exp_texture2_array, set_image)
+{
+  texture2_array t(vec3u(2u, 3u, 2u));
+  // clang-format off
+  std::vector<uint8_t> image_data{
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    //
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,};
+  // clang-format on
+  t.set_image(pixel_view3(image_data.data(), t.get_size(), 4u));
+  EXPECT_EQ(image_data, t.get_image());
+}
+
+
+
+TEST_F(test_exp_texture2_array, set_sub_image)
+{
+  texture2_array t(vec3u(4u, 6u, 2u));
+  // clang-format off
+  std::vector<uint8_t> sub_image_data{
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,};
+  std::vector<uint8_t> image_data{
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    0u, 0u, 0u, 0u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    //
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,};
+  // clang-format on
+  t.set_sub_image(vec3u(1u, 2u, 0u),
+    pixel_view3(sub_image_data.data(), vec3u(3u, 2u, 1u), 4u));
+  EXPECT_EQ(image_data, t.get_image());
+  EXPECT_EQ(
+    sub_image_data, t.get_sub_image(vec3u(1u, 2u, 0u), vec3u(3u, 2u, 1u)));
+}
+
+
+
+TEST_F(test_exp_texture2_array_death_test, get_sub_image_invalid_params)
+{
+  texture2_array t(vec3u(4u, 6u, 2u));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(5u, 6u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(4u, 7u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(5u, 7u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(4u, 6u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(5u, 7u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(4u, 7u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(5u, 6u, 2u)));
+
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(1u, 1u, 1u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 1u, 1u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(1u, 0u, 1u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 1u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(1u, 1u, 0u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 1u, 0u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(1u, 0u, 0u), vec3u(4u, 6u, 2u)));
+}
+
+
+
+TEST_F(test_exp_texture2_array_death_test, set_sub_image_invalid_params)
+{
+  texture2_array t(vec3u(4u, 6u, 2u));
+  std::vector<uint8_t> image_data(5u * 7u * 3u * 4u, 0u);
+
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(5u, 7u, 3u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(4u, 7u, 3u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(5u, 6u, 3u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(4u, 6u, 3u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(5u, 7u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(4u, 7u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 0u), pixel_view3(image_data.data(), vec3u(5u, 6u, 2u), 4u)));
+
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(1u, 1u, 1u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 1u, 1u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(1u, 0u, 1u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 0u, 1u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(1u, 1u, 0u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(0u, 1u, 0u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec3u(1u, 0u, 0u), pixel_view3(image_data.data(), vec3u(4u, 6u, 2u), 4u)));
+}
+
+
+
+TEST_F(test_exp_texture2_array, clear)
+{
+  // clang-format off
+  std::vector<uint8_t> image_data{
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    //
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,};
+  // clang-format on
+  texture2_array t(pixel_view3(image_data.data(), vec3u(2u, 3u, 2u), 4u));
+  t.clear();
+  EXPECT_EQ(std::vector<uint8_t>(image_data.size(), 0u), t.get_image());
+}
+
+
+
+//TEST_F(test_exp_multisampled_texture2_array, size_constructor)
+//{
+//  vec3u size_ref(4u, 8u, 3u);
+//  multisampled_texture2_array t(size_ref);
+//  EXPECT_EQ(size_ref, t.get_size());
+//  EXPECT_EQ(
+//    gl::compute_texture_size_bytes(size_ref.x(), size_ref.y(), size_ref.z(),
+//      gl::get_texture_external_format_for_internal_format(
+//        static_cast<GLenum>(t.get_format()))),
+//    t.get_byte_count());
+//  EXPECT_EQ(texture_format::rgba, t.get_format());
+//  EXPECT_EQ(1u, t.get_sample_count());
+//  EXPECT_TRUE(t.has_fixed_sample_locations());
+//}
