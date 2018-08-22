@@ -29,11 +29,11 @@ using texture2_array = texture_t<texture_type::texture2_array>;
 using texture3 = texture_t<texture_type::texture3>;
 
 /** 2 dimensional multisampled texture. */
-using multisample_texture2 = texture_t<texture_type::multisample_texture2>;
+using multisampled_texture2 = texture_t<texture_type::multisampled_texture2>;
 
 /** 2 dimensional multisampled texture array. */
-using multisample_texture2_array
-  = texture_t<texture_type::multisample_texture2_array>;
+using multisampled_texture2_array
+  = texture_t<texture_type::multisampled_texture2_array>;
 
 }  // namespace hou
 

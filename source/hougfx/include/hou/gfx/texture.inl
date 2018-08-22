@@ -11,9 +11,9 @@ namespace hou
 extern template class HOU_GFX_API texture_t<texture_type::texture2>;
 extern template class HOU_GFX_API texture_t<texture_type::texture2_array>;
 extern template class HOU_GFX_API texture_t<texture_type::texture3>;
-extern template class HOU_GFX_API texture_t<texture_type::multisample_texture2>;
+extern template class HOU_GFX_API texture_t<texture_type::multisampled_texture2>;
 extern template class HOU_GFX_API
-  texture_t<texture_type::multisample_texture2_array>;
+  texture_t<texture_type::multisampled_texture2_array>;
 
 
 
@@ -88,12 +88,12 @@ HOU_GFX_API texture_t<texture_type::texture3>::texture_t(
 
 template <>
 template <>
-HOU_GFX_API texture_t<texture_type::multisample_texture2>::texture_t(
+HOU_GFX_API texture_t<texture_type::multisampled_texture2>::texture_t(
   const size_type&, texture_format, positive<uint>, bool);
 
 template <>
 template <>
-HOU_GFX_API texture_t<texture_type::multisample_texture2_array>::texture_t(
+HOU_GFX_API texture_t<texture_type::multisampled_texture2_array>::texture_t(
   const size_type&, texture_format, positive<uint>, bool);
 
 

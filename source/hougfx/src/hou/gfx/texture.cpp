@@ -75,7 +75,7 @@ vec3u get_max_size_internal<texture_type::texture3>()
 
 
 template <>
-vec2u get_max_size_internal<texture_type::multisample_texture2>()
+vec2u get_max_size_internal<texture_type::multisampled_texture2>()
 {
   return vec2u(narrow_cast<uint>(gl::get_max_texture_size()),
     narrow_cast<uint>(gl::get_max_texture_size()));
@@ -84,7 +84,7 @@ vec2u get_max_size_internal<texture_type::multisample_texture2>()
 
 
 template <>
-vec3u get_max_size_internal<texture_type::multisample_texture2_array>()
+vec3u get_max_size_internal<texture_type::multisampled_texture2_array>()
 {
   return vec3u(narrow_cast<uint>(gl::get_max_texture_size()),
     narrow_cast<uint>(gl::get_max_texture_size()),
@@ -121,8 +121,8 @@ typename texture_t<texture_type::texture3>::size_type
 
 
 template <>
-typename texture_t<texture_type::multisample_texture2>::size_type
-  get_size_internal<texture_type::multisample_texture2>(const texture& t)
+typename texture_t<texture_type::multisampled_texture2>::size_type
+  get_size_internal<texture_type::multisampled_texture2>(const texture& t)
 {
   return t.get_size2();
 }
@@ -130,8 +130,8 @@ typename texture_t<texture_type::multisample_texture2>::size_type
 
 
 template <>
-typename texture_t<texture_type::multisample_texture2_array>::size_type
-  get_size_internal<texture_type::multisample_texture2_array>(const texture& t)
+typename texture_t<texture_type::multisampled_texture2_array>::size_type
+  get_size_internal<texture_type::multisampled_texture2_array>(const texture& t)
 {
   return t.get_size3();
 }
@@ -166,8 +166,8 @@ uint get_mipmap_relevant_size<texture_type::texture3>(
 
 
 template <>
-uint get_mipmap_relevant_size<texture_type::multisample_texture2>(
-  const typename texture_t<texture_type::multisample_texture2>::size_type&)
+uint get_mipmap_relevant_size<texture_type::multisampled_texture2>(
+  const typename texture_t<texture_type::multisampled_texture2>::size_type&)
 {
   return 1u;
 }
@@ -175,9 +175,9 @@ uint get_mipmap_relevant_size<texture_type::multisample_texture2>(
 
 
 template <>
-uint get_mipmap_relevant_size<texture_type::multisample_texture2_array>(
+uint get_mipmap_relevant_size<texture_type::multisampled_texture2_array>(
   const typename texture_t<
-    texture_type::multisample_texture2_array>::size_type&)
+    texture_type::multisampled_texture2_array>::size_type&)
 {
   return 1u;
 }
@@ -548,10 +548,10 @@ texture_t<texture_type::texture3>::texture_t(
 
 template <>
 template <>
-texture_t<texture_type::multisample_texture2>::texture_t(const size_type& s,
+texture_t<texture_type::multisampled_texture2>::texture_t(const size_type& s,
   texture_format format, positive<uint> sample_count,
   bool fixed_sample_locations)
-  : texture(texture_type::multisample_texture2, format, s.x(), s.y(), 1u, 1u,
+  : texture(texture_type::multisampled_texture2, format, s.x(), s.y(), 1u, 1u,
       sample_count, fixed_sample_locations)
 {
   HOU_PRECOND(is_texture_size_valid(s));
@@ -564,10 +564,10 @@ texture_t<texture_type::multisample_texture2>::texture_t(const size_type& s,
 
 template <>
 template <>
-texture_t<texture_type::multisample_texture2_array>::texture_t(
+texture_t<texture_type::multisampled_texture2_array>::texture_t(
   const size_type& s, texture_format format, positive<uint> sample_count,
   bool fixed_sample_locations)
-  : texture(texture_type::multisample_texture2_array, format, s.x(), s.y(),
+  : texture(texture_type::multisampled_texture2_array, format, s.x(), s.y(),
       s.z(), 1u, sample_count, fixed_sample_locations)
 {
   HOU_PRECOND(is_texture_size_valid(s));
@@ -721,7 +721,7 @@ void texture_t<Type>::generate_mip_map()
 template class texture_t<texture_type::texture2>;
 template class texture_t<texture_type::texture2_array>;
 template class texture_t<texture_type::texture3>;
-template class texture_t<texture_type::multisample_texture2>;
-template class texture_t<texture_type::multisample_texture2_array>;
+template class texture_t<texture_type::multisampled_texture2>;
+template class texture_t<texture_type::multisampled_texture2_array>;
 
 }  // namespace hou

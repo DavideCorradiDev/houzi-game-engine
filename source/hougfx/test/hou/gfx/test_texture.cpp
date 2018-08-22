@@ -86,8 +86,8 @@ typename texture3::size_type test_texture_base<texture3>::generate_size()
 
 
 template <>
-typename multisample_texture2::size_type
-  test_texture_base<multisample_texture2>::generate_size()
+typename multisampled_texture2::size_type
+  test_texture_base<multisampled_texture2>::generate_size()
 {
   return vec2u{4u, 8u};
 }
@@ -95,8 +95,8 @@ typename multisample_texture2::size_type
 
 
 template <>
-typename multisample_texture2_array::size_type
-  test_texture_base<multisample_texture2_array>::generate_size()
+typename multisampled_texture2_array::size_type
+  test_texture_base<multisampled_texture2_array>::generate_size()
 {
   return vec3u{4u, 8u, 13u};
 }
@@ -196,7 +196,7 @@ class test_texture_common_death_test : public test_texture_common<Tex>
 {};
 
 using texture_types_common = Types<texture2, texture2_array, texture3,
-  multisample_texture2, multisample_texture2_array>;
+  multisampled_texture2, multisampled_texture2_array>;
 
 template <typename Tex>
 class test_texture_not_multisampled : public test_texture_base<Tex>
@@ -220,7 +220,7 @@ class test_texture_multisampled_death_test
 {};
 
 using texture_types_multisampled
-  = Types<multisample_texture2, multisample_texture2_array>;
+  = Types<multisampled_texture2, multisampled_texture2_array>;
 
 }  // namespace
 

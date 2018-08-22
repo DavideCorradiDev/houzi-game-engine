@@ -511,8 +511,8 @@ TEST_F(test_framebuffer, status_multisampled_color_depth_stencil_attachment)
 {
   framebuffer fb;
   uint sample_count
-    = std::min(multisample_texture2::get_max_sample_count().get(), 4u);
-  multisample_texture2 tex_rgba(
+    = std::min(multisampled_texture2::get_max_sample_count().get(), 4u);
+  multisampled_texture2 tex_rgba(
     vec2u(4u, 8u), texture_format::rgba, sample_count);
   texture2 tex_depth_stencil(vec2u(4u, 8u), texture_format::depth_stencil);
 
@@ -528,10 +528,10 @@ TEST_F(test_framebuffer,
 {
   framebuffer fb;
   uint sample_count
-    = std::min(multisample_texture2::get_max_sample_count().get(), 4u);
-  multisample_texture2 tex_rgba(
+    = std::min(multisampled_texture2::get_max_sample_count().get(), 4u);
+  multisampled_texture2 tex_rgba(
     vec2u(4u, 8u), texture_format::rgba, sample_count);
-  multisample_texture2 tex_depth_stencil(
+  multisampled_texture2 tex_depth_stencil(
     vec2u(4u, 8u), texture_format::depth_stencil, sample_count);
 
   fb.set_color_attachment(0u, tex_rgba);
@@ -546,10 +546,10 @@ TEST_F(test_framebuffer,
 {
   framebuffer fb;
   uint sample_count
-    = std::min(multisample_texture2::get_max_sample_count().get(), 4u);
-  multisample_texture2 tex_rgba(
+    = std::min(multisampled_texture2::get_max_sample_count().get(), 4u);
+  multisampled_texture2 tex_rgba(
     vec2u(4u, 8u), texture_format::rgba, sample_count);
-  multisample_texture2 tex_depth_stencil(
+  multisampled_texture2 tex_depth_stencil(
     vec2u(4u, 8u), texture_format::depth_stencil, 1u);
 
   fb.set_color_attachment(0u, tex_rgba);
@@ -565,8 +565,8 @@ TEST_F(test_framebuffer, has_multisample_attachment)
   framebuffer fb;
   texture2 tex_color_ss(size, texture_format::rgba);
   texture2 tex_ds_ss(size, texture_format::depth_stencil);
-  multisample_texture2 tex_color_ms(size, texture_format::rgba);
-  multisample_texture2 tex_ds_ms(size, texture_format::depth_stencil);
+  multisampled_texture2 tex_color_ms(size, texture_format::rgba);
+  multisampled_texture2 tex_ds_ms(size, texture_format::depth_stencil);
 
   EXPECT_FALSE(fb.has_multisample_attachment());
   fb.set_color_attachment(0u, tex_color_ss);
@@ -674,7 +674,7 @@ TEST_F(test_framebuffer, blit_color_different_format)
 TEST_F(test_framebuffer, blit_color_full_image_multisample)
 {
   vec2u size(4u, 8u);
-  test_color_blit<multisample_texture2, texture2>(texture_format::rgba, size,
+  test_color_blit<multisampled_texture2, texture2>(texture_format::rgba, size,
     recti(vec2u(), size), texture_format::rgba, size, recti(vec2u(), size),
     framebuffer_blit_filter::nearest);
 }
@@ -685,7 +685,7 @@ TEST_F(test_framebuffer, blit_color_same_rect_multisample)
 {
   vec2u size(8u, 16u);
   recti rect(1u, 2u, 3u, 4u);
-  test_color_blit<multisample_texture2, texture2>(texture_format::rgba, size,
+  test_color_blit<multisampled_texture2, texture2>(texture_format::rgba, size,
     rect, texture_format::rgba, size, rect, framebuffer_blit_filter::nearest);
 }
 
@@ -695,7 +695,7 @@ TEST_F(test_framebuffer, blit_color_different_texture_sizes_multisample)
 {
   vec2u size1(4u, 8u);
   vec2u size2(8u, 16u);
-  test_color_blit<multisample_texture2, texture2>(texture_format::rgba, size1,
+  test_color_blit<multisampled_texture2, texture2>(texture_format::rgba, size1,
     recti(vec2u(), size1), texture_format::rgba, size2, recti(vec2u(), size1),
     framebuffer_blit_filter::nearest);
 }
@@ -706,7 +706,7 @@ TEST_F(test_framebuffer, blit_color_overflowing_rect_multisample)
 {
   vec2u size(8u, 16u);
   recti rect(4u, 6u, 6u, 16u);
-  test_color_blit<multisample_texture2, texture2>(texture_format::rgba, size,
+  test_color_blit<multisampled_texture2, texture2>(texture_format::rgba, size,
     rect, texture_format::rgba, size, rect, framebuffer_blit_filter::nearest);
 }
 
@@ -717,7 +717,7 @@ TEST_F(test_framebuffer, blit_color_inverted_rect_multisample)
   vec2u size(8u, 16u);
   recti src_rect(1u, 2u, 3u, 4u);
   recti dst_rect(src_rect.r(), src_rect.b(), -src_rect.w(), -src_rect.h());
-  test_color_blit<multisample_texture2, texture2>(texture_format::rgba, size,
+  test_color_blit<multisampled_texture2, texture2>(texture_format::rgba, size,
     src_rect, texture_format::rgba, size, dst_rect,
     framebuffer_blit_filter::nearest);
 }
@@ -727,7 +727,7 @@ TEST_F(test_framebuffer, blit_color_inverted_rect_multisample)
 TEST_F(test_framebuffer, blit_color_linear_filter_multisample)
 {
   vec2u size(4u, 8u);
-  test_color_blit<multisample_texture2, texture2>(texture_format::rgba, size,
+  test_color_blit<multisampled_texture2, texture2>(texture_format::rgba, size,
     recti(vec2u(), size), texture_format::rgba, size, recti(vec2u(), size),
     framebuffer_blit_filter::linear);
 }
@@ -740,7 +740,7 @@ TEST_F(
   vec2u size(8u, 16u);
   recti src_rect(1u, 2u, 3u, 4u);
   recti dst_rect(2u, 1u, 4u, 6u);
-  test_color_blit<multisample_texture2, texture2>(texture_format::rgba, size,
+  test_color_blit<multisampled_texture2, texture2>(texture_format::rgba, size,
     src_rect, texture_format::rgba, size, dst_rect,
     framebuffer_blit_filter::nearest, true);
 }

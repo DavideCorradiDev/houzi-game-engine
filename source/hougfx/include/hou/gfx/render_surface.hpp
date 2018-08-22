@@ -230,7 +230,7 @@ private:
 
 private:
   using attachment_type = texture2;
-  using multisample_attachment_type = multisample_texture2;
+  using multisample_attachment_type = multisampled_texture2;
 
 private:
   framebuffer m_framebuffer;

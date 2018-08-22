@@ -226,6 +226,7 @@ TEST_F(test_exp_texture2, size_constructor)
 {
   vec2u size_ref(4u, 8u);
   texture2 t(size_ref);
+  EXPECT_EQ(texture_type::texture2, t.get_type());
   EXPECT_EQ(size_ref, t.get_size());
   EXPECT_EQ(texture_format::rgba, t.get_format());
   EXPECT_EQ(1u, t.get_mipmap_level_count());
@@ -538,6 +539,7 @@ TEST_F(test_exp_multisampled_texture2, size_constructor)
 {
   vec2u size_ref(4u, 8u);
   multisampled_texture2 t(size_ref);
+  EXPECT_EQ(texture_type::multisampled_texture2, t.get_type());
   EXPECT_EQ(size_ref, t.get_size());
   EXPECT_EQ(gl::compute_texture_size_bytes(size_ref.x(), size_ref.y(), 1u,
               gl::get_texture_external_format_for_internal_format(
@@ -662,6 +664,7 @@ TEST_F(test_exp_texture3, size_constructor)
 {
   vec3u size_ref(4u, 8u, 3u);
   texture3 t(size_ref);
+  EXPECT_EQ(texture_type::texture3, t.get_type());
   EXPECT_EQ(size_ref, t.get_size());
   EXPECT_EQ(
     gl::compute_texture_size_bytes(size_ref.x(), size_ref.y(), size_ref.z(),
@@ -1050,6 +1053,7 @@ TEST_F(test_exp_texture2_array, size_constructor)
 {
   vec3u size_ref(4u, 8u, 3u);
   texture2_array t(size_ref);
+  EXPECT_EQ(texture_type::texture2_array, t.get_type());
   EXPECT_EQ(size_ref, t.get_size());
   EXPECT_EQ(
     gl::compute_texture_size_bytes(size_ref.x(), size_ref.y(), size_ref.z(),
@@ -1440,6 +1444,7 @@ TEST_F(test_exp_multisampled_texture2_array, size_constructor)
 {
   vec3u size_ref(4u, 8u, 3u);
   multisampled_texture2_array t(size_ref);
+  EXPECT_EQ(texture_type::multisampled_texture2_array, t.get_type());
   EXPECT_EQ(size_ref, t.get_size());
   EXPECT_EQ(
     gl::compute_texture_size_bytes(size_ref.x(), size_ref.y(), size_ref.z(),

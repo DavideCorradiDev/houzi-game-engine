@@ -41,6 +41,7 @@ uint texture::get_texture_unit_count()
 
 texture::texture(texture_type type, texture_format format)
   : m_handle(gl::texture_handle::create(static_cast<GLenum>(type)))
+  , m_type(type)
   , m_format(format)
 {}
 
@@ -54,6 +55,13 @@ texture::~texture()
 const gl::texture_handle& texture::get_handle() const noexcept
 {
   return m_handle;
+}
+
+
+
+texture_type texture::get_type() const noexcept
+{
+  return m_type;
 }
 
 
@@ -358,7 +366,7 @@ positive<uint> multisampled_texture2::get_max_sample_count()
 multisampled_texture2::multisampled_texture2(const vec2u& size,
   texture_format format, positive<uint> sample_count,
   bool fixed_sample_locations)
-  : texture2_base(texture_type::multisample_texture2, size, format)
+  : texture2_base(texture_type::multisampled_texture2, size, format)
   , m_sample_count(sample_count)
   , m_fixed_sample_locations(fixed_sample_locations)
 {
@@ -675,7 +683,7 @@ positive<uint> multisampled_texture2_array::get_max_sample_count()
 multisampled_texture2_array::multisampled_texture2_array(const vec3u& size,
   texture_format format, positive<uint> sample_count,
   bool fixed_sample_locations)
-  : texture3_base(texture_type::multisample_texture2_array, size, format)
+  : texture3_base(texture_type::multisampled_texture2_array, size, format)
   , m_sample_count(sample_count)
   , m_fixed_sample_locations(fixed_sample_locations)
 {

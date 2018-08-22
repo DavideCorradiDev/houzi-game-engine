@@ -210,9 +210,9 @@ void render_surface::build_framebuffer(
   else
   {
     static constexpr bool fixed_sample_locations = true;
-    m_color_attachment = std::make_unique<multisample_texture2>(
+    m_color_attachment = std::make_unique<multisampled_texture2>(
       size, texture_format::rgba, sample_count, fixed_sample_locations);
-    m_depth_stencil_attachment = std::make_unique<multisample_texture2>(size,
+    m_depth_stencil_attachment = std::make_unique<multisampled_texture2>(size,
       texture_format::depth_stencil, sample_count, fixed_sample_locations);
   }
   HOU_DEV_ASSERT(m_color_attachment != nullptr);
