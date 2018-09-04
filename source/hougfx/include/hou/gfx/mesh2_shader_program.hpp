@@ -9,7 +9,7 @@
 
 #include "hou/gfx/mesh2_fwd.hpp"
 #include "hou/gfx/shader_program.hpp"
-#include "hou/gfx/texture.hpp"
+#include "hou/gfx/texture2.hpp"
 
 #include "hou/gfx/gfx_config.hpp"
 

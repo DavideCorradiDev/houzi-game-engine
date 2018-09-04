@@ -41,6 +41,9 @@ SET(LIB_HOUGFX_SRC
   src/hou/gfx/mesh2_shader_program.cpp
   src/hou/gfx/mesh_draw_mode.cpp
   src/hou/gfx/mesh_fill_mode.cpp
+  src/hou/gfx/mipmapped_texture3.cpp
+  src/hou/gfx/multisampled_texture2.cpp
+  src/hou/gfx/multisampled_texture2_array.cpp
   src/hou/gfx/render_surface.cpp
   src/hou/gfx/shader.cpp
   src/hou/gfx/shader_program.cpp
@@ -50,6 +53,11 @@ SET(LIB_HOUGFX_SRC
   src/hou/gfx/text_shader_program.cpp
   src/hou/gfx/text_vertex.cpp
   src/hou/gfx/texture.cpp
+  src/hou/gfx/texture2.cpp
+  src/hou/gfx/texture2_array.cpp
+  src/hou/gfx/texture2_base.cpp
+  src/hou/gfx/texture3.cpp
+  src/hou/gfx/texture3_base.cpp
   src/hou/gfx/texture_channel.cpp
   src/hou/gfx/texture_channel_mapping.cpp
   src/hou/gfx/texture_filter.cpp

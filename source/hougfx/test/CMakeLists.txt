@@ -33,6 +33,8 @@ SET(EXE_HOUGFX_TEST_SRC
   hou/gfx/test_mesh.cpp
   hou/gfx/test_mesh2.cpp
   hou/gfx/test_mesh2_shader_program.cpp
+  hou/gfx/test_multisampled_texture2.cpp
+  hou/gfx/test_multisampled_texture2_array.cpp
   hou/gfx/test_graphic_context.cpp
   hou/gfx/test_graphics_state.cpp
   hou/gfx/test_pixel_view.cpp
@@ -42,6 +44,10 @@ SET(EXE_HOUGFX_TEST_SRC
   hou/gfx/test_text_box_formatting_params.cpp
   hou/gfx/test_text_vertex.cpp
   hou/gfx/test_texture.cpp
+  hou/gfx/test_texture_base.cpp
+  hou/gfx/test_texture2.cpp
+  hou/gfx/test_texture2_array.cpp
+  hou/gfx/test_texture3.cpp
   hou/gfx/test_texture_channel_mapping.cpp
   hou/gfx/test_vertex_array.cpp
   hou/gfx/test_vertex_attrib_format.cpp

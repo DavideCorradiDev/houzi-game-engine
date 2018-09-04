@@ -8,7 +8,8 @@
 #include "hou/cor/non_copyable.hpp"
 
 #include "hou/gfx/framebuffer.hpp"
-#include "hou/gfx/texture.hpp"
+#include "hou/gfx/multisampled_texture2.hpp"
+#include "hou/gfx/texture2.hpp"
 
 #include "hou/gfx/gfx_config.hpp"
 

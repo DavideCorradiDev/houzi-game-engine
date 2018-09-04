@@ -7,7 +7,8 @@
 #include "hou/gfx/test_gfx_base.hpp"
 
 #include "hou/gfx/framebuffer.hpp"
-#include "hou/gfx/texture.hpp"
+#include "hou/gfx/multisampled_texture2.hpp"
+#include "hou/gfx/texture2.hpp"
 
 #include "hou/sys/image.hpp"
 
