@@ -152,11 +152,13 @@ void render_surface::clear(const color& color)
 
 texture2 render_surface::to_texture() const
 {
-  texture2 tex(get_size());
+  texture2 out_tex(get_size(), texture_format::rgba);
+  framebuffer dst_fb;
+  dst_fb.set_color_attachment(0u, out_tex);
   recti blitRect(vec2i::zero(), narrow_cast<vec2i>(get_size()));
-  blit(
-    m_framebuffer, blitRect, tex, blitRect, framebuffer_blit_filter::nearest);
-  return tex;
+  blit(m_framebuffer, blitRect, dst_fb, blitRect, framebuffer_blit_mask::color,
+    framebuffer_blit_filter::nearest);
+  return out_tex;
 }
 
 
@@ -235,22 +237,6 @@ void blit(const render_surface& src, const recti& src_rect, render_surface& dst,
 {
   blit(src.m_framebuffer, src_rect, dst.m_framebuffer, dst_rect,
     framebuffer_blit_mask::all, filter);
-}
-
-
-
-void blit(const render_surface& src, const recti& src_rect, texture& dst,
-  const recti& dst_rect, framebuffer_blit_filter filter)
-{
-  blit(src.m_framebuffer, src_rect, dst, dst_rect, filter);
-}
-
-
-
-void blit(const texture& src, const recti& src_rect, render_surface& dst,
-  const recti& dst_rect, framebuffer_blit_filter filter)
-{
-  blit(src, src_rect, dst.m_framebuffer, dst_rect, filter);
 }
 
 }  // namespace hou
