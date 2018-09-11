@@ -29,9 +29,6 @@ enum class texture_format : GLenum
   rgb = GL_RGB8,
   /** Quadruple channel (red-green-blue-alpha) format. */
   rgba = GL_RGBA8,
-  // TODO: remove depth.
-  /** 24 bit depth texture. */
-  depth = GL_DEPTH_COMPONENT24,
   /** 32 bit texture using 24 bit for depth and 8 for stencil. */
   depth_stencil = GL_DEPTH24_STENCIL8,
 };

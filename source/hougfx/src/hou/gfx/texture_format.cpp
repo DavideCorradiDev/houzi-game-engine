@@ -23,7 +23,6 @@ std::ostream& operator<<(std::ostream& os, texture_format format)
     TEXTURE_FORMAT_CASE(rg, os);
     TEXTURE_FORMAT_CASE(rgb, os);
     TEXTURE_FORMAT_CASE(rgba, os);
-    TEXTURE_FORMAT_CASE(depth, os);
     TEXTURE_FORMAT_CASE(depth_stencil, os);
   }
   HOU_UNREACHABLE();
@@ -43,7 +42,6 @@ uint get_bytes_per_pixel(texture_format tf)
     case texture_format::rgb:
       return 3u;
     case texture_format::rgba:
-    case texture_format::depth:
     case texture_format::depth_stencil:
       return 4u;
   }
@@ -65,7 +63,6 @@ pixel_format get_associated_pixel_format(texture_format tf)
       return pixel_format::rgb;
     case texture_format::rgba:
       return pixel_format::rgba;
-    case texture_format::depth:
     case texture_format::depth_stencil:
       HOU_ERROR_N(invalid_enum,
         static_cast<std::underlying_type<texture_format>::type>(tf));

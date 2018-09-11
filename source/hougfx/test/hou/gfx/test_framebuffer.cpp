@@ -303,9 +303,7 @@ TEST_F(test_framebuffer, set_color_attachment_valid_formats)
 TEST_F(test_framebuffer_death_test, set_color_attachment_invalid_formats)
 {
   framebuffer fb;
-  texture2 tex_depth(vec2u(4u, 8u), texture_format::depth);
   texture2 tex_depth_stencil(vec2u(4u, 8u), texture_format::depth_stencil);
-  EXPECT_PRECOND_ERROR(fb.set_color_attachment(0u, tex_depth));
   EXPECT_PRECOND_ERROR(fb.set_color_attachment(0u, tex_depth_stencil));
 }
 
@@ -371,12 +369,10 @@ TEST_F(
   texture2 tex_rg(vec2u(4u, 8u), texture_format::rg);
   texture2 tex_rgb(vec2u(4u, 8u), texture_format::rgb);
   texture2 tex_rgba(vec2u(4u, 8u), texture_format::rgba);
-  texture2 tex_depth(vec2u(4u, 8u), texture_format::depth);
   EXPECT_PRECOND_ERROR(fb.set_depth_stencil_attachment(tex_r));
   EXPECT_PRECOND_ERROR(fb.set_depth_stencil_attachment(tex_rg));
   EXPECT_PRECOND_ERROR(fb.set_depth_stencil_attachment(tex_rgb));
   EXPECT_PRECOND_ERROR(fb.set_depth_stencil_attachment(tex_rgba));
-  EXPECT_PRECOND_ERROR(fb.set_depth_stencil_attachment(tex_depth));
 }
 
 
