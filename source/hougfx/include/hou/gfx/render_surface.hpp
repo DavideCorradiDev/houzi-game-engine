@@ -8,7 +8,8 @@
 #include "hou/cor/non_copyable.hpp"
 
 #include "hou/gfx/framebuffer.hpp"
-#include "hou/gfx/texture.hpp"
+#include "hou/gfx/multisampled_texture2.hpp"
+#include "hou/gfx/texture2.hpp"
 
 #include "hou/gfx/gfx_config.hpp"
 
@@ -230,12 +231,12 @@ private:
 
 private:
   using attachment_type = texture2;
-  using multisample_attachment_type = multisample_texture2;
+  using multisample_attachment_type = multisampled_texture2;
 
 private:
   framebuffer m_framebuffer;
-  std::unique_ptr<texture> m_color_attachment;
-  std::unique_ptr<texture> m_depth_stencil_attachment;
+  std::unique_ptr<texture2_base> m_color_attachment;
+  std::unique_ptr<texture2_base> m_depth_stencil_attachment;
   recti m_viewport;
 };
 
@@ -268,70 +269,6 @@ private:
  * consttraints.
  */
 HOU_GFX_API void blit(const render_surface& src, const recti& src_rect,
-  render_surface& dst, const recti& dst_rect,
-  framebuffer_blit_filter filter = framebuffer_blit_filter::nearest);
-
-/**
- * Blits the render_surface onto another render_surface.
- *
- * Throws if blitting is performed between two render_surface objects with
- * different sample count and source and destination rectangles with
- * different size.
- *
- * Blitting between two render_surface objects with different sample count
- * but source and destination rectangle with the same size, or with
- * source and destination rectangle with same size but different sample count
- * is possible.
- *
- * If the size of the source and destination rectangle is the same but
- * inverted, it counts as the same for the purpose of this check.
- *
- * \param src the source render_surface.
- *
- * \param dst the destination texture.
- *
- * \param src_rect the source rectangle of the blit operation.
- *
- * \param dst_rect the destination rectangle of the blit operation.
- *
- * \param filter the blit filter.
- *
- * \throws hou::precondition_violation if one argument doesn't satisfies the
- * consttraints.
- */
-HOU_GFX_API void blit(const render_surface& src, const recti& src_rect,
-  texture& dst, const recti& dst_rect,
-  framebuffer_blit_filter filter = framebuffer_blit_filter::nearest);
-
-/**
- * Blits the render_surface onto another render_surface.
- *
- * Throws if blitting is performed between two render_surface objects with
- * different sample count and source and destination rectangles with
- * different size.
- *
- * Blitting between two render_surface objects with different sample count
- * but source and destination rectangle with the same size, or with
- * source and destination rectangle with same size but different sample count
- * is possible.
- *
- * If the size of the source and destination rectangle is the same but
- * inverted, it counts as the same for the purpose of this check.
- *
- * \param src the source texture.
- *
- * \param dst the destination render_surface.
- *
- * \param src_rect the source rectangle of the blit operation.
- *
- * \param dst_rect the destination rectangle of the blit operation.
- *
- * \param filter the blit filter.
- *
- * \throws hou::precondition_violation if one argument doesn't satisfies the
- * consttraints.
- */
-HOU_GFX_API void blit(const texture& src, const recti& src_rect,
   render_surface& dst, const recti& dst_rect,
   framebuffer_blit_filter filter = framebuffer_blit_filter::nearest);
 

@@ -59,38 +59,40 @@ image2_rgba generate_blit_result_image(const vec2u& dst_size,
 
 TEST_F(test_render_surface, constructor_single_sample)
 {
-  vec2u size(3u, 4u);
-  uint samples = 1u;
-  render_surface rs(size, samples);
+  FAIL();
+  // vec2u size(3u, 4u);
+  // uint samples = 1u;
+  // render_surface rs(size, samples);
 
-  EXPECT_EQ(recti(vec2i(0, 0), size), rs.get_default_viewport());
-  EXPECT_EQ(recti(vec2i(0, 0), size), rs.get_viewport());
-  EXPECT_EQ(size, rs.get_size());
-  EXPECT_EQ(samples, rs.get_sample_count());
-  EXPECT_FALSE(rs.is_multisampled());
+  // EXPECT_EQ(recti(vec2i(0, 0), size), rs.get_default_viewport());
+  // EXPECT_EQ(recti(vec2i(0, 0), size), rs.get_viewport());
+  // EXPECT_EQ(size, rs.get_size());
+  // EXPECT_EQ(samples, rs.get_sample_count());
+  // EXPECT_FALSE(rs.is_multisampled());
 
-  EXPECT_EQ(texture2(size).get_image<pixel_format::rgba>(),
-    rs.to_texture().get_image<pixel_format::rgba>());
+  // EXPECT_EQ(texture2(size).get_image<pixel_format::rgba>(),
+  //   rs.to_texture().get_image<pixel_format::rgba>());
 }
 
 
 
 TEST_F(test_render_surface, constructor_multisampled)
 {
-  vec2u size(3u, 4u);
-  uint samples = 2u;
-  render_surface rs(size, samples);
+  FAIL();
+  // vec2u size(3u, 4u);
+  // uint samples = 2u;
+  // render_surface rs(size, samples);
 
-  EXPECT_EQ(recti(vec2i(0, 0), size), rs.get_default_viewport());
-  EXPECT_EQ(recti(vec2i(0, 0), size), rs.get_viewport());
-  EXPECT_EQ(size, rs.get_size());
-  EXPECT_EQ(samples, rs.get_sample_count());
-  EXPECT_TRUE(rs.is_multisampled());
+  // EXPECT_EQ(recti(vec2i(0, 0), size), rs.get_default_viewport());
+  // EXPECT_EQ(recti(vec2i(0, 0), size), rs.get_viewport());
+  // EXPECT_EQ(size, rs.get_size());
+  // EXPECT_EQ(samples, rs.get_sample_count());
+  // EXPECT_TRUE(rs.is_multisampled());
 
-  render_surface ssrs(size);
-  blit(rs, rs.get_default_viewport(), ssrs, rs.get_default_viewport());
-  EXPECT_EQ(texture2(size).get_image<pixel_format::rgba>(),
-    ssrs.to_texture().get_image<pixel_format::rgba>());
+  // render_surface ssrs(size);
+  // blit(rs, rs.get_default_viewport(), ssrs, rs.get_default_viewport());
+  // EXPECT_EQ(texture2(size).get_image<pixel_format::rgba>(),
+  //   ssrs.to_texture().get_image<pixel_format::rgba>());
 }
 
 
@@ -172,21 +174,22 @@ TEST_F(test_render_surface_death_test, constructor_error_sample_count_too_large)
 
 TEST_F(test_render_surface, move_constructor)
 {
-  vec2u size(3u, 4u);
-  uint samples = 2u;
-  render_surface rs1(size, samples);
-  render_surface rs2(std::move(rs1));
+  FAIL();
+  // vec2u size(3u, 4u);
+  // uint samples = 2u;
+  // render_surface rs1(size, samples);
+  // render_surface rs2(std::move(rs1));
 
-  EXPECT_EQ(recti(vec2i(0, 0), size), rs2.get_default_viewport());
-  EXPECT_EQ(recti(vec2i(0, 0), size), rs2.get_viewport());
-  EXPECT_EQ(size, rs2.get_size());
-  EXPECT_EQ(samples, rs2.get_sample_count());
-  EXPECT_TRUE(rs2.is_multisampled());
+  // EXPECT_EQ(recti(vec2i(0, 0), size), rs2.get_default_viewport());
+  // EXPECT_EQ(recti(vec2i(0, 0), size), rs2.get_viewport());
+  // EXPECT_EQ(size, rs2.get_size());
+  // EXPECT_EQ(samples, rs2.get_sample_count());
+  // EXPECT_TRUE(rs2.is_multisampled());
 
-  render_surface ssrs(size);
-  blit(rs2, rs2.get_default_viewport(), ssrs, rs2.get_default_viewport());
-  EXPECT_EQ(texture2(size).get_image<pixel_format::rgba>(),
-    ssrs.to_texture().get_image<pixel_format::rgba>());
+  // render_surface ssrs(size);
+  // blit(rs2, rs2.get_default_viewport(), ssrs, rs2.get_default_viewport());
+  // EXPECT_EQ(texture2(size).get_image<pixel_format::rgba>(),
+  //   ssrs.to_texture().get_image<pixel_format::rgba>());
 }
 
 
@@ -340,183 +343,194 @@ TEST_F(test_render_surface_death_test, set_sample_count_error_too_large)
 
 TEST_F(test_render_surface, clear)
 {
-  vec2u size(3u, 4u);
-  render_surface rs(size);
-  color col(4, 6, 2, 78);
+  FAIL();
+  // vec2u size(3u, 4u);
+  // render_surface rs(size);
+  // color col(4, 6, 2, 78);
 
-  rs.clear(col);
+  // rs.clear(col);
 
-  image2_rgba im_ref(size);
-  im_ref.clear(image2_rgba::pixel_type(
-    col.get_red(), col.get_green(), col.get_blue(), col.get_alpha()));
-  EXPECT_EQ(im_ref, rs.to_texture().get_image<pixel_format::rgba>());
+  // image2_rgba im_ref(size);
+  // im_ref.clear(image2_rgba::pixel_type(
+  //   col.get_red(), col.get_green(), col.get_blue(), col.get_alpha()));
+  // EXPECT_EQ(im_ref, rs.to_texture().get_image<pixel_format::rgba>());
 }
 
 
 
 TEST_F(test_render_surface, blit_full_size)
 {
-  vec2u size(3u, 4u);
-  render_surface rs_src(size);
-  render_surface rs_dst(size);
+  FAIL();
+  // vec2u size(3u, 4u);
+  // render_surface rs_src(size);
+  // render_surface rs_dst(size);
 
-  recti blit_rect = rs_src.get_default_viewport();
-  rs_src.clear(color::red());
-  blit(rs_src, blit_rect, rs_dst, blit_rect);
+  // recti blit_rect = rs_src.get_default_viewport();
+  // rs_src.clear(color::red());
+  // blit(rs_src, blit_rect, rs_dst, blit_rect);
 
-  EXPECT_EQ(rs_src.to_texture().get_image<pixel_format::rgba>(),
-    rs_dst.to_texture().get_image<pixel_format::rgba>());
+  // EXPECT_EQ(rs_src.to_texture().get_image<pixel_format::rgba>(),
+  //   rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
 
 
 
 TEST_F(test_render_surface, blit_small_rect)
 {
-  vec2u size(3u, 4u);
-  render_surface rs_src(size);
-  render_surface rs_dst(size);
+  FAIL();
 
-  recti blit_rect(vec2i(1, 2), vec2i(2, 1));
-  color blit_col(3, 5, 8, 9);
-  rs_src.clear(blit_col);
-  blit(rs_src, blit_rect, rs_dst, blit_rect);
+  // vec2u size(3u, 4u);
+  // render_surface rs_src(size);
+  // render_surface rs_dst(size);
 
-  image2_rgba im_ref = generate_blit_result_image(
-    size, blit_rect, color::transparent(), blit_col);
-  EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
+  // recti blit_rect(vec2i(1, 2), vec2i(2, 1));
+  // color blit_col(3, 5, 8, 9);
+  // rs_src.clear(blit_col);
+  // blit(rs_src, blit_rect, rs_dst, blit_rect);
+
+  // image2_rgba im_ref = generate_blit_result_image(
+  //   size, blit_rect, color::transparent(), blit_col);
+  // EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
 
 
 
 TEST_F(test_render_surface, blit_different_source_and_destination_rect)
 {
-  vec2u size(3u, 4u);
-  render_surface rs_src(size);
-  render_surface rs_dst(size);
+  FAIL();
+  // vec2u size(3u, 4u);
+  // render_surface rs_src(size);
+  // render_surface rs_dst(size);
 
-  recti src_rect(vec2i(1, 2), vec2i(2, 1));
-  recti dst_rect(vec2i(0, 1), vec2i(2, 3));
-  color blit_col(3, 5, 8, 9);
-  rs_src.clear(blit_col);
-  blit(rs_src, src_rect, rs_dst, dst_rect);
+  // recti src_rect(vec2i(1, 2), vec2i(2, 1));
+  // recti dst_rect(vec2i(0, 1), vec2i(2, 3));
+  // color blit_col(3, 5, 8, 9);
+  // rs_src.clear(blit_col);
+  // blit(rs_src, src_rect, rs_dst, dst_rect);
 
-  image2_rgba im_ref = generate_blit_result_image(
-    size, dst_rect, color::transparent(), blit_col);
-  EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
+  // image2_rgba im_ref = generate_blit_result_image(
+  //   size, dst_rect, color::transparent(), blit_col);
+  // EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
 
 
 
 TEST_F(test_render_surface, blit_over_flowing_source_rect)
 {
-  vec2u size(3u, 4u);
-  render_surface rs_src(size);
-  render_surface rs_dst(size);
+  FAIL();
+  // vec2u size(3u, 4u);
+  // render_surface rs_src(size);
+  // render_surface rs_dst(size);
 
-  recti src_rect(vec2i(2, 2), vec2i(2, 3));
-  recti dst_rect(vec2i(0, 0), vec2i(2, 3));
-  color blit_col(3, 5, 8, 9);
-  rs_src.clear(blit_col);
-  blit(rs_src, src_rect, rs_dst, dst_rect);
+  // recti src_rect(vec2i(2, 2), vec2i(2, 3));
+  // recti dst_rect(vec2i(0, 0), vec2i(2, 3));
+  // color blit_col(3, 5, 8, 9);
+  // rs_src.clear(blit_col);
+  // blit(rs_src, src_rect, rs_dst, dst_rect);
 
-  image2_rgba im_ref = generate_blit_result_image(
-    size, recti(0, 0, 1, 2), color::transparent(), blit_col);
-  EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
+  // image2_rgba im_ref = generate_blit_result_image(
+  //   size, recti(0, 0, 1, 2), color::transparent(), blit_col);
+  // EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
 
 
 
 TEST_F(test_render_surface, blit_over_flowing_destination_rect)
 {
-  vec2u size(3u, 4u);
-  render_surface rs_src(size);
-  render_surface rs_dst(size);
+  FAIL();
+  // vec2u size(3u, 4u);
+  // render_surface rs_src(size);
+  // render_surface rs_dst(size);
 
-  recti src_rect(vec2i(0, 0), vec2i(2, 3));
-  recti dst_rect(vec2i(2, 2), vec2i(2, 3));
-  color blit_col(3, 5, 8, 9);
-  rs_src.clear(blit_col);
-  blit(rs_src, src_rect, rs_dst, dst_rect);
+  // recti src_rect(vec2i(0, 0), vec2i(2, 3));
+  // recti dst_rect(vec2i(2, 2), vec2i(2, 3));
+  // color blit_col(3, 5, 8, 9);
+  // rs_src.clear(blit_col);
+  // blit(rs_src, src_rect, rs_dst, dst_rect);
 
-  image2_rgba im_ref = generate_blit_result_image(
-    size, dst_rect, color::transparent(), blit_col);
-  EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
+  // image2_rgba im_ref = generate_blit_result_image(
+  //   size, dst_rect, color::transparent(), blit_col);
+  // EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
 
 
 
 TEST_F(test_render_surface, blit_inverted_source_rect)
 {
-  vec2u size(3u, 4u);
-  render_surface rs_src(size);
-  render_surface rs_dst(size);
+  FAIL();
+  // vec2u size(3u, 4u);
+  // render_surface rs_src(size);
+  // render_surface rs_dst(size);
 
-  recti src_rect(vec2i(0, 1), vec2i(2, -3));
-  recti dst_rect(vec2i(0, 0), vec2i(2, 3));
-  color blit_col(3, 5, 8, 9);
-  rs_src.clear(blit_col);
-  blit(rs_src, src_rect, rs_dst, dst_rect);
+  // recti src_rect(vec2i(0, 1), vec2i(2, -3));
+  // recti dst_rect(vec2i(0, 0), vec2i(2, 3));
+  // color blit_col(3, 5, 8, 9);
+  // rs_src.clear(blit_col);
+  // blit(rs_src, src_rect, rs_dst, dst_rect);
 
-  image2_rgba im_ref = generate_blit_result_image(
-    size, recti(0, 0, 2, 1), color::transparent(), blit_col);
-  EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
+  // image2_rgba im_ref = generate_blit_result_image(
+  //   size, recti(0, 0, 2, 1), color::transparent(), blit_col);
+  // EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
 
 
 
 TEST_F(test_render_surface, blit_inverted_destination_rect)
 {
-  vec2u size(3u, 4u);
-  render_surface rs_src(size);
-  render_surface rs_dst(size);
+  FAIL();
+  // vec2u size(3u, 4u);
+  // render_surface rs_src(size);
+  // render_surface rs_dst(size);
 
-  recti src_rect(vec2i(0, 0), vec2i(2, 3));
-  recti dst_rect(vec2i(0, 1), vec2i(2, -3));
-  color blit_col(3, 5, 8, 9);
-  rs_src.clear(blit_col);
-  blit(rs_src, src_rect, rs_dst, dst_rect);
+  // recti src_rect(vec2i(0, 0), vec2i(2, 3));
+  // recti dst_rect(vec2i(0, 1), vec2i(2, -3));
+  // color blit_col(3, 5, 8, 9);
+  // rs_src.clear(blit_col);
+  // blit(rs_src, src_rect, rs_dst, dst_rect);
 
-  image2_rgba im_ref = generate_blit_result_image(
-    size, recti(0, 0, 2, 1), color::transparent(), blit_col);
-  EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
+  // image2_rgba im_ref = generate_blit_result_image(
+  //   size, recti(0, 0, 2, 1), color::transparent(), blit_col);
+  // EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
 
 
 
 TEST_F(test_render_surface, blit_different_sample_size_same_rect_size)
 {
-  vec2u size(3u, 4u);
-  render_surface rs_src(size, 2u);
-  render_surface rs_dst(size, 1u);
+  FAIL();
+  // vec2u size(3u, 4u);
+  // render_surface rs_src(size, 2u);
+  // render_surface rs_dst(size, 1u);
 
-  recti src_rect(vec2i(0, 0), vec2i(2, 3));
-  recti dst_rect(vec2i(0, 0), vec2i(2, 3));
-  color blit_col(3, 5, 8, 9);
-  rs_src.clear(blit_col);
-  blit(rs_src, src_rect, rs_dst, dst_rect);
+  // recti src_rect(vec2i(0, 0), vec2i(2, 3));
+  // recti dst_rect(vec2i(0, 0), vec2i(2, 3));
+  // color blit_col(3, 5, 8, 9);
+  // rs_src.clear(blit_col);
+  // blit(rs_src, src_rect, rs_dst, dst_rect);
 
-  image2_rgba im_ref = generate_blit_result_image(
-    size, dst_rect, color::transparent(), blit_col);
-  EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
+  // image2_rgba im_ref = generate_blit_result_image(
+  //   size, dst_rect, color::transparent(), blit_col);
+  // EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
 
 
 
 TEST_F(test_render_surface, blit_different_sample_size_same_rect_size_inverted)
 {
-  vec2u size(3u, 4u);
-  render_surface rs_src(size, 2u);
-  render_surface rs_dst(size, 1u);
+  FAIL();
+  // vec2u size(3u, 4u);
+  // render_surface rs_src(size, 2u);
+  // render_surface rs_dst(size, 1u);
 
-  recti src_rect(vec2i(0, 0), vec2i(2, 3));
-  recti dst_rect(vec2i(0, 4), vec2i(2, -3));
-  color blit_col(3, 5, 8, 9);
-  rs_src.clear(blit_col);
-  blit(rs_src, src_rect, rs_dst, dst_rect);
+  // recti src_rect(vec2i(0, 0), vec2i(2, 3));
+  // recti dst_rect(vec2i(0, 4), vec2i(2, -3));
+  // color blit_col(3, 5, 8, 9);
+  // rs_src.clear(blit_col);
+  // blit(rs_src, src_rect, rs_dst, dst_rect);
 
-  image2_rgba im_ref = generate_blit_result_image(
-    size, recti(0, 1, 2, 3), color::transparent(), blit_col);
-  EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
+  // image2_rgba im_ref = generate_blit_result_image(
+  //   size, recti(0, 1, 2, 3), color::transparent(), blit_col);
+  // EXPECT_EQ(im_ref, rs_dst.to_texture().get_image<pixel_format::rgba>());
 }
 
 
@@ -537,13 +551,14 @@ TEST_F(
 
 TEST_F(test_render_surface, to_texture_multisampled)
 {
-  render_surface rs(vec2u(3u, 4u), 2u);
-  color col(3, 5, 8, 9);
-  rs.clear(col);
+  FAIL();
+  // render_surface rs(vec2u(3u, 4u), 2u);
+  // color col(3, 5, 8, 9);
+  // rs.clear(col);
 
-  texture2 tex = rs.to_texture();
-  image2_rgba im_ref(tex.get_size(), pixel_rgba(col));
-  EXPECT_EQ(im_ref, tex.get_image<pixel_format::rgba>());
+  // texture2 tex = rs.to_texture();
+  // image2_rgba im_ref(tex.get_size(), pixel_rgba(col));
+  // EXPECT_EQ(im_ref, tex.get_image<pixel_format::rgba>());
 }
 
 

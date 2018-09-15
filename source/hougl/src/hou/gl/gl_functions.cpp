@@ -232,9 +232,11 @@ GLsizei get_pixel_size_bytes(GLenum format)
       return 2u;
     case GL_RGB:
     case GL_BGR:
+    case GL_DEPTH_COMPONENT:
       return 3u;
     case GL_RGBA:
     case GL_BGRA:
+    case GL_DEPTH_STENCIL:
       return 4u;
   }
   HOU_UNREACHABLE();

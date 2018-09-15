@@ -108,7 +108,7 @@ void render_surface::set_viewport(const recti& viewport)
 vec2u render_surface::get_size() const
 {
   HOU_DEV_ASSERT(m_color_attachment != nullptr);
-  return m_color_attachment->get_size2();
+  return m_color_attachment->get_size();
 }
 
 
@@ -152,11 +152,13 @@ void render_surface::clear(const color& color)
 
 texture2 render_surface::to_texture() const
 {
-  texture2 tex(get_size());
+  texture2 out_tex(get_size(), texture_format::rgba);
+  framebuffer dst_fb;
+  dst_fb.set_color_attachment(0u, out_tex);
   recti blitRect(vec2i::zero(), narrow_cast<vec2i>(get_size()));
-  blit(
-    m_framebuffer, blitRect, tex, blitRect, framebuffer_blit_filter::nearest);
-  return tex;
+  blit(m_framebuffer, blitRect, dst_fb, blitRect, framebuffer_blit_mask::color,
+    framebuffer_blit_filter::nearest);
+  return out_tex;
 }
 
 
@@ -210,9 +212,9 @@ void render_surface::build_framebuffer(
   else
   {
     static constexpr bool fixed_sample_locations = true;
-    m_color_attachment = std::make_unique<multisample_texture2>(
+    m_color_attachment = std::make_unique<multisampled_texture2>(
       size, texture_format::rgba, sample_count, fixed_sample_locations);
-    m_depth_stencil_attachment = std::make_unique<multisample_texture2>(size,
+    m_depth_stencil_attachment = std::make_unique<multisampled_texture2>(size,
       texture_format::depth_stencil, sample_count, fixed_sample_locations);
   }
   HOU_DEV_ASSERT(m_color_attachment != nullptr);
@@ -235,22 +237,6 @@ void blit(const render_surface& src, const recti& src_rect, render_surface& dst,
 {
   blit(src.m_framebuffer, src_rect, dst.m_framebuffer, dst_rect,
     framebuffer_blit_mask::all, filter);
-}
-
-
-
-void blit(const render_surface& src, const recti& src_rect, texture& dst,
-  const recti& dst_rect, framebuffer_blit_filter filter)
-{
-  blit(src.m_framebuffer, src_rect, dst, dst_rect, filter);
-}
-
-
-
-void blit(const texture& src, const recti& src_rect, render_surface& dst,
-  const recti& dst_rect, framebuffer_blit_filter filter)
-{
-  blit(src, src_rect, dst.m_framebuffer, dst_rect, filter);
 }
 
 }  // namespace hou

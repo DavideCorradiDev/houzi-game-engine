@@ -32,10 +32,10 @@ enum class texture_type : GLenum
   texture3 = GL_TEXTURE_3D,
 
   /** Multisample two-dimensional texture. */
-  multisample_texture2 = GL_TEXTURE_2D_MULTISAMPLE,
+  multisampled_texture2 = GL_TEXTURE_2D_MULTISAMPLE,
 
   /** array_buffer of multisample two-dimensional textures. */
-  multisample_texture2_array = GL_TEXTURE_2D_MULTISAMPLE_ARRAY,
+  multisampled_texture2_array = GL_TEXTURE_2D_MULTISAMPLE_ARRAY,
 
   // texture1 = GL_TEXTURE_1D,
   // texture1_array = GL_TEXTURE_1D_ARRAY,

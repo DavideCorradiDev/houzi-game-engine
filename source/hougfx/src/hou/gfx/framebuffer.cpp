@@ -125,18 +125,6 @@ void framebuffer::set_color_attachment(
 
 
 
-void framebuffer::set_depth_attachment(const texture& tex, uint mipmap_level)
-{
-  HOU_PRECOND(mipmap_level < tex.get_mipmap_level_count());
-  HOU_PRECOND(tex.get_format() == texture_format::depth
-    || tex.get_format() == texture_format::depth_stencil);
-  gl::set_framebuffer_depth_texture(m_handle, tex.get_handle(), mipmap_level);
-  m_has_multisample_depth_attachment
-    = is_texture_type_multisampled(tex.get_type());
-}
-
-
-
 void framebuffer::set_depth_stencil_attachment(
   const texture& tex, uint mipmap_level)
 {
@@ -179,38 +167,6 @@ void blit(const framebuffer& src, const recti& src_rect, framebuffer& dst,
     src_rect.t(), src_rect.r(), src_rect.b(), dst_rect.l(), dst_rect.t(),
     dst_rect.r(), dst_rect.b(), static_cast<GLbitfield>(mask),
     static_cast<GLenum>(filter));
-}
-
-
-
-void blit(const framebuffer& src, const recti& src_rect, texture& dst,
-  const recti& dst_rect, framebuffer_blit_filter filter)
-{
-  framebuffer dst_frame_buffer;
-  dst_frame_buffer.set_color_attachment(0u, dst);
-  blit(src, src_rect, dst_frame_buffer, dst_rect, framebuffer_blit_mask::color,
-    filter);
-}
-
-
-
-void blit(const texture& src, const recti& src_rect, framebuffer& dst,
-  const recti& dst_rect, framebuffer_blit_filter filter)
-{
-  framebuffer src_frame_buffer;
-  src_frame_buffer.set_color_attachment(0u, src);
-  blit(src_frame_buffer, src_rect, dst, dst_rect, framebuffer_blit_mask::color,
-    filter);
-}
-
-
-
-void blit(const texture& src, const recti& src_rect, texture& dst,
-  const recti& dst_rect, framebuffer_blit_filter filter)
-{
-  framebuffer src_frame_buffer;
-  src_frame_buffer.set_color_attachment(0u, src);
-  blit(src_frame_buffer, src_rect, dst, dst_rect, filter);
 }
 
 }  // namespace hou

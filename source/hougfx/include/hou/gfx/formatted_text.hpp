@@ -18,7 +18,7 @@
 #include "hou/gfx/mesh.hpp"
 #include "hou/gfx/text_box_formatting_params.hpp"
 #include "hou/gfx/text_mesh.hpp"
-#include "hou/gfx/texture.hpp"
+#include "hou/gfx/texture2_array.hpp"
 
 #include "hou/sys/image_fwd.hpp"
 

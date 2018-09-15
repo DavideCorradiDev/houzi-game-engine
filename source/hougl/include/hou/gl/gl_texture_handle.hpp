@@ -171,6 +171,12 @@ HOU_GL_API GLint get_max_3d_texture_size();
 
 HOU_GL_API GLint get_max_texture_layers();
 
+HOU_GL_API GLenum get_texture_data_type_for_internal_format(
+  GLenum internal_format);
+
+HOU_GL_API GLenum get_texture_external_format_for_internal_format(
+  GLenum internal_format);
+
 }  // namespace gl
 
 }  // namespace hou

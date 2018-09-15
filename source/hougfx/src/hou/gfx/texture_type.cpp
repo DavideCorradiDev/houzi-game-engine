@@ -20,8 +20,8 @@ std::ostream& operator<<(std::ostream& os, texture_type type)
     TEXTURE_TYPE_CASE(texture2, os);
     TEXTURE_TYPE_CASE(texture2_array, os);
     TEXTURE_TYPE_CASE(texture3, os);
-    TEXTURE_TYPE_CASE(multisample_texture2, os);
-    TEXTURE_TYPE_CASE(multisample_texture2_array, os);
+    TEXTURE_TYPE_CASE(multisampled_texture2, os);
+    TEXTURE_TYPE_CASE(multisampled_texture2_array, os);
   }
   HOU_UNREACHABLE();
   return os;
