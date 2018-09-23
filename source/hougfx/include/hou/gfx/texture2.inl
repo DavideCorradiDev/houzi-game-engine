@@ -16,7 +16,7 @@ image2<PF> texture2::get_image() const
 
 
 template <pixel_format PF>
-image2<PF> texture2::get_sub_image(const vec2u& offset, const vec2u& size)
+image2<PF> texture2::get_sub_image(const vec2u& offset, const vec2u& size) const
 {
   std::vector<uint8_t> pixels = get_sub_pixels(offset, size);
   switch(get_format())

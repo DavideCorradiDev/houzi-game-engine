@@ -191,7 +191,7 @@ public:
   image2<PF> get_image() const;
 
   template <pixel_format PF>
-  image2<PF> get_sub_image(const vec2u& offset, const vec2u& size);
+  image2<PF> get_sub_image(const vec2u& offset, const vec2u& size) const;
 
   template <pixel_format PF>
   void set_image(const image2<PF>& img);
