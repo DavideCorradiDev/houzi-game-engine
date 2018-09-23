@@ -247,7 +247,79 @@ TEST_F(test_texture2, set_wrap_mode)
 
 
 
-TEST_F(test_texture2, set_image)
+TEST_F(test_texture2_death_test, get_sub_image_invalid_params)
+{
+  texture2 t(vec2u(4u, 6u));
+  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec2u(0u, 0u), vec2u(5u, 6u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec2u(0u, 0u), vec2u(4u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec2u(0u, 0u), vec2u(5u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec2u(1u, 0u), vec2u(4u, 6u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec2u(0u, 1u), vec2u(4u, 6u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec2u(1u, 1u), vec2u(4u, 6u)));
+}
+
+
+
+TEST_F(test_texture2, set_pixels)
+{
+  texture2 t(vec2u(2u, 3u));
+  // clang-format off
+  std::vector<uint8_t> image_data{
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,};
+  // clang-format on
+  t.set_pixels(image_data);
+  EXPECT_EQ(image_data, t.get_pixels());
+}
+
+
+
+TEST_F(test_texture2, set_sub_pixels)
+{
+  texture2 t(vec2u(4u, 6u));
+  // clang-format off
+  std::vector<uint8_t> sub_image_data{
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,};
+  std::vector<uint8_t> image_data{
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    0u, 0u, 0u, 0u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,
+    0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u,};
+  // clang-format on
+  t.set_sub_pixels(vec2u(1u, 2u), vec2u(3u, 2u), sub_image_data);
+  EXPECT_EQ(image_data, t.get_pixels());
+  EXPECT_EQ(sub_image_data, t.get_sub_pixels(vec2u(1u, 2u), vec2u(3u, 2u)));
+}
+
+
+
+TEST_F(test_texture2_death_test, set_sub_pixels_invalid_params)
+{
+  texture2 t(vec2u(4u, 6u));
+  std::vector<uint8_t> image_data(5u * 7u * 4u, 0u);
+  EXPECT_PRECOND_ERROR(t.set_sub_pixels(vec2u(0u, 0u), vec2u(4u, 6u),
+    std::vector<uint8_t>(image_data.size() - 1u, 0u)));
+  EXPECT_PRECOND_ERROR(
+    t.set_sub_pixels(vec2u(0u, 0u), vec2u(5u, 6u), image_data));
+  EXPECT_PRECOND_ERROR(
+    t.set_sub_pixels(vec2u(0u, 0u), vec2u(4u, 7u), image_data));
+  EXPECT_PRECOND_ERROR(
+    t.set_sub_pixels(vec2u(0u, 0u), vec2u(5u, 7u), image_data));
+  EXPECT_PRECOND_ERROR(
+    t.set_sub_pixels(vec2u(1u, 0u), vec2u(4u, 6u), image_data));
+  EXPECT_PRECOND_ERROR(
+    t.set_sub_pixels(vec2u(0u, 1u), vec2u(4u, 6u), image_data));
+  EXPECT_PRECOND_ERROR(
+    t.set_sub_pixels(vec2u(1u, 1u), vec2u(4u, 6u), image_data));
+}
+
+
+
+TEST_F(test_texture2, set_image_pixel_view)
 {
   texture2 t(vec2u(2u, 3u));
   // clang-format off
@@ -262,7 +334,7 @@ TEST_F(test_texture2, set_image)
 
 
 
-TEST_F(test_texture2, set_sub_image)
+TEST_F(test_texture2, set_sub_image_pixel_view)
 {
   texture2 t(vec2u(4u, 6u));
   // clang-format off
@@ -285,23 +357,12 @@ TEST_F(test_texture2, set_sub_image)
 
 
 
-TEST_F(test_texture2_death_test, get_sub_image_invalid_params)
-{
-  texture2 t(vec2u(4u, 6u));
-  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec2u(0u, 0u), vec2u(5u, 6u)));
-  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec2u(0u, 0u), vec2u(4u, 7u)));
-  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec2u(0u, 0u), vec2u(5u, 7u)));
-  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec2u(1u, 0u), vec2u(4u, 6u)));
-  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec2u(0u, 1u), vec2u(4u, 6u)));
-  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec2u(1u, 1u), vec2u(4u, 6u)));
-}
-
-
-
-TEST_F(test_texture2_death_test, set_sub_image_invalid_params)
+TEST_F(test_texture2_death_test, set_sub_image_pixel_view_invalid_params)
 {
   texture2 t(vec2u(4u, 6u));
   std::vector<uint8_t> image_data(5u * 7u * 4u, 0u);
+  EXPECT_PRECOND_ERROR(t.set_sub_image(
+    vec2u(0u, 0u), pixel_view2(image_data.data(), vec2u(4u, 6u), 5u)));
   EXPECT_PRECOND_ERROR(t.set_sub_image(
     vec2u(0u, 0u), pixel_view2(image_data.data(), vec2u(5u, 6u), 4u)));
   EXPECT_PRECOND_ERROR(t.set_sub_image(
@@ -314,6 +375,82 @@ TEST_F(test_texture2_death_test, set_sub_image_invalid_params)
     vec2u(0u, 1u), pixel_view2(image_data.data(), vec2u(4u, 6u), 4u)));
   EXPECT_PRECOND_ERROR(t.set_sub_image(
     vec2u(1u, 1u), pixel_view2(image_data.data(), vec2u(4u, 6u), 4u)));
+}
+
+
+
+TEST_F(test_texture2, set_image)
+{
+  texture2 t(vec2u(2u, 3u));
+
+  pixel_rgba pixel_ref(1u, 2u, 3u, 4u);
+  image2_rgba img_rgba_ref(t.get_size(), pixel_ref);
+  t.set_image(img_rgba_ref);
+  EXPECT_EQ(img_rgba_ref, t.get_image<pixel_format::rgba>());
+  EXPECT_EQ(image2_rgb(img_rgba_ref), t.get_image<pixel_format::rgb>());
+  EXPECT_EQ(image2_rg(img_rgba_ref), t.get_image<pixel_format::rg>());
+  EXPECT_EQ(image2_r(img_rgba_ref), t.get_image<pixel_format::r>());
+
+  image2_rgb img_rgb_ref(img_rgba_ref);
+  t.set_image(img_rgb_ref);
+  EXPECT_EQ(image2_rgba(img_rgb_ref), t.get_image<pixel_format::rgba>());
+  EXPECT_EQ(
+    image2_rgb(image2_rgba(img_rgb_ref)), t.get_image<pixel_format::rgb>());
+  EXPECT_EQ(
+    image2_rg(image2_rgba(img_rgb_ref)), t.get_image<pixel_format::rg>());
+  EXPECT_EQ(image2_r(image2_rgba(img_rgb_ref)), t.get_image<pixel_format::r>());
+
+  image2_rg img_rg_ref(img_rgba_ref);
+  t.set_image(img_rg_ref);
+  EXPECT_EQ(image2_rgba(img_rg_ref), t.get_image<pixel_format::rgba>());
+  EXPECT_EQ(
+    image2_rgb(image2_rgba(img_rg_ref)), t.get_image<pixel_format::rgb>());
+  EXPECT_EQ(
+    image2_rg(image2_rgba(img_rg_ref)), t.get_image<pixel_format::rg>());
+  EXPECT_EQ(image2_r(image2_rgba(img_rg_ref)), t.get_image<pixel_format::r>());
+
+  image2_r img_r_ref(img_rgba_ref);
+  t.set_image(img_r_ref);
+  EXPECT_EQ(image2_rgba(img_r_ref), t.get_image<pixel_format::rgba>());
+  EXPECT_EQ(
+    image2_rgb(image2_rgba(img_r_ref)), t.get_image<pixel_format::rgb>());
+  EXPECT_EQ(image2_rg(image2_rgba(img_r_ref)), t.get_image<pixel_format::rg>());
+  EXPECT_EQ(image2_r(image2_rgba(img_r_ref)), t.get_image<pixel_format::r>());
+}
+
+
+
+TEST_F(test_texture2, set_sub_image)
+{
+  texture2 t(vec2u(4u, 6u));
+  pixel_rgba pixel_ref(1u, 2u, 3u, 4u);
+  image2_rgba img_ref(t.get_size());
+  image2_rgba sub_img_ref(vec2u(3u, 2u), pixel_ref);
+  img_ref.set_sub_image(vec2u(1u, 2u), sub_img_ref);
+  t.set_sub_image(vec2u(1u, 2u), sub_img_ref);
+  EXPECT_EQ(img_ref, t.get_image<pixel_format::rgba>());
+  EXPECT_EQ(sub_img_ref,
+    t.get_sub_image<pixel_format::rgba>(vec2u(1u, 2u), vec2u(3u, 2u)));
+}
+
+
+
+TEST_F(test_texture2_death_test, set_sub_image)
+{
+  texture2 t(vec2u(4u, 6u));
+  std::vector<uint8_t> image_data(5u * 7u * 4u, 0u);
+  EXPECT_PRECOND_ERROR(
+    t.set_sub_image(vec2u(0u, 0u), image2_rgba(vec2u(5u, 6u))));
+  EXPECT_PRECOND_ERROR(
+    t.set_sub_image(vec2u(0u, 0u), image2_rgba(vec2u(4u, 7u))));
+  EXPECT_PRECOND_ERROR(
+    t.set_sub_image(vec2u(0u, 0u), image2_rgba(vec2u(5u, 7u))));
+  EXPECT_PRECOND_ERROR(
+    t.set_sub_image(vec2u(1u, 0u), image2_rgba(vec2u(4u, 6u))));
+  EXPECT_PRECOND_ERROR(
+    t.set_sub_image(vec2u(0u, 10u), image2_rgba(vec2u(4u, 6u))));
+  EXPECT_PRECOND_ERROR(
+    t.set_sub_image(vec2u(1u, 1u), image2_rgba(vec2u(4u, 6u))));
 }
 
 
