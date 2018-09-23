@@ -46,6 +46,7 @@ image2<PF> texture2::get_sub_image(const vec2u& offset, const vec2u& size) const
 template <pixel_format PF>
 void texture2::set_image(const image2<PF>& img)
 {
+  HOU_PRECOND(img.get_size() == get_size());
   return set_sub_image(vec2u::zero(), img);
 }
 

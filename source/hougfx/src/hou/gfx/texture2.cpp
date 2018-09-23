@@ -203,6 +203,7 @@ void texture2::set_sub_pixels(
 
 void texture2::set_image(const pixel_view2& pv)
 {
+  HOU_PRECOND(pv.get_size() == get_size());
   set_sub_image(vec2u::zero(), pv);
 }
 
