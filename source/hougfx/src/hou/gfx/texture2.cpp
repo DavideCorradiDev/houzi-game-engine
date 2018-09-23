@@ -126,14 +126,14 @@ void texture2::set_wrap_mode(const wrap_mode& wm)
 
 
 
-std::vector<uint8_t> texture2::get_image() const
+std::vector<uint8_t> texture2::get_pixels() const
 {
-  return get_sub_image(vec2u::zero(), get_size());
+  return get_sub_pixels(vec2u::zero(), get_size());
 }
 
 
 
-std::vector<uint8_t> texture2::get_sub_image(
+std::vector<uint8_t> texture2::get_sub_pixels(
   const vec2u& offset, const vec2u& size) const
 {
   vec2u bounds = offset + size;
@@ -165,6 +165,42 @@ std::vector<uint8_t> texture2::get_sub_image(
 
 
 
+void texture2::set_pixels(const span<const uint8_t>& pixels)
+{
+  set_sub_pixels(vec2u::zero(), get_size(), pixels);
+}
+
+
+
+void texture2::set_sub_pixels(
+  const vec2u& offset, const vec2u& size, const span<const uint8_t>& pixels)
+{
+  HOU_PRECOND(pixels.size()
+    == narrow_cast<size_t>(
+         gl::compute_texture_size_bytes(size.x(), size.y(), 1u,
+           gl::get_texture_external_format_for_internal_format(
+             static_cast<GLenum>(get_format())))));
+  vec2u bounds = offset + size;
+  HOU_PRECOND(std::equal(bounds.begin(), bounds.end(), get_size().begin(),
+    get_size().end(), std::less_equal<uint>()));
+
+  // clang-format off
+  gl::set_texture_sub_image_2d(get_handle(),
+    0,                                                    // level
+    offset.x(), offset.y(),                               // offset
+    size.x(), size.y(),                                   // size
+    gl::get_texture_external_format_for_internal_format(
+      static_cast<GLenum>(get_format())),                 // external format
+    gl::get_texture_data_type_for_internal_format(
+      static_cast<GLenum>(get_format())),                 // data type
+    reinterpret_cast<const void*>(pixels.data()));        // data
+  // clang-format on
+
+  gl::generate_mip_map(get_handle());
+}
+
+
+
 void texture2::set_image(const pixel_view2& pv)
 {
   set_sub_image(vec2u::zero(), pv);
@@ -174,25 +210,8 @@ void texture2::set_image(const pixel_view2& pv)
 
 void texture2::set_sub_image(const vec2u& offset, const pixel_view2& pv)
 {
-  HOU_PRECOND(pv.get_bytes_per_pixel() == get_bytes_per_pixel(get_format()));
-
-  vec2u bounds = offset + pv.get_size();
-  HOU_PRECOND(std::equal(bounds.begin(), bounds.end(), get_size().begin(),
-    get_size().end(), std::less_equal<uint>()));
-
-  // clang-format off
-  gl::set_texture_sub_image_2d(get_handle(),
-    0,                                                    // level
-    offset.x(), offset.y(),                               // offset
-    pv.get_size().x(), pv.get_size().y(),                 // size
-    gl::get_texture_external_format_for_internal_format(
-      static_cast<GLenum>(get_format())),                 // external format
-    gl::get_texture_data_type_for_internal_format(
-      static_cast<GLenum>(get_format())),                 // data type
-    reinterpret_cast<const void*>(pv.get_data()));        // data
-  // clang-format on
-
-  gl::generate_mip_map(get_handle());
+  set_sub_pixels(offset, pv.get_size(),
+    span<const uint8_t>(pv.get_data(), pv.get_byte_count()));
 }
 
 

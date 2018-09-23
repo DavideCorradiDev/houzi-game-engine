@@ -7,6 +7,8 @@
 
 #include "hou/gfx/texture2_base.hpp"
 
+#include "hou/sys/image_fwd.hpp"
+
 
 
 namespace hou
@@ -138,7 +140,7 @@ public:
    *
    * \return an image with the content of the texture.
    */
-  std::vector<uint8_t> get_image() const;
+  std::vector<uint8_t> get_pixels() const;
 
   /**
    * Retrieves the contents of a sub-region of the texture as an image object.
@@ -158,8 +160,13 @@ public:
    * \return an image with the content of the texture in the specified
    * sub-region.
    */
-  std::vector<uint8_t> get_sub_image(
+  std::vector<uint8_t> get_sub_pixels(
     const vec2u& offset, const vec2u& size) const;
+
+  void set_pixels(const span<const uint8_t>& pixels);
+
+  void set_sub_pixels(
+    const vec2u& offset, const vec2u& size, const span<const uint8_t>& pixels);
 
   /**
    * Sets the content of the texture.
@@ -179,6 +186,18 @@ public:
    * \param im an image representing the content of the texture.
    */
   void set_sub_image(const vec2u& offset, const pixel_view2& pv);
+
+  template <pixel_format PF>
+  image2<PF> get_image() const;
+
+  template <pixel_format PF>
+  image2<PF> get_sub_image(const vec2u& offset, const vec2u& size);
+
+  template <pixel_format PF>
+  void set_image(const image2<PF>& img);
+
+  template <pixel_format PF>
+  void set_sub_image(const vec2u& offset, const image2<PF>& img);
 
   /**
    * Clears the texture to zero.
@@ -200,5 +219,9 @@ private:
 };
 
 }  // namespace hou
+
+
+
+#include "hou/gfx/texture2.inl"
 
 #endif

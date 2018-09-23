@@ -89,7 +89,7 @@ void test_color_blit(texture_format src_format,
       pixel_view2(sub_image_bits.data(), sub_image_size, dst_bytes_per_pixel));
 
     // Check if the blit was executed as expected
-    EXPECT_EQ(ref_tex.get_image(), dst_tex.get_image());
+    EXPECT_EQ(ref_tex.get_pixels(), dst_tex.get_pixels());
   }
 }
 
