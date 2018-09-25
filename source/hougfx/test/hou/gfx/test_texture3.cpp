@@ -654,4 +654,3 @@ TEST_F(test_texture3, clear)
   t.clear();
   EXPECT_EQ(std::vector<uint8_t>(image_data.size(), 0u), t.get_pixels());
 }
-
