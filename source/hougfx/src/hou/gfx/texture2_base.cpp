@@ -31,19 +31,20 @@ const vec2u& texture2_base::get_size() const noexcept
 
 
 
-size_t texture2_base::get_byte_count() const
+uint texture2_base::get_sub_texture_byte_count(const size_type& size) const
 {
-  return get_sub_texture_byte_count(m_size);
+  gl::set_unpack_alignment(1u);
+  return narrow_cast<uint>(
+    gl::compute_texture_size_bytes(size.x(), size.y(), 1u,
+      gl::get_texture_external_format_for_internal_format(
+        static_cast<GLenum>(get_format()))));
 }
 
 
 
-size_t texture2_base::get_sub_texture_byte_count(const size_type& size) const
+uint texture2_base::get_byte_count() const
 {
-  gl::set_unpack_alignment(1u);
-  return gl::compute_texture_size_bytes(size.x(), size.y(), 1u,
-    gl::get_texture_external_format_for_internal_format(
-      static_cast<GLenum>(get_format())));
+  return get_sub_texture_byte_count(m_size);
 }
 
 }  // namespace hou
