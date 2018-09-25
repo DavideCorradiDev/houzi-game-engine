@@ -32,7 +32,7 @@ TEST_F(test_texture3, size_constructor)
     t.get_byte_count());
   EXPECT_EQ(texture_format::rgba, t.get_format());
   EXPECT_EQ(1u, t.get_mipmap_level_count());
-  EXPECT_EQ(std::vector<uint8_t>(t.get_byte_count(), 0u), t.get_image());
+  EXPECT_EQ(std::vector<uint8_t>(t.get_byte_count(), 0u), t.get_pixels());
 }
 
 
@@ -88,7 +88,7 @@ TEST_F(test_texture3, full_size_constructor)
     EXPECT_EQ(size_ref, t.get_size());
     EXPECT_EQ(tf, t.get_format());
     EXPECT_EQ(mipmap_level_count_ref, t.get_mipmap_level_count());
-    EXPECT_EQ(std::vector<uint8_t>(t.get_byte_count(), 0u), t.get_image());
+    EXPECT_EQ(std::vector<uint8_t>(t.get_byte_count(), 0u), t.get_pixels());
   }
 }
 
@@ -140,7 +140,7 @@ TEST_F(test_texture3, image_constructor)
     EXPECT_EQ(fi.second.get_size(), t.get_size());
     EXPECT_EQ(fi.first, t.get_format());
     EXPECT_EQ(mipmap_level_count_ref, t.get_mipmap_level_count());
-    EXPECT_EQ(image_data, t.get_image());
+    EXPECT_EQ(image_data, t.get_pixels());
   }
 }
 
@@ -295,7 +295,7 @@ TEST_F(test_texture3, set_image)
     1u, 2u, 3u, 4u, 1u, 2u, 3u, 4u,};
   // clang-format on
   t.set_image(pixel_view3(image_data.data(), t.get_size(), 4u));
-  EXPECT_EQ(image_data, t.get_image());
+  EXPECT_EQ(image_data, t.get_pixels());
 }
 
 
@@ -324,31 +324,31 @@ TEST_F(test_texture3, set_sub_image)
   // clang-format on
   t.set_sub_image(vec3u(1u, 2u, 0u),
     pixel_view3(sub_image_data.data(), vec3u(3u, 2u, 1u), 4u));
-  EXPECT_EQ(image_data, t.get_image());
+  EXPECT_EQ(image_data, t.get_pixels());
   EXPECT_EQ(
-    sub_image_data, t.get_sub_image(vec3u(1u, 2u, 0u), vec3u(3u, 2u, 1u)));
+    sub_image_data, t.get_sub_pixels(vec3u(1u, 2u, 0u), vec3u(3u, 2u, 1u)));
 }
 
 
 
-TEST_F(test_texture3_death_test, get_sub_image_invalid_params)
+TEST_F(test_texture3_death_test, get_sub_pixels_invalid_params)
 {
   texture3 t(vec3u(4u, 6u, 2u));
-  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(5u, 6u, 7u)));
-  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(4u, 7u, 7u)));
-  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(5u, 7u, 7u)));
-  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(4u, 6u, 7u)));
-  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(5u, 7u, 2u)));
-  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(4u, 7u, 2u)));
-  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 0u), vec3u(5u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec3u(0u, 0u, 0u), vec3u(5u, 6u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec3u(0u, 0u, 0u), vec3u(4u, 7u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec3u(0u, 0u, 0u), vec3u(5u, 7u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec3u(0u, 0u, 0u), vec3u(4u, 6u, 7u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec3u(0u, 0u, 0u), vec3u(5u, 7u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec3u(0u, 0u, 0u), vec3u(4u, 7u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec3u(0u, 0u, 0u), vec3u(5u, 6u, 2u)));
 
-  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(1u, 1u, 1u), vec3u(4u, 6u, 2u)));
-  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 1u, 1u), vec3u(4u, 6u, 2u)));
-  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(1u, 0u, 1u), vec3u(4u, 6u, 2u)));
-  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 0u, 1u), vec3u(4u, 6u, 2u)));
-  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(1u, 1u, 0u), vec3u(4u, 6u, 2u)));
-  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(0u, 1u, 0u), vec3u(4u, 6u, 2u)));
-  EXPECT_PRECOND_ERROR(t.get_sub_image(vec3u(1u, 0u, 0u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec3u(1u, 1u, 1u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec3u(0u, 1u, 1u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec3u(1u, 0u, 1u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec3u(0u, 0u, 1u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec3u(1u, 1u, 0u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec3u(0u, 1u, 0u), vec3u(4u, 6u, 2u)));
+  EXPECT_PRECOND_ERROR(t.get_sub_pixels(vec3u(1u, 0u, 0u), vec3u(4u, 6u, 2u)));
 }
 
 
@@ -403,6 +403,6 @@ TEST_F(test_texture3, clear)
   // clang-format on
   texture3 t(pixel_view3(image_data.data(), vec3u(2u, 3u, 2u), 4u));
   t.clear();
-  EXPECT_EQ(std::vector<uint8_t>(image_data.size(), 0u), t.get_image());
+  EXPECT_EQ(std::vector<uint8_t>(image_data.size(), 0u), t.get_pixels());
 }
 

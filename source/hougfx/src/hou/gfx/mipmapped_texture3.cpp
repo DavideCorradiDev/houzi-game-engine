@@ -57,27 +57,21 @@ void mipmapped_texture3::set_wrap_mode(const wrap_mode& wm)
 }
 
 
-std::vector<uint8_t> mipmapped_texture3::get_image() const
+std::vector<uint8_t> mipmapped_texture3::get_pixels() const
 {
-  return get_sub_image(vec3u::zero(), get_size());
+  return get_sub_pixels(vec3u::zero(), get_size());
 }
 
 
 
-std::vector<uint8_t> mipmapped_texture3::get_sub_image(
+std::vector<uint8_t> mipmapped_texture3::get_sub_pixels(
   const vec3u& offset, const vec3u& size) const
 {
   vec3u bounds = offset + size;
   HOU_PRECOND(std::equal(bounds.begin(), bounds.end(), get_size().begin(),
     get_size().end(), std::less_equal<uint>()));
 
-  gl::set_unpack_alignment(1u);
-  std::vector<uint8_t> buffer(
-    gl::compute_texture_size_bytes(size.x(), size.y(), size.z(),
-      gl::get_texture_external_format_for_internal_format(
-        static_cast<GLenum>(get_format()))),
-    0u);
-
+  std::vector<uint8_t> buffer(get_sub_texture_byte_count(size), 0u);
   // clang-format off
   gl::get_texture_sub_image(get_handle(),
     offset.x(), offset.y(), offset.z(),                   // offset
@@ -96,8 +90,41 @@ std::vector<uint8_t> mipmapped_texture3::get_sub_image(
 
 
 
+void mipmapped_texture3::set_pixels(const span<const uint8_t>& pixels)
+{
+  set_sub_pixels(vec3u::zero(), get_size(), pixels);
+}
+
+
+
+void mipmapped_texture3::set_sub_pixels(
+  const vec3u& offset, const vec3u& size, const span<const uint8_t>& pixels)
+{
+  HOU_PRECOND(pixels.size() == get_sub_texture_byte_count(size));
+  vec3u bounds = offset + size;
+  HOU_PRECOND(std::equal(bounds.begin(), bounds.end(), get_size().begin(),
+    get_size().end(), std::less_equal<uint>()));
+
+  // clang-format off
+  gl::set_texture_sub_image_3d(get_handle(),
+    0,                                                        // level
+    offset.x(), offset.y(), offset.z(),                       // offset
+    size.x(), size.y(), size.z(),                             // size
+    gl::get_texture_external_format_for_internal_format(
+      static_cast<GLenum>(get_format())),                     // external format
+    gl::get_texture_data_type_for_internal_format(
+      static_cast<GLenum>(get_format())),                     // data type
+    reinterpret_cast<const void*>(pixels.data()));            // data
+  // clang-format on
+
+  gl::generate_mip_map(get_handle());
+}
+
+
+
 void mipmapped_texture3::set_image(const pixel_view3& pv)
 {
+  HOU_PRECOND(pv.get_size() == get_size());
   set_sub_image(vec3u::zero(), pv);
 }
 
@@ -106,25 +133,8 @@ void mipmapped_texture3::set_image(const pixel_view3& pv)
 void mipmapped_texture3::set_sub_image(
   const vec3u& offset, const pixel_view3& pv)
 {
-  HOU_PRECOND(pv.get_bytes_per_pixel() == get_bytes_per_pixel(get_format()));
-
-  vec3u bounds = offset + pv.get_size();
-  HOU_PRECOND(std::equal(bounds.begin(), bounds.end(), get_size().begin(),
-    get_size().end(), std::less_equal<uint>()));
-
-  // clang-format off
-  gl::set_texture_sub_image_3d(get_handle(),
-    0,                                                        // level
-    offset.x(), offset.y(), offset.z(),                       // offset
-    pv.get_size().x(), pv.get_size().y(), pv.get_size().z(),  // size
-    gl::get_texture_external_format_for_internal_format(
-      static_cast<GLenum>(get_format())),                     // external format
-    gl::get_texture_data_type_for_internal_format(
-      static_cast<GLenum>(get_format())),                     // data type
-    reinterpret_cast<const void*>(pv.get_data()));            // data
-  // clang-format on
-
-  gl::generate_mip_map(get_handle());
+  set_sub_pixels(offset, pv.get_size(),
+    span<const uint8_t>(pv.get_data(), pv.get_byte_count()));
 }
 
 

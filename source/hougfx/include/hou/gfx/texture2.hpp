@@ -289,8 +289,6 @@ private:
 
 }  // namespace hou
 
-
-
 #include "hou/gfx/texture2.inl"
 
 #endif

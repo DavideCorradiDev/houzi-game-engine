@@ -140,13 +140,7 @@ std::vector<uint8_t> texture2::get_sub_pixels(
   HOU_PRECOND(std::equal(bounds.begin(), bounds.end(), get_size().begin(),
     get_size().end(), std::less_equal<uint>()));
 
-  gl::set_unpack_alignment(1u);
-  std::vector<uint8_t> buffer(
-    gl::compute_texture_size_bytes(size.x(), size.y(), 1u,
-      gl::get_texture_external_format_for_internal_format(
-        static_cast<GLenum>(get_format()))),
-    0u);
-
+  std::vector<uint8_t> buffer(get_sub_texture_byte_count(size), 0u);
   // clang-format off
   gl::get_texture_sub_image(get_handle(),
     offset.x(), offset.y(), 0,                            // offset
@@ -175,11 +169,7 @@ void texture2::set_pixels(const span<const uint8_t>& pixels)
 void texture2::set_sub_pixels(
   const vec2u& offset, const vec2u& size, const span<const uint8_t>& pixels)
 {
-  HOU_PRECOND(pixels.size()
-    == narrow_cast<size_t>(
-         gl::compute_texture_size_bytes(size.x(), size.y(), 1u,
-           gl::get_texture_external_format_for_internal_format(
-             static_cast<GLenum>(get_format())))));
+  HOU_PRECOND(pixels.size() == get_sub_texture_byte_count(size));
   vec2u bounds = offset + size;
   HOU_PRECOND(std::equal(bounds.begin(), bounds.end(), get_size().begin(),
     get_size().end(), std::less_equal<uint>()));

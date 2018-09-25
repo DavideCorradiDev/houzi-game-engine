@@ -33,7 +33,15 @@ const vec3u& texture3_base::get_size() const noexcept
 
 size_t texture3_base::get_byte_count() const
 {
-  return gl::compute_texture_size_bytes(m_size.x(), m_size.y(), m_size.z(),
+  return get_sub_texture_byte_count(m_size);
+}
+
+
+
+size_t texture3_base::get_sub_texture_byte_count(const size_type& size) const
+{
+  gl::set_unpack_alignment(1u);
+  return gl::compute_texture_size_bytes(size.x(), size.y(), size.z(),
     gl::get_texture_external_format_for_internal_format(
       static_cast<GLenum>(get_format())));
 }

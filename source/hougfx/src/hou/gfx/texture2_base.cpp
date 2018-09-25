@@ -33,7 +33,15 @@ const vec2u& texture2_base::get_size() const noexcept
 
 size_t texture2_base::get_byte_count() const
 {
-  return gl::compute_texture_size_bytes(m_size.x(), m_size.y(), 1u,
+  return get_sub_texture_byte_count(m_size);
+}
+
+
+
+size_t texture2_base::get_sub_texture_byte_count(const size_type& size) const
+{
+  gl::set_unpack_alignment(1u);
+  return gl::compute_texture_size_bytes(size.x(), size.y(), 1u,
     gl::get_texture_external_format_for_internal_format(
       static_cast<GLenum>(get_format())));
 }

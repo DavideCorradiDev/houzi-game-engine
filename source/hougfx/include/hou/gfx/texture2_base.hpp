@@ -57,6 +57,13 @@ public:
    */
   size_t get_byte_count() const;
 
+  /**
+   * Gets the size in bytes of a sub-region of the texture with the given size.
+   *
+   * \return the size in bytes of the texture.
+   */
+  size_t get_sub_texture_byte_count(const size_type& size) const;
+
 private:
   vec2u m_size;
 };
