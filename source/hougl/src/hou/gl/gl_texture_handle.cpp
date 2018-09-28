@@ -1053,13 +1053,11 @@ GLenum get_texture_data_type_for_internal_format(GLenum internal_format)
     case GL_RGB8:
     case GL_RGBA8:
       return GL_UNSIGNED_BYTE;
-    case GL_DEPTH_COMPONENT24:
-      return GL_UNSIGNED_INT;
     case GL_DEPTH24_STENCIL8:
       return GL_UNSIGNED_INT_24_8;
   }
-  HOU_UNREACHABLE();
-  return GL_BYTE;
+  HOU_ERROR_N(invalid_enum, narrow_cast<int>(internal_format));
+  return 0;
 }
 
 
@@ -1076,13 +1074,84 @@ GLenum get_texture_external_format_for_internal_format(GLenum internal_format)
       return GL_RGB;
     case GL_RGBA8:
       return GL_RGBA;
-    case GL_DEPTH_COMPONENT24:
-      return GL_DEPTH_COMPONENT;
     case GL_DEPTH24_STENCIL8:
       return GL_DEPTH_STENCIL;
   }
-  HOU_UNREACHABLE();
-  return GL_RED;
+  HOU_ERROR_N(invalid_enum, narrow_cast<int>(internal_format));
+  return 0;
+}
+
+
+
+GLsizei get_pixel_size_bytes(GLenum format)
+{
+  switch(format)
+  {
+    case GL_RED:
+      return 1u;
+    case GL_RG:
+      return 2u;
+    case GL_RGB:
+      return 3u;
+    case GL_RGBA:
+    case GL_DEPTH_STENCIL:
+      return 4u;
+  }
+  HOU_ERROR_N(invalid_enum, narrow_cast<int>(format));
+  return 1u;
+}
+
+
+
+GLint get_unpack_alignment()
+{
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  GLint value;
+  glGetIntegerv(GL_UNPACK_ALIGNMENT, &value);
+  HOU_GL_CHECK_ERROR();
+  return value;
+}
+
+
+
+void set_unpack_alignment(GLint value)
+{
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  glPixelStorei(GL_UNPACK_ALIGNMENT, value);
+  HOU_GL_CHECK_ERROR();
+}
+
+
+
+GLint get_pack_alignment()
+{
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  GLint value;
+  glGetIntegerv(GL_PACK_ALIGNMENT, &value);
+  HOU_GL_CHECK_ERROR();
+  return value;
+}
+
+
+
+void set_pack_alignment(GLint value)
+{
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  glPixelStorei(GL_PACK_ALIGNMENT, value);
+  HOU_GL_CHECK_ERROR();
+}
+
+
+
+GLsizei compute_texture_size_bytes(
+  GLsizei width, GLsizei height, GLsizei depth, GLenum format)
+{
+  GLsizei unpack_alignment = narrow_cast<GLsizei>(gl::get_unpack_alignment());
+  GLsizei pixel_size = get_pixel_size_bytes(format);
+  GLsizei row_size = pixel_size * width;
+  GLsizei offset = row_size % unpack_alignment;
+  row_size += (unpack_alignment - offset) % unpack_alignment;
+  return row_size * height * depth;
 }
 
 }  // namespace gl

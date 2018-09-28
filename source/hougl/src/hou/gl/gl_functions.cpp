@@ -150,46 +150,6 @@ void set_blend_color(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
 
 
 
-GLint get_unpack_alignment()
-{
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  GLint value;
-  glGetIntegerv(GL_UNPACK_ALIGNMENT, &value);
-  HOU_GL_CHECK_ERROR();
-  return value;
-}
-
-
-
-void set_unpack_alignment(GLint value)
-{
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  glPixelStorei(GL_UNPACK_ALIGNMENT, value);
-  HOU_GL_CHECK_ERROR();
-}
-
-
-
-GLint get_pack_alignment()
-{
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  GLint value;
-  glGetIntegerv(GL_PACK_ALIGNMENT, &value);
-  HOU_GL_CHECK_ERROR();
-  return value;
-}
-
-
-
-void set_pack_alignment(GLint value)
-{
-  HOU_GL_CHECK_CONTEXT_EXISTENCE();
-  glPixelStorei(GL_PACK_ALIGNMENT, value);
-  HOU_GL_CHECK_ERROR();
-}
-
-
-
 void set_viewport(GLint x, GLint y, GLsizei w, GLsizei h)
 {
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
@@ -218,42 +178,6 @@ void draw_arrays(GLenum draw_mode, GLint first, GLsizei count)
   HOU_GL_CHECK_CONTEXT_EXISTENCE();
   glDrawArrays(draw_mode, first, count);
   HOU_GL_CHECK_ERROR();
-}
-
-
-
-GLsizei get_pixel_size_bytes(GLenum format)
-{
-  switch(format)
-  {
-    case GL_RED:
-      return 1u;
-    case GL_RG:
-      return 2u;
-    case GL_RGB:
-    case GL_BGR:
-    case GL_DEPTH_COMPONENT:
-      return 3u;
-    case GL_RGBA:
-    case GL_BGRA:
-    case GL_DEPTH_STENCIL:
-      return 4u;
-  }
-  HOU_UNREACHABLE();
-  return 1u;
-}
-
-
-
-GLsizei compute_texture_size_bytes(
-  GLsizei width, GLsizei height, GLsizei depth, GLenum format)
-{
-  GLsizei unpack_alignment = narrow_cast<GLsizei>(gl::get_unpack_alignment());
-  GLsizei pixel_size = get_pixel_size_bytes(format);
-  GLsizei row_size = pixel_size * width;
-  GLsizei offset = row_size % unpack_alignment;
-  row_size += (unpack_alignment - offset) % unpack_alignment;
-  return row_size * height * depth;
 }
 
 }  // namespace gl
