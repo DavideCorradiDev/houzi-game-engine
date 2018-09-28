@@ -232,6 +232,22 @@ TEST_F(test_texture2_array_death_test, image_constructor_invalid_byte_depth)
 
 
 
+TEST_F(test_texture2_array, is_mipmapped)
+{
+  texture2_array t(vec3u(4u, 8u, 6u));
+  EXPECT_TRUE(t.is_mipmapped());
+}
+
+
+
+TEST_F(test_texture2_array, is_multisampled)
+{
+  texture2_array t(vec3u(4u, 8u, 6u));
+  EXPECT_FALSE(t.is_multisampled());
+}
+
+
+
 TEST_F(test_texture2_array, get_byte_count)
 {
   vec3u size_ref(4u, 8u, 3u);

@@ -231,6 +231,22 @@ TEST_F(test_texture3_death_test, invalid_format)
 
 
 
+TEST_F(test_texture3, is_mipmapped)
+{
+  texture3 t(vec3u(4u, 8u, 6u));
+  EXPECT_TRUE(t.is_mipmapped());
+}
+
+
+
+TEST_F(test_texture3, is_multisampled)
+{
+  texture3 t(vec3u(4u, 8u, 6u));
+  EXPECT_FALSE(t.is_multisampled());
+}
+
+
+
 TEST_F(test_texture3, get_byte_count)
 {
   vec3u size_ref(4u, 8u, 3u);

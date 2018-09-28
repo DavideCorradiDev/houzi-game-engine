@@ -150,6 +150,22 @@ TEST_F(test_multisampled_texture2_array_death_test, invalid_sample_count)
 
 
 
+TEST_F(test_multisampled_texture2_array, is_mipmapped)
+{
+  multisampled_texture2_array t(vec3u(4u, 8u, 6u));
+  EXPECT_FALSE(t.is_mipmapped());
+}
+
+
+
+TEST_F(test_multisampled_texture2_array, is_multisampled)
+{
+  multisampled_texture2_array t(vec3u(4u, 8u, 6u));
+  EXPECT_TRUE(t.is_multisampled());
+}
+
+
+
 TEST_F(test_multisampled_texture2_array, get_byte_count)
 {
   vec3u size_ref(4u, 8u, 2u);
