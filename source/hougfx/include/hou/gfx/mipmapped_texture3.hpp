@@ -137,7 +137,7 @@ public:
    *
    * \throws hou::precondition_violation if offset + pv.get_size() > get_size().
    *
-   * \param offset an offset representing the top-left cornern of the
+   * \param offset an offset representing the top-left corner of the
    * sub-region.
    *
    * \param im an image representing the content of the texture.
@@ -147,9 +147,6 @@ public:
 
   /**
    * Retrieve the contents of the texture as an image object.
-   *
-   * \note this function is not supported and will throw if called on a system
-   * using GL ES.
    *
    * \throws hou::unsupported_error if on a platform using GL ES.
    *
@@ -163,10 +160,8 @@ public:
   /**
    * Retrieves the contents of a sub-region of the texture as an image object.
    *
-   * \note this function is not supported and will throw if called on a system
-   * using GL ES.
-   *
-   * \throws hou::precondition_violation if offset + size > get_size().
+   * \throws hou::precondition_violation if any element of (offset + size) is
+   * larger than the corresponding element of get_size().
    *
    * \throws hou::unsupported_error if on a platform using GL ES.
    *
@@ -195,7 +190,8 @@ public:
   /**
    * Sets the content of a sub-region of the texture.
    *
-   * \throws hou::precondition_violation if offset + pv.get_size() > get_size().
+   * \throws hou::precondition_violation if any element of (offset +
+   * pv.get_size()) is larger than the corresponding element of get_size().
    *
    * \param offset an offset representing the top-left corner of the
    * sub-region.
@@ -221,7 +217,8 @@ public:
    *
    * \tparam PF the pixel format of img.
    *
-   * \throws hou::precondition_violation if offset + img.get_size() > get_size().
+   * \throws hou::precondition_violation if any element of (offset +
+   * img.get_size()) is larger than the corresponding element of get_size().
    *
    * \param offset an offset representing the top-left corner of the
    * sub-region.
