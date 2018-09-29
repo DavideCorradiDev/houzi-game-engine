@@ -7,6 +7,8 @@
 
 #include "hou/gfx/texture2_base.hpp"
 
+#include "hou/sys/image_fwd.hpp"
+
 
 
 namespace hou
@@ -129,22 +131,16 @@ public:
   void set_wrap_mode(const wrap_mode& wm);
 
   /**
-   * Retrieve the contents of the texture as an image object.
-   *
-   * \note this function is not supported and will throw if called on a system
-   * using GL ES.
+   * Retrieves the contents of the texture as a sequence of bytes.
    *
    * \throws hou::unsupported_error if on a platform using GL ES.
    *
-   * \return an image with the content of the texture.
+   * \return the texture contents as a sequence of bytes.
    */
-  std::vector<uint8_t> get_image() const;
+  std::vector<uint8_t> get_pixels() const;
 
   /**
-   * Retrieves the contents of a sub-region of the texture as an image object.
-   *
-   * \note this function is not supported and will throw if called on a system
-   * using GL ES.
+   * Retrieves the contents of a sub-region of the texture as a sequence of bytes.
    *
    * \throws hou::precondition_violation if offset + size > get_size().
    *
@@ -155,30 +151,119 @@ public:
    *
    * \param size the size of the sub-region
    *
-   * \return an image with the content of the texture in the specified
-   * sub-region.
+   * \return the contents of the texture sub-region  as a sequence of bytes.
    */
-  std::vector<uint8_t> get_sub_image(
+  std::vector<uint8_t> get_sub_pixels(
     const vec2u& offset, const vec2u& size) const;
 
   /**
    * Sets the content of the texture.
    *
-   * \param im an image representing the content of the texture.
+   * \throws hou::precondition_violation if the size of pixels does not
+   * corresponds to the size of the texture in bytes.
+   *
+   * \param pv a pixel view representing the context of the texture.
+   */
+  void set_pixels(const span<const uint8_t>& pixels);
+
+  /**
+   * Sets the content of a sub-region of the texture.
+   *
+   * \throws hou::precondition_violation if offset + size > get_size().
+   *
+   * \throws hou::precondition_violation if the size of pixels does not
+   * correspond to the required size.
+   *
+   * \param offset an offset representing the top-left corner of the
+   * sub-region.
+   *
+   * \param pv a pixel view representing the context of the texture.
+   */
+  void set_sub_pixels(
+    const vec2u& offset, const vec2u& size, const span<const uint8_t>& pixels);
+
+  /**
+   * Retrieve the contents of the texture as an image object.
+   *
+   * \throws hou::unsupported_error if on a platform using GL ES.
+   *
+   * \tparam PF the pixel format of the returned image.
+   *
+   * \return an image with the content of the texture.
+   */
+  template <pixel_format PF>
+  image2<PF> get_image() const;
+
+  /**
+   * Retrieves the contents of a sub-region of the texture as an image object.
+   *
+   * \throws hou::precondition_violation if any element of (offset + size) is
+   * larger than the corresponding element of get_size().
+   *
+   * \throws hou::unsupported_error if on a platform using GL ES.
+   *
+   * \tparam PF the pixel format of the returned image.
+   *
+   * \param offset a pixel offset represeinting the top-left corner of the
+   * sub-region
+   *
+   * \param size the size of the sub-region
+   *
+   * \return an image with the content of the texture in the specified
+   * sub-region.
+   */
+  template <pixel_format PF>
+  image2<PF> get_sub_image(const vec2u& offset, const vec2u& size) const;
+
+  /**
+   * Sets the content of the texture.
+   *
+   * \throws hou::precondition_violation if pv.get_size() != get_size().
+   *
+   * \param pv a pixel view representing the context of the texture.
    */
   void set_image(const pixel_view2& pv);
 
   /**
    * Sets the content of a sub-region of the texture.
    *
-   * \throws hou::precondition_violation if offset + pv.get_size() > get_size().
+   * \throws hou::precondition_violation if any element of (offset +
+   * pv.get_size()) is larger than the corresponding element of get_size().
    *
-   * \param offset an offset representing the top-left cornern of the
+   * \param offset an offset representing the top-left corner of the
    * sub-region.
    *
-   * \param im an image representing the content of the texture.
+   * \param pv a pixel view representing the context of the texture.
    */
   void set_sub_image(const vec2u& offset, const pixel_view2& pv);
+
+  /**
+   * Sets the content of the texture.
+   *
+   * \tparam PF the pixel format of img.
+   *
+   * \throws hou::precondition_violation if img.get_size() != get_size().
+   *
+   * \param img an image representing the contents of the texture.
+   */
+  template <pixel_format PF>
+  void set_image(const image2<PF>& img);
+
+  /**
+   * Sets the content of the texture.
+   *
+   * \tparam PF the pixel format of img.
+   *
+   * \throws hou::precondition_violation if any element of (offset +
+   * img.get_size()) is larger than the corresponding element of get_size().
+   *
+   * \param offset an offset representing the top-left corner of the
+   * sub-region.
+   *
+   * \param img an image representing the contents of the texture.
+   */
+  template <pixel_format PF>
+  void set_sub_image(const vec2u& offset, const image2<PF>& img);
 
   /**
    * Clears the texture to zero.
@@ -200,5 +285,7 @@ private:
 };
 
 }  // namespace hou
+
+#include "hou/gfx/texture2.inl"
 
 #endif

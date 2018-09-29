@@ -55,6 +55,7 @@ const char* exception::what() const noexcept
 
 void exit_with_error(const std::string& message) noexcept
 {
+  std::cout << "EXITING" << std::endl;
   std::cerr << message << std::endl;
   std::exit(EXIT_FAILURE);
 }

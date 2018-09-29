@@ -31,11 +31,20 @@ const vec3u& texture3_base::get_size() const noexcept
 
 
 
-size_t texture3_base::get_byte_count() const
+uint texture3_base::get_sub_texture_byte_count(const size_type& size) const
 {
-  return gl::compute_texture_size_bytes(m_size.x(), m_size.y(), m_size.z(),
-    gl::get_texture_external_format_for_internal_format(
-      static_cast<GLenum>(get_format())));
+  gl::set_unpack_alignment(1u);
+  return narrow_cast<uint>(
+    gl::compute_texture_size_bytes(size.x(), size.y(), size.z(),
+      gl::get_texture_external_format_for_internal_format(
+        static_cast<GLenum>(get_format()))));
+}
+
+
+
+uint texture3_base::get_byte_count() const
+{
+  return get_sub_texture_byte_count(m_size);
 }
 
 }  // namespace hou

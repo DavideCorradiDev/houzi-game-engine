@@ -82,14 +82,14 @@ void test_color_blit(texture_format src_format,
       : static_cast<int>(dst_size.y()) - top;
 
     DstTexType ref_tex(dst_tex.get_size(), dst_format);
-    uint dst_bytes_per_pixel = get_bytes_per_pixel(dst_format);
-    std::vector<uint8_t> sub_image_bits(
-      sub_image_size.x() * sub_image_size.y() * dst_bytes_per_pixel, src_value);
-    ref_tex.set_sub_image(vec2i(left, top),
-      pixel_view2(sub_image_bits.data(), sub_image_size, dst_bytes_per_pixel));
+    image2_rgba sub_image_ref(
+      sub_image_size, pixel_rgba(src_value, src_value, src_value, src_value));
+    ref_tex.set_sub_image(vec2i(left, top), sub_image_ref);
 
     // Check if the blit was executed as expected
-    EXPECT_EQ(ref_tex.get_image(), dst_tex.get_image());
+    EXPECT_EQ(ref_tex.get_pixels(), dst_tex.get_pixels());
+    EXPECT_EQ(ref_tex.template get_image<pixel_format::rgba>(),
+      dst_tex.template get_image<pixel_format::rgba>());
   }
 }
 

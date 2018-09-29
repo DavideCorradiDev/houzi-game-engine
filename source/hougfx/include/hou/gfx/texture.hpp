@@ -125,6 +125,13 @@ public:
   bool is_bound(uint tu) const;
 
   /**
+   * Gets the size in bytes of the texture.
+   *
+   * \return the size in bytes of the texture.
+   */
+  virtual uint get_byte_count() const = 0;
+
+  /**
    * Retrieves the number of mip map levels of this texture.
    *
    * \return the number of mip map levels of this texture.

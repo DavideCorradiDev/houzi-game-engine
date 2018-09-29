@@ -305,7 +305,7 @@ void image<Dim, PF>::set_pixel(
 
 template <size_t Dim, pixel_format PF>
 image<Dim, PF> image<Dim, PF>::get_sub_image(
-  const offset_type& offset, const size_type& size)
+  const offset_type& offset, const size_type& size) const
 {
   // get_image_sub_image will throw if the coordinates are not valid.
   return get_image_sub_image(*this, offset, size);

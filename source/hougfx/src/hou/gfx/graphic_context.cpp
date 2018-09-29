@@ -8,6 +8,7 @@
 
 #include "hou/gl/gl_context_settings.hpp"
 #include "hou/gl/gl_functions.hpp"
+#include "hou/gl/gl_texture_handle.hpp"
 
 
 
