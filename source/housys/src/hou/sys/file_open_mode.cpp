@@ -5,7 +5,6 @@
 #include "hou/sys/file_open_mode.hpp"
 
 #include "hou/cor/core_functions.hpp"
-#include "hou/cor/exception.hpp"
 
 #define FILE_OPEN_MODE_CASE(fom, os) \
   case file_open_mode::fom: \

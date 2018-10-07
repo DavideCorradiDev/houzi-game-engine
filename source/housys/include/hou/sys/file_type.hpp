@@ -31,11 +31,11 @@ enum class file_type
  *
  * \param os the stream.
  *
- * \param fom the file_type enum.
+ * \param ft the file_type enum.
  *
  * \return a reference to the stream.
  */
-HOU_SYS_API std::ostream& operator<<(std::ostream& os, file_type fom);
+HOU_SYS_API std::ostream& operator<<(std::ostream& os, file_type ft);
 
 }  // namespace hou
 
