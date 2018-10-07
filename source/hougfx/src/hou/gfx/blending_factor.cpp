@@ -4,7 +4,7 @@
 
 #include "hou/gfx/blending_factor.hpp"
 
-#include "hou/cor/exception.hpp"
+#include "hou/cor/core_functions.hpp"
 
 #define BLENDING_FACTOR_CASE(bf, os)                                           \
   case blending_factor::bf:                                                    \
@@ -34,8 +34,7 @@ std::ostream& operator<<(std::ostream& os, blending_factor bf)
     BLENDING_FACTOR_CASE(constant_alpha, os);
     BLENDING_FACTOR_CASE(one_minus_constant_alpha, os);
   }
-  HOU_UNREACHABLE();
-  return os;
+  return STREAM_VALUE(os, blending_factor, bf);
 }
 
 }  // namespace hou

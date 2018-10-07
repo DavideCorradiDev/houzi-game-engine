@@ -4,6 +4,8 @@
 
 #include "hou/gfx/shader_type.hpp"
 
+#include "hou/cor/core_functions.hpp"
+
 #define GFX_SHADER_TYPE_CASE(st, os) \
   case shader_type::st:               \
     return (os) << #st
@@ -20,9 +22,8 @@ std::ostream& operator<<(std::ostream& os, shader_type st)
     GFX_SHADER_TYPE_CASE(fragment, os);
     GFX_SHADER_TYPE_CASE(geometry, os);
     GFX_SHADER_TYPE_CASE(vertex, os);
-  default:
-    return os;
   }
+  return STREAM_VALUE(os, shader_type, st);
 }
 
 }  // namespace hou

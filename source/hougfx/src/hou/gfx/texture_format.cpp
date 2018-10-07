@@ -5,6 +5,8 @@
 #include "hou/gfx/texture_format.hpp"
 
 #include "hou/cor/cor_exceptions.hpp"
+#include "hou/cor/core_functions.hpp"
+#include "hou/cor/narrow_cast.hpp"
 
 #define TEXTURE_FORMAT_CASE(format, os) \
   case texture_format::format: \
@@ -25,8 +27,7 @@ std::ostream& operator<<(std::ostream& os, texture_format format)
     TEXTURE_FORMAT_CASE(rgba, os);
     TEXTURE_FORMAT_CASE(depth_stencil, os);
   }
-  HOU_UNREACHABLE();
-  return os;
+  return STREAM_VALUE(os, texture_format, format);
 }
 
 
@@ -45,7 +46,7 @@ uint get_bytes_per_pixel(texture_format tf)
     case texture_format::depth_stencil:
       return 4u;
   }
-  HOU_UNREACHABLE();
+  HOU_ERROR_N(invalid_enum, narrow_cast<int>(tf));
   return 0u;
 }
 
@@ -67,7 +68,7 @@ pixel_format get_associated_pixel_format(texture_format tf)
       HOU_ERROR_N(invalid_enum,
         static_cast<std::underlying_type<texture_format>::type>(tf));
   }
-  HOU_UNREACHABLE();
+  HOU_ERROR_N(invalid_enum, narrow_cast<int>(tf));
   return pixel_format::r;
 }
 

@@ -4,7 +4,7 @@
 
 #include "hou/gfx/mesh_draw_mode.hpp"
 
-#include "hou/cor/exception.hpp"
+#include "hou/cor/core_functions.hpp"
 
 #define MESH_DRAW_MODE_CASE(mdm, os) \
   case mesh_draw_mode::mdm: \
@@ -30,10 +30,8 @@ std::ostream& operator<<(std::ostream& os, mesh_draw_mode mdm)
     MESH_DRAW_MODE_CASE(triangles, os);
     MESH_DRAW_MODE_CASE(triangle_strip_adjacency, os);
     MESH_DRAW_MODE_CASE(patches, os);
-    default:
-      HOU_UNREACHABLE();
-      return os;
   }
+  return STREAM_VALUE(os, mesh_draw_mode, mdm);
 }
 
 }  // namespace hou

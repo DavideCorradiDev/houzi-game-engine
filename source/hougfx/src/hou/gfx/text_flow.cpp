@@ -4,7 +4,7 @@
 
 #include "hou/gfx/text_flow.hpp"
 
-#include "hou/cor/exception.hpp"
+#include "hou/cor/core_functions.hpp"
 
 #define TEXT_FLOW_CASE(tf, os) \
   case text_flow::tf: \
@@ -23,10 +23,8 @@ std::ostream& operator<<(std::ostream& os, text_flow tf)
     TEXT_FLOW_CASE(right_left, os);
     TEXT_FLOW_CASE(top_bottom, os);
     TEXT_FLOW_CASE(bottom_top, os);
-    default:
-      HOU_UNREACHABLE();
-      return os;
   }
+  return STREAM_VALUE(os, text_flow, tf);
 }
 
 }  // namespace hou
