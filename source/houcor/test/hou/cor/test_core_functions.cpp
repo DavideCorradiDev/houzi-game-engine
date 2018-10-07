@@ -73,7 +73,7 @@ TEST_F(test_core_functions, double_close)
 
 
 
-TEST_F(test_core_functions, stream_enum_class_value)
+TEST_F(test_core_functions, stream_value)
 {
   enum class my_enum_class
   {
@@ -83,25 +83,25 @@ TEST_F(test_core_functions, stream_enum_class_value)
 
   {
     std::stringstream ss;
-    stream_enum_class_value(ss, "my_enum_class", my_enum_class::val1);
+    stream_value(ss, "my_enum_class", my_enum_class::val1);
     EXPECT_EQ("my_enum_class(12)", ss.str());
   }
 
   {
     std::stringstream ss;
-    stream_enum_class_value(ss, "my_enum_class", my_enum_class::val2);
+    stream_value(ss, "my_enum_class", my_enum_class::val2);
     EXPECT_EQ("my_enum_class(14)", ss.str());
   }
 
   {
     std::stringstream ss;
-    STREAM_ENUM_CLASS_VALUE(ss, my_enum_class, my_enum_class::val1);
+    STREAM_VALUE(ss, my_enum_class, my_enum_class::val1);
     EXPECT_EQ("my_enum_class(12)", ss.str());
   }
 
   {
     std::stringstream ss;
-    STREAM_ENUM_CLASS_VALUE(ss, my_enum_class, my_enum_class::val2);
+    STREAM_VALUE(ss, my_enum_class, my_enum_class::val2);
     EXPECT_EQ("my_enum_class(14)", ss.str());
   }
 }

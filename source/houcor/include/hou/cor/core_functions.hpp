@@ -101,7 +101,7 @@ std::ostream& container_stream(std::ostream& os, Iterator begin, Iterator end);
  * \return a reference to os.
  */
 template <typename T>
-std::ostream& stream_enum_class_value(
+std::ostream& stream_value(
   std::ostream& os, const std::string& type_name, T value);
 
 }  // namespace hou
@@ -109,7 +109,7 @@ std::ostream& stream_enum_class_value(
 
 
 /**
- * This macro is a wrapper around stream_enum_class_value ensuring that the
+ * This macro is a wrapper around stream_value ensuring that the
  * printed type name is the same as the actual type name.
  *
  * \param os the output stream.
@@ -118,8 +118,8 @@ std::ostream& stream_enum_class_value(
  *
  * \param value the value.
  */
-#define STREAM_ENUM_CLASS_VALUE(os, type, value)                               \
-  ::hou::stream_enum_class_value<type>(os, #type, value)
+#define STREAM_VALUE(os, type, value)                                          \
+  ::hou::stream_value<type>(os, #type, value)
 
 
 

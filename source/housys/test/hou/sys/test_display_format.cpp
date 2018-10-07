@@ -6,6 +6,8 @@
 
 #include "hou/sys/display_format.hpp"
 
+#include "hou/cor/cor_exceptions.hpp"
+
 using namespace hou;
 using namespace testing;
 
@@ -16,6 +18,8 @@ namespace
 
 class test_display_format : public Test
 {};
+
+using test_display_format_death_test = test_display_format;
 
 }  // namespace
 

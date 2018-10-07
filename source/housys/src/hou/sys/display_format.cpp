@@ -1,10 +1,9 @@
-// Houzi Game Engine
-// Copyright (c) 2018 Davide Corradi
+// Houzi Game Engine // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
 #include "hou/sys/display_format.hpp"
 
-#include "hou/cor/exception.hpp"
+#include "hou/cor/core_functions.hpp"
 #include "hou/cor/narrow_cast.hpp"
 
 #define DISPLAY_FORMAT_CASE(df, os)                                            \
@@ -78,10 +77,9 @@ display_format_bitmap_order get_bitmap_order(display_format f)
     case display_format_type::arrayf16:
     case display_format_type::arrayf32:
     case display_format_type::unknown:
+    default:
       return display_format_bitmap_order::none;
   }
-  HOU_UNREACHABLE();
-  return display_format_bitmap_order::none;
 }
 
 
@@ -104,10 +102,9 @@ display_format_packed_order get_packed_order(display_format f)
     case display_format_type::arrayf16:
     case display_format_type::arrayf32:
     case display_format_type::unknown:
+    default:
       return display_format_packed_order::none;
   }
-  HOU_UNREACHABLE();
-  return display_format_packed_order::none;
 }
 
 
@@ -130,10 +127,9 @@ display_format_array_order get_array_order(display_format f)
     case display_format_type::packed16:
     case display_format_type::packed32:
     case display_format_type::unknown:
+    default:
       return display_format_array_order::none;
   }
-  HOU_UNREACHABLE();
-  return display_format_array_order::none;
 }
 
 
@@ -156,10 +152,9 @@ display_format_packed_layout get_packed_layout(display_format f)
     case display_format_type::index4:
     case display_format_type::index8:
     case display_format_type::unknown:
+    default:
       return display_format_packed_layout::none;
   }
-  HOU_UNREACHABLE();
-  return display_format_packed_layout::none;
 }
 
 
@@ -231,7 +226,7 @@ std::ostream& operator<<(std::ostream& os, display_format f)
     DISPLAY_FORMAT_CASE(nv12, os);
     DISPLAY_FORMAT_CASE(nv21, os);
   }
-  return os << "unknown(" << static_cast<int>(f) << ")";
+  return STREAM_VALUE(os, display_format, f);
 }
 
 
@@ -253,7 +248,7 @@ std::ostream& operator<<(std::ostream& os, display_format_type f)
     DISPLAY_FORMAT_TYPE_CASE(arrayf16, os);
     DISPLAY_FORMAT_TYPE_CASE(arrayf32, os);
   }
-  return os << "unknown(" << static_cast<int>(f) << ")";
+  return STREAM_VALUE(os, display_format_type, f);
 }
 
 
@@ -266,7 +261,7 @@ std::ostream& operator<<(std::ostream& os, display_format_bitmap_order f)
     DISPLAY_FORMAT_BITMAP_ORDER_CASE(ev4321, os);
     DISPLAY_FORMAT_BITMAP_ORDER_CASE(ev1234, os);
   }
-  return os << "unknown(" << static_cast<int>(f) << ")";
+  return STREAM_VALUE(os, display_format_bitmap_order, f);
 }
 
 
@@ -284,7 +279,7 @@ std::ostream& operator<<(std::ostream& os, display_format_packed_order f)
     DISPLAY_FORMAT_PACKED_ORDER_CASE(abgr, os);
     DISPLAY_FORMAT_PACKED_ORDER_CASE(bgra, os);
   }
-  return os << "unknown(" << static_cast<int>(f) << ")";
+  return STREAM_VALUE(os, display_format_packed_order, f);
 }
 
 
@@ -301,7 +296,7 @@ std::ostream& operator<<(std::ostream& os, display_format_array_order f)
     DISPLAY_FORMAT_ARRAY_ORDER_CASE(bgra, os);
     DISPLAY_FORMAT_ARRAY_ORDER_CASE(abgr, os);
   }
-  return os << "unknown(" << static_cast<int>(f) << ")";
+  return STREAM_VALUE(os, display_format_array_order, f);
 }
 
 
@@ -320,7 +315,7 @@ std::ostream& operator<<(std::ostream& os, display_format_packed_layout f)
     DISPLAY_FORMAT_PACKED_LAYOUT_CASE(ev2101010, os);
     DISPLAY_FORMAT_PACKED_LAYOUT_CASE(ev1010102, os);
   }
-  return os << "unknown(" << static_cast<int>(f) << ")";
+  return STREAM_VALUE(os, display_format_packed_layout, f);
 }
 
 }  // namespace hou
