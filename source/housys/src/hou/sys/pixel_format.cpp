@@ -4,7 +4,7 @@
 
 #include "hou/sys/pixel_format.hpp"
 
-#include "hou/cor/exception.hpp"
+#include "hou/cor/core_functions.hpp"
 
 #define PIXEL_FORMAT_CASE(format, os)                                          \
   case pixel_format::format:                                                   \
@@ -24,8 +24,7 @@ std::ostream& operator<<(std::ostream& os, pixel_format format)
     PIXEL_FORMAT_CASE(rgb, os);
     PIXEL_FORMAT_CASE(rgba, os);
   }
-  HOU_UNREACHABLE();
-  return os;
+  return STREAM_VALUE(os, pixel_format, format);
 }
 
 }  // namespace hou
