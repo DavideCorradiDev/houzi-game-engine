@@ -9,6 +9,8 @@
 
 #include "hou/al/open_al.hpp"
 
+#include "hou/cor/narrow_cast.hpp"
+
 #include <iostream>
 
 

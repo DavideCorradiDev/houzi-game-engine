@@ -5,7 +5,7 @@
 #include "hou/aud/audio_buffer_format.hpp"
 
 #include "hou/cor/assertions.hpp"
-#include "hou/cor/cor_exceptions.hpp"
+#include "hou/cor/core_functions.hpp"
 
 #define AUDIO_BUFFER_FORMAT_CASE(format, os)                                   \
   case audio_buffer_format::format:                                            \
@@ -59,10 +59,9 @@ uint get_audio_buffer_format_channel_count(audio_buffer_format format) noexcept
     case audio_buffer_format::stereo8:
     case audio_buffer_format::stereo16:
       return 2u;
-    default:
-      HOU_UNREACHABLE();
-      return 1u;
   }
+  HOU_ERROR_N(invalid_enum, narrow_cast<int>(format));
+  return 1u;
 }
 
 
@@ -78,10 +77,9 @@ uint get_audio_buffer_format_bytes_per_sample(
     case audio_buffer_format::stereo16:
     case audio_buffer_format::mono16:
       return 2u;
-    default:
-      HOU_UNREACHABLE();
-      return 1u;
   }
+  HOU_ERROR_N(invalid_enum, narrow_cast<int>(format));
+  return 1u;
 }
 
 
@@ -94,10 +92,8 @@ std::ostream& operator<<(std::ostream& os, audio_buffer_format format)
     AUDIO_BUFFER_FORMAT_CASE(mono16, os);
     AUDIO_BUFFER_FORMAT_CASE(stereo8, os);
     AUDIO_BUFFER_FORMAT_CASE(stereo16, os);
-    default:
-      HOU_UNREACHABLE();
-      return os;
   }
+  return STREAM_VALUE(os, audio_buffer_format, format);
 }
 
 }  // namespace hou
