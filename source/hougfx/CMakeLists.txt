@@ -29,6 +29,7 @@ SET(LIB_HOUGFX_SRC
   src/hou/gfx/formatted_text.cpp
   src/hou/gfx/framebuffer.cpp
   src/hou/gfx/framebuffer_blit_filter.cpp
+  src/hou/gfx/framebuffer_blit_mask.cpp
   src/hou/gfx/gfx_exceptions.cpp
   src/hou/gfx/gfx_module.cpp
   src/hou/gfx/glyph.cpp

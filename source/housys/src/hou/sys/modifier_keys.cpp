@@ -4,44 +4,51 @@
 
 #include "hou/sys/modifier_keys.hpp"
 
-#include <string>
+#include "hou/cor/core_functions.hpp"
 
-#define MODIFIER_KEY_BITFIELD_CASE(bitfield, bit, os)                          \
-  do                                                                           \
-  {                                                                            \
-    if(check_all(bitfield, modifier_keys::bit))                                \
-    {                                                                          \
-      os << (match_found ? " | " : "") << #bit;                                \
-      match_found = true;                                                      \
-    }                                                                          \
-  } while(false)
+#define MODIFIER_KEY_CASE(mk, os)                                              \
+  case modifier_keys::mk:                                                      \
+    (os) << #mk;                                                               \
+    break
 
 
 
 namespace hou
 {
 
+namespace
+{
+
+void printer(std::ostream& os, modifier_keys mk)
+{
+  switch(mk)
+  {
+    MODIFIER_KEY_CASE(none, os);
+    MODIFIER_KEY_CASE(lalt, os);
+    MODIFIER_KEY_CASE(ralt, os);
+    MODIFIER_KEY_CASE(alt, os);
+    MODIFIER_KEY_CASE(lctrl, os);
+    MODIFIER_KEY_CASE(rctrl, os);
+    MODIFIER_KEY_CASE(ctrl, os);
+    MODIFIER_KEY_CASE(lshift, os);
+    MODIFIER_KEY_CASE(rshift, os);
+    MODIFIER_KEY_CASE(shift, os);
+    MODIFIER_KEY_CASE(lsystem, os);
+    MODIFIER_KEY_CASE(rsystem, os);
+    MODIFIER_KEY_CASE(system, os);
+    MODIFIER_KEY_CASE(num, os);
+    MODIFIER_KEY_CASE(caps, os);
+    MODIFIER_KEY_CASE(mode, os);
+    default:
+      STREAM_VALUE(os, modifier_keys, mk);
+  }
+}
+
+}
+
 std::ostream& operator<<(std::ostream& os, modifier_keys mk)
 {
-  if(mk == modifier_keys::none)
-  {
-    return os << "none";
-  }
-
-  bool match_found = false;
-  MODIFIER_KEY_BITFIELD_CASE(mk, lalt, os);
-  MODIFIER_KEY_BITFIELD_CASE(mk, ralt, os);
-  MODIFIER_KEY_BITFIELD_CASE(mk, lctrl, os);
-  MODIFIER_KEY_BITFIELD_CASE(mk, rctrl, os);
-  MODIFIER_KEY_BITFIELD_CASE(mk, lshift, os);
-  MODIFIER_KEY_BITFIELD_CASE(mk, rshift, os);
-  MODIFIER_KEY_BITFIELD_CASE(mk, lsystem, os);
-  MODIFIER_KEY_BITFIELD_CASE(mk, rsystem, os);
-  MODIFIER_KEY_BITFIELD_CASE(mk, num, os);
-  MODIFIER_KEY_BITFIELD_CASE(mk, caps, os);
-  MODIFIER_KEY_BITFIELD_CASE(mk, mode, os);
-
-  return os;
+  return stream_bitfield<modifier_keys>(os, mk, printer);
 }
 
 }  // namespace hou

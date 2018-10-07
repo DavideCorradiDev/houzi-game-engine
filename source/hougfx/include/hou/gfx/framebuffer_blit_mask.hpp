@@ -35,6 +35,15 @@ enum class framebuffer_blit_mask : GLenum
   all = GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
 };
 
+/** Writes a framebuffer_blit_mask enum into a stream.
+ *
+ *  \param os the stream.
+ *  \param fbbm the framebuffer_blit_mask enum.
+ *  \return a reference to the stream.
+ */
+HOU_GFX_API std::ostream& operator<<(
+  std::ostream& os, framebuffer_blit_mask fbbm);
+
 }  // namespace hou
 
 /** Specialization of enable_bitwise_operators. */

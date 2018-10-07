@@ -4,6 +4,7 @@
 
 #include "hou/test.hpp"
 
+#include "hou/cor/bitwise_operators.hpp"
 #include "hou/cor/core_functions.hpp"
 
 using namespace hou;
