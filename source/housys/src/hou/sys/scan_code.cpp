@@ -4,7 +4,7 @@
 
 #include "hou/sys/scan_code.hpp"
 
-#include "hou/cor/exception.hpp"
+#include "hou/cor/core_functions.hpp"
 
 #define SCAN_CODE_CASE(sc, os)                                                 \
   case scan_code::sc:                                                          \
@@ -207,13 +207,8 @@ std::ostream& operator<<(std::ostream& os, scan_code sc)
     SCAN_CODE_CASE(language9, os);
     SCAN_CODE_CASE(non_us_backslash, os);
     SCAN_CODE_CASE(non_us_hash, os);
-
-    default:
-      return os << "scan_code("
-                << static_cast<std::underlying_type<scan_code>::type>(sc) << ")";
   }
-  HOU_UNREACHABLE();
-  return os;
+  return STREAM_VALUE(os, scan_code, sc);
 }
 
 }  // namespace hou
