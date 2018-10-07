@@ -34,6 +34,17 @@ std::ostream& container_stream(std::ostream& os, Iterator begin, Iterator end)
 
 
 
+template <typename T>
+std::ostream& stream_enum_class_value(
+  std::ostream& os, const std::string& type_name, T value)
+{
+  return os << type_name << "("
+            << static_cast<typename std::underlying_type<T>::type>(value)
+            << ")";
+}
+
+
+
 #ifndef HOU_DOXYGEN
 extern template HOU_COR_API bool close<float, void>(
   float, float, float) noexcept;
