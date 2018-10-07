@@ -50,36 +50,4 @@ uint get_bytes_per_pixel(texture_format tf)
   return 0u;
 }
 
-
-
-pixel_format get_associated_pixel_format(texture_format tf)
-{
-  switch(tf)
-  {
-    case texture_format::r:
-      return pixel_format::r;
-    case texture_format::rg:
-      return pixel_format::rg;
-    case texture_format::rgb:
-      return pixel_format::rgb;
-    case texture_format::rgba:
-      return pixel_format::rgba;
-    case texture_format::depth_stencil:
-      HOU_ERROR_N(invalid_enum,
-        static_cast<std::underlying_type<texture_format>::type>(tf));
-  }
-  HOU_ERROR_N(invalid_enum, narrow_cast<int>(tf));
-  return pixel_format::r;
-}
-
-
-
-bool check_format_compatibility(texture_format tf, pixel_format pf)
-{
-  return (tf == texture_format::r && pf == pixel_format::r)
-    || (tf == texture_format::rg && pf == pixel_format::rg)
-    || (tf == texture_format::rgb && pf == pixel_format::rgb)
-    || (tf == texture_format::rgba && pf == pixel_format::rgba);
-}
-
 }  // namespace hou
