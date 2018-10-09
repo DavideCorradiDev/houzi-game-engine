@@ -2,8 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#ifndef HOU_GFX_MESH_2_SHADER_PROGRAM_HPP
-#define HOU_GFX_MESH_2_SHADER_PROGRAM_HPP
+#ifndef HOU_GFX_MESH_2_RENDERER_HPP
+#define HOU_GFX_MESH_2_RENDERER_HPP
 
 #include "hou/cor/non_copyable.hpp"
 
@@ -26,12 +26,12 @@ class render_surface;
 
 /** shader program used to render Mesh2d objects.
  */
-class HOU_GFX_API mesh2_shader_program : public shader_program
+class HOU_GFX_API mesh2_renderer : public shader_program
 {
 public:
   /** Constructor.
    */
-  mesh2_shader_program();
+  mesh2_renderer();
 
   /** Sets the color used when rendering.
    *
@@ -70,7 +70,8 @@ public:
    * \param trn the transform.
    */
   void draw(render_surface& target, const mesh2& m, const texture2& tex,
-    const color& col = color::white(), const trans2f& trn = trans2f::identity());
+    const color& col = color::white(),
+    const trans2f& trn = trans2f::identity());
 
   /** Draws a mesh onto a render_surface with the given parameters.
    *
@@ -83,7 +84,8 @@ public:
    * \param trn the transform.
    */
   void draw(render_surface& target, const mesh2& m,
-    const color& col = color::white(), const trans2f& trn = trans2f::identity());
+    const color& col = color::white(),
+    const trans2f& trn = trans2f::identity());
 
   /** Draws a mesh onto a render_surface with the given parameters.
    *

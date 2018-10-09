@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/gfx/mesh2_shader_program.hpp"
+#include "hou/gfx/mesh2_renderer.hpp"
 
 #include "hou/gfx/mesh2.hpp"
 #include "hou/gfx/render_surface.hpp"
@@ -70,7 +70,7 @@ std::string get_gl_fragment_shader_source()
 
 
 
-mesh2_shader_program::mesh2_shader_program()
+mesh2_renderer::mesh2_renderer()
   : shader_program(vertex_shader(get_gl_vertex_shader_source()),
       fragment_shader(get_gl_fragment_shader_source()))
   , m_blank_texture(vec2u(1u, 1u), texture_format::rgba, 1u)
@@ -84,7 +84,7 @@ mesh2_shader_program::mesh2_shader_program()
 
 
 
-void mesh2_shader_program::set_color(const color& color)
+void mesh2_renderer::set_color(const color& color)
 {
   gl::set_program_uniform_f(get_handle(), m_uni_color, color.get_red_f(),
     color.get_green_f(), color.get_blue_f(), color.get_alpha_f());
@@ -92,14 +92,14 @@ void mesh2_shader_program::set_color(const color& color)
 
 
 
-void mesh2_shader_program::set_texture_unit(uint unit)
+void mesh2_renderer::set_texture_unit(uint unit)
 {
   gl::set_program_uniform_i(get_handle(), m_uni_texture, unit);
 }
 
 
 
-void mesh2_shader_program::set_transform(const trans2f& trans)
+void mesh2_renderer::set_transform(const trans2f& trans)
 {
   gl::set_program_uniform_mat4x4f(
     get_handle(), m_uni_transform, 1u, GL_TRUE, trans.to_mat4x4().data());
@@ -107,7 +107,7 @@ void mesh2_shader_program::set_transform(const trans2f& trans)
 
 
 
-void mesh2_shader_program::draw(render_surface& target, const mesh2& m,
+void mesh2_renderer::draw(render_surface& target, const mesh2& m,
   const texture2& tex, const color& col, const trans2f& trn)
 {
   static constexpr uint texUnit = 0u;
@@ -120,19 +120,19 @@ void mesh2_shader_program::draw(render_surface& target, const mesh2& m,
   mesh::draw(m);
 }
 
-void mesh2_shader_program::draw(
+void mesh2_renderer::draw(
   render_surface& target, const mesh2& m, const color& col, const trans2f& trn)
 {
   draw(target, m, m_blank_texture, col, trn);
 }
 
-void mesh2_shader_program::draw(render_surface& target, const mesh2& m,
+void mesh2_renderer::draw(render_surface& target, const mesh2& m,
   const texture2& tex, const trans2f& trn)
 {
   draw(target, m, tex, color::white(), trn);
 }
 
-void mesh2_shader_program::draw(
+void mesh2_renderer::draw(
   render_surface& target, const mesh2& m, const trans2f& trn)
 {
   draw(target, m, m_blank_texture, color::white(), trn);

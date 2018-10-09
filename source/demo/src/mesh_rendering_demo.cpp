@@ -12,7 +12,7 @@
 
 #include "hou/gfx/graphic_context.hpp"
 #include "hou/gfx/mesh2.hpp"
-#include "hou/gfx/mesh2_shader_program.hpp"
+#include "hou/gfx/mesh2_renderer.hpp"
 #include "hou/gfx/render_surface.hpp"
 
 #include "hou/mth/math_functions.hpp"
@@ -57,7 +57,7 @@ int main(int, char**)
 
   // Rendering objects.
   hou::render_surface rs(wnd.get_size(), 4u);
-  hou::mesh2_shader_program msp;
+  hou::mesh2_renderer mr;
   hou::texture2 mesh_tex(hou::png_image_file::read<hou::pixel_format::rgba>(
     u8"./source/demo/data/monalisa.png"));
 
@@ -366,12 +366,12 @@ int main(int, char**)
 
     if(mesh_texture_active)
     {
-      msp.draw(
+      mr.draw(
         rs, *m, mesh_tex, mesh_color, projection_transform * mesh_transform);
     }
     else
     {
-      msp.draw(rs, *m, mesh_color, projection_transform * mesh_transform);
+      mr.draw(rs, *m, mesh_color, projection_transform * mesh_transform);
     }
 
     rs.display();

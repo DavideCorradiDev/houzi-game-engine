@@ -2,8 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#ifndef HOU_GFX_TEXT_SHADER_PROGRAM_HPP
-#define HOU_GFX_TEXT_SHADER_PROGRAM_HPP
+#ifndef HOU_GFX_TEXT_MESH_RENDERER_HPP
+#define HOU_GFX_TEXT_MESH_RENDERER_HPP
 
 #include "hou/cor/non_copyable.hpp"
 
@@ -30,12 +30,12 @@ class texture2_array;
 
 /** shader program used to render text.
  */
-class HOU_GFX_API text_shader_program : public shader_program
+class HOU_GFX_API text_mesh_renderer : public shader_program
 {
 public:
   /** Constructor.
    */
-  text_shader_program();
+  text_mesh_renderer();
 
   /** Sets the color used when rendering.
    *
@@ -88,7 +88,8 @@ public:
    * \param trn the transform.
    */
   void draw(render_surface& target, const formatted_text& text,
-    const color& col = color::white(), const trans2f& trn = trans2f::identity());
+    const color& col = color::white(),
+    const trans2f& trn = trans2f::identity());
 
   /** Draws a text string onto a render_surface with the given font and
    * parameters.
@@ -104,7 +105,8 @@ public:
    * \param trn the transform.
    */
   void draw(render_surface& target, const std::string& text, const font& f,
-    const color& col = color::white(), const trans2f& trn = trans2f::identity());
+    const color& col = color::white(),
+    const trans2f& trn = trans2f::identity());
 
 private:
   int m_uni_color;

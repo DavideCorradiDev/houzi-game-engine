@@ -39,7 +39,7 @@ SET(LIB_HOUGFX_SRC
   src/hou/gfx/graphics_state.cpp
   src/hou/gfx/mesh.cpp
   src/hou/gfx/mesh2.cpp
-  src/hou/gfx/mesh2_shader_program.cpp
+  src/hou/gfx/mesh2_renderer.cpp
   src/hou/gfx/mesh_draw_mode.cpp
   src/hou/gfx/mesh_fill_mode.cpp
   src/hou/gfx/mipmapped_texture3.cpp
@@ -51,7 +51,7 @@ SET(LIB_HOUGFX_SRC
   src/hou/gfx/shader_type.cpp
   src/hou/gfx/text_box_formatting_params.cpp
   src/hou/gfx/text_flow.cpp
-  src/hou/gfx/text_shader_program.cpp
+  src/hou/gfx/text_mesh_renderer.cpp
   src/hou/gfx/text_vertex.cpp
   src/hou/gfx/texture.cpp
   src/hou/gfx/texture2.cpp
