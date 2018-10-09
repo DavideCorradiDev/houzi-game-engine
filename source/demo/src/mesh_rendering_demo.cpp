@@ -103,199 +103,199 @@ int main(int, char**)
   auto on_quit = [&loop](hou::event::timestamp) { loop = false; };
   hou::event::set_quit_callback(on_quit);
 
-  auto on_key_pressed = [&](hou::event::timestamp, hou::window::uid_type,
-                          hou::scan_code sc, hou::key_code, hou::modifier_keys,
-                          bool) {
-    // position
-    if(sc == hou::scan_code::a)
-    {
-      mesh_pos_x -= mesh_pos_step;
-    }
-    else if(sc == hou::scan_code::f)
-    {
-      mesh_pos_x += mesh_pos_step;
-    }
-    else if(sc == hou::scan_code::s)
-    {
-      mesh_pos_y -= mesh_pos_step;
-    }
-    else if(sc == hou::scan_code::d)
-    {
-      mesh_pos_y += mesh_pos_step;
-    }
-    // scale
-    else if(sc == hou::scan_code::g)
-    {
-      mesh_scale_x -= mesh_scale_step;
-    }
-    else if(sc == hou::scan_code::k)
-    {
-      mesh_scale_x += mesh_scale_step;
-    }
-    else if(sc == hou::scan_code::h)
-    {
-      mesh_scale_y -= mesh_scale_step;
-    }
-    else if(sc == hou::scan_code::j)
-    {
-      mesh_scale_y += mesh_scale_step;
-    }
-    // shear
-    else if(sc == hou::scan_code::z)
-    {
-      mesh_shear_x -= mesh_shear_step;
-    }
-    else if(sc == hou::scan_code::v)
-    {
-      mesh_shear_x += mesh_shear_step;
-    }
-    else if(sc == hou::scan_code::x)
-    {
-      mesh_shear_y -= mesh_shear_step;
-    }
-    else if(sc == hou::scan_code::c)
-    {
-      mesh_shear_y += mesh_shear_step;
-    }
-    // size
-    else if(sc == hou::scan_code::q)
-    {
-      mesh_size_x -= mesh_size_step;
-    }
-    else if(sc == hou::scan_code::r)
-    {
-      mesh_size_x += mesh_size_step;
-    }
-    else if(sc == hou::scan_code::w)
-    {
-      mesh_size_y -= mesh_size_step;
-    }
-    else if(sc == hou::scan_code::e)
-    {
-      mesh_size_y += mesh_size_step;
-    }
-    // rotation
-    else if(sc == hou::scan_code::b)
-    {
-      mesh_rotation -= mesh_rotation_step;
-    }
-    else if(sc == hou::scan_code::n)
-    {
-      mesh_rotation += mesh_rotation_step;
-    }
-    // thickness
-    else if(sc == hou::scan_code::t)
-    {
-      mesh_thickness -= mesh_thickness_step;
-    }
-    else if(sc == hou::scan_code::y)
-    {
-      mesh_thickness += mesh_thickness_step;
-    }
-    // point count
-    else if(sc == hou::scan_code::u)
-    {
-      mesh_point_count -= mesh_point_count_step;
-    }
-    else if(sc == hou::scan_code::i)
-    {
-      mesh_point_count += mesh_point_count_step;
-    }
-    // color
-    else if(sc == hou::scan_code::num1)
-    {
-      mesh_color_red -= mesh_color_step;
-    }
-    else if(sc == hou::scan_code::num2)
-    {
-      mesh_color_red += mesh_color_step;
-    }
-    else if(sc == hou::scan_code::num3)
-    {
-      mesh_color_green -= mesh_color_step;
-    }
-    else if(sc == hou::scan_code::num4)
-    {
-      mesh_color_green += mesh_color_step;
-    }
-    else if(sc == hou::scan_code::num5)
-    {
-      mesh_color_blue -= mesh_color_step;
-    }
-    else if(sc == hou::scan_code::num6)
-    {
-      mesh_color_blue += mesh_color_step;
-    }
-    else if(sc == hou::scan_code::num7)
-    {
-      mesh_color_alpha -= mesh_color_step;
-    }
-    else if(sc == hou::scan_code::num8)
-    {
-      mesh_color_alpha += mesh_color_step;
-    }
-    // Shape
-    else if(sc == hou::scan_code::f1)
-    {
-      mesh_shape = shape::rectangle;
-    }
-    else if(sc == hou::scan_code::f2)
-    {
-      mesh_shape = shape::rectangle_outline;
-    }
-    else if(sc == hou::scan_code::f3)
-    {
-      mesh_shape = shape::ellipse;
-    }
-    else if(sc == hou::scan_code::f4)
-    {
-      mesh_shape = shape::ellipse_outline;
-    }
-    else if(sc == hou::scan_code::f5)
-    {
-      mesh_shape = shape::quad;
-    }
-    // Texture wrap mode
-    else if(sc == hou::scan_code::f6)
-    {
-      mesh_tex.set_wrap_mode(
-        hou::texture2::wrap_mode{hou::texture_wrap_mode::clamp_to_edge,
-          hou::texture_wrap_mode::clamp_to_edge});
-    }
-    else if(sc == hou::scan_code::f7)
-    {
-      mesh_tex.set_wrap_mode(hou::texture2::wrap_mode{
-        hou::texture_wrap_mode::repeat, hou::texture_wrap_mode::repeat});
-    }
-    else if(sc == hou::scan_code::f8)
-    {
-      mesh_tex.set_wrap_mode(
-        hou::texture2::wrap_mode{hou::texture_wrap_mode::mirrored_repeat,
-          hou::texture_wrap_mode::mirrored_repeat});
-    }
-    // Texture filter
-    else if(sc == hou::scan_code::f9)
-    {
-      mesh_tex.set_filter(hou::texture_filter::nearest);
-    }
-    else if(sc == hou::scan_code::f10)
-    {
-      mesh_tex.set_filter(hou::texture_filter::linear);
-    }
-    else if(sc == hou::scan_code::f11)
-    {
-      mesh_tex.set_filter(hou::texture_filter::bilinear);
-    }
-    else if(sc == hou::scan_code::f12)
-    {
-      mesh_tex.set_filter(hou::texture_filter::trilinear);
-    }
-    // Texture
-    else if(sc == hou::scan_code::num0)
-    {
-      mesh_texture_active = !mesh_texture_active;
-    }
-  };
+  auto on_key_pressed
+    = [&](hou::event::timestamp, hou::window::uid_type, hou::scan_code sc,
+        hou::key_code, hou::modifier_keys, bool) {
+        // position
+        if(sc == hou::scan_code::a)
+        {
+          mesh_pos_x -= mesh_pos_step;
+        }
+        else if(sc == hou::scan_code::f)
+        {
+          mesh_pos_x += mesh_pos_step;
+        }
+        else if(sc == hou::scan_code::s)
+        {
+          mesh_pos_y -= mesh_pos_step;
+        }
+        else if(sc == hou::scan_code::d)
+        {
+          mesh_pos_y += mesh_pos_step;
+        }
+        // scale
+        else if(sc == hou::scan_code::g)
+        {
+          mesh_scale_x -= mesh_scale_step;
+        }
+        else if(sc == hou::scan_code::k)
+        {
+          mesh_scale_x += mesh_scale_step;
+        }
+        else if(sc == hou::scan_code::h)
+        {
+          mesh_scale_y -= mesh_scale_step;
+        }
+        else if(sc == hou::scan_code::j)
+        {
+          mesh_scale_y += mesh_scale_step;
+        }
+        // shear
+        else if(sc == hou::scan_code::z)
+        {
+          mesh_shear_x -= mesh_shear_step;
+        }
+        else if(sc == hou::scan_code::v)
+        {
+          mesh_shear_x += mesh_shear_step;
+        }
+        else if(sc == hou::scan_code::x)
+        {
+          mesh_shear_y -= mesh_shear_step;
+        }
+        else if(sc == hou::scan_code::c)
+        {
+          mesh_shear_y += mesh_shear_step;
+        }
+        // size
+        else if(sc == hou::scan_code::q)
+        {
+          mesh_size_x -= mesh_size_step;
+        }
+        else if(sc == hou::scan_code::r)
+        {
+          mesh_size_x += mesh_size_step;
+        }
+        else if(sc == hou::scan_code::w)
+        {
+          mesh_size_y -= mesh_size_step;
+        }
+        else if(sc == hou::scan_code::e)
+        {
+          mesh_size_y += mesh_size_step;
+        }
+        // rotation
+        else if(sc == hou::scan_code::b)
+        {
+          mesh_rotation -= mesh_rotation_step;
+        }
+        else if(sc == hou::scan_code::n)
+        {
+          mesh_rotation += mesh_rotation_step;
+        }
+        // thickness
+        else if(sc == hou::scan_code::t)
+        {
+          mesh_thickness -= mesh_thickness_step;
+        }
+        else if(sc == hou::scan_code::y)
+        {
+          mesh_thickness += mesh_thickness_step;
+        }
+        // point count
+        else if(sc == hou::scan_code::u)
+        {
+          mesh_point_count -= mesh_point_count_step;
+        }
+        else if(sc == hou::scan_code::i)
+        {
+          mesh_point_count += mesh_point_count_step;
+        }
+        // color
+        else if(sc == hou::scan_code::num1)
+        {
+          mesh_color_red -= mesh_color_step;
+        }
+        else if(sc == hou::scan_code::num2)
+        {
+          mesh_color_red += mesh_color_step;
+        }
+        else if(sc == hou::scan_code::num3)
+        {
+          mesh_color_green -= mesh_color_step;
+        }
+        else if(sc == hou::scan_code::num4)
+        {
+          mesh_color_green += mesh_color_step;
+        }
+        else if(sc == hou::scan_code::num5)
+        {
+          mesh_color_blue -= mesh_color_step;
+        }
+        else if(sc == hou::scan_code::num6)
+        {
+          mesh_color_blue += mesh_color_step;
+        }
+        else if(sc == hou::scan_code::num7)
+        {
+          mesh_color_alpha -= mesh_color_step;
+        }
+        else if(sc == hou::scan_code::num8)
+        {
+          mesh_color_alpha += mesh_color_step;
+        }
+        // Shape
+        else if(sc == hou::scan_code::f1)
+        {
+          mesh_shape = shape::rectangle;
+        }
+        else if(sc == hou::scan_code::f2)
+        {
+          mesh_shape = shape::rectangle_outline;
+        }
+        else if(sc == hou::scan_code::f3)
+        {
+          mesh_shape = shape::ellipse;
+        }
+        else if(sc == hou::scan_code::f4)
+        {
+          mesh_shape = shape::ellipse_outline;
+        }
+        else if(sc == hou::scan_code::f5)
+        {
+          mesh_shape = shape::quad;
+        }
+        // Texture wrap mode
+        else if(sc == hou::scan_code::f6)
+        {
+          mesh_tex.set_wrap_mode(
+            hou::texture2::wrap_mode{hou::texture_wrap_mode::clamp_to_edge,
+              hou::texture_wrap_mode::clamp_to_edge});
+        }
+        else if(sc == hou::scan_code::f7)
+        {
+          mesh_tex.set_wrap_mode(hou::texture2::wrap_mode{
+            hou::texture_wrap_mode::repeat, hou::texture_wrap_mode::repeat});
+        }
+        else if(sc == hou::scan_code::f8)
+        {
+          mesh_tex.set_wrap_mode(
+            hou::texture2::wrap_mode{hou::texture_wrap_mode::mirrored_repeat,
+              hou::texture_wrap_mode::mirrored_repeat});
+        }
+        // Texture filter
+        else if(sc == hou::scan_code::f9)
+        {
+          mesh_tex.set_filter(hou::texture_filter::nearest);
+        }
+        else if(sc == hou::scan_code::f10)
+        {
+          mesh_tex.set_filter(hou::texture_filter::linear);
+        }
+        else if(sc == hou::scan_code::f11)
+        {
+          mesh_tex.set_filter(hou::texture_filter::bilinear);
+        }
+        else if(sc == hou::scan_code::f12)
+        {
+          mesh_tex.set_filter(hou::texture_filter::trilinear);
+        }
+        // Texture
+        else if(sc == hou::scan_code::num0)
+        {
+          mesh_texture_active = !mesh_texture_active;
+        }
+      };
   hou::event::set_key_pressed_callback(on_key_pressed);
 
   std::cout << "Controls:" << std::endl;
@@ -331,23 +331,22 @@ int main(int, char**)
     switch(mesh_shape)
     {
       case shape::rectangle:
-        m = std::make_unique<hou::mesh2>(
-          hou::create_rectangle_mesh2(mesh_size));
+        m = std::make_unique<hou::mesh2>(hou::rectangle_mesh2(mesh_size));
         break;
       case shape::rectangle_outline:
         m = std::make_unique<hou::mesh2>(
-          hou::create_rectangle_outline_mesh2(mesh_size, mesh_thickness));
+          hou::rectangle_outline_mesh2(mesh_size, mesh_thickness));
         break;
       case shape::ellipse:
         m = std::make_unique<hou::mesh2>(
-          hou::create_ellipse_mesh2(mesh_size, mesh_point_count));
+          hou::ellipse_mesh2(mesh_size, mesh_point_count));
         break;
       case shape::ellipse_outline:
-        m = std::make_unique<hou::mesh2>(hou::create_ellipse_outline_mesh2(
+        m = std::make_unique<hou::mesh2>(hou::ellipse_outline_mesh2(
           mesh_size, mesh_point_count, mesh_thickness));
         break;
       case shape::quad:
-        m = std::make_unique<hou::mesh2>(hou::create_texture_quad_mesh2(
+        m = std::make_unique<hou::mesh2>(hou::texture_quad_mesh2(
           hou::rectf(hou::vec2f::zero(), mesh_size), mesh_tex.get_size()));
         break;
     }

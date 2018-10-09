@@ -27,7 +27,7 @@ namespace hou
  *
  * \return the mesh representing the rectangle.
  */
-HOU_GFX_API mesh2 create_rectangle_mesh2(const vec2f& size);
+HOU_GFX_API mesh2 rectangle_mesh2(const vec2f& size);
 
 /** Creates a mesh2 object representing a rectangle outline shape with the
  * given size and border thickness.
@@ -42,8 +42,7 @@ HOU_GFX_API mesh2 create_rectangle_mesh2(const vec2f& size);
  *
  * \return the mesh2 representing the rectangle outline.
  */
-HOU_GFX_API mesh2 create_rectangle_outline_mesh2(
-  const vec2f& size, float thickness);
+HOU_GFX_API mesh2 rectangle_outline_mesh2(const vec2f& size, float thickness);
 
 /** Creates a mesh2 object representing an approximation of an ellipse with
  * the given size and drawn with the given number of points.
@@ -60,7 +59,7 @@ HOU_GFX_API mesh2 create_rectangle_outline_mesh2(
  *
  * \return the mesh2 representing the ellipse.
  */
-HOU_GFX_API mesh2 create_ellipse_mesh2(const vec2f& size, uint pointCount);
+HOU_GFX_API mesh2 ellipse_mesh2(const vec2f& size, uint pointCount);
 
 
 /** Creates a mesh2 object representing an approximation of an ellipse outline
@@ -84,7 +83,7 @@ HOU_GFX_API mesh2 create_ellipse_mesh2(const vec2f& size, uint pointCount);
  *
  * \return the mesh2 representing the ellipse outline.
  */
-HOU_GFX_API mesh2 create_ellipse_outline_mesh2(
+HOU_GFX_API mesh2 ellipse_outline_mesh2(
   const vec2f& size, uint pointCount, float thickness);
 
 /** Creates a mesh2 object representing a texture quad covering the specified
@@ -103,8 +102,8 @@ HOU_GFX_API mesh2 create_ellipse_outline_mesh2(
  *
  * \param textureSize the size of the texture to be used with the quad.
  */
-HOU_GFX_API mesh2 create_texture_quad_mesh2(
+HOU_GFX_API mesh2 texture_quad_mesh2(
   const rectf& rect, const vec2f& textureSize);
-}
+}  // namespace hou
 
 #endif

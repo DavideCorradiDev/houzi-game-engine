@@ -2,8 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/test.hpp"
 #include "hou/gfx/test_gfx_base.hpp"
+#include "hou/test.hpp"
 
 #include "hou/gfx/mesh2.hpp"
 
@@ -24,7 +24,7 @@ class test_mesh2 : public test_gfx_base
 
 TEST_F(test_mesh2, rectangle)
 {
-  mesh2 m = create_rectangle_mesh2(vec2f(1.f, 2.f));
+  mesh2 m = rectangle_mesh2(vec2f(1.f, 2.f));
 
   EXPECT_EQ(mesh_draw_mode::triangle_fan, m.get_draw_mode());
   EXPECT_EQ(mesh_fill_mode::fill, m.get_fill_mode());
@@ -42,7 +42,7 @@ TEST_F(test_mesh2, rectangle)
 
 TEST_F(test_mesh2, rectangle_outline)
 {
-  mesh2 m = create_rectangle_outline_mesh2(vec2f(6.f, 8.f), 2);
+  mesh2 m = rectangle_outline_mesh2(vec2f(6.f, 8.f), 2);
 
   EXPECT_EQ(mesh_draw_mode::triangle_strip, m.get_draw_mode());
   EXPECT_EQ(mesh_fill_mode::fill, m.get_fill_mode());
@@ -66,7 +66,7 @@ TEST_F(test_mesh2, rectangle_outline)
 
 TEST_F(test_mesh2, ellipse)
 {
-  mesh2 m = create_ellipse_mesh2(vec2f(1.f, 2.f), 8);
+  mesh2 m = ellipse_mesh2(vec2f(1.f, 2.f), 8);
 
   EXPECT_EQ(mesh_draw_mode::triangle_fan, m.get_draw_mode());
   EXPECT_EQ(mesh_fill_mode::fill, m.get_fill_mode());
@@ -90,7 +90,7 @@ TEST_F(test_mesh2, ellipse)
 
 TEST_F(test_mesh2, ellipse_outline)
 {
-  mesh2 m = create_ellipse_outline_mesh2(vec2f(1.f, 2.f), 8, 0.25);
+  mesh2 m = ellipse_outline_mesh2(vec2f(1.f, 2.f), 8, 0.25);
 
   EXPECT_EQ(mesh_draw_mode::triangle_strip, m.get_draw_mode());
   EXPECT_EQ(mesh_fill_mode::fill, m.get_fill_mode());
@@ -122,8 +122,7 @@ TEST_F(test_mesh2, ellipse_outline)
 
 TEST_F(test_mesh2, texture_quad)
 {
-  mesh2 m
-    = create_texture_quad_mesh2(rectf(3.f, 8.f, 6.f, 4.f), vec2f(12.f, 16.f));
+  mesh2 m = texture_quad_mesh2(rectf(3.f, 8.f, 6.f, 4.f), vec2f(12.f, 16.f));
 
   EXPECT_EQ(mesh_draw_mode::triangle_fan, m.get_draw_mode());
   EXPECT_EQ(mesh_fill_mode::fill, m.get_fill_mode());
