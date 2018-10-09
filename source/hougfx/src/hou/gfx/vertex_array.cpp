@@ -77,7 +77,8 @@ void vertex_array::set_vertex_data(
       vafs[i].must_be_normalized() ? GL_TRUE : GL_FALSE,
       narrow_cast<GLsizei>(vf.get_stride())
         * get_gl_type_byte_size(vafs[i].get_type()),
-      reinterpret_cast<GLvoid*>((vf.get_offset() + vafs[i].get_byte_offset())
+      reinterpret_cast<GLvoid*>(
+        (vf.get_byte_offset() + vafs[i].get_byte_offset())
         * get_gl_type_byte_size(vafs[i].get_type())));
     gl::enable_vertex_array_attrib(i);
   }
@@ -100,7 +101,7 @@ void vertex_array::set_vertex_data(
 
   gl::set_vertex_array_vertex_buffer(m_handle,
     narrow_cast<GLuint>(binding_index), vb.get_handle(),
-    narrow_cast<GLintptr>(vf.get_offset()),
+    narrow_cast<GLintptr>(vf.get_byte_offset()),
     narrow_cast<GLsizei>(vf.get_stride()));
 
   const std::vector<vertex_attrib_format>& vafs
