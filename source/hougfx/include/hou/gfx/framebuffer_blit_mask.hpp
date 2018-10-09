@@ -46,12 +46,6 @@ HOU_GFX_API std::ostream& operator<<(
 
 }  // namespace hou
 
-/** Specialization of enable_bitwise_operators. */
-template <>
-struct hou::enable_bitwise_operators<hou::framebuffer_blit_mask>
-{
-  /** Enable bitwise operators. */
-  static constexpr bool enable = true;
-};
+HOU_ENABLE_BITWISE_OPERATORS(::hou::framebuffer_blit_mask);
 
 #endif

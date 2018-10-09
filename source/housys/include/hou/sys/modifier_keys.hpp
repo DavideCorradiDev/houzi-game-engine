@@ -51,15 +51,8 @@ enum class modifier_keys : uint32_t
  */
 HOU_SYS_API std::ostream& operator<<(std::ostream& os, modifier_keys mkf);
 
-/** Enables bitwise operators for modifier_keys.
- */
-template <>
-struct enable_bitwise_operators<modifier_keys>
-{
-  /** Enabling variable. */
-  static constexpr bool enable = true;
-};
-
 }  // namespace hou
+
+HOU_ENABLE_BITWISE_OPERATORS(::hou::modifier_keys);
 
 #endif

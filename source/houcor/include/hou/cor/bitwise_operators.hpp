@@ -153,6 +153,19 @@ typename std::enable_if<enable_bitwise_operators<T>::enable,
 
 }  // namespace hou
 
+/**
+ * Utility macro to easily define a template specialization for
+ * enable_bitwise_operators.
+ *
+ * \param type the type for which to enable the bitwise operators.
+ */
+#define HOU_ENABLE_BITWISE_OPERATORS(type)                                     \
+  template <>                                                                  \
+  struct ::hou::enable_bitwise_operators<type>                                 \
+  {                                                                            \
+    static constexpr bool enable = true;                                       \
+  }
+
 #include "hou/cor/bitwise_operators.inl"
 
 #endif

@@ -28,18 +28,7 @@ enum class flags : uint
 
 }  // namespace
 
-
-
-namespace hou
-{
-
-template <>
-struct enable_bitwise_operators<flags>
-{
-  static constexpr bool enable = true;
-};
-
-}  // namespace hou
+HOU_ENABLE_BITWISE_OPERATORS(flags);
 
 
 
