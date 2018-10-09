@@ -12,8 +12,6 @@
 #include <functional>
 #include <type_traits>
 
-
-
 namespace hou
 {
 
@@ -47,11 +45,7 @@ struct enable_bitwise_operators
  */
 template <typename T>
 typename std::enable_if<enable_bitwise_operators<T>::enable, T>::type operator|(
-  T lhs, T rhs) noexcept
-{
-  using utype = typename std::underlying_type<T>::type;
-  return static_cast<T>(static_cast<utype>(lhs) | static_cast<utype>(rhs));
-}
+  T lhs, T rhs) noexcept;
 
 /**
  * Bitwise OR operator.
@@ -67,10 +61,7 @@ typename std::enable_if<enable_bitwise_operators<T>::enable, T>::type operator|(
  */
 template <typename T>
 typename std::enable_if<enable_bitwise_operators<T>::enable, T&>::type
-  operator|=(T& lhs, T rhs) noexcept
-{
-  return lhs = lhs | rhs;
-}
+  operator|=(T& lhs, T rhs) noexcept;
 
 /**
  * Bitwise AND operator.
@@ -85,11 +76,7 @@ typename std::enable_if<enable_bitwise_operators<T>::enable, T&>::type
  */
 template <typename T>
 typename std::enable_if<enable_bitwise_operators<T>::enable, T>::type operator&(
-  T lhs, T rhs) noexcept
-{
-  using utype = typename std::underlying_type<T>::type;
-  return static_cast<T>(static_cast<utype>(lhs) & static_cast<utype>(rhs));
-}
+  T lhs, T rhs) noexcept;
 
 /**
  * Bitwise AND operator.
@@ -105,10 +92,7 @@ typename std::enable_if<enable_bitwise_operators<T>::enable, T>::type operator&(
  */
 template <typename T>
 typename std::enable_if<enable_bitwise_operators<T>::enable, T&>::type
-  operator&=(T& lhs, T rhs) noexcept
-{
-  return lhs = lhs & rhs;
-}
+  operator&=(T& lhs, T rhs) noexcept;
 
 /**
  * Checks if all given bits are set in a bitfield.
@@ -123,10 +107,7 @@ typename std::enable_if<enable_bitwise_operators<T>::enable, T&>::type
  */
 template <typename T>
 typename std::enable_if<enable_bitwise_operators<T>::enable, bool>::type
-  check_all(T bitfield, T bits) noexcept
-{
-  return (bitfield & bits) == bits;
-}
+  check_all(T bitfield, T bits) noexcept;
 
 /**
  * Checks if any of the given bits are set in a bitfield.
@@ -141,53 +122,37 @@ typename std::enable_if<enable_bitwise_operators<T>::enable, bool>::type
  */
 template <typename T>
 typename std::enable_if<enable_bitwise_operators<T>::enable, bool>::type
-  check_any(T bitfield, T bits) noexcept
-{
-  return (bitfield & bits) != T(0);
-}
+  check_any(T bitfield, T bits) noexcept;
 
-
-
+/**
+ * Writes a bitfield into a stream.
+ *
+ * All bits set to 1 will be printed in the way specified by printer.
+ * If more than one bit is set, the values will be separated by ' | '.
+ * If no bits are set, a specific value will be printed if provided in the
+ * definition of printer.
+ *
+ * \tparam T the bitfield type.
+ *
+ * \param os the output stream.
+ *
+ * \param bitfield the bitfield.
+ *
+ * \param printer a printer function specifying how each bit should be printed.
+ * Even though this function is allowed to handle any value, only the values
+ * corresponding to bitfields with a single bit set will be used and to no bits
+ * set will be used.
+ *
+ * \return a reference to os.
+ */
 template <typename T>
 typename std::enable_if<enable_bitwise_operators<T>::enable,
   std::ostream&>::type
-  stream_bitfield(
-    std::ostream& os, T bitfield, std::function<void(std::ostream&, T)> printer)
-{
-  using bitfield_type = typename std::underlying_type<T>::type;
-
-  std::vector<T> bits_to_print;
-
-  bitfield_type all_bits = static_cast<bitfield_type>(bitfield);
-  if(all_bits == 0)
-  {
-    bits_to_print.push_back(T(0));
-  }
-  else
-  {
-    bitfield_type current_bit = 1;
-    while(current_bit <= all_bits)
-    {
-      if(current_bit & all_bits)
-      {
-        bits_to_print.push_back(T(current_bit));
-      }
-      current_bit <<= 1;
-    }
-  }
-
-  for(auto it = bits_to_print.rbegin(); it != bits_to_print.rend(); ++it)
-  {
-    if(it != bits_to_print.rbegin())
-    {
-      os << " | ";
-    }
-    printer(os, *it);
-  }
-
-  return os;
-}
+  stream_bitfield(std::ostream& os, T bitfield,
+    std::function<void(std::ostream&, T)> printer);
 
 }  // namespace hou
+
+#include "hou/cor/bitwise_operators.inl"
 
 #endif
