@@ -155,7 +155,7 @@ GLenum internal_format_to_format(GLenum internal_format)
     case GL_DEPTH24_STENCIL8:
       return GL_DEPTH_STENCIL;
   }
-  HOU_UNREACHABLE();
+  HOU_ERROR_N(invalid_enum, narrow_cast<int>(internal_format));
   return 0;
 }
 
@@ -178,7 +178,7 @@ GLenum internal_format_to_type(GLenum internal_format)
     case GL_DEPTH24_STENCIL8:
       return GL_UNSIGNED_INT_24_8;
   }
-  HOU_UNREACHABLE();
+  HOU_ERROR_N(invalid_enum, narrow_cast<int>(internal_format));
   return 0;
 }
 
@@ -201,7 +201,7 @@ GLenum internal_format_to_byte_count(GLenum internal_format)
     case GL_DEPTH24_STENCIL8:
       return 4u;
   }
-  HOU_UNREACHABLE();
+  HOU_ERROR_N(invalid_enum, narrow_cast<int>(internal_format));
   return 0;
 }
 

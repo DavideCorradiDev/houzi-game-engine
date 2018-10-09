@@ -7,6 +7,8 @@
 #include "hou/sys/sys_exceptions.hpp"
 
 #include "hou/cor/assertions.hpp"
+#include "hou/cor/cor_exceptions.hpp"
+#include "hou/cor/narrow_cast.hpp"
 
 
 
@@ -68,10 +70,10 @@ std::string get_file_mode_string(file_open_mode mode, file_type type) noexcept
       return type == file_type::binary ? "wb" : "w";
     case file_open_mode::append:
       return type == file_type::binary ? "ab" : "a";
-    default:
-      HOU_UNREACHABLE();
-      return "";
   }
+  HOU_ERROR_N(invalid_enum,
+    narrow_cast<int>(static_cast<std::underlying_type<file_type>::type>(type)));
+  return "";
 }
 
 

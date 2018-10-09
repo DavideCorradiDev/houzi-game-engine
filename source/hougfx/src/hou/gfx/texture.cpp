@@ -109,10 +109,10 @@ texture_filter texture::get_filter_internal() const
       return texture_filter::bilinear;
     case GL_LINEAR_MIPMAP_LINEAR:
       return texture_filter::trilinear;
-    default:
-      HOU_UNREACHABLE();
-      return texture_filter::nearest;
   }
+  HOU_ERROR_N(
+    invalid_enum, narrow_cast<int>(gl::get_texture_min_filter(get_handle())));
+  return texture_filter::nearest;
 }
 
 
@@ -138,7 +138,9 @@ void texture::set_filter_internal(texture_filter filter)
       set_texture_mag_filter(get_handle(), GL_LINEAR);
       break;
     default:
-      HOU_UNREACHABLE();
+      HOU_ERROR_N(invalid_enum,
+        narrow_cast<int>(
+          static_cast<std::underlying_type<texture_filter>::type>(filter)));
       break;
   }
 }

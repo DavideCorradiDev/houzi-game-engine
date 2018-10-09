@@ -35,10 +35,9 @@ audio_source_state al_source_state_to_audio_source_state(ALenum state) noexcept
     case AL_INITIAL:
     case AL_STOPPED:
       return audio_source_state::stopped;
-    default:
-      HOU_UNREACHABLE();
-      return audio_source_state::stopped;
   }
+  HOU_ERROR_N(invalid_enum, narrow_cast<int>(state));
+  return audio_source_state::stopped;
 }
 
 
