@@ -6,6 +6,13 @@ namespace hou
 {
 
 template <typename T, typename Checker>
+constexpr checked_variable<T, Checker>::checked_variable()
+  : m_value()
+{}
+
+
+
+template <typename T, typename Checker>
 constexpr checked_variable<T, Checker>::checked_variable(T var)
   : m_value(var)
 {

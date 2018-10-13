@@ -36,7 +36,27 @@ public:
 
 
 
-TEST_F(test_checked_variable, construction)
+TEST_F(test_checked_variable, is_convertible_to_base_type)
+{
+  using cvar = checked_variable<int, dummy_checker<int>>;
+  using is_conv = std::is_convertible<cvar, int>;
+  EXPECT_TRUE(is_conv::value);
+}
+
+
+
+TEST_F(test_checked_variable, default_constructor)
+{
+  using cvar = checked_variable<int, dummy_checker<int>>;
+  cvar v0;
+
+  // Value is undefined due to int behaviour.
+  EXPECT_EQ(v0, v0.get());
+}
+
+
+
+TEST_F(test_checked_variable, value_constructor)
 {
   using cvar = checked_variable<int, dummy_checker<int>>;
   cvar v0(1);
@@ -51,7 +71,7 @@ TEST_F(test_checked_variable, construction)
 
 
 
-TEST_F(test_checked_variable_death_test, construction_error)
+TEST_F(test_checked_variable_death_test, value_constructor_invalid_value)
 {
   using cvar = checked_variable<int, dummy_checker<int>>;
   EXPECT_PRECOND_ERROR(cvar v(0));
