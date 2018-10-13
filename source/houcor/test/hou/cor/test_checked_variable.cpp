@@ -141,6 +141,24 @@ TEST_F(test_checked_variable, comparison)
 
 
 
+TEST_F(test_checked_variable, comparison_with_underlying_type)
+{
+  using cvar = checked_variable<int, dummy_checker<int>>;
+
+  cvar cv0(1);
+
+  int v0(1);
+  int v1(2);
+
+  EXPECT_TRUE(cv0 == v0);
+  EXPECT_FALSE(cv0 == v1);
+
+  EXPECT_FALSE(cv0 != v0);
+  EXPECT_TRUE(cv0 != v1);
+}
+
+
+
 TEST_F(test_checked_variable, arithmetic_operation)
 {
   using cvar = checked_variable<int, dummy_checker<int>>;
@@ -159,6 +177,14 @@ TEST_F(test_checked_variable_death_test, arithmetic_operation_failure)
   EXPECT_PRECOND_ERROR(cvar(cvar(4) - cvar(4)));
   EXPECT_PRECOND_ERROR(cvar(cvar(2) * cvar(3)));
   EXPECT_PRECOND_ERROR(cvar(cvar(3) / cvar(4)));
+}
+
+
+
+TEST_F(test_checked_variable, output_stream_operator)
+{
+  using cvar = checked_variable<int, dummy_checker<int>>;
+  EXPECT_OUTPUT("2", cvar(2));
 }
 
 
