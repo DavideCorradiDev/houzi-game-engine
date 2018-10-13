@@ -125,46 +125,32 @@ TEST_F(test_rectangle, element_access)
   EXPECT_EQ(2, r.y());
   EXPECT_EQ(3, r.w());
   EXPECT_EQ(5, r.h());
-  EXPECT_EQ(1, r.l());
-  EXPECT_EQ(2, r.t());
-  EXPECT_EQ(4, r.r());
-  EXPECT_EQ(7, r.b());
 
-  r.x() = 7;
-  EXPECT_EQ(vec2i(7, 2), r.get_position());
-  EXPECT_EQ(7, r.x());
-  EXPECT_EQ(7, r.l());
-  EXPECT_EQ(10, r.r());
+  r.x() = -7;
+  EXPECT_EQ(vec2i(-7, 2), r.get_position());
+  EXPECT_EQ(-7, r.x());
 
-  r.y() = 11;
-  EXPECT_EQ(vec2i(7, 11), r.get_position());
-  EXPECT_EQ(11, r.y());
-  EXPECT_EQ(11, r.t());
-  EXPECT_EQ(16, r.b());
+  r.y() = -11;
+  EXPECT_EQ(vec2i(-7, -11), r.get_position());
+  EXPECT_EQ(-11, r.y());
 
-  r.w() = 13;
-  EXPECT_EQ(vec2i(13, 5), r.get_size());
-  EXPECT_EQ(13, r.w());
-  EXPECT_EQ(20, r.r());
+  r.w() = -13;
+  EXPECT_EQ(vec2i(-13, 5), r.get_size());
+  EXPECT_EQ(-13, r.w());
 
-  r.h() = 17;
-  EXPECT_EQ(vec2i(13, 17), r.get_size());
-  EXPECT_EQ(17, r.h());
-  EXPECT_EQ(28, r.b());
+  r.h() = -17;
+  EXPECT_EQ(vec2i(-13, -17), r.get_size());
+  EXPECT_EQ(-17, r.h());
 
   r.set_position(vec2i(2, 3));
   EXPECT_EQ(vec2i(2, 3), r.get_position());
   EXPECT_EQ(2, r.x());
   EXPECT_EQ(3, r.y());
-  EXPECT_EQ(2, r.l());
-  EXPECT_EQ(3, r.t());
 
   r.set_size(vec2i(9, 7));
   EXPECT_EQ(vec2i(9, 7), r.get_size());
   EXPECT_EQ(9, r.w());
   EXPECT_EQ(7, r.h());
-  EXPECT_EQ(11, r.r());
-  EXPECT_EQ(10, r.b());
 }
 
 
@@ -179,46 +165,144 @@ TEST_F(test_rectangle, non_negative_element_access)
   EXPECT_EQ(2, r.y());
   EXPECT_EQ(3, r.w());
   EXPECT_EQ(5, r.h());
-  EXPECT_EQ(1, r.l());
-  EXPECT_EQ(2, r.t());
-  EXPECT_EQ(4, r.r());
-  EXPECT_EQ(7, r.b());
 
-  r.x() = 7;
-  EXPECT_EQ(vec2i(7, 2), r.get_position());
-  EXPECT_EQ(7, r.x());
-  EXPECT_EQ(7, r.l());
-  EXPECT_EQ(10, r.r());
+  r.x() = -7;
+  EXPECT_EQ(vec2i(-7, 2), r.get_position());
+  EXPECT_EQ(-7, r.x());
 
-  r.y() = 11;
-  EXPECT_EQ(vec2i(7, 11), r.get_position());
-  EXPECT_EQ(11, r.y());
-  EXPECT_EQ(11, r.t());
-  EXPECT_EQ(16, r.b());
+  r.y() = -11;
+  EXPECT_EQ(vec2i(-7, -11), r.get_position());
+  EXPECT_EQ(-11, r.y());
 
   r.w() = 13;
   EXPECT_EQ(vec2ipz(13, 5), r.get_size());
   EXPECT_EQ(13, r.w());
-  EXPECT_EQ(20, r.r());
 
   r.h() = 17;
   EXPECT_EQ(vec2ipz(13, 17), r.get_size());
   EXPECT_EQ(17, r.h());
-  EXPECT_EQ(28, r.b());
 
   r.set_position(vec2i(2, 3));
   EXPECT_EQ(vec2i(2, 3), r.get_position());
   EXPECT_EQ(2, r.x());
   EXPECT_EQ(3, r.y());
-  EXPECT_EQ(2, r.l());
-  EXPECT_EQ(3, r.t());
 
   r.set_size(vec2i(9, 7));
   EXPECT_EQ(vec2ipz(9, 7), r.get_size());
   EXPECT_EQ(9, r.w());
   EXPECT_EQ(7, r.h());
+}
+
+
+
+TEST_F(test_rectangle, left)
+{
+  recti r(1, 2, 3, 4);
+  EXPECT_EQ(1, r.l());
+
+  r.x() = 5;
+  r.w() = 6;
+  EXPECT_EQ(5, r.l());
+
+  r.x() = -2;
+  r.w() = 6;
+  EXPECT_EQ(-2, r.l());
+
+  r.x() = -10;
+  r.w() = 5;
+  EXPECT_EQ(-10, r.l());
+
+  r.x() = 2;
+  r.w() = -5;
+  EXPECT_EQ(-3, r.l());
+
+  r.x() = -3;
+  r.w() = -5;
+  EXPECT_EQ(-8, r.l());
+}
+
+
+
+TEST_F(test_rectangle, right)
+{
+  recti r(1, 2, 3, 4);
+  EXPECT_EQ(4, r.r());
+
+  r.x() = 5;
+  r.w() = 6;
   EXPECT_EQ(11, r.r());
-  EXPECT_EQ(10, r.b());
+
+  r.x() = -2;
+  r.w() = 6;
+  EXPECT_EQ(4, r.r());
+
+  r.x() = -10;
+  r.w() = 5;
+  EXPECT_EQ(-5, r.r());
+
+  r.x() = 2;
+  r.w() = -5;
+  EXPECT_EQ(2, r.r());
+
+  r.x() = -3;
+  r.w() = -5;
+  EXPECT_EQ(-3, r.r());
+}
+
+
+
+TEST_F(test_rectangle, top)
+{
+  recti r(1, 2, 3, 4);
+  EXPECT_EQ(2, r.t());
+
+  r.y() = 5;
+  r.h() = 6;
+  EXPECT_EQ(5, r.t());
+
+  r.y() = -2;
+  r.h() = 6;
+  EXPECT_EQ(-2, r.t());
+
+  r.y() = -10;
+  r.h() = 5;
+  EXPECT_EQ(-10, r.t());
+
+  r.y() = 2;
+  r.h() = -5;
+  EXPECT_EQ(-3, r.t());
+
+  r.y() = -3;
+  r.h() = -5;
+  EXPECT_EQ(-8, r.t());
+}
+
+
+
+TEST_F(test_rectangle, bottom)
+{
+  recti r(1, 2, 3, 4);
+  EXPECT_EQ(6, r.b());
+
+  r.y() = 5;
+  r.h() = 6;
+  EXPECT_EQ(11, r.b());
+
+  r.y() = -2;
+  r.h() = 6;
+  EXPECT_EQ(4, r.b());
+
+  r.y() = -10;
+  r.h() = 5;
+  EXPECT_EQ(-5, r.b());
+
+  r.y() = 2;
+  r.h() = -5;
+  EXPECT_EQ(2, r.b());
+
+  r.y() = -3;
+  r.h() = -5;
+  EXPECT_EQ(-3, r.b());
 }
 
 

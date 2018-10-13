@@ -152,7 +152,7 @@ template <typename ScalPosT, typename ScalSizeT>
 constexpr typename rectangle<ScalPosT, ScalSizeT>::scalar_position_type
   rectangle<ScalPosT, ScalSizeT>::l() const noexcept
 {
-  return x();
+  return w() >= 0 ? x() : x() + static_cast<scalar_position_type>(w());
 }
 
 
@@ -161,7 +161,7 @@ template <typename ScalPosT, typename ScalSizeT>
 constexpr typename rectangle<ScalPosT, ScalSizeT>::scalar_position_type
   rectangle<ScalPosT, ScalSizeT>::t() const noexcept
 {
-  return y();
+  return h() >= 0 ? y() : y() + static_cast<scalar_position_type>(h());
 }
 
 
@@ -170,7 +170,7 @@ template <typename ScalPosT, typename ScalSizeT>
 constexpr typename rectangle<ScalPosT, ScalSizeT>::scalar_position_type
   rectangle<ScalPosT, ScalSizeT>::r() const noexcept
 {
-  return x() + w();
+  return w() <= 0 ? x() : x() + static_cast<scalar_position_type>(w());
 }
 
 
@@ -179,7 +179,7 @@ template <typename ScalPosT, typename ScalSizeT>
 constexpr typename rectangle<ScalPosT, ScalSizeT>::scalar_position_type
   rectangle<ScalPosT, ScalSizeT>::b() const noexcept
 {
-  return y() + h();
+  return h() <= 0 ? y() : y() + static_cast<scalar_position_type>(h());
 }
 
 
