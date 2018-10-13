@@ -32,7 +32,7 @@ TEST_F(test_vertex_format, vaf_span_constructor)
   };
   vertex_format vf(2u, 3u, vafs);
 
-  EXPECT_EQ(2, vf.get_offset());
+  EXPECT_EQ(2, vf.get_byte_offset());
   EXPECT_EQ(3u, vf.get_stride());
   EXPECT_EQ(vafs, vf.get_vertex_attrib_formats());
 }
@@ -46,7 +46,7 @@ TEST_F(test_vertex_format, vaf_span_constructor_attrib_limit)
     vertex_format::get_max_attrib_format_count(), vaf);
   vertex_format vf(2u, 3u, vafs);
 
-  EXPECT_EQ(2, vf.get_offset());
+  EXPECT_EQ(2, vf.get_byte_offset());
   EXPECT_EQ(3u, vf.get_stride());
   EXPECT_EQ(vafs, vf.get_vertex_attrib_formats());
 }
@@ -73,7 +73,7 @@ TEST_F(test_vertex_format, vaf_move_constructor)
   std::vector<vertex_attrib_format> vafs_ref = vafs;
   vertex_format vf(2u, 3u, std::move(vafs));
 
-  EXPECT_EQ(2, vf.get_offset());
+  EXPECT_EQ(2, vf.get_byte_offset());
   EXPECT_EQ(3u, vf.get_stride());
   EXPECT_EQ(vafs_ref, vf.get_vertex_attrib_formats());
 }
@@ -88,7 +88,7 @@ TEST_F(test_vertex_format, vaf_move_constructor_attrib_limit)
   std::vector<vertex_attrib_format> vafs_ref = vafs;
   vertex_format vf(2u, 3u, std::move(vafs));
 
-  EXPECT_EQ(2, vf.get_offset());
+  EXPECT_EQ(2, vf.get_byte_offset());
   EXPECT_EQ(3u, vf.get_stride());
   EXPECT_EQ(vafs_ref, vf.get_vertex_attrib_formats());
 }
@@ -143,7 +143,7 @@ TEST_F(test_vertex_format, output_stream_operator)
   };
   vertex_format vf(2, 3u, vafs);
   const char* out_ref
-    = "{offset = 2, stride = 3, vertex_attrib_formats = {{type = "
+    = "{byte_offset = 2, stride = 3, vertex_attrib_formats = {{type = "
       "float_decimal, element_count = 3, byte_offset = 12, must_be_normalized "
       "= false}, {type = float_decimal, element_count = 6, byte_offset = 24, "
       "must_be_normalized = true}}}";

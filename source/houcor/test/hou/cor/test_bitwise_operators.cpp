@@ -28,18 +28,7 @@ enum class flags : uint
 
 }  // namespace
 
-
-
-namespace hou
-{
-
-template <>
-struct enable_bitwise_operators<flags>
-{
-  static constexpr bool enable = true;
-};
-
-}  // namespace hou
+HOU_ENABLE_BITWISE_OPERATORS(flags);
 
 
 
@@ -205,4 +194,45 @@ TEST_F(test_bitwise_operators, check_any)
   EXPECT_TRUE(check_any(flags::all, flags::flag1));
   EXPECT_TRUE(check_any(flags::all, flags::flag2));
   EXPECT_TRUE(check_any(flags::all, flags::all));
+}
+
+
+
+TEST_F(test_bitwise_operators, stream_bitfield)
+{
+  std::vector<std::pair<flags, std::string>> values{
+    {flags::null, "none"},
+    {flags::flag0, "flag0"},
+    {flags::flag1, "flag1"},
+    {flags::flag2, "flag2"},
+    {flags::flag0 | flags::flag1, "flag1 | flag0"},
+    {flags::flag0 | flags::flag2, "flag2 | flag0"},
+    {flags::flag1 | flags::flag2, "flag2 | flag1"},
+    {flags::flag0 | flags::flag1 | flags::flag2, "flag2 | flag1 | flag0"},
+  };
+
+  for(const auto& kv : values)
+  {
+    std::stringstream ss;
+    stream_bitfield<flags>(ss, kv.first, [](std::ostream& os, flags bm) {
+      switch(bm)
+      {
+        case flags::null:
+          os << "none";
+          break;
+        case flags::flag0:
+          os << "flag0";
+          break;
+        case flags::flag1:
+          os << "flag1";
+          break;
+        case flags::flag2:
+          os << "flag2";
+          break;
+        case flags::all:
+          break;
+      }
+    });
+    EXPECT_EQ(kv.second, ss.str());
+  }
 }

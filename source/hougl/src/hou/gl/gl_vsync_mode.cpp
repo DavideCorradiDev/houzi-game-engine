@@ -4,6 +4,7 @@
 
 #include "hou/gl/gl_vsync_mode.hpp"
 
+#include "hou/cor/core_functions.hpp"
 #include "hou/gl/gl_missing_context_error.hpp"
 
 #include "SDL_video.h"
@@ -22,6 +23,7 @@ namespace gl
 
 vsync_mode get_vsync_mode()
 {
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
   return vsync_mode(SDL_GL_GetSwapInterval());
 }
 
@@ -43,8 +45,7 @@ std::ostream& operator<<(std::ostream& os, vsync_mode vsm)
     VSYNC_MODE_CASE(disabled, os);
     VSYNC_MODE_CASE(enabled, os);
   }
-  HOU_UNREACHABLE();
-  return os;
+  return STREAM_VALUE(os, vsync_mode, vsm);
 }
 
 }  // namespace gl

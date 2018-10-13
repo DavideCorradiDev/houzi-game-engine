@@ -85,7 +85,41 @@ constexpr bool container_close(InputIt1 begin1, InputIt1 end1, InputIt2 begin2,
 template <typename Iterator>
 std::ostream& container_stream(std::ostream& os, Iterator begin, Iterator end);
 
+/**
+ * Outputs a value with a consistent format type_name(value).
+ *
+ * This function is mainly used as an internal utility in printing functions.
+ *
+ * \tparam T the type.
+ *
+ * \param os the output stream.
+ *
+ * \param type_name the type name to be printed.
+ *
+ * \param value the value.
+ *
+ * \return a reference to os.
+ */
+template <typename T>
+std::ostream& stream_value(
+  std::ostream& os, const std::string& type_name, T value);
+
 }  // namespace hou
+
+
+
+/**
+ * This macro is a wrapper around stream_value ensuring that the
+ * printed type name is the same as the actual type name.
+ *
+ * \param os the output stream.
+ *
+ * \param type_name the type.
+ *
+ * \param value the value.
+ */
+#define STREAM_VALUE(os, type, value)                                          \
+  ::hou::stream_value<type>(os, #type, value)
 
 
 

@@ -56,12 +56,12 @@ TEST_F(test_keys, output_stream_operator)
   EXPECT_OUTPUT("caps", modifier_keys::caps);
   EXPECT_OUTPUT("mode", modifier_keys::mode);
 
-  EXPECT_OUTPUT("lalt | ralt", modifier_keys::alt);
-  EXPECT_OUTPUT("lctrl | rctrl", modifier_keys::ctrl);
-  EXPECT_OUTPUT("lshift | rshift", modifier_keys::shift);
-  EXPECT_OUTPUT("lsystem | rsystem", modifier_keys::system);
+  EXPECT_OUTPUT("ralt | lalt", modifier_keys::alt);
+  EXPECT_OUTPUT("rctrl | lctrl", modifier_keys::ctrl);
+  EXPECT_OUTPUT("rshift | lshift", modifier_keys::shift);
+  EXPECT_OUTPUT("rsystem | lsystem", modifier_keys::system);
 
-  EXPECT_OUTPUT("lalt | ralt", modifier_keys::lalt | modifier_keys::ralt);
+  EXPECT_OUTPUT("ralt | lalt", modifier_keys::lalt | modifier_keys::ralt);
   EXPECT_OUTPUT("lalt | rctrl", modifier_keys::lalt | modifier_keys::rctrl);
   EXPECT_OUTPUT("lalt | rctrl | lshift",
     modifier_keys::lalt | modifier_keys::rctrl | modifier_keys::lshift);

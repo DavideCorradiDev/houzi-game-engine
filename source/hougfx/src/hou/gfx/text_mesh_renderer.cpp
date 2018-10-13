@@ -1,4 +1,4 @@
-#include "hou/gfx/text_shader_program.hpp"
+#include "hou/gfx/text_mesh_renderer.hpp"
 
 #include "hou/gfx/font.hpp"
 #include "hou/gfx/formatted_text.hpp"
@@ -71,7 +71,7 @@ std::string get_gl_fragment_shader_source()
 
 
 
-text_shader_program::text_shader_program()
+text_mesh_renderer::text_mesh_renderer()
   : shader_program(vertex_shader(get_gl_vertex_shader_source()),
       fragment_shader(get_gl_fragment_shader_source()))
   , m_uni_color(get_uniform_location(UNI_COLOR))
@@ -81,7 +81,7 @@ text_shader_program::text_shader_program()
 
 
 
-void text_shader_program::set_color(const color& color)
+void text_mesh_renderer::set_color(const color& color)
 {
   gl::set_program_uniform_f(get_handle(), m_uni_color, color.get_red_f(),
     color.get_green_f(), color.get_blue_f(), color.get_alpha_f());
@@ -89,14 +89,14 @@ void text_shader_program::set_color(const color& color)
 
 
 
-void text_shader_program::set_texture_unit(uint unit)
+void text_mesh_renderer::set_texture_unit(uint unit)
 {
   gl::set_program_uniform_i(get_handle(), m_uni_texture, unit);
 }
 
 
 
-void text_shader_program::set_transform(const trans2f& trans)
+void text_mesh_renderer::set_transform(const trans2f& trans)
 {
   gl::set_program_uniform_mat4x4f(
     get_handle(), m_uni_transform, 1u, GL_TRUE, trans.to_mat4x4().data());
@@ -104,7 +104,7 @@ void text_shader_program::set_transform(const trans2f& trans)
 
 
 
-void text_shader_program::draw(render_surface& target, const text_mesh& m,
+void text_mesh_renderer::draw(render_surface& target, const text_mesh& m,
   const texture2_array& tex, const color& col, const trans2f& trn)
 {
   static constexpr uint texUnit = 0u;
@@ -119,7 +119,7 @@ void text_shader_program::draw(render_surface& target, const text_mesh& m,
 
 
 
-void text_shader_program::draw(render_surface& target,
+void text_mesh_renderer::draw(render_surface& target,
   const formatted_text& text, const color& col, const trans2f& trn)
 {
   draw(target, text.get_mesh(), text.get_atlas(), col, trn);
@@ -127,7 +127,7 @@ void text_shader_program::draw(render_surface& target,
 
 
 
-void text_shader_program::draw(render_surface& target, const std::string& text,
+void text_mesh_renderer::draw(render_surface& target, const std::string& text,
   const font& f, const color& col, const trans2f& trn)
 {
   draw(target, formatted_text(text, f), col, trn);

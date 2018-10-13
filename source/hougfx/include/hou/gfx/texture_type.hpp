@@ -7,7 +7,8 @@
 
 #include "hou/gfx/gfx_config.hpp"
 
-#include "hou/cor/exception.hpp"
+#include "hou/cor/cor_exceptions.hpp"
+#include "hou/cor/narrow_cast.hpp"
 
 #include "hou/gl/open_gl.hpp"
 

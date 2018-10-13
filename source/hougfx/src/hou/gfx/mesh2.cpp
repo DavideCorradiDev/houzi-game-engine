@@ -15,12 +15,12 @@ namespace hou
 namespace
 {
 
-mesh2 create_generic_rectangle_mesh2(
+mesh2 generic_rectangle_mesh2(
   float l, float t, float w, float h, float tl, float tt, float tw, float th);
 
 
 
-mesh2 create_generic_rectangle_mesh2(
+mesh2 generic_rectangle_mesh2(
   float l, float t, float w, float h, float tl, float tt, float tw, float th)
 {
   float r = l + w;
@@ -38,15 +38,15 @@ mesh2 create_generic_rectangle_mesh2(
 
 
 
-mesh2 create_rectangle_mesh2(const vec2f& size)
+mesh2 rectangle_mesh2(const vec2f& size)
 {
-  return create_generic_rectangle_mesh2(
+  return generic_rectangle_mesh2(
     0.f, 0.f, size.x(), size.y(), 0.f, 0.f, 1.f, 1.f);
 }
 
 
 
-mesh2 create_rectangle_outline_mesh2(const vec2f& size, float thickness)
+mesh2 rectangle_outline_mesh2(const vec2f& size, float thickness)
 {
   rectf er(vec2f::zero(), size);
   vec2f tv(thickness, thickness);
@@ -67,7 +67,7 @@ mesh2 create_rectangle_outline_mesh2(const vec2f& size, float thickness)
 
 
 
-mesh2 create_ellipse_mesh2(const vec2f& size, uint point_count)
+mesh2 ellipse_mesh2(const vec2f& size, uint point_count)
 {
   vec2f radius = size / 2.f;
 
@@ -89,7 +89,7 @@ mesh2 create_ellipse_mesh2(const vec2f& size, uint point_count)
 
 
 
-mesh2 create_ellipse_outline_mesh2(
+mesh2 ellipse_outline_mesh2(
   const vec2f& size, uint point_count, float thickness)
 {
   vec2f e_radius = size / 2.f;
@@ -120,11 +120,11 @@ mesh2 create_ellipse_outline_mesh2(
 
 
 
-mesh2 create_texture_quad_mesh2(const rectf& rect, const vec2f& tex_size)
+mesh2 texture_quad_mesh2(const rectf& rect, const vec2f& tex_size)
 {
-  return create_generic_rectangle_mesh2(0.f, 0.f, rect.w(), rect.h(),
+  return generic_rectangle_mesh2(0.f, 0.f, rect.w(), rect.h(),
     rect.x() / tex_size.x(), rect.y() / tex_size.y(), rect.w() / tex_size.x(),
     rect.h() / tex_size.y());
 }
 
-}
+}  // namespace hou

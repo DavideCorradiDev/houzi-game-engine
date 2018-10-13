@@ -55,10 +55,9 @@ GLenum to_get_gl_enum(GLenum target)
       break;
     case GL_ELEMENT_ARRAY_BUFFER:
       return GL_ELEMENT_ARRAY_BUFFER_BINDING;
-    default:
-      HOU_UNREACHABLE();
-      return 0u;
   }
+  HOU_ERROR_N(invalid_enum, narrow_cast<int>(target));
+  return 0u;
 }
 
 #if defined(HOU_GL_ES)

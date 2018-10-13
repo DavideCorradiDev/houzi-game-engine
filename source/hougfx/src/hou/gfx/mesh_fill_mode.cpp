@@ -4,7 +4,7 @@
 
 #include "hou/gfx/mesh_fill_mode.hpp"
 
-#include "hou/cor/exception.hpp"
+#include "hou/cor/core_functions.hpp"
 
 #define MESH_FILL_MODE_CASE(mfm, os) \
   case mesh_fill_mode::mfm: \
@@ -22,10 +22,8 @@ std::ostream& operator<<(std::ostream& os, mesh_fill_mode mfm)
     MESH_FILL_MODE_CASE(point, os);
     MESH_FILL_MODE_CASE(line, os);
     MESH_FILL_MODE_CASE(fill, os);
-    default:
-      HOU_UNREACHABLE();
-      return os;
   }
+  return STREAM_VALUE(os, mesh_fill_mode, mfm);
 }
 
 }  // namespace hou

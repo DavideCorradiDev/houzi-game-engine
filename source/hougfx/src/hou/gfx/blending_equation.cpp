@@ -4,7 +4,7 @@
 
 #include "hou/gfx/blending_equation.hpp"
 
-#include "hou/cor/exception.hpp"
+#include "hou/cor/core_functions.hpp"
 
 #define BLENDING_EQUATION_CASE(be, os)                                         \
   case blending_equation::be:                                                  \
@@ -25,8 +25,7 @@ std::ostream& operator<<(std::ostream& os, blending_equation be)
     BLENDING_EQUATION_CASE(min, os);
     BLENDING_EQUATION_CASE(max, os);
   }
-  HOU_UNREACHABLE();
-  return os;
+  return STREAM_VALUE(os, blending_equation, be);
 }
 
 }  // namespace hou

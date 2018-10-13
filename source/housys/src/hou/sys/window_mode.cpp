@@ -4,7 +4,7 @@
 
 #include "hou/sys/window_mode.hpp"
 
-#include "hou/cor/exception.hpp"
+#include "hou/cor/core_functions.hpp"
 
 #define WINDOW_MODE_CASE(ws, os)                                               \
   case window_mode::ws:                                                        \
@@ -23,8 +23,7 @@ std::ostream& operator<<(std::ostream& os, window_mode wm)
     WINDOW_MODE_CASE(fullscreen, os);
     WINDOW_MODE_CASE(desktop_fullscreen, os);
   }
-  HOU_UNREACHABLE();
-  return os;
+  return STREAM_VALUE(os, window_mode, wm);
 }
 
 }  // namespace hou

@@ -6,7 +6,7 @@
 
 #include "hou/sys/scan_code.hpp"
 
-#include "hou/cor/exception.hpp"
+#include "hou/cor/core_functions.hpp"
 
 #define KEY_CODE_CASE(kc, os)                                                  \
   case key_code::kc:                                                           \
@@ -218,13 +218,8 @@ std::ostream& operator<<(std::ostream& os, key_code kc)
     KEY_CODE_CASE(question_mark, os);
     KEY_CODE_CASE(double_quote, os);
     KEY_CODE_CASE(underscore, os);
-
-    default:
-      return os << "key_code("
-                << static_cast<std::underlying_type<key_code>::type>(kc) << ")";
   }
-  HOU_UNREACHABLE();
-  return os;
+  return STREAM_VALUE(os, key_code, kc);
 }
 
 

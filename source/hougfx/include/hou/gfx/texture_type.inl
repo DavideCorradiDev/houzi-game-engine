@@ -17,7 +17,7 @@ constexpr size_t get_texture_type_dimension_count(texture_type t) noexcept
     case texture_type::multisampled_texture2_array:
       return 3u;
   }
-  HOU_UNREACHABLE();
+  HOU_ERROR_N(invalid_enum, narrow_cast<int>(t));
   return 1u;
 }
 

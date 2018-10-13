@@ -4,6 +4,7 @@
 
 #include "hou/test.hpp"
 
+#include "hou/cor/bitwise_operators.hpp"
 #include "hou/cor/core_functions.hpp"
 
 using namespace hou;
@@ -69,4 +70,39 @@ TEST_F(test_core_functions, double_close)
   EXPECT_TRUE(close(f1, f2, 1e-2));
   EXPECT_TRUE(close(f1, f3, 1e-2));
   EXPECT_TRUE(close(f1, f4, 1e-2));
+}
+
+
+
+TEST_F(test_core_functions, stream_value)
+{
+  enum class my_enum_class
+  {
+    val1 = 12,
+    val2 = 14,
+  };
+
+  {
+    std::stringstream ss;
+    stream_value(ss, "my_enum_class", my_enum_class::val1);
+    EXPECT_EQ("my_enum_class(12)", ss.str());
+  }
+
+  {
+    std::stringstream ss;
+    stream_value(ss, "my_enum_class", my_enum_class::val2);
+    EXPECT_EQ("my_enum_class(14)", ss.str());
+  }
+
+  {
+    std::stringstream ss;
+    STREAM_VALUE(ss, my_enum_class, my_enum_class::val1);
+    EXPECT_EQ("my_enum_class(12)", ss.str());
+  }
+
+  {
+    std::stringstream ss;
+    STREAM_VALUE(ss, my_enum_class, my_enum_class::val2);
+    EXPECT_EQ("my_enum_class(14)", ss.str());
+  }
 }

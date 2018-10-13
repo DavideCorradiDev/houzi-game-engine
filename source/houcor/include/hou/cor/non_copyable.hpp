@@ -21,16 +21,24 @@ class non_copyable
 {
 public:
   /**
-   * default constructor
+   * Default constructor
    */
-  non_copyable() noexcept
-  {}
+  non_copyable() noexcept = default;
 
   /**
    * Destructor
    */
-  virtual ~non_copyable()
-  {}
+  ~non_copyable() = default;
+
+  /**
+   * Move constructor
+   */
+  non_copyable(non_copyable&&) noexcept = default;
+
+  /**
+   * Move assignment operator.
+   */
+  non_copyable& operator=(non_copyable&&) = default;
 
   /**
    * Deleted copy constructor
@@ -38,19 +46,9 @@ public:
   non_copyable(const non_copyable&) = delete;
 
   /**
-   * Defaulted move constructor
-   */
-  non_copyable(non_copyable&&) = default;
-
-  /**
    * Deleted copy assignment operator.
    */
   non_copyable& operator=(const non_copyable&) = delete;
-
-  /**
-   * Defaulted move assignment operator.
-   */
-  non_copyable& operator=(non_copyable&&) = default;
 };
 
 }  // namespace hou

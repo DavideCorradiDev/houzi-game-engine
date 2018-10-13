@@ -4,6 +4,8 @@
 
 #include "hou/aud/sound_distance_model.hpp"
 
+#include "hou/cor/core_functions.hpp"
+
 #define SOUND_DISTANCE_MODEL_CASE(dm, os) \
   case sound_distance_model::dm: \
     return (os) << #dm
@@ -23,9 +25,8 @@ std::ostream& operator<<(std::ostream& os, sound_distance_model dm)
     SOUND_DISTANCE_MODEL_CASE(linear_distance_clamped, os);
     SOUND_DISTANCE_MODEL_CASE(exponent_distance, os);
     SOUND_DISTANCE_MODEL_CASE(exponent_distance_clamped, os);
-    default:
-      return os;
   }
+  return STREAM_VALUE(os, sound_distance_model, dm);
 }
 
 }  // namespace hou
