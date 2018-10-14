@@ -44,6 +44,13 @@ void file::close()
 
 
 
+bool file::is_open() const noexcept
+{
+  return m_handle.is_open();
+}
+
+
+
 bool file::eof() const noexcept
 {
   return m_eof;

@@ -34,6 +34,16 @@ file_handle::file_handle(file_handle&& other) noexcept
 
 
 
+file_handle::~file_handle()
+{
+  if(m_file != nullptr)
+  {
+    close();
+  }
+}
+
+
+
 void file_handle::close()
 {
   HOU_CHECK_0(fflush(m_file) != EOF, write_error);
@@ -43,12 +53,9 @@ void file_handle::close()
 
 
 
-file_handle::~file_handle()
+bool file_handle::is_open() const noexcept
 {
-  if(m_file != nullptr)
-  {
-    close();
-  }
+  return m_file != nullptr;
 }
 
 

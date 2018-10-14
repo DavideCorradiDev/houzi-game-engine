@@ -5,169 +5,188 @@
 namespace hou
 {
 
-template <typename T>
-constexpr rectangle<T>::rectangle() noexcept
+template <typename ScalPosT, typename ScalSizeT>
+constexpr rectangle<ScalPosT, ScalSizeT>::rectangle() noexcept
   : m_position()
   , m_size()
 {}
 
 
 
-template <typename T>
-constexpr rectangle<T>::rectangle(
-  const vec2<T>& position, const vec2<T>& size) noexcept
+template <typename ScalPosT, typename ScalSizeT>
+constexpr rectangle<ScalPosT, ScalSizeT>::rectangle(
+  const position_type& position, const size_type& size) noexcept
   : m_position(position)
   , m_size(size)
 {}
 
 
 
-template <typename T>
-constexpr rectangle<T>::rectangle(T x, T y, T w, T h) noexcept
-  : rectangle(vec2<T>(x, y), vec2<T>(w, h))
+template <typename ScalPosT, typename ScalSizeT>
+constexpr rectangle<ScalPosT, ScalSizeT>::rectangle(scalar_position_type x,
+  scalar_position_type y, scalar_size_type w, scalar_size_type h) noexcept
+  : rectangle(position_type(x, y), size_type(w, h))
 {}
 
 
 
-template <typename T>
-template <typename U, typename Enable>
-constexpr rectangle<T>::rectangle(const rectangle<U>& other) noexcept
-  : rectangle<T>(vec2<T>(other.get_position()), vec2<T>(other.get_size()))
+template <typename ScalPosT, typename ScalSizeT>
+template <typename OtherScalPosT, typename OtherScalSizeT, typename Enable>
+constexpr rectangle<ScalPosT, ScalSizeT>::rectangle(
+  const rectangle<OtherScalPosT, OtherScalSizeT>& other) noexcept
+  : rectangle<ScalPosT, ScalSizeT>(
+      position_type(other.get_position()), size_type(other.get_size()))
 {}
 
 
 
-template <typename T>
-constexpr const vec2<T>& rectangle<T>::get_position() const noexcept
+template <typename ScalPosT, typename ScalSizeT>
+constexpr const typename rectangle<ScalPosT, ScalSizeT>::position_type&
+  rectangle<ScalPosT, ScalSizeT>::get_position() const noexcept
 {
   return m_position;
 }
 
 
 
-template <typename T>
-constexpr void rectangle<T>::set_position(const vec2<T>& value) noexcept
+template <typename ScalPosT, typename ScalSizeT>
+constexpr void rectangle<ScalPosT, ScalSizeT>::set_position(
+  const position_type& value) noexcept
 {
   m_position = value;
 }
 
 
 
-template <typename T>
-constexpr const vec2<T>& rectangle<T>::get_size() const noexcept
+template <typename ScalPosT, typename ScalSizeT>
+constexpr const typename rectangle<ScalPosT, ScalSizeT>::size_type&
+  rectangle<ScalPosT, ScalSizeT>::get_size() const noexcept
 {
   return m_size;
 }
 
 
 
-template <typename T>
-constexpr void rectangle<T>::set_size(const vec2<T>& value) noexcept
+template <typename ScalPosT, typename ScalSizeT>
+constexpr void rectangle<ScalPosT, ScalSizeT>::set_size(
+  const size_type& value) noexcept
 {
   m_size = value;
 }
 
 
 
-template <typename T>
-constexpr T rectangle<T>::x() const noexcept
+template <typename ScalPosT, typename ScalSizeT>
+constexpr typename rectangle<ScalPosT, ScalSizeT>::scalar_position_type
+  rectangle<ScalPosT, ScalSizeT>::x() const noexcept
 {
   return m_position.x();
 }
 
 
 
-template <typename T>
-constexpr T& rectangle<T>::x() noexcept
+template <typename ScalPosT, typename ScalSizeT>
+constexpr typename rectangle<ScalPosT, ScalSizeT>::scalar_position_type&
+  rectangle<ScalPosT, ScalSizeT>::x() noexcept
 {
   return m_position.x();
 }
 
 
 
-template <typename T>
-constexpr T rectangle<T>::y() const noexcept
+template <typename ScalPosT, typename ScalSizeT>
+constexpr typename rectangle<ScalPosT, ScalSizeT>::scalar_position_type
+  rectangle<ScalPosT, ScalSizeT>::y() const noexcept
 {
   return m_position.y();
 }
 
 
 
-template <typename T>
-constexpr T& rectangle<T>::y() noexcept
+template <typename ScalPosT, typename ScalSizeT>
+constexpr typename rectangle<ScalPosT, ScalSizeT>::scalar_position_type&
+  rectangle<ScalPosT, ScalSizeT>::y() noexcept
 {
   return m_position.y();
 }
 
 
 
-template <typename T>
-constexpr T rectangle<T>::w() const noexcept
+template <typename ScalPosT, typename ScalSizeT>
+constexpr typename rectangle<ScalPosT, ScalSizeT>::scalar_size_type
+  rectangle<ScalPosT, ScalSizeT>::w() const noexcept
 {
   return m_size.x();
 }
 
 
 
-template <typename T>
-constexpr T& rectangle<T>::w() noexcept
+template <typename ScalPosT, typename ScalSizeT>
+constexpr typename rectangle<ScalPosT, ScalSizeT>::scalar_size_type&
+  rectangle<ScalPosT, ScalSizeT>::w() noexcept
 {
   return m_size.x();
 }
 
 
 
-template <typename T>
-constexpr T rectangle<T>::h() const noexcept
+template <typename ScalPosT, typename ScalSizeT>
+constexpr typename rectangle<ScalPosT, ScalSizeT>::scalar_size_type
+  rectangle<ScalPosT, ScalSizeT>::h() const noexcept
 {
   return m_size.y();
 }
 
 
 
-template <typename T>
-constexpr T& rectangle<T>::h() noexcept
+template <typename ScalPosT, typename ScalSizeT>
+constexpr typename rectangle<ScalPosT, ScalSizeT>::scalar_size_type&
+  rectangle<ScalPosT, ScalSizeT>::h() noexcept
 {
   return m_size.y();
 }
 
 
 
-template <typename T>
-constexpr T rectangle<T>::l() const noexcept
+template <typename ScalPosT, typename ScalSizeT>
+constexpr typename rectangle<ScalPosT, ScalSizeT>::scalar_position_type
+  rectangle<ScalPosT, ScalSizeT>::l() const noexcept
 {
-  return x();
+  return w() >= 0 ? x() : x() + static_cast<scalar_position_type>(w());
 }
 
 
 
-template <typename T>
-constexpr T rectangle<T>::t() const noexcept
+template <typename ScalPosT, typename ScalSizeT>
+constexpr typename rectangle<ScalPosT, ScalSizeT>::scalar_position_type
+  rectangle<ScalPosT, ScalSizeT>::t() const noexcept
 {
-  return y();
+  return h() >= 0 ? y() : y() + static_cast<scalar_position_type>(h());
 }
 
 
 
-template <typename T>
-constexpr T rectangle<T>::r() const noexcept
+template <typename ScalPosT, typename ScalSizeT>
+constexpr typename rectangle<ScalPosT, ScalSizeT>::scalar_position_type
+  rectangle<ScalPosT, ScalSizeT>::r() const noexcept
 {
-  return x() + w();
+  return w() <= 0 ? x() : x() + static_cast<scalar_position_type>(w());
 }
 
 
 
-template <typename T>
-constexpr T rectangle<T>::b() const noexcept
+template <typename ScalPosT, typename ScalSizeT>
+constexpr typename rectangle<ScalPosT, ScalSizeT>::scalar_position_type
+  rectangle<ScalPosT, ScalSizeT>::b() const noexcept
 {
-  return y() + h();
+  return h() <= 0 ? y() : y() + static_cast<scalar_position_type>(h());
 }
 
 
 
-template <typename T>
-constexpr bool operator==(
-  const rectangle<T>& lhs, const rectangle<T>& rhs) noexcept
+template <typename ScalPosT, typename ScalSizeT>
+constexpr bool operator==(const rectangle<ScalPosT, ScalSizeT>& lhs,
+  const rectangle<ScalPosT, ScalSizeT>& rhs) noexcept
 {
   return lhs.get_position() == rhs.get_position()
     && lhs.get_size() == rhs.get_size();
@@ -175,27 +194,38 @@ constexpr bool operator==(
 
 
 
-template <typename T>
-constexpr bool operator!=(
-  const rectangle<T>& lhs, const rectangle<T>& rhs) noexcept
+template <typename ScalPosT, typename ScalSizeT>
+constexpr bool operator!=(const rectangle<ScalPosT, ScalSizeT>& lhs,
+  const rectangle<ScalPosT, ScalSizeT>& rhs) noexcept
 {
   return !(lhs == rhs);
 }
 
 
 
-template <typename T>
-constexpr bool close(
-  const rectangle<T>& lhs, const rectangle<T>& rhs, T acc) noexcept
+template <typename ScalPosT, typename ScalSizeT>
+constexpr bool close(const rectangle<ScalPosT, ScalSizeT>& lhs,
+  const rectangle<ScalPosT, ScalSizeT>& rhs, ScalPosT posAcc,
+  ScalSizeT sizeAcc) noexcept
 {
-  return close(lhs.get_position(), rhs.get_position(), acc)
-    && close(lhs.get_size(), rhs.get_size(), acc);
+  return close(lhs.get_position(), rhs.get_position(), posAcc)
+    && close(lhs.get_size(), rhs.get_size(), sizeAcc);
 }
 
 
 
 template <typename T>
-std::ostream& operator<<(std::ostream& os, const rectangle<T>& rect)
+constexpr bool close(
+  const rectangle<T, T>& lhs, const rectangle<T, T>& rhs, T acc) noexcept
+{
+  return close(lhs, rhs, acc, acc);
+}
+
+
+
+template <typename ScalPosT, typename ScalSizeT>
+std::ostream& operator<<(
+  std::ostream& os, const rectangle<ScalPosT, ScalSizeT>& rect)
 {
   return os << "{position = " << transpose(rect.get_position())
             << ", size = " << transpose(rect.get_size()) << "}";
@@ -203,9 +233,9 @@ std::ostream& operator<<(std::ostream& os, const rectangle<T>& rect)
 
 
 
-template <typename T>
-constexpr bool is_point_in_rectangle(
-  const rectangle<T>& r, const vec2<T>& p) noexcept
+template <typename ScalPosT, typename ScalSizeT>
+constexpr bool is_point_in_rectangle(const rectangle<ScalPosT, ScalSizeT>& r,
+  const typename rectangle<ScalPosT, ScalSizeT>::position_type& p) noexcept
 {
   return p.x() >= r.l() && p.x() <= r.r() && p.y() >= r.t() && p.y() <= r.b();
 }

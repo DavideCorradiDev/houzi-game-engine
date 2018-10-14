@@ -163,10 +163,14 @@ void blit(const framebuffer& src, const recti& src_rect, framebuffer& dst,
     || (std::abs(src_rect.w()) == std::abs(dst_rect.w())
          && std::abs(src_rect.h()) == std::abs(src_rect.h())));
 
-  gl::blit_framebuffer(src.get_handle(), dst.get_handle(), src_rect.l(),
-    src_rect.t(), src_rect.r(), src_rect.b(), dst_rect.l(), dst_rect.t(),
-    dst_rect.r(), dst_rect.b(), static_cast<GLbitfield>(mask),
-    static_cast<GLenum>(filter));
+  // clang-format off
+  gl::blit_framebuffer(src.get_handle(), dst.get_handle(),
+    src_rect.x(), src_rect.y(),
+    src_rect.x() + src_rect.w(), src_rect.y() + src_rect.h(),
+    dst_rect.x(), dst_rect.y(),
+    dst_rect.x() + dst_rect.w(), dst_rect.y() + dst_rect.h(),
+    static_cast<GLbitfield>(mask), static_cast<GLenum>(filter));
+  // clang-format on
 }
 
 }  // namespace hou

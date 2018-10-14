@@ -70,21 +70,17 @@ void test_color_blit(texture_format src_format,
 
     // Compute the size of the area that was blit to.
     vec2u sub_image_size;
-    int left = std::min(dst_rect.l(), dst_rect.r());
-    int right = std::max(dst_rect.l(), dst_rect.r());
-    int top = std::min(dst_rect.t(), dst_rect.b());
-    int bottom = std::max(dst_rect.t(), dst_rect.b());
-    sub_image_size.x() = static_cast<int>(dst_size.x()) >= right
+    sub_image_size.x() = static_cast<int>(dst_size.x()) >= dst_rect.r()
       ? std::abs(dst_rect.w())
-      : static_cast<int>(dst_size.x()) - left;
-    sub_image_size.y() = static_cast<int>(dst_size.y()) >= bottom
+      : static_cast<int>(dst_size.x()) - dst_rect.l();
+    sub_image_size.y() = static_cast<int>(dst_size.y()) >= dst_rect.b()
       ? std::abs(dst_rect.h())
-      : static_cast<int>(dst_size.y()) - top;
+      : static_cast<int>(dst_size.y()) - dst_rect.t();
 
     DstTexType ref_tex(dst_tex.get_size(), dst_format);
     image2_rgba sub_image_ref(
       sub_image_size, pixel_rgba(src_value, src_value, src_value, src_value));
-    ref_tex.set_sub_image(vec2i(left, top), sub_image_ref);
+    ref_tex.set_sub_image(vec2i(dst_rect.l(), dst_rect.t()), sub_image_ref);
 
     // Check if the blit was executed as expected
     EXPECT_EQ(ref_tex.get_pixels(), dst_tex.get_pixels());

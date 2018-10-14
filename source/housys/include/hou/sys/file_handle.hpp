@@ -46,6 +46,11 @@ public:
   file_handle(file_handle&& other) noexcept;
 
   /**
+   * Destructor.
+   */
+  ~file_handle();
+
+  /**
    * Closes the file.
    *
    * It is not necessary to explicitly close the file, as it will be done by
@@ -59,9 +64,11 @@ public:
   void close();
 
   /**
-   * Destructor.
+   * Checks if the file is open.
+   *
+   * \return true if the file is open.
    */
-  ~file_handle();
+  bool is_open() const noexcept;
 
   /**
    * Conversion to FILE*.

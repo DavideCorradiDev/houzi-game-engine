@@ -48,6 +48,13 @@ public:
   void close();
 
   /**
+   * Checks if the file is open.
+   *
+   * \return true if the file is open.
+   */
+  bool is_open() const noexcept;
+
+  /**
    * Checks the end of file indicator.
    *
    * \return true if the end of file indicator is set.
