@@ -61,6 +61,7 @@ TEST_F(test_file_handle, path_constructor)
 {
   file_handle f(filename, file_open_mode::read, file_type::binary);
   EXPECT_NE(nullptr, static_cast<FILE*>(f));
+  EXPECT_TRUE(f.is_open());
 }
 
 
@@ -81,7 +82,9 @@ TEST_F(test_file_handle, move_constructor)
   FILE* file_ref = static_cast<FILE*>(f_dummy);
   file_handle f(std::move(f_dummy));
   EXPECT_EQ(file_ref, static_cast<FILE*>(f));
+  EXPECT_TRUE(f.is_open());
   EXPECT_EQ(nullptr, static_cast<FILE*>(f_dummy));
+  EXPECT_FALSE(f_dummy.is_open());
 }
 
 
@@ -90,8 +93,10 @@ TEST_F(test_file_handle, close)
 {
   file_handle f(filename, file_open_mode::read, file_type::binary);
   EXPECT_NE(nullptr, static_cast<FILE*>(f));
+  EXPECT_TRUE(f.is_open());
   f.close();
   EXPECT_EQ(nullptr, static_cast<FILE*>(f));
+  EXPECT_FALSE(f.is_open());
 }
 
 

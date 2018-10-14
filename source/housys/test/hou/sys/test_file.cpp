@@ -77,6 +77,7 @@ TEST_F(test_file, creation)
   file f(filename, file_open_mode::read, file_type::binary);
   EXPECT_FALSE(f.eof());
   EXPECT_FALSE(f.error());
+  EXPECT_TRUE(f.is_open());
   EXPECT_EQ(file_content.size(), f.get_byte_count());
   EXPECT_EQ(0, f.tell());
   std::string content(f.get_byte_count(), 0);
@@ -101,6 +102,8 @@ TEST_F(test_file, move_constructor)
   file f(std::move(f_dummy));
   EXPECT_FALSE(f.eof());
   EXPECT_FALSE(f.error());
+  EXPECT_TRUE(f.is_open());
+  EXPECT_FALSE(f_dummy.is_open());
   EXPECT_EQ(file_content.size(), f.get_byte_count());
   EXPECT_EQ(0, f.tell());
   std::string content(f.get_byte_count(), 0);
@@ -113,8 +116,9 @@ TEST_F(test_file, move_constructor)
 TEST_F(test_file, close)
 {
   file f(filename, file_open_mode::read, file_type::binary);
+  EXPECT_TRUE(f.is_open());
   f.close();
-  SUCCEED();
+  EXPECT_FALSE(f.is_open());
 }
 
 
