@@ -64,17 +64,20 @@ public:
   const audio_buffer* get_buffer() const;
 
   // audio_source overrides.
-  audio_buffer_format get_format() const final;
-  uint get_channel_count() const final;
-  uint get_bytes_per_sample() const final;
-  uint get_sample_rate() const final;
-  uint get_sample_count() const final;
+  bool is_valid() const final;
   void set_looping(bool looping) final;
   bool is_looping() const final;
 
 private:
   void on_set_sample_pos(uint pos) final;
   uint on_get_sample_pos() const final;
+
+  // audio_source overrides.
+  audio_buffer_format get_format_internal() const final;
+  uint get_channel_count_internal() const final;
+  uint get_bytes_per_sample_internal() const final;
+  uint get_sample_rate_internal() const final;
+  uint get_sample_count_internal() const final;
 
 private:
   const audio_buffer* m_buffer_ref;

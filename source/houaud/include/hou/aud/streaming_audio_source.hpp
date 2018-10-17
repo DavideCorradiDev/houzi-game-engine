@@ -11,8 +11,6 @@
 
 #include "hou/aud/aud_config.hpp"
 
-#include "hou/cor/not_null.hpp"
-
 #include <atomic>
 #include <memory>
 #include <mutex>
@@ -57,13 +55,6 @@ class HOU_AUD_API streaming_audio_source final : public audio_source
 {
 public:
   /**
-   * Default constructor.
-   *
-   * Creates a streaming_audio_source object with an EmptyStream.
-   */
-  streaming_audio_source();
-
-  /**
    * Stream constructor.
    *
    * Creates a streaming_audio_source object with the given audio stream,
@@ -72,7 +63,7 @@ public:
    * \param as the audio stream.
    */
   explicit streaming_audio_source(
-    not_null<std::unique_ptr<audio_stream_in>> as);
+    std::unique_ptr<audio_stream_in> as = nullptr);
 
   // It is not trivial to move the object because it internally spawns a thread
   // which uses a pointer to this object. Moving the object would invalidate
@@ -89,7 +80,7 @@ public:
    *
    * \param as the stream.
    */
-  void set_stream(not_null<std::unique_ptr<audio_stream_in>> as);
+  void set_stream(std::unique_ptr<audio_stream_in> as = nullptr);
 
   /**
    * Sets the number of buffers in the buffer queue.
@@ -122,11 +113,7 @@ public:
   size_t get_buffer_sample_count() const;
 
   // audio_source overrides.
-  audio_buffer_format get_format() const final;
-  uint get_channel_count() const final;
-  uint get_bytes_per_sample() const final;
-  uint get_sample_rate() const final;
-  uint get_sample_count() const final;
+  bool is_valid() const final;
   void set_looping(bool looping) final;
   bool is_looping() const final;
 
@@ -160,10 +147,17 @@ private:
   void set_sample_pos_variable(size_t pos);
   void set_sample_pos_and_stream_cursor(size_t pos);
 
+  // audio_source overrides.
+  audio_buffer_format get_format_internal() const final;
+  uint get_channel_count_internal() const final;
+  uint get_bytes_per_sample_internal() const final;
+  uint get_sample_rate_internal() const final;
+  uint get_sample_count_internal() const final;
+
 private:
   std::thread m_thread;
   std::mutex m_thread_mutex;
-  not_null<std::unique_ptr<audio_stream_in>> m_audio_stream;
+  std::unique_ptr<audio_stream_in> m_audio_stream;
   buffer_queue m_buffer_queue;
   std::atomic<bool> m_streaming_thread_end_requested;
   std::atomic<bool> m_looping;

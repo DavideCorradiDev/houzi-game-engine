@@ -97,12 +97,14 @@ public:
    */
   audio_source_state get_state() const;
 
+  virtual bool is_valid() const = 0;
+
   /**
    * Gets the audio format of the audio source.
    *
    * \return the audio format.
    */
-  virtual audio_buffer_format get_format() const = 0;
+  audio_buffer_format get_format() const;
 
   /**
    * Gets the number of channels of the audio source, based on its audio
@@ -110,7 +112,7 @@ public:
    *
    * \return 1 if the audio format is mono, 2 if the audio format is stereo.
    */
-  virtual uint get_channel_count() const = 0;
+  uint get_channel_count() const;
 
   /**
    * Gets the number of bytes per sample of the audio stream, based on its
@@ -119,14 +121,14 @@ public:
    * The number returned is the number of bytes per sample for a single
    * channel. \return 1 for 8-bit audio formats, 2 for 16-bit audio formats.
    */
-  virtual uint get_bytes_per_sample() const = 0;
+  uint get_bytes_per_sample() const;
 
   /**
    * Gets the number of samples per second.
    *
    * \return the sample rate in samples per second.
    */
-  virtual uint get_sample_rate() const = 0;
+  uint get_sample_rate() const;
 
   /**
    * Sets the time position of the audio source.
@@ -178,7 +180,7 @@ public:
    *
    * \return the number of samples.
    */
-  virtual uint get_sample_count() const = 0;
+  uint get_sample_count() const;
 
   /**
    * Sets whether the audio source is looping or not.
@@ -428,6 +430,14 @@ protected:
    * \return the sample position.
    */
   virtual uint on_get_sample_pos() const = 0;
+
+private:
+  virtual audio_buffer_format get_format_internal() const = 0;
+  virtual uint get_channel_count_internal() const = 0;
+  virtual uint get_bytes_per_sample_internal() const = 0;
+  virtual uint get_sample_rate_internal() const = 0;
+  virtual uint get_sample_count_internal() const = 0;
+
 
 private:
   al::source_handle m_handle;

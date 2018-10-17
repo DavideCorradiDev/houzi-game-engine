@@ -43,6 +43,7 @@ TEST_F(test_memory_audio_source, default_constructor)
 {
   memory_audio_source as;
   EXPECT_EQ(nullptr, as.get_buffer());
+  EXPECT_FALSE(as.is_valid());
   EXPECT_EQ(audio_source_state::stopped, as.get_state());
   EXPECT_EQ(audio_buffer_format::mono8, as.get_format());
   EXPECT_EQ(1u, as.get_channel_count());
@@ -75,6 +76,7 @@ TEST_F(test_memory_audio_source, buffer_constructor)
 {
   memory_audio_source as(&m_buffer);
   EXPECT_EQ(&m_buffer, as.get_buffer());
+  EXPECT_TRUE(as.is_valid());
   EXPECT_EQ(audio_source_state::stopped, as.get_state());
   EXPECT_EQ(audio_buffer_format::stereo16, as.get_format());
   EXPECT_EQ(2u, as.get_channel_count());
@@ -108,6 +110,8 @@ TEST_F(test_memory_audio_source, move_constructor)
   memory_audio_source as_dummy(&m_buffer);
   memory_audio_source as(std::move(as_dummy));
   EXPECT_EQ(&m_buffer, as.get_buffer());
+  EXPECT_FALSE(as_dummy.is_valid());
+  EXPECT_TRUE(as.is_valid());
   EXPECT_EQ(audio_source_state::stopped, as.get_state());
   EXPECT_EQ(audio_buffer_format::stereo16, as.get_format());
   EXPECT_EQ(2u, as.get_channel_count());
@@ -132,6 +136,18 @@ TEST_F(test_memory_audio_source, move_constructor)
   EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_position());
   EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_velocity());
   EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_direction());
+}
+
+
+
+TEST_F(test_memory_audio_source, validity_after_set_buffer)
+{
+  memory_audio_source as(&m_buffer);
+  EXPECT_TRUE(as.is_valid());
+  as.set_buffer(nullptr);
+  EXPECT_FALSE(as.is_valid());
+  as.set_buffer(&m_buffer);
+  EXPECT_TRUE(as.is_valid());
 }
 
 

@@ -43,38 +43,9 @@ const audio_buffer* memory_audio_source::get_buffer() const
 
 
 
-audio_buffer_format memory_audio_source::get_format() const
+bool memory_audio_source::is_valid() const
 {
-  return m_buffer_ref == nullptr ? audio_buffer_format::mono8
-                                 : m_buffer_ref->get_format();
-}
-
-
-
-uint memory_audio_source::get_channel_count() const
-{
-  return m_buffer_ref == nullptr ? 1u : m_buffer_ref->get_channel_count();
-}
-
-
-
-uint memory_audio_source::get_bytes_per_sample() const
-{
-  return m_buffer_ref == nullptr ? 1u : m_buffer_ref->get_bytes_per_sample();
-}
-
-
-
-uint memory_audio_source::get_sample_rate() const
-{
-  return m_buffer_ref == nullptr ? 1u : m_buffer_ref->get_sample_rate();
-}
-
-
-
-uint memory_audio_source::get_sample_count() const
-{
-  return m_buffer_ref == nullptr ? 0u : m_buffer_ref->get_sample_count();
+  return m_buffer_ref != nullptr;
 }
 
 
@@ -103,6 +74,46 @@ void memory_audio_source::on_set_sample_pos(uint pos)
 uint memory_audio_source::on_get_sample_pos() const
 {
   return audio_source::on_get_sample_pos();
+}
+
+
+
+audio_buffer_format memory_audio_source::get_format_internal() const
+{
+  HOU_INVARIANT(m_buffer_ref != nullptr);
+  return m_buffer_ref->get_format();
+}
+
+
+
+uint memory_audio_source::get_channel_count_internal() const
+{
+  HOU_INVARIANT(m_buffer_ref != nullptr);
+  return m_buffer_ref->get_channel_count();
+}
+
+
+
+uint memory_audio_source::get_bytes_per_sample_internal() const
+{
+  HOU_INVARIANT(m_buffer_ref != nullptr);
+  return m_buffer_ref->get_bytes_per_sample();
+}
+
+
+
+uint memory_audio_source::get_sample_rate_internal() const
+{
+  HOU_INVARIANT(m_buffer_ref != nullptr);
+  return m_buffer_ref->get_sample_rate();
+}
+
+
+
+uint memory_audio_source::get_sample_count_internal() const
+{
+  HOU_INVARIANT(m_buffer_ref != nullptr);
+  return m_buffer_ref->get_sample_count();
 }
 
 }  // namespace hou

@@ -125,6 +125,34 @@ audio_source_state audio_source::get_state() const
 
 
 
+audio_buffer_format audio_source::get_format() const
+{
+  return is_valid() ? get_format_internal() : audio_buffer_format::mono8;
+}
+
+
+
+uint audio_source::get_channel_count() const
+{
+  return is_valid() ? get_channel_count_internal() : 1;
+}
+
+
+
+uint audio_source::get_bytes_per_sample() const
+{
+  return is_valid() ? get_bytes_per_sample_internal() : 1;
+}
+
+
+
+uint audio_source::get_sample_rate() const
+{
+  return is_valid() ? get_sample_rate_internal() : 1;
+}
+
+
+
 void audio_source::set_time_pos(std::chrono::nanoseconds nsPos)
 {
   using rep = std::chrono::nanoseconds::rep;
@@ -176,6 +204,13 @@ uint audio_source::get_sample_pos() const
   {
     return m_requested_sample_pos;
   }
+}
+
+
+
+uint audio_source::get_sample_count() const
+{
+  return is_valid() ? get_sample_count_internal() : 0u;
 }
 
 

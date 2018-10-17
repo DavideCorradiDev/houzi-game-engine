@@ -40,12 +40,8 @@ public:
   concrete_audio_source(concrete_audio_source&& other) noexcept;
   virtual ~concrete_audio_source();
 
-  audio_buffer_format get_format() const final;
-  uint get_channel_count() const final;
-  uint get_bytes_per_sample() const final;
-  uint get_sample_rate() const final;
-  uint get_sample_count() const final;
-
+  bool is_valid() const final;
+  void set_valid(bool value);
   void set_looping(bool looping) final;
   bool is_looping() const final;
 
@@ -53,10 +49,17 @@ private:
   void on_set_sample_pos(uint value) final;
   uint on_get_sample_pos() const final;
 
+  audio_buffer_format get_format_internal() const final;
+  uint get_channel_count_internal() const final;
+  uint get_bytes_per_sample_internal() const final;
+  uint get_sample_rate_internal() const final;
+  uint get_sample_count_internal() const final;
+
 private:
   uint m_sample_count;
   audio_buffer_format m_format;
   int m_sample_rate;
+  bool m_valid;
 };
 
 
@@ -75,6 +78,7 @@ concrete_audio_source::concrete_audio_source(const audio_buffer& buffer)
   , m_sample_count(buffer.get_sample_count())
   , m_format(buffer.get_format())
   , m_sample_rate(buffer.get_sample_rate())
+  , m_valid(true)
 {
   al::set_source_buffer(get_handle(), buffer.get_handle().get_name());
 }
@@ -87,6 +91,7 @@ concrete_audio_source::concrete_audio_source(
   , m_sample_count(std::move(other.m_sample_count))
   , m_format(std::move(other.m_format))
   , m_sample_rate(std::move(other.m_sample_rate))
+  , m_valid(std::move(other.m_valid))
 {}
 
 
@@ -96,37 +101,16 @@ concrete_audio_source::~concrete_audio_source()
 
 
 
-audio_buffer_format concrete_audio_source::get_format() const
+bool concrete_audio_source::is_valid() const
 {
-  return m_format;
+  return m_valid;
 }
 
 
 
-uint concrete_audio_source::get_channel_count() const
+void concrete_audio_source::set_valid(bool value)
 {
-  return get_audio_buffer_format_channel_count(m_format);
-}
-
-
-
-uint concrete_audio_source::get_bytes_per_sample() const
-{
-  return get_audio_buffer_format_bytes_per_sample(m_format);
-}
-
-
-
-uint concrete_audio_source::get_sample_rate() const
-{
-  return m_sample_rate;
-}
-
-
-
-uint concrete_audio_source::get_sample_count() const
-{
-  return m_sample_count;
+  m_valid = value;
 }
 
 
@@ -155,6 +139,41 @@ void concrete_audio_source::on_set_sample_pos(uint value)
 uint concrete_audio_source::on_get_sample_pos() const
 {
   return audio_source::on_get_sample_pos();
+}
+
+
+
+audio_buffer_format concrete_audio_source::get_format_internal() const
+{
+  return m_format;
+}
+
+
+
+uint concrete_audio_source::get_channel_count_internal() const
+{
+  return get_audio_buffer_format_channel_count(m_format);
+}
+
+
+
+uint concrete_audio_source::get_bytes_per_sample_internal() const
+{
+  return get_audio_buffer_format_bytes_per_sample(m_format);
+}
+
+
+
+uint concrete_audio_source::get_sample_rate_internal() const
+{
+  return m_sample_rate;
+}
+
+
+
+uint concrete_audio_source::get_sample_count_internal() const
+{
+  return m_sample_count;
 }
 
 }  // namespace
@@ -219,6 +238,20 @@ TEST_F(test_audio_source, move_constructor)
   EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_position());
   EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_velocity());
   EXPECT_FLOAT_CLOSE(vec3f::zero(), as.get_direction());
+}
+
+
+
+TEST_F(test_audio_source, default_variables_when_invalid)
+{
+  concrete_audio_source as(m_buffer);
+  as.set_valid(false);
+  EXPECT_FALSE(as.is_valid());
+  EXPECT_EQ(audio_buffer_format::mono8, as.get_format());
+  EXPECT_EQ(1u, as.get_channel_count());
+  EXPECT_EQ(1u, as.get_bytes_per_sample());
+  EXPECT_EQ(1u, as.get_sample_rate());
+  EXPECT_EQ(0u, as.get_sample_count());
 }
 
 
