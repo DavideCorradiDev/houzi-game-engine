@@ -6,7 +6,6 @@
 #include "hou/aud/test_aud_base.hpp"
 #include "hou/aud/test_data.hpp"
 
-#include "hou/aud/empty_audio_stream_in.hpp"
 #include "hou/aud/listener.hpp"
 #include "hou/aud/ogg_file_in.hpp"
 #include "hou/aud/streaming_audio_source.hpp"

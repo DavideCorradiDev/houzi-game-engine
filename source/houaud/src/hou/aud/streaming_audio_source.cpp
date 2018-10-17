@@ -5,7 +5,6 @@
 #include "hou/aud/streaming_audio_source.hpp"
 
 #include "hou/aud/audio_stream_in.hpp"
-#include "hou/aud/empty_audio_stream_in.hpp"
 
 #include "hou/cor/narrow_cast.hpp"
 

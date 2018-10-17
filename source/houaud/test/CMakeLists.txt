@@ -29,7 +29,6 @@ SET(EXE_HOUAUD_TEST_SRC
   hou/aud/test_audio_context.cpp
   hou/aud/test_audio_source.cpp
   hou/aud/test_data.cpp
-  hou/aud/test_empty_audio_stream_in.cpp
   hou/aud/test_listener.cpp
   hou/aud/test_memory_audio_source.cpp
   hou/aud/test_ogg_file_in.cpp

@@ -32,7 +32,6 @@ SET(LIB_HOUAUD_SRC
   src/hou/aud/audio_source_state.cpp
   src/hou/aud/audio_stream.cpp
   src/hou/aud/audio_stream_in.cpp
-  src/hou/aud/empty_audio_stream_in.cpp
   src/hou/aud/listener.cpp
   src/hou/aud/memory_audio_source.cpp
   src/hou/aud/ogg_file_in.cpp
