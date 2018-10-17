@@ -59,8 +59,8 @@ int main(int, char**)
   const std::string wav_file = data_dir + u8"test.wav";
   const std::string ogg_file = data_dir + u8"test.ogg";
 
-  auto wav_buffer = hou::audio_buffer(hou::wav_file_in(wav_file));
-  hou::memory_audio_source wav_source(&wav_buffer);
+  hou::memory_audio_source wav_source(
+    std::make_shared<hou::audio_buffer>(hou::wav_file_in(wav_file)));
   wav_source.set_looping(true);
   hou::streaming_audio_source ogg_source(
     std::make_unique<hou::ogg_file_in>(ogg_file));

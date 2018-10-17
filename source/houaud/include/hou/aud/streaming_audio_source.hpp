@@ -137,9 +137,6 @@ private:
   };
 
 private:
-  void on_set_sample_pos(uint pos) final;
-  uint on_get_sample_pos() const final;
-
   void thread_function();
   std::vector<uint8_t> read_data_chunk(size_t chunk_size);
   void free_buffers();
@@ -148,6 +145,8 @@ private:
   void set_sample_pos_and_stream_cursor(size_t pos);
 
   // audio_source overrides.
+  void on_set_sample_pos(uint pos) final;
+  uint on_get_sample_pos() const final;
   audio_buffer_format get_format_internal() const final;
   uint get_channel_count_internal() const final;
   uint get_bytes_per_sample_internal() const final;

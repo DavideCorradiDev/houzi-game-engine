@@ -9,6 +9,8 @@
 
 #include "hou/aud/aud_config.hpp"
 
+#include <memory>
+
 
 
 namespace hou
@@ -45,7 +47,19 @@ public:
    * \param buffer pointer to the audio_buffer.
    * If nullptr is passed, the audio_source will not play any sound.
    */
-  explicit memory_audio_source(const audio_buffer* buffer = nullptr);
+  explicit memory_audio_source(std::shared_ptr<audio_buffer> buffer = nullptr);
+
+  /**
+   * Move constructor.
+   *
+   * \param other the other object.
+   */
+  memory_audio_source(memory_audio_source&& other) noexcept = default;
+
+  /**
+   * Destructor.
+   */
+  ~memory_audio_source();
 
   /**
    * Sets the audio_buffer.
@@ -53,7 +67,7 @@ public:
    * \param buffer pointer to the audio_buffer.
    * If nullptr is passed, the audio_source will not play any sound.
    */
-  void set_buffer(const audio_buffer* buffer);
+  void set_buffer(std::shared_ptr<audio_buffer> buffer);
 
   /**
    * Gets the audio_buffer.
@@ -69,10 +83,9 @@ public:
   bool is_looping() const final;
 
 private:
+  // audio_source overrides.
   void on_set_sample_pos(uint pos) final;
   uint on_get_sample_pos() const final;
-
-  // audio_source overrides.
   audio_buffer_format get_format_internal() const final;
   uint get_channel_count_internal() const final;
   uint get_bytes_per_sample_internal() const final;
@@ -80,7 +93,7 @@ private:
   uint get_sample_count_internal() const final;
 
 private:
-  const audio_buffer* m_buffer_ref;
+  std::shared_ptr<audio_buffer> m_buffer_ref;
 };
 
 }  // namespace hou

@@ -11,7 +11,7 @@
 namespace hou
 {
 
-memory_audio_source::memory_audio_source(const audio_buffer* buffer)
+memory_audio_source::memory_audio_source(std::shared_ptr<audio_buffer> buffer)
   : audio_source()
   , m_buffer_ref(nullptr)
 {
@@ -20,10 +20,28 @@ memory_audio_source::memory_audio_source(const audio_buffer* buffer)
 
 
 
-void memory_audio_source::set_buffer(const audio_buffer* buffer)
+memory_audio_source::~memory_audio_source()
+{
+  // ~memory_audio_source is called before ~audio_source.
+  // Therefore, if this memory_audio_source is the sole owner of the buffer,
+  // the al buffer will be destroyed before the al source.
+  // OpenAL forbids destroying an al buffer which is currently in use by an al
+  // source, therefore this will result in an error.
+  // To avoid this, the buffer in the audio source must be explicitly reset.
+  // It is also necessary to check if the current source handle is valid, in
+  // case the object was moved and is not in a valid state anymore.
+  if(get_handle().get_name() != 0)
+  {
+    stop();
+    al::set_source_buffer(get_handle(), 0);
+  }
+}
+
+
+
+void memory_audio_source::set_buffer(std::shared_ptr<audio_buffer> buffer)
 {
   stop();
-  m_buffer_ref = buffer;
   if(buffer != nullptr)
   {
     al::set_source_buffer(get_handle(), buffer->get_handle().get_name());
@@ -32,13 +50,14 @@ void memory_audio_source::set_buffer(const audio_buffer* buffer)
   {
     al::set_source_buffer(get_handle(), 0);
   }
+  m_buffer_ref = buffer;
 }
 
 
 
 const audio_buffer* memory_audio_source::get_buffer() const
 {
-  return m_buffer_ref;
+  return m_buffer_ref.get();
 }
 
 

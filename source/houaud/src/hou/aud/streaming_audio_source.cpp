@@ -124,26 +124,6 @@ bool streaming_audio_source::is_looping() const
 
 
 
-void streaming_audio_source::on_set_sample_pos(uint value)
-{
-  std::lock_guard<std::mutex> lock(m_thread_mutex);
-  free_buffers();
-  set_sample_pos_and_stream_cursor(value);
-  fill_buffers();
-}
-
-
-
-uint streaming_audio_source::on_get_sample_pos() const
-{
-  uint sample_count = get_sample_count();
-  return sample_count == 0u
-    ? 0u
-    : (m_sample_pos + audio_source::on_get_sample_pos()) % get_sample_count();
-}
-
-
-
 void streaming_audio_source::thread_function()
 {
   while(!m_streaming_thread_end_requested)
@@ -236,6 +216,26 @@ void streaming_audio_source::set_sample_pos_and_stream_cursor(size_t pos)
     m_audio_stream->set_sample_pos(
       narrow_cast<audio_stream::sample_position>(pos));
   }
+}
+
+
+
+void streaming_audio_source::on_set_sample_pos(uint value)
+{
+  std::lock_guard<std::mutex> lock(m_thread_mutex);
+  free_buffers();
+  set_sample_pos_and_stream_cursor(value);
+  fill_buffers();
+}
+
+
+
+uint streaming_audio_source::on_get_sample_pos() const
+{
+  uint sample_count = get_sample_count();
+  return sample_count == 0u
+    ? 0u
+    : (m_sample_pos + audio_source::on_get_sample_pos()) % get_sample_count();
 }
 
 
