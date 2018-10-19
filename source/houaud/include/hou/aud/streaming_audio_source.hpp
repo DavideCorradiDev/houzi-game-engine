@@ -83,6 +83,14 @@ public:
   void set_stream(std::unique_ptr<audio_stream_in> as = nullptr);
 
   /**
+   * Gets the audio stream.
+   *
+   * \return a pointer to the audio stream, or nullptr if no audio stream is
+   * associated to the streaming_audio_source.
+   */
+  const audio_stream_in* get_stream() const;
+
+  /**
    * Sets the number of buffers in the buffer queue.
    *
    * Throws if passed zero.

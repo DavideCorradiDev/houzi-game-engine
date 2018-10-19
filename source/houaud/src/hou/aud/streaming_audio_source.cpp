@@ -67,6 +67,13 @@ void streaming_audio_source::set_stream(std::unique_ptr<audio_stream_in> as)
 
 
 
+const audio_stream_in* streaming_audio_source::get_stream() const
+{
+  return m_audio_stream.get();
+}
+
+
+
 void streaming_audio_source::set_buffer_count(size_t buffer_count)
 {
   HOU_PRECOND(buffer_count > 0u);

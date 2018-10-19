@@ -70,9 +70,9 @@ public:
   void set_buffer(std::shared_ptr<audio_buffer> buffer);
 
   /**
-   * Gets the audio_buffer.
+   * Gets the audio buffer.
    *
-   * \return a pointer to the audio_buffer, or nullptr if no audio_buffer is
+   * \return a pointer to the audio buffer, or nullptr if no audio buffer is
    * associated to the memory_audio_source.
    */
   const audio_buffer* get_buffer() const;
