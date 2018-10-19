@@ -61,7 +61,7 @@ public:
     const span<const uint8_t>& data, audio_buffer_format format, int smp_rate);
 
   /**
-   * Creates an audio_buffer object with the given parameters, moving the data.
+   * Creates an audio_buffer object with the given parameters.
    *
    * \param data the data.
    *
@@ -155,7 +155,7 @@ public:
     const span<const uint8_t>& data, audio_buffer_format format, int smlRate);
 
   /**
-   * Sets the buffer data with the provided values, moving the data.
+   * Sets the buffer data with the provided values.
    *
    * \param data the data.
    *
