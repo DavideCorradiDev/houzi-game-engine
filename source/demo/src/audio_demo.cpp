@@ -14,6 +14,7 @@
 #include "hou/aud/audio_context.hpp"
 #include "hou/aud/memory_audio_source.hpp"
 #include "hou/aud/ogg_file_in.hpp"
+#include "hou/aud/streaming_audio_source.hpp"
 #include "hou/aud/threaded_audio_source.hpp"
 #include "hou/aud/wav_file_in.hpp"
 
@@ -59,12 +60,15 @@ int main(int, char**)
   const std::string wav_file = data_dir + u8"test.wav";
   const std::string ogg_file = data_dir + u8"test.ogg";
 
-  hou::memory_audio_source wav_source(
+  hou::memory_audio_source memory_as(
     std::make_shared<hou::audio_buffer>(hou::wav_file_in(wav_file)));
-  wav_source.set_looping(true);
-  hou::threaded_audio_source ogg_source(
+  memory_as.set_looping(true);
+  hou::threaded_audio_source threaded_as(
     std::make_unique<hou::ogg_file_in>(ogg_file));
-  ogg_source.set_looping(true);
+  threaded_as.set_looping(true);
+  hou::streaming_audio_source streaming_as(
+    std::make_unique<hou::ogg_file_in>(ogg_file));
+  streaming_as.set_looping(true);
 
   // Event callbacks.
   bool loop = true;
@@ -80,35 +84,51 @@ int main(int, char**)
         }
         if(sc == hou::scan_code::f1)
         {
-          wav_source.play();
+          memory_as.play();
         }
         else if(sc == hou::scan_code::f2)
         {
-          wav_source.replay();
+          memory_as.replay();
         }
         else if(sc == hou::scan_code::f3)
         {
-          wav_source.pause();
+          memory_as.pause();
         }
         else if(sc == hou::scan_code::f4)
         {
-          wav_source.stop();
+          memory_as.stop();
         }
         else if(sc == hou::scan_code::f5)
         {
-          ogg_source.play();
+          threaded_as.play();
         }
         else if(sc == hou::scan_code::f6)
         {
-          ogg_source.replay();
+          threaded_as.replay();
         }
         else if(sc == hou::scan_code::f7)
         {
-          ogg_source.pause();
+          threaded_as.pause();
         }
         else if(sc == hou::scan_code::f8)
         {
-          ogg_source.stop();
+          threaded_as.stop();
+        }
+        else if(sc == hou::scan_code::f9)
+        {
+          streaming_as.play();
+        }
+        else if(sc == hou::scan_code::f10)
+        {
+          streaming_as.replay();
+        }
+        else if(sc == hou::scan_code::f11)
+        {
+          streaming_as.pause();
+        }
+        else if(sc == hou::scan_code::f12)
+        {
+          streaming_as.stop();
         }
       };
   hou::event::set_key_pressed_callback(on_key_pressed);
@@ -121,18 +141,23 @@ int main(int, char**)
   }
   std::cout << std::endl;
 
-  print_audio_source_properties(std::cout, "Wav", wav_source);
-  print_audio_source_properties(std::cout, "Ogg", ogg_source);
+  print_audio_source_properties(std::cout, "Memory", memory_as);
+  print_audio_source_properties(std::cout, "Threaded", threaded_as);
+  print_audio_source_properties(std::cout, "Streaming", streaming_as);
 
   std::cout << "Controls:" << std::endl;
-  std::cout << "    f1: play wav source" << std::endl;
-  std::cout << "    f2: replay wav source" << std::endl;
-  std::cout << "    f3: pause wav source" << std::endl;
-  std::cout << "    f4: stop wav source" << std::endl;
-  std::cout << "    f5: play ogg source" << std::endl;
-  std::cout << "    f6: replay ogg source" << std::endl;
-  std::cout << "    f7: pause ogg source" << std::endl;
-  std::cout << "    f8: stop ogg source" << std::endl;
+  std::cout << "    f1: play memory source" << std::endl;
+  std::cout << "    f2: replay memory source" << std::endl;
+  std::cout << "    f3: pause memory source" << std::endl;
+  std::cout << "    f4: stop memory source" << std::endl;
+  std::cout << "    f5: play threaded source" << std::endl;
+  std::cout << "    f6: replay threaded source" << std::endl;
+  std::cout << "    f7: pause threaded source" << std::endl;
+  std::cout << "    f8: stop threaded source" << std::endl;
+  std::cout << "    f9: play streaming source" << std::endl;
+  std::cout << "    f10: replay streaming source" << std::endl;
+  std::cout << "    f11: pause streaming source" << std::endl;
+  std::cout << "    f12: stop streaming source" << std::endl;
   std::cout << std::endl;
 
   // Window.
@@ -146,6 +171,7 @@ int main(int, char**)
   while(loop)
   {
     hou::event::process_all();
+    streaming_as.update();
   }
 
   return EXIT_SUCCESS;
