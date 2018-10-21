@@ -23,7 +23,7 @@ namespace hou
 {
 
 /**
- * Represents an audio source constantly streaming a buffer.
+ * Represents an audio source streaming audio data from an audio stream.
  *
  * This class is suited to play long audio buffers, as the buffer must not be
  * completely loaded in memory but is rather streamed concurrently in smaller
@@ -31,10 +31,6 @@ namespace hou
  * For short audio files, it is suggested to use an memory_audio_source and an
  * audio_buffer, as performance is better and as the audio_buffer can be shared
  * by multiple memory_audio_source objects.
- *
- * Each streaming_audio_source_base object spawns a thread that takes care of
- * loading part of the audio into a queue of memory buffers.
- * The thread is destroyed when the streaming_audio_source_base is destroyed.
  *
  * A streaming_audio_source_base must be given an audio_stream to play a sound.
  * The streaming_audio_source_base will retain unique ownership of the

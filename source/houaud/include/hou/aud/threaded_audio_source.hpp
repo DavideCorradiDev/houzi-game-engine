@@ -19,31 +19,11 @@ namespace hou
 {
 
 /**
- * Represents an audio source constantly streaming a buffer.
+ * A streaming audio source.
  *
- * This class is suited to play long audio buffers, as the buffer must not be
- * completely loaded in memory but is rather streamed concurrently in smaller
- * chunks.
- * For short audio files, it is suggested to use an memory_audio_source and an
- * audio_buffer, as performance is better and as the audio_buffer can be shared
- * by multiple memory_audio_source objects.
- *
- * Each threaded_audio_source object spawns a thread that takes care of
- * loading part of the audio into a queue of memory buffers.
- * The thread is destroyed when the threaded_audio_source is destroyed.
- *
- * A threaded_audio_source must be given an audio_stream to play a sound.
- * The threaded_audio_source will retain unique ownership of the audio_stream
- * and will automatically destroy it.
- *
- * The buffer queue is defined by the number of buffers and the size of
- * each buffer.
- * The default values are 3 buffers, each composed of 44100 bytes.
- * This configuration should work well for most applications.
- * If necessary it is possible to modify these values with the associated
- * methods.
- * Higher number of buffers and higher buffer size will result in higher
- * memory consumption, but potentially better sound quality.
+ * This type of audio source streams audio data from an audio stream and stores
+ * it internally in a buffer queue. Each instance of this class spawns a thread
+ * that automatically takes care of loading the audio data in the background.
  */
 class HOU_AUD_API threaded_audio_source final
   : public streaming_audio_source_base
