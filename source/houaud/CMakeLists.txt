@@ -37,6 +37,7 @@ SET(LIB_HOUAUD_SRC
   src/hou/aud/ogg_file_in.cpp
   src/hou/aud/sound_distance_model.cpp
   src/hou/aud/sound_model.cpp
+  src/hou/aud/streaming_audio_source.cpp
   src/hou/aud/streaming_audio_source_base.cpp
   src/hou/aud/threaded_audio_source.cpp
   src/hou/aud/wav_file_in.cpp

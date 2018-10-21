@@ -153,7 +153,7 @@ protected:
   // audio_source overrides.
   // Changed access to protected to allow derived classes to call ths
   // implementation.
-  void on_set_sample_pos(uint pos) override;
+  void on_set_sample_pos(uint pos) override = 0;
 
 private:
   std::vector<uint8_t> read_data_chunk(size_t chunk_size);

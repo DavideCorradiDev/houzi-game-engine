@@ -42,8 +42,11 @@ streaming_audio_source_base::streaming_audio_source_base(
 
 streaming_audio_source_base::~streaming_audio_source_base()
 {
-  stop();
-  free_buffers();
+  if(get_handle().get_name() != 0)
+  {
+    stop();
+    free_buffers();
+  }
 }
 
 
