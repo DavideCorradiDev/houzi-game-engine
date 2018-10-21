@@ -8,8 +8,6 @@
 
 #include "hou/cor/narrow_cast.hpp"
 
-#include <functional>
-
 
 
 namespace hou

@@ -11,13 +11,11 @@
 
 #include "hou/aud/aud_config.hpp"
 
-#include <atomic>
+#include "hou/cor/std_string.hpp"
+#include "hou/cor/std_vector.hpp"
+
 #include <memory>
-#include <mutex>
 #include <queue>
-#include <string>
-#include <thread>
-#include <vector>
 
 
 
@@ -174,8 +172,8 @@ private:
 private:
   std::unique_ptr<audio_stream_in> m_audio_stream;
   buffer_queue m_buffer_queue;
-  std::atomic<bool> m_looping;
-  std::atomic<uint> m_sample_pos;
+  bool m_looping;
+  uint m_sample_pos;
   size_t m_buffer_byte_count;
 };
 

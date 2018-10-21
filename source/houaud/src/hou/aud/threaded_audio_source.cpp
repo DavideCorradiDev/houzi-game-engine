@@ -4,10 +4,6 @@
 
 #include "hou/aud/threaded_audio_source.hpp"
 
-#include "hou/aud/audio_stream_in.hpp"
-
-#include "hou/cor/narrow_cast.hpp"
-
 #include <functional>
 
 

@@ -7,17 +7,11 @@
 
 #include "hou/aud/streaming_audio_source_base.hpp"
 
-#include "hou/aud/audio_buffer.hpp"
-
 #include "hou/aud/aud_config.hpp"
 
 #include <atomic>
-#include <memory>
 #include <mutex>
-#include <queue>
-#include <string>
 #include <thread>
-#include <vector>
 
 
 
