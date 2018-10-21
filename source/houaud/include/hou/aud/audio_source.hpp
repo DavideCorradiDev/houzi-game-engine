@@ -97,6 +97,14 @@ public:
    */
   audio_source_state get_state() const;
 
+  /**
+   * Checks if the audio source is valid, that is if it references audio data.
+   *
+   * An invalid audio source will not play any sound and will return default
+   * property values.
+   *
+   * \return true if the audio source references audio data.
+   */
   virtual bool is_valid() const = 0;
 
   /**
