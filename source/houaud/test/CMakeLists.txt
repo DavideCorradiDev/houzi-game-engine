@@ -33,7 +33,7 @@ SET(EXE_HOUAUD_TEST_SRC
   hou/aud/test_memory_audio_source.cpp
   hou/aud/test_ogg_file_in.cpp
   hou/aud/test_sound_model.cpp
-  hou/aud/test_streaming_audio_source.cpp
+  hou/aud/test_threaded_audio_source.cpp
   hou/aud/test_wav_file_in.cpp
 )
 

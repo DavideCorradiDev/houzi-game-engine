@@ -14,7 +14,7 @@
 #include "hou/aud/audio_context.hpp"
 #include "hou/aud/memory_audio_source.hpp"
 #include "hou/aud/ogg_file_in.hpp"
-#include "hou/aud/streaming_audio_source.hpp"
+#include "hou/aud/threaded_audio_source.hpp"
 #include "hou/aud/wav_file_in.hpp"
 
 #include "hou/cor/std_chrono.hpp"
@@ -62,7 +62,7 @@ int main(int, char**)
   hou::memory_audio_source wav_source(
     std::make_shared<hou::audio_buffer>(hou::wav_file_in(wav_file)));
   wav_source.set_looping(true);
-  hou::streaming_audio_source ogg_source(
+  hou::threaded_audio_source ogg_source(
     std::make_unique<hou::ogg_file_in>(ogg_file));
   ogg_source.set_looping(true);
 

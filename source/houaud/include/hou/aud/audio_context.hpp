@@ -24,7 +24,7 @@ namespace hou
  * Represents the global state of the audio device.
  *
  * At least one audio_context must exist when creating audio_buffer,
- * audio_source, and streaming_audio_source objects, and when using listener
+ * audio_source, and threaded_audio_source objects, and when using listener
  * functions. An audio_context can be shared among multiple threads. The audio
  * drivers may limit the number of AudioContexts that can be created at one
  * time. For most applications, it is sufficient to create a single
