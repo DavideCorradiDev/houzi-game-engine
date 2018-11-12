@@ -95,7 +95,7 @@ public:
    *
    * \return the state of the audio source.
    */
-  audio_source_state get_state() const;
+  virtual audio_source_state get_state() const = 0;
 
   /**
    * Checks if the audio source is valid, that is if it references audio data.
@@ -439,13 +439,26 @@ protected:
    */
   virtual uint on_get_sample_pos() const = 0;
 
+  /**
+   * Called when play() or replay() are called.
+   *
+   * This function does nothing by default, but may contain special behaviour.
+   */
+  virtual void on_play() = 0;
+
+  /**
+   * Called when pause(), stop() or replay() are called.
+   *
+   * This function does nothing by default, but may contain special behaviour.
+   */
+  virtual void on_pause() = 0;
+
 private:
   virtual audio_buffer_format get_format_internal() const = 0;
   virtual uint get_channel_count_internal() const = 0;
   virtual uint get_bytes_per_sample_internal() const = 0;
   virtual uint get_sample_rate_internal() const = 0;
   virtual uint get_sample_count_internal() const = 0;
-
 
 private:
   al::source_handle m_handle;

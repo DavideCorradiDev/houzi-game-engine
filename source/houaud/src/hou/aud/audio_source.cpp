@@ -31,13 +31,12 @@ audio_source_state al_source_state_to_audio_source_state(ALenum state) noexcept
     case AL_PLAYING:
       return audio_source_state::playing;
     case AL_PAUSED:
-      return audio_source_state::paused;
     case AL_INITIAL:
     case AL_STOPPED:
-      return audio_source_state::stopped;
+      return audio_source_state::paused;
   }
   HOU_ERROR_N(invalid_enum, narrow_cast<int>(state));
-  return audio_source_state::stopped;
+  return audio_source_state::paused;
 }
 
 
@@ -73,13 +72,14 @@ const al::source_handle& audio_source::get_handle() const noexcept
 
 void audio_source::play()
 {
-  if(get_state() != audio_source_state::playing)
+  if(get_state() == audio_source_state::paused)
   {
-    al::stop_source(m_handle);
+    on_play();
+    // The actual sample pos is updated to the requested sample position.
     on_set_sample_pos(m_requested_sample_pos);
-    al::play_source(m_handle);
     // The requested pos has to be set to 0 in case playback ends on its own.
     m_requested_sample_pos = 0u;
+    al::play_source(m_handle);
   }
 }
 
@@ -87,12 +87,16 @@ void audio_source::play()
 
 void audio_source::pause()
 {
-  if(get_state() != audio_source_state::paused)
+  if(get_state() == audio_source_state::playing)
   {
+    on_pause();
+    // pause() is called instead of stop() order not to reset the sample
+    // position. The current pos is saved to resume playing from the same point.
     al::pause_source(m_handle);
-    // The requested pos is updated. Another call to play will resume from
-    // the current pos.
     m_requested_sample_pos = on_get_sample_pos();
+    // The source is actually stopped to reduce the number of different states
+    // to be managed.
+    al::stop_source(m_handle);
   }
 }
 
@@ -100,11 +104,12 @@ void audio_source::pause()
 
 void audio_source::stop()
 {
-  if(get_state() != audio_source_state::stopped)
+  if(get_state() == audio_source_state::playing)
   {
+    on_pause();
     al::stop_source(m_handle);
   }
-  // Stopping resets the pos to 0.
+  // The requested pos is reset to the beginning.
   m_requested_sample_pos = 0u;
 }
 
@@ -449,6 +454,20 @@ void audio_source::on_set_sample_pos(uint pos)
 uint audio_source::on_get_sample_pos() const
 {
   return narrow_cast<uint>(al::get_source_sample_offset(m_handle));
+}
+
+
+
+void audio_source::on_play()
+{
+  // Do nothing.
+}
+
+
+
+void audio_source::on_pause()
+{
+  // Do nothing.
 }
 
 }  // namespace hou

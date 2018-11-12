@@ -13,6 +13,8 @@
 
 #include "hou/mth/math_functions.hpp"
 
+#include <thread>
+
 using namespace hou;
 
 
@@ -71,7 +73,7 @@ TEST_F(test_streaming_audio_source, default_constructor)
   EXPECT_EQ(44100u, as.get_buffer_sample_count());
   EXPECT_EQ(nullptr, as.get_stream());
   EXPECT_FALSE(as.is_valid());
-  EXPECT_EQ(audio_source_state::stopped, as.get_state());
+  EXPECT_EQ(audio_source_state::paused, as.get_state());
   EXPECT_EQ(audio_buffer_format::mono8, as.get_format());
   EXPECT_EQ(1u, as.get_channel_count());
   EXPECT_EQ(1u, as.get_bytes_per_sample());
@@ -108,7 +110,7 @@ TEST_F(test_streaming_audio_source, stream_constructor)
   EXPECT_EQ(44100u / 4u, as.get_buffer_sample_count());
   EXPECT_EQ(str_ref, as.get_stream());
   EXPECT_TRUE(as.is_valid());
-  EXPECT_EQ(audio_source_state::stopped, as.get_state());
+  EXPECT_EQ(audio_source_state::paused, as.get_state());
   EXPECT_EQ(audio_buffer_format::stereo16, as.get_format());
   EXPECT_EQ(2u, as.get_channel_count());
   EXPECT_EQ(2u, as.get_bytes_per_sample());
@@ -147,7 +149,7 @@ TEST_F(test_streaming_audio_source, move_constructor)
   EXPECT_EQ(str_ref, as.get_stream());
   EXPECT_FALSE(as_dummy.is_valid());
   EXPECT_TRUE(as.is_valid());
-  EXPECT_EQ(audio_source_state::stopped, as.get_state());
+  EXPECT_EQ(audio_source_state::paused, as.get_state());
   EXPECT_EQ(audio_buffer_format::stereo16, as.get_format());
   EXPECT_EQ(2u, as.get_channel_count());
   EXPECT_EQ(2u, as.get_bytes_per_sample());
@@ -187,25 +189,13 @@ TEST_F(test_streaming_audio_source, validity_after_set_stream)
 
 
 
-TEST_F(test_streaming_audio_source, set_stream_while_stopped)
-{
-  streaming_audio_source as;
-  auto str = std::make_unique<ogg_file_in>(audio_filename);
-  audio_stream_in* str_ref = str.get();
-  as.set_stream(std::move(str));
-  EXPECT_EQ(str_ref, as.get_stream());
-  EXPECT_EQ(audio_source_state::stopped, as.get_state());
-}
-
-
-
 TEST_F(test_streaming_audio_source, set_stream_while_playing)
 {
   streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
   as.set_looping(true);
   as.play();
   as.set_stream(nullptr);
-  EXPECT_EQ(audio_source_state::stopped, as.get_state());
+  EXPECT_EQ(audio_source_state::paused, as.get_state());
 }
 
 
@@ -217,7 +207,7 @@ TEST_F(test_streaming_audio_source, set_stream_while_paused)
   as.play();
   as.pause();
   as.set_stream(nullptr);
-  EXPECT_EQ(audio_source_state::stopped, as.get_state());
+  EXPECT_EQ(audio_source_state::paused, as.get_state());
 }
 
 
@@ -227,7 +217,7 @@ TEST_F(test_streaming_audio_source, set_time_pos_while_stopped)
   streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
   as.set_sample_pos(3u);
   EXPECT_EQ(3u, as.get_sample_pos());
-  EXPECT_EQ(audio_source_state::stopped, as.get_state());
+  EXPECT_EQ(audio_source_state::paused, as.get_state());
 }
 
 
@@ -292,32 +282,32 @@ TEST_F(test_streaming_audio_source, set_time_pos_microseconds)
 
 
 
-TEST_F(test_streaming_audio_source, stop_while_stopped)
+TEST_F(test_streaming_audio_source, stop_at_initial_state)
 {
   streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
   as.set_looping(true);
   as.set_sample_pos(3u);
   as.stop();
-  EXPECT_EQ(audio_source_state::stopped, as.get_state());
+  EXPECT_EQ(audio_source_state::paused, as.get_state());
   EXPECT_EQ(0u, as.get_sample_pos());
 }
 
 
 
-TEST_F(test_streaming_audio_source, stop_while_playing)
+TEST_F(test_streaming_audio_source, stop_after_play)
 {
   streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
   as.set_looping(true);
   as.set_sample_pos(3u);
   as.play();
   as.stop();
-  EXPECT_EQ(audio_source_state::stopped, as.get_state());
+  EXPECT_EQ(audio_source_state::paused, as.get_state());
   EXPECT_EQ(0u, as.get_sample_pos());
 }
 
 
 
-TEST_F(test_streaming_audio_source, stop_while_paused)
+TEST_F(test_streaming_audio_source, stop_after_pause)
 {
   streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
   as.set_looping(true);
@@ -325,13 +315,27 @@ TEST_F(test_streaming_audio_source, stop_while_paused)
   as.play();
   as.pause();
   as.stop();
-  EXPECT_EQ(audio_source_state::stopped, as.get_state());
+  EXPECT_EQ(audio_source_state::paused, as.get_state());
   EXPECT_EQ(0u, as.get_sample_pos());
 }
 
 
 
-TEST_F(test_streaming_audio_source, play_while_stopped)
+TEST_F(test_streaming_audio_source, stop_after_stop)
+{
+  streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
+  as.set_looping(true);
+  as.set_sample_pos(3u);
+  as.play();
+  as.stop();
+  as.stop();
+  EXPECT_EQ(audio_source_state::paused, as.get_state());
+  EXPECT_EQ(0u, as.get_sample_pos());
+}
+
+
+
+TEST_F(test_streaming_audio_source, play_at_initial_state)
 {
   streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
   as.set_looping(true);
@@ -341,7 +345,7 @@ TEST_F(test_streaming_audio_source, play_while_stopped)
 
 
 
-TEST_F(test_streaming_audio_source, play_while_playing)
+TEST_F(test_streaming_audio_source, play_after_play)
 {
   streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
   as.set_looping(true);
@@ -352,7 +356,7 @@ TEST_F(test_streaming_audio_source, play_while_playing)
 
 
 
-TEST_F(test_streaming_audio_source, play_while_paused)
+TEST_F(test_streaming_audio_source, play_after_pause)
 {
   streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
   as.set_looping(true);
@@ -364,19 +368,31 @@ TEST_F(test_streaming_audio_source, play_while_paused)
 
 
 
-TEST_F(test_streaming_audio_source, pause_while_stopped)
+TEST_F(test_streaming_audio_source, play_after_stop)
+{
+  streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
+  as.set_looping(true);
+  as.play();
+  as.stop();
+  as.play();
+  EXPECT_EQ(audio_source_state::playing, as.get_state());
+}
+
+
+
+TEST_F(test_streaming_audio_source, pause_at_initial_state)
 {
   streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
   as.set_looping(true);
   as.set_sample_pos(3u);
   as.pause();
-  EXPECT_EQ(audio_source_state::stopped, as.get_state());
-  EXPECT_EQ(0u, as.get_sample_pos());
+  EXPECT_EQ(audio_source_state::paused, as.get_state());
+  EXPECT_EQ(3u, as.get_sample_pos());
 }
 
 
 
-TEST_F(test_streaming_audio_source, pause_while_playing)
+TEST_F(test_streaming_audio_source, pause_after_play)
 {
   streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
   as.set_looping(true);
@@ -387,7 +403,7 @@ TEST_F(test_streaming_audio_source, pause_while_playing)
 
 
 
-TEST_F(test_streaming_audio_source, pause_while_paused)
+TEST_F(test_streaming_audio_source, pause_after_pause)
 {
   streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
   as.set_looping(true);
@@ -399,33 +415,57 @@ TEST_F(test_streaming_audio_source, pause_while_paused)
 
 
 
-TEST_F(test_streaming_audio_source, replay_while_stopped)
-{
-  streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
-  as.set_looping(true);
-  as.replay();
-  EXPECT_EQ(audio_source_state::playing, as.get_state());
-}
-
-
-
-TEST_F(test_streaming_audio_source, replay_while_playing)
-{
-  streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
-  as.set_looping(true);
-  as.play();
-  as.replay();
-  EXPECT_EQ(audio_source_state::playing, as.get_state());
-}
-
-
-
-TEST_F(test_streaming_audio_source, replay_while_paused)
+TEST_F(test_streaming_audio_source, pause_after_stop)
 {
   streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
   as.set_looping(true);
   as.play();
   as.pause();
+  as.stop();
+  EXPECT_EQ(audio_source_state::paused, as.get_state());
+}
+
+
+
+TEST_F(test_streaming_audio_source, replay_at_initial_state)
+{
+  streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
+  as.set_looping(true);
+  as.replay();
+  EXPECT_EQ(audio_source_state::playing, as.get_state());
+}
+
+
+
+TEST_F(test_streaming_audio_source, replay_after_play)
+{
+  streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
+  as.set_looping(true);
+  as.play();
+  as.replay();
+  EXPECT_EQ(audio_source_state::playing, as.get_state());
+}
+
+
+
+TEST_F(test_streaming_audio_source, replay_after_pause)
+{
+  streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
+  as.set_looping(true);
+  as.play();
+  as.pause();
+  as.replay();
+  EXPECT_EQ(audio_source_state::playing, as.get_state());
+}
+
+
+
+TEST_F(test_streaming_audio_source, replay_after_stop)
+{
+  streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
+  as.set_looping(true);
+  as.play();
+  as.stop();
   as.replay();
   EXPECT_EQ(audio_source_state::playing, as.get_state());
 }
@@ -437,7 +477,7 @@ TEST_F(test_streaming_audio_source, play_without_stream)
   streaming_audio_source as;
   as.set_looping(true);
   as.play();
-  EXPECT_EQ(audio_source_state::stopped, as.get_state());
+  EXPECT_EQ(audio_source_state::paused, as.get_state());
 }
 
 
@@ -448,7 +488,7 @@ TEST_F(test_streaming_audio_source, set_buffer_count)
   EXPECT_EQ(3u, as.get_buffer_count());
   as.set_buffer_count(5u);
   EXPECT_EQ(5u, as.get_buffer_count());
-  EXPECT_EQ(audio_source_state::stopped, as.get_state());
+  EXPECT_EQ(audio_source_state::paused, as.get_state());
 }
 
 
@@ -460,7 +500,7 @@ TEST_F(test_streaming_audio_source, set_buffer_count_while_playing)
   as.play();
   as.set_buffer_count(5u);
   EXPECT_EQ(5u, as.get_buffer_count());
-  EXPECT_EQ(audio_source_state::stopped, as.get_state());
+  EXPECT_EQ(audio_source_state::paused, as.get_state());
 }
 
 
@@ -473,7 +513,7 @@ TEST_F(test_streaming_audio_source, set_buffer_count_while_paused)
   as.pause();
   as.set_buffer_count(5u);
   EXPECT_EQ(5u, as.get_buffer_count());
-  EXPECT_EQ(audio_source_state::stopped, as.get_state());
+  EXPECT_EQ(audio_source_state::paused, as.get_state());
 }
 
 
@@ -491,7 +531,7 @@ TEST_F(test_streaming_audio_source, set_buffer_sample_count)
   streaming_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
   as.set_buffer_sample_count(500u);
   EXPECT_EQ(500u, as.get_buffer_sample_count());
-  EXPECT_EQ(audio_source_state::stopped, as.get_state());
+  EXPECT_EQ(audio_source_state::paused, as.get_state());
 }
 
 
@@ -503,7 +543,7 @@ TEST_F(test_streaming_audio_source, set_buffer_sample_count_while_playing)
   as.play();
   as.set_buffer_sample_count(500u);
   EXPECT_EQ(500u, as.get_buffer_sample_count());
-  EXPECT_EQ(audio_source_state::stopped, as.get_state());
+  EXPECT_EQ(audio_source_state::paused, as.get_state());
 }
 
 
@@ -516,7 +556,7 @@ TEST_F(test_streaming_audio_source, set_buffer_sample_count_while_paused)
   as.pause();
   as.set_buffer_sample_count(500u);
   EXPECT_EQ(500u, as.get_buffer_sample_count());
-  EXPECT_EQ(audio_source_state::stopped, as.get_state());
+  EXPECT_EQ(audio_source_state::paused, as.get_state());
 }
 
 
@@ -567,3 +607,34 @@ TEST_F(test_streaming_audio_source, buffer_properties_stereo16)
   EXPECT_EQ(2u, as.get_bytes_per_sample());
 }
 
+
+
+TEST_F(test_streaming_audio_source, slow_buffer_queueing)
+{
+  streaming_audio_source as;
+  as.set_buffer_count(3u);
+  as.set_buffer_sample_count(4u);
+  as.set_stream(std::make_unique<wav_file_in>(stereo16_filename));
+  ASSERT_GT(as.get_sample_count(),
+    as.get_buffer_count() * as.get_buffer_sample_count());
+  as.play();
+  // Sleep a short time to make sure the buffer has been completely processed.
+  std::this_thread::sleep_for(std::chrono::milliseconds(20u));
+  as.update();
+  EXPECT_EQ(audio_source_state::playing, as.get_state());
+}
+
+
+
+TEST_F(test_streaming_audio_source, streaming_end)
+{
+  streaming_audio_source as;
+  as.set_stream(std::make_unique<ogg_file_in>(audio_filename));
+  as.play();
+  while(as.get_state() == audio_source_state::playing)
+  {
+    as.update();
+  }
+  EXPECT_EQ(audio_source_state::paused, as.get_state());
+  EXPECT_EQ(0u, as.get_sample_pos());
+}

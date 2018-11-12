@@ -78,14 +78,20 @@ public:
   const audio_buffer* get_buffer() const;
 
   // audio_source overrides.
+  audio_source_state get_state() const final;
   bool is_valid() const final;
   void set_looping(bool looping) final;
   bool is_looping() const final;
 
-private:
+protected:
   // audio_source overrides.
   void on_set_sample_pos(uint pos) final;
   uint on_get_sample_pos() const final;
+  void on_play() final;
+  void on_pause() final;
+
+private:
+  // audio_source overrides.
   audio_buffer_format get_format_internal() const final;
   uint get_channel_count_internal() const final;
   uint get_bytes_per_sample_internal() const final;

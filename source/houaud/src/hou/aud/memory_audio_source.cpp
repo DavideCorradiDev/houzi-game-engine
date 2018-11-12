@@ -62,6 +62,13 @@ const audio_buffer* memory_audio_source::get_buffer() const
 
 
 
+audio_source_state memory_audio_source::get_state() const
+{
+  return audio_source::get_state();
+}
+
+
+
 bool memory_audio_source::is_valid() const
 {
   return m_buffer_ref != nullptr;
@@ -93,6 +100,20 @@ void memory_audio_source::on_set_sample_pos(uint pos)
 uint memory_audio_source::on_get_sample_pos() const
 {
   return audio_source::on_get_sample_pos();
+}
+
+
+
+void memory_audio_source::on_play()
+{
+  audio_source::on_play();
+}
+
+
+
+void memory_audio_source::on_pause()
+{
+  audio_source::on_pause();
 }
 
 

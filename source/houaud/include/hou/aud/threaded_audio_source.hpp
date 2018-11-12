@@ -49,21 +49,34 @@ public:
    */
   ~threaded_audio_source();
 
+  // audio_source overrides.
+  audio_source_state get_state() const final;
+
   // streaming_audio_source_base overrides.
   void set_stream(std::unique_ptr<audio_stream_in> as = nullptr) final;
   void set_buffer_count(size_t buffer_count) final;
   void set_buffer_sample_count(size_t buffer_sample_count) final;
 
+protected:
+  // audio_source overrides.
+  void on_set_sample_pos(uint pos) final;
+  uint on_get_sample_pos() const final;
+  void on_play() final;
+  void on_pause() final;
+
 private:
   void thread_function();
 
-  // audio_source overrides.
-  void on_set_sample_pos(uint pos) final;
-
 private:
   std::thread m_thread;
-  std::mutex m_thread_mutex;
   std::atomic<bool> m_streaming_thread_end_requested;
+  // This mutex controls access to the stream variables (the audio stream,
+  // sample position, buffer queue).
+  mutable std::mutex m_stream_mutex;
+  // This mutex controls acces to the flag to activate buffer processing.
+  mutable std::mutex m_processing_buffer_flag_mutex;
+  // Two mutexes are required to avoid deadlocks due to recursive locking, since
+  // stop() is called in many places.
 };
 
 }  // namespace hou

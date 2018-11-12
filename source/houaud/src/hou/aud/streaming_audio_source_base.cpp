@@ -29,19 +29,22 @@ streaming_audio_source_base::streaming_audio_source_base(
   , m_audio_stream(std::move(as))
   , m_buffer_queue(g_default_buffer_count)
   , m_looping(false)
+  , m_processing_buffer_queue(false)
   , m_sample_pos(0u)
+  , m_buffers_to_queue_count(0u)
   , m_buffer_byte_count(g_default_buffer_byte_count)
 {
-  if(m_audio_stream != nullptr)
-  {
-    m_audio_stream->set_sample_pos(0u);
-  }
+  set_sample_pos_and_stream_cursor(0u);
 }
 
 
 
 streaming_audio_source_base::~streaming_audio_source_base()
 {
+  // The buffer queue will be deleted before the audio source, therefore
+  // the buffers must be unqueued from the audio source to avoid an OpenAL
+  // error. To unqueue all buffers, it is sufficient to stop the source first.
+  // The handle is checked for validity for safety reasons.
   if(get_handle().get_name() != 0)
   {
     stop();
@@ -103,6 +106,17 @@ size_t streaming_audio_source_base::get_buffer_sample_count() const
 
 
 
+audio_source_state streaming_audio_source_base::get_state() const
+{
+  if(m_processing_buffer_queue)
+  {
+    return audio_source_state::playing;
+  }
+  return audio_source::get_state();
+}
+
+
+
 bool streaming_audio_source_base::is_valid() const
 {
   return m_audio_stream != nullptr;
@@ -126,10 +140,19 @@ bool streaming_audio_source_base::is_looping() const
 
 void streaming_audio_source_base::update_buffer_queue()
 {
-  free_buffers();
-  if(get_state() == audio_source_state::playing)
+  if(m_processing_buffer_queue)
   {
+    free_buffers();
     fill_buffers();
+
+    // If the audio source is stopped at this point, it means that the buffer
+    // queue was not updated fast enough and the audio source automatically
+    // stopped. In this case force a restart of the audio source with the newly
+    // added buffers.
+    if(audio_source::get_state() == audio_source_state::paused)
+    {
+      al::play_source(get_handle());
+    }
   }
 }
 
@@ -153,45 +176,53 @@ std::vector<uint8_t> streaming_audio_source_base::read_data_chunk(
 void streaming_audio_source_base::free_buffers()
 {
   uint processed_buffers = al::get_source_processed_buffers(get_handle());
-  std::vector<ALuint> bufferNames(processed_buffers, 0);
-  al::source_unqueue_buffers(
-    get_handle(), narrow_cast<ALsizei>(bufferNames.size()), bufferNames.data());
-  size_t processed_bytes = m_buffer_queue.free_buffers(processed_buffers);
-  set_sample_pos_variable(m_sample_pos
-    + processed_bytes / (get_channel_count() * get_bytes_per_sample()));
+  if(processed_buffers > 0)
+  {
+    std::vector<ALuint> bufferNames(processed_buffers, 0);
+    al::source_unqueue_buffers(get_handle(),
+      narrow_cast<ALsizei>(bufferNames.size()), bufferNames.data());
+    size_t processed_bytes = m_buffer_queue.free_buffers(processed_buffers);
+    set_sample_pos_variable(m_sample_pos
+      + processed_bytes / (get_channel_count() * get_bytes_per_sample()));
+  }
 }
 
 
 
 void streaming_audio_source_base::fill_buffers()
 {
-  if(m_audio_stream == nullptr)
-  {
-    return;
-  }
-
-  while(get_sample_count() > 0 && m_buffer_queue.get_free_buffer_count() > 0)
+  while(
+    m_buffers_to_queue_count > 0u && m_buffer_queue.get_free_buffer_count() > 0)
   {
     std::vector<uint8_t> data = read_data_chunk(m_buffer_byte_count);
-    if(data.empty())
+    HOU_DEV_ASSERT(!data.empty());
+
+    const audio_buffer& buf
+      = m_buffer_queue.fill_buffer(data, get_format(), get_sample_rate());
+    ALuint buf_name = buf.get_handle().get_name();
+    al::source_queue_buffers(get_handle(), 1u, &buf_name);
+
+    HOU_DEV_ASSERT(m_buffers_to_queue_count > 0u);
+    --m_buffers_to_queue_count;
+
+    // If looping, reset the stream to the beginning and the number of buffers
+    // to queue, so that the buffer queueing will continue from the beginning of
+    // the stream.
+    if(m_looping && m_buffers_to_queue_count == 0u)
     {
-      if(m_looping)
-      {
-        HOU_DEV_ASSERT(m_audio_stream != nullptr);
-        m_audio_stream->set_sample_pos(0u);
-      }
-      else
-      {
-        return;
-      }
+      HOU_DEV_ASSERT(m_audio_stream != nullptr);
+      m_audio_stream->set_sample_pos(
+        narrow_cast<audio_stream::sample_position>(0u));
+      set_buffers_to_queue_count(0u);
+      // m_sample_pos shouldn't be updated here, it is updated in free_buffers.
     }
-    else
-    {
-      const audio_buffer& buf
-        = m_buffer_queue.fill_buffer(data, get_format(), get_sample_rate());
-      ALuint buf_name = buf.get_handle().get_name();
-      al::source_queue_buffers(get_handle(), 1u, &buf_name);
-    }
+  }
+
+  // If the loop ended and the number of buffers to queue is 0, it means that
+  // the buffer queu processing was ended.
+  if(m_buffers_to_queue_count == 0u)
+  {
+    m_processing_buffer_queue = false;
   }
 }
 
@@ -211,17 +242,44 @@ void streaming_audio_source_base::set_sample_pos_and_stream_cursor(size_t pos)
   if(m_audio_stream != nullptr)
   {
     m_audio_stream->set_sample_pos(
-      narrow_cast<audio_stream::sample_position>(pos));
+      narrow_cast<audio_stream::sample_position>(m_sample_pos));
   }
+}
+
+
+
+void streaming_audio_source_base::set_buffers_to_queue_count(uint pos)
+{
+  uint samples_to_end = get_sample_count() - pos;
+  m_buffers_to_queue_count = (samples_to_end > 0u)
+    ? 1u + (samples_to_end - 1u) / get_buffer_sample_count()
+    : 0u;
 }
 
 
 
 void streaming_audio_source_base::on_set_sample_pos(uint value)
 {
+  // If the audio source is playing when changing the sample position, in order
+  // to avoid issues with the management of the buffer queue, stop it, clear
+  // the queue, and resume later.
+  bool playing = (get_state() == audio_source_state::playing);
+  if(playing)
+  {
+    al::stop_source(get_handle());
+  }
   free_buffers();
+
+  // The position and buffe variables are updated and the buffers are loaded.
   set_sample_pos_and_stream_cursor(value);
+  set_buffers_to_queue_count(m_sample_pos);
   fill_buffers();
+
+  // Resume if the audio source was playing.
+  if(playing)
+  {
+    al::play_source(get_handle());
+  }
 }
 
 
@@ -232,6 +290,20 @@ uint streaming_audio_source_base::on_get_sample_pos() const
   return sample_count == 0u
     ? 0u
     : (m_sample_pos + audio_source::on_get_sample_pos()) % get_sample_count();
+}
+
+
+
+void streaming_audio_source_base::on_play()
+{
+  m_processing_buffer_queue = true;
+}
+
+
+
+void streaming_audio_source_base::on_pause()
+{
+  m_processing_buffer_queue = false;
 }
 
 

@@ -57,14 +57,20 @@ public:
    */
   void update();
 
+  // audio_source overrides.
+  audio_source_state get_state() const final;
+
   // streaming_audio_source_base overrides.
   void set_stream(std::unique_ptr<audio_stream_in> as = nullptr) final;
   void set_buffer_count(size_t buffer_count) final;
   void set_buffer_sample_count(size_t buffer_sample_count) final;
 
-private:
+protected:
   // audio_source overrides.
   void on_set_sample_pos(uint pos) final;
+  uint on_get_sample_pos() const final;
+  void on_play() final;
+  void on_pause() final;
 };
 
 }  // namespace hou

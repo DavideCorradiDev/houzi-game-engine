@@ -19,7 +19,6 @@ std::ostream& operator<<(std::ostream& os, audio_source_state state)
 {
   switch(state)
   {
-    AUDIO_SOURCE_STATE_CASE(stopped, os);
     AUDIO_SOURCE_STATE_CASE(playing, os);
     AUDIO_SOURCE_STATE_CASE(paused, os);
   }

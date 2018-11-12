@@ -117,6 +117,7 @@ public:
   size_t get_buffer_sample_count() const;
 
   // audio_source overrides.
+  audio_source_state get_state() const override;
   bool is_valid() const final;
   void set_looping(bool looping) final;
   bool is_looping() const final;
@@ -147,9 +148,10 @@ protected:
   void update_buffer_queue();
 
   // audio_source overrides.
-  // Changed access to protected to allow derived classes to call ths
-  // implementation.
   void on_set_sample_pos(uint pos) override = 0;
+  uint on_get_sample_pos() const override = 0;
+  void on_play() override = 0;
+  void on_pause() override;
 
 private:
   std::vector<uint8_t> read_data_chunk(size_t chunk_size);
@@ -157,8 +159,9 @@ private:
   void fill_buffers();
   void set_sample_pos_variable(size_t pos);
   void set_sample_pos_and_stream_cursor(size_t pos);
+  void set_buffers_to_queue_count(uint pos);
 
-  uint on_get_sample_pos() const final;
+  // audio_source overrides.
   audio_buffer_format get_format_internal() const final;
   uint get_channel_count_internal() const final;
   uint get_bytes_per_sample_internal() const final;
@@ -169,7 +172,9 @@ private:
   std::unique_ptr<audio_stream_in> m_audio_stream;
   buffer_queue m_buffer_queue;
   bool m_looping;
+  bool m_processing_buffer_queue;
   uint m_sample_pos;
+  uint m_buffers_to_queue_count;
   size_t m_buffer_byte_count;
 };
 

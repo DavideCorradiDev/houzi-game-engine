@@ -30,6 +30,13 @@ void streaming_audio_source::update()
 
 
 
+audio_source_state streaming_audio_source::get_state() const
+{
+  return streaming_audio_source_base::get_state();
+}
+
+
+
 void streaming_audio_source::set_stream(std::unique_ptr<audio_stream_in> as)
 {
   streaming_audio_source_base::set_stream(std::move(as));
@@ -54,6 +61,27 @@ void streaming_audio_source::set_buffer_sample_count(size_t buffer_sample_count)
 void streaming_audio_source::on_set_sample_pos(uint value)
 {
   streaming_audio_source_base::on_set_sample_pos(value);
+}
+
+
+
+uint streaming_audio_source::on_get_sample_pos() const
+{
+  return streaming_audio_source_base::on_get_sample_pos();
+}
+
+
+
+void streaming_audio_source::on_play()
+{
+  streaming_audio_source_base::on_play();
+}
+
+
+
+void streaming_audio_source::on_pause()
+{
+  streaming_audio_source_base::on_pause();
 }
 
 }  // namespace hou

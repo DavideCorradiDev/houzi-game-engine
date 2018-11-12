@@ -20,18 +20,13 @@ namespace hou
 enum class audio_source_state
 {
   /**
-   * The audio source is stopped, playing will be resumed from the beginning.
+   * The audio source is not playing.
    */
-  stopped,
+  paused,
   /**
    * The audio source is playing.
    */
   playing,
-  /**
-   * The audio source is paused, playing will be resumed from the current
-   * offset.
-   */
-  paused,
 };
 
 /**
