@@ -2,6 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
+#include "bounded.hpp"
+
 #include "hou/al/al_module.hpp"
 #include "hou/aud/aud_module.hpp"
 #include "hou/cor/cor_module.hpp"
@@ -45,35 +47,51 @@ void print_audio_source_properties(
 
 int main(int, char**)
 {
-  // Setup.
+  // Initialization.
   hou::cor_module::initialize();
   hou::mth_module::initialize();
   hou::sys_module::initialize();
   hou::al_module::initialize();
   hou::aud_module::initialize();
 
+  // Audio context.
   hou::audio_context actx;
   hou::audio_context::set_current(actx);
 
-  // Resources.
+  // Audio files' paths.
   const std::string data_dir = u8"source/demo/data/";
   const std::string wav_file = data_dir + u8"test.wav";
   const std::string ogg_file = data_dir + u8"test.ogg";
-
-  hou::memory_audio_source memory_as(
-    std::make_shared<hou::audio_buffer>(hou::wav_file_in(wav_file)));
-  memory_as.set_looping(true);
-  hou::threaded_audio_source threaded_as(
-    std::make_unique<hou::ogg_file_in>(ogg_file));
-  threaded_as.set_looping(true);
-  hou::streaming_audio_source streaming_as(
-    std::make_unique<hou::ogg_file_in>(ogg_file));
-  streaming_as.set_looping(true);
 
   // Event callbacks.
   bool loop = true;
   auto on_quit = [&loop](hou::event::timestamp) { loop = false; };
   hou::event::set_quit_callback(on_quit);
+
+  // Audio buffers.
+  auto wav_buffer
+    = std::make_shared<hou::audio_buffer>(hou::wav_file_in(wav_file));
+  auto ogg_buffer
+    = std::make_shared<hou::audio_buffer>(hou::ogg_file_in(ogg_file));
+
+  // Audio sources.
+  hou::memory_audio_source memory_as(wav_buffer);
+  memory_as.set_max_gain(2.f);
+
+  hou::streaming_audio_source streaming_as(
+    std::make_unique<hou::wav_file_in>(wav_file));
+  streaming_as.set_max_gain(memory_as.get_max_gain());
+
+  hou::threaded_audio_source threaded_as(
+    std::make_unique<hou::wav_file_in>(wav_file));
+  threaded_as.set_max_gain(memory_as.get_max_gain());
+
+  hou::not_null<hou::audio_source*> current_as = &memory_as;
+
+  // Source properties.
+  bounded<float> gain(1.f, 0.f, memory_as.get_max_gain());
+  bounded<float> pitch(1.f, 0.5f, 1.5f);
+  std::chrono::milliseconds skip(500);
 
   auto on_key_pressed
     = [&](hou::event::timestamp, hou::window::uid_type, hou::scan_code sc,
@@ -82,83 +100,114 @@ int main(int, char**)
         {
           return;
         }
-        if(sc == hou::scan_code::f1)
+        if(sc == hou::scan_code::num1)
         {
-          memory_as.play();
+          memory_as.set_buffer(wav_buffer);
+          streaming_as.set_stream(std::make_unique<hou::wav_file_in>(wav_file));
+          threaded_as.set_stream(std::make_unique<hou::wav_file_in>(wav_file));
+          // change to wav.
         }
-        else if(sc == hou::scan_code::f2)
+        else if(sc == hou::scan_code::num2)
         {
-          memory_as.replay();
+          memory_as.set_buffer(ogg_buffer);
+          streaming_as.set_stream(std::make_unique<hou::ogg_file_in>(ogg_file));
+          threaded_as.set_stream(std::make_unique<hou::ogg_file_in>(ogg_file));
+          // change to ogg.
         }
-        else if(sc == hou::scan_code::f3)
+        else if(sc == hou::scan_code::q)
         {
-          memory_as.pause();
+          current_as->stop();
+          current_as = &memory_as;
         }
-        else if(sc == hou::scan_code::f4)
+        else if(sc == hou::scan_code::w)
         {
-          memory_as.stop();
+          current_as->stop();
+          current_as = &streaming_as;
         }
-        else if(sc == hou::scan_code::f5)
+        else if(sc == hou::scan_code::e)
         {
-          threaded_as.play();
+          current_as->stop();
+          current_as = &threaded_as;
         }
-        else if(sc == hou::scan_code::f6)
+        else if(sc == hou::scan_code::u)
         {
-          threaded_as.replay();
+          current_as->play();
         }
-        else if(sc == hou::scan_code::f7)
+        else if(sc == hou::scan_code::i)
         {
-          threaded_as.pause();
+          current_as->replay();
         }
-        else if(sc == hou::scan_code::f8)
+        else if(sc == hou::scan_code::o)
         {
-          threaded_as.stop();
+          current_as->pause();
         }
-        else if(sc == hou::scan_code::f9)
+        else if(sc == hou::scan_code::p)
         {
-          streaming_as.play();
+          current_as->stop();
         }
-        else if(sc == hou::scan_code::f10)
+        else if(sc == hou::scan_code::l)
         {
-          streaming_as.replay();
+          memory_as.set_looping(!memory_as.is_looping());
+          streaming_as.set_looping(memory_as.is_looping());
+          threaded_as.set_looping(memory_as.is_looping());
         }
-        else if(sc == hou::scan_code::f11)
+        else if(sc == hou::scan_code::a)
         {
-          streaming_as.pause();
+          gain -= 0.25f;
+          memory_as.set_gain(gain.get());
+          streaming_as.set_gain(memory_as.get_gain());
+          threaded_as.set_gain(memory_as.get_gain());
         }
-        else if(sc == hou::scan_code::f12)
+        else if(sc == hou::scan_code::s)
         {
-          streaming_as.stop();
+          gain += 0.25f;
+          memory_as.set_gain(gain.get());
+          streaming_as.set_gain(memory_as.get_gain());
+          threaded_as.set_gain(memory_as.get_gain());
+        }
+        else if(sc == hou::scan_code::d)
+        {
+          pitch -= 0.1f;
+          memory_as.set_pitch(pitch.get());
+          streaming_as.set_pitch(memory_as.get_pitch());
+          threaded_as.set_pitch(memory_as.get_pitch());
+        }
+        else if(sc == hou::scan_code::f)
+        {
+          pitch += 0.1f;
+          memory_as.set_pitch(pitch.get());
+          streaming_as.set_pitch(memory_as.get_pitch());
+          threaded_as.set_pitch(memory_as.get_pitch());
+        }
+        else if(sc == hou::scan_code::z)
+        {
+          current_as->set_time_pos(current_as->get_time_pos() - skip);
+        }
+        else if(sc == hou::scan_code::x)
+        {
+          current_as->set_time_pos(current_as->get_time_pos() + skip);
         }
       };
   hou::event::set_key_pressed_callback(on_key_pressed);
 
   // Print information.
-  std::cout << "Available audio devices:" << std::endl;
-  for(const auto& dev_name : hou::audio_context::get_device_names())
-  {
-    std::cout << "    " << dev_name << std::endl;
-  }
-  std::cout << std::endl;
-
-  print_audio_source_properties(std::cout, "Memory", memory_as);
-  print_audio_source_properties(std::cout, "Threaded", threaded_as);
-  print_audio_source_properties(std::cout, "Streaming", streaming_as);
-
   std::cout << "Controls:" << std::endl;
-  std::cout << "    f1: play memory source" << std::endl;
-  std::cout << "    f2: replay memory source" << std::endl;
-  std::cout << "    f3: pause memory source" << std::endl;
-  std::cout << "    f4: stop memory source" << std::endl;
-  std::cout << "    f5: play threaded source" << std::endl;
-  std::cout << "    f6: replay threaded source" << std::endl;
-  std::cout << "    f7: pause threaded source" << std::endl;
-  std::cout << "    f8: stop threaded source" << std::endl;
-  std::cout << "    f9: play streaming source" << std::endl;
-  std::cout << "    f10: replay streaming source" << std::endl;
-  std::cout << "    f11: pause streaming source" << std::endl;
-  std::cout << "    f12: stop streaming source" << std::endl;
-  std::cout << std::endl;
+  std::cout << "    1: play wav file" << std::endl;
+  std::cout << "    2: play ogg file" << std::endl;
+  std::cout << "    Q: play from memory" << std::endl;
+  std::cout << "    W: play from file stream" << std::endl;
+  std::cout << "    A: play from file stream with multi-threading" << std::endl;
+  std::cout << "    U: play" << std::endl;
+  std::cout << "    I: replay" << std::endl;
+  std::cout << "    O: pause" << std::endl;
+  std::cout << "    P: stop" << std::endl;
+  std::cout << "    L: toggle looping" << std::endl;
+  std::cout << "    A: reduce gain" << std::endl;
+  std::cout << "    S: increase gain" << std::endl;
+  std::cout << "    D: reduce pitch" << std::endl;
+  std::cout << "    F: increase pitch" << std::endl;
+  std::cout << "    Z: skip half second forward" << std::endl;
+  std::cout << "    X: skip half second backward" << std::endl;
 
   // Window.
   hou::window wnd("AudioDemo", hou::vec2u(640u, 480u));

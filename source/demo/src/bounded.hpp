@@ -17,6 +17,7 @@ public:
   bounded& operator=(T value);
   const bounded& operator+=(T delta);
   const bounded& operator-=(T delta);
+  const T& get();
   operator T() const;
 
 private:
@@ -86,9 +87,17 @@ const bounded<T>& bounded<T>::operator-=(T delta)
 
 
 template <typename T>
-bounded<T>::operator T() const
+const T& bounded<T>::get()
 {
   return m_value;
+}
+
+
+
+template <typename T>
+bounded<T>::operator T() const
+{
+  return get();
 }
 
 #endif
