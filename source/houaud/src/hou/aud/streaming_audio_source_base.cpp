@@ -231,7 +231,7 @@ void streaming_audio_source_base::fill_buffers()
 void streaming_audio_source_base::set_sample_pos_variable(size_t pos)
 {
   uint sample_count = get_sample_count();
-  m_sample_pos = sample_count == 0u ? 0u : pos % get_sample_count();
+  m_sample_pos = sample_count == 0u ? 0u : pos % sample_count;
 }
 
 

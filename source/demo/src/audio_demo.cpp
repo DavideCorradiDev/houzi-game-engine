@@ -26,25 +26,6 @@
 
 
 
-void print_audio_source_properties(std::ostream& os,
-  const std::string& source_name, const hou::audio_source& as);
-
-void print_audio_source_properties(
-  std::ostream& os, const std::string& source_name, const hou::audio_source& as)
-{
-  using seconds = std::chrono::duration<float, std::ratio<1>>;
-  os << source_name << " source properties:\n";
-  os << "    Format: " << as.get_format() << "\n";
-  os << "    Channel count: " << as.get_channel_count() << "\n";
-  os << "    Bytes per sample: " << as.get_bytes_per_sample() << "\n";
-  os << "    Sample rate: " << as.get_sample_rate() << "\n";
-  os << "    Sample count: " << as.get_sample_count() << "\n";
-  os << "    Duration: " << seconds(as.get_duration()) << "\n";
-  os << std::endl;
-}
-
-
-
 int main(int, char**)
 {
   // Initialization.
@@ -181,7 +162,15 @@ int main(int, char**)
         }
         else if(sc == hou::scan_code::z)
         {
-          current_as->set_time_pos(current_as->get_time_pos() - skip);
+          std::chrono::nanoseconds current_pos = current_as->get_time_pos();
+          if(current_pos > skip)
+          {
+            current_as->set_time_pos(current_pos - skip);
+          }
+          else
+          {
+            current_as->set_time_pos(std::chrono::nanoseconds(0u));
+          }
         }
         else if(sc == hou::scan_code::x)
         {
@@ -196,7 +185,7 @@ int main(int, char**)
   std::cout << "    2: play ogg file" << std::endl;
   std::cout << "    Q: play from memory" << std::endl;
   std::cout << "    W: play from file stream" << std::endl;
-  std::cout << "    A: play from file stream with multi-threading" << std::endl;
+  std::cout << "    E: play from file stream with multi-threading" << std::endl;
   std::cout << "    U: play" << std::endl;
   std::cout << "    I: replay" << std::endl;
   std::cout << "    O: pause" << std::endl;
@@ -206,8 +195,8 @@ int main(int, char**)
   std::cout << "    S: increase gain" << std::endl;
   std::cout << "    D: reduce pitch" << std::endl;
   std::cout << "    F: increase pitch" << std::endl;
-  std::cout << "    Z: skip half second forward" << std::endl;
-  std::cout << "    X: skip half second backward" << std::endl;
+  std::cout << "    Z: skip half second backward" << std::endl;
+  std::cout << "    X: skip half second forward" << std::endl;
 
   // Window.
   hou::window wnd("AudioDemo", hou::vec2u(640u, 480u));

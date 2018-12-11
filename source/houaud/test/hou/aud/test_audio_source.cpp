@@ -281,7 +281,7 @@ TEST_F(test_audio_source, default_variables_when_invalid)
 
 
 
-TEST_F(test_audio_source, set_time_pos_while_playing)
+TEST_F(test_audio_source, set_sample_pos_while_playing)
 {
   concrete_audio_source as(m_buffer);
   as.set_looping(true);
@@ -292,7 +292,7 @@ TEST_F(test_audio_source, set_time_pos_while_playing)
 
 
 
-TEST_F(test_audio_source, set_time_pos_while_paused)
+TEST_F(test_audio_source, set_sample_pos_while_paused)
 {
   concrete_audio_source as(m_buffer);
   as.set_looping(true);
@@ -305,11 +305,24 @@ TEST_F(test_audio_source, set_time_pos_while_paused)
 
 
 
-TEST_F(test_audio_source, set_time_pos_overflow)
+TEST_F(test_audio_source, set_sample_pos_overflow_not_looping)
 {
   concrete_audio_source as(m_buffer);
-  as.set_sample_pos(6u);
-  EXPECT_EQ(2u, as.get_sample_pos());
+  as.play();
+  as.set_sample_pos(as.get_sample_count() + 1u);
+  EXPECT_EQ(audio_source_state::paused, as.get_state());
+  EXPECT_EQ(0u, as.get_sample_pos());
+}
+
+
+
+TEST_F(test_audio_source, set_sample_pos_overflow_looping)
+{
+  concrete_audio_source as(m_buffer);
+  as.set_looping(true);
+  as.play();
+  as.set_sample_pos(as.get_sample_count() + 1u);
+  EXPECT_EQ(audio_source_state::playing, as.get_state());
 }
 
 

@@ -187,13 +187,22 @@ std::chrono::nanoseconds audio_source::get_duration() const
 
 void audio_source::set_sample_pos(uint pos)
 {
+  uint sample_count = get_sample_count();
+
+  if(pos >= sample_count && !is_looping())
+  {
+    stop();
+    return;
+  }
+
+  pos = normalize(pos, sample_count);
   if(get_state() == audio_source_state::playing)
   {
-    on_set_sample_pos(normalize(pos, get_sample_count()));
+      on_set_sample_pos(pos);
   }
   else
   {
-    m_requested_sample_pos = normalize(pos, get_sample_count());
+    m_requested_sample_pos = pos;
   }
 }
 

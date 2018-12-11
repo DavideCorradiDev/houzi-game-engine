@@ -170,7 +170,7 @@ TEST_F(test_threaded_audio_source, set_stream_while_paused)
 
 
 
-TEST_F(test_threaded_audio_source, set_time_pos_while_stopped)
+TEST_F(test_threaded_audio_source, set_sample_pos_while_stopped)
 {
   threaded_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
   as.set_sample_pos(3u);
@@ -180,7 +180,7 @@ TEST_F(test_threaded_audio_source, set_time_pos_while_stopped)
 
 
 
-TEST_F(test_threaded_audio_source, set_time_pos_while_playing)
+TEST_F(test_threaded_audio_source, set_sample_pos_while_playing)
 {
   threaded_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
   as.set_looping(true);
@@ -191,7 +191,7 @@ TEST_F(test_threaded_audio_source, set_time_pos_while_playing)
 
 
 
-TEST_F(test_threaded_audio_source, set_time_pos_while_paused)
+TEST_F(test_threaded_audio_source, set_sample_pos_while_paused)
 {
   threaded_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
   as.set_looping(true);
@@ -204,11 +204,24 @@ TEST_F(test_threaded_audio_source, set_time_pos_while_paused)
 
 
 
-TEST_F(test_threaded_audio_source, set_time_pos_overflow)
+TEST_F(test_threaded_audio_source, set_sample_pos_overflow_not_looping)
 {
   threaded_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
-  as.set_sample_pos(21432u);
-  EXPECT_EQ(201u, as.get_sample_pos());
+  as.play();
+  as.set_sample_pos(as.get_sample_count() + 1u);
+  EXPECT_EQ(audio_source_state::paused, as.get_state());
+  EXPECT_EQ(0u, as.get_sample_pos());
+}
+
+
+
+TEST_F(test_threaded_audio_source, set_sample_pos_overflow_looping)
+{
+  threaded_audio_source as(std::make_unique<ogg_file_in>(audio_filename));
+  as.set_looping(true);
+  as.play();
+  as.set_sample_pos(as.get_sample_count() + 1u);
+  EXPECT_EQ(audio_source_state::playing, as.get_state());
 }
 
 
