@@ -124,13 +124,6 @@ bool streaming_audio_source_base::is_valid() const
 
 
 
-void streaming_audio_source_base::set_looping(bool looping)
-{
-  m_looping = looping;
-}
-
-
-
 bool streaming_audio_source_base::is_looping() const
 {
   return m_looping;
@@ -254,6 +247,13 @@ void streaming_audio_source_base::set_buffers_to_queue_count(uint pos)
   m_buffers_to_queue_count = (samples_to_end > 0u)
     ? 1u + (samples_to_end - 1u) / get_buffer_sample_count()
     : 0u;
+}
+
+
+
+void streaming_audio_source_base::on_set_looping(bool looping)
+{
+  m_looping = looping;
 }
 
 

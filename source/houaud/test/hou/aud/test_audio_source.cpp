@@ -43,10 +43,10 @@ public:
   audio_source_state get_state() const final;
   bool is_valid() const final;
   void set_valid(bool value);
-  void set_looping(bool looping) final;
   bool is_looping() const final;
 
 protected:
+  void on_set_looping(bool looping) final;
   void on_set_sample_pos(uint value) final;
   uint on_get_sample_pos() const final;
   void on_play() final;
@@ -126,16 +126,16 @@ void concrete_audio_source::set_valid(bool value)
 
 
 
-void concrete_audio_source::set_looping(bool looping)
+bool concrete_audio_source::is_looping() const
 {
-  audio_source::set_looping(looping);
+  return audio_source::is_looping();
 }
 
 
 
-bool concrete_audio_source::is_looping() const
+void concrete_audio_source::on_set_looping(bool looping)
 {
-  return audio_source::is_looping();
+  audio_source::on_set_looping(looping);
 }
 
 

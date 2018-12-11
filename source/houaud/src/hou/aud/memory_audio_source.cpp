@@ -76,16 +76,16 @@ bool memory_audio_source::is_valid() const
 
 
 
-void memory_audio_source::set_looping(bool looping)
+bool memory_audio_source::is_looping() const
 {
-  audio_source::set_looping(looping);
+  return audio_source::is_looping();
 }
 
 
 
-bool memory_audio_source::is_looping() const
+void memory_audio_source::on_set_looping(bool looping)
 {
-  return audio_source::is_looping();
+  audio_source::on_set_looping(looping);
 }
 
 

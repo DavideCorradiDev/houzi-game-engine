@@ -58,6 +58,13 @@ void streaming_audio_source::set_buffer_sample_count(size_t buffer_sample_count)
 
 
 
+void streaming_audio_source::on_set_looping(bool looping)
+{
+  streaming_audio_source_base::on_set_looping(looping);
+}
+
+
+
 void streaming_audio_source::on_set_sample_pos(uint value)
 {
   streaming_audio_source_base::on_set_sample_pos(value);

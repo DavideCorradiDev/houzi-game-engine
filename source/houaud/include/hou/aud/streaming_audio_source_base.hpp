@@ -119,7 +119,6 @@ public:
   // audio_source overrides.
   audio_source_state get_state() const override;
   bool is_valid() const final;
-  void set_looping(bool looping) final;
   bool is_looping() const final;
 
 private:
@@ -148,6 +147,7 @@ protected:
   void update_buffer_queue();
 
   // audio_source overrides.
+  void on_set_looping(bool looping) override = 0;
   void on_set_sample_pos(uint pos) override = 0;
   uint on_get_sample_pos() const override = 0;
   void on_play() override = 0;

@@ -231,7 +231,24 @@ uint audio_source::get_sample_count() const
 
 void audio_source::set_looping(bool looping)
 {
-  al::set_source_looping(m_handle, static_cast<ALboolean>(looping));
+  // If the looping state is not really changing, do nothing.
+  if(looping == is_looping())
+  {
+    return;
+  }
+
+  if(get_state() == audio_source_state::playing)
+  {
+    // In order to ensure correct behavior in derived classes, before changing
+    // the looping state the playback should be paused, and then resumed.
+    pause();
+    on_set_looping(looping);
+    play();
+  }
+  else
+  {
+    on_set_looping(looping);
+  }
 }
 
 
@@ -449,6 +466,13 @@ vec3f audio_source::get_direction() const
   al::get_source_direction(
     m_handle, static_cast<ALfloat*>(const_cast<float*>(retval.data())));
   return retval;
+}
+
+
+
+void audio_source::on_set_looping(bool looping)
+{
+  al::set_source_looping(m_handle, static_cast<ALboolean>(looping));
 }
 
 

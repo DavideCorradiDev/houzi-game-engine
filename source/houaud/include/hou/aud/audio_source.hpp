@@ -195,7 +195,7 @@ public:
    *
    * \param looping true to set the audio source to looping, false otherwise.
    */
-  virtual void set_looping(bool looping) = 0;
+  void set_looping(bool looping);
 
   /**
    * Checks if the audio source is looping.
@@ -421,6 +421,8 @@ public:
   vec3f get_direction() const;
 
 protected:
+  virtual void on_set_looping(bool looping) = 0;
+
   /**
    * Sets the sample position.
    *

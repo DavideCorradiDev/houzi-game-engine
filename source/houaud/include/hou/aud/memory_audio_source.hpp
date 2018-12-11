@@ -80,11 +80,11 @@ public:
   // audio_source overrides.
   audio_source_state get_state() const final;
   bool is_valid() const final;
-  void set_looping(bool looping) final;
   bool is_looping() const final;
 
 protected:
   // audio_source overrides.
+  void on_set_looping(bool looping) final;
   void on_set_sample_pos(uint pos) final;
   uint on_get_sample_pos() const final;
   void on_play() final;

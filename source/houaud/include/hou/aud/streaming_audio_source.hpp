@@ -67,6 +67,7 @@ public:
 
 protected:
   // audio_source overrides.
+  void on_set_looping(bool looping) final;
   void on_set_sample_pos(uint pos) final;
   uint on_get_sample_pos() const final;
   void on_play() final;
