@@ -198,7 +198,12 @@ void audio_source::set_sample_pos(uint pos)
   pos = normalize(pos, sample_count);
   if(get_state() == audio_source_state::playing)
   {
-      on_set_sample_pos(pos);
+    // In order to ensure correct behavior in derived classes, before changing
+    // the the sample position the audio source must be stopped and playback
+    // resumed afterwards.
+    al::stop_source(get_handle());
+    on_set_sample_pos(pos);
+    al::play_source(get_handle());
   }
   else
   {

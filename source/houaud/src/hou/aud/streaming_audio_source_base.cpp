@@ -260,26 +260,10 @@ void streaming_audio_source_base::on_set_looping(bool looping)
 
 void streaming_audio_source_base::on_set_sample_pos(uint value)
 {
-  // If the audio source is playing when changing the sample position, in order
-  // to avoid issues with the management of the buffer queue, stop it, clear
-  // the queue, and resume later.
-  bool playing = (get_state() == audio_source_state::playing);
-  if(playing)
-  {
-    al::stop_source(get_handle());
-  }
   free_buffers();
-
-  // The position and buffe variables are updated and the buffers are loaded.
   set_sample_pos_and_stream_cursor(value);
   set_buffers_to_queue_count(m_sample_pos);
   fill_buffers();
-
-  // Resume if the audio source was playing.
-  if(playing)
-  {
-    al::play_source(get_handle());
-  }
 }
 
 
