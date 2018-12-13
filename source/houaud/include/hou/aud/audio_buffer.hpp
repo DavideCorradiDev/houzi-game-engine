@@ -35,7 +35,7 @@ namespace hou
  * An audio_buffer object loads the whole audio data into memory.
  * For large audio data this might be expensive.
  * In that case, it is suggested to use audio streams and a
- * threaded_audio_source.
+ * automatic_stream_audio_source.
  */
 class HOU_AUD_API audio_buffer : public non_copyable
 {

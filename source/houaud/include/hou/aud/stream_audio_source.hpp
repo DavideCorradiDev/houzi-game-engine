@@ -2,8 +2,8 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#ifndef HOU_AUD_STREAMING_AUDIO_SOURCE_BASE_HPP
-#define HOU_AUD_STREAMING_AUDIO_SOURCE_BASE_HPP
+#ifndef HOU_AUD_STREAM_AUDIO_SOURCE_HPP
+#define HOU_AUD_STREAM_AUDIO_SOURCE_HPP
 
 #include "hou/aud/audio_source.hpp"
 
@@ -28,12 +28,12 @@ namespace hou
  * This class is suited to play long audio buffers, as the buffer must not be
  * completely loaded in memory but is rather streamed concurrently in smaller
  * chunks.
- * For short audio files, it is suggested to use an memory_audio_source and an
+ * For short audio files, it is suggested to use an buffer_audio_source and an
  * audio_buffer, as performance is better and as the audio_buffer can be shared
- * by multiple memory_audio_source objects.
+ * by multiple buffer_audio_source objects.
  *
- * A streaming_audio_source_base must be given an audio_stream to play a sound.
- * The streaming_audio_source_base will retain unique ownership of the
+ * A stream_audio_source must be given an audio_stream to play a sound.
+ * The stream_audio_source will retain unique ownership of the
  * audio_stream and will automatically destroy it.
  *
  * The buffer queue is defined by the number of buffers and the size of
@@ -45,31 +45,30 @@ namespace hou
  * Higher number of buffers and higher buffer size will result in higher
  * memory consumption, but potentially better sound quality.
  */
-class HOU_AUD_API streaming_audio_source_base : public audio_source
+class HOU_AUD_API stream_audio_source : public audio_source
 {
 public:
   /**
    * Stream constructor.
    *
-   * Creates a streaming_audio_source_base object with the given audio stream,
+   * Creates a stream_audio_source object with the given audio stream,
    * taking ownership of it.
    *
    * \param as the audio stream.
    */
-  explicit streaming_audio_source_base(
-    std::unique_ptr<audio_stream_in> as = nullptr);
+  explicit stream_audio_source(std::unique_ptr<audio_stream_in> as = nullptr);
 
   /**
    * Move constructor.
    *
    * \param other the object to be moved.
    */
-  streaming_audio_source_base(streaming_audio_source_base&&) = default;
+  stream_audio_source(stream_audio_source&&) = default;
 
   /**
    * Destructor.
    */
-  virtual ~streaming_audio_source_base();
+  virtual ~stream_audio_source();
 
   /**
    * Sets the stream and transfers ownership to this object.
@@ -82,7 +81,7 @@ public:
    * Gets the audio stream.
    *
    * \return a pointer to the audio stream, or nullptr if no audio stream is
-   * associated to the streaming_audio_source_base.
+   * associated to the stream_audio_source.
    */
   const audio_stream_in* get_stream() const;
 

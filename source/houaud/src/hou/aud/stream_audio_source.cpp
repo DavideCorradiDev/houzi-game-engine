@@ -2,7 +2,7 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#include "hou/aud/streaming_audio_source_base.hpp"
+#include "hou/aud/stream_audio_source.hpp"
 
 #include "hou/aud/audio_stream_in.hpp"
 
@@ -23,8 +23,7 @@ constexpr size_t g_default_buffer_byte_count = 44100u;
 
 
 
-streaming_audio_source_base::streaming_audio_source_base(
-  std::unique_ptr<audio_stream_in> as)
+stream_audio_source::stream_audio_source(std::unique_ptr<audio_stream_in> as)
   : audio_source()
   , m_audio_stream(std::move(as))
   , m_buffer_queue(g_default_buffer_count)
@@ -39,7 +38,7 @@ streaming_audio_source_base::streaming_audio_source_base(
 
 
 
-streaming_audio_source_base::~streaming_audio_source_base()
+stream_audio_source::~stream_audio_source()
 {
   // The buffer queue will be deleted before the audio source, therefore
   // the buffers must be unqueued from the audio source to avoid an OpenAL
@@ -54,8 +53,7 @@ streaming_audio_source_base::~streaming_audio_source_base()
 
 
 
-void streaming_audio_source_base::set_stream(
-  std::unique_ptr<audio_stream_in> as)
+void stream_audio_source::set_stream(std::unique_ptr<audio_stream_in> as)
 {
   stop();
   m_audio_stream = std::move(as);
@@ -64,14 +62,14 @@ void streaming_audio_source_base::set_stream(
 
 
 
-const audio_stream_in* streaming_audio_source_base::get_stream() const
+const audio_stream_in* stream_audio_source::get_stream() const
 {
   return m_audio_stream.get();
 }
 
 
 
-void streaming_audio_source_base::set_buffer_count(size_t buffer_count)
+void stream_audio_source::set_buffer_count(size_t buffer_count)
 {
   HOU_PRECOND(buffer_count > 0u);
   stop();
@@ -81,15 +79,14 @@ void streaming_audio_source_base::set_buffer_count(size_t buffer_count)
 
 
 
-size_t streaming_audio_source_base::get_buffer_count() const
+size_t stream_audio_source::get_buffer_count() const
 {
   return m_buffer_queue.get_buffer_count();
 }
 
 
 
-void streaming_audio_source_base::set_buffer_sample_count(
-  size_t buffer_sample_count)
+void stream_audio_source::set_buffer_sample_count(size_t buffer_sample_count)
 {
   HOU_PRECOND(buffer_sample_count > 0u);
   stop();
@@ -99,14 +96,14 @@ void streaming_audio_source_base::set_buffer_sample_count(
 
 
 
-size_t streaming_audio_source_base::get_buffer_sample_count() const
+size_t stream_audio_source::get_buffer_sample_count() const
 {
   return m_buffer_byte_count / (get_channel_count() * get_bytes_per_sample());
 }
 
 
 
-audio_source_state streaming_audio_source_base::get_state() const
+audio_source_state stream_audio_source::get_state() const
 {
   if(m_processing_buffer_queue)
   {
@@ -117,21 +114,21 @@ audio_source_state streaming_audio_source_base::get_state() const
 
 
 
-bool streaming_audio_source_base::is_valid() const
+bool stream_audio_source::is_valid() const
 {
   return m_audio_stream != nullptr;
 }
 
 
 
-bool streaming_audio_source_base::is_looping() const
+bool stream_audio_source::is_looping() const
 {
   return m_looping;
 }
 
 
 
-void streaming_audio_source_base::update_buffer_queue()
+void stream_audio_source::update_buffer_queue()
 {
   if(m_processing_buffer_queue)
   {
@@ -151,8 +148,7 @@ void streaming_audio_source_base::update_buffer_queue()
 
 
 
-std::vector<uint8_t> streaming_audio_source_base::read_data_chunk(
-  size_t chunk_size)
+std::vector<uint8_t> stream_audio_source::read_data_chunk(size_t chunk_size)
 {
   std::vector<uint8_t> data;
   if(m_audio_stream != nullptr)
@@ -166,7 +162,7 @@ std::vector<uint8_t> streaming_audio_source_base::read_data_chunk(
 
 
 
-void streaming_audio_source_base::free_buffers()
+void stream_audio_source::free_buffers()
 {
   uint processed_buffers = al::get_source_processed_buffers(get_handle());
   if(processed_buffers > 0)
@@ -182,7 +178,7 @@ void streaming_audio_source_base::free_buffers()
 
 
 
-void streaming_audio_source_base::fill_buffers()
+void stream_audio_source::fill_buffers()
 {
   while(
     m_buffers_to_queue_count > 0u && m_buffer_queue.get_free_buffer_count() > 0)
@@ -221,7 +217,7 @@ void streaming_audio_source_base::fill_buffers()
 
 
 
-void streaming_audio_source_base::set_sample_pos_variable(size_t pos)
+void stream_audio_source::set_sample_pos_variable(size_t pos)
 {
   uint sample_count = get_sample_count();
   m_sample_pos = sample_count == 0u ? 0u : pos % sample_count;
@@ -229,7 +225,7 @@ void streaming_audio_source_base::set_sample_pos_variable(size_t pos)
 
 
 
-void streaming_audio_source_base::set_sample_pos_and_stream_cursor(size_t pos)
+void stream_audio_source::set_sample_pos_and_stream_cursor(size_t pos)
 {
   set_sample_pos_variable(pos);
   if(m_audio_stream != nullptr)
@@ -241,7 +237,7 @@ void streaming_audio_source_base::set_sample_pos_and_stream_cursor(size_t pos)
 
 
 
-void streaming_audio_source_base::set_buffers_to_queue_count(uint pos)
+void stream_audio_source::set_buffers_to_queue_count(uint pos)
 {
   uint samples_to_end = get_sample_count() - pos;
   m_buffers_to_queue_count = (samples_to_end > 0u)
@@ -251,14 +247,14 @@ void streaming_audio_source_base::set_buffers_to_queue_count(uint pos)
 
 
 
-void streaming_audio_source_base::on_set_looping(bool looping)
+void stream_audio_source::on_set_looping(bool looping)
 {
   m_looping = looping;
 }
 
 
 
-void streaming_audio_source_base::on_set_sample_pos(uint value)
+void stream_audio_source::on_set_sample_pos(uint value)
 {
   free_buffers();
   set_sample_pos_and_stream_cursor(value);
@@ -268,7 +264,7 @@ void streaming_audio_source_base::on_set_sample_pos(uint value)
 
 
 
-uint streaming_audio_source_base::on_get_sample_pos() const
+uint stream_audio_source::on_get_sample_pos() const
 {
   uint sample_count = get_sample_count();
   return sample_count == 0u
@@ -278,21 +274,21 @@ uint streaming_audio_source_base::on_get_sample_pos() const
 
 
 
-void streaming_audio_source_base::on_play()
+void stream_audio_source::on_play()
 {
   m_processing_buffer_queue = true;
 }
 
 
 
-void streaming_audio_source_base::on_pause()
+void stream_audio_source::on_pause()
 {
   m_processing_buffer_queue = false;
 }
 
 
 
-audio_buffer_format streaming_audio_source_base::get_format_internal() const
+audio_buffer_format stream_audio_source::get_format_internal() const
 {
   HOU_INVARIANT(m_audio_stream != nullptr);
   return m_audio_stream->get_format();
@@ -300,7 +296,7 @@ audio_buffer_format streaming_audio_source_base::get_format_internal() const
 
 
 
-uint streaming_audio_source_base::get_channel_count_internal() const
+uint stream_audio_source::get_channel_count_internal() const
 {
   HOU_INVARIANT(m_audio_stream != nullptr);
   return m_audio_stream->get_channel_count();
@@ -308,7 +304,7 @@ uint streaming_audio_source_base::get_channel_count_internal() const
 
 
 
-uint streaming_audio_source_base::get_bytes_per_sample_internal() const
+uint stream_audio_source::get_bytes_per_sample_internal() const
 {
   HOU_INVARIANT(m_audio_stream != nullptr);
   return m_audio_stream->get_bytes_per_sample();
@@ -316,7 +312,7 @@ uint streaming_audio_source_base::get_bytes_per_sample_internal() const
 
 
 
-uint streaming_audio_source_base::get_sample_rate_internal() const
+uint stream_audio_source::get_sample_rate_internal() const
 {
   HOU_INVARIANT(m_audio_stream != nullptr);
   return m_audio_stream->get_sample_rate();
@@ -324,7 +320,7 @@ uint streaming_audio_source_base::get_sample_rate_internal() const
 
 
 
-uint streaming_audio_source_base::get_sample_count_internal() const
+uint stream_audio_source::get_sample_count_internal() const
 {
   HOU_INVARIANT(m_audio_stream != nullptr);
   return narrow_cast<uint>(m_audio_stream->get_sample_count());
@@ -332,7 +328,7 @@ uint streaming_audio_source_base::get_sample_count_internal() const
 
 
 
-streaming_audio_source_base::buffer_queue::buffer_queue(size_t buffer_count)
+stream_audio_source::buffer_queue::buffer_queue(size_t buffer_count)
   : m_buffers(buffer_count)
   , m_buffer_sample_counts()
   , m_free_buffer_count(buffer_count)
@@ -341,7 +337,7 @@ streaming_audio_source_base::buffer_queue::buffer_queue(size_t buffer_count)
 
 
 
-size_t streaming_audio_source_base::buffer_queue::free_buffers(size_t count)
+size_t stream_audio_source::buffer_queue::free_buffers(size_t count)
 {
   m_free_buffer_count += count;
   HOU_DEV_ASSERT(m_free_buffer_count <= m_buffers.size());
@@ -356,7 +352,7 @@ size_t streaming_audio_source_base::buffer_queue::free_buffers(size_t count)
 
 
 
-const audio_buffer& streaming_audio_source_base::buffer_queue::fill_buffer(
+const audio_buffer& stream_audio_source::buffer_queue::fill_buffer(
   const std::vector<uint8_t>& data, audio_buffer_format format, int sample_rate)
 {
   HOU_DEV_ASSERT(m_free_buffer_count > 0);
@@ -370,21 +366,21 @@ const audio_buffer& streaming_audio_source_base::buffer_queue::fill_buffer(
 
 
 
-size_t streaming_audio_source_base::buffer_queue::get_free_buffer_count() const
+size_t stream_audio_source::buffer_queue::get_free_buffer_count() const
 {
   return m_free_buffer_count;
 }
 
 
 
-size_t streaming_audio_source_base::buffer_queue::get_used_buffer_count() const
+size_t stream_audio_source::buffer_queue::get_used_buffer_count() const
 {
   return m_buffers.size() - m_free_buffer_count;
 }
 
 
 
-size_t streaming_audio_source_base::buffer_queue::get_buffer_count() const
+size_t stream_audio_source::buffer_queue::get_buffer_count() const
 {
   return m_buffers.size();
 }

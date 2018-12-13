@@ -2,10 +2,10 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#ifndef HOU_AUD_STREAMING_AUDIO_SOURCE_HPP
-#define HOU_AUD_STREAMING_AUDIO_SOURCE_HPP
+#ifndef HOU_AUD_MANUAL_STREAM_AUDIO_SOURCE_HPP
+#define HOU_AUD_MANUAL_STREAM_AUDIO_SOURCE_HPP
 
-#include "hou/aud/streaming_audio_source_base.hpp"
+#include "hou/aud/stream_audio_source.hpp"
 
 #include "hou/aud/aud_config.hpp"
 
@@ -21,19 +21,18 @@ namespace hou
  * it internally in a buffer queue. The buffer queue must be periodically
  * updated manually by calling the update() function.
  */
-class HOU_AUD_API streaming_audio_source final
-  : public streaming_audio_source_base
+class HOU_AUD_API manual_stream_audio_source final : public stream_audio_source
 {
 public:
   /**
    * Stream constructor.
    *
-   * Creates a streaming_audio_source object with the given audio stream,
+   * Creates a manual_stream_audio_source object with the given audio stream,
    * taking ownership of it.
    *
    * \param as the audio stream.
    */
-  explicit streaming_audio_source(
+  explicit manual_stream_audio_source(
     std::unique_ptr<audio_stream_in> as = nullptr);
 
   /**
@@ -41,12 +40,12 @@ public:
    *
    * \param other the object to be moved.
    */
-  streaming_audio_source(streaming_audio_source&& other) = default;
+  manual_stream_audio_source(manual_stream_audio_source&& other) = default;
 
   /**
    * Destructor.
    */
-  ~streaming_audio_source();
+  ~manual_stream_audio_source();
 
   /**
    * Updates the internal audio buffer queue.
@@ -60,7 +59,7 @@ public:
   // audio_source overrides.
   audio_source_state get_state() const final;
 
-  // streaming_audio_source_base overrides.
+  // stream_audio_source overrides.
   void set_stream(std::unique_ptr<audio_stream_in> as = nullptr) final;
   void set_buffer_count(size_t buffer_count) final;
   void set_buffer_sample_count(size_t buffer_sample_count) final;

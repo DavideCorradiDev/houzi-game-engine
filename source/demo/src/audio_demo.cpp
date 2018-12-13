@@ -14,10 +14,10 @@
 #include "hou/sys/window.hpp"
 
 #include "hou/aud/audio_context.hpp"
-#include "hou/aud/memory_audio_source.hpp"
+#include "hou/aud/buffer_audio_source.hpp"
 #include "hou/aud/ogg_file_in.hpp"
-#include "hou/aud/streaming_audio_source.hpp"
-#include "hou/aud/threaded_audio_source.hpp"
+#include "hou/aud/manual_stream_audio_source.hpp"
+#include "hou/aud/automatic_stream_audio_source.hpp"
 #include "hou/aud/wav_file_in.hpp"
 
 #include "hou/cor/std_chrono.hpp"
@@ -56,21 +56,21 @@ int main(int, char**)
     = std::make_shared<hou::audio_buffer>(hou::ogg_file_in(ogg_file));
 
   // Audio sources.
-  hou::memory_audio_source memory_as(wav_buffer);
-  memory_as.set_max_gain(2.f);
+  hou::buffer_audio_source buffer_as(wav_buffer);
+  buffer_as.set_max_gain(2.f);
 
-  hou::streaming_audio_source streaming_as(
+  hou::manual_stream_audio_source manual_stream_as(
     std::make_unique<hou::wav_file_in>(wav_file));
-  streaming_as.set_max_gain(memory_as.get_max_gain());
+  manual_stream_as.set_max_gain(buffer_as.get_max_gain());
 
-  hou::threaded_audio_source threaded_as(
+  hou::automatic_stream_audio_source automatic_stream_as(
     std::make_unique<hou::wav_file_in>(wav_file));
-  threaded_as.set_max_gain(memory_as.get_max_gain());
+  automatic_stream_as.set_max_gain(buffer_as.get_max_gain());
 
-  hou::not_null<hou::audio_source*> current_as = &memory_as;
+  hou::not_null<hou::audio_source*> current_as = &buffer_as;
 
   // Source properties.
-  bounded<float> gain(1.f, 0.f, memory_as.get_max_gain());
+  bounded<float> gain(1.f, 0.f, buffer_as.get_max_gain());
   bounded<float> pitch(1.f, 0.5f, 1.5f);
   std::chrono::milliseconds skip(500);
 
@@ -83,32 +83,32 @@ int main(int, char**)
         }
         if(sc == hou::scan_code::num1)
         {
-          memory_as.set_buffer(wav_buffer);
-          streaming_as.set_stream(std::make_unique<hou::wav_file_in>(wav_file));
-          threaded_as.set_stream(std::make_unique<hou::wav_file_in>(wav_file));
+          buffer_as.set_buffer(wav_buffer);
+          manual_stream_as.set_stream(std::make_unique<hou::wav_file_in>(wav_file));
+          automatic_stream_as.set_stream(std::make_unique<hou::wav_file_in>(wav_file));
           // change to wav.
         }
         else if(sc == hou::scan_code::num2)
         {
-          memory_as.set_buffer(ogg_buffer);
-          streaming_as.set_stream(std::make_unique<hou::ogg_file_in>(ogg_file));
-          threaded_as.set_stream(std::make_unique<hou::ogg_file_in>(ogg_file));
+          buffer_as.set_buffer(ogg_buffer);
+          manual_stream_as.set_stream(std::make_unique<hou::ogg_file_in>(ogg_file));
+          automatic_stream_as.set_stream(std::make_unique<hou::ogg_file_in>(ogg_file));
           // change to ogg.
         }
         else if(sc == hou::scan_code::q)
         {
           current_as->stop();
-          current_as = &memory_as;
+          current_as = &buffer_as;
         }
         else if(sc == hou::scan_code::w)
         {
           current_as->stop();
-          current_as = &streaming_as;
+          current_as = &manual_stream_as;
         }
         else if(sc == hou::scan_code::e)
         {
           current_as->stop();
-          current_as = &threaded_as;
+          current_as = &automatic_stream_as;
         }
         else if(sc == hou::scan_code::u)
         {
@@ -128,37 +128,37 @@ int main(int, char**)
         }
         else if(sc == hou::scan_code::l)
         {
-          memory_as.set_looping(!memory_as.is_looping());
-          streaming_as.set_looping(memory_as.is_looping());
-          threaded_as.set_looping(memory_as.is_looping());
+          buffer_as.set_looping(!buffer_as.is_looping());
+          manual_stream_as.set_looping(buffer_as.is_looping());
+          automatic_stream_as.set_looping(buffer_as.is_looping());
         }
         else if(sc == hou::scan_code::a)
         {
           gain -= 0.25f;
-          memory_as.set_gain(gain.get());
-          streaming_as.set_gain(memory_as.get_gain());
-          threaded_as.set_gain(memory_as.get_gain());
+          buffer_as.set_gain(gain.get());
+          manual_stream_as.set_gain(buffer_as.get_gain());
+          automatic_stream_as.set_gain(buffer_as.get_gain());
         }
         else if(sc == hou::scan_code::s)
         {
           gain += 0.25f;
-          memory_as.set_gain(gain.get());
-          streaming_as.set_gain(memory_as.get_gain());
-          threaded_as.set_gain(memory_as.get_gain());
+          buffer_as.set_gain(gain.get());
+          manual_stream_as.set_gain(buffer_as.get_gain());
+          automatic_stream_as.set_gain(buffer_as.get_gain());
         }
         else if(sc == hou::scan_code::d)
         {
           pitch -= 0.1f;
-          memory_as.set_pitch(pitch.get());
-          streaming_as.set_pitch(memory_as.get_pitch());
-          threaded_as.set_pitch(memory_as.get_pitch());
+          buffer_as.set_pitch(pitch.get());
+          manual_stream_as.set_pitch(buffer_as.get_pitch());
+          automatic_stream_as.set_pitch(buffer_as.get_pitch());
         }
         else if(sc == hou::scan_code::f)
         {
           pitch += 0.1f;
-          memory_as.set_pitch(pitch.get());
-          streaming_as.set_pitch(memory_as.get_pitch());
-          threaded_as.set_pitch(memory_as.get_pitch());
+          buffer_as.set_pitch(pitch.get());
+          manual_stream_as.set_pitch(buffer_as.get_pitch());
+          automatic_stream_as.set_pitch(buffer_as.get_pitch());
         }
         else if(sc == hou::scan_code::z)
         {
@@ -209,7 +209,7 @@ int main(int, char**)
   while(loop)
   {
     hou::event::process_all();
-    streaming_as.update();
+    manual_stream_as.update();
   }
 
   return EXIT_SUCCESS;
