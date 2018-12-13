@@ -37,10 +37,10 @@ automatic_stream_audio_source::~automatic_stream_audio_source()
 
 
 
-audio_source_state automatic_stream_audio_source::get_state() const
+bool automatic_stream_audio_source::is_playing() const
 {
   std::lock_guard<std::mutex> lock(m_processing_buffer_flag_mutex);
-  return stream_audio_source::get_state();
+  return stream_audio_source::is_playing();
 }
 
 

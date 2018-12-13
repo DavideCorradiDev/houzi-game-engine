@@ -29,7 +29,6 @@ SET(LIB_HOUAUD_SRC
   src/hou/aud/audio_buffer_format.cpp
   src/hou/aud/audio_context.cpp
   src/hou/aud/audio_source.cpp
-  src/hou/aud/audio_source_state.cpp
   src/hou/aud/audio_stream.cpp
   src/hou/aud/audio_stream_in.cpp
   src/hou/aud/automatic_stream_audio_source.cpp

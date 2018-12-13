@@ -57,7 +57,7 @@ public:
   void update();
 
   // audio_source overrides.
-  audio_source_state get_state() const final;
+  bool is_playing() const final;
 
   // stream_audio_source overrides.
   void set_stream(std::unique_ptr<audio_stream_in> as = nullptr) final;

@@ -62,9 +62,9 @@ const audio_buffer* buffer_audio_source::get_buffer() const
 
 
 
-audio_source_state buffer_audio_source::get_state() const
+bool buffer_audio_source::is_playing() const
 {
-  return audio_source::get_state();
+  return audio_source::is_playing();
 }
 
 

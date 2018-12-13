@@ -6,7 +6,6 @@
 #define HOU_AUD_AUDIO_SOURCE_HPP
 
 #include "hou/aud/audio_buffer_format.hpp"
-#include "hou/aud/audio_source_state.hpp"
 
 #include "hou/aud/aud_config.hpp"
 
@@ -95,7 +94,7 @@ public:
    *
    * \return the state of the audio source.
    */
-  virtual audio_source_state get_state() const = 0;
+  virtual bool is_playing() const = 0;
 
   /**
    * Checks if the audio source is valid, that is if it references audio data.

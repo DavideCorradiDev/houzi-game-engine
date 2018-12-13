@@ -116,7 +116,7 @@ public:
   size_t get_buffer_sample_count() const;
 
   // audio_source overrides.
-  audio_source_state get_state() const override;
+  bool is_playing() const override;
   bool is_valid() const final;
   bool is_looping() const final;
 

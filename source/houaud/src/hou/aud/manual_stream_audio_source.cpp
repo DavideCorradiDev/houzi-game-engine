@@ -30,9 +30,9 @@ void manual_stream_audio_source::update()
 
 
 
-audio_source_state manual_stream_audio_source::get_state() const
+bool manual_stream_audio_source::is_playing() const
 {
-  return stream_audio_source::get_state();
+  return stream_audio_source::is_playing();
 }
 
 

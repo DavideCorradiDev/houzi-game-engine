@@ -103,13 +103,9 @@ size_t stream_audio_source::get_buffer_sample_count() const
 
 
 
-audio_source_state stream_audio_source::get_state() const
+bool stream_audio_source::is_playing() const
 {
-  if(m_processing_buffer_queue)
-  {
-    return audio_source_state::playing;
-  }
-  return audio_source::get_state();
+  return m_processing_buffer_queue || audio_source::is_playing();
 }
 
 
@@ -139,7 +135,7 @@ void stream_audio_source::update_buffer_queue()
     // queue was not updated fast enough and the audio source automatically
     // stopped. In this case force a restart of the audio source with the newly
     // added buffers.
-    if(audio_source::get_state() == audio_source_state::paused)
+    if(!audio_source::is_playing())
     {
       al::play_source(get_handle());
     }

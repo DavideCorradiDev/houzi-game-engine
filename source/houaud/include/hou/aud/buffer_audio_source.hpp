@@ -78,7 +78,7 @@ public:
   const audio_buffer* get_buffer() const;
 
   // audio_source overrides.
-  audio_source_state get_state() const final;
+  bool is_playing() const final;
   bool is_valid() const final;
   bool is_looping() const final;
 

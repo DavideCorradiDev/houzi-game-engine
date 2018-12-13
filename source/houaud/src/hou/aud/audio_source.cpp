@@ -18,28 +18,7 @@ namespace hou
 namespace
 {
 
-audio_source_state al_source_state_to_audio_source_state(ALenum state) noexcept;
-
 uint normalize(uint value, uint max) noexcept;
-
-
-
-audio_source_state al_source_state_to_audio_source_state(ALenum state) noexcept
-{
-  switch(state)
-  {
-    case AL_PLAYING:
-      return audio_source_state::playing;
-    case AL_PAUSED:
-    case AL_INITIAL:
-    case AL_STOPPED:
-      return audio_source_state::paused;
-  }
-  HOU_ERROR_N(invalid_enum, narrow_cast<int>(state));
-  return audio_source_state::paused;
-}
-
-
 
 uint normalize(uint value, uint max) noexcept
 {
@@ -72,7 +51,7 @@ const al::source_handle& audio_source::get_handle() const noexcept
 
 void audio_source::play()
 {
-  if(get_state() == audio_source_state::paused)
+  if(!is_playing())
   {
     on_play();
     // The actual sample pos is updated to the requested sample position.
@@ -87,7 +66,7 @@ void audio_source::play()
 
 void audio_source::pause()
 {
-  if(get_state() == audio_source_state::playing)
+  if(is_playing())
   {
     on_pause();
     // pause() is called instead of stop() order not to reset the sample
@@ -104,7 +83,7 @@ void audio_source::pause()
 
 void audio_source::stop()
 {
-  if(get_state() == audio_source_state::playing)
+  if(is_playing())
   {
     on_pause();
     al::stop_source(m_handle);
@@ -123,9 +102,9 @@ void audio_source::replay()
 
 
 
-audio_source_state audio_source::get_state() const
+bool audio_source::is_playing() const
 {
-  return al_source_state_to_audio_source_state(al::get_source_state(m_handle));
+  return al::get_source_state(m_handle) == AL_PLAYING;
 }
 
 
@@ -196,7 +175,7 @@ void audio_source::set_sample_pos(uint pos)
   }
 
   pos = normalize(pos, sample_count);
-  if(get_state() == audio_source_state::playing)
+  if(is_playing())
   {
     // In order to ensure correct behavior in derived classes, before changing
     // the the sample position the audio source must be stopped and playback
@@ -215,7 +194,7 @@ void audio_source::set_sample_pos(uint pos)
 
 uint audio_source::get_sample_pos() const
 {
-  if(get_state() == audio_source_state::playing)
+  if(is_playing())
   {
     return on_get_sample_pos();
   }
@@ -242,7 +221,7 @@ void audio_source::set_looping(bool looping)
     return;
   }
 
-  if(get_state() == audio_source_state::playing)
+  if(is_playing())
   {
     // In order to ensure correct behavior in derived classes, before changing
     // the looping state the playback should be paused, and then resumed.
