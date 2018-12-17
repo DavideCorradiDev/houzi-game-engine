@@ -90,14 +90,15 @@ void buffer_audio_source::on_set_looping(bool looping)
 
 
 
-void buffer_audio_source::on_set_sample_pos(uint pos)
+void buffer_audio_source::on_set_sample_pos(sample_position pos)
 {
   audio_source::on_set_sample_pos(pos);
 }
 
 
 
-uint buffer_audio_source::on_get_sample_pos() const
+buffer_audio_source::sample_position buffer_audio_source::on_get_sample_pos()
+  const
 {
   return audio_source::on_get_sample_pos();
 }

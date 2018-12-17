@@ -77,7 +77,7 @@ TEST_F(test_automatic_stream_audio_source, default_constructor)
   EXPECT_EQ(1u, as.get_bytes_per_sample());
   EXPECT_EQ(1u, as.get_sample_rate());
   EXPECT_EQ(0u, as.get_sample_count());
-  EXPECT_EQ(0u, as.get_sample_pos());
+  EXPECT_EQ(0, as.get_sample_pos());
   EXPECT_EQ(std::chrono::nanoseconds(0), as.get_time_pos());
   EXPECT_EQ(std::chrono::nanoseconds(0), as.get_duration());
   EXPECT_FALSE(as.is_looping());
@@ -114,7 +114,7 @@ TEST_F(test_automatic_stream_audio_source, stream_constructor)
   EXPECT_EQ(2u, as.get_bytes_per_sample());
   EXPECT_EQ(44100u, as.get_sample_rate());
   EXPECT_EQ(21231u, as.get_sample_count());
-  EXPECT_EQ(0u, as.get_sample_pos());
+  EXPECT_EQ(0, as.get_sample_pos());
   EXPECT_EQ(std::chrono::nanoseconds(0), as.get_time_pos());
   EXPECT_EQ(std::chrono::nanoseconds(481428571), as.get_duration());
   EXPECT_FALSE(as.is_looping());
@@ -178,8 +178,8 @@ TEST_F(test_automatic_stream_audio_source, set_sample_pos_while_stopped)
 {
   automatic_stream_audio_source as(
     std::make_unique<ogg_file_in>(audio_filename));
-  as.set_sample_pos(3u);
-  EXPECT_EQ(3u, as.get_sample_pos());
+  as.set_sample_pos(3);
+  EXPECT_EQ(3, as.get_sample_pos());
   EXPECT_FALSE(as.is_playing());
 }
 
@@ -191,7 +191,7 @@ TEST_F(test_automatic_stream_audio_source, set_sample_pos_while_playing)
     std::make_unique<ogg_file_in>(audio_filename));
   as.set_looping(true);
   as.play();
-  as.set_sample_pos(3u);
+  as.set_sample_pos(3);
   EXPECT_TRUE(as.is_playing());
 }
 
@@ -204,8 +204,8 @@ TEST_F(test_automatic_stream_audio_source, set_sample_pos_while_paused)
   as.set_looping(true);
   as.play();
   as.pause();
-  as.set_sample_pos(3u);
-  EXPECT_EQ(3u, as.get_sample_pos());
+  as.set_sample_pos(3);
+  EXPECT_EQ(3, as.get_sample_pos());
   EXPECT_FALSE(as.is_playing());
 }
 
@@ -216,9 +216,9 @@ TEST_F(test_automatic_stream_audio_source, set_sample_pos_overflow_not_looping)
   automatic_stream_audio_source as(
     std::make_unique<ogg_file_in>(audio_filename));
   as.play();
-  as.set_sample_pos(as.get_sample_count() + 1u);
+  as.set_sample_pos(as.get_sample_count() + 1);
   EXPECT_FALSE(as.is_playing());
-  EXPECT_EQ(0u, as.get_sample_pos());
+  EXPECT_EQ(0, as.get_sample_pos());
 }
 
 
@@ -229,7 +229,7 @@ TEST_F(test_automatic_stream_audio_source, set_sample_pos_overflow_looping)
     std::make_unique<ogg_file_in>(audio_filename));
   as.set_looping(true);
   as.play();
-  as.set_sample_pos(as.get_sample_count() + 1u);
+  as.set_sample_pos(as.get_sample_count() + 1);
   EXPECT_TRUE(as.is_playing());
 }
 
@@ -253,13 +253,13 @@ TEST_F(test_automatic_stream_audio_source, set_time_pos_microseconds)
     std::make_unique<ogg_file_in>(audio_filename));
   ogg_file_in fi(audio_filename);
   EXPECT_EQ(std::chrono::microseconds(0), as.get_time_pos());
-  EXPECT_EQ(0u, as.get_sample_pos());
+  EXPECT_EQ(0, as.get_sample_pos());
   as.set_time_pos(std::chrono::microseconds(30000));
   EXPECT_EQ(std::chrono::microseconds(30000), as.get_time_pos());
-  EXPECT_EQ(1323u, as.get_sample_pos());
-  as.set_sample_pos(11025u);
+  EXPECT_EQ(1323, as.get_sample_pos());
+  as.set_sample_pos(11025);
   EXPECT_EQ(std::chrono::microseconds(250000), as.get_time_pos());
-  EXPECT_EQ(11025u, as.get_sample_pos());
+  EXPECT_EQ(11025, as.get_sample_pos());
 }
 
 
@@ -269,10 +269,10 @@ TEST_F(test_automatic_stream_audio_source, stop_at_initial_state)
   automatic_stream_audio_source as(
     std::make_unique<ogg_file_in>(audio_filename));
   as.set_looping(true);
-  as.set_sample_pos(3u);
+  as.set_sample_pos(3);
   as.stop();
   EXPECT_FALSE(as.is_playing());
-  EXPECT_EQ(0u, as.get_sample_pos());
+  EXPECT_EQ(0, as.get_sample_pos());
 }
 
 
@@ -282,11 +282,11 @@ TEST_F(test_automatic_stream_audio_source, stop_after_play)
   automatic_stream_audio_source as(
     std::make_unique<ogg_file_in>(audio_filename));
   as.set_looping(true);
-  as.set_sample_pos(3u);
+  as.set_sample_pos(3);
   as.play();
   as.stop();
   EXPECT_FALSE(as.is_playing());
-  EXPECT_EQ(0u, as.get_sample_pos());
+  EXPECT_EQ(0, as.get_sample_pos());
 }
 
 
@@ -296,12 +296,12 @@ TEST_F(test_automatic_stream_audio_source, stop_after_pause)
   automatic_stream_audio_source as(
     std::make_unique<ogg_file_in>(audio_filename));
   as.set_looping(true);
-  as.set_sample_pos(3u);
+  as.set_sample_pos(3);
   as.play();
   as.pause();
   as.stop();
   EXPECT_FALSE(as.is_playing());
-  EXPECT_EQ(0u, as.get_sample_pos());
+  EXPECT_EQ(0, as.get_sample_pos());
 }
 
 
@@ -311,12 +311,12 @@ TEST_F(test_automatic_stream_audio_source, stop_after_stop)
   automatic_stream_audio_source as(
     std::make_unique<ogg_file_in>(audio_filename));
   as.set_looping(true);
-  as.set_sample_pos(3u);
+  as.set_sample_pos(3);
   as.play();
   as.stop();
   as.stop();
   EXPECT_FALSE(as.is_playing());
-  EXPECT_EQ(0u, as.get_sample_pos());
+  EXPECT_EQ(0, as.get_sample_pos());
 }
 
 
@@ -375,10 +375,10 @@ TEST_F(test_automatic_stream_audio_source, pause_at_initial_state)
   automatic_stream_audio_source as(
     std::make_unique<ogg_file_in>(audio_filename));
   as.set_looping(true);
-  as.set_sample_pos(3u);
+  as.set_sample_pos(3);
   as.pause();
   EXPECT_FALSE(as.is_playing());
-  EXPECT_EQ(3u, as.get_sample_pos());
+  EXPECT_EQ(3, as.get_sample_pos());
 }
 
 

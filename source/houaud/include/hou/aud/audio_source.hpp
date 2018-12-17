@@ -28,6 +28,9 @@ namespace hou
 class HOU_AUD_API audio_source : public non_copyable
 {
 public:
+  using sample_position = long;
+
+public:
   /**
    * Default constructor.
    */
@@ -173,14 +176,14 @@ public:
    *
    * \param pos the position.
    */
-  void set_sample_pos(uint pos);
+  void set_sample_pos(sample_position pos);
 
   /**
    * Gets the sample position of the audio source.
    *
    * \return the sample position.
    */
-  uint get_sample_pos() const;
+  sample_position get_sample_pos() const;
 
   /**
    * Gets the number of samples in the audio source.
@@ -429,7 +432,7 @@ protected:
    *
    * \param pos the sample position.
    */
-  virtual void on_set_sample_pos(uint pos) = 0;
+  virtual void on_set_sample_pos(sample_position pos) = 0;
 
   /**
    * Gets the sample position.
@@ -438,7 +441,7 @@ protected:
    *
    * \return the sample position.
    */
-  virtual uint on_get_sample_pos() const = 0;
+  virtual sample_position on_get_sample_pos() const = 0;
 
   /**
    * Called when play() or replay() are called.
@@ -463,7 +466,7 @@ private:
 
 private:
   al::source_handle m_handle;
-  uint m_requested_sample_pos;
+  sample_position m_requested_sample_pos;
 };
 
 }  // namespace hou

@@ -18,11 +18,22 @@ namespace hou
 namespace
 {
 
-uint normalize(uint value, uint max) noexcept;
+audio_source::sample_position normalize(audio_source::sample_position value,
+  audio_source::sample_position max) noexcept;
 
-uint normalize(uint value, uint max) noexcept
+audio_source::sample_position normalize(audio_source::sample_position value,
+  audio_source::sample_position max) noexcept
 {
-  return max == 0u ? 0u : value % max;
+  if(max == 0)
+  {
+    return 0;
+  }
+
+  while(value < 0)
+  {
+    value += max;
+  }
+  return value % max;
 }
 
 }  // namespace
@@ -32,7 +43,7 @@ uint normalize(uint value, uint max) noexcept
 audio_source::audio_source()
   : non_copyable()
   , m_handle(al::source_handle::generate())
-  , m_requested_sample_pos(0u)
+  , m_requested_sample_pos(0)
 {}
 
 
@@ -57,7 +68,7 @@ void audio_source::play()
     // The actual sample pos is updated to the requested sample position.
     on_set_sample_pos(m_requested_sample_pos);
     // The requested pos has to be set to 0 in case playback ends on its own.
-    m_requested_sample_pos = 0u;
+    m_requested_sample_pos = 0;
     al::play_source(m_handle);
   }
 }
@@ -89,7 +100,7 @@ void audio_source::stop()
     al::stop_source(m_handle);
   }
   // The requested pos is reset to the beginning.
-  m_requested_sample_pos = 0u;
+  m_requested_sample_pos = 0;
 }
 
 
@@ -140,7 +151,7 @@ uint audio_source::get_sample_rate() const
 void audio_source::set_time_pos(std::chrono::nanoseconds nsPos)
 {
   using rep = std::chrono::nanoseconds::rep;
-  set_sample_pos(narrow_cast<uint>(static_cast<rep>(nsPos.count())
+  set_sample_pos(narrow_cast<sample_position>(static_cast<rep>(nsPos.count())
     * static_cast<rep>(get_sample_rate()) / 1000000000));
 }
 
@@ -164,11 +175,11 @@ std::chrono::nanoseconds audio_source::get_duration() const
 
 
 
-void audio_source::set_sample_pos(uint pos)
+void audio_source::set_sample_pos(sample_position pos)
 {
   uint sample_count = get_sample_count();
 
-  if(pos >= sample_count && !is_looping())
+  if((pos < 0 || pos >= sample_count) && !is_looping())
   {
     stop();
     return;
@@ -192,7 +203,7 @@ void audio_source::set_sample_pos(uint pos)
 
 
 
-uint audio_source::get_sample_pos() const
+audio_source::sample_position audio_source::get_sample_pos() const
 {
   if(is_playing())
   {
@@ -461,16 +472,16 @@ void audio_source::on_set_looping(bool looping)
 
 
 
-void audio_source::on_set_sample_pos(uint pos)
+void audio_source::on_set_sample_pos(sample_position pos)
 {
   al::set_source_sample_offset(m_handle, narrow_cast<ALint>(pos));
 }
 
 
 
-uint audio_source::on_get_sample_pos() const
+audio_source::sample_position audio_source::on_get_sample_pos() const
 {
-  return narrow_cast<uint>(al::get_source_sample_offset(m_handle));
+  return narrow_cast<sample_position>(al::get_source_sample_offset(m_handle));
 }
 
 

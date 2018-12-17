@@ -29,11 +29,11 @@ stream_audio_source::stream_audio_source(std::unique_ptr<audio_stream_in> as)
   , m_buffer_queue(g_default_buffer_count)
   , m_looping(false)
   , m_processing_buffer_queue(false)
-  , m_sample_pos(0u)
+  , m_sample_pos(0)
   , m_buffers_to_queue_count(0u)
   , m_buffer_byte_count(g_default_buffer_byte_count)
 {
-  set_sample_pos_and_stream_cursor(0u);
+  set_sample_pos_and_stream_cursor(0);
 }
 
 
@@ -57,7 +57,7 @@ void stream_audio_source::set_stream(std::unique_ptr<audio_stream_in> as)
 {
   stop();
   m_audio_stream = std::move(as);
-  set_sample_pos_and_stream_cursor(0u);
+  set_sample_pos_and_stream_cursor(0);
 }
 
 
@@ -197,7 +197,7 @@ void stream_audio_source::fill_buffers()
     {
       HOU_DEV_ASSERT(m_audio_stream != nullptr);
       m_audio_stream->set_sample_pos(
-        narrow_cast<audio_stream::sample_position>(0u));
+        narrow_cast<audio_stream::sample_position>(0));
       set_buffers_to_queue_count(0u);
       // m_sample_pos shouldn't be updated here, it is updated in free_buffers.
     }
@@ -213,15 +213,15 @@ void stream_audio_source::fill_buffers()
 
 
 
-void stream_audio_source::set_sample_pos_variable(size_t pos)
+void stream_audio_source::set_sample_pos_variable(sample_position pos)
 {
   uint sample_count = get_sample_count();
-  m_sample_pos = sample_count == 0u ? 0u : pos % sample_count;
+  m_sample_pos = sample_count == 0 ? 0 : pos % sample_count;
 }
 
 
 
-void stream_audio_source::set_sample_pos_and_stream_cursor(size_t pos)
+void stream_audio_source::set_sample_pos_and_stream_cursor(sample_position pos)
 {
   set_sample_pos_variable(pos);
   if(m_audio_stream != nullptr)
@@ -250,7 +250,7 @@ void stream_audio_source::on_set_looping(bool looping)
 
 
 
-void stream_audio_source::on_set_sample_pos(uint value)
+void stream_audio_source::on_set_sample_pos(sample_position value)
 {
   free_buffers();
   set_sample_pos_and_stream_cursor(value);
@@ -260,11 +260,12 @@ void stream_audio_source::on_set_sample_pos(uint value)
 
 
 
-uint stream_audio_source::on_get_sample_pos() const
+stream_audio_source::sample_position stream_audio_source::on_get_sample_pos()
+  const
 {
   uint sample_count = get_sample_count();
-  return sample_count == 0u
-    ? 0u
+  return sample_count == 0
+    ? 0
     : (m_sample_pos + audio_source::on_get_sample_pos()) % get_sample_count();
 }
 

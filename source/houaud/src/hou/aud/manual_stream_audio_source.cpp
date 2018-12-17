@@ -66,14 +66,15 @@ void manual_stream_audio_source::on_set_looping(bool looping)
 
 
 
-void manual_stream_audio_source::on_set_sample_pos(uint value)
+void manual_stream_audio_source::on_set_sample_pos(sample_position value)
 {
   stream_audio_source::on_set_sample_pos(value);
 }
 
 
 
-uint manual_stream_audio_source::on_get_sample_pos() const
+manual_stream_audio_source::sample_position
+  manual_stream_audio_source::on_get_sample_pos() const
 {
   return stream_audio_source::on_get_sample_pos();
 }

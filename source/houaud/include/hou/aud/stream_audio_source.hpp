@@ -147,8 +147,8 @@ protected:
 
   // audio_source overrides.
   void on_set_looping(bool looping) override = 0;
-  void on_set_sample_pos(uint pos) override = 0;
-  uint on_get_sample_pos() const override = 0;
+  void on_set_sample_pos(sample_position pos) override = 0;
+  sample_position on_get_sample_pos() const override = 0;
   void on_play() override = 0;
   void on_pause() override;
 
@@ -156,8 +156,8 @@ private:
   std::vector<uint8_t> read_data_chunk(size_t chunk_size);
   void free_buffers();
   void fill_buffers();
-  void set_sample_pos_variable(size_t pos);
-  void set_sample_pos_and_stream_cursor(size_t pos);
+  void set_sample_pos_variable(sample_position pos);
+  void set_sample_pos_and_stream_cursor(sample_position pos);
   void set_buffers_to_queue_count(uint pos);
 
   // audio_source overrides.
@@ -172,7 +172,7 @@ private:
   buffer_queue m_buffer_queue;
   bool m_looping;
   bool m_processing_buffer_queue;
-  uint m_sample_pos;
+  int m_sample_pos;
   uint m_buffers_to_queue_count;
   size_t m_buffer_byte_count;
 };

@@ -79,7 +79,7 @@ void automatic_stream_audio_source::on_set_looping(bool looping)
 
 
 
-void automatic_stream_audio_source::on_set_sample_pos(uint value)
+void automatic_stream_audio_source::on_set_sample_pos(sample_position value)
 {
   std::lock_guard<std::mutex> lock(m_stream_mutex);
   stream_audio_source::on_set_sample_pos(value);
@@ -87,7 +87,8 @@ void automatic_stream_audio_source::on_set_sample_pos(uint value)
 
 
 
-uint automatic_stream_audio_source::on_get_sample_pos() const
+automatic_stream_audio_source::sample_position
+  automatic_stream_audio_source::on_get_sample_pos() const
 {
   std::lock_guard<std::mutex> lock(m_stream_mutex);
   return stream_audio_source::on_get_sample_pos();
