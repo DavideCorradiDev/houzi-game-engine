@@ -94,11 +94,8 @@ void audio_source::pause()
 
 void audio_source::stop()
 {
-  if(is_playing())
-  {
-    on_pause();
-    al::stop_source(m_handle);
-  }
+  on_pause();
+  al::stop_source(m_handle);
   // The requested pos is reset to the beginning.
   m_requested_sample_pos = 0;
 }
