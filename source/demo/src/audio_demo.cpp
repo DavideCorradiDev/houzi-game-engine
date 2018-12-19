@@ -162,15 +162,7 @@ int main(int, char**)
         }
         else if(sc == hou::scan_code::z)
         {
-          std::chrono::nanoseconds current_pos = current_as->get_time_pos();
-          if(current_pos > skip)
-          {
-            current_as->set_time_pos(current_pos - skip);
-          }
-          else
-          {
-            current_as->set_time_pos(std::chrono::nanoseconds(0u));
-          }
+          current_as->set_time_pos(current_as->get_time_pos() - skip);
         }
         else if(sc == hou::scan_code::x)
         {
