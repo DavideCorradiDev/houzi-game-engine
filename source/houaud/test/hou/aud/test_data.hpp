@@ -9,8 +9,12 @@
 
 
 
-std::string get_output_dir();
-
-std::string get_data_dir();
+const std::string& get_output_dir();
+const std::string& get_data_dir();
+const std::string& get_mono8_wav_filename();
+const std::string& get_mono16_wav_filename();
+const std::string& get_stereo8_wav_filename();
+const std::string& get_stereo16_wav_filename();
+const std::string& get_stereo16_ogg_filename();
 
 #endif

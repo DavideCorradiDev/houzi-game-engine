@@ -28,13 +28,13 @@ SET(EXE_HOUAUD_TEST_SRC
   hou/aud/test_audio_buffer.cpp
   hou/aud/test_audio_context.cpp
   hou/aud/test_audio_source.cpp
-  hou/aud/test_automatic_stream_audio_source.cpp
   hou/aud/test_buffer_audio_source.cpp
   hou/aud/test_data.cpp
   hou/aud/test_listener.cpp
   hou/aud/test_manual_stream_audio_source.cpp
   hou/aud/test_ogg_file_in.cpp
   hou/aud/test_sound_model.cpp
+  hou/aud/test_stream_audio_source.cpp
   hou/aud/test_wav_file_in.cpp
 )
 
