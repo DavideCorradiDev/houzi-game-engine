@@ -270,6 +270,76 @@ TYPED_TEST(test_audio_source, set_sample_pos_overflow_looping_while_playing)
 
 
 
+TYPED_TEST(test_audio_source, get_sample_pos_after_play)
+{
+  auto& as = this->get_audio_source();
+  as.set_sample_pos(3u);
+  as.play();
+  std::this_thread::sleep_for(std::chrono::milliseconds(30));
+  EXPECT_GT(as.get_sample_pos(), 3u);
+}
+
+
+
+TYPED_TEST(test_audio_source, get_sample_pos_after_pause)
+{
+  auto& as = this->get_audio_source();
+  as.set_sample_pos(3u);
+  as.play();
+  std::this_thread::sleep_for(std::chrono::milliseconds(30));
+  as.pause();
+  auto pos = as.get_sample_pos();
+  EXPECT_GT(pos, 3u);
+  EXPECT_EQ(pos, as.get_sample_pos());
+}
+
+
+
+TYPED_TEST(test_audio_source, get_sample_pos_after_stop)
+{
+  auto& as = this->get_audio_source();
+  as.set_sample_pos(3u);
+  as.play();
+  as.stop();
+  EXPECT_EQ(as.get_sample_pos(), 0u);
+}
+
+
+
+TYPED_TEST(test_audio_source, get_sample_pos_after_pause_and_stop)
+{
+  auto& as = this->get_audio_source();
+  as.set_sample_pos(3u);
+  as.play();
+  as.pause();
+  as.stop();
+  EXPECT_EQ(as.get_sample_pos(), 0u);
+}
+
+
+
+TYPED_TEST(test_audio_source, get_sample_pos_with_serial_pauses)
+{
+  auto& as = this->get_audio_source();
+  as.set_sample_pos(3u);
+  as.play();
+  std::this_thread::sleep_for(std::chrono::milliseconds(30));
+  as.pause();
+  auto pos1 = as.get_sample_pos();
+  as.play();
+  std::this_thread::sleep_for(std::chrono::milliseconds(30));
+  as.pause();
+  auto pos2 = as.get_sample_pos();
+  as.play();
+  std::this_thread::sleep_for(std::chrono::milliseconds(30));
+  as.pause();
+  auto pos3 = as.get_sample_pos();
+  EXPECT_GT(pos2, pos1);
+  EXPECT_GT(pos3, pos2);
+}
+
+
+
 TYPED_TEST(test_audio_source, set_time_pos_nanoseconds)
 {
   auto& as = this->get_audio_source();

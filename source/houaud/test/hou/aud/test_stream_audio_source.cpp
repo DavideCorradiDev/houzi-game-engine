@@ -221,4 +221,38 @@ TYPED_TEST(test_stream_audio_source, set_buffer_sample_count_error)
   EXPECT_PRECOND_ERROR(as.set_buffer_sample_count(0u));
 }
 
+
+
+TYPED_TEST(test_stream_audio_source, test_single_buffer)
+{
+  TypeParam as(std::make_unique<ogg_file_in>(get_stereo16_ogg_filename()));
+  as.set_buffer_count(1u);
+  as.play();
+  as.stop();
+  SUCCEED();
+}
+
+
+
+TYPED_TEST(test_stream_audio_source, test_single_sample_per_buffer)
+{
+  TypeParam as(std::make_unique<ogg_file_in>(get_stereo16_ogg_filename()));
+  as.set_buffer_sample_count(1u);
+  as.play();
+  as.stop();
+  SUCCEED();
+}
+
+
+
+TYPED_TEST(test_stream_audio_source, test_single_sample_in_queue)
+{
+  TypeParam as(std::make_unique<ogg_file_in>(get_stereo16_ogg_filename()));
+  as.set_buffer_count(1u);
+  as.set_buffer_sample_count(1u);
+  as.play();
+  as.stop();
+  SUCCEED();
+}
+
 }  // namespace
