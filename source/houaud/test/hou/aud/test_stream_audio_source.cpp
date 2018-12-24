@@ -172,10 +172,24 @@ TYPED_TEST(test_stream_audio_source, set_buffer_count_while_paused)
 
 
 
-TYPED_TEST(test_stream_audio_source, set_buffer_count_error)
+TYPED_TEST(test_stream_audio_source, set_buffer_count_one_buffer)
 {
   TypeParam as(std::make_unique<ogg_file_in>(get_stereo16_ogg_filename()));
-  EXPECT_PRECOND_ERROR(as.set_buffer_count(0u));
+  as.set_buffer_count(1u);
+  as.play();
+  as.stop();
+  SUCCEED();
+}
+
+
+
+TYPED_TEST(test_stream_audio_source, set_buffer_count_no_buffers)
+{
+  TypeParam as(std::make_unique<ogg_file_in>(get_stereo16_ogg_filename()));
+  as.set_buffer_count(0u);
+  as.play();
+  as.stop();
+  SUCCEED();
 }
 
 
@@ -215,26 +229,7 @@ TYPED_TEST(test_stream_audio_source, set_buffer_sample_count_while_paused)
 
 
 
-TYPED_TEST(test_stream_audio_source, set_buffer_sample_count_error)
-{
-  TypeParam as(std::make_unique<ogg_file_in>(get_stereo16_ogg_filename()));
-  EXPECT_PRECOND_ERROR(as.set_buffer_sample_count(0u));
-}
-
-
-
-TYPED_TEST(test_stream_audio_source, test_single_buffer)
-{
-  TypeParam as(std::make_unique<ogg_file_in>(get_stereo16_ogg_filename()));
-  as.set_buffer_count(1u);
-  as.play();
-  as.stop();
-  SUCCEED();
-}
-
-
-
-TYPED_TEST(test_stream_audio_source, test_single_sample_per_buffer)
+TYPED_TEST(test_stream_audio_source, set_buffer_sample_count_one_sample)
 {
   TypeParam as(std::make_unique<ogg_file_in>(get_stereo16_ogg_filename()));
   as.set_buffer_sample_count(1u);
@@ -245,11 +240,34 @@ TYPED_TEST(test_stream_audio_source, test_single_sample_per_buffer)
 
 
 
-TYPED_TEST(test_stream_audio_source, test_single_sample_in_queue)
+TYPED_TEST(test_stream_audio_source, set_buffer_sample_count_no_samples)
+{
+  TypeParam as(std::make_unique<ogg_file_in>(get_stereo16_ogg_filename()));
+  as.set_buffer_sample_count(0u);
+  as.play();
+  as.stop();
+  SUCCEED();
+}
+
+
+
+TYPED_TEST(test_stream_audio_source, one_buffer_one_sample)
 {
   TypeParam as(std::make_unique<ogg_file_in>(get_stereo16_ogg_filename()));
   as.set_buffer_count(1u);
   as.set_buffer_sample_count(1u);
+  as.play();
+  as.stop();
+  SUCCEED();
+}
+
+
+
+TYPED_TEST(test_stream_audio_source, zero_buffers_zero_samples)
+{
+  TypeParam as(std::make_unique<ogg_file_in>(get_stereo16_ogg_filename()));
+  as.set_buffer_count(0u);
+  as.set_buffer_sample_count(0u);
   as.play();
   as.stop();
   SUCCEED();

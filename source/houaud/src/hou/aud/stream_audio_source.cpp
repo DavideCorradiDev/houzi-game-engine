@@ -71,7 +71,6 @@ const audio_stream_in* stream_audio_source::get_stream() const
 
 void stream_audio_source::set_buffer_count(size_t buffer_count)
 {
-  HOU_PRECOND(buffer_count > 0u);
   stop();
   free_buffers();
   m_buffer_queue = buffer_queue(buffer_count);
@@ -88,7 +87,6 @@ size_t stream_audio_source::get_buffer_count() const
 
 void stream_audio_source::set_buffer_sample_count(size_t buffer_sample_count)
 {
-  HOU_PRECOND(buffer_sample_count > 0u);
   stop();
   m_buffer_byte_count
     = buffer_sample_count * (get_channel_count() * get_bytes_per_sample());
@@ -236,8 +234,9 @@ void stream_audio_source::set_sample_pos_and_stream_cursor(sample_position pos)
 void stream_audio_source::set_buffers_to_queue_count(uint pos)
 {
   uint samples_to_end = get_sample_count() - pos;
-  m_buffers_to_queue_count = (samples_to_end > 0u)
-    ? 1u + (samples_to_end - 1u) / get_buffer_sample_count()
+  uint buffer_sample_count = get_buffer_sample_count();
+  m_buffers_to_queue_count = (samples_to_end > 0u && buffer_sample_count > 0)
+    ? 1u + (samples_to_end - 1u) / buffer_sample_count
     : 0u;
 }
 
