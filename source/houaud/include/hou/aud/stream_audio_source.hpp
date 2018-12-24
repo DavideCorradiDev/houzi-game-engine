@@ -156,7 +156,9 @@ private:
   std::vector<uint8_t> read_data_chunk(size_t chunk_size);
   void free_buffers();
   void fill_buffers();
+  sample_position normalize_sample_pos(sample_position pos);
   void set_sample_pos_variable(sample_position pos);
+  void set_stream_cursor(sample_position pos);
   void set_sample_pos_and_stream_cursor(sample_position pos);
   void set_buffers_to_queue_count(uint pos);
 

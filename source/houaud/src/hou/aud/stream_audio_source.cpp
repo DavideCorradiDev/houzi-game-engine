@@ -165,8 +165,8 @@ void stream_audio_source::free_buffers()
     al::source_unqueue_buffers(get_handle(),
       narrow_cast<ALsizei>(bufferNames.size()), bufferNames.data());
     size_t processed_bytes = m_buffer_queue.free_buffers(processed_buffers);
-    set_sample_pos_variable(m_sample_pos
-      + processed_bytes / (get_channel_count() * get_bytes_per_sample()));
+    set_sample_pos_variable(normalize_sample_pos(m_sample_pos
+      + processed_bytes / (get_channel_count() * get_bytes_per_sample())));
   }
 }
 
@@ -211,22 +211,38 @@ void stream_audio_source::fill_buffers()
 
 
 
-void stream_audio_source::set_sample_pos_variable(sample_position pos)
+stream_audio_source::sample_position stream_audio_source::normalize_sample_pos(
+  sample_position pos)
 {
   uint sample_count = get_sample_count();
-  m_sample_pos = sample_count == 0 ? 0 : pos % sample_count;
+  return sample_count == 0 ? 0 : pos % sample_count;
+}
+
+
+
+void stream_audio_source::set_sample_pos_variable(sample_position pos)
+{
+  m_sample_pos = pos;
+}
+
+
+
+void stream_audio_source::set_stream_cursor(sample_position pos)
+{
+  if(m_audio_stream != nullptr)
+  {
+    m_audio_stream->set_sample_pos(
+      narrow_cast<audio_stream::sample_position>(pos));
+  }
 }
 
 
 
 void stream_audio_source::set_sample_pos_and_stream_cursor(sample_position pos)
 {
+  pos = normalize_sample_pos(pos);
   set_sample_pos_variable(pos);
-  if(m_audio_stream != nullptr)
-  {
-    m_audio_stream->set_sample_pos(
-      narrow_cast<audio_stream::sample_position>(m_sample_pos));
-  }
+  set_stream_cursor(pos);
 }
 
 
