@@ -35,7 +35,7 @@ namespace hou
  * An audio_buffer object loads the whole audio data into memory.
  * For large audio data this might be expensive.
  * In that case, it is suggested to use audio streams and a
- * streaming_audio_source.
+ * automatic_stream_audio_source.
  */
 class HOU_AUD_API audio_buffer : public non_copyable
 {
@@ -61,7 +61,7 @@ public:
     const span<const uint8_t>& data, audio_buffer_format format, int smp_rate);
 
   /**
-   * Creates an audio_buffer object with the given parameters, moving the data.
+   * Creates an audio_buffer object with the given parameters.
    *
    * \param data the data.
    *
@@ -155,7 +155,7 @@ public:
     const span<const uint8_t>& data, audio_buffer_format format, int smlRate);
 
   /**
-   * Sets the buffer data with the provided values, moving the data.
+   * Sets the buffer data with the provided values.
    *
    * \param data the data.
    *
