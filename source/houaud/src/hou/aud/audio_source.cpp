@@ -119,28 +119,28 @@ bool audio_source::is_playing() const
 
 audio_buffer_format audio_source::get_format() const
 {
-  return is_valid() ? get_format_internal() : audio_buffer_format::mono8;
+  return has_audio() ? get_format_internal() : audio_buffer_format::mono8;
 }
 
 
 
 uint audio_source::get_channel_count() const
 {
-  return is_valid() ? get_channel_count_internal() : 1;
+  return has_audio() ? get_channel_count_internal() : 1;
 }
 
 
 
 uint audio_source::get_bytes_per_sample() const
 {
-  return is_valid() ? get_bytes_per_sample_internal() : 1;
+  return has_audio() ? get_bytes_per_sample_internal() : 1;
 }
 
 
 
 uint audio_source::get_sample_rate() const
 {
-  return is_valid() ? get_sample_rate_internal() : 1;
+  return has_audio() ? get_sample_rate_internal() : 1;
 }
 
 
@@ -216,7 +216,7 @@ audio_source::sample_position audio_source::get_sample_pos() const
 
 uint audio_source::get_sample_count() const
 {
-  return is_valid() ? get_sample_count_internal() : 0u;
+  return has_audio() ? get_sample_count_internal() : 0u;
 }
 
 

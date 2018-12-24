@@ -108,7 +108,7 @@ bool stream_audio_source::is_playing() const
 
 
 
-bool stream_audio_source::is_valid() const
+bool stream_audio_source::has_audio() const
 {
   return m_audio_stream != nullptr;
 }

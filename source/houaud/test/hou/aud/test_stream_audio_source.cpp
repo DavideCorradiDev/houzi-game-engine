@@ -72,14 +72,14 @@ TYPED_TEST(test_stream_audio_source, stream_constructor)
 
 
 
-TYPED_TEST(test_stream_audio_source, validity_after_set_stream)
+TYPED_TEST(test_stream_audio_source, has_audio_after_set_stream)
 {
   TypeParam as;
-  EXPECT_FALSE(as.is_valid());
+  EXPECT_FALSE(as.has_audio());
   as.set_stream(std::make_unique<ogg_file_in>(get_stereo16_ogg_filename()));
-  EXPECT_TRUE(as.is_valid());
+  EXPECT_TRUE(as.has_audio());
   as.set_stream(nullptr);
-  EXPECT_FALSE(as.is_valid());
+  EXPECT_FALSE(as.has_audio());
 }
 
 

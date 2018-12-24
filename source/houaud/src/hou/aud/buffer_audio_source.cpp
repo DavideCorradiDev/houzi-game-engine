@@ -69,7 +69,7 @@ bool buffer_audio_source::is_playing() const
 
 
 
-bool buffer_audio_source::is_valid() const
+bool buffer_audio_source::has_audio() const
 {
   return m_buffer_ref != nullptr;
 }

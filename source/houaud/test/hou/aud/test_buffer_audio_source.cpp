@@ -64,15 +64,15 @@ TEST_F(test_buffer_audio_source, move_constructor)
 
 
 
-TEST_F(test_buffer_audio_source, validity_after_set_buffer)
+TEST_F(test_buffer_audio_source, has_audio_after_set_buffer)
 {
   buffer_audio_source as;
-  EXPECT_FALSE(as.is_valid());
+  EXPECT_FALSE(as.has_audio());
   as.set_buffer(
     std::make_shared<audio_buffer>(wav_file_in(get_stereo16_wav_filename())));
-  EXPECT_TRUE(as.is_valid());
+  EXPECT_TRUE(as.has_audio());
   as.set_buffer(nullptr);
-  EXPECT_FALSE(as.is_valid());
+  EXPECT_FALSE(as.has_audio());
 }
 
 

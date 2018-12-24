@@ -79,7 +79,7 @@ public:
 
   // audio_source overrides.
   bool is_playing() const final;
-  bool is_valid() const final;
+  bool has_audio() const final;
   bool is_looping() const final;
 
 protected:

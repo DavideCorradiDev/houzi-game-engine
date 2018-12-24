@@ -606,7 +606,7 @@ TYPED_TEST(test_audio_source, play_while_invalid_not_looping)
 {
   auto& as = this->get_audio_source();
   this->unload_audio();
-  EXPECT_FALSE(as.is_valid());
+  EXPECT_FALSE(as.has_audio());
   as.play();
   EXPECT_FALSE(as.is_playing());
 }
@@ -617,7 +617,7 @@ TYPED_TEST(test_audio_source, play_while_invalid_looping)
 {
   auto& as = this->get_audio_source();
   this->unload_audio();
-  EXPECT_FALSE(as.is_valid());
+  EXPECT_FALSE(as.has_audio());
   as.set_looping(true);
   as.play();
   EXPECT_FALSE(as.is_playing());
@@ -629,7 +629,7 @@ TYPED_TEST(test_audio_source, buffer_properties_mono8)
 {
   auto& as = this->get_audio_source();
   this->load_wav(get_mono8_wav_filename());
-  EXPECT_TRUE(as.is_valid());
+  EXPECT_TRUE(as.has_audio());
   EXPECT_EQ(audio_buffer_format::mono8, as.get_format());
   EXPECT_EQ(1u, as.get_channel_count());
   EXPECT_EQ(1u, as.get_bytes_per_sample());
@@ -644,7 +644,7 @@ TYPED_TEST(test_audio_source, buffer_properties_mono16)
 {
   auto& as = this->get_audio_source();
   this->load_wav(get_mono16_wav_filename());
-  EXPECT_TRUE(as.is_valid());
+  EXPECT_TRUE(as.has_audio());
   EXPECT_EQ(audio_buffer_format::mono16, as.get_format());
   EXPECT_EQ(1u, as.get_channel_count());
   EXPECT_EQ(2u, as.get_bytes_per_sample());
@@ -659,7 +659,7 @@ TYPED_TEST(test_audio_source, buffer_properties_stereo8)
 {
   auto& as = this->get_audio_source();
   this->load_wav(get_stereo8_wav_filename());
-  EXPECT_TRUE(as.is_valid());
+  EXPECT_TRUE(as.has_audio());
   EXPECT_EQ(audio_buffer_format::stereo8, as.get_format());
   EXPECT_EQ(2u, as.get_channel_count());
   EXPECT_EQ(1u, as.get_bytes_per_sample());
@@ -674,7 +674,7 @@ TYPED_TEST(test_audio_source, buffer_properties_stereo16)
 {
   auto& as = this->get_audio_source();
   this->load_wav(get_stereo16_wav_filename());
-  EXPECT_TRUE(as.is_valid());
+  EXPECT_TRUE(as.has_audio());
   EXPECT_EQ(audio_buffer_format::stereo16, as.get_format());
   EXPECT_EQ(2u, as.get_channel_count());
   EXPECT_EQ(2u, as.get_bytes_per_sample());
@@ -685,11 +685,11 @@ TYPED_TEST(test_audio_source, buffer_properties_stereo16)
 
 
 
-TYPED_TEST(test_audio_source, buffer_properties_invalid)
+TYPED_TEST(test_audio_source, buffer_properties_without_audio)
 {
   auto& as = this->get_audio_source();
   this->unload_audio();
-  EXPECT_FALSE(as.is_valid());
+  EXPECT_FALSE(as.has_audio());
   EXPECT_EQ(audio_buffer_format::mono8, as.get_format());
   EXPECT_EQ(1u, as.get_channel_count());
   EXPECT_EQ(1u, as.get_bytes_per_sample());

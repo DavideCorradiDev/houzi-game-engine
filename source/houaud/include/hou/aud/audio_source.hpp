@@ -107,7 +107,7 @@ public:
    *
    * \return true if the audio source references audio data.
    */
-  virtual bool is_valid() const = 0;
+  virtual bool has_audio() const = 0;
 
   /**
    * Gets the audio format of the audio source.
