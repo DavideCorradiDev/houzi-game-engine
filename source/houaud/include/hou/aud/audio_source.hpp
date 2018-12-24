@@ -58,52 +58,42 @@ public:
   /**
    * Plays the audio source.
    *
-   * If the audio source was already playing, nothing happens.
-   * If the audio source was stopped, starts playing from the beginning.
-   * If the audio source was paused, starts playing from the current offset.
-   *
-   * If the audio source is looping, playing will not stop by itself.
-   * Otherwise, the audio source state will change to stopped as soon as the
-   * end is reached.
+   * If the audio source is already playing, nothing happens.
    */
   void play();
 
   /**
-   * Pause the audio source.
+   * Pauses the audio source keeping the current sample position.
    *
-   * If the audio source was paused or stopped, nothing happens.
-   * If the audio source was playing, pauses playing without modifying the
-   * current offset.
+   * If the audio source is not playing, nothing happens.
    */
   void pause();
 
   /**
-   * Stops the audio source.
+   * Pauses the audio source resetting the current sample position to the beginning.
    *
-   * If the audio source was stopped, nothing happens.
-   * If the audio source was paused, sets the offset to the beginning.
-   * If the audio source was playing, stops playing and sets the offset to the
-   * beginning.
+   * The sample position is reset even if the audio source is not playing.
    */
   void stop();
 
   /**
-   * Stops and replays the audio source.
+   * Resets the current sample position to the beginning and plays the audio
+   * source.
    */
   void replay();
 
   /**
-   * Gets the state of the audio source.
+   * Checks if the audio source is playing.
    *
-   * \return the state of the audio source.
+   * \return true if the audio source is playing, false otherwise.
    */
   virtual bool is_playing() const = 0;
 
   /**
-   * Checks if the audio source is valid, that is if it references audio data.
+   * Checks if the audio source is referencing an audio.
    *
-   * An invalid audio source will not play any sound and will return default
-   * property values.
+   * An audio source without audio will not play any sound and will return
+   * default property values.
    *
    * \return true if the audio source references audio data.
    */
@@ -112,7 +102,8 @@ public:
   /**
    * Gets the audio format of the audio source.
    *
-   * \return the audio format.
+   * \return the audio format, or audio_buffer_format::mono8 if has_audio() ==
+   * false.
    */
   audio_buffer_format get_format() const;
 
@@ -120,7 +111,8 @@ public:
    * Gets the number of channels of the audio source, based on its audio
    * format.
    *
-   * \return 1 if the audio format is mono, 2 if the audio format is stereo.
+   * \return 1 if the audio format is mono, 2 if the audio format is stereo,
+   * or 1 if has_audio() == false.
    */
   uint get_channel_count() const;
 
@@ -129,14 +121,16 @@ public:
    * audio format.
    *
    * The number returned is the number of bytes per sample for a single
-   * channel. \return 1 for 8-bit audio formats, 2 for 16-bit audio formats.
+   * channel. \return 1 for 8-bit audio formats, 2 for 16-bit audio formats,
+   * or 1 if has_audio() == false.
    */
   uint get_bytes_per_sample() const;
 
   /**
    * Gets the number of samples per second.
    *
-   * \return the sample rate in samples per second.
+   * \return the sample rate in samples per second, or 1 if has_audio() ==
+   * false.
    */
   uint get_sample_rate() const;
 

@@ -15,7 +15,8 @@ namespace hou
 {
 
 /**
- * A streaming audio source.
+ * A stream_audio_source where the buffer queue has to be updated by
+ * periodically calling the update() function.
  *
  * This type of audio source streams audio data from an audio stream and stores
  * it internally in a buffer queue. The buffer queue must be periodically

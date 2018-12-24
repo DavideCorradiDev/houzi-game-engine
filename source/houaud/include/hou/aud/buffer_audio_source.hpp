@@ -25,16 +25,12 @@ class audio_buffer;
  *
  * Since the buffer must be completely loaded in memory, this class is not
  * suited to play long audio buffers.
- * Prefer using automatic_stream_audio_source in that case.
+ * Prefer using a type derived from stream_audio_source in that case.
  *
  * A buffer_audio_source must be associated to an audio_buffer to play a sound.
  * Many buffer_audio_source objects may share the same audio_buffer.
- *
- * A memory audio_source only stores a reference to an audio_buffer object and
- * will not own it.
- * It must be ensured that the audio_buffer associated to a buffer_audio_source
- * is not destroyed while the buffer_audio_source is still existing, failing to
- * do so will result in undefined behaviour.
+ * All buffer_audio_source using the buffer will share its ownership to ensure
+ * that the buffer lives as long as any one audio source references it.
  */
 class HOU_AUD_API buffer_audio_source final : public audio_source
 {

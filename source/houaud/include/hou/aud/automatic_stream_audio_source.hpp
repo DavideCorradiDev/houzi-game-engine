@@ -19,9 +19,10 @@ namespace hou
 {
 
 /**
- * A streaming audio source.
+ * A stream_audio_source automatically updating the buffer queue in a parallel
+ * thread.
  *
- * This type of audio source streams audio data from an audio stream and stores
+ * This type of audio_source streams audio data from an audio stream and stores
  * it internally in a buffer queue. Each instance of this class spawns a thread
  * that automatically takes care of loading the audio data in the background.
  */

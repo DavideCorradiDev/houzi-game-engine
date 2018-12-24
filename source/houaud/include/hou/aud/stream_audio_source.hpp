@@ -28,8 +28,8 @@ namespace hou
  * This class is suited to play long audio buffers, as the buffer must not be
  * completely loaded in memory but is rather streamed concurrently in smaller
  * chunks.
- * For short audio files, it is suggested to use an buffer_audio_source and an
- * audio_buffer, as performance is better and as the audio_buffer can be shared
+ * For short audio files, it is suggested to use a buffer_audio_source and an
+ * audio_buffer, as performance is better and the audio_buffer can be shared
  * by multiple buffer_audio_source objects.
  *
  * A stream_audio_source must be given an audio_stream to play a sound.
@@ -38,8 +38,7 @@ namespace hou
  *
  * The buffer queue is defined by the number of buffers and the size of
  * each buffer.
- * The default values are 3 buffers, each composed of 44100 bytes.
- * This configuration should work well for most applications.
+ * The default values should work well for most applications.
  * If necessary it is possible to modify these values with the associated
  * methods.
  * Higher number of buffers and higher buffer size will result in higher
@@ -87,8 +86,6 @@ public:
 
   /**
    * Sets the number of buffers in the buffer queue.
-   *
-   * Throws if passed zero.
    *
    * \param buffer_count the number of buffers.
    */
