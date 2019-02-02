@@ -29,16 +29,16 @@ SET(LIB_HOUAUD_SRC
   src/hou/aud/audio_buffer_format.cpp
   src/hou/aud/audio_context.cpp
   src/hou/aud/audio_source.cpp
-  src/hou/aud/audio_source_state.cpp
   src/hou/aud/audio_stream.cpp
   src/hou/aud/audio_stream_in.cpp
-  src/hou/aud/empty_audio_stream_in.cpp
+  src/hou/aud/automatic_stream_audio_source.cpp
+  src/hou/aud/buffer_audio_source.cpp
   src/hou/aud/listener.cpp
-  src/hou/aud/memory_audio_source.cpp
+  src/hou/aud/manual_stream_audio_source.cpp
   src/hou/aud/ogg_file_in.cpp
   src/hou/aud/sound_distance_model.cpp
   src/hou/aud/sound_model.cpp
-  src/hou/aud/streaming_audio_source.cpp
+  src/hou/aud/stream_audio_source.cpp
   src/hou/aud/wav_file_in.cpp
 )
 

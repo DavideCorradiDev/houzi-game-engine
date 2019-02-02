@@ -531,10 +531,9 @@ uint32_t context::tracking_data::get_bound_buffer(GLenum target) const noexcept
       return m_bound_array_buffer;
     case GL_ELEMENT_ARRAY_BUFFER:
       return m_bound_element_array_buffer;
-    default:
-      HOU_UNREACHABLE();
-      return 0u;
   }
+  HOU_ERROR_N(invalid_enum, narrow_cast<int>(target));
+  return 0u;
 }
 
 
@@ -551,7 +550,7 @@ void context::tracking_data::set_bound_buffer(
       m_bound_element_array_buffer = uid;
       break;
     default:
-      HOU_UNREACHABLE();
+      HOU_ERROR_N(invalid_enum, narrow_cast<int>(target));
       break;
   }
 }
@@ -567,10 +566,9 @@ uint32_t context::tracking_data::get_bound_framebuffer(GLenum target) const
       return m_bound_draw_framebuffer;
     case GL_READ_FRAMEBUFFER:
       return m_bound_read_framebuffer;
-    default:
-      HOU_UNREACHABLE();
-      return 0u;
   }
+  HOU_ERROR_N(invalid_enum, narrow_cast<int>(target));
+  return 0u;
 }
 
 
@@ -587,7 +585,7 @@ void context::tracking_data::set_bound_framebuffer(
       m_bound_read_framebuffer = uid;
       break;
     default:
-      HOU_UNREACHABLE();
+      HOU_ERROR_N(invalid_enum, narrow_cast<int>(target));
       break;
   }
 }

@@ -7,6 +7,8 @@
 
 #include "hou/mth/mth_config.hpp"
 
+#include "hou/cor/checked_variable_fwd.hpp"
+
 
 
 namespace hou
@@ -203,13 +205,13 @@ using vec = matrix<T, dimension, 1u>;
 /** 1d vector */
 template <typename T>
 using vec1 = vec<T, 1u>;
-/** int 2d vector */
+/** int 1d vector */
 using vec1i = vec1<int>;
-/** Unsigned int 2d vector */
+/** Unsigned int 1d vector */
 using vec1u = vec1<uint>;
-/** float 2d vector */
+/** float 1d vector */
 using vec1f = vec1<float>;
-/** double 2d vector */
+/** double 1d vector */
 using vec1d = vec1<double>;
 
 /** 2d vector */
@@ -235,6 +237,27 @@ using vec3u = vec3<uint>;
 using vec3f = vec3<float>;
 /** double 3d vector */
 using vec3d = vec3<double>;
+
+/** int 1d non-negative vector */
+using vec1ipz = vec1<non_negative<int>>;
+/** float 1d non-negative vector */
+using vec1fpz = vec1<non_negative<float>>;
+/** double 1d non-negative vector */
+using vec1dpz = vec1<non_negative<double>>;
+
+/** int 2d non-negative vector */
+using vec2ipz = vec2<non_negative<int>>;
+/** float 2d non-negative vector */
+using vec2fpz = vec2<non_negative<float>>;
+/** double 2d non-negative vector */
+using vec2dpz = vec2<non_negative<double>>;
+
+/** int 3d non-negative vector */
+using vec3ipz = vec3<non_negative<int>>;
+/** float 3d non-negative vector */
+using vec3fpz = vec3<non_negative<float>>;
+/** double 3d non-negative vector */
+using vec3dpz = vec3<non_negative<double>>;
 
 }  // namespace hou
 

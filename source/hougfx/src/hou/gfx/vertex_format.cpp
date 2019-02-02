@@ -40,7 +40,7 @@ vertex_format::vertex_format(
 
 
 
-ptrdiff_t vertex_format::get_offset() const noexcept
+ptrdiff_t vertex_format::get_byte_offset() const noexcept
 {
   return m_offset;
 }
@@ -64,7 +64,7 @@ const std::vector<vertex_attrib_format>&
 
 bool operator==(const vertex_format& lhs, const vertex_format& rhs) noexcept
 {
-  return lhs.get_offset() == rhs.get_offset()
+  return lhs.get_byte_offset() == rhs.get_byte_offset()
     && lhs.get_stride() == rhs.get_stride()
     && lhs.get_vertex_attrib_formats() == rhs.get_vertex_attrib_formats();
 }
@@ -80,7 +80,7 @@ bool operator!=(const vertex_format& lhs, const vertex_format& rhs) noexcept
 
 std::ostream& operator<<(std::ostream& os, const vertex_format& vf)
 {
-  return os << "{offset = " << vf.get_offset()
+  return os << "{byte_offset = " << vf.get_byte_offset()
             << ", stride = " << vf.get_stride()
             << ", vertex_attrib_formats = " << vf.get_vertex_attrib_formats()
             << "}";

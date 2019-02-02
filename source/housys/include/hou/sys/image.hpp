@@ -270,7 +270,7 @@ public:
    * \return the sub-image starting at offset (included) and with the specified
    * size.
    */
-  image get_sub_image(const offset_type& offset, const size_type& size);
+  image get_sub_image(const offset_type& offset, const size_type& size) const;
 
   /**
    * Sets a region of the image with the given sub-image.

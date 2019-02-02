@@ -7,6 +7,8 @@
 #include "hou/sys/sys_exceptions.hpp"
 
 #include "hou/cor/assertions.hpp"
+#include "hou/cor/cor_exceptions.hpp"
+#include "hou/cor/narrow_cast.hpp"
 
 
 
@@ -32,6 +34,16 @@ file_handle::file_handle(file_handle&& other) noexcept
 
 
 
+file_handle::~file_handle()
+{
+  if(m_file != nullptr)
+  {
+    close();
+  }
+}
+
+
+
 void file_handle::close()
 {
   HOU_CHECK_0(fflush(m_file) != EOF, write_error);
@@ -41,12 +53,9 @@ void file_handle::close()
 
 
 
-file_handle::~file_handle()
+bool file_handle::is_open() const noexcept
 {
-  if(m_file != nullptr)
-  {
-    close();
-  }
+  return m_file != nullptr;
 }
 
 
@@ -68,10 +77,10 @@ std::string get_file_mode_string(file_open_mode mode, file_type type) noexcept
       return type == file_type::binary ? "wb" : "w";
     case file_open_mode::append:
       return type == file_type::binary ? "ab" : "a";
-    default:
-      HOU_UNREACHABLE();
-      return "";
   }
+  HOU_ERROR_N(invalid_enum,
+    narrow_cast<int>(static_cast<std::underlying_type<file_type>::type>(type)));
+  return "";
 }
 
 

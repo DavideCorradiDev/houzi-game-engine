@@ -12,7 +12,7 @@
 
 #include "hou/gfx/graphic_context.hpp"
 #include "hou/gfx/mesh2.hpp"
-#include "hou/gfx/mesh2_shader_program.hpp"
+#include "hou/gfx/mesh2_renderer.hpp"
 #include "hou/gfx/render_surface.hpp"
 
 #include "hou/mth/math_functions.hpp"
@@ -57,7 +57,7 @@ int main(int, char**)
 
   // Rendering objects.
   hou::render_surface rs(wnd.get_size(), 4u);
-  hou::mesh2_shader_program msp;
+  hou::mesh2_renderer mr;
   hou::texture2 mesh_tex(hou::png_image_file::read<hou::pixel_format::rgba>(
     u8"./source/demo/data/monalisa.png"));
 
@@ -331,22 +331,22 @@ int main(int, char**)
     switch(mesh_shape)
     {
       case shape::rectangle:
-        m = std::make_unique<hou::mesh2>(hou::create_rectangle_mesh2(mesh_size));
+        m = std::make_unique<hou::mesh2>(hou::rectangle_mesh2(mesh_size));
         break;
       case shape::rectangle_outline:
         m = std::make_unique<hou::mesh2>(
-          hou::create_rectangle_outline_mesh2(mesh_size, mesh_thickness));
+          hou::rectangle_outline_mesh2(mesh_size, mesh_thickness));
         break;
       case shape::ellipse:
         m = std::make_unique<hou::mesh2>(
-          hou::create_ellipse_mesh2(mesh_size, mesh_point_count));
+          hou::ellipse_mesh2(mesh_size, mesh_point_count));
         break;
       case shape::ellipse_outline:
-        m = std::make_unique<hou::mesh2>(hou::create_ellipse_outline_mesh2(
+        m = std::make_unique<hou::mesh2>(hou::ellipse_outline_mesh2(
           mesh_size, mesh_point_count, mesh_thickness));
         break;
       case shape::quad:
-        m = std::make_unique<hou::mesh2>(hou::create_texture_quad_mesh2(
+        m = std::make_unique<hou::mesh2>(hou::texture_quad_mesh2(
           hou::rectf(hou::vec2f::zero(), mesh_size), mesh_tex.get_size()));
         break;
     }
@@ -366,12 +366,12 @@ int main(int, char**)
 
     if(mesh_texture_active)
     {
-      msp.draw(
+      mr.draw(
         rs, *m, mesh_tex, mesh_color, projection_transform * mesh_transform);
     }
     else
     {
-      msp.draw(rs, *m, mesh_color, projection_transform * mesh_transform);
+      mr.draw(rs, *m, mesh_color, projection_transform * mesh_transform);
     }
 
     rs.display();

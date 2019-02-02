@@ -17,6 +17,7 @@ public:
   bounded& operator=(T value);
   const bounded& operator+=(T delta);
   const bounded& operator-=(T delta);
+  const T& get() const;
   operator T() const;
 
 private:
@@ -62,10 +63,27 @@ bounded<T>& bounded<T>::operator=(T value)
 template <typename T>
 const bounded<T>& bounded<T>::operator+=(T delta)
 {
-  m_value += delta;
-  if(m_value > m_max)
+  if(delta > T(0))
   {
-    m_value = m_max;
+    if(m_max - m_value <= delta)
+    {
+      m_value = m_max;
+    }
+    else
+    {
+      m_value += delta;
+    }
+  }
+  else if(delta < T(0))
+  {
+    if(m_value - m_min <= -delta)
+    {
+      m_value = m_min;
+    }
+    else
+    {
+      m_value += delta;
+    }
   }
   return *this;
 }
@@ -75,10 +93,27 @@ const bounded<T>& bounded<T>::operator+=(T delta)
 template <typename T>
 const bounded<T>& bounded<T>::operator-=(T delta)
 {
-  m_value -= delta;
-  if(m_value < m_min)
+  if (delta > T(0))
   {
-    m_value = m_min;
+    if(m_value - m_min <= delta)
+    {
+      m_value = m_min;
+    }
+    else
+    {
+      m_value -= delta;
+    }
+  }
+  else if (delta < T(0))
+  {
+    if(m_max - m_value <= -delta)
+    {
+      m_value = m_max;
+    }
+    else
+    {
+      m_value -= delta;
+    }
   }
   return *this;
 }
@@ -86,9 +121,17 @@ const bounded<T>& bounded<T>::operator-=(T delta)
 
 
 template <typename T>
-bounded<T>::operator T() const
+const T& bounded<T>::get() const
 {
   return m_value;
+}
+
+
+
+template <typename T>
+bounded<T>::operator T() const
+{
+  return get();
 }
 
 #endif

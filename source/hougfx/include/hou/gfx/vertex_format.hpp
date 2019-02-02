@@ -70,7 +70,7 @@ public:
    * \return the offset of the vertex from the beginning of the buffer in
    * bytes.
    */
-  ptrdiff_t get_offset() const noexcept;
+  ptrdiff_t get_byte_offset() const noexcept;
 
   /** Retrieves the intervals at which the vertex repeats in the buffer in
    * bytes.

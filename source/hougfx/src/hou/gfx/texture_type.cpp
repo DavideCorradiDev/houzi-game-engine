@@ -4,6 +4,8 @@
 
 #include "hou/gfx/texture_type.hpp"
 
+#include "hou/cor/core_functions.hpp"
+
 #define TEXTURE_TYPE_CASE(type, os) \
   case texture_type::type: \
     return (os) << #type
@@ -20,11 +22,10 @@ std::ostream& operator<<(std::ostream& os, texture_type type)
     TEXTURE_TYPE_CASE(texture2, os);
     TEXTURE_TYPE_CASE(texture2_array, os);
     TEXTURE_TYPE_CASE(texture3, os);
-    TEXTURE_TYPE_CASE(multisample_texture2, os);
-    TEXTURE_TYPE_CASE(multisample_texture2_array, os);
+    TEXTURE_TYPE_CASE(multisampled_texture2, os);
+    TEXTURE_TYPE_CASE(multisampled_texture2_array, os);
   }
-  HOU_UNREACHABLE();
-  return os;
+  return STREAM_VALUE(os, texture_type, type);
 }
 
 }  // namespace hou

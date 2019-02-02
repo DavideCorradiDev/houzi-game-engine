@@ -2,11 +2,10 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#ifndef HOU_AUD_AUDIO_SOURCE_BASE_HPP
-#define HOU_AUD_AUDIO_SOURCE_BASE_HPP
+#ifndef HOU_AUD_AUDIO_SOURCE_HPP
+#define HOU_AUD_AUDIO_SOURCE_HPP
 
 #include "hou/aud/audio_buffer_format.hpp"
-#include "hou/aud/audio_source_state.hpp"
 
 #include "hou/aud/aud_config.hpp"
 
@@ -28,6 +27,9 @@ namespace hou
  */
 class HOU_AUD_API audio_source : public non_copyable
 {
+public:
+  using sample_position = long;
+
 public:
   /**
    * Default constructor.
@@ -56,77 +58,81 @@ public:
   /**
    * Plays the audio source.
    *
-   * If the audio source was already playing, nothing happens.
-   * If the audio source was stopped, starts playing from the beginning.
-   * If the audio source was paused, starts playing from the current offset.
-   *
-   * If the audio source is looping, playing will not stop by itself.
-   * Otherwise, the audio source state will change to stopped as soon as the
-   * end is reached.
+   * If the audio source is already playing, nothing happens.
    */
   void play();
 
   /**
-   * Pause the audio source.
+   * Pauses the audio source keeping the current sample position.
    *
-   * If the audio source was paused or stopped, nothing happens.
-   * If the audio source was playing, pauses playing without modifying the
-   * current offset.
+   * If the audio source is not playing, nothing happens.
    */
   void pause();
 
   /**
-   * Stops the audio source.
+   * Pauses the audio source resetting the current sample position to the beginning.
    *
-   * If the audio source was stopped, nothing happens.
-   * If the audio source was paused, sets the offset to the beginning.
-   * If the audio source was playing, stops playing and sets the offset to the
-   * beginning.
+   * The sample position is reset even if the audio source is not playing.
    */
   void stop();
 
   /**
-   * Stops and replays the audio source.
+   * Resets the current sample position to the beginning and plays the audio
+   * source.
    */
   void replay();
 
   /**
-   * Gets the state of the audio source.
+   * Checks if the audio source is playing.
    *
-   * \return the state of the audio source.
+   * \return true if the audio source is playing, false otherwise.
    */
-  audio_source_state get_state() const;
+  virtual bool is_playing() const = 0;
+
+  /**
+   * Checks if the audio source is referencing an audio.
+   *
+   * An audio source without audio will not play any sound and will return
+   * default property values.
+   *
+   * \return true if the audio source references audio data.
+   */
+  virtual bool has_audio() const = 0;
 
   /**
    * Gets the audio format of the audio source.
    *
-   * \return the audio format.
+   * \return the audio format, or audio_buffer_format::mono8 if has_audio() ==
+   * false.
    */
-  virtual audio_buffer_format get_format() const = 0;
+  audio_buffer_format get_format() const;
 
   /**
    * Gets the number of channels of the audio source, based on its audio
    * format.
    *
-   * \return 1 if the audio format is mono, 2 if the audio format is stereo.
+   * \return 1 if the audio format is mono, 2 if the audio format is stereo,
+   * or 1 if has_audio() == false.
    */
-  virtual uint get_channel_count() const = 0;
+  uint get_channel_count() const;
 
   /**
    * Gets the number of bytes per sample of the audio stream, based on its
    * audio format.
    *
    * The number returned is the number of bytes per sample for a single
-   * channel. \return 1 for 8-bit audio formats, 2 for 16-bit audio formats.
+   * channel. \return 1 for 8-bit audio formats, 2 for 16-bit audio formats,
+   * or 1 if has_audio() == false.
    */
-  virtual uint get_bytes_per_sample() const = 0;
+  uint get_bytes_per_sample() const;
 
   /**
    * Gets the number of samples per second.
    *
-   * \return the sample rate in samples per second.
+   * \return the sample rate in samples per second, or 1 if has_audio() ==
+   * false.
    */
-  virtual uint get_sample_rate() const = 0;
+  uint get_sample_rate() const;
 
   /**
    * Sets the time position of the audio source.
@@ -164,28 +170,28 @@ public:
    *
    * \param pos the position.
    */
-  void set_sample_pos(uint pos);
+  void set_sample_pos(sample_position pos);
 
   /**
    * Gets the sample position of the audio source.
    *
    * \return the sample position.
    */
-  uint get_sample_pos() const;
+  sample_position get_sample_pos() const;
 
   /**
    * Gets the number of samples in the audio source.
    *
    * \return the number of samples.
    */
-  virtual uint get_sample_count() const = 0;
+  uint get_sample_count() const;
 
   /**
    * Sets whether the audio source is looping or not.
    *
    * \param looping true to set the audio source to looping, false otherwise.
    */
-  virtual void set_looping(bool looping) = 0;
+  void set_looping(bool looping);
 
   /**
    * Checks if the audio source is looping.
@@ -411,6 +417,8 @@ public:
   vec3f get_direction() const;
 
 protected:
+  virtual void on_set_looping(bool looping) = 0;
+
   /**
    * Sets the sample position.
    *
@@ -418,7 +426,7 @@ protected:
    *
    * \param pos the sample position.
    */
-  virtual void on_set_sample_pos(uint pos) = 0;
+  virtual void on_set_sample_pos(sample_position pos) = 0;
 
   /**
    * Gets the sample position.
@@ -427,11 +435,32 @@ protected:
    *
    * \return the sample position.
    */
-  virtual uint on_get_sample_pos() const = 0;
+  virtual sample_position on_get_sample_pos() const = 0;
+
+  /**
+   * Called when play() or replay() are called.
+   *
+   * This function does nothing by default, but may contain special behaviour.
+   */
+  virtual void on_play() = 0;
+
+  /**
+   * Called when pause(), stop() or replay() are called.
+   *
+   * This function does nothing by default, but may contain special behaviour.
+   */
+  virtual void on_pause() = 0;
+
+private:
+  virtual audio_buffer_format get_format_internal() const = 0;
+  virtual uint get_channel_count_internal() const = 0;
+  virtual uint get_bytes_per_sample_internal() const = 0;
+  virtual uint get_sample_rate_internal() const = 0;
+  virtual uint get_sample_count_internal() const = 0;
 
 private:
   al::source_handle m_handle;
-  uint m_requested_sample_pos;
+  sample_position m_requested_sample_pos;
 };
 
 }  // namespace hou

@@ -2,15 +2,14 @@
 // Copyright (c) 2018 Davide Corradi
 // Licensed under the MIT license.
 
-#ifndef HOU_GFX_TEXT_SHADER_PROGRAM_HPP
-#define HOU_GFX_TEXT_SHADER_PROGRAM_HPP
+#ifndef HOU_GFX_MESH_2_RENDERER_HPP
+#define HOU_GFX_MESH_2_RENDERER_HPP
 
 #include "hou/cor/non_copyable.hpp"
 
-#include "hou/gfx/mesh.hpp"
+#include "hou/gfx/mesh2_fwd.hpp"
 #include "hou/gfx/shader_program.hpp"
-#include "hou/gfx/text_mesh.hpp"
-#include "hou/gfx/texture_fwd.hpp"
+#include "hou/gfx/texture2.hpp"
 
 #include "hou/gfx/gfx_config.hpp"
 
@@ -23,19 +22,16 @@
 namespace hou
 {
 
-class color;
-class font;
-class formatted_text;
 class render_surface;
 
-/** shader program used to render text.
+/** shader program used to render Mesh2d objects.
  */
-class HOU_GFX_API text_shader_program : public shader_program
+class HOU_GFX_API mesh2_renderer : public shader_program
 {
 public:
   /** Constructor.
    */
-  text_shader_program();
+  mesh2_renderer();
 
   /** Sets the color used when rendering.
    *
@@ -73,40 +69,49 @@ public:
    *
    * \param trn the transform.
    */
-  void draw(render_surface& target, const text_mesh& m,
-    const texture2_array& tex, const color& col = color::white(),
+  void draw(render_surface& target, const mesh2& m, const texture2& tex,
+    const color& col = color::white(),
     const trans2f& trn = trans2f::identity());
 
-  /** Draws a formatted_text onto a render_surface with the given parameters.
+  /** Draws a mesh onto a render_surface with the given parameters.
    *
    * \param target the rendering target.
    *
-   * \param text the formatted_text.
+   * \param m the mesh.
    *
    * \param col the color.
    *
    * \param trn the transform.
    */
-  void draw(render_surface& target, const formatted_text& text,
-    const color& col = color::white(), const trans2f& trn = trans2f::identity());
+  void draw(render_surface& target, const mesh2& m,
+    const color& col = color::white(),
+    const trans2f& trn = trans2f::identity());
 
-  /** Draws a text string onto a render_surface with the given font and
-   * parameters.
+  /** Draws a mesh onto a render_surface with the given parameters.
    *
    * \param target the rendering target.
    *
-   * \param text the text.
+   * \param m the mesh.
    *
-   * \param f the font.
-   *
-   * \param col the color.
+   * \param tex the texture.
    *
    * \param trn the transform.
    */
-  void draw(render_surface& target, const std::string& text, const font& f,
-    const color& col = color::white(), const trans2f& trn = trans2f::identity());
+  void draw(render_surface& target, const mesh2& m, const texture2& tex,
+    const trans2f& trn);
+
+  /** Draws a mesh onto a render_surface with the given parameters.
+   *
+   * \param target the rendering target.
+   *
+   * \param m the mesh.
+   *
+   * \param trn the transform.
+   */
+  void draw(render_surface& target, const mesh2& m, const trans2f& trn);
 
 private:
+  texture2 m_blank_texture;
   int m_uni_color;
   int m_uni_texture;
   int m_uni_transform;

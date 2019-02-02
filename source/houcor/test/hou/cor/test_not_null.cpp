@@ -16,19 +16,12 @@ using namespace testing;
 namespace
 {
 
-class test_not_null : public Test
-{};
-
-using test_not_null_death_test = test_not_null;
-
-
-
 class foo
 {
 public:
-  foo();
-  int get_int() const;
-  void set_int(int value);
+  foo(int value);
+  int get() const;
+  void set(int value);
 
 private:
   int m_int;
@@ -36,288 +29,544 @@ private:
 
 
 
-foo::foo()
-  : m_int(0)
+foo::foo(int value)
+  : m_int(value)
 {}
 
 
 
-int foo::get_int() const
+int foo::get() const
 {
   return m_int;
 }
 
 
 
-void foo::set_int(int value)
+void foo::set(int value)
 {
   m_int = value;
 }
 
-}  // namespace
 
 
-
-TEST_F(test_not_null_death_test, nullptr_assignment)
+template <typename PtrType>
+class test_not_null_smart_pointer : public Test
 {
-  using int_ptr = int*;
-  int_ptr p = nullptr;
-  EXPECT_PRECOND_ERROR(not_null<int_ptr> nn(p));
+public:
+  static PtrType make_ptr(const typename PtrType::element_type& value);
+};
+
+
+
+template <typename PtrType>
+PtrType test_not_null_smart_pointer<PtrType>::make_ptr(
+  const typename PtrType::element_type& value)
+{
+  return PtrType(new typename PtrType::element_type(value));
 }
 
 
 
-TEST_F(test_not_null, unique_ptr_construction)
-{
-  using int_ptr = std::unique_ptr<int>;
+template <typename PtrType>
+using test_not_null_copyable_smart_pointer = test_not_null_smart_pointer<PtrType>;
+using copyable_smart_pointer_types = Types<std::shared_ptr<int>>;
+TYPED_TEST_CASE(test_not_null_copyable_smart_pointer, copyable_smart_pointer_types);
 
-  not_null<int_ptr> nnp(std::make_unique<int>(2));
-  EXPECT_EQ(2, *nnp.get());
-  EXPECT_EQ(2, *nnp);
+template <typename PtrType>
+using test_not_null_any_smart_pointer = test_not_null_smart_pointer<PtrType>;
+using any_smart_pointer_types = Types<std::unique_ptr<int>, std::shared_ptr<int>>;
+TYPED_TEST_CASE(test_not_null_any_smart_pointer, any_smart_pointer_types);
+
+template <typename PtrType>
+using test_not_null_any_smart_pointer_to_class = test_not_null_smart_pointer<PtrType>;
+using any_smart_pointer_to_class_types
+  = Types<std::unique_ptr<foo>, std::shared_ptr<foo>>;
+TYPED_TEST_CASE(test_not_null_any_smart_pointer_to_class, any_smart_pointer_to_class_types);
+
+
+
+TYPED_TEST(test_not_null_copyable_smart_pointer, pointer_copy_constructor)
+{
+  typename TypeParam::element_type v(2);
+  TypeParam p = TestFixture::make_ptr(v);
+  not_null<TypeParam> nnp(p);
+  EXPECT_EQ(*p, *nnp);
 }
 
 
 
-TEST_F(test_not_null, unique_ptr_move)
+TYPED_TEST(test_not_null_any_smart_pointer, pointer_move_constructor)
 {
-  using int_ptr = std::unique_ptr<int>;
-
-  not_null<int_ptr> nnp(std::make_unique<int>(2));
-  not_null<int_ptr> p = std::move(nnp);
-  EXPECT_EQ(2, *p);
+  typename TypeParam::element_type v(2);
+  TypeParam p = TestFixture::make_ptr(v);
+  not_null<TypeParam> nnp(std::move(p));
+  EXPECT_EQ(v, *nnp);
 }
 
 
 
-TEST_F(test_not_null_death_test, unique_ptr_move_dereferencing_error)
+TYPED_TEST(test_not_null_copyable_smart_pointer, nullptr_copy_constructor)
 {
-  using int_ptr = std::unique_ptr<int>;
-
-  not_null<int_ptr> nnp(std::make_unique<int>(2));
-  not_null<int_ptr> p = std::move(nnp);
-  EXPECT_EQ(2, *p);
-  EXPECT_POSTCOND_ERROR(nnp.get());
-  EXPECT_POSTCOND_ERROR(*nnp);
+  TypeParam p = nullptr;
+  EXPECT_PRECOND_ERROR(not_null<TypeParam> nnp(p));
 }
 
 
 
-TEST_F(test_not_null, unique_ptr_move_content)
+TYPED_TEST(test_not_null_any_smart_pointer, nullptr_move_constructor)
 {
-  using int_ptr = std::unique_ptr<int>;
-
-  not_null<int_ptr> nnp(std::make_unique<int>(2));
-  int_ptr p = move_content(std::move(nnp));
-  EXPECT_EQ(2, *p);
+  TypeParam p = nullptr;
+  EXPECT_PRECOND_ERROR(not_null<TypeParam> nnp(std::move(p)));
 }
 
 
 
-TEST_F(test_not_null_death_test, unique_ptr_move_content_dereferencing_error)
+TYPED_TEST(test_not_null_copyable_smart_pointer, copy_constructor)
 {
-  using int_ptr = std::unique_ptr<int>;
-
-  not_null<int_ptr> nnp(std::make_unique<int>(2));
-  int_ptr p = move_content(std::move(nnp));
-  EXPECT_EQ(2, *p);
-  EXPECT_POSTCOND_ERROR(nnp.get());
-  EXPECT_POSTCOND_ERROR(*nnp);
+  not_null<TypeParam> nnp1(
+    TestFixture::make_ptr(typename TypeParam::element_type(2)));
+  not_null<TypeParam> nnp2(nnp1);
+  EXPECT_EQ(*nnp1, *nnp2);
 }
 
 
 
-TEST_F(test_not_null, unique_ptr_get)
+TYPED_TEST(test_not_null_any_smart_pointer, move_constructor)
 {
-  using int_ptr = std::unique_ptr<int>;
-
-  not_null<int_ptr> nnp(std::make_unique<int>(2));
-  EXPECT_EQ(2, *nnp.get());
-  *nnp = 3;
-  EXPECT_EQ(3, *nnp.get());
+  typename TypeParam::element_type v(2);
+  not_null<TypeParam> nnp1(TestFixture::make_ptr(v));
+  not_null<TypeParam> nnp2(std::move(nnp1));
+  EXPECT_EQ(v, *nnp2);
 }
 
 
 
-TEST_F(test_not_null, unique_ptr_dereferencing)
+TYPED_TEST(test_not_null_copyable_smart_pointer, pointer_copy_assignment)
 {
-  using int_ptr = std::unique_ptr<int>;
+  typename TypeParam::element_type v1(2);
+  TypeParam p1 = TestFixture::make_ptr(v1);
 
-  not_null<int_ptr> nnp(std::make_unique<int>(2));
-  EXPECT_EQ(2, *nnp);
-  *nnp = 3;
-  EXPECT_EQ(3, *nnp);
+  typename TypeParam::element_type v2(3);
+  TypeParam p2 = TestFixture::make_ptr(v2);
+
+  not_null<TypeParam> nnp(p1);
+  nnp = p2;
+
+  EXPECT_EQ(*p2, *nnp);
 }
 
 
 
-TEST_F(test_not_null, unique_ptr_class_method_dereferencing)
+TYPED_TEST(test_not_null_any_smart_pointer, pointer_move_assignment)
 {
-  using foo_ptr = std::unique_ptr<foo>;
+  typename TypeParam::element_type v1(2);
+  TypeParam p1 = TestFixture::make_ptr(v1);
 
-  not_null<foo_ptr> nnp(std::make_unique<foo>());
-  EXPECT_EQ(0, nnp->get_int());
-  nnp->set_int(42);
-  EXPECT_EQ(42, nnp->get_int());
+  typename TypeParam::element_type v2(3);
+  TypeParam p2 = TestFixture::make_ptr(v2);
+
+  not_null<TypeParam> nnp(std::move(p1));
+  nnp = std::move(p2);
+
+  EXPECT_EQ(v2, *nnp);
 }
 
 
 
-TEST_F(test_not_null_death_test, unique_ptr_class_method_dereferencing_error)
+TYPED_TEST(test_not_null_copyable_smart_pointer, nullptr_copy_assignment)
 {
-  using foo_ptr = std::unique_ptr<foo>;
-
-  not_null<foo_ptr> nnp(std::make_unique<foo>());
-  not_null<foo_ptr> new_nnp(std::move(nnp));
-  EXPECT_POSTCOND_ERROR(nnp->get_int());
+  typename TypeParam::element_type v1(2);
+  TypeParam p1 = TestFixture::make_ptr(v1);
+  TypeParam p2 = nullptr;
+  not_null<TypeParam> nnp(p1);
+  EXPECT_PRECOND_ERROR(nnp = p2);
 }
 
 
 
-TEST_F(test_not_null, shared_ptr_construction)
+TYPED_TEST(test_not_null_any_smart_pointer, nullptr_move_assignment)
 {
-  using int_ptr = std::shared_ptr<int>;
-
-  int_ptr p = std::make_shared<int>(2);
-  not_null<int_ptr> nnp(p);
-  EXPECT_EQ(2, *nnp.get());
-  EXPECT_EQ(2, *nnp);
+  typename TypeParam::element_type v1(2);
+  TypeParam p1 = TestFixture::make_ptr(v1);
+  TypeParam p2 = nullptr;
+  not_null<TypeParam> nnp(std::move(p1));
+  EXPECT_PRECOND_ERROR(nnp = std::move(p2));
 }
 
 
 
-TEST_F(test_not_null, shared_ptr_get)
+TYPED_TEST(test_not_null_copyable_smart_pointer, copy_assignment)
 {
-  using int_ptr = std::shared_ptr<int>;
-
-  not_null<int_ptr> nnp(std::make_shared<int>(2));
-  int_ptr p = nnp.get();
-  EXPECT_EQ(2, *p);
+  not_null<TypeParam> nnp1(
+    TestFixture::make_ptr(typename TypeParam::element_type(2)));
+  not_null<TypeParam> nnp2(
+    TestFixture::make_ptr(typename TypeParam::element_type(3)));
+  not_null<TypeParam> nnp3(nnp1);
+  nnp3 = nnp2;
+  EXPECT_EQ(*nnp2, *nnp3);
 }
 
 
 
-TEST_F(test_not_null, shared_ptr_dereferencing)
+TYPED_TEST(test_not_null_any_smart_pointer, move_assignment)
 {
-  using int_ptr = std::shared_ptr<int>;
-
-  not_null<int_ptr> nnp(std::make_shared<int>(2));
-  EXPECT_EQ(2, *nnp);
-  *nnp = 3;
-  EXPECT_EQ(3, *nnp);
+  typename TypeParam::element_type v1(2);
+  typename TypeParam::element_type v2(2);
+  not_null<TypeParam> nnp1(TestFixture::make_ptr(v1));
+  not_null<TypeParam> nnp2(TestFixture::make_ptr(v2));
+  not_null<TypeParam> nnp3(std::move(nnp1));
+  nnp3 = std::move(nnp2);
+  EXPECT_EQ(v2, *nnp3);
 }
 
 
 
-TEST_F(test_not_null, shared_ptr_class_method_dereferencing)
+TYPED_TEST(test_not_null_any_smart_pointer, move_content)
 {
-  using foo_ptr = std::shared_ptr<foo>;
-
-  not_null<foo_ptr> nnp(std::make_shared<foo>());
-  EXPECT_EQ(0, nnp->get_int());
-  nnp->set_int(42);
-  EXPECT_EQ(42, nnp->get_int());
+  typename TypeParam::element_type v(2);
+  not_null<TypeParam> nnp(TestFixture::make_ptr(v));
+  TypeParam p = move_content(std::move(nnp));
+  EXPECT_EQ(v, *p);
 }
 
 
 
-TEST_F(test_not_null, shared_ptr_conversion)
+TYPED_TEST(test_not_null_any_smart_pointer, get)
 {
-  using int_ptr = std::shared_ptr<int>;
-
-  not_null<int_ptr> nnp(std::make_shared<int>(2));
-  int_ptr p = nnp;
-  EXPECT_EQ(2, *p);
+  typename TypeParam::element_type v(2);
+  TypeParam p = TestFixture::make_ptr(v);
+  auto ptr = p.get();
+  not_null<TypeParam> nnp(std::move(p));
+  EXPECT_EQ(ptr, nnp.get().get());
 }
 
 
 
-TEST_F(test_not_null, naked_ptr_construction)
+TYPED_TEST(test_not_null_copyable_smart_pointer, get)
 {
-  int* p = new int(2);
-  not_null<int*> nnp(p);
-  EXPECT_EQ(2, *nnp.get());
-  EXPECT_EQ(2, *nnp);
-  delete p;
+  typename TypeParam::element_type v(2);
+  TypeParam p = TestFixture::make_ptr(v);
+  not_null<TypeParam> nnp(p);
+  EXPECT_EQ(p, nnp.get());
 }
 
 
 
-TEST_F(test_not_null, naked_ptr_get)
+TYPED_TEST(test_not_null_any_smart_pointer, get_error_when_null)
 {
-  int* p1 = new int(2);
-  not_null<int*> nnp(p1);
-  int* p2 = nnp.get();
-  EXPECT_EQ(2, *p2);
-  delete p1;
+  typename TypeParam::element_type v(2);
+  not_null<TypeParam> nnp1(TestFixture::make_ptr(v));
+  not_null<TypeParam> nnp2(std::move(nnp1));
+  EXPECT_POSTCOND_ERROR(nnp1.get());
 }
 
 
 
-TEST_F(test_not_null, naked_ptr_dereferencing)
+TYPED_TEST(test_not_null_any_smart_pointer, dereferencing)
 {
-  int* p = new int(2);
-  not_null<int*> nnp(p);
-  EXPECT_EQ(2, *nnp);
-  *nnp = 3;
-  EXPECT_EQ(3, *nnp);
-  delete p;
+  typename TypeParam::element_type v1(2);
+  typename TypeParam::element_type v2(3);
+  not_null<TypeParam> nnp(TestFixture::make_ptr(v1));
+  EXPECT_EQ(v1, *nnp);
+  *nnp = v2;
+  EXPECT_EQ(v2, *nnp);
 }
 
 
 
-TEST_F(test_not_null, naked_ptr_class_method_dereferencing)
+TYPED_TEST(test_not_null_any_smart_pointer, dereferencing_error_when_null)
 {
-  foo* p = new foo();
-  not_null<foo*> nnp(p);
-  EXPECT_EQ(0, nnp->get_int());
-  nnp->set_int(42);
-  EXPECT_EQ(42, nnp->get_int());
-  delete p;
+  typename TypeParam::element_type v(2);
+  not_null<TypeParam> nnp1(TestFixture::make_ptr(v));
+  not_null<TypeParam> nnp2(std::move(nnp1));
+  EXPECT_POSTCOND_ERROR(*nnp1);
 }
 
 
 
-TEST_F(test_not_null, naked_ptr_conversion)
+TYPED_TEST(test_not_null_any_smart_pointer_to_class, dereferencing_member)
 {
-  int* p1 = new int(2);
-  not_null<int*> nnp(p1);
-  int* p2 = nnp;
-  EXPECT_EQ(2, *p2);
-  delete p1;
+  typename TypeParam::element_type v(2);
+  TypeParam p = TestFixture::make_ptr(v);
+  auto ptr = p.get();
+  not_null<TypeParam> nnp(std::move(p));
+  EXPECT_EQ(ptr->get(), nnp->get());
+  ptr->set(5);
+  EXPECT_EQ(ptr->get(), nnp->get());
+  nnp->set(9);
+  EXPECT_EQ(ptr->get(), nnp->get());
 }
 
 
 
-TEST_F(test_not_null, comparison)
+TYPED_TEST(test_not_null_any_smart_pointer_to_class, dereferencing_member_error_when_null)
 {
-  int* p1 = new int(2);
-  int* p2 = new int(2);
+  typename TypeParam::element_type v(2);
+  not_null<TypeParam> nnp1(TestFixture::make_ptr(v));
+  not_null<TypeParam> nnp2(std::move(nnp1));
+  EXPECT_POSTCOND_ERROR(nnp1->get());
+  EXPECT_POSTCOND_ERROR(nnp1->set(3));
+}
 
-  not_null<int*> nnp1(p1);
-  not_null<int*> nnp2(p1);
-  not_null<int*> nnp3(p2);
+
+
+TYPED_TEST(test_not_null_any_smart_pointer, comparison)
+{
+  typename TypeParam::element_type v1(2);
+  TypeParam p1 = TestFixture::make_ptr(v1);
+  typename TypeParam::element_type v2(3);
+  TypeParam p2 = TestFixture::make_ptr(v2);
+
+  not_null<TypeParam> nnp1(std::move(p1));
+  not_null<TypeParam> nnp2(std::move(p2));
+
+  EXPECT_FALSE(nnp1 == nnp2);
+  EXPECT_TRUE(nnp1 != nnp2);
+}
+
+
+
+TYPED_TEST(test_not_null_copyable_smart_pointer, comparison)
+{
+  typename TypeParam::element_type v1(2);
+  TypeParam p1 = TestFixture::make_ptr(v1);
+  typename TypeParam::element_type v2(3);
+  TypeParam p2 = TestFixture::make_ptr(v2);
+
+  not_null<TypeParam> nnp1(p1);
+  not_null<TypeParam> nnp2(p1);
+  not_null<TypeParam> nnp3(p2);
 
   EXPECT_TRUE(nnp1 == nnp2);
   EXPECT_FALSE(nnp1 == nnp3);
 
   EXPECT_FALSE(nnp1 != nnp2);
   EXPECT_TRUE(nnp1 != nnp3);
-
-  delete p1;
-  delete p2;
 }
 
 
 
-TEST_F(test_not_null, output_stream_operator)
+// operator<< is missing for smart pointers, so operator<< for not_null does not
+// compile.
+// TYPED_TEST(test_not_null_any_smart_pointer, output_stream_operator)
+// {
+//   typename TypeParam::element_type v(2);
+//   TypeParam p(v);
+//   std::stringstream ss;
+//   ss << p;
+//   not_null<TypeParam> nnp(std::move(p));
+//   EXPECT_OUTPUT(ss.str().c_str(), nnp);
+// }
+
+
+
+
+class test_not_null_naked_pointer : public Test
+{};
+
+
+
+TEST_F(test_not_null_naked_pointer, pointer_copy_constructor)
 {
-  int* p = new int(2);
+  int v = 2;
+  int* p = &v;
   not_null<int*> nnp(p);
+  EXPECT_EQ(*p, *nnp);
+}
 
+
+
+TEST_F(test_not_null_naked_pointer, pointer_move_constructor)
+{
+  int v = 2;
+  int* p = &v;
+  not_null<int*> nnp(std::move(p));
+  EXPECT_EQ(v, *nnp);
+}
+
+
+
+TEST_F(test_not_null_naked_pointer, copy_constructor)
+{
+  int v = 2;
+  not_null<int*> nnp1(&v);
+  not_null<int*> nnp2(nnp1);
+  EXPECT_EQ(*nnp1, *nnp2);
+}
+
+
+
+TEST_F(test_not_null_naked_pointer, move_constructor)
+{
+  int v = 2;
+  not_null<int*> nnp1(&v);
+  not_null<int*> nnp2(std::move(nnp1));
+  EXPECT_EQ(v, *nnp2);
+}
+
+
+
+TEST_F(test_not_null_naked_pointer, nullptr_copy_constructor)
+{
+  int* p = nullptr;
+  EXPECT_PRECOND_ERROR(not_null<int*> nnp(p));
+}
+
+
+
+TEST_F(test_not_null_naked_pointer, nullptr_move_constructor)
+{
+  int* p = nullptr;
+  EXPECT_PRECOND_ERROR(not_null<int*> nnp(std::move(p)));
+}
+
+
+
+TEST_F(test_not_null_naked_pointer, pointer_copy_assignment)
+{
+  int v1 = 2;
+  int v2 = 3;
+  not_null<int*> nnp(&v1);
+  nnp = &v2;
+  EXPECT_EQ(v2, *nnp);
+}
+
+
+
+TEST_F(test_not_null_naked_pointer, pointer_move_assignment)
+{
+  int v1 = 2;
+  int v2 = 3;
+  not_null<int*> nnp(std::move(&v1));
+  nnp = std::move(&v2);
+  EXPECT_EQ(v2, *nnp);
+}
+
+
+
+TEST_F(test_not_null_naked_pointer, nullptr_copy_assignment)
+{
+  int v1 = 2;
+  int* p2 = nullptr;
+  not_null<int*> nnp(&v1);
+  EXPECT_PRECOND_ERROR(nnp = p2);
+}
+
+
+
+TEST_F(test_not_null_naked_pointer, nullptr_move_assignment)
+{
+  int v1 = 2;
+  int* p2 = nullptr;
+  not_null<int*> nnp(std::move(&v1));
+  EXPECT_PRECOND_ERROR(nnp = std::move(p2));
+}
+
+
+
+TEST_F(test_not_null_naked_pointer, copy_assignment)
+{
+  int v1 = 2;
+  int v2 = 3;
+  not_null<int*> nnp1(&v1);
+  not_null<int*> nnp2(&v2);
+  not_null<int*> nnp3(nnp1);
+  nnp3 = nnp2;
+  EXPECT_EQ(*nnp2, *nnp3);
+}
+
+
+
+TEST_F(test_not_null_naked_pointer, move_assignment)
+{
+  int v1 = 2;
+  int v2 = 3;
+  not_null<int*> nnp1(&v1);
+  not_null<int*> nnp2(&v2);
+  not_null<int*> nnp3(std::move(nnp1));
+  nnp3 = std::move(nnp2);
+  EXPECT_EQ(v2, *nnp3);
+}
+
+
+
+TEST_F(test_not_null_naked_pointer, move_content)
+{
+  int v = 2;
+  not_null<int*> nnp(&v);
+  int* p = move_content(std::move(nnp));
+  EXPECT_EQ(v, *p);
+}
+
+
+
+TEST_F(test_not_null_naked_pointer, get)
+{
+  int v = 2;
+  not_null<int*> nnp(&v);
+  EXPECT_EQ(&v, nnp.get());
+}
+
+
+
+TEST_F(test_not_null_naked_pointer, dereferencing)
+{
+  int v1 = 2;
+  int v2 = 3;
+  not_null<int*> nnp(&v1);
+  EXPECT_EQ(v1, *nnp);
+  *nnp = v2;
+  EXPECT_EQ(v2, *nnp);
+}
+
+
+
+TEST_F(test_not_null_naked_pointer, dereferencing_member)
+{
+  foo v(2);
+  not_null<foo*> nnp(&v);
+  EXPECT_EQ(v.get(), nnp->get());
+  v.set(5);
+  EXPECT_EQ(v.get(), nnp->get());
+  nnp->set(9);
+  EXPECT_EQ(v.get(), nnp->get());
+}
+
+
+
+// Note: it is not possible (and pointless) to test if get() and the
+// dereferencing operators throw an exception when the internal pointer in null
+// for naked pointers. The only way this can happen is by moving the not_null
+// object, but naked pointers will not be reset to nullptr in that case (unlike
+// smart pointers).
+
+
+
+TEST_F(test_not_null_naked_pointer, comparison)
+{
+  int v1 = 2;
+  int v2 = 3;
+
+  not_null<int*> nnp1(&v1);
+  not_null<int*> nnp2(&v1);
+  not_null<int*> nnp3(&v2);
+
+  EXPECT_TRUE(nnp1 == nnp2);
+  EXPECT_FALSE(nnp1 == nnp3);
+
+  EXPECT_FALSE(nnp1 != nnp2);
+  EXPECT_TRUE(nnp1 != nnp3);
+}
+
+
+
+TEST_F(test_not_null_naked_pointer, output_stream_operator)
+{
+  int v = 2;
   std::stringstream ss;
-  ss << p;
-
+  ss << &v;
+  not_null<int*> nnp(&v);
   EXPECT_OUTPUT(ss.str().c_str(), nnp);
+}
 
-  delete p;
 }

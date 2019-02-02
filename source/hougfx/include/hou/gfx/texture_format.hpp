@@ -29,8 +29,6 @@ enum class texture_format : GLenum
   rgb = GL_RGB8,
   /** Quadruple channel (red-green-blue-alpha) format. */
   rgba = GL_RGBA8,
-  /** 24 bit depth texture. */
-  depth = GL_DEPTH_COMPONENT24,
   /** 32 bit texture using 24 bit for depth and 8 for stencil. */
   depth_stencil = GL_DEPTH24_STENCIL8,
 };
@@ -46,25 +44,7 @@ enum class texture_format : GLenum
  */
 HOU_GFX_API std::ostream& operator<<(std::ostream& os, texture_format format);
 
-/**
- * Gets a compatible pixel format associated to the texture format.
- *
- * \param tf the texture format.
- *
- * \return the compatible pixel format.
- */
-HOU_GFX_API pixel_format get_associated_pixel_format(texture_format tf);
-
-/**
- * Check if a pixel and texture formats are compatible with each other.
- *
- * \param tf the texture format.
- *
- * \param pf the pixel format.
- *
- * \return true if the two formats are compatible.
- */
-HOU_GFX_API bool check_format_compatibility(texture_format tf, pixel_format pf);
+HOU_GFX_API uint get_bytes_per_pixel(texture_format tf);
 
 }  // namespace hou
 

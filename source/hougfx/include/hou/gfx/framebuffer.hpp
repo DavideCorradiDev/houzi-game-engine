@@ -124,20 +124,6 @@ public:
   void set_color_attachment(
     uint attachment_point, const texture& tex, uint mipmap_level = 0u);
 
-  /** Sets the depth attachment for this framebuffer.
-   *
-   * \param tex the texture to be attached. The format of the texture must
-   * be depth or depth_stencil.
-   *
-   * \param mipmap_level the mip map level to bind. It must be a valid mip map
-   * level of texture.
-   *
-   * \throws hou::precondition_violation if mipmap_level is greater or equal
-   * then the number of mipmap levels of tex, or if the format of tex is not
-   * depth or depth_stencil.
-   */
-  void set_depth_attachment(const texture& tex, uint mipmap_level = 0u);
-
   /** Sets the depth and stencil attachment for this framebuffer.
    *
    * \param tex the texture to be attached. The format of the texture must
@@ -193,82 +179,6 @@ private:
  */
 HOU_GFX_API void blit(const framebuffer& src, const recti& src_rect,
   framebuffer& dst, const recti& dst_rect, framebuffer_blit_mask mask,
-  framebuffer_blit_filter filter = framebuffer_blit_filter::nearest);
-
-/** Copies a rectangular region of a framebuffer into a texture.
- *
- * The following constraints must be observed, or an exception will be thrown:
- *
- * * src must be complete framebuffer object.
- *
- * * If src or dst are multisampled, src_rect and dst_rect must have the same
- * size.
- *
- * \param src the source framebuffer.
- *
- * \param src_rect the source rectangle.
- *
- * \param dst the destination texture.
- *
- * \param dst_rect the destination rectangle.
- *
- * \param filter the filter to apply for this operation.
- *
- * \throws hou::precondition_violation if one condition on the arguments is
- * violated.
- */
-HOU_GFX_API void blit(const framebuffer& src, const recti& src_rect,
-  texture& dst, const recti& dst_rect,
-  framebuffer_blit_filter filter = framebuffer_blit_filter::nearest);
-
-/** Copies a rectangular region of a texture into a framebuffer.
- *
- * The following constraints must be observed, or an exception will be thrown:
- * * dst must be complete framebuffer object.
- * * If src or dst are multisampled, src_rect and dst_rect must have the same
- * size.
- *
- * \param src the source texture.
- *
- * \param src_rect the source rectangle.
- *
- * \param dst the destination framebuffer.
- *
- * \param dst_rect the destination rectangle.
- *
- * \param filter the filter to apply for this operation.
- *
- * \throws hou::precondition_violation if one condition on the arguments is
- * violated.
- */
-HOU_GFX_API void blit(const texture& src, const recti& src_rect,
-  framebuffer& dst, const recti& dst_rect,
-  framebuffer_blit_filter filter = framebuffer_blit_filter::nearest);
-
-/** Copies a rectangular region of a texture into a framebuffer.
- *
- * The following constraints must be observed, or an exception will be thrown:
- *
- * * dst must be complete framebuffer object.
- *
- * * If src or dst are multisampled, src_rect and dst_rect must have the same
- * size.
- *
- * \param src the source texture.
- *
- * \param src_rect the source rectangle.
- *
- * \param dst the destination texture.
- *
- * \param dst_rect the destination rectangle.
- *
- * \param filter the filter to apply for this operation.
- *
- * \throws hou::precondition_violation if one condition on the arguments is
- * violated.
- */
-HOU_GFX_API void blit(const texture& src, const recti& src_rect, texture& dst,
-  const recti& dst_rect,
   framebuffer_blit_filter filter = framebuffer_blit_filter::nearest);
 
 }  // namespace hou

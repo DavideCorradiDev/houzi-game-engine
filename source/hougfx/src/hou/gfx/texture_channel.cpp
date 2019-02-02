@@ -4,7 +4,7 @@
 
 #include "hou/gfx/texture_channel.hpp"
 
-#include "hou/cor/exception.hpp"
+#include "hou/cor/core_functions.hpp"
 
 #define TEXTURE_CHANNEL_CASE(tc, os) \
   case texture_channel::tc: \
@@ -25,10 +25,8 @@ std::ostream& operator<<(std::ostream& os, texture_channel tc)
     TEXTURE_CHANNEL_CASE(a, os);
     TEXTURE_CHANNEL_CASE(zero, os);
     TEXTURE_CHANNEL_CASE(one, os);
-    default:
-      HOU_UNREACHABLE();
-      return os;
   }
+  return STREAM_VALUE(os, texture_channel, tc);
 }
 
 }  // namespace hou

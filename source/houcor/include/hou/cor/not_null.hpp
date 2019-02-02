@@ -35,21 +35,6 @@ public:
 
 public:
   /**
-   * Converting move constructor.
-   *
-   * \tparam U the value pointer type.
-   *
-   * \tparam Enable enabling parameter (should be left to default value).
-   *
-   * \param value pointer type.
-   *
-   * \throws hou::precondition_error if value is nullptr
-   */
-  template <typename U,
-    typename Enable = std::enable_if_t<std::is_convertible<U, T>::value>>
-  constexpr not_null(U&& value);
-
-  /**
    * Converting constructor.
    *
    * \tparam U the other pointer type.
@@ -71,6 +56,21 @@ public:
    * Deleted nullptr constructor.
    */
   not_null(std::nullptr_t) = delete;
+
+  /**
+   * Converting move constructor.
+   *
+   * \tparam U the value pointer type.
+   *
+   * \tparam Enable enabling parameter (should be left to default value).
+   *
+   * \param value pointer type.
+   *
+   * \throws hou::precondition_error if value is nullptr
+   */
+  template <typename U,
+    typename Enable = std::enable_if_t<std::is_convertible<U, T>::value>>
+  constexpr not_null(U&& value);
 
   /**
    * Deleted nullptr assignment operator.
@@ -142,6 +142,12 @@ public:
 private:
   T m_ptr;
 };
+
+template <typename T>
+bool operator==(const not_null<T>& lhs, const not_null<T>& rhs);
+
+template <typename T>
+bool operator!=(const not_null<T>& lhs, const not_null<T>& rhs);
 
 /**
  * Moves the content away from the nullptr.

@@ -4,11 +4,11 @@
 
 #include "hou/gl/gl_texture_handle.hpp"
 
-#include "hou/gl/gl_exceptions.hpp"
-#include "hou/gl/gl_missing_context_error.hpp"
-#include "hou/gl/gl_invalid_context_error.hpp"
 #include "hou/gl/gl_context.hpp"
+#include "hou/gl/gl_exceptions.hpp"
 #include "hou/gl/gl_functions.hpp"
+#include "hou/gl/gl_invalid_context_error.hpp"
+#include "hou/gl/gl_missing_context_error.hpp"
 
 #include "hou/cor/cor_exceptions.hpp"
 #include "hou/cor/pragmas.hpp"
@@ -155,7 +155,7 @@ GLenum internal_format_to_format(GLenum internal_format)
     case GL_DEPTH24_STENCIL8:
       return GL_DEPTH_STENCIL;
   }
-  HOU_UNREACHABLE();
+  HOU_ERROR_N(invalid_enum, narrow_cast<int>(internal_format));
   return 0;
 }
 
@@ -178,7 +178,7 @@ GLenum internal_format_to_type(GLenum internal_format)
     case GL_DEPTH24_STENCIL8:
       return GL_UNSIGNED_INT_24_8;
   }
-  HOU_UNREACHABLE();
+  HOU_ERROR_N(invalid_enum, narrow_cast<int>(internal_format));
   return 0;
 }
 
@@ -201,7 +201,7 @@ GLenum internal_format_to_byte_count(GLenum internal_format)
     case GL_DEPTH24_STENCIL8:
       return 4u;
   }
-  HOU_UNREACHABLE();
+  HOU_ERROR_N(invalid_enum, narrow_cast<int>(internal_format));
   return 0;
 }
 
@@ -438,7 +438,7 @@ bool is_texture_bound(uint unit)
 
 GLenum get_bound_texture_target()
 {
-    return context::get_current()->m_tracking_data.get_bound_texture_target();
+  return context::get_current()->m_tracking_data.get_bound_texture_target();
 }
 
 
@@ -640,8 +640,8 @@ void set_texture_sub_image_3d(const texture_handle& tex, GLint level,
 
 
 
-void reset_texture_sub_image_2d(const texture_handle& tex,
-  GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height,
+void reset_texture_sub_image_2d(const texture_handle& tex, GLint level,
+  GLint xoffset, GLint yoffset, GLsizei width, GLsizei height,
   GLenum internal_format)
 {
   std::vector<uint8_t> data(
@@ -654,9 +654,9 @@ void reset_texture_sub_image_2d(const texture_handle& tex,
 
 
 
-void reset_texture_sub_image_3d(const texture_handle& tex,
-  GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width,
-  GLsizei height, GLsizei depth, GLenum internal_format)
+void reset_texture_sub_image_3d(const texture_handle& tex, GLint level,
+  GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height,
+  GLsizei depth, GLenum internal_format)
 {
   std::vector<uint8_t> data(
     width * height * depth * internal_format_to_byte_count(internal_format),
@@ -1040,6 +1040,118 @@ GLint get_max_3d_texture_size()
 GLint get_max_texture_layers()
 {
   return get_integer(GL_MAX_ARRAY_TEXTURE_LAYERS);
+}
+
+
+
+GLenum get_texture_data_type_for_internal_format(GLenum internal_format)
+{
+  switch(internal_format)
+  {
+    case GL_R8:
+    case GL_RG8:
+    case GL_RGB8:
+    case GL_RGBA8:
+      return GL_UNSIGNED_BYTE;
+    case GL_DEPTH24_STENCIL8:
+      return GL_UNSIGNED_INT_24_8;
+  }
+  HOU_ERROR_N(invalid_enum, narrow_cast<int>(internal_format));
+  return 0;
+}
+
+
+
+GLenum get_texture_external_format_for_internal_format(GLenum internal_format)
+{
+  switch(internal_format)
+  {
+    case GL_R8:
+      return GL_RED;
+    case GL_RG8:
+      return GL_RG;
+    case GL_RGB8:
+      return GL_RGB;
+    case GL_RGBA8:
+      return GL_RGBA;
+    case GL_DEPTH24_STENCIL8:
+      return GL_DEPTH_STENCIL;
+  }
+  HOU_ERROR_N(invalid_enum, narrow_cast<int>(internal_format));
+  return 0;
+}
+
+
+
+GLsizei get_pixel_size_bytes(GLenum format)
+{
+  switch(format)
+  {
+    case GL_RED:
+      return 1u;
+    case GL_RG:
+      return 2u;
+    case GL_RGB:
+      return 3u;
+    case GL_RGBA:
+    case GL_DEPTH_STENCIL:
+      return 4u;
+  }
+  HOU_ERROR_N(invalid_enum, narrow_cast<int>(format));
+  return 1u;
+}
+
+
+
+GLint get_unpack_alignment()
+{
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  GLint value;
+  glGetIntegerv(GL_UNPACK_ALIGNMENT, &value);
+  HOU_GL_CHECK_ERROR();
+  return value;
+}
+
+
+
+void set_unpack_alignment(GLint value)
+{
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  glPixelStorei(GL_UNPACK_ALIGNMENT, value);
+  HOU_GL_CHECK_ERROR();
+}
+
+
+
+GLint get_pack_alignment()
+{
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  GLint value;
+  glGetIntegerv(GL_PACK_ALIGNMENT, &value);
+  HOU_GL_CHECK_ERROR();
+  return value;
+}
+
+
+
+void set_pack_alignment(GLint value)
+{
+  HOU_GL_CHECK_CONTEXT_EXISTENCE();
+  glPixelStorei(GL_PACK_ALIGNMENT, value);
+  HOU_GL_CHECK_ERROR();
+}
+
+
+
+GLsizei compute_texture_size_bytes(
+  GLsizei width, GLsizei height, GLsizei depth, GLenum format)
+{
+  GLsizei unpack_alignment = narrow_cast<GLsizei>(gl::get_unpack_alignment());
+  GLsizei pixel_size = get_pixel_size_bytes(format);
+  GLsizei row_size = pixel_size * width;
+  GLsizei offset = row_size % unpack_alignment;
+  row_size += (unpack_alignment - offset) % unpack_alignment;
+  return row_size * height * depth;
 }
 
 }  // namespace gl

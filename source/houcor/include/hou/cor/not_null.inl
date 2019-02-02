@@ -7,19 +7,19 @@ namespace hou
 
 template <typename T>
 template <typename U, typename Enable>
-constexpr not_null<T>::not_null(U&& value)
-  : m_ptr(std::move(value))
-{
-  HOU_PRECOND(m_ptr != nullptr);
-}
+constexpr not_null<T>::not_null(const not_null<U>& other) noexcept
+  : m_ptr(other.get())
+{}
 
 
 
 template <typename T>
 template <typename U, typename Enable>
-constexpr not_null<T>::not_null(const not_null<U>& other) noexcept
-  : m_ptr(other.get())
-{}
+constexpr not_null<T>::not_null(U&& value)
+  : m_ptr(std::forward<U>(value))
+{
+  HOU_PRECOND(m_ptr != nullptr);
+}
 
 
 
@@ -60,6 +60,22 @@ template <typename T>
 constexpr not_null<T>::operator T() const
 {
   return get();
+}
+
+
+
+template <typename T>
+bool operator==(const not_null<T>& lhs, const not_null<T>& rhs)
+{
+  return lhs.get() == rhs.get();
+}
+
+
+
+template <typename T>
+bool operator!=(const not_null<T>& lhs, const not_null<T>& rhs)
+{
+  return lhs.get() != rhs.get();
 }
 
 

@@ -5,11 +5,12 @@
 #include "hou/gl/test_gl_multiple_contexts.hpp"
 
 #include "hou/gl/gl_exceptions.hpp"
-#include "hou/gl/gl_missing_context_error.hpp"
 #include "hou/gl/gl_invalid_context_error.hpp"
+#include "hou/gl/gl_missing_context_error.hpp"
 #include "hou/gl/gl_texture_handle.hpp"
 
 using namespace hou;
+using namespace testing;
 
 
 
@@ -43,7 +44,8 @@ TEST_F(test_gl_texture_handle_death_test, no_context_creation)
   SKIP("Multiple GL contexts are not supported on Emscripten.");
 #endif
   gl::context::unset_current();
-  EXPECT_ERROR_0(gl::texture_handle::create(GL_TEXTURE_2D), gl::missing_context_error);
+  EXPECT_ERROR_0(
+    gl::texture_handle::create(GL_TEXTURE_2D), gl::missing_context_error);
 }
 
 
@@ -382,4 +384,131 @@ TEST_F(test_gl_texture_handle, texture_wrap_mode_r)
   gl::set_texture_wrap_mode_r(th, GL_CLAMP_TO_EDGE);
   EXPECT_EQ(
     static_cast<GLenum>(GL_CLAMP_TO_EDGE), gl::get_texture_wrap_mode_r(th));
+}
+
+
+
+TEST_F(test_gl_texture_handle, get_texture_data_type_for_internal_format)
+{
+  EXPECT_EQ(
+    GL_UNSIGNED_BYTE, gl::get_texture_data_type_for_internal_format(GL_R8));
+  EXPECT_EQ(
+    GL_UNSIGNED_BYTE, gl::get_texture_data_type_for_internal_format(GL_RG8));
+  EXPECT_EQ(
+    GL_UNSIGNED_BYTE, gl::get_texture_data_type_for_internal_format(GL_RGB8));
+  EXPECT_EQ(
+    GL_UNSIGNED_BYTE, gl::get_texture_data_type_for_internal_format(GL_RGBA8));
+  EXPECT_EQ(GL_UNSIGNED_INT_24_8,
+    gl::get_texture_data_type_for_internal_format(GL_DEPTH24_STENCIL8));
+}
+
+
+
+TEST_F(test_gl_texture_handle_death_test,
+  get_texture_data_type_for_internal_format_invalid_arg)
+{
+  EXPECT_ERROR_N(
+    gl::get_texture_data_type_for_internal_format(0), invalid_enum, 0);
+}
+
+
+
+TEST_F(test_gl_texture_handle, get_texture_external_format_for_internal_format)
+{
+  EXPECT_EQ(GL_RED, gl::get_texture_external_format_for_internal_format(GL_R8));
+  EXPECT_EQ(GL_RG, gl::get_texture_external_format_for_internal_format(GL_RG8));
+  EXPECT_EQ(
+    GL_RGB, gl::get_texture_external_format_for_internal_format(GL_RGB8));
+  EXPECT_EQ(
+    GL_RGBA, gl::get_texture_external_format_for_internal_format(GL_RGBA8));
+  EXPECT_EQ(GL_DEPTH_STENCIL,
+    gl::get_texture_external_format_for_internal_format(GL_DEPTH24_STENCIL8));
+}
+
+
+
+TEST_F(test_gl_texture_handle_death_test,
+  get_texture_external_format_for_internal_format_invalid_arg)
+{
+  EXPECT_ERROR_N(
+    gl::get_texture_external_format_for_internal_format(0), invalid_enum, 0);
+}
+
+
+
+TEST_F(test_gl_texture_handle, get_pixel_size_bytes)
+{
+  EXPECT_EQ(1, gl::get_pixel_size_bytes(GL_RED));
+  EXPECT_EQ(2, gl::get_pixel_size_bytes(GL_RG));
+  EXPECT_EQ(3, gl::get_pixel_size_bytes(GL_RGB));
+  EXPECT_EQ(4, gl::get_pixel_size_bytes(GL_RGBA));
+  EXPECT_EQ(4, gl::get_pixel_size_bytes(GL_DEPTH_STENCIL));
+}
+
+
+
+TEST_F(test_gl_texture_handle_death_test, get_pixel_size_bytes_invalid_arg)
+{
+  EXPECT_ERROR_N(gl::get_pixel_size_bytes(0), invalid_enum, 0);
+}
+
+
+
+TEST_F(test_gl_texture_handle, unpack_alignment)
+{
+  gl::set_unpack_alignment(1);
+  EXPECT_EQ(1, gl::get_unpack_alignment());
+  gl::set_unpack_alignment(4);
+  EXPECT_EQ(4, gl::get_unpack_alignment());
+}
+
+
+
+TEST_F(test_gl_texture_handle_death_test, invalid_unpack_alignment)
+{
+#ifdef HOU_ENABLE_GL_ERROR_CHECKS
+  EXPECT_ERROR_N(gl::set_unpack_alignment(3), gl::call_error, GL_INVALID_VALUE);
+#else
+  SUCCEED();
+#endif
+}
+
+
+
+TEST_F(test_gl_texture_handle, pack_alignment)
+{
+  gl::set_pack_alignment(1);
+  EXPECT_EQ(1, gl::get_pack_alignment());
+  gl::set_pack_alignment(4);
+  EXPECT_EQ(4, gl::get_pack_alignment());
+}
+
+
+
+TEST_F(test_gl_texture_handle_death_test, invalid_pack_alignment)
+{
+#ifdef HOU_ENABLE_GL_ERROR_CHECKS
+  EXPECT_ERROR_N(gl::set_pack_alignment(3), gl::call_error, GL_INVALID_VALUE);
+#else
+  SUCCEED();
+#endif
+}
+
+
+
+TEST_F(test_gl_texture_handle, compute_texture_size_bytes)
+{
+  gl::set_unpack_alignment(4);
+  EXPECT_EQ(48, gl::compute_texture_size_bytes(7, 3, 2, GL_RED));
+  EXPECT_EQ(96, gl::compute_texture_size_bytes(7, 3, 2, GL_RG));
+  EXPECT_EQ(144, gl::compute_texture_size_bytes(7, 3, 2, GL_RGB));
+  EXPECT_EQ(168, gl::compute_texture_size_bytes(7, 3, 2, GL_RGBA));
+  EXPECT_EQ(168, gl::compute_texture_size_bytes(7, 3, 2, GL_DEPTH_STENCIL));
+
+  gl::set_unpack_alignment(1);
+  EXPECT_EQ(42, gl::compute_texture_size_bytes(7, 3, 2, GL_RED));
+  EXPECT_EQ(84, gl::compute_texture_size_bytes(7, 3, 2, GL_RG));
+  EXPECT_EQ(126, gl::compute_texture_size_bytes(7, 3, 2, GL_RGB));
+  EXPECT_EQ(168, gl::compute_texture_size_bytes(7, 3, 2, GL_RGBA));
+  EXPECT_EQ(168, gl::compute_texture_size_bytes(7, 3, 2, GL_DEPTH_STENCIL));
 }

@@ -4,7 +4,7 @@
 
 #include "hou/gfx/vertex_buffer_target.hpp"
 
-#include "hou/cor/exception.hpp"
+#include "hou/cor/core_functions.hpp"
 
 #define GFX_VERTEX_BUFFER_TARGET(vbt, os) \
   case vertex_buffer_target::vbt: \
@@ -21,10 +21,8 @@ std::ostream& operator<<(std::ostream& os, vertex_buffer_target vbt)
   {
     GFX_VERTEX_BUFFER_TARGET(array_buffer, os);
     GFX_VERTEX_BUFFER_TARGET(element_array_buffer, os);
-    default:
-      HOU_UNREACHABLE();
-      return os;
   }
+  return STREAM_VALUE(os, vertex_buffer_target, vbt);
 }
 
 }  // namespace hou

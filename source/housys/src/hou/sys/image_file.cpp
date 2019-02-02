@@ -89,10 +89,11 @@ int pixel_format_to_soil_format(pixel_format pf)
       return SOIL_LOAD_RGB;
     case pixel_format::rgba:
       return SOIL_LOAD_RGBA;
-    default:
-      HOU_UNREACHABLE();
-      return 0u;
   }
+  HOU_ERROR_N(invalid_enum,
+    narrow_cast<int>(
+      static_cast<std::underlying_type<pixel_format>::type>(pf)));
+  return 0u;
 }
 
 

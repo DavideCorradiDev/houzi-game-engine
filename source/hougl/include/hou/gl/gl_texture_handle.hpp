@@ -171,6 +171,23 @@ HOU_GL_API GLint get_max_3d_texture_size();
 
 HOU_GL_API GLint get_max_texture_layers();
 
+HOU_GL_API GLenum get_texture_data_type_for_internal_format(
+  GLenum internal_format);
+
+HOU_GL_API GLenum get_texture_external_format_for_internal_format(
+  GLenum internal_format);
+
+HOU_GL_API GLsizei get_pixel_size_bytes(GLenum format);
+
+HOU_GL_API GLint get_unpack_alignment();
+HOU_GL_API void set_unpack_alignment(GLint value);
+
+HOU_GL_API GLint get_pack_alignment();
+HOU_GL_API void set_pack_alignment(GLint value);
+
+HOU_GL_API GLsizei compute_texture_size_bytes(
+  GLsizei width, GLsizei height, GLsizei depth, GLenum format);
+
 }  // namespace gl
 
 }  // namespace hou

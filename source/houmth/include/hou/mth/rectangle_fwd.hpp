@@ -7,23 +7,38 @@
 
 #include "hou/mth/mth_config.hpp"
 
+#include "hou/cor/checked_variable_fwd.hpp"
+
 
 
 namespace hou
 {
 
-template <typename T>
+template <typename ScalPosT, typename ScalSizeT>
 class rectangle;
 
-/** Axis aligned rectangle */
+/** Axis aligned rectangle with size type equal to position type. */
 template <typename T>
-using rect = rectangle<T>;
-/** Integer rectangle */
+using rect = rectangle<T, T>;
+
+/** Integer rectangle. */
 using recti = rect<int>;
-/** Float rectangle */
+/** Float rectangle. */
 using rectf = rect<float>;
-/** Double rectangle */
+/** Double rectangle. */
 using rectd = rect<double>;
+
+/** Asix aligned rectangle with size type equal to position type and
+ * non-negative size. */
+template <typename T>
+using rectu = rectangle<T, non_negative<T>>;
+
+/** Integer rectangle with non negative size. */
+using rectui = rectu<int>;
+/** Float rectuangle with non negative size. */
+using rectuf = rectu<float>;
+/** Double rectuangle with non negative size. */
+using rectud = rectu<double>;
 
 }  // namespace hou
 

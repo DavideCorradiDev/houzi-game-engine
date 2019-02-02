@@ -4,7 +4,9 @@
 
 #include "hou/gfx/gl_type.hpp"
 
-#include "hou/cor/exception.hpp"
+#include "hou/cor/cor_exceptions.hpp"
+#include "hou/cor/core_functions.hpp"
+#include "hou/cor/narrow_cast.hpp"
 
 #define GFX_GL_TYPE_CASE(type, os) \
   case gl_type::type: \
@@ -104,7 +106,7 @@ uint get_gl_type_byte_size(gl_type type)
     case gl_type::fixed_decimal:
       return sizeof(GLfixed);
   }
-  HOU_UNREACHABLE();
+  HOU_ERROR_N(invalid_enum, narrow_cast<int>(type));
   return 1u;
 }
 
@@ -125,7 +127,7 @@ std::ostream& operator<<(std::ostream& os, gl_type type)
     GFX_GL_TYPE_CASE(double_decimal, os);
     GFX_GL_TYPE_CASE(fixed_decimal, os);
   }
-  return os;
+  return STREAM_VALUE(os, gl_type, type);
 }
 
 }  // namespace hou

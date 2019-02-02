@@ -6,6 +6,7 @@
 #define HOU_COR_CHECKED_VARIABLE_HPP
 
 #include "hou/cor/assertions.hpp"
+#include "hou/cor/checked_variable_fwd.hpp"
 
 #include "hou/cor/cor_config.hpp"
 
@@ -43,6 +44,22 @@ class checked_variable
     "Checker::value_type does not match T.");
 
 public:
+  /**
+   * Type of the underlying value.
+   */
+  using value_type = T;
+
+  /**
+   * Type of the employed checker.
+   */
+  using checker_type = Checker;
+
+public:
+  /**
+   * Default constructor.
+   */
+  constexpr checked_variable();
+
   /**
    * Constructor.
    *
@@ -94,10 +111,6 @@ public:
   static constexpr bool check(const T& t) noexcept;
 };
 
-/** Positive variable. */
-template <typename T>
-using positive = checked_variable<T, positive_checker<T>>;
-
 /**
  * Non-negative checker for checked variable.
  *
@@ -119,10 +132,6 @@ public:
    */
   static constexpr bool check(const T& t) noexcept;
 };
-
-/** Non-negative variable. */
-template <typename T>
-using non_negative = checked_variable<T, non_negative_checker<T>>;
 
 /**
  * Negative checker for checked variable.
@@ -146,10 +155,6 @@ public:
   static constexpr bool check(const T& t) noexcept;
 };
 
-/** Negative variable. */
-template <typename T>
-using negative = checked_variable<T, negative_checker<T>>;
-
 /**
  * Non-positive checker for checked variable.
  *
@@ -171,10 +176,6 @@ public:
    */
   static constexpr bool check(const T& t) noexcept;
 };
-
-/** Non-positive variable. */
-template <typename T>
-using non_positive = checked_variable<T, non_positive_checker<T>>;
 
 /**
  * Bounded checker for checked variable.
@@ -201,10 +202,6 @@ public:
    */
   static constexpr bool check(const T& t) noexcept;
 };
-
-/** Bounded variable. */
-template <typename T, T Min, T Max>
-using bounded = checked_variable<T, bounded_checker<T, Min, Max>>;
 
 }  // namespace hou
 
